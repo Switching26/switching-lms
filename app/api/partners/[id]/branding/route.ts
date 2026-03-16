@@ -17,7 +17,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
     return NextResponse.json({ error: "Accès refusé" }, { status: 403 })
   }
 
-  const { logoUrl, primaryColor, secondaryColor, name } = await req.json()
+  const { logoUrl, faviconUrl, primaryColor, secondaryColor, name } = await req.json()
 
   // Validate hex colors
   const hexRegex = /^#[0-9A-Fa-f]{6}$/
@@ -33,6 +33,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
     data: {
       ...(name !== undefined && { name }),
       ...(logoUrl !== undefined && { logoUrl: logoUrl || null }),
+      ...(faviconUrl !== undefined && { faviconUrl: faviconUrl || null }),
       ...(primaryColor !== undefined && { primaryColor }),
       ...(secondaryColor !== undefined && { secondaryColor }),
     },

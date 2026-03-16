@@ -8,7 +8,7 @@ import path from "path"
 export const dynamic = "force-dynamic"
 
 const MAX_SIZE = 50 * 1024 * 1024 // 50 MB
-const ALLOWED_EXTENSIONS = ["pdf", "doc", "docx", "xls", "xlsx", "ppt", "pptx", "jpg", "jpeg", "png", "webp", "svg"]
+const ALLOWED_EXTENSIONS = ["pdf", "doc", "docx", "xls", "xlsx", "ppt", "pptx", "jpg", "jpeg", "png", "webp", "svg", "ico"]
 
 const UPLOAD_DIR = process.env.UPLOAD_DIR || "/mnt/uploads"
 
@@ -22,7 +22,7 @@ function getBaseUrl(config: Record<string, string>): string {
 
 export async function POST(req: Request) {
   const session = await auth()
-  if ((session?.user as any)?.role !== "SUPER_ADMIN") {
+  if (!["SUPER_ADMIN", "PARTNER_ADMIN"].includes((session?.user as any)?.role)) {
     return NextResponse.json({ error: "Accès refusé" }, { status: 403 })
   }
 

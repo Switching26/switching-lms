@@ -36,6 +36,7 @@ export async function updatePartner(id: string, data: {
   primaryColor?: string
   secondaryColor?: string
   logoUrl?: string | null
+  faviconUrl?: string | null
 }) {
   return prisma.partner.update({ where: { id }, data })
 }

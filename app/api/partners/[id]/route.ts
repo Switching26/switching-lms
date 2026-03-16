@@ -8,7 +8,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
     return NextResponse.json({ error: "Accès refusé" }, { status: 403 })
   }
 
-  const { name, slug, primaryColor, secondaryColor, logoUrl, isActive } = await req.json()
+  const { name, slug, primaryColor, secondaryColor, logoUrl, faviconUrl, isActive } = await req.json()
 
   if (slug) {
     const existing = await prisma.partner.findFirst({
@@ -27,6 +27,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
       ...(primaryColor !== undefined && { primaryColor }),
       ...(secondaryColor !== undefined && { secondaryColor }),
       ...(logoUrl !== undefined && { logoUrl: logoUrl || null }),
+      ...(faviconUrl !== undefined && { faviconUrl: faviconUrl || null }),
       ...(isActive !== undefined && { isActive }),
     },
   })

@@ -9,14 +9,15 @@ export async function generateMetadata() {
   const partner = user?.partnerId
     ? await prisma.partner.findFirst({
         where: { id: user.partnerId },
-        select: { name: true, logoUrl: true },
+        select: { name: true, logoUrl: true, faviconUrl: true },
       })
     : null
+  const faviconIcon = partner?.faviconUrl || partner?.logoUrl || "/favicon.svg"
   return {
     title: `${partner?.name || "LMS"} · Admin`,
     icons: {
-      icon: partner?.logoUrl || "/favicon.svg",
-      apple: partner?.logoUrl || "/favicon.svg",
+      icon: faviconIcon,
+      apple: faviconIcon,
     },
   }
 }

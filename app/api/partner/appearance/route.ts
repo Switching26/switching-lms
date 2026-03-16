@@ -13,13 +13,14 @@ export async function PUT(req: Request) {
     return NextResponse.json({ error: "Accès refusé" }, { status: 403 })
   }
 
-  const { name, primaryColor, secondaryColor, logoUrl } = await req.json()
+  const { name, primaryColor, secondaryColor, logoUrl, faviconUrl } = await req.json()
 
   const partner = await updatePartner(partnerId, {
     name,
     primaryColor,
     secondaryColor,
     logoUrl,
+    faviconUrl,
   })
 
   return NextResponse.json({ success: true, partner })

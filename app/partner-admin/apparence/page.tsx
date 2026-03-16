@@ -24,6 +24,7 @@ export default async function ApparencePage() {
           primaryColor: partner.primaryColor,
           secondaryColor: partner.secondaryColor,
           logoUrl: partner.logoUrl,
+          faviconUrl: partner.faviconUrl,
         }))}
       />
     </div>

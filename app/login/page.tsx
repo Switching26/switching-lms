@@ -7,14 +7,15 @@ export async function generateMetadata({ searchParams }: { searchParams: Promise
   const partner = slug
     ? await prisma.partner.findUnique({
         where: { slug },
-        select: { name: true, logoUrl: true },
+        select: { name: true, logoUrl: true, faviconUrl: true },
       })
     : null
+  const faviconIcon = partner?.faviconUrl || partner?.logoUrl || "/favicon.svg"
   return {
     title: `Connexion · ${partner?.name || "LMS"}`,
     icons: {
-      icon: partner?.logoUrl || "/favicon.svg",
-      apple: partner?.logoUrl || "/favicon.svg",
+      icon: faviconIcon,
+      apple: faviconIcon,
     },
   }
 }

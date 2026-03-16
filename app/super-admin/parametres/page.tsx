@@ -20,7 +20,7 @@ export default function ParametresPage() {
   const [vimeoAccount, setVimeoAccount] = useState("")
 
   // Storage
-  const [storagePath, setStoragePath] = useState("/app/uploads")
+  const [storagePath, setStoragePath] = useState("/mnt/uploads")
   const [storageBaseUrl, setStorageBaseUrl] = useState("")
 
   const [saving, setSaving] = useState(false)
@@ -39,7 +39,7 @@ export default function ParametresPage() {
           setSmtpFromName(data.config.smtp_from_name || "")
           setHasStoredPassword(data.hasPassword)
           setHasVimeoToken(data.hasVimeoToken)
-          setStoragePath(data.config.storage_path || "/app/uploads")
+          setStoragePath(data.config.storage_path || "/mnt/uploads")
           setStorageBaseUrl(data.config.storage_base_url || "")
         }
       })
@@ -280,7 +280,7 @@ export default function ParametresPage() {
             <input
               value={storagePath}
               onChange={(e) => setStoragePath(e.target.value)}
-              placeholder="/app/uploads"
+              placeholder="/mnt/uploads"
               className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-primary"
             />
           </div>

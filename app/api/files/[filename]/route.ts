@@ -6,6 +6,8 @@ import path from "path"
 
 export const dynamic = "force-dynamic"
 
+const UPLOAD_DIR = process.env.UPLOAD_DIR || "/mnt/uploads"
+
 const MIME_TYPES: Record<string, string> = {
   pdf: "application/pdf",
   doc: "application/msword",
@@ -35,9 +37,9 @@ export async function GET(req: NextRequest, { params }: { params: { filename: st
   let storagePath: string
   try {
     const row = await prisma.systemConfig.findUnique({ where: { key: "storage_path" } })
-    storagePath = row?.value || "/app/uploads"
+    storagePath = row?.value || UPLOAD_DIR
   } catch {
-    storagePath = "/app/uploads"
+    storagePath = UPLOAD_DIR
   }
 
   const filePath = path.join(storagePath, filename)

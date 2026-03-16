@@ -1,5 +1,6 @@
 import { auth } from "@/lib/auth"
 import { redirect } from "next/navigation"
+import Link from "next/link"
 import { getFormations } from "@/lib/data/formations"
 import Badge from "@/components/ui/Badge"
 
@@ -13,9 +14,12 @@ export default async function FormationsPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-xl font-semibold">Formations</h1>
-        <button className="px-4 py-2 bg-primary text-white text-sm rounded-lg hover:opacity-90">
-          Nouvelle formation
-        </button>
+        <Link
+          href="/super-admin/formations/nouvelle"
+          className="px-4 py-2 bg-primary text-white text-sm rounded-lg hover:opacity-90 transition-opacity"
+        >
+          + Nouvelle formation
+        </Link>
       </div>
 
       <div className="bg-white rounded-xl border border-border overflow-hidden">
@@ -37,13 +41,25 @@ export default async function FormationsPage() {
                 <td className="px-4 py-3 text-sm text-gray-500">{f.enrollments.length}</td>
                 <td className="px-4 py-3">
                   <Badge variant={f.isPublished ? "success" : "default"}>
-                    {f.isPublished ? "Publiée" : "Brouillon"}
+                    {f.isPublished ? "En ligne" : "Brouillon"}
                   </Badge>
                 </td>
-                <td className="px-4 py-3 text-sm">
-                  <div className="flex gap-2">
-                    <button className="text-gray-400 hover:text-primary text-xs">Modifier</button>
-                    <button className="text-gray-400 hover:text-primary text-xs">Voir</button>
+                <td className="px-4 py-3">
+                  <div className="flex gap-3">
+                    <Link
+                      href={`/super-admin/formations/${f.id}/modifier`}
+                      className="text-gray-400 hover:text-primary text-sm transition-colors"
+                      title="Modifier"
+                    >
+                      ✏️
+                    </Link>
+                    <Link
+                      href={`/super-admin/formations/${f.id}/apercu`}
+                      className="text-gray-400 hover:text-primary text-sm transition-colors"
+                      title="Aperçu"
+                    >
+                      👁
+                    </Link>
                   </div>
                 </td>
               </tr>
@@ -51,7 +67,7 @@ export default async function FormationsPage() {
             {formations.length === 0 && (
               <tr>
                 <td colSpan={5} className="px-4 py-8 text-center text-sm text-gray-400">
-                  Aucune formation
+                  Aucune formation — créez votre première formation
                 </td>
               </tr>
             )}

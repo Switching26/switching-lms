@@ -3,10 +3,9 @@ import { hash } from "bcryptjs"
 
 const prisma = new PrismaClient()
 
-async function main() {
+export async function seedDatabase() {
   console.log("Seeding database...")
 
-  // Create partner
   const partner = await prisma.partner.upsert({
     where: { slug: "cyberformation" },
     update: {},
@@ -19,9 +18,6 @@ async function main() {
     },
   })
 
-  console.log("Partner created:", partner.name)
-
-  // Create super admin
   const superAdmin = await prisma.user.upsert({
     where: { email: "admin@switching-formation.fr" },
     update: {},
@@ -35,9 +31,6 @@ async function main() {
     },
   })
 
-  console.log("Super admin created:", superAdmin.email)
-
-  // Create partner admin
   const partnerAdmin = await prisma.user.upsert({
     where: { email: "admin@cyberformation.fr" },
     update: {},
@@ -52,9 +45,6 @@ async function main() {
     },
   })
 
-  console.log("Partner admin created:", partnerAdmin.email)
-
-  // Create learners
   const learner1 = await prisma.user.upsert({
     where: { email: "apprenant@switching-formation.fr" },
     update: {},
@@ -67,8 +57,6 @@ async function main() {
       isActive: true,
     },
   })
-
-  console.log("Learner 1 created:", learner1.email)
 
   const learner2 = await prisma.user.upsert({
     where: { email: "apprenant@cyberformation.fr" },
@@ -84,9 +72,6 @@ async function main() {
     },
   })
 
-  console.log("Learner 2 created:", learner2.email)
-
-  // Create formation with chapters
   const formation = await prisma.formation.upsert({
     where: { id: "formation-intro-cybersecurite" },
     update: {},
@@ -98,8 +83,6 @@ async function main() {
       isPublished: true,
     },
   })
-
-  console.log("Formation created:", formation.title)
 
   const chaptersData = [
     {
@@ -145,9 +128,6 @@ async function main() {
     })
   }
 
-  console.log("3 chapters created")
-
-  // Create enrollments for learners
   await prisma.enrollment.upsert({
     where: {
       userId_formationId: {
@@ -177,9 +157,6 @@ async function main() {
     },
   })
 
-  console.log("Enrollments created")
-
-  // Create license for partner
   await prisma.license.upsert({
     where: {
       partnerId_formationId: {
@@ -196,15 +173,25 @@ async function main() {
     },
   })
 
-  console.log("License created")
   console.log("Seeding complete!")
+  return {
+    superAdmin: superAdmin.email,
+    partnerAdmin: partnerAdmin.email,
+    learner1: learner1.email,
+    learner2: learner2.email,
+    formation: formation.title,
+    partner: partner.name,
+  }
 }
 
-main()
-  .catch((e) => {
-    console.error(e)
-    process.exit(1)
-  })
-  .finally(async () => {
-    await prisma.$disconnect()
-  })
+// Allow running directly with ts-node
+if (require.main === module) {
+  seedDatabase()
+    .catch((e) => {
+      console.error(e)
+      process.exit(1)
+    })
+    .finally(async () => {
+      await prisma.$disconnect()
+    })
+}

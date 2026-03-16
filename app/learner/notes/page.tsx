@@ -1,7 +1,3 @@
-export default function NotesPage() {
-  return (
-    <div>
-      <h1>Mes notes</h1>
-    </div>
-  )
+export default function Page() {
+  return <h1>Notes</h1>
 }

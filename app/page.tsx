@@ -1,5 +1,3 @@
-import { redirect } from "next/navigation"
-
-export default function HomePage() {
-  redirect("/login")
+export default function Page() {
+  return <h1>Switching LMS</h1>
 }

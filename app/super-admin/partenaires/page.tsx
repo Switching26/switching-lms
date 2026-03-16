@@ -1,7 +1,3 @@
-export default function PartenairesPage() {
-  return (
-    <div>
-      <h1>Partenaires</h1>
-    </div>
-  )
+export default function Page() {
+  return <h1>Partenaires</h1>
 }

@@ -1,7 +1,3 @@
-export default function FormationsPage() {
-  return (
-    <div>
-      <h1>Formations</h1>
-    </div>
-  )
+export default function Page() {
+  return <h1>Formations</h1>
 }

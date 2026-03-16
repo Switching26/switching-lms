@@ -1,7 +1,3 @@
-export default function PartnerAdminDashboard() {
-  return (
-    <div>
-      <h1>Dashboard Partner Admin</h1>
-    </div>
-  )
+export default function Page() {
+  return <h1>Dashboard Partner Admin</h1>
 }

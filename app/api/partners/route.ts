@@ -9,7 +9,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Accès refusé" }, { status: 403 })
   }
 
-  const { name, slug, primaryColor, secondaryColor, logoUrl, adminEmail, adminPassword } = await req.json()
+  const { name, slug, primaryColor, secondaryColor, logoUrl, faviconUrl, adminEmail, adminPassword } = await req.json()
 
   if (!name?.trim() || !slug?.trim() || !adminEmail?.trim() || !adminPassword) {
     return NextResponse.json({ error: "Nom, slug, email admin et mot de passe requis" }, { status: 400 })
@@ -34,6 +34,7 @@ export async function POST(req: Request) {
       primaryColor: primaryColor || "#111111",
       secondaryColor: secondaryColor || "#FFFFFF",
       logoUrl: logoUrl || null,
+      faviconUrl: faviconUrl || null,
       users: {
         create: {
           firstName: "Admin",

@@ -6,8 +6,8 @@ import { encrypt } from "@/lib/crypto"
 export const dynamic = "force-dynamic"
 
 const SMTP_KEYS = ["smtp_host", "smtp_port", "smtp_email", "smtp_password", "smtp_from_name"]
-const ALL_KEYS = [...SMTP_KEYS, "cloudflare_account_id", "cloudflare_stream_token", "storage_path", "storage_base_url"]
-const SENSITIVE_KEYS = ["smtp_password", "cloudflare_stream_token"]
+const ALL_KEYS = [...SMTP_KEYS, "vimeo_token", "storage_path", "storage_base_url"]
+const SENSITIVE_KEYS = ["smtp_password", "vimeo_token"]
 
 export async function GET() {
   const session = await auth()
@@ -25,9 +25,9 @@ export async function GET() {
   }
 
   const hasPassword = rows.some((r) => r.key === "smtp_password" && r.value)
-  const hasCloudflareToken = rows.some((r) => r.key === "cloudflare_stream_token" && r.value)
+  const hasVimeoToken = rows.some((r) => r.key === "vimeo_token" && r.value)
 
-  return NextResponse.json({ config, hasPassword, hasCloudflareToken })
+  return NextResponse.json({ config, hasPassword, hasVimeoToken })
 }
 
 export async function PUT(req: Request) {

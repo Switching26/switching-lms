@@ -20,6 +20,7 @@ interface Partner {
   primaryColor: string
   secondaryColor: string
   logoUrl: string | null
+  faviconUrl: string | null
   isActive: boolean
   users: { id: string; email: string; role: string }[]
   licenses: License[]
@@ -67,11 +68,14 @@ export default function PartnersTable({
   const [cPrimary, setCPrimary] = useState("#111111")
   const [cSecondary, setCSecondary] = useState("#FFFFFF")
   const [cLogo, setCLogo] = useState("")
+  const [cFavicon, setCFavicon] = useState("")
   const [cAdminEmail, setCAdminEmail] = useState("")
   const [cAdminPw, setCAdminPw] = useState(generatePassword())
   const [creating, setCreating] = useState(false)
   const [cUploading, setCUploading] = useState(false)
+  const [cFaviconUploading, setCFaviconUploading] = useState(false)
   const cLogoRef = useRef<HTMLInputElement>(null)
+  const cFaviconRef = useRef<HTMLInputElement>(null)
 
   // Edit form
   const [eName, setEName] = useState("")
@@ -79,10 +83,13 @@ export default function PartnersTable({
   const [ePrimary, setEPrimary] = useState("")
   const [eSecondary, setESecondary] = useState("")
   const [eLogo, setELogo] = useState("")
+  const [eFavicon, setEFavicon] = useState("")
   const [eActive, setEActive] = useState(true)
   const [editSaving, setEditSaving] = useState(false)
   const [eUploading, setEUploading] = useState(false)
+  const [eFaviconUploading, setEFaviconUploading] = useState(false)
   const eLogoRef = useRef<HTMLInputElement>(null)
+  const eFaviconRef = useRef<HTMLInputElement>(null)
 
   // License form
   const [licenseValues, setLicenseValues] = useState<Record<string, number>>({})
@@ -141,14 +148,14 @@ export default function PartnersTable({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: cName, slug: cSlug, primaryColor: cPrimary, secondaryColor: cSecondary,
-          logoUrl: cLogo || null, adminEmail: cAdminEmail, adminPassword: cAdminPw,
+          logoUrl: cLogo || null, faviconUrl: cFavicon || null, adminEmail: cAdminEmail, adminPassword: cAdminPw,
         }),
       })
       if (!res.ok) { flash("Erreur : " + ((await res.json()).error || "Échec")); return }
       flash("Partenaire créé avec succès")
       setCreateOpen(false)
       setCName(""); setCSlug(""); setCPrimary("#111111"); setCSecondary("#FFFFFF")
-      setCLogo(""); setCAdminEmail(""); setCAdminPw(generatePassword())
+      setCLogo(""); setCFavicon(""); setCAdminEmail(""); setCAdminPw(generatePassword())
       router.refresh()
     } catch { flash("Erreur réseau") }
     finally { setCreating(false) }
@@ -163,11 +170,20 @@ export default function PartnersTable({
     setCUploading(false)
   }
 
+  // Create favicon upload
+  const handleCreateFaviconUpload = async (file: File) => {
+    setCFaviconUploading(true)
+    const url = await uploadLogo(file)
+    if (url) setCFavicon(url)
+    else flash("Erreur : Upload du favicon échoué")
+    setCFaviconUploading(false)
+  }
+
   // Open edit
   const openEdit = (p: Partner) => {
     setEditPartner(p)
     setEName(p.name); setESlug(p.slug); setEPrimary(p.primaryColor)
-    setESecondary(p.secondaryColor); setELogo(p.logoUrl || ""); setEActive(p.isActive)
+    setESecondary(p.secondaryColor); setELogo(p.logoUrl || ""); setEFavicon(p.faviconUrl || ""); setEActive(p.isActive)
   }
 
   // Save edit
@@ -183,7 +199,7 @@ export default function PartnersTable({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: eName, slug: eSlug, primaryColor: ePrimary,
-          secondaryColor: eSecondary, logoUrl: eLogo || null, isActive: eActive,
+          secondaryColor: eSecondary, logoUrl: eLogo || null, faviconUrl: eFavicon || null, isActive: eActive,
         }),
       })
       if (!res.ok) { flash("Erreur : " + ((await res.json()).error || "Échec")); return }
@@ -201,6 +217,15 @@ export default function PartnersTable({
     if (url) setELogo(url)
     else flash("Erreur : Upload du logo échoué")
     setEUploading(false)
+  }
+
+  // Edit favicon upload
+  const handleEditFaviconUpload = async (file: File) => {
+    setEFaviconUploading(true)
+    const url = await uploadLogo(file)
+    if (url) setEFavicon(url)
+    else flash("Erreur : Upload du favicon échoué")
+    setEFaviconUploading(false)
   }
 
   // Open licenses
@@ -389,6 +414,38 @@ export default function PartnersTable({
             </div>
           </div>
 
+          {/* Favicon upload */}
+          <div>
+            <label className="block text-sm font-medium mb-1">Favicon (optionnel)</label>
+            <p className="text-xs text-gray-400 mb-2">Format .ico, .png ou .svg — recommandé 32x32px</p>
+            {cFavicon && (
+              <div className="mb-2 relative inline-block">
+                <img src={cFavicon} alt="Favicon" className="w-8 h-8 object-contain border border-border rounded p-0.5" />
+                <button onClick={() => setCFavicon("")} className="absolute -top-1 -right-1 bg-white rounded-full w-4 h-4 flex items-center justify-center text-[10px] text-red-500 shadow border border-border">✕</button>
+              </div>
+            )}
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => cFaviconRef.current?.click()}
+                disabled={cFaviconUploading}
+                className="px-3 py-1.5 bg-gray-100 text-sm rounded-lg hover:bg-gray-200 disabled:opacity-50"
+              >
+                {cFaviconUploading ? "Upload..." : "Choisir un favicon"}
+              </button>
+              <input
+                ref={cFaviconRef}
+                type="file"
+                accept=".ico,.png,.svg"
+                className="hidden"
+                onChange={(e) => {
+                  const file = e.target.files?.[0]
+                  if (file) handleCreateFaviconUpload(file)
+                  e.target.value = ""
+                }}
+              />
+            </div>
+          </div>
+
           <div className="grid grid-cols-2 gap-4">
             <ColorField label="Couleur principale" value={cPrimary} onChange={setCPrimary} />
             <ColorField label="Couleur secondaire" value={cSecondary} onChange={setCSecondary} />
@@ -457,6 +514,38 @@ export default function PartnersTable({
                 }}
               />
               <span className="text-xs text-gray-400">JPG, PNG, SVG, WebP</span>
+            </div>
+          </div>
+
+          {/* Favicon upload */}
+          <div>
+            <label className="block text-sm font-medium mb-1">Favicon (optionnel)</label>
+            <p className="text-xs text-gray-400 mb-2">Format .ico, .png ou .svg — recommandé 32x32px</p>
+            {eFavicon && (
+              <div className="mb-2 relative inline-block">
+                <img src={eFavicon} alt="Favicon" className="w-8 h-8 object-contain border border-border rounded p-0.5" />
+                <button onClick={() => setEFavicon("")} className="absolute -top-1 -right-1 bg-white rounded-full w-4 h-4 flex items-center justify-center text-[10px] text-red-500 shadow border border-border">✕</button>
+              </div>
+            )}
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => eFaviconRef.current?.click()}
+                disabled={eFaviconUploading}
+                className="px-3 py-1.5 bg-gray-100 text-sm rounded-lg hover:bg-gray-200 disabled:opacity-50"
+              >
+                {eFaviconUploading ? "Upload..." : "Choisir un favicon"}
+              </button>
+              <input
+                ref={eFaviconRef}
+                type="file"
+                accept=".ico,.png,.svg"
+                className="hidden"
+                onChange={(e) => {
+                  const file = e.target.files?.[0]
+                  if (file) handleEditFaviconUpload(file)
+                  e.target.value = ""
+                }}
+              />
             </div>
           </div>
 

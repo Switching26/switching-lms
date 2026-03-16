@@ -702,13 +702,13 @@ function ChapterPanel({
     if (pollingRef.current) { clearInterval(pollingRef.current); pollingRef.current = null }
   }, [])
 
-  const pollProcessingStatus = useCallback((streamId: string) => {
+  const pollProcessingStatus = useCallback((vimeoId: string) => {
     stopPolling()
     pollingRef.current = setInterval(async () => {
       try {
-        const res = await fetch(`/api/upload/video/${streamId}/status`)
+        const res = await fetch(`/api/upload/video/${vimeoId}/status`)
         const data = await res.json()
-        if (data.status === "ready") {
+        if (data.status === "available") {
           stopPolling()
           setVideoState("ready")
           if (data.duration) onUpdate({ videoDuration: data.duration })
@@ -717,7 +717,7 @@ function ChapterPanel({
           setVideoState("error")
           setVideoError(data.error || "Erreur de traitement vidéo")
         } else {
-          setProcessingPct(data.pctComplete || null)
+          setProcessingPct(null)
         }
       } catch {
         // Keep polling on network error
@@ -727,8 +727,8 @@ function ChapterPanel({
 
   const handleVideoUpload = async (file: File) => {
     if (!file.type.startsWith("video/")) { setVideoError("Format de fichier non supporté"); return }
-    const maxSize = 2 * 1024 * 1024 * 1024
-    if (file.size > maxSize) { setVideoError("Fichier trop volumineux (max 2 Go)"); return }
+    const maxSize = 5 * 1024 * 1024 * 1024
+    if (file.size > maxSize) { setVideoError("Fichier trop volumineux (max 5 Go)"); return }
 
     setVideoState("uploading")
     setUploadProgress(0)
@@ -749,15 +749,14 @@ function ChapterPanel({
         return
       }
 
-      const { uploadUrl, streamId } = await initRes.json()
+      const { uploadUrl, vimeoId } = await initRes.json()
 
-      // Store the streamId as videoUrl
-      onUpdate({ videoUrl: streamId })
+      // Store the Vimeo ID as videoUrl
+      onUpdate({ videoUrl: vimeoId })
 
       // Step 2: Upload via tus-js-client
       const { Upload } = await import("tus-js-client")
       const tusUpload = new Upload(file, {
-        endpoint: uploadUrl,
         uploadUrl: uploadUrl,
         chunkSize: 50 * 1024 * 1024, // 50MB chunks
         retryDelays: [0, 1000, 3000, 5000],
@@ -772,7 +771,7 @@ function ChapterPanel({
         onSuccess: () => {
           setVideoState("processing")
           setProcessingPct(null)
-          pollProcessingStatus(streamId)
+          pollProcessingStatus(vimeoId)
         },
         onError: (error) => {
           setVideoState("error")
@@ -900,7 +899,7 @@ function ChapterPanel({
             />
           </div>
 
-          {/* Vidéo Cloudflare Stream */}
+          {/* Vidéo Vimeo */}
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <h3 className="text-sm font-semibold">Vidéo</h3>
@@ -919,14 +918,14 @@ function ChapterPanel({
               <div className="space-y-3">
                 <div className="aspect-video rounded-xl overflow-hidden border border-border">
                   <iframe
-                    src={`https://iframe.cloudflarestream.com/${chapter.videoUrl}`}
-                    className="w-full h-full"
-                    allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
+                    src={`https://player.vimeo.com/video/${chapter.videoUrl}?title=0&byline=0&portrait=0&dnt=1`}
+                    style={{ border: "none", width: "100%", height: "100%" }}
+                    allow="autoplay; fullscreen; picture-in-picture"
                     allowFullScreen
                   />
                 </div>
                 <div className="flex items-center gap-3">
-                  <p className="text-xs text-gray-400">Stream ID : {chapter.videoUrl}</p>
+                  <p className="text-xs text-gray-400">Vimeo ID : {chapter.videoUrl}</p>
                   <button
                     onClick={() => { setVideoState("idle"); fileInputRef.current?.click() }}
                     className="px-3 py-1.5 bg-gray-100 text-xs rounded-lg hover:bg-gray-200 transition-colors"
@@ -1002,8 +1001,8 @@ function ChapterPanel({
               >
                 <div className="space-y-2">
                   <div className="text-3xl text-gray-300">&#9654;</div>
-                  <p className="text-sm text-gray-500">Glissez-déposez une vidéo ici ou cliquez pour sélectionner</p>
-                  <p className="text-xs text-gray-400">MP4, MOV, AVI — 2 Go maximum</p>
+                  <p className="text-sm text-gray-500">Déposez votre vidéo ici ou cliquez pour sélectionner</p>
+                  <p className="text-xs text-gray-400">MP4, MOV, AVI — 5 Go maximum</p>
                 </div>
                 <input
                   ref={fileInputRef}

@@ -10,6 +10,7 @@ export async function GET(req: NextRequest, { params }: { params: { slug: string
     select: {
       name: true,
       logoUrl: true,
+      faviconUrl: true,
       primaryColor: true,
       secondaryColor: true,
     },

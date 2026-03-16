@@ -9,6 +9,7 @@ interface Partner {
   primaryColor: string
   secondaryColor: string
   logoUrl: string | null
+  faviconUrl: string | null
 }
 
 function isValidHex(v: string) {
@@ -20,10 +21,13 @@ export default function AppearanceForm({ partner }: { partner: Partner }) {
   const [primaryColor, setPrimaryColor] = useState(partner.primaryColor)
   const [secondaryColor, setSecondaryColor] = useState(partner.secondaryColor)
   const [logoUrl, setLogoUrl] = useState(partner.logoUrl || "")
+  const [faviconUrl, setFaviconUrl] = useState(partner.faviconUrl || "")
   const [message, setMessage] = useState("")
   const [loading, setLoading] = useState(false)
   const [uploading, setUploading] = useState(false)
+  const [faviconUploading, setFaviconUploading] = useState(false)
   const logoRef = useRef<HTMLInputElement>(null)
+  const faviconRef = useRef<HTMLInputElement>(null)
 
   const handleLogoUpload = async (file: File) => {
     setUploading(true)
@@ -42,6 +46,23 @@ export default function AppearanceForm({ partner }: { partner: Partner }) {
     }
   }
 
+  const handleFaviconUpload = async (file: File) => {
+    setFaviconUploading(true)
+    const formData = new FormData()
+    formData.append("file", file)
+    try {
+      const res = await fetch("/api/upload/file", { method: "POST", body: formData })
+      if (!res.ok) { setMessage("Erreur : Upload du favicon échoué"); return }
+      const data = await res.json()
+      setFaviconUrl(`/api/files/${data.filename}`)
+      setMessage("Favicon uploadé")
+    } catch {
+      setMessage("Erreur réseau")
+    } finally {
+      setFaviconUploading(false)
+    }
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!isValidHex(primaryColor) || !isValidHex(secondaryColor)) {
@@ -54,7 +75,7 @@ export default function AppearanceForm({ partner }: { partner: Partner }) {
       const res = await fetch("/api/partner/appearance", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, primaryColor, secondaryColor, logoUrl: logoUrl || null }),
+        body: JSON.stringify({ name, primaryColor, secondaryColor, logoUrl: logoUrl || null, faviconUrl: faviconUrl || null }),
       })
       if (res.ok) setMessage("Apparence mise à jour avec succès")
       else setMessage("Erreur lors de la mise à jour")
@@ -120,6 +141,45 @@ export default function AppearanceForm({ partner }: { partner: Partner }) {
               }}
             />
             <span className="text-xs text-gray-400">JPG, PNG, SVG, WebP — max 200x60px recommandé</span>
+          </div>
+        </div>
+
+        {/* Favicon upload */}
+        <div>
+          <label className="block text-sm font-medium mb-1">Favicon (optionnel)</label>
+          <p className="text-xs text-gray-400 mb-2">Format .ico, .png ou .svg — recommandé 32x32px</p>
+          {faviconUrl && (
+            <div className="mb-2 relative inline-block">
+              <img src={faviconUrl} alt="Favicon" className="w-8 h-8 object-contain border border-border rounded p-0.5" />
+              <button
+                type="button"
+                onClick={() => setFaviconUrl("")}
+                className="absolute -top-1 -right-1 bg-white rounded-full w-4 h-4 flex items-center justify-center text-[10px] text-red-500 shadow border border-border"
+              >
+                ✕
+              </button>
+            </div>
+          )}
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => faviconRef.current?.click()}
+              disabled={faviconUploading}
+              className="px-3 py-1.5 bg-gray-100 text-sm rounded-lg hover:bg-gray-200 disabled:opacity-50"
+            >
+              {faviconUploading ? "Upload..." : "Choisir un favicon"}
+            </button>
+            <input
+              ref={faviconRef}
+              type="file"
+              accept=".ico,.png,.svg"
+              className="hidden"
+              onChange={(e) => {
+                const file = e.target.files?.[0]
+                if (file) handleFaviconUpload(file)
+                e.target.value = ""
+              }}
+            />
           </div>
         </div>
 

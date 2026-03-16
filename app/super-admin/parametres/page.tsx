@@ -12,13 +12,12 @@ export default function ParametresPage() {
   const [showPassword, setShowPassword] = useState(false)
   const [hasStoredPassword, setHasStoredPassword] = useState(false)
 
-  // Cloudflare Stream
-  const [cfAccountId, setCfAccountId] = useState("")
-  const [cfToken, setCfToken] = useState("")
-  const [showCfToken, setShowCfToken] = useState(false)
-  const [hasCloudflareToken, setHasCloudflareToken] = useState(false)
-  const [testingCf, setTestingCf] = useState(false)
-  const [cfTestResult, setCfTestResult] = useState("")
+  // Vimeo
+  const [vimeoToken, setVimeoToken] = useState("")
+  const [showVimeoToken, setShowVimeoToken] = useState(false)
+  const [hasVimeoToken, setHasVimeoToken] = useState(false)
+  const [testingVimeo, setTestingVimeo] = useState(false)
+  const [vimeoTestResult, setVimeoTestResult] = useState("")
 
   // Storage
   const [storagePath, setStoragePath] = useState("/mnt/uploads")
@@ -39,8 +38,7 @@ export default function ParametresPage() {
           setSmtpEmail(data.config.smtp_email || "")
           setSmtpFromName(data.config.smtp_from_name || "")
           setHasStoredPassword(data.hasPassword)
-          setCfAccountId(data.config.cloudflare_account_id || "")
-          setHasCloudflareToken(data.hasCloudflareToken)
+          setHasVimeoToken(data.hasVimeoToken)
           setStoragePath(data.config.storage_path || "/mnt/uploads")
           setStorageBaseUrl(data.config.storage_base_url || "")
         }
@@ -66,8 +64,7 @@ export default function ParametresPage() {
             smtp_email: smtpEmail,
             smtp_password: smtpPassword,
             smtp_from_name: smtpFromName,
-            cloudflare_account_id: cfAccountId,
-            cloudflare_stream_token: cfToken,
+            vimeo_token: vimeoToken,
             storage_path: storagePath,
             storage_base_url: storageBaseUrl,
           },
@@ -76,9 +73,9 @@ export default function ParametresPage() {
       if (res.ok) {
         flash("Configuration enregistrée avec succès")
         if (smtpPassword) setHasStoredPassword(true)
-        if (cfToken) setHasCloudflareToken(true)
+        if (vimeoToken) setHasVimeoToken(true)
         setSmtpPassword("")
-        setCfToken("")
+        setVimeoToken("")
       } else flash("Erreur : " + ((await res.json()).error || "Échec"))
     } catch { flash("Erreur réseau") }
     finally { setSaving(false) }
@@ -100,32 +97,29 @@ export default function ParametresPage() {
     finally { setTesting(false) }
   }
 
-  const handleTestCloudflare = async () => {
-    setTestingCf(true)
-    setCfTestResult("")
+  const handleTestVimeo = async () => {
+    setTestingVimeo(true)
+    setVimeoTestResult("")
     try {
-      // Save config before testing so the API reads fresh values
+      // Save token before testing so the API reads fresh value
       await fetch("/api/admin/config", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          config: {
-            cloudflare_account_id: cfAccountId,
-            cloudflare_stream_token: cfToken,
-          },
+          config: { vimeo_token: vimeoToken },
         }),
       })
 
-      const res = await fetch("/api/admin/config/test-cloudflare", { method: "POST" })
+      const res = await fetch("/api/admin/config/test-vimeo", { method: "POST" })
       const data = await res.json()
       if (data.success) {
-        setCfTestResult(data.message)
-        flash("Connexion Cloudflare Stream réussie !")
+        setVimeoTestResult(data.message)
+        flash("Connexion Vimeo réussie !")
       } else {
         flash("Erreur : " + (data.error || "Identifiants invalides"))
       }
     } catch { flash("Erreur réseau") }
-    finally { setTestingCf(false) }
+    finally { setTestingVimeo(false) }
   }
 
   if (loading) {
@@ -196,61 +190,50 @@ export default function ParametresPage() {
         </div>
       </div>
 
-      {/* CLOUDFLARE STREAM */}
+      {/* VIMEO */}
       <div className="bg-white rounded-xl border border-border p-6 space-y-6">
         <div>
-          <h2 className="text-base font-semibold mb-1">Configuration vidéo</h2>
+          <h2 className="text-base font-semibold mb-1">Configuration vidéo Vimeo</h2>
           <p className="text-sm text-gray-400">
-            Cloudflare Stream pour l'hébergement et le streaming des vidéos de formation.
+            Vimeo pour l'hébergement et le streaming des vidéos de formation.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div>
-            <label className="block text-sm font-medium mb-1">Account ID Cloudflare</label>
+        <div>
+          <label className="block text-sm font-medium mb-1">
+            Token API Vimeo {hasVimeoToken && <span className="text-xs text-gray-400">(enregistré)</span>}
+          </label>
+          <div className="relative sm:max-w-md">
             <input
-              value={cfAccountId}
-              onChange={(e) => setCfAccountId(e.target.value)}
-              placeholder="votre-account-id"
-              className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-primary"
+              type={showVimeoToken ? "text" : "password"}
+              value={vimeoToken}
+              onChange={(e) => setVimeoToken(e.target.value)}
+              placeholder={hasVimeoToken ? "••••••••" : "Token API Vimeo"}
+              className="w-full px-3 py-2 pr-10 text-sm border border-border rounded-lg outline-none focus:border-primary"
             />
-          </div>
-          <div>
-            <label className="block text-sm font-medium mb-1">
-              API Token Cloudflare Stream {hasCloudflareToken && <span className="text-xs text-gray-400">(enregistré)</span>}
-            </label>
-            <div className="relative">
-              <input
-                type={showCfToken ? "text" : "password"}
-                value={cfToken}
-                onChange={(e) => setCfToken(e.target.value)}
-                placeholder={hasCloudflareToken ? "••••••••" : "Token API Stream"}
-                className="w-full px-3 py-2 pr-10 text-sm border border-border rounded-lg outline-none focus:border-primary"
-              />
-              <button
-                type="button"
-                onClick={() => setShowCfToken(!showCfToken)}
-                className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 text-sm"
-              >
-                {showCfToken ? "Cacher" : "Voir"}
-              </button>
-            </div>
+            <button
+              type="button"
+              onClick={() => setShowVimeoToken(!showVimeoToken)}
+              className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 text-sm"
+            >
+              {showVimeoToken ? "Cacher" : "Voir"}
+            </button>
           </div>
         </div>
 
-        {cfTestResult && (
+        {vimeoTestResult && (
           <div className="text-sm text-green-600 bg-green-50 rounded-lg px-4 py-3">
-            {cfTestResult}
+            {vimeoTestResult}
           </div>
         )}
 
         <div className="flex gap-3 pt-2 border-t border-border">
           <button
-            onClick={handleTestCloudflare}
-            disabled={testingCf || (!hasCloudflareToken && !cfToken)}
+            onClick={handleTestVimeo}
+            disabled={testingVimeo || (!hasVimeoToken && !vimeoToken)}
             className="px-4 py-2 bg-gray-100 text-sm rounded-lg hover:bg-gray-200 disabled:opacity-50 transition-colors"
           >
-            {testingCf ? "Test en cours..." : "Tester la connexion"}
+            {testingVimeo ? "Test en cours..." : "Tester la connexion"}
           </button>
         </div>
       </div>

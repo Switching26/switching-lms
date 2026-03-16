@@ -1,6 +1,7 @@
 "use client"
 
 import TopNav from "@/components/layout/TopNav"
+import ImpersonationBanner from "@/components/layout/ImpersonationBanner"
 
 const items = [
   { label: "Accueil", href: "/learner/accueil" },
@@ -15,16 +16,23 @@ export default function LearnerShell({
   brand,
   brandColor,
   userEmail,
+  impersonating,
 }: {
   children: React.ReactNode
   brand: string
   brandColor: string
   userEmail: string
+  impersonating?: { name: string; email: string } | null
 }) {
   return (
     <div className="min-h-screen bg-muted">
-      <TopNav brand={brand} items={items} brandColor={brandColor} userEmail={userEmail} />
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6">{children}</main>
+      {impersonating && (
+        <ImpersonationBanner name={impersonating.name} email={impersonating.email} />
+      )}
+      <div style={impersonating ? { paddingTop: "40px" } : undefined}>
+        <TopNav brand={brand} items={items} brandColor={brandColor} userEmail={userEmail} />
+        <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6">{children}</main>
+      </div>
     </div>
   )
 }

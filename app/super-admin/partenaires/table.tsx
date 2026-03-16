@@ -85,6 +85,25 @@ export default function PartnersTable({
     setTimeout(() => setMessage(""), 3000)
   }
 
+  // Impersonate partner admin
+  const handleImpersonate = async (userId: string) => {
+    try {
+      const res = await fetch("/api/impersonate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId }),
+      })
+      const data = await res.json()
+      if (data.ok) {
+        window.location.href = data.redirectUrl
+      } else {
+        flash("Erreur : " + (data.error || "Échec de l'impersonation"))
+      }
+    } catch {
+      flash("Erreur réseau")
+    }
+  }
+
   // Create partner
   const handleCreate = async () => {
     if (!cName.trim() || !cSlug.trim() || !cAdminEmail.trim()) {
@@ -240,6 +259,15 @@ export default function PartnersTable({
                   </td>
                   <td className="px-4 py-3">
                     <div className="flex gap-3">
+                      {admin && (
+                        <button
+                          onClick={() => handleImpersonate(admin.id)}
+                          className="text-sm text-gray-400 hover:text-orange-500"
+                          title="Accéder à l'espace admin"
+                        >
+                          {"👁"}
+                        </button>
+                      )}
                       <button onClick={() => openEdit(p)} className="text-sm text-gray-400 hover:text-primary" title="Modifier">✏️</button>
                       <button onClick={() => openLicenses(p)} className="text-sm text-gray-400 hover:text-primary" title="Licences">⚙️</button>
                     </div>

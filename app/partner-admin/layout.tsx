@@ -19,6 +19,7 @@ export default async function PartnerAdminLayout({ children }: { children: React
       partnerName={user.partnerName || "Partenaire"}
       partnerColor={user.partnerColor || "#111"}
       userEmail={session.user?.email || ""}
+      impersonating={user.impersonating || null}
     >
       {children}
     </PartnerAdminShell>

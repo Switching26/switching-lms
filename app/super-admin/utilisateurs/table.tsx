@@ -89,6 +89,25 @@ export default function UsersTable({
     setTimeout(() => setMessage(""), 3000)
   }
 
+  // Impersonate
+  const handleImpersonate = async (userId: string) => {
+    try {
+      const res = await fetch("/api/impersonate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId }),
+      })
+      const data = await res.json()
+      if (data.ok) {
+        window.location.href = data.redirectUrl
+      } else {
+        flash(data.error || "Erreur lors de l'impersonation")
+      }
+    } catch {
+      flash("Erreur réseau")
+    }
+  }
+
   // Create user
   const handleCreate = async () => {
     if (!newFirstName.trim() || !newLastName.trim() || !newEmail.trim()) {
@@ -266,6 +285,15 @@ export default function UsersTable({
                 </td>
                 <td className="px-4 py-3">
                   <div className="flex gap-2">
+                    {(u.role === "LEARNER" || u.role === "PARTNER_ADMIN") && (
+                      <button
+                        onClick={() => handleImpersonate(u.id)}
+                        className="text-sm text-gray-400 hover:text-orange-500"
+                        title="Voir son espace"
+                      >
+                        {"👁"}
+                      </button>
+                    )}
                     <button
                       onClick={() => setAssignModal(u.id)}
                       className="text-sm text-gray-400 hover:text-primary"

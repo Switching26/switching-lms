@@ -19,6 +19,7 @@ export default async function LearnerLayout({ children }: { children: React.Reac
       brand={user.partnerName || "Switching Formation"}
       brandColor={user.partnerColor || "#111"}
       userEmail={session.user?.email || ""}
+      impersonating={user.impersonating || null}
     >
       {children}
     </LearnerShell>

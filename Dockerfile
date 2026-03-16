@@ -7,4 +7,4 @@ COPY . .
 RUN npx prisma generate
 RUN npm run build
 EXPOSE 3000
-CMD ["sh", "-c", "npx prisma migrate deploy && node server.js"]
+CMD ["sh", "-c", "npx prisma migrate deploy && HOSTNAME=0.0.0.0 node .next/standalone/server.js"]

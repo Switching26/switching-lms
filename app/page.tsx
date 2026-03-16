@@ -1,3 +1,18 @@
-export default function Page() {
-  return <h1>Switching LMS</h1>
+import { auth } from "@/lib/auth"
+import { redirect } from "next/navigation"
+
+export default async function Home() {
+  const session = await auth()
+
+  if (!session?.user) {
+    redirect("/login")
+  }
+
+  const role = (session.user as any).role
+
+  if (role === "SUPER_ADMIN") redirect("/super-admin/dashboard")
+  if (role === "PARTNER_ADMIN") redirect("/partner-admin/dashboard")
+  if (role === "LEARNER") redirect("/learner/accueil")
+
+  redirect("/login")
 }

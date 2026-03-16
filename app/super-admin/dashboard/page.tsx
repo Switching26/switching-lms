@@ -1,3 +1,9 @@
-export default function Page() {
-  return <h1>Dashboard OK</h1>
+import { auth } from "@/lib/auth"
+import { redirect } from "next/navigation"
+
+export default async function Page() {
+  const session = await auth()
+  if (!session) redirect("/login")
+
+  return <h1>Bonjour {session.user?.email} (Super Admin)</h1>
 }

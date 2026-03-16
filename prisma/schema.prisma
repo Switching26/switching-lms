@@ -184,6 +184,15 @@ model LoginLog {
   @@index([userId])
 }
 
+model SystemConfig {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     String
+  updatedAt DateTime @updatedAt
+
+  @@index([key])
+}
+
 model EmailLog {
   id      String    @id @default(cuid())
   userId  String

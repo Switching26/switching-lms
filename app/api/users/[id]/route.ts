@@ -45,6 +45,18 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
   }
   if (body.isActive !== undefined) data.isActive = body.isActive
 
+  // Reference (optional, unique if set)
+  if (body.reference !== undefined) {
+    const trimmedRef = body.reference?.trim() || null
+    if (trimmedRef) {
+      const existingRef = await prisma.user.findUnique({ where: { reference: trimmedRef } })
+      if (existingRef && existingRef.id !== params.id) {
+        return NextResponse.json({ error: "Cette référence est déjà utilisée" }, { status: 400 })
+      }
+    }
+    data.reference = trimmedRef
+  }
+
   // Super admin only fields
   if (role === "SUPER_ADMIN") {
     if (body.role !== undefined && (body.role === "LEARNER" || body.role === "PARTNER_ADMIN")) {

@@ -40,6 +40,7 @@ model User {
   password    String
   firstName   String
   lastName    String
+  reference   String?  @unique
   role        Role     @default(LEARNER)
   partnerId   String?
   partner     Partner? @relation(fields: [partnerId], references: [id])
@@ -60,6 +61,7 @@ model User {
 
   @@index([email])
   @@index([partnerId])
+  @@index([reference])
 }
 
 model Partner {

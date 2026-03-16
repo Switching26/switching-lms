@@ -1,11 +1,21 @@
 import { auth } from "@/lib/auth"
 import { redirect } from "next/navigation"
+import { prisma } from "@/lib/prisma"
 import PartnerAdminShell from "./shell"
 
 export async function generateMetadata() {
   const session = await auth()
-  const partnerName = (session?.user as any)?.partnerName || "Partenaire"
-  return { title: `${partnerName} · Admin` }
+  const partner = await prisma.partner.findFirst({
+    where: { id: (session?.user as any)?.partnerId ?? undefined },
+    select: { name: true, logoUrl: true },
+  })
+  return {
+    title: `${partner?.name || "LMS"} · Admin`,
+    icons: {
+      icon: partner?.logoUrl || "/favicon.svg",
+      apple: partner?.logoUrl || "/favicon.svg",
+    },
+  }
 }
 
 export default async function PartnerAdminLayout({ children }: { children: React.ReactNode }) {

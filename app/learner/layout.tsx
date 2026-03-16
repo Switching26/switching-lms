@@ -1,11 +1,24 @@
 import { auth } from "@/lib/auth"
 import { redirect } from "next/navigation"
+import { prisma } from "@/lib/prisma"
 import LearnerShell from "./shell"
 
 export async function generateMetadata() {
   const session = await auth()
-  const firstName = (session?.user as any)?.firstName || "Apprenant"
-  return { title: `${firstName} · LMS` }
+  const user = session?.user as any
+  const partner = user?.partnerId
+    ? await prisma.partner.findFirst({
+        where: { id: user.partnerId },
+        select: { name: true, logoUrl: true },
+      })
+    : null
+  return {
+    title: `${user?.firstName || "Apprenant"} · ${partner?.name || "LMS"}`,
+    icons: {
+      icon: partner?.logoUrl || "/favicon.svg",
+      apple: partner?.logoUrl || "/favicon.svg",
+    },
+  }
 }
 
 export default async function LearnerLayout({ children }: { children: React.ReactNode }) {

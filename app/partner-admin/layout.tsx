@@ -5,8 +5,20 @@ import PartnerAdminShell from "./shell"
 
 export async function generateMetadata() {
   const session = await auth()
-  const partnerName = (session?.user as any)?.partnerName || "LMS"
-  return { title: `${partnerName} · Admin` }
+  const user = session?.user as any
+  const partner = user?.partnerId
+    ? await prisma.partner.findFirst({
+        where: { id: user.partnerId },
+        select: { name: true, logoUrl: true },
+      })
+    : null
+  return {
+    title: `${partner?.name || "LMS"} · Admin`,
+    icons: {
+      icon: partner?.logoUrl || "/favicon.svg",
+      apple: partner?.logoUrl || "/favicon.svg",
+    },
+  }
 }
 
 export default async function PartnerAdminLayout({ children }: { children: React.ReactNode }) {
@@ -40,12 +52,6 @@ export default async function PartnerAdminLayout({ children }: { children: React
         "--partner-secondary": secondaryColor,
       }}
     >
-      {partner?.logoUrl && (
-        <>
-          <link rel="icon" href={partner.logoUrl} />
-          <link rel="apple-touch-icon" href={partner.logoUrl} />
-        </>
-      )}
       <PartnerAdminShell
         partnerName={partner?.name || "Partenaire"}
         partnerColor={primaryColor}

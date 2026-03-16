@@ -6,7 +6,19 @@ import LearnerShell from "./shell"
 export async function generateMetadata() {
   const session = await auth()
   const user = session?.user as any
-  return { title: `${user?.firstName || "Apprenant"} · LMS` }
+  const partner = user?.partnerId
+    ? await prisma.partner.findFirst({
+        where: { id: user.partnerId },
+        select: { name: true, logoUrl: true },
+      })
+    : null
+  return {
+    title: `${user?.firstName || "Apprenant"} · ${partner?.name || "LMS"}`,
+    icons: {
+      icon: partner?.logoUrl || "/favicon.svg",
+      apple: partner?.logoUrl || "/favicon.svg",
+    },
+  }
 }
 
 export default async function LearnerLayout({ children }: { children: React.ReactNode }) {
@@ -40,12 +52,6 @@ export default async function LearnerLayout({ children }: { children: React.Reac
         "--partner-secondary": secondaryColor,
       }}
     >
-      {partner?.logoUrl && (
-        <>
-          <link rel="icon" href={partner.logoUrl} />
-          <link rel="apple-touch-icon" href={partner.logoUrl} />
-        </>
-      )}
       <LearnerShell
         brand={partner?.name || "Switching Formation"}
         brandColor={primaryColor}

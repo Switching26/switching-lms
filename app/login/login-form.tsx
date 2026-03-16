@@ -82,12 +82,6 @@ export default function LoginForm() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-muted">
-      {partner?.logoUrl && (
-        <>
-          <link rel="icon" href={partner.logoUrl} />
-          <link rel="apple-touch-icon" href={partner.logoUrl} />
-        </>
-      )}
       <div
         className="w-full max-w-[380px] bg-white rounded-2xl p-8 border border-border"
         style={partner ? { backgroundColor: `${brandColor}03` } : undefined}

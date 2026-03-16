@@ -104,6 +104,18 @@ export default function ParametresPage() {
     setTestingCf(true)
     setCfTestResult("")
     try {
+      // Save config before testing so the API reads fresh values
+      await fetch("/api/admin/config", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          config: {
+            cloudflare_account_id: cfAccountId,
+            cloudflare_stream_token: cfToken,
+          },
+        }),
+      })
+
       const res = await fetch("/api/admin/config/test-cloudflare", { method: "POST" })
       const data = await res.json()
       if (data.success) {

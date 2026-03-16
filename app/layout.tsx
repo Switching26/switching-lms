@@ -3,9 +3,6 @@ import "./globals.css"
 export const metadata = {
   title: "Switching LMS",
   description: "Plateforme de formation",
-  icons: {
-    icon: { url: "/favicon.svg", type: "image/svg+xml" },
-  },
 }
 
 export default function RootLayout({
@@ -16,7 +13,6 @@ export default function RootLayout({
   return (
     <html lang="fr">
       <head>
-        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         <meta name="theme-color" content="#18181B" />
         <link
           href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"

@@ -25,26 +25,30 @@ export async function POST() {
 
   try {
     const res = await fetch(
-      `https://api.cloudflare.com/client/v4/accounts/${accountId}/stream?per_page=1`,
+      `https://api.cloudflare.com/client/v4/accounts/${accountId}/stream`,
       {
-        headers: { Authorization: `Bearer ${token}` },
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
       }
     )
 
-    if (!res.ok) {
-      return NextResponse.json({ error: "Identifiants Cloudflare invalides" }, { status: 400 })
-    }
-
     const data = await res.json()
-    if (!data.success) {
-      return NextResponse.json({ error: data.errors?.[0]?.message || "Erreur Cloudflare" }, { status: 400 })
+    console.log("[Cloudflare test] response:", JSON.stringify(data))
+
+    if (!res.ok || !data.success) {
+      const errorMsg = data.errors?.[0]?.message || "Identifiants invalides"
+      return NextResponse.json({ error: `Cloudflare: ${errorMsg}` }, { status: 400 })
     }
 
     return NextResponse.json({
       success: true,
       message: `Connexion réussie. ${data.result?.length || 0} vidéo(s) trouvée(s).`,
     })
-  } catch {
+  } catch (err) {
+    console.log("[Cloudflare test] error:", err)
     return NextResponse.json({ error: "Impossible de contacter l'API Cloudflare" }, { status: 500 })
   }
 }

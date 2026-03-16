@@ -806,6 +806,47 @@ export default function UsersTable({
               </div>
             )}
 
+            {/* Exercise scores */}
+            {progressData.exercises?.length > 0 && (
+              <div>
+                <h3 className="text-sm font-semibold mb-2">Exercices</h3>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="border-b border-border">
+                        <th className="text-left text-xs text-gray-500 py-2">Exercice</th>
+                        <th className="text-left text-xs text-gray-500 py-2">Chapitre</th>
+                        <th className="text-left text-xs text-gray-500 py-2">Type</th>
+                        <th className="text-left text-xs text-gray-500 py-2">Score</th>
+                        <th className="text-left text-xs text-gray-500 py-2">Date</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {progressData.exercises.map((ex: any) => (
+                        <tr key={ex.id} className="border-b border-gray-50">
+                          <td className="py-2">{ex.exerciseTitle}</td>
+                          <td className="py-2 text-gray-500">{ex.chapterTitle}</td>
+                          <td className="py-2">
+                            <Badge variant="default">
+                              {ex.exerciseType === "QCM" ? "QCM" : ex.exerciseType === "VRAI_FAUX" ? "V/F" : "Réd."}
+                            </Badge>
+                          </td>
+                          <td className="py-2 text-gray-500">
+                            {ex.score != null ? `${Math.round(ex.score * 100)}%` : "—"}
+                          </td>
+                          <td className="py-2 text-gray-500">
+                            {new Date(ex.completedAt).toLocaleDateString("fr-FR", {
+                              day: "2-digit", month: "2-digit", year: "numeric",
+                            })}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )}
+
             <a
               href={`/api/export/user-progress?userId=${progressModal}`}
               className="inline-block px-4 py-2 bg-primary text-white text-sm rounded-lg hover:opacity-90"

@@ -26,10 +26,15 @@ export default async function FormationPage() {
     lastPosition: progressList.find((p) => p.chapterId === ch.id)?.lastPosition || 0,
   }))
 
+  const sections = (enrollment.formation as any).sections || []
+  const formationAttachments = (enrollment.formation as any).attachments || []
+
   return (
     <FormationPlayer
       formationTitle={enrollment.formation.title}
       chapters={JSON.parse(JSON.stringify(chapters))}
+      sections={JSON.parse(JSON.stringify(sections))}
+      formationAttachments={JSON.parse(JSON.stringify(formationAttachments))}
       userId={userId}
     />
   )

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
 import { auth } from "@/lib/auth"
+import { prisma } from "@/lib/prisma"
 import { getUserById, getUserProgress } from "@/lib/data/users"
 
 export async function GET(req: NextRequest, { params }: { params: { userId: string } }) {
@@ -36,10 +37,31 @@ export async function GET(req: NextRequest, { params }: { params: { userId: stri
     sessionCount: p.sessionCount,
   }))
 
+  // Exercise scores
+  const exerciseResponses = await prisma.exerciseResponse.findMany({
+    where: { userId: params.userId },
+    include: {
+      exercise: {
+        include: { chapter: { select: { title: true } } },
+      },
+    },
+    orderBy: { completedAt: "desc" },
+  })
+
+  const exercises = exerciseResponses.map((er) => ({
+    id: er.id,
+    exerciseTitle: er.exercise.title,
+    exerciseType: er.exercise.type,
+    chapterTitle: er.exercise.chapter.title,
+    score: er.score,
+    completedAt: er.completedAt,
+  }))
+
   return NextResponse.json({
     totalTime,
     lastLogin,
     loginHistory: user.loginLogs.map((l) => l.loginAt),
     chapters,
+    exercises,
   })
 }

@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma"
 export async function getPartners() {
   return prisma.partner.findMany({
     include: {
-      users: { where: { role: "LEARNER" } },
+      users: true,
       licenses: { include: { formation: true } },
     },
     orderBy: { createdAt: "desc" },

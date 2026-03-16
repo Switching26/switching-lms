@@ -1,6 +1,7 @@
 "use client"
 
 import TopNav from "@/components/layout/TopNav"
+import ImpersonationBanner from "@/components/layout/ImpersonationBanner"
 
 const items = [
   { label: "Dashboard", href: "/partner-admin/dashboard" },
@@ -15,22 +16,29 @@ export default function PartnerAdminShell({
   partnerName,
   partnerColor,
   userEmail,
+  impersonating,
 }: {
   children: React.ReactNode
   partnerName: string
   partnerColor: string
   userEmail: string
+  impersonating?: { name: string; email: string } | null
 }) {
   return (
     <div className="min-h-screen bg-muted">
-      <TopNav
-        brand={partnerName}
-        badge="Admin partenaire"
-        items={items}
-        brandColor={partnerColor}
-        userEmail={userEmail}
-      />
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6">{children}</main>
+      {impersonating && (
+        <ImpersonationBanner name={impersonating.name} email={impersonating.email} />
+      )}
+      <div style={impersonating ? { paddingTop: "40px" } : undefined}>
+        <TopNav
+          brand={partnerName}
+          badge="Admin partenaire"
+          items={items}
+          brandColor={partnerColor}
+          userEmail={userEmail}
+        />
+        <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6">{children}</main>
+      </div>
     </div>
   )
 }

@@ -6,5 +6,7 @@ RUN npm install
 COPY . .
 RUN npx prisma generate
 RUN npm run build
+COPY start.sh ./start.sh
+RUN chmod +x start.sh
 EXPOSE 3000
-CMD ["sh", "-c", "npx prisma migrate deploy || true && npx next start -H 0.0.0.0 -p ${PORT:-3000}"]
+CMD ["./start.sh"]

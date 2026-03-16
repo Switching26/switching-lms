@@ -2,23 +2,12 @@ import { auth } from "@/lib/auth"
 import { redirect } from "next/navigation"
 import { prisma } from "@/lib/prisma"
 import LearnerShell from "./shell"
+import DynamicFavicon from "@/components/DynamicFavicon"
 
 export async function generateMetadata() {
   const session = await auth()
   const user = session?.user as any
-  const partner = user?.partnerId
-    ? await prisma.partner.findFirst({
-        where: { id: user.partnerId },
-        select: { name: true, logoUrl: true },
-      })
-    : null
-  return {
-    title: `${user?.firstName || "Apprenant"} · ${partner?.name || "LMS"}`,
-    icons: {
-      icon: partner?.logoUrl || "/favicon.svg",
-      apple: partner?.logoUrl || "/favicon.svg",
-    },
-  }
+  return { title: `${user?.firstName || "Apprenant"} · LMS` }
 }
 
 export default async function LearnerLayout({ children }: { children: React.ReactNode }) {
@@ -52,6 +41,7 @@ export default async function LearnerLayout({ children }: { children: React.Reac
         "--partner-secondary": secondaryColor,
       }}
     >
+      <DynamicFavicon logoUrl={partner?.logoUrl || null} />
       <LearnerShell
         brand={partner?.name || "Switching Formation"}
         brandColor={primaryColor}

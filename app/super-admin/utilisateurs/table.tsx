@@ -10,6 +10,7 @@ interface User {
   firstName: string
   lastName: string
   email: string
+  reference: string | null
   role: string
   isActive: boolean
   archivedAt: string | null
@@ -74,6 +75,7 @@ export default function UsersTable({
   const [newRole, setNewRole] = useState("LEARNER")
   const [newPartnerId, setNewPartnerId] = useState("")
   const [newPassword, setNewPassword] = useState(generatePassword())
+  const [newReference, setNewReference] = useState("")
   const [creating, setCreating] = useState(false)
 
   // Edit form
@@ -85,6 +87,7 @@ export default function UsersTable({
   const [editPartnerId, setEditPartnerId] = useState("")
   const [editFormationId, setEditFormationId] = useState("")
   const [editExpiresAt, setEditExpiresAt] = useState("")
+  const [editReference, setEditReference] = useState("")
   const [editSaving, setEditSaving] = useState(false)
 
   // Password form
@@ -115,7 +118,8 @@ export default function UsersTable({
       const match = u.firstName.toLowerCase().includes(q) ||
         u.lastName.toLowerCase().includes(q) ||
         u.email.toLowerCase().includes(q) ||
-        u.partner?.name.toLowerCase().includes(q)
+        u.partner?.name.toLowerCase().includes(q) ||
+        (u.reference && u.reference.toLowerCase().includes(q))
       if (!match) return false
     }
     return true
@@ -173,6 +177,7 @@ export default function UsersTable({
           password: newPassword,
           userRole: newRole,
           partnerId: newPartnerId || null,
+          reference: newReference || null,
         }),
       })
       if (!res.ok) {
@@ -187,6 +192,7 @@ export default function UsersTable({
       setNewEmail("")
       setNewRole("LEARNER")
       setNewPartnerId("")
+      setNewReference("")
       setNewPassword(generatePassword())
       router.refresh()
     } catch { flash("Erreur réseau") }
@@ -199,6 +205,7 @@ export default function UsersTable({
     setEditFirstName(u.firstName)
     setEditLastName(u.lastName)
     setEditEmail(u.email)
+    setEditReference(u.reference || "")
     setEditIsActive(u.isActive)
     setEditRole(u.role)
     setEditPartnerId(u.partnerId || "")
@@ -219,6 +226,7 @@ export default function UsersTable({
         firstName: editFirstName,
         lastName: editLastName,
         email: editEmail,
+        reference: editReference || null,
         isActive: editIsActive,
         formationId: editFormationId || null,
         expiresAt: editExpiresAt || null,
@@ -457,6 +465,7 @@ export default function UsersTable({
           <thead>
             <tr className="border-b border-border">
               <th className="text-left text-xs font-medium text-gray-500 px-4 py-3">Nom</th>
+              <th className="text-left text-xs font-medium text-gray-500 px-4 py-3">Référence</th>
               <th className="text-left text-xs font-medium text-gray-500 px-4 py-3">Email</th>
               {!isPartnerAdmin && <th className="text-left text-xs font-medium text-gray-500 px-4 py-3">Appartenance</th>}
               <th className="text-left text-xs font-medium text-gray-500 px-4 py-3">Formation</th>
@@ -477,6 +486,13 @@ export default function UsersTable({
                       <Badge variant="error">Super Admin</Badge>
                     )}
                   </div>
+                </td>
+                <td className="px-4 py-3 text-sm">
+                  {u.reference ? (
+                    <span className="inline-block px-2 py-0.5 bg-gray-100 text-gray-600 text-xs rounded-md font-medium">{u.reference}</span>
+                  ) : (
+                    <span className="text-gray-300">—</span>
+                  )}
                 </td>
                 <td className="px-4 py-3 text-sm text-gray-500">{u.email}</td>
                 {!isPartnerAdmin && (
@@ -568,7 +584,7 @@ export default function UsersTable({
             ))}
             {filtered.length === 0 && (
               <tr>
-                <td colSpan={isPartnerAdmin ? 5 : 6} className="px-4 py-8 text-center text-sm text-gray-400">
+                <td colSpan={isPartnerAdmin ? 6 : 7} className="px-4 py-8 text-center text-sm text-gray-400">
                   Aucun utilisateur
                 </td>
               </tr>
@@ -630,6 +646,16 @@ export default function UsersTable({
                   onChange={(e) => setEditEmail(e.target.value)}
                   className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-black"
                 />
+              </div>
+              <div className="mt-3">
+                <label className="block text-sm font-medium mb-1">Référence interne (optionnel)</label>
+                <input
+                  value={editReference}
+                  onChange={(e) => setEditReference(e.target.value)}
+                  placeholder="Ex: 2024-001, MAT-123, DOSSIER-456..."
+                  className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-black"
+                />
+                <p className="text-xs text-gray-400 mt-1">Permet de retrouver cet utilisateur via la recherche</p>
               </div>
             </div>
 
@@ -794,6 +820,16 @@ export default function UsersTable({
             <label className="block text-sm font-medium mb-1">Email</label>
             <input type="email" value={newEmail} onChange={(e) => setNewEmail(e.target.value)} className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-black" />
           </div>
+          <div>
+            <label className="block text-sm font-medium mb-1">Référence interne (optionnel)</label>
+            <input
+              value={newReference}
+              onChange={(e) => setNewReference(e.target.value)}
+              placeholder="Ex: 2024-001, MAT-123, DOSSIER-456..."
+              className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-black"
+            />
+            <p className="text-xs text-gray-400 mt-1">Permet de retrouver cet utilisateur via la recherche</p>
+          </div>
           {!isPartnerAdmin && (
             <>
               <div>
@@ -874,6 +910,19 @@ export default function UsersTable({
           <p className="text-sm text-gray-400">Chargement...</p>
         ) : progressData ? (
           <div className="space-y-4">
+            {(() => {
+              const progressUser = users.find((u) => u.id === progressModal)
+              return progressUser ? (
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="text-sm font-semibold">{progressUser.firstName} {progressUser.lastName}</span>
+                  {progressUser.reference && (
+                    <span className="inline-block px-2 py-0.5 bg-gray-100 text-gray-600 text-xs rounded-md font-medium">
+                      Réf: {progressUser.reference}
+                    </span>
+                  )}
+                </div>
+              ) : null
+            })()}
             <div className="grid grid-cols-2 gap-4">
               <div className="bg-gray-50 rounded-lg p-3">
                 <p className="text-xs text-gray-500">Temps total</p>

@@ -2,20 +2,12 @@ import { auth } from "@/lib/auth"
 import { redirect } from "next/navigation"
 import { prisma } from "@/lib/prisma"
 import PartnerAdminShell from "./shell"
+import DynamicFavicon from "@/components/DynamicFavicon"
 
 export async function generateMetadata() {
   const session = await auth()
-  const partner = await prisma.partner.findFirst({
-    where: { id: (session?.user as any)?.partnerId ?? undefined },
-    select: { name: true, logoUrl: true },
-  })
-  return {
-    title: `${partner?.name || "LMS"} · Admin`,
-    icons: {
-      icon: partner?.logoUrl || "/favicon.svg",
-      apple: partner?.logoUrl || "/favicon.svg",
-    },
-  }
+  const partnerName = (session?.user as any)?.partnerName || "LMS"
+  return { title: `${partnerName} · Admin` }
 }
 
 export default async function PartnerAdminLayout({ children }: { children: React.ReactNode }) {
@@ -49,6 +41,7 @@ export default async function PartnerAdminLayout({ children }: { children: React
         "--partner-secondary": secondaryColor,
       }}
     >
+      <DynamicFavicon logoUrl={partner?.logoUrl || null} />
       <PartnerAdminShell
         partnerName={partner?.name || "Partenaire"}
         partnerColor={primaryColor}

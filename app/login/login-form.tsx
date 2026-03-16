@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import { signIn } from "next-auth/react"
 import { useSearchParams, useRouter } from "next/navigation"
 import Link from "next/link"
+import DynamicFavicon from "@/components/DynamicFavicon"
 
 interface PartnerInfo {
   name: string
@@ -82,6 +83,7 @@ export default function LoginForm() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-muted">
+      <DynamicFavicon logoUrl={partner?.logoUrl || null} />
       <div
         className="w-full max-w-[380px] bg-white rounded-2xl p-8 border border-border"
         style={partner ? { backgroundColor: `${brandColor}03` } : undefined}

@@ -14,7 +14,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Accès refusé" }, { status: 403 })
   }
 
-  const { firstName, lastName, email, password, userRole, partnerId } = await req.json()
+  const { firstName, lastName, email, password, userRole, partnerId, reference } = await req.json()
 
   if (!firstName?.trim() || !lastName?.trim() || !email?.trim() || !password) {
     return NextResponse.json({ error: "Tous les champs sont requis" }, { status: 400 })
@@ -23,6 +23,15 @@ export async function POST(req: Request) {
   const existing = await prisma.user.findUnique({ where: { email } })
   if (existing) {
     return NextResponse.json({ error: "Cet email existe déjà" }, { status: 400 })
+  }
+
+  // Check reference uniqueness if provided
+  const trimmedRef = reference?.trim() || null
+  if (trimmedRef) {
+    const existingRef = await prisma.user.findUnique({ where: { reference: trimmedRef } })
+    if (existingRef) {
+      return NextResponse.json({ error: "Cette référence est déjà utilisée" }, { status: 400 })
+    }
   }
 
   // Partner admin can only create learners in their own org
@@ -43,6 +52,7 @@ export async function POST(req: Request) {
       password: hashed,
       role: userRole || "LEARNER",
       partnerId: partnerId || null,
+      reference: trimmedRef,
     },
     include: { partner: true },
   })

@@ -2,7 +2,6 @@ import { auth } from "@/lib/auth"
 import { redirect } from "next/navigation"
 import { prisma } from "@/lib/prisma"
 import LearnerShell from "./shell"
-import DynamicFavicon from "@/components/DynamicFavicon"
 
 export async function generateMetadata() {
   const session = await auth()
@@ -41,7 +40,12 @@ export default async function LearnerLayout({ children }: { children: React.Reac
         "--partner-secondary": secondaryColor,
       }}
     >
-      <DynamicFavicon logoUrl={partner?.logoUrl || null} />
+      {partner?.logoUrl && (
+        <>
+          <link rel="icon" href={partner.logoUrl} />
+          <link rel="apple-touch-icon" href={partner.logoUrl} />
+        </>
+      )}
       <LearnerShell
         brand={partner?.name || "Switching Formation"}
         brandColor={primaryColor}

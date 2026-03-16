@@ -133,16 +133,16 @@ export default function FormationPlayer({
           preview ? (
             <div className="aspect-video bg-black rounded-xl overflow-hidden">
               <iframe
-                src={`https://iframe.cloudflarestream.com/${active.videoUrl}`}
-                className="w-full h-full"
-                allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
+                src={`https://player.vimeo.com/video/${active.videoUrl}?title=0&byline=0&portrait=0&dnt=1`}
+                style={{ border: "none", width: "100%", height: "100%" }}
+                allow="autoplay; fullscreen; picture-in-picture"
                 allowFullScreen
               />
             </div>
           ) : (
-            <CloudflarePlayer
+            <VimeoPlayer
               key={active.id}
-              streamId={active.videoUrl}
+              vimeoId={active.videoUrl}
               chapterId={active.id}
               lastPosition={active.lastPosition}
               onCompleted={() => handleChapterCompleted(active.id)}
@@ -486,15 +486,15 @@ function ExerciseBlock({
   )
 }
 
-/* ═══════════ CLOUDFLARE STREAM PLAYER ═══════════ */
+/* ═══════════ VIMEO PLAYER ═══════════ */
 
-function CloudflarePlayer({
-  streamId,
+function VimeoPlayer({
+  vimeoId,
   chapterId,
   lastPosition,
   onCompleted,
 }: {
-  streamId: string
+  vimeoId: string
   chapterId: string
   lastPosition: number
   onCompleted: () => void
@@ -504,6 +504,7 @@ function CloudflarePlayer({
   const hasEndedRef = useRef(false)
   const currentTimeRef = useRef(0)
   const [processing, setProcessing] = useState(false)
+  const playerReadyRef = useRef(false)
 
   const saveProgress = useCallback(async (position: number, completed: boolean = false) => {
     try {
@@ -524,19 +525,39 @@ function CloudflarePlayer({
     const iframe = iframeRef.current
     if (!iframe) return
 
+    const postToVimeo = (method: string, value?: any) => {
+      const msg: Record<string, any> = { method }
+      if (value !== undefined) msg.value = value
+      iframe.contentWindow?.postMessage(JSON.stringify(msg), "https://player.vimeo.com")
+    }
+
     const handleMessage = (event: MessageEvent) => {
-      if (!event.data || typeof event.data !== "string") return
+      if (event.origin !== "https://player.vimeo.com") return
+      let data: any
       try {
-        const data = JSON.parse(event.data)
-        if (data.type === "stream:timeupdate" && typeof data.currentTime === "number") {
-          currentTimeRef.current = data.currentTime
+        data = typeof event.data === "string" ? JSON.parse(event.data) : event.data
+      } catch { return }
+
+      if (data.event === "ready") {
+        playerReadyRef.current = true
+        // Listen for events
+        postToVimeo("addEventListener", "timeupdate")
+        postToVimeo("addEventListener", "ended")
+        // Seek to last position
+        if (lastPosition > 0) {
+          postToVimeo("setCurrentTime", lastPosition)
         }
-        if (data.type === "stream:ended") {
-          if (hasEndedRef.current) return
-          hasEndedRef.current = true
-          saveProgress(0, true)
-        }
-      } catch {}
+      }
+
+      if (data.event === "timeupdate" && typeof data.data?.seconds === "number") {
+        currentTimeRef.current = data.data.seconds
+      }
+
+      if (data.event === "ended") {
+        if (hasEndedRef.current) return
+        hasEndedRef.current = true
+        saveProgress(0, true)
+      }
     }
 
     window.addEventListener("message", handleMessage)
@@ -548,12 +569,12 @@ function CloudflarePlayer({
       }
     }, 30000)
 
-    // Check if video is ready
+    // Check if video is still transcoding
     const checkStatus = async () => {
       try {
-        const res = await fetch(`/api/upload/video/${streamId}/status`)
+        const res = await fetch(`/api/upload/video/${vimeoId}/status`)
         const data = await res.json()
-        if (data.status === "processing") {
+        if (data.status === "transcoding" || data.status === "transcode_starting") {
           setProcessing(true)
         }
       } catch {}
@@ -567,7 +588,7 @@ function CloudflarePlayer({
         saveProgress(currentTimeRef.current)
       }
     }
-  }, [streamId, chapterId, saveProgress])
+  }, [vimeoId, chapterId, lastPosition, saveProgress])
 
   if (processing) {
     return (
@@ -580,15 +601,13 @@ function CloudflarePlayer({
     )
   }
 
-  const startTime = lastPosition > 0 ? `#t=${lastPosition}s` : ""
-
   return (
     <div className="aspect-video bg-black rounded-xl overflow-hidden">
       <iframe
         ref={iframeRef}
-        src={`https://iframe.cloudflarestream.com/${streamId}?autoplay=false&preload=auto${startTime}`}
-        className="w-full h-full"
-        allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
+        src={`https://player.vimeo.com/video/${vimeoId}?title=0&byline=0&portrait=0&dnt=1&api=1`}
+        style={{ border: "none", width: "100%", height: "100%" }}
+        allow="autoplay; fullscreen; picture-in-picture"
         allowFullScreen
       />
     </div>

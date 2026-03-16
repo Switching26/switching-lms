@@ -17,60 +17,80 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "fileName et fileSize requis" }, { status: 400 })
   }
 
-  const maxSize = 2 * 1024 * 1024 * 1024 // 2 GB
+  const maxSize = 5 * 1024 * 1024 * 1024 // 5 GB
   if (fileSize > maxSize) {
-    return NextResponse.json({ error: "Fichier trop volumineux (max 2 Go)" }, { status: 400 })
+    return NextResponse.json({ error: "Fichier trop volumineux (max 5 Go)" }, { status: 400 })
   }
 
-  const [accountRow, tokenRow] = await Promise.all([
-    prisma.systemConfig.findUnique({ where: { key: "cloudflare_account_id" } }),
-    prisma.systemConfig.findUnique({ where: { key: "cloudflare_stream_token" } }),
-  ])
+  const tokenRow = await prisma.systemConfig.findUnique({
+    where: { key: "vimeo_token" },
+  })
 
-  if (!accountRow?.value || !tokenRow?.value) {
+  if (!tokenRow?.value) {
     return NextResponse.json({
-      error: "Cloudflare Stream non configuré. Allez dans Paramètres pour configurer.",
+      error: "Vimeo non configuré. Allez dans Paramètres pour configurer.",
     }, { status: 400 })
   }
 
-  const accountId = accountRow.value
   const token = decrypt(tokenRow.value)
 
   try {
-    // Create a tus upload via Cloudflare Stream API
-    const res = await fetch(
-      `https://api.cloudflare.com/client/v4/accounts/${accountId}/stream?direct_user=true`,
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Tus-Resumable": "1.0.0",
-          "Upload-Length": String(fileSize),
-          "Upload-Metadata": `name ${Buffer.from(fileName).toString("base64")},requiresignedurls ${Buffer.from("true").toString("base64")}`,
+    // Step 1: Create a tus upload via Vimeo API
+    const createRes = await fetch("https://api.vimeo.com/me/videos", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+        Accept: "application/vnd.vimeo.*+json;version=3.4",
+      },
+      body: JSON.stringify({
+        upload: { approach: "tus", size: fileSize },
+        name: fileName,
+        privacy: { view: "disable" },
+      }),
+    })
+
+    if (!createRes.ok) {
+      const errData = await createRes.json()
+      console.error("[VIMEO CREATE]", JSON.stringify(errData))
+      return NextResponse.json({
+        error: errData.developer_message || errData.error || "Erreur Vimeo lors de la création de l'upload",
+      }, { status: 500 })
+    }
+
+    const videoData = await createRes.json()
+    const uploadLink = videoData.upload?.upload_link
+    const vimeoUri = videoData.uri // e.g. "/videos/123456789"
+    const vimeoId = vimeoUri?.split("/").pop() // "123456789"
+
+    if (!uploadLink || !vimeoId) {
+      console.error("[VIMEO CREATE] Missing upload_link or uri:", JSON.stringify(videoData))
+      return NextResponse.json({ error: "Réponse Vimeo incomplète" }, { status: 500 })
+    }
+
+    // Step 2: Configure embed settings (hide Vimeo branding)
+    await fetch(`https://api.vimeo.com/videos/${vimeoId}`, {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+        Accept: "application/vnd.vimeo.*+json;version=3.4",
+      },
+      body: JSON.stringify({
+        embed: {
+          buttons: { like: false, watchlater: false, share: false },
+          logos: { vimeo: false },
+          title: { owner: "hide", portrait: "hide", name: "hide" },
         },
-      }
-    )
-
-    if (!res.ok) {
-      const text = await res.text()
-      console.error("[CF STREAM CREATE]", text)
-      return NextResponse.json({ error: "Erreur Cloudflare lors de la création de l'upload" }, { status: 500 })
-    }
-
-    // Cloudflare returns the upload URL in the Location header
-    const uploadUrl = res.headers.get("Location") || res.headers.get("location")
-    const streamMediaId = res.headers.get("stream-media-id")
-
-    if (!uploadUrl) {
-      return NextResponse.json({ error: "URL d'upload non reçue de Cloudflare" }, { status: 500 })
-    }
+      }),
+    }).catch((err) => console.error("[VIMEO PATCH embed]", err))
 
     return NextResponse.json({
-      uploadUrl,
-      streamId: streamMediaId,
+      uploadUrl: uploadLink,
+      vimeoId,
     })
   } catch (err) {
-    console.error("[CF STREAM ERROR]", err)
+    console.error("[VIMEO UPLOAD ERROR]", err)
     return NextResponse.json({ error: "Erreur lors de la création de l'upload" }, { status: 500 })
   }
 }

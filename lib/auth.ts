@@ -23,8 +23,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           include: { partner: true },
         })
 
-        if (!user || !user.isActive) {
+        if (!user) {
           return null
+        }
+
+        if (!user.isActive) {
+          throw new Error("ACCOUNT_DISABLED")
         }
 
         const isPasswordValid = await compare(

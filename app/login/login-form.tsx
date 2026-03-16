@@ -39,6 +39,21 @@ export default function LoginForm() {
     setLoading(true)
 
     try {
+      // Check account status before attempting sign in
+      const check = await fetch("/api/auth/check-status", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      })
+      if (check.ok) {
+        const status = await check.json()
+        if (status.disabled) {
+          setError("Votre compte a été désactivé. Contactez votre administrateur.")
+          setLoading(false)
+          return
+        }
+      }
+
       const result = await signIn("credentials", {
         email,
         password,

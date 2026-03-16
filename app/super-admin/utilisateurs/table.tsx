@@ -12,6 +12,7 @@ interface User {
   email: string
   role: string
   isActive: boolean
+  archivedAt: string | null
   partnerId: string | null
   partner: { id: string; name: string } | null
   enrollments: { formation: { title: string } }[]
@@ -37,17 +38,21 @@ function generatePassword() {
 
 export default function UsersTable({
   users: initialUsers,
+  archivedUsers: initialArchived,
   partners,
   formations,
   isPartnerAdmin,
 }: {
   users: User[]
+  archivedUsers?: User[]
   partners?: PartnerOption[]
   formations?: FormationOption[]
   isPartnerAdmin?: boolean
 }) {
   const router = useRouter()
   const [users, setUsers] = useState(initialUsers)
+  const [archivedUsers, setArchivedUsers] = useState(initialArchived || [])
+  const [tab, setTab] = useState<"active" | "archived">("active")
   const [filter, setFilter] = useState<"all" | "internal" | "partner">("all")
   const [message, setMessage] = useState("")
 
@@ -58,6 +63,8 @@ export default function UsersTable({
   const [progressModal, setProgressModal] = useState<string | null>(null)
   const [progressData, setProgressData] = useState<any>(null)
   const [loadingProgress, setLoadingProgress] = useState(false)
+  const [archiveModal, setArchiveModal] = useState<User | null>(null)
+  const [deleteModal, setDeleteModal] = useState<User | null>(null)
 
   // Create form
   const [newFirstName, setNewFirstName] = useState("")
@@ -219,6 +226,57 @@ export default function UsersTable({
     } finally { setLoadingProgress(false) }
   }
 
+  // Archive user
+  const handleArchive = async () => {
+    if (!archiveModal) return
+    try {
+      const res = await fetch(`/api/users/${archiveModal.id}/archive`, { method: "POST" })
+      if (res.ok) {
+        const data = await res.json()
+        const archived = { ...archiveModal, isActive: false, archivedAt: data.archivedAt }
+        setUsers((prev) => prev.filter((u) => u.id !== archiveModal.id))
+        setArchivedUsers((prev) => [archived, ...prev])
+        flash(`${archiveModal.firstName} ${archiveModal.lastName} archivé`)
+      } else {
+        const data = await res.json()
+        flash(data.error || "Erreur lors de l'archivage")
+      }
+    } catch { flash("Erreur réseau") }
+    finally { setArchiveModal(null) }
+  }
+
+  // Restore user
+  const handleRestore = async (user: User) => {
+    try {
+      const res = await fetch(`/api/users/${user.id}/restore`, { method: "POST" })
+      if (res.ok) {
+        const restored = { ...user, isActive: true, archivedAt: null }
+        setArchivedUsers((prev) => prev.filter((u) => u.id !== user.id))
+        setUsers((prev) => [restored, ...prev])
+        flash(`${user.firstName} ${user.lastName} restauré`)
+      } else {
+        const data = await res.json()
+        flash(data.error || "Erreur lors de la restauration")
+      }
+    } catch { flash("Erreur réseau") }
+  }
+
+  // Delete user permanently
+  const handleDelete = async () => {
+    if (!deleteModal) return
+    try {
+      const res = await fetch(`/api/users/${deleteModal.id}`, { method: "DELETE" })
+      if (res.ok) {
+        setArchivedUsers((prev) => prev.filter((u) => u.id !== deleteModal.id))
+        flash(`${deleteModal.firstName} ${deleteModal.lastName} supprimé définitivement`)
+      } else {
+        const data = await res.json()
+        flash(data.error || "Erreur lors de la suppression")
+      }
+    } catch { flash("Erreur réseau") }
+    finally { setDeleteModal(null) }
+  }
+
   return (
     <>
       {message && (
@@ -227,108 +285,274 @@ export default function UsersTable({
         </div>
       )}
 
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex gap-2">
-          {!isPartnerAdmin && (["all", "internal", "partner"] as const).map((f) => (
-            <button
-              key={f}
-              onClick={() => setFilter(f)}
-              className={`px-3 py-1.5 rounded-lg text-sm transition-colors ${
-                filter === f ? "bg-primary text-white" : "bg-white border border-border text-gray-500 hover:bg-gray-50"
-              }`}
-            >
-              {f === "all" ? "Tous" : f === "internal" ? "Internes" : "Partenaires"}
-            </button>
-          ))}
+      {/* Tabs */}
+      {!isPartnerAdmin && (
+        <div className="flex gap-1 mb-4 bg-gray-100 rounded-lg p-1 w-fit">
+          <button
+            onClick={() => setTab("active")}
+            className={`px-4 py-1.5 rounded-md text-sm font-medium transition-colors ${
+              tab === "active" ? "bg-white shadow-sm text-primary" : "text-gray-500 hover:text-gray-700"
+            }`}
+          >
+            Actifs ({users.length})
+          </button>
+          <button
+            onClick={() => setTab("archived")}
+            className={`px-4 py-1.5 rounded-md text-sm font-medium transition-colors ${
+              tab === "archived" ? "bg-white shadow-sm text-primary" : "text-gray-500 hover:text-gray-700"
+            }`}
+          >
+            Archivés ({archivedUsers.length})
+          </button>
         </div>
-        <button
-          onClick={() => setCreateOpen(true)}
-          className="px-4 py-2 bg-primary text-white text-sm rounded-lg hover:opacity-90 transition-opacity"
-        >
-          + Nouvel utilisateur
-        </button>
-      </div>
+      )}
 
-      <div className="bg-white rounded-xl border border-border overflow-hidden">
-        <table className="w-full">
-          <thead>
-            <tr className="border-b border-border">
-              <th className="text-left text-xs font-medium text-gray-500 px-4 py-3">Nom</th>
-              <th className="text-left text-xs font-medium text-gray-500 px-4 py-3">Email</th>
-              <th className="text-left text-xs font-medium text-gray-500 px-4 py-3">Appartenance</th>
-              <th className="text-left text-xs font-medium text-gray-500 px-4 py-3">Formation</th>
-              <th className="text-left text-xs font-medium text-gray-500 px-4 py-3">Statut</th>
-              <th className="text-left text-xs font-medium text-gray-500 px-4 py-3">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filtered.map((u) => (
-              <tr key={u.id} className="border-b border-gray-50 hover:bg-gray-50 transition-colors">
-                <td className="px-4 py-3 text-sm font-medium">{u.firstName} {u.lastName}</td>
-                <td className="px-4 py-3 text-sm text-gray-500">{u.email}</td>
-                <td className="px-4 py-3">
-                  {u.partner ? (
-                    <Badge variant="purple">{u.partner.name}</Badge>
-                  ) : (
-                    <Badge>Interne</Badge>
-                  )}
-                </td>
-                <td className="px-4 py-3 text-sm text-gray-500">
-                  {u.enrollments[0]?.formation.title || "—"}
-                </td>
-                <td className="px-4 py-3">
-                  <button onClick={() => toggleStatus(u.id)} title="Cliquer pour changer">
-                    <Badge variant={u.isActive ? "success" : "error"}>
-                      {u.isActive ? "Actif" : "Inactif"}
-                    </Badge>
-                  </button>
-                </td>
-                <td className="px-4 py-3">
-                  <div className="flex gap-2">
-                    {(u.role === "LEARNER" || u.role === "PARTNER_ADMIN") && (
-                      <button
-                        onClick={() => handleImpersonate(u.id)}
-                        className="text-sm text-gray-400 hover:text-orange-500"
-                        title="Voir son espace"
-                      >
-                        {"👁"}
+      {tab === "active" ? (
+        <>
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex gap-2">
+              {!isPartnerAdmin && (["all", "internal", "partner"] as const).map((f) => (
+                <button
+                  key={f}
+                  onClick={() => setFilter(f)}
+                  className={`px-3 py-1.5 rounded-lg text-sm transition-colors ${
+                    filter === f ? "bg-primary text-white" : "bg-white border border-border text-gray-500 hover:bg-gray-50"
+                  }`}
+                >
+                  {f === "all" ? "Tous" : f === "internal" ? "Internes" : "Partenaires"}
+                </button>
+              ))}
+            </div>
+            <button
+              onClick={() => setCreateOpen(true)}
+              className="px-4 py-2 bg-primary text-white text-sm rounded-lg hover:opacity-90 transition-opacity"
+            >
+              + Nouvel utilisateur
+            </button>
+          </div>
+
+          <div className="bg-white rounded-xl border border-border overflow-hidden">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-border">
+                  <th className="text-left text-xs font-medium text-gray-500 px-4 py-3">Nom</th>
+                  <th className="text-left text-xs font-medium text-gray-500 px-4 py-3">Email</th>
+                  <th className="text-left text-xs font-medium text-gray-500 px-4 py-3">Appartenance</th>
+                  <th className="text-left text-xs font-medium text-gray-500 px-4 py-3">Formation</th>
+                  <th className="text-left text-xs font-medium text-gray-500 px-4 py-3">Statut</th>
+                  <th className="text-left text-xs font-medium text-gray-500 px-4 py-3">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filtered.map((u) => (
+                  <tr key={u.id} className="border-b border-gray-50 hover:bg-gray-50 transition-colors">
+                    <td className="px-4 py-3 text-sm font-medium">{u.firstName} {u.lastName}</td>
+                    <td className="px-4 py-3 text-sm text-gray-500">{u.email}</td>
+                    <td className="px-4 py-3">
+                      {u.partner ? (
+                        <Badge variant="purple">{u.partner.name}</Badge>
+                      ) : (
+                        <Badge>Interne</Badge>
+                      )}
+                    </td>
+                    <td className="px-4 py-3 text-sm text-gray-500">
+                      {u.enrollments[0]?.formation.title || "—"}
+                    </td>
+                    <td className="px-4 py-3">
+                      <button onClick={() => toggleStatus(u.id)} title="Cliquer pour changer">
+                        <Badge variant={u.isActive ? "success" : "error"}>
+                          {u.isActive ? "Actif" : "Inactif"}
+                        </Badge>
                       </button>
+                    </td>
+                    <td className="px-4 py-3">
+                      <div className="flex gap-2">
+                        {(u.role === "LEARNER" || u.role === "PARTNER_ADMIN") && (
+                          <button
+                            onClick={() => handleImpersonate(u.id)}
+                            className="text-sm text-gray-400 hover:text-orange-500"
+                            title="Voir son espace"
+                          >
+                            {"👁"}
+                          </button>
+                        )}
+                        <button
+                          onClick={() => setAssignModal(u.id)}
+                          className="text-sm text-gray-400 hover:text-primary"
+                          title="Attribuer formation"
+                        >
+                          +
+                        </button>
+                        <button
+                          onClick={() => { setPasswordModal(u.id); setPw(""); setPwConfirm("") }}
+                          className="text-sm text-gray-400 hover:text-primary"
+                          title="Modifier mot de passe"
+                        >
+                          🔑
+                        </button>
+                        <button
+                          onClick={() => openProgress(u.id)}
+                          className="text-sm text-gray-400 hover:text-primary"
+                          title="Fiche suivi"
+                        >
+                          📊
+                        </button>
+                        {u.role !== "SUPER_ADMIN" && (
+                          <button
+                            onClick={() => setArchiveModal(u)}
+                            className="text-sm text-gray-400 hover:text-red-500"
+                            title="Archiver"
+                          >
+                            🗂
+                          </button>
+                        )}
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+                {filtered.length === 0 && (
+                  <tr>
+                    <td colSpan={6} className="px-4 py-8 text-center text-sm text-gray-400">
+                      Aucun utilisateur
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+        </>
+      ) : (
+        /* ===== ARCHIVED TAB ===== */
+        <div className="bg-white rounded-xl border border-border overflow-hidden">
+          <table className="w-full">
+            <thead>
+              <tr className="border-b border-border">
+                <th className="text-left text-xs font-medium text-gray-500 px-4 py-3">Nom</th>
+                <th className="text-left text-xs font-medium text-gray-500 px-4 py-3">Email</th>
+                <th className="text-left text-xs font-medium text-gray-500 px-4 py-3">Appartenance</th>
+                <th className="text-left text-xs font-medium text-gray-500 px-4 py-3">Formation</th>
+                <th className="text-left text-xs font-medium text-gray-500 px-4 py-3">Statut</th>
+                <th className="text-left text-xs font-medium text-gray-500 px-4 py-3">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {archivedUsers.map((u) => (
+                <tr key={u.id} className="border-b border-gray-50 hover:bg-gray-50 transition-colors">
+                  <td className="px-4 py-3 text-sm font-medium text-gray-400">{u.firstName} {u.lastName}</td>
+                  <td className="px-4 py-3 text-sm text-gray-400">{u.email}</td>
+                  <td className="px-4 py-3">
+                    {u.partner ? (
+                      <Badge variant="purple">{u.partner.name}</Badge>
+                    ) : (
+                      <Badge>Interne</Badge>
                     )}
-                    <button
-                      onClick={() => setAssignModal(u.id)}
-                      className="text-sm text-gray-400 hover:text-primary"
-                      title="Attribuer formation"
-                    >
-                      +
-                    </button>
-                    <button
-                      onClick={() => { setPasswordModal(u.id); setPw(""); setPwConfirm("") }}
-                      className="text-sm text-gray-400 hover:text-primary"
-                      title="Modifier mot de passe"
-                    >
-                      🔑
-                    </button>
-                    <button
-                      onClick={() => openProgress(u.id)}
-                      className="text-sm text-gray-400 hover:text-primary"
-                      title="Fiche suivi"
-                    >
-                      📊
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            ))}
-            {filtered.length === 0 && (
-              <tr>
-                <td colSpan={6} className="px-4 py-8 text-center text-sm text-gray-400">
-                  Aucun utilisateur
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
+                  </td>
+                  <td className="px-4 py-3 text-sm text-gray-400">
+                    {u.enrollments[0]?.formation.title || "—"}
+                  </td>
+                  <td className="px-4 py-3">
+                    <div className="flex flex-col gap-1">
+                      <Badge variant="default">Archivé</Badge>
+                      {u.archivedAt && (
+                        <span className="text-xs text-gray-400">
+                          {new Date(u.archivedAt).toLocaleDateString("fr-FR", {
+                            day: "2-digit", month: "2-digit", year: "numeric",
+                          })}
+                        </span>
+                      )}
+                    </div>
+                  </td>
+                  <td className="px-4 py-3">
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => handleRestore(u)}
+                        className="text-sm text-gray-400 hover:text-green-600"
+                        title="Restaurer"
+                      >
+                        ↩
+                      </button>
+                      <button
+                        onClick={() => setDeleteModal(u)}
+                        className="text-sm text-gray-400 hover:text-red-500"
+                        title="Supprimer définitivement"
+                      >
+                        🗑
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+              {archivedUsers.length === 0 && (
+                <tr>
+                  <td colSpan={6} className="px-4 py-8 text-center text-sm text-gray-400">
+                    Aucun utilisateur archivé
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      )}
+
+      {/* ===== ARCHIVE CONFIRMATION MODAL ===== */}
+      <Modal
+        open={!!archiveModal}
+        onClose={() => setArchiveModal(null)}
+        title="Archiver l'utilisateur"
+      >
+        <div className="space-y-4">
+          <p className="text-sm text-gray-600">
+            Êtes-vous sûr de vouloir archiver <strong>{archiveModal?.firstName} {archiveModal?.lastName}</strong> ?
+          </p>
+          <p className="text-sm text-gray-500">
+            L&apos;utilisateur sera désactivé et ne pourra plus se connecter.
+          </p>
+          <div className="flex gap-3">
+            <button
+              onClick={() => setArchiveModal(null)}
+              className="flex-1 py-2.5 bg-gray-100 text-sm rounded-lg hover:bg-gray-200 transition-colors"
+            >
+              Annuler
+            </button>
+            <button
+              onClick={handleArchive}
+              className="flex-1 py-2.5 bg-primary text-white text-sm rounded-lg hover:opacity-90"
+            >
+              Archiver
+            </button>
+          </div>
+        </div>
+      </Modal>
+
+      {/* ===== DELETE CONFIRMATION MODAL ===== */}
+      <Modal
+        open={!!deleteModal}
+        onClose={() => setDeleteModal(null)}
+        title="Supprimer définitivement"
+      >
+        <div className="space-y-4">
+          <p className="text-sm text-gray-600">
+            Cette action est irréversible.
+          </p>
+          <p className="text-sm text-gray-500">
+            Toutes les données de <strong>{deleteModal?.firstName} {deleteModal?.lastName}</strong> seront supprimées définitivement.
+          </p>
+          <div className="flex gap-3">
+            <button
+              onClick={() => setDeleteModal(null)}
+              className="flex-1 py-2.5 bg-gray-100 text-sm rounded-lg hover:bg-gray-200 transition-colors"
+            >
+              Annuler
+            </button>
+            <button
+              onClick={handleDelete}
+              className="flex-1 py-2.5 bg-red-600 text-white text-sm rounded-lg hover:bg-red-700 transition-colors"
+            >
+              Supprimer définitivement
+            </button>
+          </div>
+        </div>
+      </Modal>
 
       {/* ===== CREATE USER MODAL ===== */}
       <Modal open={createOpen} onClose={() => setCreateOpen(false)} title="Nouvel utilisateur">
@@ -476,7 +700,7 @@ export default function UsersTable({
             </select>
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1">Date d'expiration (optionnel)</label>
+            <label className="block text-sm font-medium mb-1">Date d&apos;expiration (optionnel)</label>
             <input
               type="date"
               value={assignExpires}

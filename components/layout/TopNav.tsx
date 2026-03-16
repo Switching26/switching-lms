@@ -27,6 +27,14 @@ export default function TopNav({
   const pathname = usePathname()
   const color = brandColor || "#111"
 
+  console.log("[TopNav] brandLogo:", brandLogo, "| brand:", brand)
+
+  const dashboardHref = pathname.startsWith("/partner-admin")
+    ? "/partner-admin/dashboard"
+    : pathname.startsWith("/learner")
+      ? "/learner/accueil"
+      : "/"
+
   return (
     <nav
       className="bg-white border-b sticky top-0 z-40"
@@ -34,18 +42,20 @@ export default function TopNav({
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between h-14">
         <div className="flex items-center gap-6">
-          <Link href={pathname.startsWith("/partner-admin") ? "/partner-admin/dashboard" : pathname.startsWith("/learner") ? "/learner/accueil" : "/"} className="flex items-center gap-2">
-            {brandLogo ? (
-              <img
-                src={brandLogo}
-                alt={brand}
-                style={{ height: '32px', width: 'auto', objectFit: 'contain' }}
-              />
-            ) : (
-              <span className="font-semibold text-base" style={{ color }}>
-                {brand}
-              </span>
-            )}
+          <Link href={dashboardHref} className="flex items-center gap-2">
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              {brandLogo ? (
+                <img
+                  src={brandLogo}
+                  alt={brand || ''}
+                  style={{ height: '32px', width: 'auto', objectFit: 'contain', maxWidth: '150px' }}
+                />
+              ) : (
+                <span style={{ fontWeight: 500, fontSize: '15px', color }}>
+                  {brand}
+                </span>
+              )}
+            </div>
           </Link>
           {badge && (
             <span

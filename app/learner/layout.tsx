@@ -1,11 +1,24 @@
 import { auth } from "@/lib/auth"
 import { redirect } from "next/navigation"
+import { prisma } from "@/lib/prisma"
 import LearnerShell from "./shell"
 
 export async function generateMetadata() {
   const session = await auth()
-  const firstName = (session?.user as any)?.firstName || "Apprenant"
-  return { title: `${firstName} · LMS` }
+  const user = session?.user as any
+  const partner = user?.partnerId
+    ? await prisma.partner.findFirst({
+        where: { id: user.partnerId },
+        select: { name: true, logoUrl: true },
+      })
+    : null
+  return {
+    title: `${user?.firstName || "Apprenant"} · ${partner?.name || "LMS"}`,
+    icons: {
+      icon: partner?.logoUrl || "/favicon.svg",
+      apple: partner?.logoUrl || "/favicon.svg",
+    },
+  }
 }
 
 export default async function LearnerLayout({ children }: { children: React.ReactNode }) {
@@ -13,8 +26,23 @@ export default async function LearnerLayout({ children }: { children: React.Reac
   if (!session) redirect("/login")
 
   const user = session.user as any
-  const primaryColor = user.partnerColor || "#111111"
-  const secondaryColor = user.partnerSecondaryColor || "#FFFFFF"
+
+  // Fetch partner fresh from DB — JWT may contain stale logoUrl
+  const partner = user.partnerId
+    ? await prisma.partner.findUnique({
+        where: { id: user.partnerId },
+        select: { name: true, logoUrl: true, primaryColor: true, secondaryColor: true },
+      })
+    : null
+
+  const primaryColor = partner?.primaryColor || "#111111"
+  const secondaryColor = partner?.secondaryColor || "#FFFFFF"
+
+  console.log("[TopNav learner] partner logo data:", {
+    partnerId: user.partnerId,
+    logoUrl: partner?.logoUrl,
+    name: partner?.name,
+  })
 
   return (
     <div
@@ -25,9 +53,9 @@ export default async function LearnerLayout({ children }: { children: React.Reac
       }}
     >
       <LearnerShell
-        brand={user.partnerName || "Switching Formation"}
+        brand={partner?.name || "Switching Formation"}
         brandColor={primaryColor}
-        brandLogo={user.partnerLogo || null}
+        brandLogo={partner?.logoUrl || null}
         userEmail={session.user?.email || ""}
         impersonating={user.impersonating || null}
       >

@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma"
 import { generateToken } from "@/lib/tokens"
 import { sendEmail } from "@/lib/email"
 import { passwordResetEmail } from "@/lib/email-templates"
+import { resolveTemplate, replaceVariables } from "@/lib/email-template-engine"
 
 export const dynamic = "force-dynamic"
 
@@ -22,13 +23,26 @@ export async function POST(req: Request) {
 
     if (user && user.isActive) {
       const token = await generateToken(user.id, "RESET")
-      const emailData = passwordResetEmail(
-        user.firstName,
-        token,
-        user.partner,
-        user.partner?.slug
-      )
-      sendEmail(user.email, emailData.subject, emailData.html, user.id, "PASSWORD_RESET", user.partner)
+      const baseUrl = process.env.AUTH_URL || process.env.NEXTAUTH_URL || "https://app.switching.fr"
+      const partnerParam = user.partner?.slug ? `&partner=${user.partner.slug}` : ""
+      const resetUrl = `${baseUrl}/login/reinitialiser?token=${token}${partnerParam}`
+
+      const dynamic = await resolveTemplate("PASSWORD_RESET", user.partnerId)
+      if (dynamic) {
+        const vars = {
+          prenom: user.firstName,
+          nom: user.lastName,
+          email: user.email,
+          lien_connexion: resetUrl,
+          plateforme_nom: user.partner?.name || "Switching Formation",
+          plateforme_url: baseUrl,
+          partenaire_nom: user.partner?.name || "",
+        }
+        sendEmail(user.email, replaceVariables(dynamic.subject, vars), replaceVariables(dynamic.htmlContent, vars), user.id, "PASSWORD_RESET", user.partner)
+      } else {
+        const emailData = passwordResetEmail(user.firstName, token, user.partner, user.partner?.slug)
+        sendEmail(user.email, emailData.subject, emailData.html, user.id, "PASSWORD_RESET", user.partner)
+      }
     }
   } catch (err) {
     console.error("[FORGOT-PASSWORD]", err)

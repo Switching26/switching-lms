@@ -1,6 +1,6 @@
 import { auth } from "@/lib/auth"
 import { redirect } from "next/navigation"
-import { getUsersByPartner } from "@/lib/data/users"
+import { getAllUsersByPartner } from "@/lib/data/users"
 import { getFormations } from "@/lib/data/formations"
 import UsersTable from "../../super-admin/utilisateurs/table"
 
@@ -14,7 +14,7 @@ export default async function PartnerUtilisateursPage() {
   if (!partnerId) redirect("/login")
 
   const [users, formations] = await Promise.all([
-    getUsersByPartner(partnerId),
+    getAllUsersByPartner(partnerId),
     getFormations(),
   ])
 

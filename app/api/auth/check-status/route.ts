@@ -9,11 +9,11 @@ export async function POST(req: Request) {
 
   const user = await prisma.user.findUnique({
     where: { email },
-    select: { isActive: true },
+    select: { isActive: true, archivedAt: true },
   })
 
-  // Don't reveal if account exists — only flag disabled if account exists AND is inactive
-  if (user && !user.isActive) {
+  // Don't reveal if account exists — only flag disabled if account exists AND is inactive/archived
+  if (user && (!user.isActive || user.archivedAt)) {
     return NextResponse.json({ disabled: true })
   }
 

@@ -13,15 +13,26 @@ export default async function PartnerAdminLayout({ children }: { children: React
   if (!session) redirect("/login")
 
   const user = session.user as any
+  const primaryColor = user.partnerColor || "#111111"
+  const secondaryColor = user.partnerSecondaryColor || "#FFFFFF"
 
   return (
-    <PartnerAdminShell
-      partnerName={user.partnerName || "Partenaire"}
-      partnerColor={user.partnerColor || "#111"}
-      userEmail={session.user?.email || ""}
-      impersonating={user.impersonating || null}
+    <div
+      style={{
+        // @ts-expect-error CSS custom properties
+        "--partner-primary": primaryColor,
+        "--partner-secondary": secondaryColor,
+      }}
     >
-      {children}
-    </PartnerAdminShell>
+      <PartnerAdminShell
+        partnerName={user.partnerName || "Partenaire"}
+        partnerColor={primaryColor}
+        partnerLogo={user.partnerLogo || null}
+        userEmail={session.user?.email || ""}
+        impersonating={user.impersonating || null}
+      >
+        {children}
+      </PartnerAdminShell>
+    </div>
   )
 }

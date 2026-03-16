@@ -20,6 +20,7 @@ enum EmailType {
   FORMATION_COMPLETED
   ACTIVATION_LINK
   PASSWORD_RESET
+  CUSTOM
 }
 
 enum TokenType {
@@ -80,11 +81,32 @@ model Partner {
   smtpFromName   String?
   useDefaultSmtp Boolean  @default(true)
 
-  users       User[]
-  enrollments Enrollment[]
-  licenses    License[]
+  users          User[]
+  enrollments    Enrollment[]
+  licenses       License[]
+  emailTemplates EmailTemplate[]
 
   @@index([slug])
+}
+
+model EmailTemplate {
+  id               String    @id @default(cuid())
+  name             String
+  subject          String
+  htmlContent      String    @db.Text
+  type             EmailType
+  isDefault        Boolean   @default(false)
+  isActive         Boolean   @default(true)
+  partnerId        String?
+  partner          Partner?  @relation(fields: [partnerId], references: [id], onDelete: Cascade)
+  duplicatedFromId String?
+  duplicatedFrom   EmailTemplate?  @relation("TemplateDuplicate", fields: [duplicatedFromId], references: [id], onDelete: SetNull)
+  duplicates       EmailTemplate[] @relation("TemplateDuplicate")
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  @@index([partnerId])
+  @@index([type])
 }
 
 model Formation {

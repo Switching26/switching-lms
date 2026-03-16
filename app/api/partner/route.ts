@@ -10,7 +10,7 @@ export async function GET(req: NextRequest) {
 
   const partner = await prisma.partner.findUnique({
     where: { slug, isActive: true },
-    select: { name: true, primaryColor: true, logoUrl: true },
+    select: { name: true, primaryColor: true, secondaryColor: true, logoUrl: true },
   })
 
   if (!partner) {

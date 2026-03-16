@@ -1,5 +1,12 @@
 import { prisma } from "@/lib/prisma"
 
+export async function getAllUsers() {
+  return prisma.user.findMany({
+    include: { partner: true, enrollments: { include: { formation: true } } },
+    orderBy: { createdAt: "desc" },
+  })
+}
+
 export async function getUsers(filter?: "all" | "internal" | "partner") {
   const base: any = { archivedAt: null }
   if (filter === "internal") base.partnerId = null
@@ -17,6 +24,14 @@ export async function getArchivedUsers() {
     where: { archivedAt: { not: null } },
     include: { partner: true, enrollments: { include: { formation: true } } },
     orderBy: { archivedAt: "desc" },
+  })
+}
+
+export async function getAllUsersByPartner(partnerId: string) {
+  return prisma.user.findMany({
+    where: { partnerId },
+    include: { partner: true, enrollments: { include: { formation: true } } },
+    orderBy: { createdAt: "desc" },
   })
 }
 

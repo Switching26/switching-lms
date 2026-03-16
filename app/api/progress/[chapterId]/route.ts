@@ -3,6 +3,7 @@ import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
 import { sendEmail } from "@/lib/email"
 import { chapterCompletedEmail, formationCompletedEmail } from "@/lib/email-templates"
+import { resolveTemplate, replaceVariables } from "@/lib/email-template-engine"
 
 export async function PUT(req: NextRequest, { params }: { params: { chapterId: string } }) {
   const session = await auth()
@@ -60,17 +61,29 @@ export async function PUT(req: NextRequest, { params }: { params: { chapterId: s
         : null
 
       const partner = user.partner
+      const baseUrl = process.env.AUTH_URL || process.env.NEXTAUTH_URL || "https://app.switching.fr"
 
       // Send CHAPTER_COMPLETED email
-      const chapterEmail = chapterCompletedEmail(
-        user.firstName,
-        chapter.title,
-        chapter.order,
-        progressPercent,
-        nextChapter?.title || null,
-        partner
-      )
-      sendEmail(user.email, chapterEmail.subject, chapterEmail.html, userId, "CHAPTER_COMPLETED", partner)
+      const chapterDynamic = await resolveTemplate("CHAPTER_COMPLETED", user.partnerId)
+      if (chapterDynamic) {
+        const vars = {
+          prenom: user.firstName,
+          nom: user.lastName,
+          email: user.email,
+          formation_titre: formation.title,
+          chapitre_titre: chapter.title,
+          chapitre_numero: String(chapter.order),
+          prochain_chapitre: nextChapter?.title || "",
+          lien_connexion: `${baseUrl}/login`,
+          plateforme_nom: partner?.name || "Switching Formation",
+          plateforme_url: baseUrl,
+          partenaire_nom: partner?.name || "",
+        }
+        sendEmail(user.email, replaceVariables(chapterDynamic.subject, vars), replaceVariables(chapterDynamic.htmlContent, vars), userId, "CHAPTER_COMPLETED", partner)
+      } else {
+        const chapterEmail = chapterCompletedEmail(user.firstName, chapter.title, chapter.order, progressPercent, nextChapter?.title || null, partner)
+        sendEmail(user.email, chapterEmail.subject, chapterEmail.html, userId, "CHAPTER_COMPLETED", partner)
+      }
 
       // Check if ALL chapters are completed → FORMATION_COMPLETED
       if (completedChapters.length >= allChapters.length) {
@@ -85,13 +98,23 @@ export async function PUT(req: NextRequest, { params }: { params: { chapterId: s
         })
 
         if (enrollment) {
-          const completionEmail = formationCompletedEmail(
-            user.firstName,
-            formation.title,
-            enrollment.id,
-            partner
-          )
-          sendEmail(user.email, completionEmail.subject, completionEmail.html, userId, "FORMATION_COMPLETED", partner)
+          const formDynamic = await resolveTemplate("FORMATION_COMPLETED", user.partnerId)
+          if (formDynamic) {
+            const vars = {
+              prenom: user.firstName,
+              nom: user.lastName,
+              email: user.email,
+              formation_titre: formation.title,
+              lien_connexion: `${baseUrl}/login`,
+              plateforme_nom: partner?.name || "Switching Formation",
+              plateforme_url: baseUrl,
+              partenaire_nom: partner?.name || "",
+            }
+            sendEmail(user.email, replaceVariables(formDynamic.subject, vars), replaceVariables(formDynamic.htmlContent, vars), userId, "FORMATION_COMPLETED", partner)
+          } else {
+            const completionEmail = formationCompletedEmail(user.firstName, formation.title, enrollment.id, partner)
+            sendEmail(user.email, completionEmail.subject, completionEmail.html, userId, "FORMATION_COMPLETED", partner)
+          }
         }
       }
     } catch (err) {

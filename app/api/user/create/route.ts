@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma"
 import { hash } from "bcryptjs"
 import { sendEmail } from "@/lib/email"
 import { accountCreatedEmail } from "@/lib/email-templates"
+import { resolveTemplate, replaceVariables } from "@/lib/email-template-engine"
 import { generateToken } from "@/lib/tokens"
 
 export async function POST(req: Request) {
@@ -49,14 +50,28 @@ export async function POST(req: Request) {
   // Generate activation token and send welcome email with activation link
   try {
     const activationToken = await generateToken(user.id, "ACTIVATION")
-    const emailData = accountCreatedEmail(
-      user.firstName,
-      user.email,
-      activationToken,
-      user.partner,
-      user.partner?.slug
-    )
-    sendEmail(user.email, emailData.subject, emailData.html, user.id, "ACCOUNT_CREATED", user.partner)
+    const partnerParam = user.partner?.slug ? `&partner=${user.partner.slug}` : ""
+    const baseUrl = process.env.AUTH_URL || process.env.NEXTAUTH_URL || "https://app.switching.fr"
+    const activationUrl = `${baseUrl}/login/activer?token=${activationToken}${partnerParam}`
+
+    const dynamic = await resolveTemplate("ACCOUNT_CREATED", user.partnerId)
+    if (dynamic) {
+      const vars = {
+        prenom: user.firstName,
+        nom: user.lastName,
+        email: user.email,
+        lien_connexion: activationUrl,
+        plateforme_nom: user.partner?.name || "Switching Formation",
+        plateforme_url: baseUrl,
+        partenaire_nom: user.partner?.name || "",
+      }
+      const subject = replaceVariables(dynamic.subject, vars)
+      const html = replaceVariables(dynamic.htmlContent, vars)
+      sendEmail(user.email, subject, html, user.id, "ACCOUNT_CREATED", user.partner)
+    } else {
+      const emailData = accountCreatedEmail(user.firstName, user.email, activationToken, user.partner, user.partner?.slug)
+      sendEmail(user.email, emailData.subject, emailData.html, user.id, "ACCOUNT_CREATED", user.partner)
+    }
   } catch {
     // Never block user creation if email fails
   }

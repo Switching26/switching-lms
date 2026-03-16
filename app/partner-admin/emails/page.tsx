@@ -1,24 +1,50 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import Badge from "@/components/ui/Badge"
+import { TEMPLATE_VARIABLES } from "@/lib/email-template-engine"
 
-const templates = [
-  { id: "ACCOUNT_CREATED", label: "Création de compte", variant: "blue", description: "Envoyé quand un nouvel apprenant est créé" },
-  { id: "FORMATION_ASSIGNED", label: "Formation attribuée", variant: "success", description: "Envoyé quand une formation est assignée" },
-  { id: "CHAPTER_COMPLETED", label: "Chapitre terminé", variant: "purple", description: "Envoyé quand un chapitre est complété" },
-  { id: "FORMATION_COMPLETED", label: "Formation terminée", variant: "warning", description: "Envoyé quand la formation est terminée" },
-]
+const EMAIL_TYPES: Record<string, { label: string; variant: string }> = {
+  ACCOUNT_CREATED: { label: "Création compte", variant: "blue" },
+  FORMATION_ASSIGNED: { label: "Formation attribuée", variant: "success" },
+  CHAPTER_COMPLETED: { label: "Chapitre terminé", variant: "purple" },
+  FORMATION_COMPLETED: { label: "Formation terminée", variant: "warning" },
+  ACTIVATION_LINK: { label: "Lien activation", variant: "blue" },
+  PASSWORD_RESET: { label: "Reset MDP", variant: "error" },
+  CUSTOM: { label: "Personnalisé", variant: "default" },
+}
+
+interface Template {
+  id: string
+  name: string
+  subject: string
+  htmlContent: string
+  type: string
+  isDefault: boolean
+  isActive: boolean
+  createdAt: string
+  updatedAt: string
+}
 
 export default function PartnerEmailsPage() {
-  const [active, setActive] = useState<Record<string, boolean>>({
-    ACCOUNT_CREATED: true,
-    FORMATION_ASSIGNED: true,
-    CHAPTER_COMPLETED: false,
-    FORMATION_COMPLETED: true,
-  })
+  const [tab, setTab] = useState<"mine" | "defaults" | "smtp">("mine")
+  const [myTemplates, setMyTemplates] = useState<Template[]>([])
+  const [defaultTemplates, setDefaultTemplates] = useState<Template[]>([])
+  const [loading, setLoading] = useState(true)
+  const [editing, setEditing] = useState<Template | null>(null)
+  const [saving, setSaving] = useState(false)
+  const [message, setMessage] = useState("")
+  const [showPreview, setShowPreview] = useState(false)
+  const [testing, setTesting] = useState(false)
+  const [duplicating, setDuplicating] = useState(false)
 
-  // SMTP config state
+  // Form state
+  const [formName, setFormName] = useState("")
+  const [formSubject, setFormSubject] = useState("")
+  const [formHtml, setFormHtml] = useState("")
+  const [formIsActive, setFormIsActive] = useState(true)
+
+  // SMTP state
   const [useCustomSmtp, setUseCustomSmtp] = useState(false)
   const [smtpHost, setSmtpHost] = useState("")
   const [smtpPort, setSmtpPort] = useState("587")
@@ -28,32 +54,123 @@ export default function PartnerEmailsPage() {
   const [hasStoredPassword, setHasStoredPassword] = useState(false)
   const [smtpSaving, setSmtpSaving] = useState(false)
   const [smtpTesting, setSmtpTesting] = useState(false)
-  const [smtpMessage, setSmtpMessage] = useState("")
-  const [loading, setLoading] = useState(true)
+
+  const htmlRef = useRef<HTMLTextAreaElement>(null)
 
   useEffect(() => {
-    fetch("/api/partner/smtp")
-      .then((r) => r.json())
-      .then((data) => {
-        if (!data.error) {
-          setUseCustomSmtp(!data.useDefaultSmtp)
-          setSmtpHost(data.smtpHost || "")
-          setSmtpPort(String(data.smtpPort || 587))
-          setSmtpEmail(data.smtpEmail || "")
-          setSmtpFromName(data.smtpFromName || "")
-          setHasStoredPassword(data.hasPassword)
-        }
-      })
-      .finally(() => setLoading(false))
+    fetchAll()
   }, [])
 
-  const toggle = (id: string) => {
-    setActive((prev) => ({ ...prev, [id]: !prev[id] }))
+  const fetchAll = async () => {
+    setLoading(true)
+    const [myRes, defRes, smtpRes] = await Promise.all([
+      fetch("/api/email-templates"),
+      fetch("/api/email-templates/defaults"),
+      fetch("/api/partner/smtp"),
+    ])
+    if (myRes.ok) setMyTemplates(await myRes.json())
+    if (defRes.ok) setDefaultTemplates(await defRes.json())
+    if (smtpRes.ok) {
+      const data = await smtpRes.json()
+      if (!data.error) {
+        setUseCustomSmtp(!data.useDefaultSmtp)
+        setSmtpHost(data.smtpHost || "")
+        setSmtpPort(String(data.smtpPort || 587))
+        setSmtpEmail(data.smtpEmail || "")
+        setSmtpFromName(data.smtpFromName || "")
+        setHasStoredPassword(data.hasPassword)
+      }
+    }
+    setLoading(false)
   }
 
   const flash = (msg: string) => {
-    setSmtpMessage(msg)
-    setTimeout(() => setSmtpMessage(""), 4000)
+    setMessage(msg)
+    setTimeout(() => setMessage(""), 4000)
+  }
+
+  const openEdit = (t: Template) => {
+    setEditing(t)
+    setFormName(t.name)
+    setFormSubject(t.subject)
+    setFormHtml(t.htmlContent)
+    setFormIsActive(t.isActive)
+    setShowPreview(false)
+  }
+
+  const closeEditor = () => setEditing(null)
+
+  const handleSave = async () => {
+    if (!editing || !formName || !formSubject || !formHtml) {
+      flash("Tous les champs sont requis")
+      return
+    }
+    setSaving(true)
+    try {
+      const res = await fetch(`/api/email-templates/${editing.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: formName, subject: formSubject, htmlContent: formHtml, isActive: formIsActive }),
+      })
+      if (res.ok) {
+        flash("Template modifié")
+        closeEditor()
+        fetchAll()
+      } else {
+        const data = await res.json()
+        flash("Erreur : " + (data.error || "Échec"))
+      }
+    } catch { flash("Erreur réseau") }
+    finally { setSaving(false) }
+  }
+
+  const handleDelete = async (id: string) => {
+    if (!confirm("Supprimer ce template ?")) return
+    const res = await fetch(`/api/email-templates/${id}`, { method: "DELETE" })
+    if (res.ok) {
+      flash("Template supprimé")
+      if (editing?.id === id) closeEditor()
+      fetchAll()
+    } else flash("Erreur lors de la suppression")
+  }
+
+  const handleDuplicate = async (id: string) => {
+    setDuplicating(true)
+    try {
+      const res = await fetch(`/api/email-templates/${id}/duplicate`, { method: "POST" })
+      const data = await res.json()
+      if (res.ok) {
+        flash("Template dupliqué dans vos templates")
+        setTab("mine")
+        fetchAll()
+      } else flash("Erreur : " + (data.error || "Échec"))
+    } catch { flash("Erreur réseau") }
+    finally { setDuplicating(false) }
+  }
+
+  const handleTest = async (id: string) => {
+    setTesting(true)
+    try {
+      const res = await fetch(`/api/email-templates/${id}/test`, { method: "POST" })
+      const data = await res.json()
+      if (data.success) flash(`Email de test envoyé à ${data.sentTo}`)
+      else flash("Erreur : " + (data.error || "Échec"))
+    } catch { flash("Erreur réseau") }
+    finally { setTesting(false) }
+  }
+
+  const insertVariable = (key: string) => {
+    const ta = htmlRef.current
+    if (!ta) return
+    const start = ta.selectionStart
+    const end = ta.selectionEnd
+    const text = `{{${key}}}`
+    const newVal = formHtml.substring(0, start) + text + formHtml.substring(end)
+    setFormHtml(newVal)
+    setTimeout(() => {
+      ta.focus()
+      ta.setSelectionRange(start + text.length, start + text.length)
+    }, 0)
   }
 
   const handleSmtpSave = async () => {
@@ -62,10 +179,7 @@ export default function PartnerEmailsPage() {
       const res = await fetch("/api/partner/smtp", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          smtpHost, smtpPort, smtpEmail, smtpPassword,
-          smtpFromName, useDefaultSmtp: !useCustomSmtp,
-        }),
+        body: JSON.stringify({ smtpHost, smtpPort, smtpEmail, smtpPassword, smtpFromName, useDefaultSmtp: !useCustomSmtp }),
       })
       if (res.ok) {
         flash("Configuration SMTP enregistrée")
@@ -92,46 +206,186 @@ export default function PartnerEmailsPage() {
   }
 
   return (
-    <div className="space-y-8">
-      <h1 className="text-xl font-semibold">Emails</h1>
-
-      {/* Templates section */}
-      <div>
-        <h2 className="text-sm font-semibold text-gray-500 mb-3">Templates automatiques</h2>
-        <div className="space-y-3">
-          {templates.map((t) => (
-            <div key={t.id} className="bg-white rounded-xl border border-border p-5 flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                <Badge variant={t.variant}>{t.label}</Badge>
-                <span className="text-sm text-gray-500">{t.description}</span>
-              </div>
-              <button
-                onClick={() => toggle(t.id)}
-                className={`relative w-10 h-5 rounded-full transition-colors ${
-                  active[t.id] ? "bg-primary" : "bg-gray-200"
-                }`}
-              >
-                <span
-                  className={`absolute top-0.5 w-4 h-4 bg-white rounded-full transition-transform ${
-                    active[t.id] ? "translate-x-5" : "translate-x-0.5"
-                  }`}
-                />
-              </button>
-            </div>
-          ))}
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <h1 className="text-xl font-semibold">Emails</h1>
+        <div className="flex gap-2">
+          <button
+            onClick={() => { setTab("mine"); closeEditor() }}
+            className={`px-4 py-2 text-sm rounded-lg transition-colors ${tab === "mine" ? "bg-[var(--partner-primary,#111)] text-white" : "bg-gray-100 hover:bg-gray-200"}`}
+          >
+            Mes templates
+          </button>
+          <button
+            onClick={() => { setTab("defaults"); closeEditor() }}
+            className={`px-4 py-2 text-sm rounded-lg transition-colors ${tab === "defaults" ? "bg-[var(--partner-primary,#111)] text-white" : "bg-gray-100 hover:bg-gray-200"}`}
+          >
+            Templates par défaut
+          </button>
+          <button
+            onClick={() => { setTab("smtp"); closeEditor() }}
+            className={`px-4 py-2 text-sm rounded-lg transition-colors ${tab === "smtp" ? "bg-[var(--partner-primary,#111)] text-white" : "bg-gray-100 hover:bg-gray-200"}`}
+          >
+            Configuration SMTP
+          </button>
         </div>
       </div>
 
-      {/* SMTP Configuration section */}
-      <div>
-        <h2 className="text-sm font-semibold text-gray-500 mb-3">Configuration email</h2>
-        <div className="bg-white rounded-xl border border-border p-6 space-y-5">
-          {smtpMessage && (
-            <div className={`text-sm rounded-lg px-4 py-3 ${smtpMessage.includes("Erreur") ? "bg-red-50 text-red-600" : "bg-green-50 text-green-600"}`}>
-              {smtpMessage}
+      {message && (
+        <div className={`text-sm rounded-lg px-4 py-3 ${message.includes("Erreur") ? "bg-red-50 text-red-600" : "bg-green-50 text-green-600"}`}>
+          {message}
+        </div>
+      )}
+
+      {/* ───── MY TEMPLATES TAB ───── */}
+      {tab === "mine" && (
+        <>
+          {editing ? (
+            <div className="bg-white rounded-xl border border-border p-6 space-y-5">
+              <div className="flex items-center justify-between">
+                <h2 className="text-lg font-semibold">Modifier le template</h2>
+                <button onClick={closeEditor} className="text-sm text-gray-500 hover:text-black">Fermer</button>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium mb-1">Nom</label>
+                <input value={formName} onChange={(e) => setFormName(e.target.value)} className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-[var(--partner-primary,#111)]" />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium mb-1">Sujet</label>
+                <input value={formSubject} onChange={(e) => setFormSubject(e.target.value)} className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-[var(--partner-primary,#111)]" />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium mb-2">Variables disponibles</label>
+                <div className="flex flex-wrap gap-1.5">
+                  {TEMPLATE_VARIABLES.map((v) => (
+                    <button key={v.key} onClick={() => insertVariable(v.key)} className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 rounded transition-colors font-mono" title={`${v.label} (${v.category})`}>
+                      {`{{${v.key}}}`}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <div className="flex items-center justify-between mb-1">
+                  <label className="text-sm font-medium">Contenu HTML</label>
+                  <button onClick={() => setShowPreview(!showPreview)} className="text-xs text-gray-500 hover:text-black">
+                    {showPreview ? "Éditeur" : "Prévisualiser"}
+                  </button>
+                </div>
+                {showPreview ? (
+                  <div className="border border-border rounded-lg overflow-hidden bg-gray-50">
+                    <iframe srcDoc={formHtml} className="w-full h-[400px]" sandbox="" title="Prévisualisation" />
+                  </div>
+                ) : (
+                  <textarea ref={htmlRef} value={formHtml} onChange={(e) => setFormHtml(e.target.value)} rows={14} className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-[var(--partner-primary,#111)] font-mono" />
+                )}
+              </div>
+
+              <label className="flex items-center gap-2 text-sm">
+                <input type="checkbox" checked={formIsActive} onChange={(e) => setFormIsActive(e.target.checked)} className="rounded" />
+                Actif
+              </label>
+
+              <div className="flex gap-3 pt-2">
+                <button onClick={handleSave} disabled={saving} className="px-4 py-2 bg-[var(--partner-primary,#111)] text-white text-sm rounded-lg hover:opacity-90 disabled:opacity-50">
+                  {saving ? "Enregistrement..." : "Enregistrer"}
+                </button>
+                <button onClick={() => handleTest(editing.id)} disabled={testing} className="px-4 py-2 bg-gray-100 text-sm rounded-lg hover:bg-gray-200 disabled:opacity-50 transition-colors">
+                  {testing ? "Envoi..." : "Envoyer un test"}
+                </button>
+                <button onClick={closeEditor} className="px-4 py-2 text-sm text-gray-500 hover:text-black">Annuler</button>
+              </div>
+            </div>
+          ) : (
+            <>
+              {loading ? (
+                <div className="text-center text-sm text-gray-400 py-12">Chargement...</div>
+              ) : myTemplates.length === 0 ? (
+                <div className="text-center text-sm text-gray-400 py-12">
+                  Aucun template personnalisé. Dupliquez un template par défaut depuis l'onglet "Templates par défaut".
+                </div>
+              ) : (
+                <div className="space-y-3">
+                  {myTemplates.map((t) => {
+                    const badge = EMAIL_TYPES[t.type] || { label: t.type, variant: "default" }
+                    return (
+                      <div key={t.id} className="bg-white rounded-xl border border-border p-5 flex items-center justify-between">
+                        <div className="flex items-center gap-4 min-w-0">
+                          <Badge variant={badge.variant}>{badge.label}</Badge>
+                          <div className="min-w-0">
+                            <p className="text-sm font-medium truncate">{t.name}</p>
+                            <p className="text-xs text-gray-400 truncate">{t.subject}</p>
+                          </div>
+                          {!t.isActive && <Badge variant="default">Inactif</Badge>}
+                        </div>
+                        <div className="flex items-center gap-2 ml-4 shrink-0">
+                          <button onClick={() => handleTest(t.id)} disabled={testing} className="px-3 py-1.5 text-xs bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors">Tester</button>
+                          <button onClick={() => openEdit(t)} className="px-3 py-1.5 text-xs bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors">Modifier</button>
+                          <button onClick={() => handleDelete(t.id)} className="px-3 py-1.5 text-xs text-red-600 bg-red-50 hover:bg-red-100 rounded-lg transition-colors">Supprimer</button>
+                        </div>
+                      </div>
+                    )
+                  })}
+                </div>
+              )}
+            </>
+          )}
+        </>
+      )}
+
+      {/* ───── DEFAULT TEMPLATES TAB ───── */}
+      {tab === "defaults" && (
+        <>
+          {loading ? (
+            <div className="text-center text-sm text-gray-400 py-12">Chargement...</div>
+          ) : defaultTemplates.length === 0 ? (
+            <div className="text-center text-sm text-gray-400 py-12">
+              Aucun template par défaut disponible.
+            </div>
+          ) : (
+            <div className="space-y-3">
+              {defaultTemplates.map((t) => {
+                const badge = EMAIL_TYPES[t.type] || { label: t.type, variant: "default" }
+                const alreadyHas = myTemplates.some((m) => m.type === t.type)
+                return (
+                  <div key={t.id} className="bg-white rounded-xl border border-border p-5">
+                    <div className="flex items-center justify-between mb-3">
+                      <div className="flex items-center gap-4 min-w-0">
+                        <Badge variant={badge.variant}>{badge.label}</Badge>
+                        <div className="min-w-0">
+                          <p className="text-sm font-medium truncate">{t.name}</p>
+                          <p className="text-xs text-gray-400 truncate">{t.subject}</p>
+                        </div>
+                      </div>
+                      <button
+                        onClick={() => handleDuplicate(t.id)}
+                        disabled={duplicating || alreadyHas}
+                        className={`px-3 py-1.5 text-xs rounded-lg transition-colors shrink-0 ${
+                          alreadyHas
+                            ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                            : "bg-[var(--partner-primary,#111)] text-white hover:opacity-90 disabled:opacity-50"
+                        }`}
+                      >
+                        {alreadyHas ? "Déjà dupliqué" : "Utiliser ce template"}
+                      </button>
+                    </div>
+                    <div className="border border-border rounded-lg overflow-hidden bg-gray-50">
+                      <iframe srcDoc={t.htmlContent} className="w-full h-[200px]" sandbox="" title={t.name} />
+                    </div>
+                  </div>
+                )
+              })}
             </div>
           )}
+        </>
+      )}
 
+      {/* ───── SMTP TAB ───── */}
+      {tab === "smtp" && (
+        <div className="bg-white rounded-xl border border-border p-6 space-y-5">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium">Utiliser mon propre serveur email</p>
@@ -141,15 +395,9 @@ export default function PartnerEmailsPage() {
             </div>
             <button
               onClick={() => setUseCustomSmtp(!useCustomSmtp)}
-              className={`relative w-10 h-5 rounded-full transition-colors ${
-                useCustomSmtp ? "bg-primary" : "bg-gray-200"
-              }`}
+              className={`relative w-10 h-5 rounded-full transition-colors ${useCustomSmtp ? "bg-[var(--partner-primary,#111)]" : "bg-gray-200"}`}
             >
-              <span
-                className={`absolute top-0.5 w-4 h-4 bg-white rounded-full transition-transform ${
-                  useCustomSmtp ? "translate-x-5" : "translate-x-0.5"
-                }`}
-              />
+              <span className={`absolute top-0.5 w-4 h-4 bg-white rounded-full transition-transform ${useCustomSmtp ? "translate-x-5" : "translate-x-0.5"}`} />
             </button>
           </div>
 
@@ -158,67 +406,32 @@ export default function PartnerEmailsPage() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium mb-1">Serveur SMTP</label>
-                  <input
-                    value={smtpHost}
-                    onChange={(e) => setSmtpHost(e.target.value)}
-                    placeholder="smtp.gmail.com"
-                    className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-primary"
-                  />
+                  <input value={smtpHost} onChange={(e) => setSmtpHost(e.target.value)} placeholder="smtp.gmail.com" className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-[var(--partner-primary,#111)]" />
                 </div>
                 <div>
                   <label className="block text-sm font-medium mb-1">Port</label>
-                  <input
-                    value={smtpPort}
-                    onChange={(e) => setSmtpPort(e.target.value)}
-                    placeholder="587"
-                    className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-primary"
-                  />
+                  <input value={smtpPort} onChange={(e) => setSmtpPort(e.target.value)} placeholder="587" className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-[var(--partner-primary,#111)]" />
                 </div>
                 <div>
                   <label className="block text-sm font-medium mb-1">Email SMTP</label>
-                  <input
-                    type="email"
-                    value={smtpEmail}
-                    onChange={(e) => setSmtpEmail(e.target.value)}
-                    placeholder="noreply@mondomaine.fr"
-                    className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-primary"
-                  />
+                  <input type="email" value={smtpEmail} onChange={(e) => setSmtpEmail(e.target.value)} placeholder="noreply@mondomaine.fr" className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-[var(--partner-primary,#111)]" />
                 </div>
                 <div>
                   <label className="block text-sm font-medium mb-1">
                     Mot de passe {hasStoredPassword && <span className="text-xs text-gray-400">(enregistré)</span>}
                   </label>
-                  <input
-                    type="password"
-                    value={smtpPassword}
-                    onChange={(e) => setSmtpPassword(e.target.value)}
-                    placeholder={hasStoredPassword ? "••••••••" : "Mot de passe SMTP"}
-                    className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-primary"
-                  />
+                  <input type="password" value={smtpPassword} onChange={(e) => setSmtpPassword(e.target.value)} placeholder={hasStoredPassword ? "••••••••" : "Mot de passe SMTP"} className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-[var(--partner-primary,#111)]" />
                 </div>
               </div>
               <div>
                 <label className="block text-sm font-medium mb-1">Nom de l'expéditeur</label>
-                <input
-                  value={smtpFromName}
-                  onChange={(e) => setSmtpFromName(e.target.value)}
-                  placeholder="Mon Organisme Formation"
-                  className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-primary sm:max-w-sm"
-                />
+                <input value={smtpFromName} onChange={(e) => setSmtpFromName(e.target.value)} placeholder="Mon Organisme Formation" className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-[var(--partner-primary,#111)] sm:max-w-sm" />
               </div>
               <div className="flex gap-3 pt-2">
-                <button
-                  onClick={handleSmtpSave}
-                  disabled={smtpSaving}
-                  className="px-4 py-2 bg-primary text-white text-sm rounded-lg hover:opacity-90 disabled:opacity-50"
-                >
+                <button onClick={handleSmtpSave} disabled={smtpSaving} className="px-4 py-2 bg-[var(--partner-primary,#111)] text-white text-sm rounded-lg hover:opacity-90 disabled:opacity-50">
                   {smtpSaving ? "Enregistrement..." : "Enregistrer"}
                 </button>
-                <button
-                  onClick={handleSmtpTest}
-                  disabled={smtpTesting || !smtpHost || !smtpEmail}
-                  className="px-4 py-2 bg-gray-100 text-sm rounded-lg hover:bg-gray-200 disabled:opacity-50 transition-colors"
-                >
+                <button onClick={handleSmtpTest} disabled={smtpTesting || !smtpHost || !smtpEmail} className="px-4 py-2 bg-gray-100 text-sm rounded-lg hover:bg-gray-200 disabled:opacity-50 transition-colors">
                   {smtpTesting ? "Envoi en cours..." : "Tester la configuration"}
                 </button>
               </div>
@@ -226,12 +439,10 @@ export default function PartnerEmailsPage() {
           )}
 
           {!useCustomSmtp && !loading && (
-            <p className="text-xs text-gray-400">
-              Les emails sont envoyés depuis le serveur par défaut de la plateforme.
-            </p>
+            <p className="text-xs text-gray-400">Les emails sont envoyés depuis le serveur par défaut de la plateforme.</p>
           )}
         </div>
-      </div>
+      )}
     </div>
   )
 }

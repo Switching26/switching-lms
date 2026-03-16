@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useRef } from "react"
 
 interface Partner {
   id: string
@@ -11,6 +11,10 @@ interface Partner {
   logoUrl: string | null
 }
 
+function isValidHex(v: string) {
+  return /^#[0-9A-Fa-f]{6}$/.test(v)
+}
+
 export default function AppearanceForm({ partner }: { partner: Partner }) {
   const [name, setName] = useState(partner.name)
   const [primaryColor, setPrimaryColor] = useState(partner.primaryColor)
@@ -18,9 +22,32 @@ export default function AppearanceForm({ partner }: { partner: Partner }) {
   const [logoUrl, setLogoUrl] = useState(partner.logoUrl || "")
   const [message, setMessage] = useState("")
   const [loading, setLoading] = useState(false)
+  const [uploading, setUploading] = useState(false)
+  const logoRef = useRef<HTMLInputElement>(null)
+
+  const handleLogoUpload = async (file: File) => {
+    setUploading(true)
+    const formData = new FormData()
+    formData.append("file", file)
+    try {
+      const res = await fetch("/api/upload/file", { method: "POST", body: formData })
+      if (!res.ok) { setMessage("Erreur : Upload du logo échoué"); return }
+      const data = await res.json()
+      setLogoUrl(`/api/files/${data.filename}`)
+      setMessage("Logo uploadé")
+    } catch {
+      setMessage("Erreur réseau")
+    } finally {
+      setUploading(false)
+    }
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (!isValidHex(primaryColor) || !isValidHex(secondaryColor)) {
+      setMessage("Erreur : Couleurs invalides (format #RRGGBB)")
+      return
+    }
     setLoading(true)
     setMessage("")
     try {
@@ -35,6 +62,9 @@ export default function AppearanceForm({ partner }: { partner: Partner }) {
       setLoading(false)
     }
   }
+
+  const safeColor = isValidHex(primaryColor) ? primaryColor : "#111111"
+  const safeBg = isValidHex(secondaryColor) ? secondaryColor : "#FFFFFF"
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -54,13 +84,52 @@ export default function AppearanceForm({ partner }: { partner: Partner }) {
           />
         </div>
 
+        {/* Logo upload */}
+        <div>
+          <label className="block text-sm font-medium mb-1">Logo</label>
+          {logoUrl && (
+            <div className="mb-2 relative inline-block">
+              <img src={logoUrl} alt="Logo" className="h-12 max-w-[200px] object-contain border border-border rounded p-1" />
+              <button
+                type="button"
+                onClick={() => setLogoUrl("")}
+                className="absolute -top-1 -right-1 bg-white rounded-full w-4 h-4 flex items-center justify-center text-[10px] text-red-500 shadow border border-border"
+              >
+                ✕
+              </button>
+            </div>
+          )}
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => logoRef.current?.click()}
+              disabled={uploading}
+              className="px-3 py-1.5 bg-gray-100 text-sm rounded-lg hover:bg-gray-200 disabled:opacity-50"
+            >
+              {uploading ? "Upload..." : "Choisir un logo"}
+            </button>
+            <input
+              ref={logoRef}
+              type="file"
+              accept=".jpg,.jpeg,.png,.svg,.webp"
+              className="hidden"
+              onChange={(e) => {
+                const file = e.target.files?.[0]
+                if (file) handleLogoUpload(file)
+                e.target.value = ""
+              }}
+            />
+            <span className="text-xs text-gray-400">JPG, PNG, SVG, WebP — max 200x60px recommandé</span>
+          </div>
+        </div>
+
         <div className="grid grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium mb-1">Couleur principale</label>
             <div className="flex items-center gap-2">
               <input
                 type="color"
-                value={primaryColor}
+                value={safeColor}
                 onChange={(e) => setPrimaryColor(e.target.value)}
                 className="w-10 h-10 rounded border border-border cursor-pointer"
               />
@@ -70,13 +139,16 @@ export default function AppearanceForm({ partner }: { partner: Partner }) {
                 className="flex-1 px-3 py-2 text-sm border border-border rounded-lg outline-none font-mono"
               />
             </div>
+            {primaryColor && !isValidHex(primaryColor) && (
+              <p className="text-xs text-red-400 mt-1">Format invalide</p>
+            )}
           </div>
           <div>
             <label className="block text-sm font-medium mb-1">Couleur secondaire</label>
             <div className="flex items-center gap-2">
               <input
                 type="color"
-                value={secondaryColor}
+                value={safeBg}
                 onChange={(e) => setSecondaryColor(e.target.value)}
                 className="w-10 h-10 rounded border border-border cursor-pointer"
               />
@@ -86,17 +158,10 @@ export default function AppearanceForm({ partner }: { partner: Partner }) {
                 className="flex-1 px-3 py-2 text-sm border border-border rounded-lg outline-none font-mono"
               />
             </div>
+            {secondaryColor && !isValidHex(secondaryColor) && (
+              <p className="text-xs text-red-400 mt-1">Format invalide</p>
+            )}
           </div>
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium mb-1">URL du logo</label>
-          <input
-            value={logoUrl}
-            onChange={(e) => setLogoUrl(e.target.value)}
-            placeholder="https://..."
-            className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-primary"
-          />
         </div>
 
         <div className="flex gap-3">
@@ -135,21 +200,25 @@ export default function AppearanceForm({ partner }: { partner: Partner }) {
             </div>
           </div>
           {/* Fake nav */}
-          <div className="h-12 bg-white border-b border-border flex items-center px-4 gap-3">
-            {logoUrl && (
+          <div className="h-12 bg-white border-b flex items-center px-4 gap-3" style={{ borderBottomColor: `${safeColor}20` }}>
+            {logoUrl ? (
               <img src={logoUrl} alt="" className="h-6 max-w-[80px] object-contain" onError={(e) => { (e.target as HTMLImageElement).style.display = "none" }} />
-            )}
-            <span className="font-semibold text-sm" style={{ color: primaryColor }}>{name}</span>
+            ) : null}
+            <span className="font-semibold text-sm" style={{ color: safeColor }}>{name}</span>
+            <div className="ml-auto flex gap-1.5">
+              <span className="text-[10px] px-2 py-0.5 rounded" style={{ backgroundColor: `${safeColor}10`, color: safeColor }}>Accueil</span>
+              <span className="text-[10px] text-gray-400 px-2 py-0.5">Formation</span>
+            </div>
           </div>
           {/* Fake login page */}
-          <div className="p-10 flex justify-center" style={{ backgroundColor: secondaryColor }}>
-            <div className="w-full max-w-[260px] bg-white rounded-xl p-6 border border-border shadow-sm">
+          <div className="p-10 flex justify-center" style={{ backgroundColor: safeBg }}>
+            <div className="w-full max-w-[260px] bg-white rounded-xl p-6 border border-border shadow-sm" style={{ backgroundColor: `${safeColor}03` }}>
               {logoUrl && (
                 <div className="flex justify-center mb-3">
                   <img src={logoUrl} alt="" className="h-8 max-w-[120px] object-contain" onError={(e) => { (e.target as HTMLImageElement).style.display = "none" }} />
                 </div>
               )}
-              <p className="text-center text-sm font-semibold mb-4" style={{ color: primaryColor }}>{name}</p>
+              <p className="text-center text-sm font-semibold mb-4" style={{ color: safeColor }}>{name}</p>
               <div className="space-y-2.5">
                 <div>
                   <div className="text-[10px] text-gray-400 mb-0.5">Email</div>
@@ -161,7 +230,7 @@ export default function AppearanceForm({ partner }: { partner: Partner }) {
                 </div>
                 <div
                   className="h-9 rounded-lg text-white text-xs flex items-center justify-center font-medium mt-3"
-                  style={{ backgroundColor: primaryColor }}
+                  style={{ backgroundColor: safeColor }}
                 >
                   Se connecter
                 </div>

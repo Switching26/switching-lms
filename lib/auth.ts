@@ -61,6 +61,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           partnerName: user.partner?.name || null,
           partnerSlug: user.partner?.slug || null,
           partnerColor: user.partner?.primaryColor || null,
+          partnerSecondaryColor: user.partner?.secondaryColor || null,
+          partnerLogo: user.partner?.logoUrl || null,
         }
       },
     }),

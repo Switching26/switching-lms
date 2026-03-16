@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useRef } from "react"
 import { useRouter } from "next/navigation"
 import Badge from "@/components/ui/Badge"
 import Modal from "@/components/ui/Modal"
@@ -41,6 +41,10 @@ function generatePassword() {
   return pw
 }
 
+function isValidHex(v: string) {
+  return /^#[0-9A-Fa-f]{6}$/.test(v)
+}
+
 export default function PartnersTable({
   partners: initialPartners,
   formations,
@@ -66,6 +70,8 @@ export default function PartnersTable({
   const [cAdminEmail, setCAdminEmail] = useState("")
   const [cAdminPw, setCAdminPw] = useState(generatePassword())
   const [creating, setCreating] = useState(false)
+  const [cUploading, setCUploading] = useState(false)
+  const cLogoRef = useRef<HTMLInputElement>(null)
 
   // Edit form
   const [eName, setEName] = useState("")
@@ -75,6 +81,8 @@ export default function PartnersTable({
   const [eLogo, setELogo] = useState("")
   const [eActive, setEActive] = useState(true)
   const [editSaving, setEditSaving] = useState(false)
+  const [eUploading, setEUploading] = useState(false)
+  const eLogoRef = useRef<HTMLInputElement>(null)
 
   // License form
   const [licenseValues, setLicenseValues] = useState<Record<string, number>>({})
@@ -83,6 +91,20 @@ export default function PartnersTable({
   const flash = (msg: string) => {
     setMessage(msg)
     setTimeout(() => setMessage(""), 3000)
+  }
+
+  // Logo upload helper
+  const uploadLogo = async (file: File): Promise<string | null> => {
+    const formData = new FormData()
+    formData.append("file", file)
+    try {
+      const res = await fetch("/api/upload/file", { method: "POST", body: formData })
+      if (!res.ok) return null
+      const data = await res.json()
+      return `/api/files/${data.filename}`
+    } catch {
+      return null
+    }
   }
 
   // Impersonate partner admin
@@ -109,6 +131,9 @@ export default function PartnersTable({
     if (!cName.trim() || !cSlug.trim() || !cAdminEmail.trim()) {
       flash("Erreur : Tous les champs obligatoires doivent être remplis"); return
     }
+    if (!isValidHex(cPrimary) || !isValidHex(cSecondary)) {
+      flash("Erreur : Couleurs invalides (format #RRGGBB)"); return
+    }
     setCreating(true)
     try {
       const res = await fetch("/api/partners", {
@@ -129,6 +154,15 @@ export default function PartnersTable({
     finally { setCreating(false) }
   }
 
+  // Create logo upload
+  const handleCreateLogoUpload = async (file: File) => {
+    setCUploading(true)
+    const url = await uploadLogo(file)
+    if (url) setCLogo(url)
+    else flash("Erreur : Upload du logo échoué")
+    setCUploading(false)
+  }
+
   // Open edit
   const openEdit = (p: Partner) => {
     setEditPartner(p)
@@ -139,6 +173,9 @@ export default function PartnersTable({
   // Save edit
   const handleEdit = async () => {
     if (!editPartner) return
+    if (!isValidHex(ePrimary) || !isValidHex(eSecondary)) {
+      flash("Erreur : Couleurs invalides (format #RRGGBB)"); return
+    }
     setEditSaving(true)
     try {
       const res = await fetch(`/api/partners/${editPartner.id}`, {
@@ -155,6 +192,15 @@ export default function PartnersTable({
       router.refresh()
     } catch { flash("Erreur réseau") }
     finally { setEditSaving(false) }
+  }
+
+  // Edit logo upload
+  const handleEditLogoUpload = async (file: File) => {
+    setEUploading(true)
+    const url = await uploadLogo(file)
+    if (url) setELogo(url)
+    else flash("Erreur : Upload du logo échoué")
+    setEUploading(false)
   }
 
   // Open licenses
@@ -232,7 +278,11 @@ export default function PartnersTable({
                 <tr key={p.id} className="border-b border-gray-50 hover:bg-gray-50 transition-colors">
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-2">
-                      <div className="w-3 h-3 rounded-full border border-border" style={{ backgroundColor: p.primaryColor }} />
+                      {p.logoUrl ? (
+                        <img src={p.logoUrl} alt="" className="h-5 max-w-[60px] object-contain" />
+                      ) : (
+                        <div className="w-3 h-3 rounded-full border border-border" style={{ backgroundColor: p.primaryColor }} />
+                      )}
                       <span className="text-sm font-medium">{p.name}</span>
                       <span className="text-xs text-gray-400">/{p.slug}</span>
                     </div>
@@ -290,7 +340,7 @@ export default function PartnersTable({
       <Modal open={createOpen} onClose={() => setCreateOpen(false)} title="Nouveau partenaire">
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium mb-1">Nom de l'organisme</label>
+            <label className="block text-sm font-medium mb-1">Nom de l&apos;organisme</label>
             <input
               value={cName}
               onChange={(e) => { setCName(e.target.value); setCSlug(slugify(e.target.value)) }}
@@ -306,14 +356,47 @@ export default function PartnersTable({
             />
             <p className="text-xs text-gray-400 mt-1">URL : /login?partner={cSlug || "..."}</p>
           </div>
+
+          {/* Logo upload */}
+          <div>
+            <label className="block text-sm font-medium mb-1">Logo</label>
+            {cLogo && (
+              <div className="mb-2 relative inline-block">
+                <img src={cLogo} alt="Logo" className="h-10 max-w-[160px] object-contain border border-border rounded p-1" />
+                <button onClick={() => setCLogo("")} className="absolute -top-1 -right-1 bg-white rounded-full w-4 h-4 flex items-center justify-center text-[10px] text-red-500 shadow border border-border">✕</button>
+              </div>
+            )}
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => cLogoRef.current?.click()}
+                disabled={cUploading}
+                className="px-3 py-1.5 bg-gray-100 text-sm rounded-lg hover:bg-gray-200 disabled:opacity-50"
+              >
+                {cUploading ? "Upload..." : "Choisir un logo"}
+              </button>
+              <input
+                ref={cLogoRef}
+                type="file"
+                accept=".jpg,.jpeg,.png,.svg,.webp"
+                className="hidden"
+                onChange={(e) => {
+                  const file = e.target.files?.[0]
+                  if (file) handleCreateLogoUpload(file)
+                  e.target.value = ""
+                }}
+              />
+              <span className="text-xs text-gray-400">JPG, PNG, SVG, WebP</span>
+            </div>
+          </div>
+
           <div className="grid grid-cols-2 gap-4">
             <ColorField label="Couleur principale" value={cPrimary} onChange={setCPrimary} />
             <ColorField label="Couleur secondaire" value={cSecondary} onChange={setCSecondary} />
           </div>
-          <div>
-            <label className="block text-sm font-medium mb-1">URL du logo</label>
-            <input value={cLogo} onChange={(e) => setCLogo(e.target.value)} placeholder="https://..." className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-primary" />
-          </div>
+
+          {/* Live preview */}
+          <BrandingPreview name={cName || "Nom"} primaryColor={cPrimary} secondaryColor={cSecondary} logoUrl={cLogo} slug={cSlug} />
+
           <hr className="border-border" />
           <p className="text-xs text-gray-500 font-medium">Compte admin partenaire</p>
           <div>
@@ -344,14 +427,47 @@ export default function PartnersTable({
             <label className="block text-sm font-medium mb-1">Slug</label>
             <input value={eSlug} onChange={(e) => setESlug(e.target.value)} className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-primary font-mono" />
           </div>
+
+          {/* Logo upload */}
+          <div>
+            <label className="block text-sm font-medium mb-1">Logo</label>
+            {eLogo && (
+              <div className="mb-2 relative inline-block">
+                <img src={eLogo} alt="Logo" className="h-10 max-w-[160px] object-contain border border-border rounded p-1" />
+                <button onClick={() => setELogo("")} className="absolute -top-1 -right-1 bg-white rounded-full w-4 h-4 flex items-center justify-center text-[10px] text-red-500 shadow border border-border">✕</button>
+              </div>
+            )}
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => eLogoRef.current?.click()}
+                disabled={eUploading}
+                className="px-3 py-1.5 bg-gray-100 text-sm rounded-lg hover:bg-gray-200 disabled:opacity-50"
+              >
+                {eUploading ? "Upload..." : "Choisir un logo"}
+              </button>
+              <input
+                ref={eLogoRef}
+                type="file"
+                accept=".jpg,.jpeg,.png,.svg,.webp"
+                className="hidden"
+                onChange={(e) => {
+                  const file = e.target.files?.[0]
+                  if (file) handleEditLogoUpload(file)
+                  e.target.value = ""
+                }}
+              />
+              <span className="text-xs text-gray-400">JPG, PNG, SVG, WebP</span>
+            </div>
+          </div>
+
           <div className="grid grid-cols-2 gap-4">
             <ColorField label="Couleur principale" value={ePrimary} onChange={setEPrimary} />
             <ColorField label="Couleur secondaire" value={eSecondary} onChange={setESecondary} />
           </div>
-          <div>
-            <label className="block text-sm font-medium mb-1">URL du logo</label>
-            <input value={eLogo} onChange={(e) => setELogo(e.target.value)} placeholder="https://..." className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-primary" />
-          </div>
+
+          {/* Live preview */}
+          <BrandingPreview name={eName || "Nom"} primaryColor={ePrimary} secondaryColor={eSecondary} logoUrl={eLogo} slug={eSlug} />
+
           <div className="flex items-center gap-3">
             <span className="text-sm font-medium">Statut</span>
             <button
@@ -363,7 +479,7 @@ export default function PartnersTable({
             <Badge variant={eActive ? "success" : "error"}>
               {eActive ? "Actif" : "Inactif"}
             </Badge>
-            {!eActive && <span className="text-xs text-red-400">Les utilisateurs perdront l'accès</span>}
+            {!eActive && <span className="text-xs text-red-400">Les utilisateurs perdront l&apos;accès</span>}
           </div>
           <button onClick={handleEdit} disabled={editSaving} className="w-full py-2.5 bg-primary text-white text-sm rounded-lg hover:opacity-90 disabled:opacity-50">
             {editSaving ? "Enregistrement..." : "Enregistrer"}
@@ -412,14 +528,60 @@ export default function PartnersTable({
   )
 }
 
+/* ═══════════ BRANDING PREVIEW ═══════════ */
+
+function BrandingPreview({ name, primaryColor, secondaryColor, logoUrl, slug }: {
+  name: string; primaryColor: string; secondaryColor: string; logoUrl: string; slug: string
+}) {
+  const safeColor = isValidHex(primaryColor) ? primaryColor : "#111111"
+  const safeBg = isValidHex(secondaryColor) ? secondaryColor : "#FFFFFF"
+
+  return (
+    <div className="border border-border rounded-lg overflow-hidden">
+      <p className="text-[10px] text-gray-400 px-2 py-1 bg-gray-50 border-b border-border">Aperçu live</p>
+      {/* TopNav preview */}
+      <div className="h-10 bg-white border-b flex items-center px-3 gap-2" style={{ borderBottomColor: `${safeColor}20` }}>
+        {logoUrl ? (
+          <img src={logoUrl} alt="" className="h-5 max-w-[60px] object-contain" onError={(e) => { (e.target as HTMLImageElement).style.display = "none" }} />
+        ) : null}
+        <span className="font-semibold text-xs" style={{ color: safeColor }}>{name}</span>
+        <div className="ml-auto flex gap-1">
+          <span className="text-[9px] px-1.5 py-0.5 rounded" style={{ backgroundColor: `${safeColor}10`, color: safeColor }}>Accueil</span>
+          <span className="text-[9px] text-gray-400 px-1.5 py-0.5">Formation</span>
+        </div>
+      </div>
+      {/* Login preview */}
+      <div className="p-6 flex justify-center" style={{ backgroundColor: safeBg }}>
+        <div className="w-full max-w-[200px] bg-white rounded-lg p-4 border border-border shadow-sm" style={{ backgroundColor: `${safeColor}03` }}>
+          {logoUrl && (
+            <div className="flex justify-center mb-2">
+              <img src={logoUrl} alt="" className="h-6 max-w-[100px] object-contain" onError={(e) => { (e.target as HTMLImageElement).style.display = "none" }} />
+            </div>
+          )}
+          <div className="space-y-1.5">
+            <div className="h-5 bg-gray-50 rounded border border-gray-100" />
+            <div className="h-5 bg-gray-50 rounded border border-gray-100" />
+            <div className="h-6 rounded text-white text-[9px] flex items-center justify-center font-medium" style={{ backgroundColor: safeColor }}>
+              Se connecter
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 function ColorField({ label, value, onChange }: { label: string; value: string; onChange: (v: string) => void }) {
   return (
     <div>
       <label className="block text-sm font-medium mb-1">{label}</label>
       <div className="flex items-center gap-2">
-        <input type="color" value={value} onChange={(e) => onChange(e.target.value)} className="w-10 h-10 rounded border border-border cursor-pointer" />
+        <input type="color" value={isValidHex(value) ? value : "#111111"} onChange={(e) => onChange(e.target.value)} className="w-10 h-10 rounded border border-border cursor-pointer" />
         <input value={value} onChange={(e) => onChange(e.target.value)} className="flex-1 px-3 py-2 text-sm border border-border rounded-lg outline-none font-mono" />
       </div>
+      {value && !isValidHex(value) && (
+        <p className="text-xs text-red-400 mt-1">Format invalide (ex: #FF0000)</p>
+      )}
     </div>
   )
 }

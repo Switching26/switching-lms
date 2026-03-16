@@ -19,6 +19,8 @@ export const authConfig = {
         token.partnerName = user.partnerName
         token.partnerSlug = user.partnerSlug
         token.partnerColor = user.partnerColor
+        token.partnerSecondaryColor = user.partnerSecondaryColor
+        token.partnerLogo = user.partnerLogo
       }
       return token
     },
@@ -31,6 +33,8 @@ export const authConfig = {
         session.user.partnerName = token.partnerName
         session.user.partnerSlug = token.partnerSlug
         session.user.partnerColor = token.partnerColor
+        session.user.partnerSecondaryColor = token.partnerSecondaryColor
+        session.user.partnerLogo = token.partnerLogo
         if (token.realAdmin) session.user.realAdmin = token.realAdmin
         if (token.impersonating) session.user.impersonating = token.impersonating
       }

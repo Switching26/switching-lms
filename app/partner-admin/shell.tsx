@@ -15,12 +15,14 @@ export default function PartnerAdminShell({
   children,
   partnerName,
   partnerColor,
+  partnerLogo,
   userEmail,
   impersonating,
 }: {
   children: React.ReactNode
   partnerName: string
   partnerColor: string
+  partnerLogo?: string | null
   userEmail: string
   impersonating?: { name: string; email: string } | null
 }) {
@@ -35,6 +37,7 @@ export default function PartnerAdminShell({
           badge="Admin partenaire"
           items={items}
           brandColor={partnerColor}
+          brandLogo={partnerLogo}
           userEmail={userEmail}
         />
         <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6">{children}</main>

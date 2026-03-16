@@ -8,6 +8,7 @@ import Link from "next/link"
 interface PartnerInfo {
   name: string
   primaryColor: string
+  secondaryColor: string
   logoUrl: string | null
 }
 
@@ -24,9 +25,15 @@ export default function LoginForm() {
 
   useEffect(() => {
     if (partnerSlug) {
-      fetch(`/api/partner?slug=${partnerSlug}`)
+      fetch(`/api/partner/${partnerSlug}/branding`)
         .then((res) => res.ok ? res.json() : null)
         .then((data) => { if (data) setPartner(data) })
+        .catch(() => {
+          // Fallback to old API
+          fetch(`/api/partner?slug=${partnerSlug}`)
+            .then((r) => r.ok ? r.json() : null)
+            .then((d) => { if (d) setPartner(d) })
+        })
     }
   }, [partnerSlug])
 
@@ -75,10 +82,17 @@ export default function LoginForm() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-muted">
-      <div className="w-full max-w-[380px] bg-white rounded-2xl p-8 border border-border">
+      <div
+        className="w-full max-w-[380px] bg-white rounded-2xl p-8 border border-border"
+        style={partner ? { backgroundColor: `${brandColor}03` } : undefined}
+      >
         <div className="text-center mb-8">
           {partner?.logoUrl && (
-            <img src={partner.logoUrl} alt={brandName} className="h-10 mx-auto mb-3" />
+            <img
+              src={partner.logoUrl}
+              alt={brandName}
+              className="max-h-[60px] max-w-[200px] mx-auto mb-4 object-contain"
+            />
           )}
           <h1 className="text-xl font-semibold" style={{ color: brandColor }}>
             {brandName}

@@ -8,7 +8,7 @@ import path from "path"
 export const dynamic = "force-dynamic"
 
 const MAX_SIZE = 50 * 1024 * 1024 // 50 MB
-const ALLOWED_EXTENSIONS = ["pdf", "doc", "docx", "xls", "xlsx", "ppt", "pptx", "jpg", "jpeg", "png", "webp"]
+const ALLOWED_EXTENSIONS = ["pdf", "doc", "docx", "xls", "xlsx", "ppt", "pptx", "jpg", "jpeg", "png", "webp", "svg"]
 
 const UPLOAD_DIR = process.env.UPLOAD_DIR || "/mnt/uploads"
 

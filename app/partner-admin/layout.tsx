@@ -2,6 +2,12 @@ import { auth } from "@/lib/auth"
 import { redirect } from "next/navigation"
 import PartnerAdminShell from "./shell"
 
+export async function generateMetadata() {
+  const session = await auth()
+  const partnerName = (session?.user as any)?.partnerName || "Partenaire"
+  return { title: `${partnerName} · Admin` }
+}
+
 export default async function PartnerAdminLayout({ children }: { children: React.ReactNode }) {
   const session = await auth()
   if (!session) redirect("/login")

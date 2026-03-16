@@ -7,7 +7,11 @@ export default async function EmailsPage() {
   const session = await auth()
   if (!session) redirect("/login")
 
-  const logs = await getEmailLogs()
+  const rawLogs = await getEmailLogs()
+  const logs = rawLogs.map((l) => ({
+    ...l,
+    sentAt: l.sentAt.toISOString(),
+  }))
 
   return <EmailManager logs={logs} />
 }

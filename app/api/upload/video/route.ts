@@ -1,93 +1,76 @@
-import { NextResponse } from "next/server"
+import { NextRequest, NextResponse } from "next/server"
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
 import { decrypt } from "@/lib/crypto"
 
 export const dynamic = "force-dynamic"
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   const session = await auth()
-  if ((session?.user as any)?.role !== "SUPER_ADMIN") {
+  if (!session || !["SUPER_ADMIN", "PARTNER_ADMIN"].includes((session.user as any).role)) {
     return NextResponse.json({ error: "Accès refusé" }, { status: 403 })
   }
 
-  const row = await prisma.systemConfig.findUnique({ where: { key: "vimeo_token" } })
-  if (!row?.value) {
-    return NextResponse.json({ error: "Token Vimeo non configuré" }, { status: 400 })
+  const { fileName, fileSize } = await req.json()
+
+  if (!fileName || !fileSize) {
+    return NextResponse.json({ error: "fileName et fileSize requis" }, { status: 400 })
   }
 
-  const vimeoToken = decrypt(row.value)
-  const contentType = req.headers.get("content-type") || ""
-
-  if (!contentType.includes("multipart/form-data") && !contentType.includes("application/octet-stream")) {
-    return NextResponse.json({ error: "Format invalide" }, { status: 400 })
+  const maxSize = 2 * 1024 * 1024 * 1024 // 2 GB
+  if (fileSize > maxSize) {
+    return NextResponse.json({ error: "Fichier trop volumineux (max 2 Go)" }, { status: 400 })
   }
 
-  const formData = await req.formData()
-  const file = formData.get("file") as File | null
-  if (!file) {
-    return NextResponse.json({ error: "Aucun fichier" }, { status: 400 })
+  const [accountRow, tokenRow] = await Promise.all([
+    prisma.systemConfig.findUnique({ where: { key: "cloudflare_account_id" } }),
+    prisma.systemConfig.findUnique({ where: { key: "cloudflare_stream_token" } }),
+  ])
+
+  if (!accountRow?.value || !tokenRow?.value) {
+    return NextResponse.json({
+      error: "Cloudflare Stream non configuré. Allez dans Paramètres pour configurer.",
+    }, { status: 400 })
   }
 
-  const maxSize = 5 * 1024 * 1024 * 1024 // 5 GB
-  if (file.size > maxSize) {
-    return NextResponse.json({ error: "Fichier trop volumineux (max 5 GB)" }, { status: 400 })
-  }
+  const accountId = accountRow.value
+  const token = decrypt(tokenRow.value)
 
   try {
-    // Step 1: Create the video on Vimeo (tus approach)
-    const createRes = await fetch("https://api.vimeo.com/me/videos", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${vimeoToken}`,
-        "Content-Type": "application/json",
-        Accept: "application/vnd.vimeo.*+json;version=3.4",
-      },
-      body: JSON.stringify({
-        upload: {
-          approach: "tus",
-          size: file.size,
+    // Create a tus upload via Cloudflare Stream API
+    const res = await fetch(
+      `https://api.cloudflare.com/client/v4/accounts/${accountId}/stream?direct_user=true`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Tus-Resumable": "1.0.0",
+          "Upload-Length": String(fileSize),
+          "Upload-Metadata": `name ${Buffer.from(fileName).toString("base64")},requiresignedurls ${Buffer.from("true").toString("base64")}`,
         },
-        privacy: {
-          view: "disable",
-          embed: "whitelist",
-        },
-        embed_domains: ["switching-lms-production.up.railway.app"],
-      }),
-    })
+      }
+    )
 
-    if (!createRes.ok) {
-      const err = await createRes.text()
-      console.error("[VIMEO CREATE]", err)
-      return NextResponse.json({ error: "Erreur Vimeo lors de la création" }, { status: 500 })
+    if (!res.ok) {
+      const text = await res.text()
+      console.error("[CF STREAM CREATE]", text)
+      return NextResponse.json({ error: "Erreur Cloudflare lors de la création de l'upload" }, { status: 500 })
     }
 
-    const createData = await createRes.json()
-    const uploadLink = createData.upload.upload_link
-    const vimeoUri = createData.uri // e.g. /videos/123456789
-    const vimeoId = vimeoUri.split("/").pop()
+    // Cloudflare returns the upload URL in the Location header
+    const uploadUrl = res.headers.get("Location") || res.headers.get("location")
+    const streamMediaId = res.headers.get("stream-media-id")
 
-    // Step 2: Upload the file via tus
-    const fileBuffer = Buffer.from(await file.arrayBuffer())
-
-    const uploadRes = await fetch(uploadLink, {
-      method: "PATCH",
-      headers: {
-        "Tus-Resumable": "1.0.0",
-        "Upload-Offset": "0",
-        "Content-Type": "application/offset+octet-stream",
-      },
-      body: fileBuffer,
-    })
-
-    if (!uploadRes.ok) {
-      console.error("[VIMEO UPLOAD]", await uploadRes.text())
-      return NextResponse.json({ error: "Erreur lors de l'upload vers Vimeo" }, { status: 500 })
+    if (!uploadUrl) {
+      return NextResponse.json({ error: "URL d'upload non reçue de Cloudflare" }, { status: 500 })
     }
 
-    return NextResponse.json({ vimeoId, uri: vimeoUri })
+    return NextResponse.json({
+      uploadUrl,
+      streamId: streamMediaId,
+    })
   } catch (err) {
-    console.error("[VIMEO UPLOAD ERROR]", err)
-    return NextResponse.json({ error: "Erreur lors de l'upload" }, { status: 500 })
+    console.error("[CF STREAM ERROR]", err)
+    return NextResponse.json({ error: "Erreur lors de la création de l'upload" }, { status: 500 })
   }
 }

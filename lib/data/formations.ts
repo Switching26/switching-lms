@@ -1,7 +1,8 @@
 import { prisma } from "@/lib/prisma"
 
-export async function getFormations() {
+export async function getFormations(includeDeleted = false) {
   return prisma.formation.findMany({
+    where: includeDeleted ? {} : { deletedAt: null },
     include: {
       chapters: { orderBy: { order: "asc" } },
       enrollments: true,
@@ -26,12 +27,12 @@ export async function getFormationById(id: string) {
 }
 
 export async function getFormationsCount() {
-  return prisma.formation.count()
+  return prisma.formation.count({ where: { deletedAt: null } })
 }
 
 export async function getLearnerFormation(userId: string) {
   const enrollment = await prisma.enrollment.findFirst({
-    where: { userId },
+    where: { userId, formation: { deletedAt: null } },
     include: {
       formation: {
         include: {
@@ -64,4 +65,11 @@ export async function getLearnerProgress(userId: string) {
     where: { userId },
     include: { chapter: true },
   })
+}
+
+export async function hasDeletedEnrollment(userId: string) {
+  const count = await prisma.enrollment.count({
+    where: { userId, formation: { deletedAt: { not: null } } },
+  })
+  return count > 0
 }

@@ -34,28 +34,18 @@ export default function TopNav({
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between h-14">
         <div className="flex items-center gap-6">
-          <Link href="/" className="flex items-center gap-2">
+          <Link href={pathname.startsWith("/partner-admin") ? "/partner-admin/dashboard" : pathname.startsWith("/learner") ? "/learner/accueil" : "/"} className="flex items-center gap-2">
             {brandLogo ? (
               <img
                 src={brandLogo}
                 alt={brand}
-                className="max-h-8 max-w-[160px] object-contain"
-                onError={(e) => {
-                  (e.target as HTMLImageElement).style.display = "none"
-                  const next = (e.target as HTMLImageElement).nextElementSibling as HTMLElement
-                  if (next) next.style.display = "inline"
-                }}
+                style={{ height: '32px', width: 'auto', objectFit: 'contain' }}
               />
-            ) : null}
-            <span
-              className="font-semibold text-base"
-              style={{
-                color,
-                display: brandLogo ? "none" : "inline",
-              }}
-            >
-              {brand}
-            </span>
+            ) : (
+              <span className="font-semibold text-base" style={{ color }}>
+                {brand}
+              </span>
+            )}
           </Link>
           {badge && (
             <span

@@ -9,6 +9,8 @@ declare module "next-auth" {
       partnerName: string | null
       partnerSlug: string | null
       partnerColor: string | null
+      partnerSecondaryColor: string | null
+      partnerLogo: string | null
     } & DefaultSession["user"]
   }
 }
@@ -20,5 +22,7 @@ declare module "next-auth/jwt" {
     partnerName: string | null
     partnerSlug: string | null
     partnerColor: string | null
+    partnerSecondaryColor: string | null
+    partnerLogo: string | null
   }
 }

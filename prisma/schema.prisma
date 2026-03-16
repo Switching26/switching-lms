@@ -1,0 +1,188 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  SUPER_ADMIN
+  PARTNER_ADMIN
+  LEARNER
+}
+
+enum EmailType {
+  ACCOUNT_CREATED
+  FORMATION_ASSIGNED
+  CHAPTER_COMPLETED
+  FORMATION_COMPLETED
+}
+
+model User {
+  id          String   @id @default(cuid())
+  email       String   @unique
+  password    String
+  firstName   String
+  lastName    String
+  role        Role     @default(LEARNER)
+  partnerId   String?
+  partner     Partner? @relation(fields: [partnerId], references: [id])
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  lastLoginAt DateTime?
+
+  enrollments Enrollment[]
+  progress    Progress[]
+  notes       Note[]
+  loginLogs   LoginLog[]
+  emailLogs   EmailLog[]
+
+  @@index([email])
+  @@index([partnerId])
+}
+
+model Partner {
+  id             String   @id @default(cuid())
+  name           String
+  slug           String   @unique
+  primaryColor   String   @default("#111111")
+  secondaryColor String   @default("#FFFFFF")
+  logoUrl        String?
+  isActive       Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  users       User[]
+  enrollments Enrollment[]
+  licenses    License[]
+
+  @@index([slug])
+}
+
+model Formation {
+  id            String   @id @default(cuid())
+  title         String
+  description   String?  @db.Text
+  coverImageUrl String?
+  isPublished   Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  chapters    Chapter[]
+  enrollments Enrollment[]
+  licenses    License[]
+}
+
+model Chapter {
+  id            String   @id @default(cuid())
+  formationId   String
+  formation     Formation @relation(fields: [formationId], references: [id], onDelete: Cascade)
+  title         String
+  description   String?  @db.Text
+  order         Int
+  videoUrl      String?
+  videoDuration Int      @default(0)
+  content       String?  @db.Text
+  isPublished   Boolean  @default(false)
+
+  attachments Attachment[]
+  progress    Progress[]
+  notes       Note[]
+
+  @@index([formationId])
+}
+
+model Attachment {
+  id        String @id @default(cuid())
+  chapterId String
+  chapter   Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+  name      String
+  fileUrl   String
+  fileSize  Int    @default(0)
+
+  @@index([chapterId])
+}
+
+model Enrollment {
+  id                  String    @id @default(cuid())
+  userId              String
+  user                User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  formationId         String
+  formation           Formation @relation(fields: [formationId], references: [id], onDelete: Cascade)
+  startedAt           DateTime  @default(now())
+  expiresAt           DateTime?
+  completedAt         DateTime?
+  assignedByPartnerId String?
+  assignedByPartner   Partner?  @relation(fields: [assignedByPartnerId], references: [id])
+
+  @@unique([userId, formationId])
+  @@index([userId])
+  @@index([formationId])
+}
+
+model License {
+  id          String    @id @default(cuid())
+  partnerId   String
+  partner     Partner   @relation(fields: [partnerId], references: [id], onDelete: Cascade)
+  formationId String
+  formation   Formation @relation(fields: [formationId], references: [id], onDelete: Cascade)
+  totalSeats  Int
+  usedSeats   Int       @default(0)
+
+  @@unique([partnerId, formationId])
+  @@index([partnerId])
+}
+
+model Progress {
+  id               String    @id @default(cuid())
+  userId           String
+  user             User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  chapterId        String
+  chapter          Chapter   @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+  completedAt      DateTime?
+  timeSpentSeconds Int       @default(0)
+  lastPosition     Int       @default(0)
+  sessionCount     Int       @default(0)
+
+  @@unique([userId, chapterId])
+  @@index([userId])
+  @@index([chapterId])
+}
+
+model Note {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  chapterId String
+  chapter   Chapter  @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+  content   String   @db.Text
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, chapterId])
+  @@index([userId])
+}
+
+model LoginLog {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  loginAt   DateTime @default(now())
+  ipAddress String?
+  userAgent String?
+
+  @@index([userId])
+}
+
+model EmailLog {
+  id      String    @id @default(cuid())
+  userId  String
+  user    User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type    EmailType
+  sentAt  DateTime  @default(now())
+  success Boolean   @default(true)
+
+  @@index([userId])
+}

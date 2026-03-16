@@ -3,6 +3,7 @@ import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
 import { sendEmail } from "@/lib/email"
 import { formationAssignedEmail } from "@/lib/email-templates"
+import { resolveTemplate, replaceVariables } from "@/lib/email-template-engine"
 
 export async function POST(req: NextRequest, { params }: { params: { userId: string } }) {
   const session = await auth()
@@ -66,13 +67,27 @@ export async function POST(req: NextRequest, { params }: { params: { userId: str
 
   // Send formation assigned email (non-blocking)
   try {
-    const emailData = formationAssignedEmail(
-      user.firstName,
-      enrollment.formation.title,
-      expiresAt || null,
-      user.partner
-    )
-    sendEmail(user.email, emailData.subject, emailData.html, user.id, "FORMATION_ASSIGNED", user.partner)
+    const baseUrl = process.env.AUTH_URL || process.env.NEXTAUTH_URL || "https://app.switching.fr"
+    const dynamic = await resolveTemplate("FORMATION_ASSIGNED", user.partnerId)
+    if (dynamic) {
+      const vars = {
+        prenom: user.firstName,
+        nom: user.lastName,
+        email: user.email,
+        formation_titre: enrollment.formation.title,
+        date_expiration: expiresAt ? new Date(expiresAt).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" }) : "",
+        lien_connexion: `${baseUrl}/login`,
+        plateforme_nom: user.partner?.name || "Switching Formation",
+        plateforme_url: baseUrl,
+        partenaire_nom: user.partner?.name || "",
+      }
+      const subject = replaceVariables(dynamic.subject, vars)
+      const html = replaceVariables(dynamic.htmlContent, vars)
+      sendEmail(user.email, subject, html, user.id, "FORMATION_ASSIGNED", user.partner)
+    } else {
+      const emailData = formationAssignedEmail(user.firstName, enrollment.formation.title, expiresAt || null, user.partner)
+      sendEmail(user.email, emailData.subject, emailData.html, user.id, "FORMATION_ASSIGNED", user.partner)
+    }
   } catch {
     // Never block enrollment if email fails
   }

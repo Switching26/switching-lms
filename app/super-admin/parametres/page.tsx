@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 
 export default function ParametresPage() {
+  // SMTP
   const [smtpHost, setSmtpHost] = useState("")
   const [smtpPort, setSmtpPort] = useState("587")
   const [smtpEmail, setSmtpEmail] = useState("")
@@ -10,6 +11,18 @@ export default function ParametresPage() {
   const [smtpFromName, setSmtpFromName] = useState("")
   const [showPassword, setShowPassword] = useState(false)
   const [hasStoredPassword, setHasStoredPassword] = useState(false)
+
+  // Vimeo
+  const [vimeoToken, setVimeoToken] = useState("")
+  const [showVimeoToken, setShowVimeoToken] = useState(false)
+  const [hasVimeoToken, setHasVimeoToken] = useState(false)
+  const [testingVimeo, setTestingVimeo] = useState(false)
+  const [vimeoAccount, setVimeoAccount] = useState("")
+
+  // Storage
+  const [storagePath, setStoragePath] = useState("/app/uploads")
+  const [storageBaseUrl, setStorageBaseUrl] = useState("")
+
   const [saving, setSaving] = useState(false)
   const [testing, setTesting] = useState(false)
   const [message, setMessage] = useState("")
@@ -25,6 +38,9 @@ export default function ParametresPage() {
           setSmtpEmail(data.config.smtp_email || "")
           setSmtpFromName(data.config.smtp_from_name || "")
           setHasStoredPassword(data.hasPassword)
+          setHasVimeoToken(data.hasVimeoToken)
+          setStoragePath(data.config.storage_path || "/app/uploads")
+          setStorageBaseUrl(data.config.storage_base_url || "")
         }
       })
       .finally(() => setLoading(false))
@@ -48,13 +64,18 @@ export default function ParametresPage() {
             smtp_email: smtpEmail,
             smtp_password: smtpPassword,
             smtp_from_name: smtpFromName,
+            vimeo_token: vimeoToken,
+            storage_path: storagePath,
+            storage_base_url: storageBaseUrl,
           },
         }),
       })
       if (res.ok) {
         flash("Configuration enregistrée avec succès")
         if (smtpPassword) setHasStoredPassword(true)
+        if (vimeoToken) setHasVimeoToken(true)
         setSmtpPassword("")
+        setVimeoToken("")
       } else flash("Erreur : " + ((await res.json()).error || "Échec"))
     } catch { flash("Erreur réseau") }
     finally { setSaving(false) }
@@ -74,6 +95,22 @@ export default function ParametresPage() {
       else flash("Erreur : " + (data.error || "Échec de l'envoi"))
     } catch { flash("Erreur réseau") }
     finally { setTesting(false) }
+  }
+
+  const handleTestVimeo = async () => {
+    setTestingVimeo(true)
+    setVimeoAccount("")
+    try {
+      const res = await fetch("/api/admin/config/test-vimeo", { method: "POST" })
+      const data = await res.json()
+      if (data.success) {
+        setVimeoAccount(data.account.name)
+        flash("Connexion Vimeo réussie !")
+      } else {
+        flash("Erreur : " + (data.error || "Token invalide"))
+      }
+    } catch { flash("Erreur réseau") }
+    finally { setTestingVimeo(false) }
   }
 
   if (loading) {
@@ -97,6 +134,7 @@ export default function ParametresPage() {
         </div>
       )}
 
+      {/* ═══════════ SMTP ═══════════ */}
       <div className="bg-white rounded-xl border border-border p-6 space-y-6">
         <div>
           <h2 className="text-base font-semibold mb-1">Configuration email par défaut</h2>
@@ -170,20 +208,103 @@ export default function ParametresPage() {
 
         <div className="flex gap-3 pt-2 border-t border-border">
           <button
-            onClick={handleSave}
-            disabled={saving}
-            className="px-4 py-2 bg-primary text-white text-sm rounded-lg hover:opacity-90 disabled:opacity-50"
-          >
-            {saving ? "Enregistrement..." : "Enregistrer"}
-          </button>
-          <button
             onClick={handleTest}
             disabled={testing || !smtpEmail}
             className="px-4 py-2 bg-gray-100 text-sm rounded-lg hover:bg-gray-200 disabled:opacity-50 transition-colors"
           >
-            {testing ? "Envoi en cours..." : "Tester la configuration"}
+            {testing ? "Envoi en cours..." : "Tester l'email"}
           </button>
         </div>
+      </div>
+
+      {/* ═══════════ VIMEO ═══════════ */}
+      <div className="bg-white rounded-xl border border-border p-6 space-y-6">
+        <div>
+          <h2 className="text-base font-semibold mb-1">Configuration vidéo (Vimeo)</h2>
+          <p className="text-sm text-gray-400">
+            Token d'accès API Vimeo pour l'upload et l'intégration des vidéos.
+          </p>
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium mb-1">
+            Token API Vimeo {hasVimeoToken && <span className="text-xs text-gray-400">(enregistré)</span>}
+          </label>
+          <div className="relative sm:max-w-md">
+            <input
+              type={showVimeoToken ? "text" : "password"}
+              value={vimeoToken}
+              onChange={(e) => setVimeoToken(e.target.value)}
+              placeholder={hasVimeoToken ? "••••••••" : "Token d'accès Vimeo"}
+              className="w-full px-3 py-2 pr-10 text-sm border border-border rounded-lg outline-none focus:border-primary"
+            />
+            <button
+              type="button"
+              onClick={() => setShowVimeoToken(!showVimeoToken)}
+              className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 text-sm"
+            >
+              {showVimeoToken ? "Cacher" : "Voir"}
+            </button>
+          </div>
+        </div>
+
+        {vimeoAccount && (
+          <div className="text-sm text-green-600 bg-green-50 rounded-lg px-4 py-3">
+            Connecté au compte Vimeo : <strong>{vimeoAccount}</strong>
+          </div>
+        )}
+
+        <div className="flex gap-3 pt-2 border-t border-border">
+          <button
+            onClick={handleTestVimeo}
+            disabled={testingVimeo || !hasVimeoToken}
+            className="px-4 py-2 bg-gray-100 text-sm rounded-lg hover:bg-gray-200 disabled:opacity-50 transition-colors"
+          >
+            {testingVimeo ? "Test en cours..." : "Tester la connexion"}
+          </button>
+        </div>
+      </div>
+
+      {/* ═══════════ STOCKAGE FICHIERS ═══════════ */}
+      <div className="bg-white rounded-xl border border-border p-6 space-y-6">
+        <div>
+          <h2 className="text-base font-semibold mb-1">Stockage fichiers</h2>
+          <p className="text-sm text-gray-400">
+            Chemin de stockage local pour les PDFs et pièces jointes (Railway Volume).
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm font-medium mb-1">Chemin de stockage</label>
+            <input
+              value={storagePath}
+              onChange={(e) => setStoragePath(e.target.value)}
+              placeholder="/app/uploads"
+              className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-primary"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-1">URL publique de base</label>
+            <input
+              value={storageBaseUrl}
+              onChange={(e) => setStorageBaseUrl(e.target.value)}
+              placeholder="https://votre-app.up.railway.app/api/files"
+              className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-primary"
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* ═══════════ BOUTON GLOBAL ═══════════ */}
+      <div className="flex justify-end">
+        <button
+          onClick={handleSave}
+          disabled={saving}
+          className="px-6 py-2.5 bg-primary text-white text-sm rounded-lg hover:opacity-90 disabled:opacity-50"
+        >
+          {saving ? "Enregistrement..." : "Enregistrer tous les paramètres"}
+        </button>
       </div>
     </div>
   )

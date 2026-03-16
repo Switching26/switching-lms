@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useRef, useCallback } from "react"
 import { useRouter } from "next/navigation"
 import Badge from "@/components/ui/Badge"
 
@@ -30,6 +30,15 @@ interface Formation {
   coverImageUrl: string | null
   isPublished: boolean
   chapters: Chapter[]
+}
+
+function extractVimeoId(input: string): string {
+  if (!input) return ""
+  // Pure numeric ID
+  if (/^\d+$/.test(input.trim())) return input.trim()
+  // URL patterns: vimeo.com/123, player.vimeo.com/video/123, etc.
+  const match = input.match(/vimeo\.com\/(?:video\/)?(\d+)/)
+  return match ? match[1] : input.trim()
 }
 
 export default function FormationEditor({ initial }: { initial?: Formation }) {
@@ -153,13 +162,13 @@ export default function FormationEditor({ initial }: { initial?: Formation }) {
   }
 
   // Add attachment
-  const addAttachment = async (chapterId: string, name: string, fileUrl: string) => {
+  const addAttachment = async (chapterId: string, name: string, fileUrl: string, fileSize: number = 0) => {
     if (!name.trim() || !fileUrl.trim()) return
     try {
       const res = await fetch(`/api/chapitres/${chapterId}/attachments`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, fileUrl }),
+        body: JSON.stringify({ name, fileUrl, fileSize }),
       })
       if (res.ok) {
         const att = await res.json()
@@ -328,7 +337,7 @@ export default function FormationEditor({ initial }: { initial?: Formation }) {
           onUpdate={(updates) => updateChapterLocal(activeChapter.id, updates)}
           onSave={() => saveChapter(chapters.find((c) => c.id === activeChapterId)!)}
           onDelete={() => deleteChapter(activeChapter.id)}
-          onAddAttachment={(name, url) => addAttachment(activeChapter.id, name, url)}
+          onAddAttachment={(name, url, size) => addAttachment(activeChapter.id, name, url, size)}
           onDeleteAttachment={(attId) => deleteAttachment(attId, activeChapter.id)}
           saving={saving}
         />
@@ -350,18 +359,95 @@ function ChapterPanel({
   onUpdate: (updates: Partial<Chapter>) => void
   onSave: () => void
   onDelete: () => void
-  onAddAttachment: (name: string, url: string) => void
+  onAddAttachment: (name: string, url: string, size: number) => void
   onDeleteAttachment: (id: string) => void
   saving: boolean
 }) {
-  const [newAttName, setNewAttName] = useState("")
-  const [newAttUrl, setNewAttUrl] = useState("")
+  const [vimeoInput, setVimeoInput] = useState(chapter.videoUrl || "")
+  const [showPreview, setShowPreview] = useState(!!chapter.videoUrl)
+  const [uploading, setUploading] = useState(false)
+  const [uploadProgress, setUploadProgress] = useState(0)
+  const [uploadingFile, setUploadingFile] = useState(false)
+  const [dragActive, setDragActive] = useState(false)
+  const fileInputRef = useRef<HTMLInputElement>(null)
+  const attachFileRef = useRef<HTMLInputElement>(null)
 
-  const handleAddAttachment = () => {
-    if (!newAttName.trim() || !newAttUrl.trim()) return
-    onAddAttachment(newAttName, newAttUrl)
-    setNewAttName("")
-    setNewAttUrl("")
+  const vimeoId = extractVimeoId(vimeoInput)
+
+  const handleVimeoInput = (value: string) => {
+    setVimeoInput(value)
+    const id = extractVimeoId(value)
+    onUpdate({ videoUrl: id || null })
+  }
+
+  const handlePreview = () => {
+    if (vimeoId) setShowPreview(true)
+  }
+
+  // Video upload via drag & drop or file picker
+  const handleVideoUpload = async (file: File) => {
+    if (!file.type.startsWith("video/")) return
+    setUploading(true)
+    setUploadProgress(0)
+
+    const formData = new FormData()
+    formData.append("file", file)
+
+    // Simulate progress since fetch doesn't support progress
+    const progressInterval = setInterval(() => {
+      setUploadProgress((p) => Math.min(p + 2, 90))
+    }, 500)
+
+    try {
+      const res = await fetch("/api/upload/video", { method: "POST", body: formData })
+      clearInterval(progressInterval)
+
+      if (!res.ok) {
+        const err = await res.json()
+        alert("Erreur : " + (err.error || "Upload échoué"))
+        return
+      }
+
+      const data = await res.json()
+      setUploadProgress(100)
+      setVimeoInput(data.vimeoId)
+      onUpdate({ videoUrl: data.vimeoId })
+      setShowPreview(true)
+    } catch {
+      clearInterval(progressInterval)
+      alert("Erreur réseau lors de l'upload")
+    } finally {
+      setUploading(false)
+      setTimeout(() => setUploadProgress(0), 1500)
+    }
+  }
+
+  const handleDrop = useCallback((e: React.DragEvent) => {
+    e.preventDefault()
+    setDragActive(false)
+    const file = e.dataTransfer.files[0]
+    if (file) handleVideoUpload(file)
+  }, [])
+
+  // File attachment upload
+  const handleFileUpload = async (file: File) => {
+    setUploadingFile(true)
+    const formData = new FormData()
+    formData.append("file", file)
+    try {
+      const res = await fetch("/api/upload/file", { method: "POST", body: formData })
+      if (!res.ok) {
+        const err = await res.json()
+        alert("Erreur : " + (err.error || "Upload échoué"))
+        return
+      }
+      const data = await res.json()
+      onAddAttachment(data.originalName, data.url, data.size)
+    } catch {
+      alert("Erreur réseau lors de l'upload")
+    } finally {
+      setUploadingFile(false)
+    }
   }
 
   return (
@@ -406,25 +492,100 @@ function ChapterPanel({
         />
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          <label className="block text-sm font-medium mb-1">URL vidéo</label>
-          <input
-            value={chapter.videoUrl || ""}
-            onChange={(e) => onUpdate({ videoUrl: e.target.value })}
-            placeholder="https://..."
-            className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-primary"
-          />
+      {/* ═══════════ Vidéo Vimeo ═══════════ */}
+      <div className="space-y-3">
+        <h3 className="text-sm font-semibold">Vidéo Vimeo</h3>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm font-medium mb-1">ID ou URL Vimeo</label>
+            <div className="flex gap-2">
+              <input
+                value={vimeoInput}
+                onChange={(e) => handleVimeoInput(e.target.value)}
+                placeholder="123456789 ou https://vimeo.com/123456789"
+                className="flex-1 px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-primary"
+              />
+              <button
+                onClick={handlePreview}
+                disabled={!vimeoId}
+                className="px-3 py-2 bg-gray-100 text-sm rounded-lg hover:bg-gray-200 disabled:opacity-50 transition-colors"
+              >
+                Prévisualiser
+              </button>
+            </div>
+            {vimeoId && vimeoId !== vimeoInput && (
+              <p className="text-xs text-gray-400 mt-1">ID extrait : {vimeoId}</p>
+            )}
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-1">Durée vidéo (minutes)</label>
+            <input
+              type="number"
+              value={chapter.videoDuration || 0}
+              onChange={(e) => onUpdate({ videoDuration: parseInt(e.target.value) || 0 })}
+              min={0}
+              className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-primary"
+            />
+          </div>
         </div>
-        <div>
-          <label className="block text-sm font-medium mb-1">Durée vidéo (minutes)</label>
-          <input
-            type="number"
-            value={chapter.videoDuration || 0}
-            onChange={(e) => onUpdate({ videoDuration: parseInt(e.target.value) || 0 })}
-            min={0}
-            className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-primary"
-          />
+
+        {showPreview && vimeoId && (
+          <div className="aspect-video rounded-xl overflow-hidden border border-border">
+            <iframe
+              src={`https://player.vimeo.com/video/${vimeoId}?title=0&byline=0&portrait=0&dnt=1`}
+              className="w-full h-full"
+              frameBorder="0"
+              allow="autoplay; fullscreen"
+              allowFullScreen
+            />
+          </div>
+        )}
+
+        {/* Upload zone */}
+        <div
+          onDragOver={(e) => { e.preventDefault(); setDragActive(true) }}
+          onDragLeave={() => setDragActive(false)}
+          onDrop={handleDrop}
+          className={`border-2 border-dashed rounded-xl p-6 text-center transition-colors ${
+            dragActive ? "border-primary bg-blue-50" : "border-border"
+          }`}
+        >
+          {uploading ? (
+            <div className="space-y-2">
+              <p className="text-sm text-gray-500">Upload en cours...</p>
+              <div className="w-full max-w-xs mx-auto bg-gray-200 rounded-full h-2">
+                <div
+                  className="bg-primary h-2 rounded-full transition-all"
+                  style={{ width: `${uploadProgress}%` }}
+                />
+              </div>
+              <p className="text-xs text-gray-400">{uploadProgress}%</p>
+            </div>
+          ) : (
+            <>
+              <p className="text-sm text-gray-500 mb-2">
+                Glissez-déposez une vidéo ici ou
+              </p>
+              <button
+                onClick={() => fileInputRef.current?.click()}
+                className="px-4 py-2 bg-primary text-white text-sm rounded-lg hover:opacity-90"
+              >
+                Uploader une vidéo vers Vimeo
+              </button>
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="video/*"
+                className="hidden"
+                onChange={(e) => {
+                  const file = e.target.files?.[0]
+                  if (file) handleVideoUpload(file)
+                  e.target.value = ""
+                }}
+              />
+            </>
+          )}
         </div>
       </div>
 
@@ -448,7 +609,11 @@ function ChapterPanel({
                 <div className="flex items-center gap-2">
                   <span className="text-sm">📄</span>
                   <span className="text-sm">{att.name}</span>
-                  <span className="text-xs text-gray-400 truncate max-w-[200px]">{att.fileUrl}</span>
+                  {att.fileSize > 0 && (
+                    <span className="text-xs text-gray-400">
+                      ({(att.fileSize / 1024 / 1024).toFixed(1)} MB)
+                    </span>
+                  )}
                 </div>
                 <button
                   onClick={() => onDeleteAttachment(att.id)}
@@ -461,24 +626,27 @@ function ChapterPanel({
           </div>
         )}
         <div className="flex gap-2">
-          <input
-            value={newAttName}
-            onChange={(e) => setNewAttName(e.target.value)}
-            placeholder="Nom du fichier"
-            className="flex-1 px-3 py-1.5 text-sm border border-border rounded-lg outline-none focus:border-primary"
-          />
-          <input
-            value={newAttUrl}
-            onChange={(e) => setNewAttUrl(e.target.value)}
-            placeholder="URL du fichier"
-            className="flex-1 px-3 py-1.5 text-sm border border-border rounded-lg outline-none focus:border-primary"
-          />
           <button
-            onClick={handleAddAttachment}
-            className="px-3 py-1.5 bg-gray-100 text-sm rounded-lg hover:bg-gray-200 transition-colors"
+            onClick={() => attachFileRef.current?.click()}
+            disabled={uploadingFile}
+            className="px-3 py-1.5 bg-gray-100 text-sm rounded-lg hover:bg-gray-200 transition-colors disabled:opacity-50"
           >
-            + Ajouter
+            {uploadingFile ? "Upload..." : "+ Uploader un fichier"}
           </button>
+          <input
+            ref={attachFileRef}
+            type="file"
+            accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.jpg,.jpeg,.png"
+            className="hidden"
+            onChange={(e) => {
+              const file = e.target.files?.[0]
+              if (file) handleFileUpload(file)
+              e.target.value = ""
+            }}
+          />
+          <p className="text-xs text-gray-400 self-center">
+            PDF, DOC, XLS, PPT, JPG, PNG — max 50 MB
+          </p>
         </div>
       </div>
 

@@ -336,17 +336,34 @@ export default function FormationEditor({ initial }: { initial?: Formation }) {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-xl font-semibold">
-          {isEditing ? "Modifier la formation" : "Nouvelle formation"}
-        </h1>
-        <button
-          onClick={() => router.push("/super-admin/formations")}
-          className="text-sm text-gray-400 hover:text-primary"
-        >
-          ← Retour
-        </button>
-      </div>
+      {/* Banner with cover image */}
+      {isEditing && coverImageUrl ? (
+        <div className="relative h-[200px] rounded-xl overflow-hidden border border-border">
+          <img src={coverImageUrl} alt={title} className="w-full h-full object-cover" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-black/20" />
+          <div className="absolute bottom-0 left-0 right-0 p-6 flex items-end justify-between">
+            <h1 className="text-xl font-semibold text-white">{title || "Modifier la formation"}</h1>
+            <button
+              onClick={() => router.push("/super-admin/formations")}
+              className="text-sm text-white/80 hover:text-white"
+            >
+              ← Retour
+            </button>
+          </div>
+        </div>
+      ) : (
+        <div className="flex items-center justify-between">
+          <h1 className="text-xl font-semibold">
+            {isEditing ? "Modifier la formation" : "Nouvelle formation"}
+          </h1>
+          <button
+            onClick={() => router.push("/super-admin/formations")}
+            className="text-sm text-gray-400 hover:text-primary"
+          >
+            ← Retour
+          </button>
+        </div>
+      )}
 
       {message && (
         <div className={`text-sm rounded-lg px-4 py-3 ${message.includes("Erreur") ? "bg-red-50 text-red-600" : "bg-green-50 text-green-600"}`}>

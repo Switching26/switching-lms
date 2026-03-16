@@ -87,16 +87,17 @@ export default function LoginForm() {
         style={partner ? { backgroundColor: `${brandColor}03` } : undefined}
       >
         <div className="text-center mb-8">
-          {partner?.logoUrl && (
+          {partner?.logoUrl ? (
             <img
               src={partner.logoUrl}
               alt={brandName}
               className="max-h-[60px] max-w-[200px] mx-auto mb-4 object-contain"
             />
+          ) : (
+            <h1 className="text-xl font-semibold" style={{ color: brandColor }}>
+              {brandName}
+            </h1>
           )}
-          <h1 className="text-xl font-semibold" style={{ color: brandColor }}>
-            {brandName}
-          </h1>
           <p className="text-sm mt-2 text-gray-400">
             Connectez-vous à votre espace
           </p>

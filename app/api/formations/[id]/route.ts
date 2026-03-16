@@ -29,6 +29,10 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
     return NextResponse.json({ error: "Accès refusé" }, { status: 403 })
   }
 
-  await prisma.formation.delete({ where: { id: params.id } })
+  // Soft delete
+  await prisma.formation.update({
+    where: { id: params.id },
+    data: { deletedAt: new Date() },
+  })
   return NextResponse.json({ success: true })
 }

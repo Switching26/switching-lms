@@ -68,6 +68,7 @@ interface FormationAttachment {
 
 export default function FormationPlayer({
   formationTitle,
+  formationCoverUrl,
   chapters,
   sections,
   formationAttachments,
@@ -75,6 +76,7 @@ export default function FormationPlayer({
   preview,
 }: {
   formationTitle: string
+  formationCoverUrl?: string | null
   chapters: Chapter[]
   sections?: Section[]
   formationAttachments?: FormationAttachment[]
@@ -115,7 +117,17 @@ export default function FormationPlayer({
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
       {/* Player */}
       <div className="lg:col-span-2 space-y-4">
-        <h1 className="text-lg font-semibold">{formationTitle}</h1>
+        {formationCoverUrl ? (
+          <div className="relative h-[80px] rounded-xl overflow-hidden">
+            <img src={formationCoverUrl} alt={formationTitle} className="w-full h-full object-cover" />
+            <div className="absolute inset-0 bg-black/40" />
+            <div className="absolute inset-0 flex items-center px-5">
+              <h1 className="text-lg font-semibold text-white">{formationTitle}</h1>
+            </div>
+          </div>
+        ) : (
+          <h1 className="text-lg font-semibold">{formationTitle}</h1>
+        )}
 
         {active?.videoUrl ? (
           preview ? (

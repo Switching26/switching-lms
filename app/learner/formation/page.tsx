@@ -1,6 +1,6 @@
 import { auth } from "@/lib/auth"
 import { redirect } from "next/navigation"
-import { getLearnerFormation, getLearnerProgress } from "@/lib/data/formations"
+import { getLearnerFormation, getLearnerProgress, hasDeletedEnrollment } from "@/lib/data/formations"
 import FormationPlayer from "./player"
 
 export default async function FormationPage() {
@@ -12,9 +12,13 @@ export default async function FormationPage() {
   const progressList = await getLearnerProgress(userId)
 
   if (!enrollment) {
+    const deletedEnrollment = await hasDeletedEnrollment(userId)
     return (
       <div className="text-center py-20">
-        <h1 className="text-xl font-semibold">Aucune formation</h1>
+        <h1 className="text-xl font-semibold mb-2">
+          {deletedEnrollment ? "Cette formation n'est plus disponible" : "Aucune formation"}
+        </h1>
+        <p className="text-gray-400 text-sm">Contactez votre administrateur pour accéder à une formation.</p>
       </div>
     )
   }
@@ -55,6 +59,7 @@ export default async function FormationPage() {
   return (
     <FormationPlayer
       formationTitle={enrollment.formation.title}
+      formationCoverUrl={enrollment.formation.coverImageUrl || null}
       chapters={JSON.parse(JSON.stringify(chapters))}
       sections={JSON.parse(JSON.stringify(sections))}
       formationAttachments={JSON.parse(JSON.stringify(formationAttachments))}

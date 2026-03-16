@@ -22,6 +22,7 @@ export default async function PartenairesPage() {
     primaryColor: p.primaryColor,
     secondaryColor: p.secondaryColor,
     logoUrl: p.logoUrl,
+    faviconUrl: p.faviconUrl,
     isActive: p.isActive,
     users: p.users.map((u) => ({ id: u.id, email: u.email, role: u.role })),
     licenses: p.licenses.map((l) => ({

@@ -1,16 +1,22 @@
 import { prisma } from "@/lib/prisma"
 
 export async function getUsers(filter?: "all" | "internal" | "partner") {
-  const where = filter === "internal"
-    ? { partnerId: null }
-    : filter === "partner"
-    ? { NOT: { partnerId: null } }
-    : {}
+  const base: any = { archivedAt: null }
+  if (filter === "internal") base.partnerId = null
+  else if (filter === "partner") base.NOT = { partnerId: null }
 
   return prisma.user.findMany({
-    where,
+    where: base,
     include: { partner: true, enrollments: { include: { formation: true } } },
     orderBy: { createdAt: "desc" },
+  })
+}
+
+export async function getArchivedUsers() {
+  return prisma.user.findMany({
+    where: { archivedAt: { not: null } },
+    include: { partner: true, enrollments: { include: { formation: true } } },
+    orderBy: { archivedAt: "desc" },
   })
 }
 
@@ -61,6 +67,6 @@ export async function updatePassword(id: string, hashedPassword: string) {
 
 export async function getActiveUsersCount(partnerId?: string) {
   return prisma.user.count({
-    where: { isActive: true, role: "LEARNER", ...(partnerId ? { partnerId } : {}) },
+    where: { isActive: true, archivedAt: null, role: "LEARNER", ...(partnerId ? { partnerId } : {}) },
   })
 }

@@ -81,18 +81,23 @@ export default function FormationPlayer({
             <div className="mt-4 pt-4 border-t border-border">
               <h3 className="text-sm font-semibold mb-2">Pièces jointes</h3>
               <div className="space-y-1">
-                {active.attachments.map((att) => (
-                  <a
-                    key={att.id}
-                    href={att.fileUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-50 transition-colors"
-                  >
-                    <span className="text-sm">📄</span>
-                    <span className="text-sm text-primary hover:underline">{att.name}</span>
-                  </a>
-                ))}
+                {active.attachments.map((att) => {
+                  const href = att.fileUrl.startsWith("/api/files/")
+                    ? att.fileUrl
+                    : `/api/files/${att.fileUrl.split("/").pop()}`
+                  return (
+                    <a
+                      key={att.id}
+                      href={href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-50 transition-colors"
+                    >
+                      <span className="text-sm">📄</span>
+                      <span className="text-sm text-primary hover:underline">{att.name}</span>
+                    </a>
+                  )
+                })}
               </div>
             </div>
           )}

@@ -1,0 +1,397 @@
+"use client"
+
+import { useState } from "react"
+import { useRouter } from "next/navigation"
+import Badge from "@/components/ui/Badge"
+import Modal from "@/components/ui/Modal"
+
+interface License {
+  id: string
+  formationId: string
+  totalSeats: number
+  usedSeats: number
+  formation: { id: string; title: string }
+}
+
+interface Partner {
+  id: string
+  name: string
+  slug: string
+  primaryColor: string
+  secondaryColor: string
+  logoUrl: string | null
+  isActive: boolean
+  users: { id: string; email: string; role: string }[]
+  licenses: License[]
+}
+
+interface FormationOption {
+  id: string
+  title: string
+}
+
+function slugify(str: string) {
+  return str.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "")
+}
+
+function generatePassword() {
+  const chars = "abcdefghijkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789"
+  let pw = ""
+  for (let i = 0; i < 10; i++) pw += chars[Math.floor(Math.random() * chars.length)]
+  return pw
+}
+
+export default function PartnersTable({
+  partners: initialPartners,
+  formations,
+}: {
+  partners: Partner[]
+  formations: FormationOption[]
+}) {
+  const router = useRouter()
+  const [partners, setPartners] = useState(initialPartners)
+  const [message, setMessage] = useState("")
+
+  // Modal states
+  const [createOpen, setCreateOpen] = useState(false)
+  const [editPartner, setEditPartner] = useState<Partner | null>(null)
+  const [licensePartner, setLicensePartner] = useState<Partner | null>(null)
+
+  // Create form
+  const [cName, setCName] = useState("")
+  const [cSlug, setCSlug] = useState("")
+  const [cPrimary, setCPrimary] = useState("#111111")
+  const [cSecondary, setCSecondary] = useState("#FFFFFF")
+  const [cLogo, setCLogo] = useState("")
+  const [cAdminEmail, setCAdminEmail] = useState("")
+  const [cAdminPw, setCAdminPw] = useState(generatePassword())
+  const [creating, setCreating] = useState(false)
+
+  // Edit form
+  const [eName, setEName] = useState("")
+  const [eSlug, setESlug] = useState("")
+  const [ePrimary, setEPrimary] = useState("")
+  const [eSecondary, setESecondary] = useState("")
+  const [eLogo, setELogo] = useState("")
+  const [eActive, setEActive] = useState(true)
+  const [editSaving, setEditSaving] = useState(false)
+
+  // License form
+  const [licenseValues, setLicenseValues] = useState<Record<string, number>>({})
+  const [licSaving, setLicSaving] = useState(false)
+
+  const flash = (msg: string) => {
+    setMessage(msg)
+    setTimeout(() => setMessage(""), 3000)
+  }
+
+  // Create partner
+  const handleCreate = async () => {
+    if (!cName.trim() || !cSlug.trim() || !cAdminEmail.trim()) {
+      flash("Erreur : Tous les champs obligatoires doivent être remplis"); return
+    }
+    setCreating(true)
+    try {
+      const res = await fetch("/api/partners", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: cName, slug: cSlug, primaryColor: cPrimary, secondaryColor: cSecondary,
+          logoUrl: cLogo || null, adminEmail: cAdminEmail, adminPassword: cAdminPw,
+        }),
+      })
+      if (!res.ok) { flash("Erreur : " + ((await res.json()).error || "Échec")); return }
+      flash("Partenaire créé avec succès")
+      setCreateOpen(false)
+      setCName(""); setCSlug(""); setCPrimary("#111111"); setCSecondary("#FFFFFF")
+      setCLogo(""); setCAdminEmail(""); setCAdminPw(generatePassword())
+      router.refresh()
+    } catch { flash("Erreur réseau") }
+    finally { setCreating(false) }
+  }
+
+  // Open edit
+  const openEdit = (p: Partner) => {
+    setEditPartner(p)
+    setEName(p.name); setESlug(p.slug); setEPrimary(p.primaryColor)
+    setESecondary(p.secondaryColor); setELogo(p.logoUrl || ""); setEActive(p.isActive)
+  }
+
+  // Save edit
+  const handleEdit = async () => {
+    if (!editPartner) return
+    setEditSaving(true)
+    try {
+      const res = await fetch(`/api/partners/${editPartner.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: eName, slug: eSlug, primaryColor: ePrimary,
+          secondaryColor: eSecondary, logoUrl: eLogo || null, isActive: eActive,
+        }),
+      })
+      if (!res.ok) { flash("Erreur : " + ((await res.json()).error || "Échec")); return }
+      flash("Partenaire mis à jour")
+      setEditPartner(null)
+      router.refresh()
+    } catch { flash("Erreur réseau") }
+    finally { setEditSaving(false) }
+  }
+
+  // Open licenses
+  const openLicenses = (p: Partner) => {
+    setLicensePartner(p)
+    const vals: Record<string, number> = {}
+    for (const f of formations) {
+      const existing = p.licenses.find((l) => l.formationId === f.id)
+      vals[f.id] = existing?.totalSeats || 0
+    }
+    setLicenseValues(vals)
+  }
+
+  // Save licenses
+  const handleLicenses = async () => {
+    if (!licensePartner) return
+    setLicSaving(true)
+    try {
+      const licenses = Object.entries(licenseValues).map(([formationId, totalSeats]) => ({
+        formationId, totalSeats,
+      }))
+      const res = await fetch(`/api/partners/${licensePartner.id}/licenses`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ licenses }),
+      })
+      if (res.ok) {
+        flash("Licences mises à jour")
+        setLicensePartner(null)
+        router.refresh()
+      } else { flash("Erreur : " + ((await res.json()).error || "Échec")) }
+    } catch { flash("Erreur réseau") }
+    finally { setLicSaving(false) }
+  }
+
+  return (
+    <>
+      {message && (
+        <div className={`text-sm rounded-lg px-4 py-3 mb-4 ${message.includes("Erreur") ? "bg-red-50 text-red-600" : "bg-green-50 text-green-600"}`}>
+          {message}
+        </div>
+      )}
+
+      <div className="flex items-center justify-between mb-4">
+        <div />
+        <button
+          onClick={() => setCreateOpen(true)}
+          className="px-4 py-2 bg-primary text-white text-sm rounded-lg hover:opacity-90 transition-opacity"
+        >
+          + Nouveau partenaire
+        </button>
+      </div>
+
+      <div className="bg-white rounded-xl border border-border overflow-hidden">
+        <table className="w-full">
+          <thead>
+            <tr className="border-b border-border">
+              <th className="text-left text-xs font-medium text-gray-500 px-4 py-3">Nom</th>
+              <th className="text-left text-xs font-medium text-gray-500 px-4 py-3">Admin</th>
+              <th className="text-left text-xs font-medium text-gray-500 px-4 py-3">Apprenants</th>
+              <th className="text-left text-xs font-medium text-gray-500 px-4 py-3">Licences</th>
+              <th className="text-left text-xs font-medium text-gray-500 px-4 py-3">Statut</th>
+              <th className="text-left text-xs font-medium text-gray-500 px-4 py-3">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {partners.map((p) => {
+              const totalSeats = p.licenses.reduce((s, l) => s + l.totalSeats, 0)
+              const usedSeats = p.licenses.reduce((s, l) => s + l.usedSeats, 0)
+              const pct = totalSeats > 0 ? Math.round((usedSeats / totalSeats) * 100) : 0
+              const admin = p.users.find((u) => u.role === "PARTNER_ADMIN")
+              const learnerCount = p.users.filter((u) => u.role === "LEARNER").length
+
+              return (
+                <tr key={p.id} className="border-b border-gray-50 hover:bg-gray-50 transition-colors">
+                  <td className="px-4 py-3">
+                    <div className="flex items-center gap-2">
+                      <div className="w-3 h-3 rounded-full border border-border" style={{ backgroundColor: p.primaryColor }} />
+                      <span className="text-sm font-medium">{p.name}</span>
+                      <span className="text-xs text-gray-400">/{p.slug}</span>
+                    </div>
+                  </td>
+                  <td className="px-4 py-3 text-sm text-gray-500">
+                    {admin?.email || "—"}
+                  </td>
+                  <td className="px-4 py-3 text-sm text-gray-500">{learnerCount}</td>
+                  <td className="px-4 py-3">
+                    <div className="flex items-center gap-2">
+                      <div className="w-20 bg-gray-100 rounded-full h-1.5">
+                        <div
+                          className="bg-primary h-1.5 rounded-full transition-all"
+                          style={{ width: `${pct}%` }}
+                        />
+                      </div>
+                      <span className="text-xs text-gray-500">{usedSeats}/{totalSeats}</span>
+                    </div>
+                  </td>
+                  <td className="px-4 py-3">
+                    <Badge variant={p.isActive ? "success" : "error"}>
+                      {p.isActive ? "Actif" : "Inactif"}
+                    </Badge>
+                  </td>
+                  <td className="px-4 py-3">
+                    <div className="flex gap-3">
+                      <button onClick={() => openEdit(p)} className="text-sm text-gray-400 hover:text-primary" title="Modifier">✏️</button>
+                      <button onClick={() => openLicenses(p)} className="text-sm text-gray-400 hover:text-primary" title="Licences">⚙️</button>
+                    </div>
+                  </td>
+                </tr>
+              )
+            })}
+            {partners.length === 0 && (
+              <tr>
+                <td colSpan={6} className="px-4 py-8 text-center text-sm text-gray-400">
+                  Aucun partenaire
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
+
+      {/* ===== CREATE MODAL ===== */}
+      <Modal open={createOpen} onClose={() => setCreateOpen(false)} title="Nouveau partenaire">
+        <div className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium mb-1">Nom de l'organisme</label>
+            <input
+              value={cName}
+              onChange={(e) => { setCName(e.target.value); setCSlug(slugify(e.target.value)) }}
+              className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-primary"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-1">Slug</label>
+            <input
+              value={cSlug}
+              onChange={(e) => setCSlug(e.target.value)}
+              className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-primary font-mono"
+            />
+            <p className="text-xs text-gray-400 mt-1">URL : /login?partner={cSlug || "..."}</p>
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            <ColorField label="Couleur principale" value={cPrimary} onChange={setCPrimary} />
+            <ColorField label="Couleur secondaire" value={cSecondary} onChange={setCSecondary} />
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-1">URL du logo</label>
+            <input value={cLogo} onChange={(e) => setCLogo(e.target.value)} placeholder="https://..." className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-primary" />
+          </div>
+          <hr className="border-border" />
+          <p className="text-xs text-gray-500 font-medium">Compte admin partenaire</p>
+          <div>
+            <label className="block text-sm font-medium mb-1">Email admin</label>
+            <input type="email" value={cAdminEmail} onChange={(e) => setCAdminEmail(e.target.value)} className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-primary" />
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-1">Mot de passe temporaire</label>
+            <div className="flex gap-2">
+              <input value={cAdminPw} onChange={(e) => setCAdminPw(e.target.value)} className="flex-1 px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-primary font-mono" />
+              <button onClick={() => setCAdminPw(generatePassword())} className="px-3 py-2 bg-gray-100 text-sm rounded-lg hover:bg-gray-200">Générer</button>
+            </div>
+          </div>
+          <button onClick={handleCreate} disabled={creating} className="w-full py-2.5 bg-primary text-white text-sm rounded-lg hover:opacity-90 disabled:opacity-50">
+            {creating ? "Création..." : "Créer le partenaire"}
+          </button>
+        </div>
+      </Modal>
+
+      {/* ===== EDIT MODAL ===== */}
+      <Modal open={!!editPartner} onClose={() => setEditPartner(null)} title="Modifier le partenaire">
+        <div className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium mb-1">Nom</label>
+            <input value={eName} onChange={(e) => setEName(e.target.value)} className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-primary" />
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-1">Slug</label>
+            <input value={eSlug} onChange={(e) => setESlug(e.target.value)} className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-primary font-mono" />
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            <ColorField label="Couleur principale" value={ePrimary} onChange={setEPrimary} />
+            <ColorField label="Couleur secondaire" value={eSecondary} onChange={setESecondary} />
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-1">URL du logo</label>
+            <input value={eLogo} onChange={(e) => setELogo(e.target.value)} placeholder="https://..." className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-primary" />
+          </div>
+          <div className="flex items-center gap-3">
+            <span className="text-sm font-medium">Statut</span>
+            <button
+              onClick={() => setEActive(!eActive)}
+              className={`relative w-10 h-5 rounded-full transition-colors ${eActive ? "bg-green-500" : "bg-gray-200"}`}
+            >
+              <span className={`absolute top-0.5 w-4 h-4 bg-white rounded-full transition-transform ${eActive ? "translate-x-5" : "translate-x-0.5"}`} />
+            </button>
+            <Badge variant={eActive ? "success" : "error"}>
+              {eActive ? "Actif" : "Inactif"}
+            </Badge>
+            {!eActive && <span className="text-xs text-red-400">Les utilisateurs perdront l'accès</span>}
+          </div>
+          <button onClick={handleEdit} disabled={editSaving} className="w-full py-2.5 bg-primary text-white text-sm rounded-lg hover:opacity-90 disabled:opacity-50">
+            {editSaving ? "Enregistrement..." : "Enregistrer"}
+          </button>
+        </div>
+      </Modal>
+
+      {/* ===== LICENSES MODAL ===== */}
+      <Modal open={!!licensePartner} onClose={() => setLicensePartner(null)} title={`Licences — ${licensePartner?.name || ""}`}>
+        <div className="space-y-4">
+          {formations.length === 0 ? (
+            <p className="text-sm text-gray-400">Aucune formation disponible</p>
+          ) : (
+            <div className="space-y-3">
+              {formations.map((f) => {
+                const existing = licensePartner?.licenses.find((l) => l.formationId === f.id)
+                return (
+                  <div key={f.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                    <div>
+                      <p className="text-sm font-medium">{f.title}</p>
+                      {existing && existing.usedSeats > 0 && (
+                        <p className="text-xs text-gray-400">{existing.usedSeats} utilisée(s)</p>
+                      )}
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <label className="text-xs text-gray-500">Places :</label>
+                      <input
+                        type="number"
+                        min={existing?.usedSeats || 0}
+                        value={licenseValues[f.id] || 0}
+                        onChange={(e) => setLicenseValues((prev) => ({ ...prev, [f.id]: parseInt(e.target.value) || 0 }))}
+                        className="w-20 px-2 py-1.5 text-sm border border-border rounded-lg outline-none focus:border-primary text-center"
+                      />
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+          )}
+          <button onClick={handleLicenses} disabled={licSaving} className="w-full py-2.5 bg-primary text-white text-sm rounded-lg hover:opacity-90 disabled:opacity-50">
+            {licSaving ? "Mise à jour..." : "Mettre à jour les licences"}
+          </button>
+        </div>
+      </Modal>
+    </>
+  )
+}
+
+function ColorField({ label, value, onChange }: { label: string; value: string; onChange: (v: string) => void }) {
+  return (
+    <div>
+      <label className="block text-sm font-medium mb-1">{label}</label>
+      <div className="flex items-center gap-2">
+        <input type="color" value={value} onChange={(e) => onChange(e.target.value)} className="w-10 h-10 rounded border border-border cursor-pointer" />
+        <input value={value} onChange={(e) => onChange(e.target.value)} className="flex-1 px-3 py-2 text-sm border border-border rounded-lg outline-none font-mono" />
+      </div>
+    </div>
+  )
+}

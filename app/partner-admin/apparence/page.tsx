@@ -20,6 +20,7 @@ export default async function ApparencePage() {
         partner={JSON.parse(JSON.stringify({
           id: partner.id,
           name: partner.name,
+          slug: partner.slug,
           primaryColor: partner.primaryColor,
           secondaryColor: partner.secondaryColor,
           logoUrl: partner.logoUrl,

@@ -8,6 +8,7 @@ const items = [
   { label: "Utilisateurs", href: "/super-admin/utilisateurs" },
   { label: "Partenaires", href: "/super-admin/partenaires" },
   { label: "Emails", href: "/super-admin/emails" },
+  { label: "Paramètres", href: "/super-admin/parametres" },
 ]
 
 export default function SuperAdminShell({ children, userEmail }: { children: React.ReactNode; userEmail: string }) {

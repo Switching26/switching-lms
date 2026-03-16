@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect, useRef, useCallback } from "react"
 import Badge from "@/components/ui/Badge"
 
 interface Chapter {
@@ -9,6 +9,7 @@ interface Chapter {
   description: string | null
   order: number
   videoUrl: string | null
+  videoDuration: number
   content: string | null
   completed: boolean
   inProgress: boolean
@@ -31,12 +32,21 @@ export default function FormationPlayer({
     const firstIncomplete = chapters.findIndex((c) => !c.completed)
     return firstIncomplete >= 0 ? firstIncomplete : 0
   })
+  const [completedMap, setCompletedMap] = useState<Record<string, boolean>>(() => {
+    const map: Record<string, boolean> = {}
+    chapters.forEach((c) => { map[c.id] = c.completed })
+    return map
+  })
 
   const active = chapters[activeIndex]
 
   const isAccessible = (index: number) => {
     if (index === 0) return true
-    return chapters[index - 1]?.completed
+    return completedMap[chapters[index - 1]?.id]
+  }
+
+  const handleChapterCompleted = (chapterId: string) => {
+    setCompletedMap((prev) => ({ ...prev, [chapterId]: true }))
   }
 
   return (
@@ -46,16 +56,13 @@ export default function FormationPlayer({
         <h1 className="text-lg font-semibold">{formationTitle}</h1>
 
         {active?.videoUrl ? (
-          <div className="aspect-video bg-black rounded-xl overflow-hidden">
-            <video
-              key={active.id}
-              controls
-              className="w-full h-full"
-              src={active.videoUrl}
-            >
-              Votre navigateur ne supporte pas la lecture vidéo.
-            </video>
-          </div>
+          <VimeoPlayer
+            key={active.id}
+            vimeoId={active.videoUrl}
+            chapterId={active.id}
+            lastPosition={active.lastPosition}
+            onCompleted={() => handleChapterCompleted(active.id)}
+          />
         ) : (
           <div className="aspect-video bg-gray-100 rounded-xl flex items-center justify-center">
             <p className="text-gray-400 text-sm">Aucune vidéo pour ce chapitre</p>
@@ -69,6 +76,25 @@ export default function FormationPlayer({
           )}
           {active?.content && (
             <div className="text-sm text-gray-600 whitespace-pre-wrap">{active.content}</div>
+          )}
+          {active?.attachments?.length > 0 && (
+            <div className="mt-4 pt-4 border-t border-border">
+              <h3 className="text-sm font-semibold mb-2">Pièces jointes</h3>
+              <div className="space-y-1">
+                {active.attachments.map((att) => (
+                  <a
+                    key={att.id}
+                    href={att.fileUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-50 transition-colors"
+                  >
+                    <span className="text-sm">📄</span>
+                    <span className="text-sm text-primary hover:underline">{att.name}</span>
+                  </a>
+                ))}
+              </div>
+            </div>
           )}
         </div>
       </div>
@@ -96,13 +122,124 @@ export default function FormationPlayer({
                   <span className="text-xs text-gray-400 w-5">{i + 1}.</span>
                   <span className="truncate">{ch.title}</span>
                 </span>
-                {ch.completed && <Badge variant="success">OK</Badge>}
+                {completedMap[ch.id] && <Badge variant="success">OK</Badge>}
                 {!accessible && <span className="text-xs">🔒</span>}
               </button>
             )
           })}
         </div>
       </div>
+    </div>
+  )
+}
+
+function VimeoPlayer({
+  vimeoId,
+  chapterId,
+  lastPosition,
+  onCompleted,
+}: {
+  vimeoId: string
+  chapterId: string
+  lastPosition: number
+  onCompleted: () => void
+}) {
+  const iframeRef = useRef<HTMLIFrameElement>(null)
+  const playerRef = useRef<any>(null)
+  const progressTimerRef = useRef<ReturnType<typeof setInterval> | null>(null)
+  const hasEndedRef = useRef(false)
+  const [processing, setProcessing] = useState(false)
+
+  const saveProgress = useCallback(async (position: number, completed: boolean = false) => {
+    try {
+      const body: Record<string, any> = { lastPosition: Math.floor(position) }
+      if (completed) {
+        body.completedAt = new Date().toISOString()
+      }
+      await fetch(`/api/progress/${chapterId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      })
+      if (completed) onCompleted()
+    } catch {}
+  }, [chapterId, onCompleted])
+
+  useEffect(() => {
+    let player: any = null
+
+    const initPlayer = async () => {
+      // Dynamically import Vimeo Player
+      const VimeoPlayerLib = (await import("@vimeo/player")).default
+
+      if (!iframeRef.current) return
+      player = new VimeoPlayerLib(iframeRef.current)
+      playerRef.current = player
+
+      // Check if video is processing
+      try {
+        await player.ready()
+      } catch {
+        setProcessing(true)
+        return
+      }
+
+      // Seek to last position if any
+      if (lastPosition > 0) {
+        try { await player.setCurrentTime(lastPosition) } catch {}
+      }
+
+      // Save progress every 30s
+      progressTimerRef.current = setInterval(async () => {
+        try {
+          const time = await player.getCurrentTime()
+          saveProgress(time)
+        } catch {}
+      }, 30000)
+
+      // On video ended → mark chapter completed
+      player.on("ended", () => {
+        if (hasEndedRef.current) return
+        hasEndedRef.current = true
+        saveProgress(0, true)
+      })
+    }
+
+    initPlayer()
+
+    return () => {
+      if (progressTimerRef.current) clearInterval(progressTimerRef.current)
+      if (player) {
+        // Save final position on unmount
+        player.getCurrentTime().then((time: number) => {
+          if (!hasEndedRef.current) saveProgress(time)
+        }).catch(() => {})
+        player.destroy().catch(() => {})
+      }
+    }
+  }, [vimeoId, chapterId, lastPosition, saveProgress])
+
+  if (processing) {
+    return (
+      <div className="aspect-video bg-gray-100 rounded-xl flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-gray-500 text-sm font-medium">Vidéo en cours de traitement</p>
+          <p className="text-gray-400 text-xs mt-1">Revenez dans quelques minutes</p>
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <div className="aspect-video bg-black rounded-xl overflow-hidden">
+      <iframe
+        ref={iframeRef}
+        src={`https://player.vimeo.com/video/${vimeoId}?title=0&byline=0&portrait=0&dnt=1`}
+        className="w-full h-full"
+        frameBorder="0"
+        allow="autoplay; fullscreen"
+        allowFullScreen
+      />
     </div>
   )
 }

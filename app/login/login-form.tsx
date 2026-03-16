@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import { signIn } from "next-auth/react"
 import { useSearchParams, useRouter } from "next/navigation"
+import Link from "next/link"
 
 interface PartnerInfo {
   name: string
@@ -120,12 +121,12 @@ export default function LoginForm() {
         </form>
 
         <div className="mt-6 space-y-2 text-center">
-          <a href="#" className="block text-sm text-gray-400 hover:underline">
+          <Link href={`/login/mot-de-passe-oublie${partnerSlug ? `?partner=${partnerSlug}` : ""}`} className="block text-sm text-gray-400 hover:underline">
             Mot de passe oublié ?
-          </a>
-          <a href="#" className="block text-sm text-gray-400 hover:underline">
+          </Link>
+          <Link href={`/login/activer${partnerSlug ? `?partner=${partnerSlug}` : ""}`} className="block text-sm text-gray-400 hover:underline">
             Première connexion ? Créez votre mot de passe
-          </a>
+          </Link>
         </div>
       </div>
     </div>

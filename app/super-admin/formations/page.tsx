@@ -54,9 +54,9 @@ export default async function FormationsPage() {
                       ✏️
                     </Link>
                     <Link
-                      href={`/super-admin/formations/${f.id}/apercu`}
+                      href={`/super-admin/formations/${f.id}/preview`}
                       className="text-gray-400 hover:text-primary text-sm transition-colors"
-                      title="Aperçu"
+                      title="Aperçu apprenant"
                     >
                       👁
                     </Link>

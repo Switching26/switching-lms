@@ -8,24 +8,18 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
     return NextResponse.json({ error: "Accès refusé" }, { status: 403 })
   }
 
-  const { title, description, content, videoUrl, videoDuration, isPublished, order, sectionId } = await req.json()
+  const { title, description, order } = await req.json()
 
-  const chapter = await prisma.chapter.update({
+  const section = await prisma.section.update({
     where: { id: params.id },
     data: {
       ...(title !== undefined && { title }),
       ...(description !== undefined && { description: description || null }),
-      ...(content !== undefined && { content: content || null }),
-      ...(videoUrl !== undefined && { videoUrl: videoUrl || null }),
-      ...(videoDuration !== undefined && { videoDuration: videoDuration || 0 }),
-      ...(isPublished !== undefined && { isPublished }),
       ...(order !== undefined && { order }),
-      ...(sectionId !== undefined && { sectionId: sectionId || null }),
     },
-    include: { attachments: true },
   })
 
-  return NextResponse.json(chapter)
+  return NextResponse.json(section)
 }
 
 export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
@@ -34,6 +28,12 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
     return NextResponse.json({ error: "Accès refusé" }, { status: 403 })
   }
 
-  await prisma.chapter.delete({ where: { id: params.id } })
+  // Detach chapters from section before deleting
+  await prisma.chapter.updateMany({
+    where: { sectionId: params.id },
+    data: { sectionId: null },
+  })
+
+  await prisma.section.delete({ where: { id: params.id } })
   return NextResponse.json({ success: true })
 }

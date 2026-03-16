@@ -27,8 +27,11 @@ export default async function ModifierFormationPage({ params }: { params: { id: 
           videoDuration: ch.videoDuration,
           order: ch.order,
           isPublished: ch.isPublished,
+          sectionId: (ch as any).sectionId || null,
           attachments: ch.attachments,
         })),
+        sections: (formation as any).sections || [],
+        attachments: (formation as any).attachments || [],
       }))}
     />
   )

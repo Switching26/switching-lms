@@ -8,24 +8,37 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
     return NextResponse.json({ error: "Accès refusé" }, { status: 403 })
   }
 
-  const { title, description, content, videoUrl, videoDuration, isPublished, order, sectionId } = await req.json()
+  const { text, order, choices } = await req.json()
 
-  const chapter = await prisma.chapter.update({
+  // Update question
+  const question = await prisma.question.update({
     where: { id: params.id },
     data: {
-      ...(title !== undefined && { title }),
-      ...(description !== undefined && { description: description || null }),
-      ...(content !== undefined && { content: content || null }),
-      ...(videoUrl !== undefined && { videoUrl: videoUrl || null }),
-      ...(videoDuration !== undefined && { videoDuration: videoDuration || 0 }),
-      ...(isPublished !== undefined && { isPublished }),
+      ...(text !== undefined && { text }),
       ...(order !== undefined && { order }),
-      ...(sectionId !== undefined && { sectionId: sectionId || null }),
     },
-    include: { attachments: true },
   })
 
-  return NextResponse.json(chapter)
+  // If choices provided, replace them all
+  if (choices !== undefined) {
+    await prisma.choice.deleteMany({ where: { questionId: params.id } })
+    if (choices.length > 0) {
+      await prisma.choice.createMany({
+        data: choices.map((c: { text: string; isCorrect: boolean }) => ({
+          questionId: params.id,
+          text: c.text,
+          isCorrect: c.isCorrect || false,
+        })),
+      })
+    }
+  }
+
+  const updated = await prisma.question.findUnique({
+    where: { id: params.id },
+    include: { choices: true },
+  })
+
+  return NextResponse.json(updated)
 }
 
 export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
@@ -34,6 +47,6 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
     return NextResponse.json({ error: "Accès refusé" }, { status: 403 })
   }
 
-  await prisma.chapter.delete({ where: { id: params.id } })
+  await prisma.question.delete({ where: { id: params.id } })
   return NextResponse.json({ success: true })
 }

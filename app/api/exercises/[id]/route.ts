@@ -8,24 +8,25 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
     return NextResponse.json({ error: "Accès refusé" }, { status: 403 })
   }
 
-  const { title, description, content, videoUrl, videoDuration, isPublished, order, sectionId } = await req.json()
+  const { title, instructions, type, order } = await req.json()
 
-  const chapter = await prisma.chapter.update({
+  const exercise = await prisma.exercise.update({
     where: { id: params.id },
     data: {
       ...(title !== undefined && { title }),
-      ...(description !== undefined && { description: description || null }),
-      ...(content !== undefined && { content: content || null }),
-      ...(videoUrl !== undefined && { videoUrl: videoUrl || null }),
-      ...(videoDuration !== undefined && { videoDuration: videoDuration || 0 }),
-      ...(isPublished !== undefined && { isPublished }),
+      ...(instructions !== undefined && { instructions: instructions || null }),
+      ...(type !== undefined && { type }),
       ...(order !== undefined && { order }),
-      ...(sectionId !== undefined && { sectionId: sectionId || null }),
     },
-    include: { attachments: true },
+    include: {
+      questions: {
+        orderBy: { order: "asc" },
+        include: { choices: true },
+      },
+    },
   })
 
-  return NextResponse.json(chapter)
+  return NextResponse.json(exercise)
 }
 
 export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
@@ -34,6 +35,6 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
     return NextResponse.json({ error: "Accès refusé" }, { status: 403 })
   }
 
-  await prisma.chapter.delete({ where: { id: params.id } })
+  await prisma.exercise.delete({ where: { id: params.id } })
   return NextResponse.json({ success: true })
 }

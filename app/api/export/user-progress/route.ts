@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
 import { auth } from "@/lib/auth"
+import { prisma } from "@/lib/prisma"
 import { getUserById, getUserProgress } from "@/lib/data/users"
 
 export async function GET(req: NextRequest) {
@@ -19,7 +20,7 @@ export async function GET(req: NextRequest) {
 
   const progress = await getUserProgress(userId)
 
-  const rows = [
+  const rows: string[][] = [
     ["Chapitre", "Statut", "Temps (min)", "Sessions", "Dernière position", "Terminé le"],
     ...progress.map((p) => [
       p.chapter.title,
@@ -30,6 +31,31 @@ export async function GET(req: NextRequest) {
       p.completedAt ? new Date(p.completedAt).toLocaleDateString("fr-FR") : "",
     ]),
   ]
+
+  // Exercise scores
+  const exerciseResponses = await prisma.exerciseResponse.findMany({
+    where: { userId },
+    include: {
+      exercise: {
+        include: { chapter: { select: { title: true } } },
+      },
+    },
+    orderBy: { completedAt: "desc" },
+  })
+
+  if (exerciseResponses.length > 0) {
+    rows.push([])
+    rows.push(["Exercice", "Chapitre", "Type", "Score", "Date"])
+    exerciseResponses.forEach((er) => {
+      rows.push([
+        er.exercise.title,
+        er.exercise.chapter.title,
+        er.exercise.type,
+        er.score != null ? `${Math.round(er.score * 100)}%` : "—",
+        new Date(er.completedAt).toLocaleDateString("fr-FR"),
+      ])
+    })
+  }
 
   const csv = rows.map((r) => r.join(";")).join("\n")
 

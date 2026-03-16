@@ -27,6 +27,12 @@ enum TokenType {
   RESET
 }
 
+enum ExerciseType {
+  QCM
+  REDACTION
+  VRAI_FAUX
+}
+
 model User {
   id          String   @id @default(cuid())
   email       String   @unique
@@ -48,6 +54,8 @@ model User {
   loginLogs           LoginLog[]
   emailLogs           EmailLog[]
   passwordResetTokens PasswordResetToken[]
+  exerciseResponses   ExerciseResponse[]
+  questionResponses   QuestionResponse[]
 
   @@index([email])
   @@index([partnerId])
@@ -88,15 +96,43 @@ model Formation {
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
+  sections    Section[]
   chapters    Chapter[]
   enrollments Enrollment[]
   licenses    License[]
+  attachments FormationAttachment[]
+}
+
+model Section {
+  id          String   @id @default(cuid())
+  formationId String
+  formation   Formation @relation(fields: [formationId], references: [id], onDelete: Cascade)
+  title       String
+  description String?  @db.Text
+  order       Int
+
+  chapters Chapter[]
+
+  @@index([formationId])
+}
+
+model FormationAttachment {
+  id          String @id @default(cuid())
+  formationId String
+  formation   Formation @relation(fields: [formationId], references: [id], onDelete: Cascade)
+  name        String
+  fileUrl     String
+  fileSize    Int    @default(0)
+
+  @@index([formationId])
 }
 
 model Chapter {
   id            String   @id @default(cuid())
   formationId   String
   formation     Formation @relation(fields: [formationId], references: [id], onDelete: Cascade)
+  sectionId     String?
+  section       Section?  @relation(fields: [sectionId], references: [id], onDelete: SetNull)
   title         String
   description   String?  @db.Text
   order         Int
@@ -106,10 +142,12 @@ model Chapter {
   isPublished   Boolean  @default(false)
 
   attachments Attachment[]
+  exercises   Exercise[]
   progress    Progress[]
   notes       Note[]
 
   @@index([formationId])
+  @@index([sectionId])
 }
 
 model Attachment {
@@ -227,4 +265,78 @@ model EmailLog {
   success Boolean   @default(true)
 
   @@index([userId])
+}
+
+model Exercise {
+  id           String       @id @default(cuid())
+  chapterId    String
+  chapter      Chapter      @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+  type         ExerciseType
+  title        String
+  instructions String?      @db.Text
+  order        Int
+
+  questions Question[]
+  responses ExerciseResponse[]
+
+  @@index([chapterId])
+}
+
+model Question {
+  id         String       @id @default(cuid())
+  exerciseId String
+  exercise   Exercise     @relation(fields: [exerciseId], references: [id], onDelete: Cascade)
+  text       String       @db.Text
+  type       ExerciseType
+  order      Int
+
+  choices   Choice[]
+  responses QuestionResponse[]
+
+  @@index([exerciseId])
+}
+
+model Choice {
+  id         String  @id @default(cuid())
+  questionId String
+  question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  text       String
+  isCorrect  Boolean @default(false)
+
+  questionResponses QuestionResponse[]
+
+  @@index([questionId])
+}
+
+model ExerciseResponse {
+  id          String    @id @default(cuid())
+  userId      String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  exerciseId  String
+  exercise    Exercise  @relation(fields: [exerciseId], references: [id], onDelete: Cascade)
+  completedAt DateTime  @default(now())
+  score       Float?
+
+  questionResponses QuestionResponse[]
+
+  @@index([userId])
+  @@index([exerciseId])
+}
+
+model QuestionResponse {
+  id               String            @id @default(cuid())
+  exerciseResponseId String
+  exerciseResponse ExerciseResponse  @relation(fields: [exerciseResponseId], references: [id], onDelete: Cascade)
+  userId           String
+  user             User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  questionId       String
+  question         Question          @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  responseText     String?           @db.Text
+  selectedChoiceId String?
+  selectedChoice   Choice?           @relation(fields: [selectedChoiceId], references: [id], onDelete: SetNull)
+  isCorrect        Boolean?
+
+  @@index([userId])
+  @@index([questionId])
+  @@index([exerciseResponseId])
 }

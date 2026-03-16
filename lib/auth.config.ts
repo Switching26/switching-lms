@@ -14,6 +14,7 @@ export const authConfig = {
     async jwt({ token, user }: any) {
       if (user) {
         token.role = user.role
+        token.firstName = user.firstName
         token.partnerId = user.partnerId
         token.partnerName = user.partnerName
         token.partnerSlug = user.partnerSlug
@@ -25,6 +26,7 @@ export const authConfig = {
       if (session.user) {
         session.user.id = token.sub!
         session.user.role = token.role
+        session.user.firstName = token.firstName
         session.user.partnerId = token.partnerId
         session.user.partnerName = token.partnerName
         session.user.partnerSlug = token.partnerSlug

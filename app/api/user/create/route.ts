@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma"
 import { hash } from "bcryptjs"
 import { sendEmail } from "@/lib/email"
 import { accountCreatedEmail } from "@/lib/email-templates"
+import { generateToken } from "@/lib/tokens"
 
 export async function POST(req: Request) {
   const session = await auth()
@@ -45,13 +46,15 @@ export async function POST(req: Request) {
     include: { partner: true },
   })
 
-  // Send welcome email (non-blocking)
+  // Generate activation token and send welcome email with activation link
   try {
+    const activationToken = await generateToken(user.id, "ACTIVATION")
     const emailData = accountCreatedEmail(
       user.firstName,
       user.email,
-      password,
-      user.partner
+      activationToken,
+      user.partner,
+      user.partner?.slug
     )
     sendEmail(user.email, emailData.subject, emailData.html, user.id, "ACCOUNT_CREATED", user.partner)
   } catch {

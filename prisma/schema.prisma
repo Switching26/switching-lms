@@ -18,6 +18,13 @@ enum EmailType {
   FORMATION_ASSIGNED
   CHAPTER_COMPLETED
   FORMATION_COMPLETED
+  ACTIVATION_LINK
+  PASSWORD_RESET
+}
+
+enum TokenType {
+  ACTIVATION
+  RESET
 }
 
 model User {
@@ -34,11 +41,12 @@ model User {
   updatedAt   DateTime @updatedAt
   lastLoginAt DateTime?
 
-  enrollments Enrollment[]
-  progress    Progress[]
-  notes       Note[]
-  loginLogs   LoginLog[]
-  emailLogs   EmailLog[]
+  enrollments         Enrollment[]
+  progress            Progress[]
+  notes               Note[]
+  loginLogs           LoginLog[]
+  emailLogs           EmailLog[]
+  passwordResetTokens PasswordResetToken[]
 
   @@index([email])
   @@index([partnerId])
@@ -181,6 +189,20 @@ model LoginLog {
   ipAddress String?
   userAgent String?
 
+  @@index([userId])
+}
+
+model PasswordResetToken {
+  id        String    @id @default(cuid())
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  token     String    @unique
+  type      TokenType
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  @@index([token])
   @@index([userId])
 }
 

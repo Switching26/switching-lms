@@ -80,34 +80,93 @@ function button(text: string, url: string, color: string): string {
 }
 
 // ═══════════════════════════════
-// TEMPLATE 1 — Création de compte
+// TEMPLATE 1 — Création de compte (avec lien d'activation)
 // ═══════════════════════════════
 export function accountCreatedEmail(
   firstName: string,
   email: string,
-  password: string,
-  partner?: { name: string; primaryColor: string; secondaryColor: string; logoUrl?: string | null } | null
+  activationToken: string,
+  partner?: { name: string; primaryColor: string; secondaryColor: string; logoUrl?: string | null } | null,
+  partnerSlug?: string | null
 ) {
   const brand = getBrand(partner)
   const subject = `Bienvenue sur ${brand.name}, ${firstName}`
+  const partnerParam = partnerSlug ? `&partner=${partnerSlug}` : ""
+  const activationUrl = `${brand.baseUrl}/login/activer?token=${activationToken}${partnerParam}`
   const html = layout(brand, `
     <h1 style="margin:0 0 16px;font-size:22px;color:#111;">Votre compte a été créé</h1>
     <p style="margin:0 0 20px;color:#555;font-size:15px;line-height:1.6;">
-      Bonjour <strong>${firstName}</strong>, votre espace de formation est prêt. Voici vos identifiants de connexion :
+      Bonjour <strong>${firstName}</strong>, votre espace de formation est prêt.
     </p>
     <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#f5f5f7;border-radius:8px;padding:0;margin:0 0 20px;">
       <tr>
         <td style="padding:16px 20px;">
-          <p style="margin:0 0 8px;font-size:13px;color:#888;">Email</p>
-          <p style="margin:0 0 12px;font-size:15px;color:#111;font-weight:600;">${email}</p>
-          <p style="margin:0 0 8px;font-size:13px;color:#888;">Mot de passe temporaire</p>
-          <p style="margin:0;font-size:15px;color:#111;font-weight:600;font-family:monospace;">${password}</p>
+          <p style="margin:0 0 8px;font-size:13px;color:#888;">Votre email de connexion</p>
+          <p style="margin:0;font-size:15px;color:#111;font-weight:600;">${email}</p>
         </td>
       </tr>
     </table>
-    ${button("Accéder à ma formation", `${brand.baseUrl}/login`, brand.primaryColor)}
+    <p style="margin:0 0 8px;color:#555;font-size:15px;line-height:1.6;">
+      Cliquez sur le bouton ci-dessous pour créer votre mot de passe et activer votre compte :
+    </p>
+    ${button("Activer mon compte", activationUrl, brand.primaryColor)}
     <p style="margin:0;color:#999;font-size:13px;text-align:center;">
-      Pensez à changer votre mot de passe à la première connexion.
+      Ce lien est valable 72 heures.
+    </p>
+  `)
+  return { subject, html }
+}
+
+// ═══════════════════════════════
+// TEMPLATE 5 — Mot de passe oublié
+// ═══════════════════════════════
+export function passwordResetEmail(
+  firstName: string,
+  resetToken: string,
+  partner?: { name: string; primaryColor: string; secondaryColor: string; logoUrl?: string | null } | null,
+  partnerSlug?: string | null
+) {
+  const brand = getBrand(partner)
+  const subject = `Réinitialisation de votre mot de passe — ${brand.name}`
+  const partnerParam = partnerSlug ? `&partner=${partnerSlug}` : ""
+  const resetUrl = `${brand.baseUrl}/login/reinitialiser?token=${resetToken}${partnerParam}`
+  const html = layout(brand, `
+    <h1 style="margin:0 0 16px;font-size:22px;color:#111;">Réinitialisation du mot de passe</h1>
+    <p style="margin:0 0 20px;color:#555;font-size:15px;line-height:1.6;">
+      Bonjour <strong>${firstName}</strong>, vous avez demandé la réinitialisation de votre mot de passe.
+    </p>
+    <p style="margin:0 0 8px;color:#555;font-size:15px;line-height:1.6;">
+      Cliquez sur le bouton ci-dessous pour choisir un nouveau mot de passe :
+    </p>
+    ${button("Réinitialiser mon mot de passe", resetUrl, brand.primaryColor)}
+    <p style="margin:0;color:#999;font-size:13px;text-align:center;">
+      Ce lien est valable 1 heure. Si vous n'avez pas fait cette demande, ignorez cet email.
+    </p>
+  `)
+  return { subject, html }
+}
+
+// ═══════════════════════════════
+// TEMPLATE 6 — Renvoi lien d'activation
+// ═══════════════════════════════
+export function resendActivationEmail(
+  firstName: string,
+  activationToken: string,
+  partner?: { name: string; primaryColor: string; secondaryColor: string; logoUrl?: string | null } | null,
+  partnerSlug?: string | null
+) {
+  const brand = getBrand(partner)
+  const subject = `Activez votre compte — ${brand.name}`
+  const partnerParam = partnerSlug ? `&partner=${partnerSlug}` : ""
+  const activationUrl = `${brand.baseUrl}/login/activer?token=${activationToken}${partnerParam}`
+  const html = layout(brand, `
+    <h1 style="margin:0 0 16px;font-size:22px;color:#111;">Activez votre compte</h1>
+    <p style="margin:0 0 20px;color:#555;font-size:15px;line-height:1.6;">
+      Bonjour <strong>${firstName}</strong>, voici votre nouveau lien d'activation :
+    </p>
+    ${button("Activer mon compte", activationUrl, brand.primaryColor)}
+    <p style="margin:0;color:#999;font-size:13px;text-align:center;">
+      Ce lien est valable 72 heures.
     </p>
   `)
   return { subject, html }

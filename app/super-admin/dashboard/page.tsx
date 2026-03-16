@@ -1,14 +1,7 @@
-import { auth } from "@/lib/auth"
-import { redirect } from "next/navigation"
-
-export default async function SuperAdminDashboard() {
-  const session = await auth()
-  if (!session) redirect("/login")
-
+export default function SuperAdminDashboard() {
   return (
-    <div style={{ padding: "2rem" }}>
+    <div>
       <h1>Dashboard Super Admin</h1>
-      <p>Connecté en tant que : {session.user?.email}</p>
     </div>
   )
 }

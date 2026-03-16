@@ -25,20 +25,28 @@ export async function GET(req: NextRequest, { params }: { params: { filename: st
     return NextResponse.json({ error: "Non autorisé" }, { status: 401 })
   }
 
-  const filename = params.filename
+  const { filename } = params
   // Prevent path traversal
-  if (filename.includes("..") || filename.includes("/") || filename.includes("\\")) {
+  if (!filename || filename.includes("..") || filename.includes("/") || filename.includes("\\")) {
     return NextResponse.json({ error: "Nom de fichier invalide" }, { status: 400 })
   }
 
-  // Get storage path
-  const row = await prisma.systemConfig.findUnique({ where: { key: "storage_path" } })
-  const storagePath = row?.value || "/app/uploads"
+  // Get storage path from config, fallback to several common locations
+  let storagePath: string
+  try {
+    const row = await prisma.systemConfig.findUnique({ where: { key: "storage_path" } })
+    storagePath = row?.value || "/app/uploads"
+  } catch {
+    storagePath = "/app/uploads"
+  }
 
   const filePath = path.join(storagePath, filename)
 
   try {
-    await stat(filePath)
+    const fileStat = await stat(filePath)
+    if (!fileStat.isFile()) {
+      return NextResponse.json({ error: "Fichier introuvable" }, { status: 404 })
+    }
   } catch {
     return NextResponse.json({ error: "Fichier introuvable" }, { status: 404 })
   }

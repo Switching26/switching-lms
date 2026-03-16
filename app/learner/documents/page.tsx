@@ -2,6 +2,18 @@ import { auth } from "@/lib/auth"
 import { redirect } from "next/navigation"
 import { getLearnerFormation } from "@/lib/data/formations"
 
+function toRelativeFileUrl(url: string): string {
+  // If already a relative path, return as-is
+  if (url.startsWith("/api/files/")) return url
+  // Extract filename from full URL (e.g. https://host/api/files/uuid.pdf → /api/files/uuid.pdf)
+  const match = url.match(/\/api\/files\/(.+)$/)
+  if (match) return `/api/files/${match[1]}`
+  // Fallback: extract just the filename from the end of the URL
+  const filename = url.split("/").pop()
+  if (filename) return `/api/files/${filename}`
+  return url
+}
+
 export default async function DocumentsPage() {
   const session = await auth()
   if (!session) redirect("/login")
@@ -51,7 +63,7 @@ export default async function DocumentsPage() {
                     </div>
                   </div>
                   <a
-                    href={doc.fileUrl}
+                    href={toRelativeFileUrl(doc.fileUrl)}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="px-3 py-1.5 text-xs bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"

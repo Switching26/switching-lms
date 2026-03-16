@@ -121,17 +121,16 @@ export default function FormationPlayer({
           preview ? (
             <div className="aspect-video bg-black rounded-xl overflow-hidden">
               <iframe
-                src={`https://player.vimeo.com/video/${active.videoUrl}?title=0&byline=0&portrait=0&dnt=1`}
+                src={`https://iframe.cloudflarestream.com/${active.videoUrl}`}
                 className="w-full h-full"
-                frameBorder="0"
-                allow="autoplay; fullscreen"
+                allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
                 allowFullScreen
               />
             </div>
           ) : (
-            <VimeoPlayer
+            <CloudflarePlayer
               key={active.id}
-              vimeoId={active.videoUrl}
+              streamId={active.videoUrl}
               chapterId={active.id}
               lastPosition={active.lastPosition}
               onCompleted={() => handleChapterCompleted(active.id)}
@@ -475,23 +474,23 @@ function ExerciseBlock({
   )
 }
 
-/* ═══════════ VIMEO PLAYER ═══════════ */
+/* ═══════════ CLOUDFLARE STREAM PLAYER ═══════════ */
 
-function VimeoPlayer({
-  vimeoId,
+function CloudflarePlayer({
+  streamId,
   chapterId,
   lastPosition,
   onCompleted,
 }: {
-  vimeoId: string
+  streamId: string
   chapterId: string
   lastPosition: number
   onCompleted: () => void
 }) {
   const iframeRef = useRef<HTMLIFrameElement>(null)
-  const playerRef = useRef<any>(null)
   const progressTimerRef = useRef<ReturnType<typeof setInterval> | null>(null)
   const hasEndedRef = useRef(false)
+  const currentTimeRef = useRef(0)
   const [processing, setProcessing] = useState(false)
 
   const saveProgress = useCallback(async (position: number, completed: boolean = false) => {
@@ -510,52 +509,53 @@ function VimeoPlayer({
   }, [chapterId, onCompleted])
 
   useEffect(() => {
-    let player: any = null
+    const iframe = iframeRef.current
+    if (!iframe) return
 
-    const initPlayer = async () => {
-      const VimeoPlayerLib = (await import("@vimeo/player")).default
-
-      if (!iframeRef.current) return
-      player = new VimeoPlayerLib(iframeRef.current)
-      playerRef.current = player
-
+    const handleMessage = (event: MessageEvent) => {
+      if (!event.data || typeof event.data !== "string") return
       try {
-        await player.ready()
-      } catch {
-        setProcessing(true)
-        return
-      }
-
-      if (lastPosition > 0) {
-        try { await player.setCurrentTime(lastPosition) } catch {}
-      }
-
-      progressTimerRef.current = setInterval(async () => {
-        try {
-          const time = await player.getCurrentTime()
-          saveProgress(time)
-        } catch {}
-      }, 30000)
-
-      player.on("ended", () => {
-        if (hasEndedRef.current) return
-        hasEndedRef.current = true
-        saveProgress(0, true)
-      })
+        const data = JSON.parse(event.data)
+        if (data.type === "stream:timeupdate" && typeof data.currentTime === "number") {
+          currentTimeRef.current = data.currentTime
+        }
+        if (data.type === "stream:ended") {
+          if (hasEndedRef.current) return
+          hasEndedRef.current = true
+          saveProgress(0, true)
+        }
+      } catch {}
     }
 
-    initPlayer()
+    window.addEventListener("message", handleMessage)
+
+    // Save progress every 30 seconds
+    progressTimerRef.current = setInterval(() => {
+      if (currentTimeRef.current > 0 && !hasEndedRef.current) {
+        saveProgress(currentTimeRef.current)
+      }
+    }, 30000)
+
+    // Check if video is ready
+    const checkStatus = async () => {
+      try {
+        const res = await fetch(`/api/upload/video/${streamId}/status`)
+        const data = await res.json()
+        if (data.status === "processing") {
+          setProcessing(true)
+        }
+      } catch {}
+    }
+    checkStatus()
 
     return () => {
+      window.removeEventListener("message", handleMessage)
       if (progressTimerRef.current) clearInterval(progressTimerRef.current)
-      if (player) {
-        player.getCurrentTime().then((time: number) => {
-          if (!hasEndedRef.current) saveProgress(time)
-        }).catch(() => {})
-        player.destroy().catch(() => {})
+      if (currentTimeRef.current > 0 && !hasEndedRef.current) {
+        saveProgress(currentTimeRef.current)
       }
     }
-  }, [vimeoId, chapterId, lastPosition, saveProgress])
+  }, [streamId, chapterId, saveProgress])
 
   if (processing) {
     return (
@@ -568,14 +568,15 @@ function VimeoPlayer({
     )
   }
 
+  const startTime = lastPosition > 0 ? `#t=${lastPosition}s` : ""
+
   return (
     <div className="aspect-video bg-black rounded-xl overflow-hidden">
       <iframe
         ref={iframeRef}
-        src={`https://player.vimeo.com/video/${vimeoId}?title=0&byline=0&portrait=0&dnt=1`}
+        src={`https://iframe.cloudflarestream.com/${streamId}?autoplay=false&preload=auto${startTime}`}
         className="w-full h-full"
-        frameBorder="0"
-        allow="autoplay; fullscreen"
+        allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
         allowFullScreen
       />
     </div>

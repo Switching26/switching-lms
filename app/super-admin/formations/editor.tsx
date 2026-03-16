@@ -67,12 +67,8 @@ interface Formation {
   attachments?: Attachment[]
 }
 
-function extractVimeoId(input: string): string {
-  if (!input) return ""
-  if (/^\d+$/.test(input.trim())) return input.trim()
-  const match = input.match(/vimeo\.com\/(?:video\/)?(\d+)/)
-  return match ? match[1] : input.trim()
-}
+/* ═══════════ VIDEO UPLOAD STATES ═══════════ */
+type VideoUploadState = "idle" | "uploading" | "processing" | "ready" | "error"
 
 /* ═══════════ MAIN EDITOR ═══════════ */
 
@@ -672,62 +668,130 @@ function ChapterPanel({
   onDeleteAttachment: (id: string) => void
   saving: boolean
 }) {
-  const [vimeoInput, setVimeoInput] = useState(chapter.videoUrl || "")
-  const [showPreview, setShowPreview] = useState(!!chapter.videoUrl)
-  const [uploading, setUploading] = useState(false)
+  const [videoState, setVideoState] = useState<VideoUploadState>(chapter.videoUrl ? "ready" : "idle")
   const [uploadProgress, setUploadProgress] = useState(0)
+  const [processingPct, setProcessingPct] = useState<number | null>(null)
+  const [videoError, setVideoError] = useState("")
   const [uploadingFile, setUploadingFile] = useState(false)
   const [dragActive, setDragActive] = useState(false)
   const [activeTab, setActiveTab] = useState<"contenu" | "exercices">("contenu")
   const fileInputRef = useRef<HTMLInputElement>(null)
   const attachFileRef = useRef<HTMLInputElement>(null)
+  const tusUploadRef = useRef<any>(null)
+  const pollingRef = useRef<ReturnType<typeof setInterval> | null>(null)
 
-  const vimeoId = extractVimeoId(vimeoInput)
+  // Cleanup polling on unmount
+  const stopPolling = useCallback(() => {
+    if (pollingRef.current) { clearInterval(pollingRef.current); pollingRef.current = null }
+  }, [])
 
-  const handleVimeoInput = (value: string) => {
-    setVimeoInput(value)
-    const id = extractVimeoId(value)
-    onUpdate({ videoUrl: id || null })
-  }
-
-  const handlePreview = () => {
-    if (vimeoId) setShowPreview(true)
-  }
+  const pollProcessingStatus = useCallback((streamId: string) => {
+    stopPolling()
+    pollingRef.current = setInterval(async () => {
+      try {
+        const res = await fetch(`/api/upload/video/${streamId}/status`)
+        const data = await res.json()
+        if (data.status === "ready") {
+          stopPolling()
+          setVideoState("ready")
+          if (data.duration) onUpdate({ videoDuration: data.duration })
+        } else if (data.status === "error") {
+          stopPolling()
+          setVideoState("error")
+          setVideoError(data.error || "Erreur de traitement vidéo")
+        } else {
+          setProcessingPct(data.pctComplete || null)
+        }
+      } catch {
+        // Keep polling on network error
+      }
+    }, 5000)
+  }, [stopPolling, onUpdate])
 
   const handleVideoUpload = async (file: File) => {
-    if (!file.type.startsWith("video/")) return
-    setUploading(true)
+    if (!file.type.startsWith("video/")) { setVideoError("Format de fichier non supporté"); return }
+    const maxSize = 2 * 1024 * 1024 * 1024
+    if (file.size > maxSize) { setVideoError("Fichier trop volumineux (max 2 Go)"); return }
+
+    setVideoState("uploading")
     setUploadProgress(0)
-
-    const formData = new FormData()
-    formData.append("file", file)
-
-    const progressInterval = setInterval(() => {
-      setUploadProgress((p) => Math.min(p + 2, 90))
-    }, 500)
+    setVideoError("")
 
     try {
-      const res = await fetch("/api/upload/video", { method: "POST", body: formData })
-      clearInterval(progressInterval)
+      // Step 1: Get upload URL from our API
+      const initRes = await fetch("/api/upload/video", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ fileName: file.name, fileSize: file.size }),
+      })
 
-      if (!res.ok) {
-        const err = await res.json()
-        alert("Erreur : " + (err.error || "Upload échoué"))
+      if (!initRes.ok) {
+        const err = await initRes.json()
+        setVideoState("error")
+        setVideoError(err.error || "Erreur lors de la création de l'upload")
         return
       }
 
-      const data = await res.json()
-      setUploadProgress(100)
-      setVimeoInput(data.vimeoId)
-      onUpdate({ videoUrl: data.vimeoId })
-      setShowPreview(true)
+      const { uploadUrl, streamId } = await initRes.json()
+
+      // Store the streamId as videoUrl
+      onUpdate({ videoUrl: streamId })
+
+      // Step 2: Upload via tus-js-client
+      const { Upload } = await import("tus-js-client")
+      const tusUpload = new Upload(file, {
+        endpoint: uploadUrl,
+        uploadUrl: uploadUrl,
+        chunkSize: 50 * 1024 * 1024, // 50MB chunks
+        retryDelays: [0, 1000, 3000, 5000],
+        metadata: {
+          filename: file.name,
+          filetype: file.type,
+        },
+        onProgress: (bytesUploaded, bytesTotal) => {
+          const pct = Math.round((bytesUploaded / bytesTotal) * 100)
+          setUploadProgress(pct)
+        },
+        onSuccess: () => {
+          setVideoState("processing")
+          setProcessingPct(null)
+          pollProcessingStatus(streamId)
+        },
+        onError: (error) => {
+          setVideoState("error")
+          setVideoError(error.message || "Erreur lors de l'upload")
+        },
+      })
+
+      tusUploadRef.current = tusUpload
+      tusUpload.start()
     } catch {
-      clearInterval(progressInterval)
-      alert("Erreur réseau lors de l'upload")
-    } finally {
-      setUploading(false)
-      setTimeout(() => setUploadProgress(0), 1500)
+      setVideoState("error")
+      setVideoError("Erreur réseau lors de l'upload")
     }
+  }
+
+  const handleCancelUpload = () => {
+    if (tusUploadRef.current) {
+      tusUploadRef.current.abort()
+      tusUploadRef.current = null
+    }
+    setVideoState("idle")
+    setUploadProgress(0)
+  }
+
+  const handleRemoveVideo = () => {
+    stopPolling()
+    onUpdate({ videoUrl: null, videoDuration: 0 })
+    setVideoState("idle")
+    setUploadProgress(0)
+    setProcessingPct(null)
+  }
+
+  const handleRetry = () => {
+    setVideoState("idle")
+    setVideoError("")
+    fileInputRef.current?.click()
   }
 
   const handleDrop = useCallback((e: React.DragEvent) => {
@@ -735,6 +799,7 @@ function ChapterPanel({
     setDragActive(false)
     const file = e.dataTransfer.files[0]
     if (file) handleVideoUpload(file)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const handleFileUpload = async (file: File) => {
@@ -818,94 +883,124 @@ function ChapterPanel({
             />
           </div>
 
-          {/* Vidéo Vimeo */}
+          {/* Vidéo Cloudflare Stream */}
           <div className="space-y-3">
-            <h3 className="text-sm font-semibold">Vidéo Vimeo</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium mb-1">ID ou URL Vimeo</label>
-                <div className="flex gap-2">
-                  <input
-                    value={vimeoInput}
-                    onChange={(e) => handleVimeoInput(e.target.value)}
-                    placeholder="123456789 ou https://vimeo.com/123456789"
-                    className="flex-1 px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-primary"
-                  />
-                  <button
-                    onClick={handlePreview}
-                    disabled={!vimeoId}
-                    className="px-3 py-2 bg-gray-100 text-sm rounded-lg hover:bg-gray-200 disabled:opacity-50 transition-colors"
-                  >
-                    Prévisualiser
-                  </button>
-                </div>
-                {vimeoId && vimeoId !== vimeoInput && (
-                  <p className="text-xs text-gray-400 mt-1">ID extrait : {vimeoId}</p>
-                )}
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-1">Durée vidéo (minutes)</label>
-                <input
-                  type="number"
-                  value={chapter.videoDuration || 0}
-                  onChange={(e) => onUpdate({ videoDuration: parseInt(e.target.value) || 0 })}
-                  min={0}
-                  className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-primary"
-                />
-              </div>
+            <div className="flex items-center justify-between">
+              <h3 className="text-sm font-semibold">Vidéo</h3>
+              {chapter.videoUrl && videoState === "ready" && (
+                <button
+                  onClick={handleRemoveVideo}
+                  className="text-xs text-red-400 hover:text-red-600 transition-colors"
+                >
+                  Supprimer la vidéo
+                </button>
+              )}
             </div>
 
-            {showPreview && vimeoId && (
-              <div className="aspect-video rounded-xl overflow-hidden border border-border">
-                <iframe
-                  src={`https://player.vimeo.com/video/${vimeoId}?title=0&byline=0&portrait=0&dnt=1`}
-                  className="w-full h-full"
-                  frameBorder="0"
-                  allow="autoplay; fullscreen"
-                  allowFullScreen
-                />
+            {/* Ready state — show preview */}
+            {videoState === "ready" && chapter.videoUrl && (
+              <div className="space-y-3">
+                <div className="aspect-video rounded-xl overflow-hidden border border-border">
+                  <iframe
+                    src={`https://iframe.cloudflarestream.com/${chapter.videoUrl}`}
+                    className="w-full h-full"
+                    allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
+                    allowFullScreen
+                  />
+                </div>
+                <div className="flex items-center gap-3">
+                  <p className="text-xs text-gray-400">Stream ID : {chapter.videoUrl}</p>
+                  <button
+                    onClick={() => { setVideoState("idle"); fileInputRef.current?.click() }}
+                    className="px-3 py-1.5 bg-gray-100 text-xs rounded-lg hover:bg-gray-200 transition-colors"
+                  >
+                    Remplacer la vidéo
+                  </button>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-1">Durée vidéo (secondes)</label>
+                  <input
+                    type="number"
+                    value={chapter.videoDuration || 0}
+                    onChange={(e) => onUpdate({ videoDuration: parseInt(e.target.value) || 0 })}
+                    min={0}
+                    className="w-32 px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-primary"
+                  />
+                </div>
               </div>
             )}
 
-            <div
-              onDragOver={(e) => { e.preventDefault(); setDragActive(true) }}
-              onDragLeave={() => setDragActive(false)}
-              onDrop={handleDrop}
-              className={`border-2 border-dashed rounded-xl p-6 text-center transition-colors ${
-                dragActive ? "border-primary bg-blue-50" : "border-border"
-              }`}
-            >
-              {uploading ? (
-                <div className="space-y-2">
-                  <p className="text-sm text-gray-500">Upload en cours...</p>
-                  <div className="w-full max-w-xs mx-auto bg-gray-200 rounded-full h-2">
-                    <div className="bg-primary h-2 rounded-full transition-all" style={{ width: `${uploadProgress}%` }} />
-                  </div>
-                  <p className="text-xs text-gray-400">{uploadProgress}%</p>
+            {/* Uploading state */}
+            {videoState === "uploading" && (
+              <div className="border-2 border-dashed border-primary bg-blue-50 rounded-xl p-8 text-center space-y-3">
+                <p className="text-sm font-medium text-gray-700">Upload en cours...</p>
+                <div className="w-full max-w-md mx-auto bg-gray-200 rounded-full h-2.5">
+                  <div className="bg-primary h-2.5 rounded-full transition-all duration-300" style={{ width: `${uploadProgress}%` }} />
                 </div>
-              ) : (
-                <>
-                  <p className="text-sm text-gray-500 mb-2">Glissez-déposez une vidéo ici ou</p>
-                  <button
-                    onClick={() => fileInputRef.current?.click()}
-                    className="px-4 py-2 bg-primary text-white text-sm rounded-lg hover:opacity-90"
-                  >
-                    Uploader une vidéo vers Vimeo
-                  </button>
-                  <input
-                    ref={fileInputRef}
-                    type="file"
-                    accept="video/*"
-                    className="hidden"
-                    onChange={(e) => {
-                      const file = e.target.files?.[0]
-                      if (file) handleVideoUpload(file)
-                      e.target.value = ""
-                    }}
-                  />
-                </>
-              )}
-            </div>
+                <p className="text-sm text-gray-500">{uploadProgress}%</p>
+                <button
+                  onClick={handleCancelUpload}
+                  className="px-3 py-1.5 bg-white border border-border text-sm rounded-lg hover:bg-gray-50 transition-colors"
+                >
+                  Annuler
+                </button>
+              </div>
+            )}
+
+            {/* Processing state */}
+            {videoState === "processing" && (
+              <div className="border-2 border-dashed border-yellow-400 bg-yellow-50 rounded-xl p-8 text-center space-y-3">
+                <div className="inline-block w-8 h-8 border-2 border-yellow-400 border-t-transparent rounded-full animate-spin" />
+                <p className="text-sm font-medium text-yellow-700">Vidéo en cours de traitement...</p>
+                {processingPct !== null && (
+                  <p className="text-xs text-yellow-600">{processingPct}% terminé</p>
+                )}
+                <p className="text-xs text-gray-400">Vous pouvez continuer l'édition, la vidéo sera disponible dans quelques instants.</p>
+              </div>
+            )}
+
+            {/* Error state */}
+            {videoState === "error" && (
+              <div className="border-2 border-dashed border-red-300 bg-red-50 rounded-xl p-8 text-center space-y-3">
+                <p className="text-sm font-medium text-red-600">{videoError || "Erreur lors de l'upload"}</p>
+                <button
+                  onClick={handleRetry}
+                  className="px-4 py-2 bg-primary text-white text-sm rounded-lg hover:opacity-90"
+                >
+                  Réessayer
+                </button>
+              </div>
+            )}
+
+            {/* Idle state — drop zone */}
+            {videoState === "idle" && !chapter.videoUrl && (
+              <div
+                onDragOver={(e) => { e.preventDefault(); setDragActive(true) }}
+                onDragLeave={() => setDragActive(false)}
+                onDrop={handleDrop}
+                className={`border-2 border-dashed rounded-xl p-8 text-center transition-colors cursor-pointer ${
+                  dragActive ? "border-primary bg-blue-50" : "border-border hover:border-gray-300"
+                }`}
+                onClick={() => fileInputRef.current?.click()}
+              >
+                <div className="space-y-2">
+                  <div className="text-3xl text-gray-300">&#9654;</div>
+                  <p className="text-sm text-gray-500">Glissez-déposez une vidéo ici ou cliquez pour sélectionner</p>
+                  <p className="text-xs text-gray-400">MP4, MOV, AVI — 2 Go maximum</p>
+                </div>
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="video/mp4,video/quicktime,video/x-msvideo,video/*"
+                  className="hidden"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0]
+                    if (file) handleVideoUpload(file)
+                    e.target.value = ""
+                  }}
+                />
+              </div>
+            )}
           </div>
 
           <div className="flex items-center gap-3">

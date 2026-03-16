@@ -23,8 +23,23 @@ export default async function PartnerAdminLayout({ children }: { children: React
   if (!session) redirect("/login")
 
   const user = session.user as any
-  const primaryColor = user.partnerColor || "#111111"
-  const secondaryColor = user.partnerSecondaryColor || "#FFFFFF"
+
+  // Fetch partner fresh from DB — JWT may contain stale logoUrl
+  const partner = user.partnerId
+    ? await prisma.partner.findUnique({
+        where: { id: user.partnerId },
+        select: { name: true, logoUrl: true, primaryColor: true, secondaryColor: true },
+      })
+    : null
+
+  const primaryColor = partner?.primaryColor || "#111111"
+  const secondaryColor = partner?.secondaryColor || "#FFFFFF"
+
+  console.log("[TopNav partner-admin] partner logo data:", {
+    partnerId: user.partnerId,
+    logoUrl: partner?.logoUrl,
+    name: partner?.name,
+  })
 
   return (
     <div
@@ -35,9 +50,9 @@ export default async function PartnerAdminLayout({ children }: { children: React
       }}
     >
       <PartnerAdminShell
-        partnerName={user.partnerName || "Partenaire"}
+        partnerName={partner?.name || "Partenaire"}
         partnerColor={primaryColor}
-        partnerLogo={user.partnerLogo || null}
+        partnerLogo={partner?.logoUrl || null}
         userEmail={session.user?.email || ""}
         impersonating={user.impersonating || null}
       >

@@ -23,19 +23,27 @@ const MIME_TYPES: Record<string, string> = {
   svg: "image/svg+xml",
 }
 
-export async function GET(req: NextRequest, { params }: { params: { filename: string } }) {
-  const session = await auth()
-  if (!session) {
-    return NextResponse.json({ error: "Non autorisé" }, { status: 401 })
-  }
+const IMAGE_EXTENSIONS = new Set(["jpg", "jpeg", "png", "webp", "svg"])
 
+export async function GET(req: NextRequest, { params }: { params: { filename: string } }) {
   const { filename } = params
   // Prevent path traversal
   if (!filename || filename.includes("..") || filename.includes("/") || filename.includes("\\")) {
     return NextResponse.json({ error: "Nom de fichier invalide" }, { status: 400 })
   }
 
-  // Get storage path from config, fallback to several common locations
+  const ext = filename.split(".").pop()?.toLowerCase() || ""
+  const isImage = IMAGE_EXTENSIONS.has(ext)
+
+  // Images are public (covers, logos); documents require authentication
+  if (!isImage) {
+    const session = await auth()
+    if (!session) {
+      return NextResponse.json({ error: "Non autorisé" }, { status: 401 })
+    }
+  }
+
+  // Get storage path from config, fallback to UPLOAD_DIR
   let storagePath: string
   try {
     const row = await prisma.systemConfig.findUnique({ where: { key: "storage_path" } })
@@ -56,14 +64,13 @@ export async function GET(req: NextRequest, { params }: { params: { filename: st
   }
 
   const buffer = await readFile(filePath)
-  const ext = filename.split(".").pop()?.toLowerCase() || ""
   const contentType = MIME_TYPES[ext] || "application/octet-stream"
 
   return new NextResponse(buffer, {
     headers: {
       "Content-Type": contentType,
       "Content-Disposition": `inline; filename="${filename}"`,
-      "Cache-Control": "private, max-age=3600",
+      "Cache-Control": isImage ? "public, max-age=86400" : "private, max-age=3600",
     },
   })
 }

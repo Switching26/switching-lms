@@ -60,6 +60,8 @@ export async function POST(req: Request) {
   const buffer = Buffer.from(await file.arrayBuffer())
   await writeFile(filePath, buffer)
 
+  console.log("[Upload] File saved:", { filePath, storagePath, filename, size: file.size })
+
   const url = `${baseUrl}/${filename}`
 
   return NextResponse.json({

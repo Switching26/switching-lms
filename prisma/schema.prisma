@@ -55,6 +55,14 @@ model Partner {
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 
+  // SMTP configuration
+  smtpHost       String?
+  smtpPort       Int?
+  smtpEmail      String?
+  smtpPassword   String?  // AES-256 encrypted
+  smtpFromName   String?
+  useDefaultSmtp Boolean  @default(true)
+
   users       User[]
   enrollments Enrollment[]
   licenses    License[]
@@ -181,6 +189,8 @@ model EmailLog {
   userId  String
   user    User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   type    EmailType
+  subject String?
+  error   String?
   sentAt  DateTime  @default(now())
   success Boolean   @default(true)
 

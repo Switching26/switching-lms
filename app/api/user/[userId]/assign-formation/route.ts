@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server"
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
+import { sendEmail } from "@/lib/email"
+import { formationAssignedEmail } from "@/lib/email-templates"
 
 export async function POST(req: NextRequest, { params }: { params: { userId: string } }) {
   const session = await auth()
@@ -15,7 +17,7 @@ export async function POST(req: NextRequest, { params }: { params: { userId: str
     return NextResponse.json({ error: "Formation requise" }, { status: 400 })
   }
 
-  const user = await prisma.user.findUnique({ where: { id: params.userId } })
+  const user = await prisma.user.findUnique({ where: { id: params.userId }, include: { partner: true } })
   if (!user) {
     return NextResponse.json({ error: "Utilisateur introuvable" }, { status: 404 })
   }
@@ -61,6 +63,19 @@ export async function POST(req: NextRequest, { params }: { params: { userId: str
     },
     include: { formation: true },
   })
+
+  // Send formation assigned email (non-blocking)
+  try {
+    const emailData = formationAssignedEmail(
+      user.firstName,
+      enrollment.formation.title,
+      expiresAt || null,
+      user.partner
+    )
+    sendEmail(user.email, emailData.subject, emailData.html, user.id, "FORMATION_ASSIGNED", user.partner)
+  } catch {
+    // Never block enrollment if email fails
+  }
 
   return NextResponse.json(enrollment, { status: 201 })
 }

@@ -27,7 +27,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           return null
         }
 
-        if (!user.isActive) {
+        if (!user.isActive || user.archivedAt) {
           throw new Error("ACCOUNT_DISABLED")
         }
 

@@ -1,8 +1,8 @@
-import { NextResponse } from "next/server"
+import { NextRequest, NextResponse } from "next/server"
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
 
-export async function POST(req: Request, { params }: { params: { id: string } }) {
+export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
   const session = await auth()
   if (!session) return NextResponse.json({ error: "Non autorisé" }, { status: 401 })
 
@@ -14,27 +14,24 @@ export async function POST(req: Request, { params }: { params: { id: string } })
   }
 
   const target = await prisma.user.findUnique({ where: { id: params.id } })
-  if (!target) {
-    return NextResponse.json({ error: "Utilisateur introuvable" }, { status: 404 })
-  }
+  if (!target) return NextResponse.json({ error: "Utilisateur introuvable" }, { status: 404 })
 
   // Partner admin scope
   if (role === "PARTNER_ADMIN" && target.partnerId !== callerPartnerId) {
     return NextResponse.json({ error: "Accès refusé" }, { status: 403 })
   }
 
+  // Cannot deactivate super admin
   if (target.role === "SUPER_ADMIN") {
-    return NextResponse.json({ error: "Impossible d'archiver un super admin" }, { status: 400 })
+    return NextResponse.json({ error: "Impossible de modifier le statut d'un super admin" }, { status: 400 })
   }
 
-  if (target.archivedAt) {
-    return NextResponse.json({ error: "Utilisateur déjà archivé" }, { status: 400 })
-  }
+  const { isActive } = await req.json()
 
-  const user = await prisma.user.update({
+  const updated = await prisma.user.update({
     where: { id: params.id },
-    data: { archivedAt: new Date(), isActive: false },
+    data: { isActive },
   })
 
-  return NextResponse.json({ success: true, archivedAt: user.archivedAt })
+  return NextResponse.json({ isActive: updated.isActive })
 }

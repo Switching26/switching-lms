@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server"
 import { auth } from "@/lib/auth"
-import { prisma } from "@/lib/prisma"
 import { randomUUID } from "crypto"
 import { writeFile, mkdir } from "fs/promises"
 import path from "path"
@@ -11,14 +10,6 @@ const MAX_SIZE = 50 * 1024 * 1024 // 50 MB
 const ALLOWED_EXTENSIONS = ["pdf", "doc", "docx", "xls", "xlsx", "ppt", "pptx", "jpg", "jpeg", "png", "webp", "svg", "ico"]
 
 const UPLOAD_DIR = process.env.UPLOAD_DIR || "/mnt/uploads"
-
-function getStoragePath(config: Record<string, string>): string {
-  return config["storage_path"] || UPLOAD_DIR
-}
-
-function getBaseUrl(config: Record<string, string>): string {
-  return config["storage_base_url"] || (process.env.AUTH_URL || process.env.NEXTAUTH_URL || "") + "/api/files"
-}
 
 export async function POST(req: Request) {
   const session = await auth()
@@ -41,28 +32,19 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: `Format non accepté. Formats : ${ALLOWED_EXTENSIONS.join(", ")}` }, { status: 400 })
   }
 
-  // Get storage config
-  const rows = await prisma.systemConfig.findMany({
-    where: { key: { in: ["storage_path", "storage_base_url"] } },
-  })
-  const config: Record<string, string> = {}
-  for (const r of rows) config[r.key] = r.value
-
-  const storagePath = getStoragePath(config)
-  const baseUrl = getBaseUrl(config)
-
-  // Ensure directory exists
-  await mkdir(storagePath, { recursive: true })
+  // Always use UPLOAD_DIR - never read path from database
+  await mkdir(UPLOAD_DIR, { recursive: true })
 
   const filename = `${randomUUID()}.${ext}`
-  const filePath = path.join(storagePath, filename)
+  const filePath = path.join(UPLOAD_DIR, filename)
 
   const buffer = Buffer.from(await file.arrayBuffer())
   await writeFile(filePath, buffer)
 
-  console.log("[Upload] File saved:", { filePath, storagePath, filename, size: file.size })
+  console.log("[Upload] File saved:", { filePath, uploadDir: UPLOAD_DIR, filename, size: file.size })
 
-  const url = `${baseUrl}/${filename}`
+  // Always return relative URL - never absolute path
+  const url = `/api/files/${filename}`
 
   return NextResponse.json({
     url,

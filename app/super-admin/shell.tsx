@@ -16,7 +16,7 @@ export default function SuperAdminShell({ children, userEmail }: { children: Rea
   return (
     <div className="min-h-screen bg-muted">
       <TopNav brand="LMS Admin" badge="Super Admin" items={items} userEmail={userEmail} />
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6">{children}</main>
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-6">{children}</main>
     </div>
   )
 }

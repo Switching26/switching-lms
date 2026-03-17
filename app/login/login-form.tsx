@@ -81,9 +81,9 @@ export default function LoginForm() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-muted">
+    <div className="min-h-screen flex items-center justify-center bg-muted px-4">
       <div
-        className="w-full max-w-[380px] bg-white rounded-2xl p-8 border border-border"
+        className="w-full max-w-[380px] bg-white rounded-2xl p-6 sm:p-8 border border-border"
         style={partner ? { backgroundColor: `${brandColor}03` } : undefined}
       >
         <div className="text-center mb-8">

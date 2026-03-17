@@ -47,13 +47,13 @@ export default async function SuperAdminDashboard() {
             {recentActivity.map((log) => {
               const badge = emailTypeBadge[log.type] || { label: log.type, variant: "default" }
               return (
-                <div key={log.id} className="flex items-center justify-between py-2 border-b border-gray-50 last:border-0">
-                  <div className="flex items-center gap-3">
+                <div key={log.id} className="flex flex-col sm:flex-row sm:items-center justify-between py-2 border-b border-gray-50 last:border-0 gap-1 sm:gap-3">
+                  <div className="flex flex-wrap items-center gap-2 sm:gap-3 min-w-0">
                     <Badge variant={badge.variant}>{badge.label}</Badge>
                     <span className="text-sm">{log.user.firstName} {log.user.lastName}</span>
-                    <span className="text-xs text-gray-400">{log.user.email}</span>
+                    <span className="text-xs text-gray-400 truncate">{log.user.email}</span>
                   </div>
-                  <span className="text-xs text-gray-400">
+                  <span className="text-xs text-gray-400 shrink-0">
                     {new Date(log.sentAt).toLocaleDateString("fr-FR")}
                   </span>
                 </div>

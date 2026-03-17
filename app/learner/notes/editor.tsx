@@ -59,9 +59,23 @@ export default function NotesEditor({ chapters, userId }: { chapters: Chapter[];
   }, [])
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-      {/* Sidebar */}
-      <div className="bg-white rounded-xl border border-border p-4">
+    <div className="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-6">
+      {/* Mobile dropdown */}
+      <div className="md:hidden">
+        <select
+          value={activeId}
+          onChange={(e) => handleSwitchChapter(e.target.value)}
+          className="w-full px-3 py-2.5 text-sm border border-border rounded-lg bg-white outline-none focus:border-primary"
+          style={{ fontSize: 16, minHeight: 44 }}
+        >
+          {chapters.map((ch) => (
+            <option key={ch.id} value={ch.id}>{ch.order}. {ch.title}</option>
+          ))}
+        </select>
+      </div>
+
+      {/* Desktop sidebar */}
+      <div className="hidden md:block bg-white rounded-xl border border-border p-4">
         <h3 className="text-sm font-semibold mb-3">Chapitres</h3>
         <div className="space-y-1">
           {chapters.map((ch) => (
@@ -80,7 +94,7 @@ export default function NotesEditor({ chapters, userId }: { chapters: Chapter[];
 
       {/* Editor */}
       <div className="md:col-span-3">
-        <div className="bg-white rounded-xl border border-border p-6">
+        <div className="bg-white rounded-xl border border-border p-4 sm:p-6">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-base font-semibold">
               {chapters.find((c) => c.id === activeId)?.title}
@@ -93,7 +107,8 @@ export default function NotesEditor({ chapters, userId }: { chapters: Chapter[];
             value={notes[activeId] || ""}
             onChange={(e) => handleChange(e.target.value)}
             placeholder="Prenez vos notes ici..."
-            className="w-full min-h-[400px] text-sm border border-border rounded-lg p-4 outline-none resize-none focus:border-primary transition-colors"
+            className="w-full min-h-[300px] md:min-h-[400px] text-sm border border-border rounded-lg p-4 outline-none resize-none focus:border-primary transition-colors"
+            style={{ fontSize: 16 }}
           />
         </div>
       </div>

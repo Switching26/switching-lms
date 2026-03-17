@@ -32,7 +32,7 @@ export default async function PartnerDashboard() {
     <div className="space-y-6">
       <h1 className="text-xl font-semibold">Dashboard</h1>
 
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
         <KPICard label="Apprenants actifs" value={activeUsers} />
         <KPICard label="Licences utilisées" value={`${licenseStats.usedSeats}/${licenseStats.totalSeats}`} />
         <KPICard label="Taux de complétion" value={`${completionRate}%`} />
@@ -47,12 +47,12 @@ export default async function PartnerDashboard() {
             {recentActivity.map((log) => {
               const badge = emailTypeBadge[log.type] || { label: log.type, variant: "default" }
               return (
-                <div key={log.id} className="flex items-center justify-between py-2 border-b border-gray-50 last:border-0">
-                  <div className="flex items-center gap-3">
+                <div key={log.id} className="flex flex-col sm:flex-row sm:items-center justify-between py-2 border-b border-gray-50 last:border-0 gap-1">
+                  <div className="flex flex-wrap items-center gap-2 sm:gap-3">
                     <Badge variant={badge.variant}>{badge.label}</Badge>
                     <span className="text-sm">{log.user.firstName} {log.user.lastName}</span>
                   </div>
-                  <span className="text-xs text-gray-400">
+                  <span className="text-xs text-gray-400 shrink-0">
                     {new Date(log.sentAt).toLocaleDateString("fr-FR")}
                   </span>
                 </div>

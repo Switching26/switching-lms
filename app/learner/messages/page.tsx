@@ -128,9 +128,9 @@ export default function LearnerMessagesPage() {
   }
 
   return (
-    <div className="flex flex-col h-[calc(100vh-120px)] bg-white rounded-xl border border-border overflow-hidden">
+    <div className="flex flex-col h-[calc(100vh-100px)] sm:h-[calc(100vh-120px)] bg-white rounded-xl border border-border overflow-hidden">
       {/* Header */}
-      <div className="px-6 py-4 border-b border-border">
+      <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-border">
         <h1 className="text-lg font-semibold">Messages</h1>
         <p className="text-xs text-gray-400 mt-0.5">Échangez avec votre administrateur</p>
       </div>
@@ -141,7 +141,7 @@ export default function LearnerMessagesPage() {
       )}
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto px-6 py-4 space-y-3">
+      <div className="flex-1 overflow-y-auto px-4 sm:px-6 py-4 space-y-3">
         {messages.length === 0 && (
           <p className="text-sm text-gray-400 text-center mt-8">Aucun message. Envoyez le premier !</p>
         )}
@@ -151,7 +151,7 @@ export default function LearnerMessagesPage() {
             <div key={msg.id} className={`flex ${isMe ? "justify-end" : "justify-start"}`}>
               <div>
                 <div
-                  className="px-4 py-2.5 max-w-[400px] text-sm leading-relaxed"
+                  className="px-4 py-2.5 max-w-[280px] sm:max-w-[400px] text-sm leading-relaxed"
                   style={{
                     borderRadius: 18,
                     backgroundColor: isMe ? "#111111" : "#F5F5F7",
@@ -171,7 +171,7 @@ export default function LearnerMessagesPage() {
       </div>
 
       {/* Input */}
-      <div className="px-4 py-3 border-t border-border flex gap-2">
+      <div className="px-3 sm:px-4 py-3 border-t border-border flex gap-2">
         <textarea
           value={newMessage}
           onChange={(e) => setNewMessage(e.target.value)}
@@ -184,12 +184,13 @@ export default function LearnerMessagesPage() {
           placeholder="Écrivez votre message..."
           rows={1}
           className="flex-1 px-4 py-2.5 text-sm border border-border rounded-2xl outline-none focus:border-gray-400 resize-none"
-          style={{ minHeight: 42, maxHeight: 120 }}
+          style={{ minHeight: 44, maxHeight: 120, fontSize: 16 }}
         />
         <button
           onClick={handleSendMessage}
           disabled={sending || !newMessage.trim()}
-          className="px-5 py-2.5 bg-black text-white text-sm font-medium rounded-full hover:opacity-90 disabled:opacity-40 transition-opacity self-end"
+          className="px-4 sm:px-5 py-2.5 bg-black text-white text-sm font-medium rounded-full hover:opacity-90 disabled:opacity-40 transition-opacity self-end"
+          style={{ minHeight: 44 }}
         >
           {sending ? "..." : "Envoyer"}
         </button>

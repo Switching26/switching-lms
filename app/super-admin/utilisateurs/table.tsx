@@ -456,59 +456,152 @@ export default function UsersTable({
       )}
 
       {/* ═══ STATUS FILTERS ═══ */}
-      <div className="flex flex-wrap items-center gap-3 mb-4">
-        <div className="flex gap-1 bg-gray-100 rounded-lg p-1">
-          {(["all", "active", "inactive", ...(isPartnerAdmin ? [] : ["archived"])] as StatusFilter[]).map((f) => (
-            <button
-              key={f}
-              onClick={() => setStatusFilter(f)}
-              className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
-                statusFilter === f ? "bg-white shadow-sm text-black" : "text-gray-500 hover:text-gray-700"
-              }`}
-            >
-              {f === "all" ? "Tous" : f === "active" ? "Actifs" : f === "inactive" ? "Inactifs" : "Archivés"}
-              {" "}
-              <span className="text-xs text-gray-400">({statusCounts[f]})</span>
-            </button>
-          ))}
-        </div>
-
-        {!isPartnerAdmin && (
-          <div className="flex gap-1 bg-gray-100 rounded-lg p-1">
-            {(["all", "internal", "partner"] as const).map((f) => (
+      <div className="space-y-3 mb-4">
+        <div className="flex flex-wrap items-center gap-3">
+          <div className="flex gap-1 bg-gray-100 rounded-lg p-1 overflow-x-auto">
+            {(["all", "active", "inactive", ...(isPartnerAdmin ? [] : ["archived"])] as StatusFilter[]).map((f) => (
               <button
                 key={f}
-                onClick={() => setOrgFilter(f)}
-                className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
-                  orgFilter === f ? "bg-white shadow-sm text-black" : "text-gray-500 hover:text-gray-700"
+                onClick={() => setStatusFilter(f)}
+                className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors whitespace-nowrap ${
+                  statusFilter === f ? "bg-white shadow-sm text-black" : "text-gray-500 hover:text-gray-700"
                 }`}
               >
-                {f === "all" ? "Tous" : f === "internal" ? "Internes" : "Partenaires"}
+                {f === "all" ? "Tous" : f === "active" ? "Actifs" : f === "inactive" ? "Inactifs" : "Archivés"}
+                {" "}
+                <span className="text-xs text-gray-400">({statusCounts[f]})</span>
               </button>
             ))}
           </div>
-        )}
 
-        <input
-          type="text"
-          placeholder="Rechercher..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="px-3 py-1.5 text-sm border border-border rounded-lg outline-none focus:border-black w-48"
-        />
+          {!isPartnerAdmin && (
+            <div className="flex gap-1 bg-gray-100 rounded-lg p-1">
+              {(["all", "internal", "partner"] as const).map((f) => (
+                <button
+                  key={f}
+                  onClick={() => setOrgFilter(f)}
+                  className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors whitespace-nowrap ${
+                    orgFilter === f ? "bg-white shadow-sm text-black" : "text-gray-500 hover:text-gray-700"
+                  }`}
+                >
+                  {f === "all" ? "Tous" : f === "internal" ? "Internes" : "Partenaires"}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
 
-        <div className="ml-auto">
+        <div className="flex items-center gap-3">
+          <input
+            type="text"
+            placeholder="Rechercher..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="flex-1 min-w-0 px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-black"
+            style={{ fontSize: 16 }}
+          />
           <button
             onClick={() => setCreateOpen(true)}
-            className="px-4 py-2 bg-black text-white text-sm rounded-lg hover:opacity-90 transition-opacity"
+            className="px-4 py-2 bg-black text-white text-sm rounded-lg hover:opacity-90 transition-opacity whitespace-nowrap shrink-0"
+            style={{ minHeight: 44 }}
           >
             + Nouvel utilisateur
           </button>
         </div>
       </div>
 
-      {/* ═══ TABLE ═══ */}
-      <div className="bg-white rounded-xl border border-border" style={{ overflow: "visible" }}>
+      {/* ═══ MOBILE CARDS ═══ */}
+      <div className="lg:hidden space-y-3">
+        {filtered.map((u) => (
+          <div key={u.id} className={`bg-white rounded-xl border border-border p-4 space-y-2 ${isArchived(u) ? "opacity-60" : ""}`}>
+            <div className="flex items-start justify-between">
+              <div className="min-w-0">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className="text-sm font-medium">{u.firstName} {u.lastName}</span>
+                  {u.role === "PARTNER_ADMIN" && <Badge variant="purple">Admin</Badge>}
+                  {u.role === "SUPER_ADMIN" && <Badge variant="error">Super Admin</Badge>}
+                  {!isPartnerAdmin && u.partner && <Badge variant="purple">{u.partner.name}</Badge>}
+                </div>
+                <p className="text-xs text-gray-400 mt-0.5 truncate">{u.email}</p>
+              </div>
+              {isArchived(u) ? (
+                <Badge variant="default">Archivé</Badge>
+              ) : (
+                <button
+                  onClick={() => handleStatusClick(u)}
+                  disabled={u.role === "SUPER_ADMIN"}
+                >
+                  <Badge variant={u.isActive ? "success" : "warning"}>
+                    {u.isActive ? "Actif" : "Invité"}
+                  </Badge>
+                </button>
+              )}
+            </div>
+            <div className="flex items-center gap-3 text-xs text-gray-500">
+              <span>{u.enrollments[0]?.formation.title || "Aucune formation"}</span>
+              {u.reference && (
+                <span className="inline-block px-2 py-0.5 bg-gray-100 text-gray-600 rounded-md font-medium">{u.reference}</span>
+              )}
+            </div>
+            <div className="pt-2 border-t border-gray-50">
+              {isArchived(u) ? (
+                <div className="flex gap-2">
+                  <button onClick={() => handleRestore(u)} className="flex-1 py-2 text-xs bg-gray-100 hover:bg-green-50 hover:text-green-600 rounded-lg transition-colors" style={{ minHeight: 44 }}>
+                    Restaurer
+                  </button>
+                  {!isPartnerAdmin && (
+                    <button onClick={() => setDeleteModal(u)} className="flex-1 py-2 text-xs bg-red-50 text-red-600 hover:bg-red-100 rounded-lg transition-colors" style={{ minHeight: 44 }}>
+                      Supprimer
+                    </button>
+                  )}
+                </div>
+              ) : (
+                <div className="relative" ref={openMenuId === u.id ? menuRef : undefined}>
+                  <button
+                    onClick={() => setOpenMenuId(openMenuId === u.id ? null : u.id)}
+                    className="w-full py-2 text-xs bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors font-medium"
+                    style={{ minHeight: 44 }}
+                  >
+                    Actions &#9662;
+                  </button>
+                  {openMenuId === u.id && (
+                    <div style={{ position: "fixed", left: 16, right: 16, bottom: 16, background: "white", border: "0.5px solid #E5E5E5", borderRadius: 12, boxShadow: "0 -4px 24px rgba(0,0,0,0.15)", zIndex: 50, overflow: "hidden" }}>
+                      <div className="px-4 py-3 border-b border-gray-100 flex items-center justify-between">
+                        <span className="text-sm font-medium">{u.firstName} {u.lastName}</span>
+                        <button onClick={() => setOpenMenuId(null)} className="text-gray-400 text-lg">&times;</button>
+                      </div>
+                      <button onClick={() => { setOpenMenuId(null); openEdit(u) }} className="w-full text-left px-4 py-3 text-sm hover:bg-gray-50 transition-colors">Modifier</button>
+                      <button onClick={() => { setOpenMenuId(null); setPasswordModal(u.id); setPw(""); setPwConfirm("") }} className="w-full text-left px-4 py-3 text-sm hover:bg-gray-50 transition-colors">Changer mot de passe</button>
+                      {(u.role === "LEARNER" || u.role === "PARTNER_ADMIN") && !isPartnerAdmin && (
+                        <button onClick={() => { setOpenMenuId(null); handleImpersonate(u.id) }} className="w-full text-left px-4 py-3 text-sm hover:bg-gray-50 transition-colors">Voir l&apos;espace</button>
+                      )}
+                      <button onClick={() => { setOpenMenuId(null); openProgress(u.id) }} className="w-full text-left px-4 py-3 text-sm hover:bg-gray-50 transition-colors">Suivi</button>
+                      <button onClick={() => { setOpenMenuId(null); setAssignModal(u.id); setAssignFormationId(""); setAssignExpires("") }} className="w-full text-left px-4 py-3 text-sm hover:bg-gray-50 transition-colors">Attribuer formation</button>
+                      {!u.isActive && !u.archivedAt && u.role !== "SUPER_ADMIN" && (
+                        <button onClick={() => { setOpenMenuId(null); handleResendActivation(u) }} disabled={resending === u.id} className="w-full text-left px-4 py-3 text-sm hover:bg-gray-50 transition-colors disabled:opacity-50">{resending === u.id ? "Envoi..." : "Renvoyer activation"}</button>
+                      )}
+                      {u.role !== "SUPER_ADMIN" && (
+                        <>
+                          <div className="border-t border-gray-100 my-1" />
+                          <button onClick={() => { setOpenMenuId(null); setArchiveModal(u) }} className="w-full text-left px-4 py-3 text-sm text-red-600 hover:bg-red-50 transition-colors">Archiver</button>
+                        </>
+                      )}
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+        ))}
+        {filtered.length === 0 && (
+          <div className="bg-white rounded-xl border border-border px-4 py-8 text-center text-sm text-gray-400">
+            Aucun utilisateur
+          </div>
+        )}
+      </div>
+
+      {/* ═══ DESKTOP TABLE ═══ */}
+      <div className="hidden lg:block bg-white rounded-xl border border-border" style={{ overflow: "visible" }}>
         <table className="w-full">
           <thead>
             <tr className="border-b border-border">
@@ -592,56 +685,20 @@ export default function UsersTable({
                       </button>
                       {openMenuId === u.id && (
                         <div style={{ position: "absolute", right: 0, top: "100%", marginTop: 4, background: "white", border: "0.5px solid #E5E5E5", borderRadius: 8, boxShadow: "0 4px 12px rgba(0,0,0,0.1)", zIndex: 50, minWidth: 200, overflow: "hidden" }}>
-                          <button
-                            onClick={() => { setOpenMenuId(null); openEdit(u) }}
-                            className="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors"
-                          >
-                            Modifier
-                          </button>
-                          <button
-                            onClick={() => { setOpenMenuId(null); setPasswordModal(u.id); setPw(""); setPwConfirm("") }}
-                            className="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors"
-                          >
-                            Changer mot de passe
-                          </button>
+                          <button onClick={() => { setOpenMenuId(null); openEdit(u) }} className="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors">Modifier</button>
+                          <button onClick={() => { setOpenMenuId(null); setPasswordModal(u.id); setPw(""); setPwConfirm("") }} className="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors">Changer mot de passe</button>
                           {(u.role === "LEARNER" || u.role === "PARTNER_ADMIN") && !isPartnerAdmin && (
-                            <button
-                              onClick={() => { setOpenMenuId(null); handleImpersonate(u.id) }}
-                              className="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors"
-                            >
-                              Voir l&apos;espace
-                            </button>
+                            <button onClick={() => { setOpenMenuId(null); handleImpersonate(u.id) }} className="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors">Voir l&apos;espace</button>
                           )}
-                          <button
-                            onClick={() => { setOpenMenuId(null); openProgress(u.id) }}
-                            className="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors"
-                          >
-                            Suivi
-                          </button>
-                          <button
-                            onClick={() => { setOpenMenuId(null); setAssignModal(u.id); setAssignFormationId(""); setAssignExpires("") }}
-                            className="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors"
-                          >
-                            Attribuer formation
-                          </button>
+                          <button onClick={() => { setOpenMenuId(null); openProgress(u.id) }} className="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors">Suivi</button>
+                          <button onClick={() => { setOpenMenuId(null); setAssignModal(u.id); setAssignFormationId(""); setAssignExpires("") }} className="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors">Attribuer formation</button>
                           {!u.isActive && !u.archivedAt && u.role !== "SUPER_ADMIN" && (
-                            <button
-                              onClick={() => { setOpenMenuId(null); handleResendActivation(u) }}
-                              disabled={resending === u.id}
-                              className="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors disabled:opacity-50"
-                            >
-                              {resending === u.id ? "Envoi..." : "Renvoyer activation"}
-                            </button>
+                            <button onClick={() => { setOpenMenuId(null); handleResendActivation(u) }} disabled={resending === u.id} className="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors disabled:opacity-50">{resending === u.id ? "Envoi..." : "Renvoyer activation"}</button>
                           )}
                           {u.role !== "SUPER_ADMIN" && (
                             <>
                               <div className="border-t border-gray-100 my-1" />
-                              <button
-                                onClick={() => { setOpenMenuId(null); setArchiveModal(u) }}
-                                className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors"
-                              >
-                                Archiver
-                              </button>
+                              <button onClick={() => { setOpenMenuId(null); setArchiveModal(u) }} className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors">Archiver</button>
                             </>
                           )}
                         </div>

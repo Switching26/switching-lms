@@ -62,13 +62,14 @@ export default async function LearnerAccueil() {
             </div>
             <span className="text-sm font-medium">{progressPercent}%</span>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
             <a
               href="/learner/formation"
-              className="flex items-center gap-3 px-4 py-2 bg-primary text-white text-sm rounded-lg hover:opacity-90 transition-opacity"
+              className="flex items-center justify-center gap-3 px-4 py-2.5 bg-primary text-white text-sm rounded-lg hover:opacity-90 transition-opacity"
+              style={{ minHeight: 44 }}
             >
               {formation.coverImageUrl && (
-                <img src={formation.coverImageUrl} alt="" className="w-8 h-8 rounded object-cover" />
+                <img src={formation.coverImageUrl} alt="" className="w-8 h-8 rounded object-cover hidden sm:block" />
               )}
               {completedChapters > 0 ? "Reprendre" : "Commencer"}
             </a>

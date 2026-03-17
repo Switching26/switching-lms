@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect, useRef } from "react"
 import { useRouter } from "next/navigation"
 import Badge from "@/components/ui/Badge"
 import Modal from "@/components/ui/Modal"
@@ -100,6 +100,24 @@ export default function UsersTable({
   const [assignFormationId, setAssignFormationId] = useState("")
   const [assignExpires, setAssignExpires] = useState("")
   const [assigning, setAssigning] = useState(false)
+
+  // Create form — optional formation assignment
+  const [newFormationId, setNewFormationId] = useState("")
+  const [newExpiresAt, setNewExpiresAt] = useState("")
+  const [newAssignFormation, setNewAssignFormation] = useState(false)
+
+  // Actions dropdown
+  const [openMenuId, setOpenMenuId] = useState<string | null>(null)
+  const menuRef = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setOpenMenuId(null)
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => document.removeEventListener("mousedown", handleClickOutside)
+  }, [])
 
   // Filter users
   const filtered = users.filter((u) => {
@@ -201,6 +219,17 @@ export default function UsersTable({
         flash(data.error || "Erreur lors de la création")
         return
       }
+      const created = await res.json()
+      // Optionally assign formation right after creation
+      if (newAssignFormation && newFormationId && created.id) {
+        try {
+          await fetch(`/api/user/${created.id}/assign-formation`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ formationId: newFormationId, expiresAt: newExpiresAt || null }),
+          })
+        } catch { /* formation assignment failure shouldn't block user creation success */ }
+      }
       flash("Utilisateur créé avec succès")
       setCreateOpen(false)
       setNewFirstName("")
@@ -210,6 +239,9 @@ export default function UsersTable({
       setNewPartnerId("")
       setNewReference("")
       setNewPassword(generatePassword())
+      setNewAssignFormation(false)
+      setNewFormationId("")
+      setNewExpiresAt("")
       router.refresh()
     } catch { flash("Erreur réseau") }
     finally { setCreating(false) }
@@ -539,72 +571,83 @@ export default function UsersTable({
                   )}
                 </td>
                 <td className="px-4 py-3">
-                  <div className="flex gap-1.5">
-                    {isArchived(u) ? (
-                      <>
-                        <button onClick={() => handleRestore(u)} className="px-2 py-1 text-xs bg-gray-100 hover:bg-green-50 hover:text-green-600 rounded transition-colors" title="Restaurer">
-                          Restaurer
+                  {isArchived(u) ? (
+                    <div className="flex gap-1.5">
+                      <button onClick={() => handleRestore(u)} className="px-2 py-1 text-xs bg-gray-100 hover:bg-green-50 hover:text-green-600 rounded transition-colors">
+                        Restaurer
+                      </button>
+                      {!isPartnerAdmin && (
+                        <button onClick={() => setDeleteModal(u)} className="px-2 py-1 text-xs bg-red-50 text-red-600 hover:bg-red-100 rounded transition-colors">
+                          Supprimer
                         </button>
-                        {!isPartnerAdmin && (
-                          <button onClick={() => setDeleteModal(u)} className="px-2 py-1 text-xs bg-red-50 text-red-600 hover:bg-red-100 rounded transition-colors" title="Supprimer définitivement">
-                            Supprimer
-                          </button>
-                        )}
-                      </>
-                    ) : (
-                      <>
-                        <button
-                          onClick={() => openEdit(u)}
-                          className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 rounded transition-colors"
-                          title="Modifier"
-                        >
-                          Modifier
-                        </button>
-                        <button
-                          onClick={() => { setPasswordModal(u.id); setPw(""); setPwConfirm("") }}
-                          className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 rounded transition-colors"
-                          title="Changer mot de passe"
-                        >
-                          MDP
-                        </button>
-                        {(u.role === "LEARNER" || u.role === "PARTNER_ADMIN") && !isPartnerAdmin && (
+                      )}
+                    </div>
+                  ) : (
+                    <div className="relative" ref={openMenuId === u.id ? menuRef : undefined}>
+                      <button
+                        onClick={() => setOpenMenuId(openMenuId === u.id ? null : u.id)}
+                        className="px-3 py-1.5 text-xs bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors font-medium"
+                      >
+                        Actions &#9662;
+                      </button>
+                      {openMenuId === u.id && (
+                        <div className="absolute right-0 top-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-10 min-w-[200px] py-1">
                           <button
-                            onClick={() => handleImpersonate(u.id)}
-                            className="px-2 py-1 text-xs bg-gray-100 hover:bg-orange-50 hover:text-orange-600 rounded transition-colors"
-                            title="Voir son espace"
+                            onClick={() => { setOpenMenuId(null); openEdit(u) }}
+                            className="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors"
                           >
-                            Voir
+                            Modifier
                           </button>
-                        )}
-                        <button
-                          onClick={() => openProgress(u.id)}
-                          className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 rounded transition-colors"
-                          title="Fiche suivi"
-                        >
-                          Suivi
-                        </button>
-                        {!u.isActive && !u.archivedAt && u.role !== "SUPER_ADMIN" && (
                           <button
-                            onClick={() => handleResendActivation(u)}
-                            disabled={resending === u.id}
-                            className="px-2 py-1 text-xs bg-blue-50 text-blue-600 hover:bg-blue-100 rounded transition-colors disabled:opacity-50"
-                            title="Renvoyer le lien d'activation"
+                            onClick={() => { setOpenMenuId(null); setPasswordModal(u.id); setPw(""); setPwConfirm("") }}
+                            className="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors"
                           >
-                            {resending === u.id ? "Envoi..." : "Renvoyer activation"}
+                            Changer mot de passe
                           </button>
-                        )}
-                        {u.role !== "SUPER_ADMIN" && (
+                          {(u.role === "LEARNER" || u.role === "PARTNER_ADMIN") && !isPartnerAdmin && (
+                            <button
+                              onClick={() => { setOpenMenuId(null); handleImpersonate(u.id) }}
+                              className="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors"
+                            >
+                              Voir l&apos;espace
+                            </button>
+                          )}
                           <button
-                            onClick={() => setArchiveModal(u)}
-                            className="px-2 py-1 text-xs bg-gray-100 hover:bg-red-50 hover:text-red-600 rounded transition-colors"
-                            title="Archiver"
+                            onClick={() => { setOpenMenuId(null); openProgress(u.id) }}
+                            className="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors"
                           >
-                            Archiver
+                            Suivi
                           </button>
-                        )}
-                      </>
-                    )}
-                  </div>
+                          <button
+                            onClick={() => { setOpenMenuId(null); setAssignModal(u.id); setAssignFormationId(""); setAssignExpires("") }}
+                            className="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors"
+                          >
+                            Attribuer formation
+                          </button>
+                          {!u.isActive && !u.archivedAt && u.role !== "SUPER_ADMIN" && (
+                            <button
+                              onClick={() => { setOpenMenuId(null); handleResendActivation(u) }}
+                              disabled={resending === u.id}
+                              className="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors disabled:opacity-50"
+                            >
+                              {resending === u.id ? "Envoi..." : "Renvoyer activation"}
+                            </button>
+                          )}
+                          {u.role !== "SUPER_ADMIN" && (
+                            <>
+                              <div className="border-t border-gray-100 my-1" />
+                              <button
+                                onClick={() => { setOpenMenuId(null); setArchiveModal(u) }}
+                                className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors"
+                              >
+                                Archiver
+                              </button>
+                            </>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </td>
               </tr>
             ))}
@@ -876,6 +919,38 @@ export default function UsersTable({
               </div>
             </>
           )}
+          {/* Optional formation assignment */}
+          <div>
+            <div className="flex items-center justify-between bg-gray-50 rounded-lg p-3">
+              <div>
+                <p className="text-sm font-medium">Attribuer une formation</p>
+                <p className="text-xs text-gray-400 mt-0.5">Optionnel — attribuer une formation dès la création</p>
+              </div>
+              <button
+                onClick={() => setNewAssignFormation(!newAssignFormation)}
+                className={`relative w-10 h-5 rounded-full transition-colors ${newAssignFormation ? "bg-green-500" : "bg-gray-300"}`}
+              >
+                <span className={`absolute top-0.5 w-4 h-4 bg-white rounded-full transition-transform ${newAssignFormation ? "translate-x-5" : "translate-x-0.5"}`} />
+              </button>
+            </div>
+            {newAssignFormation && (
+              <div className="mt-3 space-y-3">
+                <div>
+                  <label className="block text-sm font-medium mb-1">Formation</label>
+                  <select value={newFormationId} onChange={(e) => setNewFormationId(e.target.value)} className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-black bg-white">
+                    <option value="">Sélectionner une formation</option>
+                    {formations?.map((f) => (
+                      <option key={f.id} value={f.id}>{f.title}</option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-1">Date d&apos;expiration (optionnel)</label>
+                  <input type="date" value={newExpiresAt} onChange={(e) => setNewExpiresAt(e.target.value)} className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-black" />
+                </div>
+              </div>
+            )}
+          </div>
           <div className="bg-blue-50 border border-blue-100 rounded-lg px-4 py-3">
             <p className="text-sm text-blue-700">Un email d&apos;activation sera envoyé automatiquement à l&apos;utilisateur pour qu&apos;il crée son mot de passe.</p>
           </div>

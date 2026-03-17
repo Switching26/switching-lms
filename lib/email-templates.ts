@@ -32,13 +32,6 @@ function getBrand(partner?: { name: string; primaryColor: string; secondaryColor
 }
 
 function layout(brand: BrandConfig, content: string): string {
-  const logoHtml = brand.logoUrl
-    ? `<img src="${brand.logoUrl}" alt="${brand.name}" style="max-height:60px;max-width:200px;display:block;margin:0 auto;" />`
-    : ""
-  const nameHtml = brand.logoUrl
-    ? ""
-    : `<h1 style="color:#ffffff;margin:0;font-size:18px;font-weight:600;">${brand.name}</h1>`
-
   return `<!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -54,8 +47,7 @@ function layout(brand: BrandConfig, content: string): string {
           <!-- Header -->
           <tr>
             <td style="background-color:${brand.primaryColor};padding:30px 32px;text-align:center;">
-              ${logoHtml}
-              ${nameHtml}
+              <h1 style="color:#ffffff;margin:0;font-size:24px;font-weight:bold;font-family:Arial,sans-serif;">${brand.name}</h1>
             </td>
           </tr>
           <!-- Content -->
@@ -79,10 +71,10 @@ function layout(brand: BrandConfig, content: string): string {
 }
 
 function button(text: string, url: string, color: string): string {
-  return `<table width="100%" cellpadding="0" cellspacing="0" style="margin:24px 0;">
+  return `<table cellspacing="0" cellpadding="0" style="margin:24px auto;">
     <tr>
-      <td align="center">
-        <a href="${url}" style="display:inline-block;padding:14px 32px;background-color:${color};color:#ffffff !important;text-decoration:none !important;border-radius:8px;font-size:14px;font-weight:600;font-family:Arial,sans-serif;" target="_blank">${text}</a>
+      <td align="center" bgcolor="${color}" style="border-radius:6px;">
+        <a href="${url}" style="display:inline-block;padding:14px 28px;font-family:Arial,sans-serif;font-size:16px;font-weight:bold;color:#ffffff;text-decoration:none;border-radius:6px;" target="_blank">${text}</a>
       </td>
     </tr>
   </table>`

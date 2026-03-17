@@ -6,6 +6,7 @@ import ImpersonationBanner from "@/components/layout/ImpersonationBanner"
 const items = [
   { label: "Dashboard", href: "/partner-admin/dashboard" },
   { label: "Utilisateurs", href: "/partner-admin/utilisateurs" },
+  { label: "Messages", href: "/partner-admin/messages" },
   { label: "Licences", href: "/partner-admin/licences" },
   { label: "Emails", href: "/partner-admin/emails" },
   { label: "Apparence", href: "/partner-admin/apparence" },

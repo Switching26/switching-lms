@@ -7,6 +7,7 @@ const items = [
   { label: "Formations", href: "/super-admin/formations" },
   { label: "Utilisateurs", href: "/super-admin/utilisateurs" },
   { label: "Partenaires", href: "/super-admin/partenaires" },
+  { label: "Messages", href: "/super-admin/messages" },
   { label: "Emails", href: "/super-admin/emails" },
   { label: "Paramètres", href: "/super-admin/parametres" },
 ]

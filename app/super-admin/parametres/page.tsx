@@ -5,7 +5,7 @@ import { useState, useEffect } from "react"
 export default function ParametresPage() {
   // SMTP
   const [smtpHost, setSmtpHost] = useState("")
-  const [smtpPort, setSmtpPort] = useState("587")
+  const [smtpPort, setSmtpPort] = useState("465")
   const [smtpEmail, setSmtpEmail] = useState("")
   const [smtpPassword, setSmtpPassword] = useState("")
   const [smtpFromName, setSmtpFromName] = useState("")
@@ -34,7 +34,7 @@ export default function ParametresPage() {
       .then((data) => {
         if (data.config) {
           setSmtpHost(data.config.smtp_host || "")
-          setSmtpPort(data.config.smtp_port || "587")
+          setSmtpPort(data.config.smtp_port || "465")
           setSmtpEmail(data.config.smtp_email || "")
           setSmtpFromName(data.config.smtp_from_name || "")
           setHasStoredPassword(data.hasPassword)
@@ -159,7 +159,7 @@ export default function ParametresPage() {
           </div>
           <div>
             <label className="block text-sm font-medium mb-1">Port</label>
-            <input type="number" value={smtpPort} onChange={(e) => setSmtpPort(e.target.value)} placeholder="587" className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-primary" />
+            <input type="number" value={smtpPort} onChange={(e) => setSmtpPort(e.target.value)} placeholder="465" className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-primary" />
           </div>
           <div>
             <label className="block text-sm font-medium mb-1">Email expéditeur</label>

@@ -31,7 +31,7 @@ async function getSystemSmtpConfig(): Promise<SmtpConfig> {
     if (cfg.smtp_host && cfg.smtp_email && cfg.smtp_password) {
       return {
         host: cfg.smtp_host,
-        port: parseInt(cfg.smtp_port || "587"),
+        port: parseInt(cfg.smtp_port || "465"),
         email: cfg.smtp_email,
         password: decrypt(cfg.smtp_password),
         fromName: cfg.smtp_from_name || "Switching Formation",
@@ -43,7 +43,7 @@ async function getSystemSmtpConfig(): Promise<SmtpConfig> {
 
   return {
     host: process.env.SMTP_HOST || "smtp.gmail.com",
-    port: parseInt(process.env.SMTP_PORT || "587"),
+    port: parseInt(process.env.SMTP_PORT || "465"),
     email: process.env.SMTP_EMAIL || "",
     password: process.env.SMTP_PASSWORD || "",
     fromName: process.env.FROM_NAME || "Switching Formation",
@@ -55,12 +55,14 @@ async function createTransporter(partner?: PartnerSmtp | null) {
   if (partner && !partner.useDefaultSmtp && partner.smtpHost && partner.smtpEmail && partner.smtpPassword) {
     return nodemailer.createTransport({
       host: partner.smtpHost,
-      port: partner.smtpPort || 587,
-      secure: partner.smtpPort === 465,
+      port: partner.smtpPort || 465,
+      secure: (partner.smtpPort || 465) === 465,
       auth: {
         user: partner.smtpEmail,
         pass: decrypt(partner.smtpPassword),
       },
+      connectionTimeout: 8000,
+      socketTimeout: 8000,
     })
   }
 
@@ -74,6 +76,8 @@ async function createTransporter(partner?: PartnerSmtp | null) {
       user: cfg.email,
       pass: cfg.password,
     },
+    connectionTimeout: 8000,
+    socketTimeout: 8000,
   })
 }
 
@@ -138,16 +142,19 @@ export async function sendSystemTestEmail(to: string): Promise<{ success: boolea
   try {
     const cfg = await getSystemSmtpConfig()
     const transporter = nodemailer.createTransport({
-      host: cfg.host,
-      port: cfg.port,
-      secure: cfg.port === 465,
+      host: cfg.host || "smtp.gmail.com",
+      port: cfg.port || 465,
+      secure: true,
       auth: { user: cfg.email, pass: cfg.password },
+      connectionTimeout: 8000,
+      socketTimeout: 8000,
     })
     await transporter.sendMail({
       from: `"${cfg.fromName}" <${cfg.email}>`,
       to,
-      subject: "Test de configuration SMTP - Switching LMS",
-      html: "<p>Si vous recevez cet email, la configuration SMTP globale fonctionne correctement.</p>",
+      subject: "Test SMTP — Switching LMS",
+      text: "La configuration email fonctionne correctement.",
+      html: "<p>La configuration email fonctionne correctement.</p>",
     })
     return { success: true }
   } catch (err: any) {

@@ -211,20 +211,26 @@ export default function AdminMessages() {
 
             {/* Input */}
             <div className="px-4 py-3 border-t border-border flex gap-2">
-              <input
-                type="text"
+              <textarea
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && handleSend()}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && !e.shiftKey) {
+                    e.preventDefault()
+                    handleSend()
+                  }
+                }}
                 placeholder="Votre réponse..."
-                className="flex-1 px-4 py-2.5 text-sm border border-border rounded-full outline-none focus:border-gray-400"
+                rows={1}
+                className="flex-1 px-4 py-2.5 text-sm border border-border rounded-2xl outline-none focus:border-gray-400 resize-none"
+                style={{ minHeight: 42, maxHeight: 120 }}
               />
               <button
                 onClick={handleSend}
                 disabled={sending || !input.trim()}
-                className="px-5 py-2.5 bg-black text-white text-sm font-medium rounded-full hover:opacity-90 disabled:opacity-40 transition-opacity"
+                className="px-5 py-2.5 bg-black text-white text-sm font-medium rounded-full hover:opacity-90 disabled:opacity-40 transition-opacity self-end"
               >
-                Envoyer
+                {sending ? "..." : "Envoyer"}
               </button>
             </div>
           </>

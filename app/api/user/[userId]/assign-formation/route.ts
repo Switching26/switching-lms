@@ -84,7 +84,7 @@ export async function POST(req: NextRequest, { params }: { params: { userId: str
         partenaire_nom: user.partner?.name || "",
         couleur_principale: user.partner?.primaryColor || "#111111",
         couleur_secondaire: user.partner?.secondaryColor || "#F5F5F7",
-        logo_url: user.partner?.logoUrl || "",
+        logo_url: user.partner?.logoUrl ? (user.partner.logoUrl.startsWith("http") ? user.partner.logoUrl : `${baseUrl}${user.partner.logoUrl.startsWith("/") ? "" : "/"}${user.partner.logoUrl}`) : "",
       }
       const subject = replaceVariables(dynamic.subject, vars)
       const html = replaceVariables(dynamic.htmlContent, vars)

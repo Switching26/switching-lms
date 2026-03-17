@@ -67,7 +67,7 @@ export async function PUT(req: NextRequest, { params }: { params: { chapterId: s
       const brandingVars = {
         couleur_principale: partner?.primaryColor || "#111111",
         couleur_secondaire: partner?.secondaryColor || "#F5F5F7",
-        logo_url: partner?.logoUrl || "",
+        logo_url: partner?.logoUrl ? (partner.logoUrl.startsWith("http") ? partner.logoUrl : `${baseUrl}${partner.logoUrl.startsWith("/") ? "" : "/"}${partner.logoUrl}`) : "",
       }
 
       // Send CHAPTER_COMPLETED email

@@ -50,7 +50,7 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
     partenaire_nom: partnerData?.name || (session.user as any).partnerName || "Partenaire",
     couleur_principale: partnerData?.primaryColor || "#111111",
     couleur_secondaire: partnerData?.secondaryColor || "#F5F5F7",
-    logo_url: partnerData?.logoUrl || "",
+    logo_url: partnerData?.logoUrl ? (partnerData.logoUrl.startsWith("http") ? partnerData.logoUrl : `${baseUrl}${partnerData.logoUrl.startsWith("/") ? "" : "/"}${partnerData.logoUrl}`) : "",
   }
 
   const subject = replaceVariables(template.subject, sampleData)

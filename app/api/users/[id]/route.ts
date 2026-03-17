@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from "next/server"
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
+import { sendEmail } from "@/lib/email"
+import { formationAssignedEmail } from "@/lib/email-templates"
+import { resolveTemplate, replaceVariables } from "@/lib/email-template-engine"
 
 export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
   const session = await auth()
@@ -84,14 +87,48 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
       if (!existingEnrollment) {
         // Remove existing enrollments and create new one
         await prisma.enrollment.deleteMany({ where: { userId: params.id } })
-        await prisma.enrollment.create({
+        const newEnrollment = await prisma.enrollment.create({
           data: {
             userId: params.id,
             formationId: body.formationId,
             expiresAt: body.expiresAt ? new Date(body.expiresAt) : null,
             assignedByPartnerId: target.partnerId || null,
           },
+          include: { formation: true },
         })
+
+        // Send formation assigned email (non-blocking)
+        try {
+          const baseUrl = process.env.AUTH_URL || process.env.NEXTAUTH_URL || "https://switching-lms-production.up.railway.app"
+          const loginUrl = updated.partner?.slug ? `${baseUrl}/login?partner=${updated.partner.slug}` : `${baseUrl}/login`
+          const dynamic = await resolveTemplate("FORMATION_ASSIGNED", target.partnerId)
+          console.log("[EMAIL] Envoi formation attribuée à:", target.email)
+          if (dynamic) {
+            const vars = {
+              prenom: target.firstName,
+              nom: target.lastName,
+              email: target.email,
+              formation_titre: newEnrollment.formation.title,
+              formation_description: newEnrollment.formation.description || "",
+              date_expiration: body.expiresAt ? new Date(body.expiresAt).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" }) : "",
+              lien_connexion: loginUrl,
+              plateforme_nom: updated.partner?.name || "Switching Formation",
+              plateforme_url: loginUrl,
+              partenaire_nom: updated.partner?.name || "",
+              couleur_principale: updated.partner?.primaryColor || "#111111",
+              couleur_secondaire: updated.partner?.secondaryColor || "#F5F5F7",
+              logo_url: updated.partner?.logoUrl ? (updated.partner.logoUrl.startsWith("http") ? updated.partner.logoUrl : `${baseUrl}${updated.partner.logoUrl.startsWith("/") ? "" : "/"}${updated.partner.logoUrl}`) : "",
+            }
+            const subject = replaceVariables(dynamic.subject, vars)
+            const html = replaceVariables(dynamic.htmlContent, vars)
+            sendEmail(target.email, subject, html, target.id, "FORMATION_ASSIGNED", updated.partner)
+          } else {
+            const emailData = formationAssignedEmail(target.firstName, newEnrollment.formation.title, body.expiresAt || null, updated.partner)
+            sendEmail(target.email, emailData.subject, emailData.html, target.id, "FORMATION_ASSIGNED", updated.partner)
+          }
+        } catch {
+          // Never block enrollment if email fails
+        }
       } else if (body.expiresAt !== undefined) {
         // Update expiration on existing enrollment
         await prisma.enrollment.update({

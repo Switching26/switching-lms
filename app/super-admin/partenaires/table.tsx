@@ -174,8 +174,10 @@ export default function PartnersTable({
   const handleCreateFaviconUpload = async (file: File) => {
     setCFaviconUploading(true)
     const url = await uploadLogo(file)
-    if (url) setCFavicon(url)
-    else flash("Erreur : Upload du favicon échoué")
+    if (url) {
+      console.log('[FAVICON] Saved URL:', url)
+      setCFavicon(url)
+    } else flash("Erreur : Upload du favicon échoué")
     setCFaviconUploading(false)
   }
 
@@ -223,8 +225,10 @@ export default function PartnersTable({
   const handleEditFaviconUpload = async (file: File) => {
     setEFaviconUploading(true)
     const url = await uploadLogo(file)
-    if (url) setEFavicon(url)
-    else flash("Erreur : Upload du favicon échoué")
+    if (url) {
+      console.log('[FAVICON] Saved URL:', url)
+      setEFavicon(url)
+    } else flash("Erreur : Upload du favicon échoué")
     setEFaviconUploading(false)
   }
 
@@ -420,7 +424,7 @@ export default function PartnersTable({
             <p className="text-xs text-gray-400 mb-2">Format .ico, .png ou .svg — recommandé 32x32px</p>
             {cFavicon && (
               <div className="mb-2 relative inline-block">
-                <img src={cFavicon} alt="Favicon" className="w-8 h-8 object-contain border border-border rounded p-0.5" />
+                <img src={cFavicon.startsWith("http") ? cFavicon : `${window.location.origin}${cFavicon}`} alt="Favicon" className="w-8 h-8 object-contain border border-border rounded p-0.5" />
                 <button onClick={() => setCFavicon("")} className="absolute -top-1 -right-1 bg-white rounded-full w-4 h-4 flex items-center justify-center text-[10px] text-red-500 shadow border border-border">✕</button>
               </div>
             )}
@@ -523,7 +527,7 @@ export default function PartnersTable({
             <p className="text-xs text-gray-400 mb-2">Format .ico, .png ou .svg — recommandé 32x32px</p>
             {eFavicon && (
               <div className="mb-2 relative inline-block">
-                <img src={eFavicon} alt="Favicon" className="w-8 h-8 object-contain border border-border rounded p-0.5" />
+                <img src={eFavicon.startsWith("http") ? eFavicon : `${window.location.origin}${eFavicon}`} alt="Favicon" className="w-8 h-8 object-contain border border-border rounded p-0.5" />
                 <button onClick={() => setEFavicon("")} className="absolute -top-1 -right-1 bg-white rounded-full w-4 h-4 flex items-center justify-center text-[10px] text-red-500 shadow border border-border">✕</button>
               </div>
             )}

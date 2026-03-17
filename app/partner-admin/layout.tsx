@@ -12,7 +12,9 @@ export async function generateMetadata() {
         select: { name: true, logoUrl: true, faviconUrl: true },
       })
     : null
-  const faviconIcon = partner?.faviconUrl || partner?.logoUrl || "/favicon.svg"
+  const baseUrl = process.env.AUTH_URL || process.env.NEXTAUTH_URL || "https://switching-lms-production.up.railway.app"
+  const rawFavicon = partner?.faviconUrl || partner?.logoUrl || "/favicon.svg"
+  const faviconIcon = rawFavicon.startsWith("http") ? rawFavicon : `${baseUrl}${rawFavicon}`
   return {
     title: `${partner?.name || "LMS"} · Admin`,
     icons: {

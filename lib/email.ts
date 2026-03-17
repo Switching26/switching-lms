@@ -1,4 +1,5 @@
 import nodemailer from "nodemailer"
+import { BrevoClient } from "@getbrevo/brevo"
 import { prisma } from "@/lib/prisma"
 import { decrypt } from "@/lib/crypto"
 import type { EmailType } from "@prisma/client"
@@ -12,84 +13,93 @@ export interface PartnerSmtp {
   useDefaultSmtp: boolean
 }
 
-interface SmtpConfig {
-  host: string
-  port: number
-  email: string
-  password: string
-  fromName: string
+interface BrevoConfig {
+  apiKey: string
+  senderEmail: string
+  senderName: string
 }
 
-async function getSystemSmtpConfig(): Promise<SmtpConfig> {
+async function getBrevoConfig(): Promise<BrevoConfig> {
   try {
     const rows = await prisma.systemConfig.findMany({
-      where: { key: { in: ["smtp_host", "smtp_port", "smtp_email", "smtp_password", "smtp_from_name"] } },
+      where: { key: { in: ["brevo_api_key", "sender_email", "sender_name"] } },
     })
     const cfg: Record<string, string> = {}
     for (const r of rows) cfg[r.key] = r.value
 
-    if (cfg.smtp_host && cfg.smtp_email && cfg.smtp_password) {
+    if (cfg.brevo_api_key) {
       return {
-        host: cfg.smtp_host,
-        port: parseInt(cfg.smtp_port || "465"),
-        email: cfg.smtp_email,
-        password: decrypt(cfg.smtp_password),
-        fromName: cfg.smtp_from_name || "Switching Formation",
+        apiKey: decrypt(cfg.brevo_api_key),
+        senderEmail: cfg.sender_email || "contact@switchingformation.com",
+        senderName: cfg.sender_name || "Switching Formation",
       }
     }
   } catch {
-    // Fallback to env vars if DB read fails
+    // Fallback to env vars
   }
 
   return {
-    host: process.env.SMTP_HOST || "smtp.gmail.com",
-    port: parseInt(process.env.SMTP_PORT || "465"),
-    email: process.env.SMTP_EMAIL || "",
-    password: process.env.SMTP_PASSWORD || "",
-    fromName: process.env.FROM_NAME || "Switching Formation",
+    apiKey: process.env.BREVO_API_KEY || "",
+    senderEmail: process.env.SENDER_EMAIL || "contact@switchingformation.com",
+    senderName: process.env.FROM_NAME || "Switching Formation",
   }
 }
 
-async function createTransporter(partner?: PartnerSmtp | null) {
-  // Priority 1: Partner's own SMTP
-  if (partner && !partner.useDefaultSmtp && partner.smtpHost && partner.smtpEmail && partner.smtpPassword) {
-    return nodemailer.createTransport({
-      host: partner.smtpHost,
-      port: partner.smtpPort || 465,
-      secure: (partner.smtpPort || 465) === 465,
-      auth: {
-        user: partner.smtpEmail,
-        pass: decrypt(partner.smtpPassword),
-      },
-      connectionTimeout: 8000,
-      socketTimeout: 8000,
-    })
-  }
+async function sendViaBrevo(
+  to: string,
+  subject: string,
+  html: string,
+  senderEmail?: string,
+  senderName?: string
+): Promise<void> {
+  const cfg = await getBrevoConfig()
+  const client = new BrevoClient({ apiKey: cfg.apiKey })
 
-  // Priority 2: SystemConfig from DB, then env vars as fallback
-  const cfg = await getSystemSmtpConfig()
-  return nodemailer.createTransport({
-    host: cfg.host,
-    port: cfg.port,
-    secure: cfg.port === 465,
+  await client.transactionalEmails.sendTransacEmail({
+    sender: {
+      name: senderName || cfg.senderName,
+      email: senderEmail || cfg.senderEmail,
+    },
+    to: [{ email: to }],
+    subject,
+    htmlContent: html,
+  })
+}
+
+async function sendViaPartnerSmtp(
+  partner: PartnerSmtp,
+  to: string,
+  subject: string,
+  html: string
+): Promise<void> {
+  const transporter = nodemailer.createTransport({
+    host: partner.smtpHost!,
+    port: partner.smtpPort || 465,
+    secure: (partner.smtpPort || 465) === 465,
     auth: {
-      user: cfg.email,
-      pass: cfg.password,
+      user: partner.smtpEmail!,
+      pass: decrypt(partner.smtpPassword!),
     },
     connectionTimeout: 8000,
     socketTimeout: 8000,
   })
+
+  const fromName = partner.smtpFromName || partner.smtpEmail!
+  const from = partner.smtpFromName
+    ? `"${partner.smtpFromName}" <${partner.smtpEmail}>`
+    : partner.smtpEmail!
+
+  await transporter.sendMail({ from, to, subject, html })
 }
 
-async function getFromAddress(partner?: PartnerSmtp | null): Promise<string> {
-  if (partner && !partner.useDefaultSmtp && partner.smtpEmail && partner.smtpFromName) {
-    return `"${partner.smtpFromName}" <${partner.smtpEmail}>`
-  }
-  if (partner && !partner.useDefaultSmtp && partner.smtpEmail) {
-    return partner.smtpEmail
-  }
-  const cfg = await getSystemSmtpConfig()
-  return `"${cfg.fromName}" <${cfg.email}>`
+function usePartnerSmtp(partner?: PartnerSmtp | null): boolean {
+  return !!(
+    partner &&
+    !partner.useDefaultSmtp &&
+    partner.smtpHost &&
+    partner.smtpEmail &&
+    partner.smtpPassword
+  )
 }
 
 export async function sendEmail(
@@ -101,9 +111,11 @@ export async function sendEmail(
   partner?: PartnerSmtp | null
 ): Promise<boolean> {
   try {
-    const transporter = await createTransporter(partner)
-    const from = await getFromAddress(partner)
-    await transporter.sendMail({ from, to, subject, html })
+    if (usePartnerSmtp(partner)) {
+      await sendViaPartnerSmtp(partner!, to, subject, html)
+    } else {
+      await sendViaBrevo(to, subject, html)
+    }
 
     await prisma.emailLog.create({
       data: { userId, type, subject, success: true },
@@ -124,14 +136,7 @@ export async function sendEmail(
 
 export async function sendTestEmail(partner: PartnerSmtp, to: string): Promise<{ success: boolean; error?: string }> {
   try {
-    const transporter = await createTransporter(partner)
-    const from = await getFromAddress(partner)
-    await transporter.sendMail({
-      from,
-      to,
-      subject: "Test de configuration SMTP",
-      html: "<p>Si vous recevez cet email, la configuration SMTP fonctionne correctement.</p>",
-    })
+    await sendViaPartnerSmtp(partner, to, "Test de configuration SMTP", "<p>Si vous recevez cet email, la configuration SMTP fonctionne correctement.</p>")
     return { success: true }
   } catch (err: any) {
     return { success: false, error: err?.message || "Erreur inconnue" }
@@ -140,22 +145,14 @@ export async function sendTestEmail(partner: PartnerSmtp, to: string): Promise<{
 
 export async function sendSystemTestEmail(to: string): Promise<{ success: boolean; error?: string }> {
   try {
-    const cfg = await getSystemSmtpConfig()
-    const transporter = nodemailer.createTransport({
-      host: cfg.host || "smtp.gmail.com",
-      port: cfg.port || 465,
-      secure: true,
-      auth: { user: cfg.email, pass: cfg.password },
-      connectionTimeout: 8000,
-      socketTimeout: 8000,
-    })
-    await transporter.sendMail({
-      from: `"${cfg.fromName}" <${cfg.email}>`,
+    const cfg = await getBrevoConfig()
+    await sendViaBrevo(
       to,
-      subject: "Test SMTP — Switching LMS",
-      text: "La configuration email fonctionne correctement.",
-      html: "<p>La configuration email fonctionne correctement.</p>",
-    })
+      "Test Brevo — Switching LMS",
+      "<p>La configuration email fonctionne correctement.</p>",
+      cfg.senderEmail,
+      cfg.senderName
+    )
     return { success: true }
   } catch (err: any) {
     return { success: false, error: err?.message || "Erreur inconnue" }

@@ -3,14 +3,12 @@
 import { useState, useEffect } from "react"
 
 export default function ParametresPage() {
-  // SMTP
-  const [smtpHost, setSmtpHost] = useState("")
-  const [smtpPort, setSmtpPort] = useState("465")
-  const [smtpEmail, setSmtpEmail] = useState("")
-  const [smtpPassword, setSmtpPassword] = useState("")
-  const [smtpFromName, setSmtpFromName] = useState("")
-  const [showPassword, setShowPassword] = useState(false)
-  const [hasStoredPassword, setHasStoredPassword] = useState(false)
+  // Brevo
+  const [brevoApiKey, setBrevoApiKey] = useState("")
+  const [senderEmail, setSenderEmail] = useState("contact@switchingformation.com")
+  const [senderName, setSenderName] = useState("Switching Formation")
+  const [showBrevoKey, setShowBrevoKey] = useState(false)
+  const [hasBrevoKey, setHasBrevoKey] = useState(false)
 
   // Vimeo
   const [vimeoToken, setVimeoToken] = useState("")
@@ -33,11 +31,9 @@ export default function ParametresPage() {
       .then((r) => r.json())
       .then((data) => {
         if (data.config) {
-          setSmtpHost(data.config.smtp_host || "")
-          setSmtpPort(data.config.smtp_port || "465")
-          setSmtpEmail(data.config.smtp_email || "")
-          setSmtpFromName(data.config.smtp_from_name || "")
-          setHasStoredPassword(data.hasPassword)
+          setSenderEmail(data.config.sender_email || "contact@switchingformation.com")
+          setSenderName(data.config.sender_name || "Switching Formation")
+          setHasBrevoKey(data.hasBrevoKey)
           setHasVimeoToken(data.hasVimeoToken)
           setStoragePath(data.config.storage_path || "/mnt/uploads")
           setStorageBaseUrl(data.config.storage_base_url || "")
@@ -59,11 +55,9 @@ export default function ParametresPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           config: {
-            smtp_host: smtpHost,
-            smtp_port: smtpPort,
-            smtp_email: smtpEmail,
-            smtp_password: smtpPassword,
-            smtp_from_name: smtpFromName,
+            brevo_api_key: brevoApiKey,
+            sender_email: senderEmail,
+            sender_name: senderName,
             vimeo_token: vimeoToken,
             storage_path: storagePath,
             storage_base_url: storageBaseUrl,
@@ -72,9 +66,9 @@ export default function ParametresPage() {
       })
       if (res.ok) {
         flash("Configuration enregistrée avec succès")
-        if (smtpPassword) setHasStoredPassword(true)
+        if (brevoApiKey) setHasBrevoKey(true)
         if (vimeoToken) setHasVimeoToken(true)
-        setSmtpPassword("")
+        setBrevoApiKey("")
         setVimeoToken("")
       } else flash("Erreur : " + ((await res.json()).error || "Échec"))
     } catch { flash("Erreur réseau") }
@@ -82,13 +76,12 @@ export default function ParametresPage() {
   }
 
   const handleTest = async () => {
-    if (!smtpEmail) { flash("Erreur : Email expéditeur requis"); return }
     setTesting(true)
     try {
       const res = await fetch("/api/admin/config/test-email", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: smtpEmail }),
+        body: JSON.stringify({ email: senderEmail }),
       })
       const data = await res.json()
       if (data.success) flash("Email de test envoyé avec succès !")
@@ -143,48 +136,50 @@ export default function ParametresPage() {
         </div>
       )}
 
-      {/* SMTP */}
+      {/* BREVO EMAIL */}
       <div className="bg-white rounded-xl border border-border p-6 space-y-6">
         <div>
-          <h2 className="text-base font-semibold mb-1">Configuration email par défaut</h2>
+          <h2 className="text-base font-semibold mb-1">Configuration email (Brevo)</h2>
           <p className="text-sm text-gray-400">
-            Ces paramètres sont utilisés pour tous les envois d'emails, sauf si un partenaire a configuré son propre SMTP.
+            Envoi d'emails via l'API Brevo. Les partenaires peuvent configurer leur propre SMTP.
           </p>
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium mb-1">
+            Clé API Brevo {hasBrevoKey && <span className="text-xs text-gray-400">(enregistrée)</span>}
+          </label>
+          <div className="relative sm:max-w-md">
+            <input
+              type={showBrevoKey ? "text" : "password"}
+              value={brevoApiKey}
+              onChange={(e) => setBrevoApiKey(e.target.value)}
+              placeholder={hasBrevoKey ? "••••••••" : "xkeysib-..."}
+              className="w-full px-3 py-2 pr-10 text-sm border border-border rounded-lg outline-none focus:border-primary"
+            />
+            <button
+              type="button"
+              onClick={() => setShowBrevoKey(!showBrevoKey)}
+              className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 text-sm"
+            >
+              {showBrevoKey ? "Cacher" : "Voir"}
+            </button>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium mb-1">Serveur SMTP</label>
-            <input value={smtpHost} onChange={(e) => setSmtpHost(e.target.value)} placeholder="smtp.gmail.com" className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-primary" />
-          </div>
-          <div>
-            <label className="block text-sm font-medium mb-1">Port</label>
-            <input type="number" value={smtpPort} onChange={(e) => setSmtpPort(e.target.value)} placeholder="465" className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-primary" />
-          </div>
-          <div>
             <label className="block text-sm font-medium mb-1">Email expéditeur</label>
-            <input type="email" value={smtpEmail} onChange={(e) => setSmtpEmail(e.target.value)} placeholder="noreply@mondomaine.fr" className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-primary" />
+            <input value={senderEmail} onChange={(e) => setSenderEmail(e.target.value)} placeholder="contact@switchingformation.com" className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-primary" />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1">
-              Mot de passe {hasStoredPassword && <span className="text-xs text-gray-400">(enregistré)</span>}
-            </label>
-            <div className="relative">
-              <input type={showPassword ? "text" : "password"} value={smtpPassword} onChange={(e) => setSmtpPassword(e.target.value)} placeholder={hasStoredPassword ? "••••••••" : "Mot de passe SMTP"} className="w-full px-3 py-2 pr-10 text-sm border border-border rounded-lg outline-none focus:border-primary" />
-              <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 text-sm">
-                {showPassword ? "Cacher" : "Voir"}
-              </button>
-            </div>
+            <label className="block text-sm font-medium mb-1">Nom de l'expéditeur</label>
+            <input value={senderName} onChange={(e) => setSenderName(e.target.value)} placeholder="Switching Formation" className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-primary" />
           </div>
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium mb-1">Nom de l'expéditeur</label>
-          <input value={smtpFromName} onChange={(e) => setSmtpFromName(e.target.value)} placeholder="Switching Formation" className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-primary sm:max-w-sm" />
         </div>
 
         <div className="flex gap-3 pt-2 border-t border-border">
-          <button onClick={handleTest} disabled={testing || !smtpEmail} className="px-4 py-2 bg-gray-100 text-sm rounded-lg hover:bg-gray-200 disabled:opacity-50 transition-colors">
+          <button onClick={handleTest} disabled={testing || (!hasBrevoKey && !brevoApiKey)} className="px-4 py-2 bg-gray-100 text-sm rounded-lg hover:bg-gray-200 disabled:opacity-50 transition-colors">
             {testing ? "Envoi en cours..." : "Tester l'email"}
           </button>
         </div>

@@ -78,6 +78,23 @@ export default function ParametresPage() {
   const handleTest = async () => {
     setTesting(true)
     try {
+      // Save config before testing so the API reads fresh values
+      await fetch("/api/admin/config", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          config: {
+            brevo_api_key: brevoApiKey,
+            sender_email: senderEmail,
+            sender_name: senderName,
+          },
+        }),
+      })
+      if (brevoApiKey) {
+        setHasBrevoKey(true)
+        setBrevoApiKey("")
+      }
+
       const res = await fetch("/api/admin/config/test-email", {
         method: "POST",
         headers: { "Content-Type": "application/json" },

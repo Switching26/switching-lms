@@ -6,6 +6,7 @@ import ImpersonationBanner from "@/components/layout/ImpersonationBanner"
 const items = [
   { label: "Accueil", href: "/learner/accueil" },
   { label: "Ma formation", href: "/learner/formation" },
+  { label: "Messages", href: "/learner/messages" },
   { label: "Mes notes", href: "/learner/notes" },
   { label: "Documents", href: "/learner/documents" },
   { label: "Paramètres", href: "/learner/parametres" },

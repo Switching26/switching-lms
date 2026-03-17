@@ -3,6 +3,7 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { signOut } from "next-auth/react"
+import { useState, useEffect } from "react"
 
 interface NavItem {
   label: string
@@ -26,8 +27,21 @@ export default function TopNav({
 }) {
   const pathname = usePathname()
   const color = brandColor || "#111"
+  const [unreadCount, setUnreadCount] = useState(0)
 
-  console.log("[TopNav] brandLogo:", brandLogo, "| brand:", brand)
+  // Poll unread messages count
+  useEffect(() => {
+    const fetchCount = async () => {
+      try {
+        const res = await fetch("/api/messages/unread-count")
+        const data = await res.json()
+        setUnreadCount(data.count || 0)
+      } catch {}
+    }
+    fetchCount()
+    const interval = setInterval(fetchCount, 3000)
+    return () => clearInterval(interval)
+  }, [])
 
   const dashboardHref = pathname.startsWith("/partner-admin")
     ? "/partner-admin/dashboard"
@@ -68,11 +82,12 @@ export default function TopNav({
           <div className="hidden sm:flex items-center gap-1 ml-2">
             {items.map((item) => {
               const active = pathname === item.href || pathname.startsWith(item.href + "/")
+              const isMessages = item.label === "Messages"
               return (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`px-3 py-1.5 rounded-lg text-sm transition-colors ${
+                  className={`px-3 py-1.5 rounded-lg text-sm transition-colors relative ${
                     active
                       ? "font-medium"
                       : "text-gray-500 hover:bg-gray-50"
@@ -80,6 +95,11 @@ export default function TopNav({
                   style={active ? { backgroundColor: `${color}10`, color } : undefined}
                 >
                   {item.label}
+                  {isMessages && unreadCount > 0 && (
+                    <span className="absolute -top-1 -right-1 min-w-[16px] h-4 flex items-center justify-center rounded-full bg-red-500 text-white text-[10px] font-bold px-1">
+                      {unreadCount}
+                    </span>
+                  )}
                 </Link>
               )
             })}

@@ -13,32 +13,52 @@ interface Message {
 export default function LearnerMessagesPage() {
   const [conversationId, setConversationId] = useState<string | null>(null)
   const [messages, setMessages] = useState<Message[]>([])
-  const [input, setInput] = useState("")
+  const [newMessage, setNewMessage] = useState("")
   const [sending, setSending] = useState(false)
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState("")
   const bottomRef = useRef<HTMLDivElement>(null)
   const lastMessageIdRef = useRef<string | null>(null)
 
-  // Init conversation
+  // Ensure conversation exists, returns id
+  const ensureConversation = useCallback(async (): Promise<string | null> => {
+    if (conversationId) return conversationId
+    try {
+      const res = await fetch("/api/messages/conversations", { method: "POST" })
+      if (!res.ok) {
+        const data = await res.json()
+        setError(data.error || "Impossible de créer la conversation")
+        return null
+      }
+      const conv = await res.json()
+      setConversationId(conv.id)
+      return conv.id
+    } catch {
+      setError("Erreur réseau")
+      return null
+    }
+  }, [conversationId])
+
+  // Init conversation + load messages
   useEffect(() => {
     async function init() {
       try {
-        const res = await fetch("/api/messages/conversations", { method: "POST" })
-        const conv = await res.json()
-        setConversationId(conv.id)
+        const convId = await ensureConversation()
+        if (!convId) return
 
-        const msgRes = await fetch(`/api/messages/conversations/${conv.id}`)
-        const msgs = await msgRes.json()
-        setMessages(msgs)
-        if (msgs.length > 0) lastMessageIdRef.current = msgs[msgs.length - 1].id
-
-        // Mark as read
-        fetch(`/api/messages/conversations/${conv.id}/read`, { method: "PUT" })
+        const msgRes = await fetch(`/api/messages/conversations/${convId}`)
+        if (msgRes.ok) {
+          const msgs = await msgRes.json()
+          setMessages(msgs)
+          if (msgs.length > 0) lastMessageIdRef.current = msgs[msgs.length - 1].id
+          fetch(`/api/messages/conversations/${convId}/read`, { method: "PUT" })
+        }
       } finally {
         setLoading(false)
       }
     }
     init()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   // Poll for new messages
@@ -48,6 +68,7 @@ export default function LearnerMessagesPage() {
       try {
         const afterParam = lastMessageIdRef.current ? `?after=${lastMessageIdRef.current}` : ""
         const res = await fetch(`/api/messages/conversations/${conversationId}${afterParam}`)
+        if (!res.ok) return
         const newMsgs: Message[] = await res.json()
         if (newMsgs.length > 0) {
           setMessages((prev) => [...prev, ...newMsgs])
@@ -64,25 +85,39 @@ export default function LearnerMessagesPage() {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" })
   }, [messages])
 
-  const handleSend = useCallback(async () => {
-    if (!input.trim() || !conversationId || sending) return
+  // Send message
+  const handleSendMessage = useCallback(async () => {
+    if (!newMessage.trim() || sending) return
     setSending(true)
+    setError("")
     try {
+      // Ensure conversation exists before sending
+      const convId = await ensureConversation()
+      if (!convId) {
+        setSending(false)
+        return
+      }
+
       const res = await fetch("/api/messages", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ conversationId, content: input.trim() }),
+        body: JSON.stringify({ conversationId: convId, content: newMessage.trim() }),
       })
       if (res.ok) {
         const msg = await res.json()
         setMessages((prev) => [...prev, msg])
         lastMessageIdRef.current = msg.id
-        setInput("")
+        setNewMessage("")
+      } else {
+        const data = await res.json()
+        setError(data.error || "Erreur lors de l'envoi")
       }
+    } catch {
+      setError("Erreur réseau")
     } finally {
       setSending(false)
     }
-  }, [input, conversationId, sending])
+  }, [newMessage, sending, ensureConversation])
 
   if (loading) {
     return (
@@ -99,6 +134,11 @@ export default function LearnerMessagesPage() {
         <h1 className="text-lg font-semibold">Messages</h1>
         <p className="text-xs text-gray-400 mt-0.5">Échangez avec votre administrateur</p>
       </div>
+
+      {/* Error */}
+      {error && (
+        <div className="mx-6 mt-3 px-4 py-2 bg-red-50 text-red-600 text-sm rounded-lg">{error}</div>
+      )}
 
       {/* Messages */}
       <div className="flex-1 overflow-y-auto px-6 py-4 space-y-3">
@@ -132,20 +172,26 @@ export default function LearnerMessagesPage() {
 
       {/* Input */}
       <div className="px-4 py-3 border-t border-border flex gap-2">
-        <input
-          type="text"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && handleSend()}
-          placeholder="Votre message..."
-          className="flex-1 px-4 py-2.5 text-sm border border-border rounded-full outline-none focus:border-gray-400"
+        <textarea
+          value={newMessage}
+          onChange={(e) => setNewMessage(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" && !e.shiftKey) {
+              e.preventDefault()
+              handleSendMessage()
+            }
+          }}
+          placeholder="Écrivez votre message..."
+          rows={1}
+          className="flex-1 px-4 py-2.5 text-sm border border-border rounded-2xl outline-none focus:border-gray-400 resize-none"
+          style={{ minHeight: 42, maxHeight: 120 }}
         />
         <button
-          onClick={handleSend}
-          disabled={sending || !input.trim()}
-          className="px-5 py-2.5 bg-black text-white text-sm font-medium rounded-full hover:opacity-90 disabled:opacity-40 transition-opacity"
+          onClick={handleSendMessage}
+          disabled={sending || !newMessage.trim()}
+          className="px-5 py-2.5 bg-black text-white text-sm font-medium rounded-full hover:opacity-90 disabled:opacity-40 transition-opacity self-end"
         >
-          Envoyer
+          {sending ? "..." : "Envoyer"}
         </button>
       </div>
     </div>

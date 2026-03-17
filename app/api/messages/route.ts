@@ -11,14 +11,45 @@ export async function POST(req: NextRequest) {
   if (!session?.user) return NextResponse.json({ error: "Non autorisé" }, { status: 401 })
 
   const user = session.user as any
-  const { conversationId, content } = await req.json()
+  const { conversationId: providedConvId, content } = await req.json()
 
-  if (!conversationId || !content?.trim()) {
+  if (!content?.trim()) {
     return NextResponse.json({ error: "Message requis" }, { status: 400 })
   }
 
+  // Auto-create conversation for learner if not provided
+  let convId = providedConvId
+  if (!convId && user.role === "LEARNER") {
+    let adminId: string | null = null
+    if (user.partnerId) {
+      const partnerAdmin = await prisma.user.findFirst({
+        where: { partnerId: user.partnerId, role: "PARTNER_ADMIN", isActive: true, archivedAt: null },
+      })
+      adminId = partnerAdmin?.id || null
+    }
+    if (!adminId) {
+      const superAdmin = await prisma.user.findFirst({
+        where: { role: "SUPER_ADMIN", isActive: true, archivedAt: null },
+      })
+      adminId = superAdmin?.id || null
+    }
+    if (!adminId) return NextResponse.json({ error: "Aucun administrateur disponible" }, { status: 404 })
+
+    const existing = await prisma.conversation.findFirst({ where: { learnerId: user.id, adminId } })
+    if (existing) {
+      convId = existing.id
+    } else {
+      const created = await prisma.conversation.create({ data: { learnerId: user.id, adminId } })
+      convId = created.id
+    }
+  }
+
+  if (!convId) {
+    return NextResponse.json({ error: "conversationId requis" }, { status: 400 })
+  }
+
   const conversation = await prisma.conversation.findUnique({
-    where: { id: conversationId },
+    where: { id: convId },
     include: {
       learner: { select: { id: true, firstName: true, lastName: true, email: true, partnerId: true, partner: true } },
       admin: { select: { id: true, firstName: true, lastName: true, email: true } },
@@ -32,7 +63,7 @@ export async function POST(req: NextRequest) {
 
   const message = await prisma.message.create({
     data: {
-      conversationId,
+      conversationId: convId,
       senderId: user.id,
       content: content.trim(),
     },
@@ -44,7 +75,7 @@ export async function POST(req: NextRequest) {
   // Update conversation: mark as unread for the other party
   const isLearner = user.id === conversation.learnerId
   await prisma.conversation.update({
-    where: { id: conversationId },
+    where: { id: convId },
     data: {
       updatedAt: new Date(),
       ...(isLearner ? { isReadAdmin: false } : { isReadLearner: false }),
@@ -60,7 +91,7 @@ export async function POST(req: NextRequest) {
       // Learner → Admin: check cooldown
       const recentReply = await prisma.message.findFirst({
         where: {
-          conversationId,
+          conversationId: convId,
           senderId: conversation.adminId,
           createdAt: { gt: new Date(Date.now() - 10 * 60 * 1000) },
         },
@@ -88,7 +119,7 @@ export async function POST(req: NextRequest) {
       // Admin → Learner: check cooldown
       const recentEmail = await prisma.message.findFirst({
         where: {
-          conversationId,
+          conversationId: convId,
           senderId: { not: conversation.learnerId },
           createdAt: { gt: new Date(Date.now() - 10 * 60 * 1000) },
           id: { not: message.id },

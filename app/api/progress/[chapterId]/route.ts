@@ -61,7 +61,7 @@ export async function PUT(req: NextRequest, { params }: { params: { chapterId: s
         : null
 
       const partner = user.partner
-      const baseUrl = process.env.AUTH_URL || process.env.NEXTAUTH_URL || "https://app.switching.fr"
+      const baseUrl = process.env.AUTH_URL || process.env.NEXTAUTH_URL || "https://switching-lms-production.up.railway.app"
       const loginUrl = partner?.slug ? `${baseUrl}/login?partner=${partner.slug}` : `${baseUrl}/login`
 
       const brandingVars = {

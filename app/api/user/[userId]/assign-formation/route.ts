@@ -67,7 +67,7 @@ export async function POST(req: NextRequest, { params }: { params: { userId: str
 
   // Send formation assigned email (non-blocking)
   try {
-    const baseUrl = process.env.AUTH_URL || process.env.NEXTAUTH_URL || "https://app.switching.fr"
+    const baseUrl = process.env.AUTH_URL || process.env.NEXTAUTH_URL || "https://switching-lms-production.up.railway.app"
     const loginUrl = user.partner?.slug ? `${baseUrl}/login?partner=${user.partner.slug}` : `${baseUrl}/login`
     const dynamic = await resolveTemplate("FORMATION_ASSIGNED", user.partnerId)
     if (dynamic) {

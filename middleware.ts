@@ -15,7 +15,7 @@ export default auth((req) => {
 
   // Public routes
   if (
-    pathname === "/login" ||
+    pathname.startsWith("/login") ||
     pathname.startsWith("/api/") ||
     pathname.startsWith("/_next/") ||
     pathname.includes(".")

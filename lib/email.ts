@@ -4,6 +4,7 @@ import { decrypt } from "@/lib/crypto"
 import type { EmailType } from "@prisma/client"
 
 export interface PartnerSmtp {
+  name?: string | null
   smtpHost?: string | null
   smtpPort?: number | null
   smtpEmail?: string | null
@@ -127,7 +128,9 @@ export async function sendEmail(
     if (usePartnerSmtp(partner)) {
       await sendViaPartnerSmtp(partner!, to, subject, html)
     } else {
-      await sendViaBrevo(to, subject, html)
+      // Use partner name as sender name if available
+      const partnerSenderName = partner?.name || undefined
+      await sendViaBrevo(to, subject, html, undefined, partnerSenderName)
     }
 
     await prisma.emailLog.create({

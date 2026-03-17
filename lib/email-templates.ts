@@ -11,7 +11,13 @@ const DEFAULT_BRAND: BrandConfig = {
   primaryColor: "#1e2847",
   secondaryColor: "#2dbdb6",
   logoUrl: null,
-  baseUrl: process.env.AUTH_URL || process.env.NEXTAUTH_URL || "https://app.switching.fr",
+  baseUrl: process.env.AUTH_URL || process.env.NEXTAUTH_URL || "https://switching-lms-production.up.railway.app",
+}
+
+function toAbsoluteUrl(url: string | null | undefined, baseUrl: string): string | null {
+  if (!url) return null
+  if (url.startsWith("http://") || url.startsWith("https://")) return url
+  return `${baseUrl}${url.startsWith("/") ? "" : "/"}${url}`
 }
 
 function getBrand(partner?: { name: string; primaryColor: string; secondaryColor: string; logoUrl?: string | null } | null): BrandConfig {
@@ -20,15 +26,18 @@ function getBrand(partner?: { name: string; primaryColor: string; secondaryColor
     name: partner.name,
     primaryColor: partner.primaryColor,
     secondaryColor: partner.secondaryColor,
-    logoUrl: partner.logoUrl,
+    logoUrl: toAbsoluteUrl(partner.logoUrl, DEFAULT_BRAND.baseUrl),
     baseUrl: DEFAULT_BRAND.baseUrl,
   }
 }
 
 function layout(brand: BrandConfig, content: string): string {
   const logoHtml = brand.logoUrl
-    ? `<img src="${brand.logoUrl}" alt="${brand.name}" style="max-height:48px;max-width:180px;margin-bottom:8px;" /><br />`
+    ? `<img src="${brand.logoUrl}" alt="${brand.name}" style="max-height:60px;max-width:200px;display:block;margin:0 auto;" />`
     : ""
+  const nameHtml = brand.logoUrl
+    ? ""
+    : `<h1 style="color:#ffffff;margin:0;font-size:18px;font-weight:600;">${brand.name}</h1>`
 
   return `<!DOCTYPE html>
 <html lang="fr">
@@ -44,9 +53,9 @@ function layout(brand: BrandConfig, content: string): string {
         <table width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;background-color:#ffffff;border-radius:12px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.08);">
           <!-- Header -->
           <tr>
-            <td style="background-color:${brand.primaryColor};padding:28px 32px;text-align:center;">
+            <td style="background-color:${brand.primaryColor};padding:30px 32px;text-align:center;">
               ${logoHtml}
-              <span style="color:#ffffff;font-size:18px;font-weight:600;">${brand.name}</span>
+              ${nameHtml}
             </td>
           </tr>
           <!-- Content -->

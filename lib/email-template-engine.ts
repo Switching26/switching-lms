@@ -38,9 +38,14 @@ export function replaceVariables(content: string, data: TemplateVariableData): s
   // Pre-process logo_url: if present, convert to <img> tag and hide h1
   const processedData = { ...data }
   if (processedData.logo_url) {
-    const logoSrc = processedData.logo_url
+    const baseUrl = process.env.AUTH_URL || process.env.NEXTAUTH_URL || "https://switching-lms-production.up.railway.app"
+    let logoSrc = processedData.logo_url
+    // Ensure absolute URL for email clients
+    if (!logoSrc.startsWith("http://") && !logoSrc.startsWith("https://")) {
+      logoSrc = `${baseUrl}${logoSrc.startsWith("/") ? "" : "/"}${logoSrc}`
+    }
     const altText = processedData.plateforme_nom || ""
-    processedData.logo_url = `<img src="${logoSrc}" alt="${altText}" style="max-height:50px;max-width:200px;display:block;margin:0 auto 10px">`
+    processedData.logo_url = `<img src="${logoSrc}" alt="${altText}" style="max-height:60px;max-width:200px;display:block;margin:0 auto">`
     processedData.logo_url_style = "display:none"
   } else {
     processedData.logo_url = ""

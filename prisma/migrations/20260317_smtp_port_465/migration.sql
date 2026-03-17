@@ -1,2 +1,2 @@
--- Update smtp_port from 587 to 465 for Gmail SSL
-UPDATE "SystemConfig" SET "value" = '465' WHERE "key" = 'smtp_port' AND "value" = '587';
+-- Remove old SMTP config keys (replaced by Brevo API)
+DELETE FROM "SystemConfig" WHERE "key" IN ('smtp_host', 'smtp_port', 'smtp_email', 'smtp_password', 'smtp_from_name');

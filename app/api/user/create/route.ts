@@ -2,6 +2,7 @@ import { NextResponse } from "next/server"
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
 import { hash } from "bcryptjs"
+import crypto from "crypto"
 import { sendEmail } from "@/lib/email"
 import { accountCreatedEmail } from "@/lib/email-templates"
 import { resolveTemplate, replaceVariables } from "@/lib/email-template-engine"
@@ -16,11 +17,11 @@ export async function POST(req: Request) {
 
   const { firstName, lastName, email, password, userRole, partnerId, reference } = await req.json()
 
-  if (!firstName?.trim() || !lastName?.trim() || !email?.trim() || !password) {
+  if (!firstName?.trim() || !lastName?.trim() || !email?.trim()) {
     return NextResponse.json({ error: "Tous les champs sont requis" }, { status: 400 })
   }
 
-  const existing = await prisma.user.findUnique({ where: { email } })
+  const existing = await prisma.user.findUnique({ where: { email: email.trim().toLowerCase() } })
   if (existing) {
     return NextResponse.json({ error: "Cet email existe déjà" }, { status: 400 })
   }
@@ -42,7 +43,9 @@ export async function POST(req: Request) {
     }
   }
 
-  const hashed = await hash(password, 12)
+  // Use provided password or generate a random placeholder (user will set their own via activation)
+  const rawPassword = password || crypto.randomBytes(32).toString("hex")
+  const hashed = await hash(rawPassword, 12)
 
   const user = await prisma.user.create({
     data: {
@@ -53,6 +56,7 @@ export async function POST(req: Request) {
       role: userRole || "LEARNER",
       partnerId: partnerId || null,
       reference: trimmedRef,
+      isActive: false,
     },
     include: { partner: true },
   })
@@ -63,6 +67,7 @@ export async function POST(req: Request) {
     const partnerParam = user.partner?.slug ? `&partner=${user.partner.slug}` : ""
     const baseUrl = process.env.AUTH_URL || process.env.NEXTAUTH_URL || "https://app.switching.fr"
     const activationUrl = `${baseUrl}/login/activer?token=${activationToken}${partnerParam}`
+    const loginUrl = user.partner?.slug ? `${baseUrl}/login?partner=${user.partner.slug}` : `${baseUrl}/login`
 
     const dynamic = await resolveTemplate("ACCOUNT_CREATED", user.partnerId)
     if (dynamic) {
@@ -70,10 +75,14 @@ export async function POST(req: Request) {
         prenom: user.firstName,
         nom: user.lastName,
         email: user.email,
-        lien_connexion: activationUrl,
+        lien_activation: activationUrl,
+        lien_connexion: loginUrl,
         plateforme_nom: user.partner?.name || "Switching Formation",
-        plateforme_url: baseUrl,
+        plateforme_url: loginUrl,
         partenaire_nom: user.partner?.name || "",
+        couleur_principale: user.partner?.primaryColor || "#111111",
+        couleur_secondaire: user.partner?.secondaryColor || "#F5F5F7",
+        logo_url: user.partner?.logoUrl || "",
       }
       const subject = replaceVariables(dynamic.subject, vars)
       const html = replaceVariables(dynamic.htmlContent, vars)

@@ -62,6 +62,13 @@ export async function PUT(req: NextRequest, { params }: { params: { chapterId: s
 
       const partner = user.partner
       const baseUrl = process.env.AUTH_URL || process.env.NEXTAUTH_URL || "https://app.switching.fr"
+      const loginUrl = partner?.slug ? `${baseUrl}/login?partner=${partner.slug}` : `${baseUrl}/login`
+
+      const brandingVars = {
+        couleur_principale: partner?.primaryColor || "#111111",
+        couleur_secondaire: partner?.secondaryColor || "#F5F5F7",
+        logo_url: partner?.logoUrl || "",
+      }
 
       // Send CHAPTER_COMPLETED email
       const chapterDynamic = await resolveTemplate("CHAPTER_COMPLETED", user.partnerId)
@@ -74,10 +81,12 @@ export async function PUT(req: NextRequest, { params }: { params: { chapterId: s
           chapitre_titre: chapter.title,
           chapitre_numero: String(chapter.order),
           prochain_chapitre: nextChapter?.title || "",
-          lien_connexion: `${baseUrl}/login`,
+          progression: String(progressPercent),
+          lien_connexion: loginUrl,
           plateforme_nom: partner?.name || "Switching Formation",
-          plateforme_url: baseUrl,
+          plateforme_url: loginUrl,
           partenaire_nom: partner?.name || "",
+          ...brandingVars,
         }
         sendEmail(user.email, replaceVariables(chapterDynamic.subject, vars), replaceVariables(chapterDynamic.htmlContent, vars), userId, "CHAPTER_COMPLETED", partner)
       } else {
@@ -105,10 +114,11 @@ export async function PUT(req: NextRequest, { params }: { params: { chapterId: s
               nom: user.lastName,
               email: user.email,
               formation_titre: formation.title,
-              lien_connexion: `${baseUrl}/login`,
+              lien_connexion: loginUrl,
               plateforme_nom: partner?.name || "Switching Formation",
-              plateforme_url: baseUrl,
+              plateforme_url: loginUrl,
               partenaire_nom: partner?.name || "",
+              ...brandingVars,
             }
             sendEmail(user.email, replaceVariables(formDynamic.subject, vars), replaceVariables(formDynamic.htmlContent, vars), userId, "FORMATION_COMPLETED", partner)
           } else {

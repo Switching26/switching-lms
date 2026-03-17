@@ -20,6 +20,16 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
   const user = await prisma.user.findUnique({ where: { id: (session.user as any).id } })
   if (!user) return NextResponse.json({ error: "Utilisateur introuvable" }, { status: 404 })
 
+  const baseUrl = process.env.AUTH_URL || process.env.NEXTAUTH_URL || "https://app.switching.fr"
+
+  // Fetch partner for branding if template is partner-specific
+  let partnerData = null
+  if (template.partnerId) {
+    partnerData = await prisma.partner.findUnique({ where: { id: template.partnerId } })
+  }
+
+  const loginUrl = partnerData?.slug ? `${baseUrl}/login?partner=${partnerData.slug}` : `${baseUrl}/login`
+
   // Sample data for preview
   const sampleData = {
     prenom: user.firstName,
@@ -27,26 +37,26 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
     email: user.email,
     formation_titre: "Formation exemple",
     formation_description: "Description de la formation exemple",
-    date_expiration: new Date(Date.now() + 30 * 86400000).toLocaleDateString("fr-FR"),
-    lien_connexion: process.env.AUTH_URL || process.env.NEXTAUTH_URL || "https://app.switching.fr",
+    date_expiration: new Date(Date.now() + 30 * 86400000).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" }),
+    lien_connexion: loginUrl,
+    lien_activation: `${baseUrl}/login/activer?token=sample-token`,
+    lien_reinitialisation: `${baseUrl}/login/reinitialiser?token=sample-token`,
     chapitre_titre: "Chapitre exemple",
     chapitre_numero: "1",
     prochain_chapitre: "Chapitre suivant",
-    plateforme_nom: "Switching Formation",
-    plateforme_url: process.env.AUTH_URL || process.env.NEXTAUTH_URL || "https://app.switching.fr",
-    partenaire_nom: (session.user as any).partnerName || "Partenaire",
+    progression: "65",
+    plateforme_nom: partnerData?.name || "Switching Formation",
+    plateforme_url: loginUrl,
+    partenaire_nom: partnerData?.name || (session.user as any).partnerName || "Partenaire",
+    couleur_principale: partnerData?.primaryColor || "#111111",
+    couleur_secondaire: partnerData?.secondaryColor || "#F5F5F7",
+    logo_url: partnerData?.logoUrl || "",
   }
 
   const subject = replaceVariables(template.subject, sampleData)
   const html = replaceVariables(template.htmlContent, sampleData)
 
-  // Get partner SMTP if applicable
-  let partner = null
-  if (template.partnerId) {
-    partner = await prisma.partner.findUnique({ where: { id: template.partnerId } })
-  }
-
-  const success = await sendEmail(user.email, subject, html, user.id, template.type as EmailType, partner)
+  const success = await sendEmail(user.email, subject, html, user.id, template.type as EmailType, partnerData)
 
   if (success) {
     return NextResponse.json({ success: true, sentTo: user.email })

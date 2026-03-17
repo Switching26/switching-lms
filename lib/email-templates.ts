@@ -82,7 +82,7 @@ function button(text: string, url: string, color: string): string {
   return `<table width="100%" cellpadding="0" cellspacing="0" style="margin:24px 0;">
     <tr>
       <td align="center">
-        <a href="${url}" style="display:inline-block;padding:14px 32px;background-color:${color};color:#ffffff;text-decoration:none;border-radius:8px;font-size:14px;font-weight:600;" target="_blank">${text}</a>
+        <a href="${url}" style="display:inline-block;padding:14px 32px;background-color:${color};color:#ffffff !important;text-decoration:none !important;border-radius:8px;font-size:14px;font-weight:600;font-family:Arial,sans-serif;" target="_blank">${text}</a>
       </td>
     </tr>
   </table>`

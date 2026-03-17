@@ -1,6 +1,5 @@
 import { PrismaClient, Role } from "@prisma/client"
 import { hash } from "bcryptjs"
-import { SEED_TEMPLATES } from "../lib/email-template-engine"
 
 const prisma = new PrismaClient()
 
@@ -174,25 +173,7 @@ export async function seedDatabase() {
     },
   })
 
-  // Seed default email templates
-  for (const tpl of SEED_TEMPLATES) {
-    const existing = await prisma.emailTemplate.findFirst({
-      where: { type: tpl.type, isDefault: true, partnerId: null },
-    })
-    if (!existing) {
-      await prisma.emailTemplate.create({
-        data: {
-          name: tpl.name,
-          subject: tpl.subject,
-          htmlContent: tpl.htmlContent,
-          type: tpl.type,
-          isDefault: true,
-          isActive: true,
-        },
-      })
-    }
-  }
-  console.log(`Seeded ${SEED_TEMPLATES.length} email templates`)
+  // Email templates are now seeded via GET /api/admin/seed-templates
 
   console.log("Seeding complete!")
   return {

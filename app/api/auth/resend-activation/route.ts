@@ -26,6 +26,7 @@ export async function POST(req: Request) {
       const baseUrl = process.env.AUTH_URL || process.env.NEXTAUTH_URL || "https://app.switching.fr"
       const partnerParam = user.partner?.slug ? `&partner=${user.partner.slug}` : ""
       const activationUrl = `${baseUrl}/login/activer?token=${token}${partnerParam}`
+      const loginUrl = user.partner?.slug ? `${baseUrl}/login?partner=${user.partner.slug}` : `${baseUrl}/login`
 
       const dynamic = await resolveTemplate("ACTIVATION_LINK", user.partnerId)
       if (dynamic) {
@@ -33,10 +34,14 @@ export async function POST(req: Request) {
           prenom: user.firstName,
           nom: user.lastName,
           email: user.email,
-          lien_connexion: activationUrl,
+          lien_activation: activationUrl,
+          lien_connexion: loginUrl,
           plateforme_nom: user.partner?.name || "Switching Formation",
-          plateforme_url: baseUrl,
+          plateforme_url: loginUrl,
           partenaire_nom: user.partner?.name || "",
+          couleur_principale: user.partner?.primaryColor || "#111111",
+          couleur_secondaire: user.partner?.secondaryColor || "#F5F5F7",
+          logo_url: user.partner?.logoUrl || "",
         }
         sendEmail(user.email, replaceVariables(dynamic.subject, vars), replaceVariables(dynamic.htmlContent, vars), user.id, "ACTIVATION_LINK", user.partner)
       } else {

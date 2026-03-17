@@ -68,6 +68,7 @@ export async function POST(req: NextRequest, { params }: { params: { userId: str
   // Send formation assigned email (non-blocking)
   try {
     const baseUrl = process.env.AUTH_URL || process.env.NEXTAUTH_URL || "https://app.switching.fr"
+    const loginUrl = user.partner?.slug ? `${baseUrl}/login?partner=${user.partner.slug}` : `${baseUrl}/login`
     const dynamic = await resolveTemplate("FORMATION_ASSIGNED", user.partnerId)
     if (dynamic) {
       const vars = {
@@ -75,11 +76,15 @@ export async function POST(req: NextRequest, { params }: { params: { userId: str
         nom: user.lastName,
         email: user.email,
         formation_titre: enrollment.formation.title,
+        formation_description: enrollment.formation.description || "",
         date_expiration: expiresAt ? new Date(expiresAt).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" }) : "",
-        lien_connexion: `${baseUrl}/login`,
+        lien_connexion: loginUrl,
         plateforme_nom: user.partner?.name || "Switching Formation",
-        plateforme_url: baseUrl,
+        plateforme_url: loginUrl,
         partenaire_nom: user.partner?.name || "",
+        couleur_principale: user.partner?.primaryColor || "#111111",
+        couleur_secondaire: user.partner?.secondaryColor || "#F5F5F7",
+        logo_url: user.partner?.logoUrl || "",
       }
       const subject = replaceVariables(dynamic.subject, vars)
       const html = replaceVariables(dynamic.htmlContent, vars)

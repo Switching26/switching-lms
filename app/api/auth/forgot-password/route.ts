@@ -26,6 +26,7 @@ export async function POST(req: Request) {
       const baseUrl = process.env.AUTH_URL || process.env.NEXTAUTH_URL || "https://app.switching.fr"
       const partnerParam = user.partner?.slug ? `&partner=${user.partner.slug}` : ""
       const resetUrl = `${baseUrl}/login/reinitialiser?token=${token}${partnerParam}`
+      const loginUrl = user.partner?.slug ? `${baseUrl}/login?partner=${user.partner.slug}` : `${baseUrl}/login`
 
       const dynamic = await resolveTemplate("PASSWORD_RESET", user.partnerId)
       if (dynamic) {
@@ -33,10 +34,14 @@ export async function POST(req: Request) {
           prenom: user.firstName,
           nom: user.lastName,
           email: user.email,
-          lien_connexion: resetUrl,
+          lien_reinitialisation: resetUrl,
+          lien_connexion: loginUrl,
           plateforme_nom: user.partner?.name || "Switching Formation",
-          plateforme_url: baseUrl,
+          plateforme_url: loginUrl,
           partenaire_nom: user.partner?.name || "",
+          couleur_principale: user.partner?.primaryColor || "#111111",
+          couleur_secondaire: user.partner?.secondaryColor || "#F5F5F7",
+          logo_url: user.partner?.logoUrl || "",
         }
         sendEmail(user.email, replaceVariables(dynamic.subject, vars), replaceVariables(dynamic.htmlContent, vars), user.id, "PASSWORD_RESET", user.partner)
       } else {

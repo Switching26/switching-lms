@@ -159,6 +159,22 @@ export default function UsersTable({
     } catch { flash("Erreur réseau") }
   }
 
+  // ─── RESEND ACTIVATION ───
+  const [resending, setResending] = useState<string | null>(null)
+  const handleResendActivation = async (user: User) => {
+    setResending(user.id)
+    try {
+      const res = await fetch("/api/auth/resend-activation", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: user.email }),
+      })
+      if (res.ok) flash("Lien d'activation renvoyé")
+      else flash("Erreur lors du renvoi")
+    } catch { flash("Erreur réseau") }
+    finally { setResending(null) }
+  }
+
   // ─── CREATE USER ───
   const handleCreate = async () => {
     if (!newFirstName.trim() || !newLastName.trim() || !newEmail.trim()) {
@@ -516,8 +532,8 @@ export default function UsersTable({
                       title={u.role === "SUPER_ADMIN" ? "" : u.isActive ? "Cliquer pour désactiver" : "Cliquer pour réactiver"}
                       disabled={u.role === "SUPER_ADMIN"}
                     >
-                      <Badge variant={u.isActive ? "success" : "error"}>
-                        {u.isActive ? "Actif" : "Inactif"}
+                      <Badge variant={u.isActive ? "success" : "warning"}>
+                        {u.isActive ? "Actif" : "Invité"}
                       </Badge>
                     </button>
                   )}
@@ -567,6 +583,16 @@ export default function UsersTable({
                         >
                           Suivi
                         </button>
+                        {!u.isActive && !u.archivedAt && u.role !== "SUPER_ADMIN" && (
+                          <button
+                            onClick={() => handleResendActivation(u)}
+                            disabled={resending === u.id}
+                            className="px-2 py-1 text-xs bg-blue-50 text-blue-600 hover:bg-blue-100 rounded transition-colors disabled:opacity-50"
+                            title="Renvoyer le lien d'activation"
+                          >
+                            {resending === u.id ? "Envoi..." : "Renvoyer activation"}
+                          </button>
+                        )}
                         {u.role !== "SUPER_ADMIN" && (
                           <button
                             onClick={() => setArchiveModal(u)}
@@ -850,14 +876,8 @@ export default function UsersTable({
               </div>
             </>
           )}
-          <div>
-            <label className="block text-sm font-medium mb-1">Mot de passe temporaire</label>
-            <div className="flex gap-2">
-              <input value={newPassword} onChange={(e) => setNewPassword(e.target.value)} className="flex-1 px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-black font-mono" />
-              <button onClick={() => setNewPassword(generatePassword())} className="px-3 py-2 bg-gray-100 text-sm rounded-lg hover:bg-gray-200 transition-colors">
-                Générer
-              </button>
-            </div>
+          <div className="bg-blue-50 border border-blue-100 rounded-lg px-4 py-3">
+            <p className="text-sm text-blue-700">Un email d&apos;activation sera envoyé automatiquement à l&apos;utilisateur pour qu&apos;il crée son mot de passe.</p>
           </div>
           <button onClick={handleCreate} disabled={creating} className="w-full py-2.5 bg-black text-white text-sm rounded-lg hover:opacity-90 disabled:opacity-50">
             {creating ? "Création..." : "Créer et envoyer invitation"}

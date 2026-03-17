@@ -1,5 +1,4 @@
 import nodemailer from "nodemailer"
-import { BrevoClient } from "@getbrevo/brevo"
 import { prisma } from "@/lib/prisma"
 import { decrypt } from "@/lib/crypto"
 import type { EmailType } from "@prisma/client"
@@ -53,17 +52,29 @@ async function sendViaBrevo(
   senderName?: string
 ): Promise<void> {
   const cfg = await getBrevoConfig()
-  const client = new BrevoClient({ apiKey: cfg.apiKey })
 
-  await client.transactionalEmails.sendTransacEmail({
-    sender: {
-      name: senderName || cfg.senderName,
-      email: senderEmail || cfg.senderEmail,
+  const response = await fetch("https://api.brevo.com/v3/smtp/email", {
+    method: "POST",
+    headers: {
+      "accept": "application/json",
+      "api-key": cfg.apiKey,
+      "content-type": "application/json",
     },
-    to: [{ email: to }],
-    subject,
-    htmlContent: html,
+    body: JSON.stringify({
+      sender: {
+        name: senderName || cfg.senderName,
+        email: senderEmail || cfg.senderEmail,
+      },
+      to: [{ email: to }],
+      subject,
+      htmlContent: html,
+    }),
   })
+
+  if (!response.ok) {
+    const error = await response.json()
+    throw new Error(`Brevo error: ${JSON.stringify(error)}`)
+  }
 }
 
 async function sendViaPartnerSmtp(

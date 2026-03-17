@@ -12,7 +12,7 @@ export default async function ParametresPage() {
   if (!user) redirect("/login")
 
   return (
-    <div className="max-w-lg">
+    <div className="w-full max-w-lg">
       <h1 className="text-xl font-semibold mb-6">Paramètres</h1>
       <SettingsForm
         user={JSON.parse(JSON.stringify({

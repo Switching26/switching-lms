@@ -41,7 +41,7 @@ export default function PartnerAdminShell({
           brandLogo={partnerLogo}
           userEmail={userEmail}
         />
-        <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6">{children}</main>
+        <main className="max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-6">{children}</main>
       </div>
     </div>
   )

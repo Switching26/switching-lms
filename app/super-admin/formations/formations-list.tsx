@@ -78,11 +78,12 @@ export default function FormationsList({ formations }: { formations: FormationIt
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <h1 className="text-xl font-semibold">Formations</h1>
         <Link
           href="/super-admin/formations/nouvelle"
-          className="px-4 py-2 bg-primary text-white text-sm rounded-lg hover:opacity-90 transition-opacity"
+          className="px-4 py-2.5 bg-primary text-white text-sm rounded-lg hover:opacity-90 transition-opacity text-center sm:w-auto"
+          style={{ minHeight: 44 }}
         >
           + Nouvelle formation
         </Link>
@@ -111,67 +112,79 @@ export default function FormationsList({ formations }: { formations: FormationIt
       {/* List */}
       <div className="bg-white rounded-xl border border-border overflow-hidden">
         {tab === "active" ? (
-          <table className="w-full">
-            <thead>
-              <tr className="border-b border-border">
-                <th className="text-left text-xs font-medium text-gray-500 px-4 py-3 w-[80px]"></th>
-                <th className="text-left text-xs font-medium text-gray-500 px-4 py-3">Titre</th>
-                <th className="text-left text-xs font-medium text-gray-500 px-4 py-3">Chapitres</th>
-                <th className="text-left text-xs font-medium text-gray-500 px-4 py-3">Apprenants</th>
-                <th className="text-left text-xs font-medium text-gray-500 px-4 py-3">Statut</th>
-                <th className="text-left text-xs font-medium text-gray-500 px-4 py-3">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
+          <>
+            {/* Mobile cards */}
+            <div className="md:hidden divide-y divide-gray-50">
               {active.map((f) => (
-                <tr key={f.id} className="border-b border-gray-50 hover:bg-gray-50 transition-colors">
-                  <td className="px-4 py-3">
-                    <CoverThumb url={f.coverImageUrl} title={f.title} />
-                  </td>
-                  <td className="px-4 py-3 text-sm font-medium">{f.title}</td>
-                  <td className="px-4 py-3 text-sm text-gray-500">{f.chaptersCount}</td>
-                  <td className="px-4 py-3 text-sm text-gray-500">{f.enrollmentsCount}</td>
-                  <td className="px-4 py-3">
-                    <Badge variant={f.isPublished ? "success" : "default"}>
-                      {f.isPublished ? "En ligne" : "Brouillon"}
-                    </Badge>
-                  </td>
-                  <td className="px-4 py-3">
-                    <div className="flex gap-3 items-center">
-                      <Link
-                        href={`/super-admin/formations/${f.id}/modifier`}
-                        className="text-gray-400 hover:text-primary text-sm transition-colors"
-                        title="Modifier"
-                      >
-                        ✏️
-                      </Link>
-                      <Link
-                        href={`/super-admin/formations/${f.id}/preview`}
-                        className="text-gray-400 hover:text-primary text-sm transition-colors"
-                        title="Aperçu"
-                      >
-                        👁
-                      </Link>
-                      <button
-                        onClick={() => setModal({ type: "soft", formation: f })}
-                        className="text-gray-400 hover:text-red-500 text-sm transition-colors"
-                        title="Supprimer"
-                      >
-                        🗑
-                      </button>
+                <div key={f.id} className="p-4 flex items-start gap-3">
+                  <CoverThumb url={f.coverImageUrl} title={f.title} />
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium truncate">{f.title}</p>
+                    <div className="flex items-center gap-2 mt-1 flex-wrap">
+                      <Badge variant={f.isPublished ? "success" : "default"}>
+                        {f.isPublished ? "En ligne" : "Brouillon"}
+                      </Badge>
+                      <span className="text-xs text-gray-400">{f.chaptersCount} ch. · {f.enrollmentsCount} appr.</span>
                     </div>
-                  </td>
-                </tr>
+                    <div className="flex gap-4 mt-2">
+                      <Link href={`/super-admin/formations/${f.id}/modifier`} className="text-gray-400 hover:text-primary text-sm" title="Modifier">✏️</Link>
+                      <Link href={`/super-admin/formations/${f.id}/preview`} className="text-gray-400 hover:text-primary text-sm" title="Aperçu">👁</Link>
+                      <button onClick={() => setModal({ type: "soft", formation: f })} className="text-gray-400 hover:text-red-500 text-sm" title="Supprimer">🗑</button>
+                    </div>
+                  </div>
+                </div>
               ))}
               {active.length === 0 && (
-                <tr>
-                  <td colSpan={6} className="px-4 py-8 text-center text-sm text-gray-400">
-                    Aucune formation — créez votre première formation
-                  </td>
-                </tr>
+                <div className="px-4 py-8 text-center text-sm text-gray-400">
+                  Aucune formation — créez votre première formation
+                </div>
               )}
-            </tbody>
-          </table>
+            </div>
+            {/* Desktop table */}
+            <table className="w-full hidden md:table">
+              <thead>
+                <tr className="border-b border-border">
+                  <th className="text-left text-xs font-medium text-gray-500 px-4 py-3 w-[80px]"></th>
+                  <th className="text-left text-xs font-medium text-gray-500 px-4 py-3">Titre</th>
+                  <th className="text-left text-xs font-medium text-gray-500 px-4 py-3">Chapitres</th>
+                  <th className="text-left text-xs font-medium text-gray-500 px-4 py-3">Apprenants</th>
+                  <th className="text-left text-xs font-medium text-gray-500 px-4 py-3">Statut</th>
+                  <th className="text-left text-xs font-medium text-gray-500 px-4 py-3">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {active.map((f) => (
+                  <tr key={f.id} className="border-b border-gray-50 hover:bg-gray-50 transition-colors">
+                    <td className="px-4 py-3">
+                      <CoverThumb url={f.coverImageUrl} title={f.title} />
+                    </td>
+                    <td className="px-4 py-3 text-sm font-medium">{f.title}</td>
+                    <td className="px-4 py-3 text-sm text-gray-500">{f.chaptersCount}</td>
+                    <td className="px-4 py-3 text-sm text-gray-500">{f.enrollmentsCount}</td>
+                    <td className="px-4 py-3">
+                      <Badge variant={f.isPublished ? "success" : "default"}>
+                        {f.isPublished ? "En ligne" : "Brouillon"}
+                      </Badge>
+                    </td>
+                    <td className="px-4 py-3">
+                      <div className="flex gap-3 items-center">
+                        <Link href={`/super-admin/formations/${f.id}/modifier`} className="text-gray-400 hover:text-primary text-sm transition-colors" title="Modifier">✏️</Link>
+                        <Link href={`/super-admin/formations/${f.id}/preview`} className="text-gray-400 hover:text-primary text-sm transition-colors" title="Aperçu">👁</Link>
+                        <button onClick={() => setModal({ type: "soft", formation: f })} className="text-gray-400 hover:text-red-500 text-sm transition-colors" title="Supprimer">🗑</button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+                {active.length === 0 && (
+                  <tr>
+                    <td colSpan={6} className="px-4 py-8 text-center text-sm text-gray-400">
+                      Aucune formation — créez votre première formation
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </>
         ) : (
           <div className="divide-y divide-gray-50">
             {trashed.map((f) => (

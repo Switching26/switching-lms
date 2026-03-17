@@ -174,7 +174,7 @@ export default function EmailManager({ logs }: { logs: Log[] }) {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <h1 className="text-xl font-semibold">Emails</h1>
         <div className="flex gap-2">
           <button
@@ -356,8 +356,8 @@ export default function EmailManager({ logs }: { logs: Log[] }) {
                   {templates.map((t) => {
                     const badge = emailTypeBadge[t.type] || { label: t.type, variant: "default" }
                     return (
-                      <div key={t.id} className="bg-white rounded-xl border border-border p-5 flex items-center justify-between">
-                        <div className="flex items-center gap-4 min-w-0">
+                      <div key={t.id} className="bg-white rounded-xl border border-border p-4 sm:p-5 space-y-3 sm:space-y-0 sm:flex sm:items-center sm:justify-between">
+                        <div className="flex flex-wrap items-center gap-2 sm:gap-4 min-w-0">
                           <Badge variant={badge.variant}>{badge.label}</Badge>
                           <div className="min-w-0">
                             <p className="text-sm font-medium truncate">{t.name}</p>
@@ -366,26 +366,10 @@ export default function EmailManager({ logs }: { logs: Log[] }) {
                           {!t.isActive && <Badge variant="default">Inactif</Badge>}
                           {t.isDefault && <Badge variant="blue">Défaut</Badge>}
                         </div>
-                        <div className="flex items-center gap-2 ml-4 shrink-0">
-                          <button
-                            onClick={() => handleTest(t.id)}
-                            disabled={testing}
-                            className="px-3 py-1.5 text-xs bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
-                          >
-                            Tester
-                          </button>
-                          <button
-                            onClick={() => openEdit(t)}
-                            className="px-3 py-1.5 text-xs bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
-                          >
-                            Modifier
-                          </button>
-                          <button
-                            onClick={() => handleDelete(t.id)}
-                            className="px-3 py-1.5 text-xs text-red-600 bg-red-50 hover:bg-red-100 rounded-lg transition-colors"
-                          >
-                            Supprimer
-                          </button>
+                        <div className="flex items-center gap-2 sm:ml-4 shrink-0">
+                          <button onClick={() => handleTest(t.id)} disabled={testing} className="flex-1 sm:flex-none px-3 py-2 sm:py-1.5 text-xs bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors" style={{ minHeight: 44 }}>Tester</button>
+                          <button onClick={() => openEdit(t)} className="flex-1 sm:flex-none px-3 py-2 sm:py-1.5 text-xs bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors" style={{ minHeight: 44 }}>Modifier</button>
+                          <button onClick={() => handleDelete(t.id)} className="flex-1 sm:flex-none px-3 py-2 sm:py-1.5 text-xs text-red-600 bg-red-50 hover:bg-red-100 rounded-lg transition-colors" style={{ minHeight: 44 }}>Supprimer</button>
                         </div>
                       </div>
                     )
@@ -398,8 +382,8 @@ export default function EmailManager({ logs }: { logs: Log[] }) {
       )}
 
       {tab === "logs" && (
-        <div className="bg-white rounded-xl border border-border overflow-hidden">
-          <table className="w-full">
+        <div className="bg-white rounded-xl border border-border overflow-x-auto">
+          <table className="w-full min-w-[640px]">
             <thead>
               <tr className="border-b border-border">
                 <th className="text-left text-xs font-medium text-gray-500 px-4 py-3">Type</th>

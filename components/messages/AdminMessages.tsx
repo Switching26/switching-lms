@@ -115,9 +115,9 @@ export default function AdminMessages() {
   }
 
   return (
-    <div className="flex h-[calc(100vh-120px)] bg-white rounded-xl border border-border overflow-hidden">
-      {/* Conversation list */}
-      <div className="w-80 border-r border-border flex flex-col">
+    <div className="flex flex-col md:flex-row h-[calc(100vh-120px)] bg-white rounded-xl border border-border overflow-hidden">
+      {/* Conversation list - full width on mobile when no active, side panel on desktop */}
+      <div className={`${activeId ? "hidden md:flex" : "flex"} w-full md:w-80 border-r border-border flex-col`}>
         <div className="px-4 py-3 border-b border-border">
           <h2 className="text-sm font-semibold">Conversations</h2>
         </div>
@@ -132,6 +132,7 @@ export default function AdminMessages() {
               className={`w-full text-left px-4 py-3 border-b border-gray-50 hover:bg-gray-50 transition-colors ${
                 activeId === conv.id ? "bg-gray-50" : ""
               }`}
+              style={{ minHeight: 44 }}
             >
               <div className="flex items-center justify-between">
                 <span className="text-sm font-medium">
@@ -159,7 +160,7 @@ export default function AdminMessages() {
       </div>
 
       {/* Chat panel */}
-      <div className="flex-1 flex flex-col">
+      <div className={`${activeId ? "flex" : "hidden md:flex"} flex-1 flex-col`}>
         {!activeId ? (
           <div className="flex-1 flex items-center justify-center">
             <p className="text-sm text-gray-400">Sélectionnez une conversation</p>
@@ -167,7 +168,13 @@ export default function AdminMessages() {
         ) : (
           <>
             {/* Chat header */}
-            <div className="px-6 py-3 border-b border-border">
+            <div className="px-4 sm:px-6 py-3 border-b border-border flex items-center gap-3">
+              <button
+                onClick={() => setActiveId(null)}
+                className="md:hidden w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-50"
+              >
+                <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
+              </button>
               {(() => {
                 const conv = conversations.find((c) => c.id === activeId)
                 return conv ? (
@@ -180,7 +187,7 @@ export default function AdminMessages() {
             </div>
 
             {/* Messages */}
-            <div className="flex-1 overflow-y-auto px-6 py-4 space-y-3">
+            <div className="flex-1 overflow-y-auto px-4 sm:px-6 py-4 space-y-3">
               {messages.length === 0 && (
                 <p className="text-sm text-gray-400 text-center mt-8">Aucun message</p>
               )}
@@ -190,7 +197,7 @@ export default function AdminMessages() {
                   <div key={msg.id} className={`flex ${isAdmin ? "justify-end" : "justify-start"}`}>
                     <div>
                       <div
-                        className="px-4 py-2.5 max-w-[400px] text-sm leading-relaxed"
+                        className="px-4 py-2.5 max-w-[280px] sm:max-w-[400px] text-sm leading-relaxed"
                         style={{
                           borderRadius: 18,
                           backgroundColor: isAdmin ? "#111111" : "#F5F5F7",
@@ -210,7 +217,7 @@ export default function AdminMessages() {
             </div>
 
             {/* Input */}
-            <div className="px-4 py-3 border-t border-border flex gap-2">
+            <div className="px-3 sm:px-4 py-3 border-t border-border flex gap-2">
               <textarea
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
@@ -223,12 +230,13 @@ export default function AdminMessages() {
                 placeholder="Votre réponse..."
                 rows={1}
                 className="flex-1 px-4 py-2.5 text-sm border border-border rounded-2xl outline-none focus:border-gray-400 resize-none"
-                style={{ minHeight: 42, maxHeight: 120 }}
+                style={{ minHeight: 44, maxHeight: 120, fontSize: 16 }}
               />
               <button
                 onClick={handleSend}
                 disabled={sending || !input.trim()}
-                className="px-5 py-2.5 bg-black text-white text-sm font-medium rounded-full hover:opacity-90 disabled:opacity-40 transition-opacity self-end"
+                className="px-4 sm:px-5 py-2.5 bg-black text-white text-sm font-medium rounded-full hover:opacity-90 disabled:opacity-40 transition-opacity self-end"
+                style={{ minHeight: 44 }}
               >
                 {sending ? "..." : "Envoyer"}
               </button>

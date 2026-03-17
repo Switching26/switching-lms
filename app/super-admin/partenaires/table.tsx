@@ -277,13 +277,61 @@ export default function PartnersTable({
         <div />
         <button
           onClick={() => setCreateOpen(true)}
-          className="px-4 py-2 bg-primary text-white text-sm rounded-lg hover:opacity-90 transition-opacity"
+          className="px-4 py-2.5 bg-primary text-white text-sm rounded-lg hover:opacity-90 transition-opacity"
+          style={{ minHeight: 44 }}
         >
           + Nouveau partenaire
         </button>
       </div>
 
-      <div className="bg-white rounded-xl border border-border overflow-hidden">
+      {/* Mobile cards */}
+      <div className="md:hidden space-y-3">
+        {partners.map((p) => {
+          const totalSeats = p.licenses.reduce((s, l) => s + l.totalSeats, 0)
+          const usedSeats = p.licenses.reduce((s, l) => s + l.usedSeats, 0)
+          const pct = totalSeats > 0 ? Math.round((usedSeats / totalSeats) * 100) : 0
+          const admin = p.users.find((u) => u.role === "PARTNER_ADMIN")
+          const learnerCount = p.users.filter((u) => u.role === "LEARNER").length
+          return (
+            <div key={p.id} className="bg-white rounded-xl border border-border p-4 space-y-2">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2 min-w-0">
+                  {p.logoUrl ? (
+                    <img src={p.logoUrl} alt="" className="h-5 max-w-[60px] object-contain" />
+                  ) : (
+                    <div className="w-3 h-3 rounded-full border border-border shrink-0" style={{ backgroundColor: p.primaryColor }} />
+                  )}
+                  <span className="text-sm font-medium truncate">{p.name}</span>
+                </div>
+                <Badge variant={p.isActive ? "success" : "error"}>{p.isActive ? "Actif" : "Inactif"}</Badge>
+              </div>
+              <div className="text-xs text-gray-400 space-y-0.5">
+                <p>{admin?.email || "Pas d'admin"}</p>
+                <p>{learnerCount} apprenant{learnerCount > 1 ? "s" : ""} · {usedSeats}/{totalSeats} licences</p>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="flex-1 bg-gray-100 rounded-full h-1.5">
+                  <div className="bg-primary h-1.5 rounded-full transition-all" style={{ width: `${pct}%` }} />
+                </div>
+                <span className="text-xs text-gray-500">{pct}%</span>
+              </div>
+              <div className="flex gap-2 pt-1">
+                {admin && (
+                  <button onClick={() => handleImpersonate(admin.id)} className="flex-1 py-2 text-xs bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors" style={{ minHeight: 44 }}>👁 Espace admin</button>
+                )}
+                <button onClick={() => openEdit(p)} className="flex-1 py-2 text-xs bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors" style={{ minHeight: 44 }}>✏️ Modifier</button>
+                <button onClick={() => openLicenses(p)} className="flex-1 py-2 text-xs bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors" style={{ minHeight: 44 }}>⚙️ Licences</button>
+              </div>
+            </div>
+          )
+        })}
+        {partners.length === 0 && (
+          <div className="bg-white rounded-xl border border-border px-4 py-8 text-center text-sm text-gray-400">Aucun partenaire</div>
+        )}
+      </div>
+
+      {/* Desktop table */}
+      <div className="hidden md:block bg-white rounded-xl border border-border overflow-hidden">
         <table className="w-full">
           <thead>
             <tr className="border-b border-border">
@@ -323,10 +371,7 @@ export default function PartnersTable({
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-2">
                       <div className="w-20 bg-gray-100 rounded-full h-1.5">
-                        <div
-                          className="bg-primary h-1.5 rounded-full transition-all"
-                          style={{ width: `${pct}%` }}
-                        />
+                        <div className="bg-primary h-1.5 rounded-full transition-all" style={{ width: `${pct}%` }} />
                       </div>
                       <span className="text-xs text-gray-500">{usedSeats}/{totalSeats}</span>
                     </div>
@@ -339,13 +384,7 @@ export default function PartnersTable({
                   <td className="px-4 py-3">
                     <div className="flex gap-3">
                       {admin && (
-                        <button
-                          onClick={() => handleImpersonate(admin.id)}
-                          className="text-sm text-gray-400 hover:text-orange-500"
-                          title="Accéder à l'espace admin"
-                        >
-                          {"👁"}
-                        </button>
+                        <button onClick={() => handleImpersonate(admin.id)} className="text-sm text-gray-400 hover:text-orange-500" title="Accéder à l'espace admin">{"👁"}</button>
                       )}
                       <button onClick={() => openEdit(p)} className="text-sm text-gray-400 hover:text-primary" title="Modifier">✏️</button>
                       <button onClick={() => openLicenses(p)} className="text-sm text-gray-400 hover:text-primary" title="Licences">⚙️</button>

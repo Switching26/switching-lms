@@ -34,7 +34,7 @@ export default function LearnerShell({
       )}
       <div style={impersonating ? { paddingTop: "40px" } : undefined}>
         <TopNav brand={brand} items={items} brandColor={brandColor} brandLogo={brandLogo} userEmail={userEmail} />
-        <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6">{children}</main>
+        <main className="max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-6">{children}</main>
       </div>
     </div>
   )

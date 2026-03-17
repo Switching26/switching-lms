@@ -94,6 +94,7 @@ export default function FormationPlayer({
     chapters.forEach((c) => { map[c.id] = c.completed })
     return map
   })
+  const [showChapters, setShowChapters] = useState(false)
 
   const active = chapters[activeIndex]
 
@@ -229,8 +230,19 @@ export default function FormationPlayer({
         )}
       </div>
 
+      {/* Mobile toggle button */}
+      <div className="lg:hidden">
+        <button
+          onClick={() => setShowChapters(!showChapters)}
+          className="w-full py-2.5 bg-white rounded-xl border border-border text-sm font-medium text-gray-600 hover:bg-gray-50 transition-colors"
+          style={{ minHeight: 44 }}
+        >
+          {showChapters ? "Masquer les chapitres" : "Voir les chapitres"}
+        </button>
+      </div>
+
       {/* Sidebar chapitres */}
-      <div className="bg-white rounded-xl border border-border p-4">
+      <div className={`${showChapters ? "block" : "hidden"} lg:block bg-white rounded-xl border border-border p-4`}>
         <h3 className="text-sm font-semibold mb-3">Chapitres</h3>
         <div className="space-y-1">
           {/* Root chapters */}

@@ -508,7 +508,7 @@ export default function UsersTable({
       </div>
 
       {/* ═══ TABLE ═══ */}
-      <div className="bg-white rounded-xl border border-border overflow-hidden">
+      <div className="bg-white rounded-xl border border-border" style={{ overflow: "visible" }}>
         <table className="w-full">
           <thead>
             <tr className="border-b border-border">
@@ -570,7 +570,7 @@ export default function UsersTable({
                     </button>
                   )}
                 </td>
-                <td className="px-4 py-3">
+                <td className="px-4 py-3" style={{ position: "relative", overflow: "visible" }}>
                   {isArchived(u) ? (
                     <div className="flex gap-1.5">
                       <button onClick={() => handleRestore(u)} className="px-2 py-1 text-xs bg-gray-100 hover:bg-green-50 hover:text-green-600 rounded transition-colors">
@@ -591,7 +591,7 @@ export default function UsersTable({
                         Actions &#9662;
                       </button>
                       {openMenuId === u.id && (
-                        <div className="absolute right-0 top-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-10 min-w-[200px] py-1">
+                        <div style={{ position: "absolute", right: 0, top: "100%", marginTop: 4, background: "white", border: "0.5px solid #E5E5E5", borderRadius: 8, boxShadow: "0 4px 12px rgba(0,0,0,0.1)", zIndex: 50, minWidth: 200, overflow: "hidden" }}>
                           <button
                             onClick={() => { setOpenMenuId(null); openEdit(u) }}
                             className="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors"

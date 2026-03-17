@@ -20,7 +20,7 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
   const user = await prisma.user.findUnique({ where: { id: (session.user as any).id } })
   if (!user) return NextResponse.json({ error: "Utilisateur introuvable" }, { status: 404 })
 
-  const baseUrl = process.env.AUTH_URL || process.env.NEXTAUTH_URL || "https://app.switching.fr"
+  const baseUrl = process.env.AUTH_URL || process.env.NEXTAUTH_URL || "https://switching-lms-production.up.railway.app"
 
   // Fetch partner for branding if template is partner-specific
   let partnerData = null

@@ -23,7 +23,7 @@ export async function POST(req: Request) {
 
     if (user && user.isActive) {
       const token = await generateToken(user.id, "RESET")
-      const baseUrl = process.env.AUTH_URL || process.env.NEXTAUTH_URL || "https://app.switching.fr"
+      const baseUrl = process.env.AUTH_URL || process.env.NEXTAUTH_URL || "https://switching-lms-production.up.railway.app"
       const partnerParam = user.partner?.slug ? `&partner=${user.partner.slug}` : ""
       const resetUrl = `${baseUrl}/login/reinitialiser?token=${token}${partnerParam}`
       const loginUrl = user.partner?.slug ? `${baseUrl}/login?partner=${user.partner.slug}` : `${baseUrl}/login`

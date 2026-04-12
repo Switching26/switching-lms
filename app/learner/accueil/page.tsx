@@ -7,7 +7,7 @@ export default async function LearnerAccueil() {
   const session = await auth()
   if (!session) redirect("/login")
 
-  const userId = (session.user as any).id
+  const userId = session.user.id
   const enrollment = await getLearnerFormation(userId)
   const progressList = await getLearnerProgress(userId)
 

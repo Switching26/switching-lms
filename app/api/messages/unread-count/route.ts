@@ -8,7 +8,7 @@ export async function GET() {
   const session = await auth()
   if (!session?.user) return NextResponse.json({ count: 0 })
 
-  const user = session.user as any
+  const user = session.user
 
   if (user.role === "LEARNER") {
     const count = await prisma.conversation.count({

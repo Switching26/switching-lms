@@ -6,7 +6,7 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
   const session = await auth()
   if (!session) return NextResponse.json({ error: "Non autorisé" }, { status: 401 })
 
-  const userId = (session.user as any).id
+  const userId = session.user.id
 
   const response = await prisma.exerciseResponse.findFirst({
     where: { exerciseId: params.id, userId },

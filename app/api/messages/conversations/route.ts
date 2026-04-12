@@ -9,7 +9,7 @@ export async function GET() {
   const session = await auth()
   if (!session?.user) return NextResponse.json({ error: "Non autorisé" }, { status: 401 })
 
-  const user = session.user as any
+  const user = session.user
   const where = user.role === "LEARNER"
     ? { learnerId: user.id }
     : user.role === "PARTNER_ADMIN"
@@ -43,7 +43,7 @@ export async function POST(req: NextRequest) {
   const session = await auth()
   if (!session?.user) return NextResponse.json({ error: "Non autorisé" }, { status: 401 })
 
-  const user = session.user as any
+  const user = session.user
   if (user.role !== "LEARNER") {
     return NextResponse.json({ error: "Seuls les apprenants peuvent initier une conversation" }, { status: 403 })
   }

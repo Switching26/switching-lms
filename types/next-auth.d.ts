@@ -1,28 +1,47 @@
 import { DefaultSession } from "next-auth"
 
-declare module "next-auth" {
-  interface Session {
-    user: {
-      id: string
-      role: "SUPER_ADMIN" | "PARTNER_ADMIN" | "LEARNER"
-      partnerId: string | null
-      partnerName: string | null
-      partnerSlug: string | null
-      partnerColor: string | null
-      partnerSecondaryColor: string | null
-      partnerLogo: string | null
-    } & DefaultSession["user"]
-  }
-}
+type UserRole = "SUPER_ADMIN" | "PARTNER_ADMIN" | "LEARNER"
 
-declare module "next-auth/jwt" {
-  interface JWT {
-    role: "SUPER_ADMIN" | "PARTNER_ADMIN" | "LEARNER"
+declare module "next-auth" {
+  interface User {
+    role: UserRole
+    firstName: string
     partnerId: string | null
     partnerName: string | null
     partnerSlug: string | null
     partnerColor: string | null
     partnerSecondaryColor: string | null
     partnerLogo: string | null
+  }
+
+  interface Session {
+    user: {
+      id: string
+      role: UserRole
+      firstName: string
+      partnerId: string | null
+      partnerName: string | null
+      partnerSlug: string | null
+      partnerColor: string | null
+      partnerSecondaryColor: string | null
+      partnerLogo: string | null
+      realAdmin?: { userId: string; email: string }
+      impersonating?: { userId: string; email: string; name: string; role: UserRole }
+    } & DefaultSession["user"]
+  }
+}
+
+declare module "next-auth/jwt" {
+  interface JWT {
+    role: UserRole
+    firstName: string
+    partnerId: string | null
+    partnerName: string | null
+    partnerSlug: string | null
+    partnerColor: string | null
+    partnerSecondaryColor: string | null
+    partnerLogo: string | null
+    realAdmin?: { userId: string; email: string }
+    impersonating?: { userId: string; email: string; name: string; role: UserRole }
   }
 }

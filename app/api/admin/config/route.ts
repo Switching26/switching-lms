@@ -11,7 +11,7 @@ const SENSITIVE_KEYS = ["brevo_api_key", "vimeo_token"]
 
 export async function GET() {
   const session = await auth()
-  if ((session?.user as any)?.role !== "SUPER_ADMIN") {
+  if (session?.user?.role !== "SUPER_ADMIN") {
     return NextResponse.json({ error: "Accès refusé" }, { status: 403 })
   }
 
@@ -32,14 +32,11 @@ export async function GET() {
 
 export async function PUT(req: Request) {
   const session = await auth()
-  if ((session?.user as any)?.role !== "SUPER_ADMIN") {
+  if (session?.user?.role !== "SUPER_ADMIN") {
     return NextResponse.json({ error: "Accès refusé" }, { status: 403 })
   }
 
   const { config } = await req.json() as { config: Record<string, string> }
-  console.log("[CONFIG PUT] Keys reçues:", Object.keys(config))
-  console.log("[CONFIG PUT] brevo_api_key présente:", !!config.brevo_api_key, "longueur:", config.brevo_api_key?.length)
-
   for (const [key, value] of Object.entries(config)) {
     if (!ALL_KEYS.includes(key)) continue
 
@@ -53,7 +50,6 @@ export async function PUT(req: Request) {
       update: { value: storedValue },
       create: { key, value: storedValue },
     })
-    console.log("[CONFIG PUT] Clé sauvegardée:", key, "longueur valeur:", storedValue.length)
   }
 
   return NextResponse.json({ success: true })

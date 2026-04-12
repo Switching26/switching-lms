@@ -7,7 +7,7 @@ export const dynamic = "force-dynamic"
 
 export async function POST(req: NextRequest) {
   const session = await auth()
-  if (!session || !["SUPER_ADMIN", "PARTNER_ADMIN"].includes((session.user as any).role)) {
+  if (!session || !["SUPER_ADMIN", "PARTNER_ADMIN"].includes(session.user.role)) {
     return NextResponse.json({ error: "Accès refusé" }, { status: 403 })
   }
 
@@ -52,7 +52,6 @@ export async function POST(req: NextRequest) {
 
     if (!createRes.ok) {
       const errData = await createRes.json()
-      console.error("[VIMEO CREATE]", JSON.stringify(errData))
       return NextResponse.json({
         error: errData.developer_message || errData.error || "Erreur Vimeo lors de la création de l'upload",
       }, { status: 500 })
@@ -64,12 +63,11 @@ export async function POST(req: NextRequest) {
     const vimeoId = vimeoUri?.split("/").pop() // "123456789"
 
     if (!uploadLink || !vimeoId) {
-      console.error("[VIMEO CREATE] Missing upload_link or uri:", JSON.stringify(videoData))
       return NextResponse.json({ error: "Réponse Vimeo incomplète" }, { status: 500 })
     }
 
     // Step 2: Configure embed settings (hide Vimeo branding)
-    await fetch(`https://api.vimeo.com/videos/${vimeoId}`, {
+    const patchRes = await fetch(`https://api.vimeo.com/videos/${vimeoId}`, {
       method: "PATCH",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -83,14 +81,16 @@ export async function POST(req: NextRequest) {
           title: { owner: "hide", portrait: "hide", name: "hide" },
         },
       }),
-    }).catch((err) => console.error("[VIMEO PATCH embed]", err))
+    }).catch(() => null)
+
+    const embedConfigured = patchRes?.ok ?? false
 
     return NextResponse.json({
       uploadUrl: uploadLink,
       vimeoId,
+      embedConfigured,
     })
   } catch (err) {
-    console.error("[VIMEO UPLOAD ERROR]", err)
     return NextResponse.json({ error: "Erreur lors de la création de l'upload" }, { status: 500 })
   }
 }

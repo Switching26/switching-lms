@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useRef, useCallback } from "react"
+import { useState, useRef, useCallback, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import Badge from "@/components/ui/Badge"
 
@@ -702,9 +702,20 @@ function ChapterPanel({
     if (pollingRef.current) { clearInterval(pollingRef.current); pollingRef.current = null }
   }, [])
 
+  const pollCountRef = useRef(0)
+  const MAX_POLL_ATTEMPTS = 60 // 60 × 5s = 5 minutes max
+
   const pollProcessingStatus = useCallback((vimeoId: string) => {
     stopPolling()
+    pollCountRef.current = 0
     pollingRef.current = setInterval(async () => {
+      pollCountRef.current++
+      if (pollCountRef.current > MAX_POLL_ATTEMPTS) {
+        stopPolling()
+        setVideoState("error")
+        setVideoError("Le traitement de la vidéo prend trop de temps. Vérifiez dans quelques minutes.")
+        return
+      }
       try {
         const res = await fetch(`/api/upload/video/${vimeoId}/status`)
         const data = await res.json()
@@ -725,10 +736,21 @@ function ChapterPanel({
     }, 5000)
   }, [stopPolling, onUpdate])
 
+  // Cleanup polling when component unmounts
+  useEffect(() => {
+    return () => { stopPolling() }
+  }, [stopPolling])
+
   const handleVideoUpload = async (file: File) => {
     if (!file.type.startsWith("video/")) { setVideoError("Format de fichier non supporté"); return }
     const maxSize = 5 * 1024 * 1024 * 1024
     if (file.size > maxSize) { setVideoError("Fichier trop volumineux (max 5 Go)"); return }
+
+    // Delete old video from Vimeo if replacing
+    const oldVimeoId = chapter.videoUrl
+    if (oldVimeoId) {
+      fetch(`/api/upload/video/${oldVimeoId}`, { method: "DELETE" }).catch(() => {})
+    }
 
     setVideoState("uploading")
     setUploadProgress(0)
@@ -796,12 +818,18 @@ function ChapterPanel({
     setUploadProgress(0)
   }
 
-  const handleRemoveVideo = () => {
+  const handleRemoveVideo = async () => {
+    const oldVimeoId = chapter.videoUrl
     stopPolling()
     onUpdate({ videoUrl: null, videoDuration: 0 })
     setVideoState("idle")
     setUploadProgress(0)
     setProcessingPct(null)
+
+    // Delete video from Vimeo (non-blocking)
+    if (oldVimeoId) {
+      fetch(`/api/upload/video/${oldVimeoId}`, { method: "DELETE" }).catch(() => {})
+    }
   }
 
   const handleRetry = () => {

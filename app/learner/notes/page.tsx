@@ -8,7 +8,7 @@ export default async function NotesPage() {
   const session = await auth()
   if (!session) redirect("/login")
 
-  const userId = (session.user as any).id
+  const userId = session.user.id
   const enrollment = await getLearnerFormation(userId)
   const notes = await getUserNotes(userId)
 

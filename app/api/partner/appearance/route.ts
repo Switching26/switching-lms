@@ -6,8 +6,8 @@ export async function PUT(req: Request) {
   const session = await auth()
   if (!session) return NextResponse.json({ error: "Non autorisé" }, { status: 401 })
 
-  const role = (session.user as any).role
-  const partnerId = (session.user as any).partnerId
+  const role = session.user.role
+  const partnerId = session.user.partnerId
 
   if (role !== "PARTNER_ADMIN" || !partnerId) {
     return NextResponse.json({ error: "Accès refusé" }, { status: 403 })

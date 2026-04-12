@@ -1,4 +1,5 @@
 import type { NextAuthConfig } from "next-auth"
+import type { JWT } from "next-auth/jwt"
 
 export const authConfig = {
   secret: process.env.AUTH_SECRET || process.env.NEXTAUTH_SECRET,
@@ -11,7 +12,7 @@ export const authConfig = {
   },
   providers: [],
   callbacks: {
-    async jwt({ token, user }: any) {
+    async jwt({ token, user }) {
       if (user) {
         token.role = user.role
         token.firstName = user.firstName
@@ -22,9 +23,9 @@ export const authConfig = {
         token.partnerSecondaryColor = user.partnerSecondaryColor
         token.partnerLogo = user.partnerLogo
       }
-      return token
+      return token as JWT
     },
-    async session({ session, token }: any) {
+    async session({ session, token }) {
       if (session.user) {
         session.user.id = token.sub!
         session.user.role = token.role

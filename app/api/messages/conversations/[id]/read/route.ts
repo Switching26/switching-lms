@@ -9,7 +9,7 @@ export async function PUT(_req: Request, { params }: { params: { id: string } })
   const session = await auth()
   if (!session?.user) return NextResponse.json({ error: "Non autorisé" }, { status: 401 })
 
-  const user = session.user as any
+  const user = session.user
   const conversation = await prisma.conversation.findUnique({ where: { id: params.id } })
   if (!conversation) return NextResponse.json({ error: "Conversation introuvable" }, { status: 404 })
 

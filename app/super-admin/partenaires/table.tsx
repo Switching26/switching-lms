@@ -175,7 +175,6 @@ export default function PartnersTable({
     setCFaviconUploading(true)
     const url = await uploadLogo(file)
     if (url) {
-      console.log('[FAVICON] Saved URL:', url)
       setCFavicon(url)
     } else flash("Erreur : Upload du favicon échoué")
     setCFaviconUploading(false)
@@ -226,7 +225,6 @@ export default function PartnersTable({
     setEFaviconUploading(true)
     const url = await uploadLogo(file)
     if (url) {
-      console.log('[FAVICON] Saved URL:', url)
       setEFavicon(url)
     } else flash("Erreur : Upload du favicon échoué")
     setEFaviconUploading(false)

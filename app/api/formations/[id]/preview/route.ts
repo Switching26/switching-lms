@@ -6,7 +6,7 @@ export const dynamic = "force-dynamic"
 
 export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
   const session = await auth()
-  if (!session || (session.user as any).role !== "SUPER_ADMIN") {
+  if (!session || session.user.role !== "SUPER_ADMIN") {
     return NextResponse.json({ error: "Accès refusé" }, { status: 403 })
   }
 

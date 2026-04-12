@@ -2,14 +2,26 @@ import { NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 import { hash } from "bcryptjs"
 import { verifyToken, markTokenUsed } from "@/lib/tokens"
+import { validatePassword } from "@/lib/validate-password"
+import { checkRateLimit, rateLimitResponse } from "@/lib/rate-limit"
 
 export const dynamic = "force-dynamic"
 
 export async function POST(req: Request) {
+  const ip = req.headers.get("x-forwarded-for") || "unknown"
+
+  // Rate limit: 5 activation attempts per IP per 15 minutes
+  const limit = checkRateLimit(`activate:ip:${ip}`, { maxAttempts: 5, windowMs: 15 * 60 * 1000 })
+  if (!limit.allowed) return rateLimitResponse(limit.retryAfterMs)
+
   const { token, password } = await req.json()
 
-  if (!token || !password || password.length < 6) {
-    return NextResponse.json({ error: "Mot de passe requis (6 caractères minimum)" }, { status: 400 })
+  if (!token) {
+    return NextResponse.json({ error: "Token requis" }, { status: 400 })
+  }
+  const pwCheck = validatePassword(password)
+  if (!pwCheck.valid) {
+    return NextResponse.json({ error: pwCheck.error }, { status: 400 })
   }
 
   const result = await verifyToken(token, "ACTIVATION")

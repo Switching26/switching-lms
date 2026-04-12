@@ -6,8 +6,8 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
   const session = await auth()
   if (!session) return NextResponse.json({ error: "Non autorisé" }, { status: 401 })
 
-  const role = (session.user as any).role
-  const partnerId = (session.user as any).partnerId
+  const role = session.user.role
+  const partnerId = session.user.partnerId
 
   // SUPER_ADMIN can update any partner, PARTNER_ADMIN can only update their own
   if (role === "PARTNER_ADMIN" && partnerId !== params.id) {

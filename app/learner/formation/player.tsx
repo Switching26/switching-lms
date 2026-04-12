@@ -596,8 +596,14 @@ function VimeoPlayer({
     return () => {
       window.removeEventListener("message", handleMessage)
       if (progressTimerRef.current) clearInterval(progressTimerRef.current)
+      // Use fetch with keepalive for reliable save on unmount
       if (currentTimeRef.current > 0 && !hasEndedRef.current) {
-        saveProgress(currentTimeRef.current)
+        fetch(`/api/progress/${chapterId}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ lastPosition: Math.floor(currentTimeRef.current) }),
+          keepalive: true,
+        }).catch(() => {})
       }
     }
   }, [vimeoId, chapterId, lastPosition, saveProgress])

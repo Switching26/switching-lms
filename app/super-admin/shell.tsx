@@ -14,9 +14,9 @@ const items = [
 
 export default function SuperAdminShell({ children, userEmail }: { children: React.ReactNode; userEmail: string }) {
   return (
-    <div className="min-h-screen bg-muted">
-      <TopNav brand="LMS Admin" badge="Super Admin" items={items} userEmail={userEmail} />
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-6">{children}</main>
+    <div className="min-h-screen noise-bg" style={{ backgroundColor: "#f8f7f4" }}>
+      <TopNav brand="LMS Admin" badge="Super Admin" items={items} brandColor="#1a1a2e" userEmail={userEmail} />
+      <main className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10">{children}</main>
     </div>
   )
 }

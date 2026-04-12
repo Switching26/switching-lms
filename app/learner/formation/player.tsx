@@ -123,7 +123,7 @@ export default function FormationPlayer({
           preview ? (
             <div className="aspect-video bg-primary rounded-2xl overflow-hidden shadow-lg">
               <iframe
-                src={`https://player.vimeo.com/video/${active.videoUrl}?title=0&byline=0&portrait=0&dnt=1`}
+                src={`https://player.vimeo.com/video/${active.videoUrl}?title=0&byline=0&portrait=0&dnt=1&outro=0`}
                 style={{ border: "none", width: "100%", height: "100%" }}
                 allow="autoplay; fullscreen; picture-in-picture"
                 allowFullScreen
@@ -684,7 +684,7 @@ function VimeoPlayer({
     <div className="aspect-video bg-primary rounded-2xl overflow-hidden shadow-lg">
       <iframe
         ref={iframeRef}
-        src={`https://player.vimeo.com/video/${vimeoId}?title=0&byline=0&portrait=0&dnt=1&api=1`}
+        src={`https://player.vimeo.com/video/${vimeoId}?title=0&byline=0&portrait=0&dnt=1&api=1&outro=0`}
         style={{ border: "none", width: "100%", height: "100%" }}
         allow="autoplay; fullscreen; picture-in-picture"
         allowFullScreen

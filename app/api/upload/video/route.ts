@@ -88,6 +88,7 @@ export async function POST(req: NextRequest) {
           buttons: { like: false, watchlater: false, share: false, embed: false, fullscreen: true },
           logos: { vimeo: false },
           title: { owner: "hide", portrait: "hide", name: "hide" },
+          end_screen: { type: "empty" },
         },
       }),
     }).catch(() => null)

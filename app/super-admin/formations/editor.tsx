@@ -946,7 +946,7 @@ function ChapterPanel({
               <div className="space-y-3">
                 <div className="aspect-video rounded-xl overflow-hidden border border-border">
                   <iframe
-                    src={`https://player.vimeo.com/video/${chapter.videoUrl}?title=0&byline=0&portrait=0&dnt=1`}
+                    src={`https://player.vimeo.com/video/${chapter.videoUrl}?title=0&byline=0&portrait=0&dnt=1&outro=0`}
                     style={{ border: "none", width: "100%", height: "100%" }}
                     allow="autoplay; fullscreen; picture-in-picture"
                     allowFullScreen

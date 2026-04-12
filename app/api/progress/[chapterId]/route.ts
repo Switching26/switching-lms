@@ -4,12 +4,13 @@ import { prisma } from "@/lib/prisma"
 import { sendEmail } from "@/lib/email"
 import { chapterCompletedEmail, formationCompletedEmail } from "@/lib/email-templates"
 import { resolveTemplate, replaceVariables } from "@/lib/email-template-engine"
+import { getBaseUrl } from "@/lib/get-base-url"
 
 export async function PUT(req: NextRequest, { params }: { params: { chapterId: string } }) {
   const session = await auth()
   if (!session) return NextResponse.json({ error: "Non autorisé" }, { status: 401 })
 
-  const userId = (session.user as any).id
+  const userId = session.user.id
   const { timeSpentSeconds, lastPosition, completedAt } = await req.json()
 
   const chapter = await prisma.chapter.findUnique({
@@ -61,7 +62,7 @@ export async function PUT(req: NextRequest, { params }: { params: { chapterId: s
         : null
 
       const partner = user.partner
-      const baseUrl = process.env.AUTH_URL || process.env.NEXTAUTH_URL || "https://switching-lms-production.up.railway.app"
+      const baseUrl = getBaseUrl()
       const loginUrl = partner?.slug ? `${baseUrl}/login?partner=${partner.slug}` : `${baseUrl}/login`
 
       const brandingVars = {

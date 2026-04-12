@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server"
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
 import { sendEmail } from "@/lib/email"
+import { getBaseUrl } from "@/lib/get-base-url"
 
 export const dynamic = "force-dynamic"
 
@@ -10,7 +11,7 @@ export async function POST(req: NextRequest) {
   const session = await auth()
   if (!session?.user) return NextResponse.json({ error: "Non autorisé" }, { status: 401 })
 
-  const user = session.user as any
+  const user = session.user
   const { conversationId: providedConvId, content } = await req.json()
 
   if (!content?.trim()) {
@@ -84,7 +85,7 @@ export async function POST(req: NextRequest) {
 
   // Send email notification (non-blocking, with 10-min cooldown)
   try {
-    const baseUrl = process.env.AUTH_URL || process.env.NEXTAUTH_URL || "https://switching-lms-production.up.railway.app"
+    const baseUrl = getBaseUrl()
     const preview = content.trim().substring(0, 50) + (content.trim().length > 50 ? "..." : "")
 
     if (isLearner) {

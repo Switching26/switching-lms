@@ -3,14 +3,19 @@ import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
 import { encode, decode } from "next-auth/jwt"
 
-const secret = process.env.AUTH_SECRET || process.env.NEXTAUTH_SECRET || ""
+function getAuthSecret(): string {
+  const s = process.env.AUTH_SECRET || process.env.NEXTAUTH_SECRET
+  if (!s) throw new Error("AUTH_SECRET or NEXTAUTH_SECRET environment variable is required.")
+  return s
+}
+
 const cookieName = process.env.NODE_ENV === "production"
   ? "__Secure-authjs.session-token"
   : "authjs.session-token"
 
 export async function POST(req: NextRequest) {
   const session = await auth()
-  const currentUser = session?.user as any
+  const currentUser = session?.user
 
   if (!currentUser || currentUser.role !== "SUPER_ADMIN") {
     return NextResponse.json({ error: "Non autorisé" }, { status: 403 })
@@ -46,7 +51,7 @@ export async function POST(req: NextRequest) {
   }
 
   // Decode current token to get base data
-  const decoded = await decode({ token: currentToken, secret, salt: cookieName })
+  const decoded = await decode({ token: currentToken, secret: getAuthSecret(), salt: cookieName })
   if (!decoded) {
     return NextResponse.json({ error: "Token invalide" }, { status: 400 })
   }
@@ -75,8 +80,20 @@ export async function POST(req: NextRequest) {
         role: target.role,
       },
     },
-    secret,
+    secret: getAuthSecret(),
     salt: cookieName,
+  })
+
+  // Log impersonation start
+  await prisma.impersonationLog.create({
+    data: {
+      adminId: currentUser.id,
+      adminEmail: currentUser.email || "",
+      targetId: target.id,
+      targetEmail: target.email,
+      targetRole: target.role,
+      action: "start",
+    },
   })
 
   // Determine redirect
@@ -108,7 +125,7 @@ export async function POST(req: NextRequest) {
 
 export async function DELETE(req: NextRequest) {
   const session = await auth()
-  const currentUser = session?.user as any
+  const currentUser = session?.user
 
   if (!currentUser?.realAdmin) {
     return NextResponse.json({ error: "Pas en impersonation" }, { status: 400 })
@@ -119,6 +136,18 @@ export async function DELETE(req: NextRequest) {
   if (!backupToken) {
     return NextResponse.json({ error: "Token de sauvegarde introuvable" }, { status: 400 })
   }
+
+  // Log impersonation stop
+  await prisma.impersonationLog.create({
+    data: {
+      adminId: currentUser.realAdmin.userId,
+      adminEmail: currentUser.realAdmin.email,
+      targetId: currentUser.id,
+      targetEmail: currentUser.email || "",
+      targetRole: currentUser.role,
+      action: "stop",
+    },
+  })
 
   const res = NextResponse.json({ ok: true, redirectUrl: "/super-admin/utilisateurs" })
 

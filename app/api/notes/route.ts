@@ -6,7 +6,7 @@ export async function POST(req: Request) {
   const session = await auth()
   if (!session) return NextResponse.json({ error: "Non autorisé" }, { status: 401 })
 
-  const userId = (session.user as any).id
+  const userId = session.user.id
   const { chapterId, content } = await req.json()
 
   if (!chapterId) return NextResponse.json({ error: "chapterId requis" }, { status: 400 })

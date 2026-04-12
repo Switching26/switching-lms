@@ -6,8 +6,8 @@ export async function GET(req: NextRequest) {
   const session = await auth()
   if (!session) return NextResponse.json({ error: "Non autorisé" }, { status: 401 })
 
-  const role = (session.user as any).role
-  const partnerId = (session.user as any).partnerId
+  const role = session.user.role
+  const partnerId = session.user.partnerId
 
   if (role === "SUPER_ADMIN") {
     // Super admin sees all default templates (no partnerId)
@@ -34,8 +34,8 @@ export async function POST(req: NextRequest) {
   const session = await auth()
   if (!session) return NextResponse.json({ error: "Non autorisé" }, { status: 401 })
 
-  const role = (session.user as any).role
-  const partnerId = (session.user as any).partnerId
+  const role = session.user.role
+  const partnerId = session.user.partnerId
 
   if (role !== "SUPER_ADMIN" && role !== "PARTNER_ADMIN") {
     return NextResponse.json({ error: "Accès refusé" }, { status: 403 })

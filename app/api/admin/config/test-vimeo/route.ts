@@ -7,7 +7,7 @@ export const dynamic = "force-dynamic"
 
 export async function POST() {
   const session = await auth()
-  if ((session?.user as any)?.role !== "SUPER_ADMIN") {
+  if (session?.user?.role !== "SUPER_ADMIN") {
     return NextResponse.json({ error: "Accès refusé" }, { status: 403 })
   }
 
@@ -31,8 +31,6 @@ export async function POST() {
     })
 
     const data = await res.json()
-    console.log("[Vimeo test] response:", JSON.stringify(data))
-
     if (!res.ok) {
       const errorMsg = data.error || data.developer_message || "Identifiants invalides"
       return NextResponse.json({ error: `Vimeo: ${errorMsg}` }, { status: 400 })
@@ -43,7 +41,6 @@ export async function POST() {
       message: `Connexion réussie — Compte : ${data.name || data.uri}`,
     })
   } catch (err) {
-    console.log("[Vimeo test] error:", err)
     return NextResponse.json({ error: "Impossible de contacter l'API Vimeo" }, { status: 500 })
   }
 }

@@ -6,8 +6,8 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
   const session = await auth()
   if (!session) return NextResponse.json({ error: "Non autorisé" }, { status: 401 })
 
-  const role = (session.user as any).role
-  const partnerId = (session.user as any).partnerId
+  const role = session.user.role
+  const partnerId = session.user.partnerId
 
   const template = await prisma.emailTemplate.findUnique({ where: { id: params.id } })
   if (!template) return NextResponse.json({ error: "Template introuvable" }, { status: 404 })
@@ -41,8 +41,8 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
   const session = await auth()
   if (!session) return NextResponse.json({ error: "Non autorisé" }, { status: 401 })
 
-  const role = (session.user as any).role
-  const partnerId = (session.user as any).partnerId
+  const role = session.user.role
+  const partnerId = session.user.partnerId
 
   const template = await prisma.emailTemplate.findUnique({ where: { id: params.id } })
   if (!template) return NextResponse.json({ error: "Template introuvable" }, { status: 404 })

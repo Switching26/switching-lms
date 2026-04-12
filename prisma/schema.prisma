@@ -274,6 +274,21 @@ model PasswordResetToken {
   @@index([userId])
 }
 
+model ImpersonationLog {
+  id            String   @id @default(cuid())
+  adminId       String
+  adminEmail    String
+  targetId      String
+  targetEmail   String
+  targetRole    Role
+  action        String   // "start" or "stop"
+  createdAt     DateTime @default(now())
+
+  @@index([adminId])
+  @@index([targetId])
+  @@index([createdAt])
+}
+
 model SystemConfig {
   id        String   @id @default(cuid())
   key       String   @unique

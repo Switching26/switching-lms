@@ -30,27 +30,21 @@ export async function GET(
 ) {
   const { filename } = params
 
-  console.log("[FILES] Request:", filename)
-
   // Prevent path traversal
   if (!filename || filename.includes("..") || filename.includes("/") || filename.includes("\\")) {
     return new NextResponse("Invalid filename", { status: 400 })
   }
 
   const filePath = join(UPLOAD_DIR, filename)
-  console.log("[FILES] Path:", filePath)
 
   try {
     if (!existsSync(filePath)) {
-      console.log("[FILES] Not found:", filePath)
       return new NextResponse("File not found", { status: 404 })
     }
 
     const file = await readFile(filePath)
     const ext = filename.split(".").pop()?.toLowerCase() || ""
     const contentType = CONTENT_TYPES[ext] || "application/octet-stream"
-
-    console.log("[FILES] Serving:", filename, "| Type:", contentType, "| Size:", file.length)
 
     return new NextResponse(file, {
       headers: {
@@ -60,7 +54,6 @@ export async function GET(
       },
     })
   } catch (error) {
-    console.log("[FILES] Error:", error)
     return new NextResponse("Server error", { status: 500 })
   }
 }

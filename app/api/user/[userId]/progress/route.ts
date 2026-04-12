@@ -7,7 +7,7 @@ export async function GET(req: NextRequest, { params }: { params: { userId: stri
   const session = await auth()
   if (!session) return NextResponse.json({ error: "Non autorisé" }, { status: 401 })
 
-  const role = (session.user as any).role
+  const role = session.user.role
   if (role !== "SUPER_ADMIN" && role !== "PARTNER_ADMIN") {
     return NextResponse.json({ error: "Accès refusé" }, { status: 403 })
   }
@@ -17,7 +17,7 @@ export async function GET(req: NextRequest, { params }: { params: { userId: stri
 
   // If partner admin, check they own this user
   if (role === "PARTNER_ADMIN") {
-    const adminPartnerId = (session.user as any).partnerId
+    const adminPartnerId = session.user.partnerId
     if (user.partnerId !== adminPartnerId) {
       return NextResponse.json({ error: "Accès refusé" }, { status: 403 })
     }

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server"
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
 import { replaceVariables } from "@/lib/email-template-engine"
+import { getBaseUrl } from "@/lib/get-base-url"
 import { sendEmail } from "@/lib/email"
 import type { EmailType } from "@prisma/client"
 
@@ -9,7 +10,7 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
   const session = await auth()
   if (!session) return NextResponse.json({ error: "Non autorisé" }, { status: 401 })
 
-  const role = (session.user as any).role
+  const role = session.user.role
   if (role !== "SUPER_ADMIN" && role !== "PARTNER_ADMIN") {
     return NextResponse.json({ error: "Accès refusé" }, { status: 403 })
   }
@@ -17,10 +18,10 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
   const template = await prisma.emailTemplate.findUnique({ where: { id: params.id } })
   if (!template) return NextResponse.json({ error: "Template introuvable" }, { status: 404 })
 
-  const user = await prisma.user.findUnique({ where: { id: (session.user as any).id } })
+  const user = await prisma.user.findUnique({ where: { id: session.user.id } })
   if (!user) return NextResponse.json({ error: "Utilisateur introuvable" }, { status: 404 })
 
-  const baseUrl = process.env.AUTH_URL || process.env.NEXTAUTH_URL || "https://switching-lms-production.up.railway.app"
+  const baseUrl = getBaseUrl()
 
   // Fetch partner for branding if template is partner-specific
   let partnerData = null
@@ -47,7 +48,7 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
     progression: "65",
     plateforme_nom: partnerData?.name || "Switching Formation",
     plateforme_url: loginUrl,
-    partenaire_nom: partnerData?.name || (session.user as any).partnerName || "Partenaire",
+    partenaire_nom: partnerData?.name || session.user.partnerName || "Partenaire",
     couleur_principale: partnerData?.primaryColor || "#111111",
     couleur_secondaire: partnerData?.secondaryColor || "#F5F5F7",
     logo_url: partnerData?.logoUrl ? (partnerData.logoUrl.startsWith("http") ? partnerData.logoUrl : `${baseUrl}${partnerData.logoUrl.startsWith("/") ? "" : "/"}${partnerData.logoUrl}`) : "",

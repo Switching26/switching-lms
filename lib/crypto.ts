@@ -3,7 +3,10 @@ import crypto from "crypto"
 const ALGORITHM = "aes-256-cbc"
 
 function getKey(): Buffer {
-  const secret = process.env.AUTH_SECRET || "default-secret-key-change-me-now!"
+  const secret = process.env.AUTH_SECRET
+  if (!secret) {
+    throw new Error("AUTH_SECRET environment variable is required. Cannot start without a secure encryption key.")
+  }
   return crypto.createHash("sha256").update(secret).digest()
 }
 

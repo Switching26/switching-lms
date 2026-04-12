@@ -53,9 +53,6 @@ async function sendViaBrevo(
   senderName?: string
 ): Promise<void> {
   const cfg = await getBrevoConfig()
-  console.log("[BREVO] Clé envoyée (10 premiers chars):", cfg.apiKey?.substring(0, 10))
-  console.log("[BREVO] Clé longueur:", cfg.apiKey?.length, "| sender:", cfg.senderEmail)
-
   const response = await fetch("https://api.brevo.com/v3/smtp/email", {
     method: "POST",
     headers: {

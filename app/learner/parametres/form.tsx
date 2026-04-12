@@ -121,7 +121,8 @@ export default function SettingsForm({ user }: { user: User }) {
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
             required
-            minLength={6}
+            minLength={8}
+            placeholder="8 caractères, majuscule, minuscule, chiffre"
             className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-primary"
           />
         </div>

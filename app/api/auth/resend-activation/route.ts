@@ -4,11 +4,23 @@ import { generateToken } from "@/lib/tokens"
 import { sendEmail } from "@/lib/email"
 import { resendActivationEmail } from "@/lib/email-templates"
 import { resolveTemplate, replaceVariables } from "@/lib/email-template-engine"
+import { getBaseUrl } from "@/lib/get-base-url"
+import { checkRateLimit, rateLimitResponse } from "@/lib/rate-limit"
 
 export const dynamic = "force-dynamic"
 
 export async function POST(req: Request) {
+  const ip = req.headers.get("x-forwarded-for") || "unknown"
   const { email } = await req.json()
+
+  // Rate limit: 3 requests per email per 15 minutes, 10 per IP per 15 minutes
+  const ipLimit = checkRateLimit(`resend-act:ip:${ip}`, { maxAttempts: 10, windowMs: 15 * 60 * 1000 })
+  if (!ipLimit.allowed) return rateLimitResponse(ipLimit.retryAfterMs)
+
+  if (email?.trim()) {
+    const emailLimit = checkRateLimit(`resend-act:email:${email.trim().toLowerCase()}`, { maxAttempts: 3, windowMs: 15 * 60 * 1000 })
+    if (!emailLimit.allowed) return NextResponse.json({ success: true })
+  }
 
   // Always return success to prevent email enumeration
   if (!email?.trim()) {
@@ -23,7 +35,7 @@ export async function POST(req: Request) {
 
     if (user) {
       const token = await generateToken(user.id, "ACTIVATION")
-      const baseUrl = process.env.AUTH_URL || process.env.NEXTAUTH_URL || "https://switching-lms-production.up.railway.app"
+      const baseUrl = getBaseUrl()
       const partnerParam = user.partner?.slug ? `&partner=${user.partner.slug}` : ""
       const activationUrl = `${baseUrl}/login/activer?token=${token}${partnerParam}`
       const loginUrl = user.partner?.slug ? `${baseUrl}/login?partner=${user.partner.slug}` : `${baseUrl}/login`

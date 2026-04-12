@@ -13,7 +13,7 @@ const UPLOAD_DIR = process.env.UPLOAD_DIR || "/mnt/uploads"
 
 export async function POST(req: Request) {
   const session = await auth()
-  if (!["SUPER_ADMIN", "PARTNER_ADMIN"].includes((session?.user as any)?.role)) {
+  if (!session?.user?.role || !["SUPER_ADMIN", "PARTNER_ADMIN"].includes(session.user.role)) {
     return NextResponse.json({ error: "Accès refusé" }, { status: 403 })
   }
 
@@ -40,8 +40,6 @@ export async function POST(req: Request) {
 
   const buffer = Buffer.from(await file.arrayBuffer())
   await writeFile(filePath, buffer)
-
-  console.log("[Upload] File saved:", { filePath, uploadDir: UPLOAD_DIR, filename, size: file.size })
 
   // Always return relative URL - never absolute path
   const url = `/api/files/${filename}`

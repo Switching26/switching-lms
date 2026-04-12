@@ -11,7 +11,7 @@ const roleRoutes: Record<string, string> = {
 
 export default auth((req) => {
   const { pathname } = req.nextUrl
-  const user = req.auth?.user as any
+  const user = req.auth?.user
 
   // Public routes
   if (

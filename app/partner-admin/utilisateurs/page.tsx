@@ -10,7 +10,7 @@ export default async function PartnerUtilisateursPage() {
   const session = await auth()
   if (!session) redirect("/login")
 
-  const partnerId = (session.user as any).partnerId
+  const partnerId = session.user.partnerId
   if (!partnerId) redirect("/login")
 
   const [users, formations] = await Promise.all([

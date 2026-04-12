@@ -11,7 +11,7 @@ const DEFAULT_BRAND: BrandConfig = {
   primaryColor: "#1e2847",
   secondaryColor: "#2dbdb6",
   logoUrl: null,
-  baseUrl: process.env.AUTH_URL || process.env.NEXTAUTH_URL || "https://switching-lms-production.up.railway.app",
+  baseUrl: (process.env.AUTH_URL || process.env.NEXTAUTH_URL || "").replace(/\/$/, ""),
 }
 
 function toAbsoluteUrl(url: string | null | undefined, baseUrl: string): string | null {

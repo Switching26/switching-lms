@@ -4,10 +4,11 @@ import { prisma } from "@/lib/prisma"
 import { sendEmail } from "@/lib/email"
 import { formationAssignedEmail } from "@/lib/email-templates"
 import { resolveTemplate, replaceVariables } from "@/lib/email-template-engine"
+import { getBaseUrl } from "@/lib/get-base-url"
 
 export async function POST(req: NextRequest, { params }: { params: { userId: string } }) {
   const session = await auth()
-  const role = (session?.user as any)?.role
+  const role = session?.user?.role
   if (!session || (role !== "SUPER_ADMIN" && role !== "PARTNER_ADMIN")) {
     return NextResponse.json({ error: "Accès refusé" }, { status: 403 })
   }
@@ -25,7 +26,7 @@ export async function POST(req: NextRequest, { params }: { params: { userId: str
 
   // Partner admin scope check
   if (role === "PARTNER_ADMIN") {
-    const adminPartnerId = (session.user as any).partnerId
+    const adminPartnerId = session.user.partnerId
     if (user.partnerId !== adminPartnerId) {
       return NextResponse.json({ error: "Accès refusé" }, { status: 403 })
     }
@@ -67,7 +68,7 @@ export async function POST(req: NextRequest, { params }: { params: { userId: str
 
   // Send formation assigned email (non-blocking)
   try {
-    const baseUrl = process.env.AUTH_URL || process.env.NEXTAUTH_URL || "https://switching-lms-production.up.railway.app"
+    const baseUrl = getBaseUrl()
     const loginUrl = user.partner?.slug ? `${baseUrl}/login?partner=${user.partner.slug}` : `${baseUrl}/login`
     const dynamic = await resolveTemplate("FORMATION_ASSIGNED", user.partnerId)
     if (dynamic) {

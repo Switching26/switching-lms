@@ -5,14 +5,14 @@ import LearnerShell from "./shell"
 
 export async function generateMetadata() {
   const session = await auth()
-  const user = session?.user as any
+  const user = session?.user
   const partner = user?.partnerId
     ? await prisma.partner.findFirst({
         where: { id: user.partnerId },
         select: { name: true, logoUrl: true, faviconUrl: true },
       })
     : null
-  const baseUrl = process.env.AUTH_URL || process.env.NEXTAUTH_URL || "https://switching-lms-production.up.railway.app"
+  const baseUrl = (process.env.AUTH_URL || process.env.NEXTAUTH_URL || "").replace(/\/$/, "")
   const rawFavicon = partner?.faviconUrl || partner?.logoUrl || "/favicon.svg"
   const faviconIcon = rawFavicon.startsWith("http") ? rawFavicon : `${baseUrl}${rawFavicon}`
   return {
@@ -28,7 +28,7 @@ export default async function LearnerLayout({ children }: { children: React.Reac
   const session = await auth()
   if (!session) redirect("/login")
 
-  const user = session.user as any
+  const user = session.user
 
   // Fetch partner fresh from DB — JWT may contain stale logoUrl
   const partner = user.partnerId
@@ -40,12 +40,6 @@ export default async function LearnerLayout({ children }: { children: React.Reac
 
   const primaryColor = partner?.primaryColor || "#111111"
   const secondaryColor = partner?.secondaryColor || "#FFFFFF"
-
-  console.log("[TopNav learner] partner logo data:", {
-    partnerId: user.partnerId,
-    logoUrl: partner?.logoUrl,
-    name: partner?.name,
-  })
 
   return (
     <div

@@ -7,7 +7,7 @@ export default async function LicencesPage() {
   const session = await auth()
   if (!session) redirect("/login")
 
-  const partnerId = (session.user as any).partnerId
+  const partnerId = session.user.partnerId
   if (!partnerId) redirect("/login")
 
   const { licenses, totalSeats, usedSeats } = await getPartnerLicenseStats(partnerId)

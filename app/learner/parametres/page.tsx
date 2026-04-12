@@ -7,7 +7,7 @@ export default async function ParametresPage() {
   const session = await auth()
   if (!session) redirect("/login")
 
-  const userId = (session.user as any).id
+  const userId = session.user.id
   const user = await getUserById(userId)
   if (!user) redirect("/login")
 

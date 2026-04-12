@@ -18,7 +18,7 @@ export default async function PartnerDashboard() {
   const session = await auth()
   if (!session) redirect("/login")
 
-  const partnerId = (session.user as any).partnerId
+  const partnerId = session.user.partnerId
   if (!partnerId) redirect("/login")
 
   const [activeUsers, licenseStats, completionRate, recentActivity] = await Promise.all([

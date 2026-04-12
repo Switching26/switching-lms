@@ -6,7 +6,7 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
   const session = await auth()
   if (!session) return NextResponse.json({ error: "Non autorisé" }, { status: 401 })
 
-  const userId = (session.user as any).id
+  const userId = session.user.id
   const { answers, preview } = await req.json() as {
     answers: { questionId: string; selectedChoiceId?: string; responseText?: string }[]
     preview?: boolean

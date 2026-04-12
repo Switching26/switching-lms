@@ -6,7 +6,7 @@ export async function GET(req: NextRequest) {
   const session = await auth()
   if (!session) return NextResponse.json({ error: "Non autorisé" }, { status: 401 })
 
-  const role = (session.user as any).role
+  const role = session.user.role
   if (role !== "PARTNER_ADMIN") {
     return NextResponse.json({ error: "Réservé aux partenaires" }, { status: 403 })
   }

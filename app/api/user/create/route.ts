@@ -7,10 +7,11 @@ import { sendEmail } from "@/lib/email"
 import { accountCreatedEmail } from "@/lib/email-templates"
 import { resolveTemplate, replaceVariables } from "@/lib/email-template-engine"
 import { generateToken } from "@/lib/tokens"
+import { getBaseUrl } from "@/lib/get-base-url"
 
 export async function POST(req: Request) {
   const session = await auth()
-  const role = (session?.user as any)?.role
+  const role = session?.user?.role
   if (!session || (role !== "SUPER_ADMIN" && role !== "PARTNER_ADMIN")) {
     return NextResponse.json({ error: "Accès refusé" }, { status: 403 })
   }
@@ -37,7 +38,7 @@ export async function POST(req: Request) {
 
   // Partner admin can only create learners in their own org
   if (role === "PARTNER_ADMIN") {
-    const adminPartnerId = (session.user as any).partnerId
+    const adminPartnerId = session.user.partnerId
     if (userRole !== "LEARNER" || partnerId !== adminPartnerId) {
       return NextResponse.json({ error: "Accès refusé" }, { status: 403 })
     }
@@ -65,7 +66,7 @@ export async function POST(req: Request) {
   try {
     const activationToken = await generateToken(user.id, "ACTIVATION")
     const partnerParam = user.partner?.slug ? `&partner=${user.partner.slug}` : ""
-    const baseUrl = process.env.AUTH_URL || process.env.NEXTAUTH_URL || "https://switching-lms-production.up.railway.app"
+    const baseUrl = getBaseUrl()
     const activationUrl = `${baseUrl}/login/activer?token=${activationToken}${partnerParam}`
     const loginUrl = user.partner?.slug ? `${baseUrl}/login?partner=${user.partner.slug}` : `${baseUrl}/login`
 

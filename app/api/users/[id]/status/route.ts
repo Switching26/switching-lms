@@ -6,8 +6,8 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
   const session = await auth()
   if (!session) return NextResponse.json({ error: "Non autorisé" }, { status: 401 })
 
-  const role = (session.user as any).role
-  const callerPartnerId = (session.user as any).partnerId
+  const role = session.user.role
+  const callerPartnerId = session.user.partnerId
 
   if (role !== "SUPER_ADMIN" && role !== "PARTNER_ADMIN") {
     return NextResponse.json({ error: "Accès refusé" }, { status: 403 })

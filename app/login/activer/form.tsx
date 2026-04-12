@@ -157,8 +157,12 @@ function ActivationForm({ token, brandName, brandColor, partnerParam, partner }:
     e.preventDefault()
     setError("")
 
-    if (password.length < 6) {
-      setError("Le mot de passe doit contenir au moins 6 caractères")
+    if (password.length < 8) {
+      setError("Le mot de passe doit contenir au moins 8 caractères")
+      return
+    }
+    if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(password)) {
+      setError("Le mot de passe doit contenir une majuscule, une minuscule et un chiffre")
       return
     }
     if (password !== confirm) {
@@ -238,7 +242,7 @@ function ActivationForm({ token, brandName, brandColor, partnerParam, partner }:
                 required
                 minLength={6}
                 className="w-full px-4 py-2.5 rounded-lg text-sm border border-border bg-[#FAFAFA] outline-none focus:border-primary transition-colors"
-                placeholder="6 caractères minimum"
+                placeholder="8 caractères, majuscule, minuscule, chiffre"
               />
             </div>
             <div>

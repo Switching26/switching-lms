@@ -9,12 +9,13 @@ export const dynamic = "force-dynamic"
 // GET — Retrieve SMTP config (password masked)
 export async function GET() {
   const session = await auth()
-  const role = (session?.user as any)?.role
+  const role = session?.user?.role
   if (!session || role !== "PARTNER_ADMIN") {
     return NextResponse.json({ error: "Accès refusé" }, { status: 403 })
   }
 
-  const partnerId = (session.user as any).partnerId
+  const partnerId = session.user.partnerId
+  if (!partnerId) return NextResponse.json({ error: "Partenaire requis" }, { status: 400 })
   const partner = await prisma.partner.findUnique({
     where: { id: partnerId },
     select: { smtpHost: true, smtpPort: true, smtpEmail: true, smtpPassword: true, smtpFromName: true, useDefaultSmtp: true },
@@ -34,12 +35,12 @@ export async function GET() {
 // PUT — Update SMTP config
 export async function PUT(req: Request) {
   const session = await auth()
-  const role = (session?.user as any)?.role
+  const role = session?.user?.role
   if (!session || role !== "PARTNER_ADMIN") {
     return NextResponse.json({ error: "Accès refusé" }, { status: 403 })
   }
 
-  const partnerId = (session.user as any).partnerId
+  const partnerId = session.user.partnerId
   const { smtpHost, smtpPort, smtpEmail, smtpPassword, smtpFromName, useDefaultSmtp } = await req.json()
 
   const data: any = {
@@ -55,6 +56,7 @@ export async function PUT(req: Request) {
     data.smtpPassword = encrypt(smtpPassword)
   }
 
+  if (!partnerId) return NextResponse.json({ error: "Partenaire requis" }, { status: 400 })
   await prisma.partner.update({ where: { id: partnerId }, data })
   return NextResponse.json({ success: true })
 }
@@ -62,12 +64,13 @@ export async function PUT(req: Request) {
 // POST — Test SMTP config
 export async function POST(req: Request) {
   const session = await auth()
-  const role = (session?.user as any)?.role
+  const role = session?.user?.role
   if (!session || role !== "PARTNER_ADMIN") {
     return NextResponse.json({ error: "Accès refusé" }, { status: 403 })
   }
 
-  const partnerId = (session.user as any).partnerId
+  const partnerId = session.user.partnerId
+  if (!partnerId) return NextResponse.json({ error: "Partenaire requis" }, { status: 400 })
   const { smtpHost, smtpPort, smtpEmail, smtpPassword, smtpFromName } = await req.json()
 
   // If no password sent, retrieve stored one

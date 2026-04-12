@@ -303,7 +303,8 @@ export default function UsersTable({
 
   // ─── CHANGE PASSWORD ───
   const handlePassword = async () => {
-    if (!pw || pw.length < 6) { flash("Min 6 caractères"); return }
+    if (!pw || pw.length < 8) { flash("Min 8 caractères avec majuscule, minuscule et chiffre"); return }
+    if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(pw)) { flash("Min 8 caractères avec majuscule, minuscule et chiffre"); return }
     if (pw !== pwConfirm) { flash("Les mots de passe ne correspondent pas"); return }
     setPwSaving(true)
     try {
@@ -1022,7 +1023,7 @@ export default function UsersTable({
         <div className="space-y-4">
           <div>
             <label className="block text-sm font-medium mb-1">Nouveau mot de passe</label>
-            <input type="password" value={pw} onChange={(e) => setPw(e.target.value)} className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-black" minLength={6} />
+            <input type="password" value={pw} onChange={(e) => setPw(e.target.value)} className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-black" minLength={8} placeholder="8 caractères, majuscule, minuscule, chiffre" />
           </div>
           <div>
             <label className="block text-sm font-medium mb-1">Confirmer</label>

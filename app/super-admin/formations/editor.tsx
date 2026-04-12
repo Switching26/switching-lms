@@ -691,6 +691,8 @@ function ChapterPanel({
   const [videoError, setVideoError] = useState("")
   const [uploadingFile, setUploadingFile] = useState(false)
   const [dragActive, setDragActive] = useState(false)
+  const [vimeoIdInput, setVimeoIdInput] = useState("")
+  const [linkingVimeo, setLinkingVimeo] = useState(false)
   const [activeTab, setActiveTab] = useState<"contenu" | "exercices">("contenu")
   const fileInputRef = useRef<HTMLInputElement>(null)
   const attachFileRef = useRef<HTMLInputElement>(null)
@@ -836,6 +838,44 @@ function ChapterPanel({
     setVideoState("idle")
     setVideoError("")
     fileInputRef.current?.click()
+  }
+
+  const handleLinkVimeoId = async () => {
+    // Extract numeric ID from URL or plain ID
+    const input = vimeoIdInput.trim()
+    const match = input.match(/(?:vimeo\.com\/)?(\d+)/)
+    const id = match?.[1]
+    if (!id) {
+      setVideoError("Entrez un ID Vimeo valide (ex: 123456789 ou https://vimeo.com/123456789)")
+      return
+    }
+
+    setLinkingVimeo(true)
+    setVideoError("")
+
+    try {
+      // Verify the video exists on Vimeo
+      const res = await fetch(`/api/upload/video/${id}/status`)
+      const data = await res.json()
+
+      if (data.status === "error" && data.error === "Vidéo introuvable") {
+        setVideoError("Cette vidéo n'existe pas sur votre compte Vimeo")
+        setLinkingVimeo(false)
+        return
+      }
+
+      // Save the Vimeo ID
+      onUpdate({ videoUrl: id })
+      if (data.duration) {
+        onUpdate({ videoDuration: data.duration })
+      }
+      setVideoState("ready")
+      setVimeoIdInput("")
+    } catch {
+      setVideoError("Erreur lors de la vérification de la vidéo Vimeo")
+    } finally {
+      setLinkingVimeo(false)
+    }
   }
 
   const handleDrop = useCallback((e: React.DragEvent) => {
@@ -1016,33 +1056,74 @@ function ChapterPanel({
               </div>
             )}
 
-            {/* Idle state — drop zone */}
+            {/* Idle state — upload or link */}
             {videoState === "idle" && !chapter.videoUrl && (
-              <div
-                onDragOver={(e) => { e.preventDefault(); setDragActive(true) }}
-                onDragLeave={() => setDragActive(false)}
-                onDrop={handleDrop}
-                className={`border-2 border-dashed rounded-xl p-8 text-center transition-colors cursor-pointer ${
-                  dragActive ? "border-primary bg-blue-50" : "border-border hover:border-gray-300"
-                }`}
-                onClick={() => fileInputRef.current?.click()}
-              >
-                <div className="space-y-2">
-                  <div className="text-3xl text-gray-300">&#9654;</div>
-                  <p className="text-sm text-gray-500">Déposez votre vidéo ici ou cliquez pour sélectionner</p>
-                  <p className="text-xs text-gray-400">MP4, MOV, AVI — 5 Go maximum</p>
+              <div className="space-y-3">
+                {/* Option 1: Upload file */}
+                <div
+                  onDragOver={(e) => { e.preventDefault(); setDragActive(true) }}
+                  onDragLeave={() => setDragActive(false)}
+                  onDrop={handleDrop}
+                  className={`border-2 border-dashed rounded-xl p-6 text-center transition-colors cursor-pointer ${
+                    dragActive ? "border-primary bg-blue-50" : "border-border hover:border-gray-300"
+                  }`}
+                  onClick={() => fileInputRef.current?.click()}
+                >
+                  <div className="space-y-2">
+                    <div className="w-10 h-10 mx-auto rounded-xl bg-warm-100 flex items-center justify-center">
+                      <svg className="w-5 h-5 text-warm-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
+                      </svg>
+                    </div>
+                    <p className="text-sm text-gray-600 font-medium">Uploader une vidéo</p>
+                    <p className="text-xs text-gray-400">Déposez votre fichier ou cliquez — MP4, MOV, AVI — 5 Go max</p>
+                  </div>
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="video/mp4,video/quicktime,video/x-msvideo,video/*"
+                    className="hidden"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0]
+                      if (file) handleVideoUpload(file)
+                      e.target.value = ""
+                    }}
+                  />
                 </div>
-                <input
-                  ref={fileInputRef}
-                  type="file"
-                  accept="video/mp4,video/quicktime,video/x-msvideo,video/*"
-                  className="hidden"
-                  onChange={(e) => {
-                    const file = e.target.files?.[0]
-                    if (file) handleVideoUpload(file)
-                    e.target.value = ""
-                  }}
-                />
+
+                {/* Separator */}
+                <div className="flex items-center gap-3">
+                  <div className="flex-1 border-t border-border" />
+                  <span className="text-xs text-gray-400 font-medium">ou</span>
+                  <div className="flex-1 border-t border-border" />
+                </div>
+
+                {/* Option 2: Link existing Vimeo video */}
+                <div className="border border-border rounded-xl p-4">
+                  <p className="text-sm text-gray-600 font-medium mb-2">Lier une vidéo Vimeo existante</p>
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      value={vimeoIdInput}
+                      onChange={(e) => setVimeoIdInput(e.target.value)}
+                      placeholder="ID Vimeo ou URL (ex: 123456789)"
+                      className="flex-1 px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-primary"
+                      onKeyDown={(e) => { if (e.key === "Enter") handleLinkVimeoId() }}
+                    />
+                    <button
+                      onClick={handleLinkVimeoId}
+                      disabled={!vimeoIdInput.trim() || linkingVimeo}
+                      className="px-4 py-2 bg-primary text-white text-sm rounded-lg hover:opacity-90 disabled:opacity-50 transition-opacity whitespace-nowrap"
+                    >
+                      {linkingVimeo ? "Vérification..." : "Lier"}
+                    </button>
+                  </div>
+                  <p className="text-xs text-gray-400 mt-2">Collez l'ID ou l'URL d'une vidéo déjà présente sur votre compte Vimeo</p>
+                </div>
+
+                {videoError && (
+                  <p className="text-sm text-red-500 px-1">{videoError}</p>
+                )}
               </div>
             )}
           </div>

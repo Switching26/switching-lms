@@ -46,7 +46,11 @@ export async function POST(req: NextRequest) {
       body: JSON.stringify({
         upload: { approach: "tus", size: fileSize },
         name: fileName,
-        privacy: { view: "disable" },
+        privacy: {
+          view: "unlisted",
+          download: false,
+          embed: "whitelist",
+        },
       }),
     })
 
@@ -66,7 +70,8 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Réponse Vimeo incomplète" }, { status: 500 })
     }
 
-    // Step 2: Configure embed settings (hide Vimeo branding)
+    // Step 2: Configure embed + security settings
+    const allowedDomain = (process.env.AUTH_URL || process.env.NEXTAUTH_URL || "").replace(/^https?:\/\//, "").replace(/\/$/, "")
     const patchRes = await fetch(`https://api.vimeo.com/videos/${vimeoId}`, {
       method: "PATCH",
       headers: {
@@ -75,13 +80,28 @@ export async function POST(req: NextRequest) {
         Accept: "application/vnd.vimeo.*+json;version=3.4",
       },
       body: JSON.stringify({
+        privacy: {
+          download: false,
+          embed: "whitelist",
+        },
         embed: {
-          buttons: { like: false, watchlater: false, share: false },
+          buttons: { like: false, watchlater: false, share: false, embed: false, fullscreen: true },
           logos: { vimeo: false },
           title: { owner: "hide", portrait: "hide", name: "hide" },
         },
       }),
     }).catch(() => null)
+
+    // Step 3: Whitelist our domain for embed
+    if (allowedDomain) {
+      await fetch(`https://api.vimeo.com/videos/${vimeoId}/privacy/domains/${allowedDomain}`, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/vnd.vimeo.*+json;version=3.4",
+        },
+      }).catch(() => null)
+    }
 
     const embedConfigured = patchRes?.ok ?? false
 

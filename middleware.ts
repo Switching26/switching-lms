@@ -9,11 +9,19 @@ const roleRoutes: Record<string, string> = {
   "/learner": "LEARNER",
 }
 
+// Resolve URL base from X-Forwarded-* (Tailscale serve, Railway proxy, etc.)
+function getBaseUrl(req: any): string {
+  const proto = req.headers.get("x-forwarded-proto") || "http"
+  const host = req.headers.get("x-forwarded-host") || req.headers.get("host")
+  if (host) return `${proto}://${host}`
+  return req.url
+}
+
 export default auth((req) => {
   const { pathname } = req.nextUrl
   const user = req.auth?.user
+  const base = getBaseUrl(req)
 
-  // Public routes
   if (
     pathname.startsWith("/login") ||
     pathname.startsWith("/api/") ||
@@ -23,21 +31,16 @@ export default auth((req) => {
     return
   }
 
-  // Not logged in → redirect to login
   if (!user) {
-    const loginUrl = new URL("/login", req.url)
-    return Response.redirect(loginUrl)
+    return Response.redirect(new URL("/login", base))
   }
 
-  // Determine effective role (impersonated role takes priority)
   const effectiveRole = user.role
 
-  // Block impersonated users from accessing super-admin routes
   if (pathname.startsWith("/super-admin") && user.realAdmin) {
-    return Response.redirect(new URL("/learner/accueil", req.url))
+    return Response.redirect(new URL("/learner/accueil", base))
   }
 
-  // Check role-based access
   for (const [prefix, role] of Object.entries(roleRoutes)) {
     if (pathname.startsWith(prefix) && effectiveRole !== role) {
       const dashboards: Record<string, string> = {
@@ -45,7 +48,7 @@ export default auth((req) => {
         PARTNER_ADMIN: "/partner-admin/dashboard",
         LEARNER: "/learner/accueil",
       }
-      return Response.redirect(new URL(dashboards[effectiveRole] || "/login", req.url))
+      return Response.redirect(new URL(dashboards[effectiveRole] || "/login", base))
     }
   }
 })

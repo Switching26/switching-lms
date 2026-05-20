@@ -644,23 +644,40 @@ function ChapterRow({
   onSelect: () => void
   onMove: (dir: "up" | "down") => void
 }) {
+  const handleSelect = () => {
+    onSelect()
+    setTimeout(() => {
+      document.getElementById("chapter-edit-panel")?.scrollIntoView({ behavior: "smooth", block: "start" })
+    }, 80)
+  }
+
   return (
     <div
-      onClick={onSelect}
-      className={`flex items-center justify-between p-3 rounded-lg cursor-pointer transition-colors ${
-        isActive ? "bg-gray-100 border border-border" : "hover:bg-gray-50"
+      onClick={handleSelect}
+      className={`group flex items-center justify-between p-3 rounded-lg cursor-pointer transition-all ${
+        isActive ? "bg-brand-50 ring-1 ring-brand-200" : "hover:bg-ink-10/30"
       }`}
     >
-      <div className="flex items-center gap-3">
-        <span className="text-xs text-gray-400 w-6 text-center">{index + 1}</span>
-        <span className="text-sm font-medium">{chapter.title}</span>
+      <div className="flex items-center gap-3 min-w-0 flex-1">
+        <span className="text-xs text-ink-50 w-6 text-center tabular-nums">{index + 1}</span>
+        <span className="text-sm font-medium text-ink truncate">{chapter.title}</span>
         <Badge variant={chapter.isPublished ? "success" : "default"}>
           {chapter.isPublished ? "Publié" : "Brouillon"}
         </Badge>
       </div>
-      <div className="flex items-center gap-1" onClick={(e) => e.stopPropagation()}>
-        <button onClick={() => onMove("up")} disabled={index === 0} className="px-1.5 py-0.5 text-xs text-gray-400 hover:text-primary disabled:opacity-30">▲</button>
-        <button onClick={() => onMove("down")} disabled={index === total - 1} className="px-1.5 py-0.5 text-xs text-gray-400 hover:text-primary disabled:opacity-30">▼</button>
+      <div className="flex items-center gap-1.5 flex-shrink-0" onClick={(e) => e.stopPropagation()}>
+        <button
+          onClick={handleSelect}
+          className={`px-2.5 py-1 text-xs font-semibold rounded-md transition-all ${
+            isActive
+              ? "bg-brand-600 text-white"
+              : "bg-white border border-ink-10 text-brand-600 opacity-0 group-hover:opacity-100 hover:bg-brand-50"
+          }`}
+        >
+          {isActive ? "Édition" : "Modifier"}
+        </button>
+        <button onClick={() => onMove("up")} disabled={index === 0} className="px-1.5 py-0.5 text-xs text-ink-50 hover:text-brand-600 disabled:opacity-30">▲</button>
+        <button onClick={() => onMove("down")} disabled={index === total - 1} className="px-1.5 py-0.5 text-xs text-ink-50 hover:text-brand-600 disabled:opacity-30">▼</button>
       </div>
     </div>
   )
@@ -907,11 +924,17 @@ function ChapterPanel({
   }
 
   return (
-    <div className="bg-white rounded-xl border border-border p-6 space-y-4">
+    <div
+      id="chapter-edit-panel"
+      className="bg-white rounded-2xl border-2 border-brand-200 p-6 space-y-4 shadow-card-hover scroll-mt-6"
+    >
       <div className="flex items-center justify-between">
-        <h2 className="text-base font-semibold">Édition du chapitre</h2>
-        <button onClick={onDelete} className="text-sm text-red-500 hover:text-red-700 transition-colors">
-          Supprimer ce chapitre
+        <div>
+          <span className="text-xs font-medium uppercase tracking-wider text-brand-600">Édition du chapitre</span>
+          <h2 className="font-display text-lg font-semibold text-ink mt-0.5">{chapter.title || "Sans titre"}</h2>
+        </div>
+        <button onClick={onDelete} className="text-sm text-red-500 hover:text-red-700 transition-colors font-medium">
+          Supprimer
         </button>
       </div>
 

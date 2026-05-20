@@ -23,10 +23,8 @@ export async function generateMetadata({ searchParams }: { searchParams: Promise
 export default function LoginPage() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen flex items-center justify-center bg-muted px-4">
-        <div className="w-full max-w-[380px] bg-white rounded-2xl p-6 sm:p-8 border border-border text-center">
-          <p className="text-sm text-gray-400">Chargement...</p>
-        </div>
+      <div className="min-h-screen flex items-center justify-center bg-surface-subtle px-4">
+        <p className="text-sm text-ink-50">Chargement…</p>
       </div>
     }>
       <LoginForm />

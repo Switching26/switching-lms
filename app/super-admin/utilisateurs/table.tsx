@@ -303,8 +303,7 @@ export default function UsersTable({
 
   // ─── CHANGE PASSWORD ───
   const handlePassword = async () => {
-    if (!pw || pw.length < 8) { flash("Min 8 caractères avec majuscule, minuscule et chiffre"); return }
-    if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(pw)) { flash("Min 8 caractères avec majuscule, minuscule et chiffre"); return }
+    if (!pw || pw.length < 4) { flash("Le mot de passe doit faire au moins 4 caractères"); return }
     if (pw !== pwConfirm) { flash("Les mots de passe ne correspondent pas"); return }
     setPwSaving(true)
     try {
@@ -1020,19 +1019,12 @@ export default function UsersTable({
 
       {/* ═══ PASSWORD MODAL ═══ */}
       <Modal open={!!passwordModal} onClose={() => setPasswordModal(null)} title="Modifier le mot de passe">
-        <div className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium mb-1">Nouveau mot de passe</label>
-            <input type="password" value={pw} onChange={(e) => setPw(e.target.value)} className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-black" minLength={8} placeholder="8 caractères, majuscule, minuscule, chiffre" />
-          </div>
-          <div>
-            <label className="block text-sm font-medium mb-1">Confirmer</label>
-            <input type="password" value={pwConfirm} onChange={(e) => setPwConfirm(e.target.value)} className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-black" />
-          </div>
-          <button onClick={handlePassword} disabled={pwSaving} className="w-full py-2.5 bg-black text-white text-sm rounded-lg hover:opacity-90 disabled:opacity-50">
-            {pwSaving ? "Mise à jour..." : "Mettre à jour"}
-          </button>
-        </div>
+        <PasswordModalContent
+          pw={pw} setPw={setPw}
+          pwConfirm={pwConfirm} setPwConfirm={setPwConfirm}
+          pwSaving={pwSaving}
+          onSave={handlePassword}
+        />
       </Modal>
 
       {/* ═══ ASSIGN FORMATION MODAL ═══ */}
@@ -1180,5 +1172,126 @@ export default function UsersTable({
         )}
       </Modal>
     </>
+  )
+}
+
+/**
+ * Modal "Modifier le mot de passe" — version améliorée avec toggle visibilité
+ * et bouton "Générer un mot de passe fort".
+ */
+function PasswordModalContent({
+  pw, setPw, pwConfirm, setPwConfirm, pwSaving, onSave,
+}: {
+  pw: string
+  setPw: (v: string) => void
+  pwConfirm: string
+  setPwConfirm: (v: string) => void
+  pwSaving: boolean
+  onSave: () => void
+}) {
+  const [showPw, setShowPw] = useState(false)
+
+  const generateStrong = () => {
+    const lower = "abcdefghijkmnpqrstuvwxyz"
+    const upper = "ABCDEFGHJKLMNPQRSTUVWXYZ"
+    const digits = "23456789"
+    const symbols = "!@#$%&*"
+    const all = lower + upper + digits + symbols
+    let p = ""
+    p += lower[Math.floor(Math.random() * lower.length)]
+    p += upper[Math.floor(Math.random() * upper.length)]
+    p += digits[Math.floor(Math.random() * digits.length)]
+    p += symbols[Math.floor(Math.random() * symbols.length)]
+    for (let i = 0; i < 8; i++) p += all[Math.floor(Math.random() * all.length)]
+    p = p.split("").sort(() => Math.random() - 0.5).join("")
+    setPw(p)
+    setPwConfirm(p)
+    setShowPw(true)
+  }
+
+  const copyPw = async () => {
+    if (!pw) return
+    try { await navigator.clipboard.writeText(pw) } catch {}
+  }
+
+  return (
+    <div className="space-y-4">
+      <p className="text-xs text-ink-50">
+        L&apos;administrateur peut voir le mot de passe pour le transmettre à l&apos;utilisateur.
+      </p>
+
+      <div>
+        <div className="flex items-center justify-between mb-1">
+          <label className="block text-sm font-medium text-ink-70">Nouveau mot de passe</label>
+          <button type="button" onClick={generateStrong} className="text-xs text-brand-600 hover:text-brand-700 font-medium">
+            Générer un mot de passe fort
+          </button>
+        </div>
+        <div className="relative">
+          <input
+            type={showPw ? "text" : "password"}
+            value={pw}
+            onChange={(e) => setPw(e.target.value)}
+            className="input-field pr-24 font-mono"
+            minLength={4}
+            placeholder="4 caractères min."
+            autoComplete="new-password"
+          />
+          <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1">
+            <button
+              type="button"
+              onClick={() => setShowPw((s) => !s)}
+              className="p-1.5 text-ink-50 hover:text-brand-600 rounded-md hover:bg-ink-10/50"
+              title={showPw ? "Masquer" : "Afficher"}
+            >
+              {showPw ? (
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.243 4.243L9.88 9.88" />
+                </svg>
+              ) : (
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+              )}
+            </button>
+            <button
+              type="button"
+              onClick={copyPw}
+              disabled={!pw}
+              className="p-1.5 text-ink-50 hover:text-brand-600 rounded-md hover:bg-ink-10/50 disabled:opacity-30"
+              title="Copier"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15.666 3.888A2.25 2.25 0 0013.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 01-.75.75H9a.75.75 0 01-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 01-2.25 2.25H6.75A2.25 2.25 0 014.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 011.927-.184" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium mb-1 text-ink-70">Confirmer</label>
+        <input
+          type={showPw ? "text" : "password"}
+          value={pwConfirm}
+          onChange={(e) => setPwConfirm(e.target.value)}
+          className="input-field font-mono"
+          placeholder="Re-tape le mot de passe"
+          autoComplete="new-password"
+        />
+        {pw && pwConfirm && pw !== pwConfirm && (
+          <p className="text-xs text-red-600 mt-1">Les mots de passe ne correspondent pas</p>
+        )}
+      </div>
+
+      <button
+        onClick={onSave}
+        disabled={pwSaving || !pw || pw !== pwConfirm}
+        className="btn-primary w-full"
+      >
+        {pwSaving ? "Mise à jour…" : "Mettre à jour le mot de passe"}
+      </button>
+    </div>
   )
 }

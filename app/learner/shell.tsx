@@ -28,13 +28,13 @@ export default function LearnerShell({
   impersonating?: { name: string; email: string } | null
 }) {
   return (
-    <div className="min-h-screen noise-bg" style={{ backgroundColor: "#f8f7f4" }}>
+    <div className="min-h-screen bg-surface-subtle">
       {impersonating && (
         <ImpersonationBanner name={impersonating.name} email={impersonating.email} />
       )}
       <div style={impersonating ? { paddingTop: "40px" } : undefined}>
-        <TopNav brand={brand} items={items} brandColor={brandColor} brandLogo={brandLogo} userEmail={userEmail} />
-        <main className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10">{children}</main>
+        <TopNav brand={brand} items={items} brandColor={brandColor || "#4F46E5"} brandLogo={brandLogo} userEmail={userEmail} />
+        <main className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">{children}</main>
       </div>
     </div>
   )

@@ -28,7 +28,7 @@ export default function PartnerAdminShell({
   impersonating?: { name: string; email: string } | null
 }) {
   return (
-    <div className="min-h-screen noise-bg" style={{ backgroundColor: "#f8f7f4" }}>
+    <div className="min-h-screen bg-surface-subtle">
       {impersonating && (
         <ImpersonationBanner name={impersonating.name} email={impersonating.email} />
       )}
@@ -37,11 +37,11 @@ export default function PartnerAdminShell({
           brand={partnerName}
           badge="Admin partenaire"
           items={items}
-          brandColor={partnerColor}
+          brandColor={partnerColor || "#4F46E5"}
           brandLogo={partnerLogo}
           userEmail={userEmail}
         />
-        <main className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10">{children}</main>
+        <main className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">{children}</main>
       </div>
     </div>
   )

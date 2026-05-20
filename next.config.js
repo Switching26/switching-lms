@@ -7,6 +7,14 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'switching-lms-production.up.railway.app',
       },
+      {
+        protocol: 'https',
+        hostname: 'images.riseup.ai',
+      },
+      {
+        protocol: 'https',
+        hostname: 'content.riseup.ai',
+      },
     ],
   },
   async headers() {

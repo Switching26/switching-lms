@@ -30,8 +30,8 @@ export default async function SuperAdminDashboard() {
   return (
     <div className="space-y-8">
       <div className="animate-fade-in-up">
-        <h1 className="font-display text-3xl font-semibold text-primary tracking-tight">Dashboard</h1>
-        <p className="text-warm-500 mt-1 text-[15px]">Vue d'ensemble de la plateforme</p>
+        <h1 className="font-display text-3xl font-semibold text-ink tracking-tight">Dashboard</h1>
+        <p className="text-ink-50 mt-1 text-[15px]">Vue d'ensemble de la plateforme</p>
       </div>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 animate-fade-in-up-delay-1">
@@ -73,30 +73,30 @@ export default async function SuperAdminDashboard() {
         />
       </div>
 
-      <div className="bg-white rounded-2xl border border-border p-6 shadow-sm animate-fade-in-up-delay-2">
+      <div className="bg-white rounded-2xl border border-ink-10 p-6 shadow-sm animate-fade-in-up-delay-2">
         <div className="flex items-center justify-between mb-5">
-          <h2 className="font-display text-lg font-semibold text-primary">Activité récente</h2>
-          <span className="text-xs text-warm-400 font-medium">{recentActivity.length} événement{recentActivity.length > 1 ? "s" : ""}</span>
+          <h2 className="font-display text-lg font-semibold text-ink">Activité récente</h2>
+          <span className="text-xs text-ink-50 font-medium">{recentActivity.length} événement{recentActivity.length > 1 ? "s" : ""}</span>
         </div>
         {recentActivity.length === 0 ? (
           <div className="text-center py-8">
-            <svg className="w-10 h-10 text-warm-300 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1}>
+            <svg className="w-10 h-10 text-ink-30 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
-            <p className="text-sm text-warm-400">Aucune activité récente</p>
+            <p className="text-sm text-ink-50">Aucune activité récente</p>
           </div>
         ) : (
           <div className="space-y-0">
             {recentActivity.map((log, i) => {
               const badge = emailTypeBadge[log.type] || { label: log.type, variant: "default" }
               return (
-                <div key={log.id} className={`flex flex-col sm:flex-row sm:items-center justify-between py-3.5 gap-2 sm:gap-3 ${i > 0 ? "border-t border-warm-100" : ""}`}>
+                <div key={log.id} className={`flex flex-col sm:flex-row sm:items-center justify-between py-3.5 gap-2 sm:gap-3 ${i > 0 ? "border-t border-ink-10" : ""}`}>
                   <div className="flex flex-wrap items-center gap-2.5 min-w-0">
                     <Badge variant={badge.variant}>{badge.label}</Badge>
-                    <span className="text-sm font-medium text-primary">{log.user.firstName} {log.user.lastName}</span>
-                    <span className="text-xs text-warm-400 truncate hidden sm:inline">{log.user.email}</span>
+                    <span className="text-sm font-medium text-ink">{log.user.firstName} {log.user.lastName}</span>
+                    <span className="text-xs text-ink-50 truncate hidden sm:inline">{log.user.email}</span>
                   </div>
-                  <span className="text-xs text-warm-400 shrink-0 font-medium tabular-nums">
+                  <span className="text-xs text-ink-50 shrink-0 font-medium tabular-nums">
                     {new Date(log.sentAt).toLocaleDateString("fr-FR", { day: "numeric", month: "short" })}
                   </span>
                 </div>

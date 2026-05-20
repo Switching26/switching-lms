@@ -9,10 +9,36 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        primary: "#1a1a2e",
+        brand: {
+          50:  "#EEF2FF",
+          100: "#E0E7FF",
+          200: "#C7D2FE",
+          300: "#A5B4FC",
+          400: "#818CF8",
+          500: "#6366F1",
+          600: "#4F46E5",
+          700: "#4338CA",
+          800: "#3730A3",
+          900: "#312E81",
+        },
+        accent: {
+          50:  "#FFFBEB",
+          100: "#FEF3C7",
+          400: "#FBBF24",
+          500: "#F59E0B",
+          600: "#D97706",
+        },
+        ink: {
+          DEFAULT: "#111827",
+          70:      "#374151",
+          50:      "#6B7280",
+          30:      "#9CA3AF",
+          10:      "#E5E7EB",
+        },
+        primary: "#4F46E5",
         background: "#FFFFFF",
-        muted: "#f8f7f4",
-        border: "#e8e6e1",
+        muted: "#F9FAFB",
+        border: "#E5E7EB",
         warm: {
           50: "#faf8f5",
           100: "#f3efe8",
@@ -27,8 +53,20 @@ const config: Config = {
         },
       },
       fontFamily: {
-        sans: ["DM Sans", "sans-serif"],
+        sans: ["DM Sans", "ui-sans-serif", "system-ui", "sans-serif"],
         display: ["Fraunces", "Georgia", "serif"],
+      },
+      borderRadius: {
+        xl: "0.875rem",
+        "2xl": "1.125rem",
+      },
+      boxShadow: {
+        card:       "0 1px 3px rgba(17,24,39,0.04), 0 4px 12px rgba(17,24,39,0.04)",
+        "card-lg":  "0 4px 12px rgba(17,24,39,0.06), 0 12px 32px rgba(17,24,39,0.06)",
+        "card-hover": "0 8px 24px rgba(79,70,229,0.10), 0 4px 12px rgba(17,24,39,0.06)",
+      },
+      transitionTimingFunction: {
+        spring: "cubic-bezier(0.22, 1.4, 0.36, 1)",
       },
     },
   },

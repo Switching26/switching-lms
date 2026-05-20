@@ -80,83 +80,116 @@ export default function LoginForm() {
     }
   }
 
+  const accentColor = partner ? brandColor : "#4F46E5"
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-muted px-4">
+    <div className="min-h-screen flex items-stretch bg-surface-subtle">
+      {/* Côté gauche — visuel marque */}
       <div
-        className="w-full max-w-[380px] bg-white rounded-2xl p-6 sm:p-8 border border-border"
-        style={partner ? { backgroundColor: `${brandColor}03` } : undefined}
+        className="hidden lg:flex lg:w-1/2 relative overflow-hidden"
+        style={{
+          background: `linear-gradient(135deg, ${accentColor} 0%, ${accentColor}dd 60%, ${accentColor}99 100%)`,
+        }}
       >
-        <div className="text-center mb-8">
-          {partner?.logoUrl ? (
-            <img
-              src={partner.logoUrl}
-              alt={brandName}
-              className="max-h-[60px] max-w-[200px] mx-auto mb-4 object-contain"
-            />
-          ) : (
-            <h1 className="text-xl font-semibold" style={{ color: brandColor }}>
-              {brandName}
-            </h1>
-          )}
-          <p className="text-sm mt-2 text-gray-400">
-            Connectez-vous à votre espace
-          </p>
+        <div className="absolute inset-0 opacity-30"
+          style={{
+            backgroundImage: "radial-gradient(circle at 20% 80%, rgba(255,255,255,0.3) 0%, transparent 40%), radial-gradient(circle at 80% 20%, rgba(255,255,255,0.2) 0%, transparent 40%)",
+          }}
+        />
+        <div className="relative z-10 flex flex-col justify-between p-12 text-white w-full">
+          <div>
+            {partner?.logoUrl ? (
+              <img src={partner.logoUrl} alt={brandName} className="max-h-[48px] max-w-[180px] object-contain brightness-0 invert" />
+            ) : (
+              <div className="font-display text-2xl font-semibold">{brandName}</div>
+            )}
+          </div>
+          <div>
+            <h2 className="font-display text-4xl xl:text-5xl font-semibold leading-tight mb-4">
+              Apprenez à votre rythme.
+            </h2>
+            <p className="text-white/80 text-lg max-w-md">
+              Accédez à vos formations vidéo, exercices et documents en un seul endroit, partout, sur tous vos appareils.
+            </p>
+          </div>
+          <p className="text-white/50 text-sm">© {new Date().getFullYear()} {brandName}</p>
         </div>
+      </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          {error && (
-            <div className="text-sm text-red-600 bg-red-50 rounded-lg px-4 py-3">
-              {error}
+      {/* Côté droit — formulaire */}
+      <div className="flex-1 flex items-center justify-center px-6 py-12">
+        <div className="w-full max-w-[400px]">
+          <div className="text-center mb-10 lg:hidden">
+            {partner?.logoUrl ? (
+              <img src={partner.logoUrl} alt={brandName} className="max-h-[56px] max-w-[200px] mx-auto mb-3 object-contain" />
+            ) : (
+              <h1 className="font-display text-2xl font-semibold" style={{ color: accentColor }}>{brandName}</h1>
+            )}
+          </div>
+
+          <div className="mb-8">
+            <h1 className="font-display text-3xl font-semibold text-ink mb-2">Bon retour 👋</h1>
+            <p className="text-ink-50">Connectez-vous à votre espace de formation.</p>
+          </div>
+
+          <form onSubmit={handleSubmit} className="space-y-5">
+            {error && (
+              <div className="text-sm text-red-700 bg-red-50 border border-red-100 rounded-xl px-4 py-3">
+                {error}
+              </div>
+            )}
+
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium mb-1.5 text-ink-70">Email</label>
+              <input
+                id="email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className="input-field"
+                placeholder="votre@email.com"
+                autoComplete="email"
+              />
             </div>
-          )}
 
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium mb-1.5 text-primary">
-              Email
-            </label>
-            <input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              className="w-full px-4 py-2.5 rounded-lg text-sm border border-border bg-[#FAFAFA] outline-none focus:border-primary transition-colors"
-              placeholder="votre@email.com"
-            />
+            <div>
+              <div className="flex items-center justify-between mb-1.5">
+                <label htmlFor="password" className="block text-sm font-medium text-ink-70">Mot de passe</label>
+                <Link href={`/login/mot-de-passe-oublie${partnerSlug ? `?partner=${partnerSlug}` : ""}`} className="text-xs text-brand-600 hover:text-brand-700 font-medium">
+                  Oublié ?
+                </Link>
+              </div>
+              <input
+                id="password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                className="input-field"
+                placeholder="••••••••"
+                autoComplete="current-password"
+              />
+            </div>
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full py-3 rounded-xl text-sm font-semibold text-white transition-all disabled:opacity-50 hover:shadow-lg"
+              style={{ background: `linear-gradient(135deg, ${accentColor} 0%, ${accentColor}dd 100%)`, boxShadow: `0 4px 16px ${accentColor}33` }}
+            >
+              {loading ? "Connexion…" : "Se connecter →"}
+            </button>
+          </form>
+
+          <div className="mt-8 pt-6 border-t border-ink-10 text-center">
+            <Link
+              href={`/login/activer${partnerSlug ? `?partner=${partnerSlug}` : ""}`}
+              className="text-sm text-ink-50 hover:text-brand-600"
+            >
+              Première connexion&nbsp;? <span className="font-medium text-ink">Créez votre mot de passe</span>
+            </Link>
           </div>
-
-          <div>
-            <label htmlFor="password" className="block text-sm font-medium mb-1.5 text-primary">
-              Mot de passe
-            </label>
-            <input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              className="w-full px-4 py-2.5 rounded-lg text-sm border border-border bg-[#FAFAFA] outline-none focus:border-primary transition-colors"
-              placeholder="••••••••"
-            />
-          </div>
-
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full py-2.5 rounded-lg text-sm font-medium text-white transition-opacity disabled:opacity-50"
-            style={{ backgroundColor: brandColor }}
-          >
-            {loading ? "Connexion..." : "Se connecter"}
-          </button>
-        </form>
-
-        <div className="mt-6 space-y-2 text-center">
-          <Link href={`/login/mot-de-passe-oublie${partnerSlug ? `?partner=${partnerSlug}` : ""}`} className="block text-sm text-gray-400 hover:underline">
-            Mot de passe oublié ?
-          </Link>
-          <Link href={`/login/activer${partnerSlug ? `?partner=${partnerSlug}` : ""}`} className="block text-sm text-gray-400 hover:underline">
-            Première connexion ? Créez votre mot de passe
-          </Link>
         </div>
       </div>
     </div>

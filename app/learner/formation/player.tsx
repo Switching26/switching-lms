@@ -99,10 +99,10 @@ export default function FormationPlayer({
   const completedCount = Object.values(completedMap).filter(Boolean).length
   const progressPercent = chapters.length > 0 ? Math.round((completedCount / chapters.length) * 100) : 0
 
-  const isAccessible = (index: number) => {
-    if (preview) return true
-    if (index === 0) return true
-    return completedMap[chapters[index - 1]?.id]
+  const isAccessible = (_index: number) => {
+    // Accès libre : tous les chapitres sont accessibles en permanence
+    // (style Rise Up — apprenant adulte autonome)
+    return true
   }
 
   const handleChapterCompleted = (chapterId: string) => {

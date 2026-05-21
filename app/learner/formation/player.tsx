@@ -517,12 +517,12 @@ export default function FormationPlayer({
               const sectionDone = sectionChapters.filter((c) => completedMap[c.id]).length
               return (
                 <div key={section.id} className="mt-3">
-                  {/* Header section cliquable (collapse/expand) */}
+                  {/* Header section cliquable — pill teintée */}
                   <button
                     type="button"
                     onClick={() => toggleSection(section.id)}
-                    className="w-full flex items-center gap-2 px-3 py-2.5 text-left rounded-lg hover:bg-primary/5 transition-colors group"
-                    style={{ borderLeft: "3px solid #4f46e5", paddingLeft: 11 }}
+                    className="w-full flex items-center gap-2.5 px-3 py-2.5 text-left rounded-lg transition-colors group hover:brightness-95"
+                    style={{ background: "rgba(79, 70, 229, 0.06)" }}
                   >
                     <svg
                       className={`w-3.5 h-3.5 text-primary transition-transform flex-shrink-0 ${expanded ? "rotate-90" : ""}`}
@@ -531,12 +531,12 @@ export default function FormationPlayer({
                       <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
                     </svg>
                     <div className="flex-1 min-w-0">
-                      <p className="text-[11px] font-bold text-primary uppercase tracking-wider truncate">{section.title}</p>
+                      <p className="text-[11px] font-bold uppercase tracking-wider truncate" style={{ color: "#3730a3" }}>{section.title}</p>
                       {section.description && (
                         <p className="text-[10px] text-warm-500 mt-0.5 leading-snug truncate">{section.description}</p>
                       )}
                     </div>
-                    <span className="text-[10px] font-semibold text-warm-400 tabular-nums flex-shrink-0">
+                    <span className="text-[10px] font-semibold bg-white px-1.5 py-0.5 rounded-full tabular-nums flex-shrink-0" style={{ color: "#6366f1" }}>
                       {sectionDone}/{sectionChapters.length}
                     </span>
                   </button>
@@ -610,26 +610,17 @@ function ChapterButton({
           : "hover:bg-warm-50 text-warm-700"
       }`}
     >
-      {/* Badge type + numéro (overlay) */}
-      <div className="flex-shrink-0 relative">
-        <div className={`w-7 h-7 rounded-lg flex items-center justify-center ${
-          isActive ? "bg-white/20" : completed ? "bg-emerald-100" : cfg.bg
-        }`}>
-          {completed && !isActive ? (
-            <svg className="w-3.5 h-3.5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={3}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-            </svg>
-          ) : (
-            <span className={isActive ? "text-white" : cfg.text}>{cfg.icon}</span>
-          )}
-        </div>
-        <span className={`absolute -top-1.5 -right-1.5 min-w-[16px] h-[16px] px-1 rounded-full text-[9px] font-bold flex items-center justify-center tabular-nums ${
-          isActive
-            ? "bg-white text-primary shadow-sm"
-            : "bg-white text-warm-500 border border-warm-200 shadow-sm"
-        }`}>
-          {displayNumber}
-        </span>
+      {/* Badge type (sans numéro overlay — feedback Samuel) */}
+      <div className={`flex-shrink-0 w-7 h-7 rounded-lg flex items-center justify-center ${
+        isActive ? "bg-white/20" : completed ? "bg-emerald-100" : cfg.bg
+      }`}>
+        {completed && !isActive ? (
+          <svg className="w-3.5 h-3.5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={3}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+          </svg>
+        ) : (
+          <span className={isActive ? "text-white" : cfg.text}>{cfg.icon}</span>
+        )}
       </div>
       {/* Titre */}
       <span className="truncate flex-1">{chapter.title}</span>

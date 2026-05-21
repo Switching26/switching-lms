@@ -250,7 +250,7 @@ export default function FormationPlayer({
             )}
           </div>
           {active?.description && (
-            <p className="text-warm-500 text-sm leading-relaxed mb-4">{active.description}</p>
+            <p className="text-warm-500 text-sm leading-relaxed mb-4 whitespace-pre-line">{active.description}</p>
           )}
           {active?.content && (
             <div className="text-sm text-warm-600 leading-relaxed whitespace-pre-wrap border-t border-border pt-4">{active.content}</div>

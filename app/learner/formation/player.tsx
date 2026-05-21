@@ -219,6 +219,46 @@ export default function FormationPlayer({
               </div>
             )
           })()
+        ) : active?.attachments?.find((a) => /\.pdf(\?|$)/i.test(a.fileUrl)) ? (
+          // PDF viewer inline (style Rise Up) — chapter PDF sans vidéo
+          (() => {
+            const pdf = active.attachments.find((a) => /\.pdf(\?|$)/i.test(a.fileUrl))!
+            return (
+              <div className="bg-white rounded-2xl border border-border shadow-sm overflow-hidden">
+                {/* Header */}
+                <div className="flex items-center justify-between gap-3 px-4 py-3 border-b border-border bg-surface-subtle">
+                  <div className="flex items-center gap-3 min-w-0">
+                    <div className="flex-shrink-0 w-10 h-10 rounded-full bg-brand-100 flex items-center justify-center">
+                      <svg className="w-5 h-5 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+                      </svg>
+                    </div>
+                    <div className="min-w-0">
+                      <h3 className="font-display font-semibold text-primary truncate">{pdf.name}</h3>
+                      <p className="text-[11px] text-warm-400 uppercase tracking-wider">Document</p>
+                    </div>
+                  </div>
+                  <a
+                    href={pdf.fileUrl}
+                    download
+                    className="flex-shrink-0 inline-flex items-center gap-1.5 text-sm text-brand-600 hover:text-brand-700 font-medium"
+                    title="Télécharger le PDF"
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
+                    </svg>
+                    <span className="hidden sm:inline">Télécharger</span>
+                  </a>
+                </div>
+                {/* PDF viewer iframe */}
+                <iframe
+                  src={`${pdf.fileUrl}#toolbar=0&navpanes=0`}
+                  className="w-full h-[600px] sm:h-[720px] bg-warm-50"
+                  title={pdf.name}
+                />
+              </div>
+            )
+          })()
         ) : (
           <div className="aspect-video bg-warm-100 rounded-2xl flex items-center justify-center border border-warm-200">
             <div className="text-center">

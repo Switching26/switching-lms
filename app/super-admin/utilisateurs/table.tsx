@@ -556,13 +556,17 @@ export default function UsersTable({
                   )}
                 </div>
               ) : (
-                <div className="relative" ref={openMenuId === u.id ? menuRef : undefined}>
+                <div className="relative flex justify-end" ref={openMenuId === u.id ? menuRef : undefined}>
                   <button
                     onClick={() => setOpenMenuId(openMenuId === u.id ? null : u.id)}
-                    className="w-full py-2 text-xs bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors font-medium"
-                    style={{ minHeight: 44 }}
+                    className="w-11 h-11 flex items-center justify-center rounded-lg hover:bg-gray-100 transition-colors text-gray-500 hover:text-gray-800"
+                    aria-label="Actions"
                   >
-                    Actions &#9662;
+                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                      <circle cx="12" cy="5" r="1.8"/>
+                      <circle cx="12" cy="12" r="1.8"/>
+                      <circle cx="12" cy="19" r="1.8"/>
+                    </svg>
                   </button>
                   {openMenuId === u.id && (
                     <div style={{ position: "fixed", left: 16, right: 16, bottom: 16, background: "white", border: "0.5px solid #E5E5E5", borderRadius: 12, boxShadow: "0 -4px 24px rgba(0,0,0,0.15)", zIndex: 50, overflow: "hidden" }}>
@@ -676,12 +680,17 @@ export default function UsersTable({
                       )}
                     </div>
                   ) : (
-                    <div className="relative" ref={openMenuId === u.id ? menuRef : undefined}>
+                    <div className="relative flex justify-end" ref={openMenuId === u.id ? menuRef : undefined}>
                       <button
                         onClick={() => setOpenMenuId(openMenuId === u.id ? null : u.id)}
-                        className="px-3 py-1.5 text-xs bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors font-medium"
+                        className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 transition-colors text-gray-500 hover:text-gray-800"
+                        aria-label="Actions"
                       >
-                        Actions &#9662;
+                        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                          <circle cx="12" cy="5" r="1.8"/>
+                          <circle cx="12" cy="12" r="1.8"/>
+                          <circle cx="12" cy="19" r="1.8"/>
+                        </svg>
                       </button>
                       {openMenuId === u.id && (
                         <div style={{ position: "absolute", right: 0, top: "100%", marginTop: 4, background: "white", border: "0.5px solid #E5E5E5", borderRadius: 8, boxShadow: "0 4px 12px rgba(0,0,0,0.1)", zIndex: 50, minWidth: 200, overflow: "hidden" }}>

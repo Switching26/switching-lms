@@ -1,6 +1,30 @@
 "use client"
 
-import { useState, useEffect, useRef, useCallback } from "react"
+import { useState, useEffect, useRef, useCallback, useMemo } from "react"
+
+/* ═══════════ HELPERS ═══════════ */
+
+type ChapterKind = "video" | "exercise" | "pdf" | "text"
+
+function getChapterKind(ch: {
+  videoUrl: string | null
+  exercises?: { id: string }[]
+  attachments?: { fileUrl: string }[]
+}): ChapterKind {
+  if (ch.videoUrl) return "video"
+  if (ch.exercises && ch.exercises.length > 0) return "exercise"
+  if (ch.attachments?.some((a) => /\.pdf(\?|$)/i.test(a.fileUrl))) return "pdf"
+  return "text"
+}
+
+function formatDuration(seconds: number): string {
+  if (!seconds || seconds <= 0) return ""
+  const h = Math.floor(seconds / 3600)
+  const m = Math.floor((seconds % 3600) / 60)
+  if (h > 0) return m > 0 ? `${h}h ${m.toString().padStart(2, "0")}` : `${h}h`
+  if (m > 0) return `${m} min`
+  return `${Math.floor(seconds)}s`
+}
 
 /* ═══════════ TYPES ═══════════ */
 
@@ -109,10 +133,52 @@ export default function FormationPlayer({
     setCompletedMap((prev) => ({ ...prev, [chapterId]: true }))
   }
 
-  const sortedSections = (sections || []).sort((a, b) => a.order - b.order)
-  const rootChapters = chapters.filter((c) => !c.sectionId)
-  const chaptersBySection = (sectionId: string) =>
-    chapters.filter((c) => c.sectionId === sectionId)
+  const sortedSections = useMemo(
+    () => (sections || []).slice().sort((a, b) => a.order - b.order),
+    [sections]
+  )
+  const rootChapters = useMemo(
+    () => chapters.filter((c) => !c.sectionId).slice().sort((a, b) => a.order - b.order),
+    [chapters]
+  )
+  const chaptersBySection = useCallback(
+    (sectionId: string) =>
+      chapters.filter((c) => c.sectionId === sectionId).slice().sort((a, b) => a.order - b.order),
+    [chapters]
+  )
+
+  // Ordre logique d'affichage (root → section1.chapters → section2.chapters → …)
+  const orderedChapters = useMemo(() => {
+    const arr: Chapter[] = [...rootChapters]
+    sortedSections.forEach((s) => {
+      arr.push(...chaptersBySection(s.id))
+    })
+    return arr
+  }, [rootChapters, sortedSections, chaptersBySection])
+
+  // Map id → displayNumber séquentiel (1-based)
+  const displayNumberMap = useMemo(() => {
+    const m: Record<string, number> = {}
+    orderedChapters.forEach((c, i) => { m[c.id] = i + 1 })
+    return m
+  }, [orderedChapters])
+
+  const totalDuration = useMemo(
+    () => chapters.reduce((sum, c) => sum + (c.videoDuration || 0), 0),
+    [chapters]
+  )
+  const completedDuration = useMemo(
+    () => chapters.filter((c) => completedMap[c.id]).reduce((sum, c) => sum + (c.videoDuration || 0), 0),
+    [chapters, completedMap]
+  )
+
+  const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>(() => {
+    const m: Record<string, boolean> = {}
+    ;(sections || []).forEach((s) => { m[s.id] = true })
+    return m
+  })
+  const toggleSection = (id: string) =>
+    setExpandedSections((prev) => ({ ...prev, [id]: prev[id] === false ? true : false }))
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-6 animate-fade-in-up">
@@ -274,10 +340,29 @@ export default function FormationPlayer({
         {/* Chapter info */}
         <div className="bg-white rounded-2xl border border-border p-6 shadow-sm">
           <div className="flex items-start justify-between gap-4 mb-3">
-            <div>
-              <p className="text-[11px] font-semibold text-warm-400 uppercase tracking-wider mb-1">
-                Chapitre {activeIndex + 1} / {chapters.length}
-              </p>
+            <div className="min-w-0 flex-1">
+              <div className="flex items-center gap-2 flex-wrap mb-1">
+                <p className="text-[11px] font-semibold text-warm-400 uppercase tracking-wider">
+                  Chapitre {active ? displayNumberMap[active.id] : 1} / {chapters.length}
+                </p>
+                {active?.videoDuration ? (
+                  <>
+                    <span className="text-warm-300">·</span>
+                    <span className="inline-flex items-center gap-1 text-[11px] font-medium text-warm-500">
+                      <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      {formatDuration(active.videoDuration)}
+                    </span>
+                  </>
+                ) : null}
+                {totalDuration > 0 && (
+                  <>
+                    <span className="text-warm-300">·</span>
+                    <span className="text-[11px] text-warm-400">Formation : {formatDuration(totalDuration)}</span>
+                  </>
+                )}
+              </div>
               <h2 className="font-display text-xl font-semibold text-primary">{active?.title}</h2>
             </div>
             {completedMap[active?.id] && (
@@ -384,64 +469,89 @@ export default function FormationPlayer({
         <div className="bg-white rounded-2xl border border-border shadow-sm lg:sticky lg:top-[80px] overflow-hidden">
           {/* Sidebar header */}
           <div className="p-4 border-b border-border bg-warm-50/50">
-            <div className="flex items-center justify-between mb-2">
-              <h3 className="font-display text-sm font-semibold text-primary">{formationTitle}</h3>
-            </div>
-            <div className="flex items-center gap-3">
+            <h3 className="font-display text-sm font-semibold text-primary mb-3 truncate">{formationTitle}</h3>
+            {/* Barre % chapitres complétés */}
+            <div className="flex items-center gap-3 mb-2">
               <div className="flex-1 bg-warm-200/50 rounded-full h-1.5 overflow-hidden">
                 <div
                   className="h-full rounded-full bg-emerald-500 transition-all duration-500"
                   style={{ width: `${Math.max(progressPercent, 2)}%` }}
                 />
               </div>
-              <span className="text-[11px] font-semibold text-warm-500 tabular-nums">{progressPercent}%</span>
+              <span className="text-[11px] font-semibold text-emerald-600 tabular-nums w-9 text-right">{progressPercent}%</span>
             </div>
+            {/* Barre heures visualisées */}
+            {totalDuration > 0 && (
+              <div className="flex items-center gap-3">
+                <div className="flex-1 bg-warm-200/50 rounded-full h-1.5 overflow-hidden">
+                  <div
+                    className="h-full rounded-full bg-brand-500 transition-all duration-500"
+                    style={{ width: `${Math.max((completedDuration / totalDuration) * 100, 2)}%` }}
+                  />
+                </div>
+                <span className="text-[10px] font-medium text-warm-500 tabular-nums whitespace-nowrap">
+                  {formatDuration(completedDuration) || "0 min"} / {formatDuration(totalDuration)}
+                </span>
+              </div>
+            )}
           </div>
 
           {/* Chapter list */}
           <div className="p-2 max-h-[calc(100vh-200px)] overflow-y-auto">
-            {rootChapters.map((ch) => {
-              const i = chapters.indexOf(ch)
-              const accessible = isAccessible(i)
-              return (
-                <ChapterButton
-                  key={ch.id}
-                  chapter={ch}
-                  index={i}
-                  isActive={i === activeIndex}
-                  accessible={accessible}
-                  completed={completedMap[ch.id]}
-                  onClick={() => accessible && setActiveIndex(i)}
-                />
-              )
-            })}
+            {rootChapters.map((ch) => (
+              <ChapterButton
+                key={ch.id}
+                chapter={ch}
+                displayNumber={displayNumberMap[ch.id]}
+                kind={getChapterKind(ch)}
+                isActive={chapters[activeIndex]?.id === ch.id}
+                completed={!!completedMap[ch.id]}
+                onClick={() => setActiveIndex(chapters.indexOf(ch))}
+              />
+            ))}
 
             {sortedSections.map((section) => {
               const sectionChapters = chaptersBySection(section.id)
               if (sectionChapters.length === 0 && rootChapters.length > 0) return null
+              const expanded = expandedSections[section.id] !== false
+              const sectionDone = sectionChapters.filter((c) => completedMap[c.id]).length
               return (
-                <div key={section.id} className="mt-2">
-                  <div className="px-3 py-2.5">
-                    <p className="text-[10px] font-bold text-warm-400 uppercase tracking-widest">{section.title}</p>
-                    {section.description && (
-                      <p className="text-[11px] text-warm-400 mt-0.5 leading-snug">{section.description}</p>
-                    )}
-                  </div>
-                  {sectionChapters.map((ch) => {
-                    const i = chapters.indexOf(ch)
-                    const accessible = isAccessible(i)
-                    return (
-                      <ChapterButton
-                        key={ch.id}
-                        chapter={ch}
-                        index={i}
-                        isActive={i === activeIndex}
-                        accessible={accessible}
-                        completed={completedMap[ch.id]}
-                        onClick={() => accessible && setActiveIndex(i)}
-                      />
-                    )
-                  })}
+                <div key={section.id} className="mt-3">
+                  {/* Header section cliquable (collapse/expand) */}
+                  <button
+                    type="button"
+                    onClick={() => toggleSection(section.id)}
+                    className="w-full flex items-center gap-2 px-3 py-2.5 text-left rounded-lg hover:bg-primary/5 transition-colors group"
+                    style={{ borderLeft: "3px solid #4f46e5", paddingLeft: 11 }}
+                  >
+                    <svg
+                      className={`w-3.5 h-3.5 text-primary transition-transform flex-shrink-0 ${expanded ? "rotate-90" : ""}`}
+                      fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                    </svg>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-[11px] font-bold text-primary uppercase tracking-wider truncate">{section.title}</p>
+                      {section.description && (
+                        <p className="text-[10px] text-warm-500 mt-0.5 leading-snug truncate">{section.description}</p>
+                      )}
+                    </div>
+                    <span className="text-[10px] font-semibold text-warm-400 tabular-nums flex-shrink-0">
+                      {sectionDone}/{sectionChapters.length}
+                    </span>
+                  </button>
+                  {/* Chapitres de la section */}
+                  {expanded && sectionChapters.map((ch) => (
+                    <ChapterButton
+                      key={ch.id}
+                      chapter={ch}
+                      displayNumber={displayNumberMap[ch.id]}
+                      kind={getChapterKind(ch)}
+                      isActive={chapters[activeIndex]?.id === ch.id}
+                      completed={!!completedMap[ch.id]}
+                      onClick={() => setActiveIndex(chapters.indexOf(ch))}
+                    />
+                  ))}
                 </div>
               )
             })}
@@ -456,52 +566,81 @@ export default function FormationPlayer({
 
 function ChapterButton({
   chapter,
-  index,
+  displayNumber,
+  kind,
   isActive,
-  accessible,
   completed,
   onClick,
 }: {
   chapter: Chapter
-  index: number
+  displayNumber: number
+  kind: ChapterKind
   isActive: boolean
-  accessible: boolean
   completed: boolean
   onClick: () => void
 }) {
+  // Config par type (icône + couleurs)
+  const kindConfig: Record<ChapterKind, { bg: string; text: string; icon: React.ReactNode }> = {
+    video: {
+      bg: "bg-indigo-100", text: "text-indigo-600",
+      icon: <svg viewBox="0 0 24 24" fill="currentColor" className="w-3 h-3"><path d="M8 5v14l11-7z" /></svg>,
+    },
+    exercise: {
+      bg: "bg-amber-100", text: "text-amber-700",
+      icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} className="w-3 h-3"><path strokeLinecap="round" strokeLinejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>,
+    },
+    pdf: {
+      bg: "bg-rose-100", text: "text-rose-700",
+      icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-3 h-3"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>,
+    },
+    text: {
+      bg: "bg-warm-100", text: "text-warm-600",
+      icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-3 h-3"><path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h10" /></svg>,
+    },
+  }
+  const cfg = kindConfig[kind]
+  const duration = formatDuration(chapter.videoDuration)
+
   return (
     <button
       onClick={onClick}
-      disabled={!accessible}
       className={`w-full text-left px-3 py-2.5 rounded-xl text-[13px] transition-all duration-200 flex items-center gap-2.5 group ${
         isActive
           ? "bg-primary text-white font-medium shadow-sm"
-          : accessible
-          ? "hover:bg-warm-50 text-warm-600"
-          : "opacity-35 cursor-not-allowed text-warm-400"
+          : "hover:bg-warm-50 text-warm-700"
       }`}
     >
-      {/* Status indicator */}
-      <div className={`flex-shrink-0 w-6 h-6 rounded-md flex items-center justify-center text-[10px] font-bold ${
-        isActive
-          ? "bg-white/20 text-white"
-          : completed
-          ? "bg-emerald-100 text-emerald-600"
-          : "bg-warm-100 text-warm-400"
-      }`}>
-        {completed && !isActive ? (
-          <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={3}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-          </svg>
-        ) : !accessible ? (
-          <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
-          </svg>
-        ) : (
-          <span>{index + 1}</span>
-        )}
+      {/* Badge type + numéro (overlay) */}
+      <div className="flex-shrink-0 relative">
+        <div className={`w-7 h-7 rounded-lg flex items-center justify-center ${
+          isActive ? "bg-white/20" : completed ? "bg-emerald-100" : cfg.bg
+        }`}>
+          {completed && !isActive ? (
+            <svg className="w-3.5 h-3.5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={3}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+            </svg>
+          ) : (
+            <span className={isActive ? "text-white" : cfg.text}>{cfg.icon}</span>
+          )}
+        </div>
+        <span className={`absolute -top-1.5 -right-1.5 min-w-[16px] h-[16px] px-1 rounded-full text-[9px] font-bold flex items-center justify-center tabular-nums ${
+          isActive
+            ? "bg-white text-primary shadow-sm"
+            : "bg-white text-warm-500 border border-warm-200 shadow-sm"
+        }`}>
+          {displayNumber}
+        </span>
       </div>
+      {/* Titre */}
       <span className="truncate flex-1">{chapter.title}</span>
+      {/* Durée discrète à droite */}
+      {duration && (
+        <span className={`flex-shrink-0 text-[10px] tabular-nums font-medium ${
+          isActive ? "text-white/70" : "text-warm-400"
+        }`}>
+          {duration}
+        </span>
+      )}
     </button>
   )
 }

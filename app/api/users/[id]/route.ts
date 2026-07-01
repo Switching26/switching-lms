@@ -92,6 +92,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
           data: {
             userId: params.id,
             formationId: body.formationId,
+            startedAt: body.startedAt ? new Date(body.startedAt) : new Date(),
             expiresAt: body.expiresAt ? new Date(body.expiresAt) : null,
             assignedByPartnerId: target.partnerId || null,
           },
@@ -129,19 +130,25 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
         } catch {
           // Never block enrollment if email fails
         }
-      } else if (body.expiresAt !== undefined) {
+      } else if (body.expiresAt !== undefined || body.startedAt !== undefined) {
         // Update expiration on existing enrollment
         await prisma.enrollment.update({
           where: { id: existingEnrollment.id },
-          data: { expiresAt: body.expiresAt ? new Date(body.expiresAt) : null },
+          data: {
+            ...(body.startedAt !== undefined ? { startedAt: body.startedAt ? new Date(body.startedAt) : existingEnrollment.startedAt } : {}),
+            ...(body.expiresAt !== undefined ? { expiresAt: body.expiresAt ? new Date(body.expiresAt) : null } : {}),
+          },
         })
       }
     }
-  } else if (body.expiresAt !== undefined && target.enrollments.length > 0) {
-    // Just update expiration on first enrollment
+  } else if ((body.expiresAt !== undefined || body.startedAt !== undefined) && target.enrollments.length > 0) {
+    // Just update dates on first enrollment
     await prisma.enrollment.update({
       where: { id: target.enrollments[0].id },
-      data: { expiresAt: body.expiresAt ? new Date(body.expiresAt) : null },
+      data: {
+        ...(body.startedAt !== undefined ? { startedAt: body.startedAt ? new Date(body.startedAt) : target.enrollments[0].startedAt } : {}),
+        ...(body.expiresAt !== undefined ? { expiresAt: body.expiresAt ? new Date(body.expiresAt) : null } : {}),
+      },
     })
   }
 

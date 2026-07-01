@@ -13,7 +13,7 @@ export async function POST(req: NextRequest, { params }: { params: { userId: str
     return NextResponse.json({ error: "Accès refusé" }, { status: 403 })
   }
 
-  const { formationId, expiresAt } = await req.json()
+  const { formationId, startedAt, expiresAt } = await req.json()
 
   if (!formationId) {
     return NextResponse.json({ error: "Formation requise" }, { status: 400 })
@@ -60,6 +60,7 @@ export async function POST(req: NextRequest, { params }: { params: { userId: str
     data: {
       userId: params.userId,
       formationId,
+      startedAt: startedAt ? new Date(startedAt) : new Date(),
       expiresAt: expiresAt ? new Date(expiresAt) : null,
       assignedByPartnerId: user.partnerId || null,
     },

@@ -16,7 +16,7 @@ interface User {
   archivedAt: string | null
   partnerId: string | null
   partner: { id: string; name: string } | null
-  enrollments: { id: string; formationId: string; expiresAt: string | null; formation: { id: string; title: string } }[]
+  enrollments: { id: string; formationId: string; startedAt: string; expiresAt: string | null; formation: { id: string; title: string } }[]
   createdAt: string
 }
 
@@ -35,6 +35,10 @@ function generatePassword() {
   let pw = ""
   for (let i = 0; i < 10; i++) pw += chars[Math.floor(Math.random() * chars.length)]
   return pw
+}
+
+function dateInputValue(date = new Date()) {
+  return date.toISOString().slice(0, 10)
 }
 
 type StatusFilter = "all" | "active" | "inactive" | "archived"
@@ -86,6 +90,7 @@ export default function UsersTable({
   const [editRole, setEditRole] = useState("LEARNER")
   const [editPartnerId, setEditPartnerId] = useState("")
   const [editFormationId, setEditFormationId] = useState("")
+  const [editStartsAt, setEditStartsAt] = useState("")
   const [editExpiresAt, setEditExpiresAt] = useState("")
   const [editReference, setEditReference] = useState("")
   const [editSaving, setEditSaving] = useState(false)
@@ -98,11 +103,13 @@ export default function UsersTable({
   // Assign form (kept for quick assign from action button)
   const [assignModal, setAssignModal] = useState<string | null>(null)
   const [assignFormationId, setAssignFormationId] = useState("")
+  const [assignStarts, setAssignStarts] = useState(dateInputValue())
   const [assignExpires, setAssignExpires] = useState("")
   const [assigning, setAssigning] = useState(false)
 
   // Create form — optional formation assignment
   const [newFormationId, setNewFormationId] = useState("")
+  const [newStartsAt, setNewStartsAt] = useState(dateInputValue())
   const [newExpiresAt, setNewExpiresAt] = useState("")
   const [newAssignFormation, setNewAssignFormation] = useState(false)
 
@@ -223,12 +230,20 @@ export default function UsersTable({
       // Optionally assign formation right after creation
       if (newAssignFormation && newFormationId && created.id) {
         try {
-          await fetch(`/api/user/${created.id}/assign-formation`, {
+          const assignRes = await fetch(`/api/user/${created.id}/assign-formation`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ formationId: newFormationId, expiresAt: newExpiresAt || null }),
+            body: JSON.stringify({ formationId: newFormationId, startedAt: newStartsAt || null, expiresAt: newExpiresAt || null }),
           })
-        } catch { /* formation assignment failure shouldn't block user creation success */ }
+          if (!assignRes.ok) {
+            const data = await assignRes.json()
+            flash(`Utilisateur créé, mais formation non attribuée : ${data.error || "erreur inconnue"}`)
+            return
+          }
+        } catch {
+          flash("Utilisateur créé, mais formation non attribuée : erreur réseau")
+          return
+        }
       }
       flash("Utilisateur créé avec succès")
       setCreateOpen(false)
@@ -241,6 +256,7 @@ export default function UsersTable({
       setNewPassword(generatePassword())
       setNewAssignFormation(false)
       setNewFormationId("")
+      setNewStartsAt(dateInputValue())
       setNewExpiresAt("")
       router.refresh()
     } catch { flash("Erreur réseau") }
@@ -258,6 +274,7 @@ export default function UsersTable({
     setEditRole(u.role)
     setEditPartnerId(u.partnerId || "")
     setEditFormationId(u.enrollments[0]?.formationId || "")
+    setEditStartsAt(u.enrollments[0]?.startedAt ? u.enrollments[0].startedAt.split("T")[0] : dateInputValue())
     setEditExpiresAt(u.enrollments[0]?.expiresAt ? u.enrollments[0].expiresAt.split("T")[0] : "")
   }
 
@@ -277,6 +294,7 @@ export default function UsersTable({
         reference: editReference || null,
         isActive: editIsActive,
         formationId: editFormationId || null,
+        startedAt: editFormationId ? (editStartsAt || null) : null,
         expiresAt: editExpiresAt || null,
       }
       if (!isPartnerAdmin) {
@@ -333,12 +351,13 @@ export default function UsersTable({
       const res = await fetch(`/api/user/${assignModal}/assign-formation`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ formationId: assignFormationId, expiresAt: assignExpires || null }),
+        body: JSON.stringify({ formationId: assignFormationId, startedAt: assignStarts || null, expiresAt: assignExpires || null }),
       })
       if (res.ok) {
         flash("Formation attribuée")
         setAssignModal(null)
         setAssignFormationId("")
+        setAssignStarts(dateInputValue())
         setAssignExpires("")
         router.refresh()
       } else {
@@ -580,7 +599,7 @@ export default function UsersTable({
                         <button onClick={() => { setOpenMenuId(null); handleImpersonate(u.id) }} className="w-full text-left px-4 py-3 text-sm hover:bg-gray-50 transition-colors">Voir l&apos;espace</button>
                       )}
                       <button onClick={() => { setOpenMenuId(null); openProgress(u.id) }} className="w-full text-left px-4 py-3 text-sm hover:bg-gray-50 transition-colors">Suivi</button>
-                      <button onClick={() => { setOpenMenuId(null); setAssignModal(u.id); setAssignFormationId(""); setAssignExpires("") }} className="w-full text-left px-4 py-3 text-sm hover:bg-gray-50 transition-colors">Attribuer formation</button>
+                      <button onClick={() => { setOpenMenuId(null); setAssignModal(u.id); setAssignFormationId(""); setAssignStarts(dateInputValue()); setAssignExpires("") }} className="w-full text-left px-4 py-3 text-sm hover:bg-gray-50 transition-colors">Attribuer formation</button>
                       {!u.isActive && !u.archivedAt && u.role !== "SUPER_ADMIN" && (
                         <button onClick={() => { setOpenMenuId(null); handleResendActivation(u) }} disabled={resending === u.id} className="w-full text-left px-4 py-3 text-sm hover:bg-gray-50 transition-colors disabled:opacity-50">{resending === u.id ? "Envoi..." : "Renvoyer activation"}</button>
                       )}
@@ -700,7 +719,7 @@ export default function UsersTable({
                             <button onClick={() => { setOpenMenuId(null); handleImpersonate(u.id) }} className="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors">Voir l&apos;espace</button>
                           )}
                           <button onClick={() => { setOpenMenuId(null); openProgress(u.id) }} className="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors">Suivi</button>
-                          <button onClick={() => { setOpenMenuId(null); setAssignModal(u.id); setAssignFormationId(""); setAssignExpires("") }} className="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors">Attribuer formation</button>
+                          <button onClick={() => { setOpenMenuId(null); setAssignModal(u.id); setAssignFormationId(""); setAssignStarts(dateInputValue()); setAssignExpires("") }} className="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors">Attribuer formation</button>
                           {!u.isActive && !u.archivedAt && u.role !== "SUPER_ADMIN" && (
                             <button onClick={() => { setOpenMenuId(null); handleResendActivation(u) }} disabled={resending === u.id} className="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors disabled:opacity-50">{resending === u.id ? "Envoi..." : "Renvoyer activation"}</button>
                           )}
@@ -816,12 +835,12 @@ export default function UsersTable({
                   <label className="block text-sm font-medium mb-1">Date de début</label>
                   <input
                     type="date"
-                    value={editModal.enrollments[0]?.expiresAt ? "" : ""}
-                    disabled
-                    className="w-full px-3 py-2 text-sm border border-border rounded-lg bg-gray-50 text-gray-400"
-                    title="La date de début est la date d'inscription"
+                    value={editStartsAt}
+                    onChange={(e) => setEditStartsAt(e.target.value)}
+                    disabled={!editFormationId}
+                    className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-black disabled:bg-gray-50 disabled:text-gray-400"
                   />
-                  <p className="text-xs text-gray-400 mt-1">Inscrit le {new Date(editModal.createdAt).toLocaleDateString("fr-FR")}</p>
+                  <p className="text-xs text-gray-400 mt-1">Date d&apos;ouverture de l&apos;accès</p>
                 </div>
                 <div>
                   <label className="block text-sm font-medium mb-1">Date de fin d'accès</label>
@@ -1011,6 +1030,10 @@ export default function UsersTable({
                   </select>
                 </div>
                 <div>
+                  <label className="block text-sm font-medium mb-1">Date de début</label>
+                  <input type="date" value={newStartsAt} onChange={(e) => setNewStartsAt(e.target.value)} className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-black" />
+                </div>
+                <div>
                   <label className="block text-sm font-medium mb-1">Date d&apos;expiration (optionnel)</label>
                   <input type="date" value={newExpiresAt} onChange={(e) => setNewExpiresAt(e.target.value)} className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-black" />
                 </div>
@@ -1047,6 +1070,10 @@ export default function UsersTable({
                 <option key={f.id} value={f.id}>{f.title}</option>
               ))}
             </select>
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-1">Date de début</label>
+            <input type="date" value={assignStarts} onChange={(e) => setAssignStarts(e.target.value)} className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-black" />
           </div>
           <div>
             <label className="block text-sm font-medium mb-1">Date d&apos;expiration (optionnel)</label>

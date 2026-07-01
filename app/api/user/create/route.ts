@@ -8,6 +8,7 @@ import { accountCreatedEmail } from "@/lib/email-templates"
 import { resolveTemplate, replaceVariables } from "@/lib/email-template-engine"
 import { generateToken } from "@/lib/tokens"
 import { getBaseUrl } from "@/lib/get-base-url"
+import { Role } from "@prisma/client"
 
 export async function POST(req: Request) {
   const session = await auth()
@@ -36,11 +37,26 @@ export async function POST(req: Request) {
     }
   }
 
-  // Partner admin can only create learners in their own org
+  let effectiveRole = userRole === "PARTNER_ADMIN" ? Role.PARTNER_ADMIN : Role.LEARNER
+  let effectivePartnerId = partnerId || null
+
+  // Partner admin can only create learners in their own org.
+  // The partner admin UI does not expose partnerId, so derive it from session.
   if (role === "PARTNER_ADMIN") {
     const adminPartnerId = session.user.partnerId
-    if (userRole !== "LEARNER" || partnerId !== adminPartnerId) {
+    if (!adminPartnerId || (userRole && userRole !== "LEARNER")) {
       return NextResponse.json({ error: "Accès refusé" }, { status: 403 })
+    }
+    effectiveRole = Role.LEARNER
+    effectivePartnerId = adminPartnerId
+  } else if (effectiveRole === "PARTNER_ADMIN" && !effectivePartnerId) {
+    return NextResponse.json({ error: "Un admin partenaire doit être rattaché à un partenaire" }, { status: 400 })
+  }
+
+  if (effectivePartnerId) {
+    const partner = await prisma.partner.findUnique({ where: { id: effectivePartnerId } })
+    if (!partner) {
+      return NextResponse.json({ error: "Partenaire introuvable" }, { status: 400 })
     }
   }
 
@@ -54,8 +70,8 @@ export async function POST(req: Request) {
       lastName: lastName.trim(),
       email: email.trim().toLowerCase(),
       password: hashed,
-      role: userRole || "LEARNER",
-      partnerId: partnerId || null,
+      role: effectiveRole,
+      partnerId: effectivePartnerId,
       reference: trimmedRef,
       isActive: false,
     },

@@ -10,6 +10,7 @@ interface License {
   formationId: string
   totalSeats: number
   usedSeats: number
+  isUnlimited: boolean
   formation: { id: string; title: string }
 }
 
@@ -93,6 +94,7 @@ export default function PartnersTable({
 
   // License form
   const [licenseValues, setLicenseValues] = useState<Record<string, number>>({})
+  const [licenseUnlimitedValues, setLicenseUnlimitedValues] = useState<Record<string, boolean>>({})
   const [licSaving, setLicSaving] = useState(false)
 
   const flash = (msg: string) => {
@@ -234,11 +236,14 @@ export default function PartnersTable({
   const openLicenses = (p: Partner) => {
     setLicensePartner(p)
     const vals: Record<string, number> = {}
+    const unlimitedVals: Record<string, boolean> = {}
     for (const f of formations) {
       const existing = p.licenses.find((l) => l.formationId === f.id)
       vals[f.id] = existing?.totalSeats || 0
+      unlimitedVals[f.id] = existing?.isUnlimited || false
     }
     setLicenseValues(vals)
+    setLicenseUnlimitedValues(unlimitedVals)
   }
 
   // Save licenses
@@ -247,7 +252,9 @@ export default function PartnersTable({
     setLicSaving(true)
     try {
       const licenses = Object.entries(licenseValues).map(([formationId, totalSeats]) => ({
-        formationId, totalSeats,
+        formationId,
+        totalSeats,
+        isUnlimited: licenseUnlimitedValues[formationId] === true,
       }))
       const res = await fetch(`/api/partners/${licensePartner.id}/licenses`, {
         method: "PUT",
@@ -285,11 +292,13 @@ export default function PartnersTable({
       {/* Mobile cards */}
       <div className="md:hidden space-y-3">
         {partners.map((p) => {
-          const totalSeats = p.licenses.reduce((s, l) => s + l.totalSeats, 0)
+          const hasUnlimited = p.licenses.some((l) => l.isUnlimited)
+          const totalSeats = p.licenses.reduce((s, l) => s + (l.isUnlimited ? 0 : l.totalSeats), 0)
           const usedSeats = p.licenses.reduce((s, l) => s + l.usedSeats, 0)
-          const pct = totalSeats > 0 ? Math.round((usedSeats / totalSeats) * 100) : 0
+          const pct = !hasUnlimited && totalSeats > 0 ? Math.round((usedSeats / totalSeats) * 100) : 0
           const admin = p.users.find((u) => u.role === "PARTNER_ADMIN")
           const learnerCount = p.users.filter((u) => u.role === "LEARNER").length
+          const licenseLabel = hasUnlimited ? `${usedSeats}/Illimité` : `${usedSeats}/${totalSeats}`
           return (
             <div key={p.id} className="bg-white rounded-xl border border-border p-4 space-y-2">
               <div className="flex items-center justify-between">
@@ -305,13 +314,13 @@ export default function PartnersTable({
               </div>
               <div className="text-xs text-gray-400 space-y-0.5">
                 <p>{admin?.email || "Pas d'admin"}</p>
-                <p>{learnerCount} apprenant{learnerCount > 1 ? "s" : ""} · {usedSeats}/{totalSeats} licences</p>
+                <p>{learnerCount} apprenant{learnerCount > 1 ? "s" : ""} · {licenseLabel} licences</p>
               </div>
               <div className="flex items-center gap-2">
                 <div className="flex-1 bg-gray-100 rounded-full h-1.5">
-                  <div className="bg-primary h-1.5 rounded-full transition-all" style={{ width: `${pct}%` }} />
+                  <div className="bg-primary h-1.5 rounded-full transition-all" style={{ width: `${hasUnlimited ? 100 : pct}%` }} />
                 </div>
-                <span className="text-xs text-gray-500">{pct}%</span>
+                <span className="text-xs text-gray-500">{hasUnlimited ? "Illimité" : `${pct}%`}</span>
               </div>
               <div className="flex gap-2 pt-1">
                 {admin && (
@@ -343,11 +352,13 @@ export default function PartnersTable({
           </thead>
           <tbody>
             {partners.map((p) => {
-              const totalSeats = p.licenses.reduce((s, l) => s + l.totalSeats, 0)
+              const hasUnlimited = p.licenses.some((l) => l.isUnlimited)
+              const totalSeats = p.licenses.reduce((s, l) => s + (l.isUnlimited ? 0 : l.totalSeats), 0)
               const usedSeats = p.licenses.reduce((s, l) => s + l.usedSeats, 0)
-              const pct = totalSeats > 0 ? Math.round((usedSeats / totalSeats) * 100) : 0
+              const pct = !hasUnlimited && totalSeats > 0 ? Math.round((usedSeats / totalSeats) * 100) : 0
               const admin = p.users.find((u) => u.role === "PARTNER_ADMIN")
               const learnerCount = p.users.filter((u) => u.role === "LEARNER").length
+              const licenseLabel = hasUnlimited ? `${usedSeats}/Illimité` : `${usedSeats}/${totalSeats}`
 
               return (
                 <tr key={p.id} className="border-b border-gray-50 hover:bg-gray-50 transition-colors">
@@ -369,9 +380,9 @@ export default function PartnersTable({
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-2">
                       <div className="w-20 bg-gray-100 rounded-full h-1.5">
-                        <div className="bg-primary h-1.5 rounded-full transition-all" style={{ width: `${pct}%` }} />
+                        <div className="bg-primary h-1.5 rounded-full transition-all" style={{ width: `${hasUnlimited ? 100 : pct}%` }} />
                       </div>
-                      <span className="text-xs text-gray-500">{usedSeats}/{totalSeats}</span>
+                      <span className="text-xs text-gray-500">{licenseLabel}</span>
                     </div>
                   </td>
                   <td className="px-4 py-3">
@@ -640,9 +651,18 @@ export default function PartnersTable({
                         type="number"
                         min={existing?.usedSeats || 0}
                         value={licenseValues[f.id] || 0}
+                        disabled={licenseUnlimitedValues[f.id] === true}
                         onChange={(e) => setLicenseValues((prev) => ({ ...prev, [f.id]: parseInt(e.target.value) || 0 }))}
-                        className="w-20 px-2 py-1.5 text-sm border border-border rounded-lg outline-none focus:border-primary text-center"
+                        className="w-20 px-2 py-1.5 text-sm border border-border rounded-lg outline-none focus:border-primary text-center disabled:bg-gray-100 disabled:text-gray-400"
                       />
+                      <label className="flex items-center gap-1.5 text-xs text-gray-500">
+                        <input
+                          type="checkbox"
+                          checked={licenseUnlimitedValues[f.id] === true}
+                          onChange={(e) => setLicenseUnlimitedValues((prev) => ({ ...prev, [f.id]: e.target.checked }))}
+                        />
+                        Illimité
+                      </label>
                     </div>
                   </div>
                 )

@@ -9,7 +9,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
   }
 
   const { licenses } = await req.json() as {
-    licenses: { formationId: string; totalSeats: number }[]
+    licenses: { formationId: string; totalSeats: number; isUnlimited?: boolean }[]
   }
 
   if (!Array.isArray(licenses)) {
@@ -19,32 +19,50 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
   const results = []
 
   for (const lic of licenses) {
-    if (lic.totalSeats < 0) continue
+    const totalSeats = Number.isFinite(lic.totalSeats) ? Math.max(0, Math.floor(lic.totalSeats)) : 0
+    const isUnlimited = lic.isUnlimited === true
+    if (!lic.formationId) continue
 
     const existing = await prisma.license.findUnique({
       where: { partnerId_formationId: { partnerId: params.id, formationId: lic.formationId } },
     })
 
     if (existing) {
-      if (lic.totalSeats === 0) {
+      if (isUnlimited) {
+        const updated = await prisma.license.update({
+          where: { id: existing.id },
+          data: { totalSeats, isUnlimited: true },
+        })
+        results.push(updated)
+        continue
+      }
+
+      if (totalSeats === 0) {
         if (existing.usedSeats === 0) {
           await prisma.license.delete({ where: { id: existing.id } })
+        } else {
+          const updated = await prisma.license.update({
+            where: { id: existing.id },
+            data: { totalSeats: existing.usedSeats, isUnlimited: false },
+          })
+          results.push(updated)
         }
         continue
       }
       // Cannot set below used seats
-      const finalTotal = Math.max(lic.totalSeats, existing.usedSeats)
+      const finalTotal = Math.max(totalSeats, existing.usedSeats)
       const updated = await prisma.license.update({
         where: { id: existing.id },
-        data: { totalSeats: finalTotal },
+        data: { totalSeats: finalTotal, isUnlimited: false },
       })
       results.push(updated)
-    } else if (lic.totalSeats > 0) {
+    } else if (isUnlimited || totalSeats > 0) {
       const created = await prisma.license.create({
         data: {
           partnerId: params.id,
           formationId: lic.formationId,
-          totalSeats: lic.totalSeats,
+          totalSeats,
+          isUnlimited,
         },
       })
       results.push(created)

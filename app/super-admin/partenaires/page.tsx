@@ -30,6 +30,7 @@ export default async function PartenairesPage() {
       formationId: l.formationId,
       totalSeats: l.totalSeats,
       usedSeats: l.usedSeats,
+      isUnlimited: l.isUnlimited,
       formation: { id: l.formation.id, title: l.formation.title },
     })),
   }))

@@ -30,6 +30,7 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
       formation: l.formation.title,
       totalSeats: l.totalSeats,
       usedSeats: l.usedSeats,
+      isUnlimited: l.isUnlimited,
     })),
   })
 }

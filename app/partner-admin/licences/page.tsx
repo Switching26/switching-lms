@@ -10,8 +10,9 @@ export default async function LicencesPage() {
   const partnerId = session.user.partnerId
   if (!partnerId) redirect("/login")
 
-  const { licenses, totalSeats, usedSeats } = await getPartnerLicenseStats(partnerId)
-  const usagePercent = totalSeats > 0 ? Math.round((usedSeats / totalSeats) * 100) : 0
+  const { licenses, totalSeats, usedSeats, hasUnlimited } = await getPartnerLicenseStats(partnerId)
+  const usagePercent = !hasUnlimited && totalSeats > 0 ? Math.round((usedSeats / totalSeats) * 100) : 0
+  const usageLabel = hasUnlimited ? `${usedSeats}/Illimité` : `${usedSeats}/${totalSeats}`
 
   return (
     <div className="space-y-8">
@@ -23,7 +24,7 @@ export default async function LicencesPage() {
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 animate-fade-in-up-delay-1">
         <KPICard
           label="Total licences"
-          value={totalSeats}
+          value={hasUnlimited ? "Illimité" : totalSeats}
           icon={
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 5.25a3 3 0 013 3m3 0a6 6 0 01-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1121.75 8.25z" />
@@ -54,14 +55,16 @@ export default async function LicencesPage() {
       <div className="bg-white rounded-2xl border border-border p-6 shadow-sm animate-fade-in-up-delay-2">
         <div className="flex items-center justify-between mb-3">
           <span className="text-sm font-semibold text-primary">Utilisation globale</span>
-          <span className="text-sm text-warm-500 font-medium tabular-nums">{usedSeats}/{totalSeats}</span>
+          <span className="text-sm text-warm-500 font-medium tabular-nums">{usageLabel}</span>
         </div>
         <div className="w-full bg-warm-100 rounded-full h-3 overflow-hidden">
           <div
             className="h-3 rounded-full transition-all duration-1000 ease-out relative"
             style={{
-              width: `${Math.max(usagePercent, 2)}%`,
-              background: usagePercent > 90
+              width: `${hasUnlimited ? 100 : Math.max(usagePercent, 2)}%`,
+              background: hasUnlimited
+                ? "linear-gradient(90deg, #14b8a6, #0d9488)"
+                : usagePercent > 90
                 ? "linear-gradient(90deg, #ef4444, #dc2626)"
                 : usagePercent > 70
                 ? "linear-gradient(90deg, #f59e0b, #d97706)"
@@ -91,21 +94,23 @@ export default async function LicencesPage() {
           </thead>
           <tbody>
             {licenses.map((l) => {
-              const available = l.totalSeats - l.usedSeats
+              const available = l.isUnlimited ? null : l.totalSeats - l.usedSeats
               return (
                 <tr key={l.id} className="border-b border-warm-50 hover:bg-warm-50/50 transition-colors">
                   <td className="px-6 py-3.5 text-sm font-medium text-primary">{l.formation.title}</td>
-                  <td className="px-6 py-3.5 text-sm text-warm-500 tabular-nums">{l.totalSeats}</td>
+                  <td className="px-6 py-3.5 text-sm text-warm-500 tabular-nums">{l.isUnlimited ? "Illimité" : l.totalSeats}</td>
                   <td className="px-6 py-3.5 text-sm text-warm-500 tabular-nums">{l.usedSeats}</td>
                   <td className="px-6 py-3.5">
                     <span className={`inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-semibold tabular-nums ${
-                      available === 0
+                      l.isUnlimited
+                        ? "bg-teal-50 text-teal-700 border border-teal-100"
+                        : available === 0
                         ? "bg-rose-50 text-rose-700 border border-rose-100"
-                        : available <= 2
+                        : available !== null && available <= 2
                         ? "bg-amber-50 text-amber-700 border border-amber-100"
                         : "bg-emerald-50 text-emerald-700 border border-emerald-100"
                     }`}>
-                      {available}
+                      {l.isUnlimited ? "Illimité" : available}
                     </span>
                   </td>
                 </tr>

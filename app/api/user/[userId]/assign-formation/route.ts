@@ -46,7 +46,7 @@ export async function POST(req: NextRequest, { params }: { params: { userId: str
       where: { partnerId_formationId: { partnerId: user.partnerId, formationId } },
     })
     if (license) {
-      if (license.usedSeats >= license.totalSeats) {
+      if (!license.isUnlimited && license.usedSeats >= license.totalSeats) {
         return NextResponse.json({ error: "Plus de licences disponibles" }, { status: 400 })
       }
       await prisma.license.update({

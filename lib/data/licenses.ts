@@ -20,7 +20,8 @@ export async function getPartnerLicenseStats(partnerId: string) {
     where: { partnerId },
     include: { formation: true },
   })
-  const totalSeats = licenses.reduce((sum, l) => sum + l.totalSeats, 0)
+  const hasUnlimited = licenses.some((l) => l.isUnlimited)
+  const totalSeats = licenses.reduce((sum, l) => sum + (l.isUnlimited ? 0 : l.totalSeats), 0)
   const usedSeats = licenses.reduce((sum, l) => sum + l.usedSeats, 0)
-  return { licenses, totalSeats, usedSeats }
+  return { licenses, totalSeats, usedSeats, hasUnlimited }
 }

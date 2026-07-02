@@ -215,6 +215,7 @@ model License {
   formation   Formation @relation(fields: [formationId], references: [id], onDelete: Cascade)
   totalSeats  Int
   usedSeats   Int       @default(0)
+  isUnlimited Boolean   @default(false)
 
   @@unique([partnerId, formationId])
   @@index([partnerId])

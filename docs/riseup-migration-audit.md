@@ -67,10 +67,29 @@ Partenaire cible initial : `CNFDI` (`cnfdi`).
 
 - Ne jamais migrer les apprenants termines.
 - Migrer uniquement les apprenants en cours ou non termines.
-- Ne jamais envoyer de mails automatiques pendant un audit.
+- Ne jamais envoyer de mails automatiques pendant un audit ou un import de migration RiseUp.
+- Import silencieux : creer les apprenants en `isActive=false`, sans token d'activation et sans appel a `sendEmail`. Les emails d'activation/recuperation seront envoyes plus tard en lot, apres validation de la plateforme et GO explicite.
 - Ne jamais ecraser un compte LMS existant sans le signaler dans le rapport.
 - Ne jamais inventer une progression fine si l'export ne la fournit pas.
 - Garder la marque partenaire dans les contenus et emails ; l'expediteur neutre Brevo/domaine est reporte a la fin du projet.
+
+## Commande d'import silencieux
+
+Le script `scripts/import-riseup-learners.mjs` est separe de l'audit et reste en dry-run par defaut.
+
+```bash
+DATABASE_URL="postgresql://..." node scripts/import-riseup-learners.mjs \
+  --audit generated/riseup-migration-audit/riseup-audit-xxx.json \
+  --details generated/riseup-exports/course-registration-progress-details.json \
+  --sample-per-formation 1
+```
+
+Pour appliquer reellement, il faut ajouter `--apply --confirm IMPORT_RISEUP_NO_EMAIL`. Le script refuse l'apply sans cette phrase de confirmation.
+
+Dry-runs du 03/07/2026 :
+
+- Echantillon 3 apprenants : 3 applicables, 0 blocage, 0 email.
+- Lot complet 72 candidats : 72 applicables, 0 blocage, 0 email.
 
 ## Points de blocage a traiter avant import reel
 

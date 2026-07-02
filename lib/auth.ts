@@ -45,10 +45,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           data: { lastLoginAt: new Date() },
         })
 
-        await prisma.loginLog.create({
+        void prisma.loginLog.create({
           data: {
             userId: user.id,
           },
+        }).catch((err) => {
+          console.error("[AUTH] Failed to write login log:", err?.message || err)
         })
 
         return {

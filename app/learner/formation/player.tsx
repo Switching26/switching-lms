@@ -106,33 +106,6 @@ export default function FormationPlayer({
   userId: string
   preview?: boolean
 }) {
-  const [activeIndex, setActiveIndex] = useState(() => {
-    const inProgress = chapters.findIndex((c) => c.inProgress && !c.completed)
-    if (inProgress >= 0) return inProgress
-    const firstIncomplete = chapters.findIndex((c) => !c.completed)
-    return firstIncomplete >= 0 ? firstIncomplete : 0
-  })
-  const [completedMap, setCompletedMap] = useState<Record<string, boolean>>(() => {
-    const map: Record<string, boolean> = {}
-    chapters.forEach((c) => { map[c.id] = c.completed })
-    return map
-  })
-  const [showChapters, setShowChapters] = useState(false)
-
-  const active = chapters[activeIndex]
-  const completedCount = Object.values(completedMap).filter(Boolean).length
-  const progressPercent = chapters.length > 0 ? Math.round((completedCount / chapters.length) * 100) : 0
-
-  const isAccessible = (_index: number) => {
-    // Accès libre : tous les chapitres sont accessibles en permanence
-    // (style Rise Up — apprenant adulte autonome)
-    return true
-  }
-
-  const handleChapterCompleted = (chapterId: string) => {
-    setCompletedMap((prev) => ({ ...prev, [chapterId]: true }))
-  }
-
   const sortedSections = useMemo(
     () => (sections || []).slice().sort((a, b) => a.order - b.order),
     [sections]
@@ -155,6 +128,35 @@ export default function FormationPlayer({
     })
     return arr
   }, [rootChapters, sortedSections, chaptersBySection])
+
+  const [activeIndex, setActiveIndex] = useState(() => {
+    const initialChapter =
+      orderedChapters.find((c) => c.inProgress && !c.completed) ||
+      orderedChapters.find((c) => !c.completed) ||
+      orderedChapters[0]
+    const initialIndex = initialChapter ? chapters.findIndex((c) => c.id === initialChapter.id) : -1
+    return initialIndex >= 0 ? initialIndex : 0
+  })
+  const [completedMap, setCompletedMap] = useState<Record<string, boolean>>(() => {
+    const map: Record<string, boolean> = {}
+    chapters.forEach((c) => { map[c.id] = c.completed })
+    return map
+  })
+  const [showChapters, setShowChapters] = useState(false)
+
+  const active = chapters[activeIndex]
+  const completedCount = Object.values(completedMap).filter(Boolean).length
+  const progressPercent = chapters.length > 0 ? Math.round((completedCount / chapters.length) * 100) : 0
+
+  const isAccessible = (_index: number) => {
+    // Accès libre : tous les chapitres sont accessibles en permanence
+    // (style Rise Up — apprenant adulte autonome)
+    return true
+  }
+
+  const handleChapterCompleted = (chapterId: string) => {
+    setCompletedMap((prev) => ({ ...prev, [chapterId]: true }))
+  }
 
   // Map id → displayNumber séquentiel (1-based)
   const displayNumberMap = useMemo(() => {

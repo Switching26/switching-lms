@@ -74,7 +74,13 @@ Partenaire cible initial : `CNFDI` (`cnfdi`).
 
 ## Points de blocage a traiter avant import reel
 
-- Export RiseUp admin non encore present localement.
-- Il faut confirmer si RiseUp fournit la progression par lecon ou seulement un pourcentage global.
+- Export RiseUp admin retrouve le 02/07/2026 via `Datalab` -> `Rapports` -> `Afficher les details de l'inscription`.
+- Le bouton `Export Excel` ouvre une confirmation qui genere ensuite une notification et un email RiseUp. Ne pas cliquer `Exporter` sans GO explicite.
+- L'API RiseUp fournit la progression par etape pour les inscriptions en cours :
+  - liste inscriptions : `/api/reporting/course-registration?sort=&order=&page=N`
+  - statistiques : `/api/reporting/course-registration/statistics`
+  - detail progression : `/api/training/training-board/user-detail/get-training-progression/{subscriptionId}?sort=&order=&page=1`
+  - statistiques inscription : `/api/training/training-board/user-detail/get-training-subscription-statistics/{subscriptionId}`
+- Audit du 02/07/2026 : 103 lignes RiseUp, 100 inscriptions groupees, 72 candidats a migrer, 28 exclusions, 0 blocage, 0 alerte. Parmi les candidats : 12 inscriptions ont une progression 1-99 % avec detail par etape, 60 sont a 0 %.
 - Aucune licence CNFDI n'est configuree dans le LMS a ce stade.
 - La route `partner-admin/parametres` reste a traiter plus tard.

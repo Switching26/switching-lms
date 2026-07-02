@@ -11,6 +11,7 @@ Audit dry-run d'un export apprenants RiseUp.
 Usage:
   node scripts/audit-riseup-learners.mjs --input /path/export.csv
   node scripts/audit-riseup-learners.mjs --input /path/export.json --out generated/riseup-migration-audit
+  node scripts/audit-riseup-learners.mjs --input /path/export.json --details /path/progress-details.json
 
 Le script ne fait aucune ecriture en base.
 `
@@ -21,6 +22,7 @@ function parseArgs(argv) {
     const arg = argv[i]
     if (arg === "--help" || arg === "-h") out.help = true
     else if (arg === "--input") out.input = argv[++i]
+    else if (arg === "--details") out.details = argv[++i]
     else if (arg === "--out") out.out = argv[++i]
     else if (arg === "--partner") out.partner = argv[++i]
     else throw new Error(`Argument inconnu: ${arg}`)
@@ -101,6 +103,20 @@ async function loadRows(input) {
   return parseCsv(text)
 }
 
+async function loadDetails(input) {
+  if (!input) return new Map()
+  const text = await fsp.readFile(path.resolve(input), "utf8")
+  const parsed = JSON.parse(text)
+  const rows = Array.isArray(parsed) ? parsed : extractJsonRows(parsed)
+  const map = new Map()
+  for (const row of rows) {
+    const id = row.subscriptionId ?? row.trainingSubscriptionId ?? row.id
+    if (id === undefined || id === null || id === "") continue
+    map.set(String(id), row)
+  }
+  return map
+}
+
 function keyOf(s) {
   return String(s || "")
     .toLowerCase()
@@ -115,6 +131,15 @@ function get(row, aliases) {
     if (wanted.has(keyOf(k)) && v !== undefined && v !== null && String(v).trim() !== "") {
       return String(v).trim()
     }
+  }
+  return ""
+}
+
+function firstString(...values) {
+  for (const value of values) {
+    if (value === undefined || value === null) continue
+    const text = String(value).trim()
+    if (text !== "") return text
   }
   return ""
 }
@@ -165,27 +190,62 @@ function isCompletedStatus(status, progress) {
   return /(termine|terminee|completed|complete|finished|finish|acheve|achevee|done|reussi|valide)/.test(n)
 }
 
+function isCancelledStatus(status) {
+  return /(cancelled|canceled|annule|annulee)/.test(normalizeText(status))
+}
+
 function isInProgressStatus(status, progress) {
   const n = normalizeText(status)
   if (progress !== null && progress > 0 && progress < 100) return true
   return /(en cours|started|commence|commencee|progress|active|actif|opened|inscrit)/.test(n)
 }
 
+function riseupStepProgress(step) {
+  const state = normalizeText(step?.state)
+  if (/(success|done|completed|finished|termine|terminee|reussi|reussie)/.test(state)) return 100
+  if (!state) return null
+  return 0
+}
+
+function detailRowsFromRiseupProgress(detail) {
+  const progression = detail?.progression || detail?.trainingProgression || detail?.progress || detail?.data
+  const modules = Array.isArray(progression) ? progression : Array.isArray(progression?.data) ? progression.data : []
+  const rows = []
+  for (const module of modules) {
+    const steps = Array.isArray(module.steps) ? module.steps : []
+    for (const step of steps) {
+      rows.push({
+        sourceModuleTitle: module.title || "",
+        chapterTitle: step.title || "",
+        chapterStatus: step.state || module.state || "",
+        chapterProgressPercent: riseupStepProgress(step),
+        sourceStepId: step.id || null,
+        sourceModuleId: module.id || null,
+        totalTime: step.totalTime ?? null,
+      })
+    }
+  }
+  return rows
+}
+
 function getCanonical(row) {
-  const firstName = get(row, ["first_name", "firstname", "firstName", "prenom", "prénom"])
-  const lastName = get(row, ["last_name", "lastname", "lastName", "nom", "name"])
-  const fullName = get(row, ["full_name", "fullname", "fullName", "nom complet", "apprenant", "learner"])
-  const email = get(row, ["email", "mail", "e-mail", "learner_email", "user_email", "adresse email"]).toLowerCase()
-  const formationTitle = get(row, ["formation", "training", "training_title", "course", "course_title", "parcours", "module"])
-  const status = get(row, ["status", "statut", "etat", "état", "training_status", "enrollment_status"])
-  const progressRaw = get(row, ["progress", "progression", "progress_percent", "pourcentage", "%", "completion", "completion_rate"])
+  const user = row.user || {}
+  const firstName = firstString(get(row, ["first_name", "firstname", "firstName", "prenom", "prénom"]), user.firstName)
+  const lastName = firstString(get(row, ["last_name", "lastname", "lastName", "nom", "name"]), user.lastName)
+  const fullName = firstString(get(row, ["full_name", "fullname", "fullName", "nom complet", "apprenant", "learner"]), user.fullDisplayUserName, user.displayUserName)
+  const email = firstString(get(row, ["email", "mail", "e-mail", "learner_email", "user_email", "adresse email"]), user.email, user.username).toLowerCase()
+  const formationTitle = firstString(get(row, ["formation", "training", "training_title", "trainingTitle", "course", "course_title", "parcours", "module"]), row.trainingTitle)
+  const status = firstString(get(row, ["status", "statut", "etat", "état", "training_status", "enrollment_status", "state"]), row.state)
+  const progressRaw = firstString(get(row, ["progress", "progression", "progress_percent", "pourcentage", "%", "completion", "completion_rate"]), row.progress)
   const chapterTitle = get(row, ["chapter", "chapter_title", "lesson", "lesson_title", "step", "step_title", "lecon", "leçon", "titre lecon"])
   const chapterStatus = get(row, ["chapter_status", "lesson_status", "step_status", "statut lecon", "statut leçon"])
   const chapterProgressRaw = get(row, ["chapter_progress", "lesson_progress", "step_progress", "progression lecon", "progression leçon"])
 
   return {
     sourceRow: row.__row || null,
-    sourceUserId: get(row, ["id", "user_id", "learner_id", "riseup_id", "source_user_id"]),
+    sourceSubscriptionId: firstString(get(row, ["subscription_id", "training_subscription_id", "enrollment_id", "inscription_id"]), row.id),
+    sourceUserId: firstString(get(row, ["id", "user_id", "learner_id", "riseup_id", "source_user_id"]), row.userId, user.id),
+    sourceTrainingId: firstString(get(row, ["training_id", "formation_id", "source_training_id"]), row.trainingId),
     email,
     firstName,
     lastName,
@@ -194,11 +254,13 @@ function getCanonical(row) {
     formationCode: formationCodeFromTitle(formationTitle),
     status,
     progressPercent: parsePercent(progressRaw),
-    startedAt: parseDateOrNull(get(row, ["started_at", "start_date", "date_debut", "date début", "debut", "début"])),
-    expiresAt: parseDateOrNull(get(row, ["expires_at", "end_date", "date_fin", "date fin", "fin", "deadline"])),
+    startedAt: parseDateOrNull(firstString(get(row, ["started_at", "start_date", "date_debut", "date début", "debut", "début"]), row.subscribeDate)),
+    expiresAt: parseDateOrNull(firstString(get(row, ["expires_at", "end_date", "date_fin", "date fin", "fin", "deadline"]), row.endDate)),
     chapterTitle,
     chapterStatus,
     chapterProgressPercent: parsePercent(chapterProgressRaw),
+    totalTime: row.totalTime ?? null,
+    score: row.score ?? null,
   }
 }
 
@@ -229,6 +291,7 @@ async function main() {
   const inputPath = path.resolve(args.input)
   const rows = await loadRows(inputPath)
   if (rows.length === 0) throw new Error("Export vide.")
+  const detailsBySubscriptionId = await loadDetails(args.details)
 
   const prisma = new PrismaClient()
   const formations = await prisma.formation.findMany({
@@ -288,7 +351,9 @@ async function main() {
     const record = {
       key: groupKey,
       sourceRows: groupRows.map((r) => r.sourceRow).filter(Boolean),
+      sourceSubscriptionId: base.sourceSubscriptionId || null,
       sourceUserId: base.sourceUserId || null,
+      sourceTrainingId: base.sourceTrainingId || null,
       email: base.email,
       firstName,
       lastName,
@@ -317,17 +382,25 @@ async function main() {
     if (!base.formationCode || !formation) record.issues.push("formation non reconnue")
     if (!status && progressPercent === null) record.issues.push("statut/progression absents")
 
+    if (isCancelledStatus(status)) {
+      excluded.push({ ...record, excludeReason: "inscription annulee RiseUp" })
+      continue
+    }
+
     if (isCompletedStatus(status, progressPercent)) {
       excluded.push({ ...record, excludeReason: "formation terminee ou progression 100%" })
       continue
     }
 
-    if (!isInProgressStatus(status, progressPercent)) {
+    const isValidatedZeroProgress = progressPercent === 0 && /\bvalidated\b/.test(normalizeText(status))
+    if (!isInProgressStatus(status, progressPercent) && !isValidatedZeroProgress) {
       record.warnings.push("statut non explicitement en cours: verification humaine requise")
     }
 
     if (formation) {
-      const detailRows = groupRows.filter((r) => r.chapterTitle)
+      const riseupDetail = base.sourceSubscriptionId ? detailsBySubscriptionId.get(String(base.sourceSubscriptionId)) : null
+      const riseupDetailRows = detailRowsFromRiseupProgress(riseupDetail)
+      const detailRows = [...groupRows.filter((r) => r.chapterTitle), ...riseupDetailRows]
       const completedChapterIds = new Set()
       const unmatchedChapterTitles = []
 
@@ -342,16 +415,46 @@ async function main() {
             completedChapterIds.add(chapter.id)
           }
         }
-        record.precision = "chapter_detail"
+        if (completedChapterIds.size > 0 || progressPercent === 0) {
+          record.precision = riseupDetailRows.length > 0 ? "riseup_step_detail" : "chapter_detail"
+          record.target = {
+            formationId: formation.id,
+            formationTitle: formation.title,
+            totalChapters: formation.chapters.length,
+            completedChapters: completedChapterIds.size,
+            completionStrategy: riseupDetailRows.length > 0 ? "detail etapes RiseUp" : "detail lecon RiseUp",
+          }
+        } else if (progressPercent !== null) {
+          const completedCount = Math.min(
+            formation.chapters.length,
+            Math.max(0, Math.round((formation.chapters.length * progressPercent) / 100))
+          )
+          record.precision = "coarse_percent"
+          record.target = {
+            formationId: formation.id,
+            formationTitle: formation.title,
+            totalChapters: formation.chapters.length,
+            completedChapters: completedCount,
+            completionStrategy: "approximation par pourcentage global",
+          }
+          record.warnings.push("detail RiseUp present mais aucune lecon terminee matchee: fallback pourcentage global")
+        }
+        record.sourceDetail = {
+          modules: Array.isArray(riseupDetail?.progression?.data) ? riseupDetail.progression.data.length : riseupDetailRows.length ? new Set(riseupDetailRows.map((r) => r.sourceModuleId)).size : 0,
+          steps: riseupDetailRows.length,
+          completedSteps: riseupDetailRows.filter((r) => isCompletedStatus(r.chapterStatus, r.chapterProgressPercent)).length,
+        }
+        if (unmatchedChapterTitles.length > 0) {
+          record.warnings.push(`${unmatchedChapterTitles.length} lecons RiseUp non matchees`)
+        }
+      } else if (progressPercent === 0) {
+        record.precision = "zero_progress"
         record.target = {
           formationId: formation.id,
           formationTitle: formation.title,
           totalChapters: formation.chapters.length,
-          completedChapters: completedChapterIds.size,
-          completionStrategy: "detail lecon RiseUp",
-        }
-        if (unmatchedChapterTitles.length > 0) {
-          record.warnings.push(`${unmatchedChapterTitles.length} lecons RiseUp non matchees`)
+          completedChapters: 0,
+          completionStrategy: "aucune progression RiseUp",
         }
       } else if (progressPercent !== null) {
         const completedCount = Math.min(

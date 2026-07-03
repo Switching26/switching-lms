@@ -6,12 +6,16 @@ import { resendActivationEmail } from "@/lib/email-templates"
 import { resolveTemplate, replaceVariables } from "@/lib/email-template-engine"
 import { getBaseUrl } from "@/lib/get-base-url"
 import { checkRateLimit, rateLimitResponse } from "@/lib/rate-limit"
+import { auth } from "@/lib/auth"
 
 export const dynamic = "force-dynamic"
 
 export async function POST(req: Request) {
+  const session = await auth()
   const ip = req.headers.get("x-forwarded-for") || "unknown"
   const { email } = await req.json()
+  let emailSent: boolean | undefined
+  let canReadDelivery = false
 
   // Rate limit: 3 requests per email per 15 minutes, 10 per IP per 15 minutes
   const ipLimit = checkRateLimit(`resend-act:ip:${ip}`, { maxAttempts: 10, windowMs: 15 * 60 * 1000 })
@@ -34,6 +38,9 @@ export async function POST(req: Request) {
     })
 
     if (user) {
+      canReadDelivery = session?.user?.role === "SUPER_ADMIN" ||
+        (session?.user?.role === "PARTNER_ADMIN" && session.user.partnerId === user.partnerId)
+
       const token = await generateToken(user.id, "ACTIVATION")
       const baseUrl = getBaseUrl()
       const partnerParam = user.partner?.slug ? `&partner=${user.partner.slug}` : ""
@@ -55,15 +62,15 @@ export async function POST(req: Request) {
           couleur_secondaire: user.partner?.secondaryColor || "#F5F5F7",
           logo_url: user.partner?.logoUrl ? (user.partner.logoUrl.startsWith("http") ? user.partner.logoUrl : `${baseUrl}${user.partner.logoUrl.startsWith("/") ? "" : "/"}${user.partner.logoUrl}`) : "",
         }
-        sendEmail(user.email, replaceVariables(dynamic.subject, vars), replaceVariables(dynamic.htmlContent, vars), user.id, "ACTIVATION_LINK", user.partner)
+        emailSent = await sendEmail(user.email, replaceVariables(dynamic.subject, vars), replaceVariables(dynamic.htmlContent, vars), user.id, "ACTIVATION_LINK", user.partner)
       } else {
         const emailData = resendActivationEmail(user.firstName, token, user.partner, user.partner?.slug)
-        sendEmail(user.email, emailData.subject, emailData.html, user.id, "ACTIVATION_LINK", user.partner)
+        emailSent = await sendEmail(user.email, emailData.subject, emailData.html, user.id, "ACTIVATION_LINK", user.partner)
       }
     }
   } catch (err) {
     console.error("[RESEND-ACTIVATION]", err)
   }
 
-  return NextResponse.json({ success: true })
+  return NextResponse.json(canReadDelivery && emailSent !== undefined ? { success: true, emailSent } : { success: true })
 }

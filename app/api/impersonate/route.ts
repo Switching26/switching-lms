@@ -17,7 +17,10 @@ export async function POST(req: NextRequest) {
   const session = await auth()
   const currentUser = session?.user
 
-  if (!currentUser || currentUser.role !== "SUPER_ADMIN") {
+  const isSuperAdmin = currentUser?.role === "SUPER_ADMIN"
+  const isPartnerAdmin = currentUser?.role === "PARTNER_ADMIN"
+
+  if (!currentUser || (!isSuperAdmin && !isPartnerAdmin)) {
     return NextResponse.json({ error: "Non autorisé" }, { status: 403 })
   }
 
@@ -40,7 +43,17 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Utilisateur introuvable" }, { status: 404 })
   }
 
-  if (target.role === "SUPER_ADMIN") {
+  if (isPartnerAdmin) {
+    if (target.role !== "LEARNER") {
+      return NextResponse.json({ error: "Accès limité aux apprenants" }, { status: 403 })
+    }
+    if (!currentUser.partnerId || target.partnerId !== currentUser.partnerId) {
+      return NextResponse.json({ error: "Accès refusé" }, { status: 403 })
+    }
+    if (target.archivedAt) {
+      return NextResponse.json({ error: "Utilisateur archivé" }, { status: 400 })
+    }
+  } else if (target.role === "SUPER_ADMIN") {
     return NextResponse.json({ error: "Impossible d'impersoner un super admin" }, { status: 400 })
   }
 
@@ -69,9 +82,13 @@ export async function POST(req: NextRequest) {
       partnerName: target.partner?.name || null,
       partnerSlug: target.partner?.slug || null,
       partnerColor: target.partner?.primaryColor || null,
+      partnerSecondaryColor: target.partner?.secondaryColor || null,
+      partnerLogo: target.partner?.logoUrl || null,
       realAdmin: {
         userId: currentUser.id,
-        email: currentUser.email,
+        email: currentUser.email || "",
+        role: currentUser.role,
+        partnerId: currentUser.partnerId || null,
       },
       impersonating: {
         userId: target.id,
@@ -149,7 +166,11 @@ export async function DELETE(req: NextRequest) {
     },
   })
 
-  const res = NextResponse.json({ ok: true, redirectUrl: "/super-admin/utilisateurs" })
+  const redirectUrl = currentUser.realAdmin.role === "PARTNER_ADMIN"
+    ? "/partner-admin/utilisateurs"
+    : "/super-admin/utilisateurs"
+
+  const res = NextResponse.json({ ok: true, redirectUrl })
 
   // Restore original session
   res.cookies.set(cookieName, backupToken, {

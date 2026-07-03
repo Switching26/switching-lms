@@ -194,8 +194,12 @@ export default function UsersTable({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: user.email }),
       })
-      if (res.ok) flash("Lien d'activation renvoyé")
-      else flash("Erreur lors du renvoi")
+      if (res.ok) {
+        const data = await res.json()
+        flash(data.emailSent === false ? "Erreur email : lien généré, mais envoi non confirmé" : "Lien d'activation renvoyé")
+      } else {
+        flash("Erreur lors du renvoi")
+      }
     } catch { flash("Erreur réseau") }
     finally { setResending(null) }
   }
@@ -227,6 +231,7 @@ export default function UsersTable({
         return
       }
       const created = await res.json()
+      let formationEmailSent = true
       // Optionally assign formation right after creation
       if (newAssignFormation && newFormationId && created.id) {
         try {
@@ -240,12 +245,20 @@ export default function UsersTable({
             flash(`Utilisateur créé, mais formation non attribuée : ${data.error || "erreur inconnue"}`)
             return
           }
+          const assignData = await assignRes.json()
+          formationEmailSent = assignData.emailSent !== false
         } catch {
           flash("Utilisateur créé, mais formation non attribuée : erreur réseau")
           return
         }
       }
-      flash("Utilisateur créé avec succès")
+      if (created.activationEmailSent === false) {
+        flash("Erreur email : utilisateur créé, mais invitation non envoyée")
+      } else if (!formationEmailSent) {
+        flash("Erreur email : utilisateur créé, mais email formation non envoyé")
+      } else {
+        flash("Utilisateur créé avec succès — invitation envoyée")
+      }
       setCreateOpen(false)
       setNewFirstName("")
       setNewLastName("")
@@ -354,7 +367,8 @@ export default function UsersTable({
         body: JSON.stringify({ formationId: assignFormationId, startedAt: assignStarts || null, expiresAt: assignExpires || null }),
       })
       if (res.ok) {
-        flash("Formation attribuée")
+        const data = await res.json()
+        flash(data.emailSent === false ? "Erreur email : formation attribuée, mais email non envoyé" : "Formation attribuée")
         setAssignModal(null)
         setAssignFormationId("")
         setAssignStarts(dateInputValue())
@@ -465,6 +479,11 @@ export default function UsersTable({
   }
 
   const isArchived = (u: User) => !!u.archivedAt
+  const canViewSpace = (u: User) => {
+    if (isArchived(u)) return false
+    if (isPartnerAdmin) return u.role === "LEARNER"
+    return u.role === "LEARNER" || u.role === "PARTNER_ADMIN"
+  }
 
   return (
     <>
@@ -595,7 +614,7 @@ export default function UsersTable({
                       </div>
                       <button onClick={() => { setOpenMenuId(null); openEdit(u) }} className="w-full text-left px-4 py-3 text-sm hover:bg-gray-50 transition-colors">Modifier</button>
                       <button onClick={() => { setOpenMenuId(null); setPasswordModal(u.id); setPw(""); setPwConfirm("") }} className="w-full text-left px-4 py-3 text-sm hover:bg-gray-50 transition-colors">Changer mot de passe</button>
-                      {(u.role === "LEARNER" || u.role === "PARTNER_ADMIN") && !isPartnerAdmin && (
+                      {canViewSpace(u) && (
                         <button onClick={() => { setOpenMenuId(null); handleImpersonate(u.id) }} className="w-full text-left px-4 py-3 text-sm hover:bg-gray-50 transition-colors">Voir l&apos;espace</button>
                       )}
                       <button onClick={() => { setOpenMenuId(null); openProgress(u.id) }} className="w-full text-left px-4 py-3 text-sm hover:bg-gray-50 transition-colors">Suivi</button>
@@ -715,7 +734,7 @@ export default function UsersTable({
                         <div style={{ position: "absolute", right: 0, top: "100%", marginTop: 4, background: "white", border: "0.5px solid #E5E5E5", borderRadius: 8, boxShadow: "0 4px 12px rgba(0,0,0,0.1)", zIndex: 50, minWidth: 200, overflow: "hidden" }}>
                           <button onClick={() => { setOpenMenuId(null); openEdit(u) }} className="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors">Modifier</button>
                           <button onClick={() => { setOpenMenuId(null); setPasswordModal(u.id); setPw(""); setPwConfirm("") }} className="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors">Changer mot de passe</button>
-                          {(u.role === "LEARNER" || u.role === "PARTNER_ADMIN") && !isPartnerAdmin && (
+                          {canViewSpace(u) && (
                             <button onClick={() => { setOpenMenuId(null); handleImpersonate(u.id) }} className="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors">Voir l&apos;espace</button>
                           )}
                           <button onClick={() => { setOpenMenuId(null); openProgress(u.id) }} className="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors">Suivi</button>

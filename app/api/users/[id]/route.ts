@@ -99,7 +99,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
           include: { formation: true },
         })
 
-        // Send formation assigned email (non-blocking)
+        // Send formation assigned email
         try {
           const baseUrl = getBaseUrl()
           const loginUrl = updated.partner?.slug ? `${baseUrl}/login?partner=${updated.partner.slug}` : `${baseUrl}/login`
@@ -122,10 +122,10 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
             }
             const subject = replaceVariables(dynamic.subject, vars)
             const html = replaceVariables(dynamic.htmlContent, vars)
-            sendEmail(target.email, subject, html, target.id, "FORMATION_ASSIGNED", updated.partner)
+            await sendEmail(target.email, subject, html, target.id, "FORMATION_ASSIGNED", updated.partner)
           } else {
             const emailData = formationAssignedEmail(target.firstName, newEnrollment.formation.title, body.expiresAt || null, updated.partner)
-            sendEmail(target.email, emailData.subject, emailData.html, target.id, "FORMATION_ASSIGNED", updated.partner)
+            await sendEmail(target.email, emailData.subject, emailData.html, target.id, "FORMATION_ASSIGNED", updated.partner)
           }
         } catch {
           // Never block enrollment if email fails

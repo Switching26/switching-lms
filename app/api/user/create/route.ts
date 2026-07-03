@@ -78,6 +78,8 @@ export async function POST(req: Request) {
     include: { partner: true },
   })
 
+  let activationEmailSent = false
+
   // Generate activation token and send welcome email with activation link
   try {
     const activationToken = await generateToken(user.id, "ACTIVATION")
@@ -103,10 +105,10 @@ export async function POST(req: Request) {
       }
       const subject = replaceVariables(dynamic.subject, vars)
       const html = replaceVariables(dynamic.htmlContent, vars)
-      sendEmail(user.email, subject, html, user.id, "ACCOUNT_CREATED", user.partner)
+      activationEmailSent = await sendEmail(user.email, subject, html, user.id, "ACCOUNT_CREATED", user.partner)
     } else {
       const emailData = accountCreatedEmail(user.firstName, user.email, activationToken, user.partner, user.partner?.slug)
-      sendEmail(user.email, emailData.subject, emailData.html, user.id, "ACCOUNT_CREATED", user.partner)
+      activationEmailSent = await sendEmail(user.email, emailData.subject, emailData.html, user.id, "ACCOUNT_CREATED", user.partner)
     }
   } catch {
     // Never block user creation if email fails
@@ -120,5 +122,6 @@ export async function POST(req: Request) {
     role: user.role,
     partnerId: user.partnerId,
     partner: user.partner,
+    activationEmailSent,
   }, { status: 201 })
 }

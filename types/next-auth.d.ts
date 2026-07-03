@@ -25,7 +25,7 @@ declare module "next-auth" {
       partnerColor: string | null
       partnerSecondaryColor: string | null
       partnerLogo: string | null
-      realAdmin?: { userId: string; email: string }
+      realAdmin?: { userId: string; email: string; role?: UserRole; partnerId?: string | null }
       impersonating?: { userId: string; email: string; name: string; role: UserRole }
     } & DefaultSession["user"]
   }
@@ -41,7 +41,7 @@ declare module "next-auth/jwt" {
     partnerColor: string | null
     partnerSecondaryColor: string | null
     partnerLogo: string | null
-    realAdmin?: { userId: string; email: string }
+    realAdmin?: { userId: string; email: string; role?: UserRole; partnerId?: string | null }
     impersonating?: { userId: string; email: string; name: string; role: UserRole }
   }
 }

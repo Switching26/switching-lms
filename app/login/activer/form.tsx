@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import { useSearchParams } from "next/navigation"
 import Link from "next/link"
+import { MIN_PASSWORD_LENGTH, PASSWORD_REQUIREMENT_LABEL, validatePassword } from "@/lib/validate-password"
 
 interface PartnerInfo {
   name: string
@@ -157,12 +158,9 @@ function ActivationForm({ token, brandName, brandColor, partnerParam, partner }:
     e.preventDefault()
     setError("")
 
-    if (password.length < 8) {
-      setError("Le mot de passe doit contenir au moins 8 caractères")
-      return
-    }
-    if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(password)) {
-      setError("Le mot de passe doit contenir une majuscule, une minuscule et un chiffre")
+    const pwCheck = validatePassword(password)
+    if (!pwCheck.valid) {
+      setError(pwCheck.error)
       return
     }
     if (password !== confirm) {
@@ -240,9 +238,9 @@ function ActivationForm({ token, brandName, brandColor, partnerParam, partner }:
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                minLength={6}
+                minLength={MIN_PASSWORD_LENGTH}
                 className="w-full px-4 py-2.5 rounded-lg text-sm border border-border bg-[#FAFAFA] outline-none focus:border-primary transition-colors"
-                placeholder="8 caractères, majuscule, minuscule, chiffre"
+                placeholder={PASSWORD_REQUIREMENT_LABEL}
               />
             </div>
             <div>

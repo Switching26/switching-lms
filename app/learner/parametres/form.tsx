@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { MIN_PASSWORD_LENGTH, PASSWORD_REQUIREMENT_LABEL } from "@/lib/validate-password"
 
 interface User {
   id: string
@@ -121,8 +122,8 @@ export default function SettingsForm({ user }: { user: User }) {
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
             required
-            minLength={8}
-            placeholder="8 caractères, majuscule, minuscule, chiffre"
+            minLength={MIN_PASSWORD_LENGTH}
+            placeholder={PASSWORD_REQUIREMENT_LABEL}
             className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-primary"
           />
         </div>

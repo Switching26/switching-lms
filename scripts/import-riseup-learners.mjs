@@ -277,7 +277,7 @@ async function applyPlan(prisma, partner, plan) {
     }
 
     return { ...plan, applied: true, userId: user.id }
-  })
+  }, { maxWait: 10000, timeout: 60000 })
 }
 
 function renderMarkdown(report) {

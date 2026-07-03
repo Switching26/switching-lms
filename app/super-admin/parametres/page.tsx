@@ -158,7 +158,7 @@ export default function ParametresPage() {
         <div>
           <h2 className="text-base font-semibold mb-1">Configuration email (Brevo)</h2>
           <p className="text-sm text-gray-400">
-            Envoi d'emails via l'API Brevo. Les partenaires peuvent configurer leur propre SMTP.
+            Envoi d'emails via l'API Brevo avec la configuration globale de la plateforme.
           </p>
         </div>
 

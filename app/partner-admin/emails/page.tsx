@@ -27,7 +27,7 @@ interface Template {
 }
 
 export default function PartnerEmailsPage() {
-  const [tab, setTab] = useState<"mine" | "defaults" | "smtp">("mine")
+  const [tab, setTab] = useState<"mine" | "defaults">("mine")
   const [myTemplates, setMyTemplates] = useState<Template[]>([])
   const [defaultTemplates, setDefaultTemplates] = useState<Template[]>([])
   const [loading, setLoading] = useState(true)
@@ -44,17 +44,6 @@ export default function PartnerEmailsPage() {
   const [formHtml, setFormHtml] = useState("")
   const [formIsActive, setFormIsActive] = useState(true)
 
-  // SMTP state
-  const [useCustomSmtp, setUseCustomSmtp] = useState(false)
-  const [smtpHost, setSmtpHost] = useState("")
-  const [smtpPort, setSmtpPort] = useState("587")
-  const [smtpEmail, setSmtpEmail] = useState("")
-  const [smtpPassword, setSmtpPassword] = useState("")
-  const [smtpFromName, setSmtpFromName] = useState("")
-  const [hasStoredPassword, setHasStoredPassword] = useState(false)
-  const [smtpSaving, setSmtpSaving] = useState(false)
-  const [smtpTesting, setSmtpTesting] = useState(false)
-
   const htmlRef = useRef<HTMLTextAreaElement>(null)
 
   useEffect(() => {
@@ -63,24 +52,12 @@ export default function PartnerEmailsPage() {
 
   const fetchAll = async () => {
     setLoading(true)
-    const [myRes, defRes, smtpRes] = await Promise.all([
+    const [myRes, defRes] = await Promise.all([
       fetch("/api/email-templates"),
       fetch("/api/email-templates/defaults"),
-      fetch("/api/partner/smtp"),
     ])
     if (myRes.ok) setMyTemplates(await myRes.json())
     if (defRes.ok) setDefaultTemplates(await defRes.json())
-    if (smtpRes.ok) {
-      const data = await smtpRes.json()
-      if (!data.error) {
-        setUseCustomSmtp(!data.useDefaultSmtp)
-        setSmtpHost(data.smtpHost || "")
-        setSmtpPort(String(data.smtpPort || 587))
-        setSmtpEmail(data.smtpEmail || "")
-        setSmtpFromName(data.smtpFromName || "")
-        setHasStoredPassword(data.hasPassword)
-      }
-    }
     setLoading(false)
   }
 
@@ -173,38 +150,6 @@ export default function PartnerEmailsPage() {
     }, 0)
   }
 
-  const handleSmtpSave = async () => {
-    setSmtpSaving(true)
-    try {
-      const res = await fetch("/api/partner/smtp", {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ smtpHost, smtpPort, smtpEmail, smtpPassword, smtpFromName, useDefaultSmtp: !useCustomSmtp }),
-      })
-      if (res.ok) {
-        flash("Configuration SMTP enregistrée")
-        if (smtpPassword) setHasStoredPassword(true)
-        setSmtpPassword("")
-      } else flash("Erreur : " + ((await res.json()).error || "Échec"))
-    } catch { flash("Erreur réseau") }
-    finally { setSmtpSaving(false) }
-  }
-
-  const handleSmtpTest = async () => {
-    setSmtpTesting(true)
-    try {
-      const res = await fetch("/api/partner/smtp", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ smtpHost, smtpPort, smtpEmail, smtpPassword, smtpFromName }),
-      })
-      const data = await res.json()
-      if (data.success) flash("Email de test envoyé avec succès !")
-      else flash("Erreur : " + (data.error || "Échec de l'envoi"))
-    } catch { flash("Erreur réseau") }
-    finally { setSmtpTesting(false) }
-  }
-
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -221,12 +166,6 @@ export default function PartnerEmailsPage() {
             className={`px-4 py-2 text-sm rounded-lg transition-colors ${tab === "defaults" ? "bg-[var(--partner-primary,#111)] text-white" : "bg-gray-100 hover:bg-gray-200"}`}
           >
             Templates par défaut
-          </button>
-          <button
-            onClick={() => { setTab("smtp"); closeEditor() }}
-            className={`px-4 py-2 text-sm rounded-lg transition-colors ${tab === "smtp" ? "bg-[var(--partner-primary,#111)] text-white" : "bg-gray-100 hover:bg-gray-200"}`}
-          >
-            Configuration SMTP
           </button>
         </div>
       </div>
@@ -383,66 +322,6 @@ export default function PartnerEmailsPage() {
         </>
       )}
 
-      {/* ───── SMTP TAB ───── */}
-      {tab === "smtp" && (
-        <div className="bg-white rounded-xl border border-border p-6 space-y-5">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm font-medium">Utiliser mon propre serveur email</p>
-              <p className="text-xs text-gray-400 mt-0.5">
-                {useCustomSmtp ? "Les emails seront envoyés depuis votre serveur SMTP" : "Les emails sont envoyés depuis le serveur par défaut"}
-              </p>
-            </div>
-            <button
-              onClick={() => setUseCustomSmtp(!useCustomSmtp)}
-              className={`relative w-10 h-5 rounded-full transition-colors ${useCustomSmtp ? "bg-[var(--partner-primary,#111)]" : "bg-gray-200"}`}
-            >
-              <span className={`absolute top-0.5 w-4 h-4 bg-white rounded-full transition-transform ${useCustomSmtp ? "translate-x-5" : "translate-x-0.5"}`} />
-            </button>
-          </div>
-
-          {useCustomSmtp && (
-            <>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium mb-1">Serveur SMTP</label>
-                  <input value={smtpHost} onChange={(e) => setSmtpHost(e.target.value)} placeholder="smtp.gmail.com" className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-[var(--partner-primary,#111)]" />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium mb-1">Port</label>
-                  <input value={smtpPort} onChange={(e) => setSmtpPort(e.target.value)} placeholder="587" className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-[var(--partner-primary,#111)]" />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium mb-1">Email SMTP</label>
-                  <input type="email" value={smtpEmail} onChange={(e) => setSmtpEmail(e.target.value)} placeholder="noreply@mondomaine.fr" className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-[var(--partner-primary,#111)]" />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium mb-1">
-                    Mot de passe {hasStoredPassword && <span className="text-xs text-gray-400">(enregistré)</span>}
-                  </label>
-                  <input type="password" value={smtpPassword} onChange={(e) => setSmtpPassword(e.target.value)} placeholder={hasStoredPassword ? "••••••••" : "Mot de passe SMTP"} className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-[var(--partner-primary,#111)]" />
-                </div>
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-1">Nom de l'expéditeur</label>
-                <input value={smtpFromName} onChange={(e) => setSmtpFromName(e.target.value)} placeholder="Mon Organisme Formation" className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-[var(--partner-primary,#111)] sm:max-w-sm" />
-              </div>
-              <div className="flex gap-3 pt-2">
-                <button onClick={handleSmtpSave} disabled={smtpSaving} className="px-4 py-2 bg-[var(--partner-primary,#111)] text-white text-sm rounded-lg hover:opacity-90 disabled:opacity-50">
-                  {smtpSaving ? "Enregistrement..." : "Enregistrer"}
-                </button>
-                <button onClick={handleSmtpTest} disabled={smtpTesting || !smtpHost || !smtpEmail} className="px-4 py-2 bg-gray-100 text-sm rounded-lg hover:bg-gray-200 disabled:opacity-50 transition-colors">
-                  {smtpTesting ? "Envoi en cours..." : "Tester la configuration"}
-                </button>
-              </div>
-            </>
-          )}
-
-          {!useCustomSmtp && !loading && (
-            <p className="text-xs text-gray-400">Les emails sont envoyés depuis le serveur par défaut de la plateforme.</p>
-          )}
-        </div>
-      )}
     </div>
   )
 }

@@ -1,4 +1,3 @@
-import nodemailer from "nodemailer"
 import { prisma } from "@/lib/prisma"
 import { decrypt } from "@/lib/crypto"
 import type { EmailType } from "@prisma/client"
@@ -77,42 +76,6 @@ async function sendViaBrevo(
   }
 }
 
-async function sendViaPartnerSmtp(
-  partner: PartnerSmtp,
-  to: string,
-  subject: string,
-  html: string
-): Promise<void> {
-  const transporter = nodemailer.createTransport({
-    host: partner.smtpHost!,
-    port: partner.smtpPort || 465,
-    secure: (partner.smtpPort || 465) === 465,
-    auth: {
-      user: partner.smtpEmail!,
-      pass: decrypt(partner.smtpPassword!),
-    },
-    connectionTimeout: 8000,
-    socketTimeout: 8000,
-  })
-
-  const fromName = partner.smtpFromName || partner.smtpEmail!
-  const from = partner.smtpFromName
-    ? `"${partner.smtpFromName}" <${partner.smtpEmail}>`
-    : partner.smtpEmail!
-
-  await transporter.sendMail({ from, to, subject, html })
-}
-
-function usePartnerSmtp(partner?: PartnerSmtp | null): boolean {
-  return !!(
-    partner &&
-    !partner.useDefaultSmtp &&
-    partner.smtpHost &&
-    partner.smtpEmail &&
-    partner.smtpPassword
-  )
-}
-
 export async function sendEmail(
   to: string,
   subject: string,
@@ -122,13 +85,8 @@ export async function sendEmail(
   partner?: PartnerSmtp | null
 ): Promise<boolean> {
   try {
-    if (usePartnerSmtp(partner)) {
-      await sendViaPartnerSmtp(partner!, to, subject, html)
-    } else {
-      // Use partner name as sender name if available
-      const partnerSenderName = partner?.name || undefined
-      await sendViaBrevo(to, subject, html, undefined, partnerSenderName)
-    }
+    const partnerSenderName = partner?.name || undefined
+    await sendViaBrevo(to, subject, html, undefined, partnerSenderName)
 
     await prisma.emailLog.create({
       data: { userId, type, subject, success: true },
@@ -144,15 +102,6 @@ export async function sendEmail(
     }
     console.error(`[EMAIL] Failed to send ${type} to ${to}:`, err?.message)
     return false
-  }
-}
-
-export async function sendTestEmail(partner: PartnerSmtp, to: string): Promise<{ success: boolean; error?: string }> {
-  try {
-    await sendViaPartnerSmtp(partner, to, "Test de configuration SMTP", "<p>Si vous recevez cet email, la configuration SMTP fonctionne correctement.</p>")
-    return { success: true }
-  } catch (err: any) {
-    return { success: false, error: err?.message || "Erreur inconnue" }
   }
 }
 

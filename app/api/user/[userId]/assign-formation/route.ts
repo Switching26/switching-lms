@@ -37,7 +37,7 @@ export async function POST(req: NextRequest, { params }: { params: { userId: str
     where: { userId_formationId: { userId: params.userId, formationId } },
   })
   if (existing) {
-    return NextResponse.json({ error: "Déjà inscrit à cette formation" }, { status: 400 })
+    return NextResponse.json({ error: "Déjà inscrit à cette formation — aucun nouvel email n'a été envoyé" }, { status: 400 })
   }
 
   // If user has a partner, deduct a license

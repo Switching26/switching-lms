@@ -43,6 +43,20 @@ function dateInputValue(date = new Date()) {
 
 type StatusFilter = "all" | "active" | "inactive" | "archived"
 
+function isErrorFeedback(msg: string) {
+  return /erreur|échec|echec|requis|correspondent|minimum|min\.|déjà|deja|introuvable|refus|licences|sélectionnez/i.test(msg)
+}
+
+function FeedbackBanner({ message }: { message: string }) {
+  if (!message) return null
+  const isError = isErrorFeedback(message)
+  return (
+    <div className={`text-sm rounded-lg px-4 py-3 ${isError ? "bg-red-50 text-red-600 border border-red-100" : "bg-green-50 text-green-700 border border-green-100"}`}>
+      {message}
+    </div>
+  )
+}
+
 export default function UsersTable({
   users: initialUsers,
   partners,
@@ -59,6 +73,7 @@ export default function UsersTable({
   const [statusFilter, setStatusFilter] = useState<StatusFilter>("active")
   const [orgFilter, setOrgFilter] = useState<"all" | "internal" | "partner">("all")
   const [message, setMessage] = useState("")
+  const [modalMessage, setModalMessage] = useState("")
   const [search, setSearch] = useState("")
 
   // Modal states
@@ -162,12 +177,37 @@ export default function UsersTable({
     setTimeout(() => setMessage(""), 3000)
   }
 
+  const modalFlash = (msg: string) => {
+    setModalMessage(msg)
+  }
+
+  const closeModalAfterFeedback = (close: () => void) => {
+    window.setTimeout(() => {
+      setModalMessage("")
+      close()
+    }, 1100)
+  }
+
   const updateUserInList = (updated: User) => {
     setUsers((prev) => prev.map((u) => u.id === updated.id ? updated : u))
   }
 
   const removeUserFromList = (id: string) => {
     setUsers((prev) => prev.filter((u) => u.id !== id))
+  }
+
+  const resetCreateForm = () => {
+    setNewFirstName("")
+    setNewLastName("")
+    setNewEmail("")
+    setNewRole("LEARNER")
+    setNewPartnerId("")
+    setNewReference("")
+    setNewPassword(generatePassword())
+    setNewAssignFormation(false)
+    setNewFormationId("")
+    setNewStartsAt(dateInputValue())
+    setNewExpiresAt("")
   }
 
   // ─── IMPERSONATE ───
@@ -207,7 +247,7 @@ export default function UsersTable({
   // ─── CREATE USER ───
   const handleCreate = async () => {
     if (!newFirstName.trim() || !newLastName.trim() || !newEmail.trim()) {
-      flash("Tous les champs sont requis")
+      modalFlash("Tous les champs sont requis")
       return
     }
     setCreating(true)
@@ -227,7 +267,7 @@ export default function UsersTable({
       })
       if (!res.ok) {
         const data = await res.json()
-        flash(data.error || "Erreur lors de la création")
+        modalFlash(data.error || "Erreur lors de la création")
         return
       }
       const created = await res.json()
@@ -242,42 +282,45 @@ export default function UsersTable({
           })
           if (!assignRes.ok) {
             const data = await assignRes.json()
-            flash(`Utilisateur créé, mais formation non attribuée : ${data.error || "erreur inconnue"}`)
+            modalFlash(`Utilisateur créé, mais formation non attribuée : ${data.error || "erreur inconnue"}`)
+            closeModalAfterFeedback(() => {
+              setCreateOpen(false)
+              resetCreateForm()
+              router.refresh()
+            })
             return
           }
           const assignData = await assignRes.json()
           formationEmailSent = assignData.emailSent !== false
         } catch {
-          flash("Utilisateur créé, mais formation non attribuée : erreur réseau")
+          modalFlash("Utilisateur créé, mais formation non attribuée : erreur réseau")
+          closeModalAfterFeedback(() => {
+            setCreateOpen(false)
+            resetCreateForm()
+            router.refresh()
+          })
           return
         }
       }
       if (created.activationEmailSent === false) {
-        flash("Erreur email : utilisateur créé, mais invitation non envoyée")
+        modalFlash("Erreur email : utilisateur créé, mais invitation non envoyée")
       } else if (!formationEmailSent) {
-        flash("Erreur email : utilisateur créé, mais email formation non envoyé")
+        modalFlash("Erreur email : utilisateur créé, mais email formation non envoyé")
       } else {
-        flash("Utilisateur créé avec succès — invitation envoyée")
+        modalFlash("Utilisateur créé avec succès — invitation envoyée")
       }
-      setCreateOpen(false)
-      setNewFirstName("")
-      setNewLastName("")
-      setNewEmail("")
-      setNewRole("LEARNER")
-      setNewPartnerId("")
-      setNewReference("")
-      setNewPassword(generatePassword())
-      setNewAssignFormation(false)
-      setNewFormationId("")
-      setNewStartsAt(dateInputValue())
-      setNewExpiresAt("")
-      router.refresh()
-    } catch { flash("Erreur réseau") }
+      closeModalAfterFeedback(() => {
+        setCreateOpen(false)
+        resetCreateForm()
+        router.refresh()
+      })
+    } catch { modalFlash("Erreur réseau") }
     finally { setCreating(false) }
   }
 
   // ─── OPEN EDIT MODAL ───
   const openEdit = (u: User) => {
+    setModalMessage("")
     setEditModal(u)
     setEditFirstName(u.firstName)
     setEditLastName(u.lastName)
@@ -295,7 +338,7 @@ export default function UsersTable({
   const handleEdit = async () => {
     if (!editModal) return
     if (!editFirstName.trim() || !editLastName.trim() || !editEmail.trim()) {
-      flash("Tous les champs sont requis")
+      modalFlash("Tous les champs sont requis")
       return
     }
     setEditSaving(true)
@@ -322,20 +365,20 @@ export default function UsersTable({
       if (res.ok) {
         const updated = await res.json()
         updateUserInList(updated)
-        flash("Utilisateur modifié")
-        setEditModal(null)
+        modalFlash("Utilisateur modifié")
+        closeModalAfterFeedback(() => setEditModal(null))
       } else {
         const data = await res.json()
-        flash("Erreur : " + (data.error || "Échec"))
+        modalFlash("Erreur : " + (data.error || "Échec"))
       }
-    } catch { flash("Erreur réseau") }
+    } catch { modalFlash("Erreur réseau") }
     finally { setEditSaving(false) }
   }
 
   // ─── CHANGE PASSWORD ───
   const handlePassword = async () => {
-    if (!pw || pw.length < 4) { flash("Le mot de passe doit faire au moins 4 caractères"); return }
-    if (pw !== pwConfirm) { flash("Les mots de passe ne correspondent pas"); return }
+    if (!pw || pw.length < 4) { modalFlash("Le mot de passe doit faire au moins 4 caractères"); return }
+    if (pw !== pwConfirm) { modalFlash("Les mots de passe ne correspondent pas"); return }
     setPwSaving(true)
     try {
       const res = await fetch(`/api/user/${passwordModal}/password`, {
@@ -344,21 +387,23 @@ export default function UsersTable({
         body: JSON.stringify({ newPassword: pw }),
       })
       if (res.ok) {
-        flash("Mot de passe mis à jour")
-        setPasswordModal(null)
-        setPw("")
-        setPwConfirm("")
+        modalFlash("Mot de passe mis à jour")
+        closeModalAfterFeedback(() => {
+          setPasswordModal(null)
+          setPw("")
+          setPwConfirm("")
+        })
       } else {
         const data = await res.json()
-        flash(data.error || "Erreur")
+        modalFlash(data.error || "Erreur")
       }
-    } catch { flash("Erreur réseau") }
+    } catch { modalFlash("Erreur réseau") }
     finally { setPwSaving(false) }
   }
 
   // ─── ASSIGN FORMATION ───
   const handleAssign = async () => {
-    if (!assignFormationId) { flash("Sélectionnez une formation"); return }
+    if (!assignFormationId) { modalFlash("Sélectionnez une formation"); return }
     setAssigning(true)
     try {
       const res = await fetch(`/api/user/${assignModal}/assign-formation`, {
@@ -368,17 +413,19 @@ export default function UsersTable({
       })
       if (res.ok) {
         const data = await res.json()
-        flash(data.emailSent === false ? "Erreur email : formation attribuée, mais email non envoyé" : "Formation attribuée")
-        setAssignModal(null)
-        setAssignFormationId("")
-        setAssignStarts(dateInputValue())
-        setAssignExpires("")
-        router.refresh()
+        modalFlash(data.emailSent === false ? "Erreur email : formation attribuée, mais email non envoyé" : "Formation attribuée")
+        closeModalAfterFeedback(() => {
+          setAssignModal(null)
+          setAssignFormationId("")
+          setAssignStarts(dateInputValue())
+          setAssignExpires("")
+          router.refresh()
+        })
       } else {
         const data = await res.json()
-        flash(data.error || "Erreur")
+        modalFlash(data.error || "Erreur")
       }
-    } catch { flash("Erreur réseau") }
+    } catch { modalFlash("Erreur réseau") }
     finally { setAssigning(false) }
   }
 
@@ -487,11 +534,7 @@ export default function UsersTable({
 
   return (
     <>
-      {message && (
-        <div className={`text-sm rounded-lg px-4 py-3 mb-4 ${message.includes("Erreur") || message.includes("correspondent") || message.includes("Min") ? "bg-red-50 text-red-600" : "bg-green-50 text-green-600"}`}>
-          {message}
-        </div>
-      )}
+      {message && <div className="mb-4"><FeedbackBanner message={message} /></div>}
 
       {/* ═══ STATUS FILTERS ═══ */}
       <div className="space-y-3 mb-4">
@@ -539,7 +582,7 @@ export default function UsersTable({
             style={{ fontSize: 16 }}
           />
           <button
-            onClick={() => setCreateOpen(true)}
+            onClick={() => { setModalMessage(""); setCreateOpen(true) }}
             className="px-4 py-2 bg-black text-white text-sm rounded-lg hover:opacity-90 transition-opacity whitespace-nowrap shrink-0"
             style={{ minHeight: 44 }}
           >
@@ -613,12 +656,12 @@ export default function UsersTable({
                         <button onClick={() => setOpenMenuId(null)} className="text-gray-400 text-lg">&times;</button>
                       </div>
                       <button onClick={() => { setOpenMenuId(null); openEdit(u) }} className="w-full text-left px-4 py-3 text-sm hover:bg-gray-50 transition-colors">Modifier</button>
-                      <button onClick={() => { setOpenMenuId(null); setPasswordModal(u.id); setPw(""); setPwConfirm("") }} className="w-full text-left px-4 py-3 text-sm hover:bg-gray-50 transition-colors">Changer mot de passe</button>
+                      <button onClick={() => { setOpenMenuId(null); setModalMessage(""); setPasswordModal(u.id); setPw(""); setPwConfirm("") }} className="w-full text-left px-4 py-3 text-sm hover:bg-gray-50 transition-colors">Changer mot de passe</button>
                       {canViewSpace(u) && (
                         <button onClick={() => { setOpenMenuId(null); handleImpersonate(u.id) }} className="w-full text-left px-4 py-3 text-sm hover:bg-gray-50 transition-colors">Voir l&apos;espace</button>
                       )}
                       <button onClick={() => { setOpenMenuId(null); openProgress(u.id) }} className="w-full text-left px-4 py-3 text-sm hover:bg-gray-50 transition-colors">Suivi</button>
-                      <button onClick={() => { setOpenMenuId(null); setAssignModal(u.id); setAssignFormationId(""); setAssignStarts(dateInputValue()); setAssignExpires("") }} className="w-full text-left px-4 py-3 text-sm hover:bg-gray-50 transition-colors">Attribuer formation</button>
+                      <button onClick={() => { setOpenMenuId(null); setModalMessage(""); setAssignModal(u.id); setAssignFormationId(""); setAssignStarts(dateInputValue()); setAssignExpires("") }} className="w-full text-left px-4 py-3 text-sm hover:bg-gray-50 transition-colors">Attribuer formation</button>
                       {!u.isActive && !u.archivedAt && u.role !== "SUPER_ADMIN" && (
                         <button onClick={() => { setOpenMenuId(null); handleResendActivation(u) }} disabled={resending === u.id} className="w-full text-left px-4 py-3 text-sm hover:bg-gray-50 transition-colors disabled:opacity-50">{resending === u.id ? "Envoi..." : "Renvoyer activation"}</button>
                       )}
@@ -733,12 +776,12 @@ export default function UsersTable({
                       {openMenuId === u.id && (
                         <div style={{ position: "absolute", right: 0, top: "100%", marginTop: 4, background: "white", border: "0.5px solid #E5E5E5", borderRadius: 8, boxShadow: "0 4px 12px rgba(0,0,0,0.1)", zIndex: 50, minWidth: 200, overflow: "hidden" }}>
                           <button onClick={() => { setOpenMenuId(null); openEdit(u) }} className="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors">Modifier</button>
-                          <button onClick={() => { setOpenMenuId(null); setPasswordModal(u.id); setPw(""); setPwConfirm("") }} className="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors">Changer mot de passe</button>
+                          <button onClick={() => { setOpenMenuId(null); setModalMessage(""); setPasswordModal(u.id); setPw(""); setPwConfirm("") }} className="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors">Changer mot de passe</button>
                           {canViewSpace(u) && (
                             <button onClick={() => { setOpenMenuId(null); handleImpersonate(u.id) }} className="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors">Voir l&apos;espace</button>
                           )}
                           <button onClick={() => { setOpenMenuId(null); openProgress(u.id) }} className="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors">Suivi</button>
-                          <button onClick={() => { setOpenMenuId(null); setAssignModal(u.id); setAssignFormationId(""); setAssignStarts(dateInputValue()); setAssignExpires("") }} className="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors">Attribuer formation</button>
+                          <button onClick={() => { setOpenMenuId(null); setModalMessage(""); setAssignModal(u.id); setAssignFormationId(""); setAssignStarts(dateInputValue()); setAssignExpires("") }} className="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors">Attribuer formation</button>
                           {!u.isActive && !u.archivedAt && u.role !== "SUPER_ADMIN" && (
                             <button onClick={() => { setOpenMenuId(null); handleResendActivation(u) }} disabled={resending === u.id} className="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors disabled:opacity-50">{resending === u.id ? "Envoi..." : "Renvoyer activation"}</button>
                           )}
@@ -787,9 +830,11 @@ export default function UsersTable({
       </Modal>
 
       {/* ═══ EDIT USER MODAL ═══ */}
-      <Modal open={!!editModal} onClose={() => setEditModal(null)} title="Modifier l'utilisateur">
+      <Modal open={!!editModal} onClose={() => { setEditModal(null); setModalMessage("") }} title="Modifier l'utilisateur">
         {editModal && (
           <div className="space-y-5">
+            <FeedbackBanner message={modalMessage} />
+
             {/* Personal info */}
             <div>
               <h3 className="text-sm font-semibold text-gray-500 mb-3">Informations personnelles</h3>
@@ -977,8 +1022,10 @@ export default function UsersTable({
       </Modal>
 
       {/* ═══ CREATE USER MODAL ═══ */}
-      <Modal open={createOpen} onClose={() => setCreateOpen(false)} title="Nouvel utilisateur">
+      <Modal open={createOpen} onClose={() => { setCreateOpen(false); setModalMessage("") }} title="Nouvel utilisateur">
         <div className="space-y-4">
+          <FeedbackBanner message={modalMessage} />
+
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium mb-1">Prénom</label>
@@ -1069,18 +1116,23 @@ export default function UsersTable({
       </Modal>
 
       {/* ═══ PASSWORD MODAL ═══ */}
-      <Modal open={!!passwordModal} onClose={() => setPasswordModal(null)} title="Modifier le mot de passe">
-        <PasswordModalContent
-          pw={pw} setPw={setPw}
-          pwConfirm={pwConfirm} setPwConfirm={setPwConfirm}
-          pwSaving={pwSaving}
-          onSave={handlePassword}
-        />
+      <Modal open={!!passwordModal} onClose={() => { setPasswordModal(null); setModalMessage("") }} title="Modifier le mot de passe">
+        <div className="space-y-4">
+          <FeedbackBanner message={modalMessage} />
+          <PasswordModalContent
+            pw={pw} setPw={setPw}
+            pwConfirm={pwConfirm} setPwConfirm={setPwConfirm}
+            pwSaving={pwSaving}
+            onSave={handlePassword}
+          />
+        </div>
       </Modal>
 
       {/* ═══ ASSIGN FORMATION MODAL ═══ */}
-      <Modal open={!!assignModal} onClose={() => setAssignModal(null)} title="Attribuer une formation">
+      <Modal open={!!assignModal} onClose={() => { setAssignModal(null); setModalMessage("") }} title="Attribuer une formation">
         <div className="space-y-4">
+          <FeedbackBanner message={modalMessage} />
+
           <div>
             <label className="block text-sm font-medium mb-1">Formation</label>
             <select value={assignFormationId} onChange={(e) => setAssignFormationId(e.target.value)} className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-black bg-white">

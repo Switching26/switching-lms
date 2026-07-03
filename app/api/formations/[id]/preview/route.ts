@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
+import { sortChaptersByLearningOrder } from "@/lib/data/chapter-order"
 
 export const dynamic = "force-dynamic"
 
@@ -17,6 +18,7 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
       chapters: {
         orderBy: { order: "asc" },
         include: {
+          section: true,
           attachments: true,
           exercises: {
             orderBy: { order: "asc" },
@@ -35,5 +37,8 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
 
   if (!formation) return NextResponse.json({ error: "Formation introuvable" }, { status: 404 })
 
-  return NextResponse.json(formation)
+  return NextResponse.json({
+    ...formation,
+    chapters: sortChaptersByLearningOrder(formation.chapters, formation.sections),
+  })
 }

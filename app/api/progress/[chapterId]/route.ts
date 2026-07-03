@@ -5,6 +5,7 @@ import { sendEmail } from "@/lib/email"
 import { chapterCompletedEmail, formationCompletedEmail } from "@/lib/email-templates"
 import { resolveTemplate, replaceVariables } from "@/lib/email-template-engine"
 import { getBaseUrl } from "@/lib/get-base-url"
+import { sortChaptersByLearningOrder } from "@/lib/data/chapter-order"
 
 export async function PUT(req: NextRequest, { params }: { params: { chapterId: string } }) {
   const session = await auth()
@@ -15,7 +16,14 @@ export async function PUT(req: NextRequest, { params }: { params: { chapterId: s
 
   const chapter = await prisma.chapter.findUnique({
     where: { id: params.chapterId },
-    include: { formation: { include: { chapters: { orderBy: { order: "asc" } } } } },
+    include: {
+      formation: {
+        include: {
+          sections: { orderBy: { order: "asc" } },
+          chapters: { orderBy: { order: "asc" }, include: { section: true } },
+        },
+      },
+    },
   })
   if (!chapter) return NextResponse.json({ error: "Chapitre introuvable" }, { status: 404 })
 
@@ -47,7 +55,7 @@ export async function PUT(req: NextRequest, { params }: { params: { chapterId: s
       if (!user) return NextResponse.json(progress)
 
       const formation = chapter.formation
-      const allChapters = formation.chapters
+      const allChapters = sortChaptersByLearningOrder(formation.chapters, formation.sections)
       const allProgress = await prisma.progress.findMany({
         where: { userId, chapterId: { in: allChapters.map((c) => c.id) } },
       })

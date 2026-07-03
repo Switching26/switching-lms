@@ -1,29 +1,40 @@
 import { prisma } from "@/lib/prisma"
+import { sortChaptersByLearningOrder, withSortedFormationChapters } from "@/lib/data/chapter-order"
 
 export async function getFormations(includeDeleted = false) {
-  return prisma.formation.findMany({
+  const formations = await prisma.formation.findMany({
     where: includeDeleted ? {} : { deletedAt: null },
     include: {
-      chapters: { orderBy: { order: "asc" } },
+      sections: { orderBy: { order: "asc" } },
+      chapters: { orderBy: { order: "asc" }, include: { section: true } },
       enrollments: true,
     },
     orderBy: { createdAt: "desc" },
   })
+  return formations.map((formation) => ({
+    ...formation,
+    chapters: sortChaptersByLearningOrder(formation.chapters, formation.sections),
+  }))
 }
 
 export async function getFormationById(id: string) {
-  return prisma.formation.findUnique({
+  const formation = await prisma.formation.findUnique({
     where: { id },
     include: {
       sections: { orderBy: { order: "asc" } },
       chapters: {
         orderBy: { order: "asc" },
-        include: { attachments: true },
+        include: { attachments: true, section: true },
       },
       attachments: true,
       enrollments: { include: { user: true } },
     },
   })
+  if (!formation) return null
+  return {
+    ...formation,
+    chapters: sortChaptersByLearningOrder(formation.chapters, formation.sections),
+  }
 }
 
 export async function getFormationsCount() {
@@ -31,18 +42,22 @@ export async function getFormationsCount() {
 }
 
 export async function getLearnerEnrollments(userId: string) {
-  return prisma.enrollment.findMany({
+  const enrollments = await prisma.enrollment.findMany({
     where: { userId, formation: { deletedAt: null } },
     include: {
       formation: {
         include: {
           sections: { orderBy: { order: "asc" } },
-          chapters: { orderBy: { order: "asc" }, select: { id: true, title: true } },
+          chapters: {
+            orderBy: { order: "asc" },
+            select: { id: true, title: true, order: true, sectionId: true, section: true },
+          },
         },
       },
     },
     orderBy: { startedAt: "asc" },
   })
+  return enrollments.map(withSortedFormationChapters)
 }
 
 export async function getLearnerFormation(userId: string) {
@@ -55,6 +70,7 @@ export async function getLearnerFormation(userId: string) {
           chapters: {
             orderBy: { order: "asc" },
             include: {
+              section: true,
               attachments: true,
               exercises: {
                 orderBy: { order: "asc" },
@@ -72,7 +88,7 @@ export async function getLearnerFormation(userId: string) {
       },
     },
   })
-  return enrollment
+  return enrollment ? withSortedFormationChapters(enrollment) : null
 }
 
 /**
@@ -90,6 +106,7 @@ export async function getLearnerFormationById(userId: string, formationId?: stri
             chapters: {
               orderBy: { order: "asc" },
               include: {
+                section: true,
                 attachments: true,
                 exercises: {
                   orderBy: { order: "asc" },
@@ -104,7 +121,7 @@ export async function getLearnerFormationById(userId: string, formationId?: stri
         },
       },
     })
-    if (found) return found
+    if (found) return withSortedFormationChapters(found)
   }
   return getLearnerFormation(userId)
 }

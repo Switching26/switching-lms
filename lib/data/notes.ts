@@ -1,10 +1,25 @@
 import { prisma } from "@/lib/prisma"
-
 export async function getUserNotes(userId: string) {
-  return prisma.note.findMany({
+  const notes = await prisma.note.findMany({
     where: { userId },
-    include: { chapter: { include: { formation: true } } },
-    orderBy: { chapter: { order: "asc" } },
+    include: {
+      chapter: {
+        include: {
+          section: true,
+          formation: { include: { sections: { orderBy: { order: "asc" } } } },
+        },
+      },
+    },
+  })
+  return notes.slice().sort((a, b) => {
+    if (a.chapter.formation.title !== b.chapter.formation.title) {
+      return a.chapter.formation.title.localeCompare(b.chapter.formation.title, "fr")
+    }
+    const sectionA = a.chapter.sectionId ? a.chapter.section?.order ?? Number.MAX_SAFE_INTEGER : -1
+    const sectionB = b.chapter.sectionId ? b.chapter.section?.order ?? Number.MAX_SAFE_INTEGER : -1
+    if (sectionA !== sectionB) return sectionA - sectionB
+    if (a.chapter.order !== b.chapter.order) return a.chapter.order - b.chapter.order
+    return a.chapter.title.localeCompare(b.chapter.title, "fr")
   })
 }
 

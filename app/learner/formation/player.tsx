@@ -106,6 +106,7 @@ export default function FormationPlayer({
   userId: string
   preview?: boolean
 }) {
+  const contentRef = useRef<HTMLDivElement>(null)
   const sortedSections = useMemo(
     () => (sections || []).slice().sort((a, b) => a.order - b.order),
     [sections]
@@ -182,10 +183,23 @@ export default function FormationPlayer({
   const toggleSection = (id: string) =>
     setExpandedSections((prev) => ({ ...prev, [id]: prev[id] === false ? true : false }))
 
+  const handleSelectChapter = useCallback((chapter: Chapter) => {
+    const nextIndex = chapters.findIndex((c) => c.id === chapter.id)
+    if (nextIndex < 0) return
+    setActiveIndex(nextIndex)
+
+    if (window.matchMedia("(max-width: 1023px)").matches) {
+      setShowChapters(false)
+      window.requestAnimationFrame(() => {
+        contentRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })
+      })
+    }
+  }, [chapters])
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-6 animate-fade-in-up">
       {/* Main content */}
-      <div className="space-y-5 min-w-0">
+      <div ref={contentRef} className="space-y-5 min-w-0 scroll-mt-20">
         {/* Video */}
         {active?.videoUrl ? (
           preview ? (
@@ -207,82 +221,28 @@ export default function FormationPlayer({
             />
           )
         ) : active?.exercises?.length > 0 ? (
-          // Carte d'intro quiz interactive (style Rise Up) — affichée quand le chapter n'a pas de vidéo mais a un exercice
           (() => {
             const ex = active.exercises[0]
             const questionsCount = ex.questions?.length || 0
             return (
-              <div className="bg-white rounded-2xl border border-border shadow-sm p-8">
-                <div className="flex flex-col sm:flex-row items-center gap-6 sm:gap-8">
-                  {/* Illustration */}
-                  <div className="flex-shrink-0">
-                    <svg viewBox="0 0 200 200" className="w-32 h-32 sm:w-40 sm:h-40" fill="none">
-                      <rect x="40" y="30" width="100" height="140" rx="6" fill="#fff" stroke="#1f3a8a" strokeWidth="3"/>
-                      <rect x="76" y="22" width="28" height="14" rx="3" fill="#1f3a8a"/>
-                      <rect x="56" y="55" width="12" height="12" rx="2" fill="none" stroke="#1f3a8a" strokeWidth="2"/>
-                      <rect x="56" y="80" width="12" height="12" rx="2" fill="none" stroke="#1f3a8a" strokeWidth="2"/>
-                      <path d="M58 84 L62 88 L67 82" stroke="#1f3a8a" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
-                      <rect x="56" y="105" width="12" height="12" rx="2" fill="none" stroke="#1f3a8a" strokeWidth="2"/>
-                      <rect x="56" y="130" width="12" height="12" rx="2" fill="none" stroke="#1f3a8a" strokeWidth="2"/>
-                      <line x1="76" y1="61" x2="125" y2="61" stroke="#1f3a8a" strokeWidth="2" strokeLinecap="round"/>
-                      <line x1="76" y1="86" x2="125" y2="86" stroke="#1f3a8a" strokeWidth="2" strokeLinecap="round"/>
-                      <line x1="76" y1="111" x2="125" y2="111" stroke="#1f3a8a" strokeWidth="2" strokeLinecap="round"/>
-                      <line x1="76" y1="136" x2="125" y2="136" stroke="#1f3a8a" strokeWidth="2" strokeLinecap="round"/>
-                      {/* Crayon */}
-                      <g transform="rotate(35 150 120)">
-                        <rect x="142" y="90" width="14" height="50" rx="3" fill="#4f46e5"/>
-                        <polygon points="142,90 156,90 149,80" fill="#fbbf24"/>
-                        <rect x="142" y="135" width="14" height="6" fill="#1f3a8a"/>
-                      </g>
+              <div className="bg-white rounded-2xl border border-border shadow-sm p-5 sm:p-6">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+                  <div className="w-12 h-12 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center flex-shrink-0">
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                   </div>
-                  {/* Infos */}
-                  <div className="flex-1 w-full">
-                    <h2 className="font-display text-xl sm:text-2xl font-semibold text-primary mb-4 text-center sm:text-left">
-                      Vous allez commencer un quiz
+                  <div className="min-w-0 flex-1">
+                    <p className="text-[11px] font-semibold text-warm-400 uppercase tracking-wider mb-1">
+                      Quiz · {questionsCount} question{questionsCount > 1 ? "s" : ""} · essais illimités
+                    </p>
+                    <h2 className="font-display text-lg sm:text-xl font-semibold text-primary">
+                      Répondez aux questions ci-dessous
                     </h2>
-                    <div className="bg-surface-subtle rounded-xl p-4 space-y-2.5 text-sm">
-                      <div className="flex items-center justify-between gap-4">
-                        <span className="flex items-center gap-2 text-warm-600">
-                          <svg className="w-4 h-4 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                          Questions
-                        </span>
-                        <span className="font-semibold text-primary tabular-nums">{questionsCount}</span>
-                      </div>
-                      <div className="flex items-center justify-between gap-4">
-                        <span className="flex items-center gap-2 text-warm-600">
-                          <svg className="w-4 h-4 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                          Temps
-                        </span>
-                        <span className="font-semibold text-primary">Aucune limite</span>
-                      </div>
-                      <div className="flex items-center justify-between gap-4">
-                        <span className="flex items-center gap-2 text-warm-600">
-                          <svg className="w-4 h-4 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.562.562 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" /></svg>
-                          Score à atteindre
-                        </span>
-                        <span className="font-semibold text-primary">100%</span>
-                      </div>
-                      <div className="flex items-center justify-between gap-4">
-                        <span className="flex items-center gap-2 text-warm-600">
-                          <svg className="w-4 h-4 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" /></svg>
-                          Essais maximum
-                        </span>
-                        <span className="font-semibold text-primary">Illimité</span>
-                      </div>
-                    </div>
+                    <p className="text-sm text-warm-500 mt-1">
+                      Les réponses sont validées en bas du questionnaire.
+                    </p>
                   </div>
-                </div>
-                <div className="border-t border-border mt-6 pt-6 flex justify-center">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      document.getElementById(`exercise-${ex.id}`)?.scrollIntoView({ behavior: "smooth", block: "start" })
-                    }}
-                    className="bg-brand-600 hover:bg-brand-700 text-white font-semibold uppercase tracking-wider text-sm px-8 py-3 rounded-full transition-colors shadow-md"
-                  >
-                    Démarrer le quiz
-                  </button>
                 </div>
               </div>
             )
@@ -508,7 +468,7 @@ export default function FormationPlayer({
                 kind={getChapterKind(ch)}
                 isActive={chapters[activeIndex]?.id === ch.id}
                 completed={!!completedMap[ch.id]}
-                onClick={() => setActiveIndex(chapters.indexOf(ch))}
+                onClick={() => handleSelectChapter(ch)}
               />
             ))}
 
@@ -551,7 +511,7 @@ export default function FormationPlayer({
                       kind={getChapterKind(ch)}
                       isActive={chapters[activeIndex]?.id === ch.id}
                       completed={!!completedMap[ch.id]}
-                      onClick={() => setActiveIndex(chapters.indexOf(ch))}
+                      onClick={() => handleSelectChapter(ch)}
                     />
                   ))}
                 </div>

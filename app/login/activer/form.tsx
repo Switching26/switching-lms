@@ -83,7 +83,7 @@ function ResendForm({ brandName, brandColor, partnerParam, partner }: {
             </div>
             <Link
               href={`/login${partnerParam}`}
-              className="block w-full py-2.5 rounded-lg text-sm font-medium text-white text-center transition-opacity"
+              className="flex min-h-[44px] w-full items-center justify-center py-2.5 rounded-lg text-sm font-medium text-white text-center transition-opacity"
               style={{ backgroundColor: brandColor }}
             >
               Retour à la connexion
@@ -101,14 +101,14 @@ function ResendForm({ brandName, brandColor, partnerParam, partner }: {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="w-full px-4 py-2.5 rounded-lg text-sm border border-border bg-[#FAFAFA] outline-none focus:border-primary transition-colors"
+                className="w-full min-h-[44px] px-4 py-2.5 rounded-lg text-base sm:text-sm border border-border bg-[#FAFAFA] outline-none focus:border-primary transition-colors"
                 placeholder="votre@email.com"
               />
             </div>
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-2.5 rounded-lg text-sm font-medium text-white transition-opacity disabled:opacity-50"
+              className="w-full min-h-[44px] py-2.5 rounded-lg text-sm font-medium text-white transition-opacity disabled:opacity-50"
               style={{ backgroundColor: brandColor }}
             >
               {loading ? "Envoi..." : "Recevoir le lien d'activation"}
@@ -211,11 +211,11 @@ function ActivationForm({ token, brandName, brandColor, partnerParam, partner }:
             </div>
             <Link
               href={`/login/activer${partnerParam}`}
-              className="block w-full py-2.5 rounded-lg text-sm font-medium text-center bg-gray-100 hover:bg-gray-200 transition-colors"
+              className="flex min-h-[44px] w-full items-center justify-center py-2.5 rounded-lg text-sm font-medium text-center bg-gray-100 hover:bg-gray-200 transition-colors"
             >
               Demander un nouveau lien d'activation
             </Link>
-            <Link href={`/login${partnerParam}`} className="block text-sm text-gray-400 hover:underline text-center">
+            <Link href={`/login${partnerParam}`} className="flex min-h-[44px] items-center justify-center text-sm text-gray-400 hover:underline text-center">
               Retour à la connexion
             </Link>
           </div>
@@ -239,7 +239,7 @@ function ActivationForm({ token, brandName, brandColor, partnerParam, partner }:
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 minLength={MIN_PASSWORD_LENGTH}
-                className="w-full px-4 py-2.5 rounded-lg text-sm border border-border bg-[#FAFAFA] outline-none focus:border-primary transition-colors"
+                className="w-full min-h-[44px] px-4 py-2.5 rounded-lg text-base sm:text-sm border border-border bg-[#FAFAFA] outline-none focus:border-primary transition-colors"
                 placeholder={PASSWORD_REQUIREMENT_LABEL}
               />
             </div>
@@ -250,14 +250,14 @@ function ActivationForm({ token, brandName, brandColor, partnerParam, partner }:
                 value={confirm}
                 onChange={(e) => setConfirm(e.target.value)}
                 required
-                className="w-full px-4 py-2.5 rounded-lg text-sm border border-border bg-[#FAFAFA] outline-none focus:border-primary transition-colors"
+                className="w-full min-h-[44px] px-4 py-2.5 rounded-lg text-base sm:text-sm border border-border bg-[#FAFAFA] outline-none focus:border-primary transition-colors"
                 placeholder="••••••••"
               />
             </div>
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-2.5 rounded-lg text-sm font-medium text-white transition-opacity disabled:opacity-50"
+              className="w-full min-h-[44px] py-2.5 rounded-lg text-sm font-medium text-white transition-opacity disabled:opacity-50"
               style={{ backgroundColor: brandColor }}
             >
               {loading ? "Activation..." : "Activer mon compte"}
@@ -272,7 +272,7 @@ function ActivationForm({ token, brandName, brandColor, partnerParam, partner }:
             </div>
             <Link
               href={`/login${partnerParam}`}
-              className="block w-full py-2.5 rounded-lg text-sm font-medium text-white text-center transition-opacity"
+              className="flex min-h-[44px] w-full items-center justify-center py-2.5 rounded-lg text-sm font-medium text-white text-center transition-opacity"
               style={{ backgroundColor: brandColor }}
             >
               Se connecter

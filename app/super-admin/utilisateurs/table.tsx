@@ -86,6 +86,7 @@ export default function UsersTable({
   const [archiveModal, setArchiveModal] = useState<User | null>(null)
   const [deleteModal, setDeleteModal] = useState<User | null>(null)
   const [deactivateModal, setDeactivateModal] = useState<User | null>(null)
+  const [resetModal, setResetModal] = useState<User | null>(null)
 
   // Create form
   const [newFirstName, setNewFirstName] = useState("")
@@ -226,6 +227,35 @@ export default function UsersTable({
 
   // ─── RESEND ACTIVATION ───
   const [resending, setResending] = useState<string | null>(null)
+  const [resetSending, setResetSending] = useState(false)
+
+  const openResetModal = (user: User) => {
+    setModalMessage("")
+    setResetModal(user)
+  }
+
+  const handleSendPasswordReset = async () => {
+    if (!resetModal) return
+    setResetSending(true)
+    try {
+      const res = await fetch("/api/auth/forgot-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: resetModal.email }),
+      })
+      if (res.ok) {
+        modalFlash("Mail de réinitialisation envoyé")
+        closeModalAfterFeedback(() => setResetModal(null))
+      } else {
+        modalFlash("Erreur lors de l'envoi")
+      }
+    } catch {
+      modalFlash("Erreur réseau")
+    } finally {
+      setResetSending(false)
+    }
+  }
+
   const handleResendActivation = async (user: User) => {
     setResending(user.id)
     try {
@@ -657,6 +687,9 @@ export default function UsersTable({
                       </div>
                       <button onClick={() => { setOpenMenuId(null); openEdit(u) }} className="w-full text-left px-4 py-3 text-sm hover:bg-gray-50 transition-colors">Modifier</button>
                       <button onClick={() => { setOpenMenuId(null); setModalMessage(""); setPasswordModal(u.id); setPw(""); setPwConfirm("") }} className="w-full text-left px-4 py-3 text-sm hover:bg-gray-50 transition-colors">Changer mot de passe</button>
+                      {u.isActive && !u.archivedAt && (
+                        <button onClick={() => { setOpenMenuId(null); openResetModal(u) }} className="w-full text-left px-4 py-3 text-sm hover:bg-gray-50 transition-colors">Envoyer réinitialisation</button>
+                      )}
                       {canViewSpace(u) && (
                         <button onClick={() => { setOpenMenuId(null); handleImpersonate(u.id) }} className="w-full text-left px-4 py-3 text-sm hover:bg-gray-50 transition-colors">Voir l&apos;espace</button>
                       )}
@@ -774,9 +807,12 @@ export default function UsersTable({
                         </svg>
                       </button>
                       {openMenuId === u.id && (
-                        <div style={{ position: "absolute", right: 0, top: "100%", marginTop: 4, background: "white", border: "0.5px solid #E5E5E5", borderRadius: 8, boxShadow: "0 4px 12px rgba(0,0,0,0.1)", zIndex: 50, minWidth: 200, overflow: "hidden" }}>
+                        <div style={{ position: "absolute", right: 0, top: "100%", marginTop: 4, background: "white", border: "0.5px solid #E5E5E5", borderRadius: 8, boxShadow: "0 4px 12px rgba(0,0,0,0.1)", zIndex: 50, minWidth: 220, overflow: "hidden" }}>
                           <button onClick={() => { setOpenMenuId(null); openEdit(u) }} className="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors">Modifier</button>
                           <button onClick={() => { setOpenMenuId(null); setModalMessage(""); setPasswordModal(u.id); setPw(""); setPwConfirm("") }} className="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors">Changer mot de passe</button>
+                          {u.isActive && !u.archivedAt && (
+                            <button onClick={() => { setOpenMenuId(null); openResetModal(u) }} className="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors">Envoyer réinitialisation</button>
+                          )}
                           {canViewSpace(u) && (
                             <button onClick={() => { setOpenMenuId(null); handleImpersonate(u.id) }} className="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors">Voir l&apos;espace</button>
                           )}
@@ -824,6 +860,36 @@ export default function UsersTable({
             </button>
             <button onClick={confirmDeactivate} className="flex-1 py-2.5 bg-red-600 text-white text-sm rounded-lg hover:bg-red-700 transition-colors">
               Désactiver
+            </button>
+          </div>
+        </div>
+      </Modal>
+
+      {/* ═══ PASSWORD RESET EMAIL MODAL ═══ */}
+      <Modal open={!!resetModal} onClose={() => { if (!resetSending) { setResetModal(null); setModalMessage("") } }} title="Envoyer un mail de réinitialisation ?">
+        <div className="space-y-4">
+          <FeedbackBanner message={modalMessage} />
+          <p className="text-sm text-gray-600">
+            Un email de réinitialisation du mot de passe sera envoyé à{" "}
+            <strong>{resetModal?.firstName} {resetModal?.lastName}</strong>.
+          </p>
+          <p className="text-sm text-gray-500 break-all">
+            {resetModal?.email}
+          </p>
+          <div className="flex gap-3">
+            <button
+              onClick={() => { setResetModal(null); setModalMessage("") }}
+              disabled={resetSending}
+              className="flex-1 py-2.5 bg-gray-100 text-sm rounded-lg hover:bg-gray-200 transition-colors disabled:opacity-50"
+            >
+              Annuler
+            </button>
+            <button
+              onClick={handleSendPasswordReset}
+              disabled={resetSending}
+              className="flex-1 py-2.5 bg-black text-white text-sm rounded-lg hover:opacity-90 disabled:opacity-50"
+            >
+              {resetSending ? "Envoi..." : "OK, envoyer"}
             </button>
           </div>
         </div>

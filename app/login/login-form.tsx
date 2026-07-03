@@ -156,7 +156,7 @@ export default function LoginForm() {
             <div>
               <div className="flex items-center justify-between mb-1.5">
                 <label htmlFor="password" className="block text-sm font-medium text-ink-70">Mot de passe</label>
-                <Link href={`/login/mot-de-passe-oublie${partnerSlug ? `?partner=${partnerSlug}` : ""}`} className="text-xs text-brand-600 hover:text-brand-700 font-medium">
+                <Link href={`/login/mot-de-passe-oublie${partnerSlug ? `?partner=${partnerSlug}` : ""}`} className="inline-flex min-h-[44px] items-center text-xs text-brand-600 hover:text-brand-700 font-medium">
                   Oublié ?
                 </Link>
               </div>
@@ -175,7 +175,7 @@ export default function LoginForm() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3 rounded-xl text-sm font-semibold text-white transition-all disabled:opacity-50 hover:shadow-lg"
+              className="w-full min-h-[44px] py-3 rounded-xl text-sm font-semibold text-white transition-all disabled:opacity-50 hover:shadow-lg"
               style={{ background: `linear-gradient(135deg, ${accentColor} 0%, ${accentColor}dd 100%)`, boxShadow: `0 4px 16px ${accentColor}33` }}
             >
               {loading ? "Connexion…" : "Se connecter →"}
@@ -185,7 +185,7 @@ export default function LoginForm() {
           <div className="mt-8 pt-6 border-t border-ink-10 text-center">
             <Link
               href={`/login/activer${partnerSlug ? `?partner=${partnerSlug}` : ""}`}
-              className="text-sm text-ink-50 hover:text-brand-600"
+              className="inline-flex min-h-[44px] items-center justify-center text-sm text-ink-50 hover:text-brand-600"
             >
               Première connexion&nbsp;? <span className="font-medium text-ink">Créez votre mot de passe</span>
             </Link>

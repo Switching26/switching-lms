@@ -68,7 +68,7 @@ export default function ForgotPasswordForm() {
             </div>
             <Link
               href={`/login${partnerParam}`}
-              className="block w-full py-2.5 rounded-lg text-sm font-medium text-white text-center transition-opacity"
+              className="flex min-h-[44px] w-full items-center justify-center py-2.5 rounded-lg text-sm font-medium text-white text-center transition-opacity"
               style={{ backgroundColor: brandColor }}
             >
               Retour à la connexion
@@ -86,14 +86,14 @@ export default function ForgotPasswordForm() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="w-full px-4 py-2.5 rounded-lg text-sm border border-border bg-[#FAFAFA] outline-none focus:border-primary transition-colors"
+                className="w-full min-h-[44px] px-4 py-2.5 rounded-lg text-base sm:text-sm border border-border bg-[#FAFAFA] outline-none focus:border-primary transition-colors"
                 placeholder="votre@email.com"
               />
             </div>
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-2.5 rounded-lg text-sm font-medium text-white transition-opacity disabled:opacity-50"
+              className="w-full min-h-[44px] py-2.5 rounded-lg text-sm font-medium text-white transition-opacity disabled:opacity-50"
               style={{ backgroundColor: brandColor }}
             >
               {loading ? "Envoi..." : "Recevoir le lien de réinitialisation"}
@@ -102,7 +102,7 @@ export default function ForgotPasswordForm() {
         )}
 
         <div className="mt-6 text-center">
-          <Link href={`/login${partnerParam}`} className="text-sm text-gray-400 hover:underline">
+          <Link href={`/login${partnerParam}`} className="inline-flex min-h-[44px] items-center justify-center text-sm text-gray-400 hover:underline">
             Retour à la connexion
           </Link>
         </div>

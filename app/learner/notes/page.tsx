@@ -25,10 +25,10 @@ export default async function NotesPage({ searchParams }: { searchParams: Promis
     )
   }
 
-  const chapters = enrollment.formation.chapters.map((ch: any) => ({
+  const chapters = enrollment.formation.chapters.map((ch: any, index: number) => ({
     id: ch.id,
     title: ch.title,
-    order: ch.order,
+    order: index + 1,
     note: notes.find((n) => n.chapterId === ch.id)?.content || "",
   }))
 

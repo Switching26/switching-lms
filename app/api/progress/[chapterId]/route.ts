@@ -65,6 +65,7 @@ export async function PUT(req: NextRequest, { params }: { params: { chapterId: s
         : 0
 
       const chapterIndex = allChapters.findIndex((c) => c.id === params.chapterId)
+      const displayChapterNumber = chapterIndex >= 0 ? chapterIndex + 1 : chapter.order
       const nextChapter = chapterIndex >= 0 && chapterIndex < allChapters.length - 1
         ? allChapters[chapterIndex + 1]
         : null
@@ -88,7 +89,7 @@ export async function PUT(req: NextRequest, { params }: { params: { chapterId: s
           email: user.email,
           formation_titre: formation.title,
           chapitre_titre: chapter.title,
-          chapitre_numero: String(chapter.order),
+          chapitre_numero: String(displayChapterNumber),
           prochain_chapitre: nextChapter?.title || "",
           progression: String(progressPercent),
           lien_connexion: loginUrl,
@@ -99,7 +100,7 @@ export async function PUT(req: NextRequest, { params }: { params: { chapterId: s
         }
         sendEmail(user.email, replaceVariables(chapterDynamic.subject, vars), replaceVariables(chapterDynamic.htmlContent, vars), userId, "CHAPTER_COMPLETED", partner)
       } else {
-        const chapterEmail = chapterCompletedEmail(user.firstName, chapter.title, chapter.order, progressPercent, nextChapter?.title || null, partner)
+        const chapterEmail = chapterCompletedEmail(user.firstName, chapter.title, displayChapterNumber, progressPercent, nextChapter?.title || null, partner)
         sendEmail(user.email, chapterEmail.subject, chapterEmail.html, userId, "CHAPTER_COMPLETED", partner)
       }
 

@@ -117,7 +117,7 @@ function ResendForm({ brandName, brandColor, partnerParam, partner }: {
         )}
 
         <div className="mt-6 text-center">
-          <Link href={`/login${partnerParam}`} className="text-sm text-gray-400 hover:underline">
+          <Link href={`/login${partnerParam}`} className="inline-flex min-h-[44px] items-center justify-center text-sm text-gray-400 hover:underline">
             Retour à la connexion
           </Link>
         </div>

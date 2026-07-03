@@ -5,9 +5,9 @@ import { encrypt } from "@/lib/crypto"
 
 export const dynamic = "force-dynamic"
 
-const BREVO_KEYS = ["brevo_api_key", "sender_email", "sender_name"]
-const ALL_KEYS = [...BREVO_KEYS, "vimeo_token", "storage_path", "storage_base_url"]
-const SENSITIVE_KEYS = ["brevo_api_key", "vimeo_token"]
+const GMAIL_KEYS = ["gmail_client_id", "gmail_client_secret", "gmail_refresh_token", "sender_email", "sender_name"]
+const ALL_KEYS = [...GMAIL_KEYS, "vimeo_token", "storage_path", "storage_base_url"]
+const SENSITIVE_KEYS = ["gmail_client_secret", "gmail_refresh_token", "vimeo_token"]
 
 export async function GET() {
   const session = await auth()
@@ -24,10 +24,16 @@ export async function GET() {
     config[r.key] = SENSITIVE_KEYS.includes(r.key) ? "" : r.value
   }
 
-  const hasBrevoKey = rows.some((r) => r.key === "brevo_api_key" && r.value)
+  const hasGmailClientSecret = rows.some((r) => r.key === "gmail_client_secret" && r.value)
+  const hasGmailRefreshToken = rows.some((r) => r.key === "gmail_refresh_token" && r.value)
   const hasVimeoToken = rows.some((r) => r.key === "vimeo_token" && r.value)
+  const envGmailConfigured = Boolean(
+    (process.env.GMAIL_CLIENT_ID || process.env.GMAIL_OAUTH_CLIENT_ID) &&
+    (process.env.GMAIL_CLIENT_SECRET || process.env.GMAIL_OAUTH_CLIENT_SECRET) &&
+    (process.env.GMAIL_REFRESH_TOKEN || process.env.GMAIL_OAUTH_REFRESH_TOKEN)
+  )
 
-  return NextResponse.json({ config, hasBrevoKey, hasVimeoToken })
+  return NextResponse.json({ config, hasGmailClientSecret, hasGmailRefreshToken, envGmailConfigured, hasVimeoToken })
 }
 
 export async function PUT(req: Request) {

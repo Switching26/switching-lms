@@ -12,67 +12,146 @@ export interface PartnerSmtp {
   useDefaultSmtp: boolean
 }
 
-interface BrevoConfig {
-  apiKey: string
+interface GmailConfig {
+  clientId: string
+  clientSecret: string
+  refreshToken: string
   senderEmail: string
   senderName: string
 }
 
-async function getBrevoConfig(): Promise<BrevoConfig> {
+const GMAIL_CONFIG_KEYS = [
+  "gmail_client_id",
+  "gmail_client_secret",
+  "gmail_refresh_token",
+  "sender_email",
+  "sender_name",
+]
+
+function firstValue(...values: Array<string | undefined | null>): string {
+  return values.find((value) => value && value.trim())?.trim() || ""
+}
+
+function readSecret(value: string | undefined): string {
+  if (!value) return ""
+  try {
+    return decrypt(value)
+  } catch {
+    return value
+  }
+}
+
+async function getGmailConfig(): Promise<GmailConfig> {
+  const envConfig = {
+    clientId: firstValue(process.env.GMAIL_CLIENT_ID, process.env.GMAIL_OAUTH_CLIENT_ID),
+    clientSecret: firstValue(process.env.GMAIL_CLIENT_SECRET, process.env.GMAIL_OAUTH_CLIENT_SECRET),
+    refreshToken: firstValue(process.env.GMAIL_REFRESH_TOKEN, process.env.GMAIL_OAUTH_REFRESH_TOKEN),
+    senderEmail: firstValue(process.env.GMAIL_FROM_EMAIL, process.env.SENDER_EMAIL, "contact@switchingformation.com"),
+    senderName: firstValue(process.env.GMAIL_FROM_NAME, process.env.FROM_NAME, "Switching Formation"),
+  }
+
+  if (envConfig.clientId && envConfig.clientSecret && envConfig.refreshToken) {
+    return envConfig
+  }
+
   try {
     const rows = await prisma.systemConfig.findMany({
-      where: { key: { in: ["brevo_api_key", "sender_email", "sender_name"] } },
+      where: { key: { in: GMAIL_CONFIG_KEYS } },
     })
     const cfg: Record<string, string> = {}
     for (const r of rows) cfg[r.key] = r.value
 
-    if (cfg.brevo_api_key) {
+    const dbConfig = {
+      clientId: firstValue(cfg.gmail_client_id, envConfig.clientId),
+      clientSecret: firstValue(readSecret(cfg.gmail_client_secret), envConfig.clientSecret),
+      refreshToken: firstValue(readSecret(cfg.gmail_refresh_token), envConfig.refreshToken),
+      senderEmail: firstValue(cfg.sender_email, envConfig.senderEmail),
+      senderName: firstValue(cfg.sender_name, envConfig.senderName),
+    }
+
+    if (dbConfig.clientId && dbConfig.clientSecret && dbConfig.refreshToken) {
       return {
-        apiKey: decrypt(cfg.brevo_api_key),
-        senderEmail: cfg.sender_email || "contact@switchingformation.com",
-        senderName: cfg.sender_name || "Switching Formation",
+        ...dbConfig,
+        senderEmail: dbConfig.senderEmail || "contact@switchingformation.com",
+        senderName: dbConfig.senderName || "Switching Formation",
       }
     }
   } catch {
-    // Fallback to env vars
+    // Let the explicit error below explain the missing Gmail configuration.
   }
 
-  return {
-    apiKey: process.env.BREVO_API_KEY || "",
-    senderEmail: process.env.SENDER_EMAIL || "contact@switchingformation.com",
-    senderName: process.env.FROM_NAME || "Switching Formation",
-  }
+  throw new Error("Gmail API non configuré : renseigner GMAIL_CLIENT_ID, GMAIL_CLIENT_SECRET et GMAIL_REFRESH_TOKEN")
 }
 
-async function sendViaBrevo(
+function encodeHeader(value: string): string {
+  return `=?UTF-8?B?${Buffer.from(value, "utf8").toString("base64")}?=`
+}
+
+function formatAddress(email: string, name?: string): string {
+  const cleanEmail = email.trim()
+  const cleanName = name?.trim()
+  return cleanName ? `${encodeHeader(cleanName)} <${cleanEmail}>` : cleanEmail
+}
+
+function base64Url(value: string): string {
+  return Buffer.from(value, "utf8")
+    .toString("base64")
+    .replace(/\+/g, "-")
+    .replace(/\//g, "_")
+    .replace(/=+$/, "")
+}
+
+async function getGmailAccessToken(cfg: GmailConfig): Promise<string> {
+  const response = await fetch("https://oauth2.googleapis.com/token", {
+    method: "POST",
+    headers: { "content-type": "application/x-www-form-urlencoded" },
+    body: new URLSearchParams({
+      client_id: cfg.clientId,
+      client_secret: cfg.clientSecret,
+      refresh_token: cfg.refreshToken,
+      grant_type: "refresh_token",
+    }),
+  })
+  const data = await response.json()
+  if (!response.ok || !data.access_token) {
+    throw new Error(`Gmail token error: ${data.error_description || data.error || response.status}`)
+  }
+  return data.access_token
+}
+
+async function sendViaGmailApi(
   to: string,
   subject: string,
   html: string,
   senderEmail?: string,
   senderName?: string
 ): Promise<void> {
-  const cfg = await getBrevoConfig()
-  const response = await fetch("https://api.brevo.com/v3/smtp/email", {
+  const cfg = await getGmailConfig()
+  const accessToken = await getGmailAccessToken(cfg)
+
+  const headers = [
+    `From: ${formatAddress(senderEmail || cfg.senderEmail, senderName || cfg.senderName)}`,
+    `To: ${to}`,
+    `Subject: ${encodeHeader(subject)}`,
+    "MIME-Version: 1.0",
+    "Content-Type: text/html; charset=\"UTF-8\"",
+    "Content-Transfer-Encoding: 8bit",
+  ].join("\r\n")
+
+  const response = await fetch("https://gmail.googleapis.com/gmail/v1/users/me/messages/send", {
     method: "POST",
     headers: {
-      "accept": "application/json",
-      "api-key": cfg.apiKey,
+      "authorization": `Bearer ${accessToken}`,
       "content-type": "application/json",
     },
     body: JSON.stringify({
-      sender: {
-        name: senderName || cfg.senderName,
-        email: senderEmail || cfg.senderEmail,
-      },
-      to: [{ email: to }],
-      subject,
-      htmlContent: html,
+      raw: base64Url(`${headers}\r\n\r\n${html}`),
     }),
   })
 
   if (!response.ok) {
     const error = await response.json()
-    throw new Error(`Brevo error: ${JSON.stringify(error)}`)
+    throw new Error(`Gmail API error: ${JSON.stringify(error)}`)
   }
 }
 
@@ -86,7 +165,7 @@ export async function sendEmail(
 ): Promise<boolean> {
   try {
     const partnerSenderName = partner?.name || undefined
-    await sendViaBrevo(to, subject, html, undefined, partnerSenderName)
+    await sendViaGmailApi(to, subject, html, undefined, partnerSenderName)
 
     await prisma.emailLog.create({
       data: { userId, type, subject, success: true },
@@ -107,10 +186,10 @@ export async function sendEmail(
 
 export async function sendSystemTestEmail(to: string): Promise<{ success: boolean; error?: string }> {
   try {
-    const cfg = await getBrevoConfig()
-    await sendViaBrevo(
+    const cfg = await getGmailConfig()
+    await sendViaGmailApi(
       to,
-      "Test Brevo — Switching LMS",
+      "Test Gmail API - Switching LMS",
       "<p>La configuration email fonctionne correctement.</p>",
       cfg.senderEmail,
       cfg.senderName

@@ -5,6 +5,7 @@ import { sendEmail } from "@/lib/email"
 import { formationAssignedEmail } from "@/lib/email-templates"
 import { resolveTemplate, replaceVariables } from "@/lib/email-template-engine"
 import { getBaseUrl } from "@/lib/get-base-url"
+import { hasAvailableSeat, recomputeLicensesForFormations } from "@/lib/licenses"
 
 export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
   const session = await auth()
@@ -86,6 +87,13 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
       // Check if already enrolled in this formation
       const existingEnrollment = target.enrollments.find((e) => e.formationId === body.formationId)
       if (!existingEnrollment) {
+        // Vérifier la disponibilité d'un siège avant de basculer d'inscription.
+        if (target.partnerId) {
+          const seatOk = await hasAvailableSeat(target.partnerId, body.formationId)
+          if (!seatOk) {
+            return NextResponse.json({ error: "Plus de licences disponibles" }, { status: 400 })
+          }
+        }
         // Remove existing enrollments and create new one
         await prisma.enrollment.deleteMany({ where: { userId: params.id } })
         const newEnrollment = await prisma.enrollment.create({
@@ -152,12 +160,24 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
     })
   }
 
+  // Recalculer les compteurs de licences des formations impactées (anciennes + nouvelle).
+  const affectedFormationIds = [
+    ...target.enrollments.map((e) => e.formationId),
+    ...(body.formationId ? [body.formationId] : []),
+  ]
+  await recomputeLicensesForFormations(target.partnerId, affectedFormationIds)
+
   // Re-fetch with updated enrollments
   const final = await prisma.user.findUnique({
     where: { id: params.id },
     include: { partner: true, enrollments: { include: { formation: true } } },
   })
 
+  // Ne jamais renvoyer le hash de mot de passe au client.
+  if (final) {
+    const { password, ...safe } = final as Record<string, any>
+    return NextResponse.json(safe)
+  }
   return NextResponse.json(final)
 }
 
@@ -167,7 +187,10 @@ export async function DELETE(req: Request, { params }: { params: { id: string } 
     return NextResponse.json({ error: "Accès refusé" }, { status: 403 })
   }
 
-  const target = await prisma.user.findUnique({ where: { id: params.id } })
+  const target = await prisma.user.findUnique({
+    where: { id: params.id },
+    include: { enrollments: true },
+  })
   if (!target) {
     return NextResponse.json({ error: "Utilisateur introuvable" }, { status: 404 })
   }
@@ -176,7 +199,12 @@ export async function DELETE(req: Request, { params }: { params: { id: string } 
     return NextResponse.json({ error: "Impossible de supprimer un super admin" }, { status: 400 })
   }
 
+  const removedFormationIds = target.enrollments.map((e) => e.formationId)
+
   await prisma.user.delete({ where: { id: params.id } })
+
+  // Libérer les sièges de licence occupés par cet utilisateur.
+  await recomputeLicensesForFormations(target.partnerId, removedFormationIds)
 
   return NextResponse.json({ success: true })
 }

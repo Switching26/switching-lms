@@ -76,7 +76,7 @@ export default function TopNav({
   userEmail?: string
 }) {
   const pathname = usePathname()
-  const { data: session } = useSession()
+  const { data: session, status } = useSession()
   const color = brandColor || "#1a1a2e"
   const [unreadCount, setUnreadCount] = useState(0)
   const [menuOpen, setMenuOpen] = useState(false)
@@ -87,7 +87,13 @@ export default function TopNav({
   const userName = (session?.user?.name as string | undefined) || undefined
   const userRole = (session?.user?.role as string | undefined) || undefined
   const email = userEmail || (session?.user?.email as string | undefined) || ""
-  const initials = getInitials(userName, email)
+  // Avoid an avatar-initials flash: while the session is still loading, derive
+  // initials from the server-provided email prop only (a single deliberate
+  // upgrade to name-based initials once authenticated), instead of swapping
+  // between two different computed values as the session hydrates.
+  const initials = status === "loading"
+    ? getInitials(undefined, userEmail || email)
+    : getInitials(userName, email)
   const roleLabel = getRoleLabel(userRole)
 
   // Détection du root du rôle pour les liens dynamiques
@@ -159,8 +165,8 @@ export default function TopNav({
                 <img
                   src={brandLogo}
                   alt={brand || ""}
-                  style={{ height: "34px", width: "auto", objectFit: "contain", maxWidth: "160px" }}
-                  className="transition-transform group-hover:scale-[1.02]"
+                  style={{ height: "34px", width: "auto", objectFit: "contain" }}
+                  className="transition-transform group-hover:scale-[1.02] max-w-[120px] sm:max-w-[160px]"
                 />
               ) : (
                 <span className="font-display text-lg font-semibold tracking-tight" style={{ color }}>
@@ -184,7 +190,9 @@ export default function TopNav({
                   <Link
                     key={item.href}
                     href={item.href}
-                    className={`relative flex items-center gap-1.5 px-3 py-2 rounded-lg text-[13px] font-medium transition-all duration-200 ${
+                    aria-label={item.label}
+                    title={item.label}
+                    className={`relative flex items-center gap-1.5 px-2.5 xl:px-3 py-2 rounded-lg text-[13px] font-medium transition-all duration-200 ${
                       active
                         ? "text-white shadow-sm"
                         : "text-ink-70 hover:text-ink hover:bg-ink-10/40"
@@ -192,7 +200,7 @@ export default function TopNav({
                     style={active ? { backgroundColor: color } : undefined}
                   >
                     <NavIcon label={item.label} />
-                    <span>{item.label}</span>
+                    <span className="hidden xl:inline">{item.label}</span>
                     {isMessages && unreadCount > 0 && (
                       <span className="absolute -top-1 -right-1 min-w-[18px] h-[18px] flex items-center justify-center rounded-full bg-rose-500 text-white text-[10px] font-bold px-1 shadow-sm">
                         {unreadCount}
@@ -317,7 +325,7 @@ export default function TopNav({
           <div className="fixed inset-0 bg-black/20 backdrop-blur-sm" onClick={() => setMenuOpen(false)} />
           <div
             ref={menuRef}
-            className="fixed right-0 top-0 bottom-0 w-full max-w-[320px] bg-white shadow-2xl flex flex-col"
+            className="fixed right-0 top-0 bottom-0 w-full max-w-[85vw] sm:max-w-[320px] bg-white shadow-2xl flex flex-col"
             style={{ borderLeft: `3px solid ${color}` }}
           >
             {/* Header mobile : avatar + nom */}

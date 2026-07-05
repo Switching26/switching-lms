@@ -27,26 +27,60 @@ export async function PUT(req: NextRequest, { params }: { params: { chapterId: s
   })
   if (!chapter) return NextResponse.json({ error: "Chapitre introuvable" }, { status: 404 })
 
+  // L'apprenant doit être inscrit à la formation du chapitre, et l'accès valide.
+  const enrollmentAccess = await prisma.enrollment.findUnique({
+    where: { userId_formationId: { userId, formationId: chapter.formationId } },
+  })
+  if (!enrollmentAccess) {
+    return NextResponse.json({ error: "Non inscrit à cette formation" }, { status: 403 })
+  }
+  const now = new Date()
+  if (enrollmentAccess.expiresAt && enrollmentAccess.expiresAt < now) {
+    return NextResponse.json({ error: "Accès expiré" }, { status: 403 })
+  }
+  if (enrollmentAccess.startedAt && enrollmentAccess.startedAt > now) {
+    return NextResponse.json({ error: "Accès pas encore ouvert" }, { status: 403 })
+  }
+
+  // Bornage des compteurs envoyés par le client (jamais négatifs ni délirants).
+  const clamp = (v: unknown, max: number): number | undefined => {
+    if (v === undefined || v === null) return undefined
+    const n = Number(v)
+    if (!Number.isFinite(n)) return undefined
+    return Math.min(Math.max(Math.round(n), 0), max)
+  }
+  const safeTime = clamp(timeSpentSeconds, 3_600_000) // ~1000 h
+  const safePosition = clamp(lastPosition, 1_000_000)
+
+  // Détecter une VRAIE transition non-terminé → terminé (pour ne pas re-notifier).
+  const existingProgress = await prisma.progress.findUnique({
+    where: { userId_chapterId: { userId, chapterId: params.chapterId } },
+  })
+  const wasCompleted = !!existingProgress?.completedAt
+  // completedAt est piloté serveur : truthy → maintenant, null explicite → réinitialise.
+  const completeNow = completedAt !== undefined ? !!completedAt : undefined
+  const isCompletionTransition = completeNow === true && !wasCompleted
+
   const progress = await prisma.progress.upsert({
     where: { userId_chapterId: { userId, chapterId: params.chapterId } },
     update: {
-      ...(timeSpentSeconds !== undefined && { timeSpentSeconds }),
-      ...(lastPosition !== undefined && { lastPosition }),
-      ...(completedAt !== undefined && { completedAt: completedAt ? new Date(completedAt) : null }),
+      ...(safeTime !== undefined && { timeSpentSeconds: safeTime }),
+      ...(safePosition !== undefined && { lastPosition: safePosition }),
+      ...(completeNow !== undefined && { completedAt: completeNow ? now : null }),
       sessionCount: { increment: 1 },
     },
     create: {
       userId,
       chapterId: params.chapterId,
-      timeSpentSeconds: timeSpentSeconds || 0,
-      lastPosition: lastPosition || 0,
-      completedAt: completedAt ? new Date(completedAt) : null,
+      timeSpentSeconds: safeTime || 0,
+      lastPosition: safePosition || 0,
+      completedAt: completeNow ? now : null,
       sessionCount: 1,
     },
   })
 
-  // Email triggers on chapter completion
-  if (completedAt) {
+  // Emails uniquement lors de la transition non-terminé → terminé.
+  if (isCompletionTransition) {
     try {
       const user = await prisma.user.findUnique({
         where: { id: userId },
@@ -105,9 +139,10 @@ export async function PUT(req: NextRequest, { params }: { params: { chapterId: s
       }
 
       // Check if ALL chapters are completed → FORMATION_COMPLETED
-      if (completedChapters.length >= allChapters.length) {
-        // Mark enrollment as completed
-        await prisma.enrollment.updateMany({
+      if (completedChapters.length >= allChapters.length && allChapters.length > 0) {
+        // Mark enrollment as completed — updateMany ne touche QUE les inscriptions
+        // pas encore terminées : count > 0 == vraie transition (évite de re-notifier).
+        const marked = await prisma.enrollment.updateMany({
           where: { userId, formationId: formation.id, completedAt: null },
           data: { completedAt: new Date() },
         })
@@ -116,7 +151,7 @@ export async function PUT(req: NextRequest, { params }: { params: { chapterId: s
           where: { userId, formationId: formation.id },
         })
 
-        if (enrollment) {
+        if (enrollment && marked.count > 0) {
           const formDynamic = await resolveTemplate("FORMATION_COMPLETED", user.partnerId)
           if (formDynamic) {
             const vars = {

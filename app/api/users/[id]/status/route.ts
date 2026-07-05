@@ -28,6 +28,11 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
 
   const { isActive } = await req.json()
 
+  // Ne pas réactiver un compte archivé (il redeviendrait éligible aux emails).
+  if (isActive === true && target.archivedAt) {
+    return NextResponse.json({ error: "Compte archivé — le restaurer d'abord" }, { status: 400 })
+  }
+
   const updated = await prisma.user.update({
     where: { id: params.id },
     data: { isActive },

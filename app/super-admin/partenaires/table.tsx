@@ -317,10 +317,19 @@ export default function PartnersTable({
                 <p>{learnerCount} apprenant{learnerCount > 1 ? "s" : ""} · {licenseLabel} licences</p>
               </div>
               <div className="flex items-center gap-2">
-                <div className="flex-1 bg-gray-100 rounded-full h-1.5">
-                  <div className="bg-primary h-1.5 rounded-full transition-all" style={{ width: `${hasUnlimited ? 100 : pct}%` }} />
-                </div>
-                <span className="text-xs text-gray-500">{hasUnlimited ? "Illimité" : `${pct}%`}</span>
+                {hasUnlimited ? (
+                  <>
+                    <div className="flex-1 bg-gray-100 rounded-full h-1.5" />
+                    <span className="text-xs font-medium text-teal-600">Illimité</span>
+                  </>
+                ) : (
+                  <>
+                    <div className="flex-1 bg-gray-100 rounded-full h-1.5">
+                      <div className="bg-primary h-1.5 rounded-full transition-all" style={{ width: `${pct}%` }} />
+                    </div>
+                    <span className="text-xs text-gray-500">{pct}%</span>
+                  </>
+                )}
               </div>
               <div className="flex gap-2 pt-1">
                 {admin && (
@@ -380,7 +389,9 @@ export default function PartnersTable({
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-2">
                       <div className="w-20 bg-gray-100 rounded-full h-1.5">
-                        <div className="bg-primary h-1.5 rounded-full transition-all" style={{ width: `${hasUnlimited ? 100 : pct}%` }} />
+                        {!hasUnlimited && (
+                          <div className="bg-primary h-1.5 rounded-full transition-all" style={{ width: `${pct}%` }} />
+                        )}
                       </div>
                       <span className="text-xs text-gray-500">{licenseLabel}</span>
                     </div>
@@ -419,6 +430,7 @@ export default function PartnersTable({
           <div>
             <label className="block text-sm font-medium mb-1">Nom de l&apos;organisme</label>
             <input
+              type="text"
               value={cName}
               onChange={(e) => { setCName(e.target.value); setCSlug(slugify(e.target.value)) }}
               className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-primary"
@@ -427,6 +439,7 @@ export default function PartnersTable({
           <div>
             <label className="block text-sm font-medium mb-1">Slug</label>
             <input
+              type="text"
               value={cSlug}
               onChange={(e) => setCSlug(e.target.value)}
               className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-primary font-mono"
@@ -440,7 +453,7 @@ export default function PartnersTable({
             {cLogo && (
               <div className="mb-2 relative inline-block">
                 <img src={cLogo} alt="Logo" className="h-10 max-w-[160px] object-contain border border-border rounded p-1" />
-                <button onClick={() => setCLogo("")} className="absolute -top-1 -right-1 bg-white rounded-full w-4 h-4 flex items-center justify-center text-[10px] text-red-500 shadow border border-border">✕</button>
+                <button onClick={() => setCLogo("")} className="absolute -top-2 -right-2 bg-white rounded-full w-7 h-7 flex items-center justify-center text-xs text-red-500 shadow border border-border">✕</button>
               </div>
             )}
             <div className="flex items-center gap-2">
@@ -473,7 +486,7 @@ export default function PartnersTable({
             {cFavicon && (
               <div className="mb-2 relative inline-block">
                 <img src={cFavicon.startsWith("http") ? cFavicon : `${window.location.origin}${cFavicon}`} alt="Favicon" className="w-8 h-8 object-contain border border-border rounded p-0.5" />
-                <button onClick={() => setCFavicon("")} className="absolute -top-1 -right-1 bg-white rounded-full w-4 h-4 flex items-center justify-center text-[10px] text-red-500 shadow border border-border">✕</button>
+                <button onClick={() => setCFavicon("")} className="absolute -top-2 -right-2 bg-white rounded-full w-7 h-7 flex items-center justify-center text-xs text-red-500 shadow border border-border">✕</button>
               </div>
             )}
             <div className="flex items-center gap-2">
@@ -498,7 +511,7 @@ export default function PartnersTable({
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <ColorField label="Couleur principale" value={cPrimary} onChange={setCPrimary} />
             <ColorField label="Couleur secondaire" value={cSecondary} onChange={setCSecondary} />
           </div>
@@ -515,7 +528,7 @@ export default function PartnersTable({
           <div>
             <label className="block text-sm font-medium mb-1">Mot de passe temporaire</label>
             <div className="flex gap-2">
-              <input value={cAdminPw} onChange={(e) => setCAdminPw(e.target.value)} className="flex-1 px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-primary font-mono" />
+              <input type="text" value={cAdminPw} onChange={(e) => setCAdminPw(e.target.value)} className="flex-1 min-w-0 px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-primary font-mono" />
               <button onClick={() => setCAdminPw(generatePassword())} className="px-3 py-2 bg-gray-100 text-sm rounded-lg hover:bg-gray-200">Générer</button>
             </div>
           </div>
@@ -530,11 +543,11 @@ export default function PartnersTable({
         <div className="space-y-4">
           <div>
             <label className="block text-sm font-medium mb-1">Nom</label>
-            <input value={eName} onChange={(e) => setEName(e.target.value)} className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-primary" />
+            <input type="text" value={eName} onChange={(e) => setEName(e.target.value)} className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-primary" />
           </div>
           <div>
             <label className="block text-sm font-medium mb-1">Slug</label>
-            <input value={eSlug} onChange={(e) => setESlug(e.target.value)} className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-primary font-mono" />
+            <input type="text" value={eSlug} onChange={(e) => setESlug(e.target.value)} className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-primary font-mono" />
           </div>
 
           {/* Logo upload */}
@@ -543,7 +556,7 @@ export default function PartnersTable({
             {eLogo && (
               <div className="mb-2 relative inline-block">
                 <img src={eLogo} alt="Logo" className="h-10 max-w-[160px] object-contain border border-border rounded p-1" />
-                <button onClick={() => setELogo("")} className="absolute -top-1 -right-1 bg-white rounded-full w-4 h-4 flex items-center justify-center text-[10px] text-red-500 shadow border border-border">✕</button>
+                <button onClick={() => setELogo("")} className="absolute -top-2 -right-2 bg-white rounded-full w-7 h-7 flex items-center justify-center text-xs text-red-500 shadow border border-border">✕</button>
               </div>
             )}
             <div className="flex items-center gap-2">
@@ -576,7 +589,7 @@ export default function PartnersTable({
             {eFavicon && (
               <div className="mb-2 relative inline-block">
                 <img src={eFavicon.startsWith("http") ? eFavicon : `${window.location.origin}${eFavicon}`} alt="Favicon" className="w-8 h-8 object-contain border border-border rounded p-0.5" />
-                <button onClick={() => setEFavicon("")} className="absolute -top-1 -right-1 bg-white rounded-full w-4 h-4 flex items-center justify-center text-[10px] text-red-500 shadow border border-border">✕</button>
+                <button onClick={() => setEFavicon("")} className="absolute -top-2 -right-2 bg-white rounded-full w-7 h-7 flex items-center justify-center text-xs text-red-500 shadow border border-border">✕</button>
               </div>
             )}
             <div className="flex items-center gap-2">
@@ -601,7 +614,7 @@ export default function PartnersTable({
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <ColorField label="Couleur principale" value={ePrimary} onChange={setEPrimary} />
             <ColorField label="Couleur secondaire" value={eSecondary} onChange={setESecondary} />
           </div>
@@ -638,14 +651,14 @@ export default function PartnersTable({
               {formations.map((f) => {
                 const existing = licensePartner?.licenses.find((l) => l.formationId === f.id)
                 return (
-                  <div key={f.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                    <div>
-                      <p className="text-sm font-medium">{f.title}</p>
+                  <div key={f.id} className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 p-3 bg-gray-50 rounded-lg">
+                    <div className="min-w-0">
+                      <p className="text-sm font-medium truncate">{f.title}</p>
                       {existing && existing.usedSeats > 0 && (
                         <p className="text-xs text-gray-400">{existing.usedSeats} utilisée(s)</p>
                       )}
                     </div>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 shrink-0">
                       <label className="text-xs text-gray-500">Places :</label>
                       <input
                         type="number"
@@ -727,7 +740,7 @@ function ColorField({ label, value, onChange }: { label: string; value: string; 
       <label className="block text-sm font-medium mb-1">{label}</label>
       <div className="flex items-center gap-2">
         <input type="color" value={isValidHex(value) ? value : "#111111"} onChange={(e) => onChange(e.target.value)} className="w-10 h-10 rounded border border-border cursor-pointer" />
-        <input value={value} onChange={(e) => onChange(e.target.value)} className="flex-1 px-3 py-2 text-sm border border-border rounded-lg outline-none font-mono" />
+        <input type="text" value={value} onChange={(e) => onChange(e.target.value)} className="flex-1 min-w-0 px-3 py-2 text-sm border border-border rounded-lg outline-none font-mono" />
       </div>
       {value && !isValidHex(value) && (
         <p className="text-xs text-red-400 mt-1">Format invalide (ex: #FF0000)</p>

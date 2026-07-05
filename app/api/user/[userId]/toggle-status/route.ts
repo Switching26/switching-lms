@@ -11,6 +11,15 @@ export async function PUT(req: NextRequest, { params }: { params: { userId: stri
   const user = await prisma.user.findUnique({ where: { id: params.userId } })
   if (!user) return NextResponse.json({ error: "Introuvable" }, { status: 404 })
 
+  // Ne jamais désactiver un super admin via ce raccourci.
+  if (user.role === "SUPER_ADMIN") {
+    return NextResponse.json({ error: "Impossible de modifier le statut d'un super admin" }, { status: 400 })
+  }
+  // Ne pas réactiver un compte archivé.
+  if (!user.isActive && user.archivedAt) {
+    return NextResponse.json({ error: "Compte archivé — le restaurer d'abord" }, { status: 400 })
+  }
+
   const updated = await prisma.user.update({
     where: { id: params.userId },
     data: { isActive: !user.isActive },

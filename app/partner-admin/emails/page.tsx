@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react"
 import Badge from "@/components/ui/Badge"
+import Modal from "@/components/ui/Modal"
 import { TEMPLATE_VARIABLES } from "@/lib/email-template-engine"
 
 const EMAIL_TYPES: Record<string, { label: string; variant: string }> = {
@@ -37,6 +38,8 @@ export default function PartnerEmailsPage() {
   const [showPreview, setShowPreview] = useState(false)
   const [testing, setTesting] = useState(false)
   const [duplicating, setDuplicating] = useState(false)
+  const [deleteId, setDeleteId] = useState<string | null>(null)
+  const [deleting, setDeleting] = useState(false)
 
   // Form state
   const [formName, setFormName] = useState("")
@@ -101,14 +104,21 @@ export default function PartnerEmailsPage() {
     finally { setSaving(false) }
   }
 
-  const handleDelete = async (id: string) => {
-    if (!confirm("Supprimer ce template ?")) return
-    const res = await fetch(`/api/email-templates/${id}`, { method: "DELETE" })
-    if (res.ok) {
-      flash("Template supprimé")
-      if (editing?.id === id) closeEditor()
-      fetchAll()
-    } else flash("Erreur lors de la suppression")
+  const confirmDelete = async () => {
+    if (!deleteId) return
+    setDeleting(true)
+    try {
+      const res = await fetch(`/api/email-templates/${deleteId}`, { method: "DELETE" })
+      if (res.ok) {
+        flash("Template supprimé")
+        if (editing?.id === deleteId) closeEditor()
+        fetchAll()
+      } else flash("Erreur lors de la suppression")
+    } catch { flash("Erreur réseau") }
+    finally {
+      setDeleting(false)
+      setDeleteId(null)
+    }
   }
 
   const handleDuplicate = async (id: string) => {
@@ -152,9 +162,9 @@ export default function PartnerEmailsPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <h1 className="text-xl font-semibold">Emails</h1>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
           <button
             onClick={() => { setTab("mine"); closeEditor() }}
             className={`px-4 py-2 text-sm rounded-lg transition-colors ${tab === "mine" ? "bg-[var(--partner-primary,#111)] text-white" : "bg-gray-100 hover:bg-gray-200"}`}
@@ -188,12 +198,12 @@ export default function PartnerEmailsPage() {
 
               <div>
                 <label className="block text-sm font-medium mb-1">Nom</label>
-                <input value={formName} onChange={(e) => setFormName(e.target.value)} className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-[var(--partner-primary,#111)]" />
+                <input type="text" value={formName} onChange={(e) => setFormName(e.target.value)} className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-[var(--partner-primary,#111)]" />
               </div>
 
               <div>
                 <label className="block text-sm font-medium mb-1">Sujet</label>
-                <input value={formSubject} onChange={(e) => setFormSubject(e.target.value)} className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-[var(--partner-primary,#111)]" />
+                <input type="text" value={formSubject} onChange={(e) => setFormSubject(e.target.value)} className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-[var(--partner-primary,#111)]" />
               </div>
 
               <div>
@@ -251,8 +261,8 @@ export default function PartnerEmailsPage() {
                   {myTemplates.map((t) => {
                     const badge = EMAIL_TYPES[t.type] || { label: t.type, variant: "default" }
                     return (
-                      <div key={t.id} className="bg-white rounded-xl border border-border p-5 flex items-center justify-between">
-                        <div className="flex items-center gap-4 min-w-0">
+                      <div key={t.id} className="bg-white rounded-xl border border-border p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                        <div className="flex items-start gap-4 min-w-0">
                           <Badge variant={badge.variant}>{badge.label}</Badge>
                           <div className="min-w-0">
                             <p className="text-sm font-medium truncate">{t.name}</p>
@@ -260,10 +270,10 @@ export default function PartnerEmailsPage() {
                           </div>
                           {!t.isActive && <Badge variant="default">Inactif</Badge>}
                         </div>
-                        <div className="flex items-center gap-2 ml-4 shrink-0">
+                        <div className="flex flex-wrap items-center gap-2 sm:ml-4 sm:shrink-0">
                           <button onClick={() => handleTest(t.id)} disabled={testing} className="px-3 py-1.5 text-xs bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors">Tester</button>
                           <button onClick={() => openEdit(t)} className="px-3 py-1.5 text-xs bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors">Modifier</button>
-                          <button onClick={() => handleDelete(t.id)} className="px-3 py-1.5 text-xs text-red-600 bg-red-50 hover:bg-red-100 rounded-lg transition-colors">Supprimer</button>
+                          <button onClick={() => setDeleteId(t.id)} className="px-3 py-1.5 text-xs text-red-600 bg-red-50 hover:bg-red-100 rounded-lg transition-colors">Supprimer</button>
                         </div>
                       </div>
                     )
@@ -291,8 +301,8 @@ export default function PartnerEmailsPage() {
                 const alreadyHas = myTemplates.some((m) => m.type === t.type)
                 return (
                   <div key={t.id} className="bg-white rounded-xl border border-border p-5">
-                    <div className="flex items-center justify-between mb-3">
-                      <div className="flex items-center gap-4 min-w-0">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-3">
+                      <div className="flex items-start gap-4 min-w-0">
                         <Badge variant={badge.variant}>{badge.label}</Badge>
                         <div className="min-w-0">
                           <p className="text-sm font-medium truncate">{t.name}</p>
@@ -302,7 +312,7 @@ export default function PartnerEmailsPage() {
                       <button
                         onClick={() => handleDuplicate(t.id)}
                         disabled={duplicating || alreadyHas}
-                        className={`px-3 py-1.5 text-xs rounded-lg transition-colors shrink-0 ${
+                        className={`px-3 py-1.5 text-xs rounded-lg transition-colors sm:shrink-0 ${
                           alreadyHas
                             ? "bg-gray-100 text-gray-400 cursor-not-allowed"
                             : "bg-[var(--partner-primary,#111)] text-white hover:opacity-90 disabled:opacity-50"
@@ -321,6 +331,19 @@ export default function PartnerEmailsPage() {
           )}
         </>
       )}
+
+      {/* Confirmation suppression */}
+      <Modal open={!!deleteId} onClose={() => setDeleteId(null)} title="Supprimer ce template ?">
+        <div className="space-y-4">
+          <p className="text-sm text-gray-500">Cette action est irréversible. Le template sera définitivement supprimé.</p>
+          <div className="flex flex-wrap justify-end gap-2">
+            <button onClick={() => setDeleteId(null)} className="px-4 py-2 text-sm text-gray-500 rounded-lg hover:bg-gray-100 transition-colors">Annuler</button>
+            <button onClick={confirmDelete} disabled={deleting} className="px-4 py-2 text-sm text-white bg-red-600 rounded-lg hover:bg-red-700 disabled:opacity-50 transition-colors">
+              {deleting ? "Suppression..." : "Supprimer"}
+            </button>
+          </div>
+        </div>
+      </Modal>
 
     </div>
   )

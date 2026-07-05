@@ -1,8 +1,8 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { signIn } from "next-auth/react"
-import { useSearchParams, useRouter } from "next/navigation"
+import { useRouter } from "next/navigation"
 import Link from "next/link"
 
 interface PartnerInfo {
@@ -12,30 +12,20 @@ interface PartnerInfo {
   logoUrl: string | null
 }
 
-export default function LoginForm() {
+export default function LoginForm({
+  partner,
+  partnerSlug,
+}: {
+  // Résolu côté serveur (server component parent) → pas de flash white-label.
+  partner: PartnerInfo | null
+  partnerSlug: string | null
+}) {
   const router = useRouter()
-  const searchParams = useSearchParams()
-  const partnerSlug = searchParams.get("partner")
 
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
-  const [partner, setPartner] = useState<PartnerInfo | null>(null)
-
-  useEffect(() => {
-    if (partnerSlug) {
-      fetch(`/api/partner/${partnerSlug}/branding`)
-        .then((res) => res.ok ? res.json() : null)
-        .then((data) => { if (data) setPartner(data) })
-        .catch(() => {
-          // Fallback to old API
-          fetch(`/api/partner?slug=${partnerSlug}`)
-            .then((r) => r.ok ? r.json() : null)
-            .then((d) => { if (d) setPartner(d) })
-        })
-    }
-  }, [partnerSlug])
 
   const brandName = partner ? partner.name : "Switching Formation"
   const brandColor = partner ? partner.primaryColor : "#111111"
@@ -156,8 +146,12 @@ export default function LoginForm() {
             <div>
               <div className="flex items-center justify-between mb-1.5">
                 <label htmlFor="password" className="block text-sm font-medium text-ink-70">Mot de passe</label>
-                <Link href={`/login/mot-de-passe-oublie${partnerSlug ? `?partner=${partnerSlug}` : ""}`} className="inline-flex min-h-[44px] items-center text-xs text-brand-600 hover:text-brand-700 font-medium">
-                  Oublié ?
+                <Link
+                  href={`/login/mot-de-passe-oublie${partnerSlug ? `?partner=${partnerSlug}` : ""}`}
+                  className="inline-flex min-h-[44px] items-center text-xs font-medium hover:opacity-80 transition-opacity"
+                  style={{ color: accentColor }}
+                >
+                  Oublié&nbsp;?
                 </Link>
               </div>
               <input
@@ -185,9 +179,10 @@ export default function LoginForm() {
           <div className="mt-8 pt-6 border-t border-ink-10 text-center">
             <Link
               href={`/login/activer${partnerSlug ? `?partner=${partnerSlug}` : ""}`}
-              className="inline-flex min-h-[44px] items-center justify-center text-sm text-ink-50 hover:text-brand-600"
+              className="inline-flex min-h-[44px] items-center justify-center text-sm text-ink-50 hover:opacity-80 transition-opacity"
             >
-              Première connexion&nbsp;? <span className="font-medium text-ink">Créez votre mot de passe</span>
+              Première connexion&nbsp;?{" "}
+              <span className="font-medium ml-1" style={{ color: accentColor }}>Créez votre mot de passe</span>
             </Link>
           </div>
         </div>

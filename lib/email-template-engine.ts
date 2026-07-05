@@ -32,6 +32,20 @@ export type TemplateVariableData = Partial<Record<string, string>>
 /* ═══════════════════════════════
    REPLACE VARIABLES
    ═══════════════════════════════ */
+// Échappe une valeur avant injection dans du HTML d'email. Empêche qu'un nom de
+// partenaire / prénom / couleur saisi en base ne casse le HTML (injection, phishing).
+function escapeHtml(value: string): string {
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;")
+}
+
+// Les clés déjà pré-rendues en HTML par nos soins (ne PAS ré-échapper).
+const RAW_HTML_KEYS = new Set(["logo_url", "logo_url_style"])
+
 export function replaceVariables(content: string, data: TemplateVariableData): string {
   const validKeys = new Set(TEMPLATE_VARIABLES.map((v) => v.key))
 
@@ -44,8 +58,8 @@ export function replaceVariables(content: string, data: TemplateVariableData): s
     if (!logoSrc.startsWith("http://") && !logoSrc.startsWith("https://")) {
       logoSrc = `${baseUrl}${logoSrc.startsWith("/") ? "" : "/"}${logoSrc}`
     }
-    const altText = processedData.plateforme_nom || ""
-    processedData.logo_url = `<img src="${logoSrc}" alt="${altText}" style="max-height:60px;max-width:200px;display:block;margin:0 auto">`
+    const altText = escapeHtml(processedData.plateforme_nom || "")
+    processedData.logo_url = `<img src="${escapeHtml(logoSrc)}" alt="${altText}" style="max-height:60px;max-width:200px;display:block;margin:0 auto">`
     processedData.logo_url_style = "display:none"
   } else {
     processedData.logo_url = ""
@@ -55,7 +69,10 @@ export function replaceVariables(content: string, data: TemplateVariableData): s
   // Replace known variables
   const result = content.replace(/\{\{(\w+)\}\}/g, (_match, key) => {
     if (validKeys.has(key)) {
-      return processedData[key] || ""
+      const raw = processedData[key] || ""
+      // logo_url / logo_url_style sont du HTML/CSS que nous générons : bruts.
+      // Tout le reste (prenom, partenaire_nom, couleurs, liens…) est échappé.
+      return RAW_HTML_KEYS.has(key) ? raw : escapeHtml(raw)
     }
     return "" // clean unknown variables
   })

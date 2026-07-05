@@ -7,12 +7,13 @@ import { getTotalLicensesSold } from "@/lib/data/licenses"
 import { getRecentActivity } from "@/lib/data/emails"
 import KPICard from "@/components/ui/KPICard"
 import Badge from "@/components/ui/Badge"
+import { emailTypeLabel } from "@/lib/email-type-labels"
 
-const emailTypeBadge: Record<string, { label: string; variant: string }> = {
-  ACCOUNT_CREATED: { label: "Création compte", variant: "blue" },
-  FORMATION_ASSIGNED: { label: "Formation attribuée", variant: "success" },
-  CHAPTER_COMPLETED: { label: "Chapitre terminé", variant: "purple" },
-  FORMATION_COMPLETED: { label: "Formation terminée", variant: "warning" },
+const emailTypeVariant: Record<string, string> = {
+  ACCOUNT_CREATED: "blue",
+  FORMATION_ASSIGNED: "success",
+  CHAPTER_COMPLETED: "purple",
+  FORMATION_COMPLETED: "warning",
 }
 
 export default async function SuperAdminDashboard() {
@@ -88,16 +89,16 @@ export default async function SuperAdminDashboard() {
         ) : (
           <div className="space-y-0">
             {recentActivity.map((log, i) => {
-              const badge = emailTypeBadge[log.type] || { label: log.type, variant: "default" }
+              const variant = emailTypeVariant[log.type] || "default"
               return (
                 <div key={log.id} className={`flex flex-col sm:flex-row sm:items-center justify-between py-3.5 gap-2 sm:gap-3 ${i > 0 ? "border-t border-ink-10" : ""}`}>
                   <div className="flex flex-wrap items-center gap-2.5 min-w-0">
-                    <Badge variant={badge.variant}>{badge.label}</Badge>
+                    <Badge variant={variant}>{emailTypeLabel(log.type)}</Badge>
                     <span className="text-sm font-medium text-ink">{log.user.firstName} {log.user.lastName}</span>
                     <span className="text-xs text-ink-50 truncate hidden sm:inline">{log.user.email}</span>
                   </div>
                   <span className="text-xs text-ink-50 shrink-0 font-medium tabular-nums">
-                    {new Date(log.sentAt).toLocaleDateString("fr-FR", { day: "numeric", month: "short" })}
+                    {new Date(log.sentAt).toLocaleDateString("fr-FR", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" })}
                   </span>
                 </div>
               )

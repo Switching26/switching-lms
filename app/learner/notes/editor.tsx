@@ -14,24 +14,29 @@ export default function NotesEditor({ chapters, userId }: { chapters: Chapter[];
   const [notes, setNotes] = useState<Record<string, string>>(
     Object.fromEntries(chapters.map((c) => [c.id, c.note]))
   )
-  const [saving, setSaving] = useState(false)
+  const [saveState, setSaveState] = useState<"idle" | "saving" | "saved" | "error">("idle")
+  const [savedAt, setSavedAt] = useState<string>("")
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const save = useCallback(async (chapterId: string, content: string) => {
-    setSaving(true)
+    setSaveState("saving")
     try {
-      await fetch("/api/notes", {
+      const res = await fetch("/api/notes", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ chapterId, content }),
       })
-    } finally {
-      setSaving(false)
+      if (!res.ok) throw new Error("save failed")
+      setSaveState("saved")
+      setSavedAt(new Date().toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" }))
+    } catch {
+      setSaveState("error")
     }
   }, [])
 
   const handleChange = (value: string) => {
     setNotes((prev) => ({ ...prev, [activeId]: value }))
+    setSaveState((prev) => (prev === "saving" ? prev : "idle"))
 
     // Debounced autosave after 1.5s of inactivity
     if (debounceRef.current) clearTimeout(debounceRef.current)
@@ -47,6 +52,8 @@ export default function NotesEditor({ chapters, userId }: { chapters: Chapter[];
       clearTimeout(debounceRef.current)
       debounceRef.current = null
       save(activeId, notes[activeId] || "")
+    } else {
+      setSaveState("idle")
     }
     setActiveId(newId)
   }
@@ -99,8 +106,27 @@ export default function NotesEditor({ chapters, userId }: { chapters: Chapter[];
             <h2 className="text-base font-semibold">
               {chapters.find((c) => c.id === activeId)?.title}
             </h2>
-            {saving && (
-              <span className="text-xs text-gray-400">Sauvegarde...</span>
+            {saveState === "saving" && (
+              <span className="inline-flex items-center gap-1.5 text-xs text-gray-400">
+                <span className="w-3 h-3 rounded-full border-2 border-gray-300 border-t-gray-500 animate-spin" />
+                Enregistrement…
+              </span>
+            )}
+            {saveState === "saved" && (
+              <span className="inline-flex items-center gap-1 text-xs text-emerald-600">
+                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                </svg>
+                Enregistré{savedAt ? ` à ${savedAt}` : ""}
+              </span>
+            )}
+            {saveState === "error" && (
+              <span className="inline-flex items-center gap-1 text-xs text-red-600">
+                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m0 3.75h.008M12 3a9 9 0 100 18 9 9 0 000-18z" />
+                </svg>
+                Échec de l'enregistrement
+              </span>
             )}
           </div>
           <textarea

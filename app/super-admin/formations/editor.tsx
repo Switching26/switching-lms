@@ -508,9 +508,9 @@ export default function FormationEditor({ initial }: { initial?: Formation }) {
 
       {/* Section 3 — Sections & Chapitres */}
       <div className="bg-white rounded-xl border border-border p-6">
-        <div className="flex items-center justify-between mb-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
           <h2 className="text-base font-semibold">Contenu</h2>
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2">
             <button
               onClick={addSection}
               disabled={saving || !formationId}
@@ -552,8 +552,8 @@ export default function FormationEditor({ initial }: { initial?: Formation }) {
         {/* Sections with their chapters */}
         {sections.map((section) => (
           <div key={section.id} className="mb-4 border border-border rounded-lg p-4">
-            <div className="flex items-center justify-between mb-3">
-              <div className="flex-1 mr-3">
+            <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-2 mb-3">
+              <div className="flex-1 min-w-0 sm:mr-3">
                 <input
                   value={section.title}
                   onChange={(e) => {
@@ -573,17 +573,17 @@ export default function FormationEditor({ initial }: { initial?: Formation }) {
                   placeholder="Description (optionnel)"
                 />
               </div>
-              <div className="flex gap-2">
+              <div className="flex flex-wrap items-center gap-2 shrink-0">
                 <button
                   onClick={() => addChapter(section.id)}
                   disabled={saving}
-                  className="px-2 py-1 bg-gray-100 text-xs rounded hover:bg-gray-200 disabled:opacity-50"
+                  className="px-2.5 py-1.5 bg-gray-100 text-xs rounded hover:bg-gray-200 disabled:opacity-50"
                 >
                   + Chapitre
                 </button>
                 <button
                   onClick={() => deleteSection(section.id)}
-                  className="text-xs text-red-400 hover:text-red-600"
+                  className="px-2.5 py-1.5 text-xs text-red-400 hover:text-red-600"
                 >
                   Supprimer
                 </button>
@@ -654,30 +654,30 @@ function ChapterRow({
   return (
     <div
       onClick={handleSelect}
-      className={`group flex items-center justify-between p-3 rounded-lg cursor-pointer transition-all ${
+      className={`group flex flex-col sm:flex-row sm:items-center justify-between gap-2 p-3 rounded-lg cursor-pointer transition-all ${
         isActive ? "bg-brand-50 ring-1 ring-brand-200" : "hover:bg-ink-10/30"
       }`}
     >
       <div className="flex items-center gap-3 min-w-0 flex-1">
-        <span className="text-xs text-ink-50 w-6 text-center tabular-nums">{index + 1}</span>
+        <span className="text-xs text-ink-50 w-6 text-center tabular-nums shrink-0">{index + 1}</span>
         <span className="text-sm font-medium text-ink truncate">{chapter.title}</span>
         <Badge variant={chapter.isPublished ? "success" : "default"}>
           {chapter.isPublished ? "Publié" : "Brouillon"}
         </Badge>
       </div>
-      <div className="flex items-center gap-1.5 flex-shrink-0" onClick={(e) => e.stopPropagation()}>
+      <div className="flex items-center gap-1.5 flex-shrink-0 self-end sm:self-auto" onClick={(e) => e.stopPropagation()}>
         <button
           onClick={handleSelect}
           className={`px-2.5 py-1 text-xs font-semibold rounded-md transition-all ${
             isActive
               ? "bg-brand-600 text-white"
-              : "bg-white border border-ink-10 text-brand-600 opacity-0 group-hover:opacity-100 hover:bg-brand-50"
+              : "bg-white border border-ink-10 text-brand-600 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 hover:bg-brand-50"
           }`}
         >
           {isActive ? "Édition" : "Modifier"}
         </button>
-        <button onClick={() => onMove("up")} disabled={index === 0} className="px-1.5 py-0.5 text-xs text-ink-50 hover:text-brand-600 disabled:opacity-30">▲</button>
-        <button onClick={() => onMove("down")} disabled={index === total - 1} className="px-1.5 py-0.5 text-xs text-ink-50 hover:text-brand-600 disabled:opacity-30">▼</button>
+        <button onClick={() => onMove("up")} disabled={index === 0} aria-label="Monter" className="w-10 h-10 flex items-center justify-center text-xs text-ink-50 hover:text-brand-600 disabled:opacity-30">▲</button>
+        <button onClick={() => onMove("down")} disabled={index === total - 1} aria-label="Descendre" className="w-10 h-10 flex items-center justify-center text-xs text-ink-50 hover:text-brand-600 disabled:opacity-30">▼</button>
       </div>
     </div>
   )

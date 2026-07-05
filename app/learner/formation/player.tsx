@@ -149,6 +149,15 @@ export default function FormationPlayer({
   const completedCount = Object.values(completedMap).filter(Boolean).length
   const progressPercent = chapters.length > 0 ? Math.round((completedCount / chapters.length) * 100) : 0
 
+  // Position du chapitre actif dans l'ordre d'apprentissage (root → sections)
+  const orderedIndex = active ? orderedChapters.findIndex((c) => c.id === active.id) : -1
+  const prevChapter = orderedIndex > 0 ? orderedChapters[orderedIndex - 1] : null
+  const nextChapter =
+    orderedIndex >= 0 && orderedIndex < orderedChapters.length - 1
+      ? orderedChapters[orderedIndex + 1]
+      : null
+  const [marking, setMarking] = useState(false)
+
   const isAccessible = (_index: number) => {
     // Accès libre : tous les chapitres sont accessibles en permanence
     // (style Rise Up — apprenant adulte autonome)
@@ -195,6 +204,27 @@ export default function FormationPlayer({
       })
     }
   }, [chapters])
+
+  // Marquer le chapitre courant comme terminé (bouton manuel).
+  // Contrat API inchangé : PUT /api/progress/{chapterId} avec { completedAt }.
+  const markCompleted = useCallback(async () => {
+    if (!active || preview || marking || completedMap[active.id]) return
+    setMarking(true)
+    const chapterId = active.id
+    try {
+      const res = await fetch(`/api/progress/${chapterId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ completedAt: new Date().toISOString() }),
+      })
+      if (res.ok) {
+        handleChapterCompleted(chapterId)
+        // Enchaîner sur le chapitre suivant si disponible
+        if (nextChapter) handleSelectChapter(nextChapter)
+      }
+    } catch {}
+    finally { setMarking(false) }
+  }, [active, preview, marking, completedMap, nextChapter, handleSelectChapter])
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-6 animate-fade-in-up">
@@ -278,10 +308,31 @@ export default function FormationPlayer({
                     <span className="hidden sm:inline">Télécharger</span>
                   </a>
                 </div>
-                {/* PDF viewer iframe */}
+                {/* Mobile : l'iframe PDF ne rend qu'une page illisible sur iOS.
+                    On propose une carte « Ouvrir le document » (nouvel onglet). */}
+                <a
+                  href={pdf.fileUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="sm:hidden flex items-center gap-3 m-4 p-4 rounded-xl border border-border bg-surface-subtle hover:bg-warm-50 transition-colors"
+                >
+                  <div className="flex-shrink-0 w-11 h-11 rounded-xl bg-brand-100 flex items-center justify-center">
+                    <svg className="w-5 h-5 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+                    </svg>
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-sm font-semibold text-primary">Ouvrir le document</p>
+                    <p className="text-xs text-warm-500 mt-0.5">La lecture en plein écran est plus confortable sur mobile.</p>
+                  </div>
+                  <svg className="w-5 h-5 text-warm-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                  </svg>
+                </a>
+                {/* Desktop/tablette : viewer inline */}
                 <iframe
                   src={`${pdf.fileUrl}#toolbar=0&navpanes=0`}
-                  className="w-full h-[600px] sm:h-[720px] bg-warm-50"
+                  className="hidden sm:block w-full h-[600px] sm:h-[720px] bg-warm-50"
                   title={pdf.name}
                 />
               </div>
@@ -372,6 +423,68 @@ export default function FormationPlayer({
           )}
         </div>
 
+        {/* Barre d'actions : navigation + complétion manuelle */}
+        {active && (
+          <div className="bg-white rounded-2xl border border-border p-4 shadow-sm flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+            <div className="flex items-center gap-2 flex-1">
+              <button
+                type="button"
+                onClick={() => prevChapter && handleSelectChapter(prevChapter)}
+                disabled={!prevChapter}
+                className="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl text-sm font-medium text-warm-600 border border-border hover:bg-warm-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                style={{ minHeight: 44 }}
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                </svg>
+                Précédent
+              </button>
+              <button
+                type="button"
+                onClick={() => nextChapter && handleSelectChapter(nextChapter)}
+                disabled={!nextChapter}
+                className="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl text-sm font-medium text-warm-600 border border-border hover:bg-warm-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                style={{ minHeight: 44 }}
+              >
+                Suivant
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                </svg>
+              </button>
+            </div>
+            {completedMap[active.id] ? (
+              <div
+                className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold bg-emerald-100 text-emerald-700 sm:ml-auto"
+                style={{ minHeight: 44 }}
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={3}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                </svg>
+                Chapitre terminé
+              </div>
+            ) : (
+              <button
+                type="button"
+                onClick={markCompleted}
+                disabled={marking || preview}
+                className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white transition-all active:scale-[0.98] disabled:opacity-50 sm:ml-auto"
+                style={{ background: "var(--partner-primary, #4F46E5)", minHeight: 44 }}
+              >
+                {marking ? (
+                  "Enregistrement…"
+                ) : (
+                  <>
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                    </svg>
+                    Marquer comme terminé
+                  </>
+                )}
+              </button>
+            )}
+          </div>
+        )}
+
         {/* Exercises */}
         {active?.exercises?.length > 0 && (
           <div className="space-y-4">
@@ -459,7 +572,7 @@ export default function FormationPlayer({
           </div>
 
           {/* Chapter list */}
-          <div className="p-2 max-h-[calc(100vh-200px)] overflow-y-auto">
+          <div className="p-2 max-h-[calc(100dvh-200px)] overflow-y-auto">
             {rootChapters.map((ch) => (
               <ChapterButton
                 key={ch.id}
@@ -484,7 +597,7 @@ export default function FormationPlayer({
                     type="button"
                     onClick={() => toggleSection(section.id)}
                     className="w-full flex items-center gap-2.5 px-3 py-2.5 text-left rounded-lg transition-colors group hover:brightness-95"
-                    style={{ background: "rgba(79, 70, 229, 0.06)" }}
+                    style={{ background: "color-mix(in srgb, var(--partner-primary, #4F46E5) 6%, transparent)" }}
                   >
                     <svg
                       className={`w-3.5 h-3.5 text-primary transition-transform flex-shrink-0 ${expanded ? "rotate-90" : ""}`}
@@ -493,12 +606,12 @@ export default function FormationPlayer({
                       <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
                     </svg>
                     <div className="flex-1 min-w-0">
-                      <p className="text-[11px] font-bold uppercase tracking-wider truncate" style={{ color: "#3730a3" }}>{section.title}</p>
+                      <p className="text-[11px] font-bold uppercase tracking-wider truncate" style={{ color: "var(--partner-primary, #3730a3)" }}>{section.title}</p>
                       {section.description && (
                         <p className="text-[10px] text-warm-500 mt-0.5 leading-snug truncate">{section.description}</p>
                       )}
                     </div>
-                    <span className="text-[10px] font-semibold bg-white px-1.5 py-0.5 rounded-full tabular-nums flex-shrink-0" style={{ color: "#6366f1" }}>
+                    <span className="text-[10px] font-semibold bg-white px-1.5 py-0.5 rounded-full tabular-nums flex-shrink-0" style={{ color: "var(--partner-primary, #6366f1)" }}>
                       {sectionDone}/{sectionChapters.length}
                     </span>
                   </button>
@@ -542,9 +655,13 @@ function ChapterButton({
   onClick: () => void
 }) {
   // Config par type (icône + couleurs)
-  const kindConfig: Record<ChapterKind, { bg: string; text: string; icon: React.ReactNode }> = {
+  // Le type "video" suit la couleur partenaire (white-label) via style inline ;
+  // les autres types gardent des couleurs sémantiques fixes.
+  const kindConfig: Record<ChapterKind, { bg: string; text: string; bgStyle?: React.CSSProperties; textStyle?: React.CSSProperties; icon: React.ReactNode }> = {
     video: {
-      bg: "bg-indigo-100", text: "text-indigo-600",
+      bg: "", text: "",
+      bgStyle: { background: "color-mix(in srgb, var(--partner-primary, #6366f1) 14%, transparent)" },
+      textStyle: { color: "var(--partner-primary, #6366f1)" },
       icon: <svg viewBox="0 0 24 24" fill="currentColor" className="w-3 h-3"><path d="M8 5v14l11-7z" /></svg>,
     },
     exercise: {
@@ -573,15 +690,18 @@ function ChapterButton({
       }`}
     >
       {/* Badge type (sans numéro overlay — feedback Samuel) */}
-      <div className={`flex-shrink-0 w-7 h-7 rounded-lg flex items-center justify-center ${
-        isActive ? "bg-white/20" : completed ? "bg-emerald-100" : cfg.bg
-      }`}>
+      <div
+        className={`flex-shrink-0 w-7 h-7 rounded-lg flex items-center justify-center ${
+          isActive ? "bg-white/20" : completed ? "bg-emerald-100" : cfg.bg
+        }`}
+        style={!isActive && !completed ? cfg.bgStyle : undefined}
+      >
         {completed && !isActive ? (
           <svg className="w-3.5 h-3.5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={3}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
           </svg>
         ) : (
-          <span className={isActive ? "text-white" : cfg.text}>{cfg.icon}</span>
+          <span className={isActive ? "text-white" : cfg.text} style={!isActive ? cfg.textStyle : undefined}>{cfg.icon}</span>
         )}
       </div>
       {/* Titre */}

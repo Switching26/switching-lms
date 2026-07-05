@@ -130,11 +130,22 @@ export default function UsersTable({
   const [newAssignFormation, setNewAssignFormation] = useState(false)
 
   // Actions dropdown
+  // Two separate refs: the mobile card (.lg:hidden) and the desktop table
+  // (.hidden.lg:block) are BOTH mounted in the DOM at once — only `display`
+  // differs by breakpoint. A single shared ref bound to both containers of the
+  // same row ends up pointing at the last-rendered one (desktop), so on mobile
+  // the outside-click handler saw the tap on "Modifier" as OUTSIDE the menu and
+  // closed it on mousedown before the click reached openEdit() → modale never
+  // opened. Keeping one ref per variant fixes the mobile edit flow.
   const [openMenuId, setOpenMenuId] = useState<string | null>(null)
-  const menuRef = useRef<HTMLDivElement>(null)
+  const mobileMenuRef = useRef<HTMLDivElement>(null)
+  const desktopMenuRef = useRef<HTMLDivElement>(null)
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+      const target = e.target as Node
+      const insideMobile = mobileMenuRef.current?.contains(target)
+      const insideDesktop = desktopMenuRef.current?.contains(target)
+      if (!insideMobile && !insideDesktop) {
         setOpenMenuId(null)
       }
     }
@@ -613,7 +624,7 @@ export default function UsersTable({
           />
           <button
             onClick={() => { setModalMessage(""); setCreateOpen(true) }}
-            className="px-4 py-2 bg-black text-white text-sm rounded-lg hover:opacity-90 transition-opacity whitespace-nowrap shrink-0"
+            className="px-4 py-2 bg-primary text-white text-sm rounded-lg hover:opacity-90 transition-opacity whitespace-nowrap shrink-0"
             style={{ minHeight: 44 }}
           >
             + Nouvel utilisateur
@@ -667,7 +678,7 @@ export default function UsersTable({
                   )}
                 </div>
               ) : (
-                <div className="relative flex justify-end" ref={openMenuId === u.id ? menuRef : undefined}>
+                <div className="relative flex justify-end" ref={openMenuId === u.id ? mobileMenuRef : undefined}>
                   <button
                     onClick={() => setOpenMenuId(openMenuId === u.id ? null : u.id)}
                     className="w-11 h-11 flex items-center justify-center rounded-lg hover:bg-gray-100 transition-colors text-gray-500 hover:text-gray-800"
@@ -680,10 +691,10 @@ export default function UsersTable({
                     </svg>
                   </button>
                   {openMenuId === u.id && (
-                    <div style={{ position: "fixed", left: 16, right: 16, bottom: 16, background: "white", border: "0.5px solid #E5E5E5", borderRadius: 12, boxShadow: "0 -4px 24px rgba(0,0,0,0.15)", zIndex: 50, overflow: "hidden" }}>
-                      <div className="px-4 py-3 border-b border-gray-100 flex items-center justify-between">
+                    <div className="max-h-[80dvh] overflow-y-auto" style={{ position: "fixed", left: 16, right: 16, bottom: 16, background: "white", border: "0.5px solid #E5E5E5", borderRadius: 12, boxShadow: "0 -4px 24px rgba(0,0,0,0.15)", zIndex: 50 }}>
+                      <div className="px-4 py-2 border-b border-gray-100 flex items-center justify-between">
                         <span className="text-sm font-medium">{u.firstName} {u.lastName}</span>
-                        <button onClick={() => setOpenMenuId(null)} className="text-gray-400 text-lg">&times;</button>
+                        <button onClick={() => setOpenMenuId(null)} aria-label="Fermer" className="w-11 h-11 -mr-2 flex items-center justify-center text-gray-400 hover:text-gray-600 text-xl leading-none">&times;</button>
                       </div>
                       <button onClick={() => { setOpenMenuId(null); openEdit(u) }} className="w-full text-left px-4 py-3 text-sm hover:bg-gray-50 transition-colors">Modifier</button>
                       <button onClick={() => { setOpenMenuId(null); setModalMessage(""); setPasswordModal(u.id); setPw(""); setPwConfirm("") }} className="w-full text-left px-4 py-3 text-sm hover:bg-gray-50 transition-colors">Changer mot de passe</button>
@@ -753,7 +764,7 @@ export default function UsersTable({
                     <span className="text-gray-300">—</span>
                   )}
                 </td>
-                <td className="px-4 py-3 text-sm text-gray-500">{u.email}</td>
+                <td className="px-4 py-3 text-sm text-gray-500"><span className="block truncate max-w-[220px]" title={u.email}>{u.email}</span></td>
                 {!isPartnerAdmin && (
                   <td className="px-4 py-3">
                     {u.partner ? (
@@ -794,7 +805,7 @@ export default function UsersTable({
                       )}
                     </div>
                   ) : (
-                    <div className="relative flex justify-end" ref={openMenuId === u.id ? menuRef : undefined}>
+                    <div className="relative flex justify-end" ref={openMenuId === u.id ? desktopMenuRef : undefined}>
                       <button
                         onClick={() => setOpenMenuId(openMenuId === u.id ? null : u.id)}
                         className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 transition-colors text-gray-500 hover:text-gray-800"
@@ -887,7 +898,7 @@ export default function UsersTable({
             <button
               onClick={handleSendPasswordReset}
               disabled={resetSending}
-              className="flex-1 py-2.5 bg-black text-white text-sm rounded-lg hover:opacity-90 disabled:opacity-50"
+              className="flex-1 py-2.5 bg-primary text-white text-sm rounded-lg hover:opacity-90 disabled:opacity-50"
             >
               {resetSending ? "Envoi..." : "OK, envoyer"}
             </button>
@@ -904,10 +915,11 @@ export default function UsersTable({
             {/* Personal info */}
             <div>
               <h3 className="text-sm font-semibold text-gray-500 mb-3">Informations personnelles</h3>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium mb-1">Prénom</label>
                   <input
+                    type="text"
                     value={editFirstName}
                     onChange={(e) => setEditFirstName(e.target.value)}
                     className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-black"
@@ -916,6 +928,7 @@ export default function UsersTable({
                 <div>
                   <label className="block text-sm font-medium mb-1">Nom</label>
                   <input
+                    type="text"
                     value={editLastName}
                     onChange={(e) => setEditLastName(e.target.value)}
                     className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-black"
@@ -934,6 +947,7 @@ export default function UsersTable({
               <div className="mt-3">
                 <label className="block text-sm font-medium mb-1">Référence interne (optionnel)</label>
                 <input
+                  type="text"
                   value={editReference}
                   onChange={(e) => setEditReference(e.target.value)}
                   placeholder="Ex: 2024-001, MAT-123, DOSSIER-456..."
@@ -955,12 +969,15 @@ export default function UsersTable({
                 </div>
                 <button
                   onClick={() => setEditIsActive(!editIsActive)}
-                  className={`relative w-10 h-5 rounded-full transition-colors ${editIsActive ? "bg-green-500" : "bg-gray-300"}`}
+                  aria-label="Statut du compte"
+                  className="flex items-center justify-center min-w-[44px] min-h-[44px] shrink-0 -mr-2"
                 >
-                  <span className={`absolute top-0.5 w-4 h-4 bg-white rounded-full transition-transform ${editIsActive ? "translate-x-5" : "translate-x-0.5"}`} />
+                  <span className={`relative block w-10 h-5 rounded-full transition-colors ${editIsActive ? "bg-green-500" : "bg-gray-300"}`}>
+                    <span className={`absolute top-0.5 w-4 h-4 bg-white rounded-full transition-transform ${editIsActive ? "translate-x-5" : "translate-x-0.5"}`} />
+                  </span>
                 </button>
               </div>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium mb-1">Date de début</label>
                   <input
@@ -1003,7 +1020,7 @@ export default function UsersTable({
             {!isPartnerAdmin && (
               <div>
                 <h3 className="text-sm font-semibold text-gray-500 mb-3">Appartenance et rôle</h3>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium mb-1">Partenaire</label>
                     <select
@@ -1040,7 +1057,7 @@ export default function UsersTable({
               <button
                 onClick={handleEdit}
                 disabled={editSaving}
-                className="flex-1 py-2.5 bg-black text-white text-sm rounded-lg hover:opacity-90 disabled:opacity-50"
+                className="flex-1 py-2.5 bg-primary text-white text-sm rounded-lg hover:opacity-90 disabled:opacity-50"
               >
                 {editSaving ? "Enregistrement..." : "Enregistrer les modifications"}
               </button>
@@ -1062,7 +1079,7 @@ export default function UsersTable({
             <button onClick={() => setArchiveModal(null)} className="flex-1 py-2.5 bg-gray-100 text-sm rounded-lg hover:bg-gray-200 transition-colors">
               Annuler
             </button>
-            <button onClick={handleArchive} className="flex-1 py-2.5 bg-black text-white text-sm rounded-lg hover:opacity-90">
+            <button onClick={handleArchive} className="flex-1 py-2.5 bg-primary text-white text-sm rounded-lg hover:opacity-90">
               Archiver
             </button>
           </div>
@@ -1092,14 +1109,14 @@ export default function UsersTable({
         <div className="space-y-4">
           <FeedbackBanner message={modalMessage} />
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium mb-1">Prénom</label>
-              <input value={newFirstName} onChange={(e) => setNewFirstName(e.target.value)} className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-black" />
+              <input type="text" value={newFirstName} onChange={(e) => setNewFirstName(e.target.value)} className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-black" />
             </div>
             <div>
               <label className="block text-sm font-medium mb-1">Nom</label>
-              <input value={newLastName} onChange={(e) => setNewLastName(e.target.value)} className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-black" />
+              <input type="text" value={newLastName} onChange={(e) => setNewLastName(e.target.value)} className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-black" />
             </div>
           </div>
           <div>
@@ -1109,6 +1126,7 @@ export default function UsersTable({
           <div>
             <label className="block text-sm font-medium mb-1">Référence interne (optionnel)</label>
             <input
+              type="text"
               value={newReference}
               onChange={(e) => setNewReference(e.target.value)}
               placeholder="Ex: 2024-001, MAT-123, DOSSIER-456..."
@@ -1145,9 +1163,12 @@ export default function UsersTable({
               </div>
               <button
                 onClick={() => setNewAssignFormation(!newAssignFormation)}
-                className={`relative w-10 h-5 rounded-full transition-colors ${newAssignFormation ? "bg-green-500" : "bg-gray-300"}`}
+                aria-label="Attribuer une formation"
+                className="flex items-center justify-center min-w-[44px] min-h-[44px] shrink-0 -mr-2"
               >
-                <span className={`absolute top-0.5 w-4 h-4 bg-white rounded-full transition-transform ${newAssignFormation ? "translate-x-5" : "translate-x-0.5"}`} />
+                <span className={`relative block w-10 h-5 rounded-full transition-colors ${newAssignFormation ? "bg-green-500" : "bg-gray-300"}`}>
+                  <span className={`absolute top-0.5 w-4 h-4 bg-white rounded-full transition-transform ${newAssignFormation ? "translate-x-5" : "translate-x-0.5"}`} />
+                </span>
               </button>
             </div>
             {newAssignFormation && (
@@ -1175,7 +1196,7 @@ export default function UsersTable({
           <div className="bg-blue-50 border border-blue-100 rounded-lg px-4 py-3">
             <p className="text-sm text-blue-700">Un email d&apos;activation sera envoyé automatiquement à l&apos;utilisateur pour qu&apos;il crée son mot de passe.</p>
           </div>
-          <button onClick={handleCreate} disabled={creating} className="w-full py-2.5 bg-black text-white text-sm rounded-lg hover:opacity-90 disabled:opacity-50">
+          <button onClick={handleCreate} disabled={creating} className="w-full py-2.5 bg-primary text-white text-sm rounded-lg hover:opacity-90 disabled:opacity-50">
             {creating ? "Création..." : "Créer et envoyer invitation"}
           </button>
         </div>
@@ -1216,7 +1237,7 @@ export default function UsersTable({
             <label className="block text-sm font-medium mb-1">Date d&apos;expiration (optionnel)</label>
             <input type="date" value={assignExpires} onChange={(e) => setAssignExpires(e.target.value)} className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-black" />
           </div>
-          <button onClick={handleAssign} disabled={assigning} className="w-full py-2.5 bg-black text-white text-sm rounded-lg hover:opacity-90 disabled:opacity-50">
+          <button onClick={handleAssign} disabled={assigning} className="w-full py-2.5 bg-primary text-white text-sm rounded-lg hover:opacity-90 disabled:opacity-50">
             {assigning ? "Attribution..." : "Attribuer"}
           </button>
         </div>
@@ -1241,7 +1262,7 @@ export default function UsersTable({
                 </div>
               ) : null
             })()}
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="bg-gray-50 rounded-lg p-3">
                 <p className="text-xs text-gray-500">Temps total</p>
                 <p className="text-sm font-semibold">{Math.round((progressData.totalTime || 0) / 60)} min</p>
@@ -1335,7 +1356,7 @@ export default function UsersTable({
             )}
             <a
               href={`/api/export/user-progress?userId=${progressModal}`}
-              className="inline-block px-4 py-2 bg-black text-white text-sm rounded-lg hover:opacity-90"
+              className="inline-block px-4 py-2 bg-primary text-white text-sm rounded-lg hover:opacity-90"
             >
               Export CSV
             </a>

@@ -48,5 +48,10 @@ export async function POST(req: Request) {
     include: { users: { where: { role: "PARTNER_ADMIN" }, take: 1 } },
   })
 
-  return NextResponse.json(partner, { status: 201 })
+  // Ne pas renvoyer le hash de mot de passe de l'admin créé.
+  const safePartner = {
+    ...partner,
+    users: partner.users.map(({ password, ...u }) => u),
+  }
+  return NextResponse.json(safePartner, { status: 201 })
 }

@@ -18,6 +18,11 @@ export async function GET(req: NextRequest) {
   const user = await getUserById(userId)
   if (!user) return NextResponse.json({ error: "Utilisateur introuvable" }, { status: 404 })
 
+  // Un admin partenaire ne peut exporter que le suivi de ses propres apprenants.
+  if (role === "PARTNER_ADMIN" && user.partnerId !== session.user.partnerId) {
+    return NextResponse.json({ error: "Accès refusé" }, { status: 403 })
+  }
+
   const progress = await getUserProgress(userId)
 
   const rows: string[][] = [
@@ -57,7 +62,15 @@ export async function GET(req: NextRequest) {
     })
   }
 
-  const csv = rows.map((r) => r.join(";")).join("\n")
+  // Échappement CSV : neutralise les séparateurs, guillemets, sauts de ligne et
+  // les préfixes d'injection de formule Excel (= + - @).
+  const escapeCsv = (value: string): string => {
+    let v = value ?? ""
+    if (/^[=+\-@]/.test(v)) v = "'" + v
+    if (/[";\n\r]/.test(v)) v = `"${v.replace(/"/g, '""')}"`
+    return v
+  }
+  const csv = rows.map((r) => r.map(escapeCsv).join(";")).join("\r\n")
 
   return new NextResponse(csv, {
     headers: {

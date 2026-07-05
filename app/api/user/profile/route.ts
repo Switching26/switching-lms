@@ -10,5 +10,6 @@ export async function PUT(req: Request) {
   const { firstName, lastName, email } = await req.json()
 
   const user = await updateUser(userId, { firstName, lastName, email })
-  return NextResponse.json({ success: true, user })
+  const { password, ...safeUser } = user as Record<string, any>
+  return NextResponse.json({ success: true, user: safeUser })
 }

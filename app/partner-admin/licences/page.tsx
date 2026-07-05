@@ -42,7 +42,7 @@ export default async function LicencesPage() {
         />
         <KPICard
           label="Taux d'utilisation"
-          value={`${usagePercent}%`}
+          value={hasUnlimited ? "Illimité" : `${usagePercent}%`}
           icon={
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" />
@@ -57,25 +57,32 @@ export default async function LicencesPage() {
           <span className="text-sm font-semibold text-primary">Utilisation globale</span>
           <span className="text-sm text-warm-500 font-medium tabular-nums">{usageLabel}</span>
         </div>
-        <div className="w-full bg-warm-100 rounded-full h-3 overflow-hidden">
-          <div
-            className="h-3 rounded-full transition-all duration-1000 ease-out relative"
-            style={{
-              width: `${hasUnlimited ? 100 : Math.max(usagePercent, 2)}%`,
-              background: hasUnlimited
-                ? "linear-gradient(90deg, #14b8a6, #0d9488)"
-                : usagePercent > 90
-                ? "linear-gradient(90deg, #ef4444, #dc2626)"
-                : usagePercent > 70
-                ? "linear-gradient(90deg, #f59e0b, #d97706)"
-                : "linear-gradient(90deg, #10b981, #059669)",
-            }}
-          >
-            {usagePercent > 0 && usagePercent < 100 && (
-              <div className="absolute inset-0 progress-shimmer rounded-full" />
-            )}
+        {hasUnlimited ? (
+          <div className="flex items-center gap-2">
+            <span className="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-semibold bg-teal-50 text-teal-700 border border-teal-100">
+              Licences illimitées
+            </span>
+            <span className="text-xs text-warm-500">Aucun plafond de places</span>
           </div>
-        </div>
+        ) : (
+          <div className="w-full bg-warm-100 rounded-full h-3 overflow-hidden">
+            <div
+              className="h-3 rounded-full transition-all duration-1000 ease-out relative"
+              style={{
+                width: `${Math.max(usagePercent, 2)}%`,
+                background: usagePercent > 90
+                  ? "linear-gradient(90deg, #ef4444, #dc2626)"
+                  : usagePercent > 70
+                  ? "linear-gradient(90deg, #f59e0b, #d97706)"
+                  : "linear-gradient(90deg, #10b981, #059669)",
+              }}
+            >
+              {usagePercent > 0 && usagePercent < 100 && (
+                <div className="absolute inset-0 progress-shimmer rounded-full" />
+              )}
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Detail par formation */}
@@ -83,7 +90,8 @@ export default async function LicencesPage() {
         <div className="px-6 py-4 border-b border-border">
           <h2 className="font-display text-base font-semibold text-primary">Détail par formation</h2>
         </div>
-        <table className="w-full">
+        <div className="overflow-x-auto">
+        <table className="w-full min-w-[560px]">
           <thead>
             <tr className="border-b border-warm-100 bg-warm-50/50">
               <th className="text-left text-[11px] font-semibold text-warm-500 uppercase tracking-wider px-6 py-3">Formation</th>
@@ -125,6 +133,7 @@ export default async function LicencesPage() {
             )}
           </tbody>
         </table>
+        </div>
       </div>
     </div>
   )

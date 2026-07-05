@@ -1,10 +1,30 @@
 import { prisma } from "@/lib/prisma"
 
+/**
+ * Retire les secrets (hash de mot de passe, secret SMTP du partenaire) avant
+ * qu'un objet utilisateur ne soit sérialisé vers un composant client / une API.
+ * Sans ça, `findMany({ include })` renvoie la colonne `password` dans le payload.
+ */
+function stripUserSecrets<T extends Record<string, any> | null>(user: T): T {
+  if (!user) return user
+  const { password, ...rest } = user as Record<string, any>
+  if (rest.partner && typeof rest.partner === "object") {
+    const { smtpPassword, ...partnerRest } = rest.partner
+    rest.partner = partnerRest
+  }
+  return rest as T
+}
+
+function stripUsersSecrets<T extends Record<string, any>>(users: T[]): T[] {
+  return users.map((u) => stripUserSecrets(u))
+}
+
 export async function getAllUsers() {
-  return prisma.user.findMany({
+  const users = await prisma.user.findMany({
     include: { partner: true, enrollments: { include: { formation: true } } },
     orderBy: { createdAt: "desc" },
   })
+  return stripUsersSecrets(users)
 }
 
 export async function getUsers(filter?: "all" | "internal" | "partner") {
@@ -12,39 +32,44 @@ export async function getUsers(filter?: "all" | "internal" | "partner") {
   if (filter === "internal") base.partnerId = null
   else if (filter === "partner") base.NOT = { partnerId: null }
 
-  return prisma.user.findMany({
+  const users = await prisma.user.findMany({
     where: base,
     include: { partner: true, enrollments: { include: { formation: true } } },
     orderBy: { createdAt: "desc" },
   })
+  return stripUsersSecrets(users)
 }
 
 export async function getArchivedUsers() {
-  return prisma.user.findMany({
+  const users = await prisma.user.findMany({
     where: { archivedAt: { not: null } },
     include: { partner: true, enrollments: { include: { formation: true } } },
     orderBy: { archivedAt: "desc" },
   })
+  return stripUsersSecrets(users)
 }
 
 export async function getAllUsersByPartner(partnerId: string) {
-  return prisma.user.findMany({
-    where: { partnerId },
+  // Vue admin partenaire : ne pas exposer les comptes archivés.
+  const users = await prisma.user.findMany({
+    where: { partnerId, archivedAt: null },
     include: { partner: true, enrollments: { include: { formation: true } } },
     orderBy: { createdAt: "desc" },
   })
+  return stripUsersSecrets(users)
 }
 
 export async function getUsersByPartner(partnerId: string) {
-  return prisma.user.findMany({
+  const users = await prisma.user.findMany({
     where: { partnerId },
     include: { partner: true, enrollments: { include: { formation: true } } },
     orderBy: { createdAt: "desc" },
   })
+  return stripUsersSecrets(users)
 }
 
 export async function getUserById(id: string) {
-  return prisma.user.findUnique({
+  const user = await prisma.user.findUnique({
     where: { id },
     include: {
       partner: true,
@@ -54,6 +79,7 @@ export async function getUserById(id: string) {
       notes: true,
     },
   })
+  return stripUserSecrets(user)
 }
 
 export async function getUserProgress(userId: string) {

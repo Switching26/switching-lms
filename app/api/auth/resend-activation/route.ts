@@ -37,7 +37,13 @@ export async function POST(req: Request) {
       include: { partner: true },
     })
 
-    if (user) {
+    // Ne (ré)envoyer une activation que pour un compte réellement en attente
+    // d'activation : jamais un compte déjà actif, archivé, ou migré depuis
+    // RiseUp (import silencieux — aucun email tant que Samuel n'a pas donné le GO).
+    const isMigratedRiseup = user?.reference?.startsWith("RISEUP-") ?? false
+    const eligible = !!user && !user.isActive && !user.archivedAt && !isMigratedRiseup
+
+    if (user && eligible) {
       canReadDelivery = session?.user?.role === "SUPER_ADMIN" ||
         (session?.user?.role === "PARTNER_ADMIN" && session.user.partnerId === user.partnerId)
 

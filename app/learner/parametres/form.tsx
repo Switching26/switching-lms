@@ -67,10 +67,11 @@ export default function SettingsForm({ user }: { user: User }) {
 
       <form onSubmit={handleProfile} className="bg-white rounded-xl border border-border p-6 space-y-4">
         <h2 className="text-base font-semibold">Informations personnelles</h2>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium mb-1">Prénom</label>
             <input
+              type="text"
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
               className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-primary"
@@ -79,6 +80,7 @@ export default function SettingsForm({ user }: { user: User }) {
           <div>
             <label className="block text-sm font-medium mb-1">Nom</label>
             <input
+              type="text"
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
               className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-primary"

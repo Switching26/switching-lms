@@ -99,6 +99,7 @@ export default function AppearanceForm({ partner }: { partner: Partner }) {
         <div>
           <label className="block text-sm font-medium mb-1">Nom affiché</label>
           <input
+            type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
             className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-primary"
@@ -114,7 +115,8 @@ export default function AppearanceForm({ partner }: { partner: Partner }) {
               <button
                 type="button"
                 onClick={() => setLogoUrl("")}
-                className="absolute -top-1 -right-1 bg-white rounded-full w-4 h-4 flex items-center justify-center text-[10px] text-red-500 shadow border border-border"
+                aria-label="Supprimer le logo"
+                className="absolute -top-2 -right-2 bg-white rounded-full w-7 h-7 flex items-center justify-center text-xs text-red-500 shadow border border-border"
               >
                 ✕
               </button>
@@ -154,7 +156,8 @@ export default function AppearanceForm({ partner }: { partner: Partner }) {
               <button
                 type="button"
                 onClick={() => setFaviconUrl("")}
-                className="absolute -top-1 -right-1 bg-white rounded-full w-4 h-4 flex items-center justify-center text-[10px] text-red-500 shadow border border-border"
+                aria-label="Supprimer le favicon"
+                className="absolute -top-2 -right-2 bg-white rounded-full w-7 h-7 flex items-center justify-center text-xs text-red-500 shadow border border-border"
               >
                 ✕
               </button>
@@ -183,7 +186,7 @@ export default function AppearanceForm({ partner }: { partner: Partner }) {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium mb-1">Couleur principale</label>
             <div className="flex items-center gap-2">
@@ -194,9 +197,10 @@ export default function AppearanceForm({ partner }: { partner: Partner }) {
                 className="w-10 h-10 rounded border border-border cursor-pointer"
               />
               <input
+                type="text"
                 value={primaryColor}
                 onChange={(e) => setPrimaryColor(e.target.value)}
-                className="flex-1 px-3 py-2 text-sm border border-border rounded-lg outline-none font-mono"
+                className="flex-1 min-w-0 px-3 py-2 text-sm border border-border rounded-lg outline-none font-mono"
               />
             </div>
             {primaryColor && !isValidHex(primaryColor) && (
@@ -213,9 +217,10 @@ export default function AppearanceForm({ partner }: { partner: Partner }) {
                 className="w-10 h-10 rounded border border-border cursor-pointer"
               />
               <input
+                type="text"
                 value={secondaryColor}
                 onChange={(e) => setSecondaryColor(e.target.value)}
-                className="flex-1 px-3 py-2 text-sm border border-border rounded-lg outline-none font-mono"
+                className="flex-1 min-w-0 px-3 py-2 text-sm border border-border rounded-lg outline-none font-mono"
               />
             </div>
             {secondaryColor && !isValidHex(secondaryColor) && (
@@ -228,7 +233,8 @@ export default function AppearanceForm({ partner }: { partner: Partner }) {
           <button
             type="submit"
             disabled={loading}
-            className="px-4 py-2 bg-primary text-white text-sm rounded-lg hover:opacity-90 disabled:opacity-50"
+            style={{ backgroundColor: "var(--partner-primary, #4F46E5)" }}
+            className="px-4 py-2 text-white text-sm rounded-lg hover:opacity-90 disabled:opacity-50"
           >
             {loading ? "Enregistrement..." : "Enregistrer"}
           </button>

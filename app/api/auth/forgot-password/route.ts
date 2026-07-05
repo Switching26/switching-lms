@@ -33,7 +33,7 @@ export async function POST(req: Request) {
       include: { partner: true },
     })
 
-    if (user && user.isActive) {
+    if (user && user.isActive && !user.archivedAt) {
       const token = await generateToken(user.id, "RESET")
       const baseUrl = getBaseUrl()
       const partnerParam = user.partner?.slug ? `&partner=${user.partner.slug}` : ""

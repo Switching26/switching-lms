@@ -5,6 +5,7 @@ import { sendEmail } from "@/lib/email"
 import { formationAssignedEmail } from "@/lib/email-templates"
 import { resolveTemplate, replaceVariables } from "@/lib/email-template-engine"
 import { getBaseUrl } from "@/lib/get-base-url"
+import { hasAvailableSeat, recomputeLicenseSeats } from "@/lib/licenses"
 
 export async function POST(req: NextRequest, { params }: { params: { userId: string } }) {
   const session = await auth()
@@ -24,12 +25,23 @@ export async function POST(req: NextRequest, { params }: { params: { userId: str
     return NextResponse.json({ error: "Utilisateur introuvable" }, { status: 404 })
   }
 
+  // Ne pas inscrire (ni notifier) un compte archivé.
+  if (user.archivedAt) {
+    return NextResponse.json({ error: "Utilisateur archivé" }, { status: 400 })
+  }
+
   // Partner admin scope check
   if (role === "PARTNER_ADMIN") {
     const adminPartnerId = session.user.partnerId
     if (user.partnerId !== adminPartnerId) {
       return NextResponse.json({ error: "Accès refusé" }, { status: 403 })
     }
+  }
+
+  // La formation doit exister (évite une erreur FK brute 500).
+  const formationExists = await prisma.formation.findUnique({ where: { id: formationId }, select: { id: true } })
+  if (!formationExists) {
+    return NextResponse.json({ error: "Formation introuvable" }, { status: 404 })
   }
 
   // Check existing enrollment
@@ -40,32 +52,36 @@ export async function POST(req: NextRequest, { params }: { params: { userId: str
     return NextResponse.json({ error: "Déjà inscrit à cette formation — aucun nouvel email n'a été envoyé" }, { status: 400 })
   }
 
-  // If user has a partner, deduct a license
+  // Vérifier la disponibilité d'un siège de licence AVANT de créer l'inscription.
   if (user.partnerId) {
-    const license = await prisma.license.findUnique({
-      where: { partnerId_formationId: { partnerId: user.partnerId, formationId } },
-    })
-    if (license) {
-      if (!license.isUnlimited && license.usedSeats >= license.totalSeats) {
-        return NextResponse.json({ error: "Plus de licences disponibles" }, { status: 400 })
-      }
-      await prisma.license.update({
-        where: { id: license.id },
-        data: { usedSeats: { increment: 1 } },
-      })
+    const seatOk = await hasAvailableSeat(user.partnerId, formationId)
+    if (!seatOk) {
+      return NextResponse.json({ error: "Plus de licences disponibles" }, { status: 400 })
     }
   }
 
-  const enrollment = await prisma.enrollment.create({
-    data: {
-      userId: params.userId,
-      formationId,
-      startedAt: startedAt ? new Date(startedAt) : new Date(),
-      expiresAt: expiresAt ? new Date(expiresAt) : null,
-      assignedByPartnerId: user.partnerId || null,
-    },
-    include: { formation: true },
-  })
+  let enrollment
+  try {
+    enrollment = await prisma.enrollment.create({
+      data: {
+        userId: params.userId,
+        formationId,
+        startedAt: startedAt ? new Date(startedAt) : new Date(),
+        expiresAt: expiresAt ? new Date(expiresAt) : null,
+        assignedByPartnerId: user.partnerId || null,
+      },
+      include: { formation: true },
+    })
+  } catch (e: any) {
+    // Course concurrente sur la contrainte unique (userId, formationId).
+    if (e?.code === "P2002") {
+      return NextResponse.json({ error: "Déjà inscrit à cette formation" }, { status: 400 })
+    }
+    throw e
+  }
+
+  // Recalculer le compteur de sièges à partir des inscriptions réelles.
+  await recomputeLicenseSeats(user.partnerId, formationId)
 
   let emailSent = false
 

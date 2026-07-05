@@ -24,12 +24,14 @@ export default function Modal({
   return (
     <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center">
       <div className="fixed inset-0 bg-black/40" onClick={onClose} />
-      <div className="relative bg-white sm:rounded-xl rounded-t-xl border border-border shadow-lg w-full sm:max-w-2xl max-h-[90vh] sm:max-h-[85vh] overflow-y-auto sm:m-4 p-5 sm:p-6">
-        <div className="flex items-center justify-between mb-4">
+      <div className="relative flex flex-col bg-white sm:rounded-xl rounded-t-xl border border-border shadow-lg w-full sm:max-w-2xl max-h-[90dvh] sm:m-4">
+        <div className="flex items-center justify-between px-5 pt-5 pb-4 sm:px-6 sm:pt-6 border-b border-border">
           <h2 className="text-lg font-semibold">{title}</h2>
-          <button onClick={onClose} className="text-gray-400 hover:text-gray-600 text-xl leading-none w-8 h-8 flex items-center justify-center">&times;</button>
+          <button onClick={onClose} className="text-gray-400 hover:text-gray-600 text-xl leading-none w-11 h-11 flex items-center justify-center shrink-0 -mr-2">&times;</button>
         </div>
-        {children}
+        <div className="overflow-y-auto px-5 py-5 sm:px-6 sm:py-6">
+          {children}
+        </div>
       </div>
     </div>
   )

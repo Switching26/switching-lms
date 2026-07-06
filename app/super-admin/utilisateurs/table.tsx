@@ -874,6 +874,7 @@ export default function UsersTable({
           <thead>
             <tr className="border-b border-border">
               <th className="text-left text-xs font-medium text-gray-500 px-4 py-3">Nom</th>
+              <th className="text-left text-xs font-medium text-gray-500 px-4 py-3">Rôle</th>
               <th className="text-left text-xs font-medium text-gray-500 px-4 py-3">Référence</th>
               <th className="text-left text-xs font-medium text-gray-500 px-4 py-3">Email</th>
               {!isPartnerAdmin && <th className="text-left text-xs font-medium text-gray-500 px-4 py-3">Appartenance</th>}
@@ -886,15 +887,16 @@ export default function UsersTable({
             {filtered.map((u) => (
               <tr key={u.id} className={`border-b border-gray-50 hover:bg-gray-50 transition-colors ${isArchived(u) ? "opacity-60" : ""}`}>
                 <td className="px-4 py-3">
-                  <div>
-                    <span className="text-sm font-medium">{u.firstName} {u.lastName}</span>
-                    {u.role === "PARTNER_ADMIN" && (
-                      <Badge variant="purple">Admin</Badge>
-                    )}
-                    {u.role === "SUPER_ADMIN" && (
-                      <Badge variant="error">Super Admin</Badge>
-                    )}
-                  </div>
+                  <span className="text-sm font-medium">{u.firstName} {u.lastName}</span>
+                </td>
+                <td className="px-4 py-3">
+                  {u.role === "SUPER_ADMIN" ? (
+                    <Badge variant="error">Super admin</Badge>
+                  ) : u.role === "PARTNER_ADMIN" ? (
+                    <Badge variant="purple">Admin</Badge>
+                  ) : (
+                    <Badge variant="default">Apprenant</Badge>
+                  )}
                 </td>
                 <td className="px-4 py-3 text-sm">
                   {u.reference ? (

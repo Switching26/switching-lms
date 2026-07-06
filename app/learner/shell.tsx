@@ -9,7 +9,6 @@ const items = [
   { label: "Messages", href: "/learner/messages" },
   { label: "Mes notes", href: "/learner/notes" },
   { label: "Documents", href: "/learner/documents" },
-  { label: "Paramètres", href: "/learner/parametres" },
 ]
 
 export default function LearnerShell({

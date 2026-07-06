@@ -104,7 +104,10 @@ export default function TopNav({
       : "/learner"
   const settingsHref = `${roleRoot}/parametres`
   const accountHref = `${roleRoot}/mon-compte`
-  const showSettings = roleRoot !== "/partner-admin"
+  // "Paramètres" = page dédiée (config email/Vimeo/stockage) réservée au super-admin.
+  // L'apprenant et l'admin partenaire gèrent profil + mot de passe via "Mon compte"
+  // (fusion Mon compte / Paramètres côté apprenant, 06/07/2026).
+  const showSettings = roleRoot === "/super-admin"
 
   // Items affichés (Paramètres extrait dans bouton à droite)
   const visibleItems = items.filter((i) => !i.label.toLowerCase().includes("paramètre"))

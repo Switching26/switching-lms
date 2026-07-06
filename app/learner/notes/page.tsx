@@ -45,6 +45,7 @@ export default async function NotesPage({ searchParams }: { searchParams: Promis
         basePath="/learner/notes"
       />
       <NotesEditor
+        key={enrollment.formationId}
         chapters={JSON.parse(JSON.stringify(chapters))}
         userId={userId}
         formationId={enrollment.formationId}

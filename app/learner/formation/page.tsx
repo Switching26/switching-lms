@@ -75,6 +75,7 @@ export default async function FormationPage({ searchParams }: { searchParams: Pr
         basePath="/learner/formation"
       />
       <FormationPlayer
+        key={enrollment.formationId}
         formationTitle={enrollment.formation.title}
         formationCoverUrl={enrollment.formation.coverImageUrl || null}
         chapters={JSON.parse(JSON.stringify(chapters))}

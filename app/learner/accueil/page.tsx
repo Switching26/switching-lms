@@ -39,6 +39,7 @@ export default async function LearnerAccueil() {
   const progressList = await getLearnerProgress(userId)
 
   // Compute progress per formation
+  const now = new Date()
   const formationStats = enrollments.map((e, idx) => {
     const chapters = e.formation.chapters
     const completed = progressList.filter((p) => p.completedAt && chapters.some((c: { id: string }) => c.id === p.chapterId)).length
@@ -50,6 +51,7 @@ export default async function LearnerAccueil() {
       completed,
       total,
       pct,
+      expired: !!(e.expiresAt && new Date(e.expiresAt) < now),
       gradient: COVER_GRADIENTS[idx % COVER_GRADIENTS.length],
     }
   })
@@ -103,7 +105,7 @@ export default async function LearnerAccueil() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {formationStats.map(({ formation, completed, total, pct, gradient, enrollment }) => (
+          {formationStats.map(({ formation, completed, total, pct, gradient, enrollment, expired }) => (
             <Link
               key={formation.id}
               href={`/learner/formation?id=${formation.id}`}
@@ -121,9 +123,9 @@ export default async function LearnerAccueil() {
                     <span className="font-display text-5xl font-bold text-white/40">{initials(formation.title)}</span>
                   </div>
                 )}
-                {/* Badge progress */}
-                <div className="absolute top-3 right-3 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-white/95 text-ink shadow-sm backdrop-blur">
-                  {pct}%
+                {/* Badge progress / expiré */}
+                <div className={`absolute top-3 right-3 px-2.5 py-1 rounded-full text-[11px] font-semibold shadow-sm backdrop-blur ${expired ? "bg-red-600/95 text-white" : "bg-white/95 text-ink"}`}>
+                  {expired ? "Accès expiré" : `${pct}%`}
                 </div>
                 {/* Badge sections count */}
                 <div className="absolute bottom-3 left-3 px-2.5 py-1 rounded-full text-[11px] font-medium bg-white/90 text-ink-70 backdrop-blur">
@@ -146,8 +148,8 @@ export default async function LearnerAccueil() {
                   </div>
                   <div className="flex items-center justify-between text-xs text-ink-50">
                     <span className="tabular-nums">{completed} / {total} chapitres</span>
-                    <span className="text-brand-600 font-semibold group-hover:translate-x-0.5 transition-transform">
-                      {pct === 0 ? "Commencer →" : pct >= 100 ? "Revoir →" : "Reprendre →"}
+                    <span className={`font-semibold group-hover:translate-x-0.5 transition-transform ${expired ? "text-red-600" : "text-brand-600"}`}>
+                      {expired ? "Accès expiré" : pct === 0 ? "Commencer →" : pct >= 100 ? "Revoir →" : "Reprendre →"}
                     </span>
                   </div>
                 </div>

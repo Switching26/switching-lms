@@ -63,6 +63,7 @@ export async function getLearnerEnrollments(userId: string) {
 export async function getLearnerFormation(userId: string) {
   const enrollment = await prisma.enrollment.findFirst({
     where: { userId, formation: { deletedAt: null } },
+    orderBy: { startedAt: "asc" },
     include: {
       formation: {
         include: {

@@ -127,6 +127,30 @@ export async function getLearnerFormationById(userId: string, formationId?: stri
   return getLearnerFormation(userId)
 }
 
+/**
+ * Toutes les formations de l'apprenant avec leurs documents (pièces jointes de
+ * formation + pièces jointes de chapitre), pour la page « Documents » globale.
+ */
+export async function getLearnerFormationsWithDocuments(userId: string) {
+  const enrollments = await prisma.enrollment.findMany({
+    where: { userId, formation: { deletedAt: null } },
+    orderBy: { startedAt: "asc" },
+    include: {
+      formation: {
+        include: {
+          sections: { orderBy: { order: "asc" } },
+          attachments: true,
+          chapters: {
+            orderBy: { order: "asc" },
+            include: { section: true, attachments: true },
+          },
+        },
+      },
+    },
+  })
+  return enrollments.map(withSortedFormationChapters)
+}
+
 export async function getLearnerProgress(userId: string) {
   return prisma.progress.findMany({
     where: { userId },

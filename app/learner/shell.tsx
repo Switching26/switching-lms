@@ -4,8 +4,7 @@ import TopNav from "@/components/layout/TopNav"
 import ImpersonationBanner from "@/components/layout/ImpersonationBanner"
 
 const items = [
-  { label: "Accueil", href: "/learner/accueil" },
-  { label: "Ma formation", href: "/learner/formation" },
+  { label: "Mes formations", href: "/learner/accueil" },
   { label: "Messages", href: "/learner/messages" },
   { label: "Mes notes", href: "/learner/notes" },
   { label: "Documents", href: "/learner/documents" },

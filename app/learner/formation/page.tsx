@@ -1,14 +1,13 @@
 import { auth } from "@/lib/auth"
 import { redirect } from "next/navigation"
+import Link from "next/link"
 import {
-  getLearnerEnrollments,
   getLearnerFormationById,
   getLearnerProgress,
   hasDeletedEnrollment,
 } from "@/lib/data/formations"
 import { getUserNotesForFormation } from "@/lib/data/notes"
 import FormationPlayer from "./player"
-import FormationSwitcher from "@/components/learner/FormationSwitcher"
 
 export default async function FormationPage({ searchParams }: { searchParams: Promise<{ id?: string; chapitre?: string }> }) {
   const session = await auth()
@@ -17,7 +16,11 @@ export default async function FormationPage({ searchParams }: { searchParams: Pr
   const userId = session.user.id
   const { id: formationId, chapitre: requestedChapterId } = await searchParams
 
-  const allEnrollments = await getLearnerEnrollments(userId)
+  // Modèle liste → détail : on entre dans une formation en la choisissant depuis
+  // « Mes formations ». Sans formation ciblée, on renvoie vers la liste (plus de
+  // player « par défaut » ni de barre de bascule d'une formation à l'autre).
+  if (!formationId) redirect("/learner/accueil")
+
   const enrollment = await getLearnerFormationById(userId, formationId)
   const progressList = await getLearnerProgress(userId)
 
@@ -62,18 +65,23 @@ export default async function FormationPage({ searchParams }: { searchParams: Pr
   const initialNotes: Record<string, string> = {}
   notes.forEach((n) => { initialNotes[n.chapterId] = n.content })
 
-  const switcherFormations = allEnrollments.map((e) => ({
-    id: e.formation.id,
-    title: e.formation.title,
-  }))
-
   return (
     <div>
-      <FormationSwitcher
-        formations={switcherFormations}
-        currentId={enrollment.formationId}
-        basePath="/learner/formation"
-      />
+      <Link
+        href="/learner/accueil"
+        className="group inline-flex items-center gap-1.5 mb-5 text-sm font-medium text-ink-50 hover:text-primary transition-colors"
+      >
+        <svg
+          className="w-4 h-4 transition-transform group-hover:-translate-x-0.5"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          strokeWidth={2}
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+        </svg>
+        Mes formations
+      </Link>
       <FormationPlayer
         key={enrollment.formationId}
         formationTitle={enrollment.formation.title}

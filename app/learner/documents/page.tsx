@@ -1,7 +1,6 @@
 import { auth } from "@/lib/auth"
 import { redirect } from "next/navigation"
-import { getLearnerEnrollments, getLearnerFormationById } from "@/lib/data/formations"
-import FormationSwitcher from "@/components/learner/FormationSwitcher"
+import { getLearnerFormationsWithDocuments } from "@/lib/data/formations"
 
 function toRelativeFileUrl(url: string): string {
   if (url.startsWith("/api/files/")) return url
@@ -13,17 +12,14 @@ function toRelativeFileUrl(url: string): string {
   return url
 }
 
-export default async function DocumentsPage({ searchParams }: { searchParams: Promise<{ id?: string }> }) {
+export default async function DocumentsPage() {
   const session = await auth()
   if (!session) redirect("/login")
 
   const userId = session.user.id
-  const { id: formationId } = await searchParams
+  const enrollments = await getLearnerFormationsWithDocuments(userId)
 
-  const allEnrollments = await getLearnerEnrollments(userId)
-  const enrollment = await getLearnerFormationById(userId, formationId)
-
-  if (!enrollment) {
+  if (enrollments.length === 0) {
     return (
       <div className="text-center py-20">
         <h1 className="font-display text-xl font-semibold text-ink">Aucune formation</h1>
@@ -31,51 +27,58 @@ export default async function DocumentsPage({ searchParams }: { searchParams: Pr
     )
   }
 
-  const chaptersWithDocs = enrollment.formation.chapters.filter(
-    (ch: any) => ch.attachments && ch.attachments.length > 0
-  )
+  // Documents de toutes les formations, groupés par formation (plus de bascule).
+  const formationsDocs = enrollments.map((e) => {
+    const formation = e.formation as any
+    const formationAttachments = formation.attachments || []
+    const chaptersWithDocs = (formation.chapters || []).filter(
+      (ch: any) => ch.attachments && ch.attachments.length > 0
+    )
+    return {
+      id: formation.id,
+      title: formation.title,
+      formationAttachments,
+      chaptersWithDocs,
+      hasAny: formationAttachments.length > 0 || chaptersWithDocs.length > 0,
+    }
+  })
 
-  const formationAttachments = (enrollment.formation as any).attachments || []
-
-  const switcherFormations = allEnrollments.map((e) => ({
-    id: e.formation.id,
-    title: e.formation.title,
-  }))
+  const anyDoc = formationsDocs.some((f) => f.hasAny)
 
   return (
-    <div>
-      <FormationSwitcher
-        formations={switcherFormations}
-        currentId={enrollment.formationId}
-        basePath="/learner/documents"
-      />
-
-      <div className="mb-6">
+    <div className="space-y-8">
+      <header>
         <h1 className="font-display text-2xl sm:text-3xl font-semibold text-ink">Documents</h1>
-        <p className="text-ink-50 mt-1">Téléchargez les supports de votre formation.</p>
-      </div>
+        <p className="text-ink-50 mt-1">Tous les supports de vos formations à télécharger.</p>
+      </header>
 
-      <div className="space-y-4">
-        {formationAttachments.length > 0 && (
-          <div className="card p-5 sm:p-6">
-            <h2 className="text-sm font-semibold uppercase tracking-wider text-ink-50 mb-3">Documents de la formation</h2>
-            <DocList docs={formationAttachments} />
-          </div>
-        )}
+      {!anyDoc ? (
+        <div className="card p-8 text-center">
+          <p className="text-sm text-ink-50">Aucun document disponible pour le moment.</p>
+        </div>
+      ) : (
+        formationsDocs
+          .filter((f) => f.hasAny)
+          .map((f) => (
+            <section key={f.id} className="space-y-4">
+              <h2 className="font-display text-lg font-semibold text-ink border-b border-ink-10 pb-2">{f.title}</h2>
 
-        {chaptersWithDocs.length === 0 && formationAttachments.length === 0 ? (
-          <div className="card p-8 text-center">
-            <p className="text-sm text-ink-50">Aucun document disponible pour cette formation.</p>
-          </div>
-        ) : (
-          chaptersWithDocs.map((chapter: any) => (
-            <div key={chapter.id} className="card p-5 sm:p-6">
-              <h2 className="font-display text-base font-semibold text-ink mb-3">{chapter.title}</h2>
-              <DocList docs={chapter.attachments} />
-            </div>
+              {f.formationAttachments.length > 0 && (
+                <div className="card p-5 sm:p-6">
+                  <h3 className="text-sm font-semibold uppercase tracking-wider text-ink-50 mb-3">Documents de la formation</h3>
+                  <DocList docs={f.formationAttachments} />
+                </div>
+              )}
+
+              {f.chaptersWithDocs.map((chapter: any) => (
+                <div key={chapter.id} className="card p-5 sm:p-6">
+                  <h3 className="font-display text-base font-semibold text-ink mb-3">{chapter.title}</h3>
+                  <DocList docs={chapter.attachments} />
+                </div>
+              ))}
+            </section>
           ))
-        )}
-      </div>
+      )}
     </div>
   )
 }

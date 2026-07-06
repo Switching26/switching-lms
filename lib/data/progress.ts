@@ -24,7 +24,8 @@ export async function getCompletionRate(partnerId?: string) {
   const enrollments = await prisma.enrollment.findMany({
     where: partnerId ? { user: { partnerId } } : {},
     include: {
-      formation: { include: { chapters: true } },
+      // Même dénominateur que côté apprenant : chapitres publiés uniquement.
+      formation: { include: { chapters: { where: { isPublished: true } } } },
       user: { include: { progress: true } },
     },
   })

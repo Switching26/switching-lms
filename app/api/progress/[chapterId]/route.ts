@@ -12,7 +12,7 @@ export async function PUT(req: NextRequest, { params }: { params: { chapterId: s
   if (!session) return NextResponse.json({ error: "Non autorisé" }, { status: 401 })
 
   const userId = session.user.id
-  const { timeSpentSeconds, lastPosition, completedAt } = await req.json()
+  const { timeSpentSeconds, timeDeltaSeconds, lastPosition, completedAt } = await req.json()
 
   const chapter = await prisma.chapter.findUnique({
     where: { id: params.chapterId },
@@ -20,12 +20,16 @@ export async function PUT(req: NextRequest, { params }: { params: { chapterId: s
       formation: {
         include: {
           sections: { orderBy: { order: "asc" } },
-          chapters: { orderBy: { order: "asc" }, include: { section: true } },
+          // Seuls les chapitres publiés comptent dans la progression et les emails.
+          chapters: { where: { isPublished: true }, orderBy: { order: "asc" }, include: { section: true } },
         },
       },
     },
   })
   if (!chapter) return NextResponse.json({ error: "Chapitre introuvable" }, { status: 404 })
+  if (!chapter.isPublished) {
+    return NextResponse.json({ error: "Chapitre non publié" }, { status: 403 })
+  }
 
   // L'apprenant doit être inscrit à la formation du chapitre, et l'accès valide.
   const enrollmentAccess = await prisma.enrollment.findUnique({
@@ -50,7 +54,14 @@ export async function PUT(req: NextRequest, { params }: { params: { chapterId: s
     return Math.min(Math.max(Math.round(n), 0), max)
   }
   const safeTime = clamp(timeSpentSeconds, 3_600_000) // ~1000 h
+  // Delta de temps réel passé sur le chapitre (heartbeat du player) : cumulé
+  // côté serveur, borné à 15 min par appel (flush client toutes les ~60 s).
+  const safeDelta = clamp(timeDeltaSeconds, 900)
   const safePosition = clamp(lastPosition, 1_000_000)
+  // Un heartbeat pur ne doit pas gonfler sessionCount ni toucher completedAt.
+  const heartbeatOnly =
+    safeDelta !== undefined && safeTime === undefined &&
+    safePosition === undefined && completedAt === undefined
 
   // Détecter une VRAIE transition non-terminé → terminé (pour ne pas re-notifier).
   const existingProgress = await prisma.progress.findUnique({
@@ -64,15 +75,18 @@ export async function PUT(req: NextRequest, { params }: { params: { chapterId: s
   const progress = await prisma.progress.upsert({
     where: { userId_chapterId: { userId, chapterId: params.chapterId } },
     update: {
-      ...(safeTime !== undefined && { timeSpentSeconds: safeTime }),
+      // Le delta (increment) prime sur l'ancien set absolu, conservé pour compat.
+      ...(safeDelta !== undefined
+        ? { timeSpentSeconds: { increment: safeDelta } }
+        : safeTime !== undefined && { timeSpentSeconds: safeTime }),
       ...(safePosition !== undefined && { lastPosition: safePosition }),
       ...(completeNow !== undefined && { completedAt: completeNow ? now : null }),
-      sessionCount: { increment: 1 },
+      sessionCount: { increment: heartbeatOnly ? 0 : 1 },
     },
     create: {
       userId,
       chapterId: params.chapterId,
-      timeSpentSeconds: safeTime || 0,
+      timeSpentSeconds: safeDelta ?? safeTime ?? 0,
       lastPosition: safePosition || 0,
       completedAt: completeNow ? now : null,
       sessionCount: 1,

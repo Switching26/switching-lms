@@ -41,14 +41,19 @@ export async function getFormationsCount() {
   return prisma.formation.count({ where: { deletedAt: null } })
 }
 
+// Côté apprenant : seules les formations et chapitres PUBLIÉS sont visibles.
+const learnerFormationWhere = { deletedAt: null, isPublished: true }
+const learnerChapterWhere = { isPublished: true }
+
 export async function getLearnerEnrollments(userId: string) {
   const enrollments = await prisma.enrollment.findMany({
-    where: { userId, formation: { deletedAt: null } },
+    where: { userId, formation: learnerFormationWhere },
     include: {
       formation: {
         include: {
           sections: { orderBy: { order: "asc" } },
           chapters: {
+            where: learnerChapterWhere,
             orderBy: { order: "asc" },
             select: { id: true, title: true, order: true, sectionId: true, section: true },
           },
@@ -62,13 +67,14 @@ export async function getLearnerEnrollments(userId: string) {
 
 export async function getLearnerFormation(userId: string) {
   const enrollment = await prisma.enrollment.findFirst({
-    where: { userId, formation: { deletedAt: null } },
+    where: { userId, formation: learnerFormationWhere },
     orderBy: { startedAt: "asc" },
     include: {
       formation: {
         include: {
           sections: { orderBy: { order: "asc" } },
           chapters: {
+            where: learnerChapterWhere,
             orderBy: { order: "asc" },
             include: {
               section: true,
@@ -99,12 +105,13 @@ export async function getLearnerFormation(userId: string) {
 export async function getLearnerFormationById(userId: string, formationId?: string | null) {
   if (formationId) {
     const found = await prisma.enrollment.findFirst({
-      where: { userId, formationId, formation: { deletedAt: null } },
+      where: { userId, formationId, formation: learnerFormationWhere },
       include: {
         formation: {
           include: {
             sections: { orderBy: { order: "asc" } },
             chapters: {
+              where: learnerChapterWhere,
               orderBy: { order: "asc" },
               include: {
                 section: true,
@@ -133,7 +140,7 @@ export async function getLearnerFormationById(userId: string, formationId?: stri
  */
 export async function getLearnerFormationsWithDocuments(userId: string) {
   const enrollments = await prisma.enrollment.findMany({
-    where: { userId, formation: { deletedAt: null } },
+    where: { userId, formation: learnerFormationWhere },
     orderBy: { startedAt: "asc" },
     include: {
       formation: {
@@ -141,6 +148,7 @@ export async function getLearnerFormationsWithDocuments(userId: string) {
           sections: { orderBy: { order: "asc" } },
           attachments: true,
           chapters: {
+            where: learnerChapterWhere,
             orderBy: { order: "asc" },
             include: { section: true, attachments: true },
           },

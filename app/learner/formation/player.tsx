@@ -241,6 +241,54 @@ export default function FormationPlayer({
     finally { setMarking(false) }
   }, [active, preview, marking, completedMap, nextChapter, handleSelectChapter])
 
+  // ─── Temps passé par chapitre (traçabilité Qualiopi) ───
+  // 100 % en refs : aucun state, aucun re-render (piège VimeoPlayer persistant).
+  // Tick 15 s quand l'onglet est visible → flush ≥ 60 s, au changement de
+  // chapitre, quand l'onglet passe en arrière-plan et à la sortie (keepalive).
+  const timeChapterIdRef = useRef<string | null>(null)
+  const timePendingRef = useRef(0)
+  const flushTimeSpent = useCallback((useKeepalive = false) => {
+    const chapterId = timeChapterIdRef.current
+    const secs = Math.round(timePendingRef.current)
+    if (!chapterId || secs < 1) return
+    timePendingRef.current = 0
+    fetch(`/api/progress/${chapterId}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ timeDeltaSeconds: secs }),
+      keepalive: useKeepalive,
+    }).catch(() => {})
+  }, [])
+
+  useEffect(() => {
+    if (preview) return
+    // Changement de chapitre : créditer le temps accumulé à l'ANCIEN chapitre.
+    flushTimeSpent()
+    timeChapterIdRef.current = active?.id || null
+  }, [active?.id, preview, flushTimeSpent])
+
+  useEffect(() => {
+    if (preview) return
+    const tick = setInterval(() => {
+      if (document.visibilityState === "visible") {
+        timePendingRef.current += 15
+        if (timePendingRef.current >= 60) flushTimeSpent()
+      }
+    }, 15_000)
+    const onVisibility = () => {
+      if (document.visibilityState === "hidden") flushTimeSpent(true)
+    }
+    const onPageHide = () => flushTimeSpent(true)
+    document.addEventListener("visibilitychange", onVisibility)
+    window.addEventListener("pagehide", onPageHide)
+    return () => {
+      clearInterval(tick)
+      document.removeEventListener("visibilitychange", onVisibility)
+      window.removeEventListener("pagehide", onPageHide)
+      flushTimeSpent(true)
+    }
+  }, [preview, flushTimeSpent])
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-6 animate-fade-in-up">
       {/* Main content */}

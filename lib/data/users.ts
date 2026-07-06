@@ -73,7 +73,8 @@ export async function getUserById(id: string) {
     where: { id },
     include: {
       partner: true,
-      enrollments: { include: { formation: { include: { chapters: true } } } },
+      // Dénominateur du suivi/export : chapitres publiés uniquement (cohérent apprenant).
+      enrollments: { include: { formation: { include: { chapters: { where: { isPublished: true } } } } } },
       progress: { include: { chapter: true } },
       loginLogs: { orderBy: { loginAt: "desc" }, take: 20 },
       notes: true,

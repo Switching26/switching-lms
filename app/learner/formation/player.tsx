@@ -177,9 +177,11 @@ export default function FormationPlayer({
     return true
   }
 
-  const handleChapterCompleted = (chapterId: string) => {
+  // Identité stable : évite de re-câbler les listeners Vimeo à chaque re-render
+  // (la saisie de notes re-rendait le player et flushait la progression à chaque frappe)
+  const handleChapterCompleted = useCallback((chapterId: string) => {
     setCompletedMap((prev) => ({ ...prev, [chapterId]: true }))
-  }
+  }, [])
 
   // Map id → displayNumber séquentiel (1-based)
   const displayNumberMap = useMemo(() => {
@@ -243,27 +245,18 @@ export default function FormationPlayer({
     <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-6 animate-fade-in-up">
       {/* Main content */}
       <div ref={contentRef} className="space-y-5 min-w-0 scroll-mt-20">
-        {/* Video */}
-        {active?.videoUrl ? (
-          preview ? (
-            <div className="aspect-video bg-primary rounded-2xl overflow-hidden shadow-lg">
-              <iframe
-                src={`https://player.vimeo.com/video/${active.videoUrl}?title=0&byline=0&portrait=0&dnt=1&outro=0`}
-                style={{ border: "none", width: "100%", height: "100%" }}
-                allow="autoplay; fullscreen; picture-in-picture"
-                allowFullScreen
-              />
-            </div>
-          ) : (
-            <VimeoPlayer
-              key={active.id}
-              vimeoId={active.videoUrl}
-              chapterId={active.id}
-              lastPosition={active.lastPosition}
-              onCompleted={() => handleChapterCompleted(active.id)}
-            />
-          )
-        ) : active?.exercises?.length > 0 ? (
+        {/* Video — hôte PERSISTANT : ce composant n'est JAMAIS démonté au changement
+            de chapitre (seule la src de l'iframe change). Le démontage/remontage keyé
+            laissait des players orphelins empilés dans le DOM (bug de suppression
+            silencieux constaté en prod, spécifique à ce sous-arbre iframe). */}
+        <VimeoPlayer
+          vimeoId={active?.videoUrl || null}
+          chapterId={active?.id || ""}
+          lastPosition={active?.videoUrl ? active.lastPosition : 0}
+          preview={!!preview}
+          onCompleted={handleChapterCompleted}
+        />
+        {!active?.videoUrl && (active?.exercises?.length > 0 ? (
           (() => {
             const ex = active.exercises[0]
             const questionsCount = ex.questions?.length || 0
@@ -361,7 +354,7 @@ export default function FormationPlayer({
               <p className="text-warm-400 text-sm">Aucune vidéo pour ce chapitre</p>
             </div>
           </div>
-        )}
+        ))}
 
         {/* Chapter info */}
         <div className="bg-white rounded-2xl border border-border p-6 shadow-sm">
@@ -1041,12 +1034,14 @@ function VimeoPlayer({
   vimeoId,
   chapterId,
   lastPosition,
+  preview,
   onCompleted,
 }: {
-  vimeoId: string
+  vimeoId: string | null
   chapterId: string
   lastPosition: number
-  onCompleted: () => void
+  preview: boolean
+  onCompleted: (chapterId: string) => void
 }) {
   const iframeRef = useRef<HTMLIFrameElement>(null)
   const progressTimerRef = useRef<ReturnType<typeof setInterval> | null>(null)
@@ -1056,6 +1051,7 @@ function VimeoPlayer({
   const playerReadyRef = useRef(false)
 
   const saveProgress = useCallback(async (position: number, completed: boolean = false) => {
+    if (preview || !chapterId) return
     try {
       const body: Record<string, any> = { lastPosition: Math.floor(position) }
       if (completed) {
@@ -1066,13 +1062,19 @@ function VimeoPlayer({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       })
-      if (completed) onCompleted()
+      if (completed) onCompleted(chapterId)
     } catch {}
-  }, [chapterId, onCompleted])
+  }, [chapterId, preview, onCompleted])
 
   useEffect(() => {
     const iframe = iframeRef.current
-    if (!iframe) return
+    if (!iframe || !vimeoId) return
+
+    // Nouveau chapitre : réinitialiser l'état de lecture (le composant persiste)
+    hasEndedRef.current = false
+    currentTimeRef.current = 0
+    playerReadyRef.current = false
+    setProcessing(false)
 
     const postToVimeo = (method: string, value?: any) => {
       const msg: Record<string, any> = { method }
@@ -1082,6 +1084,7 @@ function VimeoPlayer({
 
     const handleMessage = (event: MessageEvent) => {
       if (event.origin !== "https://player.vimeo.com") return
+      if (event.source !== iframe.contentWindow) return
       let data: any
       try {
         data = typeof event.data === "string" ? JSON.parse(event.data) : event.data
@@ -1124,12 +1127,12 @@ function VimeoPlayer({
         }
       } catch {}
     }
-    checkStatus()
+    if (!preview) checkStatus()
 
     return () => {
       window.removeEventListener("message", handleMessage)
       if (progressTimerRef.current) clearInterval(progressTimerRef.current)
-      if (currentTimeRef.current > 0 && !hasEndedRef.current) {
+      if (!preview && chapterId && currentTimeRef.current > 0 && !hasEndedRef.current) {
         fetch(`/api/progress/${chapterId}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -1138,29 +1141,32 @@ function VimeoPlayer({
         }).catch(() => {})
       }
     }
-  }, [vimeoId, chapterId, lastPosition, saveProgress])
+  }, [vimeoId, chapterId, lastPosition, preview, saveProgress])
 
-  if (processing) {
-    return (
-      <div className="aspect-video bg-warm-100 rounded-2xl flex items-center justify-center border border-warm-200">
-        <div className="text-center">
-          <div className="w-10 h-10 mx-auto mb-3 rounded-full border-2 border-warm-300 border-t-warm-500 animate-spin" />
-          <p className="text-warm-600 text-sm font-medium">Vidéo en cours de traitement</p>
-          <p className="text-warm-400 text-xs mt-1">Revenez dans quelques minutes</p>
-        </div>
-      </div>
-    )
-  }
+  // Hôte persistant : le wrapper et l'iframe restent montés en permanence,
+  // seule la src change. Sans vidéo → masqué + about:blank (stoppe la lecture).
+  const src = vimeoId
+    ? `https://player.vimeo.com/video/${vimeoId}?title=0&byline=0&portrait=0&dnt=1&api=1&outro=0`
+    : "about:blank"
 
   return (
-    <div className="aspect-video bg-primary rounded-2xl overflow-hidden shadow-lg">
+    <div className={`relative aspect-video bg-primary rounded-2xl overflow-hidden shadow-lg ${vimeoId ? "" : "hidden"}`}>
       <iframe
         ref={iframeRef}
-        src={`https://player.vimeo.com/video/${vimeoId}?title=0&byline=0&portrait=0&dnt=1&api=1&outro=0`}
+        src={src}
         style={{ border: "none", width: "100%", height: "100%" }}
         allow="autoplay; fullscreen; picture-in-picture"
         allowFullScreen
       />
+      {processing && (
+        <div className="absolute inset-0 bg-warm-100 flex items-center justify-center">
+          <div className="text-center">
+            <div className="w-10 h-10 mx-auto mb-3 rounded-full border-2 border-warm-300 border-t-warm-500 animate-spin" />
+            <p className="text-warm-600 text-sm font-medium">Vidéo en cours de traitement</p>
+            <p className="text-warm-400 text-xs mt-1">Revenez dans quelques minutes</p>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

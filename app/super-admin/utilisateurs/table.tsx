@@ -1511,7 +1511,20 @@ export default function UsersTable({
       </Modal>
 
       {/* ═══ PROGRESS MODAL ═══ */}
-      <Modal open={!!progressModal} onClose={() => { setProgressModal(null); setProgressData(null) }} title="Fiche de suivi détaillée" wide>
+      <Modal
+        open={!!progressModal}
+        onClose={() => { setProgressModal(null); setProgressData(null) }}
+        title="Fiche de suivi détaillée"
+        wide
+        headerAction={progressData ? (
+          <a
+            href={`/api/export/user-progress?userId=${progressModal}`}
+            className="inline-block px-3 py-1.5 bg-primary text-white text-xs font-medium rounded-lg hover:opacity-90 whitespace-nowrap"
+          >
+            Export CSV
+          </a>
+        ) : null}
+      >
         {loadingProgress ? (
           <p className="text-sm text-gray-400">Chargement...</p>
         ) : progressData ? (
@@ -1667,12 +1680,6 @@ export default function UsersTable({
                 </div>
               </div>
             )}
-            <a
-              href={`/api/export/user-progress?userId=${progressModal}`}
-              className="inline-block px-4 py-2 bg-primary text-white text-sm rounded-lg hover:opacity-90"
-            >
-              Export CSV
-            </a>
           </div>
         ) : (
           <p className="text-sm text-gray-400">Aucune donnée de progression</p>

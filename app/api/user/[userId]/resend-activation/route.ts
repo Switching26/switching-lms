@@ -23,7 +23,7 @@ export async function POST(_req: NextRequest, { params }: { params: { userId: st
 
   const user = await prisma.user.findUnique({
     where: { id: params.userId },
-    include: { partner: true, _count: { select: { loginLogs: { where: { NOT: { userAgent: { startsWith: "riseup-import" } } } } } } },
+    include: { partner: true, _count: { select: { loginLogs: { where: { OR: [{ userAgent: null }, { NOT: { userAgent: { startsWith: "riseup-import" } } }] } } } } },
   })
   if (!user) return NextResponse.json({ error: "Utilisateur introuvable" }, { status: 404 })
 

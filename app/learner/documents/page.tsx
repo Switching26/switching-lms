@@ -2,11 +2,10 @@ import { auth } from "@/lib/auth"
 import { redirect } from "next/navigation"
 import { getLearnerFormationsWithDocuments } from "@/lib/data/formations"
 
+// Toujours linker la route authentifiée /api/files (les chemins statiques
+// /uploads/* sont par ailleurs redirigés vers elle par le middleware).
 function toRelativeFileUrl(url: string): string {
   if (url.startsWith("/api/files/")) return url
-  if (url.startsWith("/uploads/")) return url
-  const match = url.match(/\/api\/files\/(.+)$/)
-  if (match) return `/api/files/${match[1]}`
   const filename = url.split("/").pop()
   if (filename) return `/api/files/${filename}`
   return url

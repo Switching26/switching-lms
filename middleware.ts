@@ -17,10 +17,19 @@ function getBaseUrl(req: any): string {
   return req.url
 }
 
+// Documents pédagogiques : jamais servis en statique public. Réécrits vers
+// /api/files/<nom> qui applique authentification + contrôle d'inscription.
+const PROTECTED_UPLOAD_EXT = /\.(pdf|docx?|xlsx?|pptx?|zip)$/i
+
 export default auth((req) => {
   const { pathname } = req.nextUrl
   const user = req.auth?.user
   const base = getBaseUrl(req)
+
+  if (pathname.startsWith("/uploads/") && PROTECTED_UPLOAD_EXT.test(pathname)) {
+    const filename = pathname.split("/").pop()!
+    return Response.redirect(new URL(`/api/files/${filename}`, base))
+  }
 
   if (
     pathname.startsWith("/login") ||

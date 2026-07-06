@@ -287,6 +287,9 @@ export default function FormationPlayer({
           // PDF viewer inline (style Rise Up) — chapter PDF sans vidéo
           (() => {
             const pdf = active.attachments.find((a) => /\.pdf(\?|$)/i.test(a.fileUrl))!
+            const pdfHref = pdf.fileUrl.startsWith("/api/files/")
+              ? pdf.fileUrl
+              : `/api/files/${pdf.fileUrl.split("/").pop()}`
             return (
               <div className="bg-white rounded-2xl border border-border shadow-sm overflow-hidden">
                 {/* Header */}
@@ -303,7 +306,7 @@ export default function FormationPlayer({
                     </div>
                   </div>
                   <a
-                    href={pdf.fileUrl}
+                    href={pdfHref}
                     download
                     className="flex-shrink-0 inline-flex items-center gap-1.5 text-sm text-brand-600 hover:text-brand-700 font-medium"
                     title="Télécharger le PDF"
@@ -317,7 +320,7 @@ export default function FormationPlayer({
                 {/* Mobile : l'iframe PDF ne rend qu'une page illisible sur iOS.
                     On propose une carte « Ouvrir le document » (nouvel onglet). */}
                 <a
-                  href={pdf.fileUrl}
+                  href={pdfHref}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="sm:hidden flex items-center gap-3 m-4 p-4 rounded-xl border border-border bg-surface-subtle hover:bg-warm-50 transition-colors"
@@ -337,7 +340,7 @@ export default function FormationPlayer({
                 </a>
                 {/* Desktop/tablette : viewer inline */}
                 <iframe
-                  src={`${pdf.fileUrl}#toolbar=0&navpanes=0`}
+                  src={`${pdfHref}#toolbar=0&navpanes=0`}
                   className="hidden sm:block w-full h-[600px] sm:h-[720px] bg-warm-50"
                   title={pdf.name}
                 />

@@ -63,7 +63,14 @@ export async function GET(
 
   const ext = filename.split(".").pop()?.toLowerCase() || ""
   const contentType = CONTENT_TYPES[ext] || "application/octet-stream"
-  const filePath = join(UPLOAD_DIR, filename)
+  // Les fichiers vivent soit sur le volume (uploads runtime), soit dans
+  // public/uploads/* (documents historiques embarqués dans l'image).
+  const candidates = [
+    join(UPLOAD_DIR, filename),
+    join(process.cwd(), "public", "uploads", "pdfs", filename),
+    join(process.cwd(), "public", "uploads", filename),
+  ]
+  const filePath = candidates.find((p) => existsSync(p)) || candidates[0]
 
   // ── Documents : authentification + accès (inscription active ou admin) ──
   if (DOCUMENT_EXTS.has(ext)) {

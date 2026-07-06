@@ -771,7 +771,7 @@ export default function UsersTable({
               <div className="min-w-0">
                 <div className="flex items-center gap-2 flex-wrap">
                   <span className="text-sm font-medium">{u.firstName} {u.lastName}</span>
-                  {u.role === "PARTNER_ADMIN" && <Badge variant="purple">Admin</Badge>}
+                  {u.role === "PARTNER_ADMIN" && <Badge variant="blue">Admin</Badge>}
                   {u.role === "SUPER_ADMIN" && <Badge variant="error">Super Admin</Badge>}
                   {!isPartnerAdmin && u.partner && <Badge variant="purple">{u.partner.name}</Badge>}
                 </div>
@@ -893,7 +893,7 @@ export default function UsersTable({
                   {u.role === "SUPER_ADMIN" ? (
                     <Badge variant="error">Super admin</Badge>
                   ) : u.role === "PARTNER_ADMIN" ? (
-                    <Badge variant="purple">Admin</Badge>
+                    <Badge variant="blue">Admin</Badge>
                   ) : (
                     <Badge variant="default">Apprenant</Badge>
                   )}
@@ -911,7 +911,7 @@ export default function UsersTable({
                     {u.partner ? (
                       <Badge variant="purple">{u.partner.name}</Badge>
                     ) : (
-                      <Badge>Interne</Badge>
+                      <span className="text-xs text-gray-400 italic">Interne</span>
                     )}
                   </td>
                 )}

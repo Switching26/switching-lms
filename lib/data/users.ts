@@ -21,7 +21,7 @@ function stripUsersSecrets<T extends Record<string, any>>(users: T[]): T[] {
 
 export async function getAllUsers() {
   const users = await prisma.user.findMany({
-    include: { partner: true, enrollments: { include: { formation: true } } },
+    include: { partner: true, enrollments: { include: { formation: true } }, _count: { select: { loginLogs: true } } },
     orderBy: { createdAt: "desc" },
   })
   return stripUsersSecrets(users)
@@ -34,7 +34,7 @@ export async function getUsers(filter?: "all" | "internal" | "partner") {
 
   const users = await prisma.user.findMany({
     where: base,
-    include: { partner: true, enrollments: { include: { formation: true } } },
+    include: { partner: true, enrollments: { include: { formation: true } }, _count: { select: { loginLogs: true } } },
     orderBy: { createdAt: "desc" },
   })
   return stripUsersSecrets(users)
@@ -43,7 +43,7 @@ export async function getUsers(filter?: "all" | "internal" | "partner") {
 export async function getArchivedUsers() {
   const users = await prisma.user.findMany({
     where: { archivedAt: { not: null } },
-    include: { partner: true, enrollments: { include: { formation: true } } },
+    include: { partner: true, enrollments: { include: { formation: true } }, _count: { select: { loginLogs: true } } },
     orderBy: { archivedAt: "desc" },
   })
   return stripUsersSecrets(users)
@@ -53,7 +53,7 @@ export async function getAllUsersByPartner(partnerId: string) {
   // Vue admin partenaire : ne pas exposer les comptes archivés.
   const users = await prisma.user.findMany({
     where: { partnerId, archivedAt: null },
-    include: { partner: true, enrollments: { include: { formation: true } } },
+    include: { partner: true, enrollments: { include: { formation: true } }, _count: { select: { loginLogs: true } } },
     orderBy: { createdAt: "desc" },
   })
   return stripUsersSecrets(users)
@@ -62,7 +62,7 @@ export async function getAllUsersByPartner(partnerId: string) {
 export async function getUsersByPartner(partnerId: string) {
   const users = await prisma.user.findMany({
     where: { partnerId },
-    include: { partner: true, enrollments: { include: { formation: true } } },
+    include: { partner: true, enrollments: { include: { formation: true } }, _count: { select: { loginLogs: true } } },
     orderBy: { createdAt: "desc" },
   })
   return stripUsersSecrets(users)

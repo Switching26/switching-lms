@@ -17,7 +17,14 @@ interface User {
   partnerId: string | null
   partner: { id: string; name: string } | null
   enrollments: { id: string; formationId: string; startedAt: string; expiresAt: string | null; formation: { id: string; title: string } }[]
+  _count?: { loginLogs: number }
   createdAt: string
+}
+
+// Jamais connecté = compte jamais réellement activé (ex. import RiseUp) :
+// le bon geste d'accès est « Renvoyer activation », pas la réinitialisation.
+function neverLoggedIn(u: User) {
+  return (u._count?.loginLogs ?? 0) === 0
 }
 
 interface PartnerOption {
@@ -39,6 +46,16 @@ function generatePassword() {
 
 function dateInputValue(date = new Date()) {
   return date.toISOString().slice(0, 10)
+}
+
+// 4520 → "1h 15", 300 → "5 min", 45 → "moins d'1 min"
+function formatSeconds(seconds: number): string {
+  if (!seconds || seconds <= 0) return "0 min"
+  const h = Math.floor(seconds / 3600)
+  const m = Math.round((seconds % 3600) / 60)
+  if (h > 0) return m > 0 ? `${h}h ${m.toString().padStart(2, "0")}` : `${h}h`
+  if (m > 0) return `${m} min`
+  return "moins d'1 min"
 }
 
 type StatusFilter = "all" | "active" | "inactive" | "archived"
@@ -278,10 +295,9 @@ export default function UsersTable({
   const handleResendActivation = async (user: User) => {
     setResending(user.id)
     try {
-      const res = await fetch("/api/auth/resend-activation", {
+      const res = await fetch(`/api/user/${user.id}/resend-activation`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: user.email }),
       })
       if (res.ok) {
         const data = await res.json()
@@ -821,7 +837,7 @@ export default function UsersTable({
                       </div>
                       <button onClick={() => { setOpenMenuId(null); openEdit(u) }} className="w-full text-left px-4 py-3 text-sm hover:bg-gray-50 transition-colors">Modifier</button>
                       <button onClick={() => { setOpenMenuId(null); setModalMessage(""); setPasswordModal(u.id); setPw(""); setPwConfirm("") }} className="w-full text-left px-4 py-3 text-sm hover:bg-gray-50 transition-colors">Changer mot de passe</button>
-                      {u.isActive && !u.archivedAt && (
+                      {u.isActive && !u.archivedAt && !neverLoggedIn(u) && (
                         <button onClick={() => { setOpenMenuId(null); openResetModal(u) }} className="w-full text-left px-4 py-3 text-sm hover:bg-gray-50 transition-colors">Envoyer réinitialisation</button>
                       )}
                       {canViewSpace(u) && (
@@ -829,7 +845,7 @@ export default function UsersTable({
                       )}
                       <button onClick={() => { setOpenMenuId(null); openProgress(u.id) }} className="w-full text-left px-4 py-3 text-sm hover:bg-gray-50 transition-colors">Suivi</button>
                       <button onClick={() => { setOpenMenuId(null); setModalMessage(""); setAssignModal(u.id); setAssignFormationId(""); setAssignStarts(dateInputValue()); setAssignExpires("") }} className="w-full text-left px-4 py-3 text-sm hover:bg-gray-50 transition-colors">Attribuer formation</button>
-                      {!u.isActive && !u.archivedAt && u.role !== "SUPER_ADMIN" && (
+                      {neverLoggedIn(u) && !u.archivedAt && u.role !== "SUPER_ADMIN" && (
                         <button onClick={() => { setOpenMenuId(null); handleResendActivation(u) }} disabled={resending === u.id} className="w-full text-left px-4 py-3 text-sm hover:bg-gray-50 transition-colors disabled:opacity-50">{resending === u.id ? "Envoi..." : "Renvoyer activation"}</button>
                       )}
                       {u.role !== "SUPER_ADMIN" && (
@@ -952,7 +968,7 @@ export default function UsersTable({
                         <div style={{ position: "absolute", right: 0, top: "100%", marginTop: 4, background: "white", border: "0.5px solid #E5E5E5", borderRadius: 8, boxShadow: "0 4px 12px rgba(0,0,0,0.1)", zIndex: 50, minWidth: 220, overflow: "hidden" }}>
                           <button onClick={() => { setOpenMenuId(null); openEdit(u) }} className="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors">Modifier</button>
                           <button onClick={() => { setOpenMenuId(null); setModalMessage(""); setPasswordModal(u.id); setPw(""); setPwConfirm("") }} className="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors">Changer mot de passe</button>
-                          {u.isActive && !u.archivedAt && (
+                          {u.isActive && !u.archivedAt && !neverLoggedIn(u) && (
                             <button onClick={() => { setOpenMenuId(null); openResetModal(u) }} className="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors">Envoyer réinitialisation</button>
                           )}
                           {canViewSpace(u) && (
@@ -960,7 +976,7 @@ export default function UsersTable({
                           )}
                           <button onClick={() => { setOpenMenuId(null); openProgress(u.id) }} className="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors">Suivi</button>
                           <button onClick={() => { setOpenMenuId(null); setModalMessage(""); setAssignModal(u.id); setAssignFormationId(""); setAssignStarts(dateInputValue()); setAssignExpires("") }} className="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors">Attribuer formation</button>
-                          {!u.isActive && !u.archivedAt && u.role !== "SUPER_ADMIN" && (
+                          {neverLoggedIn(u) && !u.archivedAt && u.role !== "SUPER_ADMIN" && (
                             <button onClick={() => { setOpenMenuId(null); handleResendActivation(u) }} disabled={resending === u.id} className="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors disabled:opacity-50">{resending === u.id ? "Envoi..." : "Renvoyer activation"}</button>
                           )}
                           {u.role !== "SUPER_ADMIN" && (
@@ -1513,10 +1529,15 @@ export default function UsersTable({
                 </div>
               ) : null
             })()}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
               <div className="bg-gray-50 rounded-lg p-3">
                 <p className="text-xs text-gray-500">Temps total</p>
-                <p className="text-sm font-semibold">{Math.round((progressData.totalTime || 0) / 60)} min</p>
+                <p className="text-sm font-semibold">
+                  {formatSeconds(progressData.totalTime || 0)}
+                  {progressData.totalExpected > 0 && (
+                    <span className="text-gray-400 font-normal"> / {formatSeconds(progressData.totalExpected)} prévues</span>
+                  )}
+                </p>
               </div>
               <div className="bg-gray-50 rounded-lg p-3">
                 <p className="text-xs text-gray-500">Dernière connexion</p>
@@ -1526,22 +1547,44 @@ export default function UsersTable({
                     : "—"}
                 </p>
               </div>
+              <div className="bg-gray-50 rounded-lg p-3">
+                <p className="text-xs text-gray-500">Connexions</p>
+                <p className="text-sm font-semibold">{progressData.connectionCount ?? progressData.loginHistory?.length ?? 0}</p>
+              </div>
             </div>
             {progressData.loginHistory?.length > 0 && (
               <div>
-                <h3 className="text-sm font-semibold mb-2">Historique connexions</h3>
-                <div className="max-h-32 overflow-y-auto space-y-1">
-                  {progressData.loginHistory.map((date: string, i: number) => (
-                    <div key={i} className="text-xs text-gray-500 py-1 border-b border-gray-50">
-                      {new Date(date).toLocaleDateString("fr-FR", { day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" })}
-                    </div>
-                  ))}
+                <h3 className="text-sm font-semibold mb-2">Historique connexions ({progressData.loginHistory.length})</h3>
+                <div className="max-h-40 overflow-y-auto space-y-1">
+                  {progressData.loginHistory.map((l: any, i: number) => {
+                    const entry = typeof l === "string" ? { date: l, source: "lms" } : l
+                    return (
+                      <div key={i} className="flex items-center justify-between gap-2 text-xs text-gray-500 py-1 border-b border-gray-50">
+                        <span>
+                          {new Date(entry.date).toLocaleDateString("fr-FR", { day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" })}
+                        </span>
+                        <span className="flex items-center gap-2 shrink-0">
+                          {entry.durationSeconds ? <span className="text-gray-400">{formatSeconds(entry.durationSeconds)}</span> : null}
+                          {entry.source === "riseup" && (
+                            <span className="inline-block px-1.5 py-0.5 bg-amber-50 text-amber-700 rounded font-medium">Rise Up{entry.device ? ` · ${entry.device}` : ""}</span>
+                          )}
+                        </span>
+                      </div>
+                    )
+                  })}
                 </div>
               </div>
             )}
-            {progressData.chapters?.length > 0 && (
-              <div>
-                <h3 className="text-sm font-semibold mb-2">Par chapitre</h3>
+            {progressData.formations?.map((f: any) => (
+              <div key={f.id}>
+                <div className="flex items-baseline justify-between gap-2 mb-1">
+                  <h3 className="text-sm font-semibold leading-snug">{f.title}</h3>
+                  <span className="text-xs text-gray-500 shrink-0">{f.percent}%</span>
+                </div>
+                <p className="text-xs text-gray-500 mb-2">
+                  {f.completedChapters}/{f.totalChapters} chapitres · {formatSeconds(f.timeSpent)}
+                  {f.expectedDuration > 0 && ` / ${formatSeconds(f.expectedDuration)} prévues`}
+                </p>
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
                     <thead>
@@ -1549,27 +1592,29 @@ export default function UsersTable({
                         <th className="text-left text-xs text-gray-500 py-2">Chapitre</th>
                         <th className="text-left text-xs text-gray-500 py-2">Statut</th>
                         <th className="text-left text-xs text-gray-500 py-2">Temps</th>
+                        <th className="text-left text-xs text-gray-500 py-2">Prévu</th>
                         <th className="text-left text-xs text-gray-500 py-2">Sessions</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {progressData.chapters.map((ch: any) => (
+                      {f.chapters.map((ch: any) => (
                         <tr key={ch.id} className="border-b border-gray-50">
-                          <td className="py-2">{ch.title}</td>
-                          <td className="py-2">
-                            <Badge variant={ch.completedAt ? "success" : "default"}>
-                              {ch.completedAt ? "Terminé" : "En cours"}
+                          <td className="py-2 pr-2">{ch.title}</td>
+                          <td className="py-2 pr-2">
+                            <Badge variant={ch.status === "done" ? "success" : ch.status === "in_progress" ? "warning" : "default"}>
+                              {ch.status === "done" ? "Terminé" : ch.status === "in_progress" ? "En cours" : "Non commencé"}
                             </Badge>
                           </td>
-                          <td className="py-2 text-gray-500">{Math.round(ch.timeSpent / 60)} min</td>
-                          <td className="py-2 text-gray-500">{ch.sessionCount}</td>
+                          <td className="py-2 pr-2 text-gray-500 whitespace-nowrap">{ch.timeSpent > 0 ? formatSeconds(ch.timeSpent) : "—"}</td>
+                          <td className="py-2 pr-2 text-gray-400 whitespace-nowrap">{ch.expectedDuration > 0 ? formatSeconds(ch.expectedDuration) : "—"}</td>
+                          <td className="py-2 text-gray-500">{ch.sessionCount || "—"}</td>
                         </tr>
                       ))}
                     </tbody>
                   </table>
                 </div>
               </div>
-            )}
+            ))}
             {progressData.exercises?.length > 0 && (
               <div>
                 <h3 className="text-sm font-semibold mb-2">Exercices</h3>

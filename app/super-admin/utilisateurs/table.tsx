@@ -1511,7 +1511,7 @@ export default function UsersTable({
       </Modal>
 
       {/* ═══ PROGRESS MODAL ═══ */}
-      <Modal open={!!progressModal} onClose={() => { setProgressModal(null); setProgressData(null) }} title="Fiche de suivi détaillée">
+      <Modal open={!!progressModal} onClose={() => { setProgressModal(null); setProgressData(null) }} title="Fiche de suivi détaillée" wide>
         {loadingProgress ? (
           <p className="text-sm text-gray-400">Chargement...</p>
         ) : progressData ? (
@@ -1529,7 +1529,21 @@ export default function UsersTable({
                 </div>
               ) : null
             })()}
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              {(() => {
+                const totalCh = (progressData.formations || []).reduce((s: number, f: any) => s + (f.totalChapters || 0), 0)
+                const doneCh = (progressData.formations || []).reduce((s: number, f: any) => s + (f.completedChapters || 0), 0)
+                const globalPercent = totalCh > 0 ? Math.round((doneCh / totalCh) * 100) : 0
+                return (
+                  <div className="bg-gray-50 rounded-lg p-3">
+                    <p className="text-xs text-gray-500">Progression totale</p>
+                    <p className="text-sm font-semibold">{globalPercent}% <span className="text-gray-400 font-normal">· {doneCh}/{totalCh} chap.</span></p>
+                    <div className="mt-1.5 h-1.5 rounded-full bg-gray-200 overflow-hidden">
+                      <div className="h-full rounded-full bg-primary transition-all" style={{ width: `${globalPercent}%` }} />
+                    </div>
+                  </div>
+                )
+              })()}
               <div className="bg-gray-50 rounded-lg p-3">
                 <p className="text-xs text-gray-500">Temps total</p>
                 <p className="text-sm font-semibold">
@@ -1579,7 +1593,10 @@ export default function UsersTable({
               <div key={f.id}>
                 <div className="flex items-baseline justify-between gap-2 mb-1">
                   <h3 className="text-sm font-semibold leading-snug">{f.title}</h3>
-                  <span className="text-xs text-gray-500 shrink-0">{f.percent}%</span>
+                  <span className="text-sm font-semibold shrink-0">{f.percent}%</span>
+                </div>
+                <div className="h-2 rounded-full bg-gray-100 overflow-hidden mb-1.5">
+                  <div className="h-full rounded-full bg-primary transition-all" style={{ width: `${f.percent}%` }} />
                 </div>
                 <p className="text-xs text-gray-500 mb-2">
                   {f.completedChapters}/{f.totalChapters} chapitres · {formatSeconds(f.timeSpent)}

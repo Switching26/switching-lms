@@ -63,5 +63,12 @@ export default auth((req) => {
 })
 
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
+  // Exclut les assets statiques (images/covers/branding servis depuis public/) :
+  // en build standalone, un chemin matché par le middleware NextAuth ne retombe
+  // pas sur le service de fichiers public/ → sinon /covers/*, /cnfdi-logo.png et
+  // /favicon.svg renvoient 404. Les documents /uploads/*.pdf (non-images) restent
+  // matchés pour conserver la redirection authentifiée vers /api/files.
+  matcher: [
+    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpe?g|gif|webp|ico|css|woff2?)).*)",
+  ],
 }

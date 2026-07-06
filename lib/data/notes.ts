@@ -23,6 +23,14 @@ export async function getUserNotes(userId: string) {
   })
 }
 
+// Notes d'un apprenant pour une formation donnée (player : préchargement par chapitre)
+export async function getUserNotesForFormation(userId: string, formationId: string) {
+  return prisma.note.findMany({
+    where: { userId, chapter: { formationId } },
+    select: { chapterId: true, content: true },
+  })
+}
+
 export async function upsertNote(userId: string, chapterId: string, content: string) {
   return prisma.note.upsert({
     where: { userId_chapterId: { userId, chapterId } },

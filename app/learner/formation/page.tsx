@@ -6,15 +6,16 @@ import {
   getLearnerProgress,
   hasDeletedEnrollment,
 } from "@/lib/data/formations"
+import { getUserNotesForFormation } from "@/lib/data/notes"
 import FormationPlayer from "./player"
 import FormationSwitcher from "@/components/learner/FormationSwitcher"
 
-export default async function FormationPage({ searchParams }: { searchParams: Promise<{ id?: string }> }) {
+export default async function FormationPage({ searchParams }: { searchParams: Promise<{ id?: string; chapitre?: string }> }) {
   const session = await auth()
   if (!session) redirect("/login")
 
   const userId = session.user.id
-  const { id: formationId } = await searchParams
+  const { id: formationId, chapitre: requestedChapterId } = await searchParams
 
   const allEnrollments = await getLearnerEnrollments(userId)
   const enrollment = await getLearnerFormationById(userId, formationId)
@@ -56,6 +57,11 @@ export default async function FormationPage({ searchParams }: { searchParams: Pr
   const sections = (enrollment.formation as any).sections || []
   const formationAttachments = (enrollment.formation as any).attachments || []
 
+  // Notes de l'apprenant pour cette formation (bloc « Prise de notes » du player)
+  const notes = await getUserNotesForFormation(userId, enrollment.formationId)
+  const initialNotes: Record<string, string> = {}
+  notes.forEach((n) => { initialNotes[n.chapterId] = n.content })
+
   const switcherFormations = allEnrollments.map((e) => ({
     id: e.formation.id,
     title: e.formation.title,
@@ -75,6 +81,9 @@ export default async function FormationPage({ searchParams }: { searchParams: Pr
         sections={JSON.parse(JSON.stringify(sections))}
         formationAttachments={JSON.parse(JSON.stringify(formationAttachments))}
         userId={userId}
+        formationId={enrollment.formationId}
+        initialChapterId={requestedChapterId}
+        initialNotes={initialNotes}
       />
     </div>
   )

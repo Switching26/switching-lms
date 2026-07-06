@@ -5,12 +5,12 @@ import { getUserNotes } from "@/lib/data/notes"
 import NotesEditor from "./editor"
 import FormationSwitcher from "@/components/learner/FormationSwitcher"
 
-export default async function NotesPage({ searchParams }: { searchParams: Promise<{ id?: string }> }) {
+export default async function NotesPage({ searchParams }: { searchParams: Promise<{ id?: string; chapitre?: string }> }) {
   const session = await auth()
   if (!session) redirect("/login")
 
   const userId = session.user.id
-  const { id: formationId } = await searchParams
+  const { id: formationId, chapitre: requestedChapterId } = await searchParams
 
   const allEnrollments = await getLearnerEnrollments(userId)
   const enrollment = await getLearnerFormationById(userId, formationId)
@@ -44,7 +44,12 @@ export default async function NotesPage({ searchParams }: { searchParams: Promis
         currentId={enrollment.formationId}
         basePath="/learner/notes"
       />
-      <NotesEditor chapters={JSON.parse(JSON.stringify(chapters))} userId={userId} />
+      <NotesEditor
+        chapters={JSON.parse(JSON.stringify(chapters))}
+        userId={userId}
+        formationId={enrollment.formationId}
+        initialChapterId={requestedChapterId}
+      />
     </div>
   )
 }

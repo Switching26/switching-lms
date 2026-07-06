@@ -97,6 +97,9 @@ export default function FormationPlayer({
   formationAttachments,
   userId,
   preview,
+  formationId,
+  initialChapterId,
+  initialNotes,
 }: {
   formationTitle: string
   formationCoverUrl?: string | null
@@ -105,6 +108,9 @@ export default function FormationPlayer({
   formationAttachments?: FormationAttachment[]
   userId: string
   preview?: boolean
+  formationId?: string
+  initialChapterId?: string
+  initialNotes?: Record<string, string>
 }) {
   const contentRef = useRef<HTMLDivElement>(null)
   const sortedSections = useMemo(
@@ -131,6 +137,11 @@ export default function FormationPlayer({
   }, [rootChapters, sortedSections, chaptersBySection])
 
   const [activeIndex, setActiveIndex] = useState(() => {
+    // Deep-link ?chapitre=<id> (depuis « Mes notes » notamment)
+    if (initialChapterId) {
+      const requestedIndex = chapters.findIndex((c) => c.id === initialChapterId)
+      if (requestedIndex >= 0) return requestedIndex
+    }
     const initialChapter =
       orderedChapters.find((c) => c.inProgress && !c.completed) ||
       orderedChapters.find((c) => !c.completed) ||
@@ -144,6 +155,8 @@ export default function FormationPlayer({
     return map
   })
   const [showChapters, setShowChapters] = useState(false)
+  // Contenu des notes par chapitre (préchargé serveur, mis à jour au fil de la saisie)
+  const [notesMap, setNotesMap] = useState<Record<string, string>>(initialNotes || {})
 
   const active = chapters[activeIndex]
   const completedCount = Object.values(completedMap).filter(Boolean).length
@@ -494,6 +507,17 @@ export default function FormationPlayer({
           </div>
         )}
 
+        {/* Prise de notes du chapitre (autosave, personnelle — masquée en preview admin) */}
+        {active && !preview && (
+          <ChapterNotes
+            key={active.id}
+            chapterId={active.id}
+            value={notesMap[active.id] || ""}
+            onChange={(v) => setNotesMap((prev) => ({ ...prev, [active.id]: v }))}
+            notesHref={`/learner/notes?id=${formationId || ""}&chapitre=${active.id}`}
+          />
+        )}
+
         {/* Formation-level attachments */}
         {formationAttachments && formationAttachments.length > 0 && (
           <div className="bg-white rounded-2xl border border-border p-6 shadow-sm">
@@ -633,6 +657,121 @@ export default function FormationPlayer({
           </div>
         </div>
       </div>
+    </div>
+  )
+}
+
+/* ═══════════ CHAPTER NOTES ═══════════ */
+
+function ChapterNotes({
+  chapterId,
+  value,
+  onChange,
+  notesHref,
+}: {
+  chapterId: string
+  value: string
+  onChange: (value: string) => void
+  notesHref: string
+}) {
+  const [saveState, setSaveState] = useState<"idle" | "saving" | "saved" | "error">("idle")
+  const [savedAt, setSavedAt] = useState<string>("")
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const dirtyRef = useRef(false)
+  const valueRef = useRef(value)
+  valueRef.current = value
+
+  const save = useCallback(async (content: string) => {
+    setSaveState("saving")
+    try {
+      const res = await fetch("/api/notes", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ chapterId, content }),
+      })
+      if (!res.ok) throw new Error("save failed")
+      dirtyRef.current = false
+      setSaveState("saved")
+      setSavedAt(new Date().toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" }))
+    } catch {
+      setSaveState("error")
+    }
+  }, [chapterId])
+
+  const handleChange = (v: string) => {
+    onChange(v)
+    dirtyRef.current = true
+    if (debounceRef.current) clearTimeout(debounceRef.current)
+    debounceRef.current = setTimeout(() => save(v), 1200)
+  }
+
+  // Flush de la note en attente au changement de chapitre / sortie de page
+  useEffect(() => {
+    return () => {
+      if (debounceRef.current) clearTimeout(debounceRef.current)
+      if (dirtyRef.current) {
+        fetch("/api/notes", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ chapterId, content: valueRef.current }),
+          keepalive: true,
+        }).catch(() => {})
+      }
+    }
+  }, [chapterId])
+
+  return (
+    <div className="bg-white rounded-2xl border border-border p-5 sm:p-6 shadow-sm">
+      <div className="flex items-center justify-between gap-3 mb-3 flex-wrap">
+        <div className="flex items-center gap-2.5 min-w-0">
+          <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-amber-50 flex items-center justify-center">
+            <svg className="w-4 h-4 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.8}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+            </svg>
+          </div>
+          <h3 className="font-display text-sm font-semibold text-primary">Prise de notes</h3>
+        </div>
+        <div className="flex items-center gap-3 flex-shrink-0">
+          {saveState === "saving" && (
+            <span className="inline-flex items-center gap-1.5 text-xs text-warm-400">
+              <span className="w-3 h-3 rounded-full border-2 border-warm-200 border-t-warm-500 animate-spin" />
+              Enregistrement…
+            </span>
+          )}
+          {saveState === "saved" && (
+            <span className="inline-flex items-center gap-1 text-xs text-emerald-600">
+              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+              </svg>
+              Enregistré{savedAt ? ` à ${savedAt}` : ""}
+            </span>
+          )}
+          {saveState === "error" && (
+            <span className="inline-flex items-center gap-1 text-xs text-red-600">
+              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m0 3.75h.008M12 3a9 9 0 100 18 9 9 0 000-18z" />
+              </svg>
+              Échec de l'enregistrement
+            </span>
+          )}
+          <a
+            href={notesHref}
+            className="inline-flex items-center gap-1 text-xs font-medium text-brand-600 hover:text-brand-700 transition-colors"
+          >
+            Toutes mes notes
+            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+            </svg>
+          </a>
+        </div>
+      </div>
+      <textarea
+        value={value}
+        onChange={(e) => handleChange(e.target.value)}
+        placeholder="Notez ici ce que vous retenez de ce chapitre — l'enregistrement est automatique."
+        className="w-full min-h-[120px] text-sm border border-border rounded-xl p-3.5 outline-none resize-y focus:border-primary transition-colors bg-surface-subtle/50 focus:bg-white"
+        style={{ fontSize: 16 }}
+      />
     </div>
   )
 }

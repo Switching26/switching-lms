@@ -9,8 +9,22 @@ interface Chapter {
   note: string
 }
 
-export default function NotesEditor({ chapters, userId }: { chapters: Chapter[]; userId: string }) {
-  const [activeId, setActiveId] = useState(chapters[0]?.id || "")
+export default function NotesEditor({
+  chapters,
+  userId,
+  formationId,
+  initialChapterId,
+}: {
+  chapters: Chapter[]
+  userId: string
+  formationId?: string
+  initialChapterId?: string
+}) {
+  const [activeId, setActiveId] = useState(() => {
+    // Deep-link ?chapitre=<id> (depuis le bloc notes du player)
+    if (initialChapterId && chapters.some((c) => c.id === initialChapterId)) return initialChapterId
+    return chapters[0]?.id || ""
+  })
   const [notes, setNotes] = useState<Record<string, string>>(
     Object.fromEntries(chapters.map((c) => [c.id, c.note]))
   )
@@ -102,10 +116,11 @@ export default function NotesEditor({ chapters, userId }: { chapters: Chapter[];
       {/* Editor */}
       <div className="md:col-span-3">
         <div className="bg-white rounded-xl border border-border p-4 sm:p-6">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-base font-semibold">
+          <div className="flex items-center justify-between gap-3 mb-4 flex-wrap">
+            <h2 className="text-base font-semibold min-w-0">
               {chapters.find((c) => c.id === activeId)?.title}
             </h2>
+            <div className="flex items-center gap-3 flex-shrink-0">
             {saveState === "saving" && (
               <span className="inline-flex items-center gap-1.5 text-xs text-gray-400">
                 <span className="w-3 h-3 rounded-full border-2 border-gray-300 border-t-gray-500 animate-spin" />
@@ -128,6 +143,18 @@ export default function NotesEditor({ chapters, userId }: { chapters: Chapter[];
                 Échec de l'enregistrement
               </span>
             )}
+            {formationId && (
+              <a
+                href={`/learner/formation?id=${formationId}&chapitre=${activeId}`}
+                className="inline-flex items-center gap-1 text-xs font-medium text-brand-600 hover:text-brand-700 transition-colors"
+              >
+                Ouvrir le chapitre
+                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                </svg>
+              </a>
+            )}
+            </div>
           </div>
           <textarea
             value={notes[activeId] || ""}

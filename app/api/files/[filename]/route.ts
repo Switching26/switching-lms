@@ -65,10 +65,17 @@ export async function GET(
   const contentType = CONTENT_TYPES[ext] || "application/octet-stream"
   // Les fichiers vivent soit sur le volume (uploads runtime), soit dans
   // public/uploads/* (documents historiques embarqués dans l'image).
+  // En standalone, server.js fait chdir vers .next/standalone : le public/
+  // source vit alors 2 niveaux au-dessus (racine de l'app). On tente les 2 bases.
+  const bases = [process.cwd(), join(process.cwd(), "..", "..")]
   const candidates = [
     join(UPLOAD_DIR, filename),
-    join(process.cwd(), "public", "uploads", "pdfs", filename),
-    join(process.cwd(), "public", "uploads", filename),
+    ...bases.flatMap((b) => [
+      join(b, "public", "uploads", "pdfs", filename),
+      join(b, "public", "uploads", filename),
+      join(b, "public", "covers", filename),
+      join(b, "public", filename),
+    ]),
   ]
   const filePath = candidates.find((p) => existsSync(p)) || candidates[0]
 

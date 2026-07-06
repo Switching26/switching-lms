@@ -31,6 +31,17 @@ export default auth((req) => {
     return Response.redirect(new URL(`/api/files/${filename}`, base))
   }
 
+  // Assets publics (covers, logos, favicon) : le service statique public/ ne
+  // fonctionne pas dans l'environnement standalone Railway → servis via la
+  // route /api/files (lecture du repo source, prouvée fonctionnelle en prod).
+  if (
+    pathname.startsWith("/covers/") ||
+    /^\/[^/]+\.(png|svg|jpe?g|webp|gif|ico)$/i.test(pathname)
+  ) {
+    const filename = pathname.split("/").pop()!
+    return Response.redirect(new URL(`/api/files/${filename}`, base))
+  }
+
   if (
     pathname.startsWith("/login") ||
     pathname.startsWith("/api/") ||
@@ -63,12 +74,8 @@ export default auth((req) => {
 })
 
 export const config = {
-  // Exclut les assets statiques (images/covers/branding servis depuis public/) :
-  // en build standalone, un chemin matché par le middleware NextAuth ne retombe
-  // pas sur le service de fichiers public/ → sinon /covers/*, /cnfdi-logo.png et
-  // /favicon.svg renvoient 404. Les documents /uploads/*.pdf (non-images) restent
-  // matchés pour conserver la redirection authentifiée vers /api/files.
-  matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpe?g|gif|webp|ico|css|woff2?)).*)",
-  ],
+  // Matcher volontairement large : les assets (covers, logos, favicon) DOIVENT
+  // passer par le middleware pour être redirigés vers /api/files (le service
+  // statique public/ ne fonctionne pas en standalone sur Railway).
+  matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
 }

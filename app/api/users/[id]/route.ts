@@ -1,11 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
-import { sendEmail } from "@/lib/email"
-import { formationAssignedEmail } from "@/lib/email-templates"
-import { resolveTemplate, replaceVariables } from "@/lib/email-template-engine"
-import { getBaseUrl } from "@/lib/get-base-url"
-import { hasAvailableSeat, recomputeLicensesForFormations } from "@/lib/licenses"
+import { recomputeLicensesForFormations } from "@/lib/licenses"
 
 export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
   const session = await auth()
@@ -78,94 +74,10 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
     include: { partner: true, enrollments: { include: { formation: true } } },
   })
 
-  // Handle enrollment changes if provided
-  if (body.formationId !== undefined) {
-    if (body.formationId === null || body.formationId === "") {
-      // Remove all enrollments
-      await prisma.enrollment.deleteMany({ where: { userId: params.id } })
-    } else {
-      // Check if already enrolled in this formation
-      const existingEnrollment = target.enrollments.find((e) => e.formationId === body.formationId)
-      if (!existingEnrollment) {
-        // Vérifier la disponibilité d'un siège avant de basculer d'inscription.
-        if (target.partnerId) {
-          const seatOk = await hasAvailableSeat(target.partnerId, body.formationId)
-          if (!seatOk) {
-            return NextResponse.json({ error: "Plus de licences disponibles" }, { status: 400 })
-          }
-        }
-        // Remove existing enrollments and create new one
-        await prisma.enrollment.deleteMany({ where: { userId: params.id } })
-        const newEnrollment = await prisma.enrollment.create({
-          data: {
-            userId: params.id,
-            formationId: body.formationId,
-            startedAt: body.startedAt ? new Date(body.startedAt) : new Date(),
-            expiresAt: body.expiresAt ? new Date(body.expiresAt) : null,
-            assignedByPartnerId: target.partnerId || null,
-          },
-          include: { formation: true },
-        })
-
-        // Send formation assigned email
-        try {
-          const baseUrl = getBaseUrl()
-          const loginUrl = updated.partner?.slug ? `${baseUrl}/login?partner=${updated.partner.slug}` : `${baseUrl}/login`
-          const dynamic = await resolveTemplate("FORMATION_ASSIGNED", target.partnerId)
-          if (dynamic) {
-            const vars = {
-              prenom: target.firstName,
-              nom: target.lastName,
-              email: target.email,
-              formation_titre: newEnrollment.formation.title,
-              formation_description: newEnrollment.formation.description || "",
-              date_expiration: body.expiresAt ? new Date(body.expiresAt).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" }) : "",
-              lien_connexion: loginUrl,
-              plateforme_nom: updated.partner?.name || "Switching Formation",
-              plateforme_url: loginUrl,
-              partenaire_nom: updated.partner?.name || "",
-              couleur_principale: updated.partner?.primaryColor || "#111111",
-              couleur_secondaire: updated.partner?.secondaryColor || "#F5F5F7",
-              logo_url: updated.partner?.logoUrl ? (updated.partner.logoUrl.startsWith("http") ? updated.partner.logoUrl : `${baseUrl}${updated.partner.logoUrl.startsWith("/") ? "" : "/"}${updated.partner.logoUrl}`) : "",
-            }
-            const subject = replaceVariables(dynamic.subject, vars)
-            const html = replaceVariables(dynamic.htmlContent, vars)
-            await sendEmail(target.email, subject, html, target.id, "FORMATION_ASSIGNED", updated.partner)
-          } else {
-            const emailData = formationAssignedEmail(target.firstName, newEnrollment.formation.title, body.expiresAt || null, updated.partner)
-            await sendEmail(target.email, emailData.subject, emailData.html, target.id, "FORMATION_ASSIGNED", updated.partner)
-          }
-        } catch {
-          // Never block enrollment if email fails
-        }
-      } else if (body.expiresAt !== undefined || body.startedAt !== undefined) {
-        // Update expiration on existing enrollment
-        await prisma.enrollment.update({
-          where: { id: existingEnrollment.id },
-          data: {
-            ...(body.startedAt !== undefined ? { startedAt: body.startedAt ? new Date(body.startedAt) : existingEnrollment.startedAt } : {}),
-            ...(body.expiresAt !== undefined ? { expiresAt: body.expiresAt ? new Date(body.expiresAt) : null } : {}),
-          },
-        })
-      }
-    }
-  } else if ((body.expiresAt !== undefined || body.startedAt !== undefined) && target.enrollments.length > 0) {
-    // Just update dates on first enrollment
-    await prisma.enrollment.update({
-      where: { id: target.enrollments[0].id },
-      data: {
-        ...(body.startedAt !== undefined ? { startedAt: body.startedAt ? new Date(body.startedAt) : target.enrollments[0].startedAt } : {}),
-        ...(body.expiresAt !== undefined ? { expiresAt: body.expiresAt ? new Date(body.expiresAt) : null } : {}),
-      },
-    })
-  }
-
-  // Recalculer les compteurs de licences des formations impactées (anciennes + nouvelle).
-  const affectedFormationIds = [
-    ...target.enrollments.map((e) => e.formationId),
-    ...(body.formationId ? [body.formationId] : []),
-  ]
-  await recomputeLicensesForFormations(target.partnerId, affectedFormationIds)
+  // Les inscriptions (attribution / retrait / dates) sont gérées par les routes
+  // dédiées /api/user/[userId]/assign-formation (POST / DELETE / PATCH) — le
+  // multi-formations rend l'ancien basculement mono-formation (deleteMany +
+  // create) destructeur. Un éventuel body.formationId hérité est ignoré.
 
   // Re-fetch with updated enrollments
   const final = await prisma.user.findUnique({

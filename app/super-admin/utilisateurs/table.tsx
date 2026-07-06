@@ -106,11 +106,18 @@ export default function UsersTable({
   const [editIsActive, setEditIsActive] = useState(true)
   const [editRole, setEditRole] = useState("LEARNER")
   const [editPartnerId, setEditPartnerId] = useState("")
-  const [editFormationId, setEditFormationId] = useState("")
-  const [editStartsAt, setEditStartsAt] = useState("")
-  const [editExpiresAt, setEditExpiresAt] = useState("")
   const [editReference, setEditReference] = useState("")
   const [editSaving, setEditSaving] = useState(false)
+  // Formations attribuées (multi) — copie locale éditable des enrollments
+  type EditEnrollment = { formationId: string; title: string; startedAt: string; expiresAt: string }
+  const [editEnrollments, setEditEnrollments] = useState<EditEnrollment[]>([])
+  const [removeConfirmId, setRemoveConfirmId] = useState<string | null>(null)
+  const [removingFormation, setRemovingFormation] = useState(false)
+  const [editAddOpen, setEditAddOpen] = useState(false)
+  const [editAddFormationId, setEditAddFormationId] = useState("")
+  const [editAddStarts, setEditAddStarts] = useState(dateInputValue())
+  const [editAddExpires, setEditAddExpires] = useState("")
+  const [editAddSaving, setEditAddSaving] = useState(false)
 
   // Password form
   const [pw, setPw] = useState("")
@@ -371,9 +378,17 @@ export default function UsersTable({
     setEditIsActive(u.isActive)
     setEditRole(u.role)
     setEditPartnerId(u.partnerId || "")
-    setEditFormationId(u.enrollments[0]?.formationId || "")
-    setEditStartsAt(u.enrollments[0]?.startedAt ? u.enrollments[0].startedAt.split("T")[0] : dateInputValue())
-    setEditExpiresAt(u.enrollments[0]?.expiresAt ? u.enrollments[0].expiresAt.split("T")[0] : "")
+    setEditEnrollments(u.enrollments.map((e) => ({
+      formationId: e.formationId,
+      title: e.formation.title,
+      startedAt: e.startedAt ? e.startedAt.split("T")[0] : dateInputValue(),
+      expiresAt: e.expiresAt ? e.expiresAt.split("T")[0] : "",
+    })))
+    setRemoveConfirmId(null)
+    setEditAddOpen(false)
+    setEditAddFormationId("")
+    setEditAddStarts(dateInputValue())
+    setEditAddExpires("")
   }
 
   // ─── SAVE EDIT ───
@@ -385,15 +400,34 @@ export default function UsersTable({
     }
     setEditSaving(true)
     try {
+      // 1. Dates d'accès modifiées par formation (routes dédiées, avant le PUT
+      //    pour que le re-fetch du PUT renvoie les enrollments à jour).
+      for (const en of editEnrollments) {
+        const original = editModal.enrollments.find((e) => e.formationId === en.formationId)
+        if (!original) continue
+        const origStart = original.startedAt ? original.startedAt.split("T")[0] : ""
+        const origExpires = original.expiresAt ? original.expiresAt.split("T")[0] : ""
+        if (en.startedAt !== origStart || en.expiresAt !== origExpires) {
+          const patchRes = await fetch(`/api/user/${editModal.id}/assign-formation`, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ formationId: en.formationId, startedAt: en.startedAt || null, expiresAt: en.expiresAt || null }),
+          })
+          if (!patchRes.ok) {
+            const data = await patchRes.json()
+            modalFlash(`Erreur dates « ${en.title} » : ${data.error || "échec"}`)
+            setEditSaving(false)
+            return
+          }
+        }
+      }
+      // 2. Identité / statut / rôle / partenaire
       const body: any = {
         firstName: editFirstName,
         lastName: editLastName,
         email: editEmail,
         reference: editReference || null,
         isActive: editIsActive,
-        formationId: editFormationId || null,
-        startedAt: editFormationId ? (editStartsAt || null) : null,
-        expiresAt: editExpiresAt || null,
       }
       if (!isPartnerAdmin) {
         body.role = editRole
@@ -415,6 +449,76 @@ export default function UsersTable({
       }
     } catch { modalFlash("Erreur réseau") }
     finally { setEditSaving(false) }
+  }
+
+  // ─── ADD FORMATION (from edit modal) ───
+  const handleAddFormation = async () => {
+    if (!editModal) return
+    if (!editAddFormationId) { modalFlash("Sélectionnez une formation à attribuer"); return }
+    setEditAddSaving(true)
+    try {
+      const res = await fetch(`/api/user/${editModal.id}/assign-formation`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ formationId: editAddFormationId, startedAt: editAddStarts || null, expiresAt: editAddExpires || null }),
+      })
+      const data = await res.json()
+      if (res.ok) {
+        const newEnrollment = {
+          id: data.id,
+          formationId: data.formationId,
+          startedAt: data.startedAt,
+          expiresAt: data.expiresAt,
+          formation: { id: data.formationId, title: data.formation?.title || formations?.find((f) => f.id === data.formationId)?.title || "" },
+        }
+        const refreshedUser: User = { ...editModal, enrollments: [...editModal.enrollments, newEnrollment] }
+        setEditModal(refreshedUser)
+        updateUserInList(refreshedUser)
+        setEditEnrollments((prev) => [...prev, {
+          formationId: newEnrollment.formationId,
+          title: newEnrollment.formation.title,
+          startedAt: newEnrollment.startedAt ? newEnrollment.startedAt.split("T")[0] : dateInputValue(),
+          expiresAt: newEnrollment.expiresAt ? newEnrollment.expiresAt.split("T")[0] : "",
+        }])
+        setEditAddOpen(false)
+        setEditAddFormationId("")
+        setEditAddStarts(dateInputValue())
+        setEditAddExpires("")
+        if (data.emailSkipped) modalFlash("Formation attribuée — aucun email envoyé (compte inactif)")
+        else if (data.emailSent === false) modalFlash("Erreur email : formation attribuée, mais email non envoyé")
+        else modalFlash("Formation attribuée")
+        router.refresh()
+      } else {
+        modalFlash("Erreur : " + (data.error || "attribution impossible"))
+      }
+    } catch { modalFlash("Erreur réseau") }
+    finally { setEditAddSaving(false) }
+  }
+
+  // ─── REMOVE FORMATION (from edit modal, after inline confirmation) ───
+  const handleRemoveFormation = async (formationId: string) => {
+    if (!editModal) return
+    setRemovingFormation(true)
+    try {
+      const res = await fetch(`/api/user/${editModal.id}/assign-formation`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ formationId }),
+      })
+      if (res.ok) {
+        const refreshedUser: User = { ...editModal, enrollments: editModal.enrollments.filter((e) => e.formationId !== formationId) }
+        setEditModal(refreshedUser)
+        updateUserInList(refreshedUser)
+        setEditEnrollments((prev) => prev.filter((e) => e.formationId !== formationId))
+        setRemoveConfirmId(null)
+        modalFlash("Formation retirée — la progression reste conservée")
+        router.refresh()
+      } else {
+        const data = await res.json()
+        modalFlash("Erreur : " + (data.error || "retrait impossible"))
+      }
+    } catch { modalFlash("Erreur réseau") }
+    finally { setRemovingFormation(false) }
   }
 
   // ─── CHANGE PASSWORD ───
@@ -670,10 +774,18 @@ export default function UsersTable({
                 </button>
               )}
             </div>
-            <div className="flex items-center gap-3 text-xs text-gray-500">
-              <span>{u.enrollments[0]?.formation.title || "Aucune formation"}</span>
+            <div className="flex items-start gap-3 text-xs text-gray-500">
+              {u.enrollments.length === 0 ? (
+                <span>Aucune formation</span>
+              ) : (
+                <div className="space-y-0.5 min-w-0">
+                  {u.enrollments.map((e) => (
+                    <div key={e.id} className="truncate">{e.formation.title}</div>
+                  ))}
+                </div>
+              )}
               {u.reference && (
-                <span className="inline-block px-2 py-0.5 bg-gray-100 text-gray-600 rounded-md font-medium">{u.reference}</span>
+                <span className="inline-block px-2 py-0.5 bg-gray-100 text-gray-600 rounded-md font-medium shrink-0">{u.reference}</span>
               )}
             </div>
             <div className="pt-2 border-t border-gray-50">
@@ -786,7 +898,15 @@ export default function UsersTable({
                   </td>
                 )}
                 <td className="px-4 py-3 text-sm text-gray-500">
-                  {u.enrollments[0]?.formation.title || "—"}
+                  {u.enrollments.length === 0 ? (
+                    <span className="text-gray-300">—</span>
+                  ) : (
+                    <div className="space-y-0.5">
+                      {u.enrollments.map((e) => (
+                        <div key={e.id}>{e.formation.title}</div>
+                      ))}
+                    </div>
+                  )}
                 </td>
                 <td className="px-4 py-3">
                   {isArchived(u) ? (
@@ -1008,43 +1128,137 @@ export default function UsersTable({
                   </span>
                 </button>
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium mb-1">Date de début</label>
-                  <input
-                    type="date"
-                    value={editStartsAt}
-                    onChange={(e) => setEditStartsAt(e.target.value)}
-                    disabled={!editFormationId}
-                    className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-black disabled:bg-gray-50 disabled:text-gray-400"
-                  />
-                  <p className="text-xs text-gray-400 mt-1">Date d&apos;ouverture de l&apos;accès</p>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium mb-1">Date de fin d'accès</label>
-                  <input
-                    type="date"
-                    value={editExpiresAt}
-                    onChange={(e) => setEditExpiresAt(e.target.value)}
-                    className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-black"
-                  />
-                </div>
-              </div>
             </div>
 
-            {/* Formation */}
+            {/* Formations attribuées (multi) */}
             <div>
-              <h3 className="text-sm font-semibold text-gray-500 mb-3">Formation attribuée</h3>
-              <select
-                value={editFormationId}
-                onChange={(e) => setEditFormationId(e.target.value)}
-                className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-black bg-white"
-              >
-                <option value="">Aucune formation</option>
-                {formations?.map((f) => (
-                  <option key={f.id} value={f.id}>{f.title}</option>
+              <h3 className="text-sm font-semibold text-gray-500 mb-3">
+                Formations attribuées {editEnrollments.length > 0 && `(${editEnrollments.length})`}
+              </h3>
+              {editEnrollments.length === 0 && (
+                <p className="text-sm text-gray-400 mb-3">Aucune formation attribuée.</p>
+              )}
+              <div className="space-y-3">
+                {editEnrollments.map((en) => (
+                  <div key={en.formationId} className="border border-border rounded-lg p-3 space-y-2">
+                    <div className="flex items-start justify-between gap-2">
+                      <p className="text-sm font-medium leading-snug">{en.title}</p>
+                      {removeConfirmId !== en.formationId && (
+                        <button
+                          onClick={() => setRemoveConfirmId(en.formationId)}
+                          className="shrink-0 text-xs text-red-600 hover:bg-red-50 px-2 py-1.5 rounded-lg transition-colors"
+                        >
+                          Retirer
+                        </button>
+                      )}
+                    </div>
+                    {removeConfirmId === en.formationId ? (
+                      <div className="bg-red-50 border border-red-100 rounded-lg p-3 space-y-2">
+                        <p className="text-xs text-red-700">
+                          Retirer <strong>{en.title}</strong> ? L&apos;apprenant perdra l&apos;accès à cette formation.
+                          Sa progression est conservée s&apos;il est réinscrit plus tard.
+                        </p>
+                        <div className="flex gap-2">
+                          <button
+                            onClick={() => setRemoveConfirmId(null)}
+                            className="flex-1 py-2 text-xs bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+                          >
+                            Annuler
+                          </button>
+                          <button
+                            onClick={() => handleRemoveFormation(en.formationId)}
+                            disabled={removingFormation}
+                            className="flex-1 py-2 text-xs bg-red-600 text-white rounded-lg hover:bg-red-700 disabled:opacity-50 transition-colors"
+                          >
+                            {removingFormation ? "Retrait..." : "Oui, retirer"}
+                          </button>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                          <label className="block text-xs font-medium text-gray-500 mb-1">Date de début</label>
+                          <input
+                            type="date"
+                            value={en.startedAt}
+                            onChange={(e) => setEditEnrollments((prev) => prev.map((x) => x.formationId === en.formationId ? { ...x, startedAt: e.target.value } : x))}
+                            className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-black"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-xs font-medium text-gray-500 mb-1">Date de fin d&apos;accès</label>
+                          <input
+                            type="date"
+                            value={en.expiresAt}
+                            onChange={(e) => setEditEnrollments((prev) => prev.map((x) => x.formationId === en.formationId ? { ...x, expiresAt: e.target.value } : x))}
+                            className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-black"
+                          />
+                          {!en.expiresAt && (
+                            <p className="text-xs text-red-600 font-semibold mt-1">⚠ Sans date de fin : accès illimité</p>
+                          )}
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 ))}
-              </select>
+              </div>
+              {editAddOpen ? (
+                <div className="mt-3 border border-dashed border-gray-300 rounded-lg p-3 space-y-3">
+                  <div>
+                    <label className="block text-sm font-medium mb-1">Formation à attribuer</label>
+                    <select
+                      value={editAddFormationId}
+                      onChange={(e) => setEditAddFormationId(e.target.value)}
+                      className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-black bg-white"
+                    >
+                      <option value="">Sélectionner une formation</option>
+                      {formations?.map((f) => {
+                        const already = editEnrollments.some((en) => en.formationId === f.id)
+                        return (
+                          <option key={f.id} value={f.id} disabled={already}>
+                            {f.title}{already ? " — déjà attribuée" : ""}
+                          </option>
+                        )
+                      })}
+                    </select>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-xs font-medium text-gray-500 mb-1">Date de début</label>
+                      <input type="date" value={editAddStarts} onChange={(e) => setEditAddStarts(e.target.value)} className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-black" />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-medium text-gray-500 mb-1">Date d&apos;expiration (optionnel)</label>
+                      <input type="date" value={editAddExpires} onChange={(e) => setEditAddExpires(e.target.value)} className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-black" />
+                      {!editAddExpires && (
+                        <p className="text-xs text-red-600 font-semibold mt-1">⚠ Sans date d&apos;expiration : accès illimité</p>
+                      )}
+                    </div>
+                  </div>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => { setEditAddOpen(false); setEditAddFormationId("") }}
+                      className="flex-1 py-2 text-sm bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+                    >
+                      Annuler
+                    </button>
+                    <button
+                      onClick={handleAddFormation}
+                      disabled={editAddSaving}
+                      className="flex-1 py-2 text-sm bg-primary text-white rounded-lg hover:opacity-90 disabled:opacity-50"
+                    >
+                      {editAddSaving ? "Attribution..." : "Attribuer"}
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <button
+                  onClick={() => { setEditAddOpen(true); setRemoveConfirmId(null) }}
+                  className="mt-3 w-full py-2.5 text-sm border border-dashed border-gray-300 text-gray-600 rounded-lg hover:border-gray-400 hover:text-gray-800 transition-colors"
+                >
+                  + Attribuer une autre formation
+                </button>
+              )}
             </div>
 
             {/* Super admin only: partner + role */}
@@ -1220,6 +1434,9 @@ export default function UsersTable({
                 <div>
                   <label className="block text-sm font-medium mb-1">Date d&apos;expiration (optionnel)</label>
                   <input type="date" value={newExpiresAt} onChange={(e) => setNewExpiresAt(e.target.value)} className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-black" />
+                  {!newExpiresAt && (
+                    <p className="text-xs text-red-600 font-semibold mt-1">⚠ Sans date d&apos;expiration, l&apos;accès sera illimité. Modifiable à tout moment via « Modifier ».</p>
+                  )}
                 </div>
               </div>
             )}
@@ -1267,6 +1484,9 @@ export default function UsersTable({
           <div>
             <label className="block text-sm font-medium mb-1">Date d&apos;expiration (optionnel)</label>
             <input type="date" value={assignExpires} onChange={(e) => setAssignExpires(e.target.value)} className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-black" />
+            {!assignExpires && (
+              <p className="text-xs text-red-600 font-semibold mt-1">⚠ Sans date d&apos;expiration, l&apos;accès sera illimité. Modifiable à tout moment via « Modifier ».</p>
+            )}
           </div>
           <button onClick={handleAssign} disabled={assigning} className="w-full py-2.5 bg-primary text-white text-sm rounded-lg hover:opacity-90 disabled:opacity-50">
             {assigning ? "Attribution..." : "Attribuer"}

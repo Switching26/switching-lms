@@ -83,6 +83,12 @@ export async function POST(req: NextRequest, { params }: { params: { userId: str
   // Recalculer le compteur de sièges à partir des inscriptions réelles.
   await recomputeLicenseSeats(user.partnerId, formationId)
 
+  // Compte inactif (ex. migration RiseUp silencieuse) : ne JAMAIS notifier.
+  // L'email d'attribution partira via le renvoi d'activation / la campagne.
+  if (!user.isActive) {
+    return NextResponse.json({ ...enrollment, emailSent: null, emailSkipped: "compte inactif — aucun email envoyé" }, { status: 201 })
+  }
+
   let emailSent = false
 
   // Send formation assigned email
@@ -118,4 +124,72 @@ export async function POST(req: NextRequest, { params }: { params: { userId: str
   }
 
   return NextResponse.json({ ...enrollment, emailSent }, { status: 201 })
+}
+
+// Garde commune DELETE/PATCH : session admin + scope partenaire + enrollment existant.
+async function resolveEnrollment(req: NextRequest, userId: string) {
+  const session = await auth()
+  const role = session?.user?.role
+  if (!session || (role !== "SUPER_ADMIN" && role !== "PARTNER_ADMIN")) {
+    return { error: NextResponse.json({ error: "Accès refusé" }, { status: 403 }) }
+  }
+  let body: any
+  try { body = await req.json() } catch { body = {} }
+  if (!body?.formationId) {
+    return { error: NextResponse.json({ error: "Formation requise" }, { status: 400 }) }
+  }
+  const user = await prisma.user.findUnique({ where: { id: userId } })
+  if (!user) return { error: NextResponse.json({ error: "Utilisateur introuvable" }, { status: 404 }) }
+  if (role === "PARTNER_ADMIN" && user.partnerId !== session.user.partnerId) {
+    return { error: NextResponse.json({ error: "Accès refusé" }, { status: 403 }) }
+  }
+  const enrollment = await prisma.enrollment.findUnique({
+    where: { userId_formationId: { userId, formationId: body.formationId } },
+  })
+  if (!enrollment) {
+    return { error: NextResponse.json({ error: "Cet utilisateur n'est pas inscrit à cette formation" }, { status: 404 }) }
+  }
+  return { user, enrollment, body }
+}
+
+// Retirer une formation attribuée (la progression est conservée en base).
+export async function DELETE(req: NextRequest, { params }: { params: { userId: string } }) {
+  const resolved = await resolveEnrollment(req, params.userId)
+  if ("error" in resolved) return resolved.error
+  const { user, enrollment } = resolved
+
+  await prisma.enrollment.delete({ where: { id: enrollment.id } })
+  await recomputeLicenseSeats(user.partnerId, enrollment.formationId)
+
+  return NextResponse.json({ success: true })
+}
+
+// Modifier les dates d'accès (début / fin) d'une formation attribuée.
+// expiresAt vide/null explicite → accès illimité.
+export async function PATCH(req: NextRequest, { params }: { params: { userId: string } }) {
+  const resolved = await resolveEnrollment(req, params.userId)
+  if ("error" in resolved) return resolved.error
+  const { enrollment, body } = resolved
+
+  const startedAt = body.startedAt !== undefined
+    ? (body.startedAt ? new Date(body.startedAt) : enrollment.startedAt)
+    : undefined
+  const expiresAt = body.expiresAt !== undefined
+    ? (body.expiresAt ? new Date(body.expiresAt) : null)
+    : undefined
+  if (startedAt instanceof Date && isNaN(startedAt.getTime())) {
+    return NextResponse.json({ error: "Date de début invalide" }, { status: 400 })
+  }
+  if (expiresAt instanceof Date && isNaN(expiresAt.getTime())) {
+    return NextResponse.json({ error: "Date de fin invalide" }, { status: 400 })
+  }
+
+  const updated = await prisma.enrollment.update({
+    where: { id: enrollment.id },
+    data: {
+      ...(startedAt !== undefined ? { startedAt } : {}),
+      ...(expiresAt !== undefined ? { expiresAt } : {}),
+    },
+  })
+  return NextResponse.json(updated)
 }

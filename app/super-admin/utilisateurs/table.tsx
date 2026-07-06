@@ -86,6 +86,7 @@ export default function UsersTable({
   const [archiveModal, setArchiveModal] = useState<User | null>(null)
   const [deleteModal, setDeleteModal] = useState<User | null>(null)
   const [deactivateModal, setDeactivateModal] = useState<User | null>(null)
+  const [reactivateModal, setReactivateModal] = useState<User | null>(null)
   const [resetModal, setResetModal] = useState<User | null>(null)
 
   // Create form
@@ -471,25 +472,35 @@ export default function UsersTable({
   }
 
   // ─── QUICK STATUS TOGGLE ───
-  const handleStatusClick = async (u: User) => {
+  // Les deux sens passent par une confirmation : désactiver (rouge) ET
+  // réactiver (vert). Un simple tap sur le badge ne change plus le statut
+  // sans validation — évite les activations accidentelles (ex. comptes RiseUp).
+  const handleStatusClick = (u: User) => {
     if (u.role === "SUPER_ADMIN") return
     if (u.isActive) {
-      // Show confirmation before deactivating
       setDeactivateModal(u)
     } else {
-      // Reactivate immediately
-      try {
-        const res = await fetch(`/api/users/${u.id}/status`, {
-          method: "PATCH",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ isActive: true }),
-        })
-        if (res.ok) {
-          updateUserInList({ ...u, isActive: true })
-          flash(`${u.firstName} ${u.lastName} réactivé`)
-        }
-      } catch { flash("Erreur réseau") }
+      setReactivateModal(u)
     }
+  }
+
+  const confirmReactivate = async () => {
+    if (!reactivateModal) return
+    try {
+      const res = await fetch(`/api/users/${reactivateModal.id}/status`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ isActive: true }),
+      })
+      if (res.ok) {
+        updateUserInList({ ...reactivateModal, isActive: true })
+        flash(`${reactivateModal.firstName} ${reactivateModal.lastName} réactivé`)
+      } else {
+        const data = await res.json().catch(() => ({}))
+        flash(data.error || "Erreur lors de la réactivation")
+      }
+    } catch { flash("Erreur réseau") }
+    finally { setReactivateModal(null) }
   }
 
   const confirmDeactivate = async () => {
@@ -871,6 +882,26 @@ export default function UsersTable({
             </button>
             <button onClick={confirmDeactivate} className="flex-1 py-2.5 bg-red-600 text-white text-sm rounded-lg hover:bg-red-700 transition-colors">
               Désactiver
+            </button>
+          </div>
+        </div>
+      </Modal>
+
+      {/* ═══ REACTIVATE CONFIRMATION MODAL ═══ */}
+      <Modal open={!!reactivateModal} onClose={() => setReactivateModal(null)} title="Réactiver cet utilisateur ?">
+        <div className="space-y-4">
+          <p className="text-sm text-gray-600">
+            <strong>{reactivateModal?.firstName} {reactivateModal?.lastName}</strong> repassera en statut « Actif » et sera de nouveau compté parmi les utilisateurs actifs.
+          </p>
+          <p className="text-sm text-gray-500">
+            Aucun email ne lui est envoyé. S&apos;il n&apos;a pas encore défini son mot de passe (compte importé, jamais activé), utilisez « Renvoyer activation » pour lui ouvrir réellement l&apos;accès.
+          </p>
+          <div className="flex gap-3">
+            <button onClick={() => setReactivateModal(null)} className="flex-1 py-2.5 bg-gray-100 text-sm rounded-lg hover:bg-gray-200 transition-colors">
+              Annuler
+            </button>
+            <button onClick={confirmReactivate} className="flex-1 py-2.5 bg-green-600 text-white text-sm rounded-lg hover:bg-green-700 transition-colors">
+              Réactiver
             </button>
           </div>
         </div>

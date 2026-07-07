@@ -1408,25 +1408,28 @@ export default function UsersTable({
             />
             <p className="text-xs text-gray-400 mt-1">Permet de retrouver cet utilisateur via la recherche</p>
           </div>
+          <div>
+            <label className="block text-sm font-medium mb-1">Rôle</label>
+            <select value={newRole} onChange={(e) => setNewRole(e.target.value)} className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-black bg-white">
+              <option value="LEARNER">Apprenant</option>
+              <option value="PARTNER_ADMIN">{isPartnerAdmin ? "Administrateur" : "Admin partenaire"}</option>
+            </select>
+            {isPartnerAdmin && newRole === "PARTNER_ADMIN" && (
+              <p className="text-xs text-gray-400 mt-1">
+                Cet administrateur sera rattaché à votre plateforme et pourra gérer ses apprenants.
+              </p>
+            )}
+          </div>
           {!isPartnerAdmin && (
-            <>
-              <div>
-                <label className="block text-sm font-medium mb-1">Rôle</label>
-                <select value={newRole} onChange={(e) => setNewRole(e.target.value)} className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-black bg-white">
-                  <option value="LEARNER">Apprenant</option>
-                  <option value="PARTNER_ADMIN">Admin partenaire</option>
-                </select>
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-1">Appartenance</label>
-                <select value={newPartnerId} onChange={(e) => setNewPartnerId(e.target.value)} className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-black bg-white">
-                  <option value="">Interne (aucun partenaire)</option>
-                  {partners?.map((p) => (
-                    <option key={p.id} value={p.id}>{p.name}</option>
-                  ))}
-                </select>
-              </div>
-            </>
+            <div>
+              <label className="block text-sm font-medium mb-1">Appartenance</label>
+              <select value={newPartnerId} onChange={(e) => setNewPartnerId(e.target.value)} className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-black bg-white">
+                <option value="">Interne (aucun partenaire)</option>
+                {partners?.map((p) => (
+                  <option key={p.id} value={p.id}>{p.name}</option>
+                ))}
+              </select>
+            </div>
           )}
           {/* Optional formation assignment */}
           <div>

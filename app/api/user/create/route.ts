@@ -40,14 +40,19 @@ export async function POST(req: Request) {
   let effectiveRole = userRole === "PARTNER_ADMIN" ? Role.PARTNER_ADMIN : Role.LEARNER
   let effectivePartnerId = partnerId || null
 
-  // Partner admin can only create learners in their own org.
-  // The partner admin UI does not expose partnerId, so derive it from session.
+  // Un admin partenaire ne peut créer que DANS SON PROPRE partenaire, et seulement
+  // des apprenants ou des admins partenaires (jamais un super-admin, jamais un
+  // compte interne ou rattaché à un autre partenaire). Le partenaire est dérivé
+  // de la session, jamais du payload client.
   if (role === "PARTNER_ADMIN") {
     const adminPartnerId = session.user.partnerId
-    if (!adminPartnerId || (userRole && userRole !== "LEARNER")) {
+    if (!adminPartnerId) {
       return NextResponse.json({ error: "Accès refusé" }, { status: 403 })
     }
-    effectiveRole = Role.LEARNER
+    if (userRole && userRole !== "LEARNER" && userRole !== "PARTNER_ADMIN") {
+      return NextResponse.json({ error: "Accès refusé" }, { status: 403 })
+    }
+    effectiveRole = userRole === "PARTNER_ADMIN" ? Role.PARTNER_ADMIN : Role.LEARNER
     effectivePartnerId = adminPartnerId
   } else if (effectiveRole === "PARTNER_ADMIN" && !effectivePartnerId) {
     return NextResponse.json({ error: "Un admin partenaire doit être rattaché à un partenaire" }, { status: 400 })

@@ -123,6 +123,7 @@ export default function UsersTable({
   const [deactivateModal, setDeactivateModal] = useState<User | null>(null)
   const [reactivateModal, setReactivateModal] = useState<User | null>(null)
   const [resetModal, setResetModal] = useState<User | null>(null)
+  const [formationsModal, setFormationsModal] = useState<User | null>(null)
 
   // Create form
   const [newFirstName, setNewFirstName] = useState("")
@@ -854,9 +855,13 @@ export default function UsersTable({
                 <span>Aucune formation</span>
               ) : (
                 <div className="space-y-0.5 min-w-0">
-                  {u.enrollments.map((e) => (
-                    <div key={e.id} className="truncate">{e.formation.title}</div>
-                  ))}
+                  <div className="flex items-center gap-1.5">
+                    <span className="font-medium text-gray-700">{u.enrollments.length} formation{u.enrollments.length > 1 ? "s" : ""}</span>
+                    <button type="button" onClick={() => setFormationsModal(u)} className="text-primary hover:underline shrink-0">Voir plus</button>
+                  </div>
+                  {u.enrollments.length === 1 && (
+                    <div className="truncate">{u.enrollments[0].formation.title}</div>
+                  )}
                 </div>
               )}
               {u.reference && (
@@ -994,9 +999,13 @@ export default function UsersTable({
                     <span className="text-gray-300">—</span>
                   ) : (
                     <div className="space-y-0.5">
-                      {u.enrollments.map((e) => (
-                        <div key={e.id}>{e.formation.title}</div>
-                      ))}
+                      <div className="flex items-center gap-2">
+                        <span className="font-medium text-gray-700">{u.enrollments.length} formation{u.enrollments.length > 1 ? "s" : ""}</span>
+                        <button type="button" onClick={() => setFormationsModal(u)} className="text-primary text-xs hover:underline">Voir plus</button>
+                      </div>
+                      {u.enrollments.length === 1 && (
+                        <div className="text-gray-500 truncate max-w-[240px]">{u.enrollments[0].formation.title}</div>
+                      )}
                     </div>
                   )}
                 </td>
@@ -1440,6 +1449,35 @@ export default function UsersTable({
               Supprimer définitivement
             </button>
           </div>
+        </div>
+      </Modal>
+
+      {/* ═══ FORMATIONS DETAIL MODAL ═══ */}
+      <Modal open={!!formationsModal} onClose={() => setFormationsModal(null)} title={`Formations — ${formationsModal?.firstName ?? ""} ${formationsModal?.lastName ?? ""}`.trim()}>
+        <div className="space-y-4">
+          <p className="text-sm text-gray-500">
+            {formationsModal?.enrollments.length ?? 0} formation{(formationsModal?.enrollments.length ?? 0) > 1 ? "s" : ""} attribuée{(formationsModal?.enrollments.length ?? 0) > 1 ? "s" : ""}
+          </p>
+          <div className="space-y-2">
+            {formationsModal?.enrollments.map((e) => {
+              const expired = !!e.expiresAt && new Date(e.expiresAt) < new Date()
+              const start = e.startedAt ? new Date(e.startedAt).toLocaleDateString("fr-FR") : null
+              const end = e.expiresAt ? new Date(e.expiresAt).toLocaleDateString("fr-FR") : null
+              return (
+                <div key={e.id} className="rounded-lg border border-border p-3">
+                  <div className="text-sm font-medium text-gray-800">{e.formation.title}</div>
+                  <div className="mt-1 text-xs text-gray-500">
+                    {start ? `Accès à partir du ${start}` : "Accès immédiat"}
+                    {end ? ` · jusqu'au ${end}` : " · sans date de fin"}
+                    {expired && <span className="ml-1.5 text-rose-600 font-medium">Expiré</span>}
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+          <button onClick={() => setFormationsModal(null)} className="w-full py-2.5 bg-gray-100 text-sm rounded-lg hover:bg-gray-200 transition-colors">
+            Fermer
+          </button>
         </div>
       </Modal>
 

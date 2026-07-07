@@ -9,8 +9,9 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
   const role = session.user.role
   const partnerId = session.user.partnerId
 
-  if (role !== "PARTNER_ADMIN" || !partnerId) {
-    return NextResponse.json({ error: "Réservé aux partenaires" }, { status: 403 })
+  // Duplication désactivée pour les admins partenaires (lecture seule) — super-admin uniquement (07/07/2026).
+  if (role !== "SUPER_ADMIN") {
+    return NextResponse.json({ error: "Accès refusé" }, { status: 403 })
   }
 
   const source = await prisma.emailTemplate.findUnique({ where: { id: params.id } })

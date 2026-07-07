@@ -35,9 +35,9 @@ export async function POST(req: NextRequest) {
   if (!session) return NextResponse.json({ error: "Non autorisé" }, { status: 401 })
 
   const role = session.user.role
-  const partnerId = session.user.partnerId
 
-  if (role !== "SUPER_ADMIN" && role !== "PARTNER_ADMIN") {
+  // Création réservée au super-admin : les admins partenaires sont en lecture seule (07/07/2026).
+  if (role !== "SUPER_ADMIN") {
     return NextResponse.json({ error: "Accès refusé" }, { status: 403 })
   }
 
@@ -53,9 +53,9 @@ export async function POST(req: NextRequest) {
       subject,
       htmlContent,
       type,
-      isDefault: role === "SUPER_ADMIN" ? (isDefault ?? true) : false,
+      isDefault: isDefault ?? true,
       isActive: isActive ?? true,
-      partnerId: role === "PARTNER_ADMIN" ? partnerId : null,
+      partnerId: null,
     },
   })
 

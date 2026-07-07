@@ -11,7 +11,8 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
   if (!session) return NextResponse.json({ error: "Non autorisé" }, { status: 401 })
 
   const role = session.user.role
-  if (role !== "SUPER_ADMIN" && role !== "PARTNER_ADMIN") {
+  // Envoi de test réservé au super-admin (admins partenaires en lecture seule).
+  if (role !== "SUPER_ADMIN") {
     return NextResponse.json({ error: "Accès refusé" }, { status: 403 })
   }
 

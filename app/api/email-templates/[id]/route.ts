@@ -7,18 +7,15 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
   if (!session) return NextResponse.json({ error: "Non autorisé" }, { status: 401 })
 
   const role = session.user.role
-  const partnerId = session.user.partnerId
+
+  // Édition réservée au super-admin : les admins partenaires sont en lecture seule
+  // (ils visualisent les templates, ils ne les modifient pas — 07/07/2026).
+  if (role !== "SUPER_ADMIN") {
+    return NextResponse.json({ error: "Accès refusé" }, { status: 403 })
+  }
 
   const template = await prisma.emailTemplate.findUnique({ where: { id: params.id } })
   if (!template) return NextResponse.json({ error: "Template introuvable" }, { status: 404 })
-
-  // Ownership check
-  if (role === "PARTNER_ADMIN" && template.partnerId !== partnerId) {
-    return NextResponse.json({ error: "Accès refusé" }, { status: 403 })
-  }
-  if (role !== "SUPER_ADMIN" && role !== "PARTNER_ADMIN") {
-    return NextResponse.json({ error: "Accès refusé" }, { status: 403 })
-  }
 
   const { name, subject, htmlContent, type, isDefault, isActive } = await req.json()
 
@@ -42,17 +39,14 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
   if (!session) return NextResponse.json({ error: "Non autorisé" }, { status: 401 })
 
   const role = session.user.role
-  const partnerId = session.user.partnerId
+
+  // Suppression réservée au super-admin (admins partenaires en lecture seule).
+  if (role !== "SUPER_ADMIN") {
+    return NextResponse.json({ error: "Accès refusé" }, { status: 403 })
+  }
 
   const template = await prisma.emailTemplate.findUnique({ where: { id: params.id } })
   if (!template) return NextResponse.json({ error: "Template introuvable" }, { status: 404 })
-
-  if (role === "PARTNER_ADMIN" && template.partnerId !== partnerId) {
-    return NextResponse.json({ error: "Accès refusé" }, { status: 403 })
-  }
-  if (role !== "SUPER_ADMIN" && role !== "PARTNER_ADMIN") {
-    return NextResponse.json({ error: "Accès refusé" }, { status: 403 })
-  }
 
   await prisma.emailTemplate.delete({ where: { id: params.id } })
   return NextResponse.json({ success: true })

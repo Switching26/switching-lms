@@ -24,6 +24,28 @@ const emailTypeBadge: Record<string, { label: string; variant: string }> = {
   CUSTOM: { label: "Personnalisé", variant: "default" },
 }
 
+// Valeurs d'exemple pour prévisualiser le rendu final d'un template (bouton "Voir").
+const SAMPLE_VARS: Record<string, string> = {
+  prenom: "Marie", nom: "Durand", email: "marie.durand@exemple.fr",
+  formation_titre: "Formation SEO – Search Engine Optimization",
+  formation_description: "Maîtrisez le référencement naturel de A à Z.",
+  date_expiration: "31/12/2026",
+  lien_connexion: "https://switching-lms-production.up.railway.app/login",
+  lien_activation: "https://switching-lms-production.up.railway.app/login/activer?token=exemple",
+  lien_reinitialisation: "https://switching-lms-production.up.railway.app/login/reset?token=exemple",
+  chapitre_titre: "Introduction au SEO", chapitre_numero: "1",
+  prochain_chapitre: "La recherche de mots-clés", progression: "42",
+  plateforme_nom: "Switching Formation",
+  plateforme_url: "https://switching-lms-production.up.railway.app",
+  partenaire_nom: "CNFDI",
+  couleur_principale: "#4F46E5", couleur_secondaire: "#22D3EE",
+  logo_url: "", logo_url_style: "",
+}
+// Remplace {{variables}} par les valeurs d'exemple, comme le moteur d'envoi (inconnues -> "").
+function renderFinalHtml(html: string): string {
+  return html.replace(/\{\{(\w+)\}\}/g, (_m, k) => (k in SAMPLE_VARS ? SAMPLE_VARS[k] : ""))
+}
+
 interface Template {
   id: string
   name: string
@@ -55,6 +77,7 @@ export default function EmailManager({ logs }: { logs: Log[] }) {
   const [saving, setSaving] = useState(false)
   const [message, setMessage] = useState("")
   const [showPreview, setShowPreview] = useState(false)
+  const [previewTpl, setPreviewTpl] = useState<Template | null>(null)
   const [testing, setTesting] = useState(false)
 
   // Form state
@@ -367,6 +390,7 @@ export default function EmailManager({ logs }: { logs: Log[] }) {
                           {t.isDefault && <Badge variant="blue">Défaut</Badge>}
                         </div>
                         <div className="flex items-center gap-2 sm:ml-4 shrink-0">
+                          <button onClick={() => setPreviewTpl(t)} className="flex-1 sm:flex-none px-3 py-2 sm:py-1.5 text-xs text-primary bg-primary/10 hover:bg-primary/20 rounded-lg transition-colors" style={{ minHeight: 44 }}>Voir</button>
                           <button onClick={() => handleTest(t.id)} disabled={testing} className="flex-1 sm:flex-none px-3 py-2 sm:py-1.5 text-xs bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors" style={{ minHeight: 44 }}>Tester</button>
                           <button onClick={() => openEdit(t)} className="flex-1 sm:flex-none px-3 py-2 sm:py-1.5 text-xs bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors" style={{ minHeight: 44 }}>Modifier</button>
                           <button onClick={() => handleDelete(t.id)} className="flex-1 sm:flex-none px-3 py-2 sm:py-1.5 text-xs text-red-600 bg-red-50 hover:bg-red-100 rounded-lg transition-colors" style={{ minHeight: 44 }}>Supprimer</button>
@@ -434,6 +458,24 @@ export default function EmailManager({ logs }: { logs: Log[] }) {
               )}
             </tbody>
           </table>
+        </div>
+      )}
+
+      {previewTpl && (
+        <div className="fixed inset-0 z-50 flex items-start justify-center bg-black/40 p-3 sm:p-8 overflow-y-auto" onClick={() => setPreviewTpl(null)}>
+          <div className="bg-white rounded-xl shadow-xl w-full max-w-2xl my-2 sm:my-4" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center justify-between gap-3 border-b border-border px-4 py-3">
+              <div className="min-w-0">
+                <p className="text-sm font-semibold truncate">{previewTpl.name}</p>
+                <p className="text-xs text-gray-400 truncate">Sujet : {renderFinalHtml(previewTpl.subject)}</p>
+              </div>
+              <button onClick={() => setPreviewTpl(null)} aria-label="Fermer" className="w-9 h-9 shrink-0 flex items-center justify-center text-gray-400 hover:text-gray-700 text-xl leading-none">&times;</button>
+            </div>
+            <div className="px-4 pt-2 text-[11px] text-gray-400 text-center">Aperçu du rendu final (données d&apos;exemple)</div>
+            <div className="p-2 sm:p-4 pt-2">
+              <iframe srcDoc={renderFinalHtml(previewTpl.htmlContent)} sandbox="" className="w-full h-[68vh] rounded-lg border border-border bg-white" title="Aperçu email" />
+            </div>
+          </div>
         </div>
       )}
     </div>

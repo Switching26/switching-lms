@@ -777,14 +777,33 @@ export default function UsersTable({
         </div>
 
         <div className="flex items-center gap-3">
-          <input
-            type="text"
-            placeholder="Rechercher..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="flex-1 min-w-0 px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-black"
-            style={{ fontSize: 16 }}
-          />
+          <div className="relative flex-1 min-w-0">
+            <input
+              type="text"
+              placeholder="Rechercher..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              onKeyDown={(e) => { if (e.key === "Escape") setSearch("") }}
+              className="w-full min-w-0 pl-3 pr-20 py-2 text-sm border border-border rounded-lg outline-none focus:border-black"
+              style={{ fontSize: 16 }}
+            />
+            {search && (
+              <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1.5">
+                <kbd className="hidden sm:inline-flex items-center h-5 px-1.5 rounded border border-border bg-gray-50 text-[10px] font-medium text-gray-400 leading-none">Échap</kbd>
+                <button
+                  type="button"
+                  onClick={() => setSearch("")}
+                  aria-label="Effacer la recherche"
+                  title="Effacer (Échap)"
+                  className="flex items-center justify-center w-6 h-6 rounded-full text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors"
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+            )}
+          </div>
           <button
             onClick={() => { setModalMessage(""); setCreateOpen(true) }}
             className="px-4 py-2 bg-primary text-white text-sm rounded-lg hover:opacity-90 transition-opacity whitespace-nowrap shrink-0"

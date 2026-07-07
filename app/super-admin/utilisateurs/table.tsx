@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect, useRef, Fragment } from "react"
 import { useRouter } from "next/navigation"
 import Badge from "@/components/ui/Badge"
 import Modal from "@/components/ui/Modal"
@@ -25,6 +25,14 @@ interface User {
 // le bon geste d'accès est « Renvoyer activation », pas la réinitialisation.
 function neverLoggedIn(u: User) {
   return (u._count?.loginLogs ?? 0) === 0
+}
+
+// Ordre d'affichage des rôles dans le tableau + libellés de section
+const ROLE_ORDER: Record<string, number> = { SUPER_ADMIN: 0, PARTNER_ADMIN: 1, LEARNER: 2 }
+const ROLE_GROUP_LABEL: Record<string, string> = {
+  SUPER_ADMIN: "Super administrateurs",
+  PARTNER_ADMIN: "Administrateurs",
+  LEARNER: "Apprenants",
 }
 
 interface PartnerOption {
@@ -211,6 +219,14 @@ export default function UsersTable({
       if (!match) return false
     }
     return true
+  }).sort((a, b) => {
+    // Tri par rôle : super admins → admins → apprenants, puis par nom
+    const ra = ROLE_ORDER[a.role] ?? 99
+    const rb = ROLE_ORDER[b.role] ?? 99
+    if (ra !== rb) return ra - rb
+    const ln = (a.lastName || "").localeCompare(b.lastName || "", "fr", { sensitivity: "base" })
+    if (ln !== 0) return ln
+    return (a.firstName || "").localeCompare(b.firstName || "", "fr", { sensitivity: "base" })
   })
 
   const statusCounts = {
@@ -219,6 +235,11 @@ export default function UsersTable({
     inactive: users.filter((u) => !u.isActive && !u.archivedAt).length,
     archived: users.filter((u) => !!u.archivedAt).length,
   }
+
+  // Compteurs par groupe de rôle (pour les en-têtes de section du tableau)
+  const roleGroupCounts: Record<string, number> = { SUPER_ADMIN: 0, PARTNER_ADMIN: 0, LEARNER: 0 }
+  filtered.forEach((u) => { if (u.role in roleGroupCounts) roleGroupCounts[u.role]++ })
+  const colCount = isPartnerAdmin ? 7 : 8
 
   const flash = (msg: string) => {
     setMessage(msg)
@@ -776,8 +797,17 @@ export default function UsersTable({
 
       {/* ═══ MOBILE CARDS ═══ */}
       <div className="lg:hidden space-y-3">
-        {filtered.map((u) => (
-          <div key={u.id} className={`bg-white rounded-xl border border-border p-4 space-y-2 ${isArchived(u) ? "opacity-60" : ""}`}>
+        {filtered.map((u, i) => {
+          const showGroup = i === 0 || filtered[i - 1].role !== u.role
+          return (
+          <Fragment key={u.id}>
+            {showGroup && (
+              <div className={`flex items-baseline gap-1.5 px-1 ${i === 0 ? "" : "pt-3"}`}>
+                <span className="text-[11px] font-semibold uppercase tracking-wider text-gray-400">{ROLE_GROUP_LABEL[u.role] ?? u.role}</span>
+                <span className="text-[11px] text-gray-300">· {roleGroupCounts[u.role]}</span>
+              </div>
+            )}
+          <div className={`bg-white rounded-xl border border-border p-4 space-y-2 ${isArchived(u) ? "opacity-60" : ""}`}>
             <div className="flex items-start justify-between">
               <div className="min-w-0">
                 <div className="flex items-center gap-2 flex-wrap">
@@ -871,7 +901,9 @@ export default function UsersTable({
               )}
             </div>
           </div>
-        ))}
+          </Fragment>
+          )
+        })}
         {filtered.length === 0 && (
           <div className="bg-white rounded-xl border border-border px-4 py-8 text-center text-sm text-gray-400">
             Aucun utilisateur
@@ -895,8 +927,21 @@ export default function UsersTable({
             </tr>
           </thead>
           <tbody>
-            {filtered.map((u) => (
-              <tr key={u.id} className={`border-b border-gray-50 hover:bg-gray-50 transition-colors ${isArchived(u) ? "opacity-60" : ""}`}>
+            {filtered.map((u, i) => {
+              const showGroup = i === 0 || filtered[i - 1].role !== u.role
+              return (
+              <Fragment key={u.id}>
+                {showGroup && (
+                  <tr className="bg-gray-100 border-b border-border">
+                    <td colSpan={colCount} className="px-4 pt-3.5 pb-1.5">
+                      <span className="text-[11px] font-semibold uppercase tracking-wider text-gray-400">
+                        {ROLE_GROUP_LABEL[u.role] ?? u.role}
+                        <span className="ml-1.5 font-normal text-gray-300">· {roleGroupCounts[u.role]}</span>
+                      </span>
+                    </td>
+                  </tr>
+                )}
+              <tr className={`border-b border-gray-50 hover:bg-gray-50 transition-colors ${isArchived(u) ? "opacity-60" : ""}`}>
                 <td className="px-4 py-3">
                   <span className="text-sm font-medium">{u.firstName} {u.lastName}</span>
                 </td>
@@ -1004,10 +1049,12 @@ export default function UsersTable({
                   )}
                 </td>
               </tr>
-            ))}
+              </Fragment>
+              )
+            })}
             {filtered.length === 0 && (
               <tr>
-                <td colSpan={isPartnerAdmin ? 6 : 7} className="px-4 py-8 text-center text-sm text-gray-400">
+                <td colSpan={colCount} className="px-4 py-8 text-center text-sm text-gray-400">
                   Aucun utilisateur
                 </td>
               </tr>

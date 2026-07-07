@@ -838,13 +838,12 @@ function ChapterButton({
   onClick: () => void
 }) {
   // Config par type (icône + couleurs)
-  // Le type "video" suit la couleur partenaire (white-label) via style inline ;
-  // les autres types gardent des couleurs sémantiques fixes.
+  // Icône vidéo en gris clair neutre (indépendant du partenaire) : plus lisible
+  // et cohérent quelle que soit la palette du partenaire (feedback Samuel 07/07).
+  // Les autres types gardent des couleurs sémantiques fixes (quiz ambre, PDF rose).
   const kindConfig: Record<ChapterKind, { bg: string; text: string; bgStyle?: React.CSSProperties; textStyle?: React.CSSProperties; icon: React.ReactNode }> = {
     video: {
-      bg: "", text: "",
-      bgStyle: { background: "color-mix(in srgb, var(--partner-primary, #6366f1) 14%, transparent)" },
-      textStyle: { color: "var(--partner-primary, #6366f1)" },
+      bg: "bg-warm-100", text: "text-warm-500",
       icon: <svg viewBox="0 0 24 24" fill="currentColor" className="w-3 h-3"><path d="M8 5v14l11-7z" /></svg>,
     },
     exercise: {

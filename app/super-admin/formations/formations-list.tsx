@@ -227,8 +227,8 @@ export default function FormationsList({ formations }: { formations: FormationIt
 
       {/* Modal */}
       {modal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-          <div className="bg-white rounded-xl border border-border p-6 max-w-md w-full mx-4 space-y-4">
+        <div className="app-modal-overlay bg-black/40">
+          <div className="app-modal-panel bg-white rounded-xl border border-border p-6 max-w-md w-full mx-4 space-y-4 overflow-y-auto">
             {modal.type === "soft" ? (
               <>
                 <h3 className="text-base font-semibold">Supprimer la formation</h3>

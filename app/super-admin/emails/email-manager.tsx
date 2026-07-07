@@ -462,18 +462,18 @@ export default function EmailManager({ logs }: { logs: Log[] }) {
       )}
 
       {previewTpl && (
-        <div className="fixed inset-0 z-50 flex items-start justify-center bg-black/40 p-3 sm:p-8 overflow-y-auto" onClick={() => setPreviewTpl(null)}>
-          <div className="bg-white rounded-xl shadow-xl w-full max-w-2xl my-2 sm:my-4" onClick={(e) => e.stopPropagation()}>
-            <div className="flex items-center justify-between gap-3 border-b border-border px-4 py-3">
+        <div className="app-modal-overlay app-modal-overlay-scroll bg-black/40" onClick={() => setPreviewTpl(null)}>
+          <div className="app-modal-panel flex flex-col bg-white rounded-xl shadow-xl w-full max-w-2xl min-h-0" onClick={(e) => e.stopPropagation()}>
+            <div className="flex shrink-0 items-center justify-between gap-3 border-b border-border px-4 py-3">
               <div className="min-w-0">
                 <p className="text-sm font-semibold truncate">{previewTpl.name}</p>
                 <p className="text-xs text-gray-400 truncate">Sujet : {renderFinalHtml(previewTpl.subject)}</p>
               </div>
               <button onClick={() => setPreviewTpl(null)} aria-label="Fermer" className="w-9 h-9 shrink-0 flex items-center justify-center text-gray-400 hover:text-gray-700 text-xl leading-none">&times;</button>
             </div>
-            <div className="px-4 pt-2 text-[11px] text-gray-400 text-center">Aperçu du rendu final (données d&apos;exemple)</div>
-            <div className="p-2 sm:p-4 pt-2">
-              <iframe srcDoc={renderFinalHtml(previewTpl.htmlContent)} sandbox="" className="w-full h-[68vh] rounded-lg border border-border bg-white" title="Aperçu email" />
+            <div className="shrink-0 px-4 pt-2 text-[11px] text-gray-400 text-center">Aperçu du rendu final (données d&apos;exemple)</div>
+            <div className="min-h-0 p-2 sm:p-4 pt-2">
+              <iframe srcDoc={renderFinalHtml(previewTpl.htmlContent)} sandbox="" className="app-email-preview-frame w-full rounded-lg border border-border bg-white" title="Aperçu email" />
             </div>
           </div>
         </div>

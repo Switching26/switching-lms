@@ -158,7 +158,7 @@ export default function TopNav({
 
   return (
     <>
-      <nav className="glass-card sticky top-0 z-40 border-b" style={{ borderBottomColor: `${color}12` }}>
+      <nav className="glass-card sticky top-0 z-40 border-b" style={{ borderBottomColor: `${color}12`, top: "var(--app-impersonation-offset, 0px)" }}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
           {/* GAUCHE : Logo + badge + items */}
           <div className="flex items-center gap-5 lg:gap-8">
@@ -296,12 +296,12 @@ export default function TopNav({
 
       {/* Drawer mobile */}
       {menuOpen && (
-        <div className="fixed inset-0 z-50 lg:hidden">
-          <div className="fixed inset-0 bg-black/20 backdrop-blur-sm" onClick={() => setMenuOpen(false)} />
+        <div className="fixed inset-0 z-50 lg:hidden" style={{ top: "var(--app-impersonation-offset, 0px)" }}>
+          <div className="fixed inset-0 bg-black/20 backdrop-blur-sm" style={{ top: "var(--app-impersonation-offset, 0px)" }} onClick={() => setMenuOpen(false)} />
           <div
             ref={menuRef}
             className="fixed right-0 top-0 bottom-0 w-full max-w-[85vw] sm:max-w-[320px] bg-white shadow-2xl flex flex-col"
-            style={{ borderLeft: `3px solid ${color}` }}
+            style={{ borderLeft: `3px solid ${color}`, top: "var(--app-impersonation-offset, 0px)" }}
           >
             {/* Header mobile : avatar + nom */}
             <div className="px-5 py-4 border-b border-ink-10 flex items-center gap-3" style={{ background: `${color}06` }}>

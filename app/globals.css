@@ -12,6 +12,53 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+:root {
+  --app-impersonation-offset: 0px;
+  --app-nav-height: 64px;
+  --app-modal-gutter: 16px;
+  --app-modal-bottom-offset: 24px;
+  --app-modal-top-offset: calc(var(--app-impersonation-offset) + var(--app-nav-height) + var(--app-modal-gutter));
+}
+
+/* Shared modal geometry: content fits in the usable viewport below sticky chrome. */
+.app-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  padding: var(--app-modal-top-offset) 0 0;
+}
+
+.app-modal-overlay-scroll {
+  align-items: flex-start;
+  overflow-y: auto;
+  padding: var(--app-modal-top-offset) 0.75rem var(--app-modal-bottom-offset);
+}
+
+.app-modal-panel {
+  max-height: calc(100dvh - var(--app-modal-top-offset) - var(--app-modal-bottom-offset));
+}
+
+.app-email-preview-frame {
+  height: min(68vh, calc(100dvh - var(--app-modal-top-offset) - var(--app-modal-bottom-offset) - 7rem));
+  min-height: min(320px, 52dvh);
+}
+
+@media (min-width: 640px) {
+  .app-modal-overlay {
+    align-items: center;
+    padding: var(--app-modal-top-offset) 1rem var(--app-modal-bottom-offset);
+  }
+
+  .app-modal-overlay-scroll {
+    align-items: flex-start;
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
 /* Brand utility classes */
 .btn-primary {
   background-color: #4F46E5;

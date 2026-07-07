@@ -27,12 +27,16 @@ export default function PartnerAdminShell({
   userEmail: string
   impersonating?: { name: string; email: string } | null
 }) {
+  const shellStyle = impersonating
+    ? ({ paddingTop: "40px", "--app-impersonation-offset": "40px" } as React.CSSProperties)
+    : undefined
+
   return (
     <div className="min-h-screen bg-surface-subtle">
       {impersonating && (
         <ImpersonationBanner name={impersonating.name} email={impersonating.email} />
       )}
-      <div style={impersonating ? { paddingTop: "40px" } : undefined}>
+      <div style={shellStyle}>
         <TopNav
           brand={partnerName}
           badge="Admin partenaire"

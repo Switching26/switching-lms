@@ -11,6 +11,7 @@ const EMAIL_TYPES = [
   { value: "FORMATION_COMPLETED", label: "Formation terminée" },
   { value: "ACTIVATION_LINK", label: "Lien d'activation" },
   { value: "PASSWORD_RESET", label: "Réinitialisation mot de passe" },
+  { value: "LOGIN_LINK", label: "Lien de connexion" },
   { value: "CUSTOM", label: "Personnalisé" },
 ]
 
@@ -21,6 +22,7 @@ const emailTypeBadge: Record<string, { label: string; variant: string }> = {
   FORMATION_COMPLETED: { label: "Formation terminée", variant: "warning" },
   ACTIVATION_LINK: { label: "Lien activation", variant: "blue" },
   PASSWORD_RESET: { label: "Reset MDP", variant: "error" },
+  LOGIN_LINK: { label: "Lien connexion", variant: "blue" },
   CUSTOM: { label: "Personnalisé", variant: "default" },
 }
 
@@ -32,7 +34,8 @@ const SAMPLE_VARS: Record<string, string> = {
   date_expiration: "31/12/2026",
   lien_connexion: "https://switching-lms-production.up.railway.app/login",
   lien_activation: "https://switching-lms-production.up.railway.app/login/activer?token=exemple",
-  lien_reinitialisation: "https://switching-lms-production.up.railway.app/login/reset?token=exemple",
+  lien_reinitialisation: "https://switching-lms-production.up.railway.app/login/reinitialiser?token=exemple",
+  lien_mot_de_passe_oublie: "https://switching-lms-production.up.railway.app/login/mot-de-passe-oublie",
   chapitre_titre: "Introduction au SEO", chapitre_numero: "1",
   prochain_chapitre: "La recherche de mots-clés", progression: "42",
   plateforme_nom: "Switching Formation",

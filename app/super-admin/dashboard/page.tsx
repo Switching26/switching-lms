@@ -14,6 +14,9 @@ const emailTypeVariant: Record<string, string> = {
   FORMATION_ASSIGNED: "success",
   CHAPTER_COMPLETED: "purple",
   FORMATION_COMPLETED: "warning",
+  ACTIVATION_LINK: "blue",
+  PASSWORD_RESET: "error",
+  LOGIN_LINK: "blue",
 }
 
 export default async function SuperAdminDashboard() {

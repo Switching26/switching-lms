@@ -14,6 +14,7 @@ export const TEMPLATE_VARIABLES = [
   { key: "lien_connexion", label: "Lien de connexion", category: "Liens" },
   { key: "lien_activation", label: "Lien d'activation", category: "Liens" },
   { key: "lien_reinitialisation", label: "Lien de réinitialisation", category: "Liens" },
+  { key: "lien_mot_de_passe_oublie", label: "Lien mot de passe oublié", category: "Liens" },
   { key: "chapitre_titre", label: "Titre chapitre", category: "Chapitre" },
   { key: "chapitre_numero", label: "Numéro chapitre", category: "Chapitre" },
   { key: "prochain_chapitre", label: "Prochain chapitre", category: "Chapitre" },

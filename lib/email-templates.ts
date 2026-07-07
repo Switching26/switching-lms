@@ -174,6 +174,47 @@ export function resendActivationEmail(
 }
 
 // ═══════════════════════════════
+// TEMPLATE 7 — Lien de connexion
+// ═══════════════════════════════
+export function loginLinkEmail(
+  firstName: string,
+  email: string,
+  partner?: { name: string; primaryColor: string; secondaryColor: string; logoUrl?: string | null } | null,
+  partnerSlug?: string | null
+) {
+  const brand = getBrand(partner)
+  const subject = `Votre lien de connexion à ${brand.name}`
+  const loginUrl = partnerSlug ? `${brand.baseUrl}/login?partner=${partnerSlug}` : `${brand.baseUrl}/login`
+  const forgotUrl = partnerSlug ? `${brand.baseUrl}/login/mot-de-passe-oublie?partner=${partnerSlug}` : `${brand.baseUrl}/login/mot-de-passe-oublie`
+  const html = layout(brand, `
+    <h1 style="margin:0 0 16px;font-size:22px;color:#111;">Lien de connexion</h1>
+    <p style="margin:0 0 20px;color:#555;font-size:15px;line-height:1.6;">
+      Bonjour <strong>${firstName}</strong>,
+    </p>
+    <p style="margin:0 0 16px;color:#555;font-size:15px;line-height:1.6;">
+      Vous pouvez vous reconnecter à votre espace en cliquant sur le bouton ci-dessous.
+    </p>
+    ${button("Me connecter", loginUrl, brand.primaryColor)}
+    <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#f5f5f7;border-radius:8px;padding:0;margin:0 0 18px;">
+      <tr>
+        <td style="padding:16px 20px;">
+          <p style="margin:0 0 8px;font-size:13px;color:#888;">Votre identifiant</p>
+          <p style="margin:0;font-size:15px;color:#111;font-weight:600;">${email}</p>
+        </td>
+      </tr>
+    </table>
+    <p style="margin:0 0 10px;color:#555;font-size:15px;line-height:1.6;">
+      Utilisez l'adresse email et le mot de passe que vous connaissez déjà.
+    </p>
+    <p style="margin:0;color:#777;font-size:14px;line-height:1.6;">
+      Si vous avez oublié votre mot de passe, utilisez le lien « Mot de passe oublié » sur la page de connexion, ou cliquez ici :
+      <a href="${forgotUrl}" target="_blank" style="color:${brand.primaryColor};font-weight:600;text-decoration:none;">réinitialiser mon mot de passe</a>.
+    </p>
+  `)
+  return { subject, html }
+}
+
+// ═══════════════════════════════
 // TEMPLATE 2 — Formation attribuée
 // ═══════════════════════════════
 export function formationAssignedEmail(

@@ -8,6 +8,7 @@
 
 const EMAIL_TYPE_LABELS: Record<string, string> = {
   PASSWORD_RESET: "Réinitialisation mot de passe",
+  LOGIN_LINK: "Lien de connexion",
   ACTIVATION_LINK: "Lien d'activation",
   ACCOUNT_CREATED: "Création de compte",
   FORMATION_ASSIGNED: "Formation attribuée",

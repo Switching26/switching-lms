@@ -1,0 +1,1 @@
+ALTER TYPE "EmailType" ADD VALUE 'LOGIN_LINK';

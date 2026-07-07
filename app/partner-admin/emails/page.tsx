@@ -10,6 +10,7 @@ const EMAIL_TYPES: Record<string, { label: string; variant: string }> = {
   FORMATION_COMPLETED: { label: "Formation terminée", variant: "warning" },
   ACTIVATION_LINK: { label: "Lien activation", variant: "blue" },
   PASSWORD_RESET: { label: "Reset MDP", variant: "error" },
+  LOGIN_LINK: { label: "Lien connexion", variant: "blue" },
   CUSTOM: { label: "Personnalisé", variant: "default" },
 }
 

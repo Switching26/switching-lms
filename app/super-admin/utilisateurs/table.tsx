@@ -123,6 +123,7 @@ export default function UsersTable({
   const [deactivateModal, setDeactivateModal] = useState<User | null>(null)
   const [reactivateModal, setReactivateModal] = useState<User | null>(null)
   const [resetModal, setResetModal] = useState<User | null>(null)
+  const [loginLinkModal, setLoginLinkModal] = useState<User | null>(null)
   const [formationsModal, setFormationsModal] = useState<User | null>(null)
 
   // Create form
@@ -296,10 +297,16 @@ export default function UsersTable({
   // ─── RESEND ACTIVATION ───
   const [resending, setResending] = useState<string | null>(null)
   const [resetSending, setResetSending] = useState(false)
+  const [loginLinkSending, setLoginLinkSending] = useState(false)
 
   const openResetModal = (user: User) => {
     setModalMessage("")
     setResetModal(user)
+  }
+
+  const openLoginLinkModal = (user: User) => {
+    setModalMessage("")
+    setLoginLinkModal(user)
   }
 
   const handleSendPasswordReset = async () => {
@@ -321,6 +328,28 @@ export default function UsersTable({
       modalFlash("Erreur réseau")
     } finally {
       setResetSending(false)
+    }
+  }
+
+  const handleSendLoginLink = async () => {
+    if (!loginLinkModal) return
+    setLoginLinkSending(true)
+    try {
+      const res = await fetch(`/api/user/${loginLinkModal.id}/send-login-link`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+      })
+      const data = await res.json().catch(() => ({}))
+      if (res.ok) {
+        modalFlash(data.emailSent === false ? "Erreur email : lien préparé, mais envoi non confirmé" : "Mail de connexion envoyé")
+        closeModalAfterFeedback(() => setLoginLinkModal(null))
+      } else {
+        modalFlash(data.error || "Erreur lors de l'envoi")
+      }
+    } catch {
+      modalFlash("Erreur réseau")
+    } finally {
+      setLoginLinkSending(false)
     }
   }
 
@@ -735,6 +764,7 @@ export default function UsersTable({
     if (isPartnerAdmin) return u.role === "LEARNER"
     return u.role === "LEARNER" || u.role === "PARTNER_ADMIN"
   }
+  const canSendLoginLink = (u: User) => u.isActive && !u.archivedAt && !neverLoggedIn(u)
 
   return (
     <>
@@ -907,6 +937,9 @@ export default function UsersTable({
                       {u.isActive && !u.archivedAt && !neverLoggedIn(u) && (
                         <button onClick={() => { setOpenMenuId(null); openResetModal(u) }} className="w-full flex items-center gap-3 text-left px-4 py-3 text-sm hover:bg-gray-50 transition-colors">{IconReset}Envoyer réinitialisation</button>
                       )}
+                      {canSendLoginLink(u) && (
+                        <button onClick={() => { setOpenMenuId(null); openLoginLinkModal(u) }} className="w-full flex items-center gap-3 text-left px-4 py-3 text-sm hover:bg-gray-50 transition-colors">{IconSend}Envoyer lien de connexion</button>
+                      )}
                       <button onClick={() => { setOpenMenuId(null); openProgress(u.id) }} className="w-full flex items-center gap-3 text-left px-4 py-3 text-sm hover:bg-gray-50 transition-colors">{IconChart}Suivi</button>
                       <button onClick={() => { setOpenMenuId(null); setModalMessage(""); setAssignModal(u.id); setAssignFormationId(""); setAssignStarts(dateInputValue()); setAssignExpires("") }} className="w-full flex items-center gap-3 text-left px-4 py-3 text-sm hover:bg-gray-50 transition-colors">{IconAssign}Attribuer formation</button>
                       {neverLoggedIn(u) && !u.archivedAt && u.role !== "SUPER_ADMIN" && (
@@ -1059,6 +1092,9 @@ export default function UsersTable({
                           {u.isActive && !u.archivedAt && !neverLoggedIn(u) && (
                             <button onClick={() => { setOpenMenuId(null); openResetModal(u) }} className="w-full flex items-center gap-3 text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors">{IconReset}Envoyer réinitialisation</button>
                           )}
+                          {canSendLoginLink(u) && (
+                            <button onClick={() => { setOpenMenuId(null); openLoginLinkModal(u) }} className="w-full flex items-center gap-3 text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors">{IconSend}Envoyer lien de connexion</button>
+                          )}
                           <button onClick={() => { setOpenMenuId(null); openProgress(u.id) }} className="w-full flex items-center gap-3 text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors">{IconChart}Suivi</button>
                           <button onClick={() => { setOpenMenuId(null); setModalMessage(""); setAssignModal(u.id); setAssignFormationId(""); setAssignStarts(dateInputValue()); setAssignExpires("") }} className="w-full flex items-center gap-3 text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors">{IconAssign}Attribuer formation</button>
                           {neverLoggedIn(u) && !u.archivedAt && u.role !== "SUPER_ADMIN" && (
@@ -1155,6 +1191,39 @@ export default function UsersTable({
               className="flex-1 py-2.5 bg-primary text-white text-sm rounded-lg hover:opacity-90 disabled:opacity-50"
             >
               {resetSending ? "Envoi..." : "OK, envoyer"}
+            </button>
+          </div>
+        </div>
+      </Modal>
+
+      {/* ═══ LOGIN LINK EMAIL MODAL ═══ */}
+      <Modal open={!!loginLinkModal} onClose={() => { if (!loginLinkSending) { setLoginLinkModal(null); setModalMessage("") } }} title="Envoyer le lien de connexion ?">
+        <div className="space-y-4">
+          <FeedbackBanner message={modalMessage} />
+          <p className="text-sm text-gray-600">
+            Un email avec le lien de connexion sera envoyé à{" "}
+            <strong>{loginLinkModal?.firstName} {loginLinkModal?.lastName}</strong>.
+          </p>
+          <p className="text-sm text-gray-500 break-all">
+            {loginLinkModal?.email}
+          </p>
+          <p className="text-xs text-gray-500">
+            Ce mail ne modifie pas son mot de passe. Il rappelle aussi le lien « Mot de passe oublié ».
+          </p>
+          <div className="flex gap-3">
+            <button
+              onClick={() => { setLoginLinkModal(null); setModalMessage("") }}
+              disabled={loginLinkSending}
+              className="flex-1 py-2.5 bg-gray-100 text-sm rounded-lg hover:bg-gray-200 transition-colors disabled:opacity-50"
+            >
+              Annuler
+            </button>
+            <button
+              onClick={handleSendLoginLink}
+              disabled={loginLinkSending}
+              className="flex-1 py-2.5 bg-primary text-white text-sm rounded-lg hover:opacity-90 disabled:opacity-50"
+            >
+              {loginLinkSending ? "Envoi..." : "OK, envoyer"}
             </button>
           </div>
         </div>

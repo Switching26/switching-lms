@@ -32,6 +32,9 @@ export async function GET(_req: NextRequest, { params }: { params: { id: string 
 
   const baseUrl = getBaseUrl()
   const loginUrl = partnerData?.slug ? `${baseUrl}/login?partner=${partnerData.slug}` : `${baseUrl}/login`
+  const forgotPasswordUrl = partnerData?.slug
+    ? `${baseUrl}/login/mot-de-passe-oublie?partner=${partnerData.slug}`
+    : `${baseUrl}/login/mot-de-passe-oublie`
 
   const sampleData = {
     prenom: "Marie",
@@ -43,6 +46,7 @@ export async function GET(_req: NextRequest, { params }: { params: { id: string 
     lien_connexion: loginUrl,
     lien_activation: `${baseUrl}/login/activer?token=exemple`,
     lien_reinitialisation: `${baseUrl}/login/reinitialiser?token=exemple`,
+    lien_mot_de_passe_oublie: forgotPasswordUrl,
     chapitre_titre: "Introduction au SEO",
     chapitre_numero: "1",
     prochain_chapitre: "La recherche de mots-clés",

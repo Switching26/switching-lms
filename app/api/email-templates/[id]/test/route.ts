@@ -31,6 +31,9 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
   }
 
   const loginUrl = partnerData?.slug ? `${baseUrl}/login?partner=${partnerData.slug}` : `${baseUrl}/login`
+  const forgotPasswordUrl = partnerData?.slug
+    ? `${baseUrl}/login/mot-de-passe-oublie?partner=${partnerData.slug}`
+    : `${baseUrl}/login/mot-de-passe-oublie`
 
   // Sample data for preview
   const sampleData = {
@@ -43,6 +46,7 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
     lien_connexion: loginUrl,
     lien_activation: `${baseUrl}/login/activer?token=sample-token`,
     lien_reinitialisation: `${baseUrl}/login/reinitialiser?token=sample-token`,
+    lien_mot_de_passe_oublie: forgotPasswordUrl,
     chapitre_titre: "Chapitre exemple",
     chapitre_numero: "1",
     prochain_chapitre: "Chapitre suivant",

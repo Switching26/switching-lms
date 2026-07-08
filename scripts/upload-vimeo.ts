@@ -61,6 +61,7 @@ async function checkQuota(token: string) {
 
 const EMBED_DOMAINS = [
   "switching-lms-production.up.railway.app",
+  "plateforme-elearning.up.railway.app",
   "localhost",
   "mac-mini-de-switching.tail09d208.ts.net",
 ]

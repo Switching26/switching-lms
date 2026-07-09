@@ -31,7 +31,7 @@ function formatDuration(seconds: number): string {
 interface Choice {
   id: string
   text: string
-  isCorrect: boolean
+  isCorrect?: boolean
 }
 
 interface Question {
@@ -39,6 +39,7 @@ interface Question {
   text: string
   type: string
   order: number
+  multiple?: boolean
   choices: Choice[]
 }
 
@@ -911,7 +912,7 @@ function ExerciseBlock({
   userId: string
   preview?: boolean
 }) {
-  const [answers, setAnswers] = useState<Record<string, { selectedChoiceId?: string; responseText?: string }>>({})
+  const [answers, setAnswers] = useState<Record<string, { selectedChoiceIds?: string[]; responseText?: string }>>({})
   const [submitted, setSubmitted] = useState(false)
   const [corrections, setCorrections] = useState<any[]>([])
   const [score, setScore] = useState<{ correct: number; total: number } | null>(null)
@@ -932,7 +933,7 @@ function ExerciseBlock({
     setSubmitting(true)
     const answerList = exercise.questions.map((q) => ({
       questionId: q.id,
-      selectedChoiceId: answers[q.id]?.selectedChoiceId,
+      selectedChoiceIds: answers[q.id]?.selectedChoiceIds || [],
       responseText: answers[q.id]?.responseText,
     }))
 
@@ -988,15 +989,30 @@ function ExerciseBlock({
 
               {(exercise.type === "QCM" || exercise.type === "VRAI_FAUX") && (
                 <div className="space-y-1.5 ml-1">
+                  {q.multiple && !submitted && (
+                    <p className="text-[11px] font-semibold text-violet-500 uppercase tracking-wide mb-1">Plusieurs réponses possibles</p>
+                  )}
                   {q.choices.map((choice) => {
-                    const selected = answers[q.id]?.selectedChoiceId === choice.id
+                    const selectedIds = answers[q.id]?.selectedChoiceIds || []
+                    const selected = selectedIds.includes(choice.id)
+                    const correctIds: string[] = correction?.correctChoiceIds || []
+                    const isCorrectChoice = correctIds.includes(choice.id)
                     let classes = "border-border hover:border-warm-300 hover:bg-warm-50"
                     if (submitted && correction) {
-                      if (choice.id === correction.correctChoiceId) classes = "border-emerald-300 bg-emerald-50"
-                      else if (selected && !correction.isCorrect) classes = "border-rose-300 bg-rose-50"
+                      if (isCorrectChoice) classes = "border-emerald-300 bg-emerald-50"
+                      else if (selected) classes = "border-rose-300 bg-rose-50"
                     } else if (selected) {
                       classes = "border-primary bg-primary/5"
                     }
+
+                    const toggle = () => setAnswers((prev) => {
+                      const cur = prev[q.id]?.selectedChoiceIds || []
+                      if (q.multiple) {
+                        const next = cur.includes(choice.id) ? cur.filter((id) => id !== choice.id) : [...cur, choice.id]
+                        return { ...prev, [q.id]: { selectedChoiceIds: next } }
+                      }
+                      return { ...prev, [q.id]: { selectedChoiceIds: [choice.id] } }
+                    })
 
                     return (
                       <label
@@ -1004,20 +1020,20 @@ function ExerciseBlock({
                         className={`flex items-center gap-3 p-3 rounded-xl border transition-all cursor-pointer ${classes} ${submitted ? "pointer-events-none" : ""}`}
                       >
                         <input
-                          type="radio"
+                          type={q.multiple ? "checkbox" : "radio"}
                           name={`q-${q.id}`}
                           checked={selected}
-                          onChange={() => setAnswers((prev) => ({ ...prev, [q.id]: { selectedChoiceId: choice.id } }))}
+                          onChange={toggle}
                           disabled={submitted}
-                          className="accent-primary w-4 h-4"
+                          className={`accent-primary w-4 h-4 ${q.multiple ? "rounded" : ""}`}
                         />
                         <span className="text-sm text-warm-700 flex-1">{choice.text}</span>
-                        {submitted && choice.id === correction?.correctChoiceId && (
+                        {submitted && isCorrectChoice && (
                           <svg className="w-4 h-4 text-emerald-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
                             <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                           </svg>
                         )}
-                        {submitted && selected && !correction?.isCorrect && choice.id !== correction?.correctChoiceId && (
+                        {submitted && selected && !isCorrectChoice && (
                           <svg className="w-4 h-4 text-rose-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
                             <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                           </svg>

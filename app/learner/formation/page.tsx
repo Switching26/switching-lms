@@ -52,6 +52,17 @@ export default async function FormationPage({ searchParams }: { searchParams: Pr
 
   const chapters = enrollment.formation.chapters.map((ch: any) => ({
     ...ch,
+    // Assainir les exercices avant de les envoyer au client :
+    //  - `multiple` = la question a plusieurs bonnes réponses (→ cases à cocher)
+    //  - on RETIRE `isCorrect` des choix (sinon les bonnes réponses fuitent dans le payload)
+    exercises: (ch.exercises || []).map((ex: any) => ({
+      ...ex,
+      questions: (ex.questions || []).map((q: any) => ({
+        ...q,
+        multiple: (q.choices || []).filter((c: any) => c.isCorrect).length > 1,
+        choices: (q.choices || []).map((c: any) => ({ id: c.id, text: c.text })),
+      })),
+    })),
     completed: progressList.some((p) => p.chapterId === ch.id && p.completedAt),
     inProgress: progressList.some((p) => p.chapterId === ch.id && !p.completedAt),
     lastPosition: progressList.find((p) => p.chapterId === ch.id)?.lastPosition || 0,

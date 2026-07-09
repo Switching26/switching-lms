@@ -101,6 +101,7 @@ export default function FormationPlayer({
   formationId,
   initialChapterId,
   initialNotes,
+  quizGlobal,
 }: {
   formationTitle: string
   formationCoverUrl?: string | null
@@ -112,6 +113,7 @@ export default function FormationPlayer({
   formationId?: string
   initialChapterId?: string
   initialNotes?: Record<string, string>
+  quizGlobal?: number | null
 }) {
   const contentRef = useRef<HTMLDivElement>(null)
   const sortedSections = useMemo(
@@ -294,6 +296,25 @@ export default function FormationPlayer({
     <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-6 animate-fade-in-up">
       {/* Main content */}
       <div ref={contentRef} className="space-y-5 min-w-0 scroll-mt-20">
+        {/* Encart de fin : affiché quand tous les chapitres de la formation sont terminés */}
+        {!preview && chapters.length > 0 && chapters.every((c) => c.completed) && (
+          <div className="rounded-2xl border border-emerald-200 bg-gradient-to-br from-emerald-50 to-green-50 p-5 flex items-center gap-4 flex-wrap">
+            <div className="w-12 h-12 rounded-2xl bg-white flex items-center justify-center flex-shrink-0 shadow-sm">
+              <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="#059669" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 01-10 0V4zM7 6H4v1a3 3 0 003 3M17 6h3v1a3 3 0 01-3 3" /></svg>
+            </div>
+            <div className="min-w-0">
+              <h3 className="font-display text-base font-semibold text-ink">Félicitations, vous avez terminé la formation ! 🎉</h3>
+              <p className="text-sm text-warm-700 mt-0.5">
+                {quizGlobal != null
+                  ? <>Votre score global aux évaluations est de <span className="font-semibold text-emerald-700">{Math.round(quizGlobal * 100)}%</span>.</>
+                  : "Retrouvez le récapitulatif de vos évaluations dans votre bilan."}
+              </p>
+            </div>
+            <a href="/learner/resultats" className="sm:ml-auto text-xs font-semibold px-4 py-2 rounded-lg bg-primary text-white hover:opacity-90 transition-opacity whitespace-nowrap">
+              Voir mon bilan
+            </a>
+          </div>
+        )}
         {/* Video — hôte PERSISTANT : ce composant n'est JAMAIS démonté au changement
             de chapitre (seule la src de l'iframe change). Le démontage/remontage keyé
             laissait des players orphelins empilés dans le DOM (bug de suppression

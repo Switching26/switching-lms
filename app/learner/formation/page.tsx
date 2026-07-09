@@ -7,6 +7,7 @@ import {
   hasDeletedEnrollment,
 } from "@/lib/data/formations"
 import { getUserNotesForFormation } from "@/lib/data/notes"
+import { getFormationQuizResults } from "@/lib/data/quiz"
 import FormationPlayer from "./player"
 
 export default async function FormationPage({ searchParams }: { searchParams: Promise<{ id?: string; chapitre?: string }> }) {
@@ -76,6 +77,9 @@ export default async function FormationPage({ searchParams }: { searchParams: Pr
   const initialNotes: Record<string, string> = {}
   notes.forEach((n) => { initialNotes[n.chapterId] = n.content })
 
+  // Score global aux évaluations (pour l'encart de fin de formation)
+  const quizResults = await getFormationQuizResults(userId, enrollment.formationId)
+
   return (
     <div>
       <Link
@@ -104,6 +108,7 @@ export default async function FormationPage({ searchParams }: { searchParams: Pr
         formationId={enrollment.formationId}
         initialChapterId={requestedChapterId}
         initialNotes={initialNotes}
+        quizGlobal={quizResults.globalBest}
       />
     </div>
   )

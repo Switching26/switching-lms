@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server"
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
 import { sortChaptersByLearningOrder } from "@/lib/data/chapter-order"
+import { getFormationQuizResults } from "@/lib/data/quiz"
 
 export const dynamic = "force-dynamic"
 
@@ -54,7 +55,7 @@ export async function GET(_req: NextRequest, { params }: { params: { userId: str
   })
   const loginHistory = loginLogs.map(parseLoginLog)
 
-  const formations = enrollments.map((e) => {
+  const formations = await Promise.all(enrollments.map(async (e) => {
     const orderedChapters = sortChaptersByLearningOrder(e.formation.chapters, e.formation.sections)
     const chapters = orderedChapters.map((c) => {
       const p = progressByChapter.get(c.id)
@@ -82,8 +83,9 @@ export async function GET(_req: NextRequest, { params }: { params: { userId: str
       timeSpent,
       expectedDuration,
       chapters,
+      quiz: await getFormationQuizResults(params.userId, e.formation.id),
     }
-  })
+  }))
 
   const totalTime = progressRows.reduce((s, p) => s + p.timeSpentSeconds, 0)
   const totalExpected = formations.reduce((s, f) => s + f.expectedDuration, 0)

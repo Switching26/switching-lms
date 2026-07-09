@@ -293,9 +293,22 @@ export default function FormationPlayer({
   }, [preview, flushTimeSpent])
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-6 animate-fade-in-up">
+    <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-6">
+      {/* Barre chapitres — sticky en haut sur mobile, toujours accessible pendant la formation */}
+      <div className="lg:hidden sticky z-30" style={{ top: "calc(var(--app-impersonation-offset, 0px) + 64px)" }}>
+        <button
+          onClick={() => setShowChapters(true)}
+          className="w-full py-3 bg-white/95 backdrop-blur rounded-2xl border border-border text-sm font-semibold text-warm-600 hover:bg-warm-50 transition-colors flex items-center justify-center gap-2 shadow-md"
+          style={{ minHeight: 48 }}
+        >
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+          Voir les chapitres ({completedCount}/{chapters.length})
+        </button>
+      </div>
       {/* Main content */}
-      <div ref={contentRef} className="space-y-5 min-w-0 scroll-mt-20">
+      <div ref={contentRef} className="space-y-5 min-w-0 scroll-mt-20 animate-fade-in-up">
         {/* Encart de fin : affiché quand tous les chapitres de la formation sont terminés */}
         {!preview && chapters.length > 0 && chapters.every((c) => c.completed) && (
           <div className="rounded-2xl border border-emerald-200 bg-gradient-to-br from-emerald-50 to-green-50 p-5 flex items-center gap-4 flex-wrap">
@@ -615,26 +628,30 @@ export default function FormationPlayer({
         )}
       </div>
 
-      {/* Mobile toggle */}
-      <div className="lg:hidden">
-        <button
-          onClick={() => setShowChapters(!showChapters)}
-          className="w-full py-3 bg-white rounded-2xl border border-border text-sm font-semibold text-warm-600 hover:bg-warm-50 transition-colors flex items-center justify-center gap-2 shadow-sm"
-          style={{ minHeight: 48 }}
-        >
-          <svg className={`w-4 h-4 transition-transform ${showChapters ? "rotate-180" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-          </svg>
-          {showChapters ? "Masquer les chapitres" : `Voir les chapitres (${completedCount}/${chapters.length})`}
-        </button>
-      </div>
+      {/* Backdrop du drawer chapitres (mobile) */}
+      {showChapters && (
+        <div
+          className="lg:hidden fixed inset-0 z-40 bg-black/40 backdrop-blur-sm animate-fade-in"
+          style={{ top: "var(--app-impersonation-offset, 0px)" }}
+          onClick={() => setShowChapters(false)}
+          aria-hidden
+        />
+      )}
 
-      {/* Sidebar */}
-      <div className={`${showChapters ? "block" : "hidden"} lg:block`}>
-        <div className="bg-white rounded-2xl border border-border shadow-sm lg:sticky lg:top-[80px] overflow-hidden">
+      {/* Sidebar — drawer plein écran sur mobile (glisse depuis la droite), colonne sur desktop */}
+      <div
+        className={`${showChapters ? "fixed right-0 bottom-0 z-50 w-full max-w-[88vw] sm:max-w-[360px] overflow-y-auto overscroll-contain" : "hidden"} lg:static lg:block lg:z-auto lg:w-auto lg:max-w-none lg:overflow-visible`}
+        style={showChapters ? { top: "var(--app-impersonation-offset, 0px)" } : undefined}
+      >
+        <div className="bg-white min-h-full lg:min-h-0 lg:rounded-2xl border-l lg:border border-border shadow-2xl lg:shadow-sm lg:sticky lg:top-[80px] overflow-hidden">
           {/* Sidebar header */}
           <div className="p-4 border-b border-border bg-warm-50/50">
-            <h3 className="font-display text-sm font-semibold text-primary mb-3 truncate">{formationTitle}</h3>
+            <div className="flex items-start justify-between gap-2 mb-3">
+              <h3 className="font-display text-sm font-semibold text-primary truncate">{formationTitle}</h3>
+              <button onClick={() => setShowChapters(false)} className="lg:hidden -mt-1 -mr-1 p-1.5 rounded-lg text-warm-500 hover:bg-warm-100 flex-shrink-0" aria-label="Fermer les chapitres">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+              </button>
+            </div>
             {/* Barre % chapitres complétés */}
             <div className="flex items-center gap-3 mb-2">
               <div className="flex-1 bg-warm-200/50 rounded-full h-1.5 overflow-hidden">

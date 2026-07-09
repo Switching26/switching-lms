@@ -1,13 +1,23 @@
 import "./globals.css"
 import Providers from "@/components/Providers"
+import PwaInstallBanner from "@/components/PwaInstallBanner"
 
 export const metadata = {
   title: "Switching LMS",
   description: "Plateforme de formation",
+  // PWA : manifest par défaut (les pages login/learner le surchargent avec la
+  // version brandée partenaire via ?partner=<slug>)
+  manifest: "/api/pwa/manifest",
+  appleWebApp: {
+    capable: true,
+    title: "Formation",
+    statusBarStyle: "default" as const,
+  },
   icons: {
     icon: "/favicon.svg",
     shortcut: "/favicon.svg",
-    apple: "/favicon.svg",
+    // iOS exige un PNG opaque pour l'écran d'accueil (le SVG est ignoré)
+    apple: "/api/files/apple-touch-icon.png",
   },
 }
 
@@ -27,7 +37,10 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body><Providers>{children}</Providers></body>
+      <body>
+        <Providers>{children}</Providers>
+        <PwaInstallBanner />
+      </body>
     </html>
   )
 }

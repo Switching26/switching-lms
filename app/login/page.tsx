@@ -1,5 +1,6 @@
 import { Suspense } from "react"
 import { prisma } from "@/lib/prisma"
+import { pwaManifestHref, pwaAppleIconHref } from "@/lib/pwa"
 import LoginForm from "./login-form"
 
 export async function generateMetadata({ searchParams }: { searchParams: Promise<{ partner?: string }> }) {
@@ -13,9 +14,17 @@ export async function generateMetadata({ searchParams }: { searchParams: Promise
   const faviconIcon = partner?.faviconUrl || partner?.logoUrl || "/favicon.svg"
   return {
     title: `Connexion · ${partner?.name || "LMS"}`,
+    // PWA brandée partenaire : installer depuis /login?partner=cnfdi crée une
+    // app « CNFDI » avec son logo et sa couleur.
+    manifest: pwaManifestHref(slug),
+    appleWebApp: {
+      capable: true,
+      title: partner?.name || "Formation",
+      statusBarStyle: "default" as const,
+    },
     icons: {
       icon: faviconIcon,
-      apple: faviconIcon,
+      apple: pwaAppleIconHref(slug),
     },
   }
 }

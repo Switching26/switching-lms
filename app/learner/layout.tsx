@@ -1,6 +1,7 @@
 import { auth } from "@/lib/auth"
 import { redirect } from "next/navigation"
 import { prisma } from "@/lib/prisma"
+import { pwaManifestHref, pwaAppleIconHref } from "@/lib/pwa"
 import LearnerShell from "./shell"
 
 export async function generateMetadata() {
@@ -9,7 +10,7 @@ export async function generateMetadata() {
   const partner = user?.partnerId
     ? await prisma.partner.findFirst({
         where: { id: user.partnerId },
-        select: { name: true, logoUrl: true, faviconUrl: true },
+        select: { name: true, logoUrl: true, faviconUrl: true, slug: true },
       })
     : null
   const baseUrl = (process.env.AUTH_URL || process.env.NEXTAUTH_URL || "").replace(/\/$/, "")
@@ -17,9 +18,17 @@ export async function generateMetadata() {
   const faviconIcon = rawFavicon.startsWith("http") ? rawFavicon : `${baseUrl}${rawFavicon}`
   return {
     title: `${user?.firstName || "Apprenant"} · ${partner?.name || "LMS"}`,
+    // PWA brandée partenaire : installer depuis l'espace apprenant crée une
+    // app au nom/logo du partenaire de l'utilisateur.
+    manifest: pwaManifestHref(partner?.slug),
+    appleWebApp: {
+      capable: true,
+      title: partner?.name || "Formation",
+      statusBarStyle: "default" as const,
+    },
     icons: {
       icon: faviconIcon,
-      apple: faviconIcon,
+      apple: pwaAppleIconHref(partner?.slug),
     },
   }
 }

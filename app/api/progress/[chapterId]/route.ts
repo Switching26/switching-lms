@@ -72,6 +72,43 @@ export async function PUT(req: NextRequest, { params }: { params: { chapterId: s
   const completeNow = completedAt !== undefined ? !!completedAt : undefined
   const isCompletionTransition = completeNow === true && !wasCompleted
 
+  // ─── Verrou de complétion (fiabilité de la progression) ───
+  // Un chapitre vidéo ne peut être marqué « terminé » qu'avec un minimum de
+  // temps réel passé dessus : 25 % de la durée vidéo (plancher tolérant — le
+  // client applique la vraie règle des 50 % de visionnage ; le plancher reste
+  // plus bas pour ne pas pénaliser une lecture accélérée légitime). La
+  // navigation entre chapitres reste totalement libre. Les progressions déjà
+  // terminées (dont les migrées Rise Up) ne repassent jamais par ce verrou.
+  if (isCompletionTransition && chapter.videoUrl && chapter.videoDuration > 0) {
+    const credited = (existingProgress?.timeSpentSeconds || 0) + (safeDelta ?? 0)
+    const minRequired = Math.round(chapter.videoDuration * 0.25)
+    if (credited < minRequired) {
+      // Créditer quand même le temps/position envoyés (rien ne se perd).
+      await prisma.progress.upsert({
+        where: { userId_chapterId: { userId, chapterId: params.chapterId } },
+        update: {
+          ...(safeDelta !== undefined && { timeSpentSeconds: { increment: safeDelta } }),
+          ...(safePosition !== undefined && { lastPosition: safePosition }),
+        },
+        create: {
+          userId,
+          chapterId: params.chapterId,
+          timeSpentSeconds: safeDelta ?? 0,
+          lastPosition: safePosition || 0,
+          sessionCount: 1,
+        },
+      })
+      return NextResponse.json(
+        {
+          error: "Visionnage insuffisant pour marquer ce chapitre comme terminé",
+          requiredSeconds: minRequired,
+          creditedSeconds: credited,
+        },
+        { status: 403 }
+      )
+    }
+  }
+
   const progress = await prisma.progress.upsert({
     where: { userId_chapterId: { userId, chapterId: params.chapterId } },
     update: {

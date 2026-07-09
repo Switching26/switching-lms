@@ -67,6 +67,9 @@ export default async function FormationPage({ searchParams }: { searchParams: Pr
     completed: progressList.some((p) => p.chapterId === ch.id && p.completedAt),
     inProgress: progressList.some((p) => p.chapterId === ch.id && !p.completedAt),
     lastPosition: progressList.find((p) => p.chapterId === ch.id)?.lastPosition || 0,
+    // Temps déjà passé (cross-sessions) : sert au déblocage du bouton « terminé »
+    // sans re-pénaliser un apprenant qui a déjà regardé lors d'une session passée.
+    timeSpentSeconds: progressList.find((p) => p.chapterId === ch.id)?.timeSpentSeconds || 0,
   }))
 
   const sections = (enrollment.formation as any).sections || []

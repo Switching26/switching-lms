@@ -69,6 +69,7 @@ interface Chapter {
   completed: boolean
   inProgress: boolean
   lastPosition: number
+  timeSpentSeconds?: number
   sectionId?: string | null
   attachments: ChapterAttachment[]
   exercises: Exercise[]
@@ -223,17 +224,64 @@ export default function FormationPlayer({
     }
   }, [chapters])
 
+  // ─── Temps passé par chapitre (traçabilité Qualiopi) ───
+  // 100 % en refs : aucun state, aucun re-render (piège VimeoPlayer persistant).
+  // Tick 15 s quand l'onglet est visible → flush ≥ 60 s, au changement de
+  // chapitre, quand l'onglet passe en arrière-plan et à la sortie (keepalive).
+  const timeChapterIdRef = useRef<string | null>(null)
+  const timePendingRef = useRef(0)
+
+  // ─── Visionnage réel par chapitre (session courante) ───
+  // Secondes de vidéo réellement lues (les sauts de curseur ne comptent pas),
+  // remontées par VimeoPlayer. setState seulement par palier de 5 s : pas de
+  // re-render à chaque timeupdate (piège VimeoPlayer persistant).
+  const [watchMap, setWatchMap] = useState<Record<string, number>>({})
+  const handleWatchProgress = useCallback((chapterId: string, watchedSeconds: number) => {
+    setWatchMap((prev) => {
+      const cur = prev[chapterId] || 0
+      if (watchedSeconds - cur < 5) return prev
+      return { ...prev, [chapterId]: watchedSeconds }
+    })
+  }, [])
+  // Récupère (et vide) le temps de présence accumulé, pour le créditer dans le
+  // même PUT que le completedAt (le verrou serveur évalue après ce crédit).
+  const takePendingSeconds = useCallback(() => {
+    const secs = Math.round(timePendingRef.current)
+    timePendingRef.current = 0
+    return secs
+  }, [])
+
+  // Déblocage du bouton « Marquer comme terminé » : 50 % de la vidéo réellement
+  // vus (visionnage de la session + temps déjà passé les sessions précédentes).
+  // La navigation entre chapitres, elle, reste toujours totalement libre.
+  const watchGate = useMemo(() => {
+    if (!active?.videoUrl || !active.videoDuration || completedMap[active.id]) {
+      return { locked: false, pct: 100 }
+    }
+    const seen = (watchMap[active.id] || 0) + (active.timeSpentSeconds || 0)
+    const required = active.videoDuration * 0.5
+    return {
+      locked: seen < required,
+      pct: Math.min(100, Math.floor((seen / required) * 100)),
+    }
+  }, [active, watchMap, completedMap])
+
   // Marquer le chapitre courant comme terminé (bouton manuel).
-  // Contrat API inchangé : PUT /api/progress/{chapterId} avec { completedAt }.
+  // Contrat API : PUT /api/progress/{chapterId} avec { completedAt } + crédit
+  // du temps de présence en attente (le verrou serveur évalue après ce crédit).
   const markCompleted = useCallback(async () => {
-    if (!active || preview || marking || completedMap[active.id]) return
+    if (!active || preview || marking || completedMap[active.id] || watchGate.locked) return
     setMarking(true)
     const chapterId = active.id
     try {
+      const pending = takePendingSeconds()
       const res = await fetch(`/api/progress/${chapterId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ completedAt: new Date().toISOString() }),
+        body: JSON.stringify({
+          completedAt: new Date().toISOString(),
+          ...(pending >= 1 && { timeDeltaSeconds: pending }),
+        }),
       })
       if (res.ok) {
         handleChapterCompleted(chapterId)
@@ -242,14 +290,7 @@ export default function FormationPlayer({
       }
     } catch {}
     finally { setMarking(false) }
-  }, [active, preview, marking, completedMap, nextChapter, handleSelectChapter])
-
-  // ─── Temps passé par chapitre (traçabilité Qualiopi) ───
-  // 100 % en refs : aucun state, aucun re-render (piège VimeoPlayer persistant).
-  // Tick 15 s quand l'onglet est visible → flush ≥ 60 s, au changement de
-  // chapitre, quand l'onglet passe en arrière-plan et à la sortie (keepalive).
-  const timeChapterIdRef = useRef<string | null>(null)
-  const timePendingRef = useRef(0)
+  }, [active, preview, marking, completedMap, watchGate.locked, nextChapter, handleSelectChapter, takePendingSeconds])
   const flushTimeSpent = useCallback((useKeepalive = false) => {
     const chapterId = timeChapterIdRef.current
     const secs = Math.round(timePendingRef.current)
@@ -338,6 +379,8 @@ export default function FormationPlayer({
           lastPosition={active?.videoUrl ? active.lastPosition : 0}
           preview={!!preview}
           onCompleted={handleChapterCompleted}
+          onWatchProgress={handleWatchProgress}
+          takePendingSeconds={takePendingSeconds}
         />
         {!active?.videoUrl && (active?.exercises?.length > 0 ? (
           (() => {
@@ -517,6 +560,7 @@ export default function FormationPlayer({
 
         {/* Barre d'actions : navigation + complétion manuelle */}
         {active && (
+          <div className="space-y-2">
           <div className="bg-white rounded-2xl border border-border p-4 shadow-sm flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
             <div className="flex items-center gap-2 flex-1">
               <button
@@ -558,7 +602,7 @@ export default function FormationPlayer({
               <button
                 type="button"
                 onClick={markCompleted}
-                disabled={marking || preview}
+                disabled={marking || preview || watchGate.locked}
                 className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white transition-all active:scale-[0.98] disabled:opacity-50 sm:ml-auto"
                 style={{ background: "var(--partner-primary, #4F46E5)", minHeight: 44 }}
               >
@@ -574,6 +618,19 @@ export default function FormationPlayer({
                 )}
               </button>
             )}
+          </div>
+          {/* Explication du déblocage : la navigation reste libre, seul le statut
+              « terminé » attend un vrai visionnage (fiabilité de la progression) */}
+          {watchGate.locked && (
+            <p className="text-xs text-warm-500 leading-relaxed px-1">
+              <span className="font-semibold text-warm-600">
+                Regardez au moins la moitié de la vidéo pour valider ce chapitre
+              </span>
+              {watchGate.pct > 0 ? <> ({watchGate.pct} % du visionnage requis)</> : null}
+              {" "}— vous pouvez tout à fait passer aux chapitres suivants et y revenir plus
+              tard : il restera simplement affiché comme « à terminer ».
+            </p>
+          )}
           </div>
         )}
 
@@ -1140,17 +1197,24 @@ function VimeoPlayer({
   lastPosition,
   preview,
   onCompleted,
+  onWatchProgress,
+  takePendingSeconds,
 }: {
   vimeoId: string | null
   chapterId: string
   lastPosition: number
   preview: boolean
   onCompleted: (chapterId: string) => void
+  onWatchProgress?: (chapterId: string, watchedSeconds: number) => void
+  takePendingSeconds?: () => number
 }) {
   const iframeRef = useRef<HTMLIFrameElement>(null)
   const progressTimerRef = useRef<ReturnType<typeof setInterval> | null>(null)
   const hasEndedRef = useRef(false)
   const currentTimeRef = useRef(0)
+  // Visionnage réel : cumul des secondes effectivement lues (session courante)
+  const watchedRef = useRef(0)
+  const lastTimeRef = useRef(-1)
   const [processing, setProcessing] = useState(false)
   const playerReadyRef = useRef(false)
 
@@ -1160,15 +1224,21 @@ function VimeoPlayer({
       const body: Record<string, any> = { lastPosition: Math.floor(position) }
       if (completed) {
         body.completedAt = new Date().toISOString()
+        // Créditer le temps de présence en attente dans le même PUT : le verrou
+        // serveur (plancher de visionnage) évalue APRÈS ce crédit.
+        const pending = takePendingSeconds?.() || 0
+        if (pending >= 1) body.timeDeltaSeconds = pending
       }
-      await fetch(`/api/progress/${chapterId}`, {
+      const res = await fetch(`/api/progress/${chapterId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       })
-      if (completed) onCompleted(chapterId)
+      // Ne marquer « terminé » côté UI que si le serveur l'a accepté
+      // (il peut refuser : plancher de visionnage non atteint).
+      if (completed && res.ok) onCompleted(chapterId)
     } catch {}
-  }, [chapterId, preview, onCompleted])
+  }, [chapterId, preview, onCompleted, takePendingSeconds])
 
   useEffect(() => {
     const iframe = iframeRef.current
@@ -1177,6 +1247,8 @@ function VimeoPlayer({
     // Nouveau chapitre : réinitialiser l'état de lecture (le composant persiste)
     hasEndedRef.current = false
     currentTimeRef.current = 0
+    watchedRef.current = 0
+    lastTimeRef.current = -1
     playerReadyRef.current = false
     setProcessing(false)
 
@@ -1204,7 +1276,19 @@ function VimeoPlayer({
       }
 
       if (data.event === "timeupdate" && typeof data.data?.seconds === "number") {
-        currentTimeRef.current = data.data.seconds
+        const s = data.data.seconds
+        // Visionnage réel : cumuler les petits deltas de lecture continue.
+        // Un saut de curseur (delta > 2 s ou négatif) ne compte pas.
+        const prevS = lastTimeRef.current
+        if (prevS >= 0) {
+          const delta = s - prevS
+          if (delta > 0 && delta <= 2) {
+            watchedRef.current += delta
+            onWatchProgress?.(chapterId, watchedRef.current)
+          }
+        }
+        lastTimeRef.current = s
+        currentTimeRef.current = s
       }
 
       if (data.event === "ended") {
@@ -1245,7 +1329,7 @@ function VimeoPlayer({
         }).catch(() => {})
       }
     }
-  }, [vimeoId, chapterId, lastPosition, preview, saveProgress])
+  }, [vimeoId, chapterId, lastPosition, preview, saveProgress, onWatchProgress])
 
   // Hôte persistant : le wrapper et l'iframe restent montés en permanence,
   // seule la src change. Sans vidéo → masqué + about:blank (stoppe la lecture).

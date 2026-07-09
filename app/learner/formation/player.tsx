@@ -632,7 +632,7 @@ export default function FormationPlayer({
       {showChapters && (
         <div
           className="lg:hidden fixed inset-0 z-40 bg-black/40 backdrop-blur-sm animate-fade-in"
-          style={{ top: "var(--app-impersonation-offset, 0px)" }}
+          style={{ top: "calc(var(--app-impersonation-offset, 0px) + 64px)" }}
           onClick={() => setShowChapters(false)}
           aria-hidden
         />
@@ -641,7 +641,7 @@ export default function FormationPlayer({
       {/* Sidebar — drawer plein écran sur mobile (glisse depuis la droite), colonne sur desktop */}
       <div
         className={`${showChapters ? "fixed right-0 bottom-0 z-50 w-full max-w-[88vw] sm:max-w-[360px] overflow-y-auto overscroll-contain" : "hidden"} lg:static lg:block lg:z-auto lg:w-auto lg:max-w-none lg:overflow-visible`}
-        style={showChapters ? { top: "var(--app-impersonation-offset, 0px)" } : undefined}
+        style={showChapters ? { top: "calc(var(--app-impersonation-offset, 0px) + 64px)" } : undefined}
       >
         <div className="bg-white min-h-full lg:min-h-0 lg:rounded-2xl border-l lg:border border-border shadow-2xl lg:shadow-sm lg:sticky lg:top-[80px] overflow-hidden">
           {/* Sidebar header */}

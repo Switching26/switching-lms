@@ -70,6 +70,7 @@ function formatSeconds(seconds: number): string {
 const IC = "w-4 h-4 shrink-0"
 const IconEdit = <svg className={IC} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}><path strokeLinecap="round" strokeLinejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
 const IconKey = <svg className={IC} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}><path strokeLinecap="round" strokeLinejoin="round" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" /></svg>
+const IconEye = <svg className={IC} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}><path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" /><path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
 const IconReset = <svg className={IC} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}><path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
 const IconChart = <svg className={IC} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}><path strokeLinecap="round" strokeLinejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>
 const IconAssign = <svg className={IC} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}><path strokeLinecap="round" strokeLinejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
@@ -125,6 +126,7 @@ export default function UsersTable({
   const [resetModal, setResetModal] = useState<User | null>(null)
   const [loginLinkModal, setLoginLinkModal] = useState<User | null>(null)
   const [formationsModal, setFormationsModal] = useState<User | null>(null)
+  const [currentPasswordModal, setCurrentPasswordModal] = useState<User | null>(null)
 
   // Create form
   const [newFirstName, setNewFirstName] = useState("")
@@ -307,6 +309,18 @@ export default function UsersTable({
   const openLoginLinkModal = (user: User) => {
     setModalMessage("")
     setLoginLinkModal(user)
+  }
+
+  const openPasswordModal = (userId: string) => {
+    setModalMessage("")
+    setPasswordModal(userId)
+    setPw("")
+    setPwConfirm("")
+  }
+
+  const openCurrentPasswordModal = (user: User) => {
+    setModalMessage("")
+    setCurrentPasswordModal(user)
   }
 
   const handleSendPasswordReset = async () => {
@@ -933,7 +947,8 @@ export default function UsersTable({
                         <button onClick={() => { setOpenMenuId(null); handleImpersonate(u.id) }} className="w-full flex items-center gap-3 text-left px-4 py-3 text-sm text-primary font-medium hover:bg-gray-50 transition-colors"><span className="w-4 h-4 flex items-center justify-center shrink-0"><span className="w-2 h-2 rounded-full bg-primary" /></span>Voir l&apos;espace</button>
                       )}
                       <button onClick={() => { setOpenMenuId(null); openEdit(u) }} className="w-full flex items-center gap-3 text-left px-4 py-3 text-sm hover:bg-gray-50 transition-colors">{IconEdit}Modifier</button>
-                      <button onClick={() => { setOpenMenuId(null); setModalMessage(""); setPasswordModal(u.id); setPw(""); setPwConfirm("") }} className="w-full flex items-center gap-3 text-left px-4 py-3 text-sm hover:bg-gray-50 transition-colors">{IconKey}Changer mot de passe</button>
+                      <button onClick={() => { setOpenMenuId(null); openPasswordModal(u.id) }} className="w-full flex items-center gap-3 text-left px-4 py-3 text-sm hover:bg-gray-50 transition-colors">{IconKey}Changer mot de passe</button>
+                      <button onClick={() => { setOpenMenuId(null); openCurrentPasswordModal(u) }} className="w-full flex items-center gap-3 text-left px-4 py-3 text-sm hover:bg-gray-50 transition-colors">{IconEye}Voir le mot de passe actuel</button>
                       {u.isActive && !u.archivedAt && !neverLoggedIn(u) && (
                         <button onClick={() => { setOpenMenuId(null); openResetModal(u) }} className="w-full flex items-center gap-3 text-left px-4 py-3 text-sm hover:bg-gray-50 transition-colors">{IconReset}Envoyer réinitialisation</button>
                       )}
@@ -1083,12 +1098,13 @@ export default function UsersTable({
                         </svg>
                       </button>
                       {openMenuId === u.id && (
-                        <div style={{ position: "absolute", right: 0, top: "100%", marginTop: 4, background: "white", border: "0.5px solid #E5E5E5", borderRadius: 8, boxShadow: "0 4px 12px rgba(0,0,0,0.1)", zIndex: 50, minWidth: 220, overflow: "hidden" }}>
+                        <div style={{ position: "absolute", right: 0, top: "100%", marginTop: 4, background: "white", border: "0.5px solid #E5E5E5", borderRadius: 8, boxShadow: "0 4px 12px rgba(0,0,0,0.1)", zIndex: 50, minWidth: 250, overflow: "hidden" }}>
                           {canViewSpace(u) && (
                             <button onClick={() => { setOpenMenuId(null); handleImpersonate(u.id) }} className="w-full flex items-center gap-3 text-left px-4 py-2 text-sm text-primary font-medium hover:bg-gray-50 transition-colors"><span className="w-4 h-4 flex items-center justify-center shrink-0"><span className="w-2 h-2 rounded-full bg-primary" /></span>Voir l&apos;espace</button>
                           )}
                           <button onClick={() => { setOpenMenuId(null); openEdit(u) }} className="w-full flex items-center gap-3 text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors">{IconEdit}Modifier</button>
-                          <button onClick={() => { setOpenMenuId(null); setModalMessage(""); setPasswordModal(u.id); setPw(""); setPwConfirm("") }} className="w-full flex items-center gap-3 text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors">{IconKey}Changer mot de passe</button>
+                          <button onClick={() => { setOpenMenuId(null); openPasswordModal(u.id) }} className="w-full flex items-center gap-3 text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors">{IconKey}Changer mot de passe</button>
+                          <button onClick={() => { setOpenMenuId(null); openCurrentPasswordModal(u) }} className="w-full flex items-center gap-3 text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors">{IconEye}Voir le mot de passe actuel</button>
                           {u.isActive && !u.archivedAt && !neverLoggedIn(u) && (
                             <button onClick={() => { setOpenMenuId(null); openResetModal(u) }} className="w-full flex items-center gap-3 text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors">{IconReset}Envoyer réinitialisation</button>
                           )}
@@ -1227,6 +1243,57 @@ export default function UsersTable({
             </button>
           </div>
         </div>
+      </Modal>
+
+      {/* ═══ CURRENT PASSWORD MODAL ═══ */}
+      <Modal open={!!currentPasswordModal} onClose={() => setCurrentPasswordModal(null)} title="Mot de passe actuel">
+        {currentPasswordModal && (
+          <div className="space-y-4">
+            <div className="rounded-lg border border-border bg-gray-50 p-3">
+              <p className="text-sm font-semibold text-gray-800">
+                {currentPasswordModal.firstName} {currentPasswordModal.lastName}
+              </p>
+              <p className="mt-1 text-xs text-gray-500 break-all">{currentPasswordModal.email}</p>
+            </div>
+
+            <div className="rounded-lg border border-amber-100 bg-amber-50 px-4 py-3">
+              <p className="text-sm font-semibold text-amber-900">Mot de passe non affichable</p>
+              <p className="mt-1 text-sm text-amber-800">
+                Le LMS stocke uniquement un hash bcrypt non réversible. Le mot de passe saisi par l&apos;utilisateur n&apos;est donc pas récupérable.
+              </p>
+            </div>
+
+            <p className="text-sm text-gray-600">
+              Pour donner l&apos;accès, définissez un nouveau mot de passe depuis l&apos;admin ou utilisez le lien de réinitialisation si le compte a déjà été activé.
+              {neverLoggedIn(currentPasswordModal) && " Ce compte n'a pas encore de connexion LMS : le renvoi d'activation reste l'action la plus cohérente pour lui faire créer son mot de passe."}
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-3">
+              <button
+                onClick={() => {
+                  const userId = currentPasswordModal.id
+                  setCurrentPasswordModal(null)
+                  openPasswordModal(userId)
+                }}
+                className="flex-1 py-2.5 bg-primary text-white text-sm rounded-lg hover:opacity-90 transition-colors"
+              >
+                Changer le mot de passe
+              </button>
+              {currentPasswordModal.isActive && !currentPasswordModal.archivedAt && !neverLoggedIn(currentPasswordModal) && (
+                <button
+                  onClick={() => {
+                    const user = currentPasswordModal
+                    setCurrentPasswordModal(null)
+                    openResetModal(user)
+                  }}
+                  className="flex-1 py-2.5 bg-gray-100 text-sm rounded-lg hover:bg-gray-200 transition-colors"
+                >
+                  Préparer réinitialisation
+                </button>
+              )}
+            </div>
+          </div>
+        )}
       </Modal>
 
       {/* ═══ EDIT USER MODAL ═══ */}

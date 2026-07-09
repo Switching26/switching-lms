@@ -27,9 +27,14 @@ export interface FormationQuizResults {
 export async function getFormationQuizResults(userId: string, formationId: string): Promise<FormationQuizResults> {
   const exercises = await prisma.exercise.findMany({
     where: { chapter: { formationId, isPublished: true } },
-    select: { id: true, title: true, order: true, chapterId: true, chapter: { select: { title: true, order: true } } },
+    select: { id: true, title: true, order: true, chapterId: true, chapter: { select: { title: true, order: true, section: { select: { order: true } } } } },
   })
-  exercises.sort((a, b) => (a.chapter.order - b.chapter.order) || (a.order - b.order))
+  // Ordre d'affichage = ordre de la section, puis du chapitre, puis de l'exercice
+  exercises.sort((a, b) => {
+    const sa = a.chapter.section?.order ?? 9999
+    const sb = b.chapter.section?.order ?? 9999
+    return (sa - sb) || (a.chapter.order - b.chapter.order) || (a.order - b.order)
+  })
 
   const responses = await prisma.exerciseResponse.findMany({
     where: { userId, exercise: { chapter: { formationId } } },

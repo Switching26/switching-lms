@@ -8,6 +8,7 @@ import { accountCreatedEmail } from "@/lib/email-templates"
 import { resolveTemplate, replaceVariables } from "@/lib/email-template-engine"
 import { generateToken } from "@/lib/tokens"
 import { getBaseUrl } from "@/lib/get-base-url"
+import { encryptVisiblePassword } from "@/lib/visible-password"
 import { Role } from "@prisma/client"
 
 export async function POST(req: Request) {
@@ -75,6 +76,7 @@ export async function POST(req: Request) {
       lastName: lastName.trim(),
       email: email.trim().toLowerCase(),
       password: hashed,
+      visiblePasswordEncrypted: encryptVisiblePassword(rawPassword),
       role: effectiveRole,
       partnerId: effectivePartnerId,
       reference: trimmedRef,

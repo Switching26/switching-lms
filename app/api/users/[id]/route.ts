@@ -85,9 +85,9 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
     include: { partner: true, enrollments: { include: { formation: true } } },
   })
 
-  // Ne jamais renvoyer le hash de mot de passe au client.
+  // Ne jamais renvoyer les secrets de mot de passe au client.
   if (final) {
-    const { password, ...safe } = final as Record<string, any>
+    const { password, visiblePasswordEncrypted, ...safe } = final as Record<string, any>
     return NextResponse.json(safe)
   }
   return NextResponse.json(final)

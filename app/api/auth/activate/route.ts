@@ -4,6 +4,7 @@ import { hash } from "bcryptjs"
 import { verifyToken, markTokenUsed } from "@/lib/tokens"
 import { validatePassword } from "@/lib/validate-password"
 import { checkRateLimit, rateLimitResponse } from "@/lib/rate-limit"
+import { encryptVisiblePassword } from "@/lib/visible-password"
 
 export const dynamic = "force-dynamic"
 
@@ -34,7 +35,7 @@ export async function POST(req: Request) {
 
   await prisma.user.update({
     where: { id: result.record.userId },
-    data: { password: hashed, isActive: true },
+    data: { password: hashed, visiblePasswordEncrypted: encryptVisiblePassword(password), isActive: true },
   })
 
   await markTokenUsed(token)

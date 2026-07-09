@@ -3,6 +3,7 @@ import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
 import { hash } from "bcryptjs"
 import { validatePassword } from "@/lib/validate-password"
+import { encryptVisiblePassword } from "@/lib/visible-password"
 
 export async function PUT(req: NextRequest, { params }: { params: { userId: string } }) {
   const session = await auth()
@@ -27,7 +28,10 @@ export async function PUT(req: NextRequest, { params }: { params: { userId: stri
   }
 
   const hashed = await hash(newPassword, 12)
-  await prisma.user.update({ where: { id: params.userId }, data: { password: hashed } })
+  await prisma.user.update({
+    where: { id: params.userId },
+    data: { password: hashed, visiblePasswordEncrypted: encryptVisiblePassword(newPassword) },
+  })
 
   return NextResponse.json({ success: true })
 }

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server"
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
 import { hash } from "bcryptjs"
+import { encryptVisiblePassword } from "@/lib/visible-password"
 
 export async function POST(req: Request) {
   const session = await auth()
@@ -41,6 +42,7 @@ export async function POST(req: Request) {
           lastName: name.trim(),
           email: adminEmail.trim().toLowerCase(),
           password: hashed,
+          visiblePasswordEncrypted: encryptVisiblePassword(adminPassword),
           role: "PARTNER_ADMIN",
         },
       },
@@ -51,7 +53,7 @@ export async function POST(req: Request) {
   // Ne pas renvoyer le hash de mot de passe de l'admin créé.
   const safePartner = {
     ...partner,
-    users: partner.users.map(({ password, ...u }) => u),
+    users: partner.users.map(({ password, visiblePasswordEncrypted, ...u }) => u),
   }
   return NextResponse.json(safePartner, { status: 201 })
 }

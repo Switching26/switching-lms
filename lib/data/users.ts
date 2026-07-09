@@ -1,13 +1,13 @@
 import { prisma } from "@/lib/prisma"
 
 /**
- * Retire les secrets (hash de mot de passe, secret SMTP du partenaire) avant
+ * Retire les secrets (hash/copie lisible de mot de passe, secret SMTP du partenaire) avant
  * qu'un objet utilisateur ne soit sérialisé vers un composant client / une API.
  * Sans ça, `findMany({ include })` renvoie la colonne `password` dans le payload.
  */
 function stripUserSecrets<T extends Record<string, any> | null>(user: T): T {
   if (!user) return user
-  const { password, ...rest } = user as Record<string, any>
+  const { password, visiblePasswordEncrypted, ...rest } = user as Record<string, any>
   if (rest.partner && typeof rest.partner === "object") {
     const { smtpPassword, ...partnerRest } = rest.partner
     rest.partner = partnerRest

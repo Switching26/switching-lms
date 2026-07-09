@@ -3,6 +3,7 @@ import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
 import { compare, hash } from "bcryptjs"
 import { validatePassword } from "@/lib/validate-password"
+import { encryptVisiblePassword } from "@/lib/visible-password"
 
 export async function PUT(req: Request) {
   const session = await auth()
@@ -26,7 +27,10 @@ export async function PUT(req: Request) {
   if (!valid) return NextResponse.json({ error: "Mot de passe actuel incorrect" }, { status: 400 })
 
   const hashed = await hash(newPassword, 12)
-  await prisma.user.update({ where: { id: userId }, data: { password: hashed } })
+  await prisma.user.update({
+    where: { id: userId },
+    data: { password: hashed, visiblePasswordEncrypted: encryptVisiblePassword(newPassword) },
+  })
 
   return NextResponse.json({ success: true })
 }

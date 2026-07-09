@@ -127,6 +127,10 @@ export default function UsersTable({
   const [loginLinkModal, setLoginLinkModal] = useState<User | null>(null)
   const [formationsModal, setFormationsModal] = useState<User | null>(null)
   const [currentPasswordModal, setCurrentPasswordModal] = useState<User | null>(null)
+  const [visiblePassword, setVisiblePassword] = useState("")
+  const [visiblePasswordLoading, setVisiblePasswordLoading] = useState(false)
+  const [visiblePasswordError, setVisiblePasswordError] = useState("")
+  const [showVisiblePassword, setShowVisiblePassword] = useState(true)
 
   // Create form
   const [newFirstName, setNewFirstName] = useState("")
@@ -318,9 +322,46 @@ export default function UsersTable({
     setPwConfirm("")
   }
 
-  const openCurrentPasswordModal = (user: User) => {
+  const openCurrentPasswordModal = async (user: User) => {
     setModalMessage("")
     setCurrentPasswordModal(user)
+    setVisiblePassword("")
+    setVisiblePasswordError("")
+    setShowVisiblePassword(true)
+    setVisiblePasswordLoading(true)
+    try {
+      const res = await fetch(`/api/user/${user.id}/visible-password`)
+      const data = await res.json().catch(() => ({}))
+      if (!res.ok) {
+        setVisiblePasswordError(data.error || "Erreur lors de la lecture du mot de passe")
+      } else if (data.available && data.password) {
+        setVisiblePassword(data.password)
+      } else {
+        setVisiblePasswordError(data.reason || "Aucun mot de passe lisible enregistré")
+      }
+    } catch {
+      setVisiblePasswordError("Erreur réseau")
+    } finally {
+      setVisiblePasswordLoading(false)
+    }
+  }
+
+  const closeCurrentPasswordModal = () => {
+    setCurrentPasswordModal(null)
+    setVisiblePassword("")
+    setVisiblePasswordError("")
+    setVisiblePasswordLoading(false)
+    setModalMessage("")
+  }
+
+  const copyVisiblePassword = async () => {
+    if (!visiblePassword) return
+    try {
+      await navigator.clipboard.writeText(visiblePassword)
+      modalFlash("Mot de passe copié")
+    } catch {
+      modalFlash("Copie impossible")
+    }
   }
 
   const handleSendPasswordReset = async () => {
@@ -1246,9 +1287,11 @@ export default function UsersTable({
       </Modal>
 
       {/* ═══ CURRENT PASSWORD MODAL ═══ */}
-      <Modal open={!!currentPasswordModal} onClose={() => setCurrentPasswordModal(null)} title="Mot de passe actuel">
+      <Modal open={!!currentPasswordModal} onClose={closeCurrentPasswordModal} title="Mot de passe actuel">
         {currentPasswordModal && (
           <div className="space-y-4">
+            <FeedbackBanner message={modalMessage} />
+
             <div className="rounded-lg border border-border bg-gray-50 p-3">
               <p className="text-sm font-semibold text-gray-800">
                 {currentPasswordModal.firstName} {currentPasswordModal.lastName}
@@ -1256,15 +1299,50 @@ export default function UsersTable({
               <p className="mt-1 text-xs text-gray-500 break-all">{currentPasswordModal.email}</p>
             </div>
 
-            <div className="rounded-lg border border-amber-100 bg-amber-50 px-4 py-3">
-              <p className="text-sm font-semibold text-amber-900">Mot de passe non affichable</p>
-              <p className="mt-1 text-sm text-amber-800">
-                Le LMS stocke uniquement un hash bcrypt non réversible. Le mot de passe saisi par l&apos;utilisateur n&apos;est donc pas récupérable.
-              </p>
-            </div>
+            {visiblePasswordLoading ? (
+              <div className="rounded-lg border border-border bg-gray-50 px-4 py-3">
+                <p className="text-sm text-gray-500">Lecture du mot de passe...</p>
+              </div>
+            ) : visiblePassword ? (
+              <div>
+                <label className="block text-sm font-medium mb-1 text-gray-700">Mot de passe actuel</label>
+                <div className="relative">
+                  <input
+                    readOnly
+                    type={showVisiblePassword ? "text" : "password"}
+                    value={visiblePassword}
+                    className="w-full px-3 py-2 pr-28 text-sm border border-border rounded-lg bg-white outline-none font-mono"
+                  />
+                  <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1">
+                    <button
+                      type="button"
+                      onClick={() => setShowVisiblePassword((show) => !show)}
+                      className="px-2 py-1.5 text-xs text-gray-500 hover:text-primary rounded-md hover:bg-gray-50"
+                    >
+                      {showVisiblePassword ? "Masquer" : "Voir"}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={copyVisiblePassword}
+                      className="px-2 py-1.5 text-xs text-primary rounded-md hover:bg-gray-50"
+                    >
+                      Copier
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className="rounded-lg border border-amber-100 bg-amber-50 px-4 py-3">
+                <p className="text-sm font-semibold text-amber-900">Mot de passe non disponible</p>
+                <p className="mt-1 text-sm text-amber-800">
+                  {visiblePasswordError || "Aucun mot de passe lisible n'a encore été enregistré pour ce compte."}
+                  {" "}Les mots de passe créés avant cette mise à jour restent impossibles à récupérer. Changez le mot de passe une fois pour l&apos;enregistrer.
+                </p>
+              </div>
+            )}
 
             <p className="text-sm text-gray-600">
-              Pour donner l&apos;accès, définissez un nouveau mot de passe depuis l&apos;admin ou utilisez le lien de réinitialisation si le compte a déjà été activé.
+              Le hash bcrypt reste utilisé pour la connexion. Cette lecture utilise une copie chiffrée séparée, enregistrée lors des prochains changements, activations ou réinitialisations.
               {neverLoggedIn(currentPasswordModal) && " Ce compte n'a pas encore de connexion LMS : le renvoi d'activation reste l'action la plus cohérente pour lui faire créer son mot de passe."}
             </p>
 

@@ -20,6 +20,18 @@ interface GmailConfig {
   senderName: string
 }
 
+interface GmailAccessTokenResult {
+  accessToken: string
+  expiresIn: number | null
+  scopes: string[]
+}
+
+export interface GmailOAuthHealthResult {
+  senderEmail: string
+  expiresIn: number | null
+  scopes: string[]
+}
+
 const GMAIL_CONFIG_KEYS = [
   "gmail_client_id",
   "gmail_client_secret",
@@ -101,7 +113,7 @@ function base64Url(value: string): string {
     .replace(/=+$/, "")
 }
 
-async function getGmailAccessToken(cfg: GmailConfig): Promise<string> {
+async function requestGmailAccessToken(cfg: GmailConfig): Promise<GmailAccessTokenResult> {
   const response = await fetch("https://oauth2.googleapis.com/token", {
     method: "POST",
     headers: { "content-type": "application/x-www-form-urlencoded" },
@@ -116,7 +128,43 @@ async function getGmailAccessToken(cfg: GmailConfig): Promise<string> {
   if (!response.ok || !data.access_token) {
     throw new Error(`Gmail token error: ${data.error_description || data.error || response.status}`)
   }
-  return data.access_token
+  return {
+    accessToken: data.access_token,
+    expiresIn: typeof data.expires_in === "number" ? data.expires_in : null,
+    scopes: typeof data.scope === "string" ? data.scope.split(/\s+/).filter(Boolean) : [],
+  }
+}
+
+async function getGmailAccessToken(cfg: GmailConfig): Promise<string> {
+  return (await requestGmailAccessToken(cfg)).accessToken
+}
+
+async function getAccessTokenScopes(accessToken: string): Promise<string[]> {
+  const response = await fetch(
+    `https://oauth2.googleapis.com/tokeninfo?access_token=${encodeURIComponent(accessToken)}`,
+    { cache: "no-store" }
+  )
+  const data = await response.json()
+  if (!response.ok) {
+    throw new Error(`Gmail tokeninfo error: ${data.error_description || data.error || response.status}`)
+  }
+  return typeof data.scope === "string" ? data.scope.split(/\s+/).filter(Boolean) : []
+}
+
+export async function checkGmailOAuthHealth(): Promise<GmailOAuthHealthResult> {
+  const cfg = await getGmailConfig()
+  const token = await requestGmailAccessToken(cfg)
+  const scopes = token.scopes.length ? token.scopes : await getAccessTokenScopes(token.accessToken)
+
+  if (!scopes.includes("https://www.googleapis.com/auth/gmail.send")) {
+    throw new Error("Gmail OAuth scope missing: gmail.send")
+  }
+
+  return {
+    senderEmail: cfg.senderEmail,
+    expiresIn: token.expiresIn,
+    scopes,
+  }
 }
 
 async function sendViaGmailApi(

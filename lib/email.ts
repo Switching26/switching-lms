@@ -151,6 +151,18 @@ async function getAccessTokenScopes(accessToken: string): Promise<string[]> {
   return typeof data.scope === "string" ? data.scope.split(/\s+/).filter(Boolean) : []
 }
 
+async function getGmailProfileEmail(accessToken: string): Promise<string> {
+  const response = await fetch("https://gmail.googleapis.com/gmail/v1/users/me/profile", {
+    headers: { authorization: `Bearer ${accessToken}` },
+    cache: "no-store",
+  })
+  const data = await response.json()
+  if (!response.ok || typeof data.emailAddress !== "string") {
+    throw new Error(`Gmail profile error: ${data.error?.message || response.status}`)
+  }
+  return data.emailAddress.trim()
+}
+
 export async function checkGmailOAuthHealth(): Promise<GmailOAuthHealthResult> {
   const cfg = await getGmailConfig()
   const token = await requestGmailAccessToken(cfg)
@@ -160,8 +172,13 @@ export async function checkGmailOAuthHealth(): Promise<GmailOAuthHealthResult> {
     throw new Error("Gmail OAuth scope missing: gmail.send")
   }
 
+  const profileEmail = await getGmailProfileEmail(token.accessToken)
+  if (profileEmail.toLowerCase() !== cfg.senderEmail.toLowerCase()) {
+    throw new Error("Gmail OAuth sender mismatch")
+  }
+
   return {
-    senderEmail: cfg.senderEmail,
+    senderEmail: profileEmail,
     expiresIn: token.expiresIn,
     scopes,
   }

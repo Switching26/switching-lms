@@ -22,6 +22,7 @@ function errorCode(error: unknown): string {
   if (message.includes("invalid_grant")) return "invalid_grant"
   if (message.includes("non configuré")) return "missing_configuration"
   if (message.includes("scope missing")) return "scope_missing"
+  if (message.includes("sender mismatch")) return "sender_mismatch"
   if (message.includes("timeout") || message.includes("abort")) return "provider_timeout"
   return "provider_error"
 }

@@ -22,6 +22,8 @@ interface Payload {
   candidateLastName?: string | null
   candidateEmail?: string | null
   expiresAt?: string | null
+  // Renvoyé après soumission : l'objet `assessment` complet ne l'est plus.
+  partner?: { name: string; slug: string; primaryColor: string; logoUrl: string | null } | null
   assessment?: {
     id: string
     title: string
@@ -65,7 +67,7 @@ export default function AssessmentRunner({ token }: { token: string }) {
     return () => { cancelled = true }
   }, [token])
 
-  const accent = data?.assessment?.partner?.primaryColor || DEFAULT_ACCENT
+  const accent = data?.assessment?.partner?.primaryColor || data?.partner?.primaryColor || DEFAULT_ACCENT
   const questions = data?.assessment?.questions ?? []
 
   const setAnswer = useCallback((qid: string, patch: Partial<AnswerState>) => {
@@ -134,7 +136,11 @@ export default function AssessmentRunner({ token }: { token: string }) {
   }
 
   if (data.state === "submitted") {
-    return <Shell accent={accent} partner={data.assessment?.partner}><Result result={data.result} accent={accent} firstName={data.candidateFirstName} /></Shell>
+    return (
+      <Shell accent={accent} partner={data.assessment?.partner ?? data.partner}>
+        <Result result={data.result} accent={accent} firstName={data.candidateFirstName} />
+      </Shell>
+    )
   }
 
   const a = data.assessment!

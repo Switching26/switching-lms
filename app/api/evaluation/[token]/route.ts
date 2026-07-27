@@ -48,9 +48,18 @@ export async function GET(_req: NextRequest, { params }: { params: { token: stri
   }
 
   if (state === "submitted") {
+    // Le partenaire doit suivre jusqu'à l'écran de résultat : sans lui, la page
+    // repasse au nom et à la couleur par défaut, et le candidat croit avoir
+    // changé de site au moment le plus important.
+    const branding = await prisma.assessment.findUnique({
+      where: { id: inv.assessmentId },
+      select: { title: true, partner: { select: { name: true, slug: true, primaryColor: true, logoUrl: true } } },
+    })
     return NextResponse.json({
       state,
       candidateFirstName: inv.candidateFirstName,
+      partner: branding?.partner ?? null,
+      assessmentTitle: branding?.title ?? null,
       result: await buildResult(inv.id, inv.assessment),
     })
   }

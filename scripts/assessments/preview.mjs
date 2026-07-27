@@ -63,8 +63,11 @@ function renderQuestion(q, index, { picked = [], scale = null, text = "" } = {})
 
 const q1 = allQ[0]
 const qGram = allQ.find((q) => q.level === "B1" && q.type === "QCM_SINGLE")
-const qRead = allQ.find((q) => q.helpText && q.helpText.startsWith("TEXTE 2"))
+const qRead = allQ.find((q) => q.helpText && q.helpText.startsWith("Hi Tom"))
 const qC2 = allQ.filter((q) => q.level === "C2" && q.type === "QCM_SINGLE").pop()
+
+const demoScore = Math.round(maxScore * 0.68)
+const demoBand = A.levelBands.find((b) => demoScore >= b.min && demoScore <= b.max) || A.levelBands[0]
 
 const bands = A.levelBands
   .map(
@@ -134,7 +137,7 @@ const html = `<meta charset="utf-8">
 
   /* ── maquette téléphone ── */
   .screens{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px;margin-top:16px}
-  .phone{background:var(--card);border-radius:22px;overflow:hidden;box-shadow:0 1px 3px rgba(15,23,42,.10)}
+  .phone{position:relative;background:var(--card);border-radius:22px;overflow:hidden;box-shadow:0 1px 3px rgba(15,23,42,.10)}
   .plab{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--i50);
         padding:12px 16px 0}
   .app{background:#F8FAFC;padding:0 0 16px}
@@ -172,6 +175,16 @@ const html = `<meta charset="utf-8">
   .scale-lab{display:flex;justify-content:space-between;font-size:10.5px;color:var(--i50);margin-top:5px}
   .ta{border:1px solid var(--line);border-radius:11px;padding:10px;min-height:60px;font-size:12.5px;color:var(--i70)}
   .ta .ph{color:rgba(15,23,42,.35)}
+  .hud{position:absolute;left:0;right:0;bottom:0;background:rgba(255,255,255,.9);
+       backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+       border-top:1px solid rgba(15,23,42,.07);padding:11px 16px 13px}
+  .hud-row{display:flex;align-items:center;gap:11px}
+  .track{flex:1;height:6px;background:rgba(15,23,42,.09);border-radius:99px;overflow:hidden}
+  .fill{height:100%;background:var(--a);border-radius:99px}
+  .cnt{font-size:12.5px;font-weight:600;white-space:nowrap}
+  .cnt small{font-weight:400;color:var(--i50)}
+  .hudmsg{font-size:11px;color:var(--a);font-weight:600;margin:6px 0 0}
+  .lvlbig{font-size:44px;font-weight:600;line-height:1;color:var(--a);letter-spacing:-.02em;margin:2px 0 0}
   .res{text-align:center;padding:8px 0 4px}
   .tick{width:52px;height:52px;border-radius:50%;background:rgba(16,171,175,.12);display:grid;place-items:center;
         margin:0 auto 12px;color:var(--a);font-size:24px}
@@ -221,11 +234,11 @@ const html = `<meta charset="utf-8">
     <div class="kpi"><b>${allQ.length}</b><span>questions au total</span></div>
     <div class="kpi"><b>${maxScore}</b><span>points notés</span></div>
     <div class="kpi"><b>${written.length}</b><span>rédactions à corriger</span></div>
-    <div class="kpi"><b>~20 min</b><span>durée estimée</span></div>
+    <div class="kpi"><b>~${A.timeLimitMinutes || 10} min</b><span>durée annoncée</span></div>
   </div>
   <p class="lead">Répartition des ${maxScore} questions notées par niveau :
     ${Object.entries(byLevel).map(([l, n]) => `<b>${l}</b> ${n}`).join(" · ")}.
-    Les ${written.length} productions écrites sont corrigées à la main, hors score automatique.</p>
+    ${written.length > 1 ? `Les ${written.length} productions écrites sont corrigées` : "La production écrite est corrigée"} à la main, hors score automatique.</p>
 
   <h2>1. Ce que voit le candidat</h2>
   <p class="sub">Reproduction fidèle du rendu réel, aux couleurs Switching.</p>
@@ -250,24 +263,28 @@ const html = `<meta charset="utf-8">
       <div class="body">
         ${renderQuestion(q1, 1, { picked: [0] })}
         ${renderQuestion(qGram, 9, { picked: [0] })}
-        ${renderQuestion(qC2, 24, { picked: [1] })}
-      </div></div></div>
+        ${renderQuestion(qC2, 16, { picked: [1] })}
+      </div>
+      <div class="hud"><div class="hud-row">
+        <div class="track"><div class="fill" style="width:64%"></div></div>
+        <div class="cnt">16<small> / ${allQ.length}</small></div></div>
+        <p class="hudmsg">Vous avez passé la moitié.</p></div>
+      </div></div>
 
     <div class="phone"><p class="plab">3 · Compréhension &amp; résultat</p><div class="app">
       <div class="bar"><b>Switching Formation</b></div>
       <div class="body">
-        ${renderQuestion(qRead, 39, { picked: [0] })}
+        ${renderQuestion(qRead, 24, { picked: [0] })}
         <div class="card res">
           <div class="tick">✓</div>
           <h4>Merci Marie !</h4>
           <p>Vos réponses ont bien été enregistrées.</p>
         </div>
         <div class="card" style="text-align:center">
-          <p style="font-size:12px;color:var(--i50);margin:0">Votre résultat</p>
-          <p class="score">58 %</p>
-          <p style="font-size:12px;color:var(--i50);margin:0">23 / ${maxScore} points</p>
-          <p style="font-size:11px;color:var(--i50);margin:8px 0 0">Certaines réponses rédigées seront corrigées
-             manuellement : votre score peut encore évoluer.</p>
+          <p style="font-size:12px;color:var(--i50);margin:0 0 6px">Votre niveau estimé</p>
+          <p class="lvlbig">${demoBand.level}</p>
+          <p style="font-size:14px;font-weight:500;margin:8px 0 0">${demoBand.label}</p>
+          <p style="font-size:12px;color:var(--i50);margin:10px 0 0">${demoScore} / ${maxScore} points · ${Math.round(demoScore/maxScore*100)} %</p>
         </div>
         <div class="card">
           <p style="font-size:13px;font-weight:600;margin:0 0 8px">Correction</p>
@@ -283,9 +300,9 @@ const html = `<meta charset="utf-8">
     <tr><th>Score</th><th>%</th><th>Niveau CECRL</th><th>Orientation</th></tr>
     ${bands}
   </table></div>
-  <div class="note"><b>À savoir :</b> cette grille n'est pas encore automatique dans le LMS — aujourd'hui le
-    candidat et toi voyez le score en %, et c'est toi qui lis le niveau dans ce tableau. Je peux l'automatiser
-    (niveau affiché dans ton mail de notification et, si tu veux, au candidat) : c'est un ajout court.</div>
+  <div class="note"><b>Automatique :</b> cette grille est portée par le test lui-même. Le candidat voit son
+    niveau à la fin, et il apparaît en tête du mail que tu reçois — plus besoin de convertir un pourcentage
+    à la main.</div>
 
   <h2>3. Contenu intégral</h2>
   <p class="sub">Les bonnes réponses sont en vert. Elles ne quittent jamais le serveur avant que le candidat ait

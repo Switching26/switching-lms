@@ -37,7 +37,12 @@ export async function GET(_req: NextRequest, { params }: { params: { token: stri
   const inv = await loadInvitation(params.token)
   // Message volontairement identique pour un token inconnu et une évaluation
   // dépubliée : ne pas révéler l'existence d'un lien.
-  if (!inv || !inv.assessment.isPublished || inv.assessment.deletedAt) {
+  //
+  // Exception : un candidat qui a DÉJÀ passé le test garde l'accès à son
+  // résultat même si l'évaluation a été dépubliée depuis. Dépublier sert à ne
+  // plus la faire passer, pas à effacer le résultat de ceux qui l'ont faite.
+  const alreadySubmitted = !!inv?.submittedAt
+  if (!inv || inv.assessment.deletedAt || (!inv.assessment.isPublished && !alreadySubmitted)) {
     return NextResponse.json({ error: "Lien invalide ou expiré" }, { status: 404 })
   }
 

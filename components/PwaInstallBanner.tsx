@@ -1,9 +1,17 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import { usePathname } from "next/navigation"
 
 const DISMISS_KEY = "lms-pwa-banner-dismissed-at"
 const DISMISS_DAYS = 30
+
+/**
+ * Pages où proposer l'installation n'a aucun sens et gêne : un candidat invité
+ * à une évaluation vient répondre une seule fois, il n'a pas d'espace à
+ * installer — et la bannière recouvrait les questions.
+ */
+const HIDDEN_PREFIXES = ["/evaluation/"]
 
 type Mode = "ios" | "android" | "desktop"
 
@@ -28,6 +36,8 @@ function StepDot({ n }: { n: number }) {
 //    desktop quand le navigateur la propose)
 // Masquée en mode app installée ; refus mémorisé 30 jours par appareil.
 export default function PwaInstallBanner() {
+  const pathname = usePathname()
+  const hidden = HIDDEN_PREFIXES.some((p) => pathname?.startsWith(p))
   const [visible, setVisible] = useState(false)
   const [mode, setMode] = useState<Mode>("desktop")
   const [deferred, setDeferred] = useState<any>(null)
@@ -74,7 +84,7 @@ export default function PwaInstallBanner() {
     }
   }, [])
 
-  if (!visible) return null
+  if (hidden || !visible) return null
 
   const dismiss = () => {
     setVisible(false)

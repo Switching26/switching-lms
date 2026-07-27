@@ -1,6 +1,6 @@
 "use client"
 
-import { useCallback, useEffect, useMemo, useState } from "react"
+import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 
 type QuestionType = "QCM_SINGLE" | "QCM_MULTI" | "TEXTE" | "ECHELLE"
 
@@ -281,14 +281,24 @@ export default function AssessmentRunner({ token }: { token: string }) {
       <button
         onClick={submit}
         disabled={submitting}
-        className="btn-primary w-full mt-6 min-h-[48px]"
-        style={{ backgroundColor: accent }}
+        className="btn-primary w-full mt-6 min-h-[48px] transition-all"
+        style={{
+          backgroundColor: accent,
+          // Le bouton s'allume quand tout est rempli : jusque-là il restait
+          // identique, sans indiquer au candidat qu'il lui manquait des réponses.
+          opacity: missing.length === 0 ? 1 : 0.5,
+          boxShadow: missing.length === 0 ? `0 3px 14px ${accent}66` : "none",
+        }}
       >
         {submitting ? "Envoi en cours…" : "Valider mes réponses"}
       </button>
-      <p className="text-xs text-ink-50 text-center mt-3 mb-10">
+      <p className="text-xs text-ink-50 text-center mt-3">
         Une fois validées, vos réponses ne pourront plus être modifiées.
       </p>
+
+      {/* Laisse passer la bannière fixée en bas sans masquer le texte. */}
+      <div aria-hidden className="h-24" />
+      <ProgressHud answered={questions.length - missing.length} total={questions.length} accent={accent} />
     </Shell>
   )
 }
@@ -527,6 +537,87 @@ function Message({ title, text }: { title: string; text: string }) {
     <div className="card p-8 text-center">
       <h1 className="font-display text-xl font-semibold text-ink mb-2">{title}</h1>
       <p className="text-ink-50">{text}</p>
+    </div>
+  )
+}
+
+/**
+ * Bannière de progression, collée en bas pendant tout le test.
+ *
+ * Elle compte les questions RÉPONDUES, pas la position dans la page : un
+ * candidat qui en saute une doit voir qu'il lui en reste, même arrivé en bas.
+ */
+function ProgressHud({ answered, total, accent }: { answered: number; total: number; accent: string }) {
+  const ratio = total > 0 ? answered / total : 0
+  const [pop, setPop] = useState(false)
+  const lastMilestone = useRef(0)
+
+  useEffect(() => {
+    const m = ratio >= 1 ? 4 : ratio >= 0.75 ? 3 : ratio >= 0.5 ? 2 : ratio >= 0.25 ? 1 : 0
+    if (m > lastMilestone.current) {
+      lastMilestone.current = m
+      setPop(true)
+      // Android uniquement : iOS Safari n'expose pas l'API de vibration.
+      try { navigator.vibrate?.(12) } catch {}
+      const t = setTimeout(() => setPop(false), 1400)
+      return () => clearTimeout(t)
+    }
+    lastMilestone.current = m
+  }, [ratio])
+
+  const left = total - answered
+  // Formulations non chiffrées : « la moitié » à côté d'un compteur qui affiche
+  // un autre ratio se contredirait à l'écran.
+  const message =
+    answered === 0
+      ? `${total} questions — commencez quand vous voulez.`
+      : answered >= total
+      ? "Tout est rempli — vous pouvez valider vos réponses."
+      : ratio >= 0.9
+      ? `Plus que ${left} question${left > 1 ? "s" : ""}.`
+      : ratio >= 0.75
+      ? "La fin approche."
+      : ratio >= 0.5
+      ? "Vous avez passé la moitié."
+      : ratio >= 0.25
+      ? "Bien parti, continuez."
+      : "C'est parti."
+
+  return (
+    <div
+      className="fixed left-0 right-0 bottom-0 z-40 border-t"
+      style={{
+        backgroundColor: "rgba(255,255,255,0.88)",
+        backdropFilter: "blur(14px)",
+        WebkitBackdropFilter: "blur(14px)",
+        borderColor: "rgba(17,24,39,0.07)",
+        paddingBottom: "calc(11px + env(safe-area-inset-bottom))",
+      }}
+    >
+      <div className="max-w-[720px] mx-auto px-5 pt-3">
+        <div className="flex items-center gap-3">
+          <div className="flex-1 h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: "rgba(17,24,39,0.09)" }}>
+            <div
+              className="h-full rounded-full"
+              style={{
+                width: `${ratio * 100}%`,
+                backgroundColor: accent,
+                transition: "width .45s cubic-bezier(.34,1.4,.5,1)",
+              }}
+            />
+          </div>
+          <p className="text-[13px] font-semibold text-ink tabular-nums whitespace-nowrap">
+            {answered}
+            <span className="font-normal text-ink-50"> / {total}</span>
+          </p>
+        </div>
+        <p
+          className="text-[11.5px] mt-1.5 min-h-[15px] transition-colors"
+          style={pop ? { color: accent, fontWeight: 600 } : { color: "rgba(17,24,39,0.52)" }}
+        >
+          {message}
+        </p>
+      </div>
     </div>
   )
 }

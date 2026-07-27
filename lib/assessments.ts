@@ -189,3 +189,28 @@ export async function getAssessmentForCandidate(assessmentId: string) {
   })
   return assessment
 }
+
+export interface LevelBand {
+  min: number
+  max: number
+  level: string
+  label?: string
+  parcours?: string
+}
+
+/**
+ * Traduit un score brut en niveau CECRL, à partir de la grille du test.
+ *
+ * Un pourcentage seul n'aide personne : ni le candidat, qui ne sait pas ce que
+ * vaut « 68 % », ni Samuel, qui devrait retrouver la grille à chaque fois.
+ */
+export function levelForScore(
+  bands: unknown,
+  score: number | null | undefined
+): LevelBand | null {
+  if (!Array.isArray(bands) || score === null || score === undefined) return null
+  const found = (bands as LevelBand[]).find(
+    (b) => typeof b?.min === "number" && typeof b?.max === "number" && score >= b.min && score <= b.max
+  )
+  return found ?? null
+}

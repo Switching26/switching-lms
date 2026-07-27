@@ -7,6 +7,7 @@ import {
   gradeAnswers,
   getAssessmentForCandidate,
   invitationState,
+  levelForScore,
   scorePercent,
   type SubmittedAnswer,
 } from "@/lib/assessments"
@@ -26,7 +27,7 @@ async function loadInvitation(token: string) {
     where: { token },
     include: {
       assessment: {
-        select: { id: true, isPublished: true, deletedAt: true, showScore: true, showCorrectAnswers: true, passingScore: true },
+        select: { id: true, isPublished: true, deletedAt: true, showScore: true, showCorrectAnswers: true, passingScore: true, levelBands: true, title: true },
       },
     },
   })
@@ -82,7 +83,7 @@ export async function GET(_req: NextRequest, { params }: { params: { token: stri
 /** Restitution post-soumission, selon ce que l'évaluation autorise à montrer. */
 async function buildResult(
   invitationId: string,
-  assessment: { showScore: boolean; showCorrectAnswers: boolean; passingScore: number | null }
+  assessment: { showScore: boolean; showCorrectAnswers: boolean; passingScore: number | null; levelBands: unknown }
 ) {
   const inv = await prisma.assessmentInvitation.findUnique({
     where: { id: invitationId },
@@ -118,6 +119,8 @@ async function buildResult(
           percent,
           passed: assessment.passingScore != null ? percent >= assessment.passingScore : null,
           passingScore: assessment.passingScore,
+          // Le candidat doit lire un niveau, pas un pourcentage à interpréter.
+          level: levelForScore(assessment.levelBands, inv.score),
         }
       : {}),
   }
@@ -314,9 +317,17 @@ async function notifyCompletion(invitationId: string) {
   if (!to) return
 
   const percent = scorePercent(inv.score, inv.maxScore)
-  const scoreLine = inv.maxScore && inv.maxScore > 0
-    ? `${percent}% — ${inv.score} / ${inv.maxScore} points`
-    : null
+  // Le niveau d'abord : un score brut oblige à retrouver la grille à chaque
+  // candidat pour savoir de quoi on parle.
+  const band = levelForScore(inv.assessment.levelBands, inv.score)
+  const scoreLine = !inv.maxScore || inv.maxScore <= 0
+    ? null
+    : band
+    ? `Niveau ${band.level}${band.label ? ` — ${band.label}` : ""}` +
+      `<br><span style="font-size:14px;color:#555;font-weight:400;">` +
+      `${inv.score} / ${inv.maxScore} points · ${percent} %` +
+      `${band.parcours ? ` · ${band.parcours}` : ""}</span>`
+    : `${percent}% — ${inv.score} / ${inv.maxScore} points`
 
   const mail = assessmentCompletedEmail(
     inv.assessment.title,

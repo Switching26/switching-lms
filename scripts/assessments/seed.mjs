@@ -87,6 +87,7 @@ const created = await prisma.$transaction(async (tx) => {
       timeLimitMinutes: A.timeLimitMinutes ?? null,
       validityDays: A.validityDays ?? 30,
       notifyEmail: A.notifyEmail ?? null,
+      levelBands: A.levelBands ?? undefined,
     },
   })
   let order = 0

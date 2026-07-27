@@ -455,9 +455,27 @@ function Result({ result, accent, firstName }: { result: any; accent: string; fi
 
       {result.showScore && (
         <div className="card p-6 text-center mb-6">
-          <p className="text-sm text-ink-50 mb-1">Votre résultat</p>
-          <p className="font-display text-4xl font-semibold" style={{ color: accent }}>{result.percent}%</p>
-          <p className="text-sm text-ink-50 mt-1">{result.score} / {result.maxScore} points</p>
+          {/* Un niveau parle au candidat ; « 68 % » ne lui dit rien. */}
+          {result.level ? (
+            <>
+              <p className="text-sm text-ink-50 mb-2">Votre niveau estimé</p>
+              <p className="font-display text-5xl font-semibold leading-none" style={{ color: accent }}>
+                {result.level.level}
+              </p>
+              {result.level.label && (
+                <p className="text-base font-medium text-ink mt-2">{result.level.label}</p>
+              )}
+              <p className="text-sm text-ink-50 mt-3">
+                {result.score} / {result.maxScore} points · {result.percent} %
+              </p>
+            </>
+          ) : (
+            <>
+              <p className="text-sm text-ink-50 mb-1">Votre résultat</p>
+              <p className="font-display text-4xl font-semibold" style={{ color: accent }}>{result.percent}%</p>
+              <p className="text-sm text-ink-50 mt-1">{result.score} / {result.maxScore} points</p>
+            </>
+          )}
           {result.passed !== null && result.passed !== undefined && (
             <p className="text-sm mt-3 font-medium" style={{ color: result.passed ? "#059669" : "#DC2626" }}>
               {result.passed ? "Seuil de réussite atteint" : `Seuil de réussite : ${result.passingScore}%`}

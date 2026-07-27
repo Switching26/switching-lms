@@ -487,6 +487,11 @@ model Assessment {
   /// qu'un candidat a répondu.
   notifyEmail      String?
 
+  /// Grille score → niveau, ex. [{min,max,level,label,parcours}]. Stockée ici
+  /// pour que le candidat ET le mail affichent un niveau, pas un pourcentage
+  /// brut que personne ne sait interpréter.
+  levelBands       Json?
+
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?

@@ -42,6 +42,30 @@ export async function recomputeLicensesForFormations(
 }
 
 /**
+ * Ce partenaire a-t-il le DROIT de distribuer cette formation ?
+ *
+ * Complémentaire de `hasAvailableSeat` (qui, lui, ne gère que le quota) :
+ * l'existence d'une licence vaut autorisation de distribution. Sans licence,
+ * un admin partenaire ne voit pas la formation dans son catalogue et ne peut
+ * pas l'attribuer, même si des sièges seraient théoriquement libres.
+ *
+ * `partnerId` null = super-admin / apprenants internes Switching → jamais
+ * restreint. Ne s'applique qu'aux inscriptions créées : les inscriptions
+ * existantes ne sont pas revalidées rétroactivement.
+ */
+export async function canPartnerDistributeFormation(
+  partnerId: string | null | undefined,
+  formationId: string
+): Promise<boolean> {
+  if (!partnerId) return true
+  const license = await prisma.license.findUnique({
+    where: { partnerId_formationId: { partnerId, formationId } },
+    select: { id: true },
+  })
+  return Boolean(license)
+}
+
+/**
  * Un nouveau siège est-il disponible pour ce partenaire sur cette formation ?
  * - pas de partenaire → pas de limite ;
  * - pas de licence configurée → non restreint (décision super-admin) ;

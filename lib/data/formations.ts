@@ -17,6 +17,35 @@ export async function getFormations(includeDeleted = false) {
   }))
 }
 
+/**
+ * Catalogue visible par un ORGANISME PARTENAIRE : uniquement les formations
+ * pour lesquelles le super-admin lui a ouvert une licence.
+ *
+ * La licence porte deux sens : le quota de sièges (`hasAvailableSeat`) ET le
+ * droit de distribution. Sans licence, la formation n'apparaît pas dans le
+ * sélecteur d'attribution du partenaire — c'est ce qui cloisonne le catalogue
+ * entre organismes : une formation créée pour les apprenants Switching n'est
+ * pas distribuable par un partenaire tant que la licence n'est pas ouverte.
+ */
+export async function getFormationsForPartner(partnerId: string, includeDeleted = false) {
+  const formations = await prisma.formation.findMany({
+    where: {
+      ...(includeDeleted ? {} : { deletedAt: null }),
+      licenses: { some: { partnerId } },
+    },
+    include: {
+      sections: { orderBy: { order: "asc" } },
+      chapters: { orderBy: { order: "asc" }, include: { section: true } },
+      enrollments: true,
+    },
+    orderBy: { createdAt: "desc" },
+  })
+  return formations.map((formation) => ({
+    ...formation,
+    chapters: sortChaptersByLearningOrder(formation.chapters, formation.sections),
+  }))
+}
+
 export async function getFormationById(id: string) {
   const formation = await prisma.formation.findUnique({
     where: { id },

@@ -5,7 +5,7 @@ import { sendEmail } from "@/lib/email"
 import { formationAssignedEmail } from "@/lib/email-templates"
 import { resolveTemplate, replaceVariables } from "@/lib/email-template-engine"
 import { getBaseUrl } from "@/lib/get-base-url"
-import { hasAvailableSeat, recomputeLicenseSeats } from "@/lib/licenses"
+import { canPartnerDistributeFormation, hasAvailableSeat, recomputeLicenseSeats } from "@/lib/licenses"
 
 export async function POST(req: NextRequest, { params }: { params: { userId: string } }) {
   const session = await auth()
@@ -35,6 +35,17 @@ export async function POST(req: NextRequest, { params }: { params: { userId: str
     const adminPartnerId = session.user.partnerId
     if (user.partnerId !== adminPartnerId) {
       return NextResponse.json({ error: "Accès refusé" }, { status: 403 })
+    }
+    // Cloisonnement du catalogue : sans licence ouverte par le super-admin,
+    // l'organisme ne peut pas distribuer cette formation (elle ne lui est
+    // même pas listée). Empêche un partenaire d'attribuer une formation
+    // interne Switching via un appel API direct.
+    const allowed = await canPartnerDistributeFormation(adminPartnerId, formationId)
+    if (!allowed) {
+      return NextResponse.json(
+        { error: "Cette formation n'est pas disponible pour votre organisme" },
+        { status: 403 }
+      )
     }
   }
 

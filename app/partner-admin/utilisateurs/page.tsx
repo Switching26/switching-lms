@@ -1,7 +1,7 @@
 import { auth } from "@/lib/auth"
 import { redirect } from "next/navigation"
 import { getAllUsersByPartner } from "@/lib/data/users"
-import { getFormations } from "@/lib/data/formations"
+import { getFormationsForPartner } from "@/lib/data/formations"
 import UsersTable from "../../super-admin/utilisateurs/table"
 
 export const dynamic = "force-dynamic"
@@ -15,7 +15,8 @@ export default async function PartnerUtilisateursPage() {
 
   const [users, formations] = await Promise.all([
     getAllUsersByPartner(partnerId),
-    getFormations(),
+    // Catalogue restreint aux formations sous licence pour cet organisme.
+    getFormationsForPartner(partnerId),
   ])
 
   return (

@@ -323,3 +323,40 @@ export function formationCompletedEmail(
   `)
   return { subject, html }
 }
+
+// ═══════════════════════════════
+// TEMPLATE — Invitation à une évaluation (candidat SANS compte)
+// ═══════════════════════════════
+export function assessmentInvitationEmail(
+  firstName: string | null,
+  assessmentTitle: string,
+  assessmentUrl: string,
+  isPositionnement: boolean,
+  expiresAt?: Date | null,
+  partner?: { name: string; primaryColor: string; secondaryColor: string; logoUrl?: string | null } | null
+) {
+  const brand = getBrand(partner)
+  const label = isPositionnement ? "test de positionnement" : "évaluation"
+  const subject = isPositionnement
+    ? `Votre test de positionnement — ${assessmentTitle}`
+    : `Votre évaluation — ${assessmentTitle}`
+  const deadline = expiresAt
+    ? new Date(expiresAt).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" })
+    : null
+  const html = layout(brand, `
+    <h1 style="margin:0 0 16px;font-size:22px;color:#111;">${assessmentTitle}</h1>
+    <p style="margin:0 0 20px;color:#555;font-size:15px;line-height:1.6;">
+      Bonjour${firstName ? ` <strong>${firstName}</strong>` : ""},
+    </p>
+    <p style="margin:0 0 16px;color:#555;font-size:15px;line-height:1.6;">
+      Vous êtes invité(e) à réaliser un ${label}. Il vous suffit de cliquer sur le bouton
+      ci-dessous : aucun compte ni mot de passe n'est nécessaire.
+    </p>
+    ${button("Commencer", assessmentUrl, brand.primaryColor)}
+    <p style="margin:0 0 10px;color:#555;font-size:15px;line-height:1.6;">
+      Prenez le temps de répondre au calme : <strong>vos réponses ne peuvent être validées qu'une seule fois</strong>.
+    </p>
+    ${deadline ? `<p style="margin:0;color:#777;font-size:14px;line-height:1.6;">Ce lien est valable jusqu'au ${deadline}.</p>` : ""}
+  `)
+  return { subject, html }
+}

@@ -248,32 +248,39 @@ async function sendViaGmailApi(
   }
 }
 
+/**
+ * `userId` null = destinataire sans compte LMS (candidat invité à une
+ * évaluation). `EmailLog.userId` étant une clé étrangère obligatoire, on saute
+ * alors la journalisation : sinon l'insertion échouerait APRÈS un envoi réussi
+ * et l'appelant croirait l'email parti en erreur.
+ */
 export async function sendEmail(
   to: string,
   subject: string,
   html: string,
-  userId: string,
+  userId: string | null,
   type: EmailType,
   partner?: PartnerSmtp | null
 ): Promise<boolean> {
+  const log = async (success: boolean, error?: string) => {
+    if (!userId) return
+    try {
+      await prisma.emailLog.create({ data: { userId, type, subject, success, error } })
+    } catch {
+      // Silently fail log write
+    }
+  }
+
   try {
     const partnerSenderName = partner?.name || undefined
     // L'adresse d'envoi suit le profil de l'organisme (Switching a la sienne),
     // le nom affiché reste celui du partenaire.
     await sendViaGmailApi(to, subject, html, undefined, partnerSenderName, partner?.mailProfile)
 
-    await prisma.emailLog.create({
-      data: { userId, type, subject, success: true },
-    })
+    await log(true)
     return true
   } catch (err: any) {
-    try {
-      await prisma.emailLog.create({
-        data: { userId, type, subject, success: false, error: err?.message?.slice(0, 500) || "Unknown error" },
-      })
-    } catch {
-      // Silently fail log write
-    }
+    await log(false, err?.message?.slice(0, 500) || "Unknown error")
     console.error(`[EMAIL] Failed to send ${type} to ${to}:`, err?.message)
     return false
   }

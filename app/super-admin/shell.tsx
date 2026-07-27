@@ -6,6 +6,7 @@ const items = [
   { label: "Dashboard", href: "/super-admin/dashboard" },
   { label: "Formations", href: "/super-admin/formations" },
   { label: "Utilisateurs", href: "/super-admin/utilisateurs" },
+  { label: "Évaluations", href: "/super-admin/evaluations" },
   { label: "Migration", href: "/super-admin/migration-riseup" },
   { label: "Partenaires", href: "/super-admin/partenaires" },
   { label: "Messages", href: "/super-admin/messages" },

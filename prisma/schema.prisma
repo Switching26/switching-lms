@@ -21,6 +21,7 @@ enum EmailType {
   ACTIVATION_LINK
   PASSWORD_RESET
   LOGIN_LINK
+  ASSESSMENT_INVITATION
   CUSTOM
 }
 
@@ -60,6 +61,7 @@ model User {
   passwordResetTokens PasswordResetToken[]
   exerciseResponses   ExerciseResponse[]
   questionResponses   QuestionResponse[]
+  assessmentInvitations  AssessmentInvitation[]
   conversationsAsLearner Conversation[] @relation("ConversationLearner")
   conversationsAsAdmin   Conversation[] @relation("ConversationAdmin")
   messages               Message[]
@@ -104,6 +106,7 @@ model Partner {
   enrollments    Enrollment[]
   licenses       License[]
   emailTemplates EmailTemplate[]
+  assessments    Assessment[]
 
   @@index([slug])
 }
@@ -429,4 +432,158 @@ model QuestionResponse {
   @@index([userId])
   @@index([questionId])
   @@index([exerciseResponseId])
+}
+
+// ---------------------------------------------------------------------------
+// Évaluations autonomes (tests de positionnement / évaluations)
+//
+// Volontairement SÉPARÉ du moteur de quiz de formation (Exercise/Question/
+// Choice) : celui-ci est verrouillé sur un compte (Exercise.chapterId et
+// ExerciseResponse.userId sont obligatoires) alors qu'un test de
+// positionnement s'adresse à un PROSPECT sans compte, invité par lien. Le
+// tordre aurait fragilisé un moteur stabilisé en production, et aurait imposé
+// de créer de faux comptes utilisateurs pour de simples candidats.
+// ---------------------------------------------------------------------------
+
+enum AssessmentType {
+  POSITIONNEMENT
+  EVALUATION
+}
+
+enum AssessmentQuestionType {
+  QCM_SINGLE // une seule bonne réponse
+  QCM_MULTI  // plusieurs bonnes réponses, notation tout-ou-rien
+  TEXTE      // réponse libre, corrigée manuellement
+  ECHELLE    // auto-positionnement, non noté
+}
+
+model Assessment {
+  id          String         @id @default(cuid())
+  title       String
+  description String?        @db.Text
+  type        AssessmentType @default(POSITIONNEMENT)
+
+  /// Organisme propriétaire. Un admin partenaire ne voit que les siens ;
+  /// le super-admin voit tout. Cloisonne les tests Switching des partenaires.
+  partnerId   String?
+  partner     Partner?       @relation(fields: [partnerId], references: [id], onDelete: SetNull)
+
+  isPublished Boolean        @default(false)
+
+  /// Ce que le candidat voit une fois le test soumis.
+  showScore          Boolean @default(true)
+  showCorrectAnswers Boolean @default(true)
+
+  /// Seuil de réussite en % (indicatif, null = aucun).
+  passingScore     Int?
+  /// Durée limite en minutes (null = pas de limite).
+  timeLimitMinutes Int?
+  /// Validité par défaut d'une invitation, en jours.
+  validityDays     Int     @default(30)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  questions   AssessmentQuestion[]
+  invitations AssessmentInvitation[]
+
+  @@index([partnerId])
+}
+
+model AssessmentQuestion {
+  id           String                 @id @default(cuid())
+  assessmentId String
+  assessment   Assessment             @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
+  text         String                 @db.Text
+  helpText     String?                @db.Text
+  type         AssessmentQuestionType @default(QCM_SINGLE)
+  order        Int
+  points       Int                    @default(1)
+
+  /// Bornes pour les questions de type ECHELLE.
+  scaleMin      Int?
+  scaleMax      Int?
+  scaleMinLabel String?
+  scaleMaxLabel String?
+
+  choices AssessmentChoice[]
+  answers AssessmentAnswer[]
+
+  @@index([assessmentId])
+}
+
+model AssessmentChoice {
+  id         String             @id @default(cuid())
+  questionId String
+  question   AssessmentQuestion @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  text       String             @db.Text
+  isCorrect  Boolean            @default(false)
+  order      Int                @default(0)
+
+  @@index([questionId])
+}
+
+model AssessmentInvitation {
+  id           String     @id @default(cuid())
+  assessmentId String
+  assessment   Assessment @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
+
+  /// Secret du lien public /evaluation/<token>. Jamais deviné : généré en
+  /// aléatoire cryptographique. C'est la seule authentification du candidat.
+  token String @unique
+
+  /// Candidat SANS compte (prospect). Renseigné à l'invitation.
+  candidateEmail     String
+  candidateFirstName String?
+  candidateLastName  String?
+
+  /// Apprenant existant du LMS, quand l'évaluation est attribuée en interne.
+  userId String?
+  user   User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  createdById String?
+
+  sentAt      DateTime?
+  openedAt    DateTime?
+  startedAt   DateTime?
+  submittedAt DateTime?
+  expiresAt   DateTime?
+
+  /// Score en points bruts + barème, calculés serveur à la soumission.
+  score    Float?
+  maxScore Float?
+  /// Reste à corriger manuellement (présence de questions TEXTE).
+  needsManualReview Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  answers AssessmentAnswer[]
+
+  @@index([assessmentId])
+  @@index([userId])
+  @@index([candidateEmail])
+}
+
+model AssessmentAnswer {
+  id           String               @id @default(cuid())
+  invitationId String
+  invitation   AssessmentInvitation @relation(fields: [invitationId], references: [id], onDelete: Cascade)
+  questionId   String
+  question     AssessmentQuestion   @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  /// QCM : identifiants des choix cochés (mono ou multi).
+  selectedChoiceIds String[]
+  /// TEXTE : réponse libre. ECHELLE : valeur choisie.
+  responseText String? @db.Text
+  scaleValue   Int?
+
+  /// null tant qu'une question TEXTE n'a pas été corrigée à la main.
+  isCorrect    Boolean?
+  pointsEarned Float?
+
+  @@unique([invitationId, questionId])
+  @@index([invitationId])
+  @@index([questionId])
 }

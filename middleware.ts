@@ -44,6 +44,9 @@ export default auth((req) => {
 
   if (
     pathname.startsWith("/login") ||
+    // Passage d'une évaluation par un candidat sans compte : la page est
+    // publique, c'est le token du lien qui autorise l'accès (vérifié côté API).
+    pathname.startsWith("/evaluation/") ||
     pathname.startsWith("/api/") ||
     pathname.startsWith("/_next/") ||
     pathname.includes(".")

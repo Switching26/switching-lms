@@ -81,6 +81,17 @@ model Partner {
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 
+  /// Organisme interne (Switching Formation) : accède à tout le catalogue
+  /// sans licence, contrairement aux organismes partenaires qui ne voient
+  /// que les formations explicitement ouvertes par le super-admin.
+  isInternal     Boolean  @default(false)
+
+  /// Compte d'envoi des emails transactionnels de cet organisme.
+  /// null = compte par défaut de la plateforme e-learning.
+  /// "switching" = boîte Switching Formation (transport GMAIL_SWITCHING_*).
+  /// Le nom affiché reste celui du partenaire dans tous les cas.
+  mailProfile    String?
+
   // SMTP configuration
   smtpHost       String?
   smtpPort       Int?

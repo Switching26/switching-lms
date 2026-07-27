@@ -58,6 +58,13 @@ export async function canPartnerDistributeFormation(
   formationId: string
 ): Promise<boolean> {
   if (!partnerId) return true
+  // L'organisme interne (Switching) n'est pas soumis aux licences.
+  const partner = await prisma.partner.findUnique({
+    where: { id: partnerId },
+    select: { isInternal: true },
+  })
+  if (partner?.isInternal) return true
+
   const license = await prisma.license.findUnique({
     where: { partnerId_formationId: { partnerId, formationId } },
     select: { id: true },

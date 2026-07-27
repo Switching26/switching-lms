@@ -4,6 +4,8 @@ import type { EmailType } from "@prisma/client"
 
 export interface PartnerSmtp {
   name?: string | null
+  /** Compte d'envoi de l'organisme — voir `Partner.mailProfile`. */
+  mailProfile?: string | null
   smtpHost?: string | null
   smtpPort?: number | null
   smtpEmail?: string | null
@@ -51,6 +53,31 @@ function readSecret(value: string | undefined): string {
   } catch {
     return value
   }
+}
+
+/**
+ * Compte d'envoi dédié à un organisme (`Partner.mailProfile`).
+ *
+ * Les apprenants Switching Formation doivent recevoir leurs emails depuis la
+ * boîte Switching, pas depuis celle de la plateforme e-learning : chaque
+ * profil a donc son propre jeu de credentials OAuth. Si le profil demandé
+ * n'est pas configuré sur l'environnement, on retombe volontairement sur le
+ * compte par défaut plutôt que de faire échouer un email critique (activation,
+ * réinitialisation) — l'incident est visible dans EmailLog via l'expéditeur.
+ */
+async function getGmailConfigForProfile(mailProfile?: string | null): Promise<GmailConfig> {
+  if (mailProfile === "switching") {
+    const cfg = {
+      clientId: firstValue(process.env.GMAIL_SWITCHING_CLIENT_ID, process.env.GMAIL_CLIENT_ID),
+      clientSecret: firstValue(process.env.GMAIL_SWITCHING_CLIENT_SECRET, process.env.GMAIL_CLIENT_SECRET),
+      refreshToken: firstValue(process.env.GMAIL_SWITCHING_REFRESH_TOKEN),
+      senderEmail: firstValue(process.env.GMAIL_SWITCHING_FROM_EMAIL, "contact@switchingformation.com"),
+      senderName: firstValue(process.env.GMAIL_SWITCHING_FROM_NAME, "Switching Formation"),
+    }
+    // Le refresh token est propre au compte : sans lui, pas de bascule.
+    if (cfg.clientId && cfg.clientSecret && cfg.refreshToken) return cfg
+  }
+  return getGmailConfig()
 }
 
 async function getGmailConfig(): Promise<GmailConfig> {
@@ -189,9 +216,10 @@ async function sendViaGmailApi(
   subject: string,
   html: string,
   senderEmail?: string,
-  senderName?: string
+  senderName?: string,
+  mailProfile?: string | null
 ): Promise<void> {
-  const cfg = await getGmailConfig()
+  const cfg = await getGmailConfigForProfile(mailProfile)
   const accessToken = await getGmailAccessToken(cfg)
 
   const headers = [
@@ -230,7 +258,9 @@ export async function sendEmail(
 ): Promise<boolean> {
   try {
     const partnerSenderName = partner?.name || undefined
-    await sendViaGmailApi(to, subject, html, undefined, partnerSenderName)
+    // L'adresse d'envoi suit le profil de l'organisme (Switching a la sienne),
+    // le nom affiché reste celui du partenaire.
+    await sendViaGmailApi(to, subject, html, undefined, partnerSenderName, partner?.mailProfile)
 
     await prisma.emailLog.create({
       data: { userId, type, subject, success: true },

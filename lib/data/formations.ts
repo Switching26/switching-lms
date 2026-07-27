@@ -28,6 +28,13 @@ export async function getFormations(includeDeleted = false) {
  * pas distribuable par un partenaire tant que la licence n'est pas ouverte.
  */
 export async function getFormationsForPartner(partnerId: string, includeDeleted = false) {
+  // L'organisme interne (Switching) distribue tout le catalogue sans licence.
+  const partner = await prisma.partner.findUnique({
+    where: { id: partnerId },
+    select: { isInternal: true },
+  })
+  if (partner?.isInternal) return getFormations(includeDeleted)
+
   const formations = await prisma.formation.findMany({
     where: {
       ...(includeDeleted ? {} : { deletedAt: null }),

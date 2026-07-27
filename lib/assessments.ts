@@ -93,6 +93,14 @@ export function gradeAnswers(
       continue
     }
 
+    // QCM à 0 point : question déclarative (profilage, « pourquoi apprenez-vous
+    // l'anglais ? »). Elle n'a pas de bonne réponse — la noter afficherait un
+    // ✗ au candidat sur un choix personnel.
+    if (q.points === 0) {
+      answers.push(base)
+      continue
+    }
+
     // QCM : comparaison ensembliste stricte contre les bonnes réponses.
     maxScore += q.points
     const correctIds = q.choices.filter((c) => c.isCorrect).map((c) => c.id)

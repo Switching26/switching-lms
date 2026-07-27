@@ -141,10 +141,18 @@ async function buildResult(
   const byQuestion = new Map(inv.answers.map((a) => [a.questionId, a]))
   return {
     ...base,
-    corrections: questions.map((q) => ({
-      ...q,
-      answer: byQuestion.get(q.id) ?? null,
-    })),
+    corrections: questions.map((q) => {
+      // Une question à 0 point (profilage, auto-positionnement) n'a pas de
+      // bonne réponse : on ne renvoie aucun `isCorrect`, sinon l'affichage
+      // marquerait en vert des choix qui ne sont que des préférences.
+      const declarative = q.points === 0 && q.type !== "TEXTE" && q.type !== "ECHELLE"
+      return {
+        ...q,
+        declarative,
+        choices: declarative ? q.choices.map((c) => ({ id: c.id, text: c.text, isCorrect: false })) : q.choices,
+        answer: byQuestion.get(q.id) ?? null,
+      }
+    }),
   }
 }
 

@@ -491,6 +491,17 @@ function Result({ result, accent, firstName }: { result: any; accent: string; fi
                   <div className="pl-6 space-y-1.5">
                     {q.choices.map((c: any) => {
                       const picked = selected.includes(c.id)
+                      // Question déclarative : pas de vert/rouge, un choix
+                      // personnel ne se corrige pas.
+                      if (q.declarative) {
+                        return (
+                          <div key={c.id} className="flex items-center gap-2 text-sm"
+                               style={{ color: picked ? "rgba(17,24,39,0.75)" : "rgba(17,24,39,0.35)" }}>
+                            <span className="w-4 shrink-0">{picked ? "•" : "·"}</span>
+                            <span className={picked ? "font-medium" : undefined}>{c.text}</span>
+                          </div>
+                        )
+                      }
                       const color = c.isCorrect ? "#059669" : picked ? "#DC2626" : undefined
                       return (
                         <div key={c.id} className="flex items-center gap-2 text-sm" style={{ color: color || "rgba(17,24,39,0.55)" }}>

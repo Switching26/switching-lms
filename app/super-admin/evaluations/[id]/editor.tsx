@@ -43,6 +43,7 @@ interface Assessment {
   passingScore: number | null
   timeLimitMinutes: number | null
   validityDays: number
+  notifyEmail: string | null
   partner: { id: string; name: string } | null
   questions: Question[]
   invitations: Invitation[]
@@ -77,6 +78,7 @@ export default function AssessmentEditor({ assessment }: { assessment: Assessmen
     passingScore: assessment.passingScore,
     timeLimitMinutes: assessment.timeLimitMinutes,
     validityDays: assessment.validityDays,
+    notifyEmail: assessment.notifyEmail ?? "",
   })
   const [msg, setMsg] = useState<{ kind: "ok" | "err"; text: string } | null>(null)
   const [busy, setBusy] = useState(false)
@@ -374,6 +376,18 @@ export default function AssessmentEditor({ assessment }: { assessment: Assessmen
               <input className="input-field" type="number" min={0} max={100} value={settings.passingScore ?? ""}
                 onChange={(e) => setSettings({ ...settings, passingScore: e.target.value ? Number(e.target.value) : null })} />
             </div>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium mb-1.5 text-ink-70">
+              Prévenir à cette adresse quand un candidat termine
+            </label>
+            <input className="input-field" type="email" placeholder="contact@switchingformation.com"
+              value={settings.notifyEmail}
+              onChange={(e) => setSettings({ ...settings, notifyEmail: e.target.value })} />
+            <p className="text-xs text-ink-50 mt-1.5">
+              Laissez vide pour que la notification parte à la personne qui a envoyé l'invitation.
+            </p>
           </div>
 
           <div className="space-y-2 pt-2">

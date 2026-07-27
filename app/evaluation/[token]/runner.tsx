@@ -20,6 +20,7 @@ interface Payload {
   state: "ready" | "submitted" | "expired"
   candidateFirstName?: string | null
   candidateLastName?: string | null
+  candidateEmail?: string | null
   expiresAt?: string | null
   assessment?: {
     id: string
@@ -47,6 +48,9 @@ export default function AssessmentRunner({ token }: { token: string }) {
   const [answers, setAnswers] = useState<Record<string, AnswerState>>({})
   const [submitting, setSubmitting] = useState(false)
   const [showMissing, setShowMissing] = useState(false)
+  // Le candidat s'identifie AVANT de voir les questions : un lien peut être
+  // transféré, et c'est sa saisie qui dit de quel prospect il s'agit.
+  const [identified, setIdentified] = useState(false)
 
   useEffect(() => {
     let cancelled = false
@@ -134,6 +138,24 @@ export default function AssessmentRunner({ token }: { token: string }) {
   }
 
   const a = data.assessment!
+
+  if (!identified) {
+    return (
+      <Shell accent={accent} partner={a.partner}>
+        <IdentityForm
+          token={token}
+          accent={accent}
+          assessment={a}
+          defaults={{
+            firstName: data.candidateFirstName ?? "",
+            lastName: data.candidateLastName ?? "",
+            email: data.candidateEmail ?? "",
+          }}
+          onDone={() => setIdentified(true)}
+        />
+      </Shell>
+    )
+  }
 
   return (
     <Shell accent={accent} partner={a.partner}>
@@ -268,6 +290,98 @@ export default function AssessmentRunner({ token }: { token: string }) {
         Une fois validées, vos réponses ne pourront plus être modifiées.
       </p>
     </Shell>
+  )
+}
+
+function IdentityForm({
+  token, accent, assessment, defaults, onDone,
+}: {
+  token: string
+  accent: string
+  assessment: { title: string; description: string | null; type: string; questions: unknown[]; timeLimitMinutes: number | null }
+  defaults: { firstName: string; lastName: string; email: string }
+  onDone: () => void
+}) {
+  const [firstName, setFirstName] = useState(defaults.firstName)
+  const [lastName, setLastName] = useState(defaults.lastName)
+  const [email, setEmail] = useState(defaults.email)
+  const [busy, setBusy] = useState(false)
+  const [err, setErr] = useState<string | null>(null)
+
+  const valid = firstName.trim() && lastName.trim() && /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email.trim())
+
+  async function start() {
+    setBusy(true)
+    setErr(null)
+    try {
+      const res = await fetch(`/api/evaluation/${encodeURIComponent(token)}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ firstName, lastName, email }),
+      })
+      const body = await res.json().catch(() => ({}))
+      if (!res.ok) throw new Error(body?.error || "Impossible de démarrer")
+      onDone()
+    } catch (e: any) {
+      setErr(e.message)
+      setBusy(false)
+    }
+  }
+
+  return (
+    <div className="pb-10">
+      <p className="text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: accent }}>
+        {assessment.type === "POSITIONNEMENT" ? "Test de positionnement" : "Évaluation"}
+      </p>
+      <h1 className="font-display text-2xl sm:text-3xl font-semibold text-ink mb-3">{assessment.title}</h1>
+      {assessment.description && (
+        <p className="text-ink-50 whitespace-pre-line mb-2">{assessment.description}</p>
+      )}
+      <p className="text-sm text-ink-50 mb-8">
+        {assessment.questions.length} question{assessment.questions.length > 1 ? "s" : ""}
+        {assessment.timeLimitMinutes ? ` · environ ${assessment.timeLimitMinutes} min` : ""}
+      </p>
+
+      <div className="card p-5 sm:p-6">
+        <h2 className="font-display text-lg font-semibold text-ink mb-1">Avant de commencer</h2>
+        <p className="text-sm text-ink-50 mb-5">
+          Merci de renseigner vos coordonnées pour que nous puissions vous transmettre vos résultats.
+        </p>
+
+        {err && (
+          <div className="text-sm text-red-700 bg-red-50 border border-red-100 rounded-xl px-4 py-3 mb-4">{err}</div>
+        )}
+
+        <div className="space-y-4">
+          <div className="grid sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium mb-1.5 text-ink-70">Prénom</label>
+              <input className="input-field" value={firstName} onChange={(e) => setFirstName(e.target.value)}
+                autoComplete="given-name" />
+            </div>
+            <div>
+              <label className="block text-sm font-medium mb-1.5 text-ink-70">Nom</label>
+              <input className="input-field" value={lastName} onChange={(e) => setLastName(e.target.value)}
+                autoComplete="family-name" />
+            </div>
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-1.5 text-ink-70">Adresse email</label>
+            <input className="input-field" type="email" inputMode="email" value={email}
+              onChange={(e) => setEmail(e.target.value)} autoComplete="email" />
+          </div>
+        </div>
+
+        <button
+          onClick={start}
+          disabled={!valid || busy}
+          className="btn-primary w-full mt-6 min-h-[48px]"
+          style={{ backgroundColor: accent }}
+        >
+          {busy ? "Un instant…" : "Commencer"}
+        </button>
+      </div>
+    </div>
   )
 }
 

@@ -360,3 +360,41 @@ export function assessmentInvitationEmail(
   `)
   return { subject, html }
 }
+
+// ═══════════════════════════════
+// TEMPLATE — Notification interne : un candidat a terminé son évaluation
+// ═══════════════════════════════
+export function assessmentCompletedEmail(
+  assessmentTitle: string,
+  candidate: { firstName?: string | null; lastName?: string | null; email: string },
+  scoreLine: string | null,
+  needsManualReview: boolean,
+  adminUrl: string,
+  partner?: { name: string; primaryColor: string; secondaryColor: string; logoUrl?: string | null } | null
+) {
+  const brand = getBrand(partner)
+  const fullName = [candidate.firstName, candidate.lastName].filter(Boolean).join(" ") || candidate.email
+  const subject = `${fullName} a terminé « ${assessmentTitle} »`
+  const html = layout(brand, `
+    <h1 style="margin:0 0 16px;font-size:22px;color:#111;">Évaluation terminée</h1>
+    <p style="margin:0 0 20px;color:#555;font-size:15px;line-height:1.6;">
+      <strong>${fullName}</strong> vient de valider ses réponses.
+    </p>
+    <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#f5f5f7;border-radius:8px;margin:0 0 18px;">
+      <tr><td style="padding:16px 20px;">
+        <p style="margin:0 0 10px;font-size:13px;color:#888;">Candidat</p>
+        <p style="margin:0 0 4px;font-size:15px;color:#111;font-weight:600;">${fullName}</p>
+        <p style="margin:0 0 14px;font-size:14px;color:#555;">${candidate.email}</p>
+        <p style="margin:0 0 10px;font-size:13px;color:#888;">Évaluation</p>
+        <p style="margin:0 0 ${scoreLine ? "14px" : "0"};font-size:15px;color:#111;">${assessmentTitle}</p>
+        ${scoreLine ? `<p style="margin:0 0 10px;font-size:13px;color:#888;">Résultat</p>
+        <p style="margin:0;font-size:20px;color:${brand.primaryColor};font-weight:700;">${scoreLine}</p>` : ""}
+      </td></tr>
+    </table>
+    ${needsManualReview ? `<p style="margin:0 0 18px;color:#92400E;font-size:14px;line-height:1.6;background-color:#FFFBEB;border-radius:8px;padding:12px 16px;">
+      Ce test contient des réponses rédigées : le score affiché ne les inclut pas encore, elles sont à relire.
+    </p>` : ""}
+    ${button("Voir le détail des réponses", adminUrl, brand.primaryColor)}
+  `)
+  return { subject, html }
+}

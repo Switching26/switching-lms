@@ -22,6 +22,7 @@ enum EmailType {
   PASSWORD_RESET
   LOGIN_LINK
   ASSESSMENT_INVITATION
+  ASSESSMENT_COMPLETED
   CUSTOM
 }
 
@@ -480,6 +481,11 @@ model Assessment {
   timeLimitMinutes Int?
   /// Validité par défaut d'une invitation, en jours.
   validityDays     Int     @default(30)
+
+  /// Destinataire de la notification « test terminé ». Vide = l'auteur de
+  /// l'invitation. Sans cela, il faudrait surveiller la page pour savoir
+  /// qu'un candidat a répondu.
+  notifyEmail      String?
 
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt

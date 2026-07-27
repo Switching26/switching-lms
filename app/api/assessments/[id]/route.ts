@@ -63,6 +63,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
   if (body.passingScore !== undefined) data.passingScore = body.passingScore != null ? Number(body.passingScore) : null
   if (body.timeLimitMinutes !== undefined) data.timeLimitMinutes = body.timeLimitMinutes != null ? Number(body.timeLimitMinutes) : null
   if (body.validityDays !== undefined) data.validityDays = Number(body.validityDays) || 30
+  if (body.notifyEmail !== undefined) data.notifyEmail = String(body.notifyEmail || "").trim() || null
 
   // Les questions sont remplacées en bloc : l'éditeur envoie l'état complet.
   // On refuse de le faire si des candidats ont déjà répondu, sinon leurs

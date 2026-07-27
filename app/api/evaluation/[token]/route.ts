@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
+import { sendEmail } from "@/lib/email"
+import { assessmentCompletedEmail } from "@/lib/email-templates"
+import { getBaseUrl } from "@/lib/get-base-url"
 import {
   gradeAnswers,
   getAssessmentForCandidate,
@@ -7,6 +10,8 @@ import {
   scorePercent,
   type SubmittedAnswer,
 } from "@/lib/assessments"
+
+const EMAIL_RE = /^[^@\s]+@[^@\s]+\.[^@\s]+$/
 
 /**
  * Passage d'une évaluation par un candidat NON connecté.
@@ -66,6 +71,9 @@ export async function GET(_req: NextRequest, { params }: { params: { token: stri
     state: "ready",
     candidateFirstName: inv.candidateFirstName,
     candidateLastName: inv.candidateLastName,
+    // Pré-remplissage du formulaire d'identité avec ce qui a été saisi à
+    // l'invitation ; le candidat peut corriger.
+    candidateEmail: inv.candidateEmail,
     expiresAt: inv.expiresAt,
     assessment,
   })
@@ -138,6 +146,48 @@ async function buildResult(
       answer: byQuestion.get(q.id) ?? null,
     })),
   }
+}
+
+/**
+ * Identification du candidat, avant d'accéder aux questions.
+ *
+ * L'invitation porte déjà un email (celui saisi à l'envoi), mais un lien peut
+ * être transféré : c'est la saisie du candidat qui fait foi pour savoir de
+ * quel prospect il s'agit. Enregistrée dès le départ — et pas à la
+ * soumission — pour identifier aussi ceux qui commencent sans terminer.
+ */
+export async function PATCH(req: NextRequest, { params }: { params: { token: string } }) {
+  const inv = await loadInvitation(params.token)
+  if (!inv || !inv.assessment.isPublished || inv.assessment.deletedAt) {
+    return NextResponse.json({ error: "Lien invalide ou expiré" }, { status: 404 })
+  }
+  if (invitationState(inv) !== "ready") {
+    return NextResponse.json({ error: "Évaluation déjà validée ou expirée" }, { status: 409 })
+  }
+
+  const body = await req.json().catch(() => ({}))
+  const firstName = String(body?.firstName || "").trim()
+  const lastName = String(body?.lastName || "").trim()
+  const email = String(body?.email || "").trim().toLowerCase()
+
+  if (!firstName || !lastName) {
+    return NextResponse.json({ error: "Nom et prénom requis" }, { status: 400 })
+  }
+  if (!EMAIL_RE.test(email)) {
+    return NextResponse.json({ error: "Adresse email invalide" }, { status: 400 })
+  }
+
+  await prisma.assessmentInvitation.update({
+    where: { id: inv.id },
+    data: {
+      candidateFirstName: firstName,
+      candidateLastName: lastName,
+      candidateEmail: email,
+      startedAt: inv.startedAt ?? new Date(),
+    },
+  })
+
+  return NextResponse.json({ success: true })
 }
 
 export async function POST(req: NextRequest, { params }: { params: { token: string } }) {
@@ -214,8 +264,59 @@ export async function POST(req: NextRequest, { params }: { params: { token: stri
     throw e
   }
 
+  // Notification interne : sans elle, il faudrait surveiller la page pour
+  // savoir qu'un candidat a répondu. Jamais bloquante pour le candidat, qui a
+  // déjà validé : son test ne doit pas échouer parce qu'un email n'est pas parti.
+  notifyCompletion(inv.id).catch(() => {})
+
   return NextResponse.json({
     state: "submitted",
     result: await buildResult(inv.id, inv.assessment),
   })
+}
+
+/** Prévient l'organisme qu'un candidat vient de terminer son évaluation. */
+async function notifyCompletion(invitationId: string) {
+  const inv = await prisma.assessmentInvitation.findUnique({
+    where: { id: invitationId },
+    include: {
+      assessment: { include: { partner: true } },
+    },
+  })
+  if (!inv) return
+
+  // Destinataire : l'adresse configurée sur l'évaluation, sinon l'auteur de
+  // l'invitation.
+  let to = inv.assessment.notifyEmail?.trim() || ""
+  let recipientUserId: string | null = null
+  if (!to && inv.createdById) {
+    const author = await prisma.user.findUnique({
+      where: { id: inv.createdById },
+      select: { id: true, email: true },
+    })
+    if (author) {
+      to = author.email
+      recipientUserId = author.id
+    }
+  } else if (to) {
+    // Journalise l'envoi si l'adresse correspond à un compte du LMS.
+    const known = await prisma.user.findUnique({ where: { email: to }, select: { id: true } })
+    recipientUserId = known?.id ?? null
+  }
+  if (!to) return
+
+  const percent = scorePercent(inv.score, inv.maxScore)
+  const scoreLine = inv.maxScore && inv.maxScore > 0
+    ? `${percent}% — ${inv.score} / ${inv.maxScore} points`
+    : null
+
+  const mail = assessmentCompletedEmail(
+    inv.assessment.title,
+    { firstName: inv.candidateFirstName, lastName: inv.candidateLastName, email: inv.candidateEmail },
+    scoreLine,
+    inv.needsManualReview,
+    `${getBaseUrl()}/super-admin/evaluations/${inv.assessmentId}`,
+    inv.assessment.partner
+  )
+  await sendEmail(to, mail.subject, mail.html, recipientUserId, "ASSESSMENT_COMPLETED", inv.assessment.partner)
 }

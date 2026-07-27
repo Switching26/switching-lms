@@ -64,7 +64,7 @@ function renderQuestion(q, index, { picked = [], scale = null, text = "" } = {})
 const q1 = allQ[0]
 const qGram = allQ.find((q) => q.level === "B1" && q.type === "QCM_SINGLE")
 const qRead = allQ.find((q) => q.helpText && q.helpText.startsWith("TEXTE 2"))
-const qProfil = allQ.find((q) => q.type === "QCM_MULTI")
+const qC2 = allQ.filter((q) => q.level === "C2" && q.type === "QCM_SINGLE").pop()
 
 const bands = A.levelBands
   .map(
@@ -225,7 +225,7 @@ const html = `<meta charset="utf-8">
   </div>
   <p class="lead">Répartition des ${maxScore} questions notées par niveau :
     ${Object.entries(byLevel).map(([l, n]) => `<b>${l}</b> ${n}`).join(" · ")}.
-    Les ${declarative.length} questions déclaratives (ressenti, projet) ne comptent pas dans la note.</p>
+    Les ${written.length} productions écrites sont corrigées à la main, hors score automatique.</p>
 
   <h2>1. Ce que voit le candidat</h2>
   <p class="sub">Reproduction fidèle du rendu réel, aux couleurs Switching.</p>
@@ -248,15 +248,15 @@ const html = `<meta charset="utf-8">
     <div class="phone"><p class="plab">2 · Questions</p><div class="app">
       <div class="bar"><b>Switching Formation</b></div>
       <div class="body">
-        ${renderQuestion(q1, 1, { scale: 3 })}
+        ${renderQuestion(q1, 1, { picked: [0] })}
         ${renderQuestion(qGram, 9, { picked: [0] })}
-        ${renderQuestion(qProfil, 47, { picked: [0, 2] })}
+        ${renderQuestion(qC2, 24, { picked: [1] })}
       </div></div></div>
 
     <div class="phone"><p class="plab">3 · Compréhension &amp; résultat</p><div class="app">
       <div class="bar"><b>Switching Formation</b></div>
       <div class="body">
-        ${renderQuestion(qRead, 45, { picked: [0] })}
+        ${renderQuestion(qRead, 39, { picked: [0] })}
         <div class="card res">
           <div class="tick">✓</div>
           <h4>Merci Marie !</h4>

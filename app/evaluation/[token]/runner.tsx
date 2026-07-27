@@ -1,6 +1,6 @@
 "use client"
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 
 type QuestionType = "QCM_SINGLE" | "QCM_MULTI" | "TEXTE" | "ECHELLE"
 
@@ -164,23 +164,27 @@ export default function AssessmentRunner({ token }: { token: string }) {
   }
 
   return (
-    <Shell accent={accent} partner={a.partner}>
+    <Shell
+      accent={accent}
+      partner={a.partner}
+      progress={{
+        label: a.type === "POSITIONNEMENT" ? "Test de positionnement" : "Évaluation",
+        title: a.title,
+        answered: questions.length - missing.length,
+        total: questions.length,
+        minutes: a.timeLimitMinutes,
+      }}
+    >
+      {/* Titre, avancement et durée vivent dans l'en-tête fixe : les répéter
+          ici ne ferait que pousser la première question plus bas. */}
       <div className="mb-8">
-        <p className="text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: accent }}>
-          {a.type === "POSITIONNEMENT" ? "Test de positionnement" : "Évaluation"}
-        </p>
-        <h1 className="font-display text-2xl sm:text-3xl font-semibold text-ink mb-3">{a.title}</h1>
         {data.candidateFirstName && (
-          <p className="text-ink-70 mb-3">
+          <p className="font-display text-xl font-semibold text-ink mb-3">
             Bonjour {data.candidateFirstName}{data.candidateLastName ? ` ${data.candidateLastName}` : ""}.
           </p>
         )}
         {a.description && <p className="text-ink-50 whitespace-pre-line">{a.description}</p>}
-        <p className="text-sm text-ink-50 mt-4">
-          {questions.length} question{questions.length > 1 ? "s" : ""}
-          {a.timeLimitMinutes ? ` · environ ${a.timeLimitMinutes} min` : ""}
-          {" · une seule validation possible"}
-        </p>
+        <p className="text-sm text-ink-50 mt-4">Une seule validation possible.</p>
       </div>
 
       <div className="space-y-5">
@@ -302,9 +306,7 @@ export default function AssessmentRunner({ token }: { token: string }) {
         Une fois validées, vos réponses ne pourront plus être modifiées.
       </p>
 
-      {/* Laisse passer la bannière fixée en bas sans masquer le texte. */}
-      <div aria-hidden className="h-24" />
-      <ProgressHud answered={questions.length - missing.length} total={questions.length} accent={accent} />
+      <div aria-hidden className="h-6" />
     </Shell>
   )
 }
@@ -565,102 +567,73 @@ function Message({ title, text }: { title: string; text: string }) {
   )
 }
 
-/**
- * Bannière de progression, collée en bas pendant tout le test.
- *
- * Elle compte les questions RÉPONDUES, pas la position dans la page : un
- * candidat qui en saute une doit voir qu'il lui en reste, même arrivé en bas.
- */
-function ProgressHud({ answered, total, accent }: { answered: number; total: number; accent: string }) {
-  const ratio = total > 0 ? answered / total : 0
-  const [pop, setPop] = useState(false)
-  const lastMilestone = useRef(0)
-
-  useEffect(() => {
-    const m = ratio >= 1 ? 4 : ratio >= 0.75 ? 3 : ratio >= 0.5 ? 2 : ratio >= 0.25 ? 1 : 0
-    if (m > lastMilestone.current) {
-      lastMilestone.current = m
-      setPop(true)
-      // Android uniquement : iOS Safari n'expose pas l'API de vibration.
-      try { navigator.vibrate?.(12) } catch {}
-      const t = setTimeout(() => setPop(false), 1400)
-      return () => clearTimeout(t)
-    }
-    lastMilestone.current = m
-  }, [ratio])
-
-  const left = total - answered
-  // Formulations non chiffrées : « la moitié » à côté d'un compteur qui affiche
-  // un autre ratio se contredirait à l'écran.
-  const message =
-    answered === 0
-      ? `${total} questions — commencez quand vous voulez.`
-      : answered >= total
-      ? "Tout est rempli — vous pouvez valider vos réponses."
-      : ratio >= 0.9
-      ? `Plus que ${left} question${left > 1 ? "s" : ""}.`
-      : ratio >= 0.75
-      ? "La fin approche."
-      : ratio >= 0.5
-      ? "Vous avez passé la moitié."
-      : ratio >= 0.25
-      ? "Bien parti, continuez."
-      : "C'est parti."
-
-  return (
-    <div
-      className="fixed left-0 right-0 bottom-0 z-40 border-t"
-      style={{
-        backgroundColor: "rgba(255,255,255,0.88)",
-        backdropFilter: "blur(14px)",
-        WebkitBackdropFilter: "blur(14px)",
-        borderColor: "rgba(17,24,39,0.07)",
-        paddingBottom: "calc(11px + env(safe-area-inset-bottom))",
-      }}
-    >
-      <div className="max-w-[720px] mx-auto px-5 pt-3">
-        <div className="flex items-center gap-3">
-          <div className="flex-1 h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: "rgba(17,24,39,0.09)" }}>
-            <div
-              className="h-full rounded-full"
-              style={{
-                width: `${ratio * 100}%`,
-                backgroundColor: accent,
-                transition: "width .45s cubic-bezier(.34,1.4,.5,1)",
-              }}
-            />
-          </div>
-          <p className="text-[13px] font-semibold text-ink tabular-nums whitespace-nowrap">
-            {answered}
-            <span className="font-normal text-ink-50"> / {total}</span>
-          </p>
-        </div>
-        <p
-          className="text-[11.5px] mt-1.5 min-h-[15px] transition-colors"
-          style={pop ? { color: accent, fontWeight: 600 } : { color: "rgba(17,24,39,0.52)" }}
-        >
-          {message}
-        </p>
-      </div>
-    </div>
-  )
-}
-
 function Shell({
-  children, accent, partner,
+  children, accent, partner, progress,
 }: {
   children: React.ReactNode
   accent: string
   partner?: { name: string; logoUrl: string | null } | null
+  /**
+   * Présent uniquement pendant le passage. Le candidat doit garder sous les
+   * yeux chez qui il est, ce qu'il fait, où il en est et combien de temps ça
+   * dure : sans cela il perd tous ses repères dès qu'il a scrollé.
+   */
+  progress?: { label: string; title: string; answered: number; total: number; minutes: number | null }
 }) {
+  const ratio = progress && progress.total > 0 ? progress.answered / progress.total : 0
   return (
     <div className="min-h-screen bg-surface-subtle">
-      <div className="border-b bg-white" style={{ borderColor: "rgba(17,24,39,0.06)" }}>
-        <div className="max-w-[720px] mx-auto px-5 py-4 flex items-center gap-3">
-          {partner?.logoUrl ? (
-            <img src={partner.logoUrl} alt={partner.name} className="max-h-[34px] max-w-[150px] object-contain" />
+      <div
+        className="sticky top-0 z-40 border-b"
+        style={{
+          backgroundColor: "rgba(255,255,255,0.93)",
+          backdropFilter: "blur(14px)",
+          WebkitBackdropFilter: "blur(14px)",
+          borderColor: "rgba(17,24,39,0.07)",
+        }}
+      >
+        <div className="max-w-[720px] mx-auto px-5">
+          <div className="flex items-center justify-between gap-3 pt-3">
+            {partner?.logoUrl ? (
+              <img src={partner.logoUrl} alt={partner.name} className="max-h-[28px] max-w-[140px] object-contain" />
+            ) : (
+              <span className="font-display font-semibold text-[15px]" style={{ color: accent }}>
+                {partner?.name || "Formation"}
+              </span>
+            )}
+            {progress?.minutes ? (
+              <span className="text-[11px] text-ink-50 whitespace-nowrap">≈ {progress.minutes} min</span>
+            ) : null}
+          </div>
+
+          {progress ? (
+            <div className="pt-1.5 pb-2.5">
+              <p className="text-[9.5px] font-bold uppercase tracking-[0.11em]" style={{ color: accent }}>
+                {progress.label}
+              </p>
+              <div className="flex items-baseline justify-between gap-3 mt-0.5">
+                <p className="text-[14px] font-semibold text-ink truncate">{progress.title}</p>
+                <p className="text-[13px] font-bold text-ink tabular-nums whitespace-nowrap">
+                  {progress.answered}
+                  <span className="font-normal text-ink-50"> / {progress.total}</span>
+                </p>
+              </div>
+              <div
+                className="h-[5px] rounded-full overflow-hidden mt-2"
+                style={{ backgroundColor: "rgba(17,24,39,0.09)" }}
+              >
+                <div
+                  className="h-full rounded-full"
+                  style={{
+                    width: `${ratio * 100}%`,
+                    backgroundColor: accent,
+                    transition: "width .45s cubic-bezier(.34,1.4,.5,1)",
+                  }}
+                />
+              </div>
+            </div>
           ) : (
-            <span className="font-display font-semibold" style={{ color: accent }}>{partner?.name || "Formation"}</span>
+            <div className="pb-3" />
           )}
         </div>
       </div>

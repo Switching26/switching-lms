@@ -82,6 +82,12 @@ const FR_TO_EN: Record<string, string> = {
 
   // ── Conditionnelles
   SI: "IF",
+  // Excel français écrit SIERREUR sans point (contrairement à SI.CONDITIONS et
+  // SI.NON.DISP, qui en ont). C'est le nom que l'apprenant retrouvera dans un
+  // vrai Excel, donc le seul à enseigner ; « SI.ERREUR » reste toléré parce
+  // qu'un contenu ancien l'utilisait et qu'il ne faut jamais recaler quelqu'un
+  // qui a compris la fonction.
+  SIERREUR: "IFERROR",
   "SI.ERREUR": "IFERROR",
   "SI.NON.DISP": "IFNA",
   "SI.CONDITIONS": "IFS",

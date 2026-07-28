@@ -101,10 +101,21 @@ roundTrip(
   "=VLOOKUP(A2,Tarifs!$A$2:$C$50,3,FALSE)",
 )
 roundTrip(
-  "SI.ERREUR + RECHERCHEV",
-  '=SI.ERREUR(RECHERCHEV(A2;B:C;2;FAUX);"introuvable")',
+  "SIERREUR + RECHERCHEV",
+  '=SIERREUR(RECHERCHEV(A2;B:C;2;FAUX);"introuvable")',
   '=IFERROR(VLOOKUP(A2,B:C,2,FALSE),"introuvable")',
 )
+// Excel français écrit SIERREUR sans point : c'est le nom canonique, celui que
+// l'affichage inverse doit produire. L'ancienne orthographe « SI.ERREUR »,
+// utilisée par un contenu antérieur, doit rester ACCEPTÉE en saisie — on ne
+// recale pas quelqu'un qui a compris la fonction — sans pour autant être ce que
+// l'apprenant lit.
+eq(
+  "SI.ERREUR toléré en saisie",
+  frToEngine('=SI.ERREUR(1/0;"souci")'),
+  '=IFERROR(1/0,"souci")',
+)
+eq("SIERREUR est le nom affiché", engineToFr("=IFERROR(1,2)"), "=SIERREUR(1;2)")
 roundTrip("plages disjointes", "=SOMME(A1:A5;C1:C5)", "=SUM(A1:A5,C1:C5)")
 roundTrip("constantes logiques", "=SI(VRAI;1;0)", "=IF(TRUE,1,0)")
 
@@ -140,14 +151,29 @@ if (names.length < 100) failures.push(`Table trop courte : ${names.length} fonct
 else pass++
 
 // Aucun doublon d'équivalent anglais qui masquerait une fonction française.
-const seen = new Map<string, string>()
-let collisions = 0
+// Plusieurs orthographes françaises peuvent viser la même fonction anglaise —
+// « SIERREUR » est le nom d'Excel, « SI.ERREUR » un alias hérité qu'on continue
+// d'accepter en saisie. L'invariant n'est donc PAS qu'un seul nom existe, mais
+// que le nom RÉAFFICHÉ soit l'une des orthographes valides de cette fonction :
+// sinon l'apprenant lirait un nom que le moteur refuserait.
+// (La version précédente comparait au premier nom dans l'ordre ALPHABÉTIQUE,
+// alors que `invert` retient le premier dans l'ordre de la TABLE : elle signalait
+// une collision là où il n'y en avait pas.)
+// Objet simple plutôt qu'une Map : ces scripts sont exclus du tsconfig du projet
+// et compilés à la volée, où l'itération d'une Map exige `downlevelIteration`.
+const orthographes: Record<string, string[]> = {}
 for (const fr of names) {
   const en = englishNameOf(fr)!
-  if (seen.has(en) && engineToFr(`=${en}()`) !== `=${seen.get(en)}()`) collisions++
-  if (!seen.has(en)) seen.set(en, fr)
+  orthographes[en] = [...(orthographes[en] ?? []), fr]
 }
-if (collisions > 0) failures.push(`${collisions} collision(s) d'affichage inverse`)
+const collisions: string[] = []
+for (const [en, frs] of Object.entries(orthographes)) {
+  const affiche = engineToFr(`=${en}()`)
+  if (!frs.some((fr) => affiche === `=${fr}()`)) {
+    collisions.push(`${en} → affiché « ${affiche} », hors des orthographes connues (${frs.join(", ")})`)
+  }
+}
+if (collisions.length > 0) failures.push(`collision(s) d'affichage inverse :\n      ` + collisions.join("\n      "))
 else pass++
 
 /* ── Rapport ──────────────────────────────────────────────────────────────── */

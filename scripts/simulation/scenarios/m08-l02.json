@@ -1,0 +1,236 @@
+{
+  "schemaVersion": 1,
+  "title": "Alignement et fusion de cellules",
+  "mode": "LESSON",
+  "moduleTitle": "Mise en forme",
+  "intro": {
+    "title": "PLACER LE CONTENU DANS LA CELLULE",
+    "body": "Excel aligne le texte à gauche et les nombres à droite. Ce n'est pas un caprice : c'est une information, et savoir la lire évite bien des erreurs."
+  },
+  "outro": {
+    "body": "Vous savez aligner, centrer un titre sur plusieurs colonnes et faire tenir un texte long."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Budget",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 150
+        },
+        "cells": {
+          "A1": {
+            "v": "BUDGET PRÉVISIONNEL 2026",
+            "format": {
+              "bold": true
+            }
+          },
+          "A3": {
+            "v": "Poste"
+          },
+          "B3": {
+            "v": "Prévu"
+          },
+          "C3": {
+            "v": "Réalisé"
+          },
+          "D3": {
+            "v": "Écart"
+          },
+          "A4": {
+            "v": "Loyer et charges"
+          },
+          "B4": {
+            "v": 24000
+          },
+          "C4": {
+            "v": 24600
+          },
+          "A5": {
+            "v": "Salaires"
+          },
+          "B5": {
+            "v": 86000
+          },
+          "C5": {
+            "v": 84200
+          },
+          "A6": {
+            "v": "Matériel"
+          },
+          "B6": {
+            "v": 12500
+          },
+          "C6": {
+            "v": 15300
+          },
+          "A7": {
+            "v": "Communication"
+          },
+          "B7": {
+            "v": 8000
+          },
+          "C7": {
+            "v": 6400
+          },
+          "A8": {
+            "v": "Déplacements"
+          },
+          "B8": {
+            "v": 5500
+          },
+          "C8": {
+            "v": 7100
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M08-L02-01",
+      "consigne": "Regardez le tableau : les postes sont collés à gauche, les montants à droite. **Excel aligne le texte à gauche et les nombres à droite, tout seul.** Retenez le corollaire, c'est le signal d'alerte le plus utile d'Excel : un nombre qui apparaît **à gauche** n'est pas un nombre, c'est du texte — et il ne se calculera pas.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M08-L02-02",
+      "consigne": "Les en-têtes gagnent à être centrés. ==Centrez **A3:D3**== avec le bouton **Centre**.",
+      "setup": {
+        "selection": "A3:D3"
+      },
+      "action": {
+        "type": "EXPECT_FORMAT",
+        "cells": {
+          "A3": {
+            "hAlign": "center"
+          },
+          "C3": {
+            "hAlign": "center"
+          }
+        }
+      },
+      "aide": {
+        "text": "Le bouton Centre du groupe Alignement.",
+        "showTarget": true
+      },
+      "feedback": "Les titres sont centrés au-dessus de leurs colonnes."
+    },
+    {
+      "id": "M08-L02-03",
+      "consigne": "Faisons maintenant l'erreur exprès pour la voir. ==Centrez la colonne des montants prévus, **B4:B8**==.",
+      "setup": {
+        "selection": "B4:B8"
+      },
+      "action": {
+        "type": "EXPECT_FORMAT",
+        "cells": {
+          "B4": {
+            "hAlign": "center"
+          },
+          "B8": {
+            "hAlign": "center"
+          }
+        }
+      },
+      "aide": {
+        "text": "Même bouton Centre, sur la colonne des montants.",
+        "showTarget": true
+      },
+      "feedback": "Regardez la colonne : 24 000, 86 000, 12 500, 8 000, 5 500 ne sont plus alignés sur leurs unités. L'œil ne peut plus comparer les ordres de grandeur."
+    },
+    {
+      "id": "M08-L02-04",
+      "consigne": "==Remettez ces montants à droite== avec le bouton **Droite**.",
+      "setup": {
+        "selection": "B4:B8"
+      },
+      "action": {
+        "type": "EXPECT_FORMAT",
+        "cells": {
+          "B4": {
+            "hAlign": "right"
+          },
+          "B8": {
+            "hAlign": "right"
+          }
+        }
+      },
+      "aide": {
+        "text": "Le bouton Droite du groupe Alignement.",
+        "showTarget": true
+      },
+      "feedback": "Les unités, dizaines et milliers se réalignent. **Ne centrez jamais une colonne de nombres** : c'est la faute de présentation la plus fréquente, et la plus coûteuse en lisibilité."
+    },
+    {
+      "id": "M08-L02-05",
+      "consigne": "Le titre est perdu tout à gauche. ==Sélectionnez **A1:D1** puis cliquez sur **Fusionner**==.",
+      "setup": {
+        "selection": "A1:D1"
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "acc-fusionner"
+      },
+      "aide": {
+        "text": "Le bouton Fusionner réunit les cellules sélectionnées en une seule.",
+        "showTarget": true
+      },
+      "feedback": "Les quatre cellules n'en font plus qu'une. Mise en garde qui vous épargnera des heures : **les cellules fusionnées gênent tout le reste** — elles empêchent de trier, cassent les filtres et perturbent les tableaux croisés. Réservez-les aux titres, jamais à l'intérieur d'un tableau de données."
+    },
+    {
+      "id": "M08-L02-06",
+      "consigne": "==Centrez ce titre fusionné==.",
+      "setup": {
+        "selection": "A1"
+      },
+      "action": {
+        "type": "EXPECT_FORMAT",
+        "cells": {
+          "A1": {
+            "hAlign": "center"
+          }
+        }
+      },
+      "aide": {
+        "text": "Même bouton Centre que pour les en-têtes.",
+        "showTarget": true
+      },
+      "feedback": "Un titre centré sur la largeur du tableau : la présentation attendue d'un document professionnel. Pour obtenir le même effet **sans fusionner**, Excel propose « Centrer sur plusieurs colonnes » dans la boîte Format de cellule — mêmes avantages, aucun inconvénient."
+    },
+    {
+      "id": "M08-L02-07",
+      "consigne": "Dernier outil : un libellé trop long pour sa colonne. ==Sélectionnez **A4** et cliquez sur **Renvoyer**==.",
+      "setup": {
+        "selection": "A4"
+      },
+      "action": {
+        "type": "EXPECT_FORMAT",
+        "cells": {
+          "A4": {
+            "wrap": true
+          }
+        }
+      },
+      "aide": {
+        "text": "Le bouton Renvoyer fait passer le texte à la ligne dans la cellule.",
+        "showTarget": true
+      },
+      "feedback": "Le texte tient sur deux lignes dans la même cellule, sans élargir la colonne. C'est la bonne réponse à un en-tête long."
+    }
+  ]
+}

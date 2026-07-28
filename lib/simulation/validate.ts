@@ -49,6 +49,13 @@ export type ObservedAction =
   | { kind: "gotoRef"; ref: string }
   | { kind: "defineName"; name: string; ref: string }
   | { kind: "sort"; range: string; column: string; ascending: boolean }
+  | {
+      kind: "formatChange"
+      readings: Record<
+        string,
+        { background: string; fontSize: number | null; hAlign: string; vAlign: string; wrap: boolean | null }
+      >
+    }
   | { kind: "filter"; column: string; values: string[] }
   /**
    * Le classeur a changé. `readings` porte la lecture des cellules attendues par
@@ -292,6 +299,38 @@ export function validateStep(
         observed.name.trim().toLocaleUpperCase("fr-FR") === expected.name.trim().toLocaleUpperCase("fr-FR")
         ? OK
         : { ok: false, reason: "wrong_sheet", message: "Ce n'est pas la bonne feuille." }
+    }
+
+    case "EXPECT_FORMAT": {
+      if (observed.kind !== "formatChange") return { ok: false, reason: "no_format_reading", message: "" }
+      // Univer renvoie l'alignement en nombre (1 gauche, 2 centre, 3 droite) ;
+      // le scénario, lui, est écrit en mots lisibles.
+      const H: Record<string, string[]> = { left: ["1", "left"], center: ["2", "center"], right: ["3", "right"] }
+      const V: Record<string, string[]> = { top: ["1", "top"], middle: ["2", "middle"], bottom: ["3", "bottom"] }
+      for (const [ref, attendu] of Object.entries(expected.cells)) {
+        const lu = observed.readings[ref]
+        if (!lu) return { ok: false, reason: "cell_not_read", message: "" }
+        if (attendu.background !== undefined) {
+          const a = attendu.background.trim().toLowerCase()
+          const b = lu.background.trim().toLowerCase()
+          if (a !== b) {
+            return { ok: false, reason: "wrong_background", message: `La couleur de remplissage de ${ref} n'est pas celle attendue.` }
+          }
+        }
+        if (attendu.fontSize !== undefined && Number(lu.fontSize) !== attendu.fontSize) {
+          return { ok: false, reason: "wrong_font_size", message: `La taille de police de ${ref} n'est pas celle attendue.` }
+        }
+        if (attendu.hAlign !== undefined && !H[attendu.hAlign].includes(String(lu.hAlign).toLowerCase())) {
+          return { ok: false, reason: "wrong_h_align", message: `L'alignement horizontal de ${ref} n'est pas celui attendu.` }
+        }
+        if (attendu.vAlign !== undefined && !V[attendu.vAlign].includes(String(lu.vAlign).toLowerCase())) {
+          return { ok: false, reason: "wrong_v_align", message: `L'alignement vertical de ${ref} n'est pas celui attendu.` }
+        }
+        if (attendu.wrap !== undefined && Boolean(lu.wrap) !== attendu.wrap) {
+          return { ok: false, reason: "wrong_wrap", message: `Le renvoi à la ligne de ${ref} n'est pas celui attendu.` }
+        }
+      }
+      return OK
     }
 
     case "SORT_RANGE": {

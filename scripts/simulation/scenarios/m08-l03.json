@@ -1,0 +1,235 @@
+{
+  "schemaVersion": 1,
+  "title": "Bordures et lisibilité du tableau",
+  "mode": "LESSON",
+  "moduleTitle": "Mise en forme",
+  "intro": {
+    "title": "LE QUADRILLAGE NE S'IMPRIME PAS",
+    "body": "Les lignes grises que vous voyez à l'écran ne sortent pas à l'impression. Pour qu'un tableau reste un tableau sur papier, il faut de vraies bordures."
+  },
+  "outro": {
+    "body": "Vous savez encadrer un tableau et faire ressortir sa ligne de total."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Budget",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 150
+        },
+        "cells": {
+          "A1": {
+            "v": "BUDGET PRÉVISIONNEL 2026",
+            "format": {
+              "bold": true
+            }
+          },
+          "A3": {
+            "v": "Poste",
+            "format": {
+              "bold": true
+            }
+          },
+          "B3": {
+            "v": "Prévu",
+            "format": {
+              "bold": true
+            }
+          },
+          "C3": {
+            "v": "Réalisé",
+            "format": {
+              "bold": true
+            }
+          },
+          "D3": {
+            "v": "Écart",
+            "format": {
+              "bold": true
+            }
+          },
+          "A4": {
+            "v": "Loyer et charges"
+          },
+          "B4": {
+            "v": 24000
+          },
+          "C4": {
+            "v": 24600
+          },
+          "A5": {
+            "v": "Salaires"
+          },
+          "B5": {
+            "v": 86000
+          },
+          "C5": {
+            "v": 84200
+          },
+          "A6": {
+            "v": "Matériel"
+          },
+          "B6": {
+            "v": 12500
+          },
+          "C6": {
+            "v": 15300
+          },
+          "A7": {
+            "v": "Communication"
+          },
+          "B7": {
+            "v": 8000
+          },
+          "C7": {
+            "v": 6400
+          },
+          "A8": {
+            "v": "Déplacements"
+          },
+          "B8": {
+            "v": 5500
+          },
+          "C8": {
+            "v": 7100
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M08-L03-01",
+      "consigne": "Complétons d'abord le tableau. ==En **D4**, calculez l'écart== entre le réalisé et le prévu.",
+      "setup": {
+        "selection": "D4"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "D4",
+        "accept": [
+          "=C4-B4"
+        ],
+        "formulaMode": true
+      },
+      "feedback": "600 € de dépassement sur le loyer."
+    },
+    {
+      "id": "M08-L03-02",
+      "consigne": "==Recopiez la formule jusqu'en **D8**==.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "D5": {
+            "anyOf": [
+              "=C5-B5"
+            ],
+            "v": -1800
+          },
+          "D6": {
+            "anyOf": [
+              "=C6-B6"
+            ],
+            "v": 2800
+          },
+          "D8": {
+            "anyOf": [
+              "=C8-B8"
+            ],
+            "v": 1600
+          }
+        }
+      },
+      "aide": {
+        "text": "Poignée de recopie de D4 vers le bas, jusqu'à D8."
+      },
+      "feedback": "Les écarts négatifs sont des économies, les positifs des dépassements."
+    },
+    {
+      "id": "M08-L03-03",
+      "consigne": "==Ajoutez la ligne de total en **B10**, **C10** et **D10**==, avec le libellé « TOTAL » en A10.",
+      "setup": {
+        "selection": "B10",
+        "cells": {
+          "A10": {
+            "v": "TOTAL",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "B10": {
+            "v": 136000
+          },
+          "C10": {
+            "v": 137600
+          },
+          "D10": {
+            "v": 1600
+          }
+        }
+      },
+      "aide": {
+        "text": "Une somme par colonne, de la ligne 4 à la ligne 8."
+      },
+      "feedback": "136 000 € prévus, 137 600 € réalisés, 1 600 € de dépassement global."
+    },
+    {
+      "id": "M08-L03-04",
+      "consigne": "==Encadrez tout le tableau : sélectionnez **A3:D10** et cliquez sur **Bordures**==.",
+      "setup": {
+        "selection": "A3:D10"
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "acc-bordures"
+      },
+      "aide": {
+        "text": "Le bouton Bordures applique un quadrillage à toute la sélection.",
+        "showTarget": true
+      },
+      "feedback": "Le tableau a maintenant de vraies lignes, qui sortiront à l'impression."
+    },
+    {
+      "id": "M08-L03-05",
+      "consigne": "==Faites ressortir la ligne de total : mettez **A10:D10** en gras==.",
+      "setup": {
+        "selection": "A10:D10"
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "acc-gras"
+      },
+      "aide": {
+        "text": "Le bouton G, sur la ligne de total.",
+        "showTarget": true
+      },
+      "feedback": "Le total se lit immédiatement. Un tableau bien présenté se parcourt sans effort : titre, en-têtes colorés, corps encadré, total en gras."
+    },
+    {
+      "id": "M08-L03-06",
+      "consigne": "Le bon ordre de travail : **d'abord les calculs, ensuite la présentation**. Mettre en forme un tableau avant d'avoir fini ses formules revient presque toujours à tout refaire, parce que l'ajout d'une ligne décale les bordures et les couleurs.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    }
+  ]
+}

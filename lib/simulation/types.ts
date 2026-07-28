@@ -182,6 +182,24 @@ export type SimulationAction =
   | { type: "SELECT_SHEET"; name: string }
   /** Atteindre une cellule en saisissant sa référence dans la zone Nom. */
   | { type: "GOTO_REF"; ref: string }
+  /**
+   * Valide la MISE EN FORME obtenue, sans imposer le chemin — pendant de
+   * `EXPECT_STATE` pour tout ce qui est visuel. Univer n'expose pas de getter
+   * pour le gras ni l'italique : ceux-là se valident par le clic de ruban.
+   */
+  | {
+      type: "EXPECT_FORMAT"
+      cells: Record<
+        CellRef,
+        {
+          background?: string
+          fontSize?: number
+          hAlign?: "left" | "center" | "right"
+          vAlign?: "top" | "middle" | "bottom"
+          wrap?: boolean
+        }
+      >
+    }
   /** Trier une plage sur une de ses colonnes, par le ruban Données. */
   | { type: "SORT_RANGE"; range: string; column: string; ascending: boolean }
   /**

@@ -1,0 +1,347 @@
+{
+  "schemaVersion": 1,
+  "title": "Consolider plusieurs feuilles identiques",
+  "mode": "LESSON",
+  "moduleTitle": "Consolidation des données",
+  "intro": {
+    "title": "TROIS FEUILLES, UNE SYNTHÈSE",
+    "body": "Quand plusieurs feuilles ont la même structure — une par agence, une par mois, une par filiale — on peut les additionner cellule par cellule. C'est la consolidation, et elle repose sur une seule condition : que les feuilles soient réellement identiques."
+  },
+  "outro": {
+    "body": "Vous savez consolider des feuilles de même structure et vérifier que le total tombe juste."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ],
+    "sheetCount": 4
+  },
+  "workbook": {
+    "fileName": "Consolidation",
+    "activeSheetIndex": 3,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Lyon",
+        "columnWidths": {
+          "A": 110
+        },
+        "cells": {
+          "A1": {
+            "v": "Produit",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Quantité",
+            "format": {
+              "bold": true
+            }
+          },
+          "C1": {
+            "v": "Montant",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Licence"
+          },
+          "B2": {
+            "v": 12
+          },
+          "C2": {
+            "v": 14400
+          },
+          "A3": {
+            "v": "Formation"
+          },
+          "B3": {
+            "v": 5
+          },
+          "C3": {
+            "v": 7500
+          },
+          "A4": {
+            "v": "Support"
+          },
+          "B4": {
+            "v": 8
+          },
+          "C4": {
+            "v": 4800
+          }
+        }
+      },
+      {
+        "name": "Nantes",
+        "columnWidths": {
+          "A": 110
+        },
+        "cells": {
+          "A1": {
+            "v": "Produit",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Quantité",
+            "format": {
+              "bold": true
+            }
+          },
+          "C1": {
+            "v": "Montant",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Licence"
+          },
+          "B2": {
+            "v": 7
+          },
+          "C2": {
+            "v": 8400
+          },
+          "A3": {
+            "v": "Formation"
+          },
+          "B3": {
+            "v": 9
+          },
+          "C3": {
+            "v": 13500
+          },
+          "A4": {
+            "v": "Support"
+          },
+          "B4": {
+            "v": 4
+          },
+          "C4": {
+            "v": 2400
+          }
+        }
+      },
+      {
+        "name": "Strasbourg",
+        "columnWidths": {
+          "A": 110
+        },
+        "cells": {
+          "A1": {
+            "v": "Produit",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Quantité",
+            "format": {
+              "bold": true
+            }
+          },
+          "C1": {
+            "v": "Montant",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Licence"
+          },
+          "B2": {
+            "v": 15
+          },
+          "C2": {
+            "v": 18000
+          },
+          "A3": {
+            "v": "Formation"
+          },
+          "B3": {
+            "v": 3
+          },
+          "C3": {
+            "v": 4500
+          },
+          "A4": {
+            "v": "Support"
+          },
+          "B4": {
+            "v": 6
+          },
+          "C4": {
+            "v": 3600
+          }
+        }
+      },
+      {
+        "name": "Total",
+        "columnWidths": {
+          "A": 110
+        },
+        "cells": {
+          "A1": {
+            "v": "Produit",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Quantité",
+            "format": {
+              "bold": true
+            }
+          },
+          "C1": {
+            "v": "Montant",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Licence"
+          },
+          "A3": {
+            "v": "Formation"
+          },
+          "A4": {
+            "v": "Support"
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M22-L01-01",
+      "consigne": "Quatre onglets : trois agences bâties **exactement pareil**, et une feuille **Total** à remplir. ==Ouvrez l'onglet **Lyon**== pour vérifier la structure.",
+      "action": {
+        "type": "SELECT_SHEET",
+        "name": "Lyon"
+      },
+      "aide": {
+        "text": "Le premier onglet en bas de la fenêtre.",
+        "showTarget": true
+      },
+      "feedback": "Produit, Quantité, Montant — et Licence en ligne 2. Les trois agences suivent ce même plan : c'est ce qui rend la consolidation possible."
+    },
+    {
+      "id": "M22-L01-02",
+      "consigne": "==Revenez sur l'onglet **Total**==.",
+      "action": {
+        "type": "SELECT_SHEET",
+        "name": "Total"
+      },
+      "aide": {
+        "text": "Le dernier onglet.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M22-L01-03",
+      "consigne": "En **B2**, ==additionnez les quantités de Licence des trois agences== : `=Lyon!B2+Nantes!B2+Strasbourg!B2`.",
+      "setup": {
+        "selection": "B2"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B2",
+        "accept": [
+          "=Lyon!B2+Nantes!B2+Strasbourg!B2",
+          "=SOMME(Lyon!B2;Nantes!B2;Strasbourg!B2)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Le nom de la feuille, un point d'exclamation, la cellule — et on additionne les trois.",
+        "showTarget": true
+      },
+      "feedback": "34 licences au total. Comme les trois feuilles ont la même structure, **la même cellule B2 désigne la même chose partout**."
+    },
+    {
+      "id": "M22-L01-04",
+      "consigne": "En **C2**, ==faites de même pour le montant==.",
+      "setup": {
+        "selection": "C2"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "C2",
+        "accept": [
+          "=Lyon!C2+Nantes!C2+Strasbourg!C2",
+          "=SOMME(Lyon!C2;Nantes!C2;Strasbourg!C2)"
+        ],
+        "formulaMode": true
+      },
+      "feedback": "40 800 € de licences."
+    },
+    {
+      "id": "M22-L01-05",
+      "consigne": "==Recopiez **B2:C2** vers le bas jusqu'à la ligne 4== pour consolider les deux autres produits.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "B3": {
+            "v": 17
+          },
+          "C3": {
+            "v": 25500
+          },
+          "B4": {
+            "v": 18
+          },
+          "C4": {
+            "v": 10800
+          }
+        }
+      },
+      "aide": {
+        "text": "Sélectionnez B2:C2 et tirez la poignée de recopie jusqu'à la ligne 4."
+      },
+      "feedback": "Les trois produits sont consolidés. La recopie a fait descendre les références **dans les trois feuilles à la fois**."
+    },
+    {
+      "id": "M22-L01-06",
+      "consigne": "Le contrôle indispensable. ==En **C6**, totalisez la colonne des montants consolidés==.",
+      "setup": {
+        "selection": "C6",
+        "cells": {
+          "A6": {
+            "v": "TOTAL GÉNÉRAL",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "C6",
+        "accept": [
+          "=SOMME(C2:C4)"
+        ],
+        "formulaMode": true
+      },
+      "feedback": "77 100 €. Comparez toujours ce total à la somme des trois agences prises séparément : s'ils diffèrent, une ligne a été oubliée ou une feuille n'a pas la même structure."
+    },
+    {
+      "id": "M22-L01-07",
+      "consigne": "La faiblesse de cette méthode : elle suppose que **rien ne bougera**. Le jour où une agence insère une ligne produit, ses cellules se décalent et votre consolidation devient fausse **sans afficher la moindre erreur**. C'est pourquoi on lui préfère souvent une consolidation par étiquette, que nous voyons dans la leçon suivante.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    }
+  ]
+}

@@ -194,6 +194,20 @@ export default function SimulationChrome({
             </Group>
             <Group title="Police">
               <Btn id="acc-gras" label="G" />
+              <Btn id="acc-italique" label="I" />
+              <Btn id="acc-souligne" label="S" />
+              <Btn id="acc-taille-plus" label="A+" />
+              <Btn id="acc-taille-moins" label="A−" />
+              <Btn id="acc-couleur-police" label="Couleur" />
+              <Btn id="acc-remplissage" label="Remplir" />
+              <Btn id="acc-bordures" label="Bordures" />
+            </Group>
+            <Group title="Alignement">
+              <Btn id="acc-aligner-gauche" label="Gauche" />
+              <Btn id="acc-aligner-centre" label="Centre" />
+              <Btn id="acc-aligner-droite" label="Droite" />
+              <Btn id="acc-fusionner" label="Fusionner" />
+              <Btn id="acc-renvoyer-ligne" label="Renvoyer" />
             </Group>
             <Group title="Nombre">
               <Btn id="acc-format-nombre" label="Format" />

@@ -51,6 +51,36 @@ export type GridApi = {
   setNumberFormat: (refs: string[], pattern: string) => void
   /** Motif de format de nombre d'une cellule, chaîne vide si Standard. */
   getNumberFormat: (ref: string) => string
+  /** Mise en forme de la sélection : gras, italique, souligné. */
+  setItalic: (on: boolean) => void
+  setUnderline: (on: boolean) => void
+  /** Taille de police en points, appliquée à la sélection. */
+  setFontSize: (size: number) => void
+  /** Couleur du texte et couleur de remplissage, en hexadécimal. */
+  setFontColor: (color: string) => void
+  setBackground: (color: string) => void
+  /** Alignement horizontal et vertical de la sélection. */
+  setAlign: (align: "left" | "center" | "right") => void
+  setVerticalAlign: (align: "top" | "middle" | "bottom") => void
+  /** Renvoi à la ligne automatique. */
+  setWrap: (on: boolean) => void
+  /** Fusionner ou dissocier la sélection. */
+  mergeCells: () => void
+  unmergeCells: () => void
+  /** Bordures sur tout le pourtour et l'intérieur de la sélection. */
+  setBorderAll: (on: boolean) => void
+  /**
+   * Mise en forme relue d'une cellule, pour valider l'état plutôt que le geste.
+   * Univer n'expose pas de getter pour le gras ni l'italique : ces deux-là se
+   * valident par le clic de ruban.
+   */
+  getFormat: (ref: string) => {
+    background: string
+    fontSize: number | null
+    hAlign: string
+    vAlign: string
+    wrap: boolean | null
+  }
   /**
    * Trie une plage sur une de ses colonnes. `column` est un indice RELATIF au
    * premier champ de la plage — vérifié au banc, ce n'est pas un indice absolu
@@ -239,23 +269,38 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
         }
       }
 
+      // Toute la mise en forme s'applique à la sélection courante, comme dans Excel :
+
+      // un seul point d'accès évite de répéter la résolution de plage partout.
+
+      const selectedRange = () => {
+
+        const ref = api.getSelection()
+
+        return ref ? (sheet()?.getRange(ref) ?? null) : null
+
+      }
+
+
       const api: GridApi = {
         applyWorkbook: (wb) => {
           const sh = sheet()
           if (!sh) return
-          const first = wb.sheets[wb.activeSheetIndex ?? 0]
+          const indexActif = wb.activeSheetIndex ?? 0
+          const first = wb.sheets[indexActif]
           if (!first) return
-          // Univer nomme sa feuille par défaut « Sheet1 » : on impose le nom du
-          // scénario, sans quoi l'apprenant voit de l'anglais dans un Excel
-          // français.
+          // L'ordre des onglets doit suivre celui du scénario, sinon une consigne
+          // qui dit « le dernier onglet » désigne la mauvaise feuille. On renomme
+          // donc la feuille par défaut d'Univer (« Sheet1 », de l'anglais dans un
+          // Excel français) avec le nom de la PREMIÈRE feuille déclarée, puis on
+          // insère les suivantes dans l'ordre.
+          const premiere = wb.sheets[0]
           try {
-            if (first.name && sh.getSheetName?.() !== first.name) sh.setName?.(first.name)
+            if (premiere?.name && sh.getSheetName?.() !== premiere.name) sh.setName?.(premiere.name)
           } catch {
             /* sans conséquence sur le contenu */
           }
-          // Feuilles supplémentaires déclarées par le scénario.
-          for (let i = 0; i < wb.sheets.length; i++) {
-            if (i === (wb.activeSheetIndex ?? 0)) continue
+          for (let i = 1; i < wb.sheets.length; i++) {
             const autre = wb.sheets[i]
             try {
               const existante = univerAPI.getActiveWorkbook()?.getSheetByName?.(autre.name)
@@ -273,7 +318,24 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
               /* une feuille en trop ne doit pas empêcher la leçon de démarrer */
             }
           }
-          // On revient sur la feuille active déclarée, puis on pose les données.
+          // La première feuille a été renommée, pas insérée : ses données n'ont
+          // pas été posées dans la boucle ci-dessus.
+          if (premiere?.cells) {
+            try {
+              const cible = univerAPI.getActiveWorkbook()?.getSheetByName?.(premiere.name)
+              if (cible) {
+                for (const [ref, st] of Object.entries(premiere.cells)) {
+                  const rg = cible.getRange?.(ref)
+                  if (!rg) continue
+                  if (st.f !== undefined) rg.setValue?.({ f: frToEngine(st.f) })
+                  else if (st.v !== undefined) rg.setValue?.(st.v)
+                }
+              }
+            } catch {
+              /* la feuille active reçoit de toute façon applyCells ci-dessous */
+            }
+          }
+          // On termine sur la feuille active déclarée par le scénario.
           try {
             const active = univerAPI.getActiveWorkbook()?.getSheetByName?.(first.name)
             if (active) univerAPI.getActiveWorkbook()?.setActiveSheet?.(active)
@@ -369,6 +431,112 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
             return f?.getFilteredOutRows?.() ?? []
           } catch {
             return []
+          }
+        },
+        setItalic: (on) => {
+          try {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            ;(selectedRange() as any)?.setFontStyle?.(on ? "italic" : "normal")
+          } catch {
+            /* sans conséquence */
+          }
+        },
+        setUnderline: (on) => {
+          try {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            ;(selectedRange() as any)?.setFontLine?.(on ? "underline" : "none")
+          } catch {
+            /* sans conséquence */
+          }
+        },
+        setFontSize: (size) => {
+          try {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            ;(selectedRange() as any)?.setFontSize?.(size)
+          } catch {
+            /* sans conséquence */
+          }
+        },
+        setFontColor: (color) => {
+          try {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            ;(selectedRange() as any)?.setFontColor?.(color)
+          } catch {
+            /* sans conséquence */
+          }
+        },
+        setBackground: (color) => {
+          try {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            ;(selectedRange() as any)?.setBackground?.(color)
+          } catch {
+            /* sans conséquence */
+          }
+        },
+        setAlign: (align) => {
+          try {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            ;(selectedRange() as any)?.setHorizontalAlignment?.(align)
+          } catch {
+            /* sans conséquence */
+          }
+        },
+        setVerticalAlign: (align) => {
+          try {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            ;(selectedRange() as any)?.setVerticalAlignment?.(align)
+          } catch {
+            /* sans conséquence */
+          }
+        },
+        setWrap: (on) => {
+          try {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            ;(selectedRange() as any)?.setWrap?.(on)
+          } catch {
+            /* sans conséquence */
+          }
+        },
+        mergeCells: () => {
+          try {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            ;(selectedRange() as any)?.merge?.()
+          } catch {
+            /* sans conséquence */
+          }
+        },
+        unmergeCells: () => {
+          try {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            ;(selectedRange() as any)?.breakApart?.()
+          } catch {
+            /* sans conséquence */
+          }
+        },
+        setBorderAll: (on) => {
+          try {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const rg = selectedRange() as any
+            rg?.setBorder?.(on ? "all" : "none", on ? "thin" : "none", "#000000")
+          } catch {
+            /* sans conséquence */
+          }
+        },
+        getFormat: (ref) => {
+          const vide = { background: "", fontSize: null, hAlign: "", vAlign: "", wrap: null }
+          try {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const rg = sheet()?.getRange(ref) as any
+            if (!rg) return vide
+            return {
+              background: String(rg.getBackground?.() ?? ""),
+              fontSize: rg.getFontSize?.() ?? null,
+              hAlign: String(rg.getHorizontalAlignment?.() ?? ""),
+              vAlign: String(rg.getVerticalAlignment?.() ?? ""),
+              wrap: rg.getWrap?.() ?? null,
+            }
+          } catch {
+            return vide
           }
         },
         getNumberFormat: (ref) => {
@@ -467,9 +635,12 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
         hideColumn: (col) => { try { sheet()?.hideColumn?.(col, 1) } catch {} },
         hideRow: (row) => { try { sheet()?.hideRow?.(row, 1) } catch {} },
         toggleBold: (on) => {
-          const ref = api.getSelection()
-          if (!ref) return
-          try { sheet()?.getRange(ref)?.setFontWeight?.(on ? "bold" : "normal") } catch {}
+          try {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            ;(selectedRange() as any)?.setFontWeight?.(on ? "bold" : "normal")
+          } catch {
+            /* sans conséquence */
+          }
         },
         getSelectionKind: () => {
           const ref = api.getSelection()

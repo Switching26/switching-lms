@@ -1,0 +1,199 @@
+{
+  "schemaVersion": 1,
+  "title": "Police, taille et couleurs",
+  "mode": "LESSON",
+  "moduleTitle": "Mise en forme",
+  "intro": {
+    "title": "UN TABLEAU QUI SE LIT",
+    "body": "Un tableau juste mais illisible ne sert à personne. La mise en forme n'est pas de la décoration : c'est ce qui permet à l'œil de distinguer un titre d'une donnée et un total d'une ligne ordinaire."
+  },
+  "outro": {
+    "body": "Vous savez hiérarchiser un tableau avec le gras, la taille et la couleur."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Budget",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 150
+        },
+        "cells": {
+          "A1": {
+            "v": "BUDGET PRÉVISIONNEL 2026"
+          },
+          "A3": {
+            "v": "Poste"
+          },
+          "B3": {
+            "v": "Prévu"
+          },
+          "C3": {
+            "v": "Réalisé"
+          },
+          "D3": {
+            "v": "Écart"
+          },
+          "A4": {
+            "v": "Loyer et charges"
+          },
+          "B4": {
+            "v": 24000
+          },
+          "C4": {
+            "v": 24600
+          },
+          "A5": {
+            "v": "Salaires"
+          },
+          "B5": {
+            "v": 86000
+          },
+          "C5": {
+            "v": 84200
+          },
+          "A6": {
+            "v": "Matériel"
+          },
+          "B6": {
+            "v": 12500
+          },
+          "C6": {
+            "v": 15300
+          },
+          "A7": {
+            "v": "Communication"
+          },
+          "B7": {
+            "v": 8000
+          },
+          "C7": {
+            "v": 6400
+          },
+          "A8": {
+            "v": "Déplacements"
+          },
+          "B8": {
+            "v": 5500
+          },
+          "C8": {
+            "v": 7100
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M08-L01-01",
+      "consigne": "Le tableau est correct mais tout se ressemble. Le titre est sélectionné : ==cliquez sur **G**== pour le mettre en gras.",
+      "setup": {
+        "selection": "A1"
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "acc-gras"
+      },
+      "aide": {
+        "text": "Le bouton G du groupe Police.",
+        "showTarget": true
+      },
+      "feedback": "Le titre se détache déjà. Le gras est l'outil de hiérarchie le plus efficace, et le moins coûteux."
+    },
+    {
+      "id": "M08-L01-02",
+      "consigne": "==Agrandissez le titre== avec le bouton **A+**.",
+      "setup": {
+        "selection": "A1"
+      },
+      "action": {
+        "type": "EXPECT_FORMAT",
+        "cells": {
+          "A1": {
+            "fontSize": 14
+          }
+        }
+      },
+      "aide": {
+        "text": "Le bouton A+ augmente la taille de la police de la sélection.",
+        "showTarget": true
+      },
+      "feedback": "14 points au lieu de 11. Deux niveaux de taille suffisent dans un tableau : n'en empilez pas cinq."
+    },
+    {
+      "id": "M08-L01-03",
+      "consigne": "Passons à la ligne d'en-têtes. ==Mettez **A3:D3** en gras==.",
+      "setup": {
+        "selection": "A3:D3"
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "acc-gras"
+      },
+      "aide": {
+        "text": "La sélection couvre déjà les quatre en-têtes : cliquez sur G.",
+        "showTarget": true
+      },
+      "feedback": "L'en-tête se distingue des données. C'est aussi ce qui permettra plus tard à Excel de reconnaître votre tableau."
+    },
+    {
+      "id": "M08-L01-04",
+      "consigne": "==Colorez le fond des en-têtes== avec le bouton **Remplir**.",
+      "setup": {
+        "selection": "A3:D3"
+      },
+      "action": {
+        "type": "EXPECT_FORMAT",
+        "cells": {
+          "A3": {
+            "background": "#fde68a"
+          },
+          "D3": {
+            "background": "#fde68a"
+          }
+        }
+      },
+      "aide": {
+        "text": "Le bouton Remplir applique une couleur de fond à toute la sélection.",
+        "showTarget": true
+      },
+      "feedback": "La ligne de titres est maintenant identifiable d'un coup d'œil, même sur un tableau qui déborde de l'écran."
+    },
+    {
+      "id": "M08-L01-05",
+      "consigne": "La couleur du texte sert plutôt à signaler. ==Sélectionnez le poste **Matériel**, qui a dépassé son budget, et appliquez **Couleur**==.",
+      "setup": {
+        "selection": "A6"
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "acc-couleur-police"
+      },
+      "aide": {
+        "text": "Le bouton Couleur agit sur la couleur du texte, pas sur le fond.",
+        "showTarget": true
+      },
+      "feedback": "Le rouge attire l'œil. Retenez la distinction : **Remplir** colore le fond, **Couleur** colore le texte."
+    },
+    {
+      "id": "M08-L01-06",
+      "consigne": "Deux règles de sobriété. **Trois couleurs maximum** dans un tableau, sinon plus rien ne ressort. Et ne faites jamais reposer une information **sur la seule couleur** : entre l'impression en noir et blanc et les huit pour cent d'hommes daltoniens, votre signal disparaît. Doublez-la toujours d'un mot ou d'un chiffre.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    }
+  ]
+}

@@ -1,0 +1,200 @@
+{
+  "schemaVersion": 1,
+  "title": "Exercice · Présenter un tableau",
+  "mode": "EXERCISE",
+  "moduleTitle": "Mise en forme",
+  "intro": {
+    "title": "À VOUS",
+    "body": "Un tableau brut à rendre présentable."
+  },
+  "outro": {
+    "body": "Exercice terminé."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Effectifs",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 140
+        },
+        "cells": {
+          "A1": {
+            "v": "EFFECTIFS PAR SERVICE"
+          },
+          "A3": {
+            "v": "Service"
+          },
+          "B3": {
+            "v": "2025"
+          },
+          "C3": {
+            "v": "2026"
+          },
+          "A4": {
+            "v": "Accueil"
+          },
+          "B4": {
+            "v": 4
+          },
+          "C4": {
+            "v": 5
+          },
+          "A5": {
+            "v": "Atelier"
+          },
+          "B5": {
+            "v": 12
+          },
+          "C5": {
+            "v": 16
+          },
+          "A6": {
+            "v": "Bureau"
+          },
+          "B6": {
+            "v": 7
+          },
+          "C6": {
+            "v": 8
+          },
+          "A7": {
+            "v": "Logistique"
+          },
+          "B7": {
+            "v": 9
+          },
+          "C7": {
+            "v": 11
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M08-E01-01",
+      "consigne": "Mettez le **titre** en gras.",
+      "setup": {
+        "selection": "A1"
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "acc-gras"
+      },
+      "aide": {
+        "text": "Le bouton G du groupe Police."
+      }
+    },
+    {
+      "id": "M08-E01-02",
+      "consigne": "Fusionnez le titre sur la largeur du tableau, de A1 à C1.",
+      "setup": {
+        "selection": "A1:C1"
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "acc-fusionner"
+      },
+      "aide": {
+        "text": "Le bouton Fusionner, une fois la plage sélectionnée."
+      }
+    },
+    {
+      "id": "M08-E01-03",
+      "consigne": "Centrez ce titre.",
+      "setup": {
+        "selection": "A1"
+      },
+      "action": {
+        "type": "EXPECT_FORMAT",
+        "cells": {
+          "A1": {
+            "hAlign": "center"
+          }
+        }
+      },
+      "aide": {
+        "text": "Le bouton Centre du groupe Alignement."
+      }
+    },
+    {
+      "id": "M08-E01-04",
+      "consigne": "Donnez un **fond coloré** à la ligne d'en-têtes.",
+      "setup": {
+        "selection": "A3:C3"
+      },
+      "action": {
+        "type": "EXPECT_FORMAT",
+        "cells": {
+          "A3": {
+            "background": "#fde68a"
+          },
+          "C3": {
+            "background": "#fde68a"
+          }
+        }
+      },
+      "aide": {
+        "text": "Le bouton Remplir agit sur le fond, pas sur le texte."
+      }
+    },
+    {
+      "id": "M08-E01-05",
+      "consigne": "Ajoutez une ligne **TOTAL** en ligne 9 avec les deux totaux, puis encadrez le tableau de A3 à C9.",
+      "setup": {
+        "selection": "B9",
+        "cells": {
+          "A9": {
+            "v": "TOTAL",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "B9": {
+            "v": 32
+          },
+          "C9": {
+            "v": 40
+          }
+        }
+      },
+      "aide": {
+        "text": "Une somme par colonne, de la ligne 4 à la ligne 7."
+      },
+      "feedback": "32 personnes en 2025, 40 en 2026."
+    },
+    {
+      "id": "M08-E01-06",
+      "consigne": "Terminez en **encadrant** le tableau, en-têtes et total compris.",
+      "setup": {
+        "selection": "A3:C9"
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "acc-bordures"
+      },
+      "aide": {
+        "text": "Le bouton Bordures, sur la plage A3:C9."
+      },
+      "feedback": "Le tableau est prêt à être imprimé ou collé dans un rapport."
+    }
+  ]
+}

@@ -208,6 +208,7 @@ function checkStep(s: SimulationStep, i: number, seen: Set<string>, mode: string
   "DEFINE_NAME",
   "SORT_RANGE",
   "FILTER_COLUMN",
+  "EXPECT_FORMAT",
   ])
   if (!OBSERVABLE.has(a.type)) {
     err(
@@ -260,7 +261,7 @@ function checkScenario(sc: SimulationScenario) {
   const ratio = interactive / sc.steps.length
   if (ratio < 0.6) {
     warn(
-      `Seulement ${Math.round(ratio * 100)} % d'étapes interactives (${interactive}/${sc.steps.length}). Viser au moins 80 %.`,
+      `Seulement ${Math.round(ratio * 100)} % d'étapes interactives (${interactive}/${sc.steps.length}). Le seuil d'alerte est 60 % ; viser plutôt 80 %.`,
     )
   }
 
@@ -285,6 +286,18 @@ function checkScenario(sc: SimulationScenario) {
     "acc-format-largeur",
     "acc-format-masquer",
     "acc-gras",
+    "acc-italique",
+    "acc-souligne",
+    "acc-taille-plus",
+    "acc-taille-moins",
+    "acc-couleur-police",
+    "acc-remplissage",
+    "acc-bordures",
+    "acc-aligner-gauche",
+    "acc-aligner-centre",
+    "acc-aligner-droite",
+    "acc-fusionner",
+    "acc-renvoyer-ligne",
     "don-tri-croissant",
     "don-tri-decroissant",
     "don-filtrer",

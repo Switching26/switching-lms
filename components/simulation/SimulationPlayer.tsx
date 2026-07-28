@@ -175,6 +175,7 @@ export default function SimulationPlayer({
         grid.setEditableCells([s.action.target])
       } else if (
         s.action.type === "EXPECT_STATE" ||
+        s.action.type === "EXPECT_FORMAT" ||
         s.action.type === "SORT_RANGE" ||
         s.action.type === "FILTER_COLUMN"
       ) {
@@ -370,6 +371,42 @@ export default function SimulationPlayer({
           case "acc-gras":
             grid.toggleBold(true)
             break
+          case "acc-italique":
+            grid.setItalic(true)
+            break
+          case "acc-souligne":
+            grid.setUnderline(true)
+            break
+          case "acc-taille-plus":
+            grid.setFontSize(14)
+            break
+          case "acc-taille-moins":
+            grid.setFontSize(9)
+            break
+          case "acc-couleur-police":
+            grid.setFontColor("#b91c1c")
+            break
+          case "acc-remplissage":
+            grid.setBackground("#fde68a")
+            break
+          case "acc-bordures":
+            grid.setBorderAll(true)
+            break
+          case "acc-aligner-gauche":
+            grid.setAlign("left")
+            break
+          case "acc-aligner-centre":
+            grid.setAlign("center")
+            break
+          case "acc-aligner-droite":
+            grid.setAlign("right")
+            break
+          case "acc-fusionner":
+            grid.mergeCells()
+            break
+          case "acc-renvoyer-ligne":
+            grid.setWrap(true)
+            break
           case "ui-nouvelle-feuille":
             grid.insertSheet()
             setSheets(grid.getSheets())
@@ -413,6 +450,26 @@ export default function SimulationPlayer({
         }
       }
       if (trie && triFait) return
+
+      // Une étape validée sur la MISE EN FORME lit l'état après le clic : la
+      // mise en forme ne déclenche aucun événement de valeur, et laisser passer
+      // une observation « control » ferait échouer l'étape.
+      const attenduFmt = stepRef.current?.action
+      if (attenduFmt?.type === "EXPECT_FORMAT" && grid) {
+        const refs = Object.keys(attenduFmt.cells)
+        // Les commandes Univer s'appliquent de façon asynchrone : lire tout de
+        // suite renvoie l'ancien style.
+        window.setTimeout(() => {
+          const readings: Record<
+            string,
+            { background: string; fontSize: number | null; hAlign: string; vAlign: string; wrap: boolean | null }
+          > = {}
+          for (const ref of refs) readings[ref] = grid.getFormat(ref)
+          handleAction({ kind: "formatChange", readings })
+        }, 220)
+        return
+      }
+
       handleAction({ kind: "control", control: controlId, channel: "ribbon" })
     },
     [handleAction],

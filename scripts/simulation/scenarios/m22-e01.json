@@ -1,0 +1,314 @@
+{
+  "schemaVersion": 1,
+  "title": "Exercice · Consolider trois trimestres",
+  "mode": "EXERCISE",
+  "moduleTitle": "Consolidation des données",
+  "intro": {
+    "title": "À VOUS",
+    "body": "Trois trimestres à consolider, et un contrôle à ne pas oublier."
+  },
+  "outro": {
+    "body": "Exercice terminé."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ],
+    "sheetCount": 4
+  },
+  "workbook": {
+    "fileName": "Consolidation",
+    "activeSheetIndex": 3,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "T1",
+        "columnWidths": {
+          "A": 110
+        },
+        "cells": {
+          "A1": {
+            "v": "Région",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "CA",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Nord"
+          },
+          "B2": {
+            "v": 42000
+          },
+          "A3": {
+            "v": "Sud"
+          },
+          "B3": {
+            "v": 38000
+          },
+          "A4": {
+            "v": "Ouest"
+          },
+          "B4": {
+            "v": 29000
+          }
+        }
+      },
+      {
+        "name": "T2",
+        "columnWidths": {
+          "A": 110
+        },
+        "cells": {
+          "A1": {
+            "v": "Région",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "CA",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Nord"
+          },
+          "B2": {
+            "v": 45000
+          },
+          "A3": {
+            "v": "Sud"
+          },
+          "B3": {
+            "v": 41000
+          },
+          "A4": {
+            "v": "Ouest"
+          },
+          "B4": {
+            "v": 33000
+          }
+        }
+      },
+      {
+        "name": "T3",
+        "columnWidths": {
+          "A": 110
+        },
+        "cells": {
+          "A1": {
+            "v": "Région",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "CA",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Nord"
+          },
+          "B2": {
+            "v": 39000
+          },
+          "A3": {
+            "v": "Sud"
+          },
+          "B3": {
+            "v": 47000
+          },
+          "A4": {
+            "v": "Ouest"
+          },
+          "B4": {
+            "v": 31000
+          }
+        }
+      },
+      {
+        "name": "Année",
+        "columnWidths": {
+          "A": 110
+        },
+        "cells": {
+          "A1": {
+            "v": "Région",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "CA annuel",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Nord"
+          },
+          "A3": {
+            "v": "Sud"
+          },
+          "A4": {
+            "v": "Ouest"
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M22-E01-01",
+      "consigne": "Sur la feuille **Année**, consolidez le chiffre d'affaires du **Nord** sur les trois trimestres, en **B2**.",
+      "setup": {
+        "selection": "B2"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B2",
+        "accept": [
+          "=T1!B2+T2!B2+T3!B2",
+          "=SOMME(T1!B2;T2!B2;T3!B2)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Les trois feuilles ont la même structure : la même cellule y désigne la même région."
+      },
+      "feedback": "126 000 € pour le Nord."
+    },
+    {
+      "id": "M22-E01-02",
+      "consigne": "Complétez les deux autres régions en **recopiant** votre formule.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "B3": {
+            "v": 126000
+          },
+          "B4": {
+            "v": 93000
+          }
+        }
+      },
+      "aide": {
+        "text": "Poignée de recopie de B2 vers le bas jusqu'à B4."
+      },
+      "feedback": "126 000 € au Sud aussi, 93 000 € à l'Ouest."
+    },
+    {
+      "id": "M22-E01-03",
+      "consigne": "En **B6**, posez le **total annuel** des trois régions.",
+      "setup": {
+        "selection": "B6",
+        "cells": {
+          "A6": {
+            "v": "TOTAL",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B6",
+        "accept": [
+          "=SOMME(B2:B4)"
+        ],
+        "formulaMode": true
+      },
+      "feedback": "345 000 €."
+    },
+    {
+      "id": "M22-E01-04",
+      "consigne": "Contrôlez votre consolidation : en **D2**, calculez directement le **total du premier trimestre** depuis sa feuille.",
+      "setup": {
+        "selection": "D2",
+        "cells": {
+          "D1": {
+            "v": "Contrôle T1",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "D2",
+        "accept": [
+          "=SOMME(T1!B2:B4)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Une somme portant sur une plage d'une autre feuille."
+      },
+      "feedback": "109 000 € au premier trimestre."
+    },
+    {
+      "id": "M22-E01-05",
+      "consigne": "Ajoutez les contrôles des deux autres trimestres en **D3** et **D4**, puis leur total en **D6**. Ce total doit être identique à celui de la colonne B.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "D3": {
+            "v": 119000
+          },
+          "D4": {
+            "v": 117000
+          },
+          "D6": {
+            "v": 345000
+          }
+        }
+      },
+      "aide": {
+        "text": "Une somme par feuille, puis le total des trois."
+      },
+      "feedback": "345 000 € des deux côtés : la consolidation est vérifiée. Un total consolidé qu'on n'a pas recoupé par un autre chemin n'est pas un total fiable."
+    },
+    {
+      "id": "M22-E01-06",
+      "consigne": "Le Nord a été sous-évalué au deuxième trimestre. Allez sur la feuille **T2** pour corriger son chiffre.",
+      "action": {
+        "type": "SELECT_SHEET",
+        "name": "T2"
+      },
+      "aide": {
+        "text": "Le deuxième onglet en bas."
+      }
+    },
+    {
+      "id": "M22-E01-07",
+      "consigne": "Portez le chiffre du **Nord** à `48000`.",
+      "setup": {
+        "selection": "B2"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B2",
+        "accept": [
+          "48000"
+        ]
+      },
+      "feedback": "Retournez sur Année : le Nord doit afficher 129 000 € et le total 348 000 €, des deux côtés. Une consolidation bien bâtie se met à jour toute seule."
+    }
+  ]
+}

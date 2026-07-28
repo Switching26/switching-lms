@@ -1,0 +1,256 @@
+{
+  "schemaVersion": 1,
+  "title": "Consolider par étiquette avec SOMME.SI",
+  "mode": "LESSON",
+  "moduleTitle": "Consolidation des données",
+  "intro": {
+    "title": "ADDITIONNER PAR NOM, PAS PAR POSITION",
+    "body": "Plutôt que de faire confiance à la position des lignes, on additionne en désignant ce qu'on cherche. La consolidation devient insensible à l'ordre et aux insertions."
+  },
+  "outro": {
+    "body": "Vous savez consolider une liste hétérogène par étiquette, sans dépendre de l'ordre des lignes."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Consolidation",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 110,
+          "B": 110
+        },
+        "cells": {
+          "A1": {
+            "v": "Agence",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Produit",
+            "format": {
+              "bold": true
+            }
+          },
+          "C1": {
+            "v": "Montant",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Lyon"
+          },
+          "B2": {
+            "v": "Licence"
+          },
+          "C2": {
+            "v": 14400
+          },
+          "A3": {
+            "v": "Nantes"
+          },
+          "B3": {
+            "v": "Formation"
+          },
+          "C3": {
+            "v": 13500
+          },
+          "A4": {
+            "v": "Strasbourg"
+          },
+          "B4": {
+            "v": "Licence"
+          },
+          "C4": {
+            "v": 18000
+          },
+          "A5": {
+            "v": "Lyon"
+          },
+          "B5": {
+            "v": "Support"
+          },
+          "C5": {
+            "v": 4800
+          },
+          "A6": {
+            "v": "Nantes"
+          },
+          "B6": {
+            "v": "Licence"
+          },
+          "C6": {
+            "v": 8400
+          },
+          "A7": {
+            "v": "Strasbourg"
+          },
+          "B7": {
+            "v": "Support"
+          },
+          "C7": {
+            "v": 3600
+          },
+          "A8": {
+            "v": "Lyon"
+          },
+          "B8": {
+            "v": "Formation"
+          },
+          "C8": {
+            "v": 7500
+          },
+          "E1": {
+            "v": "Produit",
+            "format": {
+              "bold": true
+            }
+          },
+          "F1": {
+            "v": "Total",
+            "format": {
+              "bold": true
+            }
+          },
+          "E2": {
+            "v": "Licence"
+          },
+          "E3": {
+            "v": "Formation"
+          },
+          "E4": {
+            "v": "Support"
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M22-L02-01",
+      "consigne": "Cette fois les lignes sont **dans le désordre** : les produits reviennent à des positions quelconques. Additionner par position serait impossible. ==En **F2**, saisissez `=SOMME.SI($B$2:$B$8;E2;$C$2:$C$8)`==.",
+      "setup": {
+        "selection": "F2"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "F2",
+        "accept": [
+          "=SOMME.SI($B$2:$B$8;E2;$C$2:$C$8)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Trois arguments : la colonne où chercher, ce qu'on cherche, la colonne à additionner.",
+        "showTarget": true
+      },
+      "feedback": "40 800 € de licences. La fonction a parcouru les huit lignes et n'a additionné que celles portant « Licence »."
+    },
+    {
+      "id": "M22-L02-02",
+      "consigne": "Décomposons. `$B$2:$B$8` est la **plage de recherche**, figée pour survivre à la recopie. `E2` est le **critère**, laissé relatif pour changer à chaque ligne. `$C$2:$C$8` est la **plage à additionner**, figée aussi. Les deux plages doivent avoir **exactement la même hauteur**.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M22-L02-03",
+      "consigne": "==Recopiez **F2** jusqu'en **F4**==.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "F3": {
+            "anyOf": [
+              "=SOMME.SI($B$2:$B$8;E3;$C$2:$C$8)"
+            ],
+            "v": 21000
+          },
+          "F4": {
+            "anyOf": [
+              "=SOMME.SI($B$2:$B$8;E4;$C$2:$C$8)"
+            ],
+            "v": 8400
+          }
+        }
+      },
+      "aide": {
+        "text": "Poignée de recopie de F2 vers le bas. Grâce aux dollars, seules les références du critère changent."
+      },
+      "feedback": "21 000 € de formation, 8 400 € de support. Les trois totaux sont justes **quel que soit l'ordre des lignes**."
+    },
+    {
+      "id": "M22-L02-04",
+      "consigne": "Vérifions. ==En **F6**, totalisez les trois consolidations== et comparez à la colonne C.",
+      "setup": {
+        "selection": "F6",
+        "cells": {
+          "E6": {
+            "v": "Contrôle",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "F6",
+        "accept": [
+          "=SOMME(F2:F4)"
+        ],
+        "formulaMode": true
+      },
+      "feedback": "70 200 €, exactement la somme de la colonne Montant. **Si ce contrôle ne tombe pas juste, c'est qu'une étiquette est mal orthographiée** et que ses lignes n'ont été comptées nulle part."
+    },
+    {
+      "id": "M22-L02-05",
+      "consigne": "C'est le piège de cette méthode, et il est redoutable : `Licence` et `licence ` avec un espace final sont deux étiquettes différentes pour Excel. La ligne disparaît de la synthèse **sans aucun message**. ==Contrôlez donc aussi le nombre de lignes prises en compte : en **F7**, comptez-les avec `=NB.SI($B$2:$B$8;\"Licence\")`==.",
+      "setup": {
+        "selection": "F7",
+        "cells": {
+          "E7": {
+            "v": "Lignes Licence",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "F7",
+        "accept": [
+          "=NB.SI($B$2:$B$8;\"Licence\")"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "NB.SI compte au lieu d'additionner : même plage de recherche, même critère.",
+        "showTarget": true
+      },
+      "feedback": "3 lignes, ce qui correspond bien à Lyon, Strasbourg et Nantes. Le comptage est votre garde-fou contre les étiquettes fautives."
+    },
+    {
+      "id": "M22-L02-06",
+      "consigne": "À retenir : consolidation **par position** quand les feuilles sont figées et strictement identiques ; consolidation **par étiquette** dès que les données bougent ou viennent de sources différentes. La seconde demande une formule de plus, et vous évitera des synthèses fausses.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    }
+  ]
+}

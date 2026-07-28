@@ -14,7 +14,7 @@ export default async function EvaluationsPage() {
 
   const [assessments, partners] = await Promise.all([
     prisma.assessment.findMany({
-      where: assessmentScopeWhere(role, session.user.partnerId),
+      where: await assessmentScopeWhere(role, session.user.partnerId),
       orderBy: { createdAt: "desc" },
       select: {
         id: true,

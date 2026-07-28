@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
-import { assessmentScopeWhere } from "@/lib/assessments"
+import { assessmentScopeWhere, getInternalPartnerId } from "@/lib/assessments"
 
 /** Liste des évaluations visibles par l'administrateur connecté. */
 export async function GET() {
@@ -12,7 +12,7 @@ export async function GET() {
   }
 
   const assessments = await prisma.assessment.findMany({
-    where: assessmentScopeWhere(role, session.user.partnerId),
+    where: await assessmentScopeWhere(role, session.user.partnerId),
     orderBy: { createdAt: "desc" },
     select: {
       id: true,
@@ -44,9 +44,18 @@ export async function POST(req: NextRequest) {
   if (!title) return NextResponse.json({ error: "Titre requis" }, { status: 400 })
 
   // Un admin partenaire ne peut créer que pour SON organisme : le partnerId
-  // reçu du client est ignoré. Le super-admin choisit librement.
+  // reçu du client est ignoré.
+  //
+  // Super-admin : il choisit librement, mais sans choix explicite le contenu
+  // revient à l'organisme interne (Switching). Un contenu sans propriétaire
+  // n'apparaîtrait nulle part côté Switching et s'afficherait au candidat sans
+  // la marque. `partnerId: null` reste possible en l'envoyant explicitement.
   const partnerId =
-    role === "PARTNER_ADMIN" ? session.user.partnerId : (body?.partnerId || null)
+    role === "PARTNER_ADMIN"
+      ? session.user.partnerId
+      : body?.partnerId !== undefined
+      ? body.partnerId || null
+      : await getInternalPartnerId()
 
   const assessment = await prisma.assessment.create({
     data: {

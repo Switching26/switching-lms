@@ -147,9 +147,33 @@ export function invitationState(inv: {
  * Super-admin : tout. Admin partenaire : seulement celles de son organisme —
  * même cloisonnement que le catalogue de formations.
  */
-export function assessmentScopeWhere(role: string, partnerId?: string | null) {
+export async function assessmentScopeWhere(role: string, partnerId?: string | null) {
   if (role === "SUPER_ADMIN") return { deletedAt: null }
+  if (partnerId) {
+    // Même règle que le catalogue de formations : l'organisme interne
+    // (Switching) accède à tout ce qui est produit sur la plateforme, sans
+    // qu'on ait à lui ouvrir chaque contenu un par un.
+    const partner = await prisma.partner.findUnique({
+      where: { id: partnerId },
+      select: { isInternal: true },
+    })
+    if (partner?.isInternal) return { deletedAt: null }
+  }
   return { deletedAt: null, partnerId: partnerId ?? "__none__" }
+}
+
+/**
+ * Organisme interne (Switching), propriétaire par défaut de tout ce que le
+ * super-admin crée sans préciser d'organisme : sans cela le contenu n'a aucun
+ * propriétaire, n'apparaît pas côté Switching et s'affiche au candidat avec le
+ * nom et la couleur par défaut au lieu de la marque.
+ */
+export async function getInternalPartnerId(): Promise<string | null> {
+  const p = await prisma.partner.findFirst({
+    where: { isInternal: true },
+    select: { id: true },
+  })
+  return p?.id ?? null
 }
 
 /**

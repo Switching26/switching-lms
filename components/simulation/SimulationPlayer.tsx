@@ -27,6 +27,7 @@ import ChartLayer from "./ChartLayer"
 import PivotLayer from "./PivotLayer"
 import PageLayoutLayer from "./PageLayoutLayer"
 import MacroPanel from "./MacroPanel"
+import { estimatedSimulationMinutes } from "@/lib/simulation/duree"
 import type {
   ChartState,
   ChartType,
@@ -1792,7 +1793,7 @@ export default function SimulationPlayer({
                 animation: "sim-intro-monte .6s .55s ease both",
               }}
             >
-              {total} étape{total > 1 ? "s" : ""} · ≈ {Math.max(1, Math.round(total * 0.5))} min
+              {total} étape{total > 1 ? "s" : ""} · ≈ {estimatedSimulationMinutes(mode, total)} min
               {mode === "EVALUATION" ? " · sans aide, score enregistré" : ""}
             </div>
             <button

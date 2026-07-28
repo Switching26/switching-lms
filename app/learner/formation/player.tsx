@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback, useMemo } from "react"
 import SimulationChapter from "@/components/simulation/SimulationChapter"
+import { estimatedSimulationSeconds } from "@/lib/simulation/duree"
 
 /* ═══════════ HELPERS ═══════════ */
 
@@ -20,6 +21,20 @@ function getChapterKind(ch: {
   if (ch.exercises && ch.exercises.length > 0) return "exercise"
   if (ch.attachments?.some((a) => /\.pdf(\?|$)/i.test(a.fileUrl))) return "pdf"
   return "text"
+}
+
+/**
+ * Durée d'un chapitre pour l'affichage : la vidéo a une durée mesurée, un
+ * atelier de simulation a une durée ESTIMÉE depuis son mode et son nombre
+ * d'étapes (mêmes coefficients que l'écran d'intro — un seul chiffre partout).
+ */
+function chapterDurationSeconds(c: {
+  videoDuration?: number | null
+  simulation?: { mode: string; stepCount: number } | null
+}): number {
+  if (c.videoDuration) return c.videoDuration
+  if (c.simulation) return estimatedSimulationSeconds(c.simulation.mode, c.simulation.stepCount)
+  return 0
 }
 
 function formatDuration(seconds: number): string {
@@ -205,11 +220,11 @@ export default function FormationPlayer({
   }, [orderedChapters])
 
   const totalDuration = useMemo(
-    () => chapters.reduce((sum, c) => sum + (c.videoDuration || 0), 0),
+    () => chapters.reduce((sum, c) => sum + chapterDurationSeconds(c), 0),
     [chapters]
   )
   const completedDuration = useMemo(
-    () => chapters.filter((c) => completedMap[c.id]).reduce((sum, c) => sum + (c.videoDuration || 0), 0),
+    () => chapters.filter((c) => completedMap[c.id]).reduce((sum, c) => sum + chapterDurationSeconds(c), 0),
     [chapters, completedMap]
   )
 
@@ -982,7 +997,7 @@ function ChapterButton({
     },
   }
   const cfg = kindConfig[kind]
-  const duration = formatDuration(chapter.videoDuration)
+  const duration = formatDuration(chapterDurationSeconds(chapter))
 
   return (
     <button

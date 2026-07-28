@@ -22,6 +22,7 @@
 
 import { useEffect, useRef } from "react"
 import type { ObservedAction, ActionChannel } from "@/lib/simulation/validate"
+import { lireDateOuHeureFr } from "@/lib/simulation/date-fr"
 import type { CellState, WorkbookState, ConditionalRule, ValidationRule } from "@/lib/simulation/types"
 import {
   formatCell,
@@ -418,6 +419,17 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
             // Le résultat n'est connu qu'après recalcul (60 à 120 ms mesurés).
             window.setTimeout(() => localiserDecimale(ref), 200)
           } else if (state.v !== undefined) {
+            // Une date ou une heure écrite à la française doit être POSÉE comme
+            // nombre, avec son format : Univer lit « 03/01/2026 » à l'américaine et
+            // en fait le 1ᵉʳ mars, puis réaffiche la chaîne tapée — l'erreur reste
+            // donc invisible jusqu'à la première fonction de date.
+            const fr = typeof state.v === "string" ? lireDateOuHeureFr(state.v) : null
+            if (fr) {
+              rg.setValue(fr.valeur)
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              ;(rg as any).setNumberFormat?.(fr.format)
+              continue
+            }
             rg.setValue(state.v)
             // Une décimale sans format s'affiche « 42.25 » : ce chemin ne passe
             // pas par numfmt, et le motif « General » ne le réveille pas. On
@@ -1281,6 +1293,33 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
             } catch {
               /* le moteur refusera de lui-même une formule invalide */
             }
+          }
+        }
+
+        // Une DATE tapée à la française a déjà été mal lue par le moteur, qui met
+        // le mois d'abord : « 07/04/2026 » y devient le 4 juillet. Comme il
+        // réaffiche ensuite les chiffres tapés, l'erreur reste invisible jusqu'à la
+        // première fonction de date. On relit donc l'affichage à la française et
+        // l'on repose la bonne valeur quand elle diffère.
+        if (!stored.startsWith("=")) {
+          try {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const motif = String((rg as any)?.getNumberFormat?.() ?? "")
+            // Un motif de date ou d'heure : c'est le signe que le moteur a
+            // interprété la saisie comme telle, et donc qu'il a pu se tromper.
+            if (/[dmyhs]/i.test(motif)) {
+              const affiche = api.getDisplayValue(ref)
+              const lu = lireDateOuHeureFr(affiche)
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              const brut = (rg as any)?.getRawValue?.()
+              if (lu && typeof brut === "number" && Math.abs(brut - lu.valeur) > 1e-9) {
+                rg?.setValue?.(lu.valeur)
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                ;(rg as any).setNumberFormat?.(lu.format)
+              }
+            }
+          } catch (e) {
+            signalerEnDev("lecture française d'une date saisie", e)
           }
         }
 

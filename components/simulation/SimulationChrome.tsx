@@ -48,6 +48,9 @@ type Props = {
   state?: RibbonState
   /** Nom du classeur, affiché dans la barre de titre. */
   fileName: string
+  /** Mode plein écran du simulateur (bouton ⤢/⤡ dans la barre de titre). */
+  immersif?: boolean
+  onToggleImmersif?: () => void
   /** Sélection courante, affichée dans la zone Nom. */
   selection: string
   /** Contenu de la cellule active, affiché dans la barre de formule. */
@@ -88,6 +91,8 @@ export default function SimulationChrome({
   tabs,
   state,
   fileName,
+  immersif,
+  onToggleImmersif,
   selection,
   formulaText,
   highlight,
@@ -169,7 +174,26 @@ export default function SimulationChrome({
       {/* Barre de titre */}
       <div className="flex items-center gap-2 bg-emerald-700 px-3 py-1.5 text-white">
         <span className="rounded bg-white/20 px-1.5 py-0.5 text-[10px] font-bold">X</span>
-        <span className="truncate text-[12px]">{fileName} — Excel</span>
+        <span className="truncate text-[12px]">
+          {fileName} —{" "}
+          <span
+            className="rounded-full font-extrabold"
+            style={{ background: "#fff", color: "#1e7145", fontSize: 10.5, padding: "2px 7px", letterSpacing: ".3px" }}
+          >
+            Excel 2024
+          </span>
+        </span>
+        {onToggleImmersif && (
+          <button
+            type="button"
+            data-control="sim-agrandir"
+            onClick={onToggleImmersif}
+            className="ml-auto flex-shrink-0 rounded-lg font-bold"
+            style={{ background: "#fff", color: "#1e7145", fontSize: 11.5, padding: "4px 10px" }}
+          >
+            {immersif ? "⤡ Réduire" : "⤢ Agrandir"}
+          </button>
+        )}
       </div>
 
       {/* Onglets */}

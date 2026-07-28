@@ -285,6 +285,33 @@ export default function SimulationPlayer({
   // l'intro. La grille se monte derrière pendant la lecture, ce qui masque le
   // temps de chargement d'Univer.
   const [introVue, setIntroVue] = useState(initialStep > 0)
+  // Mode immersif (GO Samuel 29/07) : le simulateur prend tout l'écran, la page
+  // ne défile plus — un seul contexte de scroll, celui de la feuille bornée.
+  const [immersif, setImmersif] = useState(false)
+  const [hauteurImmersive, setHauteurImmersive] = useState(600)
+  useEffect(() => {
+    if (!immersif) return
+    const calc = () => setHauteurImmersive(Math.max(360, window.innerHeight - 305))
+    calc()
+    const echap = (e: KeyboardEvent) => { if (e.key === "Escape") setImmersif(false) }
+    window.addEventListener("resize", calc)
+    window.addEventListener("keydown", echap)
+    document.body.style.overflow = "hidden"
+    // Univer écoute le resize de la fenêtre : on le notifie du changement de
+    // hauteur du conteneur, sinon le canvas garde son ancienne taille.
+    const t = window.setTimeout(() => window.dispatchEvent(new Event("resize")), 90)
+    return () => {
+      window.removeEventListener("resize", calc)
+      window.removeEventListener("keydown", echap)
+      document.body.style.overflow = ""
+      window.clearTimeout(t)
+    }
+  }, [immersif])
+  useEffect(() => {
+    // Re-notifier Univer au retour en mode normal aussi.
+    const t = window.setTimeout(() => window.dispatchEvent(new Event("resize")), 90)
+    return () => window.clearTimeout(t)
+  }, [immersif])
   const [verdict, setVerdict] = useState<Verdict | null>(null)
   // Retour visuel DANS la grille (flash de réussite, secousse d'erreur, toast) :
   // le texte sous l'écran ne suffit pas, l'apprenant regarde la feuille.
@@ -1691,7 +1718,14 @@ export default function SimulationPlayer({
   const gradable = steps.filter((s) => s.action.type !== "READ").length
 
   return (
-    <div className="relative overflow-hidden rounded-2xl border border-border bg-white shadow-sm">
+    <div
+      className="relative overflow-hidden border border-border bg-white shadow-sm"
+      style={
+        immersif
+          ? { position: "fixed", inset: 0, zIndex: 90, borderRadius: 0, overflowY: "auto" }
+          : { borderRadius: 16 }
+      }
+    >
       {!introVue && step && (
         <div
           className="absolute inset-0 z-40 flex flex-col justify-center overflow-hidden px-6 py-8 sm:px-10"
@@ -1869,6 +1903,8 @@ export default function SimulationPlayer({
           {/* Fenêtre Excel simulée */}
           <div className="px-3 pt-3">
             <SimulationChrome
+              immersif={immersif}
+              onToggleImmersif={() => setImmersif((v) => !v)}
               tabs={scenario.ribbon}
               state={
                 step?.setup?.ribbon
@@ -1899,7 +1935,11 @@ export default function SimulationPlayer({
               className="relative h-[380px] overflow-hidden rounded-b-lg border border-t-0 border-neutral-300"
               onClickCapture={besoins.miseEnPage || besoins.tcd || besoins.graphique ? relaisControleCouche : undefined}
             >
-              <ExcelGrid onReady={handleReady} onAction={handleAction} />
+              <ExcelGrid
+                onReady={handleReady}
+                onAction={handleAction}
+                heightPx={immersif ? hauteurImmersive : 380}
+              />
               {besoins.miseEnPage && (
                 <PageLayoutLayer
                   pageSetup={reglages}

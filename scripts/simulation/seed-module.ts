@@ -28,7 +28,7 @@ import type { SimulationScenario } from "../../lib/simulation/types"
 const prisma = new PrismaClient()
 
 /** Titre de la formation cible. Un seul endroit à changer. */
-const FORMATION_TITLE = "Excel — Du débutant à l'avancé"
+const FORMATION_TITLE = "Excel 2024 — Du débutant à l'avancé"
 const FORMATION_DESCRIPTION =
   "Formation Excel interactive : vous travaillez dans un vrai classeur, pas devant une vidéo. Chaque leçon se termine par un exercice où vous refaites seul ce que vous venez d'apprendre."
 

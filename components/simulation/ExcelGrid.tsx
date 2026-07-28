@@ -527,6 +527,31 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
           }
           for (const f of wb.sheets) dimensionner(f, f.name)
 
+          // Grille BORNÉE à la zone utile : sans cela, la molette emmenait
+          // l'élève à la ligne 640 dans le vide (vidéo Samuel du 29/07). Marge
+          // large pour les leçons qui insèrent des lignes ou étendent le tableau.
+          const borner = (feuille: typeof premiere, nom: string) => {
+            if (!feuille) return
+            try {
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              const sh3 = univerAPI.getActiveWorkbook()?.getSheetByName?.(nom) as any
+              if (!sh3) return
+              let maxRow = 0
+              let maxCol = 0
+              for (const ref of Object.keys(feuille.cells ?? {})) {
+                const m = ref.match(/^([A-Z]+)(\d+)$/)
+                if (!m) continue
+                maxRow = Math.max(maxRow, Number(m[2]))
+                maxCol = Math.max(maxCol, columnLetterToIndex(m[1]) + 1)
+              }
+              sh3.setRowCount?.(Math.max(40, maxRow + 20))
+              sh3.setColumnCount?.(Math.max(16, maxCol + 8))
+            } catch {
+              /* une grille non bornée reste utilisable */
+            }
+          }
+          for (const f of wb.sheets) borner(f, f.name)
+
           // La première feuille a été renommée, pas insérée : ses données n'ont
           // pas été posées dans la boucle ci-dessus.
           if (premiere?.cells) {
@@ -1200,11 +1225,16 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
           if (!ref) return null
           const r = parseRange(ref)
           if (!r) return null
-          // Une colonne entière va de la ligne 0 au bas de la grille allouée ;
-          // idem pour une ligne. On compare à des seuils généreux plutôt qu'à une
-          // borne exacte, la taille de grille dépendant du moteur.
-          const fullColumn = r.startRow === 0 && r.endRow >= 200
-          const fullRow = r.startCol === 0 && r.endCol >= 15
+          // Une colonne entière va de la ligne 0 au bas de la grille allouée.
+          // La borne vient de la feuille RÉELLE : la grille est désormais bornée
+          // à la zone utile (~40 lignes), l'ancien seuil fixe « ≥ 200 » ne
+          // reconnaissait plus jamais une colonne entière.
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          const shSel = univerAPI.getActiveWorkbook()?.getActiveSheet?.() as any
+          const maxR = Number(shSel?.getMaxRows?.()) || 999999
+          const maxC = Number(shSel?.getMaxColumns?.()) || 999
+          const fullColumn = r.startRow === 0 && r.endRow >= maxR - 1
+          const fullRow = r.startCol === 0 && r.endCol >= maxC - 1
           if (fullColumn && !fullRow) return { kind: "column", ref, index: r.startCol }
           if (fullRow && !fullColumn) return { kind: "row", ref, index: r.startRow }
           if (r.startRow === r.endRow && r.startCol === r.endCol) return { kind: "cell", ref, index: r.startRow }

@@ -84,6 +84,15 @@ export async function hasAvailableSeat(
   formationId: string
 ): Promise<boolean> {
   if (!partnerId) return true
+  // L'organisme interne (Switching) n'a jamais de quota : c'est le nôtre, tout
+  // son contenu lui est ouvert sans limite. Sans ce court-circuit, une licence
+  // résiduelle à places finies suffirait à bloquer nos propres inscriptions.
+  const owner = await prisma.partner.findUnique({
+    where: { id: partnerId },
+    select: { isInternal: true },
+  })
+  if (owner?.isInternal) return true
+
   const license = await prisma.license.findUnique({
     where: { partnerId_formationId: { partnerId, formationId } },
   })

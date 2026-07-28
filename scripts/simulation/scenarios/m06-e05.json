@@ -1,0 +1,229 @@
+{
+  "schemaVersion": 1,
+  "title": "Exercice de synthèse",
+  "mode": "EXERCISE",
+  "moduleTitle": "Calculs simples",
+  "intro": {
+    "title": "TOUT LE MODULE",
+    "body": "Un tableau de ventes à construire de bout en bout, avec ce que vous avez appris."
+  },
+  "outro": {
+    "body": "Module « Calculs simples » terminé."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ],
+    "sheetCount": 1
+  },
+  "workbook": {
+    "fileName": "Ventes semaine",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 110
+        },
+        "cells": {
+          "A1": {
+            "v": "Taux TVA",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": 0.2
+          },
+          "A4": {
+            "v": "Jour",
+            "format": {
+              "bold": true
+            }
+          },
+          "B4": {
+            "v": "CA HT",
+            "format": {
+              "bold": true
+            }
+          },
+          "C4": {
+            "v": "CA TTC",
+            "format": {
+              "bold": true
+            }
+          },
+          "A5": {
+            "v": "Lundi"
+          },
+          "B5": {
+            "v": 255
+          },
+          "A6": {
+            "v": "Mardi"
+          },
+          "B6": {
+            "v": 320
+          },
+          "A7": {
+            "v": "Mercredi"
+          },
+          "B7": {
+            "v": 415
+          },
+          "A8": {
+            "v": "Jeudi"
+          },
+          "B8": {
+            "v": 350
+          },
+          "A9": {
+            "v": "Vendredi"
+          },
+          "B9": {
+            "v": 480
+          },
+          "A10": {
+            "v": "Samedi"
+          },
+          "B10": {
+            "v": 260
+          },
+          "A12": {
+            "v": "Total",
+            "format": {
+              "bold": true
+            }
+          },
+          "A13": {
+            "v": "Meilleur jour",
+            "format": {
+              "bold": true
+            }
+          },
+          "A14": {
+            "v": "Moyenne",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M06-E05-01",
+      "consigne": "En **C5**, calculez le **CA TTC** du lundi. La formule devra être recopiable sur toute la semaine.",
+      "setup": {
+        "selection": "C5"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "C5",
+        "accept": [
+          "=B5*(1+$B$1)",
+          "=B5+B5*$B$1"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Le taux est en B1 : il doit rester figé.",
+        "showTarget": true
+      },
+      "feedback": "306 €."
+    },
+    {
+      "id": "M06-E05-02",
+      "consigne": "Complétez le **CA TTC des cinq autres jours**.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "C6": {
+            "v": 384
+          },
+          "C8": {
+            "v": 420
+          },
+          "C10": {
+            "v": 312
+          }
+        }
+      },
+      "aide": {
+        "text": "Poignée de recopie de C5 jusqu'à C10."
+      },
+      "feedback": "Toute la semaine est convertie en TTC."
+    },
+    {
+      "id": "M06-E05-03",
+      "consigne": "En **B12** et **C12**, calculez les **totaux de la semaine**, HT et TTC.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "B12": {
+            "anyOf": [
+              "=SOMME(B5:B10)",
+              "=B5+B6+B7+B8+B9+B10"
+            ],
+            "v": 2080
+          },
+          "C12": {
+            "anyOf": [
+              "=SOMME(C5:C10)",
+              "=C5+C6+C7+C8+C9+C10"
+            ],
+            "v": 2496
+          }
+        }
+      },
+      "aide": {
+        "text": "Une somme par colonne, de la ligne 5 à la ligne 10."
+      },
+      "feedback": "2 080 € HT et 2 496 € TTC."
+    },
+    {
+      "id": "M06-E05-04",
+      "consigne": "En **B13**, trouvez le **meilleur chiffre d'affaires** de la semaine. En **B14**, la **moyenne journalière**.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "B13": {
+            "anyOf": [
+              "=MAX(B5:B10)"
+            ],
+            "v": 480
+          },
+          "B14": {
+            "anyOf": [
+              "=MOYENNE(B5:B10)"
+            ],
+            "v": 346.67
+          }
+        }
+      },
+      "aide": {
+        "text": "Attention à ne pas inclure la ligne de total dans vos plages."
+      },
+      "feedback": "480 € le vendredi, 346,67 € de moyenne."
+    },
+    {
+      "id": "M06-E05-05",
+      "consigne": "Contrôle final : ==sélectionnez **B5:B10**== et vérifiez dans la barre d'état que la somme correspond bien à votre total en B12.",
+      "action": {
+        "type": "DRAG_RANGE",
+        "range": "B5:B10"
+      },
+      "aide": {
+        "text": "Faites glisser de B5 à B10 et lisez la bande grise en bas."
+      },
+      "feedback": "2 080 € des deux côtés. Le tableau est juste, et vous savez le prouver."
+    }
+  ]
+}

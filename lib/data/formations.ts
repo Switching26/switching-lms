@@ -124,6 +124,11 @@ export async function getLearnerFormation(userId: string) {
                   },
                 },
               },
+              // Métadonnées seulement. Le scénario complet est chargé à la demande
+              // via GET /api/simulations/[chapterId] : une formation Excel porte
+              // des centaines de simulations, les embarquer toutes dans le payload
+              // de la page ferait plusieurs mégaoctets pour rien.
+              simulation: { select: { id: true, app: true, mode: true, stepCount: true } },
             },
           },
           attachments: true,
@@ -158,6 +163,8 @@ export async function getLearnerFormationById(userId: string, formationId?: stri
                     questions: { orderBy: { order: "asc" }, include: { choices: true } },
                   },
                 },
+                // Métadonnées seulement — cf. commentaire dans getLearnerFormation.
+                simulation: { select: { id: true, app: true, mode: true, stepCount: true } },
               },
             },
             attachments: true,

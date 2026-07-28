@@ -1,0 +1,185 @@
+{
+  "schemaVersion": 1,
+  "title": "Calculer sans écrire de formule",
+  "mode": "LESSON",
+  "moduleTitle": "Calculs simples",
+  "intro": {
+    "title": "LA BARRE D'ÉTAT",
+    "body": "Parfois on veut juste connaître un total, sans le garder. Excel l'affiche en bas de la fenêtre dès qu'on sélectionne des nombres — beaucoup d'utilisateurs ne le savent pas."
+  },
+  "outro": {
+    "body": "Vous savez obtenir un total, une moyenne ou un comptage instantanément, sans toucher au classeur."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ],
+    "sheetCount": 1
+  },
+  "workbook": {
+    "fileName": "Chiffre d'affaires",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 110
+        },
+        "cells": {
+          "A1": {
+            "v": "Mois",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "CA HT",
+            "format": {
+              "bold": true
+            }
+          },
+          "C1": {
+            "v": "CA TTC",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Janvier"
+          },
+          "B2": {
+            "v": 25500
+          },
+          "C2": {
+            "v": 30600
+          },
+          "A3": {
+            "v": "Février"
+          },
+          "B3": {
+            "v": 32000
+          },
+          "C3": {
+            "v": 38400
+          },
+          "A4": {
+            "v": "Mars"
+          },
+          "B4": {
+            "v": 41500
+          },
+          "C4": {
+            "v": 49800
+          },
+          "A5": {
+            "v": "Avril"
+          },
+          "B5": {
+            "v": 35000
+          },
+          "C5": {
+            "v": 42000
+          },
+          "A6": {
+            "v": "Mai"
+          },
+          "B6": {
+            "v": 48000
+          },
+          "C6": {
+            "v": 57600
+          },
+          "A7": {
+            "v": "Juin"
+          },
+          "B7": {
+            "v": 26000
+          },
+          "C7": {
+            "v": 31200
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M06-L07-01",
+      "consigne": "Six mois de chiffre d'affaires. Vous voulez le total du premier trimestre, juste pour le lire. ==Sélectionnez la plage **B2:B4**== en faisant glisser la souris.",
+      "action": {
+        "type": "DRAG_RANGE",
+        "range": "B2:B4"
+      },
+      "aide": {
+        "text": "Cliquez sur B2, maintenez le bouton et descendez jusqu'à B4.",
+        "showTarget": true
+      },
+      "feedback": "Regardez la bande grise en bas de la fenêtre : elle affiche « Somme : 99 000 », la moyenne et le nombre de cellules. Vous n'avez écrit AUCUNE formule et le classeur n'a pas bougé."
+    },
+    {
+      "id": "M06-L07-03",
+      "consigne": "Essayez le second trimestre : ==sélectionnez **B5:B7**==.",
+      "action": {
+        "type": "DRAG_RANGE",
+        "range": "B5:B7"
+      },
+      "aide": {
+        "text": "Même geste, de B5 à B7.",
+        "showTarget": true
+      },
+      "feedback": "109 000 € : le second trimestre dépasse le premier de 10 000 €. Cette lecture instantanée est idéale pour VÉRIFIER une formule — on compare les deux chiffres, et s'ils diffèrent, c'est la plage de la formule qui est mauvaise."
+    },
+    {
+      "id": "M06-L07-05",
+      "consigne": "Mettons-le en pratique. En **B9**, ==totalisez les six mois== avec SOMME, puis on contrôlera avec la barre d'état.",
+      "setup": {
+        "selection": "B9",
+        "cells": {
+          "A9": {
+            "v": "Total HT",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B9",
+        "accept": [
+          "=SOMME(B2:B7)",
+          "=B2+B3+B4+B5+B6+B7"
+        ],
+        "formulaMode": true
+      },
+      "feedback": "208 000 €."
+    },
+    {
+      "id": "M06-L07-06",
+      "consigne": "Contrôlez maintenant votre formule : ==sélectionnez **B2:B7**== et comparez le total affiché en bas avec le résultat de B9.",
+      "action": {
+        "type": "DRAG_RANGE",
+        "range": "B2:B7"
+      },
+      "aide": {
+        "text": "De B2 jusqu'à B7, sans inclure la cellule de total.",
+        "showTarget": true
+      },
+      "feedback": "208 000 € des deux côtés : votre formule couvre bien la bonne plage. Ce réflexe de contrôle vaut de l'or sur un grand tableau."
+    },
+    {
+      "id": "M06-L07-07",
+      "consigne": "Dernier point utile : la barre d'état fonctionne aussi sur une **sélection en plusieurs morceaux**. En maintenant **Ctrl** pendant les clics, on additionne des cellules qui ne se touchent pas — pratique pour comparer deux mois précis.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    }
+  ]
+}

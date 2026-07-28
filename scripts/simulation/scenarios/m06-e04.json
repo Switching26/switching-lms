@@ -1,0 +1,244 @@
+{
+  "schemaVersion": 1,
+  "title": "Exercice · Analyser une série",
+  "mode": "EXERCISE",
+  "moduleTitle": "Calculs simples",
+  "intro": {
+    "title": "À VOUS",
+    "body": "Attention à la colonne de total : elle ne doit pas entrer dans vos plages."
+  },
+  "outro": {
+    "body": "Exercice terminé."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "workbook": {
+    "fileName": "Résultats",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 130
+        },
+        "cells": {
+          "A1": {
+            "v": "Stagiaire",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Test 1",
+            "format": {
+              "bold": true
+            }
+          },
+          "C1": {
+            "v": "Test 2",
+            "format": {
+              "bold": true
+            }
+          },
+          "D1": {
+            "v": "Test 3",
+            "format": {
+              "bold": true
+            }
+          },
+          "E1": {
+            "v": "Total",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Amina"
+          },
+          "B2": {
+            "v": 14
+          },
+          "C2": {
+            "v": 16
+          },
+          "D2": {
+            "v": 12
+          },
+          "E2": {
+            "v": 42
+          },
+          "A3": {
+            "v": "Bruno"
+          },
+          "B3": {
+            "v": 9
+          },
+          "C3": {
+            "v": 11
+          },
+          "D3": {
+            "v": 13
+          },
+          "E3": {
+            "v": 33
+          },
+          "A4": {
+            "v": "Chloé"
+          },
+          "B4": {
+            "v": 18
+          },
+          "C4": {
+            "v": 15
+          },
+          "D4": {
+            "v": 17
+          },
+          "E4": {
+            "v": 50
+          },
+          "A5": {
+            "v": "David"
+          },
+          "B5": {
+            "v": 12
+          },
+          "C5": {
+            "v": 8
+          },
+          "D5": {
+            "v": 14
+          },
+          "E5": {
+            "v": 34
+          },
+          "A7": {
+            "v": "Moyenne",
+            "format": {
+              "bold": true
+            }
+          },
+          "A8": {
+            "v": "Minimum",
+            "format": {
+              "bold": true
+            }
+          },
+          "A9": {
+            "v": "Maximum",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M06-E04-01",
+      "consigne": "En **B7**, calculez la **moyenne** du test 1.",
+      "setup": {
+        "selection": "B7"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B7",
+        "accept": [
+          "=MOYENNE(B2:B5)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Quatre stagiaires, de la ligne 2 à la ligne 5.",
+        "showTarget": true
+      },
+      "feedback": "13,25."
+    },
+    {
+      "id": "M06-E04-02",
+      "consigne": "En **B8** et **B9**, trouvez la **note la plus basse** et la **plus haute** du test 1.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "B8": {
+            "anyOf": [
+              "=MIN(B2:B5)"
+            ],
+            "v": 9
+          },
+          "B9": {
+            "anyOf": [
+              "=MAX(B2:B5)"
+            ],
+            "v": 18
+          }
+        }
+      },
+      "aide": {
+        "text": "MIN et MAX s'écrivent comme MOYENNE."
+      },
+      "feedback": "9 pour Bruno, 18 pour Chloé."
+    },
+    {
+      "id": "M06-E04-03",
+      "consigne": "Complétez les colonnes **C** et **D** — mais **pas la colonne E**, qui contient des totaux et n'a rien à faire dans une moyenne de notes.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "C7": {
+            "anyOf": [
+              "=MOYENNE(C2:C5)"
+            ],
+            "v": 12.5
+          },
+          "D7": {
+            "anyOf": [
+              "=MOYENNE(D2:D5)"
+            ],
+            "v": 14
+          },
+          "D9": {
+            "anyOf": [
+              "=MAX(D2:D5)"
+            ],
+            "v": 17
+          }
+        }
+      },
+      "aide": {
+        "text": "Sélectionnez B7:B9 puis recopiez vers la droite, en vous arrêtant à la colonne D."
+      },
+      "feedback": "Bien joué si vous vous êtes arrêté avant la colonne E."
+    },
+    {
+      "id": "M06-E04-04",
+      "consigne": "Question piège pour finir. En **G2**, calculez la **moyenne générale d'Amina** sur ses trois tests. Réfléchissez à la plage exacte.",
+      "setup": {
+        "selection": "G2",
+        "cells": {
+          "F1": {
+            "v": "Moyenne",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "G2",
+        "accept": [
+          "=MOYENNE(B2:D2)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Trois tests seulement : B2 à D2. Inclure E2 fausserait tout, puisque c'est déjà leur somme."
+      },
+      "feedback": "14. Avec E2 inclus, vous auriez obtenu 21 — un résultat absurde qu'aucun message d'erreur n'aurait signalé."
+    }
+  ]
+}

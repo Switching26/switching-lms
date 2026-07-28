@@ -1,0 +1,158 @@
+{
+  "schemaVersion": 1,
+  "title": "Exercice · Écrire des formules",
+  "mode": "EXERCISE",
+  "moduleTitle": "Calculs simples",
+  "intro": {
+    "title": "À VOUS",
+    "body": "On ne vous dit plus où cliquer, seulement ce qu'il faut obtenir."
+  },
+  "outro": {
+    "body": "Exercice terminé."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "workbook": {
+    "fileName": "Commande",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 130
+        },
+        "cells": {
+          "A1": {
+            "v": "Quantité",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": 8
+          },
+          "A2": {
+            "v": "Prix unitaire",
+            "format": {
+              "bold": true
+            }
+          },
+          "B2": {
+            "v": 15
+          },
+          "A3": {
+            "v": "Frais de port",
+            "format": {
+              "bold": true
+            }
+          },
+          "B3": {
+            "v": 12
+          },
+          "A5": {
+            "v": "Total marchandise",
+            "format": {
+              "bold": true
+            }
+          },
+          "A6": {
+            "v": "Total commande",
+            "format": {
+              "bold": true
+            }
+          },
+          "A7": {
+            "v": "Prix moyen par article",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M06-E01-01",
+      "consigne": "En **B5**, obtenez le **total de la marchandise**.",
+      "setup": {
+        "selection": "B5"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B5",
+        "accept": [
+          "=B1*B2",
+          "=B2*B1"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Quantité multipliée par le prix unitaire.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M06-E01-02",
+      "consigne": "En **B6**, obtenez le **total de la commande**, frais de port inclus.",
+      "setup": {
+        "selection": "B6"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B6",
+        "accept": [
+          "=B5+B3",
+          "=B3+B5",
+          "=B1*B2+B3"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Ajoutez les frais de port au total marchandise."
+      }
+    },
+    {
+      "id": "M06-E01-03",
+      "consigne": "En **B7**, obtenez le **prix moyen par article**, frais de port répartis. Attention à l'ordre des opérations.",
+      "setup": {
+        "selection": "B7"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B7",
+        "accept": [
+          "=B6/B1",
+          "=(B1*B2+B3)/B1"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Il faut diviser le total de la commande, pas seulement la marchandise — d'où les parenthèses si vous écrivez tout d'un coup."
+      },
+      "feedback": "16,50 €. Si vous avez obtenu 15,75 €, c'est que la division n'a porté que sur une partie du calcul."
+    },
+    {
+      "id": "M06-E01-04",
+      "consigne": "Dernière question. En **D1**, écrivez une formule qui **additionne d'abord** la quantité et le prix unitaire, **puis multiplie** le résultat par 2.",
+      "setup": {
+        "selection": "D1"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "D1",
+        "accept": [
+          "=(B1+B2)*2",
+          "=2*(B1+B2)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Sans parenthèses, Excel multiplierait avant d'additionner."
+      },
+      "feedback": "46. Les parenthèses ont imposé votre ordre de calcul."
+    }
+  ]
+}

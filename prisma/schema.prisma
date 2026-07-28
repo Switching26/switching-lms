@@ -38,33 +38,34 @@ enum ExerciseType {
 }
 
 model User {
-  id          String   @id @default(cuid())
-  email       String   @unique
-  password    String
+  id                       String    @id @default(cuid())
+  email                    String    @unique
+  password                 String
   visiblePasswordEncrypted String?
-  firstName   String
-  lastName    String
-  reference   String?  @unique
-  role        Role     @default(LEARNER)
-  partnerId   String?
-  partner     Partner? @relation(fields: [partnerId], references: [id])
-  isActive    Boolean  @default(true)
-  archivedAt  DateTime?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  lastLoginAt DateTime?
+  firstName                String
+  lastName                 String
+  reference                String?   @unique
+  role                     Role      @default(LEARNER)
+  partnerId                String?
+  partner                  Partner?  @relation(fields: [partnerId], references: [id])
+  isActive                 Boolean   @default(true)
+  archivedAt               DateTime?
+  createdAt                DateTime  @default(now())
+  updatedAt                DateTime  @updatedAt
+  lastLoginAt              DateTime?
 
-  enrollments         Enrollment[]
-  progress            Progress[]
-  notes               Note[]
-  loginLogs           LoginLog[]
-  emailLogs           EmailLog[]
-  passwordResetTokens PasswordResetToken[]
-  exerciseResponses   ExerciseResponse[]
-  questionResponses   QuestionResponse[]
+  enrollments            Enrollment[]
+  progress               Progress[]
+  notes                  Note[]
+  loginLogs              LoginLog[]
+  emailLogs              EmailLog[]
+  passwordResetTokens    PasswordResetToken[]
+  exerciseResponses      ExerciseResponse[]
+  questionResponses      QuestionResponse[]
   assessmentInvitations  AssessmentInvitation[]
-  conversationsAsLearner Conversation[] @relation("ConversationLearner")
-  conversationsAsAdmin   Conversation[] @relation("ConversationAdmin")
+  simulationAttempts     SimulationAttempt[]
+  conversationsAsLearner Conversation[]         @relation("ConversationLearner")
+  conversationsAsAdmin   Conversation[]         @relation("ConversationAdmin")
   messages               Message[]
 
   @@index([email])
@@ -87,21 +88,21 @@ model Partner {
   /// Organisme interne (Switching Formation) : accède à tout le catalogue
   /// sans licence, contrairement aux organismes partenaires qui ne voient
   /// que les formations explicitement ouvertes par le super-admin.
-  isInternal     Boolean  @default(false)
+  isInternal Boolean @default(false)
 
   /// Compte d'envoi des emails transactionnels de cet organisme.
   /// null = compte par défaut de la plateforme e-learning.
   /// "switching" = boîte Switching Formation (transport GMAIL_SWITCHING_*).
   /// Le nom affiché reste celui du partenaire dans tous les cas.
-  mailProfile    String?
+  mailProfile String?
 
   // SMTP configuration
   smtpHost       String?
   smtpPort       Int?
   smtpEmail      String?
-  smtpPassword   String?  // AES-256 encrypted
+  smtpPassword   String? // AES-256 encrypted
   smtpFromName   String?
-  useDefaultSmtp Boolean  @default(true)
+  useDefaultSmtp Boolean @default(true)
 
   users          User[]
   enrollments    Enrollment[]
@@ -113,29 +114,29 @@ model Partner {
 }
 
 model EmailTemplate {
-  id               String    @id @default(cuid())
+  id               String          @id @default(cuid())
   name             String
   subject          String
-  htmlContent      String    @db.Text
+  htmlContent      String          @db.Text
   type             EmailType
-  isDefault        Boolean   @default(false)
-  isActive         Boolean   @default(true)
+  isDefault        Boolean         @default(false)
+  isActive         Boolean         @default(true)
   partnerId        String?
-  partner          Partner?  @relation(fields: [partnerId], references: [id], onDelete: Cascade)
+  partner          Partner?        @relation(fields: [partnerId], references: [id], onDelete: Cascade)
   duplicatedFromId String?
   duplicatedFrom   EmailTemplate?  @relation("TemplateDuplicate", fields: [duplicatedFromId], references: [id], onDelete: SetNull)
   duplicates       EmailTemplate[] @relation("TemplateDuplicate")
-  createdAt        DateTime  @default(now())
-  updatedAt        DateTime  @updatedAt
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
 
   @@index([partnerId])
   @@index([type])
 }
 
 model Formation {
-  id            String   @id @default(cuid())
+  id            String    @id @default(cuid())
   title         String
-  description   String?  @db.Text
+  description   String?   @db.Text
   coverImageUrl String?
   isPublished   Boolean   @default(false)
   deletedAt     DateTime?
@@ -150,11 +151,11 @@ model Formation {
 }
 
 model Section {
-  id          String   @id @default(cuid())
+  id          String    @id @default(cuid())
   formationId String
   formation   Formation @relation(fields: [formationId], references: [id], onDelete: Cascade)
   title       String
-  description String?  @db.Text
+  description String?   @db.Text
   order       Int
 
   chapters Chapter[]
@@ -163,46 +164,47 @@ model Section {
 }
 
 model FormationAttachment {
-  id          String @id @default(cuid())
+  id          String    @id @default(cuid())
   formationId String
   formation   Formation @relation(fields: [formationId], references: [id], onDelete: Cascade)
   name        String
   fileUrl     String
-  fileSize    Int    @default(0)
+  fileSize    Int       @default(0)
 
   @@index([formationId])
 }
 
 model Chapter {
-  id            String   @id @default(cuid())
+  id            String    @id @default(cuid())
   formationId   String
   formation     Formation @relation(fields: [formationId], references: [id], onDelete: Cascade)
   sectionId     String?
   section       Section?  @relation(fields: [sectionId], references: [id], onDelete: SetNull)
   title         String
-  description   String?  @db.Text
+  description   String?   @db.Text
   order         Int
   videoUrl      String?
-  videoDuration Int      @default(0)
-  content       String?  @db.Text
-  isPublished   Boolean  @default(false)
+  videoDuration Int       @default(0)
+  content       String?   @db.Text
+  isPublished   Boolean   @default(false)
 
   attachments Attachment[]
   exercises   Exercise[]
   progress    Progress[]
   notes       Note[]
+  simulation  Simulation?
 
   @@index([formationId])
   @@index([sectionId])
 }
 
 model Attachment {
-  id        String @id @default(cuid())
+  id        String  @id @default(cuid())
   chapterId String
   chapter   Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
   name      String
   fileUrl   String
-  fileSize  Int    @default(0)
+  fileSize  Int     @default(0)
 
   @@index([chapterId])
 }
@@ -293,14 +295,14 @@ model PasswordResetToken {
 }
 
 model ImpersonationLog {
-  id            String   @id @default(cuid())
-  adminId       String
-  adminEmail    String
-  targetId      String
-  targetEmail   String
-  targetRole    Role
-  action        String   // "start" or "stop"
-  createdAt     DateTime @default(now())
+  id          String   @id @default(cuid())
+  adminId     String
+  adminEmail  String
+  targetId    String
+  targetEmail String
+  targetRole  Role
+  action      String // "start" or "stop"
+  createdAt   DateTime @default(now())
 
   @@index([adminId])
   @@index([targetId])
@@ -359,11 +361,11 @@ model Question {
 }
 
 model Choice {
-  id         String  @id @default(cuid())
+  id         String   @id @default(cuid())
   questionId String
   question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
   text       String
-  isCorrect  Boolean @default(false)
+  isCorrect  Boolean  @default(false)
 
   questionResponses QuestionResponse[]
 
@@ -371,12 +373,12 @@ model Choice {
 }
 
 model ExerciseResponse {
-  id          String    @id @default(cuid())
+  id          String   @id @default(cuid())
   userId      String
-  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   exerciseId  String
-  exercise    Exercise  @relation(fields: [exerciseId], references: [id], onDelete: Cascade)
-  completedAt DateTime  @default(now())
+  exercise    Exercise @relation(fields: [exerciseId], references: [id], onDelete: Cascade)
+  completedAt DateTime @default(now())
   score       Float?
 
   questionResponses QuestionResponse[]
@@ -386,15 +388,15 @@ model ExerciseResponse {
 }
 
 model Conversation {
-  id          String   @id @default(cuid())
-  learnerId   String
-  learner     User     @relation("ConversationLearner", fields: [learnerId], references: [id], onDelete: Cascade)
-  adminId     String
-  admin       User     @relation("ConversationAdmin", fields: [adminId], references: [id], onDelete: Cascade)
-  isReadAdmin   Boolean @default(false)
-  isReadLearner Boolean @default(false)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id            String   @id @default(cuid())
+  learnerId     String
+  learner       User     @relation("ConversationLearner", fields: [learnerId], references: [id], onDelete: Cascade)
+  adminId       String
+  admin         User     @relation("ConversationAdmin", fields: [adminId], references: [id], onDelete: Cascade)
+  isReadAdmin   Boolean  @default(false)
+  isReadLearner Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 
   messages Message[]
 
@@ -418,17 +420,17 @@ model Message {
 }
 
 model QuestionResponse {
-  id               String            @id @default(cuid())
+  id                 String           @id @default(cuid())
   exerciseResponseId String
-  exerciseResponse ExerciseResponse  @relation(fields: [exerciseResponseId], references: [id], onDelete: Cascade)
-  userId           String
-  user             User              @relation(fields: [userId], references: [id], onDelete: Cascade)
-  questionId       String
-  question         Question          @relation(fields: [questionId], references: [id], onDelete: Cascade)
-  responseText     String?           @db.Text
-  selectedChoiceId String?
-  selectedChoice   Choice?           @relation(fields: [selectedChoiceId], references: [id], onDelete: SetNull)
-  isCorrect        Boolean?
+  exerciseResponse   ExerciseResponse @relation(fields: [exerciseResponseId], references: [id], onDelete: Cascade)
+  userId             String
+  user               User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  questionId         String
+  question           Question         @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  responseText       String?          @db.Text
+  selectedChoiceId   String?
+  selectedChoice     Choice?          @relation(fields: [selectedChoiceId], references: [id], onDelete: SetNull)
+  isCorrect          Boolean?
 
   @@index([userId])
   @@index([questionId])
@@ -453,9 +455,9 @@ enum AssessmentType {
 
 enum AssessmentQuestionType {
   QCM_SINGLE // une seule bonne réponse
-  QCM_MULTI  // plusieurs bonnes réponses, notation tout-ou-rien
-  TEXTE      // réponse libre, corrigée manuellement
-  ECHELLE    // auto-positionnement, non noté
+  QCM_MULTI // plusieurs bonnes réponses, notation tout-ou-rien
+  TEXTE // réponse libre, corrigée manuellement
+  ECHELLE // auto-positionnement, non noté
 }
 
 model Assessment {
@@ -466,10 +468,10 @@ model Assessment {
 
   /// Organisme propriétaire. Un admin partenaire ne voit que les siens ;
   /// le super-admin voit tout. Cloisonne les tests Switching des partenaires.
-  partnerId   String?
-  partner     Partner?       @relation(fields: [partnerId], references: [id], onDelete: SetNull)
+  partnerId String?
+  partner   Partner? @relation(fields: [partnerId], references: [id], onDelete: SetNull)
 
-  isPublished Boolean        @default(false)
+  isPublished Boolean @default(false)
 
   /// Ce que le candidat voit une fois le test soumis.
   showScore          Boolean @default(true)
@@ -480,17 +482,17 @@ model Assessment {
   /// Durée limite en minutes (null = pas de limite).
   timeLimitMinutes Int?
   /// Validité par défaut d'une invitation, en jours.
-  validityDays     Int     @default(30)
+  validityDays     Int  @default(30)
 
   /// Destinataire de la notification « test terminé ». Vide = l'auteur de
   /// l'invitation. Sans cela, il faudrait surveiller la page pour savoir
   /// qu'un candidat a répondu.
-  notifyEmail      String?
+  notifyEmail String?
 
   /// Grille score → niveau, ex. [{min,max,level,label,parcours}]. Stockée ici
   /// pour que le candidat ET le mail affichent un niveau, pas un pourcentage
   /// brut que personne ne sait interpréter.
-  levelBands       Json?
+  levelBands Json?
 
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
@@ -562,8 +564,8 @@ model AssessmentInvitation {
   expiresAt   DateTime?
 
   /// Score en points bruts + barème, calculés serveur à la soumission.
-  score    Float?
-  maxScore Float?
+  score             Float?
+  maxScore          Float?
   /// Reste à corriger manuellement (présence de questions TEXTE).
   needsManualReview Boolean @default(false)
 
@@ -587,8 +589,8 @@ model AssessmentAnswer {
   /// QCM : identifiants des choix cochés (mono ou multi).
   selectedChoiceIds String[]
   /// TEXTE : réponse libre. ECHELLE : valeur choisie.
-  responseText String? @db.Text
-  scaleValue   Int?
+  responseText      String?  @db.Text
+  scaleValue        Int?
 
   /// null tant qu'une question TEXTE n'a pas été corrigée à la main.
   isCorrect    Boolean?
@@ -597,4 +599,90 @@ model AssessmentAnswer {
   @@unique([invitationId, questionId])
   @@index([invitationId])
   @@index([questionId])
+}
+
+/// ═══════════ SIMULATIONS BUREAUTIQUES ═══════════
+/// Moteur de simulation interactive (Excel, puis Word/PowerPoint).
+/// Un chapitre porte AU PLUS une simulation. Le scénario est déclaratif
+/// (JSON opaque côté base) pour pouvoir évoluer sans migration.
+/// Volontairement séparé du moteur de quiz (Exercise/Question/Choice) et du
+/// moteur d'évaluation prospect (Assessment) : les trois ont des cycles de vie
+/// et des règles de notation différents.
+
+enum SimulationApp {
+  EXCEL
+  WORD
+  POWERPOINT
+}
+
+/// LESSON     : guidée — la consigne dit où cliquer, halo d'aide affiché.
+/// EXERCISE   : l'apprenant reçoit l'objectif, pas le chemin. Aide sur demande.
+/// EVALUATION : notée, sans aide, score conservé.
+enum SimulationMode {
+  LESSON
+  EXERCISE
+  EVALUATION
+}
+
+model Simulation {
+  id        String         @id @default(cuid())
+  chapterId String         @unique
+  chapter   Chapter        @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+  app       SimulationApp  @default(EXCEL)
+  mode      SimulationMode @default(LESSON)
+
+  /// Scénario déclaratif complet : état initial du classeur, étapes,
+  /// cibles attendues, aides, état du ruban. Voir lib/simulation/schema.ts.
+  scenario  Json
+  /// Dénormalisé : nombre d'étapes, pour l'affichage sans parser le scénario.
+  stepCount Int  @default(0)
+  /// Incrémenté à chaque modification de fond du scénario : permet de repérer
+  /// les tentatives en cours démarrées sur une version antérieure.
+  version   Int  @default(1)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  attempts SimulationAttempt[]
+
+  @@index([chapterId])
+}
+
+/// Une ligne par (simulation, apprenant) : c'est l'ÉTAT courant, pas un
+/// historique. Les reprises se font sur cette ligne (comme Progress), et
+/// l'historique fin vit dans stepLog.
+model SimulationAttempt {
+  id           String     @id @default(cuid())
+  simulationId String
+  simulation   Simulation @relation(fields: [simulationId], references: [id], onDelete: Cascade)
+  userId       String
+  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  /// Étape où l'apprenant reprend (index 0-based).
+  currentStep Int @default(0)
+  /// Étape la plus avancée atteinte : la navigation est libre, donc currentStep
+  /// peut reculer sans faire perdre la progression réelle.
+  maxStepSeen Int @default(0)
+
+  /// Mauvaises actions cumulées, et nombre d'aides ouvertes : ce sont les deux
+  /// signaux pédagogiques utiles au formateur.
+  errorCount Int @default(0)
+  hintCount  Int @default(0)
+
+  /// Mode EVALUATION uniquement. bestScore survit à une reprise moins bonne.
+  score        Float?
+  bestScore    Float?
+  attemptCount Int    @default(1)
+
+  /// Trace par étape : [{ step, errors, hints, ms, typed }] — sert aux preuves
+  /// Qualiopi et au diagnostic pédagogique.
+  stepLog Json?
+
+  startedAt   DateTime  @default(now())
+  completedAt DateTime?
+  updatedAt   DateTime  @updatedAt
+
+  @@unique([simulationId, userId])
+  @@index([userId])
+  @@index([simulationId])
 }

@@ -1,0 +1,168 @@
+{
+  "schemaVersion": 1,
+  "title": "Ma première formule",
+  "mode": "LESSON",
+  "moduleTitle": "Calculs simples",
+  "intro": {
+    "title": "ÉCRIRE UNE FORMULE",
+    "body": "Une formule permet de calculer à partir du contenu des cellules. Tout commence par un signe égal — c'est lui qui dit à Excel « ce qui suit est un calcul »."
+  },
+  "outro": {
+    "body": "Vous savez écrire une formule, la valider, et référencer d'autres cellules pour que le résultat se recalcule tout seul."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "workbook": {
+    "fileName": "Classeur1",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 90
+        },
+        "cells": {}
+      }
+    ]
+  },
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ],
+    "sheetCount": 1
+  },
+  "steps": [
+    {
+      "id": "M06-L01-01",
+      "consigne": "Une formule commence **toujours** par le signe égal. Dans la cellule **A1**, ==saisissez `=3+2` puis validez==.",
+      "setup": {
+        "selection": "A1"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "A1",
+        "accept": [
+          "=3+2",
+          "=2+3"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Tapez directement dans la cellule, en commençant par =",
+        "showTarget": true
+      },
+      "feedback": "Le résultat 5 s'affiche dans la cellule, alors que la barre de formule garde votre calcul."
+    },
+    {
+      "id": "M06-L01-02",
+      "consigne": "La cellule affiche **5**, mais la barre de formule affiche toujours `=3+2`. C'est la différence essentielle : la cellule montre le **résultat**, la barre de formule montre le **calcul**.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M06-L01-03",
+      "consigne": "Un calcul sur des nombres écrits en dur a peu d'intérêt. On va plutôt faire référence à des cellules. ==Sélectionnez la cellule **B1**==.",
+      "action": {
+        "type": "CLICK_CELL",
+        "cell": "B1"
+      },
+      "aide": {
+        "text": "Cliquez simplement dans la cellule B1.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M06-L01-04",
+      "consigne": "==Saisissez `12`== et validez.",
+      "setup": {
+        "selection": "B1"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B1",
+        "accept": [
+          "12"
+        ]
+      }
+    },
+    {
+      "id": "M06-L01-05",
+      "consigne": "En **B2**, ==saisissez `8`== et validez.",
+      "setup": {
+        "selection": "B2"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B2",
+        "accept": [
+          "8"
+        ]
+      }
+    },
+    {
+      "id": "M06-L01-06",
+      "consigne": "Vous voulez la somme de B1 et B2 en **B3**. Au lieu d'écrire `=12+8`, ==saisissez `=B1+B2`==.",
+      "setup": {
+        "selection": "B3"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B3",
+        "accept": [
+          "=B1+B2",
+          "=B2+B1",
+          "=SOMME(B1:B2)",
+          "=SOMME(B1;B2)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Vous pouvez taper les références, ou cliquer sur les cellules pendant la saisie.",
+        "showTarget": true
+      },
+      "feedback": "20 s'affiche. Notez bien ce que vous venez d'écrire : la formule ne contient pas les nombres, elle contient l'adresse des nombres."
+    },
+    {
+      "id": "M06-L01-07",
+      "consigne": "Et c'est là tout l'intérêt. En **B2**, ==remplacez 8 par `50`== et regardez B3.",
+      "setup": {
+        "selection": "B2"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B2",
+        "accept": [
+          "50"
+        ]
+      },
+      "feedback": "B3 est passé de 20 à 62 sans que vous retouchiez la formule : Excel a recalculé seul. C'est la raison pour laquelle on référence des cellules plutôt que d'écrire les nombres en dur."
+    },
+    {
+      "id": "M06-L01-08",
+      "consigne": "L'addition n'est pas seule. En **B4**, ==saisissez `=B1*10`== pour multiplier le contenu de B1 par 10. L'astérisque est le signe de la multiplication.",
+      "setup": {
+        "selection": "B4"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B4",
+        "accept": [
+          "=B1*10",
+          "=10*B1"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "L'astérisque s'obtient avec la touche * du pavé numérique.",
+        "showTarget": true
+      },
+      "feedback": "120. Vous disposez maintenant des deux opérateurs les plus utilisés."
+    }
+  ]
+}

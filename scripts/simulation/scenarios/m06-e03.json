@@ -1,0 +1,187 @@
+{
+  "schemaVersion": 1,
+  "title": "Exercice · Figer une référence",
+  "mode": "EXERCISE",
+  "moduleTitle": "Calculs simples",
+  "intro": {
+    "title": "À VOUS",
+    "body": "Deux taux en cellules fixes, une recopie sur deux axes. C'est ici qu'on voit si le dollar est compris."
+  },
+  "outro": {
+    "body": "Exercice terminé."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "workbook": {
+    "fileName": "Remises",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 120
+        },
+        "cells": {
+          "A1": {
+            "v": "Remise",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": 0.1
+          },
+          "A2": {
+            "v": "TVA",
+            "format": {
+              "bold": true
+            }
+          },
+          "B2": {
+            "v": 0.2
+          },
+          "A5": {
+            "v": "Article",
+            "format": {
+              "bold": true
+            }
+          },
+          "B5": {
+            "v": "Prix HT",
+            "format": {
+              "bold": true
+            }
+          },
+          "C5": {
+            "v": "Remisé",
+            "format": {
+              "bold": true
+            }
+          },
+          "D5": {
+            "v": "TTC",
+            "format": {
+              "bold": true
+            }
+          },
+          "A6": {
+            "v": "Clavier"
+          },
+          "B6": {
+            "v": 45
+          },
+          "A7": {
+            "v": "Souris"
+          },
+          "B7": {
+            "v": 25
+          },
+          "A8": {
+            "v": "Écran"
+          },
+          "B8": {
+            "v": 180
+          },
+          "A9": {
+            "v": "Casque"
+          },
+          "B9": {
+            "v": 70
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M06-E03-01",
+      "consigne": "En **C6**, calculez le prix **après remise** du clavier. Votre formule devra être recopiable sur les trois lignes suivantes.",
+      "setup": {
+        "selection": "C6"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "C6",
+        "accept": [
+          "=B6*(1-$B$1)",
+          "=B6-B6*$B$1"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Le taux de remise est en B1 et ne doit pas bouger à la recopie."
+      },
+      "feedback": "40,50 €."
+    },
+    {
+      "id": "M06-E03-02",
+      "consigne": "En **D6**, calculez le prix **TTC** à partir du prix remisé. Même exigence : recopiable.",
+      "setup": {
+        "selection": "D6"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "D6",
+        "accept": [
+          "=C6*(1+$B$2)",
+          "=C6+C6*$B$2"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "La TVA est en B2. Le prix remisé, lui, doit suivre la ligne."
+      },
+      "feedback": "48,60 €."
+    },
+    {
+      "id": "M06-E03-03",
+      "consigne": "Complétez les **trois lignes restantes**, en colonnes C et D.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "C7": {
+            "v": 22.5
+          },
+          "C9": {
+            "v": 63
+          },
+          "D7": {
+            "v": 27
+          },
+          "D8": {
+            "v": 194.4
+          },
+          "D9": {
+            "v": 75.6
+          }
+        }
+      },
+      "aide": {
+        "text": "Sélectionnez C6:D6 et recopiez vers le bas jusqu'à la ligne 9."
+      },
+      "feedback": "Si vos quatre lignes sont justes, c'est que vos dollars sont bien placés."
+    },
+    {
+      "id": "M06-E03-04",
+      "consigne": "Contrôle final : la remise passe à **15 %**. Faites le changement au bon endroit.",
+      "setup": {
+        "selection": "B1"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B1",
+        "accept": [
+          "0,15",
+          "0.15",
+          "15%"
+        ]
+      },
+      "aide": {
+        "text": "Une seule cellule à modifier — si vous devez en toucher plusieurs, les dollars manquent."
+      },
+      "feedback": "Les huit cellules se recalculent d'un coup. C'est exactement le bénéfice recherché."
+    }
+  ]
+}

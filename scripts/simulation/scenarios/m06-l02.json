@@ -1,0 +1,214 @@
+{
+  "schemaVersion": 1,
+  "title": "Les quatre opérateurs et les parenthèses",
+  "mode": "LESSON",
+  "moduleTitle": "Calculs simples",
+  "intro": {
+    "title": "CALCULER AVEC LES QUATRE OPÉRATIONS",
+    "body": "Addition, soustraction, multiplication, division. Et surtout : l'ordre dans lequel Excel les applique, qui n'est pas l'ordre où vous les écrivez."
+  },
+  "outro": {
+    "body": "Vous maîtrisez les quatre opérateurs et la priorité de calcul. C'est la cause numéro un des résultats faux dans un tableur."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "workbook": {
+    "fileName": "Calculs",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 130
+        },
+        "cells": {
+          "A1": {
+            "v": "Quantité",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": 12
+          },
+          "A2": {
+            "v": "Prix unitaire",
+            "format": {
+              "bold": true
+            }
+          },
+          "B2": {
+            "v": 25
+          },
+          "A3": {
+            "v": "Remise",
+            "format": {
+              "bold": true
+            }
+          },
+          "B3": {
+            "v": 30
+          },
+          "A5": {
+            "v": "Total",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M06-L02-01",
+      "consigne": "Le tableau contient une quantité, un prix unitaire et une remise. En **B5**, ==calculez le total avant remise== : la quantité multipliée par le prix.",
+      "setup": {
+        "selection": "B5"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B5",
+        "accept": [
+          "=B1*B2",
+          "=B2*B1"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "L'astérisque * est le signe de la multiplication.",
+        "showTarget": true
+      },
+      "feedback": "300 €. Passons à la soustraction."
+    },
+    {
+      "id": "M06-L02-02",
+      "consigne": "En **B6**, ==soustrayez la remise du total== : `=B5-B3`.",
+      "setup": {
+        "selection": "B6",
+        "cells": {
+          "A6": {
+            "v": "Après remise"
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B6",
+        "accept": [
+          "=B5-B3"
+        ],
+        "formulaMode": true
+      },
+      "feedback": "270 €."
+    },
+    {
+      "id": "M06-L02-03",
+      "consigne": "En **B7**, ==calculez le prix moyen par unité== en divisant le total après remise par la quantité : `=B6/B1`. La barre oblique est le signe de la division.",
+      "setup": {
+        "selection": "B7",
+        "cells": {
+          "A7": {
+            "v": "Prix moyen"
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B7",
+        "accept": [
+          "=B6/B1"
+        ],
+        "formulaMode": true
+      },
+      "feedback": "22,50 €. Vous avez utilisé les quatre opérateurs."
+    },
+    {
+      "id": "M06-L02-04",
+      "consigne": "Attention, voici le piège le plus courant. Excel ne calcule **pas** de gauche à droite : il fait d'abord les multiplications et divisions, ensuite les additions et soustractions.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M06-L02-05",
+      "consigne": "Vérifions. En **D1**, ==saisissez `=B1+B2*2`==. Réfléchissez d'abord au résultat que vous attendez.",
+      "setup": {
+        "selection": "D1"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "D1",
+        "accept": [
+          "=B1+B2*2"
+        ],
+        "formulaMode": true
+      },
+      "feedback": "62, et non 74. Excel a d'abord fait 25 × 2 = 50, puis ajouté 12."
+    },
+    {
+      "id": "M06-L02-06",
+      "consigne": "Si vous vouliez additionner **avant** de multiplier, il faut le dire avec des parenthèses. En **D2**, ==saisissez `=(B1+B2)*2`==.",
+      "setup": {
+        "selection": "D2"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "D2",
+        "accept": [
+          "=(B1+B2)*2"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Les parenthèses forcent Excel à calculer leur contenu en premier.",
+        "showTarget": true
+      },
+      "feedback": "74. Même formule à un détail près, résultat totalement différent."
+    },
+    {
+      "id": "M06-L02-07",
+      "consigne": "**62** et **74** avec les mêmes nombres. Retenez-le : dès qu'une formule mélange une addition et une multiplication, mettez des parenthèses, même quand elles semblent inutiles. Elles rendent votre intention lisible.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M06-L02-08",
+      "consigne": "Dernière méthode utile : construire une formule ==en cliquant sur les cellules== plutôt qu'en tapant leurs adresses. Commencez par ==sélectionner la cellule **D4**==.",
+      "action": {
+        "type": "CLICK_CELL",
+        "cell": "D4"
+      },
+      "aide": {
+        "text": "Cliquez simplement dans D4.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M06-L02-09",
+      "consigne": "Tapez `=`, puis ==cliquez sur **B1**==, tapez `*`, ==cliquez sur **B2**== et validez. Excel insère les références à votre place — c'est plus rapide et on se trompe moins d'adresse.",
+      "setup": {
+        "selection": "D4"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "D4",
+        "accept": [
+          "=B1*B2",
+          "=B2*B1"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Vous pouvez aussi taper les références directement : le résultat est le même.",
+        "showTarget": true
+      },
+      "feedback": "300 €. Le pointage à la souris et la frappe donnent exactement la même formule."
+    }
+  ]
+}

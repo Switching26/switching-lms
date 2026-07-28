@@ -1,0 +1,263 @@
+{
+  "schemaVersion": 1,
+  "title": "Recopier une formule",
+  "mode": "LESSON",
+  "moduleTitle": "Calculs simples",
+  "intro": {
+    "title": "ÉCRIRE UNE FOIS, APPLIQUER PARTOUT",
+    "body": "Une formule juste peut être dupliquée en un geste. Et en se déplaçant, elle s'adapte : c'est ce qui fait la puissance d'un tableur."
+  },
+  "outro": {
+    "body": "Vous savez recopier une formule et vous comprenez pourquoi ses références se décalent. C'est le fondement de la leçon suivante."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "workbook": {
+    "fileName": "Ventes trimestre",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 120
+        },
+        "cells": {
+          "A1": {
+            "v": "Produit",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Janvier",
+            "format": {
+              "bold": true
+            }
+          },
+          "C1": {
+            "v": "Février",
+            "format": {
+              "bold": true
+            }
+          },
+          "D1": {
+            "v": "Mars",
+            "format": {
+              "bold": true
+            }
+          },
+          "E1": {
+            "v": "Trimestre",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Clavier"
+          },
+          "B2": {
+            "v": 1200
+          },
+          "C2": {
+            "v": 1450
+          },
+          "D2": {
+            "v": 1310
+          },
+          "A3": {
+            "v": "Souris"
+          },
+          "B3": {
+            "v": 890
+          },
+          "C3": {
+            "v": 940
+          },
+          "D3": {
+            "v": 1020
+          },
+          "A4": {
+            "v": "Écran"
+          },
+          "B4": {
+            "v": 3400
+          },
+          "C4": {
+            "v": 2900
+          },
+          "D4": {
+            "v": 3150
+          },
+          "A5": {
+            "v": "Casque"
+          },
+          "B5": {
+            "v": 560
+          },
+          "C5": {
+            "v": 610
+          },
+          "D5": {
+            "v": 705
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M06-L04-01",
+      "consigne": "Quatre produits, trois mois. On veut le total du trimestre pour chaque produit. Commencez par le premier : en **E2**, ==totalisez la ligne du clavier==.",
+      "setup": {
+        "selection": "E2"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "E2",
+        "accept": [
+          "=SOMME(B2:D2)",
+          "=B2+C2+D2"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "La plage à totaliser va de B2 à D2.",
+        "showTarget": true
+      },
+      "feedback": "3 960 €. Il reste trois lignes — et on ne va pas réécrire la formule."
+    },
+    {
+      "id": "M06-L04-02",
+      "consigne": "==Sélectionnez **E2**==. En bas à droite de la cellule active, un petit carré apparaît : c'est la **poignée de recopie**. En la tirant vers le bas, on duplique la formule.",
+      "action": {
+        "type": "CLICK_CELL",
+        "cell": "E2"
+      },
+      "aide": {
+        "text": "Cliquez dans E2 pour la rendre active.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M06-L04-03",
+      "consigne": "==Recopiez la formule de E2 jusqu'en E5==, en tirant la poignée vers le bas. Vous pouvez aussi copier E2 puis coller sur E3:E5 — le résultat compte, pas le chemin.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "E3": {
+            "anyOf": [
+              "=SOMME(B3:D3)",
+              "=B3+C3+D3"
+            ],
+            "v": 2850
+          },
+          "E4": {
+            "anyOf": [
+              "=SOMME(B4:D4)",
+              "=B4+C4+D4"
+            ],
+            "v": 9450
+          },
+          "E5": {
+            "anyOf": [
+              "=SOMME(B5:D5)",
+              "=B5+C5+D5"
+            ],
+            "v": 1875
+          }
+        }
+      },
+      "aide": {
+        "text": "Placez le curseur sur le petit carré en bas à droite de E2, puis faites glisser jusqu'à E5."
+      },
+      "feedback": "Les quatre totaux sont là. Regardez maintenant ce qui s'est passé dans les formules."
+    },
+    {
+      "id": "M06-L04-04",
+      "consigne": "Cliquez sur **E3** puis sur **E5** et observez la barre de formule. E2 contenait `=SOMME(B2:D2)`, E3 contient `=SOMME(B3:D3)`, E5 contient `=SOMME(B5:D5)`. Excel a **décalé les références** en même temps que la formule.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M06-L04-05",
+      "consigne": "C'est ce qu'on appelle une **référence relative** : elle est comprise comme « la plage située à gauche, sur ma ligne ». En descendant d'une ligne, elle descend aussi. C'est presque toujours ce qu'on veut.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M06-L04-06",
+      "consigne": "La recopie fonctionne dans toutes les directions. En **B6**, ==totalisez la colonne Janvier==.",
+      "setup": {
+        "selection": "B6",
+        "cells": {
+          "A6": {
+            "v": "TOTAL",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B6",
+        "accept": [
+          "=SOMME(B2:B5)",
+          "=B2+B3+B4+B5"
+        ],
+        "formulaMode": true
+      },
+      "feedback": "6 050 €."
+    },
+    {
+      "id": "M06-L04-07",
+      "consigne": "==Recopiez B6 vers la droite jusqu'en E6== pour obtenir les totaux de février, mars et du trimestre.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "C6": {
+            "anyOf": [
+              "=SOMME(C2:C5)",
+              "=C2+C3+C4+C5"
+            ],
+            "v": 5900
+          },
+          "D6": {
+            "anyOf": [
+              "=SOMME(D2:D5)",
+              "=D2+D3+D4+D5"
+            ],
+            "v": 6185
+          },
+          "E6": {
+            "anyOf": [
+              "=SOMME(E2:E5)",
+              "=E2+E3+E4+E5",
+              "=SOMME(B6:D6)",
+              "=B6+C6+D6"
+            ],
+            "v": 18135
+          }
+        }
+      },
+      "aide": {
+        "text": "Tirez la poignée de B6 vers la droite, jusqu'à E6."
+      },
+      "feedback": "18 135 € au total. En deux formules écrites, vous avez rempli huit cellules."
+    },
+    {
+      "id": "M06-L04-08",
+      "consigne": "Un raccourci qui fait gagner du temps : au lieu de tirer la poignée, ==double-cliquez dessus== et Excel remplit automatiquement jusqu'au bas du tableau. Pratique sur mille lignes.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    }
+  ]
+}

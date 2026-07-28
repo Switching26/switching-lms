@@ -1,0 +1,239 @@
+{
+  "schemaVersion": 1,
+  "title": "Exercice · Totaliser un tableau",
+  "mode": "EXERCISE",
+  "moduleTitle": "Calculs simples",
+  "intro": {
+    "title": "À VOUS",
+    "body": "Un tableau à totaliser dans les deux sens."
+  },
+  "outro": {
+    "body": "Exercice terminé."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "workbook": {
+    "fileName": "Ateliers",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 120
+        },
+        "cells": {
+          "A1": {
+            "v": "Atelier",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Visseuse",
+            "format": {
+              "bold": true
+            }
+          },
+          "C1": {
+            "v": "Testeur",
+            "format": {
+              "bold": true
+            }
+          },
+          "D1": {
+            "v": "Pince",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Atelier A"
+          },
+          "B2": {
+            "v": 5
+          },
+          "C2": {
+            "v": 8
+          },
+          "D2": {
+            "v": 2
+          },
+          "A3": {
+            "v": "Atelier B"
+          },
+          "B3": {
+            "v": 9
+          },
+          "C3": {
+            "v": 9
+          },
+          "D3": {
+            "v": 8
+          },
+          "A4": {
+            "v": "Atelier C"
+          },
+          "B4": {
+            "v": 6
+          },
+          "C4": {
+            "v": 7
+          },
+          "D4": {
+            "v": 8
+          },
+          "A5": {
+            "v": "Atelier D"
+          },
+          "B5": {
+            "v": 8
+          },
+          "C5": {
+            "v": 5
+          },
+          "D5": {
+            "v": 4
+          },
+          "A6": {
+            "v": "TOTAL",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M06-E02-01",
+      "consigne": "En **B6**, totalisez la colonne **Visseuse**.",
+      "setup": {
+        "selection": "B6"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B6",
+        "accept": [
+          "=SOMME(B2:B5)",
+          "=B2+B3+B4+B5"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Le bouton Σ du groupe Édition devine la plage.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M06-E02-02",
+      "consigne": "Obtenez les totaux des deux **autres colonnes**, sans réécrire la formule.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "C6": {
+            "anyOf": [
+              "=SOMME(C2:C5)",
+              "=C2+C3+C4+C5"
+            ],
+            "v": 29
+          },
+          "D6": {
+            "anyOf": [
+              "=SOMME(D2:D5)",
+              "=D2+D3+D4+D5"
+            ],
+            "v": 22
+          }
+        }
+      },
+      "aide": {
+        "text": "La poignée de recopie de B6 vers la droite."
+      },
+      "feedback": "29 et 22."
+    },
+    {
+      "id": "M06-E02-03",
+      "consigne": "En **E6**, obtenez le **total général** des trois colonnes.",
+      "setup": {
+        "selection": "E6",
+        "cells": {
+          "E1": {
+            "v": "Total",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "E6",
+        "accept": [
+          "=SOMME(B6:D6)",
+          "=B6+C6+D6",
+          "=SOMME(B2:D5)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Vous pouvez totaliser la ligne des totaux, ou tout le tableau d'un coup."
+      },
+      "feedback": "79 équipements."
+    },
+    {
+      "id": "M06-E02-04",
+      "consigne": "Obtenez le total **par atelier** dans la colonne **E**, pour les quatre lignes.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "E2": {
+            "anyOf": [
+              "=SOMME(B2:D2)",
+              "=B2+C2+D2"
+            ],
+            "v": 15
+          },
+          "E5": {
+            "anyOf": [
+              "=SOMME(B5:D5)",
+              "=B5+C5+D5"
+            ],
+            "v": 17
+          }
+        }
+      },
+      "aide": {
+        "text": "Une formule en E2, puis recopie vers le bas jusqu'à E5."
+      },
+      "feedback": "Le tableau est totalisé dans les deux sens, et les deux totaux généraux concordent."
+    },
+    {
+      "id": "M06-E02-05",
+      "consigne": "Dernière question : en **G2**, additionnez **uniquement** l'atelier A et l'atelier D de la colonne Visseuse.",
+      "setup": {
+        "selection": "G2",
+        "cells": {
+          "F2": {
+            "v": "A + D"
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "G2",
+        "accept": [
+          "=SOMME(B2;B5)",
+          "=B2+B5"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Deux cellules précises : c'est le point-virgule, pas le deux-points."
+      },
+      "feedback": "13. Le point-virgule énumère, le deux-points parcourt."
+    }
+  ]
+}

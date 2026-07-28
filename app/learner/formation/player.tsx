@@ -1,17 +1,22 @@
 "use client"
 
 import { useState, useEffect, useRef, useCallback, useMemo } from "react"
+import SimulationChapter from "@/components/simulation/SimulationChapter"
 
 /* ═══════════ HELPERS ═══════════ */
 
-type ChapterKind = "video" | "exercise" | "pdf" | "text"
+type ChapterKind = "video" | "simulation" | "exercise" | "pdf" | "text"
 
 function getChapterKind(ch: {
   videoUrl: string | null
+  simulation?: { id: string; mode: string; stepCount: number } | null
   exercises?: { id: string }[]
   attachments?: { fileUrl: string }[]
 }): ChapterKind {
   if (ch.videoUrl) return "video"
+  // Une simulation passe avant le quiz : un chapitre de simulation peut porter
+  // en plus un QCM de fin, c'est la simulation qui définit le chapitre.
+  if (ch.simulation) return "simulation"
   if (ch.exercises && ch.exercises.length > 0) return "exercise"
   if (ch.attachments?.some((a) => /\.pdf(\?|$)/i.test(a.fileUrl))) return "pdf"
   return "text"
@@ -73,6 +78,11 @@ interface Chapter {
   sectionId?: string | null
   attachments: ChapterAttachment[]
   exercises: Exercise[]
+  /**
+   * Métadonnées de simulation seulement — le scénario lui-même est chargé à la
+   * demande par le composant de simulation via GET /api/simulations/[chapterId].
+   */
+  simulation?: { id: string; app: string; mode: string; stepCount: number } | null
 }
 
 interface Section {
@@ -382,7 +392,16 @@ export default function FormationPlayer({
           onWatchProgress={handleWatchProgress}
           takePendingSeconds={takePendingSeconds}
         />
-        {!active?.videoUrl && (active?.exercises?.length > 0 ? (
+        {/* Atelier bureautique : passe avant le quiz, car un chapitre de simulation
+            peut aussi porter un QCM de fin — c'est la simulation qui le définit. */}
+        {!active?.videoUrl && active?.simulation && (
+          <SimulationChapter
+            chapterId={active.id}
+            preview={!!preview}
+            onCompleted={() => handleChapterCompleted(active.id)}
+          />
+        )}
+        {!active?.videoUrl && !active?.simulation && (active?.exercises?.length > 0 ? (
           (() => {
             const ex = active.exercises[0]
             const questionsCount = ex.questions?.length || 0
@@ -941,6 +960,13 @@ function ChapterButton({
     video: {
       bg: "bg-warm-100", text: "text-warm-500",
       icon: <svg viewBox="0 0 24 24" fill="currentColor" className="w-3 h-3"><path d="M8 5v14l11-7z" /></svg>,
+    },
+    // Icône grille : la simulation se reconnaît immédiatement comme un exercice
+    // « dans le logiciel ». Bleu ciel volontairement distinct de l'ambre du quiz,
+    // du rose des PDF et du vert de la complétion.
+    simulation: {
+      bg: "bg-sky-100", text: "text-sky-700",
+      icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-3 h-3"><path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 6v12h16V6M9 6v12m6-12v12M4 12h16" /></svg>,
     },
     exercise: {
       bg: "bg-amber-100", text: "text-amber-700",

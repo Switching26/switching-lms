@@ -195,6 +195,39 @@ for (const num of modules) {
   )
 }
 
+/* ── Les contrôles cités existent-ils VRAIMENT à l'écran ? ─────────────────
+   `check-scenario.ts` vérifie qu'un contrôle est AUTORISÉ, pas qu'il est RENDU.
+   « Largeur de colonne » et « Masquer » étaient l'un et l'autre implémentés dans
+   le simulateur et admis par le contrôleur, sans qu'aucun bouton ne les rende :
+   neuf étapes demandaient à l'apprenant de cliquer quelque chose qui n'existait
+   pas. Aucun contrôle ne pouvait le voir. Celui-ci le voit. */
+
+const sourcesUi = ["SimulationChrome.tsx", "PageLayoutLayer.tsx", "PivotLayer.tsx", "MacroPanel.tsx", "ChartLayer.tsx"]
+  .map((f) => path.join(__dirname, "..", "..", "components", "simulation", f))
+  .filter((f) => fs.existsSync(f))
+  .map((f) => fs.readFileSync(f, "utf8"))
+  .join("\n")
+
+const citesParLeContenu: Record<string, string[]> = {}
+for (const num of modules) {
+  for (const c of parModule[num]) {
+    for (const s of c.sc.steps) {
+      if (s.action.type !== "CLICK_CONTROL") continue
+      const id = s.action.control
+      citesParLeContenu[id] = [...(citesParLeContenu[id] ?? []), c.fichier]
+    }
+  }
+}
+const absentsDeLUi = Object.keys(citesParLeContenu).filter(
+  (id) => !sourcesUi.includes(`"${id}"`) && !sourcesUi.includes(`'${id}'`) && !sourcesUi.includes(`{"${id}"`),
+)
+for (const id of absentsDeLUi.sort()) {
+  const ou = citesParLeContenu[id]
+  erreurs.push(
+    `Le contrôle « ${id} » n'est rendu par aucun composant — l'apprenant ne peut pas le cliquer. Cité par ${ou.length} chapitre(s) : ${ou.slice(0, 4).join(", ")}${ou.length > 4 ? "…" : ""}`,
+  )
+}
+
 /* ── Rapport ──────────────────────────────────────────────────────────────── */
 
 console.log(`\nCouverture du parcours — ${modules.length} module(s)\n`)

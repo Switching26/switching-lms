@@ -49,6 +49,8 @@ export type GridApi = {
   getDisplayValue: (ref: string) => string
   /** Applique un format de nombre Excel (pourcentage, monétaire, date…). */
   setNumberFormat: (refs: string[], pattern: string) => void
+  /** Même chose, sur la sélection courante — ce que fait un bouton du ruban. */
+  setNumberFormatOnSelection: (pattern: string) => void
   /** Motif de format de nombre d'une cellule, chaîne vide si Standard. */
   getNumberFormat: (ref: string) => string
   /**
@@ -117,6 +119,7 @@ export type GridApi = {
     hAlign: string
     vAlign: string
     wrap: boolean | null
+    numberFormat: string
   }
   /**
    * Trie une plage sur une de ses colonnes. `column` est un indice RELATIF au
@@ -870,7 +873,7 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
           }
         },
         getFormat: (ref) => {
-          const vide = { background: "", fontSize: null, hAlign: "", vAlign: "", wrap: null }
+          const vide = { background: "", fontSize: null, hAlign: "", vAlign: "", wrap: null, numberFormat: "" }
           try {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const rg = sheet()?.getRange(ref) as any
@@ -881,9 +884,18 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
               hAlign: String(rg.getHorizontalAlignment?.() ?? ""),
               vAlign: String(rg.getVerticalAlignment?.() ?? ""),
               wrap: rg.getWrap?.() ?? null,
+              numberFormat: String(rg.getNumberFormat?.() ?? ""),
             }
           } catch {
             return vide
+          }
+        },
+        setNumberFormatOnSelection: (pattern) => {
+          try {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            ;(selectedRange() as any)?.setNumberFormat?.(pattern)
+          } catch {
+            /* sans conséquence */
           }
         },
         getNumberFormat: (ref) => {

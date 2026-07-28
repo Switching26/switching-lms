@@ -214,8 +214,10 @@ export default function SimulationChrome({
               <Btn id="acc-mfc-effacer" label="Effacer règles" />
             </Group>
             <Group title="Nombre">
-              <Btn id="acc-format-nombre" label="Format" />
+              <Btn id="acc-format-monetaire" label="€" />
               <Btn id="acc-pourcentage" label="%" />
+              <Btn id="acc-format-date" label="Date" />
+              <Btn id="acc-format-nombre" label="Format" />
             </Group>
             <Group title="Cellules">
               <Btn id="acc-inserer" label="Insérer" />

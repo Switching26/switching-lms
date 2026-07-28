@@ -228,6 +228,12 @@ export type SimulationAction =
           hAlign?: "left" | "center" | "right"
           vAlign?: "top" | "middle" | "bottom"
           wrap?: boolean
+          /**
+           * Famille de format de nombre attendue, plutôt que le motif exact :
+           * un apprenant peut choisir « € avec deux décimales » ou « € sans
+           * décimale » et avoir raison dans les deux cas.
+           */
+          numberFormat?: "monetaire" | "pourcentage" | "date" | "nombre" | "aucun"
         }
       >
     }

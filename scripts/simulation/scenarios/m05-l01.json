@@ -1,0 +1,208 @@
+{
+  "schemaVersion": 1,
+  "title": "Le format ne change pas la valeur",
+  "mode": "LESSON",
+  "moduleTitle": "Les différents formats",
+  "intro": {
+    "title": "CE QU'ON VOIT N'EST PAS CE QU'IL Y A",
+    "body": "Une cellule contient une valeur et l'affiche selon un format. Ces deux choses sont indépendantes — et confondre les deux est la source d'erreur la plus tenace d'Excel."
+  },
+  "outro": {
+    "body": "Vous savez distinguer la valeur d'une cellule de son affichage, et appliquer un format monétaire ou en pourcentage."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Facturation",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 150
+        },
+        "cells": {
+          "A1": {
+            "v": "Client",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Montant HT",
+            "format": {
+              "bold": true
+            }
+          },
+          "C1": {
+            "v": "Remise",
+            "format": {
+              "bold": true
+            }
+          },
+          "D1": {
+            "v": "Échéance",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Nord Distri"
+          },
+          "B2": {
+            "v": 1234.5
+          },
+          "C2": {
+            "v": 0.05
+          },
+          "A3": {
+            "v": "Sud Matériel"
+          },
+          "B3": {
+            "v": 890
+          },
+          "C3": {
+            "v": 0.1
+          },
+          "A4": {
+            "v": "Est Fournitures"
+          },
+          "B4": {
+            "v": 15600.75
+          },
+          "C4": {
+            "v": 0.15
+          },
+          "A5": {
+            "v": "Ouest Bureau"
+          },
+          "B5": {
+            "v": 420.9
+          },
+          "C5": {
+            "v": 0.02
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M05-L01-01",
+      "consigne": "Regardez la colonne **Montant HT** : `1234,5`, `890`, `15600,75`. Ce sont des nombres corrects mais illisibles pour un document commercial. ==Sélectionnez **B2:B5** et appliquez le format monétaire== avec le bouton **€** du groupe Nombre.",
+      "setup": {
+        "selection": "B2:B5"
+      },
+      "action": {
+        "type": "EXPECT_FORMAT",
+        "cells": {
+          "B2": {
+            "numberFormat": "monetaire"
+          },
+          "B5": {
+            "numberFormat": "monetaire"
+          }
+        }
+      },
+      "aide": {
+        "text": "Le bouton € du groupe Nombre applique le format monétaire à la sélection.",
+        "showTarget": true
+      },
+      "feedback": "Les montants s'affichent maintenant avec deux décimales, l'espace des milliers et le symbole € : `1 234,50 €`. Le tableau devient présentable sans qu'on ait retapé un seul chiffre."
+    },
+    {
+      "id": "M05-L01-02",
+      "consigne": "Le point capital : ==cliquez sur **B2**== et regardez la barre de formule.",
+      "action": {
+        "type": "CLICK_CELL",
+        "cell": "B2"
+      },
+      "aide": {
+        "text": "Un clic sur la cellule du premier montant.",
+        "showTarget": true
+      },
+      "feedback": "La barre de formule affiche `1234,5`, pas `1 234,50 €`. **La valeur n'a pas changé, seul son habillage a changé.** C'est la distinction fondamentale de ce module."
+    },
+    {
+      "id": "M05-L01-03",
+      "consigne": "Conséquence directe, et c'est ce qui piège tout le monde : les calculs portent sur la **valeur**, jamais sur l'affichage. ==En **F1**, additionnez les montants== et comparez au total que vous liriez à l'écran.",
+      "setup": {
+        "selection": "F1",
+        "cells": {
+          "E1": {
+            "v": "Total",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "F1",
+        "accept": [
+          "=SOMME(B2:B5)"
+        ],
+        "formulaMode": true
+      },
+      "feedback": "18 146,15 €. Si un format n'affichait aucune décimale, vous liriez 1 235 + 890 + 15 601 + 421 = 18 147, et vous croiriez Excel fautif. **Le format arrondit l'affichage, jamais la valeur.**"
+    },
+    {
+      "id": "M05-L01-04",
+      "consigne": "Passons aux pourcentages, autre source d'erreurs. La colonne **Remise** contient `0,05`, `0,1`, `0,15`. ==Sélectionnez **C2:C5** et cliquez sur **%**==.",
+      "setup": {
+        "selection": "C2:C5"
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "acc-pourcentage"
+      },
+      "aide": {
+        "text": "Le bouton % du groupe Nombre.",
+        "showTarget": true
+      },
+      "feedback": "`5 %`, `10 %`, `15 %`. Le format pourcentage **multiplie l'affichage par 100** et ajoute le signe — la valeur stockée reste 0,05."
+    },
+    {
+      "id": "M05-L01-05",
+      "consigne": "C'est pourquoi on écrit `0,05` et non `5` pour une remise de 5 %. ==Vérifiez-le : en **F2**, calculez le montant remisé du premier client==.",
+      "setup": {
+        "selection": "F2",
+        "cells": {
+          "E2": {
+            "v": "1er remisé",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "F2",
+        "accept": [
+          "=B2*(1-C2)"
+        ],
+        "formulaMode": true
+      },
+      "feedback": "1 172,775 €. La formule a utilisé 0,05, pas 5 — sinon on aurait obtenu un montant négatif absurde. Si vous saisissez une remise, tapez `5%` : Excel enregistre 0,05 tout seul."
+    },
+    {
+      "id": "M05-L01-06",
+      "consigne": "À retenir, parce que ce réflexe évite des heures de recherche d'erreur : quand un total ne tombe pas juste **de quelques centimes**, ne cherchez pas un bug — c'est presque toujours un format qui masque des décimales. Cliquez sur les cellules et lisez la barre de formule : vous verrez les vraies valeurs.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    }
+  ]
+}

@@ -53,7 +53,14 @@ export type ObservedAction =
       kind: "formatChange"
       readings: Record<
         string,
-        { background: string; fontSize: number | null; hAlign: string; vAlign: string; wrap: boolean | null }
+        {
+          background: string
+          fontSize: number | null
+          hAlign: string
+          vAlign: string
+          wrap: boolean | null
+          numberFormat: string
+        }
       >
     }
   | { kind: "filter"; column: string; values: string[] }
@@ -70,6 +77,32 @@ export type Verdict =
   | { ok: false; reason: string; message: string }
 
 const OK: Verdict = { ok: true }
+
+/**
+ * Classe un motif de format de nombre en famille. On ne compare jamais le motif
+ * exact : « #,##0.00" €" » et « #,##0" €" » sont deux façons légitimes de
+ * demander un affichage monétaire, et refuser la seconde serait absurde.
+ */
+function familleDeFormat(motif: string): "monetaire" | "pourcentage" | "date" | "nombre" | "aucun" {
+  const m = (motif ?? "").trim()
+  if (!m) return "aucun"
+  if (/[%]/.test(m)) return "pourcentage"
+  if (/[€$£¥]|\bEUR\b/i.test(m)) return "monetaire"
+  // Les motifs de date mêlent jours, mois et années ; « m » seul peut être des
+  // minutes, on exige donc au moins deux natures de champ.
+  const champs = [/d/i.test(m), /m/i.test(m), /y/i.test(m)].filter(Boolean).length
+  if (champs >= 2) return "date"
+  if (/[0#]/.test(m)) return "nombre"
+  return "aucun"
+}
+
+const MESSAGE_FORMAT: Record<string, string> = {
+  monetaire: "Il faut un format monétaire, avec le symbole €.",
+  pourcentage: "Il faut un format pourcentage.",
+  date: "Il faut un format de date.",
+  nombre: "Il faut un format numérique.",
+  aucun: "Cette cellule ne doit porter aucun format de nombre.",
+}
 
 /** Normalise une touche : "control+c", "Ctrl+C" et "CONTROL+C" sont identiques. */
 function normalizeKey(key: string): string {
@@ -328,6 +361,16 @@ export function validateStep(
         }
         if (attendu.wrap !== undefined && Boolean(lu.wrap) !== attendu.wrap) {
           return { ok: false, reason: "wrong_wrap", message: `Le renvoi à la ligne de ${ref} n'est pas celui attendu.` }
+        }
+        if (attendu.numberFormat !== undefined) {
+          const famille = familleDeFormat(lu.numberFormat)
+          if (famille !== attendu.numberFormat) {
+            return {
+              ok: false,
+              reason: "wrong_number_format",
+              message: MESSAGE_FORMAT[attendu.numberFormat] ?? `Le format de ${ref} n'est pas celui attendu.`,
+            }
+          }
         }
       }
       return OK

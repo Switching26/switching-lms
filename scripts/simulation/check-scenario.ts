@@ -278,6 +278,8 @@ function checkScenario(sc: SimulationScenario) {
     "acc-coller",
     "acc-copier",
     "acc-format-nombre",
+    "acc-format-monetaire",
+    "acc-format-date",
     "acc-pourcentage",
     "acc-inserer",
     "acc-supprimer",

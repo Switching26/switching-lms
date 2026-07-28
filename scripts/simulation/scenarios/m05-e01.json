@@ -1,0 +1,237 @@
+{
+  "schemaVersion": 1,
+  "title": "Exercice · Habiller un tableau de facturation",
+  "mode": "EXERCISE",
+  "moduleTitle": "Les différents formats",
+  "intro": {
+    "title": "À VOUS",
+    "body": "Un relevé brut à rendre lisible, sans en changer une seule valeur."
+  },
+  "outro": {
+    "body": "Exercice terminé."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Relevé",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 150
+        },
+        "cells": {
+          "A1": {
+            "v": "Facture",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Montant",
+            "format": {
+              "bold": true
+            }
+          },
+          "C1": {
+            "v": "TVA",
+            "format": {
+              "bold": true
+            }
+          },
+          "D1": {
+            "v": "Date",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "2026-0148"
+          },
+          "B2": {
+            "v": 2480.75
+          },
+          "C2": {
+            "v": 0.2
+          },
+          "D2": {
+            "v": 45658
+          },
+          "A3": {
+            "v": "2026-0149"
+          },
+          "B3": {
+            "v": 915.4
+          },
+          "C3": {
+            "v": 0.2
+          },
+          "D3": {
+            "v": 45665
+          },
+          "A4": {
+            "v": "2026-0150"
+          },
+          "B4": {
+            "v": 12350
+          },
+          "C4": {
+            "v": 0.055
+          },
+          "D4": {
+            "v": 45672
+          },
+          "A5": {
+            "v": "2026-0151"
+          },
+          "B5": {
+            "v": 648.9
+          },
+          "C5": {
+            "v": 0.1
+          },
+          "D5": {
+            "v": 45680
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M05-E01-01",
+      "consigne": "Donnez aux **montants** un format monétaire.",
+      "setup": {
+        "selection": "B2:B5"
+      },
+      "action": {
+        "type": "EXPECT_FORMAT",
+        "cells": {
+          "B2": {
+            "numberFormat": "monetaire"
+          },
+          "B5": {
+            "numberFormat": "monetaire"
+          }
+        }
+      },
+      "aide": {
+        "text": "Le bouton € du groupe Nombre."
+      }
+    },
+    {
+      "id": "M05-E01-02",
+      "consigne": "Affichez la colonne **TVA** en pourcentage.",
+      "setup": {
+        "selection": "C2:C5"
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "acc-pourcentage"
+      },
+      "aide": {
+        "text": "Le bouton % du groupe Nombre."
+      },
+      "feedback": "Notez que la troisième ligne est à 5,5 % : un taux réduit, et le format le montre correctement."
+    },
+    {
+      "id": "M05-E01-03",
+      "consigne": "Rendez les **dates** lisibles.",
+      "setup": {
+        "selection": "D2:D5"
+      },
+      "action": {
+        "type": "EXPECT_FORMAT",
+        "cells": {
+          "D2": {
+            "numberFormat": "date"
+          },
+          "D5": {
+            "numberFormat": "date"
+          }
+        }
+      },
+      "aide": {
+        "text": "Le bouton Date du groupe Nombre."
+      }
+    },
+    {
+      "id": "M05-E01-04",
+      "consigne": "Calculez le **montant TTC** de la première facture en **F2**.",
+      "setup": {
+        "selection": "F2",
+        "cells": {
+          "F1": {
+            "v": "TTC",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "F2",
+        "accept": [
+          "=B2*(1+C2)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Le montant multiplié par 1 plus le taux de TVA."
+      },
+      "feedback": "2 976,90 €."
+    },
+    {
+      "id": "M05-E01-05",
+      "consigne": "Complétez la colonne TTC pour les quatre factures.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "F3": {
+            "anyOf": [
+              "=B3*(1+C3)"
+            ]
+          },
+          "F4": {
+            "anyOf": [
+              "=B4*(1+C4)"
+            ],
+            "v": 13029.25
+          },
+          "F5": {
+            "anyOf": [
+              "=B5*(1+C5)"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Poignée de recopie de F2 vers le bas jusqu'à F5."
+      },
+      "feedback": "Les quatre montants TTC sont calculés, chacun avec son propre taux."
+    },
+    {
+      "id": "M05-E01-06",
+      "consigne": "Dernier contrôle, celui du module : cliquez sur **F2** et vérifiez dans la barre de formule que la valeur n'a pas été arrondie par l'affichage.",
+      "action": {
+        "type": "CLICK_CELL",
+        "cell": "F2"
+      },
+      "aide": {
+        "text": "Un clic sur F2, puis lecture de la barre de formule."
+      },
+      "feedback": "La barre montre la formule, et le résultat complet — pas la version arrondie à deux décimales. Vous savez maintenant que l'écran et la valeur sont deux choses différentes."
+    }
+  ]
+}

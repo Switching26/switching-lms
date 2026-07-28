@@ -383,6 +383,20 @@ export default function SimulationPlayer({
             grid.clearConditionalRules(cf?.range ?? grid.getSelection() ?? "A1")
             break
           }
+          case "acc-format-monetaire":
+            // Deux décimales, séparateur de milliers et symbole € : le format
+            // « Monétaire » d'Excel. La localisation numfmt le rend en français.
+            grid.setNumberFormatOnSelection('#,##0.00" €"')
+            break
+          case "acc-pourcentage":
+            grid.setNumberFormatOnSelection("0.00%")
+            break
+          case "acc-format-date":
+            grid.setNumberFormatOnSelection("dd/mm/yyyy")
+            break
+          case "acc-format-nombre":
+            grid.setNumberFormatOnSelection("#,##0.00")
+            break
           case "acc-italique":
             grid.setItalic(true)
             break
@@ -516,7 +530,14 @@ export default function SimulationPlayer({
         window.setTimeout(() => {
           const readings: Record<
             string,
-            { background: string; fontSize: number | null; hAlign: string; vAlign: string; wrap: boolean | null }
+            {
+              background: string
+              fontSize: number | null
+              hAlign: string
+              vAlign: string
+              wrap: boolean | null
+              numberFormat: string
+            }
           > = {}
           for (const ref of refs) readings[ref] = grid.getFormat(ref)
           handleAction({ kind: "formatChange", readings })

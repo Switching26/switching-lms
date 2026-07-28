@@ -1,333 +1,346 @@
 {
-  "schemaVersion": 1,
-  "title": "Afficher, masquer, sélectionner des éléments",
-  "mode": "LESSON",
-  "moduleTitle": "Présenter les données en graphiques",
-  "intro": {
-    "title": "METTRE CE QU'IL FAUT, ET RIEN DE PLUS",
-    "body": "Excel ajoute par défaut un titre, une légende, deux axes et un quadrillage. C'est rarement le bon dosage : un graphique se juge à ce qu'on peut lui retirer sans perdre le message."
-  },
-  "outro": {
-    "body": "Vous affichez, masquez et sélectionnez chaque élément à volonté."
-  },
-  "ribbon": [
-    "accueil",
-    "insertion",
-    "graph-creation"
-  ],
-  "statusBar": {
-    "aggregates": [
-      "moyenne",
-      "nb-non-vides",
-      "somme"
-    ]
-  },
-  "workbook": {
-    "fileName": "Chiffre d'affaires",
-    "activeSheetIndex": 0,
-    "selection": "A1",
-    "sheets": [
-      {
-        "name": "Feuil1",
-        "cells": {
-          "A1": {
-            "v": "Région",
-            "format": {
-              "bold": true
-            }
-          },
-          "B1": {
-            "v": "T1",
-            "format": {
-              "bold": true
-            }
-          },
-          "C1": {
-            "v": "T2",
-            "format": {
-              "bold": true
-            }
-          },
-          "D1": {
-            "v": "T3",
-            "format": {
-              "bold": true
-            }
-          },
-          "E1": {
-            "v": "T4",
-            "format": {
-              "bold": true
-            }
-          },
-          "F1": {
-            "v": "Total",
-            "format": {
-              "bold": true
-            }
-          },
-          "A2": {
-            "v": "Nord"
-          },
-          "B2": {
-            "v": 18500
-          },
-          "C2": {
-            "v": 21400
-          },
-          "D2": {
-            "v": 19800
-          },
-          "E2": {
-            "v": 24600
-          },
-          "F2": {
-            "f": "=SOMME(B2:E2)"
-          },
-          "A3": {
-            "v": "Sud"
-          },
-          "B3": {
-            "v": 15200
-          },
-          "C3": {
-            "v": 17900
-          },
-          "D3": {
-            "v": 22300
-          },
-          "E3": {
-            "v": 26100
-          },
-          "F3": {
-            "f": "=SOMME(B3:E3)"
-          },
-          "A4": {
-            "v": "Est"
-          },
-          "B4": {
-            "v": 12800
-          },
-          "C4": {
-            "v": 13500
-          },
-          "D4": {
-            "v": 14100
-          },
-          "E4": {
-            "v": 15900
-          },
-          "F4": {
-            "f": "=SOMME(B4:E4)"
-          },
-          "A5": {
-            "v": "Ouest"
-          },
-          "B5": {
-            "v": 20400
-          },
-          "C5": {
-            "v": 19200
-          },
-          "D5": {
-            "v": 23700
-          },
-          "E5": {
-            "v": 28300
-          },
-          "F5": {
-            "f": "=SOMME(B5:E5)"
-          }
-        },
-        "columnWidths": {
-          "A": 90,
-          "F": 90
-        }
-      }
-    ],
-    "charts": [
-      {
-        "id": "g1",
-        "type": "histogramme",
-        "series": [
-          {
-            "name": "T1",
-            "values": "B2:B5"
-          },
-          {
-            "name": "T4",
-            "values": "E2:E5"
-          }
-        ],
-        "source": "A1:E5",
-        "categories": "A2:A5",
-        "title": "Chiffre d'affaires par région",
-        "elements": {
-          "titre": true,
-          "legende": true,
-          "etiquettes": false,
-          "quadrillage": true,
-          "axes": true,
-          "titresAxes": false
-        },
-        "legendPosition": "bas",
-        "style": 1,
-        "frame": {
-          "x": 430,
-          "y": 10,
-          "w": 460,
-          "h": 262
-        }
-      }
-    ]
-  },
-  "steps": [
-    {
-      "id": "M17-L04-01",
-      "consigne": "Le graphique compare le **premier** et le **quatrième** trimestre de chaque région. ==Cliquez sur la **légende**== pour la sélectionner.",
-      "action": {
-        "type": "SELECT_CHART_ELEMENT",
-        "element": "legende"
-      },
-      "aide": {
-        "text": "Les deux carrés colorés T1 et T4, sous le tracé.",
-        "showTarget": true
-      },
-      "feedback": "Sélectionné, un élément peut être masqué, déplacé ou mis en forme."
-    },
-    {
-      "id": "M17-L04-02",
-      "consigne": "==Masquez la légende== avec le bouton **Légende** du groupe Éléments du graphique.",
-      "setup": {
-        "chartEdit": {
-          "elements": {
-            "legende": false
-          }
-        }
-      },
-      "action": {
-        "type": "CLICK_CONTROL",
-        "control": "ins-graph-element-legende"
-      },
-      "aide": {
-        "text": "Onglet Création de graphique, groupe Éléments du graphique : bouton « Légende ».",
-        "showTarget": true
-      },
-      "feedback": "Le tracé gagne la place libérée. Mais plus personne ne sait quelle couleur est quel trimestre : dès deux séries, la légende est nécessaire."
-    },
-    {
-      "id": "M17-L04-03",
-      "consigne": "==Réaffichez-la, à **droite** cette fois==.",
-      "setup": {
-        "chartEdit": {
-          "elements": {
-            "legende": true
-          },
-          "legendPosition": "droite"
-        }
-      },
-      "action": {
-        "type": "CLICK_CONTROL",
-        "control": "ins-graph-legende-droite"
-      },
-      "aide": {
-        "text": "Onglet Création de graphique, groupe Légende : bouton « À droite ».",
-        "showTarget": true
-      },
-      "feedback": "À droite, la légende suit l'ordre vertical des séries. En bas, elle économise la largeur. Les deux se défendent."
-    },
-    {
-      "id": "M17-L04-04",
-      "consigne": "==Masquez le **quadrillage**== : ces lignes horizontales aident à lire une valeur, mais elles chargent le fond.",
-      "setup": {
-        "chartEdit": {
-          "elements": {
-            "quadrillage": false
-          }
-        }
-      },
-      "action": {
-        "type": "CLICK_CONTROL",
-        "control": "ins-graph-element-quadrillage"
-      },
-      "aide": {
-        "text": "Onglet Création de graphique, groupe Éléments du graphique : bouton « Quadrillage ».",
-        "showTarget": true
-      }
-    },
-    {
-      "id": "M17-L04-05",
-      "consigne": "Sans quadrillage, il faut une autre façon de lire les valeurs. ==Affichez les **étiquettes de données**==.",
-      "setup": {
-        "chartEdit": {
-          "elements": {
-            "etiquettes": true
-          }
-        }
-      },
-      "action": {
-        "type": "CLICK_CONTROL",
-        "control": "ins-graph-element-etiquettes"
-      },
-      "aide": {
-        "text": "Onglet Création de graphique, groupe Éléments du graphique : bouton « Étiquettes ».",
-        "showTarget": true
-      },
-      "feedback": "Quadrillage **ou** étiquettes, jamais les deux : ils répondent à la même question et se gênent."
-    },
-    {
-      "id": "M17-L04-06",
-      "consigne": "==Sélectionnez la **série T4**==, la deuxième barre de chaque groupe.",
-      "action": {
-        "type": "SELECT_CHART_ELEMENT",
-        "element": "serie:1"
-      },
-      "aide": {
-        "text": "Une barre de la deuxième couleur, dans n'importe quel groupe.",
-        "showTarget": true
-      },
-      "feedback": "Les quatre barres de T4 sont sélectionnées d'un coup : c'est la série entière."
-    },
-    {
-      "id": "M17-L04-07",
-      "consigne": "Un second clic descend d'un cran. ==Sélectionnez le seul **point T4 de la région Ouest**==, le dernier groupe.",
-      "action": {
-        "type": "SELECT_CHART_ELEMENT",
-        "element": "point:1:3"
-      },
-      "aide": {
-        "text": "Dans le groupe Ouest, la barre de la deuxième couleur.",
-        "showTarget": true
-      },
-      "feedback": "Un point isolé se met en forme à part. C'est ainsi qu'on souligne un mois exceptionnel sans repeindre tout le graphique."
-    },
-    {
-      "id": "M17-L04-08",
-      "consigne": "Dernier élément utile : ==affichez les **titres des axes**==. Un axe sans unité laisse deviner, et on devine toujours mal.",
-      "setup": {
-        "chartEdit": {
-          "elements": {
-            "titresAxes": true
-          }
-        }
-      },
-      "action": {
-        "type": "CLICK_CONTROL",
-        "control": "ins-graph-element-titres-axes"
-      },
-      "aide": {
-        "text": "Onglet Création de graphique, groupe Éléments du graphique : bouton « Titres des axes ».",
-        "showTarget": true
-      },
-      "feedback": "« Euros », « milliers d'euros », « heures » : c'est ce qui évite la question en réunion."
-    },
-    {
-      "id": "M17-L04-09",
-      "consigne": "La règle de dosage : gardez le **titre**, gardez les **libellés d'axe**, gardez la **légende dès deux séries**. Le reste se justifie ou se retire. Un graphique surchargé ne se lit pas plus vite qu'un tableau.",
-      "action": {
-        "type": "READ"
-      },
-      "points": 0
-    }
+ "schemaVersion": 1,
+ "title": "Afficher, masquer, sélectionner des éléments",
+ "mode": "LESSON",
+ "moduleTitle": "Présenter les données en graphiques",
+ "intro": {
+  "title": "METTRE CE QU'IL FAUT, ET RIEN DE PLUS",
+  "body": "Excel ajoute par défaut un titre, une légende, deux axes et un quadrillage. C'est rarement le bon dosage : un graphique se juge à ce qu'on peut lui retirer sans perdre le message."
+ },
+ "outro": {
+  "body": "Vous affichez, masquez et sélectionnez chaque élément à volonté."
+ },
+ "ribbon": [
+  "accueil",
+  "insertion",
+  "graph-creation"
+ ],
+ "statusBar": {
+  "aggregates": [
+   "moyenne",
+   "nb-non-vides",
+   "somme"
   ]
+ },
+ "workbook": {
+  "fileName": "Chiffre d'affaires",
+  "activeSheetIndex": 0,
+  "selection": "A1",
+  "sheets": [
+   {
+    "name": "Feuil1",
+    "cells": {
+     "A1": {
+      "v": "Région",
+      "format": {
+       "bold": true
+      }
+     },
+     "B1": {
+      "v": "T1",
+      "format": {
+       "bold": true
+      }
+     },
+     "C1": {
+      "v": "T2",
+      "format": {
+       "bold": true
+      }
+     },
+     "D1": {
+      "v": "T3",
+      "format": {
+       "bold": true
+      }
+     },
+     "E1": {
+      "v": "T4",
+      "format": {
+       "bold": true
+      }
+     },
+     "F1": {
+      "v": "Total",
+      "format": {
+       "bold": true
+      }
+     },
+     "A2": {
+      "v": "Nord"
+     },
+     "B2": {
+      "v": 18500
+     },
+     "C2": {
+      "v": 21400
+     },
+     "D2": {
+      "v": 19800
+     },
+     "E2": {
+      "v": 24600
+     },
+     "F2": {
+      "f": "=SOMME(B2:E2)"
+     },
+     "A3": {
+      "v": "Sud"
+     },
+     "B3": {
+      "v": 15200
+     },
+     "C3": {
+      "v": 17900
+     },
+     "D3": {
+      "v": 22300
+     },
+     "E3": {
+      "v": 26100
+     },
+     "F3": {
+      "f": "=SOMME(B3:E3)"
+     },
+     "A4": {
+      "v": "Est"
+     },
+     "B4": {
+      "v": 12800
+     },
+     "C4": {
+      "v": 13500
+     },
+     "D4": {
+      "v": 14100
+     },
+     "E4": {
+      "v": 15900
+     },
+     "F4": {
+      "f": "=SOMME(B4:E4)"
+     },
+     "A5": {
+      "v": "Ouest"
+     },
+     "B5": {
+      "v": 20400
+     },
+     "C5": {
+      "v": 19200
+     },
+     "D5": {
+      "v": 23700
+     },
+     "E5": {
+      "v": 28300
+     },
+     "F5": {
+      "f": "=SOMME(B5:E5)"
+     }
+    },
+    "columnWidths": {
+     "A": 90,
+     "F": 90
+    }
+   }
+  ],
+  "charts": [
+   {
+    "id": "g1",
+    "type": "histogramme",
+    "series": [
+     {
+      "name": "T1",
+      "values": "B2:B5"
+     },
+     {
+      "name": "T4",
+      "values": "E2:E5"
+     }
+    ],
+    "source": "A1:E5",
+    "categories": "A2:A5",
+    "title": "Chiffre d'affaires par région",
+    "elements": {
+     "titre": true,
+     "legende": true,
+     "etiquettes": false,
+     "quadrillage": true,
+     "axes": true,
+     "titresAxes": false
+    },
+    "legendPosition": "bas",
+    "style": 1,
+    "frame": {
+     "x": 430,
+     "y": 10,
+     "w": 460,
+     "h": 262
+    }
+   }
+  ]
+ },
+ "steps": [
+  {
+   "id": "M17-L04-01",
+   "consigne": "Le graphique compare le **premier** et le **quatrième** trimestre de chaque région. ==Cliquez sur la **légende**== pour la sélectionner.",
+   "action": {
+    "type": "SELECT_CHART_ELEMENT",
+    "element": "legende"
+   },
+   "aide": {
+    "text": "Les deux carrés colorés T1 et T4, sous le tracé.",
+    "showTarget": true
+   },
+   "feedback": "Sélectionné, un élément peut être masqué, déplacé ou mis en forme."
+  },
+  {
+   "id": "M17-L04-02",
+   "consigne": "==Masquez la légende== avec le bouton **Légende** du groupe Éléments du graphique.",
+   "setup": {
+    "chartEdit": {
+     "elements": {
+      "legende": false
+     }
+    }
+   },
+   "action": {
+    "type": "CLICK_CONTROL",
+    "control": "ins-graph-element-legende"
+   },
+   "aide": {
+    "text": "Onglet Création de graphique, groupe Éléments du graphique : bouton « Légende ».",
+    "showTarget": true
+   },
+   "feedback": "Le tracé gagne la place libérée. Mais plus personne ne sait quelle couleur est quel trimestre : dès deux séries, la légende est nécessaire."
+  },
+  {
+   "id": "M17-L04-03",
+   "consigne": "==Réaffichez-la, à **droite** cette fois==.",
+   "setup": {
+    "chartEdit": {
+     "elements": {
+      "legende": true
+     },
+     "legendPosition": "droite"
+    }
+   },
+   "action": {
+    "type": "CLICK_CONTROL",
+    "control": "ins-graph-legende-droite"
+   },
+   "aide": {
+    "text": "Onglet Création de graphique, groupe Légende : bouton « À droite ».",
+    "showTarget": true
+   },
+   "feedback": "À droite, la légende suit l'ordre vertical des séries. En bas, elle économise la largeur. Les deux se défendent."
+  },
+  {
+   "id": "M17-L04-04",
+   "consigne": "La position est un **choix** : ==placez maintenant la légende en bas==, sous le graphique.",
+   "action": {
+    "type": "CLICK_CONTROL",
+    "control": "ins-graph-legende-bas"
+   },
+   "aide": {
+    "text": "Même groupe Légende : bouton « En bas ».",
+    "showTarget": true
+   },
+   "feedback": "En bas, la légende laisse plus de largeur au tracé — utile quand les libellés sont longs."
+  },
+  {
+   "id": "M17-L04-05",
+   "consigne": "==Masquez le **quadrillage**== : ces lignes horizontales aident à lire une valeur, mais elles chargent le fond.",
+   "setup": {
+    "chartEdit": {
+     "elements": {
+      "quadrillage": false
+     }
+    }
+   },
+   "action": {
+    "type": "CLICK_CONTROL",
+    "control": "ins-graph-element-quadrillage"
+   },
+   "aide": {
+    "text": "Onglet Création de graphique, groupe Éléments du graphique : bouton « Quadrillage ».",
+    "showTarget": true
+   }
+  },
+  {
+   "id": "M17-L04-06",
+   "consigne": "Sans quadrillage, il faut une autre façon de lire les valeurs. ==Affichez les **étiquettes de données**==.",
+   "setup": {
+    "chartEdit": {
+     "elements": {
+      "etiquettes": true
+     }
+    }
+   },
+   "action": {
+    "type": "CLICK_CONTROL",
+    "control": "ins-graph-element-etiquettes"
+   },
+   "aide": {
+    "text": "Onglet Création de graphique, groupe Éléments du graphique : bouton « Étiquettes ».",
+    "showTarget": true
+   },
+   "feedback": "Quadrillage **ou** étiquettes, jamais les deux : ils répondent à la même question et se gênent."
+  },
+  {
+   "id": "M17-L04-07",
+   "consigne": "==Sélectionnez la **série T4**==, la deuxième barre de chaque groupe.",
+   "action": {
+    "type": "SELECT_CHART_ELEMENT",
+    "element": "serie:1"
+   },
+   "aide": {
+    "text": "Une barre de la deuxième couleur, dans n'importe quel groupe.",
+    "showTarget": true
+   },
+   "feedback": "Les quatre barres de T4 sont sélectionnées d'un coup : c'est la série entière."
+  },
+  {
+   "id": "M17-L04-08",
+   "consigne": "Un second clic descend d'un cran. ==Sélectionnez le seul **point T4 de la région Ouest**==, le dernier groupe.",
+   "action": {
+    "type": "SELECT_CHART_ELEMENT",
+    "element": "point:1:3"
+   },
+   "aide": {
+    "text": "Dans le groupe Ouest, la barre de la deuxième couleur.",
+    "showTarget": true
+   },
+   "feedback": "Un point isolé se met en forme à part. C'est ainsi qu'on souligne un mois exceptionnel sans repeindre tout le graphique."
+  },
+  {
+   "id": "M17-L04-09",
+   "consigne": "Dernier élément utile : ==affichez les **titres des axes**==. Un axe sans unité laisse deviner, et on devine toujours mal.",
+   "setup": {
+    "chartEdit": {
+     "elements": {
+      "titresAxes": true
+     }
+    }
+   },
+   "action": {
+    "type": "CLICK_CONTROL",
+    "control": "ins-graph-element-titres-axes"
+   },
+   "aide": {
+    "text": "Onglet Création de graphique, groupe Éléments du graphique : bouton « Titres des axes ».",
+    "showTarget": true
+   },
+   "feedback": "« Euros », « milliers d'euros », « heures » : c'est ce qui évite la question en réunion."
+  },
+  {
+   "id": "M17-L04-10",
+   "consigne": "La règle de dosage : gardez le **titre**, gardez les **libellés d'axe**, gardez la **légende dès deux séries**. Le reste se justifie ou se retire. Un graphique surchargé ne se lit pas plus vite qu'un tableau.",
+   "action": {
+    "type": "READ"
+   },
+   "points": 0
+  }
+ ]
 }

@@ -1,0 +1,310 @@
+{
+  "schemaVersion": 1,
+  "title": "Exercice · Protéger un calcul",
+  "mode": "EXERCISE",
+  "moduleTitle": "Validation des données et protection",
+  "intro": {
+    "title": "À VOUS",
+    "body": "Contraindre, constater ce que la contrainte ne protège pas, réparer, assouplir, contrôler."
+  },
+  "outro": {
+    "body": "Exercice terminé."
+  },
+  "ribbon": [
+    "accueil",
+    "donnees"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Inscriptions",
+    "activeSheetIndex": 0,
+    "selection": "C4",
+    "sheets": [
+      {
+        "name": "Session",
+        "columnWidths": {
+          "A": 150,
+          "B": 155,
+          "C": 80,
+          "D": 110,
+          "E": 95
+        },
+        "cells": {
+          "A1": {
+            "v": "FICHE D'INSCRIPTION — Session Excel initiation",
+            "format": {
+              "bold": true
+            }
+          },
+          "A3": {
+            "v": "Stagiaire",
+            "format": {
+              "bold": true
+            }
+          },
+          "B3": {
+            "v": "Statut",
+            "format": {
+              "bold": true
+            }
+          },
+          "C3": {
+            "v": "Heures",
+            "format": {
+              "bold": true
+            }
+          },
+          "D3": {
+            "v": "Tarif horaire",
+            "format": {
+              "bold": true
+            }
+          },
+          "E3": {
+            "v": "Total",
+            "format": {
+              "bold": true
+            }
+          },
+          "A4": {
+            "v": "Bertrand Julie"
+          },
+          "B4": {
+            "v": "Salarié"
+          },
+          "C4": {
+            "v": 21
+          },
+          "D4": {
+            "v": 45
+          },
+          "E4": {
+            "f": "=C4*D4"
+          },
+          "A5": {
+            "v": "Chevalier Marc"
+          },
+          "B5": {
+            "v": "Demandeur d'emploi"
+          },
+          "C5": {
+            "v": 35
+          },
+          "D5": {
+            "v": 45
+          },
+          "E5": {
+            "f": "=C5*D5"
+          },
+          "A6": {
+            "v": "Delaunay Sophie"
+          },
+          "B6": {
+            "v": "Salarié"
+          },
+          "C6": {
+            "v": 14
+          },
+          "D6": {
+            "v": 52
+          },
+          "E6": {
+            "f": "=C6*D6"
+          },
+          "A7": {
+            "v": "Fabre Antoine"
+          },
+          "B7": {
+            "v": "Indépendant"
+          },
+          "C7": {
+            "v": 28
+          },
+          "D7": {
+            "v": 52
+          },
+          "E7": {
+            "f": "=C7*D7"
+          },
+          "D9": {
+            "v": "TOTAL",
+            "format": {
+              "bold": true
+            }
+          },
+          "E9": {
+            "f": "=SOMME(E4:E7)"
+          },
+          "D10": {
+            "v": "Contrôle",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M21-E03-01",
+      "consigne": "Contraignez le volume horaire de **C4:C7** : entre 7 et 40 heures, saisie refusée au-delà.",
+      "setup": {
+        "selection": "C4:C7",
+        "ribbon": {
+          "activeTab": "donnees"
+        },
+        "dv": {
+          "range": "C4:C7",
+          "rule": {
+            "kind": "numberBetween",
+            "min": 7,
+            "max": 40,
+            "errorMessage": "Le volume doit être compris entre 7 et 40 heures."
+          }
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "don-validation"
+      },
+      "aide": {
+        "text": "Bouton Validation, règle « nombre entre »."
+      }
+    },
+    {
+      "id": "M21-E03-02",
+      "consigne": "Un stagiaire allonge son parcours : portez ses heures à **35** en **C4**.",
+      "setup": {
+        "selection": "C4"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "C4",
+        "accept": [
+          "35"
+        ]
+      },
+      "aide": {
+        "text": "La contrainte que vous venez de poser accepte cette valeur."
+      },
+      "feedback": "Sa ligne passe à 1 575 €."
+    },
+    {
+      "id": "M21-E03-03",
+      "consigne": "Simulez maintenant la fausse manœuvre à éviter : écrasez la formule de **E5** par le nombre **1000**.",
+      "setup": {
+        "selection": "E5"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "E5",
+        "accept": [
+          "1000"
+        ]
+      },
+      "aide": {
+        "text": "Tapez le nombre directement dans la cellule."
+      },
+      "feedback": "Le total de la session est faux, sans aucun message."
+    },
+    {
+      "id": "M21-E03-04",
+      "consigne": "Réparez **E5**.",
+      "setup": {
+        "selection": "E5"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "E5",
+        "accept": [
+          "=C5*D5",
+          "=D5*C5"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Heures × tarif horaire."
+      },
+      "feedback": "1 575 €."
+    },
+    {
+      "id": "M21-E03-05",
+      "consigne": "La contrainte horaire empêche d'enregistrer un parcours long validé par la direction. Levez-la.",
+      "setup": {
+        "selection": "C4:C7",
+        "ribbon": {
+          "activeTab": "donnees"
+        },
+        "dv": {
+          "range": "C4:C7",
+          "rule": {
+            "kind": "numberBetween",
+            "min": 7,
+            "max": 40
+          }
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "don-effacer-validation"
+      },
+      "aide": {
+        "text": "Le bouton Effacer la validation."
+      }
+    },
+    {
+      "id": "M21-E03-06",
+      "consigne": "Reposez-la en **avertissement** : signaler sans bloquer.",
+      "setup": {
+        "selection": "C4:C7",
+        "ribbon": {
+          "activeTab": "donnees"
+        },
+        "dv": {
+          "range": "C4:C7",
+          "rule": {
+            "kind": "numberBetween",
+            "min": 7,
+            "max": 40,
+            "allowInvalid": true,
+            "errorMessage": "Volume inhabituel : vérifiez la convention."
+          }
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "don-validation"
+      },
+      "aide": {
+        "text": "Même bouton, style Avertissement."
+      }
+    },
+    {
+      "id": "M21-E03-07",
+      "consigne": "En **E10**, posez le contrôle qui détecterait une formule écrasée : le total recalculé depuis les colonnes Heures et Tarif.",
+      "setup": {
+        "selection": "E10"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "E10",
+        "accept": [
+          "=SOMMEPROD(C4:C7;D4:D7)",
+          "=SOMMEPROD(D4:D7;C4:C7)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "SOMMEPROD sur les deux colonnes source."
+      },
+      "feedback": "5 334 €, à comparer à **E9** : les deux cellules doivent toujours afficher la même chose."
+    }
+  ]
+}

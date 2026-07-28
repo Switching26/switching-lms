@@ -1,0 +1,298 @@
+{
+  "schemaVersion": 1,
+  "title": "Exercice · Trois hypothèses pour une boutique",
+  "mode": "EXERCISE",
+  "moduleTitle": "Analyses et simulations",
+  "intro": {
+    "title": "À VOUS",
+    "body": "Monter trois scénarios comparables sur un même modèle, puis en mesurer l'amplitude."
+  },
+  "outro": {
+    "body": "Exercice terminé."
+  },
+  "ribbon": [
+    "accueil",
+    "donnees"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Simulation boutique",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 190,
+          "B": 90,
+          "C": 150,
+          "D": 90,
+          "E": 90,
+          "F": 90
+        },
+        "cells": {
+          "A1": {
+            "v": "BOUTIQUE — RÉSULTAT PRÉVISIONNEL",
+            "format": {
+              "bold": true
+            }
+          },
+          "A3": {
+            "v": "Prix de vente",
+            "format": {
+              "bold": true
+            }
+          },
+          "B3": {
+            "v": 45
+          },
+          "A4": {
+            "v": "Quantité vendue",
+            "format": {
+              "bold": true
+            }
+          },
+          "B4": {
+            "v": 900
+          },
+          "A5": {
+            "v": "Coût d'achat unitaire",
+            "format": {
+              "bold": true
+            }
+          },
+          "B5": {
+            "v": 28
+          },
+          "A6": {
+            "v": "Charges fixes",
+            "format": {
+              "bold": true
+            }
+          },
+          "B6": {
+            "v": 8000
+          },
+          "A8": {
+            "v": "RÉSULTAT",
+            "format": {
+              "bold": true
+            }
+          },
+          "D2": {
+            "v": "Prudent",
+            "format": {
+              "bold": true
+            }
+          },
+          "E2": {
+            "v": "Réaliste",
+            "format": {
+              "bold": true
+            }
+          },
+          "F2": {
+            "v": "Ambitieux",
+            "format": {
+              "bold": true
+            }
+          },
+          "C3": {
+            "v": "Prix de vente",
+            "format": {
+              "bold": true
+            }
+          },
+          "C4": {
+            "v": "Quantité",
+            "format": {
+              "bold": true
+            }
+          },
+          "C5": {
+            "v": "Résultat",
+            "format": {
+              "bold": true
+            }
+          },
+          "C7": {
+            "v": "Écart entre extrêmes",
+            "format": {
+              "bold": true
+            }
+          },
+          "C8": {
+            "v": "Résultat moyen",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M23-E02-01",
+      "consigne": "En **B8**, calculez le résultat prévisionnel : la marge unitaire multipliée par la quantité, moins les charges fixes.",
+      "setup": {
+        "selection": "B8"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B8",
+        "accept": [
+          "=(B3-B5)*B4-B6",
+          "=B4*(B3-B5)-B6"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Prix moins coût d'achat, fois la quantité, moins les charges."
+      },
+      "feedback": "7 300 €."
+    },
+    {
+      "id": "M23-E02-02",
+      "consigne": "Montez le scénario prudent : prix **42** en **D3**.",
+      "setup": {
+        "selection": "D3"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "D3",
+        "accept": [
+          "42"
+        ]
+      },
+      "aide": {
+        "text": "La première colonne de scénario, ligne Prix de vente."
+      }
+    },
+    {
+      "id": "M23-E02-03",
+      "consigne": "Quantité **700** en **D4**.",
+      "setup": {
+        "selection": "D4"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "D4",
+        "accept": [
+          "700"
+        ]
+      },
+      "aide": {
+        "text": "Juste en dessous du prix."
+      }
+    },
+    {
+      "id": "M23-E02-04",
+      "consigne": "En **D5**, calculez le résultat de ce scénario. La formule doit lire le prix et la quantité de la colonne, mais garder le coût d'achat et les charges du modèle — et rester recopiable vers la droite.",
+      "setup": {
+        "selection": "D5"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "D5",
+        "accept": [
+          "=(D3-$B$5)*D4-$B$6",
+          "=(D3-B5)*D4-B6",
+          "=D4*(D3-$B$5)-$B$6",
+          "=D4*(D3-B5)-B6"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Deux références figées seulement : le coût unitaire et les charges fixes."
+      },
+      "feedback": "1 800 €."
+    },
+    {
+      "id": "M23-E02-05",
+      "consigne": "Complétez les scénarios réaliste (45 € pour 900 unités) et ambitieux (48 € pour 1 100 unités).",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "E3": {
+            "v": 45
+          },
+          "E4": {
+            "v": 900
+          },
+          "F3": {
+            "v": 48
+          },
+          "F4": {
+            "v": 1100
+          },
+          "E5": {
+            "anyOf": [
+              "=(E3-$B$5)*E4-$B$6",
+              "=(E3-B5)*E4-B6",
+              "=E4*(E3-$B$5)-$B$6",
+              "=E4*(E3-B5)-B6"
+            ],
+            "v": 7300
+          },
+          "F5": {
+            "anyOf": [
+              "=(F3-$B$5)*F4-$B$6",
+              "=(F3-B5)*F4-B6",
+              "=F4*(F3-$B$5)-$B$6",
+              "=F4*(F3-B5)-B6"
+            ],
+            "v": 14000
+          }
+        }
+      },
+      "aide": {
+        "text": "Quatre hypothèses, puis la recopie de D5 vers la droite."
+      }
+    },
+    {
+      "id": "M23-E02-06",
+      "consigne": "En **D7**, mesurez l'écart entre le meilleur et le pire scénario.",
+      "setup": {
+        "selection": "D7"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "D7",
+        "accept": [
+          "=MAX(D5:F5)-MIN(D5:F5)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Le maximum de la ligne Résultat moins son minimum."
+      },
+      "feedback": "12 200 € d'amplitude."
+    },
+    {
+      "id": "M23-E02-07",
+      "consigne": "En **D8**, calculez le résultat moyen des trois scénarios.",
+      "setup": {
+        "selection": "D8"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "D8",
+        "accept": [
+          "=MOYENNE(D5:F5)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Une moyenne sur la ligne des trois résultats."
+      },
+      "feedback": "7 700 € en moyenne — un chiffre à manier avec prudence : il n'a de sens que si les trois scénarios sont à peu près aussi probables."
+    }
+  ]
+}

@@ -1,0 +1,301 @@
+{
+ "schemaVersion": 1,
+ "title": "S'évaluer · Feuilles et liaisons",
+ "mode": "EVALUATION",
+ "moduleTitle": "Gestion des feuilles et liaisons entre feuilles",
+ "intro": {
+  "title": "S'ÉVALUER",
+  "body": "Deux feuilles semestrielles de structure identique et une feuille **Bilan** à remplir, sans recopier un seul chiffre. Sept gestes sont attendus. Chacun est noté à la première tentative, et aucune aide n'est proposée."
+ },
+ "outro": {
+  "body": "Évaluation terminée."
+ },
+ "ribbon": [
+  "accueil"
+ ],
+ "statusBar": {
+  "aggregates": [
+   "moyenne",
+   "nb-non-vides",
+   "somme"
+  ],
+  "sheetCount": 3
+ },
+ "workbook": {
+  "fileName": "Bilan annuel par canal",
+  "activeSheetIndex": 2,
+  "selection": "B3",
+  "sheets": [
+   {
+    "name": "S1",
+    "columnWidths": {
+     "A": 165,
+     "B": 120
+    },
+    "cells": {
+     "A1": {
+      "v": "CHIFFRE D'AFFAIRES — SEMESTRE 1",
+      "format": {
+       "bold": true
+      }
+     },
+     "A6": {
+      "v": "Total",
+      "format": {
+       "bold": true
+      }
+     },
+     "B6": {
+      "f": "=SOMME(B2:B4)"
+     },
+     "A2": {
+      "v": "Direct"
+     },
+     "B2": {
+      "v": 18400
+     },
+     "A3": {
+      "v": "CPF"
+     },
+     "B3": {
+      "v": 12600
+     },
+     "A4": {
+      "v": "OPCO"
+     },
+     "B4": {
+      "v": 9300
+     }
+    }
+   },
+   {
+    "name": "S2",
+    "columnWidths": {
+     "A": 165,
+     "B": 120
+    },
+    "cells": {
+     "A1": {
+      "v": "CHIFFRE D'AFFAIRES — SEMESTRE 2",
+      "format": {
+       "bold": true
+      }
+     },
+     "A6": {
+      "v": "Total",
+      "format": {
+       "bold": true
+      }
+     },
+     "B6": {
+      "f": "=SOMME(B2:B4)"
+     },
+     "A2": {
+      "v": "Direct"
+     },
+     "B2": {
+      "v": 21500
+     },
+     "A3": {
+      "v": "CPF"
+     },
+     "B3": {
+      "v": 14200
+     },
+     "A4": {
+      "v": "OPCO"
+     },
+     "B4": {
+      "v": 10800
+     }
+    }
+   },
+   {
+    "name": "Bilan",
+    "columnWidths": {
+     "A": 215,
+     "B": 130
+    },
+    "cells": {
+     "A1": {
+      "v": "BILAN ANNUEL PAR CANAL",
+      "format": {
+       "bold": true
+      }
+     },
+     "A7": {
+      "v": "Total année",
+      "format": {
+       "bold": true
+      }
+     },
+     "A8": {
+      "v": "Part du canal Direct",
+      "format": {
+       "bold": true
+      }
+     },
+     "A10": {
+      "v": "Progression du canal OPCO",
+      "format": {
+       "bold": true
+      }
+     },
+     "A11": {
+      "v": "Meilleur semestre",
+      "format": {
+       "bold": true
+      }
+     },
+     "A2": {
+      "v": "Canal",
+      "format": {
+       "bold": true
+      }
+     },
+     "B2": {
+      "v": "CA annuel",
+      "format": {
+       "bold": true
+      }
+     },
+     "A3": {
+      "v": "Direct"
+     },
+     "A4": {
+      "v": "CPF"
+     },
+     "A5": {
+      "v": "OPCO"
+     }
+    }
+   }
+  ]
+ },
+ "steps": [
+  {
+   "id": "M15-EV01-01",
+   "consigne": "Les deux semestres portent les canaux dans le **même ordre** : Direct en B2, CPF en B3, OPCO en B4. La feuille Bilan est celle où vous travaillez.",
+   "action": {
+    "type": "READ"
+   },
+   "points": 0
+  },
+  {
+   "id": "M15-EV01-02",
+   "consigne": "En **B3**, calculez le **CA annuel du canal Direct** à partir des deux semestres. La formule devra se recopier.",
+   "setup": {
+    "selection": "B3"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "B3",
+    "accept": [
+     "=S1!B2+S2!B2",
+     "=SOMME(S1!B2;S2!B2)"
+    ],
+    "formulaMode": true
+   },
+   "points": 3
+  },
+  {
+   "id": "M15-EV01-03",
+   "consigne": "Complétez les **deux autres canaux**.",
+   "action": {
+    "type": "EXPECT_STATE",
+    "cells": {
+     "B4": {
+      "anyOf": [
+       "=S1!B3+S2!B3",
+       "=SOMME(S1!B3;S2!B3)"
+      ],
+      "v": 26800
+     },
+     "B5": {
+      "anyOf": [
+       "=S1!B4+S2!B4",
+       "=SOMME(S1!B4;S2!B4)"
+      ],
+      "v": 20100
+     }
+    }
+   },
+   "points": 2
+  },
+  {
+   "id": "M15-EV01-04",
+   "consigne": "En **B7**, calculez le **total de l'année**.",
+   "setup": {
+    "selection": "B7"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "B7",
+    "accept": [
+     "=SOMME(B3:B5)",
+     "=B3+B4+B5"
+    ],
+    "formulaMode": true
+   },
+   "points": 1
+  },
+  {
+   "id": "M15-EV01-05",
+   "consigne": "En **B8**, calculez la **part du canal Direct** dans le total annuel.",
+   "setup": {
+    "selection": "B8"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "B8",
+    "accept": [
+     "=B3/B7",
+     "=B3/$B$7"
+    ],
+    "formulaMode": true
+   },
+   "points": 2
+  },
+  {
+   "id": "M15-EV01-06",
+   "consigne": "En **B10**, calculez la **progression du canal OPCO** entre le premier et le second semestre, en euros.",
+   "setup": {
+    "selection": "B10"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "B10",
+    "accept": [
+     "=S2!B4-S1!B4"
+    ],
+    "formulaMode": true
+   },
+   "points": 3
+  },
+  {
+   "id": "M15-EV01-07",
+   "consigne": "En **B11**, affichez le **chiffre du meilleur semestre**, en comparant les deux totaux.",
+   "setup": {
+    "selection": "B11"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "B11",
+    "accept": [
+     "=MAX(S1!B6;S2!B6)"
+    ],
+    "formulaMode": true
+   },
+   "points": 2
+  },
+  {
+   "id": "M15-EV01-08",
+   "consigne": "Terminez en affichant la feuille du **second semestre** pour contrôler son total.",
+   "action": {
+    "type": "SELECT_SHEET",
+    "name": "S2"
+   },
+   "points": 1
+  }
+ ]
+}

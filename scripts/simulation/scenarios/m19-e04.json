@@ -1,0 +1,388 @@
+{
+  "schemaVersion": 1,
+  "title": "Exercice · Une synthèse par secteur",
+  "mode": "EXERCISE",
+  "moduleTitle": "Tri, filtre et sous-totaux",
+  "intro": {
+    "title": "À VOUS",
+    "body": "Trier, produire un sous-total par secteur, puis vérifier que la synthèse ne perd aucune ligne."
+  },
+  "outro": {
+    "body": "Exercice terminé."
+  },
+  "ribbon": [
+    "accueil",
+    "donnees"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Interventions",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 155,
+          "B": 100,
+          "C": 115,
+          "D": 100
+        },
+        "cells": {
+          "A1": {
+            "v": "Client",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Secteur",
+            "format": {
+              "bold": true
+            }
+          },
+          "C1": {
+            "v": "Prestation",
+            "format": {
+              "bold": true
+            }
+          },
+          "D1": {
+            "v": "Technicien",
+            "format": {
+              "bold": true
+            }
+          },
+          "E1": {
+            "v": "Montant",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Hôtel du Parc"
+          },
+          "B2": {
+            "v": "Normandie"
+          },
+          "C2": {
+            "v": "Dépannage"
+          },
+          "D2": {
+            "v": "Morel"
+          },
+          "E2": {
+            "v": 480
+          },
+          "A3": {
+            "v": "Boucherie Talbot"
+          },
+          "B3": {
+            "v": "Bretagne"
+          },
+          "C3": {
+            "v": "Installation"
+          },
+          "D3": {
+            "v": "Perrin"
+          },
+          "E3": {
+            "v": 1260
+          },
+          "A4": {
+            "v": "Garage Vidal"
+          },
+          "B4": {
+            "v": "Normandie"
+          },
+          "C4": {
+            "v": "Installation"
+          },
+          "D4": {
+            "v": "Klein"
+          },
+          "E4": {
+            "v": 890
+          },
+          "A5": {
+            "v": "Crèche Les Lutins"
+          },
+          "B5": {
+            "v": "Occitanie"
+          },
+          "C5": {
+            "v": "Installation"
+          },
+          "D5": {
+            "v": "Morel"
+          },
+          "E5": {
+            "v": 2340
+          },
+          "A6": {
+            "v": "Cave Bertholin"
+          },
+          "B6": {
+            "v": "Bretagne"
+          },
+          "C6": {
+            "v": "Dépannage"
+          },
+          "D6": {
+            "v": "Perrin"
+          },
+          "E6": {
+            "v": 350
+          },
+          "A7": {
+            "v": "Pressing Aubert"
+          },
+          "B7": {
+            "v": "Normandie"
+          },
+          "C7": {
+            "v": "Installation"
+          },
+          "D7": {
+            "v": "Klein"
+          },
+          "E7": {
+            "v": 1780
+          },
+          "A8": {
+            "v": "Salle Voltaire"
+          },
+          "B8": {
+            "v": "Occitanie"
+          },
+          "C8": {
+            "v": "Maintenance"
+          },
+          "D8": {
+            "v": "Morel"
+          },
+          "E8": {
+            "v": 640
+          },
+          "A9": {
+            "v": "Cabinet Lorez"
+          },
+          "B9": {
+            "v": "Bretagne"
+          },
+          "C9": {
+            "v": "Installation"
+          },
+          "D9": {
+            "v": "Klein"
+          },
+          "E9": {
+            "v": 2050
+          },
+          "A10": {
+            "v": "Camping Les Pins"
+          },
+          "B10": {
+            "v": "Occitanie"
+          },
+          "C10": {
+            "v": "Dépannage"
+          },
+          "D10": {
+            "v": "Perrin"
+          },
+          "E10": {
+            "v": 520
+          },
+          "A11": {
+            "v": "Fromagerie Dast"
+          },
+          "B11": {
+            "v": "Normandie"
+          },
+          "C11": {
+            "v": "Installation"
+          },
+          "D11": {
+            "v": "Morel"
+          },
+          "E11": {
+            "v": 970
+          },
+          "G1": {
+            "v": "Secteur",
+            "format": {
+              "bold": true
+            }
+          },
+          "H1": {
+            "v": "Sous-total",
+            "format": {
+              "bold": true
+            }
+          },
+          "G2": {
+            "v": "Normandie"
+          },
+          "G3": {
+            "v": "Bretagne"
+          },
+          "G4": {
+            "v": "Occitanie"
+          },
+          "G6": {
+            "v": "Somme des sous-totaux",
+            "format": {
+              "bold": true
+            }
+          },
+          "G7": {
+            "v": "Total de la liste",
+            "format": {
+              "bold": true
+            }
+          },
+          "G8": {
+            "v": "Interventions en Normandie",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M19-E04-01",
+      "consigne": "Préparez le terrain : les lignes d'un même secteur doivent se suivre.",
+      "setup": {
+        "selection": "B5",
+        "ribbon": {
+          "activeTab": "donnees"
+        }
+      },
+      "action": {
+        "type": "SORT_RANGE",
+        "range": "A2:E11",
+        "column": "B",
+        "ascending": true
+      },
+      "aide": {
+        "text": "Un tri croissant sur la colonne Secteur."
+      }
+    },
+    {
+      "id": "M19-E04-02",
+      "consigne": "En **H2**, calculez le sous-total du premier secteur, avec une formule recopiable vers le bas.",
+      "setup": {
+        "selection": "H2"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "H2",
+        "accept": [
+          "=SOMME.SI($B$2:$B$11;G2;$E$2:$E$11)",
+          "=SOMME.SI(B2:B11;G2;E2:E11)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "SOMME.SI, plages figées et critère pris dans la colonne G."
+      },
+      "feedback": "4 120 € pour la Normandie."
+    },
+    {
+      "id": "M19-E04-03",
+      "consigne": "Complétez les deux autres secteurs.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "H3": {
+            "anyOf": [
+              "=SOMME.SI($B$2:$B$11;G3;$E$2:$E$11)",
+              "=SOMME.SI(B2:B11;G3;E2:E11)"
+            ],
+            "v": 3660
+          },
+          "H4": {
+            "anyOf": [
+              "=SOMME.SI($B$2:$B$11;G4;$E$2:$E$11)",
+              "=SOMME.SI(B2:B11;G4;E2:E11)"
+            ],
+            "v": 3500
+          }
+        }
+      },
+      "aide": {
+        "text": "Recopiez H2 vers le bas."
+      }
+    },
+    {
+      "id": "M19-E04-04",
+      "consigne": "En **H6**, additionnez les sous-totaux.",
+      "setup": {
+        "selection": "H6"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "H6",
+        "accept": [
+          "=SOMME(H2:H4)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Une somme sur les trois sous-totaux, H2 à H4."
+      },
+      "feedback": "11 280 €."
+    },
+    {
+      "id": "M19-E04-05",
+      "consigne": "En **H7**, posez le contrôle : le total de la colonne Montant.",
+      "setup": {
+        "selection": "H7"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "H7",
+        "accept": [
+          "=SOMME(E2:E11)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Si les deux cellules diffèrent, un secteur manque à la synthèse."
+      },
+      "feedback": "11 280 € : la synthèse couvre bien toute la liste."
+    },
+    {
+      "id": "M19-E04-06",
+      "consigne": "En **H8**, comptez les interventions du secteur **Normandie**.",
+      "setup": {
+        "selection": "H8"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "H8",
+        "accept": [
+          "=NB.SI($B$2:$B$11;\"Normandie\")",
+          "=NB.SI(B2:B11;\"Normandie\")",
+          "=NB.SI($B$2:$B$11;G2)",
+          "=NB.SI(B2:B11;G2)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "NB.SI sur la colonne Secteur."
+      },
+      "feedback": "4 interventions."
+    }
+  ]
+}

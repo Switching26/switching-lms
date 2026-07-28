@@ -1,0 +1,226 @@
+{
+ "schemaVersion": 1,
+ "title": "Exercice · Corriger un nom trop court",
+ "mode": "EXERCISE",
+ "moduleTitle": "Noms de cellules",
+ "intro": {
+  "title": "À VOUS",
+  "body": "Cinq mois saisis, un sixième à ajouter. Nommez, calculez, puis débrouillez-vous avec la conséquence."
+ },
+ "outro": {
+  "body": "Nom posé, symptôme repéré, étendue corrigée : le cycle complet."
+ },
+ "ribbon": [
+  "accueil"
+ ],
+ "statusBar": {
+  "aggregates": [
+   "moyenne",
+   "nb-non-vides",
+   "somme"
+  ],
+  "sheetCount": 1
+ },
+ "workbook": {
+  "fileName": "Ventes du semestre",
+  "activeSheetIndex": 0,
+  "selection": "A1",
+  "sheets": [
+   {
+    "name": "Feuil1",
+    "columnWidths": {
+     "A": 200,
+     "B": 145
+    },
+    "cells": {
+     "A1": {
+      "v": "VENTES DU PREMIER SEMESTRE",
+      "format": {
+       "bold": true
+      }
+     },
+     "A9": {
+      "v": "Total (nom Ventes)",
+      "format": {
+       "bold": true
+      }
+     },
+     "A10": {
+      "v": "Total (nom corrigé)",
+      "format": {
+       "bold": true
+      }
+     },
+     "A11": {
+      "v": "Moyenne mensuelle",
+      "format": {
+       "bold": true
+      }
+     },
+     "A2": {
+      "v": "Mois",
+      "format": {
+       "bold": true
+      }
+     },
+     "B2": {
+      "v": "Chiffre d'affaires",
+      "format": {
+       "bold": true
+      }
+     },
+     "A3": {
+      "v": "Janvier"
+     },
+     "B3": {
+      "v": 12400
+     },
+     "A4": {
+      "v": "Février"
+     },
+     "B4": {
+      "v": 11850
+     },
+     "A5": {
+      "v": "Mars"
+     },
+     "B5": {
+      "v": 13600
+     },
+     "A6": {
+      "v": "Avril"
+     },
+     "B6": {
+      "v": 12950
+     },
+     "A7": {
+      "v": "Mai"
+     },
+     "B7": {
+      "v": 14100
+     }
+    }
+   }
+  ]
+ },
+ "steps": [
+  {
+   "id": "M14-E02-01",
+   "consigne": "Sélectionnez les **cinq chiffres d'affaires** saisis.",
+   "action": {
+    "type": "DRAG_RANGE",
+    "range": "B3:B7"
+   },
+   "aide": {
+    "text": "Les montants seuls, sans l'en-tête ni les lignes de total."
+   }
+  },
+  {
+   "id": "M14-E02-02",
+   "consigne": "Nommez cette plage **Ventes**.",
+   "action": {
+    "type": "DEFINE_NAME",
+    "name": "Ventes",
+    "ref": "B3:B7"
+   },
+   "aide": {
+    "text": "La zone Nom se trouve à gauche de la barre de formule."
+   }
+  },
+  {
+   "id": "M14-E02-03",
+   "consigne": "En **B9**, calculez le **total** en utilisant le nom.",
+   "setup": {
+    "selection": "B9"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "B9",
+    "accept": [
+     "=SOMME(Ventes)"
+    ],
+    "formulaMode": true
+   }
+  },
+  {
+   "id": "M14-E02-04",
+   "consigne": "Le mois de **juin** vient d'être clôturé à 15 300 €. Saisissez-le en **B8**.",
+   "setup": {
+    "selection": "B8",
+    "cells": {
+     "A8": {
+      "v": "Juin"
+     }
+    }
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "B8",
+    "accept": [
+     "15300"
+    ]
+   }
+  },
+  {
+   "id": "M14-E02-05",
+   "consigne": "Le total de B9 n'a pas bougé. Vérifiez **ce que le nom Ventes désigne réellement** en utilisant la zone Nom.",
+   "action": {
+    "type": "GOTO_REF",
+    "ref": "B3:B7"
+   },
+   "aide": {
+    "text": "Taper un nom qui existe déjà ne le redéfinit pas : il y conduit."
+   }
+  },
+  {
+   "id": "M14-E02-06",
+   "consigne": "Sélectionnez la plage **complète**, juin compris.",
+   "action": {
+    "type": "DRAG_RANGE",
+    "range": "B3:B8"
+   }
+  },
+  {
+   "id": "M14-E02-07",
+   "consigne": "Nommez-la **Ventes_S1**.",
+   "action": {
+    "type": "DEFINE_NAME",
+    "name": "Ventes_S1",
+    "ref": "B3:B8"
+   },
+   "aide": {
+    "text": "Pas d'espace dans un nom de plage."
+   }
+  },
+  {
+   "id": "M14-E02-08",
+   "consigne": "En **B10**, calculez le **total corrigé** avec ce nouveau nom.",
+   "setup": {
+    "selection": "B10"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "B10",
+    "accept": [
+     "=SOMME(Ventes_S1)"
+    ],
+    "formulaMode": true
+   }
+  },
+  {
+   "id": "M14-E02-09",
+   "consigne": "En **B11**, calculez la **moyenne mensuelle** du semestre, toujours avec le nom.",
+   "setup": {
+    "selection": "B11"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "B11",
+    "accept": [
+     "=MOYENNE(Ventes_S1)"
+    ],
+    "formulaMode": true
+   }
+  }
+ ]
+}

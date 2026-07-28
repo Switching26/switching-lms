@@ -1,0 +1,339 @@
+{
+  "schemaVersion": 1,
+  "title": "S'évaluer · Import, export et échanges",
+  "mode": "EVALUATION",
+  "moduleTitle": "Import, export et échanges de données",
+  "intro": {
+    "title": "S'ÉVALUER",
+    "body": "Un extrait à figer en valeurs, à mettre en forme et à contrôler, puis un graphique prêt pour un document imprimé. Aucune aide sur cette évaluation."
+  },
+  "outro": {
+    "body": "Évaluation terminée."
+  },
+  "ribbon": [
+    "accueil",
+    "insertion",
+    "graph-creation",
+    "donnees"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Ventes régionales",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 110,
+          "B": 110,
+          "C": 120,
+          "D": 30,
+          "E": 20,
+          "F": 110,
+          "G": 110,
+          "H": 120,
+          "I": 155,
+          "J": 110
+        },
+        "cells": {
+          "A1": {
+            "v": "Région",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Ventes",
+            "format": {
+              "bold": true
+            }
+          },
+          "C1": {
+            "v": "Commission",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Nord"
+          },
+          "B2": {
+            "v": 42500
+          },
+          "C2": {
+            "f": "=B2*0,04"
+          },
+          "A3": {
+            "v": "Sud"
+          },
+          "B3": {
+            "v": 38900
+          },
+          "C3": {
+            "f": "=B3*0,04"
+          },
+          "A4": {
+            "v": "Est"
+          },
+          "B4": {
+            "v": 27300
+          },
+          "C4": {
+            "f": "=B4*0,04"
+          },
+          "A5": {
+            "v": "Ouest"
+          },
+          "B5": {
+            "v": 31600
+          },
+          "C5": {
+            "f": "=B5*0,04"
+          },
+          "A7": {
+            "v": "TOTAL",
+            "format": {
+              "bold": true
+            }
+          },
+          "I1": {
+            "v": "Total collé",
+            "format": {
+              "bold": true
+            }
+          },
+          "I2": {
+            "v": "Commissions collées",
+            "format": {
+              "bold": true
+            }
+          },
+          "I3": {
+            "v": "Lignes collées",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M26-EV01-01",
+      "consigne": "Un tableau de ventes régionales à faire partir dans un rapport : un extrait figé en valeurs, mis en forme et contrôlé, puis un graphique lisible seul. Aucune aide sur cette évaluation.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M26-EV01-02",
+      "consigne": "En **B7**, totalisez les ventes.",
+      "setup": {
+        "selection": "B7"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B7",
+        "accept": [
+          "=SOMME(B2:B5)"
+        ],
+        "formulaMode": true
+      },
+      "points": 1
+    },
+    {
+      "id": "M26-EV01-03",
+      "consigne": "Le rapport ne reprendra que le tableau, titres compris et **sans** la ligne de total. Sélectionnez-le.",
+      "setup": {
+        "selection": "A1"
+      },
+      "action": {
+        "type": "DRAG_RANGE",
+        "range": "A1:C5"
+      },
+      "points": 2
+    },
+    {
+      "id": "M26-EV01-04",
+      "consigne": "Copiez la sélection.",
+      "setup": {
+        "ribbon": {
+          "activeTab": "accueil"
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "acc-copier"
+      },
+      "points": 1
+    },
+    {
+      "id": "M26-EV01-05",
+      "consigne": "Collez-la en **F1**, en valeurs : aucune formule ne doit partir dans le rapport.",
+      "setup": {
+        "selection": "F1",
+        "ribbon": {
+          "activeTab": "accueil"
+        },
+        "paste": {
+          "texte": "Région\tVentes\tCommission\nNord\t42500\t1700\nSud\t38900\t1556\nEst\t27300\t1092\nOuest\t31600\t1264"
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "acc-coller"
+      },
+      "points": 2
+    },
+    {
+      "id": "M26-EV01-06",
+      "consigne": "Donnez un format monétaire aux ventes collées, en **G2:G5**.",
+      "setup": {
+        "selection": "G2:G5",
+        "ribbon": {
+          "activeTab": "accueil"
+        }
+      },
+      "action": {
+        "type": "EXPECT_FORMAT",
+        "cells": {
+          "G2": {
+            "numberFormat": "monetaire"
+          },
+          "G5": {
+            "numberFormat": "monetaire"
+          }
+        }
+      },
+      "points": 2
+    },
+    {
+      "id": "M26-EV01-07",
+      "consigne": "En **J1**, totalisez les ventes collées : ce total doit retomber sur celui de la source.",
+      "setup": {
+        "selection": "J1"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "J1",
+        "accept": [
+          "=SOMME(G2:G5)"
+        ],
+        "formulaMode": true
+      },
+      "points": 2
+    },
+    {
+      "id": "M26-EV01-08",
+      "consigne": "En **J2**, totalisez les commissions collées.",
+      "setup": {
+        "selection": "J2"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "J2",
+        "accept": [
+          "=SOMME(H2:H5)"
+        ],
+        "formulaMode": true
+      },
+      "points": 2
+    },
+    {
+      "id": "M26-EV01-09",
+      "consigne": "En **J3**, comptez les lignes de l'extrait.",
+      "setup": {
+        "selection": "J3"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "J3",
+        "accept": [
+          "=NBVAL(F2:F5)"
+        ],
+        "formulaMode": true
+      },
+      "points": 1
+    },
+    {
+      "id": "M26-EV01-10",
+      "consigne": "Passons au graphique. Sélectionnez les régions et leurs ventes, titres compris, sans le total ni les commissions.",
+      "setup": {
+        "selection": "A1"
+      },
+      "action": {
+        "type": "DRAG_RANGE",
+        "range": "A1:B5"
+      },
+      "points": 2
+    },
+    {
+      "id": "M26-EV01-11",
+      "consigne": "Représentez ces ventes en **histogramme**.",
+      "setup": {
+        "ribbon": {
+          "activeTab": "insertion"
+        }
+      },
+      "action": {
+        "type": "EXPECT_CHART",
+        "chart": {
+          "type": "histogramme",
+          "categories": "A2:A5",
+          "seriesCount": 1,
+          "series": [
+            {
+              "name": "Ventes"
+            }
+          ]
+        }
+      },
+      "points": 3
+    },
+    {
+      "id": "M26-EV01-12",
+      "consigne": "Donnez-lui le titre **Ventes 2026 par région**.",
+      "setup": {
+        "chartEdit": {
+          "title": "Ventes 2026 par région"
+        },
+        "ribbon": {
+          "activeTab": "graph-creation"
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "ins-graph-element-titre"
+      },
+      "points": 2
+    },
+    {
+      "id": "M26-EV01-13",
+      "consigne": "Le rapport sera imprimé en noir et blanc : affichez les **étiquettes de données**.",
+      "setup": {
+        "chartEdit": {
+          "elements": {
+            "etiquettes": true
+          }
+        },
+        "ribbon": {
+          "activeTab": "graph-creation"
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "ins-graph-element-etiquettes"
+      },
+      "points": 2
+    }
+  ]
+}

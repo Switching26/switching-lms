@@ -1,0 +1,364 @@
+{
+  "schemaVersion": 1,
+  "title": "Exercice · Deux critères à la fois",
+  "mode": "EXERCISE",
+  "moduleTitle": "Tri, filtre et sous-totaux",
+  "intro": {
+    "title": "À VOUS",
+    "body": "Cumuler deux critères au filtre, puis écrire les formules qui donnent la même réponse sans filtre."
+  },
+  "outro": {
+    "body": "Exercice terminé."
+  },
+  "ribbon": [
+    "accueil",
+    "donnees"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Interventions",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "filterRange": "A1:E11",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 155,
+          "B": 100,
+          "C": 115,
+          "D": 100
+        },
+        "cells": {
+          "A1": {
+            "v": "Client",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Secteur",
+            "format": {
+              "bold": true
+            }
+          },
+          "C1": {
+            "v": "Prestation",
+            "format": {
+              "bold": true
+            }
+          },
+          "D1": {
+            "v": "Technicien",
+            "format": {
+              "bold": true
+            }
+          },
+          "E1": {
+            "v": "Montant",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Hôtel du Parc"
+          },
+          "B2": {
+            "v": "Normandie"
+          },
+          "C2": {
+            "v": "Dépannage"
+          },
+          "D2": {
+            "v": "Morel"
+          },
+          "E2": {
+            "v": 480
+          },
+          "A3": {
+            "v": "Boucherie Talbot"
+          },
+          "B3": {
+            "v": "Bretagne"
+          },
+          "C3": {
+            "v": "Installation"
+          },
+          "D3": {
+            "v": "Perrin"
+          },
+          "E3": {
+            "v": 1260
+          },
+          "A4": {
+            "v": "Garage Vidal"
+          },
+          "B4": {
+            "v": "Normandie"
+          },
+          "C4": {
+            "v": "Installation"
+          },
+          "D4": {
+            "v": "Klein"
+          },
+          "E4": {
+            "v": 890
+          },
+          "A5": {
+            "v": "Crèche Les Lutins"
+          },
+          "B5": {
+            "v": "Occitanie"
+          },
+          "C5": {
+            "v": "Installation"
+          },
+          "D5": {
+            "v": "Morel"
+          },
+          "E5": {
+            "v": 2340
+          },
+          "A6": {
+            "v": "Cave Bertholin"
+          },
+          "B6": {
+            "v": "Bretagne"
+          },
+          "C6": {
+            "v": "Dépannage"
+          },
+          "D6": {
+            "v": "Perrin"
+          },
+          "E6": {
+            "v": 350
+          },
+          "A7": {
+            "v": "Pressing Aubert"
+          },
+          "B7": {
+            "v": "Normandie"
+          },
+          "C7": {
+            "v": "Installation"
+          },
+          "D7": {
+            "v": "Klein"
+          },
+          "E7": {
+            "v": 1780
+          },
+          "A8": {
+            "v": "Salle Voltaire"
+          },
+          "B8": {
+            "v": "Occitanie"
+          },
+          "C8": {
+            "v": "Maintenance"
+          },
+          "D8": {
+            "v": "Morel"
+          },
+          "E8": {
+            "v": 640
+          },
+          "A9": {
+            "v": "Cabinet Lorez"
+          },
+          "B9": {
+            "v": "Bretagne"
+          },
+          "C9": {
+            "v": "Installation"
+          },
+          "D9": {
+            "v": "Klein"
+          },
+          "E9": {
+            "v": 2050
+          },
+          "A10": {
+            "v": "Camping Les Pins"
+          },
+          "B10": {
+            "v": "Occitanie"
+          },
+          "C10": {
+            "v": "Dépannage"
+          },
+          "D10": {
+            "v": "Perrin"
+          },
+          "E10": {
+            "v": 520
+          },
+          "A11": {
+            "v": "Fromagerie Dast"
+          },
+          "B11": {
+            "v": "Normandie"
+          },
+          "C11": {
+            "v": "Installation"
+          },
+          "D11": {
+            "v": "Morel"
+          },
+          "E11": {
+            "v": 970
+          },
+          "G1": {
+            "v": "Installations en Normandie",
+            "format": {
+              "bold": true
+            }
+          },
+          "G3": {
+            "v": "Hors Normandie",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M19-E03-01",
+      "consigne": "Activez les **filtres** sur le tableau.",
+      "setup": {
+        "ribbon": {
+          "activeTab": "donnees"
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "don-filtrer"
+      },
+      "aide": {
+        "text": "Onglet Données, bouton Filtrer."
+      }
+    },
+    {
+      "id": "M19-E03-02",
+      "consigne": "N'affichez que les **installations**.",
+      "action": {
+        "type": "FILTER_COLUMN",
+        "column": "C",
+        "values": [
+          "Installation"
+        ]
+      },
+      "aide": {
+        "text": "Le filtre de la colonne Prestation."
+      }
+    },
+    {
+      "id": "M19-E03-03",
+      "consigne": "Parmi elles, ne gardez que le secteur **Normandie**.",
+      "action": {
+        "type": "FILTER_COLUMN",
+        "column": "B",
+        "values": [
+          "Normandie"
+        ]
+      },
+      "aide": {
+        "text": "Le filtre de la colonne Secteur, en gardant le précédent."
+      }
+    },
+    {
+      "id": "M19-E03-04",
+      "consigne": "En **H1**, comptez ces interventions par formule, sans dépendre du filtre.",
+      "setup": {
+        "selection": "H1"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "H1",
+        "accept": [
+          "=NB.SI.ENS($C$2:$C$11;\"Installation\";$B$2:$B$11;\"Normandie\")",
+          "=NB.SI.ENS(C2:C11;\"Installation\";B2:B11;\"Normandie\")",
+          "=NB.SI.ENS($B$2:$B$11;\"Normandie\";$C$2:$C$11;\"Installation\")",
+          "=NB.SI.ENS(B2:B11;\"Normandie\";C2:C11;\"Installation\")",
+          "=SOMMEPROD(($C$2:$C$11=\"Installation\")*($B$2:$B$11=\"Normandie\"))",
+          "=SOMMEPROD((C2:C11=\"Installation\")*(B2:B11=\"Normandie\"))"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Deux paires plage/critère."
+      },
+      "feedback": "3 interventions."
+    },
+    {
+      "id": "M19-E03-05",
+      "consigne": "En **H2**, leur montant total.",
+      "setup": {
+        "selection": "H2"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "H2",
+        "accept": [
+          "=SOMME.SI.ENS($E$2:$E$11;$C$2:$C$11;\"Installation\";$B$2:$B$11;\"Normandie\")",
+          "=SOMME.SI.ENS(E2:E11;C2:C11;\"Installation\";B2:B11;\"Normandie\")",
+          "=SOMME.SI.ENS($E$2:$E$11;$B$2:$B$11;\"Normandie\";$C$2:$C$11;\"Installation\")",
+          "=SOMME.SI.ENS(E2:E11;B2:B11;\"Normandie\";C2:C11;\"Installation\")",
+          "=SOMMEPROD(($C$2:$C$11=\"Installation\")*($B$2:$B$11=\"Normandie\")*$E$2:$E$11)",
+          "=SOMMEPROD((C2:C11=\"Installation\")*(B2:B11=\"Normandie\")*E2:E11)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "La plage à additionner en premier argument."
+      },
+      "feedback": "3 640 €."
+    },
+    {
+      "id": "M19-E03-06",
+      "consigne": "Rendez le tableau complet à l'écran.",
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "don-effacer-filtre"
+      },
+      "aide": {
+        "text": "Bouton Effacer."
+      }
+    },
+    {
+      "id": "M19-E03-07",
+      "consigne": "En **H3**, calculez le montant réalisé **hors Normandie** : Bretagne et Occitanie réunies.",
+      "setup": {
+        "selection": "H3"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "H3",
+        "accept": [
+          "=SOMME.SI($B$2:$B$11;\"Bretagne\";$E$2:$E$11)+SOMME.SI($B$2:$B$11;\"Occitanie\";$E$2:$E$11)",
+          "=SOMME.SI(B2:B11;\"Bretagne\";E2:E11)+SOMME.SI(B2:B11;\"Occitanie\";E2:E11)",
+          "=SOMME.SI($B$2:$B$11;\"Occitanie\";$E$2:$E$11)+SOMME.SI($B$2:$B$11;\"Bretagne\";$E$2:$E$11)",
+          "=SOMME.SI(B2:B11;\"Occitanie\";E2:E11)+SOMME.SI(B2:B11;\"Bretagne\";E2:E11)",
+          "=SOMME($E$2:$E$11)-SOMME.SI($B$2:$B$11;\"Normandie\";$E$2:$E$11)",
+          "=SOMME(E2:E11)-SOMME.SI(B2:B11;\"Normandie\";E2:E11)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Un OU se traduit par une addition de SOMME.SI — ou par une soustraction au total."
+      },
+      "feedback": "7 160 €. Les deux chemins, addition des deux secteurs ou total moins la Normandie, donnent le même résultat."
+    }
+  ]
+}

@@ -1,0 +1,539 @@
+{
+  "schemaVersion": 1,
+  "title": "Consulter et compléter une liste, fiche par fiche",
+  "mode": "LESSON",
+  "moduleTitle": "Tri, filtre et sous-totaux",
+  "intro": {
+    "title": "UNE LIGNE À LA FOIS",
+    "body": "Consulter un enregistrement, en ajouter un, et découvrir le piège qui rend une fiche aveugle : la plage qui n'a pas suivi."
+  },
+  "outro": {
+    "body": "Vous savez consulter une liste par fiche, y ajouter un enregistrement et corriger les plages."
+  },
+  "ribbon": [
+    "accueil",
+    "donnees"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Commandes",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 155,
+          "B": 90,
+          "C": 110,
+          "D": 105
+        },
+        "cells": {
+          "A1": {
+            "v": "Client",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Région",
+            "format": {
+              "bold": true
+            }
+          },
+          "C1": {
+            "v": "Catégorie",
+            "format": {
+              "bold": true
+            }
+          },
+          "D1": {
+            "v": "Commercial",
+            "format": {
+              "bold": true
+            }
+          },
+          "E1": {
+            "v": "Montant",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Papeterie Lorraine"
+          },
+          "B2": {
+            "v": "Est"
+          },
+          "C2": {
+            "v": "Papeterie"
+          },
+          "D2": {
+            "v": "Bertrand"
+          },
+          "E2": {
+            "v": 1480
+          },
+          "A3": {
+            "v": "Atelier du Cèdre"
+          },
+          "B3": {
+            "v": "Est"
+          },
+          "C3": {
+            "v": "Mobilier"
+          },
+          "D3": {
+            "v": "Chevalier"
+          },
+          "E3": {
+            "v": 3260
+          },
+          "A4": {
+            "v": "Cabinet Vasseur"
+          },
+          "B4": {
+            "v": "Nord"
+          },
+          "C4": {
+            "v": "Informatique"
+          },
+          "D4": {
+            "v": "Delaunay"
+          },
+          "E4": {
+            "v": 5900
+          },
+          "A5": {
+            "v": "Café des Halles"
+          },
+          "B5": {
+            "v": "Sud"
+          },
+          "C5": {
+            "v": "Mobilier"
+          },
+          "D5": {
+            "v": "Bertrand"
+          },
+          "E5": {
+            "v": 2140
+          },
+          "A6": {
+            "v": "Imprimerie Roussel"
+          },
+          "B6": {
+            "v": "Est"
+          },
+          "C6": {
+            "v": "Mobilier"
+          },
+          "D6": {
+            "v": "Girard"
+          },
+          "E6": {
+            "v": 4320
+          },
+          "A7": {
+            "v": "Garage Lemaitre"
+          },
+          "B7": {
+            "v": "Nord"
+          },
+          "C7": {
+            "v": "Papeterie"
+          },
+          "D7": {
+            "v": "Chevalier"
+          },
+          "E7": {
+            "v": 760
+          },
+          "A8": {
+            "v": "Clinique Saint-Yon"
+          },
+          "B8": {
+            "v": "Sud"
+          },
+          "C8": {
+            "v": "Informatique"
+          },
+          "D8": {
+            "v": "Delaunay"
+          },
+          "E8": {
+            "v": 6480
+          },
+          "A9": {
+            "v": "Boulangerie Thibault"
+          },
+          "B9": {
+            "v": "Ouest"
+          },
+          "C9": {
+            "v": "Papeterie"
+          },
+          "D9": {
+            "v": "Girard"
+          },
+          "E9": {
+            "v": 1050
+          },
+          "A10": {
+            "v": "Menuiserie Dubreuil"
+          },
+          "B10": {
+            "v": "Est"
+          },
+          "C10": {
+            "v": "Mobilier"
+          },
+          "D10": {
+            "v": "Girard"
+          },
+          "E10": {
+            "v": 3150
+          },
+          "A11": {
+            "v": "Pharmacie Vandel"
+          },
+          "B11": {
+            "v": "Nord"
+          },
+          "C11": {
+            "v": "Mobilier"
+          },
+          "D11": {
+            "v": "Bertrand"
+          },
+          "E11": {
+            "v": 2780
+          },
+          "A12": {
+            "v": "Studio Marceau"
+          },
+          "B12": {
+            "v": "Sud"
+          },
+          "C12": {
+            "v": "Papeterie"
+          },
+          "D12": {
+            "v": "Chevalier"
+          },
+          "E12": {
+            "v": 890
+          },
+          "A13": {
+            "v": "Transports Aubry"
+          },
+          "B13": {
+            "v": "Ouest"
+          },
+          "C13": {
+            "v": "Informatique"
+          },
+          "D13": {
+            "v": "Delaunay"
+          },
+          "E13": {
+            "v": 7250
+          },
+          "G1": {
+            "v": "Client",
+            "format": {
+              "bold": true
+            }
+          },
+          "H1": {
+            "v": "Menuiserie Dubreuil"
+          },
+          "G2": {
+            "v": "Région",
+            "format": {
+              "bold": true
+            }
+          },
+          "G3": {
+            "v": "Catégorie",
+            "format": {
+              "bold": true
+            }
+          },
+          "G4": {
+            "v": "Commercial",
+            "format": {
+              "bold": true
+            }
+          },
+          "G5": {
+            "v": "Montant",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M19-L07-01",
+      "consigne": "Une liste de trois cents lignes ne se lit pas ligne à ligne. Une **fiche** en montre une seule, celle du client indiqué en **H1**. ==En **H2**, saisissez `=RECHERCHEV($H$1;$A$2:$E$13;2;FAUX)`==.",
+      "setup": {
+        "selection": "H2"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "H2",
+        "accept": [
+          "=RECHERCHEV($H$1;$A$2:$E$13;2;FAUX)",
+          "=RECHERCHEV($H$1;$A$2:$E$13;2;0)",
+          "=RECHERCHEV($H$1;A2:E13;2;FAUX)",
+          "=RECHERCHEV($H$1;A2:E13;2;0)",
+          "=RECHERCHEV(H1;$A$2:$E$13;2;FAUX)",
+          "=RECHERCHEV(H1;$A$2:$E$13;2;0)",
+          "=RECHERCHEV(H1;A2:E13;2;FAUX)",
+          "=RECHERCHEV(H1;A2:E13;2;0)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Valeur cherchée, plage de la liste, numéro de colonne, puis FAUX pour exiger une correspondance exacte.",
+        "showTarget": true
+      },
+      "feedback": "La fiche affiche **Est**. Le `FAUX` du dernier argument n'est pas facultatif : sans lui, RECHERCHEV accepte une valeur approchée et renvoie le client voisin."
+    },
+    {
+      "id": "M19-L07-02",
+      "consigne": "==Complétez la fiche== : catégorie en **H3**, commercial en **H4**, montant en **H5**. Seul le **numéro de colonne** change.",
+      "setup": {
+        "selection": "H3"
+      },
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "H3": {
+            "anyOf": [
+              "=RECHERCHEV($H$1;$A$2:$E$13;3;FAUX)",
+              "=RECHERCHEV($H$1;$A$2:$E$13;3;0)",
+              "=RECHERCHEV($H$1;A2:E13;3;FAUX)",
+              "=RECHERCHEV($H$1;A2:E13;3;0)",
+              "=RECHERCHEV(H1;$A$2:$E$13;3;FAUX)",
+              "=RECHERCHEV(H1;$A$2:$E$13;3;0)",
+              "=RECHERCHEV(H1;A2:E13;3;FAUX)",
+              "=RECHERCHEV(H1;A2:E13;3;0)"
+            ],
+            "v": "Mobilier"
+          },
+          "H4": {
+            "anyOf": [
+              "=RECHERCHEV($H$1;$A$2:$E$13;4;FAUX)",
+              "=RECHERCHEV($H$1;$A$2:$E$13;4;0)",
+              "=RECHERCHEV($H$1;A2:E13;4;FAUX)",
+              "=RECHERCHEV($H$1;A2:E13;4;0)",
+              "=RECHERCHEV(H1;$A$2:$E$13;4;FAUX)",
+              "=RECHERCHEV(H1;$A$2:$E$13;4;0)",
+              "=RECHERCHEV(H1;A2:E13;4;FAUX)",
+              "=RECHERCHEV(H1;A2:E13;4;0)"
+            ],
+            "v": "Girard"
+          },
+          "H5": {
+            "anyOf": [
+              "=RECHERCHEV($H$1;$A$2:$E$13;5;FAUX)",
+              "=RECHERCHEV($H$1;$A$2:$E$13;5;0)",
+              "=RECHERCHEV($H$1;A2:E13;5;FAUX)",
+              "=RECHERCHEV($H$1;A2:E13;5;0)",
+              "=RECHERCHEV(H1;$A$2:$E$13;5;FAUX)",
+              "=RECHERCHEV(H1;$A$2:$E$13;5;0)",
+              "=RECHERCHEV(H1;A2:E13;5;FAUX)",
+              "=RECHERCHEV(H1;A2:E13;5;0)"
+            ],
+            "v": 3150
+          }
+        }
+      },
+      "aide": {
+        "text": "Trois RECHERCHEV identiques, avec 3, 4 puis 5 en troisième argument.",
+        "showTarget": true
+      },
+      "feedback": "Mobilier, Girard, 3 150 €. Attention : une recopie vers le bas n'incrémente **pas** le numéro de colonne — il faut le corriger à la main."
+    },
+    {
+      "id": "M19-L07-03",
+      "consigne": "Changer de fiche demande une seule saisie. ==En **H1**, tapez `Clinique Saint-Yon`==.",
+      "setup": {
+        "selection": "H1"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "H1",
+        "accept": [
+          "Clinique Saint-Yon"
+        ]
+      },
+      "aide": {
+        "text": "Écrivez par-dessus le nom précédent.",
+        "showTarget": true
+      },
+      "feedback": "Toute la fiche a suivi : Sud, Informatique, Delaunay, 6 480 €."
+    },
+    {
+      "id": "M19-L07-04",
+      "consigne": "Excel propose aussi une commande **Formulaire**, héritée des premières versions : elle ouvre une boîte de dialogue qui affiche un enregistrement à la fois, avec des boutons Nouveau, Supprimer et Critères. Elle est cachée depuis longtemps — il faut l'ajouter soi-même à la barre d'accès rapide. La fiche que vous venez de construire fait le même travail, avec deux avantages : elle **reste visible dans la feuille**, et elle s'imprime.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M19-L07-05",
+      "consigne": "Une nouvelle commande arrive. ==En **A14**, saisissez `Ébénisterie Cauchy`==.",
+      "setup": {
+        "selection": "A14"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "A14",
+        "accept": [
+          "Ébénisterie Cauchy"
+        ]
+      },
+      "aide": {
+        "text": "La première ligne libre, juste sous la dernière commande.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M19-L07-06",
+      "consigne": "==Complétez la ligne== : `Ouest`, `Mobilier`, `Chevalier`, `2460`.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "B14": {
+            "v": "Ouest"
+          },
+          "C14": {
+            "v": "Mobilier"
+          },
+          "D14": {
+            "v": "Chevalier"
+          },
+          "E14": {
+            "v": 2460
+          }
+        }
+      },
+      "aide": {
+        "text": "De B14 à E14.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M19-L07-07",
+      "consigne": "Interrogeons la fiche sur ce nouveau client. ==En **H1**, tapez `Ébénisterie Cauchy`==.",
+      "setup": {
+        "selection": "H1"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "H1",
+        "accept": [
+          "Ébénisterie Cauchy"
+        ]
+      },
+      "aide": {
+        "text": "Comme précédemment, par-dessus le nom affiché.",
+        "showTarget": true
+      },
+      "feedback": "La fiche répond **#N/A** : sa plage s'arrête à la ligne 13. Le client existe, la fiche ne le voit pas. C'est le défaut classique d'une plage écrite en dur."
+    },
+    {
+      "id": "M19-L07-08",
+      "consigne": "==Corrigez **H2** en étendant la plage jusqu'à la ligne 14==.",
+      "setup": {
+        "selection": "H2"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "H2",
+        "accept": [
+          "=RECHERCHEV($H$1;$A$2:$E$14;2;FAUX)",
+          "=RECHERCHEV($H$1;$A$2:$E$14;2;0)",
+          "=RECHERCHEV($H$1;A2:E14;2;FAUX)",
+          "=RECHERCHEV($H$1;A2:E14;2;0)",
+          "=RECHERCHEV(H1;$A$2:$E$14;2;FAUX)",
+          "=RECHERCHEV(H1;$A$2:$E$14;2;0)",
+          "=RECHERCHEV(H1;A2:E14;2;FAUX)",
+          "=RECHERCHEV(H1;A2:E14;2;0)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Seule la fin de la plage change : $A$2:$E$14.",
+        "showTarget": true
+      },
+      "feedback": "**Ouest** s'affiche. Une plage nommée, ou un tableau structuré, s'étendrait tout seul."
+    },
+    {
+      "id": "M19-L07-09",
+      "consigne": "==Corrigez les trois autres lignes de la fiche== de la même façon.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "H3": {
+            "anyOf": [
+              "=RECHERCHEV($H$1;$A$2:$E$14;3;FAUX)",
+              "=RECHERCHEV($H$1;$A$2:$E$14;3;0)",
+              "=RECHERCHEV($H$1;A2:E14;3;FAUX)",
+              "=RECHERCHEV($H$1;A2:E14;3;0)",
+              "=RECHERCHEV(H1;$A$2:$E$14;3;FAUX)",
+              "=RECHERCHEV(H1;$A$2:$E$14;3;0)",
+              "=RECHERCHEV(H1;A2:E14;3;FAUX)",
+              "=RECHERCHEV(H1;A2:E14;3;0)"
+            ],
+            "v": "Mobilier"
+          },
+          "H4": {
+            "anyOf": [
+              "=RECHERCHEV($H$1;$A$2:$E$14;4;FAUX)",
+              "=RECHERCHEV($H$1;$A$2:$E$14;4;0)",
+              "=RECHERCHEV($H$1;A2:E14;4;FAUX)",
+              "=RECHERCHEV($H$1;A2:E14;4;0)",
+              "=RECHERCHEV(H1;$A$2:$E$14;4;FAUX)",
+              "=RECHERCHEV(H1;$A$2:$E$14;4;0)",
+              "=RECHERCHEV(H1;A2:E14;4;FAUX)",
+              "=RECHERCHEV(H1;A2:E14;4;0)"
+            ],
+            "v": "Chevalier"
+          },
+          "H5": {
+            "anyOf": [
+              "=RECHERCHEV($H$1;$A$2:$E$14;5;FAUX)",
+              "=RECHERCHEV($H$1;$A$2:$E$14;5;0)",
+              "=RECHERCHEV($H$1;A2:E14;5;FAUX)",
+              "=RECHERCHEV($H$1;A2:E14;5;0)",
+              "=RECHERCHEV(H1;$A$2:$E$14;5;FAUX)",
+              "=RECHERCHEV(H1;$A$2:$E$14;5;0)",
+              "=RECHERCHEV(H1;A2:E14;5;FAUX)",
+              "=RECHERCHEV(H1;A2:E14;5;0)"
+            ],
+            "v": 2460
+          }
+        }
+      },
+      "aide": {
+        "text": "Même correction de plage sur H3, H4 et H5.",
+        "showTarget": true
+      },
+      "feedback": "La fiche est de nouveau complète. Retenez le réflexe : après chaque ajout de ligne, vérifiez les plages de vos formules de synthèse."
+    }
+  ]
+}

@@ -1,0 +1,277 @@
+{
+  "schemaVersion": 1,
+  "title": "Exercice · Atteindre un objectif sous contrainte",
+  "mode": "EXERCISE",
+  "moduleTitle": "Analyses et simulations",
+  "intro": {
+    "title": "À VOUS",
+    "body": "Deux recherches de valeur cible, deux contraintes à vérifier vous-même, et l'écart que produit l'arrondi."
+  },
+  "outro": {
+    "body": "Exercice terminé."
+  },
+  "ribbon": [
+    "accueil",
+    "donnees"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Objectif boutique",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 190,
+          "B": 90,
+          "C": 185,
+          "D": 110
+        },
+        "cells": {
+          "A1": {
+            "v": "BOUTIQUE — OBJECTIF DE RÉSULTAT",
+            "format": {
+              "bold": true
+            }
+          },
+          "A3": {
+            "v": "Prix de vente",
+            "format": {
+              "bold": true
+            }
+          },
+          "B3": {
+            "v": 45
+          },
+          "A4": {
+            "v": "Quantité vendue",
+            "format": {
+              "bold": true
+            }
+          },
+          "B4": {
+            "v": 900
+          },
+          "A5": {
+            "v": "Coût d'achat unitaire",
+            "format": {
+              "bold": true
+            }
+          },
+          "B5": {
+            "v": 28
+          },
+          "A6": {
+            "v": "Charges fixes",
+            "format": {
+              "bold": true
+            }
+          },
+          "B6": {
+            "v": 8000
+          },
+          "A8": {
+            "v": "RÉSULTAT",
+            "format": {
+              "bold": true
+            }
+          },
+          "C3": {
+            "v": "Stock disponible : 1 000",
+            "format": {
+              "bold": true
+            }
+          },
+          "C4": {
+            "v": "Quantité à commander",
+            "format": {
+              "bold": true
+            }
+          },
+          "C6": {
+            "v": "Prix arrondi",
+            "format": {
+              "bold": true
+            }
+          },
+          "C8": {
+            "v": "Résultat au prix arrondi",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M23-E03-01",
+      "consigne": "En **B8**, calculez le résultat prévisionnel de la boutique.",
+      "setup": {
+        "selection": "B8"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B8",
+        "accept": [
+          "=(B3-B5)*B4-B6",
+          "=B4*(B3-B5)-B6"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Marge unitaire × quantité, moins les charges fixes."
+      },
+      "feedback": "7 300 €."
+    },
+    {
+      "id": "M23-E03-02",
+      "consigne": "L'objectif du gérant est de **12 000 €** de résultat, sans toucher au prix. Trouvez la quantité qu'il faudrait vendre.",
+      "setup": {
+        "selection": "B8",
+        "ribbon": {
+          "activeTab": "donnees"
+        },
+        "goalSeek": {
+          "formulaRef": "B8",
+          "target": 12000,
+          "inputRef": "B4"
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "don-valeur-cible"
+      },
+      "aide": {
+        "text": "Valeur cible : cellule à définir B8, cellule à modifier B4."
+      },
+      "feedback": "1176,47 unités."
+    },
+    {
+      "id": "M23-E03-03",
+      "consigne": "En **D3**, vérifiez que cette quantité tient dans le stock disponible de 1 000 unités : la cellule doit afficher `OK` ou `Stock insuffisant`.",
+      "setup": {
+        "selection": "D3"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "D3",
+        "accept": [
+          "=SI(B4<=1000;\"OK\";\"Stock insuffisant\")"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Un SI qui compare la quantité trouvée à 1 000."
+      },
+      "feedback": "**Stock insuffisant**. La valeur cible a trouvé une quantité que le stock ne permet pas : elle ignore les contraintes, et personne ne vous avertit. C'est vous qui venez de le découvrir, avec une formule."
+    },
+    {
+      "id": "M23-E03-04",
+      "consigne": "En **D4**, donnez la quantité réellement à commander, en arrondissant à l'entier supérieur.",
+      "setup": {
+        "selection": "D4"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "D4",
+        "accept": [
+          "=ARRONDI.SUP(B4;0)",
+          "=PLAFOND(B4;1)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "On n'achète pas une fraction d'article."
+      },
+      "feedback": "1177 unités, soit 177 de plus que le stock disponible : cette piste suppose un réapprovisionnement. D'où l'intérêt de chercher ailleurs."
+    },
+    {
+      "id": "M23-E03-05",
+      "consigne": "Autre piste : garder la quantité d'origine. Remettez **900** en **B4**.",
+      "setup": {
+        "selection": "B4"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B4",
+        "accept": [
+          "900"
+        ]
+      },
+      "aide": {
+        "text": "La valeur cible a écrasé la valeur initiale."
+      }
+    },
+    {
+      "id": "M23-E03-06",
+      "consigne": "Cherchez maintenant le **prix de vente** qui atteindrait le même objectif à 900 unités.",
+      "setup": {
+        "selection": "B8",
+        "ribbon": {
+          "activeTab": "donnees"
+        },
+        "goalSeek": {
+          "formulaRef": "B8",
+          "target": 12000,
+          "inputRef": "B3"
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "don-valeur-cible"
+      },
+      "aide": {
+        "text": "Même boîte, cellule à modifier B3."
+      },
+      "feedback": "50,22 € — un prix qu'aucune étiquette n'affichera jamais."
+    },
+    {
+      "id": "M23-E03-07",
+      "consigne": "En **D6**, arrondissez ce prix au **demi-euro supérieur**.",
+      "setup": {
+        "selection": "D6"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "D6",
+        "accept": [
+          "=PLAFOND(B3;0,5)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "PLAFOND arrondit au multiple supérieur de son second argument."
+      },
+      "feedback": "50,50 €."
+    },
+    {
+      "id": "M23-E03-08",
+      "consigne": "En **D8**, calculez le résultat obtenu à ce prix arrondi, pour 900 unités vendues.",
+      "setup": {
+        "selection": "D8"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "D8",
+        "accept": [
+          "=(D6-B5)*B4-B6",
+          "=B4*(D6-B5)-B6"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "La même formule que B8, en remplaçant le prix par la cellule arrondie."
+      },
+      "feedback": "12 250 € : l'arrondi fait gagner 250 € au-dessus de l'objectif. Un Solveur aurait traité l'arrondi comme une contrainte."
+    }
+  ]
+}

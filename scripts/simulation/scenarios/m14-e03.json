@@ -1,0 +1,267 @@
+{
+ "schemaVersion": 1,
+ "title": "Exercice · Nommer d'après les en-têtes",
+ "mode": "EXERCISE",
+ "moduleTitle": "Noms de cellules",
+ "intro": {
+  "title": "À VOUS",
+  "body": "Les heures réalisées par dispositif de financement, sur quatre trimestres. Les en-têtes feront de bons noms de plage."
+ },
+ "outro": {
+  "body": "Trois colonnes nommées, quatre formules lisibles, et un déplacement par le nom."
+ },
+ "ribbon": [
+  "accueil"
+ ],
+ "statusBar": {
+  "aggregates": [
+   "moyenne",
+   "nb-non-vides",
+   "somme"
+  ],
+  "sheetCount": 1
+ },
+ "workbook": {
+  "fileName": "Heures par dispositif",
+  "activeSheetIndex": 0,
+  "selection": "A1",
+  "sheets": [
+   {
+    "name": "Feuil1",
+    "columnWidths": {
+     "A": 145,
+     "B": 100,
+     "C": 100,
+     "D": 115
+    },
+    "cells": {
+     "A7": {
+      "v": "Total",
+      "format": {
+       "bold": true
+      }
+     },
+     "A8": {
+      "v": "Moyenne CPF",
+      "format": {
+       "bold": true
+      }
+     },
+     "A10": {
+      "v": "Tous dispositifs",
+      "format": {
+       "bold": true
+      }
+     },
+     "A1": {
+      "v": "Trimestre",
+      "format": {
+       "bold": true
+      }
+     },
+     "B1": {
+      "v": "CPF",
+      "format": {
+       "bold": true
+      }
+     },
+     "C1": {
+      "v": "OPCO",
+      "format": {
+       "bold": true
+      }
+     },
+     "D1": {
+      "v": "Entreprise",
+      "format": {
+       "bold": true
+      }
+     },
+     "A2": {
+      "v": "T1"
+     },
+     "B2": {
+      "v": 140
+     },
+     "C2": {
+      "v": 98
+     },
+     "D2": {
+      "v": 56
+     },
+     "A3": {
+      "v": "T2"
+     },
+     "B3": {
+      "v": 175
+     },
+     "C3": {
+      "v": 112
+     },
+     "D3": {
+      "v": 42
+     },
+     "A4": {
+      "v": "T3"
+     },
+     "B4": {
+      "v": 210
+     },
+     "C4": {
+      "v": 84
+     },
+     "D4": {
+      "v": 70
+     },
+     "A5": {
+      "v": "T4"
+     },
+     "B5": {
+      "v": 168
+     },
+     "C5": {
+      "v": 126
+     },
+     "D5": {
+      "v": 63
+     }
+    }
+   }
+  ]
+ },
+ "steps": [
+  {
+   "id": "M14-E03-01",
+   "consigne": "Sélectionnez les **quatre valeurs du CPF**, sans l'en-tête.",
+   "action": {
+    "type": "DRAG_RANGE",
+    "range": "B2:B5"
+   },
+   "aide": {
+    "text": "On nomme des valeurs, pas un en-tête."
+   }
+  },
+  {
+   "id": "M14-E03-02",
+   "consigne": "Nommez cette plage d'après son **en-tête**.",
+   "action": {
+    "type": "DEFINE_NAME",
+    "name": "CPF",
+    "ref": "B2:B5"
+   }
+  },
+  {
+   "id": "M14-E03-03",
+   "consigne": "La colonne **OPCO** est sélectionnée : nommez-la d'après son en-tête.",
+   "setup": {
+    "selection": "C2:C5"
+   },
+   "action": {
+    "type": "DEFINE_NAME",
+    "name": "OPCO",
+    "ref": "C2:C5"
+   }
+  },
+  {
+   "id": "M14-E03-04",
+   "consigne": "La colonne **Entreprise** est sélectionnée : nommez-la de même.",
+   "setup": {
+    "selection": "D2:D5"
+   },
+   "action": {
+    "type": "DEFINE_NAME",
+    "name": "Entreprise",
+    "ref": "D2:D5"
+   }
+  },
+  {
+   "id": "M14-E03-05",
+   "consigne": "En **B7**, totalisez le **CPF** en utilisant son nom.",
+   "setup": {
+    "selection": "B7"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "B7",
+    "accept": [
+     "=SOMME(CPF)"
+    ],
+    "formulaMode": true
+   }
+  },
+  {
+   "id": "M14-E03-06",
+   "consigne": "En **C7**, totalisez l'**OPCO**.",
+   "setup": {
+    "selection": "C7"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "C7",
+    "accept": [
+     "=SOMME(OPCO)"
+    ],
+    "formulaMode": true
+   }
+  },
+  {
+   "id": "M14-E03-07",
+   "consigne": "En **D7**, totalisez l'**Entreprise**.",
+   "setup": {
+    "selection": "D7"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "D7",
+    "accept": [
+     "=SOMME(Entreprise)"
+    ],
+    "formulaMode": true
+   }
+  },
+  {
+   "id": "M14-E03-08",
+   "consigne": "En **B8**, calculez la **moyenne trimestrielle du CPF**, avec le nom.",
+   "setup": {
+    "selection": "B8"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "B8",
+    "accept": [
+     "=MOYENNE(CPF)"
+    ],
+    "formulaMode": true
+   }
+  },
+  {
+   "id": "M14-E03-09",
+   "consigne": "En **B10**, totalisez les **trois dispositifs** en une seule formule qui emploie les trois noms.",
+   "setup": {
+    "selection": "B10"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "B10",
+    "accept": [
+     "=SOMME(CPF;OPCO;Entreprise)"
+    ],
+    "formulaMode": true
+   },
+   "aide": {
+    "text": "Une somme accepte plusieurs plages séparées par des points-virgules."
+   }
+  },
+  {
+   "id": "M14-E03-10",
+   "consigne": "Terminez en **atteignant la plage OPCO** par son nom.",
+   "action": {
+    "type": "GOTO_REF",
+    "ref": "C2:C5"
+   },
+   "aide": {
+    "text": "La zone Nom sert aussi à se déplacer."
+   }
+  }
+ ]
+}

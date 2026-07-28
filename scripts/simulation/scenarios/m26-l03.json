@@ -1,0 +1,244 @@
+{
+  "schemaVersion": 1,
+  "title": "Préparer un extrait pour un rapport",
+  "mode": "LESSON",
+  "moduleTitle": "Import, export et échanges de données",
+  "intro": {
+    "title": "CE QUI PART DANS LE RAPPORT",
+    "body": "Un tableau Excel ne se copie pas tel quel dans un document : on choisit l'extrait, on le fige en valeurs, on le rend lisible, et on vérifie qu'il n'a rien perdu."
+  },
+  "outro": {
+    "body": "Vous savez extraire, coller en valeurs, mettre en forme et contrôler un extrait destiné à un rapport."
+  },
+  "ribbon": [
+    "accueil",
+    "donnees"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Suivi mensuel",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 100,
+          "B": 135,
+          "C": 100,
+          "D": 30,
+          "E": 20,
+          "F": 100,
+          "G": 135,
+          "H": 100,
+          "I": 120,
+          "J": 110
+        },
+        "cells": {
+          "A1": {
+            "v": "Mois",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Chiffre d'affaires",
+            "format": {
+              "bold": true
+            }
+          },
+          "C1": {
+            "v": "Marge",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Janvier"
+          },
+          "B2": {
+            "v": 18400
+          },
+          "C2": {
+            "f": "=B2*0,2"
+          },
+          "A3": {
+            "v": "Février"
+          },
+          "B3": {
+            "v": 21300
+          },
+          "C3": {
+            "f": "=B3*0,2"
+          },
+          "A4": {
+            "v": "Mars"
+          },
+          "B4": {
+            "v": 19750
+          },
+          "C4": {
+            "f": "=B4*0,2"
+          },
+          "A5": {
+            "v": "Avril"
+          },
+          "B5": {
+            "v": 23100
+          },
+          "C5": {
+            "f": "=B5*0,2"
+          },
+          "I1": {
+            "v": "Total collé",
+            "format": {
+              "bold": true
+            }
+          },
+          "I2": {
+            "v": "Lignes collées",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M26-L03-01",
+      "consigne": "Le rapport trimestriel n'a besoin que de ce bloc, pas de toute la feuille. ==Sélectionnez **A1:C5**== en faisant glisser.",
+      "setup": {
+        "selection": "A1"
+      },
+      "action": {
+        "type": "DRAG_RANGE",
+        "range": "A1:C5"
+      },
+      "aide": {
+        "text": "Du titre de colonne Mois jusqu'à la marge d'avril.",
+        "showTarget": true
+      },
+      "feedback": "Un extrait se choisit **avant** de copier : c'est ce qui évite le tableau de trente colonnes collé en travers d'une page Word."
+    },
+    {
+      "id": "M26-L03-02",
+      "consigne": "==Copiez la sélection==.",
+      "setup": {
+        "ribbon": {
+          "activeTab": "accueil"
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "acc-copier"
+      },
+      "aide": {
+        "text": "Le bouton Copier du groupe Presse-papiers, ou Ctrl+C.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M26-L03-03",
+      "consigne": "Un rapport n'a que faire de vos formules : la colonne Marge doit arriver en **valeurs**. ==Placez-vous en **F1** et collez l'extrait==.",
+      "setup": {
+        "selection": "F1",
+        "ribbon": {
+          "activeTab": "accueil"
+        },
+        "paste": {
+          "texte": "Mois\tChiffre d'affaires\tMarge\nJanvier\t18400\t3680\nFévrier\t21300\t4260\nMars\t19750\t3950\nAvril\t23100\t4620"
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "acc-coller"
+      },
+      "aide": {
+        "text": "Le bouton Coller, en choisissant « Valeurs » plutôt qu'un collage complet.",
+        "showTarget": true
+      },
+      "feedback": "L'extrait est posé en **F1:H5**, et la colonne Marge ne contient plus que des nombres : plus aucune dépendance au tableau de gauche."
+    },
+    {
+      "id": "M26-L03-04",
+      "consigne": "==Sélectionnez **G2:G5** et donnez-lui un format monétaire== : un extrait destiné à un rapport doit être lisible tel quel.",
+      "setup": {
+        "selection": "G2:G5",
+        "ribbon": {
+          "activeTab": "accueil"
+        }
+      },
+      "action": {
+        "type": "EXPECT_FORMAT",
+        "cells": {
+          "G2": {
+            "numberFormat": "monetaire"
+          },
+          "G5": {
+            "numberFormat": "monetaire"
+          }
+        }
+      },
+      "aide": {
+        "text": "Le bouton € du groupe Nombre.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M26-L03-05",
+      "consigne": "Contrôle indispensable après tout collage. ==En **J1**, totalisez les montants collés : `=SOMME(G2:G5)`==.",
+      "setup": {
+        "selection": "J1"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "J1",
+        "accept": [
+          "=SOMME(G2:G5)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Une somme sur la colonne collée.",
+        "showTarget": true
+      },
+      "feedback": "82 550 €, identique au total de la source. Un collage qui perd une ligne ou transforme un nombre en texte se voit immédiatement ici."
+    },
+    {
+      "id": "M26-L03-06",
+      "consigne": "==En **J2**, comptez les lignes de l'extrait : `=NBVAL(F2:F5)`==.",
+      "setup": {
+        "selection": "J2"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "J2",
+        "accept": [
+          "=NBVAL(F2:F5)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "NBVAL compte les cellules non vides.",
+        "showTarget": true
+      },
+      "feedback": "4 lignes : l'extrait est complet."
+    },
+    {
+      "id": "M26-L03-07",
+      "consigne": "Reste à faire entrer ce tableau dans Word, et le choix du collage n'est pas anodin. **Coller comme image** donne un tableau figé, qui ne bougera plus et ne trahira jamais la mise en page : c'est le bon choix pour un rapport définitif, un dossier de financement, une pièce jointe. **Coller avec liaison** garde le lien vers le classeur : le tableau Word se met à jour quand Excel change — précieux pour un document qui vit, mais le lien casse dès que le classeur est déplacé, renommé, ou envoyé sans lui. **Coller en objet incorporé** embarque une copie du classeur dans le document : le tableau reste modifiable dans Word, au prix d'un fichier bien plus lourd.\n\nTrois réglages évitent le tableau coupé en deux : ajuster les **largeurs de colonnes** avant de copier, passer la page Word en **paysage** si l'extrait est large, et — pour un long tableau — cocher dans Word la répétition de la **ligne d'en-tête** sur chaque page.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    }
+  ]
+}

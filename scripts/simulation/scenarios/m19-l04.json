@@ -1,0 +1,393 @@
+{
+  "schemaVersion": 1,
+  "title": "Bâtir une liste et la trier sur deux niveaux",
+  "mode": "LESSON",
+  "moduleTitle": "Tri, filtre et sous-totaux",
+  "intro": {
+    "title": "UNE LISTE, DES RÈGLES",
+    "body": "Trier, filtrer, totaliser : tout cela suppose une liste correctement bâtie. Trois règles de construction, puis le tri à deux niveaux que réclame le moindre tableau de suivi."
+  },
+  "outro": {
+    "body": "Vous savez construire une liste, la nommer et la trier sur deux critères dans le bon ordre."
+  },
+  "ribbon": [
+    "accueil",
+    "donnees"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Commandes",
+    "activeSheetIndex": 0,
+    "selection": "A13",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 155,
+          "B": 90,
+          "C": 110,
+          "D": 105
+        },
+        "cells": {
+          "A1": {
+            "v": "Client",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Région",
+            "format": {
+              "bold": true
+            }
+          },
+          "C1": {
+            "v": "Catégorie",
+            "format": {
+              "bold": true
+            }
+          },
+          "D1": {
+            "v": "Commercial",
+            "format": {
+              "bold": true
+            }
+          },
+          "E1": {
+            "v": "Montant",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Papeterie Lorraine"
+          },
+          "B2": {
+            "v": "Est"
+          },
+          "C2": {
+            "v": "Papeterie"
+          },
+          "D2": {
+            "v": "Bertrand"
+          },
+          "E2": {
+            "v": 1480
+          },
+          "A3": {
+            "v": "Atelier du Cèdre"
+          },
+          "B3": {
+            "v": "Est"
+          },
+          "C3": {
+            "v": "Mobilier"
+          },
+          "D3": {
+            "v": "Chevalier"
+          },
+          "E3": {
+            "v": 3260
+          },
+          "A4": {
+            "v": "Cabinet Vasseur"
+          },
+          "B4": {
+            "v": "Nord"
+          },
+          "C4": {
+            "v": "Informatique"
+          },
+          "D4": {
+            "v": "Delaunay"
+          },
+          "E4": {
+            "v": 5900
+          },
+          "A5": {
+            "v": "Café des Halles"
+          },
+          "B5": {
+            "v": "Sud"
+          },
+          "C5": {
+            "v": "Mobilier"
+          },
+          "D5": {
+            "v": "Bertrand"
+          },
+          "E5": {
+            "v": 2140
+          },
+          "A6": {
+            "v": "Imprimerie Roussel"
+          },
+          "B6": {
+            "v": "Est"
+          },
+          "C6": {
+            "v": "Mobilier"
+          },
+          "D6": {
+            "v": "Girard"
+          },
+          "E6": {
+            "v": 4320
+          },
+          "A7": {
+            "v": "Garage Lemaitre"
+          },
+          "B7": {
+            "v": "Nord"
+          },
+          "C7": {
+            "v": "Papeterie"
+          },
+          "D7": {
+            "v": "Chevalier"
+          },
+          "E7": {
+            "v": 760
+          },
+          "A8": {
+            "v": "Clinique Saint-Yon"
+          },
+          "B8": {
+            "v": "Sud"
+          },
+          "C8": {
+            "v": "Informatique"
+          },
+          "D8": {
+            "v": "Delaunay"
+          },
+          "E8": {
+            "v": 6480
+          },
+          "A9": {
+            "v": "Boulangerie Thibault"
+          },
+          "B9": {
+            "v": "Ouest"
+          },
+          "C9": {
+            "v": "Papeterie"
+          },
+          "D9": {
+            "v": "Girard"
+          },
+          "E9": {
+            "v": 1050
+          },
+          "A10": {
+            "v": "Menuiserie Dubreuil"
+          },
+          "B10": {
+            "v": "Est"
+          },
+          "C10": {
+            "v": "Mobilier"
+          },
+          "D10": {
+            "v": "Girard"
+          },
+          "E10": {
+            "v": 3150
+          },
+          "A11": {
+            "v": "Pharmacie Vandel"
+          },
+          "B11": {
+            "v": "Nord"
+          },
+          "C11": {
+            "v": "Mobilier"
+          },
+          "D11": {
+            "v": "Bertrand"
+          },
+          "E11": {
+            "v": 2780
+          },
+          "A12": {
+            "v": "Studio Marceau"
+          },
+          "B12": {
+            "v": "Sud"
+          },
+          "C12": {
+            "v": "Papeterie"
+          },
+          "D12": {
+            "v": "Chevalier"
+          },
+          "E12": {
+            "v": 890
+          },
+          "G1": {
+            "v": "Nb commandes",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M19-L04-01",
+      "consigne": "Onze commandes saisies, une douzième à ajouter. Une liste exploitable tient à trois règles : **une seule ligne de titres**, **une ligne par commande**, **aucune ligne vide**. ==En **A13**, saisissez `Transports Aubry`==.",
+      "setup": {
+        "selection": "A13"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "A13",
+        "accept": [
+          "Transports Aubry"
+        ]
+      },
+      "aide": {
+        "text": "La première ligne libre sous la liste, juste sous Studio Marceau.",
+        "showTarget": true
+      },
+      "feedback": "La ligne 13 fait maintenant partie de la liste. Excel n'a pas besoin qu'on le lui dise : il considère comme une liste tout bloc de cellules contiguës coiffé d'une ligne de titres."
+    },
+    {
+      "id": "M19-L04-02",
+      "consigne": "==En **B13**, la région : `Ouest`==.",
+      "setup": {
+        "selection": "B13"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B13",
+        "accept": [
+          "Ouest"
+        ]
+      },
+      "aide": {
+        "text": "La cellule juste à droite.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M19-L04-03",
+      "consigne": "==Complétez la ligne== : catégorie `Informatique` en **C13**, commercial `Delaunay` en **D13**, montant `7250` en **E13**.",
+      "setup": {
+        "selection": "C13"
+      },
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "C13": {
+            "v": "Informatique"
+          },
+          "D13": {
+            "v": "Delaunay"
+          },
+          "E13": {
+            "v": 7250
+          }
+        }
+      },
+      "aide": {
+        "text": "Trois saisies, de C13 à E13. La touche Tabulation passe d'une cellule à la suivante.",
+        "showTarget": true
+      },
+      "feedback": "Une règle à ne jamais enfreindre : jamais de ligne vide au milieu d'une liste. Une seule suffit pour qu'Excel croie la liste terminée et ne trie que la moitié du tableau."
+    },
+    {
+      "id": "M19-L04-04",
+      "consigne": "Une liste nommée se retrouve d'un geste et s'utilise dans les formules. La sélection couvre déjà tout le tableau : ==tapez `Commandes` dans la **zone Nom** et validez avec Entrée==.",
+      "setup": {
+        "selection": "A1:E13"
+      },
+      "action": {
+        "type": "DEFINE_NAME",
+        "name": "Commandes",
+        "ref": "A1:E13"
+      },
+      "aide": {
+        "text": "La zone Nom est le champ à gauche de la barre de formule. Tapez le nom par-dessus la référence.",
+        "showTarget": true
+      },
+      "feedback": "Le nom **Commandes** désigne désormais la plage entière. La zone Nom permet aussi d'y revenir instantanément depuis n'importe quelle feuille."
+    },
+    {
+      "id": "M19-L04-05",
+      "consigne": "Passons au tri. Un tri **à deux niveaux** — par région, puis par montant dans chaque région — s'obtient en enchaînant deux tris simples, mais dans un ordre précis : on applique les critères **du moins important au plus important**. Donc le montant d'abord, la région ensuite.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M19-L04-06",
+      "consigne": "==Triez d'abord par **montant**, du plus grand au plus petit== : cliquez dans la colonne Montant, puis sur **Z→A**.",
+      "setup": {
+        "selection": "E7",
+        "ribbon": {
+          "activeTab": "donnees"
+        }
+      },
+      "action": {
+        "type": "SORT_RANGE",
+        "range": "A2:E13",
+        "column": "E",
+        "ascending": false
+      },
+      "aide": {
+        "text": "Une cellule quelconque de la colonne Montant, puis le bouton Z→A du groupe Trier et filtrer.",
+        "showTarget": true
+      },
+      "feedback": "Transports Aubry prend la tête avec 7 250 €."
+    },
+    {
+      "id": "M19-L04-07",
+      "consigne": "==Triez maintenant par **région**, de A à Z== : cliquez dans la colonne Région, puis sur **A→Z**.",
+      "setup": {
+        "selection": "B7"
+      },
+      "action": {
+        "type": "SORT_RANGE",
+        "range": "A2:E13",
+        "column": "B",
+        "ascending": true
+      },
+      "aide": {
+        "text": "Une cellule de la colonne Région, puis le bouton A→Z.",
+        "showTarget": true
+      },
+      "feedback": "Les quatre régions se suivent, et **à l'intérieur de chaque région les montants restent classés du plus gros au plus petit** : c'est exactement le tri à deux niveaux visé."
+    },
+    {
+      "id": "M19-L04-08",
+      "consigne": "Dernier réflexe : contrôler qu'aucune ligne n'a été perdue en route. ==En **G2**, comptez les commandes de la liste==.",
+      "setup": {
+        "selection": "G2"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "G2",
+        "accept": [
+          "=NBVAL(A2:A13)",
+          "=NB(E2:E13)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "NBVAL compte les cellules non vides d'une colonne de texte ; NB compte les nombres.",
+        "showTarget": true
+      },
+      "feedback": "12 commandes, autant qu'avant les deux tris. Un tri ne perd jamais de ligne — sauf si la plage triée en oubliait une."
+    }
+  ]
+}

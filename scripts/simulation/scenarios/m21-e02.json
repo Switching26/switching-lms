@@ -1,0 +1,316 @@
+{
+  "schemaVersion": 1,
+  "title": "Exercice · Préparer une feuille de saisie",
+  "mode": "EXERCISE",
+  "moduleTitle": "Validation des données et protection",
+  "intro": {
+    "title": "À VOUS",
+    "body": "Repérer la zone de saisie, la contraindre, calculer, et poser un contrôle de complétude."
+  },
+  "outro": {
+    "body": "Exercice terminé."
+  },
+  "ribbon": [
+    "accueil",
+    "donnees"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Inscriptions",
+    "activeSheetIndex": 0,
+    "selection": "B4",
+    "sheets": [
+      {
+        "name": "Session",
+        "columnWidths": {
+          "A": 150,
+          "B": 155,
+          "C": 80,
+          "D": 110,
+          "E": 95
+        },
+        "cells": {
+          "A1": {
+            "v": "FICHE D'INSCRIPTION — Session Excel perfectionnement",
+            "format": {
+              "bold": true
+            }
+          },
+          "A3": {
+            "v": "Stagiaire",
+            "format": {
+              "bold": true
+            }
+          },
+          "B3": {
+            "v": "Statut",
+            "format": {
+              "bold": true
+            }
+          },
+          "C3": {
+            "v": "Heures",
+            "format": {
+              "bold": true
+            }
+          },
+          "D3": {
+            "v": "Tarif horaire",
+            "format": {
+              "bold": true
+            }
+          },
+          "E3": {
+            "v": "Total",
+            "format": {
+              "bold": true
+            }
+          },
+          "A4": {
+            "v": "Bertrand Julie"
+          },
+          "C4": {
+            "v": 21
+          },
+          "D4": {
+            "v": 45
+          },
+          "A5": {
+            "v": "Chevalier Marc"
+          },
+          "C5": {
+            "v": 35
+          },
+          "D5": {
+            "v": 45
+          },
+          "A6": {
+            "v": "Delaunay Sophie"
+          },
+          "C6": {
+            "v": 14
+          },
+          "D6": {
+            "v": 52
+          },
+          "A7": {
+            "v": "Fabre Antoine"
+          },
+          "C7": {
+            "v": 28
+          },
+          "D7": {
+            "v": 52
+          },
+          "D9": {
+            "v": "TOTAL",
+            "format": {
+              "bold": true
+            }
+          },
+          "D10": {
+            "v": "Statuts renseignés",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M21-E02-01",
+      "consigne": "Signalez visuellement la zone que les gestionnaires devront remplir : les volumes horaires, en **C4:C7**.",
+      "setup": {
+        "selection": "C4:C7",
+        "ribbon": {
+          "activeTab": "accueil"
+        }
+      },
+      "action": {
+        "type": "EXPECT_FORMAT",
+        "cells": {
+          "C4": {
+            "background": "#fde68a"
+          },
+          "C7": {
+            "background": "#fde68a"
+          }
+        }
+      },
+      "aide": {
+        "text": "Le bouton Remplissage de l'onglet Accueil."
+      }
+    },
+    {
+      "id": "M21-E02-02",
+      "consigne": "Le statut ne doit accepter que trois valeurs : `Salarié`, `Demandeur d'emploi`, `Indépendant`. Posez la contrainte.",
+      "setup": {
+        "selection": "B4:B7",
+        "ribbon": {
+          "activeTab": "donnees"
+        },
+        "dv": {
+          "range": "B4:B7",
+          "rule": {
+            "kind": "list",
+            "values": [
+              "Salarié",
+              "Demandeur d'emploi",
+              "Indépendant"
+            ],
+            "errorMessage": "Choisissez un statut dans la liste."
+          }
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "don-validation"
+      },
+      "aide": {
+        "text": "Bouton Validation, type Liste."
+      }
+    },
+    {
+      "id": "M21-E02-03",
+      "consigne": "Renseignez le statut de Julie Bertrand : **Salarié**.",
+      "setup": {
+        "selection": "B4"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B4",
+        "accept": [
+          "Salarié"
+        ]
+      },
+      "aide": {
+        "text": "Choisissez-le dans la liste déroulante."
+      }
+    },
+    {
+      "id": "M21-E02-04",
+      "consigne": "Le volume horaire doit rester compris entre 7 et 40 heures. Posez la contrainte sur **C4:C7**.",
+      "setup": {
+        "selection": "C4:C7",
+        "ribbon": {
+          "activeTab": "donnees"
+        },
+        "dv": {
+          "range": "C4:C7",
+          "rule": {
+            "kind": "numberBetween",
+            "min": 7,
+            "max": 40,
+            "errorMessage": "Le volume doit être compris entre 7 et 40 heures."
+          }
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "don-validation"
+      },
+      "aide": {
+        "text": "Bouton Validation, règle « nombre entre »."
+      }
+    },
+    {
+      "id": "M21-E02-05",
+      "consigne": "En **E4**, calculez le montant dû par le premier stagiaire.",
+      "setup": {
+        "selection": "E4"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "E4",
+        "accept": [
+          "=C4*D4",
+          "=D4*C4"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Heures × tarif horaire."
+      },
+      "feedback": "945 €."
+    },
+    {
+      "id": "M21-E02-06",
+      "consigne": "Complétez la colonne jusqu'en **E7**.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "E5": {
+            "anyOf": [
+              "=C5*D5",
+              "=D5*C5"
+            ],
+            "v": 1575
+          },
+          "E6": {
+            "anyOf": [
+              "=C6*D6",
+              "=D6*C6"
+            ],
+            "v": 728
+          },
+          "E7": {
+            "anyOf": [
+              "=C7*D7",
+              "=D7*C7"
+            ],
+            "v": 1456
+          }
+        }
+      },
+      "aide": {
+        "text": "Recopiez E4 vers le bas."
+      }
+    },
+    {
+      "id": "M21-E02-07",
+      "consigne": "En **E9**, totalisez la session.",
+      "setup": {
+        "selection": "E9"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "E9",
+        "accept": [
+          "=SOMME(E4:E7)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Une somme sur la colonne Total, E4 à E7."
+      },
+      "feedback": "4 704 €."
+    },
+    {
+      "id": "M21-E02-08",
+      "consigne": "En **E10**, comptez les statuts déjà renseignés : la fiche n'est complète que lorsque les quatre le sont.",
+      "setup": {
+        "selection": "E10"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "E10",
+        "accept": [
+          "=NBVAL(B4:B7)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "NBVAL compte les cellules non vides, texte compris."
+      },
+      "feedback": "1 sur 4 : la fiche est encore incomplète, et cela se voit d'un coup d'œil."
+    }
+  ]
+}

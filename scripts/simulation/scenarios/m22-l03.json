@@ -1,0 +1,423 @@
+{
+  "schemaVersion": 1,
+  "title": "Consolider sans liaison : figer une synthèse",
+  "mode": "LESSON",
+  "moduleTitle": "Consolidation des données",
+  "intro": {
+    "title": "UNE PHOTO, OU UN MIROIR",
+    "body": "Une consolidation liée suit ses sources. Une consolidation figée ne bouge plus. Ce n'est pas une question de technique mais d'usage — et les deux se posent souvent côte à côte."
+  },
+  "outro": {
+    "body": "Vous savez produire une synthèse figée, une synthèse liée, et mesurer l'écart entre les deux."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Consolidation agences",
+    "activeSheetIndex": 3,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Lyon",
+        "columnWidths": {
+          "A": 130,
+          "B": 110
+        },
+        "cells": {
+          "A1": {
+            "v": "Produit",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Montant",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Licence"
+          },
+          "B2": {
+            "v": 14400
+          },
+          "A3": {
+            "v": "Formation"
+          },
+          "B3": {
+            "v": 7500
+          },
+          "A4": {
+            "v": "Support"
+          },
+          "B4": {
+            "v": 4800
+          },
+          "A5": {
+            "v": "Maintenance"
+          },
+          "B5": {
+            "v": 6300
+          },
+          "A7": {
+            "v": "Total",
+            "format": {
+              "bold": true
+            }
+          },
+          "B7": {
+            "f": "=SOMME(B2:B5)"
+          }
+        }
+      },
+      {
+        "name": "Nantes",
+        "columnWidths": {
+          "A": 130,
+          "B": 110
+        },
+        "cells": {
+          "A1": {
+            "v": "Produit",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Montant",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Support"
+          },
+          "B2": {
+            "v": 2400
+          },
+          "A3": {
+            "v": "Licence"
+          },
+          "B3": {
+            "v": 8400
+          },
+          "A4": {
+            "v": "Maintenance"
+          },
+          "B4": {
+            "v": 5100
+          },
+          "A5": {
+            "v": "Formation"
+          },
+          "B5": {
+            "v": 13500
+          },
+          "A7": {
+            "v": "Total",
+            "format": {
+              "bold": true
+            }
+          },
+          "B7": {
+            "f": "=SOMME(B2:B5)"
+          }
+        }
+      },
+      {
+        "name": "Strasbourg",
+        "columnWidths": {
+          "A": 130,
+          "B": 110
+        },
+        "cells": {
+          "A1": {
+            "v": "Produit",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Montant",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Formation"
+          },
+          "B2": {
+            "v": 4500
+          },
+          "A3": {
+            "v": "Maintenance"
+          },
+          "B3": {
+            "v": 2900
+          },
+          "A4": {
+            "v": "Licence"
+          },
+          "B4": {
+            "v": 18000
+          },
+          "A5": {
+            "v": "Support"
+          },
+          "B5": {
+            "v": 3600
+          },
+          "A7": {
+            "v": "Total",
+            "format": {
+              "bold": true
+            }
+          },
+          "B7": {
+            "f": "=SOMME(B2:B5)"
+          }
+        }
+      },
+      {
+        "name": "Synthèse",
+        "columnWidths": {
+          "A": 120,
+          "B": 125,
+          "C": 125,
+          "D": 90
+        },
+        "cells": {
+          "A1": {
+            "v": "Agence",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Figé au 30/06",
+            "format": {
+              "bold": true
+            }
+          },
+          "C1": {
+            "v": "Lié à la source",
+            "format": {
+              "bold": true
+            }
+          },
+          "D1": {
+            "v": "Écart",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Lyon"
+          },
+          "A3": {
+            "v": "Nantes"
+          },
+          "A4": {
+            "v": "Strasbourg"
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M22-L03-01",
+      "consigne": "Trois agences, une synthèse. ==Ouvrez l'onglet **Lyon**== pour relever son total.",
+      "action": {
+        "type": "SELECT_SHEET",
+        "name": "Lyon"
+      },
+      "aide": {
+        "text": "Le premier onglet, en bas de la fenêtre.",
+        "showTarget": true
+      },
+      "feedback": "33 000 € pour Lyon, calculés en B7."
+    },
+    {
+      "id": "M22-L03-02",
+      "consigne": "==Revenez sur l'onglet **Synthèse**==.",
+      "action": {
+        "type": "SELECT_SHEET",
+        "name": "Synthèse"
+      },
+      "aide": {
+        "text": "Le dernier onglet.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M22-L03-03",
+      "consigne": "La colonne **Figé au 30/06** ne doit contenir que des **nombres** : c'est une photo à date, pas un calcul. ==En **B2**, saisissez le total de Lyon : `33000`==.",
+      "setup": {
+        "selection": "B2"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B2",
+        "accept": [
+          "33000"
+        ]
+      },
+      "aide": {
+        "text": "Recopiez le nombre lu sur la feuille Lyon, sans formule.",
+        "showTarget": true
+      },
+      "feedback": "Un nombre, aucune formule : cette cellule ne bougera plus jamais, quoi qu'il arrive aux feuilles source. C'est exactement ce qu'on attend d'un arrêté."
+    },
+    {
+      "id": "M22-L03-04",
+      "consigne": "==Complétez les deux autres agences== de la même façon, en valeurs.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "B3": {
+            "v": 29400
+          },
+          "B4": {
+            "v": 29000
+          }
+        }
+      },
+      "aide": {
+        "text": "Les totaux lus en B7 sur les feuilles Nantes et Strasbourg.",
+        "showTarget": true
+      },
+      "feedback": "Nantes 29 400 €, Strasbourg 29 000 €."
+    },
+    {
+      "id": "M22-L03-05",
+      "consigne": "La colonne **Lié**, elle, va chercher le chiffre à la source. ==En **C2**, saisissez `=SOMME(Lyon!B2:B5)`==.",
+      "setup": {
+        "selection": "C2"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "C2",
+        "accept": [
+          "=SOMME(Lyon!B2:B5)",
+          "=Lyon!B7"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Le nom de la feuille, un point d'exclamation, puis la plage : Lyon!B2:B5.",
+        "showTarget": true
+      },
+      "feedback": "33 000 €, le même montant qu'à gauche — pour l'instant."
+    },
+    {
+      "id": "M22-L03-06",
+      "consigne": "==Complétez les deux autres liaisons==, en **C3** et **C4**.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "C3": {
+            "anyOf": [
+              "=SOMME(Nantes!B2:B5)",
+              "=Nantes!B7"
+            ],
+            "v": 29400
+          },
+          "C4": {
+            "anyOf": [
+              "=SOMME(Strasbourg!B2:B5)",
+              "=Strasbourg!B7"
+            ],
+            "v": 29000
+          }
+        }
+      },
+      "aide": {
+        "text": "Même formule, en changeant le nom de la feuille.",
+        "showTarget": true
+      },
+      "feedback": "Les deux colonnes affichent les mêmes montants. Toute la différence va se voir maintenant."
+    },
+    {
+      "id": "M22-L03-07",
+      "consigne": "Une correction arrive de Lyon. ==Ouvrez son onglet==.",
+      "action": {
+        "type": "SELECT_SHEET",
+        "name": "Lyon"
+      },
+      "aide": {
+        "text": "Le premier onglet.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M22-L03-08",
+      "consigne": "Un contrat de maintenance avait été oublié. ==En **B5**, portez la maintenance à `9300`==.",
+      "setup": {
+        "selection": "B5"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B5",
+        "accept": [
+          "9300"
+        ]
+      },
+      "aide": {
+        "text": "La quatrième ligne de produits, colonne Montant.",
+        "showTarget": true
+      },
+      "feedback": "Le total de Lyon passe à 36 000 €."
+    },
+    {
+      "id": "M22-L03-09",
+      "consigne": "==Revenez sur la **Synthèse**==.",
+      "action": {
+        "type": "SELECT_SHEET",
+        "name": "Synthèse"
+      },
+      "aide": {
+        "text": "Le dernier onglet.",
+        "showTarget": true
+      },
+      "feedback": "La colonne liée affiche 36 000 €, la colonne figée est restée à 33 000 €. Aucune des deux n'a tort : elles ne répondent pas à la même question."
+    },
+    {
+      "id": "M22-L03-10",
+      "consigne": "==En **D2**, mesurez l'écart : `=C2-B2`==.",
+      "setup": {
+        "selection": "D2"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "D2",
+        "accept": [
+          "=C2-B2"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Le montant lié moins le montant figé.",
+        "showTarget": true
+      },
+      "feedback": "3 000 € d'écart. Sur un vrai dossier, cette colonne est précieuse : elle mesure ce qui a bougé depuis l'arrêté, et vous dit s'il faut le refaire."
+    },
+    {
+      "id": "M22-L03-11",
+      "consigne": "Quand figer, quand lier ? On **fige** ce qui doit rester opposable : un arrêté comptable, une pièce jointe à un dossier de financement, un chiffre déjà communiqué au client. On **lie** ce qui doit vivre : un tableau de bord, un suivi de budget, une synthèse qu'on rouvre chaque semaine. Deux précautions pour la version figée : **datez-la dans son titre** — c'est le sens du « au 30/06 » de l'en-tête — et gardez à côté la version liée, sinon personne ne saura jamais si la photo est encore ressemblante.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    }
+  ]
+}

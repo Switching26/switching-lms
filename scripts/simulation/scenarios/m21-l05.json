@@ -1,0 +1,357 @@
+{
+  "schemaVersion": 1,
+  "title": "Protéger la structure d'un classeur",
+  "mode": "LESSON",
+  "moduleTitle": "Validation des données et protection",
+  "intro": {
+    "title": "TROIS PROTECTIONS À NE PAS CONFONDRE",
+    "body": "La feuille, le classeur, le fichier : trois protections différentes, trois usages différents. Un classeur à plusieurs feuilles liées montre bien pourquoi."
+  },
+  "outro": {
+    "body": "Vous savez lier une feuille de paramètres à un calcul et distinguer les trois niveaux de protection."
+  },
+  "ribbon": [
+    "accueil",
+    "donnees",
+    "revision"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Devis aménagement",
+    "activeSheetIndex": 1,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Taux",
+        "columnWidths": {
+          "A": 210,
+          "B": 90
+        },
+        "cells": {
+          "A1": {
+            "v": "PARAMÈTRES",
+            "format": {
+              "bold": true
+            }
+          },
+          "A3": {
+            "v": "Taux de TVA",
+            "format": {
+              "bold": true
+            }
+          },
+          "B3": {
+            "v": 0.2
+          },
+          "A4": {
+            "v": "Remise adhérent",
+            "format": {
+              "bold": true
+            }
+          },
+          "B4": {
+            "v": 0.05
+          },
+          "A5": {
+            "v": "Franco de port à partir de",
+            "format": {
+              "bold": true
+            }
+          },
+          "B5": {
+            "v": 500
+          }
+        }
+      },
+      {
+        "name": "Devis",
+        "columnWidths": {
+          "A": 95,
+          "B": 200,
+          "C": 85,
+          "D": 85,
+          "E": 100
+        },
+        "cells": {
+          "A1": {
+            "v": "DEVIS 2026-118 — Aménagement d'un plateau",
+            "format": {
+              "bold": true
+            }
+          },
+          "A3": {
+            "v": "Référence",
+            "format": {
+              "bold": true
+            }
+          },
+          "B3": {
+            "v": "Désignation",
+            "format": {
+              "bold": true
+            }
+          },
+          "C3": {
+            "v": "Quantité",
+            "format": {
+              "bold": true
+            }
+          },
+          "D3": {
+            "v": "Prix HT",
+            "format": {
+              "bold": true
+            }
+          },
+          "E3": {
+            "v": "Total HT",
+            "format": {
+              "bold": true
+            }
+          },
+          "A4": {
+            "v": "MOB-12"
+          },
+          "B4": {
+            "v": "Bureau droit 140 cm"
+          },
+          "C4": {
+            "v": 4
+          },
+          "D4": {
+            "v": 320
+          },
+          "E4": {
+            "f": "=C4*D4"
+          },
+          "A5": {
+            "v": "MOB-31"
+          },
+          "B5": {
+            "v": "Fauteuil ergonomique"
+          },
+          "C5": {
+            "v": 6
+          },
+          "D5": {
+            "v": 145
+          },
+          "E5": {
+            "f": "=C5*D5"
+          },
+          "A6": {
+            "v": "MOB-44"
+          },
+          "B6": {
+            "v": "Caisson 3 tiroirs"
+          },
+          "C6": {
+            "v": 5
+          },
+          "D6": {
+            "v": 90
+          },
+          "E6": {
+            "f": "=C6*D6"
+          },
+          "D8": {
+            "v": "TOTAL HT",
+            "format": {
+              "bold": true
+            }
+          },
+          "D9": {
+            "v": "TVA",
+            "format": {
+              "bold": true
+            }
+          },
+          "D10": {
+            "v": "TOTAL TTC",
+            "format": {
+              "bold": true
+            }
+          },
+          "D11": {
+            "v": "Taux appliqué",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M21-L05-01",
+      "consigne": "Ce classeur range ses **paramètres** sur une feuille à part : c'est la bonne pratique, un taux ne se recopie pas dans trente formules. ==Ouvrez l'onglet **Taux**==.",
+      "action": {
+        "type": "SELECT_SHEET",
+        "name": "Taux"
+      },
+      "aide": {
+        "text": "L'onglet Taux, en bas de la fenêtre.",
+        "showTarget": true
+      },
+      "feedback": "Trois paramètres, un seul endroit à corriger le jour où la loi change."
+    },
+    {
+      "id": "M21-L05-02",
+      "consigne": "==Revenez sur l'onglet **Devis**==.",
+      "action": {
+        "type": "SELECT_SHEET",
+        "name": "Devis"
+      },
+      "aide": {
+        "text": "Le second onglet.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M21-L05-03",
+      "consigne": "==En **E8**, totalisez le devis hors taxes==.",
+      "setup": {
+        "selection": "E8"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "E8",
+        "accept": [
+          "=SOMME(E4:E6)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Une somme sur les trois totaux de ligne.",
+        "showTarget": true
+      },
+      "feedback": "2 600 € HT."
+    },
+    {
+      "id": "M21-L05-04",
+      "consigne": "==En **E9**, calculez la TVA en allant chercher le taux sur l'autre feuille : `=E8*Taux!$B$3`==.",
+      "setup": {
+        "selection": "E9"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "E9",
+        "accept": [
+          "=E8*Taux!$B$3",
+          "=E8*Taux!B3",
+          "=Taux!$B$3*E8",
+          "=Taux!B3*E8"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Le nom de la feuille, un point d'exclamation, puis la cellule : Taux!$B$3.",
+        "showTarget": true
+      },
+      "feedback": "520 €. La formule ne contient aucun taux en dur : c'est ce qui la rend durable."
+    },
+    {
+      "id": "M21-L05-05",
+      "consigne": "==En **E10**, le total TTC==.",
+      "setup": {
+        "selection": "E10"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "E10",
+        "accept": [
+          "=E8+E9",
+          "=E9+E8",
+          "=SOMME(E8:E9)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Hors taxes plus TVA.",
+        "showTarget": true
+      },
+      "feedback": "3 120 € TTC."
+    },
+    {
+      "id": "M21-L05-06",
+      "consigne": "Ces formules créent une **dépendance entre feuilles**, et c'est précisément ce que protège la commande **Protéger le classeur** de l'onglet Révision. Ne la confondez pas avec les deux autres. Protéger la **feuille** interdit de modifier des cellules. Protéger le **classeur** verrouille sa **structure** : on ne peut plus ajouter, supprimer, renommer, déplacer ni masquer une feuille. Ici, supprimer l'onglet Taux transformerait votre TVA en **#REF!** et le devis serait faux : c'est donc cette protection-là qui compte. Le troisième niveau, le seul qui protège vraiment le contenu, est le **mot de passe à l'ouverture** — Fichier, Informations, Chiffrer avec mot de passe — qui chiffre le fichier. Perdez-le, et personne, pas même Microsoft, ne rouvrira le classeur.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M21-L05-07",
+      "consigne": "Vérifions la dépendance. ==Ouvrez l'onglet **Taux**==.",
+      "action": {
+        "type": "SELECT_SHEET",
+        "name": "Taux"
+      },
+      "aide": {
+        "text": "Le premier onglet.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M21-L05-08",
+      "consigne": "Ces articles passent au taux intermédiaire. ==En **B3**, saisissez `0,1`==.",
+      "setup": {
+        "selection": "B3"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B3",
+        "accept": [
+          "0,1",
+          "0.1",
+          "10%"
+        ]
+      },
+      "aide": {
+        "text": "Un seul chiffre à changer, pour tout le classeur.",
+        "showTarget": true
+      },
+      "feedback": "Une seule cellule modifiée, et tous les devis du classeur sont à jour."
+    },
+    {
+      "id": "M21-L05-09",
+      "consigne": "==Revenez sur le **Devis**==.",
+      "action": {
+        "type": "SELECT_SHEET",
+        "name": "Devis"
+      },
+      "aide": {
+        "text": "Le second onglet.",
+        "showTarget": true
+      },
+      "feedback": "TVA 260 €, total 2 860 € : les deux formules ont suivi."
+    },
+    {
+      "id": "M21-L05-10",
+      "consigne": "==En **E11**, contrôlez le taux réellement appliqué : `=E9/E8`==.",
+      "setup": {
+        "selection": "E11"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "E11",
+        "accept": [
+          "=E9/E8"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "La TVA divisée par le montant hors taxes.",
+        "showTarget": true
+      },
+      "feedback": "0,1 — soit 10 %. Ce contrôle vaut mieux qu'une confiance aveugle : il révélerait immédiatement une formule qui aurait gardé l'ancien taux en dur."
+    }
+  ]
+}

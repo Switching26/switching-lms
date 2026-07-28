@@ -1,0 +1,356 @@
+{
+ "schemaVersion": 1,
+ "title": "Exercice · Rendre un long tableau lisible",
+ "mode": "EXERCISE",
+ "moduleTitle": "Mise en forme conditionnelle",
+ "intro": {
+  "title": "À VOUS",
+  "body": "Un journal de livraisons de cinq colonnes. Rendez-le lisible par un damier, puis signalez les grosses livraisons."
+ },
+ "outro": {
+  "body": "Damier posé, alerte de couleur en place, et les deux contrôles chiffrés qui vont avec."
+ },
+ "ribbon": [
+  "accueil"
+ ],
+ "statusBar": {
+  "aggregates": [
+   "moyenne",
+   "nb-non-vides",
+   "somme"
+  ],
+  "sheetCount": 1
+ },
+ "workbook": {
+  "fileName": "Journal des livraisons",
+  "activeSheetIndex": 0,
+  "selection": "A1",
+  "sheets": [
+   {
+    "name": "Feuil1",
+    "columnWidths": {
+     "A": 130,
+     "B": 175,
+     "C": 100,
+     "D": 80,
+     "E": 100,
+     "F": 80,
+     "G": 235
+    },
+    "cells": {
+     "G1": {
+      "v": "Livraisons de plus de 15 colis",
+      "format": {
+       "bold": true
+      }
+     },
+     "D9": {
+      "v": "TOTAL",
+      "format": {
+       "bold": true
+      }
+     },
+     "F1": {
+      "v": "MOD",
+      "format": {
+       "bold": true
+      }
+     },
+     "A1": {
+      "v": "Bon",
+      "format": {
+       "bold": true
+      }
+     },
+     "B1": {
+      "v": "Client",
+      "format": {
+       "bold": true
+      }
+     },
+     "C1": {
+      "v": "Ville",
+      "format": {
+       "bold": true
+      }
+     },
+     "D1": {
+      "v": "Colis",
+      "format": {
+       "bold": true
+      }
+     },
+     "E1": {
+      "v": "Montant",
+      "format": {
+       "bold": true
+      }
+     },
+     "A2": {
+      "v": "BL-2026-041"
+     },
+     "B2": {
+      "v": "Menuiserie Delcourt"
+     },
+     "C2": {
+      "v": "Nantes"
+     },
+     "D2": {
+      "v": 14
+     },
+     "E2": {
+      "v": 238
+     },
+     "A3": {
+      "v": "BL-2026-042"
+     },
+     "B3": {
+      "v": "Cabinet Aubry"
+     },
+     "C3": {
+      "v": "Rennes"
+     },
+     "D3": {
+      "v": 6
+     },
+     "E3": {
+      "v": 102
+     },
+     "A4": {
+      "v": "BL-2026-043"
+     },
+     "B4": {
+      "v": "Garage Vasseur"
+     },
+     "C4": {
+      "v": "Angers"
+     },
+     "D4": {
+      "v": 22
+     },
+     "E4": {
+      "v": 374
+     },
+     "A5": {
+      "v": "BL-2026-044"
+     },
+     "B5": {
+      "v": "Boulangerie Petit"
+     },
+     "C5": {
+      "v": "Le Mans"
+     },
+     "D5": {
+      "v": 9
+     },
+     "E5": {
+      "v": 153
+     },
+     "A6": {
+      "v": "BL-2026-045"
+     },
+     "B6": {
+      "v": "Pharmacie du Parc"
+     },
+     "C6": {
+      "v": "Laval"
+     },
+     "D6": {
+      "v": 17
+     },
+     "E6": {
+      "v": 289
+     },
+     "A7": {
+      "v": "BL-2026-046"
+     },
+     "B7": {
+      "v": "Optique Lenoir"
+     },
+     "C7": {
+      "v": "Vannes"
+     },
+     "D7": {
+      "v": 11
+     },
+     "E7": {
+      "v": 187
+     }
+    }
+   }
+  ]
+ },
+ "steps": [
+  {
+   "id": "M11-E03-01",
+   "consigne": "Donnez un **fond coloré** à la première ligne du damier, déjà sélectionnée.",
+   "setup": {
+    "selection": "A3:E3"
+   },
+   "action": {
+    "type": "EXPECT_FORMAT",
+    "cells": {
+     "A3": {
+      "background": "#fde68a"
+     },
+     "E3": {
+      "background": "#fde68a"
+     }
+    }
+   },
+   "aide": {
+    "text": "Un damier colore la ligne entière, pas une cellule."
+   }
+  },
+  {
+   "id": "M11-E03-02",
+   "consigne": "Continuez le damier sur la **ligne 5**.",
+   "setup": {
+    "selection": "A5:E5"
+   },
+   "action": {
+    "type": "EXPECT_FORMAT",
+    "cells": {
+     "A5": {
+      "background": "#fde68a"
+     },
+     "E5": {
+      "background": "#fde68a"
+     }
+    }
+   }
+  },
+  {
+   "id": "M11-E03-03",
+   "consigne": "Terminez avec la **ligne 7**.",
+   "setup": {
+    "selection": "A7:E7"
+   },
+   "action": {
+    "type": "EXPECT_FORMAT",
+    "cells": {
+     "A7": {
+      "background": "#fde68a"
+     },
+     "E7": {
+      "background": "#fde68a"
+     }
+    }
+   }
+  },
+  {
+   "id": "M11-E03-04",
+   "consigne": "En **F2**, écrivez la formule qui vaut **0 sur les lignes paires** et 1 sur les impaires : c'est elle qu'une règle de mise en forme conditionnelle utiliserait pour faire le damier toute seule.",
+   "setup": {
+    "selection": "F2"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "F2",
+    "accept": [
+     "=MOD(LIGNE();2)"
+    ],
+    "formulaMode": true
+   },
+   "aide": {
+    "text": "Deux fonctions : le numéro de ligne, et le reste d'une division."
+   }
+  },
+  {
+   "id": "M11-E03-05",
+   "consigne": "Complétez la colonne jusqu'à la **ligne 7**.",
+   "action": {
+    "type": "EXPECT_STATE",
+    "cells": {
+     "F3": {
+      "anyOf": [
+       "=MOD(LIGNE();2)"
+      ],
+      "v": 1
+     },
+     "F4": {
+      "anyOf": [
+       "=MOD(LIGNE();2)"
+      ],
+      "v": 0
+     },
+     "F5": {
+      "anyOf": [
+       "=MOD(LIGNE();2)"
+      ],
+      "v": 1
+     },
+     "F6": {
+      "anyOf": [
+       "=MOD(LIGNE();2)"
+      ],
+      "v": 0
+     },
+     "F7": {
+      "anyOf": [
+       "=MOD(LIGNE();2)"
+      ],
+      "v": 1
+     }
+    }
+   },
+   "aide": {
+    "text": "Poignée de recopie."
+   }
+  },
+  {
+   "id": "M11-E03-06",
+   "consigne": "Signalez en **orange** les livraisons de **plus de 15 colis**.",
+   "setup": {
+    "selection": "D2:D7",
+    "cf": {
+     "range": "D2:D7",
+     "rule": {
+      "kind": "greaterThan",
+      "value": 15,
+      "background": "#fed7aa"
+     }
+    }
+   },
+   "action": {
+    "type": "CLICK_CONTROL",
+    "control": "acc-mfc-regle"
+   },
+   "aide": {
+    "text": "La colonne des colis est déjà sélectionnée."
+   }
+  },
+  {
+   "id": "M11-E03-07",
+   "consigne": "En **G2**, comptez ces **grosses livraisons** pour vérifier votre règle.",
+   "setup": {
+    "selection": "G2"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "G2",
+    "accept": [
+     "=NB.SI(D2:D7;\">15\")",
+     "=NB.SI($D$2:$D$7;\">15\")"
+    ],
+    "formulaMode": true
+   }
+  },
+  {
+   "id": "M11-E03-08",
+   "consigne": "En **E9**, totalisez les **montants** du journal.",
+   "setup": {
+    "selection": "E9"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "E9",
+    "accept": [
+     "=SOMME(E2:E7)",
+     "=E2+E3+E4+E5+E6+E7"
+    ],
+    "formulaMode": true
+   }
+  }
+ ]
+}

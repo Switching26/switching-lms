@@ -1,0 +1,499 @@
+{
+  "schemaVersion": 1,
+  "title": "S'évaluer · Consolider des données",
+  "mode": "EVALUATION",
+  "moduleTitle": "Consolidation des données",
+  "intro": {
+    "title": "S'ÉVALUER",
+    "body": "Consolider par libellés trois feuilles dissemblables, contrôler le résultat, figer une valeur et mesurer l'écart après correction. Aucune aide sur cette évaluation."
+  },
+  "outro": {
+    "body": "Évaluation terminée."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Achats 2026",
+    "activeSheetIndex": 3,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Mars",
+        "columnWidths": {
+          "A": 130,
+          "B": 110
+        },
+        "cells": {
+          "A1": {
+            "v": "Rubrique",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Montant engagé",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Logiciel"
+          },
+          "B2": {
+            "v": 12800
+          },
+          "A3": {
+            "v": "Matériel"
+          },
+          "B3": {
+            "v": 24500
+          },
+          "A4": {
+            "v": "Support"
+          },
+          "B4": {
+            "v": 4200
+          },
+          "A5": {
+            "v": "Formation"
+          },
+          "B5": {
+            "v": 7600
+          },
+          "A7": {
+            "v": "Total",
+            "format": {
+              "bold": true
+            }
+          },
+          "B7": {
+            "f": "=SOMME(B2:B5)"
+          }
+        }
+      },
+      {
+        "name": "Avril",
+        "columnWidths": {
+          "A": 130,
+          "B": 110
+        },
+        "cells": {
+          "A1": {
+            "v": "Rubrique",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Montant engagé",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Matériel"
+          },
+          "B2": {
+            "v": 18900
+          },
+          "A3": {
+            "v": "Formation"
+          },
+          "B3": {
+            "v": 9100
+          },
+          "A4": {
+            "v": "Logiciel"
+          },
+          "B4": {
+            "v": 14300
+          },
+          "A5": {
+            "v": "Support"
+          },
+          "B5": {
+            "v": 3800
+          },
+          "A7": {
+            "v": "Total",
+            "format": {
+              "bold": true
+            }
+          },
+          "B7": {
+            "f": "=SOMME(B2:B5)"
+          }
+        }
+      },
+      {
+        "name": "Mai",
+        "columnWidths": {
+          "A": 130,
+          "B": 110
+        },
+        "cells": {
+          "A1": {
+            "v": "Rubrique",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Montant engagé",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Support"
+          },
+          "B2": {
+            "v": 5100
+          },
+          "A3": {
+            "v": "Logiciel"
+          },
+          "B3": {
+            "v": 11700
+          },
+          "A4": {
+            "v": "Matériel"
+          },
+          "B4": {
+            "v": 22400
+          },
+          "A5": {
+            "v": "Formation"
+          },
+          "B5": {
+            "v": 8300
+          },
+          "A6": {
+            "v": "Transport"
+          },
+          "B6": {
+            "v": 2600
+          },
+          "A8": {
+            "v": "Total",
+            "format": {
+              "bold": true
+            }
+          },
+          "B8": {
+            "f": "=SOMME(B2:B6)"
+          }
+        }
+      },
+      {
+        "name": "Synthèse",
+        "columnWidths": {
+          "A": 130,
+          "B": 110,
+          "C": 120,
+          "D": 90,
+          "E": 30,
+          "F": 245
+        },
+        "cells": {
+          "A1": {
+            "v": "Rubrique",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Consolidé",
+            "format": {
+              "bold": true
+            }
+          },
+          "C1": {
+            "v": "Figé au 31/05",
+            "format": {
+              "bold": true
+            }
+          },
+          "D1": {
+            "v": "Écart",
+            "format": {
+              "bold": true
+            }
+          },
+          "F1": {
+            "v": "Contrôle : total des trois mois",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Matériel"
+          },
+          "A3": {
+            "v": "Logiciel"
+          },
+          "A4": {
+            "v": "Formation"
+          },
+          "A5": {
+            "v": "Support"
+          },
+          "A8": {
+            "v": "TOTAL CONSOLIDÉ",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M22-EV01-01",
+      "consigne": "Trois mois d'achats, rangés différemment d'un mois à l'autre, et une synthèse à construire : une colonne consolidée qui suit les sources, une colonne figée qui n'en dépend pas, et le contrôle qui prouve que rien n'a été perdu. Aucune aide sur cette évaluation.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M22-EV01-02",
+      "consigne": "En **B2**, consolidez la première rubrique par libellé, avec une formule recopiable vers le bas.",
+      "setup": {
+        "selection": "B2"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B2",
+        "accept": [
+          "=SOMME.SI(Mars!$A$2:$A$5;$A2;Mars!$B$2:$B$5)+SOMME.SI(Avril!$A$2:$A$5;$A2;Avril!$B$2:$B$5)+SOMME.SI(Mai!$A$2:$A$6;$A2;Mai!$B$2:$B$6)",
+          "=SOMME.SI(Mars!A2:A5;A2;Mars!B2:B5)+SOMME.SI(Avril!A2:A5;A2;Avril!B2:B5)+SOMME.SI(Mai!A2:A6;A2;Mai!B2:B6)",
+          "=SOMME.SI(Mars!$A$2:$A$5;$A2;Mars!$B$2:$B$5)+SOMME.SI(Mai!$A$2:$A$6;$A2;Mai!$B$2:$B$6)+SOMME.SI(Avril!$A$2:$A$5;$A2;Avril!$B$2:$B$5)",
+          "=SOMME.SI(Mars!A2:A5;A2;Mars!B2:B5)+SOMME.SI(Mai!A2:A6;A2;Mai!B2:B6)+SOMME.SI(Avril!A2:A5;A2;Avril!B2:B5)",
+          "=SOMME.SI(Avril!$A$2:$A$5;$A2;Avril!$B$2:$B$5)+SOMME.SI(Mars!$A$2:$A$5;$A2;Mars!$B$2:$B$5)+SOMME.SI(Mai!$A$2:$A$6;$A2;Mai!$B$2:$B$6)",
+          "=SOMME.SI(Avril!A2:A5;A2;Avril!B2:B5)+SOMME.SI(Mars!A2:A5;A2;Mars!B2:B5)+SOMME.SI(Mai!A2:A6;A2;Mai!B2:B6)",
+          "=SOMME.SI(Avril!$A$2:$A$5;$A2;Avril!$B$2:$B$5)+SOMME.SI(Mai!$A$2:$A$6;$A2;Mai!$B$2:$B$6)+SOMME.SI(Mars!$A$2:$A$5;$A2;Mars!$B$2:$B$5)",
+          "=SOMME.SI(Avril!A2:A5;A2;Avril!B2:B5)+SOMME.SI(Mai!A2:A6;A2;Mai!B2:B6)+SOMME.SI(Mars!A2:A5;A2;Mars!B2:B5)",
+          "=SOMME.SI(Mai!$A$2:$A$6;$A2;Mai!$B$2:$B$6)+SOMME.SI(Mars!$A$2:$A$5;$A2;Mars!$B$2:$B$5)+SOMME.SI(Avril!$A$2:$A$5;$A2;Avril!$B$2:$B$5)",
+          "=SOMME.SI(Mai!A2:A6;A2;Mai!B2:B6)+SOMME.SI(Mars!A2:A5;A2;Mars!B2:B5)+SOMME.SI(Avril!A2:A5;A2;Avril!B2:B5)",
+          "=SOMME.SI(Mai!$A$2:$A$6;$A2;Mai!$B$2:$B$6)+SOMME.SI(Avril!$A$2:$A$5;$A2;Avril!$B$2:$B$5)+SOMME.SI(Mars!$A$2:$A$5;$A2;Mars!$B$2:$B$5)",
+          "=SOMME.SI(Mai!A2:A6;A2;Mai!B2:B6)+SOMME.SI(Avril!A2:A5;A2;Avril!B2:B5)+SOMME.SI(Mars!A2:A5;A2;Mars!B2:B5)"
+        ],
+        "formulaMode": true
+      },
+      "points": 3
+    },
+    {
+      "id": "M22-EV01-03",
+      "consigne": "Complétez les trois autres rubriques.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "B3": {
+            "anyOf": [
+              "=SOMME.SI(Mars!$A$2:$A$5;$A3;Mars!$B$2:$B$5)+SOMME.SI(Avril!$A$2:$A$5;$A3;Avril!$B$2:$B$5)+SOMME.SI(Mai!$A$2:$A$6;$A3;Mai!$B$2:$B$6)",
+              "=SOMME.SI(Mars!A2:A5;A3;Mars!B2:B5)+SOMME.SI(Avril!A2:A5;A3;Avril!B2:B5)+SOMME.SI(Mai!A2:A6;A3;Mai!B2:B6)",
+              "=SOMME.SI(Mars!$A$2:$A$5;$A3;Mars!$B$2:$B$5)+SOMME.SI(Mai!$A$2:$A$6;$A3;Mai!$B$2:$B$6)+SOMME.SI(Avril!$A$2:$A$5;$A3;Avril!$B$2:$B$5)",
+              "=SOMME.SI(Mars!A2:A5;A3;Mars!B2:B5)+SOMME.SI(Mai!A2:A6;A3;Mai!B2:B6)+SOMME.SI(Avril!A2:A5;A3;Avril!B2:B5)",
+              "=SOMME.SI(Avril!$A$2:$A$5;$A3;Avril!$B$2:$B$5)+SOMME.SI(Mars!$A$2:$A$5;$A3;Mars!$B$2:$B$5)+SOMME.SI(Mai!$A$2:$A$6;$A3;Mai!$B$2:$B$6)",
+              "=SOMME.SI(Avril!A2:A5;A3;Avril!B2:B5)+SOMME.SI(Mars!A2:A5;A3;Mars!B2:B5)+SOMME.SI(Mai!A2:A6;A3;Mai!B2:B6)",
+              "=SOMME.SI(Avril!$A$2:$A$5;$A3;Avril!$B$2:$B$5)+SOMME.SI(Mai!$A$2:$A$6;$A3;Mai!$B$2:$B$6)+SOMME.SI(Mars!$A$2:$A$5;$A3;Mars!$B$2:$B$5)",
+              "=SOMME.SI(Avril!A2:A5;A3;Avril!B2:B5)+SOMME.SI(Mai!A2:A6;A3;Mai!B2:B6)+SOMME.SI(Mars!A2:A5;A3;Mars!B2:B5)",
+              "=SOMME.SI(Mai!$A$2:$A$6;$A3;Mai!$B$2:$B$6)+SOMME.SI(Mars!$A$2:$A$5;$A3;Mars!$B$2:$B$5)+SOMME.SI(Avril!$A$2:$A$5;$A3;Avril!$B$2:$B$5)",
+              "=SOMME.SI(Mai!A2:A6;A3;Mai!B2:B6)+SOMME.SI(Mars!A2:A5;A3;Mars!B2:B5)+SOMME.SI(Avril!A2:A5;A3;Avril!B2:B5)",
+              "=SOMME.SI(Mai!$A$2:$A$6;$A3;Mai!$B$2:$B$6)+SOMME.SI(Avril!$A$2:$A$5;$A3;Avril!$B$2:$B$5)+SOMME.SI(Mars!$A$2:$A$5;$A3;Mars!$B$2:$B$5)",
+              "=SOMME.SI(Mai!A2:A6;A3;Mai!B2:B6)+SOMME.SI(Avril!A2:A5;A3;Avril!B2:B5)+SOMME.SI(Mars!A2:A5;A3;Mars!B2:B5)"
+            ],
+            "v": 38800
+          },
+          "B4": {
+            "anyOf": [
+              "=SOMME.SI(Mars!$A$2:$A$5;$A4;Mars!$B$2:$B$5)+SOMME.SI(Avril!$A$2:$A$5;$A4;Avril!$B$2:$B$5)+SOMME.SI(Mai!$A$2:$A$6;$A4;Mai!$B$2:$B$6)",
+              "=SOMME.SI(Mars!A2:A5;A4;Mars!B2:B5)+SOMME.SI(Avril!A2:A5;A4;Avril!B2:B5)+SOMME.SI(Mai!A2:A6;A4;Mai!B2:B6)",
+              "=SOMME.SI(Mars!$A$2:$A$5;$A4;Mars!$B$2:$B$5)+SOMME.SI(Mai!$A$2:$A$6;$A4;Mai!$B$2:$B$6)+SOMME.SI(Avril!$A$2:$A$5;$A4;Avril!$B$2:$B$5)",
+              "=SOMME.SI(Mars!A2:A5;A4;Mars!B2:B5)+SOMME.SI(Mai!A2:A6;A4;Mai!B2:B6)+SOMME.SI(Avril!A2:A5;A4;Avril!B2:B5)",
+              "=SOMME.SI(Avril!$A$2:$A$5;$A4;Avril!$B$2:$B$5)+SOMME.SI(Mars!$A$2:$A$5;$A4;Mars!$B$2:$B$5)+SOMME.SI(Mai!$A$2:$A$6;$A4;Mai!$B$2:$B$6)",
+              "=SOMME.SI(Avril!A2:A5;A4;Avril!B2:B5)+SOMME.SI(Mars!A2:A5;A4;Mars!B2:B5)+SOMME.SI(Mai!A2:A6;A4;Mai!B2:B6)",
+              "=SOMME.SI(Avril!$A$2:$A$5;$A4;Avril!$B$2:$B$5)+SOMME.SI(Mai!$A$2:$A$6;$A4;Mai!$B$2:$B$6)+SOMME.SI(Mars!$A$2:$A$5;$A4;Mars!$B$2:$B$5)",
+              "=SOMME.SI(Avril!A2:A5;A4;Avril!B2:B5)+SOMME.SI(Mai!A2:A6;A4;Mai!B2:B6)+SOMME.SI(Mars!A2:A5;A4;Mars!B2:B5)",
+              "=SOMME.SI(Mai!$A$2:$A$6;$A4;Mai!$B$2:$B$6)+SOMME.SI(Mars!$A$2:$A$5;$A4;Mars!$B$2:$B$5)+SOMME.SI(Avril!$A$2:$A$5;$A4;Avril!$B$2:$B$5)",
+              "=SOMME.SI(Mai!A2:A6;A4;Mai!B2:B6)+SOMME.SI(Mars!A2:A5;A4;Mars!B2:B5)+SOMME.SI(Avril!A2:A5;A4;Avril!B2:B5)",
+              "=SOMME.SI(Mai!$A$2:$A$6;$A4;Mai!$B$2:$B$6)+SOMME.SI(Avril!$A$2:$A$5;$A4;Avril!$B$2:$B$5)+SOMME.SI(Mars!$A$2:$A$5;$A4;Mars!$B$2:$B$5)",
+              "=SOMME.SI(Mai!A2:A6;A4;Mai!B2:B6)+SOMME.SI(Avril!A2:A5;A4;Avril!B2:B5)+SOMME.SI(Mars!A2:A5;A4;Mars!B2:B5)"
+            ],
+            "v": 25000
+          },
+          "B5": {
+            "anyOf": [
+              "=SOMME.SI(Mars!$A$2:$A$5;$A5;Mars!$B$2:$B$5)+SOMME.SI(Avril!$A$2:$A$5;$A5;Avril!$B$2:$B$5)+SOMME.SI(Mai!$A$2:$A$6;$A5;Mai!$B$2:$B$6)",
+              "=SOMME.SI(Mars!A2:A5;A5;Mars!B2:B5)+SOMME.SI(Avril!A2:A5;A5;Avril!B2:B5)+SOMME.SI(Mai!A2:A6;A5;Mai!B2:B6)",
+              "=SOMME.SI(Mars!$A$2:$A$5;$A5;Mars!$B$2:$B$5)+SOMME.SI(Mai!$A$2:$A$6;$A5;Mai!$B$2:$B$6)+SOMME.SI(Avril!$A$2:$A$5;$A5;Avril!$B$2:$B$5)",
+              "=SOMME.SI(Mars!A2:A5;A5;Mars!B2:B5)+SOMME.SI(Mai!A2:A6;A5;Mai!B2:B6)+SOMME.SI(Avril!A2:A5;A5;Avril!B2:B5)",
+              "=SOMME.SI(Avril!$A$2:$A$5;$A5;Avril!$B$2:$B$5)+SOMME.SI(Mars!$A$2:$A$5;$A5;Mars!$B$2:$B$5)+SOMME.SI(Mai!$A$2:$A$6;$A5;Mai!$B$2:$B$6)",
+              "=SOMME.SI(Avril!A2:A5;A5;Avril!B2:B5)+SOMME.SI(Mars!A2:A5;A5;Mars!B2:B5)+SOMME.SI(Mai!A2:A6;A5;Mai!B2:B6)",
+              "=SOMME.SI(Avril!$A$2:$A$5;$A5;Avril!$B$2:$B$5)+SOMME.SI(Mai!$A$2:$A$6;$A5;Mai!$B$2:$B$6)+SOMME.SI(Mars!$A$2:$A$5;$A5;Mars!$B$2:$B$5)",
+              "=SOMME.SI(Avril!A2:A5;A5;Avril!B2:B5)+SOMME.SI(Mai!A2:A6;A5;Mai!B2:B6)+SOMME.SI(Mars!A2:A5;A5;Mars!B2:B5)",
+              "=SOMME.SI(Mai!$A$2:$A$6;$A5;Mai!$B$2:$B$6)+SOMME.SI(Mars!$A$2:$A$5;$A5;Mars!$B$2:$B$5)+SOMME.SI(Avril!$A$2:$A$5;$A5;Avril!$B$2:$B$5)",
+              "=SOMME.SI(Mai!A2:A6;A5;Mai!B2:B6)+SOMME.SI(Mars!A2:A5;A5;Mars!B2:B5)+SOMME.SI(Avril!A2:A5;A5;Avril!B2:B5)",
+              "=SOMME.SI(Mai!$A$2:$A$6;$A5;Mai!$B$2:$B$6)+SOMME.SI(Avril!$A$2:$A$5;$A5;Avril!$B$2:$B$5)+SOMME.SI(Mars!$A$2:$A$5;$A5;Mars!$B$2:$B$5)",
+              "=SOMME.SI(Mai!A2:A6;A5;Mai!B2:B6)+SOMME.SI(Avril!A2:A5;A5;Avril!B2:B5)+SOMME.SI(Mars!A2:A5;A5;Mars!B2:B5)"
+            ],
+            "v": 13100
+          }
+        }
+      },
+      "points": 3
+    },
+    {
+      "id": "M22-EV01-04",
+      "consigne": "En **B8**, totalisez la consolidation, en prévoyant une ligne libre de marge (jusqu'à **B6**).",
+      "setup": {
+        "selection": "B8"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B8",
+        "accept": [
+          "=SOMME(B2:B6)"
+        ],
+        "formulaMode": true
+      },
+      "points": 1
+    },
+    {
+      "id": "M22-EV01-05",
+      "consigne": "En **G1**, posez le contrôle : le total engagé sur les trois mois, lu sur leurs feuilles.",
+      "setup": {
+        "selection": "G1"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "G1",
+        "accept": [
+          "=SOMME(Mars!B2:B5)+SOMME(Avril!B2:B5)+SOMME(Mai!B2:B6)",
+          "=Mars!B7+Avril!B7+Mai!B8"
+        ],
+        "formulaMode": true
+      },
+      "points": 3
+    },
+    {
+      "id": "M22-EV01-06",
+      "consigne": "Une rubrique n'existe que dans un seul mois et échappe donc à la synthèse. Ajoutez-la en **A6**.",
+      "setup": {
+        "selection": "A6"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "A6",
+        "accept": [
+          "Transport"
+        ]
+      },
+      "points": 2
+    },
+    {
+      "id": "M22-EV01-07",
+      "consigne": "Consolidez-la, et vérifiez que le total rejoint le contrôle.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "B6": {
+            "anyOf": [
+              "=SOMME.SI(Mars!$A$2:$A$5;$A6;Mars!$B$2:$B$5)+SOMME.SI(Avril!$A$2:$A$5;$A6;Avril!$B$2:$B$5)+SOMME.SI(Mai!$A$2:$A$6;$A6;Mai!$B$2:$B$6)",
+              "=SOMME.SI(Mars!A2:A5;A6;Mars!B2:B5)+SOMME.SI(Avril!A2:A5;A6;Avril!B2:B5)+SOMME.SI(Mai!A2:A6;A6;Mai!B2:B6)",
+              "=SOMME.SI(Mars!$A$2:$A$5;$A6;Mars!$B$2:$B$5)+SOMME.SI(Mai!$A$2:$A$6;$A6;Mai!$B$2:$B$6)+SOMME.SI(Avril!$A$2:$A$5;$A6;Avril!$B$2:$B$5)",
+              "=SOMME.SI(Mars!A2:A5;A6;Mars!B2:B5)+SOMME.SI(Mai!A2:A6;A6;Mai!B2:B6)+SOMME.SI(Avril!A2:A5;A6;Avril!B2:B5)",
+              "=SOMME.SI(Avril!$A$2:$A$5;$A6;Avril!$B$2:$B$5)+SOMME.SI(Mars!$A$2:$A$5;$A6;Mars!$B$2:$B$5)+SOMME.SI(Mai!$A$2:$A$6;$A6;Mai!$B$2:$B$6)",
+              "=SOMME.SI(Avril!A2:A5;A6;Avril!B2:B5)+SOMME.SI(Mars!A2:A5;A6;Mars!B2:B5)+SOMME.SI(Mai!A2:A6;A6;Mai!B2:B6)",
+              "=SOMME.SI(Avril!$A$2:$A$5;$A6;Avril!$B$2:$B$5)+SOMME.SI(Mai!$A$2:$A$6;$A6;Mai!$B$2:$B$6)+SOMME.SI(Mars!$A$2:$A$5;$A6;Mars!$B$2:$B$5)",
+              "=SOMME.SI(Avril!A2:A5;A6;Avril!B2:B5)+SOMME.SI(Mai!A2:A6;A6;Mai!B2:B6)+SOMME.SI(Mars!A2:A5;A6;Mars!B2:B5)",
+              "=SOMME.SI(Mai!$A$2:$A$6;$A6;Mai!$B$2:$B$6)+SOMME.SI(Mars!$A$2:$A$5;$A6;Mars!$B$2:$B$5)+SOMME.SI(Avril!$A$2:$A$5;$A6;Avril!$B$2:$B$5)",
+              "=SOMME.SI(Mai!A2:A6;A6;Mai!B2:B6)+SOMME.SI(Mars!A2:A5;A6;Mars!B2:B5)+SOMME.SI(Avril!A2:A5;A6;Avril!B2:B5)",
+              "=SOMME.SI(Mai!$A$2:$A$6;$A6;Mai!$B$2:$B$6)+SOMME.SI(Avril!$A$2:$A$5;$A6;Avril!$B$2:$B$5)+SOMME.SI(Mars!$A$2:$A$5;$A6;Mars!$B$2:$B$5)",
+              "=SOMME.SI(Mai!A2:A6;A6;Mai!B2:B6)+SOMME.SI(Avril!A2:A5;A6;Avril!B2:B5)+SOMME.SI(Mars!A2:A5;A6;Mars!B2:B5)"
+            ],
+            "v": 2600
+          },
+          "B8": {
+            "v": 145300
+          }
+        }
+      },
+      "points": 3
+    },
+    {
+      "id": "M22-EV01-08",
+      "consigne": "En **C2**, figez le montant consolidé du matériel : un nombre, pas une formule.",
+      "setup": {
+        "selection": "C2"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "C2",
+        "accept": [
+          "65800"
+        ]
+      },
+      "points": 2
+    },
+    {
+      "id": "M22-EV01-09",
+      "consigne": "Une facture de matériel de mars avait été oubliée. Allez la corriger à la source.",
+      "action": {
+        "type": "SELECT_SHEET",
+        "name": "Mars"
+      },
+      "points": 1
+    },
+    {
+      "id": "M22-EV01-10",
+      "consigne": "Portez le matériel de mars à **26900**.",
+      "setup": {
+        "selection": "B3"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B3",
+        "accept": [
+          "26900"
+        ]
+      },
+      "points": 2
+    },
+    {
+      "id": "M22-EV01-11",
+      "consigne": "Revenez sur la synthèse.",
+      "action": {
+        "type": "SELECT_SHEET",
+        "name": "Synthèse"
+      },
+      "points": 1
+    },
+    {
+      "id": "M22-EV01-12",
+      "consigne": "En **D2**, mesurez l'écart entre la consolidation et le montant que vous avez figé.",
+      "setup": {
+        "selection": "D2"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "D2",
+        "accept": [
+          "=B2-C2"
+        ],
+        "formulaMode": true
+      },
+      "points": 2
+    }
+  ]
+}

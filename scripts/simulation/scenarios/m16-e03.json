@@ -1,0 +1,294 @@
+{
+ "schemaVersion": 1,
+ "title": "Exercice · Décomposer un crédit",
+ "mode": "EXERCISE",
+ "moduleTitle": "Applications pratiques",
+ "intro": {
+  "title": "À VOUS",
+  "body": "Un crédit équipement de 15 000 € sur quatre ans. Le taux mensuel et le nombre de mensualités sont déjà calculés ; la mensualité et la répartition, non."
+ },
+ "outro": {
+  "body": "Mensualité, répartition intérêts / capital sur quatre échéances, et coût du crédit : le tableau est complet."
+ },
+ "ribbon": [
+  "accueil"
+ ],
+ "statusBar": {
+  "aggregates": [
+   "moyenne",
+   "nb-non-vides",
+   "somme"
+  ],
+  "sheetCount": 1
+ },
+ "workbook": {
+  "fileName": "Crédit équipement",
+  "activeSheetIndex": 0,
+  "selection": "A1",
+  "sheets": [
+   {
+    "name": "Feuil1",
+    "columnWidths": {
+     "A": 250,
+     "B": 135,
+     "C": 175,
+     "D": 130
+    },
+    "cells": {
+     "A1": {
+      "v": "CRÉDIT ÉQUIPEMENT — 15 000 € SUR 4 ANS",
+      "format": {
+       "bold": true
+      }
+     },
+     "A3": {
+      "v": "Capital emprunté (€)"
+     },
+     "B3": {
+      "v": 15000
+     },
+     "A4": {
+      "v": "Taux annuel"
+     },
+     "B4": {
+      "v": 0.039
+     },
+     "A5": {
+      "v": "Durée (années)"
+     },
+     "B5": {
+      "v": 4
+     },
+     "A7": {
+      "v": "Taux mensuel",
+      "format": {
+       "bold": true
+      }
+     },
+     "B7": {
+      "f": "=B4/12"
+     },
+     "A8": {
+      "v": "Nombre de mensualités",
+      "format": {
+       "bold": true
+      }
+     },
+     "B8": {
+      "f": "=B5*12"
+     },
+     "A9": {
+      "v": "Mensualité",
+      "format": {
+       "bold": true
+      }
+     },
+     "A18": {
+      "v": "Coût du crédit",
+      "format": {
+       "bold": true
+      }
+     },
+     "A11": {
+      "v": "Échéance",
+      "format": {
+       "bold": true
+      }
+     },
+     "B11": {
+      "v": "Intérêts",
+      "format": {
+       "bold": true
+      }
+     },
+     "C11": {
+      "v": "Capital remboursé",
+      "format": {
+       "bold": true
+      }
+     },
+     "D11": {
+      "v": "Mensualité",
+      "format": {
+       "bold": true
+      }
+     },
+     "A12": {
+      "v": 1
+     },
+     "A13": {
+      "v": 6
+     },
+     "A14": {
+      "v": 24
+     },
+     "A15": {
+      "v": 48
+     }
+    }
+   }
+  ]
+ },
+ "steps": [
+  {
+   "id": "M16-E03-01",
+   "consigne": "En **B9**, calculez la **mensualité**. Elle doit s'afficher en positif.",
+   "setup": {
+    "selection": "B9"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "B9",
+    "accept": [
+     "=VPM(B7;B8;-B3)",
+     "=-VPM(B7;B8;B3)"
+    ],
+    "formulaMode": true
+   },
+   "aide": {
+    "text": "Le taux mensuel et le nombre de mensualités sont en B7 et B8."
+   }
+  },
+  {
+   "id": "M16-E03-02",
+   "consigne": "En **B12**, calculez la part d'**intérêts** de l'échéance dont le numéro figure en A12. La formule devra se recopier sur les quatre échéances.",
+   "setup": {
+    "selection": "B12"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "B12",
+    "accept": [
+     "=INTPER($B$7;A12;$B$8;-$B$3)"
+    ],
+    "formulaMode": true
+   },
+   "aide": {
+    "text": "Tous les paramètres du prêt doivent être figés ; seul le numéro d'échéance suit la recopie."
+   }
+  },
+  {
+   "id": "M16-E03-03",
+   "consigne": "En **C12**, calculez la part de **capital remboursé**.",
+   "setup": {
+    "selection": "C12"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "C12",
+    "accept": [
+     "=PRINCPER($B$7;A12;$B$8;-$B$3)",
+     "=$B$9-B12"
+    ],
+    "formulaMode": true
+   }
+  },
+  {
+   "id": "M16-E03-04",
+   "consigne": "En **D12**, additionnez les deux parts : c'est votre contrôle, le résultat doit égaler la mensualité.",
+   "setup": {
+    "selection": "D12"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "D12",
+    "accept": [
+     "=B12+C12",
+     "=SOMME(B12:C12)"
+    ],
+    "formulaMode": true
+   }
+  },
+  {
+   "id": "M16-E03-05",
+   "consigne": "Complétez les **trois échéances restantes**.",
+   "action": {
+    "type": "EXPECT_STATE",
+    "cells": {
+     "B13": {
+      "anyOf": [
+       "=INTPER($B$7;A13;$B$8;-$B$3)"
+      ],
+      "v": 44.018790598254725
+     },
+     "C13": {
+      "anyOf": [
+       "=PRINCPER($B$7;A13;$B$8;-$B$3)",
+       "=$B$9-B13"
+      ],
+      "v": 293.99621401188705
+     },
+     "D13": {
+      "anyOf": [
+       "=B13+C13",
+       "=SOMME(B13:C13)"
+      ],
+      "v": 338.0150046101418
+     },
+     "B14": {
+      "anyOf": [
+       "=INTPER($B$7;A14;$B$8;-$B$3)"
+      ],
+      "v": 26.336559185376753
+     },
+     "C14": {
+      "anyOf": [
+       "=PRINCPER($B$7;A14;$B$8;-$B$3)",
+       "=$B$9-B14"
+      ],
+      "v": 311.678445424765
+     },
+     "D14": {
+      "anyOf": [
+       "=B14+C14",
+       "=SOMME(B14:C14)"
+      ],
+      "v": 338.0150046101418
+     },
+     "B15": {
+      "anyOf": [
+       "=INTPER($B$7;A15;$B$8;-$B$3)"
+      ],
+      "v": 1.0949900473291418
+     },
+     "C15": {
+      "anyOf": [
+       "=PRINCPER($B$7;A15;$B$8;-$B$3)",
+       "=$B$9-B15"
+      ],
+      "v": 336.92001456281264
+     },
+     "D15": {
+      "anyOf": [
+       "=B15+C15",
+       "=SOMME(B15:C15)"
+      ],
+      "v": 338.0150046101418
+     }
+    }
+   },
+   "aide": {
+    "text": "Trois cellules à sélectionner avant de tirer la poignée."
+   }
+  },
+  {
+   "id": "M16-E03-06",
+   "consigne": "En **B18**, calculez le **coût du crédit**.",
+   "setup": {
+    "selection": "B18"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "B18",
+    "accept": [
+     "=B9*B8-B3",
+     "=B8*B9-B3"
+    ],
+    "formulaMode": true
+   },
+   "aide": {
+    "text": "Tout ce qui sera versé, moins ce qui a été emprunté."
+   }
+  }
+ ]
+}

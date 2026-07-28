@@ -1,0 +1,314 @@
+{
+  "schemaVersion": 1,
+  "title": "Mettre un titre de tableau en valeur",
+  "mode": "LESSON",
+  "moduleTitle": "Images et illustrations",
+  "intro": {
+    "title": "UN TITRE QUI RESTE UNE CELLULE",
+    "body": "Fusionner, agrandir, centrer, colorer : quatre clics pour un titre soigné qui ne gênera ni le tri, ni le filtre, ni l'impression. Là où WordArt, lui, flotte."
+  },
+  "outro": {
+    "body": "Vous savez composer un titre de tableau et éviter le piège de la fusion à l'intérieur des données."
+  },
+  "ribbon": [
+    "accueil",
+    "insertion",
+    "donnees"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Tarifs",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 95,
+          "B": 165,
+          "C": 135,
+          "D": 85,
+          "E": 70
+        },
+        "cells": {
+          "A1": {
+            "v": "Tarifs 2026 — Fournitures de bureau"
+          },
+          "A3": {
+            "v": "Référence",
+            "format": {
+              "bold": true
+            }
+          },
+          "B3": {
+            "v": "Désignation",
+            "format": {
+              "bold": true
+            }
+          },
+          "C3": {
+            "v": "Conditionnement",
+            "format": {
+              "bold": true
+            }
+          },
+          "D3": {
+            "v": "Prix HT",
+            "format": {
+              "bold": true
+            }
+          },
+          "E3": {
+            "v": "Stock",
+            "format": {
+              "bold": true
+            }
+          },
+          "A4": {
+            "v": "FB-102"
+          },
+          "B4": {
+            "v": "Ramette A4 80 g"
+          },
+          "C4": {
+            "v": "Carton de 5"
+          },
+          "D4": {
+            "v": 21.9
+          },
+          "E4": {
+            "v": 34
+          },
+          "A5": {
+            "v": "FB-214"
+          },
+          "B5": {
+            "v": "Stylo bille bleu"
+          },
+          "C5": {
+            "v": "Boîte de 50"
+          },
+          "D5": {
+            "v": 18.5
+          },
+          "E5": {
+            "v": 12
+          },
+          "A6": {
+            "v": "FB-330"
+          },
+          "B6": {
+            "v": "Classeur à levier"
+          },
+          "C6": {
+            "v": "Lot de 10"
+          },
+          "D6": {
+            "v": 32.4
+          },
+          "E6": {
+            "v": 26
+          },
+          "A7": {
+            "v": "FB-451"
+          },
+          "B7": {
+            "v": "Bloc-notes A5"
+          },
+          "C7": {
+            "v": "Lot de 10"
+          },
+          "D7": {
+            "v": 12.4
+          },
+          "E7": {
+            "v": 41
+          },
+          "A8": {
+            "v": "FB-508"
+          },
+          "B8": {
+            "v": "Chemise cartonnée"
+          },
+          "C8": {
+            "v": "Lot de 100"
+          },
+          "D8": {
+            "v": 27
+          },
+          "E8": {
+            "v": 9
+          },
+          "G3": {
+            "v": "Nb d'articles",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M24-L03-01",
+      "consigne": "Le titre est écrit dans **A1** et déborde sur ses voisines : il n'est pas centré sur le tableau, il le dépasse. ==Sélectionnez **A1:E1**, puis cliquez sur **Fusionner**==.",
+      "setup": {
+        "selection": "A1:E1",
+        "ribbon": {
+          "activeTab": "accueil"
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "acc-fusionner"
+      },
+      "aide": {
+        "text": "Le bouton Fusionner du groupe Alignement.",
+        "showTarget": true
+      },
+      "feedback": "Les cinq cellules n'en font plus qu'une, exactement aussi large que le tableau."
+    },
+    {
+      "id": "M24-L03-02",
+      "consigne": "==Agrandissez le titre== avec le bouton d'augmentation de la taille de police.",
+      "setup": {
+        "selection": "A1",
+        "ribbon": {
+          "activeTab": "accueil"
+        }
+      },
+      "action": {
+        "type": "EXPECT_FORMAT",
+        "cells": {
+          "A1": {
+            "fontSize": 14
+          }
+        }
+      },
+      "aide": {
+        "text": "Le grand A du groupe Police, celui qui augmente la taille.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M24-L03-03",
+      "consigne": "==Centrez-le== dans la cellule fusionnée.",
+      "setup": {
+        "selection": "A1",
+        "ribbon": {
+          "activeTab": "accueil"
+        }
+      },
+      "action": {
+        "type": "EXPECT_FORMAT",
+        "cells": {
+          "A1": {
+            "hAlign": "center"
+          }
+        }
+      },
+      "aide": {
+        "text": "Le bouton d'alignement centré, groupe Alignement.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M24-L03-04",
+      "consigne": "==Donnez-lui un **remplissage**== pour le détacher du tableau.",
+      "setup": {
+        "selection": "A1",
+        "ribbon": {
+          "activeTab": "accueil"
+        }
+      },
+      "action": {
+        "type": "EXPECT_FORMAT",
+        "cells": {
+          "A1": {
+            "background": "#fde68a"
+          }
+        }
+      },
+      "aide": {
+        "text": "Le pot de peinture du groupe Police.",
+        "showTarget": true
+      },
+      "feedback": "Fusionné, agrandi, centré, coloré : votre titre est fait, et il est resté une **cellule**."
+    },
+    {
+      "id": "M24-L03-05",
+      "consigne": "==Terminez en **gras**==.",
+      "setup": {
+        "selection": "A1",
+        "ribbon": {
+          "activeTab": "accueil"
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "acc-gras"
+      },
+      "aide": {
+        "text": "Le B du groupe Police, ou Ctrl+G.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M24-L03-06",
+      "consigne": "Vérifions que le tableau n'a rien perdu de ses capacités. ==Triez la liste du prix le plus élevé au plus bas==.",
+      "setup": {
+        "selection": "D6",
+        "ribbon": {
+          "activeTab": "donnees"
+        }
+      },
+      "action": {
+        "type": "SORT_RANGE",
+        "range": "A4:E8",
+        "column": "D",
+        "ascending": false
+      },
+      "aide": {
+        "text": "Une cellule de la colonne Prix HT, puis le bouton Z→A de l'onglet Données.",
+        "showTarget": true
+      },
+      "feedback": "Le tri fonctionne parfaitement : la cellule fusionnée est **au-dessus** du tableau, séparée par une ligne vide, donc hors de la plage triée."
+    },
+    {
+      "id": "M24-L03-07",
+      "consigne": "==En **G4**, comptez les articles du tarif==.",
+      "setup": {
+        "selection": "G4"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "G4",
+        "accept": [
+          "=NBVAL(B4:B8)",
+          "=NB(D4:D8)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "NBVAL sur la colonne des désignations.",
+        "showTarget": true
+      },
+      "feedback": "5 articles, comptés sans difficulté."
+    },
+    {
+      "id": "M24-L03-08",
+      "consigne": "Excel propose aussi **WordArt** (Insertion > Texte > WordArt) : un texte décoratif, avec ombres, reliefs et contours. Deux raisons de s'en méfier dans un classeur de travail. C'est un **objet flottant** — il n'appartient à aucune cellule, se décale à l'insertion d'une ligne, et disparaît des tris comme des filtres. Et son rendu, très années 2000, vieillit mal sur un document professionnel. Gardez-le pour une page de garde ; pour un titre de tableau, la mise en forme de cellule que vous venez d'appliquer suffit.\n\nUn dernier point, capital : ne fusionnez **jamais** de cellules **à l'intérieur** d'une liste de données. Une cellule fusionnée dans un tableau empêche le tri (« Cette opération exige que les cellules fusionnées soient de taille identique »), casse la sélection de colonne et fait échouer les tableaux croisés. Le titre, lui, se place au-dessus, avec une ligne vide de séparation.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    }
+  ]
+}

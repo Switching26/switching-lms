@@ -1,0 +1,308 @@
+{
+  "schemaVersion": 1,
+  "title": "Optimiser sous contrainte",
+  "mode": "LESSON",
+  "moduleTitle": "Analyses et simulations",
+  "intro": {
+    "title": "UNE INCONNUE, PUIS DEUX",
+    "body": "La valeur cible trouve une inconnue et ignore tout le reste : les entiers, les capacités, les minima. Voir où elle s'arrête, c'est comprendre à quoi sert le Solveur."
+  },
+  "outro": {
+    "body": "Vous savez chercher une valeur cible, vérifier les contraintes qu'elle ignore, et dire quand il faut passer au Solveur."
+  },
+  "ribbon": [
+    "accueil",
+    "donnees"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Optimisation session",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 190,
+          "B": 90,
+          "C": 175,
+          "D": 110
+        },
+        "cells": {
+          "A1": {
+            "v": "SESSION DE FORMATION — OPTIMISATION",
+            "format": {
+              "bold": true
+            }
+          },
+          "A3": {
+            "v": "Prix par stagiaire",
+            "format": {
+              "bold": true
+            }
+          },
+          "B3": {
+            "v": 1200
+          },
+          "A4": {
+            "v": "Nombre de stagiaires",
+            "format": {
+              "bold": true
+            }
+          },
+          "B4": {
+            "v": 8
+          },
+          "A5": {
+            "v": "Coût formateur (jour)",
+            "format": {
+              "bold": true
+            }
+          },
+          "B5": {
+            "v": 650
+          },
+          "A6": {
+            "v": "Nombre de jours",
+            "format": {
+              "bold": true
+            }
+          },
+          "B6": {
+            "v": 5
+          },
+          "A7": {
+            "v": "Frais de salle",
+            "format": {
+              "bold": true
+            }
+          },
+          "B7": {
+            "v": 900
+          },
+          "A9": {
+            "v": "MARGE",
+            "format": {
+              "bold": true
+            }
+          },
+          "C3": {
+            "v": "Salle (10 places)",
+            "format": {
+              "bold": true
+            }
+          },
+          "C4": {
+            "v": "Stagiaires à inscrire",
+            "format": {
+              "bold": true
+            }
+          },
+          "C6": {
+            "v": "Jours entiers",
+            "format": {
+              "bold": true
+            }
+          },
+          "C8": {
+            "v": "Marge réellement obtenue",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M23-L04-01",
+      "consigne": "Même modèle, autre question. ==En **B9**, posez la marge : `=B3*B4-(B5*B6+B7)`==.",
+      "setup": {
+        "selection": "B9"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B9",
+        "accept": [
+          "=B3*B4-(B5*B6+B7)",
+          "=B4*B3-(B5*B6+B7)",
+          "=B3*B4-B5*B6-B7",
+          "=B4*B3-B5*B6-B7"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Chiffre d'affaires moins coûts.",
+        "showTarget": true
+      },
+      "feedback": "5 450 € aujourd'hui."
+    },
+    {
+      "id": "M23-L04-02",
+      "consigne": "La direction veut **7 000 €** de marge, et le prix ne bougera pas. ==Ouvrez l'onglet Données et cliquez sur **Valeur cible**== pour trouver l'effectif nécessaire.",
+      "setup": {
+        "selection": "B9",
+        "ribbon": {
+          "activeTab": "donnees"
+        },
+        "goalSeek": {
+          "formulaRef": "B9",
+          "target": 7000,
+          "inputRef": "B4"
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "don-valeur-cible"
+      },
+      "aide": {
+        "text": "Cellule à définir B9, valeur à atteindre 7000, cellule à modifier B4.",
+        "showTarget": true
+      },
+      "feedback": "Excel répond **9,29** stagiaires. Mathématiquement juste, opérationnellement absurde : on n'inscrit pas un tiers de personne. Première limite de la valeur cible — elle ne connaît pas la contrainte « nombre entier »."
+    },
+    {
+      "id": "M23-L04-03",
+      "consigne": "Et la salle ne contient que dix places. ==En **D3**, vérifiez la contrainte : `=SI(B4<=10;\"OK\";\"Salle trop petite\")`==.",
+      "setup": {
+        "selection": "D3"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "D3",
+        "accept": [
+          "=SI(B4<=10;\"OK\";\"Salle trop petite\")"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Un SI qui compare l'effectif trouvé à la capacité de la salle.",
+        "showTarget": true
+      },
+      "feedback": "**OK** : la solution tient dans la salle. Notez bien ce que nous venons de faire — la contrainte est vérifiée *après*, à la main, parce que la valeur cible ne sait pas la prendre en compte."
+    },
+    {
+      "id": "M23-L04-04",
+      "consigne": "==En **D4**, arrondissez à l'entier supérieur : `=ARRONDI.SUP(B4;0)`==. C'est le nombre de stagiaires à inscrire réellement.",
+      "setup": {
+        "selection": "D4"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "D4",
+        "accept": [
+          "=ARRONDI.SUP(B4;0)",
+          "=PLAFOND(B4;1)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "ARRONDI.SUP avec zéro décimale.",
+        "showTarget": true
+      },
+      "feedback": "10 stagiaires. Arrondir à l'inférieur manquerait l'objectif : sur un effectif, on arrondit toujours dans le sens qui sécurise la marge."
+    },
+    {
+      "id": "M23-L04-05",
+      "consigne": "Deuxième levier : garder 8 stagiaires et raccourcir la session. ==Remettez `8` en **B4**==.",
+      "setup": {
+        "selection": "B4"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B4",
+        "accept": [
+          "8"
+        ]
+      },
+      "aide": {
+        "text": "La valeur d'origine du modèle.",
+        "showTarget": true
+      },
+      "feedback": "Regardez **D4** : votre solution à 10 stagiaires vient de disparaître, remplacée par 8. C'est normal, la cellule est **liée** à B4. Et cela dit l'essentiel sur la valeur cible : elle **écrase** la cellule qu'elle modifie sans conserver l'ancienne valeur. Notez votre résultat, recopiez-le en valeur, ou travaillez sur une copie du modèle."
+    },
+    {
+      "id": "M23-L04-06",
+      "consigne": "==Relancez la **valeur cible** pour trouver le nombre de jours== qui donnerait la même marge de 7 000 € avec 8 stagiaires.",
+      "setup": {
+        "selection": "B9",
+        "ribbon": {
+          "activeTab": "donnees"
+        },
+        "goalSeek": {
+          "formulaRef": "B9",
+          "target": 7000,
+          "inputRef": "B6"
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "don-valeur-cible"
+      },
+      "aide": {
+        "text": "Même boîte de dialogue, mais cellule à modifier B6.",
+        "showTarget": true
+      },
+      "feedback": "**2,62** jours. Là encore, la réponse est inutilisable telle quelle : une formation se vend par journées entières."
+    },
+    {
+      "id": "M23-L04-07",
+      "consigne": "==En **D6**, arrondissez au jour entier inférieur : `=ARRONDI.INF(B6;0)`==.",
+      "setup": {
+        "selection": "D6"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "D6",
+        "accept": [
+          "=ARRONDI.INF(B6;0)",
+          "=TRONQUE(B6;0)",
+          "=ENT(B6)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "ARRONDI.INF, zéro décimale. Sur une durée facturée au client, on arrondit vers le bas.",
+        "showTarget": true
+      },
+      "feedback": "2 jours."
+    },
+    {
+      "id": "M23-L04-08",
+      "consigne": "Vérifions ce que vaut vraiment cette solution arrondie. ==En **D8**, calculez la marge obtenue avec 8 stagiaires et ce nombre de jours : `=B3*B4-(B5*D6+B7)`==.",
+      "setup": {
+        "selection": "D8"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "D8",
+        "accept": [
+          "=B3*B4-(B5*D6+B7)",
+          "=B4*B3-(B5*D6+B7)",
+          "=B3*B4-B5*D6-B7"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "La même formule que B9, mais avec le nombre de jours arrondi.",
+        "showTarget": true
+      },
+      "feedback": "7 400 €, soit 400 € **au-dessus** de l'objectif. L'arrondi ne coûte rien ici, mais il faut le vérifier : c'est souvent l'inverse."
+    },
+    {
+      "id": "M23-L04-09",
+      "consigne": "Ce que vous venez de faire en cinq étapes, le **Solveur** le fait d'un coup. C'est un complément à activer une fois pour toutes (Fichier > Options > Compléments > Compléments Excel > Solveur), puis il apparaît dans l'onglet Données. Sa boîte de dialogue demande trois choses que la valeur cible ignore : un **objectif** (maximiser, minimiser, ou atteindre une valeur), **plusieurs cellules variables** à la fois, et des **contraintes** — inférieur ou égal, entier, positif, binaire.\n\nSur notre session, on lui dirait : « maximise B9, en faisant varier B4 et B6, avec B4 entier ≤ 10 et B6 entier entre 2 et 5 ». Il rendrait le couple optimal sans qu'on arrondisse quoi que ce soit. Retenez la frontière : **une seule inconnue, aucune contrainte → valeur cible ; plusieurs inconnues ou des contraintes → Solveur**.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    }
+  ]
+}

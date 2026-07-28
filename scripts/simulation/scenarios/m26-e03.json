@@ -1,0 +1,205 @@
+{
+  "schemaVersion": 1,
+  "title": "Exercice · Un graphique pour le rapport",
+  "mode": "EXERCISE",
+  "moduleTitle": "Import, export et échanges de données",
+  "intro": {
+    "title": "À VOUS",
+    "body": "Un total, un histogramme sans la ligne de total, un titre, des étiquettes : un graphique prêt à partir dans un document."
+  },
+  "outro": {
+    "body": "Exercice terminé."
+  },
+  "ribbon": [
+    "accueil",
+    "insertion",
+    "graph-creation",
+    "donnees"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Effectifs par service",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 150,
+          "B": 100
+        },
+        "cells": {
+          "A1": {
+            "v": "Service",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Effectif",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Atelier"
+          },
+          "B2": {
+            "v": 34
+          },
+          "A3": {
+            "v": "Expédition"
+          },
+          "B3": {
+            "v": 21
+          },
+          "A4": {
+            "v": "Qualité"
+          },
+          "B4": {
+            "v": 12
+          },
+          "A5": {
+            "v": "Administration"
+          },
+          "B5": {
+            "v": 9
+          },
+          "A7": {
+            "v": "TOTAL",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M26-E03-01",
+      "consigne": "Avant le graphique, le chiffre : en **B7**, totalisez l'effectif.",
+      "setup": {
+        "selection": "B7"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B7",
+        "accept": [
+          "=SOMME(B2:B5)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Une somme sur la colonne Effectif."
+      },
+      "feedback": "76 personnes."
+    },
+    {
+      "id": "M26-E03-02",
+      "consigne": "Sélectionnez les données à représenter, titres compris — et **sans** la ligne de total.",
+      "setup": {
+        "selection": "A1"
+      },
+      "action": {
+        "type": "DRAG_RANGE",
+        "range": "A1:B5"
+      },
+      "aide": {
+        "text": "Inclure le total dans un graphique produit une barre écrasante qui aplatit les autres."
+      }
+    },
+    {
+      "id": "M26-E03-03",
+      "consigne": "Représentez l'effectif par service en **histogramme**.",
+      "setup": {
+        "ribbon": {
+          "activeTab": "insertion"
+        }
+      },
+      "action": {
+        "type": "EXPECT_CHART",
+        "chart": {
+          "type": "histogramme",
+          "categories": "A2:A5",
+          "seriesCount": 1,
+          "series": [
+            {
+              "name": "Effectif"
+            }
+          ]
+        }
+      },
+      "aide": {
+        "text": "Onglet Insertion, bouton Histogramme."
+      }
+    },
+    {
+      "id": "M26-E03-04",
+      "consigne": "Donnez-lui le titre **Effectif par service**.",
+      "setup": {
+        "chartEdit": {
+          "title": "Effectif par service"
+        },
+        "ribbon": {
+          "activeTab": "graph-creation"
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "ins-graph-element-titre"
+      },
+      "aide": {
+        "text": "Ajouter un élément de graphique, puis Titre."
+      }
+    },
+    {
+      "id": "M26-E03-05",
+      "consigne": "Affichez les **étiquettes de données** : le rapport sera imprimé.",
+      "setup": {
+        "chartEdit": {
+          "elements": {
+            "etiquettes": true
+          }
+        },
+        "ribbon": {
+          "activeTab": "graph-creation"
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "ins-graph-element-etiquettes"
+      },
+      "aide": {
+        "text": "Le même menu, ligne Étiquettes de données."
+      }
+    },
+    {
+      "id": "M26-E03-06",
+      "consigne": "Retirez le **quadrillage**, devenu inutile.",
+      "setup": {
+        "chartEdit": {
+          "elements": {
+            "quadrillage": false
+          }
+        },
+        "ribbon": {
+          "activeTab": "graph-creation"
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "ins-graph-element-quadrillage"
+      },
+      "aide": {
+        "text": "Toujours le même menu, ligne Quadrillage."
+      }
+    }
+  ]
+}

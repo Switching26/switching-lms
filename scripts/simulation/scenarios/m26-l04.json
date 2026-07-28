@@ -1,0 +1,247 @@
+{
+  "schemaVersion": 1,
+  "title": "Préparer un graphique pour un document",
+  "mode": "LESSON",
+  "moduleTitle": "Import, export et échanges de données",
+  "intro": {
+    "title": "UN GRAPHIQUE QUI SE LIT SEUL",
+    "body": "Dans un rapport, un graphique est souvent regardé sans son texte. Il lui faut donc un vrai titre, ses valeurs écrites, et rien de décoratif."
+  },
+  "outro": {
+    "body": "Vous savez préparer un graphique destiné à un document et choisir son mode de collage."
+  },
+  "ribbon": [
+    "accueil",
+    "insertion",
+    "graph-creation",
+    "donnees"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Budget 2026",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 145,
+          "B": 110
+        },
+        "cells": {
+          "A1": {
+            "v": "Poste",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Budget",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Formation"
+          },
+          "B2": {
+            "v": 24000
+          },
+          "A3": {
+            "v": "Matériel"
+          },
+          "B3": {
+            "v": 18500
+          },
+          "A4": {
+            "v": "Logiciel"
+          },
+          "B4": {
+            "v": 12400
+          },
+          "A5": {
+            "v": "Déplacements"
+          },
+          "B5": {
+            "v": 8600
+          },
+          "A6": {
+            "v": "Communication"
+          },
+          "B6": {
+            "v": 6300
+          },
+          "A8": {
+            "v": "TOTAL",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M26-L04-01",
+      "consigne": "Le budget de l'année, par poste. ==Sélectionnez **A1:B6**==, titres compris.",
+      "setup": {
+        "selection": "A1"
+      },
+      "action": {
+        "type": "DRAG_RANGE",
+        "range": "A1:B6"
+      },
+      "aide": {
+        "text": "Les cinq postes et leurs montants, avec la ligne de titres.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M26-L04-02",
+      "consigne": "==Insérez un **histogramme**== : cinq postes à comparer, la barre est le bon choix.",
+      "setup": {
+        "ribbon": {
+          "activeTab": "insertion"
+        },
+        "chart": {
+          "id": "g1",
+          "type": "histogramme",
+          "source": "A1:B6",
+          "categories": "A2:A6",
+          "series": [
+            {
+              "name": "Budget",
+              "values": "B2:B6"
+            }
+          ],
+          "title": "Budget",
+          "elements": {
+            "titre": true,
+            "legende": false,
+            "etiquettes": false,
+            "quadrillage": true,
+            "axes": true
+          },
+          "legendPosition": "bas",
+          "style": 1,
+          "frame": {
+            "x": 430,
+            "y": 10,
+            "w": 420,
+            "h": 258
+          }
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "ins-graph-histogramme"
+      },
+      "aide": {
+        "text": "Le bouton Histogramme de l'onglet Insertion.",
+        "showTarget": true
+      },
+      "feedback": "Le graphique est posé. Tel quel, il n'est pas encore présentable dans un document : son titre ne dit rien et il faudra lire l'axe pour connaître un montant."
+    },
+    {
+      "id": "M26-L04-03",
+      "consigne": "==Donnez-lui un titre explicite==. Dans un rapport, le graphique est souvent lu **sans** le texte qui l'entoure.",
+      "setup": {
+        "chartEdit": {
+          "title": "Budget 2026 par poste"
+        },
+        "ribbon": {
+          "activeTab": "graph-creation"
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "ins-graph-element-titre"
+      },
+      "aide": {
+        "text": "Ajouter un élément de graphique, puis Titre du graphique.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M26-L04-04",
+      "consigne": "Sur une page imprimée, personne ne mesure une barre à l'œil. ==Affichez les **étiquettes de données**==.",
+      "setup": {
+        "chartEdit": {
+          "elements": {
+            "etiquettes": true
+          }
+        },
+        "ribbon": {
+          "activeTab": "graph-creation"
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "ins-graph-element-etiquettes"
+      },
+      "aide": {
+        "text": "Ajouter un élément de graphique, puis Étiquettes de données.",
+        "showTarget": true
+      },
+      "feedback": "Chaque barre porte son montant : le graphique se lit maintenant sans l'axe."
+    },
+    {
+      "id": "M26-L04-05",
+      "consigne": "Et puisque les valeurs sont écrites, le quadrillage devient du bruit. ==Retirez-le==.",
+      "setup": {
+        "chartEdit": {
+          "elements": {
+            "quadrillage": false
+          }
+        },
+        "ribbon": {
+          "activeTab": "graph-creation"
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "ins-graph-element-quadrillage"
+      },
+      "aide": {
+        "text": "Le même menu, ligne Quadrillage, à décocher.",
+        "showTarget": true
+      },
+      "feedback": "Un graphique destiné à l'impression gagne toujours à perdre ses éléments décoratifs."
+    },
+    {
+      "id": "M26-L04-06",
+      "consigne": "Un graphique ne dispense jamais de donner le chiffre. ==En **B8**, totalisez le budget : `=SOMME(B2:B6)`==.",
+      "setup": {
+        "selection": "B8"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B8",
+        "accept": [
+          "=SOMME(B2:B6)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Une somme sur la colonne Budget.",
+        "showTarget": true
+      },
+      "feedback": "69 800 €. Ce total a sa place dans la légende du graphique, ou dans la phrase qui l'introduit."
+    },
+    {
+      "id": "M26-L04-07",
+      "consigne": "Comment ce graphique rejoint-il le document ? Word propose les mêmes trois voies que pour un tableau, avec les mêmes conséquences. **Image** : le graphique devient une illustration figée, sûre, impossible à casser — le choix par défaut pour un rapport diffusé en PDF. **Collage avec liaison** : le graphique se met à jour depuis le classeur, ce qu'on veut pour un document révisé chaque mois, à condition que le classeur reste à sa place. **Incorporé** : le graphique et ses données voyagent dans le document Word, modifiables sur place — pratique, mais le fichier grossit et vos données partent avec lui, y compris les onglets que vous ne voulez pas montrer.\n\nDeux vérifications avant d'envoyer : le graphique reste-t-il lisible **en noir et blanc** — beaucoup de rapports sont imprimés ainsi, et deux couleurs proches deviennent deux gris identiques ? Et sa **taille** est-elle celle du document, plutôt qu'une image agrandie de force, qui rend le texte flou ?",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    }
+  ]
+}

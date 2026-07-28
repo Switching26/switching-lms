@@ -1,0 +1,337 @@
+{
+ "schemaVersion": 1,
+ "title": "Exercice · Planning de la rentrée",
+ "mode": "EXERCISE",
+ "moduleTitle": "Applications pratiques",
+ "intro": {
+  "title": "À VOUS",
+  "body": "Quatre sessions, chacune de douze jours calendaires. Les dates de démarrage sont saisies sous leur forme brute : rendez le planning lisible et complétez-le."
+ },
+ "outro": {
+  "body": "Planning complet : dernier jour, fin de mois, jour de semaine et étendue totale."
+ },
+ "ribbon": [
+  "accueil"
+ ],
+ "statusBar": {
+  "aggregates": [
+   "moyenne",
+   "nb-non-vides",
+   "somme"
+  ],
+  "sheetCount": 1
+ },
+ "workbook": {
+  "fileName": "Planning rentrée",
+  "activeSheetIndex": 0,
+  "selection": "A1",
+  "sheets": [
+   {
+    "name": "Feuil1",
+    "columnWidths": {
+     "A": 205,
+     "B": 125,
+     "C": 130,
+     "D": 130,
+     "E": 145
+    },
+    "cells": {
+     "A1": {
+      "v": "PLANNING DES SESSIONS — RENTRÉE 2026",
+      "format": {
+       "bold": true
+      }
+     },
+     "A2": {
+      "v": "Durée (jours calendaires)"
+     },
+     "B2": {
+      "v": 12
+     },
+     "A10": {
+      "v": "Total des durées",
+      "format": {
+       "bold": true
+      }
+     },
+     "A11": {
+      "v": "Étendue du planning (jours)",
+      "format": {
+       "bold": true
+      }
+     },
+     "A4": {
+      "v": "Module",
+      "format": {
+       "bold": true
+      }
+     },
+     "B4": {
+      "v": "Démarrage",
+      "format": {
+       "bold": true
+      }
+     },
+     "C4": {
+      "v": "Dernier jour",
+      "format": {
+       "bold": true
+      }
+     },
+     "D4": {
+      "v": "Fin du mois",
+      "format": {
+       "bold": true
+      }
+     },
+     "E4": {
+      "v": "Jour de semaine",
+      "format": {
+       "bold": true
+      }
+     },
+     "A5": {
+      "v": "Bureautique"
+     },
+     "B5": {
+      "v": 46272,
+      "format": {
+       "numberFormat": "dd/mm/yyyy"
+      }
+     },
+     "A6": {
+      "v": "Anglais"
+     },
+     "B6": {
+      "v": 46286,
+      "format": {
+       "numberFormat": "dd/mm/yyyy"
+      }
+     },
+     "A7": {
+      "v": "Comptabilité"
+     },
+     "B7": {
+      "v": 46300,
+      "format": {
+       "numberFormat": "dd/mm/yyyy"
+      }
+     },
+     "A8": {
+      "v": "Graphisme"
+     },
+     "B8": {
+      "v": 46314,
+      "format": {
+       "numberFormat": "dd/mm/yyyy"
+      }
+     }
+    }
+   }
+  ]
+ },
+ "steps": [
+  {
+   "id": "M16-E02-01",
+   "consigne": "Les dates de démarrage sont sélectionnées et illisibles. Donnez-leur un **format de date**.",
+   "setup": {
+    "selection": "B5:B8"
+   },
+   "action": {
+    "type": "EXPECT_FORMAT",
+    "cells": {
+     "B5": {
+      "numberFormat": "date"
+     },
+     "B8": {
+      "numberFormat": "date"
+     }
+    }
+   },
+   "aide": {
+    "text": "Un format, pas une formule."
+   }
+  },
+  {
+   "id": "M16-E02-02",
+   "consigne": "En **C5**, calculez le **dernier jour** de la session : le démarrage plus la durée de B2. La formule devra se recopier.",
+   "setup": {
+    "selection": "C5"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "C5",
+    "accept": [
+     "=B5+$B$2",
+     "=$B$2+B5"
+    ],
+    "formulaMode": true
+   },
+   "aide": {
+    "text": "La durée est commune aux quatre sessions : elle doit être figée."
+   }
+  },
+  {
+   "id": "M16-E02-03",
+   "consigne": "En **D5**, calculez la **fin du mois** du démarrage — la date de clôture administrative.",
+   "setup": {
+    "selection": "D5"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "D5",
+    "accept": [
+     "=FIN.MOIS(B5;0)"
+    ],
+    "formulaMode": true
+   },
+   "aide": {
+    "text": "Une fonction donne le dernier jour d'un mois sans qu'on ait à compter les jours."
+   }
+  },
+  {
+   "id": "M16-E02-04",
+   "consigne": "En **E5**, donnez le **jour de la semaine** du démarrage, avec la convention française : lundi = 1.",
+   "setup": {
+    "selection": "E5"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "E5",
+    "accept": [
+     "=JOURSEM(B5;2)"
+    ],
+    "formulaMode": true
+   },
+   "aide": {
+    "text": "Le second argument de la fonction fixe la convention."
+   }
+  },
+  {
+   "id": "M16-E02-05",
+   "consigne": "Complétez les **trois sessions restantes**.",
+   "action": {
+    "type": "EXPECT_STATE",
+    "cells": {
+     "C6": {
+      "anyOf": [
+       "=B6+$B$2",
+       "=$B$2+B6"
+      ],
+      "v": 46298
+     },
+     "D6": {
+      "anyOf": [
+       "=FIN.MOIS(B6;0)"
+      ],
+      "v": 46295
+     },
+     "E6": {
+      "anyOf": [
+       "=JOURSEM(B6;2)"
+      ],
+      "v": 1
+     },
+     "C7": {
+      "anyOf": [
+       "=B7+$B$2",
+       "=$B$2+B7"
+      ],
+      "v": 46312
+     },
+     "D7": {
+      "anyOf": [
+       "=FIN.MOIS(B7;0)"
+      ],
+      "v": 46326
+     },
+     "E7": {
+      "anyOf": [
+       "=JOURSEM(B7;2)"
+      ],
+      "v": 1
+     },
+     "C8": {
+      "anyOf": [
+       "=B8+$B$2",
+       "=$B$2+B8"
+      ],
+      "v": 46326
+     },
+     "D8": {
+      "anyOf": [
+       "=FIN.MOIS(B8;0)"
+      ],
+      "v": 46326
+     },
+     "E8": {
+      "anyOf": [
+       "=JOURSEM(B8;2)"
+      ],
+      "v": 1
+     }
+    }
+   },
+   "aide": {
+    "text": "Sélectionnez les trois cellules de la première ligne avant de recopier."
+   }
+  },
+  {
+   "id": "M16-E02-06",
+   "consigne": "Rendez lisibles les colonnes **Dernier jour** et **Fin du mois**, sélectionnées.",
+   "setup": {
+    "selection": "C5:D8"
+   },
+   "action": {
+    "type": "EXPECT_FORMAT",
+    "cells": {
+     "C5": {
+      "numberFormat": "date"
+     },
+     "D8": {
+      "numberFormat": "date"
+     }
+    }
+   },
+   "aide": {
+    "text": "Ne formatez pas la colonne du jour de semaine : ce n'est pas une date."
+   }
+  },
+  {
+   "id": "M16-E02-07",
+   "consigne": "En **B10**, calculez le **total des durées** des quatre sessions.",
+   "setup": {
+    "selection": "B10"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "B10",
+    "accept": [
+     "=B2*4",
+     "=4*B2",
+     "=$B$2*4"
+    ],
+    "formulaMode": true
+   }
+  },
+  {
+   "id": "M16-E02-08",
+   "consigne": "En **B11**, calculez l'**étendue du planning** : le nombre de jours entre le premier démarrage et le dernier jour de la dernière session.",
+   "setup": {
+    "selection": "B11"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "B11",
+    "accept": [
+     "=C8-B5",
+     "=JOURS(C8;B5)"
+    ],
+    "formulaMode": true
+   },
+   "aide": {
+    "text": "Une différence de deux dates donne un nombre de jours."
+   }
+  }
+ ]
+}

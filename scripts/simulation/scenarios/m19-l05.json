@@ -1,0 +1,428 @@
+{
+  "schemaVersion": 1,
+  "title": "Croiser plusieurs critères de filtre",
+  "mode": "LESSON",
+  "moduleTitle": "Tri, filtre et sous-totaux",
+  "intro": {
+    "title": "ET, OU, ET SURTOUT LEQUEL",
+    "body": "Deux critères sur deux colonnes, ou deux valeurs sur une même colonne : ce n'est pas la même question, et ce n'est pas le même résultat. C'est toute la logique du filtre élaboré."
+  },
+  "outro": {
+    "body": "Vous savez cumuler des critères, distinguer un ET d'un OU et traduire chacun en formule."
+  },
+  "ribbon": [
+    "accueil",
+    "donnees"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Commandes",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "filterRange": "A1:E13",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 155,
+          "B": 90,
+          "C": 110,
+          "D": 105
+        },
+        "cells": {
+          "A1": {
+            "v": "Client",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Région",
+            "format": {
+              "bold": true
+            }
+          },
+          "C1": {
+            "v": "Catégorie",
+            "format": {
+              "bold": true
+            }
+          },
+          "D1": {
+            "v": "Commercial",
+            "format": {
+              "bold": true
+            }
+          },
+          "E1": {
+            "v": "Montant",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Papeterie Lorraine"
+          },
+          "B2": {
+            "v": "Est"
+          },
+          "C2": {
+            "v": "Papeterie"
+          },
+          "D2": {
+            "v": "Bertrand"
+          },
+          "E2": {
+            "v": 1480
+          },
+          "A3": {
+            "v": "Atelier du Cèdre"
+          },
+          "B3": {
+            "v": "Est"
+          },
+          "C3": {
+            "v": "Mobilier"
+          },
+          "D3": {
+            "v": "Chevalier"
+          },
+          "E3": {
+            "v": 3260
+          },
+          "A4": {
+            "v": "Cabinet Vasseur"
+          },
+          "B4": {
+            "v": "Nord"
+          },
+          "C4": {
+            "v": "Informatique"
+          },
+          "D4": {
+            "v": "Delaunay"
+          },
+          "E4": {
+            "v": 5900
+          },
+          "A5": {
+            "v": "Café des Halles"
+          },
+          "B5": {
+            "v": "Sud"
+          },
+          "C5": {
+            "v": "Mobilier"
+          },
+          "D5": {
+            "v": "Bertrand"
+          },
+          "E5": {
+            "v": 2140
+          },
+          "A6": {
+            "v": "Imprimerie Roussel"
+          },
+          "B6": {
+            "v": "Est"
+          },
+          "C6": {
+            "v": "Mobilier"
+          },
+          "D6": {
+            "v": "Girard"
+          },
+          "E6": {
+            "v": 4320
+          },
+          "A7": {
+            "v": "Garage Lemaitre"
+          },
+          "B7": {
+            "v": "Nord"
+          },
+          "C7": {
+            "v": "Papeterie"
+          },
+          "D7": {
+            "v": "Chevalier"
+          },
+          "E7": {
+            "v": 760
+          },
+          "A8": {
+            "v": "Clinique Saint-Yon"
+          },
+          "B8": {
+            "v": "Sud"
+          },
+          "C8": {
+            "v": "Informatique"
+          },
+          "D8": {
+            "v": "Delaunay"
+          },
+          "E8": {
+            "v": 6480
+          },
+          "A9": {
+            "v": "Boulangerie Thibault"
+          },
+          "B9": {
+            "v": "Ouest"
+          },
+          "C9": {
+            "v": "Papeterie"
+          },
+          "D9": {
+            "v": "Girard"
+          },
+          "E9": {
+            "v": 1050
+          },
+          "A10": {
+            "v": "Menuiserie Dubreuil"
+          },
+          "B10": {
+            "v": "Est"
+          },
+          "C10": {
+            "v": "Mobilier"
+          },
+          "D10": {
+            "v": "Girard"
+          },
+          "E10": {
+            "v": 3150
+          },
+          "A11": {
+            "v": "Pharmacie Vandel"
+          },
+          "B11": {
+            "v": "Nord"
+          },
+          "C11": {
+            "v": "Mobilier"
+          },
+          "D11": {
+            "v": "Bertrand"
+          },
+          "E11": {
+            "v": 2780
+          },
+          "A12": {
+            "v": "Studio Marceau"
+          },
+          "B12": {
+            "v": "Sud"
+          },
+          "C12": {
+            "v": "Papeterie"
+          },
+          "D12": {
+            "v": "Chevalier"
+          },
+          "E12": {
+            "v": 890
+          },
+          "A13": {
+            "v": "Transports Aubry"
+          },
+          "B13": {
+            "v": "Ouest"
+          },
+          "C13": {
+            "v": "Informatique"
+          },
+          "D13": {
+            "v": "Delaunay"
+          },
+          "E13": {
+            "v": 7250
+          },
+          "G1": {
+            "v": "Mobilier dans l'Est",
+            "format": {
+              "bold": true
+            }
+          },
+          "G4": {
+            "v": "Mobilier ou Informatique",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M19-L05-01",
+      "consigne": "Un filtre élaboré part toujours d'une question précise. La nôtre : *quelles commandes de mobilier dans l'Est ?* ==Cliquez sur **Filtrer**== pour poser les boutons de filtre.",
+      "setup": {
+        "ribbon": {
+          "activeTab": "donnees"
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "don-filtrer"
+      },
+      "aide": {
+        "text": "Le bouton Filtrer du groupe Trier et filtrer.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M19-L05-02",
+      "consigne": "==Ouvrez le filtre de **Catégorie** et ne gardez que `Mobilier`==.",
+      "action": {
+        "type": "FILTER_COLUMN",
+        "column": "C",
+        "values": [
+          "Mobilier"
+        ]
+      },
+      "aide": {
+        "text": "Décochez « Tout sélectionner », puis cochez Mobilier seul.",
+        "showTarget": true
+      },
+      "feedback": "5 commandes de mobilier, 15 650 € en tout."
+    },
+    {
+      "id": "M19-L05-03",
+      "consigne": "==Ajoutez le second critère : filtrez **Région** sur `Est`==, sans toucher au filtre précédent.",
+      "action": {
+        "type": "FILTER_COLUMN",
+        "column": "B",
+        "values": [
+          "Est"
+        ]
+      },
+      "aide": {
+        "text": "Le bouton de filtre de la colonne Région, puis Est seul.",
+        "showTarget": true
+      },
+      "feedback": "3 lignes restent : ce sont les commandes qui satisfont les deux critères **en même temps**, pour 10 730 €."
+    },
+    {
+      "id": "M19-L05-04",
+      "consigne": "Voilà ce que le **filtre élaboré** d'Excel permet d'écrire noir sur blanc, dans une **zone de critères** posée au-dessus du tableau : deux critères sur la **même ligne** se lisent ET, deux critères sur des **lignes différentes** se lisent OU. Il sait aussi extraire le résultat vers une autre plage plutôt que masquer des lignes — pratique pour constituer un extrait sans toucher à la source.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M19-L05-05",
+      "consigne": "Une question posée deux fois par mois mérite une formule plutôt qu'un filtre à reposer. ==En **H1**, comptez ces commandes : `=NB.SI.ENS($C$2:$C$13;\"Mobilier\";$B$2:$B$13;\"Est\")`==.",
+      "setup": {
+        "selection": "H1"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "H1",
+        "accept": [
+          "=NB.SI.ENS($C$2:$C$13;\"Mobilier\";$B$2:$B$13;\"Est\")",
+          "=NB.SI.ENS(C2:C13;\"Mobilier\";B2:B13;\"Est\")",
+          "=NB.SI.ENS($B$2:$B$13;\"Est\";$C$2:$C$13;\"Mobilier\")",
+          "=NB.SI.ENS(B2:B13;\"Est\";C2:C13;\"Mobilier\")",
+          "=SOMMEPROD(($C$2:$C$13=\"Mobilier\")*($B$2:$B$13=\"Est\"))",
+          "=SOMMEPROD((C2:C13=\"Mobilier\")*(B2:B13=\"Est\"))",
+          "=SOMMEPROD(($B$2:$B$13=\"Est\")*($C$2:$C$13=\"Mobilier\"))",
+          "=SOMMEPROD((B2:B13=\"Est\")*(C2:C13=\"Mobilier\"))"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "NB.SI.ENS attend des paires : plage, critère, plage, critère.",
+        "showTarget": true
+      },
+      "feedback": "3, le compte exact des lignes visibles. La formule, elle, reste juste même quand le filtre a été retiré."
+    },
+    {
+      "id": "M19-L05-06",
+      "consigne": "==En **H2**, additionnez leurs montants== avec `SOMME.SI.ENS`. Attention à l'ordre des arguments : la plage à additionner vient **en premier**, contrairement à `SOMME.SI`.",
+      "setup": {
+        "selection": "H2"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "H2",
+        "accept": [
+          "=SOMME.SI.ENS($E$2:$E$13;$C$2:$C$13;\"Mobilier\";$B$2:$B$13;\"Est\")",
+          "=SOMME.SI.ENS(E2:E13;C2:C13;\"Mobilier\";B2:B13;\"Est\")",
+          "=SOMME.SI.ENS($E$2:$E$13;$B$2:$B$13;\"Est\";$C$2:$C$13;\"Mobilier\")",
+          "=SOMME.SI.ENS(E2:E13;B2:B13;\"Est\";C2:C13;\"Mobilier\")",
+          "=SOMMEPROD(($C$2:$C$13=\"Mobilier\")*($B$2:$B$13=\"Est\")*$E$2:$E$13)",
+          "=SOMMEPROD((C2:C13=\"Mobilier\")*(B2:B13=\"Est\")*E2:E13)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "SOMME.SI.ENS(plage à additionner ; plage de critère ; critère ; …).",
+        "showTarget": true
+      },
+      "feedback": "10 730 €, la somme des lignes visibles."
+    },
+    {
+      "id": "M19-L05-07",
+      "consigne": "==Effacez les filtres== pour revenir au tableau complet.",
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "don-effacer-filtre"
+      },
+      "aide": {
+        "text": "Le bouton Effacer, à droite de Filtrer.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M19-L05-08",
+      "consigne": "Un filtre sait aussi exprimer un OU, mais **à l'intérieur d'une seule colonne**. ==Filtrez **Catégorie** sur `Mobilier` et `Informatique`==.",
+      "action": {
+        "type": "FILTER_COLUMN",
+        "column": "C",
+        "values": [
+          "Mobilier",
+          "Informatique"
+        ]
+      },
+      "aide": {
+        "text": "Cochez les deux valeurs dans la même liste de filtre.",
+        "showTarget": true
+      },
+      "feedback": "8 commandes visibles."
+    },
+    {
+      "id": "M19-L05-09",
+      "consigne": "En formule, ce OU s'écrit comme une addition de deux `SOMME.SI`. ==En **H4**, saisissez `=SOMME.SI($C$2:$C$13;\"Mobilier\";$E$2:$E$13)+SOMME.SI($C$2:$C$13;\"Informatique\";$E$2:$E$13)`==.",
+      "setup": {
+        "selection": "H4"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "H4",
+        "accept": [
+          "=SOMME.SI($C$2:$C$13;\"Mobilier\";$E$2:$E$13)+SOMME.SI($C$2:$C$13;\"Informatique\";$E$2:$E$13)",
+          "=SOMME.SI(C2:C13;\"Mobilier\";E2:E13)+SOMME.SI(C2:C13;\"Informatique\";E2:E13)",
+          "=SOMME.SI($C$2:$C$13;\"Informatique\";$E$2:$E$13)+SOMME.SI($C$2:$C$13;\"Mobilier\";$E$2:$E$13)",
+          "=SOMME.SI(C2:C13;\"Informatique\";E2:E13)+SOMME.SI(C2:C13;\"Mobilier\";E2:E13)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Deux SOMME.SI additionnés, un par catégorie retenue.",
+        "showTarget": true
+      },
+      "feedback": "35 280 €, le total des lignes visibles. À retenir : **ET** se pose en cumulant des critères de colonnes différentes, **OU** en cochant plusieurs valeurs d'une même colonne."
+    }
+  ]
+}

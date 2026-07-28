@@ -1,0 +1,328 @@
+{
+ "schemaVersion": 1,
+ "title": "Exercice · Consolider trois centres",
+ "mode": "EXERCISE",
+ "moduleTitle": "Gestion des feuilles et liaisons entre feuilles",
+ "intro": {
+  "title": "À VOUS",
+  "body": "Trois centres de formation, un même tableau de trois modules dans chacun. La feuille **Synthèse** attend ses liaisons — sans qu'un seul chiffre soit recopié."
+ },
+ "outro": {
+  "body": "Consolidation faite, chiffre d'affaires calculé, meilleur centre identifié."
+ },
+ "ribbon": [
+  "accueil"
+ ],
+ "statusBar": {
+  "aggregates": [
+   "moyenne",
+   "nb-non-vides",
+   "somme"
+  ],
+  "sheetCount": 4
+ },
+ "workbook": {
+  "fileName": "Heures par centre",
+  "activeSheetIndex": 3,
+  "selection": "B3",
+  "sheets": [
+   {
+    "name": "Angers",
+    "columnWidths": {
+     "A": 165,
+     "B": 110
+    },
+    "cells": {
+     "A1": {
+      "v": "HEURES RÉALISÉES — ANGERS",
+      "format": {
+       "bold": true
+      }
+     },
+     "A6": {
+      "v": "Total",
+      "format": {
+       "bold": true
+      }
+     },
+     "B6": {
+      "f": "=SOMME(B2:B4)"
+     },
+     "A2": {
+      "v": "Bureautique"
+     },
+     "B2": {
+      "v": 340
+     },
+     "A3": {
+      "v": "Anglais"
+     },
+     "B3": {
+      "v": 275
+     },
+     "A4": {
+      "v": "Comptabilité"
+     },
+     "B4": {
+      "v": 190
+     }
+    }
+   },
+   {
+    "name": "Nantes",
+    "columnWidths": {
+     "A": 165,
+     "B": 110
+    },
+    "cells": {
+     "A1": {
+      "v": "HEURES RÉALISÉES — NANTES",
+      "format": {
+       "bold": true
+      }
+     },
+     "A6": {
+      "v": "Total",
+      "format": {
+       "bold": true
+      }
+     },
+     "B6": {
+      "f": "=SOMME(B2:B4)"
+     },
+     "A2": {
+      "v": "Bureautique"
+     },
+     "B2": {
+      "v": 420
+     },
+     "A3": {
+      "v": "Anglais"
+     },
+     "B3": {
+      "v": 310
+     },
+     "A4": {
+      "v": "Comptabilité"
+     },
+     "B4": {
+      "v": 245
+     }
+    }
+   },
+   {
+    "name": "Rennes",
+    "columnWidths": {
+     "A": 165,
+     "B": 110
+    },
+    "cells": {
+     "A1": {
+      "v": "HEURES RÉALISÉES — RENNES",
+      "format": {
+       "bold": true
+      }
+     },
+     "A6": {
+      "v": "Total",
+      "format": {
+       "bold": true
+      }
+     },
+     "B6": {
+      "f": "=SOMME(B2:B4)"
+     },
+     "A2": {
+      "v": "Bureautique"
+     },
+     "B2": {
+      "v": 385
+     },
+     "A3": {
+      "v": "Anglais"
+     },
+     "B3": {
+      "v": 290
+     },
+     "A4": {
+      "v": "Comptabilité"
+     },
+     "B4": {
+      "v": 205
+     }
+    }
+   },
+   {
+    "name": "Synthèse",
+    "columnWidths": {
+     "A": 205,
+     "B": 145
+    },
+    "cells": {
+     "A1": {
+      "v": "Tarif horaire (€)"
+     },
+     "B1": {
+      "v": 32
+     },
+     "A7": {
+      "v": "Heures totales",
+      "format": {
+       "bold": true
+      }
+     },
+     "A8": {
+      "v": "Chiffre d'affaires",
+      "format": {
+       "bold": true
+      }
+     },
+     "A10": {
+      "v": "Meilleur centre (heures)",
+      "format": {
+       "bold": true
+      }
+     },
+     "A2": {
+      "v": "Module",
+      "format": {
+       "bold": true
+      }
+     },
+     "B2": {
+      "v": "Heures 3 centres",
+      "format": {
+       "bold": true
+      }
+     },
+     "A3": {
+      "v": "Bureautique"
+     },
+     "A4": {
+      "v": "Anglais"
+     },
+     "A5": {
+      "v": "Comptabilité"
+     }
+    }
+   }
+  ]
+ },
+ "steps": [
+  {
+   "id": "M15-E02-01",
+   "consigne": "En **B3** de la feuille Synthèse, obtenez le **total des heures de Bureautique** des trois centres. La formule devra être recopiable.",
+   "setup": {
+    "selection": "B3"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "B3",
+    "accept": [
+     "=Angers!B2+Nantes!B2+Rennes!B2",
+     "=SOMME(Angers!B2;Nantes!B2;Rennes!B2)"
+    ],
+    "formulaMode": true
+   },
+   "aide": {
+    "text": "Les trois feuilles ont la même structure : la Bureautique est toujours en B2."
+   }
+  },
+  {
+   "id": "M15-E02-02",
+   "consigne": "Complétez les **deux autres modules**.",
+   "action": {
+    "type": "EXPECT_STATE",
+    "cells": {
+     "B4": {
+      "anyOf": [
+       "=Angers!B3+Nantes!B3+Rennes!B3",
+       "=SOMME(Angers!B3;Nantes!B3;Rennes!B3)"
+      ],
+      "v": 875
+     },
+     "B5": {
+      "anyOf": [
+       "=Angers!B4+Nantes!B4+Rennes!B4",
+       "=SOMME(Angers!B4;Nantes!B4;Rennes!B4)"
+      ],
+      "v": 640
+     }
+    }
+   },
+   "aide": {
+    "text": "Poignée de recopie : les noms de feuille ne bougeront pas."
+   }
+  },
+  {
+   "id": "M15-E02-03",
+   "consigne": "En **B7**, calculez le **total des heures**.",
+   "setup": {
+    "selection": "B7"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "B7",
+    "accept": [
+     "=SOMME(B3:B5)",
+     "=B3+B4+B5"
+    ],
+    "formulaMode": true
+   }
+  },
+  {
+   "id": "M15-E02-04",
+   "consigne": "En **B8**, calculez le **chiffre d'affaires** correspondant, au tarif horaire de B1.",
+   "setup": {
+    "selection": "B8"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "B8",
+    "accept": [
+     "=B7*B1",
+     "=B1*B7",
+     "=B7*$B$1"
+    ],
+    "formulaMode": true
+   }
+  },
+  {
+   "id": "M15-E02-05",
+   "consigne": "En **B10**, affichez le **nombre d'heures du meilleur centre**, en comparant les trois totaux.",
+   "setup": {
+    "selection": "B10"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "B10",
+    "accept": [
+     "=MAX(Angers!B6;Nantes!B6;Rennes!B6)"
+    ],
+    "formulaMode": true
+   },
+   "aide": {
+    "text": "Chaque centre calcule déjà son total en B6."
+   }
+  },
+  {
+   "id": "M15-E02-06",
+   "consigne": "Allez vérifier ce total sur la feuille du centre concerné : **Nantes**.",
+   "action": {
+    "type": "SELECT_SHEET",
+    "name": "Nantes"
+   },
+   "aide": {
+    "text": "Les onglets sont en bas de la fenêtre."
+   }
+  },
+  {
+   "id": "M15-E02-07",
+   "consigne": "Revenez sur la feuille **Synthèse**.",
+   "action": {
+    "type": "SELECT_SHEET",
+    "name": "Synthèse"
+   }
+  }
+ ]
+}

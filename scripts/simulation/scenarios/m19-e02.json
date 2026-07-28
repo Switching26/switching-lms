@@ -1,0 +1,351 @@
+{
+  "schemaVersion": 1,
+  "title": "Exercice · Une liste prête à l'emploi",
+  "mode": "EXERCISE",
+  "moduleTitle": "Tri, filtre et sous-totaux",
+  "intro": {
+    "title": "À VOUS",
+    "body": "Compléter une liste, la nommer, la trier sur deux niveaux et contrôler qu'elle est intacte."
+  },
+  "outro": {
+    "body": "Exercice terminé."
+  },
+  "ribbon": [
+    "accueil",
+    "donnees"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Interventions",
+    "activeSheetIndex": 0,
+    "selection": "A11",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 155,
+          "B": 100,
+          "C": 115,
+          "D": 100
+        },
+        "cells": {
+          "A1": {
+            "v": "Client",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Secteur",
+            "format": {
+              "bold": true
+            }
+          },
+          "C1": {
+            "v": "Prestation",
+            "format": {
+              "bold": true
+            }
+          },
+          "D1": {
+            "v": "Technicien",
+            "format": {
+              "bold": true
+            }
+          },
+          "E1": {
+            "v": "Montant",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Hôtel du Parc"
+          },
+          "B2": {
+            "v": "Normandie"
+          },
+          "C2": {
+            "v": "Dépannage"
+          },
+          "D2": {
+            "v": "Morel"
+          },
+          "E2": {
+            "v": 480
+          },
+          "A3": {
+            "v": "Boucherie Talbot"
+          },
+          "B3": {
+            "v": "Bretagne"
+          },
+          "C3": {
+            "v": "Installation"
+          },
+          "D3": {
+            "v": "Perrin"
+          },
+          "E3": {
+            "v": 1260
+          },
+          "A4": {
+            "v": "Garage Vidal"
+          },
+          "B4": {
+            "v": "Normandie"
+          },
+          "C4": {
+            "v": "Installation"
+          },
+          "D4": {
+            "v": "Klein"
+          },
+          "E4": {
+            "v": 890
+          },
+          "A5": {
+            "v": "Crèche Les Lutins"
+          },
+          "B5": {
+            "v": "Occitanie"
+          },
+          "C5": {
+            "v": "Installation"
+          },
+          "D5": {
+            "v": "Morel"
+          },
+          "E5": {
+            "v": 2340
+          },
+          "A6": {
+            "v": "Cave Bertholin"
+          },
+          "B6": {
+            "v": "Bretagne"
+          },
+          "C6": {
+            "v": "Dépannage"
+          },
+          "D6": {
+            "v": "Perrin"
+          },
+          "E6": {
+            "v": 350
+          },
+          "A7": {
+            "v": "Pressing Aubert"
+          },
+          "B7": {
+            "v": "Normandie"
+          },
+          "C7": {
+            "v": "Installation"
+          },
+          "D7": {
+            "v": "Klein"
+          },
+          "E7": {
+            "v": 1780
+          },
+          "A8": {
+            "v": "Salle Voltaire"
+          },
+          "B8": {
+            "v": "Occitanie"
+          },
+          "C8": {
+            "v": "Maintenance"
+          },
+          "D8": {
+            "v": "Morel"
+          },
+          "E8": {
+            "v": 640
+          },
+          "A9": {
+            "v": "Cabinet Lorez"
+          },
+          "B9": {
+            "v": "Bretagne"
+          },
+          "C9": {
+            "v": "Installation"
+          },
+          "D9": {
+            "v": "Klein"
+          },
+          "E9": {
+            "v": 2050
+          },
+          "A10": {
+            "v": "Camping Les Pins"
+          },
+          "B10": {
+            "v": "Occitanie"
+          },
+          "C10": {
+            "v": "Dépannage"
+          },
+          "D10": {
+            "v": "Perrin"
+          },
+          "E10": {
+            "v": 520
+          },
+          "G1": {
+            "v": "Total",
+            "format": {
+              "bold": true
+            }
+          },
+          "G2": {
+            "v": "Nb interventions",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M19-E02-01",
+      "consigne": "Une dixième intervention est à enregistrer : le client est **Fromagerie Dast**. Ajoutez-le à la liste.",
+      "setup": {
+        "selection": "A11"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "A11",
+        "accept": [
+          "Fromagerie Dast"
+        ]
+      },
+      "aide": {
+        "text": "La première ligne libre sous la liste."
+      }
+    },
+    {
+      "id": "M19-E02-02",
+      "consigne": "Complétez la ligne : secteur **Normandie**, prestation **Installation**, technicien **Morel**, montant **970**.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "B11": {
+            "v": "Normandie"
+          },
+          "C11": {
+            "v": "Installation"
+          },
+          "D11": {
+            "v": "Morel"
+          },
+          "E11": {
+            "v": 970
+          }
+        }
+      },
+      "aide": {
+        "text": "Quatre saisies, de B11 à E11."
+      }
+    },
+    {
+      "id": "M19-E02-03",
+      "consigne": "Nommez la liste entière `Interventions`.",
+      "setup": {
+        "selection": "A1:E11"
+      },
+      "action": {
+        "type": "DEFINE_NAME",
+        "name": "Interventions",
+        "ref": "A1:E11"
+      },
+      "aide": {
+        "text": "La zone Nom, à gauche de la barre de formule."
+      }
+    },
+    {
+      "id": "M19-E02-04",
+      "consigne": "Classez les interventions par **secteur**, et dans chaque secteur **du montant le plus élevé au plus faible**. Appliquez le premier des deux tris.",
+      "setup": {
+        "selection": "E6",
+        "ribbon": {
+          "activeTab": "donnees"
+        }
+      },
+      "action": {
+        "type": "SORT_RANGE",
+        "range": "A2:E11",
+        "column": "E",
+        "ascending": false
+      },
+      "aide": {
+        "text": "On commence toujours par le critère le moins important."
+      }
+    },
+    {
+      "id": "M19-E02-05",
+      "consigne": "Appliquez maintenant le second tri.",
+      "setup": {
+        "selection": "B6"
+      },
+      "action": {
+        "type": "SORT_RANGE",
+        "range": "A2:E11",
+        "column": "B",
+        "ascending": true
+      },
+      "aide": {
+        "text": "Le critère principal passe en dernier."
+      }
+    },
+    {
+      "id": "M19-E02-06",
+      "consigne": "En **H1**, calculez le montant total des interventions.",
+      "setup": {
+        "selection": "H1"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "H1",
+        "accept": [
+          "=SOMME(E2:E11)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Une somme sur la colonne Montant, de la ligne 2 à la ligne 11."
+      },
+      "feedback": "11 280 € au total."
+    },
+    {
+      "id": "M19-E02-07",
+      "consigne": "En **H2**, comptez les interventions.",
+      "setup": {
+        "selection": "H2"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "H2",
+        "accept": [
+          "=NBVAL(A2:A11)",
+          "=NB(E2:E11)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "NBVAL sur la colonne des clients, ou NB sur celle des montants."
+      },
+      "feedback": "10 lignes : rien n'a été perdu pendant les tris."
+    }
+  ]
+}

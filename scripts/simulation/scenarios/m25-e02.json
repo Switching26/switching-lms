@@ -1,0 +1,315 @@
+{
+  "schemaVersion": 1,
+  "title": "Exercice · Nettoyer un fichier clients",
+  "mode": "EXERCISE",
+  "moduleTitle": "Outils divers",
+  "intro": {
+    "title": "À VOUS",
+    "body": "Trouver deux libellés sales, les corriger, puis vérifier ce que les comptages y gagnent."
+  },
+  "outro": {
+    "body": "Exercice terminé."
+  },
+  "ribbon": [
+    "accueil",
+    "revision",
+    "donnees"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Clients",
+    "activeSheetIndex": 0,
+    "selection": "B3",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 150,
+          "B": 120,
+          "C": 140,
+          "D": 30,
+          "E": 180,
+          "F": 110
+        },
+        "cells": {
+          "A1": {
+            "v": "Client",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Ville",
+            "format": {
+              "bold": true
+            }
+          },
+          "C1": {
+            "v": "Chiffre d'affaires",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Atelier Ravel"
+          },
+          "B2": {
+            "v": "Lyon"
+          },
+          "C2": {
+            "v": 4200
+          },
+          "A3": {
+            "v": "Cabinet Sorel"
+          },
+          "B3": {
+            "v": "Lyon "
+          },
+          "C3": {
+            "v": 3100
+          },
+          "A4": {
+            "v": "Garage Miot"
+          },
+          "B4": {
+            "v": "LYON"
+          },
+          "C4": {
+            "v": 5400
+          },
+          "A5": {
+            "v": "Boulangerie Rieu"
+          },
+          "B5": {
+            "v": "Grenoble"
+          },
+          "C5": {
+            "v": 2800
+          },
+          "A6": {
+            "v": "Pharmacie Kern"
+          },
+          "B6": {
+            "v": "Valence"
+          },
+          "C6": {
+            "v": 1900
+          },
+          "A7": {
+            "v": "Hôtel Perrin"
+          },
+          "B7": {
+            "v": "Grenoble"
+          },
+          "C7": {
+            "v": 6100
+          },
+          "A8": {
+            "v": "Café Vasseur"
+          },
+          "B8": {
+            "v": "Valence"
+          },
+          "C8": {
+            "v": 2300
+          },
+          "A9": {
+            "v": "Librairie Adam"
+          },
+          "B9": {
+            "v": "Lyon"
+          },
+          "C9": {
+            "v": 3700
+          },
+          "A10": {
+            "v": "Studio Belin"
+          },
+          "B10": {
+            "v": "Grenoble"
+          },
+          "C10": {
+            "v": 4500
+          },
+          "A11": {
+            "v": "Fleuriste Doré"
+          },
+          "B11": {
+            "v": "Valence"
+          },
+          "C11": {
+            "v": 1600
+          },
+          "E2": {
+            "v": "Longueur de B3",
+            "format": {
+              "bold": true
+            }
+          },
+          "E3": {
+            "v": "B2 = B3 ?",
+            "format": {
+              "bold": true
+            }
+          },
+          "E4": {
+            "v": "B4 en nom propre",
+            "format": {
+              "bold": true
+            }
+          },
+          "E6": {
+            "v": "Clients lyonnais",
+            "format": {
+              "bold": true
+            }
+          },
+          "E7": {
+            "v": "CA Lyon",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M25-E02-01",
+      "consigne": "Deux villes semblent identiques à l'œil, en **B2** et **B3**. En **F2**, mesurez la longueur du libellé de **B3**.",
+      "setup": {
+        "selection": "F2"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "F2",
+        "accept": [
+          "=NBCAR(B3)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "La fonction qui compte les caractères."
+      },
+      "feedback": "5 caractères pour quatre lettres : une espace finale se cache là."
+    },
+    {
+      "id": "M25-E02-02",
+      "consigne": "En **F3**, prouvez que les deux libellés ne sont pas identiques.",
+      "setup": {
+        "selection": "F3"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "F3",
+        "accept": [
+          "=EXACT(B2;B3)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "La fonction de comparaison stricte de deux textes."
+      }
+    },
+    {
+      "id": "M25-E02-03",
+      "consigne": "La ville de **B4** est en capitales. En **F4**, affichez-la en nom propre.",
+      "setup": {
+        "selection": "F4"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "F4",
+        "accept": [
+          "=NOMPROPRE(B4)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "La fonction qui met une majuscule à chaque mot."
+      },
+      "feedback": "Ici, NOMPROPRE suffit : « LYON » ne comporte aucun accent à retrouver."
+    },
+    {
+      "id": "M25-E02-04",
+      "consigne": "Corrigez la source : en **B3**, saisissez la ville proprement.",
+      "setup": {
+        "selection": "B3"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B3",
+        "accept": [
+          "Lyon"
+        ]
+      },
+      "aide": {
+        "text": "Réécrivez le libellé par-dessus."
+      }
+    },
+    {
+      "id": "M25-E02-05",
+      "consigne": "Corrigez **B4** de la même façon.",
+      "setup": {
+        "selection": "B4"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B4",
+        "accept": [
+          "Lyon"
+        ]
+      },
+      "aide": {
+        "text": "Le libellé de référence, en minuscules sauf l'initiale."
+      }
+    },
+    {
+      "id": "M25-E02-06",
+      "consigne": "En **F6**, comptez les clients lyonnais.",
+      "setup": {
+        "selection": "F6"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "F6",
+        "accept": [
+          "=NB.SI(B2:B11;\"Lyon\")",
+          "=NB.SI($B$2:$B$11;\"Lyon\")"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "NB.SI sur la colonne Ville."
+      },
+      "feedback": "4 clients — deux de plus qu'avant vos corrections."
+    },
+    {
+      "id": "M25-E02-07",
+      "consigne": "En **F7**, calculez le chiffre d'affaires réalisé à Lyon.",
+      "setup": {
+        "selection": "F7"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "F7",
+        "accept": [
+          "=SOMME.SI(B2:B11;\"Lyon\";C2:C11)",
+          "=SOMME.SI($B$2:$B$11;\"Lyon\";$C$2:$C$11)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "SOMME.SI : critère puis plage à additionner."
+      },
+      "feedback": "16 400 €."
+    }
+  ]
+}

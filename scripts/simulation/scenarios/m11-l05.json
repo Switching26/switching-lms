@@ -1,0 +1,405 @@
+{
+ "schemaVersion": 1,
+ "title": "Alterner les couleurs de lignes",
+ "mode": "LESSON",
+ "moduleTitle": "Mise en forme conditionnelle",
+ "intro": {
+  "title": "LE DAMIER",
+  "body": "Cinq colonnes, huit lignes, et l'œil qui saute d'une ligne à l'autre au moment de lire un montant. Une bande de couleur sur une ligne sur deux règle le problème — c'est le réglage de confort le plus rentable d'un tableau."
+ },
+ "outro": {
+  "body": "Vous savez poser un damier à la main, et vous connaissez la formule qui permet à Excel de le faire tout seul : MOD et LIGNE."
+ },
+ "ribbon": [
+  "accueil"
+ ],
+ "statusBar": {
+  "aggregates": [
+   "moyenne",
+   "nb-non-vides",
+   "somme"
+  ],
+  "sheetCount": 1
+ },
+ "workbook": {
+  "fileName": "Journal des heures",
+  "activeSheetIndex": 0,
+  "selection": "A1",
+  "sheets": [
+   {
+    "name": "Feuil1",
+    "columnWidths": {
+     "A": 115,
+     "B": 130,
+     "C": 135,
+     "D": 80,
+     "E": 105,
+     "F": 120,
+     "G": 80
+    },
+    "cells": {
+     "F1": {
+      "v": "Ligne paire ?",
+      "format": {
+       "bold": true
+      }
+     },
+     "G1": {
+      "v": "MOD",
+      "format": {
+       "bold": true
+      }
+     },
+     "D11": {
+      "v": "TOTAL",
+      "format": {
+       "bold": true
+      }
+     },
+     "A1": {
+      "v": "Stagiaire",
+      "format": {
+       "bold": true
+      }
+     },
+     "B1": {
+      "v": "Module",
+      "format": {
+       "bold": true
+      }
+     },
+     "C1": {
+      "v": "Financement",
+      "format": {
+       "bold": true
+      }
+     },
+     "D1": {
+      "v": "Heures",
+      "format": {
+       "bold": true
+      }
+     },
+     "E1": {
+      "v": "Montant",
+      "format": {
+       "bold": true
+      }
+     },
+     "A2": {
+      "v": "Amina B."
+     },
+     "B2": {
+      "v": "Bureautique"
+     },
+     "C2": {
+      "v": "CPF"
+     },
+     "D2": {
+      "v": 35
+     },
+     "E2": {
+      "v": 1750
+     },
+     "A3": {
+      "v": "Karim L."
+     },
+     "B3": {
+      "v": "Anglais"
+     },
+     "C3": {
+      "v": "OPCO"
+     },
+     "D3": {
+      "v": 21
+     },
+     "E3": {
+      "v": 1260
+     },
+     "A4": {
+      "v": "Léa M."
+     },
+     "B4": {
+      "v": "Comptabilité"
+     },
+     "C4": {
+      "v": "CPF"
+     },
+     "D4": {
+      "v": 28
+     },
+     "E4": {
+      "v": 1400
+     },
+     "A5": {
+      "v": "Yanis T."
+     },
+     "B5": {
+      "v": "Graphisme"
+     },
+     "C5": {
+      "v": "France Travail"
+     },
+     "D5": {
+      "v": 40
+     },
+     "E5": {
+      "v": 1800
+     },
+     "A6": {
+      "v": "Sonia R."
+     },
+     "B6": {
+      "v": "Paie"
+     },
+     "C6": {
+      "v": "OPCO"
+     },
+     "D6": {
+      "v": 14
+     },
+     "E6": {
+      "v": 840
+     },
+     "A7": {
+      "v": "Malik D."
+     },
+     "B7": {
+      "v": "Bureautique"
+     },
+     "C7": {
+      "v": "CPF"
+     },
+     "D7": {
+      "v": 35
+     },
+     "E7": {
+      "v": 1750
+     },
+     "A8": {
+      "v": "Chloé F."
+     },
+     "B8": {
+      "v": "Vente"
+     },
+     "C8": {
+      "v": "France Travail"
+     },
+     "D8": {
+      "v": 21
+     },
+     "E8": {
+      "v": 945
+     },
+     "A9": {
+      "v": "Hugo P."
+     },
+     "B9": {
+      "v": "Management"
+     },
+     "C9": {
+      "v": "OPCO"
+     },
+     "D9": {
+      "v": 28
+     },
+     "E9": {
+      "v": 1680
+     }
+    }
+   }
+  ]
+ },
+ "steps": [
+  {
+   "id": "M11-L05-01",
+   "consigne": "Regardez la ligne de **Sonia R.** et essayez de lire son montant sans vous aider du doigt. Sur huit lignes cela passe encore ; sur quatre-vingts, on se trompe. On va colorer **une ligne sur deux**.",
+   "action": {
+    "type": "READ"
+   },
+   "points": 0
+  },
+  {
+   "id": "M11-L05-02",
+   "consigne": "La deuxième ligne de données est sélectionnée. ==Cliquez sur **Remplir**== pour lui donner un fond coloré.",
+   "setup": {
+    "selection": "A3:E3"
+   },
+   "action": {
+    "type": "EXPECT_FORMAT",
+    "cells": {
+     "A3": {
+      "background": "#fde68a"
+     },
+     "E3": {
+      "background": "#fde68a"
+     }
+    }
+   },
+   "aide": {
+    "text": "Le bouton de remplissage du groupe Police.",
+    "showTarget": true
+   },
+   "feedback": "Toute la ligne est teintée, de la colonne A à la colonne E. Un damier ne colore jamais une seule cellule : il colore la ligne entière."
+  },
+  {
+   "id": "M11-L05-03",
+   "consigne": "==Colorez de même la ligne 5==, déjà sélectionnée.",
+   "setup": {
+    "selection": "A5:E5"
+   },
+   "action": {
+    "type": "EXPECT_FORMAT",
+    "cells": {
+     "A5": {
+      "background": "#fde68a"
+     },
+     "E5": {
+      "background": "#fde68a"
+     }
+    }
+   },
+   "aide": {
+    "text": "Même bouton.",
+    "showTarget": true
+   }
+  },
+  {
+   "id": "M11-L05-04",
+   "consigne": "==Colorez la ligne 7==.",
+   "setup": {
+    "selection": "A7:E7"
+   },
+   "action": {
+    "type": "EXPECT_FORMAT",
+    "cells": {
+     "A7": {
+      "background": "#fde68a"
+     },
+     "E7": {
+      "background": "#fde68a"
+     }
+    }
+   }
+  },
+  {
+   "id": "M11-L05-05",
+   "consigne": "==Colorez la ligne 9== pour terminer le damier.",
+   "setup": {
+    "selection": "A9:E9"
+   },
+   "action": {
+    "type": "EXPECT_FORMAT",
+    "cells": {
+     "A9": {
+      "background": "#fde68a"
+     },
+     "E9": {
+      "background": "#fde68a"
+     }
+    }
+   },
+   "feedback": "Le tableau se lit sans effort. Mais quatre clics pour huit lignes : sur un vrai fichier, c'est intenable, et une ligne insérée casse tout l'alignement."
+  },
+  {
+   "id": "M11-L05-06",
+   "consigne": "Voyons comment Excel peut le faire seul. En **G2**, ==saisissez `=MOD(LIGNE();2)`==.",
+   "setup": {
+    "selection": "G2"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "G2",
+    "accept": [
+     "=MOD(LIGNE();2)"
+    ],
+    "formulaMode": true
+   },
+   "aide": {
+    "text": "**LIGNE()** renvoie le numéro de la ligne où se trouve la formule ; **MOD** donne le reste d'une division.",
+    "showTarget": true
+   },
+   "feedback": "0 : la ligne 2 est paire. Le reste de la division par 2 vaut 0 pour les lignes paires, 1 pour les impaires."
+  },
+  {
+   "id": "M11-L05-07",
+   "consigne": "==Recopiez **G2** jusqu'en G9== pour voir l'alternance.",
+   "action": {
+    "type": "EXPECT_STATE",
+    "cells": {
+     "G3": {
+      "anyOf": [
+       "=MOD(LIGNE();2)"
+      ],
+      "v": 1
+     },
+     "G4": {
+      "anyOf": [
+       "=MOD(LIGNE();2)"
+      ],
+      "v": 0
+     },
+     "G5": {
+      "anyOf": [
+       "=MOD(LIGNE();2)"
+      ],
+      "v": 1
+     },
+     "G6": {
+      "anyOf": [
+       "=MOD(LIGNE();2)"
+      ],
+      "v": 0
+     },
+     "G7": {
+      "anyOf": [
+       "=MOD(LIGNE();2)"
+      ],
+      "v": 1
+     },
+     "G8": {
+      "anyOf": [
+       "=MOD(LIGNE();2)"
+      ],
+      "v": 0
+     },
+     "G9": {
+      "anyOf": [
+       "=MOD(LIGNE();2)"
+      ],
+      "v": 1
+     }
+    }
+   },
+   "aide": {
+    "text": "Poignée de recopie vers le bas."
+   },
+   "feedback": "0, 1, 0, 1… Voilà le damier sous forme de nombre. Une règle de mise en forme conditionnelle **fondée sur une formule** — `=MOD(LIGNE();2)=0` — colore exactement les lignes où ce calcul vaut 0."
+  },
+  {
+   "id": "M11-L05-08",
+   "consigne": "Terminons par le contrôle du tableau. En **E11**, ==totalisez les montants==.",
+   "setup": {
+    "selection": "E11"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "E11",
+    "accept": [
+     "=SOMME(E2:E9)",
+     "=E2+E3+E4+E5+E6+E7+E8+E9"
+    ],
+    "formulaMode": true
+   },
+   "feedback": "11425 €."
+  },
+  {
+   "id": "M11-L05-09",
+   "consigne": "Ce qu'il faut retenir. Un damier posé **à la main** est figé : insérez une ligne au milieu et deux lignes de la même couleur se retrouvent côte à côte. Une **règle sur formule** se recalcule et survit aux insertions comme aux tris. Et si le tableau est converti en **tableau structuré**, Excel fournit le damier d'office, sans règle du tout.",
+   "action": {
+    "type": "READ"
+   },
+   "points": 0
+  }
+ ]
+}

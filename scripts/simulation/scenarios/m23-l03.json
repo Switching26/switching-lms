@@ -1,0 +1,311 @@
+{
+  "schemaVersion": 1,
+  "title": "Comparer trois scénarios",
+  "mode": "LESSON",
+  "moduleTitle": "Analyses et simulations",
+  "intro": {
+    "title": "ET SI ?",
+    "body": "Un modèle ne vaut que par les hypothèses qu'on lui fait subir. Trois colonnes suffisent pour comparer un scénario prudent, un réaliste et un ambitieux — et pour mesurer le risque réel."
+  },
+  "outro": {
+    "body": "Vous savez monter un tableau de scénarios comparables et en mesurer l'amplitude."
+  },
+  "ribbon": [
+    "accueil",
+    "donnees"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Simulation session",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 190,
+          "B": 90,
+          "C": 150,
+          "D": 90,
+          "E": 90,
+          "F": 90
+        },
+        "cells": {
+          "A1": {
+            "v": "SESSION DE FORMATION — MARGE",
+            "format": {
+              "bold": true
+            }
+          },
+          "A3": {
+            "v": "Prix par stagiaire",
+            "format": {
+              "bold": true
+            }
+          },
+          "B3": {
+            "v": 1200
+          },
+          "A4": {
+            "v": "Nombre de stagiaires",
+            "format": {
+              "bold": true
+            }
+          },
+          "B4": {
+            "v": 8
+          },
+          "A5": {
+            "v": "Coût formateur (jour)",
+            "format": {
+              "bold": true
+            }
+          },
+          "B5": {
+            "v": 650
+          },
+          "A6": {
+            "v": "Nombre de jours",
+            "format": {
+              "bold": true
+            }
+          },
+          "B6": {
+            "v": 5
+          },
+          "A7": {
+            "v": "Frais de salle",
+            "format": {
+              "bold": true
+            }
+          },
+          "B7": {
+            "v": 900
+          },
+          "A9": {
+            "v": "MARGE",
+            "format": {
+              "bold": true
+            }
+          },
+          "D2": {
+            "v": "Prudent",
+            "format": {
+              "bold": true
+            }
+          },
+          "E2": {
+            "v": "Réaliste",
+            "format": {
+              "bold": true
+            }
+          },
+          "F2": {
+            "v": "Ambitieux",
+            "format": {
+              "bold": true
+            }
+          },
+          "C3": {
+            "v": "Stagiaires",
+            "format": {
+              "bold": true
+            }
+          },
+          "C4": {
+            "v": "Prix",
+            "format": {
+              "bold": true
+            }
+          },
+          "C5": {
+            "v": "Marge",
+            "format": {
+              "bold": true
+            }
+          },
+          "C7": {
+            "v": "Écart entre extrêmes",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M23-L03-01",
+      "consigne": "Le modèle est en place : un prix, un effectif, un coût de formateur, une durée, une salle. ==En **B9**, calculez la marge : `=B3*B4-(B5*B6+B7)`==.",
+      "setup": {
+        "selection": "B9"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B9",
+        "accept": [
+          "=B3*B4-(B5*B6+B7)",
+          "=B4*B3-(B5*B6+B7)",
+          "=B3*B4-B5*B6-B7",
+          "=B4*B3-B5*B6-B7"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Le chiffre d'affaires, moins le coût du formateur sur tous les jours, moins la salle.",
+        "showTarget": true
+      },
+      "feedback": "5 450 € de marge dans la situation actuelle. Reste à savoir ce que vaudrait une autre hypothèse — et c'est là que la comparaison commence."
+    },
+    {
+      "id": "M23-L03-02",
+      "consigne": "Trois scénarios sont à monter côte à côte. Commençons par le plus prudent : la session ne se remplit qu'à 6 et le prix baisse. ==En **D3**, saisissez `6`==.",
+      "setup": {
+        "selection": "D3"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "D3",
+        "accept": [
+          "6"
+        ]
+      },
+      "aide": {
+        "text": "La première colonne de scénario, ligne Stagiaires.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M23-L03-03",
+      "consigne": "==En **D4**, le prix du scénario prudent : `1100`==.",
+      "setup": {
+        "selection": "D4"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "D4",
+        "accept": [
+          "1100"
+        ]
+      },
+      "aide": {
+        "text": "Juste en dessous.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M23-L03-04",
+      "consigne": "La formule de marge doit maintenant lire les hypothèses de **la colonne**, tout en gardant les coûts du modèle. ==En **D5**, saisissez `=D4*D3-($B$5*$B$6+$B$7)`==.",
+      "setup": {
+        "selection": "D5"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "D5",
+        "accept": [
+          "=D4*D3-($B$5*$B$6+$B$7)",
+          "=D4*D3-(B5*B6+B7)",
+          "=D3*D4-($B$5*$B$6+$B$7)",
+          "=D3*D4-(B5*B6+B7)",
+          "=D4*D3-$B$5*$B$6-$B$7",
+          "=D4*D3-B5*B6-B7",
+          "=D3*D4-$B$5*$B$6-$B$7",
+          "=D3*D4-B5*B6-B7"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Prix × stagiaires de la colonne D, moins les coûts figés du modèle.",
+        "showTarget": true
+      },
+      "feedback": "2 450 € : le scénario prudent reste positif, mais de peu."
+    },
+    {
+      "id": "M23-L03-05",
+      "consigne": "==Complétez les deux autres colonnes== : le réaliste avec 8 stagiaires à 1200 €, l'ambitieux avec 11 à 1250 €, puis recopiez la formule de marge vers la droite.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "E3": {
+            "v": 8
+          },
+          "E4": {
+            "v": 1200
+          },
+          "F3": {
+            "v": 11
+          },
+          "F4": {
+            "v": 1250
+          },
+          "E5": {
+            "anyOf": [
+              "=E4*E3-($B$5*$B$6+$B$7)",
+              "=E4*E3-(B5*B6+B7)",
+              "=E3*E4-($B$5*$B$6+$B$7)",
+              "=E3*E4-(B5*B6+B7)",
+              "=E4*E3-$B$5*$B$6-$B$7",
+              "=E4*E3-B5*B6-B7",
+              "=E3*E4-$B$5*$B$6-$B$7",
+              "=E3*E4-B5*B6-B7"
+            ],
+            "v": 5450
+          },
+          "F5": {
+            "anyOf": [
+              "=F4*F3-($B$5*$B$6+$B$7)",
+              "=F4*F3-(B5*B6+B7)",
+              "=F3*F4-($B$5*$B$6+$B$7)",
+              "=F3*F4-(B5*B6+B7)",
+              "=F4*F3-$B$5*$B$6-$B$7",
+              "=F4*F3-B5*B6-B7",
+              "=F3*F4-$B$5*$B$6-$B$7",
+              "=F3*F4-B5*B6-B7"
+            ],
+            "v": 9600
+          }
+        }
+      },
+      "aide": {
+        "text": "Six saisies : quatre hypothèses, puis la recopie de D5 vers E5 et F5.",
+        "showTarget": true
+      },
+      "feedback": "Réaliste 5 450 €, ambitieux 9 600 €. Les trois colonnes partagent la même formule : c'est ce qui rend la comparaison honnête."
+    },
+    {
+      "id": "M23-L03-06",
+      "consigne": "Un tableau de scénarios se lit d'abord par son amplitude. ==En **D7**, mesurez l'écart entre le meilleur et le pire : `=MAX(D5:F5)-MIN(D5:F5)`==.",
+      "setup": {
+        "selection": "D7"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "D7",
+        "accept": [
+          "=MAX(D5:F5)-MIN(D5:F5)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Le maximum de la ligne de marge, moins son minimum.",
+        "showTarget": true
+      },
+      "feedback": "7 150 € séparent les deux extrêmes, pour un modèle où rien d'extravagant n'a été supposé. C'est l'information qui compte : elle dit **quel risque** on prend, pas seulement ce qu'on espère."
+    },
+    {
+      "id": "M23-L03-07",
+      "consigne": "Excel sait mémoriser ces jeux de valeurs : **Données > Analyse de scénarios > Gestionnaire de scénarios**. On y enregistre un scénario sous un nom (« Prudent »), avec les cellules variables et leurs valeurs ; un bouton **Afficher** les réinjecte dans le modèle, et **Synthèse** produit un tableau récapitulatif sur une nouvelle feuille.\n\nTrois choses à savoir avant de l'employer. Il ne gère que **32 cellules variables** par scénario. Les valeurs sont **figées à l'enregistrement** : si le modèle change, les scénarios mentent sans le dire. Et surtout, ils sont **invisibles** — rien dans la feuille ne signale qu'ils existent, et le collègue qui reprend le fichier ne les trouvera jamais. Le tableau côte à côte que vous venez de bâtir n'a aucun de ces défauts : il se lit, il s'imprime et il se vérifie.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    }
+  ]
+}

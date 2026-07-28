@@ -1,0 +1,401 @@
+{
+  "schemaVersion": 1,
+  "title": "Exercice · Consolider trois magasins",
+  "mode": "EXERCISE",
+  "moduleTitle": "Consolidation des données",
+  "intro": {
+    "title": "À VOUS",
+    "body": "Consolider par libellé trois feuilles rangées différemment, puis trouver la ligne qui manquait."
+  },
+  "outro": {
+    "body": "Exercice terminé."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Consolidation magasins",
+    "activeSheetIndex": 3,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Brest",
+        "columnWidths": {
+          "A": 130,
+          "B": 110
+        },
+        "cells": {
+          "A1": {
+            "v": "Activité",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Chiffre d'affaires",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Vélos"
+          },
+          "B2": {
+            "v": 24500
+          },
+          "A3": {
+            "v": "Accessoires"
+          },
+          "B3": {
+            "v": 8300
+          },
+          "A4": {
+            "v": "Réparation"
+          },
+          "B4": {
+            "v": 5600
+          },
+          "A6": {
+            "v": "Total",
+            "format": {
+              "bold": true
+            }
+          },
+          "B6": {
+            "f": "=SOMME(B2:B4)"
+          }
+        }
+      },
+      {
+        "name": "Quimper",
+        "columnWidths": {
+          "A": 130,
+          "B": 110
+        },
+        "cells": {
+          "A1": {
+            "v": "Activité",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Chiffre d'affaires",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Accessoires"
+          },
+          "B2": {
+            "v": 7100
+          },
+          "A3": {
+            "v": "Réparation"
+          },
+          "B3": {
+            "v": 4800
+          },
+          "A4": {
+            "v": "Vélos"
+          },
+          "B4": {
+            "v": 21200
+          },
+          "A6": {
+            "v": "Total",
+            "format": {
+              "bold": true
+            }
+          },
+          "B6": {
+            "f": "=SOMME(B2:B4)"
+          }
+        }
+      },
+      {
+        "name": "Vannes",
+        "columnWidths": {
+          "A": 130,
+          "B": 110
+        },
+        "cells": {
+          "A1": {
+            "v": "Activité",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Chiffre d'affaires",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Réparation"
+          },
+          "B2": {
+            "v": 6200
+          },
+          "A3": {
+            "v": "Vélos"
+          },
+          "B3": {
+            "v": 26800
+          },
+          "A4": {
+            "v": "Accessoires"
+          },
+          "B4": {
+            "v": 9400
+          },
+          "A5": {
+            "v": "Location"
+          },
+          "B5": {
+            "v": 3500
+          },
+          "A7": {
+            "v": "Total",
+            "format": {
+              "bold": true
+            }
+          },
+          "B7": {
+            "f": "=SOMME(B2:B5)"
+          }
+        }
+      },
+      {
+        "name": "Synthèse",
+        "columnWidths": {
+          "A": 135,
+          "B": 115,
+          "C": 30,
+          "D": 260
+        },
+        "cells": {
+          "A1": {
+            "v": "Activité",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Consolidé",
+            "format": {
+              "bold": true
+            }
+          },
+          "D1": {
+            "v": "Contrôle : total des trois magasins",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Vélos"
+          },
+          "A3": {
+            "v": "Accessoires"
+          },
+          "A4": {
+            "v": "Réparation"
+          },
+          "A7": {
+            "v": "TOTAL",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M22-E03-01",
+      "consigne": "En **B2**, consolidez la première activité **par libellé** : chaque magasin doit être interrogé sur le nom de l'activité, pas sur une position. La formule doit être recopiable vers le bas.",
+      "setup": {
+        "selection": "B2"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B2",
+        "accept": [
+          "=SOMME.SI(Brest!$A$2:$A$4;$A2;Brest!$B$2:$B$4)+SOMME.SI(Quimper!$A$2:$A$4;$A2;Quimper!$B$2:$B$4)+SOMME.SI(Vannes!$A$2:$A$5;$A2;Vannes!$B$2:$B$5)",
+          "=SOMME.SI(Brest!A2:A4;A2;Brest!B2:B4)+SOMME.SI(Quimper!A2:A4;A2;Quimper!B2:B4)+SOMME.SI(Vannes!A2:A5;A2;Vannes!B2:B5)",
+          "=SOMME.SI(Brest!$A$2:$A$4;$A2;Brest!$B$2:$B$4)+SOMME.SI(Vannes!$A$2:$A$5;$A2;Vannes!$B$2:$B$5)+SOMME.SI(Quimper!$A$2:$A$4;$A2;Quimper!$B$2:$B$4)",
+          "=SOMME.SI(Brest!A2:A4;A2;Brest!B2:B4)+SOMME.SI(Vannes!A2:A5;A2;Vannes!B2:B5)+SOMME.SI(Quimper!A2:A4;A2;Quimper!B2:B4)",
+          "=SOMME.SI(Quimper!$A$2:$A$4;$A2;Quimper!$B$2:$B$4)+SOMME.SI(Brest!$A$2:$A$4;$A2;Brest!$B$2:$B$4)+SOMME.SI(Vannes!$A$2:$A$5;$A2;Vannes!$B$2:$B$5)",
+          "=SOMME.SI(Quimper!A2:A4;A2;Quimper!B2:B4)+SOMME.SI(Brest!A2:A4;A2;Brest!B2:B4)+SOMME.SI(Vannes!A2:A5;A2;Vannes!B2:B5)",
+          "=SOMME.SI(Quimper!$A$2:$A$4;$A2;Quimper!$B$2:$B$4)+SOMME.SI(Vannes!$A$2:$A$5;$A2;Vannes!$B$2:$B$5)+SOMME.SI(Brest!$A$2:$A$4;$A2;Brest!$B$2:$B$4)",
+          "=SOMME.SI(Quimper!A2:A4;A2;Quimper!B2:B4)+SOMME.SI(Vannes!A2:A5;A2;Vannes!B2:B5)+SOMME.SI(Brest!A2:A4;A2;Brest!B2:B4)",
+          "=SOMME.SI(Vannes!$A$2:$A$5;$A2;Vannes!$B$2:$B$5)+SOMME.SI(Brest!$A$2:$A$4;$A2;Brest!$B$2:$B$4)+SOMME.SI(Quimper!$A$2:$A$4;$A2;Quimper!$B$2:$B$4)",
+          "=SOMME.SI(Vannes!A2:A5;A2;Vannes!B2:B5)+SOMME.SI(Brest!A2:A4;A2;Brest!B2:B4)+SOMME.SI(Quimper!A2:A4;A2;Quimper!B2:B4)",
+          "=SOMME.SI(Vannes!$A$2:$A$5;$A2;Vannes!$B$2:$B$5)+SOMME.SI(Quimper!$A$2:$A$4;$A2;Quimper!$B$2:$B$4)+SOMME.SI(Brest!$A$2:$A$4;$A2;Brest!$B$2:$B$4)",
+          "=SOMME.SI(Vannes!A2:A5;A2;Vannes!B2:B5)+SOMME.SI(Quimper!A2:A4;A2;Quimper!B2:B4)+SOMME.SI(Brest!A2:A4;A2;Brest!B2:B4)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Un SOMME.SI par feuille, additionnés. Plages figées, critère relatif en ligne."
+      },
+      "feedback": "72 500 €."
+    },
+    {
+      "id": "M22-E03-02",
+      "consigne": "Complétez les deux autres activités.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "B3": {
+            "anyOf": [
+              "=SOMME.SI(Brest!$A$2:$A$4;$A3;Brest!$B$2:$B$4)+SOMME.SI(Quimper!$A$2:$A$4;$A3;Quimper!$B$2:$B$4)+SOMME.SI(Vannes!$A$2:$A$5;$A3;Vannes!$B$2:$B$5)",
+              "=SOMME.SI(Brest!A2:A4;A3;Brest!B2:B4)+SOMME.SI(Quimper!A2:A4;A3;Quimper!B2:B4)+SOMME.SI(Vannes!A2:A5;A3;Vannes!B2:B5)",
+              "=SOMME.SI(Brest!$A$2:$A$4;$A3;Brest!$B$2:$B$4)+SOMME.SI(Vannes!$A$2:$A$5;$A3;Vannes!$B$2:$B$5)+SOMME.SI(Quimper!$A$2:$A$4;$A3;Quimper!$B$2:$B$4)",
+              "=SOMME.SI(Brest!A2:A4;A3;Brest!B2:B4)+SOMME.SI(Vannes!A2:A5;A3;Vannes!B2:B5)+SOMME.SI(Quimper!A2:A4;A3;Quimper!B2:B4)",
+              "=SOMME.SI(Quimper!$A$2:$A$4;$A3;Quimper!$B$2:$B$4)+SOMME.SI(Brest!$A$2:$A$4;$A3;Brest!$B$2:$B$4)+SOMME.SI(Vannes!$A$2:$A$5;$A3;Vannes!$B$2:$B$5)",
+              "=SOMME.SI(Quimper!A2:A4;A3;Quimper!B2:B4)+SOMME.SI(Brest!A2:A4;A3;Brest!B2:B4)+SOMME.SI(Vannes!A2:A5;A3;Vannes!B2:B5)",
+              "=SOMME.SI(Quimper!$A$2:$A$4;$A3;Quimper!$B$2:$B$4)+SOMME.SI(Vannes!$A$2:$A$5;$A3;Vannes!$B$2:$B$5)+SOMME.SI(Brest!$A$2:$A$4;$A3;Brest!$B$2:$B$4)",
+              "=SOMME.SI(Quimper!A2:A4;A3;Quimper!B2:B4)+SOMME.SI(Vannes!A2:A5;A3;Vannes!B2:B5)+SOMME.SI(Brest!A2:A4;A3;Brest!B2:B4)",
+              "=SOMME.SI(Vannes!$A$2:$A$5;$A3;Vannes!$B$2:$B$5)+SOMME.SI(Brest!$A$2:$A$4;$A3;Brest!$B$2:$B$4)+SOMME.SI(Quimper!$A$2:$A$4;$A3;Quimper!$B$2:$B$4)",
+              "=SOMME.SI(Vannes!A2:A5;A3;Vannes!B2:B5)+SOMME.SI(Brest!A2:A4;A3;Brest!B2:B4)+SOMME.SI(Quimper!A2:A4;A3;Quimper!B2:B4)",
+              "=SOMME.SI(Vannes!$A$2:$A$5;$A3;Vannes!$B$2:$B$5)+SOMME.SI(Quimper!$A$2:$A$4;$A3;Quimper!$B$2:$B$4)+SOMME.SI(Brest!$A$2:$A$4;$A3;Brest!$B$2:$B$4)",
+              "=SOMME.SI(Vannes!A2:A5;A3;Vannes!B2:B5)+SOMME.SI(Quimper!A2:A4;A3;Quimper!B2:B4)+SOMME.SI(Brest!A2:A4;A3;Brest!B2:B4)"
+            ],
+            "v": 24800
+          },
+          "B4": {
+            "anyOf": [
+              "=SOMME.SI(Brest!$A$2:$A$4;$A4;Brest!$B$2:$B$4)+SOMME.SI(Quimper!$A$2:$A$4;$A4;Quimper!$B$2:$B$4)+SOMME.SI(Vannes!$A$2:$A$5;$A4;Vannes!$B$2:$B$5)",
+              "=SOMME.SI(Brest!A2:A4;A4;Brest!B2:B4)+SOMME.SI(Quimper!A2:A4;A4;Quimper!B2:B4)+SOMME.SI(Vannes!A2:A5;A4;Vannes!B2:B5)",
+              "=SOMME.SI(Brest!$A$2:$A$4;$A4;Brest!$B$2:$B$4)+SOMME.SI(Vannes!$A$2:$A$5;$A4;Vannes!$B$2:$B$5)+SOMME.SI(Quimper!$A$2:$A$4;$A4;Quimper!$B$2:$B$4)",
+              "=SOMME.SI(Brest!A2:A4;A4;Brest!B2:B4)+SOMME.SI(Vannes!A2:A5;A4;Vannes!B2:B5)+SOMME.SI(Quimper!A2:A4;A4;Quimper!B2:B4)",
+              "=SOMME.SI(Quimper!$A$2:$A$4;$A4;Quimper!$B$2:$B$4)+SOMME.SI(Brest!$A$2:$A$4;$A4;Brest!$B$2:$B$4)+SOMME.SI(Vannes!$A$2:$A$5;$A4;Vannes!$B$2:$B$5)",
+              "=SOMME.SI(Quimper!A2:A4;A4;Quimper!B2:B4)+SOMME.SI(Brest!A2:A4;A4;Brest!B2:B4)+SOMME.SI(Vannes!A2:A5;A4;Vannes!B2:B5)",
+              "=SOMME.SI(Quimper!$A$2:$A$4;$A4;Quimper!$B$2:$B$4)+SOMME.SI(Vannes!$A$2:$A$5;$A4;Vannes!$B$2:$B$5)+SOMME.SI(Brest!$A$2:$A$4;$A4;Brest!$B$2:$B$4)",
+              "=SOMME.SI(Quimper!A2:A4;A4;Quimper!B2:B4)+SOMME.SI(Vannes!A2:A5;A4;Vannes!B2:B5)+SOMME.SI(Brest!A2:A4;A4;Brest!B2:B4)",
+              "=SOMME.SI(Vannes!$A$2:$A$5;$A4;Vannes!$B$2:$B$5)+SOMME.SI(Brest!$A$2:$A$4;$A4;Brest!$B$2:$B$4)+SOMME.SI(Quimper!$A$2:$A$4;$A4;Quimper!$B$2:$B$4)",
+              "=SOMME.SI(Vannes!A2:A5;A4;Vannes!B2:B5)+SOMME.SI(Brest!A2:A4;A4;Brest!B2:B4)+SOMME.SI(Quimper!A2:A4;A4;Quimper!B2:B4)",
+              "=SOMME.SI(Vannes!$A$2:$A$5;$A4;Vannes!$B$2:$B$5)+SOMME.SI(Quimper!$A$2:$A$4;$A4;Quimper!$B$2:$B$4)+SOMME.SI(Brest!$A$2:$A$4;$A4;Brest!$B$2:$B$4)",
+              "=SOMME.SI(Vannes!A2:A5;A4;Vannes!B2:B5)+SOMME.SI(Quimper!A2:A4;A4;Quimper!B2:B4)+SOMME.SI(Brest!A2:A4;A4;Brest!B2:B4)"
+            ],
+            "v": 16600
+          }
+        }
+      },
+      "aide": {
+        "text": "Recopiez B2 vers le bas."
+      }
+    },
+    {
+      "id": "M22-E03-03",
+      "consigne": "En **B7**, totalisez la consolidation. Prévoyez une ligne de marge : la plage doit descendre jusqu'à **B5**.",
+      "setup": {
+        "selection": "B7"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B7",
+        "accept": [
+          "=SOMME(B2:B5)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Une somme sur B2:B5, même si la dernière cellule est encore vide."
+      },
+      "feedback": "113 900 €."
+    },
+    {
+      "id": "M22-E03-04",
+      "consigne": "En **D2**, posez le contrôle : le total des trois magasins, lu sur leurs feuilles.",
+      "setup": {
+        "selection": "D2"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "D2",
+        "accept": [
+          "=SOMME(Brest!B2:B4)+SOMME(Quimper!B2:B4)+SOMME(Vannes!B2:B5)",
+          "=SOMME(Brest!B2:B4)+SOMME(Vannes!B2:B5)+SOMME(Quimper!B2:B4)",
+          "=SOMME(Quimper!B2:B4)+SOMME(Brest!B2:B4)+SOMME(Vannes!B2:B5)",
+          "=SOMME(Quimper!B2:B4)+SOMME(Vannes!B2:B5)+SOMME(Brest!B2:B4)",
+          "=SOMME(Vannes!B2:B5)+SOMME(Brest!B2:B4)+SOMME(Quimper!B2:B4)",
+          "=SOMME(Vannes!B2:B5)+SOMME(Quimper!B2:B4)+SOMME(Brest!B2:B4)",
+          "=Brest!B6+Quimper!B6+Vannes!B7",
+          "=Brest!B6+Vannes!B7+Quimper!B6",
+          "=Quimper!B6+Brest!B6+Vannes!B7",
+          "=Quimper!B6+Vannes!B7+Brest!B6",
+          "=Vannes!B7+Brest!B6+Quimper!B6",
+          "=Vannes!B7+Quimper!B6+Brest!B6"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Une somme par feuille, additionnées."
+      },
+      "feedback": "117 400 € contre 113 900 € consolidés : 3 500 € sont sortis de la synthèse."
+    },
+    {
+      "id": "M22-E03-05",
+      "consigne": "Trouvez l'activité absente de votre liste et ajoutez-la en **A5**.",
+      "setup": {
+        "selection": "A5"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "A5",
+        "accept": [
+          "Location"
+        ]
+      },
+      "aide": {
+        "text": "Comparez les libellés des trois feuilles : l'une en a un de plus."
+      }
+    },
+    {
+      "id": "M22-E03-06",
+      "consigne": "Consolidez-la en **B5**, et vérifiez que le total rejoint le contrôle.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "B5": {
+            "anyOf": [
+              "=SOMME.SI(Brest!$A$2:$A$4;$A5;Brest!$B$2:$B$4)+SOMME.SI(Quimper!$A$2:$A$4;$A5;Quimper!$B$2:$B$4)+SOMME.SI(Vannes!$A$2:$A$5;$A5;Vannes!$B$2:$B$5)",
+              "=SOMME.SI(Brest!A2:A4;A5;Brest!B2:B4)+SOMME.SI(Quimper!A2:A4;A5;Quimper!B2:B4)+SOMME.SI(Vannes!A2:A5;A5;Vannes!B2:B5)",
+              "=SOMME.SI(Brest!$A$2:$A$4;$A5;Brest!$B$2:$B$4)+SOMME.SI(Vannes!$A$2:$A$5;$A5;Vannes!$B$2:$B$5)+SOMME.SI(Quimper!$A$2:$A$4;$A5;Quimper!$B$2:$B$4)",
+              "=SOMME.SI(Brest!A2:A4;A5;Brest!B2:B4)+SOMME.SI(Vannes!A2:A5;A5;Vannes!B2:B5)+SOMME.SI(Quimper!A2:A4;A5;Quimper!B2:B4)",
+              "=SOMME.SI(Quimper!$A$2:$A$4;$A5;Quimper!$B$2:$B$4)+SOMME.SI(Brest!$A$2:$A$4;$A5;Brest!$B$2:$B$4)+SOMME.SI(Vannes!$A$2:$A$5;$A5;Vannes!$B$2:$B$5)",
+              "=SOMME.SI(Quimper!A2:A4;A5;Quimper!B2:B4)+SOMME.SI(Brest!A2:A4;A5;Brest!B2:B4)+SOMME.SI(Vannes!A2:A5;A5;Vannes!B2:B5)",
+              "=SOMME.SI(Quimper!$A$2:$A$4;$A5;Quimper!$B$2:$B$4)+SOMME.SI(Vannes!$A$2:$A$5;$A5;Vannes!$B$2:$B$5)+SOMME.SI(Brest!$A$2:$A$4;$A5;Brest!$B$2:$B$4)",
+              "=SOMME.SI(Quimper!A2:A4;A5;Quimper!B2:B4)+SOMME.SI(Vannes!A2:A5;A5;Vannes!B2:B5)+SOMME.SI(Brest!A2:A4;A5;Brest!B2:B4)",
+              "=SOMME.SI(Vannes!$A$2:$A$5;$A5;Vannes!$B$2:$B$5)+SOMME.SI(Brest!$A$2:$A$4;$A5;Brest!$B$2:$B$4)+SOMME.SI(Quimper!$A$2:$A$4;$A5;Quimper!$B$2:$B$4)",
+              "=SOMME.SI(Vannes!A2:A5;A5;Vannes!B2:B5)+SOMME.SI(Brest!A2:A4;A5;Brest!B2:B4)+SOMME.SI(Quimper!A2:A4;A5;Quimper!B2:B4)",
+              "=SOMME.SI(Vannes!$A$2:$A$5;$A5;Vannes!$B$2:$B$5)+SOMME.SI(Quimper!$A$2:$A$4;$A5;Quimper!$B$2:$B$4)+SOMME.SI(Brest!$A$2:$A$4;$A5;Brest!$B$2:$B$4)",
+              "=SOMME.SI(Vannes!A2:A5;A5;Vannes!B2:B5)+SOMME.SI(Quimper!A2:A4;A5;Quimper!B2:B4)+SOMME.SI(Brest!A2:A4;A5;Brest!B2:B4)"
+            ],
+            "v": 3500
+          },
+          "B7": {
+            "v": 117400
+          }
+        }
+      },
+      "aide": {
+        "text": "Recopiez la formule d'une ligne au-dessus."
+      },
+      "feedback": "117 400 € des deux côtés : la synthèse est complète."
+    }
+  ]
+}

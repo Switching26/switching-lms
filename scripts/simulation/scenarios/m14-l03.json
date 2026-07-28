@@ -1,0 +1,242 @@
+{
+ "schemaVersion": 1,
+ "title": "Vérifier et corriger l'étendue d'un nom",
+ "mode": "LESSON",
+ "moduleTitle": "Noms de cellules",
+ "intro": {
+  "title": "UN NOM NE S'ÉTIRE PAS TOUT SEUL",
+  "body": "Nommer une plage rend les formules lisibles — jusqu'au jour où une ligne s'ajoute sous la plage nommée. Le total ne bouge pas, aucune erreur ne s'affiche, et le budget est faux. Voici comment le repérer et le réparer."
+ },
+ "outro": {
+  "body": "Vous savez lire l'étendue réelle d'un nom depuis la zone Nom, et reconnaître le symptôme d'un nom trop court : un total qui ne bouge pas quand les données changent."
+ },
+ "ribbon": [
+  "accueil"
+ ],
+ "statusBar": {
+  "aggregates": [
+   "moyenne",
+   "nb-non-vides",
+   "somme"
+  ],
+  "sheetCount": 1
+ },
+ "workbook": {
+  "fileName": "Budget formation",
+  "activeSheetIndex": 0,
+  "selection": "A1",
+  "sheets": [
+   {
+    "name": "Feuil1",
+    "columnWidths": {
+     "A": 215,
+     "B": 120
+    },
+    "cells": {
+     "A1": {
+      "v": "BUDGET FORMATION 2026",
+      "format": {
+       "bold": true
+      }
+     },
+     "A9": {
+      "v": "Total (nom Budget)",
+      "format": {
+       "bold": true
+      }
+     },
+     "A10": {
+      "v": "Total (nom corrigé)",
+      "format": {
+       "bold": true
+      }
+     },
+     "A2": {
+      "v": "Poste",
+      "format": {
+       "bold": true
+      }
+     },
+     "B2": {
+      "v": "Montant",
+      "format": {
+       "bold": true
+      }
+     },
+     "A3": {
+      "v": "Salaires formateurs"
+     },
+     "B3": {
+      "v": 18500
+     },
+     "A4": {
+      "v": "Location de salles"
+     },
+     "B4": {
+      "v": 4200
+     },
+     "A5": {
+      "v": "Supports pédagogiques"
+     },
+     "B5": {
+      "v": 1350
+     },
+     "A6": {
+      "v": "Frais de déplacement"
+     },
+     "B6": {
+      "v": 2800
+     },
+     "A7": {
+      "v": "Plateforme e-learning"
+     },
+     "B7": {
+      "v": 3600
+     }
+    }
+   }
+  ]
+ },
+ "steps": [
+  {
+   "id": "M14-L03-01",
+   "consigne": "Cinq postes de dépense. ==Sélectionnez la plage des montants, **B3:B7**==, en faisant glisser.",
+   "action": {
+    "type": "DRAG_RANGE",
+    "range": "B3:B7"
+   },
+   "aide": {
+    "text": "Cliquez sur B3 et descendez jusqu'à B7 sans relâcher.",
+    "showTarget": true
+   }
+  },
+  {
+   "id": "M14-L03-02",
+   "consigne": "==Dans la **zone Nom**, tapez `Budget` et validez== avec Entrée.",
+   "action": {
+    "type": "DEFINE_NAME",
+    "name": "Budget",
+    "ref": "B3:B7"
+   },
+   "aide": {
+    "text": "La zone Nom est le champ à gauche de la barre de formule ; elle affiche pour l'instant B3.",
+    "showTarget": true
+   },
+   "feedback": "La plage porte un nom. Retenez bien ce qu'il désigne : **B3:B7**, cinq lignes, ni plus ni moins."
+  },
+  {
+   "id": "M14-L03-03",
+   "consigne": "En **B9**, ==totalisez le budget en utilisant le nom== : `=SOMME(Budget)`.",
+   "setup": {
+    "selection": "B9"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "B9",
+    "accept": [
+     "=SOMME(Budget)"
+    ],
+    "formulaMode": true
+   },
+   "aide": {
+    "text": "Le nom s'écrit à la place de la plage.",
+    "showTarget": true
+   },
+   "feedback": "30450 €. La formule se lit toute seule, c'est tout l'intérêt d'un nom."
+  },
+  {
+   "id": "M14-L03-04",
+   "consigne": "Le budget évolue : les certifications ont été oubliées. En **B8**, ==saisissez `2450`==.",
+   "setup": {
+    "selection": "B8",
+    "cells": {
+     "A8": {
+      "v": "Certifications"
+     }
+    }
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "B8",
+    "accept": [
+     "2450"
+    ]
+   },
+   "aide": {
+    "text": "La ligne 8, juste sous le dernier poste.",
+    "showTarget": true
+   },
+   "feedback": "Le poste est saisi. Regardez maintenant le total de B9."
+  },
+  {
+   "id": "M14-L03-05",
+   "consigne": "**B9 affiche toujours 30450 €.** Aucune erreur, aucune alerte : le nom `Budget` désigne B3:B7, et la ligne 8 n'en fait pas partie. C'est exactement comme cela qu'un budget se retrouve faux de 2450 € sans que personne ne s'en aperçoive.",
+   "action": {
+    "type": "READ"
+   },
+   "points": 0
+  },
+  {
+   "id": "M14-L03-06",
+   "consigne": "Vérifions l'étendue réelle du nom. ==Tapez `Budget` dans la **zone Nom** et validez== : Excel sélectionne ce que le nom désigne.",
+   "action": {
+    "type": "GOTO_REF",
+    "ref": "B3:B7"
+   },
+   "aide": {
+    "text": "Un nom qui existe déjà ne renomme pas : il déplace la sélection.",
+    "showTarget": true
+   },
+   "feedback": "La sélection s'arrête en **B7**. Le diagnostic est fait, et il n'a coûté que deux secondes : c'est le premier réflexe devant un total suspect."
+  },
+  {
+   "id": "M14-L03-07",
+   "consigne": "Réparons. ==Sélectionnez la plage complète, **B3:B8**==.",
+   "action": {
+    "type": "DRAG_RANGE",
+    "range": "B3:B8"
+   },
+   "aide": {
+    "text": "Les six postes cette fois, certifications comprises.",
+    "showTarget": true
+   }
+  },
+  {
+   "id": "M14-L03-08",
+   "consigne": "==Nommez-la `Budget_complet`== depuis la zone Nom.",
+   "action": {
+    "type": "DEFINE_NAME",
+    "name": "Budget_complet",
+    "ref": "B3:B8"
+   },
+   "aide": {
+    "text": "Souvenez-vous : pas d'espace dans un nom, le souligné le remplace.",
+    "showTarget": true
+   }
+  },
+  {
+   "id": "M14-L03-09",
+   "consigne": "En **B10**, ==totalisez avec le nom corrigé==.",
+   "setup": {
+    "selection": "B10"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "B10",
+    "accept": [
+     "=SOMME(Budget_complet)"
+    ],
+    "formulaMode": true
+   },
+   "feedback": "32900 €, soit 2450 € de plus. Voilà le vrai budget."
+  },
+  {
+   "id": "M14-L03-10",
+   "consigne": "Trois façons d'éviter ce piège, de la plus rapide à la plus solide. Dans Excel, le **gestionnaire de noms** — onglet Formules — permet de modifier l'étendue d'un nom existant sans en créer un second : c'est la réparation propre. Vous pouvez aussi **nommer une plage un peu plus large** que les données, les cellules vides ne gênant pas une somme. Enfin, un tableau converti en **tableau structuré** étend ses plages tout seul quand on ajoute une ligne.",
+   "action": {
+    "type": "READ"
+   },
+   "points": 0
+  }
+ ]
+}

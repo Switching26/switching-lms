@@ -1,0 +1,296 @@
+{
+  "schemaVersion": 1,
+  "title": "Exercice · Un tarif présentable",
+  "mode": "EXERCISE",
+  "moduleTitle": "Images et illustrations",
+  "intro": {
+    "title": "À VOUS",
+    "body": "Composer un titre de tableau propre, puis prouver que les données restent triables et calculables."
+  },
+  "outro": {
+    "body": "Exercice terminé."
+  },
+  "ribbon": [
+    "accueil",
+    "insertion",
+    "donnees"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Tarifs papeterie",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 95,
+          "B": 165,
+          "C": 135,
+          "D": 85,
+          "E": 70
+        },
+        "cells": {
+          "A1": {
+            "v": "Tarifs 2026 — Papeterie et petites fournitures"
+          },
+          "A3": {
+            "v": "Référence",
+            "format": {
+              "bold": true
+            }
+          },
+          "B3": {
+            "v": "Désignation",
+            "format": {
+              "bold": true
+            }
+          },
+          "C3": {
+            "v": "Conditionnement",
+            "format": {
+              "bold": true
+            }
+          },
+          "D3": {
+            "v": "Prix HT",
+            "format": {
+              "bold": true
+            }
+          },
+          "E3": {
+            "v": "Stock",
+            "format": {
+              "bold": true
+            }
+          },
+          "A4": {
+            "v": "PAP-11"
+          },
+          "B4": {
+            "v": "Enveloppe C4 kraft"
+          },
+          "C4": {
+            "v": "Boîte de 250"
+          },
+          "D4": {
+            "v": 34.5
+          },
+          "E4": {
+            "v": 18
+          },
+          "A5": {
+            "v": "PAP-24"
+          },
+          "B5": {
+            "v": "Étiquette adhésive"
+          },
+          "C5": {
+            "v": "Planche de 100"
+          },
+          "D5": {
+            "v": 9.8
+          },
+          "E5": {
+            "v": 52
+          },
+          "A6": {
+            "v": "PAP-37"
+          },
+          "B6": {
+            "v": "Ruban adhésif"
+          },
+          "C6": {
+            "v": "Lot de 6"
+          },
+          "D6": {
+            "v": 7.6
+          },
+          "E6": {
+            "v": 44
+          },
+          "A7": {
+            "v": "PAP-45"
+          },
+          "B7": {
+            "v": "Pochette plastique"
+          },
+          "C7": {
+            "v": "Lot de 100"
+          },
+          "D7": {
+            "v": 14.2
+          },
+          "E7": {
+            "v": 21
+          },
+          "A8": {
+            "v": "PAP-52"
+          },
+          "B8": {
+            "v": "Carnet à spirale"
+          },
+          "C8": {
+            "v": "Lot de 5"
+          },
+          "D8": {
+            "v": 19.9
+          },
+          "E8": {
+            "v": 15
+          },
+          "G3": {
+            "v": "Valeur du stock",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M24-E03-01",
+      "consigne": "Le titre déborde du tableau. Faites-en une seule cellule, aussi large que les cinq colonnes.",
+      "setup": {
+        "selection": "A1:E1",
+        "ribbon": {
+          "activeTab": "accueil"
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "acc-fusionner"
+      },
+      "aide": {
+        "text": "Sélectionnez A1:E1, puis le bouton Fusionner."
+      }
+    },
+    {
+      "id": "M24-E03-02",
+      "consigne": "Agrandissez-le.",
+      "setup": {
+        "selection": "A1",
+        "ribbon": {
+          "activeTab": "accueil"
+        }
+      },
+      "action": {
+        "type": "EXPECT_FORMAT",
+        "cells": {
+          "A1": {
+            "fontSize": 14
+          }
+        }
+      },
+      "aide": {
+        "text": "Le bouton d'augmentation de la taille de police."
+      }
+    },
+    {
+      "id": "M24-E03-03",
+      "consigne": "Centrez-le dans la cellule fusionnée.",
+      "setup": {
+        "selection": "A1",
+        "ribbon": {
+          "activeTab": "accueil"
+        }
+      },
+      "action": {
+        "type": "EXPECT_FORMAT",
+        "cells": {
+          "A1": {
+            "hAlign": "center"
+          }
+        }
+      },
+      "aide": {
+        "text": "Le bouton d'alignement centré."
+      }
+    },
+    {
+      "id": "M24-E03-04",
+      "consigne": "Donnez-lui un fond de couleur.",
+      "setup": {
+        "selection": "A1",
+        "ribbon": {
+          "activeTab": "accueil"
+        }
+      },
+      "action": {
+        "type": "EXPECT_FORMAT",
+        "cells": {
+          "A1": {
+            "background": "#fde68a"
+          }
+        }
+      },
+      "aide": {
+        "text": "Le bouton Remplissage."
+      }
+    },
+    {
+      "id": "M24-E03-05",
+      "consigne": "Mettez-le en gras.",
+      "setup": {
+        "selection": "A1",
+        "ribbon": {
+          "activeTab": "accueil"
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "acc-gras"
+      },
+      "aide": {
+        "text": "Le B, ou Ctrl+G."
+      }
+    },
+    {
+      "id": "M24-E03-06",
+      "consigne": "Classez les articles par ordre alphabétique de désignation, pour vérifier que le titre ne gêne rien.",
+      "setup": {
+        "selection": "B6",
+        "ribbon": {
+          "activeTab": "donnees"
+        }
+      },
+      "action": {
+        "type": "SORT_RANGE",
+        "range": "A4:E8",
+        "column": "B",
+        "ascending": true
+      },
+      "aide": {
+        "text": "Une cellule de la colonne Désignation, puis le tri croissant."
+      }
+    },
+    {
+      "id": "M24-E03-07",
+      "consigne": "En **G4**, calculez la valeur du stock du tarif.",
+      "setup": {
+        "selection": "G4"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "G4",
+        "accept": [
+          "=SOMMEPROD(D4:D8;E4:E8)",
+          "=SOMMEPROD(E4:E8;D4:D8)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Prix et stock multipliés ligne à ligne."
+      },
+      "feedback": "2 061,70 €."
+    }
+  ]
+}

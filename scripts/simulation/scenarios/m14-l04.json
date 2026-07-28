@@ -1,0 +1,289 @@
+{
+ "schemaVersion": 1,
+ "title": "Nommer d'après les libellés du tableau",
+ "mode": "LESSON",
+ "moduleTitle": "Noms de cellules",
+ "intro": {
+  "title": "LES NOMS SONT DÉJÀ ÉCRITS",
+  "body": "Un tableau bien fait porte ses libellés en haut de chaque colonne. Autant s'en servir : `=SOMME(Lyon)` se relit sans effort, là où `=SOMME(B2:B5)` demande de vérifier de quelle ville il s'agit."
+ },
+ "outro": {
+  "body": "Trois colonnes nommées d'après leurs propres en-têtes, des formules qui se lisent à voix haute, et un déplacement par le nom. C'est la façon la plus rentable d'employer les noms de plage."
+ },
+ "ribbon": [
+  "accueil"
+ ],
+ "statusBar": {
+  "aggregates": [
+   "moyenne",
+   "nb-non-vides",
+   "somme"
+  ],
+  "sheetCount": 1
+ },
+ "workbook": {
+  "fileName": "Ventes par ville",
+  "activeSheetIndex": 0,
+  "selection": "A1",
+  "sheets": [
+   {
+    "name": "Feuil1",
+    "columnWidths": {
+     "A": 105,
+     "B": 105,
+     "C": 105,
+     "D": 105
+    },
+    "cells": {
+     "A7": {
+      "v": "Total",
+      "format": {
+       "bold": true
+      }
+     },
+     "A9": {
+      "v": "Toutes villes",
+      "format": {
+       "bold": true
+      }
+     },
+     "A1": {
+      "v": "Mois",
+      "format": {
+       "bold": true
+      }
+     },
+     "B1": {
+      "v": "Lyon",
+      "format": {
+       "bold": true
+      }
+     },
+     "C1": {
+      "v": "Nantes",
+      "format": {
+       "bold": true
+      }
+     },
+     "D1": {
+      "v": "Lille",
+      "format": {
+       "bold": true
+      }
+     },
+     "A2": {
+      "v": "Janvier"
+     },
+     "B2": {
+      "v": 12400
+     },
+     "C2": {
+      "v": 9800
+     },
+     "D2": {
+      "v": 7600
+     },
+     "A3": {
+      "v": "Février"
+     },
+     "B3": {
+      "v": 13100
+     },
+     "C3": {
+      "v": 10250
+     },
+     "D3": {
+      "v": 8100
+     },
+     "A4": {
+      "v": "Mars"
+     },
+     "B4": {
+      "v": 11900
+     },
+     "C4": {
+      "v": 9400
+     },
+     "D4": {
+      "v": 7300
+     },
+     "A5": {
+      "v": "Avril"
+     },
+     "B5": {
+      "v": 14200
+     },
+     "C5": {
+      "v": 11050
+     },
+     "D5": {
+      "v": 8850
+     }
+    }
+   }
+  ]
+ },
+ "steps": [
+  {
+   "id": "M14-L04-01",
+   "consigne": "Trois villes, quatre mois. Les en-têtes **Lyon**, **Nantes** et **Lille** vont devenir les noms des trois colonnes de chiffres. Attention : on nomme les **valeurs**, pas l'en-tête — la plage à sélectionner commence en ligne 2.",
+   "action": {
+    "type": "READ"
+   },
+   "points": 0
+  },
+  {
+   "id": "M14-L04-02",
+   "consigne": "==Sélectionnez les quatre chiffres de Lyon, **B2:B5**==.",
+   "action": {
+    "type": "DRAG_RANGE",
+    "range": "B2:B5"
+   },
+   "aide": {
+    "text": "De B2 à B5, sans l'en-tête de la ligne 1.",
+    "showTarget": true
+   }
+  },
+  {
+   "id": "M14-L04-03",
+   "consigne": "==Tapez `Lyon` dans la zone Nom== et validez.",
+   "action": {
+    "type": "DEFINE_NAME",
+    "name": "Lyon",
+    "ref": "B2:B5"
+   },
+   "aide": {
+    "text": "Le libellé de l'en-tête, recopié tel quel dans la zone Nom.",
+    "showTarget": true
+   },
+   "feedback": "La colonne de Lyon a un nom. Excel n'accepte pas deux noms identiques : c'est pour cela qu'on nomme la plage de valeurs et non la colonne entière en-tête comprise."
+  },
+  {
+   "id": "M14-L04-04",
+   "consigne": "En **B7**, ==totalisez Lyon en employant son nom==.",
+   "setup": {
+    "selection": "B7"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "B7",
+    "accept": [
+     "=SOMME(Lyon)"
+    ],
+    "formulaMode": true
+   },
+   "aide": {
+    "text": "`=SOMME(` puis le nom de la ville.",
+    "showTarget": true
+   },
+   "feedback": "51600 €. La formule dit ce qu'elle fait."
+  },
+  {
+   "id": "M14-L04-05",
+   "consigne": "La colonne de Nantes est sélectionnée. ==Nommez-la `Nantes`==.",
+   "setup": {
+    "selection": "C2:C5"
+   },
+   "action": {
+    "type": "DEFINE_NAME",
+    "name": "Nantes",
+    "ref": "C2:C5"
+   },
+   "aide": {
+    "text": "Même geste que pour Lyon, zone Nom puis Entrée.",
+    "showTarget": true
+   }
+  },
+  {
+   "id": "M14-L04-06",
+   "consigne": "La colonne de Lille est sélectionnée. ==Nommez-la `Lille`==.",
+   "setup": {
+    "selection": "D2:D5"
+   },
+   "action": {
+    "type": "DEFINE_NAME",
+    "name": "Lille",
+    "ref": "D2:D5"
+   },
+   "aide": {
+    "text": "Trois noms, trois libellés déjà écrits dans le tableau.",
+    "showTarget": true
+   }
+  },
+  {
+   "id": "M14-L04-07",
+   "consigne": "En **C7**, ==totalisez Nantes avec son nom==.",
+   "setup": {
+    "selection": "C7"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "C7",
+    "accept": [
+     "=SOMME(Nantes)"
+    ],
+    "formulaMode": true
+   },
+   "feedback": "40500 €."
+  },
+  {
+   "id": "M14-L04-08",
+   "consigne": "En **D7**, ==totalisez Lille==.",
+   "setup": {
+    "selection": "D7"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "D7",
+    "accept": [
+     "=SOMME(Lille)"
+    ],
+    "formulaMode": true
+   },
+   "feedback": "31850 €."
+  },
+  {
+   "id": "M14-L04-09",
+   "consigne": "En **B9**, ==additionnez les trois villes en une seule formule== : `=SOMME(Lyon;Nantes;Lille)`.",
+   "setup": {
+    "selection": "B9"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "B9",
+    "accept": [
+     "=SOMME(Lyon;Nantes;Lille)",
+     "=SOMME(B7:D7)",
+     "=B7+C7+D7"
+    ],
+    "formulaMode": true
+   },
+   "aide": {
+    "text": "Une somme accepte plusieurs plages, séparées par des points-virgules.",
+    "showTarget": true
+   },
+   "feedback": "123950 €. Trois plages dans une seule somme, et la formule reste lisible."
+  },
+  {
+   "id": "M14-L04-10",
+   "consigne": "Un nom sert aussi à se déplacer. ==Tapez `Nantes` dans la zone Nom== et validez.",
+   "action": {
+    "type": "GOTO_REF",
+    "ref": "C2:C5"
+   },
+   "aide": {
+    "text": "La colonne de Nantes doit se sélectionner d'un coup.",
+    "showTarget": true
+   },
+   "feedback": "Sur un grand classeur, c'est le moyen le plus rapide d'atteindre une zone précise sans la chercher des yeux."
+  },
+  {
+   "id": "M14-L04-11",
+   "consigne": "Excel sait faire les trois noms d'un seul geste : **Formules > Créer depuis la sélection**, en sélectionnant le tableau avec ses en-têtes. À une condition — que les libellés soient des noms **valables**. Un en-tête « Lyon 2026 » devient `Lyon_2026`, l'espace étant remplacé par un souligné ; un en-tête « 2026 » est refusé, un nom ne commençant jamais par un chiffre.",
+   "action": {
+    "type": "READ"
+   },
+   "points": 0
+  }
+ ]
+}

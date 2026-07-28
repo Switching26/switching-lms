@@ -1,0 +1,358 @@
+{
+  "schemaVersion": 1,
+  "title": "Exercice · Un classeur qui tient debout",
+  "mode": "EXERCISE",
+  "moduleTitle": "Validation des données et protection",
+  "intro": {
+    "title": "À VOUS",
+    "body": "Des formules qui vont chercher leurs paramètres sur une autre feuille — et un contrôle qui prouve qu'aucun taux n'est écrit en dur."
+  },
+  "outro": {
+    "body": "Exercice terminé."
+  },
+  "ribbon": [
+    "accueil",
+    "donnees",
+    "revision"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Commande accueil",
+    "activeSheetIndex": 1,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Tarifs",
+        "columnWidths": {
+          "A": 200,
+          "B": 90
+        },
+        "cells": {
+          "A1": {
+            "v": "TARIFS ET PARAMÈTRES",
+            "format": {
+              "bold": true
+            }
+          },
+          "A3": {
+            "v": "Taux de TVA",
+            "format": {
+              "bold": true
+            }
+          },
+          "B3": {
+            "v": 0.2
+          },
+          "A4": {
+            "v": "Remise fidélité",
+            "format": {
+              "bold": true
+            }
+          },
+          "B4": {
+            "v": 0.1
+          },
+          "A5": {
+            "v": "Frais de livraison",
+            "format": {
+              "bold": true
+            }
+          },
+          "B5": {
+            "v": 45
+          }
+        }
+      },
+      {
+        "name": "Commande",
+        "columnWidths": {
+          "A": 95,
+          "B": 200,
+          "C": 85,
+          "D": 85,
+          "E": 100
+        },
+        "cells": {
+          "A1": {
+            "v": "COMMANDE 2026-2210 — Équipement d'accueil",
+            "format": {
+              "bold": true
+            }
+          },
+          "A3": {
+            "v": "Référence",
+            "format": {
+              "bold": true
+            }
+          },
+          "B3": {
+            "v": "Désignation",
+            "format": {
+              "bold": true
+            }
+          },
+          "C3": {
+            "v": "Quantité",
+            "format": {
+              "bold": true
+            }
+          },
+          "D3": {
+            "v": "Prix HT",
+            "format": {
+              "bold": true
+            }
+          },
+          "E3": {
+            "v": "Total HT",
+            "format": {
+              "bold": true
+            }
+          },
+          "A4": {
+            "v": "MOB-77"
+          },
+          "B4": {
+            "v": "Table de réunion 8 places"
+          },
+          "C4": {
+            "v": 1
+          },
+          "D4": {
+            "v": 1450
+          },
+          "E4": {
+            "f": "=C4*D4"
+          },
+          "A5": {
+            "v": "MOB-81"
+          },
+          "B5": {
+            "v": "Chaise empilable"
+          },
+          "C5": {
+            "v": 12
+          },
+          "D5": {
+            "v": 68
+          },
+          "E5": {
+            "f": "=C5*D5"
+          },
+          "A6": {
+            "v": "MOB-92"
+          },
+          "B6": {
+            "v": "Écran de projection mural"
+          },
+          "C6": {
+            "v": 1
+          },
+          "D6": {
+            "v": 240
+          },
+          "E6": {
+            "f": "=C6*D6"
+          },
+          "A7": {
+            "v": "MOB-95"
+          },
+          "B7": {
+            "v": "Chariot mobile 2 plateaux"
+          },
+          "C7": {
+            "v": 2
+          },
+          "D7": {
+            "v": 135
+          },
+          "E7": {
+            "f": "=C7*D7"
+          },
+          "D9": {
+            "v": "TOTAL HT",
+            "format": {
+              "bold": true
+            }
+          },
+          "D10": {
+            "v": "Remise fidélité",
+            "format": {
+              "bold": true
+            }
+          },
+          "D11": {
+            "v": "TVA",
+            "format": {
+              "bold": true
+            }
+          },
+          "D12": {
+            "v": "TOTAL TTC",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M21-E04-01",
+      "consigne": "En **E9**, totalisez la commande hors taxes.",
+      "setup": {
+        "selection": "E9"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "E9",
+        "accept": [
+          "=SOMME(E4:E7)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Une somme sur les quatre totaux de ligne."
+      },
+      "feedback": "2 776 € HT."
+    },
+    {
+      "id": "M21-E04-02",
+      "consigne": "En **E10**, calculez la remise fidélité en prenant son taux sur la feuille **Tarifs**.",
+      "setup": {
+        "selection": "E10"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "E10",
+        "accept": [
+          "=E9*Tarifs!$B$4",
+          "=E9*Tarifs!B4",
+          "=Tarifs!$B$4*E9",
+          "=Tarifs!B4*E9"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Référence à une autre feuille : Tarifs!$B$4."
+      },
+      "feedback": "277,60 € de remise."
+    },
+    {
+      "id": "M21-E04-03",
+      "consigne": "En **E11**, la TVA — calculée sur le montant **après** remise.",
+      "setup": {
+        "selection": "E11"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "E11",
+        "accept": [
+          "=(E9-E10)*Tarifs!$B$3",
+          "=(E9-E10)*Tarifs!B3",
+          "=Tarifs!$B$3*(E9-E10)",
+          "=Tarifs!B3*(E9-E10)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Hors taxes moins remise, multiplié par le taux."
+      },
+      "feedback": "499,68 € de TVA sur 2 498,40 € net."
+    },
+    {
+      "id": "M21-E04-04",
+      "consigne": "En **E12**, le total à payer.",
+      "setup": {
+        "selection": "E12"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "E12",
+        "accept": [
+          "=E9-E10+E11",
+          "=(E9-E10)+E11"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Hors taxes, moins la remise, plus la TVA."
+      },
+      "feedback": "2 998,08 € TTC."
+    },
+    {
+      "id": "M21-E04-05",
+      "consigne": "La direction supprime la remise fidélité de cette campagne. Allez la modifier là où elle est définie.",
+      "action": {
+        "type": "SELECT_SHEET",
+        "name": "Tarifs"
+      },
+      "aide": {
+        "text": "La feuille des paramètres."
+      }
+    },
+    {
+      "id": "M21-E04-06",
+      "consigne": "Ramenez la remise à **0**.",
+      "setup": {
+        "selection": "B4"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B4",
+        "accept": [
+          "0"
+        ]
+      },
+      "aide": {
+        "text": "La cellule du taux de remise, sur la feuille des paramètres."
+      },
+      "feedback": "Toutes les formules qui s'y réfèrent se recalculent."
+    },
+    {
+      "id": "M21-E04-07",
+      "consigne": "Revenez sur la commande.",
+      "action": {
+        "type": "SELECT_SHEET",
+        "name": "Commande"
+      },
+      "aide": {
+        "text": "Le second onglet."
+      }
+    },
+    {
+      "id": "M21-E04-08",
+      "consigne": "En **E13**, contrôlez le taux de TVA réellement appliqué au montant net.",
+      "setup": {
+        "selection": "E13",
+        "cells": {
+          "D13": {
+            "v": "Taux appliqué",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "E13",
+        "accept": [
+          "=E11/(E9-E10)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "La TVA divisée par le net commercial."
+      },
+      "feedback": "0,2 : le taux vient bien de la feuille de paramètres, et non d'un chiffre recopié dans la formule."
+    }
+  ]
+}

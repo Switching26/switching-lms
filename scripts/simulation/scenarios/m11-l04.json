@@ -1,0 +1,313 @@
+{
+ "schemaVersion": 1,
+ "title": "Faire ressortir les meilleures valeurs",
+ "mode": "LESSON",
+ "moduleTitle": "Mise en forme conditionnelle",
+ "intro": {
+  "title": "LE TRIO DE TÊTE, SANS TRIER",
+  "body": "Dix agences, dix chiffres. On veut voir d'un coup d'œil les trois meilleures et les trois plus faibles — sans trier le tableau, qui doit rester dans l'ordre alphabétique pour être comparé au mois dernier."
+ },
+ "outro": {
+  "body": "Vous savez calculer le seuil d'un trio de tête et le transformer en couleur. Et vous connaissez la limite d'une règle chiffrée : elle ne suit pas les données, contrairement à la formule qui l'a fournie."
+ },
+ "ribbon": [
+  "accueil"
+ ],
+ "statusBar": {
+  "aggregates": [
+   "moyenne",
+   "nb-non-vides",
+   "somme"
+  ],
+  "sheetCount": 1
+ },
+ "workbook": {
+  "fileName": "Performances des agences",
+  "activeSheetIndex": 0,
+  "selection": "A1",
+  "sheets": [
+   {
+    "name": "Feuil1",
+    "columnWidths": {
+     "A": 120,
+     "B": 115,
+     "D": 235,
+     "E": 110
+    },
+    "cells": {
+     "D1": {
+      "v": "Seuil du trio de tête",
+      "format": {
+       "bold": true
+      }
+     },
+     "D2": {
+      "v": "Seuil des trois derniers",
+      "format": {
+       "bold": true
+      }
+     },
+     "D4": {
+      "v": "Agences au-dessus de 15 000 €",
+      "format": {
+       "bold": true
+      }
+     },
+     "D5": {
+      "v": "Agences sous 11 000 €",
+      "format": {
+       "bold": true
+      }
+     },
+     "A1": {
+      "v": "Agence",
+      "format": {
+       "bold": true
+      }
+     },
+     "B1": {
+      "v": "CA du mois",
+      "format": {
+       "bold": true
+      }
+     },
+     "A2": {
+      "v": "Angers"
+     },
+     "B2": {
+      "v": 12400
+     },
+     "A3": {
+      "v": "Cholet"
+     },
+     "B3": {
+      "v": 9850
+     },
+     "A4": {
+      "v": "Laval"
+     },
+     "B4": {
+      "v": 15200
+     },
+     "A5": {
+      "v": "Nantes"
+     },
+     "B5": {
+      "v": 18400
+     },
+     "A6": {
+      "v": "Vannes"
+     },
+     "B6": {
+      "v": 11300
+     },
+     "A7": {
+      "v": "Rennes"
+     },
+     "B7": {
+      "v": 16950
+     },
+     "A8": {
+      "v": "Quimper"
+     },
+     "B8": {
+      "v": 8700
+     },
+     "A9": {
+      "v": "Le Mans"
+     },
+     "B9": {
+      "v": 13600
+     },
+     "A10": {
+      "v": "Tours"
+     },
+     "B10": {
+      "v": 10250
+     },
+     "A11": {
+      "v": "Niort"
+     },
+     "B11": {
+      "v": 14100
+     }
+    }
+   }
+  ]
+ },
+ "steps": [
+  {
+   "id": "M11-L04-01",
+   "consigne": "Une règle de mise en forme conditionnelle compare chaque cellule à un **seuil chiffré**. Pour éclairer les trois meilleures agences, il faut donc d'abord connaître le chiffre de la troisième : c'est le travail de **GRANDE.VALEUR**.",
+   "action": {
+    "type": "READ"
+   },
+   "points": 0
+  },
+  {
+   "id": "M11-L04-02",
+   "consigne": "En **E1**, ==saisissez `=GRANDE.VALEUR($B$2:$B$11;3)`== : le troisième meilleur chiffre du mois.",
+   "setup": {
+    "selection": "E1"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "E1",
+    "accept": [
+     "=GRANDE.VALEUR($B$2:$B$11;3)",
+     "=GRANDE.VALEUR(B2:B11;3)"
+    ],
+    "formulaMode": true
+   },
+   "aide": {
+    "text": "Deux arguments : la plage, puis le rang cherché.",
+    "showTarget": true
+   },
+   "feedback": "15200 €. Les trois meilleures agences sont donc toutes au-dessus de 15000 €, et la quatrième en dessous : 15000 € est le seuil qui isole exactement le trio."
+  },
+  {
+   "id": "M11-L04-03",
+   "consigne": "La colonne des chiffres est sélectionnée. ==Cliquez sur **Mise en forme cond.**== pour colorer en vert tout ce qui dépasse **15 000 €**.",
+   "setup": {
+    "selection": "B2:B11",
+    "cf": {
+     "range": "B2:B11",
+     "rule": {
+      "kind": "greaterThan",
+      "value": 15000,
+      "background": "#bbf7d0"
+     }
+    }
+   },
+   "action": {
+    "type": "CLICK_CONTROL",
+    "control": "acc-mfc-regle"
+   },
+   "aide": {
+    "text": "Le bouton « Mise en forme cond. » du groupe Styles.",
+    "showTarget": true
+   },
+   "feedback": "Nantes, Rennes et Laval ressortent : le trio de tête, sans avoir déplacé une ligne."
+  },
+  {
+   "id": "M11-L04-04",
+   "consigne": "Même chose par le bas. En **E2**, ==affichez le troisième plus faible chiffre== avec **PETITE.VALEUR**.",
+   "setup": {
+    "selection": "E2"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "E2",
+    "accept": [
+     "=PETITE.VALEUR($B$2:$B$11;3)",
+     "=PETITE.VALEUR(B2:B11;3)"
+    ],
+    "formulaMode": true
+   },
+   "aide": {
+    "text": "La jumelle de GRANDE.VALEUR, mêmes arguments.",
+    "showTarget": true
+   },
+   "feedback": "10250 €. Un seuil à 11000 € isolera donc les trois agences en difficulté."
+  },
+  {
+   "id": "M11-L04-05",
+   "consigne": "==Posez une seconde règle== : en rouge tout ce qui est **inférieur à 11 000 €**.",
+   "setup": {
+    "selection": "B2:B11",
+    "cf": {
+     "range": "B2:B11",
+     "rule": {
+      "kind": "lessThan",
+      "value": 11000,
+      "background": "#fecaca"
+     }
+    }
+   },
+   "action": {
+    "type": "CLICK_CONTROL",
+    "control": "acc-mfc-regle"
+   },
+   "aide": {
+    "text": "Même bouton : la nouvelle règle s'ajoute à la première.",
+    "showTarget": true
+   },
+   "feedback": "Quimper, Cholet et Tours passent en rouge. Le tableau se lit maintenant en trois secondes."
+  },
+  {
+   "id": "M11-L04-06",
+   "consigne": "Contrôlons que la couleur ne mente pas. En **E4**, ==comptez les agences au-dessus de 15 000 €==.",
+   "setup": {
+    "selection": "E4"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "E4",
+    "accept": [
+     "=NB.SI($B$2:$B$11;\">15000\")",
+     "=NB.SI(B2:B11;\">15000\")"
+    ],
+    "formulaMode": true
+   },
+   "feedback": "3 : autant que de cellules vertes. C'est le contrôle à faire quand on doute d'une règle."
+  },
+  {
+   "id": "M11-L04-07",
+   "consigne": "En **E5**, ==comptez les agences sous 11 000 €==.",
+   "setup": {
+    "selection": "E5"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "E5",
+    "accept": [
+     "=NB.SI($B$2:$B$11;\"<11000\")",
+     "=NB.SI(B2:B11;\"<11000\")"
+    ],
+    "formulaMode": true
+   },
+   "feedback": "3 cellules rouges annoncées, 3 comptées."
+  },
+  {
+   "id": "M11-L04-08",
+   "consigne": "Cholet avait oublié de saisir une grosse affaire. ==Portez son chiffre à `19500` en **B3**== et regardez ce qui suit — et ce qui ne suit pas.",
+   "setup": {
+    "selection": "B3"
+   },
+   "action": {
+    "type": "EXPECT_STATE",
+    "cells": {
+     "B3": {
+      "v": 19500
+     },
+     "E1": {
+      "anyOf": [
+       "=GRANDE.VALEUR($B$2:$B$11;3)",
+       "=GRANDE.VALEUR(B2:B11;3)"
+      ],
+      "v": 16950
+     },
+     "E4": {
+      "anyOf": [
+       "=NB.SI($B$2:$B$11;\">15000\")",
+       "=NB.SI(B2:B11;\">15000\")"
+      ],
+      "v": 4
+     }
+    }
+   },
+   "aide": {
+    "text": "Une seule cellule à corriger."
+   },
+   "feedback": "Le seuil du trio est passé à 16950 € et quatre agences dépassent maintenant 15000 €. La **formule a suivi**, la **règle non** : son seuil est resté figé à 15 000 €. C'est la limite à connaître."
+  },
+  {
+   "id": "M11-L04-09",
+   "consigne": "Deux façons de vivre avec cette limite. Soit vous **relisez le seuil calculé** et modifiez la règle quand les données changent — c'est pour cela que la cellule E1 existe. Soit vous employez la règle **« Valeurs les plus élevées »** d'Excel, qui raisonne en nombre d'éléments et non en seuil : elle suit les données toute seule, mais elle ne vous dit pas à partir de quel chiffre on entre dans le trio.",
+   "action": {
+    "type": "READ"
+   },
+   "points": 0
+  }
+ ]
+}

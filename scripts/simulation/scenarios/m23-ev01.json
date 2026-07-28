@@ -1,0 +1,372 @@
+{
+  "schemaVersion": 1,
+  "title": "S'évaluer · Analyses et simulations",
+  "mode": "EVALUATION",
+  "moduleTitle": "Analyses et simulations",
+  "intro": {
+    "title": "S'ÉVALUER",
+    "body": "Un modèle à poser, deux valeurs cibles à chercher, une contrainte à contrôler et trois scénarios à comparer. Aucune aide sur cette évaluation."
+  },
+  "outro": {
+    "body": "Évaluation terminée."
+  },
+  "ribbon": [
+    "accueil",
+    "donnees"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Salon professionnel",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 200,
+          "B": 90,
+          "C": 30,
+          "D": 190,
+          "E": 95,
+          "F": 95,
+          "G": 95
+        },
+        "cells": {
+          "A1": {
+            "v": "SALON PROFESSIONNEL — RÉSULTAT",
+            "format": {
+              "bold": true
+            }
+          },
+          "A3": {
+            "v": "Prix du stand (le m²)",
+            "format": {
+              "bold": true
+            }
+          },
+          "B3": {
+            "v": 180
+          },
+          "A4": {
+            "v": "Surface vendue (m²)",
+            "format": {
+              "bold": true
+            }
+          },
+          "B4": {
+            "v": 120
+          },
+          "A5": {
+            "v": "Coût d'aménagement (le m²)",
+            "format": {
+              "bold": true
+            }
+          },
+          "B5": {
+            "v": 65
+          },
+          "A6": {
+            "v": "Frais fixes",
+            "format": {
+              "bold": true
+            }
+          },
+          "B6": {
+            "v": 9500
+          },
+          "A8": {
+            "v": "RÉSULTAT",
+            "format": {
+              "bold": true
+            }
+          },
+          "D2": {
+            "v": "Contrainte du hall (150 m²)",
+            "format": {
+              "bold": true
+            }
+          },
+          "D3": {
+            "v": "Prix arrondi aux 5 €",
+            "format": {
+              "bold": true
+            }
+          },
+          "D5": {
+            "v": "Scénario",
+            "format": {
+              "bold": true
+            }
+          },
+          "E5": {
+            "v": "Prudent",
+            "format": {
+              "bold": true
+            }
+          },
+          "F5": {
+            "v": "Réaliste",
+            "format": {
+              "bold": true
+            }
+          },
+          "G5": {
+            "v": "Ambitieux",
+            "format": {
+              "bold": true
+            }
+          },
+          "D6": {
+            "v": "Prix du m²",
+            "format": {
+              "bold": true
+            }
+          },
+          "D7": {
+            "v": "Surface",
+            "format": {
+              "bold": true
+            }
+          },
+          "D8": {
+            "v": "Résultat",
+            "format": {
+              "bold": true
+            }
+          },
+          "D10": {
+            "v": "Écart entre extrêmes",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M23-EV01-01",
+      "consigne": "Un salon professionnel : un prix au mètre carré, une surface vendue, un coût d'aménagement, des frais fixes. Vous allez poser le modèle, chercher deux valeurs cibles, vérifier une contrainte que la valeur cible ignore, puis comparer trois scénarios. Aucune aide sur cette évaluation.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M23-EV01-02",
+      "consigne": "En **B8**, calculez le résultat : la marge au mètre carré multipliée par la surface vendue, moins les frais fixes.",
+      "setup": {
+        "selection": "B8"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B8",
+        "accept": [
+          "=(B3-B5)*B4-B6",
+          "=B4*(B3-B5)-B6"
+        ],
+        "formulaMode": true
+      },
+      "points": 2
+    },
+    {
+      "id": "M23-EV01-03",
+      "consigne": "L'objectif est de **9 000 €** de résultat, à prix inchangé. Trouvez la surface nécessaire.",
+      "setup": {
+        "selection": "B8",
+        "ribbon": {
+          "activeTab": "donnees"
+        },
+        "goalSeek": {
+          "formulaRef": "B8",
+          "target": 9000,
+          "inputRef": "B4"
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "don-valeur-cible"
+      },
+      "points": 2
+    },
+    {
+      "id": "M23-EV01-04",
+      "consigne": "En **E2**, vérifiez la contrainte que la valeur cible a ignorée : le hall ne fait que 150 m². La cellule doit afficher `OK` ou `Hall trop petit`.",
+      "setup": {
+        "selection": "E2"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "E2",
+        "accept": [
+          "=SI(B4<=150;\"OK\";\"Hall trop petit\")"
+        ],
+        "formulaMode": true
+      },
+      "points": 3
+    },
+    {
+      "id": "M23-EV01-05",
+      "consigne": "La surface louable est donc plafonnée. Ramenez **B4** à **150**.",
+      "setup": {
+        "selection": "B4"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B4",
+        "accept": [
+          "150"
+        ]
+      },
+      "points": 1
+    },
+    {
+      "id": "M23-EV01-06",
+      "consigne": "Cherchez maintenant le **prix du mètre carré** qui atteindrait 9 000 € sur cette surface de 150 m².",
+      "setup": {
+        "selection": "B8",
+        "ribbon": {
+          "activeTab": "donnees"
+        },
+        "goalSeek": {
+          "formulaRef": "B8",
+          "target": 9000,
+          "inputRef": "B3"
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "don-valeur-cible"
+      },
+      "points": 2
+    },
+    {
+      "id": "M23-EV01-07",
+      "consigne": "En **E3**, arrondissez ce prix au multiple de 5 € supérieur.",
+      "setup": {
+        "selection": "E3"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "E3",
+        "accept": [
+          "=PLAFOND(B3;5)"
+        ],
+        "formulaMode": true
+      },
+      "points": 2
+    },
+    {
+      "id": "M23-EV01-08",
+      "consigne": "Montez maintenant trois scénarios. Prudent : prix **170** en **E6**.",
+      "setup": {
+        "selection": "E6"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "E6",
+        "accept": [
+          "170"
+        ]
+      },
+      "points": 1
+    },
+    {
+      "id": "M23-EV01-09",
+      "consigne": "Surface **100** en **E7**.",
+      "setup": {
+        "selection": "E7"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "E7",
+        "accept": [
+          "100"
+        ]
+      },
+      "points": 1
+    },
+    {
+      "id": "M23-EV01-10",
+      "consigne": "En **E8**, calculez le résultat de ce scénario : la formule doit lire le prix et la surface de la colonne, garder le coût d'aménagement et les frais fixes du modèle, et rester recopiable vers la droite.",
+      "setup": {
+        "selection": "E8"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "E8",
+        "accept": [
+          "=(E6-$B$5)*E7-$B$6",
+          "=(E6-B5)*E7-B6",
+          "=E7*(E6-$B$5)-$B$6",
+          "=E7*(E6-B5)-B6"
+        ],
+        "formulaMode": true
+      },
+      "points": 3
+    },
+    {
+      "id": "M23-EV01-11",
+      "consigne": "Complétez le scénario réaliste (180 € pour 120 m²) et l'ambitieux (190 € pour 150 m²).",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "F6": {
+            "v": 180
+          },
+          "F7": {
+            "v": 120
+          },
+          "G6": {
+            "v": 190
+          },
+          "G7": {
+            "v": 150
+          },
+          "F8": {
+            "anyOf": [
+              "=(F6-$B$5)*F7-$B$6",
+              "=(F6-B5)*F7-B6",
+              "=F7*(F6-$B$5)-$B$6",
+              "=F7*(F6-B5)-B6"
+            ],
+            "v": 4300
+          },
+          "G8": {
+            "anyOf": [
+              "=(G6-$B$5)*G7-$B$6",
+              "=(G6-B5)*G7-B6",
+              "=G7*(G6-$B$5)-$B$6",
+              "=G7*(G6-B5)-B6"
+            ],
+            "v": 9250
+          }
+        }
+      },
+      "points": 3
+    },
+    {
+      "id": "M23-EV01-12",
+      "consigne": "En **E10**, mesurez l'écart entre le meilleur et le pire scénario.",
+      "setup": {
+        "selection": "E10"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "E10",
+        "accept": [
+          "=MAX(E8:G8)-MIN(E8:G8)"
+        ],
+        "formulaMode": true
+      },
+      "points": 2
+    }
+  ]
+}

@@ -1,0 +1,295 @@
+{
+ "schemaVersion": 1,
+ "title": "Importer un relevé et le compléter",
+ "mode": "LESSON",
+ "moduleTitle": "Saisie semi-automatique et recopie",
+ "intro": {
+  "title": "NE JAMAIS RETAPER CE QU'ON A DÉJÀ",
+  "body": "Un relevé de commande arrive par mail, un complément arrive au format CSV. Les retaper, c'est une demi-heure de perdue et deux fautes de frappe. Deux boutons suffisent à les faire entrer dans la feuille, prêts à calculer."
+ },
+ "outro": {
+  "body": "Vous savez faire entrer des données venues d'ailleurs, reconnaître un export collé en une seule colonne, et le découper. Ensuite, la recopie fait le reste."
+ },
+ "ribbon": [
+  "accueil",
+  "donnees"
+ ],
+ "statusBar": {
+  "aggregates": [
+   "moyenne",
+   "nb-non-vides",
+   "somme"
+  ],
+  "sheetCount": 1
+ },
+ "workbook": {
+  "fileName": "Relevé fournisseur",
+  "activeSheetIndex": 0,
+  "selection": "A1",
+  "sheets": [
+   {
+    "name": "Feuil1",
+    "columnWidths": {
+     "A": 235,
+     "B": 175,
+     "C": 75,
+     "D": 90,
+     "E": 100
+    },
+    "cells": {
+     "A10": {
+      "v": "Complément reçu au format CSV",
+      "format": {
+       "bold": true
+      }
+     },
+     "D15": {
+      "v": "TOTAL GÉNÉRAL",
+      "format": {
+       "bold": true
+      }
+     },
+     "A11": {
+      "v": "PAP-A3;Ramette A3 80 g;6;9"
+     },
+     "A12": {
+      "v": "ETI-AD;Étiquettes adhésives;15;7"
+     },
+     "A13": {
+      "v": "CLA-NUM;Pavé numérique;5;19"
+     }
+    }
+   }
+  ]
+ },
+ "steps": [
+  {
+   "id": "M12-L03-01",
+   "consigne": "La feuille est presque vide : seules les lignes 11 à 13 portent le **complément CSV**, tout entier dans la colonne A. On commence par le relevé reçu par mail, qui est dans le presse-papiers.",
+   "action": {
+    "type": "READ"
+   },
+   "points": 0
+  },
+  {
+   "id": "M12-L03-02",
+   "consigne": "**A1** est sélectionnée. ==Cliquez sur **Coller**== pour déposer le relevé.",
+   "setup": {
+    "selection": "A1",
+    "paste": {
+     "texte": "Référence\tDésignation\tQté\tPrix U.\nPAP-A4\tRamette A4 80 g\t12\t5\nTON-NR\tToner laser noir\t3\t79\nCLA-USB\tClavier USB\t7\t25\nSOU-OPT\tSouris optique\t9\t13\nCAS-USB\tCasque micro USB\t4\t39"
+    }
+   },
+   "action": {
+    "type": "CLICK_CONTROL",
+    "control": "acc-coller"
+   },
+   "aide": {
+    "text": "Le bouton Coller du groupe Presse-papiers.",
+    "showTarget": true
+   },
+   "feedback": "Quatre colonnes bien rangées, en-têtes comprises : le collage a reconnu les tabulations comme des séparateurs de colonnes. Les quantités et les prix sont arrivés en **nombres**, pas en texte — c'est la première chose à vérifier après un import."
+  },
+  {
+   "id": "M12-L03-03",
+   "consigne": "Il manque une colonne de total. En **E1**, ==saisissez l'en-tête `Total`==.",
+   "setup": {
+    "selection": "E1"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "E1",
+    "accept": [
+     "Total"
+    ]
+   },
+   "aide": {
+    "text": "Un simple mot, dans la première cellule libre de la ligne d'en-têtes.",
+    "showTarget": true
+   }
+  },
+  {
+   "id": "M12-L03-04",
+   "consigne": "En **E2**, ==calculez le total de la première ligne==.",
+   "setup": {
+    "selection": "E2"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "E2",
+    "accept": [
+     "=C2*D2",
+     "=D2*C2"
+    ],
+    "formulaMode": true
+   },
+   "aide": {
+    "text": "La quantité multipliée par le prix unitaire.",
+    "showTarget": true
+   },
+   "feedback": "60 €. Si le collage avait déposé du texte, cette multiplication aurait renvoyé une erreur : elle prouve que les nombres sont bien des nombres."
+  },
+  {
+   "id": "M12-L03-05",
+   "consigne": "==Recopiez **E2** jusqu'en E6== pour les quatre autres articles.",
+   "action": {
+    "type": "EXPECT_STATE",
+    "cells": {
+     "E3": {
+      "anyOf": [
+       "=C3*D3",
+       "=D3*C3"
+      ],
+      "v": 237
+     },
+     "E4": {
+      "anyOf": [
+       "=C4*D4",
+       "=D4*C4"
+      ],
+      "v": 175
+     },
+     "E5": {
+      "anyOf": [
+       "=C5*D5",
+       "=D5*C5"
+      ],
+      "v": 117
+     },
+     "E6": {
+      "anyOf": [
+       "=C6*D6",
+       "=D6*C6"
+      ],
+      "v": 156
+     }
+    }
+   },
+   "aide": {
+    "text": "Poignée de recopie en bas à droite de E2, vers le bas."
+   },
+   "feedback": "Cinq lignes calculées à partir de données qu'on n'a pas tapées."
+  },
+  {
+   "id": "M12-L03-06",
+   "consigne": "En **E8**, ==totalisez le relevé==.",
+   "setup": {
+    "selection": "E8",
+    "cells": {
+     "D8": {
+      "v": "Sous-total relevé",
+      "format": {
+       "bold": true
+      }
+     }
+    }
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "E8",
+    "accept": [
+     "=SOMME(E2:E6)",
+     "=E2+E3+E4+E5+E6"
+    ],
+    "formulaMode": true
+   },
+   "feedback": "745 €."
+  },
+  {
+   "id": "M12-L03-07",
+   "consigne": "Passons au complément. Regardez **A11** : `PAP-A3;Ramette A3 80 g;6;9`. C'est un export **CSV** — les champs séparés par des points-virgules — collé tel quel. En l'état, aucun calcul n'est possible : pour Excel, c'est une seule phrase. L'outil **Convertir** de l'onglet Données découpe cette colonne en quatre.",
+   "action": {
+    "type": "READ"
+   },
+   "points": 0
+  },
+  {
+   "id": "M12-L03-08",
+   "consigne": "Les trois lignes sont sélectionnées. ==Cliquez sur **Convertir**== en choisissant le **point-virgule** comme séparateur.",
+   "setup": {
+    "selection": "A11:A13",
+    "ribbon": {
+     "activeTab": "donnees"
+    },
+    "split": {
+     "range": "A11:A13",
+     "separateur": 4
+    }
+   },
+   "action": {
+    "type": "CLICK_CONTROL",
+    "control": "don-convertir"
+   },
+   "aide": {
+    "text": "Le bouton « Convertir » du groupe Outils de données.",
+    "showTarget": true
+   },
+   "feedback": "Les trois lignes occupent maintenant quatre colonnes, comme le relevé du haut. Attention au séparateur : un export peut employer la virgule, le point-virgule ou la tabulation, et se tromper de séparateur ne découpe rien du tout."
+  },
+  {
+   "id": "M12-L03-09",
+   "consigne": "Vérifions que ces valeurs calculent. En **E11**, ==calculez le total de la première ligne du complément==.",
+   "setup": {
+    "selection": "E11"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "E11",
+    "accept": [
+     "=C11*D11",
+     "=D11*C11"
+    ],
+    "formulaMode": true
+   },
+   "aide": {
+    "text": "Même formule que dans le relevé du haut.",
+    "showTarget": true
+   },
+   "feedback": "54 €. Le découpage a bien produit des nombres."
+  },
+  {
+   "id": "M12-L03-10",
+   "consigne": "==Recopiez **E11** jusqu'en E13==.",
+   "action": {
+    "type": "EXPECT_STATE",
+    "cells": {
+     "E12": {
+      "anyOf": [
+       "=C12*D12",
+       "=D12*C12"
+      ],
+      "v": 105
+     },
+     "E13": {
+      "anyOf": [
+       "=C13*D13",
+       "=D13*C13"
+      ],
+      "v": 95
+     }
+    }
+   },
+   "aide": {
+    "text": "Poignée de recopie, deux lignes vers le bas."
+   }
+  },
+  {
+   "id": "M12-L03-11",
+   "consigne": "En **E15**, ==additionnez les deux parties== du relevé.",
+   "setup": {
+    "selection": "E15"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "E15",
+    "accept": [
+     "=SOMME(E2:E6)+SOMME(E11:E13)",
+     "=E8+SOMME(E11:E13)",
+     "=SOMME(E2:E13)"
+    ],
+    "formulaMode": true
+   },
+   "feedback": "999 € au total. Les deux blocs ont été additionnés sans qu'aucun chiffre n'ait été saisi à la main."
+  }
+ ]
+}

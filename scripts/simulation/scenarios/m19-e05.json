@@ -1,0 +1,488 @@
+{
+  "schemaVersion": 1,
+  "title": "Exercice · Une fiche de consultation",
+  "mode": "EXERCISE",
+  "moduleTitle": "Tri, filtre et sous-totaux",
+  "intro": {
+    "title": "À VOUS",
+    "body": "Bâtir une fiche de consultation, ajouter un enregistrement, réparer les plages."
+  },
+  "outro": {
+    "body": "Exercice terminé."
+  },
+  "ribbon": [
+    "accueil",
+    "donnees"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Interventions",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 155,
+          "B": 100,
+          "C": 115,
+          "D": 100
+        },
+        "cells": {
+          "A1": {
+            "v": "Client",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Secteur",
+            "format": {
+              "bold": true
+            }
+          },
+          "C1": {
+            "v": "Prestation",
+            "format": {
+              "bold": true
+            }
+          },
+          "D1": {
+            "v": "Technicien",
+            "format": {
+              "bold": true
+            }
+          },
+          "E1": {
+            "v": "Montant",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Hôtel du Parc"
+          },
+          "B2": {
+            "v": "Normandie"
+          },
+          "C2": {
+            "v": "Dépannage"
+          },
+          "D2": {
+            "v": "Morel"
+          },
+          "E2": {
+            "v": 480
+          },
+          "A3": {
+            "v": "Boucherie Talbot"
+          },
+          "B3": {
+            "v": "Bretagne"
+          },
+          "C3": {
+            "v": "Installation"
+          },
+          "D3": {
+            "v": "Perrin"
+          },
+          "E3": {
+            "v": 1260
+          },
+          "A4": {
+            "v": "Garage Vidal"
+          },
+          "B4": {
+            "v": "Normandie"
+          },
+          "C4": {
+            "v": "Installation"
+          },
+          "D4": {
+            "v": "Klein"
+          },
+          "E4": {
+            "v": 890
+          },
+          "A5": {
+            "v": "Crèche Les Lutins"
+          },
+          "B5": {
+            "v": "Occitanie"
+          },
+          "C5": {
+            "v": "Installation"
+          },
+          "D5": {
+            "v": "Morel"
+          },
+          "E5": {
+            "v": 2340
+          },
+          "A6": {
+            "v": "Cave Bertholin"
+          },
+          "B6": {
+            "v": "Bretagne"
+          },
+          "C6": {
+            "v": "Dépannage"
+          },
+          "D6": {
+            "v": "Perrin"
+          },
+          "E6": {
+            "v": 350
+          },
+          "A7": {
+            "v": "Pressing Aubert"
+          },
+          "B7": {
+            "v": "Normandie"
+          },
+          "C7": {
+            "v": "Installation"
+          },
+          "D7": {
+            "v": "Klein"
+          },
+          "E7": {
+            "v": 1780
+          },
+          "A8": {
+            "v": "Salle Voltaire"
+          },
+          "B8": {
+            "v": "Occitanie"
+          },
+          "C8": {
+            "v": "Maintenance"
+          },
+          "D8": {
+            "v": "Morel"
+          },
+          "E8": {
+            "v": 640
+          },
+          "A9": {
+            "v": "Cabinet Lorez"
+          },
+          "B9": {
+            "v": "Bretagne"
+          },
+          "C9": {
+            "v": "Installation"
+          },
+          "D9": {
+            "v": "Klein"
+          },
+          "E9": {
+            "v": 2050
+          },
+          "A10": {
+            "v": "Camping Les Pins"
+          },
+          "B10": {
+            "v": "Occitanie"
+          },
+          "C10": {
+            "v": "Dépannage"
+          },
+          "D10": {
+            "v": "Perrin"
+          },
+          "E10": {
+            "v": 520
+          },
+          "A11": {
+            "v": "Fromagerie Dast"
+          },
+          "B11": {
+            "v": "Normandie"
+          },
+          "C11": {
+            "v": "Installation"
+          },
+          "D11": {
+            "v": "Morel"
+          },
+          "E11": {
+            "v": 970
+          },
+          "G1": {
+            "v": "Client",
+            "format": {
+              "bold": true
+            }
+          },
+          "H1": {
+            "v": "Pressing Aubert"
+          },
+          "G2": {
+            "v": "Secteur",
+            "format": {
+              "bold": true
+            }
+          },
+          "G3": {
+            "v": "Prestation",
+            "format": {
+              "bold": true
+            }
+          },
+          "G4": {
+            "v": "Technicien",
+            "format": {
+              "bold": true
+            }
+          },
+          "G5": {
+            "v": "Montant",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M19-E05-01",
+      "consigne": "En **H2**, faites afficher le secteur du client indiqué en **H1**, en correspondance exacte.",
+      "setup": {
+        "selection": "H2"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "H2",
+        "accept": [
+          "=RECHERCHEV($H$1;$A$2:$E$11;2;FAUX)",
+          "=RECHERCHEV($H$1;$A$2:$E$11;2;0)",
+          "=RECHERCHEV($H$1;A2:E11;2;FAUX)",
+          "=RECHERCHEV($H$1;A2:E11;2;0)",
+          "=RECHERCHEV(H1;$A$2:$E$11;2;FAUX)",
+          "=RECHERCHEV(H1;$A$2:$E$11;2;0)",
+          "=RECHERCHEV(H1;A2:E11;2;FAUX)",
+          "=RECHERCHEV(H1;A2:E11;2;0)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "RECHERCHEV, quatre arguments, le dernier valant FAUX."
+      },
+      "feedback": "Normandie."
+    },
+    {
+      "id": "M19-E05-02",
+      "consigne": "Complétez la fiche : prestation, technicien, montant.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "H3": {
+            "anyOf": [
+              "=RECHERCHEV($H$1;$A$2:$E$11;3;FAUX)",
+              "=RECHERCHEV($H$1;$A$2:$E$11;3;0)",
+              "=RECHERCHEV($H$1;A2:E11;3;FAUX)",
+              "=RECHERCHEV($H$1;A2:E11;3;0)",
+              "=RECHERCHEV(H1;$A$2:$E$11;3;FAUX)",
+              "=RECHERCHEV(H1;$A$2:$E$11;3;0)",
+              "=RECHERCHEV(H1;A2:E11;3;FAUX)",
+              "=RECHERCHEV(H1;A2:E11;3;0)"
+            ],
+            "v": "Installation"
+          },
+          "H4": {
+            "anyOf": [
+              "=RECHERCHEV($H$1;$A$2:$E$11;4;FAUX)",
+              "=RECHERCHEV($H$1;$A$2:$E$11;4;0)",
+              "=RECHERCHEV($H$1;A2:E11;4;FAUX)",
+              "=RECHERCHEV($H$1;A2:E11;4;0)",
+              "=RECHERCHEV(H1;$A$2:$E$11;4;FAUX)",
+              "=RECHERCHEV(H1;$A$2:$E$11;4;0)",
+              "=RECHERCHEV(H1;A2:E11;4;FAUX)",
+              "=RECHERCHEV(H1;A2:E11;4;0)"
+            ],
+            "v": "Klein"
+          },
+          "H5": {
+            "anyOf": [
+              "=RECHERCHEV($H$1;$A$2:$E$11;5;FAUX)",
+              "=RECHERCHEV($H$1;$A$2:$E$11;5;0)",
+              "=RECHERCHEV($H$1;A2:E11;5;FAUX)",
+              "=RECHERCHEV($H$1;A2:E11;5;0)",
+              "=RECHERCHEV(H1;$A$2:$E$11;5;FAUX)",
+              "=RECHERCHEV(H1;$A$2:$E$11;5;0)",
+              "=RECHERCHEV(H1;A2:E11;5;FAUX)",
+              "=RECHERCHEV(H1;A2:E11;5;0)"
+            ],
+            "v": 1780
+          }
+        }
+      },
+      "aide": {
+        "text": "Le numéro de colonne change à chaque ligne."
+      }
+    },
+    {
+      "id": "M19-E05-03",
+      "consigne": "Affichez la fiche de **Cabinet Lorez**.",
+      "setup": {
+        "selection": "H1"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "H1",
+        "accept": [
+          "Cabinet Lorez"
+        ]
+      },
+      "aide": {
+        "text": "Une seule cellule à changer : celle du client cherché."
+      },
+      "feedback": "Bretagne, Installation, Klein, 2 050 €."
+    },
+    {
+      "id": "M19-E05-04",
+      "consigne": "Enregistrez une nouvelle intervention : le client est **Ferme des Ormes**.",
+      "setup": {
+        "selection": "A12"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "A12",
+        "accept": [
+          "Ferme des Ormes"
+        ]
+      },
+      "aide": {
+        "text": "La première ligne libre."
+      }
+    },
+    {
+      "id": "M19-E05-05",
+      "consigne": "Complétez sa ligne : **Occitanie**, **Maintenance**, **Perrin**, **1190**.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "B12": {
+            "v": "Occitanie"
+          },
+          "C12": {
+            "v": "Maintenance"
+          },
+          "D12": {
+            "v": "Perrin"
+          },
+          "E12": {
+            "v": 1190
+          }
+        }
+      },
+      "aide": {
+        "text": "De B12 à E12."
+      }
+    },
+    {
+      "id": "M19-E05-06",
+      "consigne": "Faites afficher la fiche de **Ferme des Ormes**.",
+      "setup": {
+        "selection": "H1"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "H1",
+        "accept": [
+          "Ferme des Ormes"
+        ]
+      },
+      "aide": {
+        "text": "Le nom du nouveau client, dans la cellule de recherche."
+      },
+      "feedback": "La fiche renvoie #N/A : sa plage ignore la ligne que vous venez d'ajouter."
+    },
+    {
+      "id": "M19-E05-07",
+      "consigne": "Corrigez **H2** pour que la fiche voie toute la liste.",
+      "setup": {
+        "selection": "H2"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "H2",
+        "accept": [
+          "=RECHERCHEV($H$1;$A$2:$E$12;2;FAUX)",
+          "=RECHERCHEV($H$1;$A$2:$E$12;2;0)",
+          "=RECHERCHEV($H$1;A2:E12;2;FAUX)",
+          "=RECHERCHEV($H$1;A2:E12;2;0)",
+          "=RECHERCHEV(H1;$A$2:$E$12;2;FAUX)",
+          "=RECHERCHEV(H1;$A$2:$E$12;2;0)",
+          "=RECHERCHEV(H1;A2:E12;2;FAUX)",
+          "=RECHERCHEV(H1;A2:E12;2;0)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Étendez la plage d'une ligne."
+      },
+      "feedback": "Occitanie."
+    },
+    {
+      "id": "M19-E05-08",
+      "consigne": "Corrigez les trois dernières lignes de la fiche.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "H3": {
+            "anyOf": [
+              "=RECHERCHEV($H$1;$A$2:$E$12;3;FAUX)",
+              "=RECHERCHEV($H$1;$A$2:$E$12;3;0)",
+              "=RECHERCHEV($H$1;A2:E12;3;FAUX)",
+              "=RECHERCHEV($H$1;A2:E12;3;0)",
+              "=RECHERCHEV(H1;$A$2:$E$12;3;FAUX)",
+              "=RECHERCHEV(H1;$A$2:$E$12;3;0)",
+              "=RECHERCHEV(H1;A2:E12;3;FAUX)",
+              "=RECHERCHEV(H1;A2:E12;3;0)"
+            ],
+            "v": "Maintenance"
+          },
+          "H4": {
+            "anyOf": [
+              "=RECHERCHEV($H$1;$A$2:$E$12;4;FAUX)",
+              "=RECHERCHEV($H$1;$A$2:$E$12;4;0)",
+              "=RECHERCHEV($H$1;A2:E12;4;FAUX)",
+              "=RECHERCHEV($H$1;A2:E12;4;0)",
+              "=RECHERCHEV(H1;$A$2:$E$12;4;FAUX)",
+              "=RECHERCHEV(H1;$A$2:$E$12;4;0)",
+              "=RECHERCHEV(H1;A2:E12;4;FAUX)",
+              "=RECHERCHEV(H1;A2:E12;4;0)"
+            ],
+            "v": "Perrin"
+          },
+          "H5": {
+            "anyOf": [
+              "=RECHERCHEV($H$1;$A$2:$E$12;5;FAUX)",
+              "=RECHERCHEV($H$1;$A$2:$E$12;5;0)",
+              "=RECHERCHEV($H$1;A2:E12;5;FAUX)",
+              "=RECHERCHEV($H$1;A2:E12;5;0)",
+              "=RECHERCHEV(H1;$A$2:$E$12;5;FAUX)",
+              "=RECHERCHEV(H1;$A$2:$E$12;5;0)",
+              "=RECHERCHEV(H1;A2:E12;5;FAUX)",
+              "=RECHERCHEV(H1;A2:E12;5;0)"
+            ],
+            "v": 1190
+          }
+        }
+      },
+      "aide": {
+        "text": "Même plage sur les trois formules."
+      }
+    }
+  ]
+}

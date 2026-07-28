@@ -1,0 +1,253 @@
+{
+  "schemaVersion": 1,
+  "title": "Exercice · Un extrait pour le rapport annuel",
+  "mode": "EXERCISE",
+  "moduleTitle": "Import, export et échanges de données",
+  "intro": {
+    "title": "À VOUS",
+    "body": "Choisir l'extrait, le coller en valeurs, le mettre en forme, et contrôler qu'il est complet."
+  },
+  "outro": {
+    "body": "Exercice terminé."
+  },
+  "ribbon": [
+    "accueil",
+    "donnees"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Charges annuelles",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 130,
+          "B": 130,
+          "C": 120,
+          "D": 30,
+          "E": 20,
+          "F": 130,
+          "G": 130,
+          "H": 120,
+          "I": 150,
+          "J": 110
+        },
+        "cells": {
+          "A1": {
+            "v": "Poste de charge",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Montant annuel",
+            "format": {
+              "bold": true
+            }
+          },
+          "C1": {
+            "v": "Part du siège",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Loyer"
+          },
+          "B2": {
+            "v": 14400
+          },
+          "C2": {
+            "f": "=B2*0,25"
+          },
+          "A3": {
+            "v": "Énergie"
+          },
+          "B3": {
+            "v": 5280
+          },
+          "C3": {
+            "f": "=B3*0,25"
+          },
+          "A4": {
+            "v": "Assurances"
+          },
+          "B4": {
+            "v": 3960
+          },
+          "C4": {
+            "f": "=B4*0,25"
+          },
+          "A5": {
+            "v": "Entretien"
+          },
+          "B5": {
+            "v": 2640
+          },
+          "C5": {
+            "f": "=B5*0,25"
+          },
+          "I1": {
+            "v": "Total collé",
+            "format": {
+              "bold": true
+            }
+          },
+          "I2": {
+            "v": "Part totale du siège",
+            "format": {
+              "bold": true
+            }
+          },
+          "I3": {
+            "v": "Lignes collées",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M26-E02-01",
+      "consigne": "Le rapport annuel ne reprendra que le tableau des charges, titres compris. Sélectionnez-le.",
+      "setup": {
+        "selection": "A1"
+      },
+      "action": {
+        "type": "DRAG_RANGE",
+        "range": "A1:C5"
+      },
+      "aide": {
+        "text": "Quatre postes, trois colonnes, plus la ligne de titres."
+      }
+    },
+    {
+      "id": "M26-E02-02",
+      "consigne": "Copiez la sélection.",
+      "setup": {
+        "ribbon": {
+          "activeTab": "accueil"
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "acc-copier"
+      },
+      "aide": {
+        "text": "Bouton Copier, ou Ctrl+C."
+      }
+    },
+    {
+      "id": "M26-E02-03",
+      "consigne": "Collez l'extrait en **F1**, en valeurs : le rapport ne doit embarquer aucune formule.",
+      "setup": {
+        "selection": "F1",
+        "ribbon": {
+          "activeTab": "accueil"
+        },
+        "paste": {
+          "texte": "Poste de charge\tMontant annuel\tPart du siège\nLoyer\t14400\t3600\nÉnergie\t5280\t1320\nAssurances\t3960\t990\nEntretien\t2640\t660"
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "acc-coller"
+      },
+      "aide": {
+        "text": "Placez-vous en F1, puis Coller en valeurs."
+      }
+    },
+    {
+      "id": "M26-E02-04",
+      "consigne": "Rendez les montants collés présentables : format monétaire sur **G2:G5**.",
+      "setup": {
+        "selection": "G2:G5",
+        "ribbon": {
+          "activeTab": "accueil"
+        }
+      },
+      "action": {
+        "type": "EXPECT_FORMAT",
+        "cells": {
+          "G2": {
+            "numberFormat": "monetaire"
+          },
+          "G5": {
+            "numberFormat": "monetaire"
+          }
+        }
+      },
+      "aide": {
+        "text": "Le bouton € du groupe Nombre."
+      }
+    },
+    {
+      "id": "M26-E02-05",
+      "consigne": "En **J1**, totalisez les montants collés pour vérifier que rien n'a été perdu.",
+      "setup": {
+        "selection": "J1"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "J1",
+        "accept": [
+          "=SOMME(G2:G5)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Une somme sur la colonne des montants de l'extrait collé."
+      },
+      "feedback": "26 280 €, comme la source."
+    },
+    {
+      "id": "M26-E02-06",
+      "consigne": "En **J2**, totalisez la part du siège, elle aussi collée en valeurs.",
+      "setup": {
+        "selection": "J2"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "J2",
+        "accept": [
+          "=SOMME(H2:H5)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "La troisième colonne de l'extrait collé."
+      },
+      "feedback": "6 570 €."
+    },
+    {
+      "id": "M26-E02-07",
+      "consigne": "En **J3**, comptez les lignes de l'extrait.",
+      "setup": {
+        "selection": "J3"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "J3",
+        "accept": [
+          "=NBVAL(F2:F5)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "NBVAL sur la colonne des libellés collés."
+      },
+      "feedback": "4 lignes."
+    }
+  ]
+}

@@ -1,0 +1,263 @@
+{
+ "schemaVersion": 1,
+ "title": "S'évaluer · Noms de cellules",
+ "mode": "EVALUATION",
+ "moduleTitle": "Noms de cellules",
+ "intro": {
+  "title": "S'ÉVALUER",
+  "body": "Un devis annuel à nommer, à calculer, puis à corriger quand une prestation s'ajoute. Dix gestes sont attendus. Chacun est noté à la première tentative, et aucune aide n'est proposée."
+ },
+ "outro": {
+  "body": "Évaluation terminée."
+ },
+ "ribbon": [
+  "accueil"
+ ],
+ "statusBar": {
+  "aggregates": [
+   "moyenne",
+   "nb-non-vides",
+   "somme"
+  ],
+  "sheetCount": 1
+ },
+ "workbook": {
+  "fileName": "Devis annuel",
+  "activeSheetIndex": 0,
+  "selection": "A1",
+  "sheets": [
+   {
+    "name": "Feuil1",
+    "columnWidths": {
+     "A": 250,
+     "B": 130
+    },
+    "cells": {
+     "A1": {
+      "v": "DEVIS ANNUEL — GROUPE DELCOURT",
+      "format": {
+       "bold": true
+      }
+     },
+     "A2": {
+      "v": "Taux de remise"
+     },
+     "B2": {
+      "v": 0.15
+     },
+     "A10": {
+      "v": "Total (nom Prestations)",
+      "format": {
+       "bold": true
+      }
+     },
+     "A11": {
+      "v": "Remise accordée",
+      "format": {
+       "bold": true
+      }
+     },
+     "A13": {
+      "v": "Total (nom corrigé)",
+      "format": {
+       "bold": true
+      }
+     },
+     "A14": {
+      "v": "Montant moyen d'une prestation",
+      "format": {
+       "bold": true
+      }
+     },
+     "A3": {
+      "v": "Prestation",
+      "format": {
+       "bold": true
+      }
+     },
+     "B3": {
+      "v": "Montant",
+      "format": {
+       "bold": true
+      }
+     },
+     "A4": {
+      "v": "Formation bureautique"
+     },
+     "B4": {
+      "v": 4200
+     },
+     "A5": {
+      "v": "Formation anglais"
+     },
+     "B5": {
+      "v": 3600
+     },
+     "A6": {
+      "v": "Formation comptabilité"
+     },
+     "B6": {
+      "v": 2900
+     },
+     "A7": {
+      "v": "Formation graphisme"
+     },
+     "B7": {
+      "v": 1800
+     }
+    }
+   }
+  ]
+ },
+ "steps": [
+  {
+   "id": "M14-EV01-01",
+   "consigne": "Le **taux de remise** est en B2, les prestations en B4:B7. Vos formules devront employer des **noms**, pas des références.",
+   "action": {
+    "type": "READ"
+   },
+   "points": 0
+  },
+  {
+   "id": "M14-EV01-02",
+   "consigne": "Nommez la cellule du taux de remise **Taux_remise**.",
+   "setup": {
+    "selection": "B2"
+   },
+   "action": {
+    "type": "DEFINE_NAME",
+    "name": "Taux_remise",
+    "ref": "B2"
+   },
+   "points": 2
+  },
+  {
+   "id": "M14-EV01-03",
+   "consigne": "Sélectionnez les **quatre montants** des prestations.",
+   "action": {
+    "type": "DRAG_RANGE",
+    "range": "B4:B7"
+   },
+   "points": 1
+  },
+  {
+   "id": "M14-EV01-04",
+   "consigne": "Nommez cette plage **Prestations**.",
+   "action": {
+    "type": "DEFINE_NAME",
+    "name": "Prestations",
+    "ref": "B4:B7"
+   },
+   "points": 2
+  },
+  {
+   "id": "M14-EV01-05",
+   "consigne": "En **B10**, calculez le **total** des prestations en utilisant le nom.",
+   "setup": {
+    "selection": "B10"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "B10",
+    "accept": [
+     "=SOMME(Prestations)"
+    ],
+    "formulaMode": true
+   },
+   "points": 2
+  },
+  {
+   "id": "M14-EV01-06",
+   "consigne": "En **B11**, calculez la **remise accordée** : le total multiplié par le taux. Les deux noms doivent apparaître dans la formule.",
+   "setup": {
+    "selection": "B11"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "B11",
+    "accept": [
+     "=SOMME(Prestations)*Taux_remise",
+     "=Taux_remise*SOMME(Prestations)",
+     "=B10*Taux_remise",
+     "=Taux_remise*B10"
+    ],
+    "formulaMode": true
+   },
+   "points": 3
+  },
+  {
+   "id": "M14-EV01-07",
+   "consigne": "Une cinquième prestation est signée : saisissez `2500` en **B8**.",
+   "setup": {
+    "selection": "B8",
+    "cells": {
+     "A8": {
+      "v": "Formation vente"
+     }
+    }
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "B8",
+    "accept": [
+     "2500"
+    ]
+   },
+   "points": 1
+  },
+  {
+   "id": "M14-EV01-08",
+   "consigne": "Le total de B10 n'a pas bougé. Montrez **ce que le nom Prestations désigne réellement**.",
+   "action": {
+    "type": "GOTO_REF",
+    "ref": "B4:B7"
+   },
+   "points": 2
+  },
+  {
+   "id": "M14-EV01-09",
+   "consigne": "Sélectionnez la plage complète et nommez-la **Prestations_2026**.",
+   "setup": {
+    "selection": "B4:B8"
+   },
+   "action": {
+    "type": "DEFINE_NAME",
+    "name": "Prestations_2026",
+    "ref": "B4:B8"
+   },
+   "points": 3
+  },
+  {
+   "id": "M14-EV01-10",
+   "consigne": "En **B13**, calculez le **total corrigé** avec le nouveau nom.",
+   "setup": {
+    "selection": "B13"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "B13",
+    "accept": [
+     "=SOMME(Prestations_2026)"
+    ],
+    "formulaMode": true
+   },
+   "points": 2
+  },
+  {
+   "id": "M14-EV01-11",
+   "consigne": "En **B14**, calculez le **montant moyen** d'une prestation, avec le nom corrigé.",
+   "setup": {
+    "selection": "B14"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "B14",
+    "accept": [
+     "=MOYENNE(Prestations_2026)"
+    ],
+    "formulaMode": true
+   },
+   "points": 2
+  }
+ ]
+}

@@ -1,0 +1,387 @@
+{
+ "schemaVersion": 1,
+ "title": "Des dates dans tous les formats",
+ "mode": "LESSON",
+ "moduleTitle": "Applications pratiques",
+ "intro": {
+  "title": "UNE DATE EST UN NOMBRE",
+  "body": "Les dates d'émission sont saisies, et pourtant la colonne affiche des nombres à cinq chiffres. Ce n'est pas une erreur : c'est la clé de tout ce qu'on peut faire avec des dates dans un tableur."
+ },
+ "outro": {
+  "body": "Vous savez lire une date comme un nombre, la mettre en forme, calculer une échéance, une fin de mois et un retard. Ce sont les quatre calculs qui reviennent dans tous les échéanciers."
+ },
+ "ribbon": [
+  "accueil"
+ ],
+ "statusBar": {
+  "aggregates": [
+   "moyenne",
+   "nb-non-vides",
+   "somme"
+  ],
+  "sheetCount": 1
+ },
+ "workbook": {
+  "fileName": "Échéancier clients",
+  "activeSheetIndex": 0,
+  "selection": "A1",
+  "sheets": [
+   {
+    "name": "Feuil1",
+    "columnWidths": {
+     "A": 115,
+     "B": 115,
+     "C": 135,
+     "D": 175,
+     "E": 145,
+     "F": 110
+    },
+    "cells": {
+     "A1": {
+      "v": "ÉCHÉANCIER DES FACTURES CLIENTS",
+      "format": {
+       "bold": true
+      }
+     },
+     "A3": {
+      "v": "Date d'arrêté"
+     },
+     "B3": {
+      "v": 46203,
+      "format": {
+       "numberFormat": "dd/mm/yyyy"
+      }
+     },
+     "A11": {
+      "v": "Factures échues au 30/06",
+      "format": {
+       "bold": true
+      }
+     },
+     "A5": {
+      "v": "Facture",
+      "format": {
+       "bold": true
+      }
+     },
+     "B5": {
+      "v": "Émission",
+      "format": {
+       "bold": true
+      }
+     },
+     "C5": {
+      "v": "Échéance 30 j",
+      "format": {
+       "bold": true
+      }
+     },
+     "D5": {
+      "v": "Fin du mois suivant",
+      "format": {
+       "bold": true
+      }
+     },
+     "E5": {
+      "v": "Jour de semaine",
+      "format": {
+       "bold": true
+      }
+     },
+     "F5": {
+      "v": "Retard (j)",
+      "format": {
+       "bold": true
+      }
+     },
+     "A6": {
+      "v": "2026-0142"
+     },
+     "B6": {
+      "v": 46093,
+      "format": {
+       "numberFormat": "dd/mm/yyyy"
+      }
+     },
+     "A7": {
+      "v": "2026-0157"
+     },
+     "B7": {
+      "v": 46108,
+      "format": {
+       "numberFormat": "dd/mm/yyyy"
+      }
+     },
+     "A8": {
+      "v": "2026-0163"
+     },
+     "B8": {
+      "v": 46116,
+      "format": {
+       "numberFormat": "dd/mm/yyyy"
+      }
+     },
+     "A9": {
+      "v": "2026-0171"
+     },
+     "B9": {
+      "v": 46160,
+      "format": {
+       "numberFormat": "dd/mm/yyyy"
+      }
+     }
+    }
+   }
+  ]
+ },
+ "steps": [
+  {
+   "id": "M16-L03-01",
+   "consigne": "Excel compte les jours depuis le **1ᵉʳ janvier 1900**. Le nombre affiché en **B6** est ce compteur : c'est pour cela qu'on peut ajouter 30 à une date pour obtenir une échéance, ou soustraire deux dates pour compter des jours. Le format d'affichage ne change rien au calcul — il rend seulement la valeur lisible.",
+   "action": {
+    "type": "READ"
+   },
+   "points": 0
+  },
+  {
+   "id": "M16-L03-02",
+   "consigne": "La colonne des dates d'émission est sélectionnée. ==Donnez-lui un **format de date**==.",
+   "setup": {
+    "selection": "B6:B9"
+   },
+   "action": {
+    "type": "EXPECT_FORMAT",
+    "cells": {
+     "B6": {
+      "numberFormat": "date"
+     },
+     "B9": {
+      "numberFormat": "date"
+     }
+    }
+   },
+   "aide": {
+    "text": "Le bouton de format de date de l'onglet Accueil.",
+    "showTarget": true
+   },
+   "feedback": "Les quatre dates sont lisibles. La valeur, elle, n'a pas changé d'un jour : c'est bien le même nombre, habillé autrement."
+  },
+  {
+   "id": "M16-L03-03",
+   "consigne": "Les factures sont payables à **30 jours**. En **C6**, ==calculez l'échéance== de la première.",
+   "setup": {
+    "selection": "C6"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "C6",
+    "accept": [
+     "=B6+30",
+     "=30+B6"
+    ],
+    "formulaMode": true
+   },
+   "aide": {
+    "text": "Une date plus un nombre de jours donne une date. Rien de plus qu'une addition.",
+    "showTarget": true
+   },
+   "feedback": "46123 : l'échéance sous forme brute. Une addition de dates est une addition de nombres."
+  },
+  {
+   "id": "M16-L03-04",
+   "consigne": "Certains clients règlent en **fin de mois suivant**. En **D6**, ==saisissez `=FIN.MOIS(B6;1)`==.",
+   "setup": {
+    "selection": "D6"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "D6",
+    "accept": [
+     "=FIN.MOIS(B6;1)"
+    ],
+    "formulaMode": true
+   },
+   "aide": {
+    "text": "Deux arguments : la date de départ, et le nombre de mois à décaler — 1 pour le mois suivant.",
+    "showTarget": true
+   },
+   "feedback": "La fonction rend le **dernier jour** du mois demandé, sans que vous ayez à savoir s'il compte 28, 30 ou 31 jours."
+  },
+  {
+   "id": "M16-L03-05",
+   "consigne": "Une facture émise un vendredi part au courrier le lundi. En **E6**, ==saisissez `=JOURSEM(B6;2)`== pour connaître le jour de la semaine.",
+   "setup": {
+    "selection": "E6"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "E6",
+    "accept": [
+     "=JOURSEM(B6;2)"
+    ],
+    "formulaMode": true
+   },
+   "aide": {
+    "text": "Le second argument `2` fixe la convention française : lundi = 1, dimanche = 7.",
+    "showTarget": true
+   },
+   "feedback": "4 : le 12/03/2026 est un jeudi. Sans le `2`, Excel compterait à l'américaine, dimanche = 1 — et votre test « c'est le week-end » désignerait le mauvais jour."
+  },
+  {
+   "id": "M16-L03-06",
+   "consigne": "En **F6**, ==calculez le retard== au 30 juin : la date d'arrêté de B3 moins l'échéance.",
+   "setup": {
+    "selection": "F6"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "F6",
+    "accept": [
+     "=$B$3-C6"
+    ],
+    "formulaMode": true
+   },
+   "aide": {
+    "text": "La date d'arrêté doit être figée par des dollars : la formule va descendre.",
+    "showTarget": true
+   },
+   "feedback": "80 jours de retard. Une différence de deux dates donne un **nombre de jours**, pas une date : cette cellule ne doit surtout pas recevoir de format de date."
+  },
+  {
+   "id": "M16-L03-07",
+   "consigne": "==Complétez les trois factures restantes== en recopiant **C6:F6** vers le bas.",
+   "action": {
+    "type": "EXPECT_STATE",
+    "cells": {
+     "C7": {
+      "anyOf": [
+       "=B7+30",
+       "=30+B7"
+      ],
+      "v": 46138
+     },
+     "D7": {
+      "anyOf": [
+       "=FIN.MOIS(B7;1)"
+      ],
+      "v": 46142
+     },
+     "E7": {
+      "anyOf": [
+       "=JOURSEM(B7;2)"
+      ],
+      "v": 5
+     },
+     "F7": {
+      "anyOf": [
+       "=$B$3-C7"
+      ],
+      "v": 65
+     },
+     "C8": {
+      "anyOf": [
+       "=B8+30",
+       "=30+B8"
+      ],
+      "v": 46146
+     },
+     "D8": {
+      "anyOf": [
+       "=FIN.MOIS(B8;1)"
+      ],
+      "v": 46173
+     },
+     "E8": {
+      "anyOf": [
+       "=JOURSEM(B8;2)"
+      ],
+      "v": 6
+     },
+     "F8": {
+      "anyOf": [
+       "=$B$3-C8"
+      ],
+      "v": 57
+     },
+     "C9": {
+      "anyOf": [
+       "=B9+30",
+       "=30+B9"
+      ],
+      "v": 46190
+     },
+     "D9": {
+      "anyOf": [
+       "=FIN.MOIS(B9;1)"
+      ],
+      "v": 46203
+     },
+     "E9": {
+      "anyOf": [
+       "=JOURSEM(B9;2)"
+      ],
+      "v": 1
+     },
+     "F9": {
+      "anyOf": [
+       "=$B$3-C9"
+      ],
+      "v": 13
+     }
+    }
+   },
+   "aide": {
+    "text": "Sélectionnez les quatre cellules, puis tirez la poignée jusqu'à la ligne 9."
+   },
+   "feedback": "Les quatre colonnes suivent. Le retard de la dernière facture est négatif : elle n'est pas encore échue, et c'est le signe qui le dit."
+  },
+  {
+   "id": "M16-L03-08",
+   "consigne": "Les colonnes **Échéance** et **Fin du mois** affichent encore des nombres. ==Donnez-leur un format de date==, elles sont sélectionnées.",
+   "setup": {
+    "selection": "C6:D9"
+   },
+   "action": {
+    "type": "EXPECT_FORMAT",
+    "cells": {
+     "C6": {
+      "numberFormat": "date"
+     },
+     "D9": {
+      "numberFormat": "date"
+     }
+    }
+   },
+   "aide": {
+    "text": "Le même bouton que tout à l'heure, sur la nouvelle sélection.",
+    "showTarget": true
+   },
+   "feedback": "L'échéancier est lisible. Remarquez qu'on n'a **pas** formaté les colonnes E et F : un jour de semaine et un nombre de jours sont des nombres, pas des dates."
+  },
+  {
+   "id": "M16-L03-09",
+   "consigne": "Dernier chiffre utile : en **B11**, ==comptez les factures échues==, celles dont le retard est positif.",
+   "setup": {
+    "selection": "B11"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "B11",
+    "accept": [
+     "=NB.SI(F6:F9;\">0\")",
+     "=NB.SI($F$6:$F$9;\">0\")"
+    ],
+    "formulaMode": true
+   },
+   "feedback": "4 factures à relancer. C'est la colonne Retard qui rend ce comptage possible, et elle n'existe que parce qu'une date est un nombre."
+  },
+  {
+   "id": "M16-L03-10",
+   "consigne": "Trois pièges de dates, pour finir. Une date **saisie comme du texte** — avec un point, ou dans une cellule au format Texte — ne calcule rien : elle s'aligne à gauche, c'est le signe qui doit alerter. Un **format ne modifie jamais la valeur** : changer l'affichage ne change pas le calcul. Et une différence de dates s'exprime en **jours**, jamais en date : si le résultat s'affiche « 30/01/1900 », c'est qu'un format de date traîne sur la cellule.",
+   "action": {
+    "type": "READ"
+   },
+   "points": 0
+  }
+ ]
+}

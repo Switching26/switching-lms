@@ -1,0 +1,336 @@
+{
+  "schemaVersion": 1,
+  "title": "Isoler les cellules de saisie",
+  "mode": "LESSON",
+  "moduleTitle": "Validation des données et protection",
+  "intro": {
+    "title": "OÙ A-T-ON LE DROIT D'ÉCRIRE ?",
+    "body": "Une feuille qui circule se prépare : on montre la zone de saisie, on contraint ce qu'elle accepte, et on met les formules hors de portée. Dans cet ordre."
+  },
+  "outro": {
+    "body": "Vous savez repérer, contraindre et contrôler une zone de saisie avant de protéger une feuille."
+  },
+  "ribbon": [
+    "accueil",
+    "donnees"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Devis fournitures",
+    "activeSheetIndex": 0,
+    "selection": "C4",
+    "sheets": [
+      {
+        "name": "Devis",
+        "columnWidths": {
+          "A": 95,
+          "B": 215,
+          "C": 85,
+          "D": 85,
+          "E": 95
+        },
+        "cells": {
+          "A1": {
+            "v": "DEVIS 2026-042 — Fournitures de bureau",
+            "format": {
+              "bold": true
+            }
+          },
+          "A3": {
+            "v": "Référence",
+            "format": {
+              "bold": true
+            }
+          },
+          "B3": {
+            "v": "Désignation",
+            "format": {
+              "bold": true
+            }
+          },
+          "C3": {
+            "v": "Quantité",
+            "format": {
+              "bold": true
+            }
+          },
+          "D3": {
+            "v": "Prix HT",
+            "format": {
+              "bold": true
+            }
+          },
+          "E3": {
+            "v": "Total HT",
+            "format": {
+              "bold": true
+            }
+          },
+          "A4": {
+            "v": "FB-102"
+          },
+          "B4": {
+            "v": "Ramette A4 (500 feuilles)"
+          },
+          "C4": {
+            "v": 8
+          },
+          "D4": {
+            "v": 4.9
+          },
+          "A5": {
+            "v": "FB-214"
+          },
+          "B5": {
+            "v": "Stylo bille bleu (boîte de 50)"
+          },
+          "C5": {
+            "v": 3
+          },
+          "D5": {
+            "v": 18.5
+          },
+          "A6": {
+            "v": "FB-330"
+          },
+          "B6": {
+            "v": "Classeur à levier dos 8 cm"
+          },
+          "C6": {
+            "v": 8
+          },
+          "D6": {
+            "v": 3.75
+          },
+          "A7": {
+            "v": "FB-451"
+          },
+          "B7": {
+            "v": "Bloc-notes A5 (lot de 10)"
+          },
+          "C7": {
+            "v": 5
+          },
+          "D7": {
+            "v": 12.4
+          },
+          "A8": {
+            "v": "FB-508"
+          },
+          "B8": {
+            "v": "Chemise cartonnée (lot de 100)"
+          },
+          "C8": {
+            "v": 2
+          },
+          "D8": {
+            "v": 27
+          },
+          "D10": {
+            "v": "TOTAL HT",
+            "format": {
+              "bold": true
+            }
+          },
+          "D11": {
+            "v": "Lignes renseignées",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M21-L03-01",
+      "consigne": "Cette feuille va circuler. Premier travail : **montrer où l'on a le droit d'écrire**. ==Sélectionnez **C4:C8**, puis cliquez sur **Remplissage**== dans l'onglet Accueil.",
+      "setup": {
+        "selection": "C4:C8",
+        "ribbon": {
+          "activeTab": "accueil"
+        }
+      },
+      "action": {
+        "type": "EXPECT_FORMAT",
+        "cells": {
+          "C4": {
+            "background": "#fde68a"
+          },
+          "C8": {
+            "background": "#fde68a"
+          }
+        }
+      },
+      "aide": {
+        "text": "Le pot de peinture du groupe Police, onglet Accueil.",
+        "showTarget": true
+      },
+      "feedback": "Convention répandue en entreprise : **fond de couleur = zone de saisie**, fond blanc = calculs et libellés, qu'on ne touche pas. Cela ne verrouille rien, mais cela évite déjà la moitié des accidents."
+    },
+    {
+      "id": "M21-L03-02",
+      "consigne": "Ensuite la contrainte. ==Cliquez sur **Validation**== dans l'onglet Données pour n'accepter, dans cette colonne, qu'un nombre compris entre 1 et 500.",
+      "setup": {
+        "selection": "C4:C8",
+        "ribbon": {
+          "activeTab": "donnees"
+        },
+        "dv": {
+          "range": "C4:C8",
+          "rule": {
+            "kind": "numberBetween",
+            "min": 1,
+            "max": 500,
+            "errorMessage": "La quantité doit être un nombre compris entre 1 et 500."
+          }
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "don-validation"
+      },
+      "aide": {
+        "text": "Le bouton Validation du groupe Outils de données.",
+        "showTarget": true
+      },
+      "feedback": "Une quantité négative, une lettre ou 5 000 seront désormais refusées à la saisie."
+    },
+    {
+      "id": "M21-L03-03",
+      "consigne": "Le client revoit sa commande. ==Portez la quantité de la ramette à `12` en **C4**==.",
+      "setup": {
+        "selection": "C4"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "C4",
+        "accept": [
+          "12"
+        ]
+      },
+      "aide": {
+        "text": "La cellule est dans la zone de saisie : elle accepte la valeur.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M21-L03-04",
+      "consigne": "==En **E4**, calculez le total de la ligne==.",
+      "setup": {
+        "selection": "E4"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "E4",
+        "accept": [
+          "=C4*D4",
+          "=D4*C4"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "La quantité multipliée par le prix unitaire.",
+        "showTarget": true
+      },
+      "feedback": "58,80 € pour les ramettes."
+    },
+    {
+      "id": "M21-L03-05",
+      "consigne": "==Recopiez la formule jusqu'en **E8**==.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "E5": {
+            "anyOf": [
+              "=C5*D5",
+              "=D5*C5"
+            ],
+            "v": 55.5
+          },
+          "E6": {
+            "anyOf": [
+              "=C6*D6",
+              "=D6*C6"
+            ],
+            "v": 30.0
+          },
+          "E7": {
+            "anyOf": [
+              "=C7*D7",
+              "=D7*C7"
+            ],
+            "v": 62.0
+          },
+          "E8": {
+            "anyOf": [
+              "=C8*D8",
+              "=D8*C8"
+            ],
+            "v": 54
+          }
+        }
+      },
+      "aide": {
+        "text": "La poignée de recopie de E4, tirée jusqu'à E8.",
+        "showTarget": true
+      },
+      "feedback": "Cinq totaux de ligne. Ce sont ces cellules qu'il faudra rendre intouchables."
+    },
+    {
+      "id": "M21-L03-06",
+      "consigne": "==En **E10**, totalisez le devis==.",
+      "setup": {
+        "selection": "E10"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "E10",
+        "accept": [
+          "=SOMME(E4:E8)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Une somme sur la colonne des totaux de ligne.",
+        "showTarget": true
+      },
+      "feedback": "260,30 € HT."
+    },
+    {
+      "id": "M21-L03-07",
+      "consigne": "Un dernier contrôle utile sur une feuille de saisie : savoir si elle est complète. ==En **E11**, comptez les quantités renseignées : `=NB(C4:C8)`==.",
+      "setup": {
+        "selection": "E11"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "E11",
+        "accept": [
+          "=NB(C4:C8)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "NB ne compte que les cellules contenant un nombre.",
+        "showTarget": true
+      },
+      "feedback": "5 lignes sur 5. Une cellule oubliée se verrait immédiatement."
+    },
+    {
+      "id": "M21-L03-08",
+      "consigne": "Reste à verrouiller pour de bon, et l'ordre des opérations surprend toujours : **toutes les cellules d'une feuille sont verrouillées par défaut**, mais ce verrou ne fait rien tant que la feuille n'est pas protégée. On procède donc à l'envers de l'intuition — d'abord **déverrouiller la zone de saisie** (sélection, Format de cellule, onglet Protection, décocher « Verrouillée »), ensuite **protéger la feuille** (onglet Révision). Les cellules jaunes restent ouvertes, les formules deviennent inaccessibles.\n\nEt une mise en garde à dire nettement : cette protection **n'est pas de la sécurité**. Elle évite les fausses manœuvres, rien de plus — le mot de passe d'une feuille se retire en quelques secondes avec un utilitaire gratuit. Pour des données réellement confidentielles, il faut chiffrer le classeur à l'ouverture.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    }
+  ]
+}

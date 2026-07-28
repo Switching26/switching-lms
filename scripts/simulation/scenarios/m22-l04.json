@@ -1,0 +1,479 @@
+{
+  "schemaVersion": 1,
+  "title": "Consolider plusieurs feuilles par libellés",
+  "mode": "LESSON",
+  "moduleTitle": "Consolidation des données",
+  "intro": {
+    "title": "QUAND LES FEUILLES NE SE RESSEMBLENT PAS",
+    "body": "Trois agences, trois façons de ranger les mêmes produits, et une ligne qui n'existe que dans l'une d'elles. La consolidation par position est ici impossible ; par libellé, elle demande un contrôle."
+  },
+  "outro": {
+    "body": "Vous savez consolider plusieurs feuilles par libellés et détecter une ligne oubliée."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Consolidation agences",
+    "activeSheetIndex": 3,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Lyon",
+        "columnWidths": {
+          "A": 130,
+          "B": 110
+        },
+        "cells": {
+          "A1": {
+            "v": "Produit",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Montant",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Licence"
+          },
+          "B2": {
+            "v": 14400
+          },
+          "A3": {
+            "v": "Formation"
+          },
+          "B3": {
+            "v": 7500
+          },
+          "A4": {
+            "v": "Support"
+          },
+          "B4": {
+            "v": 4800
+          },
+          "A5": {
+            "v": "Maintenance"
+          },
+          "B5": {
+            "v": 6300
+          },
+          "A7": {
+            "v": "Total",
+            "format": {
+              "bold": true
+            }
+          },
+          "B7": {
+            "f": "=SOMME(B2:B5)"
+          }
+        }
+      },
+      {
+        "name": "Nantes",
+        "columnWidths": {
+          "A": 130,
+          "B": 110
+        },
+        "cells": {
+          "A1": {
+            "v": "Produit",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Montant",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Support"
+          },
+          "B2": {
+            "v": 2400
+          },
+          "A3": {
+            "v": "Licence"
+          },
+          "B3": {
+            "v": 8400
+          },
+          "A4": {
+            "v": "Maintenance"
+          },
+          "B4": {
+            "v": 5100
+          },
+          "A5": {
+            "v": "Formation"
+          },
+          "B5": {
+            "v": 13500
+          },
+          "A6": {
+            "v": "Onduleur"
+          },
+          "B6": {
+            "v": 1800
+          },
+          "A8": {
+            "v": "Total",
+            "format": {
+              "bold": true
+            }
+          },
+          "B8": {
+            "f": "=SOMME(B2:B6)"
+          }
+        }
+      },
+      {
+        "name": "Strasbourg",
+        "columnWidths": {
+          "A": 130,
+          "B": 110
+        },
+        "cells": {
+          "A1": {
+            "v": "Produit",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Montant",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Formation"
+          },
+          "B2": {
+            "v": 4500
+          },
+          "A3": {
+            "v": "Maintenance"
+          },
+          "B3": {
+            "v": 2900
+          },
+          "A4": {
+            "v": "Licence"
+          },
+          "B4": {
+            "v": 18000
+          },
+          "A5": {
+            "v": "Support"
+          },
+          "B5": {
+            "v": 3600
+          },
+          "A7": {
+            "v": "Total",
+            "format": {
+              "bold": true
+            }
+          },
+          "B7": {
+            "f": "=SOMME(B2:B5)"
+          }
+        }
+      },
+      {
+        "name": "Synthèse",
+        "columnWidths": {
+          "A": 135,
+          "B": 110,
+          "C": 30,
+          "D": 250
+        },
+        "cells": {
+          "A1": {
+            "v": "Produit",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Consolidé",
+            "format": {
+              "bold": true
+            }
+          },
+          "D1": {
+            "v": "Contrôle : total des trois feuilles",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Licence"
+          },
+          "A3": {
+            "v": "Formation"
+          },
+          "A4": {
+            "v": "Support"
+          },
+          "A5": {
+            "v": "Maintenance"
+          },
+          "A8": {
+            "v": "TOTAL CONSOLIDÉ",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M22-L04-01",
+      "consigne": "Trois agences, mais regardez bien : ==ouvrez l'onglet **Nantes**==.",
+      "action": {
+        "type": "SELECT_SHEET",
+        "name": "Nantes"
+      },
+      "aide": {
+        "text": "Le deuxième onglet.",
+        "showTarget": true
+      },
+      "feedback": "Les produits n'y sont **pas dans le même ordre** que sur la feuille Lyon, et il y a une ligne de plus. Additionner par position — B2 + B2 + B2 — donnerait n'importe quoi."
+    },
+    {
+      "id": "M22-L04-02",
+      "consigne": "==Revenez sur la **Synthèse**==.",
+      "action": {
+        "type": "SELECT_SHEET",
+        "name": "Synthèse"
+      },
+      "aide": {
+        "text": "Le dernier onglet.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M22-L04-03",
+      "consigne": "La solution est de consolider **par libellé** : chaque feuille est interrogée sur le nom du produit, jamais sur sa position. ==En **B2**, saisissez `=SOMME.SI(Lyon!$A$2:$A$5;$A2;Lyon!$B$2:$B$5)+SOMME.SI(Nantes!$A$2:$A$6;$A2;Nantes!$B$2:$B$6)+SOMME.SI(Strasbourg!$A$2:$A$5;$A2;Strasbourg!$B$2:$B$5)`==.",
+      "setup": {
+        "selection": "B2"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B2",
+        "accept": [
+          "=SOMME.SI(Lyon!$A$2:$A$5;$A2;Lyon!$B$2:$B$5)+SOMME.SI(Nantes!$A$2:$A$6;$A2;Nantes!$B$2:$B$6)+SOMME.SI(Strasbourg!$A$2:$A$5;$A2;Strasbourg!$B$2:$B$5)",
+          "=SOMME.SI(Lyon!A2:A5;A2;Lyon!B2:B5)+SOMME.SI(Nantes!A2:A6;A2;Nantes!B2:B6)+SOMME.SI(Strasbourg!A2:A5;A2;Strasbourg!B2:B5)",
+          "=SOMME.SI(Lyon!$A$2:$A$5;$A2;Lyon!$B$2:$B$5)+SOMME.SI(Strasbourg!$A$2:$A$5;$A2;Strasbourg!$B$2:$B$5)+SOMME.SI(Nantes!$A$2:$A$6;$A2;Nantes!$B$2:$B$6)",
+          "=SOMME.SI(Lyon!A2:A5;A2;Lyon!B2:B5)+SOMME.SI(Strasbourg!A2:A5;A2;Strasbourg!B2:B5)+SOMME.SI(Nantes!A2:A6;A2;Nantes!B2:B6)",
+          "=SOMME.SI(Nantes!$A$2:$A$6;$A2;Nantes!$B$2:$B$6)+SOMME.SI(Lyon!$A$2:$A$5;$A2;Lyon!$B$2:$B$5)+SOMME.SI(Strasbourg!$A$2:$A$5;$A2;Strasbourg!$B$2:$B$5)",
+          "=SOMME.SI(Nantes!A2:A6;A2;Nantes!B2:B6)+SOMME.SI(Lyon!A2:A5;A2;Lyon!B2:B5)+SOMME.SI(Strasbourg!A2:A5;A2;Strasbourg!B2:B5)",
+          "=SOMME.SI(Nantes!$A$2:$A$6;$A2;Nantes!$B$2:$B$6)+SOMME.SI(Strasbourg!$A$2:$A$5;$A2;Strasbourg!$B$2:$B$5)+SOMME.SI(Lyon!$A$2:$A$5;$A2;Lyon!$B$2:$B$5)",
+          "=SOMME.SI(Nantes!A2:A6;A2;Nantes!B2:B6)+SOMME.SI(Strasbourg!A2:A5;A2;Strasbourg!B2:B5)+SOMME.SI(Lyon!A2:A5;A2;Lyon!B2:B5)",
+          "=SOMME.SI(Strasbourg!$A$2:$A$5;$A2;Strasbourg!$B$2:$B$5)+SOMME.SI(Lyon!$A$2:$A$5;$A2;Lyon!$B$2:$B$5)+SOMME.SI(Nantes!$A$2:$A$6;$A2;Nantes!$B$2:$B$6)",
+          "=SOMME.SI(Strasbourg!A2:A5;A2;Strasbourg!B2:B5)+SOMME.SI(Lyon!A2:A5;A2;Lyon!B2:B5)+SOMME.SI(Nantes!A2:A6;A2;Nantes!B2:B6)",
+          "=SOMME.SI(Strasbourg!$A$2:$A$5;$A2;Strasbourg!$B$2:$B$5)+SOMME.SI(Nantes!$A$2:$A$6;$A2;Nantes!$B$2:$B$6)+SOMME.SI(Lyon!$A$2:$A$5;$A2;Lyon!$B$2:$B$5)",
+          "=SOMME.SI(Strasbourg!A2:A5;A2;Strasbourg!B2:B5)+SOMME.SI(Nantes!A2:A6;A2;Nantes!B2:B6)+SOMME.SI(Lyon!A2:A5;A2;Lyon!B2:B5)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Trois SOMME.SI additionnés, un par feuille. Les plages sont figées, le critère $A2 ne l'est que sur la colonne.",
+        "showTarget": true
+      },
+      "feedback": "40 800 € de licences sur les trois agences, quel que soit l'ordre des lignes dans chaque feuille."
+    },
+    {
+      "id": "M22-L04-04",
+      "consigne": "==Recopiez **B2** jusqu'en **B5**== pour les trois autres produits.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "B3": {
+            "anyOf": [
+              "=SOMME.SI(Lyon!$A$2:$A$5;$A3;Lyon!$B$2:$B$5)+SOMME.SI(Nantes!$A$2:$A$6;$A3;Nantes!$B$2:$B$6)+SOMME.SI(Strasbourg!$A$2:$A$5;$A3;Strasbourg!$B$2:$B$5)",
+              "=SOMME.SI(Lyon!A2:A5;A3;Lyon!B2:B5)+SOMME.SI(Nantes!A2:A6;A3;Nantes!B2:B6)+SOMME.SI(Strasbourg!A2:A5;A3;Strasbourg!B2:B5)",
+              "=SOMME.SI(Lyon!$A$2:$A$5;$A3;Lyon!$B$2:$B$5)+SOMME.SI(Strasbourg!$A$2:$A$5;$A3;Strasbourg!$B$2:$B$5)+SOMME.SI(Nantes!$A$2:$A$6;$A3;Nantes!$B$2:$B$6)",
+              "=SOMME.SI(Lyon!A2:A5;A3;Lyon!B2:B5)+SOMME.SI(Strasbourg!A2:A5;A3;Strasbourg!B2:B5)+SOMME.SI(Nantes!A2:A6;A3;Nantes!B2:B6)",
+              "=SOMME.SI(Nantes!$A$2:$A$6;$A3;Nantes!$B$2:$B$6)+SOMME.SI(Lyon!$A$2:$A$5;$A3;Lyon!$B$2:$B$5)+SOMME.SI(Strasbourg!$A$2:$A$5;$A3;Strasbourg!$B$2:$B$5)",
+              "=SOMME.SI(Nantes!A2:A6;A3;Nantes!B2:B6)+SOMME.SI(Lyon!A2:A5;A3;Lyon!B2:B5)+SOMME.SI(Strasbourg!A2:A5;A3;Strasbourg!B2:B5)",
+              "=SOMME.SI(Nantes!$A$2:$A$6;$A3;Nantes!$B$2:$B$6)+SOMME.SI(Strasbourg!$A$2:$A$5;$A3;Strasbourg!$B$2:$B$5)+SOMME.SI(Lyon!$A$2:$A$5;$A3;Lyon!$B$2:$B$5)",
+              "=SOMME.SI(Nantes!A2:A6;A3;Nantes!B2:B6)+SOMME.SI(Strasbourg!A2:A5;A3;Strasbourg!B2:B5)+SOMME.SI(Lyon!A2:A5;A3;Lyon!B2:B5)",
+              "=SOMME.SI(Strasbourg!$A$2:$A$5;$A3;Strasbourg!$B$2:$B$5)+SOMME.SI(Lyon!$A$2:$A$5;$A3;Lyon!$B$2:$B$5)+SOMME.SI(Nantes!$A$2:$A$6;$A3;Nantes!$B$2:$B$6)",
+              "=SOMME.SI(Strasbourg!A2:A5;A3;Strasbourg!B2:B5)+SOMME.SI(Lyon!A2:A5;A3;Lyon!B2:B5)+SOMME.SI(Nantes!A2:A6;A3;Nantes!B2:B6)",
+              "=SOMME.SI(Strasbourg!$A$2:$A$5;$A3;Strasbourg!$B$2:$B$5)+SOMME.SI(Nantes!$A$2:$A$6;$A3;Nantes!$B$2:$B$6)+SOMME.SI(Lyon!$A$2:$A$5;$A3;Lyon!$B$2:$B$5)",
+              "=SOMME.SI(Strasbourg!A2:A5;A3;Strasbourg!B2:B5)+SOMME.SI(Nantes!A2:A6;A3;Nantes!B2:B6)+SOMME.SI(Lyon!A2:A5;A3;Lyon!B2:B5)"
+            ],
+            "v": 25500
+          },
+          "B4": {
+            "anyOf": [
+              "=SOMME.SI(Lyon!$A$2:$A$5;$A4;Lyon!$B$2:$B$5)+SOMME.SI(Nantes!$A$2:$A$6;$A4;Nantes!$B$2:$B$6)+SOMME.SI(Strasbourg!$A$2:$A$5;$A4;Strasbourg!$B$2:$B$5)",
+              "=SOMME.SI(Lyon!A2:A5;A4;Lyon!B2:B5)+SOMME.SI(Nantes!A2:A6;A4;Nantes!B2:B6)+SOMME.SI(Strasbourg!A2:A5;A4;Strasbourg!B2:B5)",
+              "=SOMME.SI(Lyon!$A$2:$A$5;$A4;Lyon!$B$2:$B$5)+SOMME.SI(Strasbourg!$A$2:$A$5;$A4;Strasbourg!$B$2:$B$5)+SOMME.SI(Nantes!$A$2:$A$6;$A4;Nantes!$B$2:$B$6)",
+              "=SOMME.SI(Lyon!A2:A5;A4;Lyon!B2:B5)+SOMME.SI(Strasbourg!A2:A5;A4;Strasbourg!B2:B5)+SOMME.SI(Nantes!A2:A6;A4;Nantes!B2:B6)",
+              "=SOMME.SI(Nantes!$A$2:$A$6;$A4;Nantes!$B$2:$B$6)+SOMME.SI(Lyon!$A$2:$A$5;$A4;Lyon!$B$2:$B$5)+SOMME.SI(Strasbourg!$A$2:$A$5;$A4;Strasbourg!$B$2:$B$5)",
+              "=SOMME.SI(Nantes!A2:A6;A4;Nantes!B2:B6)+SOMME.SI(Lyon!A2:A5;A4;Lyon!B2:B5)+SOMME.SI(Strasbourg!A2:A5;A4;Strasbourg!B2:B5)",
+              "=SOMME.SI(Nantes!$A$2:$A$6;$A4;Nantes!$B$2:$B$6)+SOMME.SI(Strasbourg!$A$2:$A$5;$A4;Strasbourg!$B$2:$B$5)+SOMME.SI(Lyon!$A$2:$A$5;$A4;Lyon!$B$2:$B$5)",
+              "=SOMME.SI(Nantes!A2:A6;A4;Nantes!B2:B6)+SOMME.SI(Strasbourg!A2:A5;A4;Strasbourg!B2:B5)+SOMME.SI(Lyon!A2:A5;A4;Lyon!B2:B5)",
+              "=SOMME.SI(Strasbourg!$A$2:$A$5;$A4;Strasbourg!$B$2:$B$5)+SOMME.SI(Lyon!$A$2:$A$5;$A4;Lyon!$B$2:$B$5)+SOMME.SI(Nantes!$A$2:$A$6;$A4;Nantes!$B$2:$B$6)",
+              "=SOMME.SI(Strasbourg!A2:A5;A4;Strasbourg!B2:B5)+SOMME.SI(Lyon!A2:A5;A4;Lyon!B2:B5)+SOMME.SI(Nantes!A2:A6;A4;Nantes!B2:B6)",
+              "=SOMME.SI(Strasbourg!$A$2:$A$5;$A4;Strasbourg!$B$2:$B$5)+SOMME.SI(Nantes!$A$2:$A$6;$A4;Nantes!$B$2:$B$6)+SOMME.SI(Lyon!$A$2:$A$5;$A4;Lyon!$B$2:$B$5)",
+              "=SOMME.SI(Strasbourg!A2:A5;A4;Strasbourg!B2:B5)+SOMME.SI(Nantes!A2:A6;A4;Nantes!B2:B6)+SOMME.SI(Lyon!A2:A5;A4;Lyon!B2:B5)"
+            ],
+            "v": 10800
+          },
+          "B5": {
+            "anyOf": [
+              "=SOMME.SI(Lyon!$A$2:$A$5;$A5;Lyon!$B$2:$B$5)+SOMME.SI(Nantes!$A$2:$A$6;$A5;Nantes!$B$2:$B$6)+SOMME.SI(Strasbourg!$A$2:$A$5;$A5;Strasbourg!$B$2:$B$5)",
+              "=SOMME.SI(Lyon!A2:A5;A5;Lyon!B2:B5)+SOMME.SI(Nantes!A2:A6;A5;Nantes!B2:B6)+SOMME.SI(Strasbourg!A2:A5;A5;Strasbourg!B2:B5)",
+              "=SOMME.SI(Lyon!$A$2:$A$5;$A5;Lyon!$B$2:$B$5)+SOMME.SI(Strasbourg!$A$2:$A$5;$A5;Strasbourg!$B$2:$B$5)+SOMME.SI(Nantes!$A$2:$A$6;$A5;Nantes!$B$2:$B$6)",
+              "=SOMME.SI(Lyon!A2:A5;A5;Lyon!B2:B5)+SOMME.SI(Strasbourg!A2:A5;A5;Strasbourg!B2:B5)+SOMME.SI(Nantes!A2:A6;A5;Nantes!B2:B6)",
+              "=SOMME.SI(Nantes!$A$2:$A$6;$A5;Nantes!$B$2:$B$6)+SOMME.SI(Lyon!$A$2:$A$5;$A5;Lyon!$B$2:$B$5)+SOMME.SI(Strasbourg!$A$2:$A$5;$A5;Strasbourg!$B$2:$B$5)",
+              "=SOMME.SI(Nantes!A2:A6;A5;Nantes!B2:B6)+SOMME.SI(Lyon!A2:A5;A5;Lyon!B2:B5)+SOMME.SI(Strasbourg!A2:A5;A5;Strasbourg!B2:B5)",
+              "=SOMME.SI(Nantes!$A$2:$A$6;$A5;Nantes!$B$2:$B$6)+SOMME.SI(Strasbourg!$A$2:$A$5;$A5;Strasbourg!$B$2:$B$5)+SOMME.SI(Lyon!$A$2:$A$5;$A5;Lyon!$B$2:$B$5)",
+              "=SOMME.SI(Nantes!A2:A6;A5;Nantes!B2:B6)+SOMME.SI(Strasbourg!A2:A5;A5;Strasbourg!B2:B5)+SOMME.SI(Lyon!A2:A5;A5;Lyon!B2:B5)",
+              "=SOMME.SI(Strasbourg!$A$2:$A$5;$A5;Strasbourg!$B$2:$B$5)+SOMME.SI(Lyon!$A$2:$A$5;$A5;Lyon!$B$2:$B$5)+SOMME.SI(Nantes!$A$2:$A$6;$A5;Nantes!$B$2:$B$6)",
+              "=SOMME.SI(Strasbourg!A2:A5;A5;Strasbourg!B2:B5)+SOMME.SI(Lyon!A2:A5;A5;Lyon!B2:B5)+SOMME.SI(Nantes!A2:A6;A5;Nantes!B2:B6)",
+              "=SOMME.SI(Strasbourg!$A$2:$A$5;$A5;Strasbourg!$B$2:$B$5)+SOMME.SI(Nantes!$A$2:$A$6;$A5;Nantes!$B$2:$B$6)+SOMME.SI(Lyon!$A$2:$A$5;$A5;Lyon!$B$2:$B$5)",
+              "=SOMME.SI(Strasbourg!A2:A5;A5;Strasbourg!B2:B5)+SOMME.SI(Nantes!A2:A6;A5;Nantes!B2:B6)+SOMME.SI(Lyon!A2:A5;A5;Lyon!B2:B5)"
+            ],
+            "v": 14300
+          }
+        }
+      },
+      "aide": {
+        "text": "La poignée de recopie de B2, tirée jusqu'à B5.",
+        "showTarget": true
+      },
+      "feedback": "Formation 25 500 € · Support 10 800 € · Maintenance 14 300 €"
+    },
+    {
+      "id": "M22-L04-05",
+      "consigne": "==En **B8**, totalisez la consolidation : `=SOMME(B2:B6)`==. La plage descend jusqu'à la ligne 6, une ligne de plus que nécessaire — vous allez comprendre pourquoi.",
+      "setup": {
+        "selection": "B8"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B8",
+        "accept": [
+          "=SOMME(B2:B6)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Une somme sur B2:B6, même si B6 est encore vide.",
+        "showTarget": true
+      },
+      "feedback": "91 400 €."
+    },
+    {
+      "id": "M22-L04-06",
+      "consigne": "Et le contrôle qui sauve les consolidations par libellé. ==En **D2**, additionnez les totaux des trois feuilles== : `=SOMME(Lyon!B2:B5)+SOMME(Nantes!B2:B6)+SOMME(Strasbourg!B2:B5)`.",
+      "setup": {
+        "selection": "D2"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "D2",
+        "accept": [
+          "=SOMME(Lyon!B2:B5)+SOMME(Nantes!B2:B6)+SOMME(Strasbourg!B2:B5)",
+          "=SOMME(Lyon!B2:B5)+SOMME(Strasbourg!B2:B5)+SOMME(Nantes!B2:B6)",
+          "=SOMME(Nantes!B2:B6)+SOMME(Lyon!B2:B5)+SOMME(Strasbourg!B2:B5)",
+          "=SOMME(Nantes!B2:B6)+SOMME(Strasbourg!B2:B5)+SOMME(Lyon!B2:B5)",
+          "=SOMME(Strasbourg!B2:B5)+SOMME(Lyon!B2:B5)+SOMME(Nantes!B2:B6)",
+          "=SOMME(Strasbourg!B2:B5)+SOMME(Nantes!B2:B6)+SOMME(Lyon!B2:B5)",
+          "=Lyon!B7+Nantes!B8+Strasbourg!B7",
+          "=Lyon!B7+Strasbourg!B7+Nantes!B8",
+          "=Nantes!B8+Lyon!B7+Strasbourg!B7",
+          "=Nantes!B8+Strasbourg!B7+Lyon!B7",
+          "=Strasbourg!B7+Lyon!B7+Nantes!B8",
+          "=Strasbourg!B7+Nantes!B8+Lyon!B7"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Trois sommes additionnées, une par feuille source.",
+        "showTarget": true
+      },
+      "feedback": "93 200 € ici, contre 91 400 € dans votre consolidation : **1 800 € manquent**. Voilà le piège de la consolidation par libellé — un produit absent de la liste de gauche disparaît sans le moindre message."
+    },
+    {
+      "id": "M22-L04-07",
+      "consigne": "Le produit oublié est celui que seule Nantes vend. ==En **A6**, ajoutez `Onduleur`==.",
+      "setup": {
+        "selection": "A6"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "A6",
+        "accept": [
+          "Onduleur"
+        ]
+      },
+      "aide": {
+        "text": "La première ligne libre de la colonne Produit.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M22-L04-08",
+      "consigne": "==Recopiez la formule de consolidation en **B6**==.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "B6": {
+            "anyOf": [
+              "=SOMME.SI(Lyon!$A$2:$A$5;$A6;Lyon!$B$2:$B$5)+SOMME.SI(Nantes!$A$2:$A$6;$A6;Nantes!$B$2:$B$6)+SOMME.SI(Strasbourg!$A$2:$A$5;$A6;Strasbourg!$B$2:$B$5)",
+              "=SOMME.SI(Lyon!A2:A5;A6;Lyon!B2:B5)+SOMME.SI(Nantes!A2:A6;A6;Nantes!B2:B6)+SOMME.SI(Strasbourg!A2:A5;A6;Strasbourg!B2:B5)",
+              "=SOMME.SI(Lyon!$A$2:$A$5;$A6;Lyon!$B$2:$B$5)+SOMME.SI(Strasbourg!$A$2:$A$5;$A6;Strasbourg!$B$2:$B$5)+SOMME.SI(Nantes!$A$2:$A$6;$A6;Nantes!$B$2:$B$6)",
+              "=SOMME.SI(Lyon!A2:A5;A6;Lyon!B2:B5)+SOMME.SI(Strasbourg!A2:A5;A6;Strasbourg!B2:B5)+SOMME.SI(Nantes!A2:A6;A6;Nantes!B2:B6)",
+              "=SOMME.SI(Nantes!$A$2:$A$6;$A6;Nantes!$B$2:$B$6)+SOMME.SI(Lyon!$A$2:$A$5;$A6;Lyon!$B$2:$B$5)+SOMME.SI(Strasbourg!$A$2:$A$5;$A6;Strasbourg!$B$2:$B$5)",
+              "=SOMME.SI(Nantes!A2:A6;A6;Nantes!B2:B6)+SOMME.SI(Lyon!A2:A5;A6;Lyon!B2:B5)+SOMME.SI(Strasbourg!A2:A5;A6;Strasbourg!B2:B5)",
+              "=SOMME.SI(Nantes!$A$2:$A$6;$A6;Nantes!$B$2:$B$6)+SOMME.SI(Strasbourg!$A$2:$A$5;$A6;Strasbourg!$B$2:$B$5)+SOMME.SI(Lyon!$A$2:$A$5;$A6;Lyon!$B$2:$B$5)",
+              "=SOMME.SI(Nantes!A2:A6;A6;Nantes!B2:B6)+SOMME.SI(Strasbourg!A2:A5;A6;Strasbourg!B2:B5)+SOMME.SI(Lyon!A2:A5;A6;Lyon!B2:B5)",
+              "=SOMME.SI(Strasbourg!$A$2:$A$5;$A6;Strasbourg!$B$2:$B$5)+SOMME.SI(Lyon!$A$2:$A$5;$A6;Lyon!$B$2:$B$5)+SOMME.SI(Nantes!$A$2:$A$6;$A6;Nantes!$B$2:$B$6)",
+              "=SOMME.SI(Strasbourg!A2:A5;A6;Strasbourg!B2:B5)+SOMME.SI(Lyon!A2:A5;A6;Lyon!B2:B5)+SOMME.SI(Nantes!A2:A6;A6;Nantes!B2:B6)",
+              "=SOMME.SI(Strasbourg!$A$2:$A$5;$A6;Strasbourg!$B$2:$B$5)+SOMME.SI(Nantes!$A$2:$A$6;$A6;Nantes!$B$2:$B$6)+SOMME.SI(Lyon!$A$2:$A$5;$A6;Lyon!$B$2:$B$5)",
+              "=SOMME.SI(Strasbourg!A2:A5;A6;Strasbourg!B2:B5)+SOMME.SI(Nantes!A2:A6;A6;Nantes!B2:B6)+SOMME.SI(Lyon!A2:A5;A6;Lyon!B2:B5)"
+            ],
+            "v": 1800
+          },
+          "B8": {
+            "v": 93200
+          }
+        }
+      },
+      "aide": {
+        "text": "Tirez la poignée de B5 vers B6.",
+        "showTarget": true
+      },
+      "feedback": "1 800 € pour l'onduleur, et le total consolidé rejoint enfin le contrôle : 93 200 € des deux côtés."
+    },
+    {
+      "id": "M22-L04-09",
+      "consigne": "Deux méthodes, deux domaines d'emploi. La consolidation **par référence** — B2 + B2 + B2 — ne vaut que si les feuilles sont **strictement identiques et figées** : même ordre, même nombre de lignes, pour toujours. La consolidation **par libellé** supporte des feuilles bâties librement, mais elle exige deux précautions. D'abord des libellés **rigoureusement identiques** : « Licence » et « licence » passent, mais « Licences » au pluriel, ou avec une espace finale, sortent de la synthèse sans prévenir. Ensuite le **contrôle par les totaux** que vous venez de poser : c'est lui, et lui seul, qui vous a signalé la ligne manquante.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    }
+  ]
+}

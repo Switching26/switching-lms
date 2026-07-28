@@ -1,0 +1,383 @@
+{
+  "schemaVersion": 1,
+  "title": "Exercice · Figer un trimestre",
+  "mode": "EXERCISE",
+  "moduleTitle": "Consolidation des données",
+  "intro": {
+    "title": "À VOUS",
+    "body": "Une colonne figée, une colonne liée, une correction à la source, et l'écart qui en résulte."
+  },
+  "outro": {
+    "body": "Exercice terminé."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Consolidation boutiques",
+    "activeSheetIndex": 3,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Rennes",
+        "columnWidths": {
+          "A": 130,
+          "B": 110
+        },
+        "cells": {
+          "A1": {
+            "v": "Mois",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Chiffre d'affaires",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Janvier"
+          },
+          "B2": {
+            "v": 18400
+          },
+          "A3": {
+            "v": "Février"
+          },
+          "B3": {
+            "v": 21300
+          },
+          "A4": {
+            "v": "Mars"
+          },
+          "B4": {
+            "v": 19750
+          },
+          "A6": {
+            "v": "Total",
+            "format": {
+              "bold": true
+            }
+          },
+          "B6": {
+            "f": "=SOMME(B2:B4)"
+          }
+        }
+      },
+      {
+        "name": "Angers",
+        "columnWidths": {
+          "A": 130,
+          "B": 110
+        },
+        "cells": {
+          "A1": {
+            "v": "Mois",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Chiffre d'affaires",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Janvier"
+          },
+          "B2": {
+            "v": 14200
+          },
+          "A3": {
+            "v": "Février"
+          },
+          "B3": {
+            "v": 15800
+          },
+          "A4": {
+            "v": "Mars"
+          },
+          "B4": {
+            "v": 16350
+          },
+          "A6": {
+            "v": "Total",
+            "format": {
+              "bold": true
+            }
+          },
+          "B6": {
+            "f": "=SOMME(B2:B4)"
+          }
+        }
+      },
+      {
+        "name": "Le Mans",
+        "columnWidths": {
+          "A": 130,
+          "B": 110
+        },
+        "cells": {
+          "A1": {
+            "v": "Mois",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Chiffre d'affaires",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Janvier"
+          },
+          "B2": {
+            "v": 11900
+          },
+          "A3": {
+            "v": "Février"
+          },
+          "B3": {
+            "v": 12450
+          },
+          "A4": {
+            "v": "Mars"
+          },
+          "B4": {
+            "v": 13200
+          },
+          "A6": {
+            "v": "Total",
+            "format": {
+              "bold": true
+            }
+          },
+          "B6": {
+            "f": "=SOMME(B2:B4)"
+          }
+        }
+      },
+      {
+        "name": "Synthèse",
+        "columnWidths": {
+          "A": 120,
+          "B": 125,
+          "C": 125,
+          "D": 90
+        },
+        "cells": {
+          "A1": {
+            "v": "Boutique",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Figé au 31/03",
+            "format": {
+              "bold": true
+            }
+          },
+          "C1": {
+            "v": "Lié à la source",
+            "format": {
+              "bold": true
+            }
+          },
+          "D1": {
+            "v": "Écart",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Rennes"
+          },
+          "A3": {
+            "v": "Angers"
+          },
+          "A4": {
+            "v": "Le Mans"
+          },
+          "A6": {
+            "v": "TOTAL",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M22-E02-01",
+      "consigne": "Figez le trimestre de Rennes en **B2** : reprenez son total tel quel, en valeur.",
+      "setup": {
+        "selection": "B2"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B2",
+        "accept": [
+          "59450"
+        ]
+      },
+      "aide": {
+        "text": "Le total est calculé en B6 sur la feuille Rennes."
+      }
+    },
+    {
+      "id": "M22-E02-02",
+      "consigne": "Figez de la même façon Angers et Le Mans.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "B3": {
+            "v": 46350
+          },
+          "B4": {
+            "v": 37550
+          }
+        }
+      },
+      "aide": {
+        "text": "Deux nombres, aucune formule."
+      }
+    },
+    {
+      "id": "M22-E02-03",
+      "consigne": "En **C2**, posez la version **liée** du trimestre de Rennes.",
+      "setup": {
+        "selection": "C2"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "C2",
+        "accept": [
+          "=SOMME(Rennes!B2:B4)",
+          "=Rennes!B6"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Une somme sur la plage de la feuille Rennes."
+      }
+    },
+    {
+      "id": "M22-E02-04",
+      "consigne": "Complétez les deux autres liaisons.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "C3": {
+            "anyOf": [
+              "=SOMME(Angers!B2:B4)",
+              "=Angers!B6"
+            ],
+            "v": 46350
+          },
+          "C4": {
+            "anyOf": [
+              "=SOMME('Le Mans'!B2:B4)",
+              "='Le Mans'!B6"
+            ],
+            "v": 37550
+          }
+        }
+      },
+      "aide": {
+        "text": "Un nom de feuille contenant une espace se met entre apostrophes : 'Le Mans'!B2:B4."
+      }
+    },
+    {
+      "id": "M22-E02-05",
+      "consigne": "Une facture de mars manquait chez Angers. Allez la corriger à la source.",
+      "action": {
+        "type": "SELECT_SHEET",
+        "name": "Angers"
+      },
+      "aide": {
+        "text": "L'onglet Angers."
+      }
+    },
+    {
+      "id": "M22-E02-06",
+      "consigne": "Portez le chiffre d'affaires de mars à **18350**.",
+      "setup": {
+        "selection": "B4"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B4",
+        "accept": [
+          "18350"
+        ]
+      },
+      "aide": {
+        "text": "La troisième ligne de la feuille."
+      }
+    },
+    {
+      "id": "M22-E02-07",
+      "consigne": "Revenez sur la synthèse.",
+      "action": {
+        "type": "SELECT_SHEET",
+        "name": "Synthèse"
+      },
+      "aide": {
+        "text": "Le dernier onglet."
+      }
+    },
+    {
+      "id": "M22-E02-08",
+      "consigne": "En **D3**, mesurez l'écart apparu entre la version liée et la version figée d'Angers.",
+      "setup": {
+        "selection": "D3"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "D3",
+        "accept": [
+          "=C3-B3"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Le montant lié moins le montant figé, sur la ligne d'Angers."
+      },
+      "feedback": "2 000 € : c'est exactement la facture retrouvée."
+    },
+    {
+      "id": "M22-E02-09",
+      "consigne": "En **C6**, totalisez la colonne liée pour obtenir le chiffre d'affaires réel du trimestre.",
+      "setup": {
+        "selection": "C6"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "C6",
+        "accept": [
+          "=SOMME(C2:C4)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Une somme sur les trois boutiques de la colonne liée."
+      },
+      "feedback": "145 350 €."
+    }
+  ]
+}

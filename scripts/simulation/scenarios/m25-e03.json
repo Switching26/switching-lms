@@ -1,0 +1,296 @@
+{
+  "schemaVersion": 1,
+  "title": "Exercice · Changer d'exercice comptable",
+  "mode": "EXERCISE",
+  "moduleTitle": "Outils divers",
+  "intro": {
+    "title": "À VOUS",
+    "body": "Atteindre, remplacer proprement, mesurer le dégât qu'aurait fait un remplacement trop court."
+  },
+  "outro": {
+    "body": "Exercice terminé."
+  },
+  "ribbon": [
+    "accueil",
+    "donnees",
+    "revision"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Devis 2025",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 145,
+          "B": 150,
+          "C": 100,
+          "D": 30,
+          "E": 155,
+          "F": 165
+        },
+        "cells": {
+          "A1": {
+            "v": "Référence",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Client",
+            "format": {
+              "bold": true
+            }
+          },
+          "C1": {
+            "v": "Montant",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "DEV-2025-0210"
+          },
+          "B2": {
+            "v": "Atelier Ravel"
+          },
+          "C2": {
+            "v": 3400
+          },
+          "A3": {
+            "v": "DEV-2025-0225"
+          },
+          "B3": {
+            "v": "Cabinet Sorel"
+          },
+          "C3": {
+            "v": 1850
+          },
+          "A4": {
+            "v": "DEV-2025-0238"
+          },
+          "B4": {
+            "v": "Garage Miot"
+          },
+          "C4": {
+            "v": 5100
+          },
+          "A5": {
+            "v": "DEV-2025-0250"
+          },
+          "B5": {
+            "v": "Boulangerie Rieu"
+          },
+          "C5": {
+            "v": 2260
+          },
+          "A6": {
+            "v": "DEV-2025-0261"
+          },
+          "B6": {
+            "v": "Pharmacie Kern"
+          },
+          "C6": {
+            "v": 990
+          },
+          "A7": {
+            "v": "DEV-2025-0274"
+          },
+          "B7": {
+            "v": "Hôtel Perrin"
+          },
+          "C7": {
+            "v": 4380
+          },
+          "A8": {
+            "v": "DEV-2025-0289"
+          },
+          "B8": {
+            "v": "Café Vasseur"
+          },
+          "C8": {
+            "v": 1520
+          },
+          "A9": {
+            "v": "DEV-2025-0293"
+          },
+          "B9": {
+            "v": "Librairie Adam"
+          },
+          "C9": {
+            "v": 2740
+          },
+          "E1": {
+            "v": "Référence 2026",
+            "format": {
+              "bold": true
+            }
+          },
+          "H2": {
+            "v": "Remplacement fautif",
+            "format": {
+              "bold": true
+            }
+          },
+          "H3": {
+            "v": "Position du tiret",
+            "format": {
+              "bold": true
+            }
+          },
+          "H4": {
+            "v": "Exercice extrait",
+            "format": {
+              "bold": true
+            }
+          },
+          "H6": {
+            "v": "Total des devis",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M25-E03-01",
+      "consigne": "Atteignez directement la dernière ligne du tableau, **A9**, sans faire défiler la feuille.",
+      "setup": {
+        "selection": "A1"
+      },
+      "action": {
+        "type": "GOTO_REF",
+        "ref": "A9"
+      },
+      "aide": {
+        "text": "La zone Nom, à gauche de la barre de formule."
+      }
+    },
+    {
+      "id": "M25-E03-02",
+      "consigne": "En **E2**, produisez la référence de l'exercice suivant : 2025 doit devenir 2026, sans toucher à la colonne A.",
+      "setup": {
+        "selection": "E2"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "E2",
+        "accept": [
+          "=SUBSTITUE(A2;\"2025\";\"2026\")"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "La fonction qui remplace un texte dans une cellule."
+      }
+    },
+    {
+      "id": "M25-E03-03",
+      "consigne": "Complétez la colonne jusqu'en **E4**.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "E3": {
+            "anyOf": [
+              "=SUBSTITUE(A3;\"2025\";\"2026\")"
+            ]
+          },
+          "E4": {
+            "anyOf": [
+              "=SUBSTITUE(A4;\"2025\";\"2026\")"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Recopiez E2 vers le bas."
+      }
+    },
+    {
+      "id": "M25-E03-04",
+      "consigne": "Montrez le danger d'un remplacement trop court : en **I2**, remplacez `25` par `26` dans la référence de la ligne **5**.",
+      "setup": {
+        "selection": "I2"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "I2",
+        "accept": [
+          "=SUBSTITUE(A5;\"25\";\"26\")"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Même fonction, texte cherché plus court."
+      },
+      "feedback": "DEV-2025-0250 devient DEV-2026-0260 : le numéro du devis a changé lui aussi."
+    },
+    {
+      "id": "M25-E03-05",
+      "consigne": "En **I3**, donnez la position du premier tiret de la référence de la ligne 2.",
+      "setup": {
+        "selection": "I3"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "I3",
+        "accept": [
+          "=CHERCHE(\"-\";A2)",
+          "=TROUVE(\"-\";A2)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "La fonction qui localise un texte dans un autre."
+      }
+    },
+    {
+      "id": "M25-E03-06",
+      "consigne": "En **I4**, extrayez les quatre chiffres de l'exercice de la référence de la ligne 2.",
+      "setup": {
+        "selection": "I4"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "I4",
+        "accept": [
+          "=STXT(A2;5;4)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "STXT : cellule, position de départ, longueur."
+      }
+    },
+    {
+      "id": "M25-E03-07",
+      "consigne": "En **I6**, totalisez les devis : c'est le contrôle à relever avant et après tout remplacement massif.",
+      "setup": {
+        "selection": "I6"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "I6",
+        "accept": [
+          "=SOMME(C2:C9)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Une somme sur la colonne Montant."
+      },
+      "feedback": "22 240 €."
+    }
+  ]
+}

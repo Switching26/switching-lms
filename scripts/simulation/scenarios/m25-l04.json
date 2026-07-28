@@ -1,0 +1,338 @@
+{
+  "schemaVersion": 1,
+  "title": "Rechercher, atteindre, remplacer",
+  "mode": "LESSON",
+  "moduleTitle": "Outils divers",
+  "intro": {
+    "title": "REMPLACER SANS CASSER",
+    "body": "Remplacer « 25 » par « 26 » dans un classeur de références, c'est se réveiller avec des numéros de commande faux. Voir le mécanisme en formule, c'est comprendre comment cibler."
+  },
+  "outro": {
+    "body": "Vous savez atteindre une cellule, remplacer un texte de façon ciblée et contrôler le résultat."
+  },
+  "ribbon": [
+    "accueil",
+    "donnees",
+    "revision"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Commandes 2025",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 145,
+          "B": 150,
+          "C": 100,
+          "D": 30,
+          "E": 155,
+          "F": 165
+        },
+        "cells": {
+          "A1": {
+            "v": "Référence",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Client",
+            "format": {
+              "bold": true
+            }
+          },
+          "C1": {
+            "v": "Montant",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "CMD-2025-0104"
+          },
+          "B2": {
+            "v": "Atelier Ravel"
+          },
+          "C2": {
+            "v": 1240
+          },
+          "A3": {
+            "v": "CMD-2025-0111"
+          },
+          "B3": {
+            "v": "Cabinet Sorel"
+          },
+          "C3": {
+            "v": 890
+          },
+          "A4": {
+            "v": "CMD-2025-0118"
+          },
+          "B4": {
+            "v": "Garage Miot"
+          },
+          "C4": {
+            "v": 2310
+          },
+          "A5": {
+            "v": "CMD-2025-0125"
+          },
+          "B5": {
+            "v": "Boulangerie Rieu"
+          },
+          "C5": {
+            "v": 1580
+          },
+          "A6": {
+            "v": "CMD-2025-0132"
+          },
+          "B6": {
+            "v": "Pharmacie Kern"
+          },
+          "C6": {
+            "v": 760
+          },
+          "A7": {
+            "v": "CMD-2025-0139"
+          },
+          "B7": {
+            "v": "Hôtel Perrin"
+          },
+          "C7": {
+            "v": 3120
+          },
+          "A8": {
+            "v": "CMD-2025-0146"
+          },
+          "B8": {
+            "v": "Café Vasseur"
+          },
+          "C8": {
+            "v": 940
+          },
+          "A9": {
+            "v": "CMD-2025-0153"
+          },
+          "B9": {
+            "v": "Librairie Adam"
+          },
+          "C9": {
+            "v": 2470
+          },
+          "A10": {
+            "v": "CMD-2025-0160"
+          },
+          "B10": {
+            "v": "Studio Belin"
+          },
+          "C10": {
+            "v": 1130
+          },
+          "A11": {
+            "v": "CMD-2025-0167"
+          },
+          "B11": {
+            "v": "Fleuriste Doré"
+          },
+          "C11": {
+            "v": 1690
+          },
+          "E1": {
+            "v": "Référence 2026",
+            "format": {
+              "bold": true
+            }
+          },
+          "H2": {
+            "v": "Remplacement fautif",
+            "format": {
+              "bold": true
+            }
+          },
+          "H3": {
+            "v": "Position du tiret",
+            "format": {
+              "bold": true
+            }
+          },
+          "H4": {
+            "v": "Exercice extrait",
+            "format": {
+              "bold": true
+            }
+          },
+          "H6": {
+            "v": "Total des commandes",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M25-L04-01",
+      "consigne": "Sur un classeur de plusieurs centaines de lignes, on ne descend pas à la molette. ==Saisissez `A11` dans la **zone Nom** et validez== pour atteindre directement la dernière commande.",
+      "setup": {
+        "selection": "A1"
+      },
+      "action": {
+        "type": "GOTO_REF",
+        "ref": "A11"
+      },
+      "aide": {
+        "text": "La zone Nom est le champ à gauche de la barre de formule. C'est l'équivalent de la commande Atteindre, touche F5.",
+        "showTarget": true
+      },
+      "feedback": "La sélection a sauté en A11. Sur un vrai fichier, c'est le geste qui remplace trente secondes de défilement."
+    },
+    {
+      "id": "M25-L04-02",
+      "consigne": "L'exercice comptable change de millésime. ==En **E2**, saisissez `=SUBSTITUE(A2;\"2025\";\"2026\")`==.",
+      "setup": {
+        "selection": "E2"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "E2",
+        "accept": [
+          "=SUBSTITUE(A2;\"2025\";\"2026\")"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "SUBSTITUE remplace un texte par un autre à l'intérieur d'une cellule.",
+        "showTarget": true
+      },
+      "feedback": "**CMD-2026-0104**. Contrairement à Rechercher/Remplacer, la formule laisse la source intacte : on voit l'avant et l'après côte à côte."
+    },
+    {
+      "id": "M25-L04-03",
+      "consigne": "==Recopiez la formule jusqu'en **E5**==.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "E3": {
+            "anyOf": [
+              "=SUBSTITUE(A3;\"2025\";\"2026\")"
+            ]
+          },
+          "E4": {
+            "anyOf": [
+              "=SUBSTITUE(A4;\"2025\";\"2026\")"
+            ]
+          },
+          "E5": {
+            "anyOf": [
+              "=SUBSTITUE(A5;\"2025\";\"2026\")"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "La poignée de recopie de E2, tirée vers le bas.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M25-L04-04",
+      "consigne": "Voici maintenant le piège qui coûte le plus cher avec « Remplacer tout ». Quelqu'un de pressé remplacerait `25` par `26`. ==En **I2**, essayez : `=SUBSTITUE(A5;\"25\";\"26\")`==.",
+      "setup": {
+        "selection": "I2"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "I2",
+        "accept": [
+          "=SUBSTITUE(A5;\"25\";\"26\")"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "La même fonction, avec un texte cherché trop court.",
+        "showTarget": true
+      },
+      "feedback": "**CMD-2026-0126** : l'exercice est bien passé à 2026, mais le **numéro de commande** aussi. La référence CMD-2025-0125 n'existe plus, et deux commandes portent peut-être maintenant le même numéro. Un remplacement partiel ne prévient jamais."
+    },
+    {
+      "id": "M25-L04-05",
+      "consigne": "Deux fonctions aident à cibler avant de remplacer. ==En **I3**, cherchez la position du premier tiret : `=CHERCHE(\"-\";A2)`==.",
+      "setup": {
+        "selection": "I3"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "I3",
+        "accept": [
+          "=CHERCHE(\"-\";A2)",
+          "=TROUVE(\"-\";A2)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "CHERCHE renvoie la position d'un texte dans un autre. TROUVE fait de même, en respectant la casse.",
+        "showTarget": true
+      },
+      "feedback": "Position 4. C'est ce genre de repère qui permet de découper proprement une référence."
+    },
+    {
+      "id": "M25-L04-06",
+      "consigne": "==En **I4**, extrayez l'exercice : `=STXT(A2;5;4)`== — quatre caractères à partir du cinquième.",
+      "setup": {
+        "selection": "I4"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "I4",
+        "accept": [
+          "=STXT(A2;5;4)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "STXT extrait un morceau de texte : la cellule, la position de départ, le nombre de caractères.",
+        "showTarget": true
+      },
+      "feedback": "**2025**, isolé proprement. Sur une colonne comme celle-ci, on préfère souvent extraire l'année dans sa propre colonne plutôt que de remplacer du texte : la donnée devient filtrable."
+    },
+    {
+      "id": "M25-L04-07",
+      "consigne": "Ce que propose la vraie boîte de dialogue, et comment ne pas s'y brûler. **Ctrl+F** cherche, **Ctrl+H** remplace, **F5** atteint. Trois réflexes valent d'être pris. Un : cliquez d'abord sur **Rechercher tout** — Excel liste les occurrences, et vous voyez ce que vous allez modifier avant de le modifier. Deux : pour limiter la portée, **sélectionnez la plage** avant d'ouvrir la boîte ; sinon Excel travaille sur toute la feuille, et avec l'option « Classeur », sur tous les onglets. Trois : ouvrez les **Options** — « Totalité du contenu de la cellule » évite précisément le piège que vous venez de voir, et « Respecter la casse » distingue TVA de tva.\n\nUn détail qui surprend : Rechercher travaille par défaut sur les **valeurs** affichées. Pour traquer une référence dans les **formules**, il faut basculer « Regarder dans : Formules » — c'est ainsi qu'on retrouve toutes les cellules qui utilisent encore un ancien taux.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M25-L04-08",
+      "consigne": "Terminez par un contrôle. ==En **I6**, totalisez les commandes : `=SOMME(C2:C11)`==.",
+      "setup": {
+        "selection": "I6"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "I6",
+        "accept": [
+          "=SOMME(C2:C11)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Une somme sur la colonne Montant.",
+        "showTarget": true
+      },
+      "feedback": "16 130 €. Un remplacement massif ne doit jamais changer ce total : contrôlez-le avant et après."
+    }
+  ]
+}

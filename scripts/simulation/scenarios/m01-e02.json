@@ -53,12 +53,12 @@
     },
     {
       "id": "M01-E02-02",
-      "consigne": "Créez la ligne d'en-têtes en ligne 3 : **Mois** puis **Inscrits**.",
+      "consigne": "Créez la ligne d'en-têtes en ligne 3 : **Trimestre** puis **Inscrits**.",
       "action": {
         "type": "EXPECT_STATE",
         "cells": {
           "A3": {
-            "v": "Mois"
+            "v": "Trimestre"
           },
           "B3": {
             "v": "Inscrits"
@@ -71,30 +71,30 @@
     },
     {
       "id": "M01-E02-03",
-      "consigne": "Saisissez les quatre premiers mois à partir de la ligne 4 : **Janvier 18**, **Février 24**, **Mars 31**, **Avril 27**.",
+      "consigne": "Saisissez les quatre trimestres à partir de la ligne 4 : **T1 18**, **T2 24**, **T3 31**, **T4 27**.",
       "action": {
         "type": "EXPECT_STATE",
         "cells": {
           "A4": {
-            "v": "Janvier"
+            "v": "T1"
           },
           "B4": {
             "v": 18
           },
           "A5": {
-            "v": "Février"
+            "v": "T2"
           },
           "B5": {
             "v": 24
           },
           "A6": {
-            "v": "Mars"
+            "v": "T3"
           },
           "B6": {
             "v": 31
           },
           "A7": {
-            "v": "Avril"
+            "v": "T4"
           },
           "B7": {
             "v": 27
@@ -102,12 +102,15 @@
         }
       },
       "aide": {
-        "text": "Huit cellules. Les mois en colonne A, les nombres en colonne B."
+        "text": "Huit cellules. Les trimestres en colonne A, les nombres en colonne B."
       }
     },
     {
       "id": "M01-E02-04",
-      "consigne": "En **B9**, obtenez le **total des inscriptions** du premier quadrimestre.",
+      "consigne": "En **B9**, obtenez le **total des inscriptions** de l'année.",
+      "setup": {
+        "selection": "B9"
+      },
       "action": {
         "type": "TYPE",
         "target": "B9",
@@ -124,7 +127,10 @@
     },
     {
       "id": "M01-E02-05",
-      "consigne": "En **B10**, affichez le **meilleur mois** en nombre d'inscrits.",
+      "consigne": "En **B10**, affichez le **meilleur trimestre** en nombre d'inscrits.",
+      "setup": {
+        "selection": "B10"
+      },
       "action": {
         "type": "TYPE",
         "target": "B10",
@@ -136,7 +142,7 @@
       "aide": {
         "text": "Ce n'est pas une somme : on cherche la plus grande des quatre valeurs."
       },
-      "feedback": "31, le mois de mars."
+      "feedback": "31, le troisième trimestre."
     },
     {
       "id": "M01-E02-06",

@@ -23,7 +23,8 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import dynamic from "next/dynamic"
 import type { GridApi } from "./ExcelGrid"
 import SimulationChrome from "./SimulationChrome"
-import type { SimulationScenario, SimulationStep } from "@/lib/simulation/types"
+import type { SimulationScenario, SimulationStep, RibbonTab } from "@/lib/simulation/types"
+import { parseRange } from "@/lib/simulation/grid"
 import { validateStep, computeScore, type ObservedAction, type Verdict } from "@/lib/simulation/validate"
 
 // Univer casse à l'import côté serveur : le chargement différé est obligatoire,
@@ -140,6 +141,14 @@ export default function SimulationPlayer({
   const attemptedRef = useRef<Set<string>>(new Set())
 
   const step: SimulationStep | undefined = steps[index]
+  const stepRef = useRef<SimulationStep | undefined>(step)
+  stepRef.current = step
+
+  // Onglet du ruban : l'étape peut en imposer un, mais l'apprenant doit pouvoir
+  // en changer librement. Explorer le ruban n'est pas une faute.
+  const [onglet, setOnglet] = useState<RibbonTab>(
+    step?.setup?.ribbon?.activeTab ?? scenario.ribbon[0] ?? "accueil"
+  )
 
   /* ── Mise en place de l'étape ──────────────────────────────────────────── */
 
@@ -147,6 +156,9 @@ export default function SimulationPlayer({
     (s: SimulationStep | undefined) => {
       const grid = gridRef.current
       if (!grid || !s) return
+      // Une étape qui exige un onglet précis le reprend ; sinon on laisse
+      // l'apprenant sur celui qu'il consultait.
+      if (s.setup?.ribbon?.activeTab) setOnglet(s.setup.ribbon.activeTab)
       if (s.setup?.cells) grid.applyCells(s.setup.cells)
       if (s.setup?.selection) {
         grid.setSelection(s.setup.selection)
@@ -161,7 +173,13 @@ export default function SimulationPlayer({
       //  - lecture ou clic : rien à saisir, on verrouille par précaution.
       if (s.action.type === "TYPE" && s.action.target !== "formula-bar") {
         grid.setEditableCells([s.action.target])
-      } else if (s.action.type === "EXPECT_STATE") {
+      } else if (
+        s.action.type === "EXPECT_STATE" ||
+        s.action.type === "SORT_RANGE" ||
+        s.action.type === "FILTER_COLUMN"
+      ) {
+        // Trier ou filtrer réécrit des lignes entières : le verrou de cellules
+        // faisait échouer la commande en silence, l'étape restait injouable.
         grid.setEditableCells(null)
       } else {
         grid.setEditableCells([])
@@ -327,6 +345,10 @@ export default function SimulationPlayer({
   const handleControl = useCallback(
     (controlId: string) => {
       const grid = gridRef.current
+      // Un tri réussi est signalé par l'événement Univer, pas par le clic : on
+      // évite d'émettre une observation « control » qui ferait échouer l'étape.
+      let trie = false
+      let triFait = false
       if (grid) {
         const info = grid.getSelectionKind()
         switch (controlId) {
@@ -352,8 +374,45 @@ export default function SimulationPlayer({
             grid.insertSheet()
             setSheets(grid.getSheets())
             break
+          case "don-tri-croissant":
+          case "don-tri-decroissant": {
+            trie = true
+            // Excel devine la plage et repère la ligne d'en-tête ; Univer non.
+            // La plage à trier vient donc du scénario, et la colonne du clic de
+            // l'apprenant — c'est bien son choix de colonne qu'on évalue.
+            const attendu = stepRef.current?.action
+            const plage = attendu?.type === "SORT_RANGE" ? attendu.range : ""
+            const sel = grid.getSelection()
+            if (plage && sel) {
+              // Découper à la main les lettres d'une référence donnait « AC »
+              // pour « A2:C6 » : on passe par les analyseurs de plage.
+              const aire = parseRange(plage)
+              const clic = parseRange(sel)
+              // Univer attend un indice RELATIF au premier champ de la plage,
+              // pas un indice absolu de feuille : vérifié au banc, une plage
+              // qui ne commence pas en colonne A triait sinon la mauvaise.
+              if (aire && clic) {
+                const relatif = clic.startCol - aire.startCol
+                if (relatif >= 0 && clic.startCol <= aire.endCol) {
+                  triFait = grid.sortRange(plage, relatif, controlId === "don-tri-croissant")
+                }
+              }
+            }
+            break
+          }
+          case "don-filtrer": {
+            // La plage à filtrer décrit le tableau de la feuille, pas l'étape :
+            // au moment du clic, l'étape courante est encore le CLICK_CONTROL.
+            const plage = scenario.workbook.filterRange ?? ""
+            if (plage) grid.createFilter(plage)
+            break
+          }
+          case "don-effacer-filtre":
+            grid.removeFilter()
+            break
         }
       }
+      if (trie && triFait) return
       handleAction({ kind: "control", control: controlId, channel: "ribbon" })
     },
     [handleAction],
@@ -473,12 +532,17 @@ export default function SimulationPlayer({
           <div className="px-3 pt-3">
             <SimulationChrome
               tabs={scenario.ribbon}
-              state={step?.setup?.ribbon}
+              state={
+                step?.setup?.ribbon
+                  ? { ...step.setup.ribbon, activeTab: onglet }
+                  : { activeTab: onglet }
+              }
               fileName={scenario.workbook.fileName}
               selection={selection}
               formulaText={formulaText}
               highlight={highlightedControl}
               onControl={handleControl}
+              onTabChange={setOnglet}
               stats={stats}
               aggregates={step?.setup?.statusBar?.aggregates ?? scenario.statusBar?.aggregates}
               sheets={sheets}

@@ -1,0 +1,272 @@
+{
+  "schemaVersion": 1,
+  "title": "Totaliser ce qui est visible",
+  "mode": "LESSON",
+  "moduleTitle": "Tri, filtre et sous-totaux",
+  "intro": {
+    "title": "LE TOTAL QUI SUIT LE FILTRE",
+    "body": "SOMME additionne tout, filtre ou pas. Pour obtenir le total de ce que vous voyez, il faut une autre fonction — et c'est l'une des plus utiles d'Excel."
+  },
+  "outro": {
+    "body": "Vous savez faire un total qui s'ajuste au filtre en cours."
+  },
+  "ribbon": [
+    "accueil",
+    "donnees"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Ventes",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "filterRange": "A1:D8",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 120,
+          "B": 90,
+          "C": 110
+        },
+        "cells": {
+          "A1": {
+            "v": "Commercial",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Région",
+            "format": {
+              "bold": true
+            }
+          },
+          "C1": {
+            "v": "Produit",
+            "format": {
+              "bold": true
+            }
+          },
+          "D1": {
+            "v": "Montant",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Bertrand"
+          },
+          "B2": {
+            "v": "Sud"
+          },
+          "C2": {
+            "v": "Licence"
+          },
+          "D2": {
+            "v": 1200
+          },
+          "A3": {
+            "v": "Chevalier"
+          },
+          "B3": {
+            "v": "Nord"
+          },
+          "C3": {
+            "v": "Formation"
+          },
+          "D3": {
+            "v": 890
+          },
+          "A4": {
+            "v": "Delaunay"
+          },
+          "B4": {
+            "v": "Sud"
+          },
+          "C4": {
+            "v": "Licence"
+          },
+          "D4": {
+            "v": 2100
+          },
+          "A5": {
+            "v": "Fabre"
+          },
+          "B5": {
+            "v": "Ouest"
+          },
+          "C5": {
+            "v": "Formation"
+          },
+          "D5": {
+            "v": 1560
+          },
+          "A6": {
+            "v": "Girard"
+          },
+          "B6": {
+            "v": "Nord"
+          },
+          "C6": {
+            "v": "Licence"
+          },
+          "D6": {
+            "v": 640
+          },
+          "A7": {
+            "v": "Hamon"
+          },
+          "B7": {
+            "v": "Sud"
+          },
+          "C7": {
+            "v": "Formation"
+          },
+          "D7": {
+            "v": 1750
+          },
+          "A8": {
+            "v": "Imbert"
+          },
+          "B8": {
+            "v": "Ouest"
+          },
+          "C8": {
+            "v": "Licence"
+          },
+          "D8": {
+            "v": 980
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M19-L03-01",
+      "consigne": "En **D10**, ==posez un total classique `=SOMME(D2:D8)`==.",
+      "setup": {
+        "selection": "D10",
+        "cells": {
+          "C10": {
+            "v": "SOMME",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "D10",
+        "accept": [
+          "=SOMME(D2:D8)"
+        ],
+        "formulaMode": true
+      },
+      "feedback": "9 120 €, le total de toutes les ventes."
+    },
+    {
+      "id": "M19-L03-02",
+      "consigne": "En **D11**, ==saisissez `=SOUS.TOTAL(9;D2:D8)`==. Le premier argument, `9`, veut dire « fais une somme ».",
+      "setup": {
+        "selection": "D11",
+        "cells": {
+          "C11": {
+            "v": "SOUS.TOTAL",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "D11",
+        "accept": [
+          "=SOUS.TOTAL(9;D2:D8)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Le numéro d'opération d'abord, la plage ensuite, séparés par un point-virgule.",
+        "showTarget": true
+      },
+      "feedback": "9 120 € aussi. Sans filtre, les deux fonctions donnent le même résultat — la différence va apparaître."
+    },
+    {
+      "id": "M19-L03-03",
+      "consigne": "==Activez les filtres==, puis nous comparerons.",
+      "setup": {
+        "ribbon": {
+          "activeTab": "donnees"
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "don-filtrer"
+      },
+      "aide": {
+        "text": "Bouton Filtrer, onglet Données.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M19-L03-04",
+      "consigne": "==Filtrez la région sur **Sud**== et observez les deux totaux.",
+      "action": {
+        "type": "FILTER_COLUMN",
+        "column": "B",
+        "values": [
+          "Sud"
+        ]
+      },
+      "aide": {
+        "text": "Bouton de filtre de la colonne Région, ne garder que Sud.",
+        "showTarget": true
+      },
+      "feedback": "SOMME affiche toujours 9 120 €. SOUS.TOTAL est tombé à 5 050 €, le total des trois ventes du Sud. **SOUS.TOTAL ignore les lignes masquées par un filtre**, SOMME les compte toujours."
+    },
+    {
+      "id": "M19-L03-05",
+      "consigne": "Le premier argument choisit l'opération : **9** pour la somme, **1** pour la moyenne, **2** pour un comptage de nombres, **3** pour un comptage de valeurs, **4** et **5** pour le maximum et le minimum. ==En **D12**, affichez la **moyenne** des ventes visibles==.",
+      "setup": {
+        "selection": "D12",
+        "cells": {
+          "C12": {
+            "v": "Moyenne visible",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "D12",
+        "accept": [
+          "=SOUS.TOTAL(1;D2:D8)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Même fonction, premier argument 1 au lieu de 9."
+      },
+      "feedback": "Environ 1 683 €, la moyenne des seules ventes du Sud."
+    },
+    {
+      "id": "M19-L03-06",
+      "consigne": "En pratique : dès qu'un tableau est destiné à être filtré, **posez vos totaux en SOUS.TOTAL plutôt qu'en SOMME**. C'est ce que fait le bouton « Total » des tableaux structurés d'Excel, sans le dire.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    }
+  ]
+}

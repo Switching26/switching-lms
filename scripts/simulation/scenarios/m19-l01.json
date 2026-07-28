@@ -1,0 +1,244 @@
+{
+  "schemaVersion": 1,
+  "title": "Trier une liste de données",
+  "mode": "LESSON",
+  "moduleTitle": "Tri, filtre et sous-totaux",
+  "intro": {
+    "title": "METTRE DE L'ORDRE",
+    "body": "Une liste de données se lit mal dans l'ordre de saisie. La trier prend deux clics — à condition de ne pas emporter la ligne de titres avec elle."
+  },
+  "outro": {
+    "body": "Vous savez trier une liste sur la colonne de votre choix, dans les deux sens."
+  },
+  "ribbon": [
+    "accueil",
+    "donnees"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Ventes",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "filterRange": "A1:D8",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 120,
+          "B": 90,
+          "C": 110
+        },
+        "cells": {
+          "A1": {
+            "v": "Commercial",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Région",
+            "format": {
+              "bold": true
+            }
+          },
+          "C1": {
+            "v": "Produit",
+            "format": {
+              "bold": true
+            }
+          },
+          "D1": {
+            "v": "Montant",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Bertrand"
+          },
+          "B2": {
+            "v": "Sud"
+          },
+          "C2": {
+            "v": "Licence"
+          },
+          "D2": {
+            "v": 1200
+          },
+          "A3": {
+            "v": "Chevalier"
+          },
+          "B3": {
+            "v": "Nord"
+          },
+          "C3": {
+            "v": "Formation"
+          },
+          "D3": {
+            "v": 890
+          },
+          "A4": {
+            "v": "Delaunay"
+          },
+          "B4": {
+            "v": "Sud"
+          },
+          "C4": {
+            "v": "Licence"
+          },
+          "D4": {
+            "v": 2100
+          },
+          "A5": {
+            "v": "Fabre"
+          },
+          "B5": {
+            "v": "Ouest"
+          },
+          "C5": {
+            "v": "Formation"
+          },
+          "D5": {
+            "v": 1560
+          },
+          "A6": {
+            "v": "Girard"
+          },
+          "B6": {
+            "v": "Nord"
+          },
+          "C6": {
+            "v": "Licence"
+          },
+          "D6": {
+            "v": 640
+          },
+          "A7": {
+            "v": "Hamon"
+          },
+          "B7": {
+            "v": "Sud"
+          },
+          "C7": {
+            "v": "Formation"
+          },
+          "D7": {
+            "v": 1750
+          },
+          "A8": {
+            "v": "Imbert"
+          },
+          "B8": {
+            "v": "Ouest"
+          },
+          "C8": {
+            "v": "Licence"
+          },
+          "D8": {
+            "v": 980
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M19-L01-01",
+      "consigne": "Sept ventes, saisies dans le désordre. L'onglet **Données** rassemble les outils de liste. ==Cliquez sur une cellule de la colonne **Montant**, puis sur **Z→A**== pour classer du plus gros au plus petit.",
+      "setup": {
+        "selection": "D4",
+        "ribbon": {
+          "activeTab": "donnees"
+        }
+      },
+      "action": {
+        "type": "SORT_RANGE",
+        "range": "A2:D8",
+        "column": "D",
+        "ascending": false
+      },
+      "aide": {
+        "text": "La sélection est déjà dans la colonne Montant : il reste à cliquer sur Z→A dans l'onglet Données.",
+        "showTarget": true
+      },
+      "feedback": "Delaunay passe en tête avec 2 100 €, Girard ferme la marche à 640 €. Les lignes ont voyagé **en entier** : le nom, la région et le produit ont suivi leur montant."
+    },
+    {
+      "id": "M19-L01-02",
+      "consigne": "C'est le point capital : Excel déplace des **lignes complètes**, jamais une colonne seule. Si un jour vos données se retrouvent mélangées après un tri, c'est presque toujours qu'une seule colonne avait été sélectionnée avant de trier.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M19-L01-03",
+      "consigne": "Triez maintenant par ordre alphabétique de **commercial**. ==Cliquez dans la colonne A puis sur **A→Z**==.",
+      "setup": {
+        "selection": "A3"
+      },
+      "action": {
+        "type": "SORT_RANGE",
+        "range": "A2:D8",
+        "column": "A",
+        "ascending": true
+      },
+      "aide": {
+        "text": "Une cellule de la colonne Commercial, puis le bouton A→Z.",
+        "showTarget": true
+      },
+      "feedback": "Bertrand, Chevalier, Delaunay… Le tri alphabétique fonctionne comme le tri numérique."
+    },
+    {
+      "id": "M19-L01-04",
+      "consigne": "Triez par **région**, cette fois de Z vers A : ==cliquez dans la colonne B puis sur **Z→A**==.",
+      "setup": {
+        "selection": "B5"
+      },
+      "action": {
+        "type": "SORT_RANGE",
+        "range": "A2:D8",
+        "column": "B",
+        "ascending": false
+      },
+      "aide": {
+        "text": "Une cellule de la colonne Région, puis Z→A.",
+        "showTarget": true
+      },
+      "feedback": "Sud, Ouest, Nord. À l'intérieur d'une même région, l'ordre précédent est conservé — c'est ce qui permet d'enchaîner deux tris pour obtenir un tri à deux niveaux."
+    },
+    {
+      "id": "M19-L01-05",
+      "consigne": "Ce dernier point mérite d'être retenu : pour trier **par région puis par montant**, on trie d'abord par montant, ensuite par région. On applique les critères **du moins important au plus important**. La boîte de dialogue « Trier » d'Excel permet aussi de déclarer plusieurs niveaux d'un coup.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M19-L01-06",
+      "consigne": "Vérifions l'ordre obtenu. ==En **F1**, relevez le montant de la première ligne du tableau== (ligne 2).",
+      "setup": {
+        "selection": "F1"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "F1",
+        "accept": [
+          "=D2"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Une référence simple vers la cellule D2 suffit."
+      },
+      "feedback": "La formule suit le tableau : retriez, et ce repère affichera la nouvelle première valeur."
+    }
+  ]
+}

@@ -48,6 +48,8 @@ export type ObservedAction =
   /** Référence saisie dans la zone Nom pour atteindre une cellule. */
   | { kind: "gotoRef"; ref: string }
   | { kind: "defineName"; name: string; ref: string }
+  | { kind: "sort"; range: string; column: string; ascending: boolean }
+  | { kind: "filter"; column: string; values: string[] }
   /**
    * Le classeur a changé. `readings` porte la lecture des cellules attendues par
    * l'étape — c'est le simulateur qui les lit, pour que ce fichier reste pur et
@@ -290,6 +292,49 @@ export function validateStep(
         observed.name.trim().toLocaleUpperCase("fr-FR") === expected.name.trim().toLocaleUpperCase("fr-FR")
         ? OK
         : { ok: false, reason: "wrong_sheet", message: "Ce n'est pas la bonne feuille." }
+    }
+
+    case "SORT_RANGE": {
+      if (observed.kind !== "sort") {
+        return { ok: false, reason: "not_a_sort", message: "Utilisez un bouton de tri du ruban Données." }
+      }
+      if (observed.column.toUpperCase() !== expected.column.toUpperCase()) {
+        return { ok: false, reason: "wrong_sort_column", message: "Le tri ne porte pas sur la bonne colonne." }
+      }
+      if (observed.ascending !== expected.ascending) {
+        return {
+          ok: false,
+          reason: "wrong_sort_order",
+          message: expected.ascending ? "Il faut trier du plus petit au plus grand." : "Il faut trier du plus grand au plus petit.",
+        }
+      }
+      return OK
+    }
+
+    case "FILTER_COLUMN": {
+      if (observed.kind !== "filter") {
+        return {
+          ok: false,
+          reason: "not_a_filter",
+          message: "Cliquez sur le bouton de filtre de la colonne, puis choisissez les valeurs à garder.",
+        }
+      }
+      if (observed.column.toUpperCase() !== expected.column.toUpperCase()) {
+        return { ok: false, reason: "wrong_filter_column", message: "Ce n'est pas la bonne colonne." }
+      }
+      // L'ordre de cochage ne compte pas, seul l'ensemble retenu compte.
+      const norm = (v: string[]) =>
+        Array.from(new Set(v.map((x) => x.trim().toLocaleUpperCase("fr-FR")))).sort()
+      const attendu = norm(expected.values)
+      const obtenu = norm(observed.values)
+      if (attendu.length !== obtenu.length || attendu.some((v, i) => v !== obtenu[i])) {
+        return {
+          ok: false,
+          reason: "wrong_filter_values",
+          message: "Les valeurs gardées ne sont pas les bonnes. Vérifiez vos cases cochées.",
+        }
+      }
+      return OK
     }
 
     case "DEFINE_NAME": {

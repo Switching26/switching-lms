@@ -58,6 +58,11 @@ export type WorkbookState = {
   activeSheetIndex?: number
   /** Sélection au démarrage. */
   selection?: CellRef | RangeRef
+  /**
+   * Plage qui reçoit les boutons de filtre d'Excel, ligne d'en-tête comprise.
+   * Univer ne devine pas la ligne de titres : c'est au scénario de la déclarer.
+   */
+  filterRange?: RangeRef
 }
 
 /* ═══════════ RUBAN ═══════════ */
@@ -177,6 +182,13 @@ export type SimulationAction =
   | { type: "SELECT_SHEET"; name: string }
   /** Atteindre une cellule en saisissant sa référence dans la zone Nom. */
   | { type: "GOTO_REF"; ref: string }
+  /** Trier une plage sur une de ses colonnes, par le ruban Données. */
+  | { type: "SORT_RANGE"; range: string; column: string; ascending: boolean }
+  /**
+   * Filtrer une colonne sur une liste de valeurs, via les boutons de filtre
+   * d'Excel. `values` est l'ensemble des valeurs qui doivent rester visibles.
+   */
+  | { type: "FILTER_COLUMN"; column: string; values: string[] }
   /**
    * Nommer la sélection via la zone Nom. `ref` est facultatif : quand il est
    * fourni, la plage nommée doit correspondre, sinon on se contente du nom.

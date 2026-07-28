@@ -1,0 +1,220 @@
+{
+  "schemaVersion": 1,
+  "title": "Sélectionner une cellule et une plage",
+  "mode": "LESSON",
+  "moduleTitle": "Sélectionner une cellule, une plage de cellules",
+  "intro": {
+    "title": "AVANT D'AGIR, SÉLECTIONNER",
+    "body": "Dans Excel, on désigne d'abord, on agit ensuite. Toute mise en forme, tout calcul, toute suppression commence par une sélection — et savoir sélectionner vite fait la différence entre subir le tableur et le piloter."
+  },
+  "outro": {
+    "body": "Vous savez sélectionner une cellule, une plage, et lire ce que la barre d'état vous en dit."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Clients",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 110,
+          "B": 100
+        },
+        "cells": {
+          "A1": {
+            "v": "Client",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Ville",
+            "format": {
+              "bold": true
+            }
+          },
+          "C1": {
+            "v": "Janvier",
+            "format": {
+              "bold": true
+            }
+          },
+          "D1": {
+            "v": "Février",
+            "format": {
+              "bold": true
+            }
+          },
+          "E1": {
+            "v": "Mars",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Bertrand"
+          },
+          "B2": {
+            "v": "Lyon"
+          },
+          "C2": {
+            "v": 1200
+          },
+          "D2": {
+            "v": 1450
+          },
+          "E2": {
+            "v": 1310
+          },
+          "A3": {
+            "v": "Chevalier"
+          },
+          "B3": {
+            "v": "Nantes"
+          },
+          "C3": {
+            "v": 890
+          },
+          "D3": {
+            "v": 760
+          },
+          "E3": {
+            "v": 1020
+          },
+          "A4": {
+            "v": "Delaunay"
+          },
+          "B4": {
+            "v": "Lille"
+          },
+          "C4": {
+            "v": 2100
+          },
+          "D4": {
+            "v": 1980
+          },
+          "E4": {
+            "v": 2340
+          },
+          "A5": {
+            "v": "Fabre"
+          },
+          "B5": {
+            "v": "Toulouse"
+          },
+          "C5": {
+            "v": 1560
+          },
+          "D5": {
+            "v": 1720
+          },
+          "E5": {
+            "v": 1490
+          },
+          "A6": {
+            "v": "Girard"
+          },
+          "B6": {
+            "v": "Rennes"
+          },
+          "C6": {
+            "v": 640
+          },
+          "D6": {
+            "v": 810
+          },
+          "E6": {
+            "v": 720
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M03-L01-01",
+      "consigne": "La cellule encadrée est la **cellule active** : c'est là qu'ira votre saisie. ==Cliquez sur **C4**== pour l'activer.",
+      "action": {
+        "type": "CLICK_CELL",
+        "cell": "C4"
+      },
+      "aide": {
+        "text": "Colonne C, ligne 4 : le chiffre de janvier de Delaunay.",
+        "showTarget": true
+      },
+      "feedback": "La zone Nom affiche `C4` et la barre d'état indique la valeur. Une seule cellule est active à la fois."
+    },
+    {
+      "id": "M03-L01-02",
+      "consigne": "Une **plage** est un bloc rectangulaire de cellules. ==Sélectionnez **C2:E6**==, tous les chiffres du trimestre, en cliquant sur C2 et en faisant glisser jusqu'à E6.",
+      "action": {
+        "type": "DRAG_RANGE",
+        "range": "C2:E6"
+      },
+      "aide": {
+        "text": "Cliquez sur C2, maintenez le bouton, allez jusqu'à E6 puis relâchez.",
+        "showTarget": true
+      },
+      "feedback": "Regardez la barre d'état : Excel vous donne déjà la somme, la moyenne et le nombre de valeurs — sans écrire une seule formule."
+    },
+    {
+      "id": "M03-L01-03",
+      "consigne": "Cette lecture instantanée est le réflexe le plus rentable d'Excel. Besoin d'un total pour vérifier un chiffre ? **Sélectionnez, lisez la barre d'état.** Aucune formule à taper, aucune cellule à salir.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M03-L01-04",
+      "consigne": "Une plage s'écrit avec les **deux angles opposés séparés par deux-points**. ==Tapez `C2:E6` dans la zone Nom== pour resélectionner la même plage sans la souris.",
+      "setup": {
+        "selection": "A1"
+      },
+      "action": {
+        "type": "GOTO_REF",
+        "ref": "C2:E6"
+      },
+      "aide": {
+        "text": "La zone Nom est à gauche de la barre de formule. Tapez la référence de la plage et validez.",
+        "showTarget": true
+      },
+      "feedback": "Même sélection, obtenue au clavier. Sur un grand tableau, c'est bien plus rapide qu'un glissement."
+    },
+    {
+      "id": "M03-L01-05",
+      "consigne": "À savoir : `C2:E6` et `E6:C2` désignent **exactement la même plage**. Excel ne retient que le rectangle, pas le sens dans lequel vous l'avez tracé.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M03-L01-06",
+      "consigne": "Sélectionnez seulement la colonne des chiffres de **mars** dans le tableau : ==la plage **E2:E6**==.",
+      "setup": {
+        "selection": "A1"
+      },
+      "action": {
+        "type": "DRAG_RANGE",
+        "range": "E2:E6"
+      },
+      "aide": {
+        "text": "De E2 jusqu'à E6 — les valeurs seulement, pas l'en-tête.",
+        "showTarget": true
+      },
+      "feedback": "Somme 6 880. Notez qu'on a exclu l'en-tête : une sélection de données ne doit pas contenir de texte de titre si on veut des calculs justes."
+    }
+  ]
+}

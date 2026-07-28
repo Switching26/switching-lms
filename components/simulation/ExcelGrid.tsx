@@ -23,7 +23,14 @@
 import { useEffect, useRef } from "react"
 import type { ObservedAction, ActionChannel } from "@/lib/simulation/validate"
 import type { CellState, WorkbookState } from "@/lib/simulation/types"
-import { formatCell, parseCell, parseRange, formatRange, columnIndexToLetter } from "@/lib/simulation/grid"
+import {
+  formatCell,
+  parseCell,
+  parseRange,
+  formatRange,
+  columnIndexToLetter,
+  columnLetterToIndex,
+} from "@/lib/simulation/grid"
 import { frToEngine, engineToFr } from "@/lib/simulation/formula-fr"
 
 /** Ce que le simulateur peut demander à la grille. */
@@ -38,6 +45,26 @@ export type GridApi = {
   getFormula: (ref: string) => string
   /** Valeur calculée d'une cellule. */
   getValue: (ref: string) => unknown
+  /** Texte réellement affiché dans la cellule, format de nombre appliqué. */
+  getDisplayValue: (ref: string) => string
+  /** Applique un format de nombre Excel (pourcentage, monétaire, date…). */
+  setNumberFormat: (refs: string[], pattern: string) => void
+  /** Motif de format de nombre d'une cellule, chaîne vide si Standard. */
+  getNumberFormat: (ref: string) => string
+  /**
+   * Trie une plage sur une de ses colonnes. `column` est un indice RELATIF au
+   * premier champ de la plage — vérifié au banc, ce n'est pas un indice absolu
+   * de feuille.
+   */
+  sortRange: (range: string, column: number, ascending: boolean) => boolean
+  /** Pose les boutons de filtre d'Excel sur la ligne d'en-tête d'une plage. */
+  createFilter: (range: string) => boolean
+  /** Coche les valeurs à garder visibles sur une colonne filtrée. */
+  setFilterCriteria: (column: string, values: string[]) => boolean
+  /** Retire le filtre et réaffiche toutes les lignes. */
+  removeFilter: () => boolean
+  /** Indices des lignes masquées par le filtre en cours. */
+  getFilteredOutRows: () => number[]
   /** Sélection courante en notation A1. */
   getSelection: () => string
   /** Verrouille l'édition : seules ces cellules restent modifiables. */
@@ -135,18 +162,40 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
     let univerAPI: any = null
 
     const boot = async () => {
-      const [{ createUniver, LocaleType, mergeLocales }, { UniverSheetsCorePreset }, locale] =
-        await Promise.all([
-          import("@univerjs/presets"),
-          import("@univerjs/preset-sheets-core"),
-          import("@univerjs/preset-sheets-core/locales/fr-FR"),
-        ])
+      const [
+        { createUniver, LocaleType, mergeLocales },
+        { UniverSheetsCorePreset },
+        locale,
+        { UniverSheetsSortPreset },
+        localeSort,
+        { UniverSheetsFilterPreset },
+        localeFilter,
+      ] = await Promise.all([
+        import("@univerjs/presets"),
+        import("@univerjs/preset-sheets-core"),
+        import("@univerjs/preset-sheets-core/locales/fr-FR"),
+        import("@univerjs/preset-sheets-sort"),
+        import("@univerjs/preset-sheets-sort/locales/fr-FR"),
+        import("@univerjs/preset-sheets-filter"),
+        import("@univerjs/preset-sheets-filter/locales/fr-FR"),
+      ])
       if (disposed) return
 
       const created = createUniver({
         locale: LocaleType.FR_FR,
-        locales: { [LocaleType.FR_FR]: mergeLocales(locale.default ?? locale) },
+        locales: {
+          [LocaleType.FR_FR]: mergeLocales(
+            locale.default ?? locale,
+            localeSort.default ?? localeSort,
+            localeFilter.default ?? localeFilter
+          ),
+        },
         presets: [
+          // Tri et filtre : indispensables aux modules « listes de données », et
+          // sous licence Apache-2.0 comme le cœur. Les graphiques et tableaux
+          // croisés relèvent, eux, de @univerjs-pro (licence payante).
+          UniverSheetsSortPreset(),
+          UniverSheetsFilterPreset(),
           UniverSheetsCorePreset({
             container,
             // Toute la chrome native est coupée : on fournit notre propre ruban,
@@ -250,6 +299,86 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
           return raw ? engineToFr(raw) : ""
         },
         getValue: (ref) => sheet()?.getRange(ref)?.getValue?.() ?? null,
+        getDisplayValue: (ref) => {
+          try {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const v = (sheet()?.getRange(ref) as any)?.getDisplayValue?.()
+            return v === undefined || v === null ? "" : String(v)
+          } catch {
+            return ""
+          }
+        },
+        setNumberFormat: (refs, pattern) => {
+          for (const ref of refs) {
+            try {
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              ;(sheet()?.getRange(ref) as any)?.setNumberFormat?.(pattern)
+            } catch {
+              /* un format refusé ne doit pas interrompre la leçon */
+            }
+          }
+        },
+        sortRange: (range, column, ascending) => {
+          try {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const rg = sheet()?.getRange(range) as any
+            if (!rg?.sort) return false
+            rg.sort({ column, ascending })
+            return true
+          } catch {
+            return false
+          }
+        },
+        createFilter: (range) => {
+          try {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const rg = sheet()?.getRange(range) as any
+            if (!rg?.createFilter) return false
+            // Un filtre déjà posé fait échouer createFilter : on réutilise.
+            return Boolean(rg.getFilter?.() ?? rg.createFilter())
+          } catch {
+            return false
+          }
+        },
+        setFilterCriteria: (column, values) => {
+          try {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const f = (sheet() as any)?.getFilter?.()
+            if (!f?.setColumnFilterCriteria) return false
+            f.setColumnFilterCriteria(columnLetterToIndex(column), { filters: { filters: values } })
+            return true
+          } catch {
+            return false
+          }
+        },
+        removeFilter: () => {
+          try {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const f = (sheet() as any)?.getFilter?.()
+            if (!f?.remove) return false
+            f.remove()
+            return true
+          } catch {
+            return false
+          }
+        },
+        getFilteredOutRows: () => {
+          try {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const f = (sheet() as any)?.getFilter?.()
+            return f?.getFilteredOutRows?.() ?? []
+          } catch {
+            return []
+          }
+        },
+        getNumberFormat: (ref) => {
+          try {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            return (sheet()?.getRange(ref) as any)?.getNumberFormat?.() ?? ""
+          } catch {
+            return ""
+          }
+        },
         getSelection: () => {
           const sel = univerAPI.getActiveWorkbook()?.getActiveSheet()?.getSelection?.()
           const rg = sel?.getActiveRange?.()
@@ -506,6 +635,40 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
       // charge — le genre de défaut qu'on met des heures à reproduire.
       // On attend donc que les modifications se soient tassées avant de signaler.
       let settleTimer: ReturnType<typeof setTimeout> | null = null
+      // Tri et filtre passent par les commandes d'Univer : on les observe par
+      // événement plutôt qu'en devinant depuis le ruban, car l'apprenant peut
+      // aussi filtrer depuis les boutons posés sur la ligne d'en-tête.
+      listen("SheetRangeSorted", (p: unknown) => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const e = p as any
+        const spec = Array.isArray(e?.sortColumn) ? e.sortColumn[0] : e?.sortColumn
+        if (!spec) return
+        let plage = ""
+        try {
+          plage = e?.range?.getA1Notation?.() ?? ""
+        } catch {
+          plage = ""
+        }
+        // `column` est un indice absolu de colonne dans la feuille.
+        onActionRef.current({
+          kind: "sort",
+          range: plage,
+          column: columnIndexToLetter(Number(spec.column) || 0),
+          ascending: Boolean(spec.ascending),
+        })
+      })
+
+      listen("SheetRangeFiltered", (p: unknown) => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const e = p as any
+        const valeurs: string[] = e?.criteria?.filters?.filters ?? []
+        onActionRef.current({
+          kind: "filter",
+          column: columnIndexToLetter(Number(e?.col) || 0),
+          values: valeurs.map((v) => String(v)),
+        })
+      })
+
       listen("SheetValueChanged", () => {
         if (settleTimer) clearTimeout(settleTimer)
         settleTimer = setTimeout(() => {

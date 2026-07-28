@@ -1,0 +1,253 @@
+{
+  "schemaVersion": 1,
+  "title": "Lignes, colonnes et grandes sélections",
+  "mode": "LESSON",
+  "moduleTitle": "Sélectionner une cellule, une plage de cellules",
+  "intro": {
+    "title": "SÉLECTIONNER EN GRAND",
+    "body": "Cliquer-glisser convient sur dix lignes. Au-delà, il faut les en-têtes, les références de colonne et le clavier."
+  },
+  "outro": {
+    "body": "Vous savez sélectionner des lignes et colonnes entières, et vous connaissez le piège des références de colonne."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Clients",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 110,
+          "B": 100
+        },
+        "cells": {
+          "A1": {
+            "v": "Client",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Ville",
+            "format": {
+              "bold": true
+            }
+          },
+          "C1": {
+            "v": "Janvier",
+            "format": {
+              "bold": true
+            }
+          },
+          "D1": {
+            "v": "Février",
+            "format": {
+              "bold": true
+            }
+          },
+          "E1": {
+            "v": "Mars",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Bertrand"
+          },
+          "B2": {
+            "v": "Lyon"
+          },
+          "C2": {
+            "v": 1200
+          },
+          "D2": {
+            "v": 1450
+          },
+          "E2": {
+            "v": 1310
+          },
+          "A3": {
+            "v": "Chevalier"
+          },
+          "B3": {
+            "v": "Nantes"
+          },
+          "C3": {
+            "v": 890
+          },
+          "D3": {
+            "v": 760
+          },
+          "E3": {
+            "v": 1020
+          },
+          "A4": {
+            "v": "Delaunay"
+          },
+          "B4": {
+            "v": "Lille"
+          },
+          "C4": {
+            "v": 2100
+          },
+          "D4": {
+            "v": 1980
+          },
+          "E4": {
+            "v": 2340
+          },
+          "A5": {
+            "v": "Fabre"
+          },
+          "B5": {
+            "v": "Toulouse"
+          },
+          "C5": {
+            "v": 1560
+          },
+          "D5": {
+            "v": 1720
+          },
+          "E5": {
+            "v": 1490
+          },
+          "A6": {
+            "v": "Girard"
+          },
+          "B6": {
+            "v": "Rennes"
+          },
+          "C6": {
+            "v": 640
+          },
+          "D6": {
+            "v": 810
+          },
+          "E6": {
+            "v": 720
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M03-L02-01",
+      "consigne": "Pour prendre une **colonne entière**, on clique sur sa lettre. ==Cliquez sur l'en-tête de la colonne **C**==.",
+      "action": {
+        "type": "SELECT_COLUMN",
+        "column": "C"
+      },
+      "aide": {
+        "text": "La lettre C, dans la bande grise au-dessus de la grille.",
+        "showTarget": true
+      },
+      "feedback": "Toute la colonne est prise, en-tête compris — et les milliers de lignes vides en dessous aussi."
+    },
+    {
+      "id": "M03-L02-02",
+      "consigne": "Même principe pour une ligne. ==Cliquez sur l'en-tête de la ligne **4**==, celle de Delaunay.",
+      "action": {
+        "type": "SELECT_ROW",
+        "row": 4
+      },
+      "aide": {
+        "text": "Le chiffre 4, dans la colonne grise à gauche de la grille.",
+        "showTarget": true
+      },
+      "feedback": "La ligne entière est sélectionnée. On sélectionne ainsi pour mettre en forme, insérer ou supprimer."
+    },
+    {
+      "id": "M03-L02-03",
+      "consigne": "Une colonne entière s'écrit aussi dans une formule : `E:E` désigne toute la colonne E. ==En **H1**, saisissez `=SOMME(E:E)`==.",
+      "setup": {
+        "selection": "H1",
+        "cells": {
+          "G1": {
+            "v": "Total mars",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "H1",
+        "accept": [
+          "=SOMME(E:E)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "La colonne entière se note avec sa lettre répétée, séparée par deux-points.",
+        "showTarget": true
+      },
+      "feedback": "6 880. La formule a ignoré l'en-tête « Mars » : SOMME ne prend que les nombres. Avantage : ajoutez un client en ligne 7, le total suit tout seul."
+    },
+    {
+      "id": "M03-L02-04",
+      "consigne": "Mais toutes les fonctions ne sont pas aussi indulgentes. ==En **H2**, saisissez `=NBVAL(E:E)`== et comparez.",
+      "setup": {
+        "selection": "H2",
+        "cells": {
+          "G2": {
+            "v": "Nb valeurs",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "H2",
+        "accept": [
+          "=NBVAL(E:E)"
+        ],
+        "formulaMode": true
+      },
+      "feedback": "6, et non 5 : NBVAL compte toutes les cellules non vides, donc l'en-tête « Mars » aussi. C'est le piège classique de la référence de colonne."
+    },
+    {
+      "id": "M03-L02-05",
+      "consigne": "Retenez la règle : la référence de colonne entière est **excellente pour SOMME et MOYENNE**, qui ignorent le texte, mais **dangereuse pour NBVAL** et tout ce qui compte des cellules. En cas de doute, bornez votre plage.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M03-L02-06",
+      "consigne": "Trois raccourcis à connaître par cœur. **Ctrl + ↓** saute à la dernière cellule remplie de la colonne. **Ctrl + Maj + ↓** sélectionne tout jusqu'à elle. **Ctrl + A** prend le tableau entier autour de la cellule active. Sur un export de 40 000 lignes, c'est la différence entre une seconde et deux minutes de glissement.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M03-L02-07",
+      "consigne": "Pour finir, ==sélectionnez le tableau complet, **A1:E6**==, et regardez ce que dit la barre d'état.",
+      "action": {
+        "type": "DRAG_RANGE",
+        "range": "A1:E6"
+      },
+      "aide": {
+        "text": "De A1, tout en haut à gauche, jusqu'à E6 en bas à droite.",
+        "showTarget": true
+      },
+      "feedback": "30 cellules non vides, mais la somme ne porte que sur les nombres : la barre d'état applique la même logique que les fonctions."
+    }
+  ]
+}

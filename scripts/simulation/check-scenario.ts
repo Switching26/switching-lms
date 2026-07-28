@@ -206,6 +206,8 @@ function checkStep(s: SimulationStep, i: number, seen: Set<string>, mode: string
     "SELECT_SHEET",
     "GOTO_REF",
   "DEFINE_NAME",
+  "SORT_RANGE",
+  "FILTER_COLUMN",
   ])
   if (!OBSERVABLE.has(a.type)) {
     err(
@@ -283,6 +285,10 @@ function checkScenario(sc: SimulationScenario) {
     "acc-format-largeur",
     "acc-format-masquer",
     "acc-gras",
+    "don-tri-croissant",
+    "don-tri-decroissant",
+    "don-filtrer",
+    "don-effacer-filtre",
     "ui-nouvelle-feuille",
   ])
   for (const s of sc.steps) {

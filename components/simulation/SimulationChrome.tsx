@@ -45,6 +45,8 @@ type Props = {
   /** Identifiant du contrôle à mettre en évidence (halo d'aide). */
   highlight?: string | null
   onControl: (controlId: string) => void
+  /** Changement d'onglet du ruban : simple navigation, jamais une étape. */
+  onTabChange?: (tab: RibbonTab) => void
   /** Édition dans la barre de formule. */
   onFormulaChange?: (text: string) => void
   onFormulaCommit?: () => void
@@ -80,6 +82,7 @@ export default function SimulationChrome({
   formulaText,
   highlight,
   onControl,
+  onTabChange,
   onFormulaChange,
   onFormulaCommit,
   onFormulaCancel,
@@ -158,17 +161,20 @@ export default function SimulationChrome({
       {/* Onglets */}
       <div className="flex items-center gap-0.5 border-b border-neutral-200 bg-neutral-50 px-2 pt-1">
         {tabs.map((t) => (
-          <span
+          <button
             key={t}
+            type="button"
+            aria-pressed={t === activeTab}
+            onClick={() => onTabChange?.(t)}
             className={[
               "rounded-t px-3 py-1 text-[11.5px]",
               t === activeTab
                 ? "border border-b-white border-neutral-200 bg-white font-medium text-emerald-800"
-                : "text-neutral-600",
+                : "text-neutral-600 hover:bg-white/60",
             ].join(" ")}
           >
             {TAB_LABELS[t] ?? t}
-          </span>
+          </button>
         ))}
       </div>
 
@@ -235,7 +241,15 @@ export default function SimulationChrome({
             </Group>
           </>
         )}
-        {activeTab !== "accueil" && (
+        {activeTab === "donnees" && (
+          <Group title="Trier et filtrer">
+            <Btn id="don-tri-croissant" label="A→Z" />
+            <Btn id="don-tri-decroissant" label="Z→A" />
+            <Btn id="don-filtrer" label="Filtrer" />
+            <Btn id="don-effacer-filtre" label="Effacer" />
+          </Group>
+        )}
+        {activeTab !== "accueil" && activeTab !== "donnees" && (
           <div className="px-3 py-2 text-[11.5px] text-neutral-500">
             Onglet {TAB_LABELS[activeTab] ?? activeTab}
           </div>

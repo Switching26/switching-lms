@@ -1,0 +1,240 @@
+{
+  "schemaVersion": 1,
+  "title": "Filtrer pour n'afficher que l'utile",
+  "mode": "LESSON",
+  "moduleTitle": "Tri, filtre et sous-totaux",
+  "intro": {
+    "title": "CACHER PLUTÔT QUE SUPPRIMER",
+    "body": "Le filtre masque les lignes qui ne vous intéressent pas. Rien n'est perdu, rien n'est supprimé — et le tableau redevient complet en un clic."
+  },
+  "outro": {
+    "body": "Vous savez poser des filtres, combiner deux critères et tout réafficher."
+  },
+  "ribbon": [
+    "accueil",
+    "donnees"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Ventes",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "filterRange": "A1:D8",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 120,
+          "B": 90,
+          "C": 110
+        },
+        "cells": {
+          "A1": {
+            "v": "Commercial",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Région",
+            "format": {
+              "bold": true
+            }
+          },
+          "C1": {
+            "v": "Produit",
+            "format": {
+              "bold": true
+            }
+          },
+          "D1": {
+            "v": "Montant",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Bertrand"
+          },
+          "B2": {
+            "v": "Sud"
+          },
+          "C2": {
+            "v": "Licence"
+          },
+          "D2": {
+            "v": 1200
+          },
+          "A3": {
+            "v": "Chevalier"
+          },
+          "B3": {
+            "v": "Nord"
+          },
+          "C3": {
+            "v": "Formation"
+          },
+          "D3": {
+            "v": 890
+          },
+          "A4": {
+            "v": "Delaunay"
+          },
+          "B4": {
+            "v": "Sud"
+          },
+          "C4": {
+            "v": "Licence"
+          },
+          "D4": {
+            "v": 2100
+          },
+          "A5": {
+            "v": "Fabre"
+          },
+          "B5": {
+            "v": "Ouest"
+          },
+          "C5": {
+            "v": "Formation"
+          },
+          "D5": {
+            "v": 1560
+          },
+          "A6": {
+            "v": "Girard"
+          },
+          "B6": {
+            "v": "Nord"
+          },
+          "C6": {
+            "v": "Licence"
+          },
+          "D6": {
+            "v": 640
+          },
+          "A7": {
+            "v": "Hamon"
+          },
+          "B7": {
+            "v": "Sud"
+          },
+          "C7": {
+            "v": "Formation"
+          },
+          "D7": {
+            "v": 1750
+          },
+          "A8": {
+            "v": "Imbert"
+          },
+          "B8": {
+            "v": "Ouest"
+          },
+          "C8": {
+            "v": "Licence"
+          },
+          "D8": {
+            "v": 980
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M19-L02-01",
+      "consigne": "==Cliquez sur **Filtrer**== dans l'onglet Données.",
+      "setup": {
+        "ribbon": {
+          "activeTab": "donnees"
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "don-filtrer"
+      },
+      "aide": {
+        "text": "Le bouton Filtrer du groupe « Trier et filtrer ».",
+        "showTarget": true
+      },
+      "feedback": "De petits boutons sont apparus sur la ligne de titres. Chaque colonne a maintenant son propre filtre."
+    },
+    {
+      "id": "M19-L02-02",
+      "consigne": "==Ouvrez le filtre de la colonne **Région**, décochez « Tout sélectionner », puis ne gardez que **Sud**== et confirmez.",
+      "action": {
+        "type": "FILTER_COLUMN",
+        "column": "B",
+        "values": [
+          "Sud"
+        ]
+      },
+      "aide": {
+        "text": "Cliquez sur le bouton de filtre dans la cellule Région, décochez tout, cochez Sud, puis Confirmer.",
+        "showTarget": true
+      },
+      "feedback": "Trois lignes restent : Bertrand, Delaunay et Hamon. Les autres sont masquées, pas effacées — regardez les numéros de lignes, ils sautent."
+    },
+    {
+      "id": "M19-L02-03",
+      "consigne": "Ces **numéros de lignes discontinus** sont votre signal d'alerte : ils vous disent qu'un filtre est actif. C'est l'erreur classique — croire qu'on regarde tout un tableau alors qu'un filtre oublié en cache la moitié.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M19-L02-04",
+      "consigne": "Un filtre peut retenir plusieurs valeurs. ==Rouvrez le filtre **Région** et gardez cette fois **Nord** et **Ouest**==.",
+      "action": {
+        "type": "FILTER_COLUMN",
+        "column": "B",
+        "values": [
+          "Nord",
+          "Ouest"
+        ]
+      },
+      "aide": {
+        "text": "Même bouton de filtre : cochez Nord et Ouest, décochez Sud.",
+        "showTarget": true
+      },
+      "feedback": "Quatre lignes visibles. L'ordre dans lequel vous cochez ne change rien."
+    },
+    {
+      "id": "M19-L02-05",
+      "consigne": "Les filtres se **cumulent** entre colonnes. ==Filtrez maintenant la colonne **Produit** sur **Licence**==, en gardant le filtre de région.",
+      "action": {
+        "type": "FILTER_COLUMN",
+        "column": "C",
+        "values": [
+          "Licence"
+        ]
+      },
+      "aide": {
+        "text": "Le bouton de filtre de la colonne Produit, puis ne cochez que Licence.",
+        "showTarget": true
+      },
+      "feedback": "Deux critères actifs en même temps : région Nord ou Ouest **et** produit Licence. Il reste Girard et Imbert."
+    },
+    {
+      "id": "M19-L02-06",
+      "consigne": "Pour tout réafficher, ==cliquez sur **Effacer**==.",
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "don-effacer-filtre"
+      },
+      "aide": {
+        "text": "Le bouton Effacer du groupe « Trier et filtrer ».",
+        "showTarget": true
+      },
+      "feedback": "Les huit lignes sont de retour. Le filtre ne détruit jamais rien."
+    }
+  ]
+}

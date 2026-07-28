@@ -1,0 +1,220 @@
+{
+  "schemaVersion": 1,
+  "title": "Exercice · Sélections ciblées",
+  "mode": "EXERCISE",
+  "moduleTitle": "Sélectionner une cellule, une plage de cellules",
+  "intro": {
+    "title": "À VOUS",
+    "body": "Cinq sélections à réussir sur le même tableau."
+  },
+  "outro": {
+    "body": "Exercice terminé."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Clients",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 110,
+          "B": 100
+        },
+        "cells": {
+          "A1": {
+            "v": "Client",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Ville",
+            "format": {
+              "bold": true
+            }
+          },
+          "C1": {
+            "v": "Janvier",
+            "format": {
+              "bold": true
+            }
+          },
+          "D1": {
+            "v": "Février",
+            "format": {
+              "bold": true
+            }
+          },
+          "E1": {
+            "v": "Mars",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Bertrand"
+          },
+          "B2": {
+            "v": "Lyon"
+          },
+          "C2": {
+            "v": 1200
+          },
+          "D2": {
+            "v": 1450
+          },
+          "E2": {
+            "v": 1310
+          },
+          "A3": {
+            "v": "Chevalier"
+          },
+          "B3": {
+            "v": "Nantes"
+          },
+          "C3": {
+            "v": 890
+          },
+          "D3": {
+            "v": 760
+          },
+          "E3": {
+            "v": 1020
+          },
+          "A4": {
+            "v": "Delaunay"
+          },
+          "B4": {
+            "v": "Lille"
+          },
+          "C4": {
+            "v": 2100
+          },
+          "D4": {
+            "v": 1980
+          },
+          "E4": {
+            "v": 2340
+          },
+          "A5": {
+            "v": "Fabre"
+          },
+          "B5": {
+            "v": "Toulouse"
+          },
+          "C5": {
+            "v": 1560
+          },
+          "D5": {
+            "v": 1720
+          },
+          "E5": {
+            "v": 1490
+          },
+          "A6": {
+            "v": "Girard"
+          },
+          "B6": {
+            "v": "Rennes"
+          },
+          "C6": {
+            "v": 640
+          },
+          "D6": {
+            "v": 810
+          },
+          "E6": {
+            "v": 720
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M03-E01-01",
+      "consigne": "Activez la cellule contenant le chiffre de **février de Fabre**.",
+      "action": {
+        "type": "CLICK_CELL",
+        "cell": "D5"
+      },
+      "aide": {
+        "text": "Février est la colonne D, Fabre est en ligne 5."
+      }
+    },
+    {
+      "id": "M03-E01-02",
+      "consigne": "Sélectionnez **tous les chiffres de février**, en-tête exclu.",
+      "action": {
+        "type": "DRAG_RANGE",
+        "range": "D2:D6"
+      },
+      "aide": {
+        "text": "De la première valeur à la dernière, sans la cellule de titre."
+      },
+      "feedback": "Somme 6 720."
+    },
+    {
+      "id": "M03-E01-03",
+      "consigne": "Sélectionnez **la ligne entière** de Chevalier.",
+      "action": {
+        "type": "SELECT_ROW",
+        "row": 3
+      },
+      "aide": {
+        "text": "Chevalier est en ligne 3 : cliquez sur son numéro."
+      }
+    },
+    {
+      "id": "M03-E01-04",
+      "consigne": "Sélectionnez **la colonne entière** des villes.",
+      "action": {
+        "type": "SELECT_COLUMN",
+        "column": "B"
+      },
+      "aide": {
+        "text": "Les villes sont en colonne B : cliquez sur la lettre."
+      }
+    },
+    {
+      "id": "M03-E01-05",
+      "consigne": "Sans utiliser la souris, sélectionnez la plage **C2:E4** via la zone Nom.",
+      "setup": {
+        "selection": "A1"
+      },
+      "action": {
+        "type": "GOTO_REF",
+        "ref": "C2:E4"
+      },
+      "aide": {
+        "text": "Tapez la référence de la plage dans la zone Nom, puis Entrée."
+      }
+    },
+    {
+      "id": "M03-E01-06",
+      "consigne": "Dernière question de lecture. Sélectionnez les chiffres des **trois premiers clients sur les trois mois**, puis relevez le total affiché dans la barre d'état. ==Reportez ce total en **G1**==.",
+      "action": {
+        "type": "TYPE",
+        "target": "G1",
+        "accept": [
+          "12550"
+        ]
+      },
+      "aide": {
+        "text": "Sélectionnez C2:E4, lisez la somme dans la barre d'état, puis saisissez-la en G1."
+      },
+      "feedback": "12 550. Vous avez répondu à une question chiffrée sans écrire une seule formule."
+    }
+  ]
+}

@@ -664,7 +664,9 @@ export function validateStep(
         return {
           ok: false,
           reason: "wrong_pivot_freshness",
-          message: a.stale ? "" : "Le tableau croisé n'est pas à jour : il faut l'actualiser.",
+          message: a.stale
+            ? "Le tableau croisé est déjà à jour : cette étape veut montrer un tableau PÉRIMÉ, ne l'actualisez pas encore."
+            : "Le tableau croisé n'est pas à jour : il faut l'actualiser.",
         }
       }
       if (a.cells !== undefined) {

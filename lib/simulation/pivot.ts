@@ -405,7 +405,7 @@ export function modifierTcd(etat: EtatTcd, patch: PatchTcd, lire: LireCellule): 
 export function sourceAChange(etat: EtatTcd, lire: LireCellule): boolean {
   const frais = lireSource(etat.source, lire)
   if (frais.lignes.length !== etat.instantane.lignes.length) return true
-  if (frais.champs.join(" ") !== etat.instantane.champs.join(" ")) return true
+  if (frais.champs.join("§") !== etat.instantane.champs.join("§")) return true
   for (let i = 0; i < frais.lignes.length; i++) {
     for (const champ of frais.champs) {
       if (libelleDe(frais.lignes[i][champ]) !== libelleDe(etat.instantane.lignes[i][champ])) return true
@@ -844,7 +844,7 @@ export function posterTcd(
     let prefixePrecedent: string | null = null
     tableau.colonnes.forEach((pc, j) => {
       const libelle = pc.libelles[niveau] ?? ""
-      const prefixe = pc.libelles.slice(0, niveau + 1).join(" ")
+      const prefixe = pc.libelles.slice(0, niveau + 1).join("§")
       if (libelle && prefixe !== prefixePrecedent) {
         cells[ref(rowNiveau, c0 + 1 + j)] = {
           v: libelle,

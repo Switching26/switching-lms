@@ -230,6 +230,13 @@ export default function SimulationChrome({
             <Group title="Cellules">
               <Btn id="acc-inserer" label="Insérer" />
               <Btn id="acc-supprimer" label="Supprimer" />
+              {/* Ces deux gestes étaient IMPLÉMENTÉS dans le simulateur et admis par
+                  le contrôleur, mais aucun bouton ne les rendait : neuf étapes
+                  demandaient à l'apprenant de cliquer quelque chose qui n'existait
+                  pas. Le menu Format d'Excel les abrite ; ici ils sont posés à plat,
+                  ce qui évite un menu déroulant de plus à piloter. */}
+              <Btn id="acc-format-largeur" label="Largeur" />
+              <Btn id="acc-format-masquer" label="Masquer" />
               <div className="flex items-center">
                 <Btn id="acc-format" label="Format" />
                 <button
@@ -288,8 +295,103 @@ export default function SimulationChrome({
           </>
         )}
         {activeTab === "insertion" && (
-          <Group title="Illustrations">
-            <Btn id="ins-image-cellule" label="Image dans la cellule" wide />
+          <>
+            {/* Excel ouvre son onglet Insertion sur ce bouton : c'est le seul point
+                d'entrée pour créer un tableau croisé, et la plage vient de la
+                sélection — exactement comme pour un graphique. */}
+            <Group title="Tableaux">
+              <Btn id="ins-tcd" label="Tableau croisé dynamique" wide />
+            </Group>
+            <Group title="Illustrations">
+              <Btn id="ins-image-cellule" label="Image dans la cellule" wide />
+            </Group>
+            {/* Les graphiques ne passent pas par Univer, dont le module est payant :
+                ils sont rendus par notre propre couche. Du point de vue de
+                l'apprenant, le geste est celui d'Excel — sélectionner une plage,
+                puis choisir un type dans ce groupe. */}
+            <Group title="Graphiques">
+              <Btn id="ins-graph-recommande" label="Graphique recommandé" wide />
+              <Btn id="ins-graph-histogramme" label="Histogramme" />
+              <Btn id="ins-graph-barres" label="Barres" />
+              <Btn id="ins-graph-courbes" label="Courbes" />
+              <Btn id="ins-graph-secteurs" label="Secteurs" />
+              <Btn id="ins-graph-aires" label="Aires" />
+              <Btn id="ins-graph-nuage" label="Nuage" />
+            </Group>
+          </>
+        )}
+        {activeTab === "graph-creation" && (
+          <>
+            <Group title="Éléments du graphique">
+              <Btn id="ins-graph-element-titre" label="Titre" />
+              <Btn id="ins-graph-element-titres-axes" label="Titres des axes" wide />
+              <Btn id="ins-graph-element-legende" label="Légende" />
+              <Btn id="ins-graph-element-etiquettes" label="Étiquettes" />
+              <Btn id="ins-graph-element-quadrillage" label="Quadrillage" />
+            </Group>
+            <Group title="Légende">
+              <Btn id="ins-graph-legende-droite" label="À droite" />
+              <Btn id="ins-graph-legende-bas" label="En bas" />
+            </Group>
+            <Group title="Styles">
+              <Btn id="ins-graph-style-2" label="Style 2" />
+              <Btn id="ins-graph-style-3" label="Style 3" />
+              <Btn id="ins-graph-style-4" label="Style 4" />
+              <Btn id="ins-graph-style-5" label="Style 5" />
+            </Group>
+            <Group title="Données">
+              <Btn id="ins-graph-intervertir" label="Lignes / colonnes" wide />
+              <Btn id="ins-graph-selectionner-donnees" label="Sélectionner les données" wide />
+              <Btn id="ins-graph-filtre-serie" label="Filtrer une série" wide />
+              <Btn id="ins-graph-supprimer-serie" label="Supprimer une série" wide />
+            </Group>
+            <Group title="Type">
+              <Btn id="ins-graph-modifier-type" label="Modifier le type" wide />
+            </Group>
+          </>
+        )}
+        {activeTab === "graph-mise-en-forme" && (
+          <>
+            <Group title="Série">
+              <Btn id="ins-graph-couleur-serie" label="Couleur de la série" wide />
+              <Btn id="ins-graph-forme-serie" label="Forme de la série" wide />
+            </Group>
+            <Group title="Analyse">
+              <Btn id="ins-graph-tendance-lineaire" label="Tendance linéaire" wide />
+              <Btn id="ins-graph-tendance-moyenne-mobile" label="Moyenne mobile" wide />
+              <Btn id="ins-graph-tendance-supprimer" label="Retirer la tendance" wide />
+            </Group>
+          </>
+        )}
+        {activeTab === "mise-en-page" && (
+          <Group title="Mise en page">
+            {/* Ces quatre boutons dépendent de la SÉLECTION, que le calque de mise
+                en page ne connaît pas : ils vivent donc au ruban. Tout le reste des
+                réglages est porté par le panneau du calque. */}
+            <Btn id="mep-zone-impression-definir" label="Définir la zone d'impression" wide />
+            <Btn id="mep-imprimer-titres" label="Imprimer les titres" wide />
+            <Btn id="mep-saut-inserer" label="Insérer un saut de page" wide />
+            <Btn id="mep-saut-supprimer" label="Supprimer le saut" wide />
+          </Group>
+        )}
+        {activeTab === "tableau-creation" && (
+          <Group title="Tableau croisé dynamique">
+            <Btn id="tcd-actualiser" label="Actualiser" />
+            {/* Étendre la source est le seul moyen de faire entrer des lignes
+                ajoutées SOUS la plage : actualiser ne suffit pas, et c'est
+                précisément le piège qu'enseigne la leçon « mettre à jour ». */}
+            <Btn id="tcd-source" label="Modifier la source de données" wide />
+            <Btn id="tcd-champs" label="Liste des champs" wide />
+          </Group>
+        )}
+        {activeTab === "developpeur" && (
+          // Le panneau des macros porte les mêmes commandes : ces boutons sont le
+          // chemin d'Excel, le panneau reste le chemin visible en permanence.
+          <Group title="Code">
+            <Btn id="dev-enregistrer-macro" label="Enregistrer une macro" wide />
+            <Btn id="dev-arreter-enregistrement" label="Arrêter l'enregistrement" wide />
+            <Btn id="dev-references-relatives" label="Références relatives" wide />
+            <Btn id="dev-macros" label="Macros" />
           </Group>
         )}
         {activeTab === "revision" && (
@@ -304,11 +406,20 @@ export default function SimulationChrome({
             <Btn id="aff-liberer-volets" label="Libérer les volets" wide />
           </Group>
         )}
-        {activeTab !== "accueil" &&
-          activeTab !== "donnees" &&
-          activeTab !== "revision" &&
-          activeTab !== "affichage" &&
-          activeTab !== "insertion" && (
+        {!(
+          [
+            "accueil",
+            "donnees",
+            "revision",
+            "affichage",
+            "insertion",
+            "graph-creation",
+            "graph-mise-en-forme",
+            "mise-en-page",
+            "tableau-creation",
+            "developpeur",
+          ] as string[]
+        ).includes(activeTab) && (
           <div className="px-3 py-2 text-[11.5px] text-neutral-500">
             Onglet {TAB_LABELS[activeTab] ?? activeTab}
           </div>

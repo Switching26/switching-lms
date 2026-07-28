@@ -260,12 +260,18 @@ export default function SimulationChrome({
           </>
         )}
         {activeTab === "donnees" && (
-          <Group title="Trier et filtrer">
-            <Btn id="don-tri-croissant" label="A→Z" />
-            <Btn id="don-tri-decroissant" label="Z→A" />
-            <Btn id="don-filtrer" label="Filtrer" />
-            <Btn id="don-effacer-filtre" label="Effacer" />
-          </Group>
+          <>
+            <Group title="Trier et filtrer">
+              <Btn id="don-tri-croissant" label="A→Z" />
+              <Btn id="don-tri-decroissant" label="Z→A" />
+              <Btn id="don-filtrer" label="Filtrer" />
+              <Btn id="don-effacer-filtre" label="Effacer" />
+            </Group>
+            <Group title="Outils de données">
+              <Btn id="don-validation" label="Validation" wide />
+              <Btn id="don-effacer-validation" label="Effacer validation" wide />
+            </Group>
+          </>
         )}
         {activeTab !== "accueil" && activeTab !== "donnees" && (
           <div className="px-3 py-2 text-[11.5px] text-neutral-500">

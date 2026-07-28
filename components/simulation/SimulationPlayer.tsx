@@ -459,6 +459,16 @@ export default function SimulationPlayer({
           case "don-effacer-filtre":
             grid.removeFilter()
             break
+          case "don-validation": {
+            const dv = stepRef.current?.setup?.dv
+            if (dv) grid.addValidation(dv.range, dv.rule)
+            break
+          }
+          case "don-effacer-validation": {
+            const dv = stepRef.current?.setup?.dv
+            grid.clearValidation(dv?.range ?? grid.getSelection() ?? "A1")
+            break
+          }
         }
       }
       if (trie && triFait) return

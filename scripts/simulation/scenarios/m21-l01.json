@@ -1,0 +1,199 @@
+{
+  "schemaVersion": 1,
+  "title": "Listes déroulantes",
+  "mode": "LESSON",
+  "moduleTitle": "Validation des données et protection",
+  "intro": {
+    "title": "EMPÊCHER L'ERREUR PLUTÔT QUE LA CORRIGER",
+    "body": "Un tableau rempli par plusieurs personnes finit toujours par contenir « Inscrit », « inscrit », « INSCRIT » et « inscri ». La validation des données ferme la porte en amont : on ne peut plus saisir que ce qui est prévu."
+  },
+  "outro": {
+    "body": "Vous savez poser une liste déroulante et comprendre ce qu'elle garantit."
+  },
+  "ribbon": [
+    "accueil",
+    "donnees"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "nb-non-vides"
+    ]
+  },
+  "workbook": {
+    "fileName": "Inscriptions",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 150,
+          "B": 120
+        },
+        "cells": {
+          "A1": {
+            "v": "Stagiaire",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Formation",
+            "format": {
+              "bold": true
+            }
+          },
+          "C1": {
+            "v": "Statut",
+            "format": {
+              "bold": true
+            }
+          },
+          "D1": {
+            "v": "Heures",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Bertrand Julie"
+          },
+          "B2": {
+            "v": "Excel"
+          },
+          "A3": {
+            "v": "Chevalier Marc"
+          },
+          "B3": {
+            "v": "Word"
+          },
+          "A4": {
+            "v": "Delaunay Sophie"
+          },
+          "B4": {
+            "v": "Excel"
+          },
+          "A5": {
+            "v": "Fabre Antoine"
+          },
+          "B5": {
+            "v": "PowerPoint"
+          },
+          "A6": {
+            "v": "Girard Nadia"
+          },
+          "B6": {
+            "v": "Excel"
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M21-L01-01",
+      "consigne": "La colonne **Statut** est vide et va être remplie par trois personnes différentes. Sans garde-fou, vous obtiendrez quatre orthographes du même mot — et vos filtres comme vos comptages deviendront faux. ==Cliquez sur **Validation**== dans l'onglet Données pour n'autoriser que trois valeurs.",
+      "setup": {
+        "selection": "C2:C6",
+        "ribbon": {
+          "activeTab": "donnees"
+        },
+        "dv": {
+          "range": "C2:C6",
+          "rule": {
+            "kind": "list",
+            "values": [
+              "Inscrit",
+              "En cours",
+              "Terminé"
+            ],
+            "errorMessage": "Choisissez un statut dans la liste."
+          }
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "don-validation"
+      },
+      "aide": {
+        "text": "Le bouton Validation du groupe « Outils de données ».",
+        "showTarget": true
+      },
+      "feedback": "Une petite flèche apparaît dans chaque cellule de la colonne. Dans Excel, la boîte de dialogue vous demande le type « Liste » puis les valeurs séparées par des points-virgules ; ici elles sont déjà posées."
+    },
+    {
+      "id": "M21-L01-02",
+      "consigne": "==Renseignez le statut de Julie Bertrand en **C2** : `En cours`==. Vous pouvez le choisir dans la liste ou le taper.",
+      "setup": {
+        "selection": "C2"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "C2",
+        "accept": [
+          "En cours"
+        ]
+      },
+      "feedback": "La valeur est acceptée parce qu'elle figure dans la liste."
+    },
+    {
+      "id": "M21-L01-03",
+      "consigne": "==Renseignez **C3** : `Terminé`==, et **C4** : `Inscrit`.",
+      "setup": {
+        "selection": "C3"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "C3",
+        "accept": [
+          "Terminé"
+        ]
+      },
+      "feedback": "Le remplissage devient rapide et sans faute : c'est le premier bénéfice."
+    },
+    {
+      "id": "M21-L01-04",
+      "consigne": "==Complétez **C4**==.",
+      "setup": {
+        "selection": "C4"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "C4",
+        "accept": [
+          "Inscrit"
+        ]
+      },
+      "feedback": "Trois lignes renseignées, trois valeurs strictement identiques à celles de la liste."
+    },
+    {
+      "id": "M21-L01-05",
+      "consigne": "Le vrai bénéfice arrive plus tard. Ces valeurs propres rendent **fiables** vos filtres, vos `NB.SI` et vos tableaux croisés. ==En **F1**, comptez les stagiaires dont le statut est `Terminé`==.",
+      "setup": {
+        "selection": "F1"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "F1",
+        "accept": [
+          "=NB.SI(C2:C6;\"Terminé\")",
+          "=NB.SI($C$2:$C$6;\"Terminé\")"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "NB.SI avec le statut exact entre guillemets.",
+        "showTarget": true
+      },
+      "feedback": "1. Ce comptage serait faux si la colonne contenait « terminé » ou « Terminé  » avec un espace — précisément ce que la liste empêche."
+    },
+    {
+      "id": "M21-L01-06",
+      "consigne": "Bonne pratique professionnelle : ne tapez pas vos valeurs dans la boîte de dialogue, mais **placez-les dans une plage à part** — souvent sur une feuille « Paramètres » — puis référencez cette plage. Ajouter un statut se fait alors en écrivant une ligne, sans rouvrir la validation de chaque colonne.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    }
+  ]
+}

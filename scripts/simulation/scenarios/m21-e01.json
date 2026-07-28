@@ -1,0 +1,258 @@
+{
+  "schemaVersion": 1,
+  "title": "Exercice · Sécuriser une feuille de saisie",
+  "mode": "EXERCISE",
+  "moduleTitle": "Validation des données et protection",
+  "intro": {
+    "title": "À VOUS",
+    "body": "Un formulaire de commande à rendre incassable."
+  },
+  "outro": {
+    "body": "Exercice terminé."
+  },
+  "ribbon": [
+    "accueil",
+    "donnees"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Commandes",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 130,
+          "B": 120,
+          "C": 110
+        },
+        "cells": {
+          "A1": {
+            "v": "Client",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Produit",
+            "format": {
+              "bold": true
+            }
+          },
+          "C1": {
+            "v": "Priorité",
+            "format": {
+              "bold": true
+            }
+          },
+          "D1": {
+            "v": "Quantité",
+            "format": {
+              "bold": true
+            }
+          },
+          "E1": {
+            "v": "Prix unitaire",
+            "format": {
+              "bold": true
+            }
+          },
+          "F1": {
+            "v": "Total",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Nord Distri"
+          },
+          "B2": {
+            "v": "Licence"
+          },
+          "E2": {
+            "v": 120
+          },
+          "A3": {
+            "v": "Sud Matériel"
+          },
+          "B3": {
+            "v": "Formation"
+          },
+          "E3": {
+            "v": 450
+          },
+          "A4": {
+            "v": "Est Fournitures"
+          },
+          "B4": {
+            "v": "Support"
+          },
+          "E4": {
+            "v": 80
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M21-E01-01",
+      "consigne": "La colonne **Priorité** ne doit accepter que trois valeurs : `Haute`, `Normale`, `Basse`. Posez la validation adéquate sur **C2:C4**.",
+      "setup": {
+        "selection": "C2:C4",
+        "ribbon": {
+          "activeTab": "donnees"
+        },
+        "dv": {
+          "range": "C2:C4",
+          "rule": {
+            "kind": "list",
+            "values": [
+              "Haute",
+              "Normale",
+              "Basse"
+            ],
+            "errorMessage": "Priorité attendue : Haute, Normale ou Basse."
+          }
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "don-validation"
+      },
+      "aide": {
+        "text": "Bouton Validation, type Liste."
+      }
+    },
+    {
+      "id": "M21-E01-02",
+      "consigne": "La **Quantité** doit être comprise entre 1 et 500. Posez la contrainte sur **D2:D4**.",
+      "setup": {
+        "selection": "D2:D4",
+        "ribbon": {
+          "activeTab": "donnees"
+        },
+        "dv": {
+          "range": "D2:D4",
+          "rule": {
+            "kind": "numberBetween",
+            "min": 1,
+            "max": 500,
+            "errorMessage": "La quantité doit être comprise entre 1 et 500."
+          }
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "don-validation"
+      },
+      "aide": {
+        "text": "Bouton Validation, règle « nombre entre »."
+      }
+    },
+    {
+      "id": "M21-E01-03",
+      "consigne": "Renseignez la première commande : priorité **Haute** en C2.",
+      "setup": {
+        "selection": "C2"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "C2",
+        "accept": [
+          "Haute"
+        ]
+      },
+      "aide": {
+        "text": "Choisissez dans la liste ou tapez la valeur exacte."
+      }
+    },
+    {
+      "id": "M21-E01-04",
+      "consigne": "Quantité **50** en D2.",
+      "setup": {
+        "selection": "D2"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "D2",
+        "accept": [
+          "50"
+        ]
+      },
+      "feedback": "Dans les bornes, donc accepté."
+    },
+    {
+      "id": "M21-E01-05",
+      "consigne": "Calculez le **total** de la ligne en **F2**, puis recopiez la formule jusqu'en F4.",
+      "setup": {
+        "selection": "F2"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "F2",
+        "accept": [
+          "=D2*E2",
+          "=E2*D2"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "La quantité multipliée par le prix unitaire."
+      },
+      "feedback": "6 000 €."
+    },
+    {
+      "id": "M21-E01-06",
+      "consigne": "Complétez les deux autres lignes : priorité et quantité au choix dans les contraintes, puis les totaux jusqu'en F4.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "F3": {
+            "anyOf": [
+              "=D3*E3",
+              "=E3*D3"
+            ]
+          },
+          "F4": {
+            "anyOf": [
+              "=D4*E4",
+              "=E4*D4"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Recopiez F2 vers le bas, et renseignez les quantités des lignes 3 et 4."
+      },
+      "feedback": "Le formulaire est maintenant difficile à casser : les priorités sont normalisées, les quantités bornées, et les totaux calculés."
+    },
+    {
+      "id": "M21-E01-07",
+      "consigne": "Dernier contrôle : en **H1**, comptez les commandes de priorité **Haute**.",
+      "setup": {
+        "selection": "H1"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "H1",
+        "accept": [
+          "=NB.SI(C2:C4;\"Haute\")",
+          "=NB.SI($C$2:$C$4;\"Haute\")"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "NB.SI sur la colonne Priorité."
+      },
+      "feedback": "Un comptage fiable, parce que la saisie était contrainte. C'est tout l'enchaînement : valider en amont pour compter juste en aval."
+    }
+  ]
+}

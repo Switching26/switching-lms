@@ -66,6 +66,22 @@ export type ConditionalRule = {
   bold?: boolean
 }
 
+/**
+ * Règle de validation des données. Comme pour la mise en forme conditionnelle,
+ * le vrai Excel demande ces paramètres dans une boîte de dialogue : le scénario
+ * les déclare, l'apprenant choisit le type de règle et la plage.
+ */
+export type ValidationRule = {
+  kind: "list" | "numberBetween" | "numberGreaterThan" | "checkbox"
+  values?: string[]
+  min?: number
+  max?: number
+  value?: number
+  /** Si vrai, Excel avertit sans bloquer ; sinon il refuse la saisie. */
+  allowInvalid?: boolean
+  errorMessage?: string
+}
+
 export type WorkbookState = {
   /** Nom affiché dans la barre de titre, ex. "Inventaire.xlsx". */
   fileName: string
@@ -289,6 +305,8 @@ export type SimulationStep = {
     statusBar?: StatusBarState
     /** Règle conditionnelle que le bouton du ruban appliquera à cette étape. */
     cf?: { range: string; rule: ConditionalRule }
+    /** Règle de validation que le bouton du ruban appliquera à cette étape. */
+    dv?: { range: string; rule: ValidationRule }
   }
   action: SimulationAction
   aide?: StepHint

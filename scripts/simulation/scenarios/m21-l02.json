@@ -1,0 +1,224 @@
+{
+  "schemaVersion": 1,
+  "title": "Contraintes de saisie et protection",
+  "mode": "LESSON",
+  "moduleTitle": "Validation des données et protection",
+  "intro": {
+    "title": "BORNER LES NOMBRES, VERROUILLER LE RESTE",
+    "body": "La validation ne sert pas qu'aux listes : elle borne les nombres, les dates, et refuse l'absurde. La protection, elle, empêche qu'on écrase vos formules."
+  },
+  "outro": {
+    "body": "Vous savez borner une saisie numérique et vous connaissez la procédure de protection d'une feuille."
+  },
+  "ribbon": [
+    "accueil",
+    "donnees"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Inscriptions",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 150,
+          "B": 120
+        },
+        "cells": {
+          "A1": {
+            "v": "Stagiaire",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Formation",
+            "format": {
+              "bold": true
+            }
+          },
+          "C1": {
+            "v": "Statut",
+            "format": {
+              "bold": true
+            }
+          },
+          "D1": {
+            "v": "Heures",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Bertrand Julie"
+          },
+          "B2": {
+            "v": "Excel"
+          },
+          "A3": {
+            "v": "Chevalier Marc"
+          },
+          "B3": {
+            "v": "Word"
+          },
+          "A4": {
+            "v": "Delaunay Sophie"
+          },
+          "B4": {
+            "v": "Excel"
+          },
+          "A5": {
+            "v": "Fabre Antoine"
+          },
+          "B5": {
+            "v": "PowerPoint"
+          },
+          "A6": {
+            "v": "Girard Nadia"
+          },
+          "B6": {
+            "v": "Excel"
+          },
+          "C2": {
+            "v": "En cours"
+          },
+          "C3": {
+            "v": "Terminé"
+          },
+          "C4": {
+            "v": "Inscrit"
+          },
+          "C5": {
+            "v": "En cours"
+          },
+          "C6": {
+            "v": "Inscrit"
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M21-L02-01",
+      "consigne": "La colonne **Heures** doit recevoir un volume compris entre 7 et 40. ==Posez une validation numérique sur **D2:D6**==.",
+      "setup": {
+        "selection": "D2:D6",
+        "ribbon": {
+          "activeTab": "donnees"
+        },
+        "dv": {
+          "range": "D2:D6",
+          "rule": {
+            "kind": "numberBetween",
+            "min": 7,
+            "max": 40,
+            "errorMessage": "Le volume doit être compris entre 7 et 40 heures."
+          }
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "don-validation"
+      },
+      "aide": {
+        "text": "Bouton Validation, règle « nombre entre ».",
+        "showTarget": true
+      },
+      "feedback": "La colonne n'accepte plus que des nombres de 7 à 40. Un « 400 » tapé par erreur — la faute de frappe la plus banale — sera refusé."
+    },
+    {
+      "id": "M21-L02-02",
+      "consigne": "==Saisissez `30` en **D2**==.",
+      "setup": {
+        "selection": "D2"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "D2",
+        "accept": [
+          "30"
+        ]
+      },
+      "feedback": "Accepté : 30 est bien dans les bornes."
+    },
+    {
+      "id": "M21-L02-03",
+      "consigne": "==Complétez **D3** avec `21`==.",
+      "setup": {
+        "selection": "D3"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "D3",
+        "accept": [
+          "21"
+        ]
+      },
+      "feedback": "La validation travaille en silence tant que la saisie est correcte. C'est le signe d'un bon garde-fou : invisible quand tout va bien."
+    },
+    {
+      "id": "M21-L02-03b",
+      "consigne": "==Complétez **D4** avec `35`==.",
+      "setup": {
+        "selection": "D4"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "D4",
+        "accept": [
+          "35"
+        ]
+      },
+      "feedback": "Trois volumes saisis, tous dans les bornes. Essayez mentalement `400` : la validation le refuserait avec votre message."
+    },
+    {
+      "id": "M21-L02-04",
+      "consigne": "Excel propose trois niveaux de sévérité, et le choix compte. **Arrêt** refuse la saisie — pour les cas où une valeur fausse casserait tout. **Avertissement** signale mais laisse passer. **Information** se contente d'un message. Réservez **Arrêt** aux contraintes réellement impératives : une validation trop stricte pousse les utilisateurs à contourner votre fichier.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M21-L02-05",
+      "consigne": "Passons à la protection. La validation empêche une **mauvaise saisie** ; elle n'empêche pas d'**écraser une formule**. ==Posez d'abord un total en **D8**==, c'est lui qu'on voudra protéger.",
+      "setup": {
+        "selection": "D8",
+        "cells": {
+          "C8": {
+            "v": "TOTAL HEURES",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "D8",
+        "accept": [
+          "=SOMME(D2:D6)"
+        ],
+        "formulaMode": true
+      },
+      "feedback": "51 heures pour l'instant. Cette cellule contient une formule : si quelqu'un tape un chiffre par-dessus, elle disparaît sans laisser de trace."
+    },
+    {
+      "id": "M21-L02-06",
+      "consigne": "La procédure Excel, dans le bon ordre. **Toutes les cellules sont verrouillées par défaut** — mais ce verrou ne fait rien tant que la feuille n'est pas protégée. On commence donc par **déverrouiller les cellules à remplir** (Format de cellule, onglet Protection, décocher « Verrouillée »), puis on protège la feuille (Révision, Protéger la feuille). Les zones de saisie restent ouvertes, les formules deviennent intouchables.\n\nUn avertissement à dire clairement : cette protection **n'est pas de la sécurité**. Elle évite les fausses manœuvres, rien de plus — le mot de passe se retire en quelques secondes avec un outil gratuit. Pour des données réellement confidentielles, il faut chiffrer le classeur à l'ouverture, ou ne pas les mettre dans un fichier Excel.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    }
+  ]
+}

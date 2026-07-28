@@ -22,7 +22,7 @@
 
 import { useEffect, useRef } from "react"
 import type { ObservedAction, ActionChannel } from "@/lib/simulation/validate"
-import type { CellState, WorkbookState, ConditionalRule } from "@/lib/simulation/types"
+import type { CellState, WorkbookState, ConditionalRule, ValidationRule } from "@/lib/simulation/types"
 import {
   formatCell,
   parseCell,
@@ -56,6 +56,12 @@ export type GridApi = {
    * demande le seuil dans une boîte de dialogue ; ici le scénario le déclare.
    */
   addConditionalRule: (range: string, rule: ConditionalRule) => boolean
+  /** Pose une règle de validation des données sur une plage. */
+  addValidation: (range: string, rule: ValidationRule) => boolean
+  /** Retire la validation d'une plage. */
+  clearValidation: (range: string) => void
+  /** Vrai si la cellule respecte la validation posée, null si aucune règle. */
+  isValidationSatisfied: (ref: string) => Promise<boolean | null>
   /** Retire toutes les règles conditionnelles d'une plage. */
   clearConditionalRules: (range: string) => void
   /** Nombre de règles conditionnelles posées sur la feuille. */
@@ -211,6 +217,8 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
         localeFilter,
         { UniverSheetsConditionalFormattingPreset },
         localeCF,
+        { UniverSheetsDataValidationPreset },
+        localeDV,
       ] = await Promise.all([
         import("@univerjs/presets"),
         import("@univerjs/preset-sheets-core"),
@@ -221,6 +229,8 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
         import("@univerjs/preset-sheets-filter/locales/fr-FR"),
         import("@univerjs/preset-sheets-conditional-formatting"),
         import("@univerjs/preset-sheets-conditional-formatting/locales/fr-FR"),
+        import("@univerjs/preset-sheets-data-validation"),
+        import("@univerjs/preset-sheets-data-validation/locales/fr-FR"),
       ])
       if (disposed) return
 
@@ -231,7 +241,8 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
             locale.default ?? locale,
             localeSort.default ?? localeSort,
             localeFilter.default ?? localeFilter,
-            localeCF.default ?? localeCF
+            localeCF.default ?? localeCF,
+            localeDV.default ?? localeDV
           ),
         },
         presets: [
@@ -241,6 +252,7 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
           UniverSheetsSortPreset(),
           UniverSheetsFilterPreset(),
           UniverSheetsConditionalFormattingPreset(),
+          UniverSheetsDataValidationPreset(),
           UniverSheetsCorePreset({
             container,
             // Toute la chrome native est coupée : on fournit notre propre ruban,
@@ -481,6 +493,64 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
             return true
           } catch {
             return false
+          }
+        },
+        addValidation: (range, rule) => {
+          try {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const u = univerAPI as any
+            const rg = sheet()?.getRange(range)
+            if (!u?.newDataValidation || !rg) return false
+            let b2 = u.newDataValidation()
+            switch (rule.kind) {
+              case "list":
+                b2 = b2.requireValueInList(rule.values ?? [])
+                break
+              case "numberBetween":
+                b2 = b2.requireNumberBetween(rule.min ?? 0, rule.max ?? 0)
+                break
+              case "numberGreaterThan":
+                b2 = b2.requireNumberGreaterThan(rule.value ?? 0)
+                break
+              case "checkbox":
+                b2 = b2.requireCheckbox()
+                break
+              default:
+                return false
+            }
+            b2 = b2.setOptions({
+              allowBlank: true,
+              showErrorMessage: true,
+              // Excel distingue « refuser » et « avertir » : on suit le scénario.
+              error: rule.errorMessage ?? "Cette valeur n'est pas autorisée ici.",
+              ...(rule.allowInvalid ? { allowInvalid: true } : {}),
+            })
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            ;(rg as any).setDataValidation(b2.build())
+            return true
+          } catch {
+            return false
+          }
+        },
+        clearValidation: (range) => {
+          try {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            ;(sheet()?.getRange(range) as any)?.setDataValidation?.(null)
+          } catch {
+            /* sans conséquence */
+          }
+        },
+        isValidationSatisfied: async (ref) => {
+          try {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const rg = sheet()?.getRange(ref) as any
+            if (!rg?.getDataValidation?.()) return null
+            const grille = await rg.getValidatorStatus?.()
+            const etat = grille?.[0]?.[0]
+            // Univer renvoie « valid » / « invalid » selon la version.
+            return String(etat).toLowerCase().includes("invalid") ? false : true
+          } catch {
+            return null
           }
         },
         clearConditionalRules: (range) => {

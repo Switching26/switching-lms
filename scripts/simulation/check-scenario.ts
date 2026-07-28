@@ -304,6 +304,8 @@ function checkScenario(sc: SimulationScenario) {
     "don-tri-decroissant",
     "don-filtrer",
     "don-effacer-filtre",
+    "don-validation",
+    "don-effacer-validation",
     "ui-nouvelle-feuille",
   ])
   for (const s of sc.steps) {

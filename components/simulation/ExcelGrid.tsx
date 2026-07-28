@@ -299,11 +299,55 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
         return
       }
 
+      // ── Localisation française des nombres ──────────────────────────────
+      // Univer formate les cellules avec la bibliothèque `numfmt`, en lui
+      // passant TOUJOURS la locale « en » : son getter interne initialise un
+      // BehaviorSubject à "en" puis fait `if (_locale) return _locale`, ce qui
+      // rend morte sa propre correspondance LocaleType.FR_FR → "fr". Régler
+      // l'application en français ne suffit donc pas, et le contrôleur qui
+      // exposerait `setNumfmtLocal` n'est pas atteignable depuis l'injecteur
+      // racine (il vit dans un injecteur enfant).
+      //
+      // On agit donc là où c'est public et stable : `numfmt.addLocale` permet
+      // de redéfinir les données d'une locale. On réécrit « en » avec les
+      // données françaises que numfmt embarque déjà. Résultat : « 1 234,50 € »
+      // et « mercredi 1 janvier 2025 » au lieu de « 1,234.50 € » et
+      // « Wednesday 1 January 2025 ». Univer étant le seul consommateur de
+      // numfmt dans l'application, l'effet reste contenu.
+      try {
+        const numfmt = await import("numfmt")
+        const fr = numfmt.getLocale?.("fr")
+        if (fr) numfmt.addLocale?.(fr, "en")
+      } catch {
+        /* sans localisation les nombres restent anglais, la grille fonctionne */
+      }
+
       univerAPI.createWorkbook({ name: "Simulation" })
 
       const sheet = () => univerAPI.getActiveWorkbook()?.getActiveSheet()
 
       /* ── Interface de pilotage ─────────────────────────────────────────── */
+
+      // Motif « décimales variables » : le chemin d'affichage sans format ne
+      // passe pas par numfmt et rend « 42.25 » au lieu de « 42,25 ». On pose ce
+      // motif seulement quand la valeur calculée n'est PAS entière — sur un
+      // entier il laisserait une virgule orpheline (« 12, »), et un entier
+      // s'affiche de toute façon pareil dans les deux conventions.
+      const MOTIF_DECIMAL = "0.##########"
+      const localiserDecimale = (ref: string) => {
+        try {
+          const rg = sheet()?.getRange(ref)
+          if (!rg) return
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          const anyRg = rg as any
+          if (anyRg.getNumberFormat?.()) return // format déjà voulu par l'auteur
+          const brut = anyRg.getRawValue?.()
+          if (typeof brut !== "number" || !Number.isFinite(brut) || Number.isInteger(brut)) return
+          anyRg.setNumberFormat?.(MOTIF_DECIMAL)
+        } catch {
+          /* le nombre restera à l'anglaise, sans autre conséquence */
+        }
+      }
 
       const applyCells = (cells: Record<string, CellState>) => {
         const sh = sheet()
@@ -315,8 +359,19 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
             // La formule de l'auteur est écrite en français ; le moteur ne
             // comprend que sa propre convention.
             rg.setValue({ f: frToEngine(state.f) })
+            // Le résultat n'est connu qu'après recalcul (60 à 120 ms mesurés).
+            window.setTimeout(() => localiserDecimale(ref), 200)
           } else if (state.v !== undefined) {
             rg.setValue(state.v)
+            // Une décimale sans format s'affiche « 42.25 » : ce chemin ne passe
+            // pas par numfmt, et le motif « General » ne le réveille pas. On
+            // pose donc un motif à décimales variables — uniquement sur les
+            // valeurs NON entières, car sur un entier le même motif laisserait
+            // une virgule orpheline (« 12, »). Un entier s'affiche de la même
+            // façon dans les deux conventions, il n'a donc rien à corriger.
+            if (typeof state.v === "number" && Number.isFinite(state.v) && !Number.isInteger(state.v)) {
+              localiserDecimale(ref)
+            }
           } else {
             rg.setValue("")
           }
@@ -414,7 +469,19 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
           // L'apprenant ne doit jamais voir la convention anglaise.
           return raw ? engineToFr(raw) : ""
         },
-        getValue: (ref) => sheet()?.getRange(ref)?.getValue?.() ?? null,
+        getValue: (ref) => {
+          // Dès qu'un format de nombre est posé, `getValue` renvoie la CHAÎNE
+          // formatée (« 42,25 ») au lieu du nombre : toute validation d'état
+          // numérique casserait. `getRawValue` reste la valeur du modèle. Pour
+          // une cellule de formule il renvoie la formule, d'où le garde-fou sur
+          // le type avant de retomber sur `getValue`.
+          const rg = sheet()?.getRange(ref)
+          if (!rg) return null
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          const brut = (rg as any).getRawValue?.()
+          if (typeof brut === "number") return brut
+          return rg.getValue?.() ?? null
+        },
         getDisplayValue: (ref) => {
           try {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -1062,6 +1129,9 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
           computed: api.getValue(ref),
         })
         channelRef.current = "unknown"
+        // Un résultat décimal doit s'afficher « 13,67 » et non « 13.67 ».
+        // Le recalcul prend 60 à 120 ms, on laisse une marge.
+        window.setTimeout(() => localiserDecimale(ref), 200)
       })
 
       // Le classeur a changé, par n'importe quel moyen : saisie, poignée de

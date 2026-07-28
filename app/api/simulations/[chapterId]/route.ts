@@ -142,7 +142,7 @@ export async function PUT(req: NextRequest, { params }: { params: { chapterId: s
   if (!body || typeof body !== "object") {
     return NextResponse.json({ error: "Corps de requête invalide" }, { status: 400 })
   }
-  const { currentStep, errorDelta, hintDelta, timeDeltaSeconds, stepLog, finish, score } = body as {
+  const { currentStep, errorDelta, hintDelta, timeDeltaSeconds, stepLog, finish, score, newSession } = body as {
     currentStep?: unknown
     errorDelta?: unknown
     hintDelta?: unknown
@@ -150,6 +150,7 @@ export async function PUT(req: NextRequest, { params }: { params: { chapterId: s
     stepLog?: unknown
     finish?: unknown
     score?: unknown
+    newSession?: unknown
   }
 
   // Bornage systématique de tout ce qui vient du navigateur.
@@ -183,6 +184,16 @@ export async function PUT(req: NextRequest, { params }: { params: { chapterId: s
   const nextMax = Math.max(nextStep, existing?.maxStepSeen ?? 0)
   const done = finish === true
   const nowDate = new Date()
+  // Le chapitre n'est terminé que si TOUTES les étapes ont été franchies. On
+  // applique la même règle à la tentative : sans cela une tentative pouvait
+  // porter une date de fin alors que le chapitre restait inachevé.
+  const toutesEtapes = simulation.stepCount > 0 && nextMax >= simulation.stepCount - 1
+  const termine = done && toutesEtapes
+  // Reprise après une tentative déjà terminée, en repartant du début : c'est une
+  // nouvelle tentative. `attemptCount` était documenté dans le schéma et jamais
+  // incrémenté — la preuve du nombre de passages manquait, notamment en
+  // évaluation.
+  const nouvelleTentative = Boolean(existing?.completedAt) && !done && nextStep === 0
 
   const attempt = await prisma.simulationAttempt.upsert({
     where: { simulationId_userId: { simulationId: simulation.id, userId } },
@@ -196,9 +207,15 @@ export async function PUT(req: NextRequest, { params }: { params: { chapterId: s
       score: safeScore,
       bestScore: safeScore,
       stepLog: (stepLog ?? undefined) as never,
-      completedAt: done ? nowDate : null,
+      completedAt: termine ? nowDate : null,
     },
     update: {
+      // Sur une nouvelle tentative on repart d'une date de fin vide, pour que
+      // celle-ci puisse être atteinte de nouveau. La preuve de parcours n'est pas
+      // perdue : c'est `Progress.completedAt` du chapitre qui porte, et il
+      // n'est jamais remis à zéro. La tentative décrit le passage en cours,
+      // `Progress` décrit l'acquis.
+      ...(nouvelleTentative ? { attemptCount: { increment: 1 }, completedAt: null } : {}),
       currentStep: nextStep,
       maxStepSeen: nextMax,
       errorCount: { increment: safeErrors },
@@ -214,15 +231,15 @@ export async function PUT(req: NextRequest, { params }: { params: { chapterId: s
       ...(stepLog !== undefined ? { stepLog: stepLog as never } : {}),
       // On ne réécrit pas completedAt d'une simulation déjà terminée : la date
       // de première réussite est ce qui compte pour les preuves de parcours.
-      ...(done && !existing?.completedAt ? { completedAt: nowDate } : {}),
+      ...(termine && !existing?.completedAt ? { completedAt: nowDate } : {}),
     },
   })
 
   // Complétion du CHAPITRE : une simulation est terminée quand toutes ses étapes
   // ont été franchies. Contrairement à la vidéo, il n'y a pas de seuil à 25/50 % —
   // franchir une étape suppose d'avoir réellement effectué la bonne action.
-  const allStepsDone = simulation.stepCount > 0 && attempt.maxStepSeen >= simulation.stepCount - 1
-  const chapterCompleted = done && allStepsDone
+  const chapterCompleted =
+    done && simulation.stepCount > 0 && attempt.maxStepSeen >= simulation.stepCount - 1
 
   await prisma.progress.upsert({
     where: { userId_chapterId: { userId, chapterId: chapter.id } },
@@ -237,6 +254,10 @@ export async function PUT(req: NextRequest, { params }: { params: { chapterId: s
     update: {
       timeSpentSeconds: { increment: safeTime },
       lastPosition: nextStep,
+      // Une seule incrémentation par session, comme le suivi vidéo : le client
+      // envoie une remontée à chaque étape, compter chacune comme une session
+      // aurait gonflé le chiffre d'un facteur dix.
+      sessionCount: { increment: newSession === true ? 1 : 0 },
       ...(chapterCompleted ? { completedAt: nowDate } : {}),
     },
   })

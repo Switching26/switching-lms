@@ -135,6 +135,7 @@ export default function SimulationPlayer({
 
   const gridRef = useRef<GridApi | null>(null)
   // Compteurs à envoyer au serveur : cumulés puis remis à zéro à chaque envoi.
+  const sessionSignaleeRef = useRef(false)
   const pendingRef = useRef({ errors: 0, hints: 0, seconds: 0 })
   // Réussite au premier essai, par étape : c'est la base du score d'évaluation.
   const firstTryRef = useRef<Record<string, boolean>>({})
@@ -223,6 +224,11 @@ export default function SimulationPlayer({
       if (preview) return
       const p = pendingRef.current
       pendingRef.current = { errors: 0, hints: 0, seconds: 0 }
+      // Une seule remontée par session porte `newSession` : sans ce marqueur le
+      // serveur ne peut pas distinguer l'ouverture d'un atelier d'un simple
+      // enregistrement d'étape, et comptait donc toujours une seule session.
+      const premiere = !sessionSignaleeRef.current
+      sessionSignaleeRef.current = true
       try {
         await fetch(`/api/simulations/${chapterId}`, {
           method: "PUT",
@@ -234,6 +240,7 @@ export default function SimulationPlayer({
             timeDeltaSeconds: p.seconds,
             finish: opts.finish ?? false,
             score: opts.score,
+            newSession: premiere,
           }),
           keepalive: true,
         })

@@ -1,0 +1,291 @@
+{
+  "schemaVersion": 1,
+  "title": "Courbes de tendance",
+  "mode": "LESSON",
+  "moduleTitle": "Manipuler les séries de données",
+  "intro": {
+    "title": "VOIR LE MOUVEMENT DE FOND",
+    "body": "Dix semaines d'inscriptions qui montent et descendent. La question n'est pas de savoir si la semaine 7 est meilleure que la 6, mais si l'ensemble progresse. C'est le travail d'une courbe de tendance."
+  },
+  "outro": {
+    "body": "Vous ajoutez une tendance linéaire ou une moyenne mobile, et vous savez ce que chacune dit."
+  },
+  "ribbon": [
+    "accueil",
+    "insertion",
+    "graph-creation"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Inscriptions",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "cells": {
+          "A1": {
+            "v": "Semaine",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Inscriptions",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": 1
+          },
+          "B2": {
+            "v": 42
+          },
+          "A3": {
+            "v": 2
+          },
+          "B3": {
+            "v": 51
+          },
+          "A4": {
+            "v": 3
+          },
+          "B4": {
+            "v": 47
+          },
+          "A5": {
+            "v": 4
+          },
+          "B5": {
+            "v": 63
+          },
+          "A6": {
+            "v": 5
+          },
+          "B6": {
+            "v": 58
+          },
+          "A7": {
+            "v": 6
+          },
+          "B7": {
+            "v": 71
+          },
+          "A8": {
+            "v": 7
+          },
+          "B8": {
+            "v": 69
+          },
+          "A9": {
+            "v": 8
+          },
+          "B9": {
+            "v": 84
+          },
+          "A10": {
+            "v": 9
+          },
+          "B10": {
+            "v": 78
+          },
+          "A11": {
+            "v": 10
+          },
+          "B11": {
+            "v": 92
+          }
+        },
+        "columnWidths": {
+          "A": 85,
+          "B": 100
+        }
+      }
+    ],
+    "charts": [
+      {
+        "id": "g1",
+        "type": "courbes",
+        "series": [
+          {
+            "name": "Inscriptions",
+            "values": "B2:B11"
+          }
+        ],
+        "source": "A1:B11",
+        "categories": "A2:A11",
+        "title": "Inscriptions par semaine",
+        "elements": {
+          "titre": true,
+          "legende": true,
+          "quadrillage": true,
+          "axes": true
+        },
+        "legendPosition": "bas",
+        "style": 1,
+        "frame": {
+          "x": 250,
+          "y": 10,
+          "w": 480,
+          "h": 262
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M18-L04-01",
+      "consigne": "Une tendance s'ajoute à une **série**, jamais au graphique entier. ==Sélectionnez la série **Inscriptions**==.",
+      "action": {
+        "type": "SELECT_CHART_ELEMENT",
+        "element": "serie:0"
+      },
+      "aide": {
+        "text": "N'importe quel point de la courbe.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M18-L04-02",
+      "consigne": "==Ajoutez une **courbe de tendance linéaire**==. Excel calcule la droite qui passe au plus près de tous les points.",
+      "setup": {
+        "chartEdit": {
+          "editSeries": [
+            {
+              "name": "Inscriptions",
+              "trendline": "lineaire"
+            }
+          ]
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "ins-graph-tendance-lineaire"
+      },
+      "aide": {
+        "text": "Ajouter un élément de graphique, Courbe de tendance, Linéaire.",
+        "showTarget": true
+      },
+      "feedback": "La droite monte d'environ **5 inscriptions par semaine**. Ce chiffre est un calcul, pas une impression : c'est la méthode des moindres carrés."
+    },
+    {
+      "id": "M18-L04-03",
+      "consigne": "L'autre façon de lire une série agitée est de la lisser. ==Remplacez la droite par une **moyenne mobile sur 2 périodes**==.",
+      "setup": {
+        "chartEdit": {
+          "editSeries": [
+            {
+              "name": "Inscriptions",
+              "trendline": "moyenne-mobile"
+            }
+          ]
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "ins-graph-tendance-moyenne-mobile"
+      },
+      "aide": {
+        "text": "Ajouter un élément de graphique, Courbe de tendance, Moyenne mobile.",
+        "showTarget": true
+      },
+      "feedback": "Chaque point vaut la moyenne de deux semaines : les à-coups s'effacent. Mais la moyenne mobile **suit** la courbe, elle ne la prolonge pas."
+    },
+    {
+      "id": "M18-L04-04",
+      "consigne": "==Supprimez la courbe de tendance.== Une série peut très bien s'en passer.",
+      "setup": {
+        "chartEdit": {
+          "editSeries": [
+            {
+              "name": "Inscriptions",
+              "trendline": null
+            }
+          ]
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "ins-graph-tendance-supprimer"
+      },
+      "aide": {
+        "text": "Ajouter un élément de graphique, Courbe de tendance, Aucune.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M18-L04-05",
+      "consigne": "==Remettez la **tendance linéaire**== : c'est celle qui répond à la question posée, « est-ce que ça progresse ? ».",
+      "setup": {
+        "chartEdit": {
+          "editSeries": [
+            {
+              "name": "Inscriptions",
+              "trendline": "lineaire"
+            }
+          ]
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "ins-graph-tendance-lineaire"
+      },
+      "aide": {
+        "text": "Ajouter un élément de graphique, Courbe de tendance, Linéaire.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M18-L04-06",
+      "consigne": "Le **nuage de points** montre mieux la dispersion autour de la droite. ==Changez le type de graphique pour un nuage.==",
+      "setup": {
+        "chartEdit": {
+          "type": "nuage"
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "ins-graph-modifier-type"
+      },
+      "aide": {
+        "text": "Onglet Création de graphique, Modifier le type de graphique, Nuage de points.",
+        "showTarget": true
+      },
+      "feedback": "On voit maintenant les points s'écarter de la droite : la progression est réelle, mais irrégulière."
+    },
+    {
+      "id": "M18-L04-07",
+      "consigne": "==Affichez les **titres des axes**== : une tendance sans unité de temps ne veut rien dire.",
+      "setup": {
+        "chartEdit": {
+          "elements": {
+            "titresAxes": true
+          }
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "ins-graph-element-titres-axes"
+      },
+      "aide": {
+        "text": "Ajouter un élément de graphique, Titres des axes.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M18-L04-08",
+      "consigne": "Un avertissement qui vaut pour tout le module : une courbe de tendance **décrit le passé**. Elle ne prévoit rien toute seule. Prolonger la droite de dix semaines supposerait que rien ne change — ce qui n'arrive jamais.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    }
+  ]
+}

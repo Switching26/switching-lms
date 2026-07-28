@@ -1,0 +1,266 @@
+{
+  "schemaVersion": 1,
+  "title": "Exercice · Courbes de tendance",
+  "mode": "EXERCISE",
+  "moduleTitle": "Manipuler les séries de données",
+  "intro": {
+    "title": "À VOUS",
+    "body": "Douze mois de chiffre d'affaires, avec le trou d'août que connaissent tous les organismes de formation. La question du comité : est-ce que ça progresse ?"
+  },
+  "outro": {
+    "body": "Exercice terminé."
+  },
+  "ribbon": [
+    "accueil",
+    "insertion",
+    "graph-creation"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Chiffre d'affaires",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "cells": {
+          "A1": {
+            "v": "Mois",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Chiffre d'affaires",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Janv."
+          },
+          "B2": {
+            "v": 42800
+          },
+          "A3": {
+            "v": "Févr."
+          },
+          "B3": {
+            "v": 39500
+          },
+          "A4": {
+            "v": "Mars"
+          },
+          "B4": {
+            "v": 47200
+          },
+          "A5": {
+            "v": "Avril"
+          },
+          "B5": {
+            "v": 45100
+          },
+          "A6": {
+            "v": "Mai"
+          },
+          "B6": {
+            "v": 52300
+          },
+          "A7": {
+            "v": "Juin"
+          },
+          "B7": {
+            "v": 49800
+          },
+          "A8": {
+            "v": "Juil."
+          },
+          "B8": {
+            "v": 38200
+          },
+          "A9": {
+            "v": "Août"
+          },
+          "B9": {
+            "v": 21400
+          },
+          "A10": {
+            "v": "Sept."
+          },
+          "B10": {
+            "v": 55600
+          },
+          "A11": {
+            "v": "Oct."
+          },
+          "B11": {
+            "v": 58200
+          },
+          "A12": {
+            "v": "Nov."
+          },
+          "B12": {
+            "v": 61300
+          },
+          "A13": {
+            "v": "Déc."
+          },
+          "B13": {
+            "v": 47900
+          }
+        },
+        "columnWidths": {
+          "A": 80,
+          "B": 130
+        }
+      }
+    ],
+    "charts": [
+      {
+        "id": "g1",
+        "type": "courbes",
+        "series": [
+          {
+            "name": "Chiffre d'affaires",
+            "values": "B2:B13"
+          }
+        ],
+        "source": "A1:B13",
+        "categories": "A2:A13",
+        "title": "Chiffre d'affaires",
+        "elements": {
+          "titre": true,
+          "legende": true,
+          "quadrillage": true,
+          "axes": true
+        },
+        "legendPosition": "bas",
+        "style": 1,
+        "frame": {
+          "x": 250,
+          "y": 10,
+          "w": 480,
+          "h": 262
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M18-E04-01",
+      "consigne": "Une tendance s'applique à une série. Sélectionnez la série **Chiffre d'affaires**.",
+      "action": {
+        "type": "SELECT_CHART_ELEMENT",
+        "element": "serie:0"
+      },
+      "aide": {
+        "text": "N'importe quel point de la courbe."
+      }
+    },
+    {
+      "id": "M18-E04-02",
+      "consigne": "Répondez à la question du comité : ajoutez la **courbe de tendance** qui montre le mouvement de fond sur l'année.",
+      "setup": {
+        "chartEdit": {
+          "editSeries": [
+            {
+              "name": "Chiffre d'affaires",
+              "trendline": "lineaire"
+            }
+          ]
+        }
+      },
+      "action": {
+        "type": "EXPECT_CHART",
+        "chart": {
+          "series": [
+            {
+              "name": "Chiffre d'affaires",
+              "trendline": "lineaire"
+            }
+          ]
+        }
+      },
+      "aide": {
+        "text": "Ajouter un élément de graphique, Courbe de tendance, Linéaire."
+      },
+      "feedback": "La droite monte de près de **1 000 € par mois** : la progression est réelle malgré le creux d'août."
+    },
+    {
+      "id": "M18-E04-03",
+      "consigne": "Le comité trouve la courbe trop heurtée. Remplacez la droite par une **moyenne mobile sur 2 périodes**.",
+      "setup": {
+        "chartEdit": {
+          "editSeries": [
+            {
+              "name": "Chiffre d'affaires",
+              "trendline": "moyenne-mobile"
+            }
+          ]
+        }
+      },
+      "action": {
+        "type": "EXPECT_CHART",
+        "chart": {
+          "series": [
+            {
+              "name": "Chiffre d'affaires",
+              "trendline": "moyenne-mobile"
+            }
+          ]
+        }
+      },
+      "aide": {
+        "text": "Ajouter un élément de graphique, Courbe de tendance, Moyenne mobile."
+      },
+      "feedback": "Le creux d'août est lissé, mais il reste visible — c'est le but : lisser n'est pas cacher."
+    },
+    {
+      "id": "M18-E04-04",
+      "consigne": "Titrez le graphique **Chiffre d'affaires mensuel** et affichez les **titres des axes**.",
+      "setup": {
+        "chartEdit": {
+          "title": "Chiffre d'affaires mensuel",
+          "elements": {
+            "titresAxes": true
+          }
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "ins-graph-element-titre"
+      },
+      "aide": {
+        "text": "Ajouter un élément de graphique, Titre du graphique."
+      }
+    },
+    {
+      "id": "M18-E04-05",
+      "consigne": "Le document part à la banque : aucune courbe de tendance ne doit y figurer, pour ne rien laisser passer pour une prévision. **Supprimez-la.**",
+      "setup": {
+        "chartEdit": {
+          "editSeries": [
+            {
+              "name": "Chiffre d'affaires",
+              "trendline": null
+            }
+          ]
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "ins-graph-tendance-supprimer"
+      },
+      "aide": {
+        "text": "Ajouter un élément de graphique, Courbe de tendance, Aucune."
+      },
+      "feedback": "Prudence justifiée : une droite prolongée se lit vite comme une promesse."
+    }
+  ]
+}

@@ -1,0 +1,243 @@
+{
+  "schemaVersion": 1,
+  "title": "Mettre en forme un graphique",
+  "mode": "LESSON",
+  "moduleTitle": "Présenter les données en graphiques",
+  "intro": {
+    "title": "SOBRE SE LIT MIEUX",
+    "body": "La galerie de styles fait le gros du travail en un clic. Le reste — une couleur choisie, un titre qui dit quelque chose — se règle élément par élément, et se juge à la lisibilité, pas au nombre de couleurs."
+  },
+  "outro": {
+    "body": "Vous appliquez un style, choisissez une couleur de série et rédigez un titre utile."
+  },
+  "ribbon": [
+    "accueil",
+    "insertion",
+    "graph-creation",
+    "graph-mise-en-forme"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Effectifs",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "cells": {
+          "A1": {
+            "v": "Service",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Effectif",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Administration"
+          },
+          "B2": {
+            "v": 8
+          },
+          "A3": {
+            "v": "Commercial"
+          },
+          "B3": {
+            "v": 14
+          },
+          "A4": {
+            "v": "Formation"
+          },
+          "B4": {
+            "v": 26
+          },
+          "A5": {
+            "v": "Technique"
+          },
+          "B5": {
+            "v": 11
+          },
+          "A6": {
+            "v": "Support"
+          },
+          "B6": {
+            "v": 6
+          }
+        },
+        "columnWidths": {
+          "A": 130
+        }
+      }
+    ],
+    "charts": [
+      {
+        "id": "g1",
+        "type": "histogramme",
+        "series": [
+          {
+            "name": "Effectif",
+            "values": "B2:B6"
+          }
+        ],
+        "source": "A1:B6",
+        "categories": "A2:A6",
+        "title": "Effectif par service",
+        "elements": {
+          "titre": true,
+          "legende": false,
+          "quadrillage": true,
+          "axes": true
+        },
+        "legendPosition": "bas",
+        "style": 1,
+        "frame": {
+          "x": 430,
+          "y": 10,
+          "w": 420,
+          "h": 258
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M17-L05-01",
+      "consigne": "==Appliquez le **style 4** de la galerie== : les vignettes proposent des combinaisons déjà cohérentes de couleurs, de fond et de traits.",
+      "setup": {
+        "chartEdit": {
+          "style": 4
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "ins-graph-style-4"
+      },
+      "aide": {
+        "text": "Onglet Création de graphique, galerie Styles, quatrième vignette.",
+        "showTarget": true
+      },
+      "feedback": "Un style change la présentation, jamais les données. Vous pouvez en essayer dix sans rien risquer."
+    },
+    {
+      "id": "M17-L05-02",
+      "consigne": "==Essayez le **style 5**==, qui pose un fond clair derrière le tracé.",
+      "setup": {
+        "chartEdit": {
+          "style": 5
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "ins-graph-style-5"
+      },
+      "aide": {
+        "text": "Cinquième vignette de la galerie Styles.",
+        "showTarget": true
+      },
+      "feedback": "Le fond clair fonctionne à l'écran et se perd à l'impression. Choisissez d'après le support de diffusion."
+    },
+    {
+      "id": "M17-L05-03",
+      "consigne": "Pour changer une couleur, il faut d'abord désigner ce qu'on colore. ==Sélectionnez la **série**==.",
+      "action": {
+        "type": "SELECT_CHART_ELEMENT",
+        "element": "serie:0"
+      },
+      "aide": {
+        "text": "N'importe laquelle des cinq barres.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M17-L05-04",
+      "consigne": "==Appliquez un **remplissage vert-de-gris**== à la série sélectionnée, dans l'onglet Mise en forme.",
+      "setup": {
+        "chartEdit": {
+          "editSeries": [
+            {
+              "name": "Effectif",
+              "color": "#2f8a7a"
+            }
+          ]
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "ins-graph-couleur-serie"
+      },
+      "aide": {
+        "text": "Onglet Mise en forme, Remplissage de la forme.",
+        "showTarget": true
+      },
+      "feedback": "La couleur imposée à la main tient bon : elle ne bougera plus si vous changez de style."
+    },
+    {
+      "id": "M17-L05-05",
+      "consigne": "==Sélectionnez le **titre**== pour le réécrire.",
+      "action": {
+        "type": "SELECT_CHART_ELEMENT",
+        "element": "titre"
+      },
+      "aide": {
+        "text": "Le texte en haut du cadre.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M17-L05-06",
+      "consigne": "==Remplacez le titre== par **Effectif par service au 1er juillet**. Un titre daté vaut mieux qu'un titre vague : dans six mois, personne ne saura de quand vient le chiffre.",
+      "setup": {
+        "chartEdit": {
+          "title": "Effectif par service au 1er juillet"
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "ins-graph-element-titre"
+      },
+      "aide": {
+        "text": "Ajouter un élément de graphique, Titre du graphique, puis saisissez le texte.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M17-L05-07",
+      "consigne": "==Affichez les **étiquettes de données**== pour donner les effectifs exacts.",
+      "setup": {
+        "chartEdit": {
+          "elements": {
+            "etiquettes": true
+          },
+          "quadrillage": false
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "ins-graph-element-etiquettes"
+      },
+      "aide": {
+        "text": "Ajouter un élément de graphique, Étiquettes de données.",
+        "showTarget": true
+      },
+      "feedback": "Cinq barres, cinq nombres lisibles : le graphique donne l'ordre de grandeur, les étiquettes donnent la précision."
+    },
+    {
+      "id": "M17-L05-08",
+      "consigne": "Trois règles qui tiennent partout : **une couleur par idée**, pas une par barre ; un **contraste suffisant** pour rester lisible en noir et blanc ; et jamais de couleur seule pour porter l'information — un daltonien lit votre graphique aussi.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    }
+  ]
+}

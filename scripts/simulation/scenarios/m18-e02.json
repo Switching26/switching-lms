@@ -1,0 +1,312 @@
+{
+  "schemaVersion": 1,
+  "title": "Exercice · Ajouter et supprimer une série",
+  "mode": "EXERCISE",
+  "moduleTitle": "Manipuler les séries de données",
+  "intro": {
+    "title": "À VOUS",
+    "body": "Un graphique incomplet, à compléter puis à recentrer."
+  },
+  "outro": {
+    "body": "Exercice terminé."
+  },
+  "ribbon": [
+    "accueil",
+    "insertion",
+    "graph-creation"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Ventes",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "cells": {
+          "A1": {
+            "v": "Mois",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Formations courtes",
+            "format": {
+              "bold": true
+            }
+          },
+          "C1": {
+            "v": "Formations longues",
+            "format": {
+              "bold": true
+            }
+          },
+          "D1": {
+            "v": "Certifications",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Janvier"
+          },
+          "B2": {
+            "v": 22
+          },
+          "C2": {
+            "v": 8
+          },
+          "D2": {
+            "v": 5
+          },
+          "A3": {
+            "v": "Février"
+          },
+          "B3": {
+            "v": 19
+          },
+          "C3": {
+            "v": 11
+          },
+          "D3": {
+            "v": 4
+          },
+          "A4": {
+            "v": "Mars"
+          },
+          "B4": {
+            "v": 26
+          },
+          "C4": {
+            "v": 9
+          },
+          "D4": {
+            "v": 7
+          },
+          "A5": {
+            "v": "Avril"
+          },
+          "B5": {
+            "v": 24
+          },
+          "C5": {
+            "v": 14
+          },
+          "D5": {
+            "v": 6
+          },
+          "A6": {
+            "v": "Mai"
+          },
+          "B6": {
+            "v": 31
+          },
+          "C6": {
+            "v": 12
+          },
+          "D6": {
+            "v": 9
+          },
+          "A7": {
+            "v": "Juin"
+          },
+          "B7": {
+            "v": 28
+          },
+          "C7": {
+            "v": 15
+          },
+          "D7": {
+            "v": 8
+          }
+        },
+        "columnWidths": {
+          "A": 85,
+          "B": 115,
+          "C": 115,
+          "D": 105
+        }
+      }
+    ],
+    "charts": [
+      {
+        "id": "g1",
+        "type": "histogramme",
+        "series": [
+          {
+            "name": "Formations courtes",
+            "values": "B2:B7"
+          }
+        ],
+        "source": "A1:B7",
+        "categories": "A2:A7",
+        "title": "Ventes du semestre",
+        "elements": {
+          "titre": true,
+          "legende": true,
+          "quadrillage": true,
+          "axes": true
+        },
+        "legendPosition": "bas",
+        "style": 1,
+        "frame": {
+          "x": 250,
+          "y": 10,
+          "w": 480,
+          "h": 262
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M18-E02-01",
+      "consigne": "Ajoutez la série **Formations longues** au graphique.",
+      "setup": {
+        "chartEdit": {
+          "source": "A1:C7",
+          "addSeries": [
+            {
+              "name": "Formations longues",
+              "values": "C2:C7"
+            }
+          ]
+        }
+      },
+      "action": {
+        "type": "EXPECT_CHART",
+        "chart": {
+          "seriesCount": 2,
+          "series": [
+            {
+              "name": "Formations courtes"
+            },
+            {
+              "name": "Formations longues",
+              "values": "C2:C7"
+            }
+          ]
+        }
+      },
+      "aide": {
+        "text": "Onglet Création de graphique, Sélectionner des données, Ajouter."
+      }
+    },
+    {
+      "id": "M18-E02-02",
+      "consigne": "Ajoutez aussi les **Certifications**.",
+      "setup": {
+        "chartEdit": {
+          "source": "A1:D7",
+          "addSeries": [
+            {
+              "name": "Certifications",
+              "values": "D2:D7"
+            }
+          ]
+        }
+      },
+      "action": {
+        "type": "EXPECT_CHART",
+        "chart": {
+          "seriesCount": 3,
+          "series": [
+            {
+              "name": "Formations courtes"
+            },
+            {
+              "name": "Formations longues"
+            },
+            {
+              "name": "Certifications",
+              "values": "D2:D7"
+            }
+          ]
+        }
+      },
+      "aide": {
+        "text": "Même bouton, Ajouter, plage D2:D7."
+      }
+    },
+    {
+      "id": "M18-E02-03",
+      "consigne": "Le comité de direction ne veut que les formations. Sélectionnez la série **Certifications**.",
+      "action": {
+        "type": "SELECT_CHART_ELEMENT",
+        "element": "serie:2"
+      },
+      "aide": {
+        "text": "Une barre de la troisième couleur."
+      }
+    },
+    {
+      "id": "M18-E02-04",
+      "consigne": "Supprimez-la du graphique.",
+      "setup": {
+        "chartEdit": {
+          "removeSeries": [
+            "Certifications"
+          ]
+        }
+      },
+      "action": {
+        "type": "EXPECT_CHART",
+        "chart": {
+          "seriesCount": 2,
+          "series": [
+            {
+              "name": "Formations courtes"
+            },
+            {
+              "name": "Formations longues"
+            }
+          ]
+        }
+      },
+      "aide": {
+        "text": "Sélectionner des données puis Supprimer, ou Suppr sur la série sélectionnée."
+      }
+    },
+    {
+      "id": "M18-E02-05",
+      "consigne": "Finalement, les **formations longues** sont confidentielles jusqu'au conseil. **Masquez-les sans les supprimer.**",
+      "setup": {
+        "chartEdit": {
+          "editSeries": [
+            {
+              "name": "Formations longues",
+              "hidden": true
+            }
+          ]
+        }
+      },
+      "action": {
+        "type": "EXPECT_CHART",
+        "chart": {
+          "seriesCount": 1,
+          "series": [
+            {
+              "name": "Formations courtes",
+              "hidden": false
+            },
+            {
+              "name": "Formations longues",
+              "hidden": true
+            }
+          ]
+        }
+      },
+      "aide": {
+        "text": "Le filtre de séries du graphique, en décochant la série."
+      },
+      "feedback": "Masquer se défait en un clic ; supprimer obligerait à tout refaire."
+    }
+  ]
+}

@@ -1,0 +1,313 @@
+{
+  "schemaVersion": 1,
+  "title": "Modifier la couleur d'une série",
+  "mode": "LESSON",
+  "moduleTitle": "Manipuler les séries de données",
+  "intro": {
+    "title": "UNE COULEUR QUI VEUT DIRE QUELQUE CHOSE",
+    "body": "Les couleurs par défaut distinguent les séries, rien de plus. En choisissant soi-même, on fait porter un message à la couleur : ici, deux familles installées et une nouveauté à mettre en avant."
+  },
+  "outro": {
+    "body": "Vous colorez chaque série volontairement, et vous savez pourquoi."
+  },
+  "ribbon": [
+    "accueil",
+    "insertion",
+    "graph-creation",
+    "graph-mise-en-forme"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Heures vendues",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "cells": {
+          "A1": {
+            "v": "Mois",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Bureautique",
+            "format": {
+              "bold": true
+            }
+          },
+          "C1": {
+            "v": "Langues",
+            "format": {
+              "bold": true
+            }
+          },
+          "D1": {
+            "v": "Infographie",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Janvier"
+          },
+          "B2": {
+            "v": 120
+          },
+          "C2": {
+            "v": 84
+          },
+          "D2": {
+            "v": 46
+          },
+          "A3": {
+            "v": "Février"
+          },
+          "B3": {
+            "v": 138
+          },
+          "C3": {
+            "v": 91
+          },
+          "D3": {
+            "v": 52
+          },
+          "A4": {
+            "v": "Mars"
+          },
+          "B4": {
+            "v": 151
+          },
+          "C4": {
+            "v": 88
+          },
+          "D4": {
+            "v": 61
+          },
+          "A5": {
+            "v": "Avril"
+          },
+          "B5": {
+            "v": 144
+          },
+          "C5": {
+            "v": 103
+          },
+          "D5": {
+            "v": 58
+          },
+          "A6": {
+            "v": "Mai"
+          },
+          "B6": {
+            "v": 162
+          },
+          "C6": {
+            "v": 97
+          },
+          "D6": {
+            "v": 67
+          },
+          "A7": {
+            "v": "Juin"
+          },
+          "B7": {
+            "v": 175
+          },
+          "C7": {
+            "v": 112
+          },
+          "D7": {
+            "v": 74
+          }
+        },
+        "columnWidths": {
+          "A": 85,
+          "B": 100,
+          "C": 85,
+          "D": 95
+        }
+      }
+    ],
+    "charts": [
+      {
+        "id": "g1",
+        "type": "histogramme",
+        "series": [
+          {
+            "name": "Bureautique",
+            "values": "B2:B7"
+          },
+          {
+            "name": "Langues",
+            "values": "C2:C7"
+          },
+          {
+            "name": "Infographie",
+            "values": "D2:D7"
+          }
+        ],
+        "source": "A1:D7",
+        "categories": "A2:A7",
+        "title": "Heures vendues par famille",
+        "elements": {
+          "titre": true,
+          "legende": true,
+          "etiquettes": false,
+          "quadrillage": true,
+          "axes": true,
+          "titresAxes": false
+        },
+        "legendPosition": "bas",
+        "style": 1,
+        "frame": {
+          "x": 250,
+          "y": 10,
+          "w": 480,
+          "h": 262
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M18-L03-01",
+      "consigne": "L'infographie est la **nouveauté** du catalogue : c'est elle qu'on veut faire remarquer. Les deux autres passeront en gris. Pour commencer, ==sélectionnez la série **Bureautique**==.",
+      "action": {
+        "type": "SELECT_CHART_ELEMENT",
+        "element": "serie:0"
+      },
+      "aide": {
+        "text": "Une barre de la première couleur.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M18-L03-02",
+      "consigne": "==Appliquez-lui un **bleu ardoise**== depuis l'onglet Mise en forme.",
+      "setup": {
+        "chartEdit": {
+          "editSeries": [
+            {
+              "name": "Bureautique",
+              "color": "#4c5f75"
+            }
+          ]
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "ins-graph-couleur-serie"
+      },
+      "aide": {
+        "text": "Onglet Mise en forme, Remplissage de la forme.",
+        "showTarget": true
+      },
+      "feedback": "Le clic droit sur la série puis « Mettre en forme une série de données » mène au même réglage."
+    },
+    {
+      "id": "M18-L03-03",
+      "consigne": "==Sélectionnez la série **Langues**==.",
+      "action": {
+        "type": "SELECT_CHART_ELEMENT",
+        "element": "serie:1"
+      },
+      "aide": {
+        "text": "Une barre de la deuxième couleur.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M18-L03-04",
+      "consigne": "==Passez-la en **gris clair**== : c'est une famille installée, elle n'a pas besoin d'attirer l'œil.",
+      "setup": {
+        "chartEdit": {
+          "editSeries": [
+            {
+              "name": "Langues",
+              "color": "#8f9aa6"
+            }
+          ]
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "ins-graph-couleur-serie"
+      },
+      "aide": {
+        "text": "Onglet Mise en forme, Remplissage de la forme.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M18-L03-05",
+      "consigne": "==Sélectionnez la série **Infographie**==.",
+      "action": {
+        "type": "SELECT_CHART_ELEMENT",
+        "element": "serie:2"
+      },
+      "aide": {
+        "text": "Une barre de la troisième couleur.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M18-L03-06",
+      "consigne": "==Passez-la en **ocre**==, la seule couleur vive du graphique.",
+      "setup": {
+        "chartEdit": {
+          "editSeries": [
+            {
+              "name": "Infographie",
+              "color": "#c26a2b"
+            }
+          ]
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "ins-graph-couleur-serie"
+      },
+      "aide": {
+        "text": "Onglet Mise en forme, Remplissage de la forme.",
+        "showTarget": true
+      },
+      "feedback": "L'œil va tout seul à l'ocre. Deux gris et un accent : c'est plus efficace que six couleurs vives."
+    },
+    {
+      "id": "M18-L03-07",
+      "consigne": "==Affichez les **étiquettes de données**== pour donner les heures exactes.",
+      "setup": {
+        "chartEdit": {
+          "elements": {
+            "etiquettes": true,
+            "quadrillage": false
+          }
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "ins-graph-element-etiquettes"
+      },
+      "aide": {
+        "text": "Ajouter un élément de graphique, Étiquettes de données.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M18-L03-08",
+      "consigne": "Deux contrôles avant de diffuser : imprimez **en noir et blanc** — les trois séries doivent rester distinctes — et vérifiez qu'aucune information ne repose sur la couleur **seule**. Une légende, une étiquette ou un mot doivent toujours doubler le signal.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    }
+  ]
+}

@@ -1,0 +1,297 @@
+{
+  "schemaVersion": 1,
+  "title": "Modifier un graphique",
+  "mode": "LESSON",
+  "moduleTitle": "Présenter les données en graphiques",
+  "intro": {
+    "title": "RIEN N'EST DÉFINITIF",
+    "body": "Un graphique posé se modifie de bout en bout : son type, sa plage source, son titre. Et comme il reste lié aux cellules, corriger un chiffre suffit à le redessiner."
+  },
+  "outro": {
+    "body": "Vous changez le type, étendez la plage et voyez le graphique suivre les données."
+  },
+  "ribbon": [
+    "accueil",
+    "insertion",
+    "graph-creation"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Heures vendues",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "cells": {
+          "A1": {
+            "v": "Mois",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Bureautique",
+            "format": {
+              "bold": true
+            }
+          },
+          "C1": {
+            "v": "Langues",
+            "format": {
+              "bold": true
+            }
+          },
+          "D1": {
+            "v": "Infographie",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Janvier"
+          },
+          "B2": {
+            "v": 120
+          },
+          "C2": {
+            "v": 84
+          },
+          "D2": {
+            "v": 46
+          },
+          "A3": {
+            "v": "Février"
+          },
+          "B3": {
+            "v": 138
+          },
+          "C3": {
+            "v": 91
+          },
+          "D3": {
+            "v": 52
+          },
+          "A4": {
+            "v": "Mars"
+          },
+          "B4": {
+            "v": 151
+          },
+          "C4": {
+            "v": 88
+          },
+          "D4": {
+            "v": 61
+          },
+          "A5": {
+            "v": "Avril"
+          },
+          "B5": {
+            "v": 144
+          },
+          "C5": {
+            "v": 103
+          },
+          "D5": {
+            "v": 58
+          },
+          "A6": {
+            "v": "Mai"
+          },
+          "B6": {
+            "v": 162
+          },
+          "C6": {
+            "v": 97
+          },
+          "D6": {
+            "v": 67
+          },
+          "A7": {
+            "v": "Juin"
+          },
+          "B7": {
+            "v": 175
+          },
+          "C7": {
+            "v": 112
+          },
+          "D7": {
+            "v": 74
+          }
+        },
+        "columnWidths": {
+          "A": 85,
+          "B": 100,
+          "C": 85,
+          "D": 95
+        }
+      }
+    ],
+    "charts": [
+      {
+        "id": "g1",
+        "type": "histogramme",
+        "series": [
+          {
+            "name": "Bureautique",
+            "values": "B2:B7"
+          },
+          {
+            "name": "Langues",
+            "values": "C2:C7"
+          }
+        ],
+        "source": "A1:C7",
+        "categories": "A2:A7",
+        "title": "Heures vendues",
+        "elements": {
+          "titre": true,
+          "legende": true,
+          "etiquettes": false,
+          "quadrillage": true,
+          "axes": true,
+          "titresAxes": false
+        },
+        "legendPosition": "bas",
+        "style": 1,
+        "frame": {
+          "x": 250,
+          "y": 164,
+          "w": 430,
+          "h": 208
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M17-L06-01",
+      "consigne": "Le graphique compare deux familles mois par mois. Pour suivre plutôt leur **progression**, la courbe convient mieux. ==Cliquez sur **Modifier le type de graphique** et choisissez les **courbes**==.",
+      "setup": {
+        "chartEdit": {
+          "type": "courbes"
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "ins-graph-modifier-type"
+      },
+      "aide": {
+        "text": "Onglet Création de graphique, groupe Type.",
+        "showTarget": true
+      },
+      "feedback": "Le type change, les séries restent. Rien à refaire."
+    },
+    {
+      "id": "M17-L06-02",
+      "consigne": "La colonne **Infographie** manque au graphique. ==Ouvrez **Sélectionner des données** et ajoutez-la==.",
+      "setup": {
+        "chartEdit": {
+          "source": "A1:D7",
+          "addSeries": [
+            {
+              "name": "Infographie",
+              "values": "D2:D7"
+            }
+          ]
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "ins-graph-selectionner-donnees"
+      },
+      "aide": {
+        "text": "Onglet Création de graphique, groupe Données, Sélectionner des données.",
+        "showTarget": true
+      },
+      "feedback": "La nouvelle série se place **en dernier** et prend la couleur suivante de la palette."
+    },
+    {
+      "id": "M17-L06-03",
+      "consigne": "==Renommez le graphique== en **Heures vendues par famille**.",
+      "setup": {
+        "chartEdit": {
+          "title": "Heures vendues par famille"
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "ins-graph-element-titre"
+      },
+      "aide": {
+        "text": "Ajouter un élément de graphique, Titre du graphique.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M17-L06-04",
+      "consigne": "Voici le point essentiel. ==En **B4**, corrigez les heures de bureautique de mars à `175`== et regardez le graphique.",
+      "setup": {
+        "selection": "B4"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B4",
+        "accept": [
+          "175"
+        ]
+      },
+      "aide": {
+        "text": "La cellule B4, croisement de Mars et de Bureautique.",
+        "showTarget": true
+      },
+      "feedback": "La courbe s'est redessinée sans que vous y touchiez. Un graphique n'est pas une image : c'est une **vue** sur les cellules."
+    },
+    {
+      "id": "M17-L06-05",
+      "consigne": "Trois séries en courbes deviennent difficiles à suivre. ==Revenez à l'**histogramme**==.",
+      "setup": {
+        "chartEdit": {
+          "type": "histogramme"
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "ins-graph-modifier-type"
+      },
+      "aide": {
+        "text": "Onglet Création de graphique, Modifier le type de graphique.",
+        "showTarget": true
+      },
+      "feedback": "Faire l'aller-retour est normal : on essaie, on regarde, on tranche."
+    },
+    {
+      "id": "M17-L06-06",
+      "consigne": "==Appliquez le **style 2**== pour alléger le fond.",
+      "setup": {
+        "chartEdit": {
+          "style": 2
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "ins-graph-style-2"
+      },
+      "aide": {
+        "text": "Deuxième vignette de la galerie Styles.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M17-L06-07",
+      "consigne": "Deux gestes à la souris complètent le tableau : **faites glisser le cadre** pour déplacer le graphique, tirez une **poignée d'angle** pour le redimensionner. Placez-le toujours à côté des données qu'il illustre, jamais par-dessus.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    }
+  ]
+}

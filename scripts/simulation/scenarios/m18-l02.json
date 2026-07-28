@@ -1,0 +1,327 @@
+{
+  "schemaVersion": 1,
+  "title": "Ajouter ou supprimer une série",
+  "mode": "LESSON",
+  "moduleTitle": "Manipuler les séries de données",
+  "intro": {
+    "title": "UN GRAPHIQUE QUI GRANDIT",
+    "body": "Le graphique existe déjà et ne porte qu'une famille de formations. Les deux autres sont dans la feuille, à côté. On les ajoute sans rien refaire."
+  },
+  "outro": {
+    "body": "Vous ajoutez, supprimez, masquez et réaffichez une série à volonté."
+  },
+  "ribbon": [
+    "accueil",
+    "insertion",
+    "graph-creation"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Heures vendues",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "cells": {
+          "A1": {
+            "v": "Mois",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Bureautique",
+            "format": {
+              "bold": true
+            }
+          },
+          "C1": {
+            "v": "Langues",
+            "format": {
+              "bold": true
+            }
+          },
+          "D1": {
+            "v": "Infographie",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Janvier"
+          },
+          "B2": {
+            "v": 120
+          },
+          "C2": {
+            "v": 84
+          },
+          "D2": {
+            "v": 46
+          },
+          "A3": {
+            "v": "Février"
+          },
+          "B3": {
+            "v": 138
+          },
+          "C3": {
+            "v": 91
+          },
+          "D3": {
+            "v": 52
+          },
+          "A4": {
+            "v": "Mars"
+          },
+          "B4": {
+            "v": 151
+          },
+          "C4": {
+            "v": 88
+          },
+          "D4": {
+            "v": 61
+          },
+          "A5": {
+            "v": "Avril"
+          },
+          "B5": {
+            "v": 144
+          },
+          "C5": {
+            "v": 103
+          },
+          "D5": {
+            "v": 58
+          },
+          "A6": {
+            "v": "Mai"
+          },
+          "B6": {
+            "v": 162
+          },
+          "C6": {
+            "v": 97
+          },
+          "D6": {
+            "v": 67
+          },
+          "A7": {
+            "v": "Juin"
+          },
+          "B7": {
+            "v": 175
+          },
+          "C7": {
+            "v": 112
+          },
+          "D7": {
+            "v": 74
+          }
+        },
+        "columnWidths": {
+          "A": 85,
+          "B": 100,
+          "C": 85,
+          "D": 95
+        }
+      }
+    ],
+    "charts": [
+      {
+        "id": "g1",
+        "type": "histogramme",
+        "series": [
+          {
+            "name": "Bureautique",
+            "values": "B2:B7"
+          }
+        ],
+        "source": "A1:B7",
+        "categories": "A2:A7",
+        "title": "Heures vendues",
+        "elements": {
+          "titre": true,
+          "legende": true,
+          "quadrillage": true,
+          "axes": true
+        },
+        "legendPosition": "bas",
+        "style": 1,
+        "frame": {
+          "x": 250,
+          "y": 10,
+          "w": 480,
+          "h": 262
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M18-L02-01",
+      "consigne": "Le graphique ne montre que la **bureautique**. ==Ouvrez **Sélectionner des données** et ajoutez la série **Langues**==, colonne C.",
+      "setup": {
+        "chartEdit": {
+          "source": "A1:C7",
+          "addSeries": [
+            {
+              "name": "Langues",
+              "values": "C2:C7"
+            }
+          ]
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "ins-graph-selectionner-donnees"
+      },
+      "aide": {
+        "text": "Onglet Création de graphique, groupe Données, Sélectionner des données, Ajouter.",
+        "showTarget": true
+      },
+      "feedback": "Deux séries, deux couleurs, et la légende devient enfin utile."
+    },
+    {
+      "id": "M18-L02-02",
+      "consigne": "==Ajoutez de la même façon la série **Infographie**==, colonne D.",
+      "setup": {
+        "chartEdit": {
+          "source": "A1:D7",
+          "addSeries": [
+            {
+              "name": "Infographie",
+              "values": "D2:D7"
+            }
+          ]
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "ins-graph-selectionner-donnees"
+      },
+      "aide": {
+        "text": "Même bouton, Ajouter, puis la plage D2:D7.",
+        "showTarget": true
+      },
+      "feedback": "Trois séries : c'est à peu près la limite lisible d'un histogramme groupé sur six mois."
+    },
+    {
+      "id": "M18-L02-03",
+      "consigne": "==Sélectionnez la série **Langues**== dans le graphique.",
+      "action": {
+        "type": "SELECT_CHART_ELEMENT",
+        "element": "serie:1"
+      },
+      "aide": {
+        "text": "Une barre de la deuxième couleur, dans n'importe quel groupe.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M18-L02-04",
+      "consigne": "==Supprimez-la du graphique.==",
+      "setup": {
+        "chartEdit": {
+          "removeSeries": [
+            "Langues"
+          ]
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "ins-graph-supprimer-serie"
+      },
+      "aide": {
+        "text": "Onglet Création de graphique, Sélectionner des données, Supprimer.",
+        "showTarget": true
+      },
+      "feedback": "La colonne C est intacte dans la feuille. Un graphique ne détient pas les données, il les regarde."
+    },
+    {
+      "id": "M18-L02-05",
+      "consigne": "Finalement, on la veut. ==Rajoutez la série **Langues**==.",
+      "setup": {
+        "chartEdit": {
+          "addSeries": [
+            {
+              "name": "Langues",
+              "values": "C2:C7"
+            }
+          ]
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "ins-graph-selectionner-donnees"
+      },
+      "aide": {
+        "text": "Sélectionner des données, Ajouter, plage C2:C7.",
+        "showTarget": true
+      },
+      "feedback": "Elle revient **en dernière position**, donc avec la troisième couleur. L'ordre des séries est celui de leur ajout, pas celui des colonnes."
+    },
+    {
+      "id": "M18-L02-06",
+      "consigne": "Autre besoin : cacher une série pour une réunion, sans la perdre. ==Masquez **Infographie**== avec le filtre de séries.",
+      "setup": {
+        "chartEdit": {
+          "editSeries": [
+            {
+              "name": "Infographie",
+              "hidden": true
+            }
+          ]
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "ins-graph-filtre-serie"
+      },
+      "aide": {
+        "text": "Le bouton Filtre de graphique, à droite du cadre, puis décochez Infographie.",
+        "showTarget": true
+      },
+      "feedback": "La série n'est plus dessinée mais elle reste dans le graphique — l'axe et la légende s'ajustent."
+    },
+    {
+      "id": "M18-L02-07",
+      "consigne": "==Réaffichez-la== pour vérifier qu'elle n'avait pas disparu.",
+      "setup": {
+        "chartEdit": {
+          "editSeries": [
+            {
+              "name": "Infographie",
+              "hidden": false
+            }
+          ]
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "ins-graph-filtre-serie"
+      },
+      "aide": {
+        "text": "Même filtre, recochez Infographie.",
+        "showTarget": true
+      },
+      "feedback": "Elle retrouve sa place et sa couleur : rien n'avait été perdu."
+    },
+    {
+      "id": "M18-L02-08",
+      "consigne": "La distinction à garder : **supprimer** retire la série du graphique et l'ordre des suivantes change ; **masquer** la laisse en place et permet de revenir en un clic. Pour une confidentialité passagère, masquez.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    }
+  ]
+}

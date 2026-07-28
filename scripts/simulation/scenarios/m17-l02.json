@@ -1,0 +1,329 @@
+{
+  "schemaVersion": 1,
+  "title": "Créer un graphique rapidement",
+  "mode": "LESSON",
+  "moduleTitle": "Présenter les données en graphiques",
+  "intro": {
+    "title": "LA SÉLECTION DÉCIDE DE TOUT",
+    "body": "Excel construit le graphique à partir de ce que vous avez sélectionné, sans rien demander. Il devine les libellés dans la première colonne et les noms de séries dans la première ligne. Bien sélectionner, c'est 90 % du travail."
+  },
+  "outro": {
+    "body": "Vous créez un graphique en deux gestes, et vous savez ce qu'Excel a deviné."
+  },
+  "ribbon": [
+    "accueil",
+    "insertion",
+    "graph-creation"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Chiffre d'affaires",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "cells": {
+          "A1": {
+            "v": "Région",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "T1",
+            "format": {
+              "bold": true
+            }
+          },
+          "C1": {
+            "v": "T2",
+            "format": {
+              "bold": true
+            }
+          },
+          "D1": {
+            "v": "T3",
+            "format": {
+              "bold": true
+            }
+          },
+          "E1": {
+            "v": "T4",
+            "format": {
+              "bold": true
+            }
+          },
+          "F1": {
+            "v": "Total",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Nord"
+          },
+          "B2": {
+            "v": 18500
+          },
+          "C2": {
+            "v": 21400
+          },
+          "D2": {
+            "v": 19800
+          },
+          "E2": {
+            "v": 24600
+          },
+          "F2": {
+            "f": "=SOMME(B2:E2)"
+          },
+          "A3": {
+            "v": "Sud"
+          },
+          "B3": {
+            "v": 15200
+          },
+          "C3": {
+            "v": 17900
+          },
+          "D3": {
+            "v": 22300
+          },
+          "E3": {
+            "v": 26100
+          },
+          "F3": {
+            "f": "=SOMME(B3:E3)"
+          },
+          "A4": {
+            "v": "Est"
+          },
+          "B4": {
+            "v": 12800
+          },
+          "C4": {
+            "v": 13500
+          },
+          "D4": {
+            "v": 14100
+          },
+          "E4": {
+            "v": 15900
+          },
+          "F4": {
+            "f": "=SOMME(B4:E4)"
+          },
+          "A5": {
+            "v": "Ouest"
+          },
+          "B5": {
+            "v": 20400
+          },
+          "C5": {
+            "v": 19200
+          },
+          "D5": {
+            "v": 23700
+          },
+          "E5": {
+            "v": 28300
+          },
+          "F5": {
+            "f": "=SOMME(B5:E5)"
+          }
+        },
+        "columnWidths": {
+          "A": 90,
+          "F": 90
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M17-L02-01",
+      "consigne": "Quatre régions, quatre trimestres, et une colonne **Total** en bout de ligne. Cette colonne est le piège classique : incluse dans la sélection, elle écrase tout le reste du graphique, puisqu'elle vaut quatre fois plus que chaque trimestre. On l'exclut toujours.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M17-L02-02",
+      "consigne": "==Sélectionnez la plage **A1:E5**== : les titres de colonnes, les noms de régions et les quatre trimestres, mais pas les totaux.",
+      "setup": {
+        "selection": "A1"
+      },
+      "action": {
+        "type": "DRAG_RANGE",
+        "range": "A1:E5"
+      },
+      "aide": {
+        "text": "Cliquez en A1 et faites glisser jusqu'en E5, sans aller jusqu'à la colonne F.",
+        "showTarget": true
+      },
+      "feedback": "La ligne 1 et la colonne A sont dans la sélection : Excel s'en servira comme légende et comme libellés d'axe, pas comme données."
+    },
+    {
+      "id": "M17-L02-03",
+      "consigne": "==Cliquez sur **Graphiques recommandés**== dans l'onglet Insertion. Excel propose le type qui convient et le pose sur la feuille.",
+      "setup": {
+        "chart": {
+          "id": "g1",
+          "type": "histogramme",
+          "series": [
+            {
+              "name": "T1",
+              "values": "B2:B5"
+            },
+            {
+              "name": "T2",
+              "values": "C2:C5"
+            },
+            {
+              "name": "T3",
+              "values": "D2:D5"
+            },
+            {
+              "name": "T4",
+              "values": "E2:E5"
+            }
+          ],
+          "source": "A1:E5",
+          "categories": "A2:A5",
+          "title": "Chiffre d'affaires par région",
+          "elements": {
+            "titre": true,
+            "legende": true,
+            "etiquettes": false,
+            "quadrillage": true,
+            "axes": true,
+            "titresAxes": false
+          },
+          "legendPosition": "bas",
+          "style": 1,
+          "frame": {
+            "x": 470,
+            "y": 10,
+            "w": 340,
+            "h": 258
+          }
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "ins-graph-recommande"
+      },
+      "aide": {
+        "text": "Onglet Insertion, groupe Graphiques, premier bouton.",
+        "showTarget": true
+      },
+      "feedback": "Quatre séries — un trimestre chacune — et quatre groupes de barres, un par région. Au clavier, **Alt+F1** fait exactement la même chose."
+    },
+    {
+      "id": "M17-L02-04",
+      "consigne": "Excel a mis les **régions en abscisse** et un trimestre par série. Pour lire l'inverse — les trimestres en abscisse, une région par série — ==cliquez sur **Intervertir lignes/colonnes**==.",
+      "setup": {
+        "chartEdit": {
+          "categories": "B1:E1",
+          "series": [
+            {
+              "name": "Nord",
+              "values": "B2:E2"
+            },
+            {
+              "name": "Sud",
+              "values": "B3:E3"
+            },
+            {
+              "name": "Est",
+              "values": "B4:E4"
+            },
+            {
+              "name": "Ouest",
+              "values": "B5:E5"
+            }
+          ]
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "ins-graph-intervertir"
+      },
+      "aide": {
+        "text": "Onglet Création de graphique, groupe Données.",
+        "showTarget": true
+      },
+      "feedback": "Mêmes chiffres, question différente : on suit maintenant la progression de chaque région trimestre par trimestre."
+    },
+    {
+      "id": "M17-L02-05",
+      "consigne": "Un graphique n'a pas besoin de tout le tableau. ==Sélectionnez **A1:B5**== pour ne garder que le premier trimestre.",
+      "action": {
+        "type": "DRAG_RANGE",
+        "range": "A1:B5"
+      },
+      "aide": {
+        "text": "De A1 jusqu'à B5, deux colonnes seulement.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M17-L02-06",
+      "consigne": "==Insérez un **histogramme**== sur cette sélection.",
+      "setup": {
+        "chart": {
+          "id": "g1",
+          "type": "histogramme",
+          "series": [
+            {
+              "name": "T1",
+              "values": "B2:B5"
+            }
+          ],
+          "source": "A1:B5",
+          "categories": "A2:A5",
+          "title": "T1",
+          "elements": {
+            "titre": true,
+            "legende": false,
+            "quadrillage": true,
+            "axes": true
+          },
+          "legendPosition": "bas",
+          "style": 1,
+          "frame": {
+            "x": 430,
+            "y": 10,
+            "w": 420,
+            "h": 258
+          }
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "ins-graph-histogramme"
+      },
+      "aide": {
+        "text": "Onglet Insertion, bouton Histogramme, premier modèle.",
+        "showTarget": true
+      },
+      "feedback": "À une seule série, Excel prend le **nom de la série comme titre** et n'affiche pas de légende : elle n'aurait rien à distinguer."
+    },
+    {
+      "id": "M17-L02-07",
+      "consigne": "Retenez les deux raccourcis : **Alt+F1** pose le graphique sur la feuille, **F11** le pose sur une feuille entière qui lui est réservée. Et dans les deux cas, le graphique reste **lié aux données** : corrigez un chiffre, il se redessine.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    }
+  ]
+}

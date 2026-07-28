@@ -1,0 +1,301 @@
+{
+  "schemaVersion": 1,
+  "title": "S'évaluer · Présenter les données en graphiques",
+  "mode": "EVALUATION",
+  "moduleTitle": "Présenter les données en graphiques",
+  "intro": {
+    "title": "S'ÉVALUER",
+    "body": "Le bilan pédagogique de l'année et la répartition des financements. Aucune aide sur cette évaluation : chaque étape compte au premier essai."
+  },
+  "outro": {
+    "body": "Évaluation terminée."
+  },
+  "ribbon": [
+    "accueil",
+    "insertion",
+    "graph-creation"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Bilan annuel",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "cells": {
+          "A1": {
+            "v": "Trimestre",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Heures réalisées",
+            "format": {
+              "bold": true
+            }
+          },
+          "C1": {
+            "v": "Heures prévues",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "T1"
+          },
+          "B2": {
+            "v": 620
+          },
+          "C2": {
+            "v": 700
+          },
+          "A3": {
+            "v": "T2"
+          },
+          "B3": {
+            "v": 745
+          },
+          "C3": {
+            "v": 700
+          },
+          "A4": {
+            "v": "T3"
+          },
+          "B4": {
+            "v": 410
+          },
+          "C4": {
+            "v": 500
+          },
+          "A5": {
+            "v": "T4"
+          },
+          "B5": {
+            "v": 830
+          },
+          "C5": {
+            "v": 800
+          },
+          "A8": {
+            "v": "Financement",
+            "format": {
+              "bold": true
+            }
+          },
+          "B8": {
+            "v": "Montant",
+            "format": {
+              "bold": true
+            }
+          },
+          "A9": {
+            "v": "CPF"
+          },
+          "B9": {
+            "v": 18500
+          },
+          "A10": {
+            "v": "OPCO"
+          },
+          "B10": {
+            "v": 24200
+          },
+          "A11": {
+            "v": "France Travail"
+          },
+          "B11": {
+            "v": 9800
+          },
+          "A12": {
+            "v": "Entreprise"
+          },
+          "B12": {
+            "v": 12600
+          }
+        },
+        "columnWidths": {
+          "A": 120,
+          "B": 120,
+          "C": 115
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M17-EV01-01",
+      "consigne": "Deux tableaux vous attendent : les **heures par trimestre** en haut, les **financements** juste en dessous. Six graphiques ou réglages vous sont demandés.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M17-EV01-02",
+      "consigne": "Comparez trimestre par trimestre les **heures réalisées** et les **heures prévues**. Créez l'**histogramme** correspondant, titres de colonnes compris.",
+      "action": {
+        "type": "EXPECT_CHART",
+        "chart": {
+          "type": "histogramme",
+          "categories": "A2:A5",
+          "seriesCount": 2,
+          "series": [
+            {
+              "name": "Heures réalisées"
+            },
+            {
+              "name": "Heures prévues"
+            }
+          ]
+        }
+      },
+      "points": 2
+    },
+    {
+      "id": "M17-EV01-03",
+      "consigne": "Titrez-le **Heures réalisées et prévues**.",
+      "setup": {
+        "chartEdit": {
+          "title": "Heures réalisées et prévues"
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "ins-graph-element-titre"
+      },
+      "points": 1
+    },
+    {
+      "id": "M17-EV01-04",
+      "consigne": "Placez la **légende en bas**.",
+      "setup": {
+        "chartEdit": {
+          "legendPosition": "bas",
+          "elements": {
+            "legende": true
+          }
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "ins-graph-legende-bas"
+      },
+      "points": 1
+    },
+    {
+      "id": "M17-EV01-05",
+      "consigne": "La direction ne veut voir que le réalisé. **Masquez la série des heures prévues**, sans la supprimer.",
+      "setup": {
+        "chartEdit": {
+          "editSeries": [
+            {
+              "name": "Heures prévues",
+              "hidden": true
+            }
+          ]
+        }
+      },
+      "action": {
+        "type": "EXPECT_CHART",
+        "chart": {
+          "seriesCount": 1,
+          "series": [
+            {
+              "name": "Heures réalisées",
+              "hidden": false
+            },
+            {
+              "name": "Heures prévues",
+              "hidden": true
+            }
+          ]
+        }
+      },
+      "points": 2
+    },
+    {
+      "id": "M17-EV01-06",
+      "consigne": "Affichez les **étiquettes de données**.",
+      "setup": {
+        "chartEdit": {
+          "elements": {
+            "etiquettes": true
+          }
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "ins-graph-element-etiquettes"
+      },
+      "points": 1
+    },
+    {
+      "id": "M17-EV01-07",
+      "consigne": "Montrez maintenant la **répartition des financements** : créez le graphique qui convient à des parts d'un total, sur le second tableau.",
+      "action": {
+        "type": "EXPECT_CHART",
+        "chart": {
+          "type": "secteurs",
+          "categories": "A9:A12",
+          "seriesCount": 1
+        }
+      },
+      "points": 2
+    },
+    {
+      "id": "M17-EV01-08",
+      "consigne": "Appliquez-lui le **style 4**.",
+      "setup": {
+        "chartEdit": {
+          "style": 4
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "ins-graph-style-4"
+      },
+      "points": 1
+    },
+    {
+      "id": "M17-EV01-09",
+      "consigne": "**France Travail** et **Entreprise** sont des libellés longs. Repassez le graphique des financements en **barres horizontales**.",
+      "setup": {
+        "chartEdit": {
+          "type": "barres"
+        }
+      },
+      "action": {
+        "type": "EXPECT_CHART",
+        "chart": {
+          "type": "barres",
+          "seriesCount": 1
+        }
+      },
+      "points": 2
+    },
+    {
+      "id": "M17-EV01-10",
+      "consigne": "Dernier réglage : **masquez le quadrillage**.",
+      "setup": {
+        "chartEdit": {
+          "elements": {
+            "quadrillage": false
+          }
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "ins-graph-element-quadrillage"
+      },
+      "points": 1
+    }
+  ]
+}

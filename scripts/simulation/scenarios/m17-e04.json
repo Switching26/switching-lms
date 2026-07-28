@@ -1,0 +1,250 @@
+{
+  "schemaVersion": 1,
+  "title": "Exercice · Mettre en forme un graphique",
+  "mode": "EXERCISE",
+  "moduleTitle": "Présenter les données en graphiques",
+  "intro": {
+    "title": "À VOUS",
+    "body": "Le graphique est juste, sa présentation reste à faire."
+  },
+  "outro": {
+    "body": "Exercice terminé."
+  },
+  "ribbon": [
+    "accueil",
+    "insertion",
+    "graph-creation",
+    "graph-mise-en-forme"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Sites",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "cells": {
+          "A1": {
+            "v": "Site",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Stagiaires",
+            "format": {
+              "bold": true
+            }
+          },
+          "C1": {
+            "v": "Heures",
+            "format": {
+              "bold": true
+            }
+          },
+          "D1": {
+            "v": "Satisfaction",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Lyon"
+          },
+          "B2": {
+            "v": 42
+          },
+          "C2": {
+            "v": 310
+          },
+          "D2": {
+            "v": 88
+          },
+          "A3": {
+            "v": "Villeurbanne"
+          },
+          "B3": {
+            "v": 28
+          },
+          "C3": {
+            "v": 210
+          },
+          "D3": {
+            "v": 92
+          },
+          "A4": {
+            "v": "Vénissieux"
+          },
+          "B4": {
+            "v": 19
+          },
+          "C4": {
+            "v": 150
+          },
+          "D4": {
+            "v": 79
+          },
+          "A5": {
+            "v": "Bron"
+          },
+          "B5": {
+            "v": 35
+          },
+          "C5": {
+            "v": 260
+          },
+          "D5": {
+            "v": 85
+          },
+          "A6": {
+            "v": "Meyzieu"
+          },
+          "B6": {
+            "v": 14
+          },
+          "C6": {
+            "v": 120
+          },
+          "D6": {
+            "v": 94
+          }
+        },
+        "columnWidths": {
+          "A": 115,
+          "B": 90,
+          "D": 100
+        }
+      }
+    ],
+    "charts": [
+      {
+        "id": "g1",
+        "type": "histogramme",
+        "series": [
+          {
+            "name": "Stagiaires",
+            "values": "B2:B6"
+          }
+        ],
+        "source": "A1:B6",
+        "categories": "A2:A6",
+        "title": "Stagiaires par site",
+        "elements": {
+          "titre": true,
+          "legende": false,
+          "quadrillage": true,
+          "axes": true
+        },
+        "legendPosition": "bas",
+        "style": 1,
+        "frame": {
+          "x": 430,
+          "y": 10,
+          "w": 420,
+          "h": 258
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M17-E04-01",
+      "consigne": "Appliquez le **style 5** de la galerie.",
+      "setup": {
+        "chartEdit": {
+          "style": 5
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "ins-graph-style-5"
+      },
+      "aide": {
+        "text": "Onglet Création de graphique, cinquième vignette de la galerie Styles."
+      }
+    },
+    {
+      "id": "M17-E04-02",
+      "consigne": "Sélectionnez la **série** avant de la colorer.",
+      "action": {
+        "type": "SELECT_CHART_ELEMENT",
+        "element": "serie:0"
+      },
+      "aide": {
+        "text": "N'importe laquelle des cinq barres."
+      }
+    },
+    {
+      "id": "M17-E04-03",
+      "consigne": "La charte de l'organisme impose le **bleu ardoise**. Appliquez-le à la série.",
+      "setup": {
+        "chartEdit": {
+          "editSeries": [
+            {
+              "name": "Stagiaires",
+              "color": "#4c5f75"
+            }
+          ]
+        }
+      },
+      "action": {
+        "type": "EXPECT_CHART",
+        "chart": {
+          "series": [
+            {
+              "name": "Stagiaires",
+              "color": "#4c5f75"
+            }
+          ]
+        }
+      },
+      "aide": {
+        "text": "Onglet Mise en forme, Remplissage de la forme. Le clic droit sur la série mène au même endroit."
+      },
+      "feedback": "Une couleur imposée à la main résiste au changement de style."
+    },
+    {
+      "id": "M17-E04-04",
+      "consigne": "Le titre doit dire **quoi** et **quand** : remplacez-le par **Stagiaires par site au 30 juin**.",
+      "setup": {
+        "chartEdit": {
+          "title": "Stagiaires par site au 30 juin"
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "ins-graph-element-titre"
+      },
+      "aide": {
+        "text": "Ajouter un élément de graphique, Titre du graphique."
+      }
+    },
+    {
+      "id": "M17-E04-05",
+      "consigne": "Affichez les **étiquettes de données** et masquez le **quadrillage**, devenu inutile.",
+      "setup": {
+        "chartEdit": {
+          "elements": {
+            "etiquettes": true,
+            "quadrillage": false
+          }
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "ins-graph-element-etiquettes"
+      },
+      "aide": {
+        "text": "Ajouter un élément de graphique, Étiquettes de données."
+      },
+      "feedback": "Cinq nombres lisibles, un fond net : le graphique est prêt à être collé dans un bilan."
+    }
+  ]
+}

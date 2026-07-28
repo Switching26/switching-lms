@@ -1,0 +1,312 @@
+{
+  "schemaVersion": 1,
+  "title": "Créer un graphique à l'aide du ruban",
+  "mode": "LESSON",
+  "moduleTitle": "Présenter les données en graphiques",
+  "intro": {
+    "title": "CHOISIR SOI-MÊME SON TYPE",
+    "body": "Les graphiques recommandés vont vite, mais ils ne connaissent pas votre intention. L'onglet Insertion range tous les types par famille : c'est là qu'on choisit en connaissance de cause."
+  },
+  "outro": {
+    "body": "Vous savez parcourir la galerie du ruban et justifier le type que vous choisissez."
+  },
+  "ribbon": [
+    "accueil",
+    "insertion",
+    "graph-creation"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Températures",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "cells": {
+          "A1": {
+            "v": "Mois",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Température",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Janv."
+          },
+          "B2": {
+            "v": 4.2
+          },
+          "A3": {
+            "v": "Févr."
+          },
+          "B3": {
+            "v": 5.6
+          },
+          "A4": {
+            "v": "Mars"
+          },
+          "B4": {
+            "v": 9.4
+          },
+          "A5": {
+            "v": "Avril"
+          },
+          "B5": {
+            "v": 12.3
+          },
+          "A6": {
+            "v": "Mai"
+          },
+          "B6": {
+            "v": 16.5
+          },
+          "A7": {
+            "v": "Juin"
+          },
+          "B7": {
+            "v": 20.4
+          },
+          "A8": {
+            "v": "Juil."
+          },
+          "B8": {
+            "v": 23.1
+          },
+          "A9": {
+            "v": "Août"
+          },
+          "B9": {
+            "v": 22.6
+          },
+          "A10": {
+            "v": "Sept."
+          },
+          "B10": {
+            "v": 18.7
+          },
+          "A11": {
+            "v": "Oct."
+          },
+          "B11": {
+            "v": 14.2
+          },
+          "A12": {
+            "v": "Nov."
+          },
+          "B12": {
+            "v": 8.3
+          },
+          "A13": {
+            "v": "Déc."
+          },
+          "B13": {
+            "v": 4.9
+          }
+        },
+        "columnWidths": {
+          "A": 80,
+          "B": 110
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M17-L03-01",
+      "consigne": "Douze mois de températures moyennes à Lyon. La question à poser au graphique n'est pas « combien » mais « comment ça évolue ». Le type doit répondre à la question, pas faire joli.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M17-L03-02",
+      "consigne": "==Sélectionnez la plage **A1:B13**==, les douze mois et leurs températures.",
+      "action": {
+        "type": "DRAG_RANGE",
+        "range": "A1:B13"
+      },
+      "aide": {
+        "text": "De A1 jusqu'à B13.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M17-L03-03",
+      "consigne": "Essayons d'abord un mauvais type, pour voir. ==Insérez un graphique en **secteurs**==.",
+      "setup": {
+        "chart": {
+          "id": "g1",
+          "type": "secteurs",
+          "series": [
+            {
+              "name": "Température",
+              "values": "B2:B13"
+            }
+          ],
+          "source": "A1:B13",
+          "categories": "A2:A13",
+          "title": "Température",
+          "elements": {
+            "titre": true,
+            "legende": true,
+            "etiquettes": false,
+            "quadrillage": false,
+            "axes": false
+          },
+          "legendPosition": "droite",
+          "style": 1,
+          "frame": {
+            "x": 470,
+            "y": 10,
+            "w": 340,
+            "h": 258
+          }
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "ins-graph-secteurs"
+      },
+      "aide": {
+        "text": "Onglet Insertion, bouton Secteurs.",
+        "showTarget": true
+      },
+      "feedback": "Absurde, et pour une raison précise : un secteur représente des **parts d'un total**. Or additionner douze températures ne veut rien dire. Aucun total, donc aucune part."
+    },
+    {
+      "id": "M17-L03-04",
+      "consigne": "==Insérez maintenant un graphique en **courbes**== sur la même sélection.",
+      "setup": {
+        "chart": {
+          "id": "g1",
+          "type": "courbes",
+          "series": [
+            {
+              "name": "Température",
+              "values": "B2:B13"
+            }
+          ],
+          "source": "A1:B13",
+          "categories": "A2:A13",
+          "title": "Températures moyennes à Lyon",
+          "elements": {
+            "titre": true,
+            "legende": false,
+            "quadrillage": true,
+            "axes": true
+          },
+          "legendPosition": "bas",
+          "style": 1,
+          "frame": {
+            "x": 470,
+            "y": 10,
+            "w": 340,
+            "h": 258
+          }
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "ins-graph-courbes"
+      },
+      "aide": {
+        "text": "Onglet Insertion, bouton Courbes, premier modèle.",
+        "showTarget": true
+      },
+      "feedback": "La courbe raconte l'année : montée jusqu'en juillet, redescente ensuite. C'est le type des séries **dans le temps**."
+    },
+    {
+      "id": "M17-L03-05",
+      "consigne": "Le graphique sélectionné fait apparaître deux onglets de plus dans le ruban. ==Dans **Création de graphique**, appliquez le **style 3**== de la galerie.",
+      "setup": {
+        "chartEdit": {
+          "style": 3
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "ins-graph-style-3"
+      },
+      "aide": {
+        "text": "Onglet Création de graphique, galerie Styles, troisième vignette.",
+        "showTarget": true
+      },
+      "feedback": "Ces deux onglets — **Création de graphique** et **Mise en forme** — n'existent que lorsqu'un graphique est sélectionné. Cliquez à côté, ils disparaissent."
+    },
+    {
+      "id": "M17-L03-06",
+      "consigne": "Changeons de question : comparer les six premiers mois entre eux. ==Sélectionnez **A1:B7**==.",
+      "action": {
+        "type": "DRAG_RANGE",
+        "range": "A1:B7"
+      },
+      "aide": {
+        "text": "De A1 jusqu'à B7, soit janvier à juin.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M17-L03-07",
+      "consigne": "==Insérez un **histogramme**== : sur six valeurs à comparer, la barre se lit mieux que la courbe.",
+      "setup": {
+        "chart": {
+          "id": "g1",
+          "type": "histogramme",
+          "series": [
+            {
+              "name": "Température",
+              "values": "B2:B7"
+            }
+          ],
+          "source": "A1:B7",
+          "categories": "A2:A7",
+          "title": "Premier semestre",
+          "elements": {
+            "titre": true,
+            "legende": false,
+            "quadrillage": true,
+            "axes": true
+          },
+          "legendPosition": "bas",
+          "style": 1,
+          "frame": {
+            "x": 430,
+            "y": 10,
+            "w": 420,
+            "h": 258
+          }
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "ins-graph-histogramme"
+      },
+      "aide": {
+        "text": "Onglet Insertion, bouton Histogramme.",
+        "showTarget": true
+      },
+      "feedback": "Même colonne de chiffres, deux graphiques différents, deux questions différentes. Le type se choisit d'après la question."
+    },
+    {
+      "id": "M17-L03-08",
+      "consigne": "Un réflexe utile avant d'insérer : formulez la question à voix haute. « Comment ça évolue » appelle une courbe, « qui est le plus grand » un histogramme, « quelle part du total » un secteur. Si la phrase ne vient pas, le graphique ne servira à rien.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    }
+  ]
+}

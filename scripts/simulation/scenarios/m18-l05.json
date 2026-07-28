@@ -1,0 +1,244 @@
+{
+  "schemaVersion": 1,
+  "title": "Forme dans une série",
+  "mode": "LESSON",
+  "moduleTitle": "Manipuler les séries de données",
+  "intro": {
+    "title": "LA FORME NE DOIT PAS MENTIR",
+    "body": "Excel propose de remplacer la barre par un cylindre ou un cône. C'est joli sur deux barres et trompeur sur cinq : autant savoir ce qu'on gagne et ce qu'on perd."
+  },
+  "outro": {
+    "body": "Vous changez la forme d'une série, et vous savez quand ne pas le faire."
+  },
+  "ribbon": [
+    "accueil",
+    "insertion",
+    "graph-creation",
+    "graph-mise-en-forme"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Effectifs",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "cells": {
+          "A1": {
+            "v": "Service",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Effectif",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Administration"
+          },
+          "B2": {
+            "v": 8
+          },
+          "A3": {
+            "v": "Commercial"
+          },
+          "B3": {
+            "v": 14
+          },
+          "A4": {
+            "v": "Formation"
+          },
+          "B4": {
+            "v": 26
+          },
+          "A5": {
+            "v": "Technique"
+          },
+          "B5": {
+            "v": 11
+          },
+          "A6": {
+            "v": "Support"
+          },
+          "B6": {
+            "v": 6
+          }
+        },
+        "columnWidths": {
+          "A": 130
+        }
+      }
+    ],
+    "charts": [
+      {
+        "id": "g1",
+        "type": "histogramme",
+        "series": [
+          {
+            "name": "Effectif",
+            "values": "B2:B6"
+          }
+        ],
+        "source": "A1:B6",
+        "categories": "A2:A6",
+        "title": "Effectif par service",
+        "elements": {
+          "titre": true,
+          "legende": false,
+          "quadrillage": true,
+          "axes": true
+        },
+        "legendPosition": "bas",
+        "style": 1,
+        "frame": {
+          "x": 300,
+          "y": 10,
+          "w": 430,
+          "h": 262
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M18-L05-01",
+      "consigne": "La forme s'applique à une série entière. ==Sélectionnez la série **Effectif**==.",
+      "action": {
+        "type": "SELECT_CHART_ELEMENT",
+        "element": "serie:0"
+      },
+      "aide": {
+        "text": "N'importe laquelle des cinq barres.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M18-L05-02",
+      "consigne": "==Donnez à la série la forme **cylindre**==.",
+      "setup": {
+        "chartEdit": {
+          "editSeries": [
+            {
+              "name": "Effectif",
+              "shape": "cylindre"
+            }
+          ]
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "ins-graph-forme-serie"
+      },
+      "aide": {
+        "text": "Onglet Mise en forme, Forme de la série, Cylindre.",
+        "showTarget": true
+      },
+      "feedback": "Le sommet arrondi reste au bon niveau : le cylindre ne fausse pas la lecture."
+    },
+    {
+      "id": "M18-L05-03",
+      "consigne": "==Essayez maintenant le **cône**.==",
+      "setup": {
+        "chartEdit": {
+          "editSeries": [
+            {
+              "name": "Effectif",
+              "shape": "cone"
+            }
+          ]
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "ins-graph-forme-serie"
+      },
+      "aide": {
+        "text": "Onglet Mise en forme, Forme de la série, Cône.",
+        "showTarget": true
+      },
+      "feedback": "Comparez **Formation** (26) et **Commercial** (14) : le cône rétrécit vers le haut, la surface colorée n'est plus proportionnelle à la valeur. L'écart paraît plus grand qu'il ne l'est."
+    },
+    {
+      "id": "M18-L05-04",
+      "consigne": "==Revenez à la **barre** pleine.== C'est la forme qui compare le plus honnêtement.",
+      "setup": {
+        "chartEdit": {
+          "editSeries": [
+            {
+              "name": "Effectif",
+              "shape": "barre"
+            }
+          ]
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "ins-graph-forme-serie"
+      },
+      "aide": {
+        "text": "Onglet Mise en forme, Forme de la série, Barre.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M18-L05-05",
+      "consigne": "==Appliquez un remplissage **bleu ardoise**== à la série.",
+      "setup": {
+        "chartEdit": {
+          "editSeries": [
+            {
+              "name": "Effectif",
+              "color": "#4c5f75"
+            }
+          ]
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "ins-graph-couleur-serie"
+      },
+      "aide": {
+        "text": "Onglet Mise en forme, Remplissage de la forme.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M18-L05-06",
+      "consigne": "==Affichez les **étiquettes de données**==, et le graphique est prêt.",
+      "setup": {
+        "chartEdit": {
+          "elements": {
+            "etiquettes": true,
+            "quadrillage": false
+          }
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "ins-graph-element-etiquettes"
+      },
+      "aide": {
+        "text": "Ajouter un élément de graphique, Étiquettes de données.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M18-L05-07",
+      "consigne": "La règle : la forme est **décorative**, la hauteur porte l'information. Cylindre acceptable, cône à réserver aux graphiques d'illustration, et jamais dans un document où l'on compare des chiffres.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    }
+  ]
+}

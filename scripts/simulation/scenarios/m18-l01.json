@@ -1,0 +1,294 @@
+{
+  "schemaVersion": 1,
+  "title": "Utiliser des séries disjointes",
+  "mode": "LESSON",
+  "moduleTitle": "Manipuler les séries de données",
+  "intro": {
+    "title": "QUAND LES COLONNES NE SONT PAS VOISINES",
+    "body": "Un tableau réel n'est jamais rangé dans l'ordre où l'on veut le lire. Les deux colonnes à comparer sont séparées par deux autres : il faut savoir n'en garder que ce qu'on veut."
+  },
+  "outro": {
+    "body": "Vous construisez un graphique sur deux colonnes éloignées l'une de l'autre."
+  },
+  "ribbon": [
+    "accueil",
+    "insertion",
+    "graph-creation"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Formations",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "cells": {
+          "A1": {
+            "v": "Formation",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Stagiaires",
+            "format": {
+              "bold": true
+            }
+          },
+          "C1": {
+            "v": "Heures",
+            "format": {
+              "bold": true
+            }
+          },
+          "D1": {
+            "v": "Taux de réussite",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Excel niveau 1"
+          },
+          "B2": {
+            "v": 24
+          },
+          "C2": {
+            "v": 21
+          },
+          "D2": {
+            "v": 92
+          },
+          "A3": {
+            "v": "Anglais A2"
+          },
+          "B3": {
+            "v": 18
+          },
+          "C3": {
+            "v": 30
+          },
+          "D3": {
+            "v": 78
+          },
+          "A4": {
+            "v": "Comptabilité"
+          },
+          "B4": {
+            "v": 12
+          },
+          "C4": {
+            "v": 35
+          },
+          "D4": {
+            "v": 85
+          },
+          "A5": {
+            "v": "Bureautique complète"
+          },
+          "B5": {
+            "v": 31
+          },
+          "C5": {
+            "v": 21
+          },
+          "D5": {
+            "v": 88
+          },
+          "A6": {
+            "v": "Paie SILAE"
+          },
+          "B6": {
+            "v": 9
+          },
+          "C6": {
+            "v": 42
+          },
+          "D6": {
+            "v": 74
+          }
+        },
+        "columnWidths": {
+          "A": 145,
+          "B": 90,
+          "D": 115
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M18-L01-01",
+      "consigne": "Objectif : un graphique du **taux de réussite** par formation. Les libellés sont en colonne **A**, les taux en colonne **D**, et deux colonnes les séparent. Au clavier, **Ctrl** permet de sélectionner deux plages éloignées ; nous allons employer la méthode qui marche dans tous les cas, y compris sur un graphique déjà posé.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M18-L01-02",
+      "consigne": "==Sélectionnez **A1:B6**==, la partie contiguë du tableau.",
+      "setup": {
+        "selection": "A1"
+      },
+      "action": {
+        "type": "DRAG_RANGE",
+        "range": "A1:B6"
+      },
+      "aide": {
+        "text": "De A1 jusqu'à B6.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M18-L01-03",
+      "consigne": "==Insérez un **histogramme**==. Ce n'est pas encore le graphique voulu, mais c'est une base.",
+      "setup": {
+        "chart": {
+          "id": "g1",
+          "type": "histogramme",
+          "series": [
+            {
+              "name": "Stagiaires",
+              "values": "B2:B6"
+            }
+          ],
+          "source": "A1:B6",
+          "categories": "A2:A6",
+          "title": "Stagiaires",
+          "elements": {
+            "titre": true,
+            "legende": false,
+            "quadrillage": true,
+            "axes": true
+          },
+          "legendPosition": "bas",
+          "style": 1,
+          "frame": {
+            "x": 250,
+            "y": 10,
+            "w": 480,
+            "h": 262
+          }
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "ins-graph-histogramme"
+      },
+      "aide": {
+        "text": "Onglet Insertion, bouton Histogramme.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M18-L01-04",
+      "consigne": "==Ouvrez **Sélectionner des données** et ajoutez la colonne **Taux de réussite**== comme deuxième série.",
+      "setup": {
+        "chartEdit": {
+          "source": "A1:D6",
+          "addSeries": [
+            {
+              "name": "Taux de réussite",
+              "values": "D2:D6"
+            }
+          ]
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "ins-graph-selectionner-donnees"
+      },
+      "aide": {
+        "text": "Onglet Création de graphique, Sélectionner des données, Ajouter.",
+        "showTarget": true
+      },
+      "feedback": "Regardez le résultat : **24 stagiaires** et **92 %** sur le même axe. Deux unités différentes sur un seul axe, c'est illisible — et c'est l'erreur la plus fréquente."
+    },
+    {
+      "id": "M18-L01-05",
+      "consigne": "==Sélectionnez la série **Stagiaires**==, celle qu'on va retirer.",
+      "action": {
+        "type": "SELECT_CHART_ELEMENT",
+        "element": "serie:0"
+      },
+      "aide": {
+        "text": "Une barre de la première couleur.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M18-L01-06",
+      "consigne": "==Supprimez-la du graphique.== Il ne restera que la colonne D, avec les libellés de la colonne A : deux colonnes **non voisines**.",
+      "setup": {
+        "chartEdit": {
+          "removeSeries": [
+            "Stagiaires"
+          ]
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "ins-graph-supprimer-serie"
+      },
+      "aide": {
+        "text": "Onglet Création de graphique, Sélectionner des données, Supprimer. La touche Suppr sur la série sélectionnée fait la même chose.",
+        "showTarget": true
+      },
+      "feedback": "La colonne **Stagiaires** est toujours dans la feuille : supprimer une série ne supprime jamais les données."
+    },
+    {
+      "id": "M18-L01-07",
+      "consigne": "==Titrez le graphique **Taux de réussite par formation**==.",
+      "setup": {
+        "chartEdit": {
+          "title": "Taux de réussite par formation"
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "ins-graph-element-titre"
+      },
+      "aide": {
+        "text": "Ajouter un élément de graphique, Titre du graphique.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M18-L01-08",
+      "consigne": "==Affichez les **étiquettes de données**== : avec une seule série, les pourcentages exacts tiennent sans encombrer.",
+      "setup": {
+        "chartEdit": {
+          "elements": {
+            "etiquettes": true,
+            "quadrillage": false
+          }
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "ins-graph-element-etiquettes"
+      },
+      "aide": {
+        "text": "Ajouter un élément de graphique, Étiquettes de données.",
+        "showTarget": true
+      },
+      "feedback": "Paie SILAE à 74 % et Anglais A2 à 78 % ressortent : deux formations à regarder de près."
+    },
+    {
+      "id": "M18-L01-09",
+      "consigne": "À retenir : **Ctrl** pour sélectionner des plages disjointes avant de créer, **Sélectionner des données** pour corriger après. Et la règle qui ne se négocie pas : **une seule unité par axe**.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    }
+  ]
+}

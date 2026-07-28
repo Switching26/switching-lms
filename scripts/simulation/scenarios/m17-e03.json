@@ -1,0 +1,313 @@
+{
+  "schemaVersion": 1,
+  "title": "Exercice · Les éléments d'un graphique",
+  "mode": "EXERCISE",
+  "moduleTitle": "Présenter les données en graphiques",
+  "intro": {
+    "title": "À VOUS",
+    "body": "Un graphique trop chargé, à mettre au régime."
+  },
+  "outro": {
+    "body": "Exercice terminé."
+  },
+  "ribbon": [
+    "accueil",
+    "insertion",
+    "graph-creation"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Chiffre d'affaires",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "cells": {
+          "A1": {
+            "v": "Région",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "T1",
+            "format": {
+              "bold": true
+            }
+          },
+          "C1": {
+            "v": "T2",
+            "format": {
+              "bold": true
+            }
+          },
+          "D1": {
+            "v": "T3",
+            "format": {
+              "bold": true
+            }
+          },
+          "E1": {
+            "v": "T4",
+            "format": {
+              "bold": true
+            }
+          },
+          "F1": {
+            "v": "Total",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Nord"
+          },
+          "B2": {
+            "v": 18500
+          },
+          "C2": {
+            "v": 21400
+          },
+          "D2": {
+            "v": 19800
+          },
+          "E2": {
+            "v": 24600
+          },
+          "F2": {
+            "f": "=SOMME(B2:E2)"
+          },
+          "A3": {
+            "v": "Sud"
+          },
+          "B3": {
+            "v": 15200
+          },
+          "C3": {
+            "v": 17900
+          },
+          "D3": {
+            "v": 22300
+          },
+          "E3": {
+            "v": 26100
+          },
+          "F3": {
+            "f": "=SOMME(B3:E3)"
+          },
+          "A4": {
+            "v": "Est"
+          },
+          "B4": {
+            "v": 12800
+          },
+          "C4": {
+            "v": 13500
+          },
+          "D4": {
+            "v": 14100
+          },
+          "E4": {
+            "v": 15900
+          },
+          "F4": {
+            "f": "=SOMME(B4:E4)"
+          },
+          "A5": {
+            "v": "Ouest"
+          },
+          "B5": {
+            "v": 20400
+          },
+          "C5": {
+            "v": 19200
+          },
+          "D5": {
+            "v": 23700
+          },
+          "E5": {
+            "v": 28300
+          },
+          "F5": {
+            "f": "=SOMME(B5:E5)"
+          }
+        },
+        "columnWidths": {
+          "A": 90,
+          "F": 90
+        }
+      }
+    ],
+    "charts": [
+      {
+        "id": "g1",
+        "type": "histogramme",
+        "series": [
+          {
+            "name": "T1",
+            "values": "B2:B5"
+          },
+          {
+            "name": "T2",
+            "values": "C2:C5"
+          },
+          {
+            "name": "T3",
+            "values": "D2:D5"
+          },
+          {
+            "name": "T4",
+            "values": "E2:E5"
+          }
+        ],
+        "source": "A1:E5",
+        "categories": "A2:A5",
+        "title": "Chiffre d'affaires par région",
+        "elements": {
+          "titre": true,
+          "legende": true,
+          "etiquettes": false,
+          "quadrillage": true,
+          "axes": true,
+          "titresAxes": false
+        },
+        "legendPosition": "bas",
+        "style": 1,
+        "frame": {
+          "x": 470,
+          "y": 10,
+          "w": 400,
+          "h": 258
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M17-E03-01",
+      "consigne": "Sélectionnez la **légende** du graphique.",
+      "action": {
+        "type": "SELECT_CHART_ELEMENT",
+        "element": "legende"
+      },
+      "aide": {
+        "text": "Les quatre carrés colorés, sous le tracé."
+      }
+    },
+    {
+      "id": "M17-E03-02",
+      "consigne": "Le rapport n'en a pas besoin : les trimestres sont dans l'ordre. **Masquez la légende.**",
+      "setup": {
+        "chartEdit": {
+          "elements": {
+            "legende": false
+          }
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "ins-graph-element-legende"
+      },
+      "aide": {
+        "text": "Ajouter un élément de graphique, Légende, Aucune."
+      }
+    },
+    {
+      "id": "M17-E03-03",
+      "consigne": "La direction veut commenter le **quatrième trimestre de la région Ouest**. Sélectionnez ce seul point.",
+      "action": {
+        "type": "SELECT_CHART_ELEMENT",
+        "element": "point:3:3"
+      },
+      "aide": {
+        "text": "Dans le dernier groupe de barres, la quatrième. Un premier clic prend la série, un second le point."
+      },
+      "feedback": "Un point isolé se met en forme sans toucher au reste."
+    },
+    {
+      "id": "M17-E03-04",
+      "consigne": "Affichez les **étiquettes de données** pour que les montants soient lisibles sans le quadrillage.",
+      "setup": {
+        "chartEdit": {
+          "elements": {
+            "etiquettes": true
+          }
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "ins-graph-element-etiquettes"
+      },
+      "aide": {
+        "text": "Ajouter un élément de graphique, Étiquettes de données."
+      }
+    },
+    {
+      "id": "M17-E03-05",
+      "consigne": "Le troisième trimestre est confidentiel. **Masquez la série T3 sans la supprimer** : elle doit pouvoir revenir.",
+      "setup": {
+        "chartEdit": {
+          "editSeries": [
+            {
+              "name": "T3",
+              "hidden": true
+            }
+          ]
+        }
+      },
+      "action": {
+        "type": "EXPECT_CHART",
+        "chart": {
+          "seriesCount": 3,
+          "series": [
+            {
+              "name": "T1",
+              "hidden": false
+            },
+            {
+              "name": "T2",
+              "hidden": false
+            },
+            {
+              "name": "T3",
+              "hidden": true
+            },
+            {
+              "name": "T4",
+              "hidden": false
+            }
+          ]
+        }
+      },
+      "aide": {
+        "text": "Le filtre de séries, ou Sélectionner des données en décochant T3."
+      },
+      "feedback": "Masquer n'est pas supprimer : la série reste dans le graphique, prête à réapparaître."
+    },
+    {
+      "id": "M17-E03-06",
+      "consigne": "Terminez en affichant les **titres des axes** : sans unité, un montant ne veut rien dire.",
+      "setup": {
+        "chartEdit": {
+          "elements": {
+            "titresAxes": true
+          }
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "ins-graph-element-titres-axes"
+      },
+      "aide": {
+        "text": "Ajouter un élément de graphique, Titres des axes."
+      }
+    }
+  ]
+}

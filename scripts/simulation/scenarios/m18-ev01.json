@@ -1,0 +1,360 @@
+{
+  "schemaVersion": 1,
+  "title": "S'évaluer · Manipuler les séries de données",
+  "mode": "EVALUATION",
+  "moduleTitle": "Manipuler les séries de données",
+  "intro": {
+    "title": "S'ÉVALUER",
+    "body": "Le suivi commercial du semestre : devis envoyés, devis signés et taux de signature. Aucune aide sur cette évaluation : chaque étape compte au premier essai."
+  },
+  "outro": {
+    "body": "Évaluation terminée."
+  },
+  "ribbon": [
+    "accueil",
+    "insertion",
+    "graph-creation",
+    "graph-mise-en-forme"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Suivi commercial",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "cells": {
+          "A1": {
+            "v": "Mois",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Devis envoyés",
+            "format": {
+              "bold": true
+            }
+          },
+          "C1": {
+            "v": "Devis signés",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Janvier"
+          },
+          "B2": {
+            "v": 34
+          },
+          "C2": {
+            "v": 11
+          },
+          "A3": {
+            "v": "Février"
+          },
+          "B3": {
+            "v": 28
+          },
+          "C3": {
+            "v": 9
+          },
+          "A4": {
+            "v": "Mars"
+          },
+          "B4": {
+            "v": 41
+          },
+          "C4": {
+            "v": 16
+          },
+          "A5": {
+            "v": "Avril"
+          },
+          "B5": {
+            "v": 37
+          },
+          "C5": {
+            "v": 13
+          },
+          "A6": {
+            "v": "Mai"
+          },
+          "B6": {
+            "v": 45
+          },
+          "C6": {
+            "v": 19
+          },
+          "A7": {
+            "v": "Juin"
+          },
+          "B7": {
+            "v": 39
+          },
+          "C7": {
+            "v": 15
+          },
+          "D1": {
+            "v": "Taux de signature",
+            "format": {
+              "bold": true
+            }
+          },
+          "D2": {
+            "v": 32
+          },
+          "D3": {
+            "v": 32
+          },
+          "D4": {
+            "v": 39
+          },
+          "D5": {
+            "v": 35
+          },
+          "D6": {
+            "v": 42
+          },
+          "D7": {
+            "v": 38
+          }
+        },
+        "columnWidths": {
+          "A": 85,
+          "B": 110,
+          "C": 105,
+          "D": 120
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M18-EV01-01",
+      "consigne": "Quatre colonnes vous attendent, dont une exprimée en **pourcentage**. Huit gestes vous sont demandés.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M18-EV01-02",
+      "consigne": "Créez un **histogramme** comparant mois par mois les **devis envoyés** et les **devis signés**, titres de colonnes compris.",
+      "action": {
+        "type": "EXPECT_CHART",
+        "chart": {
+          "type": "histogramme",
+          "categories": "A2:A7",
+          "seriesCount": 2,
+          "series": [
+            {
+              "name": "Devis envoyés"
+            },
+            {
+              "name": "Devis signés"
+            }
+          ]
+        }
+      },
+      "points": 2
+    },
+    {
+      "id": "M18-EV01-03",
+      "consigne": "Ajoutez la série **Taux de signature** au graphique.",
+      "setup": {
+        "chartEdit": {
+          "source": "A1:D7",
+          "addSeries": [
+            {
+              "name": "Taux de signature",
+              "values": "D2:D7"
+            }
+          ]
+        }
+      },
+      "action": {
+        "type": "EXPECT_CHART",
+        "chart": {
+          "seriesCount": 3,
+          "series": [
+            {
+              "name": "Devis envoyés"
+            },
+            {
+              "name": "Devis signés"
+            },
+            {
+              "name": "Taux de signature",
+              "values": "D2:D7"
+            }
+          ]
+        }
+      },
+      "points": 2
+    },
+    {
+      "id": "M18-EV01-04",
+      "consigne": "Un taux en pourcentage n'a rien à faire sur le même axe que des nombres de devis. **Retirez cette série du graphique.**",
+      "setup": {
+        "chartEdit": {
+          "removeSeries": [
+            "Taux de signature"
+          ]
+        }
+      },
+      "action": {
+        "type": "EXPECT_CHART",
+        "chart": {
+          "seriesCount": 2,
+          "series": [
+            {
+              "name": "Devis envoyés"
+            },
+            {
+              "name": "Devis signés"
+            }
+          ]
+        }
+      },
+      "points": 2
+    },
+    {
+      "id": "M18-EV01-05",
+      "consigne": "Sélectionnez la série **Devis signés**.",
+      "action": {
+        "type": "SELECT_CHART_ELEMENT",
+        "element": "serie:1"
+      },
+      "points": 1
+    },
+    {
+      "id": "M18-EV01-06",
+      "consigne": "C'est le chiffre que la direction regarde : passez cette série en **ocre**.",
+      "setup": {
+        "chartEdit": {
+          "editSeries": [
+            {
+              "name": "Devis signés",
+              "color": "#c26a2b"
+            }
+          ]
+        }
+      },
+      "action": {
+        "type": "EXPECT_CHART",
+        "chart": {
+          "series": [
+            {
+              "name": "Devis envoyés"
+            },
+            {
+              "name": "Devis signés",
+              "color": "#c26a2b"
+            }
+          ]
+        }
+      },
+      "points": 2
+    },
+    {
+      "id": "M18-EV01-07",
+      "consigne": "Pour la réunion, ne gardez visible que les **devis signés** : masquez l'autre série sans la supprimer.",
+      "setup": {
+        "chartEdit": {
+          "editSeries": [
+            {
+              "name": "Devis envoyés",
+              "hidden": true
+            }
+          ]
+        }
+      },
+      "action": {
+        "type": "EXPECT_CHART",
+        "chart": {
+          "seriesCount": 1,
+          "series": [
+            {
+              "name": "Devis envoyés",
+              "hidden": true
+            },
+            {
+              "name": "Devis signés",
+              "hidden": false
+            }
+          ]
+        }
+      },
+      "points": 2
+    },
+    {
+      "id": "M18-EV01-08",
+      "consigne": "On veut suivre la **progression** des signatures : passez le graphique en **courbes**.",
+      "setup": {
+        "chartEdit": {
+          "type": "courbes"
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "ins-graph-modifier-type"
+      },
+      "points": 1
+    },
+    {
+      "id": "M18-EV01-09",
+      "consigne": "Montrez le mouvement de fond : ajoutez à la série visible la **courbe de tendance linéaire**.",
+      "setup": {
+        "chartEdit": {
+          "editSeries": [
+            {
+              "name": "Devis signés",
+              "trendline": "lineaire"
+            }
+          ]
+        }
+      },
+      "action": {
+        "type": "EXPECT_CHART",
+        "chart": {
+          "series": [
+            {
+              "name": "Devis envoyés"
+            },
+            {
+              "name": "Devis signés",
+              "trendline": "lineaire"
+            }
+          ]
+        }
+      },
+      "points": 2
+    },
+    {
+      "id": "M18-EV01-10",
+      "consigne": "Terminez en affichant les **étiquettes de données**.",
+      "setup": {
+        "chartEdit": {
+          "elements": {
+            "etiquettes": true,
+            "quadrillage": false
+          }
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "ins-graph-element-etiquettes"
+      },
+      "points": 1
+    }
+  ]
+}

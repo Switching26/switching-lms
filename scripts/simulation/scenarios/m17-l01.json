@@ -1,0 +1,207 @@
+{
+  "schemaVersion": 1,
+  "title": "Généralités sur les graphiques",
+  "mode": "LESSON",
+  "moduleTitle": "Présenter les données en graphiques",
+  "intro": {
+    "title": "UN CHIFFRE SE LIT, UNE FORME SE VOIT",
+    "body": "Un tableau donne des valeurs exactes. Un graphique donne un ordre de grandeur et un rapport de force, en une seconde. Encore faut-il savoir nommer ce qu'on voit : chaque partie d'un graphique porte un nom et se sélectionne séparément."
+  },
+  "outro": {
+    "body": "Vous savez nommer et sélectionner les six parties d'un graphique."
+  },
+  "ribbon": [
+    "accueil",
+    "insertion",
+    "graph-creation"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Effectifs",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "cells": {
+          "A1": {
+            "v": "Service",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Effectif",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Administration"
+          },
+          "B2": {
+            "v": 8
+          },
+          "A3": {
+            "v": "Commercial"
+          },
+          "B3": {
+            "v": 14
+          },
+          "A4": {
+            "v": "Formation"
+          },
+          "B4": {
+            "v": 26
+          },
+          "A5": {
+            "v": "Technique"
+          },
+          "B5": {
+            "v": 11
+          },
+          "A6": {
+            "v": "Support"
+          },
+          "B6": {
+            "v": 6
+          }
+        },
+        "columnWidths": {
+          "A": 130
+        }
+      }
+    ],
+    "charts": [
+      {
+        "id": "g1",
+        "type": "histogramme",
+        "series": [
+          {
+            "name": "Effectif",
+            "values": "B2:B6"
+          }
+        ],
+        "source": "A1:B6",
+        "categories": "A2:A6",
+        "title": "Effectif par service",
+        "elements": {
+          "titre": true,
+          "legende": true,
+          "quadrillage": true,
+          "axes": true
+        },
+        "legendPosition": "bas",
+        "style": 1,
+        "frame": {
+          "x": 430,
+          "y": 10,
+          "w": 420,
+          "h": 258
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M17-L01-01",
+      "consigne": "Le graphique de droite représente la colonne **Effectif**. Six parties le composent : le **titre**, la **légende**, les deux **axes**, la **série** de données et chacun de ses **points**. Sélectionner la bonne partie est le geste préalable à toute mise en forme — on ne colore pas un graphique, on colore un de ses éléments.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M17-L01-02",
+      "consigne": "Commençons par le haut. ==Cliquez sur le **titre du graphique**== : des poignées apparaissent autour de lui.",
+      "action": {
+        "type": "SELECT_CHART_ELEMENT",
+        "element": "titre"
+      },
+      "aide": {
+        "text": "Le texte « Effectif par service », en haut du cadre.",
+        "showTarget": true
+      },
+      "feedback": "Les huit poignées blanches signalent l'élément sélectionné. Tout ce que vous ferez ensuite ne s'appliquera qu'à lui."
+    },
+    {
+      "id": "M17-L01-03",
+      "consigne": "==Cliquez maintenant sur la **légende**==, sous le graphique. Elle indique à quelle série correspond chaque couleur.",
+      "action": {
+        "type": "SELECT_CHART_ELEMENT",
+        "element": "legende"
+      },
+      "aide": {
+        "text": "Le petit carré coloré suivi du mot « Effectif », en bas.",
+        "showTarget": true
+      },
+      "feedback": "Avec une seule série, la légende n'apporte pas grand-chose. Dès qu'il y en a deux, elle devient indispensable."
+    },
+    {
+      "id": "M17-L01-04",
+      "consigne": "==Cliquez sur l'**axe vertical**==, celui qui porte les nombres. On l'appelle aussi **axe des ordonnées**.",
+      "action": {
+        "type": "SELECT_CHART_ELEMENT",
+        "element": "axe-y"
+      },
+      "aide": {
+        "text": "La colonne de nombres 0, 10, 20, 30, à gauche du tracé.",
+        "showTarget": true
+      },
+      "feedback": "Excel a choisi des graduations rondes — 0, 10, 20, 30 — et il part de zéro. Un axe qui ne part pas de zéro exagère les écarts."
+    },
+    {
+      "id": "M17-L01-05",
+      "consigne": "==Cliquez sur l'**axe horizontal**==, celui qui porte les noms de services. C'est l'**axe des abscisses**, ou axe des catégories.",
+      "action": {
+        "type": "SELECT_CHART_ELEMENT",
+        "element": "axe-x"
+      },
+      "aide": {
+        "text": "La ligne de libellés Administration, Commercial…, sous le tracé.",
+        "showTarget": true
+      },
+      "feedback": "Les libellés viennent de la première colonne du tableau. C'est Excel qui les y a pris tout seul."
+    },
+    {
+      "id": "M17-L01-06",
+      "consigne": "==Cliquez sur une **barre**== : vous sélectionnez la **série** entière, donc les cinq barres d'un coup.",
+      "action": {
+        "type": "SELECT_CHART_ELEMENT",
+        "element": "serie:0"
+      },
+      "aide": {
+        "text": "N'importe laquelle des cinq barres.",
+        "showTarget": true
+      },
+      "feedback": "Une série, c'est une colonne de chiffres du tableau. Ici il n'y en a qu'une : la colonne Effectif."
+    },
+    {
+      "id": "M17-L01-07",
+      "consigne": "Un second clic isole une seule barre. ==Sélectionnez le **point Formation**==, la barre la plus haute.",
+      "action": {
+        "type": "SELECT_CHART_ELEMENT",
+        "element": "point:0:2"
+      },
+      "aide": {
+        "text": "La troisième barre, celle qui monte à 26.",
+        "showTarget": true
+      },
+      "feedback": "Un **point** est une valeur unique de la série. On l'isole pour la mettre en évidence — la barre qu'on veut faire remarquer dans une réunion."
+    },
+    {
+      "id": "M17-L01-08",
+      "consigne": "Reste à choisir la bonne famille. Un **histogramme** compare des quantités. Une **courbe** montre une évolution dans le temps. Un **secteur** montre une répartition, et seulement si le total a un sens. Les **barres** horizontales sauvent les libellés longs. Les **aires** insistent sur un volume, le **nuage** cherche un lien entre deux mesures.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    }
+  ]
+}

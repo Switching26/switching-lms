@@ -1,0 +1,247 @@
+{
+  "schemaVersion": 1,
+  "title": "Exercice · Choisir le bon type",
+  "mode": "EXERCISE",
+  "moduleTitle": "Présenter les données en graphiques",
+  "intro": {
+    "title": "À VOUS",
+    "body": "Deux tableaux sur la même feuille, deux questions différentes. À vous de trouver la bonne plage et de choisir le type qui répond."
+  },
+  "outro": {
+    "body": "Exercice terminé."
+  },
+  "ribbon": [
+    "accueil",
+    "insertion",
+    "graph-creation"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Analyses",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "cells": {
+          "A1": {
+            "v": "Mois",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Température",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Janv."
+          },
+          "B2": {
+            "v": 4.2
+          },
+          "A3": {
+            "v": "Févr."
+          },
+          "B3": {
+            "v": 5.6
+          },
+          "A4": {
+            "v": "Mars"
+          },
+          "B4": {
+            "v": 9.4
+          },
+          "A5": {
+            "v": "Avril"
+          },
+          "B5": {
+            "v": 12.3
+          },
+          "A6": {
+            "v": "Mai"
+          },
+          "B6": {
+            "v": 16.5
+          },
+          "A7": {
+            "v": "Juin"
+          },
+          "B7": {
+            "v": 20.4
+          },
+          "A8": {
+            "v": "Juil."
+          },
+          "B8": {
+            "v": 23.1
+          },
+          "A9": {
+            "v": "Août"
+          },
+          "B9": {
+            "v": 22.6
+          },
+          "A10": {
+            "v": "Sept."
+          },
+          "B10": {
+            "v": 18.7
+          },
+          "A11": {
+            "v": "Oct."
+          },
+          "B11": {
+            "v": 14.2
+          },
+          "A12": {
+            "v": "Nov."
+          },
+          "B12": {
+            "v": 8.3
+          },
+          "A13": {
+            "v": "Déc."
+          },
+          "B13": {
+            "v": 4.9
+          },
+          "A16": {
+            "v": "Poste de dépense",
+            "format": {
+              "bold": true
+            }
+          },
+          "B16": {
+            "v": "Budget",
+            "format": {
+              "bold": true
+            }
+          },
+          "A17": {
+            "v": "Salaires"
+          },
+          "B17": {
+            "v": 62000
+          },
+          "A18": {
+            "v": "Locaux"
+          },
+          "B18": {
+            "v": 14000
+          },
+          "A19": {
+            "v": "Matériel pédagogique"
+          },
+          "B19": {
+            "v": 9000
+          },
+          "A20": {
+            "v": "Communication"
+          },
+          "B20": {
+            "v": 15000
+          }
+        },
+        "columnWidths": {
+          "A": 155,
+          "B": 105
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M17-E02-01",
+      "consigne": "Première question : **comment la température évolue-t-elle sur l'année** ? Créez le graphique qui y répond, à partir du **premier tableau**.",
+      "action": {
+        "type": "EXPECT_CHART",
+        "chart": {
+          "type": "courbes",
+          "categories": "A2:A13",
+          "seriesCount": 1
+        }
+      },
+      "aide": {
+        "text": "Une évolution dans le temps appelle la courbe. Sélectionnez les douze mois et leurs températures."
+      }
+    },
+    {
+      "id": "M17-E02-02",
+      "consigne": "Deuxième question : **comment le budget se répartit-il** entre les quatre postes ? Créez le graphique qui y répond, à partir du **second tableau**, plus bas dans la feuille.",
+      "action": {
+        "type": "EXPECT_CHART",
+        "chart": {
+          "type": "secteurs",
+          "categories": "A17:A20",
+          "seriesCount": 1
+        }
+      },
+      "aide": {
+        "text": "Une répartition d'un total appelle le secteur. Le second tableau commence en A16."
+      },
+      "feedback": "Le total des quatre postes est le budget : la part a donc un sens."
+    },
+    {
+      "id": "M17-E02-03",
+      "consigne": "**Matériel pédagogique** et **Communication** sont des libellés longs, illisibles sous un histogramme. Reprenez le budget avec le type qui couche les libellés à l'horizontale.",
+      "action": {
+        "type": "EXPECT_CHART",
+        "chart": {
+          "type": "barres",
+          "categories": "A17:A20",
+          "seriesCount": 1
+        }
+      },
+      "aide": {
+        "text": "Les barres horizontales : onglet Insertion, bouton Barres."
+      },
+      "feedback": "Les libellés se lisent d'un coup, sans incliner la tête ni la feuille."
+    },
+    {
+      "id": "M17-E02-04",
+      "consigne": "Affichez les **étiquettes de données** pour donner les montants exacts.",
+      "setup": {
+        "chartEdit": {
+          "elements": {
+            "etiquettes": true
+          }
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "ins-graph-element-etiquettes"
+      },
+      "aide": {
+        "text": "Ajouter un élément de graphique, Étiquettes de données."
+      }
+    },
+    {
+      "id": "M17-E02-05",
+      "consigne": "Les étiquettes rendent le **quadrillage** inutile. Masquez-le.",
+      "setup": {
+        "chartEdit": {
+          "elements": {
+            "quadrillage": false
+          }
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "ins-graph-element-quadrillage"
+      },
+      "aide": {
+        "text": "Ajouter un élément de graphique, Quadrillage."
+      },
+      "feedback": "Un élément qui répète une information qu'on lit déjà ailleurs se retire."
+    }
+  ]
+}

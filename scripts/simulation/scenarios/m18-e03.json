@@ -1,0 +1,313 @@
+{
+  "schemaVersion": 1,
+  "title": "Exercice · La couleur d'une série",
+  "mode": "EXERCISE",
+  "moduleTitle": "Manipuler les séries de données",
+  "intro": {
+    "title": "À VOUS",
+    "body": "Trois séries, trois couleurs par défaut qui ne disent rien. Les **certifications** sont l'axe de développement de l'année : c'est elles qu'on doit voir."
+  },
+  "outro": {
+    "body": "Exercice terminé."
+  },
+  "ribbon": [
+    "accueil",
+    "insertion",
+    "graph-creation",
+    "graph-mise-en-forme"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Ventes",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "cells": {
+          "A1": {
+            "v": "Mois",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Formations courtes",
+            "format": {
+              "bold": true
+            }
+          },
+          "C1": {
+            "v": "Formations longues",
+            "format": {
+              "bold": true
+            }
+          },
+          "D1": {
+            "v": "Certifications",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Janvier"
+          },
+          "B2": {
+            "v": 22
+          },
+          "C2": {
+            "v": 8
+          },
+          "D2": {
+            "v": 5
+          },
+          "A3": {
+            "v": "Février"
+          },
+          "B3": {
+            "v": 19
+          },
+          "C3": {
+            "v": 11
+          },
+          "D3": {
+            "v": 4
+          },
+          "A4": {
+            "v": "Mars"
+          },
+          "B4": {
+            "v": 26
+          },
+          "C4": {
+            "v": 9
+          },
+          "D4": {
+            "v": 7
+          },
+          "A5": {
+            "v": "Avril"
+          },
+          "B5": {
+            "v": 24
+          },
+          "C5": {
+            "v": 14
+          },
+          "D5": {
+            "v": 6
+          },
+          "A6": {
+            "v": "Mai"
+          },
+          "B6": {
+            "v": 31
+          },
+          "C6": {
+            "v": 12
+          },
+          "D6": {
+            "v": 9
+          },
+          "A7": {
+            "v": "Juin"
+          },
+          "B7": {
+            "v": 28
+          },
+          "C7": {
+            "v": 15
+          },
+          "D7": {
+            "v": 8
+          }
+        },
+        "columnWidths": {
+          "A": 85,
+          "B": 115,
+          "C": 115,
+          "D": 105
+        }
+      }
+    ],
+    "charts": [
+      {
+        "id": "g1",
+        "type": "histogramme",
+        "series": [
+          {
+            "name": "Formations courtes",
+            "values": "B2:B7"
+          },
+          {
+            "name": "Formations longues",
+            "values": "C2:C7"
+          },
+          {
+            "name": "Certifications",
+            "values": "D2:D7"
+          }
+        ],
+        "source": "A1:D7",
+        "categories": "A2:A7",
+        "title": "Ventes par famille",
+        "elements": {
+          "titre": true,
+          "legende": true,
+          "etiquettes": false,
+          "quadrillage": true,
+          "axes": true,
+          "titresAxes": false
+        },
+        "legendPosition": "bas",
+        "style": 1,
+        "frame": {
+          "x": 250,
+          "y": 10,
+          "w": 480,
+          "h": 262
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M18-E03-01",
+      "consigne": "Sélectionnez la série **Certifications**.",
+      "action": {
+        "type": "SELECT_CHART_ELEMENT",
+        "element": "serie:2"
+      },
+      "aide": {
+        "text": "Une barre de la troisième couleur."
+      }
+    },
+    {
+      "id": "M18-E03-02",
+      "consigne": "Donnez-lui la seule couleur vive du graphique : un **ocre**.",
+      "setup": {
+        "chartEdit": {
+          "editSeries": [
+            {
+              "name": "Certifications",
+              "color": "#c26a2b"
+            }
+          ]
+        }
+      },
+      "action": {
+        "type": "EXPECT_CHART",
+        "chart": {
+          "series": [
+            {
+              "name": "Formations courtes"
+            },
+            {
+              "name": "Formations longues"
+            },
+            {
+              "name": "Certifications",
+              "color": "#c26a2b"
+            }
+          ]
+        }
+      },
+      "aide": {
+        "text": "Onglet Mise en forme, Remplissage de la forme. Le clic droit sur la série y mène aussi."
+      }
+    },
+    {
+      "id": "M18-E03-03",
+      "consigne": "Sélectionnez la série **Formations courtes**.",
+      "action": {
+        "type": "SELECT_CHART_ELEMENT",
+        "element": "serie:0"
+      },
+      "aide": {
+        "text": "Une barre de la première couleur."
+      }
+    },
+    {
+      "id": "M18-E03-04",
+      "consigne": "Passez-la en **bleu ardoise** : présente, mais discrète.",
+      "setup": {
+        "chartEdit": {
+          "editSeries": [
+            {
+              "name": "Formations courtes",
+              "color": "#4c5f75"
+            }
+          ]
+        }
+      },
+      "action": {
+        "type": "EXPECT_CHART",
+        "chart": {
+          "series": [
+            {
+              "name": "Formations courtes",
+              "color": "#4c5f75"
+            }
+          ]
+        }
+      },
+      "aide": {
+        "text": "Onglet Mise en forme, Remplissage de la forme."
+      }
+    },
+    {
+      "id": "M18-E03-05",
+      "consigne": "Sélectionnez la série **Formations longues**, puis passez-la en **gris clair**.",
+      "action": {
+        "type": "SELECT_CHART_ELEMENT",
+        "element": "serie:1"
+      },
+      "aide": {
+        "text": "Une barre de la deuxième couleur."
+      }
+    },
+    {
+      "id": "M18-E03-06",
+      "consigne": "Appliquez ce **gris clair** à la série sélectionnée.",
+      "setup": {
+        "chartEdit": {
+          "editSeries": [
+            {
+              "name": "Formations longues",
+              "color": "#8f9aa6"
+            }
+          ]
+        }
+      },
+      "action": {
+        "type": "EXPECT_CHART",
+        "chart": {
+          "series": [
+            {
+              "name": "Formations courtes",
+              "color": "#4c5f75"
+            },
+            {
+              "name": "Formations longues",
+              "color": "#8f9aa6"
+            },
+            {
+              "name": "Certifications",
+              "color": "#c26a2b"
+            }
+          ]
+        }
+      },
+      "aide": {
+        "text": "Onglet Mise en forme, Remplissage de la forme."
+      },
+      "feedback": "Deux gris et un accent : l'œil va où vous voulez qu'il aille."
+    }
+  ]
+}

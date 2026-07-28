@@ -1,0 +1,241 @@
+{
+  "schemaVersion": 1,
+  "title": "Exercice · Séries disjointes",
+  "mode": "EXERCISE",
+  "moduleTitle": "Manipuler les séries de données",
+  "intro": {
+    "title": "À VOUS",
+    "body": "Le tableau des sites : stagiaires, heures et satisfaction. La colonne qui vous intéresse n'est pas voisine des libellés."
+  },
+  "outro": {
+    "body": "Exercice terminé."
+  },
+  "ribbon": [
+    "accueil",
+    "insertion",
+    "graph-creation"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Sites",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "cells": {
+          "A1": {
+            "v": "Site",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Stagiaires",
+            "format": {
+              "bold": true
+            }
+          },
+          "C1": {
+            "v": "Heures",
+            "format": {
+              "bold": true
+            }
+          },
+          "D1": {
+            "v": "Satisfaction",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Lyon"
+          },
+          "B2": {
+            "v": 42
+          },
+          "C2": {
+            "v": 310
+          },
+          "D2": {
+            "v": 88
+          },
+          "A3": {
+            "v": "Villeurbanne"
+          },
+          "B3": {
+            "v": 28
+          },
+          "C3": {
+            "v": 210
+          },
+          "D3": {
+            "v": 92
+          },
+          "A4": {
+            "v": "Vénissieux"
+          },
+          "B4": {
+            "v": 19
+          },
+          "C4": {
+            "v": 150
+          },
+          "D4": {
+            "v": 79
+          },
+          "A5": {
+            "v": "Bron"
+          },
+          "B5": {
+            "v": 35
+          },
+          "C5": {
+            "v": 260
+          },
+          "D5": {
+            "v": 85
+          },
+          "A6": {
+            "v": "Meyzieu"
+          },
+          "B6": {
+            "v": 14
+          },
+          "C6": {
+            "v": 120
+          },
+          "D6": {
+            "v": 94
+          }
+        },
+        "columnWidths": {
+          "A": 115,
+          "B": 90,
+          "D": 100
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M18-E01-01",
+      "consigne": "Commencez par une base : créez un **histogramme** des **stagiaires** par site, titres de colonnes compris.",
+      "action": {
+        "type": "EXPECT_CHART",
+        "chart": {
+          "type": "histogramme",
+          "categories": "A2:A6",
+          "seriesCount": 1,
+          "series": [
+            {
+              "name": "Stagiaires"
+            }
+          ]
+        }
+      },
+      "aide": {
+        "text": "Sélectionnez A1:B6, puis l'histogramme de l'onglet Insertion."
+      }
+    },
+    {
+      "id": "M18-E01-02",
+      "consigne": "Ajoutez la colonne **Satisfaction** comme deuxième série — elle est en colonne D, à deux colonnes de là.",
+      "setup": {
+        "chartEdit": {
+          "source": "A1:D6",
+          "addSeries": [
+            {
+              "name": "Satisfaction",
+              "values": "D2:D6"
+            }
+          ]
+        }
+      },
+      "action": {
+        "type": "EXPECT_CHART",
+        "chart": {
+          "seriesCount": 2,
+          "series": [
+            {
+              "name": "Stagiaires"
+            },
+            {
+              "name": "Satisfaction",
+              "values": "D2:D6"
+            }
+          ]
+        }
+      },
+      "aide": {
+        "text": "Sélectionner des données, Ajouter, plage D2:D6."
+      },
+      "feedback": "Des effectifs et des pourcentages sur le même axe : à corriger tout de suite."
+    },
+    {
+      "id": "M18-E01-03",
+      "consigne": "Sélectionnez la série **Stagiaires**, celle qui doit partir.",
+      "action": {
+        "type": "SELECT_CHART_ELEMENT",
+        "element": "serie:0"
+      },
+      "aide": {
+        "text": "Une barre de la première couleur."
+      }
+    },
+    {
+      "id": "M18-E01-04",
+      "consigne": "Retirez-la du graphique. Il ne doit rester que la **satisfaction**, avec les noms de sites en abscisse.",
+      "setup": {
+        "chartEdit": {
+          "removeSeries": [
+            "Stagiaires"
+          ]
+        }
+      },
+      "action": {
+        "type": "EXPECT_CHART",
+        "chart": {
+          "seriesCount": 1,
+          "series": [
+            {
+              "name": "Satisfaction",
+              "values": "D2:D6"
+            }
+          ]
+        }
+      },
+      "aide": {
+        "text": "Sélectionner des données puis Supprimer, ou la touche Suppr sur la série sélectionnée."
+      },
+      "feedback": "Le graphique porte maintenant sur les colonnes **A** et **D**, qui ne se touchent pas."
+    },
+    {
+      "id": "M18-E01-05",
+      "consigne": "Titrez-le **Satisfaction par site** et affichez les **étiquettes de données**.",
+      "setup": {
+        "chartEdit": {
+          "title": "Satisfaction par site",
+          "elements": {
+            "etiquettes": true,
+            "quadrillage": false
+          }
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "ins-graph-element-titre"
+      },
+      "aide": {
+        "text": "Ajouter un élément de graphique, Titre du graphique."
+      },
+      "feedback": "Vénissieux à 79 % se repère immédiatement."
+    }
+  ]
+}

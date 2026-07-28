@@ -1,0 +1,205 @@
+{
+  "schemaVersion": 1,
+  "title": "Exercice · Créer un graphique",
+  "mode": "EXERCISE",
+  "moduleTitle": "Présenter les données en graphiques",
+  "intro": {
+    "title": "À VOUS",
+    "body": "Le bilan de fréquentation du premier semestre, à mettre en images."
+  },
+  "outro": {
+    "body": "Exercice terminé."
+  },
+  "ribbon": [
+    "accueil",
+    "insertion",
+    "graph-creation"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Fréquentation",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "cells": {
+          "A1": {
+            "v": "Mois",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Sessions",
+            "format": {
+              "bold": true
+            }
+          },
+          "C1": {
+            "v": "Stagiaires",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Janvier"
+          },
+          "B2": {
+            "v": 6
+          },
+          "C2": {
+            "v": 48
+          },
+          "A3": {
+            "v": "Février"
+          },
+          "B3": {
+            "v": 5
+          },
+          "C3": {
+            "v": 41
+          },
+          "A4": {
+            "v": "Mars"
+          },
+          "B4": {
+            "v": 8
+          },
+          "C4": {
+            "v": 63
+          },
+          "A5": {
+            "v": "Avril"
+          },
+          "B5": {
+            "v": 7
+          },
+          "C5": {
+            "v": 55
+          },
+          "A6": {
+            "v": "Mai"
+          },
+          "B6": {
+            "v": 9
+          },
+          "C6": {
+            "v": 72
+          },
+          "A7": {
+            "v": "Juin"
+          },
+          "B7": {
+            "v": 6
+          },
+          "C7": {
+            "v": 44
+          }
+        },
+        "columnWidths": {
+          "A": 85
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M17-E01-01",
+      "consigne": "Comparez d'un coup d'œil le nombre de **sessions** et de **stagiaires**, mois par mois. Créez un **histogramme** sur les deux colonnes, titres de colonnes et noms de mois compris.",
+      "action": {
+        "type": "EXPECT_CHART",
+        "chart": {
+          "type": "histogramme",
+          "categories": "A2:A7",
+          "seriesCount": 2,
+          "series": [
+            {
+              "name": "Sessions"
+            },
+            {
+              "name": "Stagiaires"
+            }
+          ]
+        }
+      },
+      "aide": {
+        "text": "Sélectionnez tout le tableau, puis l'histogramme groupé de l'onglet Insertion."
+      },
+      "feedback": "Les sessions sont écrasées par les stagiaires : deux ordres de grandeur sur un même axe se gênent toujours."
+    },
+    {
+      "id": "M17-E01-02",
+      "consigne": "Donnez au graphique le titre **Fréquentation du 1er semestre**.",
+      "setup": {
+        "chartEdit": {
+          "title": "Fréquentation du 1er semestre"
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "ins-graph-element-titre"
+      },
+      "aide": {
+        "text": "Ajouter un élément de graphique, Titre du graphique."
+      }
+    },
+    {
+      "id": "M17-E01-03",
+      "consigne": "Placez la **légende à droite** pour rendre de la largeur au tracé.",
+      "setup": {
+        "chartEdit": {
+          "legendPosition": "droite",
+          "elements": {
+            "legende": true
+          }
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "ins-graph-legende-droite"
+      },
+      "aide": {
+        "text": "Ajouter un élément de graphique, Légende, Droite."
+      }
+    },
+    {
+      "id": "M17-E01-04",
+      "consigne": "La progression du nombre de stagiaires se lirait mieux en **courbes**. Changez le type.",
+      "setup": {
+        "chartEdit": {
+          "type": "courbes"
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "ins-graph-modifier-type"
+      },
+      "aide": {
+        "text": "Onglet Création de graphique, Modifier le type de graphique."
+      }
+    },
+    {
+      "id": "M17-E01-05",
+      "consigne": "Autre question, autre graphique : quelle **part** du semestre chaque mois représente-t-il en **sessions** ? Créez le graphique qui répond à cette question, sur les mois et les sessions.",
+      "action": {
+        "type": "EXPECT_CHART",
+        "chart": {
+          "type": "secteurs",
+          "categories": "A2:A7",
+          "seriesCount": 1
+        }
+      },
+      "aide": {
+        "text": "Une part d'un total : le secteur. Sélectionnez les mois et la colonne Sessions."
+      },
+      "feedback": "Ici le total a un sens — 41 sessions sur le semestre — donc le secteur est légitime."
+    }
+  ]
+}

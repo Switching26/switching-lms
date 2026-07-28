@@ -1,0 +1,273 @@
+{
+  "schemaVersion": 1,
+  "title": "Exercice · Forme dans une série",
+  "mode": "EXERCISE",
+  "moduleTitle": "Manipuler les séries de données",
+  "intro": {
+    "title": "À VOUS",
+    "body": "Le graphique doit illustrer une plaquette, sans tromper personne."
+  },
+  "outro": {
+    "body": "Exercice terminé."
+  },
+  "ribbon": [
+    "accueil",
+    "insertion",
+    "graph-creation",
+    "graph-mise-en-forme"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Sites",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "cells": {
+          "A1": {
+            "v": "Site",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Stagiaires",
+            "format": {
+              "bold": true
+            }
+          },
+          "C1": {
+            "v": "Heures",
+            "format": {
+              "bold": true
+            }
+          },
+          "D1": {
+            "v": "Satisfaction",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Lyon"
+          },
+          "B2": {
+            "v": 42
+          },
+          "C2": {
+            "v": 310
+          },
+          "D2": {
+            "v": 88
+          },
+          "A3": {
+            "v": "Villeurbanne"
+          },
+          "B3": {
+            "v": 28
+          },
+          "C3": {
+            "v": 210
+          },
+          "D3": {
+            "v": 92
+          },
+          "A4": {
+            "v": "Vénissieux"
+          },
+          "B4": {
+            "v": 19
+          },
+          "C4": {
+            "v": 150
+          },
+          "D4": {
+            "v": 79
+          },
+          "A5": {
+            "v": "Bron"
+          },
+          "B5": {
+            "v": 35
+          },
+          "C5": {
+            "v": 260
+          },
+          "D5": {
+            "v": 85
+          },
+          "A6": {
+            "v": "Meyzieu"
+          },
+          "B6": {
+            "v": 14
+          },
+          "C6": {
+            "v": 120
+          },
+          "D6": {
+            "v": 94
+          }
+        },
+        "columnWidths": {
+          "A": 115,
+          "B": 90,
+          "D": 100
+        }
+      }
+    ],
+    "charts": [
+      {
+        "id": "g1",
+        "type": "histogramme",
+        "series": [
+          {
+            "name": "Stagiaires",
+            "values": "B2:B6"
+          }
+        ],
+        "source": "A1:B6",
+        "categories": "A2:A6",
+        "title": "Stagiaires par site",
+        "elements": {
+          "titre": true,
+          "legende": false,
+          "quadrillage": true,
+          "axes": true
+        },
+        "legendPosition": "bas",
+        "style": 1,
+        "frame": {
+          "x": 300,
+          "y": 10,
+          "w": 430,
+          "h": 262
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M18-E05-01",
+      "consigne": "Sélectionnez la série **Stagiaires**.",
+      "action": {
+        "type": "SELECT_CHART_ELEMENT",
+        "element": "serie:0"
+      },
+      "aide": {
+        "text": "N'importe laquelle des cinq barres."
+      }
+    },
+    {
+      "id": "M18-E05-02",
+      "consigne": "La maquette de la plaquette demande des **cylindres**. Appliquez cette forme à la série.",
+      "setup": {
+        "chartEdit": {
+          "editSeries": [
+            {
+              "name": "Stagiaires",
+              "shape": "cylindre"
+            }
+          ]
+        }
+      },
+      "action": {
+        "type": "EXPECT_CHART",
+        "chart": {
+          "series": [
+            {
+              "name": "Stagiaires",
+              "shape": "cylindre"
+            }
+          ]
+        }
+      },
+      "aide": {
+        "text": "Onglet Mise en forme, Forme de la série."
+      }
+    },
+    {
+      "id": "M18-E05-03",
+      "consigne": "Le même graphique doit servir au bilan chiffré, où la comparaison des hauteurs doit être exacte. Remettez la forme qui ne déforme rien.",
+      "setup": {
+        "chartEdit": {
+          "editSeries": [
+            {
+              "name": "Stagiaires",
+              "shape": "barre"
+            }
+          ]
+        }
+      },
+      "action": {
+        "type": "EXPECT_CHART",
+        "chart": {
+          "series": [
+            {
+              "name": "Stagiaires",
+              "shape": "barre"
+            }
+          ]
+        }
+      },
+      "aide": {
+        "text": "Onglet Mise en forme, Forme de la série, Barre."
+      },
+      "feedback": "La barre pleine est la seule forme dont la surface reste proportionnelle à la valeur."
+    },
+    {
+      "id": "M18-E05-04",
+      "consigne": "Appliquez à la série la couleur de la charte, un **bleu ardoise**.",
+      "setup": {
+        "chartEdit": {
+          "editSeries": [
+            {
+              "name": "Stagiaires",
+              "color": "#4c5f75"
+            }
+          ]
+        }
+      },
+      "action": {
+        "type": "EXPECT_CHART",
+        "chart": {
+          "series": [
+            {
+              "name": "Stagiaires",
+              "color": "#4c5f75"
+            }
+          ]
+        }
+      },
+      "aide": {
+        "text": "Onglet Mise en forme, Remplissage de la forme."
+      }
+    },
+    {
+      "id": "M18-E05-05",
+      "consigne": "Affichez les **étiquettes de données** et masquez le **quadrillage**.",
+      "setup": {
+        "chartEdit": {
+          "elements": {
+            "etiquettes": true,
+            "quadrillage": false
+          }
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "ins-graph-element-etiquettes"
+      },
+      "aide": {
+        "text": "Ajouter un élément de graphique, Étiquettes de données."
+      }
+    }
+  ]
+}

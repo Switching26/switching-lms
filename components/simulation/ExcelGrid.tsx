@@ -74,6 +74,11 @@ export type GridApi = {
   cancelFreeze: () => void
   /** Nombre de lignes et colonnes actuellement figées. */
   getFrozen: () => { rows: number; cols: number }
+  /**
+   * Insère une image DANS une cellule, comme le fait Excel avec « Image dans la
+   * cellule ». La source peut être une URL ou un data URI.
+   */
+  insertCellImage: (ref: string, source: string) => Promise<boolean>
   /** Pose ou remplace le commentaire d'une cellule. */
   setNote: (ref: string, texte: string) => boolean
   /** Texte du commentaire d'une cellule, chaîne vide s'il n'y en a pas. */
@@ -257,6 +262,8 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
         localeDV,
         { UniverSheetsNotePreset },
         localeNote,
+        { UniverSheetsDrawingPreset },
+        localeDrawing,
       ] = await Promise.all([
         import("@univerjs/presets"),
         import("@univerjs/preset-sheets-core"),
@@ -271,6 +278,8 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
         import("@univerjs/preset-sheets-data-validation/locales/fr-FR"),
         import("@univerjs/preset-sheets-note"),
         import("@univerjs/preset-sheets-note/locales/fr-FR"),
+        import("@univerjs/preset-sheets-drawing"),
+        import("@univerjs/preset-sheets-drawing/locales/fr-FR"),
       ])
       if (disposed) return
 
@@ -283,7 +292,8 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
             localeFilter.default ?? localeFilter,
             localeCF.default ?? localeCF,
             localeDV.default ?? localeDV,
-            localeNote.default ?? localeNote
+            localeNote.default ?? localeNote,
+            localeDrawing.default ?? localeDrawing
           ),
         },
         presets: [
@@ -295,6 +305,7 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
           UniverSheetsConditionalFormattingPreset(),
           UniverSheetsDataValidationPreset(),
           UniverSheetsNotePreset(),
+          UniverSheetsDrawingPreset(),
           UniverSheetsCorePreset({
             container,
             // Toute la chrome native est coupée : on fournit notre propre ruban,
@@ -442,6 +453,27 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
               /* une feuille en trop ne doit pas empêcher la leçon de démarrer */
             }
           }
+          // Largeurs de colonnes et hauteurs de lignes : elles étaient déclarées
+          // dans le format de scénario mais jamais appliquées, ce qui tronquait
+          // les libellés de toutes les leçons.
+          const dimensionner = (feuille: typeof premiere, nom: string) => {
+            if (!feuille) return
+            try {
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              const sh2 = univerAPI.getActiveWorkbook()?.getSheetByName?.(nom) as any
+              if (!sh2) return
+              for (const [lettre, largeur] of Object.entries(feuille.columnWidths ?? {})) {
+                sh2.setColumnWidth?.(columnLetterToIndex(lettre), Number(largeur))
+              }
+              for (const [ligne, hauteur] of Object.entries(feuille.rowHeights ?? {})) {
+                sh2.setRowHeight?.(Number(ligne) - 1, Number(hauteur))
+              }
+            } catch {
+              /* des dimensions par défaut restent lisibles */
+            }
+          }
+          for (const f of wb.sheets) dimensionner(f, f.name)
+
           // La première feuille a été renommée, pas insérée : ses données n'ont
           // pas été posées dans la boucle ci-dessus.
           if (premiere?.cells) {
@@ -703,6 +735,16 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
             return { rows: Number(sh2?.getFrozenRows?.() ?? 0), cols: Number(sh2?.getFrozenColumns?.() ?? 0) }
           } catch {
             return { rows: 0, cols: 0 }
+          }
+        },
+        insertCellImage: async (ref, source) => {
+          try {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const rg = sheet()?.getRange(ref) as any
+            if (!rg?.insertCellImageAsync) return false
+            return Boolean(await rg.insertCellImageAsync(source))
+          } catch {
+            return false
           }
         },
         setNote: (ref, texte) => {

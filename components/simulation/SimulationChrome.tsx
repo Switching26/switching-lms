@@ -277,6 +277,11 @@ export default function SimulationChrome({
             </Group>
           </>
         )}
+        {activeTab === "insertion" && (
+          <Group title="Illustrations">
+            <Btn id="ins-image-cellule" label="Image dans la cellule" wide />
+          </Group>
+        )}
         {activeTab === "revision" && (
           <Group title="Commentaires">
             <Btn id="rev-commentaire" label="Nouveau commentaire" wide />
@@ -292,7 +297,8 @@ export default function SimulationChrome({
         {activeTab !== "accueil" &&
           activeTab !== "donnees" &&
           activeTab !== "revision" &&
-          activeTab !== "affichage" && (
+          activeTab !== "affichage" &&
+          activeTab !== "insertion" && (
           <div className="px-3 py-2 text-[11.5px] text-neutral-500">
             Onglet {TAB_LABELS[activeTab] ?? activeTab}
           </div>

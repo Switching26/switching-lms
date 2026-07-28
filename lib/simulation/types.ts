@@ -322,6 +322,11 @@ export type SimulationStep = {
     /** Découpage en colonnes que le bouton Convertir appliquera. */
     split?: { range: string; separateur: number; fusionnerSeparateurs?: boolean }
     /**
+     * Image que le bouton Insertion déposera dans une cellule. `source` est un
+     * data URI : le scénario reste autonome, sans dépendre d'un fichier servi.
+     */
+    image?: { ref: string; source: string }
+    /**
      * Valeur cible : quelle valeur donner à `inputRef` pour que `formulaRef`
      * atteigne `target`. Le vrai Excel demande ces trois champs dans une boîte
      * de dialogue ; le scénario les déclare.

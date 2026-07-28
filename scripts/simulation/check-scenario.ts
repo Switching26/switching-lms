@@ -310,6 +310,7 @@ function checkScenario(sc: SimulationScenario) {
     "don-valeur-cible",
     "don-validation",
     "don-effacer-validation",
+    "ins-image-cellule",
     "rev-commentaire",
     "rev-supprimer-commentaire",
     "aff-figer-volets",

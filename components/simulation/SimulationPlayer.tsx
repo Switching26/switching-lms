@@ -494,6 +494,18 @@ export default function SimulationPlayer({
             if (dv) grid.addValidation(dv.range, dv.rule)
             break
           }
+          case "ins-image-cellule": {
+            // L'insertion est asynchrone : l'étape se valide une fois l'image
+            // réellement posée, sinon on validerait un geste sans effet.
+            const img = stepRef.current?.setup?.image
+            if (img) {
+              void grid.insertCellImage(img.ref, img.source).then(() => {
+                handleAction({ kind: "control", control: controlId, channel: "ribbon" })
+              })
+              return
+            }
+            break
+          }
           case "rev-commentaire": {
             const n = stepRef.current?.setup?.note
             if (n) grid.setNote(n.ref, n.texte)

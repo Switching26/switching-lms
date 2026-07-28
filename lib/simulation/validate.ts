@@ -23,9 +23,16 @@ import { frToEngine } from "./formula-fr"
 export type ActionChannel = "mouse" | "keyboard" | "ribbon" | "contextMenu" | "formulaBar" | "unknown"
 
 /** Ce que le simulateur a observé quand l'apprenant a agi. */
+/** Valeurs d'erreur Excel : une cellule qui les affiche n'a pas calculé. */
+const ERROR_VALUES = new Set([
+  "#NAME?", "#NOM?", "#VALUE!", "#VALEUR!", "#REF!", "#DIV/0!",
+  "#NUM!", "#NOMBRE!", "#N/A", "#NULL!", "#NUL!", "#SPILL!", "#CALC!",
+])
+
 export type ObservedAction =
   | { kind: "next" }
-  | { kind: "typed"; target: string; text: string; channel: ActionChannel }
+  /** `computed` = valeur réellement affichée par la cellule après calcul. */
+  | { kind: "typed"; target: string; text: string; channel: ActionChannel; computed?: unknown }
   | { kind: "cellClick"; cell: string; modifier?: "Control" | "Shift"; channel: ActionChannel }
   | { kind: "control"; control: string; channel: ActionChannel }
   | { kind: "contextMenu"; target: string }
@@ -124,6 +131,16 @@ export function validateStep(
           ok: false,
           reason: "wrong_cell",
           message: `La saisie doit se faire dans la cellule ${expected.target}.`,
+        }
+      }
+      // Filet de sécurité : le texte peut correspondre alors que la formule est en
+      // erreur (fonction inconnue du moteur, référence invalide). Laisser passer
+      // reviendrait à valider une étape en laissant un classeur cassé derrière.
+      if (observed.computed !== undefined && ERROR_VALUES.has(String(observed.computed))) {
+        return {
+          ok: false,
+          reason: "formula_error",
+          message: `La cellule affiche ${String(observed.computed)} : la formule n'a pas pu être calculée.`,
         }
       }
       if (!validateTyped(expected, observed.text)) {

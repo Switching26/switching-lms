@@ -1,0 +1,222 @@
+{
+  "schemaVersion": 1,
+  "title": "Compter et additionner sous condition",
+  "mode": "LESSON",
+  "moduleTitle": "Les fonctions courantes",
+  "intro": {
+    "title": "NB.SI ET SOMME.SI",
+    "body": "Combien de commandes dépassent 500 € ? Quel est leur montant total ? Deux fonctions répondent sans trier le tableau."
+  },
+  "outro": {
+    "body": "Vous savez compter et totaliser selon un critère, y compris textuel."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ],
+    "sheetCount": 1
+  },
+  "workbook": {
+    "fileName": "Commandes",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 110,
+          "D": 170
+        },
+        "cells": {
+          "A1": {
+            "v": "Client",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Ville",
+            "format": {
+              "bold": true
+            }
+          },
+          "C1": {
+            "v": "Montant",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Dupont"
+          },
+          "B2": {
+            "v": "Lille"
+          },
+          "C2": {
+            "v": 620
+          },
+          "A3": {
+            "v": "Martin"
+          },
+          "B3": {
+            "v": "Lyon"
+          },
+          "C3": {
+            "v": 340
+          },
+          "A4": {
+            "v": "Bernard"
+          },
+          "B4": {
+            "v": "Lille"
+          },
+          "C4": {
+            "v": 880
+          },
+          "A5": {
+            "v": "Petit"
+          },
+          "B5": {
+            "v": "Toulouse"
+          },
+          "C5": {
+            "v": 150
+          },
+          "A6": {
+            "v": "Durand"
+          },
+          "B6": {
+            "v": "Lille"
+          },
+          "C6": {
+            "v": 470
+          },
+          "A7": {
+            "v": "Moreau"
+          },
+          "B7": {
+            "v": "Lyon"
+          },
+          "C7": {
+            "v": 720
+          },
+          "D2": {
+            "v": "Commandes > 500 €",
+            "format": {
+              "bold": true
+            }
+          },
+          "D3": {
+            "v": "Montant de ces commandes",
+            "format": {
+              "bold": true
+            }
+          },
+          "D4": {
+            "v": "Commandes de Lille",
+            "format": {
+              "bold": true
+            }
+          },
+          "D5": {
+            "v": "Chiffre d'affaires Lille",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M07-L02-01",
+      "consigne": "En **E2**, ==comptez les commandes supérieures à 500 €== avec `=NB.SI(C2:C7;\">500\")`.",
+      "setup": {
+        "selection": "E2"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "E2",
+        "accept": [
+          "=NB.SI(C2:C7;\">500\")"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Le critère s'écrit entre guillemets : \">500\".",
+        "showTarget": true
+      },
+      "feedback": "3 commandes. Le critère de comparaison va entre guillemets, c'est ce qui surprend au début."
+    },
+    {
+      "id": "M07-L02-02",
+      "consigne": "En **E3**, ==additionnez le montant de ces mêmes commandes== avec `=SOMME.SI(C2:C7;\">500\")`.",
+      "setup": {
+        "selection": "E3"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "E3",
+        "accept": [
+          "=SOMME.SI(C2:C7;\">500\")"
+        ],
+        "formulaMode": true
+      },
+      "feedback": "2 220 €. NB.SI compte, SOMME.SI additionne — même critère, question différente."
+    },
+    {
+      "id": "M07-L02-03",
+      "consigne": "Le critère peut aussi être un **texte**. En **E4**, ==comptez les commandes de Lille== avec `=NB.SI(B2:B7;\"Lille\")`.",
+      "setup": {
+        "selection": "E4"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "E4",
+        "accept": [
+          "=NB.SI(B2:B7;\"Lille\")"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "La plage examinée est celle des villes, pas des montants.",
+        "showTarget": true
+      },
+      "feedback": "3 clients à Lille."
+    },
+    {
+      "id": "M07-L02-04",
+      "consigne": "Cas plus subtil : on veut le chiffre d'affaires de Lille. Le **critère** porte sur les villes, mais c'est la colonne **Montant** qu'il faut additionner. En **E5**, ==saisissez `=SOMME.SI(B2:B7;\"Lille\";C2:C7)`==.",
+      "setup": {
+        "selection": "E5"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "E5",
+        "accept": [
+          "=SOMME.SI(B2:B7;\"Lille\";C2:C7)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Trois arguments : où chercher, quoi chercher, quoi additionner.",
+        "showTarget": true
+      },
+      "feedback": "1 970 €. C'est le troisième argument qui fait la différence : sans lui, Excel additionnerait la colonne des villes."
+    },
+    {
+      "id": "M07-L02-05",
+      "consigne": "Retenez la logique : **où chercher le critère**, **quel critère**, et si besoin **quelle colonne additionner**. Sans le troisième argument, SOMME.SI additionne la plage du critère elle-même.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    }
+  ]
+}

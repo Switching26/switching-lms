@@ -1,0 +1,242 @@
+{
+  "schemaVersion": 1,
+  "title": "Exercice · Grille de rémunération",
+  "mode": "EXERCISE",
+  "moduleTitle": "Premières applications",
+  "intro": {
+    "title": "À VOUS",
+    "body": "Un cas complet : salaires, majorations et contrôle."
+  },
+  "outro": {
+    "body": "Exercice terminé."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ],
+    "sheetCount": 1
+  },
+  "workbook": {
+    "fileName": "Rémunérations",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 130,
+          "F": 150
+        },
+        "cells": {
+          "A1": {
+            "v": "Salaire de référence",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": 2400
+          },
+          "A2": {
+            "v": "Majoration cadre",
+            "format": {
+              "bold": true
+            }
+          },
+          "B2": {
+            "v": 0.2
+          },
+          "A4": {
+            "v": "Salarié",
+            "format": {
+              "bold": true
+            }
+          },
+          "B4": {
+            "v": "Statut",
+            "format": {
+              "bold": true
+            }
+          },
+          "C4": {
+            "v": "Ancienneté",
+            "format": {
+              "bold": true
+            }
+          },
+          "D4": {
+            "v": "Salaire",
+            "format": {
+              "bold": true
+            }
+          },
+          "A5": {
+            "v": "Amina"
+          },
+          "B5": {
+            "v": "Cadre"
+          },
+          "C5": {
+            "v": 6
+          },
+          "A6": {
+            "v": "Bruno"
+          },
+          "B6": {
+            "v": "Non cadre"
+          },
+          "C6": {
+            "v": 3
+          },
+          "A7": {
+            "v": "Chloé"
+          },
+          "B7": {
+            "v": "Cadre"
+          },
+          "C7": {
+            "v": 1
+          },
+          "A8": {
+            "v": "David"
+          },
+          "B8": {
+            "v": "Non cadre"
+          },
+          "C8": {
+            "v": 9
+          },
+          "F5": {
+            "v": "Masse salariale",
+            "format": {
+              "bold": true
+            }
+          },
+          "F6": {
+            "v": "Nombre de cadres",
+            "format": {
+              "bold": true
+            }
+          },
+          "F7": {
+            "v": "Salaire moyen",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M09-E01-01",
+      "consigne": "En **D5**, calculez le salaire d'Amina : le salaire de référence, **majoré** si le statut est « Cadre », inchangé sinon. La formule devra être recopiable sur les quatre lignes.",
+      "setup": {
+        "selection": "D5"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "D5",
+        "accept": [
+          "=SI(B5=\"Cadre\";$B$1*(1+$B$2);$B$1)",
+          "=SI(B5=\"Cadre\";$B$1*(1+$B$2);$B$1*1)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Une condition sur le statut, et deux références figées : le salaire et le taux."
+      },
+      "feedback": "2 880 € pour Amina."
+    },
+    {
+      "id": "M09-E01-02",
+      "consigne": "Complétez les **trois autres salaires**.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "D6": {
+            "v": 2400
+          },
+          "D7": {
+            "v": 2880
+          },
+          "D8": {
+            "v": 2400
+          }
+        }
+      },
+      "aide": {
+        "text": "Poignée de recopie vers le bas."
+      },
+      "feedback": "Les cadres à 2 880 €, les autres à 2 400 €."
+    },
+    {
+      "id": "M09-E01-03",
+      "consigne": "En **G5**, calculez la **masse salariale** totale.",
+      "setup": {
+        "selection": "G5"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "G5",
+        "accept": [
+          "=SOMME(D5:D8)",
+          "=D5+D6+D7+D8"
+        ],
+        "formulaMode": true
+      },
+      "feedback": "10 560 €."
+    },
+    {
+      "id": "M09-E01-04",
+      "consigne": "En **G6**, comptez le **nombre de cadres**.",
+      "setup": {
+        "selection": "G6"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "G6",
+        "accept": [
+          "=NB.SI(B5:B8;\"Cadre\")"
+        ],
+        "formulaMode": true
+      },
+      "feedback": "2 cadres."
+    },
+    {
+      "id": "M09-E01-05",
+      "consigne": "En **G7**, calculez le **salaire moyen**.",
+      "setup": {
+        "selection": "G7"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "G7",
+        "accept": [
+          "=MOYENNE(D5:D8)",
+          "=G5/4"
+        ],
+        "formulaMode": true
+      },
+      "feedback": "2 640 €."
+    },
+    {
+      "id": "M09-E01-06",
+      "consigne": "Contrôle final : sélectionnez **tous les salaires** et vérifiez que le total affiché en bas correspond à votre masse salariale.",
+      "action": {
+        "type": "DRAG_RANGE",
+        "range": "D5:D8"
+      },
+      "aide": {
+        "text": "Les quatre salaires, sans la cellule de total."
+      },
+      "feedback": "10 560 € des deux côtés. Grille cohérente."
+    }
+  ]
+}

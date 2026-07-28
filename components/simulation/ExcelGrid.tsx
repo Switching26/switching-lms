@@ -42,6 +42,12 @@ export type GridApi = {
   getSelection: () => string
   /** Verrouille l'édition : seules ces cellules restent modifiables. */
   setEditableCells: (refs: string[] | null) => void
+  /**
+   * Redonne le focus clavier à la grille. Nécessaire après toute interaction avec
+   * un élément du DOM (bouton Suivant, bouton du ruban, demande d'indice) : le
+   * focus part sur le bouton et l'apprenant ne peut plus taper sans recliquer.
+   */
+  focus: () => void
   /** Position à l'écran d'une cellule, pour poser le halo d'aide. */
   getCellRect: (ref: string) => { top: number; left: number; width: number; height: number } | null
   /**
@@ -197,6 +203,19 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
         setEditableCells: (refs) => {
           editableRef.current = refs === null ? null : new Set(refs.map((r) => r.toUpperCase()))
         },
+        focus: () => {
+          // On cible la surface de saisie d'Univer si elle existe, sinon le
+          // conteneur : dans les deux cas le clavier revient à la grille.
+          const target =
+            container.querySelector<HTMLElement>("[contenteditable='true']") ??
+            container.querySelector<HTMLElement>("canvas") ??
+            container
+          try {
+            target.focus?.()
+          } catch {
+            /* sans conséquence : l'apprenant peut toujours cliquer une cellule */
+          }
+        },
         getSelectionStats: (ref) => {
           const target = ref || api.getSelection()
           if (!target) return null
@@ -275,15 +294,40 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
         if (!allowed.has(ref.toUpperCase())) e.cancel = true
       })
 
-      // Fin de saisie : c'est ici qu'on récupère ce que l'apprenant a réellement tapé.
+      // Fin de saisie : c'est ici qu'on récupère ce que l'apprenant a réellement
+      // tapé — ET qu'on traduit sa formule pour le moteur.
+      //
+      // C'EST LE POINT LE PLUS IMPORTANT DE CE FICHIER. L'éditeur d'Univer écrit
+      // directement dans le moteur, qui ne comprend pas le français : une formule
+      // saisie `=SOMME(B2:B6)` était stockée telle quelle et la cellule affichait
+      // `#NAME?`. Le défaut passait inaperçu parce que la validation d'une étape
+      // de saisie compare le TEXTE tapé, pas le résultat calculé : l'étape était
+      // validée et l'apprenant se retrouvait avec un classeur en erreur.
       listen("SheetEditEnded", (p: unknown) => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const e = p as any
         if (typeof e?.row !== "number" || typeof e?.column !== "number") return
         const ref = formatCell({ row: e.row, col: e.column })
-        // On relit la cellule : la formule stockée est la source de vérité, pas
-        // l'état intermédiaire de l'éditeur.
-        const formula = api.getFormula(ref)
+        const rg = sheet()?.getRange(ref)
+
+        // Formule BRUTE telle que le moteur l'a stockée, sans réaffichage FR.
+        const stored: string = rg?.getFormula?.() ?? ""
+        if (stored.startsWith("=")) {
+          const translated = frToEngine(stored)
+          // Différent = la saisie était en français, il faut la retraduire pour
+          // que le moteur calcule. Identique = déjà compréhensible, on ne touche pas.
+          if (translated !== stored) {
+            try {
+              rg?.setValue?.({ f: translated })
+            } catch {
+              /* le moteur refusera de lui-même une formule invalide */
+            }
+          }
+        }
+
+        // On rapporte ce que l'apprenant a écrit, en français : c'est cela que la
+        // validation doit comparer, et cela qu'il faut réafficher.
+        const formula = stored ? engineToFr(stored) : ""
         const value = api.getValue(ref)
         const text = formula || (value == null ? "" : String(value))
         onActionRef.current({
@@ -291,6 +335,8 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
           target: ref,
           text,
           channel: channelRef.current === "unknown" ? "keyboard" : channelRef.current,
+          // Relue APRÈS la retraduction : c'est la valeur que l'apprenant voit.
+          computed: api.getValue(ref),
         })
         channelRef.current = "unknown"
       })
@@ -299,8 +345,22 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
       // recopie, bouton du ruban, collage. Le simulateur en profite pour vérifier
       // l'état attendu par l'étape — c'est ce qui rend jouables les gestes que
       // cette grille ne sait pas observer directement.
+      // ATTENTION à la temporisation. `SheetValueChanged` est émis AVANT que le
+      // moteur de formules ait fini de recalculer : lire les cellules à cet
+      // instant renvoie des valeurs périmées, et une étape validée sur l'état
+      // échouait alors qu'elle était juste. Pire, c'était intermittent selon la
+      // charge — le genre de défaut qu'on met des heures à reproduire.
+      // On attend donc que les modifications se soient tassées avant de signaler.
+      let settleTimer: ReturnType<typeof setTimeout> | null = null
       listen("SheetValueChanged", () => {
-        onActionRef.current({ kind: "stateChange", readings: {} })
+        if (settleTimer) clearTimeout(settleTimer)
+        settleTimer = setTimeout(() => {
+          settleTimer = null
+          onActionRef.current({ kind: "stateChange", readings: {} })
+        }, 350)
+      })
+      disposers.push(() => {
+        if (settleTimer) clearTimeout(settleTimer)
       })
 
       // Sélection d'une plage au glisser.

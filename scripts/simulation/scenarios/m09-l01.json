@@ -1,0 +1,286 @@
+{
+  "schemaVersion": 1,
+  "title": "Établir une facture",
+  "mode": "LESSON",
+  "moduleTitle": "Premières applications",
+  "intro": {
+    "title": "UN CAS COMPLET",
+    "body": "Tout ce que vous avez appris, sur un document que vous produirez pour de vrai : une facture, du prix unitaire au net à payer."
+  },
+  "outro": {
+    "body": "Vous savez bâtir une facture complète et vérifiable."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ],
+    "sheetCount": 1
+  },
+  "workbook": {
+    "fileName": "Facture 2026-014",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 150,
+          "D": 130
+        },
+        "cells": {
+          "A1": {
+            "v": "Taux de TVA",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": 0.2
+          },
+          "A2": {
+            "v": "Remise accordée",
+            "format": {
+              "bold": true
+            }
+          },
+          "B2": {
+            "v": 0.05
+          },
+          "A4": {
+            "v": "Désignation",
+            "format": {
+              "bold": true
+            }
+          },
+          "B4": {
+            "v": "Quantité",
+            "format": {
+              "bold": true
+            }
+          },
+          "C4": {
+            "v": "Prix unitaire",
+            "format": {
+              "bold": true
+            }
+          },
+          "D4": {
+            "v": "Total HT",
+            "format": {
+              "bold": true
+            }
+          },
+          "A5": {
+            "v": "Formation Excel 30 h"
+          },
+          "B5": {
+            "v": 3
+          },
+          "C5": {
+            "v": 890
+          },
+          "A6": {
+            "v": "Support pédagogique"
+          },
+          "B6": {
+            "v": 3
+          },
+          "C6": {
+            "v": 45
+          },
+          "A7": {
+            "v": "Certification"
+          },
+          "B7": {
+            "v": 3
+          },
+          "C7": {
+            "v": 120
+          },
+          "A9": {
+            "v": "Total HT brut",
+            "format": {
+              "bold": true
+            }
+          },
+          "A10": {
+            "v": "Remise",
+            "format": {
+              "bold": true
+            }
+          },
+          "A11": {
+            "v": "Total HT net",
+            "format": {
+              "bold": true
+            }
+          },
+          "A12": {
+            "v": "TVA",
+            "format": {
+              "bold": true
+            }
+          },
+          "A13": {
+            "v": "NET À PAYER",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M09-L01-01",
+      "consigne": "Commencez par les lignes. En **D5**, ==calculez le total HT de la première ligne== : la quantité multipliée par le prix unitaire.",
+      "setup": {
+        "selection": "D5"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "D5",
+        "accept": [
+          "=B5*C5",
+          "=C5*B5"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Quantité fois prix unitaire.",
+        "showTarget": true
+      },
+      "feedback": "2 670 €."
+    },
+    {
+      "id": "M09-L01-02",
+      "consigne": "==Recopiez D5 jusqu'en D7== pour les deux autres lignes.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "D6": {
+            "v": 135
+          },
+          "D7": {
+            "v": 360
+          }
+        }
+      },
+      "aide": {
+        "text": "Poignée de recopie vers le bas."
+      },
+      "feedback": "Les trois lignes sont chiffrées."
+    },
+    {
+      "id": "M09-L01-03",
+      "consigne": "En **B9**, ==totalisez le HT brut== des trois lignes.",
+      "setup": {
+        "selection": "B9"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B9",
+        "accept": [
+          "=SOMME(D5:D7)",
+          "=D5+D6+D7"
+        ],
+        "formulaMode": true
+      },
+      "feedback": "3 165 €."
+    },
+    {
+      "id": "M09-L01-04",
+      "consigne": "En **B10**, ==calculez le montant de la remise== à partir du taux figurant en B2.",
+      "setup": {
+        "selection": "B10"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B10",
+        "accept": [
+          "=B9*B2",
+          "=B2*B9",
+          "=B9*$B$2"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Le HT brut multiplié par le taux de remise.",
+        "showTarget": true
+      },
+      "feedback": "158,25 €."
+    },
+    {
+      "id": "M09-L01-05",
+      "consigne": "En **B11**, ==calculez le HT net== après remise.",
+      "setup": {
+        "selection": "B11"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B11",
+        "accept": [
+          "=B9-B10"
+        ],
+        "formulaMode": true
+      },
+      "feedback": "3 006,75 €."
+    },
+    {
+      "id": "M09-L01-06",
+      "consigne": "En **B12**, ==calculez la TVA== sur le HT net.",
+      "setup": {
+        "selection": "B12"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B12",
+        "accept": [
+          "=B11*B1",
+          "=B1*B11",
+          "=B11*$B$1"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "La TVA se calcule sur le montant APRÈS remise, jamais avant.",
+        "showTarget": true
+      },
+      "feedback": "601,35 €. Attention à cet ordre : TVA sur le net remisé, c'est une règle de facturation, pas un choix."
+    },
+    {
+      "id": "M09-L01-07",
+      "consigne": "En **B13**, ==calculez le net à payer==.",
+      "setup": {
+        "selection": "B13"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B13",
+        "accept": [
+          "=B11+B12"
+        ],
+        "formulaMode": true
+      },
+      "feedback": "3 608,10 €. La facture est complète."
+    },
+    {
+      "id": "M09-L01-08",
+      "consigne": "**Contrôlez votre travail** : ==sélectionnez la plage **D5:D7**== et comparez le total affiché en bas avec votre HT brut de B9.",
+      "action": {
+        "type": "DRAG_RANGE",
+        "range": "D5:D7"
+      },
+      "aide": {
+        "text": "Les trois totaux de ligne, sans la cellule de total."
+      },
+      "feedback": "3 165 € des deux côtés. Ce réflexe vous évitera d'envoyer une facture fausse — et c'est le genre d'erreur qui coûte cher."
+    }
+  ]
+}

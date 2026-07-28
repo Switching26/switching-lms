@@ -166,6 +166,11 @@ export default function SimulationPlayer({
       setFormulaText("")
       setVerdict(null)
       setHintShown(mode === "LESSON")
+      // Le focus revient à la grille : sans cela, après un clic sur « Suivant »
+      // ou sur un bouton du ruban, l'apprenant tape dans le vide jusqu'à ce qu'il
+      // pense à recliquer dans une cellule.
+      grid.focus()
+      if (s.setup?.selection) setStats(grid.getSelectionStats(s.setup.selection))
     },
     [mode],
   )
@@ -254,6 +259,15 @@ export default function SimulationPlayer({
         setStats(gridRef.current?.getSelectionStats(observed.range) ?? null)
       } else if (observed.kind === "stateChange") {
         setStats(gridRef.current?.getSelectionStats() ?? null)
+      } else if (observed.kind === "typed") {
+        // Après validation, Excel descend d'une cellule : la zone Nom et la barre
+        // de formule doivent suivre, sinon elles affichent la cellule précédente.
+        const now = gridRef.current?.getSelection()
+        if (now) {
+          setSelection(now)
+          setFormulaText(gridRef.current?.getFormula(now) ?? "")
+          setStats(gridRef.current?.getSelectionStats(now) ?? null)
+        }
       }
 
       // Pour une étape validée sur l'état du classeur, c'est ici qu'on lit les

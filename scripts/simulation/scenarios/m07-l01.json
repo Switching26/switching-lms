@@ -1,0 +1,260 @@
+{
+  "schemaVersion": 1,
+  "title": "La fonction SI",
+  "mode": "LESSON",
+  "moduleTitle": "Les fonctions courantes",
+  "intro": {
+    "title": "FAIRE DÉCIDER EXCEL",
+    "body": "Jusqu'ici vos formules calculaient toujours la même chose. SI leur permet de choisir entre deux résultats selon une condition."
+  },
+  "outro": {
+    "body": "Vous savez écrire une condition et enchaîner deux SI. C'est la fonction la plus utile d'Excel après SOMME."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ],
+    "sheetCount": 1
+  },
+  "workbook": {
+    "fileName": "Objectifs commerciaux",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 120,
+          "C": 140,
+          "D": 120
+        },
+        "cells": {
+          "A1": {
+            "v": "Objectif mensuel",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": 15000
+          },
+          "A3": {
+            "v": "Commercial",
+            "format": {
+              "bold": true
+            }
+          },
+          "B3": {
+            "v": "Ventes",
+            "format": {
+              "bold": true
+            }
+          },
+          "C3": {
+            "v": "Objectif",
+            "format": {
+              "bold": true
+            }
+          },
+          "D3": {
+            "v": "Prime",
+            "format": {
+              "bold": true
+            }
+          },
+          "A4": {
+            "v": "Amina"
+          },
+          "B4": {
+            "v": 18200
+          },
+          "A5": {
+            "v": "Bruno"
+          },
+          "B5": {
+            "v": 12400
+          },
+          "A6": {
+            "v": "Chloé"
+          },
+          "B6": {
+            "v": 15000
+          },
+          "A7": {
+            "v": "David"
+          },
+          "B7": {
+            "v": 21800
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M07-L01-01",
+      "consigne": "Une fonction **SI** pose une question et donne deux réponses possibles. Sa structure est toujours la même : `=SI(question ; réponse si vrai ; réponse si faux)`.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M07-L01-02",
+      "consigne": "En **C4**, ==saisissez `=SI(B4>=$B$1;\"Atteint\";\"Non atteint\")`==. Notez le dollar : l'objectif est en B1 et ne doit pas bouger à la recopie.",
+      "setup": {
+        "selection": "C4"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "C4",
+        "accept": [
+          "=SI(B4>=$B$1;\"Atteint\";\"Non atteint\")",
+          "=SI($B$1<=B4;\"Atteint\";\"Non atteint\")"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Le texte de réponse doit être entre guillemets droits.",
+        "showTarget": true
+      },
+      "feedback": "« Atteint » : Amina a fait 18 200 pour un objectif de 15 000."
+    },
+    {
+      "id": "M07-L01-03",
+      "consigne": "Les **guillemets** sont obligatoires autour d'un texte de réponse. Sans eux, Excel chercherait une cellule ou une fonction de ce nom et renverrait une erreur.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M07-L01-04",
+      "consigne": "==Recopiez C4 jusqu'en C7== pour évaluer les quatre commerciaux.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "C5": {
+            "v": "Non atteint"
+          },
+          "C6": {
+            "v": "Atteint"
+          },
+          "C7": {
+            "v": "Atteint"
+          }
+        }
+      },
+      "aide": {
+        "text": "Poignée de recopie de C4 vers le bas."
+      },
+      "feedback": "Chloé est exactement à 15 000 et compte comme atteint : c'est le `>=` qui inclut l'égalité. Avec `>` seul, elle aurait été recalée."
+    },
+    {
+      "id": "M07-L01-05",
+      "consigne": "Ce détail compte. `>` signifie **strictement supérieur**, `>=` signifie **supérieur ou égal**. Confondre les deux exclut à tort celui qui atteint tout juste son objectif.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M07-L01-06",
+      "consigne": "SI peut aussi renvoyer un **calcul**, pas seulement du texte. En **D4**, ==saisissez `=SI(B4>=$B$1;B4*0,05;0)`== pour verser 5 % de prime aux seuls commerciaux ayant atteint l'objectif.",
+      "setup": {
+        "selection": "D4"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "D4",
+        "accept": [
+          "=SI(B4>=$B$1;B4*0,05;0)",
+          "=SI($B$1<=B4;B4*0,05;0)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Une prime de 5 % s'écrit en multipliant par 0,05.",
+        "showTarget": true
+      },
+      "feedback": "910 € de prime pour Amina."
+    },
+    {
+      "id": "M07-L01-07",
+      "consigne": "==Recopiez D4 jusqu'en D7==.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "D5": {
+            "v": 0
+          },
+          "D6": {
+            "v": 750
+          },
+          "D7": {
+            "v": 1090
+          }
+        }
+      },
+      "aide": {
+        "text": "Poignée de recopie vers le bas."
+      },
+      "feedback": "Bruno n'a rien, les trois autres sont primés. Une seule formule pour toute une politique de rémunération."
+    },
+    {
+      "id": "M07-L01-08",
+      "consigne": "On peut aller plus loin en **imbriquant** un SI dans un autre, pour trois niveaux au lieu de deux. En **E4**, ==saisissez `=SI(B4>=20000;\"Excellent\";SI(B4>=$B$1;\"Bon\";\"Insuffisant\"))`==.",
+      "setup": {
+        "selection": "E4",
+        "cells": {
+          "E3": {
+            "v": "Appréciation",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "E4",
+        "accept": [
+          "=SI(B4>=20000;\"Excellent\";SI(B4>=$B$1;\"Bon\";\"Insuffisant\"))"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Le deuxième SI prend la place de la « réponse si faux » du premier.",
+        "showTarget": true
+      },
+      "feedback": "« Bon » pour Amina : au-dessus de l'objectif mais sous les 20 000."
+    },
+    {
+      "id": "M07-L01-09",
+      "consigne": "==Recopiez E4 jusqu'en E7== et vérifiez les quatre appréciations.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "E5": {
+            "v": "Insuffisant"
+          },
+          "E6": {
+            "v": "Bon"
+          },
+          "E7": {
+            "v": "Excellent"
+          }
+        }
+      },
+      "aide": {
+        "text": "Poignée de recopie vers le bas."
+      },
+      "feedback": "Quatre appréciations justes. Retenez l'ordre : on teste **du plus exigeant au moins exigeant**, sinon le premier SI attrape tout le monde."
+    }
+  ]
+}

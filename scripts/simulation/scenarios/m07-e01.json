@@ -1,0 +1,195 @@
+{
+  "schemaVersion": 1,
+  "title": "Exercice · Conditions et comptages",
+  "mode": "EXERCISE",
+  "moduleTitle": "Les fonctions courantes",
+  "intro": {
+    "title": "À VOUS",
+    "body": "Un suivi de stocks à analyser."
+  },
+  "outro": {
+    "body": "Exercice terminé."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ],
+    "sheetCount": 1
+  },
+  "workbook": {
+    "fileName": "Stocks",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 120,
+          "E": 180
+        },
+        "cells": {
+          "A1": {
+            "v": "Seuil d'alerte",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": 10
+          },
+          "A3": {
+            "v": "Article",
+            "format": {
+              "bold": true
+            }
+          },
+          "B3": {
+            "v": "Stock",
+            "format": {
+              "bold": true
+            }
+          },
+          "C3": {
+            "v": "État",
+            "format": {
+              "bold": true
+            }
+          },
+          "A4": {
+            "v": "Clavier"
+          },
+          "B4": {
+            "v": 24
+          },
+          "A5": {
+            "v": "Souris"
+          },
+          "B5": {
+            "v": 6
+          },
+          "A6": {
+            "v": "Écran"
+          },
+          "B6": {
+            "v": 10
+          },
+          "A7": {
+            "v": "Casque"
+          },
+          "B7": {
+            "v": 3
+          },
+          "A8": {
+            "v": "Webcam"
+          },
+          "B8": {
+            "v": 18
+          },
+          "E4": {
+            "v": "Articles à réapprovisionner",
+            "format": {
+              "bold": true
+            }
+          },
+          "E5": {
+            "v": "Stock total des articles OK",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M07-E01-01",
+      "consigne": "En **C4**, affichez **« À commander »** si le stock est **strictement inférieur** au seuil, et **« OK »** sinon. La formule devra être recopiable.",
+      "setup": {
+        "selection": "C4"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "C4",
+        "accept": [
+          "=SI(B4<$B$1;\"À commander\";\"OK\")",
+          "=SI($B$1>B4;\"À commander\";\"OK\")"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Le seuil est en B1 et ne doit pas bouger à la recopie."
+      }
+    },
+    {
+      "id": "M07-E01-02",
+      "consigne": "Complétez la colonne **État** pour les quatre autres articles.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "C5": {
+            "v": "À commander"
+          },
+          "C6": {
+            "v": "OK"
+          },
+          "C7": {
+            "v": "À commander"
+          },
+          "C8": {
+            "v": "OK"
+          }
+        }
+      },
+      "aide": {
+        "text": "Poignée de recopie vers le bas."
+      },
+      "feedback": "L'écran est à 10, soit exactement le seuil, et reste OK : c'est le `<` strict qui le veut."
+    },
+    {
+      "id": "M07-E01-03",
+      "consigne": "En **F4**, comptez **combien d'articles sont à réapprovisionner**.",
+      "setup": {
+        "selection": "F4"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "F4",
+        "accept": [
+          "=NB.SI(C4:C8;\"À commander\")",
+          "=NB.SI(B4:B8;\"<\"&$B$1)",
+          "=NB.SI(B4:B8;\"<10\")"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Vous pouvez compter sur la colonne État, ou directement sur les stocks."
+      },
+      "feedback": "2 articles."
+    },
+    {
+      "id": "M07-E01-04",
+      "consigne": "En **F5**, calculez le **stock total des seuls articles en état OK**.",
+      "setup": {
+        "selection": "F5"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "F5",
+        "accept": [
+          "=SOMME.SI(C4:C8;\"OK\";B4:B8)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Le critère est dans une colonne, les valeurs à additionner dans une autre."
+      },
+      "feedback": "52 unités. Le troisième argument était indispensable."
+    }
+  ]
+}

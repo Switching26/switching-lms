@@ -1,0 +1,212 @@
+{
+  "schemaVersion": 1,
+  "title": "Calculer une évolution en pourcentage",
+  "mode": "LESSON",
+  "moduleTitle": "Premières applications",
+  "intro": {
+    "title": "COMPARER DEUX PÉRIODES",
+    "body": "« On a fait +12 % » : encore faut-il savoir le calculer, et ne pas confondre la variation avec l'écart."
+  },
+  "outro": {
+    "body": "Vous savez calculer une évolution, et vous ne confondrez plus points et pourcentage."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ],
+    "sheetCount": 1
+  },
+  "workbook": {
+    "fileName": "Évolution CA",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 130
+        },
+        "cells": {
+          "A1": {
+            "v": "Agence",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "2025",
+            "format": {
+              "bold": true
+            }
+          },
+          "C1": {
+            "v": "2026",
+            "format": {
+              "bold": true
+            }
+          },
+          "D1": {
+            "v": "Écart",
+            "format": {
+              "bold": true
+            }
+          },
+          "E1": {
+            "v": "Évolution",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Nord"
+          },
+          "B2": {
+            "v": 120000
+          },
+          "C2": {
+            "v": 138000
+          },
+          "A3": {
+            "v": "Sud"
+          },
+          "B3": {
+            "v": 95000
+          },
+          "C3": {
+            "v": 89000
+          },
+          "A4": {
+            "v": "Est"
+          },
+          "B4": {
+            "v": 76000
+          },
+          "C4": {
+            "v": 95000
+          },
+          "A5": {
+            "v": "Ouest"
+          },
+          "B5": {
+            "v": 110000
+          },
+          "C5": {
+            "v": 110000
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M09-L02-01",
+      "consigne": "Commençons par l'**écart en euros**. En **D2**, ==saisissez la différence entre 2026 et 2025==.",
+      "setup": {
+        "selection": "D2"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "D2",
+        "accept": [
+          "=C2-B2"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "L'année récente moins l'année de référence, dans cet ordre.",
+        "showTarget": true
+      },
+      "feedback": "+18 000 €. L'ordre compte : inversé, le signe serait faux. Mais l'écart en euros ne dit pas tout — 18 000 € sur 120 000 n'a pas le même sens que sur 20 000. D'où le pourcentage."
+    },
+    {
+      "id": "M09-L02-03",
+      "consigne": "La formule est **(nouveau − ancien) ÷ ancien**. En **E2**, ==saisissez `=(C2-B2)/B2`==.",
+      "setup": {
+        "selection": "E2"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "E2",
+        "accept": [
+          "=(C2-B2)/B2",
+          "=D2/B2"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Les parenthèses sont indispensables : sans elles, Excel diviserait B2 par B2 en premier.",
+        "showTarget": true
+      },
+      "feedback": "0,15 — soit +15 %. Retenez qu'on divise TOUJOURS par l'ancien, jamais par le nouveau : diviser par le nouveau donne un chiffre qui ressemble à un pourcentage mais ne veut rien dire."
+    },
+    {
+      "id": "M09-L02-05",
+      "consigne": "==Complétez les colonnes **Écart** et **Évolution** pour les trois autres agences==.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "D3": {
+            "v": -6000
+          },
+          "D4": {
+            "v": 19000
+          },
+          "D5": {
+            "v": 0
+          },
+          "E3": {
+            "v": -0.0631578947368421
+          },
+          "E5": {
+            "v": 0
+          }
+        }
+      },
+      "aide": {
+        "text": "Sélectionnez D2:E2 et recopiez vers le bas jusqu'à la ligne 5."
+      },
+      "feedback": "Le Sud recule de 6,3 %, l'Est bondit de 25 %, l'Ouest est stable à 0 %."
+    },
+    {
+      "id": "M09-L02-07",
+      "consigne": "Dernier calcul : en **C7**, ==calculez l'évolution globale== du chiffre d'affaires, toutes agences confondues.",
+      "setup": {
+        "selection": "C7",
+        "cells": {
+          "A7": {
+            "v": "Évolution globale",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "C7",
+        "accept": [
+          "=(SOMME(C2:C5)-SOMME(B2:B5))/SOMME(B2:B5)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Même formule, mais sur les totaux des deux colonnes.",
+        "showTarget": true
+      },
+      "feedback": "+7,9 %. Un chiffre bien plus modéré que le +25 % de l'Est : c'est pour ça qu'on regarde toujours le global ET le détail."
+    },
+    {
+      "id": "M09-L02-06",
+      "consigne": "Dernier piège, très fréquent en réunion : passer de 15 % à 20 %, c'est **5 points** de plus, pas 5 %. En pourcentage, c'est une hausse d'un tiers. Dire « 5 % » serait faux.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    }
+  ]
+}

@@ -45,7 +45,7 @@ function stripGradedSecrets(scenario: Scenario): Scenario {
  * Gardes communes. Renvoie soit une réponse d'erreur à retourner tel quel,
  * soit le chapitre et sa simulation.
  */
-async function loadContext(chapterId: string, userId: string) {
+async function loadContext(chapterId: string, userId: string, superAdmin = false) {
   const chapter = await prisma.chapter.findUnique({
     where: { id: chapterId },
     include: { simulation: true },
@@ -53,12 +53,20 @@ async function loadContext(chapterId: string, userId: string) {
   if (!chapter) {
     return { error: NextResponse.json({ error: "Chapitre introuvable" }, { status: 404 }) }
   }
-  if (!chapter.isPublished) {
+  // Un super-admin doit pouvoir RELIRE son propre contenu avant publication :
+  // sans cette exception, l'aperçu de l'espace admin échouait deux fois — le
+  // chapitre n'étant pas publié et l'admin n'étant pas inscrit. Impossible de
+  // relire 78 ateliers avant de les publier.
+  if (!chapter.isPublished && !superAdmin) {
     return { error: NextResponse.json({ error: "Chapitre non publié" }, { status: 403 }) }
   }
   if (!chapter.simulation) {
     return { error: NextResponse.json({ error: "Ce chapitre ne porte pas de simulation" }, { status: 404 }) }
   }
+
+  // L'aperçu admin s'arrête ici : pas d'inscription à vérifier, et aucune
+  // progression ne sera écrite puisque seul le GET accepte ce contournement.
+  if (superAdmin) return { chapter, simulation: chapter.simulation }
 
   const enrollment = await prisma.enrollment.findUnique({
     where: { userId_formationId: { userId, formationId: chapter.formationId } },
@@ -81,8 +89,11 @@ export async function GET(_req: NextRequest, { params }: { params: { chapterId: 
   const session = await auth()
   if (!session) return NextResponse.json({ error: "Non autorisé" }, { status: 401 })
   const userId = session.user.id
+  // Le contournement de relecture ne vaut QUE pour le GET : le PUT reste soumis
+  // à publication et inscription, donc aucune progression parasite.
+  const superAdmin = session.user.role === "SUPER_ADMIN"
 
-  const ctx = await loadContext(params.chapterId, userId)
+  const ctx = await loadContext(params.chapterId, userId, superAdmin)
   if ("error" in ctx) return ctx.error
   const { simulation } = ctx
 

@@ -29,6 +29,12 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
               },
             },
           },
+          // Métadonnées de simulation seulement, comme côté apprenant : sans
+          // elles l'aperçu affichait un chapitre vide pour un atelier Excel,
+          // et le super-admin ne pouvait pas relire son propre contenu avant
+          // publication. Jamais le scénario complet ici — 78 scénarios dans la
+          // réponse feraient un payload inutilement énorme.
+          simulation: { select: { id: true, app: true, mode: true, stepCount: true } },
         },
       },
       attachments: true,

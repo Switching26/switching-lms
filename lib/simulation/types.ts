@@ -635,10 +635,24 @@ export function normalizeFormula(input: string): string {
     .replace(/,/g, ";")
 }
 
-/** Normalise une saisie non-formule (texte ou nombre). */
+/**
+ * Normalise une saisie non-formule (texte ou nombre).
+ *
+ * Hors mode strict, on replie la casse ET les accents : une étape qui ne se soucie
+ * pas des majuscules n'a aucune raison d'exiger les accents. Refuser « Releve »
+ * quand la donnée attendue est « Relevé » punit la frappe et non la compréhension,
+ * et dans un cours de tableur l'objet d'une étape n'est jamais l'orthographe.
+ * `caseSensitive` signifie donc « orthographe stricte » : un auteur qui a
+ * réellement besoin de l'exactitude au caractère près le déclare.
+ */
 export function normalizeValue(input: string, caseSensitive = false): string {
   const trimmed = input.trim().replace(/\s+/g, " ")
-  return caseSensitive ? trimmed : trimmed.toLocaleUpperCase("fr-FR")
+  if (caseSensitive) return trimmed
+  return trimmed
+    .toLocaleUpperCase("fr-FR")
+    // Décomposition puis retrait des signes diacritiques combinants.
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
 }
 
 /**

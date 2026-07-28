@@ -94,6 +94,154 @@ export type WorkbookState = {
    * Univer ne devine pas la ligne de titres : c'est au scénario de la déclarer.
    */
   filterRange?: RangeRef
+  /** Graphiques déjà posés au démarrage. */
+  charts?: ChartState[]
+  /** Tableaux croisés déjà posés au démarrage. */
+  pivots?: PivotState[]
+  /** Réglages d'impression au démarrage. */
+  pageSetup?: PageSetupState
+  /** Macros déjà enregistrées au démarrage. */
+  macros?: MacroState[]
+}
+
+/* ═══════════ GRAPHIQUES (modules 17 et 18) ═══════════ */
+
+/**
+ * Les graphiques ne passent PAS par Univer : son moteur de graphiques est un
+ * paquet payant. Ce modèle est rendu par notre propre couche SVG, ce qui a deux
+ * avantages pédagogiques — on maîtrise chaque élément que la leçon fait
+ * sélectionner, et le rendu reste net à toutes les tailles.
+ */
+export type ChartType = "histogramme" | "barres" | "courbes" | "secteurs" | "aires" | "nuage"
+
+export type ChartSeries = {
+  /** Libellé affiché en légende. */
+  name: string
+  /** Plage des valeurs, ex. "B2:B7". */
+  values: RangeRef
+  color?: string
+  /** Courbe de tendance (module 18). */
+  trendline?: "lineaire" | "moyenne-mobile"
+  /** Forme des points d'une série (module 18) : barre pleine, cylindre, cône. */
+  shape?: "barre" | "cylindre" | "cone"
+  hidden?: boolean
+}
+
+export type ChartElements = {
+  titre?: boolean
+  legende?: boolean
+  etiquettes?: boolean
+  quadrillage?: boolean
+  axes?: boolean
+  /** Titres d'axes, que le module 17 fait afficher séparément. */
+  titresAxes?: boolean
+}
+
+export type ChartState = {
+  id: string
+  type: ChartType
+  /** Plage source telle que l'apprenant l'a sélectionnée, si elle est contiguë. */
+  source?: RangeRef
+  /** Plage des libellés d'axe des abscisses. */
+  categories?: RangeRef
+  series: ChartSeries[]
+  title?: string
+  elements?: ChartElements
+  legendPosition?: "droite" | "bas" | "haut" | "gauche"
+  /** Style de la galerie, ex. 4 pour « la 4e de la catégorie En couleurs ». */
+  style?: number
+  /** Cadre flottant en pixels, relatif au coin haut-gauche de la grille. */
+  frame?: { x: number; y: number; w: number; h: number }
+  /**
+   * Élément sélectionné par l'apprenant : "titre", "legende", "quadrillage",
+   * "axe-x", "axe-y", "serie:0", "point:0:2". Le module 17 consacre une leçon
+   * entière à cette sélection, donc elle fait partie de l'état observable.
+   */
+  selectedElement?: string
+}
+
+/* ═══════════ TABLEAUX CROISÉS DYNAMIQUES (module 20) ═══════════ */
+
+export type PivotAgg = "somme" | "nombre" | "moyenne" | "min" | "max"
+
+export type PivotField = {
+  /** Nom de la colonne source, tel qu'il figure dans la ligne d'en-tête. */
+  name: string
+  /** Agrégat, pour un champ placé en Valeurs. Défaut : somme si numérique. */
+  agg?: PivotAgg
+}
+
+export type PivotState = {
+  id: string
+  /** Plage source, ligne d'en-tête comprise. */
+  source: RangeRef
+  /** Coin haut-gauche où le tableau se pose. */
+  target: CellRef
+  rows: PivotField[]
+  cols: PivotField[]
+  values: PivotField[]
+  filters: PivotField[]
+  /** Valeurs retenues par les filtres de rapport, par nom de champ. */
+  filterValues?: Record<string, string[]>
+  styleId?: number
+  /**
+   * Vrai quand la source a changé depuis le dernier calcul. Le vrai Excel ne
+   * recalcule pas un TCD tout seul : le module 20 fait cliquer Actualiser, donc
+   * cet état périmé doit exister pour que la leçon ait un sens.
+   */
+  stale?: boolean
+}
+
+/* ═══════════ MISE EN PAGE ET IMPRESSION (module 13) ═══════════ */
+
+export type PageSetupState = {
+  orientation?: "portrait" | "paysage"
+  format?: "A4" | "A3" | "Letter"
+  /** Marges en centimètres. */
+  margins?: { haut: number; bas: number; gauche: number; droite: number }
+  /** Ajuster à N page(s) en largeur / en hauteur. */
+  scaleToFit?: { largeur?: number; hauteur?: number }
+  /** Échelle en pourcentage, exclusive de `scaleToFit`. */
+  scale?: number
+  /** Titres à répéter : "$1:$1" pour la ligne 1, "$A:$A" pour la colonne A. */
+  repeatRows?: string
+  repeatCols?: string
+  header?: { gauche?: string; centre?: string; droite?: string }
+  footer?: { gauche?: string; centre?: string; droite?: string }
+  /** Index (base 0) des lignes / colonnes AVANT lesquelles la page se coupe. */
+  pageBreakRows?: number[]
+  pageBreakCols?: number[]
+  printArea?: RangeRef
+  gridlines?: boolean
+  headings?: boolean
+  /** Mode d'affichage de la feuille. */
+  view?: "normal" | "mise-en-page" | "sauts-de-page"
+  /** Centrer la zone imprimée. */
+  center?: { horizontal?: boolean; vertical?: boolean }
+}
+
+/* ═══════════ MACROS (module 27) ═══════════ */
+
+/**
+ * L'enregistreur ne transcrit que les gestes que le module enseigne. Chaque
+ * instruction est réellement rejouable par le moteur : « Visualiser et modifier
+ * une macro » n'aurait aucun sens si le code affiché était décoratif.
+ */
+export type MacroStatement =
+  | { op: "select"; ref: string }
+  | { op: "value"; ref: string; value: string | number }
+  | { op: "formula"; ref: string; formula: string }
+  | { op: "font"; ref: string; bold?: boolean; italic?: boolean; size?: number; color?: string }
+  | { op: "interior"; ref: string; color: string }
+  | { op: "numberFormat"; ref: string; pattern: string }
+
+export type MacroState = {
+  name: string
+  /** Raccourci sous la forme "Ctrl+e" ou "Ctrl+Maj+E". */
+  shortcut?: string
+  /** Enregistrement en références relatives plutôt qu'absolues. */
+  relative?: boolean
+  statements: MacroStatement[]
 }
 
 /* ═══════════ RUBAN ═══════════ */
@@ -273,6 +421,69 @@ export type SimulationAction =
    * (ex. "=MOYENNE({{range}})").
    */
   | { type: "DRAG_RANGE"; range: RangeRef; duringEdit?: boolean; template?: string }
+  /**
+   * Le graphique produit doit correspondre aux champs déclarés. Comme pour
+   * EXPECT_FORMAT, SEULS les champs présents sont comparés : une leçon qui
+   * n'enseigne que le type ne doit pas échouer sur une couleur de série.
+   */
+  | {
+      type: "EXPECT_CHART"
+      chart: {
+        type?: ChartType
+        source?: RangeRef
+        categories?: RangeRef
+        title?: string
+        /** Nombre de séries attendu. */
+        seriesCount?: number
+        /** Séries attendues, comparées dans l'ordre, champs déclarés seulement. */
+        series?: Array<Partial<Pick<ChartSeries, "name" | "values" | "color" | "trendline" | "shape" | "hidden">>>
+        elements?: ChartElements
+        legendPosition?: ChartState["legendPosition"]
+        style?: number
+      }
+    }
+  /** Sélectionner un élément DANS le graphique (titre, légende, série…). */
+  | { type: "SELECT_CHART_ELEMENT"; element: string }
+  /** Le tableau croisé produit doit correspondre aux champs déclarés. */
+  | {
+      type: "EXPECT_PIVOT"
+      pivot: {
+        source?: RangeRef
+        target?: CellRef
+        /** Comparaison par NOM de champ, l'ordre compte. */
+        rows?: string[]
+        cols?: string[]
+        values?: Array<{ name: string; agg?: PivotAgg }>
+        filters?: string[]
+        styleId?: number
+        /** Exiger un tableau à jour : l'étape « Actualiser » attend `false`. */
+        stale?: boolean
+        /**
+         * Quelques cellules du tableau produit, pour prouver que le calcul est
+         * juste et pas seulement que les champs sont bien placés.
+         */
+        cells?: Record<CellRef, { v?: number | string; t?: string }>
+      }
+    }
+  /** Les réglages d'impression doivent correspondre aux champs déclarés. */
+  | { type: "EXPECT_PAGE_SETUP"; pageSetup: PageSetupState }
+  /** La macro enregistrée doit correspondre aux champs déclarés. */
+  | {
+      type: "EXPECT_MACRO"
+      macro: {
+        name?: string
+        shortcut?: string
+        relative?: boolean
+        /** Nombre minimal d'instructions transcrites. */
+        minStatements?: number
+        /** Fragments que le code généré doit contenir, ex. "Range(\"B4\")". */
+        contains?: string[]
+        /** Effet attendu APRÈS exécution de la macro. */
+        effet?: Record<CellRef, { v?: number | string }>
+      }
+    }
+  /** Démarrer ou arrêter l'enregistreur. */
+  | { type: "RECORD_MACRO"; expect: "started" | "stopped" }
 
 /* ═══════════ ÉTAPES ═══════════ */
 
@@ -332,6 +543,38 @@ export type SimulationStep = {
      * de dialogue ; le scénario les déclare.
      */
     goalSeek?: { formulaRef: string; target: number; inputRef: string }
+    /**
+     * Graphique que le bouton d'insertion créera à cette étape. Le scénario
+     * déclare le résultat attendu du geste : l'apprenant sélectionne la plage
+     * et clique, le moteur pose CE graphique.
+     */
+    chart?: Partial<ChartState> & { type: ChartType }
+    /** Modification à appliquer au graphique courant (module 18). */
+    chartEdit?: Partial<ChartState> & {
+      /** Ajouter des séries à la fin. */
+      addSeries?: ChartSeries[]
+      /** Retirer des séries par nom. */
+      removeSeries?: string[]
+      /** Modifier une série existante, repérée par nom. */
+      editSeries?: Array<{ name: string } & Partial<ChartSeries>>
+    }
+    /** Tableau croisé que le bouton du ruban créera à cette étape. */
+    pivot?: Partial<PivotState> & { source: RangeRef; target: CellRef }
+    /** Modification à appliquer au tableau croisé courant. */
+    pivotEdit?: Partial<PivotState> & {
+      addRows?: PivotField[]
+      addCols?: PivotField[]
+      addValues?: PivotField[]
+      addFilters?: PivotField[]
+      removeFields?: string[]
+      /** Modifier la source pour rendre le tableau périmé, puis l'actualiser. */
+      sourceCells?: Record<CellRef, CellState>
+      refresh?: boolean
+    }
+    /** Réglages d'impression que le contrôle appliquera à cette étape. */
+    pageSetup?: PageSetupState
+    /** Macro que l'enregistreur produira, ou modification de la macro courante. */
+    macro?: Partial<MacroState> & { name: string }
   }
   action: SimulationAction
   aide?: StepHint

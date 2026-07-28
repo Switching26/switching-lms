@@ -66,19 +66,25 @@ const MODULE_TITLES: Record<number, string> = {
 type Parsed = {
   file: string
   moduleNumber: number
-  /** L = leçon, E = exercice. Les leçons passent avant les exercices. */
-  kind: "L" | "E"
+  /**
+   * L = leçon, E = exercice, V = évaluation (« S'évaluer »). L'ordre du parcours
+   * est celui-là : on montre, on fait faire, puis on note.
+   */
+  kind: "L" | "E" | "V"
   index: number
   scenario: SimulationScenario
 }
 
-/** `m06-l03.json` → module 6, leçon 3. */
-function parseFileName(file: string): { moduleNumber: number; kind: "L" | "E"; index: number } | null {
-  const m = /m(\d{2})-([le])(\d{2})\.json$/i.exec(path.basename(file))
+/** `m06-l03.json` → module 6, leçon 3 ; `m17-ev01.json` → module 17, évaluation 1. */
+function parseFileName(file: string): { moduleNumber: number; kind: "L" | "E" | "V"; index: number } | null {
+  // `ev` avant `[le]` dans l'alternative : sinon `ev01` serait lu comme un `e`
+  // suivi de `v01`, qui n'est pas un nombre — le fichier serait rejeté.
+  const m = /m(\d{2})-(ev|[le])(\d{2})\.json$/i.exec(path.basename(file))
   if (!m) return null
+  const genre = m[2].toLowerCase()
   return {
     moduleNumber: parseInt(m[1], 10),
-    kind: m[2].toUpperCase() as "L" | "E",
+    kind: genre === "ev" ? "V" : (genre.toUpperCase() as "L" | "E"),
     index: parseInt(m[3], 10),
   }
 }
@@ -89,7 +95,7 @@ function parseFileName(file: string): { moduleNumber: number; kind: "L" | "E"; i
  * insérer plus tard sans tout renuméroter.
  */
 function chapterOrder(p: Parsed): number {
-  return (p.kind === "L" ? 100 : 200) + p.index
+  return (p.kind === "L" ? 100 : p.kind === "E" ? 200 : 300) + p.index
 }
 
 async function main() {
@@ -116,7 +122,9 @@ async function main() {
   for (const file of files) {
     const meta = parseFileName(file)
     if (!meta) {
-      problems.push(`${path.basename(file)} : nom de fichier hors convention mNN-lNN.json / mNN-eNN.json`)
+      problems.push(
+        `${path.basename(file)} : nom de fichier hors convention mNN-lNN.json / mNN-eNN.json / mNN-evNN.json`,
+      )
       continue
     }
     if (!MODULE_TITLES[meta.moduleNumber]) {
@@ -196,7 +204,7 @@ async function main() {
       const verb = existingChapter ? "MAJ  " : "CRÉER"
       if (existingChapter) updates++
       else creations++
-      const mode = p.scenario.mode ?? (p.kind === "E" ? "EXERCISE" : "LESSON")
+      const mode = p.scenario.mode ?? (p.kind === "E" ? "EXERCISE" : p.kind === "V" ? "EVALUATION" : "LESSON")
       console.log(
         `  ${verb} [${p.kind}${String(p.index).padStart(2, "0")}] ${p.scenario.title.padEnd(46)} ${String(steps).padStart(2)} étapes · ${mode}`,
       )
@@ -231,7 +239,7 @@ async function main() {
         }))
 
       for (const p of items) {
-        const mode = (p.scenario.mode ?? (p.kind === "E" ? "EXERCISE" : "LESSON")) as
+        const mode = (p.scenario.mode ?? (p.kind === "E" ? "EXERCISE" : p.kind === "V" ? "EVALUATION" : "LESSON")) as
           | "LESSON"
           | "EXERCISE"
           | "EVALUATION"

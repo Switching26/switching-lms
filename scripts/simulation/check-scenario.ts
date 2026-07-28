@@ -126,7 +126,7 @@ function checkStep(s: SimulationStep, i: number, seen: Set<string>, mode: string
 
     case "CLICK_CONTROL":
       if (!a.control.trim()) err(`${where} : identifiant de contrôle vide.`)
-      else if (!/^(bf|acc|sb|ui|ins|for|don|rev|aff|dev)-/.test(a.control)) {
+      else if (!/^(bf|acc|sb|ui|ins|for|don|rev|aff|dev|mep|grf|tcd|mac)-/.test(a.control)) {
         warn(`${where} : « ${a.control} » ne suit pas la convention de préfixe des contrôles.`)
       }
       break
@@ -209,6 +209,16 @@ function checkStep(s: SimulationStep, i: number, seen: Set<string>, mode: string
   "SORT_RANGE",
   "FILTER_COLUMN",
   "EXPECT_FORMAT",
+  // Modules 13, 17, 18, 20 et 27 : ces gestes passent par nos propres couches
+  // (graphiques, tableaux croisés, mise en page, macros) plutôt que par Univer,
+  // dont les modules correspondants sont payants. Ils sont donc observables par
+  // construction : c'est nous qui émettons l'observation.
+  "EXPECT_CHART",
+  "SELECT_CHART_ELEMENT",
+  "EXPECT_PIVOT",
+  "EXPECT_PAGE_SETUP",
+  "EXPECT_MACRO",
+  "RECORD_MACRO",
   ])
   if (!OBSERVABLE.has(a.type)) {
     err(

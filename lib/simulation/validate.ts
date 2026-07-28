@@ -14,7 +14,16 @@
  * (« sans utiliser le clavier ») : là, c'est le geste lui-même qui est enseigné.
  */
 
-import type { SimulationAction, SimulationStep, TypeAction } from "./types"
+import type {
+  ChartState,
+  MacroState,
+  PageSetupState,
+  PivotField,
+  PivotState,
+  SimulationAction,
+  SimulationStep,
+  TypeAction,
+} from "./types"
 import { matchesTypedAnswer, normalizeFormula } from "./types"
 import { sameArea } from "./grid"
 import { frToEngine } from "./formula-fr"
@@ -70,6 +79,28 @@ export type ObservedAction =
    * utilisable aussi côté serveur.
    */
   | { kind: "stateChange"; readings: Record<string, { formula: string; value: unknown }> }
+  /** Le graphique courant après le geste de l'apprenant. */
+  | { kind: "chartChange"; chart: ChartState | null }
+  /** Élément sélectionné dans le graphique. */
+  | { kind: "chartElement"; element: string }
+  /**
+   * Le tableau croisé après le geste, avec la lecture des cellules produites —
+   * même principe que `stateChange` : la lecture vient du simulateur, ce fichier
+   * reste calculable côté serveur.
+   */
+  | { kind: "pivotChange"; pivot: PivotState | null; readings?: Record<string, { value: unknown }> }
+  /** Les réglages d'impression après le geste. */
+  | { kind: "pageSetupChange"; pageSetup: PageSetupState }
+  /** La macro après enregistrement ou modification, avec son code généré. */
+  | {
+      kind: "macroChange"
+      macro: MacroState | null
+      code: string
+      /** Lecture des cellules après exécution, quand l'étape teste l'effet. */
+      readings?: Record<string, { value: unknown }>
+    }
+  /** L'enregistreur a démarré ou s'est arrêté. */
+  | { kind: "recorder"; state: "started" | "stopped" }
 
 export type Verdict =
   | { ok: true }
@@ -496,6 +527,283 @@ export function validateStep(
       return OK
     }
 
+    case "EXPECT_CHART": {
+      if (observed.kind !== "chartChange") return { ok: false, reason: "no_chart_reading", message: "" }
+      const g = observed.chart
+      if (!g) return { ok: false, reason: "no_chart", message: "Aucun graphique n'a été créé." }
+      const a = expected.chart
+      if (a.type !== undefined && g.type !== a.type) {
+        return { ok: false, reason: "wrong_chart_type", message: `Le graphique n'est pas du type attendu.` }
+      }
+      if (a.source !== undefined && normRange(g.source) !== normRange(a.source)) {
+        return { ok: false, reason: "wrong_chart_source", message: "Le graphique ne porte pas sur la plage attendue." }
+      }
+      if (a.categories !== undefined && normRange(g.categories) !== normRange(a.categories)) {
+        return { ok: false, reason: "wrong_chart_categories", message: "Les libellés de l'axe ne sont pas ceux attendus." }
+      }
+      if (a.title !== undefined && (g.title ?? "").trim() !== a.title.trim()) {
+        return { ok: false, reason: "wrong_chart_title", message: "Le titre du graphique n'est pas celui attendu." }
+      }
+      // Une série masquée reste dans le modèle : c'est le propre de « masquer ».
+      // Le décompte porte donc sur les séries VISIBLES, ce que l'apprenant voit.
+      const visibles = g.series.filter((x) => !x.hidden)
+      if (a.seriesCount !== undefined && visibles.length !== a.seriesCount) {
+        return {
+          ok: false,
+          reason: "wrong_series_count",
+          message: `Le graphique ne compte pas ${a.seriesCount} série(s) visible(s).`,
+        }
+      }
+      if (a.series !== undefined) {
+        for (let i = 0; i < a.series.length; i++) {
+          const att = a.series[i]
+          const lue = g.series[i]
+          if (!lue) return { ok: false, reason: "missing_series", message: `La série ${i + 1} est absente.` }
+          if (att.name !== undefined && lue.name.trim() !== att.name.trim()) {
+            return { ok: false, reason: "wrong_series_name", message: `La série ${i + 1} n'est pas celle attendue.` }
+          }
+          if (att.values !== undefined && normRange(lue.values) !== normRange(att.values)) {
+            return { ok: false, reason: "wrong_series_values", message: `La série ${i + 1} ne porte pas sur la plage attendue.` }
+          }
+          if (att.color !== undefined && !memeCouleur(lue.color, att.color)) {
+            return { ok: false, reason: "wrong_series_color", message: `La couleur de la série ${i + 1} n'est pas celle attendue.` }
+          }
+          if (att.trendline !== undefined && lue.trendline !== att.trendline) {
+            return { ok: false, reason: "wrong_trendline", message: `La courbe de tendance attendue n'est pas en place.` }
+          }
+          if (att.shape !== undefined && lue.shape !== att.shape) {
+            return { ok: false, reason: "wrong_series_shape", message: `La forme de la série ${i + 1} n'est pas celle attendue.` }
+          }
+          if (att.hidden !== undefined && Boolean(lue.hidden) !== att.hidden) {
+            return {
+              ok: false,
+              reason: "wrong_series_visibility",
+              message: att.hidden ? `La série ${i + 1} devrait être masquée.` : `La série ${i + 1} devrait être visible.`,
+            }
+          }
+        }
+      }
+      if (a.elements !== undefined) {
+        const lus = g.elements ?? {}
+        for (const [cle, veut] of Object.entries(a.elements)) {
+          if (veut === undefined) continue
+          if (Boolean((lus as Record<string, unknown>)[cle]) !== veut) {
+            return {
+              ok: false,
+              reason: "wrong_chart_element",
+              message: veut ? `L'élément « ${cle} » devrait être affiché.` : `L'élément « ${cle} » devrait être masqué.`,
+            }
+          }
+        }
+      }
+      if (a.legendPosition !== undefined && g.legendPosition !== a.legendPosition) {
+        return { ok: false, reason: "wrong_legend_position", message: "La légende n'est pas placée où il faut." }
+      }
+      if (a.style !== undefined && g.style !== a.style) {
+        return { ok: false, reason: "wrong_chart_style", message: "Le style appliqué n'est pas celui attendu." }
+      }
+      return OK
+    }
+
+    case "SELECT_CHART_ELEMENT": {
+      if (observed.kind !== "chartElement") return { ok: false, reason: "no_chart_element", message: "" }
+      if (observed.element !== expected.element) {
+        return { ok: false, reason: "wrong_chart_element_selected", message: "Ce n'est pas l'élément demandé." }
+      }
+      return OK
+    }
+
+    case "EXPECT_PIVOT": {
+      if (observed.kind !== "pivotChange") return { ok: false, reason: "no_pivot_reading", message: "" }
+      const t = observed.pivot
+      if (!t) return { ok: false, reason: "no_pivot", message: "Aucun tableau croisé n'a été créé." }
+      const a = expected.pivot
+      if (a.source !== undefined && normRange(t.source) !== normRange(a.source)) {
+        return { ok: false, reason: "wrong_pivot_source", message: "Le tableau croisé ne porte pas sur la plage attendue." }
+      }
+      if (a.target !== undefined && normRange(t.target) !== normRange(a.target)) {
+        return { ok: false, reason: "wrong_pivot_target", message: "Le tableau croisé n'est pas posé au bon endroit." }
+      }
+      const zones: Array<[keyof typeof a, PivotField[], string]> = [
+        ["rows", t.rows, "Lignes"],
+        ["cols", t.cols, "Colonnes"],
+        ["filters", t.filters, "Filtres"],
+      ]
+      for (const [cle, lus, libelle] of zones) {
+        const att = a[cle] as string[] | undefined
+        if (att === undefined) continue
+        const noms = lus.map((f) => f.name)
+        if (noms.length !== att.length || att.some((n, i) => noms[i] !== n)) {
+          return { ok: false, reason: `wrong_pivot_${String(cle)}`, message: `La zone ${libelle} ne contient pas les champs attendus.` }
+        }
+      }
+      if (a.values !== undefined) {
+        if (t.values.length !== a.values.length) {
+          return { ok: false, reason: "wrong_pivot_values", message: "La zone Valeurs ne contient pas les champs attendus." }
+        }
+        for (let i = 0; i < a.values.length; i++) {
+          if (t.values[i].name !== a.values[i].name) {
+            return { ok: false, reason: "wrong_pivot_value_field", message: "La zone Valeurs ne contient pas les champs attendus." }
+          }
+          const attAgg = a.values[i].agg
+          if (attAgg !== undefined && (t.values[i].agg ?? "somme") !== attAgg) {
+            return { ok: false, reason: "wrong_pivot_agg", message: `Le calcul appliqué à « ${a.values[i].name} » n'est pas celui attendu.` }
+          }
+        }
+      }
+      if (a.styleId !== undefined && t.styleId !== a.styleId) {
+        return { ok: false, reason: "wrong_pivot_style", message: "Le style appliqué n'est pas celui attendu." }
+      }
+      if (a.stale !== undefined && Boolean(t.stale) !== a.stale) {
+        return {
+          ok: false,
+          reason: "wrong_pivot_freshness",
+          message: a.stale ? "" : "Le tableau croisé n'est pas à jour : il faut l'actualiser.",
+        }
+      }
+      if (a.cells !== undefined) {
+        const lectures = observed.readings ?? {}
+        for (const [ref, att] of Object.entries(a.cells)) {
+          const lu = lectures[ref]
+          if (!lu) return { ok: false, reason: "pivot_cell_not_read", message: "" }
+          if (att.v !== undefined && !memeValeur(lu.value, att.v)) {
+            return { ok: false, reason: "wrong_pivot_cell", message: `Le tableau croisé n'affiche pas le résultat attendu en ${ref}.` }
+          }
+        }
+      }
+      return OK
+    }
+
+    case "EXPECT_PAGE_SETUP": {
+      if (observed.kind !== "pageSetupChange") return { ok: false, reason: "no_page_setup_reading", message: "" }
+      const lu = observed.pageSetup
+      const a = expected.pageSetup
+      const simples: Array<[keyof PageSetupState, string]> = [
+        ["orientation", "L'orientation de la page n'est pas celle attendue."],
+        ["format", "Le format de papier n'est pas celui attendu."],
+        ["scale", "L'échelle n'est pas celle attendue."],
+        ["view", "Le mode d'affichage n'est pas celui attendu."],
+        ["gridlines", "L'impression du quadrillage n'est pas réglée comme demandé."],
+        ["headings", "L'impression des en-têtes n'est pas réglée comme demandé."],
+      ]
+      for (const [cle, msg] of simples) {
+        if (a[cle] === undefined) continue
+        if (lu[cle] !== a[cle]) return { ok: false, reason: `wrong_${String(cle)}`, message: msg }
+      }
+      // Les références de titres à répéter s'écrivent de plusieurs façons
+      // ("$1:$1", "1:1") : on compare les chiffres et les lettres, pas les $.
+      for (const cle of ["repeatRows", "repeatCols"] as const) {
+        if (a[cle] === undefined) continue
+        if (normRange(lu[cle]) !== normRange(a[cle])) {
+          return { ok: false, reason: `wrong_${cle}`, message: "Les titres à répéter ne sont pas ceux attendus." }
+        }
+      }
+      if (a.printArea !== undefined && normRange(lu.printArea) !== normRange(a.printArea)) {
+        return { ok: false, reason: "wrong_print_area", message: "La zone d'impression n'est pas celle attendue." }
+      }
+      if (a.margins !== undefined) {
+        for (const [cote, valeur] of Object.entries(a.margins)) {
+          const v = (lu.margins as Record<string, number> | undefined)?.[cote]
+          if (v === undefined || Math.abs(v - valeur) > 0.02) {
+            return { ok: false, reason: "wrong_margin", message: `La marge ${cote} n'est pas celle attendue.` }
+          }
+        }
+      }
+      if (a.scaleToFit !== undefined) {
+        for (const [sens, valeur] of Object.entries(a.scaleToFit)) {
+          if ((lu.scaleToFit as Record<string, number> | undefined)?.[sens] !== valeur) {
+            return { ok: false, reason: "wrong_scale_to_fit", message: "L'ajustement au nombre de pages n'est pas celui attendu." }
+          }
+        }
+      }
+      for (const zone of ["header", "footer"] as const) {
+        const att = a[zone]
+        if (att === undefined) continue
+        for (const [place, texte] of Object.entries(att)) {
+          const v = (lu[zone] as Record<string, string> | undefined)?.[place] ?? ""
+          if (v.trim() !== String(texte).trim()) {
+            return {
+              ok: false,
+              reason: `wrong_${zone}`,
+              message: zone === "header" ? "L'en-tête ne porte pas le texte attendu." : "Le pied de page ne porte pas le texte attendu.",
+            }
+          }
+        }
+      }
+      for (const cle of ["pageBreakRows", "pageBreakCols"] as const) {
+        const att = a[cle]
+        if (att === undefined) continue
+        const lus = [...(lu[cle] ?? [])].sort((x, y) => x - y)
+        const veut = [...att].sort((x, y) => x - y)
+        if (lus.length !== veut.length || veut.some((n, i) => lus[i] !== n)) {
+          return { ok: false, reason: `wrong_${cle}`, message: "Les sauts de page ne sont pas placés comme demandé." }
+        }
+      }
+      if (a.center !== undefined) {
+        for (const [sens, veut] of Object.entries(a.center)) {
+          if (Boolean((lu.center as Record<string, boolean> | undefined)?.[sens]) !== veut) {
+            return { ok: false, reason: "wrong_center", message: "Le centrage de la zone imprimée n'est pas celui attendu." }
+          }
+        }
+      }
+      return OK
+    }
+
+    case "EXPECT_MACRO": {
+      if (observed.kind !== "macroChange") return { ok: false, reason: "no_macro_reading", message: "" }
+      const m = observed.macro
+      if (!m) return { ok: false, reason: "no_macro", message: "Aucune macro n'a été enregistrée." }
+      const a = expected.macro
+      if (a.name !== undefined && m.name.trim() !== a.name.trim()) {
+        return { ok: false, reason: "wrong_macro_name", message: "La macro ne porte pas le nom attendu." }
+      }
+      if (a.shortcut !== undefined && normRaccourci(m.shortcut) !== normRaccourci(a.shortcut)) {
+        return { ok: false, reason: "wrong_macro_shortcut", message: "Le raccourci de la macro n'est pas celui attendu." }
+      }
+      if (a.relative !== undefined && Boolean(m.relative) !== a.relative) {
+        return {
+          ok: false,
+          reason: "wrong_macro_relative",
+          message: a.relative
+            ? "La macro doit être enregistrée en références relatives."
+            : "La macro doit être enregistrée en références absolues.",
+        }
+      }
+      if (a.minStatements !== undefined && m.statements.length < a.minStatements) {
+        return { ok: false, reason: "macro_too_short", message: "La macro n'a pas enregistré toutes les actions demandées." }
+      }
+      if (a.contains !== undefined) {
+        for (const frag of a.contains) {
+          if (!observed.code.includes(frag)) {
+            return { ok: false, reason: "macro_code_missing", message: "Le code de la macro ne contient pas ce qui est attendu." }
+          }
+        }
+      }
+      if (a.effet !== undefined) {
+        const lectures = observed.readings ?? {}
+        for (const [ref, att] of Object.entries(a.effet)) {
+          const lu = lectures[ref]
+          if (!lu) return { ok: false, reason: "macro_cell_not_read", message: "" }
+          if (att.v !== undefined && !memeValeur(lu.value, att.v)) {
+            return { ok: false, reason: "wrong_macro_effect", message: `L'exécution de la macro ne donne pas le résultat attendu en ${ref}.` }
+          }
+        }
+      }
+      return OK
+    }
+
+    case "RECORD_MACRO": {
+      if (observed.kind !== "recorder") return { ok: false, reason: "no_recorder_reading", message: "" }
+      if (observed.state !== expected.expect) {
+        return {
+          ok: false,
+          reason: "wrong_recorder_state",
+          message: expected.expect === "started" ? "L'enregistrement n'a pas démarré." : "L'enregistrement n'a pas été arrêté.",
+        }
+      }
+      return OK
+    }
+
     default: {
       // Garde-fou : si une primitive est ajoutée au format sans être traitée ici,
       // TypeScript le signale à la compilation plutôt qu'en production.
@@ -524,4 +832,40 @@ export function computeScore(
     0,
   )
   return total > 0 ? earned / total : 1
+}
+
+/**
+ * Compare deux références sans se soucier des $ ni de la casse : "$1:$1",
+ * "1:1" et "A2:C6" / "a2:c6" désignent la même chose pour l'apprenant.
+ */
+function normRange(r: string | undefined): string {
+  return (r ?? "").replace(/\$/g, "").trim().toUpperCase()
+}
+
+/** Deux écritures d'une même couleur : "#FF0000", "ff0000", "red" côté galerie. */
+function memeCouleur(a: string | undefined, b: string | undefined): boolean {
+  const n = (c: string | undefined) => (c ?? "").trim().toLowerCase().replace(/^#/, "")
+  const x = n(a)
+  const y = n(b)
+  if (x === y) return true
+  // Une couleur sur 3 chiffres équivaut à la même doublée : f00 = ff0000.
+  const etendre = (c: string) => (c.length === 3 ? c.split("").map((d) => d + d).join("") : c)
+  return etendre(x) === etendre(y)
+}
+
+/** "Ctrl+Maj+E", "ctrl+maj+e", "Ctrl + Maj + E" désignent le même raccourci. */
+function normRaccourci(r: string | undefined): string {
+  return (r ?? "").toLowerCase().replace(/\s+/g, "").replace(/shift/g, "maj").replace(/control/g, "ctrl")
+}
+
+/**
+ * Égalité tolérante entre une valeur lue et une valeur attendue : un nombre à
+ * 1e-9 près, sinon comparaison textuelle indifférente à la casse et aux espaces.
+ */
+function memeValeur(lue: unknown, attendue: unknown): boolean {
+  if (typeof attendue === "number") {
+    const n = typeof lue === "number" ? lue : Number(String(lue).replace(/\s/g, "").replace(",", "."))
+    return Number.isFinite(n) && Math.abs(n - attendue) < 1e-9
+  }
+  return String(lue ?? "").trim().toLowerCase() === String(attendue ?? "").trim().toLowerCase()
 }

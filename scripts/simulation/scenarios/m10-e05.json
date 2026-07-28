@@ -1,0 +1,246 @@
+{
+ "schemaVersion": 1,
+ "title": "Exercice · Délais en jours ouvrés",
+ "mode": "EXERCISE",
+ "moduleTitle": "Fonctions avancées",
+ "intro": {
+  "title": "À VOUS",
+  "body": "Une commande passée le 1ᵉʳ juin, livrée le 30. Le fournisseur promettait dix jours ouvrés. Mesurez l'écart."
+ },
+ "outro": {
+  "body": "Délais et échéances calculés en jours ouvrés, fériés déduits."
+ },
+ "ribbon": [
+  "accueil"
+ ],
+ "statusBar": {
+  "aggregates": [
+   "moyenne",
+   "nb-non-vides",
+   "somme"
+  ],
+  "sheetCount": 1
+ },
+ "workbook": {
+  "fileName": "Suivi commande",
+  "activeSheetIndex": 0,
+  "selection": "A1",
+  "sheets": [
+   {
+    "name": "Feuil1",
+    "columnWidths": {
+     "A": 280,
+     "B": 130,
+     "D": 160,
+     "E": 120
+    },
+    "cells": {
+     "A1": {
+      "v": "SUIVI D'UNE COMMANDE FOURNISSEUR",
+      "format": {
+       "bold": true
+      }
+     },
+     "A3": {
+      "v": "Date de commande"
+     },
+     "B3": {
+      "v": 46174,
+      "format": {
+       "numberFormat": "dd/mm/yyyy"
+      }
+     },
+     "A4": {
+      "v": "Livraison constatée"
+     },
+     "B4": {
+      "v": 46203,
+      "format": {
+       "numberFormat": "dd/mm/yyyy"
+      }
+     },
+     "A7": {
+      "v": "Jours ouvrés écoulés",
+      "format": {
+       "bold": true
+      }
+     },
+     "A8": {
+      "v": "Expédition promise (10 jours ouvrés)",
+      "format": {
+       "bold": true
+      }
+     },
+     "A9": {
+      "v": "Échéance de la facture (30 jours)",
+      "format": {
+       "bold": true
+      }
+     },
+     "A10": {
+      "v": "Jours ouvrés de retard",
+      "format": {
+       "bold": true
+      }
+     },
+     "D2": {
+      "v": "Jours fériés",
+      "format": {
+       "bold": true
+      }
+     },
+     "D3": {
+      "v": "Lundi de Pentecôte"
+     },
+     "E3": {
+      "v": 46167,
+      "format": {
+       "numberFormat": "dd/mm/yyyy"
+      }
+     },
+     "D4": {
+      "v": "Fête nationale"
+     },
+     "E4": {
+      "v": 46217,
+      "format": {
+       "numberFormat": "dd/mm/yyyy"
+      }
+     }
+    }
+   }
+  ]
+ },
+ "steps": [
+  {
+   "id": "M10-E05-00",
+   "consigne": "Les dates arrivent sous leur forme brute. Rendez **lisibles** les deux dates de la commande, déjà sélectionnées.",
+   "setup": {
+    "selection": "B3:B4"
+   },
+   "action": {
+    "type": "EXPECT_FORMAT",
+    "cells": {
+     "B3": {
+      "numberFormat": "date"
+     },
+     "B4": {
+      "numberFormat": "date"
+     }
+    }
+   },
+   "aide": {
+    "text": "Un format de nombre, pas une formule."
+   }
+  },
+  {
+   "id": "M10-E05-01",
+   "consigne": "En **B7**, comptez les **jours ouvrés écoulés** entre la commande et la livraison, jours fériés déduits.",
+   "setup": {
+    "selection": "B7"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "B7",
+    "accept": [
+     "=NB.JOURS.OUVRES(B3;B4;E3:E4)",
+     "=NB.JOURS.OUVRES(B3;B4;$E$3:$E$4)"
+    ],
+    "formulaMode": true
+   },
+   "aide": {
+    "text": "La liste des fériés est un troisième argument, pas une soustraction à faire soi-même."
+   }
+  },
+  {
+   "id": "M10-E05-02",
+   "consigne": "En **B8**, calculez la **date d'expédition promise** : 10 jours ouvrés après la commande.",
+   "setup": {
+    "selection": "B8"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "B8",
+    "accept": [
+     "=SERIE.JOUR.OUVRE(B3;10;E3:E4)",
+     "=SERIE.JOUR.OUVRE(B3;10;$E$3:$E$4)"
+    ],
+    "formulaMode": true
+   },
+   "aide": {
+    "text": "Cette fonction renvoie une date, pas un nombre de jours."
+   }
+  },
+  {
+   "id": "M10-E05-03",
+   "consigne": "Rendez cette date **lisible**.",
+   "setup": {
+    "selection": "B8"
+   },
+   "action": {
+    "type": "EXPECT_FORMAT",
+    "cells": {
+     "B8": {
+      "numberFormat": "date"
+     }
+    }
+   },
+   "aide": {
+    "text": "Un format, pas une formule."
+   }
+  },
+  {
+   "id": "M10-E05-04",
+   "consigne": "En **B9**, calculez l'**échéance de la facture** : 30 jours calendaires après la commande.",
+   "setup": {
+    "selection": "B9"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "B9",
+    "accept": [
+     "=B3+30",
+     "=30+B3"
+    ],
+    "formulaMode": true
+   },
+   "aide": {
+    "text": "30 jours calendaires, pas ouvrés : ici, une simple addition suffit."
+   }
+  },
+  {
+   "id": "M10-E05-05",
+   "consigne": "Rendez cette échéance **lisible** elle aussi.",
+   "setup": {
+    "selection": "B9"
+   },
+   "action": {
+    "type": "EXPECT_FORMAT",
+    "cells": {
+     "B9": {
+      "numberFormat": "date"
+     }
+    }
+   }
+  },
+  {
+   "id": "M10-E05-06",
+   "consigne": "En **B10**, calculez le **retard en jours ouvrés** entre l'expédition promise et la livraison constatée. Le jour de l'expédition promise ne compte pas.",
+   "setup": {
+    "selection": "B10"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "B10",
+    "accept": [
+     "=NB.JOURS.OUVRES(B8;B4;E3:E4)-1",
+     "=NB.JOURS.OUVRES(B8;B4;$E$3:$E$4)-1"
+    ],
+    "formulaMode": true
+   },
+   "aide": {
+    "text": "NB.JOURS.OUVRES compte les deux bornes : il faut en retirer une."
+   }
+  }
+ ]
+}

@@ -1,0 +1,251 @@
+{
+  "schemaVersion": 1,
+  "title": "Masquer et afficher une ligne ou une colonne",
+  "mode": "LESSON",
+  "moduleTitle": "Les lignes et les colonnes",
+  "intro": {
+    "title": "CACHER SANS SUPPRIMER",
+    "body": "Une grille de tarifs contient des colonnes que le client ne doit pas voir : coûts internes, coefficients de marge. On ne les supprime pas — les prix en dépendent. On les masque."
+  },
+  "outro": {
+    "body": "Vous savez masquer une colonne ou une ligne, la retrouver, et vous savez que masquer ne protège rien."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ],
+    "sheetCount": 1
+  },
+  "workbook": {
+    "fileName": "Tarifs-2026.xlsx",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Tarifs",
+        "columnWidths": {
+          "A": 180,
+          "B": 110,
+          "F": 150
+        },
+        "cells": {
+          "A1": {
+            "v": "TARIFS 2026",
+            "format": {
+              "bold": true
+            }
+          },
+          "A3": {
+            "v": "Prestation",
+            "format": {
+              "bold": true
+            }
+          },
+          "B3": {
+            "v": "Coût interne",
+            "format": {
+              "bold": true
+            }
+          },
+          "C3": {
+            "v": "Coefficient",
+            "format": {
+              "bold": true
+            }
+          },
+          "D3": {
+            "v": "Prix public",
+            "format": {
+              "bold": true
+            }
+          },
+          "A4": {
+            "v": "Formation Excel 21 h"
+          },
+          "B4": {
+            "v": 840
+          },
+          "C4": {
+            "v": 2
+          },
+          "D4": {
+            "f": "=B4*C4"
+          },
+          "A5": {
+            "v": "Formation Word 14 h"
+          },
+          "B5": {
+            "v": 490
+          },
+          "C5": {
+            "v": 2
+          },
+          "D5": {
+            "f": "=B5*C5"
+          },
+          "A6": {
+            "v": "Bilan de compétences"
+          },
+          "B6": {
+            "v": 720
+          },
+          "C6": {
+            "v": 2.5
+          },
+          "D6": {
+            "f": "=B6*C6"
+          },
+          "A7": {
+            "v": "Accompagnement VAE"
+          },
+          "B7": {
+            "v": 600
+          },
+          "C7": {
+            "v": 2.2
+          },
+          "D7": {
+            "f": "=B7*C7"
+          },
+          "A9": {
+            "v": "TOTAL",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M04-L05-01",
+      "consigne": "Un point capital avant de commencer : **masquer n'est pas supprimer**. La colonne reste dans la feuille, avec toutes ses valeurs, et les formules qui s'y réfèrent continuent de calculer normalement. Seul l'affichage change.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M04-L05-02",
+      "consigne": "La colonne **Coût interne** n'a rien à faire sur un document client. ==Cliquez sur la lettre **B**==.",
+      "action": {
+        "type": "SELECT_COLUMN",
+        "column": "B"
+      },
+      "aide": {
+        "text": "La deuxième lettre de l'en-tête.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M04-L05-03",
+      "consigne": "==Ouvrez **Format** et choisissez **Masquer**==.",
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "acc-format-masquer"
+      },
+      "aide": {
+        "text": "Le bouton Format, groupe Cellules, propose Masquer et afficher.",
+        "showTarget": true
+      },
+      "feedback": "La colonne a disparu de l'écran. Regardez l'en-tête : on passe de **A** à **C**, et le trait entre les deux est plus épais. Ce sont les deux seuls indices d'une colonne masquée."
+    },
+    {
+      "id": "M04-L05-04",
+      "consigne": "Prouvons que rien n'est perdu. En **G3**, ==totalisez les coûts internes== de la colonne masquée.",
+      "setup": {
+        "selection": "G3",
+        "cells": {
+          "F3": {
+            "v": "Coût interne total",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "G3",
+        "accept": [
+          "=SOMME(B4:B7)",
+          "=B4+B5+B6+B7"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "La plage B4:B7 existe toujours, même si on ne la voit plus.",
+        "showTarget": true
+      },
+      "feedback": "2 650 €. La formule lit une colonne invisible sans broncher — et les prix publics de la colonne D, eux aussi calculés depuis B, n'ont pas bougé."
+    },
+    {
+      "id": "M04-L05-05",
+      "consigne": "Pour **réafficher** une colonne, il faut l'encadrer : sélectionnez les colonnes **de part et d'autre** — ici A et C ensemble — puis **clic droit > Afficher**, ou **Format > Afficher les colonnes**. Le geste est le même pour une ligne. Et pour tout réafficher d'un coup, sélectionnez la feuille entière par le petit triangle au croisement des en-têtes, puis Afficher.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M04-L05-06",
+      "consigne": "Une prestation est provisoirement retirée du catalogue. ==Cliquez sur le numéro **6**==, la ligne du bilan de compétences.",
+      "action": {
+        "type": "SELECT_ROW",
+        "row": 6
+      },
+      "aide": {
+        "text": "Le numéro 6, dans la bande grise de gauche.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M04-L05-07",
+      "consigne": "==Masquez cette ligne== avec le même bouton **Format**.",
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "acc-format-masquer"
+      },
+      "aide": {
+        "text": "Format > Masquer, comme pour la colonne.",
+        "showTarget": true
+      },
+      "feedback": "La ligne 6 a disparu, et la numérotation saute de 5 à 7."
+    },
+    {
+      "id": "M04-L05-08",
+      "consigne": "En **D9**, ==totalisez les prix publics==.",
+      "setup": {
+        "selection": "D9"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "D9",
+        "accept": [
+          "=SOMME(D4:D7)",
+          "=D4+D5+D6+D7"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Une somme sur les quatre lignes de prestations.",
+        "showTarget": true
+      },
+      "feedback": "5 780 € — **la ligne masquée est comptée**. C'est la première chose à retenir : une somme additionne ce qu'elle voit dans sa plage, pas ce que vous voyez à l'écran."
+    },
+    {
+      "id": "M04-L05-09",
+      "consigne": "Deux mises en garde. Masquer n'est pas **filtrer** : un filtre sélectionne selon un critère et se relit dans l'interface, alors qu'une ligne masquée à la main ne laisse presque aucune trace — d'où les tableaux « qui ne tombent pas juste » sans qu'on comprenne pourquoi. Et masquer ne **protège** rien : celui qui reçoit le fichier réaffiche en deux clics. Une information vraiment confidentielle doit être supprimée du fichier envoyé, pas masquée.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    }
+  ]
+}

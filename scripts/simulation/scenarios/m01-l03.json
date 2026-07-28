@@ -1,0 +1,240 @@
+{
+  "schemaVersion": 1,
+  "title": "Démarrer Excel et quitter proprement",
+  "mode": "LESSON",
+  "moduleTitle": "Prise en main",
+  "intro": {
+    "title": "OUVRIR, TRAVAILLER, QUITTER",
+    "body": "Un classeur commence toujours par une grille vide et un nom provisoire. Savoir ce qui se passe au démarrage et à la fermeture évite la seule perte vraiment irréparable : celle d'un travail jamais enregistré."
+  },
+  "outro": {
+    "body": "Vous savez d'où part un classeur, ce que la barre de titre vous dit, et la différence entre fermer un classeur et quitter Excel."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ],
+    "sheetCount": 1
+  },
+  "workbook": {
+    "fileName": "Classeur1",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 130
+        },
+        "cells": {}
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M01-L03-01",
+      "consigne": "Excel se lance depuis le **menu Démarrer**, ou d'un clic sur son icône quand elle est épinglée à la barre des tâches. Il affiche alors un **écran d'accueil** : les modèles en haut, les fichiers récents à gauche. **Nouveau classeur vide** ouvre la grille que vous avez sous les yeux.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M01-L03-02",
+      "consigne": "Le classeur est vierge : tout part de vous. En **A1**, ==saisissez `Relevé d'heures mars 2026`==.",
+      "setup": {
+        "selection": "A1"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "A1",
+        "accept": [
+          "Relevé d'heures mars 2026",
+          "Releve d'heures mars 2026"
+        ]
+      },
+      "aide": {
+        "text": "Cliquez dans A1, tapez le titre, validez avec Entrée.",
+        "showTarget": true
+      },
+      "feedback": "Regardez la **barre de titre**, en haut : elle affiche encore `Classeur1`. Un classeur n'a pas de nom tant qu'il n'a pas été enregistré."
+    },
+    {
+      "id": "M01-L03-03",
+      "consigne": "==Créez les deux en-têtes== : **Salarié** en A3, **Heures** en B3.",
+      "setup": {
+        "selection": "A3"
+      },
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "A3": {
+            "v": "Salarié"
+          },
+          "B3": {
+            "v": "Heures"
+          }
+        }
+      },
+      "aide": {
+        "text": "Deux cellules côte à côte. Tab passe de A3 à B3 sans lâcher le clavier."
+      },
+      "feedback": "Une ligne d'en-têtes rend le tableau lisible — et permettra plus tard à Excel de le reconnaître."
+    },
+    {
+      "id": "M01-L03-04",
+      "consigne": "Les en-têtes sont sélectionnés. ==Cliquez sur **G**== pour les mettre en gras.",
+      "setup": {
+        "selection": "A3:B3"
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "acc-gras"
+      },
+      "aide": {
+        "text": "Le bouton G du groupe Police.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M01-L03-05",
+      "consigne": "==Saisissez les trois relevés== : **Lemoine 35**, **Ravel 28**, **Nadaud 32**, à partir de la ligne 4.",
+      "setup": {
+        "selection": "A4"
+      },
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "A4": {
+            "v": "Lemoine"
+          },
+          "B4": {
+            "v": 35
+          },
+          "A5": {
+            "v": "Ravel"
+          },
+          "B5": {
+            "v": 28
+          },
+          "A6": {
+            "v": "Nadaud"
+          },
+          "B6": {
+            "v": 32
+          }
+        }
+      },
+      "aide": {
+        "text": "Six cellules : les noms en colonne A, les heures en colonne B."
+      },
+      "feedback": "Les noms se calent à gauche, les heures à droite : Excel a bien distingué le texte du nombre."
+    },
+    {
+      "id": "M01-L03-06",
+      "consigne": "En **B8**, ==totalisez les heures== du mois.",
+      "setup": {
+        "selection": "B8",
+        "cells": {
+          "A8": {
+            "v": "Total",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B8",
+        "accept": [
+          "=SOMME(B4:B6)",
+          "=B4+B5+B6"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "SOMME suivie de la plage des trois heures, entre parenthèses.",
+        "showTarget": true
+      },
+      "feedback": "95 heures."
+    },
+    {
+      "id": "M01-L03-07",
+      "consigne": "En **B9**, ==trouvez le relevé le plus élevé==.",
+      "setup": {
+        "selection": "B9",
+        "cells": {
+          "A9": {
+            "v": "Plus haut",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B9",
+        "accept": [
+          "=MAX(B4:B6)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "MAX renvoie la plus grande valeur d'une plage.",
+        "showTarget": true
+      },
+      "feedback": "35 heures, celles de Lemoine."
+    },
+    {
+      "id": "M01-L03-08",
+      "consigne": "En **B10**, ==trouvez le relevé le plus bas==.",
+      "setup": {
+        "selection": "B10",
+        "cells": {
+          "A10": {
+            "v": "Plus bas",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B10",
+        "accept": [
+          "=MIN(B4:B6)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "MIN est le pendant de MAX.",
+        "showTarget": true
+      },
+      "feedback": "28 heures. Le tableau est complet — et n'existe encore que dans la mémoire de l'ordinateur."
+    },
+    {
+      "id": "M01-L03-09",
+      "consigne": "C'est le moment d'enregistrer. **Ctrl + S** le fait. La **première** fois, Excel demande le dossier et le nom du fichier ; ensuite, le même raccourci écrase la version précédente sans rien demander. Dès l'enregistrement, la barre de titre remplace `Classeur1` par le nom que vous avez choisi, suivi de `.xlsx`.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M01-L03-10",
+      "consigne": "**Fermer** et **quitter** ne sont pas la même chose : **Ctrl + W** ferme le classeur et laisse Excel ouvert, la croix en haut à droite ou **Alt + F4** quitte l'application. Dans les deux cas, si des modifications n'ont pas été enregistrées, Excel demande avant de fermer — ne répondez « Ne pas enregistrer » qu'en sachant ce que vous perdez. Excel garde aussi une copie de secours toutes les dix minutes et la propose au redémarrage après une coupure : c'est un filet, pas une méthode.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    }
+  ]
+}

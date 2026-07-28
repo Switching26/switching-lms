@@ -1,0 +1,250 @@
+{
+  "schemaVersion": 1,
+  "title": "Modifier la hauteur d'une ligne",
+  "mode": "LESSON",
+  "moduleTitle": "Les lignes et les colonnes",
+  "intro": {
+    "title": "DE L'AIR ENTRE LES LIGNES",
+    "body": "La hauteur d'une ligne s'ajuste toute seule au contenu — jusqu'au jour où l'on veut aérer un en-tête, ou faire tenir un commentaire de trois lignes dans une cellule."
+  },
+  "outro": {
+    "body": "Vous savez faire grandir une ligne, et vous connaissez le piège d'une hauteur figée à la main."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ],
+    "sheetCount": 1
+  },
+  "workbook": {
+    "fileName": "Suivi-qualite.xlsx",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Mars",
+        "columnWidths": {
+          "A": 110,
+          "B": 100,
+          "C": 100,
+          "D": 260
+        },
+        "cells": {
+          "A1": {
+            "v": "SUIVI QUALITÉ — CONTRÔLES DE MARS",
+            "format": {
+              "bold": true
+            }
+          },
+          "A3": {
+            "v": "Contrôle",
+            "format": {
+              "bold": true
+            }
+          },
+          "B3": {
+            "v": "Semaine",
+            "format": {
+              "bold": true
+            }
+          },
+          "C3": {
+            "v": "Conforme",
+            "format": {
+              "bold": true
+            }
+          },
+          "D3": {
+            "v": "Observation",
+            "format": {
+              "bold": true
+            }
+          },
+          "A4": {
+            "v": "C-101"
+          },
+          "B4": {
+            "v": "S10"
+          },
+          "C4": {
+            "v": "Oui"
+          },
+          "A5": {
+            "v": "C-102"
+          },
+          "B5": {
+            "v": "S11"
+          },
+          "C5": {
+            "v": "Non"
+          },
+          "A6": {
+            "v": "C-103"
+          },
+          "B6": {
+            "v": "S12"
+          },
+          "C6": {
+            "v": "Oui"
+          },
+          "A7": {
+            "v": "C-104"
+          },
+          "B7": {
+            "v": "S13"
+          },
+          "C7": {
+            "v": "Oui"
+          },
+          "D7": {
+            "v": "Jeu excessif sur le bras de serrage : pièce reprise en atelier et recontrôlée le lendemain"
+          },
+          "A9": {
+            "v": "Contrôles conformes",
+            "format": {
+              "bold": true
+            }
+          },
+          "A10": {
+            "v": "Contrôles réalisés",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M04-L04-01",
+      "consigne": "Par défaut, la hauteur d'une ligne **suit la taille de la police** : agrandissez le texte, la ligne grandit. C'est ce qu'on appelle l'ajustement automatique, et c'est le comportement à préférer. On ne règle une hauteur à la main que pour deux raisons : aérer une ligne d'en-têtes, ou laisser respirer un texte renvoyé sur plusieurs lignes.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M04-L04-02",
+      "consigne": "Commençons par l'en-tête. ==Cliquez sur le numéro **3**== pour sélectionner la ligne entière.",
+      "action": {
+        "type": "SELECT_ROW",
+        "row": 3
+      },
+      "aide": {
+        "text": "Le chiffre 3, dans la bande grise à gauche de la grille.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M04-L04-03",
+      "consigne": "==Agrandissez la police== de cette ligne avec le bouton **A+**, et regardez la hauteur.",
+      "action": {
+        "type": "EXPECT_FORMAT",
+        "cells": {
+          "A3": {
+            "fontSize": 14
+          },
+          "D3": {
+            "fontSize": 14
+          }
+        }
+      },
+      "aide": {
+        "text": "Le bouton A+ du groupe Police.",
+        "showTarget": true
+      },
+      "feedback": "La ligne a grandi d'elle-même pour accueillir les 14 points. Vous n'avez touché à aucune hauteur : Excel l'a recalculée."
+    },
+    {
+      "id": "M04-L04-04",
+      "consigne": "Pour une hauteur **précise**, trois gestes existent, exactement comme pour les largeurs. **Glisser** le bord bas du numéro de ligne règle à l'œil. **Format > Hauteur de ligne** demande une valeur en points — 15 points environ pour du texte en 11. Et **double-cliquer** sur ce même bord rétablit l'ajustement automatique, ce qui est le meilleur moyen de réparer une ligne devenue trop haute ou trop basse.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M04-L04-05",
+      "consigne": "La ligne 7 porte une observation trop longue pour sa colonne. ==Cliquez sur le numéro **7**==.",
+      "action": {
+        "type": "SELECT_ROW",
+        "row": 7
+      },
+      "aide": {
+        "text": "Le numéro de la dernière ligne de contrôles.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M04-L04-06",
+      "consigne": "==Cliquez sur **Renvoyer**== pour faire passer le texte à la ligne dans sa cellule.",
+      "action": {
+        "type": "EXPECT_FORMAT",
+        "cells": {
+          "D7": {
+            "wrap": true
+          }
+        }
+      },
+      "aide": {
+        "text": "Le bouton Renvoyer du groupe Alignement.",
+        "showTarget": true
+      },
+      "feedback": "Le texte tient sur plusieurs lignes et la hauteur s'est adaptée. C'est la bonne réponse à un commentaire long : on n'élargit pas la colonne, on grandit la ligne."
+    },
+    {
+      "id": "M04-L04-07",
+      "consigne": "Complétons les indicateurs. En **C9**, ==comptez les contrôles conformes== avec `=NB.SI(C4:C7;\"Oui\")`.",
+      "setup": {
+        "selection": "C9"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "C9",
+        "accept": [
+          "=NB.SI(C4:C7;\"Oui\")"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "NB.SI compte les cellules qui répondent à un critère. Le critère texte se met entre guillemets.",
+        "showTarget": true
+      },
+      "feedback": "3 contrôles conformes sur la période."
+    },
+    {
+      "id": "M04-L04-08",
+      "consigne": "En **C10**, ==comptez les contrôles réalisés==, conformes ou non.",
+      "setup": {
+        "selection": "C10"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "C10",
+        "accept": [
+          "=NBVAL(C4:C7)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "NBVAL compte toutes les cellules non vides, texte compris.",
+        "showTarget": true
+      },
+      "feedback": "4 contrôles réalisés, dont 3 conformes."
+    },
+    {
+      "id": "M04-L04-09",
+      "consigne": "Le piège à connaître : dès que vous fixez une hauteur **à la main**, Excel arrête de l'ajuster tout seul sur cette ligne. Ajoutez ensuite deux phrases au commentaire, elles seront coupées sans le moindre avertissement. Le réflexe de réparation est toujours le même : **double-clic sur le bord bas du numéro de ligne** pour rendre la main à l'ajustement automatique.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    }
+  ]
+}

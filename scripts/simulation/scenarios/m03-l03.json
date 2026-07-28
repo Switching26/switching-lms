@@ -1,0 +1,255 @@
+{
+  "schemaVersion": 1,
+  "title": "Se déplacer au clavier",
+  "mode": "LESSON",
+  "moduleTitle": "Sélectionner une cellule, une plage de cellules",
+  "intro": {
+    "title": "LÂCHER LA SOURIS",
+    "body": "Sur une saisie de vingt lignes, la souris coûte une seconde par cellule. Quatre touches suffisent à ne plus la toucher — et le gain se compte en heures sur un mois."
+  },
+  "outro": {
+    "body": "Vous savez enchaîner une saisie au clavier, en colonne comme en ligne, et sauter d'un bout du tableau à l'autre."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ],
+    "sheetCount": 1
+  },
+  "workbook": {
+    "fileName": "Releve-compteurs.xlsx",
+    "activeSheetIndex": 0,
+    "selection": "B4",
+    "sheets": [
+      {
+        "name": "T1",
+        "columnWidths": {
+          "A": 130
+        },
+        "cells": {
+          "A1": {
+            "v": "RELEVÉ DES COMPTEURS — TRIMESTRE 1",
+            "format": {
+              "bold": true
+            }
+          },
+          "A3": {
+            "v": "Site",
+            "format": {
+              "bold": true
+            }
+          },
+          "B3": {
+            "v": "Janvier",
+            "format": {
+              "bold": true
+            }
+          },
+          "C3": {
+            "v": "Février",
+            "format": {
+              "bold": true
+            }
+          },
+          "A4": {
+            "v": "Site Nord"
+          },
+          "C4": {
+            "v": 131
+          },
+          "A5": {
+            "v": "Site Sud"
+          },
+          "C5": {
+            "v": 128
+          },
+          "A6": {
+            "v": "Site Est"
+          },
+          "C6": {
+            "v": 124
+          },
+          "A9": {
+            "v": "TOTAL",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M03-L03-01",
+      "consigne": "Les **flèches** déplacent d'une cellule. **Entrée** valide la saisie et **descend**, **Tab** valide et va **à droite**. Leurs contraires existent aussi : **Maj + Entrée** remonte, **Maj + Tab** revient à gauche. Tout l'art de la saisie rapide tient dans ces quatre touches.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M03-L03-02",
+      "consigne": "On remplit la colonne de janvier. En **B4**, ==saisissez `128` et validez avec Entrée==.",
+      "setup": {
+        "selection": "B4"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B4",
+        "accept": [
+          "128"
+        ]
+      },
+      "aide": {
+        "text": "Tapez le nombre, puis la touche Entrée : le curseur descend tout seul en B5.",
+        "showTarget": true
+      },
+      "feedback": "Le curseur est déjà en B5 : vous n'avez pas eu à le déplacer."
+    },
+    {
+      "id": "M03-L03-03",
+      "consigne": "Enchaînez. En **B5**, ==saisissez `134`, toujours avec Entrée==.",
+      "setup": {
+        "selection": "B5"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B5",
+        "accept": [
+          "134"
+        ]
+      },
+      "aide": {
+        "text": "Même geste, sans toucher la souris.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M03-L03-04",
+      "consigne": "En **B6**, ==saisissez `119`==.",
+      "setup": {
+        "selection": "B6"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B6",
+        "accept": [
+          "119"
+        ]
+      },
+      "aide": {
+        "text": "Le troisième site.",
+        "showTarget": true
+      },
+      "feedback": "Trois cellules saisies, zéro clic. C'est la façon normale de remplir une colonne."
+    },
+    {
+      "id": "M03-L03-05",
+      "consigne": "Pour remplir une **ligne**, on utilise **Tab** à la place d'Entrée. Le détail qui change tout : après plusieurs Tab, la touche **Entrée** ramène au **début de la ligne suivante**, sous la première cellule saisie. Excel se souvient d'où la ligne a commencé.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M03-L03-06",
+      "consigne": "Un quatrième site est ouvert. En **A7**, ==saisissez `Site Ouest` et validez avec Tab==.",
+      "setup": {
+        "selection": "A7"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "A7",
+        "accept": [
+          "Site Ouest"
+        ]
+      },
+      "aide": {
+        "text": "Tapez le nom, puis Tab : le curseur passe en B7.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M03-L03-07",
+      "consigne": "En **B7**, ==saisissez `96`, toujours avec Tab==.",
+      "setup": {
+        "selection": "B7"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B7",
+        "accept": [
+          "96"
+        ]
+      },
+      "aide": {
+        "text": "Le relevé de janvier du nouveau site.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M03-L03-08",
+      "consigne": "En **C7**, ==saisissez `102`==.",
+      "setup": {
+        "selection": "C7"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "C7",
+        "accept": [
+          "102"
+        ]
+      },
+      "aide": {
+        "text": "Le relevé de février.",
+        "showTarget": true
+      },
+      "feedback": "La ligne est complète. Avec Entrée, vous seriez maintenant en A8, prêt pour la ligne suivante."
+    },
+    {
+      "id": "M03-L03-09",
+      "consigne": "Quatre raccourcis pour les grands tableaux. **Ctrl + Origine** ramène en A1, où que vous soyez. **Ctrl + Fin** va à la dernière cellule utilisée de la feuille. **Ctrl + ↓** saute au bas du bloc de données. **Page suivante** et **Page précédente** font défiler d'un écran. Sur un export de 40 000 lignes, ce sont les seuls déplacements praticables.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M03-L03-10",
+      "consigne": "Le déplacement le plus précis reste la **zone Nom**, à gauche de la barre de formule — c'est aussi ce que fait la touche **F5**. ==Tapez `B9` dans la zone Nom== pour atteindre la cellule du total.",
+      "action": {
+        "type": "GOTO_REF",
+        "ref": "B9"
+      },
+      "aide": {
+        "text": "Cliquez dans le champ à gauche de la barre de formule, tapez B9, Entrée.",
+        "showTarget": true
+      },
+      "feedback": "Arrivée directe, sans compter les lignes."
+    },
+    {
+      "id": "M03-L03-11",
+      "consigne": "==Totalisez les quatre relevés de janvier== dans cette cellule.",
+      "action": {
+        "type": "TYPE",
+        "target": "B9",
+        "accept": [
+          "=SOMME(B4:B7)",
+          "=B4+B5+B6+B7"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Une somme sur les quatre sites.",
+        "showTarget": true
+      },
+      "feedback": "477. Toute la leçon s'est faite sans un clic dans la grille."
+    }
+  ]
+}

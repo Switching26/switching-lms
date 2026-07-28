@@ -1,0 +1,229 @@
+{
+  "schemaVersion": 1,
+  "title": "Exercice · Rendre un catalogue lisible",
+  "mode": "EXERCISE",
+  "moduleTitle": "Les lignes et les colonnes",
+  "intro": {
+    "title": "À VOUS",
+    "body": "Un catalogue à l'étroit, et deux colonnes à calculer."
+  },
+  "outro": {
+    "body": "Exercice terminé."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ],
+    "sheetCount": 1
+  },
+  "workbook": {
+    "fileName": "Catalogue-formations.xlsx",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Catalogue",
+        "columnWidths": {
+          "A": 65,
+          "D": 60,
+          "F": 110
+        },
+        "cells": {
+          "A1": {
+            "v": "CATALOGUE DES FORMATIONS",
+            "format": {
+              "bold": true
+            }
+          },
+          "A3": {
+            "v": "Intitulé",
+            "format": {
+              "bold": true
+            }
+          },
+          "B3": {
+            "v": "Durée",
+            "format": {
+              "bold": true
+            }
+          },
+          "C3": {
+            "v": "Prix HT",
+            "format": {
+              "bold": true
+            }
+          },
+          "D3": {
+            "v": "Prix TTC",
+            "format": {
+              "bold": true
+            }
+          },
+          "A4": {
+            "v": "Excel — perfectionnement"
+          },
+          "B4": {
+            "v": 21
+          },
+          "C4": {
+            "v": 1260
+          },
+          "A5": {
+            "v": "Word — les bases"
+          },
+          "B5": {
+            "v": 14
+          },
+          "C5": {
+            "v": 840
+          },
+          "A6": {
+            "v": "Comptabilité générale"
+          },
+          "B6": {
+            "v": 35
+          },
+          "C6": {
+            "v": 2100
+          },
+          "A7": {
+            "v": "Anglais professionnel"
+          },
+          "B7": {
+            "v": 40
+          },
+          "C7": {
+            "v": 2400
+          },
+          "A9": {
+            "v": "TOTAL",
+            "format": {
+              "bold": true
+            }
+          },
+          "F3": {
+            "v": "Taux de TVA"
+          },
+          "G3": {
+            "v": 0.2
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M04-E02-01",
+      "consigne": "Les intitulés sont coupés. Sélectionnez la colonne concernée **en entier**.",
+      "action": {
+        "type": "SELECT_COLUMN",
+        "column": "A"
+      },
+      "aide": {
+        "text": "Un seul clic, mais pas dans la grille."
+      }
+    },
+    {
+      "id": "M04-E02-02",
+      "consigne": "Donnez-lui une largeur suffisante par le ruban.",
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "acc-format-largeur"
+      },
+      "aide": {
+        "text": "Le groupe Cellules contient un bouton Format."
+      }
+    },
+    {
+      "id": "M04-E02-03",
+      "consigne": "En **D4**, calculez le **prix TTC** de la première formation. Le taux de TVA est en G3.",
+      "action": {
+        "type": "TYPE",
+        "target": "D4",
+        "accept": [
+          "=C4*(1+G3)",
+          "=C4*(1+$G$3)",
+          "=C4*1,2",
+          "=C4+C4*G3"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Le prix hors taxes augmenté du taux. Passer par la cellule G3 est la meilleure façon de faire."
+      },
+      "feedback": "1 512 € TTC."
+    },
+    {
+      "id": "M04-E02-04",
+      "consigne": "Complétez les **trois prix TTC** restants.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "D5": {
+            "v": 1008
+          },
+          "D6": {
+            "v": 2520
+          },
+          "D7": {
+            "v": 2880
+          }
+        }
+      },
+      "aide": {
+        "text": "Une recopie vers le bas suffit — à condition que votre formule le supporte."
+      }
+    },
+    {
+      "id": "M04-E02-05",
+      "consigne": "Totalisez les deux colonnes de prix, **HT en C9** et **TTC en D9**.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "C9": {
+            "anyOf": [
+              "=SOMME(C4:C7)",
+              "=C4+C5+C6+C7"
+            ],
+            "v": 6600
+          },
+          "D9": {
+            "anyOf": [
+              "=SOMME(D4:D7)",
+              "=D4+D5+D6+D7"
+            ],
+            "v": 7920
+          }
+        }
+      },
+      "aide": {
+        "text": "Deux sommes, une par colonne."
+      },
+      "feedback": "6 600 € HT, 7 920 € TTC."
+    },
+    {
+      "id": "M04-E02-06",
+      "consigne": "Terminez la présentation : donnez un **format monétaire** aux prix, de C4 à D9.",
+      "action": {
+        "type": "EXPECT_FORMAT",
+        "cells": {
+          "C4": {
+            "numberFormat": "monetaire"
+          },
+          "D9": {
+            "numberFormat": "monetaire"
+          }
+        }
+      },
+      "aide": {
+        "text": "Sélectionnez la plage, puis le groupe Nombre."
+      },
+      "feedback": "Si des dièses apparaissent, ce n'est pas une erreur : la colonne demande simplement encore un peu de largeur."
+    }
+  ]
+}

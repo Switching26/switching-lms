@@ -1,0 +1,268 @@
+{
+  "schemaVersion": 1,
+  "title": "S'évaluer · Saisie des données",
+  "mode": "EVALUATION",
+  "moduleTitle": "Saisie des données",
+  "intro": {
+    "title": "S'ÉVALUER",
+    "body": "Un relevé de caisse à saisir, corriger et totaliser. Texte, nombres décimaux, négatifs, dates, heures : onze gestes notés à la première tentative, sans aucune aide."
+  },
+  "outro": {
+    "body": "Évaluation terminée."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ],
+    "sheetCount": 1
+  },
+  "workbook": {
+    "fileName": "Releve-caisse.xlsx",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Mai",
+        "columnWidths": {
+          "A": 170,
+          "B": 110,
+          "C": 110
+        },
+        "cells": {
+          "A1": {
+            "v": "RELEVÉ DE CAISSE",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Date"
+          },
+          "A3": {
+            "v": "Ouverture"
+          },
+          "A4": {
+            "v": "Fermeture"
+          },
+          "A5": {
+            "v": "Durée d'ouverture"
+          },
+          "A7": {
+            "v": "Libellé",
+            "format": {
+              "bold": true
+            }
+          },
+          "B7": {
+            "v": "Encaissé",
+            "format": {
+              "bold": true
+            }
+          },
+          "C7": {
+            "v": "Rendu",
+            "format": {
+              "bold": true
+            }
+          },
+          "A8": {
+            "v": "Vente comptoir"
+          },
+          "A9": {
+            "v": "Vente en ligne"
+          },
+          "B9": {
+            "v": 87
+          },
+          "C9": {
+            "v": 0
+          },
+          "A10": {
+            "v": "Abonnements"
+          },
+          "B10": {
+            "v": 240
+          },
+          "C10": {
+            "v": -5
+          },
+          "A11": {
+            "v": "Divers"
+          },
+          "B11": {
+            "v": 36.5
+          },
+          "C11": {
+            "v": 0
+          },
+          "A13": {
+            "v": "TOTAL",
+            "format": {
+              "bold": true
+            }
+          },
+          "A15": {
+            "v": "Note : vérifier avec Amélie"
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M02-EV01-01",
+      "consigne": "Le relevé de caisse du **12 mai 2026** est incomplet et comporte une erreur. À vous de le mettre en état.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M02-EV01-02",
+      "consigne": "Enregistrez la **date du relevé** en B2 : le 12 mai 2026.",
+      "action": {
+        "type": "TYPE",
+        "target": "B2",
+        "accept": [
+          "12/05/2026",
+          "12/5/2026"
+        ]
+      },
+      "points": 1
+    },
+    {
+      "id": "M02-EV01-03",
+      "consigne": "La caisse a ouvert à **8 h 30**. Renseignez B3.",
+      "action": {
+        "type": "TYPE",
+        "target": "B3",
+        "accept": [
+          "08:30",
+          "8:30"
+        ]
+      },
+      "points": 1
+    },
+    {
+      "id": "M02-EV01-04",
+      "consigne": "Elle a fermé à **19 h**. Renseignez B4.",
+      "action": {
+        "type": "TYPE",
+        "target": "B4",
+        "accept": [
+          "19:00"
+        ]
+      },
+      "points": 1
+    },
+    {
+      "id": "M02-EV01-05",
+      "consigne": "Calculez la **durée d'ouverture** en B5.",
+      "action": {
+        "type": "TYPE",
+        "target": "B5",
+        "accept": [
+          "=B4-B3"
+        ],
+        "formulaMode": true
+      },
+      "points": 2
+    },
+    {
+      "id": "M02-EV01-06",
+      "consigne": "La vente au comptoir a encaissé **148 euros et 60 centimes**. Renseignez-la en B8.",
+      "action": {
+        "type": "TYPE",
+        "target": "B8",
+        "accept": [
+          "148,60",
+          "148,6",
+          "148.6"
+        ]
+      },
+      "points": 1
+    },
+    {
+      "id": "M02-EV01-07",
+      "consigne": "Il a fallu rendre **12 euros et 40 centimes** sur cette vente : enregistrez-le en C8, comme une sortie de caisse.",
+      "action": {
+        "type": "TYPE",
+        "target": "C8",
+        "accept": [
+          "-12,40",
+          "-12,4",
+          "-12.4"
+        ]
+      },
+      "points": 2
+    },
+    {
+      "id": "M02-EV01-08",
+      "consigne": "Une erreur de frappe s'est glissée ligne 9 : la vente en ligne a encaissé **187 €**, pas 87. Corrigez-la.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "B9": {
+            "v": 187
+          }
+        }
+      },
+      "points": 1
+    },
+    {
+      "id": "M02-EV01-09",
+      "consigne": "La cellule **A15** contient une note personnelle qui n'a rien à faire dans un relevé. Effacez son contenu.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "A15": {
+            "v": ""
+          }
+        }
+      },
+      "points": 1
+    },
+    {
+      "id": "M02-EV01-10",
+      "consigne": "En **B13**, totalisez les **encaissements**.",
+      "action": {
+        "type": "TYPE",
+        "target": "B13",
+        "accept": [
+          "=SOMME(B8:B11)",
+          "=B8+B9+B10+B11"
+        ],
+        "formulaMode": true
+      },
+      "points": 2
+    },
+    {
+      "id": "M02-EV01-11",
+      "consigne": "En **C13**, totalisez les **sorties de caisse**.",
+      "action": {
+        "type": "TYPE",
+        "target": "C13",
+        "accept": [
+          "=SOMME(C8:C11)",
+          "=C8+C9+C10+C11"
+        ],
+        "formulaMode": true
+      },
+      "points": 1
+    },
+    {
+      "id": "M02-EV01-12",
+      "consigne": "Dernier contrôle : sélectionnez les **quatre encaissements** et vérifiez dans la barre d'état que leur somme correspond à votre total.",
+      "action": {
+        "type": "DRAG_RANGE",
+        "range": "B8:B11"
+      },
+      "points": 1
+    }
+  ]
+}

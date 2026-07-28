@@ -1,0 +1,316 @@
+{
+ "schemaVersion": 1,
+ "title": "Exercice · Classer, arrondir, combiner",
+ "mode": "EXERCISE",
+ "moduleTitle": "Fonctions avancées",
+ "intro": {
+  "title": "À VOUS",
+  "body": "Cinq agences. Le bonus vaut 3 % du chiffre réalisé, mais il n'est versé qu'aux **deux premières** agences ayant atteint leur objectif."
+ },
+ "outro": {
+  "body": "Classement, arrondi au centime et double condition : le tableau de primes est prêt à être remis."
+ },
+ "ribbon": [
+  "accueil"
+ ],
+ "statusBar": {
+  "aggregates": [
+   "moyenne",
+   "nb-non-vides",
+   "somme"
+  ],
+  "sheetCount": 1
+ },
+ "workbook": {
+  "fileName": "Bonus des agences",
+  "activeSheetIndex": 0,
+  "selection": "A1",
+  "sheets": [
+   {
+    "name": "Feuil1",
+    "columnWidths": {
+     "A": 110,
+     "B": 110,
+     "C": 100,
+     "D": 70,
+     "E": 120,
+     "F": 110,
+     "G": 195,
+     "H": 110
+    },
+    "cells": {
+     "G1": {
+      "v": "Taux de bonus"
+     },
+     "H1": {
+      "v": 0.03
+     },
+     "G3": {
+      "v": "Plus faible chiffre",
+      "format": {
+       "bold": true
+      }
+     },
+     "G4": {
+      "v": "Deuxième meilleur chiffre",
+      "format": {
+       "bold": true
+      }
+     },
+     "G5": {
+      "v": "Total des bonus",
+      "format": {
+       "bold": true
+      }
+     },
+     "A1": {
+      "v": "Agence",
+      "format": {
+       "bold": true
+      }
+     },
+     "B1": {
+      "v": "CA réalisé",
+      "format": {
+       "bold": true
+      }
+     },
+     "C1": {
+      "v": "Objectif",
+      "format": {
+       "bold": true
+      }
+     },
+     "D1": {
+      "v": "Rang",
+      "format": {
+       "bold": true
+      }
+     },
+     "E1": {
+      "v": "Bonus calculé",
+      "format": {
+       "bold": true
+      }
+     },
+     "F1": {
+      "v": "Bonus versé",
+      "format": {
+       "bold": true
+      }
+     },
+     "A2": {
+      "v": "Angers"
+     },
+     "B2": {
+      "v": 18400
+     },
+     "C2": {
+      "v": 17000
+     },
+     "A3": {
+      "v": "Cholet"
+     },
+     "B3": {
+      "v": 12750
+     },
+     "C3": {
+      "v": 14000
+     },
+     "A4": {
+      "v": "Laval"
+     },
+     "B4": {
+      "v": 21300
+     },
+     "C4": {
+      "v": 20000
+     },
+     "A5": {
+      "v": "Nantes"
+     },
+     "B5": {
+      "v": 26800
+     },
+     "C5": {
+      "v": 25000
+     },
+     "A6": {
+      "v": "Vannes"
+     },
+     "B6": {
+      "v": 15600
+     },
+     "C6": {
+      "v": 15000
+     }
+    }
+   }
+  ]
+ },
+ "steps": [
+  {
+   "id": "M10-E06-01",
+   "consigne": "En **D2**, classez l'agence parmi les **cinq chiffres réalisés**. La formule devra se recopier.",
+   "setup": {
+    "selection": "D2"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "D2",
+    "accept": [
+     "=RANG(B2;$B$2:$B$6)",
+     "=RANG(B2;$B$2:$B$6;0)"
+    ],
+    "formulaMode": true
+   },
+   "aide": {
+    "text": "La liste de référence est la même pour les cinq lignes."
+   }
+  },
+  {
+   "id": "M10-E06-02",
+   "consigne": "En **E2**, calculez le **bonus** — 3 % du chiffre réalisé — **arrondi au centime**.",
+   "setup": {
+    "selection": "E2"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "E2",
+    "accept": [
+     "=ARRONDI(B2*$H$1;2)",
+     "=ARRONDI($H$1*B2;2)"
+    ],
+    "formulaMode": true
+   },
+   "aide": {
+    "text": "Un format d'affichage ne suffit pas : la valeur elle-même doit être arrondie."
+   }
+  },
+  {
+   "id": "M10-E06-03",
+   "consigne": "En **F2**, affichez le **bonus versé** : le bonus calculé si l'agence a atteint son objectif **et** figure dans les deux premières, 0 sinon.",
+   "setup": {
+    "selection": "F2"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "F2",
+    "accept": [
+     "=SI(ET(B2>=C2;D2<=2);E2;0)",
+     "=SI(ET(D2<=2;B2>=C2);E2;0)"
+    ],
+    "formulaMode": true
+   },
+   "aide": {
+    "text": "Deux conditions à réunir dans une seule."
+   }
+  },
+  {
+   "id": "M10-E06-04",
+   "consigne": "Complétez les **quatre agences restantes**.",
+   "action": {
+    "type": "EXPECT_STATE",
+    "cells": {
+     "D3": {
+      "anyOf": [
+       "=RANG(B3;$B$2:$B$6)",
+       "=RANG(B3;$B$2:$B$6;0)"
+      ],
+      "v": 5
+     },
+     "E3": {
+      "anyOf": [
+       "=ARRONDI(B3*$H$1;2)",
+       "=ARRONDI($H$1*B3;2)"
+      ],
+      "v": 382.5
+     },
+     "F3": {
+      "anyOf": [
+       "=SI(ET(B3>=C3;D3<=2);E3;0)",
+       "=SI(ET(D3<=2;B3>=C3);E3;0)"
+      ],
+      "v": 0
+     },
+     "D6": {
+      "anyOf": [
+       "=RANG(B6;$B$2:$B$6)",
+       "=RANG(B6;$B$2:$B$6;0)"
+      ],
+      "v": 4
+     },
+     "E6": {
+      "anyOf": [
+       "=ARRONDI(B6*$H$1;2)",
+       "=ARRONDI($H$1*B6;2)"
+      ],
+      "v": 468.0
+     },
+     "F6": {
+      "anyOf": [
+       "=SI(ET(B6>=C6;D6<=2);E6;0)",
+       "=SI(ET(D6<=2;B6>=C6);E6;0)"
+      ],
+      "v": 0
+     }
+    }
+   },
+   "aide": {
+    "text": "Trois cellules sélectionnées, puis la poignée."
+   }
+  },
+  {
+   "id": "M10-E06-05",
+   "consigne": "En **H3**, affichez le **plus faible** chiffre réalisé.",
+   "setup": {
+    "selection": "H3"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "H3",
+    "accept": [
+     "=PETITE.VALEUR($B$2:$B$6;1)",
+     "=PETITE.VALEUR(B2:B6;1)",
+     "=MIN(B2:B6)"
+    ],
+    "formulaMode": true
+   }
+  },
+  {
+   "id": "M10-E06-06",
+   "consigne": "En **H4**, affichez le **deuxième meilleur** chiffre : c'est le seuil d'entrée dans le duo de tête.",
+   "setup": {
+    "selection": "H4"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "H4",
+    "accept": [
+     "=GRANDE.VALEUR($B$2:$B$6;2)",
+     "=GRANDE.VALEUR(B2:B6;2)"
+    ],
+    "formulaMode": true
+   },
+   "aide": {
+    "text": "MAX ne sait donner que le premier."
+   }
+  },
+  {
+   "id": "M10-E06-07",
+   "consigne": "En **H5**, totalisez les **bonus réellement versés**.",
+   "setup": {
+    "selection": "H5"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "H5",
+    "accept": [
+     "=SOMME(F2:F6)",
+     "=F2+F3+F4+F5+F6"
+    ],
+    "formulaMode": true
+   }
+  }
+ ]
+}

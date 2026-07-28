@@ -1,0 +1,304 @@
+{
+  "schemaVersion": 1,
+  "title": "Ouvrir et enregistrer un classeur",
+  "mode": "LESSON",
+  "moduleTitle": "Prise en main",
+  "intro": {
+    "title": "OUVRIR, MODIFIER, ENREGISTRER",
+    "body": "Un devis reçu ce matin, à compléter et à renvoyer. Le cycle le plus courant du travail sur tableur, et ses deux boutons qu'il ne faut pas confondre."
+  },
+  "outro": {
+    "body": "Vous savez ouvrir un classeur existant, choisir entre Enregistrer et Enregistrer sous, et à quoi servent les formats .xlsx, .csv et .pdf."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ],
+    "sheetCount": 1
+  },
+  "workbook": {
+    "fileName": "Devis-2026-014.xlsx",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Devis",
+        "columnWidths": {
+          "A": 200,
+          "C": 110,
+          "D": 100
+        },
+        "cells": {
+          "A1": {
+            "v": "DEVIS 2026-014",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Client : Menuiserie Delcourt"
+          },
+          "A4": {
+            "v": "Prestation",
+            "format": {
+              "bold": true
+            }
+          },
+          "B4": {
+            "v": "Quantité",
+            "format": {
+              "bold": true
+            }
+          },
+          "C4": {
+            "v": "Prix unitaire",
+            "format": {
+              "bold": true
+            }
+          },
+          "D4": {
+            "v": "Total HT",
+            "format": {
+              "bold": true
+            }
+          },
+          "A5": {
+            "v": "Formation Excel — 21 h"
+          },
+          "B5": {
+            "v": 4
+          },
+          "C5": {
+            "v": 420
+          },
+          "D5": {
+            "f": "=B5*C5"
+          },
+          "A6": {
+            "v": "Formation Word — 14 h"
+          },
+          "B6": {
+            "v": 3
+          },
+          "C6": {
+            "v": 350
+          },
+          "A7": {
+            "v": "Accompagnement individuel"
+          },
+          "B7": {
+            "v": 2
+          },
+          "C7": {
+            "v": 480
+          },
+          "A9": {
+            "v": "Total HT",
+            "format": {
+              "bold": true
+            }
+          },
+          "A10": {
+            "v": "TVA 20 %",
+            "format": {
+              "bold": true
+            }
+          },
+          "A11": {
+            "v": "Total TTC",
+            "format": {
+              "bold": true
+            }
+          },
+          "A13": {
+            "v": "Taux de TVA"
+          },
+          "B13": {
+            "v": 0.2
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M01-L05-01",
+      "consigne": "Un classeur existant s'ouvre par **Ctrl + O**, par la liste des **fichiers récents**, ou d'un double-clic dans l'explorateur de fichiers. Un classeur reçu par courriel s'ouvre en **mode protégé** : rien n'est modifiable avant d'avoir cliqué sur **Activer la modification**. Ce n'est pas une panne, c'est une protection contre les fichiers piégés.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M01-L05-02",
+      "consigne": "Ce devis a été ouvert depuis les fichiers récents. La première ligne est déjà calculée : ==cliquez sur **D5**== et lisez sa formule.",
+      "action": {
+        "type": "CLICK_CELL",
+        "cell": "D5"
+      },
+      "aide": {
+        "text": "Le total HT de la première prestation.",
+        "showTarget": true
+      },
+      "feedback": "`=B5*C5`, soit 1 680 €. Quatre sessions à 420 €."
+    },
+    {
+      "id": "M01-L05-03",
+      "consigne": "Deux totaux manquent. En **D6**, ==calculez le total de la formation Word== sur le modèle de D5.",
+      "setup": {
+        "selection": "D6"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "D6",
+        "accept": [
+          "=B6*C6",
+          "=C6*B6"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "La quantité multipliée par le prix unitaire, sur la ligne 6.",
+        "showTarget": true
+      },
+      "feedback": "1 050 €."
+    },
+    {
+      "id": "M01-L05-04",
+      "consigne": "En **D7**, ==calculez le total de l'accompagnement==.",
+      "setup": {
+        "selection": "D7"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "D7",
+        "accept": [
+          "=B7*C7",
+          "=C7*B7"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Même formule, une ligne plus bas.",
+        "showTarget": true
+      },
+      "feedback": "960 €."
+    },
+    {
+      "id": "M01-L05-05",
+      "consigne": "En **D9**, ==totalisez les trois prestations==.",
+      "setup": {
+        "selection": "D9"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "D9",
+        "accept": [
+          "=SOMME(D5:D7)",
+          "=D5+D6+D7"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Une somme sur les trois totaux HT.",
+        "showTarget": true
+      },
+      "feedback": "3 690 € hors taxes."
+    },
+    {
+      "id": "M01-L05-06",
+      "consigne": "Le taux de TVA est en **B13**. En **D10**, ==calculez la TVA== du devis.",
+      "setup": {
+        "selection": "D10"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "D10",
+        "accept": [
+          "=D9*B13",
+          "=D9*$B$13",
+          "=D9*0,2"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Le total hors taxes multiplié par le taux.",
+        "showTarget": true
+      },
+      "feedback": "738 € de TVA. Passer par la cellule B13 plutôt que par 0,2 écrit en dur permettra de changer le taux à un seul endroit."
+    },
+    {
+      "id": "M01-L05-07",
+      "consigne": "En **D11**, ==calculez le total TTC==.",
+      "setup": {
+        "selection": "D11"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "D11",
+        "accept": [
+          "=D9+D10",
+          "=SOMME(D9:D10)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Le hors taxes plus la TVA.",
+        "showTarget": true
+      },
+      "feedback": "4 428 € TTC. Le devis est complet."
+    },
+    {
+      "id": "M01-L05-08",
+      "consigne": "Un devis se présente. ==Donnez un format monétaire à la colonne **D5:D11**== avec le bouton **€**.",
+      "setup": {
+        "selection": "D5:D11"
+      },
+      "action": {
+        "type": "EXPECT_FORMAT",
+        "cells": {
+          "D5": {
+            "numberFormat": "monetaire"
+          },
+          "D11": {
+            "numberFormat": "monetaire"
+          }
+        }
+      },
+      "aide": {
+        "text": "Onglet Accueil, groupe Nombre, bouton €.",
+        "showTarget": true
+      },
+      "feedback": "Les montants deviennent lisibles. Les valeurs, elles, n'ont pas changé d'un centime."
+    },
+    {
+      "id": "M01-L05-09",
+      "consigne": "**Ctrl + S** enregistre. Comme le fichier a déjà un nom — la barre de titre affiche `Devis-2026-014.xlsx` —, Excel remplace la version précédente sans rien demander. Pour garder les deux, il faut **Enregistrer sous** (**F12**) et changer le nom. C'est toute la différence : **Enregistrer écrase, Enregistrer sous duplique**.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M01-L05-10",
+      "consigne": "Trois formats à connaître. **.xlsx** est le format de travail : formules, mise en forme, plusieurs feuilles. **.csv** ne garde qu'une feuille de valeurs — plus de formules, plus de couleurs ; c'est un format d'échange, jamais un format de sauvegarde. **.pdf** figé, pour envoyer un devis sans risque de retouche. Et dans tous les cas, choisissez le **dossier** avant de valider.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M01-L05-11",
+      "consigne": "Dernier conseil, et il fait gagner des heures : nommez vos fichiers dans l'ordre où vous les cherchez — objet, numéro, date. `Devis-2026-014.xlsx` se retrouve en trois secondes ; `devis final vrai bon.xlsx` non.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    }
+  ]
+}

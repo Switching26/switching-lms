@@ -1,0 +1,259 @@
+{
+  "schemaVersion": 1,
+  "title": "Exercice · Aller chercher les chiffres",
+  "mode": "EXERCISE",
+  "moduleTitle": "Sélectionner une cellule, une plage de cellules",
+  "intro": {
+    "title": "À VOUS",
+    "body": "Les chiffres sont sur deux feuilles, la synthèse est vide."
+  },
+  "outro": {
+    "body": "Exercice terminé."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ],
+    "sheetCount": 3
+  },
+  "workbook": {
+    "fileName": "CA-agences-T2.xlsx",
+    "activeSheetIndex": 2,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Est",
+        "columnWidths": {
+          "A": 120,
+          "B": 150
+        },
+        "cells": {
+          "A1": {
+            "v": "AGENCE EST",
+            "format": {
+              "bold": true
+            }
+          },
+          "A3": {
+            "v": "Mois",
+            "format": {
+              "bold": true
+            }
+          },
+          "B3": {
+            "v": "Chiffre d'affaires",
+            "format": {
+              "bold": true
+            }
+          },
+          "A4": {
+            "v": "Avril"
+          },
+          "B4": {
+            "v": 28500
+          },
+          "A5": {
+            "v": "Mai"
+          },
+          "B5": {
+            "v": 31700
+          },
+          "A6": {
+            "v": "Juin"
+          },
+          "B6": {
+            "v": 26800
+          },
+          "A8": {
+            "v": "TOTAL",
+            "format": {
+              "bold": true
+            }
+          },
+          "B8": {
+            "f": "=SOMME(B4:B6)"
+          }
+        }
+      },
+      {
+        "name": "Ouest",
+        "columnWidths": {
+          "A": 120,
+          "B": 150
+        },
+        "cells": {
+          "A1": {
+            "v": "AGENCE OUEST",
+            "format": {
+              "bold": true
+            }
+          },
+          "A3": {
+            "v": "Mois",
+            "format": {
+              "bold": true
+            }
+          },
+          "B3": {
+            "v": "Chiffre d'affaires",
+            "format": {
+              "bold": true
+            }
+          },
+          "A4": {
+            "v": "Avril"
+          },
+          "B4": {
+            "v": 45300
+          },
+          "A5": {
+            "v": "Mai"
+          },
+          "B5": {
+            "v": 42100
+          },
+          "A6": {
+            "v": "Juin"
+          },
+          "B6": {
+            "v": 47600
+          },
+          "A8": {
+            "v": "TOTAL",
+            "format": {
+              "bold": true
+            }
+          },
+          "B8": {
+            "f": "=SOMME(B4:B6)"
+          }
+        }
+      },
+      {
+        "name": "Synthèse",
+        "columnWidths": {
+          "A": 160,
+          "B": 150
+        },
+        "cells": {
+          "A1": {
+            "v": "SYNTHÈSE TRIMESTRE 2",
+            "format": {
+              "bold": true
+            }
+          },
+          "A3": {
+            "v": "Agence Est"
+          },
+          "A4": {
+            "v": "Agence Ouest"
+          },
+          "A6": {
+            "v": "TOTAL",
+            "format": {
+              "bold": true
+            }
+          },
+          "A7": {
+            "v": "MEILLEURE AGENCE",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M03-E03-01",
+      "consigne": "Affichez la feuille de l'**agence Est**.",
+      "action": {
+        "type": "SELECT_SHEET",
+        "name": "Est"
+      },
+      "aide": {
+        "text": "Les onglets sont en bas à gauche."
+      }
+    },
+    {
+      "id": "M03-E03-02",
+      "consigne": "Placez-vous sur la cellule qui porte le **total du trimestre** de cette agence.",
+      "action": {
+        "type": "CLICK_CELL",
+        "cell": "B8"
+      },
+      "aide": {
+        "text": "Sous les trois mois, à la ligne TOTAL."
+      },
+      "feedback": "87 000 € pour l'agence Est."
+    },
+    {
+      "id": "M03-E03-03",
+      "consigne": "Affichez maintenant la feuille de l'**agence Ouest** et relevez son total.",
+      "action": {
+        "type": "SELECT_SHEET",
+        "name": "Ouest"
+      },
+      "aide": {
+        "text": "L'onglet voisin."
+      }
+    },
+    {
+      "id": "M03-E03-04",
+      "consigne": "Revenez sur la **Synthèse** et reportez les deux totaux : l'agence Est en B3, l'agence Ouest en B4.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "B3": {
+            "v": 87000
+          },
+          "B4": {
+            "v": 135000
+          }
+        }
+      },
+      "aide": {
+        "text": "Deux chiffres à relever sur les deux feuilles, puis à saisir sur la troisième."
+      }
+    },
+    {
+      "id": "M03-E03-05",
+      "consigne": "En **B6**, totalisez les deux agences.",
+      "action": {
+        "type": "TYPE",
+        "target": "B6",
+        "accept": [
+          "=SOMME(B3:B4)",
+          "=B3+B4"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Une somme sur les deux lignes du dessus."
+      },
+      "feedback": "222 000 € sur le trimestre."
+    },
+    {
+      "id": "M03-E03-06",
+      "consigne": "En **B7**, affichez le chiffre de la **meilleure des deux agences**.",
+      "action": {
+        "type": "TYPE",
+        "target": "B7",
+        "accept": [
+          "=MAX(B3:B4)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Une fonction, pas une comparaison à l'œil."
+      },
+      "feedback": "135 000 €, l'agence Ouest."
+    }
+  ]
+}

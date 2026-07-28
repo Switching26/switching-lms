@@ -161,13 +161,9 @@
           {
             "name": "T3",
             "values": "D2:D5"
-          },
-          {
-            "name": "T4",
-            "values": "E2:E5"
           }
         ],
-        "source": "A1:E5",
+        "source": "A1:D5",
         "categories": "A2:A5",
         "title": "Chiffre d'affaires par région",
         "elements": {
@@ -181,10 +177,10 @@
         "legendPosition": "bas",
         "style": 1,
         "frame": {
-          "x": 470,
+          "x": 430,
           "y": 10,
-          "w": 400,
-          "h": 258
+          "w": 460,
+          "h": 262
         }
       }
     ]
@@ -198,7 +194,7 @@
         "element": "legende"
       },
       "aide": {
-        "text": "Les quatre carrés colorés, sous le tracé."
+        "text": "Les trois carrés colorés, sous le tracé."
       }
     },
     {
@@ -216,38 +212,31 @@
         "control": "ins-graph-element-legende"
       },
       "aide": {
-        "text": "Ajouter un élément de graphique, Légende, Aucune."
+        "text": "Onglet Création de graphique, groupe Éléments du graphique : bouton « Légende »."
       }
     },
     {
       "id": "M17-E03-03",
-      "consigne": "La direction veut commenter le **quatrième trimestre de la région Ouest**. Sélectionnez ce seul point.",
+      "consigne": "La direction veut commenter le troisième trimestre. Sélectionnez d'abord la **série T3** entière.",
       "action": {
         "type": "SELECT_CHART_ELEMENT",
-        "element": "point:3:3"
+        "element": "serie:2"
       },
       "aide": {
-        "text": "Dans le dernier groupe de barres, la quatrième. Un premier clic prend la série, un second le point."
-      },
-      "feedback": "Un point isolé se met en forme sans toucher au reste."
+        "text": "Une barre de la troisième couleur, dans n'importe quel groupe."
+      }
     },
     {
       "id": "M17-E03-04",
-      "consigne": "Affichez les **étiquettes de données** pour que les montants soient lisibles sans le quadrillage.",
-      "setup": {
-        "chartEdit": {
-          "elements": {
-            "etiquettes": true
-          }
-        }
-      },
+      "consigne": "Descendez d'un cran : sélectionnez le seul **point de la région Ouest** dans cette série.",
       "action": {
-        "type": "CLICK_CONTROL",
-        "control": "ins-graph-element-etiquettes"
+        "type": "SELECT_CHART_ELEMENT",
+        "element": "point:2:3"
       },
       "aide": {
-        "text": "Ajouter un élément de graphique, Étiquettes de données."
-      }
+        "text": "Dans le dernier groupe de barres, la troisième. Un second clic sur la même barre isole le point."
+      },
+      "feedback": "Un point isolé se met en forme sans toucher au reste."
     },
     {
       "id": "M17-E03-05",
@@ -265,7 +254,7 @@
       "action": {
         "type": "EXPECT_CHART",
         "chart": {
-          "seriesCount": 3,
+          "seriesCount": 2,
           "series": [
             {
               "name": "T1",
@@ -278,10 +267,6 @@
             {
               "name": "T3",
               "hidden": true
-            },
-            {
-              "name": "T4",
-              "hidden": false
             }
           ]
         }
@@ -293,6 +278,26 @@
     },
     {
       "id": "M17-E03-06",
+      "consigne": "Deux séries restent visibles : les montants peuvent maintenant tenir en clair. Affichez les **étiquettes de données** et masquez le **quadrillage**.",
+      "setup": {
+        "chartEdit": {
+          "elements": {
+            "etiquettes": true,
+            "quadrillage": false
+          }
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "ins-graph-element-etiquettes"
+      },
+      "aide": {
+        "text": "Onglet Création de graphique, groupe Éléments du graphique : bouton « Étiquettes »."
+      },
+      "feedback": "À quatre séries, ces mêmes étiquettes se chevaucheraient : c'est le nombre de séries qui décide."
+    },
+    {
+      "id": "M17-E03-07",
       "consigne": "Terminez en affichant les **titres des axes** : sans unité, un montant ne veut rien dire.",
       "setup": {
         "chartEdit": {
@@ -306,7 +311,7 @@
         "control": "ins-graph-element-titres-axes"
       },
       "aide": {
-        "text": "Ajouter un élément de graphique, Titres des axes."
+        "text": "Onglet Création de graphique, groupe Éléments du graphique : bouton « Titres des axes »."
       }
     }
   ]

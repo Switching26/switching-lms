@@ -1,0 +1,177 @@
+{
+  "schemaVersion": 1,
+  "title": "Exercice · Saisir un planning daté",
+  "mode": "EXERCISE",
+  "moduleTitle": "Saisie des données",
+  "intro": {
+    "title": "À VOUS",
+    "body": "Deux interventions à enregistrer, dates et heures comprises."
+  },
+  "outro": {
+    "body": "Exercice terminé."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ],
+    "sheetCount": 1
+  },
+  "workbook": {
+    "fileName": "Interventions-avril.xlsx",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Avril",
+        "columnWidths": {
+          "A": 150,
+          "B": 110
+        },
+        "cells": {
+          "A1": {
+            "v": "INTERVENTIONS — AVRIL 2026",
+            "format": {
+              "bold": true
+            }
+          },
+          "A3": {
+            "v": "Client",
+            "format": {
+              "bold": true
+            }
+          },
+          "B3": {
+            "v": "Date",
+            "format": {
+              "bold": true
+            }
+          },
+          "C3": {
+            "v": "Arrivée",
+            "format": {
+              "bold": true
+            }
+          },
+          "D3": {
+            "v": "Départ",
+            "format": {
+              "bold": true
+            }
+          },
+          "E3": {
+            "v": "Durée",
+            "format": {
+              "bold": true
+            }
+          },
+          "A4": {
+            "v": "Cabinet Aubry"
+          },
+          "A5": {
+            "v": "Garage Vasseur"
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M02-E02-01",
+      "consigne": "La première intervention a eu lieu le **7 avril 2026**. Enregistrez cette date en **B4**.",
+      "action": {
+        "type": "TYPE",
+        "target": "B4",
+        "accept": [
+          "07/04/2026",
+          "7/04/2026",
+          "7/4/2026",
+          "07/4/2026"
+        ]
+      },
+      "aide": {
+        "text": "Écrivez l'année en entier : c'est la seule forme sans ambiguïté."
+      }
+    },
+    {
+      "id": "M02-E02-02",
+      "consigne": "Le technicien est arrivé à **7 h 45**. Renseignez **C4**.",
+      "action": {
+        "type": "TYPE",
+        "target": "C4",
+        "accept": [
+          "07:45",
+          "7:45"
+        ]
+      },
+      "aide": {
+        "text": "Une heure se saisit avec des deux-points."
+      }
+    },
+    {
+      "id": "M02-E02-03",
+      "consigne": "Il est reparti à **11 h 30**. Renseignez **D4**.",
+      "action": {
+        "type": "TYPE",
+        "target": "D4",
+        "accept": [
+          "11:30"
+        ]
+      },
+      "aide": {
+        "text": "Même forme que l'heure d'arrivée."
+      }
+    },
+    {
+      "id": "M02-E02-04",
+      "consigne": "Calculez la **durée** de cette intervention en **E4**.",
+      "action": {
+        "type": "TYPE",
+        "target": "E4",
+        "accept": [
+          "=D4-C4"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Une soustraction entre les deux heures."
+      },
+      "feedback": "3 h 45 sur place."
+    },
+    {
+      "id": "M02-E02-05",
+      "consigne": "La seconde intervention date du **21 avril 2026**. Enregistrez-la en **B5**.",
+      "action": {
+        "type": "TYPE",
+        "target": "B5",
+        "accept": [
+          "21/04/2026",
+          "21/4/2026"
+        ]
+      },
+      "aide": {
+        "text": "Vérifiez ensuite l'alignement : à droite, la date est reconnue."
+      }
+    },
+    {
+      "id": "M02-E02-06",
+      "consigne": "En **G4**, calculez le **nombre de jours** qui séparent les deux interventions.",
+      "action": {
+        "type": "TYPE",
+        "target": "G4",
+        "accept": [
+          "=B5-B4"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Deux dates se soustraient comme deux nombres."
+      },
+      "feedback": "14 jours. Si le résultat n'est pas un nombre, c'est qu'une date est en réalité du texte."
+    }
+  ]
+}

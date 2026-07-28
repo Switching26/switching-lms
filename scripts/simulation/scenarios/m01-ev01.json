@@ -1,0 +1,264 @@
+{
+  "schemaVersion": 1,
+  "title": "S'évaluer · Prise en main",
+  "mode": "EVALUATION",
+  "moduleTitle": "Prise en main",
+  "intro": {
+    "title": "S'ÉVALUER",
+    "body": "Une note de frais bâtie sur un modèle, à remplir et à présenter. Dix gestes, chacun noté à la première tentative. Aucune aide n'est proposée."
+  },
+  "outro": {
+    "body": "Évaluation terminée."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ],
+    "sheetCount": 1
+  },
+  "workbook": {
+    "fileName": "Note-de-frais-mai.xlsx",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Mai",
+        "columnWidths": {
+          "A": 200,
+          "B": 130,
+          "C": 110
+        },
+        "cells": {
+          "A1": {
+            "v": "NOTE DE FRAIS",
+            "format": {
+              "bold": true
+            }
+          },
+          "A3": {
+            "v": "Nom",
+            "format": {
+              "bold": true
+            }
+          },
+          "A4": {
+            "v": "Service",
+            "format": {
+              "bold": true
+            }
+          },
+          "A6": {
+            "v": "Date",
+            "format": {
+              "bold": true
+            }
+          },
+          "B6": {
+            "v": "Objet",
+            "format": {
+              "bold": true
+            }
+          },
+          "C6": {
+            "v": "Montant",
+            "format": {
+              "bold": true
+            }
+          },
+          "A11": {
+            "v": "Sous-total frais",
+            "format": {
+              "bold": true
+            }
+          },
+          "C11": {
+            "f": "=SOMME(C7:C10)"
+          },
+          "A13": {
+            "v": "Barème kilométrique (€/km)"
+          },
+          "B13": {
+            "v": 0.54
+          },
+          "A14": {
+            "v": "Kilomètres parcourus"
+          },
+          "A15": {
+            "v": "Indemnité kilométrique",
+            "format": {
+              "bold": true
+            }
+          },
+          "B15": {
+            "f": "=B13*B14"
+          },
+          "A17": {
+            "v": "À REMBOURSER",
+            "format": {
+              "bold": true
+            }
+          },
+          "B17": {
+            "f": "=C11+B15"
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M01-EV01-01",
+      "consigne": "Ce classeur a été créé à partir d'un **modèle** : les formules y sont déjà. À vous de le remplir, de le contrôler et de le présenter.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M01-EV01-02",
+      "consigne": "Renseignez l'identité : **Vasseur** comme nom, **Logistique** comme service.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "B3": {
+            "v": "Vasseur"
+          },
+          "B4": {
+            "v": "Logistique"
+          }
+        }
+      },
+      "points": 1
+    },
+    {
+      "id": "M01-EV01-03",
+      "consigne": "Atteignez la première cellule de la colonne **Montant** sans passer par la grille.",
+      "action": {
+        "type": "GOTO_REF",
+        "ref": "C7"
+      },
+      "points": 1
+    },
+    {
+      "id": "M01-EV01-04",
+      "consigne": "Saisissez les quatre dépenses : **62,40** de train, **18,50** de repas, **96** d'hôtel, **9,10** de taxi.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "C7": {
+            "v": 62.4
+          },
+          "C8": {
+            "v": 18.5
+          },
+          "C9": {
+            "v": 96
+          },
+          "C10": {
+            "v": 9.1
+          },
+          "C11": {
+            "f": "=SOMME(C7:C10)",
+            "v": 186
+          }
+        }
+      },
+      "points": 2
+    },
+    {
+      "id": "M01-EV01-05",
+      "consigne": "Le déplacement a représenté **320 kilomètres**. Renseignez-les : le remboursement doit se calculer seul.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "B14": {
+            "v": 320
+          },
+          "B15": {
+            "f": "=B13*B14",
+            "v": 172.8
+          },
+          "B17": {
+            "f": "=C11+B15",
+            "v": 358.8
+          }
+        }
+      },
+      "points": 2
+    },
+    {
+      "id": "M01-EV01-06",
+      "consigne": "Placez-vous sur la cellule du **montant à rembourser** pour vérifier sa formule dans la barre de formule.",
+      "action": {
+        "type": "CLICK_CELL",
+        "cell": "B17"
+      },
+      "points": 1
+    },
+    {
+      "id": "M01-EV01-07",
+      "consigne": "Contrôlez le sous-total sans écrire de formule : sélectionnez les **quatre montants** et lisez la barre d'état.",
+      "action": {
+        "type": "DRAG_RANGE",
+        "range": "C7:C10"
+      },
+      "points": 1
+    },
+    {
+      "id": "M01-EV01-08",
+      "consigne": "Sélectionnez la **ligne des en-têtes** du tableau de dépenses en entier.",
+      "action": {
+        "type": "SELECT_ROW",
+        "row": 6
+      },
+      "points": 1
+    },
+    {
+      "id": "M01-EV01-09",
+      "consigne": "Mettez cette ligne d'en-têtes **en gras**.",
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "acc-gras"
+      },
+      "points": 1
+    },
+    {
+      "id": "M01-EV01-10",
+      "consigne": "Donnez un **format monétaire** aux montants, de C7 à C11.",
+      "action": {
+        "type": "EXPECT_FORMAT",
+        "cells": {
+          "C7": {
+            "numberFormat": "monetaire"
+          },
+          "C11": {
+            "numberFormat": "monetaire"
+          }
+        }
+      },
+      "points": 1
+    },
+    {
+      "id": "M01-EV01-11",
+      "consigne": "Le barème passe à **0,58 €/km**. Faites la correction au seul endroit qui convient.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "B13": {
+            "v": 0.58
+          },
+          "B17": {
+            "f": "=C11+B15",
+            "v": 371.6
+          }
+        }
+      },
+      "points": 2
+    }
+  ]
+}

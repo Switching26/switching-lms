@@ -1,0 +1,251 @@
+{
+  "schemaVersion": 1,
+  "title": "Transposer des lignes en colonnes",
+  "mode": "LESSON",
+  "moduleTitle": "Les lignes et les colonnes",
+  "intro": {
+    "title": "RETOURNER UN TABLEAU",
+    "body": "Un tableau reçu « en largeur », avec les périodes en colonnes, se lit mais ne s'exploite pas : ni tri, ni filtre, ni tableau croisé. Le collage transposé le retourne d'un geste."
+  },
+  "outro": {
+    "body": "Vous savez transposer un tableau, et vous savez que le résultat est une copie de valeurs, pas un lien."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ],
+    "sheetCount": 1
+  },
+  "workbook": {
+    "fileName": "Heures-trimestre.xlsx",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Heures",
+        "columnWidths": {
+          "A": 150
+        },
+        "cells": {
+          "A1": {
+            "v": "HEURES DE FORMATION PAR TRIMESTRE",
+            "format": {
+              "bold": true
+            }
+          },
+          "A3": {
+            "v": "Trimestre",
+            "format": {
+              "bold": true
+            }
+          },
+          "B3": {
+            "v": "T1",
+            "format": {
+              "bold": true
+            }
+          },
+          "C3": {
+            "v": "T2",
+            "format": {
+              "bold": true
+            }
+          },
+          "D3": {
+            "v": "T3",
+            "format": {
+              "bold": true
+            }
+          },
+          "E3": {
+            "v": "T4",
+            "format": {
+              "bold": true
+            }
+          },
+          "A4": {
+            "v": "Heures réalisées"
+          },
+          "B4": {
+            "v": 420
+          },
+          "C4": {
+            "v": 385
+          },
+          "D4": {
+            "v": 210
+          },
+          "E4": {
+            "v": 465
+          },
+          "A7": {
+            "v": "Tableau retourné",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M04-L06-01",
+      "consigne": "Ce tableau est écrit **en largeur** : une seule ligne de données, les trimestres en colonnes. C'est lisible sur quatre périodes, ingérable sur trente-six mois — et surtout, aucun tri, aucun filtre et aucun tableau croisé ne sait travailler dans ce sens. Il faut le retourner : les trimestres en lignes, les heures en colonne.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M04-L06-02",
+      "consigne": "On commence par désigner ce qu'on veut retourner. ==Sélectionnez la plage **A3:E4**==, en-têtes compris.",
+      "action": {
+        "type": "DRAG_RANGE",
+        "range": "A3:E4"
+      },
+      "aide": {
+        "text": "De A3 jusqu'à E4 : deux lignes sur cinq colonnes.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M04-L06-03",
+      "consigne": "==Cliquez sur **Copier**== dans le groupe Presse-papiers.",
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "acc-copier"
+      },
+      "aide": {
+        "text": "Le bouton Copier, tout à gauche du ruban Accueil.",
+        "showTarget": true
+      },
+      "feedback": "La plage est entourée de pointillés : elle est dans le presse-papiers."
+    },
+    {
+      "id": "M04-L06-04",
+      "consigne": "==Placez-vous en **A9** et collez en choisissant **Transposé**==.",
+      "setup": {
+        "selection": "A9",
+        "paste": {
+          "texte": "Trimestre\tHeures réalisées\nT1\t420\nT2\t385\nT3\t210\nT4\t465"
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "acc-coller"
+      },
+      "aide": {
+        "text": "Le menu du bouton Coller propose plusieurs collages : c'est l'option Transposé qu'il faut.",
+        "showTarget": true
+      },
+      "feedback": "Le tableau a pivoté : les quatre trimestres descendent en colonne A, les heures en colonne B. Ce qui était une ligne est devenu une colonne."
+    },
+    {
+      "id": "M04-L06-05",
+      "consigne": "Le tableau est maintenant exploitable verticalement. En **B15**, ==totalisez les heures de l'année==.",
+      "setup": {
+        "selection": "B15",
+        "cells": {
+          "A15": {
+            "v": "Total",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B15",
+        "accept": [
+          "=SOMME(B10:B13)",
+          "=B10+B11+B12+B13"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Les quatre heures transposées occupent B10 à B13.",
+        "showTarget": true
+      },
+      "feedback": "1 480 heures. La même somme sur le tableau du haut se serait écrite `=SOMME(B4:E4)` — horizontalement, ce qui fonctionne aussi, mais qui ne se recopie pas et ne se filtre pas."
+    },
+    {
+      "id": "M04-L06-06",
+      "consigne": "Un point à ne pas manquer : le collage transposé produit une **copie de valeurs**, pas un lien. Modifiez 420 dans le tableau du haut, le tableau retourné ne bougera pas. Pour obtenir un lien vivant, il existe la fonction `TRANSPOSE`, qui recalcule à chaque changement — mais dans la majorité des cas, une transposition est une opération de nettoyage qu'on fait une fois pour toutes.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M04-L06-07",
+      "consigne": "En **B16**, ==calculez la moyenne trimestrielle==.",
+      "setup": {
+        "selection": "B16",
+        "cells": {
+          "A16": {
+            "v": "Moyenne",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B16",
+        "accept": [
+          "=MOYENNE(B10:B13)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "MOYENNE sur les quatre trimestres transposés.",
+        "showTarget": true
+      },
+      "feedback": "370 heures par trimestre en moyenne."
+    },
+    {
+      "id": "M04-L06-08",
+      "consigne": "En **B17**, ==affichez le meilleur trimestre==.",
+      "setup": {
+        "selection": "B17",
+        "cells": {
+          "A17": {
+            "v": "Meilleur trimestre",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B17",
+        "accept": [
+          "=MAX(B10:B13)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "MAX sur la même plage.",
+        "showTarget": true
+      },
+      "feedback": "465 heures, le quatrième trimestre."
+    },
+    {
+      "id": "M04-L06-09",
+      "consigne": "La règle qui décide du sens d'un tableau : **une ligne = un enregistrement, une colonne = une information**. Un mois, un client, une facture par ligne ; la date, le montant, la ville en colonnes. C'est le seul format que les tris, les filtres, les sous-totaux et les tableaux croisés savent exploiter — et c'est vers celui-là qu'on transpose.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    }
+  ]
+}

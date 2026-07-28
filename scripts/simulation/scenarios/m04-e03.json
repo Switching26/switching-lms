@@ -1,0 +1,170 @@
+{
+  "schemaVersion": 1,
+  "title": "Exercice · Aérer un tableau de commentaires",
+  "mode": "EXERCISE",
+  "moduleTitle": "Les lignes et les colonnes",
+  "intro": {
+    "title": "À VOUS",
+    "body": "Trois comptes rendus, deux commentaires qui débordent."
+  },
+  "outro": {
+    "body": "Exercice terminé."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ],
+    "sheetCount": 1
+  },
+  "workbook": {
+    "fileName": "Comptes-rendus.xlsx",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Visites",
+        "columnWidths": {
+          "A": 110,
+          "B": 90,
+          "C": 280
+        },
+        "cells": {
+          "A1": {
+            "v": "COMPTES RENDUS DE VISITE",
+            "format": {
+              "bold": true
+            }
+          },
+          "A3": {
+            "v": "Client",
+            "format": {
+              "bold": true
+            }
+          },
+          "B3": {
+            "v": "Note /5",
+            "format": {
+              "bold": true
+            }
+          },
+          "C3": {
+            "v": "Commentaire",
+            "format": {
+              "bold": true
+            }
+          },
+          "A4": {
+            "v": "Aubry"
+          },
+          "B4": {
+            "v": 4
+          },
+          "C4": {
+            "v": "Satisfait de la formation, souhaite un module complémentaire sur les tableaux croisés dès septembre"
+          },
+          "A5": {
+            "v": "Vasseur"
+          },
+          "B5": {
+            "v": 5
+          },
+          "C5": {
+            "v": "Très bon retour"
+          },
+          "A6": {
+            "v": "Petit"
+          },
+          "B6": {
+            "v": 3
+          },
+          "C6": {
+            "v": "Rythme jugé trop rapide sur la partie formules, un rattrapage individuel est demandé"
+          },
+          "A8": {
+            "v": "Note moyenne",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M04-E03-01",
+      "consigne": "Faites ressortir la **ligne d'en-têtes** en agrandissant sa police : sélectionnez-la d'abord en entier.",
+      "action": {
+        "type": "SELECT_ROW",
+        "row": 3
+      },
+      "aide": {
+        "text": "Un clic sur le numéro de la ligne."
+      }
+    },
+    {
+      "id": "M04-E03-02",
+      "consigne": "Agrandissez maintenant sa police, et observez ce que devient la hauteur.",
+      "action": {
+        "type": "EXPECT_FORMAT",
+        "cells": {
+          "A3": {
+            "fontSize": 14
+          }
+        }
+      },
+      "aide": {
+        "text": "Le groupe Police contient deux boutons de taille."
+      },
+      "feedback": "La hauteur a suivi toute seule."
+    },
+    {
+      "id": "M04-E03-03",
+      "consigne": "Le commentaire du client **Aubry** dépasse de sa colonne. Sélectionnez sa ligne.",
+      "action": {
+        "type": "SELECT_ROW",
+        "row": 4
+      },
+      "aide": {
+        "text": "La première ligne de données."
+      }
+    },
+    {
+      "id": "M04-E03-04",
+      "consigne": "Faites tenir ce commentaire **dans sa cellule**, sur plusieurs lignes, sans élargir la colonne.",
+      "action": {
+        "type": "EXPECT_FORMAT",
+        "cells": {
+          "C4": {
+            "wrap": true
+          }
+        }
+      },
+      "aide": {
+        "text": "Le groupe Alignement propose un bouton pour cela."
+      },
+      "feedback": "Le texte est entier et la ligne s'est adaptée."
+    },
+    {
+      "id": "M04-E03-05",
+      "consigne": "En **B8**, calculez la **note moyenne** des trois visites.",
+      "action": {
+        "type": "TYPE",
+        "target": "B8",
+        "accept": [
+          "=MOYENNE(B4:B6)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Une moyenne sur les trois notes."
+      },
+      "feedback": "4 sur 5."
+    }
+  ]
+}

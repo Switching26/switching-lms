@@ -1,0 +1,312 @@
+{
+  "schemaVersion": 1,
+  "title": "Naviguer entre les feuilles d'un classeur",
+  "mode": "LESSON",
+  "moduleTitle": "Sélectionner une cellule, une plage de cellules",
+  "intro": {
+    "title": "UN CLASSEUR, PLUSIEURS FEUILLES",
+    "body": "Un classeur n'est pas une feuille : c'est un dossier de feuilles. Savoir passer de l'une à l'autre sans se perdre est le premier réflexe d'un fichier qui grossit."
+  },
+  "outro": {
+    "body": "Vous savez passer d'une feuille à l'autre, en ajouter une, et repérer sur laquelle vous travaillez."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ],
+    "sheetCount": 3
+  },
+  "workbook": {
+    "fileName": "CA-agences.xlsx",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Nord",
+        "columnWidths": {
+          "A": 120,
+          "B": 150
+        },
+        "cells": {
+          "A1": {
+            "v": "AGENCE NORD",
+            "format": {
+              "bold": true
+            }
+          },
+          "A3": {
+            "v": "Mois",
+            "format": {
+              "bold": true
+            }
+          },
+          "B3": {
+            "v": "Chiffre d'affaires",
+            "format": {
+              "bold": true
+            }
+          },
+          "A4": {
+            "v": "Janvier"
+          },
+          "B4": {
+            "v": 41200
+          },
+          "A5": {
+            "v": "Février"
+          },
+          "B5": {
+            "v": 38600
+          },
+          "A6": {
+            "v": "Mars"
+          },
+          "B6": {
+            "v": 44900
+          },
+          "A8": {
+            "v": "TOTAL",
+            "format": {
+              "bold": true
+            }
+          },
+          "B8": {
+            "f": "=SOMME(B4:B6)"
+          }
+        }
+      },
+      {
+        "name": "Sud",
+        "columnWidths": {
+          "A": 120,
+          "B": 150
+        },
+        "cells": {
+          "A1": {
+            "v": "AGENCE SUD",
+            "format": {
+              "bold": true
+            }
+          },
+          "A3": {
+            "v": "Mois",
+            "format": {
+              "bold": true
+            }
+          },
+          "B3": {
+            "v": "Chiffre d'affaires",
+            "format": {
+              "bold": true
+            }
+          },
+          "A4": {
+            "v": "Janvier"
+          },
+          "B4": {
+            "v": 35800
+          },
+          "A5": {
+            "v": "Février"
+          },
+          "B5": {
+            "v": 33200
+          },
+          "A6": {
+            "v": "Mars"
+          },
+          "B6": {
+            "v": 39400
+          },
+          "A8": {
+            "v": "TOTAL",
+            "format": {
+              "bold": true
+            }
+          },
+          "B8": {
+            "f": "=SOMME(B4:B6)"
+          }
+        }
+      },
+      {
+        "name": "Synthèse",
+        "columnWidths": {
+          "A": 160,
+          "B": 150
+        },
+        "cells": {
+          "A1": {
+            "v": "SYNTHÈSE TRIMESTRE 1",
+            "format": {
+              "bold": true
+            }
+          },
+          "A3": {
+            "v": "Agence Nord"
+          },
+          "A4": {
+            "v": "Agence Sud"
+          },
+          "A6": {
+            "v": "TOTAL",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M03-L04-01",
+      "consigne": "En bas à gauche de la fenêtre, trois **onglets de feuille** : Nord, Sud, Synthèse. L'onglet de la feuille affichée est en blanc, les autres en gris. C'est le seul endroit qui vous dit où vous êtes.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M03-L04-02",
+      "consigne": "==Cliquez sur l'onglet **Sud**== pour afficher cette feuille.",
+      "action": {
+        "type": "SELECT_SHEET",
+        "name": "Sud"
+      },
+      "aide": {
+        "text": "Le deuxième onglet, en bas à gauche.",
+        "showTarget": true
+      },
+      "feedback": "Une autre feuille, dans le même fichier. Le classeur n'a pas changé, seulement la feuille affichée."
+    },
+    {
+      "id": "M03-L04-03",
+      "consigne": "Relevez le total de cette agence. ==Cliquez sur **B8**== et notez le chiffre.",
+      "action": {
+        "type": "CLICK_CELL",
+        "cell": "B8"
+      },
+      "aide": {
+        "text": "La cellule du total, sous les trois mois.",
+        "showTarget": true
+      },
+      "feedback": "108 400 € pour l'agence Sud. Retenez-le, il va nous servir."
+    },
+    {
+      "id": "M03-L04-04",
+      "consigne": "==Revenez sur l'onglet **Nord**==.",
+      "action": {
+        "type": "SELECT_SHEET",
+        "name": "Nord"
+      },
+      "aide": {
+        "text": "Le premier onglet.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M03-L04-05",
+      "consigne": "==Cliquez sur **B8**== pour relever le total de l'agence Nord.",
+      "action": {
+        "type": "CLICK_CELL",
+        "cell": "B8"
+      },
+      "aide": {
+        "text": "Même position que sur la feuille Sud : les feuilles d'un classeur ont souvent la même structure.",
+        "showTarget": true
+      },
+      "feedback": "124 700 € pour l'agence Nord."
+    },
+    {
+      "id": "M03-L04-06",
+      "consigne": "==Allez sur l'onglet **Synthèse**==, la feuille qui rassemble.",
+      "action": {
+        "type": "SELECT_SHEET",
+        "name": "Synthèse"
+      },
+      "aide": {
+        "text": "Le troisième onglet.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M03-L04-07",
+      "consigne": "En **B3**, ==reportez le total de l'agence Nord==.",
+      "setup": {
+        "selection": "B3"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B3",
+        "accept": [
+          "124700"
+        ]
+      },
+      "aide": {
+        "text": "Le chiffre relevé deux étapes plus tôt.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M03-L04-08",
+      "consigne": "En **B4**, ==reportez le total de l'agence Sud==.",
+      "setup": {
+        "selection": "B4"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B4",
+        "accept": [
+          "108400"
+        ]
+      },
+      "aide": {
+        "text": "Celui de la feuille Sud.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M03-L04-09",
+      "consigne": "En **B6**, ==totalisez les deux agences==.",
+      "setup": {
+        "selection": "B6"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B6",
+        "accept": [
+          "=SOMME(B3:B4)",
+          "=B3+B4"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Une somme sur les deux lignes que vous venez de remplir.",
+        "showTarget": true
+      },
+      "feedback": "233 100 € sur le trimestre."
+    },
+    {
+      "id": "M03-L04-10",
+      "consigne": "Trois gestes à ajouter à votre panoplie. **Ctrl + Page suivante** et **Ctrl + Page précédente** passent d'une feuille à l'autre au clavier. Un **double-clic** sur un onglet permet de le renommer. Et quand les onglets deviennent trop nombreux pour tenir en bas de l'écran, un **clic droit** sur les flèches de défilement ouvre la liste complète des feuilles.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M03-L04-11",
+      "consigne": "Un dernier mot, important. Vous venez de **recopier deux chiffres à la main** : dès qu'une vente changera sur la feuille Nord, votre synthèse sera fausse sans que rien ne vous alerte. C'est la raison pour laquelle Excel sait faire référence à une cellule d'une autre feuille — vous l'apprendrez plus loin dans la formation. Pour l'instant, retenez le principe : **on ne recopie pas un chiffre qu'on peut aller chercher**.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    }
+  ]
+}

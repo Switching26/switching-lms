@@ -1,0 +1,360 @@
+{
+  "schemaVersion": 1,
+  "title": "S'évaluer · Sélectionner",
+  "mode": "EVALUATION",
+  "moduleTitle": "Sélectionner une cellule, une plage de cellules",
+  "intro": {
+    "title": "S'ÉVALUER",
+    "body": "Deux trimestres, cinq clients, et neuf sélections à réussir du premier coup. Aucune aide n'est proposée."
+  },
+  "outro": {
+    "body": "Évaluation terminée."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ],
+    "sheetCount": 2
+  },
+  "workbook": {
+    "fileName": "CA-clients.xlsx",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Trimestre 1",
+        "columnWidths": {
+          "A": 120,
+          "F": 190
+        },
+        "cells": {
+          "A1": {
+            "v": "CHIFFRE D'AFFAIRES — TRIMESTRE 1",
+            "format": {
+              "bold": true
+            }
+          },
+          "A3": {
+            "v": "Client",
+            "format": {
+              "bold": true
+            }
+          },
+          "B3": {
+            "v": "Janvier",
+            "format": {
+              "bold": true
+            }
+          },
+          "C3": {
+            "v": "Février",
+            "format": {
+              "bold": true
+            }
+          },
+          "D3": {
+            "v": "Mars",
+            "format": {
+              "bold": true
+            }
+          },
+          "A4": {
+            "v": "Aubry"
+          },
+          "B4": {
+            "v": 2450
+          },
+          "C4": {
+            "v": 2180
+          },
+          "D4": {
+            "v": 2610
+          },
+          "A5": {
+            "v": "Cauchy"
+          },
+          "B5": {
+            "v": 1320
+          },
+          "C5": {
+            "v": 1490
+          },
+          "D5": {
+            "v": 1275
+          },
+          "A6": {
+            "v": "Ferrand"
+          },
+          "B6": {
+            "v": 3080
+          },
+          "C6": {
+            "v": 2940
+          },
+          "D6": {
+            "v": 3350
+          },
+          "A7": {
+            "v": "Guyot"
+          },
+          "B7": {
+            "v": 860
+          },
+          "C7": {
+            "v": 1120
+          },
+          "D7": {
+            "v": 995
+          },
+          "A8": {
+            "v": "Morvan"
+          },
+          "B8": {
+            "v": 1740
+          },
+          "C8": {
+            "v": 1615
+          },
+          "D8": {
+            "v": 1880
+          }
+        }
+      },
+      {
+        "name": "Trimestre 2",
+        "columnWidths": {
+          "A": 120
+        },
+        "cells": {
+          "A1": {
+            "v": "CHIFFRE D'AFFAIRES — TRIMESTRE 2",
+            "format": {
+              "bold": true
+            }
+          },
+          "A3": {
+            "v": "Client",
+            "format": {
+              "bold": true
+            }
+          },
+          "B3": {
+            "v": "Avril",
+            "format": {
+              "bold": true
+            }
+          },
+          "C3": {
+            "v": "Mai",
+            "format": {
+              "bold": true
+            }
+          },
+          "D3": {
+            "v": "Juin",
+            "format": {
+              "bold": true
+            }
+          },
+          "A4": {
+            "v": "Aubry"
+          },
+          "B4": {
+            "v": 2520
+          },
+          "C4": {
+            "v": 2340
+          },
+          "D4": {
+            "v": 2705
+          },
+          "A5": {
+            "v": "Cauchy"
+          },
+          "B5": {
+            "v": 1410
+          },
+          "C5": {
+            "v": 1360
+          },
+          "D5": {
+            "v": 1495
+          },
+          "A6": {
+            "v": "Ferrand"
+          },
+          "B6": {
+            "v": 3210
+          },
+          "C6": {
+            "v": 3080
+          },
+          "D6": {
+            "v": 3420
+          },
+          "A7": {
+            "v": "Guyot"
+          },
+          "B7": {
+            "v": 1050
+          },
+          "C7": {
+            "v": 940
+          },
+          "D7": {
+            "v": 1085
+          },
+          "A8": {
+            "v": "Morvan"
+          },
+          "B8": {
+            "v": 1795
+          },
+          "C8": {
+            "v": 1680
+          },
+          "D8": {
+            "v": 1920
+          },
+          "A10": {
+            "v": "TOTAL AVRIL",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M03-EV01-01",
+      "consigne": "Le chiffre d'affaires de cinq clients, sur deux trimestres répartis sur deux feuilles. Neuf gestes vous sont demandés.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M03-EV01-02",
+      "consigne": "Activez la cellule qui contient le chiffre de **février du client Ferrand**.",
+      "action": {
+        "type": "CLICK_CELL",
+        "cell": "C6"
+      },
+      "points": 1
+    },
+    {
+      "id": "M03-EV01-03",
+      "consigne": "Sélectionnez **tous les chiffres de mars**, en-tête exclu.",
+      "action": {
+        "type": "DRAG_RANGE",
+        "range": "D4:D8"
+      },
+      "points": 1
+    },
+    {
+      "id": "M03-EV01-04",
+      "consigne": "Sélectionnez la **ligne entière** du client Guyot.",
+      "action": {
+        "type": "SELECT_ROW",
+        "row": 7
+      },
+      "points": 1
+    },
+    {
+      "id": "M03-EV01-05",
+      "consigne": "Sélectionnez la **colonne entière** des chiffres de janvier.",
+      "action": {
+        "type": "SELECT_COLUMN",
+        "column": "B"
+      },
+      "points": 1
+    },
+    {
+      "id": "M03-EV01-06",
+      "consigne": "Sans utiliser la souris dans la grille, sélectionnez la plage **B4:D8**, c'est-à-dire tous les chiffres du trimestre.",
+      "action": {
+        "type": "GOTO_REF",
+        "ref": "B4:D8"
+      },
+      "points": 2
+    },
+    {
+      "id": "M03-EV01-07",
+      "consigne": "En **G4**, additionnez **uniquement** les chiffres de janvier des clients **Aubry** et **Morvan**.",
+      "setup": {
+        "cells": {
+          "F4": {
+            "v": "Aubry + Morvan, janvier",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "G4",
+        "accept": [
+          "=SOMME(B4;B8)",
+          "=B4+B8"
+        ],
+        "formulaMode": true
+      },
+      "points": 2
+    },
+    {
+      "id": "M03-EV01-08",
+      "consigne": "En **G5**, additionnez les chiffres de janvier des **deux premiers** clients et des **deux derniers**, sans Ferrand.",
+      "setup": {
+        "cells": {
+          "F5": {
+            "v": "Janvier sans Ferrand",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "G5",
+        "accept": [
+          "=SOMME(B4:B5;B7:B8)",
+          "=SOMME(B4:B5)+SOMME(B7:B8)"
+        ],
+        "formulaMode": true
+      },
+      "points": 2
+    },
+    {
+      "id": "M03-EV01-09",
+      "consigne": "Affichez la feuille du **deuxième trimestre**.",
+      "action": {
+        "type": "SELECT_SHEET",
+        "name": "Trimestre 2"
+      },
+      "points": 1
+    },
+    {
+      "id": "M03-EV01-10",
+      "consigne": "En **B10**, totalisez le **mois d'avril** pour les cinq clients.",
+      "action": {
+        "type": "TYPE",
+        "target": "B10",
+        "accept": [
+          "=SOMME(B4:B8)",
+          "=B4+B5+B6+B7+B8"
+        ],
+        "formulaMode": true
+      },
+      "points": 2
+    }
+  ]
+}

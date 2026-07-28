@@ -1,0 +1,227 @@
+{
+  "schemaVersion": 1,
+  "title": "Exercice · Additionner des cellules choisies",
+  "mode": "EXERCISE",
+  "moduleTitle": "Sélectionner une cellule, une plage de cellules",
+  "intro": {
+    "title": "À VOUS",
+    "body": "Huit entrepôts, et des regroupements qui ne se suivent pas."
+  },
+  "outro": {
+    "body": "Exercice terminé."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ],
+    "sheetCount": 1
+  },
+  "workbook": {
+    "fileName": "Stocks-entrepots.xlsx",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Stocks",
+        "columnWidths": {
+          "A": 120,
+          "B": 110,
+          "D": 200
+        },
+        "cells": {
+          "A1": {
+            "v": "STOCKS PAR ENTREPÔT",
+            "format": {
+              "bold": true
+            }
+          },
+          "A3": {
+            "v": "Entrepôt",
+            "format": {
+              "bold": true
+            }
+          },
+          "B3": {
+            "v": "Quantité",
+            "format": {
+              "bold": true
+            }
+          },
+          "A4": {
+            "v": "Nantes"
+          },
+          "B4": {
+            "v": 1240
+          },
+          "A5": {
+            "v": "Rennes"
+          },
+          "B5": {
+            "v": 860
+          },
+          "A6": {
+            "v": "Angers"
+          },
+          "B6": {
+            "v": 1475
+          },
+          "A7": {
+            "v": "Le Mans"
+          },
+          "B7": {
+            "v": 590
+          },
+          "A8": {
+            "v": "Laval"
+          },
+          "B8": {
+            "v": 1130
+          },
+          "A9": {
+            "v": "Vannes"
+          },
+          "B9": {
+            "v": 705
+          },
+          "A10": {
+            "v": "Cholet"
+          },
+          "B10": {
+            "v": 1320
+          },
+          "A11": {
+            "v": "Quimper"
+          },
+          "B11": {
+            "v": 980
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M03-E04-01",
+      "consigne": "En **E4**, additionnez **uniquement** les stocks de **Nantes** et de **Quimper**.",
+      "setup": {
+        "cells": {
+          "D4": {
+            "v": "Nantes + Quimper",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "E4",
+        "accept": [
+          "=SOMME(B4;B11)",
+          "=B4+B11"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Deux cellules précises : le séparateur n'est pas le deux-points."
+      },
+      "feedback": "2 220 unités."
+    },
+    {
+      "id": "M03-E04-02",
+      "consigne": "En **E5**, additionnez les **quatre premiers entrepôts** et les **deux derniers**, sans les autres.",
+      "setup": {
+        "cells": {
+          "D5": {
+            "v": "4 premiers + 2 derniers",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "E5",
+        "accept": [
+          "=SOMME(B4:B7;B10:B11)",
+          "=SOMME(B4:B7)+SOMME(B10:B11)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Deux plages dans une même somme."
+      },
+      "feedback": "6 465 unités."
+    },
+    {
+      "id": "M03-E04-03",
+      "consigne": "En **E6**, calculez la **moyenne** des trois entrepôts bretons : Rennes, Vannes et Quimper.",
+      "setup": {
+        "cells": {
+          "D6": {
+            "v": "Moyenne Bretagne",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "E6",
+        "accept": [
+          "=MOYENNE(B5;B9;B11)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Trois cellules éparpillées dans une moyenne."
+      },
+      "feedback": "848,33 unités en moyenne."
+    },
+    {
+      "id": "M03-E04-04",
+      "consigne": "En **E7**, totalisez **tous** les entrepôts.",
+      "setup": {
+        "cells": {
+          "D7": {
+            "v": "Total général",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "E7",
+        "accept": [
+          "=SOMME(B4:B11)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Cette fois la plage est continue."
+      },
+      "feedback": "8 300 unités."
+    },
+    {
+      "id": "M03-E04-05",
+      "consigne": "Contrôlez ce total : sélectionnez les huit quantités et comparez avec la barre d'état.",
+      "action": {
+        "type": "DRAG_RANGE",
+        "range": "B4:B11"
+      },
+      "aide": {
+        "text": "Un seul glissement du premier au dernier entrepôt."
+      },
+      "feedback": "8 300 : les deux méthodes concordent."
+    }
+  ]
+}

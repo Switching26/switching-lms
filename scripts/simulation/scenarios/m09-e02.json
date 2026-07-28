@@ -1,0 +1,327 @@
+{
+ "schemaVersion": 1,
+ "title": "Exercice · Note d'honoraires",
+ "mode": "EXERCISE",
+ "moduleTitle": "Premières applications",
+ "intro": {
+  "title": "À VOUS",
+  "body": "Une formatrice indépendante facture trois interventions d'avril. Elle est payée à la journée et refacture un forfait repas. Aucune formule n'est en place."
+ },
+ "outro": {
+  "body": "Note d'honoraires bouclée : temps, frais, TVA, et le contrôle par la barre d'état."
+ },
+ "ribbon": [
+  "accueil"
+ ],
+ "statusBar": {
+  "aggregates": [
+   "moyenne",
+   "nb-non-vides",
+   "somme"
+  ],
+  "sheetCount": 1
+ },
+ "workbook": {
+  "fileName": "Honoraires formation",
+  "activeSheetIndex": 0,
+  "selection": "A1",
+  "sheets": [
+   {
+    "name": "Feuil1",
+    "columnWidths": {
+     "A": 190,
+     "B": 80,
+     "C": 110,
+     "D": 90,
+     "E": 100,
+     "G": 130,
+     "H": 100
+    },
+    "cells": {
+     "A1": {
+      "v": "NOTE D'HONORAIRES — AVRIL 2026",
+      "format": {
+       "bold": true
+      }
+     },
+     "A3": {
+      "v": "Taux journalier (€)"
+     },
+     "B3": {
+      "v": 480
+     },
+     "A4": {
+      "v": "Forfait repas (€ / jour)"
+     },
+     "B4": {
+      "v": 19
+     },
+     "A5": {
+      "v": "Taux de TVA"
+     },
+     "B5": {
+      "v": 0.2
+     },
+     "G3": {
+      "v": "Total HT",
+      "format": {
+       "bold": true
+      }
+     },
+     "G4": {
+      "v": "TVA",
+      "format": {
+       "bold": true
+      }
+     },
+     "G5": {
+      "v": "Total TTC",
+      "format": {
+       "bold": true
+      }
+     },
+     "G6": {
+      "v": "Jours facturés",
+      "format": {
+       "bold": true
+      }
+     },
+     "A7": {
+      "v": "Client",
+      "format": {
+       "bold": true
+      }
+     },
+     "B7": {
+      "v": "Jours",
+      "format": {
+       "bold": true
+      }
+     },
+     "C7": {
+      "v": "Honoraires",
+      "format": {
+       "bold": true
+      }
+     },
+     "D7": {
+      "v": "Repas",
+      "format": {
+       "bold": true
+      }
+     },
+     "E7": {
+      "v": "Total",
+      "format": {
+       "bold": true
+      }
+     },
+     "A8": {
+      "v": "Cabinet Morvan"
+     },
+     "B8": {
+      "v": 3.5
+     },
+     "A9": {
+      "v": "Transports Guyot"
+     },
+     "B9": {
+      "v": 2
+     },
+     "A10": {
+      "v": "Clinique du Bocage"
+     },
+     "B10": {
+      "v": 4.5
+     }
+    }
+   }
+  ]
+ },
+ "steps": [
+  {
+   "id": "M09-E02-01",
+   "consigne": "En **C8**, calculez les **honoraires** de la première intervention. La formule devra être recopiable sur les deux lignes suivantes.",
+   "setup": {
+    "selection": "C8"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "C8",
+    "accept": [
+     "=B8*$B$3",
+     "=$B$3*B8"
+    ],
+    "formulaMode": true
+   },
+   "aide": {
+    "text": "Un paramètre commun à toutes les lignes se fige."
+   }
+  },
+  {
+   "id": "M09-E02-02",
+   "consigne": "En **D8**, calculez le **forfait repas** de cette intervention.",
+   "setup": {
+    "selection": "D8"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "D8",
+    "accept": [
+     "=B8*$B$4",
+     "=$B$4*B8"
+    ],
+    "formulaMode": true
+   }
+  },
+  {
+   "id": "M09-E02-03",
+   "consigne": "En **E8**, calculez le **total** de la ligne.",
+   "setup": {
+    "selection": "E8"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "E8",
+    "accept": [
+     "=C8+D8",
+     "=SOMME(C8:D8)"
+    ],
+    "formulaMode": true
+   }
+  },
+  {
+   "id": "M09-E02-04",
+   "consigne": "Complétez les **deux interventions restantes**.",
+   "action": {
+    "type": "EXPECT_STATE",
+    "cells": {
+     "C9": {
+      "anyOf": [
+       "=B9*$B$3",
+       "=$B$3*B9"
+      ],
+      "v": 960
+     },
+     "D9": {
+      "anyOf": [
+       "=B9*$B$4",
+       "=$B$4*B9"
+      ],
+      "v": 38
+     },
+     "E9": {
+      "anyOf": [
+       "=C9+D9",
+       "=SOMME(C9:D9)"
+      ],
+      "v": 998
+     },
+     "C10": {
+      "anyOf": [
+       "=B10*$B$3",
+       "=$B$3*B10"
+      ],
+      "v": 2160.0
+     },
+     "D10": {
+      "anyOf": [
+       "=B10*$B$4",
+       "=$B$4*B10"
+      ],
+      "v": 85.5
+     },
+     "E10": {
+      "anyOf": [
+       "=C10+D10",
+       "=SOMME(C10:D10)"
+      ],
+      "v": 2245.5
+     }
+    }
+   },
+   "aide": {
+    "text": "Sélectionnez les trois cellules de la première ligne avant de recopier."
+   }
+  },
+  {
+   "id": "M09-E02-05",
+   "consigne": "En **H3**, calculez le **total HT** de la note.",
+   "setup": {
+    "selection": "H3"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "H3",
+    "accept": [
+     "=SOMME(E8:E10)",
+     "=E8+E9+E10"
+    ],
+    "formulaMode": true
+   }
+  },
+  {
+   "id": "M09-E02-06",
+   "consigne": "En **H4**, calculez la **TVA** à partir du taux déclaré en B5.",
+   "setup": {
+    "selection": "H4"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "H4",
+    "accept": [
+     "=H3*$B$5",
+     "=H3*B5",
+     "=$B$5*H3"
+    ],
+    "formulaMode": true
+   },
+   "aide": {
+    "text": "Pointez la cellule du taux, ne tapez pas le nombre."
+   }
+  },
+  {
+   "id": "M09-E02-07",
+   "consigne": "En **H5**, calculez le **total TTC**.",
+   "setup": {
+    "selection": "H5"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "H5",
+    "accept": [
+     "=H3+H4",
+     "=SOMME(H3:H4)"
+    ],
+    "formulaMode": true
+   }
+  },
+  {
+   "id": "M09-E02-08",
+   "consigne": "En **H6**, calculez le **nombre de jours facturés**.",
+   "setup": {
+    "selection": "H6"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "H6",
+    "accept": [
+     "=SOMME(B8:B10)",
+     "=B8+B9+B10"
+    ],
+    "formulaMode": true
+   }
+  },
+  {
+   "id": "M09-E02-09",
+   "consigne": "Dernier réflexe de contrôle : sélectionnez les **trois totaux de ligne** et comparez la somme affichée en bas de fenêtre avec votre total HT.",
+   "action": {
+    "type": "DRAG_RANGE",
+    "range": "E8:E10"
+   },
+   "aide": {
+    "text": "Les trois cellules de la colonne Total, rien d'autre."
+   }
+  }
+ ]
+}

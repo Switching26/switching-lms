@@ -1,0 +1,191 @@
+{
+  "schemaVersion": 1,
+  "title": "Exercice · Retourner un tableau",
+  "mode": "EXERCISE",
+  "moduleTitle": "Les lignes et les colonnes",
+  "intro": {
+    "title": "À VOUS",
+    "body": "Quatre régions en largeur, à remettre en hauteur."
+  },
+  "outro": {
+    "body": "Exercice terminé."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ],
+    "sheetCount": 1
+  },
+  "workbook": {
+    "fileName": "Ventes-region.xlsx",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Mai",
+        "columnWidths": {
+          "A": 150
+        },
+        "cells": {
+          "A1": {
+            "v": "VENTES PAR RÉGION — MAI",
+            "format": {
+              "bold": true
+            }
+          },
+          "A3": {
+            "v": "Région",
+            "format": {
+              "bold": true
+            }
+          },
+          "B3": {
+            "v": "Nord",
+            "format": {
+              "bold": true
+            }
+          },
+          "C3": {
+            "v": "Sud",
+            "format": {
+              "bold": true
+            }
+          },
+          "D3": {
+            "v": "Est",
+            "format": {
+              "bold": true
+            }
+          },
+          "E3": {
+            "v": "Ouest",
+            "format": {
+              "bold": true
+            }
+          },
+          "A4": {
+            "v": "Ventes"
+          },
+          "B4": {
+            "v": 152
+          },
+          "C4": {
+            "v": 118
+          },
+          "D4": {
+            "v": 96
+          },
+          "E4": {
+            "v": 174
+          },
+          "A6": {
+            "v": "Tableau retourné",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M04-E05-01",
+      "consigne": "Sélectionnez le tableau à retourner, **en-têtes compris**.",
+      "action": {
+        "type": "DRAG_RANGE",
+        "range": "A3:E4"
+      },
+      "aide": {
+        "text": "Deux lignes, cinq colonnes."
+      }
+    },
+    {
+      "id": "M04-E05-02",
+      "consigne": "Mettez-le dans le presse-papiers.",
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "acc-copier"
+      },
+      "aide": {
+        "text": "Groupe Presse-papiers, à gauche du ruban."
+      }
+    },
+    {
+      "id": "M04-E05-03",
+      "consigne": "Collez-le **transposé** à partir de **A8**.",
+      "setup": {
+        "selection": "A8",
+        "paste": {
+          "texte": "Région\tVentes\nNord\t152\nSud\t118\nEst\t96\nOuest\t174"
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "acc-coller"
+      },
+      "aide": {
+        "text": "Le bouton Coller propose un collage Transposé."
+      },
+      "feedback": "Les régions descendent en colonne, les ventes suivent."
+    },
+    {
+      "id": "M04-E05-04",
+      "consigne": "En **B14**, totalisez les ventes des quatre régions du tableau retourné.",
+      "setup": {
+        "cells": {
+          "A14": {
+            "v": "Total",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B14",
+        "accept": [
+          "=SOMME(B9:B12)",
+          "=B9+B10+B11+B12"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Les quatre ventes transposées se trouvent en B9:B12."
+      },
+      "feedback": "540 ventes."
+    },
+    {
+      "id": "M04-E05-05",
+      "consigne": "En **B15**, calculez la **moyenne par région**.",
+      "setup": {
+        "cells": {
+          "A15": {
+            "v": "Moyenne",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B15",
+        "accept": [
+          "=MOYENNE(B9:B12)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Une moyenne sur les quatre mêmes cellules."
+      },
+      "feedback": "135 ventes par région."
+    }
+  ]
+}

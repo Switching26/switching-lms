@@ -1,0 +1,221 @@
+{
+  "schemaVersion": 1,
+  "title": "La fenêtre Excel : ruban, zone Nom, barre d'état",
+  "mode": "LESSON",
+  "moduleTitle": "Prise en main",
+  "intro": {
+    "title": "SIX ZONES À RECONNAÎTRE",
+    "body": "Tout ce qu'Excel sait faire passe par six zones de l'écran. Les nommer une fois, c'est comprendre toutes les consignes qui suivront."
+  },
+  "outro": {
+    "body": "Vous savez situer la barre de titre, le ruban, la zone Nom, la barre de formule, la grille et la barre d'état."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ],
+    "sheetCount": 1
+  },
+  "workbook": {
+    "fileName": "Tableau-de-bord.xlsx",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Avril",
+        "columnWidths": {
+          "A": 160
+        },
+        "cells": {
+          "A1": {
+            "v": "TABLEAU DE BORD — AVRIL 2026",
+            "format": {
+              "bold": true
+            }
+          },
+          "A3": {
+            "v": "Indicateur",
+            "format": {
+              "bold": true
+            }
+          },
+          "B3": {
+            "v": "Objectif",
+            "format": {
+              "bold": true
+            }
+          },
+          "C3": {
+            "v": "Réalisé",
+            "format": {
+              "bold": true
+            }
+          },
+          "A4": {
+            "v": "Devis envoyés"
+          },
+          "B4": {
+            "v": 40
+          },
+          "C4": {
+            "v": 46
+          },
+          "A5": {
+            "v": "Devis signés"
+          },
+          "B5": {
+            "v": 12
+          },
+          "C5": {
+            "v": 9
+          },
+          "A6": {
+            "v": "Sessions ouvertes"
+          },
+          "B6": {
+            "v": 6
+          },
+          "C6": {
+            "v": 7
+          },
+          "A7": {
+            "v": "Stagiaires inscrits"
+          },
+          "B7": {
+            "v": 45
+          },
+          "C7": {
+            "v": 52
+          },
+          "A9": {
+            "v": "TOTAL",
+            "format": {
+              "bold": true
+            }
+          },
+          "B9": {
+            "f": "=SOMME(B4:B7)"
+          },
+          "C9": {
+            "f": "=SOMME(C4:C7)"
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M01-L04-01",
+      "consigne": "De haut en bas : la **barre de titre** porte le nom du fichier, le **ruban** regroupe les commandes, la **zone Nom** et la **barre de formule** encadrent la ligne suivante, puis vient la **grille**, et tout en bas la **barre d'état**. Nous allons nous servir de chacune.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M01-L04-02",
+      "consigne": "La **barre de formule** montre ce qu'une cellule contient vraiment. ==Cliquez sur **C9**== et comparez avec ce que la cellule affiche.",
+      "action": {
+        "type": "CLICK_CELL",
+        "cell": "C9"
+      },
+      "aide": {
+        "text": "La cellule du total réalisé, en bas de la colonne C.",
+        "showTarget": true
+      },
+      "feedback": "La cellule affiche 114, la barre de formule affiche `=SOMME(C4:C7)`. Le résultat d'un côté, le calcul de l'autre."
+    },
+    {
+      "id": "M01-L04-03",
+      "consigne": "La **zone Nom**, à gauche de la barre de formule, affiche l'adresse de la cellule active — et sert aussi à s'y rendre. ==Tapez `A1` dans la zone Nom== et validez.",
+      "action": {
+        "type": "GOTO_REF",
+        "ref": "A1"
+      },
+      "aide": {
+        "text": "Cliquez dans le petit champ à gauche de la barre de formule, tapez A1, Entrée.",
+        "showTarget": true
+      },
+      "feedback": "Retour immédiat en haut du tableau. Sur une feuille de 5 000 lignes, c'est le trajet le plus court."
+    },
+    {
+      "id": "M01-L04-04",
+      "consigne": "Juste avant la barre de formule, le bouton **fx** ouvre l'assistant qui aide à composer une fonction. ==Cliquez sur **fx**==.",
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "bf-fx"
+      },
+      "aide": {
+        "text": "Le petit fx, entre la zone Nom et la barre de formule.",
+        "showTarget": true
+      },
+      "feedback": "L'assistant liste les fonctions et décrit chaque argument. Utile le temps de retenir les noms."
+    },
+    {
+      "id": "M01-L04-05",
+      "consigne": "La **barre d'état** calcule sans rien écrire. ==Sélectionnez la plage **C4:C7**== et lisez-la.",
+      "action": {
+        "type": "DRAG_RANGE",
+        "range": "C4:C7"
+      },
+      "aide": {
+        "text": "Cliquez sur C4, maintenez, descendez jusqu'à C7.",
+        "showTarget": true
+      },
+      "feedback": "Somme 114, moyenne 28,5, quatre valeurs. Aucune cellule salie, aucune formule à effacer ensuite."
+    },
+    {
+      "id": "M01-L04-06",
+      "consigne": "Les **en-têtes** de lignes et de colonnes bordent la grille et servent à sélectionner en entier. ==Cliquez sur le numéro **3**==, celui de la ligne d'en-têtes.",
+      "action": {
+        "type": "SELECT_ROW",
+        "row": 3
+      },
+      "aide": {
+        "text": "Le chiffre 3, dans la bande grise à gauche de la grille.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M01-L04-07",
+      "consigne": "Le **ruban** s'organise en trois niveaux : des **onglets**, chacun découpé en **groupes**, chaque groupe garni de boutons. ==Centrez la ligne== avec le bouton **Centre** du groupe Alignement.",
+      "action": {
+        "type": "EXPECT_FORMAT",
+        "cells": {
+          "A3": {
+            "hAlign": "center"
+          },
+          "C3": {
+            "hAlign": "center"
+          }
+        }
+      },
+      "aide": {
+        "text": "Onglet Accueil, groupe Alignement, bouton Centre.",
+        "showTarget": true
+      },
+      "feedback": "Trois niveaux, une seule logique : quand une consigne dit « Accueil, groupe Nombre, bouton € », elle décrit ce chemin."
+    },
+    {
+      "id": "M01-L04-08",
+      "consigne": "Deux détails du ruban qui déroutent au début. Certains onglets sont **contextuels** : ils n'apparaissent que lorsqu'un graphique ou une image est sélectionné, et disparaissent ensuite. Et la petite **flèche ▾** au coin d'un groupe ouvre la boîte de dialogue complète, avec les réglages que le ruban ne montre pas.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M01-L04-09",
+      "consigne": "À retenir : le **nom du fichier** se lit en haut, la **commande** se cherche dans le ruban, l'**adresse** dans la zone Nom, le **contenu réel** dans la barre de formule, et le **contrôle rapide** en bas dans la barre d'état. Toutes les consignes de cette formation désignent ces zones par ces noms.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    }
+  ]
+}

@@ -1,0 +1,210 @@
+{
+ "schemaVersion": 1,
+ "title": "Exercice · Simuler un crédit",
+ "mode": "EXERCISE",
+ "moduleTitle": "Fonctions avancées",
+ "intro": {
+  "title": "À VOUS",
+  "body": "Un utilitaire à 24 000 €, 4 000 € d'apport, 4,2 % sur 4 ans. Le tableau attend six formules."
+ },
+ "outro": {
+  "body": "Simulation complète : ce qui reste à financer, la mensualité, et le coût réel du crédit."
+ },
+ "ribbon": [
+  "accueil"
+ ],
+ "statusBar": {
+  "aggregates": [
+   "moyenne",
+   "nb-non-vides",
+   "somme"
+  ],
+  "sheetCount": 1
+ },
+ "workbook": {
+  "fileName": "Financement utilitaire",
+  "activeSheetIndex": 0,
+  "selection": "A1",
+  "sheets": [
+   {
+    "name": "Feuil1",
+    "columnWidths": {
+     "A": 250,
+     "B": 130
+    },
+    "cells": {
+     "A1": {
+      "v": "FINANCEMENT D'UN VÉHICULE UTILITAIRE",
+      "format": {
+       "bold": true
+      }
+     },
+     "A3": {
+      "v": "Prix du véhicule (€)"
+     },
+     "B3": {
+      "v": 24000
+     },
+     "A4": {
+      "v": "Apport (€)"
+     },
+     "B4": {
+      "v": 4000
+     },
+     "A5": {
+      "v": "Taux annuel"
+     },
+     "B5": {
+      "v": 0.042
+     },
+     "A6": {
+      "v": "Durée (années)"
+     },
+     "B6": {
+      "v": 4
+     },
+     "A8": {
+      "v": "Montant financé",
+      "format": {
+       "bold": true
+      }
+     },
+     "A9": {
+      "v": "Taux mensuel",
+      "format": {
+       "bold": true
+      }
+     },
+     "A10": {
+      "v": "Nombre de mensualités",
+      "format": {
+       "bold": true
+      }
+     },
+     "A11": {
+      "v": "Mensualité",
+      "format": {
+       "bold": true
+      }
+     },
+     "A12": {
+      "v": "Total remboursé",
+      "format": {
+       "bold": true
+      }
+     },
+     "A13": {
+      "v": "Coût du crédit",
+      "format": {
+       "bold": true
+      }
+     }
+    }
+   }
+  ]
+ },
+ "steps": [
+  {
+   "id": "M10-E04-01",
+   "consigne": "En **B8**, calculez le **montant réellement financé**.",
+   "setup": {
+    "selection": "B8"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "B8",
+    "accept": [
+     "=B3-B4"
+    ],
+    "formulaMode": true
+   }
+  },
+  {
+   "id": "M10-E04-02",
+   "consigne": "En **B9**, calculez le **taux mensuel**.",
+   "setup": {
+    "selection": "B9"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "B9",
+    "accept": [
+     "=B5/12"
+    ],
+    "formulaMode": true
+   },
+   "aide": {
+    "text": "VPM raisonne par période, pas par an."
+   }
+  },
+  {
+   "id": "M10-E04-03",
+   "consigne": "En **B10**, calculez le **nombre de mensualités**.",
+   "setup": {
+    "selection": "B10"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "B10",
+    "accept": [
+     "=B6*12",
+     "=12*B6"
+    ],
+    "formulaMode": true
+   }
+  },
+  {
+   "id": "M10-E04-04",
+   "consigne": "En **B11**, calculez la **mensualité**. Elle doit s'afficher en positif.",
+   "setup": {
+    "selection": "B11"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "B11",
+    "accept": [
+     "=VPM(B9;B10;-B8)",
+     "=-VPM(B9;B10;B8)"
+    ],
+    "formulaMode": true
+   },
+   "aide": {
+    "text": "Attention à ce que la fonction reçoive le montant financé, pas le prix du véhicule."
+   }
+  },
+  {
+   "id": "M10-E04-05",
+   "consigne": "En **B12**, calculez le **total remboursé**.",
+   "setup": {
+    "selection": "B12"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "B12",
+    "accept": [
+     "=B11*B10",
+     "=B10*B11"
+    ],
+    "formulaMode": true
+   }
+  },
+  {
+   "id": "M10-E04-06",
+   "consigne": "En **B13**, calculez le **coût du crédit**.",
+   "setup": {
+    "selection": "B13"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "B13",
+    "accept": [
+     "=B12-B8"
+    ],
+    "formulaMode": true
+   },
+   "aide": {
+    "text": "Le coût se compare au montant financé, pas au prix affiché."
+   }
+  }
+ ]
+}

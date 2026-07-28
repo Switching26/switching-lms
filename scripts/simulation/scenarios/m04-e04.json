@@ -1,0 +1,216 @@
+{
+  "schemaVersion": 1,
+  "title": "Exercice · Masquer avant d'envoyer",
+  "mode": "EXERCISE",
+  "moduleTitle": "Les lignes et les colonnes",
+  "intro": {
+    "title": "À VOUS",
+    "body": "Cette grille part chez un client : deux informations internes doivent disparaître de l'écran, sans casser les prix."
+  },
+  "outro": {
+    "body": "Exercice terminé."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ],
+    "sheetCount": 1
+  },
+  "workbook": {
+    "fileName": "Grille-de-prix.xlsx",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Inter",
+        "columnWidths": {
+          "A": 150,
+          "B": 120,
+          "E": 150
+        },
+        "cells": {
+          "A1": {
+            "v": "GRILLE DE PRIX — SESSIONS INTER",
+            "format": {
+              "bold": true
+            }
+          },
+          "A3": {
+            "v": "Session",
+            "format": {
+              "bold": true
+            }
+          },
+          "B3": {
+            "v": "Coût formateur",
+            "format": {
+              "bold": true
+            }
+          },
+          "C3": {
+            "v": "Frais fixes",
+            "format": {
+              "bold": true
+            }
+          },
+          "D3": {
+            "v": "Prix public",
+            "format": {
+              "bold": true
+            }
+          },
+          "A4": {
+            "v": "Excel niveau 1"
+          },
+          "B4": {
+            "v": 480
+          },
+          "C4": {
+            "v": 120
+          },
+          "D4": {
+            "f": "=(B4+C4)*2"
+          },
+          "A5": {
+            "v": "Excel niveau 2"
+          },
+          "B5": {
+            "v": 560
+          },
+          "C5": {
+            "v": 140
+          },
+          "D5": {
+            "f": "=(B5+C5)*2"
+          },
+          "A6": {
+            "v": "Word niveau 1"
+          },
+          "B6": {
+            "v": 400
+          },
+          "C6": {
+            "v": 100
+          },
+          "D6": {
+            "f": "=(B6+C6)*2"
+          },
+          "A7": {
+            "v": "PowerPoint"
+          },
+          "B7": {
+            "v": 440
+          },
+          "C7": {
+            "v": 110
+          },
+          "D7": {
+            "f": "=(B7+C7)*2"
+          },
+          "A9": {
+            "v": "TOTAL",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M04-E04-01",
+      "consigne": "Le **coût formateur** ne doit plus apparaître. Sélectionnez sa colonne en entier.",
+      "action": {
+        "type": "SELECT_COLUMN",
+        "column": "B"
+      },
+      "aide": {
+        "text": "Un clic sur la lettre de la colonne."
+      }
+    },
+    {
+      "id": "M04-E04-02",
+      "consigne": "Faites-la disparaître de l'écran, sans la supprimer.",
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "acc-format-masquer"
+      },
+      "aide": {
+        "text": "Le groupe Cellules, bouton Format."
+      },
+      "feedback": "La colonne n'est plus visible, et les prix publics sont intacts."
+    },
+    {
+      "id": "M04-E04-03",
+      "consigne": "Prouvez que la colonne existe toujours : en **F4**, totalisez les **coûts formateur**.",
+      "setup": {
+        "cells": {
+          "E4": {
+            "v": "Coût formateur total",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "F4",
+        "accept": [
+          "=SOMME(B4:B7)",
+          "=B4+B5+B6+B7"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "La plage est toujours là, même invisible."
+      },
+      "feedback": "1 880 €."
+    },
+    {
+      "id": "M04-E04-04",
+      "consigne": "La session **PowerPoint** est suspendue : masquez sa ligne. Commencez par la sélectionner.",
+      "action": {
+        "type": "SELECT_ROW",
+        "row": 7
+      },
+      "aide": {
+        "text": "La dernière ligne de sessions."
+      }
+    },
+    {
+      "id": "M04-E04-05",
+      "consigne": "Masquez-la.",
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "acc-format-masquer"
+      },
+      "aide": {
+        "text": "Le même bouton que pour la colonne."
+      }
+    },
+    {
+      "id": "M04-E04-06",
+      "consigne": "En **D9**, totalisez les **prix publics** et regardez si la ligne masquée est comptée.",
+      "action": {
+        "type": "TYPE",
+        "target": "D9",
+        "accept": [
+          "=SOMME(D4:D7)",
+          "=D4+D5+D6+D7"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Une somme sur les quatre lignes de la colonne D."
+      },
+      "feedback": "4 700 € : la ligne masquée est bien dans le total. Masquer ne retire rien d'un calcul."
+    }
+  ]
+}

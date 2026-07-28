@@ -1,0 +1,321 @@
+{
+ "schemaVersion": 1,
+ "title": "La fonction SI : faire décider le tableur",
+ "mode": "LESSON",
+ "moduleTitle": "Fonctions avancées",
+ "intro": {
+  "title": "POSER UNE CONDITION",
+  "body": "Cinq clients, cinq règlements à qualifier. Relire chaque ligne pour écrire « Soldé » ou « Reste à payer » se refait à chaque encaissement. SI le fait une fois pour toutes."
+ },
+ "outro": {
+  "body": "Vous savez écrire une condition qui renvoie du texte, et une condition qui renvoie un calcul. C'est la fonction la plus utilisée d'Excel, et celle qui ouvre toutes les autres."
+ },
+ "ribbon": [
+  "accueil"
+ ],
+ "statusBar": {
+  "aggregates": [
+   "moyenne",
+   "nb-non-vides",
+   "somme"
+  ],
+  "sheetCount": 1
+ },
+ "workbook": {
+  "fileName": "Suivi des règlements",
+  "activeSheetIndex": 0,
+  "selection": "A1",
+  "sheets": [
+   {
+    "name": "Feuil1",
+    "columnWidths": {
+     "A": 190,
+     "B": 105,
+     "C": 90,
+     "D": 120,
+     "E": 95,
+     "G": 150,
+     "H": 100
+    },
+    "cells": {
+     "A1": {
+      "v": "SUIVI DES RÈGLEMENTS — MAI 2026",
+      "format": {
+       "bold": true
+      }
+     },
+     "G2": {
+      "v": "Taux de pénalité"
+     },
+     "H2": {
+      "v": 0.02
+     },
+     "G4": {
+      "v": "Encours total",
+      "format": {
+       "bold": true
+      }
+     },
+     "G5": {
+      "v": "Total des pénalités",
+      "format": {
+       "bold": true
+      }
+     },
+     "A2": {
+      "v": "Client",
+      "format": {
+       "bold": true
+      }
+     },
+     "B2": {
+      "v": "Montant dû",
+      "format": {
+       "bold": true
+      }
+     },
+     "C2": {
+      "v": "Reçu",
+      "format": {
+       "bold": true
+      }
+     },
+     "D2": {
+      "v": "Statut",
+      "format": {
+       "bold": true
+      }
+     },
+     "E2": {
+      "v": "Pénalité",
+      "format": {
+       "bold": true
+      }
+     },
+     "A3": {
+      "v": "Menuiserie Delcourt"
+     },
+     "B3": {
+      "v": 1200
+     },
+     "C3": {
+      "v": 1200
+     },
+     "A4": {
+      "v": "Cabinet Aubry"
+     },
+     "B4": {
+      "v": 850
+     },
+     "C4": {
+      "v": 400
+     },
+     "A5": {
+      "v": "Garage Vasseur"
+     },
+     "B5": {
+      "v": 2400
+     },
+     "C5": {
+      "v": 2400
+     },
+     "A6": {
+      "v": "Boulangerie Petit"
+     },
+     "B6": {
+      "v": 640
+     },
+     "C6": {
+      "v": 0
+     },
+     "A7": {
+      "v": "Pharmacie du Parc"
+     },
+     "B7": {
+      "v": 1750
+     },
+     "C7": {
+      "v": 1750
+     }
+    }
+   }
+  ]
+ },
+ "steps": [
+  {
+   "id": "M10-L03-01",
+   "consigne": "Les colonnes **Statut** et **Pénalité** sont vides. On ne va pas les remplir à la main : demain, un virement arrive et tout serait à refaire. Une fonction **SI** prend trois arguments : la condition à tester, le résultat si elle est vraie, le résultat si elle est fausse.",
+   "action": {
+    "type": "READ"
+   },
+   "points": 0
+  },
+  {
+   "id": "M10-L03-02",
+   "consigne": "En **D3**, ==saisissez `=SI(C3>=B3;\"Soldé\";\"Reste à payer\")`==. La formule devra descendre sur les cinq lignes.",
+   "setup": {
+    "selection": "D3"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "D3",
+    "accept": [
+     "=SI(C3>=B3;\"Soldé\";\"Reste à payer\")",
+     "=SI(C3<B3;\"Reste à payer\";\"Soldé\")",
+     "=SI(B3<=C3;\"Soldé\";\"Reste à payer\")",
+     "=SI(B3>C3;\"Reste à payer\";\"Soldé\")"
+    ],
+    "formulaMode": true
+   },
+   "aide": {
+    "text": "Le texte renvoyé se met entre guillemets droits, sinon Excel le prend pour un nom de plage et refuse la formule.",
+    "showTarget": true
+   },
+   "feedback": "« Soldé » : le reçu égale le dû. Notez le `>=` — avec un simple `>`, un client ayant payé au centime près serait déclaré débiteur."
+  },
+  {
+   "id": "M10-L03-03",
+   "consigne": "==Recopiez **D3** jusqu'en D7== pour qualifier les quatre autres clients.",
+   "action": {
+    "type": "EXPECT_STATE",
+    "cells": {
+     "D4": {
+      "anyOf": [
+       "=SI(C4>=B4;\"Soldé\";\"Reste à payer\")",
+       "=SI(C4<B4;\"Reste à payer\";\"Soldé\")",
+       "=SI(B4<=C4;\"Soldé\";\"Reste à payer\")",
+       "=SI(B4>C4;\"Reste à payer\";\"Soldé\")"
+      ],
+      "v": "Reste à payer"
+     },
+     "D6": {
+      "anyOf": [
+       "=SI(C6>=B6;\"Soldé\";\"Reste à payer\")",
+       "=SI(C6<B6;\"Reste à payer\";\"Soldé\")",
+       "=SI(B6<=C6;\"Soldé\";\"Reste à payer\")",
+       "=SI(B6>C6;\"Reste à payer\";\"Soldé\")"
+      ],
+      "v": "Reste à payer"
+     },
+     "D7": {
+      "anyOf": [
+       "=SI(C7>=B7;\"Soldé\";\"Reste à payer\")",
+       "=SI(C7<B7;\"Reste à payer\";\"Soldé\")",
+       "=SI(B7<=C7;\"Soldé\";\"Reste à payer\")",
+       "=SI(B7>C7;\"Reste à payer\";\"Soldé\")"
+      ],
+      "v": "Soldé"
+     }
+    }
+   },
+   "aide": {
+    "text": "Poignée de recopie en bas à droite de D3, vers le bas."
+   },
+   "feedback": "Deux clients restent débiteurs. La colonne se met à jour d'elle-même dès qu'un montant reçu change."
+  },
+  {
+   "id": "M10-L03-04",
+   "consigne": "Une condition peut aussi renvoyer un **calcul**. En **E3**, ==saisissez `=SI(C3<B3;(B3-C3)*$H$2;0)`== : 2 % de pénalité sur ce qui reste dû, rien si le compte est soldé.",
+   "setup": {
+    "selection": "E3"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "E3",
+    "accept": [
+     "=SI(C3<B3;(B3-C3)*$H$2;0)",
+     "=SI(B3>C3;(B3-C3)*$H$2;0)",
+     "=SI(C3>=B3;0;(B3-C3)*$H$2)",
+     "=SI(B3<=C3;0;(B3-C3)*$H$2)"
+    ],
+    "formulaMode": true
+   },
+   "aide": {
+    "text": "Le taux de H2 est figé par des dollars : la recopie ne doit pas l'entraîner vers le bas.",
+    "showTarget": true
+   },
+   "feedback": "0 € : ce client a soldé, la pénalité ne s'applique pas."
+  },
+  {
+   "id": "M10-L03-05",
+   "consigne": "==Recopiez **E3** jusqu'en E7==.",
+   "action": {
+    "type": "EXPECT_STATE",
+    "cells": {
+     "E4": {
+      "anyOf": [
+       "=SI(C4<B4;(B4-C4)*$H$2;0)",
+       "=SI(B4>C4;(B4-C4)*$H$2;0)",
+       "=SI(C4>=B4;0;(B4-C4)*$H$2)",
+       "=SI(B4<=C4;0;(B4-C4)*$H$2)"
+      ],
+      "v": 9.0
+     },
+     "E6": {
+      "anyOf": [
+       "=SI(C6<B6;(B6-C6)*$H$2;0)",
+       "=SI(B6>C6;(B6-C6)*$H$2;0)",
+       "=SI(C6>=B6;0;(B6-C6)*$H$2)",
+       "=SI(B6<=C6;0;(B6-C6)*$H$2)"
+      ],
+      "v": 12.8
+     },
+     "E7": {
+      "anyOf": [
+       "=SI(C7<B7;(B7-C7)*$H$2;0)",
+       "=SI(B7>C7;(B7-C7)*$H$2;0)",
+       "=SI(C7>=B7;0;(B7-C7)*$H$2)",
+       "=SI(B7<=C7;0;(B7-C7)*$H$2)"
+      ],
+      "v": 0
+     }
+    }
+   },
+   "aide": {
+    "text": "Même geste que pour la colonne Statut."
+   },
+   "feedback": "9 € et 12.8 € de pénalités, calculées sur le reste dû et non sur le montant total."
+  },
+  {
+   "id": "M10-L03-06",
+   "consigne": "Trois pièges à connaître. Le **texte se met entre guillemets**, jamais les nombres. L'**ordre des arguments** ne se devine pas : condition, puis vrai, puis faux — les inverser donne exactement le contraire de ce que vous voulez, sans aucun message d'erreur. Enfin une comparaison de texte **ignore la casse mais pas les espaces** : « Cadre » et « cadre » sont égaux, « Cadre » et « Cadre » avec une espace de trop ne le sont pas.",
+   "action": {
+    "type": "READ"
+   },
+   "points": 0
+  },
+  {
+   "id": "M10-L03-07",
+   "consigne": "En **H4**, ==calculez l'encours total== : ce qui est dû moins ce qui est reçu.",
+   "setup": {
+    "selection": "H4"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "H4",
+    "accept": [
+     "=SOMME(B3:B7)-SOMME(C3:C7)"
+    ],
+    "formulaMode": true
+   },
+   "feedback": "1090 € restent à encaisser."
+  },
+  {
+   "id": "M10-L03-08",
+   "consigne": "En **H5**, ==totalisez les pénalités==.",
+   "setup": {
+    "selection": "H5"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "H5",
+    "accept": [
+     "=SOMME(E3:E7)",
+     "=E3+E4+E5+E6+E7"
+    ],
+    "formulaMode": true
+   },
+   "feedback": "21.8 €. Les trois clients à jour n'y contribuent pas, puisque leur SI a renvoyé 0."
+  }
+ ]
+}

@@ -155,14 +155,6 @@
             "values": "B2:B5"
           },
           {
-            "name": "T2",
-            "values": "C2:C5"
-          },
-          {
-            "name": "T3",
-            "values": "D2:D5"
-          },
-          {
             "name": "T4",
             "values": "E2:E5"
           }
@@ -181,10 +173,10 @@
         "legendPosition": "bas",
         "style": 1,
         "frame": {
-          "x": 470,
+          "x": 430,
           "y": 10,
-          "w": 400,
-          "h": 258
+          "w": 460,
+          "h": 262
         }
       }
     ]
@@ -192,20 +184,20 @@
   "steps": [
     {
       "id": "M17-L04-01",
-      "consigne": "==Cliquez sur la **légende**== pour la sélectionner.",
+      "consigne": "Le graphique compare le **premier** et le **quatrième** trimestre de chaque région. ==Cliquez sur la **légende**== pour la sélectionner.",
       "action": {
         "type": "SELECT_CHART_ELEMENT",
         "element": "legende"
       },
       "aide": {
-        "text": "Les quatre carrés colorés T1 à T4, sous le tracé.",
+        "text": "Les deux carrés colorés T1 et T4, sous le tracé.",
         "showTarget": true
       },
       "feedback": "Sélectionné, un élément peut être masqué, déplacé ou mis en forme."
     },
     {
       "id": "M17-L04-02",
-      "consigne": "==Masquez la légende== avec le bouton **Ajouter un élément de graphique**, ligne Légende.",
+      "consigne": "==Masquez la légende== avec le bouton **Légende** du groupe Éléments du graphique.",
       "setup": {
         "chartEdit": {
           "elements": {
@@ -218,10 +210,10 @@
         "control": "ins-graph-element-legende"
       },
       "aide": {
-        "text": "Onglet Création de graphique, Ajouter un élément de graphique, Légende, Aucune.",
+        "text": "Onglet Création de graphique, groupe Éléments du graphique : bouton « Légende ».",
         "showTarget": true
       },
-      "feedback": "Le tracé gagne la place libérée. Mais avec quatre séries, plus personne ne sait quelle couleur est quel trimestre : ici, la légende était utile."
+      "feedback": "Le tracé gagne la place libérée. Mais plus personne ne sait quelle couleur est quel trimestre : dès deux séries, la légende est nécessaire."
     },
     {
       "id": "M17-L04-03",
@@ -239,7 +231,7 @@
         "control": "ins-graph-legende-droite"
       },
       "aide": {
-        "text": "Ajouter un élément de graphique, Légende, Droite.",
+        "text": "Onglet Création de graphique, groupe Légende : bouton « À droite ».",
         "showTarget": true
       },
       "feedback": "À droite, la légende suit l'ordre vertical des séries. En bas, elle économise la largeur. Les deux se défendent."
@@ -259,7 +251,7 @@
         "control": "ins-graph-element-quadrillage"
       },
       "aide": {
-        "text": "Ajouter un élément de graphique, Quadrillage.",
+        "text": "Onglet Création de graphique, groupe Éléments du graphique : bouton « Quadrillage ».",
         "showTarget": true
       }
     },
@@ -278,14 +270,14 @@
         "control": "ins-graph-element-etiquettes"
       },
       "aide": {
-        "text": "Ajouter un élément de graphique, Étiquettes de données.",
+        "text": "Onglet Création de graphique, groupe Éléments du graphique : bouton « Étiquettes ».",
         "showTarget": true
       },
       "feedback": "Quadrillage **ou** étiquettes, jamais les deux : ils répondent à la même question et se gênent."
     },
     {
       "id": "M17-L04-06",
-      "consigne": "==Sélectionnez la **série T2**==, la deuxième barre de chaque groupe.",
+      "consigne": "==Sélectionnez la **série T4**==, la deuxième barre de chaque groupe.",
       "action": {
         "type": "SELECT_CHART_ELEMENT",
         "element": "serie:1"
@@ -294,11 +286,11 @@
         "text": "Une barre de la deuxième couleur, dans n'importe quel groupe.",
         "showTarget": true
       },
-      "feedback": "Les quatre barres de T2 sont sélectionnées d'un coup : c'est la série entière."
+      "feedback": "Les quatre barres de T4 sont sélectionnées d'un coup : c'est la série entière."
     },
     {
       "id": "M17-L04-07",
-      "consigne": "Un second clic descend d'un cran. ==Sélectionnez le seul **point T2 de la région Ouest**==, le dernier groupe.",
+      "consigne": "Un second clic descend d'un cran. ==Sélectionnez le seul **point T4 de la région Ouest**==, le dernier groupe.",
       "action": {
         "type": "SELECT_CHART_ELEMENT",
         "element": "point:1:3"
@@ -324,7 +316,7 @@
         "control": "ins-graph-element-titres-axes"
       },
       "aide": {
-        "text": "Ajouter un élément de graphique, Titres des axes.",
+        "text": "Onglet Création de graphique, groupe Éléments du graphique : bouton « Titres des axes ».",
         "showTarget": true
       },
       "feedback": "« Euros », « milliers d'euros », « heures » : c'est ce qui évite la question en réunion."

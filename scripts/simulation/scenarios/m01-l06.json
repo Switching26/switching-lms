@@ -1,0 +1,290 @@
+{
+  "schemaVersion": 1,
+  "title": "Créer un classeur à partir d'un modèle",
+  "mode": "LESSON",
+  "moduleTitle": "Prise en main",
+  "intro": {
+    "title": "NE JAMAIS REPARTIR DE ZÉRO",
+    "body": "Un modèle est un classeur prêt à l'emploi : la structure, les formules et la présentation sont déjà en place. Il ne reste qu'à remplir — et le calcul se fait tout seul."
+  },
+  "outro": {
+    "body": "Vous savez utiliser un modèle, et enregistrer le vôtre pour la fois suivante."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ],
+    "sheetCount": 1
+  },
+  "workbook": {
+    "fileName": "Note-de-frais.xlsx",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Mars",
+        "columnWidths": {
+          "A": 200,
+          "B": 130,
+          "C": 110
+        },
+        "cells": {
+          "A1": {
+            "v": "NOTE DE FRAIS",
+            "format": {
+              "bold": true
+            }
+          },
+          "A3": {
+            "v": "Nom",
+            "format": {
+              "bold": true
+            }
+          },
+          "A4": {
+            "v": "Mois",
+            "format": {
+              "bold": true
+            }
+          },
+          "A6": {
+            "v": "Date",
+            "format": {
+              "bold": true
+            }
+          },
+          "B6": {
+            "v": "Objet",
+            "format": {
+              "bold": true
+            }
+          },
+          "C6": {
+            "v": "Montant",
+            "format": {
+              "bold": true
+            }
+          },
+          "A11": {
+            "v": "Sous-total frais",
+            "format": {
+              "bold": true
+            }
+          },
+          "C11": {
+            "f": "=SOMME(C7:C10)"
+          },
+          "A13": {
+            "v": "Barème kilométrique (€/km)"
+          },
+          "B13": {
+            "v": 0.54
+          },
+          "A14": {
+            "v": "Kilomètres parcourus"
+          },
+          "A15": {
+            "v": "Indemnité kilométrique",
+            "format": {
+              "bold": true
+            }
+          },
+          "B15": {
+            "f": "=B13*B14"
+          },
+          "A17": {
+            "v": "À REMBOURSER",
+            "format": {
+              "bold": true
+            }
+          },
+          "B17": {
+            "f": "=C11+B15"
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M01-L06-01",
+      "consigne": "**Fichier > Nouveau** propose des modèles : facture, budget, planning, note de frais. On ne travaille jamais dans le modèle lui-même — Excel en fait une **copie**, et c'est cette copie que vous remplissez. Le modèle reste intact pour la fois suivante.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M01-L06-02",
+      "consigne": "Le modèle attend d'abord qui déclare. En **B3**, ==saisissez `Bonnefoy`==.",
+      "setup": {
+        "selection": "B3"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B3",
+        "accept": [
+          "Bonnefoy"
+        ]
+      },
+      "aide": {
+        "text": "À droite du libellé Nom.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M01-L06-03",
+      "consigne": "En **B4**, ==saisissez `Mars 2026`==.",
+      "setup": {
+        "selection": "B4"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B4",
+        "accept": [
+          "Mars 2026"
+        ]
+      },
+      "aide": {
+        "text": "À droite du libellé Mois.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M01-L06-04",
+      "consigne": "==Saisissez les quatre dépenses== dans la colonne **Montant**, de C7 à C10 : **38,50** de train, **12,90** de repas, **89** d'hôtel, **6,60** de taxi.",
+      "setup": {
+        "selection": "C7"
+      },
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "C7": {
+            "v": 38.5
+          },
+          "C8": {
+            "v": 12.9
+          },
+          "C9": {
+            "v": 89
+          },
+          "C10": {
+            "v": 6.6
+          },
+          "C11": {
+            "f": "=SOMME(C7:C10)",
+            "v": 147
+          }
+        }
+      },
+      "aide": {
+        "text": "Quatre montants, la virgule comme séparateur décimal. Le sous-total se calcule seul."
+      },
+      "feedback": "147,00 € de sous-total, apparu sans que vous écriviez la moindre formule : elle était déjà dans le modèle."
+    },
+    {
+      "id": "M01-L06-05",
+      "consigne": "C'est tout l'intérêt d'un modèle. ==Cliquez sur **C11**== et regardez la barre de formule.",
+      "action": {
+        "type": "CLICK_CELL",
+        "cell": "C11"
+      },
+      "aide": {
+        "text": "La cellule du sous-total.",
+        "showTarget": true
+      },
+      "feedback": "`=SOMME(C7:C10)` : quelqu'un l'a écrite une fois pour toutes. C'est ce travail-là qu'un modèle vous fait économiser."
+    },
+    {
+      "id": "M01-L06-06",
+      "consigne": "Reste le kilométrage. En **B14**, ==saisissez `240`== et regardez les deux dernières lignes.",
+      "setup": {
+        "selection": "B14"
+      },
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "B14": {
+            "v": 240
+          },
+          "B15": {
+            "f": "=B13*B14",
+            "v": 129.6
+          },
+          "B17": {
+            "f": "=C11+B15",
+            "v": 276.6
+          }
+        }
+      },
+      "aide": {
+        "text": "Une seule cellule à remplir : l'indemnité et le total se calculent.",
+        "showTarget": true
+      },
+      "feedback": "129,60 € d'indemnité, 276,60 € à rembourser. Une saisie, deux calculs."
+    },
+    {
+      "id": "M01-L06-07",
+      "consigne": "Le barème change chaque année. ==En **B13**, passez le barème à `0,58`== et observez le total.",
+      "setup": {
+        "selection": "B13"
+      },
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "B13": {
+            "v": 0.58
+          },
+          "B15": {
+            "f": "=B13*B14",
+            "v": 139.2
+          },
+          "B17": {
+            "f": "=C11+B15",
+            "v": 286.2
+          }
+        }
+      },
+      "aide": {
+        "text": "Le barème est une donnée du modèle, pas une constante cachée dans une formule.",
+        "showTarget": true
+      },
+      "feedback": "286,20 €. Un bon modèle sort ses paramètres des formules et les met dans des cellules visibles : c'est ce qui le rend réutilisable."
+    },
+    {
+      "id": "M01-L06-08",
+      "consigne": "==Donnez un format monétaire aux montants **C7:C11**== pour finir la présentation.",
+      "setup": {
+        "selection": "C7:C11"
+      },
+      "action": {
+        "type": "EXPECT_FORMAT",
+        "cells": {
+          "C7": {
+            "numberFormat": "monetaire"
+          },
+          "C11": {
+            "numberFormat": "monetaire"
+          }
+        }
+      },
+      "aide": {
+        "text": "Groupe Nombre, bouton €.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M01-L06-09",
+      "consigne": "Pour transformer votre propre classeur en modèle : **Enregistrer sous**, puis le format **Modèle Excel (.xltx)**. Excel le range dans vos modèles personnalisés, où **Fichier > Nouveau** ira le chercher. Videz les données avant d'enregistrer — un modèle qui contient encore les chiffres du mois dernier fait plus de dégâts qu'une page blanche.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    }
+  ]
+}

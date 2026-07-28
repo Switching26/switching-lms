@@ -1,0 +1,353 @@
+{
+ "schemaVersion": 1,
+ "title": "Exercice · Compter et totaliser sous condition",
+ "mode": "EXERCISE",
+ "moduleTitle": "Fonctions avancées",
+ "intro": {
+  "title": "À VOUS",
+  "body": "Huit dossiers de formation, trois dispositifs de financement. Le tableau de synthèse à droite attend ses formules — les libellés des dispositifs sont déjà là."
+ },
+ "outro": {
+  "body": "Synthèse par dispositif obtenue sans trier ni recopier une seule ligne."
+ },
+ "ribbon": [
+  "accueil"
+ ],
+ "statusBar": {
+  "aggregates": [
+   "moyenne",
+   "nb-non-vides",
+   "somme"
+  ],
+  "sheetCount": 1
+ },
+ "workbook": {
+  "fileName": "Dossiers de formation",
+  "activeSheetIndex": 0,
+  "selection": "A1",
+  "sheets": [
+   {
+    "name": "Feuil1",
+    "columnWidths": {
+     "A": 110,
+     "B": 135,
+     "C": 80,
+     "D": 100,
+     "F": 180,
+     "G": 100,
+     "H": 90,
+     "I": 100
+    },
+    "cells": {
+     "F5": {
+      "v": "Dossiers de 30 h et plus",
+      "format": {
+       "bold": true
+      }
+     },
+     "F6": {
+      "v": "Nombre",
+      "format": {
+       "bold": true
+      }
+     },
+     "F7": {
+      "v": "Montant",
+      "format": {
+       "bold": true
+      }
+     },
+     "A1": {
+      "v": "Stagiaire",
+      "format": {
+       "bold": true
+      }
+     },
+     "B1": {
+      "v": "Financement",
+      "format": {
+       "bold": true
+      }
+     },
+     "C1": {
+      "v": "Heures",
+      "format": {
+       "bold": true
+      }
+     },
+     "D1": {
+      "v": "Montant",
+      "format": {
+       "bold": true
+      }
+     },
+     "F1": {
+      "v": "Financement",
+      "format": {
+       "bold": true
+      }
+     },
+     "G1": {
+      "v": "Dossiers",
+      "format": {
+       "bold": true
+      }
+     },
+     "H1": {
+      "v": "Heures",
+      "format": {
+       "bold": true
+      }
+     },
+     "I1": {
+      "v": "Montant",
+      "format": {
+       "bold": true
+      }
+     },
+     "A2": {
+      "v": "Amina B."
+     },
+     "B2": {
+      "v": "CPF"
+     },
+     "C2": {
+      "v": 35
+     },
+     "D2": {
+      "v": 1750
+     },
+     "A3": {
+      "v": "Karim L."
+     },
+     "B3": {
+      "v": "OPCO"
+     },
+     "C3": {
+      "v": 21
+     },
+     "D3": {
+      "v": 1260
+     },
+     "A4": {
+      "v": "Léa M."
+     },
+     "B4": {
+      "v": "CPF"
+     },
+     "C4": {
+      "v": 28
+     },
+     "D4": {
+      "v": 1400
+     },
+     "A5": {
+      "v": "Yanis T."
+     },
+     "B5": {
+      "v": "France Travail"
+     },
+     "C5": {
+      "v": 40
+     },
+     "D5": {
+      "v": 1800
+     },
+     "A6": {
+      "v": "Sonia R."
+     },
+     "B6": {
+      "v": "OPCO"
+     },
+     "C6": {
+      "v": 14
+     },
+     "D6": {
+      "v": 840
+     },
+     "A7": {
+      "v": "Malik D."
+     },
+     "B7": {
+      "v": "CPF"
+     },
+     "C7": {
+      "v": 35
+     },
+     "D7": {
+      "v": 1750
+     },
+     "A8": {
+      "v": "Chloé F."
+     },
+     "B8": {
+      "v": "France Travail"
+     },
+     "C8": {
+      "v": 21
+     },
+     "D8": {
+      "v": 945
+     },
+     "A9": {
+      "v": "Hugo P."
+     },
+     "B9": {
+      "v": "OPCO"
+     },
+     "C9": {
+      "v": 28
+     },
+     "D9": {
+      "v": 1680
+     },
+     "F2": {
+      "v": "CPF"
+     },
+     "F3": {
+      "v": "OPCO"
+     },
+     "F4": {
+      "v": "France Travail"
+     }
+    }
+   }
+  ]
+ },
+ "steps": [
+  {
+   "id": "M10-E03-01",
+   "consigne": "En **G2**, comptez les **dossiers** financés par le dispositif nommé en F2. La formule devra se recopier sur les trois lignes.",
+   "setup": {
+    "selection": "G2"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "G2",
+    "accept": [
+     "=NB.SI($B$2:$B$9;F2)"
+    ],
+    "formulaMode": true
+   },
+   "aide": {
+    "text": "Le critère se lit dans la cellule voisine ; la plage examinée, elle, ne doit pas bouger."
+   }
+  },
+  {
+   "id": "M10-E03-02",
+   "consigne": "En **H2**, totalisez les **heures** de ce dispositif.",
+   "setup": {
+    "selection": "H2"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "H2",
+    "accept": [
+     "=SOMME.SI($B$2:$B$9;F2;$C$2:$C$9)"
+    ],
+    "formulaMode": true
+   }
+  },
+  {
+   "id": "M10-E03-03",
+   "consigne": "En **I2**, totalisez les **montants** de ce dispositif.",
+   "setup": {
+    "selection": "I2"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "I2",
+    "accept": [
+     "=SOMME.SI($B$2:$B$9;F2;$D$2:$D$9)"
+    ],
+    "formulaMode": true
+   }
+  },
+  {
+   "id": "M10-E03-04",
+   "consigne": "Complétez les **deux autres dispositifs**.",
+   "action": {
+    "type": "EXPECT_STATE",
+    "cells": {
+     "G3": {
+      "anyOf": [
+       "=NB.SI($B$2:$B$9;F3)"
+      ],
+      "v": 3
+     },
+     "H3": {
+      "anyOf": [
+       "=SOMME.SI($B$2:$B$9;F3;$C$2:$C$9)"
+      ],
+      "v": 63
+     },
+     "I3": {
+      "anyOf": [
+       "=SOMME.SI($B$2:$B$9;F3;$D$2:$D$9)"
+      ],
+      "v": 3780
+     },
+     "G4": {
+      "anyOf": [
+       "=NB.SI($B$2:$B$9;F4)"
+      ],
+      "v": 2
+     },
+     "H4": {
+      "anyOf": [
+       "=SOMME.SI($B$2:$B$9;F4;$C$2:$C$9)"
+      ],
+      "v": 61
+     },
+     "I4": {
+      "anyOf": [
+       "=SOMME.SI($B$2:$B$9;F4;$D$2:$D$9)"
+      ],
+      "v": 2745
+     }
+    }
+   },
+   "aide": {
+    "text": "Trois cellules à sélectionner, puis la poignée."
+   }
+  },
+  {
+   "id": "M10-E03-05",
+   "consigne": "En **G6**, comptez les dossiers de **30 heures et plus**.",
+   "setup": {
+    "selection": "G6"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "G6",
+    "accept": [
+     "=NB.SI(C2:C9;\">=30\")",
+     "=NB.SI($C$2:$C$9;\">=30\")"
+    ],
+    "formulaMode": true
+   },
+   "aide": {
+    "text": "Le critère est une comparaison, à écrire d'un seul bloc entre guillemets."
+   }
+  },
+  {
+   "id": "M10-E03-06",
+   "consigne": "En **G7**, totalisez le **montant** de ces dossiers de 30 heures et plus.",
+   "setup": {
+    "selection": "G7"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "G7",
+    "accept": [
+     "=SOMME.SI(C2:C9;\">=30\";D2:D9)",
+     "=SOMME.SI($C$2:$C$9;\">=30\";$D$2:$D$9)"
+    ],
+    "formulaMode": true
+   },
+   "aide": {
+    "text": "La colonne testée n'est pas celle à additionner : il faut donc les trois arguments."
+   }
+  }
+ ]
+}

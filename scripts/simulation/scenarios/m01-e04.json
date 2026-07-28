@@ -1,0 +1,228 @@
+{
+  "schemaVersion": 1,
+  "title": "Exercice · Compléter un devis reçu",
+  "mode": "EXERCISE",
+  "moduleTitle": "Prise en main",
+  "intro": {
+    "title": "À VOUS",
+    "body": "Un devis ouvert depuis un courriel, à chiffrer entièrement."
+  },
+  "outro": {
+    "body": "Exercice terminé."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ],
+    "sheetCount": 1
+  },
+  "workbook": {
+    "fileName": "Devis-2026-021.xlsx",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Devis",
+        "columnWidths": {
+          "A": 210,
+          "C": 110,
+          "D": 100
+        },
+        "cells": {
+          "A1": {
+            "v": "DEVIS 2026-021",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Client : Garage Vasseur"
+          },
+          "A4": {
+            "v": "Prestation",
+            "format": {
+              "bold": true
+            }
+          },
+          "B4": {
+            "v": "Quantité",
+            "format": {
+              "bold": true
+            }
+          },
+          "C4": {
+            "v": "Prix unitaire",
+            "format": {
+              "bold": true
+            }
+          },
+          "D4": {
+            "v": "Total HT",
+            "format": {
+              "bold": true
+            }
+          },
+          "A5": {
+            "v": "Formation bureautique — 14 h"
+          },
+          "B5": {
+            "v": 5
+          },
+          "C5": {
+            "v": 280
+          },
+          "A6": {
+            "v": "Formation comptabilité — 21 h"
+          },
+          "B6": {
+            "v": 2
+          },
+          "C6": {
+            "v": 630
+          },
+          "A7": {
+            "v": "Certification"
+          },
+          "B7": {
+            "v": 7
+          },
+          "C7": {
+            "v": 90
+          },
+          "A9": {
+            "v": "Total HT",
+            "format": {
+              "bold": true
+            }
+          },
+          "A10": {
+            "v": "TVA 20 %",
+            "format": {
+              "bold": true
+            }
+          },
+          "A11": {
+            "v": "Total TTC",
+            "format": {
+              "bold": true
+            }
+          },
+          "A13": {
+            "v": "Taux de TVA"
+          },
+          "B13": {
+            "v": 0.2
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M01-E04-01",
+      "consigne": "Aucun total n'est calculé. Chiffrez la **première prestation** en **D5**.",
+      "action": {
+        "type": "TYPE",
+        "target": "D5",
+        "accept": [
+          "=B5*C5",
+          "=C5*B5"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Quantité fois prix unitaire."
+      },
+      "feedback": "1 400 €."
+    },
+    {
+      "id": "M01-E04-02",
+      "consigne": "Complétez les **deux prestations suivantes**.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "D6": {
+            "anyOf": [
+              "=B6*C6",
+              "=C6*B6"
+            ],
+            "v": 1260
+          },
+          "D7": {
+            "anyOf": [
+              "=B7*C7",
+              "=C7*B7"
+            ],
+            "v": 630
+          }
+        }
+      },
+      "aide": {
+        "text": "La même formule, deux lignes plus bas. La recopie fait le travail."
+      }
+    },
+    {
+      "id": "M01-E04-03",
+      "consigne": "Renseignez le **total hors taxes** en D9, la **TVA** en D10 et le **total TTC** en D11. Le taux est en B13.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "D9": {
+            "v": 3290
+          },
+          "D10": {
+            "v": 658
+          },
+          "D11": {
+            "v": 3948
+          }
+        }
+      },
+      "aide": {
+        "text": "Trois cellules, dans cet ordre : la somme, puis la TVA calculée sur cette somme, puis l'addition des deux."
+      }
+    },
+    {
+      "id": "M01-E04-04",
+      "consigne": "Donnez un **format monétaire** aux quatre montants de la colonne D, de D5 à D11.",
+      "action": {
+        "type": "EXPECT_FORMAT",
+        "cells": {
+          "D5": {
+            "numberFormat": "monetaire"
+          },
+          "D11": {
+            "numberFormat": "monetaire"
+          }
+        }
+      },
+      "aide": {
+        "text": "Sélectionnez la plage entière, puis un bouton du groupe Nombre."
+      }
+    },
+    {
+      "id": "M01-E04-05",
+      "consigne": "Le client demande une remise : le prix de la certification passe de 90 à **80 €**. Faites la modification au bon endroit et vérifiez que le TTC suit.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "C7": {
+            "v": 80
+          },
+          "D11": {
+            "v": 3864
+          }
+        }
+      },
+      "aide": {
+        "text": "Une seule cellule à changer : le prix unitaire. Tout le reste est calculé."
+      },
+      "feedback": "3 864 € TTC. Un devis bien construit se met à jour d'une frappe."
+    }
+  ]
+}

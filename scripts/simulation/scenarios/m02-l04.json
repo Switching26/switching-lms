@@ -1,0 +1,274 @@
+{
+  "schemaVersion": 1,
+  "title": "Saisir des dates et des heures",
+  "mode": "LESSON",
+  "moduleTitle": "Saisie des données",
+  "intro": {
+    "title": "DES NOMBRES DÉGUISÉS",
+    "body": "Une date et une heure ne sont pas du texte : Excel les stocke comme des nombres, et c'est ce qui permet de calculer des délais et des durées. Encore faut-il les saisir sous une forme qu'il reconnaît."
+  },
+  "outro": {
+    "body": "Vous savez saisir une date, une heure, calculer une durée, et repérer une date qui n'a pas été reconnue."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ],
+    "sheetCount": 1
+  },
+  "workbook": {
+    "fileName": "Planning-interventions.xlsx",
+    "activeSheetIndex": 0,
+    "selection": "B4",
+    "sheets": [
+      {
+        "name": "Mars",
+        "columnWidths": {
+          "A": 130,
+          "B": 110
+        },
+        "cells": {
+          "A1": {
+            "v": "PLANNING DES INTERVENTIONS",
+            "format": {
+              "bold": true
+            }
+          },
+          "A3": {
+            "v": "Technicien",
+            "format": {
+              "bold": true
+            }
+          },
+          "B3": {
+            "v": "Date",
+            "format": {
+              "bold": true
+            }
+          },
+          "C3": {
+            "v": "Arrivée",
+            "format": {
+              "bold": true
+            }
+          },
+          "D3": {
+            "v": "Départ",
+            "format": {
+              "bold": true
+            }
+          },
+          "E3": {
+            "v": "Durée",
+            "format": {
+              "bold": true
+            }
+          },
+          "A4": {
+            "v": "Ravel"
+          },
+          "A5": {
+            "v": "Nadaud"
+          },
+          "A6": {
+            "v": "Lemoine"
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M02-L04-01",
+      "consigne": "Une date se saisit avec des barres obliques. En **B4**, ==saisissez `15/03/2026`==.",
+      "setup": {
+        "selection": "B4"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B4",
+        "accept": [
+          "15/03/2026",
+          "15/3/2026",
+          "15-03-2026"
+        ]
+      },
+      "aide": {
+        "text": "Jour, mois, année, séparés par des barres obliques.",
+        "showTarget": true
+      },
+      "feedback": "La date se cale **à droite** : Excel l'a reconnue comme une date, donc comme un nombre. C'est le seul contrôle à faire."
+    },
+    {
+      "id": "M02-L04-02",
+      "consigne": "Excel accepte plusieurs écritures : `15/03/2026`, `15/3/26`, `15-3-2026`. Attention en revanche à l'année sur **deux chiffres** : de `00` à `29` il comprend les années 2000, de `30` à `99` les années 1900. Donc `26` donne 2026, mais `45` donne **1945**. Sur une date de naissance, l'erreur est garantie — écrivez l'année en entier.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M02-L04-03",
+      "consigne": "Vérifions cette souplesse. En **B5**, ==saisissez `16/3/26`== et regardez ce qu'Excel affiche.",
+      "setup": {
+        "selection": "B5"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B5",
+        "accept": [
+          "16/3/26",
+          "16/03/26"
+        ]
+      },
+      "aide": {
+        "text": "Trois caractères pour l'année suffisent — deux, en réalité.",
+        "showTarget": true
+      },
+      "feedback": "Vous avez tapé `16/3/26`, Excel affiche `16/03/2026`. La saisie est souple, l'affichage est normalisé."
+    },
+    {
+      "id": "M02-L04-04",
+      "consigne": "Une heure se saisit avec des **deux-points**. En **C4**, ==saisissez `08:30`==, l'heure d'arrivée du technicien.",
+      "setup": {
+        "selection": "C4"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "C4",
+        "accept": [
+          "08:30",
+          "8:30"
+        ]
+      },
+      "aide": {
+        "text": "Heures, deux-points, minutes.",
+        "showTarget": true
+      },
+      "feedback": "`8:30` donnerait exactement la même valeur : le zéro de tête n'est qu'un confort de lecture."
+    },
+    {
+      "id": "M02-L04-05",
+      "consigne": "En **D4**, ==saisissez `12:15`==, l'heure de départ.",
+      "setup": {
+        "selection": "D4"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "D4",
+        "accept": [
+          "12:15"
+        ]
+      },
+      "aide": {
+        "text": "Même forme que l'heure d'arrivée.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M02-L04-06",
+      "consigne": "Excel stocke une heure comme une **fraction de journée** : `12:00` vaut 0,5, `06:00` vaut 0,25, `18:00` vaut 0,75. C'est exactement ce qui rend deux heures soustrayables — on retranche deux fractions de la même journée.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M02-L04-07",
+      "consigne": "En **E4**, ==calculez la durée de l'intervention== : l'heure de départ moins l'heure d'arrivée.",
+      "setup": {
+        "selection": "E4"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "E4",
+        "accept": [
+          "=D4-C4"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Une simple soustraction entre les deux cellules d'heures.",
+        "showTarget": true
+      },
+      "feedback": "3 h 45. Une durée est une soustraction d'heures, rien de plus."
+    },
+    {
+      "id": "M02-L04-08",
+      "consigne": "Les dates se soustraient de la même façon, et donnent un **nombre de jours**. En **G4**, ==calculez l'écart entre les deux dates== saisies.",
+      "setup": {
+        "selection": "G4",
+        "cells": {
+          "F4": {
+            "v": "Jours d'écart",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "G4",
+        "accept": [
+          "=B5-B4"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "La seconde date moins la première.",
+        "showTarget": true
+      },
+      "feedback": "1 jour. Si vous obteniez `#VALEUR!`, l'une des deux dates aurait été saisie comme du texte."
+    },
+    {
+      "id": "M02-L04-09",
+      "consigne": "Pour la date du jour, ==en **G5**, saisissez `=AUJOURDHUI()`==.",
+      "setup": {
+        "selection": "G5",
+        "cells": {
+          "F5": {
+            "v": "Date du jour",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "G5",
+        "accept": [
+          "=AUJOURDHUI()"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Une fonction sans argument : les parenthèses restent vides.",
+        "showTarget": true
+      },
+      "feedback": "La date d'aujourd'hui s'affiche."
+    },
+    {
+      "id": "M02-L04-10",
+      "consigne": "Deux façons d'obtenir la date du jour, et il ne faut pas les confondre. Le raccourci **Ctrl + ;** insère la date d'aujourd'hui comme une **valeur figée** : elle ne changera plus jamais. La fonction `AUJOURDHUI()` se **recalcule** à chaque ouverture du classeur. Sur une facture, on veut la valeur figée ; sur un tableau de bord, la fonction.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M02-L04-11",
+      "consigne": "Le symptôme à connaître : une date ou une heure qui apparaît **collée à gauche** n'a pas été reconnue. C'est du texte, et aucun calcul de délai ne fonctionnera dessus. Les causes habituelles : un point au lieu d'une barre oblique (`15.03.2026`), un mois écrit en lettres abrégé (`15 mar 2026`), ou un espace parasite avant le premier chiffre.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    }
+  ]
+}

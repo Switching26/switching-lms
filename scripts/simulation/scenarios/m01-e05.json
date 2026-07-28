@@ -1,0 +1,213 @@
+{
+  "schemaVersion": 1,
+  "title": "Exercice · Remplir une note de frais",
+  "mode": "EXERCISE",
+  "moduleTitle": "Prise en main",
+  "intro": {
+    "title": "À VOUS",
+    "body": "Le modèle est ouvert et ses formules sont en place. À vous de le remplir."
+  },
+  "outro": {
+    "body": "Exercice terminé."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ],
+    "sheetCount": 1
+  },
+  "workbook": {
+    "fileName": "Note-de-frais.xlsx",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Avril",
+        "columnWidths": {
+          "A": 200,
+          "B": 130,
+          "C": 110
+        },
+        "cells": {
+          "A1": {
+            "v": "NOTE DE FRAIS",
+            "format": {
+              "bold": true
+            }
+          },
+          "A3": {
+            "v": "Nom",
+            "format": {
+              "bold": true
+            }
+          },
+          "A4": {
+            "v": "Mois",
+            "format": {
+              "bold": true
+            }
+          },
+          "A6": {
+            "v": "Date",
+            "format": {
+              "bold": true
+            }
+          },
+          "B6": {
+            "v": "Objet",
+            "format": {
+              "bold": true
+            }
+          },
+          "C6": {
+            "v": "Montant",
+            "format": {
+              "bold": true
+            }
+          },
+          "A11": {
+            "v": "Sous-total frais",
+            "format": {
+              "bold": true
+            }
+          },
+          "C11": {
+            "f": "=SOMME(C7:C10)"
+          },
+          "A13": {
+            "v": "Barème kilométrique (€/km)"
+          },
+          "B13": {
+            "v": 0.62
+          },
+          "A14": {
+            "v": "Kilomètres parcourus"
+          },
+          "A15": {
+            "v": "Indemnité kilométrique",
+            "format": {
+              "bold": true
+            }
+          },
+          "B15": {
+            "f": "=B13*B14"
+          },
+          "A17": {
+            "v": "À REMBOURSER",
+            "format": {
+              "bold": true
+            }
+          },
+          "B17": {
+            "f": "=C11+B15"
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M01-E05-01",
+      "consigne": "Renseignez l'identité : **Chevalier** en B3, **Avril 2026** en B4.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "B3": {
+            "v": "Chevalier"
+          },
+          "B4": {
+            "v": "Avril 2026"
+          }
+        }
+      },
+      "aide": {
+        "text": "Deux cellules, à droite des libellés."
+      }
+    },
+    {
+      "id": "M01-E05-02",
+      "consigne": "Saisissez les trois dépenses dans la colonne Montant : **54,80** de train, **21,50** de repas, **112** d'hôtel.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "C7": {
+            "v": 54.8
+          },
+          "C8": {
+            "v": 21.5
+          },
+          "C9": {
+            "v": 112
+          },
+          "C11": {
+            "f": "=SOMME(C7:C10)",
+            "v": 188.3
+          }
+        }
+      },
+      "aide": {
+        "text": "Trois lignes seulement : la quatrième reste vide, le sous-total s'en accommode."
+      },
+      "feedback": "188,30 € de frais."
+    },
+    {
+      "id": "M01-E05-03",
+      "consigne": "Le déplacement a représenté **185 kilomètres**. Renseignez-les et vérifiez le montant à rembourser.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "B14": {
+            "v": 185
+          },
+          "B15": {
+            "f": "=B13*B14",
+            "v": 114.7
+          },
+          "B17": {
+            "f": "=C11+B15",
+            "v": 303
+          }
+        }
+      },
+      "aide": {
+        "text": "Une seule cellule à remplir. Le reste est déjà calculé par le modèle."
+      },
+      "feedback": "303,00 € à rembourser."
+    },
+    {
+      "id": "M01-E05-04",
+      "consigne": "Vérifiez d'où sort l'indemnité : placez-vous sur la cellule qui la calcule.",
+      "action": {
+        "type": "CLICK_CELL",
+        "cell": "B15"
+      },
+      "aide": {
+        "text": "La ligne Indemnité kilométrique."
+      },
+      "feedback": "`=B13*B14` : le barème multiplié par la distance."
+    },
+    {
+      "id": "M01-E05-05",
+      "consigne": "Donnez un **format monétaire** aux montants de C7 à C11.",
+      "action": {
+        "type": "EXPECT_FORMAT",
+        "cells": {
+          "C7": {
+            "numberFormat": "monetaire"
+          },
+          "C11": {
+            "numberFormat": "monetaire"
+          }
+        }
+      },
+      "aide": {
+        "text": "Sélectionnez la plage, puis le groupe Nombre."
+      }
+    }
+  ]
+}

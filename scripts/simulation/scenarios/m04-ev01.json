@@ -1,0 +1,287 @@
+{
+  "schemaVersion": 1,
+  "title": "S'évaluer · Les lignes et les colonnes",
+  "mode": "EVALUATION",
+  "moduleTitle": "Les lignes et les colonnes",
+  "intro": {
+    "title": "S'ÉVALUER",
+    "body": "Un tableau d'effectifs à restructurer entièrement : insérer, supprimer, élargir, calculer, retourner, masquer. Quatorze gestes notés à la première tentative, sans aucune aide."
+  },
+  "outro": {
+    "body": "Évaluation terminée."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ],
+    "sheetCount": 1
+  },
+  "workbook": {
+    "fileName": "Effectifs-sites.xlsx",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Effectifs",
+        "columnWidths": {
+          "A": 70
+        },
+        "cells": {
+          "A1": {
+            "v": "EFFECTIFS PAR SITE",
+            "format": {
+              "bold": true
+            }
+          },
+          "A3": {
+            "v": "Site",
+            "format": {
+              "bold": true
+            }
+          },
+          "B3": {
+            "v": "Cadres",
+            "format": {
+              "bold": true
+            }
+          },
+          "C3": {
+            "v": "Employés",
+            "format": {
+              "bold": true
+            }
+          },
+          "A4": {
+            "v": "Nantes"
+          },
+          "B4": {
+            "v": 8
+          },
+          "C4": {
+            "v": 34
+          },
+          "A5": {
+            "v": "Rennes"
+          },
+          "B5": {
+            "v": 5
+          },
+          "C5": {
+            "v": 21
+          },
+          "A6": {
+            "v": "Angers"
+          },
+          "B6": {
+            "v": 6
+          },
+          "C6": {
+            "v": 27
+          },
+          "A8": {
+            "v": "TOTAL",
+            "format": {
+              "bold": true
+            }
+          },
+          "A10": {
+            "v": "Note interne : chiffres à recouper avec la paie"
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M04-EV01-01",
+      "consigne": "Ce tableau d'effectifs est incomplet, encombré et illisible. À vous de le remettre d'aplomb.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M04-EV01-02",
+      "consigne": "Il manque une colonne **Techniciens** entre Cadres et Employés. Faites-lui de la place.",
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "acc-inserer"
+      },
+      "points": 2
+    },
+    {
+      "id": "M04-EV01-03",
+      "consigne": "Renseignez l'en-tête **Techniciens** et les trois effectifs : **12** à Nantes, **9** à Rennes, **11** à Angers.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "C3": {
+            "v": "Techniciens"
+          },
+          "C4": {
+            "v": 12
+          },
+          "C5": {
+            "v": 9
+          },
+          "C6": {
+            "v": 11
+          },
+          "D4": {
+            "v": 34
+          },
+          "D6": {
+            "v": 27
+          }
+        }
+      },
+      "points": 2
+    },
+    {
+      "id": "M04-EV01-04",
+      "consigne": "La **ligne 10** contient une note interne qui n'a rien à faire dans ce tableau. Sélectionnez-la en entier.",
+      "action": {
+        "type": "SELECT_ROW",
+        "row": 10
+      },
+      "points": 1
+    },
+    {
+      "id": "M04-EV01-05",
+      "consigne": "Supprimez-la — la ligne, pas seulement son contenu.",
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "acc-supprimer"
+      },
+      "points": 1
+    },
+    {
+      "id": "M04-EV01-06",
+      "consigne": "En **E4**, calculez l'**effectif total du site de Nantes**, toutes catégories confondues.",
+      "setup": {
+        "cells": {
+          "E3": {
+            "v": "Total",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "E4",
+        "accept": [
+          "=SOMME(B4:D4)",
+          "=B4+C4+D4"
+        ],
+        "formulaMode": true
+      },
+      "points": 1
+    },
+    {
+      "id": "M04-EV01-07",
+      "consigne": "Complétez les effectifs totaux des **deux autres sites**.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "E5": {
+            "v": 35
+          },
+          "E6": {
+            "v": 44
+          }
+        }
+      },
+      "points": 2
+    },
+    {
+      "id": "M04-EV01-08",
+      "consigne": "En **E8**, totalisez l'**effectif général** de l'entreprise.",
+      "action": {
+        "type": "TYPE",
+        "target": "E8",
+        "accept": [
+          "=SOMME(E4:E6)",
+          "=E4+E5+E6"
+        ],
+        "formulaMode": true
+      },
+      "points": 2
+    },
+    {
+      "id": "M04-EV01-09",
+      "consigne": "La colonne des sites est trop étroite : les noms sont coupés. Sélectionnez-la en entier.",
+      "action": {
+        "type": "SELECT_COLUMN",
+        "column": "A"
+      },
+      "points": 1
+    },
+    {
+      "id": "M04-EV01-10",
+      "consigne": "Élargissez-la par le ruban.",
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "acc-format-largeur"
+      },
+      "points": 1
+    },
+    {
+      "id": "M04-EV01-11",
+      "consigne": "Le tableau doit aussi exister **retourné**, les catégories en lignes. Sélectionnez la zone à retourner : de A3 à E6.",
+      "action": {
+        "type": "DRAG_RANGE",
+        "range": "A3:E6"
+      },
+      "points": 1
+    },
+    {
+      "id": "M04-EV01-12",
+      "consigne": "Mettez-la dans le presse-papiers.",
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "acc-copier"
+      },
+      "points": 1
+    },
+    {
+      "id": "M04-EV01-13",
+      "consigne": "Collez-la **transposée** à partir de **A12**.",
+      "setup": {
+        "selection": "A12",
+        "paste": {
+          "texte": "Site\tNantes\tRennes\tAngers\nCadres\t8\t5\t6\nTechniciens\t12\t9\t11\nEmployés\t34\t21\t27\nTotal\t54\t35\t44"
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "acc-coller"
+      },
+      "points": 2
+    },
+    {
+      "id": "M04-EV01-14",
+      "consigne": "Dernière demande : la colonne des **cadres** ne doit plus apparaître à l'écran, sans être supprimée. Sélectionnez-la.",
+      "action": {
+        "type": "SELECT_COLUMN",
+        "column": "B"
+      },
+      "points": 1
+    },
+    {
+      "id": "M04-EV01-15",
+      "consigne": "Faites-la disparaître.",
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "acc-format-masquer"
+      },
+      "points": 1
+    }
+  ]
+}

@@ -1,0 +1,323 @@
+{
+ "schemaVersion": 1,
+ "title": "Exercice · Décider avec SI",
+ "mode": "EXERCISE",
+ "moduleTitle": "Fonctions avancées",
+ "intro": {
+  "title": "À VOUS",
+  "body": "Un état de stock avec, pour chaque référence, son seuil de réapprovisionnement. À vous de faire dire au tableau ce qu'il faut commander."
+ },
+ "outro": {
+  "body": "Un état de stock qui se relit tout seul : le jour où un stock bouge, la commande suit."
+ },
+ "ribbon": [
+  "accueil"
+ ],
+ "statusBar": {
+  "aggregates": [
+   "moyenne",
+   "nb-non-vides",
+   "somme"
+  ],
+  "sheetCount": 1
+ },
+ "workbook": {
+  "fileName": "État de stock",
+  "activeSheetIndex": 0,
+  "selection": "A1",
+  "sheets": [
+   {
+    "name": "Feuil1",
+    "columnWidths": {
+     "A": 110,
+     "B": 75,
+     "C": 75,
+     "D": 85,
+     "E": 120,
+     "F": 95,
+     "G": 100,
+     "I": 165,
+     "J": 100
+    },
+    "cells": {
+     "I1": {
+      "v": "Quantité à commander",
+      "format": {
+       "bold": true
+      }
+     },
+     "I2": {
+      "v": "Montant de la commande",
+      "format": {
+       "bold": true
+      }
+     },
+     "A1": {
+      "v": "Référence",
+      "format": {
+       "bold": true
+      }
+     },
+     "B1": {
+      "v": "Stock",
+      "format": {
+       "bold": true
+      }
+     },
+     "C1": {
+      "v": "Seuil",
+      "format": {
+       "bold": true
+      }
+     },
+     "D1": {
+      "v": "Prix U.",
+      "format": {
+       "bold": true
+      }
+     },
+     "E1": {
+      "v": "À commander",
+      "format": {
+       "bold": true
+      }
+     },
+     "F1": {
+      "v": "Quantité",
+      "format": {
+       "bold": true
+      }
+     },
+     "G1": {
+      "v": "Montant",
+      "format": {
+       "bold": true
+      }
+     },
+     "A2": {
+      "v": "PAP-A4"
+     },
+     "B2": {
+      "v": 12
+     },
+     "C2": {
+      "v": 20
+     },
+     "D2": {
+      "v": 4.9
+     },
+     "A3": {
+      "v": "TON-NR"
+     },
+     "B3": {
+      "v": 3
+     },
+     "C3": {
+      "v": 5
+     },
+     "D3": {
+      "v": 79.9
+     },
+     "A4": {
+      "v": "CLA-USB"
+     },
+     "B4": {
+      "v": 18
+     },
+     "C4": {
+      "v": 10
+     },
+     "D4": {
+      "v": 24.9
+     },
+     "A5": {
+      "v": "SOU-OPT"
+     },
+     "B5": {
+      "v": 6
+     },
+     "C5": {
+      "v": 15
+     },
+     "D5": {
+      "v": 12.9
+     },
+     "A6": {
+      "v": "ECR-24"
+     },
+     "B6": {
+      "v": 4
+     },
+     "C6": {
+      "v": 4
+     },
+     "D6": {
+      "v": 149.9
+     }
+    }
+   }
+  ]
+ },
+ "steps": [
+  {
+   "id": "M10-E02-01",
+   "consigne": "En **E2**, affichez `Oui` s'il faut **commander** cette référence — c'est-à-dire si le stock est passé sous son seuil — et `Non` sinon. La formule devra être recopiable.",
+   "setup": {
+    "selection": "E2"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "E2",
+    "accept": [
+     "=SI(B2<C2;\"Oui\";\"Non\")",
+     "=SI(B2>=C2;\"Non\";\"Oui\")",
+     "=SI(C2>B2;\"Oui\";\"Non\")",
+     "=SI(C2<=B2;\"Non\";\"Oui\")"
+    ],
+    "formulaMode": true
+   },
+   "aide": {
+    "text": "Attention à la frontière : un stock égal au seuil n'est pas encore en dessous."
+   }
+  },
+  {
+   "id": "M10-E02-02",
+   "consigne": "En **F2**, calculez la **quantité à commander** pour revenir au seuil, ou 0 s'il n'y a rien à commander.",
+   "setup": {
+    "selection": "F2"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "F2",
+    "accept": [
+     "=SI(B2<C2;C2-B2;0)",
+     "=SI(C2>B2;C2-B2;0)",
+     "=SI(B2>=C2;0;C2-B2)",
+     "=SI(C2<=B2;0;C2-B2)"
+    ],
+    "formulaMode": true
+   }
+  },
+  {
+   "id": "M10-E02-03",
+   "consigne": "En **G2**, calculez le **montant** de cette ligne de commande.",
+   "setup": {
+    "selection": "G2"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "G2",
+    "accept": [
+     "=F2*D2",
+     "=D2*F2"
+    ],
+    "formulaMode": true
+   }
+  },
+  {
+   "id": "M10-E02-04",
+   "consigne": "Complétez les **quatre références restantes**.",
+   "action": {
+    "type": "EXPECT_STATE",
+    "cells": {
+     "E3": {
+      "anyOf": [
+       "=SI(B3<C3;\"Oui\";\"Non\")",
+       "=SI(B3>=C3;\"Non\";\"Oui\")",
+       "=SI(C3>B3;\"Oui\";\"Non\")",
+       "=SI(C3<=B3;\"Non\";\"Oui\")"
+      ],
+      "v": "Oui"
+     },
+     "F3": {
+      "anyOf": [
+       "=SI(B3<C3;C3-B3;0)",
+       "=SI(C3>B3;C3-B3;0)",
+       "=SI(B3>=C3;0;C3-B3)",
+       "=SI(C3<=B3;0;C3-B3)"
+      ],
+      "v": 2
+     },
+     "G3": {
+      "anyOf": [
+       "=F3*D3",
+       "=D3*F3"
+      ],
+      "v": 159.8
+     },
+     "E6": {
+      "anyOf": [
+       "=SI(B6<C6;\"Oui\";\"Non\")",
+       "=SI(B6>=C6;\"Non\";\"Oui\")",
+       "=SI(C6>B6;\"Oui\";\"Non\")",
+       "=SI(C6<=B6;\"Non\";\"Oui\")"
+      ],
+      "v": "Non"
+     },
+     "F6": {
+      "anyOf": [
+       "=SI(B6<C6;C6-B6;0)",
+       "=SI(C6>B6;C6-B6;0)",
+       "=SI(B6>=C6;0;C6-B6)",
+       "=SI(C6<=B6;0;C6-B6)"
+      ],
+      "v": 0
+     },
+     "G6": {
+      "anyOf": [
+       "=F6*D6",
+       "=D6*F6"
+      ],
+      "v": 0.0
+     }
+    }
+   },
+   "aide": {
+    "text": "Sélectionnez les trois cellules de la première ligne avant de recopier."
+   }
+  },
+  {
+   "id": "M10-E02-05",
+   "consigne": "En **J1**, calculez la **quantité totale** à commander.",
+   "setup": {
+    "selection": "J1"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "J1",
+    "accept": [
+     "=SOMME(F2:F6)",
+     "=F2+F3+F4+F5+F6"
+    ],
+    "formulaMode": true
+   }
+  },
+  {
+   "id": "M10-E02-06",
+   "consigne": "En **J2**, calculez le **montant total** de la commande.",
+   "setup": {
+    "selection": "J2"
+   },
+   "action": {
+    "type": "TYPE",
+    "target": "J2",
+    "accept": [
+     "=SOMME(G2:G6)",
+     "=G2+G3+G4+G5+G6"
+    ],
+    "formulaMode": true
+   }
+  },
+  {
+   "id": "M10-E02-07",
+   "consigne": "Contrôle : sélectionnez la colonne des **quantités** et vérifiez que la somme affichée en bas correspond à votre total.",
+   "action": {
+    "type": "DRAG_RANGE",
+    "range": "F2:F6"
+   },
+   "aide": {
+    "text": "Les cinq quantités, sans l'en-tête."
+   }
+  }
+ ]
+}

@@ -1,0 +1,198 @@
+{
+  "schemaVersion": 1,
+  "title": "Exercice · Remplir sans la souris",
+  "mode": "EXERCISE",
+  "moduleTitle": "Sélectionner une cellule, une plage de cellules",
+  "intro": {
+    "title": "À VOUS",
+    "body": "Une colonne, une ligne, deux calculs — et le moins de clics possible."
+  },
+  "outro": {
+    "body": "Exercice terminé."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ],
+    "sheetCount": 1
+  },
+  "workbook": {
+    "fileName": "Releve-compteurs-T2.xlsx",
+    "activeSheetIndex": 0,
+    "selection": "B4",
+    "sheets": [
+      {
+        "name": "T2",
+        "columnWidths": {
+          "A": 150
+        },
+        "cells": {
+          "A1": {
+            "v": "RELEVÉ DES COMPTEURS — TRIMESTRE 2",
+            "format": {
+              "bold": true
+            }
+          },
+          "A3": {
+            "v": "Site",
+            "format": {
+              "bold": true
+            }
+          },
+          "B3": {
+            "v": "Avril",
+            "format": {
+              "bold": true
+            }
+          },
+          "C3": {
+            "v": "Mai",
+            "format": {
+              "bold": true
+            }
+          },
+          "A4": {
+            "v": "Site Nord"
+          },
+          "C4": {
+            "v": 142
+          },
+          "A5": {
+            "v": "Site Sud"
+          },
+          "C5": {
+            "v": 117
+          },
+          "A6": {
+            "v": "Site Est"
+          },
+          "C6": {
+            "v": 136
+          },
+          "A9": {
+            "v": "TOTAL",
+            "format": {
+              "bold": true
+            }
+          },
+          "A10": {
+            "v": "PLUS FORT RELEVÉ",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M03-E02-01",
+      "consigne": "Renseignez les trois relevés d'**avril**, de haut en bas : **151** pour le site Nord, **123** pour le site Sud, **148** pour le site Est.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "B4": {
+            "v": 151
+          },
+          "B5": {
+            "v": 123
+          },
+          "B6": {
+            "v": 148
+          }
+        }
+      },
+      "aide": {
+        "text": "Une touche de validation descend d'une cellule : vous n'avez pas besoin de la souris."
+      }
+    },
+    {
+      "id": "M03-E02-02",
+      "consigne": "Un quatrième site ouvre en ligne 7 : **Site Ouest**, **104** en avril, **112** en mai. Renseignez la ligne entière.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "A7": {
+            "v": "Site Ouest"
+          },
+          "B7": {
+            "v": 104
+          },
+          "C7": {
+            "v": 112
+          }
+        }
+      },
+      "aide": {
+        "text": "Pour avancer vers la droite, une autre touche de validation que celle qui descend."
+      }
+    },
+    {
+      "id": "M03-E02-03",
+      "consigne": "Atteignez la cellule du **total d'avril** sans faire défiler la feuille ni cliquer dans la grille.",
+      "action": {
+        "type": "GOTO_REF",
+        "ref": "B9"
+      },
+      "aide": {
+        "text": "Une zone de la fenêtre accepte une adresse de cellule."
+      }
+    },
+    {
+      "id": "M03-E02-04",
+      "consigne": "Totalisez les **quatre relevés d'avril** dans cette cellule.",
+      "action": {
+        "type": "TYPE",
+        "target": "B9",
+        "accept": [
+          "=SOMME(B4:B7)",
+          "=B4+B5+B6+B7"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Attention à inclure le nouveau site."
+      },
+      "feedback": "526 en avril."
+    },
+    {
+      "id": "M03-E02-05",
+      "consigne": "En **B10**, affichez le **plus fort relevé** d'avril.",
+      "action": {
+        "type": "TYPE",
+        "target": "B10",
+        "accept": [
+          "=MAX(B4:B7)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Ce n'est pas une somme."
+      },
+      "feedback": "151, le site Nord."
+    },
+    {
+      "id": "M03-E02-06",
+      "consigne": "Terminez : totalisez aussi le mois de **mai** en C9.",
+      "action": {
+        "type": "TYPE",
+        "target": "C9",
+        "accept": [
+          "=SOMME(C4:C7)",
+          "=C4+C5+C6+C7"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "La même formule, une colonne plus loin."
+      },
+      "feedback": "507 en mai."
+    }
+  ]
+}

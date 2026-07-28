@@ -1,0 +1,192 @@
+{
+  "schemaVersion": 1,
+  "title": "Exercice · Se servir des zones de la fenêtre",
+  "mode": "EXERCISE",
+  "moduleTitle": "Prise en main",
+  "intro": {
+    "title": "À VOUS",
+    "body": "Cinq gestes, chacun dans une zone différente de la fenêtre."
+  },
+  "outro": {
+    "body": "Exercice terminé."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ],
+    "sheetCount": 1
+  },
+  "workbook": {
+    "fileName": "Stock-atelier.xlsx",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Semaine 14",
+        "columnWidths": {
+          "A": 160
+        },
+        "cells": {
+          "A1": {
+            "v": "STOCK ATELIER — SEMAINE 14",
+            "format": {
+              "bold": true
+            }
+          },
+          "A3": {
+            "v": "Article",
+            "format": {
+              "bold": true
+            }
+          },
+          "B3": {
+            "v": "Entrées",
+            "format": {
+              "bold": true
+            }
+          },
+          "C3": {
+            "v": "Sorties",
+            "format": {
+              "bold": true
+            }
+          },
+          "A4": {
+            "v": "Vis inox 4×30"
+          },
+          "B4": {
+            "v": 320
+          },
+          "C4": {
+            "v": 180
+          },
+          "A5": {
+            "v": "Chevilles 8 mm"
+          },
+          "B5": {
+            "v": 250
+          },
+          "C5": {
+            "v": 210
+          },
+          "A6": {
+            "v": "Colliers de serrage"
+          },
+          "B6": {
+            "v": 140
+          },
+          "C6": {
+            "v": 95
+          },
+          "A7": {
+            "v": "Joints caoutchouc"
+          },
+          "B7": {
+            "v": 90
+          },
+          "C7": {
+            "v": 75
+          },
+          "A9": {
+            "v": "TOTAL",
+            "format": {
+              "bold": true
+            }
+          },
+          "B9": {
+            "f": "=SOMME(B4:B7)"
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M01-E03-01",
+      "consigne": "Rendez-vous en **C9** sans utiliser la souris sur la grille.",
+      "action": {
+        "type": "GOTO_REF",
+        "ref": "C9"
+      },
+      "aide": {
+        "text": "Une zone de la fenêtre accepte une adresse de cellule et vous y emmène."
+      }
+    },
+    {
+      "id": "M01-E03-02",
+      "consigne": "Complétez ce total : **C9** doit donner le cumul des sorties.",
+      "action": {
+        "type": "TYPE",
+        "target": "C9",
+        "accept": [
+          "=SOMME(C4:C7)",
+          "=C4+C5+C6+C7"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "La colonne B a déjà son total : faites le même pour la colonne C."
+      },
+      "feedback": "560 sorties sur la semaine."
+    },
+    {
+      "id": "M01-E03-03",
+      "consigne": "Placez-vous sur la cellule qui contient le **total des entrées** et vérifiez sa formule.",
+      "action": {
+        "type": "CLICK_CELL",
+        "cell": "B9"
+      },
+      "aide": {
+        "text": "Le contenu réel d'une cellule se lit ailleurs que dans la cellule."
+      },
+      "feedback": "`=SOMME(B4:B7)`, soit 800 entrées."
+    },
+    {
+      "id": "M01-E03-04",
+      "consigne": "Sans écrire de formule, obtenez la **moyenne des entrées** : sélectionnez les quatre valeurs et lisez le résultat.",
+      "action": {
+        "type": "DRAG_RANGE",
+        "range": "B4:B7"
+      },
+      "aide": {
+        "text": "La zone du bas de la fenêtre affiche déjà somme, moyenne et nombre."
+      },
+      "feedback": "200 en moyenne."
+    },
+    {
+      "id": "M01-E03-05",
+      "consigne": "Sélectionnez **toute la colonne des articles** d'un seul clic.",
+      "action": {
+        "type": "SELECT_COLUMN",
+        "column": "A"
+      },
+      "aide": {
+        "text": "Un clic suffit, mais pas dans la grille."
+      }
+    },
+    {
+      "id": "M01-E03-06",
+      "consigne": "Terminez en **centrant la ligne d'en-têtes** avec le ruban.",
+      "action": {
+        "type": "EXPECT_FORMAT",
+        "cells": {
+          "A3": {
+            "hAlign": "center"
+          },
+          "C3": {
+            "hAlign": "center"
+          }
+        }
+      },
+      "aide": {
+        "text": "Sélectionnez la ligne 3, puis cherchez le groupe Alignement."
+      },
+      "feedback": "Six gestes, six zones de la fenêtre."
+    }
+  ]
+}

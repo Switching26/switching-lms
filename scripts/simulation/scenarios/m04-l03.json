@@ -1,0 +1,255 @@
+{
+  "schemaVersion": 1,
+  "title": "Modifier la largeur d'une colonne",
+  "mode": "LESSON",
+  "moduleTitle": "Les lignes et les colonnes",
+  "intro": {
+    "title": "FAIRE DE LA LARGEUR",
+    "body": "Une colonne trop étroite ne perd rien : elle cache. Un texte se fait tronquer, un nombre se transforme en série de dièses. Trois gestes suffisent à régler ça définitivement."
+  },
+  "outro": {
+    "body": "Vous savez élargir une colonne à l'œil, l'ajuster automatiquement, ou lui donner une largeur exacte."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ],
+    "sheetCount": 1
+  },
+  "workbook": {
+    "fileName": "Inventaire-materiel.xlsx",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Matériel",
+        "columnWidths": {
+          "A": 70,
+          "D": 60
+        },
+        "cells": {
+          "A1": {
+            "v": "INVENTAIRE DU MATÉRIEL",
+            "format": {
+              "bold": true
+            }
+          },
+          "A3": {
+            "v": "Désignation",
+            "format": {
+              "bold": true
+            }
+          },
+          "B3": {
+            "v": "Quantité",
+            "format": {
+              "bold": true
+            }
+          },
+          "C3": {
+            "v": "Prix unitaire",
+            "format": {
+              "bold": true
+            }
+          },
+          "D3": {
+            "v": "Valeur",
+            "format": {
+              "bold": true
+            }
+          },
+          "A4": {
+            "v": "Ordinateur portable 14 pouces"
+          },
+          "B4": {
+            "v": 6
+          },
+          "C4": {
+            "v": 749
+          },
+          "A5": {
+            "v": "Vidéoprojecteur de salle"
+          },
+          "B5": {
+            "v": 2
+          },
+          "C5": {
+            "v": 620
+          },
+          "A6": {
+            "v": "Écran 27 pouces"
+          },
+          "B6": {
+            "v": 8
+          },
+          "C6": {
+            "v": 215
+          },
+          "A7": {
+            "v": "Station d'accueil USB-C"
+          },
+          "B7": {
+            "v": 12
+          },
+          "C7": {
+            "v": 145
+          },
+          "A9": {
+            "v": "TOTAL",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M04-L03-01",
+      "consigne": "Regardez la colonne **A** : les désignations sont coupées. Excel n'a rien perdu — le texte est entier dans la cellule, c'est la place qui manque pour l'afficher. Avec un **nombre**, le symptôme est différent et plus spectaculaire : la cellule se remplit de **#####**, parce qu'un nombre tronqué serait un mensonge.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M04-L03-02",
+      "consigne": "Pour agir sur une colonne, il faut d'abord la désigner. ==Cliquez sur la lettre **A**== dans l'en-tête.",
+      "action": {
+        "type": "SELECT_COLUMN",
+        "column": "A"
+      },
+      "aide": {
+        "text": "La lettre A, dans la bande grise au-dessus de la grille.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M04-L03-03",
+      "consigne": "==Ouvrez **Format** dans le groupe Cellules et choisissez **Largeur de colonne**==.",
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "acc-format-largeur"
+      },
+      "aide": {
+        "text": "Le bouton Format se trouve dans le groupe Cellules, à droite du ruban Accueil.",
+        "showTarget": true
+      },
+      "feedback": "Les désignations tiennent enfin en entier. Rien n'a été modifié dans les cellules : seule leur largeur d'affichage a changé."
+    },
+    {
+      "id": "M04-L03-04",
+      "consigne": "Trois méthodes, à choisir selon le besoin. **Glisser** le bord droit de l'en-tête règle à l'œil, c'est le plus rapide. **Double-cliquer** sur ce même bord déclenche l'**ajustement automatique** : la colonne prend exactement la largeur de sa plus longue valeur. Et **Format > Largeur de colonne** demande un chiffre — la seule façon de donner la même largeur à plusieurs colonnes.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M04-L03-05",
+      "consigne": "Complétons le tableau. En **D4**, ==calculez la valeur du stock== d'ordinateurs : la quantité fois le prix unitaire.",
+      "setup": {
+        "selection": "D4"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "D4",
+        "accept": [
+          "=B4*C4",
+          "=C4*B4"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Deux cellules multipliées, avec l'astérisque.",
+        "showTarget": true
+      },
+      "feedback": "4 494 €. La colonne D est trop étroite pour ce montant : c'est ce qui va nous servir."
+    },
+    {
+      "id": "M04-L03-06",
+      "consigne": "==Complétez les trois valeurs suivantes==, de D5 à D7.",
+      "setup": {
+        "selection": "D5"
+      },
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "D5": {
+            "v": 1240
+          },
+          "D6": {
+            "v": 1720
+          },
+          "D7": {
+            "v": 1740
+          }
+        }
+      },
+      "aide": {
+        "text": "La même formule, recopiée vers le bas : la poignée de recopie fait le travail."
+      },
+      "feedback": "Selon la largeur de la colonne, vous voyez peut-être des dièses au lieu des montants. Le calcul est juste : c'est l'affichage qui est à l'étroit."
+    },
+    {
+      "id": "M04-L03-07",
+      "consigne": "==Cliquez sur la lettre **D**== pour sélectionner la colonne des valeurs.",
+      "action": {
+        "type": "SELECT_COLUMN",
+        "column": "D"
+      },
+      "aide": {
+        "text": "La quatrième lettre de l'en-tête.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M04-L03-08",
+      "consigne": "==Élargissez-la avec **Format > Largeur de colonne**==.",
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "acc-format-largeur"
+      },
+      "aide": {
+        "text": "Le même bouton que pour la colonne A.",
+        "showTarget": true
+      },
+      "feedback": "Les dièses disparaissent et les montants s'affichent. Retenez-le : **des dièses ne sont jamais une erreur de calcul**, seulement une colonne trop étroite."
+    },
+    {
+      "id": "M04-L03-09",
+      "consigne": "En **D9**, ==totalisez la valeur de l'inventaire==.",
+      "setup": {
+        "selection": "D9"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "D9",
+        "accept": [
+          "=SOMME(D4:D7)",
+          "=D4+D5+D6+D7"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Une somme sur les quatre valeurs.",
+        "showTarget": true
+      },
+      "feedback": "9 194 € de matériel."
+    },
+    {
+      "id": "M04-L03-10",
+      "consigne": "Deux conseils pour finir. Pour **uniformiser** plusieurs colonnes, sélectionnez-les toutes — au besoin avec Ctrl + clic sur leurs lettres — puis réglez la largeur une seule fois : elles l'adoptent ensemble. Et gardez en tête l'impression : élargir sans compter finit par faire déborder le tableau sur une deuxième page en largeur, ce qui le rend illisible sur papier.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    }
+  ]
+}

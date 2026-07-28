@@ -119,6 +119,10 @@ export default function SimulationChrome({
         type="button"
         title={isDisabled ? disabled[id] : label}
         aria-label={label}
+        // Identifiant stable du contrôle : plusieurs boutons partagent le même
+        // libellé (« Format », « Effacer », « Supprimer » selon l'onglet), ce
+        // qui rend l'aria-label ambigu pour piloter le ruban en test.
+        data-control={id}
         disabled={isDisabled}
         onClick={() => !isDisabled && onControl(id)}
         className={[

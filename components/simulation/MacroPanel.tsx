@@ -18,7 +18,7 @@
  * `data-control` pour être pilotable en test, y compris les champs de saisie.
  */
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import type { MacroState } from "@/lib/simulation/types"
 import {
   EMPLACEMENTS,
@@ -46,6 +46,15 @@ type Props = {
    * visible mais inactif. Un bouton qui ne fait rien serait pire.
    */
   onSupprimer?: (nom: string) => void
+  /**
+   * Commande équivalente déclenchée DEPUIS LE RUBAN (onglet Développeur). Le
+   * ruban d'Excel et ce panneau proposent les mêmes gestes ; sans ce relais,
+   * « Références relatives » aurait deux vérités — la case cochée au ruban et
+   * décochée ici — et l'apprenant enregistrerait en absolu en croyant le
+   * contraire. `nonce` doit changer à chaque clic pour qu'un même bouton pressé
+   * deux fois agisse deux fois.
+   */
+  commande?: { nonce: number; controle: string }
 }
 
 /* ═══════════ COLORATION ═══════════ */
@@ -161,6 +170,7 @@ export default function MacroPanel({
   onExecuter,
   onRaccourci,
   onSupprimer,
+  commande,
 }: Props) {
   const [dialogue, setDialogue] = useState<"enregistrer" | "options" | null>(null)
   const [editeurOuvert, setEditeurOuvert] = useState(false)
@@ -187,6 +197,15 @@ export default function MacroPanel({
     setErreur(null)
     setDialogue("enregistrer")
   }
+
+  // Relais du ruban. On ne réagit qu'au `nonce` : réagir à `controle` laisserait
+  // un même bouton pressé deux fois de suite sans effet la seconde fois.
+  useEffect(() => {
+    if (!commande) return
+    if (commande.controle === "dev-enregistrer-macro" && !enCours) ouvrirEnregistrer()
+    if (commande.controle === "dev-references-relatives" && !enCours) setRelatif((r) => !r)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [commande?.nonce])
 
   const validerEnregistrer = () => {
     const messageNom = validerNomMacro(nom)

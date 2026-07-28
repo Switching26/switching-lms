@@ -93,7 +93,11 @@ export default function PageLayoutLayer({
   return (
     <>
       {/* ── Annotations sur la grille ─────────────────────────────────────── */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden={vue === "normal"}>
+      {/* `z-10` est indispensable : Univer rend sur un canvas OPAQUE qui, à égalité
+          de plan, passe devant. Sans cela ni les pointillés de rupture ni les
+          feuilles de papier n'étaient visibles, et la zone d'en-tête cliquable
+          restait derrière le canvas — donc inatteignable. */}
+      <div className="pointer-events-none absolute inset-0 z-10 overflow-hidden" aria-hidden={vue === "normal"}>
         {vue === "normal" && <RupturesDiscretes pageSetup={pageSetup} pages={pages} x={x} y={y} />}
         {vue === "mise-en-page" && (
           <FeuillesDePapier
@@ -294,10 +298,17 @@ function FeuillesDePapier({
             />
 
             {/* Zones d'en-tête et de pied, cliquables : c'est l'« autre chemin »
-                du chapitre 4, celui qui n'ouvre aucune boîte de dialogue. */}
+                du chapitre 4, celui qui n'ouvre aucune boîte de dialogue.
+
+                La bande d'en-tête de la PREMIÈRE page est ramenée sous les
+                en-têtes de colonnes. À sa place exacte, elle tomberait au-dessus
+                de la ligne 1 — donc hors du cadre de la grille — et la leçon
+                « cliquez sur la zone Cliquez pour ajouter un en-tête » n'aurait
+                aucune cible atteignable. Elle recouvre alors les premières lignes,
+                ce qui est déjà le parti pris de cette couche pour les marges. */}
             <ZoneEntete
               left={gauche}
-              top={haut - m.haut}
+              top={Math.max(metrique.offsetY, haut - m.haut)}
               width={droite - gauche}
               height={m.haut}
               textes={entete}

@@ -23,8 +23,63 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import dynamic from "next/dynamic"
 import type { GridApi } from "./ExcelGrid"
 import SimulationChrome from "./SimulationChrome"
-import type { SimulationScenario, SimulationStep, RibbonTab } from "@/lib/simulation/types"
-import { parseRange } from "@/lib/simulation/grid"
+import ChartLayer from "./ChartLayer"
+import PivotLayer from "./PivotLayer"
+import PageLayoutLayer from "./PageLayoutLayer"
+import MacroPanel from "./MacroPanel"
+import type {
+  ChartState,
+  ChartType,
+  MacroState,
+  PageSetupState,
+  PivotAgg,
+  SimulationScenario,
+  SimulationStep,
+  RibbonTab,
+} from "@/lib/simulation/types"
+import { cellsOf, columnIndexToLetter, formatRange, parseRange } from "@/lib/simulation/grid"
+import {
+  CADRE_DEFAUT,
+  creerDepuisPlage,
+  creerGraphique,
+  modifierGraphique,
+  selectionnerElement,
+  type PatchGraphique,
+} from "@/lib/simulation/chart"
+import {
+  aggParDefaut,
+  calculerTcd,
+  champsDisponibles,
+  creerTcd,
+  lecturesTcd,
+  modifierTcd,
+  posterTcd,
+  type EtatTcd,
+  type PatchTcd,
+  type PosePivot,
+  type TableauCroise,
+  type ZoneTcd,
+} from "@/lib/simulation/pivot"
+import {
+  REGLAGES_PAR_DEFAUT,
+  appliquerReglages,
+  calculerPages,
+  type Pagination,
+} from "@/lib/simulation/pagesetup"
+import {
+  analyserCode,
+  arreterEnregistrement,
+  demarrerEnregistrement,
+  executerMacro,
+  genererCode,
+  gesteDepuisControle,
+  gesteDepuisSaisie,
+  transcrire,
+  type EtatEnregistrement,
+  type GesteMacro,
+  type OptionsMacro,
+  type PiloteMacro,
+} from "@/lib/simulation/macro"
 import { validateStep, computeScore, type ObservedAction, type Verdict } from "@/lib/simulation/validate"
 
 // Univer casse à l'import côté serveur : le chargement différé est obligatoire,
@@ -108,6 +163,108 @@ function Consigne({ text }: { text: string }) {
   return <p className="text-[13.5px] leading-relaxed text-neutral-800">{nodes}</p>
 }
 
+/* ═══════════ COUCHES MONTÉES À LA DEMANDE ═══════════ */
+
+type Besoins = { graphique: boolean; tcd: boolean; miseEnPage: boolean; macros: boolean }
+
+/**
+ * De quelles couches ce scénario a-t-il besoin ?
+ *
+ * On le déduit de TROIS sources — le classeur de départ, les onglets déclarés et
+ * ce que les étapes demandent — plutôt que de monter les quatre couches partout.
+ * Un module qui n'enseigne que des formules ne doit voir ni volet de champs, ni
+ * feuille de papier : les 78 chapitres écrits avant ces couches doivent rendre
+ * exactement comme avant.
+ *
+ * L'onglet `affichage` est volontairement ABSENT de la liste : il sert aussi à
+ * figer les volets, et trois anciens chapitres le déclarent sans avoir la moindre
+ * mise en page à montrer.
+ */
+function besoinsDe(scenario: SimulationScenario): Besoins {
+  const b: Besoins = {
+    graphique: Boolean(scenario.workbook.charts?.length),
+    tcd: Boolean(scenario.workbook.pivots?.length),
+    miseEnPage: Boolean(scenario.workbook.pageSetup),
+    macros: Boolean(scenario.workbook.macros?.length),
+  }
+  for (const t of scenario.ribbon) {
+    if (t === "graph-creation" || t === "graph-mise-en-forme" || t === "graph-analyse") b.graphique = true
+    if (t === "tableau-creation") b.tcd = true
+    if (t === "mise-en-page" || t === "entete-pied") b.miseEnPage = true
+    if (t === "developpeur") b.macros = true
+  }
+  for (const s of scenario.steps) {
+    if (s.setup?.chart || s.setup?.chartEdit) b.graphique = true
+    if (s.setup?.pivot || s.setup?.pivotEdit) b.tcd = true
+    if (s.setup?.pageSetup) b.miseEnPage = true
+    if (s.setup?.macro) b.macros = true
+    const t = s.action.type
+    if (t === "EXPECT_CHART" || t === "SELECT_CHART_ELEMENT") b.graphique = true
+    if (t === "EXPECT_PIVOT") b.tcd = true
+    if (t === "EXPECT_PAGE_SETUP") b.miseEnPage = true
+    if (t === "EXPECT_MACRO" || t === "RECORD_MACRO") b.macros = true
+  }
+  return b
+}
+
+/**
+ * Étendue réellement occupée par la feuille active, en A1. La pagination en a
+ * besoin pour savoir où le tableau s'arrête : sans elle, elle paginerait le
+ * million de lignes qu'Univer offre et annoncerait des milliers de pages.
+ */
+function etendueUtile(scenario: SimulationScenario): string {
+  const feuille = scenario.workbook.sheets[scenario.workbook.activeSheetIndex ?? 0]
+  let maxRow = 0
+  let maxCol = 0
+  for (const ref of Object.keys(feuille?.cells ?? {})) {
+    const p = parseRange(ref)
+    if (!p) continue
+    maxRow = Math.max(maxRow, p.endRow)
+    maxCol = Math.max(maxCol, p.endCol)
+  }
+  return formatRange({ startRow: 0, startCol: 0, endRow: maxRow, endCol: maxCol })
+}
+
+/** Type de graphique attaché à un bouton de la galerie du ruban. */
+const TYPE_PAR_CONTROLE: Record<string, ChartType> = {
+  "ins-graph-histogramme": "histogramme",
+  "ins-graph-barres": "barres",
+  "ins-graph-courbes": "courbes",
+  "ins-graph-secteurs": "secteurs",
+  "ins-graph-aires": "aires",
+  "ins-graph-nuage": "nuage",
+}
+
+/** Élément du graphique que chaque bouton « Ajouter un élément » fait basculer. */
+const ELEMENT_PAR_CONTROLE: Record<string, keyof NonNullable<ChartState["elements"]>> = {
+  "ins-graph-element-titre": "titre",
+  "ins-graph-element-titres-axes": "titresAxes",
+  "ins-graph-element-legende": "legende",
+  "ins-graph-element-etiquettes": "etiquettes",
+  "ins-graph-element-quadrillage": "quadrillage",
+}
+
+/** Index de la série sélectionnée, quand la sélection porte bien sur une série. */
+function serieSelectionnee(chart: ChartState | null): number | null {
+  const m = /^(?:serie|point):(\d+)/.exec(chart?.selectedElement ?? "")
+  return m ? Number(m[1]) : null
+}
+
+/**
+ * Cadre d'un graphique créé sans position déclarée : juste à DROITE de la plage
+ * source. Le cadre par défaut du modèle recouvre les premières colonnes, donc les
+ * données elles-mêmes — et un exercice qui demande « créez maintenant un second
+ * graphique sur la même plage » devenait injouable, la plage étant sous le
+ * graphique. Un scénario qui déclare son propre cadre garde le dernier mot.
+ */
+function cadreHorsSource(grid: GridApi, source: string): NonNullable<ChartState["frame"]> {
+  const aire = parseRange(source)
+  if (!aire) return { ...CADRE_DEFAUT }
+  const apres = grid.getCellRect(`${columnIndexToLetter(aire.endCol + 1)}1`)
+  const x = apres ? Math.round(apres.left) + 8 : CADRE_DEFAUT.x
+  return { ...CADRE_DEFAUT, x, y: CADRE_DEFAUT.y }
+}
+
 export default function SimulationPlayer({
   chapterId,
   mode,
@@ -133,6 +290,55 @@ export default function SimulationPlayer({
   const [nameBoxDraft, setNameBoxDraft] = useState<string | null>(null)
   const [sheets, setSheets] = useState<Array<{ name: string; active: boolean }>>([])
 
+  /* ── Modèles des modules 13, 17, 18, 20 et 27 ──────────────────────────── */
+
+  const besoins = useMemo(() => besoinsDe(scenario), [scenario])
+  const etendue = useMemo(() => etendueUtile(scenario), [scenario])
+
+  // Chaque modèle est doublé d'une référence. `handleControl` et les rappels des
+  // couches sont mémoïsés sur `handleAction` seul : sans ces références ils
+  // liraient l'état du premier rendu, et le deuxième clic repartirait du premier
+  // graphique. Le même schéma que `stepRef`, pour la même raison.
+  const [graphique, setGraphique] = useState<ChartState | null>(null)
+  const graphiqueRef = useRef<ChartState | null>(null)
+  const poserGraphique = useCallback((g: ChartState | null) => {
+    graphiqueRef.current = g
+    setGraphique(g)
+  }, [])
+
+  const [tcd, setTcd] = useState<EtatTcd | null>(null)
+  const tcdRef = useRef<EtatTcd | null>(null)
+  // Plage occupée par la pose précédente : `posterTcd` s'en sert pour effacer ce
+  // que le nouveau tableau n'occupe plus. Sans elle, un tableau qui rétrécit
+  // laisse des chiffres fantômes dans la feuille.
+  const posePivotRef = useRef<PosePivot | null>(null)
+
+  const [reglages, setReglages] = useState<PageSetupState>(() =>
+    appliquerReglages(REGLAGES_PAR_DEFAUT, scenario.workbook.pageSetup ?? {}),
+  )
+  const reglagesRef = useRef<PageSetupState>(reglages)
+  const poserReglages = useCallback((r: PageSetupState) => {
+    reglagesRef.current = r
+    setReglages(r)
+  }, [])
+
+  const [macros, setMacros] = useState<MacroState[]>(() =>
+    (scenario.workbook.macros ?? []).map((m) => ({ ...m, statements: [...m.statements] })),
+  )
+  const macrosRef = useRef<MacroState[]>(macros)
+  const [macroCourante, setMacroCourante] = useState<string | null>(
+    () => scenario.workbook.macros?.[0]?.name ?? null,
+  )
+  const macroCouranteRef = useRef<string | null>(macroCourante)
+  // Code affiché dans l'éditeur. Il vit à part du modèle : l'apprenant le
+  // modifie librement, et ce n'est qu'à l'exécution qu'on le relit.
+  const [codeMacro, setCodeMacro] = useState("")
+  const codeMacroRef = useRef("")
+  const [enregistrement, setEnregistrement] = useState<EtatEnregistrement | null>(null)
+  const enregistrementRef = useRef<EtatEnregistrement | null>(null)
+  // Relais ruban → panneau des macros (voir la prop `commande` de MacroPanel).
+  const [commandeMacro, setCommandeMacro] = useState<{ nonce: number; controle: string } | null>(null)
+
   const gridRef = useRef<GridApi | null>(null)
   // Compteurs à envoyer au serveur : cumulés puis remis à zéro à chaque envoi.
   const sessionSignaleeRef = useRef(false)
@@ -140,10 +346,43 @@ export default function SimulationPlayer({
   // Réussite au premier essai, par étape : c'est la base du score d'évaluation.
   const firstTryRef = useRef<Record<string, boolean>>({})
   const attemptedRef = useRef<Set<string>>(new Set())
+  /**
+   * Étape déjà réussie, en attente du changement d'écran. Un même geste produit
+   * parfois DEUX observations — un clic de panneau signale le bouton puis le
+   * réglage obtenu — et la seconde, arrivant après la réussite, comptait une
+   * faute sur une étape pourtant validée.
+   */
+  const resoluRef = useRef(false)
 
   const step: SimulationStep | undefined = steps[index]
   const stepRef = useRef<SimulationStep | undefined>(step)
   stepRef.current = step
+
+  /* ── Lecture du classeur pour les modèles ──────────────────────────────── */
+
+  /** Lecture d'une cellule, signature attendue par le moteur de tableaux croisés. */
+  const lireCellule = useCallback((ref: string): unknown => gridRef.current?.getValue(ref) ?? null, [])
+
+  /** Lecture d'une plage à plat, ligne par ligne : ce qu'attend le modèle graphique. */
+  const lirePlage = useCallback(
+    (ref: string): unknown[] => cellsOf(ref).map((c) => gridRef.current?.getValue(c) ?? null),
+    [],
+  )
+
+  /**
+   * Pose le tableau croisé dans la feuille. `effacer` est OBLIGATOIRE : poser un
+   * filtre de rapport décale le tableau de deux lignes comme dans Excel, et sans
+   * effacement la pose précédente laisserait des chiffres fantômes.
+   */
+  const poserTcdDansFeuille = useCallback((etat: EtatTcd | null) => {
+    tcdRef.current = etat
+    setTcd(etat)
+    const grid = gridRef.current
+    if (!etat || !grid) return
+    const pose = posterTcd(etat, calculerTcd(etat), { effacer: posePivotRef.current?.range })
+    posePivotRef.current = pose
+    grid.applyCells(pose.cells)
+  }, [])
 
   // Onglet du ruban : l'étape peut en imposer un, mais l'apprenant doit pouvoir
   // en changer librement. Explorer le ruban n'est pas une faute.
@@ -165,6 +404,48 @@ export default function SimulationPlayer({
         grid.setSelection(s.setup.selection)
         setSelection(s.setup.selection)
       }
+
+      /* Modèles graphique / tableau croisé / impression / macro.
+       *
+       * Un `setup` de modèle décrit le RÉSULTAT du geste de l'étape — comme
+       * `setup.cf` décrit la règle que le bouton de mise en forme
+       * conditionnelle appliquera. On ne l'applique donc PAS à l'ouverture de
+       * l'étape quand c'est ce modèle qui sera jugé : l'étape serait répondue
+       * avant que l'apprenant n'ait rien fait, et n'importe quel réglage sans
+       * rapport la validerait ensuite. C'est exactement l'avertissement de la
+       * couche de mise en page : `onChange` propose, l'étape n'est satisfaite
+       * que par le geste attendu.
+       *
+       * Le cas inverse — un `setup` de modèle sur une étape qui juge autre
+       * chose — sert à planter le décor, et là on applique tout de suite.
+       */
+      const juge = s.action.type
+      if (s.setup?.chart && juge !== "EXPECT_CHART" && juge !== "CLICK_CONTROL") {
+        poserGraphique(creerGraphique(s.setup.chart))
+      }
+      if (s.setup?.chartEdit && graphiqueRef.current && juge !== "EXPECT_CHART" && juge !== "CLICK_CONTROL") {
+        poserGraphique(modifierGraphique(graphiqueRef.current, s.setup.chartEdit))
+      }
+      if (s.setup?.pivot && juge !== "EXPECT_PIVOT") {
+        poserTcdDansFeuille(creerTcd(s.setup.pivot, lireCellule))
+      }
+      if (s.setup?.pivotEdit && tcdRef.current && juge !== "EXPECT_PIVOT") {
+        poserTcdDansFeuille(modifierTcd(tcdRef.current, s.setup.pivotEdit, lireCellule))
+      }
+      if (s.setup?.pageSetup && juge !== "EXPECT_PAGE_SETUP") {
+        poserReglages(appliquerReglages(reglagesRef.current, s.setup.pageSetup))
+      }
+      if (s.setup?.macro && juge !== "EXPECT_MACRO") {
+        const m = s.setup.macro
+        const suite = macrosRef.current.some((x) => x.name === m.name)
+          ? macrosRef.current.map((x) => (x.name === m.name ? { ...x, ...m, statements: m.statements ?? x.statements } : x))
+          : [...macrosRef.current, { statements: [], ...m }]
+        macrosRef.current = suite
+        setMacros(suite)
+        macroCouranteRef.current = m.name
+        setMacroCourante(m.name)
+      }
+      resoluRef.current = false
       // Verrou d'édition, calibré selon ce que l'étape demande :
       //  - saisie ciblée : seule la cellule attendue est modifiable, ce qui évite
       //    qu'un apprenant remplisse une cellule hors sujet et casse la suite ;
@@ -197,13 +478,25 @@ export default function SimulationPlayer({
       setNameBoxDraft(null)
       setSheets(grid.getSheets())
     },
-    [mode],
+    [mode, lireCellule, poserGraphique, poserReglages, poserTcdDansFeuille],
   )
 
   const handleReady = useCallback(
     (api: GridApi) => {
       gridRef.current = api
       api.applyWorkbook(scenario.workbook)
+      // Les modèles déclarés dans le classeur existent AVANT la première étape :
+      // le module 17 ouvre sa première leçon sur un graphique déjà posé, et le
+      // module 20 sur un tableau croisé déjà calculé.
+      const g = scenario.workbook.charts?.[0]
+      if (g) poserGraphique(creerGraphique(g))
+      const p = scenario.workbook.pivots?.[0]
+      if (p) poserTcdDansFeuille(creerTcd(p, (ref) => api.getValue(ref)))
+      const m = scenario.workbook.macros?.[0]
+      if (m) {
+        codeMacroRef.current = genererCode(m)
+        setCodeMacro(codeMacroRef.current)
+      }
       setGridReady(true)
       applyStep(steps[index])
     },
@@ -278,7 +571,23 @@ export default function SimulationPlayer({
 
   const handleAction = useCallback(
     (observed: ObservedAction) => {
-      if (!step || finished) return
+      if (!step || finished || resoluRef.current) return
+
+      // L'enregistreur de macros écoute les gestes RÉELS, ceux que la grille
+      // signale déjà. Un second chemin d'observation finirait par transcrire
+      // autre chose que ce que l'apprenant a fait.
+      const enreg = enregistrementRef.current
+      if (enreg?.actif) {
+        let geste: GesteMacro | null = null
+        if (observed.kind === "typed") geste = gesteDepuisSaisie(observed.target, observed.text)
+        else if (observed.kind === "cellClick") geste = { kind: "select", ref: observed.cell }
+        else if (observed.kind === "dragRange") geste = { kind: "select", ref: observed.range }
+        if (geste) {
+          const suite = transcrire(enreg, geste)
+          enregistrementRef.current = suite
+          setEnregistrement(suite)
+        }
+      }
 
       // Reflet immédiat de la sélection dans la zone Nom et la barre de formule.
       if (observed.kind === "cellClick") {
@@ -318,6 +627,7 @@ export default function SimulationPlayer({
       const v = validateStep(step, enriched)
       if (v.ok) {
         if (!attemptedRef.current.has(step.id)) firstTryRef.current[step.id] = true
+        resoluRef.current = true
         setVerdict({ ok: true })
         // Petite pause pour que l'apprenant voie le résultat de son action avant
         // que l'écran ne change.
@@ -327,21 +637,386 @@ export default function SimulationPlayer({
 
       // Une action qui n'est simplement pas encore celle attendue (un clic de
       // repérage, par exemple) ne doit pas être comptée comme une faute.
+      //
+      // Les modèles des modules 13, 17, 18, 20 et 27 se valident sur leur ÉTAT,
+      // exactement comme `EXPECT_STATE` : un réglage se construit souvent en
+      // plusieurs gestes — centrer horizontalement PUIS verticalement, poser un
+      // champ en Filtres PUIS choisir sa valeur — et compter une faute à chaque
+      // état intermédiaire punirait un apprenant qui fait juste. On explique tout
+      // de même ce qui manque, quand le juge sait le dire.
+      const surEtat =
+        observed.kind === "stateChange" ||
+        observed.kind === "chartChange" ||
+        observed.kind === "pivotChange" ||
+        observed.kind === "pageSetupChange" ||
+        observed.kind === "macroChange"
+      // Se déplacer n'est pas se tromper : cliquer une cellule, sélectionner une
+      // plage ou sauter par la zone Nom ne compte comme faute que si l'étape
+      // jugeait précisément ce geste. Sans cela, l'apprenant qui atteint par la
+      // zone Nom une plage située hors de l'écran — le seul chemin praticable sur
+      // un tableau long — écopait d'une erreur pour s'être déplacé.
+      const navigation =
+        observed.kind === "cellClick" || observed.kind === "dragRange" || observed.kind === "gotoRef"
       const isRealMistake =
-        observed.kind !== "cellClick" &&
-        observed.kind !== "stateChange" &&
-        observed.kind !== "dragRange"
+        !navigation && !surEtat
           ? true
           : (observed.kind === "cellClick" && step.action.type === "CLICK_CELL") ||
-            (observed.kind === "dragRange" && step.action.type === "DRAG_RANGE")
+            (observed.kind === "dragRange" && step.action.type === "DRAG_RANGE") ||
+            (observed.kind === "gotoRef" && step.action.type === "GOTO_REF")
       if (isRealMistake) {
         attemptedRef.current.add(step.id)
         firstTryRef.current[step.id] = false
         pendingRef.current.errors += 1
         setVerdict(v)
+      } else if (surEtat && observed.kind !== "stateChange" && v.message) {
+        setVerdict(v)
       }
     },
     [step, finished, goNext],
+  )
+
+  /* ── Observations des modèles ──────────────────────────────────────────── */
+
+  /**
+   * Un geste sur un modèle produit DEUX observations possibles, et il faut
+   * n'émettre que celle que l'étape attend : quand elle juge le bouton, un
+   * `chartChange` la ferait échouer ; quand elle juge l'état, un `control`
+   * parasite en ferait autant. C'est la règle que suit déjà le tri.
+   */
+  const emisPourControle = useCallback(
+    (controlId: string | undefined): boolean => {
+      if (!controlId) return false
+      if (stepRef.current?.action.type !== "CLICK_CONTROL") return false
+      handleAction({ kind: "control", control: controlId, channel: "ribbon" })
+      return true
+    },
+    [handleAction],
+  )
+
+  const emettreGraphique = useCallback(
+    (controlId?: string) => {
+      if (emisPourControle(controlId)) return
+      handleAction({ kind: "chartChange", chart: graphiqueRef.current })
+    },
+    [emisPourControle, handleAction],
+  )
+
+  const emettreReglages = useCallback(
+    (controlId?: string) => {
+      if (emisPourControle(controlId)) return
+      handleAction({ kind: "pageSetupChange", pageSetup: reglagesRef.current })
+    },
+    [emisPourControle, handleAction],
+  )
+
+  const emettreTcd = useCallback(
+    (controlId?: string) => {
+      if (emisPourControle(controlId)) return
+      // Les cellules du tableau passent par les commandes d'Univer, qui
+      // s'appliquent de façon asynchrone : les relire tout de suite renvoie les
+      // chiffres d'avant la pose.
+      window.setTimeout(() => {
+        const attendu = stepRef.current?.action
+        const cells = attendu?.type === "EXPECT_PIVOT" ? attendu.pivot.cells : undefined
+        handleAction({
+          kind: "pivotChange",
+          pivot: tcdRef.current,
+          readings: cells ? lecturesTcd(Object.keys(cells), lireCellule) : {},
+        })
+      }, 260)
+    },
+    [emisPourControle, handleAction, lireCellule],
+  )
+
+  const emettreMacro = useCallback(
+    (controlId?: string) => {
+      if (emisPourControle(controlId)) return
+      window.setTimeout(() => {
+        const attendu = stepRef.current?.action
+        const veut = attendu?.type === "EXPECT_MACRO" ? attendu.macro : undefined
+        const liste = macrosRef.current
+        // Le juge compare un nom : sur un classeur à plusieurs macros, présenter
+        // la dernière touchée ferait échouer une étape qui parle de l'autre.
+        const nomme = veut?.name ? liste.find((m) => m.name.trim() === veut.name?.trim()) : undefined
+        const cible = nomme ?? liste.find((m) => m.name === macroCouranteRef.current) ?? liste[0] ?? null
+        const edite = cible && cible.name === macroCouranteRef.current && codeMacroRef.current
+        const readings: Record<string, { value: unknown }> = {}
+        for (const ref of Object.keys(veut?.effet ?? {})) readings[ref] = { value: lireCellule(ref) }
+        handleAction({
+          kind: "macroChange",
+          macro: cible,
+          code: edite ? codeMacroRef.current : cible ? genererCode(cible) : "",
+          readings,
+        })
+      }, 340)
+    },
+    [emisPourControle, handleAction, lireCellule],
+  )
+
+  /* ── Macros : enregistrement, exécution, options ───────────────────────── */
+
+  const demarrerMacro = useCallback(
+    (nom: string, options: OptionsMacro) => {
+      const r = demarrerEnregistrement(nom, {
+        ...options,
+        // La sélection au démarrage donne leur sens aux références relatives :
+        // c'est elle qui fait qu'une macro relative clôt le tableau de juillet
+        // ou celui d'août selon l'endroit où on la lance.
+        ancre: gridRef.current?.getSelection() || "A1",
+        existantes: macrosRef.current,
+      })
+      if (!r.ok) return
+      enregistrementRef.current = r.etat
+      setEnregistrement(r.etat)
+      handleAction({ kind: "recorder", state: "started" })
+    },
+    [handleAction],
+  )
+
+  const arreterMacro = useCallback(() => {
+    const e = enregistrementRef.current
+    if (!e) return
+    const macro = arreterEnregistrement(e)
+    enregistrementRef.current = null
+    setEnregistrement(null)
+    const suite = [...macrosRef.current.filter((m) => m.name !== macro.name), macro]
+    macrosRef.current = suite
+    setMacros(suite)
+    macroCouranteRef.current = macro.name
+    setMacroCourante(macro.name)
+    codeMacroRef.current = genererCode(macro)
+    setCodeMacro(codeMacroRef.current)
+    handleAction({ kind: "recorder", state: "stopped" })
+  }, [handleAction])
+
+  const executerMacroNommee = useCallback(
+    (nom: string) => {
+      const grid = gridRef.current
+      if (!grid) return
+      let macro = macrosRef.current.find((m) => m.name === nom)
+      // Le code de l'éditeur fait foi quand il porte sur cette macro : « visualiser
+      // et modifier une macro » n'aurait aucun sens si l'exécution ignorait la
+      // modification qu'on vient de faire lire à l'apprenant.
+      if (nom === macroCouranteRef.current && codeMacroRef.current) {
+        const relu = analyserCode(codeMacroRef.current)
+        if (relu.ok) {
+          macro = { ...relu.macro, name: macro?.name ?? relu.macro.name, shortcut: macro?.shortcut, relative: macro?.relative }
+          const cible = macro
+          const suite = macrosRef.current.map((m) => (m.name === nom ? cible : m))
+          macrosRef.current = suite
+          setMacros(suite)
+        }
+      }
+      if (!macro) return
+      const pilote: PiloteMacro = {
+        select: (ref) => grid.setSelection(ref),
+        setValue: (ref, value) => grid.applyCells({ [ref]: { v: value } }),
+        setFormula: (ref, formuleFr) => grid.applyCells({ [ref]: { f: formuleFr } }),
+        setFont: (ref, st) => {
+          grid.setSelection(ref)
+          if (st.bold !== undefined) grid.toggleBold(st.bold)
+          if (st.italic !== undefined) grid.setItalic(st.italic)
+          if (st.size !== undefined) grid.setFontSize(st.size)
+          if (st.color !== undefined) grid.setFontColor(st.color)
+        },
+        setInterior: (ref, color) => {
+          grid.setSelection(ref)
+          grid.setBackground(color)
+        },
+        setNumberFormat: (ref, pattern) => grid.setNumberFormat(cellsOf(ref), pattern),
+      }
+      executerMacro(macro, pilote, { ancre: grid.getSelection() || "A1" })
+      macroCouranteRef.current = nom
+      setMacroCourante(nom)
+      emettreMacro()
+    },
+    [emettreMacro],
+  )
+
+  const changerRaccourci = useCallback(
+    (nom: string, raccourci: string) => {
+      const suite = macrosRef.current.map((m) => (m.name === nom ? { ...m, shortcut: raccourci } : m))
+      macrosRef.current = suite
+      setMacros(suite)
+      macroCouranteRef.current = nom
+      setMacroCourante(nom)
+      const cible = suite.find((m) => m.name === nom)
+      if (cible) {
+        codeMacroRef.current = genererCode(cible)
+        setCodeMacro(codeMacroRef.current)
+      }
+      emettreMacro()
+    },
+    [emettreMacro],
+  )
+
+  const supprimerMacro = useCallback(
+    (nom: string) => {
+      const suite = macrosRef.current.filter((m) => m.name !== nom)
+      macrosRef.current = suite
+      setMacros(suite)
+      macroCouranteRef.current = suite[0]?.name ?? null
+      setMacroCourante(macroCouranteRef.current)
+      codeMacroRef.current = suite[0] ? genererCode(suite[0]) : ""
+      setCodeMacro(codeMacroRef.current)
+      emettreMacro()
+    },
+    [emettreMacro],
+  )
+
+  /* ── Contrôles des modules 13, 17, 18, 20 et 27 ────────────────────────── */
+
+  /**
+   * Rend `true` quand le contrôle appartient à l'un de ces modules : l'effet est
+   * appliqué et l'observation déjà émise, `handleControl` n'a plus rien à faire.
+   *
+   * Principe, le même que pour `setup.cf` : quand un bouton remplace une boîte de
+   * dialogue dont les paramètres ne peuvent venir que de l'auteur — la couleur
+   * d'une série, la série à masquer, le nouveau type — c'est le `setup` de
+   * l'étape qui fait foi. Quand le bouton se suffit à lui-même, on applique son
+   * effet propre, ce qui laisse l'apprenant explorer hors des étapes.
+   */
+  const effetModele = useCallback(
+    (controlId: string): boolean => {
+      const grid = gridRef.current
+      const s = stepRef.current
+
+      /* Graphiques (modules 17, 18 et graphiques croisés du module 20) */
+      if (controlId.startsWith("ins-graph-")) {
+        const type = TYPE_PAR_CONTROLE[controlId]
+        if (type || controlId === "ins-graph-recommande") {
+          const spec = s?.setup?.chart
+          if (spec) poserGraphique(creerGraphique({ ...spec, type: type ?? spec.type }))
+          else if (grid) {
+            // Sans déclaration, on devine comme Excel : la plage sélectionnée
+            // porte ses en-têtes, ses libellés d'axe et ses séries.
+            const sel = grid.getSelection()
+            const devine = sel ? creerDepuisPlage(sel, type ?? "histogramme", lirePlage, { frame: cadreHorsSource(grid, sel) }) : null
+            if (devine) poserGraphique(devine)
+          }
+          emettreGraphique(controlId)
+          return true
+        }
+        const courant = graphiqueRef.current
+        const patch = s?.setup?.chartEdit
+        if (courant && patch) poserGraphique(modifierGraphique(courant, patch))
+        else if (courant) {
+          const el = ELEMENT_PAR_CONTROLE[controlId]
+          const style = /^ins-graph-style-(\d+)$/.exec(controlId)
+          const i = serieSelectionnee(courant)
+          const nom = i !== null ? courant.series[i]?.name : undefined
+          let libre: PatchGraphique | null = null
+          if (el) libre = { elements: { [el]: !(courant.elements?.[el] ?? false) } }
+          else if (style) libre = { style: Number(style[1]) }
+          else if (controlId === "ins-graph-legende-droite") libre = { legendPosition: "droite", elements: { legende: true } }
+          else if (controlId === "ins-graph-legende-bas") libre = { legendPosition: "bas", elements: { legende: true } }
+          else if (nom && i !== null) {
+            if (controlId === "ins-graph-tendance-lineaire") libre = { editSeries: [{ name: nom, trendline: "lineaire" }] }
+            else if (controlId === "ins-graph-tendance-moyenne-mobile") libre = { editSeries: [{ name: nom, trendline: "moyenne-mobile" }] }
+            else if (controlId === "ins-graph-tendance-supprimer") libre = { editSeries: [{ name: nom, trendline: undefined }] }
+            else if (controlId === "ins-graph-filtre-serie") libre = { editSeries: [{ name: nom, hidden: !courant.series[i].hidden }] }
+            else if (controlId === "ins-graph-supprimer-serie") libre = { removeSeries: [nom] }
+          }
+          if (libre) poserGraphique(modifierGraphique(courant, libre))
+        }
+        emettreGraphique(controlId)
+        return true
+      }
+
+      /* Tableaux croisés (module 20) */
+      if (controlId === "ins-tcd") {
+        const spec = s?.setup?.pivot
+        if (spec) poserTcdDansFeuille(creerTcd(spec, lireCellule))
+        else {
+          // Excel pose le tableau vide à côté du tableau source, et c'est
+          // l'apprenant qui y dépose ensuite ses champs.
+          const aire = parseRange(etendue)
+          const cible = aire ? `${columnIndexToLetter(aire.endCol + 2)}3` : "H3"
+          poserTcdDansFeuille(
+            creerTcd({ source: etendue, target: cible, rows: [], cols: [], values: [], filters: [] }, lireCellule),
+          )
+        }
+        emettreTcd(controlId)
+        return true
+      }
+      if (controlId.startsWith("tcd-")) {
+        const courant = tcdRef.current
+        const patch = s?.setup?.pivotEdit
+        if (courant) {
+          if (controlId === "tcd-actualiser") poserTcdDansFeuille(modifierTcd(courant, patch ?? { refresh: true }, lireCellule))
+          else if (controlId === "tcd-source" && patch) poserTcdDansFeuille(modifierTcd(courant, patch, lireCellule))
+        }
+        emettreTcd(controlId)
+        return true
+      }
+
+      /* Mise en page (module 13) : les quatre boutons du ruban qui dépendent de
+         la sélection. Tout le reste des réglages passe par le panneau du calque. */
+      if (
+        controlId === "mep-zone-impression-definir" ||
+        controlId === "mep-imprimer-titres" ||
+        controlId === "mep-saut-inserer" ||
+        controlId === "mep-saut-supprimer"
+      ) {
+        const sel = grid?.getSelection() ?? ""
+        const aire = parseRange(sel)
+        const etat = reglagesRef.current
+        let patch: PageSetupState | null = null
+        if (controlId === "mep-zone-impression-definir") {
+          patch = { printArea: sel }
+        } else if (controlId === "mep-imprimer-titres") {
+          // Excel ouvre ici une boîte de dialogue ; à défaut, la sélection dit
+          // quelles lignes ou colonnes répéter, et le scénario tranche s'il l'a
+          // déclaré.
+          patch = s?.setup?.pageSetup ?? (aire
+            ? { repeatRows: `$${aire.startRow + 1}:$${aire.endRow + 1}` }
+            : null)
+        } else if (aire) {
+          const lignes = new Set(etat.pageBreakRows ?? [])
+          const colonnes = new Set(etat.pageBreakCols ?? [])
+          if (controlId === "mep-saut-inserer") {
+            if (aire.startRow > 0) lignes.add(aire.startRow)
+            if (aire.startCol > 0) colonnes.add(aire.startCol)
+          } else {
+            lignes.delete(aire.startRow)
+            colonnes.delete(aire.startCol)
+          }
+          patch = { pageBreakRows: Array.from(lignes), pageBreakCols: Array.from(colonnes) }
+        }
+        if (patch) poserReglages(appliquerReglages(etat, patch))
+        emettreReglages(controlId)
+        return true
+      }
+
+      /* Macros (module 27). Le ruban et le panneau portent les mêmes commandes :
+         celles qui touchent l'état des boîtes de dialogue sont relayées au
+         panneau, pour qu'il n'y ait jamais deux vérités. */
+      if (controlId.startsWith("dev-")) {
+        if (controlId === "dev-arreter-enregistrement") {
+          if (enregistrementRef.current) arreterMacro()
+          else handleAction({ kind: "control", control: controlId, channel: "ribbon" })
+          return true
+        }
+        setCommandeMacro({ nonce: Date.now(), controle: controlId })
+        handleAction({ kind: "control", control: controlId, channel: "ribbon" })
+        return true
+      }
+
+      return false
+    },
+    [
+      arreterMacro,
+      emettreGraphique,
+      emettreReglages,
+      emettreTcd,
+      etendue,
+      handleAction,
+      lireCellule,
+      lirePlage,
+      poserGraphique,
+      poserReglages,
+      poserTcdDansFeuille,
+    ],
   )
 
   /**
@@ -353,6 +1028,20 @@ export default function SimulationPlayer({
   const handleControl = useCallback(
     (controlId: string) => {
       const grid = gridRef.current
+      // Graphiques, tableaux croisés, mise en page et macros ont leurs propres
+      // effets et leur propre observation : ils sortent d'ici.
+      if (effetModele(controlId)) return
+      // L'enregistreur transcrit les boutons de mise en forme, comme Excel. Le
+      // geste est lu AVANT l'effet : la sélection ne doit pas avoir bougé.
+      const enreg = enregistrementRef.current
+      if (enreg?.actif && grid) {
+        const geste = gesteDepuisControle(controlId, grid.getSelection() || "A1")
+        if (geste) {
+          const suite = transcrire(enreg, geste)
+          enregistrementRef.current = suite
+          setEnregistrement(suite)
+        }
+      }
       // Un tri réussi est signalé par l'événement Univer, pas par le clic : on
       // évite d'émettre une observation « control » qui ferait échouer l'étape.
       let trie = false
@@ -582,7 +1271,7 @@ export default function SimulationPlayer({
 
       handleAction({ kind: "control", control: controlId, channel: "ribbon" })
     },
-    [handleAction],
+    [effetModele, handleAction],
   )
 
   /** Validation de la zone Nom : on va à la référence, et on le signale. */
@@ -639,6 +1328,220 @@ export default function SimulationPlayer({
     setHintShown(true)
     pendingRef.current.hints += 1
   }, [hintShown])
+
+  /* ── Gestes dans les couches ───────────────────────────────────────────── */
+
+  /** Clic sur un élément DU graphique : titre, légende, axe, série, point. */
+  const choisirElementGraphique = useCallback(
+    (element: string) => {
+      const courant = graphiqueRef.current
+      if (!courant) return
+      poserGraphique(selectionnerElement(courant, element))
+      handleAction({ kind: "chartElement", element })
+    },
+    [handleAction, poserGraphique],
+  )
+
+  const deplacerGraphique = useCallback(
+    (frame: NonNullable<ChartState["frame"]>) => {
+      const courant = graphiqueRef.current
+      if (courant) poserGraphique({ ...courant, frame })
+    },
+    [poserGraphique],
+  )
+
+  /**
+   * Dépôt d'un champ dans une zone du volet.
+   *
+   * Le geste de l'apprenant est ce qui compte : c'est lui qui construit le patch,
+   * donc un champ déposé dans la mauvaise zone donne bien un tableau faux et
+   * l'étape refuse. Quand le scénario a déclaré CE dépôt-là, on prend sa version
+   * — elle porte ce que le volet ne sait pas dire, par exemple la valeur du
+   * filtre de rapport qui accompagne le champ.
+   */
+  const deposerChamp = useCallback(
+    (champ: string, zone: ZoneTcd) => {
+      const courant = tcdRef.current
+      if (!courant) return
+      const declare = stepRef.current?.setup?.pivotEdit
+      const cle = ({ rows: "addRows", cols: "addCols", values: "addValues", filters: "addFilters" } as const)[zone]
+      const memeGeste =
+        declare &&
+        ((declare[cle] ?? []).some((f) => f.name === champ) ||
+          ((declare[zone] as typeof declare.rows | undefined) ?? []).some((f) => f.name === champ))
+      const patch: PatchTcd = memeGeste ? declare! : { [cle]: [{ name: champ }] }
+      poserTcdDansFeuille(modifierTcd(courant, patch, lireCellule))
+      emettreTcd()
+    },
+    [emettreTcd, lireCellule, poserTcdDansFeuille],
+  )
+
+  const changerAgregat = useCallback(
+    (champ: string, agg: PivotAgg) => {
+      const courant = tcdRef.current
+      if (!courant) return
+      const declare = stepRef.current?.setup?.pivotEdit
+      const memeGeste = declare?.values?.some((f) => f.name === champ && f.agg === agg)
+      const patch: PatchTcd = memeGeste ? declare! : { addValues: [{ name: champ, agg }] }
+      poserTcdDansFeuille(modifierTcd(courant, patch, lireCellule))
+      emettreTcd()
+    },
+    [emettreTcd, lireCellule, poserTcdDansFeuille],
+  )
+
+  const retirerChamp = useCallback(
+    (champ: string) => {
+      const courant = tcdRef.current
+      if (!courant) return
+      const declare = stepRef.current?.setup?.pivotEdit
+      const memeGeste = declare?.removeFields?.includes(champ)
+      poserTcdDansFeuille(modifierTcd(courant, memeGeste ? declare! : { removeFields: [champ] }, lireCellule))
+      emettreTcd()
+    },
+    [emettreTcd, lireCellule, poserTcdDansFeuille],
+  )
+
+  const changerStyleTcd = useCallback(
+    (styleId: number) => {
+      const courant = tcdRef.current
+      if (!courant) return
+      poserTcdDansFeuille(modifierTcd(courant, { styleId }, lireCellule))
+      emettreTcd()
+    },
+    [emettreTcd, lireCellule, poserTcdDansFeuille],
+  )
+
+  const actualiserTcd = useCallback(() => {
+    const courant = tcdRef.current
+    if (!courant) return
+    const declare = stepRef.current?.setup?.pivotEdit
+    poserTcdDansFeuille(modifierTcd(courant, declare?.refresh ? declare : { refresh: true }, lireCellule))
+    emettreTcd()
+  }, [emettreTcd, lireCellule, poserTcdDansFeuille])
+
+  const changerValeursFiltre = useCallback(
+    (champ: string, valeurs: string[]) => {
+      const courant = tcdRef.current
+      if (!courant) return
+      const suivant = { ...(courant.filterValues ?? {}) }
+      if (valeurs.length === 0) delete suivant[champ]
+      else suivant[champ] = valeurs
+      poserTcdDansFeuille(modifierTcd(courant, { filterValues: suivant }, lireCellule))
+      emettreTcd()
+    },
+    [emettreTcd, lireCellule, poserTcdDansFeuille],
+  )
+
+  /**
+   * Réglage proposé par le calque de mise en page. On l'applique TEL QUEL : c'est
+   * le seul moyen qu'un apprenant qui choisit Portrait alors qu'on demandait
+   * Paysage voie son geste refusé. Le `setup` de l'étape, qui décrit le même
+   * réglage, sert de référence au juge — pas de valeur de substitution.
+   */
+  const changerReglages = useCallback(
+    (patch: PageSetupState) => {
+      poserReglages(appliquerReglages(reglagesRef.current, patch))
+      emettreReglages()
+    },
+    [emettreReglages, poserReglages],
+  )
+
+  /**
+   * Relais d'observation pour les contrôles qui vivent DANS les couches.
+   *
+   * Les couches n'ont pas de rappel « un bouton a été cliqué » — elles remontent
+   * des intentions métier, et c'est très bien ainsi. Mais deux étapes du module 13
+   * jugent l'ouverture de la boîte En-tête et pied de page, un geste sans autre
+   * effet observable. On lit donc le `data-control` au vol, et UNIQUEMENT quand
+   * l'étape juge un clic de bouton : sinon on émettrait une observation parasite
+   * en plus de celle que la couche vient de produire.
+   */
+  const relaisControleCouche = useCallback(
+    (e: React.MouseEvent<HTMLDivElement>) => {
+      const cible = (e.target as HTMLElement | null)?.closest?.("[data-control]")
+      const id = cible?.getAttribute("data-control")
+      if (!id) return
+      // Le panneau garde pour lui la macro choisie : ce clic est le seul moyen de
+      // savoir laquelle, et donc d'afficher le bon code dans l'éditeur.
+      if (id.startsWith("mac-choix-")) {
+        const nom = id.slice("mac-choix-".length)
+        const m = macrosRef.current.find((x) => x.name === nom)
+        if (m) {
+          macroCouranteRef.current = nom
+          setMacroCourante(nom)
+          codeMacroRef.current = genererCode(m)
+          setCodeMacro(codeMacroRef.current)
+        }
+        return
+      }
+      if (stepRef.current?.action.type !== "CLICK_CONTROL") return
+      handleAction({ kind: "control", control: id, channel: "ribbon" })
+    },
+    [handleAction],
+  )
+
+  /* ── Données à peindre par les couches ─────────────────────────────────── */
+
+  /** Valeurs des plages du graphique, relues à chaque étape. */
+  const valeursGraphique = useMemo(() => {
+    const out: Record<string, unknown[]> = {}
+    if (!graphique || !gridReady) return out
+    const plages = [graphique.categories, ...graphique.series.map((s) => s.values)]
+    for (const p of plages) if (p) out[p] = lirePlage(p)
+    return out
+    // `index` fait partie des dépendances : une étape qui modifie les cellules
+    // sources doit redessiner le graphique.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [graphique, gridReady, index, lirePlage])
+
+  const tableauTcd = useMemo(() => (tcd ? calculerTcd(tcd) : null), [tcd])
+  const champsTcd = useMemo(() => (tcd ? champsDisponibles(tcd.instantane) : []), [tcd])
+  const valeursFiltre = useCallback(
+    (champ: string) => {
+      const source = tcdRef.current?.instantane
+      if (!source) return []
+      const vues = new Set<string>()
+      for (const l of source.lignes) {
+        const v = l[champ]
+        if (v !== null && v !== undefined && String(v).trim() !== "") vues.add(String(v).trim())
+      }
+      return Array.from(vues).sort((a, b) => a.localeCompare(b, "fr-FR", { numeric: true }))
+    },
+    [],
+  )
+  /** Excel envoie un champ numérique en Valeurs, les autres en Lignes. */
+  const zoneParDefautTcd = useCallback(
+    (champ: string): ZoneTcd => {
+      const source = tcdRef.current?.instantane
+      if (!source) return "rows"
+      return aggParDefaut(champ, source) === "nombre" ? "rows" : "values"
+    },
+    [],
+  )
+
+  /**
+   * Dimensions réelles de la grille, pour que les feuilles de papier tombent
+   * exactement sur les bonnes bandes de lignes et de colonnes.
+   */
+  const metrique = useMemo(() => {
+    const grid = gridRef.current
+    const aire = parseRange(etendue)
+    const nbCols = (aire?.endCol ?? 9) + 4
+    const nbLignes = (aire?.endRow ?? 40) + 4
+    const colonnes: number[] = []
+    const lignes: number[] = []
+    for (let c = 0; c < nbCols; c++) colonnes.push(grid?.getColumnWidth(c) ?? 88)
+    for (let r = 0; r < nbLignes; r++) lignes.push(grid?.getRowHeight(r) ?? 24)
+    // En-têtes d'Univer : 46 px de large pour les numéros de ligne, 20 px de haut
+    // pour les lettres de colonne.
+    return { colonnes, lignes, offsetX: 46, offsetY: 20 }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [etendue, gridReady, index])
+
+  const pagination: Pagination = useMemo(
+    () => calculerPages(reglages, metrique.colonnes, metrique.lignes, etendue),
+    [reglages, metrique, etendue],
+  )
 
   /* ── Halo d'aide ───────────────────────────────────────────────────────── */
 
@@ -769,8 +1672,50 @@ export default function SimulationPlayer({
               onNameBoxCommit={commitNameBox}
               onNameBoxCancel={() => setNameBoxDraft(null)}
             />
-            <div className="relative h-[380px] overflow-hidden rounded-b-lg border border-t-0 border-neutral-300">
+            {/* Les couches se posent DANS ce conteneur, dont le coin haut-gauche
+                est celui de la grille : elles peuvent donc placer un cadre ou une
+                feuille de papier avec les coordonnées que la grille leur donne.
+                Le relais d'observation est en phase de capture pour arriver avant
+                que la couche n'ait rendu à nouveau. */}
+            <div
+              className="relative h-[380px] overflow-hidden rounded-b-lg border border-t-0 border-neutral-300"
+              onClickCapture={besoins.miseEnPage || besoins.tcd || besoins.graphique ? relaisControleCouche : undefined}
+            >
               <ExcelGrid onReady={handleReady} onAction={handleAction} />
+              {besoins.miseEnPage && (
+                <PageLayoutLayer
+                  pageSetup={reglages}
+                  pages={pagination}
+                  metrique={metrique}
+                  onChange={changerReglages}
+                  fichier={scenario.workbook.fileName}
+                  feuille={sheets.find((s) => s.active)?.name}
+                />
+              )}
+              {besoins.tcd && tcd && (
+                <PivotLayer
+                  pivot={tcd}
+                  tableau={tableauTcd}
+                  champs={champsTcd}
+                  onDropField={deposerChamp}
+                  onSetAgg={changerAgregat}
+                  onRefresh={actualiserTcd}
+                  onRemoveField={retirerChamp}
+                  onSetStyle={changerStyleTcd}
+                  valeursFiltre={valeursFiltre}
+                  onSetFilterValues={changerValeursFiltre}
+                  zoneParDefaut={zoneParDefautTcd}
+                  className="absolute inset-0 z-10 bg-white/95"
+                />
+              )}
+              {besoins.graphique && (
+                <ChartLayer
+                  chart={graphique}
+                  valeurs={valeursGraphique}
+                  onSelectElement={choisirElementGraphique}
+                  onMove={deplacerGraphique}
+                />
+              )}
               {halo && (
                 <div
                   aria-hidden
@@ -779,6 +1724,26 @@ export default function SimulationPlayer({
                 />
               )}
             </div>
+            {besoins.macros && (
+              <div className="pt-2" onClickCapture={relaisControleCouche}>
+                <MacroPanel
+                  macros={macros}
+                  courante={macroCourante}
+                  enregistrement={enregistrement?.actif ? "started" : "stopped"}
+                  code={codeMacro}
+                  onDemarrer={demarrerMacro}
+                  onArreter={arreterMacro}
+                  onChangerCode={(c) => {
+                    codeMacroRef.current = c
+                    setCodeMacro(c)
+                  }}
+                  onExecuter={executerMacroNommee}
+                  onRaccourci={changerRaccourci}
+                  onSupprimer={supprimerMacro}
+                  commande={commandeMacro ?? undefined}
+                />
+              </div>
+            )}
           </div>
 
           {/* Barre de consigne */}

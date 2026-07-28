@@ -199,6 +199,17 @@ export function creerGraphique(spec: SpecGraphique): ChartState {
 export function modifierGraphique(etat: ChartState, patch: PatchGraphique): ChartState {
   const { addSeries, removeSeries, editSeries, series, elements, ...reste } = patch
 
+  // Convertir un secteur en histogramme doit RENDRE ses axes au graphique, et
+  // l'inverse doit les retirer. Sans cela, un histogramme héritait de l'absence
+  // d'axes du secteur dont il venait : plus de graduations, plus de libellés, un
+  // graphique illisible sans que rien ne le signale. Excel fait ce ménage aussi.
+  let elementsType: ChartElements | null = null
+  if (patch.type && patch.type !== etat.type) {
+    const avant = etat.type === "secteurs"
+    const apres = patch.type === "secteurs"
+    if (avant !== apres) elementsType = { axes: !apres, quadrillage: !apres }
+  }
+
   let liste: ChartSeries[] = (series ?? etat.series).map((s) => ({ ...s }))
 
   if (removeSeries?.length) {
@@ -226,12 +237,14 @@ export function modifierGraphique(etat: ChartState, patch: PatchGraphique): Char
 
   if (addSeries?.length) liste = [...liste, ...addSeries.map((s) => ({ ...s }))]
 
-  return {
-    ...etat,
-    ...reste,
-    series: liste,
-    elements: elements ? { ...(etat.elements ?? {}), ...elements } : etat.elements,
-  }
+  // Un élément explicitement demandé par le patch garde toujours la main sur la
+  // remise à zéro liée au changement de type.
+  const elementsFinaux =
+    elements || elementsType
+      ? { ...(etat.elements ?? {}), ...(elementsType ?? {}), ...(elements ?? {}) }
+      : etat.elements
+
+  return { ...etat, ...reste, series: liste, elements: elementsFinaux }
 }
 
 /** Sélectionne un élément du graphique, ou lève la sélection avec `null`. */
@@ -964,10 +977,24 @@ export function disposerGraphique(
     hauteurBas = 4
   }
 
+  // La dernière graduation d'un axe de valeurs HORIZONTAL est centrée sur le bord
+  // droit du tracé : sans cette réserve, « 80 000 » sortait du cadre et s'affichait
+  // coupé en « 80 00 ». Les axes de catégories, eux, centrent leur libellé dans un
+  // intervalle et ne débordent jamais.
+  let margeDroite = 0
+  if (elements.axes && (horizontal || nuage)) {
+    const dernier = horizontal
+      ? libellesValeurs[libellesValeurs.length - 1] ?? ""
+      : echelleX
+        ? formaterNombre(echelleX.graduations[echelleX.graduations.length - 1], echelleX.decimales)
+        : ""
+    margeDroite = largeurTexte(dernier, police.axes) / 2 + 2
+  }
+
   const tracage: Cadre = {
     x: x + largeurGauche,
     y,
-    w: Math.max(20, w - largeurGauche),
+    w: Math.max(20, w - largeurGauche - margeDroite),
     h: Math.max(20, h - hauteurBas),
   }
   cadres["zone-tracage"] = { ...tracage }

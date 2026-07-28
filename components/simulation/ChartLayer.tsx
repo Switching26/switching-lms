@@ -80,10 +80,16 @@ export default function ChartLayer({ chart, valeurs, onSelectElement, onMove }: 
     if (g?.deplace && onMove) onMove(cadre)
   }, [cadre, onMove])
 
-  if (!chart) return null
+  // Tant que la grille n'est pas mesurée, on ne dessine RIEN : le cadre serait
+  // posé à sa position déclarée, donc hors écran sur un téléphone, le temps d'une
+  // image. Un graphique qui apparaît une image plus tard est invisible à l'œil ;
+  // un graphique qui saute d'un bord à l'autre se voit tout de suite.
+  if (!chart || conteneur.w === 0) {
+    return <div ref={racineRef} className="pointer-events-none absolute inset-0 z-20 overflow-hidden" />
+  }
 
   /* ── Cadre ramené dans les limites de la grille ────────────────────────── */
-  const dispoW = conteneur.w || cadre.w + cadre.x + MARGE_GRILLE
+  const dispoW = conteneur.w
   const dispoH = conteneur.h || cadre.h + cadre.y + MARGE_GRILLE
   const largeur = Math.max(180, Math.min(cadre.w, dispoW - MARGE_GRILLE * 2))
   const hauteur = Math.max(130, Math.min(cadre.h, dispoH - MARGE_GRILLE * 2))
@@ -140,6 +146,23 @@ export default function ChartLayer({ chart, valeurs, onSelectElement, onMove }: 
     style: { cursor: "pointer" as const, outline: "none" },
   })
 
+  /**
+   * Marque de données : barre, point ou part. Le premier clic sélectionne la SÉRIE
+   * entière, le second le point isolé — la règle d'Excel, et celle que les leçons
+   * enseignent (« un second clic descend d'un cran »). Sans cette progression, un
+   * point ne serait jamais atteignable autrement qu'au hasard.
+   */
+  const marque = (serieElement: string, elementMarque: string, etiquette: string) => ({
+    "data-chart-element": elementMarque,
+    role: "button" as const,
+    "aria-label": etiquette,
+    onClick: (e: React.MouseEvent) => {
+      e.stopPropagation()
+      onSelectElement(selection === serieElement || selection === elementMarque ? elementMarque : serieElement)
+    },
+    style: { cursor: "pointer" as const, outline: "none" },
+  })
+
   const encre = d.style.encre
   const trait = d.style.trait
 
@@ -166,18 +189,20 @@ export default function ChartLayer({ chart, valeurs, onSelectElement, onMove }: 
           {/* Quadrillage : cliquable en un seul bloc, comme dans Excel. */}
           {d.quadrillage.length > 0 && (
             <g {...selectionnable("quadrillage")}>
-              <rect x={d.tracage.x} y={d.tracage.y} width={d.tracage.w} height={d.tracage.h} fill="transparent" />
               {d.quadrillage.map((l, i) => (
-                <line
-                  key={i}
-                  x1={l.x1}
-                  y1={l.y1}
-                  x2={l.x2}
-                  y2={l.y2}
-                  stroke={trait}
-                  strokeWidth={1}
-                  shapeRendering="crispEdges"
-                />
+                <g key={i}>
+                  {/* Préhension élargie : une ligne d'un pixel ne se vise pas au doigt. */}
+                  <line x1={l.x1} y1={l.y1} x2={l.x2} y2={l.y2} stroke="transparent" strokeWidth={7} />
+                  <line
+                    x1={l.x1}
+                    y1={l.y1}
+                    x2={l.x2}
+                    y2={l.y2}
+                    stroke={trait}
+                    strokeWidth={1}
+                    shapeRendering="crispEdges"
+                  />
+                </g>
               ))}
             </g>
           )}
@@ -211,8 +236,7 @@ export default function ChartLayer({ chart, valeurs, onSelectElement, onMove }: 
                   fillOpacity={selection === s.element || selection === b.element ? 1 : 0.92}
                   stroke={selection === b.element ? encre : "none"}
                   strokeWidth={selection === b.element ? 1 : 0}
-                  {...selectionnable(b.element, false)}
-                  aria-label={`${s.nom}, ${b.categorie} : ${b.valeur}`}
+                  {...marque(s.element, b.element, `${s.nom}, ${b.categorie} : ${b.valeur}`)}
                 />
               ))}
 
@@ -223,13 +247,12 @@ export default function ChartLayer({ chart, valeurs, onSelectElement, onMove }: 
                   fill={p.couleur}
                   stroke="#ffffff"
                   strokeWidth={selection === p.element ? 2.5 : 1}
-                  {...selectionnable(p.element, false)}
-                  aria-label={`${p.categorie} : ${p.valeur}`}
+                  {...marque(s.element, p.element, `${p.categorie} : ${p.valeur}`)}
                 />
               ))}
 
               {s.points.map((p) => (
-                <g key={p.element} {...selectionnable(p.element, false)} aria-label={`${s.nom}, ${p.categorie} : ${p.valeur}`}>
+                <g key={p.element} {...marque(s.element, p.element, `${s.nom}, ${p.categorie} : ${p.valeur}`)}>
                   <circle cx={p.cx} cy={p.cy} r={9} fill="transparent" />
                   <circle
                     cx={p.cx}
@@ -256,17 +279,6 @@ export default function ChartLayer({ chart, valeurs, onSelectElement, onMove }: 
                 />
               )}
 
-              {/* Zone de préhension de la série pour les types sans ligne. */}
-              {!s.ligne && (s.barres.length > 0 || s.parts.length > 0) && (
-                <rect
-                  x={s.cadre.x}
-                  y={s.cadre.y}
-                  width={Math.max(4, s.cadre.w)}
-                  height={Math.max(4, s.cadre.h)}
-                  fill="transparent"
-                  {...selectionnable(s.element)}
-                />
-              )}
             </g>
           ))}
 

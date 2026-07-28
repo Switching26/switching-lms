@@ -22,7 +22,7 @@
  * s'arme, puis on touche la zone visée.
  */
 
-import { useCallback, useRef, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import type { PivotAgg, PivotState } from "@/lib/simulation/types"
 import type { PositionAxe, TableauCroise, ZoneTcd } from "@/lib/simulation/pivot"
 import { STYLES_TCD, libelleValeur, styleTcd } from "@/lib/simulation/pivot"
@@ -70,6 +70,14 @@ type Props = {
   /** Choix d'un style numéroté. Facultatif, même raison. */
   onSetStyle?: (styleId: number) => void
   /**
+   * Valeurs qu'un filtre de rapport peut prendre, et changement de sélection.
+   * Sans ces deux rappels le filtre reste en LECTURE SEULE : la leçon
+   * « basculez le filtre sur T1 » n'a alors aucun geste possible. Seul le
+   * simulateur connaît les valeurs distinctes de la source, il les fournit.
+   */
+  valeursFiltre?: (champ: string) => string[]
+  onSetFilterValues?: (champ: string, valeurs: string[]) => void
+  /**
    * Zone visée quand on COCHE un champ dans la liste. Excel envoie les champs
    * numériques en Valeurs et les autres en Lignes ; seul le simulateur sait de
    * quel type est un champ, il fournit donc la réponse.
@@ -114,7 +122,128 @@ function entetesParNiveau(tableau: TableauCroise): CelluleEntete[][] {
 
 const nf = new Intl.NumberFormat("fr-FR", { maximumFractionDigits: 2 })
 
+/**
+ * Libellé qu'Excel affiche quand un filtre de rapport ne retient rien — et donc
+ * tout. Il doit être IDENTIQUE à celui que `libelleFiltre` produit dans le
+ * modèle, sinon la liste déroulante ne se voit jamais sur la bonne valeur.
+ */
+const TOUS = "(Tous)"
+
+
+/* ═══════════ PUCE DE CHAMP ═══════════ */
+
+/**
+ * Une puce de champ, déplaçable. Définie au niveau du module et NON dans le rendu
+ * du volet : un composant recréé à chaque rendu change d'identité, React démonte
+ * alors sa cellule en plein glissement — le pointeur capturé pointe vers un nœud
+ * détaché et le dépôt n'arrive jamais. Défaut trouvé au banc d'essai.
+ */
+function Puce({
+  champ,
+  zone,
+  agg,
+  arme,
+  fantome,
+  menuOuvert,
+  gestes,
+  onToggleMenu,
+  onChoisirAgg,
+  onRetirer,
+}: {
+  champ: string
+  zone: ZoneTcd | null
+  agg: PivotAgg
+  arme: boolean
+  fantome: boolean
+  menuOuvert: boolean
+  gestes: Record<string, unknown>
+  onToggleMenu: () => void
+  onChoisirAgg: (agg: PivotAgg) => void
+  onRetirer?: () => void
+}) {
+  const enValeurs = zone === "values"
+  return (
+    <span
+      data-pivot-field={champ}
+      data-pivot-placed={zone ?? ""}
+      // État « armé » lisible par un test : sans lui, le repli au clic ne se
+      // vérifierait qu'à la classe CSS, ce qui casse au moindre ajustement visuel.
+      data-pivot-armed={arme ? "1" : undefined}
+      className={[
+        "group relative inline-flex max-w-full items-center gap-1 rounded border px-1.5 py-0.5 text-[11.5px]",
+        "cursor-grab select-none bg-white active:cursor-grabbing",
+        arme ? "border-emerald-500 ring-2 ring-emerald-300" : "border-neutral-300",
+        fantome ? "opacity-50" : "",
+      ].join(" ")}
+      {...gestes}
+    >
+      <span className="truncate">{enValeurs ? libelleValeur({ name: champ, agg }) : champ}</span>
+      {enValeurs && (
+        <button
+          type="button"
+          data-pivot-agg-menu={champ}
+          aria-label={`Paramètres du champ ${champ}`}
+          onPointerDown={(e) => e.stopPropagation()}
+          onClick={(e) => {
+            e.stopPropagation()
+            onToggleMenu()
+          }}
+          className="rounded px-0.5 text-[9px] leading-none text-neutral-500 hover:bg-neutral-100"
+        >
+          ▼
+        </button>
+      )}
+      {zone && onRetirer && (
+        <button
+          type="button"
+          data-pivot-remove={champ}
+          aria-label={`Retirer ${champ}`}
+          onPointerDown={(e) => e.stopPropagation()}
+          onClick={(e) => {
+            e.stopPropagation()
+            onRetirer()
+          }}
+          className="rounded px-0.5 text-[10px] leading-none text-neutral-400 hover:bg-neutral-100 hover:text-neutral-700"
+        >
+          ✕
+        </button>
+      )}
+      {enValeurs && menuOuvert && (
+        <span
+          role="menu"
+          className="absolute right-0 top-full z-20 mt-1 flex w-44 flex-col rounded border border-neutral-300 bg-white py-1 shadow-lg"
+        >
+          <span className="px-2 pb-1 text-[9.5px] uppercase tracking-wide text-neutral-500">
+            Paramètres des champs de valeurs
+          </span>
+          {LIBELLES_AGG.map((a) => (
+            <button
+              key={a.id}
+              type="button"
+              role="menuitemradio"
+              aria-checked={a.id === agg}
+              data-pivot-agg={a.id}
+              onPointerDown={(e) => e.stopPropagation()}
+              onClick={(e) => {
+                e.stopPropagation()
+                onChoisirAgg(a.id)
+              }}
+              className={[
+                "px-2 py-1 text-left text-[11.5px] hover:bg-emerald-50",
+                a.id === agg ? "font-medium text-emerald-800" : "text-neutral-700",
+              ].join(" ")}
+            >
+              {a.libelle} de {champ}
+            </button>
+          ))}
+        </span>
+      )}
+    </span>
+  )
+}
+
 /* ═══════════ COMPOSANT ═══════════ */
+
 
 export default function PivotLayer({
   pivot,
@@ -125,20 +254,35 @@ export default function PivotLayer({
   onRefresh,
   onRemoveField,
   onSetStyle,
+  valeursFiltre,
+  onSetFilterValues,
   zoneParDefaut,
   className,
 }: Props) {
   // État strictement local à l'affichage : glissement en cours, champ armé pour le
   // repli au clic, menu de calcul ouvert, tiroir ouvert sur mobile.
-  const [glisse, setGlisse] = useState<{ champ: string; x: number; y: number; deplace: boolean } | null>(null)
+  //
+  // Le glissement vit dans une RÉFÉRENCE et non dans un état : `pointerup` doit
+  // savoir tout de suite si le doigt s'est déplacé, or un état posé par
+  // `pointermove` peut ne pas être encore appliqué au moment du relâchement —
+  // vérifié au banc, le dépôt était alors purement et simplement ignoré. L'état
+  // `glisseVue` ne sert qu'à griser la puce en cours de déplacement.
+  const glisseRef = useRef<{ champ: string; x: number; y: number; deplace: boolean } | null>(null)
+  const [glisseVue, setGlisseVue] = useState<{ champ: string; deplace: boolean } | null>(null)
   const [zoneVisee, setZoneVisee] = useState<ZoneTcd | null>(null)
   const [arme, setArme] = useState<string | null>(null)
   const [menuAgg, setMenuAgg] = useState<string | null>(null)
   const [tiroir, setTiroir] = useState(false)
   const [galerie, setGalerie] = useState(true)
-  // Un glissement se termine par un clic que le navigateur envoie quand même :
-  // sans ce garde-fou, déposer un champ l'armerait aussitôt pour le geste suivant.
-  const clicAAvaler = useRef(false)
+  // Horodatage du dernier glissement conclu. Un glissement qui se termine sur la
+  // puce d'origine déclenche un `click` que le navigateur envoie quand même : sans
+  // ce garde-fou, le champ tout juste déposé serait aussitôt armé. Un DRAPEAU ne
+  // suffisait pas — quand le relâchement a lieu ailleurs, aucun `click` n'arrive
+  // sur la puce, le drapeau restait levé et avalait le clic suivant, celui de
+  // l'apprenant. Défaut trouvé au banc d'essai.
+  const dernierGlissement = useRef(0)
+  // Retrait des écoutes de glissement, posé le temps du geste.
+  const nettoyageRef = useRef<(() => void) | null>(null)
 
   const placement = useCallback(
     (champ: string): ZoneTcd | null => {
@@ -167,39 +311,60 @@ export default function PivotLayer({
     if (typeof navigator !== "undefined" && typeof navigator.vibrate === "function") navigator.vibrate(8)
   }
 
+  /**
+   * Démarre un glissement. Les écoutes vivent sur `window` et non sur la puce :
+   * une fois le doigt sorti de la puce, celle-ci ne reçoit plus rien, et la
+   * capture de pointeur ne survit pas au moindre remontage — vérifié au banc, le
+   * dépôt n'arrivait jamais. Sur `window`, le geste va jusqu'à son terme.
+   */
+  const demarrerGlissement = (champ: string, x0: number, y0: number) => {
+    glisseRef.current = { champ, x: x0, y: y0, deplace: false }
+    setGlisseVue({ champ, deplace: false })
+
+    const surMove = (ev: PointerEvent) => {
+      const g = glisseRef.current
+      if (!g) return
+      // Seuil mesuré depuis l'ORIGINE : un glissement lent ne franchirait jamais
+      // un seuil calculé d'un point au suivant.
+      const deplace = g.deplace || Math.abs(ev.clientX - x0) + Math.abs(ev.clientY - y0) > 6
+      glisseRef.current = { champ, x: ev.clientX, y: ev.clientY, deplace }
+      if (deplace && !g.deplace) setGlisseVue({ champ, deplace: true })
+      setZoneVisee(zoneSous(ev.clientX, ev.clientY))
+    }
+    const surFin = (ev: PointerEvent) => {
+      nettoyer()
+      const g = glisseRef.current
+      glisseRef.current = null
+      setGlisseVue(null)
+      setZoneVisee(null)
+      if (!g || !g.deplace) return
+      dernierGlissement.current = Date.now()
+      const zone = zoneSous(ev.clientX, ev.clientY)
+      if (zone) deposer(champ, zone)
+    }
+    const nettoyer = () => {
+      window.removeEventListener("pointermove", surMove)
+      window.removeEventListener("pointerup", surFin)
+      window.removeEventListener("pointercancel", surFin)
+      nettoyageRef.current = null
+    }
+    nettoyageRef.current = nettoyer
+    window.addEventListener("pointermove", surMove)
+    window.addEventListener("pointerup", surFin)
+    window.addEventListener("pointercancel", surFin)
+  }
+
+  // Un démontage en pleine manipulation ne doit pas laisser d'écoutes derrière lui.
+  useEffect(() => () => nettoyageRef.current?.(), [])
+
   const gestes = (champ: string) => ({
     onPointerDown: (e: React.PointerEvent) => {
-      ;(e.currentTarget as HTMLElement).setPointerCapture?.(e.pointerId)
-      setGlisse({ champ, x: e.clientX, y: e.clientY, deplace: false })
-    },
-    onPointerMove: (e: React.PointerEvent) => {
-      setGlisse((g) => {
-        if (!g || g.champ !== champ) return g
-        const deplace = g.deplace || Math.abs(e.clientX - g.x) + Math.abs(e.clientY - g.y) > 8
-        return { ...g, x: e.clientX, y: e.clientY, deplace }
-      })
-      setZoneVisee(zoneSous(e.clientX, e.clientY))
-    },
-    onPointerUp: (e: React.PointerEvent) => {
-      const enCours = glisse
-      setGlisse(null)
-      setZoneVisee(null)
-      if (!enCours || !enCours.deplace) return
-      clicAAvaler.current = true
-      const zone = zoneSous(e.clientX, e.clientY)
-      if (zone) deposer(champ, zone)
-    },
-    onPointerCancel: () => {
-      setGlisse(null)
-      setZoneVisee(null)
+      demarrerGlissement(champ, e.clientX, e.clientY)
     },
     onClick: () => {
       // Repli, et seul chemin possible au clavier : on arme le champ, puis on
       // active la zone visée.
-      if (clicAAvaler.current) {
-        clicAAvaler.current = false
-        return
-      }
+      if (Date.now() - dernierGlissement.current < 300) return
       setArme((a) => (a === champ ? null : champ))
     },
     // Sans cela, le premier mouvement du doigt fait défiler la page au lieu de
@@ -209,95 +374,35 @@ export default function PivotLayer({
 
   /* ── Puce de champ ──────────────────────────────────────────────────────── */
 
-  const Puce = ({ champ, zone }: { champ: string; zone: ZoneTcd | null }) => {
-    const enValeurs = zone === "values"
-    const champPivot = zone && pivot ? pivot[zone].find((f) => f.name === champ) : undefined
-    const agg = champPivot?.agg ?? "somme"
-    return (
-      <span
-        data-pivot-field={champ}
-        data-pivot-placed={zone ?? ""}
-        className={[
-          "group relative inline-flex max-w-full items-center gap-1 rounded border px-1.5 py-0.5 text-[11.5px]",
-          "cursor-grab select-none bg-white active:cursor-grabbing",
-          arme === champ ? "border-emerald-500 ring-2 ring-emerald-300" : "border-neutral-300",
-          glisse?.champ === champ && glisse.deplace ? "opacity-50" : "",
-        ].join(" ")}
-        {...gestes(champ)}
-      >
-        <span className="truncate">{enValeurs ? libelleValeur({ name: champ, agg }) : champ}</span>
-        {enValeurs && (
-          <button
-            type="button"
-            data-pivot-agg-menu={champ}
-            aria-label={`Paramètres du champ ${champ}`}
-            onPointerDown={(e) => e.stopPropagation()}
-            onClick={(e) => {
-              e.stopPropagation()
-              setMenuAgg((m) => (m === champ ? null : champ))
-            }}
-            className="rounded px-0.5 text-[9px] leading-none text-neutral-500 hover:bg-neutral-100"
-          >
-            ▼
-          </button>
-        )}
-        {zone && onRemoveField && (
-          <button
-            type="button"
-            data-pivot-remove={champ}
-            aria-label={`Retirer ${champ}`}
-            onPointerDown={(e) => e.stopPropagation()}
-            onClick={(e) => {
-              e.stopPropagation()
-              onRemoveField(champ)
-            }}
-            className="rounded px-0.5 text-[10px] leading-none text-neutral-400 hover:bg-neutral-100 hover:text-neutral-700"
-          >
-            ✕
-          </button>
-        )}
-        {enValeurs && menuAgg === champ && (
-          <span
-            role="menu"
-            className="absolute right-0 top-full z-20 mt-1 flex w-40 flex-col rounded border border-neutral-300 bg-white py-1 shadow-lg"
-          >
-            <span className="px-2 pb-1 text-[9.5px] uppercase tracking-wide text-neutral-500">
-              Paramètres des champs de valeurs
-            </span>
-            {LIBELLES_AGG.map((a) => (
-              <button
-                key={a.id}
-                type="button"
-                role="menuitemradio"
-                aria-checked={a.id === agg}
-                data-pivot-agg={a.id}
-                onPointerDown={(e) => e.stopPropagation()}
-                onClick={(e) => {
-                  e.stopPropagation()
-                  setMenuAgg(null)
-                  onSetAgg(champ, a.id)
-                }}
-                className={[
-                  "px-2 py-1 text-left text-[11.5px] hover:bg-emerald-50",
-                  a.id === agg ? "font-medium text-emerald-800" : "text-neutral-700",
-                ].join(" ")}
-              >
-                {a.libelle} de {champ}
-              </button>
-            ))}
-          </span>
-        )}
-      </span>
-    )
-  }
+  const puce = (champ: string, zone: ZoneTcd | null) => (
+    <Puce
+      key={`${zone ?? "liste"}-${champ}`}
+      champ={champ}
+      zone={zone}
+      agg={(zone && pivot ? (pivot[zone] ?? []).find((f) => f.name === champ)?.agg : undefined) ?? "somme"}
+      arme={arme === champ}
+      fantome={glisseVue?.champ === champ && glisseVue.deplace}
+      menuOuvert={menuAgg === champ}
+      gestes={gestes(champ)}
+      onToggleMenu={() => setMenuAgg((m) => (m === champ ? null : champ))}
+      onChoisirAgg={(a) => {
+        setMenuAgg(null)
+        onSetAgg(champ, a)
+      }}
+      onRetirer={onRemoveField ? () => onRemoveField(champ) : undefined}
+    />
+  )
 
   /* ── Volet des champs ───────────────────────────────────────────────────── */
 
-  const volet = (
+  // `avecTitre` : dans le tiroir mobile, l'en-tête du tiroir porte déjà le titre.
+  const voletRendu = (avecTitre: boolean) => (
     <div className="flex h-full w-full flex-col gap-2 overflow-y-auto bg-neutral-50 p-2 text-neutral-800">
-      <div className="text-[11px] font-semibold uppercase tracking-wide text-neutral-600">
-        Champs de tableau croisé dynamique
-      </div>
+      {avecTitre && (
+        <div className="text-[11px] font-semibold uppercase tracking-wide text-neutral-600">
+          Champs de tableau croisé dynamique
+        </div>
+      )}
 
       <div className="rounded border border-neutral-200 bg-white p-1.5">
         <div className="mb-1 text-[10px] text-neutral-500">Choisissez les champs à ajouter au rapport :</div>
@@ -317,7 +422,7 @@ export default function PivotLayer({
                   }}
                   className="h-3 w-3 accent-emerald-600"
                 />
-                <Puce champ={champ} zone={null} />
+                {puce(champ, null)}
               </li>
             )
           })}
@@ -357,9 +462,7 @@ export default function PivotLayer({
               <span className="truncate text-[9px] text-neutral-400">{z.sous}</span>
             </div>
             <div className="flex flex-wrap gap-1">
-              {(pivot?.[z.id] ?? []).map((f) => (
-                <Puce key={f.name} champ={f.name} zone={z.id} />
-              ))}
+              {(pivot?.[z.id] ?? []).map((f) => puce(f.name, z.id))}
               {(pivot?.[z.id] ?? []).length === 0 && (
                 <span className="text-[10px] italic text-neutral-400">
                   {arme ? "Toucher ici pour déposer" : "Déposer un champ ici"}
@@ -443,9 +546,31 @@ export default function PivotLayer({
               {tableau.filtres.map((f) => (
                 <div key={f.champ} className="flex items-center gap-2 text-[11.5px]">
                   <span className="font-semibold">{f.champ}</span>
-                  <span className="rounded border border-neutral-300 bg-white px-1.5 py-0.5 text-neutral-700">
-                    {f.libelle}
-                  </span>
+                  {onSetFilterValues && valeursFiltre ? (
+                    // Le filtre de rapport d'Excel est une liste déroulante : c'est
+                    // par elle que passe « ne montrez que le Sud ». Une seule valeur
+                    // à la fois suffit à ce que le module enseigne.
+                    <select
+                      data-pivot-filter={f.champ}
+                      aria-label={`Filtre ${f.champ}`}
+                      value={f.libelle}
+                      onChange={(e) =>
+                        onSetFilterValues(f.champ, e.target.value === TOUS ? [] : [e.target.value])
+                      }
+                      className="rounded border border-neutral-300 bg-white px-1.5 py-0.5 text-neutral-700"
+                    >
+                      <option value={TOUS}>{TOUS}</option>
+                      {valeursFiltre(f.champ).map((v) => (
+                        <option key={v} value={v}>
+                          {v}
+                        </option>
+                      ))}
+                    </select>
+                  ) : (
+                    <span className="rounded border border-neutral-300 bg-white px-1.5 py-0.5 text-neutral-700">
+                      {f.libelle}
+                    </span>
+                  )}
                 </div>
               ))}
             </div>
@@ -562,13 +687,15 @@ export default function PivotLayer({
       </div>
 
       {/* Volet en colonne dès 768 px. */}
-      <aside className="hidden w-72 shrink-0 self-stretch rounded border border-neutral-200 md:block">{volet}</aside>
+      <aside className="hidden w-72 shrink-0 self-stretch rounded border border-neutral-200 md:block">{voletRendu(true)}</aside>
       {tiroir && (
         <div className="fixed inset-0 z-40 flex md:hidden" role="dialog" aria-label="Champs de tableau croisé dynamique">
           <div className="flex-1 bg-black/30" onClick={() => setTiroir(false)} />
           <div className="flex w-[86%] max-w-xs flex-col border-l border-neutral-300 bg-neutral-50 shadow-xl">
             <div className="flex items-center justify-between border-b border-neutral-200 px-2 py-1.5">
-              <span className="text-[11px] font-semibold uppercase tracking-wide text-neutral-600">Champs</span>
+              <span className="text-[11px] font-semibold uppercase tracking-wide text-neutral-600">
+                Champs de tableau croisé dynamique
+              </span>
               <button
                 type="button"
                 data-pivot-action="fermer-volet"
@@ -578,7 +705,7 @@ export default function PivotLayer({
                 ✕
               </button>
             </div>
-            <div className="min-h-0 flex-1">{volet}</div>
+            <div className="min-h-0 flex-1">{voletRendu(false)}</div>
           </div>
         </div>
       )}

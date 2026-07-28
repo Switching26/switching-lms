@@ -392,6 +392,31 @@
    "action": {
     "type": "EXPECT_STATE",
     "cells": {
+     "D4": {
+      "anyOf": [
+       "=SIERREUR(RECHERCHEV(B4;$H$3:$J$6;2;FAUX);\"Code inconnu\")"
+      ],
+      "v": "Anglais"
+     },
+     "E4": {
+      "anyOf": [
+       "=SIERREUR(RECHERCHEV(B4;$H$3:$J$6;3;FAUX);0)"
+      ],
+      "v": 38
+     },
+     "F4": {
+      "anyOf": [
+       "=C4*E4",
+       "=E4*C4"
+      ],
+      "v": 1140
+     },
+     "G4": {
+      "anyOf": [
+       "=SI(C4>=$C$1;\"Long\";\"Court\")"
+      ],
+      "v": "Long"
+     },
      "D5": {
       "anyOf": [
        "=SIERREUR(RECHERCHEV(B5;$H$3:$J$6;2;FAUX);\"Code inconnu\")"
@@ -411,11 +436,48 @@
       ],
       "v": 0
      },
-     "G7": {
+     "G5": {
       "anyOf": [
-       "=SI(C7>=$C$1;\"Long\";\"Court\")"
+       "=SI(C5>=$C$1;\"Long\";\"Court\")"
+      ],
+      "v": "Court"
+     },
+     "D6": {
+      "anyOf": [
+       "=SIERREUR(RECHERCHEV(B6;$H$3:$J$6;2;FAUX);\"Code inconnu\")"
+      ],
+      "v": "Comptabilité"
+     },
+     "E6": {
+      "anyOf": [
+       "=SIERREUR(RECHERCHEV(B6;$H$3:$J$6;3;FAUX);0)"
+      ],
+      "v": 45
+     },
+     "F6": {
+      "anyOf": [
+       "=C6*E6",
+       "=E6*C6"
+      ],
+      "v": 1575
+     },
+     "G6": {
+      "anyOf": [
+       "=SI(C6>=$C$1;\"Long\";\"Court\")"
       ],
       "v": "Long"
+     },
+     "D7": {
+      "anyOf": [
+       "=SIERREUR(RECHERCHEV(B7;$H$3:$J$6;2;FAUX);\"Code inconnu\")"
+      ],
+      "v": "Bureautique"
+     },
+     "E7": {
+      "anyOf": [
+       "=SIERREUR(RECHERCHEV(B7;$H$3:$J$6;3;FAUX);0)"
+      ],
+      "v": 32
      },
      "F7": {
       "anyOf": [
@@ -423,6 +485,12 @@
        "=E7*C7"
       ],
       "v": 896
+     },
+     "G7": {
+      "anyOf": [
+       "=SI(C7>=$C$1;\"Long\";\"Court\")"
+      ],
+      "v": "Long"
      }
     }
    },

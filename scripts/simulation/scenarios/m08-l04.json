@@ -1,0 +1,397 @@
+{
+  "schemaVersion": 1,
+  "title": "Reproduire une mise en forme",
+  "mode": "LESSON",
+  "moduleTitle": "Mise en forme",
+  "intro": {
+    "title": "NE JAMAIS REFAIRE DEUX FOIS",
+    "body": "Le premier trimestre est présenté. Le second ne l'est pas. Refaire à la main une présentation déjà au point est du temps perdu — et la garantie que les deux blocs finiront différents."
+  },
+  "outro": {
+    "body": "Vous savez reproduire une présentation d'un bloc à l'autre et vous connaissez les trois outils qui le font : le pinceau, le collage de formats et les styles de cellule."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ],
+    "sheetCount": 1
+  },
+  "workbook": {
+    "fileName": "Suivi-budgetaire.xlsx",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "2026",
+        "columnWidths": {
+          "A": 130
+        },
+        "cells": {
+          "A1": {
+            "v": "SUIVI BUDGÉTAIRE 2026",
+            "format": {
+              "bold": true
+            }
+          },
+          "A3": {
+            "v": "Service",
+            "format": {
+              "bold": true,
+              "background": "#fde68a",
+              "align": "center"
+            }
+          },
+          "B3": {
+            "v": "Prévu",
+            "format": {
+              "bold": true,
+              "background": "#fde68a",
+              "align": "center"
+            }
+          },
+          "C3": {
+            "v": "Réalisé",
+            "format": {
+              "bold": true,
+              "background": "#fde68a",
+              "align": "center"
+            }
+          },
+          "D3": {
+            "v": "Écart",
+            "format": {
+              "bold": true,
+              "background": "#fde68a",
+              "align": "center"
+            }
+          },
+          "A4": {
+            "v": "Accueil"
+          },
+          "B4": {
+            "v": 12000
+          },
+          "C4": {
+            "v": 11400
+          },
+          "D4": {
+            "f": "=C4-B4"
+          },
+          "A5": {
+            "v": "Atelier"
+          },
+          "B5": {
+            "v": 38000
+          },
+          "C5": {
+            "v": 40200
+          },
+          "D5": {
+            "f": "=C5-B5"
+          },
+          "A6": {
+            "v": "Logistique"
+          },
+          "B6": {
+            "v": 21500
+          },
+          "C6": {
+            "v": 20100
+          },
+          "D6": {
+            "f": "=C6-B6"
+          },
+          "A7": {
+            "v": "TOTAL",
+            "format": {
+              "bold": true
+            }
+          },
+          "B7": {
+            "f": "=SOMME(B4:B6)"
+          },
+          "C7": {
+            "f": "=SOMME(C4:C6)"
+          },
+          "D7": {
+            "f": "=SOMME(D4:D6)"
+          },
+          "A9": {
+            "v": "Service"
+          },
+          "B9": {
+            "v": "Prévu"
+          },
+          "C9": {
+            "v": "Réalisé"
+          },
+          "D9": {
+            "v": "Écart"
+          },
+          "A10": {
+            "v": "Accueil"
+          },
+          "B10": {
+            "v": 12500
+          },
+          "C10": {
+            "v": 12900
+          },
+          "A11": {
+            "v": "Atelier"
+          },
+          "B11": {
+            "v": 39000
+          },
+          "C11": {
+            "v": 37600
+          },
+          "A12": {
+            "v": "Logistique"
+          },
+          "B12": {
+            "v": 22000
+          },
+          "C12": {
+            "v": 23400
+          },
+          "A13": {
+            "v": "TOTAL"
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M08-L04-01",
+      "consigne": "Excel a un outil dédié : le pinceau **Reproduire la mise en forme**, dans le groupe Presse-papiers. On sélectionne la zone modèle, on clique sur le pinceau, on passe sur la zone à habiller — et police, taille, couleurs, bordures, alignement et format de nombre sont copiés **sans le contenu**. Un **double-clic** sur le pinceau le garde actif pour l'appliquer à plusieurs endroits d'affilée.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M08-L04-02",
+      "consigne": "Le second bloc commence ligne 9, tout gris. ==Donnez à ses en-têtes **A9:D9** le même fond== que ceux de la ligne 3, avec le bouton **Remplir**.",
+      "setup": {
+        "selection": "A9:D9"
+      },
+      "action": {
+        "type": "EXPECT_FORMAT",
+        "cells": {
+          "A9": {
+            "background": "#fde68a"
+          },
+          "D9": {
+            "background": "#fde68a"
+          }
+        }
+      },
+      "aide": {
+        "text": "Le bouton Remplir du groupe Police applique une couleur de fond à toute la sélection.",
+        "showTarget": true
+      },
+      "feedback": "Les deux lignes d'en-têtes se ressemblent déjà."
+    },
+    {
+      "id": "M08-L04-03",
+      "consigne": "==Centrez ces en-têtes== comme ceux du premier bloc.",
+      "setup": {
+        "selection": "A9:D9"
+      },
+      "action": {
+        "type": "EXPECT_FORMAT",
+        "cells": {
+          "A9": {
+            "hAlign": "center"
+          },
+          "D9": {
+            "hAlign": "center"
+          }
+        }
+      },
+      "aide": {
+        "text": "Le bouton Centre du groupe Alignement.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M08-L04-04",
+      "consigne": "==Mettez-les en gras== pour finir de les aligner sur le modèle.",
+      "setup": {
+        "selection": "A9:D9"
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "acc-gras"
+      },
+      "aide": {
+        "text": "Le bouton G du groupe Police.",
+        "showTarget": true
+      },
+      "feedback": "Trois clics pour reproduire trois attributs. Le pinceau les aurait transportés en un seul geste — c'est tout son intérêt dès que la mise en forme se complique."
+    },
+    {
+      "id": "M08-L04-05",
+      "consigne": "Le bloc n'a pas ses calculs. En **D10**, ==calculez l'écart== entre le réalisé et le prévu, comme dans le premier bloc.",
+      "setup": {
+        "selection": "D10"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "D10",
+        "accept": [
+          "=C10-B10"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Le réalisé moins le prévu : un écart positif est un dépassement.",
+        "showTarget": true
+      },
+      "feedback": "400 € de dépassement sur l'accueil."
+    },
+    {
+      "id": "M08-L04-06",
+      "consigne": "==Complétez les deux écarts suivants==, en D11 et D12.",
+      "setup": {
+        "selection": "D11"
+      },
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "D11": {
+            "v": -1400
+          },
+          "D12": {
+            "v": 1400
+          }
+        }
+      },
+      "aide": {
+        "text": "La même formule, recopiée vers le bas."
+      },
+      "feedback": "Un écart négatif est une économie : l'atelier a dépensé 1 400 € de moins que prévu."
+    },
+    {
+      "id": "M08-L04-07",
+      "consigne": "En **B13**, ==totalisez le budget prévu== du second trimestre.",
+      "setup": {
+        "selection": "B13"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B13",
+        "accept": [
+          "=SOMME(B10:B12)",
+          "=B10+B11+B12"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Une somme sur les trois services.",
+        "showTarget": true
+      },
+      "feedback": "73 500 € prévus."
+    },
+    {
+      "id": "M08-L04-08",
+      "consigne": "==Complétez les deux totaux restants==, en C13 et D13.",
+      "setup": {
+        "selection": "C13"
+      },
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "C13": {
+            "anyOf": [
+              "=SOMME(C10:C12)",
+              "=C10+C11+C12"
+            ],
+            "v": 73900
+          },
+          "D13": {
+            "anyOf": [
+              "=SOMME(D10:D12)",
+              "=D10+D11+D12",
+              "=C13-B13"
+            ],
+            "v": 400
+          }
+        }
+      },
+      "aide": {
+        "text": "Deux sommes de plus, sur le même modèle. L'écart total peut aussi se déduire des deux totaux."
+      },
+      "feedback": "400 € de dépassement sur le trimestre. Notez que les deux chemins — somme des écarts ou différence des totaux — donnent le même résultat : c'est un bon contrôle."
+    },
+    {
+      "id": "M08-L04-09",
+      "consigne": "==Mettez la ligne de total **A13:D13** en gras==, comme celle du premier bloc.",
+      "setup": {
+        "selection": "A13:D13"
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "acc-gras"
+      },
+      "aide": {
+        "text": "Le bouton G, sur la sélection de la ligne 13.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M08-L04-10",
+      "consigne": "==Encadrez le second bloc : sélectionnez **A9:D13** et cliquez sur **Bordures**==.",
+      "setup": {
+        "selection": "A9:D13"
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "acc-bordures"
+      },
+      "aide": {
+        "text": "Le bouton Bordures du groupe Police.",
+        "showTarget": true
+      },
+      "feedback": "Les deux blocs sont maintenant présentés à l'identique."
+    },
+    {
+      "id": "M08-L04-11",
+      "consigne": "Dernier attribut à reproduire : le format des nombres. ==Donnez un format monétaire à **B10:D13**==.",
+      "setup": {
+        "selection": "B10:D13"
+      },
+      "action": {
+        "type": "EXPECT_FORMAT",
+        "cells": {
+          "B10": {
+            "numberFormat": "monetaire"
+          },
+          "D13": {
+            "numberFormat": "monetaire"
+          }
+        }
+      },
+      "aide": {
+        "text": "Le bouton € du groupe Nombre.",
+        "showTarget": true
+      },
+      "feedback": "Le format de nombre fait partie de la mise en forme : le pinceau l'aurait transporté avec le reste."
+    },
+    {
+      "id": "M08-L04-12",
+      "consigne": "Trois outils pour le même besoin, à connaître pour choisir. Le **pinceau** pour reproduire d'une zone à une autre, tout de suite. **Coller > Formats** quand on a déjà copié la zone modèle et qu'on ne veut en garder que l'habillage. Et les **styles de cellule**, qui enregistrent une mise en forme sous un nom : là, modifier le style met à jour toutes les cellules qui le portent, dans tout le classeur. C'est la seule des trois méthodes qui reste maintenable sur un gros fichier.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    }
+  ]
+}

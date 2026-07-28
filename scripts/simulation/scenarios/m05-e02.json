@@ -1,0 +1,220 @@
+{
+  "schemaVersion": 1,
+  "title": "Exercice · Payer une semaine de pose",
+  "mode": "EXERCISE",
+  "moduleTitle": "Les différents formats",
+  "intro": {
+    "title": "À VOUS",
+    "body": "Quatre journées à saisir, à cumuler, puis à convertir en euros."
+  },
+  "outro": {
+    "body": "Exercice terminé."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ],
+    "sheetCount": 1
+  },
+  "workbook": {
+    "fileName": "Heures-pose.xlsx",
+    "activeSheetIndex": 0,
+    "selection": "B4",
+    "sheets": [
+      {
+        "name": "Semaine 18",
+        "columnWidths": {
+          "A": 200,
+          "B": 120
+        },
+        "cells": {
+          "A1": {
+            "v": "HEURES DE POSE — SEMAINE 18",
+            "format": {
+              "bold": true
+            }
+          },
+          "A3": {
+            "v": "Jour",
+            "format": {
+              "bold": true
+            }
+          },
+          "B3": {
+            "v": "Durée",
+            "format": {
+              "bold": true
+            }
+          },
+          "A4": {
+            "v": "Lundi"
+          },
+          "A5": {
+            "v": "Mardi"
+          },
+          "A6": {
+            "v": "Mercredi"
+          },
+          "A7": {
+            "v": "Jeudi"
+          },
+          "A9": {
+            "v": "TOTAL",
+            "format": {
+              "bold": true
+            }
+          },
+          "A11": {
+            "v": "Total en heures décimales"
+          },
+          "A13": {
+            "v": "Taux horaire"
+          },
+          "B13": {
+            "v": 15.6
+          },
+          "A15": {
+            "v": "Coût de la semaine",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M05-E02-01",
+      "consigne": "Lundi, l'équipe a posé pendant **neuf heures**. Enregistrez cette durée en B4.",
+      "action": {
+        "type": "TYPE",
+        "target": "B4",
+        "accept": [
+          "9:00",
+          "09:00"
+        ]
+      },
+      "aide": {
+        "text": "Une durée se saisit avec des deux-points, minutes comprises."
+      }
+    },
+    {
+      "id": "M05-E02-02",
+      "consigne": "Mardi, **six heures**. Enregistrez-les en B5.",
+      "action": {
+        "type": "TYPE",
+        "target": "B5",
+        "accept": [
+          "6:00",
+          "06:00"
+        ]
+      },
+      "aide": {
+        "text": "Même forme que lundi."
+      }
+    },
+    {
+      "id": "M05-E02-03",
+      "consigne": "Mercredi, **huit heures et quart**. Enregistrez-les en B6.",
+      "action": {
+        "type": "TYPE",
+        "target": "B6",
+        "accept": [
+          "8:15",
+          "08:15"
+        ]
+      },
+      "aide": {
+        "text": "Un quart d'heure, c'est quinze minutes."
+      }
+    },
+    {
+      "id": "M05-E02-04",
+      "consigne": "Jeudi, **sept heures et demie**. Enregistrez-les en B7.",
+      "action": {
+        "type": "TYPE",
+        "target": "B7",
+        "accept": [
+          "7:30",
+          "07:30"
+        ]
+      },
+      "aide": {
+        "text": "Une demi-heure, c'est trente minutes."
+      }
+    },
+    {
+      "id": "M05-E02-05",
+      "consigne": "En **B9**, cumulez les quatre journées.",
+      "action": {
+        "type": "TYPE",
+        "target": "B9",
+        "accept": [
+          "=SOMME(B4:B7)",
+          "=B4+B5+B6+B7"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Une somme ordinaire. Si le total paraît trop petit, pensez au format des cumuls."
+      },
+      "feedback": "30 heures 45."
+    },
+    {
+      "id": "M05-E02-06",
+      "consigne": "En **B11**, convertissez ce total en **heures décimales**.",
+      "action": {
+        "type": "TYPE",
+        "target": "B11",
+        "accept": [
+          "=B9*24",
+          "=24*B9"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Une fraction de journée devient des heures en la multipliant par le nombre d'heures d'une journée."
+      },
+      "feedback": "30,75 heures — et non 30,45."
+    },
+    {
+      "id": "M05-E02-07",
+      "consigne": "En **B15**, calculez le **coût de la semaine** à partir du taux horaire de B13.",
+      "action": {
+        "type": "TYPE",
+        "target": "B15",
+        "accept": [
+          "=B11*B13",
+          "=B13*B11",
+          "=B9*24*B13"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Ce sont les heures décimales qui se multiplient par un taux, jamais le cumul horaire."
+      },
+      "feedback": "479,70 €."
+    },
+    {
+      "id": "M05-E02-08",
+      "consigne": "Donnez un **format monétaire** à ce coût.",
+      "action": {
+        "type": "EXPECT_FORMAT",
+        "cells": {
+          "B15": {
+            "numberFormat": "monetaire"
+          }
+        }
+      },
+      "aide": {
+        "text": "Le groupe Nombre du ruban Accueil."
+      }
+    }
+  ]
+}

@@ -1,0 +1,313 @@
+{
+  "schemaVersion": 1,
+  "title": "S'évaluer · Les différents formats",
+  "mode": "EVALUATION",
+  "moduleTitle": "Les différents formats",
+  "intro": {
+    "title": "S'ÉVALUER",
+    "body": "Un tableau de facturation où rien n'est présenté, et un relevé d'ouverture à saisir. Onze gestes notés à la première tentative, sans aucune aide."
+  },
+  "outro": {
+    "body": "Évaluation terminée."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ],
+    "sheetCount": 1
+  },
+  "workbook": {
+    "fileName": "Facturation-juin.xlsx",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Juin",
+        "columnWidths": {
+          "A": 130,
+          "B": 120,
+          "D": 110,
+          "E": 140
+        },
+        "cells": {
+          "A1": {
+            "v": "FACTURATION JUIN 2026",
+            "format": {
+              "bold": true
+            }
+          },
+          "A3": {
+            "v": "Client",
+            "format": {
+              "bold": true
+            }
+          },
+          "B3": {
+            "v": "Montant HT",
+            "format": {
+              "bold": true
+            }
+          },
+          "C3": {
+            "v": "Remise",
+            "format": {
+              "bold": true
+            }
+          },
+          "D3": {
+            "v": "Échéance",
+            "format": {
+              "bold": true
+            }
+          },
+          "E3": {
+            "v": "Montant remisé",
+            "format": {
+              "bold": true
+            }
+          },
+          "A4": {
+            "v": "Delcourt"
+          },
+          "B4": {
+            "v": 1450
+          },
+          "C4": {
+            "v": 0.05
+          },
+          "D4": {
+            "v": 46188
+          },
+          "A5": {
+            "v": "Aubry"
+          },
+          "B5": {
+            "v": 890
+          },
+          "C5": {
+            "v": 0.1
+          },
+          "D5": {
+            "v": 46193
+          },
+          "A6": {
+            "v": "Vasseur"
+          },
+          "B6": {
+            "v": 2340
+          },
+          "C6": {
+            "v": 0.15
+          },
+          "D6": {
+            "v": 46201
+          },
+          "A7": {
+            "v": "Petit"
+          },
+          "B7": {
+            "v": 620
+          },
+          "C7": {
+            "v": 0.02
+          },
+          "D7": {
+            "v": 46208
+          },
+          "A10": {
+            "v": "Ouverture du standard"
+          },
+          "A11": {
+            "v": "Fermeture du standard"
+          },
+          "A12": {
+            "v": "Durée d'ouverture"
+          },
+          "A13": {
+            "v": "Durée en heures décimales"
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M05-EV01-01",
+      "consigne": "Les montants sont bruts, les remises illisibles et les échéances affichées en numéros de jour. À vous de rendre ce tableau présentable et de le compléter.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M05-EV01-02",
+      "consigne": "Donnez aux **montants HT**, de B4 à B7, le format qui convient à des euros.",
+      "action": {
+        "type": "EXPECT_FORMAT",
+        "cells": {
+          "B4": {
+            "numberFormat": "monetaire"
+          },
+          "B7": {
+            "numberFormat": "monetaire"
+          }
+        }
+      },
+      "points": 1
+    },
+    {
+      "id": "M05-EV01-03",
+      "consigne": "Les **remises** de C4 à C7 doivent se lire en pourcentage.",
+      "action": {
+        "type": "EXPECT_FORMAT",
+        "cells": {
+          "C4": {
+            "numberFormat": "pourcentage"
+          },
+          "C7": {
+            "numberFormat": "pourcentage"
+          }
+        }
+      },
+      "points": 1
+    },
+    {
+      "id": "M05-EV01-04",
+      "consigne": "Rendez les **échéances** de D4 à D7 lisibles comme des dates.",
+      "action": {
+        "type": "EXPECT_FORMAT",
+        "cells": {
+          "D4": {
+            "numberFormat": "date"
+          },
+          "D7": {
+            "numberFormat": "date"
+          }
+        }
+      },
+      "points": 1
+    },
+    {
+      "id": "M05-EV01-05",
+      "consigne": "En **E4**, calculez le **montant remisé** du premier client. La formule devra être recopiable.",
+      "action": {
+        "type": "TYPE",
+        "target": "E4",
+        "accept": [
+          "=B4*(1-C4)",
+          "=B4-B4*C4"
+        ],
+        "formulaMode": true
+      },
+      "points": 2
+    },
+    {
+      "id": "M05-EV01-06",
+      "consigne": "Complétez les **trois montants remisés** restants.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "E5": {
+            "v": 801
+          },
+          "E6": {
+            "v": 1989
+          },
+          "E7": {
+            "v": 607.6
+          }
+        }
+      },
+      "points": 2
+    },
+    {
+      "id": "M05-EV01-07",
+      "consigne": "En **G4**, calculez le **nombre de jours** entre la première et la dernière échéance.",
+      "setup": {
+        "cells": {
+          "F4": {
+            "v": "Jours entre échéances",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "G4",
+        "accept": [
+          "=D7-D4"
+        ],
+        "formulaMode": true
+      },
+      "points": 1
+    },
+    {
+      "id": "M05-EV01-08",
+      "consigne": "Contrôle du module : placez-vous sur le montant HT du premier client et vérifiez dans la barre de formule que le format n'a rien changé à sa valeur.",
+      "action": {
+        "type": "CLICK_CELL",
+        "cell": "B4"
+      },
+      "points": 1
+    },
+    {
+      "id": "M05-EV01-09",
+      "consigne": "Le standard a ouvert à **8 h 30**. Enregistrez cette heure en B10.",
+      "action": {
+        "type": "TYPE",
+        "target": "B10",
+        "accept": [
+          "08:30",
+          "8:30"
+        ]
+      },
+      "points": 1
+    },
+    {
+      "id": "M05-EV01-10",
+      "consigne": "Il a fermé à **19 h 15**. Enregistrez-la en B11.",
+      "action": {
+        "type": "TYPE",
+        "target": "B11",
+        "accept": [
+          "19:15"
+        ]
+      },
+      "points": 1
+    },
+    {
+      "id": "M05-EV01-11",
+      "consigne": "En **B12**, calculez la **durée d'ouverture**.",
+      "action": {
+        "type": "TYPE",
+        "target": "B12",
+        "accept": [
+          "=B11-B10"
+        ],
+        "formulaMode": true
+      },
+      "points": 1
+    },
+    {
+      "id": "M05-EV01-12",
+      "consigne": "En **B13**, convertissez cette durée en **heures décimales**.",
+      "action": {
+        "type": "TYPE",
+        "target": "B13",
+        "accept": [
+          "=B12*24",
+          "=24*B12"
+        ],
+        "formulaMode": true
+      },
+      "points": 2
+    }
+  ]
+}

@@ -1,0 +1,292 @@
+{
+  "schemaVersion": 1,
+  "title": "S'évaluer · Calculs simples",
+  "mode": "EVALUATION",
+  "moduleTitle": "Calculs simples",
+  "intro": {
+    "title": "S'ÉVALUER",
+    "body": "Une semaine de ventes à calculer de bout en bout : formule recopiable, référence figée, somme, moyenne, extrêmes, priorité des opérations. Dix gestes notés à la première tentative, sans aucune aide."
+  },
+  "outro": {
+    "body": "Évaluation terminée."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ],
+    "sheetCount": 1
+  },
+  "workbook": {
+    "fileName": "Ventes-semaine.xlsx",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Semaine",
+        "columnWidths": {
+          "A": 170,
+          "D": 190
+        },
+        "cells": {
+          "A1": {
+            "v": "VENTES DE LA SEMAINE",
+            "format": {
+              "bold": true
+            }
+          },
+          "A3": {
+            "v": "Jour",
+            "format": {
+              "bold": true
+            }
+          },
+          "B3": {
+            "v": "CA HT",
+            "format": {
+              "bold": true
+            }
+          },
+          "C3": {
+            "v": "CA TTC",
+            "format": {
+              "bold": true
+            }
+          },
+          "A4": {
+            "v": "Lundi"
+          },
+          "B4": {
+            "v": 1240
+          },
+          "A5": {
+            "v": "Mardi"
+          },
+          "B5": {
+            "v": 1580
+          },
+          "A6": {
+            "v": "Mercredi"
+          },
+          "B6": {
+            "v": 1120
+          },
+          "A7": {
+            "v": "Jeudi"
+          },
+          "B7": {
+            "v": 1760
+          },
+          "A8": {
+            "v": "Vendredi"
+          },
+          "B8": {
+            "v": 2040
+          },
+          "A9": {
+            "v": "Samedi"
+          },
+          "B9": {
+            "v": 2280
+          },
+          "A11": {
+            "v": "Taux de TVA"
+          },
+          "B11": {
+            "v": 0.2
+          },
+          "A13": {
+            "v": "TOTAL HT",
+            "format": {
+              "bold": true
+            }
+          },
+          "A14": {
+            "v": "TOTAL TTC",
+            "format": {
+              "bold": true
+            }
+          },
+          "A15": {
+            "v": "Meilleure journée"
+          },
+          "A16": {
+            "v": "Moyenne journalière"
+          },
+          "A17": {
+            "v": "Jours saisis"
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M06-EV01-01",
+      "consigne": "Six jours de chiffre d'affaires hors taxes, un taux de TVA en B11, et tout le reste à calculer.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M06-EV01-02",
+      "consigne": "En **C4**, calculez le **CA TTC** du lundi **en vous servant du taux de la cellule B11**. Votre formule devra rester juste une fois recopiée sur toute la semaine.",
+      "action": {
+        "type": "TYPE",
+        "target": "C4",
+        "accept": [
+          "=B4*(1+$B$11)",
+          "=B4+B4*$B$11"
+        ],
+        "formulaMode": true
+      },
+      "points": 2
+    },
+    {
+      "id": "M06-EV01-03",
+      "consigne": "Complétez le **CA TTC des cinq autres jours**.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "C5": {
+            "v": 1896
+          },
+          "C6": {
+            "v": 1344
+          },
+          "C7": {
+            "v": 2112
+          },
+          "C8": {
+            "v": 2448
+          },
+          "C9": {
+            "v": 2736
+          }
+        }
+      },
+      "points": 2
+    },
+    {
+      "id": "M06-EV01-04",
+      "consigne": "En **B13**, totalisez le **chiffre d'affaires hors taxes** de la semaine.",
+      "action": {
+        "type": "TYPE",
+        "target": "B13",
+        "accept": [
+          "=SOMME(B4:B9)",
+          "=B4+B5+B6+B7+B8+B9"
+        ],
+        "formulaMode": true
+      },
+      "points": 1
+    },
+    {
+      "id": "M06-EV01-05",
+      "consigne": "En **B14**, totalisez la colonne **CA TTC**.",
+      "action": {
+        "type": "TYPE",
+        "target": "B14",
+        "accept": [
+          "=SOMME(C4:C9)",
+          "=C4+C5+C6+C7+C8+C9"
+        ],
+        "formulaMode": true
+      },
+      "points": 1
+    },
+    {
+      "id": "M06-EV01-06",
+      "consigne": "En **B15**, affichez le **meilleur chiffre d'affaires hors taxes** de la semaine.",
+      "action": {
+        "type": "TYPE",
+        "target": "B15",
+        "accept": [
+          "=MAX(B4:B9)"
+        ],
+        "formulaMode": true
+      },
+      "points": 1
+    },
+    {
+      "id": "M06-EV01-07",
+      "consigne": "En **B16**, calculez la **moyenne journalière** hors taxes.",
+      "action": {
+        "type": "TYPE",
+        "target": "B16",
+        "accept": [
+          "=MOYENNE(B4:B9)"
+        ],
+        "formulaMode": true
+      },
+      "points": 1
+    },
+    {
+      "id": "M06-EV01-08",
+      "consigne": "En **B17**, comptez le **nombre de jours** effectivement saisis.",
+      "action": {
+        "type": "TYPE",
+        "target": "B17",
+        "accept": [
+          "=NB(B4:B9)"
+        ],
+        "formulaMode": true
+      },
+      "points": 1
+    },
+    {
+      "id": "M06-EV01-09",
+      "consigne": "En **E4**, écrivez une formule qui **additionne d'abord** le lundi et le mardi, **puis multiplie** le résultat par 2.",
+      "setup": {
+        "cells": {
+          "D4": {
+            "v": "Lundi + mardi, doublé",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "E4",
+        "accept": [
+          "=(B4+B5)*2",
+          "=2*(B4+B5)"
+        ],
+        "formulaMode": true
+      },
+      "points": 2
+    },
+    {
+      "id": "M06-EV01-10",
+      "consigne": "Contrôlez votre total hors taxes : sélectionnez les **six chiffres** de la colonne B et comparez avec la barre d'état.",
+      "action": {
+        "type": "DRAG_RANGE",
+        "range": "B4:B9"
+      },
+      "points": 1
+    },
+    {
+      "id": "M06-EV01-11",
+      "consigne": "La TVA passe à **21 %**. Faites la modification au seul endroit qui convient, et vérifiez que le total TTC suit.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "B11": {
+            "v": 0.21
+          },
+          "B14": {
+            "v": 12124.2
+          }
+        }
+      },
+      "points": 2
+    }
+  ]
+}

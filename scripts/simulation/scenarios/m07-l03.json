@@ -1,0 +1,301 @@
+{
+  "schemaVersion": 1,
+  "title": "Afficher, vérifier et imprimer ses formules",
+  "mode": "LESSON",
+  "moduleTitle": "Les fonctions courantes",
+  "intro": {
+    "title": "VOIR LES CALCULS, PAS LES RÉSULTATS",
+    "body": "Un tableau qui affiche des chiffres plausibles peut contenir une formule fausse. Excel sait montrer les calculs à la place des résultats — c'est la relecture la plus rapide d'un classeur qu'on n'a pas écrit soi-même."
+  },
+  "outro": {
+    "body": "Vous savez afficher les formules d'une feuille, repérer celle qui ne suit pas ses voisines, et imprimer un classeur en mode formules."
+  },
+  "ribbon": [
+    "accueil",
+    "formules",
+    "mise-en-page"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ],
+    "sheetCount": 1
+  },
+  "workbook": {
+    "fileName": "Facturation-mars.xlsx",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Mars",
+        "columnWidths": {
+          "A": 130,
+          "C": 120
+        },
+        "cells": {
+          "A1": {
+            "v": "FACTURATION MARS 2026",
+            "format": {
+              "bold": true
+            }
+          },
+          "A3": {
+            "v": "Client",
+            "format": {
+              "bold": true
+            }
+          },
+          "B3": {
+            "v": "Quantité",
+            "format": {
+              "bold": true
+            }
+          },
+          "C3": {
+            "v": "Prix unitaire",
+            "format": {
+              "bold": true
+            }
+          },
+          "D3": {
+            "v": "Total",
+            "format": {
+              "bold": true
+            }
+          },
+          "A4": {
+            "v": "Delcourt"
+          },
+          "B4": {
+            "v": 12
+          },
+          "C4": {
+            "v": 24.5
+          },
+          "D4": {
+            "f": "=B4*C4"
+          },
+          "A5": {
+            "v": "Aubry"
+          },
+          "B5": {
+            "v": 8
+          },
+          "C5": {
+            "v": 36
+          },
+          "D5": {
+            "f": "=B5*C5"
+          },
+          "A6": {
+            "v": "Vasseur"
+          },
+          "B6": {
+            "v": 15
+          },
+          "C6": {
+            "v": 18
+          },
+          "D6": {
+            "f": "=B6*C5"
+          },
+          "A7": {
+            "v": "Petit"
+          },
+          "B7": {
+            "v": 6
+          },
+          "C7": {
+            "v": 42
+          },
+          "D7": {
+            "f": "=B7*C7"
+          },
+          "A8": {
+            "v": "Lenoir"
+          },
+          "B8": {
+            "v": 20
+          },
+          "C8": {
+            "v": 12.5
+          },
+          "D8": {
+            "f": "=B8*C8"
+          },
+          "A10": {
+            "v": "TOTAL",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M07-L03-01",
+      "consigne": "Le mode **Afficher les formules** remplace tous les résultats de la feuille par les calculs qui les produisent. On l'active dans l'onglet **Formules**, groupe Vérification des formules, ou d'un coup de **Ctrl + `** — la touche de l'accent grave, à gauche du 1. Le même geste le désactive.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M07-L03-02",
+      "consigne": "Sans ce mode, on inspecte cellule par cellule dans la barre de formule. ==Cliquez sur **D4**== et lisez son calcul.",
+      "action": {
+        "type": "CLICK_CELL",
+        "cell": "D4"
+      },
+      "aide": {
+        "text": "Le total du premier client.",
+        "showTarget": true
+      },
+      "feedback": "`=B4*C4` : la quantité de la ligne 4 fois le prix de la ligne 4. C'est le motif que **toutes** les lignes devraient suivre."
+    },
+    {
+      "id": "M07-L03-03",
+      "consigne": "Ce qu'on cherche en relisant des formules n'est pas une erreur d'arithmétique — Excel ne se trompe jamais de multiplication. On cherche une formule qui **ne suit pas le motif de ses voisines** : une référence décalée d'une ligne, une plage qui s'arrête trop tôt, ou un nombre tapé en dur au milieu d'une colonne de calculs.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M07-L03-04",
+      "consigne": "Regardez la ligne 6 : quinze articles à 18 €, et un total de 540 €. ==Cliquez sur **D6**== pour comprendre.",
+      "action": {
+        "type": "CLICK_CELL",
+        "cell": "D6"
+      },
+      "aide": {
+        "text": "Le total du client Vasseur, celui qui paraît trop élevé.",
+        "showTarget": true
+      },
+      "feedback": "`=B6*C5` : la quantité de la ligne 6 multipliée par le prix de la **ligne 5**. Le résultat est un nombre parfaitement crédible — c'est exactement ce qui rend cette erreur dangereuse."
+    },
+    {
+      "id": "M07-L03-05",
+      "consigne": "==Corrigez **D6**== en écrivant la formule qui suit le motif des autres lignes.",
+      "setup": {
+        "selection": "D6"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "D6",
+        "accept": [
+          "=B6*C6",
+          "=C6*B6"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "La quantité et le prix de la même ligne.",
+        "showTarget": true
+      },
+      "feedback": "270 € au lieu de 540 : 270 € de facturation en trop qui seraient partis chez le client."
+    },
+    {
+      "id": "M07-L03-06",
+      "consigne": "En **D10**, ==totalisez la facturation du mois==.",
+      "setup": {
+        "selection": "D10"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "D10",
+        "accept": [
+          "=SOMME(D4:D8)",
+          "=D4+D5+D6+D7+D8"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Une somme sur les cinq totaux.",
+        "showTarget": true
+      },
+      "feedback": "1 354 €."
+    },
+    {
+      "id": "M07-L03-07",
+      "consigne": "Deuxième contrôle utile : compter. En **F4**, ==comptez les totaux réellement calculés== avec `=NB(D4:D8)`.",
+      "setup": {
+        "selection": "F4",
+        "cells": {
+          "E4": {
+            "v": "Totaux calculés",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "F4",
+        "accept": [
+          "=NB(D4:D8)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "NB ne compte que les cellules qui contiennent un nombre.",
+        "showTarget": true
+      },
+      "feedback": "5, donc aucune ligne n'a été oubliée. Un 4 ici signalerait un total manquant, invisible à l'œil dans une colonne longue."
+    },
+    {
+      "id": "M07-L03-08",
+      "consigne": "Troisième contrôle : la barre d'état. ==Sélectionnez **D4:D8**== et comparez sa somme avec votre total.",
+      "action": {
+        "type": "DRAG_RANGE",
+        "range": "D4:D8"
+      },
+      "aide": {
+        "text": "Les cinq totaux, sans la ligne TOTAL.",
+        "showTarget": true
+      },
+      "feedback": "1 354 € des deux côtés. Deux chemins différents qui donnent le même chiffre : c'est ce qui valide un tableau."
+    },
+    {
+      "id": "M07-L03-09",
+      "consigne": "Pour **imprimer** les formules, la démarche est simple : on active Afficher les formules, **puis** on imprime — Excel imprime ce qui est à l'écran. Deux précautions : élargir les colonnes, car une formule occupe plus de place que son résultat, et faire imprimer les **en-têtes de lignes et de colonnes**, sans quoi on ne sait pas de quelle cellule vient quelle formule.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M07-L03-10",
+      "consigne": "==Faites imprimer les en-têtes de lignes et de colonnes== dans les réglages de mise en page.",
+      "setup": {
+        "pageSetup": {
+          "headings": true
+        }
+      },
+      "action": {
+        "type": "EXPECT_PAGE_SETUP",
+        "pageSetup": {
+          "headings": true
+        }
+      },
+      "aide": {
+        "text": "Onglet Mise en page, options des feuilles : la case En-têtes, à imprimer.",
+        "showTarget": true
+      },
+      "feedback": "Les lettres de colonnes et les numéros de lignes apparaîtront sur le papier. Sur une impression de formules, c'est indispensable — sans repères, la liste est inexploitable."
+    },
+    {
+      "id": "M07-L03-11",
+      "consigne": "L'audit d'un classeur en trois temps, à faire avant de transmettre un fichier : **afficher les formules** pour voir les calculs d'un coup d'œil ; **chercher l'intruse**, la formule qui ne ressemble pas à ses voisines ou la valeur tapée en dur ; **vérifier les bornes** de chaque plage, en particulier qu'aucune somme n'inclut une ligne de total. Ces trois passes attrapent la quasi-totalité des erreurs réelles.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    }
+  ]
+}

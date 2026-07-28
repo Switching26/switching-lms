@@ -1,0 +1,243 @@
+{
+  "schemaVersion": 1,
+  "title": "Exercice · Auditer un tableau de calculs",
+  "mode": "EXERCISE",
+  "moduleTitle": "Les fonctions courantes",
+  "intro": {
+    "title": "À VOUS",
+    "body": "Cinq sessions facturées, et une ligne qui ne calcule rien."
+  },
+  "outro": {
+    "body": "Exercice terminé."
+  },
+  "ribbon": [
+    "accueil",
+    "formules",
+    "mise-en-page"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ],
+    "sheetCount": 1
+  },
+  "workbook": {
+    "fileName": "Heures-facturees.xlsx",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Sessions",
+        "columnWidths": {
+          "A": 150,
+          "C": 120
+        },
+        "cells": {
+          "A1": {
+            "v": "HEURES DE FORMATION FACTURÉES",
+            "format": {
+              "bold": true
+            }
+          },
+          "A3": {
+            "v": "Session",
+            "format": {
+              "bold": true
+            }
+          },
+          "B3": {
+            "v": "Heures",
+            "format": {
+              "bold": true
+            }
+          },
+          "C3": {
+            "v": "Tarif horaire",
+            "format": {
+              "bold": true
+            }
+          },
+          "D3": {
+            "v": "Montant",
+            "format": {
+              "bold": true
+            }
+          },
+          "A4": {
+            "v": "Excel niveau 1"
+          },
+          "B4": {
+            "v": 21
+          },
+          "C4": {
+            "v": 60
+          },
+          "D4": {
+            "f": "=B4*C4"
+          },
+          "A5": {
+            "v": "Excel niveau 2"
+          },
+          "B5": {
+            "v": 14
+          },
+          "C5": {
+            "v": 75
+          },
+          "D5": {
+            "f": "=B5*C5"
+          },
+          "A6": {
+            "v": "Word initiation"
+          },
+          "B6": {
+            "v": 28
+          },
+          "C6": {
+            "v": 55
+          },
+          "D6": {
+            "f": "=B6*C6"
+          },
+          "A7": {
+            "v": "Comptabilité"
+          },
+          "B7": {
+            "v": 35
+          },
+          "C7": {
+            "v": 80
+          },
+          "D7": {
+            "v": 2400
+          },
+          "A8": {
+            "v": "Anglais"
+          },
+          "B8": {
+            "v": 40
+          },
+          "C8": {
+            "v": 45
+          },
+          "D8": {
+            "f": "=B8*C8"
+          },
+          "A10": {
+            "v": "TOTAL",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M07-E02-01",
+      "consigne": "Une seule ligne de ce tableau ne contient pas de formule : son montant a été tapé à la main. Placez-vous sur la cellule fautive.",
+      "action": {
+        "type": "CLICK_CELL",
+        "cell": "D7"
+      },
+      "aide": {
+        "text": "Comparez chaque montant au produit des deux colonnes précédentes. Celui qui ne correspond pas est le bon candidat."
+      },
+      "feedback": "2 400 € tapés en dur, alors que 35 heures à 80 € font 2 800 €. Une valeur en dur dans une colonne de formules est l'erreur la plus fréquente — et la plus silencieuse."
+    },
+    {
+      "id": "M07-E02-02",
+      "consigne": "Remplacez cette valeur par la **formule** qui suit le motif des autres lignes.",
+      "action": {
+        "type": "TYPE",
+        "target": "D7",
+        "accept": [
+          "=B7*C7",
+          "=C7*B7"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Les heures multipliées par le tarif horaire de la même ligne."
+      },
+      "feedback": "2 800 €, soit 400 € qui manquaient à la facturation."
+    },
+    {
+      "id": "M07-E02-03",
+      "consigne": "En **D10**, totalisez la facturation.",
+      "action": {
+        "type": "TYPE",
+        "target": "D10",
+        "accept": [
+          "=SOMME(D4:D8)",
+          "=D4+D5+D6+D7+D8"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Une somme sur les cinq montants, sans la ligne de total elle-même."
+      },
+      "feedback": "9 350 €."
+    },
+    {
+      "id": "M07-E02-04",
+      "consigne": "En **F4**, comptez les montants **réellement calculés** pour vérifier qu'aucune ligne ne manque.",
+      "setup": {
+        "cells": {
+          "E4": {
+            "v": "Montants calculés",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "F4",
+        "accept": [
+          "=NB(D4:D8)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Une fonction de comptage des nombres."
+      },
+      "feedback": "5 montants : le tableau est complet."
+    },
+    {
+      "id": "M07-E02-05",
+      "consigne": "Contrôlez votre total avec la barre d'état : sélectionnez les cinq montants.",
+      "action": {
+        "type": "DRAG_RANGE",
+        "range": "D4:D8"
+      },
+      "aide": {
+        "text": "De D4 à D8, la ligne TOTAL exclue."
+      },
+      "feedback": "9 350 € : les deux méthodes concordent."
+    },
+    {
+      "id": "M07-E02-06",
+      "consigne": "Ce tableau va être relu par la comptabilité, formules à l'appui. Faites imprimer les **en-têtes de lignes et de colonnes**.",
+      "setup": {
+        "pageSetup": {
+          "headings": true
+        }
+      },
+      "action": {
+        "type": "EXPECT_PAGE_SETUP",
+        "pageSetup": {
+          "headings": true
+        }
+      },
+      "aide": {
+        "text": "Les options des feuilles, dans les réglages de mise en page."
+      },
+      "feedback": "Sans les repères de lignes et de colonnes, une impression de formules ne se relit pas."
+    }
+  ]
+}

@@ -53,6 +53,15 @@ export type GridApi = {
    * une cible d'aide, et à piloter les gestes en test.
    */
   getCellRect: (ref: string) => { left: number; top: number; width: number; height: number } | null
+  /**
+   * Largeur d'une colonne et hauteur d'une ligne, en pixels, indices base 0.
+   * `null` quand le squelette de rendu n'est pas encore là — l'appelant retombe
+   * alors sur les valeurs par défaut d'Univer (88 et 24). La mise en page a
+   * besoin de ces dimensions RÉELLES : une colonne élargie déplace la coupure
+   * de page, et un pointillé au mauvais endroit enseigne faux.
+   */
+  getColumnWidth: (col: number) => number | null
+  getRowHeight: (row: number) => number | null
   /** Texte réellement affiché dans la cellule, format de nombre appliqué. */
   getDisplayValue: (ref: string) => string
   /** Applique un format de nombre Excel (pourcentage, monétaire, date…). */
@@ -576,6 +585,24 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
               width: Number(sh2.getColumnWidth?.(pos.col) ?? 88),
               height: Number(sh2.getRowHeight?.(pos.row) ?? 24),
             }
+          } catch {
+            return null
+          }
+        },
+        getColumnWidth: (col) => {
+          try {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const w = (sheet() as any)?.getColumnWidth?.(col)
+            return Number.isFinite(Number(w)) ? Number(w) : null
+          } catch {
+            return null
+          }
+        },
+        getRowHeight: (row) => {
+          try {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const h = (sheet() as any)?.getRowHeight?.(row)
+            return Number.isFinite(Number(h)) ? Number(h) : null
           } catch {
             return null
           }
@@ -1266,6 +1293,11 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
           kind: "typed",
           target: ref,
           text,
+          // Ce que l'apprenant VOIT, qui n'est pas toujours ce que le moteur retient :
+          // une date tapée « 07/04/2026 » est retenue comme le nombre 46207, et
+          // comparer l'attendu au seul texte retenu refusait quelqu'un qui avait tapé
+          // exactement ce qu'on lui demandait.
+          displayed: api.getDisplayValue(ref),
           channel: channelRef.current === "unknown" ? "keyboard" : channelRef.current,
           // Relue APRÈS la retraduction : c'est la valeur que l'apprenant voit.
           computed: api.getValue(ref),

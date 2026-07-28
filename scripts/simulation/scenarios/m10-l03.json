@@ -188,6 +188,15 @@
       ],
       "v": "Reste à payer"
      },
+     "D5": {
+      "anyOf": [
+       "=SI(C5>=B5;\"Soldé\";\"Reste à payer\")",
+       "=SI(C5<B5;\"Reste à payer\";\"Soldé\")",
+       "=SI(B5<=C5;\"Soldé\";\"Reste à payer\")",
+       "=SI(B5>C5;\"Reste à payer\";\"Soldé\")"
+      ],
+      "v": "Soldé"
+     },
      "D6": {
       "anyOf": [
        "=SI(C6>=B6;\"Soldé\";\"Reste à payer\")",
@@ -250,6 +259,15 @@
        "=SI(B4<=C4;0;(B4-C4)*$H$2)"
       ],
       "v": 9.0
+     },
+     "E5": {
+      "anyOf": [
+       "=SI(C5<B5;(B5-C5)*$H$2;0)",
+       "=SI(B5>C5;(B5-C5)*$H$2;0)",
+       "=SI(C5>=B5;0;(B5-C5)*$H$2)",
+       "=SI(B5<=C5;0;(B5-C5)*$H$2)"
+      ],
+      "v": 0
      },
      "E6": {
       "anyOf": [

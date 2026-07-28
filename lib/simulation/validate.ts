@@ -41,7 +41,20 @@ const ERROR_VALUES = new Set([
 export type ObservedAction =
   | { kind: "next" }
   /** `computed` = valeur réellement affichée par la cellule après calcul. */
-  | { kind: "typed"; target: string; text: string; channel: ActionChannel; computed?: unknown }
+  /**
+   * `text` est ce que le moteur retient, `displayed` ce que l'apprenant VOIT.
+   * Les deux diffèrent dès que le tableur transforme la saisie : une date tapée
+   * « 07/04/2026 » est retenue comme un numéro de série, et comparer l'attendu au
+   * seul `text` refusait l'apprenant qui avait tapé exactement ce qu'on demandait.
+   */
+  | {
+      kind: "typed"
+      target: string
+      text: string
+      displayed?: string
+      channel: ActionChannel
+      computed?: unknown
+    }
   | { kind: "cellClick"; cell: string; modifier?: "Control" | "Shift"; channel: ActionChannel }
   | { kind: "control"; control: string; channel: ActionChannel }
   | { kind: "contextMenu"; target: string }
@@ -224,7 +237,14 @@ export function validateStep(
           message: `La cellule affiche ${String(observed.computed)} : la formule n'a pas pu être calculée.`,
         }
       }
-      if (!validateTyped(expected, observed.text)) {
+      // On accepte la forme retenue par le moteur OU la forme affichée : une date
+      // et une heure ne sont retenues que comme nombres, et l'apprenant ne peut pas
+      // deviner un numéro de série. Refuser une réponse juste est la faute la plus
+      // grave d'un simulateur pédagogique.
+      const texteOk =
+        validateTyped(expected, observed.text) ||
+        (observed.displayed !== undefined && validateTyped(expected, observed.displayed))
+      if (!texteOk) {
         return {
           ok: false,
           reason: "wrong_content",

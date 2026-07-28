@@ -1,0 +1,272 @@
+{
+  "schemaVersion": 1,
+  "title": "Exercice · Reproduire la présentation d'un bloc",
+  "mode": "EXERCISE",
+  "moduleTitle": "Mise en forme",
+  "intro": {
+    "title": "À VOUS",
+    "body": "Le premier bloc est présenté et calculé. Le second doit lui ressembler exactement."
+  },
+  "outro": {
+    "body": "Exercice terminé."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ],
+    "sheetCount": 1
+  },
+  "workbook": {
+    "fileName": "Suivi-inscriptions.xlsx",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Sessions",
+        "columnWidths": {
+          "A": 140
+        },
+        "cells": {
+          "A1": {
+            "v": "SUIVI DES INSCRIPTIONS",
+            "format": {
+              "bold": true
+            }
+          },
+          "A3": {
+            "v": "Formation",
+            "format": {
+              "bold": true,
+              "background": "#fde68a",
+              "align": "center"
+            }
+          },
+          "B3": {
+            "v": "Places",
+            "format": {
+              "bold": true,
+              "background": "#fde68a",
+              "align": "center"
+            }
+          },
+          "C3": {
+            "v": "Inscrits",
+            "format": {
+              "bold": true,
+              "background": "#fde68a",
+              "align": "center"
+            }
+          },
+          "D3": {
+            "v": "Restantes",
+            "format": {
+              "bold": true,
+              "background": "#fde68a",
+              "align": "center"
+            }
+          },
+          "A4": {
+            "v": "Excel"
+          },
+          "B4": {
+            "v": 12
+          },
+          "C4": {
+            "v": 9
+          },
+          "D4": {
+            "f": "=B4-C4"
+          },
+          "A5": {
+            "v": "Word"
+          },
+          "B5": {
+            "v": 10
+          },
+          "C5": {
+            "v": 10
+          },
+          "D5": {
+            "f": "=B5-C5"
+          },
+          "A6": {
+            "v": "TOTAL",
+            "format": {
+              "bold": true
+            }
+          },
+          "B6": {
+            "f": "=SOMME(B4:B5)"
+          },
+          "C6": {
+            "f": "=SOMME(C4:C5)"
+          },
+          "D6": {
+            "f": "=SOMME(D4:D5)"
+          },
+          "A8": {
+            "v": "Formation"
+          },
+          "B8": {
+            "v": "Places"
+          },
+          "C8": {
+            "v": "Inscrits"
+          },
+          "D8": {
+            "v": "Restantes"
+          },
+          "A9": {
+            "v": "Comptabilité"
+          },
+          "B9": {
+            "v": 14
+          },
+          "C9": {
+            "v": 11
+          },
+          "A10": {
+            "v": "Anglais"
+          },
+          "B10": {
+            "v": 16
+          },
+          "C10": {
+            "v": 12
+          },
+          "A11": {
+            "v": "Paie"
+          },
+          "B11": {
+            "v": 8
+          },
+          "C11": {
+            "v": 5
+          },
+          "A12": {
+            "v": "TOTAL"
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M08-E02-01",
+      "consigne": "Donnez aux en-têtes du second bloc, **A8:D8**, le même **fond coloré** que ceux du premier.",
+      "action": {
+        "type": "EXPECT_FORMAT",
+        "cells": {
+          "A8": {
+            "background": "#fde68a"
+          },
+          "D8": {
+            "background": "#fde68a"
+          }
+        }
+      },
+      "aide": {
+        "text": "Sélectionnez les quatre en-têtes, puis cherchez le bouton de remplissage."
+      }
+    },
+    {
+      "id": "M08-E02-02",
+      "consigne": "Centrez-les, comme ceux du premier bloc.",
+      "action": {
+        "type": "EXPECT_FORMAT",
+        "cells": {
+          "A8": {
+            "hAlign": "center"
+          },
+          "D8": {
+            "hAlign": "center"
+          }
+        }
+      },
+      "aide": {
+        "text": "Le groupe Alignement."
+      }
+    },
+    {
+      "id": "M08-E02-03",
+      "consigne": "Mettez-les **en gras**.",
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "acc-gras"
+      },
+      "aide": {
+        "text": "Le bouton G, sur la même sélection."
+      }
+    },
+    {
+      "id": "M08-E02-04",
+      "consigne": "Complétez les **places restantes** des trois formations, en D9, D10 et D11.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "D9": {
+            "v": 3
+          },
+          "D10": {
+            "v": 4
+          },
+          "D11": {
+            "v": 3
+          }
+        }
+      },
+      "aide": {
+        "text": "La même formule que dans le premier bloc : les places moins les inscrits."
+      }
+    },
+    {
+      "id": "M08-E02-05",
+      "consigne": "Complétez la **ligne de total**, en B12, C12 et D12.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "B12": {
+            "v": 38
+          },
+          "C12": {
+            "v": 28
+          },
+          "D12": {
+            "v": 10
+          }
+        }
+      },
+      "aide": {
+        "text": "Trois sommes sur les trois lignes de formations."
+      }
+    },
+    {
+      "id": "M08-E02-06",
+      "consigne": "Mettez cette ligne de total **en gras**, comme celle du premier bloc.",
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "acc-gras"
+      },
+      "aide": {
+        "text": "Sélectionnez A12:D12 avant de cliquer."
+      }
+    },
+    {
+      "id": "M08-E02-07",
+      "consigne": "Terminez en **encadrant** le second bloc, de A8 à D12.",
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "acc-bordures"
+      },
+      "aide": {
+        "text": "Le bouton Bordures, sur la plage entière du bloc."
+      },
+      "feedback": "Les deux blocs sont identiques. Avec le pinceau, il aurait fallu deux gestes au lieu de sept."
+    }
+  ]
+}

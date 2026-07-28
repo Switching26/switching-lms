@@ -1,0 +1,308 @@
+{
+  "schemaVersion": 1,
+  "title": "Le format des heures : cumuler et payer",
+  "mode": "LESSON",
+  "moduleTitle": "Les différents formats",
+  "intro": {
+    "title": "TRENTE HEURES OU SIX HEURES ?",
+    "body": "Une heure est une fraction de journée. Additionner des durées fonctionne donc parfaitement — jusqu'au moment où le total dépasse vingt-quatre heures et repart à zéro. Tout tient dans une paire de crochets."
+  },
+  "outro": {
+    "body": "Vous savez saisir une durée, cumuler des heures au-delà de 24 h et les convertir en heures décimales pour les payer."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ],
+    "sheetCount": 1
+  },
+  "workbook": {
+    "fileName": "Heures-chantier.xlsx",
+    "activeSheetIndex": 0,
+    "selection": "B4",
+    "sheets": [
+      {
+        "name": "Semaine 12",
+        "columnWidths": {
+          "A": 200,
+          "B": 120
+        },
+        "cells": {
+          "A1": {
+            "v": "HEURES DE CHANTIER — SEMAINE 12",
+            "format": {
+              "bold": true
+            }
+          },
+          "A3": {
+            "v": "Jour",
+            "format": {
+              "bold": true
+            }
+          },
+          "B3": {
+            "v": "Durée",
+            "format": {
+              "bold": true
+            }
+          },
+          "A4": {
+            "v": "Lundi"
+          },
+          "A5": {
+            "v": "Mardi"
+          },
+          "A6": {
+            "v": "Mercredi"
+          },
+          "A7": {
+            "v": "Jeudi"
+          },
+          "A9": {
+            "v": "TOTAL",
+            "format": {
+              "bold": true
+            }
+          },
+          "A11": {
+            "v": "Total en heures décimales"
+          },
+          "A13": {
+            "v": "Taux horaire"
+          },
+          "B13": {
+            "v": 14.2
+          },
+          "A15": {
+            "v": "Coût de la semaine",
+            "format": {
+              "bold": true
+            }
+          },
+          "A17": {
+            "v": "Journée la plus longue"
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M05-L03-01",
+      "consigne": "Excel stocke une heure comme une **fraction de journée** : `06:00` vaut 0,25, `12:00` vaut 0,5, `18:00` vaut 0,75. C'est ce qui rend les durées additionnables — on additionne des fractions d'une même journée, pas des textes.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M05-L03-02",
+      "consigne": "Le chantier a duré sept heures et demie lundi. En **B4**, ==saisissez `7:30`==.",
+      "setup": {
+        "selection": "B4"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B4",
+        "accept": [
+          "7:30",
+          "07:30"
+        ]
+      },
+      "aide": {
+        "text": "Heures, deux-points, minutes. Pas de « h », pas de texte.",
+        "showTarget": true
+      },
+      "feedback": "Aligné à droite : c'est bien une durée, donc un nombre."
+    },
+    {
+      "id": "M05-L03-03",
+      "consigne": "En **B5**, ==saisissez `8:15`== pour mardi.",
+      "setup": {
+        "selection": "B5"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B5",
+        "accept": [
+          "8:15",
+          "08:15"
+        ]
+      },
+      "aide": {
+        "text": "Même forme que la veille.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M05-L03-04",
+      "consigne": "En **B6**, ==saisissez `6:45`== pour mercredi.",
+      "setup": {
+        "selection": "B6"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B6",
+        "accept": [
+          "6:45",
+          "06:45"
+        ]
+      },
+      "aide": {
+        "text": "Six heures quarante-cinq.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M05-L03-05",
+      "consigne": "En **B7**, ==saisissez `9:00`== pour jeudi.",
+      "setup": {
+        "selection": "B7"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B7",
+        "accept": [
+          "9:00",
+          "09:00"
+        ]
+      },
+      "aide": {
+        "text": "Une durée ronde s'écrit quand même avec ses minutes.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M05-L03-06",
+      "consigne": "En **B9**, ==totalisez les quatre journées==.",
+      "setup": {
+        "selection": "B9"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B9",
+        "accept": [
+          "=SOMME(B4:B7)",
+          "=B4+B5+B6+B7"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Une somme, comme sur n'importe quelle colonne de nombres.",
+        "showTarget": true
+      },
+      "feedback": "Trente et une heures trente en tout : 7:30 + 8:15 + 6:45 + 9:00."
+    },
+    {
+      "id": "M05-L03-07",
+      "consigne": "Voici l'erreur de paie la plus classique. Avec le format `hh:mm`, ce total afficherait **7:30** au lieu de 31:30 : passé vingt-quatre heures, l'affichage repart à zéro, exactement comme une horloge. Le format qui **cumule** est `[h]:mm` — les crochets disent à Excel de ne jamais reboucler. Une différence de vingt-quatre heures sur un bulletin vient toujours de là.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M05-L03-08",
+      "consigne": "Pour payer ces heures, il faut des **heures décimales**. En **B11**, ==multipliez le total par 24== : `=B9*24`.",
+      "setup": {
+        "selection": "B11"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B11",
+        "accept": [
+          "=B9*24",
+          "=24*B9"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Vingt-quatre heures dans une journée : multiplier une fraction de journée par 24 donne des heures.",
+        "showTarget": true
+      },
+      "feedback": "31,5. Et non 31,30 : trente et une heures **et demie**, c'est 31,5 heures. Confondre les deux fait perdre — ou payer — vingt minutes par semaine."
+    },
+    {
+      "id": "M05-L03-09",
+      "consigne": "Retenez la conversion dans les deux sens : **fraction de journée × 24 = heures décimales**, et **heures décimales ÷ 24 = fraction de journée**. Tant qu'on reste dans les durées, on garde le format horaire ; dès qu'on multiplie par un taux, il faut des heures décimales.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M05-L03-10",
+      "consigne": "Le taux horaire est en **B13**. En **B15**, ==calculez le coût de la semaine==.",
+      "setup": {
+        "selection": "B15"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B15",
+        "accept": [
+          "=B11*B13",
+          "=B13*B11",
+          "=B9*24*B13"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Les heures décimales multipliées par le taux horaire.",
+        "showTarget": true
+      },
+      "feedback": "447,30 €. Si vous aviez multiplié le total horaire directement par le taux, vous auriez obtenu un montant vingt-quatre fois trop petit."
+    },
+    {
+      "id": "M05-L03-11",
+      "consigne": "==Donnez un format monétaire à **B15**== avec le bouton **€**.",
+      "setup": {
+        "selection": "B15"
+      },
+      "action": {
+        "type": "EXPECT_FORMAT",
+        "cells": {
+          "B15": {
+            "numberFormat": "monetaire"
+          }
+        }
+      },
+      "aide": {
+        "text": "Groupe Nombre, bouton €.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M05-L03-12",
+      "consigne": "En **B17**, ==affichez la journée la plus longue==.",
+      "setup": {
+        "selection": "B17"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B17",
+        "accept": [
+          "=MAX(B4:B7)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "MAX fonctionne sur des durées comme sur des nombres.",
+        "showTarget": true
+      },
+      "feedback": "9:00, la journée de jeudi."
+    },
+    {
+      "id": "M05-L03-13",
+      "consigne": "Trois formats, trois usages, et il faut savoir lequel demander. **`hh:mm`** pour une heure de la journée — une arrivée, un départ. **`[h]:mm`** pour un cumul de durées, dès qu'il peut dépasser 24 h. Et un **nombre décimal** dès qu'il faut multiplier par un taux, comparer à un forfait ou facturer.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    }
+  ]
+}

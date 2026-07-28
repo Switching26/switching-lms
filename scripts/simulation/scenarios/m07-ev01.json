@@ -1,0 +1,333 @@
+{
+  "schemaVersion": 1,
+  "title": "S'évaluer · Les fonctions courantes",
+  "mode": "EVALUATION",
+  "moduleTitle": "Les fonctions courantes",
+  "intro": {
+    "title": "S'ÉVALUER",
+    "body": "Cinq stagiaires, trois modules, et une formule qui se trompe de plage. Statistiques, référence figée, priorité des opérations et audit : dix gestes notés à la première tentative, sans aucune aide."
+  },
+  "outro": {
+    "body": "Évaluation terminée."
+  },
+  "ribbon": [
+    "accueil",
+    "formules",
+    "mise-en-page"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ],
+    "sheetCount": 1
+  },
+  "workbook": {
+    "fileName": "Resultats-stagiaires.xlsx",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Résultats",
+        "columnWidths": {
+          "A": 200,
+          "E": 110,
+          "F": 140,
+          "G": 190
+        },
+        "cells": {
+          "A1": {
+            "v": "RÉSULTATS DES STAGIAIRES",
+            "format": {
+              "bold": true
+            }
+          },
+          "A3": {
+            "v": "Stagiaire",
+            "format": {
+              "bold": true
+            }
+          },
+          "B3": {
+            "v": "Module 1",
+            "format": {
+              "bold": true
+            }
+          },
+          "C3": {
+            "v": "Module 2",
+            "format": {
+              "bold": true
+            }
+          },
+          "D3": {
+            "v": "Module 3",
+            "format": {
+              "bold": true
+            }
+          },
+          "E3": {
+            "v": "Moyenne",
+            "format": {
+              "bold": true
+            }
+          },
+          "F3": {
+            "v": "Après rattrapage",
+            "format": {
+              "bold": true
+            }
+          },
+          "A4": {
+            "v": "Amina"
+          },
+          "B4": {
+            "v": 14
+          },
+          "C4": {
+            "v": 16
+          },
+          "D4": {
+            "v": 12
+          },
+          "E4": {
+            "f": "=MOYENNE(B4:D4)"
+          },
+          "A5": {
+            "v": "Bertrand"
+          },
+          "B5": {
+            "v": 11
+          },
+          "C5": {
+            "v": 9
+          },
+          "D5": {
+            "v": 13
+          },
+          "E5": {
+            "f": "=MOYENNE(B5:D5)"
+          },
+          "A6": {
+            "v": "Chantal"
+          },
+          "B6": {
+            "v": 17
+          },
+          "C6": {
+            "v": 15
+          },
+          "D6": {
+            "v": 19
+          },
+          "E6": {
+            "f": "=MOYENNE(B6:C6)"
+          },
+          "A7": {
+            "v": "Damien"
+          },
+          "B7": {
+            "v": 8
+          },
+          "C7": {
+            "v": 12
+          },
+          "D7": {
+            "v": 10
+          },
+          "E7": {
+            "f": "=MOYENNE(B7:D7)"
+          },
+          "A8": {
+            "v": "Élodie"
+          },
+          "B8": {
+            "v": 15
+          },
+          "C8": {
+            "v": 14
+          },
+          "D8": {
+            "v": 16
+          },
+          "E8": {
+            "f": "=MOYENNE(B8:D8)"
+          },
+          "A10": {
+            "v": "Moyenne du module 1"
+          },
+          "A11": {
+            "v": "Note la plus basse du module 1"
+          },
+          "A12": {
+            "v": "Notes saisies au module 1"
+          },
+          "A14": {
+            "v": "Coefficient de rattrapage"
+          },
+          "B14": {
+            "v": 1.05
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M07-EV01-01",
+      "consigne": "Les moyennes individuelles sont déjà en place — l'une d'elles est fausse. À vous de compléter les statistiques et de trouver l'intruse.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M07-EV01-02",
+      "consigne": "En **B10**, calculez la **moyenne du module 1** sur les cinq stagiaires.",
+      "action": {
+        "type": "TYPE",
+        "target": "B10",
+        "accept": [
+          "=MOYENNE(B4:B8)"
+        ],
+        "formulaMode": true
+      },
+      "points": 1
+    },
+    {
+      "id": "M07-EV01-03",
+      "consigne": "En **B11**, affichez la **note la plus basse** du module 1.",
+      "action": {
+        "type": "TYPE",
+        "target": "B11",
+        "accept": [
+          "=MIN(B4:B8)"
+        ],
+        "formulaMode": true
+      },
+      "points": 1
+    },
+    {
+      "id": "M07-EV01-04",
+      "consigne": "En **B12**, comptez le **nombre de notes saisies** au module 1.",
+      "action": {
+        "type": "TYPE",
+        "target": "B12",
+        "accept": [
+          "=NB(B4:B8)"
+        ],
+        "formulaMode": true
+      },
+      "points": 1
+    },
+    {
+      "id": "M07-EV01-05",
+      "consigne": "Une moyenne de la colonne E ne suit pas le motif des autres. Placez-vous sur la cellule fautive.",
+      "action": {
+        "type": "CLICK_CELL",
+        "cell": "E6"
+      },
+      "points": 2
+    },
+    {
+      "id": "M07-EV01-06",
+      "consigne": "Corrigez-la : la moyenne doit porter sur les **trois** modules.",
+      "action": {
+        "type": "TYPE",
+        "target": "E6",
+        "accept": [
+          "=MOYENNE(B6:D6)"
+        ],
+        "formulaMode": true
+      },
+      "points": 2
+    },
+    {
+      "id": "M07-EV01-07",
+      "consigne": "En **F4**, appliquez le **coefficient de rattrapage de B14** à la moyenne d'Amina. La formule devra rester juste une fois recopiée sur les quatre autres stagiaires.",
+      "action": {
+        "type": "TYPE",
+        "target": "F4",
+        "accept": [
+          "=E4*$B$14",
+          "=$B$14*E4"
+        ],
+        "formulaMode": true
+      },
+      "points": 2
+    },
+    {
+      "id": "M07-EV01-08",
+      "consigne": "Complétez la colonne pour les **quatre autres stagiaires**.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "F5": {
+            "v": 11.55
+          },
+          "F6": {
+            "v": 17.85
+          },
+          "F7": {
+            "v": 10.5
+          },
+          "F8": {
+            "v": 15.75
+          }
+        }
+      },
+      "points": 2
+    },
+    {
+      "id": "M07-EV01-09",
+      "consigne": "En **H4**, écrivez une formule qui **additionne d'abord** les notes des modules 1 et 2 d'Amina, **puis divise** le résultat par 2.",
+      "setup": {
+        "cells": {
+          "G4": {
+            "v": "Moyenne des 2 premiers modules",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "H4",
+        "accept": [
+          "=(B4+C4)/2",
+          "=MOYENNE(B4:C4)",
+          "=MOYENNE(B4;C4)"
+        ],
+        "formulaMode": true
+      },
+      "points": 2
+    },
+    {
+      "id": "M07-EV01-10",
+      "consigne": "Contrôlez les notes du module 1 : sélectionnez-les et lisez la barre d'état.",
+      "action": {
+        "type": "DRAG_RANGE",
+        "range": "B4:B8"
+      },
+      "points": 1
+    },
+    {
+      "id": "M07-EV01-11",
+      "consigne": "Ce tableau sera relu formules à l'appui. Faites imprimer les **en-têtes de lignes et de colonnes**.",
+      "setup": {
+        "pageSetup": {
+          "headings": true
+        }
+      },
+      "action": {
+        "type": "EXPECT_PAGE_SETUP",
+        "pageSetup": {
+          "headings": true
+        }
+      },
+      "points": 1
+    }
+  ]
+}

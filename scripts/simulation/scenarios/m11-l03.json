@@ -1,0 +1,258 @@
+{
+  "schemaVersion": 1,
+  "title": "Gérer et effacer les règles",
+  "mode": "LESSON",
+  "moduleTitle": "Mise en forme conditionnelle",
+  "intro": {
+    "title": "REPRENDRE LA MAIN",
+    "body": "Les règles s'accumulent vite, s'empilent, se contredisent. Savoir les retirer est aussi important que savoir les poser."
+  },
+  "outro": {
+    "body": "Vous savez empiler des règles en connaissance de cause, et faire table rase."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Objectifs",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 110
+        },
+        "cells": {
+          "A1": {
+            "v": "Vendeur",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Objectif",
+            "format": {
+              "bold": true
+            }
+          },
+          "C1": {
+            "v": "Réalisé",
+            "format": {
+              "bold": true
+            }
+          },
+          "D1": {
+            "v": "Région",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Bertrand"
+          },
+          "B2": {
+            "v": 1500
+          },
+          "C2": {
+            "v": 1200
+          },
+          "D2": {
+            "v": "Sud"
+          },
+          "A3": {
+            "v": "Chevalier"
+          },
+          "B3": {
+            "v": 1500
+          },
+          "C3": {
+            "v": 890
+          },
+          "D3": {
+            "v": "Nord"
+          },
+          "A4": {
+            "v": "Delaunay"
+          },
+          "B4": {
+            "v": 1500
+          },
+          "C4": {
+            "v": 2100
+          },
+          "D4": {
+            "v": "Sud"
+          },
+          "A5": {
+            "v": "Fabre"
+          },
+          "B5": {
+            "v": 1500
+          },
+          "C5": {
+            "v": 1560
+          },
+          "D5": {
+            "v": "Ouest"
+          },
+          "A6": {
+            "v": "Girard"
+          },
+          "B6": {
+            "v": 1500
+          },
+          "C6": {
+            "v": 640
+          },
+          "D6": {
+            "v": "Nord"
+          },
+          "A7": {
+            "v": "Hamon"
+          },
+          "B7": {
+            "v": 1500
+          },
+          "C7": {
+            "v": 1750
+          },
+          "D7": {
+            "v": "Sud"
+          },
+          "A8": {
+            "v": "Imbert"
+          },
+          "B8": {
+            "v": 1500
+          },
+          "C8": {
+            "v": 1490
+          },
+          "D8": {
+            "v": "Ouest"
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M11-L03-01",
+      "consigne": "==Posez une première règle : en vert au-dessus de 1 500==.",
+      "setup": {
+        "selection": "C2:C8",
+        "cf": {
+          "range": "C2:C8",
+          "rule": {
+            "kind": "greaterThan",
+            "value": 1500,
+            "background": "#bbf7d0"
+          }
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "acc-mfc-regle"
+      },
+      "aide": {
+        "text": "Bouton Mise en forme cond.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M11-L03-02",
+      "consigne": "==Posez-en une seconde, contradictoire : en rouge au-dessus de 1 700==.",
+      "setup": {
+        "selection": "C2:C8",
+        "cf": {
+          "range": "C2:C8",
+          "rule": {
+            "kind": "greaterThan",
+            "value": 1700,
+            "background": "#fecaca"
+          }
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "acc-mfc-regle"
+      },
+      "aide": {
+        "text": "Même bouton, second seuil.",
+        "showTarget": true
+      },
+      "feedback": "Homme à 1 750 vérifie **les deux** règles. Regardez sa couleur : une seule gagne. **La dernière règle posée s'applique en priorité** — dans Excel, le gestionnaire de règles permet de changer cet ordre avec des flèches."
+    },
+    {
+      "id": "M11-L03-03",
+      "consigne": "C'est la principale source de confusion : « ma couleur ne s'applique pas ». Presque toujours, une autre règle passe devant. Le réflexe est d'ouvrir le **gestionnaire de règles**, de lire l'ordre, et de remonter celle qui doit primer.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M11-L03-04",
+      "consigne": "==Effacez toutes les règles de la colonne== pour repartir proprement.",
+      "setup": {
+        "selection": "C2:C8",
+        "cf": {
+          "range": "C2:C8",
+          "rule": {
+            "kind": "duplicates"
+          }
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "acc-mfc-effacer"
+      },
+      "aide": {
+        "text": "Le bouton « Effacer règles » du groupe Styles.",
+        "showTarget": true
+      },
+      "feedback": "Toutes les couleurs disparaissent d'un coup, les valeurs restent intactes. Effacer les règles ne touche jamais aux données."
+    },
+    {
+      "id": "M11-L03-05",
+      "consigne": "==Reposez une seule règle propre : en vert ce qui atteint ou dépasse l'objectif== — c'est-à-dire au-dessus de 1 499.",
+      "setup": {
+        "selection": "C2:C8",
+        "cf": {
+          "range": "C2:C8",
+          "rule": {
+            "kind": "greaterThan",
+            "value": 1499,
+            "background": "#bbf7d0",
+            "bold": true
+          }
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "acc-mfc-regle"
+      },
+      "aide": {
+        "text": "Bouton Mise en forme cond., une seule règle cette fois.",
+        "showTarget": true
+      },
+      "feedback": "Delaunay, Fabre et Hamon en vert et en gras. Une règle bien choisie vaut mieux que quatre empilées."
+    },
+    {
+      "id": "M11-L03-06",
+      "consigne": "Deux points de vigilance pour finir. La mise en forme conditionnelle **se copie avec les cellules** : un copier-coller transporte les règles, souvent là où vous ne les voulez pas. Et un classeur qui accumule des dizaines de règles sur des colonnes entières **ralentit sensiblement** : appliquez-les à la plage utile, pas à `C:C`.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    }
+  ]
+}

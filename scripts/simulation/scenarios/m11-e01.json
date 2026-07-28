@@ -1,0 +1,281 @@
+{
+  "schemaVersion": 1,
+  "title": "Exercice · Piloter par la couleur",
+  "mode": "EXERCISE",
+  "moduleTitle": "Mise en forme conditionnelle",
+  "intro": {
+    "title": "À VOUS",
+    "body": "Un suivi de stock à rendre lisible d'un coup d'œil."
+  },
+  "outro": {
+    "body": "Exercice terminé."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Stock",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 130
+        },
+        "cells": {
+          "A1": {
+            "v": "Référence",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Stock",
+            "format": {
+              "bold": true
+            }
+          },
+          "C1": {
+            "v": "Seuil",
+            "format": {
+              "bold": true
+            }
+          },
+          "D1": {
+            "v": "Fournisseur",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "CLV-100"
+          },
+          "B2": {
+            "v": 42
+          },
+          "C2": {
+            "v": 20
+          },
+          "D2": {
+            "v": "Nord Distri"
+          },
+          "A3": {
+            "v": "SRS-220"
+          },
+          "B3": {
+            "v": 8
+          },
+          "C3": {
+            "v": 20
+          },
+          "D3": {
+            "v": "Sud Matériel"
+          },
+          "A4": {
+            "v": "ECR-340"
+          },
+          "B4": {
+            "v": 15
+          },
+          "C4": {
+            "v": 20
+          },
+          "D4": {
+            "v": "Nord Distri"
+          },
+          "A5": {
+            "v": "CSQ-410"
+          },
+          "B5": {
+            "v": 61
+          },
+          "C5": {
+            "v": 20
+          },
+          "D5": {
+            "v": "Est Fournitures"
+          },
+          "A6": {
+            "v": "WBC-500"
+          },
+          "B6": {
+            "v": 3
+          },
+          "C6": {
+            "v": 20
+          },
+          "D6": {
+            "v": "Sud Matériel"
+          },
+          "A7": {
+            "v": "CLV-100"
+          },
+          "B7": {
+            "v": 12
+          },
+          "C7": {
+            "v": 20
+          },
+          "D7": {
+            "v": "Est Fournitures"
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M11-E01-01",
+      "consigne": "Signalez en **rouge** toutes les références dont le stock est **inférieur à 10** : elles sont en rupture imminente.",
+      "setup": {
+        "selection": "B2:B7",
+        "cf": {
+          "range": "B2:B7",
+          "rule": {
+            "kind": "lessThan",
+            "value": 10,
+            "background": "#fecaca",
+            "bold": true
+          }
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "acc-mfc-regle"
+      },
+      "aide": {
+        "text": "Bouton Mise en forme cond., règle « inférieur à »."
+      },
+      "feedback": "SRS-220 et WBC-500 sont en alerte."
+    },
+    {
+      "id": "M11-E01-02",
+      "consigne": "Signalez en **orange** les stocks **entre 10 et 20**, à surveiller.",
+      "setup": {
+        "selection": "B2:B7",
+        "cf": {
+          "range": "B2:B7",
+          "rule": {
+            "kind": "between",
+            "value": 10,
+            "value2": 20,
+            "background": "#fed7aa"
+          }
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "acc-mfc-regle"
+      },
+      "aide": {
+        "text": "Une règle « entre » avec deux bornes."
+      },
+      "feedback": "ECR-340 et la seconde ligne CLV-100 passent en orange."
+    },
+    {
+      "id": "M11-E01-03",
+      "consigne": "La liste contient une **référence en double**. Faites-la ressortir.",
+      "setup": {
+        "selection": "A2:A7",
+        "cf": {
+          "range": "A2:A7",
+          "rule": {
+            "kind": "duplicates",
+            "background": "#fecaca"
+          }
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "acc-mfc-regle"
+      },
+      "aide": {
+        "text": "Règle « valeurs en double », sur la colonne des références."
+      },
+      "feedback": "CLV-100 apparaît deux fois — une même référence saisie sur deux lignes, avec deux fournisseurs différents."
+    },
+    {
+      "id": "M11-E01-04",
+      "consigne": "Doublez le signal d'un mot : en **E2**, affichez `À commander` si le stock est sous le seuil, `OK` sinon.",
+      "setup": {
+        "selection": "E2",
+        "cells": {
+          "E1": {
+            "v": "Action",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "E2",
+        "accept": [
+          "=SI(B2<C2;\"À commander\";\"OK\")"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Une fonction SI comparant le stock au seuil."
+      },
+      "feedback": "« OK » pour CLV-100 avec ses 42 unités."
+    },
+    {
+      "id": "M11-E01-05",
+      "consigne": "Complétez la colonne pour toutes les références.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "E3": {
+            "anyOf": [
+              "=SI(B3<C3;\"À commander\";\"OK\")"
+            ]
+          },
+          "E6": {
+            "anyOf": [
+              "=SI(B6<C6;\"À commander\";\"OK\")"
+            ]
+          },
+          "E7": {
+            "anyOf": [
+              "=SI(B7<C7;\"À commander\";\"OK\")"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Poignée de recopie de E2 vers le bas jusqu'à E7."
+      },
+      "feedback": "Quatre références à commander. Le tableau est lisible en couleur **et** exploitable par filtre ou par formule."
+    },
+    {
+      "id": "M11-E01-06",
+      "consigne": "Dernier réflexe : comptez combien de références sont à commander, en **G1**.",
+      "setup": {
+        "selection": "G1"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "G1",
+        "accept": [
+          "=NB.SI(E2:E7;\"À commander\")",
+          "=NB.SI($E$2:$E$7;\"À commander\")"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "NB.SI sur la colonne que vous venez de remplir."
+      },
+      "feedback": "4 références. Un chiffre, pas seulement des couleurs : c'est ce qu'on peut mettre dans un mail ou un tableau de bord."
+    }
+  ]
+}

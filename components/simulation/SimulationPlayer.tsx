@@ -371,6 +371,18 @@ export default function SimulationPlayer({
           case "acc-gras":
             grid.toggleBold(true)
             break
+          case "acc-mfc-regle": {
+            // Les paramètres viennent du scénario, faute de boîte de dialogue :
+            // le geste évalué est le choix du type de règle et de la plage.
+            const cf = stepRef.current?.setup?.cf
+            if (cf) grid.addConditionalRule(cf.range, cf.rule)
+            break
+          }
+          case "acc-mfc-effacer": {
+            const cf = stepRef.current?.setup?.cf
+            grid.clearConditionalRules(cf?.range ?? grid.getSelection() ?? "A1")
+            break
+          }
           case "acc-italique":
             grid.setItalic(true)
             break

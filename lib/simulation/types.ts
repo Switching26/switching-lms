@@ -51,6 +51,21 @@ export type SheetState = {
   cells: Record<CellRef, CellState>
 }
 
+/**
+ * Règle de mise en forme conditionnelle déclarée par un scénario. Le vrai Excel
+ * demande ces paramètres dans une boîte de dialogue ; l'apprenant, lui, choisit
+ * le type de règle et la plage — c'est cela qu'on évalue.
+ */
+export type ConditionalRule = {
+  kind: "greaterThan" | "lessThan" | "between" | "textContains" | "duplicates"
+  value?: number
+  value2?: number
+  text?: string
+  background?: string
+  fontColor?: string
+  bold?: boolean
+}
+
 export type WorkbookState = {
   /** Nom affiché dans la barre de titre, ex. "Inventaire.xlsx". */
   fileName: string
@@ -272,6 +287,8 @@ export type SimulationStep = {
     editing?: boolean
     ribbon?: RibbonState
     statusBar?: StatusBarState
+    /** Règle conditionnelle que le bouton du ruban appliquera à cette étape. */
+    cf?: { range: string; rule: ConditionalRule }
   }
   action: SimulationAction
   aide?: StepHint

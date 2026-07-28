@@ -1,0 +1,272 @@
+{
+  "schemaVersion": 1,
+  "title": "Colorer selon la valeur",
+  "mode": "LESSON",
+  "moduleTitle": "Mise en forme conditionnelle",
+  "intro": {
+    "title": "LAISSER EXCEL COLORER POUR VOUS",
+    "body": "Colorier des cellules à la main, c'est du travail perdu : dès que les chiffres changent, les couleurs mentent. La mise en forme conditionnelle applique une règle, et la couleur suit les données toute seule."
+  },
+  "outro": {
+    "body": "Vous savez faire ressortir automatiquement les valeurs hautes, basses et intermédiaires."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Objectifs",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 110
+        },
+        "cells": {
+          "A1": {
+            "v": "Vendeur",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Objectif",
+            "format": {
+              "bold": true
+            }
+          },
+          "C1": {
+            "v": "Réalisé",
+            "format": {
+              "bold": true
+            }
+          },
+          "D1": {
+            "v": "Région",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Bertrand"
+          },
+          "B2": {
+            "v": 1500
+          },
+          "C2": {
+            "v": 1200
+          },
+          "D2": {
+            "v": "Sud"
+          },
+          "A3": {
+            "v": "Chevalier"
+          },
+          "B3": {
+            "v": 1500
+          },
+          "C3": {
+            "v": 890
+          },
+          "D3": {
+            "v": "Nord"
+          },
+          "A4": {
+            "v": "Delaunay"
+          },
+          "B4": {
+            "v": 1500
+          },
+          "C4": {
+            "v": 2100
+          },
+          "D4": {
+            "v": "Sud"
+          },
+          "A5": {
+            "v": "Fabre"
+          },
+          "B5": {
+            "v": 1500
+          },
+          "C5": {
+            "v": 1560
+          },
+          "D5": {
+            "v": "Ouest"
+          },
+          "A6": {
+            "v": "Girard"
+          },
+          "B6": {
+            "v": 1500
+          },
+          "C6": {
+            "v": 640
+          },
+          "D6": {
+            "v": "Nord"
+          },
+          "A7": {
+            "v": "Hamon"
+          },
+          "B7": {
+            "v": 1500
+          },
+          "C7": {
+            "v": 1750
+          },
+          "D7": {
+            "v": "Sud"
+          },
+          "A8": {
+            "v": "Imbert"
+          },
+          "B8": {
+            "v": 1500
+          },
+          "C8": {
+            "v": 1490
+          },
+          "D8": {
+            "v": "Ouest"
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M11-L01-01",
+      "consigne": "Sept vendeurs, un objectif de 1 500 € chacun. Repérer les réussites à l'œil est fastidieux, et faux dès demain. La colonne **Réalisé** est sélectionnée : ==cliquez sur **Mise en forme cond.**== pour colorer en vert tout ce qui **dépasse 1 500**.",
+      "setup": {
+        "selection": "C2:C8",
+        "cf": {
+          "range": "C2:C8",
+          "rule": {
+            "kind": "greaterThan",
+            "value": 1500,
+            "background": "#bbf7d0"
+          }
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "acc-mfc-regle"
+      },
+      "aide": {
+        "text": "Le bouton « Mise en forme cond. » du groupe Styles.",
+        "showTarget": true
+      },
+      "feedback": "Delaunay, Fabre et Hamon passent au vert. Dans Excel, une boîte de dialogue vous demande le type de règle puis le seuil ; ici le seuil de 1 500 est déjà posé pour vous."
+    },
+    {
+      "id": "M11-L01-02",
+      "consigne": "Le point essentiel : **la couleur n'est pas dans la cellule, elle est dans la règle**. Modifiez un chiffre et la couleur se recalcule. ==Portez le réalisé d'**Imbert** à `1600`== pour le vérifier.",
+      "setup": {
+        "selection": "C8"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "C8",
+        "accept": [
+          "1600"
+        ]
+      },
+      "feedback": "Imbert verdit instantanément, sans que vous ayez touché à sa couleur. C'est tout l'intérêt : la mise en forme suit les données."
+    },
+    {
+      "id": "M11-L01-03",
+      "consigne": "Ajoutons l'alerte inverse. ==Appliquez une seconde règle : en rouge tout ce qui est **inférieur à 900**==.",
+      "setup": {
+        "selection": "C2:C8",
+        "cf": {
+          "range": "C2:C8",
+          "rule": {
+            "kind": "lessThan",
+            "value": 900,
+            "background": "#fecaca"
+          }
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "acc-mfc-regle"
+      },
+      "aide": {
+        "text": "Même bouton : la nouvelle règle s'ajoute à la précédente.",
+        "showTarget": true
+      },
+      "feedback": "Chevalier et Girard passent au rouge. **Deux règles cohabitent** sur la même plage : chacune s'applique aux cellules qui la vérifient."
+    },
+    {
+      "id": "M11-L01-04",
+      "consigne": "Il reste Bertrand à 1 200, sans couleur : il ne vérifie ni l'une ni l'autre règle. ==Ajoutez une troisième règle pour la zone intermédiaire : en orange **entre 900 et 1 500**==.",
+      "setup": {
+        "selection": "C2:C8",
+        "cf": {
+          "range": "C2:C8",
+          "rule": {
+            "kind": "between",
+            "value": 900,
+            "value2": 1500,
+            "background": "#fed7aa"
+          }
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "acc-mfc-regle"
+      },
+      "aide": {
+        "text": "Une règle « entre » demande deux bornes, ici 900 et 1 500.",
+        "showTarget": true
+      },
+      "feedback": "Le tableau se lit maintenant d'un coup d'œil : vert au-dessus, orange à surveiller, rouge en difficulté."
+    },
+    {
+      "id": "M11-L01-05",
+      "consigne": "Trois conseils qui font la différence. Employez des **couleurs de fond claires** : un fond saturé rend le chiffre illisible. Restez à **trois règles maximum**, sinon le tableau devient un sapin de Noël sans message. Et surtout, la couleur ne doit **jamais porter seule l'information** — à l'impression noir et blanc, ou pour un daltonien, tout disparaît.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M11-L01-06",
+      "consigne": "Justement, doublons le signal d'un mot. ==En **E2**, écrivez une formule qui affiche `Atteint` ou `Manqué`== selon que le réalisé atteint l'objectif.",
+      "setup": {
+        "selection": "E2",
+        "cells": {
+          "E1": {
+            "v": "Statut",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "E2",
+        "accept": [
+          "=SI(C2>=B2;\"Atteint\";\"Manqué\")"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Une fonction SI : la condition, la valeur si vrai, la valeur si faux.",
+        "showTarget": true
+      },
+      "feedback": "« Manqué » pour Bertrand. Couleur **et** mot : votre tableau reste lisible partout, par tout le monde."
+    }
+  ]
+}

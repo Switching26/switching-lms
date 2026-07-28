@@ -1,0 +1,248 @@
+{
+  "schemaVersion": 1,
+  "title": "Texte, doublons et règles utiles",
+  "mode": "LESSON",
+  "moduleTitle": "Mise en forme conditionnelle",
+  "intro": {
+    "title": "AU-DELÀ DES NOMBRES",
+    "body": "Les règles ne portent pas que sur des valeurs. Repérer un mot, ou traquer les doublons d'une liste, sont deux usages qui font gagner des heures."
+  },
+  "outro": {
+    "body": "Vous savez repérer un texte et détecter les doublons automatiquement."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Objectifs",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 110
+        },
+        "cells": {
+          "A1": {
+            "v": "Vendeur",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Objectif",
+            "format": {
+              "bold": true
+            }
+          },
+          "C1": {
+            "v": "Réalisé",
+            "format": {
+              "bold": true
+            }
+          },
+          "D1": {
+            "v": "Région",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Bertrand"
+          },
+          "B2": {
+            "v": 1500
+          },
+          "C2": {
+            "v": 1200
+          },
+          "D2": {
+            "v": "Sud"
+          },
+          "A3": {
+            "v": "Chevalier"
+          },
+          "B3": {
+            "v": 1500
+          },
+          "C3": {
+            "v": 890
+          },
+          "D3": {
+            "v": "Nord"
+          },
+          "A4": {
+            "v": "Delaunay"
+          },
+          "B4": {
+            "v": 1500
+          },
+          "C4": {
+            "v": 2100
+          },
+          "D4": {
+            "v": "Sud"
+          },
+          "A5": {
+            "v": "Fabre"
+          },
+          "B5": {
+            "v": 1500
+          },
+          "C5": {
+            "v": 1560
+          },
+          "D5": {
+            "v": "Ouest"
+          },
+          "A6": {
+            "v": "Girard"
+          },
+          "B6": {
+            "v": 1500
+          },
+          "C6": {
+            "v": 640
+          },
+          "D6": {
+            "v": "Nord"
+          },
+          "A7": {
+            "v": "Hamon"
+          },
+          "B7": {
+            "v": 1500
+          },
+          "C7": {
+            "v": 1750
+          },
+          "D7": {
+            "v": "Sud"
+          },
+          "A8": {
+            "v": "Imbert"
+          },
+          "B8": {
+            "v": 1500
+          },
+          "C8": {
+            "v": 1490
+          },
+          "D8": {
+            "v": "Ouest"
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M11-L02-01",
+      "consigne": "Commençons par le texte. ==Faites ressortir en bleu toutes les lignes de la région **Sud**==.",
+      "setup": {
+        "selection": "D2:D8",
+        "cf": {
+          "range": "D2:D8",
+          "rule": {
+            "kind": "textContains",
+            "text": "Sud",
+            "background": "#bfdbfe"
+          }
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "acc-mfc-regle"
+      },
+      "aide": {
+        "text": "Le bouton Mise en forme cond., avec une règle sur le contenu du texte.",
+        "showTarget": true
+      },
+      "feedback": "Bertrand, Delaunay et Hamon ressortent. La règle cherche le texte **contenu** dans la cellule, pas une égalité stricte."
+    },
+    {
+      "id": "M11-L02-02",
+      "consigne": "Cette nuance compte. Une règle « contient » attrape aussi `Sud-Ouest` ou `Grand Sud`. Si vous voulez uniquement la valeur exacte, choisissez « **égal à** » dans la liste des règles. C'est le genre d'inattention qui colore la moitié d'un fichier par erreur.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M11-L02-03",
+      "consigne": "Passons à l'usage le plus rentable : la traque des doublons. ==Ajoutez d'abord une ligne : en **A9**, saisissez `Delaunay`==, un nom déjà présent.",
+      "setup": {
+        "selection": "A9"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "A9",
+        "accept": [
+          "Delaunay"
+        ]
+      },
+      "feedback": "Le doublon est là, invisible à l'œil sur une liste de sept noms — et complètement introuvable sur une liste de sept cents."
+    },
+    {
+      "id": "M11-L02-04",
+      "consigne": "==Appliquez une règle **doublons** sur la colonne des vendeurs==.",
+      "setup": {
+        "selection": "A2:A9",
+        "cf": {
+          "range": "A2:A9",
+          "rule": {
+            "kind": "duplicates",
+            "background": "#fecaca",
+            "bold": true
+          }
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "acc-mfc-regle"
+      },
+      "aide": {
+        "text": "Le bouton Mise en forme cond., règle « valeurs en double ».",
+        "showTarget": true
+      },
+      "feedback": "Les deux « Delaunay » s'allument en rouge. Sur un fichier client, une liste de mails ou un export comptable, cette règle vous fait gagner des heures et évite des doubles facturations."
+    },
+    {
+      "id": "M11-L02-05",
+      "consigne": "Attention toutefois : la règle signale les doublons **de la plage sélectionnée uniquement**. Deux clients homonymes dans deux colonnes différentes ne seront pas détectés, et un nom saisi avec une majuscule ou un espace en trop passera inaperçu. La mise en forme conditionnelle **repère**, elle ne nettoie pas.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M11-L02-06",
+      "consigne": "Comptons-les pour confirmer. ==En **G1**, comptez combien de fois `Delaunay` apparaît==.",
+      "setup": {
+        "selection": "G1"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "G1",
+        "accept": [
+          "=NB.SI(A2:A9;\"Delaunay\")",
+          "=NB.SI($A$2:$A$9;\"Delaunay\")"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "NB.SI compte les cellules qui répondent à un critère.",
+        "showTarget": true
+      },
+      "feedback": "2. Couleur pour voir, formule pour compter : les deux outils se complètent."
+    }
+  ]
+}

@@ -209,6 +209,10 @@ export default function SimulationChrome({
               <Btn id="acc-fusionner" label="Fusionner" />
               <Btn id="acc-renvoyer-ligne" label="Renvoyer" />
             </Group>
+            <Group title="Styles">
+              <Btn id="acc-mfc-regle" label="Mise en forme cond." wide />
+              <Btn id="acc-mfc-effacer" label="Effacer règles" />
+            </Group>
             <Group title="Nombre">
               <Btn id="acc-format-nombre" label="Format" />
               <Btn id="acc-pourcentage" label="%" />

@@ -22,7 +22,7 @@
 
 import { useEffect, useRef } from "react"
 import type { ObservedAction, ActionChannel } from "@/lib/simulation/validate"
-import type { CellState, WorkbookState } from "@/lib/simulation/types"
+import type { CellState, WorkbookState, ConditionalRule } from "@/lib/simulation/types"
 import {
   formatCell,
   parseCell,
@@ -51,6 +51,15 @@ export type GridApi = {
   setNumberFormat: (refs: string[], pattern: string) => void
   /** Motif de format de nombre d'une cellule, chaîne vide si Standard. */
   getNumberFormat: (ref: string) => string
+  /**
+   * Pose une règle de mise en forme conditionnelle sur une plage. Le vrai Excel
+   * demande le seuil dans une boîte de dialogue ; ici le scénario le déclare.
+   */
+  addConditionalRule: (range: string, rule: ConditionalRule) => boolean
+  /** Retire toutes les règles conditionnelles d'une plage. */
+  clearConditionalRules: (range: string) => void
+  /** Nombre de règles conditionnelles posées sur la feuille. */
+  countConditionalRules: () => number
   /** Mise en forme de la sélection : gras, italique, souligné. */
   setItalic: (on: boolean) => void
   setUnderline: (on: boolean) => void
@@ -200,6 +209,8 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
         localeSort,
         { UniverSheetsFilterPreset },
         localeFilter,
+        { UniverSheetsConditionalFormattingPreset },
+        localeCF,
       ] = await Promise.all([
         import("@univerjs/presets"),
         import("@univerjs/preset-sheets-core"),
@@ -208,6 +219,8 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
         import("@univerjs/preset-sheets-sort/locales/fr-FR"),
         import("@univerjs/preset-sheets-filter"),
         import("@univerjs/preset-sheets-filter/locales/fr-FR"),
+        import("@univerjs/preset-sheets-conditional-formatting"),
+        import("@univerjs/preset-sheets-conditional-formatting/locales/fr-FR"),
       ])
       if (disposed) return
 
@@ -217,7 +230,8 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
           [LocaleType.FR_FR]: mergeLocales(
             locale.default ?? locale,
             localeSort.default ?? localeSort,
-            localeFilter.default ?? localeFilter
+            localeFilter.default ?? localeFilter,
+            localeCF.default ?? localeCF
           ),
         },
         presets: [
@@ -226,6 +240,7 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
           // croisés relèvent, eux, de @univerjs-pro (licence payante).
           UniverSheetsSortPreset(),
           UniverSheetsFilterPreset(),
+          UniverSheetsConditionalFormattingPreset(),
           UniverSheetsCorePreset({
             container,
             // Toute la chrome native est coupée : on fournit notre propre ruban,
@@ -431,6 +446,57 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
             return f?.getFilteredOutRows?.() ?? []
           } catch {
             return []
+          }
+        },
+        addConditionalRule: (range, rule) => {
+          try {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const sh2 = sheet() as any
+            const rg = sh2?.getRange(range)
+            if (!rg?.createConditionalFormattingRule) return false
+            let b = rg.createConditionalFormattingRule()
+            switch (rule.kind) {
+              case "greaterThan":
+                b = b.whenNumberGreaterThan(rule.value ?? 0)
+                break
+              case "lessThan":
+                b = b.whenNumberLessThan(rule.value ?? 0)
+                break
+              case "between":
+                b = b.whenNumberBetween(rule.value ?? 0, rule.value2 ?? 0)
+                break
+              case "textContains":
+                b = b.whenTextContains(rule.text ?? "")
+                break
+              case "duplicates":
+                b = b.setDuplicateValues()
+                break
+              default:
+                return false
+            }
+            if (rule.background) b = b.setBackground(rule.background)
+            if (rule.fontColor) b = b.setFontColor(rule.fontColor)
+            if (rule.bold) b = b.setBold(true)
+            rg.addConditionalFormattingRule(b.build())
+            return true
+          } catch {
+            return false
+          }
+        },
+        clearConditionalRules: (range) => {
+          try {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            ;(sheet()?.getRange(range) as any)?.clearConditionalFormatRules?.()
+          } catch {
+            /* sans conséquence */
+          }
+        },
+        countConditionalRules: () => {
+          try {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            return ((sheet() as any)?.getConditionalFormattingRules?.() ?? []).length
+          } catch {
+            return 0
           }
         },
         setItalic: (on) => {

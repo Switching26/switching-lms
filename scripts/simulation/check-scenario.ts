@@ -285,6 +285,8 @@ function checkScenario(sc: SimulationScenario) {
     "acc-format-fleche",
     "acc-format-largeur",
     "acc-format-masquer",
+    "acc-mfc-regle",
+    "acc-mfc-effacer",
     "acc-gras",
     "acc-italique",
     "acc-souligne",

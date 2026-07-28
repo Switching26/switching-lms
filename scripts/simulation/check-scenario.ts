@@ -257,6 +257,30 @@ function checkScenario(sc: SimulationScenario) {
   sc.steps.forEach((s, i) => checkStep(s, i, seen, sc.mode ?? "LESSON"))
 
   // Une simulation entièrement contemplative n'apprend rien.
+  // Une valeur attendue ARRONDIE à la main bloque l'apprenant : la comparaison
+  // se fait à 1e-9, donc « 346,67 » refuse le 346,6666… que le moteur calcule.
+  // Ce contrôle a été ajouté après avoir trouvé le cas en base.
+  for (const s of sc.steps) {
+    if (s.action.type !== "EXPECT_STATE") continue
+    for (const [ref, att] of Object.entries(s.action.cells)) {
+      const v = att.v
+      if (typeof v !== "number" || Number.isInteger(v)) continue
+      const decimales = (String(v).split(".")[1] ?? "").length
+      const formules = att.anyOf ?? []
+      const division = formules.some((f) => /MOYENNE|\//i.test(f))
+      // Deux décimales exactement : la signature d'un arrondi tapé à la main.
+      // Une seule décimale vient presque toujours d'une division exacte (sur 4
+      // ou 5 valeurs), et déclencher dessus ne produirait que du bruit.
+      if (decimales === 2 && division) {
+        warn(
+          `étape ${s.id}, cellule ${ref} : valeur attendue « ${v} » à ${decimales} décimale(s) pour une moyenne ou une division. ` +
+            `Si le résultat réel ne tombe pas juste, l'apprenant sera refusé alors qu'il a raison — déclarer la valeur exacte. ` +
+            `Le contrôle qui tranche est l'audit de valeurs, qui recalcule dans le moteur.`,
+        )
+      }
+    }
+  }
+
   const interactive = sc.steps.filter((s) => s.action.type !== "READ").length
   const ratio = interactive / sc.steps.length
   if (ratio < 0.6) {

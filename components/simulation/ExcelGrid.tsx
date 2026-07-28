@@ -21,6 +21,17 @@
  */
 
 import { useEffect, useRef } from "react"
+// Les styles d'Univer, sans lesquels la grille ne se PEINT pas : canvas aux
+// dimensions nulles, boutons d'UI orphelins. Le banc de test les chargeait via
+// un <link> à part — l'app, elle, ne les a jamais eus (bug découvert par Samuel
+// le 28/07 : grille entièrement blanche en production, sur les 246 chapitres).
+import "@univerjs/preset-sheets-core/lib/index.css"
+import "@univerjs/preset-sheets-sort/lib/index.css"
+import "@univerjs/preset-sheets-filter/lib/index.css"
+import "@univerjs/preset-sheets-conditional-formatting/lib/index.css"
+import "@univerjs/preset-sheets-data-validation/lib/index.css"
+import "@univerjs/preset-sheets-note/lib/index.css"
+import "@univerjs/preset-sheets-drawing/lib/index.css"
 import type { ObservedAction, ActionChannel } from "@/lib/simulation/validate"
 import { lireDateOuHeureFr } from "@/lib/simulation/date-fr"
 import type { CellState, WorkbookState, ConditionalRule, ValidationRule } from "@/lib/simulation/types"

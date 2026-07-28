@@ -223,6 +223,11 @@ async function main() {
 
   /* ── Écriture, en une transaction ──────────────────────────────────────── */
 
+  // Une seule transaction pour 246 chapitres et 1 872 étapes dépasse le délai par
+  // défaut de Prisma (5 s) : la première tentative réelle est morte sur
+  // « Transaction not found », après avoir heureusement tout annulé. On laisse
+  // largement le temps nécessaire plutôt que de découper — l'atomicité vaut mieux
+  // ici : un semis à moitié appliqué laisserait un parcours incohérent en base.
   await prisma.$transaction(async (tx) => {
     const formation =
       (await tx.formation.findFirst({ where: { title: FORMATION_TITLE, deletedAt: null } })) ??
@@ -293,7 +298,7 @@ async function main() {
     }
 
     console.log(`\nFormation ${formation.id} — écriture terminée.`)
-  })
+  }, { timeout: 600_000, maxWait: 60_000 })
 
   // Vérification post-mutation : un `ok` de transaction ne prouve rien.
   const check = await prisma.formation.findFirst({

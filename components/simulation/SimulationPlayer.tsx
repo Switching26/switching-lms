@@ -279,6 +279,11 @@ export default function SimulationPlayer({
 
   const [index, setIndex] = useState(() => Math.min(Math.max(initialStep, 0), Math.max(total - 1, 0)))
   const [gridReady, setGridReady] = useState(false)
+  // Écran d'ouverture éditorial (Direction B validée par Samuel le 28/07) :
+  // affiché seulement en DÉBUT de chapitre — une reprise en cours saute
+  // l'intro. La grille se monte derrière pendant la lecture, ce qui masque le
+  // temps de chargement d'Univer.
+  const [introVue, setIntroVue] = useState(initialStep > 0)
   const [verdict, setVerdict] = useState<Verdict | null>(null)
   // Retour visuel DANS la grille (flash de réussite, secousse d'erreur, toast) :
   // le texte sous l'écran ne suffit pas, l'apprenant regarde la feuille.
@@ -1685,7 +1690,150 @@ export default function SimulationPlayer({
   const gradable = steps.filter((s) => s.action.type !== "READ").length
 
   return (
-    <div className="overflow-hidden rounded-2xl border border-border bg-white shadow-sm">
+    <div className="relative overflow-hidden rounded-2xl border border-border bg-white shadow-sm">
+      {!introVue && step && (
+        <div
+          className="absolute inset-0 z-40 flex flex-col justify-center overflow-hidden px-6 py-8 sm:px-10"
+          style={{ background: "linear-gradient(180deg,#faf9f5 0%,#f2efe8 100%)" }}
+        >
+          <div
+            aria-hidden
+            className="pointer-events-none absolute select-none"
+            style={{
+              right: "-1%",
+              top: "-14%",
+              fontSize: "min(32vw, 280px)",
+              fontWeight: 900,
+              fontStyle: "italic",
+              color: "rgba(24,110,72,0.07)",
+              letterSpacing: "-10px",
+              lineHeight: 1,
+            }}
+          >
+            ƒx
+          </div>
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-x-0 bottom-0"
+            style={{
+              height: "32%",
+              background:
+                "repeating-linear-gradient(0deg,rgba(23,26,24,.055) 0 1px,transparent 1px 22px),repeating-linear-gradient(90deg,rgba(23,26,24,.055) 0 1px,transparent 1px 54px)",
+              transform: "perspective(600px) rotateX(58deg)",
+              transformOrigin: "bottom",
+            }}
+          />
+          {[
+            { left: "14%", bottom: "10%", bg: "#2fbf80", delay: "0s" },
+            { left: "64%", bottom: "17%", bg: "#187a4e", delay: "1.1s" },
+            { left: "42%", bottom: "6%", bg: "#66d3a3", delay: "2s" },
+          ].map((c, i) => (
+            <div
+              key={i}
+              aria-hidden
+              className="pointer-events-none absolute rounded"
+              style={{
+                left: c.left,
+                bottom: c.bottom,
+                width: 44,
+                height: 19,
+                background: c.bg,
+                opacity: 0.85,
+                animation: `sim-intro-cell 3.2s ease-in-out ${c.delay} infinite`,
+              }}
+            />
+          ))}
+          <div className="relative" style={{ maxWidth: 660 }}>
+            <div
+              className="uppercase"
+              style={{
+                fontSize: 12,
+                fontWeight: 800,
+                letterSpacing: "2.2px",
+                color: "#187a4e",
+                marginBottom: 14,
+                animation: "sim-intro-monte .6s .1s ease both",
+              }}
+            >
+              {mode === "LESSON" ? "Leçon" : mode === "EXERCISE" ? "Exercice" : "Évaluation"}
+              {scenario.moduleTitle ? ` — ${scenario.moduleTitle}` : ""}
+            </div>
+            <h2
+              style={{
+                fontSize: "clamp(24px, 4.5vw, 40px)",
+                lineHeight: 1.06,
+                fontWeight: 850,
+                letterSpacing: "-0.8px",
+                color: "#171a18",
+                marginBottom: 14,
+                animation: "sim-intro-monte .7s .25s ease both",
+              }}
+            >
+              {scenario.intro?.title || scenario.title}
+            </h2>
+            {scenario.intro?.body && (
+              <p
+                style={{
+                  fontSize: "clamp(13px, 1.8vw, 15.5px)",
+                  color: "#3c423e",
+                  lineHeight: 1.6,
+                  marginBottom: 16,
+                  animation: "sim-intro-monte .6s .45s ease both",
+                }}
+              >
+                {scenario.intro.body}
+              </p>
+            )}
+            <div
+              style={{
+                fontSize: 12.5,
+                color: "#9aa19c",
+                marginBottom: 22,
+                animation: "sim-intro-monte .6s .55s ease both",
+              }}
+            >
+              {total} étape{total > 1 ? "s" : ""} · ≈ {Math.max(1, Math.round(total * 0.5))} min
+              {mode === "EVALUATION" ? " · sans aide, score enregistré" : ""}
+            </div>
+            <button
+              type="button"
+              data-control="intro-commencer"
+              onClick={() => {
+                setIntroVue(true)
+                // Sans cela le focus clavier reste sur le bouton : la première
+                // frappe de la leçon n'atteint jamais la grille (même piège que
+                // le bouton « Suivant »).
+                window.setTimeout(() => gridRef.current?.focus(), 60)
+              }}
+              className="inline-flex items-center gap-2.5 rounded-xl"
+              style={{
+                background: "#171a18",
+                color: "#fff",
+                fontSize: 14.5,
+                fontWeight: 700,
+                padding: "12px 22px",
+                animation: "sim-intro-monte .7s .7s ease both",
+              }}
+            >
+              <span
+                aria-hidden
+                style={{
+                  width: 0,
+                  height: 0,
+                  borderLeft: "8px solid #fff",
+                  borderTop: "5.5px solid transparent",
+                  borderBottom: "5.5px solid transparent",
+                }}
+              />
+              {mode === "LESSON"
+                ? "Commencer la leçon"
+                : mode === "EXERCISE"
+                  ? "Commencer l'exercice"
+                  : "Commencer l'évaluation"}
+            </button>
+          </div>
+        </div>
+      )}
       {/* En-tête : titre de l'étape et compteur */}
       <div className="flex flex-wrap items-center gap-x-3 gap-y-1 border-b border-border bg-warm-50 px-4 py-2.5">
         <span className="text-[10.5px] font-semibold uppercase tracking-wider text-warm-400">
@@ -1860,6 +2008,8 @@ export default function SimulationPlayer({
 @keyframes sim-shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-5px)}40%{transform:translateX(5px)}60%{transform:translateX(-3px)}80%{transform:translateX(3px)}}
 @keyframes sim-pop{0%{opacity:0;transform:translateY(-6px) scale(.96)}10%{opacity:1;transform:translateY(0) scale(1)}80%{opacity:1}100%{opacity:0}}
 @keyframes sim-flash{0%{opacity:0}10%{opacity:1}65%{opacity:1}100%{opacity:0}}
+@keyframes sim-intro-monte{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+@keyframes sim-intro-cell{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
 `}</style>
             </div>
             {besoins.macros && (

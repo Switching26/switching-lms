@@ -168,6 +168,10 @@ export default function SimulationChrome({
           <button
             key={t}
             type="button"
+            // Identifiant stable de l'onglet, au même titre que `data-control` sur
+            // les boutons : un test automatisé doit pouvoir aller chercher l'onglet
+            // qui porte le bouton dont il a besoin.
+            data-ribbon-tab={t}
             aria-pressed={t === activeTab}
             onClick={() => onTabChange?.(t)}
             className={[
@@ -232,7 +236,8 @@ export default function SimulationChrome({
                   type="button"
                   title="Options de format"
                   aria-label="Options de format de cellule"
-                  onClick={() => onControl("acc-format-fleche")}
+                  data-control="acc-format-fleche"
+            onClick={() => onControl("acc-format-fleche")}
                   className={[
                     "rounded px-1 py-1 text-[9px] text-neutral-600 hover:bg-emerald-50",
                     highlight === "acc-format-fleche" ? "ring-2 ring-amber-400 animate-pulse" : "",
@@ -251,7 +256,8 @@ export default function SimulationChrome({
                   type="button"
                   title="Autres fonctions"
                   aria-label="Autres fonctions de calcul"
-                  onClick={() => onControl("acc-somme-auto-fleche")}
+                  data-control="acc-somme-auto-fleche"
+            onClick={() => onControl("acc-somme-auto-fleche")}
                   className={[
                     "rounded px-1 py-1 text-[9px] text-neutral-600 hover:bg-emerald-50",
                     highlight === "acc-somme-auto-fleche" ? "ring-2 ring-amber-400 animate-pulse" : "",
@@ -367,6 +373,7 @@ export default function SimulationChrome({
             type="button"
             title="Insérer une fonction"
             aria-label="Insérer une fonction"
+            data-control="bf-fx"
             onClick={() => onControl("bf-fx")}
             className={[
               "rounded px-1.5 py-0.5 text-[11px] italic text-neutral-600 hover:bg-neutral-100",
@@ -419,6 +426,7 @@ export default function SimulationChrome({
             type="button"
             title="Nouvelle feuille"
             aria-label="Nouvelle feuille"
+            data-control="ui-nouvelle-feuille"
             onClick={() => onControl("ui-nouvelle-feuille")}
             className={[
               "rounded px-1.5 py-0.5 text-[13px] leading-none text-neutral-500 hover:bg-neutral-100",

@@ -369,7 +369,13 @@ export function validateStep(
       if (observed.kind !== "formatChange") return { ok: false, reason: "no_format_reading", message: "" }
       // Univer renvoie l'alignement en nombre (1 gauche, 2 centre, 3 droite) ;
       // le scénario, lui, est écrit en mots lisibles.
-      const H: Record<string, string[]> = { left: ["1", "left"], center: ["2", "center"], right: ["3", "right"] }
+      // « normal » est le nom que la façade Univer donne à l'alignement à DROITE :
+      // sans lui, une cellule correctement alignée à droite était jugée fausse.
+      const H: Record<string, string[]> = {
+        left: ["1", "left"],
+        center: ["2", "center"],
+        right: ["3", "right", "normal"],
+      }
       const V: Record<string, string[]> = { top: ["1", "top"], middle: ["2", "middle"], bottom: ["3", "bottom"] }
       for (const [ref, attendu] of Object.entries(expected.cells)) {
         const lu = observed.readings[ref]

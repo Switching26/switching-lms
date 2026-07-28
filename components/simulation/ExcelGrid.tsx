@@ -228,6 +228,19 @@ type Props = {
   className?: string
 }
 
+/**
+ * Un échec de setter de mise en forme ne doit pas rester invisible : c'est un
+ * `catch` muet qui a laissé le bouton Droite sans effet pendant tout le
+ * développement. En production on reste silencieux — l'apprenant n'a rien à
+ * faire d'une trace — mais en développement l'erreur doit sauter aux yeux.
+ */
+function signalerEnDev(quoi: string, e: unknown) {
+  if (process.env.NODE_ENV !== "production") {
+    // eslint-disable-next-line no-console
+    console.error(`[simulateur] ${quoi} a échoué :`, e)
+  }
+}
+
 export default function ExcelGrid({ onReady, onAction, heightPx = 380, className }: Props) {
   const containerRef = useRef<HTMLDivElement | null>(null)
 
@@ -937,10 +950,15 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
         },
         setAlign: (align) => {
           try {
+            // La façade Univer nomme l'alignement à droite « normal » — son type
+            // n'accepte que 'left' | 'center' | 'normal' — et LÈVE une exception
+            // sur toute autre valeur. Passer "right" ne faisait donc rien du tout,
+            // l'erreur étant avalée : le bouton Droite était muet pour l'apprenant.
+            const facade = align === "right" ? "normal" : align
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            ;(selectedRange() as any)?.setHorizontalAlignment?.(align)
-          } catch {
-            /* sans conséquence */
+            ;(selectedRange() as any)?.setHorizontalAlignment?.(facade)
+          } catch (e) {
+            signalerEnDev("setAlign", e)
           }
         },
         setVerticalAlign: (align) => {

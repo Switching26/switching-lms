@@ -1365,6 +1365,23 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
         onActionRef.current({ kind: "dragRange", range: ref })
       })
 
+      // Hors production, on expose l'interface de pilotage : le banc de test a besoin
+
+      // de la géométrie EXACTE des cellules (`getCellRect`), qu'aucun modèle externe
+
+      // ne peut deviner — la première ligne n'a pas la même hauteur que les autres.
+
+      // Retiré des bundles de production par le remplacement de NODE_ENV.
+
+      if (process.env.NODE_ENV !== "production") {
+
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
+        ;(window as any).__SIM_GRID = api
+
+      }
+
+
       onReadyRef.current(api)
     }
 

@@ -1,0 +1,243 @@
+{
+  "schemaVersion": 1,
+  "title": "Exercice · Prime sur objectifs",
+  "mode": "EXERCISE",
+  "moduleTitle": "Applications pratiques",
+  "intro": {
+    "title": "À VOUS",
+    "body": "Un barème, des pondérations, et un contrôle final."
+  },
+  "outro": {
+    "body": "Exercice terminé."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ],
+    "sheetCount": 1
+  },
+  "workbook": {
+    "fileName": "Primes",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 120,
+          "F": 160
+        },
+        "cells": {
+          "A1": {
+            "v": "Seuil prime",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": 80
+          },
+          "A2": {
+            "v": "Montant prime",
+            "format": {
+              "bold": true
+            }
+          },
+          "B2": {
+            "v": 500
+          },
+          "A4": {
+            "v": "Salarié",
+            "format": {
+              "bold": true
+            }
+          },
+          "B4": {
+            "v": "Qualité",
+            "format": {
+              "bold": true
+            }
+          },
+          "C4": {
+            "v": "Délais",
+            "format": {
+              "bold": true
+            }
+          },
+          "D4": {
+            "v": "Score",
+            "format": {
+              "bold": true
+            }
+          },
+          "E4": {
+            "v": "Prime",
+            "format": {
+              "bold": true
+            }
+          },
+          "A5": {
+            "v": "Amina"
+          },
+          "B5": {
+            "v": 92
+          },
+          "C5": {
+            "v": 78
+          },
+          "A6": {
+            "v": "Bruno"
+          },
+          "B6": {
+            "v": 70
+          },
+          "C6": {
+            "v": 65
+          },
+          "A7": {
+            "v": "Chloé"
+          },
+          "B7": {
+            "v": 85
+          },
+          "C7": {
+            "v": 88
+          },
+          "F5": {
+            "v": "Coût total des primes",
+            "format": {
+              "bold": true
+            }
+          },
+          "F6": {
+            "v": "Nombre de primés",
+            "format": {
+              "bold": true
+            }
+          },
+          "H4": {
+            "v": "Coef qualité",
+            "format": {
+              "bold": true
+            }
+          },
+          "I4": {
+            "v": 2
+          },
+          "H5": {
+            "v": "Coef délais",
+            "format": {
+              "bold": true
+            }
+          },
+          "I5": {
+            "v": 1
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M16-E01-01",
+      "consigne": "En **D5**, calculez le **score pondéré** d'Amina : la qualité compte double, les délais une fois. Les coefficients sont en I4 et I5, et la formule doit être recopiable.",
+      "setup": {
+        "selection": "D5"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "D5",
+        "accept": [
+          "=(B5*$I$4+C5*$I$5)/($I$4+$I$5)",
+          "=SOMMEPROD(B5:C5;$I$4:$I$5)/SOMME($I$4:$I$5)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Somme des notes fois coefficients, divisée par la somme des coefficients."
+      },
+      "feedback": "87,33."
+    },
+    {
+      "id": "M16-E01-02",
+      "consigne": "En **E5**, attribuez la **prime** si le score atteint le seuil, rien sinon.",
+      "setup": {
+        "selection": "E5"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "E5",
+        "accept": [
+          "=SI(D5>=$B$1;$B$2;0)",
+          "=SI($B$1<=D5;$B$2;0)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Une condition sur le score, avec le seuil et le montant figés."
+      },
+      "feedback": "500 € pour Amina."
+    },
+    {
+      "id": "M16-E01-03",
+      "consigne": "Complétez les **deux salariés restants**, score et prime.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "D6": {
+            "v": 68.33333333333333
+          },
+          "E6": {
+            "v": 0
+          },
+          "D7": {
+            "v": 86
+          },
+          "E7": {
+            "v": 500
+          }
+        }
+      },
+      "aide": {
+        "text": "Sélectionnez D5:E5 et recopiez vers le bas."
+      },
+      "feedback": "Bruno est sous le seuil, Amina et Chloé sont primées."
+    },
+    {
+      "id": "M16-E01-04",
+      "consigne": "En **G5**, calculez le **coût total** des primes, et en **G6** le **nombre de primés**.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "G5": {
+            "v": 1000
+          },
+          "G6": {
+            "v": 2
+          }
+        }
+      },
+      "aide": {
+        "text": "Une somme, puis un comptage sous condition."
+      },
+      "feedback": "1 000 € pour 2 primés."
+    },
+    {
+      "id": "M16-E01-05",
+      "consigne": "Contrôle final : sélectionnez la colonne des **primes** et vérifiez que le total affiché en bas correspond à votre calcul.",
+      "action": {
+        "type": "DRAG_RANGE",
+        "range": "E5:E7"
+      },
+      "aide": {
+        "text": "Les trois primes, sans l'en-tête."
+      },
+      "feedback": "1 000 € des deux côtés. Grille cohérente."
+    }
+  ]
+}

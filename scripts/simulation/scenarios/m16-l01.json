@@ -1,0 +1,235 @@
+{
+  "schemaVersion": 1,
+  "title": "Commissionner des vendeurs",
+  "mode": "LESSON",
+  "moduleTitle": "Applications pratiques",
+  "intro": {
+    "title": "UN BARÈME À PALIERS",
+    "body": "Trois taux de commission selon le chiffre réalisé. Le cas classique où l'on empile les SI — et où l'ordre des tests décide de tout."
+  },
+  "outro": {
+    "body": "Vous savez appliquer un barème à paliers et vérifier votre résultat."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ],
+    "sheetCount": 1
+  },
+  "workbook": {
+    "fileName": "Commissions",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 120,
+          "F": 150
+        },
+        "cells": {
+          "A1": {
+            "v": "Palier 1",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": 10000
+          },
+          "C1": {
+            "v": 0.02
+          },
+          "A2": {
+            "v": "Palier 2",
+            "format": {
+              "bold": true
+            }
+          },
+          "B2": {
+            "v": 25000
+          },
+          "C2": {
+            "v": 0.04
+          },
+          "A3": {
+            "v": "Palier 3",
+            "format": {
+              "bold": true
+            }
+          },
+          "B3": {
+            "v": 50000
+          },
+          "C3": {
+            "v": 0.06
+          },
+          "A5": {
+            "v": "Vendeur",
+            "format": {
+              "bold": true
+            }
+          },
+          "B5": {
+            "v": "CA réalisé",
+            "format": {
+              "bold": true
+            }
+          },
+          "C5": {
+            "v": "Taux",
+            "format": {
+              "bold": true
+            }
+          },
+          "D5": {
+            "v": "Commission",
+            "format": {
+              "bold": true
+            }
+          },
+          "A6": {
+            "v": "Amina"
+          },
+          "B6": {
+            "v": 62000
+          },
+          "A7": {
+            "v": "Bruno"
+          },
+          "B7": {
+            "v": 31000
+          },
+          "A8": {
+            "v": "Chloé"
+          },
+          "B8": {
+            "v": 18000
+          },
+          "A9": {
+            "v": "David"
+          },
+          "B9": {
+            "v": 7000
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M16-L01-01",
+      "consigne": "Le barème : **2 %** au-delà de 10 000 €, **4 %** au-delà de 25 000, **6 %** au-delà de 50 000. En dessous de 10 000, rien. Il faut donc tester **du palier le plus haut au plus bas**.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M16-L01-02",
+      "consigne": "En **C6**, ==saisissez `=SI(B6>=$B$3;$C$3;SI(B6>=$B$2;$C$2;SI(B6>=$B$1;$C$1;0)))`==.",
+      "setup": {
+        "selection": "C6"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "C6",
+        "accept": [
+          "=SI(B6>=$B$3;$C$3;SI(B6>=$B$2;$C$2;SI(B6>=$B$1;$C$1;0)))"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Trois SI emboîtés, tous les paliers figés par des dollars.",
+        "showTarget": true
+      },
+      "feedback": "0,06 pour Amina : 62 000 € dépasse le palier le plus haut."
+    },
+    {
+      "id": "M16-L01-03",
+      "consigne": "L'ordre est **essentiel**. Si vous testiez d'abord le palier de 10 000, Amina serait attrapée par ce premier test et toucherait 2 % au lieu de 6 %. **Du plus exigeant au moins exigeant**, toujours.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M16-L01-04",
+      "consigne": "En **D6**, ==calculez la commission== : le chiffre réalisé multiplié par le taux.",
+      "setup": {
+        "selection": "D6"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "D6",
+        "accept": [
+          "=B6*C6",
+          "=C6*B6"
+        ],
+        "formulaMode": true
+      },
+      "feedback": "3 720 €."
+    },
+    {
+      "id": "M16-L01-05",
+      "consigne": "==Complétez les trois vendeurs restants==, taux et commission.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "C7": {
+            "v": 0.04
+          },
+          "D7": {
+            "v": 1240
+          },
+          "C8": {
+            "v": 0.02
+          },
+          "D8": {
+            "v": 360
+          },
+          "C9": {
+            "v": 0
+          },
+          "D9": {
+            "v": 0
+          }
+        }
+      },
+      "aide": {
+        "text": "Sélectionnez C6:D6 et recopiez vers le bas jusqu'à la ligne 9."
+      },
+      "feedback": "David est sous le premier palier : taux nul, commission nulle. Le barème fonctionne aux quatre niveaux."
+    },
+    {
+      "id": "M16-L01-06",
+      "consigne": "En **G6**, ==calculez le coût total des commissions==.",
+      "setup": {
+        "selection": "G6",
+        "cells": {
+          "F6": {
+            "v": "Total commissions",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "G6",
+        "accept": [
+          "=SOMME(D6:D9)",
+          "=D6+D7+D8+D9"
+        ],
+        "formulaMode": true
+      },
+      "feedback": "5 320 €. Changez un palier en B1:B3 et tout se recalcule — c'est l'intérêt d'avoir sorti le barème des formules."
+    }
+  ]
+}

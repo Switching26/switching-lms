@@ -1,0 +1,200 @@
+{
+  "schemaVersion": 1,
+  "title": "Moyenne pondérée avec SOMMEPROD",
+  "mode": "LESSON",
+  "moduleTitle": "Applications pratiques",
+  "intro": {
+    "title": "QUAND TOUTES LES NOTES NE PÈSENT PAS PAREIL",
+    "body": "Une moyenne simple traite tout à égalité. Avec des coefficients, il faut SOMMEPROD — et comprendre ce qu'elle fait vraiment."
+  },
+  "outro": {
+    "body": "Vous savez calculer une moyenne pondérée et vous ne la confondrez plus avec une moyenne simple."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ],
+    "sheetCount": 1
+  },
+  "workbook": {
+    "fileName": "Relevé de notes",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 150,
+          "D": 170
+        },
+        "cells": {
+          "A1": {
+            "v": "Matière",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Note",
+            "format": {
+              "bold": true
+            }
+          },
+          "C1": {
+            "v": "Coefficient",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Bureautique"
+          },
+          "B2": {
+            "v": 16
+          },
+          "C2": {
+            "v": 3
+          },
+          "A3": {
+            "v": "Comptabilité"
+          },
+          "B3": {
+            "v": 11
+          },
+          "C3": {
+            "v": 4
+          },
+          "A4": {
+            "v": "Communication"
+          },
+          "B4": {
+            "v": 14
+          },
+          "C4": {
+            "v": 1
+          },
+          "A5": {
+            "v": "Anglais"
+          },
+          "B5": {
+            "v": 9
+          },
+          "C5": {
+            "v": 2
+          },
+          "D7": {
+            "v": "Moyenne simple",
+            "format": {
+              "bold": true
+            }
+          },
+          "D8": {
+            "v": "Moyenne pondérée",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M16-L02-01",
+      "consigne": "Commençons par la **moyenne simple**, celle qui ignore les coefficients. En **E7**, ==saisissez `=MOYENNE(B2:B5)`==.",
+      "setup": {
+        "selection": "E7"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "E7",
+        "accept": [
+          "=MOYENNE(B2:B5)"
+        ],
+        "formulaMode": true
+      },
+      "feedback": "12,5. Mais cette note est trompeuse : elle donne autant de poids à l'anglais coefficient 2 qu'à la comptabilité coefficient 4."
+    },
+    {
+      "id": "M16-L02-02",
+      "consigne": "La vraie moyenne pondérée vaut **(somme des notes × coefficients) ÷ (somme des coefficients)**. **SOMMEPROD** calcule le numérateur d'un coup. En **E8**, ==saisissez `=SOMMEPROD(B2:B5;C2:C5)/SOMME(C2:C5)`==.",
+      "setup": {
+        "selection": "E8"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "E8",
+        "accept": [
+          "=SOMMEPROD(B2:B5;C2:C5)/SOMME(C2:C5)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "SOMMEPROD multiplie les deux plages ligne par ligne, puis additionne le tout.",
+        "showTarget": true
+      },
+      "feedback": "12,2 au lieu de 12,5. L'écart vient du poids de la comptabilité, la matière la plus lourde et la moins réussie."
+    },
+    {
+      "id": "M16-L02-03",
+      "consigne": "Ce que fait **SOMMEPROD**, littéralement : 16×3 + 11×4 + 14×1 + 9×2 = 122. On divise ensuite par la somme des coefficients, 10. Sans elle, il faudrait une colonne intermédiaire.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M16-L02-04",
+      "consigne": "Vérifions-le. En **D2**, ==calculez le produit note × coefficient== de la première ligne, puis complétez la colonne jusqu'en D5.",
+      "setup": {
+        "selection": "D2",
+        "cells": {
+          "D1": {
+            "v": "Note × coef",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "D2": {
+            "v": 48
+          },
+          "D3": {
+            "v": 44
+          },
+          "D4": {
+            "v": 14
+          },
+          "D5": {
+            "v": 18
+          }
+        }
+      },
+      "aide": {
+        "text": "=B2*C2 en D2, puis recopie vers le bas."
+      },
+      "feedback": "48, 44, 14, 18 — dont la somme fait bien 122, exactement ce que SOMMEPROD a calculé sans colonne intermédiaire."
+    },
+    {
+      "id": "M16-L02-05",
+      "consigne": "Dernier contrôle : ==sélectionnez **D2:D5**== et vérifiez que la somme affichée en bas vaut bien 122.",
+      "action": {
+        "type": "DRAG_RANGE",
+        "range": "D2:D5"
+      },
+      "aide": {
+        "text": "Les quatre produits."
+      },
+      "feedback": "122. Votre moyenne pondérée est juste, et vous savez maintenant pourquoi."
+    }
+  ]
+}

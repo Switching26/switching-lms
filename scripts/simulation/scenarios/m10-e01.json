@@ -1,0 +1,221 @@
+{
+  "schemaVersion": 1,
+  "title": "Exercice · Interroger une table",
+  "mode": "EXERCISE",
+  "moduleTitle": "Fonctions avancées",
+  "intro": {
+    "title": "À VOUS",
+    "body": "Une facture à monter depuis une table de tarifs."
+  },
+  "outro": {
+    "body": "Exercice terminé."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ],
+    "sheetCount": 1
+  },
+  "workbook": {
+    "fileName": "Facturation",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 90,
+          "B": 140,
+          "H": 80,
+          "I": 120
+        },
+        "cells": {
+          "H1": {
+            "v": "Réf",
+            "format": {
+              "bold": true
+            }
+          },
+          "I1": {
+            "v": "Prestation",
+            "format": {
+              "bold": true
+            }
+          },
+          "J1": {
+            "v": "Tarif",
+            "format": {
+              "bold": true
+            }
+          },
+          "H2": {
+            "v": "FOR"
+          },
+          "I2": {
+            "v": "Formation"
+          },
+          "J2": {
+            "v": 890
+          },
+          "H3": {
+            "v": "AUD"
+          },
+          "I3": {
+            "v": "Audit"
+          },
+          "J3": {
+            "v": 1200
+          },
+          "H4": {
+            "v": "ACC"
+          },
+          "I4": {
+            "v": "Accompagnement"
+          },
+          "J4": {
+            "v": 450
+          },
+          "A1": {
+            "v": "Réf",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Prestation",
+            "format": {
+              "bold": true
+            }
+          },
+          "C1": {
+            "v": "Nb",
+            "format": {
+              "bold": true
+            }
+          },
+          "D1": {
+            "v": "Tarif",
+            "format": {
+              "bold": true
+            }
+          },
+          "E1": {
+            "v": "Total",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "FOR"
+          },
+          "C2": {
+            "v": 3
+          },
+          "A3": {
+            "v": "ACC"
+          },
+          "C3": {
+            "v": 2
+          },
+          "A4": {
+            "v": "ZZZ"
+          },
+          "C4": {
+            "v": 1
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M10-E01-01",
+      "consigne": "En **B2**, retrouvez le **libellé de la prestation** depuis la table de droite. La formule devra être recopiable et **ne jamais afficher #N/A**, même sur une référence inconnue.",
+      "setup": {
+        "selection": "B2"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B2",
+        "accept": [
+          "=SI.ERREUR(RECHERCHEV(A2;$H$2:$J$4;2;FAUX);\"Réf inconnue\")",
+          "=SI.ERREUR(RECHERCHEV(A2;$H$2:$J$4;2;FAUX);\"\")"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Deux fonctions à combiner, et la table à figer."
+      }
+    },
+    {
+      "id": "M10-E01-02",
+      "consigne": "En **D2**, retrouvez le **tarif**, avec la même exigence.",
+      "setup": {
+        "selection": "D2"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "D2",
+        "accept": [
+          "=SI.ERREUR(RECHERCHEV(A2;$H$2:$J$4;3;FAUX);0)",
+          "=SI.ERREUR(RECHERCHEV(A2;$H$2:$J$4;3;FAUX);\"\")"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Pour un tarif introuvable, renvoyer 0 permet de garder les totaux calculables."
+      }
+    },
+    {
+      "id": "M10-E01-03",
+      "consigne": "En **E2**, calculez le **total de la ligne**, puis complétez les deux lignes suivantes.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "E2": {
+            "v": 2670
+          },
+          "B3": {
+            "v": "Accompagnement"
+          },
+          "E3": {
+            "v": 900
+          }
+        }
+      },
+      "aide": {
+        "text": "Nombre fois tarif, puis recopie de B2:E2 vers le bas."
+      }
+    },
+    {
+      "id": "M10-E01-04",
+      "consigne": "En **E6**, totalisez la facture. La ligne à référence inconnue ne doit pas empêcher le calcul.",
+      "setup": {
+        "selection": "E6",
+        "cells": {
+          "D6": {
+            "v": "TOTAL",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "E6",
+        "accept": [
+          "=SOMME(E2:E4)",
+          "=E2+E3+E4"
+        ],
+        "formulaMode": true
+      },
+      "feedback": "3 570 €. Si vous obtenez une erreur, c'est que votre SI.ERREUR renvoie du texte là où il faudrait un nombre."
+    }
+  ]
+}

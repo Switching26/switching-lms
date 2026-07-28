@@ -1,0 +1,162 @@
+{
+  "schemaVersion": 1,
+  "title": "Corriger et effacer",
+  "mode": "LESSON",
+  "moduleTitle": "Saisie des données",
+  "intro": {
+    "title": "REVENIR SUR UNE SAISIE",
+    "body": "Corriger sans tout retaper, effacer le contenu sans effacer la mise en forme : deux gestes qu'on utilise cent fois par jour."
+  },
+  "outro": {
+    "body": "Vous savez remplacer, corriger partiellement et effacer proprement."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "workbook": {
+    "fileName": "Clients",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 130,
+          "B": 140
+        },
+        "cells": {
+          "A1": {
+            "v": "Nom",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Ville",
+            "format": {
+              "bold": true
+            }
+          },
+          "C1": {
+            "v": "Chiffre d'affaires",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Boutique Nord"
+          },
+          "B2": {
+            "v": "Lille"
+          },
+          "C2": {
+            "v": 12800
+          },
+          "A3": {
+            "v": "Boutique Sud"
+          },
+          "B3": {
+            "v": "Toulouze"
+          },
+          "C3": {
+            "v": 9400
+          },
+          "A4": {
+            "v": "Boutique Est"
+          },
+          "B4": {
+            "v": "Strasbourg"
+          },
+          "C4": {
+            "v": 7650
+          },
+          "A6": {
+            "v": "Note à supprimer"
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M02-L03-01",
+      "consigne": "Il y a une faute en **B3** : « Toulouze ». Le plus simple est de **retaper par-dessus** : ==saisissez `Toulouse`== dans B3.",
+      "setup": {
+        "selection": "B3"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B3",
+        "accept": [
+          "Toulouse"
+        ]
+      },
+      "aide": {
+        "text": "Sélectionnez B3 et tapez directement : la nouvelle saisie remplace l'ancienne.",
+        "showTarget": true
+      },
+      "feedback": "Corrigé. Retaper est plus rapide qu'effacer puis ressaisir."
+    },
+    {
+      "id": "M02-L03-02",
+      "consigne": "Pour une **correction partielle** — une seule lettre dans un texte long — il vaut mieux entrer en modification : double-clic dans la cellule, ou touche **F2**. Le curseur se place dans le contenu au lieu de tout remplacer.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M02-L03-03",
+      "consigne": "Le chiffre de **C4** est faux, il manque les centimes. ==Saisissez `7650,80`==.",
+      "setup": {
+        "selection": "C4"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "C4",
+        "accept": [
+          "7650,80",
+          "7650.8",
+          "7650,8"
+        ]
+      },
+      "feedback": "Rappel : la virgule, pas le point."
+    },
+    {
+      "id": "M02-L03-04",
+      "consigne": "La cellule **A6** contient une note parasite. ==Effacez son contenu== — sélectionnez-la et utilisez la touche Suppr.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "A6": {
+            "v": ""
+          }
+        }
+      },
+      "aide": {
+        "text": "Cliquez sur A6 puis appuyez sur la touche Suppr de votre clavier."
+      },
+      "feedback": "La cellule est vide."
+    },
+    {
+      "id": "M02-L03-05",
+      "consigne": "Nuance importante : **Suppr efface le contenu, pas la mise en forme**. Si la cellule était en rouge et en gras, elle le reste. Pour tout enlever, il faut passer par le bouton **Effacer** du ruban et choisir « Effacer tout ».",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M02-L03-06",
+      "consigne": "Contrôlez le résultat : ==sélectionnez **C2:C4**== et vérifiez le total.",
+      "action": {
+        "type": "DRAG_RANGE",
+        "range": "C2:C4"
+      },
+      "aide": {
+        "text": "De C2 à C4."
+      },
+      "feedback": "29 850,80 €. Le tableau est propre et calculable."
+    }
+  ]
+}

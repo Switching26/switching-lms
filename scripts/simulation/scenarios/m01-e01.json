@@ -1,0 +1,126 @@
+{
+  "schemaVersion": 1,
+  "title": "Exercice · Lire et remplir une feuille",
+  "mode": "EXERCISE",
+  "moduleTitle": "Prise en main",
+  "intro": {
+    "title": "À VOUS",
+    "body": "On vous dit ce qu'il faut obtenir, pas où cliquer."
+  },
+  "outro": {
+    "body": "Exercice terminé."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ],
+    "sheetCount": 1
+  },
+  "workbook": {
+    "fileName": "Effectifs",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 120
+        },
+        "cells": {
+          "A1": {
+            "v": "Service",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Effectif",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Accueil"
+          },
+          "B2": {
+            "v": 4
+          },
+          "A3": {
+            "v": "Atelier"
+          },
+          "B3": {
+            "v": 12
+          },
+          "A4": {
+            "v": "Bureau"
+          },
+          "B4": {
+            "v": 7
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M01-E01-01",
+      "consigne": "Ajoutez un quatrième service nommé **Logistique** au bon endroit du tableau.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "A5": {
+            "v": "Logistique"
+          }
+        }
+      },
+      "aide": {
+        "text": "Le tableau se poursuit juste sous la dernière ligne remplie."
+      }
+    },
+    {
+      "id": "M01-E01-02",
+      "consigne": "Ce service compte **9** personnes. Renseignez-le.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "B5": {
+            "v": 9
+          }
+        }
+      },
+      "aide": {
+        "text": "Dans la colonne Effectif, sur la ligne de Logistique."
+      },
+      "feedback": "Le 9 s'est aligné à droite : Excel l'a bien reconnu comme un nombre."
+    },
+    {
+      "id": "M01-E01-03",
+      "consigne": "Sélectionnez **tous les effectifs** — et seulement eux — pour lire leur total dans la barre d'état.",
+      "action": {
+        "type": "DRAG_RANGE",
+        "range": "B2:B5"
+      },
+      "aide": {
+        "text": "De la première à la dernière valeur, sans l'en-tête."
+      },
+      "feedback": "32 personnes au total. Sans écrire une seule formule."
+    },
+    {
+      "id": "M01-E01-04",
+      "consigne": "Placez-vous sur la cellule qui contient l'effectif de l'**Atelier**.",
+      "action": {
+        "type": "CLICK_CELL",
+        "cell": "B3"
+      },
+      "aide": {
+        "text": "Colonne Effectif, ligne de l'Atelier."
+      },
+      "feedback": "B3, valeur 12. Vous savez lire et écrire une adresse."
+    }
+  ]
+}

@@ -175,11 +175,13 @@ function checkStep(s: SimulationStep, i: number, seen: Set<string>, mode: string
   // Garde-fou décisif : une étape dont le geste n'est pas observable par la grille
   // serait INJOUABLE. L'apprenant resterait bloqué sans comprendre pourquoi.
   // Cette liste doit suivre ce que `ExcelGrid` émet réellement.
+  // CLICK_CELL_MODIFIER est ABSENT volontairement : vérifié au banc d'essai le
+  // 28/07/2026, un Ctrl+clic ne déclenche AUCUN événement côté Univer (seul le
+  // clic précédent est vu). Une étape Ctrl+clic bloquerait donc l'apprenant.
   const OBSERVABLE = new Set([
     "READ",
     "TYPE",
     "CLICK_CELL",
-    "CLICK_CELL_MODIFIER",
     "CLICK_CONTROL",
     "DRAG_RANGE",
     "EXPECT_STATE",

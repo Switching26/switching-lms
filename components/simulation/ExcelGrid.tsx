@@ -89,6 +89,10 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
   const editableRef = useRef<Set<string> | null>(null)
   // Dernière origine de geste observée, pour renseigner le canal d'une saisie.
   const channelRef = useRef<ActionChannel>("unknown")
+  // Univer clôture un glisser de plage par un clic sur la cellule d'arrivée, et
+  // répète parfois l'événement de fin de sélection. Sans ces garde-fous, la plage
+  // sélectionnée était aussitôt remplacée par une cellule unique dans la zone Nom.
+  const lastDragRef = useRef<{ range: string; at: number }>({ range: "", at: 0 })
 
   useEffect(() => {
     const container = containerRef.current
@@ -248,6 +252,8 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const e = p as any
         if (typeof e?.row !== "number" || typeof e?.column !== "number") return
+        // Clic parasite juste après un glisser : on l'ignore.
+        if (Date.now() - lastDragRef.current.at < 400) return
         channelRef.current = "mouse"
         onActionRef.current({
           kind: "cellClick",
@@ -305,6 +311,10 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
         if (!r) return
         const isSingle = r.startRow === r.endRow && r.startCol === r.endCol
         if (isSingle) return // déjà couvert par CellClicked
+        const now = Date.now()
+        // Même plage signalée deux fois de suite : on ne la compte qu'une.
+        if (lastDragRef.current.range === ref && now - lastDragRef.current.at < 400) return
+        lastDragRef.current = { range: ref, at: now }
         onActionRef.current({ kind: "dragRange", range: ref })
       })
 

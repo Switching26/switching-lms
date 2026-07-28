@@ -1,0 +1,183 @@
+{
+  "schemaVersion": 1,
+  "title": "Saisir des nombres",
+  "mode": "LESSON",
+  "moduleTitle": "Saisie des données",
+  "intro": {
+    "title": "LES NOMBRES, ET LEURS PIÈGES",
+    "body": "Un nombre mal saisi devient du texte, et plus aucun calcul ne fonctionne. Deux détails suffisent à l'éviter."
+  },
+  "outro": {
+    "body": "Vous savez saisir un nombre, un négatif, un décimal, et repérer un nombre qu'Excel a pris pour du texte."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ],
+    "sheetCount": 1
+  },
+  "workbook": {
+    "fileName": "Clients",
+    "activeSheetIndex": 0,
+    "selection": "C2",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 130,
+          "B": 140
+        },
+        "cells": {
+          "A1": {
+            "v": "Nom",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Ville",
+            "format": {
+              "bold": true
+            }
+          },
+          "C1": {
+            "v": "Chiffre d'affaires",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Boutique Nord"
+          },
+          "B2": {
+            "v": "Lille"
+          },
+          "A3": {
+            "v": "Boutique Sud"
+          },
+          "B3": {
+            "v": "Toulouse"
+          },
+          "A4": {
+            "v": "Boutique Est"
+          },
+          "B4": {
+            "v": "Strasbourg"
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M02-L02-01",
+      "consigne": "En **C2**, ==saisissez `12800`== — **sans espace ni symbole €**. La mise en forme viendra plus tard.",
+      "setup": {
+        "selection": "C2"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "C2",
+        "accept": [
+          "12800"
+        ]
+      },
+      "aide": {
+        "text": "Tapez uniquement les chiffres.",
+        "showTarget": true
+      },
+      "feedback": "Aligné à droite : c'est bien un nombre."
+    },
+    {
+      "id": "M02-L02-02",
+      "consigne": "**Premier piège.** Si vous tapez `12 800 €`, Excel comprend du texte, l'aligne à gauche, et vos formules l'ignoreront. Les séparateurs et le symbole monétaire sont de la **mise en forme**, pas de la saisie.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M02-L02-03",
+      "consigne": "En **C3**, ==saisissez `9400`==.",
+      "setup": {
+        "selection": "C3"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "C3",
+        "accept": [
+          "9400"
+        ]
+      }
+    },
+    {
+      "id": "M02-L02-04",
+      "consigne": "**Deuxième piège**, spécifique au français : le séparateur décimal est la **virgule**, pas le point. En **C4**, ==saisissez `7650,50`==.",
+      "setup": {
+        "selection": "C4"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "C4",
+        "accept": [
+          "7650,50",
+          "7650.5",
+          "7650,5"
+        ]
+      },
+      "aide": {
+        "text": "Utilisez la virgule. Attention : sur le pavé numérique, la touche affiche souvent un point.",
+        "showTarget": true
+      },
+      "feedback": "Aligné à droite, donc reconnu. Avec un point, vous auriez obtenu du texte collé à gauche."
+    },
+    {
+      "id": "M02-L02-05",
+      "consigne": "Un nombre **négatif** se saisit avec le signe moins devant. En **D2**, ==saisissez `-2500`== pour enregistrer un avoir.",
+      "setup": {
+        "selection": "D2",
+        "cells": {
+          "D1": {
+            "v": "Avoirs",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "D2",
+        "accept": [
+          "-2500"
+        ]
+      },
+      "feedback": "Excel affiche souvent les négatifs en rouge selon le format appliqué."
+    },
+    {
+      "id": "M02-L02-06",
+      "consigne": "Contrôlez votre saisie : ==sélectionnez la plage **C2:C4**== et lisez le total en bas de la fenêtre.",
+      "action": {
+        "type": "DRAG_RANGE",
+        "range": "C2:C4"
+      },
+      "aide": {
+        "text": "De C2 à C4."
+      },
+      "feedback": "29 850,50 €. Si le total avait ignoré une ligne, c'est qu'un nombre aurait été saisi comme du texte — voilà comment le détecter en trois secondes."
+    },
+    {
+      "id": "M02-L02-07",
+      "consigne": "Retenez ce réflexe : **un nombre à gauche est un nombre malade**. Alignement à droite = calculable. Alignement à gauche = du texte, et vos formules l'ignoreront en silence.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    }
+  ]
+}

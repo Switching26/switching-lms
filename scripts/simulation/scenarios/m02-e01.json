@@ -1,0 +1,138 @@
+{
+  "schemaVersion": 1,
+  "title": "Exercice · Remplir et corriger",
+  "mode": "EXERCISE",
+  "moduleTitle": "Saisie des données",
+  "intro": {
+    "title": "À VOUS",
+    "body": "Un tableau à compléter, avec deux erreurs à repérer."
+  },
+  "outro": {
+    "body": "Exercice terminé."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ],
+    "sheetCount": 1
+  },
+  "workbook": {
+    "fileName": "Commandes",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 120
+        },
+        "cells": {
+          "A1": {
+            "v": "Référence",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Quantité",
+            "format": {
+              "bold": true
+            }
+          },
+          "C1": {
+            "v": "Prix unitaire",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "REF-100"
+          },
+          "B2": {
+            "v": 5
+          },
+          "C2": {
+            "v": 19.9
+          },
+          "A3": {
+            "v": "REF-101"
+          },
+          "B3": {
+            "v": 3
+          },
+          "A4": {
+            "v": "REF-102"
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M02-E01-01",
+      "consigne": "Le prix unitaire de **REF-101** est de **24 euros et 50 centimes**. Renseignez-le correctement.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "C3": {
+            "v": 24.5
+          }
+        }
+      },
+      "aide": {
+        "text": "Attention au séparateur décimal en français."
+      },
+      "feedback": "Si votre valeur s'est alignée à droite, c'est bon. À gauche, c'est que le séparateur était mauvais."
+    },
+    {
+      "id": "M02-E01-02",
+      "consigne": "La ligne **REF-102** est incomplète : il en a été commandé **8**, au prix unitaire de **12 euros**.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "B4": {
+            "v": 8
+          },
+          "C4": {
+            "v": 12
+          }
+        }
+      },
+      "aide": {
+        "text": "Deux cellules à remplir sur la ligne 4."
+      }
+    },
+    {
+      "id": "M02-E01-03",
+      "consigne": "Une erreur s'est glissée : la quantité de **REF-100** doit être **15**, pas 5. Corrigez-la.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "B2": {
+            "v": 15
+          }
+        }
+      },
+      "aide": {
+        "text": "Retaper par-dessus suffit."
+      }
+    },
+    {
+      "id": "M02-E01-04",
+      "consigne": "Vérifiez votre travail : sélectionnez **toutes les quantités** et lisez leur total dans la barre d'état.",
+      "action": {
+        "type": "DRAG_RANGE",
+        "range": "B2:B4"
+      },
+      "aide": {
+        "text": "Les trois quantités, sans l'en-tête."
+      },
+      "feedback": "26 articles commandés. Si vous obtenez autre chose, une quantité a été saisie comme du texte."
+    }
+  ]
+}

@@ -1,0 +1,156 @@
+{
+  "schemaVersion": 1,
+  "title": "Se repérer et se déplacer",
+  "mode": "LESSON",
+  "moduleTitle": "Prise en main",
+  "intro": {
+    "title": "ATTEINDRE LA BONNE CELLULE",
+    "body": "Sur un tableau de dix lignes on clique. Sur un tableau de dix mille, il faut savoir se déplacer autrement."
+  },
+  "outro": {
+    "body": "Vous savez atteindre n'importe quelle cellule et sélectionner ce dont vous avez besoin."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ],
+    "sheetCount": 1
+  },
+  "workbook": {
+    "fileName": "Bilan ventes",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 110
+        },
+        "cells": {
+          "A1": {
+            "v": "Boutique",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Janvier",
+            "format": {
+              "bold": true
+            }
+          },
+          "C1": {
+            "v": "Février",
+            "format": {
+              "bold": true
+            }
+          },
+          "D1": {
+            "v": "Mars",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Paris"
+          },
+          "B2": {
+            "v": 12800
+          },
+          "C2": {
+            "v": 14200
+          },
+          "D2": {
+            "v": 13100
+          },
+          "A3": {
+            "v": "Lyon"
+          },
+          "B3": {
+            "v": 8900
+          },
+          "C3": {
+            "v": 9400
+          },
+          "D3": {
+            "v": 10200
+          },
+          "A4": {
+            "v": "Marseille"
+          },
+          "B4": {
+            "v": 7600
+          },
+          "C4": {
+            "v": 8100
+          },
+          "D4": {
+            "v": 7900
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M01-L02-01",
+      "consigne": "Pour travailler sur plusieurs cellules d'un coup, on les **sélectionne**. ==Sélectionnez la plage **B2:D4**== en faisant glisser la souris de B2 jusqu'à D4.",
+      "action": {
+        "type": "DRAG_RANGE",
+        "range": "B2:D4"
+      },
+      "aide": {
+        "text": "Cliquez sur B2, maintenez le bouton enfoncé et glissez jusqu'à D4.",
+        "showTarget": true
+      },
+      "feedback": "Neuf cellules en surbrillance. En bas de la fenêtre, la somme des neuf chiffres s'affiche."
+    },
+    {
+      "id": "M01-L02-02",
+      "consigne": "Cette plage s'écrit **B2:D4** — le deux-points se lit « jusqu'à ». C'est la notation que vous utiliserez dans toutes vos formules.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M01-L02-03",
+      "consigne": "On peut aussi sélectionner **une seule ligne** du tableau. ==Sélectionnez la plage **B3:D3**==, les trois mois de Lyon.",
+      "action": {
+        "type": "DRAG_RANGE",
+        "range": "B3:D3"
+      },
+      "aide": {
+        "text": "De B3 à D3, horizontalement.",
+        "showTarget": true
+      },
+      "feedback": "La barre d'état indique une somme de 28 500 € pour Lyon sur le trimestre."
+    },
+    {
+      "id": "M01-L02-04",
+      "consigne": "On peut aussi sélectionner des cellules **qui ne se touchent pas**, en maintenant la touche **Ctrl** pendant les clics. Très pratique pour comparer deux valeurs éloignées : la barre d'état affiche alors leur total, sans tenir compte de ce qu'il y a entre les deux.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M01-L02-05",
+      "consigne": "Dernier repère utile : la **zone Nom**, à gauche de la barre de formule, affiche toujours où vous êtes. ==Cliquez sur **D4**== et vérifiez qu'elle affiche bien D4.",
+      "action": {
+        "type": "CLICK_CELL",
+        "cell": "D4"
+      },
+      "aide": {
+        "text": "Dernière colonne du tableau, quatrième ligne.",
+        "showTarget": true
+      },
+      "feedback": "Ce petit champ est votre boussole : quand une formule donne un résultat inattendu, commencez par vérifier dans quelle cellule vous êtes réellement."
+    }
+  ]
+}

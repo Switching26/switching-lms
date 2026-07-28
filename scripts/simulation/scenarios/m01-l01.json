@@ -1,0 +1,190 @@
+{
+  "schemaVersion": 1,
+  "title": "La feuille de calcul",
+  "mode": "LESSON",
+  "moduleTitle": "Prise en main",
+  "intro": {
+    "title": "COMPRENDRE LA GRILLE",
+    "body": "Avant toute formule, il faut savoir lire une feuille de calcul : des colonnes, des lignes, et à leur croisement des cellules qui portent chacune une adresse unique."
+  },
+  "outro": {
+    "body": "Vous savez lire une adresse de cellule et distinguer ce qu'une cellule contient de ce qu'elle affiche."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ],
+    "sheetCount": 1
+  },
+  "workbook": {
+    "fileName": "Bilan ventes",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 110
+        },
+        "cells": {
+          "A1": {
+            "v": "Boutique",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Janvier",
+            "format": {
+              "bold": true
+            }
+          },
+          "C1": {
+            "v": "Février",
+            "format": {
+              "bold": true
+            }
+          },
+          "D1": {
+            "v": "Mars",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Paris"
+          },
+          "B2": {
+            "v": 12800
+          },
+          "C2": {
+            "v": 14200
+          },
+          "D2": {
+            "v": 13100
+          },
+          "A3": {
+            "v": "Lyon"
+          },
+          "B3": {
+            "v": 8900
+          },
+          "C3": {
+            "v": 9400
+          },
+          "D3": {
+            "v": 10200
+          },
+          "A4": {
+            "v": "Marseille"
+          },
+          "B4": {
+            "v": 7600
+          },
+          "C4": {
+            "v": 8100
+          },
+          "D4": {
+            "v": 7900
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M01-L01-01",
+      "consigne": "Une feuille de calcul est un tableau. Les **colonnes** portent des lettres, les **lignes** des numéros. À leur croisement, une **cellule**. ==Cliquez sur la cellule **B2**== et regardez la zone à gauche de la barre de formule.",
+      "action": {
+        "type": "CLICK_CELL",
+        "cell": "B2"
+      },
+      "aide": {
+        "text": "Colonne B, ligne 2 : cliquez à l'intersection.",
+        "showTarget": true
+      },
+      "feedback": "La zone Nom affiche B2 : c'est l'adresse de la cellule active. On dit aussi sa « référence »."
+    },
+    {
+      "id": "M01-L01-02",
+      "consigne": "L'adresse se lit **toujours** colonne puis ligne. ==Cliquez sur **C3**== : la colonne C, la troisième ligne.",
+      "action": {
+        "type": "CLICK_CELL",
+        "cell": "C3"
+      },
+      "aide": {
+        "text": "Troisième colonne, troisième ligne.",
+        "showTarget": true
+      },
+      "feedback": "C3 contient 9 400 — le chiffre de Lyon en février."
+    },
+    {
+      "id": "M01-L01-03",
+      "consigne": "Cette adresse est ce que vous écrirez dans vos formules. C'est pour ça qu'il faut la lire d'un coup d'œil : `B2` n'est pas `2B`, et se tromper de ligne fausse tout le calcul.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M01-L01-04",
+      "consigne": "La **barre de formule**, en haut, montre ce que la cellule contient réellement. ==Cliquez sur **A2**== et comparez ce que vous voyez dans la cellule et dans la barre.",
+      "action": {
+        "type": "CLICK_CELL",
+        "cell": "A2"
+      },
+      "aide": {
+        "text": "Première colonne, deuxième ligne.",
+        "showTarget": true
+      },
+      "feedback": "Pour du texte simple, les deux sont identiques. La différence apparaîtra dès qu'il y aura une formule."
+    },
+    {
+      "id": "M01-L01-05",
+      "consigne": "Vous pouvez écrire directement. En **A5**, ==saisissez `Bordeaux`== pour ajouter une quatrième boutique.",
+      "setup": {
+        "selection": "A5"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "A5",
+        "accept": [
+          "Bordeaux"
+        ]
+      },
+      "aide": {
+        "text": "Cliquez dans A5, tapez, puis validez avec Entrée.",
+        "showTarget": true
+      },
+      "feedback": "Le texte se cale à gauche de la cellule. Retenez-le : Excel aligne le texte à gauche et les nombres à droite."
+    },
+    {
+      "id": "M01-L01-06",
+      "consigne": "En **B5**, ==saisissez `9500`== et observez l'alignement.",
+      "setup": {
+        "selection": "B5"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B5",
+        "accept": [
+          "9500"
+        ]
+      },
+      "feedback": "9 500 se cale à droite : Excel l'a bien compris comme un nombre, pas comme du texte. C'est votre premier contrôle qualité."
+    },
+    {
+      "id": "M01-L01-07",
+      "consigne": "Cet alignement est un **indicateur précieux**. Si un nombre apparaît collé à gauche, c'est qu'Excel l'a pris pour du texte — et aucun calcul ne fonctionnera dessus.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    }
+  ]
+}

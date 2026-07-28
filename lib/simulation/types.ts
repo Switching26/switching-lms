@@ -317,6 +317,10 @@ export type SimulationStep = {
     note?: { ref: string; texte: string }
     /** Volets à figer quand l'étape passe par le bouton Affichage. */
     freeze?: { rows: number; cols: number }
+    /** Contenu tabulé que le bouton Coller déposera à cette étape. */
+    paste?: { texte: string }
+    /** Découpage en colonnes que le bouton Convertir appliquera. */
+    split?: { range: string; separateur: number; fusionnerSeparateurs?: boolean }
     /**
      * Valeur cible : quelle valeur donner à `inputRef` pour que `formulaRef`
      * atteigne `target`. Le vrai Excel demande ces trois champs dans une boîte

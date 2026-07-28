@@ -1,0 +1,202 @@
+{
+  "schemaVersion": 1,
+  "title": "Exercice · Récupérer un export fournisseurs",
+  "mode": "EXERCISE",
+  "moduleTitle": "Import, export et échanges de données",
+  "intro": {
+    "title": "À VOUS",
+    "body": "Un export brut à rendre exploitable, et à vérifier."
+  },
+  "outro": {
+    "body": "Exercice terminé."
+  },
+  "ribbon": [
+    "accueil",
+    "donnees"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Export fournisseurs",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 280
+        },
+        "cells": {
+          "A1": {
+            "v": "Fournisseur;Commandes;Montant",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Nord Distri;14;12400"
+          },
+          "A3": {
+            "v": "Sud Matériel;9;8750"
+          },
+          "A4": {
+            "v": "Est Fournitures;21;19300"
+          },
+          "A5": {
+            "v": "Ouest Bureau;6;4100"
+          },
+          "A6": {
+            "v": "Centre Papeterie;11;9600"
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M26-E01-01",
+      "consigne": "Découpez cet export en colonnes exploitables. Le séparateur est le **point-virgule**.",
+      "setup": {
+        "selection": "A1:A6",
+        "ribbon": {
+          "activeTab": "donnees"
+        },
+        "split": {
+          "range": "A1:A6",
+          "separateur": 4
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "don-convertir"
+      },
+      "aide": {
+        "text": "Sélection déjà posée : bouton Convertir, onglet Données."
+      }
+    },
+    {
+      "id": "M26-E01-02",
+      "consigne": "Contrôlez d'abord la structure : en **E1**, comptez les colonnes obtenues sur la ligne 2.",
+      "setup": {
+        "selection": "E1",
+        "cells": {
+          "D1": {
+            "v": "Colonnes",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "E1",
+        "accept": [
+          "=NBVAL(A2:C2)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "NBVAL compte les cellules non vides."
+      },
+      "feedback": "3 colonnes : la conversion est bonne."
+    },
+    {
+      "id": "M26-E01-03",
+      "consigne": "Vérifiez que les montants sont bien numériques : en **E2**, comptez-les.",
+      "setup": {
+        "selection": "E2",
+        "cells": {
+          "D2": {
+            "v": "Nb montants",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "E2",
+        "accept": [
+          "=NB(C2:C6)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "NB ne compte que les nombres, pas le texte."
+      },
+      "feedback": "5, donc tous les montants sont exploitables."
+    },
+    {
+      "id": "M26-E01-04",
+      "consigne": "Calculez le **montant total** en **E3** et le **nombre total de commandes** en **E4**.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "E3": {
+            "v": 54150
+          },
+          "E4": {
+            "v": 61
+          }
+        }
+      },
+      "aide": {
+        "text": "Une somme sur la colonne des montants, une autre sur celle des commandes."
+      },
+      "feedback": "54 150 € pour 61 commandes."
+    },
+    {
+      "id": "M26-E01-05",
+      "consigne": "Calculez le **montant moyen par commande** en **E5**.",
+      "setup": {
+        "selection": "E5",
+        "cells": {
+          "D5": {
+            "v": "Moyenne/commande",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "E5",
+        "accept": [
+          "=E3/E4"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Le total des montants divisé par le total des commandes."
+      },
+      "feedback": "Environ 887,70 € par commande — un indicateur qu'on n'aurait jamais pu calculer sur le fichier d'origine."
+    },
+    {
+      "id": "M26-E01-06",
+      "consigne": "Dernier contrôle : donnez un format **monétaire** au montant moyen pour le rendre présentable.",
+      "setup": {
+        "selection": "E5"
+      },
+      "action": {
+        "type": "EXPECT_FORMAT",
+        "cells": {
+          "E5": {
+            "numberFormat": "monetaire"
+          }
+        }
+      },
+      "aide": {
+        "text": "Le bouton € du groupe Nombre."
+      },
+      "feedback": "L'export brut est devenu un tableau contrôlé, calculé et lisible."
+    }
+  ]
+}

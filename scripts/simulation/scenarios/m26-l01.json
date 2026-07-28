@@ -1,0 +1,151 @@
+{
+  "schemaVersion": 1,
+  "title": "Récupérer des données venues d'ailleurs",
+  "mode": "LESSON",
+  "moduleTitle": "Import, export et échanges de données",
+  "intro": {
+    "title": "LE COLLAGE QUI TOURNE MAL",
+    "body": "On passe plus de temps à récupérer des données qu'à les calculer. Un export mal collé, et tout un tableau devient inexploitable — sans le moindre message d'erreur."
+  },
+  "outro": {
+    "body": "Vous savez coller un tableau externe et vérifier immédiatement ce qui est arrivé sous forme de nombre."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Import",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 130,
+          "B": 110
+        },
+        "cells": {}
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M26-L01-01",
+      "consigne": "La feuille est vide. Un collègue vous a envoyé un relevé de ventes copié depuis un autre logiciel. ==Placez-vous en **A1** et cliquez sur **Coller**==.",
+      "setup": {
+        "selection": "A1",
+        "paste": {
+          "texte": "Client\tVille\tMontant\nBertrand\tLyon\t1200\nChevalier\tNantes\t890\nDelaunay\tLille\t2100\nFabre\tToulouse\t1560"
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "acc-coller"
+      },
+      "aide": {
+        "text": "Le bouton Coller du groupe Presse-papiers.",
+        "showTarget": true
+      },
+      "feedback": "Quatre ventes, trois colonnes. Excel a réparti le contenu **parce que les colonnes étaient séparées par des tabulations** — c'est le format d'échange que comprennent tous les tableurs."
+    },
+    {
+      "id": "M26-L01-02",
+      "consigne": "Premier réflexe après tout collage : vérifier ce qui est vraiment devenu un nombre. ==En **E1**, comptez les montants numériques==.",
+      "setup": {
+        "selection": "E1",
+        "cells": {
+          "D1": {
+            "v": "Nb nombres",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "E1",
+        "accept": [
+          "=NB(C2:C5)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "NB ne compte que les cellules contenant un nombre.",
+        "showTarget": true
+      },
+      "feedback": "4, donc les quatre montants sont exploitables. Si vous aviez obtenu 0 ou 2, la suite de votre travail aurait été fausse — et vous ne l'auriez découvert que bien plus tard."
+    },
+    {
+      "id": "M26-L01-03",
+      "consigne": "==Totalisez les montants en **E2** pour confirmer==.",
+      "setup": {
+        "selection": "E2",
+        "cells": {
+          "D2": {
+            "v": "Total",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "E2",
+        "accept": [
+          "=SOMME(C2:C5)"
+        ],
+        "formulaMode": true
+      },
+      "feedback": "5 750 €. Le collage est propre : on peut travailler."
+    },
+    {
+      "id": "M26-L01-04",
+      "consigne": "Ce qui échoue le plus souvent, et pourquoi. Un montant écrit `1 200,50` avec un espace, ou `1,200.50` à l'anglo-saxonne, n'est **pas reconnu comme un nombre** par un Excel français : il devient du texte, s'aligne à gauche, et disparaît de vos totaux. Le symptôme est toujours le même — une somme qui vaut zéro ou beaucoup moins que prévu.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M26-L01-05",
+      "consigne": "Le second piège tient au **collage spécial**. Coller normalement transporte les formules, les formats et les largeurs. Or on veut souvent seulement les **valeurs** — pour figer un résultat, ou pour se débarrasser de mises en forme importées illisibles. Le menu Coller propose donc « Valeurs », « Formats », « Transposé » : c'est là qu'on choisit ce qu'on veut vraiment.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M26-L01-06",
+      "consigne": "Terminez par un contrôle de cohérence. ==En **E3**, calculez la moyenne des montants== : un résultat aberrant révélerait une ligne mal importée.",
+      "setup": {
+        "selection": "E3",
+        "cells": {
+          "D3": {
+            "v": "Moyenne",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "E3",
+        "accept": [
+          "=MOYENNE(C2:C5)"
+        ],
+        "formulaMode": true
+      },
+      "feedback": "1 437,50 €, cohérent avec les quatre montants visibles. Compter, totaliser, moyenner : trois formules qui valident un import en dix secondes."
+    }
+  ]
+}

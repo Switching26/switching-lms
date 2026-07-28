@@ -383,6 +383,22 @@ export default function SimulationPlayer({
             grid.clearConditionalRules(cf?.range ?? grid.getSelection() ?? "A1")
             break
           }
+          case "acc-coller": {
+            // Un collage passe par Univer et rend une promesse : on valide après.
+            const coll = stepRef.current?.setup?.paste
+            if (coll) {
+              void grid.pasteText(coll.texte).then(() => {
+                handleAction({ kind: "control", control: controlId, channel: "ribbon" })
+              })
+              return
+            }
+            break
+          }
+          case "don-convertir": {
+            const sp = stepRef.current?.setup?.split
+            if (sp) grid.splitToColumns(sp.range, sp.separateur, sp.fusionnerSeparateurs)
+            break
+          }
           case "acc-format-monetaire":
             // Deux décimales, séparateur de milliers et symbole € : le format
             // « Monétaire » d'Excel. La localisation numfmt le rend en français.

@@ -1,0 +1,170 @@
+{
+  "schemaVersion": 1,
+  "title": "Séparer une colonne en plusieurs",
+  "mode": "LESSON",
+  "moduleTitle": "Import, export et échanges de données",
+  "intro": {
+    "title": "TOUT DANS UNE SEULE COLONNE",
+    "body": "C'est le grand classique du fichier CSV mal ouvert : chaque ligne entière atterrit dans la colonne A. Excel sait la découper, encore faut-il lui dire sur quoi."
+  },
+  "outro": {
+    "body": "Vous savez découper une colonne sur le bon séparateur et reconnaître ce qui a échoué."
+  },
+  "ribbon": [
+    "accueil",
+    "donnees"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Import",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 260
+        },
+        "cells": {
+          "A1": {
+            "v": "Région;CA;Effectif",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Nord;42000;12"
+          },
+          "A3": {
+            "v": "Sud;38000;9"
+          },
+          "A4": {
+            "v": "Ouest;29000;7"
+          },
+          "A5": {
+            "v": "Est;31000;8"
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M26-L02-01",
+      "consigne": "Voilà le symptôme : cinq lignes entassées dans la colonne A, séparées par des **points-virgules**. Aucun calcul n'est possible en l'état. ==Sélectionnez **A1:A5**, ouvrez l'onglet **Données** et cliquez sur **Convertir**==.",
+      "setup": {
+        "selection": "A1:A5",
+        "ribbon": {
+          "activeTab": "donnees"
+        },
+        "split": {
+          "range": "A1:A5",
+          "separateur": 4
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "don-convertir"
+      },
+      "aide": {
+        "text": "Le bouton Convertir du groupe Outils de données, onglet Données.",
+        "showTarget": true
+      },
+      "feedback": "Trois colonnes propres : Région, CA, Effectif. Et surtout, les chiffres sont devenus de vrais nombres — alignés à droite."
+    },
+    {
+      "id": "M26-L02-02",
+      "consigne": "Vérifions-le tout de suite. ==En **E1**, totalisez la colonne des chiffres d'affaires==.",
+      "setup": {
+        "selection": "E1",
+        "cells": {
+          "D1": {
+            "v": "Total CA",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "E1",
+        "accept": [
+          "=SOMME(B2:B5)"
+        ],
+        "formulaMode": true
+      },
+      "feedback": "140 000 €. Avant la conversion, cette somme aurait valu zéro : les chiffres étaient prisonniers d'une chaîne de texte."
+    },
+    {
+      "id": "M26-L02-03",
+      "consigne": "Le point à comprendre : **le séparateur dépend du fichier**, et se tromper donne n'importe quoi. Un export américain utilise la **virgule**, un export français le **point-virgule** — précisément parce que la virgule y sert de décimale. Les exports de bases de données préfèrent la **tabulation**, plus sûre car rare dans les données.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M26-L02-04",
+      "consigne": "Et voici le piège qui coûte le plus cher. Si un fichier français contient `Dupont;1200,50;Lyon` et que vous découpez sur la **virgule**, vous obtenez quatre colonnes au lieu de trois, et le montant se coupe en deux : `1200` et `50`. Le tableau paraît plausible, les totaux sont faux. ==Comptez les colonnes obtenues : en **E2**, comptez les cellules non vides de la ligne 2==.",
+      "setup": {
+        "selection": "E2",
+        "cells": {
+          "D2": {
+            "v": "Colonnes ligne 2",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "E2",
+        "accept": [
+          "=NBVAL(A2:C2)"
+        ],
+        "formulaMode": true
+      },
+      "feedback": "3, le compte attendu. **Compter les colonnes après conversion est le contrôle qui détecte un mauvais séparateur** — bien avant que les chiffres ne trahissent le problème."
+    },
+    {
+      "id": "M26-L02-05",
+      "consigne": "Une précaution avant de convertir : la conversion **écrase les colonnes situées à droite**, sans prévenir. Vérifiez qu'elles sont vides, ou insérez d'abord assez de colonnes. C'est irréversible une fois le classeur enregistré.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M26-L02-06",
+      "consigne": "Finissez le tableau : ==en **E3**, calculez l'effectif total==.",
+      "setup": {
+        "selection": "E3",
+        "cells": {
+          "D3": {
+            "v": "Effectif total",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "E3",
+        "accept": [
+          "=SOMME(C2:C5)"
+        ],
+        "formulaMode": true
+      },
+      "feedback": "36 personnes. Le fichier illisible du départ est devenu un tableau exploitable en un bouton et deux contrôles."
+    }
+  ]
+}

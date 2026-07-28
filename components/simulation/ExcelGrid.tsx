@@ -122,6 +122,18 @@ export type GridApi = {
     numberFormat: string
   }
   /**
+   * Colle du contenu tabulé à la sélection, comme un collage depuis un fichier
+   * texte ou une page web : tabulations entre colonnes, retours à la ligne
+   * entre lignes.
+   */
+  pasteText: (texte: string) => Promise<boolean>
+  /**
+   * « Convertir » d'Excel : découpe une colonne de texte en plusieurs colonnes.
+   * `separateur` suit l'énumération d'Univer — tabulation 1, virgule 2,
+   * point-virgule 4, espace 8, combinables par bits.
+   */
+  splitToColumns: (range: string, separateur: number, fusionnerSeparateurs?: boolean) => boolean
+  /**
    * Trie une plage sur une de ses colonnes. `column` est un indice RELATIF au
    * premier champ de la plage — vérifié au banc, ce n'est pas un indice absolu
    * de feuille.
@@ -502,6 +514,26 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
             } catch {
               /* un format refusé ne doit pas interrompre la leçon */
             }
+          }
+        },
+        pasteText: async (texte) => {
+          try {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const ok = await (univerAPI as any)?.pasteIntoSheet?.(undefined, texte)
+            return Boolean(ok)
+          } catch {
+            return false
+          }
+        },
+        splitToColumns: (range, separateur, fusionnerSeparateurs) => {
+          try {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const rg = sheet()?.getRange(range) as any
+            if (!rg?.splitTextToColumns) return false
+            rg.splitTextToColumns(Boolean(fusionnerSeparateurs), separateur)
+            return true
+          } catch {
+            return false
           }
         },
         sortRange: (range, column, ascending) => {

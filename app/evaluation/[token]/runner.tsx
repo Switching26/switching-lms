@@ -581,6 +581,11 @@ function Shell({
   progress?: { label: string; title: string; answered: number; total: number; minutes: number | null }
 }) {
   const ratio = progress && progress.total > 0 ? progress.answered / progress.total : 0
+  // Les titres commencent souvent par « Test de positionnement — … », ce qui
+  // répéterait mot pour mot le libellé affiché juste au-dessus.
+  const shortTitle = progress
+    ? progress.title.replace(new RegExp(`^\\s*${progress.label}\\s*[—–:-]\\s*`, "i"), "")
+    : ""
   return (
     <div className="min-h-screen bg-surface-subtle">
       <div
@@ -612,7 +617,7 @@ function Shell({
                 {progress.label}
               </p>
               <div className="flex items-baseline justify-between gap-3 mt-0.5">
-                <p className="text-[14px] font-semibold text-ink truncate">{progress.title}</p>
+                <p className="text-[14px] font-semibold text-ink truncate">{shortTitle || progress.title}</p>
                 <p className="text-[13px] font-bold text-ink tabular-nums whitespace-nowrap">
                   {progress.answered}
                   <span className="font-normal text-ink-50"> / {progress.total}</span>

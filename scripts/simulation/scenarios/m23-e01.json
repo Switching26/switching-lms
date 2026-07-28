@@ -1,0 +1,262 @@
+{
+  "schemaVersion": 1,
+  "title": "Exercice · Piloter par objectif",
+  "mode": "EXERCISE",
+  "moduleTitle": "Analyses et simulations",
+  "intro": {
+    "title": "À VOUS",
+    "body": "Un budget de formation à ajuster pour tenir un objectif de marge."
+  },
+  "outro": {
+    "body": "Exercice terminé."
+  },
+  "ribbon": [
+    "accueil",
+    "donnees"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Budget formation",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 180
+        },
+        "cells": {
+          "A1": {
+            "v": "SESSION DE FORMATION",
+            "format": {
+              "bold": true
+            }
+          },
+          "A3": {
+            "v": "Prix par stagiaire",
+            "format": {
+              "bold": true
+            }
+          },
+          "B3": {
+            "v": 1200
+          },
+          "A4": {
+            "v": "Nombre de stagiaires",
+            "format": {
+              "bold": true
+            }
+          },
+          "B4": {
+            "v": 8
+          },
+          "A5": {
+            "v": "Coût formateur (jour)",
+            "format": {
+              "bold": true
+            }
+          },
+          "B5": {
+            "v": 650
+          },
+          "A6": {
+            "v": "Nombre de jours",
+            "format": {
+              "bold": true
+            }
+          },
+          "B6": {
+            "v": 5
+          },
+          "A7": {
+            "v": "Frais de salle",
+            "format": {
+              "bold": true
+            }
+          },
+          "B7": {
+            "v": 900
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M23-E01-01",
+      "consigne": "Calculez le **chiffre d'affaires** de la session en **B9**.",
+      "setup": {
+        "selection": "B9",
+        "cells": {
+          "A9": {
+            "v": "Chiffre d'affaires",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B9",
+        "accept": [
+          "=B3*B4",
+          "=B4*B3"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Le prix par stagiaire multiplié par leur nombre."
+      },
+      "feedback": "9 600 €."
+    },
+    {
+      "id": "M23-E01-02",
+      "consigne": "Calculez les **coûts totaux** en **B10** : le formateur sur tous les jours, plus la salle.",
+      "setup": {
+        "selection": "B10",
+        "cells": {
+          "A10": {
+            "v": "Coûts",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B10",
+        "accept": [
+          "=B5*B6+B7",
+          "=B6*B5+B7",
+          "=B7+B5*B6"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Coût journalier fois le nombre de jours, auquel s'ajoutent les frais de salle."
+      },
+      "feedback": "4 150 €."
+    },
+    {
+      "id": "M23-E01-03",
+      "consigne": "Calculez la **marge** en **B11**.",
+      "setup": {
+        "selection": "B11",
+        "cells": {
+          "A11": {
+            "v": "MARGE",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B11",
+        "accept": [
+          "=B9-B10"
+        ],
+        "formulaMode": true
+      },
+      "feedback": "5 450 € de marge."
+    },
+    {
+      "id": "M23-E01-04",
+      "consigne": "L'objectif est **7 000 €** de marge, et le prix ne peut pas bouger. Trouvez le **nombre de stagiaires** nécessaire.",
+      "setup": {
+        "selection": "B11",
+        "ribbon": {
+          "activeTab": "donnees"
+        },
+        "goalSeek": {
+          "formulaRef": "B11",
+          "target": 7000,
+          "inputRef": "B4"
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "don-valeur-cible"
+      },
+      "aide": {
+        "text": "Valeur cible : la cellule à définir est la marge, la cellule à modifier est le nombre de stagiaires."
+      },
+      "feedback": "Environ 9,3 stagiaires. Un chiffre non entier : dans la vraie vie il faudra en viser **10**, ce que la valeur cible ne vous dira jamais toute seule."
+    },
+    {
+      "id": "M23-E01-05",
+      "consigne": "Arrondissez à l'entier supérieur : en **D3**, calculez le nombre de stagiaires réellement à inscrire à partir de la valeur trouvée.",
+      "setup": {
+        "selection": "D3",
+        "cells": {
+          "D2": {
+            "v": "À inscrire",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "D3",
+        "accept": [
+          "=ARRONDI.SUP(B4;0)",
+          "=PLAFOND(B4;1)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "ARRONDI.SUP arrondit vers le haut au nombre de décimales indiqué."
+      },
+      "feedback": "10 stagiaires. C'est ce genre de retour au réel qui fait la différence entre un chiffre et une décision."
+    },
+    {
+      "id": "M23-E01-06",
+      "consigne": "Autre piste : garder 8 stagiaires et réduire la durée. Remettez d'abord le **nombre de stagiaires à 8**.",
+      "setup": {
+        "selection": "B4"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B4",
+        "accept": [
+          "8"
+        ]
+      },
+      "feedback": "Retour au point de départ côté effectif."
+    },
+    {
+      "id": "M23-E01-07",
+      "consigne": "Trouvez maintenant le **nombre de jours** qui donnerait 7 000 € de marge avec 8 stagiaires.",
+      "setup": {
+        "selection": "B11",
+        "ribbon": {
+          "activeTab": "donnees"
+        },
+        "goalSeek": {
+          "formulaRef": "B11",
+          "target": 7000,
+          "inputRef": "B6"
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "don-valeur-cible"
+      },
+      "aide": {
+        "text": "Valeur cible, en modifiant cette fois le nombre de jours."
+      },
+      "feedback": "Environ 2,6 jours. Vous avez maintenant deux leviers chiffrés — 10 stagiaires sur 5 jours, ou 8 stagiaires sur 3 jours — et c'est exactement ce qu'on attend d'une simulation : des options comparables, pas un seul chiffre."
+    }
+  ]
+}

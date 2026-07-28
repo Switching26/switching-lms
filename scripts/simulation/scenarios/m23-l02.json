@@ -1,0 +1,205 @@
+{
+  "schemaVersion": 1,
+  "title": "Trouver la valeur qui atteint un objectif",
+  "mode": "LESSON",
+  "moduleTitle": "Analyses et simulations",
+  "intro": {
+    "title": "LE CALCUL À L'ENVERS",
+    "body": "Une table d'hypothèses encadre la réponse. Quand il faut la valeur exacte — le prix qui donne précisément 10 000 € de résultat — Excel sait résoudre le problème dans l'autre sens."
+  },
+  "outro": {
+    "body": "Vous savez utiliser la valeur cible et vous connaissez ses limites."
+  },
+  "ribbon": [
+    "accueil",
+    "donnees"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Simulation",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 170
+        },
+        "cells": {
+          "A1": {
+            "v": "OBJECTIF DE RÉSULTAT",
+            "format": {
+              "bold": true
+            }
+          },
+          "A3": {
+            "v": "Prix de vente unitaire",
+            "format": {
+              "bold": true
+            }
+          },
+          "B3": {
+            "v": 49
+          },
+          "A4": {
+            "v": "Quantité vendue",
+            "format": {
+              "bold": true
+            }
+          },
+          "B4": {
+            "v": 800
+          },
+          "A5": {
+            "v": "Coût unitaire",
+            "format": {
+              "bold": true
+            }
+          },
+          "B5": {
+            "v": 31
+          },
+          "A6": {
+            "v": "Charges fixes",
+            "format": {
+              "bold": true
+            }
+          },
+          "B6": {
+            "v": 9000
+          },
+          "A8": {
+            "v": "RÉSULTAT",
+            "format": {
+              "bold": true
+            }
+          },
+          "B8": {
+            "f": "=(B3-B5)*B4-B6"
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M23-L02-01",
+      "consigne": "Le modèle donne 5 400 € à 49 €. La direction veut **10 000 €**. Chercher à tâtons serait absurde : ==ouvrez l'onglet **Données** et cliquez sur **Valeur cible**== pour qu'Excel trouve le prix exact.",
+      "setup": {
+        "selection": "B8",
+        "ribbon": {
+          "activeTab": "donnees"
+        },
+        "goalSeek": {
+          "formulaRef": "B8",
+          "target": 10000,
+          "inputRef": "B3"
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "don-valeur-cible"
+      },
+      "aide": {
+        "text": "Le bouton « Valeur cible » du groupe Outils de données.",
+        "showTarget": true
+      },
+      "feedback": "Le prix est passé à 54,75 € et le résultat affiche exactement 10 000 €. Dans Excel, la boîte de dialogue demande trois choses : la **cellule à définir** (le résultat), la **valeur à atteindre**, et la **cellule à modifier** (le prix)."
+    },
+    {
+      "id": "M23-L02-02",
+      "consigne": "Les trois champs, dans le bon ordre, parce que c'est là que tout le monde se trompe. « Cellule à définir » doit contenir une **formule** — jamais un nombre. « Cellule à modifier » doit contenir une **valeur** — jamais une formule. Si vous inversez les deux, Excel refuse.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M23-L02-03",
+      "consigne": "Vérifions le résultat par un contrôle indépendant. ==En **D3**, recalculez le résultat== à partir du nouveau prix, avec votre propre formule.",
+      "setup": {
+        "selection": "D3",
+        "cells": {
+          "D2": {
+            "v": "Contrôle",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "D3",
+        "accept": [
+          "=(B3-B5)*B4-B6",
+          "=B4*(B3-B5)-B6"
+        ],
+        "formulaMode": true
+      },
+      "feedback": "10 000 € également. La valeur cible n'a pas triché : elle a bien modifié le prix, et le modèle a recalculé normalement."
+    },
+    {
+      "id": "M23-L02-04",
+      "consigne": "Changeons d'objectif. La direction se ravise et veut **atteindre l'équilibre exact**, c'est-à-dire un résultat de zéro, pour connaître le prix plancher. ==Relancez la **valeur cible** avec cet objectif==.",
+      "setup": {
+        "selection": "B8",
+        "ribbon": {
+          "activeTab": "donnees"
+        },
+        "goalSeek": {
+          "formulaRef": "B8",
+          "target": 0,
+          "inputRef": "B3"
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "don-valeur-cible"
+      },
+      "aide": {
+        "text": "Même bouton, avec zéro comme valeur à atteindre.",
+        "showTarget": true
+      },
+      "feedback": "42,25 € : c'est le prix d'équilibre, en dessous duquel l'affaire perd de l'argent. Votre table d'hypothèses l'avait situé entre 39 et 43 € — la valeur cible donne le chiffre exact."
+    },
+    {
+      "id": "M23-L02-05",
+      "consigne": "On peut aussi faire varier autre chose que le prix. ==Cette fois, cherchez la **quantité** nécessaire pour atteindre 20 000 € de résultat==, au prix d'équilibre actuel.",
+      "setup": {
+        "selection": "B8",
+        "ribbon": {
+          "activeTab": "donnees"
+        },
+        "goalSeek": {
+          "formulaRef": "B8",
+          "target": 20000,
+          "inputRef": "B4"
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "don-valeur-cible"
+      },
+      "aide": {
+        "text": "Même bouton : c'est la cellule à modifier qui change, la quantité au lieu du prix.",
+        "showTarget": true
+      },
+      "feedback": "La quantité s'envole, ce qui est logique : au prix d'équilibre la marge unitaire est presque nulle, il faut donc vendre énormément. **La valeur cible ne juge pas si la réponse est réaliste — c'est votre travail.**"
+    },
+    {
+      "id": "M23-L02-06",
+      "consigne": "Trois limites à retenir. La valeur cible ne modifie **qu'une seule cellule** : pour en optimiser plusieurs à la fois, il faut le Solveur, un complément séparé. Elle **écrase** la valeur d'origine, donc notez-la avant. Et elle procède par **approximations successives** : sur un modèle sans solution, ou avec plusieurs solutions, elle peut échouer ou tomber sur celle qui ne vous intéresse pas.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    }
+  ]
+}

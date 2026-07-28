@@ -1,0 +1,234 @@
+{
+  "schemaVersion": 1,
+  "title": "Simuler avec une table d'hypothèses",
+  "mode": "LESSON",
+  "moduleTitle": "Analyses et simulations",
+  "intro": {
+    "title": "RÉPONDRE À « ET SI ? »",
+    "body": "Un tableau qui ne donne qu'un seul résultat ne répond qu'à une seule question. Une table d'hypothèses en donne dix d'un coup — et c'est ce qu'on attend d'une analyse."
+  },
+  "outro": {
+    "body": "Vous savez bâtir une table d'hypothèses à une variable et lire une sensibilité."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Simulation",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 170
+        },
+        "cells": {
+          "A1": {
+            "v": "HYPOTHÈSE DE PRIX",
+            "format": {
+              "bold": true
+            }
+          },
+          "A3": {
+            "v": "Prix de vente unitaire",
+            "format": {
+              "bold": true
+            }
+          },
+          "B3": {
+            "v": 49
+          },
+          "A4": {
+            "v": "Quantité vendue",
+            "format": {
+              "bold": true
+            }
+          },
+          "B4": {
+            "v": 800
+          },
+          "A5": {
+            "v": "Coût unitaire",
+            "format": {
+              "bold": true
+            }
+          },
+          "B5": {
+            "v": 31
+          },
+          "A6": {
+            "v": "Charges fixes",
+            "format": {
+              "bold": true
+            }
+          },
+          "B6": {
+            "v": 9000
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M23-L01-01",
+      "consigne": "Un modèle simple : un prix, une quantité, un coût, des charges fixes. ==En **B8**, calculez le résultat== : la marge unitaire multipliée par la quantité, moins les charges fixes.",
+      "setup": {
+        "selection": "B8",
+        "cells": {
+          "A8": {
+            "v": "RÉSULTAT",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B8",
+        "accept": [
+          "=(B3-B5)*B4-B6",
+          "=B4*(B3-B5)-B6"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Marge unitaire = prix moins coût. Multipliée par la quantité, moins les charges fixes.",
+        "showTarget": true
+      },
+      "feedback": "5 400 € de résultat. Une seule réponse, pour un seul prix — c'est là que s'arrête un tableau ordinaire."
+    },
+    {
+      "id": "M23-L01-02",
+      "consigne": "La bonne question n'est pas « combien gagne-t-on à 49 € ? » mais « **à partir de quel prix devient-on rentable ?** ». Une table d'hypothèses répond aux deux. ==En **D3**, posez le premier prix à tester : `39`==.",
+      "setup": {
+        "selection": "D3",
+        "cells": {
+          "D2": {
+            "v": "Prix testé",
+            "format": {
+              "bold": true
+            }
+          },
+          "E2": {
+            "v": "Résultat",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "D3",
+        "accept": [
+          "39"
+        ]
+      },
+      "feedback": "Première hypothèse posée."
+    },
+    {
+      "id": "M23-L01-03",
+      "consigne": "==En **D4**, saisissez `43`== : l'écart entre vos deux valeurs fixera le pas de la série.",
+      "setup": {
+        "selection": "D4"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "D4",
+        "accept": [
+          "43"
+        ]
+      },
+      "feedback": "Un pas de 4 €."
+    },
+    {
+      "id": "M23-L01-04",
+      "consigne": "==Sélectionnez **D3:D4** et recopiez jusqu'en **D8**== pour obtenir toute la gamme de prix à tester.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "D5": {
+            "v": 47
+          },
+          "D6": {
+            "v": 51
+          },
+          "D7": {
+            "v": 55
+          },
+          "D8": {
+            "v": 59
+          }
+        }
+      },
+      "aide": {
+        "text": "Deux cellules sélectionnées, puis la poignée de recopie vers le bas jusqu'à D8."
+      },
+      "feedback": "39, 43, 47, 51, 55, 59 : six scénarios de prix."
+    },
+    {
+      "id": "M23-L01-05",
+      "consigne": "Maintenant la formule qui calcule le résultat pour **chaque** prix. ==En **E3**, saisissez `=(D3-$B$5)*$B$4-$B$6`==. Notez les dollars : seul le prix testé doit changer d'une ligne à l'autre.",
+      "setup": {
+        "selection": "E3"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "E3",
+        "accept": [
+          "=(D3-$B$5)*$B$4-$B$6",
+          "=$B$4*(D3-$B$5)-$B$6"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Le prix testé en référence relative, le coût, la quantité et les charges fixes en références absolues.",
+        "showTarget": true
+      },
+      "feedback": "–2 600 € : à 39 €, l'affaire perd de l'argent. Les dollars sont ici la clé — sans eux, la recopie irait chercher des cellules vides."
+    },
+    {
+      "id": "M23-L01-06",
+      "consigne": "==Recopiez **E3** jusqu'en **E8**== pour compléter la table.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "E4": {
+            "v": 600
+          },
+          "E5": {
+            "v": 3800
+          },
+          "E6": {
+            "v": 7000
+          },
+          "E8": {
+            "v": 13400
+          }
+        }
+      },
+      "aide": {
+        "text": "Poignée de recopie de E3 vers le bas jusqu'à E8."
+      },
+      "feedback": "La lecture est immédiate : le seuil de rentabilité se situe **entre 39 et 43 €**. Chaque euro de prix rapporte 800 € de résultat — puisque la quantité est de 800 unités."
+    },
+    {
+      "id": "M23-L01-07",
+      "consigne": "C'est la vraie valeur d'une table d'hypothèses : elle ne donne pas seulement des chiffres, elle montre une **pente**. Savoir qu'un euro de prix vaut 800 € de résultat vous dit immédiatement où porter l'effort — et c'est une information qu'aucun calcul isolé ne fournit.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    }
+  ]
+}

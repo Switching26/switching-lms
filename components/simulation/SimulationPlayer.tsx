@@ -491,6 +491,20 @@ export default function SimulationPlayer({
       }
       if (trie && triFait) return
 
+      // La valeur cible itère sur le classeur : le résultat n'est connu qu'après
+      // plusieurs recalculs, donc on valide l'étape à la fin de la recherche.
+      const cible = stepRef.current?.setup?.goalSeek
+      if (controlId === "don-valeur-cible" && cible && grid) {
+        void grid
+          .goalSeek(cible.formulaRef, cible.target, cible.inputRef)
+          .then(() => {
+            setSelection(grid.getSelection() ?? cible.inputRef)
+            setStats(grid.getSelectionStats() ?? null)
+            handleAction({ kind: "control", control: controlId, channel: "ribbon" })
+          })
+        return
+      }
+
       // Une étape validée sur la MISE EN FORME lit l'état après le clic : la
       // mise en forme ne déclenche aucun événement de valeur, et laisser passer
       // une observation « control » ferait échouer l'étape.

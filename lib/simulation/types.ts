@@ -311,6 +311,12 @@ export type SimulationStep = {
     note?: { ref: string; texte: string }
     /** Volets à figer quand l'étape passe par le bouton Affichage. */
     freeze?: { rows: number; cols: number }
+    /**
+     * Valeur cible : quelle valeur donner à `inputRef` pour que `formulaRef`
+     * atteigne `target`. Le vrai Excel demande ces trois champs dans une boîte
+     * de dialogue ; le scénario les déclare.
+     */
+    goalSeek?: { formulaRef: string; target: number; inputRef: string }
   }
   action: SimulationAction
   aide?: StepHint

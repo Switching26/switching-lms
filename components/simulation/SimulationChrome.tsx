@@ -268,6 +268,7 @@ export default function SimulationChrome({
               <Btn id="don-effacer-filtre" label="Effacer" />
             </Group>
             <Group title="Outils de données">
+              <Btn id="don-valeur-cible" label="Valeur cible" wide />
               <Btn id="don-validation" label="Validation" wide />
               <Btn id="don-effacer-validation" label="Effacer validation" wide />
             </Group>

@@ -71,10 +71,14 @@ const FR_TO_EN: Record<string, string> = {
   ARRONDI: "ROUND",
   "ARRONDI.SUP": "ROUNDUP",
   "ARRONDI.INF": "ROUNDDOWN",
-  "ARRONDI.AU.MULTIPLE": "MROUND",
+  // Arrondis « au multiple de » : PLAFOND et PLANCHER sont les noms français
+  // historiques, les variantes .MATH celles des versions récentes.
   PLAFOND: "CEILING",
+  "PLAFOND.MATH": "CEILING.MATH",
   PLANCHER: "FLOOR",
+  "PLANCHER.MATH": "FLOOR.MATH",
   TRONQUE: "TRUNC",
+  "ARRONDI.AU.MULTIPLE": "MROUND",
 
   // ── Conditionnelles
   SI: "IF",

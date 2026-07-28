@@ -56,6 +56,16 @@ export type GridApi = {
    * demande le seuil dans une boîte de dialogue ; ici le scénario le déclare.
    */
   addConditionalRule: (range: string, rule: ConditionalRule) => boolean
+  /**
+   * Valeur cible d'Excel : cherche quelle valeur donner à `inputRef` pour que
+   * `formulaRef` atteigne `target`. Univer n'offre rien de tel ; on résout par
+   * la méthode de la sécante, comme le fait Excel avec sa propre itération.
+   */
+  goalSeek: (
+    formulaRef: string,
+    target: number,
+    inputRef: string
+  ) => Promise<{ ok: boolean; value: number | null; iterations: number }>
   /** Fige les `rows` premières lignes et les `cols` premières colonnes. */
   setFreeze: (rows: number, cols: number) => boolean
   /** Libère les volets figés. */
@@ -511,6 +521,57 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
           } catch {
             return false
           }
+        },
+        goalSeek: async (formulaRef, target, inputRef) => {
+          // Le moteur de formules recalcule en 60 à 120 ms : on attend 140 ms
+          // après chaque écriture, sinon on lit la valeur précédente et la
+          // convergence part n'importe où.
+          const attendre = () => new Promise((r) => setTimeout(r, 140))
+          const poser = async (x: number) => {
+            try {
+              sheet()?.getRange(inputRef)?.setValue?.(x)
+            } catch {
+              return NaN
+            }
+            await attendre()
+            const v = Number(api.getValue(formulaRef))
+            return Number.isFinite(v) ? v : NaN
+          }
+
+          const x0Brut = Number(api.getValue(inputRef))
+          let x0 = Number.isFinite(x0Brut) ? x0Brut : 1
+          let f0 = await poser(x0)
+          if (!Number.isFinite(f0)) return { ok: false, value: null, iterations: 0 }
+
+          // Second point pour amorcer la sécante : une perturbation relative,
+          // ou absolue si la valeur de départ est nulle.
+          let x1 = x0 === 0 ? 1 : x0 * 1.1
+          let f1 = await poser(x1)
+          const tolerance = Math.max(1e-9, Math.abs(target) * 1e-9)
+
+          let i = 0
+          for (; i < 25; i++) {
+            if (!Number.isFinite(f1)) break
+            if (Math.abs(f1 - target) <= tolerance) {
+              return { ok: true, value: x1, iterations: i }
+            }
+            const denom = f1 - f0
+            if (denom === 0) break
+            const x2 = x1 - (f1 - target) * ((x1 - x0) / denom)
+            if (!Number.isFinite(x2)) break
+            x0 = x1
+            f0 = f1
+            x1 = x2
+            f1 = await poser(x1)
+          }
+
+          if (Number.isFinite(f1) && Math.abs(f1 - target) <= Math.max(1e-6, Math.abs(target) * 1e-6)) {
+            return { ok: true, value: x1, iterations: i }
+          }
+          // Échec : on remet la valeur d'origine plutôt que de laisser le
+          // classeur dans l'état d'une itération intermédiaire.
+          await poser(Number.isFinite(x0Brut) ? x0Brut : 0)
+          return { ok: false, value: null, iterations: i }
         },
         setFreeze: (rows, cols) => {
           try {

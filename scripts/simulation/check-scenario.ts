@@ -304,6 +304,7 @@ function checkScenario(sc: SimulationScenario) {
     "don-tri-decroissant",
     "don-filtrer",
     "don-effacer-filtre",
+    "don-valeur-cible",
     "don-validation",
     "don-effacer-validation",
     "rev-commentaire",

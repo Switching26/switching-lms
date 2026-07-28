@@ -273,7 +273,22 @@ export default function SimulationChrome({
             </Group>
           </>
         )}
-        {activeTab !== "accueil" && activeTab !== "donnees" && (
+        {activeTab === "revision" && (
+          <Group title="Commentaires">
+            <Btn id="rev-commentaire" label="Nouveau commentaire" wide />
+            <Btn id="rev-supprimer-commentaire" label="Supprimer" />
+          </Group>
+        )}
+        {activeTab === "affichage" && (
+          <Group title="Fenêtre">
+            <Btn id="aff-figer-volets" label="Figer les volets" wide />
+            <Btn id="aff-liberer-volets" label="Libérer les volets" wide />
+          </Group>
+        )}
+        {activeTab !== "accueil" &&
+          activeTab !== "donnees" &&
+          activeTab !== "revision" &&
+          activeTab !== "affichage" && (
           <div className="px-3 py-2 text-[11.5px] text-neutral-500">
             Onglet {TAB_LABELS[activeTab] ?? activeTab}
           </div>

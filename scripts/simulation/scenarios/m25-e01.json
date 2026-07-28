@@ -1,0 +1,332 @@
+{
+  "schemaVersion": 1,
+  "title": "Exercice · Rendre un grand tableau utilisable",
+  "mode": "EXERCISE",
+  "moduleTitle": "Outils divers",
+  "intro": {
+    "title": "À VOUS",
+    "body": "Un tableau de paie à équiper pour le consulter sans se perdre."
+  },
+  "outro": {
+    "body": "Exercice terminé."
+  },
+  "ribbon": [
+    "accueil",
+    "revision",
+    "affichage"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Effectifs",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 100,
+          "B": 150,
+          "C": 130
+        },
+        "cells": {
+          "A1": {
+            "v": "Matricule",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Nom",
+            "format": {
+              "bold": true
+            }
+          },
+          "C1": {
+            "v": "Service",
+            "format": {
+              "bold": true
+            }
+          },
+          "D1": {
+            "v": "Salaire",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "M1002"
+          },
+          "B2": {
+            "v": "Bertrand Julie"
+          },
+          "C2": {
+            "v": "Comptabilité"
+          },
+          "D2": {
+            "v": 2400
+          },
+          "A3": {
+            "v": "M1003"
+          },
+          "B3": {
+            "v": "Chevalier Marc"
+          },
+          "C3": {
+            "v": "Production"
+          },
+          "D3": {
+            "v": 2150
+          },
+          "A4": {
+            "v": "M1004"
+          },
+          "B4": {
+            "v": "Delaunay Sophie"
+          },
+          "C4": {
+            "v": "Comptabilité"
+          },
+          "D4": {
+            "v": 2600
+          },
+          "A5": {
+            "v": "M1005"
+          },
+          "B5": {
+            "v": "Fabre Antoine"
+          },
+          "C5": {
+            "v": "Logistique"
+          },
+          "D5": {
+            "v": 2050
+          },
+          "A6": {
+            "v": "M1006"
+          },
+          "B6": {
+            "v": "Girard Nadia"
+          },
+          "C6": {
+            "v": "Production"
+          },
+          "D6": {
+            "v": 2300
+          },
+          "A7": {
+            "v": "M1007"
+          },
+          "B7": {
+            "v": "Hamon Pierre"
+          },
+          "C7": {
+            "v": "Logistique"
+          },
+          "D7": {
+            "v": 1980
+          },
+          "A8": {
+            "v": "M1008"
+          },
+          "B8": {
+            "v": "Imbert Claire"
+          },
+          "C8": {
+            "v": "Comptabilité"
+          },
+          "D8": {
+            "v": 2750
+          },
+          "A9": {
+            "v": "M1009"
+          },
+          "B9": {
+            "v": "Jourdan Luc"
+          },
+          "C9": {
+            "v": "Production"
+          },
+          "D9": {
+            "v": 2200
+          },
+          "A10": {
+            "v": "M1010"
+          },
+          "B10": {
+            "v": "Klein Marie"
+          },
+          "C10": {
+            "v": "Logistique"
+          },
+          "D10": {
+            "v": 2100
+          },
+          "A11": {
+            "v": "M1011"
+          },
+          "B11": {
+            "v": "Lemaire Paul"
+          },
+          "C11": {
+            "v": "Production"
+          },
+          "D11": {
+            "v": 2450
+          },
+          "A12": {
+            "v": "M1012"
+          },
+          "B12": {
+            "v": "Morel Alice"
+          },
+          "C12": {
+            "v": "Comptabilité"
+          },
+          "D12": {
+            "v": 2350
+          },
+          "A13": {
+            "v": "M1013"
+          },
+          "B13": {
+            "v": "Noel Thomas"
+          },
+          "C13": {
+            "v": "Logistique"
+          },
+          "D13": {
+            "v": 2000
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M25-E01-01",
+      "consigne": "Faites en sorte que la **ligne de titres reste visible** quand on descend dans le tableau.",
+      "setup": {
+        "ribbon": {
+          "activeTab": "affichage"
+        },
+        "freeze": {
+          "rows": 1,
+          "cols": 0
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "aff-figer-volets"
+      },
+      "aide": {
+        "text": "Onglet Affichage, groupe Fenêtre."
+      }
+    },
+    {
+      "id": "M25-E01-02",
+      "consigne": "Calculez la **masse salariale** en **F1**.",
+      "setup": {
+        "selection": "F1"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "F1",
+        "accept": [
+          "=SOMME(D2:D13)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Une somme sur les douze salaires."
+      },
+      "feedback": "27 335 €."
+    },
+    {
+      "id": "M25-E01-03",
+      "consigne": "En **F2**, calculez le **salaire moyen**.",
+      "setup": {
+        "selection": "F2"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "F2",
+        "accept": [
+          "=MOYENNE(D2:D13)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "La fonction MOYENNE sur la même plage."
+      },
+      "feedback": "Environ 2 278 €."
+    },
+    {
+      "id": "M25-E01-04",
+      "consigne": "En **F3**, comptez les salariés du service **Production**.",
+      "setup": {
+        "selection": "F3"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "F3",
+        "accept": [
+          "=NB.SI(C2:C13;\"Production\")",
+          "=NB.SI($C$2:$C$13;\"Production\")"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "NB.SI sur la colonne Service."
+      },
+      "feedback": "4 personnes en production."
+    },
+    {
+      "id": "M25-E01-05",
+      "consigne": "En **F4**, calculez la **masse salariale de la Comptabilité** seule.",
+      "setup": {
+        "selection": "F4"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "F4",
+        "accept": [
+          "=SOMME.SI(C2:C13;\"Comptabilité\";D2:D13)",
+          "=SOMME.SI($C$2:$C$13;\"Comptabilité\";$D$2:$D$13)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "SOMME.SI : où chercher, quoi chercher, quoi additionner."
+      },
+      "feedback": "10 100 € pour la comptabilité."
+    },
+    {
+      "id": "M25-E01-06",
+      "consigne": "Annotez le salaire le plus élevé du tableau pour expliquer l'écart : posez un **commentaire** sur la cellule concernée.",
+      "setup": {
+        "selection": "D8",
+        "ribbon": {
+          "activeTab": "revision"
+        },
+        "note": {
+          "ref": "D8",
+          "texte": "Salaire le plus élevé : prime d'ancienneté incluse."
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "rev-commentaire"
+      },
+      "aide": {
+        "text": "Le salaire le plus élevé est celui de Claire Imbert, en D8. Onglet Révision."
+      },
+      "feedback": "Le tableau est maintenant équipé : titres figés, indicateurs calculés, et l'anomalie expliquée là où on la voit."
+    }
+  ]
+}

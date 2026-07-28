@@ -464,6 +464,24 @@ export default function SimulationPlayer({
             if (dv) grid.addValidation(dv.range, dv.rule)
             break
           }
+          case "rev-commentaire": {
+            const n = stepRef.current?.setup?.note
+            if (n) grid.setNote(n.ref, n.texte)
+            break
+          }
+          case "rev-supprimer-commentaire": {
+            const n = stepRef.current?.setup?.note
+            grid.deleteNote(n?.ref ?? grid.getSelection() ?? "A1")
+            break
+          }
+          case "aff-figer-volets": {
+            const f = stepRef.current?.setup?.freeze
+            grid.setFreeze(f?.rows ?? 1, f?.cols ?? 0)
+            break
+          }
+          case "aff-liberer-volets":
+            grid.cancelFreeze()
+            break
           case "don-effacer-validation": {
             const dv = stepRef.current?.setup?.dv
             grid.clearValidation(dv?.range ?? grid.getSelection() ?? "A1")

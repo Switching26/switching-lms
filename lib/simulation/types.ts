@@ -307,6 +307,10 @@ export type SimulationStep = {
     cf?: { range: string; rule: ConditionalRule }
     /** Règle de validation que le bouton du ruban appliquera à cette étape. */
     dv?: { range: string; rule: ValidationRule }
+    /** Commentaire que le bouton Révision posera à cette étape. */
+    note?: { ref: string; texte: string }
+    /** Volets à figer quand l'étape passe par le bouton Affichage. */
+    freeze?: { rows: number; cols: number }
   }
   action: SimulationAction
   aide?: StepHint

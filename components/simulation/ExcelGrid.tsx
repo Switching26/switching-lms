@@ -56,6 +56,18 @@ export type GridApi = {
    * demande le seuil dans une boîte de dialogue ; ici le scénario le déclare.
    */
   addConditionalRule: (range: string, rule: ConditionalRule) => boolean
+  /** Fige les `rows` premières lignes et les `cols` premières colonnes. */
+  setFreeze: (rows: number, cols: number) => boolean
+  /** Libère les volets figés. */
+  cancelFreeze: () => void
+  /** Nombre de lignes et colonnes actuellement figées. */
+  getFrozen: () => { rows: number; cols: number }
+  /** Pose ou remplace le commentaire d'une cellule. */
+  setNote: (ref: string, texte: string) => boolean
+  /** Texte du commentaire d'une cellule, chaîne vide s'il n'y en a pas. */
+  getNote: (ref: string) => string
+  /** Retire le commentaire d'une cellule. */
+  deleteNote: (ref: string) => void
   /** Pose une règle de validation des données sur une plage. */
   addValidation: (range: string, rule: ValidationRule) => boolean
   /** Retire la validation d'une plage. */
@@ -146,7 +158,6 @@ export type GridApi = {
    */
   focus: () => void
   /** Position à l'écran d'une cellule, pour poser le halo d'aide. */
-  getCellRect: (ref: string) => { top: number; left: number; width: number; height: number } | null
   /**
    * Agrégats de la sélection courante, pour la barre d'état.
    * Excel n'affiche `moyenne` et `somme` que s'il y a au moins deux nombres —
@@ -219,6 +230,8 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
         localeCF,
         { UniverSheetsDataValidationPreset },
         localeDV,
+        { UniverSheetsNotePreset },
+        localeNote,
       ] = await Promise.all([
         import("@univerjs/presets"),
         import("@univerjs/preset-sheets-core"),
@@ -231,6 +244,8 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
         import("@univerjs/preset-sheets-conditional-formatting/locales/fr-FR"),
         import("@univerjs/preset-sheets-data-validation"),
         import("@univerjs/preset-sheets-data-validation/locales/fr-FR"),
+        import("@univerjs/preset-sheets-note"),
+        import("@univerjs/preset-sheets-note/locales/fr-FR"),
       ])
       if (disposed) return
 
@@ -242,7 +257,8 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
             localeSort.default ?? localeSort,
             localeFilter.default ?? localeFilter,
             localeCF.default ?? localeCF,
-            localeDV.default ?? localeDV
+            localeDV.default ?? localeDV,
+            localeNote.default ?? localeNote
           ),
         },
         presets: [
@@ -253,6 +269,7 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
           UniverSheetsFilterPreset(),
           UniverSheetsConditionalFormattingPreset(),
           UniverSheetsDataValidationPreset(),
+          UniverSheetsNotePreset(),
           UniverSheetsCorePreset({
             container,
             // Toute la chrome native est coupée : on fournit notre propre ruban,
@@ -493,6 +510,72 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
             return true
           } catch {
             return false
+          }
+        },
+        setFreeze: (rows, cols) => {
+          try {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const sh2 = sheet() as any
+            if (!sh2?.setFreeze) return false
+            // xSplit/ySplit = nombre de colonnes/lignes figées ; startRow et
+            // startColumn désignent la première cellule qui défile.
+            sh2.setFreeze({ xSplit: cols, ySplit: rows, startRow: rows, startColumn: cols })
+            return true
+          } catch {
+            return false
+          }
+        },
+        cancelFreeze: () => {
+          try {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            ;(sheet() as any)?.cancelFreeze?.()
+          } catch {
+            /* sans conséquence */
+          }
+        },
+        getFrozen: () => {
+          try {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const sh2 = sheet() as any
+            return { rows: Number(sh2?.getFrozenRows?.() ?? 0), cols: Number(sh2?.getFrozenColumns?.() ?? 0) }
+          } catch {
+            return { rows: 0, cols: 0 }
+          }
+        },
+        setNote: (ref, texte) => {
+          try {
+            const pos = parseCell(ref)
+            if (!pos) return false
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const rg = sheet()?.getRange(ref) as any
+            if (!rg?.createOrUpdateNote) return false
+            rg.createOrUpdateNote({
+              id: `note-${ref}`,
+              row: pos.row,
+              col: pos.col,
+              width: 180,
+              height: 90,
+              note: texte,
+            })
+            return true
+          } catch {
+            return false
+          }
+        },
+        getNote: (ref) => {
+          try {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            return String((sheet()?.getRange(ref) as any)?.getNote?.()?.note ?? "")
+          } catch {
+            return ""
+          }
+        },
+        deleteNote: (ref) => {
+          try {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            ;(sheet()?.getRange(ref) as any)?.deleteNote?.()
+          } catch {
+            /* sans conséquence */
           }
         },
         addValidation: (range, rule) => {
@@ -833,17 +916,6 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
             min: has ? Math.min(...nums) : null,
             max: has ? Math.max(...nums) : null,
           }
-        },
-        getCellRect: (ref) => {
-          const pos = parseCell(ref)
-          if (!pos) return null
-          const el = container.querySelector<HTMLElement>(
-            `[data-row="${pos.row}"][data-col="${pos.col}"]`,
-          )
-          if (!el) return null
-          const cr = container.getBoundingClientRect()
-          const er = el.getBoundingClientRect()
-          return { top: er.top - cr.top, left: er.left - cr.left, width: er.width, height: er.height }
         },
       }
 

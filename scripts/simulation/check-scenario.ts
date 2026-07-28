@@ -306,6 +306,10 @@ function checkScenario(sc: SimulationScenario) {
     "don-effacer-filtre",
     "don-validation",
     "don-effacer-validation",
+    "rev-commentaire",
+    "rev-supprimer-commentaire",
+    "aff-figer-volets",
+    "aff-liberer-volets",
     "ui-nouvelle-feuille",
   ])
   for (const s of sc.steps) {

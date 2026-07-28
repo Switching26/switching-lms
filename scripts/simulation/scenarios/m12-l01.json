@@ -1,0 +1,247 @@
+{
+  "schemaVersion": 1,
+  "title": "Recopie incrémentée",
+  "mode": "LESSON",
+  "moduleTitle": "Saisie semi-automatique et recopie",
+  "intro": {
+    "title": "NUMÉROTER SANS TAPER",
+    "body": "Remplir une colonne de 1 à 200 se fait en deux saisies et un glissement. Encore faut-il savoir ce que la poignée de recopie décide de faire — et elle ne fait pas toujours ce qu'on croit."
+  },
+  "outro": {
+    "body": "Vous savez créer une série numérique, imposer un pas, et vous savez pourquoi une valeur seule ne s'incrémente pas."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Numérotation",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "B": 150
+        },
+        "cells": {
+          "A1": {
+            "v": "N°",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Article",
+            "format": {
+              "bold": true
+            }
+          },
+          "C1": {
+            "v": "Quantité",
+            "format": {
+              "bold": true
+            }
+          },
+          "B2": {
+            "v": "Clavier"
+          },
+          "B3": {
+            "v": "Souris"
+          },
+          "B4": {
+            "v": "Écran"
+          },
+          "B5": {
+            "v": "Casque"
+          },
+          "B6": {
+            "v": "Webcam"
+          },
+          "B7": {
+            "v": "Station d'accueil"
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M12-L01-01",
+      "consigne": "Six articles à numéroter. Premier réflexe : ==saisissez `1` en **A2**==.",
+      "setup": {
+        "selection": "A2"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "A2",
+        "accept": [
+          "1"
+        ]
+      },
+      "feedback": "Un seul chiffre ne suffira pas — vous allez voir pourquoi."
+    },
+    {
+      "id": "M12-L01-02",
+      "consigne": "==Saisissez `2` en **A3**==.",
+      "setup": {
+        "selection": "A3"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "A3",
+        "accept": [
+          "2"
+        ]
+      },
+      "feedback": "Deux valeurs suffisent à Excel pour comprendre votre intention : il en déduit un pas de 1."
+    },
+    {
+      "id": "M12-L01-03",
+      "consigne": "==Sélectionnez **A2:A3**, puis tirez la poignée de recopie jusqu'en **A7**==.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "A4": {
+            "v": 3
+          },
+          "A5": {
+            "v": 4
+          },
+          "A6": {
+            "v": 5
+          },
+          "A7": {
+            "v": 6
+          }
+        }
+      },
+      "aide": {
+        "text": "Sélectionnez les deux cellules, puis attrapez le petit carré en bas à droite de la sélection et descendez jusqu'à la ligne 7."
+      },
+      "feedback": "3, 4, 5, 6 apparaissent tout seuls. Excel a **prolongé la série** au lieu de recopier les deux valeurs en boucle."
+    },
+    {
+      "id": "M12-L01-04",
+      "consigne": "Voici le point qui surprend tout le monde. ==En **E2**, saisissez `7`==, puis nous le recopierons seul.",
+      "setup": {
+        "selection": "E2",
+        "cells": {
+          "E1": {
+            "v": "Essai",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "E2",
+        "accept": [
+          "7"
+        ]
+      },
+      "feedback": "Une seule valeur, cette fois."
+    },
+    {
+      "id": "M12-L01-05",
+      "consigne": "==Tirez la poignée de **E2** jusqu'en **E5**== et observez.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "E3": {
+            "v": 7
+          },
+          "E4": {
+            "v": 7
+          },
+          "E5": {
+            "v": 7
+          }
+        }
+      },
+      "aide": {
+        "text": "Poignée de recopie de E2 seule, vers le bas jusqu'à E5."
+      },
+      "feedback": "7, 7, 7 : **une valeur seule se recopie, elle ne s'incrémente pas.** C'est le comportement d'Excel, et la raison pour laquelle il faut toujours donner **deux** valeurs quand on veut une série."
+    },
+    {
+      "id": "M12-L01-06",
+      "consigne": "Le pas n'est pas forcément 1. ==En **G2** saisissez `5`, puis `10` en **G3**==.",
+      "setup": {
+        "selection": "G2",
+        "cells": {
+          "G1": {
+            "v": "Barème",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "G2",
+        "accept": [
+          "5"
+        ]
+      },
+      "feedback": "Première borne posée."
+    },
+    {
+      "id": "M12-L01-07",
+      "consigne": "==Saisissez `10` en **G3**==.",
+      "setup": {
+        "selection": "G3"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "G3",
+        "accept": [
+          "10"
+        ]
+      },
+      "feedback": "L'écart entre vos deux valeurs vaut 5 : ce sera le pas."
+    },
+    {
+      "id": "M12-L01-08",
+      "consigne": "==Sélectionnez **G2:G3** et recopiez jusqu'en **G7**==.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "G4": {
+            "v": 15
+          },
+          "G5": {
+            "v": 20
+          },
+          "G6": {
+            "v": 25
+          },
+          "G7": {
+            "v": 30
+          }
+        }
+      },
+      "aide": {
+        "text": "Deux cellules sélectionnées, puis poignée vers le bas jusqu'à G7."
+      },
+      "feedback": "15, 20, 25, 30. **Le pas est l'écart entre vos deux premières valeurs** — c'est vous qui le fixez, pas Excel."
+    },
+    {
+      "id": "M12-L01-09",
+      "consigne": "Trois compléments utiles dans le vrai Excel. Un **double-clic** sur la poignée remplit d'un coup jusqu'à la fin du tableau voisin, sans glisser. Un petit **menu d'options** apparaît après la recopie pour choisir entre « Copier les cellules » et « Incrémenter ». Et Excel connaît des **listes intégrées** — jours, mois — qu'il prolonge comme des séries.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    }
+  ]
+}

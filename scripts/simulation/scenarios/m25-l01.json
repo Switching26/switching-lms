@@ -1,0 +1,309 @@
+{
+  "schemaVersion": 1,
+  "title": "Figer les volets",
+  "mode": "LESSON",
+  "moduleTitle": "Outils divers",
+  "intro": {
+    "title": "GARDER SES REPÈRES",
+    "body": "Dès qu'un tableau dépasse la hauteur de l'écran, la ligne de titres disparaît et vous ne savez plus quelle colonne vous lisez. Figer les volets règle ce problème définitivement."
+  },
+  "outro": {
+    "body": "Vous savez figer une ligne de titres, une colonne de repère, ou les deux."
+  },
+  "ribbon": [
+    "accueil",
+    "affichage"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Effectifs",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 100,
+          "B": 150,
+          "C": 130
+        },
+        "cells": {
+          "A1": {
+            "v": "Matricule",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Nom",
+            "format": {
+              "bold": true
+            }
+          },
+          "C1": {
+            "v": "Service",
+            "format": {
+              "bold": true
+            }
+          },
+          "D1": {
+            "v": "Salaire",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "M1002"
+          },
+          "B2": {
+            "v": "Bertrand Julie"
+          },
+          "C2": {
+            "v": "Comptabilité"
+          },
+          "D2": {
+            "v": 2400
+          },
+          "A3": {
+            "v": "M1003"
+          },
+          "B3": {
+            "v": "Chevalier Marc"
+          },
+          "C3": {
+            "v": "Production"
+          },
+          "D3": {
+            "v": 2150
+          },
+          "A4": {
+            "v": "M1004"
+          },
+          "B4": {
+            "v": "Delaunay Sophie"
+          },
+          "C4": {
+            "v": "Comptabilité"
+          },
+          "D4": {
+            "v": 2600
+          },
+          "A5": {
+            "v": "M1005"
+          },
+          "B5": {
+            "v": "Fabre Antoine"
+          },
+          "C5": {
+            "v": "Logistique"
+          },
+          "D5": {
+            "v": 2050
+          },
+          "A6": {
+            "v": "M1006"
+          },
+          "B6": {
+            "v": "Girard Nadia"
+          },
+          "C6": {
+            "v": "Production"
+          },
+          "D6": {
+            "v": 2300
+          },
+          "A7": {
+            "v": "M1007"
+          },
+          "B7": {
+            "v": "Hamon Pierre"
+          },
+          "C7": {
+            "v": "Logistique"
+          },
+          "D7": {
+            "v": 1980
+          },
+          "A8": {
+            "v": "M1008"
+          },
+          "B8": {
+            "v": "Imbert Claire"
+          },
+          "C8": {
+            "v": "Comptabilité"
+          },
+          "D8": {
+            "v": 2750
+          },
+          "A9": {
+            "v": "M1009"
+          },
+          "B9": {
+            "v": "Jourdan Luc"
+          },
+          "C9": {
+            "v": "Production"
+          },
+          "D9": {
+            "v": 2200
+          },
+          "A10": {
+            "v": "M1010"
+          },
+          "B10": {
+            "v": "Klein Marie"
+          },
+          "C10": {
+            "v": "Logistique"
+          },
+          "D10": {
+            "v": 2100
+          },
+          "A11": {
+            "v": "M1011"
+          },
+          "B11": {
+            "v": "Lemaire Paul"
+          },
+          "C11": {
+            "v": "Production"
+          },
+          "D11": {
+            "v": 2450
+          },
+          "A12": {
+            "v": "M1012"
+          },
+          "B12": {
+            "v": "Morel Alice"
+          },
+          "C12": {
+            "v": "Comptabilité"
+          },
+          "D12": {
+            "v": 2350
+          },
+          "A13": {
+            "v": "M1013"
+          },
+          "B13": {
+            "v": "Noel Thomas"
+          },
+          "C13": {
+            "v": "Logistique"
+          },
+          "D13": {
+            "v": 2000
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M25-L01-01",
+      "consigne": "Douze salariés ici, mais imaginez-en trois cents. En descendant, la ligne « Matricule / Nom / Service / Salaire » sort de l'écran et vous lisez des chiffres sans savoir ce qu'ils désignent. ==Ouvrez l'onglet **Affichage** et cliquez sur **Figer les volets**== pour bloquer la ligne de titres.",
+      "setup": {
+        "ribbon": {
+          "activeTab": "affichage"
+        },
+        "freeze": {
+          "rows": 1,
+          "cols": 0
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "aff-figer-volets"
+      },
+      "aide": {
+        "text": "Le bouton « Figer les volets » du groupe Fenêtre, onglet Affichage.",
+        "showTarget": true
+      },
+      "feedback": "Un trait fin apparaît sous la ligne 1 : c'est la frontière du volet figé. La ligne de titres restera visible quoi qu'il arrive au défilement."
+    },
+    {
+      "id": "M25-L01-02",
+      "consigne": "Le point qu'il faut comprendre pour ne plus jamais se tromper : **Excel fige tout ce qui est AU-DESSUS et À GAUCHE de la cellule sélectionnée**. Vous voulez figer la ligne 1 ? Sélectionnez **A2**. Les trois premières lignes ? Sélectionnez **A4**. La ligne 1 et la colonne A ? Sélectionnez **B2**.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M25-L01-03",
+      "consigne": "==Libérez les volets== pour repartir de zéro.",
+      "setup": {
+        "ribbon": {
+          "activeTab": "affichage"
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "aff-liberer-volets"
+      },
+      "aide": {
+        "text": "Le bouton « Libérer les volets », juste à côté.",
+        "showTarget": true
+      },
+      "feedback": "Le trait a disparu, le tableau défile normalement."
+    },
+    {
+      "id": "M25-L01-04",
+      "consigne": "Sur un tableau large, on veut aussi garder les noms sous les yeux en faisant défiler vers la droite. ==Figez cette fois la ligne de titres **et** les deux premières colonnes==.",
+      "setup": {
+        "ribbon": {
+          "activeTab": "affichage"
+        },
+        "freeze": {
+          "rows": 1,
+          "cols": 2
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "aff-figer-volets"
+      },
+      "aide": {
+        "text": "Même bouton : ici l'étape fige d'un coup la ligne 1 et les colonnes A et B.",
+        "showTarget": true
+      },
+      "feedback": "Deux traits maintenant, un horizontal et un vertical. Matricule et Nom resteront visibles quelle que soit la colonne que vous consultez."
+    },
+    {
+      "id": "M25-L01-05",
+      "consigne": "Vérifions que le tableau reste exploitable. ==En **F1**, calculez la masse salariale totale==.",
+      "setup": {
+        "selection": "F1"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "F1",
+        "accept": [
+          "=SOMME(D2:D13)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Une somme sur la colonne des salaires, de la ligne 2 à la ligne 13.",
+        "showTarget": true
+      },
+      "feedback": "27 335 €. Figer les volets ne change rien aux calculs : c'est un confort d'affichage, purement visuel."
+    },
+    {
+      "id": "M25-L01-06",
+      "consigne": "Deux précisions utiles. Les volets figés sont **enregistrés avec le classeur** : votre collègue les retrouvera. Et ils **ne s'impriment pas** — pour répéter la ligne de titres sur chaque page imprimée, c'est un réglage distinct, dans la mise en page.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    }
+  ]
+}

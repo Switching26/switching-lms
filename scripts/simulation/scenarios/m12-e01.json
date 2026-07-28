@@ -1,0 +1,259 @@
+{
+  "schemaVersion": 1,
+  "title": "Exercice · Numéroter et calculer",
+  "mode": "EXERCISE",
+  "moduleTitle": "Saisie semi-automatique et recopie",
+  "intro": {
+    "title": "À VOUS",
+    "body": "Un bordereau à numéroter et à totaliser sans taper deux fois la même chose."
+  },
+  "outro": {
+    "body": "Exercice terminé."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Bordereau",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "B": 150
+        },
+        "cells": {
+          "A1": {
+            "v": "Lot",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Désignation",
+            "format": {
+              "bold": true
+            }
+          },
+          "C1": {
+            "v": "Quantité",
+            "format": {
+              "bold": true
+            }
+          },
+          "D1": {
+            "v": "Prix unitaire",
+            "format": {
+              "bold": true
+            }
+          },
+          "E1": {
+            "v": "Montant",
+            "format": {
+              "bold": true
+            }
+          },
+          "B2": {
+            "v": "Câble HDMI"
+          },
+          "C2": {
+            "v": 40
+          },
+          "D2": {
+            "v": 12
+          },
+          "B3": {
+            "v": "Adaptateur USB"
+          },
+          "C3": {
+            "v": 25
+          },
+          "D3": {
+            "v": 9
+          },
+          "B4": {
+            "v": "Support écran"
+          },
+          "C4": {
+            "v": 8
+          },
+          "D4": {
+            "v": 55
+          },
+          "B5": {
+            "v": "Tapis souris"
+          },
+          "C5": {
+            "v": 60
+          },
+          "D5": {
+            "v": 4
+          },
+          "B6": {
+            "v": "Lampe bureau"
+          },
+          "C6": {
+            "v": 15
+          },
+          "D6": {
+            "v": 28
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M12-E01-01",
+      "consigne": "Numérotez les lots de **10 en 10** : commencez par `10` en **A2**.",
+      "setup": {
+        "selection": "A2"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "A2",
+        "accept": [
+          "10"
+        ]
+      },
+      "aide": {
+        "text": "Une série a besoin de deux valeurs pour que le pas soit défini."
+      }
+    },
+    {
+      "id": "M12-E01-02",
+      "consigne": "Donnez la deuxième valeur qui fixera le pas de 10.",
+      "setup": {
+        "selection": "A3"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "A3",
+        "accept": [
+          "20"
+        ]
+      },
+      "feedback": "L'écart de 10 est posé."
+    },
+    {
+      "id": "M12-E01-03",
+      "consigne": "Complétez la numérotation jusqu'à la ligne 6.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "A4": {
+            "v": 30
+          },
+          "A5": {
+            "v": 40
+          },
+          "A6": {
+            "v": 50
+          }
+        }
+      },
+      "aide": {
+        "text": "Sélectionnez A2:A3, puis tirez la poignée jusqu'en A6."
+      },
+      "feedback": "10, 20, 30, 40, 50."
+    },
+    {
+      "id": "M12-E01-04",
+      "consigne": "Calculez le **montant** de la première ligne en **E2**.",
+      "setup": {
+        "selection": "E2"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "E2",
+        "accept": [
+          "=C2*D2",
+          "=D2*C2"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "La quantité multipliée par le prix unitaire."
+      },
+      "feedback": "480 €."
+    },
+    {
+      "id": "M12-E01-05",
+      "consigne": "Complétez les montants de toutes les lignes.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "E3": {
+            "anyOf": [
+              "=C3*D3",
+              "=D3*C3"
+            ],
+            "v": 225
+          },
+          "E5": {
+            "anyOf": [
+              "=C5*D5",
+              "=D5*C5"
+            ],
+            "v": 240
+          },
+          "E6": {
+            "anyOf": [
+              "=C6*D6",
+              "=D6*C6"
+            ],
+            "v": 420
+          }
+        }
+      },
+      "aide": {
+        "text": "Poignée de recopie de E2 vers le bas jusqu'à E6."
+      },
+      "feedback": "Cinq montants calculés."
+    },
+    {
+      "id": "M12-E01-06",
+      "consigne": "Totalisez le bordereau en **E8**.",
+      "setup": {
+        "selection": "E8",
+        "cells": {
+          "D8": {
+            "v": "TOTAL",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "E8",
+        "accept": [
+          "=SOMME(E2:E6)"
+        ],
+        "formulaMode": true
+      },
+      "feedback": "1 785 €."
+    },
+    {
+      "id": "M12-E01-07",
+      "consigne": "Dernier réflexe de contrôle : cliquez sur la **dernière cellule de la colonne Montant** et vérifiez que sa formule pointe bien sur sa propre ligne.",
+      "action": {
+        "type": "CLICK_CELL",
+        "cell": "E6"
+      },
+      "aide": {
+        "text": "Un clic sur E6, puis lisez la barre de formule."
+      },
+      "feedback": "`=C6*D6` : la recopie est propre. Ce contrôle en deux secondes vous évitera des bordereaux faux."
+    }
+  ]
+}

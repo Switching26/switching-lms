@@ -288,12 +288,47 @@ export default function SimulationPlayer({
   // Mode immersif (GO Samuel 29/07) : le simulateur prend tout l'écran, la page
   // ne défile plus — un seul contexte de scroll, celui de la feuille bornée.
   const [immersif, setImmersif] = useState(false)
+  const carteRef = useRef<HTMLDivElement>(null)
+  /**
+   * Plein écran NATIF d'abord : la page apprenant garde un `transform` résiduel
+   * (animation d'entrée `animate-fade-in-up`), qui rattache tout
+   * `position: fixed` descendant à elle-même — l'écran ne changeait pas au clic
+   * (vidéo Samuel du 29/07). Le top layer du fullscreen ignore les containing
+   * blocks. Le style fixed reste en secours si le navigateur refuse.
+   */
+  const basculerImmersif = useCallback(() => {
+    if (!immersif) {
+      setImmersif(true)
+      carteRef.current?.requestFullscreen?.().catch(() => {
+        /* fallback : le style fixed prend le relais */
+      })
+    } else {
+      setImmersif(false)
+      if (document.fullscreenElement) {
+        document.exitFullscreen?.().catch(() => {})
+      }
+    }
+  }, [immersif])
+  useEffect(() => {
+    // Sortie native (Échap, geste système) : resynchroniser l'état React.
+    const sync = () => {
+      if (!document.fullscreenElement) setImmersif(false)
+    }
+    document.addEventListener("fullscreenchange", sync)
+    return () => document.removeEventListener("fullscreenchange", sync)
+  }, [])
   const [hauteurImmersive, setHauteurImmersive] = useState(600)
   useEffect(() => {
     if (!immersif) return
     const calc = () => setHauteurImmersive(Math.max(360, window.innerHeight - 305))
     calc()
-    const echap = (e: KeyboardEvent) => { if (e.key === "Escape") setImmersif(false) }
+    const echap = (e: KeyboardEvent) => {
+      if (e.key !== "Escape") return
+      setImmersif(false)
+      // Le navigateur réel consomme Échap pour sortir lui-même du fullscreen ;
+      // ici c'est le filet pour le mode secours et les environnements de test.
+      if (document.fullscreenElement) document.exitFullscreen?.().catch(() => {})
+    }
     window.addEventListener("resize", calc)
     window.addEventListener("keydown", echap)
     document.body.style.overflow = "hidden"
@@ -1719,10 +1754,11 @@ export default function SimulationPlayer({
 
   return (
     <div
+      ref={carteRef}
       className="relative overflow-hidden border border-border bg-white shadow-sm"
       style={
         immersif
-          ? { position: "fixed", inset: 0, zIndex: 90, borderRadius: 0, overflowY: "auto" }
+          ? { position: "fixed", inset: 0, zIndex: 90, borderRadius: 0, overflowY: "auto", background: "#fff" }
           : { borderRadius: 16 }
       }
     >
@@ -1904,7 +1940,7 @@ export default function SimulationPlayer({
           <div className="px-3 pt-3">
             <SimulationChrome
               immersif={immersif}
-              onToggleImmersif={() => setImmersif((v) => !v)}
+              onToggleImmersif={basculerImmersif}
               tabs={scenario.ribbon}
               state={
                 step?.setup?.ribbon

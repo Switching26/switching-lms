@@ -40,6 +40,9 @@ export type ObservedAction =
   | { kind: "key"; key: string }
   | { kind: "fillHandle"; from: string; to: string }
   | { kind: "dragRange"; range: string }
+  /** Clic sur un en-tête de colonne ou de ligne : sélectionne tout. */
+  | { kind: "selectColumn"; column: string }
+  | { kind: "selectRow"; row: number }
   /**
    * Le classeur a changé. `readings` porte la lecture des cellules attendues par
    * l'étape — c'est le simulateur qui les lit, pour que ce fichier reste pur et
@@ -254,6 +257,27 @@ export function validateStep(
       return sameArea(expected.range, observed.range)
         ? OK
         : { ok: false, reason: "wrong_range", message: "Ce n'est pas la bonne plage." }
+    }
+
+    case "SELECT_COLUMN": {
+      return observed.kind === "selectColumn" &&
+        observed.column.toUpperCase() === expected.column.toUpperCase()
+        ? OK
+        : {
+            ok: false,
+            reason: "wrong_column",
+            message: "Cliquez sur la lettre de la bonne colonne, dans son en-tête.",
+          }
+    }
+
+    case "SELECT_ROW": {
+      return observed.kind === "selectRow" && observed.row === expected.row
+        ? OK
+        : {
+            ok: false,
+            reason: "wrong_row",
+            message: "Cliquez sur le numéro de la bonne ligne, dans son en-tête.",
+          }
     }
 
     case "EXPECT_STATE": {

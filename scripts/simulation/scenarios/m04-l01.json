@@ -1,0 +1,173 @@
+{
+  "schemaVersion": 1,
+  "title": "Sélectionner lignes et colonnes",
+  "mode": "LESSON",
+  "moduleTitle": "Les lignes et les colonnes",
+  "intro": {
+    "title": "AGIR SUR TOUTE UNE LIGNE",
+    "body": "Pour mettre en forme, supprimer ou insérer, on ne sélectionne pas cellule par cellule : on clique dans l'en-tête."
+  },
+  "outro": {
+    "body": "Vous savez sélectionner une colonne, une ligne, et lire leur total instantanément."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ],
+    "sheetCount": 1
+  },
+  "workbook": {
+    "fileName": "Effectifs",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 130
+        },
+        "cells": {
+          "A1": {
+            "v": "Service",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "2024",
+            "format": {
+              "bold": true
+            }
+          },
+          "C1": {
+            "v": "2025",
+            "format": {
+              "bold": true
+            }
+          },
+          "D1": {
+            "v": "2026",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Accueil"
+          },
+          "B2": {
+            "v": 4
+          },
+          "C2": {
+            "v": 5
+          },
+          "D2": {
+            "v": 5
+          },
+          "A3": {
+            "v": "Atelier"
+          },
+          "B3": {
+            "v": 12
+          },
+          "C3": {
+            "v": 14
+          },
+          "D3": {
+            "v": 16
+          },
+          "A4": {
+            "v": "Bureau"
+          },
+          "B4": {
+            "v": 7
+          },
+          "C4": {
+            "v": 8
+          },
+          "D4": {
+            "v": 9
+          },
+          "A5": {
+            "v": "Logistique"
+          },
+          "B5": {
+            "v": 9
+          },
+          "C5": {
+            "v": 9
+          },
+          "D5": {
+            "v": 11
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M04-L01-01",
+      "consigne": "Pour sélectionner **toute la colonne 2025**, ==cliquez sur la lettre **C**== dans l'en-tête, au-dessus de la première ligne.",
+      "action": {
+        "type": "SELECT_COLUMN",
+        "column": "C"
+      },
+      "aide": {
+        "text": "La bande grise en haut de la grille porte les lettres des colonnes.",
+        "showTarget": true
+      },
+      "feedback": "Toute la colonne est en surbrillance, et la barre d'état affiche la somme des effectifs 2025 : 36."
+    },
+    {
+      "id": "M04-L01-02",
+      "consigne": "Même principe pour une ligne. ==Cliquez sur le numéro **3**== dans l'en-tête de gauche pour sélectionner toute la ligne de l'Atelier.",
+      "action": {
+        "type": "SELECT_ROW",
+        "row": 3
+      },
+      "aide": {
+        "text": "La colonne grise à gauche porte les numéros de ligne.",
+        "showTarget": true
+      },
+      "feedback": "42 personnes cumulées sur les trois années pour l'Atelier."
+    },
+    {
+      "id": "M04-L01-03",
+      "consigne": "Sélectionner un en-tête sélectionne **toute** la colonne ou la ligne, jusqu'au bout de la feuille — pas seulement la partie remplie. C'est ce qu'on veut pour mettre en forme, insérer ou supprimer.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M04-L01-04",
+      "consigne": "Pour une sélection limitée aux données, on revient au glisser. ==Sélectionnez la plage **B2:D5**==, les douze effectifs.",
+      "action": {
+        "type": "DRAG_RANGE",
+        "range": "B2:D5"
+      },
+      "aide": {
+        "text": "De B2 jusqu'à D5, sans les en-têtes ni la colonne des services.",
+        "showTarget": true
+      },
+      "feedback": "109 personnes au total sur trois ans. Retenez la distinction : en-tête pour agir sur la structure, glisser pour agir sur les données."
+    },
+    {
+      "id": "M04-L01-05",
+      "consigne": "Sélectionnez la colonne **D** puis ==mettez-la en gras== avec le bouton **G** du ruban, pour faire ressortir l'année en cours.",
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "acc-gras"
+      },
+      "aide": {
+        "text": "Cliquez d'abord sur la lettre D, puis sur le bouton G du groupe Police.",
+        "showTarget": true
+      },
+      "feedback": "La colonne 2026 ressort. Une seule sélection, une seule mise en forme."
+    }
+  ]
+}

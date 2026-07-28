@@ -313,8 +313,38 @@ export default function SimulationPlayer({
     [step, finished, goNext],
   )
 
+  /**
+   * Les boutons du ruban doivent AGIR, pas seulement signaler un clic. Sans cela
+   * l'apprenant clique « Insérer » et rien ne bouge — il croirait à une panne.
+   * L'effet est appliqué d'abord, la validation ensuite : l'étape peut donc être
+   * validée sur l'état du classeur qui en résulte.
+   */
   const handleControl = useCallback(
     (controlId: string) => {
+      const grid = gridRef.current
+      if (grid) {
+        const info = grid.getSelectionKind()
+        switch (controlId) {
+          case "acc-inserer":
+            if (info?.kind === "column") grid.insertColumnBefore(info.index)
+            else if (info?.kind === "row") grid.insertRowBefore(info.index)
+            break
+          case "acc-supprimer":
+            if (info?.kind === "column") grid.deleteColumn(info.index)
+            else if (info?.kind === "row") grid.deleteRow(info.index)
+            break
+          case "acc-format-largeur":
+            if (info?.kind === "column") grid.setColumnWidth(info.index, 160)
+            break
+          case "acc-format-masquer":
+            if (info?.kind === "column") grid.hideColumn(info.index)
+            else if (info?.kind === "row") grid.hideRow(info.index)
+            break
+          case "acc-gras":
+            grid.toggleBold(true)
+            break
+        }
+      }
       handleAction({ kind: "control", control: controlId, channel: "ribbon" })
     },
     [handleAction],

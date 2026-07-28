@@ -23,7 +23,7 @@
 import { useEffect, useRef } from "react"
 import type { ObservedAction, ActionChannel } from "@/lib/simulation/validate"
 import type { CellState, WorkbookState } from "@/lib/simulation/types"
-import { formatCell, parseCell, parseRange, formatRange } from "@/lib/simulation/grid"
+import { formatCell, parseCell, parseRange, formatRange, columnIndexToLetter } from "@/lib/simulation/grid"
 import { frToEngine, engineToFr } from "@/lib/simulation/formula-fr"
 
 /** Ce que le simulateur peut demander à la grille. */
@@ -42,6 +42,23 @@ export type GridApi = {
   getSelection: () => string
   /** Verrouille l'édition : seules ces cellules restent modifiables. */
   setEditableCells: (refs: string[] | null) => void
+  /** Opérations sur les lignes et colonnes, pour les boutons du ruban. */
+  insertRowBefore: (row: number) => void
+  insertColumnBefore: (col: number) => void
+  deleteRow: (row: number) => void
+  deleteColumn: (col: number) => void
+  setColumnWidth: (col: number, px: number) => void
+  setRowHeight: (row: number, px: number) => void
+  hideColumn: (col: number) => void
+  hideRow: (row: number) => void
+  /** Gras sur la sélection courante. */
+  toggleBold: (on: boolean) => void
+  /**
+   * Nature de la sélection courante : cellule, plage, colonne(s) entière(s) ou
+   * ligne(s) entière(s). Le scénario peut ainsi exiger « sélectionnez la colonne
+   * C » sans dépendre de la hauteur réelle de la grille.
+   */
+  getSelectionKind: () => { kind: "cell" | "range" | "column" | "row"; ref: string; index: number } | null
   /**
    * Redonne le focus clavier à la grille. Nécessaire après toute interaction avec
    * un élément du DOM (bouton Suivant, bouton du ruban, demande d'indice) : le
@@ -203,6 +220,34 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
         setEditableCells: (refs) => {
           editableRef.current = refs === null ? null : new Set(refs.map((r) => r.toUpperCase()))
         },
+        insertRowBefore: (row) => { try { sheet()?.insertRowBefore?.(row) } catch {} },
+        insertColumnBefore: (col) => { try { sheet()?.insertColumnBefore?.(col) } catch {} },
+        deleteRow: (row) => { try { sheet()?.deleteRow?.(row) } catch {} },
+        deleteColumn: (col) => { try { sheet()?.deleteColumn?.(col) } catch {} },
+        setColumnWidth: (col, px) => { try { sheet()?.setColumnWidth?.(col, px) } catch {} },
+        setRowHeight: (row, px) => { try { sheet()?.setRowHeight?.(row, px) } catch {} },
+        hideColumn: (col) => { try { sheet()?.hideColumn?.(col, 1) } catch {} },
+        hideRow: (row) => { try { sheet()?.hideRow?.(row, 1) } catch {} },
+        toggleBold: (on) => {
+          const ref = api.getSelection()
+          if (!ref) return
+          try { sheet()?.getRange(ref)?.setFontWeight?.(on ? "bold" : "normal") } catch {}
+        },
+        getSelectionKind: () => {
+          const ref = api.getSelection()
+          if (!ref) return null
+          const r = parseRange(ref)
+          if (!r) return null
+          // Une colonne entière va de la ligne 0 au bas de la grille allouée ;
+          // idem pour une ligne. On compare à des seuils généreux plutôt qu'à une
+          // borne exacte, la taille de grille dépendant du moteur.
+          const fullColumn = r.startRow === 0 && r.endRow >= 200
+          const fullRow = r.startCol === 0 && r.endCol >= 15
+          if (fullColumn && !fullRow) return { kind: "column", ref, index: r.startCol }
+          if (fullRow && !fullColumn) return { kind: "row", ref, index: r.startRow }
+          if (r.startRow === r.endRow && r.startCol === r.endCol) return { kind: "cell", ref, index: r.startRow }
+          return { kind: "range", ref, index: r.startRow }
+        },
         focus: () => {
           // On cible la surface de saisie d'Univer si elle existe, sinon le
           // conteneur : dans les deux cas le clavier revient à la grille.
@@ -363,8 +408,44 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
         if (settleTimer) clearTimeout(settleTimer)
       })
 
+      // Sélection résultant d'un clic sur un en-tête, ou de tout autre changement.
+      // Les en-têtes de COLONNE sélectionnent sans déclencher SelectionMoveEnd —
+      // vérifié au banc d'essai — d'où cette seconde source d'écoute.
+      const rapporterSelection = () => {
+        const info = api.getSelectionKind()
+        if (!info) return
+        const now = Date.now()
+        if (lastDragRef.current.range === info.ref && now - lastDragRef.current.at < 400) return
+        if (info.kind === "column") {
+          lastDragRef.current = { range: info.ref, at: now }
+          onActionRef.current({ kind: "selectColumn", column: columnIndexToLetter(info.index) })
+        } else if (info.kind === "row") {
+          lastDragRef.current = { range: info.ref, at: now }
+          onActionRef.current({ kind: "selectRow", row: info.index + 1 })
+        }
+      }
+      listen("SelectionChanged", rapporterSelection)
+
+      // FILET INDISPENSABLE. Un clic sur un en-tête de COLONNE sélectionne bien
+      // toute la colonne, mais Univer n'émet aucun événement de sélection dans ce
+      // cas — vérifié au banc d'essai, contrairement aux en-têtes de ligne qui en
+      // émettent un. On surveille donc les clics au niveau du conteneur et on
+      // interroge la sélection juste après : indépendant de la couverture
+      // événementielle du moteur, donc insensible à ses évolutions.
+      const surClicNatif = () => {
+        window.setTimeout(rapporterSelection, 120)
+      }
+      container.addEventListener("click", surClicNatif)
+      disposers.push(() => container.removeEventListener("click", surClicNatif))
+
       // Sélection d'une plage au glisser.
       listen("SelectionMoveEnd", () => {
+        // Un en-tête donne une colonne ou une ligne entière : traité au-dessus.
+        const info = api.getSelectionKind()
+        if (info && (info.kind === "column" || info.kind === "row")) {
+          rapporterSelection()
+          return
+        }
         const ref = api.getSelection()
         if (!ref) return
         const r = parseRange(ref)

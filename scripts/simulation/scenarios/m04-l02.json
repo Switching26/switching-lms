@@ -1,0 +1,200 @@
+{
+  "schemaVersion": 1,
+  "title": "Insérer et supprimer",
+  "mode": "LESSON",
+  "moduleTitle": "Les lignes et les colonnes",
+  "intro": {
+    "title": "FAIRE DE LA PLACE",
+    "body": "Un tableau vit : il faut souvent glisser une colonne oubliée au milieu, ou retirer une ligne devenue inutile. Excel décale tout le reste pour vous."
+  },
+  "outro": {
+    "body": "Vous savez insérer et supprimer sans casser vos formules."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ],
+    "sheetCount": 1
+  },
+  "workbook": {
+    "fileName": "Ventes trimestre",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 130
+        },
+        "cells": {
+          "A1": {
+            "v": "Produit",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Janvier",
+            "format": {
+              "bold": true
+            }
+          },
+          "C1": {
+            "v": "Mars",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Clavier"
+          },
+          "B2": {
+            "v": 1200
+          },
+          "C2": {
+            "v": 1310
+          },
+          "A3": {
+            "v": "Souris"
+          },
+          "B3": {
+            "v": 890
+          },
+          "C3": {
+            "v": 1020
+          },
+          "A4": {
+            "v": "Écran"
+          },
+          "B4": {
+            "v": 3400
+          },
+          "C4": {
+            "v": 3150
+          },
+          "A6": {
+            "v": "Ligne à supprimer"
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M04-L02-01",
+      "consigne": "Février manque entre Janvier et Mars. Pour l'insérer, il faut d'abord désigner **où**. ==Cliquez sur la lettre **C**==, la colonne devant laquelle insérer.",
+      "action": {
+        "type": "SELECT_COLUMN",
+        "column": "C"
+      },
+      "aide": {
+        "text": "Excel insère TOUJOURS avant la colonne sélectionnée.",
+        "showTarget": true
+      },
+      "feedback": "Retenez-le : l'insertion se fait avant la sélection, jamais après."
+    },
+    {
+      "id": "M04-L02-02",
+      "consigne": "==Cliquez sur **Insérer**== dans le groupe Cellules du ruban.",
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "acc-inserer"
+      },
+      "aide": {
+        "text": "Le groupe Cellules se trouve vers la droite du ruban Accueil.",
+        "showTarget": true
+      },
+      "feedback": "Une colonne vide est apparue, et Mars a glissé en colonne D. Rien n'a été perdu."
+    },
+    {
+      "id": "M04-L02-03",
+      "consigne": "Vérifiez le décalage puis remplissez : en **C1**, ==saisissez `Février`==.",
+      "setup": {
+        "selection": "C1"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "C1",
+        "accept": [
+          "Février",
+          "Fevrier"
+        ]
+      },
+      "feedback": "L'en-tête est en place."
+    },
+    {
+      "id": "M04-L02-04",
+      "consigne": "==Complétez les trois chiffres de février== : 1 450 pour le clavier, 940 pour la souris, 2 900 pour l'écran.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "C2": {
+            "v": 1450
+          },
+          "C3": {
+            "v": 940
+          },
+          "C4": {
+            "v": 2900
+          },
+          "D2": {
+            "v": 1310
+          },
+          "D4": {
+            "v": 3150
+          }
+        }
+      },
+      "aide": {
+        "text": "Les trois cellules sous Février. Vérifiez au passage que Mars est bien resté intact en colonne D."
+      },
+      "feedback": "Le trimestre est complet, et les chiffres de mars n'ont pas bougé d'une virgule."
+    },
+    {
+      "id": "M04-L02-05",
+      "consigne": "Passons à la suppression. La ligne **6** contient une note parasite. ==Cliquez sur le numéro **6**== pour la sélectionner entièrement.",
+      "action": {
+        "type": "SELECT_ROW",
+        "row": 6
+      },
+      "aide": {
+        "text": "Le numéro 6 dans l'en-tête de gauche.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M04-L02-06",
+      "consigne": "==Cliquez sur **Supprimer**== dans le groupe Cellules.",
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "acc-supprimer"
+      },
+      "aide": {
+        "text": "Juste à côté du bouton Insérer.",
+        "showTarget": true
+      },
+      "feedback": "La ligne a disparu et tout ce qui suivait est remonté."
+    },
+    {
+      "id": "M04-L02-07",
+      "consigne": "Une distinction qui compte : **Supprimer** retire la ligne et fait remonter les suivantes. La touche **Suppr** du clavier, elle, ne vide que le contenu — la ligne reste, vide. Deux gestes très différents.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M04-L02-08",
+      "consigne": "Dernier point, le plus important. Insérer ou supprimer **met à jour vos formules automatiquement** : une somme sur B2:B4 devient B2:B5 si vous insérez une ligne au milieu. C'est pour cette raison qu'on insère plutôt qu'on écrase.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    }
+  ]
+}

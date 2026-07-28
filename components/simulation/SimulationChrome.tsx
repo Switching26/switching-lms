@@ -172,9 +172,31 @@ export default function SimulationChrome({
               <Btn id="acc-coller" label="Coller" wide />
               <Btn id="acc-copier" label="Copier" />
             </Group>
+            <Group title="Police">
+              <Btn id="acc-gras" label="G" />
+            </Group>
             <Group title="Nombre">
               <Btn id="acc-format-nombre" label="Format" />
               <Btn id="acc-pourcentage" label="%" />
+            </Group>
+            <Group title="Cellules">
+              <Btn id="acc-inserer" label="Insérer" />
+              <Btn id="acc-supprimer" label="Supprimer" />
+              <div className="flex items-center">
+                <Btn id="acc-format" label="Format" />
+                <button
+                  type="button"
+                  title="Options de format"
+                  aria-label="Options de format de cellule"
+                  onClick={() => onControl("acc-format-fleche")}
+                  className={[
+                    "rounded px-1 py-1 text-[9px] text-neutral-600 hover:bg-emerald-50",
+                    highlight === "acc-format-fleche" ? "ring-2 ring-amber-400 animate-pulse" : "",
+                  ].join(" ")}
+                >
+                  ▾
+                </button>
+              </div>
             </Group>
             <Group title="Édition">
               {/* Le bouton Somme automatique et sa flèche forment un contrôle

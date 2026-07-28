@@ -152,6 +152,14 @@ function checkStep(s: SimulationStep, i: number, seen: Set<string>, mode: string
       if (!a.target.trim()) err(`${where} : cible non renseignée.`)
       break
 
+    case "SELECT_COLUMN":
+      if (!/^[A-Z]{1,3}$/i.test(a.column)) err(`${where} : « ${a.column} » n'est pas une lettre de colonne.`)
+      break
+
+    case "SELECT_ROW":
+      if (!Number.isInteger(a.row) || a.row < 1) err(`${where} : numéro de ligne invalide.`)
+      break
+
     case "EXPECT_STATE": {
       const refs = Object.entries(a.cells)
       if (refs.length === 0) {
@@ -185,6 +193,8 @@ function checkStep(s: SimulationStep, i: number, seen: Set<string>, mode: string
     "CLICK_CONTROL",
     "DRAG_RANGE",
     "EXPECT_STATE",
+    "SELECT_COLUMN",
+    "SELECT_ROW",
   ])
   if (!OBSERVABLE.has(a.type)) {
     err(
@@ -255,6 +265,13 @@ function checkScenario(sc: SimulationScenario) {
     "acc-copier",
     "acc-format-nombre",
     "acc-pourcentage",
+    "acc-inserer",
+    "acc-supprimer",
+    "acc-format",
+    "acc-format-fleche",
+    "acc-format-largeur",
+    "acc-format-masquer",
+    "acc-gras",
   ])
   for (const s of sc.steps) {
     if (s.action.type === "CLICK_CONTROL" && !KNOWN_CONTROLS.has(s.action.control)) {

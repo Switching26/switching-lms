@@ -169,6 +169,10 @@ export type SimulationAction =
   | { type: "READ" }
   | TypeAction
   | ExpectStateAction
+  /** Sélection d'une colonne entière par son en-tête, ex. { column: "C" }. */
+  | { type: "SELECT_COLUMN"; column: string }
+  /** Sélection d'une ligne entière par son en-tête, ex. { row: 3 }. */
+  | { type: "SELECT_ROW"; row: number }
   /** Clic sur une cellule (sélection). */
   | { type: "CLICK_CELL"; cell: CellRef }
   /** Clic sur une cellule avec modificateur : sélection disjointe, extension. */

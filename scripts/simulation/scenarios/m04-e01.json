@@ -1,0 +1,152 @@
+{
+  "schemaVersion": 1,
+  "title": "Exercice · Restructurer un tableau",
+  "mode": "EXERCISE",
+  "moduleTitle": "Les lignes et les colonnes",
+  "intro": {
+    "title": "À VOUS",
+    "body": "Un tableau à réorganiser sans rien perdre."
+  },
+  "outro": {
+    "body": "Exercice terminé."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ],
+    "sheetCount": 1
+  },
+  "workbook": {
+    "fileName": "Stock agences",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 120
+        },
+        "cells": {
+          "A1": {
+            "v": "Agence",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Claviers",
+            "format": {
+              "bold": true
+            }
+          },
+          "C1": {
+            "v": "Écrans",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Nord"
+          },
+          "B2": {
+            "v": 14
+          },
+          "C2": {
+            "v": 9
+          },
+          "A3": {
+            "v": "Sud"
+          },
+          "B3": {
+            "v": 8
+          },
+          "C3": {
+            "v": 6
+          },
+          "A4": {
+            "v": "Est"
+          },
+          "B4": {
+            "v": 11
+          },
+          "C4": {
+            "v": 7
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M04-E01-01",
+      "consigne": "Il manque une colonne **Souris** entre Claviers et Écrans. Faites-lui de la place.",
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "acc-inserer"
+      },
+      "aide": {
+        "text": "Sélectionnez d'abord l'en-tête de la colonne devant laquelle insérer, puis utilisez le ruban."
+      },
+      "feedback": "La place est faite et les écrans ont glissé."
+    },
+    {
+      "id": "M04-E01-02",
+      "consigne": "Renseignez l'en-tête **Souris** et les trois quantités : **20** pour Nord, **12** pour Sud, **15** pour Est.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "C1": {
+            "v": "Souris"
+          },
+          "C2": {
+            "v": 20
+          },
+          "C3": {
+            "v": 12
+          },
+          "C4": {
+            "v": 15
+          },
+          "D2": {
+            "v": 9
+          },
+          "D4": {
+            "v": 7
+          }
+        }
+      },
+      "aide": {
+        "text": "Quatre cellules à remplir dans la nouvelle colonne. Vérifiez que les écrans sont intacts."
+      }
+    },
+    {
+      "id": "M04-E01-03",
+      "consigne": "Sélectionnez **toute la colonne des souris** et lisez leur total dans la barre d'état.",
+      "action": {
+        "type": "SELECT_COLUMN",
+        "column": "C"
+      },
+      "aide": {
+        "text": "Un clic sur la lettre de la colonne."
+      },
+      "feedback": "47 souris en stock."
+    },
+    {
+      "id": "M04-E01-04",
+      "consigne": "Mettez la **ligne d'en-tête en gras** pour finir la présentation.",
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "acc-gras"
+      },
+      "aide": {
+        "text": "Sélectionnez la ligne 1 par son en-tête, puis le bouton G."
+      },
+      "feedback": "Le tableau est restructuré et lisible."
+    }
+  ]
+}

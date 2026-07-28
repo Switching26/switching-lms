@@ -280,6 +280,15 @@ export default function SimulationPlayer({
   const [index, setIndex] = useState(() => Math.min(Math.max(initialStep, 0), Math.max(total - 1, 0)))
   const [gridReady, setGridReady] = useState(false)
   const [verdict, setVerdict] = useState<Verdict | null>(null)
+  // Retour visuel DANS la grille (flash de réussite, secousse d'erreur, toast) :
+  // le texte sous l'écran ne suffit pas, l'apprenant regarde la feuille.
+  const [fx, setFx] = useState<{
+    kind: "ok" | "ko"
+    rect: { left: number; top: number; width: number; height: number } | null
+    message?: string
+    k: number
+  } | null>(null)
+  const fxTimerRef = useRef<number | null>(null)
   const [hintShown, setHintShown] = useState(mode === "LESSON")
   const [selection, setSelection] = useState(scenario.workbook.selection ?? "A1")
   const [formulaText, setFormulaText] = useState("")
@@ -570,6 +579,49 @@ export default function SimulationPlayer({
     void persist({ step: next })
   }, [index, total, mode, steps, persist, onCompleted])
 
+  /**
+   * Retour visuel ancré à la cible de l'étape : flash vert à la réussite,
+   * secousse rouge + message à l'erreur. Le rectangle vient des métriques
+   * réelles de la grille (même mécanique que le halo d'aide) ; sans cible
+   * mesurable, seul le toast centré s'affiche.
+   */
+  const lancerFx = useCallback((s: SimulationStep, kind: "ok" | "ko", message?: string) => {
+    const grid = gridRef.current
+    const a = s.action as Record<string, unknown> & { type: string }
+    const refs: string[] =
+      a.type === "EXPECT_STATE"
+        ? Object.keys((a.cells as Record<string, unknown>) ?? {})
+        : (() => {
+            const cible =
+              a.type === "TYPE" ? (a.target === "formula-bar" ? null : ((a.target as string) ?? null))
+              : a.type === "CLICK_CELL" ? (a.cell as string)
+              : a.type === "GOTO_REF" ? (a.ref as string)
+              : a.type === "DRAG_RANGE" ? (a.range as string)
+              : a.type === "DEFINE_NAME" ? ((a.ref as string) ?? null)
+              : null
+            return cible ? cible.split(":") : []
+          })()
+    let rect: { left: number; top: number; width: number; height: number } | null = null
+    if (grid && refs.length) {
+      const rects = refs
+        .map((r) => grid.getCellRect(r))
+        .filter(Boolean) as { left: number; top: number; width: number; height: number }[]
+      if (rects.length) {
+        const left = Math.min(...rects.map((r) => r.left))
+        const top = Math.min(...rects.map((r) => r.top))
+        rect = {
+          left,
+          top,
+          width: Math.max(...rects.map((r) => r.left + r.width)) - left,
+          height: Math.max(...rects.map((r) => r.top + r.height)) - top,
+        }
+      }
+    }
+    if (fxTimerRef.current) window.clearTimeout(fxTimerRef.current)
+    setFx({ kind, rect, message, k: Date.now() })
+    fxTimerRef.current = window.setTimeout(() => setFx(null), kind === "ok" ? 1400 : 2800)
+  }, [])
+
   const handleAction = useCallback(
     (observed: ObservedAction) => {
       if (!step || finished || resoluRef.current) return
@@ -644,6 +696,7 @@ export default function SimulationPlayer({
         if (!attemptedRef.current.has(step.id)) firstTryRef.current[step.id] = true
         resoluRef.current = true
         setVerdict({ ok: true })
+        lancerFx(step, "ok")
         // Petite pause pour que l'apprenant voie le résultat de son action avant
         // que l'écran ne change.
         window.setTimeout(goNext, 550)
@@ -683,11 +736,12 @@ export default function SimulationPlayer({
         firstTryRef.current[step.id] = false
         pendingRef.current.errors += 1
         setVerdict(v)
+        lancerFx(step, "ko", v.message)
       } else if (surEtat && observed.kind !== "stateChange" && v.message) {
         setVerdict(v)
       }
     },
-    [step, finished, goNext, lireCellule],
+    [step, finished, goNext, lireCellule, lancerFx],
   )
 
   /* ── Observations des modèles ──────────────────────────────────────────── */
@@ -1735,9 +1789,78 @@ export default function SimulationPlayer({
                 <div
                   aria-hidden
                   className="pointer-events-none absolute rounded-[3px] ring-2 ring-amber-400 ring-offset-0 animate-pulse"
-                  style={{ left: halo.left, top: halo.top, width: halo.width, height: halo.height }}
+                  style={{
+                    left: halo.left,
+                    top: halo.top,
+                    width: halo.width,
+                    height: halo.height,
+                    zIndex: 20,
+                    boxShadow: "0 0 0 5px rgba(251,191,36,0.28)",
+                  }}
                 />
               )}
+              {/* Bulle d'aide ANCRÉE à la cellule cible : le guide vit sur la
+                  feuille, pas seulement en petit texte sous l'écran. */}
+              {halo && hintShown && step?.aide?.text && (
+                <div
+                  className="pointer-events-none absolute max-w-[280px] rounded-lg bg-amber-50 px-2.5 py-1.5 text-[12px] font-medium leading-snug text-amber-900 shadow-md ring-1 ring-amber-300"
+                  style={
+                    halo.top > 130
+                      ? { left: Math.max(4, halo.left), top: halo.top - 8, transform: "translateY(-100%)", zIndex: 30 }
+                      : { left: Math.max(4, halo.left), top: halo.top + halo.height + 8, zIndex: 30 }
+                  }
+                >
+                  <span aria-hidden>👉 </span>
+                  {step.aide.text}
+                </div>
+              )}
+              {fx?.rect && (
+                <div
+                  key={fx.k}
+                  aria-hidden
+                  className="pointer-events-none absolute rounded-[3px]"
+                  style={{
+                    left: fx.rect.left,
+                    top: fx.rect.top,
+                    width: fx.rect.width,
+                    height: fx.rect.height,
+                    zIndex: 20,
+                    backgroundColor: fx.kind === "ok" ? "rgba(16,185,129,0.14)" : "rgba(244,63,94,0.14)",
+                    boxShadow:
+                      fx.kind === "ok"
+                        ? "0 0 0 3px #10b981, 0 0 0 7px rgba(16,185,129,0.25)"
+                        : "0 0 0 3px #f43f5e, 0 0 0 7px rgba(244,63,94,0.25)",
+                    animation:
+                      fx.kind === "ok"
+                        ? "sim-flash 1.4s ease forwards"
+                        : "sim-shake .5s ease, sim-flash 2.8s ease forwards",
+                  }}
+                />
+              )}
+              {fx && (
+                <div
+                  key={`t${fx.k}`}
+                  className="pointer-events-none absolute flex justify-center"
+                  style={{ left: 0, right: 0, top: 8, zIndex: 30 }}
+                >
+                  <div
+                    className="rounded-full px-3.5 py-1.5 text-[12.5px] font-semibold shadow-lg"
+                    style={{
+                      animation: `sim-pop ${fx.kind === "ok" ? "1.4s" : "2.8s"} ease forwards`,
+                      maxWidth: "85%",
+                      color: "#fff",
+                      backgroundColor: fx.kind === "ok" ? "#059669" : "#e11d48",
+                    }}
+                  >
+                    {fx.kind === "ok" ? "✓ C'est exact" : fx.message || "Ce n'est pas encore ça — réessayez."}
+                  </div>
+                </div>
+              )}
+              <style>{`
+@keyframes sim-shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-5px)}40%{transform:translateX(5px)}60%{transform:translateX(-3px)}80%{transform:translateX(3px)}}
+@keyframes sim-pop{0%{opacity:0;transform:translateY(-6px) scale(.96)}10%{opacity:1;transform:translateY(0) scale(1)}80%{opacity:1}100%{opacity:0}}
+@keyframes sim-flash{0%{opacity:0}10%{opacity:1}65%{opacity:1}100%{opacity:0}}
+`}</style>
             </div>
             {besoins.macros && (
               <div className="pt-2" onClickCapture={relaisControleCouche}>

@@ -20,6 +20,313 @@
 
 import type { RibbonTab, RibbonState } from "@/lib/simulation/types"
 
+/**
+ * Icônes du ruban.
+ *
+ * Un ruban fait de mots alignés ne ressemble pas à Excel : c'est ce qui cassait
+ * le plus l'immersion (retour Samuel du 29/07). Excel n'est reconnaissable que
+ * par ses pictogrammes. Ils sont dessinés ici en SVG `currentColor` plutôt
+ * qu'importés : aucun fichier à servir (voir piège 0c), aucune police d'icônes,
+ * et la couleur suit l'état du bouton (grisé, survolé, sélectionné).
+ *
+ * Les couleurs codées en dur sont celles qu'Excel utilise vraiment et qui
+ * portent du sens : le A souligné de la couleur de police, le pot de peinture,
+ * le Σ de la somme. Le reste est monochrome.
+ */
+const I = (d: React.ReactNode) => (
+  <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden className="flex-shrink-0">
+    {d}
+  </svg>
+)
+const trait = { stroke: "currentColor", strokeWidth: 1.25, strokeLinecap: "round" as const, strokeLinejoin: "round" as const }
+
+const ICONS: Record<string, React.ReactNode> = {
+  "acc-coller": I(
+    <>
+      <rect x="3.5" y="3" width="9" height="11" rx="1.4" {...trait} />
+      <rect x="5.8" y="1.6" width="4.4" height="2.6" rx=".9" fill="currentColor" opacity=".75" />
+    </>,
+  ),
+  "acc-copier": I(
+    <>
+      <rect x="2.5" y="2.5" width="7.5" height="9" rx="1.2" {...trait} />
+      <rect x="6" y="5" width="7.5" height="9" rx="1.2" {...trait} fill="#fff" />
+    </>,
+  ),
+  "acc-gras": I(<text x="8" y="12" textAnchor="middle" fontSize="12" fontWeight="800" fill="currentColor">G</text>),
+  "acc-italique": I(<text x="8" y="12" textAnchor="middle" fontSize="12" fontStyle="italic" fill="currentColor">I</text>),
+  "acc-souligne": I(
+    <>
+      <text x="8" y="11" textAnchor="middle" fontSize="11" fill="currentColor">S</text>
+      <path d="M4 13.6h8" {...trait} />
+    </>,
+  ),
+  "acc-taille-plus": I(
+    <>
+      <text x="6" y="12" textAnchor="middle" fontSize="12" fontWeight="700" fill="currentColor">A</text>
+      <path d="M11 5.5v4M9 7.5h4" {...trait} />
+    </>,
+  ),
+  "acc-taille-moins": I(
+    <>
+      <text x="6" y="12" textAnchor="middle" fontSize="10" fontWeight="700" fill="currentColor">A</text>
+      <path d="M9.5 7.5h4" {...trait} />
+    </>,
+  ),
+  "acc-couleur-police": I(
+    <>
+      <text x="8" y="10.5" textAnchor="middle" fontSize="10" fontWeight="700" fill="currentColor">A</text>
+      <rect x="3" y="12.2" width="10" height="2.4" rx=".6" fill="#c0392b" />
+    </>,
+  ),
+  "acc-remplissage": I(
+    <>
+      <path d="M6.4 2.6 11.6 7.8l-5 5-5.2-5.2z" {...trait} />
+      <path d="M13.4 10.2c.9 1.2 1.4 2 1.4 2.6a1.4 1.4 0 0 1-2.8 0c0-.6.5-1.4 1.4-2.6Z" fill="#e8a33d" />
+    </>,
+  ),
+  "acc-bordures": I(
+    <>
+      <rect x="2.5" y="2.5" width="11" height="11" rx=".6" {...trait} />
+      <path d="M8 2.5v11M2.5 8h11" stroke="currentColor" strokeWidth="1.25" strokeDasharray="2 1.6" />
+    </>,
+  ),
+  "acc-aligner-gauche": I(<path d="M2.5 4h11M2.5 7h7M2.5 10h11M2.5 13h7" {...trait} />),
+  "acc-aligner-centre": I(<path d="M2.5 4h11M4.5 7h7M2.5 10h11M4.5 13h7" {...trait} />),
+  "acc-aligner-droite": I(<path d="M2.5 4h11M6.5 7h7M2.5 10h11M6.5 13h7" {...trait} />),
+  "acc-fusionner": I(
+    <>
+      <rect x="2" y="4" width="12" height="8" rx=".8" {...trait} />
+      <path d="M6.2 6.4 4.4 8l1.8 1.6M9.8 6.4 11.6 8l-1.8 1.6" {...trait} />
+    </>,
+  ),
+  "acc-renvoyer-ligne": I(
+    <>
+      <path d="M2.5 4.5h11M2.5 8h8.5a2.2 2.2 0 0 1 0 4.4H7.6" {...trait} />
+      <path d="M9.2 10.8 7.4 12.4l1.8 1.6" {...trait} />
+    </>,
+  ),
+  "acc-mfc-regle": I(
+    <>
+      <rect x="2" y="2.5" width="12" height="11" rx="1" {...trait} />
+      <rect x="3.4" y="4" width="4.2" height="3" rx=".4" fill="#e8a33d" opacity=".85" />
+      <rect x="3.4" y="8.4" width="4.2" height="3" rx=".4" fill="#3f9c6d" opacity=".85" />
+      <path d="M9.4 5.5h3.2M9.4 9.9h3.2" {...trait} />
+    </>,
+  ),
+  "acc-mfc-effacer": I(
+    <>
+      <rect x="2" y="2.5" width="12" height="11" rx="1" {...trait} />
+      <path d="M5 5.4l6 5.6M11 5.4l-6 5.6" {...trait} />
+    </>,
+  ),
+  "acc-format-monetaire": I(<text x="8" y="12" textAnchor="middle" fontSize="12" fontWeight="700" fill="currentColor">€</text>),
+  "acc-pourcentage": I(<text x="8" y="12" textAnchor="middle" fontSize="12" fontWeight="700" fill="currentColor">%</text>),
+  "acc-format-date": I(
+    <>
+      <rect x="2.2" y="3.4" width="11.6" height="10.2" rx="1.2" {...trait} />
+      <path d="M2.2 6.6h11.6M5.4 2.2v2.4M10.6 2.2v2.4" {...trait} />
+    </>,
+  ),
+  "acc-format-nombre": I(
+    <>
+      <text x="8" y="8.4" textAnchor="middle" fontSize="7" fontWeight="700" fill="currentColor">123</text>
+      <path d="M3 11.4h10" {...trait} />
+      <path d="M3 13.6h6" {...trait} />
+    </>,
+  ),
+  "acc-inserer": I(
+    <>
+      <rect x="2.2" y="2.6" width="11.6" height="10.8" rx="1" {...trait} />
+      <path d="M8 5.4v5.2M5.4 8h5.2" {...trait} />
+    </>,
+  ),
+  "acc-supprimer": I(
+    <>
+      <rect x="2.2" y="2.6" width="11.6" height="10.8" rx="1" {...trait} />
+      <path d="M5.4 8h5.2" {...trait} />
+    </>,
+  ),
+  "acc-format-largeur": I(
+    <>
+      <path d="M4 3v10M12 3v10" {...trait} />
+      <path d="M5.6 8h4.8M6.9 6.6 5.4 8l1.5 1.4M9.1 6.6 10.6 8 9.1 9.4" {...trait} />
+    </>,
+  ),
+  "acc-format-masquer": I(
+    <>
+      <path d="M1.8 8s2.3-3.8 6.2-3.8S14.2 8 14.2 8s-2.3 3.8-6.2 3.8S1.8 8 1.8 8Z" {...trait} />
+      <circle cx="8" cy="8" r="1.7" {...trait} />
+      <path d="M2.6 13.4 13.4 2.6" {...trait} />
+    </>,
+  ),
+  "acc-format": I(
+    <>
+      <rect x="2.2" y="2.6" width="11.6" height="10.8" rx="1" {...trait} />
+      <path d="M2.2 6.2h11.6M6.2 6.2v7.2" {...trait} />
+    </>,
+  ),
+  "acc-recopier": I(
+    <>
+      <rect x="2.6" y="2.4" width="6.6" height="4.4" rx=".7" {...trait} />
+      <path d="M5.9 8.2v5M4.3 11.6l1.6 1.7 1.6-1.7" {...trait} />
+      <rect x="10.4" y="9" width="3.2" height="4.4" rx=".6" stroke="currentColor" strokeWidth="1.1" strokeDasharray="2 1.4" />
+    </>,
+  ),
+  "acc-effacer": I(
+    <>
+      <path d="M6.4 12.8h6.4" {...trait} />
+      <path d="M9.6 3.2 3.4 9.4a1.3 1.3 0 0 0 0 1.8l1.6 1.6h3l5.4-5.4a1.3 1.3 0 0 0 0-1.8l-2.2-2.4a1.3 1.3 0 0 0-1.6 0Z" {...trait} />
+    </>,
+  ),
+  "don-tri-croissant": I(
+    <>
+      <path d="M4 3v10M2.4 11.4 4 13l1.6-1.6" {...trait} />
+      <path d="M7.6 4.2h6M7.6 7.4h4.4M7.6 10.6h2.8" {...trait} />
+    </>,
+  ),
+  "don-tri-decroissant": I(
+    <>
+      <path d="M4 13V3M2.4 4.6 4 3l1.6 1.6" {...trait} />
+      <path d="M7.6 4.2h2.8M7.6 7.4h4.4M7.6 10.6h6" {...trait} />
+    </>,
+  ),
+  "don-filtrer": I(<path d="M2.4 3.4h11.2l-4.3 5v4.6l-2.6-1.5V8.4z" {...trait} />),
+  "don-effacer-filtre": I(
+    <>
+      <path d="M2 3.2h9l-3.5 4.1v3.8L5 9.6V7.3z" {...trait} />
+      <path d="M10.6 10.6l3.2 3.2M13.8 10.6l-3.2 3.2" {...trait} />
+    </>,
+  ),
+  "don-convertir": I(
+    <>
+      <rect x="2.2" y="3.4" width="11.6" height="9.2" rx="1" {...trait} />
+      <path d="M8 3.4v9.2" stroke="currentColor" strokeWidth="1.25" strokeDasharray="2 1.5" />
+    </>,
+  ),
+  "don-valeur-cible": I(
+    <>
+      <circle cx="8" cy="8" r="5.4" {...trait} />
+      <circle cx="8" cy="8" r="2.2" {...trait} />
+      <circle cx="8" cy="8" r=".9" fill="currentColor" />
+    </>,
+  ),
+  "don-validation": I(
+    <>
+      <rect x="2.2" y="2.8" width="11.6" height="10.4" rx="1" {...trait} />
+      <path d="M5 8.2l2 2 4-4.4" {...trait} />
+    </>,
+  ),
+  "ins-tcd": I(
+    <>
+      <rect x="2.2" y="2.6" width="11.6" height="10.8" rx="1" {...trait} />
+      <path d="M2.2 6h11.6M6.4 6v7.4" {...trait} />
+      <rect x="2.2" y="2.6" width="11.6" height="3.4" fill="currentColor" opacity=".18" />
+    </>,
+  ),
+  "ins-image-cellule": I(
+    <>
+      <rect x="2.2" y="3" width="11.6" height="10" rx="1" {...trait} />
+      <circle cx="5.8" cy="6.4" r="1.1" {...trait} />
+      <path d="M2.6 11.6 6.4 8.4l2.6 2.2 2-1.8 2.4 2.4" {...trait} />
+    </>,
+  ),
+  "ins-graph-histogramme": I(<path d="M3 13V7.4M6.4 13V4.2M9.8 13v-4M13.2 13V6" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" />),
+  "ins-graph-barres": I(<path d="M3 4h7.4M3 8h9.4M3 12h5" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" />),
+  "ins-graph-courbes": I(
+    <>
+      <path d="M2.4 11.6 6 7.4l2.8 2.4 4.8-6" {...trait} />
+      <path d="M2.4 13.4h11.2" stroke="currentColor" strokeWidth="1" opacity=".5" />
+    </>,
+  ),
+  "ins-graph-secteurs": I(
+    <>
+      <circle cx="8" cy="8" r="5.4" {...trait} />
+      <path d="M8 8V2.6A5.4 5.4 0 0 1 12.8 10Z" fill="currentColor" opacity=".28" />
+      <path d="M8 8 12.8 10" {...trait} />
+    </>,
+  ),
+  "ins-graph-aires": I(
+    <>
+      <path d="M2.4 12.4 6 8l2.8 2.2 4.8-5.4v7.6Z" fill="currentColor" opacity=".25" />
+      <path d="M2.4 12.4 6 8l2.8 2.2 4.8-5.4" {...trait} />
+    </>,
+  ),
+  "ins-graph-nuage": I(
+    <>
+      <path d="M2.6 13.4V2.8M2.6 13.4h11" {...trait} />
+      <circle cx="6" cy="10" r="1.05" fill="currentColor" />
+      <circle cx="8.6" cy="7.4" r="1.05" fill="currentColor" />
+      <circle cx="11.6" cy="5.2" r="1.05" fill="currentColor" />
+      <circle cx="5.2" cy="6.4" r="1.05" fill="currentColor" />
+    </>,
+  ),
+  "rev-commentaire": I(
+    <>
+      <path d="M2.4 3.6h11.2v7.2H7.2l-3 2.6v-2.6H2.4Z" {...trait} />
+      <path d="M5.4 7.2h5.2" {...trait} />
+    </>,
+  ),
+  "aff-figer-volets": I(
+    <>
+      <rect x="2.2" y="2.6" width="11.6" height="10.8" rx="1" {...trait} />
+      <path d="M2.2 6.2h11.6M6.2 2.6v10.8" stroke="currentColor" strokeWidth="1.6" />
+    </>,
+  ),
+  "dev-macros": I(
+    <>
+      <circle cx="8" cy="8" r="2.2" {...trait} />
+      <path d="M8 1.8v1.9M8 12.3v1.9M1.8 8h1.9M12.3 8h1.9M3.6 3.6l1.4 1.4M11 11l1.4 1.4M12.4 3.6 11 5M5 11l-1.4 1.4" {...trait} />
+    </>,
+  ),
+  "dev-enregistrer-macro": I(
+    <>
+      <circle cx="8" cy="8" r="5.4" {...trait} />
+      <circle cx="8" cy="8" r="2.6" fill="#c0392b" />
+    </>,
+  ),
+  "dev-arreter-enregistrement": I(
+    <>
+      <circle cx="8" cy="8" r="5.4" {...trait} />
+      <rect x="5.8" y="5.8" width="4.4" height="4.4" rx=".7" fill="currentColor" />
+    </>,
+  ),
+  "mep-zone-impression-definir": I(
+    <>
+      <path d="M4.4 6.4V2.8h7.2v3.6" {...trait} />
+      <rect x="2.4" y="6.4" width="11.2" height="4.4" rx="1" {...trait} />
+      <path d="M4.4 10.8h7.2v2.6H4.4z" {...trait} fill="#fff" />
+    </>,
+  ),
+  "mep-saut-inserer": I(
+    <>
+      <path d="M2.4 8h11.2" stroke="currentColor" strokeWidth="1.3" strokeDasharray="2.4 1.8" />
+      <path d="M4 4.6h8M4 11.4h8" {...trait} />
+    </>,
+  ),
+  "tcd-actualiser": I(
+    <>
+      <path d="M13.2 8a5.2 5.2 0 1 1-1.6-3.7" {...trait} />
+      <path d="M13.4 2.6v3.2h-3.2" {...trait} />
+    </>,
+  ),
+}
+
+/**
+ * Boutons dont le pictogramme EST déjà le libellé (le G du gras, le € du format
+ * monétaire…). Afficher les deux donnait « G » sous « G » sur toute la rangée
+ * Police. Le libellé reste dans `title` et `aria-label`.
+ */
+const ICONE_SEULE = new Set([
+  "acc-gras",
+  "acc-italique",
+  "acc-souligne",
+  "acc-taille-plus",
+  "acc-taille-moins",
+  "acc-format-monetaire",
+  "acc-pourcentage",
+])
+
 const TAB_LABELS: Partial<Record<RibbonTab, string>> = {
   accueil: "Accueil",
   insertion: "Insertion",
@@ -41,6 +348,16 @@ const TAB_LABELS: Partial<Record<RibbonTab, string>> = {
   "donnees-solveur": "Solveur",
 }
 
+/** Agrégats de la sélection, calculés par la grille. null = aucune sélection utile. */
+export type SelectionStats = {
+  count: number
+  numbers: number
+  sum: number | null
+  average: number | null
+  min: number | null
+  max: number | null
+} | null
+
 type Props = {
   /** Onglets à afficher, déclarés par le scénario. */
   tabs: RibbonTab[]
@@ -48,9 +365,6 @@ type Props = {
   state?: RibbonState
   /** Nom du classeur, affiché dans la barre de titre. */
   fileName: string
-  /** Mode plein écran du simulateur (bouton ⤢/⤡ dans la barre de titre). */
-  immersif?: boolean
-  onToggleImmersif?: () => void
   /** Sélection courante, affichée dans la zone Nom. */
   selection: string
   /** Contenu de la cellule active, affiché dans la barre de formule. */
@@ -66,20 +380,6 @@ type Props = {
   onFormulaCancel?: () => void
   /** true pendant l'édition d'une formule : Excel grise une partie du ruban. */
   editing?: boolean
-  /** Agrégats de la sélection, calculés par la grille. null = barre masquée. */
-  stats?: {
-    count: number
-    numbers: number
-    sum: number | null
-    average: number | null
-    min: number | null
-    max: number | null
-  } | null
-  /** Agrégats à afficher, déclarés par le scénario. */
-  aggregates?: string[]
-  /** Feuilles du classeur, pour les onglets du bas. */
-  sheets?: Array<{ name: string; active: boolean }>
-  onSheet?: (name: string) => void
   /** Saisie en cours dans la zone Nom. null = affiche la sélection courante. */
   nameBoxDraft?: string | null
   onNameBoxChange?: (text: string) => void
@@ -91,8 +391,6 @@ export default function SimulationChrome({
   tabs,
   state,
   fileName,
-  immersif,
-  onToggleImmersif,
   selection,
   formulaText,
   highlight,
@@ -102,10 +400,6 @@ export default function SimulationChrome({
   onFormulaCommit,
   onFormulaCancel,
   editing,
-  stats,
-  aggregates,
-  sheets,
-  onSheet,
   nameBoxDraft,
   onNameBoxChange,
   onNameBoxCommit,
@@ -129,6 +423,10 @@ export default function SimulationChrome({
   }) => {
     const isDisabled = id in disabled
     const isHighlighted = highlight === id
+    // Icône déduite de l'identifiant : pas d'icône à passer bouton par bouton, et
+    // un nouveau bouton reste rendu (texte seul) tant que son pictogramme n'existe pas.
+    const pict = icon ?? ICONS[id]
+    const sansTexte = pict != null && ICONE_SEULE.has(id)
     return (
       <button
         type="button"
@@ -141,8 +439,14 @@ export default function SimulationChrome({
         disabled={isDisabled}
         onClick={() => !isDisabled && onControl(id)}
         className={[
-          "relative flex items-center gap-1.5 rounded px-2 py-1 text-[11.5px] transition-colors",
-          wide ? "flex-col justify-center px-3 py-1.5 text-center" : "",
+          "relative flex items-center rounded transition-colors",
+          sansTexte
+            ? "justify-center px-1.5 py-1.5"
+            : pict && !wide
+              ? "flex-col justify-center gap-0.5 px-1.5 py-1 text-[9.5px] leading-tight"
+              : wide
+                ? "flex-col justify-center gap-0.5 px-3 py-1.5 text-center text-[11px] leading-tight"
+                : "gap-1.5 px-2 py-1 text-[11.5px]",
           isDisabled
             ? "cursor-not-allowed text-neutral-400"
             : "text-neutral-700 hover:bg-emerald-50 active:bg-emerald-100",
@@ -150,14 +454,16 @@ export default function SimulationChrome({
           isHighlighted ? "ring-2 ring-offset-1 ring-amber-400 animate-pulse" : "",
         ].join(" ")}
       >
-        {icon}
-        <span className="whitespace-nowrap">{label}</span>
+        {pict}
+        {!sansTexte && (
+          <span className={pict && !wide ? "max-w-[62px] truncate" : "whitespace-nowrap"}>{label}</span>
+        )}
       </button>
     )
   }
 
   const Group = ({ title, children }: { title: string; children: React.ReactNode }) => (
-    <div className="flex flex-col items-center border-r border-neutral-200 px-2.5 pb-0.5 pt-1 last:border-r-0">
+    <div className="flex flex-shrink-0 flex-col items-center border-r border-neutral-200 px-2.5 pb-0.5 pt-1 last:border-r-0">
       <div className="flex items-end gap-1">{children}</div>
       <div className="mt-0.5 text-[9.5px] text-neutral-500">{title}</div>
     </div>
@@ -169,8 +475,25 @@ export default function SimulationChrome({
     </span>
   )
 
+  // Structure réelle d'Excel. Ne montrer que les onglets utiles à la leçon donnait
+  // un logiciel amputé : l'apprenant n'apprenait jamais où vivent les commandes.
+  // Les onglets hors scénario sont donc affichés mais inertes — et SANS
+  // `data-ribbon-tab`, pour qu'un pilote automatique ne perde pas son temps dessus.
+  const TAB_ORDER: RibbonTab[] = [
+    "accueil",
+    "insertion",
+    "mise-en-page",
+    "formules",
+    "donnees",
+    "revision",
+    "affichage",
+  ]
+  const declares = new Set<string>(tabs)
+  const contextuels = tabs.filter((t) => !TAB_ORDER.includes(t))
+  const tousOnglets: RibbonTab[] = [...TAB_ORDER, ...contextuels]
+
   return (
-    <div className="select-none overflow-hidden rounded-t-lg border border-neutral-300 bg-white">
+    <div className="select-none overflow-hidden border border-neutral-300 bg-white" style={{ borderRadius: "8px 8px 0 0" }}>
       {/* Barre de titre */}
       <div className="flex items-center gap-2 bg-emerald-700 px-3 py-1.5 text-white">
         <span className="rounded bg-white/20 px-1.5 py-0.5 text-[10px] font-bold">X</span>
@@ -183,51 +506,64 @@ export default function SimulationChrome({
             Excel 2024
           </span>
         </span>
-        {onToggleImmersif && (
-          <button
-            type="button"
-            data-control="sim-agrandir"
-            onClick={onToggleImmersif}
-            className="ml-auto flex-shrink-0 rounded-lg font-bold"
-            style={{ background: "#fff", color: "#1e7145", fontSize: 11.5, padding: "4px 10px" }}
-          >
-            {immersif ? "⤡ Réduire" : "⤢ Agrandir"}
-          </button>
-        )}
+        {/* Les boutons système de la fenêtre. Décoratifs : le vrai plein écran est
+            porté par le cockpit du player (`data-control="sim-agrandir"`), qui est
+            le seul endroit où l'apprenant a besoin de le chercher. */}
+        <span className="ml-auto flex-shrink-0 select-none" aria-hidden style={{ letterSpacing: 5, opacity: 0.75, fontSize: 11 }}>
+          ─ ▢ ✕
+        </span>
       </div>
 
       {/* Onglets */}
-      <div className="flex items-center gap-0.5 border-b border-neutral-200 bg-neutral-50 px-2 pt-1">
-        {tabs.map((t) => (
-          <button
-            key={t}
-            type="button"
-            // Identifiant stable de l'onglet, au même titre que `data-control` sur
-            // les boutons : un test automatisé doit pouvoir aller chercher l'onglet
-            // qui porte le bouton dont il a besoin.
-            data-ribbon-tab={t}
-            aria-pressed={t === activeTab}
-            onClick={() => onTabChange?.(t)}
-            className={[
-              "rounded-t px-3 py-1 text-[11.5px]",
-              t === activeTab
-                ? "border border-b-white border-neutral-200 bg-white font-medium text-emerald-800"
-                : "text-neutral-600 hover:bg-white/60",
-            ].join(" ")}
-          >
-            {TAB_LABELS[t] ?? t}
-          </button>
-        ))}
+      <div className="flex items-center gap-0.5 overflow-x-auto border-b border-neutral-200 bg-neutral-50 px-2 pt-1" style={{ scrollbarWidth: "none" }}>
+        {tousOnglets.map((t) => {
+          const actif = t === activeTab
+          const utilisable = declares.has(t)
+          return (
+            <button
+              key={t}
+              type="button"
+              // Identifiant stable de l'onglet, au même titre que `data-control` sur
+              // les boutons : un test automatisé doit pouvoir aller chercher l'onglet
+              // qui porte le bouton dont il a besoin.
+              {...(utilisable ? { "data-ribbon-tab": t } : {})}
+              aria-pressed={actif}
+              title={utilisable ? undefined : "Cet onglet d'Excel n'est pas utilisé dans cette leçon"}
+              onClick={() => utilisable && onTabChange?.(t)}
+              className={[
+                "flex-shrink-0 whitespace-nowrap rounded-t px-3 py-1 text-[11.5px]",
+                actif
+                  ? "border border-b-white border-neutral-200 bg-white font-medium text-emerald-800"
+                  : utilisable
+                    ? "text-neutral-600 hover:bg-white/60"
+                    : "cursor-default text-neutral-400",
+              ].join(" ")}
+            >
+              {TAB_LABELS[t] ?? t}
+            </button>
+          )
+        })}
       </div>
 
-      {/* Groupes de l'onglet actif */}
+      {/* Groupes de l'onglet actif.
+          Le ruban défile horizontalement quand il dépasse — sans le fondu à droite,
+          il paraissait simplement COUPÉ (« Supprimer » tranché au bord, « Couleu »
+          sur mobile) et rien n'invitait à faire défiler. */}
       <div
         className={[
-          "flex items-stretch overflow-x-auto bg-white py-0.5",
-          // Excel grise une partie du ruban pendant l'édition d'une formule.
+          "relative bg-white",
           editing ? "opacity-50" : "",
         ].join(" ")}
       >
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-y-0 right-0 z-10 w-8"
+          style={{ background: "linear-gradient(90deg,rgba(255,255,255,0),#fff 78%)" }}
+        />
+        <div
+          className="flex items-stretch overflow-x-auto py-0.5"
+          style={{ scrollbarWidth: "thin" }}
+        >
         {activeTab === "accueil" && (
           <>
             <Group title="Presse-papiers">
@@ -458,6 +794,7 @@ export default function SimulationChrome({
             Onglet {TAB_LABELS[activeTab] ?? activeTab}
           </div>
         )}
+        </div>
       </div>
 
       {/* Barre de formule */}
@@ -546,11 +883,89 @@ export default function SimulationChrome({
         />
       </div>
 
+    </div>
+  )
+}
+
+/**
+ * Bas de la fenêtre Excel : onglets de feuille puis barre d'état.
+ *
+ * Séparé du chrome parce qu'il doit se rendre SOUS la grille. Tant que tout
+ * vivait dans un seul composant, les onglets de feuille et la barre d'état
+ * s'affichaient AU-DESSUS de la feuille — l'inverse d'Excel, où ils sont en bas
+ * depuis toujours (défaut relevé par Samuel le 29/07).
+ *
+ * La barre d'état est désormais PERMANENTE : elle n'apparaissait qu'en présence
+ * de nombres sélectionnés, si bien que la fenêtre se terminait le plus souvent
+ * sur une barre de défilement grise. Excel affiche toujours « Prêt » et le zoom ;
+ * seuls les agrégats sont conditionnels.
+ */
+export function SimulationFooter({
+  sheets,
+  onSheet,
+  onControl,
+  highlight,
+  stats,
+  aggregates,
+  editing,
+}: {
+  sheets?: Array<{ name: string; active: boolean }>
+  onSheet?: (name: string) => void
+  onControl: (controlId: string) => void
+  highlight?: string | null
+  stats?: SelectionStats
+  aggregates?: string[]
+  editing?: boolean
+}) {
+  const agregats: React.ReactNode[] = []
+  if (stats) {
+    for (const agg of aggregates ?? ["moyenne", "nb-non-vides", "somme"]) {
+      if (agg === "moyenne" && stats.average != null)
+        agregats.push(
+          <span key={agg}>
+            Moyenne : <b className="font-semibold text-neutral-800">{fmt(stats.average)}</b>
+          </span>,
+        )
+      else if (agg === "nb-non-vides" && stats.count > 0)
+        agregats.push(
+          <span key={agg}>
+            Nb (non vides) : <b className="font-semibold text-neutral-800">{stats.count}</b>
+          </span>,
+        )
+      else if (agg === "nb" && stats.numbers > 0)
+        agregats.push(
+          <span key={agg}>
+            Nb : <b className="font-semibold text-neutral-800">{stats.numbers}</b>
+          </span>,
+        )
+      else if (agg === "somme" && stats.sum != null)
+        agregats.push(
+          <span key={agg}>
+            Somme : <b className="font-semibold text-neutral-800">{fmt(stats.sum)}</b>
+          </span>,
+        )
+      else if (agg === "min" && stats.min != null)
+        agregats.push(
+          <span key={agg}>
+            Min : <b className="font-semibold text-neutral-800">{fmt(stats.min)}</b>
+          </span>,
+        )
+      else if (agg === "max" && stats.max != null)
+        agregats.push(
+          <span key={agg}>
+            Max : <b className="font-semibold text-neutral-800">{fmt(stats.max)}</b>
+          </span>,
+        )
+    }
+  }
+
+  return (
+    <div className="select-none border border-t-0 border-neutral-300 bg-white" style={{ borderRadius: "0 0 8px 8px" }}>
       {/* Onglets de feuille. Un classeur multi-feuilles est la base de
           l'organisation d'un travail Excel, et les références inter-feuilles en
           dépendent. */}
       {sheets && sheets.length > 0 && (
-        <div className="flex items-center gap-1 border-t border-neutral-200 bg-neutral-50 px-2 py-1">
+        <div className="flex items-center gap-1 overflow-x-auto border-t border-neutral-200 bg-neutral-50 px-2 pt-1" style={{ scrollbarWidth: "none" }}>
           {sheets.map((sh) => (
             <button
               key={sh.name}
@@ -558,7 +973,7 @@ export default function SimulationChrome({
               aria-label={`Feuille ${sh.name}`}
               onClick={() => onSheet?.(sh.name)}
               className={[
-                "rounded-t px-2.5 py-0.5 text-[11.5px] transition-colors",
+                "flex-shrink-0 whitespace-nowrap rounded-t px-2.5 py-0.5 text-[11.5px] transition-colors",
                 sh.active
                   ? "border border-b-white border-neutral-200 bg-white font-medium text-emerald-800"
                   : "text-neutral-600 hover:bg-neutral-100",
@@ -574,7 +989,7 @@ export default function SimulationChrome({
             data-control="ui-nouvelle-feuille"
             onClick={() => onControl("ui-nouvelle-feuille")}
             className={[
-              "rounded px-1.5 py-0.5 text-[13px] leading-none text-neutral-500 hover:bg-neutral-100",
+              "flex-shrink-0 rounded px-1.5 py-0.5 text-[13px] leading-none text-neutral-500 hover:bg-neutral-100",
               highlight === "ui-nouvelle-feuille" ? "ring-2 ring-amber-400 animate-pulse" : "",
             ].join(" ")}
           >
@@ -583,55 +998,16 @@ export default function SimulationChrome({
         </div>
       )}
 
-      {/* Barre d'état : agrégats de la sélection, sans écrire aucune formule.
-          C'est un vrai geste Excel que beaucoup d'utilisateurs ignorent, et il
-          n'existe que si des nombres sont sélectionnés — comme dans le logiciel. */}
-      {stats && (
-        <div
-          aria-label="Barre d'état"
-          className="flex items-center justify-end gap-4 border-t border-neutral-200 bg-neutral-50 px-3 py-1 text-[11px] text-neutral-600"
-        >
-          {(aggregates ?? ["moyenne", "nb-non-vides", "somme"]).map((agg) => {
-            if (agg === "moyenne" && stats.average != null)
-              return (
-                <span key={agg}>
-                  Moyenne : <b className="font-semibold text-neutral-800">{fmt(stats.average)}</b>
-                </span>
-              )
-            if (agg === "nb-non-vides" && stats.count > 0)
-              return (
-                <span key={agg}>
-                  Nb (non vides) : <b className="font-semibold text-neutral-800">{stats.count}</b>
-                </span>
-              )
-            if (agg === "nb" && stats.numbers > 0)
-              return (
-                <span key={agg}>
-                  Nb : <b className="font-semibold text-neutral-800">{stats.numbers}</b>
-                </span>
-              )
-            if (agg === "somme" && stats.sum != null)
-              return (
-                <span key={agg}>
-                  Somme : <b className="font-semibold text-neutral-800">{fmt(stats.sum)}</b>
-                </span>
-              )
-            if (agg === "min" && stats.min != null)
-              return (
-                <span key={agg}>
-                  Min : <b className="font-semibold text-neutral-800">{fmt(stats.min)}</b>
-                </span>
-              )
-            if (agg === "max" && stats.max != null)
-              return (
-                <span key={agg}>
-                  Max : <b className="font-semibold text-neutral-800">{fmt(stats.max)}</b>
-                </span>
-              )
-            return null
-          })}
-        </div>
-      )}
+      {/* Barre d'état. Les agrégats de la sélection sont un vrai geste Excel que
+          beaucoup ignorent : compter ou sommer sans écrire de formule. */}
+      <div
+        aria-label="Barre d'état"
+        className="flex items-center gap-4 border-t border-neutral-200 bg-neutral-50 px-3 py-1 text-[11px] text-neutral-600"
+      >
+        <span className="flex-shrink-0">{editing ? "Entrer" : "Prêt"}</span>
+        <span className="ml-auto flex min-w-0 items-center gap-4 overflow-hidden whitespace-nowrap">{agregats}</span>
+        <span className="flex-shrink-0 tabular-nums text-neutral-500">100 %</span>
+      </div>
     </div>
   )
 }

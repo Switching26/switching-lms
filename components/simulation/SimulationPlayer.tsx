@@ -22,7 +22,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import dynamic from "next/dynamic"
 import type { GridApi } from "./ExcelGrid"
-import SimulationChrome from "./SimulationChrome"
+import SimulationChrome, { SimulationFooter } from "./SimulationChrome"
 import ChartLayer from "./ChartLayer"
 import PivotLayer from "./PivotLayer"
 import PageLayoutLayer from "./PageLayoutLayer"
@@ -347,6 +347,45 @@ export default function SimulationPlayer({
     const t = window.setTimeout(() => window.dispatchEvent(new Event("resize")), 90)
     return () => window.clearTimeout(t)
   }, [immersif])
+  /**
+   * Hauteur de la feuille hors plein écran.
+   *
+   * Elle valait 380 px en dur : sur un écran d'ordinateur, un quart de la
+   * hauteur restait vide sous la carte pendant que l'apprenant travaillait dans
+   * une fenêtre timbre-poste. On mesure donc l'espace réellement disponible sous
+   * le haut de la grille, en réservant de quoi loger le bas de la fenêtre Excel
+   * et la bande de consigne.
+   */
+  const zoneGrilleRef = useRef<HTMLDivElement>(null)
+  const [hauteurGrille, setHauteurGrille] = useState(380)
+  const [largeurGrille, setLargeurGrille] = useState(0)
+  useEffect(() => {
+    if (immersif) return
+    const calc = () => {
+      const el = zoneGrilleRef.current
+      if (!el) return
+      const rect = el.getBoundingClientRect()
+      // Réserve : onglets de feuille + barre d'état + bande de consigne + air.
+      const dispo = window.innerHeight - rect.top - 200
+      setHauteurGrille(Math.max(340, Math.min(720, Math.round(dispo))))
+      setLargeurGrille(Math.round(rect.width))
+    }
+    calc()
+    // Le layout se stabilise après le montage d'Univer : une seconde mesure
+    // évite de figer une hauteur calculée sur une page encore incomplète.
+    const t = window.setTimeout(calc, 320)
+    window.addEventListener("resize", calc)
+    return () => {
+      window.removeEventListener("resize", calc)
+      window.clearTimeout(t)
+    }
+  }, [immersif, introVue])
+  useEffect(() => {
+    // Univer ne réagit qu'au resize de la fenêtre : sans cela son canvas garde
+    // l'ancienne hauteur et la feuille flotte dans un cadre trop grand.
+    const t = window.setTimeout(() => window.dispatchEvent(new Event("resize")), 90)
+    return () => window.clearTimeout(t)
+  }, [hauteurGrille])
   const [verdict, setVerdict] = useState<Verdict | null>(null)
   // Retour visuel DANS la grille (flash de réussite, secousse d'erreur, toast) :
   // le texte sous l'écran ne suffit pas, l'apprenant regarde la feuille.
@@ -1751,6 +1790,21 @@ export default function SimulationPlayer({
   }
 
   const gradable = steps.filter((s) => s.action.type !== "READ").length
+  const evaluationNotee = mode === "EVALUATION"
+  /**
+   * Fil d'Ariane sans répétition. Les titres d'évaluation portent déjà le nom du
+   * module (« S'évaluer · Prise en main ») : les concaténer donnait
+   * « Prise en main · S'évaluer · Prise en main » en haut de chaque évaluation.
+   */
+  const filModule = scenario.moduleTitle ?? ""
+  const filChapitre = (() => {
+    const t = scenario.title
+    if (!filModule) return t
+    const suffixe = ` · ${filModule}`
+    if (t.endsWith(suffixe)) return t.slice(0, -suffixe.length)
+    if (t === filModule) return t
+    return t
+  })()
 
   return (
     <div
@@ -1767,54 +1821,70 @@ export default function SimulationPlayer({
           className="absolute inset-0 z-40 flex flex-col justify-center overflow-hidden px-6 py-8 sm:px-10"
           style={{ background: "linear-gradient(180deg,#faf9f5 0%,#f2efe8 100%)" }}
         >
+          {/* Affiche du chapitre : une feuille de calcul, pas un décor abstrait.
+              Les trois rectangles verts flottants et le ƒx géant coupé au bord
+              passaient pour un défaut de rendu, et la moitié droite restait vide. */}
           <div
             aria-hidden
-            className="pointer-events-none absolute select-none"
+            className="pointer-events-none absolute hidden select-none lg:block"
             style={{
-              right: "-1%",
-              top: "-14%",
-              fontSize: "min(32vw, 280px)",
-              fontWeight: 900,
-              fontStyle: "italic",
-              color: "rgba(24,110,72,0.07)",
-              letterSpacing: "-10px",
-              lineHeight: 1,
+              right: "6%",
+              top: "50%",
+              width: 372,
+              transform: "translateY(-50%) perspective(1200px) rotateY(-15deg) rotateX(5deg)",
+              animation: "sim-intro-monte .9s .35s ease both",
             }}
           >
-            ƒx
+            <div style={{ borderRadius: 12, overflow: "hidden", boxShadow: "0 30px 60px -24px rgba(16,32,27,.35)", background: "#fff", border: "1px solid #DDD8CE" }}>
+              <div style={{ background: "#107C41", color: "#fff", padding: "7px 11px", fontSize: 11, display: "flex", alignItems: "center", gap: 7 }}>
+                <span style={{ background: "rgba(255,255,255,.22)", borderRadius: 3, padding: "1px 5px", fontWeight: 700, fontSize: 9 }}>X</span>
+                Classeur
+              </div>
+              <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 11, tableLayout: "fixed" }}>
+                <tbody>
+                  <tr>
+                    {["", "A", "B", "C"].map((c) => (
+                      <td key={c} style={{ background: "#F5F3EF", color: "#8D8880", border: "1px solid #E4E0D8", textAlign: "center", height: 19, width: c === "" ? 26 : undefined }}>
+                        {c}
+                      </td>
+                    ))}
+                  </tr>
+                  {[
+                    ["1", "Trimestre", "Ventes", ""],
+                    ["2", "Janvier", "1 250", ""],
+                    ["3", "Février", "1 480", ""],
+                    ["4", "Mars", "1 620", ""],
+                    ["5", "Total", "4 350", ""],
+                  ].map((r, i) => (
+                    <tr key={i}>
+                      {r.map((c, j) => (
+                        <td
+                          key={j}
+                          style={{
+                            border: "1px solid #EDEAE3",
+                            height: 20,
+                            padding: "0 5px",
+                            color: j === 0 ? "#8D8880" : "#22302B",
+                            background: j === 0 ? "#F5F3EF" : i === 4 ? "#EAF6EF" : "#fff",
+                            textAlign: j === 2 ? "right" : "left",
+                            fontWeight: i === 4 ? 700 : 400,
+                            outline: i === 4 && j === 2 ? "2px solid #107C41" : undefined,
+                            outlineOffset: -2,
+                          }}
+                        >
+                          {c}
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              <div style={{ background: "#10201B", color: "#8FE3B3", fontSize: 11.5, padding: "7px 11px", fontFamily: "ui-monospace,SFMono-Regular,Menlo,monospace" }}>
+                =SOMME(B2:B4)
+              </div>
+            </div>
           </div>
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-x-0 bottom-0"
-            style={{
-              height: "32%",
-              background:
-                "repeating-linear-gradient(0deg,rgba(23,26,24,.055) 0 1px,transparent 1px 22px),repeating-linear-gradient(90deg,rgba(23,26,24,.055) 0 1px,transparent 1px 54px)",
-              transform: "perspective(600px) rotateX(58deg)",
-              transformOrigin: "bottom",
-            }}
-          />
-          {[
-            { left: "14%", bottom: "10%", bg: "#2fbf80", delay: "0s" },
-            { left: "64%", bottom: "17%", bg: "#187a4e", delay: "1.1s" },
-            { left: "42%", bottom: "6%", bg: "#66d3a3", delay: "2s" },
-          ].map((c, i) => (
-            <div
-              key={i}
-              aria-hidden
-              className="pointer-events-none absolute rounded"
-              style={{
-                left: c.left,
-                bottom: c.bottom,
-                width: 44,
-                height: 19,
-                background: c.bg,
-                opacity: 0.85,
-                animation: `sim-intro-cell 3.2s ease-in-out ${c.delay} infinite`,
-              }}
-            />
-          ))}
-          <div className="relative" style={{ maxWidth: 660 }}>
+          <div className="relative" style={{ maxWidth: 620 }}>
             <div
               className="uppercase"
               style={{
@@ -1827,7 +1897,7 @@ export default function SimulationPlayer({
               }}
             >
               {mode === "LESSON" ? "Leçon" : mode === "EXERCISE" ? "Exercice" : "Évaluation"}
-              {scenario.moduleTitle ? ` — ${scenario.moduleTitle}` : ""}
+              {filModule && filModule !== filChapitre ? ` — ${filModule}` : ""}
             </div>
             <h2
               style={{
@@ -1871,6 +1941,21 @@ export default function SimulationPlayer({
               data-control="intro-commencer"
               onClick={() => {
                 setIntroVue(true)
+                // Le plein écran ne peut être demandé que depuis un geste de
+                // l'apprenant : ce clic est le seul moment où l'atelier peut
+                // s'ouvrir en grand tout seul. Réservé au bureau — iOS n'expose
+                // pas l'API et le repli `position:fixed` est capturé par le
+                // `transform` de la page apprenant (piège du 29/07).
+                if (
+                  !immersif &&
+                  !preview &&
+                  typeof document !== "undefined" &&
+                  document.fullscreenEnabled &&
+                  window.innerWidth >= 900
+                ) {
+                  setImmersif(true)
+                  carteRef.current?.requestFullscreen?.().catch(() => setImmersif(false))
+                }
                 // Sans cela le focus clavier reste sur le bouton : la première
                 // frappe de la leçon n'atteint jamais la grille (même piège que
                 // le bouton « Suivant »).
@@ -1905,17 +1990,67 @@ export default function SimulationPlayer({
           </div>
         </div>
       )}
-      {/* En-tête : titre de l'étape et compteur */}
-      <div className="flex flex-wrap items-center gap-x-3 gap-y-1 border-b border-border bg-warm-50 px-4 py-2.5">
-        <span className="text-[10.5px] font-semibold uppercase tracking-wider text-warm-400">
-          {mode === "LESSON" ? "Leçon" : mode === "EXERCISE" ? "Exercice" : "Évaluation"}
-        </span>
-        <span className="min-w-0 flex-1 truncate text-[13px] font-medium text-ink">
-          {scenario.moduleTitle ? `${scenario.moduleTitle} · ` : ""}
-          {scenario.title}
-        </span>
-        <span className="font-mono text-[12px] tabular-nums text-warm-600">
-          {Math.min(index + 1, total)} / {total}
+      {/* Cockpit : une seule barre haute qui porte le repérage et les commandes.
+          Avant, deux bandeaux se superposaient (en-tête ivoire pâle + barre de
+          titre Excel) et la progression tenait dans un « 1 / 8 » gris de 12 px.
+          Le mode évaluation se signalait par un mot beige : il colore désormais
+          toute la barre. */}
+      <div
+        className="flex items-center gap-2 px-3 sm:gap-3"
+        style={{
+          height: 44,
+          background: evaluationNotee ? "#3A2410" : "#10201B",
+          color: "#fff",
+          fontSize: 12,
+        }}
+      >
+        <button
+          type="button"
+          data-control="sim-agrandir"
+          onClick={basculerImmersif}
+          title={immersif ? "Quitter le plein écran (Échap)" : "Passer en plein écran"}
+          aria-label={immersif ? "Quitter le plein écran" : "Passer en plein écran"}
+          className="flex flex-shrink-0 items-center justify-center rounded-lg"
+          style={{ width: 28, height: 28, background: "rgba(255,255,255,.09)", color: "#CFDAD5", fontSize: 13 }}
+        >
+          {immersif ? "⤡" : "⤢"}
+        </button>
+        <div className="min-w-0 flex-1 truncate" style={{ color: "#8FA49C" }}>
+          {evaluationNotee && (
+            <span
+              className="mr-2 rounded-full"
+              style={{ background: "#C6902A", color: "#231604", fontSize: 9.5, fontWeight: 800, padding: "2px 7px", letterSpacing: ".08em" }}
+            >
+              ÉVALUATION NOTÉE
+            </span>
+          )}
+          {filModule && filModule !== filChapitre && <span>{filModule}&nbsp;&nbsp;|&nbsp;&nbsp;</span>}
+          <b style={{ color: "#fff", fontWeight: 600 }}>{filChapitre}</b>
+        </div>
+        {/* Progression : segments quand le chapitre est court (on voit le chemin
+            entier), barre continue au-delà — vingt segments ne se lisent plus. */}
+        {total <= 14 ? (
+          <div className="hidden flex-shrink-0 items-center gap-[3px] sm:flex" aria-hidden>
+            {steps.map((_, i) => (
+              <span
+                key={i}
+                style={{
+                  display: "block",
+                  width: 13,
+                  height: 4,
+                  borderRadius: 9,
+                  background: i < index ? "#4ED08A" : i === index ? "#fff" : "rgba(255,255,255,.16)",
+                }}
+              />
+            ))}
+          </div>
+        ) : (
+          <div className="hidden flex-shrink-0 sm:block" aria-hidden style={{ width: 96, height: 4, borderRadius: 9, background: "rgba(255,255,255,.16)" }}>
+            <span style={{ display: "block", height: "100%", borderRadius: 9, background: "#4ED08A", width: `${Math.round((index / Math.max(1, total)) * 100)}%` }} />
+          </div>
+        )}
+        <span className="flex-shrink-0 tabular-nums" style={{ color: "#8FA49C" }}>
+          {Math.min(index + 1, total)}/{total}
         </span>
       </div>
 
@@ -1939,8 +2074,6 @@ export default function SimulationPlayer({
           {/* Fenêtre Excel simulée */}
           <div className="px-3 pt-3">
             <SimulationChrome
-              immersif={immersif}
-              onToggleImmersif={basculerImmersif}
               tabs={scenario.ribbon}
               state={
                 step?.setup?.ribbon
@@ -1953,10 +2086,6 @@ export default function SimulationPlayer({
               highlight={highlightedControl}
               onControl={handleControl}
               onTabChange={setOnglet}
-              stats={stats}
-              aggregates={step?.setup?.statusBar?.aggregates ?? scenario.statusBar?.aggregates}
-              sheets={sheets}
-              onSheet={handleSheet}
               nameBoxDraft={nameBoxDraft}
               onNameBoxChange={setNameBoxDraft}
               onNameBoxCommit={commitNameBox}
@@ -1968,13 +2097,15 @@ export default function SimulationPlayer({
                 Le relais d'observation est en phase de capture pour arriver avant
                 que la couche n'ait rendu à nouveau. */}
             <div
-              className="relative h-[380px] overflow-hidden rounded-b-lg border border-t-0 border-neutral-300"
+              ref={zoneGrilleRef}
+              className="relative overflow-hidden border border-t-0 border-neutral-300"
+              style={{ height: immersif ? hauteurImmersive : hauteurGrille }}
               onClickCapture={besoins.miseEnPage || besoins.tcd || besoins.graphique ? relaisControleCouche : undefined}
             >
               <ExcelGrid
                 onReady={handleReady}
                 onAction={handleAction}
-                heightPx={immersif ? hauteurImmersive : 380}
+                heightPx={immersif ? hauteurImmersive : hauteurGrille}
               />
               {besoins.miseEnPage && (
                 <PageLayoutLayer
@@ -2028,12 +2159,21 @@ export default function SimulationPlayer({
                   feuille, pas seulement en petit texte sous l'écran. */}
               {halo && hintShown && step?.aide?.text && (
                 <div
-                  className="pointer-events-none absolute max-w-[280px] rounded-lg bg-amber-50 px-2.5 py-1.5 text-[12px] font-medium leading-snug text-amber-900 shadow-md ring-1 ring-amber-300"
-                  style={
-                    halo.top > 130
-                      ? { left: Math.max(4, halo.left), top: halo.top - 8, transform: "translateY(-100%)", zIndex: 30 }
-                      : { left: Math.max(4, halo.left), top: halo.top + halo.height + 8, zIndex: 30 }
-                  }
+                  className="pointer-events-none absolute rounded-lg bg-amber-50 px-2.5 py-1.5 text-[12px] font-medium leading-snug text-amber-900 shadow-md ring-1 ring-amber-300"
+                  style={{
+                    maxWidth: 260,
+                    zIndex: 30,
+                    // Placement qui évite la zone de travail : à DROITE de la cible
+                    // quand la feuille en laisse la place, au-dessus sinon, et en
+                    // dernier recours dessous mais décalée — posée à plat sous la
+                    // cellule, elle recouvrait A2:C3, soit l'essentiel de l'espace
+                    // utile sur téléphone.
+                    ...(largeurGrille - (halo.left + halo.width) > 240
+                      ? { left: halo.left + halo.width + 12, top: Math.max(4, halo.top - 2) }
+                      : halo.top > 120
+                        ? { left: Math.max(4, halo.left), top: halo.top - 10, transform: "translateY(-100%)" }
+                        : { left: Math.max(4, halo.left + halo.width + 10), top: halo.top + halo.height + 10 }),
+                  }}
                 >
                   <span aria-hidden>👉 </span>
                   {step.aide.text}
@@ -2089,6 +2229,15 @@ export default function SimulationPlayer({
 @keyframes sim-intro-cell{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
 `}</style>
             </div>
+            {/* Bas de la fenêtre Excel — SOUS la grille, comme dans le logiciel. */}
+            <SimulationFooter
+              sheets={sheets}
+              onSheet={handleSheet}
+              onControl={handleControl}
+              highlight={highlightedControl}
+              stats={stats}
+              aggregates={step?.setup?.statusBar?.aggregates ?? scenario.statusBar?.aggregates}
+            />
             {besoins.macros && (
               <div className="pt-2" onClickCapture={relaisControleCouche}>
                 <MacroPanel
@@ -2111,16 +2260,41 @@ export default function SimulationPlayer({
             )}
           </div>
 
-          {/* Barre de consigne */}
-          <div className="flex flex-wrap items-start gap-3 border-t border-border px-4 py-3">
-            <div className="min-w-0 flex-1">
+          {/* Bande de consigne : pleine largeur sous la feuille, filet de couleur
+              à gauche qui porte le verdict. Le texte est passé à 15 px — c'est la
+              phrase que l'apprenant relit à chaque geste, elle ne peut pas être
+              plus petite que le contenu de la feuille. */}
+          <div
+            className="flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-border px-4 py-3"
+            style={{
+              borderLeft: `4px solid ${verdict ? (verdict.ok ? "#059669" : "#e11d48") : "#107C41"}`,
+              background: verdict ? (verdict.ok ? "#F2FBF6" : "#FEF4F5") : "#fff",
+              transition: "background-color .25s ease, border-color .25s ease",
+            }}
+          >
+            <span
+              className="flex-shrink-0 rounded-lg uppercase"
+              style={{
+                fontSize: 10.5,
+                fontWeight: 800,
+                letterSpacing: ".06em",
+                color: evaluationNotee ? "#8A5A12" : "#107C41",
+                background: evaluationNotee ? "#FBF1DF" : "#E7F3EB",
+                padding: "5px 9px",
+              }}
+            >
+              Étape {Math.min(index + 1, total)}
+            </span>
+            <div className="min-w-0 flex-1" style={{ fontSize: 15, lineHeight: 1.45 }}>
               {step && <Consigne text={step.consigne} />}
-              {verdict && !verdict.ok && (
-                <p className="mt-1.5 text-[12.5px] text-rose-700">{verdict.message}</p>
-              )}
-              {verdict?.ok && <p className="mt-1.5 text-[12.5px] text-emerald-700">C'est exact.</p>}
-              {mode !== "EVALUATION" && step?.aide?.text && hintShown && (
-                <p className="mt-1.5 text-[12.5px] text-warm-600">{step.aide.text}</p>
+              {/* L'aide ne vit qu'à UN endroit : dans la bulle ancrée à la cible
+                  quand elle peut l'être, ici sinon. Les deux s'affichaient, mot
+                  pour mot, sous la consigne et sur la feuille. */}
+              {mode !== "EVALUATION" && step?.aide?.text && hintShown && !halo && (
+                <p className="mt-1.5 text-[13px] text-warm-600">
+                  <span aria-hidden>👉 </span>
+                  {step.aide.text}
+                </p>
               )}
             </div>
             <div className="flex flex-shrink-0 items-center gap-2">
@@ -2128,7 +2302,7 @@ export default function SimulationPlayer({
                 <button
                   type="button"
                   onClick={revealHint}
-                  className="rounded-lg border border-border px-3 py-1.5 text-[12px] font-medium text-warm-700 hover:bg-warm-50"
+                  className="rounded-lg border border-border px-3 py-1.5 text-[12.5px] font-medium text-warm-700 hover:bg-warm-50"
                 >
                   Un indice
                 </button>
@@ -2137,7 +2311,11 @@ export default function SimulationPlayer({
                 <button
                   type="button"
                   onClick={() => handleAction({ kind: "next" })}
-                  className="rounded-lg bg-primary px-4 py-1.5 text-[12px] font-semibold text-white hover:opacity-90"
+                  // Couleur d'action propre au simulateur : `bg-primary` prenait la
+                  // couleur du partenaire (violette, puis turquoise) au milieu d'un
+                  // univers vert Excel et ivoire.
+                  className="rounded-lg px-4 py-1.5 text-[12.5px] font-semibold text-white"
+                  style={{ background: "#10201B" }}
                 >
                   Suivant
                 </button>

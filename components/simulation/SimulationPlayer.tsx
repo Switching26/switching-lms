@@ -643,6 +643,56 @@ export default function SimulationPlayer({
     return null
   }, [mode, hintShown, step])
 
+  // `showTarget` était déclaré dans 150 aides et n'affichait rien : l'apprenant
+  // bloqué demandait une aide censée pointer la cellule et ne voyait aucun
+  // repère. On calcule le rectangle de la cible avec les métriques d'Univer.
+  const [halo, setHalo] = useState<{ left: number; top: number; width: number; height: number } | null>(null)
+  useEffect(() => {
+    const grid = gridRef.current
+    if (!grid || !step || mode === "EVALUATION" || !hintShown || !step.aide?.showTarget) {
+      setHalo(null)
+      return
+    }
+    const a = step.action
+    const cible =
+      a.type === "TYPE" ? (a.target === "formula-bar" ? null : a.target)
+      : a.type === "CLICK_CELL" ? a.cell
+      : a.type === "GOTO_REF" ? a.ref
+      : a.type === "DRAG_RANGE" ? a.range
+      : a.type === "DEFINE_NAME" ? (a.ref ?? null)
+      : null
+    if (!cible) {
+      setHalo(null)
+      return
+    }
+    // Une plage se surligne d'un coin à l'autre ; une cellule seule suffit.
+    const bornes = cible.split(":")
+    const calculer = () => {
+      const premier = grid.getCellRect(bornes[0])
+      const dernier = grid.getCellRect(bornes[bornes.length - 1])
+      if (!premier || !dernier) return false
+      const left = Math.min(premier.left, dernier.left)
+      const top = Math.min(premier.top, dernier.top)
+      setHalo({
+        left,
+        top,
+        width: Math.max(premier.left + premier.width, dernier.left + dernier.width) - left,
+        height: Math.max(premier.top + premier.height, dernier.top + dernier.height) - top,
+      })
+      return true
+    }
+    // Au tout premier montage le squelette de rendu d'Univer n'existe pas encore
+    // et la géométrie n'est pas calculable : la première étape de chaque leçon
+    // restait alors sans repère. On retente une fois, peu après.
+    if (!calculer()) {
+      const t = window.setTimeout(calculer, 350)
+      return () => window.clearTimeout(t)
+    }
+    // `gridReady` est indispensable : au premier montage la grille n'existe pas
+    // encore, l'effet calculait un halo nul et ne se rejouait jamais — la
+    // première étape de chaque leçon restait sans repère.
+  }, [mode, hintShown, step, index, gridReady])
+
   /* ── Rendu ─────────────────────────────────────────────────────────────── */
 
   if (!step && !finished) {
@@ -712,8 +762,15 @@ export default function SimulationPlayer({
               onNameBoxCommit={commitNameBox}
               onNameBoxCancel={() => setNameBoxDraft(null)}
             />
-            <div className="h-[380px] overflow-hidden rounded-b-lg border border-t-0 border-neutral-300">
+            <div className="relative h-[380px] overflow-hidden rounded-b-lg border border-t-0 border-neutral-300">
               <ExcelGrid onReady={handleReady} onAction={handleAction} />
+              {halo && (
+                <div
+                  aria-hidden
+                  className="pointer-events-none absolute rounded-[3px] ring-2 ring-amber-400 ring-offset-0 animate-pulse"
+                  style={{ left: halo.left, top: halo.top, width: halo.width, height: halo.height }}
+                />
+              )}
             </div>
           </div>
 

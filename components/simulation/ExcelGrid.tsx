@@ -45,6 +45,14 @@ export type GridApi = {
   getFormula: (ref: string) => string
   /** Valeur calculée d'une cellule. */
   getValue: (ref: string) => unknown
+  /**
+   * Rectangle d'une cellule DANS le conteneur de la grille, en pixels CSS.
+   * Calculé depuis les métriques d'Univer — largeurs de colonnes, hauteurs de
+   * lignes, tailles d'en-têtes et défilement — et non depuis le DOM : Univer
+   * rend sur canvas, il n'existe aucun élément par cellule. Sert à surligner
+   * une cible d'aide, et à piloter les gestes en test.
+   */
+  getCellRect: (ref: string) => { left: number; top: number; width: number; height: number } | null
   /** Texte réellement affiché dans la cellule, format de nombre appliqué. */
   getDisplayValue: (ref: string) => string
   /** Applique un format de nombre Excel (pourcentage, monétaire, date…). */
@@ -528,6 +536,36 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
           const brut = (rg as any).getRawValue?.()
           if (typeof brut === "number") return brut
           return rg.getValue?.() ?? null
+        },
+        getCellRect: (ref) => {
+          try {
+            const pos = parseCell(ref)
+            if (!pos) return null
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const sh2 = sheet() as any
+            if (!sh2) return null
+            const sk = sh2.getSkeleton?.()
+            // Les en-têtes ont une taille propre ; sans elles tout est décalé
+            // et un clic calculé tombe dans l'en-tête de lignes.
+            const largeurEnTeteLignes = Number(sk?.rowHeaderWidth ?? 46)
+            const hauteurEnTeteColonnes = Number(sk?.columnHeaderHeight ?? 20)
+            let left = largeurEnTeteLignes
+            for (let c = 0; c < pos.col; c++) left += Number(sh2.getColumnWidth?.(c) ?? 88)
+            let top = hauteurEnTeteColonnes
+            for (let r = 0; r < pos.row; r++) top += Number(sh2.getRowHeight?.(r) ?? 24)
+            // Le défilement décale tout le corps de la grille, pas les en-têtes.
+            const scroll = sh2.getScrollState?.()
+            left -= Number(scroll?.offsetX ?? scroll?.scrollX ?? 0)
+            top -= Number(scroll?.offsetY ?? scroll?.scrollY ?? 0)
+            return {
+              left,
+              top,
+              width: Number(sh2.getColumnWidth?.(pos.col) ?? 88),
+              height: Number(sh2.getRowHeight?.(pos.row) ?? 24),
+            }
+          } catch {
+            return null
+          }
         },
         getDisplayValue: (ref) => {
           try {

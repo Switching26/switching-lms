@@ -54,6 +54,7 @@ import {
   lecturesTcd,
   modifierTcd,
   posterTcd,
+  sourceAChange,
   type EtatTcd,
   type PatchTcd,
   type PosePivot,
@@ -589,6 +590,20 @@ export default function SimulationPlayer({
         }
       }
 
+      // Un tableau croisé ne se recalcule pas tout seul : dès que l'apprenant
+      // corrige une cellule de la plage source, le tableau devient PÉRIMÉ et
+      // garde ses anciens chiffres, comme dans Excel. C'est ce qui donne son sens
+      // à la leçon « cliquez sur Actualiser » — sans cela le bandeau d'alerte
+      // n'apparaît jamais et l'étape reste injouable.
+      const tcdCourant = tcdRef.current
+      if (tcdCourant && !tcdCourant.stale && (observed.kind === "typed" || observed.kind === "stateChange")) {
+        if (sourceAChange(tcdCourant, lireCellule)) {
+          const perime = { ...tcdCourant, stale: true }
+          tcdRef.current = perime
+          setTcd(perime)
+        }
+      }
+
       // Reflet immédiat de la sélection dans la zone Nom et la barre de formule.
       if (observed.kind === "cellClick") {
         setSelection(observed.cell)
@@ -672,7 +687,7 @@ export default function SimulationPlayer({
         setVerdict(v)
       }
     },
-    [step, finished, goNext],
+    [step, finished, goNext, lireCellule],
   )
 
   /* ── Observations des modèles ──────────────────────────────────────────── */

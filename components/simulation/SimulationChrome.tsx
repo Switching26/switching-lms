@@ -29,6 +29,16 @@ const TAB_LABELS: Partial<Record<RibbonTab, string>> = {
   revision: "Révision",
   affichage: "Affichage",
   developpeur: "Développeur",
+  // Onglets contextuels. Sans libellé, l'onglet affichait sa clé technique —
+  // « tableau-creation » — là où Excel écrit une phrase.
+  "tableau-creation": "Analyse du tableau croisé",
+  "graph-creation": "Création de graphique",
+  "graph-mise-en-forme": "Mise en forme du graphique",
+  "graph-analyse": "Analyse du graphique",
+  "entete-pied": "En-tête et pied de page",
+  "image-format": "Format de l'image",
+  "forme-format": "Format de la forme",
+  "donnees-solveur": "Solveur",
 }
 
 type Props = {

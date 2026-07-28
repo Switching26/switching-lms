@@ -588,9 +588,23 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
             let top = hauteurEnTeteColonnes
             for (let r = 0; r < pos.row; r++) top += Number(sh2.getRowHeight?.(r) ?? 24)
             // Le défilement décale tout le corps de la grille, pas les en-têtes.
+            //
+            // ATTENTION au sens de `offsetX` / `offsetY` d'Univer : ce n'est PAS
+            // le défilement total, c'est le reste à l'intérieur de la première
+            // ligne (ou colonne) visible. Le défilement réel vaut donc la hauteur
+            // cumulée des lignes situées AVANT `sheetViewStartRow`, plus ce reste.
+            // Les soustraire seuls revenait à ignorer le défilement : après un
+            // coup de molette, le halo d'aide se posait sur la mauvaise cellule et
+            // un geste calculé tombait à côté.
             const scroll = sh2.getScrollState?.()
-            left -= Number(scroll?.offsetX ?? scroll?.scrollX ?? 0)
-            top -= Number(scroll?.offsetY ?? scroll?.scrollY ?? 0)
+            const debutLigne = Number(scroll?.sheetViewStartRow ?? 0)
+            const debutColonne = Number(scroll?.sheetViewStartColumn ?? 0)
+            let defilementX = Number(scroll?.offsetX ?? 0)
+            let defilementY = Number(scroll?.offsetY ?? 0)
+            for (let c = 0; c < debutColonne; c++) defilementX += Number(sh2.getColumnWidth?.(c) ?? 88)
+            for (let r = 0; r < debutLigne; r++) defilementY += Number(sh2.getRowHeight?.(r) ?? 24)
+            left -= defilementX
+            top -= defilementY
             return {
               left,
               top,

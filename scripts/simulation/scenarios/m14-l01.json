@@ -1,0 +1,178 @@
+{
+  "schemaVersion": 1,
+  "title": "Nommer une plage de cellules",
+  "mode": "LESSON",
+  "moduleTitle": "Noms de cellules",
+  "intro": {
+    "title": "DONNER UN NOM PLUTÔT QU'UNE ADRESSE",
+    "body": "`=SOMME(B2:B13)` ne dit rien. `=SOMME(Ventes)` se lit tout seul. Nommer une plage, c'est écrire des formules qu'on comprend six mois plus tard."
+  },
+  "outro": {
+    "body": "Vous savez nommer une plage, l'employer dans une formule et l'atteindre d'un geste."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Budget",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 140
+        },
+        "cells": {
+          "A1": {
+            "v": "Poste",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Dépense",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Matériel"
+          },
+          "B2": {
+            "v": 4200
+          },
+          "A3": {
+            "v": "Logiciels"
+          },
+          "B3": {
+            "v": 1850
+          },
+          "A4": {
+            "v": "Formation"
+          },
+          "B4": {
+            "v": 3600
+          },
+          "A5": {
+            "v": "Déplacements"
+          },
+          "B5": {
+            "v": 2100
+          },
+          "A6": {
+            "v": "Communication"
+          },
+          "B6": {
+            "v": 1250
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M14-L01-01",
+      "consigne": "À gauche de la barre de formule se trouve la **zone Nom**. Elle affiche pour l'instant `A1`. ==Sélectionnez la plage **B2:B6**== des dépenses.",
+      "action": {
+        "type": "DRAG_RANGE",
+        "range": "B2:B6"
+      },
+      "aide": {
+        "text": "Cliquez sur B2 et faites glisser jusqu'à B6.",
+        "showTarget": true
+      },
+      "feedback": "La zone Nom indique maintenant l'étendue de votre sélection."
+    },
+    {
+      "id": "M14-L01-02",
+      "consigne": "Sans toucher à la sélection, ==cliquez dans la **zone Nom**, tapez `Depenses` et validez avec Entrée==.",
+      "action": {
+        "type": "DEFINE_NAME",
+        "name": "Depenses",
+        "ref": "B2:B6"
+      },
+      "aide": {
+        "text": "La zone Nom est le petit champ à gauche de la barre de formule. Tapez le nom par-dessus la référence affichée.",
+        "showTarget": true
+      },
+      "feedback": "La plage porte désormais un nom. C'est la façon la plus rapide de nommer quelque chose dans Excel."
+    },
+    {
+      "id": "M14-L01-03",
+      "consigne": "Le nom s'utilise comme une plage. En **B8**, ==saisissez `=SOMME(Depenses)`==.",
+      "setup": {
+        "selection": "B8",
+        "cells": {
+          "A8": {
+            "v": "TOTAL",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B8",
+        "accept": [
+          "=SOMME(Depenses)"
+        ],
+        "formulaMode": true
+      },
+      "feedback": "13 000 €. Même résultat que `=SOMME(B2:B6)`, mais la formule se lit comme une phrase."
+    },
+    {
+      "id": "M14-L01-04",
+      "consigne": "En **B9**, ==calculez la dépense moyenne== en réutilisant le nom.",
+      "setup": {
+        "selection": "B9",
+        "cells": {
+          "A9": {
+            "v": "Moyenne",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B9",
+        "accept": [
+          "=MOYENNE(Depenses)"
+        ],
+        "formulaMode": true
+      },
+      "feedback": "2 600 €. Un nom peut servir dans n'importe quelle fonction."
+    },
+    {
+      "id": "M14-L01-05",
+      "consigne": "Un nom sert aussi à se déplacer. ==Tapez `Depenses` dans la zone Nom== et validez.",
+      "action": {
+        "type": "GOTO_REF",
+        "ref": "B2:B6"
+      },
+      "aide": {
+        "text": "Comme pour créer le nom, mais cette fois il existe déjà : Excel sélectionne la plage.",
+        "showTarget": true
+      },
+      "feedback": "Excel a sélectionné la plage. Sur un classeur de plusieurs milliers de lignes, c'est un gain de temps considérable."
+    },
+    {
+      "id": "M14-L01-06",
+      "consigne": "Trois règles de nommage à retenir. Pas d'**espace** — utilisez `_` ou collez les mots. Jamais de nom qui **commence par un chiffre**. Et jamais un nom qui **ressemble à une référence** : `A1` ou `TVA2` sont refusés, car Excel ne saurait plus si vous désignez une cellule ou votre nom.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    }
+  ]
+}

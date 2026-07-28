@@ -43,6 +43,11 @@ export type ObservedAction =
   /** Clic sur un en-tête de colonne ou de ligne : sélectionne tout. */
   | { kind: "selectColumn"; column: string }
   | { kind: "selectRow"; row: number }
+  /** Changement de feuille par clic sur un onglet. */
+  | { kind: "selectSheet"; name: string }
+  /** Référence saisie dans la zone Nom pour atteindre une cellule. */
+  | { kind: "gotoRef"; ref: string }
+  | { kind: "defineName"; name: string; ref: string }
   /**
    * Le classeur a changé. `readings` porte la lecture des cellules attendues par
    * l'étape — c'est le simulateur qui les lit, pour que ce fichier reste pur et
@@ -277,6 +282,44 @@ export function validateStep(
             ok: false,
             reason: "wrong_row",
             message: "Cliquez sur le numéro de la bonne ligne, dans son en-tête.",
+          }
+    }
+
+    case "SELECT_SHEET": {
+      return observed.kind === "selectSheet" &&
+        observed.name.trim().toLocaleUpperCase("fr-FR") === expected.name.trim().toLocaleUpperCase("fr-FR")
+        ? OK
+        : { ok: false, reason: "wrong_sheet", message: "Ce n'est pas la bonne feuille." }
+    }
+
+    case "DEFINE_NAME": {
+      if (observed.kind !== "defineName") {
+        return {
+          ok: false,
+          reason: "not_a_definition",
+          message: "Sélectionnez la plage, puis tapez son nom dans la zone Nom et validez.",
+        }
+      }
+      // Excel ne distingue pas la casse des noms définis.
+      if (observed.name.toUpperCase() !== expected.name.toUpperCase()) {
+        return { ok: false, reason: "wrong_name", message: "Ce n'est pas le nom demandé." }
+      }
+      if (expected.ref && !sameArea(expected.ref, observed.ref)) {
+        return {
+          ok: false,
+          reason: "wrong_named_range",
+          message: "Le nom a été posé sur la mauvaise plage. Vérifiez votre sélection avant de le taper.",
+        }
+      }
+      return OK
+    }
+    case "GOTO_REF": {
+      return observed.kind === "gotoRef" && sameArea(expected.ref, observed.ref)
+        ? OK
+        : {
+            ok: false,
+            reason: "wrong_goto",
+            message: "Saisissez la bonne référence dans la zone Nom, puis validez.",
           }
     }
 

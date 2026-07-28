@@ -1,0 +1,259 @@
+{
+  "schemaVersion": 1,
+  "title": "Références entre feuilles",
+  "mode": "LESSON",
+  "moduleTitle": "Gestion des feuilles et liaisons entre feuilles",
+  "intro": {
+    "title": "CALCULER D'UNE FEUILLE À L'AUTRE",
+    "body": "Une formule n'est pas prisonnière de sa feuille. Elle peut aller chercher une valeur ailleurs dans le classeur — c'est ce qui permet de séparer données et synthèse."
+  },
+  "outro": {
+    "body": "Vous savez bâtir une feuille de synthèse qui se met à jour toute seule."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ],
+    "sheetCount": 3
+  },
+  "workbook": {
+    "fileName": "Bilan annuel",
+    "activeSheetIndex": 2,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Ventes",
+        "columnWidths": {
+          "A": 120
+        },
+        "cells": {
+          "A1": {
+            "v": "Agence",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "CA",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Nord"
+          },
+          "B2": {
+            "v": 120000
+          },
+          "A3": {
+            "v": "Sud"
+          },
+          "B3": {
+            "v": 95000
+          },
+          "A4": {
+            "v": "Est"
+          },
+          "B4": {
+            "v": 76000
+          },
+          "A6": {
+            "v": "TOTAL",
+            "format": {
+              "bold": true
+            }
+          },
+          "B6": {
+            "f": "=SOMME(B2:B4)"
+          }
+        }
+      },
+      {
+        "name": "Charges",
+        "columnWidths": {
+          "A": 120
+        },
+        "cells": {
+          "A1": {
+            "v": "Poste",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Montant",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Salaires"
+          },
+          "B2": {
+            "v": 180000
+          },
+          "A3": {
+            "v": "Loyers"
+          },
+          "B3": {
+            "v": 42000
+          },
+          "A4": {
+            "v": "Divers"
+          },
+          "B4": {
+            "v": 18000
+          },
+          "A6": {
+            "v": "TOTAL",
+            "format": {
+              "bold": true
+            }
+          },
+          "B6": {
+            "f": "=SOMME(B2:B4)"
+          }
+        }
+      },
+      {
+        "name": "Synthèse",
+        "columnWidths": {
+          "A": 150
+        },
+        "cells": {
+          "A1": {
+            "v": "SYNTHÈSE ANNUELLE",
+            "format": {
+              "bold": true
+            }
+          },
+          "A3": {
+            "v": "Chiffre d'affaires",
+            "format": {
+              "bold": true
+            }
+          },
+          "A4": {
+            "v": "Charges",
+            "format": {
+              "bold": true
+            }
+          },
+          "A5": {
+            "v": "Résultat",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M15-L02-01",
+      "consigne": "Trois feuilles : les ventes, les charges, et cette **Synthèse** vide. On va la remplir **sans recopier un seul chiffre**. En **B3**, ==saisissez `=Ventes!B6`==.",
+      "setup": {
+        "selection": "B3"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B3",
+        "accept": [
+          "=Ventes!B6"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Le nom de la feuille, un point d'exclamation, puis la cellule.",
+        "showTarget": true
+      },
+      "feedback": "291 000 €, récupéré depuis la feuille Ventes. Le point d'exclamation sépare la feuille de la cellule."
+    },
+    {
+      "id": "M15-L02-02",
+      "consigne": "En **B4**, ==récupérez le total des charges== de la même façon.",
+      "setup": {
+        "selection": "B4"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B4",
+        "accept": [
+          "=Charges!B6"
+        ],
+        "formulaMode": true
+      },
+      "feedback": "240 000 €."
+    },
+    {
+      "id": "M15-L02-03",
+      "consigne": "En **B5**, ==calculez le résultat== : le chiffre d'affaires moins les charges.",
+      "setup": {
+        "selection": "B5"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B5",
+        "accept": [
+          "=B3-B4"
+        ],
+        "formulaMode": true
+      },
+      "feedback": "51 000 € de résultat. Votre synthèse est vivante : modifiez une vente et elle suit."
+    },
+    {
+      "id": "M15-L02-04",
+      "consigne": "Prouvons-le. ==Allez sur l'onglet **Ventes**==.",
+      "action": {
+        "type": "SELECT_SHEET",
+        "name": "Ventes"
+      },
+      "aide": {
+        "text": "Premier onglet en bas.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M15-L02-05",
+      "consigne": "L'agence Est a mieux fait que prévu. En **B4**, ==corrigez à `90000`==.",
+      "setup": {
+        "selection": "B4"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B4",
+        "accept": [
+          "90000"
+        ]
+      },
+      "feedback": "Le total de la feuille passe à 305 000 €."
+    },
+    {
+      "id": "M15-L02-06",
+      "consigne": "==Retournez sur **Synthèse**== et regardez le résultat.",
+      "action": {
+        "type": "SELECT_SHEET",
+        "name": "Synthèse"
+      },
+      "aide": {
+        "text": "Le troisième onglet.",
+        "showTarget": true
+      },
+      "feedback": "Le résultat est passé de 51 000 à 65 000 € tout seul. Vous n'avez touché qu'une cellule, dans une autre feuille."
+    },
+    {
+      "id": "M15-L02-07",
+      "consigne": "Une précaution : si le nom d'une feuille contient un **espace**, il faut l'encadrer d'apostrophes — `='Ventes 2026'!B6`. Excel le fait pour vous quand vous construisez la formule en cliquant, ce qui est une bonne raison de procéder ainsi.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    }
+  ]
+}

@@ -42,6 +42,14 @@ export type GridApi = {
   getSelection: () => string
   /** Verrouille l'édition : seules ces cellules restent modifiables. */
   setEditableCells: (refs: string[] | null) => void
+  /** Feuilles du classeur, dans l'ordre, avec celle qui est active. */
+  getSheets: () => Array<{ name: string; active: boolean }>
+  activateSheet: (name: string) => void
+  insertSheet: (name?: string) => void
+  renameSheet: (oldName: string, newName: string) => void
+  /** Noms définis (plages nommées) du classeur. */
+  defineName: (name: string, ref: string) => boolean
+  getDefinedNames: () => Array<{ name: string; ref: string }>
   /** Opérations sur les lignes et colonnes, pour les boutons du ruban. */
   insertRowBefore: (row: number) => void
   insertColumnBefore: (col: number) => void
@@ -188,11 +196,49 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
           if (!sh) return
           const first = wb.sheets[wb.activeSheetIndex ?? 0]
           if (!first) return
+          // Univer nomme sa feuille par défaut « Sheet1 » : on impose le nom du
+          // scénario, sans quoi l'apprenant voit de l'anglais dans un Excel
+          // français.
+          try {
+            if (first.name && sh.getSheetName?.() !== first.name) sh.setName?.(first.name)
+          } catch {
+            /* sans conséquence sur le contenu */
+          }
+          // Feuilles supplémentaires déclarées par le scénario.
+          for (let i = 0; i < wb.sheets.length; i++) {
+            if (i === (wb.activeSheetIndex ?? 0)) continue
+            const autre = wb.sheets[i]
+            try {
+              const existante = univerAPI.getActiveWorkbook()?.getSheetByName?.(autre.name)
+              if (!existante) univerAPI.getActiveWorkbook()?.insertSheet?.(autre.name)
+              const cible = univerAPI.getActiveWorkbook()?.getSheetByName?.(autre.name)
+              if (cible && autre.cells) {
+                for (const [ref, st] of Object.entries(autre.cells)) {
+                  const rg = cible.getRange?.(ref)
+                  if (!rg) continue
+                  if (st.f !== undefined) rg.setValue?.({ f: frToEngine(st.f) })
+                  else if (st.v !== undefined) rg.setValue?.(st.v)
+                }
+              }
+            } catch {
+              /* une feuille en trop ne doit pas empêcher la leçon de démarrer */
+            }
+          }
+          // On revient sur la feuille active déclarée, puis on pose les données.
+          try {
+            const active = univerAPI.getActiveWorkbook()?.getSheetByName?.(first.name)
+            if (active) univerAPI.getActiveWorkbook()?.setActiveSheet?.(active)
+          } catch {
+            /* sans conséquence */
+          }
           applyCells(first.cells)
           if (wb.selection) api.setSelection(wb.selection)
         },
         applyCells,
         setSelection: (ref) => {
+          // Univer produit une plage aberrante si on lui passe autre chose
+          // qu'une référence (un nom défini, un libellé) : on refuse en amont.
+          if (!/^\$?[A-Za-z]{1,3}\$?[0-9]{1,7}(:\$?[A-Za-z]{1,3}\$?[0-9]{1,7})?$/.test(ref.trim())) return
           const sh = sheet()
           const rg = sh?.getRange(ref)
           rg?.activate?.()
@@ -219,6 +265,69 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
         },
         setEditableCells: (refs) => {
           editableRef.current = refs === null ? null : new Set(refs.map((r) => r.toUpperCase()))
+        },
+        getSheets: () => {
+          try {
+            const wb = univerAPI.getActiveWorkbook()
+            const actif = wb?.getActiveSheet?.()?.getSheetName?.()
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            return (wb?.getSheets?.() ?? []).map((sh: any) => {
+              const name = sh?.getSheetName?.() ?? ""
+              return { name, active: name === actif }
+            })
+          } catch {
+            return []
+          }
+        },
+        activateSheet: (name) => {
+          try {
+            const wb = univerAPI.getActiveWorkbook()
+            const sh = wb?.getSheetByName?.(name)
+            if (sh) wb?.setActiveSheet?.(sh)
+          } catch {
+            /* feuille introuvable : on ne change rien */
+          }
+        },
+        insertSheet: (name) => {
+          try {
+            univerAPI.getActiveWorkbook()?.insertSheet?.(name)
+          } catch {
+            /* sans conséquence */
+          }
+        },
+        renameSheet: (oldName, newName) => {
+          try {
+            univerAPI.getActiveWorkbook()?.getSheetByName?.(oldName)?.setName?.(newName)
+          } catch {
+            /* sans conséquence */
+          }
+        },
+        defineName: (name, ref) => {
+          // Excel refuse les noms qui pourraient être confondus avec une
+          // référence, ceux qui commencent par un chiffre ou contiennent un
+          // espace. On applique les mêmes règles pour que la leçon soit juste.
+          if (!/^[A-Za-z_\u00C0-\u024F][A-Za-z0-9_.\u00C0-\u024F]*$/.test(name)) return false
+          if (/^\$?[A-Za-z]{1,3}\$?[0-9]{1,7}$/.test(name)) return false
+          try {
+            // Une plage nommée se déclare au niveau du classeur, avec la feuille
+            // active en préfixe pour que la référence reste valide partout.
+            const sh = sheet()?.getSheetName?.() ?? "Feuil1"
+            univerAPI.getActiveWorkbook()?.insertDefinedName?.(name, `${sh}!${ref}`)
+            return true
+          } catch {
+            return false
+          }
+        },
+        getDefinedNames: () => {
+          try {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            return (univerAPI.getActiveWorkbook()?.getDefinedNames?.() ?? []).map((d: any) => ({
+              name: d?.getName?.() ?? "",
+              ref: d?.getFormulaOrRefString?.() ?? "",
+            }))
+          } catch {
+            return []
+          }
         },
         insertRowBefore: (row) => { try { sheet()?.insertRowBefore?.(row) } catch {} },
         insertColumnBefore: (col) => { try { sheet()?.insertColumnBefore?.(col) } catch {} },

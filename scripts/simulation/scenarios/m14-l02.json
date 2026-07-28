@@ -1,0 +1,203 @@
+{
+  "schemaVersion": 1,
+  "title": "Nommer un paramètre de calcul",
+  "mode": "LESSON",
+  "moduleTitle": "Noms de cellules",
+  "intro": {
+    "title": "LE NOM QUI REMPLACE LE $",
+    "body": "Un nom désigne toujours la même cellule, où qu'on recopie la formule. C'est un absolu qui, en plus, se lit."
+  },
+  "outro": {
+    "body": "Vous savez employer un nom comme paramètre de calcul, à la place d'une référence absolue."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Tarifs",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 140
+        },
+        "cells": {
+          "A1": {
+            "v": "Taux de TVA",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": 0.2
+          },
+          "A3": {
+            "v": "Article",
+            "format": {
+              "bold": true
+            }
+          },
+          "B3": {
+            "v": "Prix HT",
+            "format": {
+              "bold": true
+            }
+          },
+          "C3": {
+            "v": "Prix TTC",
+            "format": {
+              "bold": true
+            }
+          },
+          "A4": {
+            "v": "Clavier"
+          },
+          "B4": {
+            "v": 45
+          },
+          "A5": {
+            "v": "Souris"
+          },
+          "B5": {
+            "v": 25
+          },
+          "A6": {
+            "v": "Écran"
+          },
+          "B6": {
+            "v": 180
+          },
+          "A7": {
+            "v": "Casque"
+          },
+          "B7": {
+            "v": 75
+          },
+          "A8": {
+            "v": "Webcam"
+          },
+          "B8": {
+            "v": 60
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M14-L02-01",
+      "consigne": "Le taux de TVA est en **B1**. ==Cliquez sur **B1**== pour la sélectionner.",
+      "action": {
+        "type": "CLICK_CELL",
+        "cell": "B1"
+      },
+      "aide": {
+        "text": "Un simple clic sur la cellule du taux.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M14-L02-02",
+      "consigne": "==Nommez-la `Taux_TVA`== depuis la zone Nom.",
+      "action": {
+        "type": "DEFINE_NAME",
+        "name": "Taux_TVA",
+        "ref": "B1"
+      },
+      "aide": {
+        "text": "Zone Nom, on tape le nom, Entrée. Un nom peut porter sur une seule cellule.",
+        "showTarget": true
+      },
+      "feedback": "Un nom sur une cellule unique : c'est le cas le plus utile au quotidien."
+    },
+    {
+      "id": "M14-L02-03",
+      "consigne": "En **C4**, ==calculez le prix TTC du clavier== en utilisant le nom : `=B4*(1+Taux_TVA)`.",
+      "setup": {
+        "selection": "C4"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "C4",
+        "accept": [
+          "=B4*(1+Taux_TVA)",
+          "=B4+B4*Taux_TVA"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Le prix HT multiplié par 1 plus le taux.",
+        "showTarget": true
+      },
+      "feedback": "54 €. Remarquez : aucun `$` à écrire."
+    },
+    {
+      "id": "M14-L02-04",
+      "consigne": "==Recopiez **C4** jusqu'en **C8**== avec la poignée de recopie.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "C5": {
+            "anyOf": [
+              "=B5*(1+Taux_TVA)",
+              "=B5+B5*Taux_TVA"
+            ],
+            "v": 30
+          },
+          "C6": {
+            "anyOf": [
+              "=B6*(1+Taux_TVA)",
+              "=B6+B6*Taux_TVA"
+            ],
+            "v": 216
+          },
+          "C8": {
+            "anyOf": [
+              "=B8*(1+Taux_TVA)",
+              "=B8+B8*Taux_TVA"
+            ],
+            "v": 72
+          }
+        }
+      },
+      "aide": {
+        "text": "Poignée en bas à droite de C4, tirer vers le bas jusqu'à C8."
+      },
+      "feedback": "Toutes les lignes sont justes. Le nom n'a pas bougé d'une ligne, exactement comme `$B$1` — mais il dit ce qu'il est."
+    },
+    {
+      "id": "M14-L02-05",
+      "consigne": "L'autre bénéfice arrive maintenant. Le taux passe à 21 %. ==Corrigez **B1** à `0,21`==.",
+      "setup": {
+        "selection": "B1"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B1",
+        "accept": [
+          "0,21",
+          "0.21",
+          "21%"
+        ]
+      },
+      "feedback": "Les cinq prix TTC se recalculent d'un coup. Un paramètre, un seul endroit à modifier."
+    },
+    {
+      "id": "M14-L02-06",
+      "consigne": "À retenir : dès qu'une valeur revient dans plusieurs formules — un taux, un seuil, un coefficient — **isolez-la dans une cellule et nommez-la**. Vous supprimez d'un même geste le risque d'oubli lors d'une mise à jour et la relecture pénible des `$`.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    }
+  ]
+}

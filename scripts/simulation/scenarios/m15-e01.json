@@ -1,0 +1,241 @@
+{
+  "schemaVersion": 1,
+  "title": "Exercice · Consolider deux feuilles",
+  "mode": "EXERCISE",
+  "moduleTitle": "Gestion des feuilles et liaisons entre feuilles",
+  "intro": {
+    "title": "À VOUS",
+    "body": "Deux trimestres dans deux feuilles, une synthèse à bâtir."
+  },
+  "outro": {
+    "body": "Exercice terminé."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ],
+    "sheetCount": 3
+  },
+  "workbook": {
+    "fileName": "Suivi semestre",
+    "activeSheetIndex": 2,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "T1",
+        "columnWidths": {
+          "A": 110
+        },
+        "cells": {
+          "A1": {
+            "v": "Mois",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "CA",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Janvier"
+          },
+          "B2": {
+            "v": 25500
+          },
+          "A3": {
+            "v": "Février"
+          },
+          "B3": {
+            "v": 32000
+          },
+          "A4": {
+            "v": "Mars"
+          },
+          "B4": {
+            "v": 41500
+          }
+        }
+      },
+      {
+        "name": "T2",
+        "columnWidths": {
+          "A": 110
+        },
+        "cells": {
+          "A1": {
+            "v": "Mois",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "CA",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Avril"
+          },
+          "B2": {
+            "v": 35000
+          },
+          "A3": {
+            "v": "Mai"
+          },
+          "B3": {
+            "v": 48000
+          },
+          "A4": {
+            "v": "Juin"
+          },
+          "B4": {
+            "v": 26000
+          }
+        }
+      },
+      {
+        "name": "Semestre",
+        "columnWidths": {
+          "A": 150
+        },
+        "cells": {
+          "A1": {
+            "v": "BILAN SEMESTRIEL",
+            "format": {
+              "bold": true
+            }
+          },
+          "A3": {
+            "v": "Trimestre 1",
+            "format": {
+              "bold": true
+            }
+          },
+          "A4": {
+            "v": "Trimestre 2",
+            "format": {
+              "bold": true
+            }
+          },
+          "A5": {
+            "v": "Total semestre",
+            "format": {
+              "bold": true
+            }
+          },
+          "A6": {
+            "v": "Meilleur trimestre",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M15-E01-01",
+      "consigne": "En **B3** de la feuille Semestre, obtenez le **chiffre d'affaires du premier trimestre**, sans recopier les chiffres.",
+      "setup": {
+        "selection": "B3"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B3",
+        "accept": [
+          "=SOMME(T1!B2:B4)",
+          "=T1!B2+T1!B3+T1!B4"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Une somme peut porter sur une plage d'une autre feuille."
+      },
+      "feedback": "99 000 €."
+    },
+    {
+      "id": "M15-E01-02",
+      "consigne": "En **B4**, faites de même pour le **second trimestre**.",
+      "setup": {
+        "selection": "B4"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B4",
+        "accept": [
+          "=SOMME(T2!B2:B4)",
+          "=T2!B2+T2!B3+T2!B4"
+        ],
+        "formulaMode": true
+      },
+      "feedback": "109 000 €."
+    },
+    {
+      "id": "M15-E01-03",
+      "consigne": "En **B5**, calculez le **total du semestre**, et en **B6** affichez le **montant du meilleur trimestre**.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "B5": {
+            "v": 208000
+          },
+          "B6": {
+            "v": 109000
+          }
+        }
+      },
+      "aide": {
+        "text": "Une somme pour l'un, une fonction de maximum pour l'autre."
+      },
+      "feedback": "208 000 € au semestre, et le second trimestre est le meilleur."
+    },
+    {
+      "id": "M15-E01-04",
+      "consigne": "Vérifiez que votre synthèse est bien vivante : allez sur la feuille **T2** et portez le mois de **juin à 40000**.",
+      "action": {
+        "type": "SELECT_SHEET",
+        "name": "T2"
+      },
+      "aide": {
+        "text": "Deuxième onglet en bas."
+      }
+    },
+    {
+      "id": "M15-E01-05",
+      "consigne": "Corrigez le chiffre de **juin**.",
+      "setup": {
+        "selection": "B4"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B4",
+        "accept": [
+          "40000"
+        ]
+      },
+      "feedback": "Revenez sur Semestre : le total doit maintenant afficher 222 000 € sans que vous y touchiez."
+    },
+    {
+      "id": "M15-E01-06",
+      "consigne": "Retournez sur la feuille **Semestre** pour le constater.",
+      "action": {
+        "type": "SELECT_SHEET",
+        "name": "Semestre"
+      },
+      "aide": {
+        "text": "Le troisième onglet."
+      },
+      "feedback": "222 000 €. Une seule cellule modifiée, toute la synthèse à jour."
+    }
+  ]
+}

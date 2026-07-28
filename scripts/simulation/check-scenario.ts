@@ -160,6 +160,14 @@ function checkStep(s: SimulationStep, i: number, seen: Set<string>, mode: string
       if (!Number.isInteger(a.row) || a.row < 1) err(`${where} : numéro de ligne invalide.`)
       break
 
+    case "SELECT_SHEET":
+      if (!a.name.trim()) err(`${where} : nom de feuille vide.`)
+      break
+
+    case "GOTO_REF":
+      checkRef("référence", a.ref, where)
+      break
+
     case "EXPECT_STATE": {
       const refs = Object.entries(a.cells)
       if (refs.length === 0) {
@@ -195,6 +203,9 @@ function checkStep(s: SimulationStep, i: number, seen: Set<string>, mode: string
     "EXPECT_STATE",
     "SELECT_COLUMN",
     "SELECT_ROW",
+    "SELECT_SHEET",
+    "GOTO_REF",
+  "DEFINE_NAME",
   ])
   if (!OBSERVABLE.has(a.type)) {
     err(
@@ -272,6 +283,7 @@ function checkScenario(sc: SimulationScenario) {
     "acc-format-largeur",
     "acc-format-masquer",
     "acc-gras",
+    "ui-nouvelle-feuille",
   ])
   for (const s of sc.steps) {
     if (s.action.type === "CLICK_CONTROL" && !KNOWN_CONTROLS.has(s.action.control)) {

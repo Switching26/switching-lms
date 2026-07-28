@@ -1,0 +1,206 @@
+{
+  "schemaVersion": 1,
+  "title": "Travailler sur plusieurs feuilles",
+  "mode": "LESSON",
+  "moduleTitle": "Gestion des feuilles et liaisons entre feuilles",
+  "intro": {
+    "title": "UN CLASSEUR, PLUSIEURS FEUILLES",
+    "body": "Un classeur Excel n'est pas une feuille : c'est un dossier de feuilles. Bien les organiser vaut mieux qu'entasser tout au même endroit."
+  },
+  "outro": {
+    "body": "Vous savez créer, renommer et naviguer entre les feuilles d'un classeur."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ],
+    "sheetCount": 2
+  },
+  "workbook": {
+    "fileName": "Bilan annuel",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 120
+        },
+        "cells": {
+          "A1": {
+            "v": "Agence",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "CA",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Nord"
+          },
+          "B2": {
+            "v": 120000
+          },
+          "A3": {
+            "v": "Sud"
+          },
+          "B3": {
+            "v": 95000
+          },
+          "A4": {
+            "v": "Est"
+          },
+          "B4": {
+            "v": 76000
+          }
+        }
+      },
+      {
+        "name": "Charges",
+        "columnWidths": {
+          "A": 120
+        },
+        "cells": {
+          "A1": {
+            "v": "Poste",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Montant",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Salaires"
+          },
+          "B2": {
+            "v": 180000
+          },
+          "A3": {
+            "v": "Loyers"
+          },
+          "B3": {
+            "v": 42000
+          },
+          "A4": {
+            "v": "Divers"
+          },
+          "B4": {
+            "v": 18000
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M15-L01-01",
+      "consigne": "En bas de la fenêtre, deux **onglets** : la feuille des agences et celle des charges. ==Cliquez sur l'onglet **Charges**== pour l'afficher.",
+      "action": {
+        "type": "SELECT_SHEET",
+        "name": "Charges"
+      },
+      "aide": {
+        "text": "Les onglets se trouvent tout en bas, sous la grille.",
+        "showTarget": true
+      },
+      "feedback": "Un autre tableau, dans le même fichier. Les deux feuilles coexistent sans se gêner."
+    },
+    {
+      "id": "M15-L01-02",
+      "consigne": "En **B6** de cette feuille, ==totalisez les charges==.",
+      "setup": {
+        "selection": "B6",
+        "cells": {
+          "A6": {
+            "v": "TOTAL",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B6",
+        "accept": [
+          "=SOMME(B2:B4)",
+          "=B2+B3+B4"
+        ],
+        "formulaMode": true
+      },
+      "feedback": "240 000 € de charges."
+    },
+    {
+      "id": "M15-L01-03",
+      "consigne": "==Revenez sur l'onglet **Feuil1**==, celui des agences.",
+      "action": {
+        "type": "SELECT_SHEET",
+        "name": "Feuil1"
+      },
+      "aide": {
+        "text": "Le premier onglet en bas à gauche.",
+        "showTarget": true
+      },
+      "feedback": "Votre saisie dans Charges est bien conservée : chaque feuille garde son contenu."
+    },
+    {
+      "id": "M15-L01-04",
+      "consigne": "En **B6**, ==totalisez le chiffre d'affaires== des trois agences.",
+      "setup": {
+        "selection": "B6",
+        "cells": {
+          "A6": {
+            "v": "TOTAL",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B6",
+        "accept": [
+          "=SOMME(B2:B4)",
+          "=B2+B3+B4"
+        ],
+        "formulaMode": true
+      },
+      "feedback": "291 000 € de chiffre d'affaires."
+    },
+    {
+      "id": "M15-L01-05",
+      "consigne": "Pour ajouter une feuille, ==cliquez sur le **+**== à droite des onglets.",
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "ui-nouvelle-feuille"
+      },
+      "aide": {
+        "text": "Le petit plus juste après le dernier onglet.",
+        "showTarget": true
+      },
+      "feedback": "Une feuille vierge est créée. En pratique, on la renomme aussitôt : un classeur avec « Feuil2, Feuil3, Feuil4 » devient illisible en quelques semaines."
+    },
+    {
+      "id": "M15-L01-06",
+      "consigne": "Bonne pratique : **une feuille = un sujet**, et un nom qui dit lequel. Les données d'un côté, les calculs de l'autre, les paramètres ailleurs. C'est ce qui rend un classeur reprenable par quelqu'un d'autre — ou par vous dans six mois.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    }
+  ]
+}

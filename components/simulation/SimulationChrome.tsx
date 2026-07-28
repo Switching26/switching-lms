@@ -62,6 +62,14 @@ type Props = {
   } | null
   /** Agrégats à afficher, déclarés par le scénario. */
   aggregates?: string[]
+  /** Feuilles du classeur, pour les onglets du bas. */
+  sheets?: Array<{ name: string; active: boolean }>
+  onSheet?: (name: string) => void
+  /** Saisie en cours dans la zone Nom. null = affiche la sélection courante. */
+  nameBoxDraft?: string | null
+  onNameBoxChange?: (text: string) => void
+  onNameBoxCommit?: () => void
+  onNameBoxCancel?: () => void
 }
 
 export default function SimulationChrome({
@@ -78,6 +86,12 @@ export default function SimulationChrome({
   editing,
   stats,
   aggregates,
+  sheets,
+  onSheet,
+  nameBoxDraft,
+  onNameBoxChange,
+  onNameBoxCommit,
+  onNameBoxCancel,
 }: Props) {
   const activeTab = state?.activeTab ?? tabs[0] ?? "accueil"
   const disabled = state?.disabled ?? {}
@@ -230,9 +244,25 @@ export default function SimulationChrome({
 
       {/* Barre de formule */}
       <div className="flex items-stretch border-t border-neutral-200 bg-white">
-        <div className="flex w-24 flex-shrink-0 items-center justify-center border-r border-neutral-200 px-2 text-[11.5px] text-neutral-700">
-          {selection || "A1"}
-        </div>
+        {/* Zone Nom SAISISSABLE : dans Excel elle sert autant à lire où l'on est
+            qu'à s'y rendre. Sur un tableau de dix mille lignes, taper la référence
+            est le seul moyen raisonnable d'atteindre une cellule. */}
+        <input
+          value={nameBoxDraft ?? selection ?? "A1"}
+          onChange={(e) => onNameBoxChange?.(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault()
+              onNameBoxCommit?.()
+            } else if (e.key === "Escape") {
+              e.preventDefault()
+              onNameBoxCancel?.()
+            }
+          }}
+          readOnly={!onNameBoxChange}
+          aria-label="Zone Nom"
+          className="w-24 flex-shrink-0 border-r border-neutral-200 px-2 text-center text-[11.5px] text-neutral-700 outline-none focus:bg-emerald-50"
+        />
         <div className="flex flex-shrink-0 items-center gap-0.5 border-r border-neutral-200 px-1">
           <button
             type="button"
@@ -296,6 +326,42 @@ export default function SimulationChrome({
           className="min-w-0 flex-1 px-2 py-1 font-mono text-[12px] text-neutral-800 outline-none"
         />
       </div>
+
+      {/* Onglets de feuille. Un classeur multi-feuilles est la base de
+          l'organisation d'un travail Excel, et les références inter-feuilles en
+          dépendent. */}
+      {sheets && sheets.length > 0 && (
+        <div className="flex items-center gap-1 border-t border-neutral-200 bg-neutral-50 px-2 py-1">
+          {sheets.map((sh) => (
+            <button
+              key={sh.name}
+              type="button"
+              aria-label={`Feuille ${sh.name}`}
+              onClick={() => onSheet?.(sh.name)}
+              className={[
+                "rounded-t px-2.5 py-0.5 text-[11.5px] transition-colors",
+                sh.active
+                  ? "border border-b-white border-neutral-200 bg-white font-medium text-emerald-800"
+                  : "text-neutral-600 hover:bg-neutral-100",
+              ].join(" ")}
+            >
+              {sh.name}
+            </button>
+          ))}
+          <button
+            type="button"
+            title="Nouvelle feuille"
+            aria-label="Nouvelle feuille"
+            onClick={() => onControl("ui-nouvelle-feuille")}
+            className={[
+              "rounded px-1.5 py-0.5 text-[13px] leading-none text-neutral-500 hover:bg-neutral-100",
+              highlight === "ui-nouvelle-feuille" ? "ring-2 ring-amber-400 animate-pulse" : "",
+            ].join(" ")}
+          >
+            +
+          </button>
+        </div>
+      )}
 
       {/* Barre d'état : agrégats de la sélection, sans écrire aucune formule.
           C'est un vrai geste Excel que beaucoup d'utilisateurs ignorent, et il

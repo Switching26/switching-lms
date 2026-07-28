@@ -173,6 +173,15 @@ export type SimulationAction =
   | { type: "SELECT_COLUMN"; column: string }
   /** Sélection d'une ligne entière par son en-tête, ex. { row: 3 }. */
   | { type: "SELECT_ROW"; row: number }
+  /** Changement de feuille par son onglet. */
+  | { type: "SELECT_SHEET"; name: string }
+  /** Atteindre une cellule en saisissant sa référence dans la zone Nom. */
+  | { type: "GOTO_REF"; ref: string }
+  /**
+   * Nommer la sélection via la zone Nom. `ref` est facultatif : quand il est
+   * fourni, la plage nommée doit correspondre, sinon on se contente du nom.
+   */
+  | { type: "DEFINE_NAME"; name: string; ref?: string }
   /** Clic sur une cellule (sélection). */
   | { type: "CLICK_CELL"; cell: CellRef }
   /** Clic sur une cellule avec modificateur : sélection disjointe, extension. */

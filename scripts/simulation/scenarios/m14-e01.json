@@ -1,0 +1,205 @@
+{
+  "schemaVersion": 1,
+  "title": "Exercice · Travailler avec des noms",
+  "mode": "EXERCISE",
+  "moduleTitle": "Noms de cellules",
+  "intro": {
+    "title": "À VOUS",
+    "body": "Une remise à appliquer, deux noms à créer."
+  },
+  "outro": {
+    "body": "Exercice terminé."
+  },
+  "ribbon": [
+    "accueil"
+  ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ]
+  },
+  "workbook": {
+    "fileName": "Commandes",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 150
+        },
+        "cells": {
+          "A1": {
+            "v": "Remise fidélité",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": 0.15
+          },
+          "A3": {
+            "v": "Client",
+            "format": {
+              "bold": true
+            }
+          },
+          "B3": {
+            "v": "Montant",
+            "format": {
+              "bold": true
+            }
+          },
+          "C3": {
+            "v": "Après remise",
+            "format": {
+              "bold": true
+            }
+          },
+          "A4": {
+            "v": "Dupuis"
+          },
+          "B4": {
+            "v": 1200
+          },
+          "A5": {
+            "v": "Lemoine"
+          },
+          "B5": {
+            "v": 850
+          },
+          "A6": {
+            "v": "Nabet"
+          },
+          "B6": {
+            "v": 2400
+          },
+          "A7": {
+            "v": "Ferrand"
+          },
+          "B7": {
+            "v": 1600
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M14-E01-01",
+      "consigne": "Nommez la cellule du taux de remise **Remise**.",
+      "setup": {
+        "selection": "B1"
+      },
+      "action": {
+        "type": "DEFINE_NAME",
+        "name": "Remise",
+        "ref": "B1"
+      },
+      "aide": {
+        "text": "Sélection déjà posée sur B1 : il reste à taper le nom dans la zone Nom."
+      }
+    },
+    {
+      "id": "M14-E01-02",
+      "consigne": "Sélectionnez les quatre montants et nommez cette plage **Montants**.",
+      "setup": {
+        "selection": "B4:B7"
+      },
+      "action": {
+        "type": "DEFINE_NAME",
+        "name": "Montants",
+        "ref": "B4:B7"
+      },
+      "aide": {
+        "text": "Même geste, sur une plage de quatre cellules cette fois."
+      }
+    },
+    {
+      "id": "M14-E01-03",
+      "consigne": "En **C4**, calculez le montant **après remise**, puis recopiez jusqu'en **C7**. Utilisez le nom **Remise** dans votre formule.",
+      "setup": {
+        "selection": "C4"
+      },
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "C4": {
+            "v": 1020
+          },
+          "C5": {
+            "v": 722.5
+          },
+          "C6": {
+            "v": 2040
+          },
+          "C7": {
+            "v": 1360
+          }
+        }
+      },
+      "aide": {
+        "text": "Le montant multiplié par 1 moins la remise."
+      },
+      "feedback": "Les quatre montants remisés sont justes."
+    },
+    {
+      "id": "M14-E01-04",
+      "consigne": "En **B9**, calculez le **total des montants avant remise** en utilisant le nom **Montants**.",
+      "setup": {
+        "selection": "B9",
+        "cells": {
+          "A9": {
+            "v": "Total avant remise",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B9",
+        "accept": [
+          "=SOMME(Montants)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Une somme, mais sur le nom plutôt que sur les références."
+      },
+      "feedback": "6 050 €."
+    },
+    {
+      "id": "M14-E01-05",
+      "consigne": "La remise passe à **20 %**. Corrigez le paramètre — et rien d'autre.",
+      "setup": {
+        "selection": "B1"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B1",
+        "accept": [
+          "0,2",
+          "0.2",
+          "20%"
+        ]
+      },
+      "feedback": "Une cellule modifiée, quatre lignes à jour. C'est tout l'intérêt d'un paramètre nommé."
+    },
+    {
+      "id": "M14-E01-06",
+      "consigne": "Dernier réflexe : utilisez la zone Nom pour **atteindre la plage Montants**.",
+      "action": {
+        "type": "GOTO_REF",
+        "ref": "B4:B7"
+      },
+      "aide": {
+        "text": "Tapez le nom de la plage dans la zone Nom et validez."
+      },
+      "feedback": "Vous savez créer des noms, les employer et les utiliser pour naviguer."
+    }
+  ]
+}

@@ -128,6 +128,9 @@ export default function SimulationPlayer({
   // d'état d'Excel affiche, et la leçon « calculs à la volée » repose dessus.
   const [stats, setStats] = useState<ReturnType<GridApi["getSelectionStats"]>>(null)
   const [finished, setFinished] = useState(false)
+  // Saisie en cours dans la zone Nom. null = on y affiche la sélection courante.
+  const [nameBoxDraft, setNameBoxDraft] = useState<string | null>(null)
+  const [sheets, setSheets] = useState<Array<{ name: string; active: boolean }>>([])
 
   const gridRef = useRef<GridApi | null>(null)
   // Compteurs à envoyer au serveur : cumulés puis remis à zéro à chaque envoi.
@@ -171,6 +174,8 @@ export default function SimulationPlayer({
       // pense à recliquer dans une cellule.
       grid.focus()
       if (s.setup?.selection) setStats(grid.getSelectionStats(s.setup.selection))
+      setNameBoxDraft(null)
+      setSheets(grid.getSheets())
     },
     [mode],
   )
@@ -343,9 +348,62 @@ export default function SimulationPlayer({
           case "acc-gras":
             grid.toggleBold(true)
             break
+          case "ui-nouvelle-feuille":
+            grid.insertSheet()
+            setSheets(grid.getSheets())
+            break
         }
       }
       handleAction({ kind: "control", control: controlId, channel: "ribbon" })
+    },
+    [handleAction],
+  )
+
+  /** Validation de la zone Nom : on va à la référence, et on le signale. */
+  const commitNameBox = useCallback(() => {
+    const grid = gridRef.current
+    const raw = (nameBoxDraft ?? "").trim()
+    setNameBoxDraft(null)
+    if (!grid || !raw) return
+
+    // La zone Nom d'Excel a deux usages selon ce qu'on y tape : une référence
+    // déplace la sélection, un nom inédit nomme la sélection courante.
+    const estReference = /^\$?[A-Za-z]{1,3}\$?[0-9]{1,7}(:\$?[A-Za-z]{1,3}\$?[0-9]{1,7})?$/.test(raw)
+    const defini = grid.getDefinedNames().find((n) => n.name.toUpperCase() === raw.toUpperCase())
+
+    if (!estReference && !defini) {
+      const portee = grid.getSelection()
+      if (!portee) return
+      const pose = grid.defineName(raw, portee)
+      grid.focus()
+      if (pose) handleAction({ kind: "defineName", name: raw, ref: portee })
+      return
+    }
+
+    // Univer ne résout pas un nom défini : il lirait « Prix_HT » comme une
+    // référence de colonne et lèverait une erreur. On traduit donc le nom en
+    // plage nous-mêmes, en retirant l'éventuel préfixe de feuille.
+    const cible = estReference ? raw.toUpperCase() : (defini?.ref ?? "").split("!").pop() || ""
+    if (!cible) return
+    grid.setSelection(cible)
+    grid.focus()
+    const now = grid.getSelection()
+    if (now) {
+      setSelection(now)
+      setStats(grid.getSelectionStats(now))
+    }
+    handleAction({ kind: "gotoRef", ref: now || cible })
+  }, [nameBoxDraft, handleAction])
+
+  const handleSheet = useCallback(
+    (name: string) => {
+      const grid = gridRef.current
+      if (grid) {
+        grid.activateSheet(name)
+        setSheets(grid.getSheets())
+        grid.focus()
+      }
+      handleAction({ kind: "selectSheet", name })
     },
     [handleAction],
   )
@@ -423,6 +481,12 @@ export default function SimulationPlayer({
               onControl={handleControl}
               stats={stats}
               aggregates={step?.setup?.statusBar?.aggregates ?? scenario.statusBar?.aggregates}
+              sheets={sheets}
+              onSheet={handleSheet}
+              nameBoxDraft={nameBoxDraft}
+              onNameBoxChange={setNameBoxDraft}
+              onNameBoxCommit={commitNameBox}
+              onNameBoxCancel={() => setNameBoxDraft(null)}
             />
             <div className="h-[380px] overflow-hidden rounded-b-lg border border-t-0 border-neutral-300">
               <ExcelGrid onReady={handleReady} onAction={handleAction} />

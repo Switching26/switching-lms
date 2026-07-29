@@ -20,3 +20,17 @@ export function estimatedSimulationSeconds(mode: string, stepCount: number): num
 export function estimatedSimulationMinutes(mode: string, stepCount: number): number {
   return Math.max(1, Math.round(estimatedSimulationSeconds(mode, stepCount) / 60))
 }
+
+/**
+ * Durée lisible : « 31 h », « 1 h 40 », « 8 min ». Partagée par la page
+ * apprenant et le sommaire de l'atelier — deux formateurs auraient fini par
+ * afficher deux durées différentes pour le même chapitre.
+ */
+export function dureeLisible(seconds: number): string {
+  if (!seconds || seconds <= 0) return ""
+  const h = Math.floor(seconds / 3600)
+  const m = Math.floor((seconds % 3600) / 60)
+  if (h > 0) return m > 0 ? `${h} h ${m.toString().padStart(2, "0")}` : `${h} h`
+  if (m > 0) return `${m} min`
+  return `${Math.floor(seconds)} s`
+}

@@ -4,7 +4,7 @@ import { useState, useEffect, useRef, useCallback, useMemo } from "react"
 import { useRouter } from "next/navigation"
 import SimulationChapter from "@/components/simulation/SimulationChapter"
 import type { EntreeSommaire } from "@/components/simulation/SimulationPlayer"
-import { estimatedSimulationSeconds } from "@/lib/simulation/duree"
+import { dureeLisible, estimatedSimulationSeconds } from "@/lib/simulation/duree"
 
 /* ═══════════ HELPERS ═══════════ */
 
@@ -39,14 +39,8 @@ function chapterDurationSeconds(c: {
   return 0
 }
 
-function formatDuration(seconds: number): string {
-  if (!seconds || seconds <= 0) return ""
-  const h = Math.floor(seconds / 3600)
-  const m = Math.floor((seconds % 3600) / 60)
-  if (h > 0) return m > 0 ? `${h}h ${m.toString().padStart(2, "0")}` : `${h}h`
-  if (m > 0) return `${m} min`
-  return `${Math.floor(seconds)}s`
-}
+/** Alias local : la règle vit dans `lib/simulation/duree` et sert aussi au sommaire. */
+const formatDuration = dureeLisible
 
 /* ═══════════ TYPES ═══════════ */
 
@@ -214,6 +208,9 @@ export default function FormationPlayer({
               ? "lecon"
               : "autre",
       termine: !!completedMap[c.id],
+      // Charge du chapitre : déjà chargée en métadonnées, aucune requête de plus.
+      etapes: c.simulation?.stepCount ?? 0,
+      secondes: c.simulation ? estimatedSimulationSeconds(c.simulation.mode, c.simulation.stepCount) : 0,
     }))
   }, [orderedChapters, sortedSections, completedMap])
 

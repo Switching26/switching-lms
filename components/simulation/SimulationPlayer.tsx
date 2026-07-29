@@ -38,7 +38,7 @@ import ChartLayer from "./ChartLayer"
 import PivotLayer from "./PivotLayer"
 import PageLayoutLayer from "./PageLayoutLayer"
 import MacroPanel from "./MacroPanel"
-import { estimatedSimulationMinutes } from "@/lib/simulation/duree"
+import { dureeLisible, estimatedSimulationMinutes } from "@/lib/simulation/duree"
 import type {
   ChartState,
   ChartType,
@@ -118,6 +118,10 @@ export type EntreeSommaire = {
   module: string | null
   genre: "lecon" | "exercice" | "evaluation" | "autre"
   termine: boolean
+  /** Nombre d'étapes du chapitre. 0 quand ce n'est pas une simulation. */
+  etapes?: number
+  /** Temps estimé, en secondes — même source que l'écran d'ouverture. */
+  secondes?: number
 }
 
 type Props = {
@@ -2962,7 +2966,9 @@ export default function SimulationPlayer({
           className="absolute bottom-0 left-0 flex flex-col bg-white shadow-2xl"
           style={{
             top: 44,
-            width: "min(330px, 82%)",
+            // 460 px : en dessous, « 16 ét. · 11 min » chasse le titre. Au-dessus,
+            // le panneau mange la feuille de calcul, qui reste l'écran de travail.
+            width: "min(460px, 86%)",
             zIndex: 70,
             transform: panneau === "lecons" ? "translateX(0)" : "translateX(-101%)",
             transition: "transform .26s cubic-bezier(.32,.72,0,1)",
@@ -2971,7 +2977,9 @@ export default function SimulationPlayer({
         >
           <div className="flex flex-shrink-0 items-center gap-2 border-b border-border bg-warm-50 px-3 py-2.5">
             <h4 className="flex-1 text-[13.5px] font-bold">Toutes les leçons</h4>
-            <span className="text-[11px] text-warm-400">{sommaire.length}</span>
+            <span className="text-[11px] text-warm-400">
+              {sommaire.length} chapitres · {dureeLisible(sommaire.reduce((t, e) => t + (e.secondes ?? 0), 0))}
+            </span>
             <button
               type="button"
               onClick={() => setPanneau(null)}
@@ -2985,6 +2993,9 @@ export default function SimulationPlayer({
             <SommaireAtelier
               entrees={sommaire}
               courant={chapterId}
+              etapeCourante={index + 1}
+              etapesTotal={total}
+              modeCourant={mode}
               onNaviguer={(id) => {
                 setPanneau(null)
                 onNaviguer?.(id)
@@ -3105,10 +3116,17 @@ function Enveloppe({
 function SommaireAtelier({
   entrees,
   courant,
+  etapeCourante,
+  etapesTotal,
+  modeCourant,
   onNaviguer,
 }: {
   entrees: EntreeSommaire[]
   courant: string
+  /** Position dans le chapitre OUVERT — connue du player seul. */
+  etapeCourante: number
+  etapesTotal: number
+  modeCourant: string
   onNaviguer: (id: string) => void
 }) {
   const moduleCourant = entrees.find((e) => e.id === courant)?.module ?? null
@@ -3156,6 +3174,10 @@ function SommaireAtelier({
               <span className="min-w-0 flex-1 truncate text-[12.5px] text-ink">{g.nom === "—" ? "Chapitres" : g.nom}</span>
               <span className="flex-shrink-0 text-[10.5px] text-warm-400">
                 {faits}/{g.items.length}
+                {(() => {
+                  const t = g.items.reduce((n, x) => n + (x.secondes ?? 0), 0)
+                  return t > 0 ? ` · ${dureeLisible(t)}` : ""
+                })()}
               </span>
               <span aria-hidden className="flex-shrink-0 text-[10px] text-warm-400">
                 {ouvert ? "▾" : "▸"}
@@ -3166,13 +3188,22 @@ function SommaireAtelier({
                 {g.items.map((e) => {
                   const p = PASTILLE[e.genre]
                   const actif = e.id === courant
-                  return (
+                    // Le chapitre OUVERT s'étale : on y montre la position exacte
+                    // et le temps qu'il reste. Les autres tiennent sur une ligne,
+                    // pour qu'une dizaine reste visible sans défiler.
+                    const reste = actif
+                      ? Math.max(1, estimatedSimulationMinutes(modeCourant, Math.max(0, etapesTotal - etapeCourante + 1)))
+                      : 0
+                    return (
                     <li key={e.id}>
                       <button
                         type="button"
                         onClick={() => onNaviguer(e.id)}
-                        className="flex w-full items-center gap-2 rounded-md px-1.5 py-1.5 text-left"
-                        style={{ background: actif ? "#F4FAF6" : undefined }}
+                        className="flex w-full items-center gap-2 rounded-lg px-1.5 py-1.5 text-left"
+                        style={{
+                          background: actif ? "#fff" : undefined,
+                          boxShadow: actif ? "0 1px 2px rgba(0,0,0,.09)" : undefined,
+                        }}
                       >
                         <span
                           className="flex flex-shrink-0 items-center justify-center rounded"
@@ -3180,12 +3211,43 @@ function SommaireAtelier({
                         >
                           {p.l}
                         </span>
-                        <span
-                          className="min-w-0 flex-1 truncate text-[12px]"
-                          style={{ color: actif ? "#171a18" : "#6E6A62", fontWeight: actif ? 600 : 400 }}
-                        >
-                          {e.titre}
+                        <span className="flex min-w-0 flex-1 flex-col gap-0.5">
+                          <span
+                            className="min-w-0 truncate text-[12px]"
+                            style={{ color: actif ? "#171a18" : "#6E6A62", fontWeight: actif ? 700 : 400 }}
+                          >
+                            {e.titre}
+                          </span>
+                          {actif && etapesTotal > 0 && (
+                            <>
+                              <span className="text-[10.5px] font-bold" style={{ color: "#0b5c30" }}>
+                                étape {etapeCourante} sur {etapesTotal} · ≈ {reste} min restantes
+                              </span>
+                              <span
+                                aria-hidden
+                                className="mt-0.5 overflow-hidden rounded-sm"
+                                style={{ height: 3, background: "#E4E0D8" }}
+                              >
+                                <span
+                                  className="block h-full rounded-sm"
+                                  style={{
+                                    width: `${Math.round(((etapeCourante - 1) / etapesTotal) * 100)}%`,
+                                    background: "#107C41",
+                                    transition: "width .3s ease",
+                                  }}
+                                />
+                              </span>
+                            </>
+                          )}
                         </span>
+                        {!actif && !!e.etapes && (
+                          <span className="flex-shrink-0 text-[10.5px] text-warm-400">
+                            {e.etapes} ét. · {estimatedSimulationMinutes(
+                              e.genre === "exercice" ? "EXERCISE" : e.genre === "evaluation" ? "EVALUATION" : "LESSON",
+                              e.etapes,
+                            )} min
+                          </span>
+                        )}
                         {e.termine && (
                           <span aria-hidden className="flex-shrink-0 text-[11px] text-emerald-600">
                             ✓

@@ -392,6 +392,10 @@ export default function SimulationPlayer({
    */
   const [essais, setEssais] = useState(0)
   const [demonstration, setDemonstration] = useState(false)
+  /** Compteur de rejeux : sert de clé au calque, pour le faire repartir du début. */
+  const [rejeu, setRejeu] = useState(0)
+  /** La démonstration est-elle allée à son terme ? Conditionne « Revoir ». */
+  const [demoFinie, setDemoFinie] = useState(false)
   const [relais, setRelais] = useState(0)
   const [relaisActif, setRelaisActif] = useState(false)
   useEffect(() => {
@@ -700,6 +704,8 @@ export default function SimulationPlayer({
     // n'est pas encore montée et le player se figeait après la première étape,
     // toutes les observations suivantes étant ignorées en silence.
     resoluRef.current = false
+    setRejeu(0)
+    setDemoFinie(false)
     if (gridReady) applyStep(step)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [index, gridReady])
@@ -2544,7 +2550,8 @@ export default function SimulationPlayer({
               )}
               {demo && (
                 <DemonstrationGeste
-                  key={`demo${index}`}
+                  key={`demo${index}-${rejeu}`}
+                  onFini={() => setDemoFinie(true)}
                   plan={demo.plan}
                   cible={demo.cible}
                   suivante={demo.suivante}
@@ -2809,6 +2816,23 @@ export default function SimulationPlayer({
                       </>
                     )}
                   </span>
+                  {/* Rejouer la démonstration : elle dure quelques secondes et un
+                      apprenant qui a regardé ailleurs n'avait aucun moyen de la
+                      revoir — il fallait recharger le chapitre. */}
+                  {demo && demoFinie && (
+                    <button
+                      type="button"
+                      data-control="sim-revoir-demo"
+                      onClick={() => {
+                        setDemoFinie(false)
+                        setRejeu((n) => n + 1)
+                      }}
+                      className="flex flex-shrink-0 items-center gap-1.5 rounded-lg bg-white px-3 py-1.5 text-[12px] font-bold"
+                      style={{ border: "1px solid currentColor", color: "inherit" }}
+                    >
+                      <span aria-hidden>↻</span> Revoir la démonstration
+                    </button>
+                  )}
                   <button
                     type="button"
                     data-control="sim-debloquer"

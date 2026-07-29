@@ -129,7 +129,7 @@ type Props = {
 }
 
 /** Un cran de la partition. `attendre` est le temps AVANT de passer au suivant. */
-type Cran = { pas: number; phase: "vise" | "bulle" | "clic" | "frappe" | "entree" | "fini"; attendre: number }
+type Cran = { pas: number; phase: "avertir" | "vise" | "bulle" | "clic" | "frappe" | "entree" | "fini"; attendre: number }
 
 export default function DemonstrationGeste({ plan, cible, suivante, largeur, onFini }: Props) {
   const [cran, setCran] = useState(0)
@@ -145,6 +145,10 @@ export default function DemonstrationGeste({ plan, cible, suivante, largeur, onF
 
   // La partition, déduite du plan : un geste sans frappe s'arrête au clic.
   const crans: Cran[] = []
+  // L'avertissement s'affiche SUR la feuille, pas seulement dans la bande du
+  // bas : c'est là que l'apprenant regarde quand il bloque, et c'est là que la
+  // démonstration va se jouer.
+  crans.push({ pas: 0, phase: "avertir", attendre: 3200 })
   crans.push({ pas: 0, phase: "vise", attendre: 900 })
   crans.push({ pas: 0, phase: "bulle", attendre: 1200 })
   crans.push({ pas: 0, phase: "clic", attendre: 800 })
@@ -197,10 +201,44 @@ export default function DemonstrationGeste({ plan, cible, suivante, largeur, onF
 
   const bulleTexte = plan.bulles[Math.min(courant.pas, plan.bulles.length - 1)]
   const bulleVisible = courant.phase === "bulle" || courant.phase === "frappe"
+  const avertit = courant.phase === "avertir"
   const bulleGauche = Math.min(Math.max(4, cible.left + cible.width / 2 - 60), Math.max(4, largeur - 190))
 
   return (
     <div aria-hidden className="pointer-events-none absolute inset-0" style={{ zIndex: 40 }}>
+      {/* L'avertissement : plein cadre sur la feuille, avant que le geste ne
+          commence. Il dit pourquoi on intervient, ce qui va se passer, et que
+          la main sera rendue ensuite. */}
+      {courant.phase === "avertir" && (
+        <>
+          <div
+            className="absolute inset-0"
+            style={{ background: "rgba(23,26,24,.42)", animation: "sim-demo-voile .3s ease both" }}
+          />
+          <div
+            className="absolute rounded-2xl bg-white px-5 py-4"
+            style={{
+              left: "50%",
+              top: "50%",
+              transform: "translate(-50%,-50%)",
+              width: "min(420px, 88%)",
+              boxShadow: "0 24px 60px -18px rgba(0,0,0,.5)",
+              borderTop: "4px solid #E8A33D",
+              animation: "sim-demo-carte .34s cubic-bezier(.2,.9,.2,1) both",
+            }}
+          >
+            <p className="mb-1.5 flex items-center gap-2 text-[14.5px] font-extrabold" style={{ color: "#8a5a12" }}>
+              <span aria-hidden style={{ fontSize: 17 }}>👀</span>
+              Je vais vous montrer
+            </p>
+            <p className="text-[13px] leading-snug" style={{ color: "#3C433F" }}>
+              Vous vous êtes trompé plusieurs fois — ce n’est pas grave. Regardez bien : je fais
+              le geste à votre place, étape par étape. Vous pourrez le refaire ensuite.
+            </p>
+          </div>
+        </>
+      )}
+
       {/* Les trois pas, suivis en haut de la feuille. C'est le vocabulaire que
           l'apprenant emportera : cliquer, saisir, valider. */}
       {/* En BAS de la feuille : posés en haut, ils recouvraient les en-têtes de
@@ -208,7 +246,10 @@ export default function DemonstrationGeste({ plan, cible, suivante, largeur, onF
           des démonstrations. */}
       <div
         className="absolute flex flex-wrap gap-1.5"
-        style={{ left: 8, bottom: 8, animation: "sim-demo-entree .3s ease both" }}
+        // L'animation d'entrée porte `both`, elle imposait donc opacity:1 en fin
+        // de course et les pastilles restaient visibles derrière l'avertissement.
+        style={{ left: 8, bottom: 8, opacity: avertit ? 0 : 1, transition: "opacity .3s",
+                 animation: avertit ? undefined : "sim-demo-entree .3s ease both" }}
       >
         {plan.pas.map((p, i) => {
           const actif = i === courant.pas && courant.phase !== "fini"
@@ -344,7 +385,7 @@ export default function DemonstrationGeste({ plan, cible, suivante, largeur, onF
           top: 0,
           width: 20,
           height: 26,
-          opacity: pret && courant.phase !== "fini" ? 1 : 0,
+          opacity: pret && !avertit && courant.phase !== "fini" ? 1 : 0,
           transform: `translate(${cible.left + cible.width * 0.5}px, ${cible.top + cible.height * 0.42}px)`,
           transition: "transform .85s cubic-bezier(.33,.02,.2,1), opacity .3s",
           filter: "drop-shadow(0 2px 3px rgba(0,0,0,.35))",
@@ -363,7 +404,12 @@ export default function DemonstrationGeste({ plan, cible, suivante, largeur, onF
 @keyframes sim-demo-entree{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
 @keyframes sim-demo-onde{0%{opacity:.95;transform:scale(.3)}100%{opacity:0;transform:scale(3.4)}}
 @keyframes sim-demo-caret{50%{opacity:0}}
-@keyframes sim-demo-pose{0%{background:rgba(16,124,65,.32)}100%{background:#fff}}
+/* Le flash de validation passe par une ombre INTERNE, pas par le fond : animer
+   le fond le rendait semi-transparent pendant 1,1 s et l'ancienne valeur de la
+   cellule transparaissait sous la démonstration. */
+@keyframes sim-demo-pose{0%{box-shadow:inset 0 0 0 999px rgba(16,124,65,.32)}100%{box-shadow:inset 0 0 0 999px rgba(16,124,65,0)}}
+@keyframes sim-demo-voile{from{opacity:0}to{opacity:1}}
+@keyframes sim-demo-carte{from{opacity:0;transform:translate(-50%,-46%) scale(.96)}to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
 @keyframes sim-demo-touche{0%{opacity:0}25%{opacity:1;transform:translateY(0)}45%{transform:translateY(2px)}60%{transform:translateY(0)}100%{opacity:1}}
 @media (prefers-reduced-motion: reduce){
   [style*="sim-demo-"]{animation-duration:.01ms !important;animation-iteration-count:1 !important}

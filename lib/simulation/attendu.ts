@@ -11,7 +11,31 @@
  * 1 872 étapes, et le jour où un scénario change, la formulation suit.
  */
 
-import type { SimulationAction } from "./types"
+import type { PosteAttendu, SimulationAction } from "./types"
+import { CONTROLES_POSTE } from "./poste"
+
+/**
+ * Décrit en français l'état de poste visé par une étape.
+ *
+ * Sans cela, les gestes qui vivent autour du tableur — lancer Excel,
+ * enregistrer, fermer — étaient les seuls du simulateur à n'afficher ni critère
+ * de réussite, ni carte de franchissement, ni réponse au blocage.
+ */
+function phrasePoste(p: PosteAttendu): string | null {
+  if (p.fichiers?.length) {
+    return p.fichiers.length === 1
+      ? `le fichier « ${p.fichiers[0]} » créé`
+      : `${p.fichiers.length} fichiers créés`
+  }
+  if (p.classeur) return `le classeur enregistré sous « ${p.classeur} »`
+  if (p.boite === "enregistrer") return "la fenêtre d'enregistrement ouverte"
+  if (p.boite === "ouvrir") return "la fenêtre d'ouverture ouverte"
+  if (p.menu) return "le menu Démarrer ouvert"
+  if (p.excel === "accueil") return "Excel lancé"
+  if (p.excel === "classeur") return "un classeur ouvert"
+  if (p.excel === "ferme") return "Excel fermé"
+  return null
+}
 
 export type NatureEtape = "lecture" | "action" | "evaluee"
 
@@ -95,6 +119,8 @@ export function resumerAttendu(action: SimulationAction): string | null {
       return "la macro demandée"
     case "RECORD_MACRO":
       return action.expect === "started" ? "l'enregistrement démarré" : "l'enregistrement arrêté"
+    case "EXPECT_POSTE":
+      return phrasePoste(action.poste)
     default:
       return null
   }
@@ -153,6 +179,18 @@ export function resumerFait(action: SimulationAction): string | null {
     case "EXPECT_MACRO":
     case "RECORD_MACRO":
       return "La macro est enregistrée."
+    case "EXPECT_POSTE": {
+      const p = action.poste
+      if (p.fichiers?.length) return `Le fichier « ${p.fichiers[0]} » est enregistré.`
+      if (p.classeur) return `Le classeur s'appelle maintenant « ${p.classeur} ».`
+      if (p.boite === "enregistrer") return "La fenêtre d'enregistrement est ouverte."
+      if (p.boite === "ouvrir") return "La fenêtre d'ouverture est ouverte."
+      if (p.menu) return "Le menu Démarrer est ouvert."
+      if (p.excel === "accueil") return "Excel est lancé."
+      if (p.excel === "classeur") return "Le classeur est ouvert."
+      if (p.excel === "ferme") return "Excel est fermé."
+      return null
+    }
     default:
       return null
   }
@@ -207,6 +245,20 @@ export function reponseAttendue(action: SimulationAction): string | null {
       return `Il fallait cliquer sur l'en-tête de la ligne ${action.row}.`
     case "SORT_RANGE":
       return `Il fallait trier ${lieu(action.range)} sur la colonne ${action.column}, en ordre ${action.ascending ? "croissant" : "décroissant"}.`
+    case "EXPECT_POSTE": {
+      const p = action.poste
+      if (p.fichiers?.length || p.classeur) {
+        const nom = p.classeur ?? p.fichiers?.[0]
+        return `Il fallait enregistrer le classeur sous le nom ${nom}, puis valider.`
+      }
+      if (p.boite === "enregistrer") return "Il fallait ouvrir l'enregistrement — bouton Enregistrer, ou Ctrl + S."
+      if (p.boite === "ouvrir") return "Il fallait ouvrir la fenêtre d'ouverture — bouton Ouvrir, ou Ctrl + O."
+      if (p.menu) return "Il fallait cliquer sur le bouton Démarrer, en bas à gauche."
+      if (p.excel === "accueil") return "Il fallait lancer Excel depuis le menu Démarrer."
+      if (p.excel === "ferme") return "Il fallait fermer la fenêtre par la croix, en haut à droite."
+      if (p.excel === "classeur") return "Il fallait ouvrir un classeur depuis l'écran d'accueil d'Excel."
+      return null
+    }
     default:
       return null
   }
@@ -238,6 +290,20 @@ export function cibleDemonstration(
     }
     case "CLICK_CONTROL":
       return { controle: action.control }
+    case "EXPECT_POSTE": {
+      // Le bouton qui MÈNE à l'état visé, pas l'état lui-même : c'est là que
+      // l'apprenant bloqué doit poser les yeux.
+      const p = action.poste
+      const C = CONTROLES_POSTE
+      if (p.classeur || p.fichiers?.length) return { controle: C.enregistrerValider }
+      if (p.boite === "enregistrer") return { controle: C.enregistrer }
+      if (p.boite === "ouvrir") return { controle: C.ouvrir }
+      if (p.menu) return { controle: C.demarrer }
+      if (p.excel === "accueil") return { controle: C.app("excel") }
+      if (p.excel === "ferme") return { controle: C.fermer }
+      if (p.excel === "classeur") return { controle: C.nouveau }
+      return {}
+    }
     default:
       return {}
   }

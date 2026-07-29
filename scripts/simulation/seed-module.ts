@@ -232,7 +232,10 @@ async function main() {
     const formation =
       (await tx.formation.findFirst({ where: { title: FORMATION_TITLE, deletedAt: null } })) ??
       (await tx.formation.create({
-        data: { title: FORMATION_TITLE, description: FORMATION_DESCRIPTION, isPublished: publish },
+        // `isPublished` n'est TOUCHÉ que pour publier. Sans ce garde-fou, une
+        // simple correction de leçon lancée sans `--publish` remettait toute la
+        // formation en brouillon — 246 chapitres retirés aux apprenants.
+        data: { title: FORMATION_TITLE, description: FORMATION_DESCRIPTION, ...(publish ? { isPublished: true } : {}) },
       }))
 
     for (const [num, items] of [...byModule.entries()].sort((a, b) => a[0] - b[0])) {
@@ -258,7 +261,7 @@ async function main() {
         const chapter = existing
           ? await tx.chapter.update({
               where: { id: existing.id },
-              data: { order, description, isPublished: publish },
+              data: { order, description, ...(publish ? { isPublished: true } : {}) },
             })
           : await tx.chapter.create({
               data: {

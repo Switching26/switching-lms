@@ -25,6 +25,7 @@ import type {
   BoitePoste,
   FichierPoste,
   GestePoste,
+  ModelePoste,
   PosteAttendu,
   PosteState,
 } from "./types"
@@ -46,6 +47,7 @@ export function posteInitial(options?: {
   classeur?: string | null
   fichiers?: FichierPoste[]
   apps?: AppPoste[]
+  modeles?: ModelePoste[]
 }): PosteState {
   const ouvert = options?.excelOuvert !== false
   return {
@@ -56,6 +58,7 @@ export function posteInitial(options?: {
     modifie: false,
     fichiers: options?.fichiers ? [...options.fichiers] : [],
     apps: options?.apps ?? APPS_PAR_DEFAUT,
+    modeles: options?.modeles ? [...options.modeles] : [],
   }
 }
 
@@ -85,6 +88,15 @@ export function appliquerGeste(etat: PosteState, geste: GestePoste): PosteState 
       return { ...etat, excel: "classeur", classeur: geste.nom, modifie: false, boite: "aucune" }
     }
 
+    case "ouvrirModele": {
+      const existe = etat.modeles.some((m) => m.id === geste.modele)
+      if (!existe) return etat
+      // `classeur: null` est le cœur de la leçon : on n'ouvre PAS le modèle,
+      // on ouvre une copie qui n'a pas encore de nom. La barre de titre affiche
+      // « Classeur1 », et le modèle reste intact pour la fois suivante.
+      return { ...etat, excel: "classeur", classeur: null, modifie: false, boite: "aucune", menu: false }
+    }
+
     case "fermer":
       // Fermer ramène au bureau. Le classeur courant est oublié : c'est
       // précisément ce que la leçon veut faire sentir quand rien n'a été
@@ -95,6 +107,14 @@ export function appliquerGeste(etat: PosteState, geste: GestePoste): PosteState 
       return { ...etat, menu: false }
 
     case "ouvrirBoite":
+      // Enregistrer un classeur qui a DÉJÀ un nom n'ouvre aucune fenêtre :
+      // Excel écrase la version précédente sans rien demander. C'est toute la
+      // différence avec « Enregistrer sous » (`forcer`), et la leçon
+      // « Ouvrir et enregistrer un classeur » la fait maintenant éprouver au
+      // lieu de la raconter.
+      if (geste.boite === "enregistrer" && !geste.forcer && etat.classeur) {
+        return { ...etat, menu: false, modifie: false }
+      }
       return { ...etat, boite: geste.boite, menu: false }
 
     case "fermerBoite":
@@ -167,9 +187,17 @@ export const CONTROLES_POSTE = {
   reduire: "poste-reduire",
   nouveau: "poste-nouveau",
   enregistrer: "poste-enregistrer",
+  enregistrerSous: "poste-enregistrer-sous",
   enregistrerValider: "poste-enregistrer-valider",
   enregistrerAnnuler: "poste-enregistrer-annuler",
   ouvrir: "poste-ouvrir",
+  ouvrirValider: "poste-ouvrir-valider",
+  ouvrirAnnuler: "poste-ouvrir-annuler",
   app: (id: string) => `poste-app-${id}`,
   fichier: (nom: string) => `poste-fichier-${nom.trim().toLowerCase().replace(/\s+/g, "-")}`,
+  /** Ligne de la boîte « Ouvrir » : id distinct de l'icône du bureau, sinon le
+   *  même `data-control` existerait deux fois dans le DOM et un clic
+   *  automatisé viserait l'icône cachée derrière la modale. */
+  listeFichier: (nom: string) => `poste-liste-${nom.trim().toLowerCase().replace(/\s+/g, "-")}`,
+  modele: (id: string) => `poste-modele-${id}`,
 } as const

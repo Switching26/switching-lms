@@ -17,7 +17,7 @@
  * c'est le scénario qui juge. Une couche de plus, pas un moteur de plus.
  */
 
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import type { PosteState } from "@/lib/simulation/types"
 import { CONTROLES_POSTE } from "@/lib/simulation/poste"
 
@@ -27,6 +27,8 @@ type Props = {
   onControl: (controlId: string) => void
   /** Enregistrement validé depuis la boîte de dialogue. */
   onEnregistrer: (nom: string) => void
+  /** Ouverture validée depuis la boîte « Ouvrir ». */
+  onOuvrir: (nom: string) => void
   /** Contrôle à mettre en évidence (halo d'aide). */
   highlight?: string | null
   /** La fenêtre Excel — rendue seulement quand un classeur est ouvert. */
@@ -37,7 +39,7 @@ type Props = {
 const halo = (actif: boolean): React.CSSProperties =>
   actif ? { boxShadow: "0 0 0 3px rgba(232,163,61,.85)", animation: "sim-poste-pulse 1.3s ease-in-out infinite" } : {}
 
-export default function DesktopLayer({ poste, onControl, onEnregistrer, highlight, children }: Props) {
+export default function DesktopLayer({ poste, onControl, onEnregistrer, onOuvrir, highlight, children }: Props) {
   const [nomFichier, setNomFichier] = useState("")
   useEffect(() => {
     // Excel propose « Classeur1 » quand rien n'a encore été enregistré : sans
@@ -46,12 +48,37 @@ export default function DesktopLayer({ poste, onControl, onEnregistrer, highligh
     if (poste.boite === "enregistrer") setNomFichier(poste.classeur ?? "Classeur1")
   }, [poste.boite, poste.classeur])
 
+  // Sélection dans la boîte « Ouvrir ». Le premier fichier est présélectionné :
+  // une liste où rien n'est choisi rend le bouton Ouvrir incompréhensible.
+  const [choisi, setChoisi] = useState<string | null>(null)
+  useEffect(() => {
+    if (poste.boite === "ouvrir") setChoisi(poste.fichiers[0]?.nom ?? null)
+  }, [poste.boite, poste.fichiers])
+
+  // La fenêtre restant montée, son animation d'ouverture ne se rejoue plus
+  // toute seule : on la relance à chaque lancement d'Excel. Sans elle, la
+  // fenêtre apparaîtrait d'un coup et le clic n'aurait aucun accusé de réception.
+  const fenetreRef = useRef<HTMLDivElement>(null)
+  const ferme = poste.excel === "ferme"
+  useEffect(() => {
+    if (ferme) return
+    const el = fenetreRef.current
+    if (!el) return
+    el.classList.remove("sim-poste-fen-in")
+    void el.offsetWidth // force le navigateur à repartir de zéro
+    el.classList.add("sim-poste-fen-in")
+  }, [ferme])
+
   const fichiersBureau = poste.fichiers.filter((f) => f.surBureau !== false)
 
   return (
     <div
       className="relative flex min-h-0 flex-1 flex-col overflow-hidden"
-      style={{ background: "linear-gradient(155deg,#123027 0%,#1B4536 45%,#0D211B 100%)" }}
+      // Hauteur plancher : la fenêtre Excel et le menu Démarrer sont positionnés
+      // en absolu et n'imposent donc aucune hauteur. Dans un parent qui n'en
+      // donne pas, le bureau s'effondrait à la seule barre des tâches et le menu
+      // s'ouvrait hors de l'écran, en coordonnées négatives.
+      style={{ minHeight: 520, background: "linear-gradient(155deg,#123027 0%,#1B4536 45%,#0D211B 100%)" }}
     >
       <div
         aria-hidden
@@ -62,7 +89,7 @@ export default function DesktopLayer({ poste, onControl, onEnregistrer, highligh
       {/* Icônes du bureau. Les classeurs enregistrés viennent s'y poser : c'est
           la preuve visible, pour l'apprenant, que son travail a été sauvegardé. */}
       <div className="absolute left-2.5 top-2.5 z-[2] flex flex-col gap-3">
-        <div className="w-16 text-center text-[9.5px] leading-tight" style={{ color: "#D6E4DE" }}>
+        <div className="text-center text-[9.5px] leading-tight" style={{ width: 64, color: "#D6E4DE" }}>
           <span
             aria-hidden
             className="mx-auto mb-1 flex items-center justify-center rounded-lg"
@@ -78,8 +105,8 @@ export default function DesktopLayer({ poste, onControl, onEnregistrer, highligh
             type="button"
             data-control={CONTROLES_POSTE.fichier(f.nom)}
             onClick={() => onControl(CONTROLES_POSTE.fichier(f.nom))}
-            className="w-16 text-center text-[9.5px] leading-tight"
-            style={{ color: "#D6E4DE", ...halo(highlight === CONTROLES_POSTE.fichier(f.nom)) }}
+            className="text-center text-[9.5px] leading-tight"
+            style={{ width: 64, color: "#D6E4DE", ...halo(highlight === CONTROLES_POSTE.fichier(f.nom)) }}
             title={`${f.nom}.xlsx`}
           >
             <span
@@ -111,7 +138,10 @@ export default function DesktopLayer({ poste, onControl, onEnregistrer, highligh
           <p className="mb-2 text-[10px] uppercase tracking-[.1em]" style={{ color: "#7E938C" }}>
             Applications
           </p>
-          <div className="grid grid-cols-4 gap-2">
+          {/* Grille posée en style, pas en classe utilitaire : `grid-cols-4`
+              peut manquer du CSS livré, et les tuiles retombaient alors en
+              colonne unique — un menu Démarrer haut comme la moitié de l'écran. */}
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, minmax(0,1fr))", gap: 8 }}>
             {poste.apps.map((a) => (
               <button
                 key={a.id}
@@ -140,10 +170,14 @@ export default function DesktopLayer({ poste, onControl, onEnregistrer, highligh
         </div>
       )}
 
-      {/* La fenêtre : elle n'existe que si Excel est lancé. */}
-      {poste.excel !== "ferme" && (
+      {/* La fenêtre. Elle reste MONTÉE même Excel fermé, et seulement masquée :
+          la démonter détruirait le moteur du tableur, qu'il faudrait recharger
+          en entier au lancement suivant — et le travail déjà saisi serait perdu
+          si l'apprenant ferme la fenêtre puis revient en arrière. */}
+      {
         <div
-          className="absolute z-10 flex flex-col overflow-hidden"
+          ref={fenetreRef}
+          className="absolute z-10 flex-col overflow-hidden"
           style={{
             left: "4%",
             right: "4%",
@@ -151,7 +185,7 @@ export default function DesktopLayer({ poste, onControl, onEnregistrer, highligh
             bottom: "4%",
             borderRadius: "9px 9px 0 0",
             boxShadow: "0 30px 70px -20px rgba(0,0,0,.7), 0 0 0 1px rgba(255,255,255,.08)",
-            animation: "sim-poste-fen .26s cubic-bezier(.2,.9,.2,1) both",
+            display: poste.excel === "ferme" ? "none" : "flex",
           }}
         >
           <div
@@ -218,7 +252,18 @@ export default function DesktopLayer({ poste, onControl, onEnregistrer, highligh
                   Accueil
                 </div>
                 <div className="px-1 py-1.5 text-center">Nouveau</div>
-                <div className="px-1 py-1.5 text-center">Ouvrir</div>
+                {/* « Ouvrir » est le seul chemin vers un fichier existant tant
+                    qu'aucun classeur n'est chargé : le ruban, lui, n'existe pas
+                    encore sur cet écran. */}
+                <button
+                  type="button"
+                  data-control={CONTROLES_POSTE.ouvrir}
+                  onClick={() => onControl(CONTROLES_POSTE.ouvrir)}
+                  className="w-full rounded-md px-1 py-1.5 text-center"
+                  style={halo(highlight === CONTROLES_POSTE.ouvrir)}
+                >
+                  Ouvrir
+                </button>
               </div>
               <div className="min-w-0 flex-1 overflow-hidden p-3.5">
                 <p className="mb-2.5 text-[15px] font-bold text-ink">Bonjour</p>
@@ -227,29 +272,55 @@ export default function DesktopLayer({ poste, onControl, onEnregistrer, highligh
                     type="button"
                     data-control={CONTROLES_POSTE.nouveau}
                     onClick={() => onControl(CONTROLES_POSTE.nouveau)}
-                    className="w-[86px] text-left"
-                    style={halo(highlight === CONTROLES_POSTE.nouveau)}
+                    className="text-left"
+                    style={{ width: 86, ...halo(highlight === CONTROLES_POSTE.nouveau) }}
                   >
                     <span
-                      className="mb-1 flex h-[56px] items-center justify-center rounded-md text-[9px]"
-                      style={{ border: "1px solid #107C41", boxShadow: "inset 0 0 0 1px #107C41", color: "#9B958B", background: "#fff" }}
+                      className="mb-1 flex items-center justify-center rounded-md text-[9px]"
+                      style={{ height: 56, border: "1px solid #107C41", boxShadow: "inset 0 0 0 1px #107C41", color: "#9B958B", background: "#fff" }}
                     >
                       vide
                     </span>
                     <span className="block text-center text-[9.5px] text-ink">Nouveau classeur</span>
                   </button>
+                  {/* Modèles : structure, formules et présentation déjà en
+                      place. Les ouvrir donne une COPIE — le modèle ne bouge
+                      pas, et c'est toute la leçon. */}
+                  {poste.modeles.map((m) => (
+                    <button
+                      key={m.id}
+                      type="button"
+                      data-control={CONTROLES_POSTE.modele(m.id)}
+                      onClick={() => onControl(CONTROLES_POSTE.modele(m.id))}
+                      className="text-left"
+                      style={{ width: 86, ...halo(highlight === CONTROLES_POSTE.modele(m.id)) }}
+                    >
+                      <span
+                        className="mb-1 flex flex-col justify-center rounded-md px-1.5 py-1"
+                        style={{ height: 56, gap: 3, border: "1px solid #DDD8CE", background: "#fff" }}
+                        aria-hidden
+                      >
+                        <span className="block h-[4px] rounded-sm" style={{ background: "#107C41", width: "68%" }} />
+                        <span className="block h-[3px] rounded-sm" style={{ background: "#E4E0D8" }} />
+                        <span className="block h-[3px] rounded-sm" style={{ background: "#E4E0D8", width: "82%" }} />
+                        <span className="block h-[3px] rounded-sm" style={{ background: "#E4E0D8", width: "60%" }} />
+                        <span className="mt-[2px] block h-[4px] rounded-sm" style={{ background: "#C9BFA8", width: "44%" }} />
+                      </span>
+                      <span className="block truncate text-center text-[9.5px] text-ink">{m.nom}</span>
+                    </button>
+                  ))}
                   {poste.fichiers.slice(0, 2).map((f) => (
                     <button
                       key={f.nom}
                       type="button"
                       data-control={CONTROLES_POSTE.fichier(f.nom)}
                       onClick={() => onControl(CONTROLES_POSTE.fichier(f.nom))}
-                      className="w-[86px] text-left"
-                      style={halo(highlight === CONTROLES_POSTE.fichier(f.nom))}
+                      className="text-left"
+                      style={{ width: 86, ...halo(highlight === CONTROLES_POSTE.fichier(f.nom)) }}
                     >
                       <span
-                        className="mb-1 flex h-[56px] items-center justify-center rounded-md px-1 text-center text-[9px]"
-                        style={{ border: "1px solid #DDD8CE", color: "#9B958B", background: "#fff" }}
+                        className="mb-1 flex items-center justify-center rounded-md px-1 text-center text-[9px]"
+                        style={{ height: 56, border: "1px solid #DDD8CE", color: "#9B958B", background: "#fff" }}
                       >
                         récent
                       </span>
@@ -271,7 +342,7 @@ export default function DesktopLayer({ poste, onControl, onEnregistrer, highligh
             {children}
           </div>
         </div>
-      )}
+      }
 
       {/* Boîte « Enregistrer sous ». Son animation lui est propre : celle de la
           fenêtre écraserait le transform de centrage. */}
@@ -345,6 +416,86 @@ export default function DesktopLayer({ poste, onControl, onEnregistrer, highligh
         </div>
       )}
 
+      {/* Boîte « Ouvrir ». Un classeur existant se choisit dans une liste : le
+          double-clic ouvre directement, comme dans l'explorateur. */}
+      {poste.boite === "ouvrir" && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="Ouvrir"
+          className="absolute z-30 overflow-hidden rounded-xl bg-white"
+          style={{
+            left: "50%",
+            top: "50%",
+            width: "min(380px, 86%)",
+            transform: "translate(-50%,-50%)",
+            boxShadow: "0 30px 70px -18px rgba(0,0,0,.6)",
+            animation: "sim-poste-boite .22s cubic-bezier(.2,.9,.2,1) both",
+          }}
+        >
+          <p className="border-b px-3 py-2 text-[11.5px] font-bold" style={{ background: "#F5F3EF", borderColor: "#E4E0D8" }}>
+            Ouvrir
+          </p>
+          <div className="p-3">
+            <p className="mb-1 text-[10.5px] text-warm-500">Bureau</p>
+            <ul
+              className="mb-3 overflow-auto rounded-lg border"
+              style={{ maxHeight: 132, borderColor: "#DDD8CE" }}
+            >
+              {poste.fichiers.length === 0 && (
+                <li className="px-2.5 py-2 text-[11px] text-warm-500">Aucun classeur ici.</li>
+              )}
+              {poste.fichiers.map((f) => (
+                <li key={f.nom}>
+                  <button
+                    type="button"
+                    data-control={CONTROLES_POSTE.listeFichier(f.nom)}
+                    onClick={() => setChoisi(f.nom)}
+                    onDoubleClick={() => onOuvrir(f.nom)}
+                    className="flex w-full items-center gap-2 px-2.5 py-1.5 text-left text-[11.5px]"
+                    style={{
+                      background: choisi === f.nom ? "#E8F3EC" : "transparent",
+                      color: "#2C2A26",
+                      ...halo(highlight === CONTROLES_POSTE.listeFichier(f.nom)),
+                    }}
+                  >
+                    <span
+                      aria-hidden
+                      className="flex items-center justify-center rounded-[3px] text-[8px] font-bold text-white"
+                      style={{ width: 15, height: 15, background: "#107C41" }}
+                    >
+                      X
+                    </span>
+                    <span className="truncate">{f.nom}.xlsx</span>
+                  </button>
+                </li>
+              ))}
+            </ul>
+            <div className="flex justify-end gap-2">
+              <button
+                type="button"
+                data-control={CONTROLES_POSTE.ouvrirAnnuler}
+                onClick={() => onControl(CONTROLES_POSTE.ouvrirAnnuler)}
+                className="rounded-lg border px-3 py-1.5 text-[12px] font-bold text-warm-600"
+                style={{ borderColor: "#E2DCD1" }}
+              >
+                Annuler
+              </button>
+              <button
+                type="button"
+                data-control={CONTROLES_POSTE.ouvrirValider}
+                onClick={() => choisi && onOuvrir(choisi)}
+                disabled={!choisi}
+                className="rounded-lg px-3 py-1.5 text-[12px] font-bold text-white disabled:opacity-45"
+                style={{ background: "#107C41", ...halo(highlight === CONTROLES_POSTE.ouvrirValider) }}
+              >
+                Ouvrir
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Barre des tâches */}
       <div
         className="relative z-[5] mt-auto flex flex-shrink-0 items-center gap-2 px-2.5 py-1.5 text-white"
@@ -390,9 +541,10 @@ export default function DesktopLayer({ poste, onControl, onEnregistrer, highligh
 @keyframes sim-poste-pulse{0%,100%{box-shadow:0 0 0 3px rgba(232,163,61,.8)}50%{box-shadow:0 0 0 7px rgba(232,163,61,0)}}
 @keyframes sim-poste-menu{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 @keyframes sim-poste-fen{from{opacity:0;transform:scale(.97) translateY(8px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.sim-poste-fen-in{animation:sim-poste-fen .26s cubic-bezier(.2,.9,.2,1) both}
 @keyframes sim-poste-boite{from{opacity:0;transform:translate(-50%,-50%) scale(.95)}to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
 @media (prefers-reduced-motion: reduce){
-  [style*="sim-poste-"]{animation-duration:.01ms !important;animation-iteration-count:1 !important}
+  [style*="sim-poste-"],.sim-poste-fen-in{animation-duration:.01ms !important;animation-iteration-count:1 !important}
 }
 `}</style>
     </div>

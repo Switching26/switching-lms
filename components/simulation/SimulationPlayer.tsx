@@ -415,16 +415,22 @@ export default function SimulationPlayer({
       excelOuvert: scenario.poste?.excelOuvert,
       classeur: scenario.poste?.classeur ?? null,
       fichiers: scenario.poste?.fichiers,
+      modeles: scenario.poste?.modeles,
     }),
   )
   const posteRef = useRef(poste)
   posteRef.current = poste
   useEffect(() => {
     // Univer ne se rend pas dans un conteneur masqué : au retour dans le
-    // classeur, il faut le prévenir que sa surface existe à nouveau.
+    // classeur, il faut le prévenir que sa surface existe à nouveau. Plusieurs
+    // rappels échelonnés, et non un seul : mesuré au banc, un unique resize à
+    // 90 ms pouvait tomber avant que la fenêtre n'ait fini son animation
+    // d'ouverture — le canvas restait alors à zéro et la grille invisible.
     if (poste.excel !== "classeur") return
-    const t = window.setTimeout(() => window.dispatchEvent(new Event("resize")), 90)
-    return () => window.clearTimeout(t)
+    const t = [90, 320, 700].map((d) =>
+      window.setTimeout(() => window.dispatchEvent(new Event("resize")), d),
+    )
+    return () => t.forEach(window.clearTimeout)
   }, [poste.excel])
   /** Panneau latéral ouvert dans l'atelier : sommaire des leçons ou prise de notes. */
   const [panneau, setPanneau] = useState<"lecons" | "notes" | null>(null)
@@ -1325,9 +1331,14 @@ export default function SimulationPlayer({
       else if (controlId === C.reduire) geste = { type: "reduire" }
       else if (controlId === C.nouveau) geste = { type: "nouveau" }
       else if (controlId === C.enregistrer) geste = { type: "ouvrirBoite", boite: "enregistrer" }
+      else if (controlId === C.enregistrerSous) geste = { type: "ouvrirBoite", boite: "enregistrer", forcer: true }
       else if (controlId === C.enregistrerAnnuler) geste = { type: "fermerBoite" }
       else if (controlId === C.enregistrerValider) geste = { type: "enregistrer", nom: nom ?? "" }
+      else if (controlId === C.ouvrir) geste = { type: "ouvrirBoite", boite: "ouvrir" }
+      else if (controlId === C.ouvrirAnnuler) geste = { type: "fermerBoite" }
+      else if (controlId === C.ouvrirValider) geste = { type: "ouvrirFichier", nom: nom ?? "" }
       else if (controlId.startsWith("poste-app-")) geste = { type: "lancer", app: controlId.slice("poste-app-".length) }
+      else if (controlId.startsWith("poste-modele-")) geste = { type: "ouvrirModele", modele: controlId.slice("poste-modele-".length) }
       else if (controlId.startsWith("poste-fichier-")) {
         const cle = controlId.slice("poste-fichier-".length)
         const f = posteRef.current.fichiers.find((x) => CONTROLES_POSTE.fichier(x.nom).endsWith(cle))
@@ -2337,6 +2348,7 @@ export default function SimulationPlayer({
             pleinCadre={!!pleinCadre}
             onControl={handleControl}
             onEnregistrer={(nom) => gestePoste(CONTROLES_POSTE.enregistrerValider, nom)}
+            onOuvrir={(nom) => gestePoste(CONTROLES_POSTE.ouvrirValider, nom)}
             highlight={highlightedControl}
           >
             {/* Jalon d'étape franchie : il couvre la feuille, jamais la bande de
@@ -2929,6 +2941,7 @@ function Enveloppe({
   pleinCadre,
   onControl,
   onEnregistrer,
+  onOuvrir,
   highlight,
   children,
 }: {
@@ -2936,12 +2949,19 @@ function Enveloppe({
   pleinCadre: boolean
   onControl: (id: string) => void
   onEnregistrer: (nom: string) => void
+  onOuvrir: (nom: string) => void
   highlight?: string | null
   children: React.ReactNode
 }) {
   if (poste) {
     return (
-      <DesktopLayer poste={poste} onControl={onControl} onEnregistrer={onEnregistrer} highlight={highlight}>
+      <DesktopLayer
+        poste={poste}
+        onControl={onControl}
+        onEnregistrer={onEnregistrer}
+        onOuvrir={onOuvrir}
+        highlight={highlight}
+      >
         {children}
       </DesktopLayer>
     )

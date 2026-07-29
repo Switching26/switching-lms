@@ -202,6 +202,13 @@ export type AppPoste = { id: string; nom: string; ouvrable?: boolean }
 /** Un classeur enregistré, retrouvable sur le bureau et dans les récents. */
 export type FichierPoste = { nom: string; surBureau?: boolean }
 
+/**
+ * Un modèle proposé par l'écran d'accueil d'Excel. L'ouvrir ne donne JAMAIS le
+ * modèle lui-même mais une copie sans nom : c'est précisément ce que la leçon
+ * « Créer un classeur à partir d'un modèle » veut faire sentir.
+ */
+export type ModelePoste = { id: string; nom: string; apercu?: string }
+
 /** Où en est Excel : fermé, sur son écran d'accueil, ou dans un classeur. */
 export type EtatExcel = "ferme" | "accueil" | "classeur"
 
@@ -219,6 +226,7 @@ export type PosteState = {
   modifie: boolean
   fichiers: FichierPoste[]
   apps: AppPoste[]
+  modeles: ModelePoste[]
 }
 
 /** Ce qu'une étape peut exiger de l'état du poste. */
@@ -239,10 +247,12 @@ export type GestePoste =
   | { type: "fermer" }
   | { type: "reduire" }
   | { type: "nouveau" }
-  | { type: "ouvrirBoite"; boite: Exclude<BoitePoste, "aucune"> }
+  /** `forcer` = « Enregistrer sous » : la fenêtre s'ouvre même si le classeur a déjà un nom. */
+  | { type: "ouvrirBoite"; boite: Exclude<BoitePoste, "aucune">; forcer?: boolean }
   | { type: "fermerBoite" }
   | { type: "enregistrer"; nom: string; surBureau?: boolean }
   | { type: "ouvrirFichier"; nom: string }
+  | { type: "ouvrirModele"; modele: string }
   | { type: "modifier" }
 
 export type PageSetupState = {
@@ -692,6 +702,8 @@ export type SimulationScenario = {
     classeur?: string
     /** Fichiers déjà présents sur le poste. */
     fichiers?: Array<{ nom: string; surBureau?: boolean }>
+    /** Modèles proposés par l'écran d'accueil d'Excel. */
+    modeles?: Array<{ id: string; nom: string; apercu?: string }>
   }
   steps: SimulationStep[]
 }

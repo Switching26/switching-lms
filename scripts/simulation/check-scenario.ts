@@ -219,6 +219,9 @@ function checkStep(s: SimulationStep, i: number, seen: Set<string>, mode: string
   "EXPECT_PAGE_SETUP",
   "EXPECT_MACRO",
   "RECORD_MACRO",
+  // Poste de travail (direction C) : le bureau, le menu Démarrer et les boîtes
+  // de dialogue sont notre couche, qui émet `posteChange` à chaque geste.
+  "EXPECT_POSTE",
   ])
   if (!OBSERVABLE.has(a.type)) {
     err(

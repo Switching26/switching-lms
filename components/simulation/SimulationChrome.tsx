@@ -507,8 +507,13 @@ export default function SimulationChrome({
 
   return (
     <div className="select-none overflow-hidden border border-neutral-300 bg-white" style={{ borderRadius: "8px 8px 0 0" }}>
-      {/* Barre de titre */}
-      <div className="flex items-center gap-2 bg-emerald-700 px-3 py-1.5 text-white">
+      {/* Barre de titre. Effacée quand le poste de travail est là : sa fenêtre
+          en porte déjà une, avec de VRAIS boutons système — deux barres
+          superposées se voyaient immédiatement. */}
+      <div
+        className="items-center gap-2 bg-emerald-700 px-3 py-1.5 text-white"
+        style={{ display: avecPoste ? "none" : "flex" }}
+      >
         <span className="rounded bg-white/20 px-1.5 py-0.5 text-[10px] font-bold">X</span>
         <span className="truncate text-[12px]">
           {fileName} —{" "}
@@ -581,7 +586,9 @@ export default function SimulationChrome({
           <>
             {avecPoste && (
               <Group title="Fichier">
+                <Btn id="poste-ouvrir" label="Ouvrir" />
                 <Btn id="poste-enregistrer" label="Enregistrer" />
+                <Btn id="poste-enregistrer-sous" label="Enregistrer sous" wide />
               </Group>
             )}
             <Group title="Presse-papiers">

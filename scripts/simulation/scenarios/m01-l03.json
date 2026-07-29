@@ -5,10 +5,10 @@
   "moduleTitle": "Prise en main",
   "intro": {
     "title": "OUVRIR, TRAVAILLER, QUITTER",
-    "body": "Un classeur commence toujours par une grille vide et un nom provisoire. Savoir ce qui se passe au démarrage et à la fermeture évite la seule perte vraiment irréparable : celle d'un travail jamais enregistré."
+    "body": "Excel n'est pas encore lancé : vous partez du bureau, comme chaque matin. Un classeur commence toujours par une grille vide et un nom provisoire. Savoir ce qui se passe au démarrage et à la fermeture évite la seule perte vraiment irréparable : celle d'un travail jamais enregistré."
   },
   "outro": {
-    "body": "Vous savez d'où part un classeur, ce que la barre de titre vous dit, et la différence entre fermer un classeur et quitter Excel."
+    "body": "Vous savez lancer Excel, créer un classeur, l'enregistrer sous le nom de votre choix et le fermer — avec le fichier posé sur le bureau pour le prouver."
   },
   "ribbon": [
     "accueil"
@@ -38,17 +38,78 @@
   "steps": [
     {
       "id": "M01-L03-01",
-      "consigne": "Excel se lance depuis le **menu Démarrer**, ou d'un clic sur son icône quand elle est épinglée à la barre des tâches. Il affiche alors un **écran d'accueil** : les modèles en haut, les fichiers récents à gauche. **Nouveau classeur vide** ouvre la grille que vous avez sous les yeux.",
-      "action": {
-        "type": "READ"
+      "consigne": "Excel n'est pas encore ouvert. Tout part du **menu Démarrer**, en bas à gauche de l'écran. ==Cliquez dessus== pour voir vos applications.",
+      "setup": {
+        "poste": {
+          "excel": "ferme",
+          "menu": false,
+          "boite": "aucune"
+        }
       },
-      "points": 0
+      "action": {
+        "type": "EXPECT_POSTE",
+        "poste": {
+          "menu": true
+        }
+      },
+      "aide": {
+        "text": "Le bouton ⊞ tout à gauche de la barre du bas.",
+        "showTarget": true
+      }
     },
     {
       "id": "M01-L03-02",
+      "consigne": "Vos applications sont là. ==Cliquez sur **Excel**==.",
+      "setup": {
+        "poste": {
+          "excel": "ferme",
+          "menu": true,
+          "boite": "aucune"
+        }
+      },
+      "action": {
+        "type": "EXPECT_POSTE",
+        "poste": {
+          "excel": "accueil"
+        }
+      },
+      "aide": {
+        "text": "La tuile Excel, dans le menu qui vient de s'ouvrir.",
+        "showTarget": true
+      },
+      "feedback": "Excel s'ouvre sur son **écran d'accueil** : les modèles en haut, les fichiers récents à gauche. Il ne travaille pas encore — il attend de savoir sur quoi."
+    },
+    {
+      "id": "M01-L03-03",
+      "consigne": "Vous partez d'une page blanche. ==Cliquez sur **Nouveau classeur**==.",
+      "setup": {
+        "poste": {
+          "excel": "accueil",
+          "menu": false,
+          "boite": "aucune"
+        }
+      },
+      "action": {
+        "type": "EXPECT_POSTE",
+        "poste": {
+          "excel": "classeur"
+        }
+      },
+      "aide": {
+        "text": "La première vignette, celle qui est vide.",
+        "showTarget": true
+      },
+      "feedback": "La grille apparaît. Regardez la **barre de titre** : `Classeur1`. Ce n'est pas un nom, c'est un numéro provisoire — ce classeur n'existe encore nulle part sur le disque."
+    },
+    {
+      "id": "M01-L03-04",
       "consigne": "Le classeur est vierge : tout part de vous. En **A1**, ==saisissez `Relevé d'heures mars 2026`==.",
       "setup": {
-        "selection": "A1"
+        "selection": "A1",
+        "poste": {
+          "excel": "classeur",
+          "boite": "aucune"
+        }
       },
       "action": {
         "type": "TYPE",
@@ -65,10 +126,14 @@
       "feedback": "Regardez la **barre de titre**, en haut : elle affiche encore `Classeur1`. Un classeur n'a pas de nom tant qu'il n'a pas été enregistré."
     },
     {
-      "id": "M01-L03-03",
+      "id": "M01-L03-05",
       "consigne": "==Créez les deux en-têtes== : **Nom** en A3, **Heures** en B3.",
       "setup": {
-        "selection": "A3"
+        "selection": "A3",
+        "poste": {
+          "excel": "classeur",
+          "boite": "aucune"
+        }
       },
       "action": {
         "type": "EXPECT_STATE",
@@ -87,10 +152,14 @@
       "feedback": "Une ligne d'en-têtes rend le tableau lisible — et permettra plus tard à Excel de le reconnaître."
     },
     {
-      "id": "M01-L03-04",
+      "id": "M01-L03-06",
       "consigne": "Les en-têtes sont sélectionnés. ==Cliquez sur **G**== pour les mettre en gras.",
       "setup": {
-        "selection": "A3:B3"
+        "selection": "A3:B3",
+        "poste": {
+          "excel": "classeur",
+          "boite": "aucune"
+        }
       },
       "action": {
         "type": "CLICK_CONTROL",
@@ -102,10 +171,14 @@
       }
     },
     {
-      "id": "M01-L03-05",
+      "id": "M01-L03-07",
       "consigne": "==Saisissez les trois relevés== : **Lemoine 35**, **Ravel 28**, **Nadaud 32**, à partir de la ligne 4.",
       "setup": {
-        "selection": "A4"
+        "selection": "A4",
+        "poste": {
+          "excel": "classeur",
+          "boite": "aucune"
+        }
       },
       "action": {
         "type": "EXPECT_STATE",
@@ -136,7 +209,7 @@
       "feedback": "Les noms se calent à gauche, les heures à droite : Excel a bien distingué le texte du nombre."
     },
     {
-      "id": "M01-L03-06",
+      "id": "M01-L03-08",
       "consigne": "En **B8**, ==totalisez les heures== du mois.",
       "setup": {
         "selection": "B8",
@@ -147,6 +220,10 @@
               "bold": true
             }
           }
+        },
+        "poste": {
+          "excel": "classeur",
+          "boite": "aucune"
         }
       },
       "action": {
@@ -165,7 +242,7 @@
       "feedback": "95 heures."
     },
     {
-      "id": "M01-L03-07",
+      "id": "M01-L03-09",
       "consigne": "En **B9**, ==trouvez le relevé le plus élevé==.",
       "setup": {
         "selection": "B9",
@@ -176,6 +253,10 @@
               "bold": true
             }
           }
+        },
+        "poste": {
+          "excel": "classeur",
+          "boite": "aucune"
         }
       },
       "action": {
@@ -193,7 +274,7 @@
       "feedback": "35 heures, celles de Lemoine."
     },
     {
-      "id": "M01-L03-08",
+      "id": "M01-L03-10",
       "consigne": "En **B10**, ==trouvez le relevé le plus bas==.",
       "setup": {
         "selection": "B10",
@@ -204,6 +285,10 @@
               "bold": true
             }
           }
+        },
+        "poste": {
+          "excel": "classeur",
+          "boite": "aucune"
         }
       },
       "action": {
@@ -221,20 +306,98 @@
       "feedback": "28 heures. Le tableau est complet — et n'existe encore que dans la mémoire de l'ordinateur."
     },
     {
-      "id": "M01-L03-09",
-      "consigne": "C'est le moment d'enregistrer. **Ctrl + S** le fait. La **première** fois, Excel demande le dossier et le nom du fichier ; ensuite, le même raccourci écrase la version précédente sans rien demander. Dès l'enregistrement, la barre de titre remplace `Classeur1` par le nom que vous avez choisi, suivi de `.xlsx`.",
-      "action": {
-        "type": "READ"
+      "id": "M01-L03-11",
+      "consigne": "Le tableau est complet — et n'existe encore que dans la mémoire de l'ordinateur. ==Cliquez sur **Enregistrer**==, dans le ruban. **Ctrl + S** fait la même chose.",
+      "setup": {
+        "poste": {
+          "excel": "classeur",
+          "boite": "aucune"
+        }
       },
-      "points": 0
+      "action": {
+        "type": "EXPECT_POSTE",
+        "poste": {
+          "boite": "enregistrer"
+        }
+      },
+      "aide": {
+        "text": "Groupe Fichier, tout à gauche du ruban Accueil.",
+        "showTarget": true
+      },
+      "feedback": "Excel demande **où** et **sous quel nom**. Il ne le demandera qu'une fois : les enregistrements suivants écraseront celui-ci sans rien dire."
     },
     {
-      "id": "M01-L03-10",
-      "consigne": "**Fermer** et **quitter** ne sont pas la même chose : **Ctrl + W** ferme le classeur et laisse Excel ouvert, la croix en haut à droite ou **Alt + F4** quitte l'application. Dans les deux cas, si des modifications n'ont pas été enregistrées, Excel demande avant de fermer — ne répondez « Ne pas enregistrer » qu'en sachant ce que vous perdez. Excel garde aussi une copie de secours toutes les dix minutes et la propose au redémarrage après une coupure : c'est un filet, pas une méthode.",
+      "id": "M01-L03-12",
+      "consigne": "==Nommez le fichier `Releve-heures-mars-2026`== et validez avec **Enregistrer**.",
+      "setup": {
+        "poste": {
+          "excel": "classeur",
+          "boite": "enregistrer"
+        }
+      },
+      "action": {
+        "type": "EXPECT_POSTE",
+        "poste": {
+          "classeur": "Releve-heures-mars-2026"
+        }
+      },
+      "aide": {
+        "text": "Effacez « Classeur1 », tapez le nom demandé, puis cliquez sur Enregistrer.",
+        "showTarget": true
+      },
+      "feedback": "La barre de titre a changé : `Releve-heures-mars-2026.xlsx`. Le classeur a un nom, un emplacement, et une existence en dehors d'Excel."
+    },
+    {
+      "id": "M01-L03-13",
+      "consigne": "Le travail est en sécurité. ==Fermez la fenêtre== avec la croix, en haut à droite.",
+      "setup": {
+        "poste": {
+          "excel": "classeur",
+          "boite": "aucune",
+          "classeur": "Releve-heures-mars-2026",
+          "modifie": false,
+          "fichiers": [
+            {
+              "nom": "Releve-heures-mars-2026",
+              "surBureau": true
+            }
+          ]
+        }
+      },
+      "action": {
+        "type": "EXPECT_POSTE",
+        "poste": {
+          "excel": "ferme"
+        }
+      },
+      "aide": {
+        "text": "Le ✕ de la barre verte, tout en haut à droite de la fenêtre.",
+        "showTarget": true
+      },
+      "feedback": "Excel se referme sans rien demander : il n'y avait plus rien à sauver. Et votre fichier est là, sur le bureau."
+    },
+    {
+      "id": "M01-L03-14",
+      "consigne": "Une dernière distinction. **Ctrl + W** ferme le classeur et laisse Excel ouvert ; la croix ou **Alt + F4** quitte l'application. Dans les deux cas, si des modifications n'ont pas été enregistrées, Excel demande avant de fermer — ne répondez « Ne pas enregistrer » qu'en sachant ce que vous perdez. Excel garde aussi une copie de secours toutes les dix minutes et la propose au redémarrage après une coupure : c'est un filet, pas une méthode.",
+      "setup": {
+        "poste": {
+          "excel": "ferme",
+          "boite": "aucune",
+          "fichiers": [
+            {
+              "nom": "Releve-heures-mars-2026",
+              "surBureau": true
+            }
+          ]
+        }
+      },
       "action": {
         "type": "READ"
       },
       "points": 0
     }
-  ]
+  ],
+  "poste": {
+    "excelOuvert": false
+  }
 }

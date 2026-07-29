@@ -5,10 +5,10 @@
   "moduleTitle": "Prise en main",
   "intro": {
     "title": "NE JAMAIS REPARTIR DE ZÉRO",
-    "body": "Un modèle est un classeur prêt à l'emploi : la structure, les formules et la présentation sont déjà en place. Il ne reste qu'à remplir — et le calcul se fait tout seul."
+    "body": "Un modèle est un classeur prêt à l'emploi : la structure, les formules et la présentation sont déjà en place. Vous allez en ouvrir un, le remplir, et lui donner son propre nom — sans jamais toucher au modèle lui-même."
   },
   "outro": {
-    "body": "Vous savez utiliser un modèle, et enregistrer le vôtre pour la fois suivante."
+    "body": "Vous savez ouvrir un modèle, constater qu'Excel vous en donne une copie, la remplir et l'enregistrer sous votre nom."
   },
   "ribbon": [
     "accueil"
@@ -113,17 +113,79 @@
   "steps": [
     {
       "id": "M01-L06-01",
-      "consigne": "**Fichier > Nouveau** propose des modèles : facture, budget, planning, note de frais. On ne travaille jamais dans le modèle lui-même — Excel en fait une **copie**, et c'est cette copie que vous remplissez. Le modèle reste intact pour la fois suivante.",
-      "action": {
-        "type": "READ"
+      "consigne": "Une note de frais à rendre, et aucune envie de tout reconstruire. ==Ouvrez le menu **Démarrer**==.",
+      "setup": {
+        "poste": {
+          "excel": "ferme",
+          "menu": false,
+          "boite": "aucune"
+        }
       },
-      "points": 0
+      "action": {
+        "type": "EXPECT_POSTE",
+        "poste": {
+          "menu": true
+        }
+      },
+      "aide": {
+        "text": "Le bouton ⊞ en bas à gauche.",
+        "showTarget": true
+      }
     },
     {
       "id": "M01-L06-02",
+      "consigne": "==Lancez **Excel**==.",
+      "setup": {
+        "poste": {
+          "excel": "ferme",
+          "menu": true,
+          "boite": "aucune"
+        }
+      },
+      "action": {
+        "type": "EXPECT_POSTE",
+        "poste": {
+          "excel": "accueil"
+        }
+      },
+      "aide": {
+        "text": "La tuile Excel du menu.",
+        "showTarget": true
+      },
+      "feedback": "À côté de « Nouveau classeur », l'écran d'accueil propose des **modèles** : facture, budget, planning, note de frais."
+    },
+    {
+      "id": "M01-L06-03",
+      "consigne": "==Cliquez sur le modèle **Note de frais**==.",
+      "setup": {
+        "poste": {
+          "excel": "accueil",
+          "menu": false,
+          "boite": "aucune"
+        }
+      },
+      "action": {
+        "type": "EXPECT_POSTE",
+        "poste": {
+          "excel": "classeur"
+        }
+      },
+      "aide": {
+        "text": "La deuxième vignette de l'écran d'accueil, celle qui montre un tableau.",
+        "showTarget": true
+      },
+      "feedback": "Regardez la **barre de titre** : `Classeur1`, et non « Note de frais ». On ne travaille jamais dans le modèle lui-même — Excel en fait une **copie**, et c'est cette copie que vous remplissez. Le modèle reste intact pour la fois suivante."
+    },
+    {
+      "id": "M01-L06-04",
       "consigne": "Le modèle attend d'abord qui déclare. En **B3**, ==saisissez `Bonnefoy`==.",
       "setup": {
-        "selection": "B3"
+        "selection": "B3",
+        "poste": {
+          "excel": "classeur",
+          "boite": "aucune",
+          "classeur": null
+        }
       },
       "action": {
         "type": "TYPE",
@@ -138,10 +200,15 @@
       }
     },
     {
-      "id": "M01-L06-03",
+      "id": "M01-L06-05",
       "consigne": "En **B4**, ==saisissez `Mars 2026`==.",
       "setup": {
-        "selection": "B4"
+        "selection": "B4",
+        "poste": {
+          "excel": "classeur",
+          "boite": "aucune",
+          "classeur": null
+        }
       },
       "action": {
         "type": "TYPE",
@@ -156,10 +223,15 @@
       }
     },
     {
-      "id": "M01-L06-04",
+      "id": "M01-L06-06",
       "consigne": "==Saisissez les quatre dépenses== dans la colonne **Montant**, de C7 à C10 : **38,50** de train, **12,90** de repas, **89** d'hôtel, **6,60** de taxi.",
       "setup": {
-        "selection": "C7"
+        "selection": "C7",
+        "poste": {
+          "excel": "classeur",
+          "boite": "aucune",
+          "classeur": null
+        }
       },
       "action": {
         "type": "EXPECT_STATE",
@@ -188,7 +260,7 @@
       "feedback": "147,00 € de sous-total, apparu sans que vous écriviez la moindre formule : elle était déjà dans le modèle."
     },
     {
-      "id": "M01-L06-05",
+      "id": "M01-L06-07",
       "consigne": "C'est tout l'intérêt d'un modèle. ==Cliquez sur **C11**== et regardez la barre de formule.",
       "action": {
         "type": "CLICK_CELL",
@@ -198,13 +270,25 @@
         "text": "La cellule du sous-total.",
         "showTarget": true
       },
-      "feedback": "`=SOMME(C7:C10)` : quelqu'un l'a écrite une fois pour toutes. C'est ce travail-là qu'un modèle vous fait économiser."
+      "feedback": "`=SOMME(C7:C10)` : quelqu'un l'a écrite une fois pour toutes. C'est ce travail-là qu'un modèle vous fait économiser.",
+      "setup": {
+        "poste": {
+          "excel": "classeur",
+          "boite": "aucune",
+          "classeur": null
+        }
+      }
     },
     {
-      "id": "M01-L06-06",
+      "id": "M01-L06-08",
       "consigne": "Reste le kilométrage. En **B14**, ==saisissez `240`== et regardez les deux dernières lignes.",
       "setup": {
-        "selection": "B14"
+        "selection": "B14",
+        "poste": {
+          "excel": "classeur",
+          "boite": "aucune",
+          "classeur": null
+        }
       },
       "action": {
         "type": "EXPECT_STATE",
@@ -229,10 +313,15 @@
       "feedback": "129,60 € d'indemnité, 276,60 € à rembourser. Une saisie, deux calculs."
     },
     {
-      "id": "M01-L06-07",
+      "id": "M01-L06-09",
       "consigne": "Le barème change chaque année. ==En **B13**, passez le barème à `0,58`== et observez le total.",
       "setup": {
-        "selection": "B13"
+        "selection": "B13",
+        "poste": {
+          "excel": "classeur",
+          "boite": "aucune",
+          "classeur": null
+        }
       },
       "action": {
         "type": "EXPECT_STATE",
@@ -257,10 +346,15 @@
       "feedback": "286,20 €. Un bon modèle sort ses paramètres des formules et les met dans des cellules visibles : c'est ce qui le rend réutilisable."
     },
     {
-      "id": "M01-L06-08",
+      "id": "M01-L06-10",
       "consigne": "==Donnez un format monétaire aux montants **C7:C11**== pour finir la présentation.",
       "setup": {
-        "selection": "C7:C11"
+        "selection": "C7:C11",
+        "poste": {
+          "excel": "classeur",
+          "boite": "aucune",
+          "classeur": null
+        }
       },
       "action": {
         "type": "EXPECT_FORMAT",
@@ -279,12 +373,75 @@
       }
     },
     {
-      "id": "M01-L06-09",
+      "id": "M01-L06-11",
+      "consigne": "Cette copie n'a toujours pas de nom. ==Cliquez sur **Enregistrer**==.",
+      "setup": {
+        "poste": {
+          "excel": "classeur",
+          "boite": "aucune",
+          "classeur": null
+        }
+      },
+      "action": {
+        "type": "EXPECT_POSTE",
+        "poste": {
+          "boite": "enregistrer"
+        }
+      },
+      "aide": {
+        "text": "Groupe Fichier, à gauche du ruban Accueil.",
+        "showTarget": true
+      },
+      "feedback": "Excel demande un nom : c'est la première fois qu'il enregistre ce classeur. Sur un fichier déjà nommé, il n'aurait rien demandé du tout."
+    },
+    {
+      "id": "M01-L06-12",
+      "consigne": "==Nommez la note `Note-de-frais-mars-2026`== et validez.",
+      "setup": {
+        "poste": {
+          "excel": "classeur",
+          "classeur": null,
+          "boite": "enregistrer"
+        }
+      },
+      "action": {
+        "type": "EXPECT_POSTE",
+        "poste": {
+          "classeur": "Note-de-frais-mars-2026",
+          "fichiers": [
+            "Note-de-frais-mars-2026"
+          ]
+        }
+      },
+      "aide": {
+        "text": "Effacez « Classeur1 », tapez le nom demandé, puis cliquez sur Enregistrer.",
+        "showTarget": true
+      },
+      "feedback": "Votre note existe maintenant comme fichier. Le modèle, lui, n'a pas bougé d'un pixel : il resservira le mois prochain."
+    },
+    {
+      "id": "M01-L06-13",
       "consigne": "Pour transformer votre propre classeur en modèle : **Enregistrer sous**, puis le format **Modèle Excel (.xltx)**. Excel le range dans vos modèles personnalisés, où **Fichier > Nouveau** ira le chercher. Videz les données avant d'enregistrer — un modèle qui contient encore les chiffres du mois dernier fait plus de dégâts qu'une page blanche.",
+      "setup": {
+        "poste": {
+          "excel": "classeur",
+          "classeur": "Note-de-frais-mars-2026",
+          "boite": "aucune"
+        }
+      },
       "action": {
         "type": "READ"
       },
       "points": 0
     }
-  ]
+  ],
+  "poste": {
+    "excelOuvert": false,
+    "modeles": [
+      {
+        "id": "note-de-frais",
+        "nom": "Note de frais"
+      }
+    ]
+  }
 }

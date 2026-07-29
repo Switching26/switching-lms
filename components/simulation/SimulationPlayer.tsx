@@ -32,6 +32,7 @@ import {
 } from "@/lib/simulation/attendu"
 import DesktopLayer from "./DesktopLayer"
 import AfficheModule, { numeroModule } from "./AfficheModule"
+import DemonstrationGeste, { planDemonstration, type PlanDemo, type Rect } from "./DemonstrationGeste"
 import { CONTROLES_POSTE, appliquerGeste, posteInitial } from "@/lib/simulation/poste"
 import ChartLayer from "./ChartLayer"
 import PivotLayer from "./PivotLayer"
@@ -1948,6 +1949,53 @@ export default function SimulationPlayer({
     // première étape de chaque leçon restait sans repère.
   }, [mode, hintShown, step, index, gridReady, essais, demonstration])
 
+  /**
+   * Géométrie de la démonstration animée. Recalculée comme le halo, à partir des
+   * métriques d'Univer — la grille est un canvas, il n'existe aucun élément DOM
+   * par cellule. `null` tant que le geste ne se montre pas honnêtement : on garde
+   * alors la réponse écrite.
+   */
+  const [demo, setDemo] = useState<{ plan: PlanDemo; cible: Rect; suivante: Rect | null; largeur: number } | null>(null)
+  useEffect(() => {
+    const grid = gridRef.current
+    if (!demonstration || !step || !grid || mode === "EVALUATION") {
+      setDemo(null)
+      return
+    }
+    const plan = planDemonstration(step.action)
+    if (!plan) {
+      setDemo(null)
+      return
+    }
+    const poser = () => {
+      let cible: Rect | null = null
+      if (plan.cellule) cible = grid.getCellRect(plan.cellule)
+      else if (plan.controle) {
+        // Un bouton du ruban vit dans le DOM : on ramène sa position dans le
+        // repère du calque, qui est celui de la grille.
+        const el = document.querySelector(`[data-control="${plan.controle}"]`)
+        const hote = zoneGrilleRef.current
+        if (el && hote) {
+          const r = el.getBoundingClientRect()
+          const h = hote.getBoundingClientRect()
+          cible = { left: r.left - h.left, top: r.top - h.top, width: r.width, height: r.height }
+        }
+      }
+      if (!cible) return false
+      setDemo({
+        plan,
+        cible,
+        suivante: plan.suivante ? grid.getCellRect(plan.suivante) : null,
+        largeur: zoneGrilleRef.current?.clientWidth ?? 640,
+      })
+      return true
+    }
+    if (!poser()) {
+      const t = window.setTimeout(poser, 350)
+      return () => window.clearTimeout(t)
+    }
+  }, [demonstration, step, index, gridReady, mode])
+
   /* ── Rendu ─────────────────────────────────────────────────────────────── */
 
   if (!step && !finished) {
@@ -2480,7 +2528,7 @@ export default function SimulationPlayer({
                   onMove={deplacerGraphique}
                 />
               )}
-              {halo && (
+              {halo && !demo && (
                 <div
                   aria-hidden
                   className="pointer-events-none absolute rounded-[3px] ring-2 ring-amber-400 ring-offset-0 animate-pulse"
@@ -2494,9 +2542,18 @@ export default function SimulationPlayer({
                   }}
                 />
               )}
+              {demo && (
+                <DemonstrationGeste
+                  key={`demo${index}`}
+                  plan={demo.plan}
+                  cible={demo.cible}
+                  suivante={demo.suivante}
+                  largeur={demo.largeur}
+                />
+              )}
               {/* Bulle d'aide ANCRÉE à la cellule cible : le guide vit sur la
                   feuille, pas seulement en petit texte sous l'écran. */}
-              {halo && hintShown && step?.aide?.text && (
+              {halo && hintShown && step?.aide?.text && !demo && (
                 <div
                   className="pointer-events-none absolute rounded-lg bg-amber-50 px-2.5 py-1.5 text-[12px] font-medium leading-snug text-amber-900 shadow-md ring-1 ring-amber-300"
                   style={{

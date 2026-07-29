@@ -561,6 +561,12 @@ export default function SimulationPlayer({
    * ferait sauter à la suivante au milieu de la démonstration.
    */
   const demoEcritRef = useRef(false)
+  /**
+   * Cellules touchées par une démonstration jouée sur un écran de LECTURE, avec
+   * leur valeur d'avant. Une lecture illustre : elle ne doit pas laisser le
+   * classeur modifié pour l'étape suivante.
+   */
+  const avantDemoRef = useRef<Record<string, string>>({})
 
   const step: SimulationStep | undefined = steps[index]
   /**
@@ -690,6 +696,7 @@ export default function SimulationPlayer({
       }
       setFormulaText("")
       setVerdict(null)
+      avantDemoRef.current = {}
       setHintShown(mode === "LESSON")
       // Chaque étape repart d'une ardoise vierge : l'aide progressive se
       // rejoue depuis le premier palier.
@@ -996,8 +1003,13 @@ export default function SimulationPlayer({
       // un tableau long — écopait d'une erreur pour s'être déplacé.
       const navigation =
         observed.kind === "cellClick" || observed.kind === "dragRange" || observed.kind === "gotoRef"
+      // Une étape de LECTURE ne peut pas être ratée : il n'y a rien à y faire.
+      // Taper ou cliquer par réflexe y comptait une faute — au score, et avec
+      // un verdict rouge « ce n'est pas bon » sous les yeux de l'apprenant.
       const isRealMistake =
-        !navigation && !surEtat
+        step.action.type === "READ"
+          ? false
+          : !navigation && !surEtat
           ? true
           : (observed.kind === "cellClick" && step.action.type === "CLICK_CELL") ||
             (observed.kind === "dragRange" && step.action.type === "DRAG_RANGE") ||
@@ -1016,6 +1028,14 @@ export default function SimulationPlayer({
         })
         setVerdict(v)
         lancerFx(step, "ko", v.message)
+      } else if (step.action.type === "READ") {
+        // Rappel neutre, sans verdict rouge ni secousse : on indique juste où
+        // cliquer pour continuer. Réservé aux gestes VOLONTAIRES : la mise en
+        // place de l'étape émet un `stateChange` qui affichait le rappel avant
+        // même que l'apprenant ait touché quoi que ce soit.
+        if (observed.kind !== "stateChange") {
+          setVerdict({ ok: false, reason: "read_step_action", message: v.message })
+        }
       } else {
         // TOUT geste qui n'a pas fait avancer l'étape compte comme tâtonnement,
         // qu'il s'agisse d'un déplacement ou d'un réglage intermédiaire. Il ne
@@ -2033,7 +2053,18 @@ export default function SimulationPlayer({
    * compteur figé à « 1 / 8 ». C'est le « des fois elle se finit pas ».
    */
   const demo = useMemo(() => {
-    if (!demonstration || !step || mode === "EVALUATION") return null
+    if (!demonstration || !step) return null
+    // Un écran de lecture montre le geste qu'il décrit, y compris pendant une
+    // évaluation : ce n'est pas une aide sur une question notée, c'est le
+    // contenu lui-même. Partout ailleurs, l'évaluation reste sans démonstration.
+    if (step.montrer?.length) {
+      // Les plans s'enchaînent : les gestes bout à bout, les repères de suivi
+      // à la file, pour un compteur « i / n » qui court sur toute la séquence.
+      const plans = step.montrer.map(planDemonstration).filter(Boolean) as PlanDemo[]
+      if (plans.length === 0) return null
+      return { gestes: plans.flatMap((p) => p.gestes), pas: plans.flatMap((p) => p.pas) }
+    }
+    if (mode === "EVALUATION") return null
     return planDemonstration(step.action)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [demonstration, index, mode])
@@ -2071,6 +2102,12 @@ export default function SimulationPlayer({
       const r = grid?.getCellRect(`A${cible.ligne}`)
       return r ? { left: Math.max(0, r.left - 46), top: r.top, width: 46, height: r.height } : null
     }
+    if (cible.k === "clavier") {
+      // Un raccourci n'a pas de lieu : on réserve un cadre au centre de la
+      // feuille, où le composant posera les touches sans curseur de souris.
+      const h = hote.getBoundingClientRect()
+      return { left: h.width / 2 - 90, top: h.height / 2 - 34, width: 180, height: 68 }
+    }
     const el = document.querySelector(cible.sel)
     if (!el) return null
     const r = el.getBoundingClientRect()
@@ -2079,17 +2116,46 @@ export default function SimulationPlayer({
     return { left: r.left - h.left, top: r.top - h.top, width: r.width, height: r.height }
   }, [])
 
+  /**
+   * Remet les cellules dans l'état d'avant la démonstration d'un écran de
+   * lecture. Sans cela, « Voir le geste » laissait la valeur montrée dans la
+   * feuille et l'étape suivante démarrait sur un classeur faussé.
+   */
+  const rendreClasseur = useCallback(() => {
+    const grid = gridRef.current
+    const avant = avantDemoRef.current
+    const refs = Object.keys(avant)
+    if (!grid || refs.length === 0) return
+    demoEcritRef.current = true
+    const cells: Record<string, unknown> = {}
+    for (const ref of refs) {
+      const v = avant[ref]
+      cells[ref] = v === "" ? {} : v.trim().startsWith("=") ? { f: v } : { v }
+    }
+    grid.applyCells(cells as Parameters<typeof grid.applyCells>[0])
+    avantDemoRef.current = {}
+    window.setTimeout(() => {
+      demoEcritRef.current = false
+    }, 800)
+  }, [])
+
   /** Écrit une valeur pendant la démonstration, sans déclencher la validation. */
   const ecrireDemo = useCallback((ref: string, valeur: string) => {
     const grid = gridRef.current
     if (!grid) return
+    // Sur un écran de lecture, on note la valeur d'avant pour la remettre à la
+    // fin : la démonstration illustre, elle ne modifie pas le classeur.
+    if (stepRef.current?.action.type === "READ" && !(ref in avantDemoRef.current)) {
+      const v = lireCellule(ref)
+      avantDemoRef.current[ref] = v == null || v === "" ? "" : String(v)
+    }
     demoEcritRef.current = true
     grid.applyCells({ [ref]: valeur === "" ? {} : valeur.trim().startsWith("=") ? { f: valeur } : { v: valeur } })
     // `stateChange` est temporisé de 350 ms côté grille : on relâche après.
     window.setTimeout(() => {
       demoEcritRef.current = false
     }, 800)
-  }, [])
+  }, [lireCellule])
 
   /* ── Rendu ─────────────────────────────────────────────────────────────── */
 
@@ -2642,7 +2708,10 @@ export default function SimulationPlayer({
               {demo && (
                 <DemonstrationGeste
                   key={`demo${index}-${rejeu}`}
-                  onFini={() => setDemoFinie(true)}
+                  onFini={() => {
+                    setDemoFinie(true)
+                    rendreClasseur()
+                  }}
                   plan={demo}
                   resoudre={resoudreCible}
                   onEcrire={ecrireDemo}
@@ -2778,8 +2847,17 @@ export default function SimulationPlayer({
           <div
             className="relative flex flex-shrink-0 flex-wrap items-center gap-x-4 gap-y-2 overflow-hidden border-t border-border px-4 py-3"
             style={{
-              borderLeft: `4px solid ${relaisActif ? "#22A75A" : verdict ? (verdict.ok ? "#059669" : "#e11d48") : "#107C41"}`,
-              background: relaisActif ? "#F2FBF6" : verdict ? (verdict.ok ? "#F2FBF6" : "#FEF4F5") : "#fff",
+              borderLeft: `4px solid ${
+                relaisActif ? "#22A75A"
+                : step?.action.type === "READ" ? "#3E5A67"
+                : verdict ? (verdict.ok ? "#059669" : "#e11d48")
+                : "#107C41"
+              }`,
+              background:
+                relaisActif ? "#F2FBF6"
+                : step?.action.type === "READ" ? "#fff"
+                : verdict ? (verdict.ok ? "#F2FBF6" : "#FEF4F5")
+                : "#fff",
               transition: "background-color .3s ease, border-color .3s ease",
             }}
           >
@@ -2834,7 +2912,13 @@ export default function SimulationPlayer({
                 }}
               >
                 <span aria-hidden>{nature === "lecture" ? "👁" : nature === "evaluee" ? "★" : "✋"}</span>
-                {nature === "lecture" ? "À lire" : nature === "evaluee" ? "Évalué" : "À vous de jouer"}
+                {nature === "lecture"
+                  ? evaluationNotee
+                    ? "Énoncé"
+                    : "À lire"
+                  : nature === "evaluee"
+                  ? "Évalué"
+                  : "À vous de jouer"}
               </span>
               <div style={{ fontSize: 15, lineHeight: 1.45 }}>
                 {step && <Consigne text={step.consigne} />}
@@ -2847,7 +2931,7 @@ export default function SimulationPlayer({
                   Attendu : <b className="font-semibold text-ink">{attendu}</b>
                 </p>
               )}
-              {evaluationNotee && (
+              {evaluationNotee && nature !== "lecture" && (
                 <p className="mt-1 text-[12px]" style={{ color: "#8A5A12" }}>
                   <span aria-hidden>★ </span>Compté dans votre note
                 </p>
@@ -2861,8 +2945,18 @@ export default function SimulationPlayer({
                   {step.aide.text}
                 </p>
               )}
+              {/* Écran de lecture : l'apprenant qui tape ou clique par réflexe ne
+                  voyait RIEN — la saisie est refusée en silence par le verrou de
+                  cellules, et le verdict ne sert qu'à teinter le fond. On le lui
+                  dit, en gris, sans le moindre air de reproche. */}
+              {step?.action.type === "READ" && verdict && !verdict.ok && (
+                <p className="mt-1.5 text-[13px] text-warm-600">
+                  <span aria-hidden>💡 </span>
+                  {verdict.message}
+                </p>
+              )}
               {/* Aide progressive : l'apprenant coincé n'est jamais laissé sans issue. */}
-              {step && (essais >= 3 || tatonnements >= 6 || tropLong) && !demonstration && (
+              {step && step.action.type !== "READ" && (essais >= 3 || tatonnements >= 6 || tropLong) && !demonstration && (
                 <div
                   className="mt-2 flex flex-wrap items-center gap-2 rounded-lg px-3 py-2 text-[12.5px]"
                   style={{ background: "#FDEDEC", border: "1px solid #F3D2CE", color: "#7A2620" }}
@@ -2884,7 +2978,7 @@ export default function SimulationPlayer({
                   </button>
                 </div>
               )}
-              {step && demonstration && (
+              {step && demonstration && step.action.type !== "READ" && (
                 <div
                   className="mt-2 flex flex-wrap items-center gap-2 rounded-lg px-3 py-2 text-[12.5px]"
                   style={
@@ -2971,6 +3065,37 @@ export default function SimulationPlayer({
                   className="rounded-lg border border-border px-3 py-1.5 text-[12.5px] font-medium text-warm-700 hover:bg-warm-50"
                 >
                   Un indice
+                </button>
+              )}
+              {/* Écran de lecture qui décrit un geste : on le MONTRE. Le
+                  paragraphe devient une démonstration jouée, rejouable, sans
+                  rien exiger de l'apprenant — il regarde, puis il continue. */}
+              {step?.action.type === "READ" && step.montrer && !demonstration && (
+                <button
+                  type="button"
+                  data-control="sim-voir-geste"
+                  onClick={() => {
+                    setDemoFinie(false)
+                    setDemonstration(true)
+                  }}
+                  className="rounded-lg px-4 py-2 text-[12.5px] font-bold text-white"
+                  style={{ background: "#107C41" }}
+                >
+                  <span aria-hidden>▶</span> Voir le geste
+                </button>
+              )}
+              {step?.action.type === "READ" && step.montrer && demonstration && demoFinie && (
+                <button
+                  type="button"
+                  data-control="sim-revoir-geste"
+                  onClick={() => {
+                    setDemoFinie(false)
+                    setRejeu((n) => n + 1)
+                  }}
+                  className="rounded-lg border px-4 py-2 text-[12.5px] font-bold"
+                  style={{ borderColor: "#107C41", color: "#107C41" }}
+                >
+                  <span aria-hidden>↻</span> Revoir
                 </button>
               )}
               {step?.action.type === "READ" && (

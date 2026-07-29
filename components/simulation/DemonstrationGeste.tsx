@@ -74,8 +74,13 @@ export default function DemonstrationGeste({ plan, resoudre, largeur, onEcrire, 
       if (p === "avertir") return "vise"
       if (p === "vise") return "bulle"
       if (p === "bulle") return geste?.glisserVers ? "glisse" : "clic"
-      if (p === "glisse") return "fini"
-      if (p === "clic") return geste?.frappe ? "frappe" : geste?.ecrire ? "valide" : "fini"
+      // TOUT geste sort par « valide » : c'est le seul endroit qui décide
+      // entre passer au suivant et terminer. Un clic sec ou un glissement
+      // filaient droit sur « fini » et arrêtaient la séquence entière à leur
+      // hauteur — une démonstration en huit gestes s'interrompait au premier
+      // clic de repérage, compteur figé (défaut trouvé le 29/07/2026).
+      if (p === "glisse") return "valide"
+      if (p === "clic") return geste?.frappe ? "frappe" : "valide"
       if (p === "frappe") return "valide"
       return "fini"
     })
@@ -162,12 +167,24 @@ export default function DemonstrationGeste({ plan, resoudre, largeur, onEcrire, 
         ? { x: rect.left + rect.width * 0.5, y: rect.top + rect.height * 0.42 }
         : null
 
+  /**
+   * Repère atteint dans la liste des pas.
+   *
+   * Sur une séquence de plusieurs gestes, les pas se répartissent entre eux :
+   * caler l'avancement sur la seule phase cochait toute la liste dès le premier
+   * geste validé, alors qu'il en restait sept à jouer.
+   */
   const pasCourant =
     plan.pas.length === 1 ? 0
-    : phase === "frappe" ? Math.min(1, plan.pas.length - 1)
-    : phase === "valide" || phase === "fini" ? plan.pas.length - 1
-    : plan.gestes.length > 1 && i > 0 ? Math.min(1, plan.pas.length - 1)
-    : 0
+    : plan.gestes.length > 1
+      ? Math.min(
+          Math.round((i / Math.max(1, plan.gestes.length - 1)) * (plan.pas.length - 1)) +
+            (phase === "fini" ? 1 : 0),
+          plan.pas.length - 1,
+        )
+      : phase === "frappe" ? Math.min(1, plan.pas.length - 1)
+      : phase === "valide" || phase === "fini" ? plan.pas.length - 1
+      : 0
 
   return (
     <div aria-hidden className="pointer-events-none absolute inset-0" style={{ zIndex: 40 }}>
@@ -205,7 +222,7 @@ export default function DemonstrationGeste({ plan, resoudre, largeur, onEcrire, 
           const fait = n < pasCourant || phase === "fini"
           return (
             <span
-              key={p}
+              key={`${n}-${p}`}
               className="flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] leading-none"
               style={{
                 background: actif ? "rgba(16,124,65,.1)" : "rgba(255,255,255,.94)",
@@ -290,7 +307,7 @@ export default function DemonstrationGeste({ plan, resoudre, largeur, onEcrire, 
             </div>
           )}
 
-          {(phase === "bulle" || phase === "frappe" || phase === "glisse") && (
+          {!geste.touches && (phase === "bulle" || phase === "frappe" || phase === "glisse") && (
             <div
               className="absolute rounded-lg px-2.5 py-1.5 text-[11.5px] font-semibold text-white"
               style={{
@@ -304,7 +321,47 @@ export default function DemonstrationGeste({ plan, resoudre, largeur, onEcrire, 
             </div>
           )}
 
-          {phase === "valide" && (
+          {/* Raccourci clavier : les touches, en relief, là où le curseur
+              n'aurait rien à désigner. Elles restent affichées jusqu'à la fin
+              du geste — le temps de les lire. */}
+          {geste.touches && (
+            <div
+              className="absolute flex items-center gap-1.5"
+              style={{
+                left: rect.left, top: rect.top + rect.height / 2 - 16,
+                width: rect.width, justifyContent: "center",
+                animation: "sim-demo-touche .85s ease both",
+              }}
+            >
+              {geste.touches.map((t, n) => (
+                <span key={`${n}-${t}`} className="flex items-center gap-1.5">
+                  {n > 0 && <span className="text-[13px] font-bold" style={{ color: ENCRE }}>+</span>}
+                  <span
+                    className="rounded-md bg-white px-2.5 py-1.5 text-[12.5px] font-bold"
+                    style={{ border: `1.5px solid ${ENCRE}`, borderBottomWidth: 3, color: ENCRE }}
+                  >
+                    {t}
+                  </span>
+                </span>
+              ))}
+            </div>
+          )}
+
+          {/* Double-clic : le curseur seul ne distingue pas un clic de deux. */}
+          {geste.double && agit && (
+            <div
+              className="absolute rounded-md px-2 py-1 text-[10.5px] font-bold text-white"
+              style={{
+                left: Math.min(rect.left + rect.width + 10, Math.max(4, largeur - 60)),
+                top: rect.top + rect.height + 6,
+                background: ENCRE, animation: "sim-demo-touche .85s ease both",
+              }}
+            >
+              ×2
+            </div>
+          )}
+
+          {phase === "valide" && !geste.touches && (
             <div
               className="absolute rounded-md bg-white px-2 py-1 text-[10.5px] font-bold"
               style={{
@@ -320,7 +377,7 @@ export default function DemonstrationGeste({ plan, resoudre, largeur, onEcrire, 
 
           {/* Le curseur. `top/left: 0` obligatoire : sans origine explicite, le
               translate part de la position en flux et la flèche sort du cadre. */}
-          {pointe && (
+          {pointe && !geste.touches && (
             <svg
               className="absolute"
               viewBox="0 0 20 26"

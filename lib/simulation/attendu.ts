@@ -41,8 +41,13 @@ export type NatureEtape = "lecture" | "action" | "evaluee"
 
 /** Ce que l'apprenant doit comprendre en un coup d'œil : lire, agir, ou être évalué. */
 export function natureEtape(action: SimulationAction, mode: string): NatureEtape {
+  // L'ordre compte : un écran de lecture reste une lecture même au sein d'une
+  // évaluation. Les 26 énoncés d'ouverture affichaient « ★ Évalué » et
+  // « Compté dans votre note » alors qu'il n'y a rien à y faire — l'apprenant
+  // croyait être noté sur la page de consignes (retour Samuel du 29/07/2026).
+  if (action.type === "READ") return "lecture"
   if (mode === "EVALUATION") return "evaluee"
-  return action.type === "READ" ? "lecture" : "action"
+  return "action"
 }
 
 /** Référence lisible : « A1 », « B2 à D4 », « la colonne C », « la ligne 3 ». */

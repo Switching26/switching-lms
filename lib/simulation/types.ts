@@ -653,6 +653,22 @@ export type SimulationStep = {
     macro?: Partial<MacroState> & { name: string }
   }
   action: SimulationAction
+  /**
+   * Geste à MONTRER sur un écran de lecture (`action.type === "READ"`).
+   *
+   * 87 des 229 écrans de lecture décrivaient un geste en toutes lettres —
+   * « maintenez Ctrl pendant les clics », « Ctrl + W ferme le classeur » — que
+   * l'apprenant devait s'imaginer. Renseigner `montrer` remplace le paragraphe
+   * par une démonstration jouée, rejouable à volonté, sans rien exiger de lui.
+   *
+   * Les cellules que la démonstration écrit sont restaurées à la fin : un écran
+   * de lecture ne modifie jamais le classeur de l'étape suivante.
+   *
+   * C'est une SÉQUENCE, parce qu'un geste s'explique rarement en un mouvement :
+   * « sélectionner des cellules qui ne se touchent pas » demande un clic, puis
+   * un second maintenu avec Ctrl. Les plans sont joués à la suite.
+   */
+  montrer?: SimulationAction[]
   aide?: StepHint
   /** Message affiché après réussite, quand une explication est utile. */
   feedback?: string

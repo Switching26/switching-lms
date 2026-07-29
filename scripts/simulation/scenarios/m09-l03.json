@@ -1,444 +1,450 @@
 {
- "schemaVersion": 1,
- "title": "Calculer des honoraires",
- "mode": "LESSON",
- "moduleTitle": "Premières applications",
- "intro": {
-  "title": "FACTURER SON TEMPS",
-  "body": "Un consultant ne vend pas des articles : il vend des heures et refacture ses déplacements. La note d'honoraires se construit donc autrement qu'une facture de marchandises, et le tableur y gagne un paramètre à figer."
- },
- "outro": {
-  "body": "Vous savez bâtir une note d'honoraires complète : temps passé, frais, TVA et acompte déduit. Les quatre paramètres du haut se modifient sans toucher à une seule formule."
- },
- "ribbon": [
-  "accueil"
- ],
- "statusBar": {
-  "aggregates": [
-   "moyenne",
-   "nb-non-vides",
-   "somme"
+  "schemaVersion": 1,
+  "title": "Calculer des honoraires",
+  "mode": "LESSON",
+  "moduleTitle": "Premières applications",
+  "intro": {
+    "title": "FACTURER SON TEMPS",
+    "body": "Un consultant ne vend pas des articles : il vend des heures et refacture ses déplacements. La note d'honoraires se construit donc autrement qu'une facture de marchandises, et le tableur y gagne un paramètre à figer."
+  },
+  "outro": {
+    "body": "Vous savez bâtir une note d'honoraires complète : temps passé, frais, TVA et acompte déduit. Les quatre paramètres du haut se modifient sans toucher à une seule formule."
+  },
+  "ribbon": [
+    "accueil"
   ],
-  "sheetCount": 1
- },
- "workbook": {
-  "fileName": "Note d'honoraires",
-  "activeSheetIndex": 0,
-  "selection": "A1",
-  "sheets": [
-   {
-    "name": "Feuil1",
-    "columnWidths": {
-     "A": 230,
-     "B": 100,
-     "C": 70,
-     "D": 105,
-     "E": 105,
-     "F": 95
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ],
+    "sheetCount": 1
+  },
+  "workbook": {
+    "fileName": "Note d'honoraires",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 230,
+          "B": 100,
+          "C": 70,
+          "D": 105,
+          "E": 105,
+          "F": 95
+        },
+        "cells": {
+          "A1": {
+            "v": "NOTE D'HONORAIRES — MARS 2026",
+            "format": {
+              "bold": true
+            }
+          },
+          "A3": {
+            "v": "Taux horaire (€)"
+          },
+          "B3": {
+            "v": 65
+          },
+          "A4": {
+            "v": "Indemnité kilométrique (€)"
+          },
+          "B4": {
+            "v": 0.5
+          },
+          "A5": {
+            "v": "Taux de TVA"
+          },
+          "B5": {
+            "v": 0.2
+          },
+          "A6": {
+            "v": "Acompte déjà reçu (€)"
+          },
+          "B6": {
+            "v": 600
+          },
+          "A8": {
+            "v": "Mission",
+            "format": {
+              "bold": true
+            }
+          },
+          "B8": {
+            "v": "Heures",
+            "format": {
+              "bold": true
+            }
+          },
+          "C8": {
+            "v": "Km",
+            "format": {
+              "bold": true
+            }
+          },
+          "D8": {
+            "v": "Honoraires",
+            "format": {
+              "bold": true
+            }
+          },
+          "E8": {
+            "v": "Déplacement",
+            "format": {
+              "bold": true
+            }
+          },
+          "F8": {
+            "v": "Total",
+            "format": {
+              "bold": true
+            }
+          },
+          "A9": {
+            "v": "Audit d'organisation — Delcourt"
+          },
+          "B9": {
+            "v": 12
+          },
+          "C9": {
+            "v": 80
+          },
+          "A10": {
+            "v": "Formation tableur — Aubry"
+          },
+          "B10": {
+            "v": 7
+          },
+          "C10": {
+            "v": 45
+          },
+          "A11": {
+            "v": "Conseil recrutement — Vasseur"
+          },
+          "B11": {
+            "v": 15
+          },
+          "C11": {
+            "v": 120
+          },
+          "A12": {
+            "v": "Suivi qualité — Petit"
+          },
+          "B12": {
+            "v": 4
+          },
+          "C12": {
+            "v": 0
+          },
+          "A14": {
+            "v": "Total honoraires",
+            "format": {
+              "bold": true
+            }
+          },
+          "A15": {
+            "v": "Total déplacements",
+            "format": {
+              "bold": true
+            }
+          },
+          "A16": {
+            "v": "Total HT",
+            "format": {
+              "bold": true
+            }
+          },
+          "A17": {
+            "v": "TVA",
+            "format": {
+              "bold": true
+            }
+          },
+          "A18": {
+            "v": "Total TTC",
+            "format": {
+              "bold": true
+            }
+          },
+          "A19": {
+            "v": "Solde à régler",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M09-L03-01",
+      "consigne": "En haut, les **quatre paramètres** de la mission : taux horaire, indemnité kilométrique, taux de TVA, acompte reçu. En dessous, les quatre interventions du mois avec leurs heures et leurs kilomètres. Rien d'autre n'est saisi.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0,
+      "montrer": [
+        {
+          "type": "DRAG_RANGE",
+          "range": "B3:B6"
+        }
+      ]
     },
-    "cells": {
-     "A1": {
-      "v": "NOTE D'HONORAIRES — MARS 2026",
-      "format": {
-       "bold": true
-      }
-     },
-     "A3": {
-      "v": "Taux horaire (€)"
-     },
-     "B3": {
-      "v": 65
-     },
-     "A4": {
-      "v": "Indemnité kilométrique (€)"
-     },
-     "B4": {
-      "v": 0.5
-     },
-     "A5": {
-      "v": "Taux de TVA"
-     },
-     "B5": {
-      "v": 0.2
-     },
-     "A6": {
-      "v": "Acompte déjà reçu (€)"
-     },
-     "B6": {
-      "v": 600
-     },
-     "A8": {
-      "v": "Mission",
-      "format": {
-       "bold": true
-      }
-     },
-     "B8": {
-      "v": "Heures",
-      "format": {
-       "bold": true
-      }
-     },
-     "C8": {
-      "v": "Km",
-      "format": {
-       "bold": true
-      }
-     },
-     "D8": {
-      "v": "Honoraires",
-      "format": {
-       "bold": true
-      }
-     },
-     "E8": {
-      "v": "Déplacement",
-      "format": {
-       "bold": true
-      }
-     },
-     "F8": {
-      "v": "Total",
-      "format": {
-       "bold": true
-      }
-     },
-     "A9": {
-      "v": "Audit d'organisation — Delcourt"
-     },
-     "B9": {
-      "v": 12
-     },
-     "C9": {
-      "v": 80
-     },
-     "A10": {
-      "v": "Formation tableur — Aubry"
-     },
-     "B10": {
-      "v": 7
-     },
-     "C10": {
-      "v": 45
-     },
-     "A11": {
-      "v": "Conseil recrutement — Vasseur"
-     },
-     "B11": {
-      "v": 15
-     },
-     "C11": {
-      "v": 120
-     },
-     "A12": {
-      "v": "Suivi qualité — Petit"
-     },
-     "B12": {
-      "v": 4
-     },
-     "C12": {
-      "v": 0
-     },
-     "A14": {
-      "v": "Total honoraires",
-      "format": {
-       "bold": true
-      }
-     },
-     "A15": {
-      "v": "Total déplacements",
-      "format": {
-       "bold": true
-      }
-     },
-     "A16": {
-      "v": "Total HT",
-      "format": {
-       "bold": true
-      }
-     },
-     "A17": {
-      "v": "TVA",
-      "format": {
-       "bold": true
-      }
-     },
-     "A18": {
-      "v": "Total TTC",
-      "format": {
-       "bold": true
-      }
-     },
-     "A19": {
-      "v": "Solde à régler",
-      "format": {
-       "bold": true
-      }
-     }
+    {
+      "id": "M09-L03-02",
+      "consigne": "En **D9**, ==calculez les honoraires de la première mission== : les heures multipliées par le taux horaire. La formule devra descendre sur les trois autres lignes.",
+      "setup": {
+        "selection": "D9"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "D9",
+        "accept": [
+          "=B9*$B$3",
+          "=$B$3*B9"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Le taux horaire est toujours en B3 : figez-le avec des dollars, sinon la recopie ira le chercher une ligne plus bas.",
+        "showTarget": true
+      },
+      "feedback": "780 € pour 12 heures. Le `$B$3` est ce qui rendra la recopie juste."
+    },
+    {
+      "id": "M09-L03-03",
+      "consigne": "En **E9**, ==refacturez le déplacement== : les kilomètres multipliés par l'indemnité.",
+      "setup": {
+        "selection": "E9"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "E9",
+        "accept": [
+          "=C9*$B$4",
+          "=$B$4*C9"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Même principe, avec l'indemnité de B4.",
+        "showTarget": true
+      },
+      "feedback": "40 € pour 80 km."
+    },
+    {
+      "id": "M09-L03-04",
+      "consigne": "En **F9**, ==totalisez la ligne==.",
+      "setup": {
+        "selection": "F9"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "F9",
+        "accept": [
+          "=D9+E9",
+          "=SOMME(D9:E9)"
+        ],
+        "formulaMode": true
+      },
+      "feedback": "820 € pour cette première mission."
+    },
+    {
+      "id": "M09-L03-05",
+      "consigne": "==Complétez les trois missions restantes== en recopiant **D9:F9** vers le bas.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "D10": {
+            "anyOf": [
+              "=B10*$B$3",
+              "=$B$3*B10"
+            ],
+            "v": 455
+          },
+          "E10": {
+            "anyOf": [
+              "=C10*$B$4",
+              "=$B$4*C10"
+            ],
+            "v": 22.5
+          },
+          "F10": {
+            "anyOf": [
+              "=D10+E10",
+              "=SOMME(D10:E10)"
+            ],
+            "v": 477.5
+          },
+          "D11": {
+            "anyOf": [
+              "=B11*$B$3",
+              "=$B$3*B11"
+            ],
+            "v": 975
+          },
+          "E11": {
+            "anyOf": [
+              "=C11*$B$4",
+              "=$B$4*C11"
+            ],
+            "v": 60.0
+          },
+          "F11": {
+            "anyOf": [
+              "=D11+E11",
+              "=SOMME(D11:E11)"
+            ],
+            "v": 1035.0
+          },
+          "D12": {
+            "anyOf": [
+              "=B12*$B$3",
+              "=$B$3*B12"
+            ],
+            "v": 260
+          },
+          "E12": {
+            "anyOf": [
+              "=C12*$B$4",
+              "=$B$4*C12"
+            ],
+            "v": 0.0
+          },
+          "F12": {
+            "anyOf": [
+              "=D12+E12",
+              "=SOMME(D12:E12)"
+            ],
+            "v": 260.0
+          }
+        }
+      },
+      "aide": {
+        "text": "Sélectionnez D9:F9, puis tirez la poignée de recopie jusqu'à la ligne 12."
+      },
+      "feedback": "La dernière mission n'a aucun kilomètre : son déplacement tombe à 0, ce qui est le bon résultat et non une erreur."
+    },
+    {
+      "id": "M09-L03-06",
+      "consigne": "En **B14**, ==totalisez les honoraires==.",
+      "setup": {
+        "selection": "B14"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B14",
+        "accept": [
+          "=SOMME(D9:D12)",
+          "=D9+D10+D11+D12"
+        ],
+        "formulaMode": true
+      },
+      "feedback": "2470 € de temps facturé."
+    },
+    {
+      "id": "M09-L03-07",
+      "consigne": "En **B15**, ==totalisez les déplacements==.",
+      "setup": {
+        "selection": "B15"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B15",
+        "accept": [
+          "=SOMME(E9:E12)",
+          "=E9+E10+E11+E12"
+        ],
+        "formulaMode": true
+      },
+      "feedback": "122.5 € de frais kilométriques."
+    },
+    {
+      "id": "M09-L03-08",
+      "consigne": "En **B16**, ==calculez le total HT== de la note.",
+      "setup": {
+        "selection": "B16"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B16",
+        "accept": [
+          "=B14+B15",
+          "=SOMME(F9:F12)",
+          "=F9+F10+F11+F12",
+          "=SOMME(B14:B15)"
+        ],
+        "formulaMode": true
+      },
+      "feedback": "2592.5 € HT. Deux chemins donnent le même résultat : la somme des deux totaux, ou la somme de la colonne Total. Les deux sont justes."
+    },
+    {
+      "id": "M09-L03-09",
+      "consigne": "En **B17**, ==calculez la TVA== en vous servant du taux de la cellule B5.",
+      "setup": {
+        "selection": "B17"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B17",
+        "accept": [
+          "=B16*B5",
+          "=B5*B16",
+          "=B16*$B$5"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Pointez le taux plutôt que de taper 0,2 : le jour où il change, vous n'aurez qu'une cellule à corriger.",
+        "showTarget": true
+      },
+      "feedback": "518.5 € de TVA."
+    },
+    {
+      "id": "M09-L03-10",
+      "consigne": "En **B18**, ==calculez le total TTC==.",
+      "setup": {
+        "selection": "B18"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B18",
+        "accept": [
+          "=B16+B17",
+          "=SOMME(B16:B17)"
+        ],
+        "formulaMode": true
+      },
+      "feedback": "3111 € TTC."
+    },
+    {
+      "id": "M09-L03-11",
+      "consigne": "Un acompte de 600 € a déjà été encaissé. En **B19**, ==calculez le solde à régler==.",
+      "setup": {
+        "selection": "B19"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B19",
+        "accept": [
+          "=B18-B6",
+          "=B18-600"
+        ],
+        "formulaMode": true
+      },
+      "feedback": "2511 € restent dus. Le client a déjà payé, la note doit le dire."
+    },
+    {
+      "id": "M09-L03-12",
+      "consigne": "Deux réflexes à emporter. La **TVA se calcule sur le HT**, jamais sur un total qui la contiendrait déjà — l'erreur classique est de l'appliquer au TTC. Et un acompte **se déduit à la fin**, après la TVA, parce qu'il a été encaissé toutes taxes comprises.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
     }
-   }
   ]
- },
- "steps": [
-  {
-   "id": "M09-L03-01",
-   "consigne": "En haut, les **quatre paramètres** de la mission : taux horaire, indemnité kilométrique, taux de TVA, acompte reçu. En dessous, les quatre interventions du mois avec leurs heures et leurs kilomètres. Rien d'autre n'est saisi.",
-   "action": {
-    "type": "READ"
-   },
-   "points": 0
-  },
-  {
-   "id": "M09-L03-02",
-   "consigne": "En **D9**, ==calculez les honoraires de la première mission== : les heures multipliées par le taux horaire. La formule devra descendre sur les trois autres lignes.",
-   "setup": {
-    "selection": "D9"
-   },
-   "action": {
-    "type": "TYPE",
-    "target": "D9",
-    "accept": [
-     "=B9*$B$3",
-     "=$B$3*B9"
-    ],
-    "formulaMode": true
-   },
-   "aide": {
-    "text": "Le taux horaire est toujours en B3 : figez-le avec des dollars, sinon la recopie ira le chercher une ligne plus bas.",
-    "showTarget": true
-   },
-   "feedback": "780 € pour 12 heures. Le `$B$3` est ce qui rendra la recopie juste."
-  },
-  {
-   "id": "M09-L03-03",
-   "consigne": "En **E9**, ==refacturez le déplacement== : les kilomètres multipliés par l'indemnité.",
-   "setup": {
-    "selection": "E9"
-   },
-   "action": {
-    "type": "TYPE",
-    "target": "E9",
-    "accept": [
-     "=C9*$B$4",
-     "=$B$4*C9"
-    ],
-    "formulaMode": true
-   },
-   "aide": {
-    "text": "Même principe, avec l'indemnité de B4.",
-    "showTarget": true
-   },
-   "feedback": "40 € pour 80 km."
-  },
-  {
-   "id": "M09-L03-04",
-   "consigne": "En **F9**, ==totalisez la ligne==.",
-   "setup": {
-    "selection": "F9"
-   },
-   "action": {
-    "type": "TYPE",
-    "target": "F9",
-    "accept": [
-     "=D9+E9",
-     "=SOMME(D9:E9)"
-    ],
-    "formulaMode": true
-   },
-   "feedback": "820 € pour cette première mission."
-  },
-  {
-   "id": "M09-L03-05",
-   "consigne": "==Complétez les trois missions restantes== en recopiant **D9:F9** vers le bas.",
-   "action": {
-    "type": "EXPECT_STATE",
-    "cells": {
-     "D10": {
-      "anyOf": [
-       "=B10*$B$3",
-       "=$B$3*B10"
-      ],
-      "v": 455
-     },
-     "E10": {
-      "anyOf": [
-       "=C10*$B$4",
-       "=$B$4*C10"
-      ],
-      "v": 22.5
-     },
-     "F10": {
-      "anyOf": [
-       "=D10+E10",
-       "=SOMME(D10:E10)"
-      ],
-      "v": 477.5
-     },
-     "D11": {
-      "anyOf": [
-       "=B11*$B$3",
-       "=$B$3*B11"
-      ],
-      "v": 975
-     },
-     "E11": {
-      "anyOf": [
-       "=C11*$B$4",
-       "=$B$4*C11"
-      ],
-      "v": 60.0
-     },
-     "F11": {
-      "anyOf": [
-       "=D11+E11",
-       "=SOMME(D11:E11)"
-      ],
-      "v": 1035.0
-     },
-     "D12": {
-      "anyOf": [
-       "=B12*$B$3",
-       "=$B$3*B12"
-      ],
-      "v": 260
-     },
-     "E12": {
-      "anyOf": [
-       "=C12*$B$4",
-       "=$B$4*C12"
-      ],
-      "v": 0.0
-     },
-     "F12": {
-      "anyOf": [
-       "=D12+E12",
-       "=SOMME(D12:E12)"
-      ],
-      "v": 260.0
-     }
-    }
-   },
-   "aide": {
-    "text": "Sélectionnez D9:F9, puis tirez la poignée de recopie jusqu'à la ligne 12."
-   },
-   "feedback": "La dernière mission n'a aucun kilomètre : son déplacement tombe à 0, ce qui est le bon résultat et non une erreur."
-  },
-  {
-   "id": "M09-L03-06",
-   "consigne": "En **B14**, ==totalisez les honoraires==.",
-   "setup": {
-    "selection": "B14"
-   },
-   "action": {
-    "type": "TYPE",
-    "target": "B14",
-    "accept": [
-     "=SOMME(D9:D12)",
-     "=D9+D10+D11+D12"
-    ],
-    "formulaMode": true
-   },
-   "feedback": "2470 € de temps facturé."
-  },
-  {
-   "id": "M09-L03-07",
-   "consigne": "En **B15**, ==totalisez les déplacements==.",
-   "setup": {
-    "selection": "B15"
-   },
-   "action": {
-    "type": "TYPE",
-    "target": "B15",
-    "accept": [
-     "=SOMME(E9:E12)",
-     "=E9+E10+E11+E12"
-    ],
-    "formulaMode": true
-   },
-   "feedback": "122.5 € de frais kilométriques."
-  },
-  {
-   "id": "M09-L03-08",
-   "consigne": "En **B16**, ==calculez le total HT== de la note.",
-   "setup": {
-    "selection": "B16"
-   },
-   "action": {
-    "type": "TYPE",
-    "target": "B16",
-    "accept": [
-     "=B14+B15",
-     "=SOMME(F9:F12)",
-     "=F9+F10+F11+F12",
-     "=SOMME(B14:B15)"
-    ],
-    "formulaMode": true
-   },
-   "feedback": "2592.5 € HT. Deux chemins donnent le même résultat : la somme des deux totaux, ou la somme de la colonne Total. Les deux sont justes."
-  },
-  {
-   "id": "M09-L03-09",
-   "consigne": "En **B17**, ==calculez la TVA== en vous servant du taux de la cellule B5.",
-   "setup": {
-    "selection": "B17"
-   },
-   "action": {
-    "type": "TYPE",
-    "target": "B17",
-    "accept": [
-     "=B16*B5",
-     "=B5*B16",
-     "=B16*$B$5"
-    ],
-    "formulaMode": true
-   },
-   "aide": {
-    "text": "Pointez le taux plutôt que de taper 0,2 : le jour où il change, vous n'aurez qu'une cellule à corriger.",
-    "showTarget": true
-   },
-   "feedback": "518.5 € de TVA."
-  },
-  {
-   "id": "M09-L03-10",
-   "consigne": "En **B18**, ==calculez le total TTC==.",
-   "setup": {
-    "selection": "B18"
-   },
-   "action": {
-    "type": "TYPE",
-    "target": "B18",
-    "accept": [
-     "=B16+B17",
-     "=SOMME(B16:B17)"
-    ],
-    "formulaMode": true
-   },
-   "feedback": "3111 € TTC."
-  },
-  {
-   "id": "M09-L03-11",
-   "consigne": "Un acompte de 600 € a déjà été encaissé. En **B19**, ==calculez le solde à régler==.",
-   "setup": {
-    "selection": "B19"
-   },
-   "action": {
-    "type": "TYPE",
-    "target": "B19",
-    "accept": [
-     "=B18-B6",
-     "=B18-600"
-    ],
-    "formulaMode": true
-   },
-   "feedback": "2511 € restent dus. Le client a déjà payé, la note doit le dire."
-  },
-  {
-   "id": "M09-L03-12",
-   "consigne": "Deux réflexes à emporter. La **TVA se calcule sur le HT**, jamais sur un total qui la contiendrait déjà — l'erreur classique est de l'appliquer au TTC. Et un acompte **se déduit à la fin**, après la TVA, parce qu'il a été encaissé toutes taxes comprises.",
-   "action": {
-    "type": "READ"
-   },
-   "points": 0
-  }
- ]
 }

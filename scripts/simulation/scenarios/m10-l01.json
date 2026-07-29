@@ -1,278 +1,284 @@
 {
- "schemaVersion": 1,
- "title": "RECHERCHEV : retrouver une information",
- "mode": "LESSON",
- "moduleTitle": "Fonctions avancées",
- "intro": {
-  "title": "ALLER CHERCHER DANS UNE TABLE",
-  "body": "Vous avez un code article, il vous faut son prix. RECHERCHEV va le chercher dans une table de référence — c'est la fonction qui fait gagner le plus de temps au quotidien."
- },
- "outro": {
-  "body": "Vous savez interroger une table de référence, et vous connaissez les deux pièges qui font échouer RECHERCHEV neuf fois sur dix."
- },
- "ribbon": [
-  "accueil"
- ],
- "statusBar": {
-  "aggregates": [
-   "moyenne",
-   "nb-non-vides",
-   "somme"
+  "schemaVersion": 1,
+  "title": "RECHERCHEV : retrouver une information",
+  "mode": "LESSON",
+  "moduleTitle": "Fonctions avancées",
+  "intro": {
+    "title": "ALLER CHERCHER DANS UNE TABLE",
+    "body": "Vous avez un code article, il vous faut son prix. RECHERCHEV va le chercher dans une table de référence — c'est la fonction qui fait gagner le plus de temps au quotidien."
+  },
+  "outro": {
+    "body": "Vous savez interroger une table de référence, et vous connaissez les deux pièges qui font échouer RECHERCHEV neuf fois sur dix."
+  },
+  "ribbon": [
+    "accueil"
   ],
-  "sheetCount": 1
- },
- "workbook": {
-  "fileName": "Bon de commande",
-  "activeSheetIndex": 0,
-  "selection": "A1",
-  "sheets": [
-   {
-    "name": "Feuil1",
-    "columnWidths": {
-     "A": 80,
-     "B": 130,
-     "H": 70,
-     "I": 110
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ],
+    "sheetCount": 1
+  },
+  "workbook": {
+    "fileName": "Bon de commande",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 80,
+          "B": 130,
+          "H": 70,
+          "I": 110
+        },
+        "cells": {
+          "H1": {
+            "v": "Code",
+            "format": {
+              "bold": true
+            }
+          },
+          "I1": {
+            "v": "Article",
+            "format": {
+              "bold": true
+            }
+          },
+          "J1": {
+            "v": "Prix",
+            "format": {
+              "bold": true
+            }
+          },
+          "H2": {
+            "v": "CLA"
+          },
+          "I2": {
+            "v": "Clavier"
+          },
+          "J2": {
+            "v": 45
+          },
+          "H3": {
+            "v": "SOU"
+          },
+          "I3": {
+            "v": "Souris"
+          },
+          "J3": {
+            "v": 25
+          },
+          "H4": {
+            "v": "ECR"
+          },
+          "I4": {
+            "v": "Écran"
+          },
+          "J4": {
+            "v": 180
+          },
+          "H5": {
+            "v": "CAS"
+          },
+          "I5": {
+            "v": "Casque"
+          },
+          "J5": {
+            "v": 70
+          },
+          "A1": {
+            "v": "Code",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Article",
+            "format": {
+              "bold": true
+            }
+          },
+          "C1": {
+            "v": "Qté",
+            "format": {
+              "bold": true
+            }
+          },
+          "D1": {
+            "v": "Prix U.",
+            "format": {
+              "bold": true
+            }
+          },
+          "E1": {
+            "v": "Total",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "ECR"
+          },
+          "C2": {
+            "v": 2
+          },
+          "A3": {
+            "v": "CLA"
+          },
+          "C3": {
+            "v": 5
+          },
+          "A4": {
+            "v": "CAS"
+          },
+          "C4": {
+            "v": 3
+          },
+          "A5": {
+            "v": "SOU"
+          },
+          "C5": {
+            "v": 4
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M10-L01-01",
+      "consigne": "À droite, la **table de référence** : code, article, prix. À gauche, un bon de commande où seuls les codes et les quantités sont saisis. On va remplir le reste automatiquement.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0,
+      "montrer": [
+        {
+          "type": "DRAG_RANGE",
+          "range": "H1:J4"
+        }
+      ]
     },
-    "cells": {
-     "H1": {
-      "v": "Code",
-      "format": {
-       "bold": true
-      }
-     },
-     "I1": {
-      "v": "Article",
-      "format": {
-       "bold": true
-      }
-     },
-     "J1": {
-      "v": "Prix",
-      "format": {
-       "bold": true
-      }
-     },
-     "H2": {
-      "v": "CLA"
-     },
-     "I2": {
-      "v": "Clavier"
-     },
-     "J2": {
-      "v": 45
-     },
-     "H3": {
-      "v": "SOU"
-     },
-     "I3": {
-      "v": "Souris"
-     },
-     "J3": {
-      "v": 25
-     },
-     "H4": {
-      "v": "ECR"
-     },
-     "I4": {
-      "v": "Écran"
-     },
-     "J4": {
-      "v": 180
-     },
-     "H5": {
-      "v": "CAS"
-     },
-     "I5": {
-      "v": "Casque"
-     },
-     "J5": {
-      "v": 70
-     },
-     "A1": {
-      "v": "Code",
-      "format": {
-       "bold": true
-      }
-     },
-     "B1": {
-      "v": "Article",
-      "format": {
-       "bold": true
-      }
-     },
-     "C1": {
-      "v": "Qté",
-      "format": {
-       "bold": true
-      }
-     },
-     "D1": {
-      "v": "Prix U.",
-      "format": {
-       "bold": true
-      }
-     },
-     "E1": {
-      "v": "Total",
-      "format": {
-       "bold": true
-      }
-     },
-     "A2": {
-      "v": "ECR"
-     },
-     "C2": {
-      "v": 2
-     },
-     "A3": {
-      "v": "CLA"
-     },
-     "C3": {
-      "v": 5
-     },
-     "A4": {
-      "v": "CAS"
-     },
-     "C4": {
-      "v": 3
-     },
-     "A5": {
-      "v": "SOU"
-     },
-     "C5": {
-      "v": 4
-     }
+    {
+      "id": "M10-L01-02",
+      "consigne": "En **B2**, ==saisissez `=RECHERCHEV(A2;$H$2:$J$5;2;FAUX)`== pour retrouver le nom de l'article.",
+      "setup": {
+        "selection": "B2"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B2",
+        "accept": [
+          "=RECHERCHEV(A2;$H$2:$J$5;2;FAUX)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Quatre arguments : quoi chercher, où chercher, quelle colonne rapporter, et FAUX pour exiger une correspondance exacte.",
+        "showTarget": true
+      },
+      "feedback": "« Écran » : la fonction a trouvé ECR dans la table et rapporté la 2ᵉ colonne. Décomposez les quatre arguments, chacun a son piège : ce qu'on cherche, où chercher (table figée), quelle colonne rapporter — comptée depuis la PREMIÈRE colonne de la table, pas depuis la colonne A — et FAUX pour exiger une correspondance exacte."
+    },
+    {
+      "id": "M10-L01-04",
+      "consigne": "En **D2**, ==rapportez le prix unitaire==. C'est la 3ᵉ colonne de la table.",
+      "setup": {
+        "selection": "D2"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "D2",
+        "accept": [
+          "=RECHERCHEV(A2;$H$2:$J$5;3;FAUX)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Même formule, mais le numéro de colonne change.",
+        "showTarget": true
+      },
+      "feedback": "180 €."
+    },
+    {
+      "id": "M10-L01-05",
+      "consigne": "En **E2**, ==calculez le total de la ligne==.",
+      "setup": {
+        "selection": "E2"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "E2",
+        "accept": [
+          "=C2*D2",
+          "=D2*C2"
+        ],
+        "formulaMode": true
+      },
+      "feedback": "360 €."
+    },
+    {
+      "id": "M10-L01-06",
+      "consigne": "==Complétez les trois lignes restantes== en recopiant B2:E2 vers le bas.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "B3": {
+            "v": "Clavier"
+          },
+          "D3": {
+            "v": 45
+          },
+          "E3": {
+            "v": 225
+          },
+          "B5": {
+            "v": "Souris"
+          },
+          "E5": {
+            "v": 100
+          }
+        }
+      },
+      "aide": {
+        "text": "Sélectionnez B2:E2 et tirez la poignée jusqu'à la ligne 5."
+      },
+      "feedback": "Tout le bon de commande est rempli à partir de codes et de quantités. Le piège numéro un de RECHERCHEV est justement là : sans dollars autour de la table, la recopie la fait glisser vers le bas et les dernières lignes ne trouvent plus rien."
+    },
+    {
+      "id": "M10-L01-08",
+      "consigne": "Dernier point à retenir : `FAUX` exige une correspondance **exacte**. Avec `VRAI`, Excel accepte la valeur la plus proche en dessous — ce qui donne des résultats faux sur une table non triée. Mettez **`FAUX`** par défaut.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M10-L01-09",
+      "consigne": "Vérifiez votre bon de commande : en **E7**, ==totalisez la commande==.",
+      "setup": {
+        "selection": "E7",
+        "cells": {
+          "D7": {
+            "v": "TOTAL",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "E7",
+        "accept": [
+          "=SOMME(E2:E5)",
+          "=E2+E3+E4+E5"
+        ],
+        "formulaMode": true
+      },
+      "feedback": "895 €. Un bon de commande complet à partir de quatre codes."
     }
-   }
   ]
- },
- "steps": [
-  {
-   "id": "M10-L01-01",
-   "consigne": "À droite, la **table de référence** : code, article, prix. À gauche, un bon de commande où seuls les codes et les quantités sont saisis. On va remplir le reste automatiquement.",
-   "action": {
-    "type": "READ"
-   },
-   "points": 0
-  },
-  {
-   "id": "M10-L01-02",
-   "consigne": "En **B2**, ==saisissez `=RECHERCHEV(A2;$H$2:$J$5;2;FAUX)`== pour retrouver le nom de l'article.",
-   "setup": {
-    "selection": "B2"
-   },
-   "action": {
-    "type": "TYPE",
-    "target": "B2",
-    "accept": [
-     "=RECHERCHEV(A2;$H$2:$J$5;2;FAUX)"
-    ],
-    "formulaMode": true
-   },
-   "aide": {
-    "text": "Quatre arguments : quoi chercher, où chercher, quelle colonne rapporter, et FAUX pour exiger une correspondance exacte.",
-    "showTarget": true
-   },
-   "feedback": "« Écran » : la fonction a trouvé ECR dans la table et rapporté la 2ᵉ colonne. Décomposez les quatre arguments, chacun a son piège : ce qu'on cherche, où chercher (table figée), quelle colonne rapporter — comptée depuis la PREMIÈRE colonne de la table, pas depuis la colonne A — et FAUX pour exiger une correspondance exacte."
-  },
-  {
-   "id": "M10-L01-04",
-   "consigne": "En **D2**, ==rapportez le prix unitaire==. C'est la 3ᵉ colonne de la table.",
-   "setup": {
-    "selection": "D2"
-   },
-   "action": {
-    "type": "TYPE",
-    "target": "D2",
-    "accept": [
-     "=RECHERCHEV(A2;$H$2:$J$5;3;FAUX)"
-    ],
-    "formulaMode": true
-   },
-   "aide": {
-    "text": "Même formule, mais le numéro de colonne change.",
-    "showTarget": true
-   },
-   "feedback": "180 €."
-  },
-  {
-   "id": "M10-L01-05",
-   "consigne": "En **E2**, ==calculez le total de la ligne==.",
-   "setup": {
-    "selection": "E2"
-   },
-   "action": {
-    "type": "TYPE",
-    "target": "E2",
-    "accept": [
-     "=C2*D2",
-     "=D2*C2"
-    ],
-    "formulaMode": true
-   },
-   "feedback": "360 €."
-  },
-  {
-   "id": "M10-L01-06",
-   "consigne": "==Complétez les trois lignes restantes== en recopiant B2:E2 vers le bas.",
-   "action": {
-    "type": "EXPECT_STATE",
-    "cells": {
-     "B3": {
-      "v": "Clavier"
-     },
-     "D3": {
-      "v": 45
-     },
-     "E3": {
-      "v": 225
-     },
-     "B5": {
-      "v": "Souris"
-     },
-     "E5": {
-      "v": 100
-     }
-    }
-   },
-   "aide": {
-    "text": "Sélectionnez B2:E2 et tirez la poignée jusqu'à la ligne 5."
-   },
-   "feedback": "Tout le bon de commande est rempli à partir de codes et de quantités. Le piège numéro un de RECHERCHEV est justement là : sans dollars autour de la table, la recopie la fait glisser vers le bas et les dernières lignes ne trouvent plus rien."
-  },
-  {
-   "id": "M10-L01-08",
-   "consigne": "Dernier point à retenir : `FAUX` exige une correspondance **exacte**. Avec `VRAI`, Excel accepte la valeur la plus proche en dessous — ce qui donne des résultats faux sur une table non triée. Mettez **`FAUX`** par défaut.",
-   "action": {
-    "type": "READ"
-   },
-   "points": 0
-  },
-  {
-   "id": "M10-L01-09",
-   "consigne": "Vérifiez votre bon de commande : en **E7**, ==totalisez la commande==.",
-   "setup": {
-    "selection": "E7",
-    "cells": {
-     "D7": {
-      "v": "TOTAL",
-      "format": {
-       "bold": true
-      }
-     }
-    }
-   },
-   "action": {
-    "type": "TYPE",
-    "target": "E7",
-    "accept": [
-     "=SOMME(E2:E5)",
-     "=E2+E3+E4+E5"
-    ],
-    "formulaMode": true
-   },
-   "feedback": "895 €. Un bon de commande complet à partir de quatre codes."
-  }
- ]
 }

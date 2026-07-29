@@ -212,11 +212,14 @@ export function validateStep(
 ): Verdict {
   const expected: SimulationAction = step.action
 
-  // Écran de lecture : seul « Suivant » est attendu.
+  // Écran de lecture : seul « Suivant » est attendu. Le message ne dit pas que
+  // c'est faux — il n'y a rien à faire, donc rien ne peut être faux. Dire
+  // « ce n'est pas bon » quand l'apprenant tape par réflexe le laisse croire
+  // qu'il a raté quelque chose (retour Samuel du 29/07/2026).
   if (expected.type === "READ") {
     return observed.kind === "next"
       ? OK
-      : { ok: false, reason: "read_step_action", message: "Continuez avec le bouton Suivant." }
+      : { ok: false, reason: "read_step_action", message: "Rien à faire ici : cette étape se lit." }
   }
 
   switch (expected.type) {

@@ -32,6 +32,12 @@ export type CibleDemo =
   | { k: "enteteLigne"; ligne: number }
   /** N'importe quel élément du châssis, par son sélecteur CSS. */
   | { k: "dom"; sel: string }
+  /**
+   * Aucun endroit précis : un raccourci clavier ne se produit nulle part à
+   * l'écran. Le composant place alors les touches au centre de la feuille,
+   * sans curseur — montrer une flèche de souris pour « Ctrl + W » serait faux.
+   */
+  | { k: "clavier" }
 
 /** Un geste élémentaire de la démonstration. */
 export type GesteDemo = {
@@ -44,6 +50,35 @@ export type GesteDemo = {
   ecrire?: { ref: string; valeur: string }
   /** Glissement : la cible est le point de départ, celle-ci l'arrivée. */
   glisserVers?: CibleDemo
+  /**
+   * Touches à faire voir, une par badge : `["Ctrl", "W"]`. Les 86 écrans de
+   * lecture qui décrivent un raccourci n'avaient aucun moyen de le montrer —
+   * `KEY` ne produisait pas de plan du tout.
+   */
+  touches?: string[]
+  /** Double-clic : le geste s'affiche avec son « ×2 ». */
+  double?: boolean
+}
+
+/**
+ * Nom lisible d'une touche : `"Control+Home"` → `["Ctrl", "Origine"]`.
+ * On écrit ce que l'apprenant voit sur son clavier, pas le code de l'événement.
+ */
+const NOM_TOUCHE: Record<string, string> = {
+  control: "Ctrl", ctrl: "Ctrl", meta: "Cmd", alt: "Alt", shift: "Maj",
+  enter: "Entrée", return: "Entrée", tab: "Tab", escape: "Échap", esc: "Échap",
+  delete: "Suppr", backspace: "Retour arr.", home: "Origine", end: "Fin",
+  pageup: "Page préc.", pagedown: "Page suiv.", space: "Espace",
+  arrowup: "↑", arrowdown: "↓", arrowleft: "←", arrowright: "→",
+  up: "↑", down: "↓", left: "←", right: "→",
+}
+
+export function libellerTouches(key: string): string[] {
+  return key
+    .split("+")
+    .map((t) => t.trim())
+    .filter(Boolean)
+    .map((t) => NOM_TOUCHE[t.toLowerCase()] ?? (t.length === 1 ? t.toUpperCase() : t))
 }
 
 export type PlanDemo = {
@@ -332,10 +367,37 @@ export function planDemonstration(action: SimulationAction): PlanDemo | null {
     }
 
     /* ── gestes clavier et souris purs ───────────────────────────────── */
-    case "KEY":
-      return null
-    case "DOUBLE_CLICK":
-    case "CONTEXT_MENU":
+    case "KEY": {
+      const touches = libellerTouches(action.key)
+      return {
+        gestes: [{ cible: { k: "clavier" }, bulle: touches.join(" + "), touches }],
+        pas: [`Appuyer sur ${touches.join(" + ")}`],
+      }
+    }
+
+    case "DOUBLE_CLICK": {
+      // La cible est une cellule (« B4 ») ou un contrôle du châssis.
+      const t = action.target
+      const cible: CibleDemo = /^[A-Z]+\d+$/i.test(t)
+        ? { k: "cellule", ref: t.toUpperCase() }
+        : { k: "dom", sel: `[data-control="${t}"]` }
+      return {
+        gestes: [{ cible, bulle: `double-clic sur ${t}`, double: true }],
+        pas: ["Double-cliquer"],
+      }
+    }
+
+    case "CONTEXT_MENU": {
+      const t = action.target
+      const cible: CibleDemo = /^[A-Z]+\d+$/i.test(t)
+        ? { k: "cellule", ref: t.toUpperCase() }
+        : { k: "dom", sel: `[data-control="${t}"]` }
+      return {
+        gestes: [{ cible, bulle: `clic droit sur ${t}`, touches: ["Clic droit"] }],
+        pas: ["Ouvrir le menu contextuel"],
+      }
+    }
+
     case "FILL_HANDLE":
       return null
 

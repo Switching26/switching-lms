@@ -30,6 +30,8 @@ import {
   resumerAttendu,
   resumerFait,
 } from "@/lib/simulation/attendu"
+import DesktopLayer from "./DesktopLayer"
+import { CONTROLES_POSTE, appliquerGeste, posteInitial } from "@/lib/simulation/poste"
 import ChartLayer from "./ChartLayer"
 import PivotLayer from "./PivotLayer"
 import PageLayoutLayer from "./PageLayoutLayer"
@@ -38,9 +40,11 @@ import { estimatedSimulationMinutes } from "@/lib/simulation/duree"
 import type {
   ChartState,
   ChartType,
+  GestePoste,
   MacroState,
   PageSetupState,
   PivotAgg,
+  PosteState,
   SimulationScenario,
   SimulationStep,
   RibbonTab,
@@ -401,6 +405,27 @@ export default function SimulationPlayer({
     const t = window.setTimeout(() => setJalon(null), 1150)
     return () => window.clearTimeout(t)
   }, [jalon])
+  /**
+   * Poste de travail (direction C). Absent du scénario — le cas des 243
+   * chapitres existants — l'atelier s'ouvre directement dans le classeur.
+   */
+  const posteActif = !!scenario.poste
+  const [poste, setPoste] = useState<PosteState>(() =>
+    posteInitial({
+      excelOuvert: scenario.poste?.excelOuvert,
+      classeur: scenario.poste?.classeur ?? null,
+      fichiers: scenario.poste?.fichiers,
+    }),
+  )
+  const posteRef = useRef(poste)
+  posteRef.current = poste
+  useEffect(() => {
+    // Univer ne se rend pas dans un conteneur masqué : au retour dans le
+    // classeur, il faut le prévenir que sa surface existe à nouveau.
+    if (poste.excel !== "classeur") return
+    const t = window.setTimeout(() => window.dispatchEvent(new Event("resize")), 90)
+    return () => window.clearTimeout(t)
+  }, [poste.excel])
   /** Panneau latéral ouvert dans l'atelier : sommaire des leçons ou prise de notes. */
   const [panneau, setPanneau] = useState<"lecons" | "notes" | null>(null)
   useEffect(() => {
@@ -652,6 +677,21 @@ export default function SimulationPlayer({
   )
 
   useEffect(() => {
+    // L'état du poste imposé par l'étape s'applique AUSSI hors `applyStep` :
+    // celui-ci attend que la grille soit prête, or une leçon qui démarre Excel
+    // fermé n'a pas encore de grille montée au moment de la reprise.
+    const impose = step?.setup?.poste
+    if (posteActif && impose) setPoste((p) => ({ ...p, ...impose }))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [index, posteActif])
+
+  useEffect(() => {
+    // Le verrou de résolution se lève à CHAQUE étape, que la grille soit prête
+    // ou non. Il ne vivait que dans `applyStep`, appelé seulement une fois
+    // `gridReady` vrai : sur un chapitre qui démarre Excel fermé, la grille
+    // n'est pas encore montée et le player se figeait après la première étape,
+    // toutes les observations suivantes étant ignorées en silence.
+    resoluRef.current = false
     if (gridReady) applyStep(step)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [index, gridReady])
@@ -1269,9 +1309,48 @@ export default function SimulationPlayer({
    * L'effet est appliqué d'abord, la validation ensuite : l'étape peut donc être
    * validée sur l'état du classeur qui en résulte.
    */
+  /**
+   * Gestes du poste de travail. Comme le tri ou le graphique, ils ont leur
+   * propre effet et leur propre observation : le clic ne remonte pas comme un
+   * simple `control`, sinon une étape qui juge l'ÉTAT du poste échouerait sur
+   * l'observation du bouton, arrivée la première.
+   */
+  const gestePoste = useCallback(
+    (controlId: string, nom?: string): boolean => {
+      if (!posteActif || !controlId.startsWith("poste-")) return false
+      const C = CONTROLES_POSTE
+      let geste: GestePoste | null = null
+      if (controlId === C.demarrer) geste = { type: "menu" }
+      else if (controlId === C.fermer) geste = { type: "fermer" }
+      else if (controlId === C.reduire) geste = { type: "reduire" }
+      else if (controlId === C.nouveau) geste = { type: "nouveau" }
+      else if (controlId === C.enregistrer) geste = { type: "ouvrirBoite", boite: "enregistrer" }
+      else if (controlId === C.enregistrerAnnuler) geste = { type: "fermerBoite" }
+      else if (controlId === C.enregistrerValider) geste = { type: "enregistrer", nom: nom ?? "" }
+      else if (controlId.startsWith("poste-app-")) geste = { type: "lancer", app: controlId.slice("poste-app-".length) }
+      else if (controlId.startsWith("poste-fichier-")) {
+        const cle = controlId.slice("poste-fichier-".length)
+        const f = posteRef.current.fichiers.find((x) => CONTROLES_POSTE.fichier(x.nom).endsWith(cle))
+        if (f) geste = { type: "ouvrirFichier", nom: f.nom }
+      }
+      if (!geste) return false
+      const suivant = appliquerGeste(posteRef.current, geste)
+      setPoste(suivant)
+      handleAction({ kind: "posteChange", poste: suivant })
+      return true
+    },
+    // L'état du poste est lu dans une REF, jamais capturé : `handleControl` est
+    // mémoïsé et gardait sinon une version figée de ce callback, qui jugeait le
+    // geste contre l'étape précédente — le clic sur Démarrer passait, les
+    // suivants non.
+    [posteActif, handleAction],
+  )
+
   const handleControl = useCallback(
     (controlId: string) => {
       const grid = gridRef.current
+      // Le poste de travail a ses propres transitions et sa propre observation.
+      if (gestePoste(controlId)) return
       // Graphiques, tableaux croisés, mise en page et macros ont leurs propres
       // effets et leur propre observation : ils sortent d'ici.
       if (effetModele(controlId)) return
@@ -1515,7 +1594,7 @@ export default function SimulationPlayer({
 
       handleAction({ kind: "control", control: controlId, channel: "ribbon" })
     },
-    [effetModele, handleAction],
+    [effetModele, handleAction, gestePoste],
   )
 
   /** Validation de la zone Nom : on va à la référence, et on le signale. */
@@ -2250,12 +2329,15 @@ export default function SimulationPlayer({
         <>
           {/* Fenêtre Excel simulée. En plein cadre elle prend tout l'espace laissé
               par le cockpit et la bande de consigne — ni plus, ni moins. */}
-          <div
-            className={
-              pleinCadre
-                ? "relative flex min-h-0 flex-1 flex-col px-2 pt-2 sm:px-3 sm:pt-3"
-                : "relative px-3 pt-3"
-            }
+          {/* Le poste de travail enveloppe la fenêtre Excel quand le scénario le
+              déclare ; sinon on garde le conteneur d'origine et rien ne change
+              pour les 243 chapitres existants. */}
+          <Enveloppe
+            poste={posteActif ? poste : null}
+            pleinCadre={!!pleinCadre}
+            onControl={handleControl}
+            onEnregistrer={(nom) => gestePoste(CONTROLES_POSTE.enregistrerValider, nom)}
+            highlight={highlightedControl}
           >
             {/* Jalon d'étape franchie : il couvre la feuille, jamais la bande de
                 consigne — la consigne suivante reste lisible pendant ce temps. */}
@@ -2304,6 +2386,7 @@ export default function SimulationPlayer({
                   : { activeTab: onglet }
               }
               fileName={scenario.workbook.fileName}
+              avecPoste={posteActif}
               selection={selection}
               formulaText={formulaText}
               highlight={highlightedControl}
@@ -2498,7 +2581,7 @@ export default function SimulationPlayer({
                 />
               </div>
             )}
-          </div>
+          </Enveloppe>
 
           {/* Bande de consigne : pleine largeur sous la feuille, filet de couleur
               à gauche qui porte le verdict. Le texte est passé à 15 px — c'est la
@@ -2830,6 +2913,48 @@ export default function SimulationPlayer({
           </div>
         </aside>
       )}
+    </div>
+  )
+}
+
+/**
+ * Enveloppe de la fenêtre Excel.
+ *
+ * Sans poste déclaré, c'est le conteneur d'origine — aucune différence pour les
+ * chapitres existants. Avec un poste, le bureau prend la place et la fenêtre
+ * Excel vient se poser dessus.
+ */
+function Enveloppe({
+  poste,
+  pleinCadre,
+  onControl,
+  onEnregistrer,
+  highlight,
+  children,
+}: {
+  poste: PosteState | null
+  pleinCadre: boolean
+  onControl: (id: string) => void
+  onEnregistrer: (nom: string) => void
+  highlight?: string | null
+  children: React.ReactNode
+}) {
+  if (poste) {
+    return (
+      <DesktopLayer poste={poste} onControl={onControl} onEnregistrer={onEnregistrer} highlight={highlight}>
+        {children}
+      </DesktopLayer>
+    )
+  }
+  return (
+    <div
+      className={
+        pleinCadre
+          ? "relative flex min-h-0 flex-1 flex-col px-2 pt-2 sm:px-3 sm:pt-3"
+          : "relative px-3 pt-3"
+      }
+    >
+      {children}
     </div>
   )
 }

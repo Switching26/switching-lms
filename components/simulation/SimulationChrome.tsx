@@ -304,6 +304,13 @@ const ICONS: Record<string, React.ReactNode> = {
       <path d="M4 4.6h8M4 11.4h8" {...trait} />
     </>,
   ),
+  "poste-enregistrer": I(
+    <>
+      <path d="M3.2 3.2h7.4l2.2 2.2v7.4a.8.8 0 0 1-.8.8H4a.8.8 0 0 1-.8-.8V4a.8.8 0 0 1 .8-.8Z" {...trait} />
+      <path d="M5.4 3.2v3.4h4.4V3.2" {...trait} />
+      <rect x="5" y="9" width="6" height="4.6" rx=".6" {...trait} />
+    </>,
+  ),
   "tcd-actualiser": I(
     <>
       <path d="M13.2 8a5.2 5.2 0 1 1-1.6-3.7" {...trait} />
@@ -380,6 +387,11 @@ type Props = {
   onFormulaCancel?: () => void
   /** true pendant l'édition d'une formule : Excel grise une partie du ruban. */
   editing?: boolean
+  /**
+   * Poste de travail actif : ajoute le groupe « Fichier » avec Enregistrer.
+   * Sans lui, la leçon « Ouvrir et enregistrer » n'aurait aucun bouton à cliquer.
+   */
+  avecPoste?: boolean
   /** Saisie en cours dans la zone Nom. null = affiche la sélection courante. */
   nameBoxDraft?: string | null
   onNameBoxChange?: (text: string) => void
@@ -400,6 +412,7 @@ export default function SimulationChrome({
   onFormulaCommit,
   onFormulaCancel,
   editing,
+  avecPoste,
   nameBoxDraft,
   onNameBoxChange,
   onNameBoxCommit,
@@ -566,6 +579,11 @@ export default function SimulationChrome({
         >
         {activeTab === "accueil" && (
           <>
+            {avecPoste && (
+              <Group title="Fichier">
+                <Btn id="poste-enregistrer" label="Enregistrer" />
+              </Group>
+            )}
             <Group title="Presse-papiers">
               <Btn id="acc-coller" label="Coller" wide />
               <Btn id="acc-copier" label="Copier" />

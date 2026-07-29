@@ -194,6 +194,57 @@ export type PivotState = {
 
 /* ═══════════ MISE EN PAGE ET IMPRESSION (module 13) ═══════════ */
 
+/* ═══════════ POSTE DE TRAVAIL (direction C) ═══════════ */
+
+/** Une application installée sur le poste. Seule Excel s'ouvre réellement. */
+export type AppPoste = { id: string; nom: string; ouvrable?: boolean }
+
+/** Un classeur enregistré, retrouvable sur le bureau et dans les récents. */
+export type FichierPoste = { nom: string; surBureau?: boolean }
+
+/** Où en est Excel : fermé, sur son écran d'accueil, ou dans un classeur. */
+export type EtatExcel = "ferme" | "accueil" | "classeur"
+
+/** Boîte de dialogue système ouverte par-dessus la fenêtre. */
+export type BoitePoste = "aucune" | "enregistrer" | "ouvrir"
+
+export type PosteState = {
+  excel: EtatExcel
+  /** Menu Démarrer déplié. */
+  menu: boolean
+  boite: BoitePoste
+  /** Nom du classeur courant ; null tant qu'il n'a jamais été enregistré. */
+  classeur: string | null
+  /** Classeur modifié depuis le dernier enregistrement. */
+  modifie: boolean
+  fichiers: FichierPoste[]
+  apps: AppPoste[]
+}
+
+/** Ce qu'une étape peut exiger de l'état du poste. */
+export type PosteAttendu = {
+  excel?: EtatExcel
+  menu?: boolean
+  boite?: BoitePoste
+  /** Nom exact du classeur courant. */
+  classeur?: string
+  /** Fichiers qui doivent exister, par leur nom. */
+  fichiers?: string[]
+}
+
+/** Les gestes possibles sur le poste, tels que les émettent ses boutons. */
+export type GestePoste =
+  | { type: "menu" }
+  | { type: "lancer"; app: string }
+  | { type: "fermer" }
+  | { type: "reduire" }
+  | { type: "nouveau" }
+  | { type: "ouvrirBoite"; boite: Exclude<BoitePoste, "aucune"> }
+  | { type: "fermerBoite" }
+  | { type: "enregistrer"; nom: string; surBureau?: boolean }
+  | { type: "ouvrirFichier"; nom: string }
+  | { type: "modifier" }
+
 export type PageSetupState = {
   orientation?: "portrait" | "paysage"
   format?: "A4" | "A3" | "Letter"
@@ -467,6 +518,13 @@ export type SimulationAction =
     }
   /** Les réglages d'impression doivent correspondre aux champs déclarés. */
   | { type: "EXPECT_PAGE_SETUP"; pageSetup: PageSetupState }
+  /**
+   * Valide l'état du POSTE DE TRAVAIL : Excel lancé ou fermé, classeur
+   * enregistré sous tel nom, fichier présent. Même principe qu'`EXPECT_STATE` —
+   * on juge le résultat, pas le chemin : peu importe que l'apprenant ait lancé
+   * Excel depuis le menu Démarrer ou depuis la barre des tâches.
+   */
+  | { type: "EXPECT_POSTE"; poste: PosteAttendu }
   /** La macro enregistrée doit correspondre aux champs déclarés. */
   | {
       type: "EXPECT_MACRO"
@@ -518,6 +576,14 @@ export type SimulationStep = {
     selection?: CellRef | RangeRef
     /** La cellule est en cours d'édition au démarrage de l'étape. */
     editing?: boolean
+    /**
+     * État du poste de travail imposé au démarrage de l'étape.
+     *
+     * Indispensable pour la reprise : un apprenant qui revient à l'étape 12
+     * d'une leçon qui démarre Excel fermé doit retrouver Excel ouvert sur son
+     * classeur, pas le bureau nu. Même rôle que `cells` pour le classeur.
+     */
+    poste?: Partial<PosteState>
     ribbon?: RibbonState
     statusBar?: StatusBarState
     /** Règle conditionnelle que le bouton du ruban appliquera à cette étape. */
@@ -611,6 +677,22 @@ export type SimulationScenario = {
   /** État initial du classeur. */
   workbook: WorkbookState
   statusBar?: StatusBarState
+  /**
+   * Poste de travail autour d'Excel (direction C, validée le 29/07/2026).
+   *
+   * Absent — le cas des 243 chapitres existants — l'atelier s'ouvre directement
+   * dans le classeur, comme avant. Présent, il ajoute le bureau, la barre des
+   * tâches et le menu Démarrer, et permet d'enseigner les gestes qui vivent
+   * AUTOUR du tableur : lancer Excel, l'enregistrer, le fermer.
+   */
+  poste?: {
+    /** false pour commencer devant un bureau, Excel non lancé. */
+    excelOuvert?: boolean
+    /** Nom du classeur déjà ouvert, s'il vient d'un fichier. */
+    classeur?: string
+    /** Fichiers déjà présents sur le poste. */
+    fichiers?: Array<{ nom: string; surBureau?: boolean }>
+  }
   steps: SimulationStep[]
 }
 

@@ -20,6 +20,7 @@ import type {
   PageSetupState,
   PivotField,
   PivotState,
+  PosteState,
   SimulationAction,
   SimulationStep,
   TypeAction,
@@ -27,6 +28,7 @@ import type {
 import { matchesTypedAnswer, normalizeFormula } from "./types"
 import { sameArea } from "./grid"
 import { frToEngine } from "./formula-fr"
+import { verifierPoste } from "./poste"
 
 /** Origine réelle de l'action, pour les exercices qui imposent le moyen. */
 export type ActionChannel = "mouse" | "keyboard" | "ribbon" | "contextMenu" | "formulaBar" | "unknown"
@@ -114,6 +116,8 @@ export type ObservedAction =
     }
   /** L'enregistreur a démarré ou s'est arrêté. */
   | { kind: "recorder"; state: "started" | "stopped" }
+  /** L'état du poste de travail après le geste : Excel lancé, fermé, enregistré. */
+  | { kind: "posteChange"; poste: PosteState }
 
 export type Verdict =
   | { ok: true }
@@ -829,6 +833,13 @@ export function validateStep(
           message: expected.expect === "started" ? "L'enregistrement n'a pas démarré." : "L'enregistrement n'a pas été arrêté.",
         }
       }
+      return OK
+    }
+
+    case "EXPECT_POSTE": {
+      if (observed.kind !== "posteChange") return { ok: false, reason: "no_poste_reading", message: "" }
+      const souci = verifierPoste(observed.poste, expected.poste)
+      if (souci) return { ok: false, reason: "wrong_poste_state", message: souci }
       return OK
     }
 

@@ -358,6 +358,25 @@ export default function SimulationPlayer({
     const t = window.setTimeout(() => window.dispatchEvent(new Event("resize")), 90)
     return () => window.clearTimeout(t)
   }, [hauteurGrille])
+  /**
+   * Relais de consigne (traitement « A », choix Samuel du 29/07).
+   *
+   * Le passage d'étape se voyait « à peine » : la consigne était remplacée sans
+   * transition, on pouvait franchir une étape sans s'en apercevoir. À chaque
+   * avancée, la bande verdit brièvement, une coche remplace le numéro d'étape et
+   * la nouvelle consigne entre par le bas.
+   *
+   * Rien de tout cela ne retarde la saisie : `applyStep` rend le focus à la
+   * feuille immédiatement, l'animation se joue par-dessus.
+   */
+  const [relais, setRelais] = useState(0)
+  const [relaisActif, setRelaisActif] = useState(false)
+  useEffect(() => {
+    if (!relais) return
+    setRelaisActif(true)
+    const t = window.setTimeout(() => setRelaisActif(false), 760)
+    return () => window.clearTimeout(t)
+  }, [relais])
   /** Panneau latéral ouvert dans l'atelier : sommaire des leçons ou prise de notes. */
   const [panneau, setPanneau] = useState<"lecons" | "notes" | null>(null)
   useEffect(() => {
@@ -664,6 +683,8 @@ export default function SimulationPlayer({
       onCompleted?.()
       return
     }
+    // Le relais ne se joue qu'en AVANÇANT : reculer n'est pas une réussite.
+    setRelais((r) => r + 1)
     setIndex(next)
     void persist({ step: next })
   }, [index, total, mode, steps, persist, onCompleted])
@@ -1797,6 +1818,12 @@ export default function SimulationPlayer({
 
   const gradable = steps.filter((s) => s.action.type !== "READ").length
   const evaluationNotee = mode === "EVALUATION"
+  /** Chapitre suivant du parcours, proposé sur le jalon de fin. */
+  const chapitreSuivant = (() => {
+    if (!sommaire || sommaire.length === 0) return null
+    const i = sommaire.findIndex((e) => e.id === chapterId)
+    return i >= 0 && i < sommaire.length - 1 ? sommaire[i + 1] : null
+  })()
   /**
    * Fil d'Ariane sans répétition. Les titres d'évaluation portent déjà le nom du
    * module (« S'évaluer · Prise en main ») : les concaténer donnait
@@ -2063,13 +2090,17 @@ export default function SimulationPlayer({
           <div className="hidden flex-shrink-0 items-center gap-[3px] sm:flex" aria-hidden>
             {steps.map((_, i) => (
               <span
-                key={i}
+                // La clé du segment courant embarque le compteur de relais : elle
+                // change à chaque avancée, ce qui rejoue son animation.
+                key={i === index ? `cur${relais}` : i}
                 style={{
                   display: "block",
                   width: 13,
                   height: 4,
                   borderRadius: 9,
                   background: i < index ? "#4ED08A" : i === index ? "#fff" : "rgba(255,255,255,.16)",
+                  transition: "background-color .3s ease",
+                  animation: i === index && relais ? "sim-seg-pop .5s cubic-bezier(.2,.9,.2,1) both" : undefined,
                 }}
               />
             ))}
@@ -2098,19 +2129,68 @@ export default function SimulationPlayer({
       </div>
 
       {finished ? (
-        <div className={pleinCadre ? "flex min-h-0 flex-1 flex-col items-center justify-center px-5 py-10 text-center" : "px-5 py-10 text-center"}>
-          <p className="font-display text-lg font-semibold text-ink">
-            {mode === "EVALUATION" ? "Évaluation terminée" : "Vous avez terminé cette étape du parcours"}
-          </p>
-          {mode === "EVALUATION" && (
-            <p className="mt-1.5 text-[13px] text-warm-700">
-              Score :{" "}
-              <span className="font-semibold text-emerald-700">
-                {Math.round(computeScore(steps, firstTryRef.current) * 100)} %
-              </span>{" "}
-              sur {gradable} action{gradable > 1 ? "s" : ""} évaluée{gradable > 1 ? "s" : ""}
+        /* Jalon de fin de chapitre (traitement « C », choix Samuel du 29/07).
+           Réservé à la FIN : une carte à chaque étape imposerait douze secondes
+           d'attente par leçon, et la phrase d'acquis n'existe pas pour les
+           1 872 étapes — ici le titre du chapitre suffit à la porter. */
+        <div
+          className={
+            pleinCadre
+              ? "flex min-h-0 flex-1 flex-col items-center justify-center px-5 py-10 text-center"
+              : "px-5 py-10 text-center"
+          }
+        >
+          <div
+            className="w-full rounded-2xl border border-border bg-white px-6 py-7 shadow-sm"
+            style={{ maxWidth: 430, animation: "sim-jalon-carte .42s cubic-bezier(.2,.9,.2,1) both" }}
+          >
+            <div
+              aria-hidden
+              className="mx-auto mb-3 flex items-center justify-center rounded-full"
+              style={{
+                width: 46,
+                height: 46,
+                background: evaluationNotee ? "#FBF1DF" : "#E7F3EB",
+                color: evaluationNotee ? "#8A5A12" : "#107C41",
+                fontSize: 22,
+                animation: "sim-jalon-rond .5s .1s cubic-bezier(.2,.9,.2,1) both",
+              }}
+            >
+              ✓
+            </div>
+            <p className="font-display text-[17px] font-bold text-ink">
+              {mode === "EVALUATION" ? "Évaluation terminée" : "Chapitre terminé"}
             </p>
-          )}
+            <p className="mt-1 text-[13.5px] text-warm-600">{filChapitre}</p>
+            {mode === "EVALUATION" ? (
+              <p className="mt-3 text-[13px] text-warm-700">
+                Score :{" "}
+                <span className="font-semibold text-emerald-700">
+                  {Math.round(computeScore(steps, firstTryRef.current) * 100)} %
+                </span>{" "}
+                sur {gradable} action{gradable > 1 ? "s" : ""} évaluée{gradable > 1 ? "s" : ""}
+              </p>
+            ) : (
+              <p className="mt-3 text-[13px] text-warm-500">
+                {total} étape{total > 1 ? "s" : ""} franchie{total > 1 ? "s" : ""}
+              </p>
+            )}
+            {chapitreSuivant && onNaviguer && (
+              <button
+                type="button"
+                data-control="sim-chapitre-suivant"
+                onClick={() => onNaviguer(chapitreSuivant.id)}
+                className="mt-5 inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-[13.5px] font-semibold text-white"
+                style={{ background: "#10201B" }}
+              >
+                Chapitre suivant
+                <span aria-hidden>›</span>
+              </button>
+            )}
+            {chapitreSuivant && (
+              <p className="mt-2.5 truncate text-[12px] text-warm-400">{chapitreSuivant.titre}</p>
+            )}
+          </div>
         </div>
       ) : (
         <>
@@ -2271,6 +2351,16 @@ export default function SimulationPlayer({
 @keyframes sim-flash{0%{opacity:0}10%{opacity:1}65%{opacity:1}100%{opacity:0}}
 @keyframes sim-intro-monte{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
 @keyframes sim-intro-cell{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+@keyframes sim-consigne-in{from{opacity:0;transform:translateY(11px)}to{opacity:1;transform:translateY(0)}}
+@keyframes sim-etape-pop{0%{transform:scale(.82);opacity:.3}55%{transform:scale(1.08)}100%{transform:scale(1);opacity:1}}
+@keyframes sim-coche{0%{opacity:0;transform:translateY(-50%) scale(.5)}18%{opacity:1;transform:translateY(-50%) scale(1.12)}32%{transform:translateY(-50%) scale(1)}74%{opacity:1}100%{opacity:0;transform:translateY(-50%) scale(.92)}}
+@keyframes sim-seg-pop{0%{transform:scaleX(.2)}55%{transform:scaleX(1.35)}100%{transform:scaleX(1)}}
+@keyframes sim-jalon-carte{0%{opacity:0;transform:scale(.92) translateY(10px)}100%{opacity:1;transform:scale(1) translateY(0)}}
+@keyframes sim-jalon-rond{0%{transform:scale(.5);opacity:0}45%{transform:scale(1.12)}100%{transform:scale(1);opacity:1}}
+/* Un apprenant qui a demandé moins d'animations garde le repère, sans mouvement. */
+@media (prefers-reduced-motion: reduce){
+  [style*="sim-consigne-in"],[style*="sim-etape-pop"],[style*="sim-coche"],[style*="sim-jalon-carte"],[style*="sim-jalon-rond"]{animation-duration:.01ms !important;animation-iteration-count:1 !important}
+}
 `}</style>
             </div>
             {/* Bas de la fenêtre Excel — SOUS la grille, comme dans le logiciel. */}
@@ -2315,14 +2405,39 @@ export default function SimulationPlayer({
               phrase que l'apprenant relit à chaque geste, elle ne peut pas être
               plus petite que le contenu de la feuille. */}
           <div
-            className="flex flex-shrink-0 flex-wrap items-center gap-x-4 gap-y-2 border-t border-border px-4 py-3"
+            className="relative flex flex-shrink-0 flex-wrap items-center gap-x-4 gap-y-2 overflow-hidden border-t border-border px-4 py-3"
             style={{
-              borderLeft: `4px solid ${verdict ? (verdict.ok ? "#059669" : "#e11d48") : "#107C41"}`,
-              background: verdict ? (verdict.ok ? "#F2FBF6" : "#FEF4F5") : "#fff",
-              transition: "background-color .25s ease, border-color .25s ease",
+              borderLeft: `4px solid ${relaisActif ? "#22A75A" : verdict ? (verdict.ok ? "#059669" : "#e11d48") : "#107C41"}`,
+              background: relaisActif ? "#F2FBF6" : verdict ? (verdict.ok ? "#F2FBF6" : "#FEF4F5") : "#fff",
+              transition: "background-color .3s ease, border-color .3s ease",
             }}
           >
+            {/* Coche de franchissement : elle prend la place du numéro d'étape le
+                temps que la nouvelle consigne s'installe. */}
+            {relaisActif && (
+              <span
+                aria-hidden
+                data-relais="coche"
+                className="absolute flex items-center justify-center rounded-full text-white"
+                style={{
+                  left: 16,
+                  top: "50%",
+                  width: 26,
+                  height: 26,
+                  background: "#22A75A",
+                  fontSize: 14,
+                  fontWeight: 700,
+                  zIndex: 3,
+                  // Purement décorative : elle ne doit jamais intercepter un clic.
+                  pointerEvents: "none",
+                  animation: "sim-coche .78s cubic-bezier(.2,.9,.2,1) both",
+                }}
+              >
+                ✓
+              </span>
+            )}
             <span
+              key={`et${index}`}
               className="flex-shrink-0 rounded-lg uppercase"
               style={{
                 fontSize: 10.5,
@@ -2331,11 +2446,23 @@ export default function SimulationPlayer({
                 color: evaluationNotee ? "#8A5A12" : "#107C41",
                 background: evaluationNotee ? "#FBF1DF" : "#E7F3EB",
                 padding: "5px 9px",
+                visibility: relaisActif ? "hidden" : undefined,
+                animation: relais ? "sim-etape-pop .5s cubic-bezier(.2,.9,.2,1) both" : undefined,
               }}
             >
               Étape {Math.min(index + 1, total)}
             </span>
-            <div className="min-w-0 flex-1" style={{ fontSize: 15, lineHeight: 1.45 }}>
+            <div
+              // La clé force le remontage à chaque étape : sans elle, React
+              // réutilise le nœud et l'animation d'entrée ne rejoue jamais.
+              key={`tx${index}`}
+              className="min-w-0 flex-1"
+              style={{
+                fontSize: 15,
+                lineHeight: 1.45,
+                animation: relais ? "sim-consigne-in .34s cubic-bezier(.2,.85,.25,1) both" : undefined,
+              }}
+            >
               {step && <Consigne text={step.consigne} />}
               {/* L'aide ne vit qu'à UN endroit : dans la bulle ancrée à la cible
                   quand elle peut l'être, ici sinon. Les deux s'affichaient, mot

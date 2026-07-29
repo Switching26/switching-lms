@@ -23,6 +23,13 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import dynamic from "next/dynamic"
 import type { GridApi } from "./ExcelGrid"
 import SimulationChrome, { SimulationFooter } from "./SimulationChrome"
+import {
+  cibleDemonstration,
+  natureEtape,
+  reponseAttendue,
+  resumerAttendu,
+  resumerFait,
+} from "@/lib/simulation/attendu"
 import ChartLayer from "./ChartLayer"
 import PivotLayer from "./PivotLayer"
 import PageLayoutLayer from "./PageLayoutLayer"
@@ -369,6 +376,16 @@ export default function SimulationPlayer({
    * Rien de tout cela ne retarde la saisie : `applyStep` rend le focus à la
    * feuille immédiatement, l'animation se joue par-dessus.
    */
+  /**
+   * Essais ratés sur l'étape courante, et aide qui monte en puissance.
+   *
+   * Le nombre d'erreurs était déjà compté — mais seulement pour l'enregistrer.
+   * Après une erreur ou après dix, l'apprenant voyait le même message rouge, et
+   * 174 étapes d'action n'ont même pas d'indice à demander : celui qui bloque ne
+   * pouvait ni comprendre, ni passer. Paliers retenus avec Samuel : 2 / 3 / 5.
+   */
+  const [essais, setEssais] = useState(0)
+  const [demonstration, setDemonstration] = useState(false)
   const [relais, setRelais] = useState(0)
   const [relaisActif, setRelaisActif] = useState(false)
   useEffect(() => {
@@ -377,6 +394,13 @@ export default function SimulationPlayer({
     const t = window.setTimeout(() => setRelaisActif(false), 760)
     return () => window.clearTimeout(t)
   }, [relais])
+  /** Carte « Étape franchie », affichée par-dessus la feuille à chaque avancée. */
+  const [jalon, setJalon] = useState<{ n: number; texte: string | null } | null>(null)
+  useEffect(() => {
+    if (!jalon) return
+    const t = window.setTimeout(() => setJalon(null), 1150)
+    return () => window.clearTimeout(t)
+  }, [jalon])
   /** Panneau latéral ouvert dans l'atelier : sommaire des leçons ou prise de notes. */
   const [panneau, setPanneau] = useState<"lecons" | "notes" | null>(null)
   useEffect(() => {
@@ -588,6 +612,10 @@ export default function SimulationPlayer({
       setFormulaText("")
       setVerdict(null)
       setHintShown(mode === "LESSON")
+      // Chaque étape repart d'une ardoise vierge : l'aide progressive se
+      // rejoue depuis le premier palier.
+      setEssais(0)
+      setDemonstration(false)
       // Le focus revient à la grille : sans cela, après un clic sur « Suivant »
       // ou sur un bouton du ruban, l'apprenant tape dans le vide jusqu'à ce qu'il
       // pense à recliquer dans une cellule.
@@ -685,6 +713,11 @@ export default function SimulationPlayer({
     }
     // Le relais ne se joue qu'en AVANÇANT : reculer n'est pas une réussite.
     setRelais((r) => r + 1)
+    // Jalon d'étape franchie (choix Samuel : à CHAQUE étape, pas seulement en
+    // fin de chapitre). Le rappel du geste est déduit de l'action — écrire une
+    // phrase sur mesure aurait voulu dire en rédiger 1 872.
+    const courante = steps[index]
+    setJalon({ n: index + 1, texte: courante ? resumerFait(courante.action) : null })
     setIndex(next)
     void persist({ step: next })
   }, [index, total, mode, steps, persist, onCompleted])
@@ -869,6 +902,14 @@ export default function SimulationPlayer({
         attemptedRef.current.add(step.id)
         firstTryRef.current[step.id] = false
         pendingRef.current.errors += 1
+        setEssais((n) => {
+          const suivant = n + 1
+          // Palier 2 : l'indice s'affiche de lui-même, y compris en exercice où
+          // il se demande d'ordinaire. Palier 5 : la démonstration se déclenche.
+          if (suivant >= 2) setHintShown(true)
+          if (suivant >= 5) setDemonstration(true)
+          return suivant
+        })
         setVerdict(v)
         lancerFx(step, "ko", v.message)
       } else if (surEtat && observed.kind !== "stateChange" && v.message) {
@@ -1751,10 +1792,13 @@ export default function SimulationPlayer({
   // En leçon on montre la cible tout de suite ; en exercice sur demande ; jamais
   // en évaluation.
   const highlightedControl = useMemo(() => {
-    if (mode === "EVALUATION" || !hintShown || !step) return null
-    if (step.action.type === "CLICK_CONTROL") return step.action.control
-    return null
-  }, [mode, hintShown, step])
+    if (!step) return null
+    // Le bouton attendu s'allume aussi dès le deuxième essai raté, hors
+    // évaluation : c'est le pendant du halo sur la cellule.
+    const forcer = (essais >= 2 || demonstration) && mode !== "EVALUATION"
+    if (!forcer && (mode === "EVALUATION" || !hintShown)) return null
+    return cibleDemonstration(step.action).controle ?? null
+  }, [mode, hintShown, step, essais, demonstration])
 
   // `showTarget` était déclaré dans 150 aides et n'affichait rien : l'apprenant
   // bloqué demandait une aide censée pointer la cellule et ne voyait aucun
@@ -1762,18 +1806,25 @@ export default function SimulationPlayer({
   const [halo, setHalo] = useState<{ left: number; top: number; width: number; height: number } | null>(null)
   useEffect(() => {
     const grid = gridRef.current
-    if (!grid || !step || mode === "EVALUATION" || !hintShown || !step.aide?.showTarget) {
+    if (!grid || !step) {
+      setHalo(null)
+      return
+    }
+    // À partir du deuxième essai raté, la cible s'allume même si l'étape n'a pas
+    // d'aide rédigée — c'était le cas de deux tiers des étapes. Jamais en
+    // évaluation notée : montrer la cible reviendrait à souffler la réponse.
+    const forcer = (essais >= 2 || demonstration) && mode !== "EVALUATION"
+    if (!forcer && (mode === "EVALUATION" || !hintShown || !step.aide?.showTarget)) {
       setHalo(null)
       return
     }
     const a = step.action
+    // `cibleDemonstration` couvre plus de gestes que l'ancien calcul : il ignorait
+    // notamment `EXPECT_STATE` et `EXPECT_FORMAT`, les deux modes de validation
+    // les plus fréquents après la saisie.
     const cible =
-      a.type === "TYPE" ? (a.target === "formula-bar" ? null : a.target)
-      : a.type === "CLICK_CELL" ? a.cell
-      : a.type === "GOTO_REF" ? a.ref
-      : a.type === "DRAG_RANGE" ? a.range
-      : a.type === "DEFINE_NAME" ? (a.ref ?? null)
-      : null
+      cibleDemonstration(a).cellule ??
+      (a.type === "DEFINE_NAME" ? (a.ref ?? null) : null)
     if (!cible) {
       setHalo(null)
       return
@@ -1804,7 +1855,7 @@ export default function SimulationPlayer({
     // `gridReady` est indispensable : au premier montage la grille n'existe pas
     // encore, l'effet calculait un halo nul et ne se rejouait jamais — la
     // première étape de chaque leçon restait sans repère.
-  }, [mode, hintShown, step, index, gridReady])
+  }, [mode, hintShown, step, index, gridReady, essais, demonstration])
 
   /* ── Rendu ─────────────────────────────────────────────────────────────── */
 
@@ -1818,6 +1869,9 @@ export default function SimulationPlayer({
 
   const gradable = steps.filter((s) => s.action.type !== "READ").length
   const evaluationNotee = mode === "EVALUATION"
+  /** Nature de l'étape et critère de réussite, tous deux déduits de l'action. */
+  const nature = step ? natureEtape(step.action, mode) : "action"
+  const attendu = step ? resumerAttendu(step.action) : null
   /** Chapitre suivant du parcours, proposé sur le jalon de fin. */
   const chapitreSuivant = (() => {
     if (!sommaire || sommaire.length === 0) return null
@@ -2196,7 +2250,52 @@ export default function SimulationPlayer({
         <>
           {/* Fenêtre Excel simulée. En plein cadre elle prend tout l'espace laissé
               par le cockpit et la bande de consigne — ni plus, ni moins. */}
-          <div className={pleinCadre ? "flex min-h-0 flex-1 flex-col px-2 pt-2 sm:px-3 sm:pt-3" : "px-3 pt-3"}>
+          <div
+            className={
+              pleinCadre
+                ? "relative flex min-h-0 flex-1 flex-col px-2 pt-2 sm:px-3 sm:pt-3"
+                : "relative px-3 pt-3"
+            }
+          >
+            {/* Jalon d'étape franchie : il couvre la feuille, jamais la bande de
+                consigne — la consigne suivante reste lisible pendant ce temps. */}
+            {jalon && (
+              <div
+                aria-hidden
+                className="absolute inset-0 z-40 flex items-center justify-center px-6"
+                style={{
+                  background: "rgba(8,17,14,.45)",
+                  animation: "sim-jalon-fond 1.15s ease both",
+                  // Purement décoratif : sans cela il avale le clic d'un apprenant
+                  // qui enchaîne sans attendre la fin de l'animation — c'est le
+                  // joueur automatique qui l'a attrapé, sur l'étape suivant la
+                  // première réussite de quatre scénarios sur six.
+                  pointerEvents: "none",
+                }}
+              >
+                <div
+                  className="rounded-2xl bg-white px-6 py-4 text-center shadow-2xl"
+                  style={{ animation: "sim-jalon-carte .34s cubic-bezier(.2,.9,.2,1) both", maxWidth: 340 }}
+                >
+                  <div
+                    aria-hidden
+                    className="mx-auto mb-2 flex items-center justify-center rounded-full"
+                    style={{
+                      width: 34,
+                      height: 34,
+                      background: "#E7F3EB",
+                      color: "#107C41",
+                      fontSize: 17,
+                      animation: "sim-jalon-rond .44s .06s cubic-bezier(.2,.9,.2,1) both",
+                    }}
+                  >
+                    ✓
+                  </div>
+                  <p className="font-display text-[14.5px] font-bold text-ink">Étape {jalon.n} franchie</p>
+                  {jalon.texte && <p className="mt-0.5 text-[12px] text-warm-500">{jalon.texte}</p>}
+                </div>
+              </div>
+            )}
             <SimulationChrome
               tabs={scenario.ribbon}
               state={
@@ -2357,6 +2456,7 @@ export default function SimulationPlayer({
 @keyframes sim-seg-pop{0%{transform:scaleX(.2)}55%{transform:scaleX(1.35)}100%{transform:scaleX(1)}}
 @keyframes sim-jalon-carte{0%{opacity:0;transform:scale(.92) translateY(10px)}100%{opacity:1;transform:scale(1) translateY(0)}}
 @keyframes sim-jalon-rond{0%{transform:scale(.5);opacity:0}45%{transform:scale(1.12)}100%{transform:scale(1);opacity:1}}
+@keyframes sim-jalon-fond{0%{opacity:0}14%{opacity:1}76%{opacity:1}100%{opacity:0}}
 /* Un apprenant qui a demandé moins d'animations garde le repère, sans mouvement. */
 @media (prefers-reduced-motion: reduce){
   [style*="sim-consigne-in"],[style*="sim-etape-pop"],[style*="sim-coche"],[style*="sim-jalon-carte"],[style*="sim-jalon-rond"]{animation-duration:.01ms !important;animation-iteration-count:1 !important}
@@ -2436,34 +2536,51 @@ export default function SimulationPlayer({
                 ✓
               </span>
             )}
-            <span
-              key={`et${index}`}
-              className="flex-shrink-0 rounded-lg uppercase"
-              style={{
-                fontSize: 10.5,
-                fontWeight: 800,
-                letterSpacing: ".06em",
-                color: evaluationNotee ? "#8A5A12" : "#107C41",
-                background: evaluationNotee ? "#FBF1DF" : "#E7F3EB",
-                padding: "5px 9px",
-                visibility: relaisActif ? "hidden" : undefined,
-                animation: relais ? "sim-etape-pop .5s cubic-bezier(.2,.9,.2,1) both" : undefined,
-              }}
-            >
-              Étape {Math.min(index + 1, total)}
-            </span>
             <div
               // La clé force le remontage à chaque étape : sans elle, React
               // réutilise le nœud et l'animation d'entrée ne rejoue jamais.
               key={`tx${index}`}
               className="min-w-0 flex-1"
               style={{
-                fontSize: 15,
-                lineHeight: 1.45,
                 animation: relais ? "sim-consigne-in .34s cubic-bezier(.2,.85,.25,1) both" : undefined,
               }}
             >
-              {step && <Consigne text={step.consigne} />}
+              {/* Nature de l'étape : la question qu'un débutant se pose en premier,
+                  « est-ce que je dois faire quelque chose ou seulement lire ? ».
+                  Elle n'avait aucune réponse à l'écran. */}
+              <span
+                className="mb-1.5 inline-flex items-center gap-1.5 rounded-md uppercase"
+                style={{
+                  fontSize: 9.5,
+                  fontWeight: 800,
+                  letterSpacing: ".07em",
+                  padding: "4px 8px",
+                  color: nature === "lecture" ? "#3E5A67" : nature === "evaluee" ? "#8A5A12" : "#107C41",
+                  background:
+                    nature === "lecture" ? "#E8F0F3" : nature === "evaluee" ? "#FBF1DF" : "#E7F3EB",
+                  visibility: relaisActif ? "hidden" : undefined,
+                  animation: relais ? "sim-etape-pop .5s cubic-bezier(.2,.9,.2,1) both" : undefined,
+                }}
+              >
+                <span aria-hidden>{nature === "lecture" ? "👁" : nature === "evaluee" ? "★" : "✋"}</span>
+                {nature === "lecture" ? "À lire" : nature === "evaluee" ? "Évalué" : "À vous de jouer"}
+              </span>
+              <div style={{ fontSize: 15, lineHeight: 1.45 }}>
+                {step && <Consigne text={step.consigne} />}
+              </div>
+              {/* Critère de réussite, déduit de l'étape : la consigne dit quoi
+                  faire, jamais à quoi on reconnaît que c'est fait. */}
+              {attendu && (
+                <p className="mt-1.5 flex items-center gap-1.5 text-[12.5px] text-warm-500">
+                  <span aria-hidden>◎</span>
+                  Attendu : <b className="font-semibold text-ink">{attendu}</b>
+                </p>
+              )}
+              {evaluationNotee && (
+                <p className="mt-1 text-[12px]" style={{ color: "#8A5A12" }}>
+                  <span aria-hidden>★ </span>Compté dans votre note
+                </p>
+              )}
               {/* L'aide ne vit qu'à UN endroit : dans la bulle ancrée à la cible
                   quand elle peut l'être, ici sinon. Les deux s'affichaient, mot
                   pour mot, sous la consigne et sur la feuille. */}
@@ -2472,6 +2589,63 @@ export default function SimulationPlayer({
                   <span aria-hidden>👉 </span>
                   {step.aide.text}
                 </p>
+              )}
+              {/* Aide progressive : l'apprenant coincé n'est jamais laissé sans issue. */}
+              {step && essais >= 3 && !demonstration && (
+                <div
+                  className="mt-2 flex flex-wrap items-center gap-2 rounded-lg px-3 py-2 text-[12.5px]"
+                  style={{ background: "#FDEDEC", border: "1px solid #F3D2CE", color: "#7A2620" }}
+                >
+                  <span className="min-w-0 flex-1">
+                    <b>Vous bloquez ?</b>{" "}
+                    {evaluationNotee
+                      ? "Vous pouvez passer cette question — elle sera comptée comme non réussie."
+                      : "Je peux vous montrer comment faire, vous pourrez ensuite continuer."}
+                  </span>
+                  <button
+                    type="button"
+                    data-control="sim-montrer"
+                    onClick={() => setDemonstration(true)}
+                    className="flex-shrink-0 rounded-lg bg-white px-3 py-1.5 text-[12px] font-bold"
+                    style={{ border: "1px solid currentColor", color: "inherit" }}
+                  >
+                    {evaluationNotee ? "Passer la question" : "Montrez-moi"}
+                  </button>
+                </div>
+              )}
+              {step && demonstration && (
+                <div
+                  className="mt-2 flex flex-wrap items-center gap-2 rounded-lg px-3 py-2 text-[12.5px]"
+                  style={
+                    evaluationNotee
+                      ? { background: "#FBF1DF", border: "1px solid #EBD9B4", color: "#6B4C10" }
+                      : { background: "#E7F3EB", border: "1px solid #BFE3CD", color: "#0C5B31" }
+                  }
+                >
+                  <span className="min-w-0 flex-1">
+                    <span aria-hidden>{evaluationNotee ? "★ " : "👉 "}</span>
+                    {evaluationNotee ? (
+                      <>
+                        <b>Question passée.</b> Elle sera comptée comme non réussie dans votre note.
+                      </>
+                    ) : (
+                      <>
+                        <b>Voici la réponse.</b>{" "}
+                        {reponseAttendue(step.action) ??
+                          "Suivez le repère affiché à l'écran, puis reprenez le geste."}
+                      </>
+                    )}
+                  </span>
+                  <button
+                    type="button"
+                    data-control="sim-debloquer"
+                    onClick={goNext}
+                    className="flex-shrink-0 rounded-lg bg-white px-3 py-1.5 text-[12px] font-bold"
+                    style={{ border: "1px solid currentColor", color: "inherit" }}
+                  >
+                    {evaluationNotee ? "Question suivante ›" : "J'ai compris — continuer ›"}
+                  </button>
+                </div>
               )}
             </div>
             <div className="flex flex-shrink-0 items-center gap-2">
@@ -2499,14 +2673,19 @@ export default function SimulationPlayer({
               {step?.action.type === "READ" && (
                 <button
                   type="button"
+                  // Identifiant stable : le libellé a changé, un test qui vise le
+                  // texte se casse à chaque reformulation.
+                  data-control="sim-suivant"
                   onClick={() => handleAction({ kind: "next" })}
+                  // « Suivant » n'indiquait pas qu'il n'y avait rien d'autre à
+                  // faire sur cette étape : le libellé le dit maintenant.
                   // Couleur d'action propre au simulateur : `bg-primary` prenait la
                   // couleur du partenaire (violette, puis turquoise) au milieu d'un
                   // univers vert Excel et ivoire.
-                  className="rounded-lg px-4 py-1.5 text-[12.5px] font-semibold text-white"
-                  style={{ background: "#10201B" }}
+                  className="rounded-lg px-4 py-2 text-[12.5px] font-bold text-white"
+                  style={{ background: evaluationNotee ? "#10201B" : "#3E5A67" }}
                 >
-                  Suivant
+                  J&apos;ai compris, continuer ›
                 </button>
               )}
             </div>

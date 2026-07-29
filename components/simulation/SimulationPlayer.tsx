@@ -32,7 +32,8 @@ import {
 } from "@/lib/simulation/attendu"
 import DesktopLayer from "./DesktopLayer"
 import AfficheModule, { numeroModule } from "./AfficheModule"
-import DemonstrationGeste, { planDemonstration, type PlanDemo, type Rect } from "./DemonstrationGeste"
+import DemonstrationGeste, { type Rect } from "./DemonstrationGeste"
+import { planDemonstration, type CibleDemo, type PlanDemo } from "@/lib/simulation/demonstration"
 import { CONTROLES_POSTE, appliquerGeste, posteInitial } from "@/lib/simulation/poste"
 import ChartLayer from "./ChartLayer"
 import PivotLayer from "./PivotLayer"
@@ -396,6 +397,24 @@ export default function SimulationPlayer({
    */
   const [essais, setEssais] = useState(0)
   const [demonstration, setDemonstration] = useState(false)
+  /**
+   * Gestes faits sans succès sur une étape jugée sur l'ÉTAT du classeur.
+   *
+   * Sur ces étapes — 466 au total : EXPECT_STATE, EXPECT_FORMAT, mise en page,
+   * graphiques, tableaux croisés, macros, poste — le chemin est libre et un
+   * geste faux n'est PAS compté comme erreur, à dessein. Conséquence non voulue :
+   * `essais` restait à zéro, donc « Montrez-moi » n'apparaissait jamais. C'est
+   * la cause du « des fois c'est absent » signalé par Samuel. Ce compteur-ci
+   * n'entre pas dans le score : il ne sert qu'à proposer l'aide.
+   */
+  const [tatonnements, setTatonnements] = useState(0)
+  /**
+   * L'apprenant est-il resté longtemps sur l'étape sans la franchir ? Dernier
+   * filet : certains blocages ne produisent AUCUN geste — on ne sait pas quoi
+   * faire, donc on ne fait rien, et aucun compteur ne bouge. Au bout de 45 s,
+   * l'aide se propose d'elle-même.
+   */
+  const [tropLong, setTropLong] = useState(false)
   /** Compteur de rejeux : sert de clé au calque, pour le faire repartir du début. */
   const [rejeu, setRejeu] = useState(0)
   /** La démonstration est-elle allée à son terme ? Conditionne « Revoir ». */
@@ -536,6 +555,12 @@ export default function SimulationPlayer({
    * faute sur une étape pourtant validée.
    */
   const resoluRef = useRef(false)
+  /**
+   * Vrai pendant que la DÉMONSTRATION écrit. Les observations du classeur sont
+   * alors ignorées : sans ce verrou, écrire la réponse validerait l'étape et
+   * ferait sauter à la suivante au milieu de la démonstration.
+   */
+  const demoEcritRef = useRef(false)
 
   const step: SimulationStep | undefined = steps[index]
   /**
@@ -723,9 +748,17 @@ export default function SimulationPlayer({
     resoluRef.current = false
     setRejeu(0)
     setDemoFinie(false)
+    setTatonnements(0)
+    setTropLong(false)
     if (gridReady) applyStep(step)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [index, gridReady])
+
+  useEffect(() => {
+    if (!step || finished || mode === "EVALUATION") return
+    const t = window.setTimeout(() => setTropLong(true), 45_000)
+    return () => window.clearTimeout(t)
+  }, [step, index, finished, mode])
 
   /* ── Persistance ───────────────────────────────────────────────────────── */
 
@@ -862,7 +895,7 @@ export default function SimulationPlayer({
 
   const handleAction = useCallback(
     (observed: ObservedAction) => {
-      if (!step || finished || resoluRef.current) return
+      if (!step || finished || resoluRef.current || demoEcritRef.current) return
 
       // L'enregistreur de macros écoute les gestes RÉELS, ceux que la grille
       // signale déjà. Un second chemin d'observation finirait par transcrire
@@ -983,8 +1016,20 @@ export default function SimulationPlayer({
         })
         setVerdict(v)
         lancerFx(step, "ko", v.message)
-      } else if (surEtat && observed.kind !== "stateChange" && v.message) {
-        setVerdict(v)
+      } else {
+        // TOUT geste qui n'a pas fait avancer l'étape compte comme tâtonnement,
+        // qu'il s'agisse d'un déplacement ou d'un réglage intermédiaire. Il ne
+        // pénalise pas le score — il sert uniquement à savoir quand proposer
+        // l'aide. Sans ce compteur, sur une étape jugée sur l'état ou sur un
+        // simple clic de repérage, `essais` restait à zéro et « Montrez-moi »
+        // n'apparaissait JAMAIS : c'est ce que Samuel voyait comme une
+        // démonstration « absente ».
+        setTatonnements((n) => {
+          const suivant = n + 1
+          if (suivant >= 3) setHintShown(true)
+          return suivant
+        })
+        if (surEtat && observed.kind !== "stateChange" && v.message) setVerdict(v)
       }
     },
     [step, finished, goNext, lireCellule, lancerFx],
@@ -1910,10 +1955,10 @@ export default function SimulationPlayer({
     if (!step) return null
     // Le bouton attendu s'allume aussi dès le deuxième essai raté, hors
     // évaluation : c'est le pendant du halo sur la cellule.
-    const forcer = (essais >= 2 || demonstration) && mode !== "EVALUATION"
+    const forcer = (essais >= 2 || tatonnements >= 4 || tropLong || demonstration) && mode !== "EVALUATION"
     if (!forcer && (mode === "EVALUATION" || !hintShown)) return null
     return cibleDemonstration(step.action).controle ?? null
-  }, [mode, hintShown, step, essais, demonstration])
+  }, [mode, hintShown, step, essais, tatonnements, tropLong, demonstration])
 
   // `showTarget` était déclaré dans 150 aides et n'affichait rien : l'apprenant
   // bloqué demandait une aide censée pointer la cellule et ne voyait aucun
@@ -1928,7 +1973,7 @@ export default function SimulationPlayer({
     // À partir du deuxième essai raté, la cible s'allume même si l'étape n'a pas
     // d'aide rédigée — c'était le cas de deux tiers des étapes. Jamais en
     // évaluation notée : montrer la cible reviendrait à souffler la réponse.
-    const forcer = (essais >= 2 || demonstration) && mode !== "EVALUATION"
+    const forcer = (essais >= 2 || tatonnements >= 4 || tropLong || demonstration) && mode !== "EVALUATION"
     if (!forcer && (mode === "EVALUATION" || !hintShown || !step.aide?.showTarget)) {
       setHalo(null)
       return
@@ -1970,7 +2015,7 @@ export default function SimulationPlayer({
     // `gridReady` est indispensable : au premier montage la grille n'existe pas
     // encore, l'effet calculait un halo nul et ne se rejouait jamais — la
     // première étape de chaque leçon restait sans repère.
-  }, [mode, hintShown, step, index, gridReady, essais, demonstration])
+  }, [mode, hintShown, step, index, gridReady, essais, tatonnements, tropLong, demonstration])
 
   /**
    * Géométrie de la démonstration animée. Recalculée comme le halo, à partir des
@@ -1978,46 +2023,73 @@ export default function SimulationPlayer({
    * par cellule. `null` tant que le geste ne se montre pas honnêtement : on garde
    * alors la réponse écrite.
    */
-  const [demo, setDemo] = useState<{ plan: PlanDemo; cible: Rect; suivante: Rect | null; largeur: number } | null>(null)
-  useEffect(() => {
+  /**
+   * Plan de démonstration, MÉMOÏSÉ sur l'étape.
+   *
+   * Il vivait dans un state recalculé par un effet : chaque écriture de la
+   * démonstration provoquait un rendu, donc un nouvel objet `plan`, donc une
+   * nouvelle référence de `gestes` — et la minuterie du calque repartait de
+   * zéro à l'infini. La démonstration restait bloquée sur son premier geste,
+   * compteur figé à « 1 / 8 ». C'est le « des fois elle se finit pas ».
+   */
+  const demo = useMemo(() => {
+    if (!demonstration || !step || mode === "EVALUATION") return null
+    return planDemonstration(step.action)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [demonstration, index, mode])
+
+  /**
+   * Résout une cible de démonstration en rectangle, dans le repère du calque.
+   * Les cellules passent par les métriques d'Univer (la grille est un canvas,
+   * aucun élément DOM par cellule) ; le châssis passe par le DOM.
+   */
+  const resoudreCible = useCallback((cible: CibleDemo): Rect | null => {
     const grid = gridRef.current
-    if (!demonstration || !step || !grid || mode === "EVALUATION") {
-      setDemo(null)
-      return
-    }
-    const plan = planDemonstration(step.action)
-    if (!plan) {
-      setDemo(null)
-      return
-    }
-    const poser = () => {
-      let cible: Rect | null = null
-      if (plan.cellule) cible = grid.getCellRect(plan.cellule)
-      else if (plan.controle) {
-        // Un bouton du ruban vit dans le DOM : on ramène sa position dans le
-        // repère du calque, qui est celui de la grille.
-        const el = document.querySelector(`[data-control="${plan.controle}"]`)
-        const hote = zoneGrilleRef.current
-        if (el && hote) {
-          const r = el.getBoundingClientRect()
-          const h = hote.getBoundingClientRect()
-          cible = { left: r.left - h.left, top: r.top - h.top, width: r.width, height: r.height }
-        }
+    const hote = zoneGrilleRef.current
+    if (!hote) return null
+    if (cible.k === "cellule" || cible.k === "plage") {
+      if (!grid) return null
+      const bornes = cible.ref.split(":")
+      const a = grid.getCellRect(bornes[0])
+      const b = grid.getCellRect(bornes[bornes.length - 1])
+      if (!a || !b) return null
+      const left = Math.min(a.left, b.left)
+      const top = Math.min(a.top, b.top)
+      return {
+        left,
+        top,
+        width: Math.max(a.left + a.width, b.left + b.width) - left,
+        height: Math.max(a.top + a.height, b.top + b.height) - top,
       }
-      if (!cible) return false
-      setDemo({
-        plan,
-        cible,
-        suivante: plan.suivante ? grid.getCellRect(plan.suivante) : null,
-        largeur: zoneGrilleRef.current?.clientWidth ?? 640,
-      })
-      return true
     }
-    if (!poser()) {
-      const t = window.setTimeout(poser, 350)
-      return () => window.clearTimeout(t)
+    if (cible.k === "enteteColonne") {
+      const r = grid?.getCellRect(`${cible.col}1`)
+      // L'en-tête n'est pas une cellule : il est juste au-dessus de la ligne 1.
+      return r ? { left: r.left, top: Math.max(0, r.top - 20), width: r.width, height: 20 } : null
     }
-  }, [demonstration, step, index, gridReady, mode])
+    if (cible.k === "enteteLigne") {
+      const r = grid?.getCellRect(`A${cible.ligne}`)
+      return r ? { left: Math.max(0, r.left - 46), top: r.top, width: 46, height: r.height } : null
+    }
+    const el = document.querySelector(cible.sel)
+    if (!el) return null
+    const r = el.getBoundingClientRect()
+    const h = hote.getBoundingClientRect()
+    if (r.width === 0 && r.height === 0) return null
+    return { left: r.left - h.left, top: r.top - h.top, width: r.width, height: r.height }
+  }, [])
+
+  /** Écrit une valeur pendant la démonstration, sans déclencher la validation. */
+  const ecrireDemo = useCallback((ref: string, valeur: string) => {
+    const grid = gridRef.current
+    if (!grid) return
+    demoEcritRef.current = true
+    grid.applyCells({ [ref]: valeur === "" ? {} : valeur.trim().startsWith("=") ? { f: valeur } : { v: valeur } })
+    // `stateChange` est temporisé de 350 ms côté grille : on relâche après.
+    window.setTimeout(() => {
+      demoEcritRef.current = false
+    }, 800)
+  }, [])
 
   /* ── Rendu ─────────────────────────────────────────────────────────────── */
 
@@ -2571,10 +2643,10 @@ export default function SimulationPlayer({
                 <DemonstrationGeste
                   key={`demo${index}-${rejeu}`}
                   onFini={() => setDemoFinie(true)}
-                  plan={demo.plan}
-                  cible={demo.cible}
-                  suivante={demo.suivante}
-                  largeur={demo.largeur}
+                  plan={demo}
+                  resoudre={resoudreCible}
+                  onEcrire={ecrireDemo}
+                  largeur={zoneGrilleRef.current?.clientWidth ?? 640}
                 />
               )}
               {/* Bulle d'aide ANCRÉE à la cellule cible : le guide vit sur la
@@ -2790,7 +2862,7 @@ export default function SimulationPlayer({
                 </p>
               )}
               {/* Aide progressive : l'apprenant coincé n'est jamais laissé sans issue. */}
-              {step && essais >= 3 && !demonstration && (
+              {step && (essais >= 3 || tatonnements >= 6 || tropLong) && !demonstration && (
                 <div
                   className="mt-2 flex flex-wrap items-center gap-2 rounded-lg px-3 py-2 text-[12.5px]"
                   style={{ background: "#FDEDEC", border: "1px solid #F3D2CE", color: "#7A2620" }}

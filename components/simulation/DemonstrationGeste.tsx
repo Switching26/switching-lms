@@ -3,227 +3,182 @@
 /**
  * « Montrez-moi » : la démonstration animée du geste attendu.
  *
- * POURQUOI
- * Après trois essais ratés, l'atelier affichait « Voici la réponse. B5 doit
- * valoir 9 » — une phrase, et rien d'autre. L'apprenant restait devant sa
- * grille sans savoir où était B5 (sa sélection pouvait être à l'autre bout de
- * la feuille), ni comment on saisit, ni comment on valide. Le moment précis où
- * un débutant abandonne.
+ * POURQUOI CETTE VERSION
+ * La première ne savait jouer qu'UN geste, et seulement pour quatre types
+ * d'action sur vingt-deux. Retour de Samuel le 29/07/2026 : « des fois c'est
+ * absent, des fois c'est une mauvaise démonstration, des fois elle se finit
+ * pas, c'est pas clair ». L'audit lui a donné raison — sur 1 654 étapes
+ * interactives : 518 muettes, 550 formules arrêtées avant le résultat, 155
+ * étapes multi-cellules dont une seule était montrée.
  *
- * Mise en scène B, choisie par Samuel le 29/07/2026 : le PAS À PAS COMPLET.
- * Trois pas nommés — cliquer, saisir, valider — suivis en haut de la grille,
- * pendant qu'un curseur fait le geste à l'endroit exact. Le vocabulaire compte
- * autant que le geste : l'apprenant repart avec trois mots qu'il se répétera
- * seul la fois suivante.
+ * Ce composant joue désormais une SÉQUENCE de gestes (`lib/simulation/
+ * demonstration.ts`, 100 % des étapes couvertes) et va jusqu'au bout : la
+ * valeur est réellement écrite dans la grille, donc une formule affiche son
+ * RÉSULTAT calculé par le moteur — pas la formule, pas un nombre inventé.
  *
- * CE COMPOSANT N'ÉCRIT JAMAIS DANS LA GRILLE. La valeur est peinte dans le
- * calque, par-dessus la cellule. Écrire pour de vrai déclencherait l'observation
- * du classeur, donc la validation de l'étape, donc le passage automatique à la
- * suivante — la démonstration se serait sabotée elle-même. L'apprenant reprend
- * la main avec « J'ai compris — continuer ».
+ * ÉCRIRE SANS VALIDER. Écrire déclenche l'observation du classeur, donc la
+ * validation de l'étape, donc le passage automatique à la suivante : la
+ * démonstration se saborderait. Le player pose un verrou (`onEcrire`) qui fait
+ * ignorer les observations le temps de l'écriture. L'apprenant garde la main et
+ * reprend avec « J'ai compris — continuer ».
  *
  * Les coordonnées viennent de `getCellRect` (métriques d'Univer, pas le DOM :
- * la grille est un canvas). Le parent les calcule, ce composant ne fait que
- * jouer — il reste ainsi vérifiable sans moteur de tableur.
+ * la grille est un canvas) et du DOM pour le châssis. Le parent résout, ce
+ * composant ne fait que jouer.
  */
 
-import { useEffect, useRef, useState } from "react"
-import type { SimulationAction } from "@/lib/simulation/types"
+import { useCallback, useEffect, useRef, useState } from "react"
+import type { CibleDemo, PlanDemo } from "@/lib/simulation/demonstration"
 
 const VERT = "#107C41"
+const VERT_F = "#0b5c30"
 const ENCRE = "#171a18"
 
 export type Rect = { left: number; top: number; width: number; height: number }
 
-/** Ce qu'il y a à montrer, déduit de l'action — aucun texte à écrire par étape. */
-export type PlanDemo = {
-  /** Cellule visée. Absente pour un bouton du ruban. */
-  cellule?: string
-  /** Bouton du ruban visé. */
-  controle?: string
-  /** Ce qui se tape, caractère par caractère. */
-  frappe?: string
-  /** Ce qui reste affiché dans la cellule à la fin (résultat, pas formule). */
-  affichage?: string
-  /** Cellule sélectionnée après Entrée — Excel descend d'une ligne. */
-  suivante?: string
-  /** Libellés des pas, dans l'ordre. */
-  pas: string[]
-  /** Phrase de la bulle à chaque pas. */
-  bulles: string[]
-}
-
-/** Cellule d'en dessous : `B5` → `B6`. Null si la référence n'est pas simple. */
-function celluleDessous(ref: string): string | undefined {
-  const m = /^([A-Z]{1,3})([0-9]{1,7})$/.exec(ref.trim().toUpperCase())
-  return m ? `${m[1]}${Number(m[2]) + 1}` : undefined
-}
-
-/**
- * Traduit une action en démonstration. Renvoie null quand le geste ne se montre
- * pas honnêtement — mieux vaut garder la réponse écrite que mimer à peu près.
- */
-export function planDemonstration(action: SimulationAction): PlanDemo | null {
-  switch (action.type) {
-    case "TYPE": {
-      const quoi = action.accept?.[0]
-      if (!quoi || action.target === "formula-bar") return null
-      // Sur une FORMULE, le scénario ne déclare pas le résultat : on ne simule
-      // donc pas l'après-Entrée. Afficher la formule dans la cellule aurait
-      // enseigné faux (Excel y met le résultat), et inventer un nombre encore
-      // plus. La démonstration s'arrête sur le geste, qui est ce qu'elle promet.
-      const formule = quoi.trim().startsWith("=")
-      return {
-        cellule: action.target,
-        frappe: quoi,
-        affichage: quoi,
-        suivante: formule ? undefined : celluleDessous(action.target),
-        pas: ["Cliquer la cellule", "Saisir", "Valider"],
-        bulles: [`la cellule ${action.target}`, `on tape ${quoi}`, "puis Entrée"],
-      }
-    }
-    case "EXPECT_STATE": {
-      // On montre la PREMIÈRE cellule attendue : la démonstration enseigne le
-      // geste, pas le remplissage d'un tableau entier.
-      const entrees = Object.entries(action.cells)
-      if (entrees.length === 0) return null
-      const [ref, att] = entrees[0]
-      const quoi = att.f ?? att.anyOf?.[0] ?? (att.v !== undefined ? String(att.v) : null)
-      if (!quoi) return null
-      const resultat = att.v !== undefined ? String(att.v) : quoi
-      return {
-        cellule: ref,
-        frappe: quoi,
-        affichage: resultat,
-        suivante: celluleDessous(ref),
-        pas: ["Cliquer la cellule", "Saisir", "Valider"],
-        bulles: [`la cellule ${ref}`, `on tape ${quoi}`, "puis Entrée"],
-      }
-    }
-    case "CLICK_CELL":
-      return {
-        cellule: action.cell,
-        pas: ["Cliquer la cellule"],
-        bulles: [`la cellule ${action.cell}`],
-      }
-    case "CLICK_CONTROL":
-      return {
-        controle: action.control,
-        pas: ["Cliquer le bouton"],
-        bulles: ["ce bouton du ruban"],
-      }
-    default:
-      return null
-  }
-}
-
 type Props = {
   plan: PlanDemo
-  /** Rectangle de la cellule (ou du bouton) visé, dans le repère du calque. */
-  cible: Rect
-  /** Rectangle de la cellule sélectionnée après validation. */
-  suivante?: Rect | null
-  /** Largeur du calque, pour ne pas pousser la bulle hors champ. */
+  /** Résout une cible en rectangle, dans le repère du calque. */
+  resoudre: (cible: CibleDemo) => Rect | null
+  /** Largeur du calque, pour garder bulles et étiquettes dans le champ. */
   largeur: number
+  /** Écrit réellement dans la grille, validation neutralisée. */
+  onEcrire?: (ref: string, valeur: string) => void
   onFini?: () => void
 }
 
-/** Un cran de la partition. `attendre` est le temps AVANT de passer au suivant. */
-type Cran = { pas: number; phase: "avertir" | "vise" | "bulle" | "clic" | "frappe" | "entree" | "fini"; attendre: number }
+/** Étapes d'un geste. `avertir` n'existe qu'une fois, au tout début. */
+type Phase = "avertir" | "vise" | "bulle" | "clic" | "glisse" | "frappe" | "valide" | "fini"
 
-export default function DemonstrationGeste({ plan, cible, suivante, largeur, onFini }: Props) {
-  const [cran, setCran] = useState(0)
+export default function DemonstrationGeste({ plan, resoudre, largeur, onEcrire, onFini }: Props) {
+  const [i, setI] = useState(0)
+  const [phase, setPhase] = useState<Phase>("avertir")
   const [tapes, setTapes] = useState(0)
   const doux = useRef(false)
   const finiRef = useRef(onFini)
+  const ecrireRef = useRef(onEcrire)
   finiRef.current = onFini
+  ecrireRef.current = onEcrire
 
   useEffect(() => {
     doux.current =
       typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches
   }, [])
 
-  // La partition, déduite du plan : un geste sans frappe s'arrête au clic.
-  const crans: Cran[] = []
-  // L'avertissement s'affiche SUR la feuille, pas seulement dans la bande du
-  // bas : c'est là que l'apprenant regarde quand il bloque, et c'est là que la
-  // démonstration va se jouer.
-  crans.push({ pas: 0, phase: "avertir", attendre: 3200 })
-  crans.push({ pas: 0, phase: "vise", attendre: 900 })
-  crans.push({ pas: 0, phase: "bulle", attendre: 1200 })
-  crans.push({ pas: 0, phase: "clic", attendre: 800 })
-  if (plan.frappe) {
-    crans.push({ pas: 1, phase: "frappe", attendre: 260 + plan.frappe.length * 110 + 700 })
-    crans.push({ pas: 2, phase: "entree", attendre: 900 })
-  }
-  crans.push({ pas: plan.pas.length - 1, phase: "fini", attendre: 0 })
+  const geste = plan.gestes[Math.min(i, plan.gestes.length - 1)]
+  const dernier = i >= plan.gestes.length - 1
 
-  const courant = crans[Math.min(cran, crans.length - 1)]
+  /** Enchaîne les phases d'un geste. */
+  const suite = useCallback(() => {
+    setPhase((p) => {
+      if (p === "avertir") return "vise"
+      if (p === "vise") return "bulle"
+      if (p === "bulle") return geste?.glisserVers ? "glisse" : "clic"
+      if (p === "glisse") return "fini"
+      if (p === "clic") return geste?.frappe ? "frappe" : geste?.ecrire ? "valide" : "fini"
+      if (p === "frappe") return "valide"
+      return "fini"
+    })
+  }, [geste])
 
-  // Avance de cran en cran. En mouvement réduit, on saute directement à la fin :
-  // l'apprenant voit le résultat et les pas, sans animation.
+  // Minuterie : chaque phase a sa durée. L'avertissement doit se lire, la
+  // frappe dépend de la longueur du texte.
   useEffect(() => {
-    if (courant.phase === "fini") {
-      finiRef.current?.()
-      return
-    }
+    // La phase « valide » est pilotée par l'effet d'écriture ci-dessous, pas
+    // ici : les deux minuteries se couraient après (850 ms contre 900 ms) et la
+    // plus rapide passait à « fini » en annulant le passage au geste suivant.
+    // La séquence restait donc bloquée sur son premier geste, compteur figé.
+    if (phase === "fini" || phase === "valide") return
     if (doux.current) {
-      setCran(crans.length - 1)
-      setTapes(plan.frappe?.length ?? 0)
+      setTapes(geste?.frappe?.length ?? 0)
+      // Mouvement réduit : on écrit tout d'un coup et on s'arrête à la pose.
+      for (const g of plan.gestes) if (g.ecrire) ecrireRef.current?.(g.ecrire.ref, g.ecrire.valeur)
+      setI(plan.gestes.length - 1)
+      setPhase("fini")
       return
     }
-    const t = window.setTimeout(() => setCran((c) => c + 1), courant.attendre)
+    // Le PREMIER geste est joué lentement : c'est lui qui enseigne. Les
+    // suivants s'accélèrent — une séquence de huit cellules à trois secondes
+    // pièce dure une demi-minute et l'apprenant décroche avant la fin.
+    const vite = i > 0 ? 0.55 : 1
+    const duree =
+      phase === "avertir" ? 3200
+      : phase === "vise" ? 900 * vite
+      : phase === "bulle" ? (i === 0 ? 1100 : 620)
+      : phase === "clic" ? 700 * vite
+      : phase === "glisse" ? 1200
+      : phase === "frappe" ? (260 + (geste?.frappe?.length ?? 0) * 105 + 500) * vite
+      : 850 * vite
+    const t = window.setTimeout(suite, duree)
     return () => window.clearTimeout(t)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cran, courant.phase, courant.attendre])
+  }, [phase, i, geste, suite, plan.gestes])
 
   // La frappe, caractère par caractère.
   useEffect(() => {
-    if (courant.phase !== "frappe" || !plan.frappe) return
-    if (tapes >= plan.frappe.length) return
-    const t = window.setTimeout(() => setTapes((n) => n + 1), 110)
+    if (phase !== "frappe" || !geste?.frappe) return
+    if (tapes >= geste.frappe.length) return
+    const t = window.setTimeout(() => setTapes((n) => n + 1), i > 0 ? 58 : 105)
     return () => window.clearTimeout(t)
-  }, [courant.phase, tapes, plan.frappe])
+  }, [phase, tapes, geste, i])
 
-  const enCours = crans.findIndex((c) => c === courant)
-  const apresClic = enCours >= crans.findIndex((c) => c.phase === "clic")
-  const apresEntree = courant.phase === "fini" && !!plan.frappe
-  const cellule = apresEntree && suivante ? suivante : cible
-  const nombre = plan.affichage !== undefined && plan.affichage !== "" && !Number.isNaN(Number(plan.affichage))
-
-  // Le curseur ne s'affiche qu'une fois la première position posée, sinon il
-  // traverse l'écran depuis le coin haut-gauche au premier rendu.
-  const [pret, setPret] = useState(false)
+  // Écriture réelle à la validation, puis geste suivant.
   useEffect(() => {
-    const t = window.setTimeout(() => setPret(true), 30)
+    if (phase !== "valide" || !geste) return
+    if (geste.ecrire) ecrireRef.current?.(geste.ecrire.ref, geste.ecrire.valeur)
+    // Un seul chemin de sortie : soit le geste suivant, soit la fin.
+    const t = window.setTimeout(
+      () => {
+        if (dernier) {
+          setPhase("fini")
+          return
+        }
+        setI((n) => n + 1)
+        setTapes(0)
+        setPhase("vise")
+      },
+      i === 0 ? 900 : 450,
+    )
     return () => window.clearTimeout(t)
-  }, [])
+    // `i` volontairement absent : il ne change qu'AVEC la phase, et l'inclure
+    // relancerait l'effet en pleine transition.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [phase, geste, dernier])
 
-  const bulleTexte = plan.bulles[Math.min(courant.pas, plan.bulles.length - 1)]
-  const bulleVisible = courant.phase === "bulle" || courant.phase === "frappe"
-  const avertit = courant.phase === "avertir"
-  const bulleGauche = Math.min(Math.max(4, cible.left + cible.width / 2 - 60), Math.max(4, largeur - 190))
+  useEffect(() => {
+    if (phase === "fini" && dernier) finiRef.current?.()
+  }, [phase, dernier])
+
+  if (!geste) return null
+
+  const avertit = phase === "avertir"
+  const rect = avertit ? null : resoudre(geste.cible)
+  const rectFin = geste.glisserVers ? resoudre(geste.glisserVers) : null
+  const agit = phase === "clic" || phase === "glisse" || phase === "frappe" || phase === "valide" || phase === "fini"
+
+  const pointe =
+    phase === "glisse" && rectFin
+      ? { x: rectFin.left + rectFin.width * 0.5, y: rectFin.top + rectFin.height * 0.42 }
+      : rect
+        ? { x: rect.left + rect.width * 0.5, y: rect.top + rect.height * 0.42 }
+        : null
+
+  const pasCourant =
+    plan.pas.length === 1 ? 0
+    : phase === "frappe" ? Math.min(1, plan.pas.length - 1)
+    : phase === "valide" || phase === "fini" ? plan.pas.length - 1
+    : plan.gestes.length > 1 && i > 0 ? Math.min(1, plan.pas.length - 1)
+    : 0
 
   return (
     <div aria-hidden className="pointer-events-none absolute inset-0" style={{ zIndex: 40 }}>
-      {/* L'avertissement : plein cadre sur la feuille, avant que le geste ne
-          commence. Il dit pourquoi on intervient, ce qui va se passer, et que
-          la main sera rendue ensuite. */}
-      {courant.phase === "avertir" && (
+      {avertit && (
         <>
-          <div
-            className="absolute inset-0"
-            style={{ background: "rgba(23,26,24,.42)", animation: "sim-demo-voile .3s ease both" }}
-          />
+          <div className="absolute inset-0" style={{ background: "rgba(23,26,24,.42)", animation: "sim-demo-voile .3s ease both" }} />
           <div
             className="absolute rounded-2xl bg-white px-5 py-4"
             style={{
-              left: "50%",
-              top: "50%",
-              transform: "translate(-50%,-50%)",
-              width: "min(420px, 88%)",
-              boxShadow: "0 24px 60px -18px rgba(0,0,0,.5)",
-              borderTop: "4px solid #E8A33D",
+              left: "50%", top: "50%", transform: "translate(-50%,-50%)", width: "min(430px, 88%)",
+              boxShadow: "0 24px 60px -18px rgba(0,0,0,.5)", borderTop: "4px solid #E8A33D",
               animation: "sim-demo-carte .34s cubic-bezier(.2,.9,.2,1) both",
             }}
           >
@@ -233,27 +188,21 @@ export default function DemonstrationGeste({ plan, cible, suivante, largeur, onF
             </p>
             <p className="text-[13px] leading-snug" style={{ color: "#3C433F" }}>
               Vous vous êtes trompé plusieurs fois — ce n’est pas grave. Regardez bien : je fais
-              le geste à votre place, étape par étape. Vous pourrez le refaire ensuite.
+              {plan.gestes.length > 1 ? ` les ${plan.gestes.length} gestes ` : " le geste "}
+              à votre place, étape par étape. Vous pourrez le refaire ensuite.
             </p>
           </div>
         </>
       )}
 
-      {/* Les trois pas, suivis en haut de la feuille. C'est le vocabulaire que
-          l'apprenant emportera : cliquer, saisir, valider. */}
-      {/* En BAS de la feuille : posés en haut, ils recouvraient les en-têtes de
-          colonnes et la première ligne — précisément là où se joue la moitié
-          des démonstrations. */}
+      {/* Les pas suivis, en bas de la feuille. */}
       <div
         className="absolute flex flex-wrap gap-1.5"
-        // L'animation d'entrée porte `both`, elle imposait donc opacity:1 en fin
-        // de course et les pastilles restaient visibles derrière l'avertissement.
-        style={{ left: 8, bottom: 8, opacity: avertit ? 0 : 1, transition: "opacity .3s",
-                 animation: avertit ? undefined : "sim-demo-entree .3s ease both" }}
+        style={{ left: 8, bottom: 8, opacity: avertit ? 0 : 1, transition: "opacity .3s" }}
       >
-        {plan.pas.map((p, i) => {
-          const actif = i === courant.pas && courant.phase !== "fini"
-          const fait = i < courant.pas || courant.phase === "fini"
+        {plan.pas.map((p, n) => {
+          const actif = n === pasCourant && phase !== "fini"
+          const fait = n < pasCourant || phase === "fini"
           return (
             <span
               key={p}
@@ -261,7 +210,7 @@ export default function DemonstrationGeste({ plan, cible, suivante, largeur, onF
               style={{
                 background: actif ? "rgba(16,124,65,.1)" : "rgba(255,255,255,.94)",
                 border: `1px solid ${actif || fait ? VERT : "#E4E0D8"}`,
-                color: actif || fait ? "#0b5c30" : "#9aa19c",
+                color: actif || fait ? VERT_F : "#9aa19c",
                 fontWeight: actif ? 700 : 500,
                 boxShadow: "0 1px 3px rgba(0,0,0,.08)",
               }}
@@ -270,146 +219,132 @@ export default function DemonstrationGeste({ plan, cible, suivante, largeur, onF
                 className="flex items-center justify-center rounded-full text-[9px] font-bold text-white"
                 style={{ width: 14, height: 14, background: actif || fait ? VERT : "#C9C3B8" }}
               >
-                {fait && !actif ? "✓" : i + 1}
+                {fait && !actif ? "✓" : n + 1}
               </span>
               {p}
             </span>
           )
         })}
+        {/* Compteur de gestes : sans lui, une séquence de huit cellules donne
+            l'impression que la démonstration tourne en rond. */}
+        {plan.gestes.length > 1 && !avertit && (
+          <span
+            className="flex items-center rounded-full px-2.5 py-1 text-[11px] font-bold leading-none"
+            style={{ background: ENCRE, color: "#fff", boxShadow: "0 1px 3px rgba(0,0,0,.14)" }}
+          >
+            {Math.min(i + 1, plan.gestes.length)} / {plan.gestes.length}
+          </span>
+        )}
       </div>
 
-      {/* La cellule visée : cadre vert dès le clic, comme une vraie sélection. */}
-      <div
-        className="absolute"
-        style={{
-          left: cellule.left,
-          top: cellule.top,
-          width: cellule.width,
-          height: cellule.height,
-          outline: apresClic ? `2px solid ${VERT}` : "none",
-          outlineOffset: -2,
-          background: apresClic && !apresEntree ? "rgba(16,124,65,.06)" : "transparent",
-          transition: "left .25s ease, top .25s ease",
-        }}
-      />
-      {/* L'onde du clic. */}
-      {courant.phase === "clic" && (
-        <span
-          className="absolute rounded-full"
-          style={{
-            left: cible.left + cible.width / 2 - 7,
-            top: cible.top + cible.height / 2 - 7,
-            width: 14,
-            height: 14,
-            border: `2px solid ${VERT}`,
-            animation: "sim-demo-onde .62s ease-out",
-          }}
-        />
-      )}
-
-      {/* Ce qui se tape, peint PAR-DESSUS la cellule : la grille n'est jamais
-          modifiée, donc l'étape ne se valide pas toute seule. */}
-      {plan.frappe && (courant.phase === "frappe" || courant.phase === "entree" || courant.phase === "fini") && (
-        <div
-          className="absolute flex items-center"
-          style={{
-            left: cible.left + 1,
-            top: cible.top + 1,
-            width: cible.width - 2,
-            height: cible.height - 2,
-            padding: "0 5px",
-            background: "#fff",
-            justifyContent: courant.phase === "fini" && nombre ? "flex-end" : "flex-start",
-            fontSize: 12.5,
-            color: ENCRE,
-            fontFamily: "system-ui,-apple-system,sans-serif",
-            animation: courant.phase === "fini" ? "sim-demo-pose 1.1s ease" : undefined,
-          }}
-        >
-          {courant.phase === "fini" ? plan.affichage : plan.frappe.slice(0, tapes)}
-          {courant.phase === "frappe" && (
+      {rect && !avertit && (
+        <>
+          {/* Halo d'appel AVANT le clic : le déplacement du curseur seul ne
+              suffisait pas à faire regarder au bon endroit. */}
+          {(phase === "vise" || phase === "bulle") && (
             <span
+              className="absolute rounded-md"
               style={{
-                display: "inline-block", width: 1, height: 15, background: ENCRE,
-                marginLeft: 1, animation: "sim-demo-caret .9s steps(1) infinite",
+                left: rect.left - 6, top: rect.top - 6, width: rect.width + 12, height: rect.height + 12,
+                border: `2px solid ${VERT}`, animation: "sim-demo-appel 1.15s ease-in-out infinite",
               }}
             />
           )}
-        </div>
-      )}
 
-      {/* La bulle : courte, ancrée sous le curseur. */}
-      {bulleVisible && (
-        <div
-          className="absolute rounded-lg px-2.5 py-1.5 text-[11.5px] font-semibold text-white"
-          style={{
-            left: bulleGauche,
-            top: cible.top > 46 ? cible.top - 34 : cible.top + cible.height + 10,
-            background: ENCRE,
-            maxWidth: 186,
-            whiteSpace: "nowrap",
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-            boxShadow: "0 6px 16px -6px rgba(0,0,0,.5)",
-            animation: "sim-demo-entree .28s ease both",
-          }}
-        >
-          {bulleTexte}
-        </div>
-      )}
+          <div
+            className="absolute"
+            style={{
+              left: rect.left, top: rect.top,
+              width: rectFin && (phase === "glisse" || phase === "fini") ? rectFin.left + rectFin.width - rect.left : rect.width,
+              height: rectFin && (phase === "glisse" || phase === "fini") ? rectFin.top + rectFin.height - rect.top : rect.height,
+              outline: agit ? `2.5px solid ${VERT}` : "none",
+              outlineOffset: -2,
+              background: agit && phase !== "fini" ? "rgba(16,124,65,.08)" : "transparent",
+              transition: "width .5s ease, height .5s ease, left .25s ease, top .25s ease",
+            }}
+          />
 
-      {/* La touche Entrée, qui s'enfonce. */}
-      {courant.phase === "entree" && (
-        <div
-          className="absolute rounded-md bg-white px-2 py-1 text-[10.5px] font-bold"
-          style={{
-            left: Math.min(cible.left + cible.width + 10, Math.max(4, largeur - 76)),
-            top: cible.top + cible.height + 6,
-            border: `1.5px solid ${ENCRE}`,
-            borderBottomWidth: 3,
-            color: ENCRE,
-            animation: "sim-demo-touche .9s ease both",
-          }}
-        >
-          ⏎ Entrée
-        </div>
-      )}
+          {phase === "clic" && (
+            <span
+              className="absolute rounded-full"
+              style={{
+                left: rect.left + rect.width / 2 - 7, top: rect.top + rect.height / 2 - 7,
+                width: 14, height: 14, border: `2px solid ${VERT}`, animation: "sim-demo-onde .62s ease-out",
+              }}
+            />
+          )}
 
-      {/* Le curseur. `top/left: 0` obligatoire : sans origine explicite, le
-          translate part de la position en flux et la flèche sort du cadre. */}
-      <svg
-        className="absolute"
-        viewBox="0 0 20 26"
-        style={{
-          left: 0,
-          top: 0,
-          width: 20,
-          height: 26,
-          opacity: pret && !avertit && courant.phase !== "fini" ? 1 : 0,
-          transform: `translate(${cible.left + cible.width * 0.5}px, ${cible.top + cible.height * 0.42}px)`,
-          transition: "transform .85s cubic-bezier(.33,.02,.2,1), opacity .3s",
-          filter: "drop-shadow(0 2px 3px rgba(0,0,0,.35))",
-        }}
-      >
-        <path
-          d="M2 1l15 12-6.5.6 4 7.6-3.2 1.7-3.9-7.5L2 20z"
-          fill="#fff"
-          stroke={ENCRE}
-          strokeWidth="1.4"
-          strokeLinejoin="round"
-        />
-      </svg>
+          {geste.frappe && (phase === "frappe" || phase === "valide") && (
+            <div
+              className="absolute flex items-center"
+              style={{
+                left: rect.left + 1, top: rect.top + 1, width: rect.width - 2, height: rect.height - 2,
+                padding: "0 5px", background: "#fff", fontSize: 12.5, color: ENCRE,
+                fontFamily: "system-ui,-apple-system,sans-serif", overflow: "hidden", whiteSpace: "nowrap",
+              }}
+            >
+              {geste.frappe.slice(0, tapes)}
+              {phase === "frappe" && (
+                <span style={{ display: "inline-block", width: 1, height: 15, background: ENCRE, marginLeft: 1, animation: "sim-demo-caret .9s steps(1) infinite" }} />
+              )}
+            </div>
+          )}
+
+          {(phase === "bulle" || phase === "frappe" || phase === "glisse") && (
+            <div
+              className="absolute rounded-lg px-2.5 py-1.5 text-[11.5px] font-semibold text-white"
+              style={{
+                left: Math.min(Math.max(4, rect.left + rect.width / 2 - 70), Math.max(4, largeur - 210)),
+                top: rect.top > 46 ? rect.top - 34 : rect.top + rect.height + 10,
+                background: ENCRE, maxWidth: 205, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",
+                boxShadow: "0 6px 16px -6px rgba(0,0,0,.5)", animation: "sim-demo-entree .28s ease both",
+              }}
+            >
+              {geste.bulle}
+            </div>
+          )}
+
+          {phase === "valide" && (
+            <div
+              className="absolute rounded-md bg-white px-2 py-1 text-[10.5px] font-bold"
+              style={{
+                left: Math.min(rect.left + rect.width + 10, Math.max(4, largeur - 76)),
+                top: rect.top + rect.height + 6,
+                border: `1.5px solid ${ENCRE}`, borderBottomWidth: 3, color: ENCRE,
+                animation: "sim-demo-touche .85s ease both",
+              }}
+            >
+              {geste.frappe ? "⏎ Entrée" : "⌦ Suppr"}
+            </div>
+          )}
+
+          {/* Le curseur. `top/left: 0` obligatoire : sans origine explicite, le
+              translate part de la position en flux et la flèche sort du cadre. */}
+          {pointe && (
+            <svg
+              className="absolute"
+              viewBox="0 0 20 26"
+              style={{
+                left: 0, top: 0, width: 20, height: 26,
+                opacity: phase === "fini" ? 0 : 1,
+                transform: `translate(${pointe.x}px, ${pointe.y}px)`,
+                transition: "transform .8s cubic-bezier(.33,.02,.2,1), opacity .3s",
+                filter: "drop-shadow(0 2px 3px rgba(0,0,0,.35))",
+              }}
+            >
+              <path d="M2 1l15 12-6.5.6 4 7.6-3.2 1.7-3.9-7.5L2 20z" fill="#fff" stroke={ENCRE} strokeWidth="1.4" strokeLinejoin="round" />
+            </svg>
+          )}
+        </>
+      )}
 
       <style>{`
-@keyframes sim-demo-entree{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
-@keyframes sim-demo-onde{0%{opacity:.95;transform:scale(.3)}100%{opacity:0;transform:scale(3.4)}}
-@keyframes sim-demo-caret{50%{opacity:0}}
-/* Le flash de validation passe par une ombre INTERNE, pas par le fond : animer
-   le fond le rendait semi-transparent pendant 1,1 s et l'ancienne valeur de la
-   cellule transparaissait sous la démonstration. */
-@keyframes sim-demo-pose{0%{box-shadow:inset 0 0 0 999px rgba(16,124,65,.32)}100%{box-shadow:inset 0 0 0 999px rgba(16,124,65,0)}}
 @keyframes sim-demo-voile{from{opacity:0}to{opacity:1}}
 @keyframes sim-demo-carte{from{opacity:0;transform:translate(-50%,-46%) scale(.96)}to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
+@keyframes sim-demo-entree{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+@keyframes sim-demo-onde{0%{opacity:.95;transform:scale(.3)}100%{opacity:0;transform:scale(3.4)}}
+@keyframes sim-demo-appel{0%,100%{opacity:.95;transform:scale(1)}50%{opacity:.35;transform:scale(1.06)}}
+@keyframes sim-demo-caret{50%{opacity:0}}
 @keyframes sim-demo-touche{0%{opacity:0}25%{opacity:1;transform:translateY(0)}45%{transform:translateY(2px)}60%{transform:translateY(0)}100%{opacity:1}}
 @media (prefers-reduced-motion: reduce){
   [style*="sim-demo-"]{animation-duration:.01ms !important;animation-iteration-count:1 !important}

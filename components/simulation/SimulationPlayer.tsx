@@ -31,6 +31,7 @@ import {
   resumerFait,
 } from "@/lib/simulation/attendu"
 import DesktopLayer from "./DesktopLayer"
+import AfficheModule, { numeroModule } from "./AfficheModule"
 import { CONTROLES_POSTE, appliquerGeste, posteInitial } from "@/lib/simulation/poste"
 import ChartLayer from "./ChartLayer"
 import PivotLayer from "./PivotLayer"
@@ -1974,6 +1975,10 @@ export default function SimulationPlayer({
    * « Prise en main · S'évaluer · Prise en main » en haut de chaque évaluation.
    */
   const filModule = scenario.moduleTitle ?? ""
+  // Le module a-t-il une affiche ? On teste le NUMÉRO, pas l'élément JSX :
+  // `<AfficheModule/>` est toujours truthy même quand il rend null, et le repli
+  // n'aurait jamais eu lieu.
+  const affiche = numeroModule(scenario.moduleTitle) !== null
   const filChapitre = (() => {
     const t = scenario.title
     if (!filModule) return t
@@ -2002,9 +2007,24 @@ export default function SimulationPlayer({
           className="absolute inset-0 z-40 flex flex-col justify-center overflow-hidden px-6 py-8 sm:px-10"
           style={{ background: "linear-gradient(180deg,#faf9f5 0%,#f2efe8 100%)" }}
         >
-          {/* Affiche du chapitre : une feuille de calcul, pas un décor abstrait.
-              Les trois rectangles verts flottants et le ƒx géant coupé au bord
-              passaient pour un défaut de rendu, et la moitié droite restait vide. */}
+          {/* Affiche du module (direction B, 29/07/2026). Une par module, la même
+              pour ses leçons, ses exercices et son évaluation. Le repli
+              ci-dessous — le mini-classeur — ne sert plus qu'aux modules dont
+              l'affiche n'est pas encore dessinée : il était affiché sur les 246
+              chapitres et ne parlait que du module 6. */}
+          {affiche ? (
+            <div
+              aria-hidden
+              // Centrage par le FLUX, pas par `translateY(-50%)` : l'animation
+              // d'entrée pose son propre `transform` et écrasait la translation
+              // de centrage — l'affiche se retrouvait décalée d'une demi-hauteur
+              // vers le bas, ce que l'ancien visuel subissait déjà.
+              className="pointer-events-none absolute hidden select-none lg:flex lg:items-center"
+              style={{ right: "6%", top: 0, bottom: 0, width: 372, animation: "sim-intro-monte .9s .35s ease both" }}
+            >
+              <AfficheModule moduleTitle={scenario.moduleTitle} />
+            </div>
+          ) : (
           <div
             aria-hidden
             className="pointer-events-none absolute hidden select-none lg:block"
@@ -2065,6 +2085,7 @@ export default function SimulationPlayer({
               </div>
             </div>
           </div>
+          )}
           <div className="relative" style={{ maxWidth: 620 }}>
             <div
               className="uppercase"

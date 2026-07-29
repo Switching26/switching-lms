@@ -2822,16 +2822,31 @@ export default function SimulationPlayer({
               )}
             </div>
             <div className="flex flex-shrink-0 items-center gap-2">
+              {/* Retour en arrière. Il ne portait qu'un chevron « ‹ » gris pâle,
+                  sans libellé : personne ne comprenait que c'était le retour à
+                  l'étape précédente. Il dit maintenant ce qu'il fait, et à
+                  quelle étape il ramène. */}
               {reculPossible && (
                 <button
                   type="button"
                   data-control="sim-reculer"
                   onClick={() => setReculDemande(true)}
-                  title={`Revoir l'étape ${index}`}
-                  aria-label={`Revoir l'étape ${index}`}
-                  className="rounded-lg border border-border px-2.5 py-1.5 text-[12.5px] font-medium text-warm-600 hover:bg-warm-50"
+                  aria-label={`Revenir à l'étape ${index} sur ${total}`}
+                  className="flex flex-shrink-0 items-center gap-1.5 rounded-lg px-3 py-2 text-[12.5px] font-semibold"
+                  style={{ border: "1px solid #D6D0C5", color: "#3C433F", background: "#fff" }}
                 >
-                  ‹
+                  <span aria-hidden style={{ fontSize: 15, lineHeight: 1, marginTop: -1 }}>
+                    ‹
+                  </span>
+                  <span className="hidden sm:inline">Étape précédente</span>
+                  <span className="sm:hidden">Précédent</span>
+                  <span
+                    aria-hidden
+                    className="rounded px-1.5 py-0.5 text-[10.5px] font-bold"
+                    style={{ background: "#F0EDE6", color: "#6b6862" }}
+                  >
+                    {index} / {total}
+                  </span>
                 </button>
               )}
               {mode === "EXERCISE" && !hintShown && step?.aide && (

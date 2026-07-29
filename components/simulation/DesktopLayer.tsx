@@ -31,6 +31,13 @@ type Props = {
   onOuvrir: (nom: string) => void
   /** Contrôle à mettre en évidence (halo d'aide). */
   highlight?: string | null
+  /**
+   * Montrer le DÉCOR (bureau, corbeille, barre des tâches, menu) ou seulement
+   * la fenêtre Excel. Quand l'étape en cours ne demande aucun geste hors du
+   * classeur, le décor n'apprend rien et brouille la lecture : on le retire, et
+   * le tableur occupe tout le cadre.
+   */
+  decor?: boolean
   /** La fenêtre Excel — rendue seulement quand un classeur est ouvert. */
   children: React.ReactNode
 }
@@ -39,7 +46,7 @@ type Props = {
 const halo = (actif: boolean): React.CSSProperties =>
   actif ? { boxShadow: "0 0 0 3px rgba(232,163,61,.85)", animation: "sim-poste-pulse 1.3s ease-in-out infinite" } : {}
 
-export default function DesktopLayer({ poste, onControl, onEnregistrer, onOuvrir, highlight, children }: Props) {
+export default function DesktopLayer({ poste, onControl, onEnregistrer, onOuvrir, highlight, decor = true, children }: Props) {
   const [nomFichier, setNomFichier] = useState("")
   useEffect(() => {
     // Excel propose « Classeur1 » quand rien n'a encore été enregistré : sans
@@ -78,16 +85,23 @@ export default function DesktopLayer({ poste, onControl, onEnregistrer, onOuvrir
       // en absolu et n'imposent donc aucune hauteur. Dans un parent qui n'en
       // donne pas, le bureau s'effondrait à la seule barre des tâches et le menu
       // s'ouvrait hors de l'écran, en coordonnées négatives.
-      style={{ minHeight: 520, background: "linear-gradient(155deg,#123027 0%,#1B4536 45%,#0D211B 100%)" }}
+      style={{
+        minHeight: 520,
+        background: decor ? "linear-gradient(155deg,#123027 0%,#1B4536 45%,#0D211B 100%)" : "#fff",
+        transition: "background .35s ease",
+      }}
     >
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0"
-        style={{ background: "radial-gradient(680px 300px at 74% 16%, rgba(78,208,138,.14), transparent 70%)" }}
-      />
+      {decor && (
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0"
+          style={{ background: "radial-gradient(680px 300px at 74% 16%, rgba(78,208,138,.14), transparent 70%)" }}
+        />
+      )}
 
       {/* Icônes du bureau. Les classeurs enregistrés viennent s'y poser : c'est
           la preuve visible, pour l'apprenant, que son travail a été sauvegardé. */}
+      {decor && (
       <div className="absolute left-2.5 top-2.5 z-[2] flex flex-col gap-3">
         <div className="text-center text-[9.5px] leading-tight" style={{ width: 64, color: "#D6E4DE" }}>
           <span
@@ -120,6 +134,7 @@ export default function DesktopLayer({ poste, onControl, onEnregistrer, onOuvrir
           </button>
         ))}
       </div>
+      )}
 
       {/* Menu Démarrer */}
       {poste.menu && (
@@ -179,18 +194,19 @@ export default function DesktopLayer({ poste, onControl, onEnregistrer, onOuvrir
           ref={fenetreRef}
           className="absolute z-10 flex-col overflow-hidden"
           style={{
-            left: "4%",
-            right: "4%",
-            top: "3.5%",
-            bottom: "4%",
-            borderRadius: "9px 9px 0 0",
-            boxShadow: "0 30px 70px -20px rgba(0,0,0,.7), 0 0 0 1px rgba(255,255,255,.08)",
+            left: decor ? "4%" : 0,
+            right: decor ? "4%" : 0,
+            top: decor ? "3.5%" : 0,
+            bottom: decor ? "4%" : 0,
+            borderRadius: decor ? "9px 9px 0 0" : 0,
+            boxShadow: decor ? "0 30px 70px -20px rgba(0,0,0,.7), 0 0 0 1px rgba(255,255,255,.08)" : "none",
             display: poste.excel === "ferme" ? "none" : "flex",
+            transition: "left .35s ease, right .35s ease, top .35s ease, bottom .35s ease",
           }}
         >
           <div
-            className="flex flex-shrink-0 items-center gap-2 px-2.5 py-1 text-[11px] text-white"
-            style={{ background: "#107C41" }}
+            className="flex-shrink-0 items-center gap-2 px-2.5 py-1 text-[11px] text-white"
+            style={{ background: "#107C41", display: decor ? "flex" : "none" }}
           >
             <span
               aria-hidden
@@ -497,6 +513,7 @@ export default function DesktopLayer({ poste, onControl, onEnregistrer, onOuvrir
       )}
 
       {/* Barre des tâches */}
+      {decor && (
       <div
         className="relative z-[5] mt-auto flex flex-shrink-0 items-center gap-2 px-2.5 py-1.5 text-white"
         style={{ background: "rgba(8,18,15,.94)", borderTop: "1px solid rgba(255,255,255,.09)" }}
@@ -536,6 +553,7 @@ export default function DesktopLayer({ poste, onControl, onEnregistrer, onOuvrir
           Excel 2024
         </span>
       </div>
+      )}
 
       <style>{`
 @keyframes sim-poste-pulse{0%,100%{box-shadow:0 0 0 3px rgba(232,163,61,.8)}50%{box-shadow:0 0 0 7px rgba(232,163,61,0)}}

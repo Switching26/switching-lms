@@ -392,6 +392,13 @@ type Props = {
    * Sans lui, la leçon « Ouvrir et enregistrer » n'aurait aucun bouton à cliquer.
    */
   avecPoste?: boolean
+  /**
+   * La fenêtre du poste porte-t-elle sa propre barre de titre ? Quand le décor
+   * du bureau est masqué, elle disparaît — et sans cette distinction le
+   * chapitre se retrouvait SANS AUCUNE barre de titre, contrairement aux 243
+   * autres.
+   */
+  barreTitrePoste?: boolean
   /** Saisie en cours dans la zone Nom. null = affiche la sélection courante. */
   nameBoxDraft?: string | null
   onNameBoxChange?: (text: string) => void
@@ -413,6 +420,7 @@ export default function SimulationChrome({
   onFormulaCancel,
   editing,
   avecPoste,
+  barreTitrePoste,
   nameBoxDraft,
   onNameBoxChange,
   onNameBoxCommit,
@@ -512,7 +520,7 @@ export default function SimulationChrome({
           superposées se voyaient immédiatement. */}
       <div
         className="items-center gap-2 bg-emerald-700 px-3 py-1.5 text-white"
-        style={{ display: avecPoste ? "none" : "flex" }}
+        style={{ display: avecPoste && barreTitrePoste ? "none" : "flex" }}
       >
         <span className="rounded bg-white/20 px-1.5 py-0.5 text-[10px] font-bold">X</span>
         <span className="truncate text-[12px]">

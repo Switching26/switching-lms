@@ -538,6 +538,19 @@ export default function SimulationPlayer({
   const resoluRef = useRef(false)
 
   const step: SimulationStep | undefined = steps[index]
+  /**
+   * Le décor du poste (bureau, corbeille, barre des tâches) n'est montré que
+   * quand l'étape en cours s'en sert. Sur les leçons du module 1, seules les
+   * premières et les dernières étapes sortent du classeur : garder le bureau
+   * visible pendant la saisie ne montrait rien et brouillait la lecture.
+   */
+  const decorPoste =
+    posteActif &&
+    (poste.excel !== "classeur" ||
+      poste.boite !== "aucune" ||
+      poste.menu ||
+      step?.action.type === "EXPECT_POSTE" ||
+      (!!step?.setup?.poste && step.setup.poste.excel !== undefined && step.setup.poste.excel !== "classeur"))
   const stepRef = useRef<SimulationStep | undefined>(step)
   stepRef.current = step
 
@@ -2428,6 +2441,7 @@ export default function SimulationPlayer({
             onControl={handleControl}
             onEnregistrer={(nom) => gestePoste(CONTROLES_POSTE.enregistrerValider, nom)}
             onOuvrir={(nom) => gestePoste(CONTROLES_POSTE.ouvrirValider, nom)}
+            decor={decorPoste}
             highlight={highlightedControl}
           >
             {/* Jalon d'étape franchie : il couvre la feuille, jamais la bande de
@@ -2478,6 +2492,7 @@ export default function SimulationPlayer({
               }
               fileName={scenario.workbook.fileName}
               avecPoste={posteActif}
+              barreTitrePoste={decorPoste}
               selection={selection}
               formulaText={formulaText}
               highlight={highlightedControl}
@@ -3070,6 +3085,7 @@ function Enveloppe({
   onControl,
   onEnregistrer,
   onOuvrir,
+  decor,
   highlight,
   children,
 }: {
@@ -3078,6 +3094,7 @@ function Enveloppe({
   onControl: (id: string) => void
   onEnregistrer: (nom: string) => void
   onOuvrir: (nom: string) => void
+  decor?: boolean
   highlight?: string | null
   children: React.ReactNode
 }) {
@@ -3088,6 +3105,7 @@ function Enveloppe({
         onControl={onControl}
         onEnregistrer={onEnregistrer}
         onOuvrir={onOuvrir}
+        decor={decor}
         highlight={highlight}
       >
         {children}

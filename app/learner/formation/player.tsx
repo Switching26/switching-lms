@@ -1,7 +1,9 @@
 "use client"
 
 import { useState, useEffect, useRef, useCallback, useMemo } from "react"
+import { useRouter } from "next/navigation"
 import SimulationChapter from "@/components/simulation/SimulationChapter"
+import type { EntreeSommaire } from "@/components/simulation/SimulationPlayer"
 import { estimatedSimulationSeconds } from "@/lib/simulation/duree"
 
 /* ═══════════ HELPERS ═══════════ */
@@ -186,6 +188,74 @@ export default function FormationPlayer({
   const [showChapters, setShowChapters] = useState(false)
   // Contenu des notes par chapitre (préchargé serveur, mis à jour au fil de la saisie)
   const [notesMap, setNotesMap] = useState<Record<string, string>>(initialNotes || {})
+  const router = useRouter()
+
+  /**
+   * Sommaire passé à l'atelier de simulation, pour son panneau « Leçons ».
+   *
+   * Il suit l'ordre d'apprentissage réel (chapitres hors section, puis section
+   * par section) et porte le module d'appartenance : l'atelier regroupe dessus.
+   */
+  const sommaireAtelier: EntreeSommaire[] = useMemo(() => {
+    const titreSection: Record<string, string> = {}
+    sortedSections.forEach((s) => {
+      titreSection[s.id] = s.title
+    })
+    return orderedChapters.map((c) => ({
+      id: c.id,
+      titre: c.title,
+      module: c.sectionId ? (titreSection[c.sectionId] ?? null) : null,
+      genre:
+        c.simulation?.mode === "EXERCISE"
+          ? "exercice"
+          : c.simulation?.mode === "EVALUATION"
+            ? "evaluation"
+            : c.simulation
+              ? "lecon"
+              : "autre",
+      termine: !!completedMap[c.id],
+    }))
+  }, [orderedChapters, sortedSections, completedMap])
+
+  /**
+   * Enregistrement des notes prises DEPUIS l'atelier.
+   *
+   * Le bloc « Prise de notes » de la page porte son propre autosave, mais il est
+   * recouvert par l'atelier : sans ce chemin, une note écrite dans le panneau
+   * latéral ne serait jamais envoyée au serveur.
+   */
+  const noteDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const noteEnAttenteRef = useRef<{ chapterId: string; content: string } | null>(null)
+  const envoyerNote = useCallback((chapterId: string, content: string) => {
+    fetch("/api/notes", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ chapterId, content }),
+      keepalive: true,
+    }).catch(() => {})
+  }, [])
+  const noterDepuisAtelier = useCallback(
+    (chapterId: string, content: string) => {
+      setNotesMap((prev) => ({ ...prev, [chapterId]: content }))
+      noteEnAttenteRef.current = { chapterId, content }
+      if (noteDebounceRef.current) clearTimeout(noteDebounceRef.current)
+      noteDebounceRef.current = setTimeout(() => {
+        const p = noteEnAttenteRef.current
+        noteEnAttenteRef.current = null
+        if (p) envoyerNote(p.chapterId, p.content)
+      }, 1200)
+    },
+    [envoyerNote],
+  )
+  useEffect(() => {
+    // Flush si l'apprenant quitte la page ou change de chapitre avant l'échéance.
+    return () => {
+      if (noteDebounceRef.current) clearTimeout(noteDebounceRef.current)
+      const p = noteEnAttenteRef.current
+      noteEnAttenteRef.current = null
+      if (p) envoyerNote(p.chapterId, p.content)
+    }
+  }, [envoyerNote])
 
   const active = chapters[activeIndex]
   const completedCount = Object.values(completedMap).filter(Boolean).length
@@ -414,6 +484,15 @@ export default function FormationPlayer({
             chapterId={active.id}
             preview={!!preview}
             onCompleted={() => handleChapterCompleted(active.id)}
+            sommaire={sommaireAtelier}
+            onNaviguer={(id) => {
+              const i = chapters.findIndex((c) => c.id === id)
+              if (i >= 0) setActiveIndex(i)
+            }}
+            onQuitter={() => router.push("/learner/accueil")}
+            note={notesMap[active.id] || ""}
+            onNote={(v) => noterDepuisAtelier(active.id, v)}
+            notesHref={`/learner/notes?id=${formationId || ""}&chapitre=${active.id}`}
           />
         )}
         {!active?.videoUrl && !active?.simulation && (active?.exercises?.length > 0 ? (

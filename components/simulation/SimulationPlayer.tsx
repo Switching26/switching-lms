@@ -97,6 +97,16 @@ const ExcelGrid = dynamic(() => import("./ExcelGrid"), {
 
 type Mode = "LESSON" | "EXERCISE" | "EVALUATION"
 
+/** Une entrée du sommaire, telle que l'atelier l'affiche dans son panneau « Leçons ». */
+export type EntreeSommaire = {
+  id: string
+  titre: string
+  /** Module d'appartenance ; null pour un chapitre hors section. */
+  module: string | null
+  genre: "lecon" | "exercice" | "evaluation" | "autre"
+  termine: boolean
+}
+
 type Props = {
   chapterId: string
   mode: Mode
@@ -106,6 +116,21 @@ type Props = {
   /** Aperçu admin : aucune écriture de progression. */
   preview?: boolean
   onCompleted?: () => void
+  /**
+   * Atelier plein cadre : l'écran occupe toute la hauteur de son conteneur et
+   * ne défile jamais. Faux en aperçu admin, où le player reste une carte dans
+   * le flux de la page.
+   */
+  pleinCadre?: boolean
+  /** Sommaire de la formation, pour le panneau « Leçons ». */
+  sommaire?: EntreeSommaire[]
+  onNaviguer?: (chapterId: string) => void
+  /** Sortie de l'atelier : retour à la liste des chapitres. */
+  onQuitter?: () => void
+  /** Prise de notes du chapitre, tenue par la page apprenant. */
+  note?: string
+  onNote?: (valeur: string) => void
+  notesHref?: string
 }
 
 /**
@@ -274,6 +299,13 @@ export default function SimulationPlayer({
   initialStep = 0,
   preview,
   onCompleted,
+  pleinCadre,
+  sommaire,
+  onNaviguer,
+  onQuitter,
+  note,
+  onNote,
+  notesHref,
 }: Props) {
   const steps = scenario.steps
   const total = steps.length
@@ -285,107 +317,57 @@ export default function SimulationPlayer({
   // l'intro. La grille se monte derrière pendant la lecture, ce qui masque le
   // temps de chargement d'Univer.
   const [introVue, setIntroVue] = useState(initialStep > 0)
-  // Mode immersif (GO Samuel 29/07) : le simulateur prend tout l'écran, la page
-  // ne défile plus — un seul contexte de scroll, celui de la feuille bornée.
-  const [immersif, setImmersif] = useState(false)
   const carteRef = useRef<HTMLDivElement>(null)
   /**
-   * Plein écran NATIF d'abord : la page apprenant garde un `transform` résiduel
-   * (animation d'entrée `animate-fade-in-up`), qui rattache tout
-   * `position: fixed` descendant à elle-même — l'écran ne changeait pas au clic
-   * (vidéo Samuel du 29/07). Le top layer du fullscreen ignore les containing
-   * blocks. Le style fixed reste en secours si le navigateur refuse.
-   */
-  const basculerImmersif = useCallback(() => {
-    if (!immersif) {
-      setImmersif(true)
-      carteRef.current?.requestFullscreen?.().catch(() => {
-        /* fallback : le style fixed prend le relais */
-      })
-    } else {
-      setImmersif(false)
-      if (document.fullscreenElement) {
-        document.exitFullscreen?.().catch(() => {})
-      }
-    }
-  }, [immersif])
-  useEffect(() => {
-    // Sortie native (Échap, geste système) : resynchroniser l'état React.
-    const sync = () => {
-      if (!document.fullscreenElement) setImmersif(false)
-    }
-    document.addEventListener("fullscreenchange", sync)
-    return () => document.removeEventListener("fullscreenchange", sync)
-  }, [])
-  const [hauteurImmersive, setHauteurImmersive] = useState(600)
-  useEffect(() => {
-    if (!immersif) return
-    const calc = () => setHauteurImmersive(Math.max(360, window.innerHeight - 305))
-    calc()
-    const echap = (e: KeyboardEvent) => {
-      if (e.key !== "Escape") return
-      setImmersif(false)
-      // Le navigateur réel consomme Échap pour sortir lui-même du fullscreen ;
-      // ici c'est le filet pour le mode secours et les environnements de test.
-      if (document.fullscreenElement) document.exitFullscreen?.().catch(() => {})
-    }
-    window.addEventListener("resize", calc)
-    window.addEventListener("keydown", echap)
-    document.body.style.overflow = "hidden"
-    // Univer écoute le resize de la fenêtre : on le notifie du changement de
-    // hauteur du conteneur, sinon le canvas garde son ancienne taille.
-    const t = window.setTimeout(() => window.dispatchEvent(new Event("resize")), 90)
-    return () => {
-      window.removeEventListener("resize", calc)
-      window.removeEventListener("keydown", echap)
-      document.body.style.overflow = ""
-      window.clearTimeout(t)
-    }
-  }, [immersif])
-  useEffect(() => {
-    // Re-notifier Univer au retour en mode normal aussi.
-    const t = window.setTimeout(() => window.dispatchEvent(new Event("resize")), 90)
-    return () => window.clearTimeout(t)
-  }, [immersif])
-  /**
-   * Hauteur de la feuille hors plein écran.
+   * Dimensions de la feuille — MESURÉES, jamais calculées par soustraction.
    *
-   * Elle valait 380 px en dur : sur un écran d'ordinateur, un quart de la
-   * hauteur restait vide sous la carte pendant que l'apprenant travaillait dans
-   * une fenêtre timbre-poste. On mesure donc l'espace réellement disponible sous
-   * le haut de la grille, en réservant de quoi loger le bas de la fenêtre Excel
-   * et la bande de consigne.
+   * Le plein écran navigateur a été retiré (choix Samuel du 29/07 : on reste
+   * dans l'onglet, comme OnlineFormaPro, la barre du navigateur et la navigation
+   * du LMS restent visibles). L'atelier occupe simplement toute la hauteur que
+   * son conteneur lui donne, et la feuille prend ce qui reste une fois le
+   * cockpit et la bande de consigne posés.
+   *
+   * L'ancienne formule « hauteur de l'écran moins 305 px » devenait fausse dès
+   * qu'un élément changeait de taille : la consigne se retrouvait coupée et une
+   * barre de défilement apparaissait — exactement ce que la vidéo montrait.
+   * Un observateur de taille supprime la classe entière de ce défaut.
    */
   const zoneGrilleRef = useRef<HTMLDivElement>(null)
   const [hauteurGrille, setHauteurGrille] = useState(380)
   const [largeurGrille, setLargeurGrille] = useState(0)
   useEffect(() => {
-    if (immersif) return
-    const calc = () => {
-      const el = zoneGrilleRef.current
-      if (!el) return
-      const rect = el.getBoundingClientRect()
-      // Réserve : onglets de feuille + barre d'état + bande de consigne + air.
-      const dispo = window.innerHeight - rect.top - 200
-      setHauteurGrille(Math.max(340, Math.min(720, Math.round(dispo))))
-      setLargeurGrille(Math.round(rect.width))
+    const el = zoneGrilleRef.current
+    if (!el) return
+    const mesurer = () => {
+      const r = el.getBoundingClientRect()
+      if (r.height > 40) setHauteurGrille(Math.round(r.height))
+      setLargeurGrille(Math.round(r.width))
     }
-    calc()
-    // Le layout se stabilise après le montage d'Univer : une seconde mesure
-    // évite de figer une hauteur calculée sur une page encore incomplète.
-    const t = window.setTimeout(calc, 320)
-    window.addEventListener("resize", calc)
+    mesurer()
+    const obs = typeof ResizeObserver !== "undefined" ? new ResizeObserver(mesurer) : null
+    obs?.observe(el)
+    window.addEventListener("resize", mesurer)
     return () => {
-      window.removeEventListener("resize", calc)
-      window.clearTimeout(t)
+      obs?.disconnect()
+      window.removeEventListener("resize", mesurer)
     }
-  }, [immersif, introVue])
+  }, [introVue])
   useEffect(() => {
     // Univer ne réagit qu'au resize de la fenêtre : sans cela son canvas garde
     // l'ancienne hauteur et la feuille flotte dans un cadre trop grand.
     const t = window.setTimeout(() => window.dispatchEvent(new Event("resize")), 90)
     return () => window.clearTimeout(t)
   }, [hauteurGrille])
+  /** Panneau latéral ouvert dans l'atelier : sommaire des leçons ou prise de notes. */
+  const [panneau, setPanneau] = useState<"lecons" | "notes" | null>(null)
+  useEffect(() => {
+    if (!panneau) return
+    const echap = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setPanneau(null)
+    }
+    window.addEventListener("keydown", echap)
+    return () => window.removeEventListener("keydown", echap)
+  }, [panneau])
   const [verdict, setVerdict] = useState<Verdict | null>(null)
   // Retour visuel DANS la grille (flash de réussite, secousse d'erreur, toast) :
   // le texte sous l'écran ne suffit pas, l'apprenant regarde la feuille.
@@ -1809,12 +1791,16 @@ export default function SimulationPlayer({
   return (
     <div
       ref={carteRef}
-      className="relative overflow-hidden border border-border bg-white shadow-sm"
-      style={
-        immersif
-          ? { position: "fixed", inset: 0, zIndex: 90, borderRadius: 0, overflowY: "auto", background: "#fff" }
-          : { borderRadius: 16 }
+      // Plein cadre : une colonne verticale qui remplit exactement son conteneur
+      // et n'a AUCUN défilement. C'est la structure elle-même qui rend le
+      // débordement impossible — la consigne du bas ne peut plus être poussée
+      // hors de l'écran, ni une barre de défilement apparaître.
+      className={
+        pleinCadre
+          ? "relative flex h-full min-h-0 flex-col overflow-hidden bg-white"
+          : "relative overflow-hidden border border-border bg-white shadow-sm"
       }
+      style={pleinCadre ? undefined : { borderRadius: 16 }}
     >
       {!introVue && step && (
         <div
@@ -1941,21 +1927,6 @@ export default function SimulationPlayer({
               data-control="intro-commencer"
               onClick={() => {
                 setIntroVue(true)
-                // Le plein écran ne peut être demandé que depuis un geste de
-                // l'apprenant : ce clic est le seul moment où l'atelier peut
-                // s'ouvrir en grand tout seul. Réservé au bureau — iOS n'expose
-                // pas l'API et le repli `position:fixed` est capturé par le
-                // `transform` de la page apprenant (piège du 29/07).
-                if (
-                  !immersif &&
-                  !preview &&
-                  typeof document !== "undefined" &&
-                  document.fullscreenEnabled &&
-                  window.innerWidth >= 900
-                ) {
-                  setImmersif(true)
-                  carteRef.current?.requestFullscreen?.().catch(() => setImmersif(false))
-                }
                 // Sans cela le focus clavier reste sur le bouton : la première
                 // frappe de la leçon n'atteint jamais la grille (même piège que
                 // le bouton « Suivant »).
@@ -1996,7 +1967,7 @@ export default function SimulationPlayer({
           Le mode évaluation se signalait par un mot beige : il colore désormais
           toute la barre. */}
       <div
-        className="flex items-center gap-2 px-3 sm:gap-3"
+        className="flex flex-shrink-0 items-center gap-2 px-2 sm:gap-3 sm:px-3"
         style={{
           height: 44,
           background: evaluationNotee ? "#3A2410" : "#10201B",
@@ -2004,18 +1975,48 @@ export default function SimulationPlayer({
           fontSize: 12,
         }}
       >
-        <button
-          type="button"
-          data-control="sim-agrandir"
-          onClick={basculerImmersif}
-          title={immersif ? "Quitter le plein écran (Échap)" : "Passer en plein écran"}
-          aria-label={immersif ? "Quitter le plein écran" : "Passer en plein écran"}
-          className="flex flex-shrink-0 items-center justify-center rounded-lg"
-          style={{ width: 28, height: 28, background: "rgba(255,255,255,.09)", color: "#CFDAD5", fontSize: 13 }}
-        >
-          {immersif ? "⤡" : "⤢"}
-        </button>
-        <div className="min-w-0 flex-1 truncate" style={{ color: "#8FA49C" }}>
+        {sommaire && sommaire.length > 0 && (
+          <button
+            type="button"
+            data-control="sim-sommaire"
+            onClick={() => setPanneau((p) => (p === "lecons" ? null : "lecons"))}
+            aria-label="Toutes les leçons"
+            className="flex flex-shrink-0 items-center gap-1.5 rounded-lg px-2.5 sm:px-3"
+            style={{
+              height: 28,
+              background: panneau === "lecons" ? "#fff" : "rgba(255,255,255,.09)",
+              color: panneau === "lecons" ? "#10201B" : "#DCE6E1",
+              fontSize: 11.5,
+              fontWeight: panneau === "lecons" ? 600 : 400,
+            }}
+          >
+            <span aria-hidden>☰</span>
+            <span className="hidden sm:inline">Leçons</span>
+          </button>
+        )}
+        {onNote && (
+          <button
+            type="button"
+            data-control="sim-notes"
+            onClick={() => setPanneau((p) => (p === "notes" ? null : "notes"))}
+            aria-label="Mes notes"
+            className="flex flex-shrink-0 items-center gap-1.5 rounded-lg px-2.5 sm:px-3"
+            style={{
+              height: 28,
+              background: panneau === "notes" ? "#fff" : "rgba(255,255,255,.09)",
+              color: panneau === "notes" ? "#10201B" : "#DCE6E1",
+              fontSize: 11.5,
+              fontWeight: panneau === "notes" ? 600 : 400,
+            }}
+          >
+            <span aria-hidden>✎</span>
+            <span className="hidden sm:inline">Notes</span>
+            {note && note.trim() !== "" && (
+              <span aria-hidden style={{ width: 5, height: 5, borderRadius: 9, background: "#4ED08A" }} />
+            )}
+          </button>
+        )}
+        <div className="min-w-0 flex-1 truncate text-left sm:text-center" style={{ color: "#8FA49C" }}>
           {evaluationNotee && (
             <span
               className="mr-2 rounded-full"
@@ -2024,7 +2025,12 @@ export default function SimulationPlayer({
               ÉVALUATION NOTÉE
             </span>
           )}
-          {filModule && filModule !== filChapitre && <span>{filModule}&nbsp;&nbsp;|&nbsp;&nbsp;</span>}
+          {/* Sur téléphone la barre ne peut pas tout porter : le module cède la
+              place au titre du chapitre, la seule information dont l'apprenant a
+              besoin en permanence. */}
+          {filModule && filModule !== filChapitre && (
+            <span className="hidden sm:inline">{filModule}&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+          )}
           <b style={{ color: "#fff", fontWeight: 600 }}>{filChapitre}</b>
         </div>
         {/* Progression : segments quand le chapitre est court (on voit le chemin
@@ -2052,10 +2058,23 @@ export default function SimulationPlayer({
         <span className="flex-shrink-0 tabular-nums" style={{ color: "#8FA49C" }}>
           {Math.min(index + 1, total)}/{total}
         </span>
+        {onQuitter && (
+          <button
+            type="button"
+            data-control="sim-quitter"
+            onClick={onQuitter}
+            title="Quitter l'atelier"
+            aria-label="Quitter l'atelier"
+            className="flex flex-shrink-0 items-center justify-center rounded-lg"
+            style={{ width: 28, height: 28, background: "rgba(255,255,255,.07)", color: "#CFDAD5", fontSize: 13 }}
+          >
+            ✕
+          </button>
+        )}
       </div>
 
       {finished ? (
-        <div className="px-5 py-10 text-center">
+        <div className={pleinCadre ? "flex min-h-0 flex-1 flex-col items-center justify-center px-5 py-10 text-center" : "px-5 py-10 text-center"}>
           <p className="font-display text-lg font-semibold text-ink">
             {mode === "EVALUATION" ? "Évaluation terminée" : "Vous avez terminé cette étape du parcours"}
           </p>
@@ -2071,8 +2090,9 @@ export default function SimulationPlayer({
         </div>
       ) : (
         <>
-          {/* Fenêtre Excel simulée */}
-          <div className="px-3 pt-3">
+          {/* Fenêtre Excel simulée. En plein cadre elle prend tout l'espace laissé
+              par le cockpit et la bande de consigne — ni plus, ni moins. */}
+          <div className={pleinCadre ? "flex min-h-0 flex-1 flex-col px-2 pt-2 sm:px-3 sm:pt-3" : "px-3 pt-3"}>
             <SimulationChrome
               tabs={scenario.ribbon}
               state={
@@ -2098,15 +2118,15 @@ export default function SimulationPlayer({
                 que la couche n'ait rendu à nouveau. */}
             <div
               ref={zoneGrilleRef}
-              className="relative overflow-hidden border border-t-0 border-neutral-300"
-              style={{ height: immersif ? hauteurImmersive : hauteurGrille }}
+              className={
+                pleinCadre
+                  ? "relative min-h-0 flex-1 overflow-hidden border border-t-0 border-neutral-300"
+                  : "relative overflow-hidden border border-t-0 border-neutral-300"
+              }
+              style={pleinCadre ? undefined : { height: hauteurGrille }}
               onClickCapture={besoins.miseEnPage || besoins.tcd || besoins.graphique ? relaisControleCouche : undefined}
             >
-              <ExcelGrid
-                onReady={handleReady}
-                onAction={handleAction}
-                heightPx={immersif ? hauteurImmersive : hauteurGrille}
-              />
+              <ExcelGrid onReady={handleReady} onAction={handleAction} heightPx={hauteurGrille} />
               {besoins.miseEnPage && (
                 <PageLayoutLayer
                   pageSetup={reglages}
@@ -2230,16 +2250,22 @@ export default function SimulationPlayer({
 `}</style>
             </div>
             {/* Bas de la fenêtre Excel — SOUS la grille, comme dans le logiciel. */}
-            <SimulationFooter
-              sheets={sheets}
-              onSheet={handleSheet}
-              onControl={handleControl}
-              highlight={highlightedControl}
-              stats={stats}
-              aggregates={step?.setup?.statusBar?.aggregates ?? scenario.statusBar?.aggregates}
-            />
+            <div className="flex-shrink-0">
+              <SimulationFooter
+                sheets={sheets}
+                onSheet={handleSheet}
+                onControl={handleControl}
+                highlight={highlightedControl}
+                stats={stats}
+                aggregates={step?.setup?.statusBar?.aggregates ?? scenario.statusBar?.aggregates}
+              />
+            </div>
             {besoins.macros && (
-              <div className="pt-2" onClickCapture={relaisControleCouche}>
+              <div
+                className={pleinCadre ? "flex-shrink-0 overflow-y-auto pt-2" : "pt-2"}
+                style={pleinCadre ? { maxHeight: "38%" } : undefined}
+                onClickCapture={relaisControleCouche}
+              >
                 <MacroPanel
                   macros={macros}
                   courante={macroCourante}
@@ -2265,7 +2291,7 @@ export default function SimulationPlayer({
               phrase que l'apprenant relit à chaque geste, elle ne peut pas être
               plus petite que le contenu de la feuille. */}
           <div
-            className="flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-border px-4 py-3"
+            className="flex flex-shrink-0 flex-wrap items-center gap-x-4 gap-y-2 border-t border-border px-4 py-3"
             style={{
               borderLeft: `4px solid ${verdict ? (verdict.ok ? "#059669" : "#e11d48") : "#107C41"}`,
               background: verdict ? (verdict.ok ? "#F2FBF6" : "#FEF4F5") : "#fff",
@@ -2324,6 +2350,214 @@ export default function SimulationPlayer({
           </div>
         </>
       )}
+
+      {/* ── Panneaux de l'atelier ──────────────────────────────────────────────
+          Ils se SUPERPOSENT au lieu de pousser le contenu : l'écran garde ses
+          dimensions, donc la règle du « rien ne défile » tient même panneau
+          ouvert. */}
+      {panneau && (
+        <div
+          role="presentation"
+          onClick={() => setPanneau(null)}
+          className="absolute inset-0"
+          style={{ top: 44, background: "rgba(8,17,14,.5)", zIndex: 60 }}
+        />
+      )}
+      {sommaire && sommaire.length > 0 && (
+        <aside
+          aria-label="Toutes les leçons"
+          aria-hidden={panneau !== "lecons"}
+          className="absolute bottom-0 left-0 flex flex-col bg-white shadow-2xl"
+          style={{
+            top: 44,
+            width: "min(330px, 82%)",
+            zIndex: 70,
+            transform: panneau === "lecons" ? "translateX(0)" : "translateX(-101%)",
+            transition: "transform .26s cubic-bezier(.32,.72,0,1)",
+            visibility: panneau === "lecons" ? "visible" : "hidden",
+          }}
+        >
+          <div className="flex flex-shrink-0 items-center gap-2 border-b border-border bg-warm-50 px-3 py-2.5">
+            <h4 className="flex-1 text-[13.5px] font-bold">Toutes les leçons</h4>
+            <span className="text-[11px] text-warm-400">{sommaire.length}</span>
+            <button
+              type="button"
+              onClick={() => setPanneau(null)}
+              aria-label="Fermer"
+              className="rounded-lg bg-warm-100 px-2 py-1 text-[12px] text-warm-600"
+            >
+              ✕
+            </button>
+          </div>
+          <div className="min-h-0 flex-1 overflow-y-auto px-2 py-2">
+            <SommaireAtelier
+              entrees={sommaire}
+              courant={chapterId}
+              onNaviguer={(id) => {
+                setPanneau(null)
+                onNaviguer?.(id)
+              }}
+            />
+          </div>
+        </aside>
+      )}
+      {onNote && (
+        <aside
+          aria-label="Mes notes"
+          aria-hidden={panneau !== "notes"}
+          className="absolute bottom-0 right-0 flex flex-col bg-white shadow-2xl"
+          style={{
+            top: 44,
+            width: "min(340px, 84%)",
+            zIndex: 70,
+            transform: panneau === "notes" ? "translateX(0)" : "translateX(101%)",
+            transition: "transform .26s cubic-bezier(.32,.72,0,1)",
+            visibility: panneau === "notes" ? "visible" : "hidden",
+          }}
+        >
+          <div className="flex flex-shrink-0 items-center gap-2 border-b border-border bg-warm-50 px-3 py-2.5">
+            <h4 className="flex-1 text-[13.5px] font-bold">Mes notes</h4>
+            <button
+              type="button"
+              onClick={() => setPanneau(null)}
+              aria-label="Fermer"
+              className="rounded-lg bg-warm-100 px-2 py-1 text-[12px] text-warm-600"
+            >
+              ✕
+            </button>
+          </div>
+          <div className="min-h-0 flex-1 overflow-y-auto p-3">
+            <p className="mb-2 text-[11.5px] text-warm-400">
+              {filModule && filModule !== filChapitre ? `${filModule} · ` : ""}
+              {filChapitre}
+            </p>
+            <textarea
+              value={note ?? ""}
+              onChange={(e) => onNote(e.target.value)}
+              placeholder="Écrivez ici ce que vous voulez retenir de ce chapitre…"
+              className="w-full rounded-xl border border-border p-3 text-[13px] leading-relaxed text-ink outline-none focus:border-emerald-600"
+              style={{ minHeight: 170, resize: "vertical" }}
+            />
+            <p className="mt-2 flex items-center gap-1.5 text-[11.5px] text-warm-400">
+              <span aria-hidden style={{ width: 6, height: 6, borderRadius: 9, background: "#107C41" }} />
+              Enregistré automatiquement
+            </p>
+            {notesHref && (
+              <a href={notesHref} className="mt-3 inline-block text-[12.5px] font-semibold text-emerald-700">
+                Voir toutes mes notes →
+              </a>
+            )}
+          </div>
+        </aside>
+      )}
     </div>
+  )
+}
+
+/**
+ * Sommaire de la formation dans l'atelier.
+ *
+ * Groupé par module, et seul le module en cours est déplié : sur 27 modules et
+ * 246 chapitres, tout ouvrir d'entrée noie l'information (choix Samuel du 29/07).
+ */
+function SommaireAtelier({
+  entrees,
+  courant,
+  onNaviguer,
+}: {
+  entrees: EntreeSommaire[]
+  courant: string
+  onNaviguer: (id: string) => void
+}) {
+  const moduleCourant = entrees.find((e) => e.id === courant)?.module ?? null
+  const [ouverts, setOuverts] = useState<Record<string, boolean>>({ [moduleCourant ?? "—"]: true })
+
+  const groupes: Array<{ nom: string; items: EntreeSommaire[] }> = []
+  for (const e of entrees) {
+    const nom = e.module ?? "—"
+    const dernier = groupes[groupes.length - 1]
+    if (dernier && dernier.nom === nom) dernier.items.push(e)
+    else groupes.push({ nom, items: [e] })
+  }
+
+  const PASTILLE: Record<EntreeSommaire["genre"], { l: string; c: string; f: string }> = {
+    lecon: { l: "L", c: "#2C6BB0", f: "#E9F1FB" },
+    exercice: { l: "E", c: "#107C41", f: "#E7F3EB" },
+    evaluation: { l: "★", c: "#8A5A12", f: "#FBF1DF" },
+    autre: { l: "·", c: "#8D8880", f: "#F1EEE8" },
+  }
+
+  return (
+    <>
+      {groupes.map((g, i) => {
+        const ouvert = ouverts[g.nom] ?? false
+        const faits = g.items.filter((x) => x.termine).length
+        const estCourant = g.nom === moduleCourant
+        return (
+          <div key={`${g.nom}-${i}`} className="border-b border-warm-100 last:border-b-0">
+            <button
+              type="button"
+              onClick={() => setOuverts((o) => ({ ...o, [g.nom]: !ouvert }))}
+              className="flex w-full items-center gap-2 px-1 py-2 text-left"
+            >
+              <span
+                className="flex flex-shrink-0 items-center justify-center rounded-lg text-[10px] font-bold"
+                style={{
+                  width: 21,
+                  height: 21,
+                  background: estCourant ? "#107C41" : faits === g.items.length ? "#E7F3EB" : "#F1EEE8",
+                  color: estCourant ? "#fff" : faits === g.items.length ? "#107C41" : "#8D8880",
+                }}
+              >
+                {i + 1}
+              </span>
+              <span className="min-w-0 flex-1 truncate text-[12.5px] text-ink">{g.nom === "—" ? "Chapitres" : g.nom}</span>
+              <span className="flex-shrink-0 text-[10.5px] text-warm-400">
+                {faits}/{g.items.length}
+              </span>
+              <span aria-hidden className="flex-shrink-0 text-[10px] text-warm-400">
+                {ouvert ? "▾" : "▸"}
+              </span>
+            </button>
+            {ouvert && (
+              <ul className="mb-1.5 list-none pl-7">
+                {g.items.map((e) => {
+                  const p = PASTILLE[e.genre]
+                  const actif = e.id === courant
+                  return (
+                    <li key={e.id}>
+                      <button
+                        type="button"
+                        onClick={() => onNaviguer(e.id)}
+                        className="flex w-full items-center gap-2 rounded-md px-1.5 py-1.5 text-left"
+                        style={{ background: actif ? "#F4FAF6" : undefined }}
+                      >
+                        <span
+                          className="flex flex-shrink-0 items-center justify-center rounded"
+                          style={{ width: 15, height: 15, background: p.f, color: p.c, fontSize: 8, fontWeight: 700 }}
+                        >
+                          {p.l}
+                        </span>
+                        <span
+                          className="min-w-0 flex-1 truncate text-[12px]"
+                          style={{ color: actif ? "#171a18" : "#6E6A62", fontWeight: actif ? 600 : 400 }}
+                        >
+                          {e.titre}
+                        </span>
+                        {e.termine && (
+                          <span aria-hidden className="flex-shrink-0 text-[11px] text-emerald-600">
+                            ✓
+                          </span>
+                        )}
+                      </button>
+                    </li>
+                  )
+                })}
+              </ul>
+            )}
+          </div>
+        )
+      })}
+    </>
   )
 }

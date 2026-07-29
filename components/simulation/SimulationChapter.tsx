@@ -9,7 +9,8 @@
  */
 
 import { useEffect, useState } from "react"
-import SimulationPlayer from "./SimulationPlayer"
+import { createPortal } from "react-dom"
+import SimulationPlayer, { type EntreeSommaire } from "./SimulationPlayer"
 import type { SimulationScenario } from "@/lib/simulation/types"
 
 type Payload = {
@@ -23,11 +24,54 @@ type Props = {
   chapterId: string
   preview?: boolean
   onCompleted?: () => void
+  /** Sommaire de la formation, pour le panneau « Leçons » de l'atelier. */
+  sommaire?: EntreeSommaire[]
+  onNaviguer?: (chapterId: string) => void
+  onQuitter?: () => void
+  note?: string
+  onNote?: (valeur: string) => void
+  notesHref?: string
 }
 
-export default function SimulationChapter({ chapterId, preview, onCompleted }: Props) {
+export default function SimulationChapter({
+  chapterId,
+  preview,
+  onCompleted,
+  sommaire,
+  onNaviguer,
+  onQuitter,
+  note,
+  onNote,
+  notesHref,
+}: Props) {
   const [data, setData] = useState<Payload | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const [monte, setMonte] = useState(false)
+
+  // Le portail n'existe qu'après l'hydratation : `document` n'est pas disponible
+  // au rendu serveur.
+  useEffect(() => setMonte(true), [])
+
+  /**
+   * Hors aperçu admin, l'atelier occupe TOUTE la fenêtre sous la navigation du
+   * LMS, et la page cesse de défiler.
+   *
+   * Pourquoi un portail vers `document.body` plutôt qu'un simple `position:
+   * fixed` : la page apprenant garde un `transform` résiduel (animation d'entrée
+   * `animate-fade-in-up`), qui devient containing block et capture tout `fixed`
+   * descendant — le piège qui avait fait échouer le mode immersif le 29/07. Un
+   * portail sort du sous-arbre transformé, donc le positionnement ne dépend plus
+   * d'aucun ancêtre.
+   */
+  const atelier = !preview
+  useEffect(() => {
+    if (!atelier) return
+    const avant = document.body.style.overflow
+    document.body.style.overflow = "hidden"
+    return () => {
+      document.body.style.overflow = avant
+    }
+  }, [atelier])
 
   useEffect(() => {
     let cancelled = false
@@ -70,7 +114,7 @@ export default function SimulationChapter({ chapterId, preview, onCompleted }: P
     )
   }
 
-  return (
+  const player = (
     <SimulationPlayer
       // La clé garantit un état propre quand on passe d'un atelier à un autre :
       // l'étape courante et les compteurs ne doivent jamais fuiter entre chapitres.
@@ -81,6 +125,36 @@ export default function SimulationChapter({ chapterId, preview, onCompleted }: P
       initialStep={data.attempt?.currentStep ?? 0}
       preview={preview}
       onCompleted={onCompleted}
+      pleinCadre={atelier}
+      sommaire={sommaire}
+      onNaviguer={onNaviguer}
+      onQuitter={onQuitter}
+      note={note}
+      onNote={onNote}
+      notesHref={notesHref}
     />
+  )
+
+  if (!atelier) return player
+  if (!monte) return <div style={{ height: 420 }} />
+
+  return createPortal(
+    <div
+      // Sous la navigation du LMS, qui reste visible pendant l'atelier — comme
+      // OnlineFormaPro garde la sienne (choix Samuel du 29/07).
+      style={{
+        position: "fixed",
+        top: "calc(var(--app-impersonation-offset, 0px) + var(--app-nav-height, 64px))",
+        left: 0,
+        right: 0,
+        bottom: 0,
+        zIndex: 30,
+        background: "#0B1512",
+        overflow: "hidden",
+      }}
+    >
+      {player}
+    </div>,
+    document.body,
   )
 }

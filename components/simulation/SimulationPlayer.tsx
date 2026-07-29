@@ -669,6 +669,30 @@ export default function SimulationPlayer({
   }, [index, total, mode, steps, persist, onCompleted])
 
   /**
+   * Retour à l'étape précédente (choix Samuel du 29/07 : « oui, avec un
+   * avertissement »).
+   *
+   * `applyStep` étant rejoué à chaque changement d'index, reculer suffit à
+   * remettre en place le point de départ de l'étape visée — sa sélection, son
+   * onglet de ruban et ses éventuelles cellules de départ. Le reste du classeur
+   * est laissé intact : on ne rejoue PAS la leçon depuis le début, car les
+   * cellules écrites par l'apprenant aux étapes précédentes ne viennent d'aucun
+   * `setup` et seraient perdues — l'étape suivante deviendrait injouable.
+   *
+   * Interdit en évaluation notée : le barème compte les réussites au premier
+   * essai, et OnlineFormaPro ne propose pas non plus de pager en évaluation.
+   */
+  const reculPossible = index > 0 && mode !== "EVALUATION" && !finished
+  const [reculDemande, setReculDemande] = useState(false)
+  const reculer = useCallback(() => {
+    const cible = index - 1
+    if (cible < 0) return
+    setReculDemande(false)
+    setIndex(cible)
+    void persist({ step: cible })
+  }, [index, persist])
+
+  /**
    * Retour visuel ancré à la cible de l'étape : flash vert à la réussite,
    * secousse rouge + message à l'erreur. Le rectangle vient des métriques
    * réelles de la grille (même mécanique que le halo d'aide) ; sans cible
@@ -2324,6 +2348,18 @@ export default function SimulationPlayer({
               )}
             </div>
             <div className="flex flex-shrink-0 items-center gap-2">
+              {reculPossible && (
+                <button
+                  type="button"
+                  data-control="sim-reculer"
+                  onClick={() => setReculDemande(true)}
+                  title={`Revoir l'étape ${index}`}
+                  aria-label={`Revoir l'étape ${index}`}
+                  className="rounded-lg border border-border px-2.5 py-1.5 text-[12.5px] font-medium text-warm-600 hover:bg-warm-50"
+                >
+                  ‹
+                </button>
+              )}
               {mode === "EXERCISE" && !hintShown && step?.aide && (
                 <button
                   type="button"
@@ -2349,6 +2385,44 @@ export default function SimulationPlayer({
             </div>
           </div>
         </>
+      )}
+
+      {/* Avertissement avant de reculer. Modale maison : le `confirm()` natif est
+          proscrit dans le LMS, et il n'expliquerait pas ce qui va se passer. */}
+      {reculDemande && (
+        <div
+          className="absolute inset-0 flex items-center justify-center px-6"
+          style={{ background: "rgba(8,17,14,.62)", zIndex: 80 }}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Revenir à l'étape précédente"
+        >
+          <div className="w-full rounded-2xl bg-white p-5 shadow-2xl" style={{ maxWidth: 420 }}>
+            <h4 className="font-display text-[16px] font-bold text-ink">Revenir à l'étape {index} ?</h4>
+            <p className="mt-2 text-[13.5px] leading-relaxed text-warm-700">
+              Vous allez revoir sa consigne. Ce que vous avez déjà saisi reste dans la feuille, mais le point
+              de départ de cette étape est remis en place : il faudra refaire le geste pour avancer à nouveau.
+            </p>
+            <div className="mt-4 flex flex-wrap justify-end gap-2">
+              <button
+                type="button"
+                onClick={() => setReculDemande(false)}
+                className="rounded-lg border border-border px-4 py-2 text-[13px] font-medium text-warm-700 hover:bg-warm-50"
+              >
+                Annuler
+              </button>
+              <button
+                type="button"
+                data-control="sim-reculer-confirmer"
+                onClick={reculer}
+                className="rounded-lg px-4 py-2 text-[13px] font-semibold text-white"
+                style={{ background: "#10201B" }}
+              >
+                Revenir à l'étape {index}
+              </button>
+            </div>
+          </div>
+        </div>
       )}
 
       {/* ── Panneaux de l'atelier ──────────────────────────────────────────────

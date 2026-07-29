@@ -1,168 +1,214 @@
 {
   "schemaVersion": 1,
-  "title": "Ma première formule",
+  "title": "Les quatre opérateurs et les parenthèses",
   "mode": "LESSON",
   "moduleTitle": "Calculs simples",
   "intro": {
-    "title": "ÉCRIRE UNE FORMULE",
-    "body": "Une formule permet de calculer à partir du contenu des cellules. Tout commence par un signe égal — c'est lui qui dit à Excel « ce qui suit est un calcul »."
+    "title": "CALCULER AVEC LES QUATRE OPÉRATIONS",
+    "body": "Addition, soustraction, multiplication, division. Et surtout : l'ordre dans lequel Excel les applique, qui n'est pas l'ordre où vous les écrivez."
   },
   "outro": {
-    "body": "Vous savez écrire une formule, la valider, et référencer d'autres cellules pour que le résultat se recalcule tout seul."
+    "body": "Vous maîtrisez les quatre opérateurs et la priorité de calcul. C'est la cause numéro un des résultats faux dans un tableur."
   },
   "ribbon": [
     "accueil"
   ],
   "workbook": {
-    "fileName": "Classeur1",
+    "fileName": "Calculs",
     "activeSheetIndex": 0,
     "selection": "A1",
     "sheets": [
       {
         "name": "Feuil1",
         "columnWidths": {
-          "A": 90
+          "A": 130
         },
-        "cells": {}
+        "cells": {
+          "A1": {
+            "v": "Quantité",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": 12
+          },
+          "A2": {
+            "v": "Prix unitaire",
+            "format": {
+              "bold": true
+            }
+          },
+          "B2": {
+            "v": 25
+          },
+          "A3": {
+            "v": "Remise",
+            "format": {
+              "bold": true
+            }
+          },
+          "B3": {
+            "v": 30
+          },
+          "A5": {
+            "v": "Total",
+            "format": {
+              "bold": true
+            }
+          }
+        }
       }
     ]
-  },
-  "statusBar": {
-    "aggregates": [
-      "moyenne",
-      "nb-non-vides",
-      "somme"
-    ],
-    "sheetCount": 1
   },
   "steps": [
     {
       "id": "M06-L01-01",
-      "consigne": "Une formule commence **toujours** par le signe égal. Dans la cellule **A1**, ==saisissez `=3+2` puis validez==.",
+      "consigne": "Le tableau contient une quantité, un prix unitaire et une remise. En **B5**, ==calculez le total avant remise== : la quantité multipliée par le prix.",
       "setup": {
-        "selection": "A1"
+        "selection": "B5"
       },
       "action": {
         "type": "TYPE",
-        "target": "A1",
+        "target": "B5",
         "accept": [
-          "=3+2",
-          "=2+3"
+          "=B1*B2",
+          "=B2*B1"
         ],
         "formulaMode": true
       },
       "aide": {
-        "text": "Tapez directement dans la cellule, en commençant par =",
+        "text": "L'astérisque * est le signe de la multiplication.",
         "showTarget": true
       },
-      "feedback": "Le résultat 5 s'affiche dans la cellule, alors que la barre de formule garde votre calcul."
+      "feedback": "300 €. Passons à la soustraction."
     },
     {
       "id": "M06-L01-02",
-      "consigne": "La cellule affiche **5**, mais la barre de formule affiche toujours `=3+2`. C'est la différence essentielle : la cellule montre le **résultat**, la barre de formule montre le **calcul**.",
+      "consigne": "En **B6**, ==soustrayez la remise du total== : `=B5-B3`.",
+      "setup": {
+        "selection": "B6",
+        "cells": {
+          "A6": {
+            "v": "Après remise"
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B6",
+        "accept": [
+          "=B5-B3"
+        ],
+        "formulaMode": true
+      },
+      "feedback": "270 €."
+    },
+    {
+      "id": "M06-L01-03",
+      "consigne": "En **B7**, ==calculez le prix moyen par unité== en divisant le total après remise par la quantité : `=B6/B1`. La barre oblique est le signe de la division.",
+      "setup": {
+        "selection": "B7",
+        "cells": {
+          "A7": {
+            "v": "Prix moyen"
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B7",
+        "accept": [
+          "=B6/B1"
+        ],
+        "formulaMode": true
+      },
+      "feedback": "22,50 €. Vous avez utilisé les quatre opérateurs."
+    },
+    {
+      "id": "M06-L01-04",
+      "consigne": "Attention, voici le piège le plus courant. Excel ne calcule **pas** de gauche à droite : il fait d'abord les multiplications et divisions, ensuite les additions et soustractions.",
       "action": {
         "type": "READ"
       },
       "points": 0
     },
     {
-      "id": "M06-L01-03",
-      "consigne": "Un calcul sur des nombres écrits en dur a peu d'intérêt. On va plutôt faire référence à des cellules. ==Sélectionnez la cellule **B1**==.",
-      "action": {
-        "type": "CLICK_CELL",
-        "cell": "B1"
-      },
-      "aide": {
-        "text": "Cliquez simplement dans la cellule B1.",
-        "showTarget": true
-      }
-    },
-    {
-      "id": "M06-L01-04",
-      "consigne": "==Saisissez `12`== et validez.",
-      "setup": {
-        "selection": "B1"
-      },
-      "action": {
-        "type": "TYPE",
-        "target": "B1",
-        "accept": [
-          "12"
-        ]
-      }
-    },
-    {
       "id": "M06-L01-05",
-      "consigne": "En **B2**, ==saisissez `8`== et validez.",
+      "consigne": "Vérifions. En **D1**, ==saisissez `=B1+B2*2`==. Réfléchissez d'abord au résultat que vous attendez.",
       "setup": {
-        "selection": "B2"
+        "selection": "D1"
       },
       "action": {
         "type": "TYPE",
-        "target": "B2",
+        "target": "D1",
         "accept": [
-          "8"
-        ]
-      }
+          "=B1+B2*2"
+        ],
+        "formulaMode": true
+      },
+      "feedback": "62, et non 74. Excel a d'abord fait 25 × 2 = 50, puis ajouté 12."
     },
     {
       "id": "M06-L01-06",
-      "consigne": "Vous voulez la somme de B1 et B2 en **B3**. Au lieu d'écrire `=12+8`, ==saisissez `=B1+B2`==.",
+      "consigne": "Si vous vouliez additionner **avant** de multiplier, il faut le dire avec des parenthèses. En **D2**, ==saisissez `=(B1+B2)*2`==.",
       "setup": {
-        "selection": "B3"
+        "selection": "D2"
       },
       "action": {
         "type": "TYPE",
-        "target": "B3",
+        "target": "D2",
         "accept": [
-          "=B1+B2",
-          "=B2+B1",
-          "=SOMME(B1:B2)",
-          "=SOMME(B1;B2)"
+          "=(B1+B2)*2"
         ],
         "formulaMode": true
       },
       "aide": {
-        "text": "Vous pouvez taper les références, ou cliquer sur les cellules pendant la saisie.",
+        "text": "Les parenthèses forcent Excel à calculer leur contenu en premier.",
         "showTarget": true
       },
-      "feedback": "20 s'affiche. Notez bien ce que vous venez d'écrire : la formule ne contient pas les nombres, elle contient l'adresse des nombres."
+      "feedback": "74. Même formule à un détail près, résultat totalement différent."
     },
     {
       "id": "M06-L01-07",
-      "consigne": "Et c'est là tout l'intérêt. En **B2**, ==remplacez 8 par `50`== et regardez B3.",
-      "setup": {
-        "selection": "B2"
-      },
+      "consigne": "**62** et **74** avec les mêmes nombres. Retenez-le : dès qu'une formule mélange une addition et une multiplication, mettez des parenthèses, même quand elles semblent inutiles. Elles rendent votre intention lisible.",
       "action": {
-        "type": "TYPE",
-        "target": "B2",
-        "accept": [
-          "50"
-        ]
+        "type": "READ"
       },
-      "feedback": "B3 est passé de 20 à 62 sans que vous retouchiez la formule : Excel a recalculé seul. C'est la raison pour laquelle on référence des cellules plutôt que d'écrire les nombres en dur."
+      "points": 0
     },
     {
       "id": "M06-L01-08",
-      "consigne": "L'addition n'est pas seule. En **B4**, ==saisissez `=B1*10`== pour multiplier le contenu de B1 par 10. L'astérisque est le signe de la multiplication.",
+      "consigne": "Dernière méthode utile : construire une formule ==en cliquant sur les cellules== plutôt qu'en tapant leurs adresses. Commencez par ==sélectionner la cellule **D4**==.",
+      "action": {
+        "type": "CLICK_CELL",
+        "cell": "D4"
+      },
+      "aide": {
+        "text": "Cliquez simplement dans D4.",
+        "showTarget": true
+      }
+    },
+    {
+      "id": "M06-L01-09",
+      "consigne": "Tapez `=`, puis ==cliquez sur **B1**==, tapez `*`, ==cliquez sur **B2**== et validez. Excel insère les références à votre place — c'est plus rapide et on se trompe moins d'adresse.",
       "setup": {
-        "selection": "B4"
+        "selection": "D4"
       },
       "action": {
         "type": "TYPE",
-        "target": "B4",
+        "target": "D4",
         "accept": [
-          "=B1*10",
-          "=10*B1"
+          "=B1*B2",
+          "=B2*B1"
         ],
         "formulaMode": true
       },
       "aide": {
-        "text": "L'astérisque s'obtient avec la touche * du pavé numérique.",
+        "text": "Vous pouvez aussi taper les références directement : le résultat est le même.",
         "showTarget": true
       },
-      "feedback": "120. Vous disposez maintenant des deux opérateurs les plus utilisés."
+      "feedback": "300 €. Le pointage à la souris et la frappe donnent exactement la même formule."
     }
   ]
 }

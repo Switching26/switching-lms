@@ -1,79 +1,136 @@
 {
   "schemaVersion": 1,
-  "title": "Références relatives et absolues",
+  "title": "MOYENNE, MIN, MAX et NB",
   "mode": "LESSON",
   "moduleTitle": "Calculs simples",
   "intro": {
-    "title": "FIGER UNE CELLULE AVEC LE DOLLAR",
-    "body": "La recopie décale les références. C'est utile — sauf quand une cellule doit rester la même partout. Le signe dollar sert exactement à ça."
+    "title": "QUATRE FONCTIONS QUI RÉPONDENT À TOUT",
+    "body": "Après SOMME, voici les quatre fonctions qu'on utilise le plus au quotidien. Elles s'écrivent toutes de la même façon : un nom, une parenthèse, une plage."
   },
   "outro": {
-    "body": "Vous savez figer une référence. C'est la notion qui sépare ceux qui subissent le tableur de ceux qui le pilotent."
+    "body": "Avec SOMME, MOYENNE, MIN, MAX et NB, vous couvrez l'essentiel des besoins de calcul d'un tableau."
   },
   "ribbon": [
     "accueil"
   ],
   "workbook": {
-    "fileName": "Tarifs TTC",
+    "fileName": "Notes",
     "activeSheetIndex": 0,
     "selection": "A1",
     "sheets": [
       {
         "name": "Feuil1",
         "columnWidths": {
-          "A": 130
+          "A": 150
         },
         "cells": {
           "A1": {
-            "v": "Taux de TVA",
+            "v": "Stagiaire",
             "format": {
               "bold": true
             }
           },
           "B1": {
-            "v": 0.2
+            "v": "Module 1",
+            "format": {
+              "bold": true
+            }
+          },
+          "C1": {
+            "v": "Module 2",
+            "format": {
+              "bold": true
+            }
+          },
+          "D1": {
+            "v": "Module 3",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Boileau Sophie"
+          },
+          "B2": {
+            "v": 14
+          },
+          "C2": {
+            "v": 15
+          },
+          "D2": {
+            "v": 12
+          },
+          "A3": {
+            "v": "Dupont Daniel"
+          },
+          "B3": {
+            "v": 12
+          },
+          "C3": {
+            "v": 16
+          },
+          "D3": {
+            "v": 13
+          },
+          "A4": {
+            "v": "Guilbert Stéphane"
+          },
+          "B4": {
+            "v": 11
+          },
+          "C4": {
+            "v": 15
+          },
+          "D4": {
+            "v": 10
           },
           "A5": {
-            "v": "Article",
-            "format": {
-              "bold": true
-            }
+            "v": "Martin Antoine"
           },
           "B5": {
-            "v": "Prix HT",
-            "format": {
-              "bold": true
-            }
+            "v": 17
           },
           "C5": {
-            "v": "Prix TTC",
+            "v": 12
+          },
+          "D5": {
+            "v": 16
+          },
+          "A6": {
+            "v": "Vien Kevin"
+          },
+          "B6": {
+            "v": 6
+          },
+          "C6": {
+            "v": 9
+          },
+          "D6": {
+            "v": 8
+          },
+          "A8": {
+            "v": "Moyenne",
             "format": {
               "bold": true
             }
           },
-          "A6": {
-            "v": "Clavier"
-          },
-          "B6": {
-            "v": 45
-          },
-          "A7": {
-            "v": "Souris"
-          },
-          "B7": {
-            "v": 25
-          },
-          "A8": {
-            "v": "Écran"
-          },
-          "B8": {
-            "v": 180
-          },
           "A9": {
-            "v": "Casque"
+            "v": "Note la plus basse",
+            "format": {
+              "bold": true
+            }
           },
-          "B9": {
-            "v": 70
+          "A10": {
+            "v": "Note la plus haute",
+            "format": {
+              "bold": true
+            }
+          },
+          "A11": {
+            "v": "Nombre de notes",
+            "format": {
+              "bold": true
+            }
           }
         }
       }
@@ -81,136 +138,200 @@
   },
   "steps": [
     {
-      "id": "M06-L05-02",
-      "consigne": "Le taux de TVA est en **B1**, une seule fois — c'est la bonne pratique : un taux est une donnée, pas une constante à répéter dans chaque formule. En **C6**, ==calculez le prix TTC du clavier== : `=B6*(1+B1)`.",
+      "id": "M06-L05-01",
+      "consigne": "Cinq stagiaires, trois modules. En **B8**, ==calculez la moyenne du module 1== avec `=MOYENNE(B2:B6)`.",
       "setup": {
-        "selection": "C6"
+        "selection": "B8"
       },
       "action": {
         "type": "TYPE",
-        "target": "C6",
+        "target": "B8",
         "accept": [
-          "=B6*(1+B1)",
-          "=B6+B6*B1"
+          "=MOYENNE(B2:B6)"
         ],
         "formulaMode": true
       },
       "aide": {
-        "text": "Le prix TTC vaut le prix HT plus la TVA, donc HT × (1 + taux).",
+        "text": "MOYENNE s'écrit exactement comme SOMME : le nom, puis la plage entre parenthèses.",
         "showTarget": true
       },
-      "feedback": "54 €. Correct pour cette ligne. Recopions vers le bas."
+      "feedback": "12. MOYENNE additionne puis divise par le nombre de valeurs, sans que vous ayez à y penser."
+    },
+    {
+      "id": "M06-L05-02",
+      "consigne": "Point important : **MOYENNE ignore les cellules vides**, elle ne les compte pas comme des zéros. C'est ce qu'on veut : un stagiaire absent ne doit pas tirer la moyenne vers le bas.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
     },
     {
       "id": "M06-L05-03",
-      "consigne": "==Recopiez C6 jusqu'en C9== et regardez les résultats obtenus.",
-      "action": {
-        "type": "EXPECT_STATE",
-        "cells": {
-          "C7": {
-            "v": 25
-          },
-          "C8": {
-            "v": 180
-          },
-          "C9": {
-            "v": 70
-          }
-        }
-      },
-      "aide": {
-        "text": "Tirez la poignée de recopie de C6 jusqu'à C9."
-      },
-      "feedback": "Les prix TTC sont identiques aux prix HT. Quelque chose ne va pas."
-    },
-    {
-      "id": "M06-L05-04",
-      "consigne": "**C7 affiche 25**, soit exactement le prix hors taxes : aucune TVA n'a été ajoutée. ==Cliquez sur **C7**== et lisez sa formule dans la barre de formule.",
-      "action": {
-        "type": "CLICK_CELL",
-        "cell": "C7"
-      },
-      "aide": {
-        "text": "Cliquez dans C7.",
-        "showTarget": true
-      },
-      "feedback": "Excel a écrit =B7*(1+B2). Il a décalé les DEUX références — y compris celle du taux, qui pointe maintenant sur B2, une cellule vide."
-    },
-    {
-      "id": "M06-L05-05",
-      "consigne": "Voilà le piège. La référence au **prix** doit se décaler, celle du **taux** ne doit pas. Il faut donc pouvoir dire à Excel : « celle-là, tu n'y touches pas ».",
-      "action": {
-        "type": "READ"
-      },
-      "points": 0
-    },
-    {
-      "id": "M06-L05-06",
-      "consigne": "C'est le rôle du signe **dollar**. `$B$1` signifie « la cellule B1, quoi qu'il arrive ». On appelle ça une **référence absolue**. Corrigez **C6** : ==saisissez `=B6*(1+$B$1)`==.",
+      "consigne": "En **B9**, ==trouvez la note la plus basse== du module 1 avec `=MIN(B2:B6)`.",
       "setup": {
-        "selection": "C6"
+        "selection": "B9"
       },
       "action": {
         "type": "TYPE",
-        "target": "C6",
+        "target": "B9",
         "accept": [
-          "=B6*(1+$B$1)",
-          "=B6+B6*$B$1"
+          "=MIN(B2:B6)"
+        ],
+        "formulaMode": true
+      },
+      "feedback": "6, la note de Kevin."
+    },
+    {
+      "id": "M06-L05-04",
+      "consigne": "En **B10**, ==trouvez la note la plus haute== avec `=MAX(B2:B6)`.",
+      "setup": {
+        "selection": "B10"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B10",
+        "accept": [
+          "=MAX(B2:B6)"
+        ],
+        "formulaMode": true
+      },
+      "feedback": "17, celle d'Antoine."
+    },
+    {
+      "id": "M06-L05-05",
+      "consigne": "En **B11**, ==comptez combien de notes ont été saisies== avec `=NB(B2:B6)`.",
+      "setup": {
+        "selection": "B11"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B11",
+        "accept": [
+          "=NB(B2:B6)"
         ],
         "formulaMode": true
       },
       "aide": {
-        "text": "Le dollar se place devant la lettre de colonne et devant le numéro de ligne.",
+        "text": "NB compte les cellules contenant un NOMBRE.",
         "showTarget": true
       },
-      "feedback": "Toujours 54 € sur cette ligne — c'est à la recopie que tout se joue. Astuce : pendant la saisie, la touche F4 ajoute et retire les dollars en boucle, sans les taper à la main."
+      "feedback": "5. Attention : NB ne compte que les nombres, pas le texte."
     },
     {
-      "id": "M06-L05-07",
-      "consigne": "==Recopiez de nouveau C6 jusqu'en C9==.",
-      "action": {
-        "type": "EXPECT_STATE",
-        "cells": {
-          "C7": {
-            "v": 30
-          },
-          "C8": {
-            "v": 216
-          },
-          "C9": {
-            "v": 84
-          }
-        }
-      },
-      "aide": {
-        "text": "Même geste que tout à l'heure : la poignée de C6 jusqu'à C9."
-      },
-      "feedback": "30 €, 216 €, 84 € : la TVA est appliquée partout. Cliquez sur C9, sa formule est =B9*(1+$B$1) — le prix a suivi la ligne, le taux est resté sur B1. Une seule formule écrite, juste sur les quatre lignes."
-    },
-    {
-      "id": "M06-L05-10",
-      "consigne": "Preuve par l'usage : changez le taux. En **B1**, ==saisissez `0,1`== pour passer à 10 %.",
-      "setup": {
-        "selection": "B1"
-      },
-      "action": {
-        "type": "TYPE",
-        "target": "B1",
-        "accept": [
-          "0,1",
-          "0.1",
-          "10%"
-        ]
-      },
-      "feedback": "Les quatre prix TTC se recalculent d'un coup. Voilà le bénéfice réel : un taux, un seul endroit à modifier."
-    },
-    {
-      "id": "M06-L05-11",
-      "consigne": "Retenez la règle simple : **une valeur de référence utilisée par plusieurs formules doit être figée avec des dollars**. Taux, coefficient, seuil, objectif. Si vous recopiez et que les résultats deviennent absurdes, c'est presque toujours un dollar oublié.",
+      "id": "M06-L05-06",
+      "consigne": "Nuance à connaître : **NB** compte les nombres, **NBVAL** compte toutes les cellules non vides, texte compris. Si vous obtenez un compte plus faible qu'attendu, c'est souvent que des nombres ont été saisis comme du texte.",
       "action": {
         "type": "READ"
       },
       "points": 0
+    },
+    {
+      "id": "M06-L05-07",
+      "consigne": "Vous avez maintenant quatre formules en colonne B. ==Recopiez d'un coup la plage B8:B11 vers les colonnes C et D==, jusqu'en D11.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "C8": {
+            "anyOf": [
+              "=MOYENNE(C2:C6)"
+            ],
+            "v": 13.4
+          },
+          "D8": {
+            "anyOf": [
+              "=MOYENNE(D2:D6)"
+            ],
+            "v": 11.8
+          },
+          "C9": {
+            "anyOf": [
+              "=MIN(C2:C6)"
+            ],
+            "v": 9
+          },
+          "D10": {
+            "anyOf": [
+              "=MAX(D2:D6)"
+            ],
+            "v": 16
+          },
+          "D11": {
+            "anyOf": [
+              "=NB(D2:D6)"
+            ],
+            "v": 5
+          }
+        }
+      },
+      "aide": {
+        "text": "Sélectionnez B8:B11, puis tirez la poignée de recopie vers la droite jusqu'à la colonne D."
+      },
+      "feedback": "Douze formules obtenues en un seul geste. Les trois modules sont analysés."
+    },
+    {
+      "id": "M06-L05-08",
+      "consigne": "Un piège fréquent avec MOYENNE. En **F2**, ==calculez la moyenne générale de Sophie== sur ses trois modules.",
+      "setup": {
+        "selection": "F2",
+        "cells": {
+          "E1": {
+            "v": "Moyenne élève",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "F2",
+        "accept": [
+          "=MOYENNE(B2:D2)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "La plage à moyenner est horizontale cette fois : de B2 à D2.",
+        "showTarget": true
+      },
+      "feedback": "13,67. Si vous avez été tenté d'écrire B2:E2, vous auriez inclus une colonne parasite."
+    },
+    {
+      "id": "M06-L05-09",
+      "consigne": "C'est le piège : quand Excel propose une plage automatiquement, **vérifiez toujours ses bornes**. Il inclut volontiers une colonne de total ou une cellule d'en-tête, et le résultat devient faux sans le moindre message d'erreur.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
+    },
+    {
+      "id": "M06-L05-10",
+      "consigne": "Terminez : ==recopiez F2 jusqu'en F6== pour obtenir la moyenne de chaque stagiaire.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "F3": {
+            "anyOf": [
+              "=MOYENNE(B3:D3)"
+            ]
+          },
+          "F5": {
+            "anyOf": [
+              "=MOYENNE(B5:D5)"
+            ],
+            "v": 15
+          },
+          "F6": {
+            "anyOf": [
+              "=MOYENNE(B6:D6)"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Poignée de recopie de F2 vers le bas, jusqu'à F6."
+      },
+      "feedback": "Le tableau est complet : moyennes par module, par stagiaire, et les extrêmes."
     }
   ]
 }

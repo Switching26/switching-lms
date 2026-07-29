@@ -1,397 +1,259 @@
 {
- "schemaVersion": 1,
- "title": "Totaliser plusieurs feuilles d'un coup",
- "mode": "LESSON",
- "moduleTitle": "Gestion des feuilles et liaisons entre feuilles",
- "intro": {
-  "title": "QUATRE TRIMESTRES, UNE SYNTHÈSE",
-  "body": "Quatre feuilles trimestrielles bâties exactement de la même façon, et une feuille Année à remplir. Recopier les chiffres à la main, c'est se condamner à le refaire au prochain arrêté. On va la remplir par des liaisons."
- },
- "outro": {
-  "body": "Vous savez consolider des feuilles de structure identique par des références entre feuilles, et la synthèse se met à jour toute seule. C'est exactement ce que le groupement d'onglets d'Excel permet d'écrire en une fois."
- },
- "ribbon": [
-  "accueil"
- ],
- "statusBar": {
-  "aggregates": [
-   "moyenne",
-   "nb-non-vides",
-   "somme"
+  "schemaVersion": 1,
+  "title": "Références entre feuilles",
+  "mode": "LESSON",
+  "moduleTitle": "Gestion des feuilles et liaisons entre feuilles",
+  "intro": {
+    "title": "CALCULER D'UNE FEUILLE À L'AUTRE",
+    "body": "Une formule n'est pas prisonnière de sa feuille. Elle peut aller chercher une valeur ailleurs dans le classeur — c'est ce qui permet de séparer données et synthèse."
+  },
+  "outro": {
+    "body": "Vous savez bâtir une feuille de synthèse qui se met à jour toute seule."
+  },
+  "ribbon": [
+    "accueil"
   ],
-  "sheetCount": 5
- },
- "workbook": {
-  "fileName": "Consolidation annuelle",
-  "activeSheetIndex": 4,
-  "selection": "B3",
-  "sheets": [
-   {
-    "name": "T1",
-    "columnWidths": {
-     "A": 175,
-     "B": 120
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ],
+    "sheetCount": 3
+  },
+  "workbook": {
+    "fileName": "Bilan annuel",
+    "activeSheetIndex": 2,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Ventes",
+        "columnWidths": {
+          "A": 120
+        },
+        "cells": {
+          "A1": {
+            "v": "Agence",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "CA",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Nord"
+          },
+          "B2": {
+            "v": 120000
+          },
+          "A3": {
+            "v": "Sud"
+          },
+          "B3": {
+            "v": 95000
+          },
+          "A4": {
+            "v": "Est"
+          },
+          "B4": {
+            "v": 76000
+          },
+          "A6": {
+            "v": "TOTAL",
+            "format": {
+              "bold": true
+            }
+          },
+          "B6": {
+            "f": "=SOMME(B2:B4)"
+          }
+        }
+      },
+      {
+        "name": "Charges",
+        "columnWidths": {
+          "A": 120
+        },
+        "cells": {
+          "A1": {
+            "v": "Poste",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Montant",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Salaires"
+          },
+          "B2": {
+            "v": 180000
+          },
+          "A3": {
+            "v": "Loyers"
+          },
+          "B3": {
+            "v": 42000
+          },
+          "A4": {
+            "v": "Divers"
+          },
+          "B4": {
+            "v": 18000
+          },
+          "A6": {
+            "v": "TOTAL",
+            "format": {
+              "bold": true
+            }
+          },
+          "B6": {
+            "f": "=SOMME(B2:B4)"
+          }
+        }
+      },
+      {
+        "name": "Synthèse",
+        "columnWidths": {
+          "A": 150
+        },
+        "cells": {
+          "A1": {
+            "v": "SYNTHÈSE ANNUELLE",
+            "format": {
+              "bold": true
+            }
+          },
+          "A3": {
+            "v": "Chiffre d'affaires",
+            "format": {
+              "bold": true
+            }
+          },
+          "A4": {
+            "v": "Charges",
+            "format": {
+              "bold": true
+            }
+          },
+          "A5": {
+            "v": "Résultat",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M15-L03-01",
+      "consigne": "Trois feuilles : les ventes, les charges, et cette **Synthèse** vide. On va la remplir **sans recopier un seul chiffre**. En **B3**, ==saisissez `=Ventes!B6`==.",
+      "setup": {
+        "selection": "B3"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B3",
+        "accept": [
+          "=Ventes!B6"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Le nom de la feuille, un point d'exclamation, puis la cellule.",
+        "showTarget": true
+      },
+      "feedback": "291 000 €, récupéré depuis la feuille Ventes. Le point d'exclamation sépare la feuille de la cellule."
     },
-    "cells": {
-     "A1": {
-      "v": "CHIFFRE D'AFFAIRES — T1",
-      "format": {
-       "bold": true
-      }
-     },
-     "A6": {
-      "v": "Total",
-      "format": {
-       "bold": true
-      }
-     },
-     "B6": {
-      "f": "=SOMME(B2:B4)"
-     },
-     "A2": {
-      "v": "Nord"
-     },
-     "A3": {
-      "v": "Sud"
-     },
-     "A4": {
-      "v": "Ouest"
-     },
-     "B2": {
-      "v": 42000
-     },
-     "B3": {
-      "v": 38500
-     },
-     "B4": {
-      "v": 29800
-     }
-    }
-   },
-   {
-    "name": "T2",
-    "columnWidths": {
-     "A": 175,
-     "B": 120
+    {
+      "id": "M15-L03-02",
+      "consigne": "En **B4**, ==récupérez le total des charges== de la même façon.",
+      "setup": {
+        "selection": "B4"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B4",
+        "accept": [
+          "=Charges!B6"
+        ],
+        "formulaMode": true
+      },
+      "feedback": "240 000 €."
     },
-    "cells": {
-     "A1": {
-      "v": "CHIFFRE D'AFFAIRES — T2",
-      "format": {
-       "bold": true
-      }
-     },
-     "A6": {
-      "v": "Total",
-      "format": {
-       "bold": true
-      }
-     },
-     "B6": {
-      "f": "=SOMME(B2:B4)"
-     },
-     "A2": {
-      "v": "Nord"
-     },
-     "A3": {
-      "v": "Sud"
-     },
-     "A4": {
-      "v": "Ouest"
-     },
-     "B2": {
-      "v": 45500
-     },
-     "B3": {
-      "v": 36200
-     },
-     "B4": {
-      "v": 31400
-     }
-    }
-   },
-   {
-    "name": "T3",
-    "columnWidths": {
-     "A": 175,
-     "B": 120
+    {
+      "id": "M15-L03-03",
+      "consigne": "En **B5**, ==calculez le résultat== : le chiffre d'affaires moins les charges.",
+      "setup": {
+        "selection": "B5"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B5",
+        "accept": [
+          "=B3-B4"
+        ],
+        "formulaMode": true
+      },
+      "feedback": "51 000 € de résultat. Votre synthèse est vivante : modifiez une vente et elle suit."
     },
-    "cells": {
-     "A1": {
-      "v": "CHIFFRE D'AFFAIRES — T3",
-      "format": {
-       "bold": true
+    {
+      "id": "M15-L03-04",
+      "consigne": "Prouvons-le. ==Allez sur l'onglet **Ventes**==.",
+      "action": {
+        "type": "SELECT_SHEET",
+        "name": "Ventes"
+      },
+      "aide": {
+        "text": "Premier onglet en bas.",
+        "showTarget": true
       }
-     },
-     "A6": {
-      "v": "Total",
-      "format": {
-       "bold": true
-      }
-     },
-     "B6": {
-      "f": "=SOMME(B2:B4)"
-     },
-     "A2": {
-      "v": "Nord"
-     },
-     "A3": {
-      "v": "Sud"
-     },
-     "A4": {
-      "v": "Ouest"
-     },
-     "B2": {
-      "v": 39800
-     },
-     "B3": {
-      "v": 41300
-     },
-     "B4": {
-      "v": 27600
-     }
-    }
-   },
-   {
-    "name": "T4",
-    "columnWidths": {
-     "A": 175,
-     "B": 120
     },
-    "cells": {
-     "A1": {
-      "v": "CHIFFRE D'AFFAIRES — T4",
-      "format": {
-       "bold": true
-      }
-     },
-     "A6": {
-      "v": "Total",
-      "format": {
-       "bold": true
-      }
-     },
-     "B6": {
-      "f": "=SOMME(B2:B4)"
-     },
-     "A2": {
-      "v": "Nord"
-     },
-     "A3": {
-      "v": "Sud"
-     },
-     "A4": {
-      "v": "Ouest"
-     },
-     "B2": {
-      "v": 48200
-     },
-     "B3": {
-      "v": 44100
-     },
-     "B4": {
-      "v": 33500
-     }
-    }
-   },
-   {
-    "name": "Année",
-    "columnWidths": {
-     "A": 185,
-     "B": 130
+    {
+      "id": "M15-L03-05",
+      "consigne": "L'agence Est a mieux fait que prévu. En **B4**, ==corrigez à `90000`==.",
+      "setup": {
+        "selection": "B4"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B4",
+        "accept": [
+          "90000"
+        ]
+      },
+      "feedback": "Le total de la feuille passe à 305 000 €."
     },
-    "cells": {
-     "A1": {
-      "v": "CONSOLIDATION ANNUELLE 2026",
-      "format": {
-       "bold": true
-      }
-     },
-     "A7": {
-      "v": "Total année",
-      "format": {
-       "bold": true
-      }
-     },
-     "A9": {
-      "v": "Meilleur trimestre",
-      "format": {
-       "bold": true
-      }
-     },
-     "A10": {
-      "v": "Moyenne trimestrielle",
-      "format": {
-       "bold": true
-      }
-     },
-     "A2": {
-      "v": "Agence",
-      "format": {
-       "bold": true
-      }
-     },
-     "B2": {
-      "v": "CA annuel",
-      "format": {
-       "bold": true
-      }
-     },
-     "A3": {
-      "v": "Nord"
-     },
-     "A4": {
-      "v": "Sud"
-     },
-     "A5": {
-      "v": "Ouest"
-     }
+    {
+      "id": "M15-L03-06",
+      "consigne": "==Retournez sur **Synthèse**== et regardez le résultat.",
+      "action": {
+        "type": "SELECT_SHEET",
+        "name": "Synthèse"
+      },
+      "aide": {
+        "text": "Le troisième onglet.",
+        "showTarget": true
+      },
+      "feedback": "Le résultat est passé de 51 000 à 65 000 € tout seul. Vous n'avez touché qu'une cellule, dans une autre feuille."
+    },
+    {
+      "id": "M15-L03-07",
+      "consigne": "Une précaution : si le nom d'une feuille contient un **espace**, il faut l'encadrer d'apostrophes — `='Ventes 2026'!B6`. Excel le fait pour vous quand vous construisez la formule en cliquant, ce qui est une bonne raison de procéder ainsi.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0
     }
-   }
   ]
- },
- "steps": [
-  {
-   "id": "M15-L03-01",
-   "consigne": "Cinq onglets en bas : **T1**, **T2**, **T3**, **T4** et **Année**. Les quatre premiers ont la même structure — trois agences, un total en B6. La feuille Année, où nous sommes, attend ses chiffres. Une référence à une autre feuille s'écrit **nom de la feuille**, un point d'exclamation, puis la cellule.",
-   "action": {
-    "type": "READ"
-   },
-   "points": 0
-  },
-  {
-   "id": "M15-L03-02",
-   "consigne": "En **B3**, ==additionnez les quatre trimestres de l'agence Nord== : `=T1!B2+T2!B2+T3!B2+T4!B2`.",
-   "setup": {
-    "selection": "B3"
-   },
-   "action": {
-    "type": "TYPE",
-    "target": "B3",
-    "accept": [
-     "=T1!B2+T2!B2+T3!B2+T4!B2",
-     "=SOMME(T1!B2;T2!B2;T3!B2;T4!B2)"
-    ],
-    "formulaMode": true
-   },
-   "aide": {
-    "text": "Chaque feuille porte le Nord en B2 : c'est ce qui rend la consolidation possible.",
-    "showTarget": true
-   },
-   "feedback": "175500 € pour le Nord sur l'année. Aucun chiffre n'a été recopié : si un trimestre est corrigé, cette cellule suivra."
-  },
-  {
-   "id": "M15-L03-03",
-   "consigne": "==Recopiez **B3** jusqu'en B5== pour les deux autres agences.",
-   "action": {
-    "type": "EXPECT_STATE",
-    "cells": {
-     "B4": {
-      "anyOf": [
-       "=T1!B3+T2!B3+T3!B3+T4!B3",
-       "=SOMME(T1!B3;T2!B3;T3!B3;T4!B3)"
-      ],
-      "v": 160100
-     },
-     "B5": {
-      "anyOf": [
-       "=T1!B4+T2!B4+T3!B4+T4!B4",
-       "=SOMME(T1!B4;T2!B4;T3!B4;T4!B4)"
-      ],
-      "v": 122300
-     }
-    }
-   },
-   "aide": {
-    "text": "Poignée de recopie vers le bas : les références de ligne se décalent, les noms de feuille ne bougent pas."
-   },
-   "feedback": "La recopie a fait glisser B2 en B3 puis B4 sur les quatre feuilles à la fois. C'est là que la structure identique paie."
-  },
-  {
-   "id": "M15-L03-04",
-   "consigne": "En **B7**, ==totalisez l'année==.",
-   "setup": {
-    "selection": "B7"
-   },
-   "action": {
-    "type": "TYPE",
-    "target": "B7",
-    "accept": [
-     "=SOMME(B3:B5)",
-     "=B3+B4+B5"
-    ],
-    "formulaMode": true
-   },
-   "feedback": "457900 €. Ce total doit être égal à la somme des quatre totaux trimestriels : c'est le contrôle qui prouve qu'aucune agence n'a été oubliée."
-  },
-  {
-   "id": "M15-L03-05",
-   "consigne": "Allons le vérifier. ==Cliquez sur l'onglet **T4**== et regardez son total en B6.",
-   "action": {
-    "type": "SELECT_SHEET",
-    "name": "T4"
-   },
-   "aide": {
-    "text": "Les onglets sont en bas de la fenêtre.",
-    "showTarget": true
-   },
-   "feedback": "125800 € pour le quatrième trimestre, calculé par la feuille elle-même."
-  },
-  {
-   "id": "M15-L03-06",
-   "consigne": "==Revenez sur l'onglet **Année**==.",
-   "action": {
-    "type": "SELECT_SHEET",
-    "name": "Année"
-   },
-   "aide": {
-    "text": "Le dernier onglet.",
-    "showTarget": true
-   }
-  },
-  {
-   "id": "M15-L03-07",
-   "consigne": "En **B9**, ==affichez le meilleur trimestre== en comparant les quatre totaux : `=MAX(T1!B6;T2!B6;T3!B6;T4!B6)`.",
-   "setup": {
-    "selection": "B9"
-   },
-   "action": {
-    "type": "TYPE",
-    "target": "B9",
-    "accept": [
-     "=MAX(T1!B6;T2!B6;T3!B6;T4!B6)"
-    ],
-    "formulaMode": true
-   },
-   "aide": {
-    "text": "Une fonction peut recevoir des cellules venues de plusieurs feuilles.",
-    "showTarget": true
-   },
-   "feedback": "125800 €, le quatrième trimestre."
-  },
-  {
-   "id": "M15-L03-08",
-   "consigne": "En **B10**, ==calculez la moyenne trimestrielle==, de la même façon.",
-   "setup": {
-    "selection": "B10"
-   },
-   "action": {
-    "type": "TYPE",
-    "target": "B10",
-    "accept": [
-     "=MOYENNE(T1!B6;T2!B6;T3!B6;T4!B6)"
-    ],
-    "formulaMode": true
-   },
-   "feedback": "114475.0 € par trimestre en moyenne."
-  },
-  {
-   "id": "M15-L03-09",
-   "consigne": "Deux points pour finir. Excel permet de **grouper des feuilles** — clic sur le premier onglet, Maj+clic sur le dernier — et tout ce que vous tapez alors s'écrit **en même temps sur toutes les feuilles du groupe** : c'est ainsi qu'on pose la même formule de total sur quatre trimestres d'un seul geste. Le piège est de l'oublier : tant que le groupe est actif, chaque saisie se propage. On dégroupe en cliquant sur un onglet hors du groupe. Et pour que tout cela fonctionne, les feuilles doivent être **bâties à l'identique** — c'est la vraie raison de standardiser ses modèles.",
-   "action": {
-    "type": "READ"
-   },
-   "points": 0
-  }
- ]
 }

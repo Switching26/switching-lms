@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
-  "title": "Démarrer Excel et quitter proprement",
+  "title": "La feuille de calcul",
   "mode": "LESSON",
   "moduleTitle": "Prise en main",
   "intro": {
-    "title": "OUVRIR, TRAVAILLER, QUITTER",
-    "body": "Excel n'est pas encore lancé : vous partez du bureau, comme chaque matin. Un classeur commence toujours par une grille vide et un nom provisoire. Savoir ce qui se passe au démarrage et à la fermeture évite la seule perte vraiment irréparable : celle d'un travail jamais enregistré."
+    "title": "COMPRENDRE LA GRILLE",
+    "body": "Avant toute formule, il faut savoir lire une feuille de calcul : des colonnes, des lignes, et à leur croisement des cellules qui portent chacune une adresse unique."
   },
   "outro": {
-    "body": "Vous savez lancer Excel, créer un classeur, l'enregistrer sous le nom de votre choix et le fermer — avec le fichier posé sur le bureau pour le prouver."
+    "body": "Vous savez lire une adresse de cellule et distinguer ce qu'une cellule contient de ce qu'elle affiche."
   },
   "ribbon": [
     "accueil"
@@ -22,382 +22,169 @@
     "sheetCount": 1
   },
   "workbook": {
-    "fileName": "Classeur1",
+    "fileName": "Bilan ventes",
     "activeSheetIndex": 0,
     "selection": "A1",
     "sheets": [
       {
         "name": "Feuil1",
         "columnWidths": {
-          "A": 130
+          "A": 110
         },
-        "cells": {}
+        "cells": {
+          "A1": {
+            "v": "Boutique",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Janvier",
+            "format": {
+              "bold": true
+            }
+          },
+          "C1": {
+            "v": "Février",
+            "format": {
+              "bold": true
+            }
+          },
+          "D1": {
+            "v": "Mars",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Paris"
+          },
+          "B2": {
+            "v": 12800
+          },
+          "C2": {
+            "v": 14200
+          },
+          "D2": {
+            "v": 13100
+          },
+          "A3": {
+            "v": "Lyon"
+          },
+          "B3": {
+            "v": 8900
+          },
+          "C3": {
+            "v": 9400
+          },
+          "D3": {
+            "v": 10200
+          },
+          "A4": {
+            "v": "Marseille"
+          },
+          "B4": {
+            "v": 7600
+          },
+          "C4": {
+            "v": 8100
+          },
+          "D4": {
+            "v": 7900
+          }
+        }
       }
     ]
   },
   "steps": [
     {
       "id": "M01-L03-01",
-      "consigne": "Excel n'est pas encore ouvert. Tout part du **menu Démarrer**, en bas à gauche de l'écran. ==Cliquez dessus== pour voir vos applications.",
-      "setup": {
-        "poste": {
-          "excel": "ferme",
-          "menu": false,
-          "boite": "aucune"
-        }
-      },
+      "consigne": "Une feuille de calcul est un tableau. Les **colonnes** portent des lettres, les **lignes** des numéros. À leur croisement, une **cellule**. ==Cliquez sur la cellule **B2**== et regardez la zone à gauche de la barre de formule.",
       "action": {
-        "type": "EXPECT_POSTE",
-        "poste": {
-          "menu": true
-        }
+        "type": "CLICK_CELL",
+        "cell": "B2"
       },
       "aide": {
-        "text": "Le bouton ⊞ tout à gauche de la barre du bas.",
+        "text": "Colonne B, ligne 2 : cliquez à l'intersection.",
         "showTarget": true
-      }
+      },
+      "feedback": "La zone Nom affiche B2 : c'est l'adresse de la cellule active. On dit aussi sa « référence »."
     },
     {
       "id": "M01-L03-02",
-      "consigne": "Vos applications sont là. ==Cliquez sur **Excel**==.",
-      "setup": {
-        "poste": {
-          "excel": "ferme",
-          "menu": true,
-          "boite": "aucune"
-        }
-      },
+      "consigne": "L'adresse se lit **toujours** colonne puis ligne. ==Cliquez sur **C3**== : la colonne C, la troisième ligne.",
       "action": {
-        "type": "EXPECT_POSTE",
-        "poste": {
-          "excel": "accueil"
-        }
+        "type": "CLICK_CELL",
+        "cell": "C3"
       },
       "aide": {
-        "text": "La tuile Excel, dans le menu qui vient de s'ouvrir.",
+        "text": "Troisième colonne, troisième ligne.",
         "showTarget": true
       },
-      "feedback": "Excel s'ouvre sur son **écran d'accueil** : les modèles en haut, les fichiers récents à gauche. Il ne travaille pas encore — il attend de savoir sur quoi."
+      "feedback": "C3 contient 9 400 — le chiffre de Lyon en février."
     },
     {
       "id": "M01-L03-03",
-      "consigne": "Vous partez d'une page blanche. ==Cliquez sur **Nouveau classeur**==.",
-      "setup": {
-        "poste": {
-          "excel": "accueil",
-          "menu": false,
-          "boite": "aucune"
-        }
-      },
+      "consigne": "Cette adresse est ce que vous écrirez dans vos formules. C'est pour ça qu'il faut la lire d'un coup d'œil : `B2` n'est pas `2B`, et se tromper de ligne fausse tout le calcul.",
       "action": {
-        "type": "EXPECT_POSTE",
-        "poste": {
-          "excel": "classeur"
-        }
+        "type": "READ"
       },
-      "aide": {
-        "text": "La première vignette, celle qui est vide.",
-        "showTarget": true
-      },
-      "feedback": "La grille apparaît. Regardez la **barre de titre** : `Classeur1`. Ce n'est pas un nom, c'est un numéro provisoire — ce classeur n'existe encore nulle part sur le disque."
+      "points": 0
     },
     {
       "id": "M01-L03-04",
-      "consigne": "Le classeur est vierge : tout part de vous. En **A1**, ==saisissez `Relevé d'heures mars 2026`==.",
-      "setup": {
-        "selection": "A1",
-        "poste": {
-          "excel": "classeur",
-          "boite": "aucune"
-        }
-      },
+      "consigne": "La **barre de formule**, en haut, montre ce que la cellule contient réellement. ==Cliquez sur **A2**== et comparez ce que vous voyez dans la cellule et dans la barre.",
       "action": {
-        "type": "TYPE",
-        "target": "A1",
-        "accept": [
-          "Relevé d'heures mars 2026",
-          "Releve d'heures mars 2026"
-        ]
+        "type": "CLICK_CELL",
+        "cell": "A2"
       },
       "aide": {
-        "text": "Cliquez dans A1, tapez le titre, validez avec Entrée.",
+        "text": "Première colonne, deuxième ligne.",
         "showTarget": true
       },
-      "feedback": "Regardez la **barre de titre**, en haut : elle affiche encore `Classeur1`. Un classeur n'a pas de nom tant qu'il n'a pas été enregistré."
+      "feedback": "Pour du texte simple, les deux sont identiques. La différence apparaîtra dès qu'il y aura une formule."
     },
     {
       "id": "M01-L03-05",
-      "consigne": "==Créez les deux en-têtes== : **Nom** en A3, **Heures** en B3.",
+      "consigne": "Vous pouvez écrire directement. En **A5**, ==saisissez `Bordeaux`== pour ajouter une quatrième boutique.",
       "setup": {
-        "selection": "A3",
-        "poste": {
-          "excel": "classeur",
-          "boite": "aucune"
-        }
+        "selection": "A5"
       },
       "action": {
-        "type": "EXPECT_STATE",
-        "cells": {
-          "A3": {
-            "v": "Nom"
-          },
-          "B3": {
-            "v": "Heures"
-          }
-        }
+        "type": "TYPE",
+        "target": "A5",
+        "accept": [
+          "Bordeaux"
+        ]
       },
       "aide": {
-        "text": "Deux cellules côte à côte. Tab passe de A3 à B3 sans lâcher le clavier."
+        "text": "Cliquez dans A5, tapez, puis validez avec Entrée.",
+        "showTarget": true
       },
-      "feedback": "Une ligne d'en-têtes rend le tableau lisible — et permettra plus tard à Excel de le reconnaître."
+      "feedback": "Le texte se cale à gauche de la cellule. Retenez-le : Excel aligne le texte à gauche et les nombres à droite."
     },
     {
       "id": "M01-L03-06",
-      "consigne": "Les en-têtes sont sélectionnés. ==Cliquez sur **G**== pour les mettre en gras.",
+      "consigne": "En **B5**, ==saisissez `9500`== et observez l'alignement.",
       "setup": {
-        "selection": "A3:B3",
-        "poste": {
-          "excel": "classeur",
-          "boite": "aucune"
-        }
+        "selection": "B5"
       },
       "action": {
-        "type": "CLICK_CONTROL",
-        "control": "acc-gras"
+        "type": "TYPE",
+        "target": "B5",
+        "accept": [
+          "9500"
+        ]
       },
-      "aide": {
-        "text": "Le bouton G du groupe Police.",
-        "showTarget": true
-      }
+      "feedback": "9 500 se cale à droite : Excel l'a bien compris comme un nombre, pas comme du texte. C'est votre premier contrôle qualité."
     },
     {
       "id": "M01-L03-07",
-      "consigne": "==Saisissez les trois relevés== : **Lemoine 35**, **Ravel 28**, **Nadaud 32**, à partir de la ligne 4.",
-      "setup": {
-        "selection": "A4",
-        "poste": {
-          "excel": "classeur",
-          "boite": "aucune"
-        }
-      },
-      "action": {
-        "type": "EXPECT_STATE",
-        "cells": {
-          "A4": {
-            "v": "Lemoine"
-          },
-          "B4": {
-            "v": 35
-          },
-          "A5": {
-            "v": "Ravel"
-          },
-          "B5": {
-            "v": 28
-          },
-          "A6": {
-            "v": "Nadaud"
-          },
-          "B6": {
-            "v": 32
-          }
-        }
-      },
-      "aide": {
-        "text": "Six cellules : les noms en colonne A, les heures en colonne B."
-      },
-      "feedback": "Les noms se calent à gauche, les heures à droite : Excel a bien distingué le texte du nombre."
-    },
-    {
-      "id": "M01-L03-08",
-      "consigne": "En **B8**, ==totalisez les heures== du mois.",
-      "setup": {
-        "selection": "B8",
-        "cells": {
-          "A8": {
-            "v": "Total",
-            "format": {
-              "bold": true
-            }
-          }
-        },
-        "poste": {
-          "excel": "classeur",
-          "boite": "aucune"
-        }
-      },
-      "action": {
-        "type": "TYPE",
-        "target": "B8",
-        "accept": [
-          "=SOMME(B4:B6)",
-          "=B4+B5+B6"
-        ],
-        "formulaMode": true
-      },
-      "aide": {
-        "text": "SOMME suivie de la plage des trois heures, entre parenthèses.",
-        "showTarget": true
-      },
-      "feedback": "95 heures."
-    },
-    {
-      "id": "M01-L03-09",
-      "consigne": "En **B9**, ==trouvez le relevé le plus élevé==.",
-      "setup": {
-        "selection": "B9",
-        "cells": {
-          "A9": {
-            "v": "Plus haut",
-            "format": {
-              "bold": true
-            }
-          }
-        },
-        "poste": {
-          "excel": "classeur",
-          "boite": "aucune"
-        }
-      },
-      "action": {
-        "type": "TYPE",
-        "target": "B9",
-        "accept": [
-          "=MAX(B4:B6)"
-        ],
-        "formulaMode": true
-      },
-      "aide": {
-        "text": "MAX renvoie la plus grande valeur d'une plage.",
-        "showTarget": true
-      },
-      "feedback": "35 heures, celles de Lemoine."
-    },
-    {
-      "id": "M01-L03-10",
-      "consigne": "En **B10**, ==trouvez le relevé le plus bas==.",
-      "setup": {
-        "selection": "B10",
-        "cells": {
-          "A10": {
-            "v": "Plus bas",
-            "format": {
-              "bold": true
-            }
-          }
-        },
-        "poste": {
-          "excel": "classeur",
-          "boite": "aucune"
-        }
-      },
-      "action": {
-        "type": "TYPE",
-        "target": "B10",
-        "accept": [
-          "=MIN(B4:B6)"
-        ],
-        "formulaMode": true
-      },
-      "aide": {
-        "text": "MIN est le pendant de MAX.",
-        "showTarget": true
-      },
-      "feedback": "28 heures. Le tableau est complet — et n'existe encore que dans la mémoire de l'ordinateur."
-    },
-    {
-      "id": "M01-L03-11",
-      "consigne": "Le tableau est complet — et n'existe encore que dans la mémoire de l'ordinateur. ==Cliquez sur **Enregistrer**==, dans le ruban. **Ctrl + S** fait la même chose.",
-      "setup": {
-        "poste": {
-          "excel": "classeur",
-          "boite": "aucune"
-        }
-      },
-      "action": {
-        "type": "EXPECT_POSTE",
-        "poste": {
-          "boite": "enregistrer"
-        }
-      },
-      "aide": {
-        "text": "Groupe Fichier, tout à gauche du ruban Accueil.",
-        "showTarget": true
-      },
-      "feedback": "Excel demande **où** et **sous quel nom**. Il ne le demandera qu'une fois : les enregistrements suivants écraseront celui-ci sans rien dire."
-    },
-    {
-      "id": "M01-L03-12",
-      "consigne": "==Nommez le fichier `Releve-heures-mars-2026`== et validez avec **Enregistrer**.",
-      "setup": {
-        "poste": {
-          "excel": "classeur",
-          "boite": "enregistrer"
-        }
-      },
-      "action": {
-        "type": "EXPECT_POSTE",
-        "poste": {
-          "classeur": "Releve-heures-mars-2026"
-        }
-      },
-      "aide": {
-        "text": "Effacez « Classeur1 », tapez le nom demandé, puis cliquez sur Enregistrer.",
-        "showTarget": true
-      },
-      "feedback": "La barre de titre a changé : `Releve-heures-mars-2026.xlsx`. Le classeur a un nom, un emplacement, et une existence en dehors d'Excel."
-    },
-    {
-      "id": "M01-L03-13",
-      "consigne": "Le travail est en sécurité. ==Fermez la fenêtre== avec la croix, en haut à droite.",
-      "setup": {
-        "poste": {
-          "excel": "classeur",
-          "boite": "aucune",
-          "classeur": "Releve-heures-mars-2026",
-          "modifie": false,
-          "fichiers": [
-            {
-              "nom": "Releve-heures-mars-2026",
-              "surBureau": true
-            }
-          ]
-        }
-      },
-      "action": {
-        "type": "EXPECT_POSTE",
-        "poste": {
-          "excel": "ferme"
-        }
-      },
-      "aide": {
-        "text": "Le ✕ de la barre verte, tout en haut à droite de la fenêtre.",
-        "showTarget": true
-      },
-      "feedback": "Excel se referme sans rien demander : il n'y avait plus rien à sauver. Et votre fichier est là, sur le bureau."
-    },
-    {
-      "id": "M01-L03-14",
-      "consigne": "Une dernière distinction. **Ctrl + W** ferme le classeur et laisse Excel ouvert ; la croix ou **Alt + F4** quitte l'application. Dans les deux cas, si des modifications n'ont pas été enregistrées, Excel demande avant de fermer — ne répondez « Ne pas enregistrer » qu'en sachant ce que vous perdez. Excel garde aussi une copie de secours toutes les dix minutes et la propose au redémarrage après une coupure : c'est un filet, pas une méthode.",
-      "setup": {
-        "poste": {
-          "excel": "ferme",
-          "boite": "aucune",
-          "fichiers": [
-            {
-              "nom": "Releve-heures-mars-2026",
-              "surBureau": true
-            }
-          ]
-        }
-      },
+      "consigne": "Cet alignement est un **indicateur précieux**. Si un nombre apparaît collé à gauche, c'est qu'Excel l'a pris pour du texte — et aucun calcul ne fonctionnera dessus.",
       "action": {
         "type": "READ"
       },
       "points": 0
     }
-  ],
-  "poste": {
-    "excelOuvert": false
-  }
+  ]
 }

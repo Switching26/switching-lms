@@ -1,136 +1,108 @@
 {
   "schemaVersion": 1,
-  "title": "MOYENNE, MIN, MAX et NB",
+  "title": "Calculer sans écrire de formule",
   "mode": "LESSON",
   "moduleTitle": "Calculs simples",
   "intro": {
-    "title": "QUATRE FONCTIONS QUI RÉPONDENT À TOUT",
-    "body": "Après SOMME, voici les quatre fonctions qu'on utilise le plus au quotidien. Elles s'écrivent toutes de la même façon : un nom, une parenthèse, une plage."
+    "title": "LA BARRE D'ÉTAT",
+    "body": "Parfois on veut juste connaître un total, sans le garder. Excel l'affiche en bas de la fenêtre dès qu'on sélectionne des nombres — beaucoup d'utilisateurs ne le savent pas."
   },
   "outro": {
-    "body": "Avec SOMME, MOYENNE, MIN, MAX et NB, vous couvrez l'essentiel des besoins de calcul d'un tableau."
+    "body": "Vous savez obtenir un total, une moyenne ou un comptage instantanément, sans toucher au classeur."
   },
   "ribbon": [
     "accueil"
   ],
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ],
+    "sheetCount": 1
+  },
   "workbook": {
-    "fileName": "Notes",
+    "fileName": "Chiffre d'affaires",
     "activeSheetIndex": 0,
     "selection": "A1",
     "sheets": [
       {
         "name": "Feuil1",
         "columnWidths": {
-          "A": 150
+          "A": 110
         },
         "cells": {
           "A1": {
-            "v": "Stagiaire",
+            "v": "Mois",
             "format": {
               "bold": true
             }
           },
           "B1": {
-            "v": "Module 1",
+            "v": "CA HT",
             "format": {
               "bold": true
             }
           },
           "C1": {
-            "v": "Module 2",
-            "format": {
-              "bold": true
-            }
-          },
-          "D1": {
-            "v": "Module 3",
+            "v": "CA TTC",
             "format": {
               "bold": true
             }
           },
           "A2": {
-            "v": "Boileau Sophie"
+            "v": "Janvier"
           },
           "B2": {
-            "v": 14
+            "v": 25500
           },
           "C2": {
-            "v": 15
-          },
-          "D2": {
-            "v": 12
+            "v": 30600
           },
           "A3": {
-            "v": "Dupont Daniel"
+            "v": "Février"
           },
           "B3": {
-            "v": 12
+            "v": 32000
           },
           "C3": {
-            "v": 16
-          },
-          "D3": {
-            "v": 13
+            "v": 38400
           },
           "A4": {
-            "v": "Guilbert Stéphane"
+            "v": "Mars"
           },
           "B4": {
-            "v": 11
+            "v": 41500
           },
           "C4": {
-            "v": 15
-          },
-          "D4": {
-            "v": 10
+            "v": 49800
           },
           "A5": {
-            "v": "Martin Antoine"
+            "v": "Avril"
           },
           "B5": {
-            "v": 17
+            "v": 35000
           },
           "C5": {
-            "v": 12
-          },
-          "D5": {
-            "v": 16
+            "v": 42000
           },
           "A6": {
-            "v": "Vien Kevin"
+            "v": "Mai"
           },
           "B6": {
-            "v": 6
+            "v": 48000
           },
           "C6": {
-            "v": 9
+            "v": 57600
           },
-          "D6": {
-            "v": 8
+          "A7": {
+            "v": "Juin"
           },
-          "A8": {
-            "v": "Moyenne",
-            "format": {
-              "bold": true
-            }
+          "B7": {
+            "v": 26000
           },
-          "A9": {
-            "v": "Note la plus basse",
-            "format": {
-              "bold": true
-            }
-          },
-          "A10": {
-            "v": "Note la plus haute",
-            "format": {
-              "bold": true
-            }
-          },
-          "A11": {
-            "v": "Nombre de notes",
-            "format": {
-              "bold": true
-            }
+          "C7": {
+            "v": 31200
           }
         }
       }
@@ -139,143 +111,38 @@
   "steps": [
     {
       "id": "M06-L06-01",
-      "consigne": "Cinq stagiaires, trois modules. En **B8**, ==calculez la moyenne du module 1== avec `=MOYENNE(B2:B6)`.",
-      "setup": {
-        "selection": "B8"
-      },
+      "consigne": "Six mois de chiffre d'affaires. Vous voulez le total du premier trimestre, juste pour le lire. ==Sélectionnez la plage **B2:B4**== en faisant glisser la souris.",
       "action": {
-        "type": "TYPE",
-        "target": "B8",
-        "accept": [
-          "=MOYENNE(B2:B6)"
-        ],
-        "formulaMode": true
+        "type": "DRAG_RANGE",
+        "range": "B2:B4"
       },
       "aide": {
-        "text": "MOYENNE s'écrit exactement comme SOMME : le nom, puis la plage entre parenthèses.",
+        "text": "Cliquez sur B2, maintenez le bouton et descendez jusqu'à B4.",
         "showTarget": true
       },
-      "feedback": "12. MOYENNE additionne puis divise par le nombre de valeurs, sans que vous ayez à y penser."
-    },
-    {
-      "id": "M06-L06-02",
-      "consigne": "Point important : **MOYENNE ignore les cellules vides**, elle ne les compte pas comme des zéros. C'est ce qu'on veut : un stagiaire absent ne doit pas tirer la moyenne vers le bas.",
-      "action": {
-        "type": "READ"
-      },
-      "points": 0
+      "feedback": "Regardez la bande grise en bas de la fenêtre : elle affiche « Somme : 99 000 », la moyenne et le nombre de cellules. Vous n'avez écrit AUCUNE formule et le classeur n'a pas bougé."
     },
     {
       "id": "M06-L06-03",
-      "consigne": "En **B9**, ==trouvez la note la plus basse== du module 1 avec `=MIN(B2:B6)`.",
-      "setup": {
-        "selection": "B9"
-      },
+      "consigne": "Essayez le second trimestre : ==sélectionnez **B5:B7**==.",
       "action": {
-        "type": "TYPE",
-        "target": "B9",
-        "accept": [
-          "=MIN(B2:B6)"
-        ],
-        "formulaMode": true
+        "type": "DRAG_RANGE",
+        "range": "B5:B7"
       },
-      "feedback": "6, la note de Kevin."
-    },
-    {
-      "id": "M06-L06-04",
-      "consigne": "En **B10**, ==trouvez la note la plus haute== avec `=MAX(B2:B6)`.",
-      "setup": {
-        "selection": "B10"
+      "aide": {
+        "text": "Même geste, de B5 à B7.",
+        "showTarget": true
       },
-      "action": {
-        "type": "TYPE",
-        "target": "B10",
-        "accept": [
-          "=MAX(B2:B6)"
-        ],
-        "formulaMode": true
-      },
-      "feedback": "17, celle d'Antoine."
+      "feedback": "109 000 € : le second trimestre dépasse le premier de 10 000 €. Cette lecture instantanée est idéale pour VÉRIFIER une formule — on compare les deux chiffres, et s'ils diffèrent, c'est la plage de la formule qui est mauvaise."
     },
     {
       "id": "M06-L06-05",
-      "consigne": "En **B11**, ==comptez combien de notes ont été saisies== avec `=NB(B2:B6)`.",
+      "consigne": "Mettons-le en pratique. En **B9**, ==totalisez les six mois== avec SOMME, puis on contrôlera avec la barre d'état.",
       "setup": {
-        "selection": "B11"
-      },
-      "action": {
-        "type": "TYPE",
-        "target": "B11",
-        "accept": [
-          "=NB(B2:B6)"
-        ],
-        "formulaMode": true
-      },
-      "aide": {
-        "text": "NB compte les cellules contenant un NOMBRE.",
-        "showTarget": true
-      },
-      "feedback": "5. Attention : NB ne compte que les nombres, pas le texte."
-    },
-    {
-      "id": "M06-L06-06",
-      "consigne": "Nuance à connaître : **NB** compte les nombres, **NBVAL** compte toutes les cellules non vides, texte compris. Si vous obtenez un compte plus faible qu'attendu, c'est souvent que des nombres ont été saisis comme du texte.",
-      "action": {
-        "type": "READ"
-      },
-      "points": 0
-    },
-    {
-      "id": "M06-L06-07",
-      "consigne": "Vous avez maintenant quatre formules en colonne B. ==Recopiez d'un coup la plage B8:B11 vers les colonnes C et D==, jusqu'en D11.",
-      "action": {
-        "type": "EXPECT_STATE",
+        "selection": "B9",
         "cells": {
-          "C8": {
-            "anyOf": [
-              "=MOYENNE(C2:C6)"
-            ],
-            "v": 13.4
-          },
-          "D8": {
-            "anyOf": [
-              "=MOYENNE(D2:D6)"
-            ],
-            "v": 11.8
-          },
-          "C9": {
-            "anyOf": [
-              "=MIN(C2:C6)"
-            ],
-            "v": 9
-          },
-          "D10": {
-            "anyOf": [
-              "=MAX(D2:D6)"
-            ],
-            "v": 16
-          },
-          "D11": {
-            "anyOf": [
-              "=NB(D2:D6)"
-            ],
-            "v": 5
-          }
-        }
-      },
-      "aide": {
-        "text": "Sélectionnez B8:B11, puis tirez la poignée de recopie vers la droite jusqu'à la colonne D."
-      },
-      "feedback": "Douze formules obtenues en un seul geste. Les trois modules sont analysés."
-    },
-    {
-      "id": "M06-L06-08",
-      "consigne": "Un piège fréquent avec MOYENNE. En **F2**, ==calculez la moyenne générale de Sophie== sur ses trois modules.",
-      "setup": {
-        "selection": "F2",
-        "cells": {
-          "E1": {
-            "v": "Moyenne élève",
+          "A9": {
+            "v": "Total HT",
             "format": {
               "bold": true
             }
@@ -284,54 +151,35 @@
       },
       "action": {
         "type": "TYPE",
-        "target": "F2",
+        "target": "B9",
         "accept": [
-          "=MOYENNE(B2:D2)"
+          "=SOMME(B2:B7)",
+          "=B2+B3+B4+B5+B6+B7"
         ],
         "formulaMode": true
       },
-      "aide": {
-        "text": "La plage à moyenner est horizontale cette fois : de B2 à D2.",
-        "showTarget": true
-      },
-      "feedback": "13,67. Si vous avez été tenté d'écrire B2:E2, vous auriez inclus une colonne parasite."
+      "feedback": "208 000 €."
     },
     {
-      "id": "M06-L06-09",
-      "consigne": "C'est le piège : quand Excel propose une plage automatiquement, **vérifiez toujours ses bornes**. Il inclut volontiers une colonne de total ou une cellule d'en-tête, et le résultat devient faux sans le moindre message d'erreur.",
+      "id": "M06-L06-06",
+      "consigne": "Contrôlez maintenant votre formule : ==sélectionnez **B2:B7**== et comparez le total affiché en bas avec le résultat de B9.",
+      "action": {
+        "type": "DRAG_RANGE",
+        "range": "B2:B7"
+      },
+      "aide": {
+        "text": "De B2 jusqu'à B7, sans inclure la cellule de total.",
+        "showTarget": true
+      },
+      "feedback": "208 000 € des deux côtés : votre formule couvre bien la bonne plage. Ce réflexe de contrôle vaut de l'or sur un grand tableau."
+    },
+    {
+      "id": "M06-L06-07",
+      "consigne": "Dernier point utile : la barre d'état fonctionne aussi sur une **sélection en plusieurs morceaux**. En maintenant **Ctrl** pendant les clics, on additionne des cellules qui ne se touchent pas — pratique pour comparer deux mois précis.",
       "action": {
         "type": "READ"
       },
       "points": 0
-    },
-    {
-      "id": "M06-L06-10",
-      "consigne": "Terminez : ==recopiez F2 jusqu'en F6== pour obtenir la moyenne de chaque stagiaire.",
-      "action": {
-        "type": "EXPECT_STATE",
-        "cells": {
-          "F3": {
-            "anyOf": [
-              "=MOYENNE(B3:D3)"
-            ]
-          },
-          "F5": {
-            "anyOf": [
-              "=MOYENNE(B5:D5)"
-            ],
-            "v": 15
-          },
-          "F6": {
-            "anyOf": [
-              "=MOYENNE(B6:D6)"
-            ]
-          }
-        }
-      },
-      "aide": {
-        "text": "Poignée de recopie de F2 vers le bas, jusqu'à F6."
-      },
-      "feedback": "Le tableau est complet : moyennes par module, par stagiaire, et les extrêmes."
     }
   ]
 }

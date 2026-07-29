@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
-  "title": "Naviguer entre les feuilles d'un classeur",
+  "title": "Sélectionner des cellules disjointes",
   "mode": "LESSON",
   "moduleTitle": "Sélectionner une cellule, une plage de cellules",
   "intro": {
-    "title": "UN CLASSEUR, PLUSIEURS FEUILLES",
-    "body": "Un classeur n'est pas une feuille : c'est un dossier de feuilles. Savoir passer de l'une à l'autre sans se perdre est le premier réflexe d'un fichier qui grossit."
+    "title": "CE QUI NE SE TOUCHE PAS",
+    "body": "Comparer janvier et décembre, additionner deux trimestres non voisins, colorer trois lignes éparpillées : il faut alors sélectionner des cellules qui ne se touchent pas. Excel sait le faire, à la souris comme dans une formule."
   },
   "outro": {
-    "body": "Vous savez passer d'une feuille à l'autre, en ajouter une, et repérer sur laquelle vous travaillez."
+    "body": "Vous savez sélectionner et additionner des cellules éparpillées, et vous connaissez le risque de la sélection au Ctrl + clic."
   },
   "ribbon": [
     "accueil"
@@ -19,22 +19,23 @@
       "nb-non-vides",
       "somme"
     ],
-    "sheetCount": 3
+    "sheetCount": 1
   },
   "workbook": {
-    "fileName": "CA-agences.xlsx",
+    "fileName": "CA-2026.xlsx",
     "activeSheetIndex": 0,
     "selection": "A1",
     "sheets": [
       {
-        "name": "Nord",
+        "name": "Année",
         "columnWidths": {
-          "A": 120,
-          "B": 150
+          "A": 110,
+          "B": 150,
+          "C": 190
         },
         "cells": {
           "A1": {
-            "v": "AGENCE NORD",
+            "v": "CHIFFRE D'AFFAIRES 2026",
             "format": {
               "bold": true
             }
@@ -55,109 +56,73 @@
             "v": "Janvier"
           },
           "B4": {
-            "v": 41200
+            "v": 18400
           },
           "A5": {
             "v": "Février"
           },
           "B5": {
-            "v": 38600
+            "v": 16250
           },
           "A6": {
             "v": "Mars"
           },
           "B6": {
-            "v": 44900
+            "v": 21300
+          },
+          "A7": {
+            "v": "Avril"
+          },
+          "B7": {
+            "v": 19750
           },
           "A8": {
-            "v": "TOTAL",
-            "format": {
-              "bold": true
-            }
+            "v": "Mai"
           },
           "B8": {
-            "f": "=SOMME(B4:B6)"
-          }
-        }
-      },
-      {
-        "name": "Sud",
-        "columnWidths": {
-          "A": 120,
-          "B": 150
-        },
-        "cells": {
-          "A1": {
-            "v": "AGENCE SUD",
-            "format": {
-              "bold": true
-            }
+            "v": 22100
           },
-          "A3": {
-            "v": "Mois",
-            "format": {
-              "bold": true
-            }
+          "A9": {
+            "v": "Juin"
           },
-          "B3": {
-            "v": "Chiffre d'affaires",
-            "format": {
-              "bold": true
-            }
+          "B9": {
+            "v": 24500
           },
-          "A4": {
-            "v": "Janvier"
+          "A10": {
+            "v": "Juillet"
           },
-          "B4": {
-            "v": 35800
+          "B10": {
+            "v": 15900
           },
-          "A5": {
-            "v": "Février"
+          "A11": {
+            "v": "Août"
           },
-          "B5": {
-            "v": 33200
+          "B11": {
+            "v": 9800
           },
-          "A6": {
-            "v": "Mars"
+          "A12": {
+            "v": "Septembre"
           },
-          "B6": {
-            "v": 39400
+          "B12": {
+            "v": 20450
           },
-          "A8": {
-            "v": "TOTAL",
-            "format": {
-              "bold": true
-            }
+          "A13": {
+            "v": "Octobre"
           },
-          "B8": {
-            "f": "=SOMME(B4:B6)"
-          }
-        }
-      },
-      {
-        "name": "Synthèse",
-        "columnWidths": {
-          "A": 160,
-          "B": 150
-        },
-        "cells": {
-          "A1": {
-            "v": "SYNTHÈSE TRIMESTRE 1",
-            "format": {
-              "bold": true
-            }
+          "B13": {
+            "v": 23600
           },
-          "A3": {
-            "v": "Agence Nord"
+          "A14": {
+            "v": "Novembre"
           },
-          "A4": {
-            "v": "Agence Sud"
+          "B14": {
+            "v": 25150
           },
-          "A6": {
-            "v": "TOTAL",
-            "format": {
-              "bold": true
-            }
+          "A15": {
+            "v": "Décembre"
+          },
+          "B15": {
+            "v": 28300
           }
         }
       }
@@ -166,7 +131,7 @@
   "steps": [
     {
       "id": "M03-L04-01",
-      "consigne": "En bas à gauche de la fenêtre, trois **onglets de feuille** : Nord, Sud, Synthèse. L'onglet de la feuille affichée est en blanc, les autres en gris. C'est le seul endroit qui vous dit où vous êtes.",
+      "consigne": "À la souris, on sélectionne des cellules éloignées en maintenant **Ctrl** pendant les clics : chaque clic **ajoute** à la sélection au lieu de la remplacer. La barre d'état totalise alors ces seules cellules. Le même principe s'écrit dans une formule, avec un **point-virgule** entre les zones — et c'est cette écriture que nous allons pratiquer, parce qu'elle se relit.",
       "action": {
         "type": "READ"
       },
@@ -174,135 +139,170 @@
     },
     {
       "id": "M03-L04-02",
-      "consigne": "==Cliquez sur l'onglet **Sud**== pour afficher cette feuille.",
-      "action": {
-        "type": "SELECT_SHEET",
-        "name": "Sud"
-      },
-      "aide": {
-        "text": "Le deuxième onglet, en bas à gauche.",
-        "showTarget": true
-      },
-      "feedback": "Une autre feuille, dans le même fichier. Le classeur n'a pas changé, seulement la feuille affichée."
-    },
-    {
-      "id": "M03-L04-03",
-      "consigne": "Relevez le total de cette agence. ==Cliquez sur **B8**== et notez le chiffre.",
-      "action": {
-        "type": "CLICK_CELL",
-        "cell": "B8"
-      },
-      "aide": {
-        "text": "La cellule du total, sous les trois mois.",
-        "showTarget": true
-      },
-      "feedback": "108 400 € pour l'agence Sud. Retenez-le, il va nous servir."
-    },
-    {
-      "id": "M03-L04-04",
-      "consigne": "==Revenez sur l'onglet **Nord**==.",
-      "action": {
-        "type": "SELECT_SHEET",
-        "name": "Nord"
-      },
-      "aide": {
-        "text": "Le premier onglet.",
-        "showTarget": true
-      }
-    },
-    {
-      "id": "M03-L04-05",
-      "consigne": "==Cliquez sur **B8**== pour relever le total de l'agence Nord.",
-      "action": {
-        "type": "CLICK_CELL",
-        "cell": "B8"
-      },
-      "aide": {
-        "text": "Même position que sur la feuille Sud : les feuilles d'un classeur ont souvent la même structure.",
-        "showTarget": true
-      },
-      "feedback": "124 700 € pour l'agence Nord."
-    },
-    {
-      "id": "M03-L04-06",
-      "consigne": "==Allez sur l'onglet **Synthèse**==, la feuille qui rassemble.",
-      "action": {
-        "type": "SELECT_SHEET",
-        "name": "Synthèse"
-      },
-      "aide": {
-        "text": "Le troisième onglet.",
-        "showTarget": true
-      }
-    },
-    {
-      "id": "M03-L04-07",
-      "consigne": "En **B3**, ==reportez le total de l'agence Nord==.",
+      "consigne": "Comparons les deux extrémités de l'année. En **D4**, ==additionnez janvier et décembre== : `=SOMME(B4;B15)`.",
       "setup": {
-        "selection": "B3"
+        "selection": "D4",
+        "cells": {
+          "C4": {
+            "v": "Janvier + Décembre",
+            "format": {
+              "bold": true
+            }
+          }
+        }
       },
       "action": {
         "type": "TYPE",
-        "target": "B3",
+        "target": "D4",
         "accept": [
-          "124700"
-        ]
-      },
-      "aide": {
-        "text": "Le chiffre relevé deux étapes plus tôt.",
-        "showTarget": true
-      }
-    },
-    {
-      "id": "M03-L04-08",
-      "consigne": "En **B4**, ==reportez le total de l'agence Sud==.",
-      "setup": {
-        "selection": "B4"
-      },
-      "action": {
-        "type": "TYPE",
-        "target": "B4",
-        "accept": [
-          "108400"
-        ]
-      },
-      "aide": {
-        "text": "Celui de la feuille Sud.",
-        "showTarget": true
-      }
-    },
-    {
-      "id": "M03-L04-09",
-      "consigne": "En **B6**, ==totalisez les deux agences==.",
-      "setup": {
-        "selection": "B6"
-      },
-      "action": {
-        "type": "TYPE",
-        "target": "B6",
-        "accept": [
-          "=SOMME(B3:B4)",
-          "=B3+B4"
+          "=SOMME(B4;B15)",
+          "=B4+B15"
         ],
         "formulaMode": true
       },
       "aide": {
-        "text": "Une somme sur les deux lignes que vous venez de remplir.",
+        "text": "Deux cellules précises, séparées par un point-virgule.",
         "showTarget": true
       },
-      "feedback": "233 100 € sur le trimestre."
+      "feedback": "46 700 €. Le point-virgule sépare **deux cellules choisies** ; il ne faut pas le confondre avec le deux-points, qui prend tout ce qu'il y a entre les deux."
     },
     {
-      "id": "M03-L04-10",
-      "consigne": "Trois gestes à ajouter à votre panoplie. **Ctrl + Page suivante** et **Ctrl + Page précédente** passent d'une feuille à l'autre au clavier. Un **double-clic** sur un onglet permet de le renommer. Et quand les onglets deviennent trop nombreux pour tenir en bas de l'écran, un **clic droit** sur les flèches de défilement ouvre la liste complète des feuilles.",
+      "id": "M03-L04-03",
+      "consigne": "On peut mélanger plages et cellules. En **D5**, ==additionnez le premier et le quatrième trimestre== : `=SOMME(B4:B6;B13:B15)`.",
+      "setup": {
+        "selection": "D5",
+        "cells": {
+          "C5": {
+            "v": "1er + 4e trimestre",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "D5",
+        "accept": [
+          "=SOMME(B4:B6;B13:B15)",
+          "=SOMME(B4:B6)+SOMME(B13:B15)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Deux plages de trois mois, séparées par un point-virgule.",
+        "showTarget": true
+      },
+      "feedback": "133 000 €. Six mois additionnés, six mois ignorés, en une seule formule."
+    },
+    {
+      "id": "M03-L04-04",
+      "consigne": "Les autres fonctions acceptent la même écriture. En **D6**, ==calculez la moyenne de juillet et août==, les deux mois creux.",
+      "setup": {
+        "selection": "D6",
+        "cells": {
+          "C6": {
+            "v": "Moyenne juillet-août",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "D6",
+        "accept": [
+          "=MOYENNE(B10;B11)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "MOYENNE, puis les deux cellules séparées par un point-virgule.",
+        "showTarget": true
+      },
+      "feedback": "12 850 € en moyenne sur l'été, contre plus de 20 000 le reste de l'année."
+    },
+    {
+      "id": "M03-L04-05",
+      "consigne": "Le danger du **Ctrl + clic** mérite d'être connu : un clic de trop ajoute une cellule sans que rien ne le signale, et le total lu dans la barre d'état est faux. Il n'en reste aucune trace. Une formule, elle, se relit et se corrige — c'est pourquoi un total qu'on doit **conserver** s'écrit toujours dans une cellule.",
       "action": {
         "type": "READ"
       },
       "points": 0
     },
     {
-      "id": "M03-L04-11",
-      "consigne": "Un dernier mot, important. Vous venez de **recopier deux chiffres à la main** : dès qu'une vente changera sur la feuille Nord, votre synthèse sera fausse sans que rien ne vous alerte. C'est la raison pour laquelle Excel sait faire référence à une cellule d'une autre feuille — vous l'apprendrez plus loin dans la formation. Pour l'instant, retenez le principe : **on ne recopie pas un chiffre qu'on peut aller chercher**.",
+      "id": "M03-L04-06",
+      "consigne": "Vérifions par comparaison. ==Tapez `B4:B15` dans la zone Nom== pour sélectionner les douze mois d'un coup, puis lisez la barre d'état.",
+      "action": {
+        "type": "GOTO_REF",
+        "ref": "B4:B15"
+      },
+      "aide": {
+        "text": "Sur douze lignes, la zone Nom est plus sûre qu'un glissement : la plage est exacte du premier coup.",
+        "showTarget": true
+      },
+      "feedback": "245 500 € sur l'année, douze valeurs."
+    },
+    {
+      "id": "M03-L04-07",
+      "consigne": "En **D7**, ==écrivez ce total de l'année== pour le garder.",
+      "setup": {
+        "selection": "D7",
+        "cells": {
+          "C7": {
+            "v": "Année complète",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "D7",
+        "accept": [
+          "=SOMME(B4:B15)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Une plage continue, du premier au dernier mois.",
+        "showTarget": true
+      },
+      "feedback": "245 500 € : le même chiffre que la barre d'état, mais cette fois vérifiable et durable."
+    },
+    {
+      "id": "M03-L04-08",
+      "consigne": "En **D8**, ==affichez le meilleur mois de l'année==.",
+      "setup": {
+        "selection": "D8",
+        "cells": {
+          "C8": {
+            "v": "Meilleur mois",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "D8",
+        "accept": [
+          "=MAX(B4:B15)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "MAX sur les douze mois.",
+        "showTarget": true
+      },
+      "feedback": "28 300 €, décembre."
+    },
+    {
+      "id": "M03-L04-09",
+      "consigne": "L'autre usage du **Ctrl + clic** est la mise en forme : sélectionnez trois lignes éparpillées, puis un seul clic sur le bouton de remplissage les colore toutes. Il fonctionne aussi sur les **en-têtes** — Ctrl + clic sur les lettres B, D et F sélectionne ces trois colonnes sans toucher aux autres.",
       "action": {
         "type": "READ"
       },

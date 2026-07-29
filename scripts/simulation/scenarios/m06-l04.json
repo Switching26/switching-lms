@@ -1,106 +1,79 @@
 {
   "schemaVersion": 1,
-  "title": "Recopier une formule",
+  "title": "Références relatives et absolues",
   "mode": "LESSON",
   "moduleTitle": "Calculs simples",
   "intro": {
-    "title": "ÉCRIRE UNE FOIS, APPLIQUER PARTOUT",
-    "body": "Une formule juste peut être dupliquée en un geste. Et en se déplaçant, elle s'adapte : c'est ce qui fait la puissance d'un tableur."
+    "title": "FIGER UNE CELLULE AVEC LE DOLLAR",
+    "body": "La recopie décale les références. C'est utile — sauf quand une cellule doit rester la même partout. Le signe dollar sert exactement à ça."
   },
   "outro": {
-    "body": "Vous savez recopier une formule et vous comprenez pourquoi ses références se décalent. C'est le fondement de la leçon suivante."
+    "body": "Vous savez figer une référence. C'est la notion qui sépare ceux qui subissent le tableur de ceux qui le pilotent."
   },
   "ribbon": [
     "accueil"
   ],
   "workbook": {
-    "fileName": "Ventes trimestre",
+    "fileName": "Tarifs TTC",
     "activeSheetIndex": 0,
     "selection": "A1",
     "sheets": [
       {
         "name": "Feuil1",
         "columnWidths": {
-          "A": 120
+          "A": 130
         },
         "cells": {
           "A1": {
-            "v": "Produit",
+            "v": "Taux de TVA",
             "format": {
               "bold": true
             }
           },
           "B1": {
-            "v": "Janvier",
-            "format": {
-              "bold": true
-            }
-          },
-          "C1": {
-            "v": "Février",
-            "format": {
-              "bold": true
-            }
-          },
-          "D1": {
-            "v": "Mars",
-            "format": {
-              "bold": true
-            }
-          },
-          "E1": {
-            "v": "Trimestre",
-            "format": {
-              "bold": true
-            }
-          },
-          "A2": {
-            "v": "Clavier"
-          },
-          "B2": {
-            "v": 1200
-          },
-          "C2": {
-            "v": 1450
-          },
-          "D2": {
-            "v": 1310
-          },
-          "A3": {
-            "v": "Souris"
-          },
-          "B3": {
-            "v": 890
-          },
-          "C3": {
-            "v": 940
-          },
-          "D3": {
-            "v": 1020
-          },
-          "A4": {
-            "v": "Écran"
-          },
-          "B4": {
-            "v": 3400
-          },
-          "C4": {
-            "v": 2900
-          },
-          "D4": {
-            "v": 3150
+            "v": 0.2
           },
           "A5": {
-            "v": "Casque"
+            "v": "Article",
+            "format": {
+              "bold": true
+            }
           },
           "B5": {
-            "v": 560
+            "v": "Prix HT",
+            "format": {
+              "bold": true
+            }
           },
           "C5": {
-            "v": 610
+            "v": "Prix TTC",
+            "format": {
+              "bold": true
+            }
           },
-          "D5": {
-            "v": 705
+          "A6": {
+            "v": "Clavier"
+          },
+          "B6": {
+            "v": 45
+          },
+          "A7": {
+            "v": "Souris"
+          },
+          "B7": {
+            "v": 25
+          },
+          "A8": {
+            "v": "Écran"
+          },
+          "B8": {
+            "v": 180
+          },
+          "A9": {
+            "v": "Casque"
+          },
+          "B9": {
+            "v": 70
           }
         }
       }
@@ -108,83 +81,64 @@
   },
   "steps": [
     {
-      "id": "M06-L04-01",
-      "consigne": "Quatre produits, trois mois. On veut le total du trimestre pour chaque produit. Commencez par le premier : en **E2**, ==totalisez la ligne du clavier==.",
+      "id": "M06-L04-02",
+      "consigne": "Le taux de TVA est en **B1**, une seule fois — c'est la bonne pratique : un taux est une donnée, pas une constante à répéter dans chaque formule. En **C6**, ==calculez le prix TTC du clavier== : `=B6*(1+B1)`.",
       "setup": {
-        "selection": "E2"
+        "selection": "C6"
       },
       "action": {
         "type": "TYPE",
-        "target": "E2",
+        "target": "C6",
         "accept": [
-          "=SOMME(B2:D2)",
-          "=B2+C2+D2"
+          "=B6*(1+B1)",
+          "=B6+B6*B1"
         ],
         "formulaMode": true
       },
       "aide": {
-        "text": "La plage à totaliser va de B2 à D2.",
+        "text": "Le prix TTC vaut le prix HT plus la TVA, donc HT × (1 + taux).",
         "showTarget": true
       },
-      "feedback": "3 960 €. Il reste trois lignes — et on ne va pas réécrire la formule."
-    },
-    {
-      "id": "M06-L04-02",
-      "consigne": "==Sélectionnez **E2**==. En bas à droite de la cellule active, un petit carré apparaît : c'est la **poignée de recopie**. En la tirant vers le bas, on duplique la formule.",
-      "action": {
-        "type": "CLICK_CELL",
-        "cell": "E2"
-      },
-      "aide": {
-        "text": "Cliquez dans E2 pour la rendre active.",
-        "showTarget": true
-      }
+      "feedback": "54 €. Correct pour cette ligne. Recopions vers le bas."
     },
     {
       "id": "M06-L04-03",
-      "consigne": "==Recopiez la formule de E2 jusqu'en E5==, en tirant la poignée vers le bas. Vous pouvez aussi copier E2 puis coller sur E3:E5 — le résultat compte, pas le chemin.",
+      "consigne": "==Recopiez C6 jusqu'en C9== et regardez les résultats obtenus.",
       "action": {
         "type": "EXPECT_STATE",
         "cells": {
-          "E3": {
-            "anyOf": [
-              "=SOMME(B3:D3)",
-              "=B3+C3+D3"
-            ],
-            "v": 2850
+          "C7": {
+            "v": 25
           },
-          "E4": {
-            "anyOf": [
-              "=SOMME(B4:D4)",
-              "=B4+C4+D4"
-            ],
-            "v": 9450
+          "C8": {
+            "v": 180
           },
-          "E5": {
-            "anyOf": [
-              "=SOMME(B5:D5)",
-              "=B5+C5+D5"
-            ],
-            "v": 1875
+          "C9": {
+            "v": 70
           }
         }
       },
       "aide": {
-        "text": "Placez le curseur sur le petit carré en bas à droite de E2, puis faites glisser jusqu'à E5."
+        "text": "Tirez la poignée de recopie de C6 jusqu'à C9."
       },
-      "feedback": "Les quatre totaux sont là. Regardez maintenant ce qui s'est passé dans les formules."
+      "feedback": "Les prix TTC sont identiques aux prix HT. Quelque chose ne va pas."
     },
     {
       "id": "M06-L04-04",
-      "consigne": "Cliquez sur **E3** puis sur **E5** et observez la barre de formule. E2 contenait `=SOMME(B2:D2)`, E3 contient `=SOMME(B3:D3)`, E5 contient `=SOMME(B5:D5)`. Excel a **décalé les références** en même temps que la formule.",
+      "consigne": "**C7 affiche 25**, soit exactement le prix hors taxes : aucune TVA n'a été ajoutée. ==Cliquez sur **C7**== et lisez sa formule dans la barre de formule.",
       "action": {
-        "type": "READ"
+        "type": "CLICK_CELL",
+        "cell": "C7"
       },
-      "points": 0
+      "aide": {
+        "text": "Cliquez dans C7.",
+        "showTarget": true
+      },
+      "feedback": "Excel a écrit =B7*(1+B2). Il a décalé les DEUX références — y compris celle du taux, qui pointe maintenant sur B2, une cellule vide."
     },
     {
       "id": "M06-L04-05",
-      "consigne": "C'est ce qu'on appelle une **référence relative** : elle est comprise comme « la plage située à gauche, sur ma ligne ». En descendant d'une ligne, elle descend aussi. C'est presque toujours ce qu'on veut.",
+      "consigne": "Voilà le piège. La référence au **prix** doit se décaler, celle du **taux** ne doit pas. Il faut donc pouvoir dire à Excel : « celle-là, tu n'y touches pas ».",
       "action": {
         "type": "READ"
       },
@@ -192,68 +146,67 @@
     },
     {
       "id": "M06-L04-06",
-      "consigne": "La recopie fonctionne dans toutes les directions. En **B6**, ==totalisez la colonne Janvier==.",
+      "consigne": "C'est le rôle du signe **dollar**. `$B$1` signifie « la cellule B1, quoi qu'il arrive ». On appelle ça une **référence absolue**. Corrigez **C6** : ==saisissez `=B6*(1+$B$1)`==.",
       "setup": {
-        "selection": "B6",
-        "cells": {
-          "A6": {
-            "v": "TOTAL",
-            "format": {
-              "bold": true
-            }
-          }
-        }
+        "selection": "C6"
       },
       "action": {
         "type": "TYPE",
-        "target": "B6",
+        "target": "C6",
         "accept": [
-          "=SOMME(B2:B5)",
-          "=B2+B3+B4+B5"
+          "=B6*(1+$B$1)",
+          "=B6+B6*$B$1"
         ],
         "formulaMode": true
       },
-      "feedback": "6 050 €."
+      "aide": {
+        "text": "Le dollar se place devant la lettre de colonne et devant le numéro de ligne.",
+        "showTarget": true
+      },
+      "feedback": "Toujours 54 € sur cette ligne — c'est à la recopie que tout se joue. Astuce : pendant la saisie, la touche F4 ajoute et retire les dollars en boucle, sans les taper à la main."
     },
     {
       "id": "M06-L04-07",
-      "consigne": "==Recopiez B6 vers la droite jusqu'en E6== pour obtenir les totaux de février, mars et du trimestre.",
+      "consigne": "==Recopiez de nouveau C6 jusqu'en C9==.",
       "action": {
         "type": "EXPECT_STATE",
         "cells": {
-          "C6": {
-            "anyOf": [
-              "=SOMME(C2:C5)",
-              "=C2+C3+C4+C5"
-            ],
-            "v": 5900
+          "C7": {
+            "v": 30
           },
-          "D6": {
-            "anyOf": [
-              "=SOMME(D2:D5)",
-              "=D2+D3+D4+D5"
-            ],
-            "v": 6185
+          "C8": {
+            "v": 216
           },
-          "E6": {
-            "anyOf": [
-              "=SOMME(E2:E5)",
-              "=E2+E3+E4+E5",
-              "=SOMME(B6:D6)",
-              "=B6+C6+D6"
-            ],
-            "v": 18135
+          "C9": {
+            "v": 84
           }
         }
       },
       "aide": {
-        "text": "Tirez la poignée de B6 vers la droite, jusqu'à E6."
+        "text": "Même geste que tout à l'heure : la poignée de C6 jusqu'à C9."
       },
-      "feedback": "18 135 € au total. En deux formules écrites, vous avez rempli huit cellules."
+      "feedback": "30 €, 216 €, 84 € : la TVA est appliquée partout. Cliquez sur C9, sa formule est =B9*(1+$B$1) — le prix a suivi la ligne, le taux est resté sur B1. Une seule formule écrite, juste sur les quatre lignes."
     },
     {
-      "id": "M06-L04-08",
-      "consigne": "Un raccourci qui fait gagner du temps : au lieu de tirer la poignée, ==double-cliquez dessus== et Excel remplit automatiquement jusqu'au bas du tableau. Pratique sur mille lignes.",
+      "id": "M06-L04-10",
+      "consigne": "Preuve par l'usage : changez le taux. En **B1**, ==saisissez `0,1`== pour passer à 10 %.",
+      "setup": {
+        "selection": "B1"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B1",
+        "accept": [
+          "0,1",
+          "0.1",
+          "10%"
+        ]
+      },
+      "feedback": "Les quatre prix TTC se recalculent d'un coup. Voilà le bénéfice réel : un taux, un seul endroit à modifier."
+    },
+    {
+      "id": "M06-L04-11",
+      "consigne": "Retenez la règle simple : **une valeur de référence utilisée par plusieurs formules doit être figée avec des dollars**. Taux, coefficient, seuil, objectif. Si vous recopiez et que les résultats deviennent absurdes, c'est presque toujours un dollar oublié.",
       "action": {
         "type": "READ"
       },

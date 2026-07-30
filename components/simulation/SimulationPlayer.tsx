@@ -1083,7 +1083,11 @@ export default function SimulationPlayer({
         if (!attemptedRef.current.has(step.id)) firstTryRef.current[step.id] = true
         resoluRef.current = true
         setVerdict({ ok: true })
-        lancerFx(step, "ok")
+        // « ✓ C'est exact » félicite une RÉUSSITE. Sur un écran « À comprendre »
+        // l'apprenant n'a rien fait d'exact : il a cliqué « J'ai compris ». Le
+        // bandeau vert et son flash s'affichaient quand même, et félicitaient un
+        // geste qui n'existe pas (retour Samuel du 30/07/2026).
+        if (step.action.type !== "READ") lancerFx(step, "ok")
         // Petite pause pour que l'apprenant voie le résultat de son action avant
         // que l'écran ne change.
         window.setTimeout(goNext, 550)
@@ -2968,6 +2972,10 @@ export default function SimulationPlayer({
                 que la couche n'ait rendu à nouveau. */}
             <div
               ref={zoneGrilleRef}
+              // Repère de mesure : `getCellRect` rend des coordonnées RELATIVES
+              // à ce conteneur. Sans lui, un contrôle automatique qui veut
+              // cliquer une cellule doit deviner l'origine — et tape à côté.
+              data-zone-grille=""
               className={
                 pleinCadre
                   ? "relative min-h-0 flex-1 overflow-hidden border border-t-0 border-neutral-300"

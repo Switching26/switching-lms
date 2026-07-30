@@ -1,344 +1,378 @@
 {
- "schemaVersion": 1,
- "title": "SOMME.SI et NB.SI : compter et totaliser sous condition",
- "mode": "LESSON",
- "moduleTitle": "Fonctions avancées",
- "intro": {
-  "title": "TOTALISER UNE PARTIE SEULEMENT",
-  "body": "Huit ventes mêlées, trois régions. Trier la liste pour additionner région par région serait long et fragile. Deux fonctions font le tri à votre place, sans toucher aux données."
- },
- "outro": {
-  "body": "Vous savez compter et totaliser sous condition, avec un critère lu dans une cellule ou écrit à la main. Le tableau de synthèse à droite se recalcule à chaque vente ajoutée."
- },
- "ribbon": [
-  "accueil"
- ],
- "statusBar": {
-  "aggregates": [
-   "moyenne",
-   "nb-non-vides",
-   "somme"
+  "schemaVersion": 1,
+  "title": "SOMME.SI et NB.SI : compter et totaliser sous condition",
+  "mode": "LESSON",
+  "moduleTitle": "Fonctions avancées",
+  "intro": {
+    "title": "TOTALISER UNE PARTIE SEULEMENT",
+    "body": "Huit ventes mêlées, trois régions. Trier la liste pour additionner région par région serait long et fragile. Deux fonctions font le tri à votre place, sans toucher aux données."
+  },
+  "outro": {
+    "body": "Vous savez compter et totaliser sous condition, avec un critère lu dans une cellule ou écrit à la main. Le tableau de synthèse à droite se recalcule à chaque vente ajoutée."
+  },
+  "ribbon": [
+    "accueil"
   ],
-  "sheetCount": 1
- },
- "workbook": {
-  "fileName": "Ventes par région",
-  "activeSheetIndex": 0,
-  "selection": "A1",
-  "sheets": [
-   {
-    "name": "Feuil1",
-    "columnWidths": {
-     "A": 120,
-     "B": 100,
-     "C": 100,
-     "E": 210,
-     "F": 110,
-     "G": 110
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ],
+    "sheetCount": 1
+  },
+  "workbook": {
+    "fileName": "Ventes par région",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 120,
+          "B": 100,
+          "C": 100,
+          "E": 210,
+          "F": 110,
+          "G": 110
+        },
+        "cells": {
+          "E5": {
+            "v": "Total général",
+            "format": {
+              "bold": true
+            }
+          },
+          "E6": {
+            "v": "Seuil (€)"
+          },
+          "F6": {
+            "v": 1000
+          },
+          "E7": {
+            "v": "Ventes au-dessus du seuil",
+            "format": {
+              "bold": true
+            }
+          },
+          "E8": {
+            "v": "Montant de ces ventes",
+            "format": {
+              "bold": true
+            }
+          },
+          "A1": {
+            "v": "Vendeur",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Région",
+            "format": {
+              "bold": true
+            }
+          },
+          "C1": {
+            "v": "Montant",
+            "format": {
+              "bold": true
+            }
+          },
+          "E1": {
+            "v": "Région",
+            "format": {
+              "bold": true
+            }
+          },
+          "F1": {
+            "v": "Nb ventes",
+            "format": {
+              "bold": true
+            }
+          },
+          "G1": {
+            "v": "Total",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Bertrand"
+          },
+          "B2": {
+            "v": "Nord"
+          },
+          "C2": {
+            "v": 1200
+          },
+          "A3": {
+            "v": "Chevalier"
+          },
+          "B3": {
+            "v": "Sud"
+          },
+          "C3": {
+            "v": 850
+          },
+          "A4": {
+            "v": "Bertrand"
+          },
+          "B4": {
+            "v": "Nord"
+          },
+          "C4": {
+            "v": 640
+          },
+          "A5": {
+            "v": "Delaunay"
+          },
+          "B5": {
+            "v": "Ouest"
+          },
+          "C5": {
+            "v": 2100
+          },
+          "A6": {
+            "v": "Chevalier"
+          },
+          "B6": {
+            "v": "Sud"
+          },
+          "C6": {
+            "v": 1450
+          },
+          "A7": {
+            "v": "Bertrand"
+          },
+          "B7": {
+            "v": "Nord"
+          },
+          "C7": {
+            "v": 980
+          },
+          "A8": {
+            "v": "Delaunay"
+          },
+          "B8": {
+            "v": "Ouest"
+          },
+          "C8": {
+            "v": 1320
+          },
+          "A9": {
+            "v": "Chevalier"
+          },
+          "B9": {
+            "v": "Sud"
+          },
+          "C9": {
+            "v": 700
+          },
+          "E2": {
+            "v": "Nord"
+          },
+          "E3": {
+            "v": "Sud"
+          },
+          "E4": {
+            "v": "Ouest"
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M10-L04-01",
+      "consigne": "À gauche, les ventes du mois dans l'ordre où elles sont tombées. À droite, la synthèse à produire : combien de ventes et quel montant par région. **NB.SI** compte les lignes qui respectent un critère, **SOMME.SI** additionne les montants de ces mêmes lignes.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0,
+      "montrer": [
+        {
+          "type": "MONTRER",
+          "cible": "A2:C7",
+          "texte": "À gauche, les ventes dans l'ordre où elles sont tombées"
+        },
+        {
+          "type": "MONTRER",
+          "cible": "E1",
+          "texte": "À droite, la synthèse : combien de ventes et quel montant par région"
+        },
+        {
+          "type": "MONTRER",
+          "cible": "F1",
+          "texte": "NB.SI compte les lignes qui respectent un critère, SOMME.SI additionne leurs montants"
+        }
+      ]
     },
-    "cells": {
-     "E5": {
-      "v": "Total général",
-      "format": {
-       "bold": true
-      }
-     },
-     "E6": {
-      "v": "Seuil (€)"
-     },
-     "F6": {
-      "v": 1000
-     },
-     "E7": {
-      "v": "Ventes au-dessus du seuil",
-      "format": {
-       "bold": true
-      }
-     },
-     "E8": {
-      "v": "Montant de ces ventes",
-      "format": {
-       "bold": true
-      }
-     },
-     "A1": {
-      "v": "Vendeur",
-      "format": {
-       "bold": true
-      }
-     },
-     "B1": {
-      "v": "Région",
-      "format": {
-       "bold": true
-      }
-     },
-     "C1": {
-      "v": "Montant",
-      "format": {
-       "bold": true
-      }
-     },
-     "E1": {
-      "v": "Région",
-      "format": {
-       "bold": true
-      }
-     },
-     "F1": {
-      "v": "Nb ventes",
-      "format": {
-       "bold": true
-      }
-     },
-     "G1": {
-      "v": "Total",
-      "format": {
-       "bold": true
-      }
-     },
-     "A2": {
-      "v": "Bertrand"
-     },
-     "B2": {
-      "v": "Nord"
-     },
-     "C2": {
-      "v": 1200
-     },
-     "A3": {
-      "v": "Chevalier"
-     },
-     "B3": {
-      "v": "Sud"
-     },
-     "C3": {
-      "v": 850
-     },
-     "A4": {
-      "v": "Bertrand"
-     },
-     "B4": {
-      "v": "Nord"
-     },
-     "C4": {
-      "v": 640
-     },
-     "A5": {
-      "v": "Delaunay"
-     },
-     "B5": {
-      "v": "Ouest"
-     },
-     "C5": {
-      "v": 2100
-     },
-     "A6": {
-      "v": "Chevalier"
-     },
-     "B6": {
-      "v": "Sud"
-     },
-     "C6": {
-      "v": 1450
-     },
-     "A7": {
-      "v": "Bertrand"
-     },
-     "B7": {
-      "v": "Nord"
-     },
-     "C7": {
-      "v": 980
-     },
-     "A8": {
-      "v": "Delaunay"
-     },
-     "B8": {
-      "v": "Ouest"
-     },
-     "C8": {
-      "v": 1320
-     },
-     "A9": {
-      "v": "Chevalier"
-     },
-     "B9": {
-      "v": "Sud"
-     },
-     "C9": {
-      "v": 700
-     },
-     "E2": {
-      "v": "Nord"
-     },
-     "E3": {
-      "v": "Sud"
-     },
-     "E4": {
-      "v": "Ouest"
-     }
+    {
+      "id": "M10-L04-02",
+      "consigne": "En **F2**, ==saisissez `=NB.SI($B$2:$B$9;E2)`== : combien de ventes portent la région écrite en E2.",
+      "setup": {
+        "selection": "F2"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "F2",
+        "accept": [
+          "=NB.SI($B$2:$B$9;E2)",
+          "=NB.SI($B$2:$B$9;\"Nord\")"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Deux arguments : où chercher, puis quoi chercher. La plage est figée pour survivre à la recopie.",
+        "showTarget": true
+      },
+      "feedback": "3 ventes dans le Nord. Le critère pointe la cellule E2 plutôt que le mot « Nord » : la formule reste valable pour les autres régions."
+    },
+    {
+      "id": "M10-L04-03",
+      "consigne": "En **G2**, ==saisissez `=SOMME.SI($B$2:$B$9;E2;$C$2:$C$9)`== pour additionner les montants de ces ventes.",
+      "setup": {
+        "selection": "G2"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "G2",
+        "accept": [
+          "=SOMME.SI($B$2:$B$9;E2;$C$2:$C$9)",
+          "=SOMME.SI($B$2:$B$9;\"Nord\";$C$2:$C$9)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Trois arguments : où est le critère, quel critère, et quelle colonne additionner.",
+        "showTarget": true
+      },
+      "feedback": "2820 € pour le Nord. La troisième plage doit avoir la même hauteur que la première, sinon le total est faux sans prévenir."
+    },
+    {
+      "id": "M10-L04-04",
+      "consigne": "==Recopiez **F2:G2** vers le bas== pour les deux autres régions.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "F3": {
+            "anyOf": [
+              "=NB.SI($B$2:$B$9;E3)"
+            ],
+            "v": 3
+          },
+          "G3": {
+            "anyOf": [
+              "=SOMME.SI($B$2:$B$9;E3;$C$2:$C$9)"
+            ],
+            "v": 3000
+          },
+          "F4": {
+            "anyOf": [
+              "=NB.SI($B$2:$B$9;E4)"
+            ],
+            "v": 2
+          },
+          "G4": {
+            "anyOf": [
+              "=SOMME.SI($B$2:$B$9;E4;$C$2:$C$9)"
+            ],
+            "v": 3420
+          }
+        }
+      },
+      "aide": {
+        "text": "Sélectionnez F2:G2, puis tirez la poignée jusqu'à la ligne 4."
+      },
+      "feedback": "Les dollars ont fait leur travail : chaque ligne interroge la même liste avec un critère différent."
+    },
+    {
+      "id": "M10-L04-05",
+      "consigne": "Contrôlez votre synthèse. En **G5**, ==totalisez les trois régions==.",
+      "setup": {
+        "selection": "G5"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "G5",
+        "accept": [
+          "=SOMME(G2:G4)",
+          "=G2+G3+G4"
+        ],
+        "formulaMode": true
+      },
+      "feedback": "9240 €, soit exactement la somme de la colonne Montant. Aucune vente n'est oubliée, aucune n'est comptée deux fois — c'est le contrôle à faire systématiquement après une synthèse par critère."
+    },
+    {
+      "id": "M10-L04-06",
+      "consigne": "Un critère peut aussi être une **comparaison**. En **F7**, ==comptez les ventes de plus de 1 000 €== avec `=NB.SI(C2:C9;\">1000\")`.",
+      "setup": {
+        "selection": "F7"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "F7",
+        "accept": [
+          "=NB.SI(C2:C9;\">1000\")",
+          "=NB.SI($C$2:$C$9;\">1000\")",
+          "=NB.SI(C2:C9;\">\"&F6)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "L'opérateur et le nombre tiennent ensemble dans les guillemets : \">1000\", en un seul morceau.",
+        "showTarget": true
+      },
+      "feedback": "4 ventes dépassent 1 000 €."
+    },
+    {
+      "id": "M10-L04-07",
+      "consigne": "En **F8**, ==totalisez ces mêmes ventes== avec `=SOMME.SI(C2:C9;\">1000\")`.",
+      "setup": {
+        "selection": "F8"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "F8",
+        "accept": [
+          "=SOMME.SI(C2:C9;\">1000\")",
+          "=SOMME.SI($C$2:$C$9;\">1000\")",
+          "=SOMME.SI(C2:C9;\">1000\";C2:C9)",
+          "=SOMME.SI(C2:C9;\">\"&F6)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Ici la colonne testée est aussi celle à additionner : le troisième argument devient inutile.",
+        "showTarget": true
+      },
+      "feedback": "6070 €. Quand le critère porte sur la colonne à additionner elle-même, SOMME.SI se contente de deux arguments."
+    },
+    {
+      "id": "M10-L04-08",
+      "consigne": "À retenir. Un critère **texte ou comparaison se met entre guillemets** ; un critère **référence de cellule, jamais**. Pour croiser plusieurs conditions — la région ET le mois — les versions au pluriel existent : **NB.SI.ENS** et **SOMME.SI.ENS**, avec les plages et les critères par paires.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0,
+      "montrer": [
+        {
+          "type": "MONTRER",
+          "cible": "E2",
+          "texte": "Un critère texte ou comparaison se met entre guillemets"
+        },
+        {
+          "type": "MONTRER",
+          "cible": "F6",
+          "texte": "Un critère référence de cellule, jamais"
+        },
+        {
+          "type": "MONTRER",
+          "cible": "E7",
+          "texte": "Pour croiser région ET mois : NB.SI.ENS et SOMME.SI.ENS, plages et critères par paires"
+        }
+      ]
     }
-   }
   ]
- },
- "steps": [
-  {
-   "id": "M10-L04-01",
-   "consigne": "À gauche, les ventes du mois dans l'ordre où elles sont tombées. À droite, la synthèse à produire : combien de ventes et quel montant par région. **NB.SI** compte les lignes qui respectent un critère, **SOMME.SI** additionne les montants de ces mêmes lignes.",
-   "action": {
-    "type": "READ"
-   },
-   "points": 0
-  },
-  {
-   "id": "M10-L04-02",
-   "consigne": "En **F2**, ==saisissez `=NB.SI($B$2:$B$9;E2)`== : combien de ventes portent la région écrite en E2.",
-   "setup": {
-    "selection": "F2"
-   },
-   "action": {
-    "type": "TYPE",
-    "target": "F2",
-    "accept": [
-     "=NB.SI($B$2:$B$9;E2)",
-     "=NB.SI($B$2:$B$9;\"Nord\")"
-    ],
-    "formulaMode": true
-   },
-   "aide": {
-    "text": "Deux arguments : où chercher, puis quoi chercher. La plage est figée pour survivre à la recopie.",
-    "showTarget": true
-   },
-   "feedback": "3 ventes dans le Nord. Le critère pointe la cellule E2 plutôt que le mot « Nord » : la formule reste valable pour les autres régions."
-  },
-  {
-   "id": "M10-L04-03",
-   "consigne": "En **G2**, ==saisissez `=SOMME.SI($B$2:$B$9;E2;$C$2:$C$9)`== pour additionner les montants de ces ventes.",
-   "setup": {
-    "selection": "G2"
-   },
-   "action": {
-    "type": "TYPE",
-    "target": "G2",
-    "accept": [
-     "=SOMME.SI($B$2:$B$9;E2;$C$2:$C$9)",
-     "=SOMME.SI($B$2:$B$9;\"Nord\";$C$2:$C$9)"
-    ],
-    "formulaMode": true
-   },
-   "aide": {
-    "text": "Trois arguments : où est le critère, quel critère, et quelle colonne additionner.",
-    "showTarget": true
-   },
-   "feedback": "2820 € pour le Nord. La troisième plage doit avoir la même hauteur que la première, sinon le total est faux sans prévenir."
-  },
-  {
-   "id": "M10-L04-04",
-   "consigne": "==Recopiez **F2:G2** vers le bas== pour les deux autres régions.",
-   "action": {
-    "type": "EXPECT_STATE",
-    "cells": {
-     "F3": {
-      "anyOf": [
-       "=NB.SI($B$2:$B$9;E3)"
-      ],
-      "v": 3
-     },
-     "G3": {
-      "anyOf": [
-       "=SOMME.SI($B$2:$B$9;E3;$C$2:$C$9)"
-      ],
-      "v": 3000
-     },
-     "F4": {
-      "anyOf": [
-       "=NB.SI($B$2:$B$9;E4)"
-      ],
-      "v": 2
-     },
-     "G4": {
-      "anyOf": [
-       "=SOMME.SI($B$2:$B$9;E4;$C$2:$C$9)"
-      ],
-      "v": 3420
-     }
-    }
-   },
-   "aide": {
-    "text": "Sélectionnez F2:G2, puis tirez la poignée jusqu'à la ligne 4."
-   },
-   "feedback": "Les dollars ont fait leur travail : chaque ligne interroge la même liste avec un critère différent."
-  },
-  {
-   "id": "M10-L04-05",
-   "consigne": "Contrôlez votre synthèse. En **G5**, ==totalisez les trois régions==.",
-   "setup": {
-    "selection": "G5"
-   },
-   "action": {
-    "type": "TYPE",
-    "target": "G5",
-    "accept": [
-     "=SOMME(G2:G4)",
-     "=G2+G3+G4"
-    ],
-    "formulaMode": true
-   },
-   "feedback": "9240 €, soit exactement la somme de la colonne Montant. Aucune vente n'est oubliée, aucune n'est comptée deux fois — c'est le contrôle à faire systématiquement après une synthèse par critère."
-  },
-  {
-   "id": "M10-L04-06",
-   "consigne": "Un critère peut aussi être une **comparaison**. En **F7**, ==comptez les ventes de plus de 1 000 €== avec `=NB.SI(C2:C9;\">1000\")`.",
-   "setup": {
-    "selection": "F7"
-   },
-   "action": {
-    "type": "TYPE",
-    "target": "F7",
-    "accept": [
-     "=NB.SI(C2:C9;\">1000\")",
-     "=NB.SI($C$2:$C$9;\">1000\")",
-     "=NB.SI(C2:C9;\">\"&F6)"
-    ],
-    "formulaMode": true
-   },
-   "aide": {
-    "text": "L'opérateur et le nombre tiennent ensemble dans les guillemets : \">1000\", en un seul morceau.",
-    "showTarget": true
-   },
-   "feedback": "4 ventes dépassent 1 000 €."
-  },
-  {
-   "id": "M10-L04-07",
-   "consigne": "En **F8**, ==totalisez ces mêmes ventes== avec `=SOMME.SI(C2:C9;\">1000\")`.",
-   "setup": {
-    "selection": "F8"
-   },
-   "action": {
-    "type": "TYPE",
-    "target": "F8",
-    "accept": [
-     "=SOMME.SI(C2:C9;\">1000\")",
-     "=SOMME.SI($C$2:$C$9;\">1000\")",
-     "=SOMME.SI(C2:C9;\">1000\";C2:C9)",
-     "=SOMME.SI(C2:C9;\">\"&F6)"
-    ],
-    "formulaMode": true
-   },
-   "aide": {
-    "text": "Ici la colonne testée est aussi celle à additionner : le troisième argument devient inutile.",
-    "showTarget": true
-   },
-   "feedback": "6070 €. Quand le critère porte sur la colonne à additionner elle-même, SOMME.SI se contente de deux arguments."
-  },
-  {
-   "id": "M10-L04-08",
-   "consigne": "À retenir. Un critère **texte ou comparaison se met entre guillemets** ; un critère **référence de cellule, jamais**. Pour croiser plusieurs conditions — la région ET le mois — les versions au pluriel existent : **NB.SI.ENS** et **SOMME.SI.ENS**, avec les plages et les critères par paires.",
-   "action": {
-    "type": "READ"
-   },
-   "points": 0
-  }
- ]
 }

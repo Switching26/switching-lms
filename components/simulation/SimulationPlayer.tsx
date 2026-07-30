@@ -364,6 +364,16 @@ export default function SimulationPlayer({
    * Un observateur de taille supprime la classe entière de ce défaut.
    */
   const zoneGrilleRef = useRef<HTMLDivElement>(null)
+  /**
+   * Conteneur de TOUT l'atelier — bureau compris.
+   *
+   * Le calque de démonstration vivait dans la zone de grille, que `DesktopLayer`
+   * masque (`display:none`) tant que le classeur n'est pas ouvert : sur les
+   * écrans du module 1 où l'on démarre Excel, la démonstration tournait
+   * entièrement invisible. Elle se pose désormais ici, au-dessus du bureau comme
+   * de la feuille.
+   */
+  const zoneAtelierRef = useRef<HTMLDivElement>(null)
   const [hauteurGrille, setHauteurGrille] = useState(380)
   const [largeurGrille, setLargeurGrille] = useState(0)
   useEffect(() => {
@@ -725,7 +735,20 @@ export default function SimulationPlayer({
       } else {
         grid.setEditableCells([])
       }
-      setFormulaText("")
+      // La barre de formule reflète la cellule sélectionnée, comme dans Excel.
+      // Elle était systématiquement vidée à chaque étape : une leçon qui dit
+      // « la barre de formule affiche toujours =3+2 » la montrait vide, et
+      // l'illustration qui la désigne pointait sur du néant.
+      const refFormule = s.setup?.selection
+      setFormulaText(refFormule ? (grid.getFormula(refFormule) ?? "") : "")
+      // Les cellules que l'étape vient de poser ne sont lisibles qu'après le
+      // recalcul d'Univer (60-120 ms mesurés) : on relit une fois.
+      if (refFormule) {
+        window.setTimeout(() => {
+          const g = gridRef.current
+          if (g && stepRef.current?.id === s.id) setFormulaText(g.getFormula(refFormule) ?? "")
+        }, 320)
+      }
       setVerdict(null)
       avantDemoRef.current = {}
       setHintShown(mode === "LESSON")
@@ -800,6 +823,28 @@ export default function SimulationPlayer({
     const t = window.setTimeout(() => setTropLong(true), 45_000)
     return () => window.clearTimeout(t)
   }, [step, index, finished, mode])
+
+  /**
+   * Un écran « À lire » joue sa démonstration TOUT SEUL.
+   *
+   * Elle attendait un clic sur « ▶ Voir le geste », que personne ne voyait :
+   * l'apprenant lisait un paragraphe devant un écran figé, et sur la plupart des
+   * écrans il n'y avait même rien à cliquer. Elle démarre maintenant à
+   * l'ouverture de l'étape, et le bouton « ↻ Revoir » reste disponible ensuite.
+   *
+   * Le délai laisse le temps de lire la consigne avant que ça bouge, et laisse
+   * la grille finir de se poser — un démarrage immédiat jouerait sur un écran
+   * pas encore mesuré.
+   */
+  useEffect(() => {
+    if (!step || finished) return
+    if (step.action.type !== "READ" || !step.montrer?.length) return
+    const t = window.setTimeout(() => {
+      setDemoFinie(false)
+      setDemonstration(true)
+    }, 1200)
+    return () => window.clearTimeout(t)
+  }, [step, index, finished])
 
   /**
    * Audit : forcer la démonstration sans passer par les seuils de l'apprenant.
@@ -2218,8 +2263,22 @@ export default function SimulationPlayer({
 
   const resoudreCibleBrut = useCallback((cible: CibleDemo): Rect | null => {
     const grid = gridRef.current
-    const hote = zoneGrilleRef.current
+    // Le calque couvre TOUT l'atelier : c'est donc dans ce repère qu'il faut
+    // rendre les rectangles. Les cellules, elles, viennent de la grille : on
+    // ajoute le décalage de la grille dans l'atelier. Sans cela, un repère de
+    // cellule s'affichait quelques dizaines de pixels trop haut.
+    const hote = zoneAtelierRef.current
     if (!hote) return null
+    const h = hote.getBoundingClientRect()
+    const zg = zoneGrilleRef.current?.getBoundingClientRect()
+    const dx = zg ? zg.left - h.left : 0
+    const dy = zg ? zg.top - h.top : 0
+    const depuisGrille = (r: { left: number; top: number; width: number; height: number }) => ({
+      left: r.left + dx,
+      top: r.top + dy,
+      width: r.width,
+      height: r.height,
+    })
     if (cible.k === "cellule" || cible.k === "plage") {
       if (!grid) return null
       const bornes = cible.ref.split(":")
@@ -2228,32 +2287,30 @@ export default function SimulationPlayer({
       if (!a || !b) return null
       const left = Math.min(a.left, b.left)
       const top = Math.min(a.top, b.top)
-      return {
+      return depuisGrille({
         left,
         top,
         width: Math.max(a.left + a.width, b.left + b.width) - left,
         height: Math.max(a.top + a.height, b.top + b.height) - top,
-      }
+      })
     }
     if (cible.k === "enteteColonne") {
       const r = grid?.getCellRect(`${cible.col}1`)
       // L'en-tête n'est pas une cellule : il est juste au-dessus de la ligne 1.
-      return r ? { left: r.left, top: Math.max(0, r.top - 20), width: r.width, height: 20 } : null
+      return r ? depuisGrille({ left: r.left, top: Math.max(0, r.top - 20), width: r.width, height: 20 }) : null
     }
     if (cible.k === "enteteLigne") {
       const r = grid?.getCellRect(`A${cible.ligne}`)
-      return r ? { left: Math.max(0, r.left - 46), top: r.top, width: 46, height: r.height } : null
+      return r ? depuisGrille({ left: Math.max(0, r.left - 46), top: r.top, width: 46, height: r.height }) : null
     }
     if (cible.k === "clavier") {
-      // Un raccourci n'a pas de lieu : on réserve un cadre au centre de la
-      // feuille, où le composant posera les touches sans curseur de souris.
-      const h = hote.getBoundingClientRect()
+      // Un raccourci n'a pas de lieu : on réserve un cadre au centre de l'écran,
+      // où le composant posera les touches sans curseur de souris.
       return { left: h.width / 2 - 90, top: h.height / 2 - 34, width: 180, height: 68 }
     }
     const el = document.querySelector(cible.sel)
     if (!el) return null
     const r = el.getBoundingClientRect()
-    const h = hote.getBoundingClientRect()
     if (r.width === 0 && r.height === 0) return null
     return { left: r.left - h.left, top: r.top - h.top, width: r.width, height: r.height }
   }, [])
@@ -2792,6 +2849,12 @@ export default function SimulationPlayer({
           {/* Le poste de travail enveloppe la fenêtre Excel quand le scénario le
               déclare ; sinon on garde le conteneur d'origine et rien ne change
               pour les 243 chapitres existants. */}
+          {/* Conteneur de l'atelier : il porte le calque de démonstration, qui
+              doit rester visible même quand le classeur est masqué. */}
+          <div
+            ref={zoneAtelierRef}
+            className={pleinCadre ? "relative flex min-h-0 flex-1 flex-col" : "relative"}
+          >
           <Enveloppe
             poste={posteActif ? poste : null}
             pleinCadre={!!pleinCadre}
@@ -2924,25 +2987,6 @@ export default function SimulationPlayer({
                   }}
                 />
               )}
-              {demo && (
-                <DemonstrationGeste
-                  key={`demo${index}-${rejeu}`}
-                  onFini={() => {
-                    setDemoFinie(true)
-                    rendreClasseur()
-                  }}
-                  plan={demo}
-                  resoudre={resoudreCible}
-                  onEcrire={ecrireDemo}
-                  // Changer d'onglet ne valide rien — c'est déjà le cas quand
-                  // l'apprenant explore le ruban lui-même.
-                  onOnglet={(t) => setOnglet(t as RibbonTab)}
-                  onDefinir={definirDemo}
-                  onSelectionner={selectionnerDemo}
-                  onPresser={presserDemo}
-                  largeur={zoneGrilleRef.current?.clientWidth ?? 640}
-                />
-              )}
               {/* Bulle d'aide ANCRÉE à la cellule cible : le guide vit sur la
                   feuille, pas seulement en petit texte sous l'écran. */}
               {halo && hintShown && step?.aide?.text && !demo && (
@@ -3064,6 +3108,26 @@ export default function SimulationPlayer({
               </div>
             )}
           </Enveloppe>
+            {demo && (
+              <DemonstrationGeste
+                key={`demo${index}-${rejeu}`}
+                onFini={() => {
+                  setDemoFinie(true)
+                  rendreClasseur()
+                }}
+                plan={demo}
+                resoudre={resoudreCible}
+                onEcrire={ecrireDemo}
+                // Changer d'onglet ne valide rien — c'est déjà le cas quand
+                // l'apprenant explore le ruban lui-même.
+                onOnglet={(t) => setOnglet(t as RibbonTab)}
+                onDefinir={definirDemo}
+                onSelectionner={selectionnerDemo}
+                onPresser={presserDemo}
+                largeur={zoneAtelierRef.current?.clientWidth ?? 640}
+              />
+            )}
+          </div>
 
           {/* Bande de consigne : pleine largeur sous la feuille, filet de couleur
               à gauche qui porte le verdict. Le texte est passé à 15 px — c'est la
@@ -3295,6 +3359,8 @@ export default function SimulationPlayer({
               {/* Écran de lecture qui décrit un geste : on le MONTRE. Le
                   paragraphe devient une démonstration jouée, rejouable, sans
                   rien exiger de l'apprenant — il regarde, puis il continue. */}
+              {/* Elle se joue seule à l'ouverture ; ce bouton ne sert plus qu'au
+                  cas où l'apprenant arrive après coup. */}
               {step?.action.type === "READ" && step.montrer && !demonstration && (
                 <button
                   type="button"

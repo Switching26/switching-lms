@@ -1,328 +1,362 @@
 {
- "schemaVersion": 1,
- "title": "Intérêts et capital d'une échéance",
- "mode": "LESSON",
- "moduleTitle": "Applications pratiques",
- "intro": {
-  "title": "OÙ PASSE VOTRE MENSUALITÉ",
-  "body": "La mensualité de cet emprunt est constante, mais sa composition change chaque mois : beaucoup d'intérêts au début, presque tout en capital à la fin. Deux fonctions donnent la répartition, échéance par échéance."
- },
- "outro": {
-  "body": "Vous savez décomposer n'importe quelle échéance d'un prêt, et vérifier votre travail par une addition qui doit toujours retomber sur la mensualité."
- },
- "ribbon": [
-  "accueil"
- ],
- "statusBar": {
-  "aggregates": [
-   "moyenne",
-   "nb-non-vides",
-   "somme"
+  "schemaVersion": 1,
+  "title": "Intérêts et capital d'une échéance",
+  "mode": "LESSON",
+  "moduleTitle": "Applications pratiques",
+  "intro": {
+    "title": "OÙ PASSE VOTRE MENSUALITÉ",
+    "body": "La mensualité de cet emprunt est constante, mais sa composition change chaque mois : beaucoup d'intérêts au début, presque tout en capital à la fin. Deux fonctions donnent la répartition, échéance par échéance."
+  },
+  "outro": {
+    "body": "Vous savez décomposer n'importe quelle échéance d'un prêt, et vérifier votre travail par une addition qui doit toujours retomber sur la mensualité."
+  },
+  "ribbon": [
+    "accueil"
   ],
-  "sheetCount": 1
- },
- "workbook": {
-  "fileName": "Répartition des échéances",
-  "activeSheetIndex": 0,
-  "selection": "A1",
-  "sheets": [
-   {
-    "name": "Feuil1",
-    "columnWidths": {
-     "A": 265,
-     "B": 135,
-     "C": 175,
-     "D": 130
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ],
+    "sheetCount": 1
+  },
+  "workbook": {
+    "fileName": "Répartition des échéances",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 265,
+          "B": 135,
+          "C": 175,
+          "D": 130
+        },
+        "cells": {
+          "A1": {
+            "v": "EMPRUNT MATÉRIEL — RÉPARTITION DES ÉCHÉANCES",
+            "format": {
+              "bold": true
+            }
+          },
+          "A3": {
+            "v": "Capital emprunté (€)"
+          },
+          "B3": {
+            "v": 30000
+          },
+          "A4": {
+            "v": "Taux annuel"
+          },
+          "B4": {
+            "v": 0.045
+          },
+          "A5": {
+            "v": "Durée (années)"
+          },
+          "B5": {
+            "v": 5
+          },
+          "A7": {
+            "v": "Taux mensuel",
+            "format": {
+              "bold": true
+            }
+          },
+          "B7": {
+            "f": "=B4/12"
+          },
+          "A8": {
+            "v": "Nombre de mensualités",
+            "format": {
+              "bold": true
+            }
+          },
+          "B8": {
+            "f": "=B5*12"
+          },
+          "A9": {
+            "v": "Mensualité",
+            "format": {
+              "bold": true
+            }
+          },
+          "B9": {
+            "f": "=VPM(B7;B8;-B3)"
+          },
+          "A18": {
+            "v": "Coût total du crédit",
+            "format": {
+              "bold": true
+            }
+          },
+          "A19": {
+            "v": "Part d'intérêts de la 1ʳᵉ échéance",
+            "format": {
+              "bold": true
+            }
+          },
+          "A11": {
+            "v": "Échéance",
+            "format": {
+              "bold": true
+            }
+          },
+          "B11": {
+            "v": "Intérêts",
+            "format": {
+              "bold": true
+            }
+          },
+          "C11": {
+            "v": "Capital remboursé",
+            "format": {
+              "bold": true
+            }
+          },
+          "D11": {
+            "v": "Mensualité",
+            "format": {
+              "bold": true
+            }
+          },
+          "A12": {
+            "v": 1
+          },
+          "A13": {
+            "v": 2
+          },
+          "A14": {
+            "v": 12
+          },
+          "A15": {
+            "v": 60
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M16-L04-01",
+      "consigne": "Le haut du tableau est déjà calculé : taux mensuel, nombre de mensualités et mensualité. Le tableau du bas demande, pour quatre échéances choisies — la 1ʳᵉ, la 2ᵉ, la 12ᵉ et la 60ᵉ — la part d'**intérêts** et la part de **capital**. **INTPER** donne la première, **PRINCPER** la seconde.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0,
+      "montrer": [
+        {
+          "type": "MONTRER",
+          "cible": "B7",
+          "texte": "Le haut est déjà calculé : taux mensuel…"
+        },
+        {
+          "type": "MONTRER",
+          "cible": "B8",
+          "texte": "…nombre de mensualités, et la mensualité"
+        },
+        {
+          "type": "MONTRER",
+          "cible": "A12",
+          "texte": "En bas : la part d'INTÉRÊTS et la part de CAPITAL, pour quatre échéances"
+        }
+      ]
     },
-    "cells": {
-     "A1": {
-      "v": "EMPRUNT MATÉRIEL — RÉPARTITION DES ÉCHÉANCES",
-      "format": {
-       "bold": true
-      }
-     },
-     "A3": {
-      "v": "Capital emprunté (€)"
-     },
-     "B3": {
-      "v": 30000
-     },
-     "A4": {
-      "v": "Taux annuel"
-     },
-     "B4": {
-      "v": 0.045
-     },
-     "A5": {
-      "v": "Durée (années)"
-     },
-     "B5": {
-      "v": 5
-     },
-     "A7": {
-      "v": "Taux mensuel",
-      "format": {
-       "bold": true
-      }
-     },
-     "B7": {
-      "f": "=B4/12"
-     },
-     "A8": {
-      "v": "Nombre de mensualités",
-      "format": {
-       "bold": true
-      }
-     },
-     "B8": {
-      "f": "=B5*12"
-     },
-     "A9": {
-      "v": "Mensualité",
-      "format": {
-       "bold": true
-      }
-     },
-     "B9": {
-      "f": "=VPM(B7;B8;-B3)"
-     },
-     "A18": {
-      "v": "Coût total du crédit",
-      "format": {
-       "bold": true
-      }
-     },
-     "A19": {
-      "v": "Part d'intérêts de la 1ʳᵉ échéance",
-      "format": {
-       "bold": true
-      }
-     },
-     "A11": {
-      "v": "Échéance",
-      "format": {
-       "bold": true
-      }
-     },
-     "B11": {
-      "v": "Intérêts",
-      "format": {
-       "bold": true
-      }
-     },
-     "C11": {
-      "v": "Capital remboursé",
-      "format": {
-       "bold": true
-      }
-     },
-     "D11": {
-      "v": "Mensualité",
-      "format": {
-       "bold": true
-      }
-     },
-     "A12": {
-      "v": 1
-     },
-     "A13": {
-      "v": 2
-     },
-     "A14": {
-      "v": 12
-     },
-     "A15": {
-      "v": 60
-     }
+    {
+      "id": "M16-L04-02",
+      "consigne": "En **B12**, ==saisissez `=INTPER($B$7;A12;$B$8;-$B$3)`== : les intérêts de la première échéance.",
+      "setup": {
+        "selection": "B12"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B12",
+        "accept": [
+          "=INTPER($B$7;A12;$B$8;-$B$3)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Quatre arguments : le taux par période, le **numéro de l'échéance** — lu dans la colonne A —, le nombre de périodes, et le capital avec un signe moins.",
+        "showTarget": true
+      },
+      "feedback": "112.5 €. C'est exactement le capital emprunté multiplié par le taux mensuel : au premier mois, rien n'a encore été remboursé."
+    },
+    {
+      "id": "M16-L04-03",
+      "consigne": "En **C12**, ==saisissez `=PRINCPER($B$7;A12;$B$8;-$B$3)`== pour la part de capital.",
+      "setup": {
+        "selection": "C12"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "C12",
+        "accept": [
+          "=PRINCPER($B$7;A12;$B$8;-$B$3)",
+          "=$B$9-B12"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Mêmes arguments, dans le même ordre : seule la fonction change.",
+        "showTarget": true
+      },
+      "feedback": "446.79 € de capital réellement remboursé le premier mois, sur une mensualité de 559.29 €."
+    },
+    {
+      "id": "M16-L04-04",
+      "consigne": "Contrôlons. En **D12**, ==additionnez les deux parts==.",
+      "setup": {
+        "selection": "D12"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "D12",
+        "accept": [
+          "=B12+C12",
+          "=SOMME(B12:C12)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Intérêts plus capital.",
+        "showTarget": true
+      },
+      "feedback": "559.29 € : exactement la mensualité de B9. C'est le contrôle qui prouve que la décomposition est juste, et il vaut pour toutes les échéances."
+    },
+    {
+      "id": "M16-L04-05",
+      "consigne": "==Recopiez **B12:D12** jusqu'à la ligne 15== pour les trois autres échéances.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "B13": {
+            "anyOf": [
+              "=INTPER($B$7;A13;$B$8;-$B$3)"
+            ],
+            "v": 110.82453533532937
+          },
+          "C13": {
+            "anyOf": [
+              "=PRINCPER($B$7;A13;$B$8;-$B$3)",
+              "=$B$9-B13"
+            ],
+            "v": 448.46604191018054
+          },
+          "D13": {
+            "anyOf": [
+              "=B13+C13",
+              "=SOMME(B13:C13)"
+            ],
+            "v": 559.2905772455099
+          },
+          "B14": {
+            "anyOf": [
+              "=INTPER($B$7;A14;$B$8;-$B$3)"
+            ],
+            "v": 93.72040718926814
+          },
+          "C14": {
+            "anyOf": [
+              "=PRINCPER($B$7;A14;$B$8;-$B$3)",
+              "=$B$9-B14"
+            ],
+            "v": 465.57017005624175
+          },
+          "D14": {
+            "anyOf": [
+              "=B14+C14",
+              "=SOMME(B14:C14)"
+            ],
+            "v": 559.2905772455099
+          },
+          "B15": {
+            "anyOf": [
+              "=INTPER($B$7;A15;$B$8;-$B$3)"
+            ],
+            "v": 2.089504024578491
+          },
+          "C15": {
+            "anyOf": [
+              "=PRINCPER($B$7;A15;$B$8;-$B$3)",
+              "=$B$9-B15"
+            ],
+            "v": 557.2010732209314
+          },
+          "D15": {
+            "anyOf": [
+              "=B15+C15",
+              "=SOMME(B15:C15)"
+            ],
+            "v": 559.2905772455099
+          }
+        }
+      },
+      "aide": {
+        "text": "Sélectionnez les trois cellules, puis tirez la poignée. Les paramètres sont figés, seul le numéro d'échéance doit bouger."
+      },
+      "feedback": "Lisez la colonne des intérêts de haut en bas : 112.5 € à la première échéance, 2.09 € à la soixantième. Et la colonne D affiche toujours la même mensualité : c'est bien la même somme, répartie autrement."
+    },
+    {
+      "id": "M16-L04-06",
+      "consigne": "En **B18**, ==calculez le coût total du crédit== : tout ce qui a été versé, moins le capital emprunté.",
+      "setup": {
+        "selection": "B18"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B18",
+        "accept": [
+          "=B9*B8-B3",
+          "=B8*B9-B3"
+        ],
+        "formulaMode": true
+      },
+      "feedback": "3557.43 € d'intérêts sur cinq ans."
+    },
+    {
+      "id": "M16-L04-07",
+      "consigne": "En **B19**, ==calculez la part d'intérêts de la première échéance==, en proportion de la mensualité.",
+      "setup": {
+        "selection": "B19"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B19",
+        "accept": [
+          "=B12/B9",
+          "=B12/$B$9"
+        ],
+        "formulaMode": true
+      },
+      "feedback": "Environ 20 % de la première mensualité part en intérêts. À la dernière, cette part est presque nulle : c'est ce qui explique qu'un remboursement anticipé rapporte beaucoup plus au début qu'à la fin."
+    },
+    {
+      "id": "M16-L04-08",
+      "consigne": "Deux règles à emporter. **INTPER et PRINCPER prennent les mêmes arguments que VPM**, avec en plus le numéro de l'échéance en deuxième position — c'est la seule chose à retenir. Et leur somme **égale toujours la mensualité** : si votre colonne de contrôle ne retombe pas dessus, un argument est mal placé, le plus souvent le numéro d'échéance et le nombre de périodes inversés.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0,
+      "montrer": [
+        {
+          "type": "MONTRER",
+          "cible": "B7",
+          "texte": "INTPER et PRINCPER prennent les mêmes arguments que VPM"
+        },
+        {
+          "type": "MONTRER",
+          "cible": "A12",
+          "texte": "Avec en plus le numéro de l'échéance, en deuxième position"
+        },
+        {
+          "type": "MONTRER",
+          "cible": "B9",
+          "texte": "Et leur somme égale TOUJOURS la mensualité : c'est votre contrôle"
+        }
+      ]
     }
-   }
   ]
- },
- "steps": [
-  {
-   "id": "M16-L04-01",
-   "consigne": "Le haut du tableau est déjà calculé : taux mensuel, nombre de mensualités et mensualité. Le tableau du bas demande, pour quatre échéances choisies — la 1ʳᵉ, la 2ᵉ, la 12ᵉ et la 60ᵉ — la part d'**intérêts** et la part de **capital**. **INTPER** donne la première, **PRINCPER** la seconde.",
-   "action": {
-    "type": "READ"
-   },
-   "points": 0
-  },
-  {
-   "id": "M16-L04-02",
-   "consigne": "En **B12**, ==saisissez `=INTPER($B$7;A12;$B$8;-$B$3)`== : les intérêts de la première échéance.",
-   "setup": {
-    "selection": "B12"
-   },
-   "action": {
-    "type": "TYPE",
-    "target": "B12",
-    "accept": [
-     "=INTPER($B$7;A12;$B$8;-$B$3)"
-    ],
-    "formulaMode": true
-   },
-   "aide": {
-    "text": "Quatre arguments : le taux par période, le **numéro de l'échéance** — lu dans la colonne A —, le nombre de périodes, et le capital avec un signe moins.",
-    "showTarget": true
-   },
-   "feedback": "112.5 €. C'est exactement le capital emprunté multiplié par le taux mensuel : au premier mois, rien n'a encore été remboursé."
-  },
-  {
-   "id": "M16-L04-03",
-   "consigne": "En **C12**, ==saisissez `=PRINCPER($B$7;A12;$B$8;-$B$3)`== pour la part de capital.",
-   "setup": {
-    "selection": "C12"
-   },
-   "action": {
-    "type": "TYPE",
-    "target": "C12",
-    "accept": [
-     "=PRINCPER($B$7;A12;$B$8;-$B$3)",
-     "=$B$9-B12"
-    ],
-    "formulaMode": true
-   },
-   "aide": {
-    "text": "Mêmes arguments, dans le même ordre : seule la fonction change.",
-    "showTarget": true
-   },
-   "feedback": "446.79 € de capital réellement remboursé le premier mois, sur une mensualité de 559.29 €."
-  },
-  {
-   "id": "M16-L04-04",
-   "consigne": "Contrôlons. En **D12**, ==additionnez les deux parts==.",
-   "setup": {
-    "selection": "D12"
-   },
-   "action": {
-    "type": "TYPE",
-    "target": "D12",
-    "accept": [
-     "=B12+C12",
-     "=SOMME(B12:C12)"
-    ],
-    "formulaMode": true
-   },
-   "aide": {
-    "text": "Intérêts plus capital.",
-    "showTarget": true
-   },
-   "feedback": "559.29 € : exactement la mensualité de B9. C'est le contrôle qui prouve que la décomposition est juste, et il vaut pour toutes les échéances."
-  },
-  {
-   "id": "M16-L04-05",
-   "consigne": "==Recopiez **B12:D12** jusqu'à la ligne 15== pour les trois autres échéances.",
-   "action": {
-    "type": "EXPECT_STATE",
-    "cells": {
-     "B13": {
-      "anyOf": [
-       "=INTPER($B$7;A13;$B$8;-$B$3)"
-      ],
-      "v": 110.82453533532937
-     },
-     "C13": {
-      "anyOf": [
-       "=PRINCPER($B$7;A13;$B$8;-$B$3)",
-       "=$B$9-B13"
-      ],
-      "v": 448.46604191018054
-     },
-     "D13": {
-      "anyOf": [
-       "=B13+C13",
-       "=SOMME(B13:C13)"
-      ],
-      "v": 559.2905772455099
-     },
-     "B14": {
-      "anyOf": [
-       "=INTPER($B$7;A14;$B$8;-$B$3)"
-      ],
-      "v": 93.72040718926814
-     },
-     "C14": {
-      "anyOf": [
-       "=PRINCPER($B$7;A14;$B$8;-$B$3)",
-       "=$B$9-B14"
-      ],
-      "v": 465.57017005624175
-     },
-     "D14": {
-      "anyOf": [
-       "=B14+C14",
-       "=SOMME(B14:C14)"
-      ],
-      "v": 559.2905772455099
-     },
-     "B15": {
-      "anyOf": [
-       "=INTPER($B$7;A15;$B$8;-$B$3)"
-      ],
-      "v": 2.089504024578491
-     },
-     "C15": {
-      "anyOf": [
-       "=PRINCPER($B$7;A15;$B$8;-$B$3)",
-       "=$B$9-B15"
-      ],
-      "v": 557.2010732209314
-     },
-     "D15": {
-      "anyOf": [
-       "=B15+C15",
-       "=SOMME(B15:C15)"
-      ],
-      "v": 559.2905772455099
-     }
-    }
-   },
-   "aide": {
-    "text": "Sélectionnez les trois cellules, puis tirez la poignée. Les paramètres sont figés, seul le numéro d'échéance doit bouger."
-   },
-   "feedback": "Lisez la colonne des intérêts de haut en bas : 112.5 € à la première échéance, 2.09 € à la soixantième. Et la colonne D affiche toujours la même mensualité : c'est bien la même somme, répartie autrement."
-  },
-  {
-   "id": "M16-L04-06",
-   "consigne": "En **B18**, ==calculez le coût total du crédit== : tout ce qui a été versé, moins le capital emprunté.",
-   "setup": {
-    "selection": "B18"
-   },
-   "action": {
-    "type": "TYPE",
-    "target": "B18",
-    "accept": [
-     "=B9*B8-B3",
-     "=B8*B9-B3"
-    ],
-    "formulaMode": true
-   },
-   "feedback": "3557.43 € d'intérêts sur cinq ans."
-  },
-  {
-   "id": "M16-L04-07",
-   "consigne": "En **B19**, ==calculez la part d'intérêts de la première échéance==, en proportion de la mensualité.",
-   "setup": {
-    "selection": "B19"
-   },
-   "action": {
-    "type": "TYPE",
-    "target": "B19",
-    "accept": [
-     "=B12/B9",
-     "=B12/$B$9"
-    ],
-    "formulaMode": true
-   },
-   "feedback": "Environ 20 % de la première mensualité part en intérêts. À la dernière, cette part est presque nulle : c'est ce qui explique qu'un remboursement anticipé rapporte beaucoup plus au début qu'à la fin."
-  },
-  {
-   "id": "M16-L04-08",
-   "consigne": "Deux règles à emporter. **INTPER et PRINCPER prennent les mêmes arguments que VPM**, avec en plus le numéro de l'échéance en deuxième position — c'est la seule chose à retenir. Et leur somme **égale toujours la mensualité** : si votre colonne de contrôle ne retombe pas dessus, un argument est mal placé, le plus souvent le numéro d'échéance et le nombre de périodes inversés.",
-   "action": {
-    "type": "READ"
-   },
-   "points": 0
-  }
- ]
 }

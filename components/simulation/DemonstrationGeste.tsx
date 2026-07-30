@@ -142,7 +142,10 @@ export default function DemonstrationGeste({ plan, resoudre, largeur, onEcrire, 
     const duree =
       phase === "avertir" ? 3200
       : phase === "vise" ? 900 * vite
-      : phase === "bulle" ? (i === 0 ? 1100 : 620)
+      : phase === "bulle" ?
+          geste?.illustration
+            ? Math.min(4200, Math.max(1600, (geste.bulle?.length ?? 0) * 55))
+            : (i === 0 ? 1100 : 620)
       : phase === "clic" ? 700 * vite
       : phase === "glisse" ? 1200
       : phase === "frappe" ? (260 + (geste?.frappe?.length ?? 0) * 105 + 500) * vite
@@ -288,6 +291,11 @@ export default function DemonstrationGeste({ plan, resoudre, largeur, onEcrire, 
             l'impression que la démonstration tourne en rond. */}
         {plan.gestes.length > 1 && !avertit && (
           <span
+            // Repère de mesure : le contrôle automatique doit pouvoir lire
+            // « où en est la séquence » SANS relire le plan. Recalculer le plan
+            // après coup donne un autre nombre de gestes — l'onglet de ruban est
+            // alors déjà ouvert, donc le geste qui l'ouvre a disparu.
+            data-demo-compteur={`${Math.min(i + 1, plan.gestes.length)}/${plan.gestes.length}`}
             className="flex items-center rounded-full px-2.5 py-1 text-[11px] font-bold leading-none"
             style={{ background: ENCRE, color: "#fff", boxShadow: "0 1px 3px rgba(0,0,0,.14)" }}
           >
@@ -349,13 +357,33 @@ export default function DemonstrationGeste({ plan, resoudre, largeur, onEcrire, 
             </div>
           )}
 
-          {!geste.touches && (phase === "bulle" || phase === "frappe" || phase === "glisse") && (
+          {/* Sur une ILLUSTRATION, la phrase est le contenu : elle reste
+              affichée tant que le geste dure. Ailleurs elle accompagne le
+              mouvement et s'efface avec lui. */}
+          {!geste.touches &&
+            (geste.illustration ||
+              phase === "bulle" ||
+              phase === "frappe" ||
+              phase === "glisse") && (
             <div
-              className="absolute rounded-lg px-2.5 py-1.5 text-[11.5px] font-semibold text-white"
+              className={
+                geste.illustration
+                  ? "absolute rounded-lg px-3 py-2 text-[12.5px] font-semibold leading-snug text-white"
+                  : "absolute rounded-lg px-2.5 py-1.5 text-[11.5px] font-semibold text-white"
+              }
               style={{
-                left: Math.min(Math.max(4, rect.left + rect.width / 2 - 70), Math.max(4, largeur - 210)),
-                top: rect.top > 46 ? rect.top - 34 : rect.top + rect.height + 10,
-                background: ENCRE, maxWidth: 205, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",
+                // Une illustration porte une PHRASE : elle se lit en entier, sur
+                // plusieurs lignes s'il le faut. Une bulle de geste reste courte
+                // et tient sur une ligne pour ne pas masquer la feuille.
+                left: geste.illustration
+                  ? Math.min(Math.max(4, rect.left + rect.width / 2 - 150), Math.max(4, largeur - 316))
+                  : Math.min(Math.max(4, rect.left + rect.width / 2 - 70), Math.max(4, largeur - 210)),
+                top: rect.top > 62 ? rect.top - (geste.illustration ? 50 : 34) : rect.top + rect.height + 10,
+                background: ENCRE,
+                maxWidth: geste.illustration ? 312 : 205,
+                ...(geste.illustration
+                  ? {}
+                  : { whiteSpace: "nowrap" as const, overflow: "hidden", textOverflow: "ellipsis" }),
                 boxShadow: "0 6px 16px -6px rgba(0,0,0,.5)", animation: "sim-demo-entree .28s ease both",
               }}
             >
@@ -403,7 +431,7 @@ export default function DemonstrationGeste({ plan, resoudre, largeur, onEcrire, 
             </div>
           )}
 
-          {phase === "valide" && !geste.touches && (
+          {phase === "valide" && !geste.touches && !geste.illustration && (
             <div
               className="absolute rounded-md bg-white px-2 py-1 text-[10.5px] font-bold"
               style={{

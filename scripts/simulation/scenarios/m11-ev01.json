@@ -1,472 +1,489 @@
 {
- "schemaVersion": 1,
- "title": "S'évaluer · Mise en forme conditionnelle",
- "mode": "EVALUATION",
- "moduleTitle": "Mise en forme conditionnelle",
- "intro": {
-  "title": "S'ÉVALUER",
-  "body": "Un état de stock de huit références. Onze gestes sont attendus : des règles de couleur, les seuils qui les justifient, un damier et les contrôles chiffrés. Chacun est noté à la première tentative, et aucune aide n'est proposée."
- },
- "outro": {
-  "body": "Évaluation terminée."
- },
- "ribbon": [
-  "accueil"
- ],
- "statusBar": {
-  "aggregates": [
-   "moyenne",
-   "nb-non-vides",
-   "somme"
+  "schemaVersion": 1,
+  "title": "S'évaluer · Mise en forme conditionnelle",
+  "mode": "EVALUATION",
+  "moduleTitle": "Mise en forme conditionnelle",
+  "intro": {
+    "title": "S'ÉVALUER",
+    "body": "Un état de stock de huit références. Onze gestes sont attendus : des règles de couleur, les seuils qui les justifient, un damier et les contrôles chiffrés. Chacun est noté à la première tentative, et aucune aide n'est proposée."
+  },
+  "outro": {
+    "body": "Évaluation terminée."
+  },
+  "ribbon": [
+    "accueil"
   ],
-  "sheetCount": 1
- },
- "workbook": {
-  "fileName": "État de stock",
-  "activeSheetIndex": 0,
-  "selection": "A1",
-  "sheets": [
-   {
-    "name": "Feuil1",
-    "columnWidths": {
-     "A": 105,
-     "B": 130,
-     "C": 80,
-     "D": 85,
-     "E": 105,
-     "F": 75,
-     "G": 205,
-     "H": 105
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ],
+    "sheetCount": 1
+  },
+  "workbook": {
+    "fileName": "État de stock",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 105,
+          "B": 130,
+          "C": 80,
+          "D": 85,
+          "E": 105,
+          "F": 75,
+          "G": 205,
+          "H": 105
+        },
+        "cells": {
+          "G1": {
+            "v": "2ᵉ stock le plus élevé",
+            "format": {
+              "bold": true
+            }
+          },
+          "G2": {
+            "v": "Références en rupture",
+            "format": {
+              "bold": true
+            }
+          },
+          "G3": {
+            "v": "Valeur du stock (€)",
+            "format": {
+              "bold": true
+            }
+          },
+          "G5": {
+            "v": "Seuil de rupture"
+          },
+          "H5": {
+            "v": 10
+          },
+          "A1": {
+            "v": "Référence",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Famille",
+            "format": {
+              "bold": true
+            }
+          },
+          "C1": {
+            "v": "Stock",
+            "format": {
+              "bold": true
+            }
+          },
+          "D1": {
+            "v": "Prix U.",
+            "format": {
+              "bold": true
+            }
+          },
+          "E1": {
+            "v": "Statut",
+            "format": {
+              "bold": true
+            }
+          },
+          "F1": {
+            "v": "MOD",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "PAP-A4"
+          },
+          "B2": {
+            "v": "Papeterie"
+          },
+          "C2": {
+            "v": 42
+          },
+          "D2": {
+            "v": 5
+          },
+          "A3": {
+            "v": "TON-NR"
+          },
+          "B3": {
+            "v": "Consommable"
+          },
+          "C3": {
+            "v": 6
+          },
+          "D3": {
+            "v": 79
+          },
+          "A4": {
+            "v": "CLA-USB"
+          },
+          "B4": {
+            "v": "Informatique"
+          },
+          "C4": {
+            "v": 18
+          },
+          "D4": {
+            "v": 25
+          },
+          "A5": {
+            "v": "SOU-OPT"
+          },
+          "B5": {
+            "v": "Informatique"
+          },
+          "C5": {
+            "v": 8
+          },
+          "D5": {
+            "v": 13
+          },
+          "A6": {
+            "v": "ECR-24"
+          },
+          "B6": {
+            "v": "Informatique"
+          },
+          "C6": {
+            "v": 3
+          },
+          "D6": {
+            "v": 149
+          },
+          "A7": {
+            "v": "CAS-USB"
+          },
+          "B7": {
+            "v": "Informatique"
+          },
+          "C7": {
+            "v": 27
+          },
+          "D7": {
+            "v": 39
+          },
+          "A8": {
+            "v": "PAP-A3"
+          },
+          "B8": {
+            "v": "Papeterie"
+          },
+          "C8": {
+            "v": 15
+          },
+          "D8": {
+            "v": 9
+          },
+          "A9": {
+            "v": "TON-CL"
+          },
+          "B9": {
+            "v": "Consommable"
+          },
+          "C9": {
+            "v": 21
+          },
+          "D9": {
+            "v": 95
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M11-EV01-01",
+      "consigne": "Le **seuil de rupture** est en **H5** : vos formules doivent le lire, pas le recopier.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0,
+      "montrer": [
+        {
+          "type": "MONTRER",
+          "cible": "H5",
+          "texte": "Le seuil de rupture est ici, en H5"
+        },
+        {
+          "type": "MONTRER",
+          "cible": "C2",
+          "texte": "Vos formules doivent le LIRE, pas le recopier"
+        },
+        {
+          "type": "MONTRER",
+          "cible": "G1",
+          "texte": "Le jour où le seuil change, tout doit suivre tout seul"
+        }
+      ]
     },
-    "cells": {
-     "G1": {
-      "v": "2ᵉ stock le plus élevé",
-      "format": {
-       "bold": true
-      }
-     },
-     "G2": {
-      "v": "Références en rupture",
-      "format": {
-       "bold": true
-      }
-     },
-     "G3": {
-      "v": "Valeur du stock (€)",
-      "format": {
-       "bold": true
-      }
-     },
-     "G5": {
-      "v": "Seuil de rupture"
-     },
-     "H5": {
-      "v": 10
-     },
-     "A1": {
-      "v": "Référence",
-      "format": {
-       "bold": true
-      }
-     },
-     "B1": {
-      "v": "Famille",
-      "format": {
-       "bold": true
-      }
-     },
-     "C1": {
-      "v": "Stock",
-      "format": {
-       "bold": true
-      }
-     },
-     "D1": {
-      "v": "Prix U.",
-      "format": {
-       "bold": true
-      }
-     },
-     "E1": {
-      "v": "Statut",
-      "format": {
-       "bold": true
-      }
-     },
-     "F1": {
-      "v": "MOD",
-      "format": {
-       "bold": true
-      }
-     },
-     "A2": {
-      "v": "PAP-A4"
-     },
-     "B2": {
-      "v": "Papeterie"
-     },
-     "C2": {
-      "v": 42
-     },
-     "D2": {
-      "v": 5
-     },
-     "A3": {
-      "v": "TON-NR"
-     },
-     "B3": {
-      "v": "Consommable"
-     },
-     "C3": {
-      "v": 6
-     },
-     "D3": {
-      "v": 79
-     },
-     "A4": {
-      "v": "CLA-USB"
-     },
-     "B4": {
-      "v": "Informatique"
-     },
-     "C4": {
-      "v": 18
-     },
-     "D4": {
-      "v": 25
-     },
-     "A5": {
-      "v": "SOU-OPT"
-     },
-     "B5": {
-      "v": "Informatique"
-     },
-     "C5": {
-      "v": 8
-     },
-     "D5": {
-      "v": 13
-     },
-     "A6": {
-      "v": "ECR-24"
-     },
-     "B6": {
-      "v": "Informatique"
-     },
-     "C6": {
-      "v": 3
-     },
-     "D6": {
-      "v": 149
-     },
-     "A7": {
-      "v": "CAS-USB"
-     },
-     "B7": {
-      "v": "Informatique"
-     },
-     "C7": {
-      "v": 27
-     },
-     "D7": {
-      "v": 39
-     },
-     "A8": {
-      "v": "PAP-A3"
-     },
-     "B8": {
-      "v": "Papeterie"
-     },
-     "C8": {
-      "v": 15
-     },
-     "D8": {
-      "v": 9
-     },
-     "A9": {
-      "v": "TON-CL"
-     },
-     "B9": {
-      "v": "Consommable"
-     },
-     "C9": {
-      "v": 21
-     },
-     "D9": {
-      "v": 95
-     }
+    {
+      "id": "M11-EV01-02",
+      "consigne": "Signalez en **rouge** les stocks **inférieurs à 10**.",
+      "setup": {
+        "selection": "C2:C9",
+        "cf": {
+          "range": "C2:C9",
+          "rule": {
+            "kind": "lessThan",
+            "value": 10,
+            "background": "#fecaca",
+            "bold": true
+          }
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "acc-mfc-regle"
+      },
+      "points": 1
+    },
+    {
+      "id": "M11-EV01-03",
+      "consigne": "Signalez en **orange** les stocks **compris entre 10 et 25**, à surveiller.",
+      "setup": {
+        "selection": "C2:C9",
+        "cf": {
+          "range": "C2:C9",
+          "rule": {
+            "kind": "between",
+            "value": 10,
+            "value2": 25,
+            "background": "#fed7aa"
+          }
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "acc-mfc-regle"
+      },
+      "points": 1
+    },
+    {
+      "id": "M11-EV01-04",
+      "consigne": "Faites ressortir en **bleu** toute la famille **Informatique**.",
+      "setup": {
+        "selection": "B2:B9",
+        "cf": {
+          "range": "B2:B9",
+          "rule": {
+            "kind": "textContains",
+            "text": "Informatique",
+            "background": "#bfdbfe"
+          }
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "acc-mfc-regle"
+      },
+      "points": 2
+    },
+    {
+      "id": "M11-EV01-05",
+      "consigne": "En **H1**, affichez le **deuxième stock le plus élevé**.",
+      "setup": {
+        "selection": "H1"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "H1",
+        "accept": [
+          "=GRANDE.VALEUR($C$2:$C$9;2)",
+          "=GRANDE.VALEUR(C2:C9;2)"
+        ],
+        "formulaMode": true
+      },
+      "points": 2
+    },
+    {
+      "id": "M11-EV01-06",
+      "consigne": "En **H2**, comptez les références **en rupture**, en lisant le seuil de H5.",
+      "setup": {
+        "selection": "H2"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "H2",
+        "accept": [
+          "=NB.SI($C$2:$C$9;\"<\"&H5)",
+          "=NB.SI(C2:C9;\"<\"&H5)",
+          "=NB.SI($C$2:$C$9;\"<\"&$H$5)",
+          "=NB.SI(C2:C9;\"<10\")"
+        ],
+        "formulaMode": true
+      },
+      "points": 3
+    },
+    {
+      "id": "M11-EV01-07",
+      "consigne": "En **H3**, calculez la **valeur totale du stock** : chaque quantité multipliée par son prix, en une seule formule.",
+      "setup": {
+        "selection": "H3"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "H3",
+        "accept": [
+          "=SOMMEPROD(C2:C9;D2:D9)",
+          "=SOMMEPROD(D2:D9;C2:C9)"
+        ],
+        "formulaMode": true
+      },
+      "points": 3
+    },
+    {
+      "id": "M11-EV01-08",
+      "consigne": "En **E2**, affichez `Rupture` si le stock est sous le seuil lu en **H5**, `OK` sinon. La formule devra se recopier.",
+      "setup": {
+        "selection": "E2"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "E2",
+        "accept": [
+          "=SI(C2<$H$5;\"Rupture\";\"OK\")",
+          "=SI(C2>=$H$5;\"OK\";\"Rupture\")",
+          "=SI($H$5>C2;\"Rupture\";\"OK\")",
+          "=SI(C2<10;\"Rupture\";\"OK\")"
+        ],
+        "formulaMode": true
+      },
+      "points": 2
+    },
+    {
+      "id": "M11-EV01-09",
+      "consigne": "Complétez la colonne **Statut** pour les huit références.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "E3": {
+            "anyOf": [
+              "=SI(C3<$H$5;\"Rupture\";\"OK\")",
+              "=SI(C3>=$H$5;\"OK\";\"Rupture\")",
+              "=SI($H$5>C3;\"Rupture\";\"OK\")",
+              "=SI(C3<10;\"Rupture\";\"OK\")"
+            ],
+            "v": "Rupture"
+          },
+          "E4": {
+            "anyOf": [
+              "=SI(C4<$H$5;\"Rupture\";\"OK\")",
+              "=SI(C4>=$H$5;\"OK\";\"Rupture\")",
+              "=SI($H$5>C4;\"Rupture\";\"OK\")",
+              "=SI(C4<10;\"Rupture\";\"OK\")"
+            ],
+            "v": "OK"
+          },
+          "E5": {
+            "anyOf": [
+              "=SI(C5<$H$5;\"Rupture\";\"OK\")",
+              "=SI(C5>=$H$5;\"OK\";\"Rupture\")",
+              "=SI($H$5>C5;\"Rupture\";\"OK\")",
+              "=SI(C5<10;\"Rupture\";\"OK\")"
+            ],
+            "v": "Rupture"
+          },
+          "E6": {
+            "anyOf": [
+              "=SI(C6<$H$5;\"Rupture\";\"OK\")",
+              "=SI(C6>=$H$5;\"OK\";\"Rupture\")",
+              "=SI($H$5>C6;\"Rupture\";\"OK\")",
+              "=SI(C6<10;\"Rupture\";\"OK\")"
+            ],
+            "v": "Rupture"
+          },
+          "E7": {
+            "anyOf": [
+              "=SI(C7<$H$5;\"Rupture\";\"OK\")",
+              "=SI(C7>=$H$5;\"OK\";\"Rupture\")",
+              "=SI($H$5>C7;\"Rupture\";\"OK\")",
+              "=SI(C7<10;\"Rupture\";\"OK\")"
+            ],
+            "v": "OK"
+          },
+          "E8": {
+            "anyOf": [
+              "=SI(C8<$H$5;\"Rupture\";\"OK\")",
+              "=SI(C8>=$H$5;\"OK\";\"Rupture\")",
+              "=SI($H$5>C8;\"Rupture\";\"OK\")",
+              "=SI(C8<10;\"Rupture\";\"OK\")"
+            ],
+            "v": "OK"
+          },
+          "E9": {
+            "anyOf": [
+              "=SI(C9<$H$5;\"Rupture\";\"OK\")",
+              "=SI(C9>=$H$5;\"OK\";\"Rupture\")",
+              "=SI($H$5>C9;\"Rupture\";\"OK\")",
+              "=SI(C9<10;\"Rupture\";\"OK\")"
+            ],
+            "v": "OK"
+          }
+        }
+      },
+      "points": 2
+    },
+    {
+      "id": "M11-EV01-10",
+      "consigne": "En **F2**, écrivez la formule qui vaut **0 une ligne sur deux** — celle qui permettrait à une règle de faire le damier automatiquement.",
+      "setup": {
+        "selection": "F2"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "F2",
+        "accept": [
+          "=MOD(LIGNE();2)"
+        ],
+        "formulaMode": true
+      },
+      "points": 2
+    },
+    {
+      "id": "M11-EV01-11",
+      "consigne": "Posez à la main la première bande du damier sur la **ligne 3**, déjà sélectionnée.",
+      "setup": {
+        "selection": "A3:D3"
+      },
+      "action": {
+        "type": "EXPECT_FORMAT",
+        "cells": {
+          "A3": {
+            "background": "#fde68a"
+          },
+          "D3": {
+            "background": "#fde68a"
+          }
+        }
+      },
+      "points": 1
+    },
+    {
+      "id": "M11-EV01-12",
+      "consigne": "Changement d'avis : le responsable veut repartir de zéro sur la colonne des stocks. **Effacez toutes les règles** de C2:C9.",
+      "setup": {
+        "selection": "C2:C9",
+        "cf": {
+          "range": "C2:C9",
+          "rule": {
+            "kind": "duplicates"
+          }
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "acc-mfc-effacer"
+      },
+      "points": 2
     }
-   }
   ]
- },
- "steps": [
-  {
-   "id": "M11-EV01-01",
-   "consigne": "Le **seuil de rupture** est en **H5** : vos formules doivent le lire, pas le recopier.",
-   "action": {
-    "type": "READ"
-   },
-   "points": 0
-  },
-  {
-   "id": "M11-EV01-02",
-   "consigne": "Signalez en **rouge** les stocks **inférieurs à 10**.",
-   "setup": {
-    "selection": "C2:C9",
-    "cf": {
-     "range": "C2:C9",
-     "rule": {
-      "kind": "lessThan",
-      "value": 10,
-      "background": "#fecaca",
-      "bold": true
-     }
-    }
-   },
-   "action": {
-    "type": "CLICK_CONTROL",
-    "control": "acc-mfc-regle"
-   },
-   "points": 1
-  },
-  {
-   "id": "M11-EV01-03",
-   "consigne": "Signalez en **orange** les stocks **compris entre 10 et 25**, à surveiller.",
-   "setup": {
-    "selection": "C2:C9",
-    "cf": {
-     "range": "C2:C9",
-     "rule": {
-      "kind": "between",
-      "value": 10,
-      "value2": 25,
-      "background": "#fed7aa"
-     }
-    }
-   },
-   "action": {
-    "type": "CLICK_CONTROL",
-    "control": "acc-mfc-regle"
-   },
-   "points": 1
-  },
-  {
-   "id": "M11-EV01-04",
-   "consigne": "Faites ressortir en **bleu** toute la famille **Informatique**.",
-   "setup": {
-    "selection": "B2:B9",
-    "cf": {
-     "range": "B2:B9",
-     "rule": {
-      "kind": "textContains",
-      "text": "Informatique",
-      "background": "#bfdbfe"
-     }
-    }
-   },
-   "action": {
-    "type": "CLICK_CONTROL",
-    "control": "acc-mfc-regle"
-   },
-   "points": 2
-  },
-  {
-   "id": "M11-EV01-05",
-   "consigne": "En **H1**, affichez le **deuxième stock le plus élevé**.",
-   "setup": {
-    "selection": "H1"
-   },
-   "action": {
-    "type": "TYPE",
-    "target": "H1",
-    "accept": [
-     "=GRANDE.VALEUR($C$2:$C$9;2)",
-     "=GRANDE.VALEUR(C2:C9;2)"
-    ],
-    "formulaMode": true
-   },
-   "points": 2
-  },
-  {
-   "id": "M11-EV01-06",
-   "consigne": "En **H2**, comptez les références **en rupture**, en lisant le seuil de H5.",
-   "setup": {
-    "selection": "H2"
-   },
-   "action": {
-    "type": "TYPE",
-    "target": "H2",
-    "accept": [
-     "=NB.SI($C$2:$C$9;\"<\"&H5)",
-     "=NB.SI(C2:C9;\"<\"&H5)",
-     "=NB.SI($C$2:$C$9;\"<\"&$H$5)",
-     "=NB.SI(C2:C9;\"<10\")"
-    ],
-    "formulaMode": true
-   },
-   "points": 3
-  },
-  {
-   "id": "M11-EV01-07",
-   "consigne": "En **H3**, calculez la **valeur totale du stock** : chaque quantité multipliée par son prix, en une seule formule.",
-   "setup": {
-    "selection": "H3"
-   },
-   "action": {
-    "type": "TYPE",
-    "target": "H3",
-    "accept": [
-     "=SOMMEPROD(C2:C9;D2:D9)",
-     "=SOMMEPROD(D2:D9;C2:C9)"
-    ],
-    "formulaMode": true
-   },
-   "points": 3
-  },
-  {
-   "id": "M11-EV01-08",
-   "consigne": "En **E2**, affichez `Rupture` si le stock est sous le seuil lu en **H5**, `OK` sinon. La formule devra se recopier.",
-   "setup": {
-    "selection": "E2"
-   },
-   "action": {
-    "type": "TYPE",
-    "target": "E2",
-    "accept": [
-     "=SI(C2<$H$5;\"Rupture\";\"OK\")",
-     "=SI(C2>=$H$5;\"OK\";\"Rupture\")",
-     "=SI($H$5>C2;\"Rupture\";\"OK\")",
-     "=SI(C2<10;\"Rupture\";\"OK\")"
-    ],
-    "formulaMode": true
-   },
-   "points": 2
-  },
-  {
-   "id": "M11-EV01-09",
-   "consigne": "Complétez la colonne **Statut** pour les huit références.",
-   "action": {
-    "type": "EXPECT_STATE",
-    "cells": {
-     "E3": {
-      "anyOf": [
-       "=SI(C3<$H$5;\"Rupture\";\"OK\")",
-       "=SI(C3>=$H$5;\"OK\";\"Rupture\")",
-       "=SI($H$5>C3;\"Rupture\";\"OK\")",
-       "=SI(C3<10;\"Rupture\";\"OK\")"
-      ],
-      "v": "Rupture"
-     },
-     "E4": {
-      "anyOf": [
-       "=SI(C4<$H$5;\"Rupture\";\"OK\")",
-       "=SI(C4>=$H$5;\"OK\";\"Rupture\")",
-       "=SI($H$5>C4;\"Rupture\";\"OK\")",
-       "=SI(C4<10;\"Rupture\";\"OK\")"
-      ],
-      "v": "OK"
-     },
-     "E5": {
-      "anyOf": [
-       "=SI(C5<$H$5;\"Rupture\";\"OK\")",
-       "=SI(C5>=$H$5;\"OK\";\"Rupture\")",
-       "=SI($H$5>C5;\"Rupture\";\"OK\")",
-       "=SI(C5<10;\"Rupture\";\"OK\")"
-      ],
-      "v": "Rupture"
-     },
-     "E6": {
-      "anyOf": [
-       "=SI(C6<$H$5;\"Rupture\";\"OK\")",
-       "=SI(C6>=$H$5;\"OK\";\"Rupture\")",
-       "=SI($H$5>C6;\"Rupture\";\"OK\")",
-       "=SI(C6<10;\"Rupture\";\"OK\")"
-      ],
-      "v": "Rupture"
-     },
-     "E7": {
-      "anyOf": [
-       "=SI(C7<$H$5;\"Rupture\";\"OK\")",
-       "=SI(C7>=$H$5;\"OK\";\"Rupture\")",
-       "=SI($H$5>C7;\"Rupture\";\"OK\")",
-       "=SI(C7<10;\"Rupture\";\"OK\")"
-      ],
-      "v": "OK"
-     },
-     "E8": {
-      "anyOf": [
-       "=SI(C8<$H$5;\"Rupture\";\"OK\")",
-       "=SI(C8>=$H$5;\"OK\";\"Rupture\")",
-       "=SI($H$5>C8;\"Rupture\";\"OK\")",
-       "=SI(C8<10;\"Rupture\";\"OK\")"
-      ],
-      "v": "OK"
-     },
-     "E9": {
-      "anyOf": [
-       "=SI(C9<$H$5;\"Rupture\";\"OK\")",
-       "=SI(C9>=$H$5;\"OK\";\"Rupture\")",
-       "=SI($H$5>C9;\"Rupture\";\"OK\")",
-       "=SI(C9<10;\"Rupture\";\"OK\")"
-      ],
-      "v": "OK"
-     }
-    }
-   },
-   "points": 2
-  },
-  {
-   "id": "M11-EV01-10",
-   "consigne": "En **F2**, écrivez la formule qui vaut **0 une ligne sur deux** — celle qui permettrait à une règle de faire le damier automatiquement.",
-   "setup": {
-    "selection": "F2"
-   },
-   "action": {
-    "type": "TYPE",
-    "target": "F2",
-    "accept": [
-     "=MOD(LIGNE();2)"
-    ],
-    "formulaMode": true
-   },
-   "points": 2
-  },
-  {
-   "id": "M11-EV01-11",
-   "consigne": "Posez à la main la première bande du damier sur la **ligne 3**, déjà sélectionnée.",
-   "setup": {
-    "selection": "A3:D3"
-   },
-   "action": {
-    "type": "EXPECT_FORMAT",
-    "cells": {
-     "A3": {
-      "background": "#fde68a"
-     },
-     "D3": {
-      "background": "#fde68a"
-     }
-    }
-   },
-   "points": 1
-  },
-  {
-   "id": "M11-EV01-12",
-   "consigne": "Changement d'avis : le responsable veut repartir de zéro sur la colonne des stocks. **Effacez toutes les règles** de C2:C9.",
-   "setup": {
-    "selection": "C2:C9",
-    "cf": {
-     "range": "C2:C9",
-     "rule": {
-      "kind": "duplicates"
-     }
-    }
-   },
-   "action": {
-    "type": "CLICK_CONTROL",
-    "control": "acc-mfc-effacer"
-   },
-   "points": 2
-  }
- ]
 }

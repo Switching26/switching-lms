@@ -57,25 +57,12 @@ for (const f of fs.readdirSync(DIR).filter((n) => n.endsWith(".json")).sort()) {
         soucis.push(`${f} ${st.id} — feuille « ${a.name} » inconnue (${noms.join(", ")})`)
       }
     }
-    // Une démonstration ne peut rien montrer quand le classeur n'est PAS affiché :
-    // le calque vit dans la zone de grille, absente tant que le poste de travail
-    // montre le bureau ou l'écran d'accueil d'Excel. La séquence se jouait alors
-    // entièrement à blanc — et pire, l'apprenant perdait son bouton « Voir le
-    // geste » au profit d'une démonstration invisible, sans même un « Revoir »
-    // avant la fin. Constaté sur `M01-L01-14` (deux raccourcis clavier).
-    if (sc.poste) {
-      let etat = sc.poste.excelOuvert ? "classeur" : "ferme"
-      for (const p of sc.steps as any[]) {
-        const sp = p.setup?.poste
-        if (sp?.excel) etat = sp.excel
-        if (p.id === st.id) break
-      }
-      if (etat !== "classeur") {
-        soucis.push(
-          `${f} ${st.id} — démonstration impossible : le poste affiche « ${etat} », le classeur n'est pas à l'écran`,
-        )
-      }
-    }
+    // NOTE : la contrainte « pas de démonstration quand le classeur est masqué »
+    // a existé une heure, le 30/07. Elle n'a plus lieu d'être : le calque de
+    // démonstration a été sorti de la zone de grille et se pose au-dessus de
+    // TOUT l'atelier, bureau compris. Un écran de lecture peut donc montrer un
+    // geste qui se passe hors du classeur — démarrer Excel, quitter, ouvrir un
+    // fichier depuis le bureau.
     // Une lecture ne doit pas jouer le geste que l'étape SUIVANTE va demander :
     // ce serait donner la réponse avant la question.
     const suivante = (sc.steps as any[])[(sc.steps as any[]).indexOf(st) + 1]
@@ -89,6 +76,24 @@ for (const f of fs.readdirSync(DIR).filter((n) => n.endsWith(".json")).sort()) {
     ok++
   }
 }
+/* ── AUCUN écran « À lire » ne doit rester muet ────────────────────────────
+   C'était l'inverse jusqu'au 30/07 : `montrer` était facultatif, et 187 des
+   229 écrans de lecture n'affichaient rien du tout — un paragraphe devant un
+   écran figé. Le contrôle refuse désormais qu'un seul reste sans démonstration,
+   pour qu'un écran ajouté demain ne retombe pas dans ce trou. */
+const muets: string[] = []
+for (const f of fs.readdirSync(DIR).filter((n) => n.endsWith(".json")).sort()) {
+  const sc: SimulationScenario = JSON.parse(fs.readFileSync(path.join(DIR, f), "utf8"))
+  for (const st of sc.steps as any[]) {
+    if (st.action?.type === "READ" && !st.montrer?.length) muets.push(`${f} ${st.id}`)
+  }
+}
+if (muets.length) {
+  soucis.push(
+    `${muets.length} écran(s) « À lire » sans démonstration : ${muets.slice(0, 6).join(", ")}${muets.length > 6 ? "…" : ""}`,
+  )
+}
+
 console.log(`\n${ok} écrans de lecture avec démonstration vérifiée`)
 if (soucis.length) { console.log(`\n${soucis.length} point(s) à corriger :`); soucis.forEach((s) => console.log("  ·", s)) }
 else console.log("aucune cible dans le vide")

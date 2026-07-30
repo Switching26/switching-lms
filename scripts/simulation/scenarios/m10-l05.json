@@ -1,242 +1,276 @@
 {
- "schemaVersion": 1,
- "title": "Calculer la mensualité d'un prêt",
- "mode": "LESSON",
- "moduleTitle": "Fonctions avancées",
- "intro": {
-  "title": "COMBIEN PAR MOIS ?",
-  "body": "Un emprunt de 18 000 € sur 5 ans à 3,6 %. La mensualité ne se calcule pas en divisant le capital par le nombre de mois : il y a des intérêts. La fonction VPM s'en charge, à trois conditions qu'il faut connaître."
- },
- "outro": {
-  "body": "Vous savez calculer une mensualité, en déduire le coût réel du crédit, et voir aussitôt l'effet d'un allongement de la durée. Les trois pièges de VPM — taux par période, durée en périodes, signe du capital — sont derrière vous."
- },
- "ribbon": [
-  "accueil"
- ],
- "statusBar": {
-  "aggregates": [
-   "moyenne",
-   "nb-non-vides",
-   "somme"
+  "schemaVersion": 1,
+  "title": "Calculer la mensualité d'un prêt",
+  "mode": "LESSON",
+  "moduleTitle": "Fonctions avancées",
+  "intro": {
+    "title": "COMBIEN PAR MOIS ?",
+    "body": "Un emprunt de 18 000 € sur 5 ans à 3,6 %. La mensualité ne se calcule pas en divisant le capital par le nombre de mois : il y a des intérêts. La fonction VPM s'en charge, à trois conditions qu'il faut connaître."
+  },
+  "outro": {
+    "body": "Vous savez calculer une mensualité, en déduire le coût réel du crédit, et voir aussitôt l'effet d'un allongement de la durée. Les trois pièges de VPM — taux par période, durée en périodes, signe du capital — sont derrière vous."
+  },
+  "ribbon": [
+    "accueil"
   ],
-  "sheetCount": 1
- },
- "workbook": {
-  "fileName": "Simulation de prêt",
-  "activeSheetIndex": 0,
-  "selection": "A1",
-  "sheets": [
-   {
-    "name": "Feuil1",
-    "columnWidths": {
-     "A": 260,
-     "B": 130
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ],
+    "sheetCount": 1
+  },
+  "workbook": {
+    "fileName": "Simulation de prêt",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 260,
+          "B": 130
+        },
+        "cells": {
+          "A1": {
+            "v": "SIMULATION D'EMPRUNT — RENOUVELLEMENT DU PARC INFORMATIQUE",
+            "format": {
+              "bold": true
+            }
+          },
+          "A3": {
+            "v": "Montant emprunté (€)"
+          },
+          "B3": {
+            "v": 18000
+          },
+          "A4": {
+            "v": "Taux annuel"
+          },
+          "B4": {
+            "v": 0.036
+          },
+          "A5": {
+            "v": "Durée (années)"
+          },
+          "B5": {
+            "v": 5
+          },
+          "A7": {
+            "v": "Taux mensuel",
+            "format": {
+              "bold": true
+            }
+          },
+          "A8": {
+            "v": "Nombre de mensualités",
+            "format": {
+              "bold": true
+            }
+          },
+          "A9": {
+            "v": "Mensualité",
+            "format": {
+              "bold": true
+            }
+          },
+          "A10": {
+            "v": "Total remboursé",
+            "format": {
+              "bold": true
+            }
+          },
+          "A11": {
+            "v": "Coût du crédit",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M10-L05-01",
+      "consigne": "**VPM** attend trois informations : un taux **par période**, un **nombre de périodes**, et le capital. Comme nous raisonnons en mois, le taux annuel doit être divisé par 12 et la durée multipliée par 12. On prépare donc ces deux valeurs avant d'appeler la fonction.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0,
+      "montrer": [
+        {
+          "type": "MONTRER",
+          "cible": "B4",
+          "texte": "Le taux est ANNUEL : VPM attend un taux par période, donc ÷ 12"
+        },
+        {
+          "type": "MONTRER",
+          "cible": "B5",
+          "texte": "La durée est en années : × 12 pour obtenir des mois"
+        },
+        {
+          "type": "MONTRER",
+          "cible": "A7",
+          "texte": "On prépare ces deux valeurs AVANT d'appeler la fonction"
+        }
+      ]
     },
-    "cells": {
-     "A1": {
-      "v": "SIMULATION D'EMPRUNT — RENOUVELLEMENT DU PARC INFORMATIQUE",
-      "format": {
-       "bold": true
-      }
-     },
-     "A3": {
-      "v": "Montant emprunté (€)"
-     },
-     "B3": {
-      "v": 18000
-     },
-     "A4": {
-      "v": "Taux annuel"
-     },
-     "B4": {
-      "v": 0.036
-     },
-     "A5": {
-      "v": "Durée (années)"
-     },
-     "B5": {
-      "v": 5
-     },
-     "A7": {
-      "v": "Taux mensuel",
-      "format": {
-       "bold": true
-      }
-     },
-     "A8": {
-      "v": "Nombre de mensualités",
-      "format": {
-       "bold": true
-      }
-     },
-     "A9": {
-      "v": "Mensualité",
-      "format": {
-       "bold": true
-      }
-     },
-     "A10": {
-      "v": "Total remboursé",
-      "format": {
-       "bold": true
-      }
-     },
-     "A11": {
-      "v": "Coût du crédit",
-      "format": {
-       "bold": true
-      }
-     }
+    {
+      "id": "M10-L05-02",
+      "consigne": "En **B7**, ==calculez le taux mensuel== à partir du taux annuel.",
+      "setup": {
+        "selection": "B7"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B7",
+        "accept": [
+          "=B4/12"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Le taux annuel est en B4.",
+        "showTarget": true
+      },
+      "feedback": "0,003, soit 0,3 % par mois. C'est cette valeur que VPM attend, pas les 3,6 % annuels."
+    },
+    {
+      "id": "M10-L05-03",
+      "consigne": "En **B8**, ==calculez le nombre de mensualités==.",
+      "setup": {
+        "selection": "B8"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B8",
+        "accept": [
+          "=B5*12",
+          "=12*B5"
+        ],
+        "formulaMode": true
+      },
+      "feedback": "60 mensualités."
+    },
+    {
+      "id": "M10-L05-04",
+      "consigne": "En **B9**, ==saisissez `=VPM(B7;B8;-B3)`==. Le **signe moins** devant le capital donne une mensualité positive.",
+      "setup": {
+        "selection": "B9"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B9",
+        "accept": [
+          "=VPM(B7;B8;-B3)",
+          "=-VPM(B7;B8;B3)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Trois arguments : taux mensuel, nombre de mensualités, capital emprunté avec un signe moins.",
+        "showTarget": true
+      },
+      "feedback": "328.26 € par mois. Sans le signe moins, Excel afficherait le même montant en négatif : pour lui, une somme reçue et une somme versée sont de signes opposés."
+    },
+    {
+      "id": "M10-L05-05",
+      "consigne": "En **B10**, ==calculez le total remboursé== sur toute la durée du prêt.",
+      "setup": {
+        "selection": "B10"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B10",
+        "accept": [
+          "=B9*B8",
+          "=B8*B9"
+        ],
+        "formulaMode": true
+      },
+      "feedback": "19695.49 € versés au total."
+    },
+    {
+      "id": "M10-L05-06",
+      "consigne": "En **B11**, ==calculez le coût du crédit== : ce que la banque garde.",
+      "setup": {
+        "selection": "B11"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B11",
+        "accept": [
+          "=B10-B3"
+        ],
+        "formulaMode": true
+      },
+      "feedback": "1695.49 € d'intérêts pour 18 000 € empruntés."
+    },
+    {
+      "id": "M10-L05-07",
+      "consigne": "La banque propose d'étaler sur 7 ans. ==Portez la durée à `7` en **B5**== et regardez les quatre lignes du bas.",
+      "setup": {
+        "selection": "B5"
+      },
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "B5": {
+            "v": 7
+          },
+          "B8": {
+            "anyOf": [
+              "=B5*12",
+              "=12*B5"
+            ],
+            "v": 84
+          },
+          "B9": {
+            "anyOf": [
+              "=VPM(B7;B8;-B3)",
+              "=-VPM(B7;B8;B3)"
+            ],
+            "v": 242.73809173276712
+          },
+          "B11": {
+            "anyOf": [
+              "=B10-B3"
+            ],
+            "v": 2389.9997055524364
+          }
+        }
+      },
+      "aide": {
+        "text": "Une seule cellule à modifier : tout le reste suit."
+      },
+      "feedback": "La mensualité tombe à 242.74 €, mais le crédit coûte 2390.0 € au lieu de 1695.49 €. Allonger la durée soulage la trésorerie et alourdit la facture : c'est exactement l'arbitrage qu'un tableau de simulation doit rendre visible."
+    },
+    {
+      "id": "M10-L05-08",
+      "consigne": "Les trois erreurs qui faussent un calcul de prêt, dans l'ordre de fréquence. Oublier de **diviser le taux par 12**, ce qui donne une mensualité absurde. Saisir la durée **en années** au lieu de mois. Et lire un résultat négatif comme une erreur alors que c'est la **convention de signe** d'Excel.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0,
+      "montrer": [
+        {
+          "type": "MONTRER",
+          "cible": "B4",
+          "texte": "Erreur la plus fréquente : oublier de diviser le taux par 12 — mensualité absurde"
+        },
+        {
+          "type": "MONTRER",
+          "cible": "B5",
+          "texte": "Deuxième : saisir la durée en années au lieu de mois"
+        },
+        {
+          "type": "MONTRER",
+          "cible": "A9",
+          "texte": "Troisième : lire le résultat négatif comme une erreur. C'est la convention de signe : de l'argent qui sort"
+        }
+      ]
     }
-   }
   ]
- },
- "steps": [
-  {
-   "id": "M10-L05-01",
-   "consigne": "**VPM** attend trois informations : un taux **par période**, un **nombre de périodes**, et le capital. Comme nous raisonnons en mois, le taux annuel doit être divisé par 12 et la durée multipliée par 12. On prépare donc ces deux valeurs avant d'appeler la fonction.",
-   "action": {
-    "type": "READ"
-   },
-   "points": 0
-  },
-  {
-   "id": "M10-L05-02",
-   "consigne": "En **B7**, ==calculez le taux mensuel== à partir du taux annuel.",
-   "setup": {
-    "selection": "B7"
-   },
-   "action": {
-    "type": "TYPE",
-    "target": "B7",
-    "accept": [
-     "=B4/12"
-    ],
-    "formulaMode": true
-   },
-   "aide": {
-    "text": "Le taux annuel est en B4.",
-    "showTarget": true
-   },
-   "feedback": "0,003, soit 0,3 % par mois. C'est cette valeur que VPM attend, pas les 3,6 % annuels."
-  },
-  {
-   "id": "M10-L05-03",
-   "consigne": "En **B8**, ==calculez le nombre de mensualités==.",
-   "setup": {
-    "selection": "B8"
-   },
-   "action": {
-    "type": "TYPE",
-    "target": "B8",
-    "accept": [
-     "=B5*12",
-     "=12*B5"
-    ],
-    "formulaMode": true
-   },
-   "feedback": "60 mensualités."
-  },
-  {
-   "id": "M10-L05-04",
-   "consigne": "En **B9**, ==saisissez `=VPM(B7;B8;-B3)`==. Le **signe moins** devant le capital donne une mensualité positive.",
-   "setup": {
-    "selection": "B9"
-   },
-   "action": {
-    "type": "TYPE",
-    "target": "B9",
-    "accept": [
-     "=VPM(B7;B8;-B3)",
-     "=-VPM(B7;B8;B3)"
-    ],
-    "formulaMode": true
-   },
-   "aide": {
-    "text": "Trois arguments : taux mensuel, nombre de mensualités, capital emprunté avec un signe moins.",
-    "showTarget": true
-   },
-   "feedback": "328.26 € par mois. Sans le signe moins, Excel afficherait le même montant en négatif : pour lui, une somme reçue et une somme versée sont de signes opposés."
-  },
-  {
-   "id": "M10-L05-05",
-   "consigne": "En **B10**, ==calculez le total remboursé== sur toute la durée du prêt.",
-   "setup": {
-    "selection": "B10"
-   },
-   "action": {
-    "type": "TYPE",
-    "target": "B10",
-    "accept": [
-     "=B9*B8",
-     "=B8*B9"
-    ],
-    "formulaMode": true
-   },
-   "feedback": "19695.49 € versés au total."
-  },
-  {
-   "id": "M10-L05-06",
-   "consigne": "En **B11**, ==calculez le coût du crédit== : ce que la banque garde.",
-   "setup": {
-    "selection": "B11"
-   },
-   "action": {
-    "type": "TYPE",
-    "target": "B11",
-    "accept": [
-     "=B10-B3"
-    ],
-    "formulaMode": true
-   },
-   "feedback": "1695.49 € d'intérêts pour 18 000 € empruntés."
-  },
-  {
-   "id": "M10-L05-07",
-   "consigne": "La banque propose d'étaler sur 7 ans. ==Portez la durée à `7` en **B5**== et regardez les quatre lignes du bas.",
-   "setup": {
-    "selection": "B5"
-   },
-   "action": {
-    "type": "EXPECT_STATE",
-    "cells": {
-     "B5": {
-      "v": 7
-     },
-     "B8": {
-      "anyOf": [
-       "=B5*12",
-       "=12*B5"
-      ],
-      "v": 84
-     },
-     "B9": {
-      "anyOf": [
-       "=VPM(B7;B8;-B3)",
-       "=-VPM(B7;B8;B3)"
-      ],
-      "v": 242.73809173276712
-     },
-     "B11": {
-      "anyOf": [
-       "=B10-B3"
-      ],
-      "v": 2389.9997055524364
-     }
-    }
-   },
-   "aide": {
-    "text": "Une seule cellule à modifier : tout le reste suit."
-   },
-   "feedback": "La mensualité tombe à 242.74 €, mais le crédit coûte 2390.0 € au lieu de 1695.49 €. Allonger la durée soulage la trésorerie et alourdit la facture : c'est exactement l'arbitrage qu'un tableau de simulation doit rendre visible."
-  },
-  {
-   "id": "M10-L05-08",
-   "consigne": "Les trois erreurs qui faussent un calcul de prêt, dans l'ordre de fréquence. Oublier de **diviser le taux par 12**, ce qui donne une mensualité absurde. Saisir la durée **en années** au lieu de mois. Et lire un résultat négatif comme une erreur alors que c'est la **convention de signe** d'Excel.",
-   "action": {
-    "type": "READ"
-   },
-   "points": 0
-  }
- ]
 }

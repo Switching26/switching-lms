@@ -89,6 +89,14 @@ export type GesteDemo = {
   /** Double-clic : le geste s'affiche avec son « ×2 ». */
   double?: boolean
   /**
+   * ILLUSTRATION : on désigne et on explique, personne ne fait un geste.
+   *
+   * Le calque traite ces gestes autrement — la phrase reste affichée pendant
+   * toute la durée, le temps de la lire, et aucun badge « ⏎ Entrée » ne vient
+   * suggérer une validation qui n'a pas lieu d'être.
+   */
+  illustration?: boolean
+  /**
    * Onglet du ruban à ouvrir POUR DE VRAI en jouant ce geste.
    *
    * Le ruban ne rend que son onglet actif. Une démonstration qui pointait un
@@ -718,6 +726,38 @@ function planBrut(action: SimulationAction, ctx: ContexteDemo): PlanDemo | null 
       return {
         gestes: [{ cible, bulle: `clic droit sur ${t}`, touches: ["Clic droit"] }],
         pas: ["Ouvrir le menu contextuel"],
+      }
+    }
+
+    /**
+     * Illustration pure : on désigne, on explique, on ne feint aucun geste.
+     * C'est ce qui permet d'équiper les écrans « À lire » qui parlent d'une
+     * notion plutôt que d'une manipulation.
+     */
+    case "MONTRER": {
+      const c = action.cible.trim()
+      let cible: CibleDemo
+      if (c === "ecran" || c === "") cible = { k: "clavier" }
+      else if (c.startsWith("ctrl:")) cible = ctrl(c.slice(5))
+      else if (c.startsWith("dom:")) cible = { k: "dom", sel: c.slice(4) }
+      else if (c.startsWith("col:")) cible = { k: "enteteColonne", col: c.slice(4).toUpperCase() }
+      else if (c.startsWith("ligne:")) cible = { k: "enteteLigne", ligne: Number(c.slice(6)) }
+      else if (/^\$?[A-Z]+\$?\d+:\$?[A-Z]+\$?\d+$/i.test(c)) cible = { k: "plage", ref: c.toUpperCase() }
+      else if (/^\$?[A-Z]+\$?\d+$/i.test(c)) cible = { k: "cellule", ref: c.toUpperCase() }
+      else cible = { k: "dom", sel: c }
+      return {
+        gestes: [
+          {
+            cible,
+            bulle: action.texte,
+            illustration: true,
+            ...(action.ecrire ? { ecrire: { ref: action.ecrire.cell, valeur: action.ecrire.valeur } } : {}),
+          },
+        ],
+        // Aucun pas : une illustration ne se décompose pas en gestes à refaire,
+        // et quatre pastilles « Regarder » identiques ne disaient rien. Le
+        // compteur « i / n » suffit à situer l'avancement.
+        pas: [],
       }
     }
 

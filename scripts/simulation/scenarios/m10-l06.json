@@ -1,295 +1,329 @@
 {
- "schemaVersion": 1,
- "title": "Compter les jours ouvrés",
- "mode": "LESSON",
- "moduleTitle": "Fonctions avancées",
- "intro": {
-  "title": "COMBIEN DE JOURS TRAVAILLÉS ?",
-  "body": "Une session s'étend du 27 avril au 29 mai. Entre les deux, des week-ends et quatre jours fériés. Compter à la main sur un calendrier, c'est se tromper une fois sur deux — et refaire le calcul à chaque report de date."
- },
- "outro": {
-  "body": "Vous savez compter des jours ouvrés en tenant compte des fériés, et calculer une échéance en jours ouvrés. Les deux fonctions qui font gagner le plus de temps dans une planification."
- },
- "ribbon": [
-  "accueil"
- ],
- "statusBar": {
-  "aggregates": [
-   "moyenne",
-   "nb-non-vides",
-   "somme"
+  "schemaVersion": 1,
+  "title": "Compter les jours ouvrés",
+  "mode": "LESSON",
+  "moduleTitle": "Fonctions avancées",
+  "intro": {
+    "title": "COMBIEN DE JOURS TRAVAILLÉS ?",
+    "body": "Une session s'étend du 27 avril au 29 mai. Entre les deux, des week-ends et quatre jours fériés. Compter à la main sur un calendrier, c'est se tromper une fois sur deux — et refaire le calcul à chaque report de date."
+  },
+  "outro": {
+    "body": "Vous savez compter des jours ouvrés en tenant compte des fériés, et calculer une échéance en jours ouvrés. Les deux fonctions qui font gagner le plus de temps dans une planification."
+  },
+  "ribbon": [
+    "accueil"
   ],
-  "sheetCount": 1
- },
- "workbook": {
-  "fileName": "Planification de session",
-  "activeSheetIndex": 0,
-  "selection": "A1",
-  "sheets": [
-   {
-    "name": "Feuil1",
-    "columnWidths": {
-     "A": 270,
-     "B": 130,
-     "D": 175,
-     "E": 120
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ],
+    "sheetCount": 1
+  },
+  "workbook": {
+    "fileName": "Planification de session",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 270,
+          "B": 130,
+          "D": 175,
+          "E": 120
+        },
+        "cells": {
+          "A1": {
+            "v": "PLANIFICATION D'UNE SESSION — PRINTEMPS 2026",
+            "format": {
+              "bold": true
+            }
+          },
+          "A3": {
+            "v": "Premier jour"
+          },
+          "B3": {
+            "v": 46139,
+            "format": {
+              "numberFormat": "dd/mm/yyyy"
+            }
+          },
+          "A4": {
+            "v": "Dernier jour"
+          },
+          "B4": {
+            "v": 46171,
+            "format": {
+              "numberFormat": "dd/mm/yyyy"
+            }
+          },
+          "A6": {
+            "v": "Jours ouvrés du calendrier",
+            "format": {
+              "bold": true
+            }
+          },
+          "A7": {
+            "v": "Jours ouvrés réellement travaillés",
+            "format": {
+              "bold": true
+            }
+          },
+          "A8": {
+            "v": "Heures de formation (7 h / jour)",
+            "format": {
+              "bold": true
+            }
+          },
+          "A9": {
+            "v": "Remise du dossier (15 jours ouvrés)",
+            "format": {
+              "bold": true
+            }
+          },
+          "D2": {
+            "v": "Jours fériés de la période",
+            "format": {
+              "bold": true
+            }
+          },
+          "D3": {
+            "v": "Fête du Travail"
+          },
+          "E3": {
+            "v": 46143,
+            "format": {
+              "numberFormat": "dd/mm/yyyy"
+            }
+          },
+          "D4": {
+            "v": "Victoire 1945"
+          },
+          "E4": {
+            "v": 46150,
+            "format": {
+              "numberFormat": "dd/mm/yyyy"
+            }
+          },
+          "D5": {
+            "v": "Ascension"
+          },
+          "E5": {
+            "v": 46156,
+            "format": {
+              "numberFormat": "dd/mm/yyyy"
+            }
+          },
+          "D6": {
+            "v": "Lundi de Pentecôte"
+          },
+          "E6": {
+            "v": 46167,
+            "format": {
+              "numberFormat": "dd/mm/yyyy"
+            }
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M10-L06-01",
+      "consigne": "Regardez **B3** et **B4** : deux nombres à cinq chiffres là où on attendait des dates. C'est normal — une date, pour Excel, est un **nombre de jours** compté depuis le 1ᵉʳ janvier 1900, et c'est le format d'affichage qui la rend lisible. C'est aussi ce qui permet de calculer avec des dates comme avec des nombres.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0,
+      "montrer": [
+        {
+          "type": "MONTRER",
+          "cible": "B3",
+          "texte": "Un nombre à cinq chiffres là où on attendait une date"
+        },
+        {
+          "type": "MONTRER",
+          "cible": "B4",
+          "texte": "Pour Excel, une date est un NOMBRE DE JOURS depuis le 1ᵉʳ janvier 1900"
+        },
+        {
+          "type": "MONTRER",
+          "cible": "A6",
+          "texte": "C'est le format d'affichage qui la rend lisible — et ce nombre qui permet de calculer"
+        }
+      ]
     },
-    "cells": {
-     "A1": {
-      "v": "PLANIFICATION D'UNE SESSION — PRINTEMPS 2026",
-      "format": {
-       "bold": true
-      }
-     },
-     "A3": {
-      "v": "Premier jour"
-     },
-     "B3": {
-      "v": 46139,
-      "format": {
-       "numberFormat": "dd/mm/yyyy"
-      }
-     },
-     "A4": {
-      "v": "Dernier jour"
-     },
-     "B4": {
-      "v": 46171,
-      "format": {
-       "numberFormat": "dd/mm/yyyy"
-      }
-     },
-     "A6": {
-      "v": "Jours ouvrés du calendrier",
-      "format": {
-       "bold": true
-      }
-     },
-     "A7": {
-      "v": "Jours ouvrés réellement travaillés",
-      "format": {
-       "bold": true
-      }
-     },
-     "A8": {
-      "v": "Heures de formation (7 h / jour)",
-      "format": {
-       "bold": true
-      }
-     },
-     "A9": {
-      "v": "Remise du dossier (15 jours ouvrés)",
-      "format": {
-       "bold": true
-      }
-     },
-     "D2": {
-      "v": "Jours fériés de la période",
-      "format": {
-       "bold": true
-      }
-     },
-     "D3": {
-      "v": "Fête du Travail"
-     },
-     "E3": {
-      "v": 46143,
-      "format": {
-       "numberFormat": "dd/mm/yyyy"
-      }
-     },
-     "D4": {
-      "v": "Victoire 1945"
-     },
-     "E4": {
-      "v": 46150,
-      "format": {
-       "numberFormat": "dd/mm/yyyy"
-      }
-     },
-     "D5": {
-      "v": "Ascension"
-     },
-     "E5": {
-      "v": 46156,
-      "format": {
-       "numberFormat": "dd/mm/yyyy"
-      }
-     },
-     "D6": {
-      "v": "Lundi de Pentecôte"
-     },
-     "E6": {
-      "v": 46167,
-      "format": {
-       "numberFormat": "dd/mm/yyyy"
-      }
-     }
+    {
+      "id": "M10-L06-01b",
+      "consigne": "==Donnez un format de date aux deux bornes== de la session, déjà sélectionnées.",
+      "setup": {
+        "selection": "B3:B4"
+      },
+      "action": {
+        "type": "EXPECT_FORMAT",
+        "cells": {
+          "B3": {
+            "numberFormat": "date"
+          },
+          "B4": {
+            "numberFormat": "date"
+          }
+        }
+      },
+      "aide": {
+        "text": "Le bouton de format de date de l'onglet Accueil.",
+        "showTarget": true
+      },
+      "feedback": "27/04/2026 et 29/05/2026. La valeur n'a pas changé d'un iota : seul l'affichage l'a fait."
+    },
+    {
+      "id": "M10-L06-01c",
+      "consigne": "==Faites de même pour les quatre jours fériés== de la colonne E.",
+      "setup": {
+        "selection": "E3:E6"
+      },
+      "action": {
+        "type": "EXPECT_FORMAT",
+        "cells": {
+          "E3": {
+            "numberFormat": "date"
+          },
+          "E6": {
+            "numberFormat": "date"
+          }
+        }
+      },
+      "aide": {
+        "text": "Même bouton, autre sélection.",
+        "showTarget": true
+      },
+      "feedback": "Les quatre fériés sont lisibles. **NB.JOURS.OUVRES** attend justement deux bornes et cette liste de dates à retirer."
+    },
+    {
+      "id": "M10-L06-02",
+      "consigne": "En **B6**, ==saisissez `=NB.JOURS.OUVRES(B3;B4)`== : les jours ouvrés du calendrier, week-ends exclus.",
+      "setup": {
+        "selection": "B6"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B6",
+        "accept": [
+          "=NB.JOURS.OUVRES(B3;B4)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Deux arguments seulement : la date de début et la date de fin, toutes deux comprises.",
+        "showTarget": true
+      },
+      "feedback": "25 jours du lundi au vendredi. Les samedis et dimanches sont déjà écartés — mais pas les fériés."
+    },
+    {
+      "id": "M10-L06-03",
+      "consigne": "En **B7**, ==ajoutez la liste des fériés== en troisième argument : `=NB.JOURS.OUVRES(B3;B4;E3:E6)`.",
+      "setup": {
+        "selection": "B7"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B7",
+        "accept": [
+          "=NB.JOURS.OUVRES(B3;B4;E3:E6)",
+          "=NB.JOURS.OUVRES(B3;B4;$E$3:$E$6)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "La plage des dates fériées, colonne E — pas la colonne des libellés.",
+        "showTarget": true
+      },
+      "feedback": "21 jours seulement. Les quatre fériés tombent tous en semaine cette année : quatre jours de formation perdus, qu'un calcul sans troisième argument aurait facturés."
+    },
+    {
+      "id": "M10-L06-04",
+      "consigne": "En **B8**, ==convertissez ces jours en heures== de formation, à 7 heures par jour.",
+      "setup": {
+        "selection": "B8"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B8",
+        "accept": [
+          "=B7*7",
+          "=7*B7"
+        ],
+        "formulaMode": true
+      },
+      "feedback": "147 heures. C'est le volume à porter sur la convention, et il ne s'obtient pas en comptant les jours du calendrier."
+    },
+    {
+      "id": "M10-L06-05",
+      "consigne": "Le dossier doit être remis **15 jours ouvrés** après le démarrage. En **B9**, ==saisissez `=SERIE.JOUR.OUVRE(B3;15;E3:E6)`==.",
+      "setup": {
+        "selection": "B9"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B9",
+        "accept": [
+          "=SERIE.JOUR.OUVRE(B3;15;E3:E6)",
+          "=SERIE.JOUR.OUVRE(B3;15;$E$3:$E$6)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Cette fonction ne compte pas des jours : elle en renvoie une date.",
+        "showTarget": true
+      },
+      "feedback": "La cellule affiche 46163 : c'est la date sous sa forme brute, un numéro de jour. Il ne manque que le format."
+    },
+    {
+      "id": "M10-L06-06",
+      "consigne": "==Donnez à **B9** un format de date== pour la rendre lisible.",
+      "setup": {
+        "selection": "B9"
+      },
+      "action": {
+        "type": "EXPECT_FORMAT",
+        "cells": {
+          "B9": {
+            "numberFormat": "date"
+          }
+        }
+      },
+      "aide": {
+        "text": "Le bouton de format de date, dans l'onglet Accueil.",
+        "showTarget": true
+      },
+      "feedback": "21/05/2026. Le format n'a pas changé la valeur : il a changé son affichage."
+    },
+    {
+      "id": "M10-L06-07",
+      "consigne": "Deux précisions utiles. Les deux fonctions considèrent le **week-end comme samedi et dimanche** ; pour un rythme différent, leurs variantes « .INTL » permettent de choisir. Et la liste des fériés doit contenir des **dates**, pas des libellés : c'est l'erreur qui fait renvoyer un résultat inchangé sans prévenir.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0,
+      "montrer": [
+        {
+          "type": "MONTRER",
+          "cible": "A6",
+          "texte": "Les deux fonctions considèrent le week-end comme samedi et dimanche"
+        },
+        {
+          "type": "MONTRER",
+          "cible": "A7",
+          "texte": "Pour un autre rythme, leurs variantes « .INTL » laissent choisir"
+        },
+        {
+          "type": "MONTRER",
+          "cible": "A9",
+          "texte": "Et la liste des fériés doit contenir des DATES, pas des libellés — sinon le résultat est faux"
+        }
+      ]
     }
-   }
   ]
- },
- "steps": [
-  {
-   "id": "M10-L06-01",
-   "consigne": "Regardez **B3** et **B4** : deux nombres à cinq chiffres là où on attendait des dates. C'est normal — une date, pour Excel, est un **nombre de jours** compté depuis le 1ᵉʳ janvier 1900, et c'est le format d'affichage qui la rend lisible. C'est aussi ce qui permet de calculer avec des dates comme avec des nombres.",
-   "action": {
-    "type": "READ"
-   },
-   "points": 0
-  },
-  {
-   "id": "M10-L06-01b",
-   "consigne": "==Donnez un format de date aux deux bornes== de la session, déjà sélectionnées.",
-   "setup": {
-    "selection": "B3:B4"
-   },
-   "action": {
-    "type": "EXPECT_FORMAT",
-    "cells": {
-     "B3": {
-      "numberFormat": "date"
-     },
-     "B4": {
-      "numberFormat": "date"
-     }
-    }
-   },
-   "aide": {
-    "text": "Le bouton de format de date de l'onglet Accueil.",
-    "showTarget": true
-   },
-   "feedback": "27/04/2026 et 29/05/2026. La valeur n'a pas changé d'un iota : seul l'affichage l'a fait."
-  },
-  {
-   "id": "M10-L06-01c",
-   "consigne": "==Faites de même pour les quatre jours fériés== de la colonne E.",
-   "setup": {
-    "selection": "E3:E6"
-   },
-   "action": {
-    "type": "EXPECT_FORMAT",
-    "cells": {
-     "E3": {
-      "numberFormat": "date"
-     },
-     "E6": {
-      "numberFormat": "date"
-     }
-    }
-   },
-   "aide": {
-    "text": "Même bouton, autre sélection.",
-    "showTarget": true
-   },
-   "feedback": "Les quatre fériés sont lisibles. **NB.JOURS.OUVRES** attend justement deux bornes et cette liste de dates à retirer."
-  },
-  {
-   "id": "M10-L06-02",
-   "consigne": "En **B6**, ==saisissez `=NB.JOURS.OUVRES(B3;B4)`== : les jours ouvrés du calendrier, week-ends exclus.",
-   "setup": {
-    "selection": "B6"
-   },
-   "action": {
-    "type": "TYPE",
-    "target": "B6",
-    "accept": [
-     "=NB.JOURS.OUVRES(B3;B4)"
-    ],
-    "formulaMode": true
-   },
-   "aide": {
-    "text": "Deux arguments seulement : la date de début et la date de fin, toutes deux comprises.",
-    "showTarget": true
-   },
-   "feedback": "25 jours du lundi au vendredi. Les samedis et dimanches sont déjà écartés — mais pas les fériés."
-  },
-  {
-   "id": "M10-L06-03",
-   "consigne": "En **B7**, ==ajoutez la liste des fériés== en troisième argument : `=NB.JOURS.OUVRES(B3;B4;E3:E6)`.",
-   "setup": {
-    "selection": "B7"
-   },
-   "action": {
-    "type": "TYPE",
-    "target": "B7",
-    "accept": [
-     "=NB.JOURS.OUVRES(B3;B4;E3:E6)",
-     "=NB.JOURS.OUVRES(B3;B4;$E$3:$E$6)"
-    ],
-    "formulaMode": true
-   },
-   "aide": {
-    "text": "La plage des dates fériées, colonne E — pas la colonne des libellés.",
-    "showTarget": true
-   },
-   "feedback": "21 jours seulement. Les quatre fériés tombent tous en semaine cette année : quatre jours de formation perdus, qu'un calcul sans troisième argument aurait facturés."
-  },
-  {
-   "id": "M10-L06-04",
-   "consigne": "En **B8**, ==convertissez ces jours en heures== de formation, à 7 heures par jour.",
-   "setup": {
-    "selection": "B8"
-   },
-   "action": {
-    "type": "TYPE",
-    "target": "B8",
-    "accept": [
-     "=B7*7",
-     "=7*B7"
-    ],
-    "formulaMode": true
-   },
-   "feedback": "147 heures. C'est le volume à porter sur la convention, et il ne s'obtient pas en comptant les jours du calendrier."
-  },
-  {
-   "id": "M10-L06-05",
-   "consigne": "Le dossier doit être remis **15 jours ouvrés** après le démarrage. En **B9**, ==saisissez `=SERIE.JOUR.OUVRE(B3;15;E3:E6)`==.",
-   "setup": {
-    "selection": "B9"
-   },
-   "action": {
-    "type": "TYPE",
-    "target": "B9",
-    "accept": [
-     "=SERIE.JOUR.OUVRE(B3;15;E3:E6)",
-     "=SERIE.JOUR.OUVRE(B3;15;$E$3:$E$6)"
-    ],
-    "formulaMode": true
-   },
-   "aide": {
-    "text": "Cette fonction ne compte pas des jours : elle en renvoie une date.",
-    "showTarget": true
-   },
-   "feedback": "La cellule affiche 46163 : c'est la date sous sa forme brute, un numéro de jour. Il ne manque que le format."
-  },
-  {
-   "id": "M10-L06-06",
-   "consigne": "==Donnez à **B9** un format de date== pour la rendre lisible.",
-   "setup": {
-    "selection": "B9"
-   },
-   "action": {
-    "type": "EXPECT_FORMAT",
-    "cells": {
-     "B9": {
-      "numberFormat": "date"
-     }
-    }
-   },
-   "aide": {
-    "text": "Le bouton de format de date, dans l'onglet Accueil.",
-    "showTarget": true
-   },
-   "feedback": "21/05/2026. Le format n'a pas changé la valeur : il a changé son affichage."
-  },
-  {
-   "id": "M10-L06-07",
-   "consigne": "Deux précisions utiles. Les deux fonctions considèrent le **week-end comme samedi et dimanche** ; pour un rythme différent, leurs variantes « .INTL » permettent de choisir. Et la liste des fériés doit contenir des **dates**, pas des libellés : c'est l'erreur qui fait renvoyer un résultat inchangé sans prévenir.",
-   "action": {
-    "type": "READ"
-   },
-   "points": 0
-  }
- ]
 }

@@ -468,6 +468,25 @@ export type SimulationAction =
   | { type: "CONTEXT_MENU"; target: CellRef | ControlId }
   /** Double-clic (poignée de recopie, ajustement de largeur, édition). */
   | { type: "DOUBLE_CLICK"; target: CellRef | ControlId }
+  /**
+   * MONTRER : désigner un endroit de l'écran et l'expliquer, sans prétendre
+   * qu'un apprenant vient de faire un geste.
+   *
+   * POURQUOI CE TYPE EXISTE
+   * Les écrans « À lire » sont majoritairement des NOTIONS : « l'alignement à
+   * droite vous dit que c'est un nombre », « trois formats à connaître », « la
+   * barre de formule garde la formule, la cellule affiche le résultat ». Sur 161
+   * écrans de lecture, 115 ne décrivent aucune manipulation. Les équiper d'un
+   * faux `CLICK_CELL` enseignerait un geste qui n'existe pas. Ce type-ci désigne
+   * la zone dont parle le texte et affiche la phrase de l'auteur — c'est une
+   * ILLUSTRATION, pas une démonstration de geste.
+   *
+   * `cible` accepte une cellule (`B5`), une plage (`A1:D1`), une colonne
+   * (`col:C`), une ligne (`ligne:4`), un contrôle du châssis (`ctrl:acc-gras`),
+   * un sélecteur libre (`dom:[aria-label="Barre de formule"]`) ou `ecran` pour
+   * une explication sans lieu précis.
+   */
+  | { type: "MONTRER"; cible: string; texte: string; ecrire?: { cell: CellRef; valeur: string } }
   /** Touche seule ou combinaison : "Enter", "Delete", "F4", "Control+c". */
   | { type: "KEY"; key: string }
   /**

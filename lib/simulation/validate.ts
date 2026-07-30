@@ -846,6 +846,13 @@ export function validateStep(
       return OK
     }
 
+    case "MONTRER": {
+      // `MONTRER` n'est PAS une action attendue de l'apprenant : elle ne vit que
+      // dans le champ `montrer` d'un écran de lecture, pour illustrer un propos.
+      // La rencontrer ici signalerait un scénario qui l'utilise comme consigne.
+      return { ok: false, reason: "montrer_non_validable", message: "" }
+    }
+
     default: {
       // Garde-fou : si une primitive est ajoutée au format sans être traitée ici,
       // TypeScript le signale à la compilation plutôt qu'en production.

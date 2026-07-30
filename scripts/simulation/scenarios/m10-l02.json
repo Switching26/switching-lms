@@ -1,207 +1,224 @@
 {
- "schemaVersion": 1,
- "title": "Gérer les erreurs avec SIERREUR",
- "mode": "LESSON",
- "moduleTitle": "Fonctions avancées",
- "intro": {
-  "title": "UN TABLEAU PROPRE MALGRÉ LES TROUS",
-  "body": "Un code inconnu et RECHERCHEV affiche #N/A. Sur un document client, c'est inacceptable — et ça casse les totaux."
- },
- "outro": {
-  "body": "Vous savez neutraliser une erreur sans masquer un vrai problème."
- },
- "ribbon": [
-  "accueil"
- ],
- "statusBar": {
-  "aggregates": [
-   "moyenne",
-   "nb-non-vides",
-   "somme"
+  "schemaVersion": 1,
+  "title": "Gérer les erreurs avec SIERREUR",
+  "mode": "LESSON",
+  "moduleTitle": "Fonctions avancées",
+  "intro": {
+    "title": "UN TABLEAU PROPRE MALGRÉ LES TROUS",
+    "body": "Un code inconnu et RECHERCHEV affiche #N/A. Sur un document client, c'est inacceptable — et ça casse les totaux."
+  },
+  "outro": {
+    "body": "Vous savez neutraliser une erreur sans masquer un vrai problème."
+  },
+  "ribbon": [
+    "accueil"
   ],
-  "sheetCount": 1
- },
- "workbook": {
-  "fileName": "Bon de commande",
-  "activeSheetIndex": 0,
-  "selection": "A1",
-  "sheets": [
-   {
-    "name": "Feuil1",
-    "columnWidths": {
-     "A": 80,
-     "B": 140,
-     "H": 70,
-     "I": 110
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ],
+    "sheetCount": 1
+  },
+  "workbook": {
+    "fileName": "Bon de commande",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 80,
+          "B": 140,
+          "H": 70,
+          "I": 110
+        },
+        "cells": {
+          "H1": {
+            "v": "Code",
+            "format": {
+              "bold": true
+            }
+          },
+          "I1": {
+            "v": "Article",
+            "format": {
+              "bold": true
+            }
+          },
+          "J1": {
+            "v": "Prix",
+            "format": {
+              "bold": true
+            }
+          },
+          "H2": {
+            "v": "CLA"
+          },
+          "I2": {
+            "v": "Clavier"
+          },
+          "J2": {
+            "v": 45
+          },
+          "H3": {
+            "v": "SOU"
+          },
+          "I3": {
+            "v": "Souris"
+          },
+          "J3": {
+            "v": 25
+          },
+          "H4": {
+            "v": "ECR"
+          },
+          "I4": {
+            "v": "Écran"
+          },
+          "J4": {
+            "v": 180
+          },
+          "H5": {
+            "v": "CAS"
+          },
+          "I5": {
+            "v": "Casque"
+          },
+          "J5": {
+            "v": 70
+          },
+          "A1": {
+            "v": "Code",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Article",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "ECR"
+          },
+          "A3": {
+            "v": "CLA"
+          },
+          "A4": {
+            "v": "XXX"
+          },
+          "A5": {
+            "v": "SOU"
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M10-L02-01",
+      "consigne": "La ligne 4 porte le code **XXX**, absent de la table. En **B2**, ==saisissez la recherche classique== : `=RECHERCHEV(A2;$H$2:$J$5;2;FAUX)`.",
+      "setup": {
+        "selection": "B2"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B2",
+        "accept": [
+          "=RECHERCHEV(A2;$H$2:$J$5;2;FAUX)"
+        ],
+        "formulaMode": true
+      },
+      "feedback": "« Écran »."
     },
-    "cells": {
-     "H1": {
-      "v": "Code",
-      "format": {
-       "bold": true
-      }
-     },
-     "I1": {
-      "v": "Article",
-      "format": {
-       "bold": true
-      }
-     },
-     "J1": {
-      "v": "Prix",
-      "format": {
-       "bold": true
-      }
-     },
-     "H2": {
-      "v": "CLA"
-     },
-     "I2": {
-      "v": "Clavier"
-     },
-     "J2": {
-      "v": 45
-     },
-     "H3": {
-      "v": "SOU"
-     },
-     "I3": {
-      "v": "Souris"
-     },
-     "J3": {
-      "v": 25
-     },
-     "H4": {
-      "v": "ECR"
-     },
-     "I4": {
-      "v": "Écran"
-     },
-     "J4": {
-      "v": 180
-     },
-     "H5": {
-      "v": "CAS"
-     },
-     "I5": {
-      "v": "Casque"
-     },
-     "J5": {
-      "v": 70
-     },
-     "A1": {
-      "v": "Code",
-      "format": {
-       "bold": true
-      }
-     },
-     "B1": {
-      "v": "Article",
-      "format": {
-       "bold": true
-      }
-     },
-     "A2": {
-      "v": "ECR"
-     },
-     "A3": {
-      "v": "CLA"
-     },
-     "A4": {
-      "v": "XXX"
-     },
-     "A5": {
-      "v": "SOU"
-     }
+    {
+      "id": "M10-L02-02",
+      "consigne": "==Recopiez jusqu'en B5== et observez la ligne 4.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "B3": {
+            "v": "Clavier"
+          },
+          "B5": {
+            "v": "Souris"
+          }
+        }
+      },
+      "aide": {
+        "text": "Poignée de recopie vers le bas."
+      },
+      "feedback": "B4 affiche #N/A : le code XXX n'existe pas dans la table. Techniquement correct, mais illisible pour un client."
+    },
+    {
+      "id": "M10-L02-03",
+      "consigne": "**SIERREUR** enveloppe une formule et remplace son erreur par ce que vous voulez. En **B2**, ==saisissez `=SIERREUR(RECHERCHEV(A2;$H$2:$J$5;2;FAUX);\"Code inconnu\")`==.",
+      "setup": {
+        "selection": "B2"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B2",
+        "accept": [
+          "=SIERREUR(RECHERCHEV(A2;$H$2:$J$5;2;FAUX);\"Code inconnu\")"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "La formule d'origine devient le premier argument de SIERREUR.",
+        "showTarget": true
+      },
+      "feedback": "Toujours « Écran » : quand il n'y a pas d'erreur, SIERREUR ne change rien."
+    },
+    {
+      "id": "M10-L02-04",
+      "consigne": "==Recopiez de nouveau jusqu'en B5==.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "B3": {
+            "v": "Clavier"
+          },
+          "B4": {
+            "v": "Code inconnu"
+          },
+          "B5": {
+            "v": "Souris"
+          }
+        }
+      },
+      "aide": {
+        "text": "Poignée de recopie vers le bas."
+      },
+      "feedback": "« Code inconnu » au lieu de #N/A. Le tableau est présentable, et le problème reste visible."
+    },
+    {
+      "id": "M10-L02-05",
+      "consigne": "Un avertissement important : **SIERREUR masque TOUTES les erreurs**, y compris celles que vous auriez voulu voir — une division par zéro, une référence cassée. Ne l'utilisez que là où l'erreur est attendue, jamais par confort sur toute une feuille.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0,
+      "montrer": [
+        {
+          "type": "MONTRER",
+          "cible": "A4",
+          "texte": "Ici l'erreur est ATTENDUE : ce code n'existe pas dans la table"
+        },
+        {
+          "type": "MONTRER",
+          "cible": "B4",
+          "texte": "SIERREUR a sa place — mais il masque TOUTES les erreurs"
+        },
+        {
+          "type": "MONTRER",
+          "cible": "B2",
+          "texte": "Division par zéro, référence cassée : ne l'utilisez jamais par confort sur toute une feuille"
+        }
+      ]
     }
-   }
   ]
- },
- "steps": [
-  {
-   "id": "M10-L02-01",
-   "consigne": "La ligne 4 porte le code **XXX**, absent de la table. En **B2**, ==saisissez la recherche classique== : `=RECHERCHEV(A2;$H$2:$J$5;2;FAUX)`.",
-   "setup": {
-    "selection": "B2"
-   },
-   "action": {
-    "type": "TYPE",
-    "target": "B2",
-    "accept": [
-     "=RECHERCHEV(A2;$H$2:$J$5;2;FAUX)"
-    ],
-    "formulaMode": true
-   },
-   "feedback": "« Écran »."
-  },
-  {
-   "id": "M10-L02-02",
-   "consigne": "==Recopiez jusqu'en B5== et observez la ligne 4.",
-   "action": {
-    "type": "EXPECT_STATE",
-    "cells": {
-     "B3": {
-      "v": "Clavier"
-     },
-     "B5": {
-      "v": "Souris"
-     }
-    }
-   },
-   "aide": {
-    "text": "Poignée de recopie vers le bas."
-   },
-   "feedback": "B4 affiche #N/A : le code XXX n'existe pas dans la table. Techniquement correct, mais illisible pour un client."
-  },
-  {
-   "id": "M10-L02-03",
-   "consigne": "**SIERREUR** enveloppe une formule et remplace son erreur par ce que vous voulez. En **B2**, ==saisissez `=SIERREUR(RECHERCHEV(A2;$H$2:$J$5;2;FAUX);\"Code inconnu\")`==.",
-   "setup": {
-    "selection": "B2"
-   },
-   "action": {
-    "type": "TYPE",
-    "target": "B2",
-    "accept": [
-     "=SIERREUR(RECHERCHEV(A2;$H$2:$J$5;2;FAUX);\"Code inconnu\")"
-    ],
-    "formulaMode": true
-   },
-   "aide": {
-    "text": "La formule d'origine devient le premier argument de SIERREUR.",
-    "showTarget": true
-   },
-   "feedback": "Toujours « Écran » : quand il n'y a pas d'erreur, SIERREUR ne change rien."
-  },
-  {
-   "id": "M10-L02-04",
-   "consigne": "==Recopiez de nouveau jusqu'en B5==.",
-   "action": {
-    "type": "EXPECT_STATE",
-    "cells": {
-     "B3": {
-      "v": "Clavier"
-     },
-     "B4": {
-      "v": "Code inconnu"
-     },
-     "B5": {
-      "v": "Souris"
-     }
-    }
-   },
-   "aide": {
-    "text": "Poignée de recopie vers le bas."
-   },
-   "feedback": "« Code inconnu » au lieu de #N/A. Le tableau est présentable, et le problème reste visible."
-  },
-  {
-   "id": "M10-L02-05",
-   "consigne": "Un avertissement important : **SIERREUR masque TOUTES les erreurs**, y compris celles que vous auriez voulu voir — une division par zéro, une référence cassée. Ne l'utilisez que là où l'erreur est attendue, jamais par confort sur toute une feuille.",
-   "action": {
-    "type": "READ"
-   },
-   "points": 0
-  }
- ]
 }

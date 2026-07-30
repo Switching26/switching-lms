@@ -113,7 +113,28 @@
       "action": {
         "type": "READ"
       },
-      "points": 0
+      "points": 0,
+      "montrer": [
+        {
+          "type": "MONTRER",
+          "cible": "C2",
+          "texte": "Un montant écrit « 1 200,50 » avec un espace n'est pas reconnu par un Excel français"
+        },
+        {
+          "type": "MONTRER",
+          "cible": "C2",
+          "texte": "« 1,200.50 » à l'anglo-saxonne non plus : il devient du TEXTE",
+          "ecrire": {
+            "cell": "C2",
+            "valeur": "1,200.50"
+          }
+        },
+        {
+          "type": "MONTRER",
+          "cible": "E2",
+          "texte": "Il s'aligne à gauche et disparaît de vos totaux, sans message"
+        }
+      ]
     },
     {
       "id": "M26-L01-05",
@@ -121,7 +142,24 @@
       "action": {
         "type": "READ"
       },
-      "points": 0
+      "points": 0,
+      "montrer": [
+        {
+          "type": "MONTRER",
+          "cible": "ctrl:acc-coller",
+          "texte": "Coller normalement transporte formules, formats et largeurs"
+        },
+        {
+          "type": "MONTRER",
+          "cible": "E1",
+          "texte": "Or on veut souvent seulement les VALEURS"
+        },
+        {
+          "type": "MONTRER",
+          "cible": "E2",
+          "texte": "Pour figer un résultat, ou se débarrasser de mises en forme importées"
+        }
+      ]
     },
     {
       "id": "M26-L01-06",

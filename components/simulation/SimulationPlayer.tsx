@@ -838,13 +838,17 @@ export default function SimulationPlayer({
    */
   useEffect(() => {
     if (!step || finished) return
+    // La page de garde est encore là : la démonstration se jouait PAR-DESSUS
+    // « Commencer la leçon », bulles et curseur compris, avant que l'apprenant
+    // ait seulement ouvert le chapitre (retour Samuel du 30/07/2026).
+    if (!introVue) return
     if (step.action.type !== "READ" || !step.montrer?.length) return
     const t = window.setTimeout(() => {
       setDemoFinie(false)
       setDemonstration(true)
     }, 1200)
     return () => window.clearTimeout(t)
-  }, [step, index, finished])
+  }, [step, index, finished, introVue])
 
   /**
    * Audit : forcer la démonstration sans passer par les seuils de l'apprenant.

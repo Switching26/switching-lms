@@ -76,10 +76,17 @@ type Props = {
 /** Étapes d'un geste. `avertir` n'existe qu'une fois, au tout début. */
 type Phase = "avertir" | "vise" | "bulle" | "clic" | "glisse" | "frappe" | "valide" | "fini"
 
+/** Secondes de décompte avant une démonstration qui se lance toute seule. */
+const DECOMPTE = 4
+/** Périmètre du cadran, pour animer sa décharge sans le recalculer. */
+const TOUR = 2 * Math.PI * 23
+
 export default function DemonstrationGeste({ plan, resoudre, largeur, onEcrire, onOnglet, onDefinir, onSelectionner, onPresser, lecture, onFini }: Props) {
   const [i, setI] = useState(0)
   const [phase, setPhase] = useState<Phase>("avertir")
   const [tapes, setTapes] = useState(0)
+  /** Secondes restantes affichées pendant l'avertissement. */
+  const [reste, setReste] = useState(DECOMPTE)
   const doux = useRef(false)
   const finiRef = useRef(onFini)
   const ecrireRef = useRef(onEcrire)
@@ -149,7 +156,11 @@ export default function DemonstrationGeste({ plan, resoudre, largeur, onEcrire, 
     // pièce dure une demi-minute et l'apprenant décroche avant la fin.
     const vite = i > 0 ? 0.55 : 1
     const duree =
-      phase === "avertir" ? 3200
+      // 4 s quand la démonstration démarre d'elle-même : l'apprenant n'a rien
+      // demandé, il faut lui laisser le temps de lever les yeux. Le décompte
+      // occupe exactement cette durée. Une démonstration réclamée par
+      // « Montrez-moi » n'a pas besoin de ce délai — il regarde déjà.
+      phase === "avertir" ? (lecture ? DECOMPTE * 1000 : 3200)
       : phase === "vise" ? 900 * vite
       : phase === "bulle" ?
           geste?.illustration
@@ -162,6 +173,18 @@ export default function DemonstrationGeste({ plan, resoudre, largeur, onEcrire, 
     const t = window.setTimeout(suite, duree)
     return () => window.clearTimeout(t)
   }, [phase, i, geste, suite, plan.gestes])
+
+  /**
+   * Le décompte, seconde par seconde.
+   *
+   * Il ne descend jamais sous 1 : afficher « 0 » laisserait un cadran vide
+   * pendant que la carte s'efface, ce qui se lit comme un blocage.
+   */
+  useEffect(() => {
+    if (phase !== "avertir" || !lecture || doux.current) return
+    const t = window.setInterval(() => setReste((n) => (n > 1 ? n - 1 : n)), 1000)
+    return () => window.clearInterval(t)
+  }, [phase, lecture])
 
   // La frappe, caractère par caractère.
   useEffect(() => {
@@ -253,11 +276,43 @@ export default function DemonstrationGeste({ plan, resoudre, largeur, onEcrire, 
               animation: "sim-demo-carte .34s cubic-bezier(.2,.9,.2,1) both",
             }}
           >
-            <p className="mb-1.5 flex items-center gap-2 text-[14.5px] font-extrabold" style={{ color: "#8a5a12" }}>
-              <span aria-hidden style={{ fontSize: 17 }}>👀</span>
-              {lecture ? "Regardez" : "Je vais vous montrer"}
+            {/* Le cadran ne sert qu'au démarrage automatique : il dit COMBIEN
+                de temps il reste avant que ça bouge. Sans lui, l'apprenant
+                découvre le mouvement au lieu de l'attendre. */}
+            {lecture && (
+              <div
+                className="absolute"
+                style={{ left: 20, top: "50%", transform: "translateY(-50%)", width: 52, height: 52 }}
+              >
+                <svg width="52" height="52" style={{ transform: "rotate(-90deg)", display: "block" }}>
+                  <circle cx="26" cy="26" r="23" fill="none" strokeWidth="4" stroke="#F2E4CC" />
+                  <circle
+                    cx="26" cy="26" r="23" fill="none" strokeWidth="4" stroke="#E8A33D" strokeLinecap="round"
+                    style={{
+                      strokeDasharray: TOUR,
+                      // Le cadran se vide en temps réel. En mouvement réduit il
+                      // reste plein : une jauge qui glisse est justement ce que
+                      // ce réglage demande d'éviter.
+                      animation: doux.current ? undefined : `sim-demo-cadran ${DECOMPTE}s linear forwards`,
+                    }}
+                  />
+                </svg>
+                <div
+                  className="absolute inset-0 grid place-items-center text-[22px] font-extrabold"
+                  style={{ color: "#8a5a12", fontVariantNumeric: "tabular-nums" }}
+                >
+                  {reste}
+                </div>
+              </div>
+            )}
+            <p
+              className="mb-1.5 flex items-center gap-2 text-[14.5px] font-extrabold"
+              style={{ color: "#8a5a12", marginLeft: lecture ? 66 : 0 }}
+            >
+              {!lecture && <span aria-hidden style={{ fontSize: 17 }}>👀</span>}
+              {lecture ? "Regardez bien l’écran" : "Je vais vous montrer"}
             </p>
-            <p className="text-[13px] leading-snug" style={{ color: "#3C433F" }}>
+            <p className="text-[13px] leading-snug" style={{ color: "#3C433F", marginLeft: lecture ? 66 : 0 }}>
               {lecture ? (
                 <>
                   Voici la démonstration de cette étape. Rien à faire de votre côté :
@@ -491,6 +546,7 @@ export default function DemonstrationGeste({ plan, resoudre, largeur, onEcrire, 
 @keyframes sim-demo-onde{0%{opacity:.95;transform:scale(.3)}100%{opacity:0;transform:scale(3.4)}}
 @keyframes sim-demo-appel{0%,100%{opacity:.95;transform:scale(1)}50%{opacity:.35;transform:scale(1.06)}}
 @keyframes sim-demo-caret{50%{opacity:0}}
+@keyframes sim-demo-cadran{to{stroke-dashoffset:${TOUR}}}
 @keyframes sim-demo-touche{0%{opacity:0}25%{opacity:1;transform:translateY(0)}45%{transform:translateY(2px)}60%{transform:translateY(0)}100%{opacity:1}}
 @media (prefers-reduced-motion: reduce){
   [style*="sim-demo-"]{animation-duration:.01ms !important;animation-iteration-count:1 !important}

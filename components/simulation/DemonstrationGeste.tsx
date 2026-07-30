@@ -164,7 +164,11 @@ export default function DemonstrationGeste({ plan, resoudre, largeur, onEcrire, 
       : phase === "vise" ? 900 * vite
       : phase === "bulle" ?
           geste?.illustration
-            ? Math.min(4200, Math.max(1600, (geste.bulle?.length ?? 0) * 55))
+            // 55 ms par signe plafonnés à 4,2 s : au-delà de 76 signes le texte
+            // était tronqué dans le temps, pas dans l'espace — 124 signes en
+            // 4,2 s font 29 signes/seconde, une vitesse à laquelle on ne lit
+            // pas. 62 ms par signe jusqu'à 6,2 s ramène le pire cas à 20.
+            ? Math.min(6200, Math.max(1800, (geste.bulle?.length ?? 0) * 62))
             : (i === 0 ? 1100 : 620)
       : phase === "clic" ? 700 * vite
       : phase === "glisse" ? 1200
@@ -394,6 +398,11 @@ export default function DemonstrationGeste({ plan, resoudre, largeur, onEcrire, 
 
           <div
             className="absolute"
+            // Repère de mesure : un contrôle automatique doit pouvoir dire si la
+            // cible désignée tombe DANS l'écran. Une cible résolue mais hors du
+            // champ visible est dessinée sans que personne ne la voie — la sonde
+            // de résolution répondait « oui » sur une démonstration invisible.
+            data-demo-cible={geste?.bulle ?? ""}
             style={{
               left: rect.left, top: rect.top,
               width: rectFin && (phase === "glisse" || phase === "fini") ? rectFin.left + rectFin.width - rect.left : rect.width,
@@ -445,6 +454,11 @@ export default function DemonstrationGeste({ plan, resoudre, largeur, onEcrire, 
                   ? "absolute rounded-lg px-3 py-2 text-[12.5px] font-semibold leading-snug text-white"
                   : "absolute rounded-lg px-2.5 py-1.5 text-[11.5px] font-semibold text-white"
               }
+              // Repère de mesure, comme sur le compteur et la cible : le contrôle
+              // automatique doit trouver la bulle en UNE requête. La chercher par
+              // sa couleur de fond obligeait à parcourir tous les nœuds de la
+              // page — la sonde coûtait alors plus cher que ce qu'elle mesurait.
+              data-demo-bulle=""
               style={{
                 // Une illustration porte une PHRASE : elle se lit en entier, sur
                 // plusieurs lignes s'il le faut. Une bulle de geste reste courte
@@ -452,13 +466,26 @@ export default function DemonstrationGeste({ plan, resoudre, largeur, onEcrire, 
                 left: geste.illustration
                   ? Math.min(Math.max(4, rect.left + rect.width / 2 - 150), Math.max(4, largeur - 316))
                   : Math.min(Math.max(4, rect.left + rect.width / 2 - 70), Math.max(4, largeur - 210)),
-                top: rect.top > 62 ? rect.top - (geste.illustration ? 50 : 34) : rect.top + rect.height + 10,
+                /**
+                 * Posée au-dessus, la bulle était décalée de 50 px FIXES. Une
+                 * bulle d'illustration s'écrit sur deux ou trois lignes : elle
+                 * redescendait sur la cellule qu'elle désigne et la masquait —
+                 * l'explication recouvrait la chose expliquée (audit du 30/07,
+                 * 13 cas sur les 18 premiers écrans mesurés).
+                 *
+                 * On l'accroche donc par le BAS : quelle que soit sa hauteur,
+                 * elle s'arrête 10 px au-dessus de la cible. Le décalage est
+                 * porté par l'animation d'entrée, sinon son `transform` final
+                 * annulerait celui posé ici.
+                 */
+                top: rect.top > 62 ? rect.top - 10 : rect.top + rect.height + 10,
                 background: ENCRE,
                 maxWidth: geste.illustration ? 312 : 205,
                 ...(geste.illustration
                   ? {}
                   : { whiteSpace: "nowrap" as const, overflow: "hidden", textOverflow: "ellipsis" }),
-                boxShadow: "0 6px 16px -6px rgba(0,0,0,.5)", animation: "sim-demo-entree .28s ease both",
+                boxShadow: "0 6px 16px -6px rgba(0,0,0,.5)",
+                animation: `${rect.top > 62 ? "sim-demo-entree-haut" : "sim-demo-entree"} .28s ease both`,
               }}
             >
               {geste.bulle}
@@ -543,6 +570,9 @@ export default function DemonstrationGeste({ plan, resoudre, largeur, onEcrire, 
 @keyframes sim-demo-voile{from{opacity:0}to{opacity:1}}
 @keyframes sim-demo-carte{from{opacity:0;transform:translate(-50%,-46%) scale(.96)}to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
 @keyframes sim-demo-entree{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+/* Bulle posée AU-DESSUS de la cible : elle est remontée de sa propre hauteur,
+   donc son bas s'aligne juste au-dessus, quel que soit le nombre de lignes. */
+@keyframes sim-demo-entree-haut{from{opacity:0;transform:translateY(calc(-100% + 4px))}to{opacity:1;transform:translateY(-100%)}}
 @keyframes sim-demo-onde{0%{opacity:.95;transform:scale(.3)}100%{opacity:0;transform:scale(3.4)}}
 @keyframes sim-demo-appel{0%,100%{opacity:.95;transform:scale(1)}50%{opacity:.35;transform:scale(1.06)}}
 @keyframes sim-demo-caret{50%{opacity:0}}

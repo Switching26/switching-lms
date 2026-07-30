@@ -67,6 +67,19 @@ export type GridApi = {
    */
   getCellRect: (ref: string) => { left: number; top: number; width: number; height: number } | null
   /**
+   * Amène une cellule dans le champ visible.
+   *
+   * Sans cela, une démonstration qui désigne A41 dessinait son repère sous le
+   * bord de l'écran : parfaitement « résolu », parfaitement invisible. La grille
+   * ne défile jamais d'elle-même — ni la sélection, ni le repère d'aide ne la
+   * font bouger (vérifié le 30/07/2026 : A41 restait à y=980 sur 900 px de
+   * haut, du début à la fin de la séquence).
+   *
+   * Renvoie `false` si la feuille n'est pas prête ou si le défilement échoue :
+   * l'appelant décide alors quoi faire, plutôt que de croire à une réussite.
+   */
+  scrollToCell: (ref: string) => boolean
+  /**
    * Largeur d'une colonne et hauteur d'une ligne, en pixels, indices base 0.
    * `null` quand le squelette de rendu n'est pas encore là — l'appelant retombe
    * alors sur les valeurs par défaut d'Univer (88 et 24). La mise en page a
@@ -616,6 +629,22 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
           const brut = (rg as any).getRawValue?.()
           if (typeof brut === "number") return brut
           return rg.getValue?.() ?? null
+        },
+        scrollToCell: (ref) => {
+          try {
+            const pos = parseCell(ref)
+            if (!pos) return false
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const sh2 = sheet() as any
+            if (typeof sh2?.scrollToCell !== "function") return false
+            // Une ligne au-dessus quand c'est possible : une cible collée au
+            // bord haut se lit mal, et la bulle qui la surmonte n'aurait plus
+            // de place pour se poser.
+            sh2.scrollToCell(Math.max(0, pos.row - 1), Math.max(0, pos.col - 1))
+            return true
+          } catch {
+            return false
+          }
         },
         getCellRect: (ref) => {
           try {

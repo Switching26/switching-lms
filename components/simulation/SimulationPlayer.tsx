@@ -2286,9 +2286,34 @@ export default function SimulationPlayer({
     if (cible.k === "cellule" || cible.k === "plage") {
       if (!grid) return null
       const bornes = cible.ref.split(":")
-      const a = grid.getCellRect(bornes[0])
-      const b = grid.getCellRect(bornes[bornes.length - 1])
+      let a = grid.getCellRect(bornes[0])
+      let b = grid.getCellRect(bornes[bornes.length - 1])
       if (!a || !b) return null
+      /**
+       * La cible tombe-t-elle sous le bord de la feuille ? Alors on y va.
+       *
+       * La grille ne défile jamais d'elle-même. Une démonstration qui désigne
+       * A41 — « la deuxième page commence ici » — dessinait donc son repère
+       * hors du champ : l'apprenant regardait un écran où rien ne se passe
+       * pendant que le compteur avançait (audit du 30/07/2026, module 13).
+       *
+       * Après le défilement les rectangles ont bougé : il faut les REDEMANDER.
+       * Les réutiliser tels quels replacerait le repère à l'ancienne position,
+       * c'est-à-dire de nouveau à côté.
+       */
+      // Hauteur RÉELLE de la zone de grille, pas déduite de celle de l'atelier :
+      // le bandeau de consigne occupe le bas, la soustraction se tromperait.
+      const basDeFeuille = zg?.height ?? h.height - dy
+      if (a.top + a.height > basDeFeuille || a.top < 0) {
+        if (grid.scrollToCell(bornes[0])) {
+          const a2 = grid.getCellRect(bornes[0])
+          const b2 = grid.getCellRect(bornes[bornes.length - 1])
+          if (a2 && b2) {
+            a = a2
+            b = b2
+          }
+        }
+      }
       const left = Math.min(a.left, b.left)
       const top = Math.min(a.top, b.top)
       return depuisGrille({
@@ -2314,8 +2339,17 @@ export default function SimulationPlayer({
     }
     const el = document.querySelector(cible.sel)
     if (!el) return null
-    const r = el.getBoundingClientRect()
+    let r = el.getBoundingClientRect()
     if (r.width === 0 && r.height === 0) return null
+    // Même règle que pour les cellules : un bouton sous le bord de l'écran est
+    // « trouvé » sans être visible. Les panneaux de mise en page sont plus
+    // hauts qu'un portable — `mep-entete-pied` tombait à y=1015 sur 900 px.
+    // Sans conteneur défilable, `scrollIntoView` ne fait rien : on remesure
+    // dans tous les cas plutôt que de supposer que ça a marché.
+    if (r.bottom > h.bottom || r.top < h.top) {
+      el.scrollIntoView({ block: "center", behavior: "instant" as ScrollBehavior })
+      r = el.getBoundingClientRect()
+    }
     return { left: r.left - h.left, top: r.top - h.top, width: r.width, height: r.height }
   }, [])
 

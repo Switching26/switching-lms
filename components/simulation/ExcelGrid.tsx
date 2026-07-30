@@ -34,6 +34,7 @@ import "@univerjs/preset-sheets-note/lib/index.css"
 import "@univerjs/preset-sheets-drawing/lib/index.css"
 import type { ObservedAction, ActionChannel } from "@/lib/simulation/validate"
 import { lireDateOuHeureFr } from "@/lib/simulation/date-fr"
+import { lireNombreFr } from "@/lib/simulation/nombre-fr"
 import type { CellState, WorkbookState, ConditionalRule, ValidationRule } from "@/lib/simulation/types"
 import {
   formatCell,
@@ -439,6 +440,15 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
               rg.setValue(fr.valeur)
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
               ;(rg as any).setNumberFormat?.(fr.format)
+              continue
+            }
+            // Une décimale écrite à la française doit devenir un NOMBRE, pas du
+            // texte : posée telle quelle, « 7650,50 » restait une chaîne et les
+            // sommes qui la traversaient l'ignoraient en silence.
+            const nb = typeof state.v === "string" ? lireNombreFr(state.v) : null
+            if (nb !== null) {
+              rg.setValue(nb)
+              localiserDecimale(ref)
               continue
             }
             rg.setValue(state.v)
@@ -1373,8 +1383,19 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
                 ;(rg as any).setNumberFormat?.(lu.format)
               }
             }
+            // Même redressement pour les décimales : l'éditeur d'Univer lit
+            // « 7650,50 » comme du texte, la cellule l'affiche pourtant
+            // correctement, et le défaut n'apparaît qu'à la première somme.
+            const brutTexte = api.getValue(ref)
+            if (typeof brutTexte === "string") {
+              const nb = lireNombreFr(brutTexte)
+              if (nb !== null) {
+                rg?.setValue?.(nb)
+                localiserDecimale(ref)
+              }
+            }
           } catch (e) {
-            signalerEnDev("lecture française d'une date saisie", e)
+            signalerEnDev("lecture française d'une saisie", e)
           }
         }
 

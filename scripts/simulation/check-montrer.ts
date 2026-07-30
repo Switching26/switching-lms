@@ -57,6 +57,25 @@ for (const f of fs.readdirSync(DIR).filter((n) => n.endsWith(".json")).sort()) {
         soucis.push(`${f} ${st.id} — feuille « ${a.name} » inconnue (${noms.join(", ")})`)
       }
     }
+    // Une démonstration ne peut rien montrer quand le classeur n'est PAS affiché :
+    // le calque vit dans la zone de grille, absente tant que le poste de travail
+    // montre le bureau ou l'écran d'accueil d'Excel. La séquence se jouait alors
+    // entièrement à blanc — et pire, l'apprenant perdait son bouton « Voir le
+    // geste » au profit d'une démonstration invisible, sans même un « Revoir »
+    // avant la fin. Constaté sur `M01-L01-14` (deux raccourcis clavier).
+    if (sc.poste) {
+      let etat = sc.poste.excelOuvert ? "classeur" : "ferme"
+      for (const p of sc.steps as any[]) {
+        const sp = p.setup?.poste
+        if (sp?.excel) etat = sp.excel
+        if (p.id === st.id) break
+      }
+      if (etat !== "classeur") {
+        soucis.push(
+          `${f} ${st.id} — démonstration impossible : le poste affiche « ${etat} », le classeur n'est pas à l'écran`,
+        )
+      }
+    }
     // Une lecture ne doit pas jouer le geste que l'étape SUIVANTE va demander :
     // ce serait donner la réponse avant la question.
     const suivante = (sc.steps as any[])[(sc.steps as any[]).indexOf(st) + 1]

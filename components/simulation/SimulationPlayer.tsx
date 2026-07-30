@@ -33,6 +33,19 @@ import {
 import DesktopLayer from "./DesktopLayer"
 import AfficheModule, { numeroModule } from "./AfficheModule"
 import DemonstrationGeste, { type Rect } from "./DemonstrationGeste"
+
+/**
+ * Clé stable d'une cible de démonstration, pour la trace d'audit hors
+ * production. Deux gestes qui visent le même endroit partagent la même clé :
+ * c'est voulu, la question posée est « ce repère a-t-il été dessiné ? ».
+ */
+function cleCible(c: CibleDemo): string {
+  return c.k === "cellule" || c.k === "plage" ? `${c.k}:${c.ref}`
+    : c.k === "enteteColonne" ? `col:${c.col}`
+    : c.k === "enteteLigne" ? `ligne:${c.ligne}`
+    : c.k === "dom" ? `dom:${c.sel}`
+    : "clavier"
+}
 import { planDemonstration, type CibleDemo, type PlanDemo } from "@/lib/simulation/demonstration"
 import { CONTROLES_POSTE, appliquerGeste, posteInitial } from "@/lib/simulation/poste"
 import ChartLayer from "./ChartLayer"
@@ -556,11 +569,26 @@ export default function SimulationPlayer({
    */
   const resoluRef = useRef(false)
   /**
-   * Vrai pendant que la DÉMONSTRATION écrit. Les observations du classeur sont
-   * alors ignorées : sans ce verrou, écrire la réponse validerait l'étape et
-   * ferait sauter à la suivante au milieu de la démonstration.
+   * ÉCHÉANCE du verrou de démonstration, en millisecondes.
+   *
+   * Pendant que la démonstration agit — écriture de cellules, pression d'un
+   * bouton, création d'un nom de plage — les observations du classeur sont
+   * ignorées : sans cela, poser la réponse validerait l'étape et ferait sauter à
+   * la suivante en pleine explication.
+   *
+   * C'était un simple booléen, et cela ne tenait pas dès que deux effets se
+   * chevauchaient : la minuterie du premier remettait le verrou à faux alors que
+   * le second était encore en cours, et l'observation retardée du bouton (220 ms
+   * après le clic, le temps qu'Univer applique le style) passait au travers.
+   * L'étape se validait toute seule — bandeau « C'est exact » au milieu de la
+   * démonstration, et une étape comptée réussie du premier coup sans que
+   * l'apprenant ait rien fait. Une échéance ne peut pas être raccourcie par
+   * quelqu'un d'autre.
    */
-  const demoEcritRef = useRef(false)
+  const verrouDemoRef = useRef(0)
+  const verrouillerDemo = useCallback((ms: number) => {
+    verrouDemoRef.current = Math.max(verrouDemoRef.current, Date.now() + ms)
+  }, [])
   /**
    * Cellules touchées par une démonstration jouée sur un écran de LECTURE, avec
    * leur valeur d'avant. Une lecture illustre : elle ne doit pas laisser le
@@ -616,6 +644,9 @@ export default function SimulationPlayer({
   const [onglet, setOnglet] = useState<RibbonTab>(
     step?.setup?.ribbon?.activeTab ?? scenario.ribbon[0] ?? "accueil"
   )
+  /** Onglet courant, lisible sans créer de dépendance — voir le plan de démonstration. */
+  const ongletRef = useRef(onglet)
+  ongletRef.current = onglet
 
   /* ── Mise en place de l'étape ──────────────────────────────────────────── */
 
@@ -753,6 +784,9 @@ export default function SimulationPlayer({
     // n'est pas encore montée et le player se figeait après la première étape,
     // toutes les observations suivantes étant ignorées en silence.
     resoluRef.current = false
+    // La trace d'audit des repères repart à zéro : hors production seulement.
+    if (process.env.NODE_ENV !== "production" && typeof window !== "undefined")
+      (window as any).__SIM_DEMO_VUS = {}
     setRejeu(0)
     setDemoFinie(false)
     setTatonnements(0)
@@ -766,6 +800,24 @@ export default function SimulationPlayer({
     const t = window.setTimeout(() => setTropLong(true), 45_000)
     return () => window.clearTimeout(t)
   }, [step, index, finished, mode])
+
+  /**
+   * Audit : forcer la démonstration sans passer par les seuils de l'apprenant.
+   * Hors production seulement, et seulement si l'auditeur l'a demandé — voir la
+   * note sur les crochets d'audit plus bas. `applyStep` remet `demonstration` à
+   * faux à chaque étape, donc le forçage se rejoue ici, après lui.
+   */
+  useEffect(() => {
+    if (process.env.NODE_ENV === "production") return
+    if (typeof window === "undefined" || !(window as any).__SIM_FORCE_DEMO) return
+    if (!step || finished || !gridReady) return
+    // Volontairement TARDIF. À 60 ms, certains services d'Univer — le collage en
+    // particulier — ne sont pas encore prêts et la commande échoue en silence :
+    // l'audit voyait un défaut là où il n'y en avait pas. Un apprenant, lui,
+    // n'atteint jamais l'aide avant 3 erreurs, 6 tâtonnements ou 45 secondes.
+    const t = window.setTimeout(() => setDemonstration(true), 1500)
+    return () => window.clearTimeout(t)
+  }, [step, index, finished, gridReady])
 
   /* ── Persistance ───────────────────────────────────────────────────────── */
 
@@ -902,7 +954,15 @@ export default function SimulationPlayer({
 
   const handleAction = useCallback(
     (observed: ObservedAction) => {
-      if (!step || finished || resoluRef.current || demoEcritRef.current) return
+      if (!step || finished || resoluRef.current) return
+      // Le verrou de démonstration ne concerne QUE les observations du classeur :
+      // il évite qu'un geste joué à la place de l'apprenant valide l'étape. Un
+      // « suivant » est au contraire une intention explicite de l'apprenant.
+      // Sans cette exception, le bouton « J'ai compris, continuer » d'un écran de
+      // lecture était mort pendant toute la durée du verrou — et comme la remise
+      // en place du classeur en repose un à la fin de la démonstration, le clic
+      // qui suit immédiatement une démonstration ne faisait rien du tout.
+      if (observed.kind !== "next" && Date.now() < verrouDemoRef.current) return
 
       // L'enregistreur de macros écoute les gestes RÉELS, ceux que la grille
       // signale déjà. Un second chemin d'observation finirait par transcrire
@@ -1698,6 +1758,64 @@ export default function SimulationPlayer({
     [effetModele, handleAction, gestePoste],
   )
 
+  /**
+   * Presse un contrôle PENDANT la démonstration : l'effet est appliqué, la
+   * validation neutralisée.
+   *
+   * C'est le chemin exact de l'apprenant — `handleControl` pour le ruban et les
+   * panneaux, `gestePoste` pour les boîtes du bureau, qui prennent le nom du
+   * fichier en argument. Aucun effet n'est réécrit ici : la démonstration
+   * emprunte le code qui marche déjà, et le verrou empêche seulement l'étape de
+   * se valider toute seule au milieu de l'explication.
+   */
+  const presserDemo = useCallback(
+    (id: string, arg?: string) => {
+      // Un écran de LECTURE illustre, il ne modifie pas le classeur : ses
+      // cellules sont remises en place à la fin (`rendreClasseur`), mais un tri,
+      // un format ou un nom de plage ne le seraient pas. On montre alors le
+      // geste sans l'exécuter.
+      if (stepRef.current?.action.type === "READ") return
+      // Les commandes d'Univer et les couches s'appliquent de façon asynchrone,
+      // et l'observation de mise en forme est relue 220 ms après le clic : le
+      // verrou doit couvrir tout cela.
+      verrouillerDemo(1400)
+      // Trace d'audit : quels boutons la démonstration a réellement pressés.
+      if (process.env.NODE_ENV !== "production" && typeof window !== "undefined") {
+        const w = window as any
+        w.__SIM_DEMO_PRESSES = [...(w.__SIM_DEMO_PRESSES ?? []), id]
+      }
+      // Les boutons du poste qui prennent un nom de fichier n'ont pas d'équivalent
+      // cliquable sans saisie : on passe par la transition directement.
+      if (arg !== undefined && id.startsWith("poste-")) {
+        gestePoste(id, arg)
+        return
+      }
+      // CLIQUER LE VRAI ÉLÉMENT quand il est là, exactement comme l'apprenant.
+      //
+      // Appeler `handleControl` semblait équivalent, et ça l'est pour le ruban —
+      // mais pas pour les panneaux. Les options du panneau Mise en page
+      // (`aff-mode-*`, orientation, marges) sont des boutons de choix dont
+      // l'effet passe par leur propre `onChange`, jamais par `handleControl` :
+      // la pression ne faisait donc rien, le mode d'affichage ne changeait pas,
+      // et l'étape suivante visait la zone d'en-tête qui n'existe QUE dans ce
+      // mode — geste invisible en cascade (modules 13). Le clic DOM couvre les
+      // deux familles d'un seul geste.
+      const el = document.querySelector<HTMLElement>(`[data-control="${id}"]`)
+      if (el && typeof el.click === "function") el.click()
+      else handleControl(id)
+    },
+    [gestePoste, handleControl, verrouillerDemo],
+  )
+
+  /** Sélectionne pour de vrai pendant la démonstration, sans rien valider. */
+  const selectionnerDemo = useCallback((ref: string) => {
+    const grid = gridRef.current
+    if (!grid) return
+    grid.setSelection(ref)
+    setSelection(ref)
+    setStats(grid.getSelectionStats(ref))
+  }, [])
+
   /** Validation de la zone Nom : on va à la référence, et on le signale. */
   const commitNameBox = useCallback(() => {
     const grid = gridRef.current
@@ -2054,18 +2172,26 @@ export default function SimulationPlayer({
    */
   const demo = useMemo(() => {
     if (!demonstration || !step) return null
-    // Un écran de lecture montre le geste qu'il décrit, y compris pendant une
-    // évaluation : ce n'est pas une aide sur une question notée, c'est le
-    // contenu lui-même. Partout ailleurs, l'évaluation reste sans démonstration.
+    // L'onglet est lu par une RÉFÉRENCE, pas par une dépendance : la
+    // démonstration ouvre elle-même l'onglet dont elle a besoin, donc en faire
+    // une dépendance recalculerait le plan en pleine séquence, changerait la
+    // référence des gestes et relancerait la minuterie du calque à zéro — la
+    // démonstration se figerait sur son premier geste. Ce qui compte est
+    // l'onglet ouvert au DÉMARRAGE.
+    const depart = { onglet: ongletRef.current, boitePoste: posteRef.current?.boite }
     if (step.montrer?.length) {
+      // Un écran de lecture montre le geste qu'il décrit, y compris pendant une
+      // évaluation : ce n'est pas une aide sur une question notée, c'est le
+      // contenu lui-même. Partout ailleurs, l'évaluation reste sans
+      // démonstration.
       // Les plans s'enchaînent : les gestes bout à bout, les repères de suivi
       // à la file, pour un compteur « i / n » qui court sur toute la séquence.
-      const plans = step.montrer.map(planDemonstration).filter(Boolean) as PlanDemo[]
+      const plans = step.montrer.map((a) => planDemonstration(a, depart)).filter(Boolean) as PlanDemo[]
       if (plans.length === 0) return null
       return { gestes: plans.flatMap((p) => p.gestes), pas: plans.flatMap((p) => p.pas) }
     }
     if (mode === "EVALUATION") return null
-    return planDemonstration(step.action)
+    return planDemonstration(step.action, depart)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [demonstration, index, mode])
 
@@ -2075,6 +2201,22 @@ export default function SimulationPlayer({
    * aucun élément DOM par cellule) ; le châssis passe par le DOM.
    */
   const resoudreCible = useCallback((cible: CibleDemo): Rect | null => {
+    const r = resoudreCibleBrut(cible)
+    // Trace d'audit : une cible qui s'est résolue AU MOINS UNE FOIS pendant qu'on
+    // la montrait a bien eu son repère. La mesurer après coup se retourne contre
+    // nous — un bouton de menu disparaît justement parce que le geste a réussi —
+    // d'où cette trace posée au moment du rendu.
+    if (process.env.NODE_ENV !== "production" && typeof window !== "undefined") {
+      const w = window as any
+      if (!w.__SIM_DEMO_VUS) w.__SIM_DEMO_VUS = {}
+      const cle = cleCible(cible)
+      if (r) w.__SIM_DEMO_VUS[cle] = true
+      else if (w.__SIM_DEMO_VUS[cle] === undefined) w.__SIM_DEMO_VUS[cle] = false
+    }
+    return r
+  }, [])
+
+  const resoudreCibleBrut = useCallback((cible: CibleDemo): Rect | null => {
     const grid = gridRef.current
     const hote = zoneGrilleRef.current
     if (!hote) return null
@@ -2117,6 +2259,73 @@ export default function SimulationPlayer({
   }, [])
 
   /**
+   * Crochets d'audit, retirés des bundles de production par le remplacement de
+   * `NODE_ENV` — même dispositif que `window.__SIM_GRID`.
+   *
+   * POURQUOI ILS SONT NÉCESSAIRES
+   * Une démonstration dont la cible ne se résout pas se joue À BLANC : le calque
+   * ne dessine rien, mais la minuterie tourne, le compteur avance et « Revoir »
+   * apparaît à la fin. Vue de l'extérieur, elle est indistinguable d'une
+   * démonstration réussie — c'est ce qui a permis à 60 gestes invisibles de
+   * traverser tous les contrôles. Et `resoudre()` n'est appelé que sur le geste
+   * AFFICHÉ : sans sonde, il faudrait attendre chaque geste pour savoir s'il
+   * atteint sa cible.
+   *
+   *   · `__SIM_FORCE_DEMO` déclenche la démonstration dès l'entrée dans l'étape,
+   *     sans attendre 3 erreurs, 6 tâtonnements ou 45 secondes — les trois seuls
+   *     déclencheurs de l'apprenant, intenables sur 1 358 étapes.
+   *   · `__SIM_DEMO_PROBE()` résout d'un coup TOUTES les cibles du plan courant
+   *     et rend la liste de celles qui ne mènent à rien.
+   */
+  if (process.env.NODE_ENV !== "production" && typeof window !== "undefined") {
+    // Identifiant de l'étape courante, lisible sans rien calculer. La sonde
+    // complète résout toutes les cibles — donc interroge le squelette d'Univer —
+    // et s'en servir pour se recaler sur l'étape coûtait plus cher que l'audit
+    // lui-même.
+    ;(window as any).__SIM_ETAPE = stepRef.current?.id ?? null
+    ;(window as any).__SIM_DEMO_PROBE = () => {
+      const s = stepRef.current
+      if (!s) return { erreur: "aucune étape" }
+      const plan =
+        s.montrer?.length ?
+          (() => {
+            const ps = s.montrer.map((a) => planDemonstration(a, onglet)).filter(Boolean) as PlanDemo[]
+            return ps.length ? { gestes: ps.flatMap((p) => p.gestes), pas: ps.flatMap((p) => p.pas) } : null
+          })()
+        : mode === "EVALUATION" ? null
+        : planDemonstration(s.action)
+      if (!plan) return { id: s.id, type: s.action.type, plan: null }
+      return {
+        id: s.id,
+        type: s.action.type,
+        onglet,
+        gestes: plan.gestes.map((g) => {
+          const cibles = [g.cible, ...(g.glisserVers ? [g.glisserVers] : [])]
+          return {
+            bulle: g.bulle,
+            ecrire: g.ecrire ?? null,
+            cibles: cibles.map((c) => ({
+              genre: c.k,
+              valeur:
+                c.k === "cellule" || c.k === "plage" ? c.ref
+                : c.k === "enteteColonne" ? c.col
+                : c.k === "enteteLigne" ? String(c.ligne)
+                : c.k === "dom" ? c.sel
+                : "clavier",
+              // `resolu` = maintenant ; `vu` = s'est résolu au moins une fois
+              // pendant que le geste était à l'écran. C'est `vu` qui dit si
+              // l'apprenant a eu un repère : un bouton de menu disparaît
+              // justement parce que le geste a abouti.
+              resolu: !!resoudreCibleBrut(c),
+              vu: (window as any).__SIM_DEMO_VUS?.[cleCible(c)] ?? null,
+            })),
+          }
+        }),
+      }
+    }
+  }
+
+  /**
    * Remet les cellules dans l'état d'avant la démonstration d'un écran de
    * lecture. Sans cela, « Voir le geste » laissait la valeur montrée dans la
    * feuille et l'étape suivante démarrait sur un classeur faussé.
@@ -2126,7 +2335,7 @@ export default function SimulationPlayer({
     const avant = avantDemoRef.current
     const refs = Object.keys(avant)
     if (!grid || refs.length === 0) return
-    demoEcritRef.current = true
+    verrouillerDemo(800)
     const cells: Record<string, unknown> = {}
     for (const ref of refs) {
       const v = avant[ref]
@@ -2134,10 +2343,22 @@ export default function SimulationPlayer({
     }
     grid.applyCells(cells as Parameters<typeof grid.applyCells>[0])
     avantDemoRef.current = {}
-    window.setTimeout(() => {
-      demoEcritRef.current = false
-    }, 800)
-  }, [])
+  }, [verrouillerDemo])
+
+  /**
+   * Crée un nom de plage pendant la démonstration, sans déclencher la
+   * validation. Le verrou est le même que pour l'écriture : sans lui,
+   * l'observation ferait valider l'étape et sauter à la suivante en pleine
+   * explication.
+   */
+  const definirDemo = useCallback((nom: string, ref: string) => {
+    const grid = gridRef.current
+    // Même raison que pour la pression d'un contrôle : un nom de plage créé sur
+    // un écran de lecture ne serait pas défait.
+    if (!grid || stepRef.current?.action.type === "READ") return
+    verrouillerDemo(900)
+    grid.defineName(nom, ref)
+  }, [verrouillerDemo])
 
   /** Écrit une valeur pendant la démonstration, sans déclencher la validation. */
   const ecrireDemo = useCallback((ref: string, valeur: string) => {
@@ -2149,13 +2370,11 @@ export default function SimulationPlayer({
       const v = lireCellule(ref)
       avantDemoRef.current[ref] = v == null || v === "" ? "" : String(v)
     }
-    demoEcritRef.current = true
+    // `stateChange` est temporisé de 350 ms côté grille : l'échéance couvre le
+    // recalcul du moteur (60-120 ms) puis cette temporisation.
+    verrouillerDemo(800)
     grid.applyCells({ [ref]: valeur === "" ? {} : valeur.trim().startsWith("=") ? { f: valeur } : { v: valeur } })
-    // `stateChange` est temporisé de 350 ms côté grille : on relâche après.
-    window.setTimeout(() => {
-      demoEcritRef.current = false
-    }, 800)
-  }, [lireCellule])
+  }, [lireCellule, verrouillerDemo])
 
   /* ── Rendu ─────────────────────────────────────────────────────────────── */
 
@@ -2715,6 +2934,12 @@ export default function SimulationPlayer({
                   plan={demo}
                   resoudre={resoudreCible}
                   onEcrire={ecrireDemo}
+                  // Changer d'onglet ne valide rien — c'est déjà le cas quand
+                  // l'apprenant explore le ruban lui-même.
+                  onOnglet={(t) => setOnglet(t as RibbonTab)}
+                  onDefinir={definirDemo}
+                  onSelectionner={selectionnerDemo}
+                  onPresser={presserDemo}
                   largeur={zoneGrilleRef.current?.clientWidth ?? 640}
                 />
               )}

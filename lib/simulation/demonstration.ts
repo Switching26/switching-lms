@@ -22,7 +22,9 @@
  * scénarios et signale toute étape qui resterait sans démonstration.
  */
 
-import type { SimulationAction } from "./types"
+import { PRESETS_MARGES, type Marges } from "./pagesetup"
+import { CONTROLES_POSTE } from "./poste"
+import type { RibbonTab, SimulationAction } from "./types"
 
 /** Ce que le curseur doit viser. Le composant sait résoudre chaque forme. */
 export type CibleDemo =
@@ -48,6 +50,34 @@ export type GesteDemo = {
   frappe?: string
   /** Cellule où écrire réellement la valeur, une fois la frappe finie. */
   ecrire?: { ref: string; valeur: string }
+  /**
+   * Nom de plage à créer POUR DE VRAI en jouant ce geste. Montrer la frappe dans
+   * la zone Nom ne suffit pas : sans le nom en base, l'étape suivante qui écrit
+   * `=SOMME(Depenses)` obtient `#NOM?`, et la validation refuse une cellule en
+   * erreur — l'apprenant qui a demandé de l'aide se retrouvait coincé.
+   */
+  definir?: { nom: string; ref: string }
+  /**
+   * Sélectionne réellement cette référence en jouant le geste.
+   *
+   * Les plans de mise en forme, de tri et de filtre commencent par un geste
+   * « sélectionner la plage » qui n'était que dessiné : le bouton pressé
+   * ensuite s'appliquait donc à la sélection précédente, ou à rien.
+   */
+  selectionner?: string
+  /**
+   * Contrôle à presser POUR DE VRAI, avec l'argument attendu s'il en prend un.
+   *
+   * C'est ce qui manquait à toutes les étapes dont le résultat attendu n'est pas
+   * une valeur de cellule — format, tri, filtre, mise en page, graphique,
+   * tableau croisé, macro, poste de travail. La démonstration promenait le
+   * curseur sur le bon bouton et la feuille ne changeait pas : l'apprenant
+   * voyait un geste sans résultat, ce qui est précisément la définition d'une
+   * démonstration incomplète. La validation de l'étape reste neutralisée
+   * pendant l'opération, sinon la démonstration se saborderait en sautant à
+   * l'étape suivante.
+   */
+  presser?: { id: string; arg?: string }
   /** Glissement : la cible est le point de départ, celle-ci l'arrivée. */
   glisserVers?: CibleDemo
   /**
@@ -58,6 +88,19 @@ export type GesteDemo = {
   touches?: string[]
   /** Double-clic : le geste s'affiche avec son « ×2 ». */
   double?: boolean
+  /**
+   * Onglet du ruban à ouvrir POUR DE VRAI en jouant ce geste.
+   *
+   * Le ruban ne rend que son onglet actif. Une démonstration qui pointait un
+   * bouton rangé sous un autre onglet ne pouvait donc rien montrer : le
+   * sélecteur ne trouvait rien, le geste se jouait à blanc — repère, curseur et
+   * bulle absents — pendant que le compteur avançait jusqu'à « Revoir ». Et
+   * c'était systématiquement le cas au moment où l'aide sert : l'apprenant qui
+   * réclame « Montrez-moi » est précisément celui qui n'a pas trouvé l'onglet.
+   * Montrer l'onglet ne suffit pas, il faut l'ouvrir, sinon le geste suivant
+   * reste introuvable.
+   */
+  onglet?: RibbonTab
 }
 
 /**
@@ -87,6 +130,21 @@ export type PlanDemo = {
   pas: string[]
 }
 
+/**
+ * Ce que le plan doit savoir de l'écran au moment où la démonstration démarre.
+ *
+ * Un plan ne peut pas être déduit de la seule action : le même « ouvrir ce
+ * classeur » se joue avec le bouton de validation de la boîte « Ouvrir » si elle
+ * est affichée, et avec « Nouveau » si l'on part de l'accueil d'Excel. Sans ce
+ * contexte, le plan visait le bouton d'une boîte fermée — donc rien.
+ */
+export type ContexteDemo = {
+  /** Onglet du ruban ouvert. */
+  onglet?: RibbonTab
+  /** Boîte de dialogue du poste de travail ouverte, si le chapitre en a une. */
+  boitePoste?: "aucune" | "enregistrer" | "ouvrir"
+}
+
 /* ─────────── correspondances format → bouton du ruban ─────────── */
 
 const CTRL_NOMBRE: Record<string, string> = {
@@ -111,6 +169,11 @@ const CTRL_GRAPH: Record<string, string> = {
 const CTRL_ORIENT: Record<string, string> = {
   portrait: "mep-orientation-portrait",
   paysage: "mep-orientation-paysage",
+}
+const CTRL_VUE: Record<string, string> = {
+  normal: "aff-mode-normal",
+  "mise-en-page": "aff-mode-mise-en-page",
+  "sauts-de-page": "aff-mode-sauts-de-page",
 }
 const CTRL_FORMAT_PAGE: Record<string, string> = {
   A4: "mep-format-a4",
@@ -139,6 +202,153 @@ function boutonMiseEnForme(att: Record<string, unknown>): { id: string; nom: str
 
 const ctrl = (id: string): CibleDemo => ({ k: "dom", sel: `[data-control="${id}"]` })
 
+/**
+ * Sous quel onglet du ruban vit chaque bouton.
+ *
+ * Cette table double la structure de `SimulationChrome`, qui rend ses groupes
+ * dans un `switch` sur l'onglet actif. La redondance est assumée : ce module est
+ * pur — il ne peut pas interroger un composant — et
+ * `scripts/simulation/check-demo-cibles.ts` relit le ruban pour vérifier que la
+ * table ne dérive pas. Ajouter un bouton au ruban sans l'inscrire ici fait donc
+ * échouer le contrôle, pas la démonstration en silence.
+ *
+ * Les contrôles ABSENTS de cette table sont ceux qui sont là en permanence :
+ * barre de formule, zone Nom, onglets de feuille, et les panneaux qui se posent
+ * par-dessus la feuille (mise en page, tableau croisé, macro, bureau).
+ */
+const ONGLET_DU_CONTROLE: Record<string, RibbonTab> = {
+  "poste-ouvrir": "accueil", "poste-enregistrer": "accueil", "poste-enregistrer-sous": "accueil",
+  "acc-coller": "accueil", "acc-copier": "accueil", "acc-gras": "accueil", "acc-italique": "accueil",
+  "acc-souligne": "accueil", "acc-taille-plus": "accueil", "acc-taille-moins": "accueil",
+  "acc-couleur-police": "accueil", "acc-remplissage": "accueil", "acc-bordures": "accueil",
+  "acc-aligner-gauche": "accueil", "acc-aligner-centre": "accueil", "acc-aligner-droite": "accueil",
+  "acc-fusionner": "accueil", "acc-renvoyer-ligne": "accueil", "acc-mfc-regle": "accueil",
+  "acc-mfc-effacer": "accueil", "acc-format-monetaire": "accueil", "acc-pourcentage": "accueil",
+  "acc-format-date": "accueil", "acc-format-nombre": "accueil", "acc-inserer": "accueil",
+  "acc-supprimer": "accueil", "acc-format-largeur": "accueil", "acc-format-masquer": "accueil",
+  "acc-format": "accueil", "acc-format-fleche": "accueil", "acc-somme-auto": "accueil",
+  "acc-somme-auto-fleche": "accueil", "acc-recopier": "accueil", "acc-effacer": "accueil",
+  "aff-figer-volets": "affichage", "aff-liberer-volets": "affichage",
+  "dev-enregistrer-macro": "developpeur", "dev-arreter-enregistrement": "developpeur",
+  "dev-references-relatives": "developpeur", "dev-macros": "developpeur",
+  "don-tri-croissant": "donnees", "don-tri-decroissant": "donnees", "don-filtrer": "donnees",
+  "don-effacer-filtre": "donnees", "don-convertir": "donnees", "don-valeur-cible": "donnees",
+  "don-validation": "donnees", "don-effacer-validation": "donnees",
+  "ins-tcd": "insertion", "ins-image-cellule": "insertion", "ins-graph-recommande": "insertion",
+  "ins-graph-histogramme": "insertion", "ins-graph-barres": "insertion", "ins-graph-courbes": "insertion",
+  "ins-graph-secteurs": "insertion", "ins-graph-aires": "insertion", "ins-graph-nuage": "insertion",
+  "ins-graph-element-titre": "graph-creation", "ins-graph-element-titres-axes": "graph-creation",
+  "ins-graph-element-legende": "graph-creation", "ins-graph-element-etiquettes": "graph-creation",
+  "ins-graph-element-quadrillage": "graph-creation", "ins-graph-legende-droite": "graph-creation",
+  "ins-graph-legende-bas": "graph-creation", "ins-graph-style-2": "graph-creation",
+  "ins-graph-style-3": "graph-creation", "ins-graph-style-4": "graph-creation",
+  "ins-graph-style-5": "graph-creation", "ins-graph-intervertir": "graph-creation",
+  "ins-graph-selectionner-donnees": "graph-creation", "ins-graph-filtre-serie": "graph-creation",
+  "ins-graph-supprimer-serie": "graph-creation", "ins-graph-modifier-type": "graph-creation",
+  "ins-graph-couleur-serie": "graph-mise-en-forme", "ins-graph-forme-serie": "graph-mise-en-forme",
+  "ins-graph-tendance-lineaire": "graph-mise-en-forme",
+  "ins-graph-tendance-moyenne-mobile": "graph-mise-en-forme",
+  "ins-graph-tendance-supprimer": "graph-mise-en-forme",
+  "mep-zone-impression-definir": "mise-en-page", "mep-imprimer-titres": "mise-en-page",
+  "mep-saut-inserer": "mise-en-page", "mep-saut-supprimer": "mise-en-page",
+  "rev-commentaire": "revision", "rev-supprimer-commentaire": "revision",
+  "tcd-actualiser": "tableau-creation", "tcd-source": "tableau-creation", "tcd-champs": "tableau-creation",
+}
+
+const LIBELLE_ONGLET: Record<string, string> = {
+  accueil: "Accueil", insertion: "Insertion", "mise-en-page": "Mise en page",
+  formules: "Formules", donnees: "Données", revision: "Révision", affichage: "Affichage",
+  "graph-creation": "Création de graphique", "graph-mise-en-forme": "Mise en forme du graphique",
+  "tableau-creation": "Création de tableau", developpeur: "Développeur",
+}
+
+/**
+ * Rend un plan AGISSANT : ses gestes de sélection sélectionnent vraiment, ses
+ * gestes de clic pressent vraiment.
+ *
+ * Les plans décrivent depuis toujours la bonne séquence — « sélectionner
+ * C7:C11 », puis « cliquer le format monétaire ». Mais rien n'était exécuté :
+ * seule l'écriture de cellules l'était. Résultat, sur toutes les étapes dont le
+ * résultat attendu n'est pas une valeur — mise en forme, tri, filtre, mise en
+ * page, graphique, tableau croisé, macro, poste de travail — le curseur se
+ * promenait sur le bon bouton et la feuille ne changeait pas. L'apprenant voyait
+ * un geste sans résultat.
+ *
+ * La règle est volontairement mécanique, pour ne pas dépendre de vingt-deux cas
+ * particuliers : un geste qui vise une cellule ou une plage la sélectionne ; un
+ * geste qui vise un `data-control` sans rien taper le presse. Les exceptions
+ * sont posées à la source, dans les plans qui savent ce qu'ils font — un geste
+ * qui ouvre un onglet, ou qui a déjà son `presser` avec un argument.
+ */
+/**
+ * Contrôles que la démonstration MONTRE sans les exécuter.
+ *
+ * Insérer ou supprimer une ligne n'est pas idempotent : si la démonstration le
+ * fait et que l'apprenant refait ensuite le geste lui-même — ce qu'on l'invite à
+ * faire — la ligne est insérée deux fois et l'étape devient infranchissable.
+ * Pour ces quelques boutons, montrer sans agir reste le moindre mal ; le geste
+ * garde son repère, sa bulle et son curseur.
+ *
+ * Tous les autres sont rejouables sans dommage : reposer un format, un
+ * alignement, un tri, un filtre, un réglage de page ou une transition du poste
+ * de travail donne deux fois le même résultat. Coller en fait partie — le même
+ * contenu au même endroit — et l'y avoir mis un moment cassait le module 26,
+ * dont les étapes suivantes divisent par la donnée collée : sans le collage,
+ * `#DIV/0!`.
+ */
+const SANS_EXECUTION = ["acc-inserer", "acc-supprimer"]
+
+function rendreAgissant(plan: PlanDemo): PlanDemo {
+  return {
+    ...plan,
+    gestes: plan.gestes.map((g) => {
+      const sortie = { ...g }
+      if (!sortie.selectionner && !sortie.glisserVers && (g.cible.k === "cellule" || g.cible.k === "plage"))
+        sortie.selectionner = g.cible.ref
+      if (!sortie.presser && !sortie.onglet && !sortie.frappe && g.cible.k === "dom") {
+        const m = /\[data-control="([^"]+)"\]/.exec(g.cible.sel)
+        if (m && !SANS_EXECUTION.includes(m[1])) sortie.presser = { id: m[1] }
+      }
+      return sortie
+    }),
+  }
+}
+
+/** Onglet requis par le premier bouton de ruban d'un plan, s'il y en a un. */
+function ongletRequis(plan: PlanDemo): RibbonTab | null {
+  for (const g of plan.gestes) {
+    if (g.cible.k !== "dom") continue
+    const m = /\[data-control="([^"]+)"\]/.exec(g.cible.sel)
+    if (m && ONGLET_DU_CONTROLE[m[1]]) return ONGLET_DU_CONTROLE[m[1]]
+  }
+  return null
+}
+
+/**
+ * Écrit une valeur attendue comme un apprenant la taperait dans un Excel
+ * français, virgule décimale comprise.
+ *
+ * POURQUOI CE DÉTOUR
+ * `String(21.5)` donne « 21.5 », et la grille — conformément à Excel français,
+ * qui accepte le point comme séparateur de date — y lit le 21 mai : la cellule
+ * recevait le numéro de série 46163 au lieu du nombre 21,5, et la somme d'à côté
+ * affichait 46 329,8. La démonstration enseignait donc un résultat faux, en
+ * silence, sur toute valeur décimale dont les deux parties ressemblent à un jour
+ * et à un mois. Voir `lib/simulation/date-fr.ts`.
+ */
+function commeTape(v: unknown): string {
+  return typeof v === "number" ? String(v).replace(".", ",") : String(v)
+}
+
+/** Nom du préréglage de marges correspondant, `null` si valeurs personnalisées. */
+function presetMarges(m: Marges): keyof typeof PRESETS_MARGES | null {
+  for (const nom of Object.keys(PRESETS_MARGES) as (keyof typeof PRESETS_MARGES)[]) {
+    const p = PRESETS_MARGES[nom]
+    if (p.haut === m.haut && p.bas === m.bas && p.gauche === m.gauche && p.droite === m.droite) return nom
+  }
+  return null
+}
+
 /** Étiquette lisible d'une plage : « B2 à D4 ». */
 function lieu(ref: string): string {
   return ref.includes(":") ? ref.replace(":", " à ") : ref
@@ -147,8 +357,37 @@ function lieu(ref: string): string {
 /**
  * Séquence de gestes d'une étape. `null` seulement quand l'action ne se montre
  * décidément pas — auquel cas l'atelier garde la réponse écrite.
+ *
+ * `ongletCourant` est l'onglet du ruban ouvert au moment où la démonstration
+ * démarre. Quand le geste attendu vit sous un AUTRE onglet, un premier geste est
+ * ajouté pour l'ouvrir : sans lui, le bouton n'est pas dans la page et le geste
+ * se joue à blanc. L'argument est facultatif pour que les contrôles hors
+ * navigateur continuent d'appeler la fonction avec la seule action.
  */
-export function planDemonstration(action: SimulationAction): PlanDemo | null {
+export function planDemonstration(
+  action: SimulationAction,
+  contexte?: RibbonTab | ContexteDemo,
+): PlanDemo | null {
+  const ctx: ContexteDemo = typeof contexte === "string" ? { onglet: contexte } : (contexte ?? {})
+  const brut = planBrut(action, ctx)
+  const plan = brut ? rendreAgissant(brut) : null
+  if (!plan || !ctx.onglet) return plan
+  const requis = ongletRequis(plan)
+  if (!requis || requis === ctx.onglet) return plan
+  return {
+    gestes: [
+      {
+        cible: { k: "dom", sel: `[data-ribbon-tab="${requis}"]` },
+        bulle: `l'onglet ${LIBELLE_ONGLET[requis] ?? requis}`,
+        onglet: requis,
+      },
+      ...plan.gestes,
+    ],
+    pas: [`Ouvrir l'onglet ${LIBELLE_ONGLET[requis] ?? requis}`, ...plan.pas],
+  }
+}
+
+function planBrut(action: SimulationAction, ctx: ContexteDemo): PlanDemo | null {
   const A = action as SimulationAction & Record<string, unknown>
 
   switch (action.type) {
@@ -184,7 +423,7 @@ export function planDemonstration(action: SimulationAction): PlanDemo | null {
       // deuxième défaut le plus fréquent de l'ancienne version.
       const gestes: GesteDemo[] = []
       for (const [ref, att] of entrees) {
-        const quoi = att.f ?? att.anyOf?.[0] ?? (att.v !== undefined ? String(att.v) : null)
+        const quoi = att.f ?? att.anyOf?.[0] ?? (att.v !== undefined ? commeTape(att.v) : null)
         if (quoi === null) continue
         if (quoi === "") {
           // Cellule attendue VIDE : c'est un effacement, pas une saisie. Le
@@ -259,11 +498,31 @@ export function planDemonstration(action: SimulationAction): PlanDemo | null {
         pas: ["Cliquer la zone Nom", "Saisir la référence", "Valider"],
       }
 
-    case "DEFINE_NAME":
+    // La démonstration montrait la frappe dans la zone Nom mais ne créait PAS le
+    // nom, et aucun `setup` ne le rattrapait : l'apprenant qui demandait de l'aide
+    // ici arrivait à l'étape suivante avec `=SOMME(Depenses)` → `#NOM?`, que la
+    // validation refuse. Il était bloqué pour de bon. Le nom est donc défini pour
+    // de vrai, et la plage est d'abord sélectionnée comme le disent les pas.
+    case "DEFINE_NAME": {
+      // La plage peut ne pas être déclarée : l'étape nomme alors ce que
+      // l'apprenant a sélectionné, et il n'y a rien à sélectionner ni à créer
+      // à sa place.
+      const ref = action.ref
       return {
-        gestes: [{ cible: { k: "dom", sel: '[aria-label="Zone Nom"]' }, bulle: `nommer « ${action.name} »`, frappe: action.name }],
-        pas: ["Sélectionner la plage", "Cliquer la zone Nom", "Saisir le nom"],
+        gestes: [
+          ...(ref ? [{ cible: { k: "plage" as const, ref }, bulle: `la plage ${ref}` }] : []),
+          {
+            cible: { k: "dom", sel: '[aria-label="Zone Nom"]' },
+            bulle: `nommer « ${action.name} »`,
+            frappe: action.name,
+            ...(ref ? { definir: { nom: action.name, ref } } : {}),
+          },
+        ],
+        pas: ref
+          ? ["Sélectionner la plage", "Cliquer la zone Nom", "Saisir le nom"]
+          : ["Cliquer la zone Nom", "Saisir le nom"],
       }
+    }
 
     /* ── boutons du ruban ────────────────────────────────────────────── */
     case "CLICK_CONTROL":
@@ -330,16 +589,49 @@ export function planDemonstration(action: SimulationAction): PlanDemo | null {
         return { gestes: [{ cible: ctrl(CTRL_ORIENT[p.orientation]), bulle: `l'orientation ${p.orientation}` }], pas: ["Cliquer l'orientation"] }
       if (typeof p.format === "string" && CTRL_FORMAT_PAGE[p.format])
         return { gestes: [{ cible: ctrl(CTRL_FORMAT_PAGE[p.format]), bulle: `le format ${p.format}` }], pas: ["Cliquer le format"] }
-      if (p.margins) return { gestes: [{ cible: ctrl("mep-marges"), bulle: "les marges" }], pas: ["Régler les marges"] }
-      if (p.scaleToFit) return { gestes: [{ cible: ctrl("mep-ajuster"), bulle: "l'ajustement" }], pas: ["Régler l'ajustement"] }
-      return { gestes: [{ cible: { k: "dom", sel: '[data-ribbon-tab="mise-en-page"]' }, bulle: "l'onglet Mise en page" }], pas: ["Ouvrir Mise en page"] }
+      // Le panneau de mise en page n'a pas de bouton « Marges » ni « Ajuster » :
+      // il offre les trois préréglages de marges et deux listes d'ajustement.
+      // Viser `mep-marges` / `mep-ajuster` désignait donc du vide, et cinq
+      // étapes des modules 13 montraient un geste invisible.
+      if (p.margins) {
+        const nom = presetMarges(p.margins as Marges)
+        if (nom) {
+          const dit = nom === "normales" ? "normales" : nom === "larges" ? "larges" : "étroites"
+          return { gestes: [{ cible: ctrl(`mep-marges-${nom}`), bulle: `les marges ${dit}` }], pas: ["Régler les marges"] }
+        }
+        // Marges personnalisées : aucun préréglage ne correspond, on ouvre le
+        // panneau plutôt que de désigner un bouton au hasard.
+        return { gestes: [{ cible: { k: "dom", sel: '[data-ribbon-tab="mise-en-page"]' }, bulle: "l'onglet Mise en page", onglet: "mise-en-page" }], pas: ["Ouvrir Mise en page"] }
+      }
+      // Le mode d'affichage a son propre sélecteur dans le panneau. Sans ce cas,
+      // « passez en mode Mise en page » retombait sur le clic d'onglet — donc la
+      // vue ne changeait pas, et l'étape SUIVANTE visait la zone d'en-tête, qui
+      // n'existe QUE dans cette vue : geste invisible en cascade (modules 13).
+      if (typeof p.view === "string" && CTRL_VUE[p.view])
+        return { gestes: [{ cible: ctrl(CTRL_VUE[p.view]), bulle: `le mode ${p.view === "mise-en-page" ? "Mise en page" : p.view}` }], pas: ["Changer de mode d'affichage"] }
+      if (p.scaleToFit) {
+        const st = p.scaleToFit as { largeur?: number; hauteur?: number }
+        const gestes: GesteDemo[] = []
+        if (st.largeur != null)
+          gestes.push({ cible: ctrl("mep-ajuster-largeur"), bulle: `ajuster à ${st.largeur} page en largeur` })
+        if (st.hauteur != null)
+          gestes.push({ cible: ctrl("mep-ajuster-hauteur"), bulle: `ajuster à ${st.hauteur} page en hauteur` })
+        if (gestes.length) return { gestes, pas: ["Régler l'ajustement"] }
+      }
+      // Repli : ouvrir l'onglet Mise en page — et l'ouvrir POUR DE VRAI, sinon
+      // le geste ne fait que le désigner.
+      return { gestes: [{ cible: { k: "dom", sel: '[data-ribbon-tab="mise-en-page"]' }, bulle: "l'onglet Mise en page", onglet: "mise-en-page" }], pas: ["Ouvrir Mise en page"] }
     }
 
+    // Les identifiants du ruban sont `dev-enregistrer-macro` et
+    // `dev-arreter-enregistrement` ; les 21 étapes du module 27 visaient
+    // `dev-macro-enregistrer` / `dev-macro-arreter`, qui n'existent nulle part —
+    // toutes leurs démonstrations se jouaient donc à blanc.
     case "RECORD_MACRO":
       return {
         gestes: [
           {
-            cible: ctrl(action.expect === "started" ? "dev-macro-enregistrer" : "dev-macro-arreter"),
+            cible: ctrl(action.expect === "started" ? "dev-enregistrer-macro" : "dev-arreter-enregistrement"),
             bulle: action.expect === "started" ? "démarrer l'enregistrement" : "arrêter l'enregistrement",
           },
         ],
@@ -348,7 +640,7 @@ export function planDemonstration(action: SimulationAction): PlanDemo | null {
 
     case "EXPECT_MACRO":
       return {
-        gestes: [{ cible: ctrl("dev-macro-enregistrer"), bulle: "enregistrer une macro" }],
+        gestes: [{ cible: ctrl("dev-enregistrer-macro"), bulle: "enregistrer une macro" }],
         pas: ["Enregistrer la macro"],
       }
 
@@ -356,7 +648,38 @@ export function planDemonstration(action: SimulationAction): PlanDemo | null {
     case "EXPECT_POSTE": {
       const p = action.poste
       const g = (id: string, bulle: string): PlanDemo => ({ gestes: [{ cible: ctrl(id), bulle }], pas: ["Cliquer"] })
-      if (p.classeur || p.fichiers?.length) return g("poste-enregistrer-valider", "valider l'enregistrement")
+      // La boîte OUVERTE décide du bouton. Sans elle, « ouvrir Devis-2026-014 »
+      // depuis la boîte « Ouvrir » visait le bouton de validation de la boîte
+      // « Enregistrer sous » — absent de la page, donc geste invisible.
+      if (p.classeur || p.fichiers?.length) {
+        // Les boutons de validation du poste prennent le nom du fichier en
+        // argument : sans lui, presser « Enregistrer » enregistrerait sous un
+        // nom vide.
+        const nom = p.classeur ?? p.fichiers?.[0]
+        if (ctx.boitePoste === "ouvrir") {
+          return {
+            gestes: [
+              ...(nom ? [{ cible: ctrl(CONTROLES_POSTE.listeFichier(nom)), bulle: `le fichier ${nom}` }] : []),
+              {
+                cible: ctrl("poste-ouvrir-valider"),
+                bulle: "valider l'ouverture",
+                presser: { id: "poste-ouvrir-valider", arg: nom },
+              },
+            ],
+            pas: nom ? ["Choisir le fichier", "Ouvrir"] : ["Ouvrir"],
+          }
+        }
+        return {
+          gestes: [
+            {
+              cible: ctrl("poste-enregistrer-valider"),
+              bulle: "valider l'enregistrement",
+              presser: { id: "poste-enregistrer-valider", arg: nom },
+            },
+          ],
+          pas: ["Cliquer"],
+        }
+      }
       if (p.boite === "enregistrer") return g("poste-enregistrer", "le bouton Enregistrer")
       if (p.boite === "ouvrir") return g("poste-ouvrir", "le bouton Ouvrir")
       if (p.menu) return g("poste-demarrer", "le bouton Démarrer")

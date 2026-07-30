@@ -44,21 +44,46 @@ type Props = {
   largeur: number
   /** Écrit réellement dans la grille, validation neutralisée. */
   onEcrire?: (ref: string, valeur: string) => void
+  /**
+   * Ouvre réellement un onglet du ruban. Indispensable : le ruban ne rend que
+   * son onglet actif, donc désigner l'onglet sans l'ouvrir laisse le bouton du
+   * geste SUIVANT introuvable — et ce geste-là se joue alors à blanc.
+   */
+  onOnglet?: (onglet: string) => void
+  /** Crée réellement un nom de plage, sans déclencher la validation de l'étape. */
+  onDefinir?: (nom: string, ref: string) => void
+  /** Sélectionne réellement une cellule ou une plage. */
+  onSelectionner?: (ref: string) => void
+  /**
+   * Presse réellement un contrôle du châssis. Sans cela, les démonstrations des
+   * étapes jugées sur autre chose qu'une valeur de cellule — format, tri,
+   * filtre, mise en page, graphique, tableau croisé, macro, poste — montraient
+   * le bon bouton sans que rien ne change à l'écran.
+   */
+  onPresser?: (id: string, arg?: string) => void
   onFini?: () => void
 }
 
 /** Étapes d'un geste. `avertir` n'existe qu'une fois, au tout début. */
 type Phase = "avertir" | "vise" | "bulle" | "clic" | "glisse" | "frappe" | "valide" | "fini"
 
-export default function DemonstrationGeste({ plan, resoudre, largeur, onEcrire, onFini }: Props) {
+export default function DemonstrationGeste({ plan, resoudre, largeur, onEcrire, onOnglet, onDefinir, onSelectionner, onPresser, onFini }: Props) {
   const [i, setI] = useState(0)
   const [phase, setPhase] = useState<Phase>("avertir")
   const [tapes, setTapes] = useState(0)
   const doux = useRef(false)
   const finiRef = useRef(onFini)
   const ecrireRef = useRef(onEcrire)
+  const ongletRef = useRef(onOnglet)
+  const definirRef = useRef(onDefinir)
+  const selRef = useRef(onSelectionner)
+  const presserRef = useRef(onPresser)
   finiRef.current = onFini
   ecrireRef.current = onEcrire
+  ongletRef.current = onOnglet
+  definirRef.current = onDefinir
+  selRef.current = onSelectionner
+  presserRef.current = onPresser
 
   useEffect(() => {
     doux.current =
@@ -97,7 +122,15 @@ export default function DemonstrationGeste({ plan, resoudre, largeur, onEcrire, 
     if (doux.current) {
       setTapes(geste?.frappe?.length ?? 0)
       // Mouvement réduit : on écrit tout d'un coup et on s'arrête à la pose.
-      for (const g of plan.gestes) if (g.ecrire) ecrireRef.current?.(g.ecrire.ref, g.ecrire.valeur)
+      // L'onglet s'ouvre aussi, sinon le dernier geste — le seul rendu dans ce
+      // mode — reste sur un bouton absent de la page.
+      for (const g of plan.gestes) {
+        if (g.selectionner) selRef.current?.(g.selectionner)
+        if (g.ecrire) ecrireRef.current?.(g.ecrire.ref, g.ecrire.valeur)
+        if (g.onglet) ongletRef.current?.(g.onglet)
+        if (g.definir) definirRef.current?.(g.definir.nom, g.definir.ref)
+        if (g.presser) presserRef.current?.(g.presser.id, g.presser.arg)
+      }
       setI(plan.gestes.length - 1)
       setPhase("fini")
       return
@@ -130,6 +163,15 @@ export default function DemonstrationGeste({ plan, resoudre, largeur, onEcrire, 
   useEffect(() => {
     if (phase !== "valide" || !geste) return
     if (geste.ecrire) ecrireRef.current?.(geste.ecrire.ref, geste.ecrire.valeur)
+    // L'onglet s'ouvre AVANT le passage au geste suivant : c'est ce qui met son
+    // bouton dans la page, donc ce qui rend sa cible résoluble.
+    if (geste.onglet) ongletRef.current?.(geste.onglet)
+    if (geste.definir) definirRef.current?.(geste.definir.nom, geste.definir.ref)
+    // La sélection vient AVANT la pression : un bouton de mise en forme agit sur
+    // la sélection courante, et le geste précédent du plan est justement celui
+    // qui l'établit.
+    if (geste.selectionner) selRef.current?.(geste.selectionner)
+    if (geste.presser) presserRef.current?.(geste.presser.id, geste.presser.arg)
     // Un seul chemin de sortie : soit le geste suivant, soit la fin.
     const t = window.setTimeout(
       () => {

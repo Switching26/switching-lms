@@ -127,7 +127,7 @@
     },
     {
       "id": "M01-E02-05",
-      "consigne": "En **B10**, affichez le **meilleur trimestre** en nombre d'inscrits.",
+      "consigne": "En **B10**, calculez le total du **second semestre** — les deux derniers trimestres.",
       "setup": {
         "selection": "B10"
       },
@@ -135,14 +135,18 @@
         "type": "TYPE",
         "target": "B10",
         "accept": [
-          "=MAX(B4:B7)"
+          "=B6+B7",
+          "=B7+B6",
+          "=SOMME(B6:B7)",
+          "=SOMME(B6;B7)"
         ],
         "formulaMode": true
       },
       "aide": {
-        "text": "Ce n'est pas une somme : on cherche la plus grande des quatre valeurs."
+        "text": "Additionnez les deux cellules concernées, comme au chapitre « Ma première formule ».",
+        "showTarget": true
       },
-      "feedback": "31, le troisième trimestre."
+      "feedback": "58 inscriptions sur le second semestre, contre 42 sur le premier : l'année a accéléré."
     },
     {
       "id": "M01-E02-06",

@@ -51,12 +51,6 @@
               "bold": true
             }
           },
-          "G3": {
-            "v": "Valeur du stock (€)",
-            "format": {
-              "bold": true
-            }
-          },
           "G5": {
             "v": "Seuil de rupture"
           },
@@ -184,7 +178,7 @@
             "v": 9
           },
           "A9": {
-            "v": "TON-CL"
+            "v": "PAP-A4"
           },
           "B9": {
             "v": "Consommable"
@@ -325,20 +319,23 @@
     },
     {
       "id": "M11-EV01-07",
-      "consigne": "En **H3**, calculez la **valeur totale du stock** : chaque quantité multipliée par son prix, en une seule formule.",
+      "consigne": "Le contrôle d'inventaire signale une **erreur de saisie** : une référence apparaît deux fois. Faites-la ressortir dans la colonne **Référence**.",
       "setup": {
-        "selection": "H3"
+        "selection": "A2:A9",
+        "cf": {
+          "range": "A2:A9",
+          "rule": {
+            "kind": "duplicates",
+            "background": "#fecaca",
+            "bold": true
+          }
+        }
       },
       "action": {
-        "type": "TYPE",
-        "target": "H3",
-        "accept": [
-          "=SOMMEPROD(C2:C9;D2:D9)",
-          "=SOMMEPROD(D2:D9;C2:C9)"
-        ],
-        "formulaMode": true
+        "type": "CLICK_CONTROL",
+        "control": "acc-mfc-regle"
       },
-      "points": 3
+      "points": 2
     },
     {
       "id": "M11-EV01-08",

@@ -158,10 +158,10 @@
             "v": "Moyenne du module 1"
           },
           "A11": {
-            "v": "Note la plus basse du module 1"
+            "v": "Stagiaires ≥ 10 au module 1"
           },
           "A12": {
-            "v": "Notes saisies au module 1"
+            "v": "Module 3 des stagiaires ≥ 12 au module 1"
           },
           "A14": {
             "v": "Coefficient de rattrapage"
@@ -217,35 +217,37 @@
     },
     {
       "id": "M07-EV01-03",
-      "consigne": "En **B11**, affichez la **note la plus basse** du module 1.",
+      "consigne": "En **B11**, comptez les stagiaires qui ont **au moins 10** au module 1.",
       "setup": {
         "selection": "B11"
       },
       "action": {
         "type": "TYPE",
         "target": "B11",
+        "formulaMode": true,
         "accept": [
-          "=MIN(B4:B8)"
-        ],
-        "formulaMode": true
+          "=NB.SI(B4:B8;\">=10\")",
+          "=NB.SI($B$4:$B$8;\">=10\")"
+        ]
       },
-      "points": 1
+      "points": 2
     },
     {
       "id": "M07-EV01-04",
-      "consigne": "En **B12**, comptez le **nombre de notes saisies** au module 1.",
+      "consigne": "En **B12**, totalisez les notes du **module 3** des seuls stagiaires qui avaient déjà **au moins 12** au module 1. La condition et les nombres à additionner ne sont pas dans la même colonne.",
       "setup": {
         "selection": "B12"
       },
       "action": {
         "type": "TYPE",
         "target": "B12",
+        "formulaMode": true,
         "accept": [
-          "=NB(B4:B8)"
-        ],
-        "formulaMode": true
+          "=SOMME.SI(B4:B8;\">=12\";D4:D8)",
+          "=SOMME.SI($B$4:$B$8;\">=12\";$D$4:$D$8)"
+        ]
       },
-      "points": 1
+      "points": 3
     },
     {
       "id": "M07-EV01-05",
@@ -313,12 +315,12 @@
     },
     {
       "id": "M07-EV01-09",
-      "consigne": "En **H4**, écrivez une formule qui **additionne d'abord** les notes des modules 1 et 2 d'Amina, **puis divise** le résultat par 2.",
+      "consigne": "En **H4**, affichez `Admis` si la moyenne d'Amina atteint **10**, et `Ajourné` sinon. Le seuil se lit dans la formule, la moyenne est en **E4**.",
       "setup": {
         "selection": "H4",
         "cells": {
           "G4": {
-            "v": "Moyenne des 2 premiers modules",
+            "v": "Décision",
             "format": {
               "bold": true
             }
@@ -328,12 +330,14 @@
       "action": {
         "type": "TYPE",
         "target": "H4",
+        "formulaMode": true,
         "accept": [
-          "=(B4+C4)/2",
-          "=MOYENNE(B4:C4)",
-          "=MOYENNE(B4;C4)"
-        ],
-        "formulaMode": true
+          "=SI(E4>=10;\"Admis\";\"Ajourné\")",
+          "=SI(E4>=10;\"Admis\";\"Ajourne\")",
+          "=SI(E4<10;\"Ajourné\";\"Admis\")",
+          "=SI(E4<10;\"Ajourne\";\"Admis\")",
+          "=SI(10<=E4;\"Admis\";\"Ajourné\")"
+        ]
       },
       "points": 2
     },

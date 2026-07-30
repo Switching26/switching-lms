@@ -210,15 +210,36 @@
     },
     {
       "id": "M01-L01-08",
-      "consigne": "En **B8**, ==totalisez les heures== du mois.",
+      "consigne": "Un tableur ne se contente pas de ranger des nombres : il **calcule**. Un total vient d'être posé sous la colonne des heures — regardez d'où sort le chiffre. Vous n'avez rien à faire ici : l'écriture de ce genre de calcul est le sujet du **dernier chapitre de ce module**.",
       "setup": {
         "selection": "B8",
         "cells": {
+          "A4": {
+            "v": "Lemoine"
+          },
+          "B4": {
+            "v": 35
+          },
+          "A5": {
+            "v": "Ravel"
+          },
+          "B5": {
+            "v": 28
+          },
+          "A6": {
+            "v": "Nadaud"
+          },
+          "B6": {
+            "v": 32
+          },
           "A8": {
             "v": "Total",
             "format": {
               "bold": true
             }
+          },
+          "B8": {
+            "f": "=SOMME(B4:B6)"
           }
         },
         "poste": {
@@ -227,31 +248,59 @@
         }
       },
       "action": {
-        "type": "TYPE",
-        "target": "B8",
-        "accept": [
-          "=SOMME(B4:B6)",
-          "=B4+B5+B6"
-        ],
-        "formulaMode": true
+        "type": "READ"
       },
-      "aide": {
-        "text": "SOMME suivie de la plage des trois heures, entre parenthèses.",
-        "showTarget": true
-      },
-      "feedback": "95 heures."
+      "points": 0,
+      "montrer": [
+        {
+          "type": "MONTRER",
+          "cible": "B8",
+          "texte": "95 : Excel a additionné les trois relevés"
+        },
+        {
+          "type": "MONTRER",
+          "cible": "B4:B6",
+          "texte": "Il est allé chercher ces trois cellules"
+        },
+        {
+          "type": "MONTRER",
+          "cible": "dom:[aria-label=\"Barre de formule\"]",
+          "texte": "La cellule ne contient pas 95, mais le calcul qui le produit"
+        }
+      ]
     },
     {
       "id": "M01-L01-09",
-      "consigne": "En **B9**, ==trouvez le relevé le plus élevé==.",
+      "consigne": "Nadaud a rendu un relevé corrigé : **36 heures**, et non 32. ==En **B6**, saisissez `36`== et gardez un œil sur la ligne du bas.",
       "setup": {
-        "selection": "B9",
+        "selection": "B6",
         "cells": {
-          "A9": {
-            "v": "Plus haut",
+          "A4": {
+            "v": "Lemoine"
+          },
+          "B4": {
+            "v": 35
+          },
+          "A5": {
+            "v": "Ravel"
+          },
+          "B5": {
+            "v": 28
+          },
+          "A6": {
+            "v": "Nadaud"
+          },
+          "B6": {
+            "v": 32
+          },
+          "A8": {
+            "v": "Total",
             "format": {
               "bold": true
             }
+          },
+          "B8": {
+            "f": "=SOMME(B4:B6)"
           }
         },
         "poste": {
@@ -261,29 +310,49 @@
       },
       "action": {
         "type": "TYPE",
-        "target": "B9",
+        "target": "B6",
         "accept": [
-          "=MAX(B4:B6)"
-        ],
-        "formulaMode": true
+          "36"
+        ]
       },
       "aide": {
-        "text": "MAX renvoie la plus grande valeur d'une plage.",
+        "text": "La troisième ligne de relevés, celle de Nadaud.",
         "showTarget": true
       },
-      "feedback": "35 heures, celles de Lemoine."
+      "feedback": "Le total est passé de 95 à **99 tout seul**. Vous n'avez pas retouché la ligne du bas : le calcul s'est refait parce que la donnée dont il dépend a changé. C'est ce qu'une feuille de papier ne sait pas faire."
     },
     {
       "id": "M01-L01-10",
-      "consigne": "En **B10**, ==trouvez le relevé le plus bas==.",
+      "consigne": "Retenez ce mécanisme, c'est le cœur du tableur : une valeur change, et **tout ce qui en dépend suit**, sans qu'on retouche quoi que ce soit. Un tableau bien construit se met à jour ; un tableau où les totaux sont tapés à la main devient faux au premier changement.",
       "setup": {
-        "selection": "B10",
+        "selection": "B6",
         "cells": {
-          "A10": {
-            "v": "Plus bas",
+          "A4": {
+            "v": "Lemoine"
+          },
+          "B4": {
+            "v": 35
+          },
+          "A5": {
+            "v": "Ravel"
+          },
+          "B5": {
+            "v": 28
+          },
+          "A6": {
+            "v": "Nadaud"
+          },
+          "B6": {
+            "v": 36
+          },
+          "A8": {
+            "v": "Total",
             "format": {
               "bold": true
             }
+          },
+          "B8": {
+            "f": "=SOMME(B4:B6)"
           }
         },
         "poste": {
@@ -292,18 +361,21 @@
         }
       },
       "action": {
-        "type": "TYPE",
-        "target": "B10",
-        "accept": [
-          "=MIN(B4:B6)"
-        ],
-        "formulaMode": true
+        "type": "READ"
       },
-      "aide": {
-        "text": "MIN est le pendant de MAX.",
-        "showTarget": true
-      },
-      "feedback": "28 heures. Le tableau est complet — et n'existe encore que dans la mémoire de l'ordinateur."
+      "points": 0,
+      "montrer": [
+        {
+          "type": "MONTRER",
+          "cible": "B6",
+          "texte": "La seule cellule que vous avez modifiée"
+        },
+        {
+          "type": "MONTRER",
+          "cible": "B8",
+          "texte": "Le total a suivi, sans être retouché"
+        }
+      ]
     },
     {
       "id": "M01-L01-11",

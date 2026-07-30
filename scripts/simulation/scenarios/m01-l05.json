@@ -120,6 +120,21 @@
           },
           "B13": {
             "v": 0.2
+          },
+          "D6": {
+            "f": "=B6*C6"
+          },
+          "D7": {
+            "f": "=B7*C7"
+          },
+          "D9": {
+            "f": "=SOMME(D5:D7)"
+          },
+          "D10": {
+            "f": "=D9*B13"
+          },
+          "D11": {
+            "f": "=D9+D10"
           }
         }
       }
@@ -214,7 +229,7 @@
     },
     {
       "id": "M01-L05-05",
-      "consigne": "Ce devis a été ouvert depuis les fichiers récents. La première ligne est déjà calculée : ==cliquez sur **D5**== et lisez sa formule.",
+      "consigne": "Ce devis vous arrive d'un collègue, et il est déjà **armé** : la colonne Total HT, le total, la TVA et le TTC ne sont pas des nombres tapés, mais des calculs. ==Cliquez sur **D5**== et lisez la barre de formule.",
       "action": {
         "type": "CLICK_CELL",
         "cell": "D5"
@@ -223,7 +238,7 @@
         "text": "Le total HT de la première prestation.",
         "showTarget": true
       },
-      "feedback": "`=B5*C5`, soit 1 680 €. Quatre sessions à 420 €.",
+      "feedback": "La cellule affiche **1 680**, mais elle contient `=B5*C5`. C'est toute la différence entre un tableur et une feuille de papier : le nombre est le résultat, pas le contenu.",
       "setup": {
         "poste": {
           "excel": "classeur",
@@ -234,134 +249,162 @@
     },
     {
       "id": "M01-L05-06",
-      "consigne": "Deux totaux manquent. En **D6**, ==calculez le total de la formation Word== sur le modèle de D5.",
+      "consigne": "Le client a revu sa commande : la **formation Word** passe de 3 à **5 sessions**. ==En **B6**, saisissez `5`==.",
       "setup": {
-        "selection": "D6",
+        "selection": "B6",
         "poste": {
           "excel": "classeur",
-          "boite": "aucune",
-          "classeur": "Devis-2026-014"
+          "boite": "aucune"
         }
       },
       "action": {
         "type": "TYPE",
-        "target": "D6",
+        "target": "B6",
         "accept": [
-          "=B6*C6",
-          "=C6*B6"
-        ],
-        "formulaMode": true
+          "5"
+        ]
       },
       "aide": {
-        "text": "La quantité multipliée par le prix unitaire, sur la ligne 6.",
+        "text": "La quantité de la ligne « Formation Word », colonne B.",
         "showTarget": true
       },
-      "feedback": "1 050 €."
+      "feedback": "Le total de la ligne passe à **1 750**, et le bas du devis a bougé avec lui."
     },
     {
       "id": "M01-L05-07",
-      "consigne": "En **D7**, ==calculez le total de l'accompagnement==.",
+      "consigne": "L'accompagnement a été renégocié à **450 €** l'unité. ==En **C7**, saisissez `450`==.",
       "setup": {
-        "selection": "D7",
+        "selection": "C7",
+        "cells": {
+          "B6": {
+            "v": 5
+          }
+        },
         "poste": {
           "excel": "classeur",
-          "boite": "aucune",
-          "classeur": "Devis-2026-014"
+          "boite": "aucune"
         }
       },
       "action": {
         "type": "TYPE",
-        "target": "D7",
+        "target": "C7",
         "accept": [
-          "=B7*C7",
-          "=C7*B7"
-        ],
-        "formulaMode": true
+          "450"
+        ]
       },
       "aide": {
-        "text": "Même formule, une ligne plus bas.",
+        "text": "Le prix unitaire de la ligne « Accompagnement individuel ».",
         "showTarget": true
       },
-      "feedback": "960 €."
+      "feedback": "Deux saisies, et le devis entier est à jour : **4 330 €** HT, **866 €** de TVA, **5 196 €** TTC."
     },
     {
       "id": "M01-L05-08",
-      "consigne": "En **D9**, ==totalisez les trois prestations==.",
+      "consigne": "Regardez le chemin qu'a pris votre correction : elle ne s'est pas arrêtée à sa ligne. Chaque calcul qui dépendait d'elle s'est refait, jusqu'au bas du devis. C'est cette **chaîne** qui fait qu'un classeur bien construit ne devient jamais faux.",
       "setup": {
-        "selection": "D9",
+        "selection": "C7",
+        "cells": {
+          "B6": {
+            "v": 5
+          },
+          "C7": {
+            "v": 450
+          }
+        },
         "poste": {
           "excel": "classeur",
-          "boite": "aucune",
-          "classeur": "Devis-2026-014"
+          "boite": "aucune"
         }
       },
       "action": {
-        "type": "TYPE",
-        "target": "D9",
-        "accept": [
-          "=SOMME(D5:D7)",
-          "=D5+D6+D7"
-        ],
-        "formulaMode": true
+        "type": "READ"
       },
-      "aide": {
-        "text": "Une somme sur les trois totaux HT.",
-        "showTarget": true
-      },
-      "feedback": "3 690 € hors taxes."
+      "points": 0,
+      "montrer": [
+        {
+          "type": "MONTRER",
+          "cible": "C7",
+          "texte": "Le prix que vous venez de changer"
+        },
+        {
+          "type": "MONTRER",
+          "cible": "D7",
+          "texte": "Le total de la ligne s'est refait"
+        },
+        {
+          "type": "MONTRER",
+          "cible": "D9",
+          "texte": "Le total HT l'a répercuté"
+        },
+        {
+          "type": "MONTRER",
+          "cible": "D11",
+          "texte": "Et le TTC est arrivé au bout de la chaîne"
+        }
+      ]
     },
     {
       "id": "M01-L05-09",
-      "consigne": "Le taux de TVA est en **B13**. En **D10**, ==calculez la TVA== du devis.",
+      "consigne": "==Cliquez sur **D11**==, la dernière ligne du devis, et regardez la barre de formule.",
       "setup": {
-        "selection": "D10",
+        "selection": "D9",
+        "cells": {
+          "B6": {
+            "v": 5
+          },
+          "C7": {
+            "v": 450
+          }
+        },
         "poste": {
           "excel": "classeur",
-          "boite": "aucune",
-          "classeur": "Devis-2026-014"
+          "boite": "aucune"
         }
       },
       "action": {
-        "type": "TYPE",
-        "target": "D10",
-        "accept": [
-          "=D9*B13",
-          "=D9*$B$13",
-          "=D9*0,2"
-        ],
-        "formulaMode": true
+        "type": "CLICK_CELL",
+        "cell": "D11"
       },
       "aide": {
-        "text": "Le total hors taxes multiplié par le taux.",
+        "text": "La cellule du Total TTC, tout en bas de la colonne D.",
         "showTarget": true
       },
-      "feedback": "738 € de TVA. Passer par la cellule B13 plutôt que par 0,2 écrit en dur permettra de changer le taux à un seul endroit."
+      "feedback": "**5 196 €**, et derrière : `=D9+D10`. Aucun montant de ce devis n'a été tapé à la main — ils se déduisent tous des quantités et des prix."
     },
     {
       "id": "M01-L05-10",
-      "consigne": "En **D11**, ==calculez le total TTC==.",
+      "consigne": "Vous venez de travailler comme on travaille vraiment : le modèle porte les calculs, vous portez les données. Écrire ces calculs vous-même est le sujet du **dernier chapitre de ce module** — d'ici là, retenez seulement qu'un montant juste se calcule, il ne se recopie pas.",
       "setup": {
         "selection": "D11",
+        "cells": {
+          "B6": {
+            "v": 5
+          },
+          "C7": {
+            "v": 450
+          }
+        },
         "poste": {
           "excel": "classeur",
-          "boite": "aucune",
-          "classeur": "Devis-2026-014"
+          "boite": "aucune"
         }
       },
       "action": {
-        "type": "TYPE",
-        "target": "D11",
-        "accept": [
-          "=D9+D10",
-          "=SOMME(D9:D10)"
-        ],
-        "formulaMode": true
+        "type": "READ"
       },
-      "aide": {
-        "text": "Le hors taxes plus la TVA.",
-        "showTarget": true
-      },
-      "feedback": "4 428 € TTC. Le devis est complet."
+      "points": 0,
+      "montrer": [
+        {
+          "type": "MONTRER",
+          "cible": "B5:C7",
+          "texte": "Ce que vous renseignez : quantités et prix"
+        },
+        {
+          "type": "MONTRER",
+          "cible": "D5:D11",
+          "texte": "Ce que le classeur en déduit, tout seul"
+        }
+      ]
     },
     {
       "id": "M01-L05-11",

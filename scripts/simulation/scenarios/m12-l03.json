@@ -62,7 +62,7 @@
   "steps": [
     {
       "id": "M12-L03-01",
-      "consigne": "Regardez **A2** : `PAP-A3;Ramette A3 80 g;6;9`. C'est un export **CSV** — les champs séparés par des points-virgules — collé tel quel. En l'état aucun calcul n'est possible : pour Excel, chaque ligne est une seule phrase. L'outil **Convertir** de l'onglet Données découpe cette colonne en quatre.",
+      "consigne": "Voici à quoi ressemble un export brut avant traitement, et c'est le point de départ de la plupart des imports. Regardez **A2** : quatre informations empilées dans une seule cellule, séparées par des points-virgules. En l'état aucun calcul n'est possible — pour Excel, la ligne entière n'est qu'une phrase. L'outil **Convertir** de l'onglet Données va la découper en colonnes.",
       "action": {
         "type": "READ"
       },
@@ -76,7 +76,7 @@
     },
     {
       "id": "M12-L03-02",
-      "consigne": "Les quatre lignes sont sélectionnées, en-tête comprise. ==Cliquez sur **Convertir**== en choisissant le **point-virgule** comme séparateur.",
+      "consigne": "Les quatre lignes sont sélectionnées, en-tête comprise. ==Cliquez sur **Convertir**== en choisissant le **point-virgule** comme séparateur. La colonne unique doit se scinder en quatre.",
       "setup": {
         "selection": "A1:A4",
         "ribbon": {
@@ -164,7 +164,7 @@
     },
     {
       "id": "M12-L03-06",
-      "consigne": "Un second relevé arrive par mail, celui-là **déjà tabulé** : ses champs sont séparés par des tabulations, ce que le collage reconnaît tout seul. Il n'y a donc rien à convertir — il suffit de le coller sous le premier, en **A6**.",
+      "consigne": "Tous les imports ne demandent pas le même travail, et mieux vaut le reconnaître avant de se lancer. Les deux cas sont comparés à l'écran. La règle : quand les champs sont séparés par des **tabulations**, le collage fait le découpage tout seul — il n'y a rien à convertir.",
       "action": {
         "type": "READ"
       },
@@ -189,7 +189,7 @@
     },
     {
       "id": "M12-L03-07",
-      "consigne": "**A6** est sélectionnée. ==Cliquez sur **Coller**== pour déposer le relevé.",
+      "consigne": "**A6** est sélectionnée. ==Cliquez sur **Coller**== pour déposer le relevé. Le second relevé se dépose sous le premier, déjà découpé en colonnes.",
       "setup": {
         "selection": "A6",
         "paste": {
@@ -287,7 +287,7 @@
     },
     {
       "id": "M12-L03-11",
-      "consigne": "Le réflexe à garder après tout import : **vérifier qu'un calcul passe**. Des nombres arrivés sous forme de texte s'alignent à gauche et refusent de s'additionner ; une virgule décimale mal interprétée transforme 4,90 en 490. Une multiplication d'essai sur la première ligne coûte cinq secondes et évite un fichier faux.",
+      "consigne": "Le réflexe à garder après **tout** import, quel qu'en soit le format : vérifier qu'un calcul passe. Les deux pannes classiques sont montrées à l'écran. Une multiplication d'essai sur la première ligne coûte cinq secondes, et vous évite de bâtir un fichier entier sur des nombres qui n'en sont pas.",
       "action": {
         "type": "READ"
       },

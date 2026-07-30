@@ -1,240 +1,240 @@
 {
- "schemaVersion": 1,
- "title": "Exercice · Reprendre un export",
- "mode": "EXERCISE",
- "moduleTitle": "Saisie semi-automatique et recopie",
- "intro": {
-  "title": "À VOUS",
-  "body": "Un export de votre logiciel de gestion, arrivé tout entier dans la colonne A. Rendez-le exploitable, calculez-le, et numérotez les lignes de 10 en 10."
- },
- "outro": {
-  "body": "Un export illisible devenu un tableau calculé et numéroté."
- },
- "ribbon": [
-  "accueil",
-  "donnees"
- ],
- "statusBar": {
-  "aggregates": [
-   "moyenne",
-   "nb-non-vides",
-   "somme"
+  "schemaVersion": 1,
+  "title": "Exercice · Reprendre un export",
+  "mode": "EXERCISE",
+  "moduleTitle": "Saisie semi-automatique et recopie",
+  "intro": {
+    "title": "À VOUS",
+    "body": "Un export de votre logiciel de gestion, arrivé tout entier dans la colonne A. Rendez-le exploitable, calculez-le, et numérotez les lignes de 10 en 10."
+  },
+  "outro": {
+    "body": "Un export illisible devenu un tableau calculé et numéroté."
+  },
+  "ribbon": [
+    "accueil",
+    "donnees"
   ],
-  "sheetCount": 1
- },
- "workbook": {
-  "fileName": "Export de gestion",
-  "activeSheetIndex": 0,
-  "selection": "A1",
-  "sheets": [
-   {
-    "name": "Feuil1",
-    "columnWidths": {
-     "A": 265,
-     "B": 130,
-     "C": 85,
-     "D": 115,
-     "E": 105,
-     "G": 95
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ],
+    "sheetCount": 1
+  },
+  "workbook": {
+    "fileName": "Export de gestion",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 265,
+          "B": 130,
+          "C": 85,
+          "D": 115,
+          "E": 105,
+          "G": 95
+        },
+        "cells": {
+          "A1": {
+            "v": "Module;Client;Heures;Tarif horaire"
+          },
+          "A2": {
+            "v": "Bureautique;Delcourt;21;32"
+          },
+          "A3": {
+            "v": "Anglais;Aubry;30;38"
+          },
+          "A4": {
+            "v": "Comptabilité;Vasseur;35;45"
+          },
+          "A5": {
+            "v": "Graphisme;Petit;14;41"
+          },
+          "A6": {
+            "v": "Paie;Lenoir;28;36"
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M12-E02-01",
+      "consigne": "Découpez cet export en colonnes exploitables. Le séparateur est le **point-virgule**. Chaque information doit se retrouver dans sa propre colonne.",
+      "setup": {
+        "selection": "A1:A6",
+        "ribbon": {
+          "activeTab": "donnees"
+        },
+        "split": {
+          "range": "A1:A6",
+          "separateur": 4
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "don-convertir"
+      },
+      "aide": {
+        "text": "L'outil se trouve dans l'onglet Données."
+      }
     },
-    "cells": {
-     "A1": {
-      "v": "Module;Client;Heures;Tarif horaire"
-     },
-     "A2": {
-      "v": "Bureautique;Delcourt;21;32"
-     },
-     "A3": {
-      "v": "Anglais;Aubry;30;38"
-     },
-     "A4": {
-      "v": "Comptabilité;Vasseur;35;45"
-     },
-     "A5": {
-      "v": "Graphisme;Petit;14;41"
-     },
-     "A6": {
-      "v": "Paie;Lenoir;28;36"
-     }
+    {
+      "id": "M12-E02-02",
+      "consigne": "En **E1**, ajoutez l'en-tête `Montant`.",
+      "setup": {
+        "selection": "E1"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "E1",
+        "accept": [
+          "Montant"
+        ]
+      }
+    },
+    {
+      "id": "M12-E02-03",
+      "consigne": "En **E2**, calculez le **montant** de la première ligne. La formule devra être recopiable.",
+      "setup": {
+        "selection": "E2"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "E2",
+        "accept": [
+          "=C2*D2",
+          "=D2*C2"
+        ],
+        "formulaMode": true
+      }
+    },
+    {
+      "id": "M12-E02-04",
+      "consigne": "Complétez les **quatre lignes restantes**.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "E3": {
+            "anyOf": [
+              "=C3*D3",
+              "=D3*C3"
+            ],
+            "v": 1140
+          },
+          "E4": {
+            "anyOf": [
+              "=C4*D4",
+              "=D4*C4"
+            ],
+            "v": 1575
+          },
+          "E5": {
+            "anyOf": [
+              "=C5*D5",
+              "=D5*C5"
+            ],
+            "v": 574
+          },
+          "E6": {
+            "anyOf": [
+              "=C6*D6",
+              "=D6*C6"
+            ],
+            "v": 1008
+          }
+        }
+      },
+      "aide": {
+        "text": "Poignée de recopie vers le bas."
+      }
+    },
+    {
+      "id": "M12-E02-05",
+      "consigne": "En **E8**, totalisez l'export.",
+      "setup": {
+        "selection": "E8",
+        "cells": {
+          "D8": {
+            "v": "TOTAL",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "E8",
+        "accept": [
+          "=SOMME(E2:E6)",
+          "=E2+E3+E4+E5+E6"
+        ],
+        "formulaMode": true
+      }
+    },
+    {
+      "id": "M12-E02-06",
+      "consigne": "Numérotez maintenant les lignes **de 10 en 10**. En **G2**, saisissez la première valeur, `10`.",
+      "setup": {
+        "selection": "G2",
+        "cells": {
+          "G1": {
+            "v": "N° de lot",
+            "format": {
+              "bold": true
+            }
+          }
+        }
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "G2",
+        "accept": [
+          "10"
+        ]
+      }
+    },
+    {
+      "id": "M12-E02-07",
+      "consigne": "En **G3**, donnez la valeur qui fixera le **pas** de la série.",
+      "setup": {
+        "selection": "G3"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "G3",
+        "accept": [
+          "20"
+        ]
+      },
+      "aide": {
+        "text": "Une série a besoin de deux valeurs pour que son pas soit reconnaissable."
+      }
+    },
+    {
+      "id": "M12-E02-08",
+      "consigne": "Complétez la numérotation jusqu'à la **ligne 6**.",
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "G4": {
+            "v": 30
+          },
+          "G5": {
+            "v": 40
+          },
+          "G6": {
+            "v": 50
+          }
+        }
+      },
+      "aide": {
+        "text": "Sélectionnez les deux premières valeurs avant de tirer la poignée."
+      }
     }
-   }
   ]
- },
- "steps": [
-  {
-   "id": "M12-E02-01",
-   "consigne": "Découpez cet export en colonnes exploitables. Le séparateur est le **point-virgule**.",
-   "setup": {
-    "selection": "A1:A6",
-    "ribbon": {
-     "activeTab": "donnees"
-    },
-    "split": {
-     "range": "A1:A6",
-     "separateur": 4
-    }
-   },
-   "action": {
-    "type": "CLICK_CONTROL",
-    "control": "don-convertir"
-   },
-   "aide": {
-    "text": "L'outil se trouve dans l'onglet Données."
-   }
-  },
-  {
-   "id": "M12-E02-02",
-   "consigne": "En **E1**, ajoutez l'en-tête `Montant`.",
-   "setup": {
-    "selection": "E1"
-   },
-   "action": {
-    "type": "TYPE",
-    "target": "E1",
-    "accept": [
-     "Montant"
-    ]
-   }
-  },
-  {
-   "id": "M12-E02-03",
-   "consigne": "En **E2**, calculez le **montant** de la première ligne. La formule devra être recopiable.",
-   "setup": {
-    "selection": "E2"
-   },
-   "action": {
-    "type": "TYPE",
-    "target": "E2",
-    "accept": [
-     "=C2*D2",
-     "=D2*C2"
-    ],
-    "formulaMode": true
-   }
-  },
-  {
-   "id": "M12-E02-04",
-   "consigne": "Complétez les **quatre lignes restantes**.",
-   "action": {
-    "type": "EXPECT_STATE",
-    "cells": {
-     "E3": {
-      "anyOf": [
-       "=C3*D3",
-       "=D3*C3"
-      ],
-      "v": 1140
-     },
-     "E4": {
-      "anyOf": [
-       "=C4*D4",
-       "=D4*C4"
-      ],
-      "v": 1575
-     },
-     "E5": {
-      "anyOf": [
-       "=C5*D5",
-       "=D5*C5"
-      ],
-      "v": 574
-     },
-     "E6": {
-      "anyOf": [
-       "=C6*D6",
-       "=D6*C6"
-      ],
-      "v": 1008
-     }
-    }
-   },
-   "aide": {
-    "text": "Poignée de recopie vers le bas."
-   }
-  },
-  {
-   "id": "M12-E02-05",
-   "consigne": "En **E8**, totalisez l'export.",
-   "setup": {
-    "selection": "E8",
-    "cells": {
-     "D8": {
-      "v": "TOTAL",
-      "format": {
-       "bold": true
-      }
-     }
-    }
-   },
-   "action": {
-    "type": "TYPE",
-    "target": "E8",
-    "accept": [
-     "=SOMME(E2:E6)",
-     "=E2+E3+E4+E5+E6"
-    ],
-    "formulaMode": true
-   }
-  },
-  {
-   "id": "M12-E02-06",
-   "consigne": "Numérotez maintenant les lignes **de 10 en 10**. En **G2**, saisissez la première valeur, `10`.",
-   "setup": {
-    "selection": "G2",
-    "cells": {
-     "G1": {
-      "v": "N° de lot",
-      "format": {
-       "bold": true
-      }
-     }
-    }
-   },
-   "action": {
-    "type": "TYPE",
-    "target": "G2",
-    "accept": [
-     "10"
-    ]
-   }
-  },
-  {
-   "id": "M12-E02-07",
-   "consigne": "En **G3**, donnez la valeur qui fixera le **pas** de la série.",
-   "setup": {
-    "selection": "G3"
-   },
-   "action": {
-    "type": "TYPE",
-    "target": "G3",
-    "accept": [
-     "20"
-    ]
-   },
-   "aide": {
-    "text": "Une série a besoin de deux valeurs pour que son pas soit reconnaissable."
-   }
-  },
-  {
-   "id": "M12-E02-08",
-   "consigne": "Complétez la numérotation jusqu'à la **ligne 6**.",
-   "action": {
-    "type": "EXPECT_STATE",
-    "cells": {
-     "G4": {
-      "v": 30
-     },
-     "G5": {
-      "v": 40
-     },
-     "G6": {
-      "v": 50
-     }
-    }
-   },
-   "aide": {
-    "text": "Sélectionnez les deux premières valeurs avant de tirer la poignée."
-   }
-  }
- ]
 }

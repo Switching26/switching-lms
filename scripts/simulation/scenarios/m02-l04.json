@@ -106,7 +106,7 @@
     },
     {
       "id": "M02-L04-02",
-      "consigne": "Excel accepte plusieurs écritures : `15/03/2026`, `15/3/26`, `15-3-2026`. Attention en revanche à l'année sur **deux chiffres** : de `00` à `29` il comprend les années 2000, de `30` à `99` les années 1900. Donc `26` donne 2026, mais `45` donne **1945**. Sur une date de naissance, l'erreur est garantie — écrivez l'année en entier.",
+      "consigne": "Excel est souple sur l'écriture des dates, et cette souplesse cache un piège de conversion. Les écritures acceptées, puis la règle des années à deux chiffres, sont montrées à l'écran. La conséquence pratique : sur une date de naissance ou un document ancien, écrivez toujours l'année en entier — l'erreur est silencieuse et n'apparaît qu'au calcul.",
       "action": {
         "type": "READ"
       },
@@ -193,7 +193,7 @@
     },
     {
       "id": "M02-L04-06",
-      "consigne": "Excel stocke une heure comme une **fraction de journée** : `12:00` vaut 0,5, `06:00` vaut 0,25, `18:00` vaut 0,75. C'est exactement ce qui rend deux heures soustrayables — on retranche deux fractions de la même journée.",
+      "consigne": "Pourquoi une heure se comporte-t-elle comme un nombre ? Parce que c'en est un : Excel la range en interne comme une portion de journée. La correspondance est montrée à l'écran. C'est ce qui explique qu'une soustraction d'heures fonctionne — et vous allez justement en calculer une à l'étape suivante.",
       "action": {
         "type": "READ"
       },
@@ -294,7 +294,7 @@
     },
     {
       "id": "M02-L04-10",
-      "consigne": "Deux façons d'obtenir la date du jour, et il ne faut pas les confondre. Le raccourci **Ctrl + ;** insère la date d'aujourd'hui comme une **valeur figée** : elle ne changera plus jamais. La fonction `AUJOURDHUI()` se **recalcule** à chaque ouverture du classeur. Sur une facture, on veut la valeur figée ; sur un tableau de bord, la fonction.",
+      "consigne": "Deux façons d'obtenir la date du jour, et les confondre coûte cher. **Ctrl + ;** insère la date d'aujourd'hui comme une **valeur figée**, qui ne bougera plus jamais. `AUJOURDHUI()` se **recalcule** à chaque ouverture du classeur. Le bon choix dépend de l'usage : une facture veut une date figée, un tableau de bord veut la fonction.",
       "action": {
         "type": "READ"
       },
@@ -308,7 +308,7 @@
     },
     {
       "id": "M02-L04-11",
-      "consigne": "Le symptôme à connaître : une date ou une heure qui apparaît **collée à gauche** n'a pas été reconnue. C'est du texte, et aucun calcul de délai ne fonctionnera dessus. Les causes habituelles : un point au lieu d'une barre oblique (`15.03.2026`), un mois écrit en lettres abrégé (`15 mar 2026`), ou un espace parasite avant le premier chiffre.",
+      "consigne": "Terminons par le diagnostic, car une date non reconnue ne déclenche aucune alerte. Le symptôme et ses causes habituelles sont pointés à l'écran. Ce qu'il faut en retenir : devant un calcul de délai qui refuse de fonctionner, regardez l'alignement de la date avant de chercher l'erreur dans la formule.",
       "action": {
         "type": "READ"
       },

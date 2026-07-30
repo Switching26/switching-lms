@@ -304,7 +304,7 @@
   "steps": [
     {
       "id": "M27-L03-01",
-      "consigne": "Une macro n'est pas une boîte noire : l'enregistreur a écrit du **code**, et ce code se lit. Le voir, c'est pouvoir le corriger sans tout réenregistrer.",
+      "consigne": "Voici ce qui change tout dans l'usage des macros : l'enregistreur a écrit du **code**, et ce code se lit. Le point est souligné à l'écran. Savoir l'ouvrir, c'est pouvoir corriger un détail — une cellule, une couleur, une plage — sans avoir à tout réenregistrer depuis le début.",
       "action": {
         "type": "READ"
       },
@@ -356,7 +356,7 @@
     },
     {
       "id": "M27-L03-03",
-      "consigne": "Lisez le code ligne par ligne. **Range(\"A10\").Select** sélectionne une cellule. **ActiveCell.FormulaR1C1** écrit dans la cellule sélectionnée. **Selection.Font.Bold** met en gras ce qui est sélectionné. Et la formule apparaît en anglais, dans une autre notation : **=SUM(R[-7]C:R[-1]C)** se lit « la somme des sept cellules au-dessus, dans la même colonne ». C'est cette écriture par écart qui va nous servir tout de suite.",
+      "consigne": "Lisons le code ligne par ligne : il est plus lisible qu'il n'y paraît, et chaque ligne correspond à un geste que vous avez fait. Les correspondances sont pointées à l'écran. Une chose à noter : la formule apparaît en anglais et dans une autre notation — **=SUM(R[-7]C:R[-1]C)** se lit « la somme des sept cellules au-dessus, dans la même colonne ». C'est cette écriture par écart qui va nous servir tout de suite.",
       "action": {
         "type": "READ"
       },
@@ -381,7 +381,7 @@
     },
     {
       "id": "M27-L03-04",
-      "consigne": "Le tableau d'**août** attend son total, ligne 21. ==Dans le code, remplacez les références de la ligne 10 par celles de la ligne 21, puis exécutez==. Ne touchez pas à la formule : écrite par écart, elle suivra toute seule.",
+      "consigne": "Le tableau d'**août** attend son total, ligne 21. ==Dans le code, remplacez les références de la ligne 10 par celles de la ligne 21, puis exécutez==. Ne touchez pas à la formule : écrite par écart, elle suivra toute seule. Le total doit se poser sous août, sans que juillet ne bouge.",
       "action": {
         "type": "EXPECT_MACRO",
         "macro": {
@@ -404,7 +404,7 @@
     },
     {
       "id": "M27-L03-05",
-      "consigne": "Le texte écrit par la macro se modifie de la même façon. ==Faites-lui écrire **Total août 2026** à la place de **Total du mois**, puis exécutez==.",
+      "consigne": "Le texte écrit par la macro se modifie de la même façon. ==Faites-lui écrire **Total août 2026** à la place de **Total du mois**, puis exécutez==. Le libellé de la ligne de total change.",
       "action": {
         "type": "EXPECT_MACRO",
         "macro": {

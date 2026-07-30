@@ -96,7 +96,7 @@
   "steps": [
     {
       "id": "M04-L06-01",
-      "consigne": "Ce tableau est écrit **en largeur** : une seule ligne de données, les trimestres en colonnes. C'est lisible sur quatre périodes, ingérable sur trente-six mois — et surtout, aucun tri, aucun filtre et aucun tableau croisé ne sait travailler dans ce sens. Il faut le retourner : les trimestres en lignes, les heures en colonne.",
+      "consigne": "Avant de manipuler, comprenons pourquoi ce tableau pose problème — c'est le genre de défaut qu'on traîne pendant des mois sans le nommer. Le diagnostic est fait à l'écran. L'idée à retenir : un tableau écrit en largeur reste lisible tant qu'il est petit, mais il ferme la porte à tous les outils d'analyse d'Excel.",
       "action": {
         "type": "READ"
       },
@@ -133,7 +133,7 @@
     },
     {
       "id": "M04-L06-03",
-      "consigne": "==Cliquez sur **Copier**== dans le groupe Presse-papiers.",
+      "consigne": "==Cliquez sur **Copier**== dans le groupe Presse-papiers. Un liseré animé entoure la plage.",
       "action": {
         "type": "CLICK_CONTROL",
         "control": "acc-copier"
@@ -146,7 +146,7 @@
     },
     {
       "id": "M04-L06-04",
-      "consigne": "==Placez-vous en **A9** et collez en choisissant **Transposé**==.",
+      "consigne": "==Placez-vous en **A9** et collez en choisissant **Transposé**==. Le tableau réapparaît à la verticale, une ligne par trimestre.",
       "setup": {
         "selection": "A9",
         "paste": {
@@ -194,7 +194,7 @@
     },
     {
       "id": "M04-L06-06",
-      "consigne": "Un point à ne pas manquer : le collage transposé produit une **copie de valeurs**, pas un lien. Modifiez 420 dans le tableau du haut, le tableau retourné ne bougera pas. Pour obtenir un lien vivant, il existe la fonction `TRANSPOSE`, qui recalcule à chaque changement — mais dans la majorité des cas, une transposition est une opération de nettoyage qu'on fait une fois pour toutes.",
+      "consigne": "Un point à ne pas manquer, sous peine de compter sur un lien qui n'existe pas. La démonstration le vérifie en modifiant la source. Ce qu'il faut en retenir : transposer produit une photographie, pas un miroir. `TRANSPOSE` existe pour un lien vivant, mais dans la plupart des cas une transposition est un nettoyage qu'on fait une fois pour toutes.",
       "action": {
         "type": "READ"
       },
@@ -275,7 +275,7 @@
     },
     {
       "id": "M04-L06-09",
-      "consigne": "La règle qui décide du sens d'un tableau : **une ligne = un enregistrement, une colonne = une information**. Un mois, un client, une facture par ligne ; la date, le montant, la ville en colonnes. C'est le seul format que les tris, les filtres, les sous-totaux et les tableaux croisés savent exploiter — et c'est vers celui-là qu'on transpose.",
+      "consigne": "Voici la règle qui décide du sens d'un tableau, sans doute la plus utile de ce module : **une ligne = un enregistrement, une colonne = une information**. Un mois, un client ou une facture par ligne ; la date, le montant, la ville en colonnes. Les deux formes sont comparées à l'écran. Tout ce que vous ferez plus tard — tris, filtres, sous-totaux, tableaux croisés — suppose ce format.",
       "action": {
         "type": "READ"
       },

@@ -1,240 +1,240 @@
 {
- "schemaVersion": 1,
- "title": "Exercice · Isoler les extrêmes",
- "mode": "EXERCISE",
- "moduleTitle": "Mise en forme conditionnelle",
- "intro": {
-  "title": "À VOUS",
-  "body": "Huit formations, leurs volumes d'heures vendues. Faites ressortir le **duo de tête** en vert et les **deux plus faibles** en rouge, puis contrôlez vos règles par un comptage."
- },
- "outro": {
-  "body": "Deux règles posées sur des seuils que vous avez calculés, et vérifiées par un comptage : c'est la méthode complète."
- },
- "ribbon": [
-  "accueil"
- ],
- "statusBar": {
-  "aggregates": [
-   "moyenne",
-   "nb-non-vides",
-   "somme"
+  "schemaVersion": 1,
+  "title": "Exercice · Isoler les extrêmes",
+  "mode": "EXERCISE",
+  "moduleTitle": "Mise en forme conditionnelle",
+  "intro": {
+    "title": "À VOUS",
+    "body": "Huit formations, leurs volumes d'heures vendues. Faites ressortir le **duo de tête** en vert et les **deux plus faibles** en rouge, puis contrôlez vos règles par un comptage."
+  },
+  "outro": {
+    "body": "Deux règles posées sur des seuils que vous avez calculés, et vérifiées par un comptage : c'est la méthode complète."
+  },
+  "ribbon": [
+    "accueil"
   ],
-  "sheetCount": 1
- },
- "workbook": {
-  "fileName": "Volumes de formation",
-  "activeSheetIndex": 0,
-  "selection": "A1",
-  "sheets": [
-   {
-    "name": "Feuil1",
-    "columnWidths": {
-     "A": 140,
-     "B": 130,
-     "D": 245,
-     "E": 110
+  "statusBar": {
+    "aggregates": [
+      "moyenne",
+      "nb-non-vides",
+      "somme"
+    ],
+    "sheetCount": 1
+  },
+  "workbook": {
+    "fileName": "Volumes de formation",
+    "activeSheetIndex": 0,
+    "selection": "A1",
+    "sheets": [
+      {
+        "name": "Feuil1",
+        "columnWidths": {
+          "A": 140,
+          "B": 130,
+          "D": 245,
+          "E": 110
+        },
+        "cells": {
+          "D1": {
+            "v": "2ᵉ volume le plus élevé",
+            "format": {
+              "bold": true
+            }
+          },
+          "D2": {
+            "v": "2ᵉ volume le plus faible",
+            "format": {
+              "bold": true
+            }
+          },
+          "D4": {
+            "v": "Formations au-dessus de 200 h",
+            "format": {
+              "bold": true
+            }
+          },
+          "D5": {
+            "v": "Heures de ces formations",
+            "format": {
+              "bold": true
+            }
+          },
+          "A1": {
+            "v": "Formation",
+            "format": {
+              "bold": true
+            }
+          },
+          "B1": {
+            "v": "Heures vendues",
+            "format": {
+              "bold": true
+            }
+          },
+          "A2": {
+            "v": "Bureautique"
+          },
+          "B2": {
+            "v": 168
+          },
+          "A3": {
+            "v": "Anglais"
+          },
+          "B3": {
+            "v": 245
+          },
+          "A4": {
+            "v": "Comptabilité"
+          },
+          "B4": {
+            "v": 96
+          },
+          "A5": {
+            "v": "Graphisme"
+          },
+          "B5": {
+            "v": 132
+          },
+          "A6": {
+            "v": "Paie"
+          },
+          "B6": {
+            "v": 210
+          },
+          "A7": {
+            "v": "Vente"
+          },
+          "B7": {
+            "v": 74
+          },
+          "A8": {
+            "v": "Management"
+          },
+          "B8": {
+            "v": 189
+          },
+          "A9": {
+            "v": "Informatique"
+          },
+          "B9": {
+            "v": 117
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M11-E02-01",
+      "consigne": "En **E1**, affichez le **deuxième volume le plus élevé** : c'est le seuil d'entrée dans le duo de tête.",
+      "setup": {
+        "selection": "E1"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "E1",
+        "accept": [
+          "=GRANDE.VALEUR($B$2:$B$9;2)",
+          "=GRANDE.VALEUR(B2:B9;2)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "Une fonction, deux arguments : où chercher, et quel rang."
+      }
     },
-    "cells": {
-     "D1": {
-      "v": "2ᵉ volume le plus élevé",
-      "format": {
-       "bold": true
+    {
+      "id": "M11-E02-02",
+      "consigne": "Colorez en **vert** les formations qui dépassent **200 heures**.",
+      "setup": {
+        "selection": "B2:B9",
+        "cf": {
+          "range": "B2:B9",
+          "rule": {
+            "kind": "greaterThan",
+            "value": 200,
+            "background": "#bbf7d0"
+          }
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "acc-mfc-regle"
+      },
+      "aide": {
+        "text": "La plage est déjà sélectionnée : il reste le bouton du groupe Styles."
       }
-     },
-     "D2": {
-      "v": "2ᵉ volume le plus faible",
-      "format": {
-       "bold": true
+    },
+    {
+      "id": "M11-E02-03",
+      "consigne": "En **E2**, affichez le **deuxième volume le plus faible**.",
+      "setup": {
+        "selection": "E2"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "E2",
+        "accept": [
+          "=PETITE.VALEUR($B$2:$B$9;2)",
+          "=PETITE.VALEUR(B2:B9;2)"
+        ],
+        "formulaMode": true
       }
-     },
-     "D4": {
-      "v": "Formations au-dessus de 200 h",
-      "format": {
-       "bold": true
+    },
+    {
+      "id": "M11-E02-04",
+      "consigne": "Colorez en **rouge** les formations sous **100 heures**. Les formations les plus courtes passent au rouge.",
+      "setup": {
+        "selection": "B2:B9",
+        "cf": {
+          "range": "B2:B9",
+          "rule": {
+            "kind": "lessThan",
+            "value": 100,
+            "background": "#fecaca"
+          }
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "acc-mfc-regle"
       }
-     },
-     "D5": {
-      "v": "Heures de ces formations",
-      "format": {
-       "bold": true
+    },
+    {
+      "id": "M11-E02-05",
+      "consigne": "En **E4**, comptez les formations **au-dessus de 200 heures** : le compte doit tomber sur le nombre de cellules vertes.",
+      "setup": {
+        "selection": "E4"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "E4",
+        "accept": [
+          "=NB.SI($B$2:$B$9;\">200\")",
+          "=NB.SI(B2:B9;\">200\")"
+        ],
+        "formulaMode": true
       }
-     },
-     "A1": {
-      "v": "Formation",
-      "format": {
-       "bold": true
+    },
+    {
+      "id": "M11-E02-06",
+      "consigne": "En **E5**, totalisez les **heures de ces mêmes formations**.",
+      "setup": {
+        "selection": "E5"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "E5",
+        "accept": [
+          "=SOMME.SI($B$2:$B$9;\">200\")",
+          "=SOMME.SI(B2:B9;\">200\")",
+          "=SOMME.SI(B2:B9;\">200\";B2:B9)"
+        ],
+        "formulaMode": true
+      },
+      "aide": {
+        "text": "La colonne testée est aussi celle à additionner."
       }
-     },
-     "B1": {
-      "v": "Heures vendues",
-      "format": {
-       "bold": true
-      }
-     },
-     "A2": {
-      "v": "Bureautique"
-     },
-     "B2": {
-      "v": 168
-     },
-     "A3": {
-      "v": "Anglais"
-     },
-     "B3": {
-      "v": 245
-     },
-     "A4": {
-      "v": "Comptabilité"
-     },
-     "B4": {
-      "v": 96
-     },
-     "A5": {
-      "v": "Graphisme"
-     },
-     "B5": {
-      "v": 132
-     },
-     "A6": {
-      "v": "Paie"
-     },
-     "B6": {
-      "v": 210
-     },
-     "A7": {
-      "v": "Vente"
-     },
-     "B7": {
-      "v": 74
-     },
-     "A8": {
-      "v": "Management"
-     },
-     "B8": {
-      "v": 189
-     },
-     "A9": {
-      "v": "Informatique"
-     },
-     "B9": {
-      "v": 117
-     }
     }
-   }
   ]
- },
- "steps": [
-  {
-   "id": "M11-E02-01",
-   "consigne": "En **E1**, affichez le **deuxième volume le plus élevé** : c'est le seuil d'entrée dans le duo de tête.",
-   "setup": {
-    "selection": "E1"
-   },
-   "action": {
-    "type": "TYPE",
-    "target": "E1",
-    "accept": [
-     "=GRANDE.VALEUR($B$2:$B$9;2)",
-     "=GRANDE.VALEUR(B2:B9;2)"
-    ],
-    "formulaMode": true
-   },
-   "aide": {
-    "text": "Une fonction, deux arguments : où chercher, et quel rang."
-   }
-  },
-  {
-   "id": "M11-E02-02",
-   "consigne": "Colorez en **vert** les formations qui dépassent **200 heures**.",
-   "setup": {
-    "selection": "B2:B9",
-    "cf": {
-     "range": "B2:B9",
-     "rule": {
-      "kind": "greaterThan",
-      "value": 200,
-      "background": "#bbf7d0"
-     }
-    }
-   },
-   "action": {
-    "type": "CLICK_CONTROL",
-    "control": "acc-mfc-regle"
-   },
-   "aide": {
-    "text": "La plage est déjà sélectionnée : il reste le bouton du groupe Styles."
-   }
-  },
-  {
-   "id": "M11-E02-03",
-   "consigne": "En **E2**, affichez le **deuxième volume le plus faible**.",
-   "setup": {
-    "selection": "E2"
-   },
-   "action": {
-    "type": "TYPE",
-    "target": "E2",
-    "accept": [
-     "=PETITE.VALEUR($B$2:$B$9;2)",
-     "=PETITE.VALEUR(B2:B9;2)"
-    ],
-    "formulaMode": true
-   }
-  },
-  {
-   "id": "M11-E02-04",
-   "consigne": "Colorez en **rouge** les formations sous **100 heures**.",
-   "setup": {
-    "selection": "B2:B9",
-    "cf": {
-     "range": "B2:B9",
-     "rule": {
-      "kind": "lessThan",
-      "value": 100,
-      "background": "#fecaca"
-     }
-    }
-   },
-   "action": {
-    "type": "CLICK_CONTROL",
-    "control": "acc-mfc-regle"
-   }
-  },
-  {
-   "id": "M11-E02-05",
-   "consigne": "En **E4**, comptez les formations **au-dessus de 200 heures** : le compte doit tomber sur le nombre de cellules vertes.",
-   "setup": {
-    "selection": "E4"
-   },
-   "action": {
-    "type": "TYPE",
-    "target": "E4",
-    "accept": [
-     "=NB.SI($B$2:$B$9;\">200\")",
-     "=NB.SI(B2:B9;\">200\")"
-    ],
-    "formulaMode": true
-   }
-  },
-  {
-   "id": "M11-E02-06",
-   "consigne": "En **E5**, totalisez les **heures de ces mêmes formations**.",
-   "setup": {
-    "selection": "E5"
-   },
-   "action": {
-    "type": "TYPE",
-    "target": "E5",
-    "accept": [
-     "=SOMME.SI($B$2:$B$9;\">200\")",
-     "=SOMME.SI(B2:B9;\">200\")",
-     "=SOMME.SI(B2:B9;\">200\";B2:B9)"
-    ],
-    "formulaMode": true
-   },
-   "aide": {
-    "text": "La colonne testée est aussi celle à additionner."
-   }
-  }
- ]
 }

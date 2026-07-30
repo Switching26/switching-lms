@@ -61,13 +61,22 @@ type Props = {
    * le bon bouton sans que rien ne change à l'écran.
    */
   onPresser?: (id: string, arg?: string) => void
+  /**
+   * Écran de lecture, où la démonstration se joue d'elle-même.
+   *
+   * Le carton d'annonce disait « Vous vous êtes trompé plusieurs fois » : juste
+   * quand l'aide vient après des erreurs, mais faux et désagréable sur un écran
+   * qui n'attend AUCUNE action — l'apprenant se voyait reprocher des fautes
+   * qu'il n'avait pas commises.
+   */
+  lecture?: boolean
   onFini?: () => void
 }
 
 /** Étapes d'un geste. `avertir` n'existe qu'une fois, au tout début. */
 type Phase = "avertir" | "vise" | "bulle" | "clic" | "glisse" | "frappe" | "valide" | "fini"
 
-export default function DemonstrationGeste({ plan, resoudre, largeur, onEcrire, onOnglet, onDefinir, onSelectionner, onPresser, onFini }: Props) {
+export default function DemonstrationGeste({ plan, resoudre, largeur, onEcrire, onOnglet, onDefinir, onSelectionner, onPresser, lecture, onFini }: Props) {
   const [i, setI] = useState(0)
   const [phase, setPhase] = useState<Phase>("avertir")
   const [tapes, setTapes] = useState(0)
@@ -246,12 +255,22 @@ export default function DemonstrationGeste({ plan, resoudre, largeur, onEcrire, 
           >
             <p className="mb-1.5 flex items-center gap-2 text-[14.5px] font-extrabold" style={{ color: "#8a5a12" }}>
               <span aria-hidden style={{ fontSize: 17 }}>👀</span>
-              Je vais vous montrer
+              {lecture ? "Regardez" : "Je vais vous montrer"}
             </p>
             <p className="text-[13px] leading-snug" style={{ color: "#3C433F" }}>
-              Vous vous êtes trompé plusieurs fois — ce n’est pas grave. Regardez bien : je fais
-              {plan.gestes.length > 1 ? ` les ${plan.gestes.length} gestes ` : " le geste "}
-              à votre place, étape par étape. Vous pourrez le refaire ensuite.
+              {lecture ? (
+                <>
+                  Voici la démonstration de cette étape. Rien à faire de votre côté :
+                  {plan.gestes.length > 1 ? ` je vous montre les ${plan.gestes.length} points ` : " je vous montre le point "}
+                  l’un après l’autre, puis vous continuerez.
+                </>
+              ) : (
+                <>
+                  Vous vous êtes trompé plusieurs fois — ce n’est pas grave. Regardez bien : je fais
+                  {plan.gestes.length > 1 ? ` les ${plan.gestes.length} gestes ` : " le geste "}
+                  à votre place, étape par étape. Vous pourrez le refaire ensuite.
+                </>
+              )}
             </p>
           </div>
         </>

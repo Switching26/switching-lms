@@ -3124,6 +3124,7 @@ export default function SimulationPlayer({
                 onDefinir={definirDemo}
                 onSelectionner={selectionnerDemo}
                 onPresser={presserDemo}
+                lecture={step?.action.type === "READ"}
                 largeur={zoneAtelierRef.current?.clientWidth ?? 640}
               />
             )}
@@ -3201,10 +3202,13 @@ export default function SimulationPlayer({
                 }}
               >
                 <span aria-hidden>{nature === "lecture" ? "👁" : nature === "evaluee" ? "★" : "✋"}</span>
+                {/* « À lire » datait du temps où ces écrans n'étaient qu'un
+                    paragraphe. Ils portent maintenant une démonstration jouée :
+                    on y REGARDE et on COMPREND, il n'y a rien à lire seul. */}
                 {nature === "lecture"
                   ? evaluationNotee
                     ? "Énoncé"
-                    : "À lire"
+                    : "À comprendre"
                   : nature === "evaluee"
                   ? "Évalué"
                   : "À vous de jouer"}
@@ -3212,6 +3216,15 @@ export default function SimulationPlayer({
               <div style={{ fontSize: 15, lineHeight: 1.45 }}>
                 {step && <Consigne text={step.consigne} />}
               </div>
+              {/* Dire explicitement qu'on n'attend rien : sans cette ligne,
+                  l'apprenant cherche ce qu'il doit faire pendant que la
+                  démonstration se joue. */}
+              {nature === "lecture" && step?.montrer?.length ? (
+                <p className="mt-1.5 text-[12.5px] text-warm-500">
+                  <span aria-hidden>👁 </span>
+                  Démonstration à l’écran — <b className="font-semibold">aucune action attendue</b>.
+                </p>
+              ) : null}
               {/* Critère de réussite, déduit de l'étape : la consigne dit quoi
                   faire, jamais à quoi on reconnaît que c'est fait. */}
               {attendu && (

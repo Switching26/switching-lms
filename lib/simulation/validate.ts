@@ -219,7 +219,13 @@ export function validateStep(
   if (expected.type === "READ") {
     return observed.kind === "next"
       ? OK
-      : { ok: false, reason: "read_step_action", message: "Rien à faire ici : cette étape se lit." }
+      : {
+          ok: false,
+          reason: "read_step_action",
+          // « cette étape se lit » n'était plus exact depuis que ces écrans
+          // portent une démonstration jouée : l'apprenant regarde, il ne lit pas.
+          message: "Rien à faire ici : regardez la démonstration, puis continuez.",
+        }
   }
 
   switch (expected.type) {

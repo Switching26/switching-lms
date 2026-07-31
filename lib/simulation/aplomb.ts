@@ -125,6 +125,24 @@ function poser(etat: EtatAplomb, ref: string, patch: Partial<CelluleAplomb>): vo
   etat[clef] = { ...actuel, ...patch }
 }
 
+/**
+ * Format que la grille pose D'ELLE-MÊME sur un littéral de date ou d'heure
+ * écrit à la française : `applyCells` comme la saisie apprenant transforment
+ * « 03/01/2026 » en numéro de série + format `dd/mm/yyyy` (voir `ExcelGrid`).
+ *
+ * Ce format-là fait partie de l'aplomb, comme la francisation décimale : sans
+ * cette famille attendue, la remise le prenait pour un dégât et le retirait —
+ * toutes les colonnes de dates du module 13 réapparaissaient en numéros de
+ * série (46025) dès le premier passage, avec le message « j'ai remis la
+ * feuille en ordre ».
+ */
+function formatFrancisation(litteral: unknown): Pick<CelluleAplomb, "famille" | "motif"> | null {
+  if (typeof litteral !== "string") return null
+  const fr = lireDateOuHeureFr(litteral.trim())
+  if (!fr) return null
+  return { famille: familleDeFormat(fr.format), motif: fr.format }
+}
+
 function contenuDepuisCellState(c: CellState): Partial<CelluleAplomb> {
   const p: Partial<CelluleAplomb> = {}
   if (c.f !== undefined) p.formules = [c.f]
@@ -132,6 +150,9 @@ function contenuDepuisCellState(c: CellState): Partial<CelluleAplomb> {
   if (c.format?.numberFormat !== undefined) {
     p.famille = familleDeFormat(c.format.numberFormat)
     p.motif = c.format.numberFormat
+  } else {
+    const fr = formatFrancisation(c.v)
+    if (fr) { p.famille = fr.famille; p.motif = fr.motif }
   }
   return p
 }
@@ -171,7 +192,9 @@ export function etatAplomb(steps: SimulationStep[], workbook: WorkbookState, jus
     if (a.type === "TYPE" && a.target !== "formula-bar" && a.accept?.length) {
       const formules = a.accept.filter((x) => x.trim().startsWith("="))
       if (formules.length) poser(etat, a.target, { formules })
-      else poser(etat, a.target, { valeur: a.accept[0] })
+      // Une date attendue en saisie reçoit son format de la grille au moment
+      // de la frappe : ce format fait partie de l'aplomb (module 2).
+      else poser(etat, a.target, { valeur: a.accept[0], ...(formatFrancisation(a.accept[0]) ?? {}) })
     }
 
     if (a.type === "EXPECT_STATE" && a.cells) {
@@ -180,7 +203,11 @@ export function etatAplomb(steps: SimulationStep[], workbook: WorkbookState, jus
           (x): x is string => typeof x === "string" && x.trim().startsWith("="),
         )
         if (formules.length) poser(etat, ref, { formules })
-        else if (att.v !== undefined) poser(etat, ref, { valeur: att.v as string | number })
+        else if (att.v !== undefined)
+          poser(etat, ref, {
+            valeur: att.v as string | number,
+            ...(formatFrancisation(att.v) ?? {}),
+          })
         // Une attente vide : l'étape effaçait la cellule, elle doit le rester.
         else poser(etat, ref, { valeur: "" })
       }

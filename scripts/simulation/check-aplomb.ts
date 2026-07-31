@@ -90,7 +90,15 @@ function lectureParfaite(etat: EtatAplomb, dernierChoix: boolean): Record<string
       // motif de francisation. Le prendre pour un format de l'apprenant faisait
       // « réparer » toutes les décimales du corpus.
       const auto = a.famille === "aucun" && typeof v === "number" && Number.isFinite(v) && !Number.isInteger(v)
-      out[ref] = { formule: "", valeur: v, numberFormat: auto ? MOTIF_DECIMAL_AUTO : nf }
+      // Même logique pour une date ou une heure déclarée en chaîne française :
+      // la grille la stocke en numéro de série AVEC son format (dd/mm/yyyy,
+      // hh:mm). Si l'état d'aplomb ne porte pas cette famille, la remise
+      // retire le format et les dates réapparaissent en 46025 — c'est le
+      // défaut attrapé le 31/07/2026 sur tout le module 13. La lecture simulée
+      // doit refléter le moteur pour que ce retrait reste détectable ici.
+      const fr = typeof a.valeur === "string" ? lireDateOuHeureFr(String(a.valeur).trim()) : null
+      const nfReel = fr && a.famille === "aucun" ? fr.format : auto ? MOTIF_DECIMAL_AUTO : nf
+      out[ref] = { formule: "", valeur: v, numberFormat: nfReel }
     } else {
       out[ref] = { formule: "", valeur: "", numberFormat: nf }
     }

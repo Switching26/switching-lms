@@ -94,7 +94,10 @@ function Fleche({ x, y, l = 26, couleur = VERT }: { x: number; y: number; l?: nu
 
 function T({ x, y, children, ancre = "middle" }: { x: number; y: number; children: React.ReactNode; ancre?: "start" | "middle" | "end" }) {
   return (
-    <text x={x} y={y} textAnchor={ancre} fontFamily={SANS} fontSize="8" fontWeight="700" fill={ENCRE}>
+    // La page de garde rend son SVG à l'échelle 1 : une taille de 8 dans le
+    // viewBox fait 8 px à l'écran. Les libellés étaient à la limite du lisible
+    // et leurs sous-titres carrément sous elle (audit visuel du 31/07/2026).
+    <text x={x} y={y} textAnchor={ancre} fontFamily={SANS} fontSize="9.5" fontWeight="700" fill={ENCRE}>
       {children}
     </text>
   )
@@ -102,7 +105,7 @@ function T({ x, y, children, ancre = "middle" }: { x: number; y: number; childre
 
 function S({ x, y, children, ancre = "middle" }: { x: number; y: number; children: React.ReactNode; ancre?: "start" | "middle" | "end" }) {
   return (
-    <text x={x} y={y} textAnchor={ancre} fontFamily={SANS} fontSize="6.8" fill={GRIS}>
+    <text x={x} y={y} textAnchor={ancre} fontFamily={SANS} fontSize="8.2" fill={GRIS}>
       {children}
     </text>
   )

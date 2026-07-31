@@ -26,7 +26,7 @@
  *    la vraie cellule, jamais une copie qui pourrait mentir.
  */
 
-import { useMemo, useRef, useState } from "react"
+import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import type { PageSetupState } from "@/lib/simulation/types"
 import {
   ECHELLE_MAX,
@@ -79,6 +79,17 @@ export default function PageLayoutLayer({
   date,
 }: Props) {
   const [tiroirOuvert, setTiroirOuvert] = useState(false)
+  /** Reste-t-il des réglages sous le bord visible du panneau ? */
+  const [resteEnBas, setResteEnBas] = useState(false)
+  const panneauRef = useRef<HTMLDivElement>(null)
+  const majFondu = useCallback(() => {
+    const el = panneauRef.current
+    if (!el) return
+    // 4 px de marge : un défilement au pixel près ne doit pas laisser le voile
+    // allumé alors qu'on est arrivé au bout.
+    setResteEnBas(el.scrollHeight - el.scrollTop - el.clientHeight > 4)
+  }, [])
+  useEffect(majFondu, [majFondu, pageSetup, pages])
   const [zoneEditee, setZoneEditee] = useState<"header" | "footer" | null>(null)
   const [caseEditee, setCaseEditee] = useState<"gauche" | "centre" | "droite">("centre")
   const vue = pageSetup.view ?? "normal"
@@ -123,11 +134,29 @@ export default function PageLayoutLayer({
       {/* ── Panneau de réglages ───────────────────────────────────────────── */}
       {/* Desktop : carte latérale. Mobile (390 px) : tiroir, sinon le panneau
           mangerait toute la largeur et la grille deviendrait inutilisable. */}
-      <div
-        className="pointer-events-auto absolute right-2 top-2 z-20 hidden w-[240px] overflow-y-auto md:block"
-        style={{ maxHeight: "calc(100% - 1rem)" }}
-      >
-        <PanneauReglages pageSetup={pageSetup} pages={pages} onChange={patch} onEnteteEtPied={() => setZoneEditee("header")} />
+      {/* Le panneau mesure ~1 050 px de contenu pour une zone de feuille qui en
+          fait 460 sur un portable : il défile, mais RIEN ne le disait. La seule
+          indication qu'il restait des réglages plus bas était une section
+          coupée en deux (audit visuel du 31/07/2026). Un voile en bas du cadre
+          annonce la suite, et il s'efface dès qu'on touche le fond. */}
+      <div className="pointer-events-none absolute right-2 top-2 z-20 hidden w-[240px] md:block" style={{ maxHeight: "calc(100% - 1rem)" }}>
+        <div
+          ref={panneauRef}
+          onScroll={majFondu}
+          className="pointer-events-auto overflow-y-auto"
+          style={{ maxHeight: "calc(100vh - 1rem)", maxBlockSize: "inherit" }}
+        >
+          <PanneauReglages pageSetup={pageSetup} pages={pages} onChange={patch} onEnteteEtPied={() => setZoneEditee("header")} />
+        </div>
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 bottom-0 rounded-b-2xl transition-opacity duration-200"
+          style={{
+            height: 34,
+            opacity: resteEnBas ? 1 : 0,
+            background: "linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,.96))",
+          }}
+        />
       </div>
 
       <button

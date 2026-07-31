@@ -443,6 +443,17 @@ export default function SimulationPlayer({
   const [rejeu, setRejeu] = useState(0)
   /** La démonstration est-elle allée à son terme ? Conditionne « Revoir ». */
   const [demoFinie, setDemoFinie] = useState(false)
+  /** La consigne dépasse-t-elle son cadre ? Décide du voile qui annonce la suite. */
+  const [consigneDeborde, setConsigneDeborde] = useState(false)
+  const texteRef = useRef<HTMLDivElement>(null)
+  const majFonduConsigne = useCallback(() => {
+    const el = texteRef.current
+    if (!el) return
+    setConsigneDeborde(el.scrollHeight - el.scrollTop - el.clientHeight > 4)
+  }, [])
+  // Le bloc est remonté à chaque étape (clé `tx${index}`) : il faut remesurer
+  // après le rendu, sinon le voile garde l'état de l'étape précédente.
+  useEffect(majFonduConsigne, [majFonduConsigne, index])
   const [relais, setRelais] = useState(0)
   const [relaisActif, setRelaisActif] = useState(false)
   useEffect(() => {
@@ -3317,13 +3328,33 @@ export default function SimulationPlayer({
                 ✓
               </span>
             )}
+            {/* Enveloppe relative : le voile doit rester FIXE en bas du cadre.
+                Posé dans le bloc défilant, il glisserait avec le texte. */}
+            <div className="relative min-w-0 flex-1">
             <div
               // La clé force le remontage à chaque étape : sans elle, React
               // réutilise le nœud et l'animation d'entrée ne rejoue jamais.
               key={`tx${index}`}
+              ref={texteRef}
+              onScroll={majFonduConsigne}
               className="min-w-0 flex-1"
               style={{
                 animation: relais ? "sim-consigne-in .34s cubic-bezier(.2,.85,.25,1) both" : undefined,
+                /**
+                 * La consigne prenait toute la place dont elle avait besoin, et
+                 * la feuille récupérait le reste. Sur un écran de portable avec
+                 * une consigne de 600 signes, il ne restait que SEPT lignes de
+                 * tableau — l'apprenant ne voit plus ce dont on lui parle
+                 * (audit visuel du 31/07/2026, mesuré à 192 px de feuille sur
+                 * 1280×720).
+                 *
+                 * Elle est donc plafonnée et défile à l'intérieur. Le plafond
+                 * est en `vh` : sur un grand écran il n'entre jamais en jeu,
+                 * sur un petit il rend sa place au tableau. Les boutons sont
+                 * hors de ce bloc et restent atteignables sans défiler.
+                 */
+                maxHeight: "17vh",
+                overflowY: "auto",
               }}
             >
               {/* Nature de l'étape : la question qu'un débutant se pose en premier,
@@ -3473,6 +3504,21 @@ export default function SimulationPlayer({
                   </button>
                 </div>
               )}
+            </div>
+              {/* Le texte est plafonné : sans ce voile, il se coupait au milieu
+                  d'une phrase sans que rien n'annonce la suite. */}
+              <div
+                aria-hidden
+                className="pointer-events-none absolute inset-x-0 bottom-0 transition-opacity duration-200"
+                style={{
+                  // Blanc sur blanc, un dégradé de 26 px ne se voyait pas. Il
+                  // monte plus haut et finit opaque : la dernière ligne
+                  // s'efface franchement, ce qui se lit comme « ça continue ».
+                  height: 40,
+                  opacity: consigneDeborde ? 1 : 0,
+                  background: "linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,.75) 45%, #fff 100%)",
+                }}
+              />
             </div>
             <div className="flex flex-shrink-0 items-center gap-2">
               {/* Retour en arrière. Il ne portait qu'un chevron « ‹ » gris pâle,

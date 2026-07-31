@@ -54,6 +54,7 @@ import PageLayoutLayer from "./PageLayoutLayer"
 import MacroPanel from "./MacroPanel"
 import { dureeLisible, estimatedSimulationMinutes } from "@/lib/simulation/duree"
 import type {
+  CellState,
   ChartState,
   ChartType,
   GestePoste,
@@ -660,6 +661,49 @@ export default function SimulationPlayer({
 
   /* ── Mise en place de l'étape ──────────────────────────────────────────── */
 
+  /**
+   * Pose les modèles déclarés par une étape : graphique, tableau croisé, mise
+   * en page, macro.
+   *
+   * `passe` distingue les deux usages. Sur l'étape COURANTE, un modèle que
+   * l'étape va justement juger ne doit pas être posé — elle serait répondue
+   * avant que l'apprenant ne fasse quoi que ce soit. Sur une étape DÉJÀ FAITE
+   * qu'on rejoue, c'est l'inverse : son résultat fait partie du décor, il faut
+   * le poser.
+   */
+  const appliquerModeles = useCallback(
+    (s: SimulationStep, passe: boolean) => {
+      const juge = passe ? "" : s.action.type
+      if (s.setup?.chart && juge !== "EXPECT_CHART" && juge !== "CLICK_CONTROL") {
+        poserGraphique(creerGraphique(s.setup.chart))
+      }
+      if (s.setup?.chartEdit && graphiqueRef.current && juge !== "EXPECT_CHART" && juge !== "CLICK_CONTROL") {
+        poserGraphique(modifierGraphique(graphiqueRef.current, s.setup.chartEdit))
+      }
+      if (s.setup?.pivot && juge !== "EXPECT_PIVOT") {
+        poserTcdDansFeuille(creerTcd(s.setup.pivot, lireCellule))
+      }
+      if (s.setup?.pivotEdit && tcdRef.current && juge !== "EXPECT_PIVOT") {
+        poserTcdDansFeuille(modifierTcd(tcdRef.current, s.setup.pivotEdit, lireCellule))
+      }
+      if (s.setup?.pageSetup && juge !== "EXPECT_PAGE_SETUP") {
+        poserReglages(appliquerReglages(reglagesRef.current, s.setup.pageSetup))
+      }
+      if (s.setup?.macro && juge !== "EXPECT_MACRO") {
+        const m = s.setup.macro
+        const suite = macrosRef.current.some((x) => x.name === m.name)
+          ? macrosRef.current.map((x) => (x.name === m.name ? { ...x, ...m, statements: m.statements ?? x.statements } : x))
+          : [...macrosRef.current, { statements: [], ...m }]
+        macrosRef.current = suite
+        setMacros(suite)
+        macroCouranteRef.current = m.name
+        setMacroCourante(m.name)
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [],
+  )
+
   const applyStep = useCallback(
     (s: SimulationStep | undefined) => {
       const grid = gridRef.current
@@ -687,32 +731,7 @@ export default function SimulationPlayer({
        * Le cas inverse — un `setup` de modèle sur une étape qui juge autre
        * chose — sert à planter le décor, et là on applique tout de suite.
        */
-      const juge = s.action.type
-      if (s.setup?.chart && juge !== "EXPECT_CHART" && juge !== "CLICK_CONTROL") {
-        poserGraphique(creerGraphique(s.setup.chart))
-      }
-      if (s.setup?.chartEdit && graphiqueRef.current && juge !== "EXPECT_CHART" && juge !== "CLICK_CONTROL") {
-        poserGraphique(modifierGraphique(graphiqueRef.current, s.setup.chartEdit))
-      }
-      if (s.setup?.pivot && juge !== "EXPECT_PIVOT") {
-        poserTcdDansFeuille(creerTcd(s.setup.pivot, lireCellule))
-      }
-      if (s.setup?.pivotEdit && tcdRef.current && juge !== "EXPECT_PIVOT") {
-        poserTcdDansFeuille(modifierTcd(tcdRef.current, s.setup.pivotEdit, lireCellule))
-      }
-      if (s.setup?.pageSetup && juge !== "EXPECT_PAGE_SETUP") {
-        poserReglages(appliquerReglages(reglagesRef.current, s.setup.pageSetup))
-      }
-      if (s.setup?.macro && juge !== "EXPECT_MACRO") {
-        const m = s.setup.macro
-        const suite = macrosRef.current.some((x) => x.name === m.name)
-          ? macrosRef.current.map((x) => (x.name === m.name ? { ...x, ...m, statements: m.statements ?? x.statements } : x))
-          : [...macrosRef.current, { statements: [], ...m }]
-        macrosRef.current = suite
-        setMacros(suite)
-        macroCouranteRef.current = m.name
-        setMacroCourante(m.name)
-      }
+      appliquerModeles(s, false)
       resoluRef.current = false
       // Verrou d'édition, calibré selon ce que l'étape demande :
       //  - saisie ciblée : seule la cellule attendue est modifiable, ce qui évite
@@ -764,7 +783,66 @@ export default function SimulationPlayer({
       setNameBoxDraft(null)
       setSheets(grid.getSheets())
     },
-    [mode, lireCellule, poserGraphique, poserReglages, poserTcdDansFeuille],
+    [mode, lireCellule, poserGraphique, poserReglages, poserTcdDansFeuille, appliquerModeles],
+  )
+
+  /**
+   * REPRISE D'UN CHAPITRE EN COURS : reconstituer le travail déjà fait.
+   *
+   * Le player rouvre à `attempt.currentStep`, mais `applyStep` ne pose que le
+   * `setup` de CETTE étape-là. Tout ce que l'apprenant avait saisi aux étapes
+   * précédentes n'existe dans aucun `setup` : il retombait sur le classeur
+   * initial. L'exercice « Créer un classeur de zéro » repris à l'étape 4
+   * demandait ainsi le total des inscriptions sur une feuille VIDE — étape
+   * impossible, et aucune valeur ne pouvait la valider. Mesuré sur le corpus :
+   * 136 chapitres sur 246 ont au moins une étape dans ce cas.
+   *
+   * On rejoue donc le RÉSULTAT déclaré des étapes déjà franchies. C'est une
+   * reconstitution, pas la copie exacte du classeur de l'apprenant : quand une
+   * étape laisse le chemin libre sans déclarer de valeur, la cellule reste
+   * vide. Elle suffit à rendre l'étape courante jouable et cohérente.
+   *
+   * Le rejeu doit être INVISIBLE : aucune animation, aucune démonstration,
+   * aucune validation. Les écritures passent par `applyCells`, qui ne fait
+   * qu'écrire ; le verrou d'observation couvre le `stateChange` que la grille
+   * émet 350 ms plus tard, sinon l'étape courante se croirait franchie.
+   */
+  const rejouerAvant = useCallback(
+    (jusqua: number) => {
+      const grid = gridRef.current
+      if (!grid || jusqua <= 0) return
+      // Large : le débounce de la grille est à 350 ms, et les modèles posés
+      // ci-dessous écrivent eux aussi dans la feuille.
+      verrouDemoRef.current = Math.max(verrouDemoRef.current, Date.now() + 2000)
+      for (let k = 0; k < jusqua && k < steps.length; k++) {
+        const s = steps[k]
+        if (!s) continue
+        if (s.setup?.cells) grid.applyCells(s.setup.cells)
+        const a = s.action
+        const ecrites: Record<string, CellState> = {}
+        if (a.type === "TYPE" && a.target !== "formula-bar" && a.accept?.length) {
+          // La première écriture acceptée est la réponse de référence : c'est
+          // celle que la démonstration montre déjà quand l'apprenant bloque.
+          const rep = a.accept[0]
+          ecrites[a.target] = rep.trim().startsWith("=") ? { f: rep } : { v: rep }
+        }
+        if (a.type === "EXPECT_STATE") {
+          for (const [ref, att] of Object.entries(a.cells)) {
+            const formule = att.f ?? att.anyOf?.[0]
+            if (formule && formule.trim().startsWith("=")) ecrites[ref] = { f: formule }
+            else if (formule !== undefined) ecrites[ref] = { v: formule }
+            else if (att.v !== undefined) ecrites[ref] = { v: att.v }
+            // Attente vide = l'étape effaçait la cellule : on l'efface aussi.
+            else ecrites[ref] = { v: "" }
+          }
+        }
+        if (Object.keys(ecrites).length) grid.applyCells(ecrites)
+        if (a.type === "DEFINE_NAME" && a.ref) grid.defineName(a.name, a.ref)
+        // Une étape déjà faite a produit son modèle : on le pose.
+        appliquerModeles(s, true)
+      }
+    },
+    [steps, appliquerModeles],
   )
 
   const handleReady = useCallback(
@@ -784,6 +862,9 @@ export default function SimulationPlayer({
         setCodeMacro(codeMacroRef.current)
       }
       setGridReady(true)
+      // D'abord le travail des étapes déjà franchies, ensuite la mise en place
+      // de l'étape courante — dont le `setup` doit primer sur la reconstitution.
+      rejouerAvant(index)
       applyStep(steps[index])
     },
     // Volontairement figé sur le montage : la grille se monte une seule fois.
@@ -3008,7 +3089,12 @@ export default function SimulationPlayer({
                   valeursFiltre={valeursFiltre}
                   onSetFilterValues={changerValeursFiltre}
                   zoneParDefaut={zoneParDefautTcd}
-                  className="absolute inset-0 z-10 bg-white/95"
+                  /* Fond OPAQUE. À 95 %, les 5 % restants laissaient passer la
+                     feuille source ET les cellules du tableau croisé écrites
+                     dedans : trois lectures du même contenu se superposaient,
+                     en-têtes de colonnes compris. Un tableau croisé, dans Excel,
+                     ne se lit jamais par-dessus ses données. */
+                  className="absolute inset-0 z-10 bg-white"
                 />
               )}
               {besoins.graphique && (
@@ -3172,6 +3258,16 @@ export default function SimulationPlayer({
                 onPresser={presserDemo}
                 lecture={step?.action.type === "READ"}
                 largeur={zoneAtelierRef.current?.clientWidth ?? 640}
+                /* Première ligne de la feuille dans le repère du calque : le
+                   bord haut de la grille, plus les en-têtes de colonnes. La
+                   bulle ne remonte jamais au-dessus de cette limite. */
+                hautFeuille={
+                  zoneGrilleRef.current && zoneAtelierRef.current
+                    ? zoneGrilleRef.current.getBoundingClientRect().top -
+                      zoneAtelierRef.current.getBoundingClientRect().top +
+                      20
+                    : 0
+                }
               />
             )}
           </div>

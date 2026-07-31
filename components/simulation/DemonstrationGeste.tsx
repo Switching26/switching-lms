@@ -42,6 +42,18 @@ type Props = {
   resoudre: (cible: CibleDemo) => Rect | null
   /** Largeur du calque, pour garder bulles et étiquettes dans le champ. */
   largeur: number
+  /**
+   * Bord haut de la ZONE DE TRAVAIL dans le repère du calque : la première
+   * ligne de la feuille, sous les en-têtes de colonnes.
+   *
+   * Le calque couvre tout l'atelier, bureau compris — il commence donc au-dessus
+   * du ruban et de la barre de formule. Une bulle accrochée « au-dessus de sa
+   * cible » sans cette borne se posait sur le chrome d'Excel : mesuré sur 186
+   * chapitres, 42 % des bulles tombaient hors de la feuille, dont 30 % sur la
+   * barre de formule et le ruban. On explique un geste en masquant les repères
+   * qui servent à le faire.
+   */
+  hautFeuille?: number
   /** Écrit réellement dans la grille, validation neutralisée. */
   onEcrire?: (ref: string, valeur: string) => void
   /**
@@ -81,7 +93,7 @@ const DECOMPTE = 4
 /** Périmètre du cadran, pour animer sa décharge sans le recalculer. */
 const TOUR = 2 * Math.PI * 23
 
-export default function DemonstrationGeste({ plan, resoudre, largeur, onEcrire, onOnglet, onDefinir, onSelectionner, onPresser, lecture, onFini }: Props) {
+export default function DemonstrationGeste({ plan, resoudre, largeur, hautFeuille = 0, onEcrire, onOnglet, onDefinir, onSelectionner, onPresser, lecture, onFini }: Props) {
   const [i, setI] = useState(0)
   const [phase, setPhase] = useState<Phase>("avertir")
   const [tapes, setTapes] = useState(0)
@@ -240,6 +252,35 @@ export default function DemonstrationGeste({ plan, resoudre, largeur, onEcrire, 
   const rect = avertit ? null : resoudre(geste.cible)
   const rectFin = geste.glisserVers ? resoudre(geste.glisserVers) : null
   const agit = phase === "clic" || phase === "glisse" || phase === "frappe" || phase === "valide" || phase === "fini"
+
+  /**
+   * La bulle se pose-t-elle AU-DESSUS de sa cible, ou en dessous ?
+   *
+   * On ne mesure pas sa hauteur avant de la poser : on la majore. Une bulle
+   * d'illustration porte une phrase sur deux ou trois lignes, une bulle de
+   * geste tient sur une seule. Si la place manque au-dessus — c'est-à-dire si
+   * elle mordrait sur le ruban, la barre de formule ou les en-têtes de
+   * colonnes — elle bascule en dessous, où la feuille lui appartient.
+   */
+  /* Majoration de la hauteur de la bulle, mesurée puis arrondie au-dessus :
+     une illustration atteint 4 lignes à 312 px de large (≈ 88 px), un geste
+     tient sur une ligne. Sous-estimer la remet sur la barre de formule. */
+  const hauteurMajoree = geste.illustration ? 96 : 40
+  /**
+   * Trois places, dans cet ordre de préférence :
+   *
+   *  · À DROITE de la cible quand la feuille laisse la largeur. C'est la
+   *    meilleure : la bulle ne masque ni les repères d'Excel, ni la zone dont
+   *    elle parle. C'est déjà la règle de la bulle d'aide.
+   *  · EN DESSOUS sinon.
+   *  · AU-DESSUS en dernier, et seulement s'il reste la place SOUS le ruban :
+   *    au-dessus sans cette borne, la bulle se posait sur la barre de formule.
+   */
+  const largeurBulle = geste.illustration ? 312 : 205
+  const aDroite = !!rect && largeur - (rect.left + rect.width) >= largeurBulle + 20
+  /* `hautFeuille` à 0 = borne inconnue (repère pas encore mesuré) : on descend
+     la bulle, seule position sûre — au-dessus, elle irait sur le ruban. */
+  const dessus = !aDroite && !!rect && hautFeuille > 0 && rect.top - 10 - hauteurMajoree >= hautFeuille
 
   const pointe =
     phase === "glisse" && rectFin
@@ -463,9 +504,11 @@ export default function DemonstrationGeste({ plan, resoudre, largeur, onEcrire, 
                 // Une illustration porte une PHRASE : elle se lit en entier, sur
                 // plusieurs lignes s'il le faut. Une bulle de geste reste courte
                 // et tient sur une ligne pour ne pas masquer la feuille.
-                left: geste.illustration
-                  ? Math.min(Math.max(4, rect.left + rect.width / 2 - 150), Math.max(4, largeur - 316))
-                  : Math.min(Math.max(4, rect.left + rect.width / 2 - 70), Math.max(4, largeur - 210)),
+                left: aDroite
+                  ? rect.left + rect.width + 12
+                  : geste.illustration
+                    ? Math.min(Math.max(4, rect.left + rect.width / 2 - 150), Math.max(4, largeur - 316))
+                    : Math.min(Math.max(4, rect.left + rect.width / 2 - 70), Math.max(4, largeur - 210)),
                 /**
                  * Posée au-dessus, la bulle était décalée de 50 px FIXES. Une
                  * bulle d'illustration s'écrit sur deux ou trois lignes : elle
@@ -478,14 +521,16 @@ export default function DemonstrationGeste({ plan, resoudre, largeur, onEcrire, 
                  * porté par l'animation d'entrée, sinon son `transform` final
                  * annulerait celui posé ici.
                  */
-                top: rect.top > 62 ? rect.top - 10 : rect.top + rect.height + 10,
+                /* À droite, la bulle s'aligne sur le haut de la cible : elle
+                   reste dans la feuille et laisse la ligne visible. */
+                top: aDroite ? rect.top : dessus ? rect.top - 10 : rect.top + rect.height + 10,
                 background: ENCRE,
                 maxWidth: geste.illustration ? 312 : 205,
                 ...(geste.illustration
                   ? {}
                   : { whiteSpace: "nowrap" as const, overflow: "hidden", textOverflow: "ellipsis" }),
                 boxShadow: "0 6px 16px -6px rgba(0,0,0,.5)",
-                animation: `${rect.top > 62 ? "sim-demo-entree-haut" : "sim-demo-entree"} .28s ease both`,
+                animation: `${dessus && !aDroite ? "sim-demo-entree-haut" : "sim-demo-entree"} .28s ease both`,
               }}
             >
               {geste.bulle}

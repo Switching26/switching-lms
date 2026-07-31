@@ -476,8 +476,13 @@ export default function SimulationChrome({
         ].join(" ")}
       >
         {pict}
+        {/* Sous une icône, l'étiquette se REPLIE sur deux lignes comme dans
+            Excel, au lieu d'être coupée. `truncate` rognait « Effacer règles »
+            en « Effacer règl… » sur 197 des 241 chapitres mesurés : le seul
+            libellé du ruban trop long pour 62 px. L'élargir en bouton large
+            repoussait le groupe Cellules hors du cadre. */}
         {!sansTexte && (
-          <span className={pict && !wide ? "max-w-[62px] truncate" : "whitespace-nowrap"}>{label}</span>
+          <span className={pict && !wide ? "max-w-[74px] text-center leading-[1.15]" : "whitespace-nowrap"}>{label}</span>
         )}
       </button>
     )

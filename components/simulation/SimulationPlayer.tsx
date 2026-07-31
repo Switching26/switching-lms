@@ -31,6 +31,15 @@ import {
   resumerAttendu,
   resumerFait,
 } from "@/lib/simulation/attendu"
+import {
+  cellulesLues,
+  divergences,
+  etatAplomb,
+  phraseAplomb,
+  refsConnues,
+  type Divergence,
+  type LectureCellule,
+} from "@/lib/simulation/aplomb"
 import DesktopLayer from "./DesktopLayer"
 import AfficheModule, { numeroModule } from "./AfficheModule"
 import DemonstrationGeste, { type Rect } from "./DemonstrationGeste"
@@ -422,6 +431,13 @@ export default function SimulationPlayer({
    */
   const [essais, setEssais] = useState(0)
   const [demonstration, setDemonstration] = useState(false)
+  /**
+   * Phrase du bandeau quand des cellules ont été remises d'aplomb. Volontairement
+   * factuelle et sans reproche : l'apprenant n'a rien fait de mal, il a exploré.
+   * Mais elle ne peut pas être tue — une remise en ordre invisible se vit comme
+   * « mon travail a disparu » (arbitrage Samuel du 31/07/2026).
+   */
+  const [aplomb, setAplomb] = useState<string | null>(null)
   /**
    * Gestes faits sans succès sur une étape jugée sur l'ÉTAT du classeur.
    *
@@ -894,6 +910,138 @@ export default function SimulationPlayer({
     [steps, appliquerModeles],
   )
 
+  /**
+   * REMETTRE LA FEUILLE D'APLOMB.
+   *
+   * Le classeur d'un chapitre se construit d'étape en étape, et rien
+   * n'empêchait un apprenant de vider une cellule produite plus tôt, d'y écrire
+   * n'importe quoi ou d'y poser un format absurde. Tout ce qui suivait se
+   * déroulait alors sur un classeur faux, SANS UN MESSAGE : la facture du
+   * module 9 totalisait 495 au lieu de 3 165, et la leçon enchaînait remise,
+   * TVA et net à payer sur ce faux total.
+   *
+   * On ne remet donc en place que ce qui a réellement divergé de l'état
+   * d'aplomb (`lib/simulation/aplomb.ts`), jamais tout le classeur : une remise
+   * à zéro brutale effacerait le travail légitime des étapes précédentes, et
+   * réécrirait `=SOMME(B4:B7)` par-dessus le `=B4+B5+B6+B7` de l'apprenant.
+   *
+   * DEUX PORTÉES POUR LE CONTENU, et c'est volontaire :
+   *
+   *  · `"dependances"` au changement d'étape — seules les cellules dont la
+   *    nouvelle étape a besoin. Le reste ne gêne personne, et l'effacer
+   *    reviendrait à supprimer l'exploration de l'apprenant.
+   *
+   *  · `"tout"` avant une démonstration — l'apprenant regarde l'écran ENTIER.
+   *    Un total faux trois lignes plus haut rend la démonstration illisible
+   *    même si l'étape courante ne le lit pas. C'est le défaut que Samuel a
+   *    trouvé le 31/07 : « Montrez-moi » annonçait « voici la réponse » puis
+   *    affichait 495, parce que la démonstration jouait sur le classeur abîmé.
+   *
+   * LE FORMAT DE NOMBRE, LUI, SE TRAITE TOUJOURS EN PORTÉE LARGE. Un pourcentage
+   * posé sur un total de durées affiche « 131,25% » : ce nombre MENT, à l'écran,
+   * en permanence, que l'étape suivante le lise ou non — et c'est exactement le
+   * « 11400,00% » que Samuel a filmé. Le retirer ne détruit jamais rien : sur
+   * 17 525 cellules déclarées dans les 246 scénarios, 22 seulement portent un
+   * format de nombre, et un format que l'apprenant DOIT poser est déclaré par
+   * l'étape `EXPECT_FORMAT` qui le lui demande — il devient donc d'aplomb dès
+   * qu'elle est franchie. Les autres attributs (gras, couleur, bordures) ne
+   * sont jamais touchés : ils ne font mentir aucun chiffre.
+   *
+   * Le verrou d'observation est indispensable : `applyCells` fait émettre à la
+   * grille un `stateChange` 350 ms plus tard, qui ferait croire l'étape
+   * courante franchie et sauterait à la suivante.
+   */
+  /**
+   * Ce qu'on dit à l'apprenant. En ÉVALUATION on ne nomme pas les cellules :
+   * « j'ai remis D5 en ordre » désignerait la cellule qui compte, donc une
+   * partie de la réponse. On répare quand même — noter quelqu'un sur un
+   * classeur cassé serait pire — mais sans détailler.
+   */
+  const direAplomb = useCallback(
+    (ds: Divergence[]): string | null => {
+      if (!ds.length) return null
+      if (mode === "EVALUATION") return "J'ai remis la feuille en ordre pour que la suite reste juste."
+      return phraseAplomb(ds)
+    },
+    [mode],
+  )
+
+  const remettreDAplomb = useCallback(
+    (portee: "dependances" | "tout", pourEtape: number): Divergence[] => {
+      const grid = gridRef.current
+      const s = steps[pourEtape]
+      if (!grid || !s) return []
+      const etat = etatAplomb(steps, scenario.workbook, pourEtape)
+      // On lit TOUJOURS large : c'est la seule façon de voir un format
+      // trompeur posé loin de l'étape courante. Le tri se fait ensuite.
+      const refs = refsConnues(etat)
+      const lues = portee === "tout" ? null : cellulesLues(s)
+      if (!refs.length) return []
+
+      const lecture: Record<string, LectureCellule> = {}
+      for (const ref of refs) {
+        try {
+          lecture[ref.toUpperCase()] = {
+            formule: grid.getFormula(ref) ?? "",
+            valeur: grid.getValue(ref),
+            numberFormat: grid.getNumberFormat(ref) ?? "",
+          }
+        } catch {
+          /* une référence hors bornes après un tri : on la laisse de côté */
+        }
+      }
+
+      const toutes = divergences(etat, lecture, refs)
+      // Le contenu ne se répare que dans la portée demandée ; le format, lui,
+      // se répare partout (voir la note ci-dessus).
+      const ds =
+        lues === null
+          ? toutes
+          : toutes
+              .map((d) => {
+                if (d.motif === "format" || lues.some((r) => r.toUpperCase() === d.ref)) return d
+                // Hors portée mais mal formatée : on ne remet pas son contenu,
+                // on retire quand même le format qui la fait mentir.
+                return d.famille !== undefined ? { ref: d.ref, motif: "format" as const, famille: d.famille, motifFormat: d.motifFormat } : null
+              })
+              .filter((d): d is NonNullable<typeof d> => d !== null)
+      // Trace d'audit, hors production : sans elle, un mécanisme qui ne trouve
+      // rien est indiscernable d'un mécanisme qui n'est jamais appelé.
+      if (process.env.NODE_ENV !== "production" && typeof window !== "undefined") {
+        ;(window as unknown as Record<string, unknown>).__SIM_APLOMB = { portee, pourEtape, refs, divergences: ds }
+      }
+      if (!ds.length) return []
+
+      verrouillerDemo(2200)
+      const cells: Record<string, { v?: string | number; f?: string }> = {}
+      for (const d of ds) if (d.correction) cells[d.ref] = d.correction
+      if (Object.keys(cells).length) grid.applyCells(cells)
+
+      // Le format se repose APRÈS le recalcul, jamais dans la même salve que
+      // l'écriture : `setNumberFormat` posé sur une cellule dont la formule
+      // vient d'être écrite annule cette formule, et la cellule qu'on venait de
+      // réparer redevient vide. C'est le piège qui a fait croire pendant tout
+      // un cycle que le mécanisme ne s'exécutait pas.
+      const aFormater = ds.filter((d) => d.famille !== undefined)
+      if (aFormater.length) {
+        window.setTimeout(() => {
+          const g = gridRef.current
+          if (!g) return
+          for (const d of aFormater) {
+            try {
+              g.setNumberFormat([d.ref], d.motifFormat ?? "")
+            } catch {
+              /* le moteur peut refuser un motif : ne jamais casser la leçon pour ça */
+            }
+          }
+        }, 300)
+      }
+      return ds
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [steps, verrouillerDemo],
+  )
+
   const handleReady = useCallback(
     (api: GridApi) => {
       gridRef.current = api
@@ -944,9 +1092,39 @@ export default function SimulationPlayer({
     setDemoFinie(false)
     setTatonnements(0)
     setTropLong(false)
-    if (gridReady) applyStep(step)
+    setAplomb(null)
+    if (!gridReady) return
+    applyStep(step)
+    // La remise d'aplomb est DIFFÉRÉE : `applyStep` vient d'écrire le décor de
+    // l'étape, et le moteur de formules met 60 à 120 ms à recalculer. Relire
+    // tout de suite renverrait des valeurs périmées et signalerait des
+    // divergences imaginaires sur un classeur parfaitement sain.
+    const tAplomb = window.setTimeout(() => {
+      setAplomb(direAplomb(remettreDAplomb("dependances", index)))
+    }, 420)
+    return () => window.clearTimeout(tAplomb)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [index, gridReady])
+
+  /**
+   * Avant toute démonstration, la feuille repart d'aplomb — portée large.
+   *
+   * Sans cela « Montrez-moi » jouait sur le classeur que l'apprenant venait
+   * d'abîmer : la démonstration cliquait la bonne cellule, saisissait la bonne
+   * formule, annonçait « voici la réponse »… et affichait un résultat faux.
+   * L'apprenant qui demandait de l'aide était le seul à ne pas pouvoir s'en
+   * rendre compte.
+   *
+   * La feuille RESTE d'aplomb ensuite (choix Samuel du 31/07/2026) : il doit
+   * pouvoir refaire lui-même, tout de suite, le geste qu'on vient de lui
+   * montrer — sur une feuille où il fonctionne.
+   */
+  useEffect(() => {
+    if (!demonstration || !gridReady || finished) return
+    const p = direAplomb(remettreDAplomb("tout", index))
+    if (p) setAplomb(p)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [demonstration, gridReady])
 
   useEffect(() => {
     if (!step || finished || mode === "EVALUATION") return
@@ -3654,6 +3832,14 @@ export default function SimulationPlayer({
                 <p className="mt-1.5 flex items-center gap-1.5 text-[12.5px] text-warm-500">
                   <span aria-hidden>◎</span>
                   Attendu : <b className="font-semibold text-ink">{attendu}</b>
+                </p>
+              )}
+              {/* Remise d'aplomb : on le DIT. Le ton reste neutre et le score
+                  n'est pas touché — explorer n'est pas une faute. */}
+              {aplomb && (
+                <p className="mt-1.5 flex items-start gap-1.5 text-[12.5px] text-warm-500">
+                  <span aria-hidden>↺</span>
+                  <span>{aplomb}</span>
                 </p>
               )}
               {evaluationNotee && nature !== "lecture" && (

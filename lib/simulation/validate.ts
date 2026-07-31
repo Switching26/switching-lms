@@ -40,6 +40,15 @@ const ERROR_VALUES = new Set([
   "#NUM!", "#NOMBRE!", "#N/A", "#NULL!", "#NUL!", "#SPILL!", "#CALC!",
 ])
 
+/**
+ * Une cellule affiche-t-elle une valeur d'erreur ? Exporté pour la remise
+ * d'aplomb (`aplomb.ts`), qui a le même besoin : une cellule en erreur n'est
+ * jamais un état légitime, quelle que soit la façon dont on y est arrivé.
+ */
+export function EST_VALEUR_ERREUR(v: unknown): boolean {
+  return v !== null && v !== undefined && ERROR_VALUES.has(String(v))
+}
+
 export type ObservedAction =
   | { kind: "next" }
   /** `computed` = valeur réellement affichée par la cellule après calcul. */
@@ -131,7 +140,7 @@ const OK: Verdict = { ok: true }
  * exact : « #,##0.00" €" » et « #,##0" €" » sont deux façons légitimes de
  * demander un affichage monétaire, et refuser la seconde serait absurde.
  */
-function familleDeFormat(motif: string): "monetaire" | "pourcentage" | "date" | "nombre" | "aucun" {
+export function familleDeFormat(motif: string): "monetaire" | "pourcentage" | "date" | "nombre" | "aucun" {
   const m = (motif ?? "").trim()
   if (!m) return "aucun"
   if (/[%]/.test(m)) return "pourcentage"

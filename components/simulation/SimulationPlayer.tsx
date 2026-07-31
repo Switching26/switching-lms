@@ -3288,6 +3288,11 @@ export default function SimulationPlayer({
               phrase que l'apprenant relit à chaque geste, elle ne peut pas être
               plus petite que le contenu de la feuille. */}
           <div
+            // Repère de mesure : ce bandeau est en `overflow:hidden`, donc ce
+            // qui dépasse est INATTEIGNABLE — ni défilement, ni clic. Un
+            // contrôle automatique doit pouvoir le retrouver même quand aucun
+            // bouton de progression n'est rendu.
+            data-bandeau-consigne=""
             className="relative flex flex-shrink-0 flex-wrap items-center gap-x-4 gap-y-2 overflow-hidden border-t border-border px-4 py-3"
             style={{
               borderLeft: `4px solid ${
@@ -3430,6 +3435,12 @@ export default function SimulationPlayer({
                   {verdict.message}
                 </p>
               )}
+            </div>
+              {/* HORS du bloc plafonné : « Montrez-moi » est ce qu'on cherche
+                  quand on est bloqué. Enfermé dans la zone qui défile, il
+                  passait sous le pli — mesuré à 646 px pour un écran de 639
+                  (retour Samuel du 31/07/2026). Un bouton d'action ne se cache
+                  pas derrière un défilement. */}
               {/* Aide progressive : l'apprenant coincé n'est jamais laissé sans issue. */}
               {step && step.action.type !== "READ" && (essais >= 3 || tatonnements >= 6 || tropLong) && !demonstration && (
                 <div
@@ -3504,7 +3515,6 @@ export default function SimulationPlayer({
                   </button>
                 </div>
               )}
-            </div>
               {/* Le texte est plafonné : sans ce voile, il se coupait au milieu
                   d'une phrase sans que rien n'annonce la suite. */}
               <div

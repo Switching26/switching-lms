@@ -23,6 +23,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import dynamic from "next/dynamic"
 import type { GridApi } from "./ExcelGrid"
 import SimulationChrome, { SimulationFooter } from "./SimulationChrome"
+import { BoiteFonction, BoiteFormatCellule } from "./BoiteExcel"
 import {
   cibleDemonstration,
   natureEtape,
@@ -527,6 +528,32 @@ export default function SimulationPlayer({
   const [nameBoxDraft, setNameBoxDraft] = useState<string | null>(null)
   const [sheets, setSheets] = useState<Array<{ name: string; active: boolean }>>([])
 
+  /* ── Menu Format, boîtes de dialogue et presse-papiers ──────────────────────
+     Trois surfaces ajoutées le 31/07/2026, après que Samuel a filmé la flèche ▾
+     du groupe Cellules : la démonstration promettait qu'elle ouvre la boîte de
+     dialogue, il a cliqué, rien ne s'est ouvert. L'audit a montré que huit
+     boutons du ruban n'avaient AUCUN traitement — dont `bf-fx`, que la leçon
+     M01-L02-04 fait cliquer en annonçant une fenêtre, et `acc-copier`, que cinq
+     consignes accompagnent d'un « liseré animé entoure la sélection ». */
+  const [menuFormat, setMenuFormat] = useState(false)
+  const [boite, setBoite] = useState<"fonction" | "format-cellule" | null>(null)
+  // `handleAction` est mémoïsé : il lirait sinon un `boite` figé au montage.
+  const boiteRef = useRef<"fonction" | "format-cellule" | null>(null)
+  boiteRef.current = boite
+  /** Ce qu'il reste à faire quand l'apprenant referme la boîte. */
+  const apresBoiteRef = useRef<(() => void) | null>(null)
+  const fermerBoite = useCallback(() => {
+    boiteRef.current = null
+    setBoite(null)
+    const suite = apresBoiteRef.current
+    apresBoiteRef.current = null
+    if (suite) window.setTimeout(suite, 260)
+  }, [])
+  /** Plage mise au presse-papiers : c'est elle que le liseré animé entoure. */
+  const [presseP, setPresseP] = useState<string | null>(null)
+  /** Plage devinée par la somme automatique, entourée le temps qu'on la lise. */
+  const [plageSomme, setPlageSomme] = useState<string | null>(null)
+
   /* ── Modèles des modules 13, 17, 18, 20 et 27 ──────────────────────────── */
 
   const besoins = useMemo(() => besoinsDe(scenario), [scenario])
@@ -722,6 +749,17 @@ export default function SimulationPlayer({
       // Une étape qui exige un onglet précis le reprend ; sinon on laisse
       // l'apprenant sur celui qu'il consultait.
       if (s.setup?.ribbon?.activeTab) setOnglet(s.setup.ribbon.activeTab)
+      // Un menu resté déplié ou une boîte restée ouverte d'une étape à l'autre
+      // masqueraient la feuille de l'étape suivante. Le presse-papiers, lui, se
+      // vide comme dans Excel quand on change de contexte.
+      setMenuFormat(false)
+      setBoite(null)
+      boiteRef.current = null
+      apresBoiteRef.current = null
+      // `presseP` n'est PAS vidé ici : dans Excel le liseré du presse-papiers
+      // survit au geste suivant et ne s'éteint qu'au collage. C'est justement
+      // ce que M04-L06 enseigne — copier à une étape, coller à la suivante.
+      setPlageSomme(null)
       if (s.setup?.cells) grid.applyCells(s.setup.cells)
       if (s.setup?.selection) {
         grid.setSelection(s.setup.selection)
@@ -1180,6 +1218,20 @@ export default function SimulationPlayer({
         // bandeau vert et son flash s'affichaient quand même, et félicitaient un
         // geste qui n'existe pas (retour Samuel du 30/07/2026).
         if (step.action.type !== "READ") lancerFx(step, "ok")
+        /**
+         * Une boîte de dialogue RETIENT l'étape, comme dans Excel.
+         *
+         * Sans cette règle, `M01-L02-04` — « Cliquez sur fx. Une fenêtre
+         * d'assistant s'ouvre, avec la liste des fonctions » — validait sur le
+         * clic, avançait 550 ms plus tard et l'étape suivante refermait la
+         * fenêtre : l'apprenant l'apercevait à peine. C'est lui qui décide
+         * maintenant quand elle se referme, par OK ou Annuler ; l'étape
+         * enchaîne à ce moment-là.
+         */
+        if (boiteRef.current) {
+          apresBoiteRef.current = goNext
+          return
+        }
         // Petite pause pour que l'apprenant voie le résultat de son action avant
         // que l'écran ne change.
         window.setTimeout(goNext, 550)
@@ -1660,6 +1712,42 @@ export default function SimulationPlayer({
       // Graphiques, tableaux croisés, mise en page et macros ont leurs propres
       // effets et leur propre observation : ils sortent d'ici.
       if (effetModele(controlId)) return
+
+      /**
+       * Le bouton Format déplie un menu — et n'émet RIEN, exactement comme un
+       * onglet du ruban.
+       *
+       * C'est la seule façon de rendre vraies les quatre consignes du module 4
+       * (« Ouvrez **Format** dans le groupe Cellules et choisissez **Largeur de
+       * colonne** ») sans pénaliser l'apprenant : une observation `control`
+       * ici arriverait AVANT celle de l'entrée du menu et compterait une faute
+       * à qui suit la consigne à la lettre.
+       */
+      if (controlId === "acc-format") {
+        setMenuFormat((v) => !v)
+        return
+      }
+      // Tout autre clic referme le menu, comme dans Excel : une entrée choisie
+      // ou un geste ailleurs, et le menu disparaît.
+      setMenuFormat(false)
+      if (controlId === "acc-format-fleche") {
+        setMenuFormat(false)
+        // La ref est posée AVANT l'observation : React groupe les mises à jour
+        // d'état, donc `boiteRef.current` valait encore null quand
+        // `handleAction` testait « une boîte est-elle ouverte ? ».
+        boiteRef.current = "format-cellule"
+        setBoite("format-cellule")
+        // La boîte s'ouvre ET l'observation part : une étape qui jugerait ce
+        // clic doit pouvoir se valider, comme pour tout autre bouton.
+        handleAction({ kind: "control", control: controlId, channel: "ribbon" })
+        return
+      }
+      if (controlId === "bf-fx") {
+        boiteRef.current = "fonction"
+        setBoite("fonction")
+        handleAction({ kind: "control", control: controlId, channel: "ribbon" })
+        return
+      }
       // L'enregistreur transcrit les boutons de mise en forme, comme Excel. Le
       // geste est lu AVANT l'effet : la sélection ne doit pas avoir bougé.
       const enreg = enregistrementRef.current
@@ -1696,6 +1784,67 @@ export default function SimulationPlayer({
           case "acc-gras":
             grid.toggleBold(true)
             break
+          /* ── Les huit boutons qui ne faisaient rien (audit du 31/07/2026) ──
+             Chacun est ici parce qu'un apprenant pouvait le cliquer sans que
+             l'écran ne bouge — et, pour six d'entre eux, avec une consigne ou
+             une bulle qui lui annonçait le contraire. */
+          case "acc-somme-auto": {
+            // Somme automatique d'Excel : la plage se devine en remontant depuis
+            // la cellule active tant qu'on trouve des nombres, puis, à défaut,
+            // vers la gauche. C'est ce que la leçon M06-L02-02 décrit —
+            // « Excel propose une formule et entoure la plage qu'il compte
+            // additionner » — et qui ne se produisait pas.
+            const sel = grid.getSelection()
+            const aire = sel ? parseRange(sel) : null
+            if (!aire) break
+            const ligne = aire.startRow
+            const col = aire.startCol
+            const estNombre = (r: number, c: number) =>
+              typeof grid.getValue(`${columnIndexToLetter(c)}${r + 1}`) === "number"
+            let debut = ligne
+            while (debut - 1 >= 0 && estNombre(debut - 1, col)) debut--
+            let plage: string | null = debut < ligne ? formatRange({ startRow: debut, startCol: col, endRow: ligne - 1, endCol: col }) : null
+            if (!plage) {
+              let g = col
+              while (g - 1 >= 0 && estNombre(ligne, g - 1)) g--
+              if (g < col) plage = formatRange({ startRow: ligne, startCol: g, endRow: ligne, endCol: col - 1 })
+            }
+            const cible = `${columnIndexToLetter(col)}${ligne + 1}`
+            grid.applyCells({ [cible]: { f: plage ? `=SOMME(${plage})` : "=SOMME()" } })
+            // Le liseré autour de la plage devinée : c'est la moitié de la
+            // promesse de la consigne, et le seul moyen de comprendre CE
+            // qu'Excel a choisi d'additionner.
+            setPlageSomme(plage)
+            break
+          }
+          case "acc-copier": {
+            // Excel ne déplace rien au copier : il marque la plage d'un liseré
+            // animé. Cinq consignes l'annoncent mot pour mot. On ne réimplémente
+            // pas le collage — `acc-coller` travaille sur `setup.paste`, déclaré
+            // par le scénario — mais la marque, elle, existe désormais.
+            setPresseP(grid.getSelection() ?? null)
+            break
+          }
+          case "acc-effacer": {
+            const sel = grid.getSelection()
+            if (!sel) break
+            const vides: Record<string, { v: string }> = {}
+            for (const ref of cellsOf(sel)) vides[ref] = { v: "" }
+            grid.applyCells(vides)
+            break
+          }
+          case "acc-format-hauteur":
+            if (info?.kind === "row") grid.setRowHeight(info.index, 28)
+            break
+          case "acc-format-afficher": {
+            // On réaffiche tout ce qui est masqué DANS la sélection : c'est le
+            // geste d'Excel, et le seul qui puisse atteindre une colonne
+            // devenue invisible.
+            const aire = info ? parseRange(info.ref) : null
+            if (info?.kind === "column" && aire) grid.showColumn(aire.startCol, aire.endCol - aire.startCol + 1)
+            else if (info?.kind === "row" && aire) grid.showRow(aire.startRow, aire.endRow - aire.startRow + 1)
+            break
+          }
           case "acc-mfc-regle": {
             // Les paramètres viennent du scénario, faute de boîte de dialogue :
             // le geste évalué est le choix du type de règle et de la plage.
@@ -1709,6 +1858,7 @@ export default function SimulationPlayer({
             break
           }
           case "acc-coller": {
+            setPresseP(null)
             // Un collage passe par Univer et rend une promesse : on valide après.
             const coll = stepRef.current?.setup?.paste
             if (coll) {
@@ -1919,7 +2069,15 @@ export default function SimulationPlayer({
       // cellules sont remises en place à la fin (`rendreClasseur`), mais un tri,
       // un format ou un nom de plage ne le seraient pas. On montre alors le
       // geste sans l'exécuter.
-      if (stepRef.current?.action.type === "READ") return
+      //
+      // EXCEPTION — les boutons qui n'ouvrent qu'un menu ou une boîte. Ils ne
+      // touchent NI les cellules NI la mise en forme, et `rendreClasseur` les
+      // referme en fin de démonstration. Sans elle, la bulle de `M01-L02-08`
+      // — « la petite flèche ▾ ouvre la boîte de dialogue complète » — restait
+      // une affirmation que rien ne venait montrer : c'est précisément le
+      // défaut que Samuel a filmé le 31/07/2026.
+      const OUVRE_SANS_MODIFIER = ["acc-format", "acc-format-fleche", "bf-fx"]
+      if (stepRef.current?.action.type === "READ" && !OUVRE_SANS_MODIFIER.includes(id)) return
       // Les commandes d'Univer et les couches s'appliquent de façon asynchrone,
       // et l'observation de mise en forme est relue 220 ms après le clic : le
       // verrou doit couvrir tout cela.
@@ -2522,6 +2680,12 @@ export default function SimulationPlayer({
    * feuille et l'étape suivante démarrait sur un classeur faussé.
    */
   const rendreClasseur = useCallback(() => {
+    // Une démonstration qui presse le bouton Format ou la flèche ▾ ouvre
+    // vraiment son menu ou sa boîte — c'est tout l'intérêt. Il faut donc les
+    // refermer en sortant, sinon l'apprenant récupère la main devant une
+    // fenêtre posée sur la feuille qu'il doit lire.
+    setMenuFormat(false)
+    setBoite(null)
     const grid = gridRef.current
     const avant = avantDemoRef.current
     const refs = Object.keys(avant)
@@ -3052,6 +3216,7 @@ export default function SimulationPlayer({
               highlight={highlightedControl}
               onControl={handleControl}
               onTabChange={setOnglet}
+              menuFormat={menuFormat}
               nameBoxDraft={nameBoxDraft}
               onNameBoxChange={setNameBoxDraft}
               onNameBoxCommit={commitNameBox}
@@ -3114,6 +3279,84 @@ export default function SimulationPlayer({
                   valeurs={valeursGraphique}
                   onSelectElement={choisirElementGraphique}
                   onMove={deplacerGraphique}
+                />
+              )}
+              {/* Liseré animé du presse-papiers et de la somme automatique.
+                  « Un liseré animé entoure la sélection » : cinq consignes le
+                  promettaient sans que rien n'apparaisse. */}
+              {[
+                presseP ? { ref: presseP, cle: "presse" } : null,
+                plageSomme ? { ref: plageSomme, cle: "somme" } : null,
+              ]
+                .filter(Boolean)
+                .map((m) => {
+                  const r = gridRef.current?.getCellRect(m!.ref.split(":")[0])
+                  const f = gridRef.current?.getCellRect(m!.ref.split(":").slice(-1)[0])
+                  if (!r || !f) return null
+                  return (
+                    <div
+                      key={m!.cle}
+                      aria-hidden
+                      data-lisere={m!.cle}
+                      className="pointer-events-none absolute"
+                      style={{
+                        left: Math.min(r.left, f.left) - 1,
+                        top: Math.min(r.top, f.top) - 1,
+                        width: Math.abs(f.left + f.width - r.left) + 2,
+                        height: Math.abs(f.top + f.height - r.top) + 2,
+                        // Le liseré « qui marche » d'Excel : quatre bandes en
+                        // pointillés dont on anime la position. Une bordure
+                        // `dashed` ne s'anime pas — elle serait immobile, donc
+                        // muette sur ce que le geste vient de faire.
+                        background: [
+                          "repeating-linear-gradient(90deg,#107C41 0 7px,transparent 7px 14px) top/14px 2px repeat-x",
+                          "repeating-linear-gradient(90deg,#107C41 0 7px,transparent 7px 14px) bottom/14px 2px repeat-x",
+                          "repeating-linear-gradient(0deg,#107C41 0 7px,transparent 7px 14px) left/2px 14px repeat-y",
+                          "repeating-linear-gradient(0deg,#107C41 0 7px,transparent 7px 14px) right/2px 14px repeat-y",
+                        ].join(","),
+                        animation: "sim-lisere 1s linear infinite",
+                      }}
+                    />
+                  )
+                })}
+              {/* Les deux boîtes de dialogue du ruban. Elles se posent DANS la
+                  zone de grille, comme les couches : c'est là que l'apprenant
+                  regarde après avoir cliqué le bouton qui les ouvre. */}
+              {boite === "fonction" && (
+                <BoiteFonction
+                  onFermer={fermerBoite}
+                  onInserer={(nom) => {
+                    fermerBoite()
+                    const g = gridRef.current
+                    const cible = g?.getSelection()?.split(":")[0]
+                    if (g && cible) g.applyCells({ [cible]: { f: `=${nom}()` } })
+                  }}
+                />
+              )}
+              {boite === "format-cellule" && (
+                <BoiteFormatCellule
+                  cellule={selection}
+                  onFermer={fermerBoite}
+                  onAppliquer={(r) => {
+                    fermerBoite()
+                    const g = gridRef.current
+                    if (!g) return
+                    // Ce que la boîte valide s'applique vraiment : sans cela on
+                    // aurait remplacé un bouton muet par une fenêtre muette.
+                    const motifs: Record<string, string> = {
+                      standard: "General",
+                      nombre: "#,##0.00",
+                      monetaire: '#,##0.00" €"',
+                      pourcentage: "0.00%",
+                      date: "dd/mm/yyyy",
+                    }
+                    g.setNumberFormatOnSelection(motifs[r.nombre] ?? "General")
+                    g.setAlign(r.alignement === "centre" ? "center" : r.alignement === "droite" ? "right" : "left")
+                    if (r.gras) g.toggleBold(true)
+                    if (r.italique) g.setItalic(true)
+                    if (r.souligne) g.setUnderline(true)
+                    if (r.bordure) g.setBorderAll(true)
+                  }}
                 />
               )}
               {halo && !demo && (
@@ -3209,6 +3452,8 @@ export default function SimulationPlayer({
 @keyframes sim-jalon-carte{0%{opacity:0;transform:scale(.92) translateY(10px)}100%{opacity:1;transform:scale(1) translateY(0)}}
 @keyframes sim-jalon-rond{0%{transform:scale(.5);opacity:0}45%{transform:scale(1.12)}100%{transform:scale(1);opacity:1}}
 @keyframes sim-jalon-fond{0%{opacity:0}14%{opacity:1}76%{opacity:1}100%{opacity:0}}
+/* Le liseré du presse-papiers : dans Excel il « marche » autour de la plage. */
+@keyframes sim-lisere{to{background-position:14px 0,-14px 100%,0 -14px,100% 14px}}
 /* Un apprenant qui a demandé moins d'animations garde le repère, sans mouvement. */
 @media (prefers-reduced-motion: reduce){
   [style*="sim-consigne-in"],[style*="sim-etape-pop"],[style*="sim-coche"],[style*="sim-jalon-carte"],[style*="sim-jalon-rond"]{animation-duration:.01ms !important;animation-iteration-count:1 !important}

@@ -254,6 +254,21 @@ export default function DemonstrationGeste({ plan, resoudre, largeur, hautFeuill
   const agit = phase === "clic" || phase === "glisse" || phase === "frappe" || phase === "valide" || phase === "fini"
 
   /**
+   * Un propos SANS LIEU : la cible `ecran` d'un `MONTRER` se résout en un cadre
+   * de 180 × 68 posé au centre, prévu pour accueillir des touches de clavier.
+   * Sur une illustration il n'y a pas de touches — restait un cadre vert vide
+   * qui pulsait au milieu de la feuille, désignant du néant. C'est ce que
+   * Samuel a filmé le 31/07/2026 sur `M01-L02-08`, où la bulle parle d'onglets
+   * contextuels que rien n'affiche.
+   *
+   * Onze bulles de la formation sont dans ce cas : les formats de fichier, les
+   * codes d'en-tête, les briefs d'évaluation… autant de propos qui ne se
+   * rattachent à aucun endroit précis. On garde la phrase, on retire le cadre :
+   * une bulle sans cadre vaut mieux qu'un cadre sur du vide.
+   */
+  const sansLieu = geste.cible.k === "clavier" && !geste.touches
+
+  /**
    * La bulle se pose-t-elle AU-DESSUS de sa cible, ou en dessous ?
    *
    * On ne mesure pas sa hauteur avant de la poser : on la majore. Une bulle
@@ -427,7 +442,7 @@ export default function DemonstrationGeste({ plan, resoudre, largeur, hautFeuill
         <>
           {/* Halo d'appel AVANT le clic : le déplacement du curseur seul ne
               suffisait pas à faire regarder au bon endroit. */}
-          {(phase === "vise" || phase === "bulle") && (
+          {!sansLieu && (phase === "vise" || phase === "bulle") && (
             <span
               className="absolute rounded-md"
               style={{
@@ -445,6 +460,7 @@ export default function DemonstrationGeste({ plan, resoudre, largeur, hautFeuill
             // de résolution répondait « oui » sur une démonstration invisible.
             data-demo-cible={geste?.bulle ?? ""}
             style={{
+              display: sansLieu ? "none" : undefined,
               left: rect.left, top: rect.top,
               width: rectFin && (phase === "glisse" || phase === "fini") ? rectFin.left + rectFin.width - rect.left : rect.width,
               height: rectFin && (phase === "glisse" || phase === "fini") ? rectFin.top + rectFin.height - rect.top : rect.height,
@@ -593,7 +609,7 @@ export default function DemonstrationGeste({ plan, resoudre, largeur, hautFeuill
 
           {/* Le curseur. `top/left: 0` obligatoire : sans origine explicite, le
               translate part de la position en flux et la flèche sort du cadre. */}
-          {pointe && !geste.touches && (
+          {pointe && !geste.touches && !sansLieu && (
             <svg
               className="absolute"
               viewBox="0 0 20 26"

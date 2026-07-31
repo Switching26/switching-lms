@@ -216,6 +216,13 @@ export type GridApi = {
   setRowHeight: (row: number, px: number) => void
   hideColumn: (col: number) => void
   hideRow: (row: number) => void
+  /**
+   * Réafficher : le pendant de `hideColumn`/`hideRow`, sans lequel l'entrée
+   * « Afficher » du menu Format serait un bouton de plus qui ne fait rien —
+   * exactement le défaut que l'audit du 31/07/2026 a fermé.
+   */
+  showColumn: (col: number, nb?: number) => void
+  showRow: (row: number, nb?: number) => void
   /** Gras sur la sélection courante. */
   toggleBold: (on: boolean) => void
   /**
@@ -407,6 +414,11 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
       univerAPI.createWorkbook({ name: "Simulation" })
 
       const sheet = () => univerAPI.getActiveWorkbook()?.getActiveSheet()
+      // Sonde d'audit, hors production : sans elle, un setter qui n'existe pas
+      // sur la feuille Univer échoue en silence derrière `?.` et `catch {}`.
+      if (process.env.NODE_ENV !== "production" && typeof window !== "undefined") {
+        ;(window as any).__SIM_SHEET = sheet
+      }
 
       /* ── Interface de pilotage ─────────────────────────────────────────── */
 
@@ -658,10 +670,32 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
             // et un clic calculé tombe dans l'en-tête de lignes.
             const largeurEnTeteLignes = Number(sk?.rowHeaderWidth ?? 46)
             const hauteurEnTeteColonnes = Number(sk?.columnHeaderHeight ?? 20)
+            /**
+             * 🔴 SOMMER LES LARGEURS NE SUFFIT PAS : une colonne MASQUÉE garde
+             * sa largeur déclarée tout en n'occupant aucun pixel.
+             *
+             * Le défaut est resté dormant tant que `hideColumn` ne masquait
+             * rien (appel Univer faux, corrigé le 31/07/2026). Dès que le
+             * masquage a fonctionné, tout ce qui repose sur cette géométrie —
+             * halo d'aide, cibles de démonstration, pilotage en test — a visé
+             * une colonne trop à droite : mesuré, `getCellRect("D2")` menait
+             * sur E2. Or le module 4 masque des colonnes puis fait travailler
+             * l'apprenant sur celles d'à côté.
+             *
+             * Le squelette d'Univer tient déjà le cumul des largeurs RÉELLES :
+             * une colonne masquée y contribue pour zéro. On s'en sert quand il
+             * est là, et l'on garde la somme naïve en secours.
+             */
+            const cumulC: number[] | undefined = sk?._columnWidthAccumulation
+            const cumulL: number[] | undefined = sk?._rowHeightAccumulation
+            const bornéC = (i: number) => (i < 0 ? 0 : Number(cumulC?.[i] ?? 0))
+            const bornéL = (i: number) => (i < 0 ? 0 : Number(cumulL?.[i] ?? 0))
             let left = largeurEnTeteLignes
-            for (let c = 0; c < pos.col; c++) left += Number(sh2.getColumnWidth?.(c) ?? 88)
+            if (cumulC?.length) left += bornéC(pos.col - 1)
+            else for (let c = 0; c < pos.col; c++) left += Number(sh2.getColumnWidth?.(c) ?? 88)
             let top = hauteurEnTeteColonnes
-            for (let r = 0; r < pos.row; r++) top += Number(sh2.getRowHeight?.(r) ?? 24)
+            if (cumulL?.length) top += bornéL(pos.row - 1)
+            else for (let r = 0; r < pos.row; r++) top += Number(sh2.getRowHeight?.(r) ?? 24)
             // Le défilement décale tout le corps de la grille, pas les en-têtes.
             //
             // ATTENTION au sens de `offsetX` / `offsetY` d'Univer : ce n'est PAS
@@ -676,15 +710,23 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
             const debutColonne = Number(scroll?.sheetViewStartColumn ?? 0)
             let defilementX = Number(scroll?.offsetX ?? 0)
             let defilementY = Number(scroll?.offsetY ?? 0)
-            for (let c = 0; c < debutColonne; c++) defilementX += Number(sh2.getColumnWidth?.(c) ?? 88)
-            for (let r = 0; r < debutLigne; r++) defilementY += Number(sh2.getRowHeight?.(r) ?? 24)
+            if (cumulC?.length) defilementX += bornéC(debutColonne - 1)
+            else for (let c = 0; c < debutColonne; c++) defilementX += Number(sh2.getColumnWidth?.(c) ?? 88)
+            if (cumulL?.length) defilementY += bornéL(debutLigne - 1)
+            else for (let r = 0; r < debutLigne; r++) defilementY += Number(sh2.getRowHeight?.(r) ?? 24)
             left -= defilementX
             top -= defilementY
             return {
               left,
               top,
-              width: Number(sh2.getColumnWidth?.(pos.col) ?? 88),
-              height: Number(sh2.getRowHeight?.(pos.row) ?? 24),
+              // Largeur RÉELLE : zéro sur une colonne masquée, ce qui vaut mieux
+              // qu'un rectangle plein posé sur la colonne voisine.
+              width: cumulC?.length
+                ? bornéC(pos.col) - bornéC(pos.col - 1)
+                : Number(sh2.getColumnWidth?.(pos.col) ?? 88),
+              height: cumulL?.length
+                ? bornéL(pos.row) - bornéL(pos.row - 1)
+                : Number(sh2.getRowHeight?.(pos.row) ?? 24),
             }
           } catch {
             return null
@@ -1249,8 +1291,27 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
         deleteColumn: (col) => { try { sheet()?.deleteColumn?.(col) } catch {} },
         setColumnWidth: (col, px) => { try { sheet()?.setColumnWidth?.(col, px) } catch {} },
         setRowHeight: (row, px) => { try { sheet()?.setRowHeight?.(row, px) } catch {} },
-        hideColumn: (col) => { try { sheet()?.hideColumn?.(col, 1) } catch {} },
-        hideRow: (row) => { try { sheet()?.hideRow?.(row, 1) } catch {} },
+        /**
+         * 🔴 `hideColumn` et `hideRow` NE PRENNENT PAS D'INDICE.
+         *
+         * Univer expose les deux formes : `hideColumn(range: FRange)` attend un
+         * objet plage, `hideColumns(indice, nombre)` attend des nombres. On
+         * appelait la première avec `(col, 1)` — appel valide en JavaScript,
+         * sans effet, sans erreur, avalé par le `catch {}`. Résultat mesuré au
+         * banc le 31/07/2026 sur `M04-L05-03` : l'étape se validait, le bandeau
+         * « ✓ C'est exact » s'affichait, et la colonne « Coût interne » restait
+         * à l'écran — alors que la consigne annonce « La colonne disparaît » et
+         * que l'étape suivante fait totaliser « la colonne masquée ».
+         * Cinq étapes des modules 4 et EV01 reposaient sur ce geste.
+         */
+        hideColumn: (col) => { try { sheet()?.hideColumns?.(col, 1) } catch {} },
+        hideRow: (row) => { try { sheet()?.hideRows?.(row, 1) } catch {} },
+        // Réafficher porte sur une PLAGE : dans Excel on sélectionne les
+        // colonnes encadrantes — c'est même ce que M04-L05-05 enseigne, « il
+        // faut désigner une colonne qu'on ne voit plus ». Traiter un seul
+        // indice ne réaffichait donc jamais rien.
+        showColumn: (col, nb = 1) => { try { sheet()?.showColumns?.(col, Math.max(1, nb)) } catch {} },
+        showRow: (row, nb = 1) => { try { sheet()?.showRows?.(row, Math.max(1, nb)) } catch {} },
         toggleBold: (on) => {
           try {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any

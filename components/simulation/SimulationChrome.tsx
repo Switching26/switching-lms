@@ -399,6 +399,12 @@ type Props = {
    * autres.
    */
   barreTitrePoste?: boolean
+  /**
+   * Le menu du bouton Format est-il déplié ? Il vit dans le châssis parce qu'il
+   * se pose sous son bouton ; son état, lui, appartient au lecteur, qui décide
+   * aussi de le refermer à chaque changement d'étape.
+   */
+  menuFormat?: boolean
   /** Saisie en cours dans la zone Nom. null = affiche la sélection courante. */
   nameBoxDraft?: string | null
   onNameBoxChange?: (text: string) => void
@@ -421,6 +427,7 @@ export default function SimulationChrome({
   editing,
   avecPoste,
   barreTitrePoste,
+  menuFormat,
   nameBoxDraft,
   onNameBoxChange,
   onNameBoxCommit,
@@ -645,14 +652,20 @@ export default function SimulationChrome({
                   ce qui évite un menu déroulant de plus à piloter. */}
               <Btn id="acc-format-largeur" label="Largeur" />
               <Btn id="acc-format-masquer" label="Masquer" />
-              <div className="flex items-center">
+              {/* Bouton Format et la flèche du groupe. Les deux ouvrent
+                  quelque chose — un menu pour l'un, la boîte « Format de
+                  cellule » pour l'autre. Avant le 31/07/2026 ils étaient rendus
+                  et cliquables SANS aucun traitement : quatre consignes
+                  disaient « Ouvrez Format et choisissez Masquer », l'apprenant
+                  cliquait, rien ne se dépliait. */}
+              <div className="relative flex items-center">
                 <Btn id="acc-format" label="Format" />
                 <button
                   type="button"
                   title="Options de format"
                   aria-label="Options de format de cellule"
                   data-control="acc-format-fleche"
-            onClick={() => onControl("acc-format-fleche")}
+                  onClick={() => onControl("acc-format-fleche")}
                   className={[
                     "rounded px-1 py-1 text-[9px] text-neutral-600 hover:bg-emerald-50",
                     highlight === "acc-format-fleche" ? "ring-2 ring-amber-400 animate-pulse" : "",
@@ -660,28 +673,43 @@ export default function SimulationChrome({
                 >
                   ▾
                 </button>
+                {menuFormat && (
+                  <div
+                    role="menu"
+                    aria-label="Format"
+                    className="absolute left-0 top-full z-30 mt-1 w-52 overflow-hidden rounded-lg border border-neutral-300 bg-white py-1"
+                    style={{ boxShadow: "0 18px 40px -14px rgba(0,0,0,.45)" }}
+                  >
+                    {[
+                      { id: "acc-format-largeur", label: "Largeur de colonne…" },
+                      { id: "acc-format-hauteur", label: "Hauteur de ligne…" },
+                      { id: "acc-format-masquer", label: "Masquer" },
+                      { id: "acc-format-afficher", label: "Afficher" },
+                      { id: "acc-format-fleche", label: "Format de cellule…" },
+                    ].map((e) => (
+                      <button
+                        key={e.id}
+                        type="button"
+                        role="menuitem"
+                        data-control={`menu-${e.id}`}
+                        onClick={() => onControl(e.id)}
+                        className="block w-full px-3 py-1.5 text-left text-[11.5px] text-neutral-700 hover:bg-emerald-50"
+                      >
+                        {e.label}
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
             </Group>
             <Group title="Édition">
-              {/* Le bouton Somme automatique et sa flèche forment un contrôle
-                  double : le bouton applique SOMME, la flèche ouvre le menu. */}
-              <div className="flex items-center">
-                <Btn id="acc-somme-auto" label="Somme" icon={SumIcon} />
-                <button
-                  type="button"
-                  title="Autres fonctions"
-                  aria-label="Autres fonctions de calcul"
-                  data-control="acc-somme-auto-fleche"
-            onClick={() => onControl("acc-somme-auto-fleche")}
-                  className={[
-                    "rounded px-1 py-1 text-[9px] text-neutral-600 hover:bg-emerald-50",
-                    highlight === "acc-somme-auto-fleche" ? "ring-2 ring-amber-400 animate-pulse" : "",
-                  ].join(" ")}
-                >
-                  ▾
-                </button>
-              </div>
-              <Btn id="acc-recopier" label="Recopier" />
+              {/* La flèche ▾ de Somme automatique et le bouton Recopier ont été
+                  RETIRÉS le 31/07/2026. Tous deux ouvraient un menu qui
+                  n'existe pas, aucun scénario ne les emploie, et « Recopier
+                  vers le bas » suppose le décalage des références — que la
+                  poignée de recopie fait déjà, elle, correctement. Un bouton
+                  visible qui ne fait rien apprend que le simulateur est cassé. */}
+              <Btn id="acc-somme-auto" label="Somme" icon={SumIcon} />
               <Btn id="acc-effacer" label="Effacer" />
             </Group>
           </>

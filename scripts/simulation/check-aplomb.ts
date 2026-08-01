@@ -33,6 +33,7 @@ import {
   cellulesLues,
   divergences,
   etatAplomb,
+  famillesLegitimes,
   refsConnues,
   type EtatAplomb,
   type LectureCellule,
@@ -118,15 +119,17 @@ for (const nom of fichiers) {
     etapes++
     const etat = etatAplomb(steps, sc.workbook, i)
 
+    const legit = famillesLegitimes(steps)
+
     /* A — parcours propre, portée large (celle de la démonstration) */
     const propre = lectureParfaite(etat, false)
-    for (const d of divergences(etat, propre, refsConnues(etat))) {
+    for (const d of divergences(etat, propre, refsConnues(etat), legit)) {
       if (fauxPositifs.length < 12) fauxPositifs.push(`${nom}#${i} ${d.ref} (${d.motif})`)
     }
 
     /* B — l'apprenant a choisi l'autre écriture acceptée */
     const variante = lectureParfaite(etat, true)
-    for (const d of divergences(etat, variante, refsConnues(etat))) {
+    for (const d of divergences(etat, variante, refsConnues(etat), legit)) {
       if (fauxPositifsVariante.length < 12) fauxPositifsVariante.push(`${nom}#${i} ${d.ref} (${d.motif})`)
     }
 
@@ -179,6 +182,79 @@ const pieges: Array<{ nom: string; ok: boolean; detail: string }> = []
   }
 }
 
+/* ═══════════ D — les pièges qui manquaient ═══════════
+ *
+ * Les pièges ci-dessus portaient tous sur une cellule DÉCLARÉE, formatée ou
+ * vidée. Trois défauts sont passés au travers en juillet 2026, chacun parce
+ * qu'aucun piège ne leur ressemblait :
+ *   · un format légitime posé hors des cellules déclarées (25 étapes cassées) ;
+ *   · un classeur à plusieurs feuilles (19 scénarios, écriture sur la mauvaise) ;
+ *   · une famille de format que le MOTEUR pose lui-même.
+ */
+const pieges2: Array<{ nom: string; ok: boolean; detail: string }> = []
+{
+  // D1 — « aucun format attendu » ne vaut pas « format interdit ».
+  const sc: SimulationScenario = JSON.parse(fs.readFileSync(path.join(DIR, "m01-l05.json"), "utf8"))
+  const etat = etatAplomb(sc.steps, sc.workbook, 10)
+  const legit = famillesLegitimes(sc.steps)
+  const base = lectureParfaite(etat, false)
+  const refs = refsConnues(etat)
+  const monetaire = '#,##0.00" €"'
+  // L'étape déclare D5 et D11 ; l'apprenant formate toute la colonne.
+  const l: Record<string, LectureCellule> = JSON.parse(JSON.stringify(base))
+  for (const r of ["D5", "D6", "D7", "D8", "D9", "D10", "D11"]) {
+    if (l[r]) l[r] = { ...l[r], numberFormat: monetaire }
+  }
+  const ds = divergences(etat, l, refs, legit)
+  const perdues = ds.filter((d) => d.motif === "format").map((d) => d.ref)
+  pieges2.push({
+    nom: "format légitime posé hors des cellules déclarées",
+    ok: perdues.length === 0,
+    detail: perdues.length ? "retirerait " + perdues.join(",") : "aucun retrait",
+  })
+
+  // D2 — un format qui MENT reste retiré, MÊME dans le rectangle d'un
+  //      `EXPECT_FORMAT` : la boîte rend légitime la famille demandée, pas
+  //      n'importe laquelle. D11 est déclarée, donc réellement examinée.
+  const l2: Record<string, LectureCellule> = JSON.parse(JSON.stringify(base))
+  l2.D11 = { ...l2.D11, numberFormat: "0.00%" }
+  const ds2 = divergences(etat, l2, refs, legit)
+  pieges2.push({
+    nom: "pourcentage posé dans le rectangle : retiré quand même",
+    ok: ds2.some((d) => d.ref === "D11" && d.motif === "format"),
+    detail: ds2.map((d) => d.ref + ":" + d.motif).join(",") || "aucune",
+  })
+}
+{
+  // D3 — classeur multi-feuilles : l'état doit suivre la feuille ACTIVE.
+  const sc: SimulationScenario = JSON.parse(fs.readFileSync(path.join(DIR, "m22-l01.json"), "utf8"))
+  const noms = (sc.workbook.sheets ?? []).map((f) => f.name)
+  const surLyon = etatAplomb(sc.steps, sc.workbook, 3, noms[0])
+  const surTotal = etatAplomb(sc.steps, sc.workbook, 3, noms[noms.length - 1])
+  // Lyon déclare C2 = 14400 ; la feuille de synthèse ne déclare rien en C2.
+  pieges2.push({
+    nom: "multi-feuilles : l'état suit la feuille active",
+    ok: surLyon.C2 !== undefined && surTotal.C2 === undefined,
+    detail: `${noms[0]}.C2=${surLyon.C2 ? "déclarée" : "—"} · ${noms[noms.length - 1]}.C2=${surTotal.C2 ? "déclarée" : "—"}`,
+  })
+}
+{
+  // D4 — cellule remplie là où le scénario n'attend rien : aujourd'hui
+  //      volontairement ignorée (la frontière « zone du classeur » attend
+  //      l'arbitrage de Samuel). Le piège existe pour que le jour où elle
+  //      sera posée, ce contrôle le dise.
+  const sc: SimulationScenario = JSON.parse(fs.readFileSync(path.join(DIR, "m01-l05.json"), "utf8"))
+  const etat = etatAplomb(sc.steps, sc.workbook, 10)
+  const l: Record<string, LectureCellule> = JSON.parse(JSON.stringify(lectureParfaite(etat, false)))
+  l.C9 = { formule: "", valeur: 420, numberFormat: "" }
+  const ds = divergences(etat, l, [...refsConnues(etat), "C9"], famillesLegitimes(sc.steps))
+  pieges2.push({
+    nom: "cellule parasite (frontière en attente d'arbitrage)",
+    ok: true,
+    detail: ds.some((d) => d.ref === "C9") ? "détectée" : "IGNORÉE — connu, arbitrage Samuel",
+  })
+}
+
 /* ═══════════ Verdict ═══════════ */
 console.log("CONTRÔLE DE LA REMISE D'APLOMB")
 console.log("  scénarios :", fichiers.length, "· étapes éprouvées :", etapes)
@@ -189,8 +265,11 @@ console.log("B. écriture équivalente préservée   :", fauxPositifsVariante.le
 fauxPositifsVariante.forEach((x) => console.log("     ✗", x))
 console.log("C. les pièges sont bien vus :")
 pieges.forEach((p) => console.log(`     ${p.ok ? "OK  " : "✗   "} ${p.nom} — ${p.detail}`))
+console.log("D. les pièges des défauts de juillet :")
+pieges2.forEach((p) => console.log(`     ${p.ok ? "OK  " : "✗   "} ${p.nom} — ${p.detail}`))
 
-const echec = fauxPositifs.length > 0 || fauxPositifsVariante.length > 0 || pieges.some((p) => !p.ok)
+const echec =
+  fauxPositifs.length > 0 || fauxPositifsVariante.length > 0 || pieges.some((p) => !p.ok) || pieges2.some((p) => !p.ok)
 console.log()
 console.log(echec ? "→ ÉCHEC" : "→ tout est vert")
 process.exit(echec ? 1 : 0)

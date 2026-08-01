@@ -32,9 +32,11 @@ import {
   resumerFait,
 } from "@/lib/simulation/attendu"
 import {
+  MOTIF_PAR_FAMILLE,
   cellulesLues,
   divergences,
   etatAplomb,
+  famillesLegitimes,
   phraseAplomb,
   refsConnues,
   type Divergence,
@@ -903,6 +905,23 @@ export default function SimulationPlayer({
         }
         if (Object.keys(ecrites).length) grid.applyCells(ecrites)
         if (a.type === "DEFINE_NAME" && a.ref) grid.defineName(a.name, a.ref)
+        // Un format posé par l'apprenant à une étape déjà franchie fait partie
+        // de son travail : sans ce rejeu, la reprise rouvrait le chapitre avec
+        // les colonnes démonétisées, et la remise d'aplomb les reposait ensuite
+        // en annonçant une réparation que personne n'avait rendue nécessaire.
+        if (a.type === "EXPECT_FORMAT" && a.cells) {
+          for (const [ref, att] of Object.entries(a.cells)) {
+            const fam = (att as { numberFormat?: string }).numberFormat
+            if (!fam) continue
+            const motif = MOTIF_PAR_FAMILLE[fam]
+            if (!motif) continue
+            try {
+              grid.setNumberFormat([ref], motif)
+            } catch {
+              /* un motif refusé ne doit pas empêcher la reprise */
+            }
+          }
+        }
         // Une étape déjà faite a produit son modèle : on le pose.
         appliquerModeles(s, true)
       }
@@ -966,12 +985,73 @@ export default function SimulationPlayer({
     [mode],
   )
 
+  /**
+   * `handleAction` est défini plus bas ; le rattrapage doit pouvoir l'appeler
+   * sans créer de dépendance circulaire entre les deux rappels mémoïsés.
+   */
+  const handleActionRef = useRef<((o: ObservedAction) => void) | null>(null)
+
+  /**
+   * RATTRAPAGE APRÈS LE VERROU.
+   *
+   * Pendant qu'une remise d'aplomb écrit, les observations sont ignorées —
+   * sinon l'écriture ferait croire l'étape franchie. Mais une réponse tapée
+   * dans cette fenêtre était jetée EN SILENCE, et la retaper ne réémettait
+   * rien : la grille n'émet que sur changement. L'apprenant restait devant une
+   * feuille parfaitement juste avec une étape figée, sans indice, et la seule
+   * issue était d'effacer puis de retaper.
+   *
+   * On relit donc l'état une fois le verrou levé, et on ne redéclenche QUE si
+   * la réponse est effectivement bonne : `validateStep` est pur, on l'appelle
+   * nous-mêmes d'abord. Une observation qui échouerait compterait une faute que
+   * l'apprenant n'a pas commise.
+   */
+  const reobserverEtat = useCallback(() => {
+    const grid = gridRef.current
+    const s = stepRef.current
+    if (!grid || !s || resoluRef.current) return
+    const a = s.action
+    let obs: ObservedAction | null = null
+    if (a.type === "TYPE" && a.target !== "formula-bar") {
+      const formule = grid.getFormula(a.target) ?? ""
+      const valeur = grid.getValue(a.target)
+      const text = formule || (valeur == null ? "" : String(valeur))
+      if (!text) return
+      obs = {
+        kind: "typed",
+        target: a.target,
+        text,
+        displayed: grid.getDisplayValue(a.target),
+        channel: "keyboard",
+        computed: valeur,
+      }
+    } else if (a.type === "EXPECT_STATE") {
+      const readings: Record<string, { formula: string; value: unknown }> = {}
+      for (const ref of Object.keys(a.cells)) {
+        readings[ref] = { formula: grid.getFormula(ref), value: grid.getValue(ref) }
+      }
+      obs = { kind: "stateChange", readings }
+    }
+    if (!obs) return
+    if (!validateStep(s, obs).ok) return
+    handleActionRef.current?.(obs)
+  }, [])
+
   const remettreDAplomb = useCallback(
     (portee: "dependances" | "tout", pourEtape: number): Divergence[] => {
       const grid = gridRef.current
       const s = steps[pourEtape]
       if (!grid || !s) return []
-      const etat = etatAplomb(steps, scenario.workbook, pourEtape)
+      // La feuille ACTIVE, pas la première du classeur : sur les 19 scénarios
+      // multi-feuilles, comparer « Total » à « Lyon » faisait écrire les
+      // chiffres de Lyon dans la cellule que l'apprenant devait remplir.
+      let active: string | undefined
+      try {
+        active = grid.getSheets().find((f) => f.active)?.name
+      } catch {
+        /* la grille peut ne pas être prête : on retombe sur la première feuille */
+      }
+      const etat = etatAplomb(steps, scenario.workbook, pourEtape, active)
       // On lit TOUJOURS large : c'est la seule façon de voir un format
       // trompeur posé loin de l'étape courante. Le tri se fait ensuite.
       const refs = refsConnues(etat)
@@ -991,7 +1071,7 @@ export default function SimulationPlayer({
         }
       }
 
-      const toutes = divergences(etat, lecture, refs)
+      const toutes = divergences(etat, lecture, refs, famillesLegitimes(steps))
       // Le contenu ne se répare que dans la portée demandée ; le format, lui,
       // se répare partout (voir la note ci-dessus).
       const ds =
@@ -1012,7 +1092,13 @@ export default function SimulationPlayer({
       }
       if (!ds.length) return []
 
-      verrouillerDemo(2200)
+      // Verrou court, calibré sur ce qu'il doit couvrir : l'écriture ci-dessous
+      // et le `stateChange` que la grille émet 350 ms plus tard. Il valait
+      // 2 200 ms, si bien qu'une réponse tapée juste après l'arrivée sur
+      // l'étape était jetée EN SILENCE — et la retaper ne réémettait rien,
+      // puisque la grille n'émet que sur changement. L'apprenant restait bloqué
+      // devant une feuille juste, sans savoir qu'il fallait effacer et refaire.
+      verrouillerDemo(900)
       const cells: Record<string, { v?: string | number; f?: string }> = {}
       for (const d of ds) if (d.correction) cells[d.ref] = d.correction
       if (Object.keys(cells).length) grid.applyCells(cells)
@@ -1022,6 +1108,10 @@ export default function SimulationPlayer({
       // vient d'être écrite annule cette formule, et la cellule qu'on venait de
       // réparer redevient vide. C'est le piège qui a fait croire pendant tout
       // un cycle que le mécanisme ne s'exécutait pas.
+      // Une observation a pu être jetée pendant le verrou : on relit l'état une
+      // fois qu'il est levé, pour que l'étape se valide si la feuille est déjà
+      // juste. Sans ce rattrapage, seul « effacer puis retaper » débloquait.
+      window.setTimeout(() => reobserverEtat(), 1100)
       const aFormater = ds.filter((d) => d.famille !== undefined)
       if (aFormater.length) {
         window.setTimeout(() => {
@@ -1489,6 +1579,8 @@ export default function SimulationPlayer({
     },
     [step, finished, goNext, lireCellule, lancerFx],
   )
+  handleActionRef.current = handleAction
+
 
   /* ── Observations des modèles ──────────────────────────────────────────── */
 

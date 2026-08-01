@@ -166,28 +166,62 @@ function contenuDepuisCellState(c: CellState): Partial<CelluleAplomb> {
  * pose — mais pas son résultat attendu : c'est justement le travail qu'on
  * demande à l'apprenant.
  */
-export function etatAplomb(steps: SimulationStep[], workbook: WorkbookState, jusqua: number): EtatAplomb {
+export function etatAplomb(
+  steps: SimulationStep[],
+  workbook: WorkbookState,
+  jusqua: number,
+  feuilleActive?: string,
+): EtatAplomb {
   const etat: EtatAplomb = {}
 
-  // 1. Le classeur de départ. On ne retient que la feuille active, comme
-  //    `rejouerAvant` : les autres ne sont ni écrites ni relues ici.
-  const feuille = workbook.sheets?.[0]
+  /* ── QUELLE FEUILLE ? ────────────────────────────────────────────────────
+   *
+   * 🔴 Un classeur peut avoir plusieurs feuilles — 19 scénarios sur 246. On
+   * lisait toujours `sheets[0]` alors que la grille, elle, lit la feuille
+   * ACTIVE. Dans `m22-l01` (Lyon / Nantes / Strasbourg / Total), l'apprenant
+   * totalise sur « Total » pendant qu'on comparait à « Lyon » : la remise
+   * voyait Total!C2 vide, croyait à un dégât, et ÉCRIVAIT le 14 400 de Lyon
+   * dans la cellule que l'apprenant devait justement remplir.
+   *
+   * On suit donc la feuille active d'étape en étape (`SELECT_SHEET` et
+   * `setup.activeSheet`) et on n'attribue à l'état que ce qui appartient à la
+   * feuille visée. Quand elle est inconnue, on retombe sur la première.
+   */
+  const nomDe = (i: number) => workbook.sheets?.[i]?.name ?? ""
+  const depart = nomDe(workbook.activeSheetIndex ?? 0)
+  const cible = (feuilleActive ?? depart).trim()
+
+  const feuille = (workbook.sheets ?? []).find((f) => f.name?.trim() === cible) ?? workbook.sheets?.[0]
   for (const [ref, c] of Object.entries(feuille?.cells ?? {})) {
     poser(etat, ref, contenuDepuisCellState(c))
   }
 
+  // Feuille active au fil des étapes, pour n'attribuer que ce qui la concerne.
+  let courante = depart
+
   for (let k = 0; k <= jusqua && k < steps.length; k++) {
     const s = steps[k]
     if (!s) continue
+    const impose = (s.setup as { activeSheet?: string } | undefined)?.activeSheet
+    if (impose) courante = impose
+    const surLaBonneFeuille = courante.trim() === cible
 
     // 2. Le décor posé par l'étape, y compris celui de l'étape courante.
-    for (const [ref, c] of Object.entries(s.setup?.cells ?? {})) {
-      poser(etat, ref, contenuDepuisCellState(c))
+    if (surLaBonneFeuille) {
+      for (const [ref, c] of Object.entries(s.setup?.cells ?? {})) {
+        poser(etat, ref, contenuDepuisCellState(c))
+      }
+    }
+
+    // Un changement de feuille prend effet POUR LES ÉTAPES SUIVANTES : c'est
+    // le geste de cette étape-ci.
+    const a = s.action
+    if (a.type === "SELECT_SHEET" && (a as { name?: string }).name) {
+      courante = String((a as { name?: string }).name)
     }
 
     // 3. Le résultat des étapes DÉJÀ FRANCHIES seulement.
-    if (k >= jusqua) continue
-    const a = s.action
+    if (k >= jusqua || !surLaBonneFeuille) continue
 
     if (a.type === "TYPE" && a.target !== "formula-bar" && a.accept?.length) {
       const formules = a.accept.filter((x) => x.trim().startsWith("="))
@@ -226,6 +260,67 @@ export function etatAplomb(steps: SimulationStep[], workbook: WorkbookState, jus
 
   return etat
 }
+
+/* ═══════════ Formats que l'apprenant a le droit de poser ═══════════ */
+
+/**
+ * 🔴 « AUCUN FORMAT ATTENDU » NE VAUT PAS « FORMAT INTERDIT ».
+ *
+ * Beaucoup d'étapes disent « donnez un format monétaire de D5 à D11 » et ne
+ * déclarent que les deux bornes, D5 et D11 — 25 étapes de 11 modules, 108
+ * cellules. L'apprenant formate les sept cellules, correctement, et la remise
+ * retirait le format des cinq du milieu en annonçant qu'elle aidait : « 18,5 »
+ * repassait en « 18.5 » américain. Casser du travail juste sous les yeux de
+ * l'apprenant est bien pire que le dégât qu'on corrige.
+ *
+ * On considère donc comme légitime toute famille qu'un `EXPECT_FORMAT` réclame
+ * — de n'importe quelle étape, passée ou à venir — sur une cellule du RECTANGLE
+ * ENGLOBANT des cellules qu'il déclare. Pour « D5 et D11 », le rectangle est
+ * D5:D11 : D6 à D10 peuvent porter ce format sans être inquiétées.
+ *
+ * On lit la boîte plutôt que la consigne : une consigne se rédige, un rectangle
+ * se calcule.
+ */
+export function famillesLegitimes(steps: SimulationStep[]): Record<string, Record<string, true>> {
+  const out: Record<string, Record<string, true>> = {}
+  const marquer = (ref: string, famille: string) => {
+    const clef = ref.toUpperCase()
+    if (!out[clef]) out[clef] = {}
+    out[clef][famille] = true
+  }
+  for (const s of steps) {
+    const a = s.action
+    if (a.type !== "EXPECT_FORMAT" || !a.cells) continue
+    const refs = Object.keys(a.cells)
+    const pts = refs
+      .map((r) => r.toUpperCase().match(/^([A-Z]{1,3})(\d{1,5})$/))
+      .filter((m): m is RegExpMatchArray => !!m)
+      .map((m) => [numColonne(m[1]), Number(m[2])] as [number, number])
+    if (!pts.length) continue
+    const c1 = Math.min(...pts.map((p) => p[0]))
+    const c2 = Math.max(...pts.map((p) => p[0]))
+    const r1 = Math.min(...pts.map((p) => p[1]))
+    const r2 = Math.max(...pts.map((p) => p[1]))
+    // Un rectangle démesuré viendrait d'un scénario aberrant : on s'en tient
+    // aux cellules déclarées plutôt que d'ouvrir toute la feuille.
+    const taille = (c2 - c1 + 1) * (r2 - r1 + 1)
+    for (const [ref, att] of Object.entries(a.cells)) {
+      const f = (att as { numberFormat?: string }).numberFormat
+      if (f === undefined) continue
+      if (taille > 400) { marquer(ref, f); continue }
+      for (let c = c1; c <= c2; c++) for (let r = r1; r <= r2; r++) marquer(nomColonne(c) + r, f)
+    }
+  }
+  return out
+}
+
+/**
+ * Familles qui FONT MENTIR un nombre : le pourcentage multiplie ce qu'on lit
+ * par cent, la date transforme 46 025 en un jour de calendrier. Les autres —
+ * monétaire, séparateur de milliers — sont cosmétiques : les retirer n'apprend
+ * rien à personne et détruit peut-être un geste juste.
+ */
+const FAMILLES_TROMPEUSES: Record<string, true> = { pourcentage: true, date: true }
 
 /* ═══════════ Ce qu'une étape va lire ═══════════ */
 
@@ -366,7 +461,12 @@ const vide = (l: LectureCellule) =>
  * Tout le reste — gras posé au hasard, couleur, texte écrit dans une case hors
  * sujet — n'est PAS une divergence : c'est la trace de l'apprenant.
  */
-export function divergences(etat: EtatAplomb, lecture: Record<string, LectureCellule>, refs: string[]): Divergence[] {
+export function divergences(
+  etat: EtatAplomb,
+  lecture: Record<string, LectureCellule>,
+  refs: string[],
+  legitimes: Record<string, Record<string, true>> = {},
+): Divergence[] {
   const out: Divergence[] = []
 
   for (const brut of refs) {
@@ -386,7 +486,18 @@ export function divergences(etat: EtatAplomb, lecture: Record<string, LectureCel
     // mal formatée, et c'est le cas le plus fréquent (le % sur un total).
     const motifLu = (lu.numberFormat ?? "").trim()
     const familleLue = motifLu === MOTIF_DECIMAL_AUTO ? "aucun" : familleDeFormat(motifLu)
-    const formatDivergent = familleLue !== att.famille
+    // Le moteur interprète lui-même certains textes : « MAR-01 » devient une
+    // date à l'américaine, numéro de série et format compris. Ce n'est pas un
+    // geste de l'apprenant, et le retirer n'y changerait rien.
+    const interpreteParLeMoteur =
+      att.famille === "aucun" && familleLue === "date" && typeof att.valeur === "string"
+    const formatDivergent =
+      familleLue !== att.famille &&
+      !interpreteParLeMoteur &&
+      !legitimes[ref]?.[familleLue] &&
+      // Rien de déclaré : on ne retire QUE ce qui fait mentir un nombre. Un
+      // format monétaire posé au passage ne trompe personne.
+      (att.famille !== "aucun" || FAMILLES_TROMPEUSES[familleLue] === true)
 
     if (declareContenu) {
       const attenduVide = att.valeur !== undefined && String(att.valeur) === "" && !att.formules

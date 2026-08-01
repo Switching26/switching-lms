@@ -443,12 +443,36 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
         }
       }
 
+      /**
+       * Pose le format de nombre DÉCLARÉ par le scénario.
+       *
+       * Il figurait dans le format de scénario depuis l'origine et n'était
+       * jamais appliqué — exactement comme les largeurs de colonnes avant leur
+       * correctif. Conséquence : les colonnes de dates du module 10 déclarées
+       * `{v: 46266, format: {numberFormat: "dd/mm/yyyy"}}` s'affichaient en
+       * numéro de série, et la remise d'aplomb les signalait à chaque ouverture
+       * comme un dégât de l'apprenant.
+       */
+      const poserFormatDeclare = (ref: string, state: CellState) => {
+        const motif = state.format?.numberFormat
+        if (!motif) return
+        try {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          ;(sheet()?.getRange(ref) as any)?.setNumberFormat?.(motif)
+        } catch {
+          /* un motif refusé par le moteur ne doit pas empêcher la leçon */
+        }
+      }
+
       const applyCells = (cells: Record<string, CellState>) => {
         const sh = sheet()
         if (!sh) return
         for (const [ref, state] of Object.entries(cells)) {
           const rg = sh.getRange(ref)
           if (!rg) continue
+          // Le format se pose APRÈS l'écriture, sinon le moteur l'écrase en
+          // recalculant — même piège que la remise d'aplomb.
+          if (state.format?.numberFormat) window.setTimeout(() => poserFormatDeclare(ref, state), 220)
           if (state.f !== undefined) {
             // La formule de l'auteur est écrite en français ; le moteur ne
             // comprend que sa propre convention.
@@ -535,6 +559,9 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
                   if (!rg) continue
                   if (st.f !== undefined) rg.setValue?.({ f: frToEngine(st.f) })
                   else if (st.v !== undefined) rg.setValue?.(st.v)
+                  // Format de nombre déclaré : jamais appliqué jusqu'ici.
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                  if (st.format?.numberFormat) (rg as any).setNumberFormat?.(st.format.numberFormat)
                 }
               }
             } catch {
@@ -598,6 +625,9 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
                   if (!rg) continue
                   if (st.f !== undefined) rg.setValue?.({ f: frToEngine(st.f) })
                   else if (st.v !== undefined) rg.setValue?.(st.v)
+                  // Format de nombre déclaré : jamais appliqué jusqu'ici.
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                  if (st.format?.numberFormat) (rg as any).setNumberFormat?.(st.format.numberFormat)
                 }
               }
             } catch {

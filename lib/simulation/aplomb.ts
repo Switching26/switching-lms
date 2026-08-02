@@ -102,7 +102,7 @@ export type LectureCellule = {
 
 export type Divergence = {
   ref: string
-  motif: "vide" | "erreur" | "contenu" | "format"
+  motif: "vide" | "erreur" | "contenu" | "format" | "parasite"
   /** Contenu à réécrire. Absent quand seul le format est en cause. */
   correction?: CellState
   /** Famille de format voulue ("aucun" = il faut le retirer). */
@@ -401,6 +401,149 @@ export function cellulesLues(step: SimulationStep): string[] {
   return Object.keys(out)
 }
 
+/* ═══════════ Cellules parasites : ce qui ne devrait pas être là ═══════════ */
+
+export type ZoneClasseur = { c1: number; c2: number; r1: number; r2: number }
+
+/**
+ * LA REMISE SAVAIT REMETTRE, PAS ENLEVER.
+ *
+ * `divergences()` n'examine que les cellules que le scénario déclare. Une case
+ * remplie là où il n'attend RIEN n'était donc jamais regardée. Film de Samuel
+ * sur `m01-l05` : il tape 420 de C5 à C12, C6 et C7 reviennent, et C8 à C12
+ * gardent 420 — le devis affiche « Prix unitaire : 420 » en face de Total HT,
+ * TVA 20 % et Total TTC, avec la démonstration jouée par-dessus.
+ *
+ * La frontière retenue est le RECTANGLE ENGLOBANT de tout ce que le scénario
+ * déclare quelque part. Un 420 au milieu du tableau du devis pollue ; un
+ * gribouillis en H30 ne gêne personne et reste la trace de l'apprenant.
+ *
+ * ⚠️ « Déclaré quelque part » inclut les étapes À VENIR. Sans ça, la cellule
+ * que l'étape en cours demande de remplir serait vue comme parasite et effacée
+ * sous les doigts de l'apprenant en train de répondre.
+ *
+ * On ne retient pas « ce qui est visible à l'écran » : cela dépendrait du
+ * défilement, donc la même bêtise serait nettoyée ou non selon l'endroit où
+ * l'apprenant a fait défiler sa feuille. Intestable et surprenant à l'usage.
+ */
+export function zoneClasseur(
+  steps: SimulationStep[],
+  workbook: WorkbookState,
+  feuilleActive?: string,
+): { zone: ZoneClasseur | null; declarees: Record<string, true> } {
+  const declarees: Record<string, true> = {}
+  const pts: Array<[number, number]> = []
+  const ajout = (ref: string) => {
+    const m = String(ref).toUpperCase().match(/^\$?([A-Z]{1,3})\$?(\d{1,5})$/)
+    if (!m) return
+    declarees[m[1] + m[2]] = true
+    pts.push([numColonne(m[1]), Number(m[2])])
+  }
+  const ajoutPlage = (plage: string) => {
+    const m = String(plage).toUpperCase().match(/^\$?([A-Z]{1,3})\$?(\d{1,5}):\$?([A-Z]{1,3})\$?(\d{1,5})$/)
+    if (!m) { ajout(plage); return }
+    const c1 = numColonne(m[1]), c2 = numColonne(m[3]), r1 = Number(m[2]), r2 = Number(m[4])
+    if ((Math.abs(c2 - c1) + 1) * (Math.abs(r2 - r1) + 1) > 2000) return
+    for (let c = Math.min(c1, c2); c <= Math.max(c1, c2); c++)
+      for (let r = Math.min(r1, r2); r <= Math.max(r1, r2); r++) ajout(nomColonne(c) + r)
+  }
+
+  const nomDe = (i: number) => workbook.sheets?.[i]?.name ?? ""
+  const depart = nomDe(workbook.activeSheetIndex ?? 0)
+  const cible = (feuilleActive ?? depart).trim()
+  const feuille = (workbook.sheets ?? []).find((f) => f.name?.trim() === cible) ?? workbook.sheets?.[0]
+  for (const ref of Object.keys(feuille?.cells ?? {})) ajout(ref)
+
+  let courante = depart
+  for (const s of steps) {
+    const impose = (s.setup as { activeSheet?: string } | undefined)?.activeSheet
+    if (impose) courante = impose
+    const bonneFeuille = courante.trim() === cible
+    const a = s.action
+
+    if (bonneFeuille) {
+      for (const ref of Object.keys(s.setup?.cells ?? {})) ajout(ref)
+      if (s.setup?.image?.ref) ajout(s.setup.image.ref)
+
+      /* Un COLLAGE et une CONVERSION texte-colonnes écrivent dans des cellules
+       * que le scénario ne déclare pas : le module 26 colle un tableau
+       * Client / Ville / Montant de 15 cellules. Les traiter en parasites
+       * casserait la leçon. On calcule donc leur zone d'arrivée. */
+      const coll = (s.setup as { paste?: { texte?: string } } | undefined)?.paste
+      if (coll?.texte) {
+        const lignes = String(coll.texte).split("\n")
+        const larg = Math.max(...lignes.map((l) => l.split("\t").length))
+        const ancre = String(s.setup?.selection ?? "A1").toUpperCase().match(/^([A-Z]{1,3})(\d{1,5})/)
+        const ac = ancre ? numColonne(ancre[1]) : 1
+        const ar = ancre ? Number(ancre[2]) : 1
+        for (let c = ac; c < ac + larg; c++)
+          for (let r = ar; r < ar + lignes.length; r++) ajout(nomColonne(c) + r)
+      }
+      const sp = (s.setup as { split?: { range?: string } } | undefined)?.split
+      if (sp?.range) {
+        const m = String(sp.range).toUpperCase().match(/^([A-Z]{1,3})(\d{1,5}):([A-Z]{1,3})(\d{1,5})$/)
+        if (m) {
+          // La conversion étale la colonne source vers la droite ; on réserve
+          // largement plutôt que de deviner le nombre de champs.
+          const c1 = numColonne(m[1]), r1 = Number(m[2]), r2 = Number(m[4])
+          for (let c = c1; c <= c1 + 8; c++)
+            for (let r = Math.min(r1, r2); r <= Math.max(r1, r2); r++) ajout(nomColonne(c) + r)
+        }
+      }
+
+      if (a.type === "TYPE" && a.target !== "formula-bar") ajout(a.target)
+      if (a.type === "EXPECT_STATE" && a.cells) for (const ref of Object.keys(a.cells)) ajout(ref)
+      if (a.type === "EXPECT_FORMAT" && a.cells) for (const ref of Object.keys(a.cells)) ajout(ref)
+      if (a.type === "DEFINE_NAME" && (a as { ref?: string }).ref) ajoutPlage(String((a as { ref?: string }).ref))
+      if (a.type === "SORT_RANGE" && (a as { range?: string }).range) ajoutPlage(String((a as { range?: string }).range))
+      if (a.type === "FILTER_COLUMN" && (a as { range?: string }).range) ajoutPlage(String((a as { range?: string }).range))
+    }
+    if (a.type === "SELECT_SHEET" && (a as { name?: string }).name) courante = String((a as { name?: string }).name)
+  }
+
+  if (!pts.length) return { zone: null, declarees }
+  const zone = {
+    c1: Math.min(...pts.map((p) => p[0])),
+    c2: Math.max(...pts.map((p) => p[0])),
+    r1: Math.min(...pts.map((p) => p[1])),
+    r2: Math.max(...pts.map((p) => p[1])),
+  }
+  // Une zone démesurée viendrait d'un scénario aberrant : mieux vaut ne rien
+  // nettoyer que de balayer la feuille entière.
+  if ((zone.c2 - zone.c1 + 1) * (zone.r2 - zone.r1 + 1) > 4000) return { zone: null, declarees }
+  return { zone, declarees }
+}
+
+/** Toutes les références de la zone, pour aller les lire dans la grille. */
+export function refsDeLaZone(zone: ZoneClasseur | null): string[] {
+  if (!zone) return []
+  const out: string[] = []
+  for (let c = zone.c1; c <= zone.c2; c++)
+    for (let r = zone.r1; r <= zone.r2; r++) out.push(nomColonne(c) + r)
+  return out
+}
+
+/**
+ * Cellules non vides, dans la zone, que le scénario ne déclare NULLE PART.
+ * Ce sont les seules qu'on efface : tout le reste appartient à l'apprenant.
+ */
+export function cellulesParasites(
+  zone: ZoneClasseur | null,
+  declarees: Record<string, true>,
+  lecture: Record<string, LectureCellule>,
+): string[] {
+  if (!zone) return []
+  const out: string[] = []
+  for (const ref of refsDeLaZone(zone)) {
+    if (declarees[ref]) continue
+    const lu = lecture[ref]
+    if (!lu) continue
+    if (vide(lu)) continue
+    out.push(ref)
+  }
+  return out
+}
+
 /* ═══════════ Comparaison ═══════════ */
 
 /**
@@ -486,11 +629,22 @@ export function divergences(
     // mal formatée, et c'est le cas le plus fréquent (le % sur un total).
     const motifLu = (lu.numberFormat ?? "").trim()
     const familleLue = motifLu === MOTIF_DECIMAL_AUTO ? "aucun" : familleDeFormat(motifLu)
-    // Le moteur interprète lui-même certains textes : « MAR-01 » devient une
-    // date à l'américaine, numéro de série et format compris. Ce n'est pas un
-    // geste de l'apprenant, et le retirer n'y changerait rien.
-    const interpreteParLeMoteur =
-      att.famille === "aucun" && familleLue === "date" && typeof att.valeur === "string"
+    /* 🔴 LE MOTEUR INTERPRÈTE LUI-MÊME CERTAINS LITTÉRAUX.
+     *
+     * `MAR-01` — un code de commande dans l'évaluation du module 10 — devient
+     * pour Univer le mois de MARS 2001 : numéro de série 36951, format
+     * `mmm-yy`, affiché « mars-01 ». Le scénario, lui, déclare la chaîne.
+     *
+     * Ce n'est ni un dégât ni un geste de l'apprenant, et le « réparer » ne
+     * sert à rien : on réécrirait le texte que le moteur reconvertit aussitôt,
+     * en annonçant une réparation à chaque ouverture. On laisse donc le moteur
+     * faire, sur le format COMME sur le contenu.
+     *
+     * (Le fond reste un défaut de contenu : l'apprenant lit « mars-01 » là où
+     * l'auteur voulait un code. C'est aux scénarios de le corriger, pas au
+     * moteur de remise d'aplomb.) */
+    const litteralTexte = typeof att.valeur === "string" && !Number.isFinite(Number(att.valeur))
+    const interpreteParLeMoteur = att.famille === "aucun" && familleLue === "date" && litteralTexte
     const formatDivergent =
       familleLue !== att.famille &&
       !interpreteParLeMoteur &&
@@ -523,7 +677,7 @@ export function divergences(
       } else if (att.valeur !== undefined && !attenduVide) {
         // Un littéral produit par une formule de l'apprenant reste d'aplomb
         // tant que la valeur tombe juste : on ne compare que le résultat.
-        if (!memeValeur(valeurStockee(att.valeur), lu.valeur) && reference) {
+        if (!memeValeur(valeurStockee(att.valeur), lu.valeur) && !interpreteParLeMoteur && reference) {
           out.push({ ref, motif: "contenu", correction: reference, ...formatVoulu(att, formatDivergent) })
           continue
         }
@@ -548,11 +702,24 @@ export function refsConnues(etat: EtatAplomb): string[] {
  */
 export function phraseAplomb(ds: Divergence[]): string | null {
   if (!ds.length) return null
-  const contenus = ds.filter((d) => d.motif !== "format").map((d) => d.ref)
-  const formats = ds.filter((d) => d.motif === "format").map((d) => d.ref)
   const liste = (r: string[]) => (r.length <= 3 ? r.join(", ") : `${r.slice(0, 3).join(", ")} et ${r.length - 3} autres`)
+  const contenus = ds.filter((d) => d.motif !== "format" && d.motif !== "parasite").map((d) => d.ref)
+  const formats = ds.filter((d) => d.motif === "format").map((d) => d.ref)
+  const parasites = ds.filter((d) => d.motif === "parasite").map((d) => d.ref)
+
   const bouts: string[] = []
   if (contenus.length) bouts.push(`${contenus.length > 1 ? "les cellules" : "la cellule"} ${liste(contenus)}`)
   if (formats.length) bouts.push(`le format de ${liste(formats)}`)
-  return `J'ai remis ${bouts.join(" et ")} en ordre pour que la suite reste juste.`
+
+  const phrases: string[] = []
+  if (bouts.length) phrases.push(`J'ai remis ${bouts.join(" et ")} en ordre pour que la suite reste juste.`)
+  // Une cellule effacée ne se dit pas « remise » : l'apprenant doit comprendre
+  // que ce qu'il y avait écrit ne faisait pas partie de l'exercice.
+  if (parasites.length)
+    phrases.push(
+      `J'ai vidé ${parasites.length > 1 ? "les cellules" : "la cellule"} ${liste(parasites)} : ${
+        parasites.length > 1 ? "elles ne font" : "elle ne fait"
+      } pas partie de l'exercice.`,
+    )
+  return phrases.join(" ")
 }

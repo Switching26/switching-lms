@@ -34,11 +34,14 @@ import {
 import {
   MOTIF_PAR_FAMILLE,
   cellulesLues,
+  cellulesParasites,
   divergences,
   etatAplomb,
   famillesLegitimes,
   phraseAplomb,
   refsConnues,
+  refsDeLaZone,
+  zoneClasseur,
   type Divergence,
   type LectureCellule,
 } from "@/lib/simulation/aplomb"
@@ -1079,8 +1082,15 @@ export default function SimulationPlayer({
       const lues = portee === "tout" ? null : cellulesLues(s)
       if (!refs.length) return []
 
+      /* La ZONE DU CLASSEUR : le rectangle englobant de tout ce que le scénario
+       * déclare quelque part. On y lit aussi les cellules qu'il ne déclare PAS,
+       * pour voir ce qui ne devrait pas y être. */
+      const { zone, declarees } = zoneClasseur(steps, scenario.workbook, active)
+      const aLire = refs.slice()
+      for (const r of refsDeLaZone(zone)) if (!etat[r]) aLire.push(r)
+
       const lecture: Record<string, LectureCellule> = {}
-      for (const ref of refs) {
+      for (const ref of aLire) {
         try {
           lecture[ref.toUpperCase()] = {
             formule: grid.getFormula(ref) ?? "",
@@ -1095,7 +1105,23 @@ export default function SimulationPlayer({
       const toutes = divergences(etat, lecture, refs, famillesLegitimes(steps))
       // Le contenu ne se répare que dans la portée demandée ; le format, lui,
       // se répare partout (voir la note ci-dessus).
-      const ds =
+      /* CELLULES PARASITES — ce qui ne devrait pas être là.
+       *
+       * La remise savait remettre, pas enlever : une case remplie là où le
+       * scénario n'attend RIEN n'était jamais examinée. Sur `m01-l05`, les 420
+       * tapés en C8:C12 restaient affichés en « Prix unitaire » face à Total
+       * HT, TVA 20 % et Total TTC, et la démonstration se jouait dessus.
+       *
+       * Elles s'effacent quelle que soit la portée : un chiffre parasite au
+       * milieu d'un tableau ment à l'écran, que l'étape suivante le lise ou
+       * non — même raisonnement que pour un format trompeur. */
+      const versParasite: Divergence[] = cellulesParasites(zone, declarees, lecture).map((ref) => ({
+        ref,
+        motif: "parasite",
+        correction: { v: "" },
+      }))
+
+      const ds = (
         lues === null
           ? toutes
           : toutes
@@ -1106,6 +1132,7 @@ export default function SimulationPlayer({
                 return d.famille !== undefined ? { ref: d.ref, motif: "format" as const, famille: d.famille, motifFormat: d.motifFormat } : null
               })
               .filter((d): d is NonNullable<typeof d> => d !== null)
+      ).concat(versParasite)
       // Trace d'audit, hors production : sans elle, un mécanisme qui ne trouve
       // rien est indiscernable d'un mécanisme qui n'est jamais appelé.
       if (process.env.NODE_ENV !== "production" && typeof window !== "undefined") {
@@ -1234,8 +1261,12 @@ export default function SimulationPlayer({
     if (!demonstration || !gridReady || finished) return
     const p = direAplomb(remettreDAplomb("tout", index))
     if (p) setAplomb(p)
+    // `rejeu` fait partie des dépendances : sans lui, « Revoir la
+    // démonstration » rejouait sur le classeur tel qu'il était devenu depuis la
+    // première fois. L'apprenant qui abîme quelque chose PUIS redemande à voir
+    // se retrouvait avec la même explication fausse qu'au départ.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [demonstration, gridReady])
+  }, [demonstration, rejeu, gridReady])
 
   useEffect(() => {
     if (!step || finished || mode === "EVALUATION") return

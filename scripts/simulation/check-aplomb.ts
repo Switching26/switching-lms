@@ -31,10 +31,13 @@ import * as path from "path"
 import {
   MOTIF_DECIMAL_AUTO,
   cellulesLues,
+  cellulesParasites,
   divergences,
   etatAplomb,
   famillesLegitimes,
   refsConnues,
+  refsDeLaZone,
+  zoneClasseur,
   type EtatAplomb,
   type LectureCellule,
 } from "../../lib/simulation/aplomb"
@@ -164,6 +167,21 @@ const pieges: Array<{ nom: string; ok: boolean; detail: string }> = []
   essai("formule remplacée par une autre", (l) => { l.D5 = { formule: "=B5*99", valeur: 1, numberFormat: "" } }, "contenu")
   essai("en erreur", (l) => { l.D5 = { formule: "=B5*C5", valeur: "#VALEUR!", numberFormat: "" } }, "erreur")
   essai("format pourcentage posé au hasard", (l) => { l.D5 = { ...l.D5, numberFormat: "0.00%" } }, "format")
+  // Contre-piège : le moteur transforme certains littéraux de lui-même —
+  // « MAR-01 » devient mars 2001 (36951, mmm-yy). Le « réparer » réécrirait un
+  // texte aussitôt reconverti, avec un message à chaque ouverture.
+  {
+    const sc2: SimulationScenario = JSON.parse(fs.readFileSync(path.join(DIR, "m10-ev01.json"), "utf8"))
+    const e2 = etatAplomb(sc2.steps, sc2.workbook, 1)
+    const l2 = lectureParfaite(e2, false)
+    l2.A3 = { formule: "", valeur: 36951, numberFormat: "mmm-yy" }
+    const ds2 = divergences(e2, l2, refsConnues(e2), famillesLegitimes(sc2.steps))
+    pieges.push({
+      nom: "littéral transformé par le moteur ≠ dégât",
+      ok: !ds2.some((d) => d.ref === "A3"),
+      detail: ds2.filter((d) => d.ref === "A3").map((d) => d.motif).join(",") || "aucune",
+    })
+  }
   // Contre-piège : la francisation automatique des décimales n'est PAS un
   // format de l'apprenant. La traiter comme tel faisait retirer le motif, et
   // « 14,2 » se réaffichait « 14.2 » — le simulateur cassait sa propre
@@ -239,19 +257,81 @@ const pieges2: Array<{ nom: string; ok: boolean; detail: string }> = []
   })
 }
 {
-  // D4 — cellule remplie là où le scénario n'attend rien : aujourd'hui
-  //      volontairement ignorée (la frontière « zone du classeur » attend
-  //      l'arbitrage de Samuel). Le piège existe pour que le jour où elle
-  //      sera posée, ce contrôle le dise.
+  // D4 — LE FILM DE SAMUEL. Il tape 420 de C5 à C12 sur `m01-l05` ; le
+  //      scénario ne déclare que C5/C6/C7. C8 à C12 doivent être vidées, et
+  //      RIEN d'autre — surtout pas une cellule que le scénario attend.
   const sc: SimulationScenario = JSON.parse(fs.readFileSync(path.join(DIR, "m01-l05.json"), "utf8"))
   const etat = etatAplomb(sc.steps, sc.workbook, 10)
+  const { zone, declarees } = zoneClasseur(sc.steps, sc.workbook)
   const l: Record<string, LectureCellule> = JSON.parse(JSON.stringify(lectureParfaite(etat, false)))
-  l.C9 = { formule: "", valeur: 420, numberFormat: "" }
-  const ds = divergences(etat, l, [...refsConnues(etat), "C9"], famillesLegitimes(sc.steps))
+  for (const r of ["C5", "C6", "C7", "C8", "C9", "C10", "C11", "C12"]) {
+    l[r] = { formule: "", valeur: 420, numberFormat: "" }
+  }
+  const par = cellulesParasites(zone, declarees, l)
+  const attendu = ["C8", "C9", "C10", "C11", "C12"]
   pieges2.push({
-    nom: "cellule parasite (frontière en attente d'arbitrage)",
-    ok: true,
-    detail: ds.some((d) => d.ref === "C9") ? "détectée" : "IGNORÉE — connu, arbitrage Samuel",
+    nom: "film de Samuel : les 420 hors tableau sont vidés",
+    ok: attendu.every((r) => par.includes(r)) && par.every((r) => attendu.includes(r)),
+    detail: par.length ? par.join(",") : "aucune",
+  })
+
+  // D5 — un parcours PROPRE ne doit produire aucun parasite : sinon la règle
+  //      efface du contenu légitime dès la première ouverture.
+  const propre: Record<string, LectureCellule> = JSON.parse(JSON.stringify(lectureParfaite(etat, false)))
+  const parPropre = cellulesParasites(zone, declarees, propre)
+  pieges2.push({
+    nom: "parcours propre : aucun parasite",
+    ok: parPropre.length === 0,
+    detail: parPropre.length ? parPropre.join(",") : "aucun",
+  })
+
+  // D6 — hors zone, on ne touche à rien : c'est l'exploration de l'apprenant.
+  const loin: Record<string, LectureCellule> = JSON.parse(JSON.stringify(lectureParfaite(etat, false)))
+  loin.H30 = { formule: "", valeur: "gribouillis", numberFormat: "" }
+  const parLoin = cellulesParasites(zone, declarees, loin)
+  pieges2.push({
+    nom: "hors zone : le gribouillis reste",
+    ok: !parLoin.includes("H30"),
+    detail: parLoin.length ? parLoin.join(",") : "aucun",
+  })
+}
+{
+  // D7 — LE COLLAGE ET LA CONVERSION écrivent dans des cellules non déclarées.
+  //      Les traiter en parasites casserait 12 scénarios : le module 26 colle
+  //      un tableau Client / Ville / Montant de 15 cellules.
+  const echecs: string[] = []
+  for (const nom of fichiers) {
+    const sc: SimulationScenario = JSON.parse(fs.readFileSync(path.join(DIR, nom), "utf8"))
+    const aDuVrac = (sc.steps ?? []).some(
+      (st) => (st.setup as { paste?: unknown; split?: unknown } | undefined)?.paste
+        || (st.setup as { paste?: unknown; split?: unknown } | undefined)?.split,
+    )
+    if (!aDuVrac) continue
+    const { zone, declarees } = zoneClasseur(sc.steps, sc.workbook)
+    // Tout ce que le collage pose doit être considéré comme déclaré.
+    for (const st of sc.steps ?? []) {
+      const coll = (st.setup as { paste?: { texte?: string } } | undefined)?.paste
+      if (!coll?.texte) continue
+      const lignes = String(coll.texte).split("\n")
+      const larg = Math.max(...lignes.map((x) => x.split("\t").length))
+      const anc = String(st.setup?.selection ?? "A1").toUpperCase().match(/^([A-Z]{1,3})(\d{1,5})/)
+      if (!anc) continue
+      const l: Record<string, LectureCellule> = {}
+      for (const r of refsDeLaZone(zone)) l[r] = { formule: "", valeur: "", numberFormat: "" }
+      // on « colle » : chaque case de la zone d'arrivée porte une valeur
+      const c0 = anc[1].split("").reduce((n, ch) => n * 26 + (ch.charCodeAt(0) - 64), 0)
+      const r0 = Number(anc[2])
+      const nomCol = (n: number) => { let x = "", q = n; while (q > 0) { const m2 = (q - 1) % 26; x = String.fromCharCode(65 + m2) + x; q = (q - m2 - 1) / 26 } return x }
+      for (let c = c0; c < c0 + larg; c++)
+        for (let r = r0; r < r0 + lignes.length; r++) l[nomCol(c) + r] = { formule: "", valeur: "collé", numberFormat: "" }
+      const par = cellulesParasites(zone, declarees, l)
+      if (par.length) echecs.push(`${nom} → ${par.slice(0, 5).join(",")}`)
+    }
+  }
+  pieges2.push({
+    nom: "collage et conversion : jamais pris pour des parasites",
+    ok: echecs.length === 0,
+    detail: echecs.length ? echecs.slice(0, 3).join(" · ") : "12 scénarios à collage/conversion vérifiés",
   })
 }
 

@@ -157,6 +157,14 @@ type Props = {
   scenario: SimulationScenario
   /** Étape de reprise, fournie par l'API. */
   initialStep?: number
+  /**
+   * L'apprenant avait commencé cette ÉVALUATION puis l'a quittée : elle repart
+   * du début (choix Samuel du 02/08/2026 — le score compte chaque geste au
+   * premier essai, or les réussites d'une session fermée ne sont pas
+   * persistées ; reprendre au milieu enregistrait ~0 % à un apprenant qui
+   * avait tout juste). Sert uniquement à le lui DIRE sur l'écran d'ouverture.
+   */
+  repriseEvaluation?: boolean
   /** Aperçu admin : aucune écriture de progression. */
   preview?: boolean
   onCompleted?: () => void
@@ -341,6 +349,7 @@ export default function SimulationPlayer({
   mode,
   scenario,
   initialStep = 0,
+  repriseEvaluation = false,
   preview,
   onCompleted,
   pleinCadre,
@@ -354,13 +363,25 @@ export default function SimulationPlayer({
   const steps = scenario.steps
   const total = steps.length
 
-  const [index, setIndex] = useState(() => Math.min(Math.max(initialStep, 0), Math.max(total - 1, 0)))
+  /**
+   * Une ÉVALUATION ne reprend JAMAIS au milieu : les réussites au premier
+   * essai (`firstTryRef`) vivent en mémoire de session, donc terminer en deux
+   * fois calculait la note sur la seule dernière session — « Score : 0 % »
+   * pour un apprenant qui avait tout réussi la veille. Le garde vit ICI et pas
+   * seulement chez l'appelant : quel que soit le chemin (page apprenant, banc,
+   * futur usage), une évaluation entamée repart de la première question, sur
+   * le classeur d'origine (`rejouerAvant(0)` ne rejoue rien).
+   */
+  const departForce = mode === "EVALUATION" ? 0 : initialStep
+  const [index, setIndex] = useState(() => Math.min(Math.max(departForce, 0), Math.max(total - 1, 0)))
   const [gridReady, setGridReady] = useState(false)
   // Écran d'ouverture éditorial (Direction B validée par Samuel le 28/07) :
   // affiché seulement en DÉBUT de chapitre — une reprise en cours saute
-  // l'intro. La grille se monte derrière pendant la lecture, ce qui masque le
-  // temps de chargement d'Univer.
-  const [introVue, setIntroVue] = useState(initialStep > 0)
+  // l'intro. En évaluation on repart du début, donc l'intro se remontre — avec
+  // le mot qui explique pourquoi. La grille se monte derrière pendant la
+  // lecture, ce qui masque le temps de chargement d'Univer.
+  const [introVue, setIntroVue] = useState(departForce > 0)
+  const evaluationRepart = mode === "EVALUATION" && (repriseEvaluation || initialStep > 0)
   const carteRef = useRef<HTMLDivElement>(null)
   /**
    * Dimensions de la feuille — MESURÉES, jamais calculées par soustraction.
@@ -3189,8 +3210,27 @@ export default function SimulationPlayer({
               }}
             >
               {total} étape{total > 1 ? "s" : ""} · ≈ {estimatedSimulationMinutes(mode, total)} min
-              {mode === "EVALUATION" ? " · sans aide, score enregistré" : ""}
+              {mode === "EVALUATION" ? " · sans aide, score enregistré · à faire d'une traite" : ""}
             </div>
+            {evaluationRepart && (
+              <p
+                data-control="intro-reprise-evaluation"
+                style={{
+                  fontSize: 13,
+                  lineHeight: 1.55,
+                  color: "#8A5A12",
+                  background: "#FBF1DF",
+                  borderRadius: 10,
+                  padding: "10px 14px",
+                  maxWidth: 520,
+                  marginBottom: 22,
+                  animation: "sim-intro-monte .6s .6s ease both",
+                }}
+              >
+                Vous aviez commencé cette évaluation : elle reprend depuis le début, sur un
+                classeur remis à neuf, pour que chaque geste compte au premier essai.
+              </p>
+            )}
             <button
               type="button"
               data-control="intro-commencer"

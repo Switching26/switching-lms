@@ -122,7 +122,17 @@ export default function SimulationChapter({
       chapterId={chapterId}
       mode={data.mode}
       scenario={data.scenario}
-      initialStep={data.attempt?.currentStep ?? 0}
+      // Une ÉVALUATION entamée repart de la première question : les réussites
+      // au premier essai ne sont pas persistées, reprendre au milieu notait
+      // ~0 % un apprenant qui avait tout juste (choix Samuel du 02/08/2026).
+      // Leçons et exercices, eux, reprennent où l'apprenant s'était arrêté et
+      // `rejouerAvant` restitue son travail — ne pas toucher à ce chemin-là.
+      initialStep={data.mode === "EVALUATION" ? 0 : (data.attempt?.currentStep ?? 0)}
+      repriseEvaluation={
+        data.mode === "EVALUATION" &&
+        (data.attempt?.currentStep ?? 0) > 0 &&
+        !data.attempt?.completedAt
+      }
       preview={preview}
       onCompleted={onCompleted}
       pleinCadre={atelier}

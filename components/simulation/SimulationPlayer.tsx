@@ -2734,6 +2734,25 @@ export default function SimulationPlayer({
         const w = window as any
         w.__SIM_DEMO_PRESSES = [...(w.__SIM_DEMO_PRESSES ?? []), id]
       }
+      // « Enregistrer sous » comporte DEUX gestes : remplacer le nom proposé,
+      // puis valider. La première version passait directement le nom final à
+      // la transition du poste : le fichier était bien créé, mais le champ ne
+      // changeait jamais à l'écran — la démonstration sautait précisément ce
+      // qu'elle devait enseigner. On rejoue ici une vraie saisie sur l'input
+      // contrôlé par React, événement compris, avant le clic suivant.
+      if (id === CONTROLES_POSTE.nomFichier && arg !== undefined) {
+        const el = document.querySelector<HTMLInputElement>(
+          `[data-control="${CONTROLES_POSTE.nomFichier}"]`,
+        )
+        if (!el) return
+        el.focus()
+        const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value")?.set
+        if (setter) setter.call(el, arg)
+        else el.value = arg
+        el.dispatchEvent(new Event("input", { bubbles: true }))
+        el.setSelectionRange(arg.length, arg.length)
+        return
+      }
       // Les boutons du poste qui prennent un nom de fichier n'ont pas d'équivalent
       // cliquable sans saisie : on passe par la transition directement.
       if (arg !== undefined && id.startsWith("poste-")) {

@@ -188,6 +188,7 @@ export const CONTROLES_POSTE = {
   nouveau: "poste-nouveau",
   enregistrer: "poste-enregistrer",
   enregistrerSous: "poste-enregistrer-sous",
+  nomFichier: "poste-nom-fichier",
   enregistrerValider: "poste-enregistrer-valider",
   enregistrerAnnuler: "poste-enregistrer-annuler",
   ouvrir: "poste-ouvrir",

@@ -680,12 +680,22 @@ function planBrut(action: SimulationAction, ctx: ContexteDemo): PlanDemo | null 
         return {
           gestes: [
             {
+              cible: ctrl(CONTROLES_POSTE.nomFichier),
+              bulle: `saisir ${nom}`,
+              frappe: nom,
+              // Le champ est contrôlé par React : la pression spéciale rejoue
+              // une vraie saisie DOM une fois l'animation de frappe terminée.
+              // Le geste suivant peut alors montrer le bouton Enregistrer sur
+              // une boîte qui contient réellement le nouveau nom.
+              presser: { id: CONTROLES_POSTE.nomFichier, arg: nom },
+            },
+            {
               cible: ctrl("poste-enregistrer-valider"),
               bulle: "valider l'enregistrement",
               presser: { id: "poste-enregistrer-valider", arg: nom },
             },
           ],
-          pas: ["Cliquer"],
+          pas: ["Saisir le nouveau nom", "Enregistrer"],
         }
       }
       if (p.boite === "enregistrer") return g("poste-enregistrer", "le bouton Enregistrer")

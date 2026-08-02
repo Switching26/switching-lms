@@ -419,6 +419,7 @@ export default function DesktopLayer({ poste, onControl, onEnregistrer, onOuvrir
             </label>
             <input
               id="poste-nom"
+              data-control={CONTROLES_POSTE.nomFichier}
               value={nomFichier}
               onChange={(e) => setNomFichier(e.target.value)}
               onKeyDown={(e) => {

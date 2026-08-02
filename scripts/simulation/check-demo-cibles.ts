@@ -162,7 +162,10 @@ for (const nom of fs.readdirSync(DIR).filter((n) => n.endsWith(".json")).sort())
       horsPortee++
       continue
     }
-    const plan = planDemonstration(st.action, onglet as RibbonTab)
+    const plan = planDemonstration(st.action, {
+      onglet: onglet as RibbonTab,
+      boitePoste: st.setup?.poste?.boite,
+    })
     if (!plan || plan.gestes.length === 0) continue
 
     // Le plan ouvre lui-même l'onglet dont il a besoin : on suit ces ouvertures

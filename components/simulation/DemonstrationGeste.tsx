@@ -593,7 +593,10 @@ export default function DemonstrationGeste({ plan, resoudre, largeur, hautFeuill
             </div>
           )}
 
-          {phase === "valide" && !geste.touches && !geste.illustration && (
+          {phase === "valide" &&
+            !geste.touches &&
+            !geste.illustration &&
+            (geste.frappe || geste.ecrire?.valeur === "") && (
             <div
               className="absolute rounded-md bg-white px-2 py-1 text-[10.5px] font-bold"
               style={{

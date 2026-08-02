@@ -544,6 +544,30 @@ export function cellulesParasites(
   return out
 }
 
+/**
+ * Cellules à vider AVANT une démonstration.
+ *
+ * La démonstration doit repartir de l'état exact d'entrée de l'étape, pas de
+ * l'ensemble des cellules que le chapitre utilisera un jour. Protéger les
+ * déclarations futures laissait ainsi les zéros saisis en A4:B6 pendant la
+ * démonstration de M01-L01-05 : ces cellules appartiennent bien au chapitre,
+ * mais elles doivent encore être vides à cette étape.
+ *
+ * On ne balaie toujours que la zone utile du scénario. Dans cette zone, seules
+ * les cellules présentes dans l'état d'aplomb courant sont conservées ; toute
+ * autre cellule non vide est une modification faite depuis l'entrée dans
+ * l'étape et doit disparaître avant que l'aide se joue.
+ */
+export function cellulesHorsEtatAplomb(
+  zone: ZoneClasseur | null,
+  etat: EtatAplomb,
+  lecture: Record<string, LectureCellule>,
+): string[] {
+  const protegees: Record<string, true> = {}
+  for (const ref of Object.keys(etat)) protegees[ref.toUpperCase()] = true
+  return cellulesParasites(zone, protegees, lecture)
+}
+
 /* ═══════════ Comparaison ═══════════ */
 
 /**

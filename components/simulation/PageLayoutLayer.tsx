@@ -660,7 +660,6 @@ function PanneauReglages({
   onEnteteEtPied: () => void
 }) {
   const marges = pageSetup.margins ?? PRESETS_MARGES.normales
-  const ajuste = pageSetup.scaleToFit !== undefined
 
   return (
     <div className="rounded-lg border border-neutral-300 bg-white/95 p-2.5 text-[11px] text-neutral-700 shadow-sm backdrop-blur">
@@ -719,10 +718,12 @@ function PanneauReglages({
       </Groupe>
 
       <Groupe titre="Mise à l'échelle">
-        {/* Les deux réglages s'excluent : on grise celui qui ne pilote pas, comme
-            Excel, plutôt que de laisser croire qu'ils s'additionnent. */}
+        {/* Les deux réglages s'excluent. L'échelle reste saisissable quand un
+            ajustement est actif : sa modification annule automatiquement
+            l'ajustement, comme l'annonce la leçon et comme le fait déjà
+            `appliquerReglages`. La désactiver rendait M13-E01 impossible. */}
         <label className="mb-1 flex items-center justify-between gap-2">
-          <span className={ajuste ? "text-neutral-400" : ""}>Échelle</span>
+          <span>Échelle</span>
           <span className="flex items-center gap-1">
             <input
               type="number"
@@ -730,10 +731,9 @@ function PanneauReglages({
               aria-label="Échelle en pourcentage"
               min={ECHELLE_MIN}
               max={ECHELLE_MAX}
-              disabled={ajuste}
               value={pageSetup.scale ?? Math.round(pages.echelle * 100)}
               onChange={(e) => onChange({ scale: Number(e.target.value) })}
-              className="w-14 rounded border border-neutral-300 px-1 py-0.5 text-right disabled:bg-neutral-100 disabled:text-neutral-400"
+              className="w-14 rounded border border-neutral-300 px-1 py-0.5 text-right"
             />
             <span className="text-neutral-500">%</span>
           </span>

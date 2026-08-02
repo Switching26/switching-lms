@@ -30,6 +30,7 @@ import * as fs from "fs"
 import * as path from "path"
 import {
   MOTIF_DECIMAL_AUTO,
+  cellulesHorsEtatAplomb,
   cellulesLues,
   cellulesParasites,
   divergences,
@@ -285,7 +286,28 @@ const pieges2: Array<{ nom: string; ok: boolean; detail: string }> = []
     detail: parPropre.length ? parPropre.join(",") : "aucun",
   })
 
-  // D6 — hors zone, on ne touche à rien : c'est l'exploration de l'apprenant.
+  // D6 — AVANT UNE DÉMONSTRATION, les cellules prévues pour plus tard ne
+  //      doivent pas protéger les erreurs de l'étape courante. Reproduction
+  //      exacte du retour Samuel : sur M01-L01-05, les zéros en A4:B6 restaient
+  //      derrière « Je vais vous montrer » parce que le chapitre les utilise
+  //      aux étapes suivantes.
+  {
+    const sc1: SimulationScenario = JSON.parse(fs.readFileSync(path.join(DIR, "m01-l01.json"), "utf8"))
+    const etat1 = etatAplomb(sc1.steps, sc1.workbook, 4)
+    const { zone: zone1 } = zoneClasseur(sc1.steps, sc1.workbook)
+    const l1: Record<string, LectureCellule> = JSON.parse(JSON.stringify(lectureParfaite(etat1, false)))
+    for (const r of ["A3", "B3", "A4", "B4", "A5", "B5", "A6", "B6"])
+      l1[r] = { formule: "", valeur: 0, numberFormat: "" }
+    const aVider = cellulesHorsEtatAplomb(zone1, etat1, l1)
+    const attendu = ["A3", "B3", "A4", "B4", "A5", "B5", "A6", "B6"]
+    pieges2.push({
+      nom: "démonstration : les cellules futures erronées sont vidées",
+      ok: attendu.every((r) => aVider.includes(r)) && aVider.every((r) => attendu.includes(r)),
+      detail: aVider.length ? aVider.join(",") : "aucune",
+    })
+  }
+
+  // D7 — hors zone, on ne touche à rien : c'est l'exploration de l'apprenant.
   const loin: Record<string, LectureCellule> = JSON.parse(JSON.stringify(lectureParfaite(etat, false)))
   loin.H30 = { formule: "", valeur: "gribouillis", numberFormat: "" }
   const parLoin = cellulesParasites(zone, declarees, loin)
@@ -296,7 +318,7 @@ const pieges2: Array<{ nom: string; ok: boolean; detail: string }> = []
   })
 }
 {
-  // D7 — LE COLLAGE ET LA CONVERSION écrivent dans des cellules non déclarées.
+  // D8 — LE COLLAGE ET LA CONVERSION écrivent dans des cellules non déclarées.
   //      Les traiter en parasites casserait 12 scénarios : le module 26 colle
   //      un tableau Client / Ville / Montant de 15 cellules.
   const echecs: string[] = []

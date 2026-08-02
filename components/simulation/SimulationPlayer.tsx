@@ -33,6 +33,7 @@ import {
 } from "@/lib/simulation/attendu"
 import {
   MOTIF_PAR_FAMILLE,
+  cellulesHorsEtatAplomb,
   cellulesLues,
   cellulesParasites,
   divergences,
@@ -728,6 +729,11 @@ export default function SimulationPlayer({
   const [presseP, setPresseP] = useState<string | null>(null)
   /** Plage devinée par la somme automatique, entourée le temps qu'on la lise. */
   const [plageSomme, setPlageSomme] = useState<string | null>(null)
+  const plageSommeRef = useRef<string | null>(null)
+  const poserPlageSomme = useCallback((plage: string | null) => {
+    plageSommeRef.current = plage
+    setPlageSomme(plage)
+  }, [])
 
   /* ── Modèles des modules 13, 17, 18, 20 et 27 ──────────────────────────── */
 
@@ -941,7 +947,11 @@ export default function SimulationPlayer({
       // `presseP` n'est PAS vidé ici : dans Excel le liseré du presse-papiers
       // survit au geste suivant et ne s'éteint qu'au collage. C'est justement
       // ce que M04-L06 enseigne — copier à une étape, coller à la suivante.
-      setPlageSomme(null)
+      // La proposition de Somme automatique doit survivre au passage de
+      // l'étape « cliquez sur Σ » à l'étape « validez ». Sinon Entrée n'a plus
+      // rien à valider et seul un clic qui force un blur peut débloquer la
+      // leçon. Toute autre transition éteint normalement le liseré.
+      if (!(plageSommeRef.current && s.action.type === "EXPECT_STATE")) poserPlageSomme(null)
       // La mise en place écrit dans la feuille, donc la grille émettra un
       // `stateChange` un peu plus tard. Ce n'est PAS un geste de l'apprenant :
       // sans ce garde-fou, chaque étape démarrait avec un tâtonnement déjà
@@ -1281,7 +1291,16 @@ export default function SimulationPlayer({
        * Elles s'effacent quelle que soit la portée : un chiffre parasite au
        * milieu d'un tableau ment à l'écran, que l'étape suivante le lise ou
        * non — même raisonnement que pour un format trompeur. */
-      const versParasite: Divergence[] = cellulesParasites(zone, declarees, lecture).map((ref) => ({
+      // Au changement d'étape on respecte l'exploration et seules les cellules
+      // étrangères au chapitre sont vidées. Avant une démonstration, en
+      // revanche, on revient exactement à l'état d'entrée de l'étape : une
+      // cellule prévue plus tard n'a aucune raison de conserver aujourd'hui le
+      // zéro que l'apprenant vient d'y saisir.
+      const aVider =
+        portee === "tout"
+          ? cellulesHorsEtatAplomb(zone, etat, lecture)
+          : cellulesParasites(zone, declarees, lecture)
+      const versParasite: Divergence[] = aVider.map((ref) => ({
         ref,
         motif: "parasite",
         correction: { v: "" },
@@ -2350,6 +2369,15 @@ export default function SimulationPlayer({
         handleAction({ kind: "control", control: controlId, channel: "ribbon" })
         return
       }
+      // Somme automatique laisse la formule en attente de validation, comme
+      // Excel. Le bouton ✓ doit relire l'état du classeur, pas être jugé comme
+      // un simple clic de ruban : l'étape suivante attend le résultat calculé.
+      if (controlId === "bf-entrer" && plageSomme && grid) {
+        poserPlageSomme(null)
+        handleAction({ kind: "stateChange", readings: {} })
+        grid.focus()
+        return
+      }
       // L'enregistreur transcrit les boutons de mise en forme, comme Excel. Le
       // geste est lu AVANT l'effet : la sélection ne doit pas avoir bougé.
       const enreg = enregistrementRef.current
@@ -2416,7 +2444,7 @@ export default function SimulationPlayer({
             // Le liseré autour de la plage devinée : c'est la moitié de la
             // promesse de la consigne, et le seul moyen de comprendre CE
             // qu'Excel a choisi d'additionner.
-            setPlageSomme(plage)
+            poserPlageSomme(plage)
             break
           }
           case "acc-copier": {
@@ -2652,8 +2680,25 @@ export default function SimulationPlayer({
 
       handleAction({ kind: "control", control: controlId, channel: "ribbon" })
     },
-    [effetModele, handleAction, gestePoste],
+    [effetModele, handleAction, gestePoste, plageSomme, poserPlageSomme],
   )
+
+  // Après Somme automatique, Entrée et le bouton ✓ sont deux réalisations du
+  // même geste. Le focus peut encore être sur le bouton du ruban : écouter au
+  // niveau de la fenêtre évite qu'Entrée relance « Somme » au lieu de valider
+  // la formule déjà proposée.
+  useEffect(() => {
+    if (!plageSomme) return
+    const validerAvecEntree = (e: KeyboardEvent) => {
+      if (e.key !== "Enter" || e.repeat) return
+      if (stepRef.current?.action.type !== "EXPECT_STATE") return
+      e.preventDefault()
+      e.stopPropagation()
+      handleControl("bf-entrer")
+    }
+    window.addEventListener("keydown", validerAvecEntree, true)
+    return () => window.removeEventListener("keydown", validerAvecEntree, true)
+  }, [handleControl, plageSomme])
 
   /**
    * Presse un contrôle PENDANT la démonstration : l'effet est appliqué, la

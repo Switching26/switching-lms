@@ -139,12 +139,28 @@ export default function PageLayoutLayer({
           indication qu'il restait des réglages plus bas était une section
           coupée en deux (audit visuel du 31/07/2026). Un voile en bas du cadre
           annonce la suite, et il s'efface dès qu'on touche le fond. */}
-      <div className="pointer-events-none absolute right-2 top-2 z-20 hidden w-[240px] md:block" style={{ maxHeight: "calc(100% - 1rem)" }}>
+      {/* `top-2 bottom-2` : un absolu ancré aux deux bords a une hauteur
+          DÉFINIE — la seule contre laquelle le `max-height: 100%` du scroller
+          peut se résoudre. L'ancien montage (`maxHeight: calc(100% - 1rem)` sur
+          ce positionneur, pourcentage + inherit sur le scroller) ne contraignait
+          RIEN : un pourcentage de hauteur ignore un parent qui n'a qu'un
+          max-height, le panneau ne défilait donc jamais et tout son bas —
+          échelle, titres à répéter, bouton « En-tête et pied de page… » — était
+          inatteignable, y compris en 1440×900. L'étape 5 de l'évaluation du
+          module 13 était injouable (trouvé au rejeu complet du 02/08/2026). */}
+      <div
+        className="pointer-events-none absolute z-20 hidden w-[240px] md:block"
+        // Ancres en STYLE INLINE, pas en classes : `bottom-2` n'existait dans
+        // aucun CSS compilé et le JIT ne génère que les classes déjà vues — la
+        // classe restait lettre morte et le panneau reprenait sa hauteur de
+        // contenu (piège déjà documenté sur le feedback in-grid).
+        style={{ top: 8, right: 8, bottom: 8 }}
+      >
         <div
           ref={panneauRef}
           onScroll={majFondu}
           className="pointer-events-auto overflow-y-auto"
-          style={{ maxHeight: "calc(100vh - 1rem)", maxBlockSize: "inherit" }}
+          style={{ maxHeight: "100%" }}
         >
           <PanneauReglages pageSetup={pageSetup} pages={pages} onChange={patch} onEnteteEtPied={() => setZoneEditee("header")} />
         </div>

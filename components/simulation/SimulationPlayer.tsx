@@ -126,6 +126,10 @@ import {
   type PiloteMacro,
 } from "@/lib/simulation/macro"
 import { validateStep, computeScore, type ObservedAction, type Verdict } from "@/lib/simulation/validate"
+import { normalizeFormula } from "@/lib/simulation/types"
+import { frToEngine } from "@/lib/simulation/formula-fr"
+import { lireDateOuHeureFr } from "@/lib/simulation/date-fr"
+import { lireNombreFr } from "@/lib/simulation/nombre-fr"
 
 // Univer casse à l'import côté serveur : le chargement différé est obligatoire,
 // pas une optimisation.
@@ -346,6 +350,101 @@ function cadreHorsSource(grid: GridApi, source: string): NonNullable<ChartState[
   const x = apres ? Math.round(apres.left) + 8 : CADRE_DEFAUT.x
   return { ...CADRE_DEFAUT, x, y: CADRE_DEFAUT.y }
 }
+
+/**
+ * LA FRAPPE SE JUGE SUR SON CONTENU (choix Samuel du 02/08/2026).
+ *
+ * Une étape jugée sur l'état du classeur reçoit la saisie AVANT son
+ * observation : la frappe émet `typed`, la grille n'émet `stateChange` que
+ * ~350 ms plus tard. Ce `typed` n'était ni une « navigation » ni une
+ * observation « d'état » : il tombait dans la catégorie vraie faute — chaque
+ * saisie, MÊME JUSTE, coûtait le point « premier essai » et déclenchait un
+ * flash rouge sans message. Un apprenant parfait plafonnait à 46 % sur
+ * l'évaluation du module 1 ; 18 évaluations sur 27 étaient plafonnées, 56 des
+ * 483 points étant imprenables.
+ *
+ * La règle : une frappe juste dans une cellule attendue n'est pas une faute
+ * (l'observation d'état valide l'étape juste après) ; une frappe fausse dans
+ * une cellule attendue en est une — « premier essai » garde son sens ; une
+ * frappe hors des cellules attendues reste un tâtonnement, comme les
+ * réglages intermédiaires des modèles.
+ */
+function jugerFrappeSurEtat(
+  cells: Record<string, { f?: string; v?: string | number; anyOf?: string[] }>,
+  target: string,
+  text: string,
+): { verdict: "juste" | "fausse" | "hors-sujet"; ref?: string } {
+  const cible = String(target || "").trim().toUpperCase().replace(/\$/g, "")
+  const entree = Object.entries(cells).find(
+    ([r]) => r.trim().toUpperCase().replace(/\$/g, "") === cible,
+  )
+  if (!entree) return { verdict: "hors-sujet" }
+  const [ref, want] = entree
+  const t = String(text ?? "").trim()
+  const candidates = want.anyOf ?? (want.f !== undefined ? [want.f] : null)
+
+  if (t.startsWith("=")) {
+    if (candidates) {
+      const typedN = normalizeFormula(t)
+      const ok = candidates.some(
+        (c) => normalizeFormula(c) === typedN || normalizeFormula(frToEngine(c)) === typedN,
+      )
+      return { verdict: ok ? "juste" : "fausse", ref }
+    }
+    // Chemin libre : seule la valeur compte, et le résultat de cette formule
+    // n'existe pas encore au moment de la frappe. L'observation d'état
+    // tranchera — on ne compte rien.
+    return { verdict: "juste", ref }
+  }
+
+  // Une valeur brute là où une écriture précise est exigée : l'état ne
+  // validera jamais sans la formule, c'est une réponse fausse au sens du
+  // contrat de l'étape.
+  if (candidates) return { verdict: "fausse", ref }
+
+  if (want.v === undefined) {
+    // L'étape effaçait cette cellule : y écrire la contredit.
+    return { verdict: t === "" ? "juste" : "fausse", ref }
+  }
+
+  // Mêmes tolérances que la grille : décimale à virgule, date/heure française
+  // (la cellule stockera le numéro de série, pas la chaîne tapée).
+  //
+  // ⚠️ Le NOMBRE se tente AVANT la date : le `text` observé peut être la
+  // valeur re-sérialisée par le moteur en convention américaine (« 18.5 »
+  // pour une frappe « 18,50 »), et `lireDateOuHeureFr` lirait « 18.5 » comme
+  // le 18 mai — la saisie juste redevenait une faute, exactement le défaut
+  // qu'on corrige. Une vraie date tapée (« 03/01/2026 ») n'est pas un nombre
+  // et suit bien le chemin date.
+  const attendu = want.v
+  const na =
+    typeof attendu === "number" ? attendu : Number(String(attendu).replace(",", ".").trim())
+  const nbUS = t !== "" && Number.isFinite(Number(t.replace(",", "."))) ? Number(t.replace(",", ".")) : null
+  const nb = lireNombreFr(t) ?? nbUS
+  const dateFr = nb === null ? lireDateOuHeureFr(t) : null
+  const tapee = nb !== null ? nb : dateFr ? dateFr.valeur : NaN
+  if (Number.isFinite(na) && typeof tapee === "number" && Number.isFinite(tapee)) {
+    return { verdict: Math.abs(na - tapee) < 1e-9 ? "juste" : "fausse", ref }
+  }
+  const ok =
+    String(attendu).trim().toLocaleUpperCase("fr-FR") === t.toLocaleUpperCase("fr-FR")
+  return { verdict: ok ? "juste" : "fausse", ref }
+}
+
+/**
+ * Les étapes jugées sur un ÉTAT (classeur, format, modèle, poste) : une frappe
+ * n'y est jamais le canal attendu — hors des cellules attendues d'un
+ * `EXPECT_STATE`, elle vaut tâtonnement, pas faute.
+ */
+const ETAPES_SUR_ETAT = new Set([
+  "EXPECT_STATE",
+  "EXPECT_FORMAT",
+  "EXPECT_CHART",
+  "EXPECT_PIVOT",
+  "EXPECT_PAGE_SETUP",
+  "EXPECT_MACRO",
+  "EXPECT_POSTE",
+])
 
 export default function SimulationPlayer({
   chapterId,
@@ -1574,27 +1673,94 @@ export default function SimulationPlayer({
         observed.kind === "pageSetupChange" ||
         observed.kind === "macroChange"
       // Se déplacer n'est pas se tromper : cliquer une cellule, sélectionner une
-      // plage ou sauter par la zone Nom ne compte comme faute que si l'étape
-      // jugeait précisément ce geste. Sans cela, l'apprenant qui atteint par la
-      // zone Nom une plage située hors de l'écran — le seul chemin praticable sur
-      // un tableau long — écopait d'une erreur pour s'être déplacé.
+      // plage, une ligne, une colonne ou sauter par la zone Nom ne compte comme
+      // faute que si l'étape jugeait précisément ce geste. Sans cela, l'apprenant
+      // qui atteint par la zone Nom une plage située hors de l'écran — le seul
+      // chemin praticable sur un tableau long — écopait d'une erreur pour s'être
+      // déplacé. Même chose pour la sélection d'une colonne entière AVANT de
+      // cliquer « Supprimer » : c'est la préparation du geste demandé, pas une
+      // faute (M04-EV01-15 comptait ce geste et plafonnait l'évaluation à 95 %).
       const navigation =
-        observed.kind === "cellClick" || observed.kind === "dragRange" || observed.kind === "gotoRef"
+        observed.kind === "cellClick" ||
+        observed.kind === "dragRange" ||
+        observed.kind === "gotoRef" ||
+        observed.kind === "selectColumn" ||
+        observed.kind === "selectRow"
+      // La frappe se juge sur son CONTENU quand l'étape se juge sur l'état
+      // (voir `jugerFrappeSurEtat`) : juste → rien, l'observation d'état
+      // validera ; fausse dans une cellule attendue → vraie faute, avec un
+      // message — le flash rouge muet sur une saisie correcte disparaît ;
+      // ailleurs → tâtonnement, comme les réglages intermédiaires.
+      const frappe =
+        observed.kind === "typed" && step.action.type === "EXPECT_STATE"
+          ? jugerFrappeSurEtat(step.action.cells, observed.target, observed.text)
+          : null
+      if (frappe?.verdict === "juste") return
+      const frappeHorsCanal =
+        observed.kind === "typed" &&
+        ETAPES_SUR_ETAT.has(step.action.type) &&
+        frappe?.verdict !== "fausse"
+      // Sur une étape jugée sur un ÉTAT, un geste qui n'est « pas encore la
+      // bonne observation » (verdict `no_…` : no_recorder_reading,
+      // no_macro_reading…) est un passage obligé, pas une faute : ouvrir la
+      // boîte Macros ou lancer l'enregistreur ÉMET un `control` avant que
+      // l'état jugé n'existe. Compter ce clic — celui-là même que la consigne
+      // demande — plafonnait l'évaluation du module 27 à 78 % pour un
+      // parcours parfait. Un verdict `wrong_…` (réponse fausse) reste une
+      // faute : « premier essai » garde son sens.
+      const passageOblige =
+        typeof v.reason === "string" &&
+        v.reason.startsWith("no_") &&
+        (ETAPES_SUR_ETAT.has(step.action.type) || step.action.type === "RECORD_MACRO")
       // Une étape de LECTURE ne peut pas être ratée : il n'y a rien à y faire.
       // Taper ou cliquer par réflexe y comptait une faute — au score, et avec
       // un verdict rouge « ce n'est pas bon » sous les yeux de l'apprenant.
       const isRealMistake =
         step.action.type === "READ"
           ? false
+          : frappe?.verdict === "fausse"
+          ? true
+          : frappeHorsCanal || passageOblige
+          ? false
           : !navigation && !surEtat
           ? true
           : (observed.kind === "cellClick" && step.action.type === "CLICK_CELL") ||
             (observed.kind === "dragRange" && step.action.type === "DRAG_RANGE") ||
-            (observed.kind === "gotoRef" && step.action.type === "GOTO_REF")
+            (observed.kind === "gotoRef" && step.action.type === "GOTO_REF") ||
+            (observed.kind === "selectColumn" && step.action.type === "SELECT_COLUMN") ||
+            (observed.kind === "selectRow" && step.action.type === "SELECT_ROW")
       if (isRealMistake) {
         attemptedRef.current.add(step.id)
         firstTryRef.current[step.id] = false
         pendingRef.current.errors += 1
+        // Trace d'audit hors production : sans elle, un score en dessous de
+        // 100 % sur un parcours parfait est indiagnosticable — on ne sait pas
+        // QUELLE étape a compté quelle observation comme faute.
+        if (process.env.NODE_ENV !== "production" && typeof window !== "undefined") {
+          const w = window as unknown as Record<string, unknown>
+          const fautes = (w.__SIM_FAUTES as unknown[]) ?? []
+          fautes.push({
+            step: step.id,
+            kind: observed.kind,
+            reason: v.reason,
+            ...(observed.kind === "typed"
+              ? { target: observed.target, text: observed.text }
+              : {}),
+          })
+          w.__SIM_FAUTES = fautes
+        }
+        // Une frappe fausse dans une cellule attendue mérite un vrai message :
+        // le verdict de `validateStep` pour un `typed` sur une étape d'état
+        // est muet (« no_state_change »), et un flash rouge sans un mot faisait
+        // douter l'apprenant de sa saisie… même quand elle était bonne.
+        const vAffiche: Verdict =
+          frappe?.verdict === "fausse" && frappe.ref
+            ? {
+                ok: false,
+                reason: "wrong_typed_state_value",
+                message: `${frappe.ref} n'affiche pas le résultat attendu.`,
+              }
+            : v
         setEssais((n) => {
           const suivant = n + 1
           // Palier 2 : l'indice s'affiche de lui-même, y compris en exercice où
@@ -1603,8 +1769,8 @@ export default function SimulationPlayer({
           if (suivant >= 5) setDemonstration(true)
           return suivant
         })
-        setVerdict(v)
-        lancerFx(step, "ko", v.message)
+        setVerdict(vAffiche)
+        lancerFx(step, "ko", vAffiche.message)
       } else if (step.action.type === "READ") {
         // Rappel neutre, sans verdict rouge ni secousse : on indique juste où
         // cliquer pour continuer. Réservé aux gestes VOLONTAIRES : la mise en

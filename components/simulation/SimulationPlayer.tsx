@@ -602,6 +602,13 @@ export default function SimulationPlayer({
    */
   const [tatonnements, setTatonnements] = useState(0)
   /**
+   * Compteur de salves de modification du classeur. Il ne sert qu'à faire
+   * relire au graphique ses plages : sans lui, elles n'étaient relues qu'au
+   * changement d'étape, donc jamais entre le montage et la première étape
+   * franchie — le temps que le moteur recalcule.
+   */
+  const [versionClasseur, setVersionClasseur] = useState(0)
+  /**
    * L'apprenant est-il resté longtemps sur l'étape sans la franchir ? Dernier
    * filet : certains blocages ne produisent AUCUN geste — on ne sait pas quoi
    * faire, donc on ne fait rien, et aucun compteur ne bouge. Au bout de 45 s,
@@ -1641,6 +1648,12 @@ export default function SimulationPlayer({
       // en place du classeur en repose un à la fin de la démonstration, le clic
       // qui suit immédiatement une démonstration ne faisait rien du tout.
       if (observed.kind !== "next" && Date.now() < verrouDemoRef.current) return
+
+      // Le classeur a bougé : le graphique doit relire ses plages. Il ne le
+      // faisait qu'au changement d'étape, donc jamais pendant le recalcul qui
+      // suit le montage — une série alimentée par des formules s'affichait
+      // amputée de ses barres.
+      if (observed.kind === "stateChange") setVersionClasseur((n) => n + 1)
 
       // L'enregistreur de macros écoute les gestes RÉELS, ceux que la grille
       // signale déjà. Un second chemin d'observation finirait par transcrire
@@ -2916,7 +2929,7 @@ export default function SimulationPlayer({
 
   /* ── Données à peindre par les couches ─────────────────────────────────── */
 
-  /** Valeurs des plages du graphique, relues à chaque étape. */
+  /** Valeurs des plages du graphique, relues à chaque étape ET à chaque salve. */
   const valeursGraphique = useMemo(() => {
     const out: Record<string, unknown[]> = {}
     if (!graphique || !gridReady) return out
@@ -2924,9 +2937,15 @@ export default function SimulationPlayer({
     for (const p of plages) if (p) out[p] = lirePlage(p)
     return out
     // `index` fait partie des dépendances : une étape qui modifie les cellules
-    // sources doit redessiner le graphique.
+    // sources doit redessiner le graphique. `versionClasseur` aussi, et c'est
+    // indispensable quand une plage du graphique contient des FORMULES : au
+    // montage, le moteur n'a pas fini de recalculer (60 à 120 ms), donc la
+    // lecture rend une case vide et la barre correspondante manque. Un
+    // graphique déclaré dans le classeur sur une ligne de total s'ouvrait ainsi
+    // sans sa barre écrasante — le défaut que l'apprenant doit voir n'était pas
+    // à l'écran tant qu'il n'avait pas franchi une étape.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [graphique, gridReady, index, lirePlage])
+  }, [graphique, gridReady, index, versionClasseur, lirePlage])
 
   const tableauTcd = useMemo(() => (tcd ? calculerTcd(tcd) : null), [tcd])
   const champsTcd = useMemo(() => (tcd ? champsDisponibles(tcd.instantane) : []), [tcd])

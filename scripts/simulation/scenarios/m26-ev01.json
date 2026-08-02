@@ -5,7 +5,7 @@
   "moduleTitle": "Import, export et échanges de données",
   "intro": {
     "title": "S'ÉVALUER",
-    "body": "Un extrait à figer en valeurs, à mettre en forme et à contrôler, puis un graphique prêt pour un document imprimé. Aucune aide sur cette évaluation."
+    "body": "Un extrait et un graphique déjà préparés par un collègue, à contrôler avant qu'ils partent dans un rapport. Rien ne vous dit ce qui cloche. Aucune aide sur cette évaluation."
   },
   "outro": {
     "body": "Évaluation terminée."
@@ -27,6 +27,35 @@
     "fileName": "Ventes régionales",
     "activeSheetIndex": 0,
     "selection": "A1",
+    "charts": [
+      {
+        "id": "g1",
+        "type": "histogramme",
+        "source": "A1:B7",
+        "categories": "A2:A7",
+        "series": [
+          {
+            "name": "Ventes",
+            "values": "B2:B7"
+          }
+        ],
+        "title": "Ventes par région",
+        "elements": {
+          "titre": true,
+          "legende": false,
+          "quadrillage": true,
+          "axes": true
+        },
+        "legendPosition": "bas",
+        "style": 1,
+        "frame": {
+          "x": 60,
+          "y": 250,
+          "w": 430,
+          "h": 240
+        }
+      }
+    ],
     "sheets": [
       {
         "name": "Feuil1",
@@ -39,7 +68,7 @@
           "F": 110,
           "G": 110,
           "H": 120,
-          "I": 155,
+          "I": 200,
           "J": 110
         },
         "cells": {
@@ -97,26 +126,101 @@
           "C5": {
             "f": "=B5*0,04"
           },
+          "A6": {
+            "v": "Centre"
+          },
+          "B6": {
+            "v": 26800
+          },
+          "C6": {
+            "f": "=B6*0,04"
+          },
           "A7": {
             "v": "TOTAL",
             "format": {
               "bold": true
             }
           },
+          "B7": {
+            "f": "=SOMME(B2:B6)"
+          },
+          "C7": {
+            "f": "=SOMME(C2:C6)"
+          },
+          "F1": {
+            "v": "Région",
+            "format": {
+              "bold": true
+            }
+          },
+          "G1": {
+            "v": "Ventes",
+            "format": {
+              "bold": true
+            }
+          },
+          "H1": {
+            "v": "Commission",
+            "format": {
+              "bold": true
+            }
+          },
+          "F2": {
+            "v": "Nord"
+          },
+          "G2": {
+            "f": "=B2"
+          },
+          "H2": {
+            "f": "=C2"
+          },
+          "F3": {
+            "v": "Sud"
+          },
+          "G3": {
+            "f": "=B3"
+          },
+          "H3": {
+            "f": "=C3"
+          },
+          "F4": {
+            "v": "Est"
+          },
+          "G4": {
+            "f": "=B4"
+          },
+          "H4": {
+            "f": "=C4"
+          },
+          "F5": {
+            "v": "Ouest"
+          },
+          "G5": {
+            "f": "=B5"
+          },
+          "H5": {
+            "f": "=C5"
+          },
           "I1": {
-            "v": "Total collé",
+            "v": "Total des ventes de l'extrait",
             "format": {
               "bold": true
             }
           },
           "I2": {
-            "v": "Commissions collées",
+            "v": "Écart avec la source",
             "format": {
               "bold": true
             }
           },
           "I3": {
-            "v": "Lignes collées",
+            "v": "Lignes de l'extrait",
+            "format": {
+              "bold": true
+            }
+          },
+          "I4": {
+            "v": "Commission moyenne",
             "format": {
               "bold": true
             }
@@ -128,7 +232,7 @@
   "steps": [
     {
       "id": "M26-EV01-01",
-      "consigne": "Un tableau de ventes régionales à faire partir dans un rapport : un extrait figé en valeurs, mis en forme et contrôlé, puis un graphique lisible seul. **Douze gestes**, sans aide, comptés au premier essai.",
+      "consigne": "Un collègue a préparé l'extrait du rapport et son graphique pendant votre absence. Le rapport part demain : **contrôlez son travail avant de l'envoyer**. L'extrait occupe **F1:H6**, les contrôles sont en colonne **J**. **Treize gestes**, sans aide, comptés au premier essai.",
       "action": {
         "type": "READ"
       },
@@ -136,52 +240,101 @@
       "montrer": [
         {
           "type": "MONTRER",
-          "cible": "C2",
-          "texte": "Les commissions sont des FORMULES : elles ne peuvent pas partir telles quelles"
+          "cible": "A1:C7",
+          "texte": "La source : cinq régions, leurs ventes et leurs commissions"
         },
         {
           "type": "MONTRER",
-          "cible": "A1:C5",
-          "texte": "Il faut un extrait figé en valeurs, mis en forme et contrôlé"
+          "cible": "F1:H5",
+          "texte": "L'extrait préparé pour le rapport"
         },
         {
           "type": "MONTRER",
-          "cible": "B1",
-          "texte": "Puis un graphique lisible seul, hors de son classeur. Aucune aide"
+          "cible": "I1",
+          "texte": "Les contrôles à remplir, en colonne J"
         }
       ]
     },
     {
       "id": "M26-EV01-02",
-      "consigne": "En **B7**, totalisez les ventes.",
+      "consigne": "Commencez par mesurer. **En J1, totalisez les ventes de l'extrait**.",
       "setup": {
-        "selection": "B7"
+        "selection": "J1"
       },
       "action": {
         "type": "TYPE",
-        "target": "B7",
+        "target": "J1",
         "accept": [
-          "=SOMME(B2:B5)"
+          "=SOMME(G2:G6)"
+        ],
+        "formulaMode": true
+      },
+      "points": 2
+    },
+    {
+      "id": "M26-EV01-03",
+      "consigne": "**En J2, calculez l'écart** entre le total de la source et celui de l'extrait.",
+      "setup": {
+        "selection": "J2"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "J2",
+        "accept": [
+          "=B7-J1",
+          "=B7-SOMME(G2:G6)",
+          "=SOMME(B2:B6)-J1"
+        ],
+        "formulaMode": true
+      },
+      "points": 2
+    },
+    {
+      "id": "M26-EV01-04",
+      "consigne": "**En J3, comptez les lignes de l'extrait**.",
+      "setup": {
+        "selection": "J3"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "J3",
+        "accept": [
+          "=NBVAL(F2:F6)"
         ],
         "formulaMode": true
       },
       "points": 1
     },
     {
-      "id": "M26-EV01-03",
-      "consigne": "Le rapport ne reprendra que le tableau, titres compris et **sans** la ligne de total. Sélectionnez-le.",
+      "id": "M26-EV01-05",
+      "consigne": "Le service commercial signale une erreur de saisie : les ventes de l'**Est** sont de **29 800**. **Corrigez la source, en B4**.",
+      "setup": {
+        "selection": "B4"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B4",
+        "accept": [
+          "29800"
+        ]
+      },
+      "points": 1
+    },
+    {
+      "id": "M26-EV01-06",
+      "consigne": "Le rapport doit partir **complet et figé**. Reprenez l'extrait depuis la source : **sélectionnez le tableau**, titres compris, sans la ligne de total.",
       "setup": {
         "selection": "A1"
       },
       "action": {
         "type": "DRAG_RANGE",
-        "range": "A1:C5"
+        "range": "A1:C6"
       },
       "points": 2
     },
     {
-      "id": "M26-EV01-04",
-      "consigne": "Copiez la sélection.",
+      "id": "M26-EV01-07",
+      "consigne": "**Copiez la sélection**.",
       "setup": {
         "ribbon": {
           "activeTab": "accueil"
@@ -194,28 +347,74 @@
       "points": 1
     },
     {
-      "id": "M26-EV01-05",
-      "consigne": "Collez-la en **F1**, en valeurs : aucune formule ne doit partir dans le rapport.",
+      "id": "M26-EV01-08",
+      "consigne": "**Collez-la en F1** : le rapport ne doit plus dépendre de la feuille source.",
       "setup": {
         "selection": "F1",
         "ribbon": {
           "activeTab": "accueil"
         },
         "paste": {
-          "texte": "Région\tVentes\tCommission\nNord\t42500\t1700\nSud\t38900\t1556\nEst\t27300\t1092\nOuest\t31600\t1264"
+          "texte": "Région\tVentes\tCommission\nNord\t42500\t1700\nSud\t38900\t1556\nEst\t29800\t1192\nOuest\t31600\t1264\nCentre\t26800\t1072"
         }
       },
       "action": {
-        "type": "CLICK_CONTROL",
-        "control": "acc-coller"
+        "type": "EXPECT_STATE",
+        "cells": {
+          "F2": {
+            "v": "Nord"
+          },
+          "G2": {
+            "v": 42500
+          },
+          "H2": {
+            "v": 1700
+          },
+          "F3": {
+            "v": "Sud"
+          },
+          "G3": {
+            "v": 38900
+          },
+          "H3": {
+            "v": 1556
+          },
+          "F4": {
+            "v": "Est"
+          },
+          "G4": {
+            "v": 29800
+          },
+          "H4": {
+            "v": 1192
+          },
+          "F5": {
+            "v": "Ouest"
+          },
+          "G5": {
+            "v": 31600
+          },
+          "H5": {
+            "v": 1264
+          },
+          "F6": {
+            "v": "Centre"
+          },
+          "G6": {
+            "v": 26800
+          },
+          "H6": {
+            "v": 1072
+          }
+        }
       },
-      "points": 2
+      "points": 3
     },
     {
-      "id": "M26-EV01-06",
-      "consigne": "Donnez un format monétaire aux ventes collées, en **G2:G5**.",
+      "id": "M26-EV01-09",
+      "consigne": "Rendez l'extrait présentable : **format monétaire sur les ventes collées, en G2:G6**.",
       "setup": {
-        "selection": "G2:G5",
+        "selection": "G2:G6",
         "ribbon": {
           "activeTab": "accueil"
         }
@@ -226,7 +425,7 @@
           "G2": {
             "numberFormat": "monetaire"
           },
-          "G5": {
+          "G6": {
             "numberFormat": "monetaire"
           }
         }
@@ -234,68 +433,36 @@
       "points": 2
     },
     {
-      "id": "M26-EV01-07",
-      "consigne": "En **J1**, totalisez les ventes collées : ce total doit retomber sur celui de la source.",
-      "setup": {
-        "selection": "J1"
-      },
-      "action": {
-        "type": "TYPE",
-        "target": "J1",
-        "accept": [
-          "=SOMME(G2:G5)"
-        ],
-        "formulaMode": true
-      },
-      "points": 2
-    },
-    {
-      "id": "M26-EV01-08",
-      "consigne": "En **J2**, totalisez les commissions collées.",
-      "setup": {
-        "selection": "J2"
-      },
-      "action": {
-        "type": "TYPE",
-        "target": "J2",
-        "accept": [
-          "=SOMME(H2:H5)"
-        ],
-        "formulaMode": true
-      },
-      "points": 2
-    },
-    {
-      "id": "M26-EV01-09",
-      "consigne": "En **J3**, comptez les lignes de l'extrait.",
-      "setup": {
-        "selection": "J3"
-      },
-      "action": {
-        "type": "TYPE",
-        "target": "J3",
-        "accept": [
-          "=NBVAL(F2:F5)"
-        ],
-        "formulaMode": true
-      },
-      "points": 1
-    },
-    {
       "id": "M26-EV01-10",
-      "consigne": "Passons au graphique. Sélectionnez les régions et leurs ventes, titres compris, sans le total ni les commissions.",
+      "consigne": "**En J4, calculez la commission moyenne de l'extrait**.",
       "setup": {
-        "selection": "A1"
+        "selection": "J4"
       },
       "action": {
-        "type": "DRAG_RANGE",
-        "range": "A1:B5"
+        "type": "TYPE",
+        "target": "J4",
+        "accept": [
+          "=MOYENNE(H2:H6)"
+        ],
+        "formulaMode": true
       },
       "points": 2
     },
     {
       "id": "M26-EV01-11",
-      "consigne": "Représentez ces ventes en **histogramme**.",
+      "consigne": "Le graphique du collègue est illisible : une barre écrase toutes les autres. **Sélectionnez les données qui conviennent** pour le refaire.",
+      "setup": {
+        "selection": "A1"
+      },
+      "action": {
+        "type": "DRAG_RANGE",
+        "range": "A1:B6"
+      },
+      "points": 2
+    },
+    {
+      "id": "M26-EV01-12",
+      "consigne": "**Reprenez l'histogramme** sur cette sélection.",
       "setup": {
         "ribbon": {
           "activeTab": "insertion"
@@ -305,7 +472,7 @@
         "type": "EXPECT_CHART",
         "chart": {
           "type": "histogramme",
-          "categories": "A2:A5",
+          "categories": "A2:A6",
           "seriesCount": 1,
           "series": [
             {
@@ -317,8 +484,8 @@
       "points": 3
     },
     {
-      "id": "M26-EV01-12",
-      "consigne": "Donnez-lui le titre **Ventes 2026 par région**.",
+      "id": "M26-EV01-13",
+      "consigne": "**Donnez-lui le titre Ventes 2026 par région** : il sera lu hors du classeur.",
       "setup": {
         "chartEdit": {
           "title": "Ventes 2026 par région"
@@ -334,8 +501,8 @@
       "points": 2
     },
     {
-      "id": "M26-EV01-13",
-      "consigne": "Le rapport sera imprimé en noir et blanc : affichez les **étiquettes de données**.",
+      "id": "M26-EV01-14",
+      "consigne": "Le rapport sera imprimé en noir et blanc : **affichez les étiquettes de données**.",
       "setup": {
         "chartEdit": {
           "elements": {

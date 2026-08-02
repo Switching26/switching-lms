@@ -428,19 +428,65 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
       // entier il laisserait une virgule orpheline (« 12, »), et un entier
       // s'affiche de toute façon pareil dans les deux conventions.
       const MOTIF_DECIMAL = "0.##########"
-      const localiserDecimale = (ref: string) => {
+      const localiserDecimale = (ref: string): boolean => {
         try {
           const rg = sheet()?.getRange(ref)
-          if (!rg) return
+          if (!rg) return false
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const anyRg = rg as any
-          if (anyRg.getNumberFormat?.()) return // format déjà voulu par l'auteur
+          if (anyRg.getNumberFormat?.()) return false // format déjà voulu par l'auteur
           const brut = anyRg.getRawValue?.()
-          if (typeof brut !== "number" || !Number.isFinite(brut) || Number.isInteger(brut)) return
+          if (typeof brut !== "number" || !Number.isFinite(brut) || Number.isInteger(brut)) return false
           anyRg.setNumberFormat?.(MOTIF_DECIMAL)
+          return true
         } catch {
           /* le nombre restera à l'anglaise, sans autre conséquence */
+          return false
         }
+      }
+
+      /**
+       * LES FORMULES DÉJÀ POSÉES, QUI DEVIENNENT DÉCIMALES PLUS TARD.
+       *
+       * `localiserDecimale` n'était appelée que sur la cellule qu'on venait
+       * d'écrire. Or une formule du modèle ne devient décimale qu'au moment où
+       * l'apprenant remplit une AUTRE cellule : dans l'évaluation du module 1,
+       * `B15 = B13*B14` vaut 0 tant que le kilométrage manque, puis 172,8 dès
+       * qu'il est saisi — et s'affiche « 172.8 », à dix lignes d'un « 0,54 »
+       * parfaitement français. Deux écritures du même nombre sur le même écran,
+       * dans une formation Excel française. Mesuré au banc : B15 ET B17.
+       *
+       * On retient donc les cellules porteuses d'une formule, par feuille, et
+       * on les repasse après chaque salve de recalcul. La clé porte le nom de
+       * la feuille : sans lui, changer d'onglet ferait poser un format sur la
+       * cellule de même adresse d'une autre feuille.
+       */
+      // Objet simple et pas `Set` : la cible TypeScript du projet refuse
+      // d'itérer un Set (TS2802), piège déjà payé dans les scripts.
+      const formulesConnues: Record<string, true> = {}
+      const nomFeuille = () => {
+        try {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          return String((sheet() as any)?.getSheetName?.() ?? "")
+        } catch {
+          return ""
+        }
+      }
+      const noterFormule = (ref: string) => {
+        formulesConnues[`${nomFeuille()}!${ref.toUpperCase()}`] = true
+      }
+      const franciserFormules = (): number => {
+        const nom = nomFeuille()
+        let poses = 0
+        for (const k of Object.keys(formulesConnues)) {
+          const i = k.indexOf("!")
+          if (k.slice(0, i) !== nom) continue
+          // Sans effet si l'auteur a déjà posé un format, ou si le résultat est
+          // entier : la cellule ne sera francisée qu'au moment où elle en a
+          // besoin, et une seule fois.
+          if (localiserDecimale(k.slice(i + 1))) poses += 1
+        }
+        return poses
       }
 
       /**
@@ -477,6 +523,7 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
             // La formule de l'auteur est écrite en français ; le moteur ne
             // comprend que sa propre convention.
             rg.setValue({ f: frToEngine(state.f) })
+            noterFormule(ref)
             // Le résultat n'est connu qu'après recalcul (60 à 120 ms mesurés).
             window.setTimeout(() => localiserDecimale(ref), 200)
           } else if (state.v !== undefined) {
@@ -1469,6 +1516,9 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
         // Formule BRUTE telle que le moteur l'a stockée, sans réaffichage FR.
         const stored: string = rg?.getFormula?.() ?? ""
         if (stored.startsWith("=")) {
+          // Une formule saisie par l'apprenant devient elle aussi une cellule à
+          // surveiller : son résultat peut passer décimal plus tard.
+          noterFormule(ref)
           const translated = frToEngine(stored)
           // Différent = la saisie était en français, il faut la retraduire pour
           // que le moteur calcule. Identique = déjà compréhensible, on ne touche pas.
@@ -1588,10 +1638,21 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
         })
       })
 
+      // Poser un format déclenche à son tour `SheetValueChanged` : sans cette
+      // fenêtre, notre propre francisation produisait un second `stateChange`,
+      // que le lecteur comptait comme un geste de l'apprenant — un tâtonnement
+      // sur une feuille que personne n'avait touchée.
+      let franciseJusqua = 0
       listen("SheetValueChanged", () => {
+        if (Date.now() < franciseJusqua) return
         if (settleTimer) clearTimeout(settleTimer)
         settleTimer = setTimeout(() => {
           settleTimer = null
+          // Le recalcul est terminé : c'est le moment de franciser les formules
+          // dont le résultat vient de devenir décimal (voir `franciserFormules`).
+          // Sans effet quand rien n'a changé de nature, donc pas de boucle : une
+          // cellule déjà formatée est ignorée dès la deuxième passe.
+          if (franciserFormules() > 0) franciseJusqua = Date.now() + 400
           onActionRef.current({ kind: "stateChange", readings: {} })
         }, 350)
       })

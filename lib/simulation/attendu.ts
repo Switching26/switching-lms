@@ -56,6 +56,91 @@ function lieu(ref: string): string {
 }
 
 /**
+ * NOM DES BOUTONS, pour que le critère de réussite dise quelque chose.
+ *
+ * `CLICK_CONTROL` affichait « Attendu : un clic sur le bouton indiqué » sur ses
+ * 239 étapes : une phrase qui n'apporte rien que la consigne ne donne déjà, et
+ * qui occupe la ligne censée dire à quoi on reconnaît que c'est fait. Elle
+ * nomme désormais le bouton — et disparaît quand le nom est inconnu, plutôt que
+ * de meubler.
+ *
+ * Les libellés viennent des composants qui rendent ces boutons
+ * (`SimulationChrome`, `PageLayoutLayer`) ; les trois symboles du ruban — G, €,
+ * % — sont écrits en toutes lettres, « un clic sur « G » » n'apprenant rien à
+ * un débutant. `check-controles.ts` vérifie que la table ne dérive pas :
+ * chaque contrôle cité par un scénario doit y figurer, et chaque entrée doit
+ * correspondre à un bouton réellement rendu.
+ */
+export const LIBELLE_CONTROLE: Record<string, string> = {
+  /* Onglet Accueil */
+  "acc-coller": "Coller",
+  "acc-copier": "Copier",
+  "acc-gras": "Gras",
+  "acc-italique": "Italique",
+  "acc-souligne": "Souligné",
+  "acc-couleur-police": "Couleur",
+  "acc-remplissage": "Remplir",
+  "acc-bordures": "Bordures",
+  "acc-fusionner": "Fusionner",
+  "acc-somme-auto": "Somme",
+  "acc-inserer": "Insérer",
+  "acc-supprimer": "Supprimer",
+  "acc-format-largeur": "Largeur",
+  "acc-format-masquer": "Masquer",
+  "acc-format-monetaire": "Format monétaire",
+  "acc-pourcentage": "Pourcentage",
+  "acc-mfc-regle": "Mise en forme cond.",
+  "acc-mfc-effacer": "Effacer règles",
+  /* Barre de formule et onglets de feuille */
+  "bf-fx": "Insérer une fonction",
+  "ui-nouvelle-feuille": "Nouvelle feuille",
+  /* Onglet Données */
+  "don-filtrer": "Filtrer",
+  "don-effacer-filtre": "Effacer",
+  "don-validation": "Validation",
+  "don-effacer-validation": "Effacer validation",
+  "don-valeur-cible": "Valeur cible",
+  "don-convertir": "Convertir",
+  /* Onglet Affichage */
+  "aff-figer-volets": "Figer les volets",
+  "aff-liberer-volets": "Libérer les volets",
+  /* Onglet Révision */
+  "rev-commentaire": "Nouveau commentaire",
+  "rev-supprimer-commentaire": "Supprimer",
+  /* Onglet Insertion */
+  "ins-image-cellule": "Image dans la cellule",
+  /* Graphiques */
+  "ins-graph-recommande": "Graphique recommandé",
+  "ins-graph-histogramme": "Histogramme",
+  "ins-graph-courbes": "Courbes",
+  "ins-graph-secteurs": "Secteurs",
+  "ins-graph-modifier-type": "Modifier le type",
+  "ins-graph-intervertir": "Lignes / colonnes",
+  "ins-graph-selectionner-donnees": "Sélectionner les données",
+  "ins-graph-supprimer-serie": "Supprimer une série",
+  "ins-graph-filtre-serie": "Filtrer une série",
+  "ins-graph-couleur-serie": "Couleur de la série",
+  "ins-graph-forme-serie": "Forme de la série",
+  "ins-graph-element-titre": "Titre",
+  "ins-graph-element-titres-axes": "Titres des axes",
+  "ins-graph-element-legende": "Légende",
+  "ins-graph-element-etiquettes": "Étiquettes",
+  "ins-graph-element-quadrillage": "Quadrillage",
+  "ins-graph-legende-bas": "En bas",
+  "ins-graph-legende-droite": "À droite",
+  "ins-graph-tendance-lineaire": "Tendance linéaire",
+  "ins-graph-tendance-moyenne-mobile": "Moyenne mobile",
+  "ins-graph-tendance-supprimer": "Retirer la tendance",
+  "ins-graph-style-2": "Style 2",
+  "ins-graph-style-3": "Style 3",
+  "ins-graph-style-4": "Style 4",
+  "ins-graph-style-5": "Style 5",
+  /* Mise en page */
+  "mep-entete-pied": "En-tête et pied de page",
+  "mep-zone-entete": "Zone d'en-tête",
+}
+
+/**
  * « Attendu : … » — le critère de réussite, en une ligne.
  *
  * Renvoie null quand l'action ne se résume pas honnêtement en une phrase courte :
@@ -98,8 +183,12 @@ export function resumerAttendu(action: SimulationAction): string | null {
       return `${lieu(action.ref)} atteinte par la zone Nom`
     case "DEFINE_NAME":
       return `la plage nommée « ${action.name} »`
-    case "CLICK_CONTROL":
-      return "un clic sur le bouton indiqué"
+    case "CLICK_CONTROL": {
+      // Nommer le bouton, ou se taire : « un clic sur le bouton indiqué » ne
+      // disait rien que la consigne ne dise déjà.
+      const nom = LIBELLE_CONTROLE[action.control]
+      return nom ? `un clic sur « ${nom} »` : null
+    }
     case "CONTEXT_MENU":
       return "le menu contextuel ouvert"
     case "DOUBLE_CLICK":
@@ -167,8 +256,10 @@ export function resumerFait(action: SimulationAction): string | null {
       return `Vous avez atteint ${lieu(action.ref)} par la zone Nom.`
     case "DEFINE_NAME":
       return `La plage porte maintenant le nom « ${action.name} ».`
-    case "CLICK_CONTROL":
-      return "Vous avez utilisé le bouton du ruban."
+    case "CLICK_CONTROL": {
+      const nom = LIBELLE_CONTROLE[action.control]
+      return nom ? `Vous avez cliqué sur « ${nom} ».` : "Vous avez utilisé le bouton du ruban."
+    }
     case "SORT_RANGE":
       return `Le tableau est trié sur la colonne ${action.column}.`
     case "FILTER_COLUMN":
@@ -263,6 +354,12 @@ export function reponseAttendue(action: SimulationAction): string | null {
       if (p.excel === "ferme") return "Il fallait fermer la fenêtre par la croix, en haut à droite."
       if (p.excel === "classeur") return "Il fallait ouvrir un classeur depuis l'écran d'accueil d'Excel."
       return null
+    }
+    case "CLICK_CONTROL": {
+      // Au cinquième essai, l'apprenant a droit au nom exact du bouton — pas à
+      // « suivez le repère », qui suppose qu'il l'ait vu.
+      const nom = LIBELLE_CONTROLE[action.control]
+      return nom ? `Il fallait cliquer sur « ${nom} ».` : null
     }
     default:
       return null

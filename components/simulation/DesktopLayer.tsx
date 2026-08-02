@@ -38,15 +38,31 @@ type Props = {
    * le tableur occupe tout le cadre.
    */
   decor?: boolean
+  /**
+   * Le parent donne-t-il déjà une hauteur ? En atelier plein cadre, oui : la
+   * colonne réserve sa place au cockpit et à la consigne, et le bureau prend
+   * strictement le reste. Dans l'aperçu admin en carte, non — d'où le plancher
+   * ci-dessous, sans lequel le bureau s'effondrerait à sa barre des tâches.
+   */
+  pleinCadre?: boolean
   /** La fenêtre Excel — rendue seulement quand un classeur est ouvert. */
   children: React.ReactNode
 }
+
+/**
+ * Hauteur de la barre des tâches, en flux au bas du bureau (6 px de marge
+ * haute et basse, un bouton de 26 px, un filet). La fenêtre Excel se cale
+ * dessus : posée à « 4 % du bas » elle la recouvrait partiellement dès que le
+ * bureau descendait sous 975 px, donc toujours — et le bouton Démarrer, qu'une
+ * leçon sur deux fait cliquer, se retrouvait à moitié sous la fenêtre.
+ */
+const HAUTEUR_BARRE_TACHES = 39
 
 /** Halo d'aide, identique à celui du ruban. */
 const halo = (actif: boolean): React.CSSProperties =>
   actif ? { boxShadow: "0 0 0 3px rgba(232,163,61,.85)", animation: "sim-poste-pulse 1.3s ease-in-out infinite" } : {}
 
-export default function DesktopLayer({ poste, onControl, onEnregistrer, onOuvrir, highlight, decor = true, children }: Props) {
+export default function DesktopLayer({ poste, onControl, onEnregistrer, onOuvrir, highlight, decor = true, pleinCadre = false, children }: Props) {
   const [nomFichier, setNomFichier] = useState("")
   useEffect(() => {
     // Excel propose « Classeur1 » quand rien n'a encore été enregistré : sans
@@ -83,10 +99,27 @@ export default function DesktopLayer({ poste, onControl, onEnregistrer, onOuvrir
       className="relative flex min-h-0 flex-1 flex-col overflow-hidden"
       // Hauteur plancher : la fenêtre Excel et le menu Démarrer sont positionnés
       // en absolu et n'imposent donc aucune hauteur. Dans un parent qui n'en
-      // donne pas, le bureau s'effondrait à la seule barre des tâches et le menu
-      // s'ouvrait hors de l'écran, en coordonnées négatives.
+      // donne pas — l'aperçu admin en carte — le bureau s'effondrait à sa seule
+      // barre des tâches et le menu s'ouvrait hors de l'écran, en coordonnées
+      // négatives.
+      //
+      // EN ATELIER PLEIN CADRE, CE PLANCHER EST UN DÉFAUT, PAS UNE SÉCURITÉ.
+      // La colonne de l'atelier réserve sa place au cockpit et à la bande de
+      // consigne, puis donne le reste au bureau : imposer 520 px le faisait
+      // déborder sur la consigne dès que la fenêtre était plus courte. Mesuré au
+      // banc sur un portable 1366×768 (viewport utile ≈ 625 px, le cas le plus
+      // répandu) : le bureau débordait de 140 px, la barre des tâches barrait la
+      // ligne d'aide, et sur « Ouvrir et enregistrer un classeur » la fenêtre
+      // Excel recouvrait la consigne ENTIÈRE — l'apprenant ne lisait plus rien.
+      // À 900 px de haut et en mobile, le plancher ne se voyait pas : c'est la
+      // bande intermédiaire qui cassait, celle des trois premières leçons.
+      //
+      // On ne mesure donc pas la hauteur pour la recalculer nous-mêmes — une
+      // hauteur calculée redevient fausse au premier élément qui change de
+      // taille, c'est le défaut réglé le 29/07 sur la feuille. On laisse le flux
+      // la donner, et `min-h-0` la laisse descendre.
       style={{
-        minHeight: 520,
+        minHeight: pleinCadre ? undefined : 520,
         background: decor ? "linear-gradient(155deg,#123027 0%,#1B4536 45%,#0D211B 100%)" : "#fff",
         transition: "background .35s ease",
       }}
@@ -197,7 +230,7 @@ export default function DesktopLayer({ poste, onControl, onEnregistrer, onOuvrir
             left: decor ? "4%" : 0,
             right: decor ? "4%" : 0,
             top: decor ? "3.5%" : 0,
-            bottom: decor ? "4%" : 0,
+            bottom: decor ? HAUTEUR_BARRE_TACHES + 6 : 0,
             borderRadius: decor ? "9px 9px 0 0" : 0,
             boxShadow: decor ? "0 30px 70px -20px rgba(0,0,0,.7), 0 0 0 1px rgba(255,255,255,.08)" : "none",
             display: poste.excel === "ferme" ? "none" : "flex",

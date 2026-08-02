@@ -564,6 +564,33 @@ export default function SimulationPlayer({
    */
   const [aplomb, setAplomb] = useState<string | null>(null)
   /**
+   * TEMPS DE LECTURE GARANTI.
+   *
+   * La phrase était effacée par le changement d'étape (`setAplomb(null)` en
+   * tête de `applyStep`). Or la remise a lieu à l'arrivée sur une étape, et
+   * l'étape suivante peut tomber tout de suite après — l'apprenant enchaîne, ou
+   * le rattrapage d'observation la franchit lui-même parce que la feuille est
+   * déjà juste. Filmé au banc sur `m01-l05` : message posé à 966 ms, effacé à
+   * 2 643 ms par un franchissement automatique. Des cases disparaissaient donc
+   * bel et bien sans un mot lisible.
+   *
+   * Le message a maintenant sa propre durée : il survit au changement d'étape
+   * jusqu'à son échéance, ou jusqu'à ce qu'une nouvelle remise le remplace. Il
+   * ne parle que du CLASSEUR, jamais de l'étape en cours : le laisser vivre
+   * quelques secondes de plus ne peut pas devenir faux.
+   */
+  const APLOMB_LECTURE_MS = 6000
+  const aplombFinRef = useRef(0)
+  const aplombTimerRef = useRef<number | null>(null)
+  const poserAplomb = useCallback((p: string | null) => {
+    if (!p) return
+    setAplomb(p)
+    aplombFinRef.current = Date.now() + APLOMB_LECTURE_MS
+    if (aplombTimerRef.current) window.clearTimeout(aplombTimerRef.current)
+    aplombTimerRef.current = window.setTimeout(() => setAplomb(null), APLOMB_LECTURE_MS)
+  }, [])
+  useEffect(() => () => { if (aplombTimerRef.current) window.clearTimeout(aplombTimerRef.current) }, [])
+  /**
    * Gestes faits sans succès sur une étape jugée sur l'ÉTAT du classeur.
    *
    * Sur ces étapes — 466 au total : EXPECT_STATE, EXPECT_FORMAT, mise en page,
@@ -883,6 +910,13 @@ export default function SimulationPlayer({
     [],
   )
 
+  /**
+   * Échéance en deçà de laquelle un `stateChange` vient de la mise en place de
+   * l'étape, pas de l'apprenant. Une ref, pas un state : `handleAction` la lit
+   * sans que sa mémoïsation en dépende.
+   */
+  const miseEnPlaceRef = useRef(0)
+
   const applyStep = useCallback(
     (s: SimulationStep | undefined) => {
       const grid = gridRef.current
@@ -901,6 +935,21 @@ export default function SimulationPlayer({
       // survit au geste suivant et ne s'éteint qu'au collage. C'est justement
       // ce que M04-L06 enseigne — copier à une étape, coller à la suivante.
       setPlageSomme(null)
+      // La mise en place écrit dans la feuille, donc la grille émettra un
+      // `stateChange` un peu plus tard. Ce n'est PAS un geste de l'apprenant :
+      // sans ce garde-fou, chaque étape démarrait avec un tâtonnement déjà
+      // compté (mesuré : `tatonnements = 1` à l'arrivée, sans rien toucher),
+      // ce qui rapprochait d'un cran l'indice automatique et l'encart d'aide.
+      //
+      // Le délai n'est pas fixe : la mise en place écrit par vagues — cellules,
+      // puis formats à +220 ms, puis francisation des décimales — et le
+      // regroupement de la grille repart à chaque vague. Mesuré au banc : sur
+      // les chapitres « poste » et sur le module 11, il en arrive DEUX — le
+      // classeur d'abord, les formats ensuite. On ignore donc tous ceux de la
+      // fenêtre, et pas seulement le premier. Si l'apprenant modifie la feuille
+      // dans les 2,5 s, son geste ne sera pas compté : sans conséquence, le
+      // score ne bouge pas et l'aide arrive un cran plus tard.
+      miseEnPlaceRef.current = Date.now() + 2500
       if (s.setup?.cells) grid.applyCells(s.setup.cells)
       if (s.setup?.selection) {
         grid.setSelection(s.setup.selection)
@@ -1102,7 +1151,18 @@ export default function SimulationPlayer({
   const direAplomb = useCallback(
     (ds: Divergence[]): string | null => {
       if (!ds.length) return null
-      if (mode === "EVALUATION") return "J'ai remis la feuille en ordre pour que la suite reste juste."
+      if (mode === "EVALUATION") {
+        // Aucune cellule nommée — ce serait désigner la réponse. Mais le geste
+        // se dit quand même : « remis en ordre » sur une feuille dont on vient
+        // seulement d'effacer des cases hors sujet est faux, et c'est
+        // précisément le cas où l'apprenant voit son contenu disparaître.
+        const parasites = ds.filter((d) => d.motif === "parasite").length
+        if (parasites === ds.length)
+          return "J'ai vidé des cellules qui ne font pas partie de l'exercice."
+        if (parasites)
+          return "J'ai remis la feuille en ordre et vidé des cellules qui ne font pas partie de l'exercice."
+        return "J'ai remis la feuille en ordre pour que la suite reste juste."
+      }
       return phraseAplomb(ds)
     },
     [mode],
@@ -1329,7 +1389,10 @@ export default function SimulationPlayer({
     setDemoFinie(false)
     setTatonnements(0)
     setTropLong(false)
-    setAplomb(null)
+    // Le message d'aplomb n'est PAS effacé d'office : il a sa propre échéance
+    // (voir `poserAplomb`). Sans cela il disparaissait avec le changement
+    // d'étape, souvent moins de deux secondes après avoir été posé.
+    if (Date.now() >= aplombFinRef.current) setAplomb(null)
     if (!gridReady) return
     applyStep(step)
     // La remise d'aplomb est DIFFÉRÉE : `applyStep` vient d'écrire le décor de
@@ -1337,7 +1400,7 @@ export default function SimulationPlayer({
     // tout de suite renverrait des valeurs périmées et signalerait des
     // divergences imaginaires sur un classeur parfaitement sain.
     const tAplomb = window.setTimeout(() => {
-      setAplomb(direAplomb(remettreDAplomb("dependances", index)))
+      poserAplomb(direAplomb(remettreDAplomb("dependances", index)))
     }, 420)
     return () => window.clearTimeout(tAplomb)
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -1358,8 +1421,7 @@ export default function SimulationPlayer({
    */
   useEffect(() => {
     if (!demonstration || !gridReady || finished) return
-    const p = direAplomb(remettreDAplomb("tout", index))
-    if (p) setAplomb(p)
+    poserAplomb(direAplomb(remettreDAplomb("tout", index)))
     // `rejeu` fait partie des dépendances : sans lui, « Revoir la
     // démonstration » rejouait sur le classeur tel qu'il était devenu depuis la
     // première fois. L'apprenant qui abîme quelque chose PUIS redemande à voir
@@ -1367,11 +1429,29 @@ export default function SimulationPlayer({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [demonstration, rejeu, gridReady])
 
+  /**
+   * LE CHRONO D'AIDE PART DE LA PREMIÈRE TENTATIVE, PAS DE L'ARRIVÉE.
+   *
+   * Il courait depuis la mise en place de l'étape : quelqu'un qui lit
+   * tranquillement sa toute première consigne — la 1/14 du premier chapitre de
+   * la formation — se voyait proposer « Vous bloquez ? » au bout de 45 secondes
+   * sans avoir rien tenté. On propose de l'aide à qui n'a pas commencé, et le
+   * message donne le sentiment d'être en retard dès le premier écran.
+   *
+   * Une tentative, c'est une erreur réelle ou un geste qui n'a pas fait avancer
+   * (`tatonnements` compte aussi le simple clic de repérage). Les deux comptent
+   * remis à zéro à chaque étape, donc le chrono repart à chaque fois.
+   *
+   * Conséquence assumée : un apprenant parfaitement immobile n'aura jamais
+   * l'encart. C'est voulu — l'aide répond à un blocage, pas à une lecture. Les
+   * deux autres portes (3 erreurs, 6 tâtonnements) restent ouvertes.
+   */
+  const aTente = essais > 0 || tatonnements > 0
   useEffect(() => {
-    if (!step || finished || mode === "EVALUATION") return
+    if (!step || finished || mode === "EVALUATION" || !aTente) return
     const t = window.setTimeout(() => setTropLong(true), 45_000)
     return () => window.clearTimeout(t)
-  }, [step, index, finished, mode])
+  }, [step, index, finished, mode, aTente])
 
   /**
    * Un écran « À lire » joue sa démonstration TOUT SEUL.
@@ -1787,11 +1867,32 @@ export default function SimulationPlayer({
         // simple clic de repérage, `essais` restait à zéro et « Montrez-moi »
         // n'apparaissait JAMAIS : c'est ce que Samuel voyait comme une
         // démonstration « absente ».
-        setTatonnements((n) => {
-          const suivant = n + 1
-          if (suivant >= 3) setHintShown(true)
-          return suivant
-        })
+        // Le `stateChange` que produit la mise en place de l'étape n'est pas un
+        // geste : il arrive avant que l'apprenant ait touché quoi que ce soit.
+        // Une fois celui-là écarté, un `stateChange` redevient un vrai signal —
+        // c'est le seul dont on dispose sur les 466 étapes jugées sur l'état, où
+        // sans lui « Montrez-moi » n'apparaîtrait jamais.
+        // Ce que la MISE EN PLACE produit elle-même, et qui n'est donc pas un
+        // geste : l'écriture du décor (`stateChange`) et la sélection posée par
+        // `setup.selection` — sur `m11-l02` c'est une plage, donc un
+        // `dragRange`, compté comme un tâtonnement que personne n'avait fait.
+        const AUTOMATIQUES = ["stateChange", "dragRange", "cellClick", "selectColumn", "selectRow"]
+        const miseEnPlace = AUTOMATIQUES.includes(observed.kind) && Date.now() < miseEnPlaceRef.current
+        if (!miseEnPlace && process.env.NODE_ENV !== "production" && typeof window !== "undefined") {
+          // Trace d'audit : « pourquoi l'aide m'est-elle proposée alors que je
+          // n'ai rien fait ? » ne se diagnostique pas sans savoir QUELLE
+          // observation a été comptée.
+          const w = window as unknown as Record<string, unknown>
+          const t = (w.__SIM_TATONNEMENTS as unknown[]) ?? []
+          t.push({ etape: step.id, kind: observed.kind, quand: Date.now() })
+          w.__SIM_TATONNEMENTS = t
+        }
+        if (!miseEnPlace)
+          setTatonnements((n) => {
+            const suivant = n + 1
+            if (suivant >= 3) setHintShown(true)
+            return suivant
+          })
         if (surEtat && observed.kind !== "stateChange" && v.message) setVerdict(v)
       }
     },
@@ -3120,6 +3221,11 @@ export default function SimulationPlayer({
     // et s'en servir pour se recaler sur l'étape coûtait plus cher que l'audit
     // lui-même.
     ;(window as any).__SIM_ETAPE = stepRef.current?.id ?? null
+    // Compteurs de l'aide progressive. Sans eux, « pourquoi l'encart apparaît
+    // alors que je n'ai rien fait ? » ne se diagnostique pas : la mise en place
+    // d'une étape émet elle-même un `stateChange`, qui comptait un tâtonnement
+    // que personne n'avait fait.
+    ;(window as any).__SIM_COMPTEURS = { essais, tatonnements, tropLong }
     ;(window as any).__SIM_DEMO_PROBE = () => {
       const s = stepRef.current
       if (!s) return { erreur: "aucune étape" }
@@ -3433,6 +3539,12 @@ export default function SimulationPlayer({
               data-control="intro-commencer"
               onClick={() => {
                 setIntroVue(true)
+                // L'atelier apparaît : la grille se remesure, la sélection du
+                // scénario est reposée. Rien de tout cela n'est un geste de
+                // l'apprenant — il vient de cliquer « Commencer ». Sans ce
+                // réarmement, la sélection de plage de `m11-l02` arrivait une
+                // seconde après l'entrée et comptait un tâtonnement.
+                miseEnPlaceRef.current = Date.now() + 2500
                 // Sans cela le focus clavier reste sur le bouton : la première
                 // frappe de la leçon n'atteint jamais la grille (même piège que
                 // le bouton « Suivant »).
@@ -4163,14 +4275,6 @@ export default function SimulationPlayer({
                   Attendu : <b className="font-semibold text-ink">{attendu}</b>
                 </p>
               )}
-              {/* Remise d'aplomb : on le DIT. Le ton reste neutre et le score
-                  n'est pas touché — explorer n'est pas une faute. */}
-              {aplomb && (
-                <p className="mt-1.5 flex items-start gap-1.5 text-[12.5px] text-warm-500">
-                  <span aria-hidden>↺</span>
-                  <span>{aplomb}</span>
-                </p>
-              )}
               {evaluationNotee && nature !== "lecture" && (
                 <p className="mt-1 text-[12px]" style={{ color: "#8A5A12" }}>
                   <span aria-hidden>★ </span>Compté dans votre note
@@ -4196,6 +4300,27 @@ export default function SimulationPlayer({
                 </p>
               )}
             </div>
+              {/* REMISE D'APLOMB : on le DIT, et on le dit là où ça se voit.
+                  Le ton reste neutre et le score n'est pas touché — explorer
+                  n'est pas une faute.
+
+                  Cette ligne vivait DANS le bloc plafonné à 17vh, en quatrième
+                  position derrière le badge, la consigne et « Attendu : ». Sur
+                  un portable elle passait donc sous le pli : des cases
+                  disparaissaient de la feuille et l'explication était hors
+                  champ. Même raisonnement que pour « Montrez-moi » le 31/07 —
+                  ce qui explique un changement que l'apprenant n'a pas
+                  demandé ne se cache pas derrière un défilement. */}
+              {aplomb && (
+                <p
+                  data-aplomb=""
+                  className="mt-2 flex items-start gap-1.5 rounded-lg px-3 py-2 text-[12.5px]"
+                  style={{ background: "#F4F1EA", border: "1px solid #E4DFD3", color: "#5C574E" }}
+                >
+                  <span aria-hidden>↺</span>
+                  <span className="min-w-0 flex-1">{aplomb}</span>
+                </p>
+              )}
               {/* HORS du bloc plafonné : « Montrez-moi » est ce qu'on cherche
                   quand on est bloqué. Enfermé dans la zone qui défile, il
                   passait sous le pli — mesuré à 646 px pour un écran de 639
@@ -4566,6 +4691,7 @@ function Enveloppe({
         onOuvrir={onOuvrir}
         decor={decor}
         highlight={highlight}
+        pleinCadre={pleinCadre}
       >
         {children}
       </DesktopLayer>

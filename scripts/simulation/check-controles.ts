@@ -53,6 +53,7 @@
 
 import * as fs from "fs"
 import * as path from "path"
+import { LIBELLE_CONTROLE } from "../../lib/simulation/attendu"
 
 const RACINE = path.join(__dirname, "..", "..")
 const COMPOSANTS = path.join(RACINE, "components", "simulation")
@@ -169,6 +170,30 @@ for (const [id, u] of Object.entries(cites)) {
 
 /* 3. Boutons rendus qu'aucun scénario n'emploie : pas une faute, un signal. */
 const orphelins = [...rendus].filter((id) => !cites[id]).sort()
+
+/* 4. LE NOM DU BOUTON, pour la ligne « Attendu : … ».
+      Elle disait « un clic sur le bouton indiqué » sur 239 étapes — une phrase
+      qui n'apprend rien. Elle nomme maintenant le bouton, et se tait quand le
+      nom manque. Ce contrôle empêche la table de dériver dans les deux sens :
+      un bouton qu'un scénario fait cliquer sans nom déclaré redevient muet,
+      et un nom qui ne désigne plus aucun bouton rendu est un reste mort.
+      ⚠️ Ce qu'il ne voit PAS : un libellé qui ne correspond plus au texte
+      affiché sur le bouton. Les trois symboles du ruban (G, €, %) sont
+      volontairement écrits en toutes lettres, une comparaison stricte est donc
+      impossible — seule la relecture à l'écran couvre ce risque. */
+const sansNom = Object.entries(cites)
+  .filter(([id, u]) => u.action > 0 && !LIBELLE_CONTROLE[id])
+  .map(([id, u]) => `${id} (${u.action} étape(s) : ${u.ou.join(", ")})`)
+if (sansNom.length) {
+  remarques.push(
+    `sans nom déclaré  ${sansNom.length} bouton(s) — la ligne « Attendu » restera muette :\n      ` +
+      sansNom.join("\n      "),
+  )
+}
+for (const id of Object.keys(LIBELLE_CONTROLE)) {
+  if (rendus.has(id) || panneaux.has(id)) continue
+  erreurs.push(`nom déclaré pour un bouton INEXISTANT  ${id} — retirer l'entrée de LIBELLE_CONTROLE.`)
+}
 
 /* ── Rapport ──────────────────────────────────────────────────────────────── */
 

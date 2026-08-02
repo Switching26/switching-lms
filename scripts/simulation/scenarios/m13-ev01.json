@@ -5,7 +5,7 @@
   "moduleTitle": "Mise en page et impression",
   "intro": {
     "title": "S'ÉVALUER",
-    "body": "Neuf réglages d'impression sur le journal des commandes. Chaque réglage est noté à la première tentative, et aucune aide n'est proposée."
+    "body": "Une mise en page déjà faite — par quelqu'un d'autre, et à la va-vite. Ce qui compte n'est pas de poser des réglages, c'est de voir ce qui cloche dans l'aperçu. Aucune aide sur cette évaluation."
   },
   "outro": {
     "body": "Évaluation terminée."
@@ -2231,12 +2231,40 @@
           }
         }
       }
-    ]
+    ],
+    "pageSetup": {
+      "view": "mise-en-page",
+      "orientation": "portrait",
+      "scale": 55,
+      "margins": {
+        "haut": 1.9,
+        "bas": 1.9,
+        "gauche": 0.6,
+        "droite": 0.6
+      },
+      "repeatRows": "$1:$1",
+      "header": {
+        "centre": "Relevé fournisseurs 2025"
+      },
+      "footer": {
+        "centre": "Page 1 sur 3"
+      },
+      "pageBreakRows": [
+        30
+      ],
+      "printArea": "A1:J26",
+      "gridlines": false,
+      "headings": false,
+      "center": {
+        "horizontal": false,
+        "vertical": false
+      }
+    }
   },
   "steps": [
     {
       "id": "M13-EV01-01",
-      "consigne": "Le **journal des commandes du premier trimestre** doit être remis imprimé au responsable des achats. **Neuf réglages** sont attendus, comptés au premier essai : aucune aide n'est disponible ici.",
+      "consigne": "Un collègue a mis en page le **journal des commandes du trimestre** avant de partir, puis il est parti. Le responsable des achats veut le **trimestre entier**, lisible, avec les en-têtes de colonnes sur chaque page et une numérotation qui reste juste. **Onze gestes**, sans aide, comptés au premier essai.",
       "action": {
         "type": "READ"
       },
@@ -2250,156 +2278,176 @@
         {
           "type": "MONTRER",
           "cible": "A2:J2",
-          "texte": "Dix colonnes, 72 lignes : il doit être remis IMPRIMÉ"
+          "texte": "Dix colonnes, 72 lignes — et une mise en page déjà posée"
         },
         {
           "type": "MONTRER",
           "cible": "ecran",
-          "texte": "Neuf réglages sont attendus. Aucune aide : à vous"
+          "texte": "L'aperçu dit tout : ce qu'il montre, et ce qu'il ne montre pas"
         }
       ]
     },
     {
       "id": "M13-EV01-02",
-      "consigne": "Le relevé doit s'imprimer en **paysage**.",
+      "consigne": "L'aperçu ne montre que **janvier**. Le responsable veut le trimestre entier.",
       "setup": {
-        "pageSetup": {
-          "orientation": "paysage"
+        "ribbon": {
+          "activeTab": "mise-en-page"
         }
       },
       "action": {
         "type": "EXPECT_PAGE_SETUP",
         "pageSetup": {
-          "orientation": "paysage"
+          "printArea": ""
         }
       },
-      "points": 1
+      "points": 2
     },
     {
       "id": "M13-EV01-03",
-      "consigne": "Marges **étroites**, pour gagner de la largeur.",
+      "consigne": "Le tableau est bien plus large que haut. **Donnez à la page le sens qui lui convient.**",
       "setup": {
-        "pageSetup": {
-          "margins": {
-            "haut": 1.9,
-            "bas": 1.9,
-            "gauche": 0.6,
-            "droite": 0.6
-          }
+        "ribbon": {
+          "activeTab": "mise-en-page"
         }
       },
       "action": {
         "type": "EXPECT_PAGE_SETUP",
         "pageSetup": {
-          "margins": {
-            "haut": 1.9,
-            "bas": 1.9,
-            "gauche": 0.6,
-            "droite": 0.6
-          }
+          "orientation": "paysage"
         }
       },
-      "points": 1
+      "points": 2
     },
     {
       "id": "M13-EV01-04",
-      "consigne": "La **ligne d'en-têtes de colonnes** doit revenir en haut de chaque page, elle seule.",
+      "consigne": "À l'impression, les caractères sont minuscules : tout a été réduit pour faire tenir la largeur. **Rendez au tableau sa taille réelle.**",
       "setup": {
-        "pageSetup": {
-          "repeatRows": "$2:$2"
+        "ribbon": {
+          "activeTab": "mise-en-page"
         }
       },
       "action": {
         "type": "EXPECT_PAGE_SETUP",
         "pageSetup": {
-          "repeatRows": "$2:$2"
+          "scale": 100
         }
       },
       "points": 2
     },
     {
       "id": "M13-EV01-05",
-      "consigne": "L'en-tête de page doit porter **Journal des commandes** au centre.",
+      "consigne": "Le responsable annote ses impressions au stylo : il lui faut **de la place sur les quatre côtés**.",
       "setup": {
-        "pageSetup": {
-          "header": {
-            "centre": "Journal des commandes"
-          }
+        "ribbon": {
+          "activeTab": "mise-en-page"
         }
       },
       "action": {
         "type": "EXPECT_PAGE_SETUP",
         "pageSetup": {
-          "header": {
-            "centre": "Journal des commandes"
+          "margins": {
+            "haut": 2.5,
+            "bas": 2.5,
+            "gauche": 2.5,
+            "droite": 2.5
           }
         }
       },
-      "points": 1
+      "points": 2
     },
     {
       "id": "M13-EV01-06",
-      "consigne": "Le pied de page doit se numéroter tout seul, au centre, sous la forme **Page X sur Y** — par des codes, pas en texte tapé.",
+      "consigne": "Sur les pages 2 et 3, on ne sait plus à quoi correspondent les colonnes. **Corrigez ce qui se répète en haut de page.**",
       "setup": {
-        "pageSetup": {
-          "footer": {
-            "centre": "Page &P sur &N"
-          }
+        "ribbon": {
+          "activeTab": "mise-en-page"
         }
       },
       "action": {
         "type": "EXPECT_PAGE_SETUP",
         "pageSetup": {
-          "footer": {
-            "centre": "Page &P sur &N"
-          }
+          "repeatRows": "$2:$2"
         }
       },
-      "points": 2
+      "points": 3
     },
     {
       "id": "M13-EV01-07",
-      "consigne": "**Février**, qui commence ligne 27, doit démarrer en haut d'une page.",
+      "consigne": "Le pied de page annonce **Page 1 sur 3** — sur toutes les pages, et quel que soit leur nombre. **Faites-le se numéroter tout seul**, au centre, sous la forme Page X sur Y.",
       "setup": {
-        "pageSetup": {
-          "pageBreakRows": [
-            26
-          ]
+        "ribbon": {
+          "activeTab": "entete-pied"
         }
       },
       "action": {
         "type": "EXPECT_PAGE_SETUP",
         "pageSetup": {
-          "pageBreakRows": [
-            26
-          ]
+          "footer": {
+            "centre": "Page &P sur &N"
+          }
         }
       },
-      "points": 2
+      "points": 3
     },
     {
       "id": "M13-EV01-08",
-      "consigne": "Seuls **janvier et février** doivent s'imprimer : lignes 1 à 50, toutes colonnes.",
+      "consigne": "L'en-tête porte encore le nom du document précédent. Le responsable veut y lire **Achats — T1 2026**, au centre.",
       "setup": {
-        "selection": "A1:J50",
-        "pageSetup": {
-          "printArea": "A1:J50"
+        "ribbon": {
+          "activeTab": "entete-pied"
         }
       },
       "action": {
         "type": "EXPECT_PAGE_SETUP",
         "pageSetup": {
-          "printArea": "A1:J50"
+          "header": {
+            "centre": "Achats — T1 2026"
+          }
         }
       },
       "points": 2
     },
     {
       "id": "M13-EV01-09",
-      "consigne": "Le **quadrillage** doit apparaître sur le papier.",
+      "consigne": "Les coupures posées par le collègue tombent en plein milieu des mois. **Repartez d'une feuille sans aucune coupure manuelle.**",
       "setup": {
+        "ribbon": {
+          "activeTab": "mise-en-page"
+        }
+      },
+      "action": {
+        "type": "EXPECT_PAGE_SETUP",
         "pageSetup": {
-          "gridlines": true
+          "pageBreakRows": []
+        }
+      },
+      "points": 2
+    },
+    {
+      "id": "M13-EV01-10",
+      "consigne": "**Février** commence à la ligne 27 : **faites-le démarrer en haut d'une page.**",
+      "setup": {
+        "ribbon": {
+          "activeTab": "mise-en-page"
+        }
+      },
+      "action": {
+        "type": "EXPECT_PAGE_SETUP",
+        "pageSetup": {
+          "pageBreakRows": [
+            26
+          ]
+        }
+      },
+      "points": 2
+    },
+    {
+      "id": "M13-EV01-11",
+      "consigne": "Le **quadrillage** doit apparaître sur le papier : le responsable suit les lignes du doigt.",
+      "setup": {
+        "ribbon": {
+          "activeTab": "mise-en-page"
         }
       },
       "action": {
@@ -2411,13 +2459,11 @@
       "points": 1
     },
     {
-      "id": "M13-EV01-10",
-      "consigne": "Le tableau doit être centré **horizontalement** sur la page.",
+      "id": "M13-EV01-12",
+      "consigne": "Dernier détail : le tableau est **collé au bord gauche** du papier.",
       "setup": {
-        "pageSetup": {
-          "center": {
-            "horizontal": true
-          }
+        "ribbon": {
+          "activeTab": "mise-en-page"
         }
       },
       "action": {
@@ -2428,7 +2474,7 @@
           }
         }
       },
-      "points": 1
+      "points": 2
     }
   ]
 }

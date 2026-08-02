@@ -5,7 +5,7 @@
   "moduleTitle": "Validation des données et protection",
   "intro": {
     "title": "S'ÉVALUER",
-    "body": "Une feuille de saisie à préparer, des calculs à poser, un paramètre à aller chercher sur une autre feuille, un contrôle à construire. Aucune aide sur cette évaluation."
+    "body": "Un devis déjà rempli, et un client qui conteste le montant. Rien ne vous dit où est l'erreur : les contrôles sont là pour ça. Aucune aide sur cette évaluation."
   },
   "outro": {
     "body": "Évaluation terminée."
@@ -47,7 +47,7 @@
             }
           },
           "B3": {
-            "v": 0.2
+            "v": 0.55
           },
           "A4": {
             "v": "Acompte à la commande",
@@ -149,7 +149,7 @@
             "v": "Chariot mobile 2 plateaux"
           },
           "C7": {
-            "v": 2
+            "v": 90
           },
           "D7": {
             "v": 135
@@ -183,6 +183,18 @@
             "format": {
               "bold": true
             }
+          },
+          "E4": {
+            "f": "=C4*D4"
+          },
+          "E5": {
+            "f": "=C5*D5"
+          },
+          "E6": {
+            "v": 240
+          },
+          "E7": {
+            "f": "=C7*D7"
           }
         }
       }
@@ -191,7 +203,7 @@
   "steps": [
     {
       "id": "M21-EV01-01",
-      "consigne": "Un devis à finir, un classeur à sécuriser. Vous allez repérer la zone de saisie, la contraindre, poser les calculs, aller chercher un paramètre sur l'autre feuille et vérifier votre travail. **Douze gestes**, sans aide : chaque étape compte au premier essai.",
+      "consigne": "Le **devis 2026-207** a été rempli par un collègue, et le client conteste le montant. Vous devez le remettre d'aplomb, puis empêcher que cela recommence. **Onze gestes**, sans aide, comptés au premier essai.",
       "action": {
         "type": "READ"
       },
@@ -199,24 +211,171 @@
       "montrer": [
         {
           "type": "MONTRER",
-          "cible": "B3",
-          "texte": "Le taux de TVA est un paramètre, sur cette feuille"
+          "cible": "A4:E7",
+          "texte": "Les quatre lignes du devis, déjà saisies"
         },
         {
           "type": "MONTRER",
-          "cible": "B4",
-          "texte": "L'acompte à la commande aussi"
+          "cible": "D9",
+          "texte": "Les totaux à établir, sous le tableau"
         },
         {
           "type": "MONTRER",
-          "cible": "dom:[aria-label=\"Feuille Devis\"]",
-          "texte": "Le devis à finir est sur l'autre feuille. Aucune aide : chaque étape compte au premier essai"
+          "cible": "ecran",
+          "texte": "Le taux de TVA vit sur la feuille Taux. Aucune aide"
         }
       ]
     },
     {
       "id": "M21-EV01-02",
-      "consigne": "Signalez la zone de saisie du devis : les quantités, en **C4:C7**.",
+      "consigne": "**En E9, totalisez les montants** du devis.",
+      "setup": {
+        "selection": "E9"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "E9",
+        "accept": [
+          "=SOMME(E4:E7)"
+        ],
+        "formulaMode": true
+      },
+      "points": 2
+    },
+    {
+      "id": "M21-EV01-03",
+      "consigne": "**Passez la quantité de la ligne MOB-95 à 2** : c'est ce que le client a commandé, et le devis en annonce 90.",
+      "setup": {
+        "selection": "C7"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "C7",
+        "accept": [
+          "2"
+        ]
+      },
+      "points": 2
+    },
+    {
+      "id": "M21-EV01-04",
+      "consigne": "Un montant du tableau **n'a pas bougé** alors que sa ligne le devrait. **Rendez-lui son calcul.**",
+      "setup": {
+        "selection": "E6"
+      },
+      "action": {
+        "type": "EXPECT_STATE",
+        "cells": {
+          "E6": {
+            "anyOf": [
+              "=C6*D6",
+              "=D6*C6"
+            ],
+            "v": 240
+          }
+        }
+      },
+      "points": 3
+    },
+    {
+      "id": "M21-EV01-05",
+      "consigne": "**En E10, calculez la TVA** : le taux vit sur la feuille **Taux**, il ne se recopie pas.",
+      "setup": {
+        "selection": "E10"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "E10",
+        "accept": [
+          "=E9*Taux!$B$3",
+          "=E9*Taux!B3",
+          "=Taux!$B$3*E9",
+          "=Taux!B3*E9"
+        ],
+        "formulaMode": true
+      },
+      "points": 3
+    },
+    {
+      "id": "M21-EV01-06",
+      "consigne": "La TVA calculée est **hors de proportion**. Le devis n'y est pour rien : **allez voir la feuille Taux.**",
+      "action": {
+        "type": "SELECT_SHEET",
+        "name": "Taux"
+      },
+      "points": 2
+    },
+    {
+      "id": "M21-EV01-07",
+      "consigne": "**Rétablissez le taux de TVA à 20 %.**",
+      "setup": {
+        "selection": "B3"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "B3",
+        "accept": [
+          "0,2",
+          "0.2",
+          "20%"
+        ]
+      },
+      "points": 3
+    },
+    {
+      "id": "M21-EV01-08",
+      "consigne": "Revenez au **devis**.",
+      "action": {
+        "type": "SELECT_SHEET",
+        "name": "Devis"
+      },
+      "points": 1
+    },
+    {
+      "id": "M21-EV01-09",
+      "consigne": "**En E11, calculez le total TTC.**",
+      "setup": {
+        "selection": "E11"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "E11",
+        "accept": [
+          "=E9+E10",
+          "=E10+E9",
+          "=SOMME(E9:E10)"
+        ],
+        "formulaMode": true
+      },
+      "points": 2
+    },
+    {
+      "id": "M21-EV01-10",
+      "consigne": "Pour que la quantité de 90 ne puisse plus passer : **posez sur les quantités une règle** qui n'accepte que des nombres de 1 à 40.",
+      "setup": {
+        "selection": "C4:C7",
+        "ribbon": {
+          "activeTab": "donnees"
+        },
+        "dv": {
+          "range": "C4:C7",
+          "rule": {
+            "kind": "numberBetween",
+            "min": 1,
+            "max": 40,
+            "errorMessage": "La quantité doit être comprise entre 1 et 40."
+          }
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "don-validation"
+      },
+      "points": 3
+    },
+    {
+      "id": "M21-EV01-11",
+      "consigne": "Les cellules de saisie ne se distinguent pas des cellules calculées : **donnez un fond aux quantités**, pour qu'on sache où écrire.",
       "setup": {
         "selection": "C4:C7",
         "ribbon": {
@@ -237,167 +396,8 @@
       "points": 2
     },
     {
-      "id": "M21-EV01-03",
-      "consigne": "Une quantité doit rester un nombre compris entre 1 et 200, saisie refusée au-delà. Posez la contrainte sur cette même zone.",
-      "setup": {
-        "selection": "C4:C7",
-        "ribbon": {
-          "activeTab": "donnees"
-        },
-        "dv": {
-          "range": "C4:C7",
-          "rule": {
-            "kind": "numberBetween",
-            "min": 1,
-            "max": 200,
-            "errorMessage": "La quantité doit être comprise entre 1 et 200."
-          }
-        }
-      },
-      "action": {
-        "type": "CLICK_CONTROL",
-        "control": "don-validation"
-      },
-      "points": 2
-    },
-    {
-      "id": "M21-EV01-04",
-      "consigne": "Le client double sa commande de chaises : portez leur quantité à **24**.",
-      "setup": {
-        "selection": "C5"
-      },
-      "action": {
-        "type": "TYPE",
-        "target": "C5",
-        "accept": [
-          "24"
-        ]
-      },
-      "points": 1
-    },
-    {
-      "id": "M21-EV01-05",
-      "consigne": "En **E4**, calculez le total de la première ligne.",
-      "setup": {
-        "selection": "E4"
-      },
-      "action": {
-        "type": "TYPE",
-        "target": "E4",
-        "accept": [
-          "=C4*D4",
-          "=D4*C4"
-        ],
-        "formulaMode": true
-      },
-      "points": 1
-    },
-    {
-      "id": "M21-EV01-06",
-      "consigne": "Complétez les trois autres lignes.",
-      "action": {
-        "type": "EXPECT_STATE",
-        "cells": {
-          "E5": {
-            "anyOf": [
-              "=C5*D5",
-              "=D5*C5"
-            ],
-            "v": 1632
-          },
-          "E6": {
-            "anyOf": [
-              "=C6*D6",
-              "=D6*C6"
-            ],
-            "v": 240
-          },
-          "E7": {
-            "anyOf": [
-              "=C7*D7",
-              "=D7*C7"
-            ],
-            "v": 270
-          }
-        }
-      },
-      "points": 2
-    },
-    {
-      "id": "M21-EV01-07",
-      "consigne": "En **E9**, totalisez le devis hors taxes.",
-      "setup": {
-        "selection": "E9"
-      },
-      "action": {
-        "type": "TYPE",
-        "target": "E9",
-        "accept": [
-          "=SOMME(E4:E7)"
-        ],
-        "formulaMode": true
-      },
-      "points": 1
-    },
-    {
-      "id": "M21-EV01-08",
-      "consigne": "En **E10**, la TVA — en prenant son taux sur la feuille **Taux**, sans l'écrire dans la formule.",
-      "setup": {
-        "selection": "E10"
-      },
-      "action": {
-        "type": "TYPE",
-        "target": "E10",
-        "accept": [
-          "=E9*Taux!$B$3",
-          "=E9*Taux!B3",
-          "=Taux!$B$3*E9",
-          "=Taux!B3*E9"
-        ],
-        "formulaMode": true
-      },
-      "points": 3
-    },
-    {
-      "id": "M21-EV01-09",
-      "consigne": "En **E11**, le total TTC.",
-      "setup": {
-        "selection": "E11"
-      },
-      "action": {
-        "type": "TYPE",
-        "target": "E11",
-        "accept": [
-          "=E9+E10",
-          "=E10+E9",
-          "=SOMME(E9:E10)"
-        ],
-        "formulaMode": true
-      },
-      "points": 1
-    },
-    {
-      "id": "M21-EV01-10",
-      "consigne": "En **E12**, l'acompte à verser à la commande, calculé sur le TTC avec le taux de la feuille **Taux**.",
-      "setup": {
-        "selection": "E12"
-      },
-      "action": {
-        "type": "TYPE",
-        "target": "E12",
-        "accept": [
-          "=E11*Taux!$B$4",
-          "=E11*Taux!B4",
-          "=Taux!$B$4*E11",
-          "=Taux!B4*E11"
-        ],
-        "formulaMode": true
-      },
-      "points": 2
-    },
-    {
-      "id": "M21-EV01-11",
-      "consigne": "En **E13**, posez le contrôle qui révélerait une formule de ligne écrasée : le total recalculé depuis les colonnes Quantité et Prix.",
+      "id": "M21-EV01-12",
+      "consigne": "Dernier contrôle : **en E13, recalculez le total HT sans passer par la colonne E** — s'il retombe sur E9, le devis est cohérent.",
       "setup": {
         "selection": "E13"
       },
@@ -411,54 +411,6 @@
         "formulaMode": true
       },
       "points": 3
-    },
-    {
-      "id": "M21-EV01-12",
-      "consigne": "La contrainte de quantité bloque une commande de 400 chaises pourtant validée. Levez-la.",
-      "setup": {
-        "selection": "C4:C7",
-        "ribbon": {
-          "activeTab": "donnees"
-        },
-        "dv": {
-          "range": "C4:C7",
-          "rule": {
-            "kind": "numberBetween",
-            "min": 1,
-            "max": 200
-          }
-        }
-      },
-      "action": {
-        "type": "CLICK_CONTROL",
-        "control": "don-effacer-validation"
-      },
-      "points": 2
-    },
-    {
-      "id": "M21-EV01-13",
-      "consigne": "Reposez la même contrainte, mais en simple **avertissement**.",
-      "setup": {
-        "selection": "C4:C7",
-        "ribbon": {
-          "activeTab": "donnees"
-        },
-        "dv": {
-          "range": "C4:C7",
-          "rule": {
-            "kind": "numberBetween",
-            "min": 1,
-            "max": 200,
-            "allowInvalid": true,
-            "errorMessage": "Quantité inhabituelle : vérifiez la commande."
-          }
-        }
-      },
-      "action": {
-        "type": "CLICK_CONTROL",
-        "control": "don-validation"
-      },
-      "points": 2
     }
   ]
 }

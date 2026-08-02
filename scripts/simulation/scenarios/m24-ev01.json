@@ -5,7 +5,7 @@
   "moduleTitle": "Images et illustrations",
   "intro": {
     "title": "S'ÉVALUER",
-    "body": "Illustrer, signaler, jauger, titrer — puis prouver que le tableau se trie et se calcule toujours. Aucune aide sur cette évaluation."
+    "body": "Un catalogue déjà préparé pour le salon, avec ses jauges de stock. Un arrivage vient d'être saisi et quelque chose ne suit pas. Aucune aide sur cette évaluation."
   },
   "outro": {
     "body": "Évaluation terminée."
@@ -136,6 +136,18 @@
             "format": {
               "bold": true
             }
+          },
+          "F4": {
+            "v": "■■■■■■"
+          },
+          "F5": {
+            "v": "■■■■■■■■■■■■■■"
+          },
+          "F6": {
+            "v": "■■■■■■■■■■■■■■■■■■■■■■"
+          },
+          "F7": {
+            "v": "■■■■■■■■■"
           }
         }
       }
@@ -144,7 +156,7 @@
   "steps": [
     {
       "id": "M24-EV01-01",
-      "consigne": "Un catalogue audiovisuel à illustrer et à mettre en forme : deux vignettes, une alerte de stock, une jauge, un titre, un tri et deux calculs de contrôle. **Douze gestes**, sans aide, comptés au premier essai.",
+      "consigne": "Le **catalogue audiovisuel** a été préparé pour le salon : jauges de stock, titre, photos. L'entrepôt vient de livrer. **Douze gestes**, sans aide, comptés au premier essai.",
       "action": {
         "type": "READ"
       },
@@ -152,81 +164,39 @@
       "montrer": [
         {
           "type": "MONTRER",
-          "cible": "A3",
-          "texte": "Une colonne Photo à remplir de deux vignettes"
+          "cible": "A3:F7",
+          "texte": "Le catalogue, ses stocks et ses jauges"
         },
         {
           "type": "MONTRER",
-          "cible": "E3",
-          "texte": "Une alerte de stock, une jauge"
+          "cible": "F3",
+          "texte": "La colonne Jauge doit refléter le stock"
         },
         {
           "type": "MONTRER",
-          "cible": "A1",
-          "texte": "Un titre, un tri et deux calculs de contrôle. Aucune aide"
+          "cible": "ecran",
+          "texte": "Un arrivage vient d'être livré. Aucune aide"
         }
       ]
     },
     {
       "id": "M24-EV01-02",
-      "consigne": "Illustrez la ligne du vidéoprojecteur avec sa photo, dans la cellule.",
+      "consigne": "L'entrepôt a livré **16 webcams** : le stock passe de 22 à **38**. **Mettez-le à jour en E6.**",
       "setup": {
-        "selection": "A4",
-        "ribbon": {
-          "activeTab": "insertion"
-        },
-        "image": {
-          "ref": "A4",
-          "source": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAIAAABuYg/PAAACH0lEQVR42jXCxREYRAAAwGsAd3fXXyCCJJDQwLn2XwWPm93Z8Ot/x+1yOuw2q8VsMt7hl/+O2+V02G1Wi9lkvMPPL47b5XTYbVaL2WS8w08vjtvldNhtVovZZLzDj8+P2+V02G1Wi9lkvMMPz4/b5XTYbVaL2WS8w/f/HrfL6bDbrBazyXiH7/49bpfTYbdZLWaT8Q7f/nPcLqfDbrNazCbjHb7557hdTofdZrWYTcY7fP3suF1Oh91mtZhNxjt89ey4XU6H3Wa1mE3GO3z59LhdTofdZrWYTcY7fPH0uF1Oh91mtZhNxjt8/vdxu5wOu81qMZuMd/js7+N2OR12m9ViNhnv8Olfx+1yOuw2q8VsMt7hk7+O2+V02G1Wi9lkvMPHfx63y+mw26wWs8l4h4/+PG6X02G3WS1mk/EOH/5x3C6nw26zWswm4x0++OO4XU6H3Wa1mE3GO7z/5LhdTofdZrWYTcY7vPfkuF1Oh91mtZhNxju8+/i4XU6H3Wa1mE3GO7zz+LhdTofdZrWYTcY7vP3ouF1Oh91mtZhNxju89ei4XU6H3Wa1mE3GO7z58LhdTofdZrWYTcY7vPHwuF1Oh91mtZhNxju8/vtxu5wOu81qMZuMd3jt9+N2OR12m9ViNhnv8Opvx+1yOuw2q8VsMt7hld+O2+V02G1Wi9lkvMPLD47b5XTYbVaL2WS8w0sPjtvldNhtVovZZLz/B9d/pjavDRUNAAAAAElFTkSuQmCC"
-        }
+        "selection": "E6"
       },
       "action": {
-        "type": "CLICK_CONTROL",
-        "control": "ins-image-cellule"
+        "type": "TYPE",
+        "target": "E6",
+        "accept": [
+          "38"
+        ]
       },
       "points": 2
     },
     {
       "id": "M24-EV01-03",
-      "consigne": "Illustrez la ligne de la webcam.",
-      "setup": {
-        "selection": "A6",
-        "ribbon": {
-          "activeTab": "insertion"
-        },
-        "image": {
-          "ref": "A6",
-          "source": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAIAAABuYg/PAAACG0lEQVR42jXCxREQRgAAwOuHQIJFgDbi7u5yrpXncbM7G9Kr43Y5HXab1WI2Ge8QXx23y+mw26wWs8l4h/9eHrfL6bDbrBazyXiHf18et8vpsNusFrPJeId/Xhy3y+mw26wWs8l4h79fHLfL6bDbrBazyXiHv945bpfTYbdZLWaT8Q5/vnPcLqfDbrNazCbjHf54+7hdTofdZrWYTcY7/P72cbucDrvNajGbjHf47a3jdjkddpvVYjYZ7/DrW8ftcjrsNqvFbDLe4Zc3j9vldNhtVovZZLzDz28et8vpsNusFrPJeIefnh+3y+mw26wWs8l4hx+fH7fL6bDbrBazyXiHH54dt8vpsNusFrPJeIfvnx23y+mw26wWs8l4h++eHrfL6bDbrBazyXiHb58et8vpsNusFrPJeIdvnhy3y+mw26wWs8l4h6+fHLfL6bDbrBazyXiHrx4ft8vpsNusFrPJeIcvHx+3y+mw26wWs8l4hy/eOG6X02G3WS1mk/EOn79x3C6nw26zWswm4x0+e/24XU6H3Wa1mE3GO3z6+nG7nA67zWoxm4x3+OTRcbucDrvNajGbjHf4+NFxu5wOu81qMZuMd/jo4XG7nA67zWoxm4x3+PDhcbucDrvNajGbjHf44LXjdjkddpvVYjYZ7/D+a8ftcjrsNqvFbDLe4b0Hx+1yOuw2q8VsMt7h3QfH7XI67DarxWwy3v8DkG6CNNV0F7EAAAAASUVORK5CYII="
-        }
-      },
-      "action": {
-        "type": "CLICK_CONTROL",
-        "control": "ins-image-cellule"
-      },
-      "points": 1
-    },
-    {
-      "id": "M24-EV01-04",
-      "consigne": "Le vidéoprojecteur est le stock le plus faible du catalogue : signalez sa cellule de stock par un remplissage.",
-      "setup": {
-        "selection": "E4",
-        "ribbon": {
-          "activeTab": "accueil"
-        }
-      },
-      "action": {
-        "type": "EXPECT_FORMAT",
-        "cells": {
-          "E4": {
-            "background": "#fde68a"
-          }
-        }
-      },
-      "points": 2
-    },
-    {
-      "id": "M24-EV01-05",
-      "consigne": "En **F4**, dessinez une jauge dans la cellule : un carré `■` par unité en stock.",
+      "consigne": "La jauge de cette ligne **n'a pas bougé** : elle ne mesure rien. **Refaites celle du premier produit, en F4** — un carré `■` par unité en stock.",
       "setup": {
         "selection": "F4"
       },
@@ -238,11 +208,11 @@
         ],
         "formulaMode": true
       },
-      "points": 2
+      "points": 3
     },
     {
-      "id": "M24-EV01-06",
-      "consigne": "Complétez la colonne Jauge jusqu'en **F7**.",
+      "id": "M24-EV01-04",
+      "consigne": "**Refaites les trois autres**, jusqu'en F7.",
       "action": {
         "type": "EXPECT_STATE",
         "cells": {
@@ -263,11 +233,68 @@
           }
         }
       },
+      "points": 3
+    },
+    {
+      "id": "M24-EV01-05",
+      "consigne": "Le **vidéoprojecteur** est maintenant le stock le plus faible du catalogue : **signalez sa cellule de stock par un fond de couleur.**",
+      "setup": {
+        "selection": "E4",
+        "ribbon": {
+          "activeTab": "accueil"
+        }
+      },
+      "action": {
+        "type": "EXPECT_FORMAT",
+        "cells": {
+          "E4": {
+            "background": "#fde68a"
+          }
+        }
+      },
+      "points": 2
+    },
+    {
+      "id": "M24-EV01-06",
+      "consigne": "La ligne du **vidéoprojecteur** n'a pas sa photo. **Mettez-la dans la cellule.**",
+      "setup": {
+        "selection": "A4",
+        "ribbon": {
+          "activeTab": "insertion"
+        },
+        "image": {
+          "ref": "A4",
+          "source": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAIAAABuYg/PAAACH0lEQVR42jXCxREYRAAAwGsAd3fXXyCCJJDQwLn2XwWPm93Z8Ot/x+1yOuw2q8VsMt7hl/+O2+V02G1Wi9lkvMPPL47b5XTYbVaL2WS8w08vjtvldNhtVovZZLzDj8+P2+V02G1Wi9lkvMMPz4/b5XTYbVaL2WS8w/f/HrfL6bDbrBazyXiH7/49bpfTYbdZLWaT8Q7f/nPcLqfDbrNazCbjHb7557hdTofdZrWYTcY7fP3suF1Oh91mtZhNxjt89ey4XU6H3Wa1mE3GO3z59LhdTofdZrWYTcY7fPH0uF1Oh91mtZhNxjt8/vdxu5wOu81qMZuMd/js7+N2OR12m9ViNhnv8Olfx+1yOuw2q8VsMt7hk7+O2+V02G1Wi9lkvMPHfx63y+mw26wWs8l4h4/+PG6X02G3WS1mk/EOH/5x3C6nw26zWswm4x0++OO4XU6H3Wa1mE3GO7z/5LhdTofdZrWYTcY7vPfkuF1Oh91mtZhNxju8+/i4XU6H3Wa1mE3GO7zz+LhdTofdZrWYTcY7vP3ouF1Oh91mtZhNxju89ei4XU6H3Wa1mE3GO7z58LhdTofdZrWYTcY7vPHwuF1Oh91mtZhNxju8/vtxu5wOu81qMZuMd3jt9+N2OR12m9ViNhnv8Opvx+1yOuw2q8VsMt7hld+O2+V02G1Wi9lkvMPLD47b5XTYbVaL2WS8w0sPjtvldNhtVovZZLz/B9d/pjavDRUNAAAAAElFTkSuQmCC"
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "ins-image-cellule"
+      },
       "points": 2
     },
     {
       "id": "M24-EV01-07",
-      "consigne": "Le titre déborde du tableau : faites-en une cellule unique de la largeur des six colonnes.",
+      "consigne": "**Celle de la webcam non plus.**",
+      "setup": {
+        "selection": "A6",
+        "ribbon": {
+          "activeTab": "insertion"
+        },
+        "image": {
+          "ref": "A6",
+          "source": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAIAAABuYg/PAAACG0lEQVR42jXCxREQRgAAwOuHQIJFgDbi7u5yrpXncbM7G9Kr43Y5HXab1WI2Ge8QXx23y+mw26wWs8l4h/9eHrfL6bDbrBazyXiHf18et8vpsNusFrPJeId/Xhy3y+mw26wWs8l4h79fHLfL6bDbrBazyXiHv945bpfTYbdZLWaT8Q5/vnPcLqfDbrNazCbjHf54+7hdTofdZrWYTcY7/P72cbucDrvNajGbjHf47a3jdjkddpvVYjYZ7/DrW8ftcjrsNqvFbDLe4Zc3j9vldNhtVovZZLzDz28et8vpsNusFrPJeIefnh+3y+mw26wWs8l4hx+fH7fL6bDbrBazyXiHH54dt8vpsNusFrPJeIfvnx23y+mw26wWs8l4h++eHrfL6bDbrBazyXiHb58et8vpsNusFrPJeIdvnhy3y+mw26wWs8l4h6+fHLfL6bDbrBazyXiHrx4ft8vpsNusFrPJeIcvHx+3y+mw26wWs8l4hy/eOG6X02G3WS1mk/EOn79x3C6nw26zWswm4x0+e/24XU6H3Wa1mE3GO3z6+nG7nA67zWoxm4x3+OTRcbucDrvNajGbjHf4+NFxu5wOu81qMZuMd/jo4XG7nA67zWoxm4x3+PDhcbucDrvNajGbjHf44LXjdjkddpvVYjYZ7/D+a8ftcjrsNqvFbDLe4b0Hx+1yOuw2q8VsMt7h3QfH7XI67DarxWwy3v8DkG6CNNV0F7EAAAAASUVORK5CYII="
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "ins-image-cellule"
+      },
+      "points": 2
+    },
+    {
+      "id": "M24-EV01-08",
+      "consigne": "Le titre **déborde du tableau**. Faites-en une cellule unique, de la largeur des six colonnes.",
       "setup": {
         "selection": "A1:F1",
         "ribbon": {
@@ -281,8 +308,8 @@
       "points": 2
     },
     {
-      "id": "M24-EV01-08",
-      "consigne": "Agrandissez ce titre.",
+      "id": "M24-EV01-09",
+      "consigne": "**Agrandissez-le.**",
       "setup": {
         "selection": "A1",
         "ribbon": {
@@ -297,11 +324,11 @@
           }
         }
       },
-      "points": 1
+      "points": 2
     },
     {
-      "id": "M24-EV01-09",
-      "consigne": "Centrez-le.",
+      "id": "M24-EV01-10",
+      "consigne": "**Centrez-le sur la largeur du tableau.**",
       "setup": {
         "selection": "A1",
         "ribbon": {
@@ -316,30 +343,11 @@
           }
         }
       },
-      "points": 1
-    },
-    {
-      "id": "M24-EV01-10",
-      "consigne": "Donnez-lui un fond de couleur.",
-      "setup": {
-        "selection": "A1",
-        "ribbon": {
-          "activeTab": "accueil"
-        }
-      },
-      "action": {
-        "type": "EXPECT_FORMAT",
-        "cells": {
-          "A1": {
-            "background": "#fde68a"
-          }
-        }
-      },
-      "points": 1
+      "points": 2
     },
     {
       "id": "M24-EV01-11",
-      "consigne": "Classez le catalogue du produit le plus cher au moins cher.",
+      "consigne": "**Classez le catalogue du produit le plus cher au moins cher** — les photos doivent suivre leur ligne.",
       "setup": {
         "selection": "D5",
         "ribbon": {
@@ -352,11 +360,11 @@
         "column": "D",
         "ascending": false
       },
-      "points": 2
+      "points": 3
     },
     {
       "id": "M24-EV01-12",
-      "consigne": "En **D10**, calculez la valeur totale du stock.",
+      "consigne": "**En D10, calculez la valeur totale du stock.**",
       "setup": {
         "selection": "D10"
       },
@@ -373,7 +381,7 @@
     },
     {
       "id": "M24-EV01-13",
-      "consigne": "En **D11**, comptez les références dont le stock est inférieur à 10.",
+      "consigne": "**En D11, comptez les références dont le stock est inférieur à 10.**",
       "setup": {
         "selection": "D11"
       },

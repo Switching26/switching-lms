@@ -16,7 +16,7 @@
   "moduleTitle": "Les macros",
   "intro": {
     "title": "S'ÉVALUER",
-    "body": "Enregistrer, vérifier, adapter, réaffecter : les quatre temps d'une macro utile. Aucune aide sur cette évaluation."
+    "body": "Une macro déjà enregistrée — par quelqu'un d'autre, et mal. Vous devez clôturer le mois d'août avec, sans la réenregistrer. Aucune aide sur cette évaluation."
   },
   "outro": {
     "body": "Évaluation terminée."
@@ -268,12 +268,43 @@
           }
         }
       }
+    ],
+    "macros": [
+      {
+        "name": "Cloture_mois",
+        "shortcut": "Ctrl+t",
+        "statements": [
+          {
+            "op": "select",
+            "ref": "A10"
+          },
+          {
+            "op": "value",
+            "ref": "A10",
+            "value": "Total du mois"
+          },
+          {
+            "op": "select",
+            "ref": "D10"
+          },
+          {
+            "op": "formula",
+            "ref": "D10",
+            "formula": "=SUM(R[-7]C:R[-1]C)"
+          },
+          {
+            "op": "font",
+            "ref": "D10",
+            "bold": true
+          }
+        ]
+      }
     ]
   },
   "steps": [
     {
       "id": "M27-EV01-01",
-      "consigne": "Les frais de déplacement de juillet et d'août. Vous allez enregistrer une macro qui clôture un mois, la vérifier, l'adapter au mois suivant et changer son raccourci. **Onze gestes**, sans aide : chaque étape compte au premier essai.",
+      "consigne": "Les frais de déplacement de juillet et d'août. Un collègue a laissé une macro **Cloture_mois** pour clôturer un mois : c'est avec elle que vous devez clôturer **août**, sans la réenregistrer. **Dix gestes**, sans aide, comptés au premier essai.",
       "action": {
         "type": "READ"
       },
@@ -282,118 +313,44 @@
         {
           "type": "MONTRER",
           "cible": "A1",
-          "texte": "Les frais de juillet"
+          "texte": "Juillet, sept notes de frais"
         },
         {
           "type": "MONTRER",
           "cible": "A12",
-          "texte": "Et ceux d'août, à l'identique"
+          "texte": "Août, sept notes de frais — c'est lui qu'il faut clôturer"
         },
         {
           "type": "MONTRER",
-          "cible": "D2",
-          "texte": "Vous allez enregistrer une macro qui clôture un mois, la vérifier, puis l'adapter au suivant"
+          "cible": "ecran",
+          "texte": "La macro du collègue est dans le classeur. Aucune aide"
         }
       ]
     },
     {
       "id": "M27-EV01-02",
-      "consigne": "Placez-vous là où le total de juillet doit apparaître.",
+      "consigne": "Placez-vous là où le total d'**août** doit apparaître.",
+      "setup": {
+        "selection": "A12"
+      },
       "action": {
         "type": "CLICK_CELL",
-        "cell": "D10"
+        "cell": "D21"
       },
       "points": 1
     },
     {
       "id": "M27-EV01-03",
-      "consigne": "Enregistrez une macro nommée **Cloture_mois**, raccourci **Ctrl+Maj+J**, en références absolues.",
-      "action": {
-        "type": "RECORD_MACRO",
-        "expect": "started"
-      },
-      "points": 2
-    },
-    {
-      "id": "M27-EV01-04",
-      "consigne": "Écrivez **Total du mois** en A10.",
-      "action": {
-        "type": "TYPE",
-        "target": "A10",
-        "accept": [
-          "Total du mois"
-        ]
-      },
-      "points": 1
-    },
-    {
-      "id": "M27-EV01-05",
-      "consigne": "En **D10**, additionnez les sept montants de juillet.",
-      "action": {
-        "type": "TYPE",
-        "target": "D10",
-        "accept": [
-          "=SOMME(D3:D9)",
-          "=D3+D4+D5+D6+D7+D8+D9"
-        ],
-        "formulaMode": true
-      },
-      "points": 2
-    },
-    {
-      "id": "M27-EV01-06",
-      "consigne": "Les montants ont été collés depuis un courriel et ont perdu leur format. Sélectionnez-les.",
-      "action": {
-        "type": "DRAG_RANGE",
-        "range": "D3:D9"
-      },
-      "points": 1
-    },
-    {
-      "id": "M27-EV01-07",
-      "consigne": "Appliquez-leur le **format monétaire**.",
+      "consigne": "**Exécutez la macro du collègue**, et regardez ce qu'elle fait.",
       "setup": {
         "ribbon": {
-          "activeTab": "accueil"
-        }
-      },
-      "action": {
-        "type": "CLICK_CONTROL",
-        "control": "acc-format-monetaire"
-      },
-      "points": 1
-    },
-    {
-      "id": "M27-EV01-08",
-      "consigne": "Arrêtez l'enregistrement.",
-      "action": {
-        "type": "RECORD_MACRO",
-        "expect": "stopped"
-      },
-      "points": 1
-    },
-    {
-      "id": "M27-EV01-09",
-      "consigne": "La ligne de total vient d'être effacée. Exécutez votre macro pour la reconstituer.",
-      "setup": {
-        "cells": {
-          "A10": {
-            "v": ""
-          },
-          "D10": {
-            "v": ""
-          }
+          "activeTab": "developpeur"
         }
       },
       "action": {
         "type": "EXPECT_MACRO",
         "macro": {
           "name": "Cloture_mois",
-          "shortcut": "Ctrl+Maj+J",
-          "minStatements": 5,
-          "contains": [
-            "Selection.NumberFormat"
-          ],
           "effet": {
             "A10": {
               "v": "Total du mois"
@@ -404,14 +361,20 @@
           }
         }
       },
-      "points": 3
+      "points": 2
     },
     {
-      "id": "M27-EV01-10",
-      "consigne": "Sans réenregistrer, faites clôturer le tableau d'**août** par cette macro.",
+      "id": "M27-EV01-04",
+      "consigne": "Elle a clôturé **juillet**, alors que vous étiez sur août — et elle recommencera là à chaque exécution. **Sans la réenregistrer, faites-lui clôturer août.**",
+      "setup": {
+        "ribbon": {
+          "activeTab": "developpeur"
+        }
+      },
       "action": {
         "type": "EXPECT_MACRO",
         "macro": {
+          "minStatements": 5,
           "effet": {
             "A21": {
               "v": "Total du mois"
@@ -422,23 +385,100 @@
           }
         }
       },
-      "points": 3
+      "points": 4
     },
     {
-      "id": "M27-EV01-11",
-      "consigne": "Changez le raccourci de la macro pour **Ctrl+Maj+E**.",
+      "id": "M27-EV01-05",
+      "consigne": "Le libellé recopié de juillet ne dit plus rien : **faites-lui écrire Total août** à la place.",
+      "setup": {
+        "ribbon": {
+          "activeTab": "developpeur"
+        }
+      },
       "action": {
         "type": "EXPECT_MACRO",
         "macro": {
-          "name": "Cloture_mois",
-          "shortcut": "Ctrl+Maj+E"
+          "effet": {
+            "A21": {
+              "v": "Total août"
+            }
+          }
         }
       },
       "points": 2
     },
     {
-      "id": "M27-EV01-12",
-      "consigne": "En **F1**, additionnez les deux totaux mensuels.",
+      "id": "M27-EV01-06",
+      "consigne": "Son raccourci est **Ctrl+t** — celui qu'Excel réserve à la création d'un tableau. Donnez-lui **Ctrl+Maj+A**.",
+      "setup": {
+        "ribbon": {
+          "activeTab": "developpeur"
+        }
+      },
+      "action": {
+        "type": "EXPECT_MACRO",
+        "macro": {
+          "name": "Cloture_mois",
+          "shortcut": "Ctrl+Maj+A"
+        }
+      },
+      "points": 2
+    },
+    {
+      "id": "M27-EV01-07",
+      "consigne": "La comptabilité veut une trace du contrôle. **Ajoutez au code une instruction** qui écrit **Contrôlé** en **F21**.",
+      "setup": {
+        "ribbon": {
+          "activeTab": "developpeur"
+        }
+      },
+      "action": {
+        "type": "EXPECT_MACRO",
+        "macro": {
+          "effet": {
+            "F21": {
+              "v": "Contrôlé"
+            }
+          }
+        }
+      },
+      "points": 3
+    },
+    {
+      "id": "M27-EV01-08",
+      "consigne": "Les montants d'**août** ont été collés depuis un courriel et sont restés bruts. Sélectionnez-les.",
+      "setup": {
+        "ribbon": {
+          "activeTab": "accueil"
+        }
+      },
+      "action": {
+        "type": "DRAG_RANGE",
+        "range": "D14:D20"
+      },
+      "points": 1
+    },
+    {
+      "id": "M27-EV01-09",
+      "consigne": "Donnez-leur le **format monétaire**.",
+      "setup": {
+        "selection": "D14:D20",
+        "ribbon": {
+          "activeTab": "accueil"
+        }
+      },
+      "action": {
+        "type": "CLICK_CONTROL",
+        "control": "acc-format-monetaire"
+      },
+      "points": 2
+    },
+    {
+      "id": "M27-EV01-10",
+      "consigne": "**En F1, additionnez les deux totaux mensuels.**",
+      "setup": {
+        "selection": "F1"
+      },
       "action": {
         "type": "TYPE",
         "target": "F1",
@@ -449,7 +489,25 @@
         ],
         "formulaMode": true
       },
-      "points": 1
+      "points": 2
+    },
+    {
+      "id": "M27-EV01-11",
+      "consigne": "**En F2, calculez la moyenne mensuelle** sur ces deux mois.",
+      "setup": {
+        "selection": "F2"
+      },
+      "action": {
+        "type": "TYPE",
+        "target": "F2",
+        "accept": [
+          "=MOYENNE(D10;D21)",
+          "=(D10+D21)/2",
+          "=F1/2"
+        ],
+        "formulaMode": true
+      },
+      "points": 2
     }
   ]
 }

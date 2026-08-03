@@ -200,39 +200,65 @@ verifier("dégradation propre sans cible", () => {
   return `cockpit nu → ${restantes.length}/${ETAPES_GUIDE.length} étapes conservées`
 })
 
-/* ── 6. Cibles tactiles ───────────────────────────────────────────────────── */
-verifier("aucune cible tactile sous 44 px", () => {
-  // On relit les hauteurs codées en dur dans le composant. `height: 44` et
-  // `minHeight: 44` sont attendus ; tout ce qui descend en dessous sur un
-  // élément cliquable est un défaut.
-  const petits: string[] = []
-  const re = /(minHeight|height):\s*(\d+)/g
-  let m: RegExpExecArray | null
-  while ((m = re.exec(SOURCE_GUIDE_BRUT)) !== null) {
-    const valeur = Number(m[2])
-    /* Hauteurs décoratives, portées par des éléments `aria-hidden` et non
-       cliquables : 8 = le point d'une pastille, 17/20/26 = médaillons, 34 = le
-       voile de débordement (`pointer-events: none`).
-       Ce contrôle statique reste grossier — il ne sait pas distinguer un bouton
-       d'un ornement. La vraie garantie est la MESURE des boutons rendus, faite
-       par la QA Playwright (« toutes les commandes du guide ≥ 44 px »). */
-    const decoratifs = [8, 17, 20, 26, 34]
-    if (valeur < 44 && !decoratifs.includes(valeur)) petits.push(`${m[1]}: ${valeur}`)
-  }
-  exiger(petits.length === 0, `hauteur suspecte : ${petits.join(", ")}`)
+/* ── 6. Cibles tactiles : largeur ET hauteur ──────────────────────────────── */
+verifier("aucune cible tactile sous 44 × 44", () => {
+  /* Contrôle par BOUTON, pas par valeur isolée.
+     La version précédente listait les hauteurs du fichier et laissait passer
+     tout le reste : les pastilles de progression mesuraient 18 × 44 px et le
+     contrôle restait vert, parce qu'il ne regardait jamais la largeur. On relit
+     donc chaque balise `<button` et on exige que sa boîte soit couverte dans
+     les DEUX dimensions. */
+  const boutons = [...SOURCE_GUIDE_BRUT.matchAll(/<button\b/g)].map((m) => {
+    // Balise ouvrante : du `<button` jusqu'au `>` qui précède son contenu.
+    const debut = m.index as number
+    const suite = SOURCE_GUIDE_BRUT.slice(debut, debut + 1400)
+    const fin = suite.indexOf("\n            >")
+    const bloc = fin > 0 ? suite.slice(0, fin) : suite.slice(0, suite.indexOf(">") + 1)
+    const nom =
+      bloc.match(/data-control="([^"]+)"/)?.[1] ??
+      (bloc.match(/data-control=\{(\w+)\}/) ? "data-control dynamique (BoutonTete)" : "bouton sans data-control")
+    const val = (prop: string) => {
+      const v = bloc.match(new RegExp(prop + ":\\s*(\\d+)"))
+      return v ? Number(v[1]) : null
+    }
+    return {
+      nom,
+      h: val("minHeight") ?? val("height"),
+      w: val("minWidth") ?? val("width"),
+      pleineLargeur: /className="[^"]*\bw-full\b/.test(bloc) || /flex\s+w-full/.test(bloc) || /flex-1/.test(bloc),
+      texte: /<\/button>/.test(bloc) === false,
+    }
+  })
+  exiger(boutons.length > 0, "aucun bouton trouvé : le contrôle ne prouve rien")
 
-  /* Le bouton qui OUVRE le guide vit dans le cockpit, pas dans ce composant :
-     il doit être couvert lui aussi. Les autres contrôles de la barre gardent
-     28 px — c'est l'application existante — mais celui-ci est ajouté par le
-     guide, donc il relève de son exigence. Sa boîte fait 44, sa pastille 28. */
+  const fautifs: string[] = []
+  for (const b of boutons) {
+    if (b.h !== null && b.h < 44) fautifs.push(`${b.nom} → hauteur ${b.h}`)
+    // Une largeur déclarée doit atteindre 44. Une largeur NON déclarée est
+    // admise seulement si le bouton s'étire (pleine largeur, `flex-1`) ou porte
+    // un libellé : c'est alors le contenu qui la donne, et la QA la mesure.
+    if (b.w !== null && b.w < 44) fautifs.push(`${b.nom} → largeur ${b.w}`)
+  }
+  exiger(fautifs.length === 0, `cible trop petite : ${fautifs.join(", ")}`)
+
+  /* Le bouton qui OUVRE le guide vit dans le cockpit, pas dans ce composant. */
   const iGuide = SOURCE_PLAYER.indexOf('data-control="sim-guide"')
   exiger(iGuide > 0, "bouton sim-guide introuvable dans le player")
   const blocGuide = SOURCE_PLAYER.slice(iGuide, iGuide + 1200)
-  exiger(/style=\{\{\s*height:\s*44/.test(blocGuide), "le bouton Guide ne fait pas 44 px de haut")
+  exiger(/height:\s*44/.test(blocGuide), "le bouton Guide ne fait pas 44 px de haut")
   exiger(/minWidth:\s*44/.test(blocGuide), "le bouton Guide ne fait pas 44 px de large")
 
-  const boutons = (SOURCE_GUIDE_BRUT.match(/<button/g) ?? []).length
-  return `${boutons} boutons du guide + le bouton du cockpit, tous ≥ 44 px`
+  /* Les pastilles de progression ne doivent PAS être des boutons : à dix
+     étapes, dix cibles de 44 px ne tiennent pas dans le pied, et les réduire
+     recréerait exactement le défaut mesuré en production. Elles doublent le
+     sommaire, qui porte la navigation en lignes de 44 px. */
+  const iPastille = SOURCE_GUIDE_BRUT.indexOf('data-control="guide-pastille"')
+  exiger(iPastille > 0, "indicateur de progression introuvable")
+  const avant = SOURCE_GUIDE_BRUT.slice(Math.max(0, iPastille - 300), iPastille)
+  exiger(!/<button[^>]*$/.test(avant), "les pastilles sont redevenues des boutons")
+  exiger(/aria-hidden/.test(SOURCE_GUIDE_BRUT.slice(iPastille, iPastille + 200)), "pastille non masquée aux lecteurs d'écran")
+
+  return `${boutons.length} boutons du guide + celui du cockpit, tous ≥ 44 px ; progression non cliquable`
 })
 
 /* ── 6 bis. Accessibilité du dialogue ─────────────────────────────────────── */

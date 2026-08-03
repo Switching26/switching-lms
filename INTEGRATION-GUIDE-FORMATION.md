@@ -120,9 +120,11 @@ Contrôles sans navigateur, lancés en CI locale comme les `check-*.ts` existant
    en production.
 4. **Étapes bien formées.** Titre, texte, `retenir` et `tache` non vides ; identifiants uniques ;
    pas de `placement` inconnu.
-5. **Cibles tactiles.** Aucune hauteur suspecte dans le composant, et le bouton `sim-guide` du
-   cockpit fait bien 44 × 44. Ce contrôle statique reste grossier — il ne distingue pas un bouton
-   d'un ornement ; la vraie garantie est la **mesure** des boutons rendus, faite par la QA.
+5. **Cibles tactiles, largeur ET hauteur.** Le contrôle relit chaque balise `<button` du composant
+   et exige 44 dans les deux dimensions ; il vérifie aussi que le bouton `sim-guide` du cockpit fait
+   44 × 44, et que l'indicateur de progression n'est **pas** redevenu un rang de boutons. La version
+   précédente ne listait que des hauteurs isolées : un bouton de 18 × 44 passait au vert. Sensibilité
+   prouvée par mutation — remettre `width: 18` sur un bouton fait échouer le contrôle.
 6. **Dialogue accessible.** `role="dialog"`, focalisable, `aria-labelledby`, `aria-describedby` qui
    s'adapte au mode replié, focus donné puis rendu — et **pas de piège à focus**, puisque le guide
    demande d'agir sur le cockpit.
@@ -169,8 +171,9 @@ Ce qu'elle prouve, dans les trois environnements :
 - le conteneur garde `scrollLeft === 0` et n'est plus un scrollport ;
 - l'invitation d'installation est **rendue par l'application** mais ne recouvre rien, et
   **revient à la fermeture** ;
-- les 13 à 14 boutons du guide sont **mesurés** ≥ 44 px ;
-- les 9 pastilles de progression sont visibles ;
+- les **13 à 14 cibles interactives** du guide, sommaire déplié, sont mesurées **≥ 44 × 44** —
+  lignes de sommaire comprises (358 × 44) ;
+- les 9 pastilles de progression sont visibles, **non cliquables**, et l'avancement est annoncé ;
 - **aucune mutation** : empreinte base identique avant/après le guide.
 
 ### La preuve de non-mutation
@@ -218,6 +221,15 @@ le cockpit lui-même.
    Une seule propriété de fond désormais.
 6. **Le texte de la tâche se coupait au milieu d'un mot** sur écran étroit, sans rien qui
    annonce la suite. Voile en dégradé, comme le fait déjà la bande consigne du player.
+7. **Les pastilles de progression étaient des boutons de 18 × 44 px** — sous les 44 × 44 annoncés,
+   relevé en production par CheckOS. Mon assertion de QA ne les attrapait pas : elle exigeait
+   `height >= 44` mais tolérait `width >= 18`, c'est-à-dire exactement leur largeur. Les élargir
+   était impossible : dix cibles de 44 px font 440 px dans un pied de 384. Or elles ne faisaient que
+   **doubler le sommaire**, qui porte la même navigation avec les titres, en lignes de 44 px, et
+   reste accessible dans les deux états de la carte. Elles deviennent donc un **indicateur non
+   interactif** : `<span aria-hidden>` dans un conteneur `role="img"` qui annonce l'avancement d'un
+   seul tenant. Plus rien à toucher là, donc plus rien de trop petit — et une seule navigation au
+   lieu de deux. Checker et QA mesurent désormais les deux dimensions, sans seuil de complaisance.
 
 Deux faux positifs de mon propre contrôleur ont aussi été corrigés : `dispatchEvent`
 détecté dans le commentaire qui explique qu'il est interdit, et `\btes\b` reconnaissant

@@ -761,46 +761,51 @@ export default function GuideFormation({
               }}
             />
           )}
+          {/* INDICATEUR, plus un rang de boutons.
+                Ces pastilles étaient cliquables et mesuraient 18 × 44 px : une
+                cible tactile en dessous des 44 × 44 annoncés, mesurée en
+                production. Les élargir était impossible — dix cibles de 44 px
+                font 440 px dans un pied de 384 px.
+                Elles ne faisaient de toute façon que doubler le sommaire, qui
+                porte la même navigation avec les titres, en lignes de 44 px, et
+                qui reste accessible dans les deux états de la carte. On garde
+                donc le repère visuel et on retire la cible : plus rien à
+                toucher ici, donc plus rien de trop petit. L'avancement est
+                annoncé d'un seul tenant aux lecteurs d'écran. */}
           {!compact && (
-            <div className="flex min-w-0 flex-1 flex-wrap" role="tablist" aria-label="Étapes du guide">
+            <div
+              className="flex min-w-0 flex-1 flex-wrap items-center"
+              style={{ gap: 6 }}
+              role="img"
+              aria-label={`Étape ${index + 1} sur ${etapes.length}, ${faites.size} geste${faites.size > 1 ? "s" : ""} validé${faites.size > 1 ? "s" : ""}. Naviguez par le sommaire.`}
+            >
               {etapes.map((e, i) => (
-                <button
+                <span
                   key={e.id}
-                  type="button"
-                  role="tab"
                   data-control="guide-pastille"
-                  aria-selected={i === index}
-                  aria-label={`Étape ${i + 1} sur ${etapes.length} — ${e.titre}`}
-                  onClick={() => aller(i)}
-                  className="guide-focus flex flex-shrink-0 items-center justify-center"
-                  style={{ width: 18, height: 44, padding: 0, background: "none" }}
-                >
-                  <span
-                    aria-hidden
-                    style={{
-                      width: 8,
-                      height: 8,
-                      borderRadius: 999,
-                      /* UNE SEULE propriété de fond.
-                         `background` (raccourci) suivi de `backgroundColor`
-                         (longhand) dans le même objet de style : React
-                         sérialise les deux dans l'ordre, et un `backgroundColor`
-                         à `undefined` ANNULE la couleur posée par le raccourci.
-                         Huit pastilles sur neuf étaient transparentes, et le
-                         guide paraissait n'avoir qu'une étape. */
-                      backgroundColor:
-                        i === index
-                          ? "#111827"
-                          : faites.has(e.id)
-                            ? VERT
-                            : vues.has(e.id)
-                              ? "#9a8b78"
-                              : "#cfc5b8",
-                      transform: i === index ? "scale(1.5)" : undefined,
-                      transition: `background-color .25s ease, transform .25s ${RESSORT}`,
-                    }}
-                  />
-                </button>
+                  aria-hidden
+                  style={{
+                    display: "block",
+                    width: 8,
+                    height: 8,
+                    flexShrink: 0,
+                    borderRadius: 999,
+                    /* UNE SEULE propriété de fond : `background` (raccourci)
+                       suivi de `backgroundColor` (longhand) dans le même objet
+                       de style React, le second à `undefined`, annulait le
+                       premier — huit pastilles sur neuf étaient transparentes. */
+                    backgroundColor:
+                      i === index
+                        ? "#111827"
+                        : faites.has(e.id)
+                          ? VERT
+                          : vues.has(e.id)
+                            ? "#9a8b78"
+                            : "#cfc5b8",
+                    transform: i === index ? "scale(1.5)" : undefined,
+                    transition: `background-color .25s ease, transform .25s ${RESSORT}`,
+                  }}
+                />
               ))}
             </div>
           )}

@@ -93,6 +93,45 @@ export function tailleLisible(octets: number | null | undefined): string | null 
 }
 
 /**
+ * Libellés des deux actions d'un document.
+ *
+ * Les boutons sont purement iconographiques : leur seul texte vit dans
+ * `aria-label` et `title`. Ces libellés doivent donc TOUJOURS nommer le
+ * document — « Télécharger » seul ne dit rien à un lecteur d'écran qui
+ * parcourt six lignes de suite.
+ */
+export function libelleConsulter(nom: string): string {
+  return `Consulter ${(nom || "").trim()}`.trim()
+}
+export function libelleTelecharger(nom: string): string {
+  return `Télécharger ${(nom || "").trim()}`.trim()
+}
+
+/**
+ * Nom de fichier proposé au téléchargement.
+ *
+ * On préfère le nom d'affichage (« PDF Module 1 - Introduction ») au nom
+ * technique stocké (« 584622_2581930_PDF_Module_1_-_Introduction.pdf »), mais
+ * SANS jamais perdre l'extension : un fichier sans extension n'est pas ouvert
+ * par le système. Si le nom d'affichage manque, on retombe sur le nom réel.
+ */
+export function nomTelechargement(doc: {
+  name?: string | null
+  fileUrl?: string | null
+}): string | null {
+  const url = (doc?.fileUrl || "").trim()
+  if (!url) return null
+  const reel = url.split("/").pop()?.split("?")[0].split("#")[0] || ""
+  const affiche = (doc?.name || "").trim()
+  if (!affiche) return reel || null
+  const ext = typeDeFichier(url)
+  if (!ext) return affiche
+  return affiche.toLowerCase().endsWith(`.${ext.toLowerCase()}`)
+    ? affiche
+    : `${affiche}.${ext.toLowerCase()}`
+}
+
+/**
  * Documents dédoublonnés, en écartant ceux déjà listés ailleurs.
  *
  * Deux lignes distinctes peuvent désigner le même fichier (une pièce jointe de

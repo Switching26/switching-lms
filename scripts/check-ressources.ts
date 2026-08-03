@@ -24,6 +24,9 @@ import {
   filtrerDocuments,
   dedupeDocuments,
   documentsDeLaFormation,
+  libelleConsulter,
+  libelleTelecharger,
+  nomTelechargement,
 } from "@/lib/learner-files"
 
 let echecs = 0
@@ -176,6 +179,54 @@ verifier("taille négative", tailleLisible(-4), null)
 verifier("octets", tailleLisible(512), "512 o")
 verifier("kilooctets", tailleLisible(340 * 1024), "340 Ko")
 verifier("mégaoctets", tailleLisible(2_517_000), "2.4 Mo")
+
+/* ── 5. Libellés des deux actions ──────────────────────────────────────────
+ *
+ * Les boutons sont purement iconographiques : leur libellé est la SEULE chose
+ * qu'un lecteur d'écran annonce. « Télécharger » tout court, répété sur six
+ * lignes, ne permet pas de choisir — le nom du document est obligatoire.
+ */
+
+verifier("libellé consulter", libelleConsulter("PDF Module 1"), "Consulter PDF Module 1")
+verifier("libellé télécharger", libelleTelecharger("PDF Module 1"), "Télécharger PDF Module 1")
+// Les noms en base portent des espaces de fin (« PDF Module 3 - SEO ONSITE  ») :
+// ils ne doivent pas produire un libellé à double espace.
+verifier("nom avec espaces de fin", libelleConsulter("PDF Module 3 - SEO ONSITE "), "Consulter PDF Module 3 - SEO ONSITE")
+verifier("nom vide", libelleTelecharger(""), "Télécharger")
+
+/* ── 6. Nom proposé au téléchargement ─────────────────────────────────────
+ *
+ * On préfère le nom lisible au nom technique, mais un fichier sans extension
+ * n'est ouvert par aucun système : l'extension prime sur l'esthétique.
+ */
+
+verifier(
+  "nom lisible + extension ajoutée",
+  nomTelechargement({ name: "PDF Module 1 - Introduction", fileUrl: "/uploads/pdfs/584622_x.pdf" }),
+  "PDF Module 1 - Introduction.pdf",
+)
+verifier(
+  "extension déjà présente, pas doublée",
+  nomTelechargement({ name: "Support.pdf", fileUrl: "/uploads/a.pdf" }),
+  "Support.pdf",
+)
+verifier(
+  "extension déjà présente en majuscules",
+  nomTelechargement({ name: "Support.PDF", fileUrl: "/uploads/a.pdf" }),
+  "Support.PDF",
+)
+verifier(
+  "sans nom d'affichage, on retombe sur le nom réel",
+  nomTelechargement({ name: "", fileUrl: "/uploads/pdfs/584622_x.pdf" }),
+  "584622_x.pdf",
+)
+verifier(
+  "fichier sans extension connue",
+  nomTelechargement({ name: "Support 2.0", fileUrl: "/uploads/Support 2.0" }),
+  "Support 2.0",
+)
+verifier("chaîne de requête retirée du nom réel", nomTelechargement({ name: "", fileUrl: "/uploads/a.pdf?v=2" }), "a.pdf")
+verifier("document sans fichier", nomTelechargement({ name: "Cassé", fileUrl: "" }), null)
 
 console.log(`\nDocuments apprenant — ${total} vérifications, ${echecs} échec(s)`)
 if (echecs) process.exitCode = 1

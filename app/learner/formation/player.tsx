@@ -5,7 +5,18 @@ import { useRouter } from "next/navigation"
 import SimulationChapter from "@/components/simulation/SimulationChapter"
 import type { EntreeSommaire } from "@/components/simulation/SimulationPlayer"
 import { dureeLisible, estimatedSimulationSeconds } from "@/lib/simulation/duree"
-import { toApiFileUrl, filtrerDocuments, documentsDeLaFormation } from "@/lib/learner-files"
+import {
+  toApiFileUrl,
+  filtrerDocuments,
+  documentsDeLaFormation,
+  type LearnerDocument,
+} from "@/lib/learner-files"
+import {
+  ActionsDocument,
+  LigneDocument,
+  type EtatConsultation,
+} from "@/components/learner/DocumentActions"
+import PdfViewer from "@/components/learner/PdfViewer"
 
 /* ═══════════ HELPERS ═══════════ */
 
@@ -187,6 +198,15 @@ export default function FormationPlayer({
     return map
   })
   const [showChapters, setShowChapters] = useState(false)
+  /**
+   * Document consulté dans la visionneuse — un seul à la fois, comme dans le
+   * cockpit du simulateur. Le player classique porte trois surfaces de
+   * documents (en-tête d'un chapitre PDF, pièces jointes du chapitre,
+   * documents de la formation) : un seul état les sert toutes.
+   */
+  const [docConsulte, setDocConsulte] = useState<LearnerDocument | null>(null)
+  const [etatConsultation, setEtatConsultation] = useState<EtatConsultation>(null)
+  const fermerVisionneuse = useCallback(() => setDocConsulte(null), [])
   // Contenu des notes par chapitre (préchargé serveur, mis à jour au fil de la saisie)
   const [notesMap, setNotesMap] = useState<Record<string, string>>(initialNotes || {})
   const router = useRouter()
@@ -577,25 +597,22 @@ export default function FormationPlayer({
                       <p className="text-[11px] text-warm-400 uppercase tracking-wider">Document</p>
                     </div>
                   </div>
-                  <a
-                    href={pdfHref}
-                    download
-                    className="flex-shrink-0 inline-flex items-center gap-1.5 text-sm text-brand-600 hover:text-brand-700 font-medium"
-                    title="Télécharger le PDF"
-                  >
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
-                    </svg>
-                    <span className="hidden sm:inline">Télécharger</span>
-                  </a>
+                  {/* Mêmes deux actions que dans le panneau du simulateur :
+                      un seul composant, partout. */}
+                  <ActionsDocument
+                    doc={pdf}
+                    onConsulter={setDocConsulte}
+                    etat={docConsulte?.id === pdf.id ? etatConsultation : null}
+                  />
                 </div>
-                {/* Mobile : l'iframe PDF ne rend qu'une page illisible sur iOS.
-                    On propose une carte « Ouvrir le document » (nouvel onglet). */}
-                <a
-                  href={pdfHref}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="sm:hidden flex items-center gap-3 m-4 p-4 rounded-xl border border-border bg-surface-subtle hover:bg-warm-50 transition-colors"
+                {/* Mobile : l'iframe en flux ne rend qu'une page illisible sur
+                    iOS. La carte ouvre donc la visionneuse plein cadre, qui
+                    laisse au document toute la hauteur de l'écran. */}
+                <button
+                  type="button"
+                  data-action="consulter-mobile"
+                  onClick={() => setDocConsulte(pdf)}
+                  className="sm:hidden flex w-[calc(100%-2rem)] items-center gap-3 m-4 p-4 rounded-xl border border-border bg-surface-subtle hover:bg-warm-50 transition-colors text-left"
                 >
                   <div className="flex-shrink-0 w-11 h-11 rounded-xl bg-brand-100 flex items-center justify-center">
                     <svg className="w-5 h-5 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
@@ -603,13 +620,13 @@ export default function FormationPlayer({
                     </svg>
                   </div>
                   <div className="min-w-0 flex-1">
-                    <p className="text-sm font-semibold text-primary">Ouvrir le document</p>
-                    <p className="text-xs text-warm-500 mt-0.5">La lecture en plein écran est plus confortable sur mobile.</p>
+                    <p className="text-sm font-semibold text-primary">Consulter le document</p>
+                    <p className="text-xs text-warm-500 mt-0.5">La lecture plein cadre est plus confortable sur mobile.</p>
                   </div>
                   <svg className="w-5 h-5 text-warm-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
                   </svg>
-                </a>
+                </button>
                 {/* Desktop/tablette : viewer inline */}
                 <iframe
                   src={`${pdfHref}#toolbar=0&navpanes=0`}
@@ -677,26 +694,15 @@ export default function FormationPlayer({
           {active?.attachments?.length > 0 && (
             <div className="mt-5 pt-5 border-t border-border">
               <h3 className="text-xs font-semibold text-warm-400 uppercase tracking-wider mb-3">Pièces jointes</h3>
-              <div className="space-y-1.5">
-                {active.attachments.map((att) => {
-                  const href = toApiFileUrl(att.fileUrl)
-                  return (
-                    <a
-                      key={att.id}
-                      href={href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-2.5 p-2.5 rounded-xl hover:bg-warm-50 transition-colors group"
-                    >
-                      <div className="w-8 h-8 rounded-lg bg-warm-100 flex items-center justify-center flex-shrink-0 group-hover:bg-warm-200 transition-colors">
-                        <svg className="w-4 h-4 text-warm-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
-                        </svg>
-                      </div>
-                      <span className="text-sm text-warm-600 group-hover:text-primary transition-colors">{att.name}</span>
-                    </a>
-                  )
-                })}
+              <div>
+                {active.attachments.map((att) => (
+                  <LigneDocument
+                    key={att.id}
+                    doc={att}
+                    onConsulter={setDocConsulte}
+                    etat={docConsulte?.id === att.id ? etatConsultation : null}
+                  />
+                ))}
               </div>
             </div>
           )}
@@ -802,26 +808,15 @@ export default function FormationPlayer({
         {formationAttachments && formationAttachments.length > 0 && (
           <div className="bg-white rounded-2xl border border-border p-6 shadow-sm">
             <h3 className="text-xs font-semibold text-warm-400 uppercase tracking-wider mb-3">Documents de la formation</h3>
-            <div className="space-y-1.5">
-              {formationAttachments.map((att) => {
-                const href = toApiFileUrl(att.fileUrl)
-                return (
-                  <a
-                    key={att.id}
-                    href={href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2.5 p-2.5 rounded-xl hover:bg-warm-50 transition-colors group"
-                  >
-                    <div className="w-8 h-8 rounded-lg bg-warm-100 flex items-center justify-center flex-shrink-0 group-hover:bg-warm-200 transition-colors">
-                      <svg className="w-4 h-4 text-warm-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
-                      </svg>
-                    </div>
-                    <span className="text-sm text-warm-600 group-hover:text-primary transition-colors">{att.name}</span>
-                  </a>
-                )
-              })}
+            <div>
+              {formationAttachments.map((att) => (
+                <LigneDocument
+                  key={att.id}
+                  doc={att}
+                  onConsulter={setDocConsulte}
+                  etat={docConsulte?.id === att.id ? etatConsultation : null}
+                />
+              ))}
             </div>
           </div>
         )}
@@ -939,6 +934,11 @@ export default function FormationPlayer({
           </div>
         </div>
       </div>
+
+      {/* Visionneuse partagée avec le simulateur. Elle se rend par un portail
+          vers le corps du document : ni la grille du player, ni le `transform`
+          résiduel de la page ne peuvent la contraindre. */}
+      <PdfViewer doc={docConsulte} onClose={fermerVisionneuse} onEtat={setEtatConsultation} />
     </div>
   )
 }

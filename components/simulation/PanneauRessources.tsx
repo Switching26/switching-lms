@@ -13,15 +13,10 @@
  * jamais » tient donc panneau ouvert.
  */
 
-import { useEffect, useMemo, useRef, useState } from "react"
-import {
-  toApiFileUrl,
-  typeDeFichier,
-  tailleLisible,
-  estDocumentExploitable,
-  dedupeDocuments,
-  type LearnerDocument,
-} from "@/lib/learner-files"
+import { useCallback, useMemo, useState } from "react"
+import { dedupeDocuments, type LearnerDocument } from "@/lib/learner-files"
+import { LigneDocument, type EtatConsultation } from "@/components/learner/DocumentActions"
+import PdfViewer from "@/components/learner/PdfViewer"
 
 /** Libellé exact demandé, employé tel quel en titre et en `aria-label`. */
 export const LIBELLE_RESSOURCES = "Ressource pédagogique téléchargeable"
@@ -61,8 +56,15 @@ export default function PanneauRessources({
     [documentsFormation, duChapitre],
   )
 
+  // Un seul document consulté à la fois : l'état vit ici, la visionneuse se
+  // superpose à TOUT l'atelier par un portail vers le corps du document.
+  const [consulte, setConsulte] = useState<LearnerDocument | null>(null)
+  const [etat, setEtat] = useState<EtatConsultation>(null)
+  const fermerVisionneuse = useCallback(() => setConsulte(null), [])
+
   return (
-    <aside
+    <>
+      <aside
       id={id}
       aria-label={LIBELLE_RESSOURCES}
       aria-hidden={!ouvert}
@@ -105,14 +107,26 @@ export default function PanneauRessources({
               Aucun document propre à ce chapitre.
             </p>
           ) : (
-            duChapitre.map((doc) => <Ligne key={doc.id} doc={doc} />)
+            duChapitre.map((doc) => (
+              <LigneDocument
+                key={doc.id}
+                doc={doc}
+                onConsulter={setConsulte}
+                etat={consulte?.id === doc.id ? etat : null}
+              />
+            ))
           )}
         </Section>
 
         {deLaFormation.length > 0 && (
           <Section titre="Toute la formation" nombre={deLaFormation.length}>
             {deLaFormation.map((doc) => (
-              <Ligne key={doc.id} doc={doc} />
+              <LigneDocument
+                key={doc.id}
+                doc={doc}
+                onConsulter={setConsulte}
+                etat={consulte?.id === doc.id ? etat : null}
+              />
             ))}
           </Section>
         )}
@@ -127,7 +141,12 @@ export default function PanneauRessources({
           </a>
         )}
       </div>
-    </aside>
+      </aside>
+
+      {/* Portail vers le corps du document : la visionneuse doit passer AU-DESSUS
+          de l'atelier, qui vit lui-même dans un portail en `z-index: 30`. */}
+      <PdfViewer doc={consulte} onClose={fermerVisionneuse} onEtat={setEtat} />
+    </>
   )
 }
 
@@ -148,104 +167,5 @@ function Section({
       </h5>
       {children}
     </section>
-  )
-}
-
-/**
- * Une ligne de document.
- *
- * `download` + `target="_blank"` : sur navigateur de bureau, l'origine étant la
- * même, `download` l'emporte et le fichier est enregistré sans ouvrir d'onglet.
- * iOS Safari ignore `download` et ouvre le document dans un onglet — c'est le
- * comportement souhaitable là-bas, le visionneuse PDF intégrée y étant la seule
- * façon confortable de lire (même raison que la carte « Ouvrir le document » du
- * player sur mobile).
- */
-function Ligne({ doc }: { doc: LearnerDocument }) {
-  const [ouverture, setOuverture] = useState(false)
-  const timer = useRef<number | null>(null)
-
-  useEffect(() => {
-    return () => {
-      if (timer.current) window.clearTimeout(timer.current)
-    }
-  }, [])
-
-  const ouvrable = estDocumentExploitable(doc)
-  const href = ouvrable ? toApiFileUrl(doc.fileUrl) : null
-  const type = ouvrable ? typeDeFichier(doc.fileUrl) : null
-  const taille = tailleLisible(doc.fileSize)
-  const meta = [type, taille].filter(Boolean).join(" · ")
-
-  // Un document sans fichier exploitable est le SEUL échec connaissable sans
-  // requête : on le dit, plutôt que de proposer un lien qui n'ouvrirait rien.
-  if (!href) {
-    return (
-      <div className="mb-1.5 flex items-center gap-2.5 rounded-xl border border-border p-2.5 opacity-70">
-        <Vignette type={null} sourd />
-        <div className="min-w-0 flex-1">
-          <p className="truncate text-[12.5px] font-semibold text-warm-500">{doc.name}</p>
-          <p className="text-[11px] text-warm-400">Fichier indisponible</p>
-        </div>
-      </div>
-    )
-  }
-
-  return (
-    <a
-      href={href}
-      download
-      target="_blank"
-      rel="noopener noreferrer"
-      onClick={() => {
-        // Aucune progression réseau n'est observable sur un lien de
-        // téléchargement : on ne signale que le DÉPART de l'ouverture, le temps
-        // que le navigateur prenne la main.
-        setOuverture(true)
-        if (timer.current) window.clearTimeout(timer.current)
-        timer.current = window.setTimeout(() => setOuverture(false), 2200)
-      }}
-      className="res-focus mb-1.5 flex items-center gap-2.5 rounded-xl border border-border p-2.5 transition-colors hover:bg-warm-50"
-    >
-      <Vignette type={type} />
-      <div className="min-w-0 flex-1">
-        <p className="truncate text-[12.5px] font-semibold text-ink">{doc.name}</p>
-        {meta && <p className="text-[11px] text-warm-400">{meta}</p>}
-      </div>
-      <span
-        aria-live="polite"
-        className="flex-shrink-0 rounded-lg px-2.5 py-1.5 text-[11px] font-bold"
-        style={{ background: "#eaf4ee", color: "#107C41" }}
-      >
-        {ouverture ? "Ouverture…" : "Télécharger"}
-      </span>
-    </a>
-  )
-}
-
-/** Vignette du document : l'extension quand on la connaît, une icône sinon. */
-function Vignette({ type, sourd }: { type: string | null; sourd?: boolean }) {
-  return (
-    <span
-      aria-hidden
-      className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg text-[9.5px] font-extrabold"
-      style={
-        sourd
-          ? { background: "#efece5", color: "#9a938a" }
-          : { background: "#eaf4ee", color: "#107C41" }
-      }
-    >
-      {type && type.length <= 4 ? (
-        type
-      ) : (
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8}>
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M14 3v5h5M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8l-5-5z"
-          />
-        </svg>
-      )}
-    </span>
   )
 }

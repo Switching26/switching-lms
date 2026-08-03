@@ -4,7 +4,14 @@
  * Il prouve qu'AUCUNE mécanique n'a bougé : on recharge chaque scénario, on
  * retire les seuls champs que ce chantier a le droit de toucher (`consigne`,
  * `aide`, `montrer`), et on compare au même scénario tel qu'il est dans un
- * commit de référence. Toute différence restante — une `action`, un `accept`,
+ * commit de référence.
+ *
+ * Le bloc `remediation` est retiré lui aussi. Ce n'est PAS un assouplissement :
+ * ce contrôle veille sur la MÉCANIQUE d'un scénario — étapes, actions, attendus,
+ * barème — et `remediation` n'en fait pas partie, c'est une annotation
+ * pédagogique posée à côté. Elle a son propre garde-fou, plus sévère que celui-ci :
+ * `check-remediation.ts` exige les 27 blocs, la couverture complète de toutes
+ * les étapes notées et la résolution de chaque renvoi. Toute différence restante — une `action`, un `accept`,
  * un `anyOf`, un `setup`, un identifiant, un nombre d'étapes — est un défaut.
  *
  *   npx tsx scripts/simulation/check-integrite-consignes.ts [ref-git]
@@ -35,6 +42,7 @@ function canon(v: unknown): unknown {
 /** Le scénario privé de ce que ce chantier a le droit de modifier. */
 function squelette(sc: any): unknown {
   const copie = JSON.parse(JSON.stringify(sc))
+  delete copie.remediation
   for (const st of copie.steps ?? []) {
     delete st.consigne
     delete st.aide

@@ -1,5 +1,7 @@
 import { prisma } from "@/lib/prisma"
 import { resumeJournal } from "@/lib/simulation/journal"
+import { bilanPublie, lireJournalStocke, type BilanPublie } from "@/lib/simulation/bilan"
+import { planDeRevision, type ChapitreDuParcours } from "@/lib/simulation/remediation"
 
 export interface QuizEvaluation {
   exerciseId: string
@@ -43,13 +45,61 @@ export interface EvaluationResult {
   lastAt: Date | null
   /** Seconde ligne facultative sous le titre : erreurs, aides, avancement. */
   detail: string | null
+  /**
+   * Bilan par compétence du MEILLEUR passage, quand il est disponible.
+   *
+   * `doitRemplacerJournal` n'écrit le journal que si le score atteint ou dépasse
+   * le meilleur : le journal stocké décrit donc toujours la tentative dont on
+   * affiche la note ici. C'est la différence avec l'écran de fin d'atelier, qui
+   * décrit le passage qu'on vient de jouer — et les deux écrans le disent.
+   *
+   * `null` couvre les tentatives antérieures à l'enregistrement du journal, les
+   * évaluations non annotées et les journaux invérifiables : dans les trois cas
+   * la note reste, le bilan disparaît.
+   */
+  bilan: BilanPublie | null
 }
+
+/*
+ * PAS DE DATE SUR LE BILAN, ET C'EST DÉLIBÉRÉ.
+ *
+ * On aimerait écrire « bilan de votre meilleur passage, le 3 mars ». La base ne
+ * le permet pas : `SimulationAttempt.completedAt` est la date de PREMIÈRE
+ * complétion et n'est jamais réécrite — c'est ce qui en fait une preuve de
+ * parcours — et `updatedAt` bouge à chaque envoi de progression, donc aussi
+ * après un passage MOINS bon qui n'a pas remplacé le journal. Aucune des deux
+ * ne date le passage que le bilan décrit.
+ *
+ * Afficher l'une ou l'autre serait une date fausse un jour sur deux. Tant qu'un
+ * champ dédié n'existe pas — ce serait une migration, hors du périmètre de ce
+ * chantier — l'écran dit « meilleur passage » sans prétendre savoir quand.
+ */
 
 export interface FormationEvaluationResults {
   evaluations: EvaluationResult[]
   globalBest: number | null
   doneCount: number
   totalCount: number
+  /**
+   * « À revoir en priorité sur cette formation » : au plus trois lignes, tirées
+   * des bilans des évaluations déjà passées.
+   *
+   * SÉLECTION, jamais agrégation. Un identifiant de compétence n'a de sens que
+   * dans SON évaluation : `synthetiser` du module 10 et `synthetiser` du module
+   * 16 sont deux notions différentes, et additionner leurs points perdus
+   * inventerait une compétence transversale que personne n'a déclarée. Chaque
+   * ligne reste donc rattachée à son module d'origine.
+   */
+  planDeRevision: Array<{
+    cle: string
+    titre: string
+    enonce?: string
+    pointsPerdus: number
+    /** Chapitre de l'ÉVALUATION d'où vient la priorité. */
+    chapterId: string
+    titreEvaluation: string
+    revoir: Array<{ chapterId: string; titre: string }>
+  }>
 }
 
 /**
@@ -63,11 +113,17 @@ export async function getFormationSimulationResults(
   userId: string,
   formationId: string,
 ): Promise<EvaluationResult[]> {
-  const simulations = await prisma.simulation.findMany({
+  // Deux requêtes : les évaluations avec leur tentative, et TOUS les chapitres
+  // de la formation — ces derniers servent à traduire « m10-l05 » en chapitre
+  // réel. « Mes résultats » chargeait déjà les chapitres de chaque évaluation ;
+  // celle-ci les prend une fois pour toutes.
+  const [simulations, chapitresBruts] = await Promise.all([
+    prisma.simulation.findMany({
     where: { mode: "EVALUATION", chapter: { formationId, isPublished: true } },
     select: {
       id: true,
       stepCount: true,
+      scenario: true,
       chapter: {
         select: { id: true, title: true, order: true, section: { select: { order: true } } },
       },
@@ -86,7 +142,20 @@ export async function getFormationSimulationResults(
         },
       },
     },
-  })
+  }),
+    prisma.chapter.findMany({
+      where: { formationId },
+      select: { id: true, title: true, order: true, isPublished: true, section: { select: { order: true } } },
+    }),
+  ])
+
+  const chapitres: ChapitreDuParcours[] = chapitresBruts.map((c) => ({
+    chapterId: c.id,
+    titre: c.title,
+    sectionOrder: c.section?.order ?? 0,
+    chapterOrder: c.order,
+    publie: c.isPublished,
+  }))
 
   // Même ordre que le sommaire de l'apprenant : section, puis chapitre.
   simulations.sort((a, b) => {
@@ -127,6 +196,17 @@ export async function getFormationSimulationResults(
       detail = morceaux.length ? morceaux.join(" · ") : null
     }
 
+    /* BILAN DU MEILLEUR PASSAGE.
+     *
+     * Le journal stocké suit toujours `bestScore` — `doitRemplacerJournal` ne
+     * l'écrit que si le score courant l'atteint ou le dépasse. Le bilan décrit
+     * donc bien la tentative dont la note s'affiche à côté, et non la dernière.
+     *
+     * Il n'est calculé que pour une tentative TERMINÉE : un passage en cours a
+     * un journal partiel, que le moteur refuserait de toute façon. */
+    const journal = attempt?.completedAt ? lireJournalStocke(attempt.stepLog) : null
+    const bilan = journal ? bilanPublie({ scenario: sim.scenario, journal, chapitres }) : null
+
     return {
       key: sim.id,
       kind: "SIMULATION" as const,
@@ -137,6 +217,9 @@ export async function getFormationSimulationResults(
       lastScore: tente ? attempt!.score : null,
       lastAt: attempt ? attempt.completedAt ?? attempt.updatedAt : null,
       detail,
+      // Un bilan fermé (non annoté, incomplet, invérifiable) ne remonte pas :
+      // l'interface n'a alors rien à afficher, et surtout rien à deviner.
+      bilan: bilan?.exploitable ? bilan : null,
     }
   })
 }
@@ -166,6 +249,9 @@ export async function getFormationEvaluationResults(
     lastScore: e.lastScore,
     lastAt: e.lastAt,
     detail: null,
+    // Les QCM n'ont pas de bilan par compétence : ils vivent dans l'autre moteur
+    // d'évaluation, et rien n'y déclare de compétence.
+    bilan: null,
   }))
 
   const evaluations = [...depuisQuiz, ...simulations]
@@ -174,7 +260,57 @@ export async function getFormationEvaluationResults(
     ? done.reduce((s, e) => s + (e.bestScore as number), 0) / done.length
     : null
 
-  return { evaluations, globalBest, doneCount: done.length, totalCount: evaluations.length }
+  /* PLAN DE RÉVISION DE FORMATION.
+   *
+   * `planDeRevision` SÉLECTIONNE les priorités les plus coûteuses parmi les
+   * bilans, sans jamais les fusionner : deux évaluations qui portent le même
+   * identifiant de compétence restent deux lignes, rattachées à leur module.
+   * Les bilans fermés n'apportent rien — leurs priorités sont déjà vides. */
+  const plan = planDeRevision(
+    evaluations
+      .filter((e) => e.bilan)
+      .map((e) => ({
+        chapterId: e.chapterId,
+        titreEvaluation: e.title,
+        bilan: {
+          // `planDeRevision` ne lit que `priorites` ; le reste du bilan est
+          // rempli à vide plutôt que recalculé, pour ne pas refaire le travail.
+          pointsObtenus: 0, pointsTotal: 0, score: 0, competences: [],
+          priorites: e.bilan!.priorites.map((p) => ({
+            id: p.id, titre: p.titre, ...(p.enonce ? { enonce: p.enonce } : {}),
+            pointsObtenus: p.pointsObtenus, pointsTotal: p.pointsTotal,
+            etapesRatees: p.etapesRatees, etapesNonTraitees: p.etapesNonTraitees,
+            // Les renvois sont DÉJÀ résolus : on repasse leurs codes, qui
+            // servent seulement à départager deux priorités à égalité.
+            revoir: p.revoir.map((r) => r.code),
+            statut: p.statut,
+          })),
+          couverture: "complete" as const, etapesSansCompetence: 0, perime: false,
+        },
+      })),
+  )
+
+  const planDeRevisionPublie = plan.map((entree) => {
+    const source = evaluations.find((e) => e.chapterId === entree.chapterId)
+    const ligne = source?.bilan?.priorites.find((p) => p.id === entree.competence.id)
+    return {
+      cle: entree.cle,
+      titre: entree.competence.titre,
+      ...(entree.competence.enonce ? { enonce: entree.competence.enonce } : {}),
+      pointsPerdus: entree.pointsPerdus,
+      chapterId: entree.chapterId,
+      titreEvaluation: entree.titreEvaluation,
+      revoir: ligne?.revoir.map((r) => ({ chapterId: r.chapterId, titre: r.titre })) ?? [],
+    }
+  })
+
+  return {
+    evaluations,
+    globalBest,
+    doneCount: done.length,
+    totalCount: evaluations.length,
+    planDeRevision: planDeRevisionPublie,
+  }
 }
 
 /**

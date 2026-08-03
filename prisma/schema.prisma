@@ -64,6 +64,8 @@ model User {
   questionResponses      QuestionResponse[]
   assessmentInvitations  AssessmentInvitation[]
   simulationAttempts     SimulationAttempt[]
+  simulationRuns         SimulationRun[]
+  simulationFlushes      SimulationFlush[]
   conversationsAsLearner Conversation[]         @relation("ConversationLearner")
   conversationsAsAdmin   Conversation[]         @relation("ConversationAdmin")
   messages               Message[]
@@ -644,6 +646,8 @@ model Simulation {
   updatedAt DateTime @updatedAt
 
   attempts SimulationAttempt[]
+  runs     SimulationRun[]
+  flushes  SimulationFlush[]
 
   @@index([chapterId])
 }
@@ -685,4 +689,141 @@ model SimulationAttempt {
   @@unique([simulationId, userId])
   @@index([userId])
   @@index([simulationId])
+}
+
+/// Un PASSAGE d'évaluation, ouvert et tenu par le SERVEUR.
+///
+/// POURQUOI CE MODÈLE EXISTE
+/// `SimulationAttempt` décrit l'état de reprise d'un apprenant sur un atelier :
+/// une seule ligne par (simulation, utilisateur), écrasée à chaque passage.
+/// Elle ne peut pas porter la preuve d'un passage, et surtout elle ne dit rien
+/// de ce que l'apprenant a RÉELLEMENT réussi : jusqu'ici la note se calculait
+/// depuis deux booléens par étape, déclarés par le navigateur. Une requête
+/// fabriquée qui affirmait « tout réussi du premier coup » obtenait 100 % sans
+/// avoir joué une seule étape.
+///
+/// Un run est ouvert au clic « Commencer », repris tel quel au rechargement de
+/// la page, et remplacé par un nouveau au « Repasser l'évaluation ». C'est lui
+/// qui porte les verdicts, et c'est de ces verdicts — et d'eux seuls — que la
+/// note finale est calculée.
+/// REÇU D'UNE REMONTÉE DE PROGRESSION.
+///
+/// Le PUT non final — appelé à CHAQUE étape franchie — porte des deltas qui
+/// s'ajoutent : `errorDelta`, `hintDelta`, `timeDeltaSeconds`. Il n'était donc
+/// pas rejouable : serveur qui commit, réponse perdue, navigateur qui renvoie
+/// la même enveloppe, et les trois compteurs étaient appliqués deux fois.
+///
+/// Le navigateur scelle désormais chaque enveloppe avec une CLÉ. Le serveur la
+/// dépose ici dans la même transaction que les incréments : une clé déjà vue
+/// veut dire « ces deltas-là sont déjà comptés », et la remontée n'écrit rien.
+/// Une clé neuve veut dire de nouveaux deltas, comptés exactement une fois.
+model SimulationFlush {
+  id           String     @id @default(cuid())
+  simulationId String
+  simulation   Simulation @relation(fields: [simulationId], references: [id], onDelete: Cascade)
+  userId       String
+  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  /// Clé d'idempotence produite par le navigateur, unique par enveloppe.
+  cle       String
+  appliedAt DateTime @default(now())
+
+  @@unique([simulationId, userId, cle])
+  @@index([userId])
+}
+
+model SimulationRun {
+  id           String     @id @default(cuid())
+  simulationId String
+  simulation   Simulation @relation(fields: [simulationId], references: [id], onDelete: Cascade)
+  userId       String
+  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  /// Rang du passage pour ce couple (simulation, apprenant) : 1, 2, 3…
+  /// Sert à retrouver le run actif et à ordonner les passages.
+  passage Int @default(1)
+
+  /// Version du scénario au moment de l'ouverture. Un scénario corrigé en cours
+  /// de passage change les identifiants d'étapes : le run devient alors
+  /// incomparable, et la note ne peut plus être établie.
+  scenarioVersion Int @default(1)
+
+  /// Rang de l'étape la plus avancée réellement franchie — réussie ou passée.
+  /// C'est le garde-fou d'ORDRE : on ne corrige pas l'étape 9 quand le run n'a
+  /// jamais dépassé la 2.
+  ///
+  /// Vaut -1 sur un passage NEUF, et non 0 : à 0, l'étape 1 serait déjà
+  /// recevable (1 <= 0 + 1) alors que l'étape 0 n'a pas été franchie, et un
+  /// scénario à une seule étape serait clôturable sans le moindre verdict.
+  /// -1 veut dire « rien n'a encore été franchi », ce qui est la vérité.
+  maxStepIndex Int @default(-1)
+
+  /// Note calculée à la clôture, depuis les seuls verdicts serveur.
+  score       Float?
+  startedAt   DateTime  @default(now())
+  closedAt    DateTime?
+
+  /// REÇU D'ÉCRITURE de la tentative. Posé DANS la transaction qui reporte le
+  /// passage sur `SimulationAttempt` et `Progress`.
+  ///
+  /// La clôture est idempotente, mais le report qui la suit ne l'était pas :
+  /// `errorCount`, `hintCount` et `timeSpentSeconds` s'y écrivent en
+  /// incréments. Une réponse perdue APRÈS le commit, puis un réessai du
+  /// navigateur, les comptait donc deux fois — et un vieux passage clos pouvait
+  /// au passage réécrire `attemptCount` avec son rang, plus ancien.
+  ///
+  /// Le reçu tranche : tant qu'il est vide, le report est à faire (un réessai
+  /// AVANT le commit retrouve la colonne vide, puisque la transaction a été
+  /// annulée avec le reste) ; dès qu'il est posé, la même clôture rend le même
+  /// résultat sans plus aucune écriture.
+  attemptSyncedAt DateTime?
+
+  updatedAt   DateTime  @updatedAt
+
+  verdicts SimulationStepVerdict[]
+
+  @@unique([simulationId, userId, passage])
+  @@index([userId])
+  @@index([simulationId, userId])
+}
+
+/// Le verdict SERVEUR d'une étape, dans un passage donné.
+///
+/// `premierEssai` est IMMUABLE une fois posé : c'est lui qui fait la note, et le
+/// barème ne compte que les réussites du premier coup. Les essais suivants
+/// restent autorisés — l'apprenant doit pouvoir avancer — mais ils ne peuvent
+/// plus le remettre à vrai. La contrainte d'unicité garantit qu'une étape ne
+/// porte qu'un verdict par passage, y compris sous deux requêtes simultanées :
+/// la seconde échoue sur la contrainte au lieu d'écraser la première.
+model SimulationStepVerdict {
+  id     String        @id @default(cuid())
+  runId  String
+  run    SimulationRun @relation(fields: [runId], references: [id], onDelete: Cascade)
+
+  /// Identifiant d'étape du scénario, ex. « M10-EV01-02 ».
+  stepId String
+  /// Rang 1-based, repris du scénario serveur.
+  stepIndex Int
+
+  /// Réussie AVANT toute faute comptée sur cette étape. Jamais réécrit à vrai.
+  premierEssai Boolean @default(false)
+  /// L'étape a-t-elle été jouée ? Faux pour une question passée.
+  tentee Boolean @default(true)
+  /// L'apprenant a RENONCÉ à cette étape. Irréversible dans le passage : aucun
+  /// verdict ultérieur ne peut plus lui accorder le point.
+  ///
+  /// Sans ce marqueur, « passer » se contentait d'avancer le curseur — et une
+  /// correction déjà en vol pouvait revenir après coup, écrire une réussite et
+  /// donner le point d'une question à laquelle l'apprenant avait renoncé.
+  passee Boolean @default(false)
+  /// L'étape a-t-elle fini par être franchie ? Sert au diagnostic, pas à la note.
+  reussie Boolean @default(false)
+  /// Nombre de fautes comptées. Diagnostic.
+  fautes Int @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([runId, stepId])
+  @@index([runId])
 }

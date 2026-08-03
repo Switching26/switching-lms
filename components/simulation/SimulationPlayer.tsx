@@ -50,6 +50,8 @@ import DesktopLayer from "./DesktopLayer"
 import AfficheModule, { numeroModule } from "./AfficheModule"
 import DemonstrationGeste, { type Rect } from "./DemonstrationGeste"
 import PanneauRessources, { LIBELLE_RESSOURCES } from "./PanneauRessources"
+import BilanFin from "./BilanFin"
+import type { BilanPublie } from "@/lib/simulation/bilan"
 import type { LearnerDocument } from "@/lib/learner-files"
 
 /**
@@ -335,11 +337,17 @@ import {
   type OptionsMacro,
   type PiloteMacro,
 } from "@/lib/simulation/macro"
-import { validateStep, computeScore, type ObservedAction, type Verdict } from "@/lib/simulation/validate"
-import { normalizeFormula } from "@/lib/simulation/types"
-import { frToEngine } from "@/lib/simulation/formula-fr"
-import { lireDateOuHeureFr } from "@/lib/simulation/date-fr"
-import { lireNombreFr } from "@/lib/simulation/nombre-fr"
+import { computeScore, type ObservedAction, type Verdict } from "@/lib/simulation/validate"
+import { jugerEtape, type JugementEtape } from "@/lib/simulation/frappe"
+import { deciderApresCompletion } from "@/lib/simulation/journal"
+import { creerFileDeVerdicts, creerFileEnvois, creerVerrouEnvoi, type FileDeVerdicts } from "@/lib/simulation/file-verdicts"
+
+/**
+ * Attente maximale d'un verdict serveur. Au-delà, la requête est abandonnée et
+ * l'observation ne compte ni comme réussite ni comme faute : une requête qui ne
+ * revient jamais ne doit pas figer l'étape pour le reste de l'évaluation.
+ */
+const DELAI_VERDICT_MS = 15000
 
 // Univer casse à l'import côté serveur : le chargement différé est obligatoire,
 // pas une optimisation.
@@ -394,6 +402,29 @@ type Props = {
   scorePrecedent?: number | null
   /** Nombre de passages déjà enregistrés (`attemptCount`). */
   passagesPrecedents?: number
+  /**
+   * « Repasser l'évaluation » depuis la carte de fin.
+   *
+   * Le parent REMONTE l'atelier plutôt que de le réinitialiser en place : une
+   * évaluation remet à zéro un classeur, ses graphiques, ses tableaux croisés et
+   * ses macros, et le seul chemin déjà éprouvé pour tout cela est le montage.
+   * Le rejeu recharge aussi la meilleure note, qui vient de changer.
+   */
+  onRejouer?: () => void
+  /**
+   * Ce montage fait suite à un « Repasser l'évaluation » : le passage serveur
+   * doit être NEUF. Sans cela, l'atelier reprendrait le passage encore ouvert et
+   * ses verdicts, donc la note du tour précédent.
+   */
+  nouveauPassage?: boolean
+  /**
+   * L'atelier a-t-il le droit de corriger lui-même ? C'est `clientValidation`,
+   * tel que l'API le renvoie : vrai en leçon et en exercice, FAUX en évaluation
+   * notée — le scénario y est servi sans ses réponses, la correction passe alors
+   * par la route `verify`. Le champ existait déjà côté API et n'était lu nulle
+   * part : les réponses partaient quand même au navigateur.
+   */
+  validationLocale?: boolean
   /** Aperçu admin : aucune écriture de progression. */
   preview?: boolean
   onCompleted?: () => void
@@ -602,86 +633,6 @@ function cadreHorsSource(grid: GridApi, source: string): NonNullable<ChartState[
 }
 
 /**
- * LA FRAPPE SE JUGE SUR SON CONTENU (choix Samuel du 02/08/2026).
- *
- * Une étape jugée sur l'état du classeur reçoit la saisie AVANT son
- * observation : la frappe émet `typed`, la grille n'émet `stateChange` que
- * ~350 ms plus tard. Ce `typed` n'était ni une « navigation » ni une
- * observation « d'état » : il tombait dans la catégorie vraie faute — chaque
- * saisie, MÊME JUSTE, coûtait le point « premier essai » et déclenchait un
- * flash rouge sans message. Un apprenant parfait plafonnait à 46 % sur
- * l'évaluation du module 1 ; 18 évaluations sur 27 étaient plafonnées, 56 des
- * 483 points étant imprenables.
- *
- * La règle : une frappe juste dans une cellule attendue n'est pas une faute
- * (l'observation d'état valide l'étape juste après) ; une frappe fausse dans
- * une cellule attendue en est une — « premier essai » garde son sens ; une
- * frappe hors des cellules attendues reste un tâtonnement, comme les
- * réglages intermédiaires des modèles.
- */
-function jugerFrappeSurEtat(
-  cells: Record<string, { f?: string; v?: string | number; anyOf?: string[] }>,
-  target: string,
-  text: string,
-): { verdict: "juste" | "fausse" | "hors-sujet"; ref?: string } {
-  const cible = String(target || "").trim().toUpperCase().replace(/\$/g, "")
-  const entree = Object.entries(cells).find(
-    ([r]) => r.trim().toUpperCase().replace(/\$/g, "") === cible,
-  )
-  if (!entree) return { verdict: "hors-sujet" }
-  const [ref, want] = entree
-  const t = String(text ?? "").trim()
-  const candidates = want.anyOf ?? (want.f !== undefined ? [want.f] : null)
-
-  if (t.startsWith("=")) {
-    if (candidates) {
-      const typedN = normalizeFormula(t)
-      const ok = candidates.some(
-        (c) => normalizeFormula(c) === typedN || normalizeFormula(frToEngine(c)) === typedN,
-      )
-      return { verdict: ok ? "juste" : "fausse", ref }
-    }
-    // Chemin libre : seule la valeur compte, et le résultat de cette formule
-    // n'existe pas encore au moment de la frappe. L'observation d'état
-    // tranchera — on ne compte rien.
-    return { verdict: "juste", ref }
-  }
-
-  // Une valeur brute là où une écriture précise est exigée : l'état ne
-  // validera jamais sans la formule, c'est une réponse fausse au sens du
-  // contrat de l'étape.
-  if (candidates) return { verdict: "fausse", ref }
-
-  if (want.v === undefined) {
-    // L'étape effaçait cette cellule : y écrire la contredit.
-    return { verdict: t === "" ? "juste" : "fausse", ref }
-  }
-
-  // Mêmes tolérances que la grille : décimale à virgule, date/heure française
-  // (la cellule stockera le numéro de série, pas la chaîne tapée).
-  //
-  // ⚠️ Le NOMBRE se tente AVANT la date : le `text` observé peut être la
-  // valeur re-sérialisée par le moteur en convention américaine (« 18.5 »
-  // pour une frappe « 18,50 »), et `lireDateOuHeureFr` lirait « 18.5 » comme
-  // le 18 mai — la saisie juste redevenait une faute, exactement le défaut
-  // qu'on corrige. Une vraie date tapée (« 03/01/2026 ») n'est pas un nombre
-  // et suit bien le chemin date.
-  const attendu = want.v
-  const na =
-    typeof attendu === "number" ? attendu : Number(String(attendu).replace(",", ".").trim())
-  const nbUS = t !== "" && Number.isFinite(Number(t.replace(",", "."))) ? Number(t.replace(",", ".")) : null
-  const nb = lireNombreFr(t) ?? nbUS
-  const dateFr = nb === null ? lireDateOuHeureFr(t) : null
-  const tapee = nb !== null ? nb : dateFr ? dateFr.valeur : NaN
-  if (Number.isFinite(na) && typeof tapee === "number" && Number.isFinite(tapee)) {
-    return { verdict: Math.abs(na - tapee) < 1e-9 ? "juste" : "fausse", ref }
-  }
-  const ok =
-    String(attendu).trim().toLocaleUpperCase("fr-FR") === t.toLocaleUpperCase("fr-FR")
-  return { verdict: ok ? "juste" : "fausse", ref }
-}
-
-/**
  * Les étapes jugées sur un ÉTAT (classeur, format, modèle, poste) : une frappe
  * n'y est jamais le canal attendu — hors des cellules attendues d'un
  * `EXPECT_STATE`, elle vaut tâtonnement, pas faute.
@@ -704,6 +655,11 @@ export default function SimulationPlayer({
   repriseEvaluation = false,
   scorePrecedent = null,
   passagesPrecedents = 0,
+  // Défaut prudent côté atelier : sans consigne explicite de l'API, on corrige
+  // localement — c'est le comportement des leçons, et l'aperçu admin en dépend.
+  validationLocale = true,
+  onRejouer,
+  nouveauPassage = false,
   preview,
   onCompleted,
   pleinCadre,
@@ -739,6 +695,9 @@ export default function SimulationPlayer({
   // le mot qui explique pourquoi. La grille se monte derrière pendant la
   // lecture, ce qui masque le temps de chargement d'Univer.
   const [introVue, setIntroVue] = useState(departForce > 0)
+  /** Lisible depuis les rappels mémoïsés, sans les recréer à chaque bascule. */
+  const introVueRef = useRef(introVue)
+  introVueRef.current = introVue
   const evaluationRepart = mode === "EVALUATION" && (repriseEvaluation || initialStep > 0)
   // Passage précédent DÉJÀ TERMINÉ, avec sa note : cas qu'aucun message ne
   // couvrait jusqu'ici.
@@ -967,6 +926,57 @@ export default function SimulationPlayer({
   // d'état d'Excel affiche, et la leçon « calculs à la volée » repose dessus.
   const [stats, setStats] = useState<ReturnType<GridApi["getSelectionStats"]>>(null)
   const [finished, setFinished] = useState(false)
+  /**
+   * Bilan par compétence du passage qui vient de s'achever.
+   *
+   * Il est calculé PAR LE SERVEUR, à la complétion, et renvoyé dans la réponse
+   * du PUT : le navigateur n'a pas le bloc `remediation` (il est retiré du
+   * scénario servi en évaluation notée), et il ne l'aura jamais — le lire
+   * pendant l'épreuve désignerait la notion de chaque question.
+   *
+   * `null` couvre trois cas volontairement indistincts à l'écran : évaluation
+   * non annotée, annotation incomplète, journal invérifiable. Le repli est le
+   * même dans les trois, et il est honnête : la note, et pas un mot de conseil.
+   */
+  const [bilan, setBilan] = useState<BilanPublie | null>(null)
+  const [bilanEnAttente, setBilanEnAttente] = useState(false)
+  /**
+   * Le serveur a-t-il retenu la note de ce passage ?
+   *
+   * Il la refuse quand le journal ne couvre pas toutes les étapes notées. La
+   * carte de fin le dit alors franchement, plutôt que d'annoncer un
+   * enregistrement qui n'a pas eu lieu. Vrai par défaut : hors évaluation et en
+   * aperçu, la question ne se pose pas.
+   */
+  const [noteEnregistree, setNoteEnregistree] = useState(true)
+  /**
+   * Identifiant du PASSAGE tenu par le serveur.
+   *
+   * Il est ouvert au démarrage réel de l'évaluation, repris tel quel au
+   * rechargement de la page, et remplacé au « Repasser ». C'est lui qui porte
+   * les verdicts, donc la note : sans passage ouvert, l'atelier ne peut rien
+   * faire noter, et il le dit plutôt que de laisser croire le contraire.
+   */
+  const runIdRef = useRef<string | null>(null)
+  /**
+   * Deux verrous d'envoi, un par geste qui fait AVANCER l'atelier.
+   *
+   * Sans eux, un double tap lançait deux requêtes sur le même geste et leurs
+   * deux retours agissaient : deux passages ouverts, ou une étape sautée que le
+   * serveur n'avait jamais vue passer. Ils vivent dans `file-verdicts.ts`, purs
+   * et vérifiés hors navigateur.
+   */
+  const verrouOuvertureRef = useRef(creerVerrouEnvoi())
+  const verrouPassageRef = useRef(creerVerrouEnvoi())
+  const [passageEnCours, setPassageEnCours] = useState(false)
+  /**
+   * Le juge distant est injoignable, ou a refusé le passage.
+   *
+   * Ce n'est PAS une faute de l'apprenant : rien n'est compté, le geste peut
+   * être refait, et l'atelier doit le dire au lieu de rester muet — sinon
+   * l'apprenant retape indéfiniment une réponse juste.
+   */
+  const [pannneJuge, setPanneJuge] = useState<null | "reseau" | "passage">(null)
   // Saisie en cours dans la zone Nom. null = on y affiche la sélection courante.
   const [nameBoxDraft, setNameBoxDraft] = useState<string | null>(null)
   const [sheets, setSheets] = useState<Array<{ name: string; active: boolean }>>([])
@@ -1061,6 +1071,8 @@ export default function SimulationPlayer({
   // Compteurs à envoyer au serveur : cumulés puis remis à zéro à chaque envoi.
   const sessionSignaleeRef = useRef(false)
   const pendingRef = useRef({ errors: 0, hints: 0, seconds: 0 })
+  /** File d'enveloppes scellées, vidée dans un ordre STRICT (module pur). */
+  const fileEnvoisRef = useRef<ReturnType<typeof creerFileEnvois<Record<string, unknown>, Reponse>> | null>(null)
   // Réussite au premier essai, par étape : c'est la base du score d'évaluation.
   const firstTryRef = useRef<Record<string, boolean>>({})
   const attemptedRef = useRef<Set<string>>(new Set())
@@ -1323,7 +1335,12 @@ export default function SimulationPlayer({
       //    C'est tout l'intérêt de ce mode : le chemin est libre ;
       //  - lecture ou clic : rien à saisir, on verrouille par précaution.
       if (s.action.type === "TYPE" && s.action.target !== "formula-bar") {
-        grid.setEditableCells([s.action.target])
+        // ⚠️ EN ÉVALUATION NOTÉE, LA CIBLE PEUT NE PAS ÊTRE SERVIE.
+        // Quand la consigne ne la nomme pas, la trouver fait partie de la
+        // question : on ne verrouille alors AUCUNE cellule — verrouiller la
+        // bonne reviendrait à la désigner. Le serveur juge ce qui a réellement
+        // été saisi, et où.
+        grid.setEditableCells(s.action.target ? [s.action.target] : null)
       } else if (
         s.action.type === "EXPECT_STATE" ||
         s.action.type === "EXPECT_FORMAT" ||
@@ -1828,7 +1845,17 @@ export default function SimulationPlayer({
    * `handleAction` est défini plus bas ; le rattrapage doit pouvoir l'appeler
    * sans créer de dépendance circulaire entre les deux rappels mémoïsés.
    */
-  const handleActionRef = useRef<((o: ObservedAction) => void) | null>(null)
+  const handleActionRef = useRef<
+    ((o: ObservedAction, options?: { siJuste?: boolean }) => void) | null
+  >(null)
+  /**
+   * `appliquerJugement` est défini après `handleAction`, qui doit pourtant
+   * l'appeler une fois le verdict revenu. La référence évite à la fois la
+   * dépendance circulaire et la capture d'une version périmée.
+   */
+  const appliquerJugementRef = useRef<
+    ((s: SimulationStep, o: ObservedAction, j: JugementEtape) => void) | null
+  >(null)
 
   /**
    * RATTRAPAGE APRÈS LE VERROU.
@@ -1841,9 +1868,12 @@ export default function SimulationPlayer({
    * issue était d'effacer puis de retaper.
    *
    * On relit donc l'état une fois le verrou levé, et on ne redéclenche QUE si
-   * la réponse est effectivement bonne : `validateStep` est pur, on l'appelle
-   * nous-mêmes d'abord. Une observation qui échouerait compterait une faute que
-   * l'apprenant n'a pas commise.
+   * la réponse est effectivement bonne — d'où `siJuste`. Une observation qui
+   * échouerait compterait une faute que l'apprenant n'a pas commise.
+   *
+   * Le filtre a migré DANS `handleAction` : en évaluation notée le scénario ne
+   * porte plus les réponses, l'atelier ne peut donc plus pré-juger lui-même. Le
+   * verdict revient du serveur, et `siJuste` fait le tri au retour.
    */
   const reobserverEtat = useCallback(() => {
     const grid = gridRef.current
@@ -1866,14 +1896,17 @@ export default function SimulationPlayer({
       }
     } else if (a.type === "EXPECT_STATE") {
       const readings: Record<string, { formula: string; value: unknown }> = {}
-      for (const ref of Object.keys(a.cells)) {
-        readings[ref] = { formula: grid.getFormula(ref), value: grid.getValue(ref) }
+      for (const ref of cellulesARelever(a.cells ? Object.keys(a.cells) : null)) {
+        try {
+          readings[ref] = { formula: grid.getFormula(ref), value: grid.getValue(ref) }
+        } catch {
+          /* hors bornes : on relève ce qu'on peut */
+        }
       }
       obs = { kind: "stateChange", readings }
     }
     if (!obs) return
-    if (!validateStep(s, obs).ok) return
-    handleActionRef.current?.(obs)
+    handleActionRef.current?.(obs, { siJuste: true })
   }, [])
 
   /** Lecture d'une cellule à la forme du cliché : la formule prime sur la valeur. */
@@ -2431,11 +2464,25 @@ export default function SimulationPlayer({
       // revanche, on revient exactement à l'état d'entrée de l'étape : une
       // cellule prévue plus tard n'a aucune raison de conserver aujourd'hui le
       // zéro que l'apprenant vient d'y saisir.
-      const aVider = (
-        portee === "tout"
-          ? cellulesHorsEtatAplomb(zone, etat, lecture)
-          : cellulesParasites(zone, declarees, lecture)
-      ).filter((ref) => !occupePivot(ref))
+      /* AUCUN EFFACEMENT SILENCIEUX PENDANT UNE ÉVALUATION NOTÉE.
+       *
+       * La remise d'aplomb vide les cellules « parasites » : celles que le
+       * scénario ne déclare nulle part. En évaluation, le scénario servi ne
+       * déclare plus les cellules attendues — les servir dirait à l'apprenant où
+       * écrire —, si bien que SES PROPRES RÉPONSES deviendraient des parasites
+       * et disparaîtraient au changement d'étape.
+       *
+       * Le nettoyage est donc désactivé là. C'est d'ailleurs la bonne règle en
+       * soi : sur une copie notée, on n'efface pas ce que l'apprenant a écrit.
+       * Les leçons et les exercices, eux, gardent le mécanisme intact — c'est
+       * pour eux qu'il a été construit, et leur scénario déclare tout. */
+      const aVider =
+        mode === "EVALUATION"
+          ? []
+          : (portee === "tout"
+              ? cellulesHorsEtatAplomb(zone, etat, lecture)
+              : cellulesParasites(zone, declarees, lecture)
+            ).filter((ref) => !occupePivot(ref))
       const versParasite: Divergence[] = aVider.map((ref) => ({
         ref,
         motif: "parasite",
@@ -2723,38 +2770,165 @@ export default function SimulationPlayer({
     return () => window.clearTimeout(t)
   }, [step, index, finished, gridReady, demarrerDemonstration])
 
+  /**
+   * Ouvre — ou reprend — le passage serveur d'une évaluation notée.
+   *
+   * Appelée au moment où l'apprenant commence réellement, pas au chargement de
+   * la page : ouvrir un passage en survolant un chapitre gonflerait le compteur
+   * d'essais sans qu'une seule question ait été jouée.
+   */
+  const ouvrirPassage = useCallback(
+    async (nouveau = false): Promise<boolean> => {
+      if (preview || mode !== "EVALUATION") return true
+      try {
+        const r = await fetch(`/api/simulations/${chapterId}/run`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ nouveau }),
+        })
+        if (!r.ok) return false
+        const j = (await r.json()) as { runId?: string }
+        if (typeof j.runId !== "string" || !j.runId) return false
+        runIdRef.current = j.runId
+        setPanneJuge(null)
+        return true
+      } catch {
+        return false
+      }
+    },
+    [chapterId, mode, preview],
+  )
+
+  /**
+   * OUVERTURE AU CLIC « COMMENCER », pas au montage.
+   *
+   * Ouvrir au montage revenait à ouvrir un passage dès qu'un chapitre
+   * s'affichait — y compris quand l'apprenant regarde l'écran d'ouverture puis
+   * ressort. Le compteur d'essais gonflait sans qu'une seule question ait été
+   * jouée.
+   *
+   * L'ouverture est donc déclenchée par le clic, et elle BLOQUE l'entrée dans
+   * l'atelier tant qu'elle n'a pas abouti : entrer sans passage laisserait
+   * l'apprenant jouer une évaluation dont rien ne serait noté. En échec, il
+   * reste sur l'écran d'ouverture, avec l'explication et le bouton pour
+   * réessayer.
+   *
+   * La reprise après un rechargement retombe sur le MÊME passage côté serveur —
+   * les verdicts déjà acquis ne sont pas perdus, et le rang ne bouge pas.
+   */
+  const [ouvertureEnCours, setOuvertureEnCours] = useState(false)
+  const commencer = useCallback(async (): Promise<boolean> => {
+    if (mode !== "EVALUATION" || preview) return true
+    if (!verrouOuvertureRef.current.prendre()) return false
+    setOuvertureEnCours(true)
+    setPanneJuge(null)
+    try {
+      const ok = await ouvrirPassage(nouveauPassage)
+      if (!ok) setPanneJuge("passage")
+      return ok
+    } finally {
+      verrouOuvertureRef.current.liberer()
+      setOuvertureEnCours(false)
+    }
+  }, [mode, preview, nouveauPassage, ouvrirPassage])
+
+  /**
+   * LES CELLULES À RELEVER POUR UNE OBSERVATION D'ÉTAT.
+   *
+   * En leçon et en exercice, l'étape déclare les cellules qu'elle juge : on
+   * relève celles-là, et rien d'autre. En ÉVALUATION NOTÉE elle ne les déclare
+   * plus — les servir dirait à l'apprenant où le résultat est attendu, ce que la
+   * consigne ne dit pas toujours (111 des 115 références du corpus). L'atelier
+   * envoie alors un relevé BORNÉ de la zone utile du classeur, et le serveur y
+   * prélève lui-même les seules cellules qu'il attend.
+   *
+   * Le navigateur ne sait donc plus lesquelles comptent — et le relevé reste
+   * borné à l'étendue réellement occupée par la feuille, jamais au million de
+   * lignes qu'Univer propose.
+   */
+  const cellulesARelever = useCallback(
+    (declarees: string[] | null): string[] => {
+      if (declarees && declarees.length) return declarees
+      /* La zone à relever est SERVIE PAR LE SERVEUR (`zoneObservable`) : le
+       * rectangle englobant des cellules attendues de l'évaluation. La deviner
+       * depuis le classeur de départ ne marchait pas — sur `m12-ev01`, dont la
+       * feuille démarre presque vide, les cellules attendues tombaient hors de
+       * l'étendue et l'étape devenait impossible. L'étendue utile reste le repli
+       * pour les leçons et les exercices, qui déclarent leurs cellules. */
+      const rectangle = (scenario as { zoneObservable?: string }).zoneObservable || etendue
+      const cellules = rectangle ? cellsOf(rectangle) : []
+      // Garde-fou de volume : une feuille inhabituellement large ne doit pas
+      // faire enfler chaque observation. Le contrôle `check-jouabilite` vérifie
+      // qu'aucune évaluation du corpus n'atteint ce plafond.
+      return cellules.slice(0, 2000)
+    },
+    [etendue, scenario],
+  )
+
   /* ── Persistance ───────────────────────────────────────────────────────── */
 
+  type Reponse = { bilan?: BilanPublie; noteEnregistree?: boolean; completed?: boolean } | null
+
   const persist = useCallback(
-    async (opts: { step: number; finish?: boolean; score?: number; stepLog?: unknown }) => {
-      if (preview) return
-      const p = pendingRef.current
-      pendingRef.current = { errors: 0, hints: 0, seconds: 0 }
+    async (opts: { step: number; finish?: boolean }): Promise<Reponse> => {
+      if (preview) return null
+
+      /* ═══ UNE CLÉ, UN CORPS, UN ENVOI À LA FOIS, DANS L'ORDRE ═══════════
+       *
+       * L'ordonnancement lui-même vit dans `creerFileEnvois` — module pur, donc
+       * vérifiable hors navigateur (`check-verdicts.ts`). Il ne reste ici que le
+       * SCELLAGE : tout ce qui décrit cet envoi est figé maintenant, y compris
+       * l'étape et le drapeau de fin, et ne sera jamais relu plus tard. C'est ce
+       * qui garantit qu'une clé ne désigne jamais deux corps — le défaut qui
+       * faisait rejeter une clôture comme doublon d'une remontée intermédiaire. */
+      if (!fileEnvoisRef.current) {
+        fileEnvoisRef.current = creerFileEnvois<Record<string, unknown>, Reponse>(async (e) => {
+          try {
+            const r = await fetch(`/api/simulations/${chapterId}`, {
+              method: "PUT",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ ...e.corps, enveloppe: e.cle }),
+              keepalive: true,
+            })
+            // 409 : le serveur avait déjà tout écrit — l'enveloppe est réglée.
+            // La garder en file la ferait boucler indéfiniment.
+            if (r.status === 409) return { reglee: true, corps: null }
+            if (!r.ok) return { reglee: false, corps: null }
+            return { reglee: true, corps: (await r.json().catch(() => null)) as Reponse }
+          } catch {
+            // Une progression non enregistrée ne bloque jamais l'apprenant : il
+            // continue, et l'enveloppe repart telle quelle au tour suivant.
+            return { reglee: false, corps: null }
+          }
+        })
+      }
+
       // Une seule remontée par session porte `newSession` : sans ce marqueur le
       // serveur ne peut pas distinguer l'ouverture d'un atelier d'un simple
       // enregistrement d'étape, et comptait donc toujours une seule session.
       const premiere = !sessionSignaleeRef.current
       sessionSignaleeRef.current = true
-      try {
-        await fetch(`/api/simulations/${chapterId}`, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            currentStep: opts.step,
-            errorDelta: p.errors,
-            hintDelta: p.hints,
-            timeDeltaSeconds: p.seconds,
-            finish: opts.finish ?? false,
-            score: opts.score,
-            ...(opts.stepLog !== undefined ? { stepLog: opts.stepLog } : {}),
-            newSession: premiere,
-          }),
-          keepalive: true,
-        })
-      } catch {
-        // Une progression non enregistrée ne doit jamais bloquer l'apprenant :
-        // il continue, et le prochain envoi rattrapera l'écart.
-      }
+      const p = pendingRef.current
+      pendingRef.current = { errors: 0, hints: 0, seconds: 0 }
+
+      return fileEnvoisRef.current.deposer({
+        cle:
+          typeof crypto !== "undefined" && typeof crypto.randomUUID === "function"
+            ? crypto.randomUUID()
+            : `${Date.now()}-${Math.random().toString(36).slice(2)}`,
+        corps: {
+          currentStep: opts.step,
+          errorDelta: p.errors,
+          hintDelta: p.hints,
+          timeDeltaSeconds: p.seconds,
+          finish: opts.finish ?? false,
+          // Le passage à clore est DÉSIGNÉ, jamais deviné : la clôture vérifie
+          // qu'il appartient bien à cet apprenant, à cette simulation, à cette
+          // version de scénario, et que son curseur serveur est arrivé au bout.
+          ...(runIdRef.current ? { runId: runIdRef.current } : {}),
+          newSession: premiere,
+        },
+      })
     },
     [chapterId, preview],
   )
@@ -2768,40 +2942,141 @@ export default function SimulationPlayer({
     return () => window.clearInterval(id)
   }, [])
 
+  /**
+   * « Question passée » — l'apprenant renonce à celle-ci.
+   *
+   * Il faut le DIRE au serveur : sans cela le curseur d'ordre du passage reste
+   * en arrière, et l'étape suivante serait refusée pour rupture d'ordre. Aucun
+   * verdict n'est écrit — l'étape reste donc sans point, exactement ce que
+   * l'atelier annonce à l'apprenant.
+   */
+  const passerLaQuestion = useCallback(() => {
+    const s = stepRef.current
+    if (preview || mode !== "EVALUATION") {
+      goNextRef.current?.()
+      return
+    }
+    if (!s || !runIdRef.current) {
+      setPanneJuge("passage")
+      return
+    }
+    /* VERROU ANTI-DOUBLE-ENVOI.
+     *
+     * Un double tap — fréquent au doigt — lançait deux requêtes sur la MÊME
+     * étape, et leurs deux retours appelaient `goNext` : l'atelier sautait une
+     * étape que le serveur n'avait jamais vue passer. Le curseur restait en
+     * arrière, et tout ce qui suivait était refusé pour rupture d'ordre.
+     *
+     * Le verrou est une référence, pas un état : il doit être posé dans le même
+     * tour que le clic, avant tout rendu. */
+    if (!verrouPassageRef.current.prendre()) return
+    setPassageEnCours(true)
+    /* ON ATTEND LA RÉPONSE AVANT D'AVANCER.
+     *
+     * Le curseur d'ordre du passage vit côté serveur. Avancer sans attendre le
+     * laissait en arrière : à la dernière question, la clôture pouvait devancer
+     * le curseur et le passage était refusé comme inachevé. Et sur une étape
+     * intermédiaire, la suivante était refusée pour rupture d'ordre.
+     *
+     * En panne, on N'AVANCE PAS : le bandeau explique, le bouton reste, rien
+     * n'est compté comme faute. Progresser sans que le serveur l'ait su ferait
+     * perdre le passage entier à la fin. */
+    setPanneJuge(null)
+    void fetch(`/api/simulations/${chapterId}/verify`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ runId: runIdRef.current, stepIndex: index, stepId: s.id, passer: true }),
+    })
+      .then((r) => {
+        if (!r.ok) {
+          setPanneJuge(r.status === 409 ? "passage" : "reseau")
+          return
+        }
+        goNextRef.current?.()
+      })
+      .catch(() => setPanneJuge("reseau"))
+      .finally(() => {
+        verrouPassageRef.current.liberer()
+        setPassageEnCours(false)
+      })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [chapterId, index, mode, preview])
+
+  const cloturerRef = useRef<(() => Promise<void>) | null>(null)
+  /** Dernier rang atteint, lisible sans recréer la clôture à chaque étape. */
+  const indexRef = useRef(0)
+
+  /**
+   * CLÔTURE DU PASSAGE, REJOUABLE.
+   *
+   * Le PUT clôt le passage côté serveur puis écrit la tentative. Si l'envoi
+   * échoue — réseau tombé, onglet en veille —, l'apprenant se retrouvait devant
+   * une note perdue, sans autre issue que « Repasser l'évaluation ». Or la
+   * clôture est IDEMPOTENTE : reclore le même passage rend la même note, sans
+   * rien modifier. Le bouton de reprise s'appuie là-dessus.
+   */
+  const [clotureEnCours, setClotureEnCours] = useState(false)
+  const verrouClotureRef = useRef(creerVerrouEnvoi())
+  const cloturer = useCallback(async () => {
+    if (!verrouClotureRef.current.prendre()) return
+    setClotureEnCours(true)
+    try {
+      const r = await persist({ step: indexRef.current, finish: true })
+      setBilan(r?.bilan ?? null)
+      const suite = deciderApresCompletion({ preview: !!preview, reponse: r })
+      setNoteEnregistree(suite.noteEnregistree)
+      setBilanEnAttente(false)
+      if (suite.cocherLeChapitre) onCompleted?.()
+    } finally {
+      verrouClotureRef.current.liberer()
+      setClotureEnCours(false)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [persist, preview, onCompleted])
+  cloturerRef.current = cloturer
+
+  /**
+   * L'ÉCRAN DE FIN REPART DU BORD GAUCHE.
+   *
+   * Le cadre de l'atelier ne défile pas verticalement, mais il peut défiler
+   * HORIZONTALEMENT : la grille Excel est plus large qu'un téléphone, et
+   * atteindre une colonne de droite laisse le conteneur décalé. Quand l'écran de
+   * fin remplace la grille, il héritait de ce décalage — mesuré à 390 × 844 :
+   * `scrollLeft` à 170, la carte de bilan commençait à −158 px et sa colonne
+   * gauche sortait de l'écran. Le contrôle d'overflow ne le voyait pas : la
+   * largeur du document, elle, était juste.
+   */
+  useEffect(() => {
+    if (!finished) return
+    const cadre = carteRef.current
+    if (cadre) cadre.scrollLeft = 0
+  }, [finished])
+
   /* ── Avancement ────────────────────────────────────────────────────────── */
 
+  const goNextRef = useRef<(() => void) | null>(null)
   const goNext = useCallback(() => {
     const next = index + 1
     if (next >= total) {
-      const score = mode === "EVALUATION" ? computeScore(steps, firstTryRef.current) : undefined
       /**
-       * Trace par étape, écrite UNE fois à la complétion.
+       * LE NAVIGATEUR NE DÉCLARE PLUS RIEN.
        *
-       * `SimulationAttempt.stepLog` était documenté dans le schéma et lu par
-       * l'API, mais aucun client ne l'a jamais envoyé : la colonne était NULL
-       * pour toutes les tentatives, donc le détail d'un passage n'existait
-       * nulle part et aucun corrigé n'était reconstituable après coup.
+       * Il envoyait ici un journal de deux booléens par étape — réussie du
+       * premier coup, tentée — et une note. Le serveur les assainissait puis
+       * les croyait : une requête fabriquée portant tous les identifiants avec
+       * « premier essai » à vrai obtenait 100 % sans avoir joué.
        *
-       * On n'envoie que ce que le lecteur connaît RÉELLEMENT : la réussite au
-       * premier essai, qui est la base du barème, et le fait que l'étape ait
-       * été tentée. Pas de durée ni de compteur d'erreurs par étape — ils ne
-       * sont pas suivis à cette granularité, les inventer donnerait une preuve
-       * fausse.
-       *
-       * Le rang, le type et le barème ne sont VOLONTAIREMENT pas transmis : le
-       * serveur les reconstruit depuis le scénario en base (`sanitizeStepLog`),
-       * pour qu'un navigateur ne puisse pas s'attribuer un barème ni déguiser
-       * une étape notée en écran de lecture. Aucune cible attendue n'y figure
-       * non plus : ce journal revient au client dans le détail des résultats.
+       * La note vient désormais des verdicts que le serveur a lui-même écrits,
+       * étape par étape, en corrigeant les observations. Ce PUT ne fait plus
+       * que clore le passage et demander le bilan.
        */
-      const stepLog = steps.map((s) => ({
-        id: s.id,
-        premierEssai: firstTryRef.current[s.id] === true,
-        tentee: attemptedRef.current.has(s.id) || firstTryRef.current[s.id] === true,
-      }))
       setFinished(true)
-      void persist({ step: index, finish: true, score, stepLog })
-      onCompleted?.()
+      // Le bilan arrive avec la réponse du PUT : la carte de fin s'affiche
+      // immédiatement avec la note, et complète son bilan quand il revient.
+      // L'inverse — attendre le serveur avant d'afficher quoi que ce soit —
+      // laisserait l'apprenant devant un écran vide sur une connexion lente.
+      if (mode === "EVALUATION" && !preview) setBilanEnAttente(true)
+      void cloturerRef.current?.()
       return
     }
     // Le relais ne se joue qu'en AVANÇANT : reculer n'est pas une réussite.
@@ -2813,7 +3088,9 @@ export default function SimulationPlayer({
     setJalon({ n: index + 1, texte: courante ? resumerFait(courante.action) : null })
     setIndex(next)
     void persist({ step: next })
-  }, [index, total, mode, steps, persist, onCompleted])
+  }, [index, total, mode, steps, persist, onCompleted, preview])
+  goNextRef.current = goNext
+  indexRef.current = index
 
   /**
    * Retour à l'étape précédente (choix Samuel du 29/07 : « oui, avec un
@@ -2882,8 +3159,106 @@ export default function SimulationPlayer({
     fxTimerRef.current = window.setTimeout(() => setFx(null), kind === "ok" ? 1400 : 2800)
   }, [])
 
+  /**
+   * LE JUGE. Local en leçon et en exercice, SERVEUR en évaluation notée.
+   *
+   * En évaluation, le scénario servi ne porte plus les réponses (`expurge.ts`) :
+   * l'atelier ne peut donc plus corriger, et c'est exactement le sens de
+   * `clientValidation: false`. Il envoie ce que l'apprenant a fait, le serveur
+   * relit l'étape réelle en base et ne renvoie qu'un verdict.
+   *
+   * Un échec réseau renvoie `null` : on ne compte alors NI réussite NI faute.
+   * Faire perdre un point « premier essai » pour une requête tombée serait la
+   * pire façon de noter.
+   *
+   * L'attente est BORNÉE. Sans cela, une requête qui ne revient jamais figerait
+   * la file des verdicts — donc l'étape — pour le reste de l'évaluation.
+   */
+  const jugerObservation = useCallback(
+    async (s: SimulationStep, rang: number, obs: ObservedAction): Promise<JugementEtape | null> => {
+      if (validationLocale) return jugerEtape(s, obs)
+      /* PAS DE PASSAGE, PAS DE JUGEMENT.
+       *
+       * La mise en place du classeur émet une observation avant même que
+       * l'apprenant soit entré dans l'atelier — donc avant l'ouverture du
+       * passage. L'envoyer produisait une requête refusée à chaque montage.
+       * Tant que l'écran d'ouverture est affiché, ce n'est pas une panne : c'est
+       * du décor. Une fois entré, en revanche, l'absence de passage doit se voir.
+       */
+      if (!runIdRef.current) {
+        if (introVueRef.current) setPanneJuge("passage")
+        return null
+      }
+      const abandon = new AbortController()
+      const minuterie = window.setTimeout(() => abandon.abort(), DELAI_VERDICT_MS)
+      try {
+        const r = await fetch(`/api/simulations/${chapterId}/verify`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            runId: runIdRef.current,
+            stepIndex: rang,
+            stepId: s.id,
+            observed: obs,
+          }),
+          signal: abandon.signal,
+        })
+        if (!r.ok) {
+          // 409 : le passage n'est plus recevable — clos, périmé, ou jamais
+          // ouvert. L'apprenant doit le savoir : continuer à taper ne servirait
+          // à rien, et rien ne serait noté.
+          setPanneJuge(r.status === 409 ? "passage" : "reseau")
+          return null
+        }
+        setPanneJuge(null)
+        const j = (await r.json()) as Partial<JugementEtape> & { ok?: unknown }
+        /* Le serveur ne renvoie ni `reason`, ni `frappe`, et son `message` est
+         * CONSTANT : sur une évaluation notée, un échec ne doit rien apprendre
+         * de plus que « ce n'est pas cela ». Les messages de `validateStep` sont
+         * écrits pour une leçon et peuvent citer un élément de réponse.
+         * `frappe` reste donc nul ici, et le classement vient de `compte`. */
+        return {
+          ok: j.ok === true,
+          ...(typeof j.message === "string" ? { message: j.message } : {}),
+          frappe: null,
+          /* Sur un échec, le serveur ne dit PLUS si le geste comptait comme
+           * faute ou comme tâtonnement : la distinction renseignerait sur le
+           * genre d'action attendu. L'atelier retombe donc sur « tâtonnement »
+           * pour l'affichage — pas de flash rouge sur un simple repérage — et
+           * la note, elle, ne dépend plus de lui depuis longtemps. */
+          compte: j.ok === true ? "reussite" : "tatonnement",
+        }
+      } catch {
+        // Réseau tombé, ou attente dépassée. Ni réussite ni faute : le geste
+        // reste à refaire, et l'atelier l'annonce.
+        setPanneJuge("reseau")
+        return null
+      } finally {
+        window.clearTimeout(minuterie)
+      }
+    },
+    [validationLocale, chapterId],
+  )
+
+  /**
+   * File des verdicts : ordre d'ÉMISSION, jamais ordre d'arrivée.
+   *
+   * Créée une fois pour toute la vie de l'atelier — elle porte le compteur de
+   * billets, qui doit rester monotone d'une étape à l'autre. Ses trois portes
+   * (étape changée, étape déjà résolue, verdict périmé) sont documentées dans
+   * `lib/simulation/file-verdicts.ts` et vérifiées par
+   * `scripts/simulation/check-verdicts.ts`.
+   */
+  const fileVerdictsRef = useRef<FileDeVerdicts<JugementEtape> | null>(null)
+  if (!fileVerdictsRef.current) {
+    fileVerdictsRef.current = creerFileDeVerdicts<JugementEtape>({
+      etapeCourante: () => stepRef.current?.id ?? null,
+      estResolue: () => resoluRef.current,
+    })
+  }
+
   const handleAction = useCallback(
-    (observed: ObservedAction) => {
+    (observed: ObservedAction, options?: { siJuste?: boolean }) => {
       if (!step || finished || resoluRef.current) return
       // Le verrou de démonstration ne concerne QUE les observations du classeur :
       // il évite qu'un geste joué à la place de l'apprenant valide l'étape. Un
@@ -2958,14 +3333,60 @@ export default function SimulationPlayer({
         const grid = gridRef.current
         const readings: Record<string, { formula: string; value: unknown }> = {}
         if (grid) {
-          for (const ref of Object.keys(step.action.cells)) {
-            readings[ref] = { formula: grid.getFormula(ref), value: grid.getValue(ref) }
+          const refs = cellulesARelever(
+            step.action.cells ? Object.keys(step.action.cells) : null,
+          )
+          for (const ref of refs) {
+            try {
+              readings[ref] = { formula: grid.getFormula(ref), value: grid.getValue(ref) }
+            } catch {
+              /* une référence hors bornes ne doit pas faire tomber l'observation */
+            }
           }
         }
         enriched = { kind: "stateChange", readings }
       }
 
-      const v = validateStep(step, enriched)
+      /**
+       * À partir d'ici le jugement peut être DISTANT.
+       *
+       * Le billet est pris MAINTENANT, au moment de l'émission : c'est lui qui
+       * fixe l'ordre d'application, pas l'ordre d'arrivée des réponses. La file
+       * referme ensuite trois portes — étape changée, étape déjà franchie,
+       * verdict plus ancien qu'un verdict déjà appliqué — parce qu'un seul geste
+       * produit souvent deux observations et qu'un aller-retour laisse le temps
+       * à l'étape d'être franchie autrement.
+       */
+      const etapeJugee = step
+      const file = fileVerdictsRef.current
+      const billet = file!.prendre(etapeJugee.id)
+      void file!.enfiler(billet, jugerObservation(etapeJugee, index, enriched), (jugement) => {
+        /* Le rattrapage silencieux (`reobserverEtat`) ne saute un verdict faux
+         * QU'EN correction locale — leçon et exercice, où l'atelier a déjà les
+         * réponses et où rien n'est noté. En ÉVALUATION il ne filtre plus rien :
+         * un essai qui ne coûterait pas serait un essai gratuit, et le navigateur
+         * n'a pas à décider du prix de ses propres tentatives. */
+        if (validationLocale && options?.siJuste && !jugement.ok) return
+        appliquerJugementRef.current?.(etapeJugee, observed, jugement)
+      })
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [step, index, finished, lireCellule, jugerObservation],
+  )
+
+  /**
+   * Applique le verdict rendu par le juge : réussite, faute, ou tâtonnement.
+   *
+   * Séparé de `handleAction` parce que le jugement est asynchrone en évaluation
+   * notée. Tout ce qui précède (reflet de la sélection, enregistreur de macros,
+   * péremption du tableau croisé) doit rester synchrone ; tout ce qui suit
+   * dépend du verdict.
+   */
+  const appliquerJugement = useCallback(
+    (step: SimulationStep, observed: ObservedAction, jugement: JugementEtape) => {
+      const v: Verdict = jugement.ok
+        ? { ok: true }
+        : { ok: false, reason: jugement.reason ?? "", message: jugement.message ?? "" }
       if (v.ok) {
         if (!attemptedRef.current.has(step.id)) firstTryRef.current[step.id] = true
         resoluRef.current = true
@@ -2995,78 +3416,24 @@ export default function SimulationPlayer({
         return
       }
 
-      // Une action qui n'est simplement pas encore celle attendue (un clic de
-      // repérage, par exemple) ne doit pas être comptée comme une faute.
-      //
-      // Les modèles des modules 13, 17, 18, 20 et 27 se valident sur leur ÉTAT,
-      // exactement comme `EXPECT_STATE` : un réglage se construit souvent en
-      // plusieurs gestes — centrer horizontalement PUIS verticalement, poser un
-      // champ en Filtres PUIS choisir sa valeur — et compter une faute à chaque
-      // état intermédiaire punirait un apprenant qui fait juste. On explique tout
-      // de même ce qui manque, quand le juge sait le dire.
-      const surEtat =
-        observed.kind === "stateChange" ||
-        observed.kind === "chartChange" ||
-        observed.kind === "pivotChange" ||
-        observed.kind === "pageSetupChange" ||
-        observed.kind === "macroChange"
-      // Se déplacer n'est pas se tromper : cliquer une cellule, sélectionner une
-      // plage, une ligne, une colonne ou sauter par la zone Nom ne compte comme
-      // faute que si l'étape jugeait précisément ce geste. Sans cela, l'apprenant
-      // qui atteint par la zone Nom une plage située hors de l'écran — le seul
-      // chemin praticable sur un tableau long — écopait d'une erreur pour s'être
-      // déplacé. Même chose pour la sélection d'une colonne entière AVANT de
-      // cliquer « Supprimer » : c'est la préparation du geste demandé, pas une
-      // faute (M04-EV01-15 comptait ce geste et plafonnait l'évaluation à 95 %).
-      const navigation =
-        observed.kind === "cellClick" ||
-        observed.kind === "dragRange" ||
-        observed.kind === "gotoRef" ||
-        observed.kind === "selectColumn" ||
-        observed.kind === "selectRow"
-      // La frappe se juge sur son CONTENU quand l'étape se juge sur l'état
-      // (voir `jugerFrappeSurEtat`) : juste → rien, l'observation d'état
-      // validera ; fausse dans une cellule attendue → vraie faute, avec un
-      // message — le flash rouge muet sur une saisie correcte disparaît ;
-      // ailleurs → tâtonnement, comme les réglages intermédiaires.
-      const frappe =
-        observed.kind === "typed" && step.action.type === "EXPECT_STATE"
-          ? jugerFrappeSurEtat(step.action.cells, observed.target, observed.text)
-          : null
-      if (frappe?.verdict === "juste") return
-      const frappeHorsCanal =
-        observed.kind === "typed" &&
-        ETAPES_SUR_ETAT.has(step.action.type) &&
-        frappe?.verdict !== "fausse"
-      // Sur une étape jugée sur un ÉTAT, un geste qui n'est « pas encore la
-      // bonne observation » (verdict `no_…` : no_recorder_reading,
-      // no_macro_reading…) est un passage obligé, pas une faute : ouvrir la
-      // boîte Macros ou lancer l'enregistreur ÉMET un `control` avant que
-      // l'état jugé n'existe. Compter ce clic — celui-là même que la consigne
-      // demande — plafonnait l'évaluation du module 27 à 78 % pour un
-      // parcours parfait. Un verdict `wrong_…` (réponse fausse) reste une
-      // faute : « premier essai » garde son sens.
-      const passageOblige =
-        typeof v.reason === "string" &&
-        v.reason.startsWith("no_") &&
-        (ETAPES_SUR_ETAT.has(step.action.type) || step.action.type === "RECORD_MACRO")
-      // Une étape de LECTURE ne peut pas être ratée : il n'y a rien à y faire.
-      // Taper ou cliquer par réflexe y comptait une faute — au score, et avec
-      // un verdict rouge « ce n'est pas bon » sous les yeux de l'apprenant.
-      const isRealMistake =
-        step.action.type === "READ"
-          ? false
-          : frappe?.verdict === "fausse"
-          ? true
-          : frappeHorsCanal || passageOblige
-          ? false
-          : !navigation && !surEtat
-          ? true
-          : (observed.kind === "cellClick" && step.action.type === "CLICK_CELL") ||
-            (observed.kind === "dragRange" && step.action.type === "DRAG_RANGE") ||
-            (observed.kind === "gotoRef" && step.action.type === "GOTO_REF") ||
-            (observed.kind === "selectColumn" && step.action.type === "SELECT_COLUMN") ||
-            (observed.kind === "selectRow" && step.action.type === "SELECT_ROW")
+      /* CE QUE L'OBSERVATION VAUT EST DÉCIDÉ PAR LE JUGE, PAS ICI.
+       *
+       * Ce bloc reconstituait la classification — vraie faute, tâtonnement,
+       * passage obligé — à partir des cellules attendues, du type d'étape et du
+       * motif de refus. En évaluation notée l'atelier n'a plus rien de tout
+       * cela : ni les cellules, ni le motif, qui est devenu constant pour ne pas
+       * faire du juge un oracle.
+       *
+       * La règle a donc migré dans `jugerEtape` (`lib/simulation/frappe.ts`),
+       * appelée localement en leçon et en exercice, et par le serveur en
+       * évaluation — où elle sert d'ailleurs à écrire le verdict. Ici on ne fait
+       * plus que l'appliquer. Les commentaires qui expliquaient chaque cas de
+       * figure vivent désormais à côté de la règle. */
+      const isRealMistake = jugement.compte === "faute"
+      // Une saisie juste dans une cellule attendue ne compte rien : l'observation
+      // d'état validera l'étape juste après.
+      if (jugement.compte === "rien") return
+
       if (isRealMistake) {
         attemptedRef.current.add(step.id)
         firstTryRef.current[step.id] = false
@@ -3091,12 +3458,15 @@ export default function SimulationPlayer({
         // le verdict de `validateStep` pour un `typed` sur une étape d'état
         // est muet (« no_state_change »), et un flash rouge sans un mot faisait
         // douter l'apprenant de sa saisie… même quand elle était bonne.
+        // En évaluation, `message` est constant et ne révèle rien ; en leçon, il
+        // vient de `validateStep` et peut nommer la cellule concernée, ce qui
+        // est le comportement voulu là où rien n'est noté.
         const vAffiche: Verdict =
-          frappe?.verdict === "fausse" && frappe.ref
+          jugement.frappe?.verdict === "fausse" && jugement.frappe.ref
             ? {
                 ok: false,
                 reason: "wrong_typed_state_value",
-                message: `${frappe.ref} n'affiche pas le résultat attendu.`,
+                message: `${jugement.frappe.ref} n'affiche pas le résultat attendu.`,
               }
             : v
         setEssais((n) => {
@@ -3151,11 +3521,15 @@ export default function SimulationPlayer({
             if (suivant >= 3) setHintShown(true)
             return suivant
           })
-        if (surEtat && observed.kind !== "stateChange" && v.message) setVerdict(v)
+        // Un réglage intermédiaire mérite parfois une phrase, quand le juge sait
+        // la dire. Sur une évaluation elle est générique, et c'est voulu.
+        if (observed.kind !== "stateChange" && !v.ok && v.message) setVerdict(v)
       }
     },
-    [step, finished, goNext, lireCellule, lancerFx],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [goNext, lancerFx, demarrerDemonstration],
   )
+  appliquerJugementRef.current = appliquerJugement
   handleActionRef.current = handleAction
 
 
@@ -3201,11 +3575,14 @@ export default function SimulationPlayer({
       // chiffres d'avant la pose.
       window.setTimeout(() => {
         const attendu = stepRef.current?.action
-        const cells = attendu?.type === "EXPECT_PIVOT" ? attendu.pivot.cells : undefined
+        const cells = attendu?.type === "EXPECT_PIVOT" ? attendu.pivot?.cells : undefined
         handleAction({
           kind: "pivotChange",
           pivot: tcdRef.current,
-          readings: cells ? lecturesTcd(Object.keys(cells), lireCellule) : {},
+          // Même règle : cellules déclarées si l'étape les donne, zone utile
+          // sinon. Le tableau croisé écrit dans la feuille, donc ses cellules
+          // de contrôle sont dans l'étendue.
+          readings: lecturesTcd(cellulesARelever(cells ? Object.keys(cells) : null), lireCellule),
         })
       }, 260)
     },
@@ -3225,7 +3602,9 @@ export default function SimulationPlayer({
         const cible = nomme ?? liste.find((m) => m.name === macroCouranteRef.current) ?? liste[0] ?? null
         const edite = cible && cible.name === macroCouranteRef.current && codeMacroRef.current
         const readings: Record<string, { value: unknown }> = {}
-        for (const ref of Object.keys(veut?.effet ?? {})) readings[ref] = { value: lireCellule(ref) }
+        for (const ref of cellulesARelever(veut?.effet ? Object.keys(veut.effet) : null)) {
+          readings[ref] = { value: lireCellule(ref) }
+        }
         handleAction({
           kind: "macroChange",
           macro: cible,
@@ -3792,7 +4171,15 @@ export default function SimulationPlayer({
             // La plage à trier vient donc du scénario, et la colonne du clic de
             // l'apprenant — c'est bien son choix de colonne qu'on évalue.
             const attendu = stepRef.current?.action
-            const plage = attendu?.type === "SORT_RANGE" ? attendu.range : ""
+            /* La plage à trier n'est servie que si la consigne la nomme : Excel
+               la devine, Univer non. Sans elle on retombe sur la plage de filtre
+               déclarée par le classeur, puis sur l'étendue utile — deux
+               informations publiques, visibles à l'écran. */
+            const plage =
+              (attendu?.type === "SORT_RANGE" ? attendu.range : "") ||
+              scenario.workbook.filterRange ||
+              etendue ||
+              ""
             const sel = grid.getSelection()
             if (plage && sel) {
               // Découper à la main les lettres d'une référence donnait « AC »
@@ -3888,7 +4275,9 @@ export default function SimulationPlayer({
       // une observation « control » ferait échouer l'étape.
       const attenduFmt = stepRef.current?.action
       if (attenduFmt?.type === "EXPECT_FORMAT" && grid) {
-        const refs = Object.keys(attenduFmt.cells)
+        // En évaluation notée, l'étape ne déclare plus ses cellules : on relève
+        // la zone utile et le serveur y prélève ce qu'il attend.
+        const refs = cellulesARelever(attenduFmt.cells ? Object.keys(attenduFmt.cells) : null)
         // Les commandes Univer s'appliquent de façon asynchrone : lire tout de
         // suite renvoie l'ancien style.
         window.setTimeout(() => {
@@ -5164,7 +5553,15 @@ export default function SimulationPlayer({
 
   const gradable = steps.filter((s) => s.action.type !== "READ").length
   const evaluationNotee = mode === "EVALUATION"
-  const notePassage = evaluationNotee ? computeScore(steps, firstTryRef.current) : null
+  /* LA NOTE AFFICHÉE EST CELLE DU SERVEUR.
+   *
+   * L'atelier la calculait lui-même depuis ses propres compteurs. Ce n'est plus
+   * la note : celle qui est enregistrée vient des verdicts serveur, et les deux
+   * peuvent différer — le juge distant a pu compter une faute que l'affichage
+   * local avait laissée passer. Montrer l'estimation locale reviendrait à
+   * afficher un chiffre que « Mes résultats » contredirait. On attend donc le
+   * bilan, et on le dit. */
+  const notePassage = evaluationNotee ? bilan?.score ?? null : null
   /** Nature de l'étape et critère de réussite, tous deux déduits de l'action. */
   const nature = step ? natureEtape(step.action, mode) : "action"
   const attendu = step ? resumerAttendu(step.action) : null
@@ -5381,18 +5778,26 @@ export default function SimulationPlayer({
             <button
               type="button"
               data-control="intro-commencer"
+              disabled={ouvertureEnCours}
+              aria-busy={ouvertureEnCours}
               onClick={() => {
-                setIntroVue(true)
-                // L'atelier apparaît : la grille se remesure, la sélection du
-                // scénario est reposée. Rien de tout cela n'est un geste de
-                // l'apprenant — il vient de cliquer « Commencer ». Sans ce
-                // réarmement, la sélection de plage de `m11-l02` arrivait une
-                // seconde après l'entrée et comptait un tâtonnement.
-                miseEnPlaceRef.current = Date.now() + 2500
-                // Sans cela le focus clavier reste sur le bouton : la première
-                // frappe de la leçon n'atteint jamais la grille (même piège que
-                // le bouton « Suivant »).
-                window.setTimeout(() => gridRef.current?.focus(), 60)
+                // On n'entre dans l'atelier QUE si le passage est ouvert : jouer
+                // une évaluation sans passage ne noterait rien, et l'apprenant ne
+                // s'en apercevrait qu'à la fin.
+                void commencer().then((ok) => {
+                  if (!ok) return
+                  setIntroVue(true)
+                  // L'atelier apparaît : la grille se remesure, la sélection du
+                  // scénario est reposée. Rien de tout cela n'est un geste de
+                  // l'apprenant — il vient de cliquer « Commencer ». Sans ce
+                  // réarmement, la sélection de plage de `m11-l02` arrivait une
+                  // seconde après l'entrée et comptait un tâtonnement.
+                  miseEnPlaceRef.current = Date.now() + 2500
+                  // Sans cela le focus clavier reste sur le bouton : la première
+                  // frappe de la leçon n'atteint jamais la grille (même piège que
+                  // le bouton « Suivant »).
+                  window.setTimeout(() => gridRef.current?.focus(), 60)
+                })
               }}
               className="inline-flex items-center gap-2.5 rounded-xl"
               style={{
@@ -5401,6 +5806,7 @@ export default function SimulationPlayer({
                 fontSize: 14.5,
                 fontWeight: 700,
                 padding: "12px 22px",
+                opacity: ouvertureEnCours ? 0.6 : 1,
                 animation: "sim-intro-monte .7s .7s ease both",
               }}
             >
@@ -5414,12 +5820,27 @@ export default function SimulationPlayer({
                   borderBottom: "5.5px solid transparent",
                 }}
               />
-              {mode === "LESSON"
-                ? "Commencer la leçon"
-                : mode === "EXERCISE"
-                  ? "Commencer l'exercice"
-                  : "Commencer l'évaluation"}
+              {ouvertureEnCours
+                ? "Ouverture du passage…"
+                : mode === "LESSON"
+                  ? "Commencer la leçon"
+                  : mode === "EXERCISE"
+                    ? "Commencer l'exercice"
+                    : "Commencer l'évaluation"}
             </button>
+            {/* L'ouverture a échoué : on le DIT, et le bouton reste. Entrer dans
+                l'atelier sans passage laisserait jouer une évaluation dont rien
+                ne serait noté. */}
+            {evaluationNotee && pannneJuge === "passage" && !ouvertureEnCours && (
+              <p
+                data-panne-ouverture=""
+                className="mt-3 text-[12.5px]"
+                style={{ color: "#C08A5A", maxWidth: 460 }}
+              >
+                Le passage n'a pas pu être ouvert. Rien ne serait enregistré :
+                réessayez, ou rechargez la page.
+              </p>
+            )}
           </div>
         </div>
       )}
@@ -5572,6 +5993,27 @@ export default function SimulationPlayer({
       </div>
 
       {finished ? (
+        evaluationNotee ? (
+          /* ÉVALUATION : la carte de fin porte le bilan par compétence quand il
+             existe, et retombe sur la note seule sinon. Elle vit dans un
+             composant à part parce qu'elle DÉFILE — l'atelier est un portail
+             `fixed` en `overflow: hidden`, et trois priorités dépassent la
+             hauteur d'un téléphone. */
+          <BilanFin
+            filChapitre={filChapitre}
+            notePassage={notePassage as number}
+            gestesEvalues={gradable}
+            scorePrecedent={scorePrecedent}
+            bilan={bilan}
+            noteEnregistree={noteEnregistree}
+            onReessayer={() => void cloturer()}
+            reessaiEnCours={clotureEnCours}
+            enAttente={bilanEnAttente}
+            chapitreSuivant={chapitreSuivant}
+            onNaviguer={onNaviguer}
+            onRepasser={onRejouer}
+          />
+        ) : (
         /* Jalon de fin de chapitre (traitement « C », choix Samuel du 29/07).
            Réservé à la FIN : une carte à chaque étape imposerait douze secondes
            d'attente par leçon, et la phrase d'acquis n'existe pas pour les
@@ -5593,40 +6035,19 @@ export default function SimulationPlayer({
               style={{
                 width: 46,
                 height: 46,
-                background: evaluationNotee ? "#FBF1DF" : "#E7F3EB",
-                color: evaluationNotee ? "#8A5A12" : "#107C41",
+                background: "#E7F3EB",
+                color: "#107C41",
                 fontSize: 22,
                 animation: "sim-jalon-rond .5s .1s cubic-bezier(.2,.9,.2,1) both",
               }}
             >
               ✓
             </div>
-            <p className="font-display text-[17px] font-bold text-ink">
-              {mode === "EVALUATION" ? "Évaluation terminée" : "Chapitre terminé"}
-            </p>
+            <p className="font-display text-[17px] font-bold text-ink">Chapitre terminé</p>
             <p className="mt-1 text-[13.5px] text-warm-600">{filChapitre}</p>
-            {mode === "EVALUATION" ? (
-              <>
-                <p className="mt-3 text-[13px] text-warm-700">
-                  Note de ce passage :{" "}
-                  <span className="font-semibold text-emerald-700">
-                    {Math.round((notePassage as number) * 100)} %
-                  </span>{" "}
-                  sur {gradable} action{gradable > 1 ? "s" : ""} évaluée{gradable > 1 ? "s" : ""}
-                </p>
-                <p className="mt-2 text-[12px] leading-relaxed text-warm-500">
-                  {scorePrecedent == null
-                    ? "Cette note est enregistrée dans « Mes résultats ». Si vous repassez l’évaluation, seule votre meilleure note sera conservée."
-                    : (notePassage as number) > scorePrecedent
-                      ? `Nouvelle meilleure note : ${Math.round((notePassage as number) * 100)} %. Elle remplace votre précédente meilleure note dans « Mes résultats ».`
-                      : `Votre meilleure note reste ${Math.round(scorePrecedent * 100)} %. Seule la meilleure note est conservée dans « Mes résultats ».`}
-                </p>
-              </>
-            ) : (
-              <p className="mt-3 text-[13px] text-warm-500">
-                {total} étape{total > 1 ? "s" : ""} franchie{total > 1 ? "s" : ""}
-              </p>
-            )}
+            <p className="mt-3 text-[13px] text-warm-500">
+              {total} étape{total > 1 ? "s" : ""} franchie{total > 1 ? "s" : ""}
+            </p>
             {chapitreSuivant && onNaviguer && (
               <button
                 type="button"
@@ -5644,6 +6065,7 @@ export default function SimulationPlayer({
             )}
           </div>
         </div>
+        )
       ) : (
         <>
           {/* Fenêtre Excel simulée. En plein cadre elle prend tout l'espace laissé
@@ -6207,6 +6629,33 @@ export default function SimulationPlayer({
                   champ. Même raisonnement que pour « Montrez-moi » le 31/07 —
                   ce qui explique un changement que l'apprenant n'a pas
                   demandé ne se cache pas derrière un défilement. */}
+              {/* PANNE DU JUGE — ni faute, ni silence.
+                  Le verdict d'une évaluation vient du serveur : s'il ne revient
+                  pas, rien n'est compté et le geste reste à refaire. Sans ce
+                  bandeau, l'apprenant retape indéfiniment une réponse juste
+                  devant un atelier muet. */}
+              {evaluationNotee && pannneJuge && (
+                <p
+                  data-panne-juge=""
+                  className="mt-2 flex items-start gap-1.5 rounded-lg px-3 py-2 text-[12.5px]"
+                  style={{ background: "#FDEDEC", border: "1px solid #F3D2CE", color: "#7A2620" }}
+                >
+                  <span aria-hidden>⚠</span>
+                  <span className="min-w-0 flex-1">
+                    {pannneJuge === "reseau" ? (
+                      <>
+                        <b>La correction n'a pas pu être demandée.</b> Rien n'a été compté comme
+                        faute : refaites le geste quand la connexion est revenue.
+                      </>
+                    ) : (
+                      <>
+                        <b>Ce passage n'est plus actif.</b> Rechargez la page pour en ouvrir un
+                        nouveau — rien de ce que vous ferez ici ne serait enregistré.
+                      </>
+                    )}
+                  </span>
+                </p>
+              )}
               {aplomb && (
                 <p
                   data-aplomb=""
@@ -6234,18 +6683,43 @@ export default function SimulationPlayer({
                       ? "Vous pouvez passer cette question — elle sera comptée comme non réussie."
                       : "Je peux vous montrer comment faire, vous pourrez ensuite continuer."}
                   </span>
+                  {/* EN ÉVALUATION, CE BOUTON RENONCE VRAIMENT.
+                    * Il appelait `demarrerDemonstration` dans les deux modes. En
+                    * évaluation le plan de démonstration vaut `null` — rien n'était
+                    * donc révélé — mais l'atelier basculait quand même en « mode
+                    * démonstration » et affichait un encart de renoncement SANS avoir
+                    * rien dit au serveur. Le renoncement n'était inscrit que par un
+                    * SECOND bouton. Fermer l'onglet entre les deux laissait une
+                    * interface qui annonçait une question passée, et un passage qui
+                    * ne l'avait jamais enregistrée.
+                    *
+                    * Un seul clic, désormais : l'écriture serveur est attendue avant
+                    * d'avancer, et le verrou d'envoi ferme le double tap. */}
                   <button
                     type="button"
                     data-control="sim-montrer"
-                    onClick={demarrerDemonstration}
+                    onClick={evaluationNotee ? passerLaQuestion : demarrerDemonstration}
+                    disabled={evaluationNotee && passageEnCours}
+                    aria-busy={evaluationNotee && passageEnCours}
                     className="flex-shrink-0 rounded-lg bg-white px-3 py-1.5 text-[12px] font-bold"
-                    style={{ border: "1px solid currentColor", color: "inherit" }}
+                    style={{
+                      border: "1px solid currentColor",
+                      color: "inherit",
+                      opacity: evaluationNotee && passageEnCours ? 0.6 : 1,
+                    }}
                   >
-                    {evaluationNotee ? "Passer la question" : "Montrez-moi"}
+                    {evaluationNotee
+                      ? passageEnCours
+                        ? "Enregistrement…"
+                        : "Passer la question"
+                      : "Montrez-moi"}
                   </button>
                 </div>
               )}
-              {step && demonstration && step.action.type !== "READ" && (
+              {/* Bloc de démonstration : hors évaluation seulement. En évaluation
+                * le plan vaut `null`, et le renoncement se fait maintenant d'un
+                * seul clic ci-dessus — ce bloc y était devenu un cul-de-sac. */}
+              {step && demonstration && !evaluationNotee && step.action.type !== "READ" && (
                 <div
                   className="mt-2 flex flex-wrap items-center gap-2 rounded-lg px-3 py-2 text-[12.5px]"
                   style={
@@ -6285,11 +6759,21 @@ export default function SimulationPlayer({
                   <button
                     type="button"
                     data-control="sim-debloquer"
-                    onClick={goNext}
+                    onClick={evaluationNotee ? passerLaQuestion : goNext}
+                    disabled={evaluationNotee && passageEnCours}
+                    aria-busy={evaluationNotee && passageEnCours}
                     className="flex-shrink-0 rounded-lg bg-white px-3 py-1.5 text-[12px] font-bold"
-                    style={{ border: "1px solid currentColor", color: "inherit" }}
+                    style={{
+                      border: "1px solid currentColor",
+                      color: "inherit",
+                      opacity: evaluationNotee && passageEnCours ? 0.6 : 1,
+                    }}
                   >
-                    {evaluationNotee ? "Question suivante ›" : "J'ai compris — continuer ›"}
+                    {evaluationNotee
+                      ? passageEnCours
+                        ? "Enregistrement…"
+                        : "Question suivante ›"
+                      : "J'ai compris — continuer ›"}
                   </button>
                 </div>
               )}

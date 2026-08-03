@@ -160,3 +160,38 @@ export function resumeJournal(
   }
   return pointsTotal > 0 ? { pointsReussis, pointsTotal } : null
 }
+
+/**
+ * Ce que l'atelier a le droit d'AFFIRMER après avoir envoyé la complétion.
+ *
+ * Deux affirmations, et elles étaient toutes deux faites trop tôt :
+ *
+ *  • « cette note est enregistrée dans Mes résultats » — annoncée même quand le
+ *    serveur refusait la complétion (journal incomplet) ou quand la requête
+ *    n'arrivait pas ;
+ *  • « ce chapitre est terminé » (`onCompleted`, qui coche le chapitre dans le
+ *    sommaire de la page apprenant) — émise AVANT la réponse, donc y compris
+ *    quand la base ne cochait rien. L'écart ne se révélait qu'au rechargement.
+ *
+ * L'aperçu admin est le seul cas où l'on affirme sans écrire : rien n'y est
+ * jamais persisté, et refuser de conclure y rendrait la relecture d'un atelier
+ * interminable.
+ *
+ * Fonction pure, pour être vérifiable hors navigateur.
+ */
+export function deciderApresCompletion(opts: {
+  /** Aperçu admin : aucune écriture n'était attendue. */
+  preview: boolean
+  /** Réponse du PUT, ou `null` si elle n'est jamais arrivée. */
+  reponse: { noteEnregistree?: boolean; completed?: boolean } | null
+}): { noteEnregistree: boolean; cocherLeChapitre: boolean } {
+  if (opts.preview) return { noteEnregistree: true, cocherLeChapitre: true }
+  const r = opts.reponse
+  // STRICT dans les deux sens : seule une confirmation EXPLICITE autorise une
+  // affirmation. Un champ absent, une réponse muette ou une réponse jamais
+  // arrivée valent « on ne sait pas », donc « on n'affirme rien ».
+  return {
+    noteEnregistree: r?.noteEnregistree === true,
+    cocherLeChapitre: r?.completed === true,
+  }
+}

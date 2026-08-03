@@ -18,6 +18,11 @@ type Payload = {
   mode: "LESSON" | "EXERCISE" | "EVALUATION"
   scenario: SimulationScenario
   stepCount: number
+  /**
+   * Faux en évaluation notée : le scénario servi n'a plus ses réponses, et la
+   * correction passe par `POST /api/simulations/[chapterId]/verify`.
+   */
+  clientValidation?: boolean
   attempt: {
     currentStep: number
     completedAt: string | null
@@ -67,6 +72,16 @@ export default function SimulationChapter({
   const [data, setData] = useState<Payload | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [monte, setMonte] = useState(false)
+  /**
+   * Compteur de passages, incrémenté par « Repasser l'évaluation ».
+   *
+   * Il sert à DEUX choses, et les deux sont nécessaires : relancer le
+   * chargement du scénario — la meilleure note vient de changer — et faire
+   * varier la clé du player, donc le remonter. Une réinitialisation en place
+   * devrait défaire à la main le classeur, ses graphiques, ses tableaux croisés
+   * et ses macros ; le montage, lui, est le chemin déjà éprouvé.
+   */
+  const [passage, setPassage] = useState(0)
 
   // Le portail n'existe qu'après l'hydratation : `document` n'est pas disponible
   // au rendu serveur.
@@ -114,7 +129,7 @@ export default function SimulationChapter({
     return () => {
       cancelled = true
     }
-  }, [chapterId])
+  }, [chapterId, passage])
 
   if (error) {
     return (
@@ -138,7 +153,7 @@ export default function SimulationChapter({
     <SimulationPlayer
       // La clé garantit un état propre quand on passe d'un atelier à un autre :
       // l'étape courante et les compteurs ne doivent jamais fuiter entre chapitres.
-      key={chapterId}
+      key={`${chapterId}#${passage}`}
       chapterId={chapterId}
       mode={data.mode}
       scenario={data.scenario}
@@ -159,6 +174,13 @@ export default function SimulationChapter({
       // le score était bien en base.
       scorePrecedent={data.mode === "EVALUATION" ? data.attempt?.bestScore ?? null : null}
       passagesPrecedents={data.attempt?.attemptCount ?? 0}
+      // Passe-plat strict : c'est l'API qui décide qui corrige, pas l'atelier.
+      validationLocale={data.clientValidation !== false}
+      // Au-delà du premier montage, l'atelier a été remonté par « Repasser » :
+      // il doit ouvrir un passage NEUF côté serveur, sans hériter des verdicts
+      // du précédent — sinon l'ancienne note survivrait à la nouvelle tentative.
+      nouveauPassage={passage > 0}
+      onRejouer={() => setPassage((n) => n + 1)}
       preview={preview}
       onCompleted={onCompleted}
       pleinCadre={atelier}

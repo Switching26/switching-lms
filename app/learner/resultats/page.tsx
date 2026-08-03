@@ -3,6 +3,7 @@ import { redirect } from "next/navigation"
 import Link from "next/link"
 import { getLearnerEnrollments } from "@/lib/data/formations"
 import { getFormationEvaluationResults } from "@/lib/data/quiz"
+import { BilanReplie, PlanDeRevision } from "@/components/learner/BilanResultats"
 
 export const dynamic = "force-dynamic"
 
@@ -80,11 +81,14 @@ export default async function ResultatsPage() {
                   </div>
                 </div>
 
+                <PlanDeRevision plan={results.planDeRevision} formationId={formation.id} />
+
                 <div>
                   {results.evaluations.map((ev) => {
                     const pct = pctOf(ev.bestScore)
                     return (
-                      <div key={ev.key} className="flex items-center gap-3 sm:gap-4 py-3 border-b border-warm-100 last:border-0">
+                      <div key={ev.key} className="border-b border-warm-100 py-3 last:border-0">
+                      <div className="flex items-center gap-3 sm:gap-4">
                         <div className="flex-1 min-w-0">
                           <div className="text-[13.5px] font-semibold text-ink mb-1.5 truncate">{ev.title}</div>
                           {/* Pas de `truncate` ici, contrairement au titre : un
@@ -121,6 +125,8 @@ export default async function ResultatsPage() {
                         >
                           {ev.attempts > 0 ? "Refaire" : "Commencer"}
                         </Link>
+                      </div>
+                      <BilanReplie bilan={ev.bilan} formationId={formation.id} />
                       </div>
                     )
                   })}

@@ -50,9 +50,19 @@ export function natureEtape(action: SimulationAction, mode: string): NatureEtape
   return "action"
 }
 
-/** Référence lisible : « A1 », « B2 à D4 », « la colonne C », « la ligne 3 ». */
-function lieu(ref: string): string {
-  return ref.includes(":") ? ref.replace(":", " à ") : ref
+/**
+ * Référence lisible : « A1 », « B2 à D4 ».
+ *
+ * ⚠️ En ÉVALUATION NOTÉE, une coordonnée que la consigne ne nomme pas n'est plus
+ * servie au navigateur : elle EST la réponse (« trouvez la ligne en trop »).
+ * Toutes les formulations ci-dessous doivent donc supporter son absence, et
+ * dire « la ligne demandée » plutôt que « la ligne undefined ». C'est la raison
+ * des `?` et des replis qui suivent — aucun n'est décoratif.
+ */
+function lieu(ref: string | undefined | null): string {
+  const r = String(ref ?? "").trim()
+  if (!r) return ""
+  return r.includes(":") ? r.replace(":", " à ") : r
 }
 
 /**
@@ -153,40 +163,43 @@ export function resumerAttendu(action: SimulationAction): string | null {
     case "TYPE":
       return action.target === "formula-bar"
         ? "une saisie dans la barre de formule"
-        : `une saisie dans ${action.target}`
+        : action.target
+        ? `une saisie dans ${action.target}`
+        : "une saisie dans la cellule demandée"
     case "EXPECT_STATE": {
-      const refs = Object.keys(action.cells)
-      if (refs.length === 0) return null
+      const refs = Object.keys(action.cells ?? {})
+      if (refs.length === 0) return "le résultat demandé"
       if (refs.length === 1) return `le résultat en ${refs[0]}`
       if (refs.length <= 3) return `le résultat en ${refs.join(", ")}`
       return `le résultat dans ${refs.length} cellules`
     }
     case "EXPECT_FORMAT": {
-      const refs = Object.keys(action.cells)
+      const refs = Object.keys(action.cells ?? {})
+      if (refs.length === 0) return "la mise en forme demandée"
       return refs.length === 1
         ? `la mise en forme de ${refs[0]}`
         : `la mise en forme de ${refs.length} cellules`
     }
     case "CLICK_CELL":
-      return `la cellule ${action.cell} sélectionnée`
+      return action.cell ? `la cellule ${action.cell} sélectionnée` : "la cellule demandée sélectionnée"
     case "CLICK_CELL_MODIFIER":
-      return `${action.cell} ajoutée à la sélection`
+      return action.cell ? `${action.cell} ajoutée à la sélection` : "la cellule demandée ajoutée à la sélection"
     case "DRAG_RANGE":
-      return `la plage ${lieu(action.range)} sélectionnée`
+      return action.range ? `la plage ${lieu(action.range)} sélectionnée` : "la plage demandée sélectionnée"
     case "SELECT_COLUMN":
-      return `la colonne ${action.column} sélectionnée`
+      return action.column ? `la colonne ${action.column} sélectionnée` : "la colonne demandée sélectionnée"
     case "SELECT_ROW":
-      return `la ligne ${action.row} sélectionnée`
+      return action.row ? `la ligne ${action.row} sélectionnée` : "la ligne demandée sélectionnée"
     case "SELECT_SHEET":
-      return `la feuille « ${action.name} » au premier plan`
+      return action.name ? `la feuille « ${action.name} » au premier plan` : "la feuille demandée au premier plan"
     case "GOTO_REF":
-      return `${lieu(action.ref)} atteinte par la zone Nom`
+      return action.ref ? `${lieu(action.ref)} atteinte par la zone Nom` : "la cellule demandée atteinte par la zone Nom"
     case "DEFINE_NAME":
-      return `la plage nommée « ${action.name} »`
+      return action.name ? `la plage nommée « ${action.name} »` : "la plage nommée"
     case "CLICK_CONTROL": {
       // Nommer le bouton, ou se taire : « un clic sur le bouton indiqué » ne
       // disait rien que la consigne ne dise déjà.
-      const nom = LIBELLE_CONTROLE[action.control]
+      const nom = action.control ? LIBELLE_CONTROLE[action.control] : undefined
       return nom ? `un clic sur « ${nom} »` : null
     }
     case "CONTEXT_MENU":
@@ -194,13 +207,20 @@ export function resumerAttendu(action: SimulationAction): string | null {
     case "DOUBLE_CLICK":
       return "un double-clic sur la cible"
     case "KEY":
-      return `la touche ${action.key}`
+      return action.key ? `la touche ${action.key}` : null
     case "FILL_HANDLE":
-      return `la recopie jusqu'en ${action.to}`
+      return action.to ? `la recopie jusqu'en ${action.to}` : "la recopie demandée"
     case "SORT_RANGE":
-      return `le tri de ${lieu(action.range)} sur la colonne ${action.column}`
+      // La colonne et le sens du tri sont la RÉPONSE : en évaluation notée ils
+      // ne sont pas servis au navigateur (`expurge.ts`), et le critère se réduit
+      // alors à la plage — ce qui reste vrai et n'apprend rien à personne.
+      return action.column && action.range
+        ? `le tri de ${lieu(action.range)} sur la colonne ${action.column}`
+        : action.range
+        ? `le tri de ${lieu(action.range)}`
+        : "le tri demandé"
     case "FILTER_COLUMN":
-      return `le filtre posé sur la colonne ${action.column}`
+      return action.column ? `le filtre posé sur la colonne ${action.column}` : "le filtre demandé"
     case "EXPECT_CHART":
       return "le graphique demandé"
     case "SELECT_CHART_ELEMENT":
@@ -212,9 +232,13 @@ export function resumerAttendu(action: SimulationAction): string | null {
     case "EXPECT_MACRO":
       return "la macro demandée"
     case "RECORD_MACRO":
-      return action.expect === "started" ? "l'enregistrement démarré" : "l'enregistrement arrêté"
+      return action.expect === "started"
+        ? "l'enregistrement démarré"
+        : action.expect === "stopped"
+        ? "l'enregistrement arrêté"
+        : "l'enregistreur de macros utilisé"
     case "EXPECT_POSTE":
-      return phrasePoste(action.poste)
+      return action.poste ? phrasePoste(action.poste) : null
     default:
       return null
   }
@@ -233,39 +257,43 @@ export function resumerFait(action: SimulationAction): string | null {
     case "TYPE": {
       const quoi = action.accept?.[0]
       const ou = action.target === "formula-bar" ? "la barre de formule" : action.target
+      if (!ou) return "Votre saisie est enregistrée."
       return quoi ? `Vous avez saisi ${quoi} dans ${ou}.` : `Vous avez rempli ${ou}.`
     }
     case "EXPECT_STATE": {
-      const refs = Object.keys(action.cells)
+      const refs = Object.keys(action.cells ?? {})
+      if (refs.length === 0) return "Le résultat est en place."
       if (refs.length === 1) return `Le résultat est en place dans ${refs[0]}.`
       return `Le résultat est en place dans ${refs.length} cellules.`
     }
     case "EXPECT_FORMAT":
       return "La mise en forme est appliquée."
     case "CLICK_CELL":
-      return `Vous avez sélectionné ${action.cell}.`
+      return action.cell ? `Vous avez sélectionné ${action.cell}.` : "Vous avez fait votre sélection."
     case "DRAG_RANGE":
-      return `Vous avez sélectionné ${lieu(action.range)}.`
+      return action.range ? `Vous avez sélectionné ${lieu(action.range)}.` : "Vous avez fait votre sélection."
     case "SELECT_COLUMN":
-      return `Vous avez sélectionné la colonne ${action.column}.`
+      return action.column ? `Vous avez sélectionné la colonne ${action.column}.` : "Vous avez sélectionné la colonne."
     case "SELECT_ROW":
-      return `Vous avez sélectionné la ligne ${action.row}.`
+      return action.row ? `Vous avez sélectionné la ligne ${action.row}.` : "Vous avez sélectionné la ligne."
     case "SELECT_SHEET":
-      return `Vous êtes sur la feuille « ${action.name} ».`
+      return action.name ? `Vous êtes sur la feuille « ${action.name} ».` : "Vous avez changé de feuille."
     case "GOTO_REF":
-      return `Vous avez atteint ${lieu(action.ref)} par la zone Nom.`
+      return action.ref ? `Vous avez atteint ${lieu(action.ref)} par la zone Nom.` : "Vous y êtes allé par la zone Nom."
     case "DEFINE_NAME":
-      return `La plage porte maintenant le nom « ${action.name} ».`
+      return action.name ? `La plage porte maintenant le nom « ${action.name} ».` : "La plage est nommée."
     case "CLICK_CONTROL": {
-      const nom = LIBELLE_CONTROLE[action.control]
+      const nom = action.control ? LIBELLE_CONTROLE[action.control] : undefined
       return nom ? `Vous avez cliqué sur « ${nom} ».` : "Vous avez utilisé le bouton du ruban."
     }
     case "SORT_RANGE":
-      return `Le tableau est trié sur la colonne ${action.column}.`
+      return action.column
+        ? `Le tableau est trié sur la colonne ${action.column}.`
+        : "Le tableau est trié."
     case "FILTER_COLUMN":
-      return `Le filtre est posé sur la colonne ${action.column}.`
+      return action.column ? `Le filtre est posé sur la colonne ${action.column}.` : "Le filtre est posé."
     case "FILL_HANDLE":
-      return `La recopie est faite jusqu'en ${action.to}.`
+      return action.to ? `La recopie est faite jusqu'en ${action.to}.` : "La recopie est faite."
     case "EXPECT_CHART":
       return "Le graphique est en place."
     case "EXPECT_PIVOT":
@@ -277,6 +305,7 @@ export function resumerFait(action: SimulationAction): string | null {
       return "La macro est enregistrée."
     case "EXPECT_POSTE": {
       const p = action.poste
+      if (!p) return null
       if (p.fichiers?.length) return `Le fichier « ${p.fichiers[0]} » est enregistré.`
       if (p.classeur) return `Le classeur s'appelle maintenant « ${p.classeur} ».`
       if (p.boite === "enregistrer") return "La fenêtre d'enregistrement est ouverte."

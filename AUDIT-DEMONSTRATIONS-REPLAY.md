@@ -2,8 +2,7 @@
 
 **Worktree** `~/checkos/work/switching-lms-audit-opus5` · branche `audit-demo-replay-opus5` · départ `2987e3a`
 **Date** 3 août 2026 · **Périmètre** 246 scénarios · 1 882 étapes · **1 587 démonstrations jouables**
-**État du rapport avant livraison : corrections validées dans le worktree isolé ; intégration,
-push, déploiement et seed consignés en fin de rapport.**
+**État : corrections intégrées, déployées et injectées en production ; preuves de livraison au §11.**
 
 ---
 
@@ -544,3 +543,17 @@ sont les trois scénarios listés ci-dessus.
 
 **Reproduire l'audit** : `scripts/simulation/banc-rejeu/README.md` donne le montage complet du banc,
 le découpage en lots, les trois propriétés et la liste des pièges à ne pas retrouver seul.
+
+---
+
+## 11. Livraison en production
+
+- Commit moteur et contenu : `c0fb5f90fcbb1fc6107dbc25e5fd7c3f4ac1848a` sur `main`.
+- Railway : déploiement `7d339d89-dcce-4c7a-b1e4-6a43b8070118`, statut `SUCCESS` sur ce hash.
+- Sauvegarde PostgreSQL préalable : dump gzip vérifié avant toute mutation.
+- Export préalable des deux scénarios : 2 scénarios, versions 8 et 8.
+- Dry-run : 0 création, exactement 2 mises à jour et 16 étapes.
+- Seed ciblé sans `--publish` : versions 9 et 9 ; les deux chapitres sont restés publiés.
+- Tentatives apprenants sur ces deux simulations : 0 avant, 0 après.
+- Base ↔ dépôt : égalité canonique exacte sur `m19-e03.json` et `m19-l05.json`.
+- Production : `GET /api/health` → HTTP 200 après déploiement et injection.

@@ -35,7 +35,7 @@ for (const f of fs.readdirSync(DIR).filter((n) => n.endsWith(".json")).sort()) {
     }
     const e = parType.get(t) ?? { total: 0, sans: 0, exemples: [] }
     e.total++
-    const plan = planDemonstration(st.action, { boitePoste: st.setup?.poste?.boite })
+    const plan = planDemonstration(st.action, { boitePoste: st.setup?.poste?.boite, setup: st.setup })
     if (!plan || plan.gestes.length === 0) {
       e.sans++
       sans++

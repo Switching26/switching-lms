@@ -22,6 +22,7 @@
  * scénarios et signale toute étape qui resterait sans démonstration.
  */
 
+import { columnIndexToLetter } from "./grid"
 import { PRESETS_MARGES, type Marges } from "./pagesetup"
 import { CONTROLES_POSTE } from "./poste"
 import type { RibbonTab, SimulationAction } from "./types"
@@ -151,6 +152,212 @@ export type ContexteDemo = {
   onglet?: RibbonTab
   /** Boîte de dialogue du poste de travail ouverte, si le chapitre en a une. */
   boitePoste?: "aucune" | "enregistrer" | "ouvrir"
+  /**
+   * `setup` de l'étape — lui seul distingue une CRÉATION d'une MODIFICATION.
+   *
+   * `EXPECT_CHART` et `EXPECT_PIVOT` décrivent tous deux un ÉTAT attendu, pas
+   * un geste : « le graphique doit maintenant porter un titre » a exactement la
+   * même forme d'action que « il doit exister un graphique ». Le plan visait
+   * donc le bouton de la GALERIE dans les deux cas — et `rendreAgissant` le
+   * pressait pour de bon.
+   *
+   * Conséquence mesurée le 03/08/2026 : sur `m20-l05` (« ajoutez un titre »,
+   * « passez en secteurs »…) la démonstration reconstruisait un histogramme sur
+   * la sélection courante — source `A1` au lieu de `H4:I7` — et sur `m20-l02`
+   * (« ajoutez le champ Famille en colonnes », « retirez-le »…) elle remplaçait
+   * le tableau croisé par un tableau VIDE. L'apprenant qui demandait de l'aide
+   * voyait son travail détruit, dès le PREMIER passage, avec une bulle qui
+   * annonçait « insérer un tableau croisé » alors que la consigne demandait
+   * tout autre chose.
+   *
+   * Le remède est ici, pas dans le composant : une modification se montre avec
+   * le bouton de MODIFICATION, celui que `effetModele` associe déjà au patch.
+   */
+  setup?: {
+    chart?: unknown
+    chartEdit?: Record<string, unknown>
+    pivot?: unknown
+    pivotEdit?: Record<string, unknown>
+  }
+  /**
+   * Champs actuellement placés dans le tableau croisé. `rows`, `cols` et
+   * `filters` d'un `pivotEdit` REMPLACENT la liste : sans savoir ce qui s'y
+   * trouve, on ne peut pas montrer le retrait que la consigne demande — sur
+   * `M20-E02-02`, « remplacez le commercial par sa région » exige de retirer
+   * Commercial avant de déposer Région, et l'aide de l'étape le dit mot pour mot.
+   */
+  tcdCourant?: EtatTcdDemo
+  /** Le classeur ouvert porte-t-il déjà un nom ? Décide entre Enregistrer et Enregistrer sous. */
+  classeurNomme?: boolean
+  /** Macros déjà enregistrées : décide entre enregistrer et exécuter. */
+  macrosCourantes?: string[]
+  /** Les réglages de mise en page DÉJÀ posés : un saut déjà là ne se repose pas. */
+  reglagesCourants?: { pageBreakRows?: number[]; pageBreakCols?: number[] }
+}
+
+/* ─────────── correspondances modification → contrôle réel ─────────── */
+
+/**
+ * Bouton qui applique une modification de graphique.
+ *
+ * Tout bouton `ins-graph-*` qui n'est PAS de la galerie passe, dans
+ * `effetModele`, par `modifierGraphique(courant, setup.chartEdit)` : le patch du
+ * scénario fait foi, quel que soit le bouton. Le choix ci-dessous n'est donc pas
+ * une question de correction mais de VÉRITÉ PÉDAGOGIQUE — montrer le bouton que
+ * l'apprenant doit réellement chercher.
+ */
+function boutonEditionGraphique(p: Record<string, unknown>): { id: string; nom: string } | null {
+  const el = (p.elements ?? {}) as Record<string, unknown>
+  if (el.titre !== undefined || p.title !== undefined)
+    return { id: "ins-graph-element-titre", nom: "le titre du graphique" }
+  if (el.titresAxes !== undefined) return { id: "ins-graph-element-titres-axes", nom: "les titres des axes" }
+  if (el.etiquettes !== undefined) return { id: "ins-graph-element-etiquettes", nom: "les étiquettes de données" }
+  if (el.quadrillage !== undefined) return { id: "ins-graph-element-quadrillage", nom: "le quadrillage" }
+  if (el.legende !== undefined || p.legendPosition !== undefined)
+    return p.legendPosition === "bas"
+      ? { id: "ins-graph-legende-bas", nom: "la légende en bas" }
+      : p.legendPosition === "droite"
+        ? { id: "ins-graph-legende-droite", nom: "la légende à droite" }
+        : { id: "ins-graph-element-legende", nom: "la légende" }
+  if (typeof p.style === "number") return { id: `ins-graph-style-${p.style}`, nom: `le style ${p.style}` }
+  if (p.type !== undefined) return { id: "ins-graph-modifier-type", nom: "modifier le type de graphique" }
+  if (Array.isArray(p.removeSeries)) return { id: "ins-graph-supprimer-serie", nom: "supprimer la série" }
+  if (Array.isArray(p.editSeries)) {
+    const e = (p.editSeries as Array<Record<string, unknown>>)[0] ?? {}
+    if (e.trendline === "lineaire") return { id: "ins-graph-tendance-lineaire", nom: "la courbe de tendance" }
+    if (e.trendline === "moyenne-mobile") return { id: "ins-graph-tendance-moyenne-mobile", nom: "la moyenne mobile" }
+    if ("trendline" in e) return { id: "ins-graph-tendance-supprimer", nom: "retirer la courbe de tendance" }
+    if ("hidden" in e) return { id: "ins-graph-filtre-serie", nom: "filtrer la série" }
+    if ("color" in e) return { id: "ins-graph-couleur-serie", nom: "la couleur de la série" }
+    if ("shape" in e) return { id: "ins-graph-forme-serie", nom: "la forme de la série" }
+  }
+  if (p.source !== undefined || p.categories !== undefined || p.series !== undefined || p.addSeries !== undefined)
+    return { id: "ins-graph-selectionner-donnees", nom: "sélectionner les données" }
+  return null
+}
+
+/**
+ * Gestes du volet « Champs » qui réalisent RÉELLEMENT une modification de
+ * tableau croisé.
+ *
+ * ⚠️ Deux règles, apprises en mesurant plutôt qu'en lisant :
+ *
+ *  1. **Toutes les clés du patch doivent être jouées, pas la première.** Le
+ *     volet applique chaque sous-effet séparément — contrairement au ruban, où
+ *     `tcd-actualiser` applique `setup.pivotEdit` en bloc. Un patch
+ *     `{removeFields, values}` joué à moitié laisse le tableau dans un état que
+ *     la consigne n'annonce pas.
+ *  2. **`rows` / `cols` / `filters` REMPLACENT la liste**, ils ne l'étendent
+ *     pas. Sans connaître les champs actuellement placés, on ne peut pas savoir
+ *     lesquels retirer : d'où `courant`, l'état du tableau au démarrage.
+ */
+function gestesEditionTcd(
+  p: Record<string, unknown>,
+  courant?: EtatTcdDemo,
+): GesteDemo[] | null {
+  const dom = (sel: string): CibleDemo => ({ k: "dom", sel })
+  const noms = (v: unknown): Array<{ name: string; agg?: string }> =>
+    Array.isArray(v)
+      ? v
+          .map((x) => (typeof x === "string" ? { name: x } : (x as { name?: string; agg?: string })))
+          .filter((x): x is { name: string; agg?: string } => typeof x?.name === "string")
+      : []
+
+  const gestes: GesteDemo[] = []
+  const pose = (champ: string, zone: keyof typeof LIBELLE_ZONE) => {
+    gestes.push(
+      // Le champ non encore placé : le sélecteur exclut la puce déjà posée dans
+      // une zone, qui porte le même nom.
+      { cible: dom(`[data-pivot-field="${champ}"][data-pivot-placed=""]`), bulle: `le champ ${champ}` },
+      { cible: dom(`[data-pivot-zone="${zone}"]`), bulle: `le déposer dans « ${LIBELLE_ZONE[zone]} »` },
+    )
+  }
+  const retirer = (champ: string) =>
+    gestes.push({ cible: dom(`[data-pivot-remove="${champ}"]`), bulle: `retirer le champ ${champ}` })
+
+  /* 1 — les retraits explicites */
+  for (const n of noms(p.removeFields)) retirer(n.name)
+
+  /* 2 — les listes de remplacement : on retire ce qui n'y est plus, on ajoute
+         ce qui manque. Sans l'état courant on ne peut que compléter. */
+  for (const [cle, zone] of [
+    ["rows", "rows"],
+    ["cols", "cols"],
+    ["filters", "filters"],
+  ] as const) {
+    if (p[cle] === undefined) continue
+    const cible = noms(p[cle]).map((x) => x.name)
+    const actuels = courant?.[zone] ?? []
+    for (const a of actuels) if (!cible.includes(a)) retirer(a)
+    for (const c of cible) if (!actuels.includes(c)) pose(c, zone)
+  }
+
+  /* 3 — les ajouts explicites */
+  for (const [cle, zone] of [
+    ["addRows", "rows"],
+    ["addCols", "cols"],
+    ["addValues", "values"],
+    ["addFilters", "filters"],
+  ] as const) {
+    for (const f of noms(p[cle])) pose(f.name, zone)
+  }
+
+  /* 4 — les agrégats : `values` sur un champ DÉJÀ posé change son calcul ;
+         sur un champ absent, c'est un ajout. */
+  for (const v of noms(p.values)) {
+    const dejaLa = (courant?.values ?? []).includes(v.name)
+    if (!dejaLa) {
+      pose(v.name, "values")
+      if (!v.agg) continue
+    }
+    if (v.agg) {
+      gestes.push(
+        { cible: dom(`[data-pivot-agg-menu="${v.name}"]`), bulle: `les paramètres de ${v.name}` },
+        { cible: dom(`[data-pivot-agg="${v.agg}"]`), bulle: `choisir ${v.agg}`, presser: { id: `[data-pivot-agg="${v.agg}"]` } },
+      )
+    }
+  }
+  // Un champ retiré de `values` par remplacement de liste.
+  if (Array.isArray(p.values) && courant) {
+    const gardes = noms(p.values).map((x) => x.name)
+    for (const a of courant.values) if (!gardes.includes(a)) retirer(a)
+  }
+
+  /* 5 — le style */
+  if (typeof p.styleId === "number")
+    gestes.push({ cible: dom(`[data-pivot-style="${p.styleId}"]`), bulle: `le style ${p.styleId}` })
+
+  /* 6 — la valeur d'un filtre de rapport. C'est une LISTE DÉROULANTE : un clic
+         n'y choisit rien. La pression porte donc la valeur, et le composant sait
+         la poser sur un `<select>` contrôlé par React. */
+  if (p.filterValues && typeof p.filterValues === "object") {
+    for (const [champ, vals] of Object.entries(p.filterValues as Record<string, unknown>)) {
+      const v = Array.isArray(vals) && vals.length ? String(vals[0]) : "(Tous)"
+      gestes.push({
+        cible: dom(`[data-pivot-filter="${champ}"]`),
+        bulle: `filtrer ${champ} sur ${v}`,
+        presser: { id: `[data-pivot-filter="${champ}"]`, arg: v },
+      })
+    }
+  }
+
+  /* 7 — la source et l'actualisation passent par le ruban, comme dans Excel. */
+  if (p.source !== undefined)
+    gestes.push({ cible: ctrl("tcd-source"), bulle: "modifier la source du tableau" })
+  else if (p.refresh || p.sourceCells)
+    gestes.push({ cible: ctrl("tcd-actualiser"), bulle: "actualiser le tableau" })
+
+  return gestes.length ? gestes : null
+}
+
+/** Champs placés dans le tableau croisé au démarrage de la démonstration. */
+export type EtatTcdDemo = { rows: string[]; cols: string[]; values: string[]; filters: string[] }
+
+const LIBELLE_ZONE: Record<string, string> = {
+  rows: "Lignes",
+  cols: "Colonnes",
+  values: "Valeurs",
+  filters: "Filtres",
 }
 
 /* ─────────── correspondances format → bouton du ruban ─────────── */
@@ -304,7 +511,10 @@ const LIBELLE_ONGLET: Record<string, string> = {
  * dont les étapes suivantes divisent par la donnée collée : sans le collage,
  * `#DIV/0!`.
  */
-const SANS_EXECUTION = ["acc-inserer", "acc-supprimer"]
+const SANS_EXECUTION = [
+  "acc-inserer",
+  "acc-supprimer",
+]
 
 function rendreAgissant(plan: PlanDemo): PlanDemo {
   return {
@@ -313,9 +523,16 @@ function rendreAgissant(plan: PlanDemo): PlanDemo {
       const sortie = { ...g }
       if (!sortie.selectionner && !sortie.glisserVers && (g.cible.k === "cellule" || g.cible.k === "plage"))
         sortie.selectionner = g.cible.ref
-      if (!sortie.presser && !sortie.onglet && !sortie.frappe && g.cible.k === "dom") {
+      if (!sortie.presser && !sortie.onglet && !sortie.frappe && !g.illustration && g.cible.k === "dom") {
         const m = /\[data-control="([^"]+)"\]/.exec(g.cible.sel)
-        if (m && !SANS_EXECUTION.includes(m[1])) sortie.presser = { id: m[1] }
+        if (m) {
+          if (!SANS_EXECUTION.includes(m[1])) sortie.presser = { id: m[1] }
+        } else if (g.cible.sel.startsWith("[data-pivot-")) {
+          // Le volet des champs du tableau croisé n'a pas de `data-control` :
+          // ses boutons portent leur propre `onClick`. On les presse par leur
+          // SÉLECTEUR, c'est-à-dire exactement l'élément que l'apprenant clique.
+          sortie.presser = { id: g.cible.sel }
+        }
       }
       return sortie
     }),
@@ -475,34 +692,73 @@ function planBrut(action: SimulationAction, ctx: ContexteDemo): PlanDemo | null 
             cible: { k: "cellule", ref: de },
             glisserVers: { k: "cellule", ref: a ?? de },
             bulle: `glisser de ${de} à ${a ?? de}`,
+            // `rendreAgissant` écarte les gestes qui glissent — il ne sait pas
+            // quoi sélectionner d'un point de départ seul. Résultat : la
+            // démonstration DESSINAIT le glissement et la sélection ne bougeait
+            // pas d'un pixel. C'est pourtant tout ce que l'étape demande.
+            selectionner: action.range,
           },
         ],
         pas: ["Cliquer le premier coin", "Glisser jusqu'au dernier"],
       }
     }
 
+    /* `rendreAgissant` ne sélectionne que pour une cible « cellule » ou
+       « plage » : un en-tête de ligne ou de colonne n'en est pas une, et ces
+       démonstrations DÉSIGNAIENT l'en-tête sans jamais sélectionner. Or c'est
+       exactement — et uniquement — ce que l'étape demande. */
     case "SELECT_COLUMN":
       return {
-        gestes: [{ cible: { k: "enteteColonne", col: action.column }, bulle: `l'en-tête de la colonne ${action.column}` }],
+        gestes: [
+          {
+            cible: { k: "enteteColonne", col: action.column },
+            bulle: `l'en-tête de la colonne ${action.column}`,
+            selectionner: `col:${action.column}`,
+          },
+        ],
         pas: ["Cliquer l'en-tête de colonne"],
       }
 
     case "SELECT_ROW":
       return {
-        gestes: [{ cible: { k: "enteteLigne", ligne: action.row }, bulle: `l'en-tête de la ligne ${action.row}` }],
+        gestes: [
+          {
+            cible: { k: "enteteLigne", ligne: action.row },
+            bulle: `l'en-tête de la ligne ${action.row}`,
+            selectionner: `ligne:${action.row}`,
+          },
+        ],
         pas: ["Cliquer l'en-tête de ligne"],
       }
 
     case "SELECT_SHEET":
       return {
-        gestes: [{ cible: { k: "dom", sel: `[aria-label="Feuille ${action.name}"]` }, bulle: `l'onglet ${action.name}` }],
+        gestes: [
+          {
+            cible: { k: "dom", sel: `[aria-label="Feuille ${action.name}"]` },
+            bulle: `l'onglet ${action.name}`,
+            // Un onglet de feuille n'est pas un `data-control` : il n'était donc
+            // jamais pressé, et la démonstration « changez de feuille » laissait
+            // l'apprenant sur la même feuille.
+            presser: { id: `[aria-label="Feuille ${action.name}"]` },
+          },
+        ],
         pas: ["Cliquer l'onglet de feuille"],
       }
 
     /* ── zone Nom ────────────────────────────────────────────────────── */
     case "GOTO_REF":
       return {
-        gestes: [{ cible: { k: "dom", sel: '[aria-label="Zone Nom"]' }, bulle: `saisir ${action.ref}`, frappe: action.ref }],
+        gestes: [
+          {
+            cible: { k: "dom", sel: '[aria-label="Zone Nom"]' },
+            bulle: `saisir ${action.ref}`,
+            frappe: action.ref,
+            // La zone Nom DÉPLACE la sélection : la mimer sans bouger la
+            // sélection montre une frappe sans effet.
+            selectionner: action.ref,
+          },
+        ],
         pas: ["Cliquer la zone Nom", "Saisir la référence", "Valider"],
       }
 
@@ -552,14 +808,27 @@ function planBrut(action: SimulationAction, ctx: ContexteDemo): PlanDemo | null 
       }
     }
 
-    case "SORT_RANGE":
+    case "SORT_RANGE": {
+      /**
+       * LA COLONNE DU CLIC DÉCIDE DU TRI.
+       *
+       * `handleControl` déduit la colonne à trier de la SÉLECTION — c'est le
+       * geste d'Excel, et c'est ce que l'étape évalue. Le plan cliquait la
+       * première cellule de la PLAGE : sur `A2:D8` trié par la colonne D, il
+       * triait donc par A. La démonstration montrait le bon bouton et rendait
+       * le mauvais tableau.
+       */
+      const debut = action.range.split(":")[0]
+      const ligne = /(\d+)$/.exec(debut)?.[1] ?? "2"
+      const dans = action.column ? `${action.column}${Number(ligne) + 1}` : debut
       return {
         gestes: [
-          { cible: { k: "cellule", ref: action.range.split(":")[0] }, bulle: "cliquer dans le tableau" },
+          { cible: { k: "cellule", ref: dans }, bulle: `cliquer dans la colonne ${action.column ?? ""}`.trim() },
           { cible: ctrl(action.ascending ? "don-tri-croissant" : "don-tri-decroissant"), bulle: `trier ${action.ascending ? "de A à Z" : "de Z à A"}` },
         ],
         pas: ["Cliquer dans la colonne", "Cliquer le tri"],
       }
+    }
 
     case "FILTER_COLUMN":
       return {
@@ -568,22 +837,102 @@ function planBrut(action: SimulationAction, ctx: ContexteDemo): PlanDemo | null 
       }
 
     case "EXPECT_CHART": {
-      const type = typeof A.chartType === "string" ? A.chartType : undefined
+      /* MODIFIER n'est pas CRÉER. Une étape qui porte `setup.chartEdit` demande
+         de retoucher le graphique existant : presser la galerie le
+         RECONSTRUIRAIT sur la sélection courante, source comprise. */
+      const patch = ctx.setup?.chartEdit
+      if (patch && !ctx.setup?.chart) {
+        const bouton = boutonEditionGraphique(patch)
+        if (bouton) return { gestes: [{ cible: ctrl(bouton.id), bulle: bouton.nom }], pas: ["Cliquer le bouton"] }
+        // Aucun bouton ne correspond : on DÉSIGNE le graphique et on s'arrête là
+        // plutôt que d'en fabriquer un autre.
+        return {
+          gestes: [{ cible: { k: "dom", sel: "[data-chart-element]" }, bulle: "le graphique à modifier", illustration: true }],
+          pas: [],
+        }
+      }
+      const spec = (A.chart ?? {}) as Record<string, unknown>
+      const type = typeof A.chartType === "string" ? A.chartType
+        : typeof spec.type === "string" ? spec.type
+        : undefined
       const id = (type && CTRL_GRAPH[type]) || "ins-graph-histogramme"
-      const plage = typeof A.range === "string" ? A.range : null
+      /**
+       * LA SOURCE, DÉDUITE COMME EXCEL LA DEVINE.
+       *
+       * Sans `setup.chart`, la galerie construit le graphique depuis la
+       * SÉLECTION courante — et le plan n'en posait aucune : le graphique créé
+       * n'avait ni les catégories ni le nombre de séries que la consigne
+       * annonce. Or l'action les déclare : `categories: "A2:A7"` et
+       * `seriesCount: 2` décrivent exactement le rectangle A1:C7, en-tête
+       * compris. C'est ce que l'apprenant sélectionne, et c'est donc ce que la
+       * démonstration doit sélectionner.
+       */
+      const sourceDeduite = (): string | null => {
+        const cat = typeof spec.categories === "string" ? spec.categories : null
+        const nb = typeof spec.seriesCount === "number" ? spec.seriesCount : null
+        if (!cat || !nb) return null
+        const m = /^\$?([A-Z]+)\$?(\d+):\$?([A-Z]+)\$?(\d+)$/i.exec(cat)
+        if (!m || m[1].toUpperCase() !== m[3].toUpperCase()) return null
+        const col = m[1].toUpperCase()
+        const r1 = Number(m[2])
+        const r2 = Number(m[4])
+        if (r1 < 2) return null // pas de ligne d'en-tête au-dessus
+        const num = col.split("").reduce((n, c) => n * 26 + (c.charCodeAt(0) - 64), 0)
+        let fin = ""
+        let reste = num + nb
+        while (reste > 0) {
+          const r = (reste - 1) % 26
+          fin = String.fromCharCode(65 + r) + fin
+          reste = Math.floor((reste - 1) / 26)
+        }
+        return `${col}${r1 - 1}:${fin}${r2}`
+      }
+      const plage =
+        typeof A.range === "string" ? A.range
+        : typeof spec.source === "string" ? spec.source
+        : sourceDeduite()
       const gestes: GesteDemo[] = []
       if (plage) gestes.push({ cible: { k: "plage", ref: plage }, bulle: `sélectionner ${lieu(plage)}` })
       gestes.push({ cible: ctrl(id), bulle: type ? `le graphique ${type}` : "insérer un graphique" })
       return { gestes, pas: plage ? ["Sélectionner les données", "Insérer le graphique"] : ["Insérer le graphique"] }
     }
 
-    case "SELECT_CHART_ELEMENT":
+    case "SELECT_CHART_ELEMENT": {
+      /**
+       * L'élément NOMMÉ, pas le premier venu.
+       *
+       * Le plan visait `[data-chart-element]` sans qualifier : le sélecteur rend
+       * le premier élément du graphique, quel qu'il soit — la démonstration
+       * cliquait donc le quadrillage là où la consigne demande la troisième
+       * série. Et une SÉRIE n'existe pas comme élément du DOM : `ChartLayer`
+       * n'expose que `point:<serie>:<index>` (les courbes ajoutent `serie:N`,
+       * jamais les barres ni les secteurs). On clique donc une marque de la
+       * série, ce qui est exactement la règle d'Excel que les leçons enseignent.
+       */
+      const e = action.element
+      const s = /^(?:serie|point):(\d+)/.exec(e)
+      const sel = s
+        ? `[data-chart-element="${e}"],[data-chart-element="serie:${s[1]}"],[data-chart-element^="point:${s[1]}:"]`
+        : `[data-chart-element="${e}"]`
       return {
-        gestes: [{ cible: { k: "dom", sel: "[data-chart-element]" }, bulle: "l'élément du graphique" }],
+        gestes: [{ cible: { k: "dom", sel }, bulle: `l'élément ${e} du graphique`, presser: { id: sel } }],
         pas: ["Cliquer l'élément"],
       }
+    }
 
     case "EXPECT_PIVOT": {
+      /* Même règle que pour les graphiques : `ins-tcd` sans `setup.pivot` pose
+         un tableau VIDE — il effaçait donc le tableau que l'étape demande
+         justement de retoucher. */
+      const patch = ctx.setup?.pivotEdit
+      if (patch && !ctx.setup?.pivot) {
+        const gestes = gestesEditionTcd(patch, ctx.tcdCourant)
+        if (gestes) return { gestes, pas: gestes.length > 1 ? ["Prendre le champ", "Le déposer"] : ["Cliquer"] }
+        return {
+          gestes: [{ cible: { k: "dom", sel: '[data-pivot-zone="rows"]' }, bulle: "le volet des champs du tableau croisé", illustration: true }],
+          pas: [],
+        }
+      }
       const plage = typeof A.source === "string" ? A.source : null
       const gestes: GesteDemo[] = []
       if (plage) gestes.push({ cible: { k: "plage", ref: plage }, bulle: `sélectionner ${lieu(plage)}` })
@@ -620,11 +969,147 @@ function planBrut(action: SimulationAction, ctx: ContexteDemo): PlanDemo | null 
       if (p.scaleToFit) {
         const st = p.scaleToFit as { largeur?: number; hauteur?: number }
         const gestes: GesteDemo[] = []
+        /* CE SONT DES `<select>`, pas des boutons : un clic ouvre la liste et
+           n'y choisit rien. Il faut leur donner la valeur, comme `mep-echelle`
+           le fait déjà — sans quoi « ajustez à une page en largeur » pressait
+           bien le contrôle et laissait le réglage inchangé (m13-l01). */
         if (st.largeur != null)
-          gestes.push({ cible: ctrl("mep-ajuster-largeur"), bulle: `ajuster à ${st.largeur} page en largeur` })
+          gestes.push({
+            cible: ctrl("mep-ajuster-largeur"),
+            bulle: `ajuster à ${st.largeur} page en largeur`,
+            presser: { id: '[data-control="mep-ajuster-largeur"]', arg: String(st.largeur) },
+          })
         if (st.hauteur != null)
-          gestes.push({ cible: ctrl("mep-ajuster-hauteur"), bulle: `ajuster à ${st.hauteur} page en hauteur` })
+          gestes.push({
+            cible: ctrl("mep-ajuster-hauteur"),
+            bulle: `ajuster à ${st.hauteur} page en hauteur`,
+            presser: { id: '[data-control="mep-ajuster-hauteur"]', arg: String(st.hauteur) },
+          })
         if (gestes.length) return { gestes, pas: ["Régler l'ajustement"] }
+      }
+      /**
+       * Les trois réglages qui dépendent de la SÉLECTION.
+       *
+       * Ils tombaient tous sur le repli « ouvrir l'onglet Mise en page », qui ne
+       * produit rien : la démonstration de « définissez la zone d'impression »
+       * se contentait d'ouvrir un onglet. `effetModele` lit `grid.getSelection()`
+       * pour chacun, d'où le geste de sélection en tête — celui que la consigne
+       * décrit, et que le `setup` de l'étape déclare.
+       */
+      /**
+       * Les réglages qui ont un vrai bouton, et ce dont ils dépendent.
+       *
+       * Ils tombaient tous sur le repli « ouvrir l'onglet Mise en page », qui ne
+       * produit rien : la démonstration de « définissez la zone d'impression »
+       * se contentait d'ouvrir un onglet. Deux régimes cohabitent dans
+       * `effetModele`, et le plan doit les respecter :
+       *   · `mep-zone-impression-definir` et les sauts lisent la SÉLECTION ;
+       *   · `mep-imprimer-titres` prend le `setup.pageSetup` déclaré tel quel,
+       *     ce qui couvre aussi bien poser les titres que les retirer.
+       */
+      if (typeof p.printArea === "string") {
+        if (p.printArea === "")
+          return { gestes: [{ cible: ctrl("mep-zone-impression-annuler"), bulle: "annuler la zone d'impression" }], pas: ["Annuler la zone"] }
+        return {
+          gestes: [
+            { cible: { k: "plage", ref: p.printArea }, bulle: `sélectionner ${lieu(p.printArea)}` },
+            { cible: ctrl("mep-zone-impression-definir"), bulle: "définir la zone d'impression" },
+          ],
+          pas: ["Sélectionner la zone", "Définir la zone d'impression"],
+        }
+      }
+      if (typeof p.repeatRows === "string" || typeof p.repeatCols === "string") {
+        const met = (p.repeatRows ?? p.repeatCols) !== ""
+        return {
+          gestes: [{ cible: ctrl("mep-imprimer-titres"), bulle: met ? "répéter les titres à chaque page" : "retirer les titres répétés" }],
+          pas: ["Imprimer les titres"],
+        }
+      }
+      if (Array.isArray(p.pageBreakRows) || Array.isArray(p.pageBreakCols)) {
+        const dejaL = new Set(ctx.reglagesCourants?.pageBreakRows ?? [])
+        const dejaC = new Set(ctx.reglagesCourants?.pageBreakCols ?? [])
+        const voulusL = (Array.isArray(p.pageBreakRows) ? p.pageBreakRows : []).map(Number)
+        const voulusC = (Array.isArray(p.pageBreakCols) ? p.pageBreakCols : []).map(Number)
+        /* CHAQUE saut manquant, pas seulement le dernier — et les COLONNES
+           aussi, qui n'avaient aucune branche : `pageBreakCols: [5]` ne
+           produisait pas un seul geste (m13-e05). */
+        const manquantsL = voulusL.filter((n: number) => !dejaL.has(n))
+        const manquantsC = voulusC.filter((n: number) => !dejaC.has(n))
+        if (manquantsL.length || manquantsC.length) {
+          const gestes: GesteDemo[] = []
+          const pas: string[] = []
+          for (const n of manquantsL) {
+            // Le saut se pose AU-DESSUS de la ligne sélectionnée : la première
+            // ligne de la page suivante, donc l'indice déclaré + 1 en notation A1.
+            const ligne = n + 1
+            gestes.push({ cible: { k: "enteteLigne", ligne }, bulle: `la ligne ${ligne}`, selectionner: `A${ligne}` })
+            gestes.push({ cible: ctrl("mep-saut-inserer"), bulle: "insérer un saut de page" })
+            pas.push(`Saut avant la ligne ${ligne}`)
+          }
+          for (const n of manquantsC) {
+            const colonne = n + 1
+            const lettre = columnIndexToLetter(colonne - 1)
+            gestes.push({ cible: { k: "enteteColonne", col: lettre }, bulle: `la colonne ${lettre}`, selectionner: `${lettre}1` })
+            gestes.push({ cible: ctrl("mep-saut-inserer"), bulle: "insérer un saut de page" })
+            pas.push(`Saut avant la colonne ${lettre}`)
+          }
+          return { gestes, pas }
+        }
+        if (!voulusL.length && !voulusC.length) {
+          return {
+            gestes: [{ cible: ctrl("mep-sauts-reinitialiser"), bulle: "réinitialiser les sauts de page" }],
+            pas: ["Réinitialiser les sauts"],
+          }
+        }
+      }
+      /**
+       * Les réglages du PANNEAU, qui n'ont pas de bouton dans le ruban.
+       *
+       * Ils tombaient tous sur le repli « ouvrir l'onglet Mise en page », qui ne
+       * change rien : « imprimez les en-têtes de lignes et de colonnes » se
+       * démontrait en ouvrant un onglet. Ce sont des bascules et des champs du
+       * panneau, chacun avec son propre `onChange` — `presserDemo` clique donc
+       * l'élément réel, comme l'apprenant.
+       */
+      if (p.headings !== undefined)
+        return { gestes: [{ cible: ctrl("mep-entetes-imprimer"), bulle: "imprimer les en-têtes de lignes et de colonnes" }], pas: ["Cocher l'option"] }
+      if (p.gridlines !== undefined)
+        return { gestes: [{ cible: ctrl("mep-quadrillage-imprimer"), bulle: "imprimer le quadrillage" }], pas: ["Cocher l'option"] }
+      if (p.center && typeof p.center === "object") {
+        const c = p.center as { horizontal?: boolean; vertical?: boolean }
+        const gestes: GesteDemo[] = []
+        if (c.horizontal !== undefined) gestes.push({ cible: ctrl("mep-centrer-horizontal"), bulle: "centrer horizontalement" })
+        if (c.vertical !== undefined) gestes.push({ cible: ctrl("mep-centrer-vertical"), bulle: "centrer verticalement" })
+        if (gestes.length) return { gestes, pas: ["Centrer sur la page"] }
+      }
+      if (typeof p.scale === "number")
+        return {
+          gestes: [{ cible: ctrl("mep-echelle"), bulle: `régler l'échelle à ${p.scale} %`, presser: { id: '[data-control="mep-echelle"]', arg: String(p.scale) } }],
+          pas: ["Régler l'échelle"],
+        }
+      /* L'en-tête et le pied sont des OBJETS — `{gauche:"&A", droite:"&F"}` —
+         et non des chaînes : la première version ne les reconnaissait pas et
+         retombait sur « ouvrir l'onglet Mise en page », qui ne pose rien. */
+      for (const [cle, ouvrir, quoi] of [
+        ["header", "mep-onglet-entete", "l'en-tête"],
+        ["footer", "mep-onglet-pied", "le pied de page"],
+      ] as const) {
+        const v = p[cle]
+        if (!v || typeof v !== "object") continue
+        const zones = Object.entries(v as Record<string, string>).filter(([, x]) => typeof x === "string")
+        if (!zones.length) continue
+        return {
+          gestes: [
+            { cible: ctrl("mep-entete-pied"), bulle: "ouvrir En-tête et pied de page" },
+            { cible: ctrl(ouvrir), bulle: `l'onglet ${quoi}` },
+            ...zones.map(([ou, texte]) => ({
+              cible: ctrl(`${cle === "header" ? "mep-entete" : "mep-pied"}-${ou}`),
+              bulle: `saisir « ${texte} » à ${ou}`,
+              presser: { id: `[data-control="${cle === "header" ? "mep-entete" : "mep-pied"}-${ou}"]`, arg: texte },
+            })),
+          ],
+          pas: ["Ouvrir la boîte", "Choisir la zone", "Saisir le texte"],
+        }
       }
       // Repli : ouvrir l'onglet Mise en page — et l'ouvrir POUR DE VRAI, sinon
       // le geste ne fait que le désigner.
@@ -635,22 +1120,91 @@ function planBrut(action: SimulationAction, ctx: ContexteDemo): PlanDemo | null 
     // `dev-arreter-enregistrement` ; les 21 étapes du module 27 visaient
     // `dev-macro-enregistrer` / `dev-macro-arreter`, qui n'existent nulle part —
     // toutes leurs démonstrations se jouaient donc à blanc.
+    /**
+     * OUVRIR LA BOÎTE NE DÉMARRE PAS L'ENREGISTREMENT.
+     *
+     * « Enregistrer une macro » ouvre la fenêtre de nommage — c'est le premier
+     * geste, pas le dernier. Tant que « OK » n'est pas validé, aucun
+     * enregistreur ne tourne : la démonstration s'arrêtait au milieu du geste et
+     * l'étape restait, à juste titre, non satisfaite.
+     */
     case "RECORD_MACRO":
+      if (action.expect === "started") {
+        return {
+          gestes: [
+            { cible: ctrl("dev-enregistrer-macro"), bulle: "démarrer l'enregistrement" },
+            { cible: ctrl("mac-dialogue-ok"), bulle: "valider le nom de la macro" },
+          ],
+          pas: ["Ouvrir la boîte", "Valider"],
+        }
+      }
       return {
-        gestes: [
-          {
-            cible: ctrl(action.expect === "started" ? "dev-enregistrer-macro" : "dev-arreter-enregistrement"),
-            bulle: action.expect === "started" ? "démarrer l'enregistrement" : "arrêter l'enregistrement",
-          },
-        ],
-        pas: [action.expect === "started" ? "Démarrer l'enregistrement" : "Arrêter l'enregistrement"],
+        gestes: [{ cible: ctrl("dev-arreter-enregistrement"), bulle: "arrêter l'enregistrement" }],
+        pas: ["Arrêter l'enregistrement"],
       }
 
-    case "EXPECT_MACRO":
-      return {
-        gestes: [{ cible: ctrl("dev-enregistrer-macro"), bulle: "enregistrer une macro" }],
-        pas: ["Enregistrer la macro"],
+    /**
+     * UNE MACRO S'ENREGISTRE, ELLE NE SE CLIQUE PAS.
+     *
+     * Le plan se contentait d'ouvrir la boîte de nommage : la macro n'existait
+     * pas, et les cellules qu'elle doit écrire restaient vides. Le geste complet
+     * est celui de l'apprenant — démarrer l'enregistreur, le nommer, valider,
+     * FAIRE les écritures que l'étape déclare (`macro.effet`), puis arrêter.
+     * C'est ce dernier arrêt qui transforme les gestes en instructions.
+     */
+    case "EXPECT_MACRO": {
+      const m = (A.macro ?? {}) as Record<string, unknown>
+      const nom = typeof m.name === "string" ? m.name : null
+      /**
+       * ENREGISTRER OU EXÉCUTER : la macro existe-t-elle déjà ?
+       *
+       * `EXPECT_MACRO` décrit un ÉTAT — « la macro Pied_relatif a écrit son
+       * total ici » — et cet état s'obtient de deux façons selon le moment du
+       * chapitre. Sur `M27-E01-07` la consigne dit « Exécutez la macro » : elle
+       * a été enregistrée quatre étapes plus tôt, en références relatives, et
+       * l'exercice consiste à la lancer AILLEURS. Le plan la ré-enregistrait :
+       * il écrasait une macro de quatre instructions par une de deux, et
+       * détruisait le travail de l'apprenant — exactement le défaut « créer au
+       * lieu de modifier » du module 20, transposé aux macros.
+       */
+      if (nom && (ctx.macrosCourantes ?? []).includes(nom)) {
+        return {
+          gestes: [
+            { cible: ctrl("dev-macros"), bulle: "ouvrir la liste des macros" },
+            { cible: ctrl(`mac-choix-${nom}`), bulle: `choisir « ${nom} »` },
+            { cible: ctrl("mac-executer"), bulle: "exécuter la macro" },
+          ],
+          pas: ["Ouvrir les macros", "Choisir", "Exécuter"],
+        }
       }
+      const effet = (m.effet ?? {}) as Record<string, { v?: unknown; f?: string }>
+      const ecritures = Object.entries(effet).map(([ref, att]) => {
+        const quoi = att.f ?? (att.v !== undefined ? commeTape(att.v) : "")
+        return {
+          cible: { k: "cellule" as const, ref },
+          bulle: `${ref} : ${quoi}`,
+          frappe: quoi,
+          ecrire: { ref, valeur: quoi },
+        }
+      })
+      return {
+        gestes: [
+          { cible: ctrl("dev-enregistrer-macro"), bulle: "enregistrer une macro" },
+          ...(nom
+            ? [{
+                cible: ctrl("mac-dialogue-nom"),
+                bulle: `nommer « ${nom} »`,
+                frappe: nom,
+                presser: { id: '[data-control="mac-dialogue-nom"]', arg: nom },
+              } as GesteDemo]
+            : []),
+          { cible: ctrl("mac-dialogue-ok"), bulle: "valider et démarrer l'enregistrement" },
+          ...ecritures,
+          { cible: ctrl("dev-arreter-enregistrement"), bulle: "arrêter l'enregistrement" },
+        ],
+        pas: ["Démarrer l'enregistrement", "Faire les gestes", "Arrêter"],
+      }
+    }
 
     /* ── poste de travail ────────────────────────────────────────────── */
     case "EXPECT_POSTE": {
@@ -698,7 +1252,19 @@ function planBrut(action: SimulationAction, ctx: ContexteDemo): PlanDemo | null 
           pas: ["Saisir le nouveau nom", "Enregistrer"],
         }
       }
-      if (p.boite === "enregistrer") return g("poste-enregistrer", "le bouton Enregistrer")
+      /**
+       * « ENREGISTRER » N'OUVRE AUCUNE FENÊTRE SUR UN CLASSEUR DÉJÀ NOMMÉ.
+       *
+       * `appliquerGeste` reproduit fidèlement Excel : enregistrer un fichier qui
+       * porte un nom écrase la version précédente, sans rien demander. Seul
+       * « Enregistrer sous » (`forcer`) ouvre la boîte. Le plan pressait
+       * pourtant « Enregistrer » : sur `M01-L05-12`, la consigne demande la
+       * fenêtre, la démonstration cliquait le bouton, et rien ne s'ouvrait.
+       */
+      if (p.boite === "enregistrer")
+        return ctx.classeurNomme
+          ? g("poste-enregistrer-sous", "le bouton Enregistrer sous")
+          : g("poste-enregistrer", "le bouton Enregistrer")
       if (p.boite === "ouvrir") return g("poste-ouvrir", "le bouton Ouvrir")
       if (p.menu) return g("poste-demarrer", "le bouton Démarrer")
       if (p.excel === "accueil") return g("poste-app-excel", "l'application Excel")

@@ -93,6 +93,24 @@ for (const [fichier, nom] of Object.entries(PANNEAUX)) {
   if (!fs.existsSync(p)) continue
   const src = fs.readFileSync(p, "utf8")
   for (const m of src.matchAll(IDENTIFIANT)) if (!panneauParControle[m[1]]) panneauParControle[m[1]] = nom
+  /**
+   * Les identifiants COMPOSÉS à l'exécution échappent à la lecture littérale.
+   *
+   * L'éditeur d'en-tête et de pied écrit
+   * `` data-control={`${zone === "header" ? "mep-entete" : "mep-pied"}-${place}`} ``
+   * : aucun des six identifiants réels n'apparaît en clair dans la source. Ce
+   * contrôle les déclarait donc « rendus par aucun composant » alors qu'ils
+   * existent bel et bien à l'écran — vérifié au navigateur. On les reconstitue
+   * à partir des deux morceaux, plutôt que d'affaiblir le plan.
+   */
+  if (fichier === "PageLayoutLayer.tsx" && /mep-entete["`]/.test(src)) {
+    for (const cote of ["mep-entete", "mep-pied"]) {
+      for (const place of ["gauche", "centre", "droite"]) {
+        const id = `${cote}-${place}`
+        if (!panneauParControle[id]) panneauParControle[id] = nom
+      }
+    }
+  }
 }
 {
   const p = path.join(__dirname, "..", "..", "lib", "simulation", "poste.ts")
@@ -165,6 +183,10 @@ for (const nom of fs.readdirSync(DIR).filter((n) => n.endsWith(".json")).sort())
     const plan = planDemonstration(st.action, {
       onglet: onglet as RibbonTab,
       boitePoste: st.setup?.poste?.boite,
+      // Le `setup` distingue « créer » de « modifier » : sans lui, ce contrôle
+      // validerait les cibles du plan de CRÉATION, celui-là même qui détruisait
+      // le graphique ou le tableau croisé de l'étape.
+      setup: st.setup,
     })
     if (!plan || plan.gestes.length === 0) continue
 

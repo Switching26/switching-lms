@@ -248,6 +248,23 @@ export function etatAplomb(
     }
 
     // 4. Un format que l'étape faisait poser devient le format d'aplomb.
+    /**
+     * L'EFFET D'UNE MACRO EST UN RÉSULTAT ATTENDU, PAS UN PARASITE.
+     *
+     * `EXPECT_MACRO` déclare les cellules que la macro doit écrire —
+     * « Total du mois » en A10, 480 en D10. Personne d'autre ne les déclare :
+     * elles tombaient donc dans la zone du classeur sans figurer dans l'état
+     * attendu, et la remise d'aplomb les vidait comme des cases remplies sans
+     * raison. Conséquence mesurée le 03/08/2026 sur `m27-e02` : l'apprenant
+     * exécute la macro, demande une démonstration, et sa ligne de total
+     * disparaît — puis le cumul des deux mois affiche 510 au lieu de 990.
+     */
+    if (a.type === "EXPECT_MACRO") {
+      const eff = (a as { macro?: { effet?: Record<string, CellState> } }).macro?.effet
+      if (eff) {
+        for (const [ref, cel] of Object.entries(eff)) poser(etat, ref, contenuDepuisCellState(cel))
+      }
+    }
     if (a.type === "EXPECT_FORMAT" && a.cells) {
       for (const [ref, att] of Object.entries(a.cells)) {
         const f = (att as { numberFormat?: string }).numberFormat
@@ -494,6 +511,11 @@ export function zoneClasseur(
       if (a.type === "TYPE" && a.target !== "formula-bar") ajout(a.target)
       if (a.type === "EXPECT_STATE" && a.cells) for (const ref of Object.keys(a.cells)) ajout(ref)
       if (a.type === "EXPECT_FORMAT" && a.cells) for (const ref of Object.keys(a.cells)) ajout(ref)
+      // Idem pour la zone : ce que la macro écrit fait partie du classeur.
+      {
+        const eff = (a as { macro?: { effet?: Record<string, unknown> } }).macro?.effet
+        if (eff) for (const ref of Object.keys(eff)) ajout(ref)
+      }
       if (a.type === "DEFINE_NAME" && (a as { ref?: string }).ref) ajoutPlage(String((a as { ref?: string }).ref))
       if (a.type === "SORT_RANGE" && (a as { range?: string }).range) ajoutPlage(String((a as { range?: string }).range))
       if (a.type === "FILTER_COLUMN" && (a as { range?: string }).range) ajoutPlage(String((a as { range?: string }).range))

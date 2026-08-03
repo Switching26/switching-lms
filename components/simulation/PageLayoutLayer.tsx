@@ -108,7 +108,17 @@ export default function PageLayoutLayer({
           de plan, passe devant. Sans cela ni les pointillés de rupture ni les
           feuilles de papier n'étaient visibles, et la zone d'en-tête cliquable
           restait derrière le canvas — donc inatteignable. */}
-      <div className="pointer-events-none absolute inset-0 z-10 overflow-hidden" aria-hidden={vue === "normal"}>
+      {/* L'ÉTAT D'ÉDITION DU PANNEAU, LISIBLE DEPUIS LE DOM.
+          « En-tête et pied de page… » et le clic dans la bande d'en-tête
+          n'écrivent rien dans le classeur : ils ouvrent un éditeur. Sans
+          marqueur, ces deux gestes paraissaient sans effet alors qu'ils
+          changent bel et bien ce que l'apprenant a sous les yeux. */}
+      <div
+        className="pointer-events-none absolute inset-0 z-10 overflow-hidden"
+        aria-hidden={vue === "normal"}
+        data-mep-zone={zoneEditee ?? ""}
+        data-mep-case={caseEditee}
+      >
         {vue === "normal" && <RupturesDiscretes pageSetup={pageSetup} pages={pages} x={x} y={y} />}
         {vue === "mise-en-page" && (
           <FeuillesDePapier
@@ -733,6 +743,21 @@ function PanneauReglages({
               max={ECHELLE_MAX}
               value={pageSetup.scale ?? Math.round(pages.echelle * 100)}
               onChange={(e) => onChange({ scale: Number(e.target.value) })}
+              /**
+               * ENTRÉE ET SORTIE DE CHAMP VALIDENT AUSSI.
+               *
+               * Tant qu'aucune échelle manuelle n'est posée, ce champ affiche
+               * l'échelle CALCULÉE par l'ajustement automatique. Quand elle
+               * vaut déjà 100, retaper « 100 » ne change rien : `onChange` ne
+               * se déclenche pas, l'ajustement reste actif, et l'étape « revenez
+               * à 100 % » ne peut pas aboutir — ni pour la démonstration, ni
+               * pour l'apprenant. Valider explicitement lève l'ambiguïté, comme
+               * Excel le fait à la validation du champ.
+               */
+              onBlur={(e) => onChange({ scale: Number(e.target.value) })}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") onChange({ scale: Number((e.target as HTMLInputElement).value) })
+              }}
               className="w-14 rounded border border-neutral-300 px-1 py-0.5 text-right"
             />
             <span className="text-neutral-500">%</span>

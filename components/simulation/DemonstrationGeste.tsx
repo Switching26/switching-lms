@@ -93,6 +93,38 @@ const DECOMPTE = 4
 /** Périmètre du cadran, pour animer sa décharge sans le recalculer. */
 const TOUR = 2 * Math.PI * 23
 
+/**
+ * Accélérateur d'AUDIT, hors production.
+ *
+ * Auditer les 1 587 démonstrations en premier passage PUIS en rejeu demande de
+ * jouer ~3 200 séquences. À vitesse réelle — et il n'y a pas d'autre façon de
+ * mesurer la résolution des cibles, `reducedMotion` ne rendant que le dernier
+ * geste — le balayage dépasse la dizaine d'heures.
+ *
+ * Ce facteur ne SAUTE aucune phase : `avertir → vise → bulle → clic → frappe →
+ * valide` s'enchaînent toutes, chaque caractère est toujours frappé un par un,
+ * chaque écriture et chaque pression ont toujours lieu, dans le même ordre. Seule
+ * la DURÉE de chacune est divisée. Un plancher de 16 ms garde une frame par
+ * phase, sans quoi React grouperait deux phases dans le même rendu et le calque
+ * ne dessinerait jamais le repère intermédiaire — ce qui produirait exactement le
+ * faux négatif que l'audit cherche à éviter.
+ *
+ * Le bloc est retiré des bundles de production par le remplacement de
+ * `process.env.NODE_ENV`, comme `window.__SIM_GRID` et `__SIM_FORCE_DEMO` : en
+ * production `vitesse()` est la constante 1, donc `duree / 1`.
+ */
+function vitesse(): number {
+  if (process.env.NODE_ENV === "production" || typeof window === "undefined") return 1
+  const v = (window as unknown as { __SIM_DEMO_VITESSE?: number }).__SIM_DEMO_VITESSE
+  return typeof v === "number" && v >= 1 && v <= 40 ? v : 1
+}
+
+/** Durée d'une phase, ramenée à l'échelle d'audit. Jamais sous une frame. */
+function tempo(ms: number): number {
+  const v = vitesse()
+  return v === 1 ? ms : Math.max(16, Math.round(ms / v))
+}
+
 export default function DemonstrationGeste({ plan, resoudre, largeur, hautFeuille = 0, onEcrire, onOnglet, onDefinir, onSelectionner, onPresser, lecture, onFini }: Props) {
   const [i, setI] = useState(0)
   const [phase, setPhase] = useState<Phase>("avertir")
@@ -107,11 +139,30 @@ export default function DemonstrationGeste({ plan, resoudre, largeur, hautFeuill
   const selRef = useRef(onSelectionner)
   const presserRef = useRef(onPresser)
   finiRef.current = onFini
-  ecrireRef.current = onEcrire
-  ongletRef.current = onOnglet
-  definirRef.current = onDefinir
-  selRef.current = onSelectionner
-  presserRef.current = onPresser
+  /**
+   * LE CALQUE NE MEURT PAS PARCE QUE LE MOTEUR A TOUSSÉ.
+   *
+   * Chaque rappel traverse la façade d'Univer, qui peut refuser une
+   * construction sous charge — « [redi]: Detecting cyclic dependency » mesuré
+   * sur `m01-e02`, à la sixième cellule d'une saisie de huit. L'exception
+   * remontait ici, la frontière d'erreur de React démontait le calque, et la
+   * démonstration s'arrêtait à 5/8 : pas de fin, pas de bouton « Revoir », pas
+   * de sortie. Au pire un geste n'aboutit pas — la séquence, elle, continue.
+   */
+  const sansCasse =
+    <A extends unknown[]>(f?: (...a: A) => void) =>
+    (...a: A) => {
+      try {
+        f?.(...a)
+      } catch {
+        /* le geste suivant reprend la main */
+      }
+    }
+  ecrireRef.current = sansCasse(onEcrire)
+  ongletRef.current = sansCasse(onOnglet)
+  definirRef.current = sansCasse(onDefinir)
+  selRef.current = sansCasse(onSelectionner)
+  presserRef.current = sansCasse(onPresser)
 
   useEffect(() => {
     doux.current =
@@ -186,7 +237,7 @@ export default function DemonstrationGeste({ plan, resoudre, largeur, hautFeuill
       : phase === "glisse" ? 1200
       : phase === "frappe" ? (260 + (geste?.frappe?.length ?? 0) * 105 + 500) * vite
       : 850 * vite
-    const t = window.setTimeout(suite, duree)
+    const t = window.setTimeout(suite, tempo(duree))
     return () => window.clearTimeout(t)
   }, [phase, i, geste, suite, plan.gestes])
 
@@ -198,7 +249,7 @@ export default function DemonstrationGeste({ plan, resoudre, largeur, hautFeuill
    */
   useEffect(() => {
     if (phase !== "avertir" || !lecture || doux.current) return
-    const t = window.setInterval(() => setReste((n) => (n > 1 ? n - 1 : n)), 1000)
+    const t = window.setInterval(() => setReste((n) => (n > 1 ? n - 1 : n)), tempo(1000))
     return () => window.clearInterval(t)
   }, [phase, lecture])
 
@@ -206,7 +257,7 @@ export default function DemonstrationGeste({ plan, resoudre, largeur, hautFeuill
   useEffect(() => {
     if (phase !== "frappe" || !geste?.frappe) return
     if (tapes >= geste.frappe.length) return
-    const t = window.setTimeout(() => setTapes((n) => n + 1), i > 0 ? 58 : 105)
+    const t = window.setTimeout(() => setTapes((n) => n + 1), tempo(i > 0 ? 58 : 105))
     return () => window.clearTimeout(t)
   }, [phase, tapes, geste, i])
 
@@ -234,7 +285,7 @@ export default function DemonstrationGeste({ plan, resoudre, largeur, hautFeuill
         setTapes(0)
         setPhase("vise")
       },
-      i === 0 ? 900 : 450,
+      tempo(i === 0 ? 900 : 450),
     )
     return () => window.clearTimeout(t)
     // `i` volontairement absent : il ne change qu'AVEC la phase, et l'inclure
@@ -249,8 +300,16 @@ export default function DemonstrationGeste({ plan, resoudre, largeur, hautFeuill
   if (!geste) return null
 
   const avertit = phase === "avertir"
-  const rect = avertit ? null : resoudre(geste.cible)
-  const rectFin = geste.glisserVers ? resoudre(geste.glisserVers) : null
+  const resoudreSur = (c: CibleDemo | undefined | null) => {
+    if (!c) return null
+    try {
+      return resoudre(c)
+    } catch {
+      return null
+    }
+  }
+  const rect = avertit ? null : resoudreSur(geste.cible)
+  const rectFin = resoudreSur(geste.glisserVers)
   const agit = phase === "clic" || phase === "glisse" || phase === "frappe" || phase === "valide" || phase === "fini"
 
   /**
@@ -324,7 +383,19 @@ export default function DemonstrationGeste({ plan, resoudre, largeur, hautFeuill
       : 0
 
   return (
-    <div aria-hidden className="pointer-events-none absolute inset-0" style={{ zIndex: 40 }}>
+    <div
+      aria-hidden
+      className="pointer-events-none absolute inset-0"
+      /* Repères de mesure, même famille que `data-demo-compteur` : ils disent
+         OÙ EN EST la séquence sans qu'un contrôle ait à deviner. Le rejeu
+         s'audite en comparant l'état juste après l'annonce — donc avant la
+         première écriture — à celui de l'entrée dans l'étape : sans ces deux
+         attributs, ce moment ne se repère qu'au chronomètre, et une mesure au
+         chronomètre finit toujours par tomber du mauvais côté. */
+      data-demo-phase={phase}
+      data-demo-geste={Math.min(i + 1, plan.gestes.length)}
+      style={{ zIndex: 40 }}
+    >
       {avertit && (
         <>
           <div className="absolute inset-0" style={{ background: "rgba(23,26,24,.42)", animation: "sim-demo-voile .3s ease both" }} />

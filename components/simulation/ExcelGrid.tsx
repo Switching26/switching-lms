@@ -88,6 +88,21 @@ export type GridApi = {
    */
   getColumnWidth: (col: number) => number | null
   getRowHeight: (row: number) => number | null
+  /**
+   * Largeurs/hauteurs d'une feuille NOMMÉE, sans l'activer.
+   *
+   * Un chapitre qui compare deux feuilles (module 15, module 21) élargit une
+   * colonne ici, une autre là. Un cliché qui ne retient qu'un seul tableau de
+   * dimensions rend au rejeu les largeurs de la feuille A sur la feuille B :
+   * les colonnes 1 et 2 alternaient 210/90 puis 95/200 d'un passage à l'autre.
+   */
+  getDimensionsFeuilles: (
+    c1: number,
+    c2: number,
+    r1: number,
+    r2: number,
+  ) => Record<string, { colonnes: Record<string, number>; lignes: Record<string, number> }>
+  setDimensionFeuille: (nom: string, axe: "col" | "ligne", index: number, px: number) => void
   /** Texte réellement affiché dans la cellule, format de nombre appliqué. */
   getDisplayValue: (ref: string) => string
   /** Applique un format de nombre Excel (pourcentage, monétaire, date…). */
@@ -126,6 +141,15 @@ export type GridApi = {
   setNote: (ref: string, texte: string) => boolean
   /** Texte du commentaire d'une cellule, chaîne vide s'il n'y en a pas. */
   getNote: (ref: string) => string
+  /**
+   * TOUTES les notes de la feuille en UNE fois.
+   *
+   * `getNote()` résout `SheetsNoteModel` dans le conteneur d'injection à chaque
+   * appel : le faire pour chaque cellule d'un relevé — plusieurs centaines —
+   * finissait par déclencher « [redi]: Detecting cyclic dependency … FWorkbook2 »
+   * et faisait tomber tout le player (m17-e03).
+   */
+  getNotes: () => Record<string, string>
   /** Retire le commentaire d'une cellule. */
   deleteNote: (ref: string) => void
   /** Pose une règle de validation des données sur une plage. */
@@ -136,6 +160,8 @@ export type GridApi = {
   isValidationSatisfied: (ref: string) => Promise<boolean | null>
   /** Retire toutes les règles conditionnelles d'une plage. */
   clearConditionalRules: (range: string) => void
+  /** Retire TOUTES les règles conditionnelles de la feuille, par identifiant. */
+  clearAllConditionalRules: () => void
   /** Nombre de règles conditionnelles posées sur la feuille. */
   countConditionalRules: () => number
   /** Mise en forme de la sélection : gras, italique, souligné. */
@@ -154,8 +180,40 @@ export type GridApi = {
   /** Fusionner ou dissocier la sélection. */
   mergeCells: () => void
   unmergeCells: () => void
+  /**
+   * Signature des PLAGES FUSIONNÉES de la feuille active, triée.
+   *
+   * `acc-fusionner` ne change ni valeur, ni format, ni style : sans ce relevé,
+   * « fusionnez A1:D1 » était déclaré sans effet alors qu'il fusionne bien
+   * (m08-e01, m08-l02). `getMergedRanges()` rend des `FRange` — on en tire une
+   * liste de références lisibles, comparable d'un passage à l'autre.
+   */
+  getFusions: () => string[]
+  fusionner: (range: string) => void
+  defusionner: (range: string) => void
   /** Bordures sur tout le pourtour et l'intérieur de la sélection. */
   setBorderAll: (on: boolean) => void
+  /**
+   * Repose une mise en forme VISUELLE sur une plage précise, sans passer par la
+   * sélection. Le rejeu d'une démonstration doit pouvoir défaire ce que le
+   * premier passage a posé, et les setters existants n'agissent que sur la
+   * SÉLECTION courante, qu'on ne peut pas déplacer sans effet de bord.
+   */
+  setVisuel: (ref: string, spec: { background?: string; fontSize?: number | null; wrap?: boolean }) => void
+  /**
+   * Style BRUT d'une cellule, tel qu'Univer le stocke — et sa remise en place.
+   *
+   * C'est la seule façon de rendre EXACTEMENT l'état de départ. Les setters par
+   * attribut ne savent pas revenir à la valeur par défaut : `setHorizontalAlignment`
+   * n'accepte que gauche, centre et droite, jamais « général », et
+   * `setNumberFormat("")` ne retire pas un format monétaire. Or une démonstration
+   * qu'on rejoue doit repartir de l'écran d'avant, sans « à peu près ».
+   * `clearFormat()` remet la cellule à neuf, puis on repose le style relevé —
+   * gras, bordures et alignement compris, y compris ce qu'aucun getter ne sait
+   * lire attribut par attribut.
+   */
+  getStyleBrut: (ref: string) => unknown
+  setStyleBrut: (ref: string, style: unknown) => void
   /**
    * Mise en forme relue d'une cellule, pour valider l'état plutôt que le geste.
    * Univer n'expose pas de getter pour le gras ni l'italique : ces deux-là se
@@ -189,6 +247,8 @@ export type GridApi = {
   sortRange: (range: string, column: number, ascending: boolean) => boolean
   /** Pose les boutons de filtre d'Excel sur la ligne d'en-tête d'une plage. */
   createFilter: (range: string) => boolean
+  /** Un filtre est-il posé sur la feuille ? Le poser ne masque encore rien. */
+  aUnFiltre: () => boolean
   /** Coche les valeurs à garder visibles sur une colonne filtrée. */
   setFilterCriteria: (column: string, values: string[]) => boolean
   /** Retire le filtre et réaffiche toutes les lignes. */
@@ -203,9 +263,22 @@ export type GridApi = {
   getSheets: () => Array<{ name: string; active: boolean }>
   activateSheet: (name: string) => void
   insertSheet: (name?: string) => void
+  /**
+   * Supprime une feuille par son nom. Sans elle, « Nouvelle feuille » était un
+   * geste sans retour : la démonstration en créait une à chaque passage et rien
+   * ne savait la retirer, si bien qu'un rejeu laissait « Feuille1 » ET
+   * « Feuille2 » dans un classeur qui n'en demandait qu'une.
+   */
+  deleteSheet: (name: string) => boolean
   renameSheet: (oldName: string, newName: string) => void
   /** Noms définis (plages nommées) du classeur. */
   defineName: (name: string, ref: string) => boolean
+  /**
+   * Supprime un nom de plage. Sans elle, une démonstration `DEFINE_NAME` en
+   * créait un de plus à chaque rejeu — mesuré sur `m14-e02` et `m14-e03`, où le
+   * classeur repartait avec « Ventes » ET « Ventes_S1 ».
+   */
+  deleteName: (name: string) => boolean
   getDefinedNames: () => Array<{ name: string; ref: string }>
   /** Opérations sur les lignes et colonnes, pour les boutons du ruban. */
   insertRowBefore: (row: number) => void
@@ -231,6 +304,13 @@ export type GridApi = {
    * C » sans dépendre de la hauteur réelle de la grille.
    */
   getSelectionKind: () => { kind: "cell" | "range" | "column" | "row"; ref: string; index: number } | null
+  /**
+   * Bornes RÉELLES de la feuille active. Une « colonne entière » se reconnaît à
+   * `endRow >= maxRows - 1` : sans ces bornes, une démonstration qui veut
+   * sélectionner une colonne devrait deviner combien la feuille compte de
+   * lignes, et une plage trop courte ne serait pas reconnue comme une colonne.
+   */
+  getBornes: () => { rows: number; cols: number }
   /**
    * Redonne le focus clavier à la grille. Nécessaire après toute interaction avec
    * un élément du DOM (bouton Suivant, bouton du ruban, demande d'indice) : le
@@ -413,7 +493,14 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
 
       univerAPI.createWorkbook({ name: "Simulation" })
 
-      const sheet = () => univerAPI.getActiveWorkbook()?.getActiveSheet()
+      /* Deux accès nommés, sans mémorisation : une façade `FWorkbook` gardée
+         d'un rendu à l'autre peut devenir périmée — la liste des feuilles
+         revenait vide au rejeu de `m01-e02`. Le vrai remède au cycle
+         d'injection est ailleurs : voir `listen`, qui sort les écouteurs de la
+         pile d'Univer avant de rappeler la façade. */
+      const classeur = () => univerAPI.getActiveWorkbook()
+      const oublierFeuille = () => {}
+      const sheet = () => classeur()?.getActiveSheet()
       // Sonde d'audit, hors production : sans elle, un setter qui n'existe pas
       // sur la feuille Univer échoue en silence derrière `?.` et `catch {}`.
       if (process.env.NODE_ENV !== "production" && typeof window !== "undefined") {
@@ -597,9 +684,9 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
           for (let i = 1; i < wb.sheets.length; i++) {
             const autre = wb.sheets[i]
             try {
-              const existante = univerAPI.getActiveWorkbook()?.getSheetByName?.(autre.name)
-              if (!existante) univerAPI.getActiveWorkbook()?.insertSheet?.(autre.name)
-              const cible = univerAPI.getActiveWorkbook()?.getSheetByName?.(autre.name)
+              const existante = classeur()?.getSheetByName?.(autre.name)
+              if (!existante) { classeur()?.insertSheet?.(autre.name); oublierFeuille() }
+              const cible = classeur()?.getSheetByName?.(autre.name)
               if (cible && autre.cells) {
                 for (const [ref, st] of Object.entries(autre.cells)) {
                   const rg = cible.getRange?.(ref)
@@ -622,7 +709,7 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
             if (!feuille) return
             try {
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              const sh2 = univerAPI.getActiveWorkbook()?.getSheetByName?.(nom) as any
+              const sh2 = classeur()?.getSheetByName?.(nom) as any
               if (!sh2) return
               for (const [lettre, largeur] of Object.entries(feuille.columnWidths ?? {})) {
                 sh2.setColumnWidth?.(columnLetterToIndex(lettre), Number(largeur))
@@ -643,7 +730,7 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
             if (!feuille) return
             try {
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              const sh3 = univerAPI.getActiveWorkbook()?.getSheetByName?.(nom) as any
+              const sh3 = classeur()?.getSheetByName?.(nom) as any
               if (!sh3) return
               let maxRow = 0
               let maxCol = 0
@@ -665,7 +752,7 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
           // pas été posées dans la boucle ci-dessus.
           if (premiere?.cells) {
             try {
-              const cible = univerAPI.getActiveWorkbook()?.getSheetByName?.(premiere.name)
+              const cible = classeur()?.getSheetByName?.(premiere.name)
               if (cible) {
                 for (const [ref, st] of Object.entries(premiere.cells)) {
                   const rg = cible.getRange?.(ref)
@@ -683,8 +770,8 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
           }
           // On termine sur la feuille active déclarée par le scénario.
           try {
-            const active = univerAPI.getActiveWorkbook()?.getSheetByName?.(first.name)
-            if (active) univerAPI.getActiveWorkbook()?.setActiveSheet?.(active)
+            const active = classeur()?.getSheetByName?.(first.name)
+            if (active) { classeur()?.setActiveSheet?.(active); oublierFeuille() }
           } catch {
             /* sans conséquence */
           }
@@ -827,6 +914,48 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
             return null
           }
         },
+        /* UN SEUL PARCOURS, UNE SEULE RÉSOLUTION DE CLASSEUR.
+           Redemander la façade feuille par feuille finissait par déclencher
+           « [redi]: Detecting cyclic dependency … FWorkbook2 » au milieu d'une
+           commande Univer, ce qui faisait tomber tout le player (m17-e03). */
+        getDimensionsFeuilles: (c1, c2, r1, r2) => {
+          const tout: Record<string, { colonnes: Record<string, number>; lignes: Record<string, number> }> = {}
+          try {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const wb = classeur() as any
+            if (!wb?.getSheets) return tout
+            for (const f of wb.getSheets() ?? []) {
+              const nom = String(f?.getSheetName?.() ?? "")
+              if (!nom) continue
+              const colonnes: Record<string, number> = {}
+              const lignes: Record<string, number> = {}
+              for (let c = c1; c <= c2; c++) {
+                const w = f.getColumnWidth?.(c - 1)
+                if (Number.isFinite(Number(w))) colonnes[String(c)] = Number(w)
+              }
+              for (let r = r1; r <= r2; r++) {
+                const h = f.getRowHeight?.(r - 1)
+                if (Number.isFinite(Number(h))) lignes[String(r)] = Number(h)
+              }
+              tout[nom] = { colonnes, lignes }
+            }
+          } catch {
+            /* squelette pas prêt : le cliché se contentera de ce qu'il a */
+          }
+          return tout
+        },
+        setDimensionFeuille: (nom, axe, index, px) => {
+          try {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const f = (classeur() as any)?.getSheetByName?.(nom)
+            if (!f) return
+            if (axe === "col") {
+              if (f.getColumnWidth?.(index) !== px) f.setColumnWidth?.(index, px)
+            } else if (f.getRowHeight?.(index) !== px) f.setRowHeight?.(index, px)
+          } catch {
+            /* une dimension refusée ne doit pas interrompre la leçon */
+          }
+        },
         getDisplayValue: (ref) => {
           try {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -866,13 +995,65 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
             return false
           }
         },
+        /**
+         * TRIER COMME EXCEL FRANÇAIS, PAS COMME UNE TABLE DE CODES.
+         *
+         * `rg.sort()` d'Univer compare les chaînes par POINT DE CODE : « Écran »
+         * (U+00C9) y passe donc APRÈS « Souris », et un catalogue trié « de A à
+         * Z » restait dans l'ordre où il était — la fonction rendait `true` sans
+         * rien déplacer (mesuré le 03/08/2026 sur `m24-e01`). Un tableur
+         * français range Clavier, Écran, Souris ; c'est ce que la leçon enseigne
+         * et ce que l'apprenant vérifie des yeux.
+         *
+         * On trie donc nous-mêmes : lecture des lignes, ordre par
+         * `localeCompare("fr")` — nombres avant texte, comme Excel — puis
+         * réécriture. Les formules suivent leur ligne, elles sont relues telles
+         * quelles.
+         */
         sortRange: (range, column, ascending) => {
           try {
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            const rg = sheet()?.getRange(range) as any
-            if (!rg?.sort) return false
-            rg.sort({ column, ascending })
+            const aire = parseRange(range)
+            const sh = sheet()
+            if (!aire || !sh) return false
+            const lignes: Array<{ cles: unknown; cellules: Array<{ f: string; v: unknown }> }> = []
+            for (let r = aire.startRow; r <= aire.endRow; r++) {
+              const cellules = []
+              for (let c = aire.startCol; c <= aire.endCol; c++) {
+                const ref = `${columnIndexToLetter(c)}${r + 1}`
+                cellules.push({ f: api.getFormula(ref) ?? "", v: api.getValue(ref) })
+              }
+              lignes.push({ cles: cellules[column]?.v ?? "", cellules })
+            }
+            const cmp = (x: unknown, y: unknown) => {
+              const nx = typeof x === "number" ? x : Number(String(x ?? "").replace(",", "."))
+              const ny = typeof y === "number" ? y : Number(String(y ?? "").replace(",", "."))
+              const xNum = Number.isFinite(nx) && String(x ?? "").trim() !== ""
+              const yNum = Number.isFinite(ny) && String(y ?? "").trim() !== ""
+              // Excel place les nombres avant le texte en ordre croissant.
+              if (xNum && yNum) return nx - ny
+              if (xNum) return -1
+              if (yNum) return 1
+              return String(x ?? "").localeCompare(String(y ?? ""), "fr", { numeric: true, sensitivity: "base" })
+            }
+            const ordonne = [...lignes].sort((a2, b2) => (ascending ? cmp(a2.cles, b2.cles) : cmp(b2.cles, a2.cles)))
+            const cells: Record<string, { v?: unknown; f?: string }> = {}
+            ordonne.forEach((ligne, i) => {
+              const r = aire.startRow + i
+              ligne.cellules.forEach((cel, j) => {
+                const ref = `${columnIndexToLetter(aire.startCol + j)}${r + 1}`
+                cells[ref] = cel.f ? { f: cel.f } : { v: cel.v ?? "" }
+              })
+            })
+            applyCells(cells as Record<string, CellState>)
             return true
+          } catch {
+            return false
+          }
+        },
+        aUnFiltre: () => {
+          try {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            return Boolean((sheet() as any)?.getFilter?.())
           } catch {
             return false
           }
@@ -1065,6 +1246,20 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
             return false
           }
         },
+        getNotes: () => {
+          const tout: Record<string, string> = {}
+          try {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const notes = (sheet() as any)?.getNotes?.() ?? []
+            for (const n of notes) {
+              if (!n || typeof n.row !== "number" || typeof n.col !== "number") continue
+              tout[`${columnIndexToLetter(n.col)}${n.row + 1}`] = String(n.note ?? "")
+            }
+          } catch {
+            /* pas de plugin de notes : rien à relever */
+          }
+          return tout
+        },
         getNote: (ref) => {
           try {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -1137,6 +1332,27 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
             return String(etat).toLowerCase().includes("invalid") ? false : true
           } catch {
             return null
+          }
+        },
+        /**
+         * TOUTES les règles de la FEUILLE, retirées une par une.
+         *
+         * `FRange.clearConditionalFormatRules()` ne retire que ce qui coïncide
+         * avec la plage donnée : quand deux étapes posent des règles sur des
+         * plages différentes, effacer l'une laissait l'autre, la remise en
+         * reposait une de plus, et le compte montait à chaque rejeu
+         * (2 → 4 sur `m11-e01`). Supprimer par identifiant ne laisse rien
+         * derrière.
+         */
+        clearAllConditionalRules: () => {
+          try {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const sh = sheet() as any
+            for (const r of sh?.getConditionalFormattingRules?.() ?? []) {
+              if (r?.cfId) sh.deleteConditionalFormattingRule(r.cfId)
+            }
+          } catch {
+            /* sans conséquence */
           }
         },
         clearConditionalRules: (range) => {
@@ -1224,6 +1440,36 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
             /* sans conséquence */
           }
         },
+        getFusions: () => {
+          try {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const plages = (sheet() as any)?.getMergedRanges?.() ?? []
+            const refs: string[] = []
+            for (const p of plages) {
+              const a1 = p?.getA1Notation?.()
+              if (a1) refs.push(String(a1).toUpperCase().replace(/\$/g, ""))
+            }
+            return refs.sort()
+          } catch {
+            return []
+          }
+        },
+        fusionner: (range) => {
+          try {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            ;(sheet()?.getRange(range) as any)?.merge?.()
+          } catch {
+            /* une fusion refusée ne doit pas casser la leçon */
+          }
+        },
+        defusionner: (range) => {
+          try {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            ;(sheet()?.getRange(range) as any)?.breakApart?.()
+          } catch {
+            /* une séparation refusée ne doit pas casser la leçon */
+          }
+        },
         mergeCells: () => {
           try {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -1247,6 +1493,110 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
             rg?.setBorder?.(on ? "all" : "none", on ? "thin" : "none", "#000000")
           } catch {
             /* sans conséquence */
+          }
+        },
+        getStyleBrut: (ref) => {
+          try {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const brut = (sheet()?.getRange(ref) as any)?.getCellStyleData?.() ?? null
+            if (!brut || typeof brut !== "object") return brut
+            /**
+             * DEUX DÉFAUTS D'UNIVER, RETIRÉS — ET SEULEMENT CES DEUX-LÀ.
+             *
+             * `tb: 0` (« ne pas renvoyer à la ligne ») et `tr: { a: 0 }`
+             * (« aucune rotation ») décrivent exactement l'absence : une
+             * cellule qui les porte est INDISTINGUABLE à l'écran d'une cellule
+             * sans style. Univer les matérialise dès qu'une opération touche la
+             * cellule — une image insérée, un renvoi à la ligne annulé — alors
+             * que l'état d'entrée n'avait aucun style du tout.
+             *
+             * Les retirer ici, et ici seulement, aligne le relevé sur ce que
+             * l'apprenant VOIT. Aucune autre valeur n'est normalisée : `tb: 3`
+             * est un vrai renvoi à la ligne, `tr: { a: 45 }` une vraie rotation,
+             * et tous deux restent comparés.
+             */
+            /* Clés TRIÉES : `getCellStyleData()` ne garantit pas l'ordre
+               d'insertion d'un appel à l'autre, et la comparaison passe par
+               `JSON.stringify` — `{bg,bl}` et `{bl,bg}` décrivent pourtant le
+               même style (m11-e01). */
+            const source = brut as Record<string, unknown>
+            const net: Record<string, unknown> = {}
+            for (const k of Object.keys(source).sort()) net[k] = source[k]
+            if (net.tb === 0) delete net.tb
+            const tr = net.tr as { a?: number } | undefined
+            if (tr && typeof tr === "object" && (tr.a ?? 0) === 0 && Object.keys(tr).length <= 1) delete net.tr
+            return Object.keys(net).length ? net : null
+          } catch {
+            return null
+          }
+        },
+        setStyleBrut: (ref, style) => {
+          try {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const rg = sheet()?.getRange(ref) as any
+            if (!rg) return
+            /**
+             * LE CONTENU EST RELU ET RÉÉCRIT AVEC LE STYLE.
+             *
+             * `setValue({ s })` REMPLACE la cellule : la formule y laissait sa
+             * place à son dernier résultat. Sur `m05-l03`, remettre le style
+             * d'origine de B15 transformait `=B11*B13` en « 447,3 » — un
+             * nombre figé là où la leçon montre un calcul. On relit donc le
+             * contenu avant de repartir d'une cellule neuve, et on le repose
+             * dans la même écriture que le style.
+             */
+            const formule = api.getFormula(ref)
+            const valeur = api.getValue(ref)
+            const contenu: Record<string, unknown> = formule
+              ? { f: frToEngine(formule) }
+              : valeur === null || valeur === undefined || valeur === ""
+                ? {}
+                : { v: valeur }
+            rg.clearFormat?.()
+            /**
+             * `clearFormat()` NE VIDE PAS TOUT.
+             *
+             * Univer matérialise ses défauts dès qu'une opération touche la
+             * cellule : après un tri, `tr: { a: 0 }` — rotation zéro, c'est-à-dire
+             * « pas de rotation » — restait inscrit là où l'état d'entrée
+             * n'avait aucun style du tout (m24-e01, m24-l01). Le relevé voyait
+             * donc `∅ → {"tr":{"a":0}}` et l'état d'entrée n'était pas rendu.
+             * Passer `s: null` explicitement remet la cellule sans style, ce
+             * que `clearFormat` seul ne fait pas.
+             */
+            const s = style && typeof style === "object" && Object.keys(style).length ? style : null
+            rg.setValue?.({ ...contenu, s })
+            /**
+             * DEUX ATTRIBUTS RÉSISTENT À TOUT ÇA : le RENVOI À LA LIGNE et la
+             * ROTATION.
+             *
+             * Ni `clearFormat()` ni `setValue({ s: null })` ne les retirent —
+             * Univer les tient hors du style de cellule que ces deux chemins
+             * réécrivent. Mesuré au banc : `tb: 3` (renvoi à la ligne) restait
+             * après le rejeu de m21-e01, m21-e02 et m21-l01, et `tr: { a: 0 }`
+             * après l'insertion d'une image en cellule sur m24-e01 et m24-l01.
+             * On les remet donc explicitement à leur valeur d'entrée, y compris
+             * quand cette valeur est « rien ».
+             */
+            const st = (s ?? {}) as Record<string, unknown>
+            const tb = st.tb as number | undefined
+            if (rg.setWrap) rg.setWrap(tb === 3)
+            const tr = st.tr as { a?: number } | undefined
+            if (rg.setTextRotation && (tr?.a ?? 0) !== 0) rg.setTextRotation(tr?.a ?? 0)
+          } catch {
+            /* le moteur peut refuser un style : ne jamais casser la leçon */
+          }
+        },
+        setVisuel: (ref, spec) => {
+          try {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const rg = sheet()?.getRange(ref) as any
+            if (!rg) return
+            if (spec.background !== undefined) rg.setBackground?.(spec.background)
+            if (spec.wrap !== undefined) rg.setWrap?.(spec.wrap)
+            if (spec.fontSize !== undefined && spec.fontSize !== null) rg.setFontSize?.(spec.fontSize)
+          } catch {
+            /* le moteur peut refuser un attribut : ne jamais casser la leçon */
           }
         },
         getFormat: (ref) => {
@@ -1284,7 +1634,7 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
           }
         },
         getSelection: () => {
-          const sel = univerAPI.getActiveWorkbook()?.getActiveSheet()?.getSelection?.()
+          const sel = classeur()?.getActiveSheet()?.getSelection?.()
           const rg = sel?.getActiveRange?.()
           if (!rg) return ""
           const r = rg.getRange?.()
@@ -1301,7 +1651,7 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
         },
         getSheets: () => {
           try {
-            const wb = univerAPI.getActiveWorkbook()
+            const wb = classeur()
             const actif = wb?.getActiveSheet?.()?.getSheetName?.()
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             return (wb?.getSheets?.() ?? []).map((sh: any) => {
@@ -1314,23 +1664,36 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
         },
         activateSheet: (name) => {
           try {
-            const wb = univerAPI.getActiveWorkbook()
+            const wb = classeur()
             const sh = wb?.getSheetByName?.(name)
-            if (sh) wb?.setActiveSheet?.(sh)
+            if (sh) { wb?.setActiveSheet?.(sh); oublierFeuille() }
           } catch {
             /* feuille introuvable : on ne change rien */
           }
         },
         insertSheet: (name) => {
           try {
-            univerAPI.getActiveWorkbook()?.insertSheet?.(name)
+            classeur()?.insertSheet?.(name)
+            oublierFeuille()
           } catch {
             /* sans conséquence */
           }
         },
+        deleteSheet: (name) => {
+          try {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const wb = classeur() as any
+            const f = wb?.getSheets?.().find((s: { getSheetName: () => string }) => s.getSheetName() === name)
+            const ok = f ? Boolean(wb?.deleteSheet?.(f)) : false
+            oublierFeuille()
+            return ok
+          } catch {
+            return false
+          }
+        },
         renameSheet: (oldName, newName) => {
           try {
-            univerAPI.getActiveWorkbook()?.getSheetByName?.(oldName)?.setName?.(newName)
+            classeur()?.getSheetByName?.(oldName)?.setName?.(newName)
           } catch {
             /* sans conséquence */
           }
@@ -1345,8 +1708,16 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
             // Une plage nommée se déclare au niveau du classeur, avec la feuille
             // active en préfixe pour que la référence reste valide partout.
             const sh = sheet()?.getSheetName?.() ?? "Feuil1"
-            univerAPI.getActiveWorkbook()?.insertDefinedName?.(name, `${sh}!${ref}`)
+            classeur()?.insertDefinedName?.(name, `${sh}!${ref}`)
             return true
+          } catch {
+            return false
+          }
+        },
+        deleteName: (name) => {
+          try {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            return Boolean((classeur() as any)?.deleteDefinedName?.(name))
           } catch {
             return false
           }
@@ -1354,7 +1725,7 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
         getDefinedNames: () => {
           try {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            return (univerAPI.getActiveWorkbook()?.getDefinedNames?.() ?? []).map((d: any) => ({
+            return (classeur()?.getDefinedNames?.() ?? []).map((d: any) => ({
               name: d?.getName?.() ?? "",
               ref: d?.getFormulaOrRefString?.() ?? "",
             }))
@@ -1397,6 +1768,18 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
             /* sans conséquence */
           }
         },
+        getBornes: () => {
+          try {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const sh = classeur()?.getActiveSheet?.() as any
+            return {
+              rows: Number(sh?.getMaxRows?.()) || 40,
+              cols: Number(sh?.getMaxColumns?.()) || 26,
+            }
+          } catch {
+            return { rows: 40, cols: 26 }
+          }
+        },
         getSelectionKind: () => {
           const ref = api.getSelection()
           if (!ref) return null
@@ -1407,7 +1790,7 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
           // à la zone utile (~40 lignes), l'ancien seuil fixe « ≥ 200 » ne
           // reconnaissait plus jamais une colonne entière.
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          const shSel = univerAPI.getActiveWorkbook()?.getActiveSheet?.() as any
+          const shSel = classeur()?.getActiveSheet?.() as any
           const maxR = Number(shSel?.getMaxRows?.()) || 999999
           const maxC = Number(shSel?.getMaxColumns?.()) || 999
           const fullColumn = r.startRow === 0 && r.endRow >= maxR - 1
@@ -1462,12 +1845,45 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
 
       /* ── Écoute des gestes ─────────────────────────────────────────────── */
 
+      /**
+       * TOUT ÉCOUTEUR SORT DE LA PILE D'UNIVER AVANT D'AGIR.
+       *
+       * Univer émet ses événements SYNCHRONEMENT, au milieu de l'exécution de la
+       * commande. Nos écouteurs, eux, réinterrogent la façade —
+       * `getSelectionKind()`, `getRange()`, `getActiveSheet()`. On construisait
+       * donc une façade PENDANT qu'une autre était en cours de construction, et
+       * le conteneur d'injection finissait par refuser :
+       * « [redi]: Detecting cyclic dependency. The last identifier is
+       * "FRange2" ». Mesuré sur `m01-e02`, à la sixième cellule d'une saisie de
+       * huit : le classeur devenait inutilisable, le calque tombait, la
+       * démonstration s'arrêtait à 5/8 sans fin ni bouton « Revoir ».
+       *
+       * Un `setTimeout(0)` rend la main à Univer avant que l'écouteur ne touche
+       * quoi que ce soit. Les écouteurs qui temporisaient déjà (350 ms pour le
+       * recalcul) ne changent pas de comportement pour autant.
+       */
       const listen = (eventName: string, handler: (params: unknown) => void) => {
         const ev = univerAPI.Event?.[eventName]
         if (!ev) return
-        const d = univerAPI.addEvent(ev, handler)
+        const differe = (params: unknown) => {
+          const t = setTimeout(() => {
+            enAttente.delete(t)
+            try {
+              handler(params)
+            } catch {
+              /* un écouteur qui échoue ne doit pas casser la feuille */
+            }
+          }, 0)
+          enAttente.add(t)
+        }
+        const d = univerAPI.addEvent(ev, differe)
         if (d?.dispose) disposers.push(() => d.dispose())
       }
+      const enAttente = new Set<ReturnType<typeof setTimeout>>()
+      disposers.push(() => {
+        for (const t of Array.from(enAttente)) clearTimeout(t)
+        enAttente.clear()
+      })
 
       // Clic dans une cellule.
       listen("CellClicked", (p: unknown) => {
@@ -1677,6 +2093,10 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
         }
       }
       listen("SelectionChanged", rapporterSelection)
+      /* Changer de feuille invalide la façade mémorisée. */
+      listen("ActiveSheetChanged", oublierFeuille)
+      listen("SheetCreated", oublierFeuille)
+      listen("SheetDeleted", oublierFeuille)
 
       // FILET INDISPENSABLE. Un clic sur un en-tête de COLONNE sélectionne bien
       // toute la colonne, mais Univer n'émet aucun événement de sélection dans ce

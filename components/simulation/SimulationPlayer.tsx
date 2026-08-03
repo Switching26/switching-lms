@@ -76,6 +76,199 @@ function clonerPoste(p: PosteState): PosteState {
     modeles: p.modeles.map((m) => ({ ...m })),
   }
 }
+
+/**
+ * Clique un élément comme le ferait un vrai doigt — et sur N'IMPORTE QUEL
+ * élément.
+ *
+ * ⚠️ `el.click()` n'existe que sur `HTMLElement`. Les éléments d'un graphique
+ * sont des nœuds **SVG** : l'appel levait « el.click is not a function » au beau
+ * milieu de la phase de validation du geste, la séquence s'arrêtait là et la
+ * démonstration ne se terminait jamais — quatre chapitres du module 17 restaient
+ * bloqués sans marqueur de fin, sans un mot à l'écran.
+ *
+ * On émet donc la séquence complète en `MouseEvent`/`PointerEvent`, qui vaut
+ * pour tout `Element`. Le `pointerdown` n'est pas décoratif : le volet des
+ * champs du tableau croisé arme sa puce là-dessus, et sans lui le clic suivant
+ * sur la zone de dépôt ne déposait rien.
+ */
+function cliquerElement(el: Element): void {
+  const opts = { bubbles: true, cancelable: true, composed: true, view: window }
+  try {
+    el.dispatchEvent(new PointerEvent("pointerdown", { ...opts, pointerId: 1, isPrimary: true }))
+    el.dispatchEvent(new PointerEvent("pointerup", { ...opts, pointerId: 1, isPrimary: true }))
+    el.dispatchEvent(new MouseEvent("click", opts))
+  } catch {
+    /* un moteur sans PointerEvent : le clic simple suffit */
+    try {
+      el.dispatchEvent(new MouseEvent("click", opts))
+    } catch {
+      /* on ne casse jamais la leçon pour un geste de démonstration */
+    }
+  }
+}
+
+/** Contenu d'une cellule dans un cliché, déjà à la forme qu'attend `applyCells`. */
+type CelluleCliche = { f?: string; v?: unknown }
+
+/**
+ * LE CLICHÉ DE DÉPART D'UNE DÉMONSTRATION.
+ *
+ * POURQUOI IL EXISTE
+ * Le correctif du 03/08/2026 (`2987e3a`) a établi le bon principe — « une
+ * démonstration est une reconstitution, pas la poursuite de la précédente » —
+ * mais ne l'a appliqué qu'au POSTE DE TRAVAIL, la famille que Samuel avait
+ * filmée. L'audit du rejeu a montré que la même mécanique manque partout
+ * ailleurs : le premier passage écrit sa réponse dans la feuille, pose son
+ * format monétaire, marque le presse-papiers, ouvre son onglet de ruban — et
+ * « Revoir la démonstration » rejoue alors sur un tableau DÉJÀ rempli. Le
+ * curseur refait le geste, la bulle réaffirme la réponse, et il ne se passe
+ * plus rien à l'écran : c'est la même illusion que « Enregistrer sous », en
+ * moins spectaculaire et en beaucoup plus fréquent.
+ *
+ * CE QU'IL CONTIENT, ET PAS DAVANTAGE
+ * Le classeur dans la ZONE DÉCLARÉE par le scénario — la même frontière que la
+ * remise d'aplomb, donc ni trop étroite (on manquerait une cellule écrite par
+ * la démonstration) ni sans fin — et les quelques états de châssis qu'une
+ * démonstration peut changer : onglet du ruban, boîte de dialogue, menu Format,
+ * presse-papiers, plage entourée par la somme automatique.
+ *
+ * Le poste de travail garde SON mécanisme (`posteDepartEtapeRef`) : il se
+ * restaure dès le clic, avant même le rendu, parce que le plan lit la boîte
+ * ouverte pour choisir entre « Ouvrir » et « Enregistrer sous ».
+ */
+type ClicheDemo = {
+  cellules: Record<string, CelluleCliche>
+  formats: Record<string, string>
+  onglet: RibbonTab
+  boite: "fonction" | "format-cellule" | null
+  menuFormat: boolean
+  presseP: string | null
+  plageSomme: string | null
+  /**
+   * Les MODÈLES : graphique, tableau croisé, mise en page, macros.
+   *
+   * Ce sont eux que le balayage du 03/08 a montrés les plus abîmés — 71 étapes
+   * de graphique, 25 de tableau croisé, 15 de mise en page où le rejeu repartait
+   * de l'objet transformé par le premier passage. Ils vivent entièrement dans
+   * l'état React : les reposer, c'est retrouver l'écran exact du départ.
+   */
+  graphique: ChartState | null
+  tcd: EtatTcd | null
+  reglages: PageSetupState
+  macros: MacroState[]
+  macroCourante: string | null
+  /**
+   * Nombre de règles de mise en forme conditionnelle, et la plage que l'étape
+   * déclare. `acc-mfc-regle` AJOUTE une règle à chaque pression : au rejeu la
+   * feuille en portait deux, empilées sur la même plage. Mesuré sur les six
+   * chapitres du module 11.
+   */
+  reglesMfc: number
+  plageMfc: string | null
+  /**
+   * Les règles de mise en forme conditionnelle des étapes DÉJÀ FRANCHIES.
+   *
+   * `acc-mfc-effacer` les supprime — c'est son geste. Le rejeu doit donc
+   * pouvoir les remettre, sinon « effacez toutes les règles » se rejoue sur une
+   * colonne déjà propre et ne montre plus rien (m11-l03).
+   */
+  reglesAPoser: Array<{ range: string; rule: ConditionalRule }>
+  /** Noms de plage définis au départ : une démonstration en ajoute à chaque passage. */
+  noms: string[]
+  /**
+   * Largeurs de colonnes et hauteurs de lignes de la zone.
+   *
+   * « Largeur de colonne » la porte à 160 px et « Masquer » la met à zéro : deux
+   * gestes du module 4 qu'aucun autre relevé ne voit. Sans eux, le rejeu
+   * repartait d'une colonne déjà élargie et le geste ne montrait plus rien.
+   */
+  /**
+   * Les dimensions, INDEXÉES PAR FEUILLE.
+   *
+   * `{ "Ventes": { colonnes: { "1": 210 }, lignes: {} }, … }`. Un seul tableau
+   * plat contaminait la feuille voisine dès qu'un chapitre en comparait deux :
+   * les colonnes 1 et 2 alternaient 210/90 puis 95/200 d'un passage à l'autre
+   * (m15-e02, m15-l04, m21-l05).
+   */
+  dimensions: Record<string, { colonnes: Record<string, number>; lignes: Record<string, number> }>
+  /** Un filtre était-il posé au départ ? Le poser ne masque encore aucune ligne. */
+  filtrePose: boolean
+  /**
+   * Les VOLETS FIGÉS.
+   *
+   * « Figez la ligne d'en-tête » les pose ; rien ne les levait. Au rejeu la
+   * ligne était déjà figée, et la démonstration rejouait un geste sans effet
+   * visible (m25-e01).
+   */
+  volets: { rows: number; cols: number }
+  /** Les plages FUSIONNÉES : « fusionnez A1:D1 » doit pouvoir se rejouer. */
+  fusions: string[]
+  /**
+   * Les COMMENTAIRES (notes de cellule).
+   *
+   * « Insérez un commentaire » en pose un, « Supprimer » l'enlève. Sans relevé,
+   * le rejeu de m25-l02 repartait d'une cellule déjà commentée et le geste de
+   * suppression ne montrait plus rien à supprimer.
+   */
+  notes: Record<string, string>
+  /**
+   * Les plages sur lesquelles une VALIDATION DE DONNÉES a été posée par les
+   * étapes déjà franchies.
+   *
+   * Sans elles, `don-validation` se rejouait sur une plage déjà validée : le
+   * bouton était pressé, Univer n'avait rien à faire, et l'effet visible de la
+   * pose — la flèche de liste, le renvoi à la ligne qui l'accompagne — ne
+   * réapparaissait pas (m21-e01, m21-e02, m21-l01).
+   */
+  validations: Array<{ range: string; rule: ValidationRule }>
+  /**
+   * Le FILTRE des étapes déjà franchies : sa plage et ses critères.
+   *
+   * `filtrePose` dit seulement s'il y en avait un. Pour le rendre, il faut
+   * savoir sur quoi : sans cela « effacez le filtre » se rejouait sur un
+   * tableau non filtré et ne montrait plus rien (m19-e01).
+   */
+  filtreAPoser: { range: string; colonnes: Array<{ column: string; values: string[] }> } | null
+  plageValidee: string | null
+  /**
+   * Style BRUT de chaque cellule, sérialisé. C'est lui qui permet de rendre
+   * l'écran EXACTEMENT tel qu'il était : alignement « général », absence de
+   * format de nombre, gras, bordures — tout ce qu'aucun setter par attribut ne
+   * sait remettre à sa valeur par défaut.
+   */
+  visuels: Record<string, string>
+  /** Plage occupée par le tableau croisé au départ, pour effacer ce qui déborde. */
+  posePivot: string | null
+  /** Feuille sur laquelle le cliché a été pris : y revenir avant de le reposer. */
+  feuilleCliche: string | null
+  /**
+   * L'enregistrement de macro EN COURS, en entier.
+   *
+   * Un booléen ne suffisait pas : quand l'étape d'entrée était déjà en train
+   * d'enregistrer, le rejeu repartait sans enregistreur, « Arrêter » ne
+   * produisait plus rien et la macro disparaissait du classeur (`m27-l01`).
+   * Le premier passage démarre ou arrête ; dans les deux sens, il faut rendre
+   * exactement l'état de départ.
+   */
+  enregistrement: EtatEnregistrement | null
+  /**
+   * Feuilles du classeur, et laquelle est active. « Nouvelle feuille » en crée
+   * une à chaque pression : sans ce relevé, un rejeu laissait « Feuille1 » ET
+   * « Feuille2 » là où la leçon n'en demande qu'une.
+   */
+  feuilles: string[]
+  feuilleActive: string | null
+}
+
+/** Deux clichés de cellule décrivent-ils le même contenu ? */
+function memeCellule(a: CelluleCliche, b: CelluleCliche): boolean {
+  if ((a.f ?? "") !== (b.f ?? "")) return false
+  const x = a.v ?? ""
+  const y = b.v ?? ""
+  if (typeof x === "number" && typeof y === "number") return Math.abs(x - y) < 1e-9
+  return String(x) === String(y)
+}
 import { planDemonstration, type CibleDemo, type PlanDemo } from "@/lib/simulation/demonstration"
 import { CONTROLES_POSTE, appliquerGeste, posteInitial } from "@/lib/simulation/poste"
 import ChartLayer from "./ChartLayer"
@@ -87,6 +280,8 @@ import type {
   CellState,
   ChartState,
   ChartType,
+  ConditionalRule,
+  ValidationRule,
   GestePoste,
   MacroState,
   PageSetupState,
@@ -784,6 +979,10 @@ export default function SimulationPlayer({
      M01-L02-04 fait cliquer en annonçant une fenêtre, et `acc-copier`, que cinq
      consignes accompagnent d'un « liseré animé entoure la sélection ». */
   const [menuFormat, setMenuFormat] = useState(false)
+  // Référence miroir : le cliché de démonstration est pris depuis un effet,
+  // qui lirait sinon la valeur du premier rendu.
+  const menuFormatRef = useRef(menuFormat)
+  menuFormatRef.current = menuFormat
   const [boite, setBoite] = useState<"fonction" | "format-cellule" | null>(null)
   // `handleAction` est mémoïsé : il lirait sinon un `boite` figé au montage.
   const boiteRef = useRef<"fonction" | "format-cellule" | null>(null)
@@ -799,6 +998,8 @@ export default function SimulationPlayer({
   }, [])
   /** Plage mise au presse-papiers : c'est elle que le liseré animé entoure. */
   const [presseP, setPresseP] = useState<string | null>(null)
+  const pressePRef = useRef(presseP)
+  pressePRef.current = presseP
   /** Plage devinée par la somme automatique, entourée le temps qu'on la lise. */
   const [plageSomme, setPlageSomme] = useState<string | null>(null)
   const plageSommeRef = useRef<string | null>(null)
@@ -887,6 +1088,16 @@ export default function SimulationPlayer({
    * l'apprenant ait rien fait. Une échéance ne peut pas être raccourcie par
    * quelqu'un d'autre.
    */
+  /**
+   * TRAVAUX ASYNCHRONES EN COURS, lancés par un geste de la démonstration.
+   *
+   * « Valeur cible » itère sur le classeur : la promesse peut se résoudre APRÈS
+   * la dernière image de la démonstration. Le premier passage s'arrêtait alors
+   * sur une valeur intermédiaire (B6 = 5,5), la recherche continuait ensuite
+   * jusqu'à 2,61, et le rejeu repartait donc d'un classeur que personne n'avait
+   * vu. Tant que ce compteur n'est pas nul, la démonstration n'est pas finie.
+   */
+  const travauxDemoRef = useRef(0)
   const verrouDemoRef = useRef(0)
   const verrouillerDemo = useCallback((ms: number) => {
     verrouDemoRef.current = Math.max(verrouDemoRef.current, Date.now() + ms)
@@ -931,6 +1142,20 @@ export default function SimulationPlayer({
     posteRef.current = depart
     setPoste(depart)
   }, [posteActif])
+
+  /**
+   * Cliché du classeur et du châssis au moment où la démonstration a commencé.
+   * `null` tant qu'aucune n'a été lancée sur l'étape courante : le premier
+   * lancement le PREND, chaque « Revoir » le REPOSE.
+   */
+  /**
+   * Miroir de `arreterMacro`, déclaré plus bas. Le cliché doit pouvoir arrêter
+   * un enregistreur lancé au passage précédent, et une référence évite d'avoir
+   * à remonter toute la chaîne de rappels mémoïsés pour un seul appel.
+   */
+  const arreterMacroRef = useRef<(() => void) | null>(null)
+
+  const clicheDemoRef = useRef<ClicheDemo | null>(null)
 
   const demarrerDemonstration = useCallback(() => {
     restaurerDepartPostePourDemo()
@@ -1171,9 +1396,85 @@ export default function SimulationPlayer({
       // Large : le débounce de la grille est à 350 ms, et les modèles posés
       // ci-dessous écrivent eux aussi dans la feuille.
       verrouDemoRef.current = Math.max(verrouDemoRef.current, Date.now() + 2000)
+      /**
+       * LA MACHINE À MACROS SE RECONSTRUIT AUSSI.
+       *
+       * `rejouerAvant` restituait les CELLULES des étapes franchies, jamais les
+       * macros. Or le module 27 en enregistre une au début du chapitre et la
+       * fait EXÉCUTER plus loin : reprendre le chapitre à cette étape-là — ou y
+       * sauter — laissait « Pied_relatif » inexistante, et la consigne
+       * « exécutez la macro » n'avait plus d'objet. Même famille que la feuille
+       * vide du correctif `a1a7ca4`, appliquée à un autre modèle.
+       *
+       * On rejoue donc l'enregistreur : démarrage, gestes déclarés par les
+       * étapes intermédiaires, arrêt. Le nom, le raccourci et le mode relatif
+       * viennent du seul endroit qui les déclare — l'`EXPECT_MACRO` que le
+       * chapitre pose plus loin.
+       */
+      const macroDeclaree = (depuis: number) => {
+        for (let j = depuis; j < steps.length; j++) {
+          const a2 = steps[j]?.action
+          if (a2?.type === "EXPECT_MACRO" && a2.macro?.name) return a2.macro
+        }
+        return null
+      }
+      let enrRejeu: EtatEnregistrement | null = null
+      const macrosRejouees: MacroState[] = []
+      /**
+       * LA SÉLECTION SUIT LE REJEU.
+       *
+       * L'ancre d'une macro RELATIVE, c'est la cellule sélectionnée au moment du
+       * démarrage : `m27-e01` clique D10 avant d'enregistrer, et c'est ce qui
+       * fait que la macro clôture « le tableau où l'on se trouve ». Sans suivre
+       * la sélection pendant la reconstitution, l'ancre valait A1 et la macro
+       * écrivait deux lignes trop haut — un total juste, au mauvais endroit.
+       */
+      let selCourante = grid.getSelection() || "A1"
+      /**
+       * LA FEUILLE ACTIVE SUIT LE REJEU, ELLE AUSSI.
+       *
+       * `rejouerAvant` écrivait le résultat de chaque étape franchie sur la
+       * feuille active du MOMENT, sans jamais suivre les `SELECT_SHEET` du
+       * chapitre. Sur `m03-e03` — Est, Ouest, Synthèse — les deux totaux
+       * reportés à l'étape 4 atterrissaient donc sur la première feuille du
+       * classeur, et l'étape suivante totalisait deux cellules vides. Même
+       * famille que la sélection : une reprise doit rendre l'endroit où l'on
+       * était, feuille comprise.
+       */
+      let feuilleCourante: string | null = null
+      const allerSurLaFeuille = (nom: string) => {
+        if (!nom || nom === feuilleCourante) return
+        try {
+          grid.activateSheet(nom)
+          feuilleCourante = nom
+        } catch {
+          /* feuille absente : on écrit là où l'on est */
+        }
+      }
+      const suivreSelection = (s2: SimulationStep) => {
+        const f = (s2.setup as { activeSheet?: string } | undefined)?.activeSheet
+        if (f) allerSurLaFeuille(f)
+        if (s2.action.type === "SELECT_SHEET") allerSurLaFeuille(s2.action.name)
+        const r = s2.setup?.selection
+        if (r) selCourante = r
+        const a2 = s2.action
+        if (a2.type === "CLICK_CELL" || a2.type === "CLICK_CELL_MODIFIER") selCourante = a2.cell
+        else if (a2.type === "GOTO_REF") selCourante = a2.ref
+        else if (a2.type === "DRAG_RANGE") selCourante = a2.range
+        /* UNE COLONNE ET UNE LIGNE ENTIÈRES AUSSI. « Masquer », « Largeur de
+           colonne », « Insérer » et « Supprimer » ne font RIEN si la sélection
+           n'est pas reconnue comme colonne ou ligne : `getSelectionKind` exige
+           qu'elle aille d'un bout à l'autre. Les quatre chapitres du module 4
+           sélectionnent à une étape et agissent à la suivante — reprendre là
+           sans la sélection rendait le bouton muet, pour la démonstration comme
+           pour l'apprenant. */
+        else if (a2.type === "SELECT_COLUMN") selCourante = `col:${a2.column}`
+        else if (a2.type === "SELECT_ROW") selCourante = `ligne:${a2.row}`
+      }
       for (let k = 0; k < jusqua && k < steps.length; k++) {
         const s = steps[k]
         if (!s) continue
+        suivreSelection(s)
         if (s.setup?.cells) grid.applyCells(s.setup.cells)
         const a = s.action
         const ecrites: Record<string, CellState> = {}
@@ -1182,6 +1483,49 @@ export default function SimulationPlayer({
           // celle que la démonstration montre déjà quand l'apprenant bloque.
           const rep = a.accept[0]
           ecrites[a.target] = rep.trim().startsWith("=") ? { f: rep } : { v: rep }
+        }
+        /**
+         * UNE ÉTAPE `EXPECT_MACRO` DÉJÀ FRANCHIE A PRODUIT SON EFFET.
+         *
+         * Elle n'écrit rien par elle-même : c'est la macro, exécutée par
+         * l'apprenant, qui a rempli les cellules. La reprise doit donc les
+         * restituer — sans quoi `m27-e02` rouvert à l'étape 4 demandait un
+         * « total général » sur un tableau dont les deux totaux mensuels
+         * n'existaient pas. On en profite pour reposer les métadonnées
+         * déclarées — le raccourci surtout — sur la macro DÉJÀ enregistrée,
+         * sans jamais toucher à ses instructions : elles viennent du geste de
+         * l'apprenant, pas d'une déclaration.
+         */
+        if (a.type === "EXPECT_MACRO" && a.macro) {
+          for (const [ref, att] of Object.entries(a.macro.effet ?? {})) {
+            const f2 = (att as { f?: string; v?: unknown }).f
+            const v2 = (att as { f?: string; v?: unknown }).v
+            if (f2 !== undefined) ecrites[ref] = { f: f2 }
+            else if (v2 !== undefined) ecrites[ref] = { v: v2 as string | number }
+          }
+          const nomM = a.macro.name
+          if (nomM) {
+            const maj = (l: MacroState[]) =>
+              l.map((m) =>
+                m.name === nomM
+                  ? {
+                      ...m,
+                      shortcut: a.macro?.shortcut ?? m.shortcut,
+                      relative: a.macro?.relative ?? m.relative,
+                    }
+                  : m,
+              )
+            macrosRef.current = maj(macrosRef.current)
+            for (let i2 = 0; i2 < macrosRejouees.length; i2++) {
+              if (macrosRejouees[i2].name === nomM) {
+                macrosRejouees[i2] = {
+                  ...macrosRejouees[i2],
+                  shortcut: a.macro.shortcut ?? macrosRejouees[i2].shortcut,
+                  relative: a.macro.relative ?? macrosRejouees[i2].relative,
+                }
+              }
+            }
+          }
         }
         if (a.type === "EXPECT_STATE") {
           for (const [ref, att] of Object.entries(a.cells)) {
@@ -1194,7 +1538,141 @@ export default function SimulationPlayer({
           }
         }
         if (Object.keys(ecrites).length) grid.applyCells(ecrites)
+
+        /* ── l'enregistreur, rejoué à sec ─────────────────────────────────── */
+        if (a.type === "RECORD_MACRO" && a.expect === "started") {
+          const d = macroDeclaree(k)
+          const r = demarrerEnregistrement(d?.name ?? `Macro${macrosRejouees.length + 1}`, {
+            shortcut: d?.shortcut,
+            relative: d?.relative,
+            // L'ancre donne leur sens aux références relatives : c'est la
+            // sélection au démarrage, celle que l'étape précédente a posée.
+            ancre: selCourante,
+            existantes: [...macrosRef.current, ...macrosRejouees],
+          })
+          if (r.ok) enrRejeu = r.etat
+        } else if (a.type === "RECORD_MACRO" && a.expect === "stopped" && enrRejeu) {
+          macrosRejouees.push(arreterEnregistrement(enrRejeu))
+          enrRejeu = null
+        } else if (enrRejeu) {
+          // Tout ce que l'étape a produit entre le démarrage et l'arrêt entre
+          // dans la macro, dans l'ordre : c'est ce que l'apprenant a fait.
+          /**
+           * TOUT CE QUE L'ENREGISTREUR VIVANT TRANSCRIT, LA REPRISE AUSSI.
+           *
+           * Le direct transcrit trois choses : la saisie, la SÉLECTION (clic de
+           * cellule ET glissé de plage) et le BOUTON de mise en forme
+           * (`gesteDepuisControle`). La reprise n'en connaissait que deux : sur
+           * `m27-l01`, les étapes « glissez A10:D10 », « gras » et
+           * « remplissage » ne laissaient aucune trace, la macro
+           * `Pied_de_tableau` se reconstruisait avec 4 instructions au lieu de
+           * 7, et l'étape qui l'exécute — 5 instructions minimum, dont
+           * `Selection.Font.Bold = True` — ne pouvait plus être atteinte.
+           */
+          if (a.type === "CLICK_CELL") enrRejeu = transcrire(enrRejeu, { kind: "select", ref: a.cell })
+          if (a.type === "DRAG_RANGE" && a.range) enrRejeu = transcrire(enrRejeu, { kind: "select", ref: a.range })
+          if (a.type === "GOTO_REF" && a.ref) enrRejeu = transcrire(enrRejeu, { kind: "select", ref: a.ref })
+          for (const [ref, cel] of Object.entries(ecrites)) {
+            const c2 = cel as { f?: string; v?: unknown }
+            enrRejeu = transcrire(enrRejeu, { kind: "select", ref })
+            enrRejeu = transcrire(
+              enrRejeu,
+              c2.f !== undefined
+                ? { kind: "formula", ref, formula: c2.f }
+                : { kind: "value", ref, value: (c2.v ?? "") as string | number },
+            )
+          }
+          if (a.type === "EXPECT_FORMAT") {
+            for (const [ref, att] of Object.entries(a.cells ?? {})) {
+              const g2 = gesteDepuisControle(
+                (att as { numberFormat?: string }).numberFormat ? "acc-format-monetaire" : "acc-gras",
+                ref,
+              )
+              if (g2) enrRejeu = transcrire(enrRejeu, g2)
+            }
+          }
+          /* Le bouton du ruban, exactement comme en direct : sur la sélection
+             du moment, lue AVANT que l'effet ne la déplace. */
+          if (a.type === "CLICK_CONTROL" && a.control) {
+            const g3 = gesteDepuisControle(a.control, selCourante || "A1")
+            if (g3) enrRejeu = transcrire(enrRejeu, g3)
+          }
+        }
         if (a.type === "DEFINE_NAME" && a.ref) grid.defineName(a.name, a.ref)
+        /* Le commentaire posé par une étape franchie : sans lui, « supprimez le
+           commentaire » n'a rien à supprimer (m25-l02). */
+        if (s.setup?.note?.texte) {
+          try {
+            grid.setNote(s.setup.note.ref, s.setup.note.texte)
+          } catch {
+            /* note refusée : la reprise continue */
+          }
+        }
+        /* Le FILTRE des étapes franchies : sans lui, « effacez le filtre » se
+           rejoue sur un tableau qui n'en porte aucun (m19-e01). */
+        if (a.type === "CLICK_CONTROL" && a.control === "don-filtrer") {
+          try {
+            /* La plage du TABLEAU, pas la sélection : au moment du clic la
+               sélection peut être une cellule isolée — c'est exactement ce que
+               fait `don-filtrer` en direct. */
+            if (!grid.aUnFiltre()) grid.createFilter(scenario.workbook.filterRange ?? etendue)
+          } catch {
+            /* filtre refusé : la reprise continue */
+          }
+        }
+        if (a.type === "FILTER_COLUMN" && a.column) {
+          try {
+            grid.setFilterCriteria(a.column, a.values ?? [])
+          } catch {
+            /* filtre refusé : la reprise continue */
+          }
+        }
+        /* …ET LE RETRAIT. Rejouer les poses sans rejouer l'effacement laissait
+           le tableau filtré à une étape qui vient justement de le déplier : les
+           lignes restaient masquées, et les cellules qu'elles portent — H3 du
+           bloc de synthèse — se réduisaient à un rectangle de hauteur nulle
+           (m19-e03). */
+        /* Les VOLETS FIGÉS d'une étape franchie : sans eux, « libérez les
+           volets » se rejoue sur une feuille qui n'en a aucun (m25-l01). */
+        if (a.type === "CLICK_CONTROL" && a.control === "aff-figer-volets") {
+          try {
+            grid.setFreeze(s.setup?.freeze?.rows ?? 1, s.setup?.freeze?.cols ?? 0)
+          } catch {
+            /* volets refusés : la reprise continue */
+          }
+        }
+        if (a.type === "CLICK_CONTROL" && a.control === "aff-liberer-volets") {
+          try {
+            grid.cancelFreeze()
+          } catch {
+            /* volets déjà libres */
+          }
+        }
+        if (a.type === "CLICK_CONTROL" && a.control === "don-effacer-filtre") {
+          try {
+            grid.removeFilter()
+          } catch {
+            /* filtre déjà absent */
+          }
+        }
+        /* La validation posée par une étape franchie. */
+        if (s.setup?.dv) {
+          try {
+            grid.addValidation(s.setup.dv.range, s.setup.dv.rule)
+          } catch {
+            /* règle refusée : la reprise continue */
+          }
+        }
+        /* Une règle de mise en forme conditionnelle posée à une étape franchie :
+           sans elle, « effacez toutes les règles de la colonne » n'a rien à
+           effacer, et le bouton paraît mort (m11-l03). */
+        if (a.type === "CLICK_CONTROL" && a.control === "acc-mfc-regle" && s.setup?.cf) {
+          try {
+            grid.addConditionalRule(s.setup.cf.range, s.setup.cf.rule)
+          } catch {
+            /* règle refusée : la reprise continue */
+          }
+        }
         // Un format posé par l'apprenant à une étape déjà franchie fait partie
         // de son travail : sans ce rejeu, la reprise rouvrait le chapitre avec
         // les colonnes démonétisées, et la remise d'aplomb les reposait ensuite
@@ -1214,6 +1692,66 @@ export default function SimulationPlayer({
         }
         // Une étape déjà faite a produit son modèle : on le pose.
         appliquerModeles(s, true)
+      }
+      // Un enregistrement resté ouvert appartient à l'étape en cours : on le
+      // laisse tel quel, c'est l'apprenant qui l'arrêtera.
+      if (macrosRejouees.length || macrosRef.current.length) {
+        const suite = [
+          ...macrosRef.current.filter((m) => !macrosRejouees.some((r) => r.name === m.name)),
+          ...macrosRejouees,
+        ]
+        macrosRef.current = suite
+        setMacros(suite)
+        const derniere = macrosRejouees[macrosRejouees.length - 1] ?? suite[suite.length - 1]
+        if (derniere) {
+          macroCouranteRef.current = derniere.name
+          setMacroCourante(derniere.name)
+          codeMacroRef.current = genererCode(derniere)
+          setCodeMacro(codeMacroRef.current)
+        }
+      }
+      if (enrRejeu) {
+        enregistrementRef.current = enrRejeu
+        setEnregistrement(enrRejeu)
+      }
+      /**
+       * ET LA SÉLECTION, POSÉE POUR DE VRAI.
+       *
+       * On la suivait pour l'ancre de la macro sans jamais la rendre à la
+       * grille : la reprise laissait le curseur en A1. Sur `m27-e01`, la
+       * consigne « placez-vous en D21 » avait été franchie, et la macro
+       * relative exécutée juste après repartait du haut de la feuille — le
+       * total s'inscrivait à côté de la première ligne du tableau de juillet.
+       * Une reprise doit rendre l'endroit où l'on était, pas seulement ce qu'on
+       * avait écrit.
+       */
+      /* Et la feuille de l'étape VISÉE : la reprise s'arrête avant elle, donc
+         c'est le dernier changement rencontré qui fait foi. */
+      {
+        const s2 = steps[jusqua]
+        const f = (s2?.setup as { activeSheet?: string } | undefined)?.activeSheet
+        if (f) allerSurLaFeuille(f)
+        else if (s2?.action.type === "SELECT_SHEET") {
+          /* L'étape à jouer DEMANDE le changement : on ne le fait pas à sa
+             place, c'est son geste. */
+        }
+      }
+      if (selCourante) {
+        try {
+          // `col:B` / `ligne:6` passent par le même résolveur que la
+          // démonstration : lui seul connaît les bornes réelles de la feuille.
+          const m = /^(col|ligne):(.+)$/.exec(selCourante)
+          if (m) {
+            const b2 = grid.getBornes()
+            selCourante = m[1] === "col"
+              ? `${m[2]}1:${m[2]}${b2.rows}`
+              : `A${m[2]}:${columnIndexToLetter(b2.cols - 1)}${m[2]}`
+          }
+          grid.setSelection(selCourante)
+          setSelection(selCourante)
+        } catch {
+          /* référence devenue invalide : la sélection par défaut fera l'affaire */
+        }
       }
     },
     [steps, appliquerModeles],
@@ -1338,6 +1876,502 @@ export default function SimulationPlayer({
     handleActionRef.current?.(obs)
   }, [])
 
+  /** Lecture d'une cellule à la forme du cliché : la formule prime sur la valeur. */
+  const lireCelluleCliche = useCallback((grid: GridApi, ref: string): CelluleCliche => {
+    const f = grid.getFormula(ref)
+    /* Le « = » est CONSERVÉ : `applyCells` ne reconnaît une formule qu'à ce
+       signe, et `frToEngine` en a besoin. Le retirer transformait la remise en
+       écriture de texte — sur `m05-l03`, `=B11*B13` revenait en « 447,3 », le
+       résultat figé à la place du calcul. */
+    if (f) return { f: f.startsWith("=") ? f : `=${f}` }
+    const v = grid.getValue(ref)
+    return v === null || v === undefined || v === "" ? {} : { v }
+  }, [])
+
+  /**
+   * Prend le cliché. La ZONE est celle de la remise d'aplomb : le rectangle
+   * englobant de tout ce que le scénario déclare quelque part.
+   *
+   * On garde la VALEUR telle que le moteur la tient, jamais sa forme texte :
+   * `String(21.5)` donne « 21.5 », que la grille relit comme le 21 mai. C'est
+   * le piège de `commeTape()`, et il attend au tournant tout code qui
+   * sérialise une cellule pour la réécrire ensuite.
+   */
+  const prendreClicheDemo = useCallback((): ClicheDemo => {
+    const grid = gridRef.current
+    const notes: Record<string, string> = grid
+      ? (() => { try { return grid.getNotes() } catch { return {} } })()
+      : {}
+    const cellules: Record<string, CelluleCliche> = {}
+    const formats: Record<string, string> = {}
+    const visuels: Record<string, string> = {}
+    const dimensions: ClicheDemo["dimensions"] = {}
+    if (grid) {
+      let active: string | undefined
+      try {
+        active = grid.getSheets().find((f) => f.active)?.name
+      } catch {
+        /* la grille peut ne pas être prête */
+      }
+      const { zone } = zoneClasseur(steps, scenario.workbook, active)
+      if (zone) {
+        /* CHAQUE feuille, pas seulement l'active : le rejeu doit rendre à la
+           feuille « Ventes » les largeurs de « Ventes », et à « Synthèse »
+           celles de « Synthèse ». */
+        try {
+          Object.assign(dimensions, grid.getDimensionsFeuilles(zone.c1, zone.c2, zone.r1, zone.r2))
+        } catch {
+          /* squelette pas prêt */
+        }
+      }
+      /**
+       * La zone du TABLEAU CROISÉ en plus.
+       *
+       * `zoneClasseur` ne connaît que ce que le scénario DÉCLARE ; les cellules
+       * qu'un tableau croisé écrit — « Somme de Montant », « Étiquettes de
+       * lignes », les totaux — n'y figurent pas. Sans elles, le cliché ne les
+       * voyait pas, donc ne les remettait pas, et le rejeu repartait d'un
+       * emplacement vidé.
+       */
+      const refs = refsDeLaZone(zone)
+      /* Ce que l'ÉTAPE déclare attendre : les cellules d'un effet de macro, la
+         plage d'un tri, les cases d'un tableau croisé. `zoneClasseur` ne les
+         connaît pas toutes, et une cellule non relevée ne peut pas être remise
+         — les macros du module 27 laissaient leur écriture à l'écran d'un rejeu
+         à l'autre. */
+      const ajouterRef = (r: string) => {
+        const R = String(r).toUpperCase()
+        if (/^[A-Z]{1,3}\d{1,5}$/.test(R) && !refs.includes(R)) refs.push(R)
+      }
+      /**
+       * TOUTE référence que l'étape nomme, quelle que soit la famille.
+       *
+       * L'énumération par famille laissait toujours un trou : `goalSeek.inputRef`
+       * n'y était pas, et « Valeur cible » réécrivait B3 sans que le cliché
+       * puisse la rendre — B3 partait de 45 et le rejeu repartait de 50,22. On
+       * parcourt donc l'action et le `setup` en entier : toute chaîne qui a la
+       * forme d'une référence ou d'une plage entre dans le cliché, y compris les
+       * CLÉS (`cells`, `effet`, `pivot.cells` sont indexés par référence).
+       */
+      const moissonner = (v: unknown, profondeur = 0): void => {
+        if (profondeur > 6) return
+        if (typeof v === "string") {
+          if (/^[A-Z]{1,3}\d{1,5}(:[A-Z]{1,3}\d{1,5})?$/i.test(v)) {
+            for (const r of cellsOf(v.toUpperCase())) ajouterRef(r)
+          }
+          return
+        }
+        if (Array.isArray(v)) {
+          for (const e of v) moissonner(e, profondeur + 1)
+          return
+        }
+        if (v && typeof v === "object") {
+          for (const [cle, val] of Object.entries(v as Record<string, unknown>)) {
+            moissonner(cle, profondeur + 1)
+            moissonner(val, profondeur + 1)
+          }
+        }
+      }
+      const acte = stepRef.current?.action as Record<string, unknown> | undefined
+      moissonner(acte)
+      moissonner(stepRef.current?.setup)
+      const posePivot = posePivotRef.current?.range
+      if (posePivot) {
+        /* AVEC MARGE. Modifier un tableau croisé le fait GRANDIR : ajouter un
+           champ en colonnes ajoute des colonnes, poser un filtre décale de deux
+           lignes. Relever la seule pose du départ laissait ces cellules-là hors
+           du cliché — ni restaurées, ni effaçables — et le rejeu repartait avec
+           les restes de la version précédente. */
+        const p = parseRange(posePivot)
+        if (p) {
+          const large = formatRange({
+            startRow: p.startRow, startCol: p.startCol,
+            endRow: p.endRow + 8, endCol: p.endCol + 8,
+          })
+          for (const r of cellsOf(large)) if (!refs.includes(r)) refs.push(r)
+        }
+      }
+      for (const ref of refs) {
+        try {
+          cellules[ref] = lireCelluleCliche(grid, ref)
+          formats[ref] = grid.getNumberFormat(ref) ?? ""
+          visuels[ref] = JSON.stringify(grid.getStyleBrut(ref) ?? null)
+
+        } catch {
+          /* référence hors bornes après un tri : on la laisse de côté */
+        }
+      }
+    }
+    return {
+      cellules,
+      formats,
+      onglet: ongletRef.current,
+      boite: boiteRef.current,
+      menuFormat: menuFormatRef.current,
+      presseP: pressePRef.current,
+      plageSomme: plageSommeRef.current,
+      // Copies défensives : `modifierGraphique` et `modifierTcd` rendent de
+      // nouveaux objets, mais les tableaux internes sont partagés. Un cliché qui
+      // pointerait sur eux se ferait modifier sous les pieds.
+      graphique: graphiqueRef.current ? structuredClone(graphiqueRef.current) : null,
+      tcd: tcdRef.current ? structuredClone(tcdRef.current) : null,
+      reglages: structuredClone(reglagesRef.current),
+      macros: macrosRef.current.map((m) => ({ ...m, statements: [...m.statements] })),
+      macroCourante: macroCouranteRef.current,
+      reglesMfc: grid ? (() => { try { return grid.countConditionalRules() } catch { return 0 } })() : 0,
+      plageMfc: stepRef.current?.setup?.cf?.range ?? null,
+      reglesAPoser: steps
+        .slice(0, index)
+        .flatMap((s) =>
+          s.action.type === "CLICK_CONTROL" && s.action.control === "acc-mfc-regle" && s.setup?.cf
+            ? [{ range: s.setup.cf.range, rule: s.setup.cf.rule }]
+            : [],
+        ),
+      noms: grid ? (() => { try { return grid.getDefinedNames().map((n) => n.name) } catch { return [] } })() : [],
+      dimensions,
+      filtrePose: grid ? (() => { try { return grid.aUnFiltre() } catch { return false } })() : false,
+      volets: grid
+        ? (() => { try { return grid.getFrozen() ?? { rows: 0, cols: 0 } } catch { return { rows: 0, cols: 0 } } })()
+        : { rows: 0, cols: 0 },
+      fusions: grid ? (() => { try { return grid.getFusions() } catch { return [] } })() : [],
+      visuels,
+      notes,
+      filtreAPoser: (() => {
+        const passees = steps.slice(0, index)
+        if (!passees.some((s) => s.action.type === "CLICK_CONTROL" && s.action.control === "don-filtrer")) return null
+        return {
+          range: scenario.workbook.filterRange ?? "",
+          colonnes: passees.flatMap((s) =>
+            s.action.type === "FILTER_COLUMN" && s.action.column
+              ? [{ column: s.action.column, values: s.action.values ?? [] }]
+              : [],
+          ),
+        }
+      })(),
+      validations: steps
+        .slice(0, index)
+        .flatMap((s) => (s.setup?.dv ? [{ range: s.setup.dv.range, rule: s.setup.dv.rule }] : [])),
+      plageValidee: stepRef.current?.setup?.dv?.range ?? null,
+      posePivot: posePivotRef.current?.range ?? null,
+      feuilleCliche: grid
+        ? (() => { try { return grid.getSheets().find((f) => f.active)?.name ?? null } catch { return null } })()
+        : null,
+      enregistrement: enregistrementRef.current ? structuredClone(enregistrementRef.current) : null,
+      feuilles: grid ? (() => { try { return grid.getSheets().map((f) => f.name) } catch { return [] } })() : [],
+      feuilleActive: grid
+        ? (() => { try { return grid.getSheets().find((f) => f.active)?.name ?? null } catch { return null } })()
+        : null,
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [steps, lireCelluleCliche])
+
+  /**
+   * Repose le cliché : on ne réécrit QUE ce qui a changé.
+   *
+   * Réécrire tout serait plus simple et beaucoup plus dangereux — chaque
+   * `applyCells` provoque un recalcul, un `stateChange`, et une salve de
+   * francisation. Sur une zone de 700 cellules cela ferait un à-coup visible
+   * là où, dans les faits, deux ou trois cellules ont bougé.
+   */
+  const reposerClicheDemo = useCallback(
+    (c: ClicheDemo) => {
+      /**
+       * LE VERROU D'ABORD, TOUJOURS.
+       *
+       * La repose du tableau croisé réécrit ses cellules dans la feuille — sans
+       * quoi les chiffres de la version transformée resteraient à l'écran — et
+       * la grille émet son `stateChange` 350 ms plus tard. Poser le verrou
+       * APRÈS ces écritures laisserait l'observation valider l'étape et sauter
+       * à la suivante en pleine explication : exactement le défaut que ce
+       * cliché est censé faire disparaître.
+       */
+      verrouillerDemo(1500)
+      setOnglet(c.onglet)
+      ongletRef.current = c.onglet
+      setBoite(c.boite)
+      boiteRef.current = c.boite
+      setMenuFormat(c.menuFormat)
+      setPresseP(c.presseP)
+      poserPlageSomme(c.plageSomme)
+      /* Les modèles. `poserTcdDansFeuille` réécrit aussi les cellules du
+         tableau — c'est indispensable : reposer le seul état laisserait à
+         l'écran les chiffres de la version transformée. */
+      poserGraphique(c.graphique ? structuredClone(c.graphique) : null)
+      poserReglages(structuredClone(c.reglages))
+      /* L'ORDRE COMPTE : arrêter d'abord, reposer ensuite.
+         `arreterMacro` AJOUTE la macro enregistrée à la liste et la désigne
+         comme courante. Appelé après la repose, il défaisait exactement ce
+         qu'on venait de remettre — la liste repartait avec « Macro2 » en trop. */
+      /* On rend l'enregistreur tel qu'il était : arrêté s'il l'était, EN COURS
+         s'il l'était — avec sa macro en construction, son ancre et ses gestes
+         déjà transcrits. */
+      if (!c.enregistrement && enregistrementRef.current) arreterMacroRef.current?.()
+      else if (c.enregistrement) {
+        const repris = structuredClone(c.enregistrement)
+        enregistrementRef.current = repris
+        setEnregistrement(repris)
+      }
+      macrosRef.current = c.macros.map((m) => ({ ...m, statements: [...m.statements] }))
+      setMacros(macrosRef.current)
+      macroCouranteRef.current = c.macroCourante
+      setMacroCourante(c.macroCourante)
+      /**
+       * LE TABLEAU CROISÉ SE REPOSE, IL NE SE RECOPIE PAS.
+       *
+       * Ses cellules sont DÉRIVÉES de son état et de la source : « Somme de
+       * Montant », les libellés de lignes, les totaux. Reposer le seul état
+       * laissait à l'écran la disposition de la version transformée — sur
+       * `m20-l01`, retirer le champ Trimestre fait passer le tableau de vingt
+       * lignes à cinq, et le rejeu repartait des cinq. On le repose donc
+       * vraiment, ce qui efface l'ancienne emprise et réécrit la bonne ; le
+       * cliché des cellules, appliqué juste après, a le dernier mot.
+       */
+      const tcdVoulu = c.tcd ? structuredClone(c.tcd) : null
+      if (tcdVoulu) poserTcdDansFeuille(tcdVoulu)
+      else {
+        /* AUCUN TABLEAU AU DÉPART : celui qui est là a été créé par le passage
+           précédent. Reposer le seul état à `null` laissait ses cellules —
+           « Étiquettes de lignes », les totaux — à l'écran, et le rejeu
+           « insérez un tableau croisé » se jouait sur un tableau déjà posé. */
+        const g0 = gridRef.current
+        if (g0 && posePivotRef.current?.range) {
+          const vides: Record<string, CelluleCliche> = {}
+          for (const ref of cellsOf(posePivotRef.current.range)) vides[ref] = {}
+          g0.applyCells(vides as Parameters<typeof g0.applyCells>[0])
+          posePivotRef.current = null
+        }
+        tcdRef.current = null
+        setTcd(null)
+      }
+      const grid = gridRef.current
+      if (!grid) return
+      /* Les règles de mise en forme conditionnelle s'EMPILENT : `acc-mfc-regle`
+         en ajoute une par pression, et rien ne les retire. On efface la plage
+         que l'étape déclare — celle-là même que la démonstration va garnir —
+         uniquement quand il y en a plus qu'au départ, pour ne jamais toucher
+         aux règles que l'apprenant a posées ailleurs. */
+      try {
+        /**
+         * REMISE EXACTE, PAS AJUSTEMENT.
+         *
+         * Effacer la seule plage de l'étape retirait AUSSI la règle posée par
+         * une étape antérieure — « surlignez les valeurs > 200 » et
+         * « surlignez les < 100 » portent sur la même colonne. Le compte tombait
+         * à 0 au lieu de 1 et le rejeu montrait la pose sur une colonne vierge
+         * (m11-e02, m11-l01, m11-l03, m11-l04). On efface donc toutes les plages
+         * concernées, puis on repose celles des étapes déjà franchies.
+         */
+        if (grid.countConditionalRules() !== c.reglesMfc) {
+          grid.clearAllConditionalRules()
+          for (const r of c.reglesAPoser) grid.addConditionalRule(r.range, r.rule)
+        }
+      } catch {
+        /* le moteur peut refuser : ne jamais casser la leçon pour ça */
+      }
+      /* Les noms de plage créés par le passage précédent : `DEFINE_NAME` en
+         ajoute un à chaque fois, et rien ne les retirait. */
+      try {
+        for (const n of grid.getDefinedNames()) if (!c.noms.includes(n.name)) grid.deleteName(n.name)
+      } catch {
+        /* un nom protégé ne doit pas interrompre la démonstration */
+      }
+      /* Les feuilles ajoutées par le passage précédent : on les retire, puis on
+         revient sur celle d'où la démonstration était partie. Sans cela le geste
+         « Nouvelle feuille » empilait une feuille par rejeu. */
+      if (c.feuilles.length) {
+        try {
+          /**
+           * ON REVIENT D'ABORD, ON SUPPRIME ENSUITE.
+           *
+           * Supprimer la feuille ACTIVE laisse Univer avec une référence morte :
+           * « Cannot destructure property rowData of this._worksheetData as it
+           * is null » au premier accès suivant. Mesuré sur `m15-l02`, où la
+           * démonstration ajoute une feuille — donc l'active — que le rejeu doit
+           * retirer. On se replace sur une feuille du départ avant de toucher
+           * aux autres.
+           */
+          if (c.feuilleActive && grid.getSheets().some((f) => f.name === c.feuilleActive)) {
+            grid.activateSheet(c.feuilleActive)
+          }
+          const active = grid.getSheets().find((f) => f.active)?.name
+          for (const f of grid.getSheets()) {
+            if (c.feuilles.includes(f.name) || f.name === active) continue
+            grid.deleteSheet(f.name)
+          }
+          // Si l'active était justement une feuille à retirer, on repart de la
+          // bonne puis on la supprime enfin.
+          if (active && !c.feuilles.includes(active) && c.feuilleActive) {
+            grid.activateSheet(c.feuilleActive)
+            grid.deleteSheet(active)
+          }
+        } catch {
+          /* une suppression refusée ne doit pas interrompre la démonstration */
+        }
+      }
+      /* Un filtre posé par le passage précédent : « cliquez Filtrer » doit
+         retrouver une feuille sans filtre, sinon le geste ne montre rien. */
+      try {
+        if (!c.filtrePose && grid.aUnFiltre()) grid.removeFilter()
+        /* Et l'inverse : « effacer le filtre » est justement le geste montré.
+           Le rejeu doit donc repartir d'un tableau FILTRÉ. */
+        else if (c.filtrePose && !grid.aUnFiltre() && c.filtreAPoser?.range) {
+          grid.createFilter(c.filtreAPoser.range)
+          for (const col of c.filtreAPoser.colonnes) grid.setFilterCriteria(col.column, col.values)
+        }
+      } catch {
+        /* le moteur peut refuser : ne jamais casser la leçon */
+      }
+      /* La validation de données : on retire celle que le passage précédent a
+         posée, et on repose celles des étapes déjà franchies. */
+      try {
+        if (c.plageValidee) grid.clearValidation(c.plageValidee)
+        for (const v of c.validations) grid.addValidation(v.range, v.rule)
+      } catch {
+        /* une règle refusée ne doit pas casser la leçon */
+      }
+      /* Les commentaires : rendus À L'IDENTIQUE, présence ET absence. Le relevé
+         couvre TOUTE la feuille : celui que la démonstration vient de poser
+         n'est pas dans le cliché, il doit donc être retiré (m25-e01, m25-l02). */
+      try {
+        const maintenant = grid.getNotes()
+        for (const ref of Object.keys(maintenant)) {
+          if (!c.notes[ref]) grid.deleteNote(ref)
+        }
+        for (const [ref, texte] of Object.entries(c.notes)) {
+          if (texte && maintenant[ref] !== texte) grid.setNote(ref, texte)
+        }
+      } catch {
+        /* une note refusée ne doit pas casser la leçon */
+      }
+      /* Les fusions : rendues à l'identique, présence ET absence. */
+      try {
+        const avant = new Set(c.fusions)
+        const maintenant = grid.getFusions()
+        for (const f of maintenant) if (!avant.has(f)) grid.defusionner(f)
+        const restantes = new Set(grid.getFusions())
+        for (const f of c.fusions) if (!restantes.has(f)) grid.fusionner(f)
+      } catch {
+        /* le moteur peut refuser : ne jamais casser la leçon */
+      }
+      /* Les volets : les rendre EXACTEMENT, y compris « aucun ». `cancelFreeze`
+         est le seul chemin qui les lève ; `setFreeze(0, 0)` laisse Univer sur
+         une ligne figée fantôme. */
+      try {
+        const v = grid.getFrozen() ?? { rows: 0, cols: 0 }
+        if (v.rows !== c.volets.rows || v.cols !== c.volets.cols) {
+          if (!c.volets.rows && !c.volets.cols) grid.cancelFreeze()
+          else grid.setFreeze(c.volets.rows, c.volets.cols)
+        }
+      } catch {
+        /* le moteur peut refuser : ne jamais casser la leçon */
+      }
+      /**
+       * REVENIR SUR LA FEUILLE DU CLICHÉ AVANT D'ÉCRIRE.
+       *
+       * Le cliché ne connaît qu'une feuille — la sonde ne lit que l'active. Si
+       * la démonstration a changé de feuille (module 15, 21, 22), reposer ses
+       * cellules sans revenir d'abord écrirait les valeurs d'une feuille dans
+       * une autre. `activateSheet` n'est pas instantané : on vérifie, et on
+       * diffère plutôt que de risquer l'écriture croisée.
+       */
+      const surLaBonneFeuille = () => {
+        try {
+          return !c.feuilleCliche || grid.getSheets().find((f) => f.active)?.name === c.feuilleCliche
+        } catch {
+          return true
+        }
+      }
+      if (!surLaBonneFeuille() && c.feuilleCliche) {
+        try {
+          grid.activateSheet(c.feuilleCliche)
+        } catch {
+          /* feuille disparue : on ne réécrira rien */
+        }
+      }
+      if (!surLaBonneFeuille()) {
+        window.setTimeout(() => reposerClicheDemo(c), 160)
+        return
+      }
+      /* Les dimensions : « Largeur de colonne » et « Masquer » les changent, et
+         rien ne les remettait. Une colonne masquée vaut zéro — la reposer, c'est
+         la faire réapparaître. */
+      for (const [nom, d] of Object.entries(c.dimensions)) {
+        for (const [c2, l] of Object.entries(d.colonnes)) {
+          grid.setDimensionFeuille(nom, "col", Number(c2) - 1, l)
+        }
+        for (const [r2, h] of Object.entries(d.lignes)) {
+          grid.setDimensionFeuille(nom, "ligne", Number(r2) - 1, h)
+        }
+      }
+      const cells: Record<string, CelluleCliche> = {}
+      for (const [ref, attendu] of Object.entries(c.cellules)) {
+        try {
+          if (!memeCellule(lireCelluleCliche(grid, ref), attendu)) cells[ref] = attendu
+        } catch {
+          /* référence devenue invalide */
+        }
+      }
+      if (Object.keys(cells).length) grid.applyCells(cells as Parameters<typeof grid.applyCells>[0])
+
+      /**
+       * LE STYLE, REPOSÉ À L'IDENTIQUE — ET APRÈS LES VALEURS.
+       *
+       * On ne compare pas attribut par attribut : on compare le style BRUT et on
+       * repose celui du départ. `clearFormat()` remet la cellule à neuf avant, ce
+       * qui est le seul moyen de revenir à « alignement général » ou à « aucun
+       * format de nombre » — deux états qu'aucun setter n'écrit.
+       *
+       * Après les valeurs, et différé : écrire une cellule déclenche la
+       * francisation, qui repose un format ; poser le style avant se ferait
+       * écraser dans la foulée. 360 ms tombe juste après la repose de la remise
+       * d'aplomb, qui s'exécute dans le même effet.
+       */
+      window.setTimeout(() => {
+        const g = gridRef.current
+        if (!g) return
+        for (const [ref, attendu] of Object.entries(c.visuels)) {
+          try {
+            if (JSON.stringify(g.getStyleBrut(ref) ?? null) !== attendu) {
+              g.setStyleBrut(ref, JSON.parse(attendu))
+            }
+          } catch {
+            /* référence devenue invalide */
+          }
+        }
+      }, 360)
+    },
+    [lireCelluleCliche, poserGraphique, poserPlageSomme, poserReglages, poserTcdDansFeuille, verrouillerDemo],
+  )
+
+  /**
+   * Une cellule ÉCRITE PAR LE TABLEAU CROISÉ n'est pas un parasite.
+   *
+   * « Somme de Montant », « Étiquettes de lignes », les totaux : le scénario ne
+   * les déclare nulle part — c'est le moteur qui les produit. Elles tombent
+   * pourtant dans le rectangle englobant de ce que le scénario déclare, donc
+   * `cellulesHorsEtatAplomb` les voyait comme des cases remplies sans raison et
+   * les vidait. Mesuré le 03/08/2026 sur `m20-l04` : au rejeu, l'emplacement du
+   * tableau était nettoyé pendant que son état restait intact — un tableau
+   * croisé invisible, et une démonstration qui expliquait du vide.
+   */
+  const occupePivot = useCallback((ref: string): boolean => {
+    const plage = posePivotRef.current?.range
+    if (!plage) return false
+    const p = parseRange(plage)
+    const c = parseRange(ref)
+    if (!p || !c) return false
+    /* AVEC LA MÊME MARGE QUE LE CLICHÉ. La pose enregistrée décrit le tableau
+       à un instant donné ; il grandit dès qu'on lui ajoute un champ. Protéger
+       la seule pose laissait la remise d'aplomb vider les cellules apparues
+       autour — et le cliché les relevait alors déjà vides, si bien que le rejeu
+       repartait d'un tableau amputé. */
+    const M = 8
+    return (
+      c.startRow >= p.startRow && c.endRow <= p.endRow + M &&
+      c.startCol >= p.startCol && c.endCol <= p.endCol + M
+    )
+  }, [])
+
   const remettreDAplomb = useCallback(
     (portee: "dependances" | "tout", pourEtape: number): Divergence[] => {
       const grid = gridRef.current
@@ -1397,10 +2431,11 @@ export default function SimulationPlayer({
       // revanche, on revient exactement à l'état d'entrée de l'étape : une
       // cellule prévue plus tard n'a aucune raison de conserver aujourd'hui le
       // zéro que l'apprenant vient d'y saisir.
-      const aVider =
+      const aVider = (
         portee === "tout"
           ? cellulesHorsEtatAplomb(zone, etat, lecture)
           : cellulesParasites(zone, declarees, lecture)
+      ).filter((ref) => !occupePivot(ref))
       const versParasite: Divergence[] = aVider.map((ref) => ({
         ref,
         motif: "parasite",
@@ -1442,10 +2477,23 @@ export default function SimulationPlayer({
       // vient d'être écrite annule cette formule, et la cellule qu'on venait de
       // réparer redevient vide. C'est le piège qui a fait croire pendant tout
       // un cycle que le mécanisme ne s'exécutait pas.
-      // Une observation a pu être jetée pendant le verrou : on relit l'état une
-      // fois qu'il est levé, pour que l'étape se valide si la feuille est déjà
-      // juste. Sans ce rattrapage, seul « effacer puis retaper » débloquait.
-      window.setTimeout(() => reobserverEtat(), 1100)
+      /**
+       * Une observation a pu être jetée pendant le verrou : on relit l'état une
+       * fois qu'il est levé, pour que l'étape se valide si la feuille est déjà
+       * juste. Sans ce rattrapage, seul « effacer puis retaper » débloquait.
+       *
+       * ⚠️ JAMAIS AVANT UNE DÉMONSTRATION (`portee === "tout"`). Le rattrapage
+       * existe pour repêcher une saisie de l'APPRENANT avalée par le verrou ;
+       * pendant une démonstration personne ne tape, et la seule chose qu'il
+       * puisse valider est la réparation que la remise d'aplomb vient
+       * elle-même d'écrire. Mesuré le 03/08/2026 sur `M25-E02-05` : la cellule
+       * B4 contient « LYON », l'étape attend « Lyon », et la comparaison ignore
+       * la casse — au rejeu, la réparation de B4 déclenchait le rattrapage,
+       * l'étape se validait toute seule au milieu de l'explication et la
+       * démonstration affichée ensuite était celle de l'étape SUIVANTE. Vu de
+       * l'extérieur, « Revoir » montrait autre chose que ce qu'il annonçait.
+       */
+      if (portee === "dependances") window.setTimeout(() => reobserverEtat(), 1100)
       const aFormater = ds.filter((d) => d.famille !== undefined)
       if (aFormater.length) {
         window.setTimeout(() => {
@@ -1463,7 +2511,7 @@ export default function SimulationPlayer({
       return ds
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [steps, verrouillerDemo],
+    [occupePivot, steps, verrouillerDemo],
   )
 
   const handleReady = useCallback(
@@ -1518,6 +2566,10 @@ export default function SimulationPlayer({
       (window as any).__SIM_DEMO_VUS = {}
     setRejeu(0)
     setDemoFinie(false)
+    // Le cliché appartient à l'étape : changer d'étape, c'est changer de point
+    // de départ. Le garder ferait reposer sur la nouvelle étape le classeur de
+    // l'ancienne, ce qui serait bien pire que le défaut qu'il corrige.
+    clicheDemoRef.current = null
     setTatonnements(0)
     setTropLong(false)
     // Le message d'aplomb n'est PAS effacé d'office : il a sa propre échéance
@@ -1553,6 +2605,50 @@ export default function SimulationPlayer({
   useEffect(() => {
     if (!demonstration || !gridReady || finished) return
     poserAplomb(direAplomb(remettreDAplomb("tout", index)))
+    /**
+     * PREMIER LANCEMENT : on garde le cliché. REJEU : on le repose.
+     *
+     * La remise d'aplomb ci-dessus ne suffit pas, et ne le pouvait pas : elle
+     * compare la feuille à l'état ATTENDU AVANT l'étape courante, donc la
+     * réponse que la démonstration vient d'écrire ne lui apparaît ni comme une
+     * divergence (elle est légitime), ni comme un parasite (la cellule est
+     * déclarée). Elle sort même en tête quand rien n'est encore connu
+     * (`if (!refs.length) return []`), ce qui est exactement le cas d'une
+     * première étape sur un classeur vide — `m01-e02` en est l'exemple.
+     *
+     * Le cliché, lui, ne raisonne pas sur ce qui est attendu : il retient ce
+     * qui ÉTAIT là. C'est la seule mesure qui garantit que les deux passages
+     * partent du même écran, et donc qu'ils montrent la même chose.
+     *
+     * Il est pris avec 400 ms de retard : la remise d'aplomb repose ses formats
+     * à 300 ms, et un cliché pris avant les figerait dans leur état d'avant
+     * réparation. La première écriture d'une démonstration n'a lieu qu'après
+     * la carte d'annonce — 3,2 s au plus tôt — donc rien ne peut passer entre
+     * les deux.
+     */
+    /**
+     * PREMIER LANCEMENT : on garde le cliché. REJEU : on le repose.
+     *
+     * L'ÉTAT D'ENTRÉE D'UNE DÉMONSTRATION, C'EST CELUI D'OÙ ELLE PART — donc
+     * APRÈS le décor de l'étape (`applyStep`) et APRÈS la remise d'aplomb, pas
+     * avant. Le prendre plus tôt paraissait plus « pur » : il remettait en
+     * réalité le classeur dans l'état de l'étape PRÉCÉDENTE, et le rejeu de
+     * `m21-e04` retrouvait un « 0 » là où le décor avait posé « Table de
+     * réunion 8 places ».
+     *
+     * 400 ms de retard : la remise d'aplomb repose ses formats à 300 ms, et un
+     * cliché pris avant les figerait dans leur état d'avant réparation. La
+     * première écriture d'une démonstration n'a lieu qu'après la carte
+     * d'annonce — 3,2 s au plus tôt — donc rien ne peut passer entre les deux.
+     */
+    if (clicheDemoRef.current) {
+      reposerClicheDemo(clicheDemoRef.current)
+      return
+    }
+    const t = window.setTimeout(() => {
+      clicheDemoRef.current = prendreClicheDemo()
+    }, 400)
+    return () => window.clearTimeout(t)
     // `rejeu` fait partie des dépendances : sans lui, « Revoir la
     // démonstration » rejouait sur le classeur tel qu'il était devenu depuis la
     // première fois. L'apprenant qui abîme quelque chose PUIS redemande à voir
@@ -2176,6 +3272,7 @@ export default function SimulationPlayer({
     setCodeMacro(codeMacroRef.current)
     handleAction({ kind: "recorder", state: "stopped" })
   }, [handleAction])
+  arreterMacroRef.current = arreterMacro
 
   const executerMacroNommee = useCallback(
     (nom: string) => {
@@ -2772,8 +3869,12 @@ export default function SimulationPlayer({
       // plusieurs recalculs, donc on valide l'étape à la fin de la recherche.
       const cible = stepRef.current?.setup?.goalSeek
       if (controlId === "don-valeur-cible" && cible && grid) {
+        travauxDemoRef.current += 1
         void grid
           .goalSeek(cible.formulaRef, cible.target, cible.inputRef)
+          .finally(() => {
+            travauxDemoRef.current = Math.max(0, travauxDemoRef.current - 1)
+          })
           .then(() => {
             setSelection(grid.getSelection() ?? cible.inputRef)
             setStats(grid.getSelectionStats() ?? null)
@@ -2855,6 +3956,98 @@ export default function SimulationPlayer({
       // défaut que Samuel a filmé le 31/07/2026.
       const OUVRE_SANS_MODIFIER = ["acc-format", "acc-format-fleche", "bf-fx"]
       if (stepRef.current?.action.type === "READ" && !OUVRE_SANS_MODIFIER.includes(id)) return
+      /**
+       * Un SÉLECTEUR, pas un identifiant de contrôle.
+       *
+       * Le volet des champs du tableau croisé ne passe pas par `handleControl` :
+       * chaque bouton — retirer un champ, ouvrir le menu d'agrégat, choisir la
+       * zone de dépôt — porte son propre `onClick`. Tant que le plan ne savait
+       * viser que des `data-control`, une étape de MODIFICATION de tableau
+       * croisé n'avait pas d'autre geste disponible que « insérer un tableau
+       * croisé » — celui qui efface le tableau. On clique donc l'élément réel,
+       * exactement comme l'apprenant.
+       */
+      if (id.startsWith("[")) {
+        verrouillerDemo(1400)
+        const el = document.querySelector<HTMLElement>(id)
+        /* La trace dit si l'élément EXISTAIT : « pressé » sur un sélecteur qui
+           ne trouve rien est un faux témoignage, et c'est justement ce qui
+           masquait `mep-echelle` absent du DOM quand le panneau de mise en page
+           n'est pas déployé (m13-e01). */
+        if (process.env.NODE_ENV !== "production" && typeof window !== "undefined") {
+          const w = window as any
+          const trace = (arg === undefined ? id : `${id}=${arg}`) + (el ? "" : " (absent)")
+          w.__SIM_DEMO_PRESSES = [...(w.__SIM_DEMO_PRESSES ?? []), trace]
+        }
+        if (!el) return
+        /**
+         * UNE LISTE DÉROULANTE NE SE CLIQUE PAS.
+         *
+         * Le filtre de rapport du tableau croisé est un `<select>` contrôlé par
+         * React : `el.click()` l'ouvre visuellement et n'y choisit RIEN — la
+         * démonstration montrait le bon endroit et le filtre restait sur
+         * « (Tous) ». Même remède que pour le champ « Nom du fichier » de la
+         * boîte Enregistrer sous : on pose la valeur par le mutateur natif, puis
+         * on émet l'événement que React écoute.
+         */
+        if (arg !== undefined && (el instanceof HTMLSelectElement || el instanceof HTMLInputElement || el instanceof HTMLTextAreaElement)) {
+          const proto =
+            el instanceof HTMLSelectElement ? HTMLSelectElement.prototype
+            : el instanceof HTMLTextAreaElement ? HTMLTextAreaElement.prototype
+            : HTMLInputElement.prototype
+          const setter = Object.getOwnPropertyDescriptor(proto, "value")?.set
+          el.focus()
+          /**
+           * PASSER PAR UNE AUTRE VALEUR QUAND C'EST DÉJÀ LA BONNE.
+           *
+           * React n'appelle `onChange` que si la valeur CHANGE. Le champ
+           * « Échelle » affiche l'échelle CALCULÉE tant qu'aucune échelle
+           * manuelle n'est posée : sur m13-l01, l'ajustement « 1 page en
+           * largeur » l'affichait déjà à 100, écrire « 100 » ne déclenchait
+           * rien, et le réglage restait en ajustement automatique alors que la
+           * leçon annonce le retour à 100 %.
+           */
+          const ecrire = (cible: Element, v: string) => {
+            if (setter) setter.call(cible, v)
+            else (cible as HTMLInputElement).value = v
+          }
+          const poser = (cible: Element, v: string) => {
+            ecrire(cible, v)
+            // React écoute `input` sur les champs libres et `change` sur les
+            // listes : on émet les deux, l'inutile est simplement ignoré.
+            cible.dispatchEvent(new Event("input", { bubbles: true }))
+            cible.dispatchEvent(new Event("change", { bubbles: true }))
+          }
+          if ((el as HTMLInputElement).value === arg) {
+            /* Une valeur VOISINE et valide, pas une valeur vide : `Number("")`
+               vaut 0, que `appliquerReglages` ramène au minimum — le champ
+               retombait à 10 % et n'en repartait plus. */
+            const n = Number(arg)
+            poser(el, Number.isFinite(n) && n !== 0 ? String(n - 1) : "0")
+          }
+          /* ON REDEMANDE L'ÉLÉMENT. React a pu remonter le champ entre les deux
+             écritures : écrire sur le nœud détaché ne produisait plus rien, et
+             l'échelle restait à la valeur de passage (99 au lieu de 100). */
+          const dernier = (document.querySelector(id) ?? el) as HTMLElement
+          poser(dernier, arg)
+          /**
+           * Et on VALIDE, comme l'apprenant : certains champs n'appliquent leur
+           * valeur qu'à la validation, quand `onChange` n'a rien vu changer.
+           *
+           * ⚠️ On RÉÉCRIT la valeur juste avant. Un champ contrôlé peut être
+           * revenu à son affichage calculé entre l'écriture et la validation :
+           * la validation lisait alors l'ANCIENNE valeur et écrasait la bonne —
+           * l'échelle repartait à 34 % au lieu de 100 % (m13-e01).
+           */
+          const confirmer = (document.querySelector(id) ?? dernier) as HTMLElement
+          ecrire(confirmer, arg)
+          confirmer.dispatchEvent(new KeyboardEvent("keydown", { key: "Enter", bubbles: true }))
+          confirmer.dispatchEvent(new FocusEvent("blur", { bubbles: false }))
+          return
+        }
+        cliquerElement(el)
+        return
+      }
       // Les commandes d'Univer et les couches s'appliquent de façon asynchrone,
       // et l'observation de mise en forme est relue 220 ms après le clic : le
       // verrou doit couvrir tout cela.
@@ -2900,7 +4093,7 @@ export default function SimulationPlayer({
       // mode — geste invisible en cascade (modules 13). Le clic DOM couvre les
       // deux familles d'un seul geste.
       const el = document.querySelector<HTMLElement>(`[data-control="${id}"]`)
-      if (el && typeof el.click === "function") el.click()
+      if (el) cliquerElement(el)
       else handleControl(id)
     },
     [gestePoste, handleControl, verrouillerDemo],
@@ -2910,6 +4103,22 @@ export default function SimulationPlayer({
   const selectionnerDemo = useCallback((ref: string) => {
     const grid = gridRef.current
     if (!grid) return
+    /**
+     * `col:A` et `ligne:3` : une COLONNE ou une LIGNE ENTIÈRE.
+     *
+     * Le plan ne peut pas écrire `A1:A40` — il ne sait pas combien de lignes la
+     * feuille compte, et `getSelectionKind` ne reconnaît une colonne entière
+     * qu'à `endRow >= maxRows - 1`. Une plage trop courte passerait pour une
+     * simple plage, et « insérer une colonne » ne ferait rien. On demande donc
+     * les bornes réelles au moment du geste.
+     */
+    const entier = /^(col|ligne):(.+)$/.exec(ref)
+    if (entier) {
+      const b = grid.getBornes()
+      ref = entier[1] === "col"
+        ? `${entier[2]}1:${entier[2]}${b.rows}`
+        : `A${entier[2]}:${columnIndexToLetter(b.cols - 1)}${entier[2]}`
+    }
     grid.setSelection(ref)
     setSelection(ref)
     setStats(grid.getSelectionStats(ref))
@@ -3283,7 +4492,34 @@ export default function SimulationPlayer({
     // référence des gestes et relancerait la minuterie du calque à zéro — la
     // démonstration se figerait sur son premier geste. Ce qui compte est
     // l'onglet ouvert au DÉMARRAGE.
-    const depart = { onglet: ongletRef.current, boitePoste: posteDepartEtapeRef.current?.boite }
+    // Le `setup` entre dans le contexte : lui seul distingue « créer un
+    // graphique » de « modifier celui qui est là », deux étapes que
+    // `EXPECT_CHART` décrit de la même façon. Sans lui, la démonstration
+    // pressait la galerie et reconstruisait le modèle par-dessus le travail.
+    const depart = {
+      onglet: ongletRef.current,
+      boitePoste: posteDepartEtapeRef.current?.boite,
+      setup: step.setup,
+      // Les champs déjà placés dans le tableau croisé : `rows`/`cols`/`filters`
+      // d'un `pivotEdit` REMPLACENT la liste, donc le plan doit savoir ce qu'il
+      // faut retirer avant de déposer.
+      classeurNomme: !!posteDepartEtapeRef.current?.classeur,
+      macrosCourantes: macrosRef.current.map((m) => m.name),
+      /* Les sauts DÉJÀ posés : la démonstration ne repose que ceux qui
+         manquent, et n'oublie aucun de ceux que l'étape déclare. */
+      reglagesCourants: {
+        pageBreakRows: reglagesRef.current.pageBreakRows ?? [],
+        pageBreakCols: reglagesRef.current.pageBreakCols ?? [],
+      },
+      tcdCourant: tcdRef.current
+        ? {
+            rows: tcdRef.current.rows.map((f) => f.name),
+            cols: tcdRef.current.cols.map((f) => f.name),
+            values: tcdRef.current.values.map((f) => f.name),
+            filters: tcdRef.current.filters.map((f) => f.name),
+          }
+        : undefined,
+    }
     if (step.montrer?.length) {
       // Un écran de lecture montre le geste qu'il décrit, y compris pendant une
       // évaluation : ce n'est pas une aide sur une question notée, c'est le
@@ -3306,7 +4542,23 @@ export default function SimulationPlayer({
    * aucun élément DOM par cellule) ; le châssis passe par le DOM.
    */
   const resoudreCible = useCallback((cible: CibleDemo): Rect | null => {
-    const r = resoudreCibleBrut(cible)
+    /**
+     * UNE CIBLE QUI NE SE RÉSOUT PAS NE DOIT JAMAIS FAIRE TOMBER LE CALQUE.
+     *
+     * `getCellRect` traverse la façade d'Univer, qui peut refuser une
+     * construction sous charge — « [redi]: Detecting cyclic dependency … FRange2 »
+     * mesuré sur `m01-e02`, à la sixième cellule d'une saisie de huit.
+     * L'exception remontait dans le rendu de `DemonstrationGeste`, la frontière
+     * d'erreur démontait le calque, et la démonstration s'arrêtait à 5/8 :
+     * ni fin, ni bouton « Revoir », ni moyen d'en sortir. Au pire, une cible
+     * non résolue vaut « pas de repère à dessiner » — jamais un écran mort.
+     */
+    let r: Rect | null = null
+    try {
+      r = resoudreCibleBrut(cible)
+    } catch {
+      r = null
+    }
     // Trace d'audit : une cible qui s'est résolue AU MOINS UNE FOIS pendant qu'on
     // la montrait a bien eu son repère. La mesurer après coup se retourne contre
     // nous — un bouton de menu disparaît justement parce que le geste a réussi —
@@ -3317,6 +4569,18 @@ export default function SimulationPlayer({
       const cle = cleCible(cible)
       if (r) w.__SIM_DEMO_VUS[cle] = true
       else if (w.__SIM_DEMO_VUS[cle] === undefined) w.__SIM_DEMO_VUS[cle] = false
+      /**
+       * « Résolue » ne veut pas dire « visible ».
+       *
+       * Une colonne masquée rend un rectangle de largeur ZÉRO — parfaitement
+       * résolu, parfaitement invisible. C'est le cas de `acc-format-masquer` :
+       * le premier passage masque la colonne, et au rejeu le repère qui la
+       * désigne se réduit à un trait. La trace booléenne répondait « vue ».
+       * On garde donc aussi la BOÎTE, la dernière dessinée, pour que l'audit
+       * puisse exiger une surface non nulle et dans le champ.
+       */
+      if (!w.__SIM_DEMO_BOITES) w.__SIM_DEMO_BOITES = {}
+      if (r) w.__SIM_DEMO_BOITES[cle] = r
     }
     return r
   }, [])
@@ -3360,7 +4624,19 @@ export default function SimulationPlayer({
       // Hauteur RÉELLE de la zone de grille, pas déduite de celle de l'atelier :
       // le bandeau de consigne occupe le bas, la soustraction se tromperait.
       const basDeFeuille = zg?.height ?? h.height - dy
-      if (a.top + a.height > basDeFeuille || a.top < 0) {
+      /* ET LE BORD DROIT. Le défilement horizontal existe aussi : après un
+         format monétaire qui élargit une colonne, `A10` sortait par la gauche
+         et le repère se dessinait sur une surface nulle (m27-l01, étape 8). Le
+         contrôle ne portait que sur le haut et le bas. */
+      const droiteDeFeuille = zg?.width ?? h.width
+      const horsCadre =
+        a.top + a.height > basDeFeuille ||
+        a.top < 0 ||
+        a.left + a.width > droiteDeFeuille ||
+        a.left < 0 ||
+        a.width <= 0 ||
+        a.height <= 0
+      if (horsCadre) {
         if (grid.scrollToCell(bornes[0])) {
           const a2 = grid.getCellRect(bornes[0])
           const b2 = grid.getCellRect(bornes[bornes.length - 1])
@@ -3379,14 +4655,47 @@ export default function SimulationPlayer({
         height: Math.max(a.top + a.height, b.top + b.height) - top,
       })
     }
+    /* Un EN-TÊTE se résout depuis une cellule de sa ligne ou de sa colonne : il
+       faut donc l'amener dans le champ comme n'importe quelle cellule. Sans ce
+       défilement, « la ligne 27 » du module 13 rendait un rectangle sous le bord
+       de l'écran — résolu, jamais vu. */
+    const amener = (ref: string) => {
+      let r = grid?.getCellRect(ref) ?? null
+      const bas = zg?.height ?? h.height - dy
+      if (r && (r.top + r.height > bas || r.top < 0) && grid?.scrollToCell(ref)) {
+        r = grid.getCellRect(ref) ?? r
+      }
+      return r
+    }
     if (cible.k === "enteteColonne") {
-      const r = grid?.getCellRect(`${cible.col}1`)
+      const r = amener(`${cible.col}1`)
       // L'en-tête n'est pas une cellule : il est juste au-dessus de la ligne 1.
       return r ? depuisGrille({ left: r.left, top: Math.max(0, r.top - 20), width: r.width, height: 20 }) : null
     }
     if (cible.k === "enteteLigne") {
-      const r = grid?.getCellRect(`A${cible.ligne}`)
-      return r ? depuisGrille({ left: Math.max(0, r.left - 46), top: r.top, width: 46, height: r.height }) : null
+      let r = amener(`A${cible.ligne}`)
+      /**
+       * UNE LIGNE MASQUÉE PAR UN FILTRE N'A PLUS DE HAUTEUR.
+       *
+       * `m19-l02` désigne justement les lignes ABSENTES pour faire lire la
+       * numérotation discontinue — « 1, 2, 4, 6 : un filtre est actif ». Le
+       * repère se réduisait alors à un trait d'épaisseur nulle, et la leçon
+       * annonçait « c'est pointé à l'écran » sans rien pointer. On se rabat sur
+       * l'en-tête de la première ligne VISIBLE en dessous : c'est exactement là
+       * que le saut de numérotation se voit.
+       */
+      if (r && r.height <= 0) {
+        for (let l = cible.ligne + 1; l <= cible.ligne + 40; l++) {
+          const suivant = amener(`A${l}`)
+          if (suivant && suivant.height > 0) {
+            r = suivant
+            break
+          }
+        }
+      }
+      return r && r.height > 0
+        ? depuisGrille({ left: Math.max(0, r.left - 46), top: r.top, width: 46, height: r.height })
+        : null
     }
     if (cible.k === "clavier") {
       // Un raccourci n'a pas de lieu : on réserve un cadre au centre de l'écran,
@@ -3397,13 +4706,30 @@ export default function SimulationPlayer({
     if (!el) return null
     let r = el.getBoundingClientRect()
     if (r.width === 0 && r.height === 0) return null
-    // Même règle que pour les cellules : un bouton sous le bord de l'écran est
-    // « trouvé » sans être visible. Les panneaux de mise en page sont plus
-    // hauts qu'un portable — `mep-entete-pied` tombait à y=1015 sur 900 px.
-    // Sans conteneur défilable, `scrollIntoView` ne fait rien : on remesure
-    // dans tous les cas plutôt que de supposer que ça a marché.
-    if (r.bottom > h.bottom || r.top < h.top) {
-      el.scrollIntoView({ block: "center", behavior: "instant" as ScrollBehavior })
+    /**
+     * Même règle que pour les cellules : un bouton hors du cadre est « trouvé »
+     * sans être visible. Les panneaux de mise en page sont plus hauts qu'un
+     * portable — `mep-entete-pied` tombait à y=1015 sur 900 px.
+     *
+     * ⚠️ LE RUBAN DÉFILE HORIZONTALEMENT, et cet axe manquait. Sur un écran de
+     * 1440 px le ruban en mesure 1544 : « Somme automatique » se trouve à
+     * x=1451, donc entièrement à droite du cadre, avec `scrollLeft` à zéro. La
+     * cible se résolvait parfaitement — l'élément existe, son rectangle est
+     * valide — mais le halo, la bulle et le curseur étaient dessinés HORS
+     * CHAMP. Le compteur allait au bout, « Revoir » apparaissait, et
+     * l'apprenant qui venait de réclamer « Montrez-moi » ne voyait rien. C'est
+     * le même piège que la grille qui ne défile jamais d'elle-même, dans
+     * l'autre axe.
+     *
+     * Sans conteneur défilable, `scrollIntoView` ne fait rien : on remesure
+     * dans tous les cas plutôt que de supposer que ça a marché.
+     */
+    if (r.bottom > h.bottom || r.top < h.top || r.right > h.right || r.left < h.left) {
+      el.scrollIntoView({
+        block: "center",
+        inline: "center",
+        behavior: "instant" as ScrollBehavior,
+      })
       r = el.getBoundingClientRect()
     }
     return { left: r.left - h.left, top: r.top - h.top, width: r.width, height: r.height }
@@ -3439,17 +4765,298 @@ export default function SimulationPlayer({
     // d'une étape émet elle-même un `stateChange`, qui comptait un tâtonnement
     // que personne n'avait fait.
     ;(window as any).__SIM_COMPTEURS = { essais, tatonnements, tropLong }
+    /**
+     * LE PLAN RÉELLEMENT JOUÉ, tel que le calque le reçoit.
+     *
+     * `__SIM_DEMO_PROBE` recalcule le plan au moment où on l'interroge : après
+     * la séquence, l'onglet de ruban est déjà ouvert, donc le geste qui l'ouvre
+     * a disparu et la sonde annonce quatre gestes là où cinq ont été joués.
+     * Pour auditer un REJEU il faut la liste exacte des cibles que la
+     * démonstration DOIT dessiner, figée au démarrage : c'est celle-ci.
+     */
+    ;(window as any).__SIM_DEMO_PLAN = demo
+      ? {
+          cibles: demo.gestes.flatMap((g) => [
+            cleCible(g.cible),
+            ...(g.glisserVers ? [cleCible(g.glisserVers)] : []),
+          ]),
+          gestes: demo.gestes.length,
+          presse: demo.gestes.flatMap((g) => (g.presser ? [g.presser.id] : [])),
+          ecrit: demo.gestes.flatMap((g) => (g.ecrire ? [`${g.ecrire.ref}=${g.ecrire.valeur}`] : [])),
+          onglets: demo.gestes.flatMap((g) => (g.onglet ? [g.onglet] : [])),
+        }
+      : null
+    /**
+     * INSTANTANÉ SÉMANTIQUE de tout ce qu'une démonstration peut muter.
+     *
+     * POURQUOI IL FAUT LE PRENDRE DEPUIS L'INTÉRIEUR
+     * Un audit du rejeu doit répondre à deux questions qu'aucune capture d'écran
+     * ne tranche : « l'état d'entrée est-il restauré avant le second passage ? »
+     * et « le second passage retombe-t-il sur le même écran que le premier ? ».
+     * Reconstruire cet état depuis le DOM est impossible — la grille est un
+     * canvas, le graphique, le tableau croisé, les macros et le poste de travail
+     * vivent dans des états React. On les lit donc ici, à la source.
+     *
+     * Le cliché est PUREMENT DESCRIPTIF : il ne modifie rien, ne déclenche
+     * aucune observation, et ne sert qu'aux harnais d'audit. Comme
+     * `__SIM_DEMO_PROBE`, il disparaît des bundles de production avec le
+     * remplacement de `process.env.NODE_ENV`.
+     */
+    ;(window as any).__SIM_ETAT_AUDIT = () => {
+      const grid = gridRef.current
+      let refsSonde: string[] = []
+    const cellules: Record<string, string> = {}
+      const formats: Record<string, string> = {}
+      /** Mise en forme VISUELLE observable, condensée en une signature lisible. */
+      const mises: Record<string, string> = {}
+      /** Valeur CALCULÉE de chaque cellule, formules résolues. */
+      const valeurs: Record<string, string> = {}
+      /** Texte AFFICHÉ, format appliqué : ce que l'apprenant lit réellement. */
+      const affichages: Record<string, string> = {}
+      const colonnes: Record<string, number> = {}
+      if (grid) {
+        let active: string | undefined
+        try {
+          active = grid.getSheets().find((f) => f.active)?.name
+        } catch {
+          /* grille pas prête */
+        }
+        // Le rectangle englobant de tout ce que le scénario déclare : la même
+        // frontière que la remise d'aplomb, donc ni trop étroite (on raterait
+        // une cellule écrite par la démonstration) ni sans fin.
+        const { zone } = zoneClasseur(steps, scenario.workbook, active)
+        /**
+         * TROIS SOURCES, PAS UNE.
+         *
+         * `zoneClasseur` ne connaît que ce que le scénario DÉCLARE en clair. Il
+         * manquait donc deux choses au cliché d'audit : les cellules qu'un
+         * tableau croisé ÉCRIT (« Somme de Montant », les totaux — le moteur les
+         * produit, personne ne les déclare) et les cellules que l'étape courante
+         * attend (`action.pivot.cells`, `action.macro.effet`). Sans elles, le
+         * contrôle d'efficacité lisait `undefined` et concluait « effet non
+         * atteint » sur 25 étapes du module 20 parfaitement correctes : un défaut
+         * de la sonde, présenté comme un défaut du produit.
+         */
+        const aLire = refsDeLaZone(zone)
+        refsSonde = aLire
+        const ajouter = (r: string) => {
+          const R = r.toUpperCase()
+          if (/^[A-Z]{1,3}\d{1,5}$/.test(R) && !aLire.includes(R)) aLire.push(R)
+        }
+        if (posePivotRef.current?.range) for (const r of cellsOf(posePivotRef.current.range)) ajouter(r)
+        /* TOUTE référence nommée par l'étape — même moisson que le cliché :
+           `goalSeek.inputRef` n'entrait dans aucune énumération par famille, et
+           B3 n'était donc ni relevée, ni comparée, ni rendue. */
+        const moissonSonde = (v: unknown, profondeur = 0): void => {
+          if (profondeur > 6) return
+          if (typeof v === "string") {
+            if (/^[A-Z]{1,3}\d{1,5}(:[A-Z]{1,3}\d{1,5})?$/i.test(v)) {
+              for (const r of cellsOf(v.toUpperCase())) ajouter(r)
+            }
+            return
+          }
+          if (Array.isArray(v)) {
+            for (const e of v) moissonSonde(e, profondeur + 1)
+            return
+          }
+          if (v && typeof v === "object") {
+            for (const [cle, val] of Object.entries(v as Record<string, unknown>)) {
+              moissonSonde(cle, profondeur + 1)
+              moissonSonde(val, profondeur + 1)
+            }
+          }
+        }
+        moissonSonde(stepRef.current?.action)
+        moissonSonde(stepRef.current?.setup)
+        for (const ref of aLire) {
+          try {
+            const f = grid.getFormula(ref) ?? ""
+            const v = grid.getValue(ref)
+            const t = f ? `=${f.replace(/^=/, "")}` : v == null || v === "" ? "" : String(v)
+            if (t !== "") cellules[ref] = t
+            /* Le TEXTE AFFICHÉ, à part lui aussi. Une date tapée « 07/04/2026 »
+               est stockée en numéro de série avec un format : ni le contenu
+               brut ni la valeur ne ressemblent à ce que le scénario accepte,
+               alors que l'apprenant lit bien « 07/04/2026 » à l'écran. */
+            const aff = grid.getDisplayValue(ref)
+            if (aff) affichages[ref] = aff
+            /* La VALEUR CALCULÉE, à part. Une cellule qui porte une formule est
+               relevée comme formule — c'est ce qu'il faut pour la restaurer — mais
+               un scénario qui déclare « D21 doit valoir 510 » parle du RÉSULTAT.
+               Comparer « =SOMME(D14:D20) » à 510 déclarait faux un total juste. */
+            if (v !== null && v !== undefined && v !== "") valeurs[ref] = String(v)
+            const nf = grid.getNumberFormat(ref) ?? ""
+            if (nf) formats[ref] = nf
+            // Univer n'expose NI le gras NI l'italique NI le souligné NI les
+            // bordures : ces quatre attributs restent hors de portée de toute
+            // mesure, c'est une limite du moteur, pas de l'audit.
+            /**
+             * LE STYLE BRUT, moins le format de nombre.
+             *
+             * `getFormat` ne rend que cinq attributs : ni la couleur de police,
+             * ni le gras, ni les bordures. `acc-couleur-police` changeait donc
+             * l'écran sans qu'aucun relevé ne le voie, et le contrôle concluait
+             * « ce bouton ne produit rien ». Le style tel qu'Univer le stocke
+             * les porte tous. Le format de nombre en est retiré : il a son
+             * propre relevé, et l'y laisser ferait revenir le bruit de la
+             * francisation dans cette famille.
+             */
+            const brut = grid.getStyleBrut(ref) as Record<string, unknown> | null
+            if (brut && typeof brut === "object") {
+              const { n: _n, ...reste } = brut as Record<string, unknown>
+              void _n
+              const sig = JSON.stringify(reste)
+              if (sig !== "{}") mises[ref] = sig
+            }
+          } catch {
+            /* référence hors bornes */
+          }
+        }
+        // Largeurs de colonnes de la zone : une colonne masquée vaut zéro, et
+        // c'est justement ce que `acc-format-masquer` produit.
+        if (zone) {
+          for (let c = zone.c1; c <= zone.c2; c++) {
+            try {
+              const l = grid.getColumnWidth(c - 1)
+              if (l != null) colonnes[String(c)] = l
+            } catch {
+              /* squelette pas prêt */
+            }
+          }
+        }
+      }
+      const lire = <T,>(f: () => T, secours: T): T => {
+        try {
+          return f()
+        } catch {
+          return secours
+        }
+      }
+      return {
+        etape: stepRef.current?.id ?? null,
+        index,
+        /* ── ce que la démonstration peut muter, famille par famille ── */
+        cellules,
+        valeurs,
+        affichages,
+        formats,
+        mises,
+        colonnes,
+        noms: grid ? lire(() => grid.getDefinedNames().map((n) => `${n.name}=${n.ref}`).sort(), []) : [],
+        feuilles: grid ? lire(() => grid.getSheets().map((f) => `${f.name}${f.active ? "*" : ""}`), []) : [],
+        selection: grid ? lire(() => grid.getSelection(), "") : "",
+        volets: grid ? lire(() => grid.getFrozen(), { rows: 0, cols: 0 }) : null,
+        fusions: grid ? lire(() => grid.getFusions(), []) : null,
+        notes: grid ? lire(() => grid.getNotes(), {}) : null,
+        filtreesHors: grid ? lire(() => grid.getFilteredOutRows().length, -1) : -1,
+        /* Un filtre POSÉ ne masque encore aucune ligne : sans ce témoin, «
+           cliquez Filtrer » n'avait aucune trace mesurable. */
+        filtrePose: grid ? lire(() => grid.aUnFiltre(), false) : false,
+        reglesMfc: grid ? lire(() => grid.countConditionalRules(), -1) : -1,
+        onglet: ongletRef.current,
+        poste: posteActif ? posteRef.current : null,
+        boite: boiteRef.current,
+        menuFormat,
+        pressePapiers: presseP,
+        plageSomme: plageSommeRef.current,
+        graphique: graphiqueRef.current
+          ? {
+              type: graphiqueRef.current.type,
+              source: graphiqueRef.current.source ?? null,
+              categories: graphiqueRef.current.categories ?? null,
+              titre: graphiqueRef.current.title ?? null,
+              elements: graphiqueRef.current.elements ?? null,
+              style: graphiqueRef.current.style ?? null,
+              legende: graphiqueRef.current.legendPosition ?? null,
+              selection: graphiqueRef.current.selectedElement ?? null,
+              series: graphiqueRef.current.series?.length ?? null,
+              seriesNoms: graphiqueRef.current.series?.map((s) => s.name) ?? [],
+              seriesCachees: graphiqueRef.current.series?.filter((s) => s.hidden).map((s) => s.name) ?? [],
+              seriesTendance: graphiqueRef.current.series
+                ?.filter((s) => s.trendline)
+                .map((s) => `${s.name}:${s.trendline}`) ?? [],
+              /* Couleur et forme de série : `ins-graph-couleur-serie` et
+                 `ins-graph-forme-serie` ne changent rien d'autre, et sans ce
+                 relevé le contrôle concluait « ce bouton ne produit rien ». */
+              seriesStyle: graphiqueRef.current.series
+                ?.map((s) => `${s.name}:${s.color ?? ""}:${s.shape ?? ""}`) ?? [],
+            }
+          : null,
+        tcd: tcdRef.current
+          ? {
+              source: tcdRef.current.source,
+              cible: tcdRef.current.target,
+              lignes: tcdRef.current.rows.map((f) => f.name),
+              colonnes: tcdRef.current.cols.map((f) => f.name),
+              valeurs: tcdRef.current.values.map((f) => `${f.name}/${f.agg ?? "somme"}`),
+              filtres: tcdRef.current.filters.map((f) => f.name),
+              valeursFiltre: tcdRef.current.filterValues ?? null,
+              style: tcdRef.current.styleId ?? null,
+              perime: !!tcdRef.current.stale,
+            }
+          : null,
+        reglages: reglagesRef.current,
+        /* L'éditeur d'en-tête/pied : ouvert ou non, et sur quelle case. */
+        panneauMep:
+          typeof document !== "undefined"
+            ? (() => {
+                const el = document.querySelector("[data-mep-zone]")
+                return el
+                  ? `${el.getAttribute("data-mep-zone") ?? ""}/${el.getAttribute("data-mep-case") ?? ""}`
+                  : null
+              })()
+            : null,
+        macros: macrosRef.current.map((m) => `${m.name}:${m.statements.length}`),
+        macroCourante: macroCouranteRef.current,
+        enregistrement: enregistrementRef.current
+          ? `${enregistrementRef.current.macro.name}:${enregistrementRef.current.actif}`
+          : null,
+        /* ── ce qui prouve qu'aucune auto-validation n'a eu lieu ── */
+        verdict,
+        essais,
+        tatonnements,
+      }
+    }
+    /* Le cliché lui-même, pour le diagnostic au banc. Hors production comme
+       tous les crochets d'audit : `NODE_ENV` les retire du bundle. */
+    ;(window as any).__SIM_CLICHE = () => clicheDemoRef.current
+    /**
+     * RELEVÉ VOLATIL — LÉGER, POUR L'ÉCHANTILLONNAGE PENDANT LA SÉQUENCE.
+     *
+     * `__SIM_ETAT_AUDIT()` interroge des centaines de cellules ; l'appeler
+     * toutes les 40 ms pendant qu'une démonstration écrit sature la façade
+     * d'Univer, jusqu'à « [redi]: Detecting cyclic dependency » — le classeur
+     * devenait alors définitivement inutilisable (mesuré sur `m01-e02`). Ce
+     * relevé-ci ne lit QUE des états React : il ne touche pas la grille.
+     */
+    ;(window as any).__SIM_ETAT_VOLATIL = () => ({
+      boite: boiteRef.current,
+      menuFormat: menuFormatRef.current,
+      pressePapiers: pressePRef.current,
+      plageSomme: plageSommeRef.current,
+      enregistrement: enregistrementRef.current
+        ? `${enregistrementRef.current.macro.name}:${enregistrementRef.current.actif}`
+        : null,
+      graphique: graphiqueRef.current
+        ? `${graphiqueRef.current.type}|${(graphiqueRef.current.series ?? [])
+            .map((s) => `${s.name}:${s.color ?? ""}:${s.shape ?? ""}`)
+            .join(",")}`
+        : null,
+      tcd: tcdRef.current ? tcdRef.current.target : null,
+      onglet: ongletRef.current,
+      poste: JSON.stringify(posteRef.current ?? null),
+    })
     ;(window as any).__SIM_DEMO_PROBE = () => {
       const s = stepRef.current
       if (!s) return { erreur: "aucune étape" }
       const plan =
         s.montrer?.length ?
           (() => {
-            const ps = s.montrer.map((a) => planDemonstration(a, onglet)).filter(Boolean) as PlanDemo[]
+            const ps = s.montrer.map((a) => planDemonstration(a, { onglet, setup: s.setup })).filter(Boolean) as PlanDemo[]
             return ps.length ? { gestes: ps.flatMap((p) => p.gestes), pas: ps.flatMap((p) => p.pas) } : null
           })()
         : mode === "EVALUATION" ? null
-        : planDemonstration(s.action)
+        : planDemonstration(s.action, { onglet, setup: s.setup })
       if (!plan) return { id: s.id, type: s.action.type, plan: null }
       return {
         id: s.id,
@@ -3535,7 +5142,14 @@ export default function SimulationPlayer({
     // `stateChange` est temporisé de 350 ms côté grille : l'échéance couvre le
     // recalcul du moteur (60-120 ms) puis cette temporisation.
     verrouillerDemo(800)
-    grid.applyCells({ [ref]: valeur === "" ? {} : valeur.trim().startsWith("=") ? { f: valeur } : { v: valeur } })
+    /* Une écriture refusée par le moteur ne doit pas non plus démonter le
+       calque : la démonstration continue, et l'audit verra que l'état n'a pas
+       été atteint — un verdict, pas un écran mort. */
+    try {
+      grid.applyCells({ [ref]: valeur === "" ? {} : valeur.trim().startsWith("=") ? { f: valeur } : { v: valeur } })
+    } catch {
+      /* le geste suivant reprend la main */
+    }
   }, [lireCellule, verrouillerDemo])
 
   /* ── Rendu ─────────────────────────────────────────────────────────────── */
@@ -4390,8 +6004,19 @@ export default function SimulationPlayer({
               <DemonstrationGeste
                 key={`demo${index}-${rejeu}`}
                 onFini={() => {
-                  setDemoFinie(true)
-                  rendreClasseur()
+                  /* On n'annonce la fin qu'une fois les recherches terminées :
+                     sinon « Revoir » repart d'un classeur encore en train de
+                     bouger, et les deux passages ne montrent pas la même chose
+                     (m23-e01, m23-e03 — « Valeur cible »). */
+                  const finir = () => {
+                    setDemoFinie(true)
+                    rendreClasseur()
+                  }
+                  const attendre = (reste: number) => {
+                    if (!travauxDemoRef.current || reste <= 0) return finir()
+                    window.setTimeout(() => attendre(reste - 1), 120)
+                  }
+                  attendre(50)
                 }}
                 plan={demo}
                 resoudre={resoudreCible}

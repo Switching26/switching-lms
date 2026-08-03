@@ -548,6 +548,7 @@ export default function FormationPlayer({
             documentsFormation={documentsDeLaFormationEntiere}
             afficherRessources={formationADesDocuments}
             documentsHref="/learner/documents"
+            cleGuide={userId}
           />
         )}
         {!active?.videoUrl && !active?.simulation && (active?.exercises?.length > 0 ? (

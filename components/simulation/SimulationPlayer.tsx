@@ -351,6 +351,8 @@ const DELAI_VERDICT_MS = 15000
 
 // Univer casse à l'import côté serveur : le chargement différé est obligatoire,
 // pas une optimisation.
+import GuideFormation from "./GuideFormation"
+
 const ExcelGrid = dynamic(() => import("./ExcelGrid"), {
   ssr: false,
   loading: () => (
@@ -471,6 +473,12 @@ type Props = {
   afficherRessources?: boolean
   /** Lien vers la page « Documents » de l'apprenant, en accès secondaire. */
   documentsHref?: string
+  /**
+   * Identifiant apprenant, pour que le guide se souvienne de la première visite
+   * dans `localStorage`. Passe-plat pur : le guide ne s'en sert que comme clé,
+   * jamais pour lire ou écrire quoi que ce soit côté serveur.
+   */
+  cleGuide?: string | null
 }
 
 /**
@@ -673,6 +681,7 @@ export default function SimulationPlayer({
   documentsFormation,
   afficherRessources = false,
   documentsHref,
+  cleGuide,
 }: Props) {
   const steps = scenario.steps
   const total = steps.length
@@ -898,6 +907,10 @@ export default function SimulationPlayer({
    * ou documents téléchargeables. Un seul à la fois — ils se superposent à la
    * feuille, en ouvrir deux la masquerait entièrement.
    */
+  /** Guide transversal de la formation : ouvert/fermé, rien d'autre. */
+  const [guideOuvert, setGuideOuvert] = useState(false)
+  /** Cible du retour de focus quand le guide se ferme. */
+  const boutonGuideRef = useRef<HTMLButtonElement | null>(null)
   const [panneau, setPanneau] = useState<"lecons" | "notes" | "ressources" | null>(null)
   /** Cible du `aria-controls` du bouton « Ressource pédagogique téléchargeable ». */
   const idPanneauRessources = useId()
@@ -5597,10 +5610,24 @@ export default function SimulationPlayer({
       // et n'a AUCUN défilement. C'est la structure elle-même qui rend le
       // débordement impossible — la consigne du bas ne peut plus être poussée
       // hors de l'écran, ni une barre de défilement apparaître.
+      /**
+       * `overflow-clip`, PAS `overflow-hidden`.
+       *
+       * Les trois panneaux glissants sont rendus en permanence, poussés hors du
+       * cadre par `translateX(101%)` : ils portent le `scrollWidth` du conteneur
+       * à 721 px pour 390 px visibles. `overflow: hidden` masque ce débordement
+       * mais laisse un scrollport — il suffit alors qu'un élément prenne le
+       * focus pour que le navigateur fasse défiler tout l'atelier de plusieurs
+       * dizaines de pixels, cockpit compris (mesuré à 40 px sur 390 × 844).
+       * `overflow: clip` supprime le scrollport : le débordement reste masqué et
+       * `scrollLeft` ne peut plus jamais devenir non nul. C'est exactement
+       * l'intention déjà écrite plus haut — cette structure « n'a AUCUN
+       * défilement » — mais rendue impossible à contourner.
+       */
       className={
         pleinCadre
-          ? "relative flex h-full min-h-0 flex-col overflow-hidden bg-white"
-          : "relative overflow-hidden border border-border bg-white shadow-sm"
+          ? "relative flex h-full min-h-0 flex-col overflow-clip bg-white"
+          : "relative overflow-clip border border-border bg-white shadow-sm"
       }
       style={pleinCadre ? undefined : { borderRadius: 16 }}
     >
@@ -5850,6 +5877,7 @@ export default function SimulationPlayer({
           Le mode évaluation se signalait par un mot beige : il colore désormais
           toute la barre. */}
       <div
+        data-control="sim-cockpit"
         className="flex flex-shrink-0 items-center gap-2 px-2 sm:gap-3 sm:px-3"
         style={{
           height: 44,
@@ -5864,6 +5892,9 @@ export default function SimulationPlayer({
             data-control="sim-sommaire"
             onClick={() => setPanneau((p) => (p === "lecons" ? null : "lecons"))}
             aria-label="Toutes les leçons"
+            // Bascule : sans cet état, ni un lecteur d'écran ni un contrôle
+            // automatique ne savent si le panneau est ouvert.
+            aria-pressed={panneau === "lecons"}
             className="flex flex-shrink-0 items-center gap-1.5 rounded-lg px-2.5 sm:px-3"
             style={{
               height: 28,
@@ -5883,6 +5914,7 @@ export default function SimulationPlayer({
             data-control="sim-notes"
             onClick={() => setPanneau((p) => (p === "notes" ? null : "notes"))}
             aria-label="Mes notes"
+            aria-pressed={panneau === "notes"}
             className="flex flex-shrink-0 items-center gap-1.5 rounded-lg px-2.5 sm:px-3"
             style={{
               height: 28,
@@ -5974,9 +6006,48 @@ export default function SimulationPlayer({
             <span style={{ display: "block", height: "100%", borderRadius: 9, background: "#4ED08A", width: `${Math.round((index / Math.max(1, total)) * 100)}%` }} />
           </div>
         )}
-        <span className="flex-shrink-0 tabular-nums" style={{ color: "#8FA49C" }}>
+        <span
+          data-control="sim-progression"
+          className="flex-shrink-0 tabular-nums"
+          style={{ color: "#8FA49C" }}
+        >
           {Math.min(index + 1, total)}/{total}
         </span>
+        {/* Guide de la formation. Il vit ICI plutôt que dans la navigation du
+            LMS : c'est dans l'atelier qu'on se demande comment revoir une
+            démonstration, pas sur la page d'accueil. Sous 640 px le libellé
+            cède la place au fil d'Ariane, le `aria-label` le porte seul. */}
+        {/* Le BOUTON fait 44 px de haut et de large — toute la hauteur de la
+            barre — tandis que sa pastille visible en garde 28, comme les autres
+            contrôles du cockpit. La cible tactile est donc réglementaire sans
+            que la barre change d'allure : c'est le fond intérieur qui dessine le
+            bouton, pas sa boîte. */}
+        <button
+          type="button"
+          data-control="sim-guide"
+          ref={boutonGuideRef}
+          onClick={() => setGuideOuvert((v) => !v)}
+          aria-pressed={guideOuvert}
+          aria-label="Guide de la formation"
+          title="Guide de la formation"
+          className="flex flex-shrink-0 items-center justify-center"
+          style={{ height: 44, minWidth: 44, padding: 0, background: "none" }}
+        >
+          <span
+            className="flex items-center gap-1.5 rounded-lg px-2.5 sm:px-3"
+            style={{
+              height: 28,
+              fontSize: 11.5,
+              background: guideOuvert ? "#fff" : "rgba(78,208,138,.15)",
+              color: guideOuvert ? "#10201B" : "#BFF0D4",
+              fontWeight: guideOuvert ? 600 : 400,
+              boxShadow: guideOuvert ? undefined : "inset 0 0 0 1px rgba(78,208,138,.35)",
+            }}
+          >
+            <span aria-hidden>?</span>
+            <span className="hidden sm:inline">Guide</span>
+          </span>
+        </button>
         {onQuitter && (
           <button
             type="button"
@@ -6560,6 +6631,7 @@ export default function SimulationPlayer({
                   visibility: relaisActif ? "hidden" : undefined,
                   animation: relais ? "sim-etape-pop .5s cubic-bezier(.2,.9,.2,1) both" : undefined,
                 }}
+                data-control="sim-badge-etape"
               >
                 <span aria-hidden>{nature === "lecture" ? "👁" : nature === "evaluee" ? "★" : "✋"}</span>
                 {/* « À lire » datait du temps où ces écrans n'étaient qu'un
@@ -6823,6 +6895,7 @@ export default function SimulationPlayer({
               {mode === "EXERCISE" && !hintShown && step?.aide && (
                 <button
                   type="button"
+                  data-control="sim-indice"
                   onClick={revealHint}
                   className="rounded-lg border border-border px-3 py-1.5 text-[12.5px] font-medium text-warm-700 hover:bg-warm-50"
                 >
@@ -7031,6 +7104,21 @@ export default function SimulationPlayer({
           documentsChapitre={documentsChapitre}
           documentsFormation={documentsFormation}
           documentsHref={documentsHref}
+        />
+      )}
+      {/* Guide transversal. Il ne reçoit AUCUN setter du player : ni `setPanneau`,
+          ni `goNext`, ni la moindre fonction métier. Il lit le cockpit et
+          reconnaît les gestes ; il ne peut donc toucher ni la progression, ni
+          les tentatives, ni la note. */}
+      {introVue && (
+        <GuideFormation
+          ouvert={guideOuvert}
+          onOuvrir={() => setGuideOuvert(true)}
+          onFermer={() => setGuideOuvert(false)}
+          conteneur={carteRef}
+          declencheur={boutonGuideRef}
+          cleGuide={cleGuide}
+          sansPremiereVisite={!!preview}
         />
       )}
     </div>

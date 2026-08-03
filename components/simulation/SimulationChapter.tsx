@@ -52,6 +52,8 @@ type Props = {
   documentsFormation?: LearnerDocument[]
   afficherRessources?: boolean
   documentsHref?: string
+  /** Identifiant apprenant, transmis au guide pour sa mémoire de première visite. */
+  cleGuide?: string | null
 }
 
 export default function SimulationChapter({
@@ -68,6 +70,7 @@ export default function SimulationChapter({
   documentsFormation,
   afficherRessources,
   documentsHref,
+  cleGuide,
 }: Props) {
   const [data, setData] = useState<Payload | null>(null)
   const [error, setError] = useState<string | null>(null)
@@ -194,6 +197,7 @@ export default function SimulationChapter({
       documentsFormation={documentsFormation}
       afficherRessources={afficherRessources}
       documentsHref={documentsHref}
+      cleGuide={cleGuide}
     />
   )
 

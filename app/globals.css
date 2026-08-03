@@ -59,6 +59,15 @@ body {
   }
 }
 
+/* Surcouche plein écran ouverte (guide de la formation) : l'invitation à
+   installer l'application attend son tour. Elle vit à `z-40` au niveau racine,
+   l'atelier dans un portail `z-index: 30` — sans cette règle, elle recouvre les
+   commandes de la surcouche. Rien n'est désactivé : l'attribut disparaît à la
+   fermeture et la bannière revient. */
+html[data-surcouche] [data-pwa-invite] {
+  display: none;
+}
+
 /* Brand utility classes */
 .btn-primary {
   background-color: #4F46E5;

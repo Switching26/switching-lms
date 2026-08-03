@@ -3510,6 +3510,7 @@ export default function SimulationPlayer({
 
   const gradable = steps.filter((s) => s.action.type !== "READ").length
   const evaluationNotee = mode === "EVALUATION"
+  const notePassage = evaluationNotee ? computeScore(steps, firstTryRef.current) : null
   /** Nature de l'étape et critère de réussite, tous deux déduits de l'action. */
   const nature = step ? natureEtape(step.action, mode) : "action"
   const attendu = step ? resumerAttendu(step.action) : null
@@ -3686,7 +3687,9 @@ export default function SimulationPlayer({
               }}
             >
               {total} étape{total > 1 ? "s" : ""} · ≈ {estimatedSimulationMinutes(mode, total)} min
-              {mode === "EVALUATION" ? " · sans aide, score enregistré · à faire d'une traite" : ""}
+              {mode === "EVALUATION"
+                ? " · sans aide · meilleure note conservée · à faire d'une traite"
+                : ""}
             </div>
             {(evaluationRepart || dejaPassee) && (
               <p
@@ -3709,8 +3712,9 @@ export default function SimulationPlayer({
                     {passagesPrecedents > 1 ? ` ${passagesPrecedents} fois` : ""} : votre meilleur
                     score enregistré est de{" "}
                     <strong>{Math.round((scorePrecedent as number) * 100)} %</strong>. Il reste
-                    consultable dans « Mes résultats ». La repasser recommence depuis la première
-                    question, sur un classeur remis à neuf.
+                    consultable dans « Mes résultats ». La repasser produit une nouvelle note et
+                    recommence depuis la première question, sur un classeur remis à neuf. Seule la
+                    meilleure note sera conservée.
                   </>
                 ) : (
                   <>
@@ -3916,13 +3920,22 @@ export default function SimulationPlayer({
             </p>
             <p className="mt-1 text-[13.5px] text-warm-600">{filChapitre}</p>
             {mode === "EVALUATION" ? (
-              <p className="mt-3 text-[13px] text-warm-700">
-                Score :{" "}
-                <span className="font-semibold text-emerald-700">
-                  {Math.round(computeScore(steps, firstTryRef.current) * 100)} %
-                </span>{" "}
-                sur {gradable} action{gradable > 1 ? "s" : ""} évaluée{gradable > 1 ? "s" : ""}
-              </p>
+              <>
+                <p className="mt-3 text-[13px] text-warm-700">
+                  Note de ce passage :{" "}
+                  <span className="font-semibold text-emerald-700">
+                    {Math.round((notePassage as number) * 100)} %
+                  </span>{" "}
+                  sur {gradable} action{gradable > 1 ? "s" : ""} évaluée{gradable > 1 ? "s" : ""}
+                </p>
+                <p className="mt-2 text-[12px] leading-relaxed text-warm-500">
+                  {scorePrecedent == null
+                    ? "Cette note est enregistrée dans « Mes résultats ». Si vous repassez l’évaluation, seule votre meilleure note sera conservée."
+                    : (notePassage as number) > scorePrecedent
+                      ? `Nouvelle meilleure note : ${Math.round((notePassage as number) * 100)} %. Elle remplace votre précédente meilleure note dans « Mes résultats ».`
+                      : `Votre meilleure note reste ${Math.round(scorePrecedent * 100)} %. Seule la meilleure note est conservée dans « Mes résultats ».`}
+                </p>
+              </>
             ) : (
               <p className="mt-3 text-[13px] text-warm-500">
                 {total} étape{total > 1 ? "s" : ""} franchie{total > 1 ? "s" : ""}

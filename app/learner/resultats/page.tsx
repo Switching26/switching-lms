@@ -51,12 +51,18 @@ export default async function ResultatsPage() {
   return (
     <div>
       <h1 className="font-display text-2xl font-semibold text-ink mb-1">Mes résultats</h1>
-      <p className="text-sm text-ink-50 mb-6">Vos scores aux évaluations de chaque formation.</p>
+      <p className="text-sm text-ink-50 mb-2">Vos scores aux évaluations de chaque formation.</p>
+      <p className="mb-6 rounded-xl border border-brand-100 bg-brand-50 px-4 py-3 text-[12.5px] leading-relaxed text-brand-800">
+        Vous pouvez repasser une évaluation. Chaque passage produit une nouvelle note, mais seule
+        votre meilleure note est conservée comme résultat.
+      </p>
 
       {withQuiz.length === 0 ? (
         <div className="bg-white border border-border rounded-2xl p-10 text-center">
           <p className="font-display text-lg text-ink mb-1">Aucune évaluation pour le moment</p>
-          <p className="text-sm text-ink-50">Vos scores apparaîtront ici dès que vous aurez répondu à un quiz de formation.</p>
+          <p className="text-sm text-ink-50">
+            Vos scores apparaîtront ici dès que vous aurez terminé une évaluation de formation.
+          </p>
         </div>
       ) : (
         <div className="space-y-5">
@@ -94,6 +100,9 @@ export default async function ResultatsPage() {
                         <div className="text-right min-w-[74px]">
                           {pct != null ? (
                             <>
+                              <div className="text-[9.5px] font-semibold uppercase tracking-wide text-ink-30">
+                                Meilleure note
+                              </div>
                               <div className={`font-display text-base ${scoreText(pct)}`}>{pct}%</div>
                               <div className="text-[10.5px] text-ink-30">
                                 {ev.attempts} essai{ev.attempts > 1 ? "s" : ""}

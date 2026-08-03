@@ -62,6 +62,18 @@ function cleCible(c: CibleDemo): string {
     : c.k === "dom" ? `dom:${c.sel}`
     : "clavier"
 }
+
+/** Copie défensive : une démonstration doit pouvoir revenir exactement à
+ * l'entrée de l'étape, même si un premier passage a ajouté un fichier ou
+ * modifié une collection du poste. */
+function clonerPoste(p: PosteState): PosteState {
+  return {
+    ...p,
+    fichiers: p.fichiers.map((f) => ({ ...f })),
+    apps: p.apps.map((a) => ({ ...a })),
+    modeles: p.modeles.map((m) => ({ ...m })),
+  }
+}
 import { planDemonstration, type CibleDemo, type PlanDemo } from "@/lib/simulation/demonstration"
 import { CONTROLES_POSTE, appliquerGeste, posteInitial } from "@/lib/simulation/poste"
 import ChartLayer from "./ChartLayer"
@@ -661,6 +673,9 @@ export default function SimulationPlayer({
   )
   const posteRef = useRef(poste)
   posteRef.current = poste
+  /** État réel à l'arrivée sur l'étape, avant les essais de l'apprenant et
+   * avant qu'une première démonstration n'accomplisse le geste à sa place. */
+  const posteDepartEtapeRef = useRef<PosteState>(clonerPoste(poste))
   useEffect(() => {
     // Univer ne se rend pas dans un conteneur masqué : au retour dans le
     // classeur, il faut le prévenir que sa surface existe à nouveau. Plusieurs
@@ -842,6 +857,35 @@ export default function SimulationPlayer({
       (!!step?.setup?.poste && step.setup.poste.excel !== undefined && step.setup.poste.excel !== "classeur"))
   const stepRef = useRef<SimulationStep | undefined>(step)
   stepRef.current = step
+
+  /**
+   * Une démonstration est une reconstitution, pas la poursuite de la précédente.
+   *
+   * En particulier, « Enregistrer sous » ferme sa boîte et crée le fichier au
+   * premier passage. Relancer uniquement le calque faisait ensuite avancer le
+   * compteur 1/2 puis 2/2 sur deux contrôles absents : exactement le replay
+   * invisible filmé par Samuel le 03/08/2026.
+   */
+  const restaurerDepartPostePourDemo = useCallback(() => {
+    if (!posteActif) return
+    const depart = clonerPoste(posteDepartEtapeRef.current)
+    // La ref est mise à jour sans attendre le rendu : le plan lit notamment la
+    // boîte ouverte pour distinguer « Ouvrir » d'« Enregistrer sous ».
+    posteRef.current = depart
+    setPoste(depart)
+  }, [posteActif])
+
+  const demarrerDemonstration = useCallback(() => {
+    restaurerDepartPostePourDemo()
+    setDemoFinie(false)
+    setDemonstration(true)
+  }, [restaurerDepartPostePourDemo])
+
+  const rejouerDemonstration = useCallback(() => {
+    restaurerDepartPostePourDemo()
+    setDemoFinie(false)
+    setRejeu((n) => n + 1)
+  }, [restaurerDepartPostePourDemo])
 
   /* ── Lecture du classeur pour les modèles ──────────────────────────────── */
 
@@ -1396,8 +1440,12 @@ export default function SimulationPlayer({
     // L'état du poste imposé par l'étape s'applique AUSSI hors `applyStep` :
     // celui-ci attend que la grille soit prête, or une leçon qui démarre Excel
     // fermé n'a pas encore de grille montée au moment de la reprise.
+    if (!posteActif) return
     const impose = step?.setup?.poste
-    if (posteActif && impose) setPoste((p) => ({ ...p, ...impose }))
+    const depart = clonerPoste(impose ? { ...posteRef.current, ...impose } : posteRef.current)
+    posteDepartEtapeRef.current = depart
+    posteRef.current = depart
+    setPoste(depart)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [index, posteActif])
 
@@ -1499,11 +1547,10 @@ export default function SimulationPlayer({
     if (!introVue) return
     if (step.action.type !== "READ" || !step.montrer?.length) return
     const t = window.setTimeout(() => {
-      setDemoFinie(false)
-      setDemonstration(true)
+      demarrerDemonstration()
     }, 1200)
     return () => window.clearTimeout(t)
-  }, [step, index, finished, introVue])
+  }, [step, index, finished, introVue, demarrerDemonstration])
 
   /**
    * Audit : forcer la démonstration sans passer par les seuils de l'apprenant.
@@ -1519,9 +1566,9 @@ export default function SimulationPlayer({
     // particulier — ne sont pas encore prêts et la commande échoue en silence :
     // l'audit voyait un défaut là où il n'y en avait pas. Un apprenant, lui,
     // n'atteint jamais l'aide avant 3 erreurs, 6 tâtonnements ou 45 secondes.
-    const t = window.setTimeout(() => setDemonstration(true), 1500)
+    const t = window.setTimeout(demarrerDemonstration, 1500)
     return () => window.clearTimeout(t)
-  }, [step, index, finished, gridReady])
+  }, [step, index, finished, gridReady, demarrerDemonstration])
 
   /* ── Persistance ───────────────────────────────────────────────────────── */
 
@@ -1878,7 +1925,7 @@ export default function SimulationPlayer({
           // Palier 2 : l'indice s'affiche de lui-même, y compris en exercice où
           // il se demande d'ordinaire. Palier 5 : la démonstration se déclenche.
           if (suivant >= 2) setHintShown(true)
-          if (suivant >= 5) setDemonstration(true)
+          if (suivant >= 5) demarrerDemonstration()
           return suivant
         })
         setVerdict(vAffiche)
@@ -3153,7 +3200,7 @@ export default function SimulationPlayer({
     // référence des gestes et relancerait la minuterie du calque à zéro — la
     // démonstration se figerait sur son premier geste. Ce qui compte est
     // l'onglet ouvert au DÉMARRAGE.
-    const depart = { onglet: ongletRef.current, boitePoste: posteRef.current?.boite }
+    const depart = { onglet: ongletRef.current, boitePoste: posteDepartEtapeRef.current?.boite }
     if (step.montrer?.length) {
       // Un écran de lecture montre le geste qu'il décrit, y compris pendant une
       // évaluation : ce n'est pas une aide sur une question notée, c'est le
@@ -4424,7 +4471,7 @@ export default function SimulationPlayer({
                   <button
                     type="button"
                     data-control="sim-montrer"
-                    onClick={() => setDemonstration(true)}
+                    onClick={demarrerDemonstration}
                     className="flex-shrink-0 rounded-lg bg-white px-3 py-1.5 text-[12px] font-bold"
                     style={{ border: "1px solid currentColor", color: "inherit" }}
                   >
@@ -4462,10 +4509,7 @@ export default function SimulationPlayer({
                     <button
                       type="button"
                       data-control="sim-revoir-demo"
-                      onClick={() => {
-                        setDemoFinie(false)
-                        setRejeu((n) => n + 1)
-                      }}
+                      onClick={rejouerDemonstration}
                       className="flex flex-shrink-0 items-center gap-1.5 rounded-lg bg-white px-3 py-1.5 text-[12px] font-bold"
                       style={{ border: "1px solid currentColor", color: "inherit" }}
                     >
@@ -4544,10 +4588,7 @@ export default function SimulationPlayer({
                 <button
                   type="button"
                   data-control="sim-voir-geste"
-                  onClick={() => {
-                    setDemoFinie(false)
-                    setDemonstration(true)
-                  }}
+                  onClick={demarrerDemonstration}
                   className="rounded-lg px-4 py-2 text-[12.5px] font-bold text-white"
                   style={{ background: "#107C41" }}
                 >
@@ -4558,10 +4599,7 @@ export default function SimulationPlayer({
                 <button
                   type="button"
                   data-control="sim-revoir-geste"
-                  onClick={() => {
-                    setDemoFinie(false)
-                    setRejeu((n) => n + 1)
-                  }}
+                  onClick={rejouerDemonstration}
                   className="rounded-lg border px-4 py-2 text-[12.5px] font-bold"
                   style={{ borderColor: "#107C41", color: "#107C41" }}
                 >

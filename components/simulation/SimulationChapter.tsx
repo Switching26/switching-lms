@@ -12,6 +12,7 @@ import { useEffect, useState } from "react"
 import { createPortal } from "react-dom"
 import SimulationPlayer, { type EntreeSommaire } from "./SimulationPlayer"
 import type { SimulationScenario } from "@/lib/simulation/types"
+import type { LearnerDocument } from "@/lib/learner-files"
 
 type Payload = {
   mode: "LESSON" | "EXERCISE" | "EVALUATION"
@@ -37,6 +38,15 @@ type Props = {
   note?: string
   onNote?: (valeur: string) => void
   notesHref?: string
+  /**
+   * Documents déjà chargés par la page apprenant, pour le panneau « Ressource
+   * pédagogique téléchargeable » du cockpit. Simple passe-plat, comme
+   * `notesHref` : l'atelier ne va jamais les chercher lui-même.
+   */
+  documentsChapitre?: LearnerDocument[]
+  documentsFormation?: LearnerDocument[]
+  afficherRessources?: boolean
+  documentsHref?: string
 }
 
 export default function SimulationChapter({
@@ -49,6 +59,10 @@ export default function SimulationChapter({
   note,
   onNote,
   notesHref,
+  documentsChapitre,
+  documentsFormation,
+  afficherRessources,
+  documentsHref,
 }: Props) {
   const [data, setData] = useState<Payload | null>(null)
   const [error, setError] = useState<string | null>(null)
@@ -154,6 +168,10 @@ export default function SimulationChapter({
       note={note}
       onNote={onNote}
       notesHref={notesHref}
+      documentsChapitre={documentsChapitre}
+      documentsFormation={documentsFormation}
+      afficherRessources={afficherRessources}
+      documentsHref={documentsHref}
     />
   )
 

@@ -19,7 +19,7 @@
  *    formateur une vision réelle des difficultés, là où une vidéo ne dit rien.
  */
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react"
+import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react"
 import dynamic from "next/dynamic"
 import type { GridApi } from "./ExcelGrid"
 import SimulationChrome, { SimulationFooter } from "./SimulationChrome"
@@ -49,6 +49,8 @@ import {
 import DesktopLayer from "./DesktopLayer"
 import AfficheModule, { numeroModule } from "./AfficheModule"
 import DemonstrationGeste, { type Rect } from "./DemonstrationGeste"
+import PanneauRessources, { LIBELLE_RESSOURCES } from "./PanneauRessources"
+import type { LearnerDocument } from "@/lib/learner-files"
 
 /**
  * Clé stable d'une cible de démonstration, pour la trace d'audit hors
@@ -215,6 +217,34 @@ type Props = {
   note?: string
   onNote?: (valeur: string) => void
   notesHref?: string
+  /**
+   * Documents de la formation, pour le panneau « Ressource pédagogique
+   * téléchargeable ».
+   *
+   * Ils viennent des props DÉJÀ chargées par `getLearnerFormationById` : le
+   * panneau ne déclenche aucune requête, et surtout pas
+   * `GET /api/formations/[id]/attachments`, qui n'est cloisonnée ni par
+   * inscription ni par organisme.
+   */
+  documentsChapitre?: LearnerDocument[]
+  /**
+   * TOUS les documents de la formation : pièces jointes de la formation ET de
+   * chacun de ses chapitres. Un support peut n'exister que sur UN chapitre.
+   */
+  documentsFormation?: LearnerDocument[]
+  /**
+   * La formation porte au moins un document réel (pièce jointe de formation ou
+   * de n'importe quel chapitre).
+   *
+   * C'est ce drapeau, et non le contenu du chapitre courant, qui décide de
+   * l'affichage du contrôle : sinon il apparaîtrait et disparaîtrait d'un
+   * chapitre à l'autre. Il doit être déduit de la même source que
+   * `documentsFormation`, faute de quoi le bouton et le panneau se
+   * contrediraient.
+   */
+  afficherRessources?: boolean
+  /** Lien vers la page « Documents » de l'apprenant, en accès secondaire. */
+  documentsHref?: string
 }
 
 /**
@@ -488,6 +518,10 @@ export default function SimulationPlayer({
   note,
   onNote,
   notesHref,
+  documentsChapitre,
+  documentsFormation,
+  afficherRessources = false,
+  documentsHref,
 }: Props) {
   const steps = scenario.steps
   const total = steps.length
@@ -705,8 +739,14 @@ export default function SimulationPlayer({
     )
     return () => t.forEach(window.clearTimeout)
   }, [poste.excel])
-  /** Panneau latéral ouvert dans l'atelier : sommaire des leçons ou prise de notes. */
-  const [panneau, setPanneau] = useState<"lecons" | "notes" | null>(null)
+  /**
+   * Panneau latéral ouvert dans l'atelier : sommaire des leçons, prise de notes
+   * ou documents téléchargeables. Un seul à la fois — ils se superposent à la
+   * feuille, en ouvrir deux la masquerait entièrement.
+   */
+  const [panneau, setPanneau] = useState<"lecons" | "notes" | "ressources" | null>(null)
+  /** Cible du `aria-controls` du bouton « Ressource pédagogique téléchargeable ». */
+  const idPanneauRessources = useId()
   useEffect(() => {
     if (!panneau) return
     const echap = (e: KeyboardEvent) => {
@@ -3824,6 +3864,38 @@ export default function SimulationPlayer({
             )}
           </button>
         )}
+        {afficherRessources && (
+          <button
+            type="button"
+            data-control="sim-ressources"
+            onClick={() => setPanneau((p) => (p === "ressources" ? null : "ressources"))}
+            aria-label={LIBELLE_RESSOURCES}
+            title={LIBELLE_RESSOURCES}
+            aria-expanded={panneau === "ressources"}
+            aria-controls={idPanneauRessources}
+            className="flex flex-shrink-0 items-center gap-1.5 rounded-lg px-2.5 sm:px-3"
+            style={{
+              height: 28,
+              background: panneau === "ressources" ? "#fff" : "rgba(255,255,255,.09)",
+              color: panneau === "ressources" ? "#10201B" : "#DCE6E1",
+              fontSize: 11.5,
+              fontWeight: panneau === "ressources" ? 600 : 400,
+            }}
+          >
+            {/* Icône dessinée plutôt qu'un glyphe : les caractères de document
+                ne sont pas rendus de la même façon d'un système à l'autre,
+                alors que ce bouton n'a QUE son icône sous 1024 px. */}
+            <svg aria-hidden width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.9}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M14 3v5h5M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8l-5-5z" />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 11v5m0 0l-2-2m2 2l2-2" />
+            </svg>
+            {/* Le libellé exact ne tient qu'à partir du grand écran : à 640 px,
+                il écraserait le fil d'Ariane, seule information dont l'apprenant
+                a besoin en permanence. En dessous, il reste porté par
+                `aria-label` et `title`. */}
+            <span className="hidden lg:inline">{LIBELLE_RESSOURCES}</span>
+          </button>
+        )}
         <div className="min-w-0 flex-1 truncate text-left sm:text-center" style={{ color: "#8FA49C" }}>
           {evaluationNotee && (
             <span
@@ -4841,6 +4913,16 @@ export default function SimulationPlayer({
             )}
           </div>
         </aside>
+      )}
+      {afficherRessources && (
+        <PanneauRessources
+          id={idPanneauRessources}
+          ouvert={panneau === "ressources"}
+          onFermer={() => setPanneau(null)}
+          documentsChapitre={documentsChapitre}
+          documentsFormation={documentsFormation}
+          documentsHref={documentsHref}
+        />
       )}
     </div>
   )

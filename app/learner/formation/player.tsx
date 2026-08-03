@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation"
 import SimulationChapter from "@/components/simulation/SimulationChapter"
 import type { EntreeSommaire } from "@/components/simulation/SimulationPlayer"
 import { dureeLisible, estimatedSimulationSeconds } from "@/lib/simulation/duree"
+import { toApiFileUrl, filtrerDocuments, documentsDeLaFormation } from "@/lib/learner-files"
 
 /* ═══════════ HELPERS ═══════════ */
 
@@ -72,6 +73,12 @@ interface ChapterAttachment {
   id: string
   name: string
   fileUrl: string
+  /**
+   * Renseignée en base (`Attachment.fileSize`, défaut 0) et bien présente dans
+   * le payload : le loader inclut la relation entière. Elle n'était simplement
+   * pas déclarée ici tant que rien ne l'affichait.
+   */
+  fileSize?: number
 }
 
 interface Chapter {
@@ -213,6 +220,33 @@ export default function FormationPlayer({
       secondes: c.simulation ? estimatedSimulationSeconds(c.simulation.mode, c.simulation.stepCount) : 0,
     }))
   }, [orderedChapters, sortedSections, completedMap])
+
+  /**
+   * TOUS les documents de la formation : pièces jointes de la formation ET de
+   * chacun de ses chapitres.
+   *
+   * Un support peut n'exister que comme pièce jointe d'UN chapitre — c'est le
+   * cas en production du PDF « Document pédagogique téléchargeable - VBA », sans
+   * aucune pièce jointe au niveau formation. Ne passer que `formationAttachments`
+   * ouvrait donc un panneau vide depuis tous les autres chapitres.
+   */
+  const documentsDeLaFormationEntiere = useMemo(
+    () => documentsDeLaFormation(formationAttachments, chapters),
+    [formationAttachments, chapters],
+  )
+
+  /**
+   * La formation porte-t-elle au moins un document réellement ouvrable ?
+   *
+   * Déduit de la MÊME source que la liste affichée — sinon le bouton et le
+   * panneau peuvent se contredire. C'est ce drapeau, et non le contenu du
+   * chapitre courant, qui décide de l'affichage du contrôle : un bouton qui
+   * apparaîtrait et disparaîtrait d'un chapitre à l'autre serait désorientant.
+   */
+  const formationADesDocuments = useMemo(
+    () => filtrerDocuments(documentsDeLaFormationEntiere).length > 0,
+    [documentsDeLaFormationEntiere],
+  )
 
   /**
    * Enregistrement des notes prises DEPUIS l'atelier.
@@ -490,6 +524,10 @@ export default function FormationPlayer({
             note={notesMap[active.id] || ""}
             onNote={(v) => noterDepuisAtelier(active.id, v)}
             notesHref={`/learner/notes?id=${formationId || ""}&chapitre=${active.id}`}
+            documentsChapitre={active.attachments}
+            documentsFormation={documentsDeLaFormationEntiere}
+            afficherRessources={formationADesDocuments}
+            documentsHref="/learner/documents"
           />
         )}
         {!active?.videoUrl && !active?.simulation && (active?.exercises?.length > 0 ? (
@@ -523,9 +561,7 @@ export default function FormationPlayer({
           // PDF viewer inline (style Rise Up) — chapter PDF sans vidéo
           (() => {
             const pdf = active.attachments.find((a) => /\.pdf(\?|$)/i.test(a.fileUrl))!
-            const pdfHref = pdf.fileUrl.startsWith("/api/files/")
-              ? pdf.fileUrl
-              : `/api/files/${pdf.fileUrl.split("/").pop()}`
+            const pdfHref = toApiFileUrl(pdf.fileUrl)
             return (
               <div className="bg-white rounded-2xl border border-border shadow-sm overflow-hidden">
                 {/* Header */}
@@ -643,9 +679,7 @@ export default function FormationPlayer({
               <h3 className="text-xs font-semibold text-warm-400 uppercase tracking-wider mb-3">Pièces jointes</h3>
               <div className="space-y-1.5">
                 {active.attachments.map((att) => {
-                  const href = att.fileUrl.startsWith("/api/files/")
-                    ? att.fileUrl
-                    : `/api/files/${att.fileUrl.split("/").pop()}`
+                  const href = toApiFileUrl(att.fileUrl)
                   return (
                     <a
                       key={att.id}
@@ -770,9 +804,7 @@ export default function FormationPlayer({
             <h3 className="text-xs font-semibold text-warm-400 uppercase tracking-wider mb-3">Documents de la formation</h3>
             <div className="space-y-1.5">
               {formationAttachments.map((att) => {
-                const href = att.fileUrl.startsWith("/api/files/")
-                  ? att.fileUrl
-                  : `/api/files/${att.fileUrl.split("/").pop()}`
+                const href = toApiFileUrl(att.fileUrl)
                 return (
                   <a
                     key={att.id}

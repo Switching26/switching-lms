@@ -17,7 +17,13 @@ type Payload = {
   mode: "LESSON" | "EXERCISE" | "EVALUATION"
   scenario: SimulationScenario
   stepCount: number
-  attempt: { currentStep: number; completedAt: string | null } | null
+  attempt: {
+    currentStep: number
+    completedAt: string | null
+    /** Meilleur score déjà obtenu (0..1), en évaluation seulement. */
+    bestScore: number | null
+    attemptCount: number
+  } | null
 }
 
 type Props = {
@@ -133,6 +139,12 @@ export default function SimulationChapter({
         (data.attempt?.currentStep ?? 0) > 0 &&
         !data.attempt?.completedAt
       }
+      // Une évaluation TERMINÉE ne rentrait dans aucun de ces cas : elle
+      // rouvrait sur un écran d'intro vierge, sans la moindre trace du passage
+      // précédent — d'où l'impression que rien n'avait été enregistré alors que
+      // le score était bien en base.
+      scorePrecedent={data.mode === "EVALUATION" ? data.attempt?.bestScore ?? null : null}
+      passagesPrecedents={data.attempt?.attemptCount ?? 0}
       preview={preview}
       onCompleted={onCompleted}
       pleinCadre={atelier}

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
+import { doitRemplacerJournal, sanitizeStepLog } from "@/lib/simulation/journal"
 
 /**
  * Simulation bureautique d'un chapitre.
@@ -24,6 +25,7 @@ import { prisma } from "@/lib/prisma"
 
 /** Clés d'une étape qui ne doivent jamais partir au client en mode noté. */
 const GRADED_SECRET_KEYS = ["attendu", "expected", "solution", "aide", "hint"] as const
+
 
 type ScenarioStep = Record<string, unknown>
 type Scenario = { steps?: ScenarioStep[] } & Record<string, unknown>
@@ -168,6 +170,9 @@ export async function PUT(req: NextRequest, { params }: { params: { chapterId: s
   const safeHints = clampInt(hintDelta, 50) ?? 0
   const safeTime = clampInt(timeDeltaSeconds, 900) ?? 0
   // Le score client n'est retenu qu'en évaluation, et toujours dans [0,1].
+  // Le journal est recalé sur le scénario EN BASE : le navigateur ne fournit
+  // que les booléens de réussite, jamais le barème ni le type d'étape.
+  const safeStepLog = sanitizeStepLog(stepLog, simulation.scenario)
   const rawScore = Number(score)
   const safeScore =
     simulation.mode === "EVALUATION" && Number.isFinite(rawScore)
@@ -194,6 +199,15 @@ export async function PUT(req: NextRequest, { params }: { params: { chapterId: s
   // incrémenté — la preuve du nombre de passages manquait, notamment en
   // évaluation.
   const nouvelleTentative = Boolean(existing?.completedAt) && !done && nextStep === 0
+  // Le journal n'est déposé que par une évaluation réellement terminée, et
+  // seulement s'il décrit la tentative dont la note sera affichée.
+  const ecrireJournal = doitRemplacerJournal({
+    mode: simulation.mode,
+    termine,
+    journal: safeStepLog,
+    score: safeScore,
+    bestScoreExistant: existing?.bestScore ?? null,
+  })
 
   const attempt = await prisma.simulationAttempt.upsert({
     where: { simulationId_userId: { simulationId: simulation.id, userId } },
@@ -206,7 +220,7 @@ export async function PUT(req: NextRequest, { params }: { params: { chapterId: s
       hintCount: safeHints,
       score: safeScore,
       bestScore: safeScore,
-      stepLog: (stepLog ?? undefined) as never,
+      stepLog: (ecrireJournal ? safeStepLog : undefined) as never,
       completedAt: termine ? nowDate : null,
     },
     update: {
@@ -228,7 +242,7 @@ export async function PUT(req: NextRequest, { params }: { params: { chapterId: s
               existing?.bestScore != null ? Math.max(existing.bestScore, safeScore) : safeScore,
           }
         : {}),
-      ...(stepLog !== undefined ? { stepLog: stepLog as never } : {}),
+      ...(ecrireJournal ? { stepLog: safeStepLog as never } : {}),
       // On ne réécrit pas completedAt d'une simulation déjà terminée : la date
       // de première réussite est ce qui compte pour les preuves de parcours.
       ...(termine && !existing?.completedAt ? { completedAt: nowDate } : {}),

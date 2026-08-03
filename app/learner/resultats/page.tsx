@@ -2,7 +2,7 @@ import { auth } from "@/lib/auth"
 import { redirect } from "next/navigation"
 import Link from "next/link"
 import { getLearnerEnrollments } from "@/lib/data/formations"
-import { getFormationQuizResults } from "@/lib/data/quiz"
+import { getFormationEvaluationResults } from "@/lib/data/quiz"
 
 export const dynamic = "force-dynamic"
 
@@ -43,7 +43,7 @@ export default async function ResultatsPage() {
   const blocks = await Promise.all(
     enrollments.map(async (e: any) => ({
       formation: e.formation,
-      results: await getFormationQuizResults(userId, e.formation.id),
+      results: await getFormationEvaluationResults(userId, e.formation.id),
     }))
   )
   const withQuiz = blocks.filter((b) => b.results.totalCount > 0)
@@ -78,9 +78,15 @@ export default async function ResultatsPage() {
                   {results.evaluations.map((ev) => {
                     const pct = pctOf(ev.bestScore)
                     return (
-                      <div key={ev.exerciseId} className="flex items-center gap-3 sm:gap-4 py-3 border-b border-warm-100 last:border-0">
+                      <div key={ev.key} className="flex items-center gap-3 sm:gap-4 py-3 border-b border-warm-100 last:border-0">
                         <div className="flex-1 min-w-0">
                           <div className="text-[13.5px] font-semibold text-ink mb-1.5 truncate">{ev.title}</div>
+                          {/* Pas de `truncate` ici, contrairement au titre : un
+                              détail chiffré coupé au milieu ne veut plus rien
+                              dire, mieux vaut le laisser passer à la ligne. */}
+                          {ev.detail && (
+                            <div className="text-[11px] text-ink-50 mb-1.5">{ev.detail}</div>
+                          )}
                           <div className="h-[7px] rounded-full bg-gray-100 overflow-hidden">
                             <div className={`h-full rounded-full ${pct != null ? scoreBar(pct) : ""}`} style={{ width: `${pct ?? 0}%` }} />
                           </div>
@@ -95,14 +101,16 @@ export default async function ResultatsPage() {
                               </div>
                             </>
                           ) : (
-                            <div className="text-[12px] text-ink-50">Non tentée</div>
+                            <div className="text-[12px] text-ink-50">
+                              {ev.attempts > 0 ? "Commencée" : "Non tentée"}
+                            </div>
                           )}
                         </div>
                         <Link
                           href={`/learner/formation?id=${formation.id}&chapitre=${ev.chapterId}`}
-                          className={`text-xs font-semibold px-3 py-1.5 rounded-lg whitespace-nowrap transition-colors ${pct != null ? "border border-border text-primary bg-white hover:bg-brand-50" : "bg-primary text-white hover:opacity-90"}`}
+                          className={`text-xs font-semibold px-3 py-1.5 rounded-lg whitespace-nowrap transition-colors ${ev.attempts > 0 ? "border border-border text-primary bg-white hover:bg-brand-50" : "bg-primary text-white hover:opacity-90"}`}
                         >
-                          {pct != null ? "Refaire" : "Commencer"}
+                          {ev.attempts > 0 ? "Refaire" : "Commencer"}
                         </Link>
                       </div>
                     )

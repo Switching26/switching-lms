@@ -185,6 +185,18 @@ type Props = {
    * avait tout juste). Sert uniquement à le lui DIRE sur l'écran d'ouverture.
    */
   repriseEvaluation?: boolean
+  /**
+   * Meilleur score déjà obtenu à cette ÉVALUATION (0..1), ou null.
+   *
+   * Une évaluation TERMINÉE ne remplissait aucune des conditions de
+   * `repriseEvaluation` : elle rouvrait sur un écran d'ouverture strictement
+   * vierge, sans rien rappeler du passage précédent. L'apprenant en concluait
+   * que sa tentative n'avait pas été enregistrée — alors que le score était
+   * bien en base. On le lui redit ici, à l'endroit exact où il en doutait.
+   */
+  scorePrecedent?: number | null
+  /** Nombre de passages déjà enregistrés (`attemptCount`). */
+  passagesPrecedents?: number
   /** Aperçu admin : aucune écriture de progression. */
   preview?: boolean
   onCompleted?: () => void
@@ -465,6 +477,8 @@ export default function SimulationPlayer({
   scenario,
   initialStep = 0,
   repriseEvaluation = false,
+  scorePrecedent = null,
+  passagesPrecedents = 0,
   preview,
   onCompleted,
   pleinCadre,
@@ -497,6 +511,9 @@ export default function SimulationPlayer({
   // lecture, ce qui masque le temps de chargement d'Univer.
   const [introVue, setIntroVue] = useState(departForce > 0)
   const evaluationRepart = mode === "EVALUATION" && (repriseEvaluation || initialStep > 0)
+  // Passage précédent DÉJÀ TERMINÉ, avec sa note : cas qu'aucun message ne
+  // couvrait jusqu'ici.
+  const dejaPassee = mode === "EVALUATION" && scorePrecedent != null
   const carteRef = useRef<HTMLDivElement>(null)
   /**
    * Dimensions de la feuille — MESURÉES, jamais calculées par soustraction.
@@ -1573,7 +1590,7 @@ export default function SimulationPlayer({
   /* ── Persistance ───────────────────────────────────────────────────────── */
 
   const persist = useCallback(
-    async (opts: { step: number; finish?: boolean; score?: number }) => {
+    async (opts: { step: number; finish?: boolean; score?: number; stepLog?: unknown }) => {
       if (preview) return
       const p = pendingRef.current
       pendingRef.current = { errors: 0, hints: 0, seconds: 0 }
@@ -1593,6 +1610,7 @@ export default function SimulationPlayer({
             timeDeltaSeconds: p.seconds,
             finish: opts.finish ?? false,
             score: opts.score,
+            ...(opts.stepLog !== undefined ? { stepLog: opts.stepLog } : {}),
             newSession: premiere,
           }),
           keepalive: true,
@@ -1620,8 +1638,33 @@ export default function SimulationPlayer({
     const next = index + 1
     if (next >= total) {
       const score = mode === "EVALUATION" ? computeScore(steps, firstTryRef.current) : undefined
+      /**
+       * Trace par étape, écrite UNE fois à la complétion.
+       *
+       * `SimulationAttempt.stepLog` était documenté dans le schéma et lu par
+       * l'API, mais aucun client ne l'a jamais envoyé : la colonne était NULL
+       * pour toutes les tentatives, donc le détail d'un passage n'existait
+       * nulle part et aucun corrigé n'était reconstituable après coup.
+       *
+       * On n'envoie que ce que le lecteur connaît RÉELLEMENT : la réussite au
+       * premier essai, qui est la base du barème, et le fait que l'étape ait
+       * été tentée. Pas de durée ni de compteur d'erreurs par étape — ils ne
+       * sont pas suivis à cette granularité, les inventer donnerait une preuve
+       * fausse.
+       *
+       * Le rang, le type et le barème ne sont VOLONTAIREMENT pas transmis : le
+       * serveur les reconstruit depuis le scénario en base (`sanitizeStepLog`),
+       * pour qu'un navigateur ne puisse pas s'attribuer un barème ni déguiser
+       * une étape notée en écran de lecture. Aucune cible attendue n'y figure
+       * non plus : ce journal revient au client dans le détail des résultats.
+       */
+      const stepLog = steps.map((s) => ({
+        id: s.id,
+        premierEssai: firstTryRef.current[s.id] === true,
+        tentee: attemptedRef.current.has(s.id) || firstTryRef.current[s.id] === true,
+      }))
       setFinished(true)
-      void persist({ step: index, finish: true, score })
+      void persist({ step: index, finish: true, score, stepLog })
       onCompleted?.()
       return
     }
@@ -3645,9 +3688,9 @@ export default function SimulationPlayer({
               {total} étape{total > 1 ? "s" : ""} · ≈ {estimatedSimulationMinutes(mode, total)} min
               {mode === "EVALUATION" ? " · sans aide, score enregistré · à faire d'une traite" : ""}
             </div>
-            {evaluationRepart && (
+            {(evaluationRepart || dejaPassee) && (
               <p
-                data-control="intro-reprise-evaluation"
+                data-control={dejaPassee ? "intro-score-precedent" : "intro-reprise-evaluation"}
                 style={{
                   fontSize: 13,
                   lineHeight: 1.55,
@@ -3660,8 +3703,21 @@ export default function SimulationPlayer({
                   animation: "sim-intro-monte .6s .6s ease both",
                 }}
               >
-                Vous aviez commencé cette évaluation : elle reprend depuis le début, sur un
-                classeur remis à neuf, pour que chaque geste compte au premier essai.
+                {dejaPassee ? (
+                  <>
+                    Vous avez déjà passé cette évaluation
+                    {passagesPrecedents > 1 ? ` ${passagesPrecedents} fois` : ""} : votre meilleur
+                    score enregistré est de{" "}
+                    <strong>{Math.round((scorePrecedent as number) * 100)} %</strong>. Il reste
+                    consultable dans « Mes résultats ». La repasser recommence depuis la première
+                    question, sur un classeur remis à neuf.
+                  </>
+                ) : (
+                  <>
+                    Vous aviez commencé cette évaluation : elle reprend depuis le début, sur un
+                    classeur remis à neuf, pour que chaque geste compte au premier essai.
+                  </>
+                )}
               </p>
             )}
             <button

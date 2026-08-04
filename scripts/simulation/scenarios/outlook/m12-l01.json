@@ -1,0 +1,271 @@
+{
+  "schemaVersion": 1,
+  "title": "La référence avant tout le reste",
+  "mode": "LESSON",
+  "moduleTitle": "Écrire à une administration ou un donneur d'ordre public",
+  "intro": {
+    "title": "Un service qui traite quarante dossiers ne connaît pas le vôtre",
+    "body": "Écrire à une collectivité ou à une administration ne demande pas un autre français : cela demande d'autres réflexes. Le premier, et de loin le plus important : la référence du dossier, dans l'objet, avant tout le reste. Sans elle, votre message arrive dans un service qui ne saura pas à quoi le rattacher."
+  },
+  "outro": {
+    "body": "Une référence dans l'objet et rappelée dans le texte, un délai cité explicitement, et un interlocuteur nommé : ces trois éléments font la différence entre un message traité le jour même et un message qui attend qu'on retrouve de quoi il parle."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "marches",
+        "nom": "Marchés publics"
+      },
+      {
+        "id": "clients",
+        "nom": "Clients 2026"
+      }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "fichiers": [
+      {
+        "nom": "Acte-engagement-MP-2026-24.pdf",
+        "taille": "210 Ko"
+      },
+      {
+        "nom": "Acte-engagement-MP-2026-24-BROUILLON.pdf",
+        "taille": "205 Ko"
+      },
+      {
+        "nom": "Attestation-fiscale-2026.pdf",
+        "taille": "96 Ko"
+      },
+      {
+        "nom": "Attestation-URSSAF-2026.pdf",
+        "taille": "88 Ko"
+      },
+      {
+        "nom": "Book-realisations-HD.zip",
+        "taille": "54 Mo"
+      }
+    ],
+    "messages": [
+      {
+        "id": "m-notification",
+        "dossier": "reception",
+        "de": "marches@ville-lambersart.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Consultation en cours — suites à donner",
+        "corps": "Madame, Monsieur,\n\nVotre offre au titre du marché MP-2026-24 (mobilier de la salle des mariages) a été retenue.\nMerci de nous retourner l'acte d'engagement signé avant le 20 avril, ainsi que vos attestations fiscale et sociale à jour.\n\nService des marchés\nVille de Lambersart",
+        "date": "2026-04-08T08:00",
+        "lu": false
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O12-L01-01",
+      "consigne": "==Ouvrez la notification de la Ville de Lambersart.== Elle contient trois choses à relever avant d'écrire un mot : la référence du marché, la liste exacte des pièces, et la date limite.",
+      "action": {
+        "type": "O_SELECT_MESSAGE",
+        "id": "m-notification"
+      },
+      "aide": {
+        "text": "C'est le message qui annonce que votre offre a été retenue."
+      }
+    },
+    {
+      "id": "O12-L01-02",
+      "consigne": "==Cliquez sur Répondre.== On répond dans le fil de la notification : le service retrouve ainsi votre message sous le dossier qu'il a lui-même ouvert.",
+      "setup": {
+        "courrier": {
+          "messageActif": "m-notification"
+        }
+      },
+      "action": {
+        "type": "O_CLICK_CONTROL",
+        "control": "cr-repondre"
+      },
+      "aide": {
+        "text": "Le bouton Répondre, premier de la barre du haut du volet de lecture."
+      }
+    },
+    {
+      "id": "O12-L01-03",
+      "consigne": "==Complétez l'objet avec la référence `MP-2026-24`.== L'objet reçu ne la porte pas : c'est à vous de la mettre. Dans un service qui suit quarante consultations, l'objet est le seul critère de tri qui fonctionne.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "objet": {
+            "prefixe": "RE",
+            "contient": [
+              "MP-2026-24"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "La référence figure dans le texte du message reçu ; ajoutez-la à la fin de l'objet."
+      }
+    },
+    {
+      "id": "O12-L01-04",
+      "consigne": "==Joignez `Acte-engagement-MP-2026-24.pdf`.== Deux fichiers portent presque le même nom : envoyer un acte d'engagement en version brouillon à une collectivité, c'est un dossier écarté sans discussion.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "pieces": {
+            "contient": [
+              "Acte-engagement-MP-2026-24.pdf"
+            ],
+            "absent": [
+              "Acte-engagement-MP-2026-24-BROUILLON.pdf"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Lisez le nom en entier : le brouillon porte la même référence."
+      }
+    },
+    {
+      "id": "O12-L01-05",
+      "consigne": "==Joignez les deux attestations demandées==, fiscale et sociale. Une pièce manquante sur trois suffit à rendre le dossier incomplet : dans un marché public, il n'y a pas de rattrapage partiel.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "pieces": {
+            "contient": [
+              "Acte-engagement-MP-2026-24.pdf",
+              "Attestation-fiscale-2026.pdf",
+              "Attestation-URSSAF-2026.pdf"
+            ],
+            "absent": [
+              "Book-realisations-HD.zip",
+              "Acte-engagement-MP-2026-24-BROUILLON.pdf"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Rouvrez Joindre pour chacune : l'attestation fiscale et l'attestation URSSAF."
+      }
+    },
+    {
+      "id": "O12-L01-06",
+      "consigne": "==Mettez `n.kerbaj@atelier-nord.fr` en copie.== La gérante signe les engagements de l'entreprise : elle doit savoir qu'un acte signé est parti, sans être destinataire principale du message.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "a": {
+            "contient": [
+              "marches@ville-lambersart.fr"
+            ],
+            "absent": [
+              "n.kerbaj@atelier-nord.fr"
+            ]
+          },
+          "cc": {
+            "contient": [
+              "n.kerbaj@atelier-nord.fr"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Le champ Cc est la deuxième ligne de la fenêtre de rédaction."
+      }
+    },
+    {
+      "id": "O12-L01-07",
+      "consigne": "==Rédigez la réponse, puis envoyez.== Elle doit rappeler **la référence du marché** et **énumérer les pièces jointes** : un service qui ouvre trente dossiers par jour ne devine pas ce qu'il reçoit.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "marches@ville-lambersart.fr"
+            ]
+          },
+          "cc": {
+            "contient": [
+              "n.kerbaj@atelier-nord.fr"
+            ]
+          },
+          "objet": {
+            "prefixe": "RE",
+            "contient": [
+              "MP-2026-24"
+            ]
+          },
+          "pieces": {
+            "contient": [
+              "Acte-engagement-MP-2026-24.pdf",
+              "Attestation-fiscale-2026.pdf",
+              "Attestation-URSSAF-2026.pdf"
+            ],
+            "absent": [
+              "Acte-engagement-MP-2026-24-BROUILLON.pdf"
+            ]
+          },
+          "corps": {
+            "salutation": [
+              "bonjour",
+              "madame",
+              "monsieur",
+              "madame, monsieur"
+            ],
+            "cloture": [
+              "cordialement",
+              "salutations distinguees",
+              "respectueusement",
+              "bien a vous",
+              "salutations"
+            ],
+            "notions": [
+              {
+                "libelle": "la référence du marché",
+                "oneOf": [
+                  "mp-2026-24",
+                  "2026-24"
+                ]
+              },
+              {
+                "libelle": "l'énumération des pièces transmises",
+                "oneOf": [
+                  "acte d'engagement",
+                  "acte",
+                  "attestations",
+                  "trois pieces",
+                  "fiscale",
+                  "urssaf"
+                ]
+              }
+            ],
+            "minMots": 15
+          }
+        }
+      },
+      "aide": {
+        "text": "Deux informations sont attendues : la référence, et la liste des pièces."
+      }
+    }
+  ]
+}

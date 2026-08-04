@@ -1,0 +1,164 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "mode": "EXERCISE",
+  "moduleTitle": "Organiser et enchaîner",
+  "title": "Exercice — Remettre la présentation dans l'ordre",
+  "intro": {
+    "title": "Exercice — Remettre la présentation dans l'ordre",
+    "body": "Cette présentation a été assemblée à la hâte : une diapositive existe en double, et le remerciement arrive avant le contenu. Remettez-la d'aplomb, puis vérifiez le résultat comme le public le verra."
+  },
+  "outro": {
+    "body": "Un doublon retiré, un ordre corrigé, un contrôle en projection : le réflexe est acquis."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "ppt": {
+    "fileName": "Bilan Verdeval.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Verdeval",
+          "sous-titre": "Bilan de la saison 2026"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Merci de votre attention",
+          "contenu": "Questions et échanges"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Chiffres de la saison",
+          "contenu": "38 jardins et 120 entretiens"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Chiffres de la saison",
+          "contenu": "38 jardins et 120 entretiens"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Nos engagements",
+          "contenu": "Zéro produit phytosanitaire"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M02-E01-01",
+      "consigne": "Deux diapositives sont identiques. Affichez la seconde des deux, celle qui est en trop.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 3
+      },
+      "aide": {
+        "text": "Les doublons sont en troisième et quatrième position : c'est la quatrième qu'il faut afficher."
+      }
+    },
+    {
+      "id": "M02-E01-02",
+      "consigne": "Retirez-la définitivement de la présentation.",
+      "setupPpt": {
+        "slide": 3
+      },
+      "action": {
+        "type": "P_DELETE_SLIDE",
+        "index": 3
+      },
+      "aide": {
+        "text": "Groupe Diapositives, bouton Supprimer : il agit sur la diapositive affichée."
+      }
+    },
+    {
+      "id": "M02-E01-03",
+      "consigne": "Le remerciement arrive en deuxième position, avant tout le contenu. Affichez-le.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 1
+      },
+      "aide": {
+        "text": "C'est la deuxième miniature du volet."
+      }
+    },
+    {
+      "id": "M02-E01-04",
+      "consigne": "Faites-le reculer d'une position.",
+      "setupPpt": {
+        "slide": 1
+      },
+      "action": {
+        "type": "P_MOVE_SLIDE",
+        "from": 1,
+        "to": 2
+      },
+      "aide": {
+        "text": "Groupe Diapositives, bouton « ↓ Descendre ». Un clic égale une position."
+      }
+    },
+    {
+      "id": "M02-E01-05",
+      "consigne": "Amenez-le en dernière position, à la place qui lui revient.",
+      "setupPpt": {
+        "slide": 2
+      },
+      "action": {
+        "type": "P_MOVE_SLIDE",
+        "from": 2,
+        "to": 3
+      },
+      "aide": {
+        "text": "La diapositive reste affichée après un déplacement : un second clic suffit."
+      }
+    },
+    {
+      "id": "M02-E01-06",
+      "consigne": "Contrôlez votre travail comme le public le verra, depuis la première diapositive.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": true,
+          "index": 0
+        }
+      },
+      "aide": {
+        "text": "Groupe Diaporama, bouton « ▶ Début »."
+      }
+    },
+    {
+      "id": "M02-E01-07",
+      "consigne": "Avancez d'une diapositive : vous devez arriver sur les chiffres.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "index": 1
+        }
+      }
+    },
+    {
+      "id": "M02-E01-08",
+      "consigne": "Revenez à votre présentation.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": false
+        }
+      },
+      "aide": {
+        "text": "Échap, ou le bouton Quitter en haut à droite."
+      }
+    }
+  ]
+}

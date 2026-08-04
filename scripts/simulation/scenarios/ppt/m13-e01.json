@@ -1,0 +1,267 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "mode": "EXERCISE",
+  "moduleTitle": "Faire apparaître au bon moment",
+  "title": "Retenir la bonne information",
+  "intro": {
+    "title": "Retenir la bonne information",
+    "body": "Une présentation de la Fonderie Basmont à son conseil d'administration. Sur chaque diapositive, une seule information mérite d'être retenue jusqu'à l'annonce : trouvez-la et animez-la, laissez le reste visible."
+  },
+  "outro": {
+    "body": "Deux annonces retenues, tout le contexte visible d'emblée : c'est le bon dosage."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "ppt": {
+    "fileName": "Basmont - conseil.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Fonderie Basmont",
+          "sous-titre": "Conseil d'administration du 9 avril"
+        }
+      },
+      {
+        "layout": "titre-seul",
+        "textes": {
+          "titre": "La commande Ferroval"
+        },
+        "objets": [
+          {
+            "id": "zt-contexte",
+            "objectType": "texte",
+            "texte": "Appel d'offres remis en janvier, quatre concurrents",
+            "rect": {
+              "x": 70,
+              "y": 170,
+              "w": 540,
+              "h": 60
+            }
+          },
+          {
+            "id": "zt-resultat",
+            "objectType": "texte",
+            "texte": "Commande remportée : 610 000 €",
+            "rect": {
+              "x": 70,
+              "y": 300,
+              "w": 540,
+              "h": 80
+            }
+          }
+        ]
+      },
+      {
+        "layout": "titre-seul",
+        "textes": {
+          "titre": "Le nouvel atelier"
+        },
+        "objets": [
+          {
+            "id": "img-atelier",
+            "objectType": "image",
+            "rect": {
+              "x": 300,
+              "y": 150,
+              "w": 360,
+              "h": 240
+            }
+          },
+          {
+            "id": "zt-legende",
+            "objectType": "texte",
+            "texte": "Hall de coulée, livré en février",
+            "rect": {
+              "x": 60,
+              "y": 420,
+              "w": 460,
+              "h": 60
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M13-E01-01",
+      "consigne": "Affichez la deuxième diapositive, celle de la commande Ferroval.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 1
+      }
+    },
+    {
+      "id": "M13-E01-02",
+      "consigne": "Le contexte peut être lu tout de suite ; le résultat, non. Sélectionnez la zone « Commande remportée : 610 000 € ».",
+      "action": {
+        "type": "P_SELECT_OBJECT",
+        "objectId": "zt-resultat"
+      }
+    },
+    {
+      "id": "M13-E01-03",
+      "consigne": "Appliquez-lui Apparaître : un montant se dit sec, il tombe d'un coup.",
+      "setupPpt": {
+        "slide": 1
+      },
+      "action": {
+        "type": "P_EXPECT_ANIMATIONS",
+        "animations": [
+          {
+            "objectId": "zt-resultat",
+            "kind": "apparaitre"
+          }
+        ]
+      },
+      "aide": {
+        "text": "Groupe Animations, bouton « Apparaître »."
+      },
+      "feedback": "Le conseil lit le contexte pendant que vous le posez, et découvre le montant quand vous l'annoncez."
+    },
+    {
+      "id": "M13-E01-04",
+      "consigne": "Écrivez la note de cette diapositive : Un clic après avoir rappelé les quatre concurrents.",
+      "action": {
+        "type": "P_EXPECT_DECK",
+        "deck": {
+          "slides": [
+            {
+              "index": 1,
+              "notes": "Un clic après avoir rappelé les quatre concurrents"
+            }
+          ]
+        }
+      },
+      "aide": {
+        "text": "Le champ de notes est sous la diapositive ; sur petit écran, le bouton « Notes » l'ouvre."
+      }
+    },
+    {
+      "id": "M13-E01-05",
+      "consigne": "Affichez la troisième diapositive, celle du nouvel atelier.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 2
+      }
+    },
+    {
+      "id": "M13-E01-06",
+      "consigne": "Sélectionnez la photo du hall de coulée.",
+      "action": {
+        "type": "P_SELECT_OBJECT",
+        "objectId": "img-atelier"
+      }
+    },
+    {
+      "id": "M13-E01-07",
+      "consigne": "Appliquez-lui Fondu : une image se regarde, elle se lève doucement pendant que vous la commentez.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Fonderie Basmont",
+                "sous-titre": "Conseil d'administration du 9 avril"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "La commande Ferroval"
+              },
+              "objets": [
+                {
+                  "id": "zt-contexte",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 70,
+                    "y": 170,
+                    "w": 540,
+                    "h": 60
+                  },
+                  "texte": "Appel d'offres remis en janvier, quatre concurrents"
+                },
+                {
+                  "id": "zt-resultat",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 70,
+                    "y": 300,
+                    "w": 540,
+                    "h": 80
+                  },
+                  "texte": "Commande remportée : 610 000 €"
+                }
+              ],
+              "notes": "Un clic après avoir rappelé les quatre concurrents"
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Le nouvel atelier"
+              },
+              "objets": [
+                {
+                  "id": "img-atelier",
+                  "objectType": "image",
+                  "rect": {
+                    "x": 300,
+                    "y": 150,
+                    "w": 360,
+                    "h": 240
+                  }
+                },
+                {
+                  "id": "zt-legende",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 60,
+                    "y": 420,
+                    "w": 460,
+                    "h": 60
+                  },
+                  "texte": "Hall de coulée, livré en février"
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 2
+      },
+      "action": {
+        "type": "P_EXPECT_ANIMATIONS",
+        "animations": [
+          {
+            "objectId": "img-atelier",
+            "kind": "fondu"
+          }
+        ]
+      },
+      "aide": {
+        "text": "Groupe Animations, bouton « Fondu »."
+      }
+    },
+    {
+      "id": "M13-E01-08",
+      "consigne": "Lancez le diaporama depuis le début et vérifiez le rythme : chaque écran donne son contexte, et attend votre clic pour l'essentiel.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": true,
+          "index": 0
+        }
+      },
+      "aide": {
+        "text": "Groupe Diaporama, bouton « ▶ Début »."
+      }
+    }
+  ]
+}

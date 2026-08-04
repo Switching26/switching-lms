@@ -1,0 +1,93 @@
+{
+ "schemaVersion": 1,
+ "app": "WORD",
+ "title": "Illustrer une note de service",
+ "mode": "EXERCISE",
+ "moduleTitle": "Schémas, graphiques et zones de texte",
+ "intro": {
+  "title": "À VOUS",
+  "body": "Une note annonce une réorganisation et un point de vigilance. Deux objets, deux mises en page."
+ },
+ "outro": "Un encadré attire l'œil ; un schéma explique. Les deux ensemble structurent une note.",
+ "document": {
+  "paragraphes": [
+   {
+    "texte": "Note d'organisation interne",
+    "style": "titre"
+   },
+   {
+    "texte": "La réorganisation du service prend effet au premier septembre.",
+    "style": "normal"
+   },
+   {
+    "texte": "Trois pôles remplacent l'organisation par métiers.",
+    "style": "normal"
+   },
+   {
+    "texte": "Chaque pôle est rattaché à la direction des opérations.",
+    "style": "normal"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "id": "M16-E01-01",
+   "consigne": "==Insérez l'organigramme== pour montrer le rattachement des trois pôles.",
+   "action": {
+    "type": "W_EXPECT_IMAGE",
+    "image": "organigramme"
+   },
+   "setup": {
+    "ribbon": {
+     "activeTab": "insertion"
+    }
+   },
+   "aide": {
+    "text": "Onglet « Insertion », bouton « Image », vignette « Organigramme ».",
+    "showTarget": true
+   },
+   "feedback": "La hiérarchie est illustrée."
+  },
+  {
+   "id": "M16-E01-02",
+   "consigne": "==Donnez-lui l'habillage « Rapproché »== pour que le texte l'accompagne au lieu de le repousser.",
+   "action": {
+    "type": "W_EXPECT_IMAGE",
+    "image": "organigramme",
+    "habillage": "carre"
+   },
+   "aide": {
+    "text": "Bouton « Rapproché ».",
+    "showTarget": true
+   },
+   "feedback": "Le texte accompagne le schéma."
+  },
+  {
+   "id": "M16-E01-03",
+   "consigne": "Le schéma sera finalement mis en annexe. ==Retirez-le== et laissez la note au texte seul.",
+   "action": {
+    "type": "W_EXPECT_IMAGE",
+    "image": "organigramme",
+    "absente": true
+   },
+   "aide": {
+    "text": "Bouton « Supprimer l'image ».",
+    "showTarget": true
+   },
+   "feedback": "La note est revenue au texte."
+  },
+  {
+   "id": "M16-E01-04",
+   "consigne": "==Insérez la zone de texte encadrée== : elle portera le point de vigilance, détaché du corps de la note.",
+   "action": {
+    "type": "W_EXPECT_IMAGE",
+    "image": "zone-texte"
+   },
+   "aide": {
+    "text": "Galerie, vignette « Zone de texte encadrée ».",
+    "showTarget": true
+   },
+   "feedback": "L'encadré détache l'information importante."
+  }
+ ]
+}

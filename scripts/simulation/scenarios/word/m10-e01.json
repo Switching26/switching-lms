@@ -1,0 +1,110 @@
+{
+ "schemaVersion": 1,
+ "app": "WORD",
+ "title": "Préparer un tirage de réunion",
+ "mode": "EXERCISE",
+ "moduleTitle": "Impression",
+ "intro": {
+  "title": "À VOUS",
+  "body": "Huit participants, un ordre du jour à distribuer sur place, du papier à économiser. Réglez l'impression sans rien imprimer de trop."
+ },
+ "outro": "Un tirage bien réglé se lance une fois et sort juste.",
+ "document": {
+  "paragraphes": [
+   {
+    "texte": "Ordre du jour — réunion de service",
+    "style": "titre"
+   },
+   {
+    "texte": "Point un : bilan des congés d'été et organisation des permanences.",
+    "style": "normal"
+   },
+   {
+    "texte": "Point deux : renouvellement du parc informatique.",
+    "style": "normal"
+   },
+   {
+    "texte": "Point trois : questions diverses.",
+    "style": "normal"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "id": "M10-E01-01",
+   "consigne": "==Ouvrez l'écran Imprimer.== Onglet Fichier.",
+   "action": {
+    "type": "W_CLICK_CONTROL",
+    "controle": "w-imprimer"
+   },
+   "setup": {
+    "ribbon": {
+     "activeTab": "fichier"
+    }
+   },
+   "aide": {
+    "text": "Onglet « Fichier », bouton « Imprimer ».",
+    "showTarget": true
+   },
+   "feedback": "Écran ouvert."
+  },
+  {
+   "id": "M10-E01-02",
+   "consigne": "==Réglez 8 copies==, une par participant.",
+   "action": {
+    "type": "W_EXPECT_PRINT",
+    "impression": {
+     "copies": 8
+    }
+   },
+   "aide": {
+    "text": "Champ « Copies ».",
+    "showTarget": true
+   },
+   "feedback": "Huit exemplaires demandés."
+  },
+  {
+   "id": "M10-E01-03",
+   "consigne": "==Activez le recto verso== pour diviser le papier par deux.",
+   "action": {
+    "type": "W_EXPECT_PRINT",
+    "impression": {
+     "rectoVerso": true
+    }
+   },
+   "aide": {
+    "text": "Case « Recto verso ».",
+    "showTarget": true
+   },
+   "feedback": "Papier économisé."
+  },
+  {
+   "id": "M10-E01-04",
+   "consigne": "Un membre veut relire seulement la page à l'écran. ==Basculez la plage sur « Page courante ».== La plage restreint l'impression à ce que montre l'aperçu.",
+   "action": {
+    "type": "W_EXPECT_PRINT",
+    "impression": {
+     "plage": "courante"
+    }
+   },
+   "aide": {
+    "text": "Bouton « Page courante », dans « Pages à imprimer ».",
+    "showTarget": true
+   },
+   "feedback": "Seule la page affichée sortira."
+  },
+  {
+   "id": "M10-E01-05",
+   "consigne": "==Refermez l'aperçu.== Le tirage est prêt à être lancé.",
+   "action": {
+    "type": "W_CLICK_CONTROL",
+    "controle": "w-print-fermer"
+   },
+   "aide": {
+    "text": "Bouton « Fermer l'aperçu ».",
+    "showTarget": true
+   },
+   "feedback": "Réglages conservés."
+  }
+ ]
+}

@@ -1,0 +1,177 @@
+{
+ "schemaVersion": 1,
+ "app": "WORD",
+ "title": "Évaluation — les tabulations",
+ "mode": "EVALUATION",
+ "moduleTitle": "Les tabulations",
+ "intro": {
+  "title": "ÉVALUATION NOTÉE",
+  "body": "Vous montez la structure d'un bordereau : libellé, quantité, montant. Chaque taquet est noté, son type autant que sa position."
+ },
+ "outro": "Vous savez poser, typer et retirer un taquet — et choisir le type selon ce que la colonne contient.",
+ "document": {
+  "paragraphes": [
+   {
+    "texte": "Bordereau de livraison",
+    "style": "titre"
+   },
+   {
+    "texte": "Ramettes de papier blanc",
+    "style": "normal"
+   },
+   {
+    "texte": "Boîtes d'agrafes",
+    "style": "normal"
+   },
+   {
+    "texte": "Rouleaux adhésifs",
+    "style": "normal"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "id": "M11-EV01-01",
+   "points": 2,
+   "consigne": "==Affichez la règle== depuis l'onglet Affichage.",
+   "action": {
+    "type": "W_CLICK_CONTROL",
+    "controle": "w-regle"
+   },
+   "setup": {
+    "ribbon": {
+     "activeTab": "affichage"
+    }
+   },
+   "feedback": "Règle visible."
+  },
+  {
+   "id": "M11-EV01-02",
+   "points": 3,
+   "consigne": "==Posez un taquet gauche à 2 cm== pour la colonne des libellés.",
+   "action": {
+    "type": "W_EXPECT_TABS",
+    "zone": "p0",
+    "taquets": [
+     {
+      "position": 2,
+      "type": "gauche"
+     }
+    ]
+   },
+   "feedback": "Libellés calés à 2 cm."
+  },
+  {
+   "id": "M11-EV01-03",
+   "points": 4,
+   "consigne": "==Ajoutez un taquet centré à 9 cm== pour la colonne des quantités.",
+   "action": {
+    "type": "W_EXPECT_TABS",
+    "zone": "p0",
+    "taquets": [
+     {
+      "position": 2,
+      "type": "gauche"
+     },
+     {
+      "position": 9,
+      "type": "centre"
+     }
+    ]
+   },
+   "feedback": "Quantités centrées."
+  },
+  {
+   "id": "M11-EV01-04",
+   "points": 4,
+   "consigne": "==Ajoutez un taquet décimal à 14 cm== pour les montants : ce sont les virgules qui doivent s'aligner.",
+   "action": {
+    "type": "W_EXPECT_TABS",
+    "zone": "p0",
+    "taquets": [
+     {
+      "position": 2,
+      "type": "gauche"
+     },
+     {
+      "position": 9,
+      "type": "centre"
+     },
+     {
+      "position": 14,
+      "type": "decimal"
+     }
+    ]
+   },
+   "feedback": "Montants alignés sur la virgule."
+  },
+  {
+   "id": "M11-EV01-05",
+   "points": 4,
+   "consigne": "La colonne des quantités passe à droite plutôt qu'au centre. ==Retirez le taquet de 9 cm.==",
+   "action": {
+    "type": "W_EXPECT_TABS",
+    "zone": "p0",
+    "taquets": [
+     {
+      "position": 2,
+      "type": "gauche"
+     },
+     {
+      "position": 14,
+      "type": "decimal"
+     }
+    ]
+   },
+   "feedback": "Taquet centré retiré."
+  },
+  {
+   "id": "M11-EV01-06",
+   "points": 4,
+   "consigne": "==Reposez-le en type droit, à 9 cm.==",
+   "action": {
+    "type": "W_EXPECT_TABS",
+    "zone": "p0",
+    "taquets": [
+     {
+      "position": 2,
+      "type": "gauche"
+     },
+     {
+      "position": 9,
+      "type": "droite"
+     },
+     {
+      "position": 14,
+      "type": "decimal"
+     }
+    ]
+   },
+   "feedback": "Quantités alignées à droite."
+  },
+  {
+   "id": "M11-EV01-07",
+   "points": 4,
+   "consigne": "Le bordereau se resserre. ==Déplacez le taquet des libellés de 2 cm à 4 cm== : retirez-le, puis reposez-le en type gauche.",
+   "action": {
+    "type": "W_EXPECT_TABS",
+    "zone": "p0",
+    "taquets": [
+     {
+      "position": 4,
+      "type": "gauche"
+     },
+     {
+      "position": 9,
+      "type": "droite"
+     },
+     {
+      "position": 14,
+      "type": "decimal"
+     }
+    ]
+   },
+   "feedback": "Structure resserrée."
+  }
+ ]
+}

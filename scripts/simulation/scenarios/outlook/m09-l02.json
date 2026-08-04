@@ -1,0 +1,205 @@
+{
+  "schemaVersion": 1,
+  "title": "Le poids, ce qu'on ne voit qu'après coup",
+  "mode": "LESSON",
+  "moduleTitle": "Les pièces jointes : ce qui part avec le message",
+  "intro": {
+    "title": "46 Mo qui ne partiront jamais",
+    "body": "Un fichier trop lourd ne fait pas échouer votre message tout de suite. Il est accepté, il semble parti, et il est rejeté quelques heures plus tard par le serveur du destinataire — parfois sans que personne vous prévienne. Vous croyez avoir répondu, votre client attend toujours. La parade tient en un coup d'œil avant de cliquer."
+  },
+  "outro": {
+    "body": "Regardez le poids affiché à droite du nom, toujours. Au-delà de quelques mégaoctets, on n'envoie pas : on propose un autre moyen, on découpe, ou on n'envoie que ce qui est utile. Dire dans le message pourquoi le fichier ne suit pas vaut mieux qu'un envoi qui échoue en silence."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "clients",
+        "nom": "Clients 2026"
+      },
+      {
+        "id": "fournisseurs",
+        "nom": "Fournisseurs"
+      }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "fichiers": [
+      {
+        "nom": "Devis-2026-168.pdf",
+        "taille": "188 Ko"
+      },
+      {
+        "nom": "Devis-2026-168-BROUILLON.pdf",
+        "taille": "181 Ko"
+      },
+      {
+        "nom": "Plan-agencement.pdf",
+        "taille": "1,1 Mo"
+      },
+      {
+        "nom": "Tarifs-achat-fournisseurs.pdf",
+        "taille": "96 Ko"
+      },
+      {
+        "nom": "Photos-chantier-HD.zip",
+        "taille": "46 Mo"
+      }
+    ],
+    "messages": [
+      {
+        "id": "m-photos",
+        "dossier": "reception",
+        "de": "h.vasseur@menuiserie-vasseur.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Chantier Beaulieu — tu as les photos ?",
+        "corps": "Bonjour Camille,\n\nPeux-tu m'envoyer les photos du chantier pour le dossier de réception ?\n\nHugo",
+        "date": "2026-04-01T09:00",
+        "lu": false
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O09-L02-01",
+      "consigne": "==Ouvrez la demande d'Hugo.== Il réclame les photos du chantier. Le fichier existe sur votre poste — mais son poids va décider de la façon dont vous allez répondre.",
+      "action": {
+        "type": "O_SELECT_MESSAGE",
+        "id": "m-photos"
+      },
+      "aide": {
+        "text": "C'est le message qui demande les photos du chantier."
+      }
+    },
+    {
+      "id": "O09-L02-02",
+      "consigne": "==Cliquez sur Répondre==, puis regardez la liste des fichiers avant de choisir quoi que ce soit.",
+      "setup": {
+        "courrier": {
+          "messageActif": "m-photos"
+        }
+      },
+      "action": {
+        "type": "O_CLICK_CONTROL",
+        "control": "cr-repondre"
+      },
+      "aide": {
+        "text": "Le bouton Répondre, premier de la barre du haut du volet de lecture."
+      }
+    },
+    {
+      "id": "O09-L02-03",
+      "consigne": "==Cliquez sur Joindre== et lisez la colonne de droite. `Photos-chantier-HD.zip` pèse **46 Mo** : au-delà de quelques mégaoctets, la plupart des messageries d'entreprise rejettent le message sans prévenir l'expéditeur.",
+      "action": {
+        "type": "O_CLICK_CONTROL",
+        "control": "cr-joindre"
+      },
+      "aide": {
+        "text": "Le trombone Joindre, dans la barre du haut de la fenêtre de rédaction."
+      }
+    },
+    {
+      "id": "O09-L02-04",
+      "consigne": "==Joignez plutôt `Plan-agencement.pdf`==, et laissez le dossier photo de côté. Un document léger qui arrive vaut mieux qu'un dossier complet qui n'arrive pas : Hugo pourra avancer, et vous conviendrez du reste autrement.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "pieces": {
+            "contient": [
+              "Plan-agencement.pdf"
+            ],
+            "absent": [
+              "Photos-chantier-HD.zip"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Cliquez sur le plan dans la liste ouverte ; ne touchez pas au fichier de 46 Mo."
+      }
+    },
+    {
+      "id": "O09-L02-05",
+      "consigne": "==Rédigez la réponse, puis envoyez.== Elle doit dire **pourquoi les photos ne sont pas jointes** et **comment il les aura** : un fichier absent sans explication passe pour un oubli.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "h.vasseur@menuiserie-vasseur.fr"
+            ]
+          },
+          "pieces": {
+            "contient": [
+              "Plan-agencement.pdf"
+            ],
+            "absent": [
+              "Photos-chantier-HD.zip"
+            ]
+          },
+          "corps": {
+            "salutation": [
+              "bonjour",
+              "hugo",
+              "salut",
+              "bonsoir"
+            ],
+            "cloture": [
+              "merci",
+              "cordialement",
+              "a bientot",
+              "bien a toi"
+            ],
+            "notions": [
+              {
+                "libelle": "pourquoi les photos ne sont pas jointes",
+                "oneOf": [
+                  "46 mo",
+                  "trop lourd",
+                  "poids",
+                  "volumineux",
+                  "taille",
+                  "46"
+                ]
+              },
+              {
+                "libelle": "comment il les recevra",
+                "oneOf": [
+                  "cle usb",
+                  "cle",
+                  "lien",
+                  "je te les passe",
+                  "sur place",
+                  "demain",
+                  "separement",
+                  "plusieurs envois"
+                ]
+              }
+            ],
+            "minMots": 12
+          }
+        }
+      },
+      "aide": {
+        "text": "Deux informations sont attendues : la raison, et la solution que vous proposez."
+      }
+    }
+  ]
+}

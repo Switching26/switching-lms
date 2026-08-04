@@ -1,0 +1,145 @@
+{
+  "schemaVersion": 1,
+  "app": "WORD",
+  "title": "Choisir une police et une taille",
+  "mode": "LESSON",
+  "moduleTitle": "Saisie et mise en forme des caractères",
+  "intro": {
+    "title": "LA POLICE ET LA TAILLE",
+    "body": "Deux réglages qui décident de la lisibilité d'un document avant même qu'on le lise. Vous allez découvrir qu'ils s'appliquent, comme tout le reste, à la SÉLECTION — et qu'une taille se choisit par rapport aux autres, jamais dans l'absolu."
+  },
+  "outro": "Une police pour le document, deux ou trois tailles pour hiérarchiser : c'est tout ce qu'il faut. Un document qui mélange quatre polices ne se lit pas mieux, il se lit moins bien.",
+  "document": {
+    "paragraphes": [
+      {
+        "texte": "Programme de la journée portes ouvertes"
+      },
+      {
+        "texte": "Samedi 14 juin, de 9 heures à 18 heures"
+      },
+      {
+        "texte": "Visite des ateliers de menuiserie et démonstration des machines."
+      },
+      {
+        "texte": "Un atelier découverte est proposé aux enfants à partir de huit ans."
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M02-L02-01",
+      "points": 0,
+      "consigne": "La **police** est le dessin des caractères ; la **taille** se mesure en points, l'unité de l'imprimerie. Un corps de texte tient entre 10 et 12 points ; un titre se distingue en montant à 18 ou 24. Retenez la règle : on hiérarchise par les ÉCARTS de taille, pas par les valeurs.",
+      "action": {
+        "type": "READ"
+      },
+      "montrer": [
+        {
+          "type": "W_SELECT_TEXT",
+          "zone": "p0"
+        }
+      ],
+      "feedback": "Trois tailles bien choisies valent mieux que six au hasard."
+    },
+    {
+      "id": "M02-L02-02",
+      "consigne": "Commencez par le titre. ==Sélectionnez-le, puis portez-le à la taille 24== avec la liste Taille du groupe Police.",
+      "setup": {
+        "ribbon": {
+          "activeTab": "accueil"
+        }
+      },
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p0",
+        "format": {
+          "taille": 24
+        }
+      },
+      "aide": {
+        "text": "La liste déroulante « Taille », juste à droite de la liste des polices.",
+        "showTarget": true
+      },
+      "feedback": "Le titre prend sa place : l'œil sait maintenant par où commencer."
+    },
+    {
+      "id": "M02-L02-03",
+      "consigne": "La ligne de date doit rester lisible sans concurrencer le titre. ==Portez-la à la taille 14== — un écart suffisant pour se distinguer du corps du texte, assez faible pour rester en second.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p1",
+        "format": {
+          "taille": 14
+        }
+      },
+      "feedback": "Trois niveaux se dessinent : titre, date, corps."
+    },
+    {
+      "id": "M02-L02-04",
+      "points": 0,
+      "consigne": "Deux familles de polices se partagent l'essentiel des documents. Les **polices à empattements** — Georgia, Times New Roman — portent de petits pieds au bout des lettres et se lisent bien sur papier. Les polices **sans empattements**, comme Arial ou Verdana, sont plus nettes à l'écran.",
+      "action": {
+        "type": "READ"
+      },
+      "montrer": [
+        {
+          "type": "W_SELECT_TEXT",
+          "zone": "p2"
+        }
+      ],
+      "feedback": "Empattements pour le papier, sans empattements pour l'écran : un repère, pas une loi."
+    },
+    {
+      "id": "M02-L02-05",
+      "consigne": "Ce programme sera imprimé et distribué à l'entrée. ==Mettez le titre en Georgia==, une police à empattements, avec la liste Police du ruban.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p0",
+        "format": {
+          "police": "Georgia"
+        }
+      },
+      "aide": {
+        "text": "La première liste déroulante du groupe Police.",
+        "showTarget": true
+      },
+      "feedback": "Le titre change de dessin : la taille, elle, n'a pas bougé — les deux réglages sont indépendants."
+    },
+    {
+      "id": "M02-L02-06",
+      "consigne": "Un document se tient quand ses titres partagent la même police. ==Mettez la ligne de date en Georgia== elle aussi.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p1",
+        "format": {
+          "police": "Georgia"
+        }
+      },
+      "feedback": "Titre et date parlent maintenant d'une seule voix."
+    },
+    {
+      "id": "M02-L02-07",
+      "consigne": "Le corps du texte, lui, gagne à rester dans une police d'écran. ==Mettez le troisième paragraphe en Verdana==, et observez le contraste avec les deux lignes du haut.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p2",
+        "format": {
+          "police": "Verdana"
+        }
+      },
+      "feedback": "Deux polices, deux rôles. C'est le maximum raisonnable pour un document court."
+    },
+    {
+      "id": "M02-L02-08",
+      "consigne": "Dernier réglage : la mention destinée aux familles doit rester discrète. ==Portez le dernier paragraphe à la taille 9.==",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p3",
+        "format": {
+          "taille": 9
+        }
+      },
+      "feedback": "Quatre niveaux de lecture, obtenus avec deux réglages seulement."
+    }
+  ]
+}

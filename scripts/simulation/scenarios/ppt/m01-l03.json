@@ -1,0 +1,159 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "mode": "LESSON",
+  "moduleTitle": "Prise en main",
+  "title": "La disposition d'une diapositive",
+  "intro": {
+    "title": "La disposition d'une diapositive",
+    "body": "La disposition est le plan intérieur d'une diapositive : elle décide quels cadres existent et où ils se placent. La choisir avant d'écrire, c'est s'épargner tout le travail de mise en place — et c'est ce qui donne à une présentation son unité."
+  },
+  "outro": {
+    "body": "Vous savez choisir le plan d'une diapositive et en changer sans rien perdre. La leçon suivante sort du cadre imposé : les zones que l'on place soi-même."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "ppt": {
+    "fileName": "Bilan Verdeval.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Verdeval",
+          "sous-titre": "Bilan de la saison 2026"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Chantiers livrés",
+          "contenu": "38 jardins créés en 2026"
+        }
+      },
+      {
+        "layout": "titre-seul",
+        "textes": {
+          "titre": "Nos trois agences"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M01-L03-01",
+      "consigne": "Une **disposition** est un plan de diapositive tout prêt : elle dit quels **espaces réservés** existent — titre, contenu, deux colonnes — et à quel endroit. Vous en changez par le menu **Disposition** du groupe Diapositives. Choisir la bonne disposition remplace le travail de placement : c'est le geste qui distingue une présentation soignée d'un assemblage de cadres.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M01-L03-02",
+      "consigne": "==Affichez la troisième diapositive==. Elle porte un titre, mais aucun cadre en dessous pour écrire : sa disposition est **Titre seul**.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 2
+      },
+      "aide": {
+        "text": "C'est la dernière miniature du volet, intitulée « Nos trois agences »."
+      }
+    },
+    {
+      "id": "M01-L03-03",
+      "consigne": "==Ouvrez le menu Disposition et choisissez Titre et contenu==. Le cadre manquant apparaît de lui-même, à la bonne place et à la bonne taille : vous n'avez rien eu à dessiner.",
+      "action": {
+        "type": "P_SET_LAYOUT",
+        "layout": "titre-et-contenu"
+      },
+      "aide": {
+        "text": "Le bouton « Disposition ▾ » ouvre une liste ; « Titre et contenu » en est la deuxième entrée."
+      },
+      "feedback": "La diapositive dispose désormais d'un espace réservé de contenu."
+    },
+    {
+      "id": "M01-L03-04",
+      "consigne": "==Saisissez Nantes, Rennes et Angers dans le nouveau cadre==. Vous vérifiez au passage qu'un espace réservé apporté par une disposition se remplit exactement comme les autres.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Bilan de la saison 2026"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Chantiers livrés",
+                "contenu": "38 jardins créés en 2026"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Nos trois agences"
+              }
+            }
+          ]
+        },
+        "slide": 2
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:contenu",
+        "accept": [
+          "Nantes, Rennes et Angers",
+          "Nantes, Rennes, Angers",
+          "Nantes Rennes Angers"
+        ]
+      }
+    },
+    {
+      "id": "M01-L03-05",
+      "consigne": "Point important pour la suite : changer de disposition **ne supprime pas votre texte**. PowerPoint le replace dans le cadre équivalent de la nouvelle disposition. Vous pouvez donc changer d'avis en cours de route sans rien ressaisir — c'est ce qui rend l'essai sans risque.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M01-L03-06",
+      "consigne": "==Affichez la deuxième diapositive==, celle des chantiers, pour vérifier ce point sur un cadre déjà rempli.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 1
+      }
+    },
+    {
+      "id": "M01-L03-07",
+      "consigne": "==Passez-la en Deux contenus==. Le titre ne bouge pas, le texte se resserre dans la colonne de gauche et une seconde colonne apparaît à droite : une disposition sert à **répartir** l'espace, pas à décorer.",
+      "action": {
+        "type": "P_SET_LAYOUT",
+        "layout": "deux-contenus"
+      },
+      "aide": {
+        "text": "« Deux contenus » est la quatrième entrée du menu Disposition."
+      },
+      "feedback": "Votre texte est intact : il a simplement suivi la nouvelle répartition."
+    },
+    {
+      "id": "M01-L03-08",
+      "consigne": "La seconde colonne reste vide, et une colonne vide se voit à l'écran. ==Repassez la diapositive en Titre et contenu== : mieux vaut revenir en arrière que laisser un cadre inutile. Vérifiez au passage que le texte est toujours là.",
+      "action": {
+        "type": "P_SET_LAYOUT",
+        "layout": "titre-et-contenu"
+      }
+    },
+    {
+      "id": "M01-L03-09",
+      "consigne": "À retenir, et dans cet ordre : on choisit d'abord la **disposition**, on saisit ensuite. Une disposition adaptée évite les cadres posés à la main, et c'est elle qui donne à toutes vos diapositives les mêmes marges et les mêmes tailles de texte.",
+      "action": {
+        "type": "READ"
+      }
+    }
+  ]
+}

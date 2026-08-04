@@ -1,0 +1,261 @@
+{
+  "schemaVersion": 1,
+  "title": "Répondre à une demande de pièces",
+  "mode": "EXERCISE",
+  "moduleTitle": "Écrire à une administration ou un donneur d'ordre public",
+  "intro": {
+    "title": "Deux pièces réclamées, cinq fichiers, une date limite",
+    "body": "Une consultation vous demande deux documents précis avant une date. Votre poste en contient cinq, dont une version périmée et une version de travail. Une seule combinaison est recevable — et un dossier incomplet, dans un marché public, ne se rattrape pas."
+  },
+  "outro": {
+    "body": "Sur une consultation publique, l'exactitude prime sur la rapidité : la bonne version, l'année en cours, la référence dans l'objet. Une pièce périmée fait écarter le dossier aussi sûrement qu'une pièce manquante."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "marches",
+        "nom": "Marchés publics"
+      },
+      {
+        "id": "clients",
+        "nom": "Clients 2026"
+      }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "fichiers": [
+      {
+        "nom": "Memoire-technique-MP-2026-38.pdf",
+        "taille": "640 Ko"
+      },
+      {
+        "nom": "Memoire-technique-MP-2026-38-V1.pdf",
+        "taille": "612 Ko"
+      },
+      {
+        "nom": "Attestation-URSSAF-2026.pdf",
+        "taille": "88 Ko"
+      },
+      {
+        "nom": "Attestation-URSSAF-2024.pdf",
+        "taille": "86 Ko"
+      },
+      {
+        "nom": "Portfolio-photos-HD.zip",
+        "taille": "61 Mo"
+      }
+    ],
+    "messages": [
+      {
+        "id": "m-consult",
+        "dossier": "reception",
+        "de": "marches@ville-lambersart.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Consultation — pièces manquantes à votre dossier",
+        "corps": "Madame, Monsieur,\n\nVotre dossier de candidature au marché MP-2026-38 est incomplet.\nMerci de nous adresser votre mémoire technique dans sa version définitive ainsi que votre attestation URSSAF à jour, avant le 24 avril.\n\nService des marchés\nVille de Lambersart",
+        "date": "2026-04-09T08:00",
+        "lu": false
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O12-E01-01",
+      "consigne": "Ouvrez la demande de la Ville de Lambersart et relevez la référence, les deux pièces attendues et la date limite.",
+      "action": {
+        "type": "O_SELECT_MESSAGE",
+        "id": "m-consult"
+      },
+      "aide": {
+        "text": "C'est le message qui signale un dossier incomplet."
+      }
+    },
+    {
+      "id": "O12-E01-02",
+      "consigne": "Répondez au service des marchés en joignant les deux pièces demandées — la bonne version, la bonne année, et rien d'autre.",
+      "setup": {
+        "courrier": {
+          "messageActif": "m-consult"
+        }
+      },
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "genre": "reponse",
+          "a": {
+            "contient": [
+              "marches@ville-lambersart.fr"
+            ]
+          },
+          "pieces": {
+            "contient": [
+              "Memoire-technique-MP-2026-38.pdf",
+              "Attestation-URSSAF-2026.pdf"
+            ],
+            "absent": [
+              "Memoire-technique-MP-2026-38-V1.pdf",
+              "Attestation-URSSAF-2024.pdf",
+              "Portfolio-photos-HD.zip"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "« Version définitive » exclut le fichier suffixé V1 ; « à jour » exclut l'attestation de 2024."
+      }
+    },
+    {
+      "id": "O12-E01-03",
+      "consigne": "Mettez la gérante `n.kerbaj@atelier-nord.fr` en copie : un dossier de candidature engage l'entreprise.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "a": {
+            "contient": [
+              "marches@ville-lambersart.fr"
+            ],
+            "absent": [
+              "n.kerbaj@atelier-nord.fr"
+            ]
+          },
+          "cc": {
+            "contient": [
+              "n.kerbaj@atelier-nord.fr"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Le champ Cc, deuxième ligne de la fenêtre de rédaction."
+      }
+    },
+    {
+      "id": "O12-E01-04",
+      "consigne": "Complétez l'objet avec la référence `MP-2026-38`, sans retirer le préfixe posé par Outlook.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "objet": {
+            "prefixe": "RE",
+            "contient": [
+              "MP-2026-38"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "La référence figure dans le texte du message reçu."
+      }
+    },
+    {
+      "id": "O12-E01-05",
+      "consigne": "Rédigez le message et envoyez-le. Il doit citer **la référence** et **énumérer les pièces jointes** : c'est ce qui permet au service d'enregistrer le dossier sans vous rappeler.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "marches@ville-lambersart.fr"
+            ]
+          },
+          "cc": {
+            "contient": [
+              "n.kerbaj@atelier-nord.fr"
+            ]
+          },
+          "objet": {
+            "prefixe": "RE",
+            "contient": [
+              "MP-2026-38"
+            ]
+          },
+          "pieces": {
+            "contient": [
+              "Memoire-technique-MP-2026-38.pdf",
+              "Attestation-URSSAF-2026.pdf"
+            ],
+            "absent": [
+              "Memoire-technique-MP-2026-38-V1.pdf",
+              "Attestation-URSSAF-2024.pdf"
+            ]
+          },
+          "corps": {
+            "salutation": [
+              "bonjour",
+              "madame",
+              "monsieur",
+              "madame, monsieur"
+            ],
+            "cloture": [
+              "cordialement",
+              "salutations distinguees",
+              "respectueusement",
+              "bien a vous",
+              "salutations"
+            ],
+            "notions": [
+              {
+                "libelle": "la référence du marché",
+                "oneOf": [
+                  "mp-2026-38",
+                  "2026-38"
+                ]
+              },
+              {
+                "libelle": "l'énumération des pièces transmises",
+                "oneOf": [
+                  "memoire technique",
+                  "memoire",
+                  "attestation",
+                  "urssaf",
+                  "deux pieces"
+                ]
+              }
+            ],
+            "minMots": 12
+          }
+        }
+      },
+      "aide": {
+        "text": "Deux informations sont attendues : la référence, et les pièces."
+      }
+    },
+    {
+      "id": "O12-E01-06",
+      "consigne": "Le dossier est complété : rangez ce message dans Marchés publics.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-consult": {
+              "dossier": "marches"
+            }
+          }
+        }
+      },
+      "aide": {
+        "text": "Déplacer, puis Marchés publics."
+      }
+    }
+  ]
+}

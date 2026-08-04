@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "app": "WORD",
+  "title": "Exercice — Les styles de paragraphe",
+  "mode": "EXERCISE",
+  "moduleTitle": "Pour commencer",
+  "intro": {
+    "title": "À VOUS DE JOUER",
+    "body": "Un compte rendu écrit d'un seul jet, sans aucune structure. Vous allez lui en donner une : un titre, un sous-titre, deux sections de même rang. Aucune consigne ne vous dira « mettez en gras » — ici on travaille la nature des paragraphes, pas leur apparence."
+  },
+  "outro": "Le document a désormais une charpente que Word comprend. C'est ce qui permettra plus tard d'en tirer un sommaire, et de changer l'allure de tous les titres d'un seul réglage.",
+  "document": {
+    "paragraphes": [
+      { "texte": "Compte rendu de visite" },
+      { "texte": "Site de Nantes — 26 février" },
+      { "texte": "Sécurité" },
+      { "texte": "Les issues de secours sont dégagées et signalées. Le registre de contrôle des extincteurs est à jour depuis janvier." },
+      { "texte": "Organisation" },
+      { "texte": "L'équipe compte onze personnes réparties en deux rotations. Les plannings sont affichés en début de semaine." }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M01-E05-01",
+      "consigne": "==Donnez au premier paragraphe la nature d'un titre de document.== Attention : il ne s'agit pas de changer son apparence, mais ce qu'il EST pour Word.",
+      "setup": { "ribbon": { "activeTab": "accueil" } },
+      "action": { "type": "W_EXPECT_STYLE", "zone": "p0", "style": { "style": "Titre" } },
+      "aide": { "text": "Le groupe Styles, à droite du ruban. Le curseur suffit, la sélection n'est pas nécessaire.", "showTarget": true },
+      "feedback": "Le document a un vrai titre."
+    },
+    {
+      "id": "M01-E05-02",
+      "consigne": "La ligne qui suit précise le lieu et la date : ==donnez-lui la nature qui vient juste en dessous d'un titre.==",
+      "action": { "type": "W_EXPECT_STYLE", "zone": "p1", "style": { "style": "Sous-titre" } },
+      "aide": { "text": "Entre « Titre » et « Titre 1 » dans le groupe Styles.", "showTarget": true },
+      "feedback": "La hiérarchie se lit d'un coup d'œil."
+    },
+    {
+      "id": "M01-E05-03",
+      "consigne": "==Faites de « Sécurité » une section de premier niveau.==",
+      "action": { "type": "W_EXPECT_STYLE", "zone": "p2", "style": { "style": "Titre 1" } },
+      "aide": { "text": "Le niveau le plus haut de la numérotation des titres.", "showTarget": true },
+      "feedback": "Première section identifiée."
+    },
+    {
+      "id": "M01-E05-04",
+      "consigne": "« Organisation » est une section de même importance que « Sécurité ». ==Traitez-la en conséquence== : deux sections de même rang doivent porter le même style.",
+      "action": { "type": "W_EXPECT_STYLE", "zone": "p4", "style": { "style": "Titre 1" } },
+      "feedback": "Deux sections de même niveau : la structure est cohérente."
+    },
+    {
+      "id": "M01-E05-05",
+      "consigne": "==Centrez le titre du document== pour lui donner l'allure d'une page de garde.",
+      "action": { "type": "W_EXPECT_STYLE", "zone": "p0", "style": { "alignement": "centre" } },
+      "aide": { "text": "Le groupe Paragraphe, deuxième bouton d'alignement.", "showTarget": true },
+      "feedback": "Le titre est au milieu de la page."
+    },
+    {
+      "id": "M01-E05-06",
+      "consigne": "Dernier réglage : ==alignez le paragraphe de la section Sécurité sur les deux marges à la fois.==",
+      "action": { "type": "W_EXPECT_STYLE", "zone": "p3", "style": { "alignement": "justifie" } },
+      "aide": { "text": "Le quatrième bouton d'alignement.", "showTarget": true },
+      "feedback": "Compte rendu structuré et net."
+    }
+  ]
+}

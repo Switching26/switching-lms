@@ -1,0 +1,241 @@
+{
+  "schemaVersion": 1,
+  "title": "Répondre sur le fond, pièces à l'appui",
+  "mode": "LESSON",
+  "moduleTitle": "Traiter une réclamation par écrit",
+  "intro": {
+    "title": "Vous êtes passée sur place, et le constat est partagé",
+    "body": "Une rayure imputable à la pose, un joint conforme mais mal nettoyé. Le message qui suit engage l'entreprise : il annonce ce qu'on reprend, ce qu'on ne reprend pas, et à quelle date. Il part avec le constat, pas avec les notes internes qui ont servi à l'écrire."
+  },
+  "outro": {
+    "body": "Une réponse de fond se reconnaît à ce qu'elle distingue : ce qui est pris en charge, ce qui ne l'est pas, et pourquoi. Tout accorder d'un bloc coûte cher ; tout refuser d'un bloc coûte le client. La pièce jointe est ce qui rend la distinction crédible."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "litiges",
+        "nom": "Réclamations"
+      },
+      {
+        "id": "clients",
+        "nom": "Clients 2026"
+      }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "fichiers": [
+      {
+        "nom": "Constat-chantier-Leroux.pdf",
+        "taille": "420 Ko"
+      },
+      {
+        "nom": "Devis-2026-174.pdf",
+        "taille": "180 Ko"
+      },
+      {
+        "nom": "Notes-internes-Leroux.pdf",
+        "taille": "64 Ko"
+      },
+      {
+        "nom": "Photos-panneau-raye.jpg",
+        "taille": "1,4 Mo"
+      }
+    ],
+    "messages": [
+      {
+        "id": "m-suite",
+        "dossier": "reception",
+        "de": "j.leroux@habitat-du-nord.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Suite à votre passage",
+        "corps": "Bonjour,\n\nVous êtes passée hier. Qu'est-ce qui est repris et sous quel délai ?\n\nJulien Leroux\nHabitat du Nord",
+        "date": "2026-04-17T08:05",
+        "lu": false
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O14-L02-01",
+      "consigne": "==Ouvrez le message de Julien Leroux.== Il ne s'énerve plus : il demande une décision. C'est le signe que l'accusé de réception a fonctionné.",
+      "action": {
+        "type": "O_SELECT_MESSAGE",
+        "id": "m-suite"
+      },
+      "aide": {
+        "text": "C'est le message qui demande ce qui est repris."
+      }
+    },
+    {
+      "id": "O14-L02-02",
+      "consigne": "==Cliquez sur Répondre.== La réponse de fond reste dans le fil de la réclamation : le client ne doit pas avoir à rapprocher deux conversations pour comprendre l'issue.",
+      "setup": {
+        "courrier": {
+          "messageActif": "m-suite"
+        }
+      },
+      "action": {
+        "type": "O_CLICK_CONTROL",
+        "control": "cr-repondre"
+      },
+      "aide": {
+        "text": "Le bouton Répondre."
+      }
+    },
+    {
+      "id": "O14-L02-03",
+      "consigne": "==Joignez `Constat-chantier-Leroux.pdf`.== Quatre fichiers portent le nom du client : `Notes-internes-Leroux` contient vos remarques sur la pose, elles ne sortent pas de l'atelier.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "pieces": {
+            "contient": [
+              "Constat-chantier-Leroux.pdf"
+            ],
+            "absent": [
+              "Notes-internes-Leroux.pdf"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Lisez les noms en entier : « constat » et « notes internes » ne se destinent pas au même lecteur."
+      }
+    },
+    {
+      "id": "O14-L02-04",
+      "consigne": "==Joignez aussi `Photos-panneau-raye.jpg`.== Sur un litige, une photo datée vaut trois paragraphes : elle fixe l'état constaté à une date, ce que le texte seul ne fait pas.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "pieces": {
+            "contient": [
+              "Constat-chantier-Leroux.pdf",
+              "Photos-panneau-raye.jpg"
+            ],
+            "absent": [
+              "Notes-internes-Leroux.pdf"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Rouvrez Joindre, puis cliquez sur la photo."
+      }
+    },
+    {
+      "id": "O14-L02-05",
+      "consigne": "==Rédigez la réponse, puis envoyez.== Elle doit dire **ce que vous reprenez**, **ce que vous ne reprenez pas** et **sous quel délai**. Les trois ensemble : c'est ce qui rend la position tenable.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "j.leroux@habitat-du-nord.fr"
+            ]
+          },
+          "pieces": {
+            "contient": [
+              "Constat-chantier-Leroux.pdf",
+              "Photos-panneau-raye.jpg"
+            ],
+            "absent": [
+              "Notes-internes-Leroux.pdf"
+            ]
+          },
+          "corps": {
+            "salutation": [
+              "bonjour",
+              "madame",
+              "monsieur",
+              "bonsoir"
+            ],
+            "cloture": [
+              "cordialement",
+              "salutations",
+              "bien a vous",
+              "merci"
+            ],
+            "notions": [
+              {
+                "libelle": "ce que vous reprenez",
+                "oneOf": [
+                  "nous remplacons",
+                  "nous reprenons",
+                  "remplacement",
+                  "sera repris",
+                  "nous changeons",
+                  "prise en charge"
+                ]
+              },
+              {
+                "libelle": "ce que vous ne reprenez pas",
+                "oneOf": [
+                  "en revanche",
+                  "le joint",
+                  "conforme",
+                  "n'entre pas",
+                  "hors garantie",
+                  "ne releve pas",
+                  "nettoyage"
+                ]
+              },
+              {
+                "libelle": "le délai d'intervention",
+                "oneOf": [
+                  "mardi",
+                  "lundi",
+                  "semaine prochaine",
+                  "sous huit",
+                  "sous 8",
+                  "d'ici",
+                  "avant le"
+                ]
+              }
+            ],
+            "minMots": 25
+          }
+        }
+      },
+      "aide": {
+        "text": "Trois informations sont attendues : ce qui est repris, ce qui ne l'est pas, et le délai."
+      }
+    },
+    {
+      "id": "O14-L02-06",
+      "consigne": "==Rangez la réclamation dans Réclamations.== Un litige tranché ne retourne pas dans les clients ordinaires : il se range là où on le retrouvera si le client y revient dans un an.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-suite": {
+              "dossier": "litiges"
+            }
+          }
+        }
+      },
+      "aide": {
+        "text": "Déplacer, puis Réclamations."
+      }
+    }
+  ]
+}

@@ -1,0 +1,130 @@
+{
+  "schemaVersion": 1,
+  "app": "WORD",
+  "title": "Remplacer un passage par un autre",
+  "mode": "LESSON",
+  "moduleTitle": "Modification de texte",
+  "intro": {
+    "title": "REPRENDRE UN TEXTE ÉCRIT PAR QUELQU'UN D'AUTRE",
+    "body": "Modifier un document, ce n'est pas le réécrire : c'est remplacer des morceaux. Le geste tient en deux temps — désigner ce qui doit partir, taper ce qui le remplace. Vous allez reprendre un courrier dont les informations ont changé."
+  },
+  "outro": "Sélectionner puis taper : la sélection disparaît et laisse place à la frappe. C'est le geste de correction le plus rapide de Word, et il vaut pour un mot comme pour un paragraphe entier.",
+  "document": {
+    "paragraphes": [
+      {
+        "texte": "Objet : report de la visite technique"
+      },
+      {
+        "texte": "La visite prévue le 12 mars est reportée au 19 mars."
+      },
+      {
+        "texte": "Le technicien Ligéria se présentera à 9 heures."
+      },
+      {
+        "texte": "Merci de prévoir un accès dégagé au local technique."
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M03-L01-01",
+      "points": 0,
+      "consigne": "Retenez le principe avant le geste : dans Word, **taper alors qu'un texte est sélectionné remplace ce texte**. Vous n'avez donc jamais à effacer d'abord puis à écrire ensuite — la sélection fait les deux. C'est ce qui rend la correction si rapide une fois le réflexe pris.",
+      "action": {
+        "type": "READ"
+      },
+      "montrer": [
+        {
+          "type": "W_SELECT_TEXT",
+          "zone": "p1"
+        }
+      ],
+      "feedback": "Sélectionner, c'est déjà effacer : la frappe fait le reste."
+    },
+    {
+      "id": "M03-L01-02",
+      "consigne": "==Remplacez la nouvelle date par le 26 mars== dans le deuxième paragraphe, qui doit se lire : La visite prévue le 12 mars est reportée au 26 mars.",
+      "action": {
+        "type": "W_EXPECT_DOC",
+        "paragraphes": {
+          "p1": [
+            "La visite prévue le 12 mars est reportée au 26 mars."
+          ]
+        }
+      },
+      "aide": {
+        "text": "Sélectionnez « 19 » d'un double-clic, puis tapez directement 26.",
+        "showTarget": true
+      },
+      "feedback": "Deux caractères remplacés, le reste de la phrase intact."
+    },
+    {
+      "id": "M03-L01-03",
+      "consigne": "==Remplacez l'heure par 14 heures== dans le troisième paragraphe : Le technicien Ligéria se présentera à 14 heures.",
+      "action": {
+        "type": "W_EXPECT_DOC",
+        "paragraphes": {
+          "p2": [
+            "Le technicien Ligéria se présentera à 14 heures."
+          ]
+        }
+      },
+      "aide": {
+        "text": "Double-clic sur le 9, puis tapez 14.",
+        "showTarget": true
+      },
+      "feedback": "L'horaire est à jour."
+    },
+    {
+      "id": "M03-L01-04",
+      "consigne": "==Remplacez « local technique » par « local des compresseurs »== dans le dernier paragraphe. Un remplacement porte aussi bien sur plusieurs mots que sur un seul.",
+      "action": {
+        "type": "W_EXPECT_DOC",
+        "paragraphes": {
+          "p3": [
+            "Merci de prévoir un accès dégagé au local des compresseurs."
+          ]
+        }
+      },
+      "aide": {
+        "text": "Faites glisser la souris sur les deux mots avant de taper.",
+        "showTarget": true
+      },
+      "feedback": "Deux mots remplacés par trois : la longueur n'a aucune importance."
+    },
+    {
+      "id": "M03-L01-05",
+      "consigne": "==Réécrivez l'objet du courrier== en entier, puisque son sens a changé : Objet : nouvelle date de visite technique",
+      "action": {
+        "type": "W_EXPECT_DOC",
+        "paragraphes": {
+          "p0": [
+            "Objet : nouvelle date de visite technique"
+          ]
+        }
+      },
+      "aide": {
+        "text": "Un triple-clic prend le paragraphe entier ; tapez ensuite sans rien effacer.",
+        "showTarget": true
+      },
+      "feedback": "Un paragraphe entier remplacé d'un seul geste."
+    },
+    {
+      "id": "M03-L01-06",
+      "consigne": "==Épaississez la nouvelle date « 26 mars »== : quand un courrier corrige une information, celle qui change doit se voir.",
+      "setup": {
+        "ribbon": {
+          "activeTab": "accueil"
+        }
+      },
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "texte:26 mars",
+        "format": {
+          "gras": true
+        }
+      },
+      "feedback": "Le destinataire verra la nouvelle date avant de lire la phrase."
+    }
+  ]
+}

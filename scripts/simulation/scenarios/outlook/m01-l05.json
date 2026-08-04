@@ -1,0 +1,226 @@
+{
+  "schemaVersion": 1,
+  "title": "Relire, corriger, renoncer : les gestes de sécurité",
+  "mode": "LESSON",
+  "moduleTitle": "Prise en main d'Outlook",
+  "intro": {
+    "title": "Un message n'est pas une conversation : il ne se rattrape pas",
+    "body": "La facture de la Quincaillerie Delmas comporte une erreur : 24 charnières facturées, 12 livrées. Vous allez le leur signaler. L'occasion d'apprendre les trois gestes qui évitent les ennuis : ce qu'Outlook refuse d'envoyer, ce qu'il envoie sans rien dire, et comment renoncer proprement à un message commencé."
+  },
+  "outro": {
+    "body": "Outlook ne vous protège que d'une seule erreur : le message sans destinataire. L'objet vide, la pièce oubliée, l'adresse presque juste, le ton maladroit — tout cela part sans un mot. La relecture avant le clic n'est pas une précaution de débutant : c'est la seule qui existe."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "clients",
+        "nom": "Clients 2026"
+      }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "messages": [
+      {
+        "id": "m-facture",
+        "dossier": "reception",
+        "de": "compta@quincaillerie-delmas.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Facture QD-4471 — échéance 15 mars",
+        "corps": "Bonjour,\n\nVeuillez trouver ci-joint la facture QD-4471 : 24 charnières laiton, réf. CH-88.\nRèglement attendu au 15 mars.\n\nService comptabilité\nQuincaillerie Delmas",
+        "date": "2026-03-01T16:12",
+        "lu": true,
+        "pieces": [
+          {
+            "nom": "QD-4471.pdf",
+            "taille": "96 Ko"
+          }
+        ]
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O01-L05-01",
+      "consigne": "==Cliquez sur Nouveau message.== Ce signalement mérite un message à lui, avec son propre objet, plutôt qu'une réponse noyée dans le fil de la facture.",
+      "action": {
+        "type": "O_CLICK_CONTROL",
+        "control": "cr-nouveau"
+      },
+      "aide": {
+        "text": "Le bouton Nouveau message, en haut de la colonne de gauche ; sur téléphone, le ✚ à côté de la recherche."
+      }
+    },
+    {
+      "id": "O01-L05-02",
+      "consigne": "Faisons d'abord l'erreur exprès. ==Cliquez sur Envoyer alors que le message est encore vide.== Regardez ce qui se passe : la fenêtre **reste ouverte** et rien ne part. C'est la seule chose qu'Outlook refuse — un message sans aucun destinataire.",
+      "action": {
+        "type": "O_CLICK_CONTROL",
+        "control": "cr-envoyer"
+      },
+      "aide": {
+        "text": "Cliquez simplement sur Envoyer sans avoir rien saisi : le geste est volontaire."
+      }
+    },
+    {
+      "id": "O01-L05-03",
+      "consigne": "Notez bien ce qu'Outlook n'a **pas** dit : l'objet est vide, le texte aussi, et cela ne l'a pas gêné. ==Saisissez `compta@quincaillerie-delmas.fr` dans le champ À== pour corriger le seul défaut qui le bloquait.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "genre": "nouveau",
+          "a": {
+            "contient": [
+              "compta@quincaillerie-delmas.fr"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "L'adresse figure en haut du message de la Quincaillerie Delmas, dans votre boîte."
+      }
+    },
+    {
+      "id": "O01-L05-04",
+      "consigne": "==Donnez-lui un objet contenant le numéro `QD-4471`.== Un objet vide part sans avertissement, et arrive chez un service qui traite cent messages par jour : le vôtre finirait au fond de la pile.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "objet": {
+            "contient": [
+              "qd-4471"
+            ],
+            "nonVide": true
+          }
+        }
+      },
+      "aide": {
+        "text": "Par exemple « Facture QD-4471 — erreur de quantité ». La formulation est libre, la référence doit y être."
+      }
+    },
+    {
+      "id": "O01-L05-05",
+      "consigne": "==Rédigez le signalement.== Il doit rappeler **le numéro de la facture** et dire **ce qui ne correspond pas** : 24 charnières facturées, 12 reçues. Restez factuel — un message écrit sous le coup de l'agacement ne s'efface pas.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "corps": {
+            "salutation": [
+              "bonjour",
+              "madame",
+              "monsieur",
+              "bonsoir"
+            ],
+            "cloture": [
+              "cordialement",
+              "salutations",
+              "bien a vous",
+              "merci",
+              "par avance"
+            ],
+            "notions": [
+              {
+                "libelle": "le numéro de la facture concernée",
+                "oneOf": [
+                  "qd-4471",
+                  "qd 4471",
+                  "4471"
+                ]
+              },
+              {
+                "libelle": "l'écart entre ce qui est facturé et ce qui a été livré",
+                "oneOf": [
+                  "12",
+                  "douze",
+                  "quantite",
+                  "ecart",
+                  "difference",
+                  "au lieu de",
+                  "livre"
+                ]
+              }
+            ],
+            "interdit": [
+              {
+                "libelle": "une formulation agressive",
+                "oneOf": [
+                  "inadmissible",
+                  "scandaleux",
+                  "n'importe quoi",
+                  "inacceptable"
+                ]
+              }
+            ],
+            "minMots": 12
+          }
+        }
+      },
+      "aide": {
+        "text": "Deux informations sont attendues : le numéro de la facture, et l'écart de quantité constaté."
+      }
+    },
+    {
+      "id": "O01-L05-06",
+      "consigne": "Relisez une dernière fois les trois lignes du haut, puis le texte. ==Envoyez le message.== À partir de cet instant il ne vous appartient plus : il n'existe **aucun moyen de le reprendre**.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "compta@quincaillerie-delmas.fr"
+            ]
+          },
+          "objet": {
+            "contient": [
+              "qd-4471"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Le bouton Envoyer est le premier de la barre du haut."
+      }
+    },
+    {
+      "id": "O01-L05-07",
+      "consigne": "Dernier geste utile : savoir renoncer. Il arrive qu'on commence un message et qu'on préfère téléphoner. ==Ouvrez une nouvelle fenêtre de rédaction== pour en faire l'essai.",
+      "action": {
+        "type": "O_CLICK_CONTROL",
+        "control": "cr-nouveau"
+      },
+      "aide": {
+        "text": "Le même bouton Nouveau message qu'au début de la leçon."
+      }
+    },
+    {
+      "id": "O01-L05-08",
+      "consigne": "==Cliquez sur la croix pour abandonner ce message.== La fenêtre se referme, rien n'est envoyé et rien n'est conservé. Renoncer est un geste franc : mieux vaut fermer que laisser traîner un brouillon à moitié écrit qu'on enverra par erreur.",
+      "action": {
+        "type": "O_CLICK_CONTROL",
+        "control": "cr-abandonner"
+      },
+      "aide": {
+        "text": "La croix ✕ est à droite de la barre du haut de la fenêtre de rédaction."
+      }
+    }
+  ]
+}

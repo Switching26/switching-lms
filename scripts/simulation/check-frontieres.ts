@@ -304,7 +304,22 @@ for (const app of APPS) {
 /* ═══════════ RÈGLE 7 — un adaptateur d'app est branché, ou il n'existe pas ═══════════ */
 
 {
-  const src = lire(join(LIB, "registre.ts"))
+  const brut = lire(join(LIB, "registre.ts"))
+  /*
+   * ⚠️ On lit le registre SANS SES COMMENTAIRES.
+   *
+   * Sa documentation contient un exemple de branchement — « import { adaptateurWord }
+   * from "./word/adaptateur" » — et la règle le prenait pour un vrai import : Word
+   * passait au vert alors qu'il n'était branché nulle part. Le détecteur était
+   * trompé par la documentation du fichier qu'il surveille, sur l'application au
+   * plus gros corpus. Trouvé par la QA d'intégration du 04/08/2026.
+   *
+   * Corollaire pour toute règle future : ne jamais chercher un motif de code dans
+   * une source brute de ce dépôt, dont les en-têtes citent volontiers du code.
+   */
+  const src = brut
+    ? brut.replace(/\/\*[\s\S]*?\*\//g, "").replace(/^\s*\/\/.*$/gm, "")
+    : null
   if (src) {
     for (const app of APPS) {
       const aAdaptateur = existsSync(join(LIB, app, "adaptateur.ts"))

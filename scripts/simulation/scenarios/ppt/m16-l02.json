@@ -1,0 +1,289 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "mode": "LESSON",
+  "moduleTitle": "Cas pratique : le point trimestriel",
+  "title": "Remplir la trame",
+  "intro": {
+    "title": "Remplir la trame",
+    "body": "La trame est posée, les chiffres arrivent. Un relevé de gestion ne se projette pas tel quel : chaque partie reçoit un chiffre en titre, son assiette, et l'écart que personne ne calculera à votre place."
+  },
+  "outro": {
+    "body": "Les trois parties portent leur chiffre. La dernière leçon prépare l'intervention et contrôle l'ensemble."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "ppt": {
+    "fileName": "Point trimestriel.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Régie Ternois",
+          "sous-titre": "Conseil syndical du 18 avril"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Ordre du jour",
+          "contenu": "Les charges\nLes travaux\nLes impayés"
+        }
+      },
+      {
+        "layout": "titre-seul",
+        "textes": {
+          "titre": "1. Les charges"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Relevé des charges du trimestre",
+          "contenu": "Chauffage 41 280,55 €, eau 12 904,10 €, entretien 9 611,20 €, ascenseur 7 430,00 €, assurance 6 118,45 €, budget voté pour le trimestre 71 000,00 €"
+        }
+      },
+      {
+        "layout": "titre-seul",
+        "textes": {
+          "titre": "2. Les travaux"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Travaux"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M16-L02-01",
+      "consigne": "Voilà ce qui arrive du service comptable : six montants au centime, en une phrase. C'est un **relevé**, pas une diapositive. Le travail consiste à en extraire le message, pas à le mettre en forme.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M16-L02-02",
+      "consigne": "==Affichez la quatrième diapositive==, celle du relevé des charges.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 3
+      }
+    },
+    {
+      "id": "M16-L02-03",
+      "consigne": "Le message n'est aucun des six montants : c'est leur **somme comparée au budget**. 77 344 € dépensés pour 71 000 € votés, soit 6 300 € de dépassement. Ce nombre-là n'existe nulle part dans le relevé, et c'est le seul qui intéresse le conseil.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M16-L02-04",
+      "consigne": "==Remplacez le titre par 6 300 € au-dessus du budget==. L'écart monte en titre : le conseil doit l'avoir lu avant que vous ayez fini votre première phrase.",
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:titre",
+        "accept": [
+          "6 300 € au-dessus du budget"
+        ]
+      },
+      "aide": {
+        "text": "Un titre déjà rempli s'ouvre au double-clic."
+      }
+    },
+    {
+      "id": "M16-L02-05",
+      "consigne": "==Remplacez le contenu== par : 77 300 € dépensés, 71 000 € votés, Écart dû au chauffage. Trois lignes : le réalisé, le prévu, la cause.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Régie Ternois",
+                "sous-titre": "Conseil syndical du 18 avril"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Ordre du jour",
+                "contenu": "Les charges\nLes travaux\nLes impayés"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "1. Les charges"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "6 300 € au-dessus du budget",
+                "contenu": "Chauffage 41 280,55 €, eau 12 904,10 €, entretien 9 611,20 €, ascenseur 7 430,00 €, assurance 6 118,45 €, budget voté pour le trimestre 71 000,00 €"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "2. Les travaux"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Travaux"
+              }
+            }
+          ]
+        },
+        "slide": 3
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:contenu",
+        "accept": [
+          "77 300 € dépensés\n71 000 € votés\nÉcart dû au chauffage",
+          "77 300 € dépensés, 71 000 € votés, Écart dû au chauffage"
+        ]
+      },
+      "feedback": "Six montants au centime remplacés par trois nombres ronds : le conseil peut enfin discuter."
+    },
+    {
+      "id": "M16-L02-06",
+      "consigne": "==Mettez ce titre en gras==. Sur un écran de chiffres, le titre doit gagner la bataille du regard.",
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "ph:titre",
+        "style": {
+          "bold": true
+        }
+      },
+      "aide": {
+        "text": "Sélectionnez le titre d'un clic, puis bouton G du groupe Police."
+      }
+    },
+    {
+      "id": "M16-L02-07",
+      "consigne": "==Écrivez la note de cette diapositive== : Détail des six postes dans le relevé si on me le demande. L'exact vit dans les notes, l'arrondi à l'écran.",
+      "action": {
+        "type": "P_EXPECT_DECK",
+        "deck": {
+          "slides": [
+            {
+              "index": 3,
+              "notes": "Détail des six postes dans le relevé si on me le demande"
+            }
+          ]
+        }
+      },
+      "aide": {
+        "text": "Le champ de notes est sous la diapositive ; sur petit écran, le bouton « Notes » l'ouvre."
+      }
+    },
+    {
+      "id": "M16-L02-08",
+      "consigne": "==Affichez la dernière diapositive==, celle des travaux, encore presque vide.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 5
+      }
+    },
+    {
+      "id": "M16-L02-09",
+      "consigne": "Le conseil doit **voter** sur les travaux. Une diapositive de vote n'expose pas un problème : elle pose une question et donne les deux ou trois nombres nécessaires pour y répondre.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M16-L02-10",
+      "consigne": "==Remplacez son titre par Ravalement : 96 000 € à voter==. Le montant et la décision attendue tiennent dans le titre.",
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:titre",
+        "accept": [
+          "Ravalement : 96 000 € à voter"
+        ]
+      }
+    },
+    {
+      "id": "M16-L02-11",
+      "consigne": "==Écrivez son contenu== : Trois devis reçus, Étalement sur deux exercices, Démarrage en septembre. Ce qu'il faut savoir pour lever la main, rien d'autre.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Régie Ternois",
+                "sous-titre": "Conseil syndical du 18 avril"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Ordre du jour",
+                "contenu": "Les charges\nLes travaux\nLes impayés"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "1. Les charges"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "6 300 € au-dessus du budget",
+                "contenu": "77 300 € dépensés\n71 000 € votés\nÉcart dû au chauffage"
+              },
+              "notes": "Détail des six postes dans le relevé si on me le demande"
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "2. Les travaux"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Ravalement : 96 000 € à voter"
+              }
+            }
+          ]
+        },
+        "slide": 5
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:contenu",
+        "accept": [
+          "Trois devis reçus\nÉtalement sur deux exercices\nDémarrage en septembre",
+          "Trois devis reçus, Étalement sur deux exercices, Démarrage en septembre"
+        ]
+      },
+      "aide": {
+        "text": "Cliquez dans « Cliquez pour ajouter du texte »."
+      }
+    },
+    {
+      "id": "M16-L02-12",
+      "consigne": "À retenir : **un relevé n'est pas une diapositive**. On en extrait le message — souvent un écart qui n'y figure pas —, on le met en titre, on garde trois lignes dessous, et on range le détail dans les notes.",
+      "action": {
+        "type": "READ"
+      }
+    }
+  ]
+}

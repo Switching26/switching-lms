@@ -1,0 +1,241 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "mode": "EVALUATION",
+  "moduleTitle": "Préparer son intervention",
+  "title": "S'évaluer — Préparer son intervention",
+  "intro": {
+    "title": "S'évaluer — Préparer son intervention",
+    "body": "Une présentation à préparer pour un rendez-vous : deux diapositives à alléger, les notes à écrire, une fin à reprendre. Aucune aide n'est affichée et chaque geste compte."
+  },
+  "outro": {
+    "body": "Évaluation terminée. Le partage écran / notes, la note utile et la dernière diapositive sont les trois acquis du module."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "ppt": {
+    "fileName": "Le Pré Long - évaluation.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Fromagerie Le Pré Long",
+          "sous-titre": "Rendez-vous du 4 avril"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Notre atelier",
+          "contenu": "L'atelier transforme le lait de quarante brebis conduites en pâturage tournant\nSix fromages différents y sont affinés en cave depuis maintenant vingt-huit ans\nToute la fabrication reste sur l'exploitation, de la traite à la mise en vente"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Point 4",
+          "contenu": "Livraison le mardi\nCommande la veille"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Merci de votre attention",
+          "contenu": "Des questions ?"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M10-EV01-01",
+      "consigne": "Affichez la deuxième diapositive, intitulée « Notre atelier ».",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 1
+      },
+      "points": 1
+    },
+    {
+      "id": "M10-EV01-02",
+      "consigne": "Remplacez son contenu par trois repères : Quarante brebis, Six fromages affinés en cave, Tout sur l'exploitation.",
+      "setupPpt": {
+        "slide": 1
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:contenu",
+        "accept": [
+          "Quarante brebis\nSix fromages affinés en cave\nTout sur l'exploitation",
+          "Quarante brebis, Six fromages affinés en cave, Tout sur l'exploitation"
+        ]
+      },
+      "points": 2
+    },
+    {
+      "id": "M10-EV01-03",
+      "consigne": "Écrivez dans ses notes : Pâturage tournant, vingt-huit ans d'affinage. Ce que vous retirez de l'écran doit rester quelque part.",
+      "action": {
+        "type": "P_EXPECT_DECK",
+        "deck": {
+          "slides": [
+            {
+              "index": 1,
+              "notes": "Pâturage tournant, vingt-huit ans d'affinage"
+            }
+          ]
+        }
+      },
+      "points": 1
+    },
+    {
+      "id": "M10-EV01-04",
+      "consigne": "Affichez la troisième diapositive. Son titre, « Point 4 », est un reste d'une réunion numérotée.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 2
+      },
+      "points": 1
+    },
+    {
+      "id": "M10-EV01-05",
+      "consigne": "Remplacez son titre par Nos livraisons.",
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:titre",
+        "accept": [
+          "Nos livraisons"
+        ]
+      },
+      "points": 2
+    },
+    {
+      "id": "M10-EV01-06",
+      "consigne": "Écrivez sa note : Livraison possible le vendredi à partir de mai.",
+      "action": {
+        "type": "P_EXPECT_DECK",
+        "deck": {
+          "slides": [
+            {
+              "index": 2,
+              "notes": "Livraison possible le vendredi à partir de mai"
+            }
+          ]
+        }
+      },
+      "points": 1
+    },
+    {
+      "id": "M10-EV01-07",
+      "consigne": "Affichez la dernière diapositive, celle qui restera affichée pendant toute la discussion.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 3
+      },
+      "points": 1
+    },
+    {
+      "id": "M10-EV01-08",
+      "consigne": "Remplacez son titre par Un essai sur trois références.",
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:titre",
+        "accept": [
+          "Un essai sur trois références"
+        ]
+      },
+      "points": 2
+    },
+    {
+      "id": "M10-EV01-09",
+      "consigne": "Remplacez son contenu par : Livraison le mardi, Reprise des invendus. Le public a mieux à lire qu'une invitation à poser des questions.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Fromagerie Le Pré Long",
+                "sous-titre": "Rendez-vous du 4 avril"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Notre atelier",
+                "contenu": "Quarante brebis\nSix fromages affinés en cave\nTout sur l'exploitation"
+              },
+              "notes": "Pâturage tournant, vingt-huit ans d'affinage"
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Nos livraisons",
+                "contenu": "Livraison le mardi\nCommande la veille"
+              },
+              "notes": "Livraison possible le vendredi à partir de mai"
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Un essai sur trois références",
+                "contenu": "Des questions ?"
+              }
+            }
+          ]
+        },
+        "slide": 3
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:contenu",
+        "accept": [
+          "Livraison le mardi\nReprise des invendus",
+          "Livraison le mardi, Reprise des invendus"
+        ]
+      },
+      "points": 2
+    },
+    {
+      "id": "M10-EV01-10",
+      "consigne": "Affichez la première diapositive : il y manque la seule note qui se prépare mot à mot.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 0
+      },
+      "points": 1
+    },
+    {
+      "id": "M10-EV01-11",
+      "consigne": "Écrivez sa note : Bonjour, Le Pré Long, six fromages de brebis affinés à la ferme.",
+      "action": {
+        "type": "P_EXPECT_DECK",
+        "deck": {
+          "slides": [
+            {
+              "index": 0,
+              "notes": "Bonjour, Le Pré Long, six fromages de brebis affinés à la ferme"
+            }
+          ]
+        }
+      },
+      "points": 1
+    },
+    {
+      "id": "M10-EV01-12",
+      "consigne": "Lancez le diaporama depuis le début et contrôlez ce que le client verra : quatre écrans lisibles, aucune de vos notes.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": true,
+          "index": 0
+        }
+      },
+      "points": 1
+    }
+  ]
+}

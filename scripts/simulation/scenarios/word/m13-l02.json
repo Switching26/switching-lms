@@ -1,0 +1,100 @@
+{
+ "schemaVersion": 1,
+ "app": "WORD",
+ "title": "Retirer ce qui est en trop",
+ "mode": "LESSON",
+ "moduleTitle": "Les tableaux : faire évoluer une grille",
+ "intro": {
+  "title": "SUPPRIMER UNE LIGNE N'EST PAS EFFACER SON CONTENU",
+  "body": "Vider les cellules laisse une ligne vide qui décale tout et se réimprime. **Supprimer la ligne** retire la structure elle-même. Les deux gestes se ressemblent à l'écran et n'ont rien à voir dans un document qui circule."
+ },
+ "outro": "Effacer le contenu laisse un trou ; supprimer la ligne referme la grille. Sur un tableau destiné à être imprimé ou transmis, la différence se voit immédiatement.",
+ "document": {
+  "paragraphes": [
+   {
+    "texte": "Inventaire de l'atelier",
+    "style": "titre"
+   },
+   {
+    "texte": "Le tableau ci-dessous recense le matériel et son état.",
+    "style": "normal"
+   },
+   {
+    "texte": "Contrôle réalisé le 18 mars par le responsable d'atelier.",
+    "style": "normal"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "id": "M13-L02-01",
+   "consigne": "==Insérez un tableau de 5 lignes sur 4 colonnes.== C'est la grille que vous allez réduire.",
+   "action": {
+    "type": "W_EXPECT_TABLE",
+    "lignes": 5,
+    "colonnes": 4
+   },
+   "setup": {
+    "ribbon": {
+     "activeTab": "insertion"
+    }
+   },
+   "aide": {
+    "text": "Onglet « Insertion », bouton « Tableau », puis 5 et 4.",
+    "showTarget": true
+   },
+   "feedback": "Cinq lignes, quatre colonnes."
+  },
+  {
+   "id": "M13-L02-02",
+   "points": 0,
+   "action": {
+    "type": "READ"
+   },
+   "consigne": "Le contrôle ne portera finalement que sur trois postes de matériel, et la colonne des références ne sera pas remplie. **Une ligne et une colonne sont donc en trop** : il faut les retirer, pas les laisser vides.",
+   "feedback": "Une grille juste vaut mieux qu'une grille pleine de vide."
+  },
+  {
+   "id": "M13-L02-03",
+   "consigne": "==Cliquez dans une cellule, puis supprimez la ligne.== La grille passe à quatre lignes : l'en-tête et trois postes.",
+   "action": {
+    "type": "W_EXPECT_TABLE",
+    "lignes": 4,
+    "colonnes": 4
+   },
+   "aide": {
+    "text": "Clic dans le tableau, puis « Supprimer la ligne ».",
+    "showTarget": true
+   },
+   "feedback": "La ligne a disparu, la grille s'est refermée."
+  },
+  {
+   "id": "M13-L02-04",
+   "consigne": "==Supprimez la colonne== où se trouve le curseur. Il reste trois colonnes : désignation, quantité, état.",
+   "action": {
+    "type": "W_EXPECT_TABLE",
+    "lignes": 4,
+    "colonnes": 3
+   },
+   "aide": {
+    "text": "Clic dans le tableau, puis « Supprimer la colonne ».",
+    "showTarget": true
+   },
+   "feedback": "Trois colonnes : la grille correspond enfin au besoin réel."
+  },
+  {
+   "id": "M13-L02-05",
+   "consigne": "Le responsable ajoute un poste. ==Ajoutez une ligne en dessous== pour revenir à cinq lignes.",
+   "action": {
+    "type": "W_EXPECT_TABLE",
+    "lignes": 5,
+    "colonnes": 3
+   },
+   "aide": {
+    "text": "Clic dans le tableau, puis « Ligne en dessous ».",
+    "showTarget": true
+   },
+   "feedback": "Une grille se remanie autant de fois qu'il le faut, sans jamais tout refaire."
+  }
+ ]
+}

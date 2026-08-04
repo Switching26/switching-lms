@@ -1,0 +1,210 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "mode": "EXERCISE",
+  "moduleTitle": "Faire apparaître au bon moment",
+  "title": "Trois apparitions dans l'ordre",
+  "intro": {
+    "title": "Trois apparitions dans l'ordre",
+    "body": "Une diapositive porte un raisonnement en trois temps. Animez-la dans l'ordre où vous parlerez — pas dans l'ordre où les zones sont posées — puis notez le nombre de clics."
+  },
+  "outro": {
+    "body": "Trois rangs, trois clics, et une note qui vous les rappelle en séance."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "ppt": {
+    "fileName": "Basmont - conseil.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Fonderie Basmont",
+          "sous-titre": "Conseil d'administration du 9 avril"
+        }
+      },
+      {
+        "layout": "titre-seul",
+        "textes": {
+          "titre": "Les rebuts du premier trimestre"
+        },
+        "objets": [
+          {
+            "id": "zt-solution",
+            "objectType": "texte",
+            "texte": "Contrôle de température à chaque coulée",
+            "rect": {
+              "x": 70,
+              "y": 160,
+              "w": 540,
+              "h": 60
+            }
+          },
+          {
+            "id": "zt-constat",
+            "objectType": "texte",
+            "texte": "9 % de pièces rebutées en janvier",
+            "rect": {
+              "x": 70,
+              "y": 270,
+              "w": 540,
+              "h": 60
+            }
+          },
+          {
+            "id": "zt-cause",
+            "objectType": "texte",
+            "texte": "Sable trop humide sur deux lots",
+            "rect": {
+              "x": 70,
+              "y": 380,
+              "w": 540,
+              "h": 60
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M13-E03-01",
+      "consigne": "Affichez la deuxième diapositive. Attention : les trois zones ne sont pas posées dans l'ordre où vous en parlerez — la solution est en haut, le constat au milieu.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 1
+      }
+    },
+    {
+      "id": "M13-E03-02",
+      "consigne": "Vous direz d'abord le constat. Sélectionnez « 9 % de pièces rebutées en janvier ».",
+      "action": {
+        "type": "P_SELECT_OBJECT",
+        "objectId": "zt-constat"
+      }
+    },
+    {
+      "id": "M13-E03-03",
+      "consigne": "Appliquez-lui Apparaître : c'est le rang 1, quelle que soit sa position à l'écran.",
+      "setupPpt": {
+        "slide": 1
+      },
+      "action": {
+        "type": "P_EXPECT_ANIMATIONS",
+        "animations": [
+          {
+            "objectId": "zt-constat",
+            "kind": "apparaitre"
+          }
+        ]
+      },
+      "aide": {
+        "text": "Groupe Animations, bouton « Apparaître »."
+      }
+    },
+    {
+      "id": "M13-E03-04",
+      "consigne": "Animez ensuite la cause, « Sable trop humide sur deux lots », avec Apparaître.",
+      "setupPpt": {
+        "slide": 1
+      },
+      "action": {
+        "type": "P_EXPECT_ANIMATIONS",
+        "animations": [
+          {
+            "objectId": "zt-constat",
+            "kind": "apparaitre"
+          },
+          {
+            "objectId": "zt-cause",
+            "kind": "apparaitre"
+          }
+        ]
+      }
+    },
+    {
+      "id": "M13-E03-05",
+      "consigne": "Animez enfin la solution, « Contrôle de température à chaque coulée », avec Apparaître. Elle est tout en haut de l'écran et arrivera en dernier : c'est bien l'ordre d'application qui commande.",
+      "setupPpt": {
+        "slide": 1
+      },
+      "action": {
+        "type": "P_EXPECT_ANIMATIONS",
+        "animations": [
+          {
+            "objectId": "zt-constat",
+            "kind": "apparaitre"
+          },
+          {
+            "objectId": "zt-cause",
+            "kind": "apparaitre"
+          },
+          {
+            "objectId": "zt-solution",
+            "kind": "apparaitre"
+          }
+        ]
+      },
+      "feedback": "Le conseil reçoit le problème, sa cause, puis la parade — jamais la parade avant le problème."
+    },
+    {
+      "id": "M13-E03-06",
+      "consigne": "Écrivez la note de la diapositive : Trois clics — constat, cause, parade.",
+      "action": {
+        "type": "P_EXPECT_DECK",
+        "deck": {
+          "slides": [
+            {
+              "index": 1,
+              "notes": "Trois clics — constat, cause, parade"
+            }
+          ]
+        }
+      },
+      "aide": {
+        "text": "Le champ de notes est sous la diapositive ; sur petit écran, le bouton « Notes » l'ouvre."
+      }
+    },
+    {
+      "id": "M13-E03-07",
+      "consigne": "Lancez le diaporama depuis la diapositive affichée : l'écran démarre vide, les trois zones attendent vos clics.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": true,
+          "index": 1
+        }
+      },
+      "aide": {
+        "text": "Groupe Diaporama, bouton « ▶ Ici »."
+      }
+    },
+    {
+      "id": "M13-E03-08",
+      "consigne": "Quittez le diaporama.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": false
+        }
+      }
+    },
+    {
+      "id": "M13-E03-09",
+      "consigne": "Mettez le titre de la diapositive en gras : sur un écran qui démarre vide, le titre est le seul repère du public pendant vos premières secondes.",
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "ph:titre",
+        "style": {
+          "bold": true
+        }
+      },
+      "aide": {
+        "text": "Sélectionnez le titre d'un clic, puis bouton G du groupe Police."
+      }
+    }
+  ]
+}

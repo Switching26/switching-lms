@@ -1,0 +1,316 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "mode": "EXERCISE",
+  "moduleTitle": "Prise en main",
+  "title": "Exercice — Disposition et éléments libres",
+  "intro": {
+    "title": "Exercice — Disposition et éléments libres",
+    "body": "Deux diapositives posent problème : l'une n'a pas de cadre pour son contenu, l'autre est mal composée et incomplète. Vous devez choisir la bonne disposition, puis placer et compléter les éléments libres."
+  },
+  "outro": {
+    "body": "Vous savez réparer une diapositive : d'abord la disposition, ensuite le placement. Dans cet ordre, jamais l'inverse."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "ppt": {
+    "fileName": "Bilan Verdeval.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Verdeval",
+          "sous-titre": "Bilan de la saison 2026"
+        }
+      },
+      {
+        "layout": "titre-seul",
+        "textes": {
+          "titre": "Nos engagements"
+        }
+      },
+      {
+        "layout": "titre-seul",
+        "textes": {
+          "titre": "Nos agences"
+        },
+        "objets": [
+          {
+            "id": "zt-villes",
+            "objectType": "texte",
+            "texte": "Nantes, Rennes et Angers",
+            "rect": {
+              "x": 80,
+              "y": 190,
+              "w": 380,
+              "h": 70
+            }
+          },
+          {
+            "id": "zt-legende",
+            "objectType": "texte",
+            "rect": {
+              "x": 80,
+              "y": 390,
+              "w": 420,
+              "h": 60
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M01-E03-01",
+      "consigne": "Affichez la diapositive des engagements.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 1
+      },
+      "aide": {
+        "text": "C'est la deuxième vignette du volet."
+      }
+    },
+    {
+      "id": "M01-E03-02",
+      "consigne": "Cette diapositive n'offre aucun cadre pour écrire sous son titre. Donnez-lui une disposition qui en prévoie un, sans dessiner quoi que ce soit vous-même.",
+      "action": {
+        "type": "P_SET_LAYOUT",
+        "layout": "titre-et-contenu"
+      },
+      "aide": {
+        "text": "Groupe Diapositives, menu « Disposition ▾ », entrée « Titre et contenu »."
+      }
+    },
+    {
+      "id": "M01-E03-03",
+      "consigne": "Renseignez l'engagement principal de l'entreprise : Zéro produit phytosanitaire.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Bilan de la saison 2026"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Nos engagements"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Nos agences"
+              },
+              "objets": [
+                {
+                  "id": "zt-villes",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 80,
+                    "y": 190,
+                    "w": 380,
+                    "h": 70
+                  },
+                  "texte": "Nantes, Rennes et Angers"
+                },
+                {
+                  "id": "zt-legende",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 80,
+                    "y": 390,
+                    "w": 420,
+                    "h": 60
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:contenu",
+        "accept": [
+          "Zéro produit phytosanitaire",
+          "Zéro produit phytosanitaire depuis 2024"
+        ]
+      }
+    },
+    {
+      "id": "M01-E03-04",
+      "consigne": "Passez à la diapositive des agences.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 2
+      },
+      "aide": {
+        "text": "C'est la dernière vignette du volet."
+      }
+    },
+    {
+      "id": "M01-E03-05",
+      "consigne": "Sélectionnez la zone qui liste les villes — sans l'ouvrir ni la modifier.",
+      "action": {
+        "type": "P_SELECT_OBJECT",
+        "objectId": "zt-villes"
+      },
+      "aide": {
+        "text": "Un simple clic sélectionne un élément déjà rempli ; c'est le double-clic qui ouvre la saisie."
+      }
+    },
+    {
+      "id": "M01-E03-06",
+      "consigne": "Toute la diapositive est tassée à gauche. Faites glisser la liste des villes vers la moitié droite, à peu près à la même hauteur. Le placement n'a pas besoin d'être exact.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Bilan de la saison 2026"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Nos engagements",
+                "contenu": "Zéro produit phytosanitaire"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Nos agences"
+              },
+              "objets": [
+                {
+                  "id": "zt-villes",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 80,
+                    "y": 190,
+                    "w": 380,
+                    "h": 70
+                  },
+                  "texte": "Nantes, Rennes et Angers"
+                },
+                {
+                  "id": "zt-legende",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 80,
+                    "y": 390,
+                    "w": 420,
+                    "h": 60
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 2
+      },
+      "action": {
+        "type": "P_MOVE_OBJECT",
+        "objectId": "zt-villes",
+        "rect": {
+          "x": 500
+        },
+        "tolerance": 90
+      },
+      "aide": {
+        "text": "Attrapez la zone en son milieu, pas sur une poignée, et tirez-la vers la droite."
+      }
+    },
+    {
+      "id": "M01-E03-07",
+      "consigne": "La zone vide en bas à gauche doit recevoir la mention légale du document : Chiffres arrêtés au 31 octobre.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Bilan de la saison 2026"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Nos engagements",
+                "contenu": "Zéro produit phytosanitaire"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Nos agences"
+              },
+              "objets": [
+                {
+                  "id": "zt-villes",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 500,
+                    "y": 190,
+                    "w": 380,
+                    "h": 70
+                  },
+                  "texte": "Nantes, Rennes et Angers"
+                },
+                {
+                  "id": "zt-legende",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 80,
+                    "y": 390,
+                    "w": 420,
+                    "h": 60
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 2
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "zt-legende",
+        "accept": [
+          "Chiffres arrêtés au 31 octobre"
+        ]
+      },
+      "aide": {
+        "text": "Une zone de texte libre n'affiche aucune invite : elle s'ouvre au double-clic."
+      }
+    },
+    {
+      "id": "M01-E03-08",
+      "consigne": "Il manque une illustration sur cette diapositive. Ajoutez-en une.",
+      "action": {
+        "type": "P_ADD_OBJECT",
+        "objectType": "image"
+      },
+      "aide": {
+        "text": "Groupe Insertion, bouton Image."
+      }
+    }
+  ]
+}

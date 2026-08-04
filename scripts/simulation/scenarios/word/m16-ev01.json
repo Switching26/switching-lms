@@ -1,0 +1,96 @@
+{
+ "schemaVersion": 1,
+ "app": "WORD",
+ "title": "Évaluation — schémas et encadrés",
+ "mode": "EVALUATION",
+ "moduleTitle": "Schémas, graphiques et zones de texte",
+ "intro": {
+  "title": "ÉVALUATION NOTÉE",
+  "body": "Vous illustrez une note d'organisation : un schéma, sa mise en page, puis un encadré. Chaque geste est noté."
+ },
+ "outro": "Vous savez choisir la forme qui sert l'information, et la mettre en page.",
+ "document": {
+  "paragraphes": [
+   {
+    "texte": "Note d'organisation interne",
+    "style": "titre"
+   },
+   {
+    "texte": "La réorganisation du service prend effet au premier septembre.",
+    "style": "normal"
+   },
+   {
+    "texte": "Trois pôles remplacent l'organisation par métiers.",
+    "style": "normal"
+   },
+   {
+    "texte": "Chaque pôle est rattaché à la direction des opérations.",
+    "style": "normal"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "id": "M16-EV01-00",
+   "points": 3,
+   "consigne": "==Ouvrez la galerie d'objets== depuis l'onglet Insertion.",
+   "action": {
+    "type": "W_CLICK_CONTROL",
+    "controle": "w-inserer-image"
+   },
+   "setup": {
+    "ribbon": {
+     "activeTab": "insertion"
+    }
+   },
+   "feedback": "La galerie est ouverte."
+  },
+  {
+   "id": "M16-EV01-01",
+   "points": 4,
+   "consigne": "==Insérez le processus en étapes.==",
+   "action": {
+    "type": "W_EXPECT_IMAGE",
+    "image": "processus"
+   },
+   "setup": {
+    "ribbon": {
+     "activeTab": "insertion"
+    }
+   },
+   "feedback": "Processus posé."
+  },
+  {
+   "id": "M16-EV01-02",
+   "points": 5,
+   "consigne": "==Donnez-lui l'habillage « Haut et bas »== : un schéma d'étapes a besoin de toute la largeur.",
+   "action": {
+    "type": "W_EXPECT_IMAGE",
+    "image": "processus",
+    "habillage": "hautbas"
+   },
+   "feedback": "Pleine largeur."
+  },
+  {
+   "id": "M16-EV01-03",
+   "points": 5,
+   "consigne": "La note change d'angle. ==Retirez le processus.==",
+   "action": {
+    "type": "W_EXPECT_IMAGE",
+    "image": "processus",
+    "absente": true
+   },
+   "feedback": "Processus retiré."
+  },
+  {
+   "id": "M16-EV01-04",
+   "points": 5,
+   "consigne": "==Insérez la zone de texte encadrée== pour porter l'avertissement.",
+   "action": {
+    "type": "W_EXPECT_IMAGE",
+    "image": "zone-texte"
+   },
+   "feedback": "Encadré posé."
+  }
+ ]
+}

@@ -1,0 +1,244 @@
+{
+  "schemaVersion": 1,
+  "title": "Ce qu'un transfert emporte sans vous demander",
+  "mode": "LESSON",
+  "moduleTitle": "Les pièces jointes : ce qui part avec le message",
+  "intro": {
+    "title": "Trois pièces jointes, une seule regarde le destinataire",
+    "body": "Transférer emporte toutes les pièces du message d'origine, sans rien demander. C'est pratique quand on fait suivre un dossier complet, et c'est exactement le mécanisme par lequel un document interne finit chez un tiers. Le geste à acquérir n'est pas de retirer : c'est de REGARDER la ligne des pièces jointes avant d'envoyer."
+  },
+  "outro": {
+    "body": "Une réponse n'emporte aucune pièce, un transfert les emporte toutes. Cette asymétrie est utile à connaître dans les deux sens : elle explique pourquoi on oublie parfois de joindre en répondant, et pourquoi on envoie parfois trop en transférant."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "clients",
+        "nom": "Clients 2026"
+      },
+      {
+        "id": "fournisseurs",
+        "nom": "Fournisseurs"
+      }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "fichiers": [
+      {
+        "nom": "Devis-2026-168.pdf",
+        "taille": "188 Ko"
+      },
+      {
+        "nom": "Devis-2026-168-BROUILLON.pdf",
+        "taille": "181 Ko"
+      },
+      {
+        "nom": "Plan-agencement.pdf",
+        "taille": "1,1 Mo"
+      },
+      {
+        "nom": "Tarifs-achat-fournisseurs.pdf",
+        "taille": "96 Ko"
+      },
+      {
+        "nom": "Photos-chantier-HD.zip",
+        "taille": "46 Mo"
+      }
+    ],
+    "messages": [
+      {
+        "id": "m-dossier",
+        "dossier": "reception",
+        "de": "n.kerbaj@atelier-nord.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Dossier Beaulieu — pièces à transmettre à l'expert",
+        "corps": "Camille,\n\nL'expert d'assurance demande le dossier Beaulieu.\nJe te joins ce que j'ai : le rapport, le contrat, et notre note interne de marge.\nNe lui envoie que ce qui le concerne.\n\nNadia",
+        "date": "2026-04-01T07:40",
+        "lu": false,
+        "pieces": [
+          {
+            "nom": "Rapport-expertise.pdf",
+            "taille": "420 Ko"
+          },
+          {
+            "nom": "Contrat-escalier-signe.pdf",
+            "taille": "312 Ko"
+          },
+          {
+            "nom": "Note-interne-marge.pdf",
+            "taille": "64 Ko"
+          }
+        ]
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O09-L03-01",
+      "consigne": "==Ouvrez le message de Nadia.== Trois pièces jointes, et une consigne explicite : n'envoyer à l'expert que ce qui le concerne. La note de marge est interne.",
+      "action": {
+        "type": "O_SELECT_MESSAGE",
+        "id": "m-dossier"
+      },
+      "aide": {
+        "text": "C'est le message qui parle du dossier Beaulieu et de l'expert."
+      }
+    },
+    {
+      "id": "O09-L03-02",
+      "consigne": "==Cliquez sur Transférer.== Regardez ce qui se passe sous les adresses : **les trois pièces ont suivi**, sans qu'on vous demande votre avis. C'est le comportement normal, et c'est là qu'est le piège.",
+      "setup": {
+        "courrier": {
+          "messageActif": "m-dossier"
+        }
+      },
+      "action": {
+        "type": "O_CLICK_CONTROL",
+        "control": "cr-transferer"
+      },
+      "aide": {
+        "text": "Le bouton Transférer, troisième de la barre du haut du volet de lecture."
+      }
+    },
+    {
+      "id": "O09-L03-03",
+      "consigne": "==Retirez `Note-interne-marge.pdf`== avec sa croix. Une note de marge chez un expert d'assurance, c'est une négociation perdue d'avance — et le geste pour l'éviter prend une seconde.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "genre": "transfert",
+          "pieces": {
+            "contient": [
+              "Rapport-expertise.pdf",
+              "Contrat-escalier-signe.pdf"
+            ],
+            "absent": [
+              "Note-interne-marge.pdf"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "La croix ✕ se trouve à droite du nom de chaque pièce jointe."
+      }
+    },
+    {
+      "id": "O09-L03-04",
+      "consigne": "==Saisissez `expert@cabinet-delaunay-expertises.fr` dans le champ À.== Un transfert part avec un destinataire vide : c'est la seule chose qu'Outlook ne devine pas, et donc la seule qu'il ne remplira jamais tout seul.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "a": {
+            "contient": [
+              "expert@cabinet-delaunay-expertises.fr"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Le champ À est la première ligne de la fenêtre de rédaction ; il est vide."
+      }
+    },
+    {
+      "id": "O09-L03-05",
+      "consigne": "==Mettez `n.kerbaj@atelier-nord.fr` en copie.== Elle vous a confié le dossier : elle doit **savoir** qu'il est parti, sans avoir à le demander. C'est une copie, pas un destinataire principal.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "a": {
+            "contient": [
+              "expert@cabinet-delaunay-expertises.fr"
+            ],
+            "absent": [
+              "n.kerbaj@atelier-nord.fr"
+            ]
+          },
+          "cc": {
+            "contient": [
+              "n.kerbaj@atelier-nord.fr"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Le champ Cc est la deuxième ligne de la fenêtre de rédaction."
+      }
+    },
+    {
+      "id": "O09-L03-06",
+      "consigne": "==Complétez l'objet avec le mot `expertise`==, sans retirer le préfixe posé par Outlook. L'expert reçoit des dizaines de dossiers : l'objet doit dire tout de suite de quoi il s'agit.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "objet": {
+            "prefixe": "TR",
+            "contient": [
+              "expertise"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Ajoutez le mot à la fin du champ Objet ; le « TR : » du début doit rester."
+      }
+    },
+    {
+      "id": "O09-L03-07",
+      "consigne": "==Relisez la ligne des pièces jointes, puis envoyez.== Deux documents partent, un est resté. Ce coup d'œil final est le seul contrôle qui existe : après l'envoi, il n'y a plus rien à faire.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "expert@cabinet-delaunay-expertises.fr"
+            ]
+          },
+          "cc": {
+            "contient": [
+              "n.kerbaj@atelier-nord.fr"
+            ]
+          },
+          "objet": {
+            "prefixe": "TR",
+            "contient": [
+              "expertise"
+            ]
+          },
+          "pieces": {
+            "contient": [
+              "Rapport-expertise.pdf",
+              "Contrat-escalier-signe.pdf"
+            ],
+            "absent": [
+              "Note-interne-marge.pdf"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Le bouton Envoyer, premier de la barre du haut."
+      }
+    }
+  ]
+}

@@ -1,0 +1,161 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "mode": "EXERCISE",
+  "moduleTitle": "Prise en main",
+  "title": "Exercice — Vérifier avant de présenter",
+  "intro": {
+    "title": "Exercice — Vérifier avant de présenter",
+    "body": "La réunion est dans dix minutes. La présentation contient une diapositive de travail qui ne doit pas être projetée. Vous devez la repérer, l'écarter du diaporama sans la détruire, puis dérouler la présentation pour vous en assurer."
+  },
+  "outro": {
+    "body": "Le contrôle avant réunion tient en trois gestes : vue d'ensemble, masquage, diaporama de vérification."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "ppt": {
+    "fileName": "Bilan Verdeval.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Verdeval",
+          "sous-titre": "Bilan de la saison 2026"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Chiffres de la saison",
+          "contenu": "38 jardins et 120 entretiens"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Brouillon budget",
+          "contenu": "Montants à confirmer avec le comptable"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Nos partenaires",
+          "contenu": "Ville de Nantes et Rennes Métropole"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M01-E04-01",
+      "consigne": "Affichez l'ensemble des diapositives d'un seul coup d'œil, pour juger ce que verra le public.",
+      "action": {
+        "type": "P_SET_VIEW",
+        "view": "trieuse"
+      },
+      "aide": {
+        "text": "Groupe Affichage, à droite du ruban, bouton Trieuse."
+      }
+    },
+    {
+      "id": "M01-E04-02",
+      "consigne": "Une diapositive n'a rien à faire devant le public : celle du brouillon de budget. Affichez-la.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 2
+      },
+      "aide": {
+        "text": "Dans la trieuse aussi, un clic sur une vignette la choisit."
+      }
+    },
+    {
+      "id": "M01-E04-03",
+      "consigne": "Revenez à l'affichage qui permet de travailler le contenu.",
+      "action": {
+        "type": "P_SET_VIEW",
+        "view": "normal"
+      },
+      "aide": {
+        "text": "Groupe Affichage, bouton Normal."
+      }
+    },
+    {
+      "id": "M01-E04-04",
+      "consigne": "Faites en sorte que cette diapositive reste dans le fichier — le comptable en aura besoin — mais ne passe pas pendant le diaporama.",
+      "setupPpt": {
+        "slide": 2
+      },
+      "action": {
+        "type": "P_EXPECT_DECK",
+        "deck": {
+          "slides": [
+            {
+              "index": 2,
+              "masquee": true
+            }
+          ]
+        }
+      },
+      "aide": {
+        "text": "Groupe Diaporama, bouton Masquer. Supprimer serait irréversible : ce n'est pas ce qui est demandé."
+      }
+    },
+    {
+      "id": "M01-E04-05",
+      "consigne": "Lancez le diaporama depuis la première diapositive.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": true,
+          "index": 0
+        }
+      },
+      "aide": {
+        "text": "Groupe Diaporama, bouton « ▶ Début »."
+      }
+    },
+    {
+      "id": "M01-E04-06",
+      "consigne": "Avancez d'une diapositive.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "index": 1
+        }
+      },
+      "aide": {
+        "text": "Un clic sur la diapositive suffit ; la barre d'espace aussi."
+      }
+    },
+    {
+      "id": "M01-E04-07",
+      "consigne": "Avancez encore, et vérifiez que le brouillon de budget ne s'affiche pas.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "index": 3
+        }
+      },
+      "aide": {
+        "text": "Un seul clic suffit : la diapositive masquée est sautée automatiquement."
+      }
+    },
+    {
+      "id": "M01-E04-08",
+      "consigne": "Quittez le diaporama et revenez à votre présentation.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": false
+        }
+      },
+      "aide": {
+        "text": "La touche Échap, ou le bouton Quitter en haut à droite de l'écran de diaporama."
+      }
+    }
+  ]
+}

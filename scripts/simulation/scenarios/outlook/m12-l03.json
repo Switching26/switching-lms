@@ -1,0 +1,263 @@
+{
+  "schemaVersion": 1,
+  "title": "Ce qu'on écrit engage, et reste",
+  "mode": "LESSON",
+  "moduleTitle": "Écrire à une administration ou un donneur d'ordre public",
+  "intro": {
+    "title": "Un message à une administration est une pièce du dossier",
+    "body": "Ce que vous écrivez à un donneur d'ordre public peut être relu des mois plus tard, par quelqu'un que vous ne connaissez pas, dans un contexte que vous n'aviez pas prévu. D'où deux règles : on n'écrit que ce qu'on peut tenir, et on ne s'engage jamais sur ce qui dépend d'un tiers sans le dire."
+  },
+  "outro": {
+    "body": "Écrire « nous confirmons » engage l'entreprise ; écrire « sous réserve de la livraison du fournisseur » l'engage aussi, mais sur ce qu'elle maîtrise. La nuance ne coûte rien à l'écriture et vaut cher le jour où le fournisseur est en retard."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "marches",
+        "nom": "Marchés publics"
+      },
+      {
+        "id": "clients",
+        "nom": "Clients 2026"
+      }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "fichiers": [
+      {
+        "nom": "Acte-engagement-MP-2026-24.pdf",
+        "taille": "210 Ko"
+      },
+      {
+        "nom": "Acte-engagement-MP-2026-24-BROUILLON.pdf",
+        "taille": "205 Ko"
+      },
+      {
+        "nom": "Attestation-fiscale-2026.pdf",
+        "taille": "96 Ko"
+      },
+      {
+        "nom": "Attestation-URSSAF-2026.pdf",
+        "taille": "88 Ko"
+      },
+      {
+        "nom": "Book-realisations-HD.zip",
+        "taille": "54 Mo"
+      }
+    ],
+    "messages": [
+      {
+        "id": "m-engagement",
+        "dossier": "reception",
+        "de": "marches@ville-lambersart.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Mobilier de la salle des mariages — date ferme demandée",
+        "corps": "Madame, Monsieur,\n\nNous vous demandons de confirmer une date de livraison ferme pour le mobilier du marché MP-2026-24.\nCette date sera reprise dans l'ordre de service.\n\nService des marchés\nVille de Lambersart",
+        "date": "2026-04-08T09:00",
+        "lu": false
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O12-L03-01",
+      "consigne": "==Ouvrez la demande de date ferme.== Attention à la dernière phrase : la date que vous donnerez sera **reprise dans l'ordre de service**. Ce n'est plus une conversation, c'est une pièce contractuelle.",
+      "action": {
+        "type": "O_SELECT_MESSAGE",
+        "id": "m-engagement"
+      },
+      "aide": {
+        "text": "C'est le message qui demande une date de livraison ferme."
+      }
+    },
+    {
+      "id": "O12-L03-02",
+      "consigne": "==Cliquez sur Répondre==, puis prenez le temps de réfléchir avant d'écrire une date : votre fournisseur ne vous a pas encore confirmé la sienne.",
+      "setup": {
+        "courrier": {
+          "messageActif": "m-engagement"
+        }
+      },
+      "action": {
+        "type": "O_CLICK_CONTROL",
+        "control": "cr-repondre"
+      },
+      "aide": {
+        "text": "Le bouton Répondre, premier de la barre du haut."
+      }
+    },
+    {
+      "id": "O12-L03-03",
+      "consigne": "==Complétez l'objet avec la référence `MP-2026-24`.== Un message qui deviendra une pièce du dossier doit porter la référence dans son objet : c'est ainsi qu'on le retrouvera dans deux ans.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "objet": {
+            "prefixe": "RE",
+            "contient": [
+              "MP-2026-24"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "La référence figure dans le texte du message ; ajoutez-la à la fin de l'objet en gardant le « RE : »."
+      }
+    },
+    {
+      "id": "O12-L03-04",
+      "consigne": "==Mettez `n.kerbaj@atelier-nord.fr` en copie.== Un engagement contractuel ne se prend pas seul : la gérante doit voir la date au moment où elle part, pas quand elle est reprise dans l'ordre de service.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "a": {
+            "contient": [
+              "marches@ville-lambersart.fr"
+            ],
+            "absent": [
+              "n.kerbaj@atelier-nord.fr"
+            ]
+          },
+          "cc": {
+            "contient": [
+              "n.kerbaj@atelier-nord.fr"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Le champ Cc, deuxième ligne de la fenêtre de rédaction."
+      }
+    },
+    {
+      "id": "O12-L03-05",
+      "consigne": "==Rédigez la réponse.== Donnez **une date de livraison** et posez **la réserve qui la conditionne** — la confirmation de votre fournisseur. S'engager sans réserve sur ce qu'un tiers maîtrise est la faute la plus coûteuse de ce module.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "corps": {
+            "salutation": [
+              "bonjour",
+              "madame",
+              "monsieur",
+              "madame, monsieur"
+            ],
+            "cloture": [
+              "cordialement",
+              "salutations distinguees",
+              "respectueusement",
+              "bien a vous",
+              "salutations"
+            ],
+            "notions": [
+              {
+                "libelle": "la date de livraison annoncée",
+                "oneOf": [
+                  "mai",
+                  "avril",
+                  "le 4",
+                  "le 5",
+                  "le 11",
+                  "le 12",
+                  "semaine du"
+                ]
+              },
+              {
+                "libelle": "la réserve qui conditionne cette date",
+                "oneOf": [
+                  "sous reserve",
+                  "reserve",
+                  "conditionne",
+                  "des lors que",
+                  "sous condition",
+                  "confirmation de notre fournisseur",
+                  "fournisseur"
+                ]
+              }
+            ],
+            "interdit": [
+              {
+                "libelle": "un engagement sans réserve sur un délai non maîtrisé",
+                "oneOf": [
+                  "quoi qu'il arrive",
+                  "garantissons formellement",
+                  "en tout etat de cause",
+                  "sans aucune reserve"
+                ]
+              }
+            ],
+            "minMots": 18
+          }
+        }
+      },
+      "aide": {
+        "text": "Deux informations sont attendues : la date, et la réserve qui la conditionne."
+      }
+    },
+    {
+      "id": "O12-L03-06",
+      "consigne": "==Envoyez la réponse.== Vous vous êtes engagée sur ce que vous maîtrisez, et vous avez dit ce qui n'en dépendait pas. C'est exactement ce qu'une administration attend, et ce qu'elle relira si la date glisse.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "marches@ville-lambersart.fr"
+            ]
+          },
+          "cc": {
+            "contient": [
+              "n.kerbaj@atelier-nord.fr"
+            ]
+          },
+          "objet": {
+            "prefixe": "RE",
+            "contient": [
+              "MP-2026-24"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Le bouton Envoyer, premier de la barre du haut."
+      }
+    },
+    {
+      "id": "O12-L03-07",
+      "consigne": "==Rangez ce message dans Marchés publics.== Un échange contractuel se classe dès qu'il est traité : c'est là qu'on ira le rechercher, pas dans une boîte de réception vieille de six mois.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-engagement": {
+              "dossier": "marches"
+            }
+          }
+        }
+      },
+      "aide": {
+        "text": "Déplacer, puis Marchés publics."
+      }
+    }
+  ]
+}

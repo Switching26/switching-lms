@@ -1,0 +1,295 @@
+{
+  "schemaVersion": 1,
+  "title": "Traiter deux demandes entrantes le même matin",
+  "mode": "EXERCISE",
+  "moduleTitle": "Le premier contact commercial",
+  "intro": {
+    "title": "Deux prospects, deux niveaux de maturité",
+    "body": "L'un vous donne toutes les informations et attend un devis ; l'autre écrit trois lignes sans rien préciser. Ils n'appellent pas la même réponse — mais ils appellent tous les deux une réponse aujourd'hui."
+  },
+  "outro": {
+    "body": "On ne répond pas de la même façon à une demande complète et à une demande vague, mais on répond aux deux le jour même. Le prospect qui reçoit un accusé de réception le matin ne compare plus que des délais : il a déjà classé votre entreprise comme sérieuse."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "prospects",
+        "nom": "Prospects"
+      },
+      {
+        "id": "clients",
+        "nom": "Clients 2026"
+      }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "fichiers": [
+      {
+        "nom": "Devis-2026-190.pdf",
+        "taille": "196 Ko"
+      },
+      {
+        "nom": "Devis-2026-190-BROUILLON.pdf",
+        "taille": "188 Ko"
+      },
+      {
+        "nom": "Plaquette-Atelier-Nord.pdf",
+        "taille": "2,1 Mo"
+      },
+      {
+        "nom": "Tarifs-achat-fournisseurs.pdf",
+        "taille": "96 Ko"
+      }
+    ],
+    "messages": [
+      {
+        "id": "m-complet",
+        "dossier": "reception",
+        "de": "m.delcourt@brasserie-du-canal.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Comptoir et banquettes — cotes jointes",
+        "corps": "Bonjour,\n\nComptoir de 4,20 m, six banquettes de 1,80 m, chêne clair.\nNous souhaitons un devis sous huitaine.\n\nMarine Delcourt\nBrasserie du Canal",
+        "date": "2026-04-14T08:10",
+        "lu": false
+      },
+      {
+        "id": "m-vague",
+        "dossier": "reception",
+        "de": "accueil@cabinet-vermeulen.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Renseignement",
+        "corps": "Bonjour,\n\nOn envisage de refaire l'accueil. Vous faites ça ?\n\nCabinet Vermeulen",
+        "date": "2026-04-14T07:50",
+        "lu": false
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O13-E01-01",
+      "consigne": "La Brasserie du Canal a tout donné : répondez-lui en joignant le devis définitif — attention aux deux fichiers de même référence.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "genre": "reponse",
+          "a": {
+            "contient": [
+              "m.delcourt@brasserie-du-canal.fr"
+            ]
+          },
+          "cc": {
+            "vide": true
+          },
+          "pieces": {
+            "contient": [
+              "Devis-2026-190.pdf"
+            ],
+            "absent": [
+              "Devis-2026-190-BROUILLON.pdf",
+              "Tarifs-achat-fournisseurs.pdf"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Ouvrez son message, Répondre, puis Joindre. Le suffixe BROUILLON désigne une version de travail."
+      }
+    },
+    {
+      "id": "O13-E01-02",
+      "consigne": "Complétez l'objet avec la référence `2026-190`, sans retirer le préfixe posé par Outlook.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "objet": {
+            "prefixe": "RE",
+            "contient": [
+              "2026-190"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "La référence est celle du fichier joint."
+      }
+    },
+    {
+      "id": "O13-E01-03",
+      "consigne": "Rédigez le message et envoyez-le. Il doit citer **la durée de validité** du devis et **ce qu'il couvre**.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "m.delcourt@brasserie-du-canal.fr"
+            ]
+          },
+          "cc": {
+            "vide": true
+          },
+          "objet": {
+            "prefixe": "RE",
+            "contient": [
+              "2026-190"
+            ]
+          },
+          "pieces": {
+            "contient": [
+              "Devis-2026-190.pdf"
+            ],
+            "absent": [
+              "Devis-2026-190-BROUILLON.pdf"
+            ]
+          },
+          "corps": {
+            "salutation": [
+              "bonjour",
+              "madame",
+              "monsieur",
+              "bonsoir"
+            ],
+            "cloture": [
+              "cordialement",
+              "salutations",
+              "bien a vous",
+              "merci"
+            ],
+            "notions": [
+              {
+                "libelle": "la durée de validité",
+                "oneOf": [
+                  "trente jours",
+                  "30 jours",
+                  "valable",
+                  "validite",
+                  "un mois",
+                  "jusqu'au"
+                ]
+              },
+              {
+                "libelle": "ce que le devis couvre",
+                "oneOf": [
+                  "comptoir",
+                  "banquettes",
+                  "chene",
+                  "mobilier",
+                  "amenagement"
+                ]
+              }
+            ],
+            "minMots": 12
+          }
+        }
+      },
+      "aide": {
+        "text": "Deux informations sont attendues : la validité, et le périmètre."
+      }
+    },
+    {
+      "id": "O13-E01-04",
+      "consigne": "Le Cabinet Vermeulen, lui, n'a rien précisé. Répondez-lui quand même — c'est votre réponse qui doit apporter les questions utiles.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "genre": "reponse",
+          "a": {
+            "contient": [
+              "accueil@cabinet-vermeulen.fr"
+            ]
+          },
+          "cc": {
+            "vide": true
+          }
+        }
+      },
+      "aide": {
+        "text": "Ouvrez son message, puis Répondre."
+      }
+    },
+    {
+      "id": "O13-E01-05",
+      "consigne": "Rédigez cette réponse et envoyez-la. Elle doit confirmer **que vous faites ce type de travaux** et demander **ce qui vous manque** pour avancer.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "accueil@cabinet-vermeulen.fr"
+            ]
+          },
+          "cc": {
+            "vide": true
+          },
+          "corps": {
+            "salutation": [
+              "bonjour",
+              "madame",
+              "monsieur",
+              "bonsoir"
+            ],
+            "cloture": [
+              "cordialement",
+              "salutations",
+              "bien a vous",
+              "merci"
+            ],
+            "notions": [
+              {
+                "libelle": "la confirmation que vous faites ce type de travaux",
+                "oneOf": [
+                  "nous realisons",
+                  "nous faisons",
+                  "c'est notre",
+                  "tout a fait",
+                  "bien sur",
+                  "specialite",
+                  "agencement"
+                ]
+              },
+              {
+                "libelle": "ce qui vous manque pour avancer",
+                "oneOf": [
+                  "dimensions",
+                  "cotes",
+                  "surface",
+                  "plan",
+                  "visite",
+                  "budget",
+                  "delai",
+                  "preciser"
+                ]
+              }
+            ],
+            "minMots": 12
+          }
+        }
+      },
+      "aide": {
+        "text": "Deux informations sont attendues : votre capacité à le faire, et ce qu'il vous faut."
+      }
+    }
+  ]
+}

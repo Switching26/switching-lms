@@ -1,0 +1,132 @@
+{
+  "schemaVersion": 1,
+  "app": "WORD",
+  "title": "Exercice — Traiter un document annoté",
+  "mode": "EXERCISE",
+  "moduleTitle": "Modification de texte",
+  "intro": {
+    "title": "À VOUS DE JOUER",
+    "body": "Un compte rendu revenu de relecture. Deux paragraphes portent une marque : l'un est à reformuler, l'autre est barré parce qu'il est faux. Traitez-les, puis rendez le document propre."
+  },
+  "outro": "Corriger le texte et retirer la marque : les deux moitiés du même travail.",
+  "document": {
+    "paragraphes": [
+      {
+        "texte": "Compte rendu de l'audit interne"
+      },
+      {
+        "texte": "Les écarts relevés sont peu nombreux.",
+        "format": {
+          "surlignage": "#f1c40f"
+        }
+      },
+      {
+        "texte": "Aucune action corrective n'est nécessaire.",
+        "format": {
+          "barre": true
+        }
+      },
+      {
+        "texte": "Le prochain audit aura lieu en septembre."
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M03-E02-01",
+      "consigne": "==Reformulez le paragraphe surligné== ainsi : Quatre écarts mineurs ont été relevés sur les douze points contrôlés.",
+      "action": {
+        "type": "W_EXPECT_DOC",
+        "paragraphes": {
+          "p1": [
+            "Quatre écarts mineurs ont été relevés sur les douze points contrôlés."
+          ]
+        }
+      },
+      "aide": {
+        "text": "Triple-clic pour prendre le paragraphe, puis tapez la nouvelle version.",
+        "showTarget": true
+      },
+      "feedback": "Formulation précisée."
+    },
+    {
+      "id": "M03-E02-02",
+      "consigne": "==Retirez la marque de relecture== du paragraphe que vous venez de reformuler : il est traité, il ne doit plus rien signaler.",
+      "setup": {
+        "ribbon": {
+          "activeTab": "accueil"
+        }
+      },
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p1",
+        "format": {
+          "surlignage": ""
+        }
+      },
+      "aide": {
+        "text": "La liste Surlignage propose « Aucune ».",
+        "showTarget": true
+      },
+      "feedback": "Marque retirée."
+    },
+    {
+      "id": "M03-E02-03",
+      "consigne": "==Réécrivez le paragraphe barré==, devenu faux : Deux actions correctives sont engagées avant la fin du mois.",
+      "action": {
+        "type": "W_EXPECT_DOC",
+        "paragraphes": {
+          "p2": [
+            "Deux actions correctives sont engagées avant la fin du mois."
+          ]
+        }
+      },
+      "feedback": "L'information est à jour."
+    },
+    {
+      "id": "M03-E02-04",
+      "consigne": "==Retirez le trait== qui barre encore ce paragraphe : il ne correspond plus à rien.",
+      "setup": {
+        "ribbon": {
+          "activeTab": "accueil"
+        }
+      },
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p2",
+        "format": {
+          "barre": false
+        }
+      },
+      "aide": {
+        "text": "Le même bouton qui l'avait posé le retire.",
+        "showTarget": true
+      },
+      "feedback": "Marque retirée."
+    },
+    {
+      "id": "M03-E02-05",
+      "consigne": "==Épaississez « Quatre écarts mineurs »== : c'est le résultat de l'audit, il doit se lire en premier.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "texte:Quatre écarts mineurs",
+        "format": {
+          "gras": true
+        }
+      },
+      "feedback": "Le résultat ressort."
+    },
+    {
+      "id": "M03-E02-06",
+      "consigne": "==Épaississez le titre== pour rendre un document présentable.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p0",
+        "format": {
+          "gras": true
+        }
+      },
+      "feedback": "Compte rendu prêt à être diffusé."
+    }
+  ]
+}

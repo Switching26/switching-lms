@@ -1,0 +1,137 @@
+{
+ "schemaVersion": 1,
+ "app": "WORD",
+ "title": "La règle et les taquets",
+ "mode": "LESSON",
+ "moduleTitle": "Les tabulations",
+ "intro": {
+  "title": "POURQUOI LES ESPACES NE SUFFISENT PAS",
+  "body": "Aligner une colonne en tapant des espaces fonctionne… jusqu'au premier changement de police. Alors tout se décale. Un **taquet de tabulation** est un repère posé sur la **règle**, à une distance précise du bord : il ne bouge plus, quelle que soit la police."
+ },
+ "outro": "Un taquet se pose sur la règle, à une position mesurée. C'est ce qui distingue un alignement qui tient d'un alignement qui a l'air de tenir.",
+ "document": {
+  "paragraphes": [
+   {
+    "texte": "Tarifs des prestations",
+    "style": "titre"
+   },
+   {
+    "texte": "Audit initial",
+    "style": "normal"
+   },
+   {
+    "texte": "Formation sur site",
+    "style": "normal"
+   },
+   {
+    "texte": "Suivi mensuel",
+    "style": "normal"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "id": "M11-L01-01",
+   "points": 0,
+   "action": {
+    "type": "READ"
+   },
+   "consigne": "La **règle** est la bande graduée en centimètres qui surmonte le document. On y pose des **taquets** : des repères d'alignement. Elle ne s'affiche pas par défaut — c'est l'onglet **Affichage** qui la fait apparaître.",
+   "montrer": [
+    {
+     "type": "W_CLICK_CONTROL",
+     "controle": "w-regle"
+    }
+   ],
+   "feedback": "La règle est l'outil d'alignement de Word, et il est masqué par défaut."
+  },
+  {
+   "id": "M11-L01-02",
+   "consigne": "==Affichez la règle== depuis l'onglet **Affichage**. Elle apparaît juste au-dessus du document, graduée en centimètres.",
+   "action": {
+    "type": "W_CLICK_CONTROL",
+    "controle": "w-regle"
+   },
+   "setup": {
+    "ribbon": {
+     "activeTab": "affichage"
+    }
+   },
+   "aide": {
+    "text": "Onglet « Affichage », bouton « Règle ».",
+    "showTarget": true
+   },
+   "feedback": "La règle est visible : les graduations vont de 1 à 15 cm."
+  },
+  {
+   "id": "M11-L01-03",
+   "consigne": "==Posez un taquet à 6 cm== en cliquant sur la règle à cette graduation. Un repère apparaît : c'est la position où viendra s'aligner le prix de chaque prestation.",
+   "action": {
+    "type": "W_EXPECT_TABS",
+    "zone": "p0",
+    "taquets": [
+     {
+      "position": 6,
+      "type": "gauche"
+     }
+    ]
+   },
+   "aide": {
+    "text": "Cliquez sur la règle, à la graduation 6.",
+    "showTarget": true
+   },
+   "feedback": "Le taquet est posé à 6 cm, mesuré depuis la marge de gauche."
+  },
+  {
+   "id": "M11-L01-04",
+   "points": 0,
+   "action": {
+    "type": "READ"
+   },
+   "consigne": "Le petit carré à gauche de la règle affiche le **type** du prochain taquet. Il en existe quatre : **gauche** (le texte démarre au taquet), **centré** (le texte se répartit autour), **droit** (le texte finit au taquet), **décimal** (les virgules s'alignent entre elles).",
+   "feedback": "Quatre types, quatre usages. Le décimal est celui des colonnes de prix."
+  },
+  {
+   "id": "M11-L01-05",
+   "consigne": "==Ajoutez un taquet décimal à 10 cm.== Cliquez d'abord sur le carré de gauche jusqu'à obtenir le type décimal, puis sur la règle. C'est lui qui aligne les virgules d'une colonne de montants.",
+   "action": {
+    "type": "W_EXPECT_TABS",
+    "zone": "p0",
+    "taquets": [
+     {
+      "position": 6,
+      "type": "gauche"
+     },
+     {
+      "position": 10,
+      "type": "decimal"
+     }
+    ]
+   },
+   "aide": {
+    "text": "Cliquez le carré jusqu'au symbole décimal, puis la règle à 10.",
+    "showTarget": true
+   },
+   "feedback": "Deux taquets, deux rôles : un pour le libellé, un pour le montant."
+  },
+  {
+   "id": "M11-L01-06",
+   "consigne": "==Retirez le taquet de 6 cm== en cliquant dessus. Un taquet mal placé se retire aussi vite qu'il se pose — c'est pour cela qu'on peut essayer sans crainte.",
+   "action": {
+    "type": "W_EXPECT_TABS",
+    "zone": "p0",
+    "taquets": [
+     {
+      "position": 10,
+      "type": "decimal"
+     }
+    ]
+   },
+   "aide": {
+    "text": "Cliquez sur le repère posé à la graduation 6.",
+    "showTarget": true
+   },
+   "feedback": "Il ne reste que le taquet décimal."
+  }
+ ]
+}

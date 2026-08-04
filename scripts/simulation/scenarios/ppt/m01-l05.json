@@ -1,0 +1,180 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "mode": "LESSON",
+  "moduleTitle": "Prise en main",
+  "title": "Regarder et présenter son travail",
+  "intro": {
+    "title": "Regarder et présenter son travail",
+    "body": "Composer est une chose, vérifier en est une autre. Cette leçon vous fait passer de la vue de travail à la vue d'ensemble, écarter d'un diaporama ce qui ne doit pas être vu, et dérouler la présentation comme le public la verra."
+  },
+  "outro": {
+    "body": "Vous savez juger l'enchaînement, protéger vos notes internes et dérouler la présentation. Les exercices vous attendent, puis l'évaluation du module."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "ppt": {
+    "fileName": "Bilan Verdeval.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Verdeval",
+          "sous-titre": "Bilan de la saison 2026"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Chantiers livrés",
+          "contenu": "38 jardins créés en 2026"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Notes internes",
+          "contenu": "Chiffres non validés par la gérance"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Nos partenaires",
+          "contenu": "Ville de Nantes et Rennes Métropole"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M01-L05-01",
+      "consigne": "Trois façons de regarder une présentation, et une seule sert à écrire. L'affichage **Normal** est celui où l'on compose. La **Trieuse** montre toutes les diapositives côte à côte : c'est la vue qui sert à juger l'enchaînement. Le **Diaporama**, enfin, déroule la présentation comme le public la verra.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M01-L05-02",
+      "consigne": "==Cliquez sur Trieuse, dans le groupe Affichage== (à droite du ruban). Vos quatre diapositives s'affichent d'un coup : vous ne lisez plus le détail, vous jugez l'ordre et l'équilibre.",
+      "action": {
+        "type": "P_SET_VIEW",
+        "view": "trieuse"
+      },
+      "aide": {
+        "text": "Le groupe Affichage est le dernier du ruban ; faites-le défiler vers la droite si besoin."
+      },
+      "feedback": "Vue d'ensemble : c'est ici qu'on repère une diapositive de trop ou mal placée."
+    },
+    {
+      "id": "M01-L05-03",
+      "consigne": "Dans la trieuse aussi, un clic choisit la diapositive. ==Cliquez sur la troisième==, celle des notes internes : c'est elle qui pose problème.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 2
+      },
+      "aide": {
+        "text": "C'est la troisième vignette, intitulée « Notes internes »."
+      }
+    },
+    {
+      "id": "M01-L05-04",
+      "consigne": "==Revenez en affichage Normal==. La diapositive que vous veniez de choisir est bien celle qui s'affiche : la trieuse et le volet des miniatures désignent toujours la même diapositive courante.",
+      "action": {
+        "type": "P_SET_VIEW",
+        "view": "normal"
+      }
+    },
+    {
+      "id": "M01-L05-05",
+      "consigne": "**Masquer** une diapositive la laisse dans le fichier mais la fait **sauter pendant le diaporama**. C'est ce qu'on utilise pour des notes internes, des chiffres non validés, une diapositive de secours : on ne les détruit pas, on ne les montre pas. Supprimer serait irréversible ; masquer se défait d'un clic.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M01-L05-06",
+      "consigne": "La diapositive affichée porte des chiffres non validés : elle ne doit pas passer devant le public. ==Cliquez sur Masquer, dans le groupe Diaporama==. Sa miniature change d'aspect dans le volet — c'est le signe qu'elle sera sautée.",
+      "setupPpt": {
+        "slide": 2
+      },
+      "action": {
+        "type": "P_EXPECT_DECK",
+        "deck": {
+          "slides": [
+            {
+              "index": 2,
+              "masquee": true
+            }
+          ]
+        }
+      },
+      "aide": {
+        "text": "Le groupe Diaporama porte trois boutons : « ▶ Début », « ▶ Ici » et « Masquer »."
+      },
+      "feedback": "La diapositive reste dans le fichier, mais le diaporama l'ignorera."
+    },
+    {
+      "id": "M01-L05-07",
+      "consigne": "Reste à vérifier le résultat. Le **diaporama** occupe tout l'espace de travail et déroule les diapositives une par une. Deux façons de le lancer : depuis le **début**, pour une répétition complète, ou depuis la diapositive **courante**, pour revoir un passage sans tout reprendre.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M01-L05-08",
+      "consigne": "==Cliquez sur ▶ Début, dans le groupe Diaporama==. La présentation démarre sur la diapositive de titre, sans ruban ni volet : c'est exactement ce que votre public verra.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": true,
+          "index": 0
+        }
+      },
+      "aide": {
+        "text": "« ▶ Début » est le premier bouton du groupe Diaporama."
+      }
+    },
+    {
+      "id": "M01-L05-09",
+      "consigne": "==Cliquez sur la diapositive== pour passer à la suivante. En diaporama, c'est le clic qui fait avancer — la barre d'espace et la flèche droite font la même chose.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "index": 1
+        }
+      }
+    },
+    {
+      "id": "M01-L05-10",
+      "consigne": "==Cliquez encore une fois==. Vous arrivez directement sur « Nos partenaires » : la diapositive des notes internes a été sautée. Vous venez de vérifier vous-même que le masquage fait bien ce qu'il promet.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "index": 3
+        }
+      },
+      "feedback": "Notes internes protégées : elles sont dans le fichier, pas dans la projection."
+    },
+    {
+      "id": "M01-L05-11",
+      "consigne": "==Quittez le diaporama==, avec la touche Échap ou le bouton Quitter en haut à droite. Vous retrouvez votre présentation exactement où vous l'aviez laissée : dérouler un diaporama ne modifie jamais le fichier.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": false
+        }
+      }
+    },
+    {
+      "id": "M01-L05-12",
+      "consigne": "À retenir : la **Trieuse** pour juger l'enchaînement, **Normal** pour écrire, le **Diaporama** pour vérifier. Et le réflexe qui évite les mauvaises surprises en réunion — masquer plutôt que supprimer, puis dérouler une fois le diaporama avant de présenter.",
+      "action": {
+        "type": "READ"
+      }
+    }
+  ]
+}

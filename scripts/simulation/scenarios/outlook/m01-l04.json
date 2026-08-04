@@ -1,0 +1,269 @@
+{
+  "schemaVersion": 1,
+  "title": "Joindre un fichier sans encombrer la boîte du destinataire",
+  "mode": "LESSON",
+  "moduleTitle": "Prise en main d'Outlook",
+  "intro": {
+    "title": "Le devis est prêt : il faut l'envoyer",
+    "body": "Rémi Tissot attend son devis. Vous allez lui répondre et joindre deux documents : le devis lui-même et le plan du comptoir. Quatre fichiers sont disponibles sur votre poste, et ils ne pèsent pas tous la même chose — c'est le détail qui fait la différence entre un message qui arrive et un message qui reste bloqué."
+  },
+  "outro": {
+    "body": "Deux réflexes à garder : joindre exactement ce qui est demandé — ni moins, ni la plaquette commerciale en prime — et regarder le poids avant d'envoyer. Au-delà de quelques mégaoctets, beaucoup de messageries refusent le message, et vous ne l'apprenez souvent que le lendemain."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "clients",
+        "nom": "Clients 2026"
+      }
+    ],
+    "fichiers": [
+      {
+        "nom": "Devis-2026-118.pdf",
+        "taille": "184 Ko"
+      },
+      {
+        "nom": "Plan-comptoir.pdf",
+        "taille": "1,2 Mo"
+      },
+      {
+        "nom": "Photos-atelier.zip",
+        "taille": "24 Mo"
+      },
+      {
+        "nom": "Plaquette-Atelier-Nord.pdf",
+        "taille": "2,1 Mo"
+      }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "messages": [
+      {
+        "id": "m-devis",
+        "dossier": "reception",
+        "de": "r.tissot@ecole-arts-lambersart.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Comptoir d'accueil — demande de devis",
+        "corps": "Bonjour,\n\nNous refaisons l'accueil de l'école et cherchons un comptoir sur mesure, en chêne clair, d'environ 2,40 m.\nPourriez-vous nous adresser un devis, avec un plan si possible ?\n\nBien cordialement,\nRémi Tissot\nÉcole des Arts de Lambersart",
+        "date": "2026-03-02T08:41",
+        "lu": false
+      },
+      {
+        "id": "m-facture",
+        "dossier": "reception",
+        "de": "compta@quincaillerie-delmas.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Facture QD-4471 — échéance 15 mars",
+        "corps": "Bonjour,\n\nVeuillez trouver ci-joint la facture QD-4471.\n\nService comptabilité\nQuincaillerie Delmas",
+        "date": "2026-03-01T16:12",
+        "lu": true,
+        "pieces": [
+          {
+            "nom": "QD-4471.pdf",
+            "taille": "96 Ko"
+          }
+        ]
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O01-L04-01",
+      "consigne": "==Ouvrez la demande de Rémi Tissot.== Relisez-la avant d'y répondre : il demande **un devis et un plan**. Une réponse qui n'apporte qu'une des deux choses vaudra un aller-retour de plus.",
+      "action": {
+        "type": "O_SELECT_MESSAGE",
+        "id": "m-devis"
+      },
+      "aide": {
+        "text": "C'est le message dont l'objet parle d'un comptoir d'accueil."
+      }
+    },
+    {
+      "id": "O01-L04-02",
+      "consigne": "==Cliquez sur Répondre.== Quand vous répondez au lieu d'écrire un nouveau message, Outlook remplit tout seul le destinataire et reprend l'objet en le préfixant de « RE : » — votre correspondant retrouve ainsi le fil de la discussion.",
+      "setup": {
+        "courrier": {
+          "messageActif": "m-devis"
+        }
+      },
+      "action": {
+        "type": "O_CLICK_CONTROL",
+        "control": "cr-repondre"
+      },
+      "aide": {
+        "text": "Le bouton Répondre est en haut du volet de lecture, à gauche."
+      }
+    },
+    {
+      "id": "O01-L04-03",
+      "consigne": "==Cliquez sur Joindre.== La liste qui s'ouvre affiche le **poids** de chaque fichier à côté de son nom : c'est la seule information qui compte vraiment avant d'attacher quoi que ce soit.",
+      "action": {
+        "type": "O_CLICK_CONTROL",
+        "control": "cr-joindre"
+      },
+      "aide": {
+        "text": "Le bouton Joindre porte un trombone, dans la barre du haut de la fenêtre de rédaction."
+      }
+    },
+    {
+      "id": "O01-L04-04",
+      "consigne": "==Joignez `Devis-2026-118.pdf`.== C'est le document demandé — pas la plaquette commerciale, qui n'a rien à faire dans une réponse à une demande précise. Le fichier apparaît sous les lignes d'adresses, avec une croix pour le retirer si vous vous trompez.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "pieces": {
+            "contient": [
+              "Devis-2026-118.pdf"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Cliquez sur la ligne du fichier dans la liste ouverte : elle se referme et le fichier s'attache."
+      }
+    },
+    {
+      "id": "O01-L04-05",
+      "consigne": "==Joignez aussi `Plan-comptoir.pdf`==, le second document demandé. Laissez `Photos-atelier.zip` de côté : **24 Mo** dépassent ce qu'acceptent la plupart des messageries — et le rejet n'arrive qu'après coup, souvent sans que vous en soyez averti.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "pieces": {
+            "contient": [
+              "Devis-2026-118.pdf",
+              "Plan-comptoir.pdf"
+            ],
+            "absent": [
+              "Photos-atelier.zip"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Rouvrez Joindre, puis cliquez sur Plan-comptoir.pdf. Les deux fichiers doivent apparaître côte à côte."
+      }
+    },
+    {
+      "id": "O01-L04-06",
+      "consigne": "L'objet repris par Outlook parle du devis en général. ==Complétez-le pour qu'il porte le numéro `2026-118`.== Un objet qui contient la référence permet à votre client de retrouver ce message dans six mois, sans vous rappeler.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "objet": {
+            "prefixe": "RE",
+            "contient": [
+              "2026-118"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Cliquez à la fin du champ Objet et ajoutez la référence ; gardez le « RE : » du début."
+      }
+    },
+    {
+      "id": "O01-L04-07",
+      "consigne": "==Rédigez la réponse.== Elle doit annoncer que **les documents sont joints** et indiquer le **délai de validité ou de réalisation** que vous vous engagez à tenir. Une pièce jointe sans un mot d'accompagnement laisse le destinataire deviner ce qu'il doit en faire.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "corps": {
+            "salutation": [
+              "bonjour",
+              "monsieur",
+              "madame",
+              "bonsoir"
+            ],
+            "cloture": [
+              "cordialement",
+              "salutations",
+              "bien a vous",
+              "merci"
+            ],
+            "notions": [
+              {
+                "libelle": "que les documents sont joints au message",
+                "oneOf": [
+                  "ci-joint",
+                  "ci joint",
+                  "joint",
+                  "en piece jointe",
+                  "vous trouverez",
+                  "en annexe"
+                ]
+              },
+              {
+                "libelle": "un délai — de validité du devis ou de réalisation",
+                "oneOf": [
+                  "delai",
+                  "semaines",
+                  "jours",
+                  "mois",
+                  "valable",
+                  "validite",
+                  "livraison"
+                ]
+              }
+            ],
+            "minMots": 12
+          }
+        }
+      },
+      "aide": {
+        "text": "Deux informations sont attendues : la présence des documents, et un délai."
+      }
+    },
+    {
+      "id": "O01-L04-08",
+      "consigne": "==Envoyez le message.== Vos deux fichiers partent avec lui, et une flèche ↩ apparaîtra sur la demande d'origine : c'est ainsi que vous saurez, dans quinze jours, que vous y avez déjà répondu.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "r.tissot@ecole-arts-lambersart.fr"
+            ]
+          },
+          "objet": {
+            "prefixe": "RE",
+            "contient": [
+              "2026-118"
+            ]
+          },
+          "pieces": {
+            "contient": [
+              "Devis-2026-118.pdf",
+              "Plan-comptoir.pdf"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Le bouton Envoyer est le premier de la barre du haut de la fenêtre de rédaction."
+      }
+    }
+  ]
+}

@@ -1,0 +1,254 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "mode": "EXERCISE",
+  "moduleTitle": "Préparer son intervention",
+  "title": "Une présentation sans aucune note",
+  "intro": {
+    "title": "Une présentation sans aucune note",
+    "body": "Un collègue vous transmet ce fichier une heure avant le rendez-vous : quatre diapositives, aucune note, et deux écrans couverts de phrases. Rattrapez-le dans l'ordre où l'on rattrape — le début, les diapositives chargées, la fin."
+  },
+  "outro": {
+    "body": "Une heure avant, sans rien réécrire de fond : la présentation est tenable."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "ppt": {
+    "fileName": "Le Pré Long - reprise.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Fromagerie Le Pré Long",
+          "sous-titre": "Rendez-vous du 12 mars"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Notre production",
+          "contenu": "La ferme produit environ neuf tonnes de fromage par an, toutes gammes confondues\nLa moitié part en vente directe sur les marchés du jeudi et du samedi matin\nL'autre moitié est vendue à une douzaine de boutiques du département"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Nos engagements",
+          "contenu": "Chaque commande passée avant 18 h la veille est livrée le lendemain matin\nNous reprenons sans discuter les pièces qui n'ont pas été vendues à temps\nLes prix sont garantis pendant toute la durée du contrat annuel"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Merci de votre attention",
+          "contenu": "Des questions ?"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M10-E03-01",
+      "consigne": "Écrivez la note de la première diapositive : Bonjour, Le Pré Long, je remplace Claire aujourd'hui. On commence toujours par l'ouverture : c'est le seul moment qui ne se rattrape pas.",
+      "action": {
+        "type": "P_EXPECT_DECK",
+        "deck": {
+          "slides": [
+            {
+              "index": 0,
+              "notes": "Bonjour, Le Pré Long, je remplace Claire aujourd'hui"
+            }
+          ]
+        }
+      },
+      "aide": {
+        "text": "Le champ de notes est sous la diapositive ; sur petit écran, le bouton « Notes » l'ouvre."
+      }
+    },
+    {
+      "id": "M10-E03-02",
+      "consigne": "Affichez la deuxième diapositive, celle de la production : trois phrases entières que personne ne lira.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 1
+      }
+    },
+    {
+      "id": "M10-E03-03",
+      "consigne": "Remplacez son contenu par : Neuf tonnes par an, Moitié en vente directe, Douze boutiques.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Fromagerie Le Pré Long",
+                "sous-titre": "Rendez-vous du 12 mars"
+              },
+              "notes": "Bonjour, Le Pré Long, je remplace Claire aujourd'hui"
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Notre production",
+                "contenu": "La ferme produit environ neuf tonnes de fromage par an, toutes gammes confondues\nLa moitié part en vente directe sur les marchés du jeudi et du samedi matin\nL'autre moitié est vendue à une douzaine de boutiques du département"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Nos engagements",
+                "contenu": "Chaque commande passée avant 18 h la veille est livrée le lendemain matin\nNous reprenons sans discuter les pièces qui n'ont pas été vendues à temps\nLes prix sont garantis pendant toute la durée du contrat annuel"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Merci de votre attention",
+                "contenu": "Des questions ?"
+              }
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:contenu",
+        "accept": [
+          "Neuf tonnes par an\nMoitié en vente directe\nDouze boutiques",
+          "Neuf tonnes par an, Moitié en vente directe, Douze boutiques"
+        ]
+      },
+      "aide": {
+        "text": "Double-cliquez dans le contenu pour l'ouvrir, puis remplacez tout."
+      }
+    },
+    {
+      "id": "M10-E03-04",
+      "consigne": "Écrivez sa note : Marchés du jeudi et du samedi, boutiques du département.",
+      "action": {
+        "type": "P_EXPECT_DECK",
+        "deck": {
+          "slides": [
+            {
+              "index": 1,
+              "notes": "Marchés du jeudi et du samedi, boutiques du département"
+            }
+          ]
+        }
+      },
+      "feedback": "Le détail retiré de l'écran est sous vos yeux : vous pouvez le dire, ou pas, selon le temps qu'il vous reste."
+    },
+    {
+      "id": "M10-E03-05",
+      "consigne": "Affichez la troisième diapositive, celle des engagements : même défaut, trois phrases pleines.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 2
+      }
+    },
+    {
+      "id": "M10-E03-06",
+      "consigne": "Remplacez son contenu par : Commande avant 18 h, Reprise des invendus, Prix garantis un an.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Fromagerie Le Pré Long",
+                "sous-titre": "Rendez-vous du 12 mars"
+              },
+              "notes": "Bonjour, Le Pré Long, je remplace Claire aujourd'hui"
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Notre production",
+                "contenu": "Neuf tonnes par an\nMoitié en vente directe\nDouze boutiques"
+              },
+              "notes": "Marchés du jeudi et du samedi, boutiques du département"
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Nos engagements",
+                "contenu": "Chaque commande passée avant 18 h la veille est livrée le lendemain matin\nNous reprenons sans discuter les pièces qui n'ont pas été vendues à temps\nLes prix sont garantis pendant toute la durée du contrat annuel"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Merci de votre attention",
+                "contenu": "Des questions ?"
+              }
+            }
+          ]
+        },
+        "slide": 2
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:contenu",
+        "accept": [
+          "Commande avant 18 h\nReprise des invendus\nPrix garantis un an",
+          "Commande avant 18 h, Reprise des invendus, Prix garantis un an"
+        ]
+      }
+    },
+    {
+      "id": "M10-E03-07",
+      "consigne": "Écrivez sa note : Reprise sans discussion, c'est notre argument principal.",
+      "action": {
+        "type": "P_EXPECT_DECK",
+        "deck": {
+          "slides": [
+            {
+              "index": 2,
+              "notes": "Reprise sans discussion, c'est notre argument principal"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "M10-E03-08",
+      "consigne": "Affichez la dernière diapositive, celle qui restera à l'écran pendant toute la discussion.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 3
+      }
+    },
+    {
+      "id": "M10-E03-09",
+      "consigne": "Remplacez son titre par Un essai sur trois références. Une dernière diapositive dit ce que vous attendez, pas merci.",
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:titre",
+        "accept": [
+          "Un essai sur trois références"
+        ]
+      },
+      "aide": {
+        "text": "Un titre déjà rempli s'ouvre au double-clic."
+      }
+    },
+    {
+      "id": "M10-E03-10",
+      "consigne": "Lancez le diaporama depuis le début : quatre écrans lisibles et quatre notes, une heure avant le rendez-vous.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": true,
+          "index": 0
+        }
+      }
+    }
+  ]
+}

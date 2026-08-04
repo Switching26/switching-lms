@@ -1,0 +1,234 @@
+{
+  "schemaVersion": 1,
+  "title": "Constituer un dossier administratif",
+  "mode": "EXERCISE",
+  "moduleTitle": "Les pièces jointes : ce qui part avec le message",
+  "intro": {
+    "title": "Deux pièces demandées, cinq fichiers disponibles",
+    "body": "Une collectivité réclame deux justificatifs pour valider votre candidature. Votre poste en contient cinq, dont un périmé, un confidentiel et un trop lourd. Aucune consigne ne vous dira lequel prendre : les noms de fichiers le disent."
+  },
+  "outro": {
+    "body": "Sur un dossier administratif, envoyer une pièce de trop est aussi grave qu'en oublier une : un relevé bancaire non demandé traîne ensuite dans un service qui n'avait aucune raison de l'avoir. On joint ce qui est demandé, rien de plus."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "clients",
+        "nom": "Clients 2026"
+      },
+      {
+        "id": "fournisseurs",
+        "nom": "Fournisseurs"
+      }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "fichiers": [
+      {
+        "nom": "Attestation-assurance-2026.pdf",
+        "taille": "142 Ko"
+      },
+      {
+        "nom": "Attestation-assurance-2025.pdf",
+        "taille": "140 Ko"
+      },
+      {
+        "nom": "Kbis-Atelier-Nord.pdf",
+        "taille": "78 Ko"
+      },
+      {
+        "nom": "Releve-bancaire-mars.pdf",
+        "taille": "88 Ko"
+      },
+      {
+        "nom": "Book-realisations-HD.zip",
+        "taille": "52 Mo"
+      }
+    ],
+    "messages": [
+      {
+        "id": "m-pieces",
+        "dossier": "reception",
+        "de": "marches@ville-lambersart.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Candidature — pièces justificatives à fournir",
+        "corps": "Bonjour,\n\nPour valider votre candidature au marché MP-2026-24, merci de nous transmettre votre attestation d'assurance en cours de validité ainsi que votre extrait Kbis.\nRéponse attendue avant le 10 avril.\n\nService des marchés",
+        "date": "2026-04-02T08:15",
+        "lu": false
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O09-E01-01",
+      "consigne": "Ouvrez la demande de la Ville de Lambersart et relevez exactement les deux pièces réclamées.",
+      "action": {
+        "type": "O_SELECT_MESSAGE",
+        "id": "m-pieces"
+      },
+      "aide": {
+        "text": "C'est le message qui parle de pièces justificatives."
+      }
+    },
+    {
+      "id": "O09-E01-02",
+      "consigne": "Répondez au service des marchés en joignant les deux pièces demandées — et uniquement celles-là. Attention à l'année de l'attestation.",
+      "setup": {
+        "courrier": {
+          "messageActif": "m-pieces"
+        }
+      },
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "genre": "reponse",
+          "a": {
+            "contient": [
+              "marches@ville-lambersart.fr"
+            ]
+          },
+          "cc": {
+            "vide": true
+          },
+          "pieces": {
+            "contient": [
+              "Attestation-assurance-2026.pdf",
+              "Kbis-Atelier-Nord.pdf"
+            ],
+            "absent": [
+              "Attestation-assurance-2025.pdf",
+              "Releve-bancaire-mars.pdf",
+              "Book-realisations-HD.zip"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "« En cours de validité » désigne l'attestation de l'année en cours. Le relevé bancaire n'a pas été demandé."
+      }
+    },
+    {
+      "id": "O09-E01-03",
+      "consigne": "Complétez l'objet avec la référence `MP-2026-24` : le service traite trente candidatures, et l'objet reçu ne la porte pas.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "objet": {
+            "prefixe": "RE",
+            "contient": [
+              "MP-2026-24"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "La référence figure dans le texte du message ; ajoutez-la à la fin de l'objet en gardant le « RE : »."
+      }
+    },
+    {
+      "id": "O09-E01-04",
+      "consigne": "Rédigez le message et envoyez-le. Il doit **énumérer les pièces jointes** et citer **la référence du marché** : un service qui reçoit trente dossiers ne devine pas ce qu'il ouvre.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "marches@ville-lambersart.fr"
+            ]
+          },
+          "cc": {
+            "vide": true
+          },
+          "objet": {
+            "prefixe": "RE",
+            "contient": [
+              "MP-2026-24"
+            ]
+          },
+          "pieces": {
+            "contient": [
+              "Attestation-assurance-2026.pdf",
+              "Kbis-Atelier-Nord.pdf"
+            ],
+            "absent": [
+              "Attestation-assurance-2025.pdf",
+              "Releve-bancaire-mars.pdf"
+            ]
+          },
+          "corps": {
+            "salutation": [
+              "bonjour",
+              "madame",
+              "monsieur",
+              "bonsoir"
+            ],
+            "cloture": [
+              "cordialement",
+              "salutations",
+              "bien a vous",
+              "merci"
+            ],
+            "notions": [
+              {
+                "libelle": "l'énumération des pièces jointes",
+                "oneOf": [
+                  "attestation",
+                  "kbis",
+                  "deux pieces",
+                  "justificatifs"
+                ]
+              },
+              {
+                "libelle": "la référence du marché",
+                "oneOf": [
+                  "mp-2026-24",
+                  "2026-24"
+                ]
+              }
+            ],
+            "minMots": 12
+          }
+        }
+      },
+      "aide": {
+        "text": "Deux informations sont attendues : les pièces envoyées, et la référence."
+      }
+    },
+    {
+      "id": "O09-E01-05",
+      "consigne": "Le dossier est transmis : sortez ce message de votre file d'attente en le classant chez les clients.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-pieces": {
+              "dossier": "clients"
+            }
+          }
+        }
+      },
+      "aide": {
+        "text": "Ouvrez le message, puis Déplacer, puis Clients 2026."
+      }
+    }
+  ]
+}

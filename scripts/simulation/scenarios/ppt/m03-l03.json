@@ -1,0 +1,269 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "mode": "LESSON",
+  "moduleTitle": "Mettre en forme le texte",
+  "title": "Aligner le texte",
+  "intro": {
+    "title": "Aligner le texte",
+    "body": "L'alignement décide de l'endroit où l'œil commence à lire. Mal choisi, il fatigue sans qu'on sache pourquoi. Cette leçon vous donne la règle des trois cas — corps de texte, titre, mention — et vous la fait appliquer."
+  },
+  "outro": {
+    "body": "Chaque texte est aligné selon sa fonction. Dernière leçon du module : rendre toute une présentation cohérente."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "ppt": {
+    "fileName": "Bilan Verdeval.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Verdeval",
+          "sous-titre": "Bilan de la saison 2026"
+        }
+      },
+      {
+        "layout": "titre-seul",
+        "textes": {
+          "titre": "Ce que nous avons livré"
+        },
+        "objets": [
+          {
+            "id": "zt-liste",
+            "objectType": "texte",
+            "texte": "38 jardins créés, 120 entretiens réguliers et 12 chantiers de rénovation",
+            "rect": {
+              "x": 70,
+              "y": 180,
+              "w": 620,
+              "h": 110
+            },
+            "style": {
+              "align": "center"
+            }
+          },
+          {
+            "id": "zt-mention",
+            "objectType": "texte",
+            "texte": "Chiffres arrêtés au 31 octobre 2026",
+            "rect": {
+              "x": 440,
+              "y": 420,
+              "w": 440,
+              "h": 55
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M03-L03-01",
+      "consigne": "L'alignement se choisit selon la **fonction** du texte, jamais selon le goût du moment. Un corps de texte s'aligne **à gauche** : l'œil retrouve toujours le même point de départ. Un titre court se **centre**. Une mention, une source, une date se posent **à droite**, où l'on va les chercher sans qu'elles gênent.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M03-L03-02",
+      "consigne": "==Affichez la deuxième diapositive==. Son texte principal est centré : sur trois lignes, chaque début de ligne tombe à un endroit différent.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 1
+      }
+    },
+    {
+      "id": "M03-L03-03",
+      "consigne": "==Alignez ce texte à gauche== : sélectionnez-le, puis cliquez sur le premier des trois boutons d'alignement. Regardez les débuts de ligne s'aligner : c'est ce qui rend un paragraphe lisible d'un coup d'œil.",
+      "setupPpt": {
+        "slide": 1
+      },
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "zt-liste",
+        "style": {
+          "align": "left"
+        }
+      },
+      "aide": {
+        "text": "Les trois boutons d'alignement suivent G, I et S dans le groupe Police. Le premier aligne à gauche."
+      },
+      "feedback": "Un seul point de départ pour les trois lignes : la lecture ne demande plus d'effort."
+    },
+    {
+      "id": "M03-L03-04",
+      "consigne": "Le centrage n'est pas interdit — il est **réservé**. Il convient à un texte court et isolé, dont on veut qu'il occupe le milieu de l'écran : un titre, une formule, un chiffre seul. Dès que le texte fait plus de deux lignes, il redevient un handicap.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M03-L03-05",
+      "consigne": "==Centrez le titre de la diapositive==. Il est court, il est seul sur sa ligne : c'est exactement le cas prévu.",
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "ph:titre",
+        "style": {
+          "align": "center"
+        }
+      },
+      "aide": {
+        "text": "Cliquez sur le titre « Ce que nous avons livré », puis sur le bouton d'alignement du milieu."
+      }
+    },
+    {
+      "id": "M03-L03-06",
+      "consigne": "==Alignez la mention du bas à droite== (« Chiffres arrêtés au 31 octobre 2026 »). Une mention de source se lit en dernier, ou pas du tout : la placer à droite la rend disponible sans qu'elle dispute la place au propos.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Bilan de la saison 2026"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Ce que nous avons livré"
+              },
+              "objets": [
+                {
+                  "id": "zt-liste",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 70,
+                    "y": 180,
+                    "w": 620,
+                    "h": 110
+                  },
+                  "texte": "38 jardins créés, 120 entretiens réguliers et 12 chantiers de rénovation",
+                  "style": {
+                    "align": "left"
+                  }
+                },
+                {
+                  "id": "zt-mention",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 440,
+                    "y": 420,
+                    "w": 440,
+                    "h": 55
+                  },
+                  "texte": "Chiffres arrêtés au 31 octobre 2026"
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "zt-mention",
+        "style": {
+          "align": "right"
+        }
+      },
+      "aide": {
+        "text": "C'est le troisième des boutons d'alignement."
+      }
+    },
+    {
+      "id": "M03-L03-07",
+      "consigne": "Un alignement s'applique à **toute la zone de texte**, pas à un mot. Si deux lignes doivent être alignées différemment, c'est qu'il faut deux zones — et non un alignement plus fin. C'est une règle qui vaut dans tous les logiciels de présentation.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M03-L03-08",
+      "consigne": "==Mettez la mention en italique==, pour finir de la distinguer du contenu. Alignement et attributs se cumulent sur la même zone : ils répondent à deux questions différentes.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Bilan de la saison 2026"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Ce que nous avons livré"
+              },
+              "objets": [
+                {
+                  "id": "zt-liste",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 70,
+                    "y": 180,
+                    "w": 620,
+                    "h": 110
+                  },
+                  "texte": "38 jardins créés, 120 entretiens réguliers et 12 chantiers de rénovation",
+                  "style": {
+                    "align": "left"
+                  }
+                },
+                {
+                  "id": "zt-mention",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 440,
+                    "y": 420,
+                    "w": 440,
+                    "h": 55
+                  },
+                  "texte": "Chiffres arrêtés au 31 octobre 2026",
+                  "style": {
+                    "align": "right"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "zt-mention",
+        "style": {
+          "italic": true
+        }
+      }
+    },
+    {
+      "id": "M03-L03-09",
+      "consigne": "==Mettez le titre en gras== pour achever la hiérarchie de la diapositive : un titre centré et appuyé, un contenu aligné à gauche, une mention discrète à droite.",
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "ph:titre",
+        "style": {
+          "bold": true
+        }
+      }
+    },
+    {
+      "id": "M03-L03-10",
+      "consigne": "À retenir, les trois cas : **à gauche** le corps de texte, **centré** le titre court, **à droite** la mention. L'alignement porte sur la zone entière — deux alignements différents veulent dire deux zones différentes.",
+      "action": {
+        "type": "READ"
+      }
+    }
+  ]
+}

@@ -1,0 +1,120 @@
+{
+  "schemaVersion": 1,
+  "app": "WORD",
+  "title": "La trame de fond : détacher un passage du texte",
+  "mode": "LESSON",
+  "moduleTitle": "Bordures et trames",
+  "intro": {
+    "title": "POSER UN FOND DERRIÈRE LE TEXTE",
+    "body": "Une **trame** est un fond de couleur posé derrière les caractères. Elle ne modifie pas le texte : elle le détache du reste de la page. C'est le moyen le plus direct de faire exister un avertissement dans un document que personne ne lira en entier."
+  },
+  "outro": "Une trame détache, elle ne hiérarchise pas. Elle s'emploie une fois par document, sur le passage qu'aucun lecteur ne doit manquer — au-delà, elle devient un décor et ne détache plus rien.",
+  "document": {
+    "paragraphes": [
+      {
+        "texte": "Notice d'utilisation — presse hydraulique"
+      },
+      {
+        "texte": "La presse est réservée aux opérateurs habilités."
+      },
+      {
+        "texte": "Ne jamais approcher les mains de la zone de compression pendant le cycle."
+      },
+      {
+        "texte": "Un contrôle visuel des flexibles est effectué chaque semaine."
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M05-L01-01",
+      "consigne": "==Posez une trame jaune sur l'avertissement==, le troisième paragraphe, avec la liste Surlignage du groupe Police. C'est la consigne dont le non-respect blesse : elle doit se voir avant tout le reste.",
+      "setup": {
+        "ribbon": {
+          "activeTab": "accueil"
+        }
+      },
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p2",
+        "format": {
+          "surlignage": "#f1c40f"
+        }
+      },
+      "aide": {
+        "text": "La dernière liste du groupe Police.",
+        "showTarget": true
+      },
+      "feedback": "Le fond jaune détache la phrase du reste de la notice."
+    },
+    {
+      "id": "M05-L01-02",
+      "consigne": "Une trame seule ne dit pas ce qu'il faut faire. ==Épaississez le même paragraphe== : la graisse ajoute l'urgence là où la trame n'apporte que la visibilité.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p2",
+        "format": {
+          "gras": true
+        }
+      },
+      "feedback": "Fond et graisse se cumulent : l'avertissement est maintenant impossible à sauter."
+    },
+    {
+      "id": "M05-L01-03",
+      "consigne": "==Mettez ce paragraphe en rouge== pour compléter le signal. Trois attributs sur un seul passage : c'est beaucoup, et cela ne se justifie que parce qu'il s'agit d'une consigne de sécurité.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p2",
+        "format": {
+          "couleur": "#c0392b"
+        }
+      },
+      "feedback": "Un bloc d'alerte constitué. Le reste de la notice doit maintenant rester sobre."
+    },
+    {
+      "id": "M05-L01-04",
+      "consigne": "==Centrez l'avertissement== : un bloc détaché du texte courant se centre pour marquer qu'il n'appartient pas au fil de la lecture.",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p2",
+        "style": {
+          "alignement": "centre"
+        }
+      },
+      "feedback": "Le bloc est isolé visuellement, comme un encadré."
+    },
+    {
+      "id": "M05-L01-05",
+      "consigne": "Vérifiez la règle inverse. ==Posez une trame verte sur le paragraphe des flexibles== et regardez l'avertissement rouge : il ressort déjà moins.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p3",
+        "format": {
+          "surlignage": "#a9dfbf"
+        }
+      },
+      "feedback": "Deux trames dans un même document, et le signal principal s'affaiblit."
+    },
+    {
+      "id": "M05-L01-06",
+      "consigne": "==Annulez cette seconde trame== : elle coûte plus qu'elle ne rapporte. Retenez la règle — une trame par document, sur le passage le plus important.",
+      "action": {
+        "type": "W_CLICK_CONTROL",
+        "controle": "w-annuler"
+      },
+      "feedback": "L'avertissement redevient le seul bloc détaché de la page."
+    },
+    {
+      "id": "M05-L01-07",
+      "consigne": "==Épaississez le titre de la notice== pour terminer : il annonce le document sans concurrencer le bloc d'alerte.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p0",
+        "format": {
+          "gras": true
+        }
+      },
+      "feedback": "Notice prête : un titre, un avertissement, et rien d'autre qui accroche l'œil."
+    }
+  ]
+}

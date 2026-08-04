@@ -1,0 +1,217 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "mode": "LESSON",
+  "moduleTitle": "Faire apparaître au bon moment",
+  "title": "L'ordre d'apparition",
+  "intro": {
+    "title": "L'ordre d'apparition",
+    "body": "Les objets apparaissent dans l'ordre où vous les avez animés, pas dans celui où ils sont posés sur la diapositive. C'est une source d'erreur permanente — et la règle qui l'évite tient en une phrase."
+  },
+  "outro": {
+    "body": "Trois apparitions dans l'ordre du raisonnement. Les exercices du module vous attendent, puis l'évaluation."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "ppt": {
+    "fileName": "Chantier passerelle.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Ateliers Roulier",
+          "sous-titre": "Chantier de la passerelle — point d'étape"
+        }
+      },
+      {
+        "layout": "titre-seul",
+        "textes": {
+          "titre": "Le retard de février"
+        },
+        "objets": [
+          {
+            "id": "zt-constat",
+            "objectType": "texte",
+            "texte": "Deux semaines de retard en février",
+            "rect": {
+              "x": 70,
+              "y": 160,
+              "w": 540,
+              "h": 60
+            }
+          },
+          {
+            "id": "zt-cause",
+            "objectType": "texte",
+            "texte": "Livraison d'acier décalée par le fournisseur",
+            "rect": {
+              "x": 70,
+              "y": 260,
+              "w": 540,
+              "h": 60
+            }
+          },
+          {
+            "id": "zt-decision",
+            "objectType": "texte",
+            "texte": "Deuxième fournisseur référencé depuis mars",
+            "rect": {
+              "x": 70,
+              "y": 360,
+              "w": 540,
+              "h": 60
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M13-L04-01",
+      "consigne": "L'ordre d'apparition est celui dans lequel vous **appliquez** les animations, pas celui dans lequel les objets sont placés. Animer le bas de la diapositive en premier est parfaitement possible — et donne un enchaînement que le public ne comprend pas.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M13-L04-02",
+      "consigne": "==Affichez la deuxième diapositive==. Elle porte un raisonnement en trois temps : le constat, la cause, la décision. C'est l'ordre dans lequel vous allez parler.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 1
+      }
+    },
+    {
+      "id": "M13-L04-03",
+      "consigne": "==Animez le constat avec Apparaître== : sélectionnez « Deux semaines de retard en février », puis pressez le bouton. C'est la première chose que vous direz, donc la première à apparaître.",
+      "setupPpt": {
+        "slide": 1
+      },
+      "action": {
+        "type": "P_EXPECT_ANIMATIONS",
+        "animations": [
+          {
+            "objectId": "zt-constat",
+            "kind": "apparaitre"
+          }
+        ]
+      },
+      "aide": {
+        "text": "Un clic sur la zone, puis groupe Animations, bouton « Apparaître »."
+      }
+    },
+    {
+      "id": "M13-L04-04",
+      "consigne": "==Animez maintenant la cause==, « Livraison d'acier décalée ». Elle prend le rang 2 parce que vous l'animez en deuxième — la position sur l'écran n'y est pour rien.",
+      "setupPpt": {
+        "slide": 1
+      },
+      "action": {
+        "type": "P_EXPECT_ANIMATIONS",
+        "animations": [
+          {
+            "objectId": "zt-constat",
+            "kind": "apparaitre"
+          },
+          {
+            "objectId": "zt-cause",
+            "kind": "apparaitre"
+          }
+        ]
+      }
+    },
+    {
+      "id": "M13-L04-05",
+      "consigne": "==Animez la décision== en dernier : « Deuxième fournisseur référencé depuis mars ». Trois animations, trois rangs, dans l'ordre exact de votre raisonnement.",
+      "setupPpt": {
+        "slide": 1
+      },
+      "action": {
+        "type": "P_EXPECT_ANIMATIONS",
+        "animations": [
+          {
+            "objectId": "zt-constat",
+            "kind": "apparaitre"
+          },
+          {
+            "objectId": "zt-cause",
+            "kind": "apparaitre"
+          },
+          {
+            "objectId": "zt-decision",
+            "kind": "apparaitre"
+          }
+        ]
+      },
+      "feedback": "Le public reçoit le problème, puis son explication, puis sa solution — jamais la solution avant le problème."
+    },
+    {
+      "id": "M13-L04-06",
+      "consigne": "La règle qui évite toutes les erreurs d'ordre : **animez en parlant**. Dites votre phrase, appliquez l'animation, passez à la suivante. L'ordre du discours devient l'ordre d'apparition sans que vous ayez à y penser.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M13-L04-07",
+      "consigne": "==Lancez le diaporama depuis la diapositive affichée== : l'écran est vide, et c'est normal — les trois zones attendent votre premier clic.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": true,
+          "index": 1
+        }
+      },
+      "aide": {
+        "text": "Groupe Diaporama, bouton « ▶ Ici »."
+      }
+    },
+    {
+      "id": "M13-L04-08",
+      "consigne": "==Quittez le diaporama==. Une diapositive entièrement animée démarre vide : si vous perdez le fil, vous n'avez plus rien sous les yeux pour vous rattraper. C'est le prix de l'animation, et il se paie en séance.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": false
+        }
+      }
+    },
+    {
+      "id": "M13-L04-09",
+      "consigne": "D'où une limite pratique : **au-delà de trois apparitions sur une diapositive, on retire tout**. Trois clics se tiennent en tête ; six ne se tiennent pas, et l'orateur finit par cliquer trop vite pour s'en débarrasser.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M13-L04-10",
+      "consigne": "==Écrivez la note de cette diapositive== : Constat, cause, décision — un clic entre chaque. Une diapositive animée a besoin d'une note qui rappelle le nombre de clics.",
+      "action": {
+        "type": "P_EXPECT_DECK",
+        "deck": {
+          "slides": [
+            {
+              "index": 1,
+              "notes": "Constat, cause, décision — un clic entre chaque"
+            }
+          ]
+        }
+      },
+      "aide": {
+        "text": "Le champ de notes est sous la diapositive ; sur petit écran, le bouton « Notes » l'ouvre."
+      },
+      "feedback": "C'est la note la plus utile qui existe : elle vous dit combien de fois cliquer avant de changer d'écran."
+    },
+    {
+      "id": "M13-L04-11",
+      "consigne": "À retenir : **l'ordre d'apparition est l'ordre d'application**, donc on anime en parlant. Trois apparitions au maximum. Et une diapositive animée mérite une note qui compte les clics — c'est ce qui évite de se perdre en séance.",
+      "action": {
+        "type": "READ"
+      }
+    }
+  ]
+}

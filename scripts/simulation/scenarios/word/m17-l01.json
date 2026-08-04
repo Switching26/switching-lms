@@ -1,0 +1,132 @@
+{
+ "schemaVersion": 1,
+ "app": "WORD",
+ "title": "Le correcteur, et ce qu'il ne sait pas",
+ "mode": "LESSON",
+ "moduleTitle": "Correction d'un document",
+ "intro": {
+  "title": "UN CORRECTEUR PROPOSE, IL NE DÉCIDE PAS",
+  "body": "Word souligne ce qu'il ne reconnaît pas. Ce n'est pas la même chose qu'une faute : un nom propre, un sigle, un terme métier sont signalés alors qu'ils sont justes. **Accepter toutes les suggestions abîme un document** — c'est l'erreur la plus fréquente."
+ },
+ "outro": "Le correcteur signale, vous tranchez. Un nom propre corrigé d'office dans un courrier client est plus grave qu'une faute d'accent laissée.",
+ "document": {
+  "paragraphes": [
+   {
+    "texte": "Compte rendu de reunion",
+    "style": "titre"
+   },
+   {
+    "texte": "La société Kervanec a présenté nottre nouvelle offre de service.",
+    "style": "normal"
+   },
+   {
+    "texte": "Le compte rendu sera diffusé avant la fin de la semaine.",
+    "style": "normal"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "id": "M17-L01-01",
+   "points": 0,
+   "action": {
+    "type": "READ"
+   },
+   "consigne": "Le panneau **Vérification** liste ce que Word ne reconnaît pas. Pour chaque entrée, deux boutons : **Corriger**, qui applique la suggestion, et **Ignorer**, qui la laisse telle quelle. C'est à vous de choisir, entrée par entrée.",
+   "montrer": [
+    {
+     "type": "W_CLICK_CONTROL",
+     "controle": "w-verification"
+    }
+   ],
+   "feedback": "Deux boutons, et le second est aussi important que le premier."
+  },
+  {
+   "id": "M17-L01-02",
+   "consigne": "==Ouvrez le panneau Vérification== depuis l'onglet **Révision**. Trois entrées apparaissent : deux vraies fautes et un nom d'entreprise.",
+   "action": {
+    "type": "W_CLICK_CONTROL",
+    "controle": "w-verification"
+   },
+   "setup": {
+    "ribbon": {
+     "activeTab": "revision"
+    },
+    "correcteur": {
+     "fautes": [
+      {
+       "mot": "nottre",
+       "suggestion": "notre",
+       "motif": "Consonne doublée à tort."
+      },
+      {
+       "mot": "reunion",
+       "suggestion": "réunion",
+       "motif": "Accent aigu manquant."
+      },
+      {
+       "mot": "Kervanec",
+       "suggestion": "Kervanez",
+       "motif": "Mot absent du dictionnaire."
+      }
+     ]
+    }
+   },
+   "aide": {
+    "text": "Onglet « Révision », bouton « Vérifier ».",
+    "showTarget": true
+   },
+   "feedback": "Le panneau liste ce que le correcteur ne reconnaît pas."
+  },
+  {
+   "id": "M17-L01-03",
+   "consigne": "==Corrigez « reunion » et « nottre », ignorez « Kervanec ».== Les deux premières sont de vraies fautes. La troisième est le nom d'une société cliente : le corriger serait une faute plus grave que celle qu'on prétend réparer.",
+   "action": {
+    "type": "W_EXPECT_DOC",
+    "paragraphes": {
+     "p0": [
+      "Compte rendu de réunion"
+     ],
+     "p1": [
+      "La société Kervanec a présenté notre nouvelle offre de service."
+     ]
+    }
+   },
+   "setup": {
+    "correcteur": {
+     "fautes": [
+      {
+       "mot": "nottre",
+       "suggestion": "notre",
+       "motif": "Consonne doublée à tort."
+      },
+      {
+       "mot": "reunion",
+       "suggestion": "réunion",
+       "motif": "Accent aigu manquant."
+      },
+      {
+       "mot": "Kervanec",
+       "suggestion": "Kervanez",
+       "motif": "Mot absent du dictionnaire."
+      }
+     ]
+    }
+   },
+   "aide": {
+    "text": "« Corriger » sur les deux premières, « Ignorer » sur la troisième.",
+    "showTarget": true
+   },
+   "feedback": "Deux fautes réparées, un nom propre préservé — c'est le bon arbitrage."
+  },
+  {
+   "id": "M17-L01-04",
+   "points": 0,
+   "action": {
+    "type": "READ"
+   },
+   "consigne": "Le panneau annonce maintenant qu'il ne reste rien à signaler. **Cela ne veut pas dire que le texte est sans faute** : un correcteur ne voit pas un mot juste employé à tort — « ces » pour « ses », « à » pour « a ». Il ne remplace pas une relecture.",
+   "feedback": "Zéro signalement n'est pas zéro faute."
+  }
+ ]
+}

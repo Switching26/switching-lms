@@ -1,0 +1,153 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "mode": "EXERCISE",
+  "moduleTitle": "Préparer son intervention",
+  "title": "Faire le partage",
+  "intro": {
+    "title": "Faire le partage",
+    "body": "Une présentation de la Fromagerie Le Pré Long, préparée pour une boutique. Deux diapositives portent des phrases entières : déplacez ce qui se dit vers les notes, gardez sur l'écran ce qui se lit."
+  },
+  "outro": {
+    "body": "Le partage est fait : trois repères à l'écran, la précision dans vos notes."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "ppt": {
+    "fileName": "Le Pré Long.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Fromagerie Le Pré Long",
+          "sous-titre": "Proposition pour la boutique du Halage"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Nos fromages",
+          "contenu": "Nous affinons six fromages au lait cru dans nos caves depuis 1998\nLe troupeau compte quarante brebis conduites en pâturage tournant\nLa collecte et l'affinage se font intégralement sur l'exploitation"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Nos livraisons",
+          "contenu": "Livraison le mardi\nCommande la veille"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M10-E01-01",
+      "consigne": "Affichez la deuxième diapositive, intitulée « Nos fromages ».",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 1
+      }
+    },
+    {
+      "id": "M10-E01-02",
+      "consigne": "Remplacez son contenu par trois repères : Six fromages au lait cru, Quarante brebis, Affinage sur place. Ce que le public doit lire, pas ce que vous allez dire.",
+      "setupPpt": {
+        "slide": 1
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:contenu",
+        "accept": [
+          "Six fromages au lait cru\nQuarante brebis\nAffinage sur place",
+          "Six fromages au lait cru, Quarante brebis, Affinage sur place"
+        ]
+      },
+      "aide": {
+        "text": "Double-cliquez dans le contenu pour l'ouvrir, puis remplacez tout."
+      }
+    },
+    {
+      "id": "M10-E01-03",
+      "consigne": "Écrivez dans ses notes : Affinage en cave depuis 1998, pâturage tournant. Les détails supprimés de l'écran ne doivent pas se perdre.",
+      "action": {
+        "type": "P_EXPECT_DECK",
+        "deck": {
+          "slides": [
+            {
+              "index": 1,
+              "notes": "Affinage en cave depuis 1998, pâturage tournant"
+            }
+          ]
+        }
+      },
+      "aide": {
+        "text": "Le champ de notes est sous la diapositive ; sur petit écran, le bouton « Notes » l'ouvre."
+      },
+      "feedback": "Rien n'est perdu : trois repères projetés, deux précisions sous les yeux de l'orateur."
+    },
+    {
+      "id": "M10-E01-04",
+      "consigne": "Affichez la troisième diapositive, celle des livraisons.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 2
+      }
+    },
+    {
+      "id": "M10-E01-05",
+      "consigne": "Ses deux lignes sont déjà courtes : n'y touchez pas. Écrivez seulement sa note : Livraison possible le vendredi à partir de mai.",
+      "action": {
+        "type": "P_EXPECT_DECK",
+        "deck": {
+          "slides": [
+            {
+              "index": 2,
+              "notes": "Livraison possible le vendredi à partir de mai"
+            }
+          ]
+        }
+      },
+      "feedback": "Une diapositive courte mérite une note autant qu'une diapositive chargée : la note sert à préciser, pas seulement à désencombrer."
+    },
+    {
+      "id": "M10-E01-06",
+      "consigne": "Affichez la première diapositive : c'est celle où l'on hésite le plus, et elle n'a aucune note.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 0
+      }
+    },
+    {
+      "id": "M10-E01-07",
+      "consigne": "Écrivez sa note : Bonjour, Le Pré Long, six fromages de brebis affinés à la ferme.",
+      "action": {
+        "type": "P_EXPECT_DECK",
+        "deck": {
+          "slides": [
+            {
+              "index": 0,
+              "notes": "Bonjour, Le Pré Long, six fromages de brebis affinés à la ferme"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "M10-E01-08",
+      "consigne": "Lancez le diaporama depuis le début et vérifiez ce que la boutique verra : trois écrans lisibles, aucune de vos notes.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": true,
+          "index": 0
+        }
+      },
+      "aide": {
+        "text": "Groupe Diaporama, bouton « ▶ Début »."
+      }
+    }
+  ]
+}

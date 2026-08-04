@@ -1,0 +1,319 @@
+{
+  "schemaVersion": 1,
+  "title": "S'évaluer — Reprendre la boîte d'un collègue",
+  "mode": "EVALUATION",
+  "moduleTitle": "Reprendre la boîte d'un collègue",
+  "intro": {
+    "title": "Mardi 7 avril — la boîte de Sonia, et personne pour vous aider",
+    "body": "Une collectivité relance, un partenaire attend une confirmation, un client réclame un document. Vous ne connaissez aucun de ces dossiers, mais tout est écrit dans cette boîte. Cherchez avant de répondre, dites qui vous êtes, et laissez la boîte en ordre. Cette épreuve est notée sur les destinataires, les objets, les pièces jointes et le rangement. La rédaction ne compte pas dans la note."
+  },
+  "outro": {
+    "body": "Le barème portait sur ce qu'un tiers constaterait en ouvrant la boîte à midi : à qui vous avez écrit, avec quelle pièce, et ce que vous avez laissé marqué. Reprendre une boîte se juge à cela, pas au nombre de messages ouverts."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Sonia Brunel",
+      "adresse": "s.brunel@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "chantiers",
+        "nom": "Chantiers en cours"
+      },
+      {
+        "id": "fournisseurs",
+        "nom": "Fournisseurs"
+      }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Sonia Brunel\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "messages": [
+      {
+        "id": "m-relance",
+        "dossier": "reception",
+        "de": "marches@ville-lambersart.fr",
+        "a": [
+          "s.brunel@atelier-nord.fr"
+        ],
+        "objet": "Médiathèque — sans réponse depuis le 30 mars",
+        "corps": "Bonjour,\n\nNous restons sans réponse à notre demande de pièces complémentaires.\n\nService des marchés",
+        "date": "2026-04-07T08:00",
+        "lu": false
+      },
+      {
+        "id": "m-hugo",
+        "dossier": "reception",
+        "de": "h.vasseur@menuiserie-vasseur.fr",
+        "a": [
+          "s.brunel@atelier-nord.fr"
+        ],
+        "objet": "Pose de mardi — j'ai besoin d'une confirmation",
+        "corps": "Bonjour Sonia,\n\nJe pars sur Beaulieu mardi. Tu me confirmes que le matériel sera livré lundi ?\n\nHugo",
+        "date": "2026-04-07T07:40",
+        "lu": false
+      },
+      {
+        "id": "m-pub",
+        "dossier": "reception",
+        "de": "newsletter@bois-et-materiaux.info",
+        "a": [
+          "s.brunel@atelier-nord.fr"
+        ],
+        "objet": "La lettre du bois — 7 avril",
+        "corps": "L'actualité.",
+        "date": "2026-04-07T04:20",
+        "lu": false
+      },
+      {
+        "id": "m-env-pieces",
+        "dossier": "envoyes",
+        "de": "camille.aubertin@atelier-nord.fr",
+        "a": [
+          "marches@ville-lambersart.fr"
+        ],
+        "objet": "Médiathèque — pièces complémentaires transmises",
+        "corps": "Bonjour,\n\nVeuillez trouver les pièces complémentaires demandées pour le marché de la médiathèque.\n\nSonia Brunel",
+        "date": "2026-04-02T17:20",
+        "lu": true,
+        "pieces": [
+          {
+            "nom": "Pieces-complementaires-mediatheque.pdf",
+            "taille": "310 Ko"
+          }
+        ]
+      },
+      {
+        "id": "m-env-materiel",
+        "dossier": "envoyes",
+        "de": "camille.aubertin@atelier-nord.fr",
+        "a": [
+          "compta@quincaillerie-delmas.fr"
+        ],
+        "objet": "Commande CD-1310 — livraison confirmée pour le lundi 6 avril",
+        "corps": "Bonjour,\n\nLa livraison du matériel est confirmée pour le lundi 6 avril, matin.\n\nSonia Brunel",
+        "date": "2026-04-03T09:10",
+        "lu": true
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O11-EV01-01",
+      "consigne": "Ouvrez la relance de la Ville de Lambersart et relevez ce qu'elle affirme ne pas avoir reçu.",
+      "action": {
+        "type": "O_SELECT_MESSAGE",
+        "id": "m-relance"
+      },
+      "points": 1
+    },
+    {
+      "id": "O11-EV01-02",
+      "consigne": "Allez chercher la preuve de l'envoi dans le dossier qui garde une copie de ce qui est parti.",
+      "action": {
+        "type": "O_SELECT_FOLDER",
+        "dossier": "envoyes"
+      },
+      "points": 2
+    },
+    {
+      "id": "O11-EV01-03",
+      "consigne": "Filtrez ce dossier sur le mot `médiathèque` pour isoler l'envoi concerné.",
+      "action": {
+        "type": "O_TYPE_TEXT",
+        "champ": "recherche",
+        "accept": [
+          "mediatheque"
+        ],
+        "contient": true
+      },
+      "points": 2
+    },
+    {
+      "id": "O11-EV01-04",
+      "consigne": "Renvoyez cet envoi à la collectivité, avec sa pièce jointe.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "genre": "transfert",
+          "a": {
+            "contient": [
+              "marches@ville-lambersart.fr"
+            ]
+          },
+          "pieces": {
+            "contient": [
+              "Pieces-complementaires-mediatheque.pdf"
+            ]
+          }
+        }
+      },
+      "points": 3
+    },
+    {
+      "id": "O11-EV01-05",
+      "consigne": "Mettez `camille.aubertin@atelier-nord.fr` en copie : elle suit ce marché et doit savoir que le dossier est reparti.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "a": {
+            "contient": [
+              "marches@ville-lambersart.fr"
+            ],
+            "absent": [
+              "camille.aubertin@atelier-nord.fr"
+            ]
+          },
+          "cc": {
+            "contient": [
+              "camille.aubertin@atelier-nord.fr"
+            ]
+          }
+        }
+      },
+      "points": 2
+    },
+    {
+      "id": "O11-EV01-06",
+      "consigne": "Complétez l'objet de ce transfert avec le mot `renvoi`, sans retirer le préfixe.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "objet": {
+            "prefixe": "TR",
+            "contient": [
+              "renvoi"
+            ]
+          }
+        }
+      },
+      "points": 2
+    },
+    {
+      "id": "O11-EV01-07",
+      "consigne": "Rédigez le mot d'accompagnement avec vos mots. **Cette étape n'entre pas dans la note.**",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "corps": {
+            "minMots": 10,
+            "revueManuelle": true
+          }
+        }
+      },
+      "points": 0
+    },
+    {
+      "id": "O11-EV01-08",
+      "consigne": "Envoyez le renvoi.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "marches@ville-lambersart.fr"
+            ]
+          },
+          "cc": {
+            "contient": [
+              "camille.aubertin@atelier-nord.fr"
+            ]
+          },
+          "objet": {
+            "prefixe": "TR",
+            "contient": [
+              "renvoi"
+            ]
+          },
+          "pieces": {
+            "contient": [
+              "Pieces-complementaires-mediatheque.pdf"
+            ]
+          }
+        }
+      },
+      "points": 3
+    },
+    {
+      "id": "O11-EV01-09",
+      "consigne": "Videz le filtre de recherche.",
+      "action": {
+        "type": "O_TYPE_TEXT",
+        "champ": "recherche",
+        "accept": [
+          ""
+        ]
+      },
+      "points": 1
+    },
+    {
+      "id": "O11-EV01-10",
+      "consigne": "Revenez à la file d'attente.",
+      "action": {
+        "type": "O_SELECT_FOLDER",
+        "dossier": "reception"
+      },
+      "points": 1
+    },
+    {
+      "id": "O11-EV01-11",
+      "consigne": "La relance est traitée : classez-la avec les chantiers en cours.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-relance": {
+              "dossier": "chantiers"
+            }
+          }
+        }
+      },
+      "points": 1
+    },
+    {
+      "id": "O11-EV01-12",
+      "consigne": "Hugo attend une confirmation que vous ne pouvez pas donner : marquez son message et laissez-le dans la boîte.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-hugo": {
+              "dossier": "reception",
+              "indicateur": true
+            }
+          }
+        }
+      },
+      "points": 1
+    },
+    {
+      "id": "O11-EV01-13",
+      "consigne": "Sortez la lettre du bois de la file d'attente.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-pub": {
+              "dossier": "supprimes"
+            }
+          }
+        }
+      },
+      "points": 1
+    }
+  ]
+}

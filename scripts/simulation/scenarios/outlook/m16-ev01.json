@@ -1,0 +1,366 @@
+{
+  "schemaVersion": 1,
+  "title": "S'évaluer — Préparer son absence, reprendre à son retour",
+  "mode": "EVALUATION",
+  "moduleTitle": "Préparer son absence, reprendre à son retour",
+  "intro": {
+    "title": "Mercredi 4 mars — une heure avant de partir",
+    "body": "Prévenir l'extérieur, bloquer l'agenda, transmettre à l'intérieur. Chaque envoi sera jugé sur son enveloppe : qui voit qui, qui est en copie, quelle pièce part, sous quel objet. Cette épreuve est notée ; la rédaction ne compte pas dans la note."
+  },
+  "outro": {
+    "body": "Le barème portait sur ce qu'un tiers vérifierait : trois clients qui ne se voient pas, deux journées réellement bloquées, une passation reçue par la bonne personne avec la bonne pièce — et le classeur de marges resté à l'atelier."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "chantiers",
+        "nom": "Chantiers en cours"
+      },
+      {
+        "id": "clients",
+        "nom": "Clients 2026"
+      }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "fichiers": [
+      {
+        "nom": "Passation-dossiers-mars.pdf",
+        "taille": "210 Ko"
+      },
+      {
+        "nom": "Plan-de-pose-mediatheque.pdf",
+        "taille": "810 Ko"
+      },
+      {
+        "nom": "Marges-atelier-2026.xlsx",
+        "taille": "72 Ko"
+      }
+    ],
+    "evenements": [],
+    "messages": [
+      {
+        "id": "m-rappel",
+        "dossier": "reception",
+        "de": "n.kerbaj@atelier-nord.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Tes deux jours",
+        "corps": "Camille,\n\nAbsente jeudi 5 et vendredi 6. Préviens les chantiers, briefe Sonia.\n\nNadia",
+        "date": "2026-03-04T16:00",
+        "lu": false
+      },
+      {
+        "id": "m-hugo",
+        "dossier": "reception",
+        "de": "h.vasseur@menuiserie-vasseur.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Sous-traitance escalier",
+        "corps": "Bonjour Camille,\n\nUn escalier à sous-traiter en avril, tu peux chiffrer ?\n\nHugo",
+        "date": "2026-03-04T15:10",
+        "lu": false
+      },
+      {
+        "id": "m-pub",
+        "dossier": "reception",
+        "de": "offres@promo-outillage.net",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Ventes flash",
+        "corps": "Nos prix.",
+        "date": "2026-03-04T06:30",
+        "lu": false
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O16-EV01-01",
+      "consigne": "Ouvrez le rappel de Nadia et relevez les deux dates d'absence.",
+      "action": {
+        "type": "O_SELECT_MESSAGE",
+        "id": "m-rappel"
+      },
+      "points": 1
+    },
+    {
+      "id": "O16-EV01-02",
+      "consigne": "Écrivez un message neuf, adressé à vous-même sur la ligne principale.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "genre": "nouveau",
+          "a": {
+            "contient": [
+              "camille.aubertin@atelier-nord.fr"
+            ]
+          }
+        }
+      },
+      "points": 2
+    },
+    {
+      "id": "O16-EV01-03",
+      "consigne": "Placez les trois clients de façon qu'aucun ne voie l'adresse des deux autres.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "cci": {
+            "contient": [
+              "j.leroux@habitat-du-nord.fr",
+              "contact@ecole-arts-lambersart.fr",
+              "h.vasseur@menuiserie-vasseur.fr"
+            ]
+          },
+          "cc": {
+            "vide": true
+          }
+        }
+      },
+      "points": 5
+    },
+    {
+      "id": "O16-EV01-04",
+      "consigne": "Donnez un objet contenant le mot `absence`.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "objet": {
+            "contient": [
+              "absence"
+            ]
+          }
+        }
+      },
+      "points": 2
+    },
+    {
+      "id": "O16-EV01-05",
+      "consigne": "Rédigez le message avec vos mots. **Cette étape n'entre pas dans la note.**",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "corps": {
+            "minMots": 15,
+            "revueManuelle": true
+          }
+        }
+      },
+      "points": 0
+    },
+    {
+      "id": "O16-EV01-06",
+      "consigne": "Vérifiez que les trois clients sont bien en copie cachée, puis envoyez.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "cci": {
+            "contient": [
+              "j.leroux@habitat-du-nord.fr",
+              "contact@ecole-arts-lambersart.fr",
+              "h.vasseur@menuiserie-vasseur.fr"
+            ]
+          },
+          "cc": {
+            "vide": true
+          },
+          "objet": {
+            "contient": [
+              "absence"
+            ]
+          }
+        }
+      },
+      "points": 3
+    },
+    {
+      "id": "O16-EV01-07",
+      "consigne": "Passez à la vue Calendrier.",
+      "action": {
+        "type": "O_CLICK_CONTROL",
+        "control": "cr-vue-calendrier"
+      },
+      "points": 1
+    },
+    {
+      "id": "O16-EV01-08",
+      "consigne": "Bloquez le jeudi : `Absence — jeudi 5`, 5 mars, de 08:00 à 18:00, lieu `Atelier Nord`.",
+      "action": {
+        "type": "O_EXPECT_CALENDRIER",
+        "calendrier": {
+          "titre": "Absence — jeudi 5",
+          "date": "2026-03-05",
+          "debut": "08:00",
+          "fin": "18:00",
+          "lieu": "Atelier Nord"
+        }
+      },
+      "points": 3
+    },
+    {
+      "id": "O16-EV01-09",
+      "consigne": "Bloquez le vendredi : `Absence — vendredi 6`, 6 mars, de 08:00 à 18:00, lieu `Atelier Nord`.",
+      "action": {
+        "type": "O_EXPECT_CALENDRIER",
+        "calendrier": {
+          "titre": "Absence — vendredi 6",
+          "date": "2026-03-06",
+          "debut": "08:00",
+          "fin": "18:00",
+          "lieu": "Atelier Nord"
+        }
+      },
+      "points": 3
+    },
+    {
+      "id": "O16-EV01-10",
+      "consigne": "Revenez à la vue Courrier.",
+      "action": {
+        "type": "O_CLICK_CONTROL",
+        "control": "cr-vue-courrier"
+      },
+      "points": 1
+    },
+    {
+      "id": "O16-EV01-11",
+      "consigne": "Écrivez à Sonia `s.brunel@atelier-nord.fr` en joignant le récapitulatif des dossiers. **Le classeur de marges ne doit pas partir.**",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "genre": "nouveau",
+          "a": {
+            "contient": [
+              "s.brunel@atelier-nord.fr"
+            ]
+          },
+          "pieces": {
+            "contient": [
+              "Passation-dossiers-mars.pdf"
+            ],
+            "absent": [
+              "Marges-atelier-2026.xlsx"
+            ]
+          }
+        }
+      },
+      "points": 4
+    },
+    {
+      "id": "O16-EV01-12",
+      "consigne": "Mettez la gérante `n.kerbaj@atelier-nord.fr` en copie de la passation.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "a": {
+            "contient": [
+              "s.brunel@atelier-nord.fr"
+            ],
+            "absent": [
+              "n.kerbaj@atelier-nord.fr"
+            ]
+          },
+          "cc": {
+            "contient": [
+              "n.kerbaj@atelier-nord.fr"
+            ]
+          }
+        }
+      },
+      "points": 3
+    },
+    {
+      "id": "O16-EV01-13",
+      "consigne": "Donnez un objet contenant `passation`, rédigez avec vos mots, puis envoyez. **La rédaction n'entre pas dans la note.**",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "s.brunel@atelier-nord.fr"
+            ]
+          },
+          "cc": {
+            "contient": [
+              "n.kerbaj@atelier-nord.fr"
+            ]
+          },
+          "objet": {
+            "contient": [
+              "passation"
+            ]
+          },
+          "pieces": {
+            "contient": [
+              "Passation-dossiers-mars.pdf"
+            ],
+            "absent": [
+              "Marges-atelier-2026.xlsx"
+            ]
+          },
+          "corps": {
+            "minMots": 12,
+            "revueManuelle": true
+          }
+        }
+      },
+      "points": 3
+    },
+    {
+      "id": "O16-EV01-14",
+      "consigne": "La demande d'Hugo attendra votre retour : marquez-la comme restant à traiter.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-hugo": {
+              "dossier": "reception",
+              "indicateur": true
+            }
+          }
+        }
+      },
+      "points": 2
+    },
+    {
+      "id": "O16-EV01-15",
+      "consigne": "Sortez les ventes flash de votre file d'attente avant de partir.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-pub": {
+              "dossier": "supprimes"
+            }
+          }
+        }
+      },
+      "points": 1
+    }
+  ]
+}

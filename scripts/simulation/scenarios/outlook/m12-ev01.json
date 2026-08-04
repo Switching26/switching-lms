@@ -1,0 +1,346 @@
+{
+  "schemaVersion": 1,
+  "title": "S'évaluer — Écrire à une administration",
+  "mode": "EVALUATION",
+  "moduleTitle": "Écrire à une administration ou un donneur d'ordre public",
+  "intro": {
+    "title": "Jeudi 9 avril — un dossier public à compléter avant l'échéance",
+    "body": "Une collectivité réclame deux pièces, un service technique attend une date, et votre poste contient plusieurs versions des mêmes documents. Chaque envoi sera jugé sur ce qui part : la bonne version, le bon destinataire, la référence dans l'objet. Cette épreuve est notée ; la rédaction ne compte pas dans la note."
+  },
+  "outro": {
+    "body": "Le barème portait sur ce qu'un service instructeur constate en ouvrant votre message : la référence, les pièces exactes, et la copie interne qui prouve que l'engagement a été validé. Un dossier public se juge sur des faits vérifiables, jamais sur l'intention."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "marches",
+        "nom": "Marchés publics"
+      },
+      {
+        "id": "clients",
+        "nom": "Clients 2026"
+      }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "fichiers": [
+      {
+        "nom": "Memoire-technique-MP-2026-38.pdf",
+        "taille": "640 Ko"
+      },
+      {
+        "nom": "Memoire-technique-MP-2026-38-V1.pdf",
+        "taille": "612 Ko"
+      },
+      {
+        "nom": "Attestation-URSSAF-2026.pdf",
+        "taille": "88 Ko"
+      },
+      {
+        "nom": "Attestation-URSSAF-2024.pdf",
+        "taille": "86 Ko"
+      },
+      {
+        "nom": "Portfolio-photos-HD.zip",
+        "taille": "61 Mo"
+      }
+    ],
+    "messages": [
+      {
+        "id": "m-pieces",
+        "dossier": "reception",
+        "de": "marches@ville-lambersart.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Consultation — dossier incomplet",
+        "corps": "Madame, Monsieur,\n\nVotre candidature au marché MP-2026-38 est incomplète : il manque votre mémoire technique dans sa version définitive et votre attestation URSSAF à jour.\nDate limite : 24 avril.\n\nService des marchés",
+        "date": "2026-04-09T08:10",
+        "lu": false
+      },
+      {
+        "id": "m-date",
+        "dossier": "reception",
+        "de": "technique@ville-lambersart.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Intervention sur site — date attendue",
+        "corps": "Madame, Monsieur,\n\nMerci d'indiquer une date d'intervention pour le marché MP-2026-24.\n\nService technique",
+        "date": "2026-04-09T07:30",
+        "lu": false
+      },
+      {
+        "id": "m-pub",
+        "dossier": "reception",
+        "de": "offres@promo-outillage.net",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Offres d'avril",
+        "corps": "Nos offres.",
+        "date": "2026-04-09T05:00",
+        "lu": false
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O12-EV01-01",
+      "consigne": "Ouvrez la demande de pièces de la Ville de Lambersart et relevez la référence du marché.",
+      "action": {
+        "type": "O_SELECT_MESSAGE",
+        "id": "m-pieces"
+      },
+      "points": 1
+    },
+    {
+      "id": "O12-EV01-02",
+      "consigne": "Répondez au service des marchés en joignant exactement les deux pièces demandées : version définitive et attestation à jour.",
+      "setup": {
+        "courrier": {
+          "messageActif": "m-pieces"
+        }
+      },
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "genre": "reponse",
+          "a": {
+            "contient": [
+              "marches@ville-lambersart.fr"
+            ]
+          },
+          "pieces": {
+            "contient": [
+              "Memoire-technique-MP-2026-38.pdf",
+              "Attestation-URSSAF-2026.pdf"
+            ],
+            "absent": [
+              "Memoire-technique-MP-2026-38-V1.pdf",
+              "Attestation-URSSAF-2024.pdf",
+              "Portfolio-photos-HD.zip"
+            ]
+          }
+        }
+      },
+      "points": 4
+    },
+    {
+      "id": "O12-EV01-03",
+      "consigne": "Mettez la gérante `n.kerbaj@atelier-nord.fr` en copie, sans en faire une destinataire principale.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "a": {
+            "contient": [
+              "marches@ville-lambersart.fr"
+            ],
+            "absent": [
+              "n.kerbaj@atelier-nord.fr"
+            ]
+          },
+          "cc": {
+            "contient": [
+              "n.kerbaj@atelier-nord.fr"
+            ]
+          }
+        }
+      },
+      "points": 2
+    },
+    {
+      "id": "O12-EV01-04",
+      "consigne": "Complétez l'objet avec la référence `MP-2026-38`, sans retirer le préfixe posé par Outlook.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "objet": {
+            "prefixe": "RE",
+            "contient": [
+              "MP-2026-38"
+            ]
+          }
+        }
+      },
+      "points": 2
+    },
+    {
+      "id": "O12-EV01-05",
+      "consigne": "Rédigez le message avec vos mots. **Cette étape n'entre pas dans la note.**",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "corps": {
+            "minMots": 10,
+            "revueManuelle": true
+          }
+        }
+      },
+      "points": 0
+    },
+    {
+      "id": "O12-EV01-06",
+      "consigne": "Relisez la ligne des pièces jointes, puis envoyez le dossier complété.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "marches@ville-lambersart.fr"
+            ]
+          },
+          "cc": {
+            "contient": [
+              "n.kerbaj@atelier-nord.fr"
+            ]
+          },
+          "objet": {
+            "prefixe": "RE",
+            "contient": [
+              "MP-2026-38"
+            ]
+          },
+          "pieces": {
+            "contient": [
+              "Memoire-technique-MP-2026-38.pdf",
+              "Attestation-URSSAF-2026.pdf"
+            ],
+            "absent": [
+              "Memoire-technique-MP-2026-38-V1.pdf",
+              "Attestation-URSSAF-2024.pdf"
+            ]
+          }
+        }
+      },
+      "points": 3
+    },
+    {
+      "id": "O12-EV01-07",
+      "consigne": "Répondez maintenant au service technique, à lui seul, avec la gérante en copie, et complétez l'objet avec la référence `MP-2026-24`.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "genre": "reponse",
+          "a": {
+            "contient": [
+              "technique@ville-lambersart.fr"
+            ],
+            "absent": [
+              "n.kerbaj@atelier-nord.fr",
+              "marches@ville-lambersart.fr"
+            ]
+          },
+          "cc": {
+            "contient": [
+              "n.kerbaj@atelier-nord.fr"
+            ]
+          },
+          "objet": {
+            "prefixe": "RE",
+            "contient": [
+              "MP-2026-24"
+            ]
+          }
+        }
+      },
+      "points": 4
+    },
+    {
+      "id": "O12-EV01-08",
+      "consigne": "Rédigez cette réponse avec vos mots, puis envoyez-la. **La rédaction n'entre pas dans la note.**",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "technique@ville-lambersart.fr"
+            ]
+          },
+          "cc": {
+            "contient": [
+              "n.kerbaj@atelier-nord.fr"
+            ]
+          },
+          "objet": {
+            "prefixe": "RE",
+            "contient": [
+              "MP-2026-24"
+            ]
+          },
+          "corps": {
+            "minMots": 12,
+            "revueManuelle": true
+          }
+        }
+      },
+      "points": 3
+    },
+    {
+      "id": "O12-EV01-09",
+      "consigne": "Les deux échanges sont traités : rangez la demande de pièces dans Marchés publics.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-pieces": {
+              "dossier": "marches"
+            }
+          }
+        }
+      },
+      "points": 1
+    },
+    {
+      "id": "O12-EV01-10",
+      "consigne": "Rangez de même la demande du service technique.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-date": {
+              "dossier": "marches"
+            }
+          }
+        }
+      },
+      "points": 1
+    },
+    {
+      "id": "O12-EV01-11",
+      "consigne": "Sortez les offres d'avril de votre file d'attente.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-pub": {
+              "dossier": "supprimes"
+            }
+          }
+        }
+      },
+      "points": 1
+    }
+  ]
+}

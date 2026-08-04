@@ -1,0 +1,238 @@
+{
+  "schemaVersion": 1,
+  "title": "Prévenir sans exposer ses clients",
+  "mode": "LESSON",
+  "moduleTitle": "Préparer son absence, reprendre à son retour",
+  "intro": {
+    "title": "Trois clients à prévenir, un seul message",
+    "body": "Vous partez deux jours. Trois chantiers sont en cours, trois interlocuteurs risquent d'écrire dans le vide. Un seul message suffit — à condition que les trois ne découvrent pas mutuellement leur adresse, et qu'il dise les dates et le nom de la personne à joindre."
+  },
+  "outro": {
+    "body": "Mettre trois clients en copie visible, c'est leur donner l'adresse des deux autres et les inviter à répondre à tout le monde. La copie cachée règle les deux à la fois. Et un message d'absence sans nom de remplaçant ne fait que déplacer l'attente."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "chantiers",
+        "nom": "Chantiers en cours"
+      },
+      {
+        "id": "clients",
+        "nom": "Clients 2026"
+      }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "fichiers": [
+      {
+        "nom": "Passation-dossiers-mars.pdf",
+        "taille": "210 Ko"
+      },
+      {
+        "nom": "Plan-de-pose-mediatheque.pdf",
+        "taille": "810 Ko"
+      },
+      {
+        "nom": "Marges-atelier-2026.xlsx",
+        "taille": "72 Ko"
+      }
+    ],
+    "messages": [
+      {
+        "id": "m-rappel",
+        "dossier": "reception",
+        "de": "n.kerbaj@atelier-nord.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Tes deux jours",
+        "corps": "Camille,\n\nTu es absente jeudi et vendredi. Pense à prévenir les chantiers en cours et à briefer Sonia avant de partir.\n\nNadia",
+        "date": "2026-03-02T08:00",
+        "lu": false
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O16-L01-01",
+      "consigne": "==Ouvrez le message de Nadia.== Deux choses à faire avant de partir : prévenir les chantiers, et transmettre à Sonia. Cette leçon traite la première.",
+      "action": {
+        "type": "O_SELECT_MESSAGE",
+        "id": "m-rappel"
+      },
+      "aide": {
+        "text": "C'est le message de la gérante."
+      }
+    },
+    {
+      "id": "O16-L01-02",
+      "consigne": "==Cliquez sur Nouveau message.== L'information part de vous, elle ne répond à rien : un message neuf, adressé à des gens qui ne se connaissent pas entre eux.",
+      "action": {
+        "type": "O_CLICK_CONTROL",
+        "control": "cr-nouveau"
+      },
+      "aide": {
+        "text": "Le bouton Nouveau message, en haut à gauche."
+      }
+    },
+    {
+      "id": "O16-L01-03",
+      "consigne": "==Mettez-vous vous-même sur la ligne À.== Un message doit avoir un destinataire principal. Quand l'information part à une liste, c'est votre propre adresse qui occupe la place.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "a": {
+            "contient": [
+              "camille.aubertin@atelier-nord.fr"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Saisissez votre adresse dans le champ À."
+      }
+    },
+    {
+      "id": "O16-L01-04",
+      "consigne": "==Affichez le champ Cci.== C'est lui qui permet d'écrire à plusieurs sans que chacun voie les adresses des autres. Il est masqué tant qu'on ne le demande pas.",
+      "action": {
+        "type": "O_CLICK_CONTROL",
+        "control": "cr-cci"
+      },
+      "aide": {
+        "text": "Le bouton Cci, dans la barre de la fenêtre de rédaction."
+      }
+    },
+    {
+      "id": "O16-L01-05",
+      "consigne": "==Mettez les trois clients en Cci.== `j.leroux@habitat-du-nord.fr`, `contact@ecole-arts-lambersart.fr`, `h.vasseur@menuiserie-vasseur.fr` : trois chantiers différents, qui n'ont pas à se connaître.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "cci": {
+            "contient": [
+              "j.leroux@habitat-du-nord.fr",
+              "contact@ecole-arts-lambersart.fr",
+              "h.vasseur@menuiserie-vasseur.fr"
+            ]
+          },
+          "cc": {
+            "vide": true
+          }
+        }
+      },
+      "aide": {
+        "text": "Trois adresses dans le champ Cci, séparées par des points-virgules."
+      }
+    },
+    {
+      "id": "O16-L01-06",
+      "consigne": "==Écrivez un objet contenant `absence`.== Ce message n'attend pas de réponse : son objet doit se comprendre en un coup d'œil dans une liste, et rappeler de quoi il s'agit trois jours plus tard.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "objet": {
+            "contient": [
+              "absence"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Par exemple : « Absence des 5 et 6 mars »."
+      }
+    },
+    {
+      "id": "O16-L01-07",
+      "consigne": "==Rédigez le message, puis envoyez.== Trois éléments : **les dates d'absence**, **le nom de la personne à joindre**, **son adresse**. Sans les deux derniers, vous n'avez fait qu'annoncer un silence.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "camille.aubertin@atelier-nord.fr"
+            ]
+          },
+          "cci": {
+            "contient": [
+              "j.leroux@habitat-du-nord.fr",
+              "contact@ecole-arts-lambersart.fr",
+              "h.vasseur@menuiserie-vasseur.fr"
+            ]
+          },
+          "cc": {
+            "vide": true
+          },
+          "objet": {
+            "contient": [
+              "absence"
+            ]
+          },
+          "corps": {
+            "salutation": [
+              "bonjour",
+              "madame",
+              "monsieur",
+              "bonsoir"
+            ],
+            "cloture": [
+              "cordialement",
+              "salutations",
+              "bien a vous",
+              "merci"
+            ],
+            "notions": [
+              {
+                "libelle": "les dates d'absence",
+                "oneOf": [
+                  "5 et 6",
+                  "jeudi",
+                  "vendredi",
+                  "5 mars",
+                  "6 mars"
+                ]
+              },
+              {
+                "libelle": "le nom de la personne à joindre",
+                "oneOf": [
+                  "sonia",
+                  "brunel",
+                  "sonia brunel"
+                ]
+              },
+              {
+                "libelle": "son adresse",
+                "oneOf": [
+                  "s.brunel@atelier-nord.fr",
+                  "s.brunel"
+                ]
+              }
+            ],
+            "minMots": 25
+          }
+        }
+      },
+      "aide": {
+        "text": "Trois informations sont attendues : les dates, le nom, l'adresse."
+      }
+    }
+  ]
+}

@@ -1,0 +1,231 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "mode": "LESSON",
+  "moduleTitle": "Choisir la bonne disposition",
+  "title": "Décider d'après le contenu",
+  "intro": {
+    "title": "Décider d'après le contenu",
+    "body": "Quatre diapositives, quatre dispositions mal choisies. Cette leçon vous fait appliquer la seule règle qui vaille : on regarde ce que la diapositive doit dire, on en déduit combien de blocs il faut, et la disposition tombe toute seule."
+  },
+  "outro": {
+    "body": "La règle de décision est acquise. Les exercices vous la feront appliquer sans plus vous la rappeler."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "ppt": {
+    "fileName": "Offre Verdeval.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Verdeval",
+          "sous-titre": "Notre offre 2027"
+        }
+      },
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Nos deux métiers",
+          "sous-titre": "Création et entretien"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "3. Tarifs",
+          "contenu": "Ce qu'il faut retenir de nos prix"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Nos chantiers en photos",
+          "contenu": "Trois réalisations de la saison"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M05-L04-01",
+      "consigne": "La règle de décision tient en une question : **combien de blocs de contenu cette diapositive doit-elle porter ?** Zéro bloc et un grand titre, c'est une section. Un bloc, Titre et contenu. Deux blocs de même poids, Deux contenus. Deux blocs à mettre en regard, Comparaison. Des objets libres, Titre seul.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M05-L04-02",
+      "consigne": "==Affichez la deuxième diapositive==. Elle annonce deux métiers, avec la disposition d'une ouverture : deux contenus attendus, zéro bloc disponible.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 1
+      }
+    },
+    {
+      "id": "M05-L04-03",
+      "consigne": "==Donnez-lui la disposition à deux blocs de même poids==. Deux métiers d'égale importance : ni l'un ni l'autre ne passe en premier.",
+      "action": {
+        "type": "P_SET_LAYOUT",
+        "layout": "deux-contenus"
+      },
+      "aide": {
+        "text": "Deux blocs de même poids, sans intitulés : c'est « Deux contenus »."
+      }
+    },
+    {
+      "id": "M05-L04-04",
+      "consigne": "==Saisissez Création dans la colonne de gauche==, pour vérifier que la structure tient.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Notre offre 2027"
+              }
+            },
+            {
+              "layout": "deux-contenus",
+              "textes": {
+                "titre": "Nos deux métiers",
+                "sous-titre": "Création et entretien"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "3. Tarifs",
+                "contenu": "Ce qu'il faut retenir de nos prix"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Nos chantiers en photos",
+                "contenu": "Trois réalisations de la saison"
+              }
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:contenu",
+        "accept": [
+          "Création"
+        ]
+      }
+    },
+    {
+      "id": "M05-L04-05",
+      "consigne": "==Saisissez Entretien dans la colonne de droite==.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Notre offre 2027"
+              }
+            },
+            {
+              "layout": "deux-contenus",
+              "textes": {
+                "titre": "Nos deux métiers",
+                "sous-titre": "Création et entretien",
+                "contenu": "Création"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "3. Tarifs",
+                "contenu": "Ce qu'il faut retenir de nos prix"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Nos chantiers en photos",
+                "contenu": "Trois réalisations de la saison"
+              }
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:contenu#2",
+        "accept": [
+          "Entretien"
+        ]
+      }
+    },
+    {
+      "id": "M05-L04-06",
+      "consigne": "==Affichez la troisième diapositive==. Son titre commence par un numéro de partie et son contenu n'annonce rien d'autre que la partie elle-même : c'est une section déguisée en diapositive de contenu.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 2
+      }
+    },
+    {
+      "id": "M05-L04-07",
+      "consigne": "==Donnez-lui la disposition d'une section==. Zéro bloc de contenu attendu, un titre qui marque une frontière : la réponse est la même que pour l'ouverture d'une présentation.",
+      "action": {
+        "type": "P_SET_LAYOUT",
+        "layout": "diapositive-de-titre"
+      },
+      "aide": {
+        "text": "Une section s'écrit avec « Diapositive de titre » : titre et sous-titre, rien d'autre."
+      }
+    },
+    {
+      "id": "M05-L04-08",
+      "consigne": "==Affichez la dernière diapositive==. Elle annonce des photos : ce ne sont pas des blocs de texte, ce sont des objets à poser où l'on veut.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 3
+      }
+    },
+    {
+      "id": "M05-L04-09",
+      "consigne": "==Donnez-lui la disposition qui laisse composer librement sous le titre==. C'est le cas des diapositives visuelles, et il ne se traite jamais avec un bloc de texte.",
+      "action": {
+        "type": "P_SET_LAYOUT",
+        "layout": "titre-seul"
+      },
+      "aide": {
+        "text": "« Titre seul » garde le titre et libère tout l'espace du dessous."
+      }
+    },
+    {
+      "id": "M05-L04-10",
+      "consigne": "==Insérez une image== pour confirmer que la place est bien libre. La disposition Titre seul ne dessine rien : elle se contente de ne rien réserver.",
+      "action": {
+        "type": "P_ADD_OBJECT",
+        "objectType": "image"
+      },
+      "aide": {
+        "text": "Groupe Insertion, bouton Image."
+      }
+    },
+    {
+      "id": "M05-L04-11",
+      "consigne": "À retenir : on ne choisit pas une disposition parce qu'elle est jolie, mais parce qu'on a **compté les blocs**. La question tient en une phrase — combien de contenus, de même poids ou non — et la disposition en découle sans discussion.",
+      "action": {
+        "type": "READ"
+      }
+    }
+  ]
+}

@@ -1,0 +1,206 @@
+{
+  "schemaVersion": 1,
+  "title": "Découvrir sa boîte de réception",
+  "mode": "LESSON",
+  "moduleTitle": "Prise en main d'Outlook",
+  "intro": {
+    "title": "Votre première matinée à l'Atelier Nord",
+    "body": "Vous êtes Camille Aubertin, menuisière à l'Atelier Nord. Votre messagerie vient d'être installée et trois messages vous attendent. Avant d'écrire quoi que ce soit, vous allez apprendre à vous repérer : où sont les messages, comment savoir lesquels sont déjà lus, où partent ceux que vous envoyez, et comment retrouver celui dont vous avez besoin."
+  },
+  "outro": {
+    "body": "Vous savez maintenant lire votre boîte, passer d'un dossier à l'autre et retrouver un message par la recherche. Retenez surtout deux réflexes : un message en gras n'a pas encore été lu, et un dossier n'est qu'un rangement — rien ne disparaît quand on en change."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "clients",
+        "nom": "Clients 2026"
+      }
+    ],
+    "messages": [
+      {
+        "id": "m-devis",
+        "dossier": "reception",
+        "de": "r.tissot@ecole-arts-lambersart.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Comptoir d'accueil — demande de devis",
+        "corps": "Bonjour,\n\nNous refaisons l'accueil de l'école et cherchons un comptoir sur mesure, en chêne clair, d'environ 2,40 m.\nPourriez-vous nous adresser un devis ?\n\nBien cordialement,\nRémi Tissot\nÉcole des Arts de Lambersart",
+        "date": "2026-03-02T08:41",
+        "lu": false
+      },
+      {
+        "id": "m-livraison",
+        "dossier": "reception",
+        "de": "logistique@transports-verhaeghe.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Livraison du 5 mars — créneau à confirmer",
+        "corps": "Bonjour,\n\nNous pouvons livrer vos panneaux le jeudi 5 mars entre 7 h et 9 h, ou entre 14 h et 16 h.\nMerci de nous indiquer le créneau qui vous arrange.\n\nService logistique\nTransports Verhaeghe",
+        "date": "2026-03-02T07:55",
+        "lu": false
+      },
+      {
+        "id": "m-facture",
+        "dossier": "reception",
+        "de": "compta@quincaillerie-delmas.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Facture QD-4471 — échéance 15 mars",
+        "corps": "Bonjour,\n\nVeuillez trouver ci-joint la facture QD-4471 relative à votre commande de charnières.\n\nService comptabilité\nQuincaillerie Delmas",
+        "date": "2026-03-01T16:12",
+        "lu": true,
+        "pieces": [
+          {
+            "nom": "QD-4471.pdf",
+            "taille": "96 Ko"
+          }
+        ]
+      },
+      {
+        "id": "m-ancien",
+        "dossier": "envoyes",
+        "de": "camille.aubertin@atelier-nord.fr",
+        "a": [
+          "s.brunel@atelier-nord.fr"
+        ],
+        "objet": "Planning de l'atelier — semaine du 24 février",
+        "corps": "Sonia,\n\nJe te mets le planning de la semaine en pièce jointe.\n\nCamille",
+        "date": "2026-02-21T17:30",
+        "lu": true
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O01-L01-01",
+      "consigne": "==Ouvrez la demande de devis de Rémi Tissot.== À gauche, la colonne des **dossiers** ; au centre, la liste du dossier ouvert ; à droite, le contenu du message sélectionné. Un objet en **gras** n'a pas encore été lu.",
+      "action": {
+        "type": "O_SELECT_MESSAGE",
+        "id": "m-devis"
+      },
+      "aide": {
+        "text": "C'est le message dont l'objet parle d'un comptoir d'accueil."
+      }
+    },
+    {
+      "id": "O01-L01-02",
+      "consigne": "==Ouvrez maintenant le message des Transports Verhaeghe.== Le précédent n'est plus en gras : **l'ouvrir suffit à le marquer comme lu**, personne n'a besoin de le faire à votre place, et le compteur du dossier a baissé d'autant.",
+      "setup": {
+        "courrier": {
+          "messageActif": "m-devis"
+        }
+      },
+      "action": {
+        "type": "O_SELECT_MESSAGE",
+        "id": "m-livraison"
+      },
+      "aide": {
+        "text": "C'est celui qui propose deux créneaux de livraison pour le 5 mars."
+      }
+    },
+    {
+      "id": "O01-L01-03",
+      "consigne": "==Ouvrez le dossier Éléments envoyés.== La **Boîte de réception** n'est qu'un dossier parmi d'autres : tout ce que vous envoyez est rangé ici, et c'est là qu'on vérifie qu'un message est bien parti.",
+      "setup": {
+        "courrier": {
+          "messageActif": "m-livraison"
+        }
+      },
+      "action": {
+        "type": "O_SELECT_FOLDER",
+        "dossier": "envoyes"
+      },
+      "aide": {
+        "text": "Les dossiers sont listés dans la colonne de gauche, sous le bouton Nouveau message."
+      }
+    },
+    {
+      "id": "O01-L01-04",
+      "consigne": "==Revenez à la Boîte de réception.== Un seul message se trouvait dans les envoyés : celui adressé à Sonia. Changer de dossier **ne déplace et ne supprime rien** — seul change l'endroit que vous regardez.",
+      "action": {
+        "type": "O_SELECT_FOLDER",
+        "dossier": "reception"
+      },
+      "aide": {
+        "text": "Même colonne de gauche, tout en haut de la liste des dossiers."
+      }
+    },
+    {
+      "id": "O01-L01-05",
+      "consigne": "==Tapez `delmas` dans le champ de recherche.== Quand la boîte grossit, on ne fait plus défiler : on cherche. Le filtre porte sur l'**expéditeur**, l'**objet** et le **texte** des messages du dossier ouvert.",
+      "action": {
+        "type": "O_TYPE_TEXT",
+        "champ": "recherche",
+        "accept": [
+          "delmas",
+          "quincaillerie",
+          "qd-4471",
+          "facture"
+        ],
+        "contient": true
+      },
+      "aide": {
+        "text": "Le champ de recherche est en haut de la liste des messages."
+      }
+    },
+    {
+      "id": "O01-L01-06",
+      "consigne": "Un seul message reste affiché : les deux autres ne sont pas perdus, ils sont **masqués par le filtre**. ==Ouvrez la facture de la Quincaillerie Delmas.== Le trombone à côté de son objet signale qu'un fichier y est joint.",
+      "action": {
+        "type": "O_SELECT_MESSAGE",
+        "id": "m-facture"
+      },
+      "aide": {
+        "text": "C'est le seul message que la recherche laisse afficher."
+      }
+    },
+    {
+      "id": "O01-L01-07",
+      "consigne": "==Effacez le texte du champ de recherche.== Prenez ce réflexe dès que vous avez trouvé : tant que le filtre est actif, votre boîte a l'air presque vide et un nouveau message peut vous échapper.",
+      "action": {
+        "type": "O_TYPE_TEXT",
+        "champ": "recherche",
+        "accept": [
+          ""
+        ]
+      },
+      "aide": {
+        "text": "Sélectionnez le contenu du champ et supprimez-le : il doit redevenir complètement vide."
+      }
+    },
+    {
+      "id": "O01-L01-08",
+      "consigne": "==Basculez sur le Calendrier.== Outlook ne gère pas que le courrier : il porte aussi votre **agenda**. Le basculement se fait sans quitter l'application, et vos messages restent où ils sont.",
+      "action": {
+        "type": "O_CLICK_CONTROL",
+        "control": "cr-vue-calendrier"
+      },
+      "aide": {
+        "text": "Sur ordinateur, l'icône du calendrier est en bas de la colonne des dossiers ; sur téléphone, dans la barre du bas."
+      }
+    },
+    {
+      "id": "O01-L01-09",
+      "consigne": "==Revenez sur Courrier.== Voici la semaine en cours ; vous y reviendrez pour poser des rendez-vous. Pour l'instant, l'essentiel est de savoir **revenir au courrier sans rien perdre**.",
+      "action": {
+        "type": "O_CLICK_CONTROL",
+        "control": "cr-vue-courrier"
+      },
+      "aide": {
+        "text": "Le bouton Courrier est juste à côté de celui du Calendrier."
+      }
+    }
+  ]
+}

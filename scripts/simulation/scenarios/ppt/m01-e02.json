@@ -1,0 +1,260 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "mode": "EXERCISE",
+  "moduleTitle": "Prise en main",
+  "title": "Exercice — Construire la suite des diapositives",
+  "intro": {
+    "title": "Exercice — Construire la suite des diapositives",
+    "body": "La présentation ne compte qu'une diapositive de titre et un reste de l'an dernier. Vous devez lui donner sa suite : deux diapositives de chiffres bâties sur le même modèle, et un fichier propre à la fin."
+  },
+  "outro": {
+    "body": "Ajouter, dupliquer, supprimer : les trois gestes qui font vivre une présentation sont acquis."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "ppt": {
+    "fileName": "Bilan Verdeval.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Verdeval",
+          "sous-titre": "Bilan de la saison 2026"
+        }
+      },
+      {
+        "layout": "titre-seul",
+        "textes": {
+          "titre": "Ancienne version 2025"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M01-E02-01",
+      "consigne": "Ajoutez une diapositive juste après la diapositive de titre.",
+      "action": {
+        "type": "P_ADD_SLIDE",
+        "layout": "titre-et-contenu"
+      },
+      "aide": {
+        "text": "Groupe Diapositives, bouton Nouvelle. La nouvelle diapositive se place après celle qui est affichée : vérifiez laquelle l'est."
+      }
+    },
+    {
+      "id": "M01-E02-02",
+      "consigne": "Donnez-lui pour titre : Chiffres de la saison.",
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:titre",
+        "accept": [
+          "Chiffres de la saison"
+        ]
+      },
+      "aide": {
+        "text": "Cliquez dans le cadre du haut, puis saisissez."
+      }
+    },
+    {
+      "id": "M01-E02-03",
+      "consigne": "Renseignez le contenu : 38 jardins et 120 entretiens.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Bilan de la saison 2026"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Chiffres de la saison"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Ancienne version 2025"
+              }
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:contenu",
+        "accept": [
+          "38 jardins et 120 entretiens",
+          "38 jardins, 120 entretiens"
+        ]
+      }
+    },
+    {
+      "id": "M01-E02-04",
+      "consigne": "La diapositive suivante présentera les mêmes chiffres pour l'année précédente, avec exactement la même mise en page. Obtenez-la sans la refaire.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Bilan de la saison 2026"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Chiffres de la saison",
+                "contenu": "38 jardins et 120 entretiens"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Ancienne version 2025"
+              }
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_DUPLICATE_SLIDE",
+        "index": 1
+      },
+      "aide": {
+        "text": "Groupe Diapositives, bouton Dupliquer : la copie emporte texte et disposition."
+      }
+    },
+    {
+      "id": "M01-E02-05",
+      "consigne": "Sur la copie, remplacez le titre par : Chiffres de 2025.",
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:titre",
+        "accept": [
+          "Chiffres de 2025"
+        ]
+      },
+      "aide": {
+        "text": "Un cadre déjà rempli s'ouvre au double-clic."
+      }
+    },
+    {
+      "id": "M01-E02-06",
+      "consigne": "Corrigez aussi le contenu de la copie : 31 jardins et 96 entretiens.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Bilan de la saison 2026"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Chiffres de la saison",
+                "contenu": "38 jardins et 120 entretiens"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Chiffres de 2025",
+                "contenu": "38 jardins et 120 entretiens"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Ancienne version 2025"
+              }
+            }
+          ]
+        },
+        "slide": 2
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:contenu",
+        "accept": [
+          "31 jardins et 96 entretiens",
+          "31 jardins, 96 entretiens"
+        ]
+      }
+    },
+    {
+      "id": "M01-E02-07",
+      "consigne": "La dernière diapositive date de l'an dernier et n'a plus lieu d'être. Affichez-la.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 3
+      },
+      "aide": {
+        "text": "C'est la vignette du bas, intitulée « Ancienne version 2025 »."
+      }
+    },
+    {
+      "id": "M01-E02-08",
+      "consigne": "Retirez-la de la présentation.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Bilan de la saison 2026"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Chiffres de la saison",
+                "contenu": "38 jardins et 120 entretiens"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Chiffres de 2025",
+                "contenu": "31 jardins et 96 entretiens"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Ancienne version 2025"
+              }
+            }
+          ]
+        },
+        "slide": 3
+      },
+      "action": {
+        "type": "P_DELETE_SLIDE",
+        "index": 3
+      },
+      "aide": {
+        "text": "Groupe Diapositives, bouton Supprimer : il agit sur la diapositive affichée."
+      }
+    }
+  ]
+}

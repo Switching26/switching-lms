@@ -1,0 +1,121 @@
+{
+ "schemaVersion": 1,
+ "app": "WORD",
+ "title": "Identifier une note de service",
+ "mode": "EXERCISE",
+ "moduleTitle": "En-tête, pied de page et filigrane",
+ "intro": {
+  "title": "À VOUS",
+  "body": "Une note part à l'ensemble du personnel. Elle doit porter son émetteur, son statut et sa numérotation **sans qu'un mot soit ajouté au texte**. Vous disposez du panneau En-tête, onglet Insertion."
+ },
+ "outro": "Une note identifiée se classe, se cite et se retrouve. Une note nue se perd.",
+ "document": {
+  "paragraphes": [
+   {
+    "texte": "Note de service — accès aux locaux",
+    "style": "titre"
+   },
+   {
+    "texte": "Les badges d'accès seront renouvelés au cours du mois prochain.",
+    "style": "normal"
+   },
+   {
+    "texte": "Chaque salarié recevra une convocation individuelle par courriel.",
+    "style": "normal"
+   },
+   {
+    "texte": "Les anciens badges cesseront de fonctionner à la fin du trimestre.",
+    "style": "normal"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "id": "M09-E01-01",
+   "consigne": "==Ouvrez le panneau En-tête== depuis l'onglet Insertion.",
+   "action": {
+    "type": "W_CLICK_CONTROL",
+    "controle": "w-entete-pied"
+   },
+   "setup": {
+    "ribbon": {
+     "activeTab": "insertion"
+    }
+   },
+   "aide": {
+    "text": "Onglet « Insertion », bouton « En-tête ».",
+    "showTarget": true
+   },
+   "feedback": "Les trois zones hors texte sont accessibles."
+  },
+  {
+   "id": "M09-E01-02",
+   "consigne": "==Saisissez « Service des ressources humaines » dans l'en-tête.== C'est le service émetteur de cette note.",
+   "action": {
+    "type": "W_EXPECT_ENTETE",
+    "emplacement": "entete",
+    "accept": [
+     "Service des ressources humaines"
+    ]
+   },
+   "aide": {
+    "text": "Premier champ du panneau.",
+    "showTarget": true
+   },
+   "feedback": "L'émetteur est identifié."
+  },
+  {
+   "id": "M09-E01-03",
+   "consigne": "==Saisissez « Note n° 2026-14 » dans le pied de page.== Une note de service se cite par son numéro : sans lui, impossible de s'y référer dans un échange ultérieur.",
+   "action": {
+    "type": "W_EXPECT_ENTETE",
+    "emplacement": "pied",
+    "accept": [
+     "Note n° 2026-14"
+    ]
+   },
+   "aide": {
+    "text": "Deuxième champ du panneau.",
+    "showTarget": true
+   },
+   "feedback": "La note est désormais citable par sa référence."
+  },
+  {
+   "id": "M09-E01-04",
+   "consigne": "==Cochez la numérotation des pages.== Une note diffusée à tout le personnel circule imprimée : les pages doivent se remettre dans l'ordre.",
+   "action": {
+    "type": "W_EXPECT_PAGE",
+    "page": {
+     "numeroPage": true
+    }
+   },
+   "aide": {
+    "text": "La case sous les champs de texte.",
+    "showTarget": true
+   },
+   "feedback": "Le numéro rejoint la référence en pied de page."
+  },
+  {
+   "id": "M09-E01-05",
+   "consigne": "==Refermez le panneau== et vérifiez que les mentions restent affichées sur la page.",
+   "action": {
+    "type": "W_CLICK_CONTROL",
+    "controle": "w-entete-fermer"
+   },
+   "aide": {
+    "text": "Bouton « Fermer l'en-tête ».",
+    "showTarget": true
+   },
+   "feedback": "Les mentions appartiennent au document, pas au panneau."
+  },
+  {
+   "id": "M09-E01-06",
+   "points": 0,
+   "action": {
+    "type": "READ"
+   },
+   "consigne": "Le texte de la note n'a pas bougé d'un caractère, et pourtant le document est maintenant identifié, référencé et numéroté. **C'est exactement la séparation à retenir** : le contenu dans le corps, l'identité dans l'en-tête.",
+   "feedback": "Contenu et identité, deux couches distinctes."
+  }
+ ]
+}

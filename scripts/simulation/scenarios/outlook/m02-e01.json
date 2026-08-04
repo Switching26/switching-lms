@@ -1,0 +1,200 @@
+{
+  "schemaVersion": 1,
+  "title": "Répondre à la bonne personne",
+  "mode": "EXERCISE",
+  "moduleTitle": "Répondre, transférer, tenir une conversation",
+  "intro": {
+    "title": "Une demande de modification en pleine fabrication",
+    "body": "Le client veut changer la finition du comptoir alors que la fabrication est lancée. Sa demande est adressée à vous, avec sa direction en copie. Vous devez lui répondre — et décider vous-même qui, en plus de lui, a besoin de lire cette réponse."
+  },
+  "outro": {
+    "body": "Une réponse ne reprend jamais la copie du message d'origine : si une personne doit rester informée, c'est à vous de la remettre. Et un objet qui porte la référence du dossier s'archive tout seul du côté du client."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "clients",
+        "nom": "Clients 2026"
+      }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "messages": [
+      {
+        "id": "m-finition",
+        "dossier": "reception",
+        "de": "r.tissot@ecole-arts-lambersart.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "cc": [
+          "direction@ecole-arts-lambersart.fr"
+        ],
+        "objet": "Comptoir 2026-118 — une question avant fabrication",
+        "corps": "Bonjour,\n\nAprès discussion en interne, nous préférerions une finition huilée plutôt que vernie.\nEst-ce encore possible, et à quel coût ?\n\nBien cordialement,\nRémi Tissot\nÉcole des Arts de Lambersart",
+        "date": "2026-03-12T09:15",
+        "lu": false
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O02-E01-01",
+      "consigne": "Ouvrez la demande de Rémi Tissot et lisez-la : elle pose deux questions distinctes, et une réponse qui n'en traite qu'une provoquera un aller-retour.",
+      "action": {
+        "type": "O_SELECT_MESSAGE",
+        "id": "m-finition"
+      },
+      "aide": {
+        "text": "C'est le message de l'école, dont l'objet annonce une question avant fabrication."
+      }
+    },
+    {
+      "id": "O02-E01-02",
+      "consigne": "Répondez-lui. Sa direction était en copie de la demande et doit le rester — mais souvenez-vous qu'une réponse ne la reprend pas toute seule.",
+      "setup": {
+        "courrier": {
+          "messageActif": "m-finition"
+        }
+      },
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "genre": "reponse",
+          "a": {
+            "contient": [
+              "r.tissot@ecole-arts-lambersart.fr"
+            ]
+          },
+          "cc": {
+            "contient": [
+              "direction@ecole-arts-lambersart.fr"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Utilisez Répondre, puis remettez à la main l'adresse qui figurait en Cc du message reçu."
+      }
+    },
+    {
+      "id": "O02-E01-03",
+      "consigne": "L'objet reçu ne dit pas de quoi il s'agit : « une question avant fabrication » n'aidera personne à retrouver ce message dans trois mois. Complétez-le pour qu'il contienne le mot `finition`, sans retirer le préfixe posé par Outlook.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "objet": {
+            "prefixe": "RE",
+            "contient": [
+              "finition"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Cliquez à la fin du champ Objet et ajoutez le mot : le « RE : » du début doit rester."
+      }
+    },
+    {
+      "id": "O02-E01-04",
+      "consigne": "Rédigez la réponse. Elle doit traiter les **deux** questions posées : si le changement est encore possible, et ce qu'il coûte.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "corps": {
+            "salutation": [
+              "bonjour",
+              "monsieur",
+              "madame",
+              "bonsoir"
+            ],
+            "cloture": [
+              "cordialement",
+              "salutations",
+              "bien a vous",
+              "merci"
+            ],
+            "notions": [
+              {
+                "libelle": "si le changement de finition est encore possible",
+                "oneOf": [
+                  "possible",
+                  "faisable",
+                  "nous pouvons",
+                  "je peux",
+                  "encore temps",
+                  "realisable",
+                  "sans probleme"
+                ]
+              },
+              {
+                "libelle": "ce que ce changement coûte",
+                "oneOf": [
+                  "euros",
+                  "eur",
+                  "€",
+                  "cout",
+                  "supplement",
+                  "sans surcout",
+                  "gratuit",
+                  "tarif",
+                  "devis"
+                ]
+              }
+            ],
+            "minMots": 12
+          }
+        }
+      },
+      "aide": {
+        "text": "Deux informations sont attendues : la faisabilité, et le coût — même si celui-ci est nul."
+      }
+    },
+    {
+      "id": "O02-E01-05",
+      "consigne": "Relisez les deux lignes d'adresses, puis envoyez.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "r.tissot@ecole-arts-lambersart.fr"
+            ]
+          },
+          "cc": {
+            "contient": [
+              "direction@ecole-arts-lambersart.fr"
+            ]
+          },
+          "objet": {
+            "prefixe": "RE",
+            "contient": [
+              "finition"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Le bouton Envoyer est le premier de la barre du haut de la fenêtre de rédaction."
+      }
+    }
+  ]
+}

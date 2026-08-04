@@ -1,0 +1,199 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "mode": "LESSON",
+  "moduleTitle": "Organiser et enchaîner",
+  "title": "Répéter avant de présenter",
+  "intro": {
+    "title": "Répéter avant de présenter",
+    "body": "Le diaporama ne sert pas qu'à projeter : c'est d'abord l'outil de répétition. Cette leçon vous apprend à reprendre un passage sans tout redérouler, et à écarter de la projection une diapositive que vous voulez garder sous la main."
+  },
+  "outro": {
+    "body": "Vous savez répéter un passage et protéger vos annexes. La dernière leçon fait le ménage : supprimer ce qui n'a plus lieu d'être."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "ppt": {
+    "fileName": "Bilan Verdeval.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Verdeval",
+          "sous-titre": "Bilan de la saison 2026"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Chiffres de la saison",
+          "contenu": "38 jardins et 120 entretiens"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Annexe - détail des coûts",
+          "contenu": "Réservé aux questions de la gérance"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Nos agences",
+          "contenu": "Nantes, Rennes et Angers"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Merci de votre attention",
+          "contenu": "Questions et échanges"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M02-L03-01",
+      "consigne": "Le groupe **Diaporama** offre deux départs, et ils ne servent pas à la même chose. **▶ Début** reprend tout depuis la première diapositive : c'est la répétition générale. **▶ Ici** démarre sur la diapositive affichée : c'est celui qu'on utilise vingt fois pour retravailler un seul passage.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M02-L03-02",
+      "consigne": "==Affichez la quatrième diapositive==, celle des agences : c'est le passage que vous voulez répéter.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 3
+      },
+      "aide": {
+        "text": "C'est la quatrième miniature du volet, intitulée « Nos agences »."
+      }
+    },
+    {
+      "id": "M02-L03-03",
+      "consigne": "==Cliquez sur ▶ Ici==. Le diaporama démarre directement sur la diapositive affichée, sans vous faire redérouler les trois précédentes.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": true,
+          "index": 3
+        }
+      },
+      "aide": {
+        "text": "« ▶ Ici » est le deuxième bouton du groupe Diaporama."
+      },
+      "feedback": "C'est le geste de la répétition : on reprend là où ça coince, pas depuis le début."
+    },
+    {
+      "id": "M02-L03-04",
+      "consigne": "==Avancez d'une diapositive== pour vérifier l'enchaînement vers le remerciement final.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "index": 4
+        }
+      }
+    },
+    {
+      "id": "M02-L03-05",
+      "consigne": "==Quittez le diaporama==. Vous revenez exactement là où vous étiez : répéter ne modifie jamais la présentation.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": false
+        }
+      }
+    },
+    {
+      "id": "M02-L03-06",
+      "consigne": "Reste un problème. La troisième diapositive est une **annexe** : le détail des coûts, que vous voulez sous la main si la gérance pose la question, mais qui n'a rien à faire dans le déroulé normal. La supprimer serait absurde ; la laisser passer aussi.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M02-L03-07",
+      "consigne": "==Affichez l'annexe== avant d'agir : comme les autres, le bouton Masquer travaille sur la diapositive affichée.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 2
+      }
+    },
+    {
+      "id": "M02-L03-08",
+      "consigne": "==Cliquez sur Masquer, dans le groupe Diaporama==. La diapositive reste dans le fichier, reste modifiable, reste accessible — elle est seulement retirée du déroulé.",
+      "setupPpt": {
+        "slide": 2
+      },
+      "action": {
+        "type": "P_EXPECT_DECK",
+        "deck": {
+          "slides": [
+            {
+              "index": 2,
+              "masquee": true
+            }
+          ]
+        }
+      },
+      "aide": {
+        "text": "« Masquer » est le troisième bouton du groupe Diaporama."
+      }
+    },
+    {
+      "id": "M02-L03-09",
+      "consigne": "==Lancez le diaporama depuis le début== pour contrôler que l'annexe ne s'affiche plus. Ne vous contentez jamais de croire un réglage : c'est en projetant qu'on le vérifie.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": true,
+          "index": 0
+        }
+      }
+    },
+    {
+      "id": "M02-L03-10",
+      "consigne": "==Avancez d'une diapositive== : vous arrivez sur les chiffres, comme prévu.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "index": 1
+        }
+      }
+    },
+    {
+      "id": "M02-L03-11",
+      "consigne": "==Avancez encore==. Vous passez directement aux agences : l'annexe a été sautée. Le contrôle est fait, et vous savez maintenant qu'il tiendra devant la gérance.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "index": 3
+        }
+      },
+      "feedback": "Annexe conservée dans le fichier, absente de la projection : c'est exactement ce qu'on voulait."
+    },
+    {
+      "id": "M02-L03-12",
+      "consigne": "==Quittez le diaporama== et revenez à votre présentation.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": false
+        }
+      }
+    },
+    {
+      "id": "M02-L03-13",
+      "consigne": "À retenir : **▶ Ici** pour répéter un passage, **▶ Début** pour la générale, **Masquer** pour garder une diapositive sans la montrer. Et la règle qui vaut pour les trois — un réglage de diaporama ne se vérifie qu'en projetant.",
+      "action": {
+        "type": "READ"
+      }
+    }
+  ]
+}

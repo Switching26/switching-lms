@@ -1,0 +1,158 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "mode": "LESSON",
+  "moduleTitle": "Projeter ou envoyer",
+  "title": "Le test de l'absence",
+  "intro": {
+    "title": "Le test de l'absence",
+    "body": "Une présentation projetée est complétée par vous ; une présentation envoyée est seule. Le test tient en une question posée à chaque diapositive : que comprend quelqu'un qui la lit sans moi ?"
+  },
+  "outro": {
+    "body": "Le test est posé et une diapositive y a échoué. Les deux leçons suivantes construisent les deux versions, l'une après l'autre."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "ppt": {
+    "fileName": "Rivage Marée.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Rivage Marée",
+          "sous-titre": "Proposition pour Le Comptoir des Halles"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Nos produits",
+          "contenu": "Criée de Lorient\nLivraison à 6 h\nTraçabilité bateau"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Nos prix",
+          "contenu": "Le kilo : voir grille\nRemise : selon volume"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Nos engagements",
+          "contenu": "Retour gratuit\nFacture mensuelle"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M11-L01-01",
+      "consigne": "La même présentation sert rarement aux deux usages. **Projetée**, vous êtes là : trois mots à l'écran suffisent, vous dites le reste. **Envoyée**, le fichier arrive seul dans une boîte mail, et personne ne complète. Ce sont deux exigences opposées.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M11-L01-02",
+      "consigne": "==Lancez le diaporama depuis le début== : mettez-vous d'abord dans la situation où vous êtes présent, en salle, devant le client.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": true,
+          "index": 0
+        }
+      },
+      "aide": {
+        "text": "Groupe Diaporama, bouton « ▶ Début »."
+      }
+    },
+    {
+      "id": "M11-L01-03",
+      "consigne": "==Avancez d'une diapositive==. Trois repères, gros, lisibles du fond de la salle : projetée, cette diapositive est bonne. Vous diriez le reste.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "index": 1
+        }
+      }
+    },
+    {
+      "id": "M11-L01-04",
+      "consigne": "==Quittez le diaporama== et changez de situation : le client n'a pas pu venir, vous lui envoyez le fichier.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": false
+        }
+      }
+    },
+    {
+      "id": "M11-L01-05",
+      "consigne": "Voici le **test de l'absence** : relisez chaque diapositive en imaginant que vous n'êtes pas là pour l'expliquer. « Criée de Lorient, livraison à 6 h » se comprend seul. C'est un test à faire diapositive par diapositive, et il n'en épargne aucune.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M11-L01-06",
+      "consigne": "==Affichez la troisième diapositive==, celle des prix, et appliquez-lui le test.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 2
+      }
+    },
+    {
+      "id": "M11-L01-07",
+      "consigne": "« Le kilo : voir grille » et « Remise : selon volume » ne disent **rien** à un lecteur seul. Ces deux lignes ne sont pas des informations : ce sont des rappels que l'orateur se fait à lui-même. Projetées elles passent ; envoyées, elles font perdre la commande.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M11-L01-08",
+      "consigne": "==Remplacez le contenu== par : Bar de ligne 24 € le kilo, Remise de 8 % au-delà de 30 kilos. Un chiffre se lit sans vous ; un renvoi à une grille absente, non.",
+      "setupPpt": {
+        "slide": 2
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:contenu",
+        "accept": [
+          "Bar de ligne 24 € le kilo\nRemise de 8 % au-delà de 30 kilos",
+          "Bar de ligne 24 € le kilo, Remise de 8 % au-delà de 30 kilos"
+        ]
+      },
+      "aide": {
+        "text": "Double-cliquez dans le contenu pour l'ouvrir, puis remplacez tout."
+      },
+      "feedback": "La diapositive passe maintenant le test : elle informe même quand personne ne parle."
+    },
+    {
+      "id": "M11-L01-09",
+      "consigne": "==Écrivez sa note== : Prix de février, à revoir en avril. La note reste utile — mais pour vous, et seulement tant que le fichier ne sort pas.",
+      "action": {
+        "type": "P_EXPECT_DECK",
+        "deck": {
+          "slides": [
+            {
+              "index": 2,
+              "notes": "Prix de février, à revoir en avril"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "M11-L01-10",
+      "consigne": "À retenir : **le test de l'absence** se pose à chaque diapositive. Ce qui y échoue n'est pas mauvais — c'est bon pour la salle et mauvais pour l'envoi. D'où deux versions, et la règle des deux leçons qui suivent : on dépouille pour projeter, on complète pour envoyer.",
+      "action": {
+        "type": "READ"
+      }
+    }
+  ]
+}

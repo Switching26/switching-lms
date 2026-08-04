@@ -1,0 +1,231 @@
+{
+  "schemaVersion": 1,
+  "title": "Répondre vite, même sans pouvoir répondre",
+  "mode": "LESSON",
+  "moduleTitle": "Le premier contact commercial",
+  "intro": {
+    "title": "Une demande entrante vaut de l'argent",
+    "body": "Un inconnu vous écrit pour un projet. Il a probablement écrit à trois entreprises le même jour. Celle qui répond la première n'a pas forcément le meilleur prix — elle a simplement répondu. Or vous ne pouvez pas chiffrer aujourd'hui : c'est justement le cas où l'accusé de réception fait la différence."
+  },
+  "outro": {
+    "body": "Un accusé de réception n'est pas un message vide : il dit qu'on a lu, ce qu'on va faire, et pour quand. Envoyé dans l'heure, il vous place devant deux concurrents qui chiffreront pourtant plus vite que vous."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "prospects",
+        "nom": "Prospects"
+      },
+      {
+        "id": "clients",
+        "nom": "Clients 2026"
+      }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "fichiers": [
+      {
+        "nom": "Devis-2026-190.pdf",
+        "taille": "196 Ko"
+      },
+      {
+        "nom": "Devis-2026-190-BROUILLON.pdf",
+        "taille": "188 Ko"
+      },
+      {
+        "nom": "Plaquette-Atelier-Nord.pdf",
+        "taille": "2,1 Mo"
+      },
+      {
+        "nom": "Tarifs-achat-fournisseurs.pdf",
+        "taille": "96 Ko"
+      }
+    ],
+    "messages": [
+      {
+        "id": "m-demande",
+        "dossier": "reception",
+        "de": "m.delcourt@brasserie-du-canal.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Aménagement de notre salle",
+        "corps": "Bonjour,\n\nNous ouvrons une brasserie quai du Canal et cherchons un menuisier pour le comptoir et les banquettes.\nOuverture prévue en septembre. Pouvez-vous nous établir un devis ?\n\nMarine Delcourt\nBrasserie du Canal",
+        "date": "2026-04-13T08:20",
+        "lu": false
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O13-L01-01",
+      "consigne": "==Ouvrez la demande de la Brasserie du Canal.== Une demande entrante, un projet daté, et aucune information sur les dimensions ni le budget : impossible de chiffrer aujourd'hui.",
+      "action": {
+        "type": "O_SELECT_MESSAGE",
+        "id": "m-demande"
+      },
+      "aide": {
+        "text": "C'est le message qui parle d'un aménagement de salle."
+      }
+    },
+    {
+      "id": "O13-L01-02",
+      "consigne": "==Cliquez sur Répondre.== Ne pas pouvoir chiffrer n'est pas une raison d'attendre : c'est une raison d'accuser réception tout de suite, avant que trois concurrents ne le fassent.",
+      "setup": {
+        "courrier": {
+          "messageActif": "m-demande"
+        }
+      },
+      "action": {
+        "type": "O_CLICK_CONTROL",
+        "control": "cr-repondre"
+      },
+      "aide": {
+        "text": "Le bouton Répondre, premier de la barre du haut du volet de lecture."
+      }
+    },
+    {
+      "id": "O13-L01-03",
+      "consigne": "==Complétez l'objet avec le mot `devis`.== L'objet reçu parle d'un aménagement ; le vôtre doit annoncer où va l'échange. C'est aussi ce qui vous permettra de le retrouver dans six mois.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "objet": {
+            "prefixe": "RE",
+            "contient": [
+              "devis"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Ajoutez le mot à la fin de l'objet, en gardant le « RE : »."
+      }
+    },
+    {
+      "id": "O13-L01-04",
+      "consigne": "==Rédigez l'accusé de réception.== Trois éléments : **la confirmation que vous avez reçu**, **ce qu'il vous manque** pour chiffrer, et **quand vous reviendrez**. Une date tenue vaut mieux qu'une promesse rapide.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "corps": {
+            "salutation": [
+              "bonjour",
+              "madame",
+              "monsieur",
+              "bonsoir"
+            ],
+            "cloture": [
+              "cordialement",
+              "salutations",
+              "bien a vous",
+              "merci"
+            ],
+            "notions": [
+              {
+                "libelle": "la confirmation de réception",
+                "oneOf": [
+                  "bien recu",
+                  "nous avons bien",
+                  "j'ai bien recu",
+                  "merci de votre demande",
+                  "merci pour votre demande"
+                ]
+              },
+              {
+                "libelle": "ce qu'il vous manque pour chiffrer",
+                "oneOf": [
+                  "dimensions",
+                  "cotes",
+                  "plan",
+                  "metres",
+                  "surface",
+                  "visite",
+                  "preciser",
+                  "details"
+                ]
+              },
+              {
+                "libelle": "quand vous reviendrez vers elle",
+                "oneOf": [
+                  "semaine prochaine",
+                  "sous huit",
+                  "sous 8",
+                  "vendredi",
+                  "jeudi",
+                  "avant le",
+                  "d'ici"
+                ]
+              }
+            ],
+            "minMots": 18
+          }
+        }
+      },
+      "aide": {
+        "text": "Trois informations sont attendues : la réception, ce qui manque, et la date de retour."
+      }
+    },
+    {
+      "id": "O13-L01-05",
+      "consigne": "==Envoyez l'accusé de réception.== Vous n'avez pas donné de prix, et pourtant vous êtes devant : votre interlocutrice sait que son message est arrivé chez quelqu'un qui travaille.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "m.delcourt@brasserie-du-canal.fr"
+            ]
+          },
+          "cc": {
+            "vide": true
+          },
+          "objet": {
+            "prefixe": "RE",
+            "contient": [
+              "devis"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Le bouton Envoyer, premier de la barre du haut."
+      }
+    },
+    {
+      "id": "O13-L01-06",
+      "consigne": "==Posez un indicateur sur cette demande.== Vous vous êtes engagée sur une date : tant que le devis n'est pas parti, ce message est une promesse ouverte, pas un message traité.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-demande": {
+              "dossier": "reception",
+              "indicateur": true
+            }
+          }
+        }
+      },
+      "aide": {
+        "text": "Ouvrez le message, puis cliquez sur le drapeau. Ne le déplacez pas."
+      }
+    }
+  ]
+}

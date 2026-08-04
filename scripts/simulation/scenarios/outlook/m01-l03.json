@@ -1,0 +1,265 @@
+{
+  "schemaVersion": 1,
+  "title": "Écrire à plusieurs : À, Cc et Cci",
+  "mode": "LESSON",
+  "moduleTitle": "Prise en main d'Outlook",
+  "intro": {
+    "title": "Une livraison à confirmer, trois personnes à tenir au courant",
+    "body": "Les panneaux du comptoir seront livrés jeudi directement à l'école. Deux personnes doivent agir : le client, qui ouvrira les portes, et le transporteur, qui livrera. Votre collègue Sonia doit être informée, la gérante veut suivre le dossier sans apparaître. Trois rôles différents, trois lignes d'adresses différentes — c'est tout l'objet de cette leçon."
+  },
+  "outro": {
+    "body": "Retenez la règle en une phrase : « À » pour ceux qui doivent agir, « Cc » pour ceux qu'on informe, « Cci » pour ceux qui doivent rester invisibles. Le champ Cci est masqué par défaut, il faut aller le chercher — et c'est le seul moyen de ne pas livrer l'adresse d'un tiers à tout le monde."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "clients",
+        "nom": "Clients 2026"
+      }
+    ],
+    "contacts": [
+      {
+        "nom": "Rémi Tissot",
+        "adresse": "r.tissot@ecole-arts-lambersart.fr",
+        "societe": "École des Arts de Lambersart"
+      },
+      {
+        "nom": "Sonia Brunel",
+        "adresse": "s.brunel@atelier-nord.fr",
+        "societe": "Atelier Nord"
+      },
+      {
+        "nom": "Nadia Kerbaj",
+        "adresse": "n.kerbaj@atelier-nord.fr",
+        "societe": "Atelier Nord"
+      }
+    ],
+    "messages": [
+      {
+        "id": "m-livraison",
+        "dossier": "reception",
+        "de": "logistique@transports-verhaeghe.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Livraison du 5 mars — créneau à confirmer",
+        "corps": "Bonjour,\n\nNous pouvons livrer vos panneaux le jeudi 5 mars entre 7 h et 9 h, ou entre 14 h et 16 h.\nMerci de nous indiquer le créneau qui vous arrange.\n\nService logistique\nTransports Verhaeghe",
+        "date": "2026-03-02T07:55",
+        "lu": true
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O01-L03-01",
+      "consigne": "Un même message peut partir vers plusieurs personnes à la fois, et **chacune n'a pas le même rôle**. ==Ouvrez une nouvelle fenêtre de rédaction== : vous allez remplir ses trois lignes d'adresses l'une après l'autre.",
+      "action": {
+        "type": "O_CLICK_CONTROL",
+        "control": "cr-nouveau"
+      },
+      "aide": {
+        "text": "C'est le bouton Nouveau message, comme à la leçon précédente."
+      }
+    },
+    {
+      "id": "O01-L03-02",
+      "consigne": "==Saisissez `r.tissot@ecole-arts-lambersart.fr; logistique@transports-verhaeghe.fr` dans le champ À.== Ces deux personnes doivent **agir** — le client ouvre les portes, le transporteur livre. Une même ligne, un **point-virgule** entre les deux.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "genre": "nouveau",
+          "a": {
+            "contient": [
+              "r.tissot@ecole-arts-lambersart.fr",
+              "logistique@transports-verhaeghe.fr"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Une seule ligne, deux adresses, un point-virgule entre les deux. L'ordre n'a pas d'importance."
+      }
+    },
+    {
+      "id": "O01-L03-03",
+      "consigne": "==Saisissez `s.brunel@atelier-nord.fr` dans le champ Cc.== Sonia n'a rien à faire, mais elle doit **savoir** : c'est le rôle de la copie. Les destinataires de la ligne À voient qui est en copie, et c'est voulu.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "cc": {
+            "contient": [
+              "s.brunel@atelier-nord.fr"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Le champ Cc est la deuxième ligne, juste sous le champ À."
+      }
+    },
+    {
+      "id": "O01-L03-04",
+      "consigne": "==Cliquez sur Cci pour faire apparaître la ligne.== La gérante veut suivre le dossier **sans que le client sache qu'elle le lit** : c'est le rôle de la copie cachée, qu'Outlook n'affiche pas par défaut.",
+      "action": {
+        "type": "O_CLICK_CONTROL",
+        "control": "cr-cci"
+      },
+      "aide": {
+        "text": "Le bouton Cci est dans la barre du haut de la fenêtre de rédaction, à côté de Joindre."
+      }
+    },
+    {
+      "id": "O01-L03-05",
+      "consigne": "==Saisissez `n.kerbaj@atelier-nord.fr` dans le champ Cci.== Vérifiez qu'elle n'est ni dans À, ni dans Cc : une adresse en **copie cachée** n'est vue de personne, une adresse en **copie** est vue de tous. Placer un contact interne en Cc devant un client, c'est lui donner son adresse.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "a": {
+            "contient": [
+              "r.tissot@ecole-arts-lambersart.fr",
+              "logistique@transports-verhaeghe.fr"
+            ],
+            "absent": [
+              "n.kerbaj@atelier-nord.fr"
+            ]
+          },
+          "cc": {
+            "contient": [
+              "s.brunel@atelier-nord.fr"
+            ],
+            "absent": [
+              "n.kerbaj@atelier-nord.fr"
+            ]
+          },
+          "cci": {
+            "contient": [
+              "n.kerbaj@atelier-nord.fr"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "La ligne Cci vient d'apparaître entre Cc et Objet. L'adresse de la gérante ne doit figurer que là."
+      }
+    },
+    {
+      "id": "O01-L03-06",
+      "consigne": "==Donnez au message un objet contenant le mot `livraison`.== Quatre personnes vont le recevoir : l'objet doit être compréhensible **par toutes**, y compris par le transporteur qui ne connaît pas votre chantier.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "objet": {
+            "contient": [
+              "livraison"
+            ],
+            "nonVide": true
+          }
+        }
+      },
+      "aide": {
+        "text": "Par exemple « Livraison des panneaux — jeudi 5 mars, école de Lambersart ». La formulation est libre."
+      }
+    },
+    {
+      "id": "O01-L03-07",
+      "consigne": "==Rédigez le message.== Il doit indiquer **quel jour** se fait la livraison et **quel créneau horaire** vous retenez — c'est la seule question que le transporteur vous a posée. Écrivez-le avec vos mots.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "corps": {
+            "salutation": [
+              "bonjour",
+              "madame",
+              "monsieur",
+              "bonsoir"
+            ],
+            "cloture": [
+              "cordialement",
+              "salutations",
+              "bien a vous",
+              "merci"
+            ],
+            "notions": [
+              {
+                "libelle": "le jour de la livraison",
+                "oneOf": [
+                  "jeudi",
+                  "5 mars",
+                  "05/03",
+                  "5/3"
+                ]
+              },
+              {
+                "libelle": "le créneau horaire retenu",
+                "oneOf": [
+                  "7 h",
+                  "7h",
+                  "matin",
+                  "9 h",
+                  "9h",
+                  "14 h",
+                  "14h",
+                  "apres-midi",
+                  "apres midi",
+                  "16 h",
+                  "16h"
+                ]
+              }
+            ],
+            "minMots": 12
+          }
+        }
+      },
+      "aide": {
+        "text": "Deux informations sont attendues : le jour, et le créneau que vous choisissez parmi les deux proposés."
+      }
+    },
+    {
+      "id": "O01-L03-08",
+      "consigne": "==Envoyez le message.== Le client et le transporteur se verront l'un l'autre, Sonia apparaîtra en copie — et **personne ne saura que la gérante l'a reçu**. C'est exactement l'effet recherché.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "r.tissot@ecole-arts-lambersart.fr",
+              "logistique@transports-verhaeghe.fr"
+            ]
+          },
+          "cc": {
+            "contient": [
+              "s.brunel@atelier-nord.fr"
+            ]
+          },
+          "cci": {
+            "contient": [
+              "n.kerbaj@atelier-nord.fr"
+            ]
+          },
+          "objet": {
+            "contient": [
+              "livraison"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Le bouton Envoyer est en haut à gauche de la fenêtre de rédaction."
+      }
+    }
+  ]
+}

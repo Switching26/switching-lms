@@ -1,0 +1,125 @@
+{
+  "schemaVersion": 1,
+  "app": "WORD",
+  "title": "Choisir l'alignement selon le document",
+  "mode": "LESSON",
+  "moduleTitle": "Mise en forme des paragraphes",
+  "intro": {
+    "title": "CHAQUE DOCUMENT A SA FORME",
+    "body": "Savoir poser les quatre alignements ne suffit pas : il faut savoir lequel poser. Une note de service, un courrier et une affiche n'ont pas la même forme, et cette forme se lit avant le texte. Vous allez mettre en page trois documents courts, chacun selon sa convention."
+  },
+  "outro": "La forme d'un document annonce sa nature avant qu'on l'ait lu. C'est pour cela qu'on ne centre pas un courrier et qu'on ne justifie pas une affiche.",
+  "document": {
+    "paragraphes": [
+      {
+        "texte": "Ateliers Rivedoux"
+      },
+      {
+        "texte": "Nantes, le 3 septembre"
+      },
+      {
+        "texte": "Madame, Monsieur,"
+      },
+      {
+        "texte": "Nous avons le plaisir de vous informer que votre commande est prête et peut être retirée à notre comptoir aux heures d'ouverture de l'atelier, du lundi au vendredi."
+      },
+      {
+        "texte": "Veuillez agréer nos salutations distinguées."
+      },
+      {
+        "texte": "Le responsable commercial"
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M04-L02-01",
+      "consigne": "==Centrez l'en-tête== « Ateliers Rivedoux ». Sur un courrier, l'identité de l'expéditeur se place en tête et se centre : c'est ce qui la distingue du corps de la lettre.",
+      "setup": {
+        "ribbon": {
+          "activeTab": "accueil"
+        }
+      },
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p0",
+        "style": {
+          "alignement": "centre"
+        }
+      },
+      "feedback": "L'en-tête annonce l'expéditeur."
+    },
+    {
+      "id": "M04-L02-02",
+      "consigne": "==Alignez le lieu et la date à droite==, selon la convention du courrier français.",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p1",
+        "style": {
+          "alignement": "droite"
+        }
+      },
+      "feedback": "La mention est à sa place."
+    },
+    {
+      "id": "M04-L02-03",
+      "consigne": "==Laissez l'appel « Madame, Monsieur, » aligné à gauche.== Vérifiez-le : une formule d'appel se colle toujours à la marge gauche, quelle que soit la forme du reste.",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p2",
+        "style": {
+          "alignement": "gauche"
+        }
+      },
+      "feedback": "L'appel ouvre la lettre depuis la marge."
+    },
+    {
+      "id": "M04-L02-04",
+      "consigne": "==Justifiez le corps de la lettre.== Un courrier commercial se justifie : les deux bords nets donnent l'impression d'un document soigné.",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p3",
+        "style": {
+          "alignement": "justifie"
+        }
+      },
+      "feedback": "Le corps a la tenue attendue d'un courrier."
+    },
+    {
+      "id": "M04-L02-05",
+      "consigne": "==Laissez la formule de politesse à gauche== et vérifiez-le : elle appartient au corps de la lettre, mais elle est trop courte pour être justifiée sans laisser de trous.",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p4",
+        "style": {
+          "alignement": "gauche"
+        }
+      },
+      "feedback": "Une ligne courte ne se justifie jamais : elle s'étirerait d'un bord à l'autre."
+    },
+    {
+      "id": "M04-L02-06",
+      "consigne": "==Alignez la signature à droite== pour terminer la lettre selon la convention.",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p5",
+        "style": {
+          "alignement": "droite"
+        }
+      },
+      "feedback": "Le courrier est complet."
+    },
+    {
+      "id": "M04-L02-07",
+      "consigne": "==Épaississez l'en-tête== pour finir : sur un courrier sans papier à en-tête imprimé, c'est la graisse qui fait office de logo.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p0",
+        "format": {
+          "gras": true
+        }
+      },
+      "feedback": "Lettre prête à partir."
+    }
+  ]
+}

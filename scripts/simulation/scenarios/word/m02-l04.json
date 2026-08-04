@@ -1,0 +1,118 @@
+{
+  "schemaVersion": 1,
+  "app": "WORD",
+  "title": "Surligner et barrer : annoter un document de travail",
+  "mode": "LESSON",
+  "moduleTitle": "Saisie et mise en forme des caractères",
+  "intro": {
+    "title": "DEUX ATTRIBUTS QUI PARLENT AU RELECTEUR",
+    "body": "Le surlignage et le barré ne servent pas à mettre en forme un document fini : ils servent à le faire circuler. L'un attire l'œil sur ce qui reste à traiter, l'autre marque ce qui ne vaut plus. Vous allez préparer un document de relecture."
+  },
+  "outro": "Surligner, c'est demander une action ; barrer, c'est archiver une décision. Ces deux marques s'enlèvent avant diffusion : ce sont des annotations, pas de la mise en forme.",
+  "document": {
+    "paragraphes": [
+      {
+        "texte": "Ordre du jour — comité du 5 mai"
+      },
+      {
+        "texte": "Point un : validation du budget de formation."
+      },
+      {
+        "texte": "Point deux : renouvellement du parc de machines."
+      },
+      {
+        "texte": "Point trois : organisation de la journée portes ouvertes."
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M02-L04-01",
+      "points": 0,
+      "consigne": "Le **surlignage** pose un fond de couleur derrière le texte, comme un feutre sur du papier. Le **barré** trace un trait au milieu des lettres sans les effacer : l'information reste lisible, mais signalée comme caduque. Retenez que les deux disent quelque chose au LECTEUR, pas au document.",
+      "action": {
+        "type": "READ"
+      },
+      "montrer": [
+        {
+          "type": "W_SELECT_TEXT",
+          "zone": "p2"
+        }
+      ],
+      "feedback": "Le feutre pour ce qui reste à faire, le trait pour ce qui ne vaut plus."
+    },
+    {
+      "id": "M02-L04-02",
+      "consigne": "Le budget est le point sur lequel le comité doit trancher en priorité. ==Sélectionnez le deuxième paragraphe et surlignez-le en jaune==, avec la liste Surlignage du groupe Police.",
+      "setup": {
+        "ribbon": {
+          "activeTab": "accueil"
+        }
+      },
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p1",
+        "format": {
+          "surlignage": "#f1c40f"
+        }
+      },
+      "aide": {
+        "text": "La dernière liste du groupe Police.",
+        "showTarget": true
+      },
+      "feedback": "Le point saute aux yeux dès l'ouverture du document."
+    },
+    {
+      "id": "M02-L04-03",
+      "consigne": "Le renouvellement des machines a été reporté hier : le point tombe, mais on garde la trace de son existence. ==Barrez le troisième paragraphe.==",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p2",
+        "format": {
+          "barre": true
+        }
+      },
+      "aide": {
+        "text": "Le second S du groupe Police, celui dont le trait passe au milieu.",
+        "showTarget": true
+      },
+      "feedback": "Le point reste lisible, et chacun voit qu'il ne sera pas traité."
+    },
+    {
+      "id": "M02-L04-04",
+      "consigne": "La journée portes ouvertes demande une décision de date. ==Surlignez en vert le dernier paragraphe== : une seconde couleur de surlignage permet de distinguer deux types d'attente.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p3",
+        "format": {
+          "surlignage": "#a9dfbf"
+        }
+      },
+      "feedback": "Jaune pour arbitrer, vert pour caler une date : deux attentes, deux couleurs."
+    },
+    {
+      "id": "M02-L04-05",
+      "consigne": "Dans le point surligné en jaune, une précision doit ressortir davantage. ==Mettez « budget de formation » en gras== : le gras se cumule avec le surlignage sans le remplacer.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "texte:budget de formation",
+        "format": {
+          "gras": true
+        }
+      },
+      "feedback": "Deux attributs sur le même passage, chacun avec son rôle."
+    },
+    {
+      "id": "M02-L04-06",
+      "consigne": "Terminez par l'en-tête, qui doit rester neutre : ==mettez le titre en gras et laissez-le sans surlignage.== Un document annoté garde un titre sobre, sinon les marques perdent leur valeur de signal.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p0",
+        "format": {
+          "gras": true
+        }
+      },
+      "feedback": "Le document est prêt à circuler : chaque marque dit quoi faire."
+    }
+  ]
+}

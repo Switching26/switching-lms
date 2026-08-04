@@ -1,0 +1,246 @@
+{
+  "schemaVersion": 1,
+  "title": "Qui mettre en copie, et quand arrêter",
+  "mode": "LESSON",
+  "moduleTitle": "Coordonner un dossier à plusieurs",
+  "intro": {
+    "title": "La copie qui rassure, et celle qui encombre",
+    "body": "Mettre quelqu'un en copie coûte un clic et lui coûte une lecture. Multipliée par vingt messages et cinq personnes, l'habitude produit des boîtes que plus personne ne lit — donc des informations qui passent inaperçues au moment où elles comptent. La règle tient en une question, et vous allez l'appliquer trois fois."
+  },
+  "outro": {
+    "body": "La question à se poser avant chaque copie : cette personne devra-t-elle AGIR à partir de ce message, ou seulement le savoir ? Si elle doit agir, sa place est sur la ligne principale. Si elle doit seulement savoir, la copie. Si ni l'un ni l'autre, on ne la met pas — c'est le cas le plus fréquent."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "clients",
+        "nom": "Clients 2026"
+      },
+      {
+        "id": "fournisseurs",
+        "nom": "Fournisseurs"
+      }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "messages": [
+      {
+        "id": "m-incident",
+        "dossier": "reception",
+        "de": "j.leroux@habitat-du-nord.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr",
+          "s.brunel@atelier-nord.fr"
+        ],
+        "objet": "Escalier Beaulieu — désordre constaté à la réception",
+        "corps": "Bonjour,\n\nNotre maître d'œuvre relève un jeu de 4 mm sur la main courante du deuxième étage.\nNous suspendons le solde de la facture en attendant la reprise.\n\nJulien Leroux\nHabitat du Nord",
+        "date": "2026-03-27T08:05",
+        "lu": false
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O07-L01-01",
+      "consigne": "==Ouvrez le message d'Habitat du Nord.== Un désordre est signalé et le solde de la facture est suspendu : trois personnes sont concernées, mais pas de la même manière.",
+      "action": {
+        "type": "O_SELECT_MESSAGE",
+        "id": "m-incident"
+      },
+      "aide": {
+        "text": "C'est le message qui parle d'un désordre constaté à la réception."
+      }
+    },
+    {
+      "id": "O07-L01-02",
+      "consigne": "==Cliquez sur Répondre à tous.== Le message est arrivé à vous et à Sonia : on repart de tous les destinataires, quitte à en retirer ensuite. C'est plus sûr que d'en oublier un.",
+      "setup": {
+        "courrier": {
+          "messageActif": "m-incident"
+        }
+      },
+      "action": {
+        "type": "O_CLICK_CONTROL",
+        "control": "cr-repondre-tous"
+      },
+      "aide": {
+        "text": "Le deuxième bouton de la barre du haut du volet de lecture."
+      }
+    },
+    {
+      "id": "O07-L01-03",
+      "consigne": "==Ajoutez `h.vasseur@menuiserie-vasseur.fr` dans le champ À.== Hugo a posé l'escalier : il devra **agir**, donc il rejoint la ligne principale. Une copie ne suffirait pas — on n'agit pas sur ce qu'on reçoit « pour information ».",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "genre": "reponseATous",
+          "a": {
+            "contient": [
+              "j.leroux@habitat-du-nord.fr",
+              "s.brunel@atelier-nord.fr",
+              "h.vasseur@menuiserie-vasseur.fr"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Deux adresses sur la ligne À, séparées par un point-virgule."
+      }
+    },
+    {
+      "id": "O07-L01-04",
+      "consigne": "==Mettez `n.kerbaj@atelier-nord.fr` en copie.== La gérante doit **savoir** qu'un solde est suspendu — c'est de l'argent — mais elle n'a rien à faire sur ce message. Sa place est la copie, pas la ligne principale.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "a": {
+            "contient": [
+              "j.leroux@habitat-du-nord.fr",
+              "s.brunel@atelier-nord.fr",
+              "h.vasseur@menuiserie-vasseur.fr"
+            ]
+          },
+          "cc": {
+            "contient": [
+              "n.kerbaj@atelier-nord.fr"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Le champ Cc est la deuxième ligne de la fenêtre de rédaction."
+      }
+    },
+    {
+      "id": "O07-L01-05",
+      "consigne": "==Retirez Sonia de la ligne À.== Elle n'a ni posé cet escalier, ni à intervenir : la laisser « au cas où » lui coûte une lecture et vous fait perdre son attention pour les messages qui la concernent vraiment.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "a": {
+            "contient": [
+              "j.leroux@habitat-du-nord.fr",
+              "h.vasseur@menuiserie-vasseur.fr"
+            ],
+            "absent": [
+              "s.brunel@atelier-nord.fr"
+            ]
+          },
+          "cc": {
+            "contient": [
+              "n.kerbaj@atelier-nord.fr"
+            ],
+            "absent": [
+              "s.brunel@atelier-nord.fr"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Effacez son adresse dans le champ À ; les deux autres restent."
+      }
+    },
+    {
+      "id": "O07-L01-06",
+      "consigne": "==Rédigez la réponse.== Elle doit reconnaître **le désordre signalé** et annoncer **une date d'intervention** : sur un litige, une date vaut mieux que dix formules d'excuse.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "corps": {
+            "salutation": [
+              "bonjour",
+              "madame",
+              "monsieur",
+              "bonsoir"
+            ],
+            "cloture": [
+              "cordialement",
+              "salutations",
+              "bien a vous",
+              "merci"
+            ],
+            "notions": [
+              {
+                "libelle": "la reconnaissance du désordre signalé",
+                "oneOf": [
+                  "main courante",
+                  "jeu",
+                  "4 mm",
+                  "desordre",
+                  "reprise",
+                  "constate"
+                ]
+              },
+              {
+                "libelle": "une date d'intervention",
+                "oneOf": [
+                  "lundi",
+                  "mardi",
+                  "mercredi",
+                  "jeudi",
+                  "vendredi",
+                  "semaine prochaine",
+                  "avril",
+                  "le 30",
+                  "le 31"
+                ]
+              }
+            ],
+            "minMots": 15
+          }
+        }
+      },
+      "aide": {
+        "text": "Deux informations sont attendues : le défaut reconnu, et la date à laquelle vous intervenez."
+      }
+    },
+    {
+      "id": "O07-L01-07",
+      "consigne": "==Envoyez.== Deux personnes savent qu'elles doivent agir, une troisième est informée, et personne n'a reçu un message qui ne le concernait pas.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "j.leroux@habitat-du-nord.fr",
+              "h.vasseur@menuiserie-vasseur.fr"
+            ],
+            "absent": [
+              "s.brunel@atelier-nord.fr"
+            ]
+          },
+          "cc": {
+            "contient": [
+              "n.kerbaj@atelier-nord.fr"
+            ],
+            "absent": [
+              "s.brunel@atelier-nord.fr"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Le bouton Envoyer, premier de la barre du haut."
+      }
+    }
+  ]
+}

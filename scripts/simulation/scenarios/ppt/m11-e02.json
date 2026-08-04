@@ -1,0 +1,177 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "mode": "EXERCISE",
+  "moduleTitle": "Projeter ou envoyer",
+  "title": "Compléter pour envoyer",
+  "intro": {
+    "title": "Compléter pour envoyer",
+    "body": "Un charpentier absent le jour de la rencontre vous demande le fichier. Vous avez la version de salle : trois repères par écran, et vous ne serez pas là pour les développer. Rendez-la autonome."
+  },
+  "outro": {
+    "body": "Le fichier tient debout sans vous, contact compris."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "ppt": {
+    "fileName": "Scierie Vallonet - envoi.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Scierie Vallonet",
+          "sous-titre": "Rencontre des charpentiers du Haut-Jura"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Épicéa et sapin à moins de 30 km",
+          "contenu": "Forêts locales\nSéchage basse température\nLot classé"
+        },
+        "notes": "Six à neuf semaines de séchage, certificat de résistance fourni"
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Nos délais",
+          "contenu": "Sections courantes 5 jours\nHors standard 3 semaines"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M11-E02-01",
+      "consigne": "Affichez la deuxième diapositive, celle du bois.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 1
+      }
+    },
+    {
+      "id": "M11-E02-02",
+      "consigne": "Remplacez son contenu par : Forêts à moins de 30 km, Séchage basse température 6 à 9 semaines, Chaque lot classé avec certificat. Le lecteur doit comprendre sans vous.",
+      "setupPpt": {
+        "slide": 1
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:contenu",
+        "accept": [
+          "Forêts à moins de 30 km\nSéchage basse température 6 à 9 semaines\nChaque lot classé avec certificat",
+          "Forêts à moins de 30 km, Séchage basse température 6 à 9 semaines, Chaque lot classé avec certificat"
+        ]
+      },
+      "aide": {
+        "text": "Double-cliquez dans le contenu pour l'ouvrir, puis remplacez tout."
+      },
+      "feedback": "Ce que la note portait est remonté à l'écran : c'est le mouvement inverse de la version projetée."
+    },
+    {
+      "id": "M11-E02-03",
+      "consigne": "Videz la note de cette diapositive : son contenu est maintenant écrit à l'écran, et le fichier va sortir de l'entreprise.",
+      "action": {
+        "type": "P_EXPECT_DECK",
+        "deck": {
+          "slides": [
+            {
+              "index": 1,
+              "notes": ""
+            }
+          ]
+        }
+      },
+      "aide": {
+        "text": "Cliquez dans les notes, effacez tout le texte, puis cliquez ailleurs."
+      }
+    },
+    {
+      "id": "M11-E02-04",
+      "consigne": "Affichez la troisième diapositive, celle des délais.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 2
+      }
+    },
+    {
+      "id": "M11-E02-05",
+      "consigne": "Remplacez son titre par Livraison en 5 jours sur les sections courantes. Un lecteur pressé ne lira peut-être que le titre.",
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:titre",
+        "accept": [
+          "Livraison en 5 jours sur les sections courantes"
+        ]
+      }
+    },
+    {
+      "id": "M11-E02-06",
+      "consigne": "Remplacez son contenu par : Sections courantes préparées en 4 jours et livrées le 5e, Sections hors standard en 3 semaines sciage et séchage compris.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Scierie Vallonet",
+                "sous-titre": "Rencontre des charpentiers du Haut-Jura"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Épicéa et sapin à moins de 30 km",
+                "contenu": "Forêts à moins de 30 km\nSéchage basse température 6 à 9 semaines\nChaque lot classé avec certificat"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Livraison en 5 jours sur les sections courantes",
+                "contenu": "Sections courantes 5 jours\nHors standard 3 semaines"
+              }
+            }
+          ]
+        },
+        "slide": 2
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:contenu",
+        "accept": [
+          "Sections courantes préparées en 4 jours et livrées le 5e\nSections hors standard en 3 semaines sciage et séchage compris",
+          "Sections courantes préparées en 4 jours et livrées le 5e, Sections hors standard en 3 semaines sciage et séchage compris"
+        ]
+      }
+    },
+    {
+      "id": "M11-E02-07",
+      "consigne": "Ajoutez une diapositive à la fin : il manque ce qu'une présentation de salle n'a jamais besoin d'écrire.",
+      "action": {
+        "type": "P_ADD_SLIDE"
+      },
+      "aide": {
+        "text": "Groupe Diapositives, bouton « Nouvelle »."
+      }
+    },
+    {
+      "id": "M11-E02-08",
+      "consigne": "Écrivez son titre : Nous contacter. Sans vous dans la salle, le lecteur doit trouver le contact dans le fichier lui-même.",
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:titre",
+        "accept": [
+          "Nous contacter"
+        ]
+      },
+      "aide": {
+        "text": "Cliquez dans « Cliquez pour ajouter un titre »."
+      }
+    }
+  ]
+}

@@ -1,0 +1,204 @@
+{
+  "schemaVersion": 1,
+  "title": "Répartir les rôles sur un même message",
+  "mode": "EXERCISE",
+  "moduleTitle": "Coordonner un dossier à plusieurs",
+  "intro": {
+    "title": "Quatre personnes, trois lignes d'adresses",
+    "body": "Un client valide un chantier. Il faut lancer la fabrication, informer l'atelier, et permettre à la gérante de suivre sans apparaître devant le client. À vous de décider qui doit agir, qui doit savoir, et qui doit rester invisible — puis d'écrire un message que chacun comprend."
+  },
+  "outro": {
+    "body": "Sur un même message, trois lignes d'adresses valent trois rôles. Se tromper de ligne ne se voit pas à l'envoi : cela se voit quand personne n'agit parce que chacun croyait être « juste en copie »."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "clients",
+        "nom": "Clients 2026"
+      },
+      {
+        "id": "fournisseurs",
+        "nom": "Fournisseurs"
+      }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "messages": [
+      {
+        "id": "m-valide",
+        "dossier": "reception",
+        "de": "j.leroux@habitat-du-nord.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Escalier Beaulieu — plans version 3 validés",
+        "corps": "Bonjour,\n\nNous validons les plans version 3. Vous pouvez lancer la fabrication.\nMerci de nous confirmer la date de pose.\n\nJulien Leroux",
+        "date": "2026-03-28T08:30",
+        "lu": false
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O07-E01-01",
+      "consigne": "Ouvrez la validation d'Habitat du Nord : elle autorise la fabrication et pose une question sur la date de pose.",
+      "action": {
+        "type": "O_SELECT_MESSAGE",
+        "id": "m-valide"
+      },
+      "aide": {
+        "text": "C'est le message qui valide les plans et autorise la suite."
+      }
+    },
+    {
+      "id": "O07-E01-02",
+      "consigne": "Répondez en plaçant chacun à sa place. Doivent agir : le client, qui attend la date, et `h.vasseur@menuiserie-vasseur.fr`, qui fabrique. Doit savoir : `s.brunel@atelier-nord.fr`. Doit suivre sans être vue du client : `n.kerbaj@atelier-nord.fr`.",
+      "setup": {
+        "courrier": {
+          "messageActif": "m-valide"
+        }
+      },
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "genre": "reponse",
+          "a": {
+            "contient": [
+              "j.leroux@habitat-du-nord.fr",
+              "h.vasseur@menuiserie-vasseur.fr"
+            ],
+            "absent": [
+              "n.kerbaj@atelier-nord.fr"
+            ]
+          },
+          "cc": {
+            "contient": [
+              "s.brunel@atelier-nord.fr"
+            ],
+            "absent": [
+              "n.kerbaj@atelier-nord.fr"
+            ]
+          },
+          "cci": {
+            "contient": [
+              "n.kerbaj@atelier-nord.fr"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "À pour ceux qui agissent, Cc pour informer, Cci pour rester invisible. Le champ Cci s'affiche par le bouton du même nom."
+      }
+    },
+    {
+      "id": "O07-E01-03",
+      "consigne": "Complétez l'objet avec le mot `fabrication`, en gardant le préfixe posé par Outlook.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "objet": {
+            "prefixe": "RE",
+            "contient": [
+              "fabrication"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Le mot ne figure pas encore dans l'objet repris : ajoutez-le à la fin."
+      }
+    },
+    {
+      "id": "O07-E01-04",
+      "consigne": "Rédigez le message et envoyez-le. Il doit annoncer **le lancement de la fabrication** et donner **la date de pose** que le client réclame.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "j.leroux@habitat-du-nord.fr",
+              "h.vasseur@menuiserie-vasseur.fr"
+            ]
+          },
+          "cc": {
+            "contient": [
+              "s.brunel@atelier-nord.fr"
+            ]
+          },
+          "cci": {
+            "contient": [
+              "n.kerbaj@atelier-nord.fr"
+            ]
+          },
+          "objet": {
+            "prefixe": "RE",
+            "contient": [
+              "fabrication"
+            ]
+          },
+          "corps": {
+            "salutation": [
+              "bonjour",
+              "madame",
+              "monsieur",
+              "bonsoir"
+            ],
+            "cloture": [
+              "cordialement",
+              "salutations",
+              "bien a vous",
+              "merci"
+            ],
+            "notions": [
+              {
+                "libelle": "le lancement de la fabrication",
+                "oneOf": [
+                  "fabrication",
+                  "nous lancons",
+                  "je lance",
+                  "atelier",
+                  "demarrage",
+                  "mise en fabrication"
+                ]
+              },
+              {
+                "libelle": "la date de pose",
+                "oneOf": [
+                  "avril",
+                  "mars",
+                  "lundi",
+                  "mardi",
+                  "mercredi",
+                  "jeudi",
+                  "vendredi",
+                  "semaine du"
+                ]
+              }
+            ],
+            "minMots": 15
+          }
+        }
+      },
+      "aide": {
+        "text": "Deux informations sont attendues : le lancement, et la date de pose."
+      }
+    }
+  ]
+}

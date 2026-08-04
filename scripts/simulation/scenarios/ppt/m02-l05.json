@@ -1,0 +1,278 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "mode": "LESSON",
+  "moduleTitle": "Organiser et enchaîner",
+  "title": "De la page blanche à la présentation",
+  "intro": {
+    "title": "De la page blanche à la présentation",
+    "body": "Vous connaissez tous les gestes séparément. Cette leçon les enchaîne dans l'ordre où on les emploie vraiment : le plan d'abord, le texte ensuite, l'ordre et l'habillage à la fin. Une méthode qui vaudra pour toutes vos présentations."
+  },
+  "outro": {
+    "body": "Une présentation complète, construite dans le bon ordre. Passez aux exercices : ils reprennent chaque geste sans plus vous le montrer."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "ppt": {
+    "fileName": "Presentation1.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre"
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M02-L05-01",
+      "consigne": "La méthode tient en quatre temps, et l'ordre compte : **le plan** (combien de diapositives, dans quel ordre), **le texte** (titres puis contenus), **l'ordre** (on ajuste quand tout est écrit), **l'habillage** (transitions en dernier). Commencer par l'habillage est l'erreur classique : on soigne une présentation qu'on va encore réorganiser.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M02-L05-02",
+      "consigne": "==Saisissez Verdeval comme titre== de la présentation. Une présentation vierge n'a qu'une diapositive : celle qui l'ouvre.",
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:titre",
+        "accept": [
+          "Verdeval"
+        ]
+      },
+      "aide": {
+        "text": "Cliquez dans le grand cadre du haut, puis saisissez."
+      }
+    },
+    {
+      "id": "M02-L05-03",
+      "consigne": "==Saisissez Réunion d'équipe du 9 mars comme sous-titre==. Le sous-titre situe l'occasion : le même titre servira à d'autres réunions.",
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:sous-titre",
+        "accept": [
+          "Réunion d'équipe du 9 mars"
+        ]
+      }
+    },
+    {
+      "id": "M02-L05-04",
+      "consigne": "==Ajoutez une diapositive== avec le bouton Nouvelle. Elle arrive en « Titre et contenu », la disposition de travail par défaut après une diapositive de titre.",
+      "action": {
+        "type": "P_ADD_SLIDE",
+        "layout": "titre-et-contenu"
+      }
+    },
+    {
+      "id": "M02-L05-05",
+      "consigne": "==Saisissez Merci de votre attention comme titre==. Écrire tout de suite la diapositive de fin est un bon réflexe : on sait alors où l'on va, et elle ne sera pas oubliée dans la précipitation.",
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:titre",
+        "accept": [
+          "Merci de votre attention"
+        ]
+      }
+    },
+    {
+      "id": "M02-L05-06",
+      "consigne": "==Ajoutez une deuxième diapositive==. Elle se placera après celle qui est affichée, donc après le remerciement : c'est volontaire, vous corrigerez l'ordre plus tard.",
+      "action": {
+        "type": "P_ADD_SLIDE",
+        "layout": "titre-et-contenu"
+      }
+    },
+    {
+      "id": "M02-L05-07",
+      "consigne": "==Saisissez Chiffres de la saison comme titre== de cette nouvelle diapositive.",
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:titre",
+        "accept": [
+          "Chiffres de la saison"
+        ]
+      }
+    },
+    {
+      "id": "M02-L05-08",
+      "consigne": "==Saisissez 38 jardins et 120 entretiens dans la zone de contenu==. Le plan est complet : titre, remerciement, chiffres. Il ne reste qu'à remettre les deux derniers dans l'ordre.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Réunion d'équipe du 9 mars"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Merci de votre attention"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Chiffres de la saison"
+              }
+            }
+          ]
+        },
+        "slide": 2
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:contenu",
+        "accept": [
+          "38 jardins et 120 entretiens",
+          "38 jardins, 120 entretiens"
+        ]
+      }
+    },
+    {
+      "id": "M02-L05-09",
+      "consigne": "==Cliquez sur ↑ Monter== pour faire passer les chiffres avant le remerciement. C'est le troisième temps de la méthode : on ajuste l'ordre **une fois le texte écrit**, pas avant.",
+      "setupPpt": {
+        "slide": 2
+      },
+      "action": {
+        "type": "P_MOVE_SLIDE",
+        "from": 2,
+        "to": 1
+      },
+      "aide": {
+        "text": "La diapositive des chiffres est affichée : le bouton agira sur elle."
+      },
+      "feedback": "Titre, chiffres, remerciement. La présentation se tient."
+    },
+    {
+      "id": "M02-L05-10",
+      "consigne": "==Posez un Fondu sur cette diapositive==. Dernier temps : l'habillage. Une seule transition, la plus discrète, et seulement maintenant que le contenu ne bougera plus.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Réunion d'équipe du 9 mars"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Chiffres de la saison",
+                "contenu": "38 jardins et 120 entretiens"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Merci de votre attention"
+              }
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_EXPECT_DECK",
+        "deck": {
+          "slides": [
+            {
+              "index": 1,
+              "transition": {
+                "kind": "fondu"
+              }
+            }
+          ]
+        }
+      },
+      "aide": {
+        "text": "Groupe Transitions, bouton Fondu."
+      }
+    },
+    {
+      "id": "M02-L05-11",
+      "consigne": "==Lancez le diaporama depuis le début==. Aucune présentation ne part en réunion sans avoir été déroulée au moins une fois.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": true,
+          "index": 0
+        }
+      }
+    },
+    {
+      "id": "M02-L05-12",
+      "consigne": "==Avancez d'une diapositive== et regardez le fondu que vous venez de poser.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Réunion d'équipe du 9 mars"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Chiffres de la saison",
+                "contenu": "38 jardins et 120 entretiens"
+              },
+              "transition": {
+                "kind": "fondu",
+                "duree": 0.7
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Merci de votre attention"
+              }
+            }
+          ]
+        },
+        "slide": 1,
+        "show": {
+          "actif": true,
+          "index": 0,
+          "depuis": "debut",
+          "ecran": "normal"
+        }
+      },
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "index": 1
+        }
+      }
+    },
+    {
+      "id": "M02-L05-13",
+      "consigne": "==Quittez le diaporama==. Vous venez de construire une présentation complète depuis une page blanche.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": false
+        }
+      }
+    },
+    {
+      "id": "M02-L05-14",
+      "consigne": "À retenir, dans cet ordre : **plan, texte, ordre, habillage**. C'est ce qui évite le travail refait deux fois — soigner une transition sur une diapositive qu'on va déplacer, ou écrire un contenu dans une disposition qu'on va changer.",
+      "action": {
+        "type": "READ"
+      }
+    }
+  ]
+}

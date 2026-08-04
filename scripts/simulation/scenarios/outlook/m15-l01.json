@@ -1,0 +1,260 @@
+{
+  "schemaVersion": 1,
+  "title": "Une commande qui ne se fait pas rappeler",
+  "mode": "LESSON",
+  "moduleTitle": "Commander, relancer, contester chez un fournisseur",
+  "intro": {
+    "title": "Ce qu'un fournisseur ne devine pas",
+    "body": "Un message de commande incomplet coûte deux jours : le fournisseur rappelle, vous n'êtes pas là, il attend. Quatre informations suffisent à l'éviter — la référence exacte, la quantité, la date à laquelle vous en avez besoin, et l'adresse où livrer. Aucune n'est facultative."
+  },
+  "outro": {
+    "body": "Écrire « il me faut des charnières » oblige le fournisseur à vous rappeler. Écrire « 40 charnières réf. CH-118, livraison atelier avant le 24 » déclenche la préparation le jour même. La précision n'est pas de la rigidité : c'est du délai gagné."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "achats",
+        "nom": "Achats"
+      },
+      {
+        "id": "factures",
+        "nom": "Factures fournisseurs"
+      }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "fichiers": [
+      {
+        "nom": "Bon-de-livraison-BL-4471.pdf",
+        "taille": "148 Ko"
+      },
+      {
+        "nom": "Facture-DEL-2026-0312.pdf",
+        "taille": "165 Ko"
+      },
+      {
+        "nom": "Plan-de-pose-mediatheque.pdf",
+        "taille": "810 Ko"
+      },
+      {
+        "nom": "Marges-atelier-2026.xlsx",
+        "taille": "72 Ko"
+      }
+    ],
+    "messages": [
+      {
+        "id": "m-besoin",
+        "dossier": "reception",
+        "de": "s.brunel@atelier-nord.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Il me manque de la quincaillerie",
+        "corps": "Camille,\n\nPour la médiathèque il me faut 40 charnières CH-118 et 12 poignées P-40.\nJe dois poser le 24 au matin, donc il me les faut à l'atelier avant.\n\nSonia",
+        "date": "2026-04-14T07:20",
+        "lu": false
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O15-L01-01",
+      "consigne": "==Ouvrez le message de Sonia.== Elle vous donne tout : références, quantités, date de pose, lieu. Votre commande n'aura qu'à reprendre ces éléments sans en perdre un seul.",
+      "action": {
+        "type": "O_SELECT_MESSAGE",
+        "id": "m-besoin"
+      },
+      "aide": {
+        "text": "C'est le message qui parle de quincaillerie."
+      }
+    },
+    {
+      "id": "O15-L01-02",
+      "consigne": "==Cliquez sur Nouveau message.== La commande part au fournisseur, pas en réponse à Sonia : répondre ici enverrait la commande à une collègue qui n'a rien à en faire.",
+      "action": {
+        "type": "O_CLICK_CONTROL",
+        "control": "cr-nouveau"
+      },
+      "aide": {
+        "text": "Le bouton Nouveau message, en haut à gauche."
+      }
+    },
+    {
+      "id": "O15-L01-03",
+      "consigne": "==Adressez la commande à `commandes@quincaillerie-delmas.fr`.== Le fournisseur a deux adresses : celle des commandes et celle de la comptabilité. Écrire à la mauvaise, c'est retarder d'un jour.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "a": {
+            "contient": [
+              "commandes@quincaillerie-delmas.fr"
+            ],
+            "absent": [
+              "compta@quincaillerie-delmas.fr"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "L'adresse qui commence par « commandes »."
+      }
+    },
+    {
+      "id": "O15-L01-04",
+      "consigne": "==Écrivez un objet contenant `commande` et `médiathèque`.== Un fournisseur traite des dizaines de messages par jour : l'objet doit lui dire en une ligne ce qu'on attend de lui et pour quel chantier.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "objet": {
+            "contient": [
+              "commande",
+              "médiathèque"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Par exemple : « Commande quincaillerie — chantier médiathèque »."
+      }
+    },
+    {
+      "id": "O15-L01-05",
+      "consigne": "==Rédigez la commande.== Quatre informations, aucune facultative : **les références**, **les quantités**, **la date de besoin**, **le lieu de livraison**. C'est ce qui évite le coup de téléphone du lendemain.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "corps": {
+            "salutation": [
+              "bonjour",
+              "madame",
+              "monsieur",
+              "bonsoir"
+            ],
+            "cloture": [
+              "cordialement",
+              "salutations",
+              "bien a vous",
+              "merci"
+            ],
+            "notions": [
+              {
+                "libelle": "les références des articles",
+                "oneOf": [
+                  "ch-118",
+                  "ch118",
+                  "p-40",
+                  "p40"
+                ]
+              },
+              {
+                "libelle": "les quantités",
+                "oneOf": [
+                  "40",
+                  "quarante",
+                  "12",
+                  "douze"
+                ]
+              },
+              {
+                "libelle": "la date de besoin",
+                "oneOf": [
+                  "23",
+                  "24",
+                  "avant le",
+                  "mardi",
+                  "lundi",
+                  "pour le"
+                ]
+              },
+              {
+                "libelle": "le lieu de livraison",
+                "oneOf": [
+                  "atelier",
+                  "atelier nord",
+                  "chez nous",
+                  "nos locaux"
+                ]
+              }
+            ],
+            "minMots": 25
+          }
+        }
+      },
+      "aide": {
+        "text": "Quatre informations sont attendues : références, quantités, date, lieu."
+      }
+    },
+    {
+      "id": "O15-L01-06",
+      "consigne": "==Mettez `s.brunel@atelier-nord.fr` en copie.== Sonia doit **savoir** que la commande est partie, sans devenir l'interlocutrice du fournisseur : c'est exactement le rôle de la copie.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "a": {
+            "contient": [
+              "commandes@quincaillerie-delmas.fr"
+            ],
+            "absent": [
+              "s.brunel@atelier-nord.fr"
+            ]
+          },
+          "cc": {
+            "contient": [
+              "s.brunel@atelier-nord.fr"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Le champ Cc, deuxième ligne de la fenêtre de rédaction."
+      }
+    },
+    {
+      "id": "O15-L01-07",
+      "consigne": "==Envoyez la commande.== Le fournisseur peut préparer sans vous rappeler, et Sonia sait que sa quincaillerie arrive. Un seul message a réglé les deux.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "commandes@quincaillerie-delmas.fr"
+            ]
+          },
+          "cc": {
+            "contient": [
+              "s.brunel@atelier-nord.fr"
+            ]
+          },
+          "objet": {
+            "contient": [
+              "commande",
+              "médiathèque"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Le bouton Envoyer."
+      }
+    }
+  ]
+}

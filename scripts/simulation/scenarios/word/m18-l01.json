@@ -1,0 +1,160 @@
+{
+  "schemaVersion": 1,
+  "app": "WORD",
+  "title": "Hiérarchiser un document long avec les styles",
+  "mode": "LESSON",
+  "moduleTitle": "Les styles dans Word",
+  "intro": {
+    "title": "TROIS NIVEAUX, PAS DIX",
+    "body": "Sur un document court, un titre suffit. Sur un rapport de trente pages, il faut une hiérarchie — et elle se tient en trois niveaux. Vous allez structurer un manuel de procédures, et découvrir que le style ne se choisit pas à l'œil : il se choisit au RANG de la section."
+  },
+  "outro": "Titre 1 pour les parties, Titre 2 pour leurs sections, Titre 3 pour les points de détail. Un niveau ne se saute jamais : un Titre 3 sous un Titre 1, sans Titre 2 entre les deux, casse la hiérarchie que Word lira ensuite.",
+  "document": {
+    "paragraphes": [
+      {
+        "texte": "Manuel de procédures — atelier de menuiserie"
+      },
+      {
+        "texte": "Édition de mars, applicable à l'ensemble des postes"
+      },
+      {
+        "texte": "Sécurité"
+      },
+      {
+        "texte": "Équipements de protection"
+      },
+      {
+        "texte": "Le port du casque et des lunettes est obligatoire en zone de découpe."
+      },
+      {
+        "texte": "Consignation des machines"
+      },
+      {
+        "texte": "Toute intervention sur une machine impose sa consignation préalable."
+      },
+      {
+        "texte": "Qualité"
+      },
+      {
+        "texte": "Contrôle des livraisons"
+      },
+      {
+        "texte": "Chaque livraison est contrôlée à l'arrivée et consignée au registre."
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M18-L01-01",
+      "points": 0,
+      "consigne": "Un document long se lit d'abord par sa **charpente**. Les styles de titre en portent les niveaux : **Titre 1** pour les grandes parties, **Titre 2** pour leurs sections, **Titre 3** pour les points de détail. Retenez la règle : le style se choisit au RANG de la section, jamais à sa longueur ni à son importance ressentie.",
+      "action": {
+        "type": "READ"
+      },
+      "montrer": [
+        {
+          "type": "W_SELECT_TEXT",
+          "zone": "p2"
+        }
+      ],
+      "feedback": "Le rang commande le style, pas l'apparence voulue."
+    },
+    {
+      "id": "M18-L01-02",
+      "consigne": "==Donnez au premier paragraphe la nature d'un titre de document.== Le style Titre coiffe la hiérarchie : il n'est pas un Titre 1, il est au-dessus.",
+      "setup": {
+        "ribbon": {
+          "activeTab": "accueil"
+        }
+      },
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p0",
+        "style": {
+          "style": "Titre"
+        }
+      },
+      "aide": {
+        "text": "Le bouton « Titre » du groupe Styles.",
+        "showTarget": true
+      },
+      "feedback": "Le manuel a son titre général."
+    },
+    {
+      "id": "M18-L01-03",
+      "consigne": "==Donnez à la ligne d'édition le style Sous-titre==, qui accompagne le titre sans entrer dans la hiérarchie des parties.",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p1",
+        "style": {
+          "style": "Sous-titre"
+        }
+      },
+      "feedback": "Titre et sous-titre forment la page de garde."
+    },
+    {
+      "id": "M18-L01-04",
+      "consigne": "« Sécurité » est une grande partie du manuel. ==Appliquez-lui le Titre 1.==",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p2",
+        "style": {
+          "style": "Titre 1"
+        }
+      },
+      "feedback": "Première partie identifiée."
+    },
+    {
+      "id": "M18-L01-05",
+      "consigne": "« Équipements de protection » est une section DANS la partie Sécurité. ==Appliquez-lui le Titre 2== : un niveau en dessous, jamais le même.",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p3",
+        "style": {
+          "style": "Titre 2"
+        }
+      },
+      "aide": {
+        "text": "Le bouton « Titre 2 » du groupe Styles.",
+        "showTarget": true
+      },
+      "feedback": "La section s'inscrit sous sa partie : c'est la hiérarchie qui se construit."
+    },
+    {
+      "id": "M18-L01-06",
+      "consigne": "« Consignation des machines » est une seconde section de la même partie. ==Appliquez-lui le Titre 2== : deux sections de même rang portent le même style.",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p5",
+        "style": {
+          "style": "Titre 2"
+        }
+      },
+      "feedback": "Deux sections de même niveau sous une même partie."
+    },
+    {
+      "id": "M18-L01-07",
+      "consigne": "« Qualité » est une seconde grande partie, de même rang que Sécurité. ==Appliquez-lui le Titre 1.==",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p7",
+        "style": {
+          "style": "Titre 1"
+        }
+      },
+      "feedback": "Deux parties, chacune avec ses sections."
+    },
+    {
+      "id": "M18-L01-08",
+      "consigne": "==Appliquez le Titre 2 à « Contrôle des livraisons »==, section de la partie Qualité. La charpente est maintenant complète : deux parties, trois sections.",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p8",
+        "style": {
+          "style": "Titre 2"
+        }
+      },
+      "feedback": "Un manuel structuré se parcourt sans le lire : c'est tout l'objet des styles de titre."
+    }
+  ]
+}

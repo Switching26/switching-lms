@@ -1,0 +1,184 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "mode": "EXERCISE",
+  "moduleTitle": "Reprendre une présentation existante",
+  "title": "Exercice — Réécrire pour l'autre public",
+  "intro": {
+    "title": "Exercice — Réécrire pour l'autre public",
+    "body": "Deux diapositives sont écrites du point de vue de l'entreprise. Réécrivez titres et contenus du point de vue de la copropriété qui va les lire, sans changer un seul fait."
+  },
+  "outro": {
+    "body": "Mêmes faits, autre angle : c'est tout ce que demande une adaptation."
+  },
+  "ppt": {
+    "fileName": "Offre Verdeval.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Verdeval",
+          "sous-titre": "Présenté à la copropriété le 6 mai"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Notre plan de charge",
+          "contenu": "12 passages par an\n2 jardiniers par intervention\n4 heures sur site"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Rendement de nos équipes",
+          "contenu": "94 % d'occupation\nPointe à 100 % en juin"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M07-E02-01",
+      "consigne": "Affichez la diapositive du plan de charge.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 1
+      },
+      "aide": {
+        "text": "C'est la deuxième miniature du volet."
+      }
+    },
+    {
+      "id": "M07-E02-02",
+      "consigne": "Le titre parle de votre organisation. Donnez-lui celui qui parle du service rendu : Un jardin entretenu toute l'année.",
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:titre",
+        "accept": [
+          "Un jardin entretenu toute l'année"
+        ]
+      },
+      "aide": {
+        "text": "Un titre déjà rempli s'ouvre au double-clic."
+      }
+    },
+    {
+      "id": "M07-E02-03",
+      "consigne": "Réécrivez le contenu du point de vue du client : Un passage par mois, Deux jardiniers sur place, Déchets verts évacués.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Présenté à la copropriété le 6 mai"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Un jardin entretenu toute l'année",
+                "contenu": "12 passages par an\n2 jardiniers par intervention\n4 heures sur site"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Rendement de nos équipes",
+                "contenu": "94 % d'occupation\nPointe à 100 % en juin"
+              }
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:contenu",
+        "accept": [
+          "Un passage par mois\nDeux jardiniers sur place\nDéchets verts évacués",
+          "Un passage par mois, Deux jardiniers sur place, Déchets verts évacués"
+        ]
+      }
+    },
+    {
+      "id": "M07-E02-04",
+      "consigne": "Passez à la diapositive du rendement des équipes.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 2
+      }
+    },
+    {
+      "id": "M07-E02-05",
+      "consigne": "Un taux d'occupation est un indicateur interne. Donnez-lui le titre qui répond à la question du client : Disponibles toute l'année.",
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:titre",
+        "accept": [
+          "Disponibles toute l'année"
+        ]
+      }
+    },
+    {
+      "id": "M07-E02-06",
+      "consigne": "Remplacez le contenu par l'engagement correspondant : Interventions assurées de mars à novembre, Astreinte en cas de tempête.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Présenté à la copropriété le 6 mai"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Un jardin entretenu toute l'année",
+                "contenu": "Un passage par mois\nDeux jardiniers sur place\nDéchets verts évacués"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Disponibles toute l'année",
+                "contenu": "94 % d'occupation\nPointe à 100 % en juin"
+              }
+            }
+          ]
+        },
+        "slide": 2
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:contenu",
+        "accept": [
+          "Interventions assurées de mars à novembre\nAstreinte en cas de tempête",
+          "Interventions assurées de mars à novembre, Astreinte en cas de tempête"
+        ]
+      }
+    },
+    {
+      "id": "M07-E02-07",
+      "consigne": "Un engagement se lit avant le détail qui l'appuie : traitez ce titre en conséquence.",
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "ph:titre",
+        "style": {
+          "bold": true
+        }
+      }
+    }
+  ]
+}

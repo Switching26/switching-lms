@@ -1,0 +1,227 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "mode": "EXERCISE",
+  "moduleTitle": "Des chiffres sans tableau",
+  "title": "Mettre deux montants en regard",
+  "intro": {
+    "title": "Mettre deux montants en regard",
+    "body": "Un budget prévu, un budget dépensé, et un écart noyé dans une phrase. Posez les deux montants en deux colonnes et faites remonter l'écart là où il sera lu."
+  },
+  "outro": {
+    "body": "Deux colonnes, un écart en titre : plus personne n'a de soustraction à faire."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "ppt": {
+    "fileName": "Comptoir Lavaux.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Comptoir Lavaux",
+          "sous-titre": "Revue d'activité du premier semestre"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Le poste transport",
+          "contenu": "Nous avions budgété 96 000 € pour le semestre et nous en avons dépensé 118 400 €, soit 22 400 € de plus que prévu"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M14-E02-01",
+      "consigne": "Affichez la deuxième diapositive, celle du poste transport.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 1
+      }
+    },
+    {
+      "id": "M14-E02-02",
+      "consigne": "Donnez-lui la disposition Comparaison : deux colonnes titrées, faites pour deux valeurs en regard.",
+      "action": {
+        "type": "P_SET_LAYOUT",
+        "layout": "comparaison"
+      },
+      "aide": {
+        "text": "Groupe Diapositives, bouton Disposition, puis « Comparaison »."
+      }
+    },
+    {
+      "id": "M14-E02-03",
+      "consigne": "Écrivez le titre de la colonne de gauche : Budgété.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Comptoir Lavaux",
+                "sous-titre": "Revue d'activité du premier semestre"
+              }
+            },
+            {
+              "layout": "comparaison",
+              "textes": {
+                "titre": "Le poste transport",
+                "contenu": "Nous avions budgété 96 000 € pour le semestre et nous en avons dépensé 118 400 €, soit 22 400 € de plus que prévu"
+              }
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:texte",
+        "accept": [
+          "Budgété"
+        ]
+      },
+      "aide": {
+        "text": "Cliquez dans le petit cadre en haut de la colonne de gauche."
+      }
+    },
+    {
+      "id": "M14-E02-04",
+      "consigne": "Écrivez son contenu : 96 000 €.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Comptoir Lavaux",
+                "sous-titre": "Revue d'activité du premier semestre"
+              }
+            },
+            {
+              "layout": "comparaison",
+              "textes": {
+                "titre": "Le poste transport",
+                "contenu": "Nous avions budgété 96 000 € pour le semestre et nous en avons dépensé 118 400 €, soit 22 400 € de plus que prévu",
+                "texte": "Budgété"
+              }
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:contenu",
+        "accept": [
+          "96 000 €"
+        ]
+      }
+    },
+    {
+      "id": "M14-E02-05",
+      "consigne": "Écrivez le titre de la colonne de droite : Dépensé.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Comptoir Lavaux",
+                "sous-titre": "Revue d'activité du premier semestre"
+              }
+            },
+            {
+              "layout": "comparaison",
+              "textes": {
+                "titre": "Le poste transport",
+                "contenu": "96 000 €",
+                "texte": "Budgété"
+              }
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:texte#2",
+        "accept": [
+          "Dépensé"
+        ]
+      },
+      "aide": {
+        "text": "Le petit cadre en haut de la colonne de droite."
+      }
+    },
+    {
+      "id": "M14-E02-06",
+      "consigne": "Écrivez son contenu : 118 400 €.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Comptoir Lavaux",
+                "sous-titre": "Revue d'activité du premier semestre"
+              }
+            },
+            {
+              "layout": "comparaison",
+              "textes": {
+                "titre": "Le poste transport",
+                "contenu": "96 000 €",
+                "texte": "Budgété",
+                "texte#2": "Dépensé"
+              }
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:contenu#2",
+        "accept": [
+          "118 400 €"
+        ]
+      }
+    },
+    {
+      "id": "M14-E02-07",
+      "consigne": "Remplacez le titre par 22 400 € de dépassement sur le transport : l'écart est le seul nombre que le public ne calculera pas.",
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:titre",
+        "accept": [
+          "22 400 € de dépassement sur le transport"
+        ]
+      },
+      "aide": {
+        "text": "Un titre déjà rempli s'ouvre au double-clic."
+      }
+    },
+    {
+      "id": "M14-E02-08",
+      "consigne": "Mettez ce titre en gras : c'est la ligne qui restera quand les deux montants seront oubliés.",
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "ph:titre",
+        "style": {
+          "bold": true
+        }
+      },
+      "feedback": "Le titre porte la conclusion, les colonnes la justifient : l'ordre de lecture est enfin le bon."
+    }
+  ]
+}

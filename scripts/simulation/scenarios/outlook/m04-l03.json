@@ -1,0 +1,263 @@
+{
+  "schemaVersion": 1,
+  "title": "Écrire à beaucoup de monde sans livrer les adresses",
+  "mode": "LESSON",
+  "moduleTitle": "Sécurité : reconnaître et traiter un message dangereux",
+  "intro": {
+    "title": "Une annonce à envoyer à tous vos clients",
+    "body": "L'atelier ferme deux semaines en août : il faut prévenir. Écrire à trente clients dans le champ « À » est le geste le plus banal, et l'un des plus lourds de conséquences : chacun repart avec le carnet d'adresses de vos concurrents potentiels, et la première réponse « à tous » part chez tout le monde. Il existe un champ fait exactement pour cela."
+  },
+  "outro": {
+    "body": "La règle pour une diffusion : les destinataires vont en Cci, et l'on se met soi-même en « À » pour que le message ait un destinataire visible. Personne ne voit personne, personne ne peut répondre à tous, et aucune adresse ne circule. C'est aussi ce que demande la protection des données personnelles : une adresse professionnelle nominative en est une."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "clients",
+        "nom": "Clients 2026"
+      }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "contacts": [
+      {
+        "nom": "Rémi Tissot",
+        "adresse": "r.tissot@ecole-arts-lambersart.fr",
+        "societe": "École des Arts"
+      },
+      {
+        "nom": "Julien Leroux",
+        "adresse": "j.leroux@habitat-du-nord.fr",
+        "societe": "Habitat du Nord"
+      },
+      {
+        "nom": "Fleurs de Saison",
+        "adresse": "contact@fleurs-de-saison.fr",
+        "societe": "Fleurs de Saison"
+      }
+    ],
+    "messages": [
+      {
+        "id": "m-consigne",
+        "dossier": "reception",
+        "de": "n.kerbaj@atelier-nord.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Fermeture d'août — prévenir les clients",
+        "corps": "Camille,\n\nMerci d'annoncer à nos clients la fermeture de l'atelier du 3 au 17 août.\nUne consigne : ils ne doivent pas voir les adresses les uns des autres. Plusieurs travaillent dans le même secteur.\n\nNadia",
+        "date": "2026-03-18T08:00",
+        "lu": true
+      },
+      {
+        "id": "m-diffusion-ratee",
+        "dossier": "reception",
+        "de": "contact@fleurs-de-saison.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr",
+          "j.leroux@habitat-du-nord.fr",
+          "r.tissot@ecole-arts-lambersart.fr",
+          "contact@menuiserie-concurrente.fr"
+        ],
+        "objet": "Invitation — pot d'inauguration de la boutique",
+        "corps": "Bonjour à tous,\n\nNous vous convions au pot d'inauguration de la boutique rénovée.\n\nFleurs de Saison",
+        "date": "2026-03-18T07:30",
+        "lu": false
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O04-L03-01",
+      "consigne": "Voici d'abord un contre-exemple reçu ce matin. ==Ouvrez l'invitation de Fleurs de Saison== et regardez la ligne « À » : quatre adresses en clair, dont celle d'un confrère qui découvre ainsi vos clients.",
+      "action": {
+        "type": "O_SELECT_MESSAGE",
+        "id": "m-diffusion-ratee"
+      },
+      "aide": {
+        "text": "C'est le message dont l'objet parle d'un pot d'inauguration."
+      }
+    },
+    {
+      "id": "O04-L03-02",
+      "consigne": "==Ouvrez une nouvelle fenêtre de rédaction== pour annoncer la fermeture d'août. Deux dégâts d'un coup dans le message reçu : les adresses ont circulé, et n'importe lequel des quatre peut écrire aux trois autres d'un « Répondre à tous ». À vous de faire mieux.",
+      "action": {
+        "type": "O_CLICK_CONTROL",
+        "control": "cr-nouveau"
+      },
+      "aide": {
+        "text": "Le bouton Nouveau message, en haut de la colonne de gauche ; sur téléphone, le ✚ à côté de la recherche."
+      }
+    },
+    {
+      "id": "O04-L03-03",
+      "consigne": "Premier geste, contre-intuitif : ==mettez VOTRE PROPRE adresse `camille.aubertin@atelier-nord.fr` dans le champ À.== Un message doit avoir un destinataire visible ; ce sera vous, et personne d'autre n'apparaîtra.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "genre": "nouveau",
+          "a": {
+            "contient": [
+              "camille.aubertin@atelier-nord.fr"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Oui, on s'écrit à soi-même : c'est le seul destinataire que les autres verront."
+      }
+    },
+    {
+      "id": "O04-L03-04",
+      "consigne": "==Faites apparaître le champ Cci.== C'est lui qui va porter les clients : **une adresse en copie cachée n'est visible de personne**, pas même des autres destinataires cachés.",
+      "action": {
+        "type": "O_CLICK_CONTROL",
+        "control": "cr-cci"
+      },
+      "aide": {
+        "text": "Le bouton Cci est dans la barre du haut de la fenêtre de rédaction, à côté de Joindre."
+      }
+    },
+    {
+      "id": "O04-L03-05",
+      "consigne": "==Saisissez les trois clients dans le champ Cci==, séparés par des points-virgules : `r.tissot@ecole-arts-lambersart.fr`, `j.leroux@habitat-du-nord.fr`, `contact@fleurs-de-saison.fr`. Vérifiez qu'aucun ne se retrouve dans « À » ou « Cc ».",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "a": {
+            "contient": [
+              "camille.aubertin@atelier-nord.fr"
+            ],
+            "absent": [
+              "r.tissot@ecole-arts-lambersart.fr",
+              "j.leroux@habitat-du-nord.fr",
+              "contact@fleurs-de-saison.fr"
+            ]
+          },
+          "cc": {
+            "vide": true
+          },
+          "cci": {
+            "contient": [
+              "r.tissot@ecole-arts-lambersart.fr",
+              "j.leroux@habitat-du-nord.fr",
+              "contact@fleurs-de-saison.fr"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Les trois adresses sur la seule ligne Cci, séparées par des points-virgules."
+      }
+    },
+    {
+      "id": "O04-L03-06",
+      "consigne": "==Donnez un objet contenant le mot `fermeture`, puis rédigez l'annonce.== Elle doit indiquer **les dates de fermeture** et **comment vous joindre en cas d'urgence** — une annonce qui laisse le client sans recours crée plus d'appels qu'elle n'en évite.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "objet": {
+            "contient": [
+              "fermeture"
+            ],
+            "nonVide": true
+          },
+          "corps": {
+            "salutation": [
+              "bonjour",
+              "madame",
+              "monsieur",
+              "chers clients",
+              "bonsoir"
+            ],
+            "cloture": [
+              "cordialement",
+              "salutations",
+              "bien a vous",
+              "merci"
+            ],
+            "notions": [
+              {
+                "libelle": "les dates de fermeture",
+                "oneOf": [
+                  "3 au 17",
+                  "3 et le 17",
+                  "du 3",
+                  "aout",
+                  "3 aout",
+                  "17 aout"
+                ]
+              },
+              {
+                "libelle": "comment vous joindre en cas d'urgence",
+                "oneOf": [
+                  "urgence",
+                  "telephone",
+                  "03 20",
+                  "joignable",
+                  "message",
+                  "repondeur",
+                  "des le 18"
+                ]
+              }
+            ],
+            "minMots": 12
+          }
+        }
+      },
+      "aide": {
+        "text": "Deux informations sont attendues : les dates, et le moyen de vous joindre malgré la fermeture."
+      }
+    },
+    {
+      "id": "O04-L03-07",
+      "consigne": "==Envoyez l'annonce.== Chaque client reçoit un message qui semble lui être adressé personnellement, ne voit aucune autre adresse, et ne peut répondre qu'à vous. C'est la seule façon correcte de faire une diffusion.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "camille.aubertin@atelier-nord.fr"
+            ]
+          },
+          "cc": {
+            "vide": true
+          },
+          "cci": {
+            "contient": [
+              "r.tissot@ecole-arts-lambersart.fr",
+              "j.leroux@habitat-du-nord.fr",
+              "contact@fleurs-de-saison.fr"
+            ]
+          },
+          "objet": {
+            "contient": [
+              "fermeture"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Le bouton Envoyer est le premier de la barre du haut de la fenêtre de rédaction."
+      }
+    }
+  ]
+}

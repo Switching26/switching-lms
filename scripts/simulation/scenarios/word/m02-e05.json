@@ -1,0 +1,95 @@
+{
+  "schemaVersion": 1,
+  "app": "WORD",
+  "title": "Exercice — Combiner sans surcharger",
+  "mode": "EXERCISE",
+  "moduleTitle": "Saisie et mise en forme des caractères",
+  "intro": {
+    "title": "À VOUS DE JOUER",
+    "body": "Une offre commerciale à mettre en forme, avec une contrainte : trois signaux au maximum sur tout le document. Vous devrez donc choisir ce qui mérite d'être vu — et renoncer au reste."
+  },
+  "outro": "Choisir trois signaux oblige à décider ce qui compte. C'est tout l'exercice de la mise en forme.",
+  "document": {
+    "paragraphes": [
+      {
+        "texte": "Proposition commerciale"
+      },
+      {
+        "texte": "Fourniture et pose de vingt établis d'atelier, modèle Vertou."
+      },
+      {
+        "texte": "Montant total hors taxes : 24 800 euros."
+      },
+      {
+        "texte": "Offre valable trente jours à compter de sa date d'émission."
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M02-E05-01",
+      "consigne": "Premier signal, le titre. ==Portez-le à la taille 18.==",
+      "setup": {
+        "ribbon": {
+          "activeTab": "accueil"
+        }
+      },
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p0",
+        "format": {
+          "taille": 18
+        }
+      },
+      "feedback": "Le document a une entrée."
+    },
+    {
+      "id": "M02-E05-02",
+      "consigne": "==Complétez le titre par la graisse== : taille et gras servent ici la même intention, leur cumul se défend.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p0",
+        "format": {
+          "gras": true
+        }
+      },
+      "feedback": "Premier signal posé."
+    },
+    {
+      "id": "M02-E05-03",
+      "consigne": "Deuxième signal : l'information qu'un client cherche en premier. ==Épaississez « 24 800 euros ».==",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "texte:24 800 euros",
+        "format": {
+          "gras": true
+        }
+      },
+      "feedback": "Le montant se trouve sans lire la phrase."
+    },
+    {
+      "id": "M02-E05-04",
+      "consigne": "Troisième et dernier signal : la limite de validité, qui est une réserve. ==Mettez « trente jours » en italique== plutôt qu'en gras — une réserve se nuance, elle ne crie pas.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "texte:trente jours",
+        "format": {
+          "italique": true
+        }
+      },
+      "feedback": "Trois signaux, trois intentions distinctes."
+    },
+    {
+      "id": "M02-E05-05",
+      "consigne": "Vérifiez que vous avez tenu la contrainte : ==mettez le titre en Georgia==, ce qui ne consomme aucun signal supplémentaire — une police n'attire pas l'œil, elle donne un ton.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p0",
+        "format": {
+          "police": "Georgia"
+        }
+      },
+      "feedback": "Offre prête. Trois signaux, et le lecteur sait où regarder."
+    }
+  ]
+}

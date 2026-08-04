@@ -1,0 +1,161 @@
+{
+  "schemaVersion": 1,
+  "app": "WORD",
+  "title": "Évaluation — Mise en forme des paragraphes",
+  "mode": "EVALUATION",
+  "moduleTitle": "Mise en forme des paragraphes",
+  "intro": {
+    "title": "ÉVALUATION DU MODULE",
+    "body": "Dix gestes notés, sans indice et sans démonstration. Un courrier de relance à compléter, à corriger, puis à mettre en page selon les conventions. Chaque geste compte au premier essai ; vous pouvez passer une question, mais elle sera comptée comme ratée."
+  },
+  "outro": "Évaluation terminée. Vous pouvez la repasser autant de fois que vous le souhaitez : seule votre meilleure note est conservée, et chaque passage repart de zéro sur un document neuf.",
+  "document": {
+    "paragraphes": [
+      {
+        "texte": "Ateliers Rivedoux"
+      },
+      {
+        "texte": "Nantes, le 21 octobre"
+      },
+      {
+        "texte": "Madame, Monsieur,"
+      },
+      {
+        "texte": "La facture 2026-418 demeure impayée à ce jour."
+      },
+      {
+        "texte": "Veuillez agréer nos salutations distinguées."
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M04-EV01-01",
+      "points": 0,
+      "consigne": "Ce courrier de relance est écrit mais pas mis en page : tous ses paragraphes sont alignés à gauche, et il lui manque sa signature. Complétez-le, corrigez une erreur de référence, puis donnez-lui la forme conventionnelle d'une lettre. Les consignes disent la forme à obtenir, jamais quel bouton employer.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M04-EV01-02",
+      "points": 2,
+      "consigne": "Une lettre se termine par l'identité de son émetteur. Ajoutez un paragraphe à la suite du dernier, contenant exactement : Le service comptable",
+      "action": {
+        "type": "W_TYPE_TEXT",
+        "zone": "p4",
+        "accept": [
+          "Le service comptable"
+        ]
+      }
+    },
+    {
+      "id": "M04-EV01-03",
+      "points": 2,
+      "consigne": "Le numéro de facture a été mal reporté. Corrigez le corps de la lettre pour qu'il mentionne la facture référencée 2026-481.",
+      "action": {
+        "type": "W_EXPECT_DOC",
+        "paragraphes": {
+          "p3": [
+            "La facture 2026-481 demeure impayée à ce jour."
+          ]
+        }
+      }
+    },
+    {
+      "id": "M04-EV01-04",
+      "points": 1,
+      "consigne": "Placez l'en-tête de l'expéditeur au milieu de la page.",
+      "setup": {
+        "ribbon": {
+          "activeTab": "accueil"
+        }
+      },
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p0",
+        "style": {
+          "alignement": "centre"
+        }
+      }
+    },
+    {
+      "id": "M04-EV01-05",
+      "points": 1,
+      "consigne": "Placez le lieu et la date selon la convention du courrier français.",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p1",
+        "style": {
+          "alignement": "droite"
+        }
+      }
+    },
+    {
+      "id": "M04-EV01-06",
+      "points": 2,
+      "consigne": "Donnez au corps de la lettre la forme d'un document officiel, avec ses deux bords alignés sur les marges.",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p3",
+        "style": {
+          "alignement": "justifie"
+        }
+      }
+    },
+    {
+      "id": "M04-EV01-07",
+      "points": 1,
+      "consigne": "Placez le service signataire du côté où l'on signe.",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p5",
+        "style": {
+          "alignement": "droite"
+        }
+      }
+    },
+    {
+      "id": "M04-EV01-08",
+      "points": 1,
+      "consigne": "Le numéro corrigé doit se repérer immédiatement : épaississez « 2026-481 », ce passage seulement.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "texte:2026-481",
+        "format": {
+          "gras": true
+        }
+      }
+    },
+    {
+      "id": "M04-EV01-09",
+      "points": 1,
+      "consigne": "Épaississez l'en-tête de l'expéditeur : sur un courrier sans papier à en-tête, la graisse fait office de logo.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p0",
+        "format": {
+          "gras": true
+        }
+      }
+    },
+    {
+      "id": "M04-EV01-10",
+      "points": 1,
+      "consigne": "Vous jugez finalement cet en-tête trop appuyé. Défaites ce dernier geste sans retoucher le paragraphe à la main.",
+      "action": {
+        "type": "W_CLICK_CONTROL",
+        "controle": "w-annuler"
+      }
+    },
+    {
+      "id": "M04-EV01-11",
+      "points": 1,
+      "consigne": "Après comparaison, la graisse était le bon choix : remettez-la, toujours sans repasser par le groupe Police.",
+      "action": {
+        "type": "W_CLICK_CONTROL",
+        "controle": "w-retablir"
+      }
+    }
+  ]
+}

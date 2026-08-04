@@ -1,0 +1,195 @@
+{
+  "schemaVersion": 1,
+  "app": "WORD",
+  "title": "Évaluation — Saisie et mise en forme des caractères",
+  "mode": "EVALUATION",
+  "moduleTitle": "Saisie et mise en forme des caractères",
+  "intro": {
+    "title": "ÉVALUATION DU MODULE",
+    "body": "Treize gestes notés, sans indice et sans démonstration. Une note tarifaire à corriger, compléter et mettre en forme. Chaque geste compte au premier essai ; vous pouvez passer une question, mais elle sera comptée comme ratée."
+  },
+  "outro": "Évaluation terminée. Vous pouvez la repasser autant de fois que vous le souhaitez : seule votre meilleure note est conservée, et chaque passage repart de zéro sur un document neuf.",
+  "document": {
+    "paragraphes": [
+      {
+        "texte": "Tarifs atelier 2026"
+      },
+      {
+        "texte": "Les tarifs ci-dessous sappliquent à compter du 1er avril."
+      },
+      {
+        "texte": "Heure de main-d'œuvre : 62 euros hors taxes."
+      },
+      {
+        "texte": "Déplacement forfaitaire dans un rayon de trente kilomètres : 45 euros."
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M02-EV01-01",
+      "points": 0,
+      "consigne": "Une note tarifaire écrite trop vite : une coquille, une mention manquante, et aucune hiérarchie. Vous allez la corriger, la compléter, puis la mettre en forme selon une règle simple — le titre doit se voir, les deux montants doivent ressortir, et rien d'autre.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M02-EV01-02",
+      "points": 2,
+      "consigne": "Le deuxième paragraphe porte une coquille : l'apostrophe manque à « sappliquent ». Corrigez-le pour qu'il se lise exactement : Les tarifs ci-dessous s'appliquent à compter du 1er avril.",
+      "action": {
+        "type": "W_EXPECT_DOC",
+        "paragraphes": {
+          "p1": [
+            "Les tarifs ci-dessous s'appliquent à compter du 1er avril."
+          ]
+        }
+      }
+    },
+    {
+      "id": "M02-EV01-03",
+      "points": 2,
+      "consigne": "Une note tarifaire se termine toujours par sa limite de validité. Ajoutez un paragraphe à la suite du dernier, contenant exactement : Ces tarifs sont valables jusqu'au 31 décembre.",
+      "action": {
+        "type": "W_TYPE_TEXT",
+        "zone": "p3",
+        "accept": [
+          "Ces tarifs sont valables jusqu'au 31 décembre."
+        ]
+      }
+    },
+    {
+      "id": "M02-EV01-04",
+      "points": 2,
+      "consigne": "Ajoutez enfin une mention d'attention, en capitales, dans un nouveau paragraphe : TARIFS HORS PIECES DETACHEES",
+      "action": {
+        "type": "W_TYPE_TEXT",
+        "zone": "p4",
+        "accept": [
+          "TARIFS HORS PIECES DETACHEES"
+        ],
+        "strict": true
+      }
+    },
+    {
+      "id": "M02-EV01-05",
+      "points": 1,
+      "consigne": "Passons à la mise en forme. Portez le titre à la taille 18.",
+      "setup": {
+        "ribbon": {
+          "activeTab": "accueil"
+        }
+      },
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p0",
+        "format": {
+          "taille": 18
+        }
+      }
+    },
+    {
+      "id": "M02-EV01-06",
+      "points": 1,
+      "consigne": "Cette note sera imprimée : donnez au titre une police à empattements parmi celles que propose le ruban.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p0",
+        "format": {
+          "police": "Georgia"
+        }
+      }
+    },
+    {
+      "id": "M02-EV01-07",
+      "points": 2,
+      "consigne": "Le titre étant sélectionné, épaississez-le sans toucher à la souris.",
+      "action": {
+        "type": "W_KEY",
+        "touches": [
+          "Ctrl",
+          "B"
+        ]
+      }
+    },
+    {
+      "id": "M02-EV01-08",
+      "points": 1,
+      "consigne": "Contrôlez le résultat dans le document : le titre doit être épaissi.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p0",
+        "format": {
+          "gras": true
+        }
+      }
+    },
+    {
+      "id": "M02-EV01-09",
+      "points": 1,
+      "consigne": "Premier montant. Faites ressortir « 62 euros » en l'épaississant, ce passage seulement.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "texte:62 euros",
+        "format": {
+          "gras": true
+        }
+      }
+    },
+    {
+      "id": "M02-EV01-10",
+      "points": 1,
+      "consigne": "Second montant, même traitement : épaississez « 45 euros ».",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "texte:45 euros",
+        "format": {
+          "gras": true
+        }
+      }
+    },
+    {
+      "id": "M02-EV01-11",
+      "points": 1,
+      "consigne": "La limite de validité est une réserve, pas une accroche : mettez « 31 décembre » en italique.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "texte:31 décembre",
+        "format": {
+          "italique": true
+        }
+      }
+    },
+    {
+      "id": "M02-EV01-12",
+      "points": 1,
+      "consigne": "La mention en capitales doit alerter : mettez-la en rouge.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p5",
+        "format": {
+          "couleur": "#c0392b"
+        }
+      }
+    },
+    {
+      "id": "M02-EV01-13",
+      "points": 1,
+      "consigne": "Vous jugez finalement le rouge trop agressif. Défaites ce dernier geste sans retoucher le paragraphe à la main.",
+      "action": {
+        "type": "W_CLICK_CONTROL",
+        "controle": "w-annuler"
+      }
+    },
+    {
+      "id": "M02-EV01-14",
+      "points": 1,
+      "consigne": "Après réflexion, le rouge se justifie sur une mention d'exclusion : remettez-le, toujours sans repasser par le groupe Police.",
+      "action": {
+        "type": "W_CLICK_CONTROL",
+        "controle": "w-retablir"
+      }
+    }
+  ]
+}

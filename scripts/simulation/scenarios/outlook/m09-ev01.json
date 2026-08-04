@@ -1,0 +1,341 @@
+{
+  "schemaVersion": 1,
+  "title": "S'évaluer — Les pièces jointes",
+  "mode": "EVALUATION",
+  "moduleTitle": "Les pièces jointes : ce qui part avec le message",
+  "intro": {
+    "title": "Jeudi 2 avril — un dossier à transmettre, rien de trop",
+    "body": "Un expert attend des pièces, un client attend un devis, et votre poste contient plusieurs fichiers qui se ressemblent. Chaque envoi sera jugé sur ce qui part réellement : le bon document, le bon destinataire, et rien d'autre. Cette épreuve est notée ; la rédaction ne compte pas dans la note."
+  },
+  "outro": {
+    "body": "Le barème portait sur la ligne des pièces jointes et sur celle des destinataires — ce qu'un tiers constate en recevant votre message. Un document interne parti chez un client ne se rattrape pas, et c'est la seule erreur de ce module qui coûte vraiment."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "clients",
+        "nom": "Clients 2026"
+      },
+      {
+        "id": "fournisseurs",
+        "nom": "Fournisseurs"
+      }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "fichiers": [
+      {
+        "nom": "Devis-2026-171.pdf",
+        "taille": "192 Ko"
+      },
+      {
+        "nom": "Devis-2026-171-BROUILLON.pdf",
+        "taille": "186 Ko"
+      },
+      {
+        "nom": "Marges-chantier-2026.pdf",
+        "taille": "74 Ko"
+      },
+      {
+        "nom": "Reportage-photos-HD.zip",
+        "taille": "58 Mo"
+      }
+    ],
+    "messages": [
+      {
+        "id": "m-expert",
+        "dossier": "reception",
+        "de": "expert@cabinet-delaunay-expertises.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Sinistre Beaulieu — pièces du dossier",
+        "corps": "Bonjour,\n\nMerci de me transmettre le rapport et le contrat signé du chantier Beaulieu.\n\nCabinet Delaunay",
+        "date": "2026-04-02T08:05",
+        "lu": false
+      },
+      {
+        "id": "m-transmis",
+        "dossier": "reception",
+        "de": "n.kerbaj@atelier-nord.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Beaulieu — pièces pour l'expert",
+        "corps": "Camille,\n\nVoici les trois pièces du dossier. La note de marge reste interne.\n\nNadia",
+        "date": "2026-04-02T07:30",
+        "lu": false,
+        "pieces": [
+          {
+            "nom": "Rapport-expertise.pdf",
+            "taille": "420 Ko"
+          },
+          {
+            "nom": "Contrat-escalier-signe.pdf",
+            "taille": "312 Ko"
+          },
+          {
+            "nom": "Note-interne-marge.pdf",
+            "taille": "64 Ko"
+          }
+        ]
+      },
+      {
+        "id": "m-devis-client",
+        "dossier": "reception",
+        "de": "j.leroux@habitat-du-nord.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Salle d'attente — devis définitif attendu",
+        "corps": "Bonjour,\n\nPouvez-vous m'adresser le devis définitif ?\n\nJulien Leroux",
+        "date": "2026-04-02T07:10",
+        "lu": false
+      },
+      {
+        "id": "m-pub",
+        "dossier": "reception",
+        "de": "offres@promo-outillage.net",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Offres d'avril",
+        "corps": "Nos offres.",
+        "date": "2026-04-02T05:00",
+        "lu": false
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O09-EV01-01",
+      "consigne": "Ouvrez le message par lequel votre gérante vous a transmis les pièces du dossier Beaulieu.",
+      "action": {
+        "type": "O_SELECT_MESSAGE",
+        "id": "m-transmis"
+      },
+      "points": 1
+    },
+    {
+      "id": "O09-EV01-02",
+      "consigne": "Faites suivre ce dossier à `expert@cabinet-delaunay-expertises.fr`, en ne laissant partir que ce qui le concerne.",
+      "setup": {
+        "courrier": {
+          "messageActif": "m-transmis"
+        }
+      },
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "genre": "transfert",
+          "a": {
+            "contient": [
+              "expert@cabinet-delaunay-expertises.fr"
+            ]
+          },
+          "pieces": {
+            "contient": [
+              "Rapport-expertise.pdf",
+              "Contrat-escalier-signe.pdf"
+            ],
+            "absent": [
+              "Note-interne-marge.pdf"
+            ]
+          }
+        }
+      },
+      "points": 4
+    },
+    {
+      "id": "O09-EV01-03",
+      "consigne": "Mettez votre gérante `n.kerbaj@atelier-nord.fr` en copie : elle doit savoir que le dossier est parti, sans être destinataire principale.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "a": {
+            "contient": [
+              "expert@cabinet-delaunay-expertises.fr"
+            ],
+            "absent": [
+              "n.kerbaj@atelier-nord.fr"
+            ]
+          },
+          "cc": {
+            "contient": [
+              "n.kerbaj@atelier-nord.fr"
+            ]
+          }
+        }
+      },
+      "points": 2
+    },
+    {
+      "id": "O09-EV01-04",
+      "consigne": "Rédigez le mot d'accompagnement avec vos mots. **Cette étape n'entre pas dans la note.**",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "corps": {
+            "minMots": 10,
+            "revueManuelle": true
+          }
+        }
+      },
+      "points": 0
+    },
+    {
+      "id": "O09-EV01-05",
+      "consigne": "Relisez la ligne des pièces jointes, puis envoyez le dossier à l'expert.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "expert@cabinet-delaunay-expertises.fr"
+            ]
+          },
+          "cc": {
+            "contient": [
+              "n.kerbaj@atelier-nord.fr"
+            ]
+          },
+          "pieces": {
+            "contient": [
+              "Rapport-expertise.pdf",
+              "Contrat-escalier-signe.pdf"
+            ],
+            "absent": [
+              "Note-interne-marge.pdf"
+            ]
+          }
+        }
+      },
+      "points": 3
+    },
+    {
+      "id": "O09-EV01-06",
+      "consigne": "Julien Leroux attend son devis définitif. Répondez-lui, à lui seul, en joignant le bon fichier.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "genre": "reponse",
+          "a": {
+            "contient": [
+              "j.leroux@habitat-du-nord.fr"
+            ]
+          },
+          "cc": {
+            "vide": true
+          },
+          "pieces": {
+            "contient": [
+              "Devis-2026-171.pdf"
+            ],
+            "absent": [
+              "Devis-2026-171-BROUILLON.pdf",
+              "Marges-chantier-2026.pdf",
+              "Reportage-photos-HD.zip"
+            ]
+          }
+        }
+      },
+      "points": 4
+    },
+    {
+      "id": "O09-EV01-07",
+      "consigne": "Rédigez cette réponse avec vos mots, puis envoyez-la. **La rédaction n'entre pas dans la note.**",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "j.leroux@habitat-du-nord.fr"
+            ]
+          },
+          "cc": {
+            "vide": true
+          },
+          "pieces": {
+            "contient": [
+              "Devis-2026-171.pdf"
+            ],
+            "absent": [
+              "Devis-2026-171-BROUILLON.pdf"
+            ]
+          },
+          "corps": {
+            "minMots": 10,
+            "revueManuelle": true
+          }
+        }
+      },
+      "points": 3
+    },
+    {
+      "id": "O09-EV01-08",
+      "consigne": "Le dossier de l'expert est transmis : rangez le message de votre gérante dans les clients.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-transmis": {
+              "dossier": "clients"
+            }
+          }
+        }
+      },
+      "points": 1
+    },
+    {
+      "id": "O09-EV01-09",
+      "consigne": "Sortez les offres d'avril de votre file d'attente.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-pub": {
+              "dossier": "supprimes"
+            }
+          }
+        }
+      },
+      "points": 1
+    },
+    {
+      "id": "O09-EV01-10",
+      "consigne": "La demande de l'expert reste à suivre jusqu'à son accusé de réception : marquez-la et laissez-la dans votre boîte.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-expert": {
+              "dossier": "reception",
+              "indicateur": true
+            }
+          }
+        }
+      },
+      "points": 1
+    }
+  ]
+}

@@ -1,0 +1,143 @@
+{
+  "schemaVersion": 1,
+  "app": "WORD",
+  "title": "Saisir, insérer et corriger du texte",
+  "mode": "LESSON",
+  "moduleTitle": "Saisie et mise en forme des caractères",
+  "intro": {
+    "title": "ÉCRIRE, C'EST SURTOUT RÉÉCRIRE",
+    "body": "Un document se corrige plus souvent qu'il ne s'écrit. Vous allez apprendre à intervenir DANS un texte existant : glisser un mot au milieu d'une phrase, réparer une coquille, prolonger un paragraphe. Le geste commun à tout cela tient en un mot : placer le point d'insertion au bon endroit."
+  },
+  "outro": "Insérer, corriger, prolonger : trois gestes qui reposent tous sur la position du point d'insertion. C'est le clic qui compte, la frappe ne fait que suivre.",
+  "document": {
+    "paragraphes": [
+      {
+        "texte": "Compte rendu dintervention"
+      },
+      {
+        "texte": "Le technicien est intervenu sur la ligne de conditionnement."
+      },
+      {
+        "texte": "La panne provenait du capteur de fin de course."
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M02-L01-01",
+      "points": 0,
+      "consigne": "Le trait clignotant qui parcourt votre document s'appelle le **point d'insertion**. Il indique où le prochain caractère s'écrira — et il obéit à un seul geste : le clic. Retenez la conséquence pratique : pour écrire au milieu d'un texte, on ne cherche pas une commande, on clique à l'endroit voulu.",
+      "action": {
+        "type": "READ"
+      },
+      "montrer": [
+        {
+          "type": "W_SELECT_TEXT",
+          "zone": "p1:mot2"
+        }
+      ],
+      "feedback": "Cliquer, c'est déjà écrire : le reste n'est que frappe."
+    },
+    {
+      "id": "M02-L01-02",
+      "consigne": "Le titre porte une coquille : l'apostrophe manque à « dintervention ». ==Cliquez entre le d et le i, puis tapez l'apostrophe==, pour que le titre se lise « Compte rendu d'intervention ».",
+      "action": {
+        "type": "W_EXPECT_DOC",
+        "paragraphes": {
+          "p0": [
+            "Compte rendu d'intervention"
+          ]
+        }
+      },
+      "aide": {
+        "text": "Un clic précis suffit : inutile de retaper le titre entier.",
+        "showTarget": true
+      },
+      "feedback": "Une lettre ajoutée au bon endroit, et rien d'autre n'a bougé."
+    },
+    {
+      "id": "M02-L01-03",
+      "consigne": "Une intervention se date. ==Insérez « ce matin » entre « intervenu » et « sur »== dans le deuxième paragraphe, pour qu'il se lise : Le technicien est intervenu ce matin sur la ligne de conditionnement.",
+      "action": {
+        "type": "W_EXPECT_DOC",
+        "paragraphes": {
+          "p1": [
+            "Le technicien est intervenu ce matin sur la ligne de conditionnement."
+          ]
+        }
+      },
+      "aide": {
+        "text": "Cliquez juste après « intervenu », tapez une espace puis les deux mots.",
+        "showTarget": true
+      },
+      "feedback": "Le texte suivant s'est décalé tout seul : Word recompose la ligne à chaque frappe."
+    },
+    {
+      "id": "M02-L01-04",
+      "consigne": "Prolongeons le compte rendu. ==Placez-vous à la fin du dernier paragraphe, appuyez sur Entrée et saisissez== : La pièce a été remplacée en trente minutes.",
+      "action": {
+        "type": "W_TYPE_TEXT",
+        "zone": "p2",
+        "accept": [
+          "La pièce a été remplacée en trente minutes."
+        ]
+      },
+      "feedback": "Un quatrième paragraphe, créé par la seule touche Entrée."
+    },
+    {
+      "id": "M02-L01-05",
+      "consigne": "==Appuyez sur Entrée et saisissez, en capitales== : REMPLACEMENT SOUS QUARANTE-HUIT HEURES. Deux chemins pour les capitales : **Maj** maintenue pour une lettre, **Verrouillage Maj** pour une mention entière.",
+      "action": {
+        "type": "W_TYPE_TEXT",
+        "zone": "p3",
+        "accept": [
+          "REMPLACEMENT SOUS QUARANTE-HUIT HEURES"
+        ],
+        "strict": true
+      },
+      "aide": {
+        "text": "Verrouillage Maj, puis la phrase — et relâchez-le ensuite.",
+        "showTarget": true
+      },
+      "feedback": "Cette étape exige les vraies capitales : c'est la seule du module où la casse compte."
+    },
+    {
+      "id": "M02-L01-06",
+      "consigne": "Une correction se fait aussi en fin de phrase. ==Complétez le troisième paragraphe== pour qu'il se lise : La panne provenait du capteur de fin de course, désormais hors service.",
+      "action": {
+        "type": "W_EXPECT_DOC",
+        "paragraphes": {
+          "p2": [
+            "La panne provenait du capteur de fin de course, désormais hors service."
+          ]
+        }
+      },
+      "aide": {
+        "text": "Cliquez après « course », effacez le point, puis écrivez la suite.",
+        "showTarget": true
+      },
+      "feedback": "Effacer puis réécrire : c'est le geste de correction le plus courant."
+    },
+    {
+      "id": "M02-L01-07",
+      "consigne": "Le délai est l'information que le lecteur cherche. ==Sélectionnez « trente minutes » et mettez-le en gras.==",
+      "setup": {
+        "ribbon": {
+          "activeTab": "accueil"
+        }
+      },
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "texte:trente minutes",
+        "format": {
+          "gras": true
+        }
+      },
+      "aide": {
+        "text": "Glissez la souris sur les deux mots, puis le bouton G.",
+        "showTarget": true
+      },
+      "feedback": "Le délai ressort d'un coup d'œil."
+    }
+  ]
+}

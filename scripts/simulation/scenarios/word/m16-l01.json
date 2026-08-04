@@ -1,0 +1,117 @@
+{
+ "schemaVersion": 1,
+ "app": "WORD",
+ "title": "Choisir le bon objet pour la bonne information",
+ "mode": "LESSON",
+ "moduleTitle": "Schémas, graphiques et zones de texte",
+ "intro": {
+  "title": "UNE INFORMATION, UNE FORME",
+  "body": "Une hiérarchie se montre par un **organigramme**, une suite d'étapes par un **processus**, une donnée chiffrée par un **graphique**, un encadré par une **zone de texte**. Choisir la mauvaise forme rend l'information plus difficile à lire que du texte brut."
+ },
+ "outro": "⚠️ Dans ce simulateur, ces objets s'insèrent et se mettent en page, mais leur contenu n'est pas modifiable — le vrai Word permet d'y saisir du texte. Ce que vous apprenez ici est le CHOIX de la forme et sa mise en page, qui sont les deux décisions qui comptent.",
+ "document": {
+  "paragraphes": [
+   {
+    "texte": "Note d'organisation interne",
+    "style": "titre"
+   },
+   {
+    "texte": "La réorganisation du service prend effet au premier septembre.",
+    "style": "normal"
+   },
+   {
+    "texte": "Trois pôles remplacent l'organisation par métiers.",
+    "style": "normal"
+   },
+   {
+    "texte": "Chaque pôle est rattaché à la direction des opérations.",
+    "style": "normal"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "id": "M16-L01-01",
+   "points": 0,
+   "action": {
+    "type": "READ"
+   },
+   "consigne": "Ces objets s'insèrent tous par le même chemin que les images, dans l'onglet **Insertion**. Ce qui change n'est pas le geste, mais la **décision** : quelle forme représente le mieux ce que vous voulez dire ?",
+   "montrer": [
+    {
+     "type": "W_CLICK_CONTROL",
+     "controle": "w-inserer-image"
+    }
+   ],
+   "feedback": "Même geste, décisions différentes."
+  },
+  {
+   "id": "M16-L01-02",
+   "consigne": "La note décrit un rattachement hiérarchique. ==Insérez l'organigramme== : c'est la forme qui montre qui dépend de qui.",
+   "action": {
+    "type": "W_EXPECT_IMAGE",
+    "image": "organigramme"
+   },
+   "setup": {
+    "ribbon": {
+     "activeTab": "insertion"
+    }
+   },
+   "aide": {
+    "text": "Onglet « Insertion », bouton « Image », vignette « Organigramme ».",
+    "showTarget": true
+   },
+   "feedback": "La hiérarchie se lit d'un coup d'œil."
+  },
+  {
+   "id": "M16-L01-03",
+   "consigne": "==Appliquez l'habillage « Haut et bas ».== Un schéma se lit mal quand le texte le serre : il lui faut toute la largeur.",
+   "action": {
+    "type": "W_EXPECT_IMAGE",
+    "image": "organigramme",
+    "habillage": "hautbas"
+   },
+   "aide": {
+    "text": "Bouton « Haut et bas ».",
+    "showTarget": true
+   },
+   "feedback": "Le schéma occupe la largeur : il est lisible."
+  },
+  {
+   "id": "M16-L01-04",
+   "consigne": "La note décrit aussi un enchaînement d'étapes. ==Retirez l'organigramme== pour essayer une autre forme.",
+   "action": {
+    "type": "W_EXPECT_IMAGE",
+    "image": "organigramme",
+    "absente": true
+   },
+   "aide": {
+    "text": "Bouton « Supprimer l'image ».",
+    "showTarget": true
+   },
+   "feedback": "Le document est libre."
+  },
+  {
+   "id": "M16-L01-05",
+   "consigne": "==Insérez le processus en étapes.== Les flèches disent l'ordre et le sens, ce qu'un organigramme ne montre pas.",
+   "action": {
+    "type": "W_EXPECT_IMAGE",
+    "image": "processus"
+   },
+   "aide": {
+    "text": "Galerie, vignette « Processus en étapes ».",
+    "showTarget": true
+   },
+   "feedback": "L'enchaînement est explicite."
+  },
+  {
+   "id": "M16-L01-06",
+   "points": 0,
+   "action": {
+    "type": "READ"
+   },
+   "consigne": "Le même contenu, deux formes, deux messages : l'organigramme dit **qui dépend de qui**, le processus dit **dans quel ordre**. Choisir la forme, c'est déjà interpréter l'information pour le lecteur.",
+   "feedback": "La forme fait partie du message."
+  }
+ ]
+}

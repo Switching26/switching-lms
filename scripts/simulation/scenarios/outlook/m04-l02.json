@@ -1,0 +1,231 @@
+{
+  "schemaVersion": 1,
+  "title": "Ne pas répondre, mais signaler",
+  "mode": "LESSON",
+  "moduleTitle": "Sécurité : reconnaître et traiter un message dangereux",
+  "intro": {
+    "title": "La gérante vous demande un virement immédiat",
+    "body": "Le message porte le nom de Nadia Kerbaj, votre gérante. Il demande un virement, aujourd'hui, sans passer par la procédure habituelle, et prie de ne pas en parler. C'est la fraude la plus coûteuse pour les petites entreprises, et la plus simple à désamorcer : elle ne survit pas à une vérification faite par un autre canal."
+  },
+  "outro": {
+    "body": "Trois réflexes, dans cet ordre. Ne jamais répondre au message douteux : répondre confirme que l'adresse est active et ouvre la discussion. Vérifier par un autre canal — un appel, ou un message écrit à l'adresse que vous connaissez, jamais en répondant à celui-ci. Et signaler, en faisant suivre, pour que les autres ne tombent pas dans le même piège."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "clients",
+        "nom": "Clients 2026"
+      }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "contacts": [
+      {
+        "nom": "Nadia Kerbaj",
+        "adresse": "n.kerbaj@atelier-nord.fr",
+        "societe": "Atelier Nord"
+      }
+    ],
+    "messages": [
+      {
+        "id": "m-fraude",
+        "dossier": "reception",
+        "de": "n.kerbaj@atelier-nord.fr.securite-mail.co",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Confidentiel — virement à passer aujourd'hui",
+        "corps": "Camille,\n\nJe suis en déplacement et injoignable par téléphone. Je dois régler un acompte à un nouveau fournisseur avant ce soir.\nMerci de faire le virement de 4 800 € sur les coordonnées ci-jointes, et de ne pas en parler à l'équipe : la négociation est confidentielle.\n\nNadia",
+        "date": "2026-03-17T08:05",
+        "lu": false,
+        "pieces": [
+          {
+            "nom": "Coordonnees-bancaires.pdf",
+            "taille": "54 Ko"
+          }
+        ]
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O04-L02-01",
+      "consigne": "==Ouvrez ce message== et lisez l'adresse complète de l'expéditeur, jusqu'au bout. Le nom affiché dit « Nadia Kerbaj » ; l'adresse, elle, se termine par `.securite-mail.co`.",
+      "action": {
+        "type": "O_SELECT_MESSAGE",
+        "id": "m-fraude"
+      },
+      "aide": {
+        "text": "C'est le message dont l'objet parle d'un virement confidentiel à passer aujourd'hui."
+      }
+    },
+    {
+      "id": "O04-L02-02",
+      "consigne": "==Marquez ce message d'un indicateur== : il ne partira nulle part avant d'avoir été signalé. Dans `n.kerbaj@atelier-nord.fr.securite-mail.co`, le vrai domaine est ce qui précède le tout dernier point : **securite-mail.co**. Le nom de votre entreprise n'est qu'un décor placé devant.",
+      "setup": {
+        "courrier": {
+          "messageActif": "m-fraude"
+        }
+      },
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-fraude": {
+              "indicateur": true
+            }
+          }
+        }
+      },
+      "aide": {
+        "text": "Le petit drapeau, dans la barre du haut du volet de lecture."
+      }
+    },
+    {
+      "id": "O04-L02-03",
+      "consigne": "==Écrivez un nouveau message à la vraie adresse de Nadia==, `n.kerbaj@atelier-nord.fr`. La tentation serait de répondre « c'est bien toi ? » : **ne répondez jamais à un message douteux**, la réponse confirme que votre adresse est lue. On vérifie ailleurs.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "genre": "nouveau",
+          "a": {
+            "contient": [
+              "n.kerbaj@atelier-nord.fr"
+            ],
+            "absent": [
+              "n.kerbaj@atelier-nord.fr.securite-mail.co"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Utilisez Nouveau message, pas Répondre : c'est ce qui garantit d'écrire à la bonne adresse."
+      }
+    },
+    {
+      "id": "O04-L02-04",
+      "consigne": "==Donnez à ce message un objet contenant le mot `vérification`.== Un objet explicite permet à Nadia de comprendre en un coup d'œil qu'il ne s'agit pas d'une demande ordinaire.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "objet": {
+            "contient": [
+              "verification"
+            ],
+            "nonVide": true
+          }
+        }
+      },
+      "aide": {
+        "text": "Par exemple « Vérification — demande de virement reçue ce matin ». La formulation est libre."
+      }
+    },
+    {
+      "id": "O04-L02-05",
+      "consigne": "==Rédigez la vérification.== Elle doit décrire **la demande reçue** — un virement — et **le montant** annoncé, pour que Nadia puisse confirmer ou infirmer sans ambiguïté. N'écrivez pas « je crois que c'est un faux » : décrivez les faits, elle tranchera.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "corps": {
+            "salutation": [
+              "bonjour",
+              "nadia",
+              "bonsoir",
+              "salut"
+            ],
+            "cloture": [
+              "merci",
+              "cordialement",
+              "bien a toi",
+              "a bientot"
+            ],
+            "notions": [
+              {
+                "libelle": "la nature de la demande reçue",
+                "oneOf": [
+                  "virement",
+                  "acompte",
+                  "paiement",
+                  "coordonnees bancaires"
+                ]
+              },
+              {
+                "libelle": "le montant annoncé",
+                "oneOf": [
+                  "4 800",
+                  "4800",
+                  "4 800 €",
+                  "quatre mille huit"
+                ]
+              }
+            ],
+            "minMots": 12
+          }
+        }
+      },
+      "aide": {
+        "text": "Deux informations sont attendues : ce qui vous est demandé, et le montant."
+      }
+    },
+    {
+      "id": "O04-L02-06",
+      "consigne": "==Envoyez cette vérification.== Aucun virement n'est parti, aucune pièce jointe n'a été ouverte, et l'escroc n'a reçu aucun signe de vie. Le dossier est entre les mains de la seule personne qui peut trancher.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "n.kerbaj@atelier-nord.fr"
+            ],
+            "absent": [
+              "n.kerbaj@atelier-nord.fr.securite-mail.co"
+            ]
+          },
+          "objet": {
+            "contient": [
+              "verification"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Le bouton Envoyer est le premier de la barre du haut de la fenêtre de rédaction."
+      }
+    },
+    {
+      "id": "O04-L02-07",
+      "consigne": "Dernier geste : isoler la tentative. ==Rangez le message frauduleux dans le Courrier indésirable.== Le supprimer effacerait la preuve ; le laisser en boîte de réception risquerait qu'un collègue pressé le traite à votre place.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-fraude": {
+              "dossier": "indesirables"
+            }
+          }
+        }
+      },
+      "aide": {
+        "text": "Ouvrez le message frauduleux, puis Déplacer, puis Courrier indésirable."
+      }
+    }
+  ]
+}

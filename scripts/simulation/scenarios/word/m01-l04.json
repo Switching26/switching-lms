@@ -1,0 +1,135 @@
+{
+  "schemaVersion": 1,
+  "app": "WORD",
+  "title": "Mettre en évidence : gras, italique, souligné",
+  "mode": "LESSON",
+  "moduleTitle": "Pour commencer",
+  "intro": {
+    "title": "TROIS ATTRIBUTS, DEUX CHEMINS",
+    "body": "Gras, italique, souligné : trois façons de faire ressortir un passage, et deux manières de les poser — le ruban à la souris, ou le raccourci clavier. Le raccourci n'est pas un gadget : c'est ce qui vous fera gagner du temps quand vous mettrez en forme un document entier."
+  },
+  "outro": "Ctrl + B, Ctrl + I, Ctrl + U — trois raccourcis qui valent pour presque tous les logiciels. Retenez aussi qu'un attribut se retire du même geste qui l'a posé.",
+  "document": {
+    "paragraphes": [
+      {
+        "texte": "Offre d'emploi"
+      },
+      {
+        "texte": "Les Ateliers Rivedoux recrutent un technicien de maintenance en contrat à durée indéterminée."
+      },
+      {
+        "texte": "Poste basé à Nantes, à pourvoir dès le mois de mai."
+      },
+      {
+        "texte": "Candidatures à adresser au service des ressources humaines avant le 15 avril."
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M01-L04-01",
+      "consigne": "Trois attributs à distinguer, parce qu'ils ne servent pas au même usage. Le **gras** signale ce qui compte — une échéance, un montant. L'**italique** marque un mot étranger, un titre d'ouvrage, une nuance. Le **souligné** est rare dans un document professionnel : à l'écran, il se confond avec un lien. Chacun a son raccourci : Ctrl + B, Ctrl + I, Ctrl + U.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0,
+      "feedback": "B comme bold, I comme italic, U comme underline : les raccourcis viennent de l'anglais."
+    },
+    {
+      "id": "M01-L04-02",
+      "consigne": "Commencez par désigner ce que vous voulez mettre en avant : ==sélectionnez le titre== « Offre d'emploi », d'un triple-clic dedans.",
+      "action": {
+        "type": "W_SELECT_TEXT",
+        "zone": "p0",
+        "tolerance": 2
+      },
+      "aide": {
+        "text": "Trois clics rapprochés dans le titre.",
+        "showTarget": true
+      },
+      "feedback": "Le titre est désigné. Le raccourci de l'étape suivante ne touchera que lui."
+    },
+    {
+      "id": "M01-L04-03",
+      "consigne": "Sans lâcher la sélection, ==appuyez sur Ctrl + B== pour poser le gras au clavier. Comparez mentalement avec la leçon précédente : c'est le même effet que le bouton **G**, obtenu sans quitter le clavier des yeux.",
+      "action": {
+        "type": "W_KEY",
+        "touches": [
+          "Ctrl",
+          "B"
+        ]
+      },
+      "aide": {
+        "text": "Maintenez Ctrl enfoncé et appuyez sur B.",
+        "showTarget": true
+      },
+      "feedback": "Le titre s'épaissit — sans un seul déplacement de souris."
+    },
+    {
+      "id": "M01-L04-04",
+      "consigne": "Contrôlez que l'attribut est bien inscrit dans le document, et pas seulement affiché : ==le titre doit être en gras==. Si ce n'est pas le cas, resélectionnez-le et recommencez.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p0",
+        "format": {
+          "gras": true
+        }
+      },
+      "feedback": "Le gras est bien enregistré dans le document lui-même."
+    },
+    {
+      "id": "M01-L04-05",
+      "consigne": "Passons à l'italique, qui sert à nuancer. ==Sélectionnez le passage « technicien de maintenance »== dans le deuxième paragraphe, en faisant glisser la souris. Un conseil de méthode : visez un passage qui tient sur une seule ligne, car un glissement qui saute d'une ligne à l'autre est bien plus difficile à contrôler.",
+      "action": {
+        "type": "W_SELECT_TEXT",
+        "zone": "texte:technicien de maintenance",
+        "tolerance": 3
+      },
+      "aide": {
+        "text": "Cliquez avant « technicien », glissez jusqu'après « maintenance », relâchez.",
+        "showTarget": true
+      },
+      "feedback": "Trois mots désignés au milieu de la phrase."
+    },
+    {
+      "id": "M01-L04-06",
+      "consigne": "==Appuyez sur Ctrl + I== pour mettre ce passage en italique. Vous venez d'employer deux raccourcis : ils fonctionnent tous sur le même principe, Ctrl plus l'initiale anglaise de l'attribut.",
+      "action": {
+        "type": "W_KEY",
+        "touches": [
+          "Ctrl",
+          "I"
+        ]
+      },
+      "feedback": "Le passage penche : la nuance est posée."
+    },
+    {
+      "id": "M01-L04-07",
+      "consigne": "Vérifiez le résultat dans le document : ==ce passage doit être en italique==.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "texte:technicien de maintenance",
+        "format": {
+          "italique": true
+        }
+      },
+      "feedback": "L'italique est en place, et le reste de la phrase n'a pas bougé."
+    },
+    {
+      "id": "M01-L04-08",
+      "consigne": "Dernier attribut, à employer avec parcimonie. ==Soulignez la date « 15 avril »== du dernier paragraphe : sélectionnez-la, puis posez le souligné, au bouton **S** ou au raccourci Ctrl + U — les deux chemins donnent le même résultat.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "texte:15 avril",
+        "format": {
+          "souligne": true
+        }
+      },
+      "aide": {
+        "text": "Le S souligné du groupe Police, ou Ctrl + U une fois la date sélectionnée.",
+        "showTarget": true
+      },
+      "feedback": "La date de clôture ressort. Rappelez-vous qu'un second Ctrl + U l'enlèverait : ces attributs sont des interrupteurs."
+    }
+  ]
+}

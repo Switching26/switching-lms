@@ -1,0 +1,296 @@
+{
+  "schemaVersion": 1,
+  "title": "S'évaluer — Répondre, transférer, tenir une conversation",
+  "mode": "EVALUATION",
+  "moduleTitle": "Répondre, transférer, tenir une conversation",
+  "intro": {
+    "title": "Une facture partie chez le mauvais destinataire",
+    "body": "Votre fournisseur vous adresse une facture… avec votre client en copie. Deux gestes sont nécessaires, et ils ne s'adressent pas aux mêmes personnes : signaler l'erreur au fournisseur seul, puis faire suivre la facture à votre comptabilité. Cette épreuve est notée : chaque geste compte au premier essai, aucune aide n'est proposée. La rédaction ne compte pas dans la note."
+  },
+  "outro": {
+    "body": "L'épreuve portait sur le choix du bouton et sur la ligne des destinataires — ce qui se vérifie sans discussion. Répondre quand la remarque ne concerne qu'une personne, transférer quand le destinataire n'était pas dans la boucle, et regarder les pièces jointes avant qu'elles ne partent."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "clients",
+        "nom": "Clients 2026"
+      },
+      {
+        "id": "fournisseurs",
+        "nom": "Fournisseurs"
+      }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "messages": [
+      {
+        "id": "m-facture",
+        "dossier": "reception",
+        "de": "compta@quincaillerie-delmas.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "cc": [
+          "j.leroux@habitat-du-nord.fr"
+        ],
+        "objet": "Facture du chantier Leroux — mars 2026",
+        "corps": "Bonjour,\n\nVeuillez trouver la facture QD-4520 correspondant aux fournitures du chantier Leroux.\nRèglement attendu au 30 mars.\n\nService comptabilité\nQuincaillerie Delmas",
+        "date": "2026-03-13T08:12",
+        "lu": false,
+        "pieces": [
+          {
+            "nom": "Facture-QD-4520.pdf",
+            "taille": "118 Ko"
+          }
+        ]
+      },
+      {
+        "id": "m-planning",
+        "dossier": "reception",
+        "de": "h.vasseur@menuiserie-vasseur.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Escalier Leroux — réception prévue lundi",
+        "corps": "Bonjour Camille,\n\nLe client souhaite une réception de chantier lundi matin. Je te confirmerai l'heure vendredi.\n\nHugo",
+        "date": "2026-03-13T07:30",
+        "lu": false
+      },
+      {
+        "id": "m-pub",
+        "dossier": "reception",
+        "de": "newsletter@bois-et-materiaux.info",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Le bois cette semaine — édition du 13 mars",
+        "corps": "L'actualité du bois.",
+        "date": "2026-03-13T04:20",
+        "lu": false
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O02-EV01-01",
+      "consigne": "Ouvrez la facture de la Quincaillerie Delmas et lisez son en-tête en entier : c'est là que se trouve le problème.",
+      "action": {
+        "type": "O_SELECT_MESSAGE",
+        "id": "m-facture"
+      },
+      "points": 1
+    },
+    {
+      "id": "O02-EV01-02",
+      "consigne": "Votre client `j.leroux@habitat-du-nord.fr` a reçu une facture qui ne le concerne pas. Signalez-le au fournisseur — et à lui seul. Complétez aussi l'objet avec le mot `diffusion`, sans retirer le préfixe.",
+      "setup": {
+        "courrier": {
+          "messageActif": "m-facture"
+        }
+      },
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "genre": "reponse",
+          "a": {
+            "contient": [
+              "compta@quincaillerie-delmas.fr"
+            ],
+            "absent": [
+              "j.leroux@habitat-du-nord.fr"
+            ]
+          },
+          "cc": {
+            "vide": true
+          },
+          "objet": {
+            "prefixe": "RE",
+            "contient": [
+              "diffusion"
+            ]
+          }
+        }
+      },
+      "points": 3
+    },
+    {
+      "id": "O02-EV01-03",
+      "consigne": "Rédigez le signalement avec vos mots. **Cette étape n'entre pas dans la note** : ce qui se vérifie automatiquement, c'est l'enveloppe.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "corps": {
+            "minMots": 10,
+            "revueManuelle": true
+          }
+        }
+      },
+      "points": 0
+    },
+    {
+      "id": "O02-EV01-04",
+      "consigne": "Relisez la ligne des destinataires, puis envoyez ce signalement.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "compta@quincaillerie-delmas.fr"
+            ],
+            "absent": [
+              "j.leroux@habitat-du-nord.fr"
+            ]
+          },
+          "cc": {
+            "vide": true
+          },
+          "objet": {
+            "prefixe": "RE",
+            "contient": [
+              "diffusion"
+            ]
+          }
+        }
+      },
+      "points": 2
+    },
+    {
+      "id": "O02-EV01-05",
+      "consigne": "La facture doit maintenant parvenir à votre comptabilité, `compta@atelier-nord.fr`, qui n'était pas dans l'échange. Faites-la suivre avec le document.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "genre": "transfert",
+          "a": {
+            "contient": [
+              "compta@atelier-nord.fr"
+            ],
+            "absent": [
+              "j.leroux@habitat-du-nord.fr",
+              "compta@quincaillerie-delmas.fr"
+            ]
+          },
+          "pieces": {
+            "contient": [
+              "Facture-QD-4520.pdf"
+            ]
+          }
+        }
+      },
+      "points": 3
+    },
+    {
+      "id": "O02-EV01-06",
+      "consigne": "Complétez l'objet de ce transfert avec la référence `QD-4520`, sans retirer le préfixe posé par Outlook.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "objet": {
+            "prefixe": "TR",
+            "contient": [
+              "QD-4520"
+            ]
+          }
+        }
+      },
+      "points": 1
+    },
+    {
+      "id": "O02-EV01-07",
+      "consigne": "Écrivez un mot d'accompagnement, puis envoyez le transfert.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "compta@atelier-nord.fr"
+            ]
+          },
+          "objet": {
+            "prefixe": "TR",
+            "contient": [
+              "QD-4520"
+            ]
+          },
+          "pieces": {
+            "contient": [
+              "Facture-QD-4520.pdf"
+            ]
+          },
+          "corps": {
+            "minMots": 8,
+            "revueManuelle": true
+          }
+        }
+      },
+      "points": 2
+    },
+    {
+      "id": "O02-EV01-08",
+      "consigne": "La facture est traitée. Rangez-la dans le dossier des fournisseurs.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-facture": {
+              "dossier": "fournisseurs"
+            }
+          }
+        }
+      },
+      "points": 1
+    },
+    {
+      "id": "O02-EV01-09",
+      "consigne": "Sortez la lettre d'information de votre file d'attente.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-pub": {
+              "dossier": "supprimes"
+            }
+          }
+        }
+      },
+      "points": 1
+    },
+    {
+      "id": "O02-EV01-10",
+      "consigne": "Le message d'Hugo annonce une réception de chantier lundi, mais l'heure ne sera connue que vendredi : vous ne pouvez ni y répondre, ni le classer. Marquez-le, et laissez-le dans votre boîte.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-planning": {
+              "dossier": "reception",
+              "indicateur": true
+            }
+          }
+        }
+      },
+      "points": 1
+    }
+  ]
+}

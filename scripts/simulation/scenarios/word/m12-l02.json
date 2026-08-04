@@ -1,0 +1,115 @@
+{
+  "schemaVersion": 1,
+  "app": "WORD",
+  "title": "Dimensionner un tableau selon son contenu",
+  "mode": "LESSON",
+  "moduleTitle": "Les tableaux",
+  "intro": {
+    "title": "COMBIEN DE LIGNES, COMBIEN DE COLONNES ?",
+    "body": "C'est la seule question qui compte, et elle se répond avant d'insérer. Vous allez dimensionner trois tableaux à partir de trois besoins différents — un planning, un devis, un relevé — et voir que la réponse ne se devine pas, elle se compte."
+  },
+  "outro": "Une colonne par information, une ligne par élément, plus l'en-tête. Un tableau mal dimensionné se voit tout de suite : colonne vide, ligne en trop, ou pire, information qu'on entasse dans une case déjà occupée.",
+  "document": {
+    "paragraphes": [
+      {
+        "texte": "Documents à préparer pour la semaine"
+      },
+      {
+        "texte": "Planning des équipes : trois équipes, pour chacune le nom du chef d'équipe et l'atelier affecté."
+      },
+      {
+        "texte": "Devis fournisseur : quatre articles, avec référence, quantité et prix unitaire."
+      },
+      {
+        "texte": "Relevé de température : sept relevés, avec la date et la valeur mesurée."
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M12-L02-01",
+      "consigne": "==Mettez les trois besoins en liste à puces==, en commençant par le planning : une énumération de documents se compte.",
+      "setup": {
+        "ribbon": {
+          "activeTab": "accueil"
+        }
+      },
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p1",
+        "style": {
+          "liste": "puces"
+        }
+      },
+      "feedback": "Premier besoin listé."
+    },
+    {
+      "id": "M12-L02-02",
+      "consigne": "==Poursuivez avec le devis fournisseur.==",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p2",
+        "style": {
+          "liste": "puces"
+        }
+      },
+      "feedback": "Deuxième besoin listé."
+    },
+    {
+      "id": "M12-L02-03",
+      "consigne": "==Épaississez le titre== pour terminer.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p0",
+        "format": {
+          "gras": true
+        }
+      },
+      "feedback": "Note de préparation complète."
+    },
+    {
+      "id": "M12-L02-04",
+      "consigne": "Premier besoin, le planning : trois équipes, deux informations chacune. ==Insérez le tableau aux bonnes dimensions==, en n'oubliant pas la ligne d'en-tête.",
+      "action": {
+        "type": "W_EXPECT_TABLE",
+        "lignes": 4,
+        "colonnes": 2
+      },
+      "aide": {
+        "text": "Trois équipes plus l'en-tête font quatre lignes ; chef d'équipe et atelier font deux colonnes.",
+        "showTarget": true
+      },
+      "feedback": "Quatre lignes sur deux colonnes : le compte est juste."
+    },
+    {
+      "id": "M12-L02-05",
+      "consigne": "Deuxième besoin, le devis : quatre articles, trois informations chacun. ==Insérez le tableau correspondant.==",
+      "action": {
+        "type": "W_EXPECT_TABLE",
+        "lignes": 5,
+        "colonnes": 3
+      },
+      "feedback": "Cinq lignes sur trois colonnes."
+    },
+    {
+      "id": "M12-L02-06",
+      "consigne": "Troisième besoin, le relevé : sept mesures, deux informations chacune. ==Insérez le tableau correspondant.==",
+      "action": {
+        "type": "W_EXPECT_TABLE",
+        "lignes": 8,
+        "colonnes": 2
+      },
+      "feedback": "Huit lignes sur deux colonnes : sept relevés et leur en-tête."
+    },
+    {
+      "id": "M12-L02-07",
+      "consigne": "Le devis doit finalement porter aussi le montant total par article. ==Insérez un tableau de 5 lignes sur 4 colonnes== : une colonne s'ajoute, le nombre de lignes ne bouge pas.",
+      "action": {
+        "type": "W_EXPECT_TABLE",
+        "lignes": 5,
+        "colonnes": 4
+      },
+      "feedback": "Ajouter une information ajoute une colonne, jamais une ligne : c'est le sens de chaque axe."
+    }
+  ]
+}

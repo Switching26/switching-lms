@@ -1,0 +1,130 @@
+{
+  "schemaVersion": 1,
+  "title": "Arbitrer entre deux invitations qui se chevauchent",
+  "mode": "EXERCISE",
+  "moduleTitle": "Le calendrier : rendez-vous et invitations",
+  "intro": {
+    "title": "Deux invitations, un seul créneau",
+    "body": "Deux personnes vous invitent au même moment, mardi de 10 h à 11 h. Vous ne pouvez pas être aux deux : il faut trancher, puis répondre aux deux — celle qu'on accepte comme celle qu'on décline. La pire réponse, ici, serait le silence : les deux organisateurs vous compteraient présent."
+  },
+  "outro": {
+    "body": "Un conflit d'agenda ne se règle pas en ignorant l'une des deux invitations : il se règle en répondant aux deux. Celle qu'on refuse libère une place, et l'organisateur peut avancer sans vous attendre."
+  },
+  "ribbon": [],
+  "workbook": { "sheets": [] },
+
+  "courrier": {
+    "compte": { "nom": "Camille Aubertin", "adresse": "camille.aubertin@atelier-nord.fr" },
+    "dossiers": [{ "id": "clients", "nom": "Clients 2026" }],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "messages": [
+      {
+        "id": "m-inv-client",
+        "dossier": "reception",
+        "de": "r.tissot@ecole-arts-lambersart.fr",
+        "a": ["camille.aubertin@atelier-nord.fr"],
+        "objet": "Invitation — validation du comptoir avec la direction",
+        "corps": "Bonjour,\n\nNotre direction souhaite valider le comptoir avec vous avant la fabrication. Mardi matin nous conviendrait.\n\nRémi Tissot",
+        "date": "2026-03-02T08:30",
+        "lu": false,
+        "invitation": {
+          "reponse": "aucune",
+          "evenement": {
+            "id": "ev-inv-validation",
+            "titre": "Validation du comptoir",
+            "date": "2026-03-03",
+            "debut": "10:00",
+            "fin": "11:00",
+            "lieu": "École des Arts de Lambersart",
+            "participants": [
+              "r.tissot@ecole-arts-lambersart.fr",
+              "direction@ecole-arts-lambersart.fr",
+              "camille.aubertin@atelier-nord.fr"
+            ],
+            "reunion": true
+          }
+        }
+      },
+      {
+        "id": "m-inv-demo",
+        "dossier": "reception",
+        "de": "contact@promo-outillage.net",
+        "a": ["camille.aubertin@atelier-nord.fr"],
+        "objet": "Invitation — démonstration de notre nouvelle gamme",
+        "corps": "Bonjour,\n\nNous vous proposons une démonstration de notre gamme d'outillage, sans engagement.\n\nPromo Outillage",
+        "date": "2026-03-02T06:15",
+        "lu": false,
+        "invitation": {
+          "reponse": "aucune",
+          "evenement": {
+            "id": "ev-inv-demo",
+            "titre": "Démonstration outillage",
+            "date": "2026-03-03",
+            "debut": "10:00",
+            "fin": "11:00",
+            "lieu": "Showroom Promo Outillage",
+            "participants": ["contact@promo-outillage.net", "camille.aubertin@atelier-nord.fr"],
+            "reunion": true
+          }
+        }
+      }
+    ]
+  },
+
+  "steps": [
+    {
+      "id": "O03-E02-01",
+      "consigne": "Ouvrez les deux invitations l'une après l'autre pour comparer leurs créneaux. Commencez par celle de Rémi Tissot.",
+      "action": { "type": "O_SELECT_MESSAGE", "id": "m-inv-client" },
+      "aide": { "text": "L'encadré bleu, sous le texte du message, rappelle le jour, les horaires et le lieu." }
+    },
+    {
+      "id": "O03-E02-02",
+      "consigne": "Entre une validation de chantier avec le client et une démonstration commerciale sans engagement, l'arbitrage n'a rien d'un dilemme. Acceptez celle qui engage votre travail.",
+      "setup": { "courrier": { "messageActif": "m-inv-client" } },
+      "action": {
+        "type": "O_EXPECT_CALENDRIER",
+        "calendrier": {
+          "titre": "Validation du comptoir",
+          "date": "2026-03-03",
+          "debut": "10:00",
+          "fin": "11:00",
+          "reunion": true,
+          "participants": {
+            "contient": [
+              "r.tissot@ecole-arts-lambersart.fr",
+              "direction@ecole-arts-lambersart.fr",
+              "camille.aubertin@atelier-nord.fr"
+            ]
+          }
+        }
+      },
+      "aide": { "text": "Le bouton Accepter inscrit le rendez-vous dans votre agenda, avec ses participants." }
+    },
+    {
+      "id": "O03-E02-03",
+      "consigne": "Ouvrez maintenant l'invitation de Promo Outillage : elle occupe exactement le même créneau.",
+      "action": { "type": "O_SELECT_MESSAGE", "id": "m-inv-demo" },
+      "aide": { "text": "C'est le message dont l'objet parle d'une démonstration de gamme." }
+    },
+    {
+      "id": "O03-E02-04",
+      "consigne": "Déclinez-la. Le silence laisserait l'organisateur vous attendre ; le refus, lui, le renseigne immédiatement.",
+      "action": { "type": "O_CLICK_CONTROL", "control": "cr-refuser" },
+      "aide": { "text": "Le bouton Refuser est le troisième de l'encadré bleu, sous le texte du message." }
+    },
+    {
+      "id": "O03-E02-05",
+      "consigne": "Vérifiez enfin votre agenda : le mardi ne doit porter qu'un seul bloc, celui que vous avez accepté.",
+      "action": { "type": "O_CLICK_CONTROL", "control": "cr-vue-calendrier" },
+      "aide": { "text": "L'icône du calendrier est en bas de la colonne des dossiers ; sur téléphone, dans la barre du bas." }
+    }
+  ]
+}

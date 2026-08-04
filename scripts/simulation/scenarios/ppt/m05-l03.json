@@ -1,0 +1,189 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "mode": "LESSON",
+  "moduleTitle": "Choisir la bonne disposition",
+  "title": "Découper une présentation en sections",
+  "intro": {
+    "title": "Découper une présentation en sections",
+    "body": "Passé une dizaine de diapositives, un auditoire perd le fil. La parade tient en une diapositive presque vide, posée avant chaque partie : elle annonce où l'on entre. Cette leçon vous apprend à en fabriquer une et à la placer."
+  },
+  "outro": {
+    "body": "Votre présentation a des repères. La dernière leçon du module met les six dispositions à l'épreuve d'un lot de diapositives mal choisies."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "ppt": {
+    "fileName": "Offre Verdeval.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Verdeval",
+          "sous-titre": "Notre offre 2027"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Création de jardins",
+          "contenu": "Conception, terrassement, plantation"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Entretien annuel",
+          "contenu": "12 passages, taille et tonte"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Nos tarifs",
+          "contenu": "Devis gratuit sous 8 jours"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M05-L03-01",
+      "consigne": "Une **diapositive de section** ne contient presque rien : un numéro, un titre de partie, parfois une ligne de contexte. Son rôle n'est pas d'informer mais de **marquer une frontière** — l'auditoire sait qu'un sujet se termine et qu'un autre commence. On la fabrique avec la disposition **Diapositive de titre**, réemployée en cours de présentation.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M05-L03-02",
+      "consigne": "==Affichez la troisième diapositive==, celle de l'entretien : c'est là que commence la deuxième partie de votre propos.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 2
+      },
+      "aide": {
+        "text": "C'est la troisième miniature du volet."
+      }
+    },
+    {
+      "id": "M05-L03-03",
+      "consigne": "==Ajoutez une diapositive==. Elle s'insère juste après celle qui est affichée : vous la remonterez ensuite à sa place, avant l'entretien.",
+      "action": {
+        "type": "P_ADD_SLIDE",
+        "layout": "titre-et-contenu"
+      }
+    },
+    {
+      "id": "M05-L03-04",
+      "consigne": "==Passez-la en Diapositive de titre==. C'est la disposition qui donne un grand titre centré dans le vide : exactement ce qu'il faut pour une frontière.",
+      "action": {
+        "type": "P_SET_LAYOUT",
+        "layout": "diapositive-de-titre"
+      },
+      "aide": {
+        "text": "« Diapositive de titre » est la première entrée du menu Disposition."
+      }
+    },
+    {
+      "id": "M05-L03-05",
+      "consigne": "==Saisissez 2. Entretien comme titre==. Le numéro n'est pas décoratif : il dit à l'auditoire combien de parties il reste, et lui permet de se situer.",
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:titre",
+        "accept": [
+          "2. Entretien",
+          "2 Entretien"
+        ]
+      }
+    },
+    {
+      "id": "M05-L03-06",
+      "consigne": "==Saisissez Ce que nous faisons toute l'année dans le sous-titre==. Une phrase suffit : la section annonce, elle ne raconte pas.",
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:sous-titre",
+        "accept": [
+          "Ce que nous faisons toute l'année"
+        ]
+      }
+    },
+    {
+      "id": "M05-L03-07",
+      "consigne": "==Remontez-la d'un cran== : une section s'annonce **avant** la partie qu'elle ouvre, jamais après.",
+      "setupPpt": {
+        "slide": 3
+      },
+      "action": {
+        "type": "P_MOVE_SLIDE",
+        "from": 3,
+        "to": 2
+      },
+      "aide": {
+        "text": "Groupe Diapositives, bouton « ↑ Monter »."
+      },
+      "feedback": "La frontière est posée au bon endroit : l'entretien commence après elle."
+    },
+    {
+      "id": "M05-L03-08",
+      "consigne": "Une section coûte une diapositive et fait gagner l'attention de tout un auditoire. La règle d'usage : **une section toutes les cinq à huit diapositives**, pas plus — au-delà, les frontières deviennent plus nombreuses que le contenu et l'effet s'inverse.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M05-L03-09",
+      "consigne": "==Mettez le titre de section en gras==. Une section se voit de loin : c'est sa seule fonction, et la mise en forme y contribue autant que la disposition.",
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "ph:titre",
+        "style": {
+          "bold": true
+        }
+      }
+    },
+    {
+      "id": "M05-L03-10",
+      "consigne": "==Lancez le diaporama depuis le début== pour juger l'effet de la frontière dans le déroulé réel.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": true,
+          "index": 0
+        }
+      }
+    },
+    {
+      "id": "M05-L03-11",
+      "consigne": "==Avancez d'une diapositive== : vous arrivez sur le contenu de la première partie.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "index": 1
+        }
+      }
+    },
+    {
+      "id": "M05-L03-12",
+      "consigne": "==Avancez encore== : la section apparaît, et la rupture se voit exactement comme l'auditoire la verra.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "index": 2
+        }
+      }
+    },
+    {
+      "id": "M05-L03-13",
+      "consigne": "==Quittez le diaporama==. À retenir : une section est une diapositive de titre réemployée, presque vide, numérotée, placée **avant** sa partie. Une toutes les cinq à huit diapositives, et l'auditoire ne se perd plus.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": false
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,180 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "mode": "LESSON",
+  "moduleTitle": "Organiser et enchaîner",
+  "title": "L'ordre des diapositives",
+  "intro": {
+    "title": "L'ordre des diapositives",
+    "body": "Une présentation ne se juge pas diapositive par diapositive, mais à l'enchaînement. Cette leçon vous apprend à remettre une diapositive à sa place, un cran à la fois, et à contrôler le résultat d'un seul coup d'œil."
+  },
+  "outro": {
+    "body": "Vous savez remettre de l'ordre dans une présentation. La leçon suivante s'occupe de ce qui se passe ENTRE deux diapositives : les transitions."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "ppt": {
+    "fileName": "Bilan Verdeval.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Verdeval",
+          "sous-titre": "Bilan de la saison 2026"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Merci de votre attention",
+          "contenu": "Questions et échanges"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Chiffres de la saison",
+          "contenu": "38 jardins et 120 entretiens"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Au programme",
+          "contenu": "Chiffres, agences, partenaires"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Nos agences",
+          "contenu": "Nantes, Rennes et Angers"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M02-L01-01",
+      "consigne": "Regardez le volet de gauche : le remerciement final arrive en **deuxième** position, et le sommaire en quatrième. Une présentation se lit dans l'ordre des miniatures, et cet ordre-là raconte l'histoire à l'envers. Deux boutons du groupe Diapositives servent à le corriger : **Monter** et **Descendre**.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M02-L01-02",
+      "consigne": "==Affichez la deuxième diapositive==, celle qui remercie l'auditoire. Comme Dupliquer et Supprimer, les boutons Monter et Descendre agissent sur la diapositive **affichée** : c'est toujours par là qu'on commence.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 1
+      },
+      "aide": {
+        "text": "C'est la deuxième miniature du volet, intitulée « Merci de votre attention »."
+      }
+    },
+    {
+      "id": "M02-L01-03",
+      "consigne": "==Cliquez sur ↓ Descendre==. La diapositive échange sa place avec la suivante et **reste affichée** : elle vous suit, ce qui permet d'enchaîner les crans sans la rechercher.",
+      "setupPpt": {
+        "slide": 1
+      },
+      "action": {
+        "type": "P_MOVE_SLIDE",
+        "from": 1,
+        "to": 2
+      },
+      "aide": {
+        "text": "Le bouton « ↓ Descendre » est le dernier du groupe Diapositives."
+      },
+      "feedback": "Un cran de gagné. Le remerciement est maintenant en troisième position."
+    },
+    {
+      "id": "M02-L01-04",
+      "consigne": "==Descendez-la encore d'un cran==. Un bouton égale une position : c'est plus lent qu'un glissement, mais on ne se trompe jamais de destination.",
+      "setupPpt": {
+        "slide": 2
+      },
+      "action": {
+        "type": "P_MOVE_SLIDE",
+        "from": 2,
+        "to": 3
+      }
+    },
+    {
+      "id": "M02-L01-05",
+      "consigne": "==Descendez-la une dernière fois== pour l'amener en fin de présentation, à la place qui lui revient.",
+      "setupPpt": {
+        "slide": 3
+      },
+      "action": {
+        "type": "P_MOVE_SLIDE",
+        "from": 3,
+        "to": 4
+      },
+      "feedback": "Le remerciement ferme la présentation. Reste le sommaire, encore mal placé."
+    },
+    {
+      "id": "M02-L01-06",
+      "consigne": "Il reste un défaut : **le sommaire arrive après les chiffres**, alors qu'il devrait les annoncer. Pour ce genre de vérification, mieux vaut regarder l'ensemble que les miniatures une par une — c'est le rôle de la **Trieuse**.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M02-L01-07",
+      "consigne": "==Passez en Trieuse== (groupe Affichage). Les cinq diapositives s'affichent côte à côte : le défaut d'enchaînement saute aux yeux d'un seul regard.",
+      "action": {
+        "type": "P_SET_VIEW",
+        "view": "trieuse"
+      },
+      "aide": {
+        "text": "Le groupe Affichage est à droite du ruban ; faites-le défiler si nécessaire."
+      }
+    },
+    {
+      "id": "M02-L01-08",
+      "consigne": "==Cliquez sur la vignette « Au programme »== pour l'afficher. Les boutons Monter et Descendre fonctionnent aussi depuis la trieuse : c'est la même présentation, vue autrement.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 2
+      },
+      "aide": {
+        "text": "C'est la troisième vignette de la trieuse."
+      }
+    },
+    {
+      "id": "M02-L01-09",
+      "consigne": "==Cliquez sur ↑ Monter== pour placer le sommaire juste après la diapositive de titre, là où il annonce ce qui suit.",
+      "setupPpt": {
+        "slide": 2
+      },
+      "action": {
+        "type": "P_MOVE_SLIDE",
+        "from": 2,
+        "to": 1
+      },
+      "aide": {
+        "text": "« ↑ Monter » est l'avant-dernier bouton du groupe Diapositives."
+      },
+      "feedback": "Titre, sommaire, chiffres, agences, remerciement : la présentation se lit enfin dans l'ordre."
+    },
+    {
+      "id": "M02-L01-10",
+      "consigne": "==Revenez en affichage Normal==. La trieuse sert à ranger et à juger ; c'est en Normal que l'on écrit.",
+      "action": {
+        "type": "P_SET_VIEW",
+        "view": "normal"
+      }
+    },
+    {
+      "id": "M02-L01-11",
+      "consigne": "À retenir : l'ordre se corrige **un cran à la fois**, sur la diapositive affichée, avec Monter et Descendre. Et le réflexe qui fait gagner du temps — repérer les défauts d'enchaînement depuis la **Trieuse**, où l'on voit tout, plutôt qu'en faisant défiler les miniatures.",
+      "action": {
+        "type": "READ"
+      }
+    }
+  ]
+}

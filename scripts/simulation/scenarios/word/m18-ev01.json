@@ -1,0 +1,185 @@
+{
+  "schemaVersion": 1,
+  "app": "WORD",
+  "title": "Évaluation — Les styles dans Word",
+  "mode": "EVALUATION",
+  "moduleTitle": "Les styles dans Word",
+  "intro": {
+    "title": "ÉVALUATION DU MODULE",
+    "body": "Dix gestes notés, sans indice et sans démonstration. Un manuel de maintenance à structurer sur trois niveaux, avec un défaut à réparer. Les consignes disent le RANG de chaque section, à vous d'en déduire le style. Chaque geste compte au premier essai."
+  },
+  "outro": "Évaluation terminée. Vous pouvez la repasser autant de fois que vous le souhaitez : seule votre meilleure note est conservée, et chaque passage repart de zéro sur un document neuf.",
+  "document": {
+    "paragraphes": [
+      {
+        "texte": "Manuel de maintenance préventive"
+      },
+      {
+        "texte": "Version 3 — atelier de Nantes"
+      },
+      {
+        "texte": "Machines de découpe"
+      },
+      {
+        "texte": "Entretien hebdomadaire"
+      },
+      {
+        "texte": "Graissage des glissières"
+      },
+      {
+        "texte": "Le graissage est réalisé machine à l'arrêt et consignée."
+      },
+      {
+        "texte": "Entretien annuel",
+        "style": "Titre 3"
+      },
+      {
+        "texte": "Compresseurs"
+      },
+      {
+        "texte": "Le contrôle de pression est mensuel et relevé au registre."
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M18-EV01-01",
+      "points": 0,
+      "consigne": "Ce manuel n'a aucune structure, sauf un paragraphe qui porte déjà un style — et il est faux. Vous allez hiérarchiser le document sur trois niveaux, réparer ce défaut, puis le compléter. Les consignes disent le rang, jamais le bouton.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M18-EV01-02",
+      "points": 1,
+      "consigne": "Donnez au premier paragraphe la nature d'un titre de document.",
+      "setup": {
+        "ribbon": {
+          "activeTab": "accueil"
+        }
+      },
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p0",
+        "style": {
+          "style": "Titre"
+        }
+      }
+    },
+    {
+      "id": "M18-EV01-03",
+      "points": 1,
+      "consigne": "Donnez à la ligne de version la nature qui accompagne un titre sans entrer dans la hiérarchie des parties.",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p1",
+        "style": {
+          "style": "Sous-titre"
+        }
+      }
+    },
+    {
+      "id": "M18-EV01-04",
+      "points": 1,
+      "consigne": "« Machines de découpe » est une grande partie du manuel : traitez-la en conséquence.",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p2",
+        "style": {
+          "style": "Titre 1"
+        }
+      }
+    },
+    {
+      "id": "M18-EV01-05",
+      "points": 1,
+      "consigne": "« Entretien hebdomadaire » est une section de cette partie.",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p3",
+        "style": {
+          "style": "Titre 2"
+        }
+      }
+    },
+    {
+      "id": "M18-EV01-06",
+      "points": 2,
+      "consigne": "« Graissage des glissières » est un point de détail à l'intérieur de cette section.",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p4",
+        "style": {
+          "style": "Titre 3"
+        }
+      }
+    },
+    {
+      "id": "M18-EV01-07",
+      "points": 2,
+      "consigne": "« Entretien annuel » porte un Titre 3, alors que c'est une section de même rang qu'« Entretien hebdomadaire ». Corrigez son rang.",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p6",
+        "style": {
+          "style": "Titre 2"
+        }
+      }
+    },
+    {
+      "id": "M18-EV01-08",
+      "points": 1,
+      "consigne": "« Compresseurs » est une seconde grande partie, de même rang que « Machines de découpe ».",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p7",
+        "style": {
+          "style": "Titre 1"
+        }
+      }
+    },
+    {
+      "id": "M18-EV01-09",
+      "points": 2,
+      "consigne": "Le manuel doit indiquer qui le tient à jour. Ajoutez un paragraphe à la suite du dernier, contenant exactement : Manuel tenu à jour par le service maintenance.",
+      "action": {
+        "type": "W_TYPE_TEXT",
+        "zone": "p8",
+        "accept": [
+          "Manuel tenu à jour par le service maintenance."
+        ]
+      }
+    },
+    {
+      "id": "M18-EV01-10",
+      "points": 1,
+      "consigne": "Justifiez le paragraphe qui décrit le graissage : dans un manuel, le corps de texte se justifie.",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p5",
+        "style": {
+          "alignement": "justifie"
+        }
+      }
+    },
+    {
+      "id": "M18-EV01-11",
+      "points": 1,
+      "consigne": "Vous jugez cette justification inutile sur une phrase courte. Défaites ce dernier geste sans retoucher le paragraphe à la main.",
+      "action": {
+        "type": "W_CLICK_CONTROL",
+        "controle": "w-annuler"
+      }
+    },
+    {
+      "id": "M18-EV01-12",
+      "points": 1,
+      "consigne": "Après comparaison, le manuel gagne à être homogène : remettez la justification, toujours sans repasser par le groupe Paragraphe.",
+      "action": {
+        "type": "W_CLICK_CONTROL",
+        "controle": "w-retablir"
+      }
+    }
+  ]
+}

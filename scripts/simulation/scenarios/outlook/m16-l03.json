@@ -1,0 +1,250 @@
+{
+  "schemaVersion": 1,
+  "title": "La passation écrite",
+  "mode": "LESSON",
+  "moduleTitle": "Préparer son absence, reprendre à son retour",
+  "intro": {
+    "title": "Ce que Sonia doit pouvoir tenir sans vous",
+    "body": "Une passation orale se perd en une nuit. Une passation écrite se relit le jeudi matin à 8 h, quand un client appelle. Elle tient en trois points : ce qui est en cours, ce qui a une échéance pendant l'absence, et ce qui est bloqué en attente d'une réponse extérieure."
+  },
+  "outro": {
+    "body": "Le point le plus utile d'une passation est celui qu'on oublie toujours : ce qui est bloqué. Ce qui avance se voit ; ce qui attend une réponse d'un tiers ne se voit nulle part, et c'est exactement ce qui pourrit pendant une absence."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "chantiers",
+        "nom": "Chantiers en cours"
+      },
+      {
+        "id": "clients",
+        "nom": "Clients 2026"
+      }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "fichiers": [
+      {
+        "nom": "Passation-dossiers-mars.pdf",
+        "taille": "210 Ko"
+      },
+      {
+        "nom": "Plan-de-pose-mediatheque.pdf",
+        "taille": "810 Ko"
+      },
+      {
+        "nom": "Marges-atelier-2026.xlsx",
+        "taille": "72 Ko"
+      }
+    ],
+    "messages": [
+      {
+        "id": "m-sonia",
+        "dossier": "reception",
+        "de": "s.brunel@atelier-nord.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Je prends la suite jeudi",
+        "corps": "Camille,\n\nNadia m'a dit que je tenais la boutique jeudi et vendredi.\nTu me mets un récapitulatif ?\n\nSonia",
+        "date": "2026-03-03T16:40",
+        "lu": false
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O16-L03-01",
+      "consigne": "==Ouvrez le message de Sonia.== Elle demande le récapitulatif. C'est le bon moment : il s'écrit la veille, pas le matin du départ.",
+      "action": {
+        "type": "O_SELECT_MESSAGE",
+        "id": "m-sonia"
+      },
+      "aide": {
+        "text": "C'est le message de votre collègue."
+      }
+    },
+    {
+      "id": "O16-L03-02",
+      "consigne": "==Cliquez sur Répondre.== La passation reste dans le fil de sa demande : elle la retrouvera en cherchant son propre message, pas le vôtre.",
+      "setup": {
+        "courrier": {
+          "messageActif": "m-sonia"
+        }
+      },
+      "action": {
+        "type": "O_CLICK_CONTROL",
+        "control": "cr-repondre"
+      },
+      "aide": {
+        "text": "Le bouton Répondre."
+      }
+    },
+    {
+      "id": "O16-L03-03",
+      "consigne": "==Joignez `Passation-dossiers-mars.pdf`.== Le récapitulatif détaillé vit dans le document ; le message en donne l'essentiel. `Marges-atelier-2026.xlsx` n'a rien à faire ici.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "pieces": {
+            "contient": [
+              "Passation-dossiers-mars.pdf"
+            ],
+            "absent": [
+              "Marges-atelier-2026.xlsx"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Le fichier qui porte le mot « passation »."
+      }
+    },
+    {
+      "id": "O16-L03-04",
+      "consigne": "==Complétez l'objet avec le mot `passation`.== L'objet reçu dit qu'elle prend la suite ; le vôtre doit dire ce que contient le message. C'est celui-là qu'elle rouvrira jeudi matin.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "objet": {
+            "prefixe": "RE",
+            "contient": [
+              "passation"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Ajoutez le mot à la fin de l'objet, en gardant le préfixe."
+      }
+    },
+    {
+      "id": "O16-L03-05",
+      "consigne": "==Mettez `n.kerbaj@atelier-nord.fr` en copie.== La gérante doit **savoir** qui tient quoi pendant deux jours, sans avoir à le demander à l'une ou à l'autre.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "a": {
+            "contient": [
+              "s.brunel@atelier-nord.fr"
+            ],
+            "absent": [
+              "n.kerbaj@atelier-nord.fr"
+            ]
+          },
+          "cc": {
+            "contient": [
+              "n.kerbaj@atelier-nord.fr"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Le champ Cc."
+      }
+    },
+    {
+      "id": "O16-L03-06",
+      "consigne": "==Rédigez la passation, puis envoyez.== Trois points : **le chantier en cours**, **l'échéance qui tombe pendant l'absence**, **ce qui est bloqué en attente d'un tiers**. Le troisième est celui qu'on oublie.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "s.brunel@atelier-nord.fr"
+            ]
+          },
+          "cc": {
+            "contient": [
+              "n.kerbaj@atelier-nord.fr"
+            ]
+          },
+          "objet": {
+            "prefixe": "RE",
+            "contient": [
+              "passation"
+            ]
+          },
+          "pieces": {
+            "contient": [
+              "Passation-dossiers-mars.pdf"
+            ],
+            "absent": [
+              "Marges-atelier-2026.xlsx"
+            ]
+          },
+          "corps": {
+            "salutation": [
+              "bonjour",
+              "madame",
+              "monsieur",
+              "bonsoir"
+            ],
+            "cloture": [
+              "cordialement",
+              "salutations",
+              "bien a vous",
+              "merci"
+            ],
+            "notions": [
+              {
+                "libelle": "le chantier en cours",
+                "oneOf": [
+                  "mediatheque",
+                  "habitat du nord",
+                  "ecole",
+                  "chantier",
+                  "pose"
+                ]
+              },
+              {
+                "libelle": "l'échéance qui tombe pendant l'absence",
+                "oneOf": [
+                  "jeudi",
+                  "vendredi",
+                  "5",
+                  "6",
+                  "echeance",
+                  "livraison"
+                ]
+              },
+              {
+                "libelle": "ce qui est bloqué en attente d'un tiers",
+                "oneOf": [
+                  "en attente",
+                  "bloque",
+                  "nous attendons",
+                  "sans reponse",
+                  "toujours pas",
+                  "relance"
+                ]
+              }
+            ],
+            "minMots": 28
+          }
+        }
+      },
+      "aide": {
+        "text": "Trois points sont attendus : en cours, échéance, bloqué."
+      }
+    }
+  ]
+}

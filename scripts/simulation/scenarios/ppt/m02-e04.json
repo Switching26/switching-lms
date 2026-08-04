@@ -1,0 +1,172 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "mode": "EXERCISE",
+  "moduleTitle": "Organiser et enchaîner",
+  "title": "Exercice — Répéter un passage, écarter une annexe",
+  "intro": {
+    "title": "Exercice — Répéter un passage, écarter une annexe",
+    "body": "Vous préparez votre intervention. Commencez par répéter le seul passage qui vous inquiète, sans redérouler le reste ; puis écartez du déroulé une diapositive qui ne concerne pas l'auditoire, et prouvez que l'écart tient."
+  },
+  "outro": {
+    "body": "Répéter un passage, écarter une annexe, vérifier en projection : la préparation d'une intervention tient en trois gestes."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "ppt": {
+    "fileName": "Bilan Verdeval.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Verdeval",
+          "sous-titre": "Bilan de la saison 2026"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Détail des salaires",
+          "contenu": "Document interne - direction seule"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Chiffres de la saison",
+          "contenu": "38 jardins et 120 entretiens"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Nos agences",
+          "contenu": "Nantes, Rennes et Angers"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Merci de votre attention",
+          "contenu": "Questions et échanges"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M02-E04-01",
+      "consigne": "Le passage sur les agences est celui que vous voulez répéter. Affichez-le.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 3
+      },
+      "aide": {
+        "text": "C'est la quatrième miniature du volet."
+      }
+    },
+    {
+      "id": "M02-E04-02",
+      "consigne": "Lancez le diaporama sur ce passage précis, sans repartir du début.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": true,
+          "index": 3
+        }
+      },
+      "aide": {
+        "text": "Groupe Diaporama, bouton « ▶ Ici » : il démarre sur la diapositive affichée."
+      }
+    },
+    {
+      "id": "M02-E04-03",
+      "consigne": "Vérifiez l'enchaînement vers la diapositive suivante.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "index": 4
+        }
+      }
+    },
+    {
+      "id": "M02-E04-04",
+      "consigne": "Sortez du diaporama.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": false
+        }
+      }
+    },
+    {
+      "id": "M02-E04-05",
+      "consigne": "Une diapositive est réservée à la direction et ne doit pas passer devant l'équipe. Affichez-la.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 1
+      },
+      "aide": {
+        "text": "C'est la deuxième miniature, intitulée « Détail des salaires »."
+      }
+    },
+    {
+      "id": "M02-E04-06",
+      "consigne": "Écartez-la du déroulé sans la retirer du fichier.",
+      "setupPpt": {
+        "slide": 1
+      },
+      "action": {
+        "type": "P_EXPECT_DECK",
+        "deck": {
+          "slides": [
+            {
+              "index": 1,
+              "masquee": true
+            }
+          ]
+        }
+      },
+      "aide": {
+        "text": "Groupe Diaporama, bouton Masquer."
+      }
+    },
+    {
+      "id": "M02-E04-07",
+      "consigne": "Lancez la présentation depuis la première diapositive pour contrôler.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": true,
+          "index": 0
+        }
+      }
+    },
+    {
+      "id": "M02-E04-08",
+      "consigne": "Avancez d'une diapositive et vérifiez que le document interne ne s'affiche pas.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "index": 2
+        }
+      },
+      "aide": {
+        "text": "Un seul clic suffit : la diapositive masquée est sautée automatiquement."
+      }
+    },
+    {
+      "id": "M02-E04-09",
+      "consigne": "Quittez le diaporama.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": false
+        }
+      }
+    }
+  ]
+}

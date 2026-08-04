@@ -1,0 +1,245 @@
+{
+  "schemaVersion": 1,
+  "title": "Transférer : ce qui suit le message, ce qui ne suit pas",
+  "mode": "LESSON",
+  "moduleTitle": "Répondre, transférer, tenir une conversation",
+  "intro": {
+    "title": "Faire suivre un message à quelqu'un qui n'était pas dans la boucle",
+    "body": "Transférer, c'est envoyer à un tiers un message qu'il n'a pas reçu. Le geste ressemble à une réponse, mais il obéit à des règles inverses : le destinataire n'est pas rempli, l'objet change de préfixe, et les pièces jointes, elles, suivent. C'est la différence la plus utile et la moins connue entre les deux boutons."
+  },
+  "outro": {
+    "body": "Retenez l'inverse exact d'une réponse : le champ À est vide — à vous de choisir qui reçoit — l'objet porte « TR : », et les pièces jointes du message d'origine partent avec. C'est pratique, et c'est précisément ce qui fait qu'un document interne se retrouve chez un tiers quand on transfère sans regarder."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "clients",
+        "nom": "Clients 2026"
+      }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "messages": [
+      {
+        "id": "m-commande",
+        "dossier": "reception",
+        "de": "compta@quincaillerie-delmas.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Commande CD-1187 — accusé de réception",
+        "corps": "Bonjour,\n\nVotre commande de quincaillerie est enregistrée. Vous trouverez le détail et nos conditions tarifaires en pièces jointes.\nLivraison prévue sous cinq jours ouvrés.\n\nService commercial\nQuincaillerie Delmas",
+        "date": "2026-03-11T10:40",
+        "lu": false,
+        "pieces": [
+          {
+            "nom": "Commande-CD-1187.pdf",
+            "taille": "142 Ko"
+          },
+          {
+            "nom": "Conditions-tarifaires-Atelier-Nord.pdf",
+            "taille": "88 Ko"
+          }
+        ]
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O02-L03-01",
+      "consigne": "==Ouvrez le message de la quincaillerie== avant de le faire suivre. Il accuse réception de votre commande, avec deux documents joints, et Sonia doit connaître la date de livraison pour organiser l'atelier.",
+      "action": {
+        "type": "O_SELECT_MESSAGE",
+        "id": "m-commande"
+      },
+      "aide": {
+        "text": "C'est le message dont l'objet parle de la commande CD-1187."
+      }
+    },
+    {
+      "id": "O02-L03-02",
+      "consigne": "Sonia n'était pas destinataire : ce n'est donc pas une réponse qu'il faut, mais un **transfert**. ==Cliquez sur Transférer== et regardez ce qui change par rapport à Répondre.",
+      "setup": {
+        "courrier": {
+          "messageActif": "m-commande"
+        }
+      },
+      "action": {
+        "type": "O_CLICK_CONTROL",
+        "control": "cr-transferer"
+      },
+      "aide": {
+        "text": "Le bouton Transférer est le troisième de la barre du haut du volet de lecture."
+      }
+    },
+    {
+      "id": "O02-L03-03",
+      "consigne": "==Saisissez `s.brunel@atelier-nord.fr` dans le champ À.== Première différence avec une réponse : le champ est **vide**. Outlook ne peut pas deviner à qui vous faites suivre, et un transfert sans destinataire ne part nulle part.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "genre": "transfert",
+          "a": {
+            "contient": [
+              "s.brunel@atelier-nord.fr"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Le champ À est la première ligne de la fenêtre de rédaction : il est vide, contrairement à une réponse."
+      }
+    },
+    {
+      "id": "O02-L03-04",
+      "consigne": "==Retirez `Conditions-tarifaires-Atelier-Nord.pdf`== avec sa croix, et gardez le bon de commande. Deuxième différence : **les deux pièces jointes ont suivi**, ce qu'une réponse ne fait jamais. Or les tarifs négociés ne regardent pas l'atelier.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "pieces": {
+            "contient": [
+              "Commande-CD-1187.pdf"
+            ],
+            "absent": [
+              "Conditions-tarifaires-Atelier-Nord.pdf"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Chaque pièce jointe porte une petite croix ✕ à droite de son nom : elle la retire du message."
+      }
+    },
+    {
+      "id": "O02-L03-05",
+      "consigne": "==Complétez l'objet avec le mot `livraison`== sans toucher au préfixe. Troisième différence : il porte « **TR :** » et non « RE : ». Le préfixe dit à qui reçoit qu'il lit un message d'origine externe.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "objet": {
+            "prefixe": "TR",
+            "contient": [
+              "livraison"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Cliquez à la fin du champ Objet et ajoutez le mot : le « TR : » du début doit rester."
+      }
+    },
+    {
+      "id": "O02-L03-06",
+      "consigne": "==Écrivez un mot d'accompagnement.== Un transfert nu — sans une ligne d'explication — oblige le destinataire à deviner ce qu'on attend de lui. Dites **ce que Sonia doit en faire** et rappelez **le délai annoncé**.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "corps": {
+            "salutation": [
+              "bonjour",
+              "sonia",
+              "salut",
+              "bonsoir"
+            ],
+            "cloture": [
+              "merci",
+              "cordialement",
+              "a bientot",
+              "bien a toi"
+            ],
+            "notions": [
+              {
+                "libelle": "ce que Sonia doit en faire",
+                "oneOf": [
+                  "organise",
+                  "prevois",
+                  "planifie",
+                  "receptionner",
+                  "reception",
+                  "peux-tu",
+                  "peux tu",
+                  "atelier"
+                ]
+              },
+              {
+                "libelle": "le délai de livraison annoncé",
+                "oneOf": [
+                  "cinq jours",
+                  "5 jours",
+                  "sous cinq",
+                  "sous 5",
+                  "jours ouvres"
+                ]
+              }
+            ],
+            "minMots": 12
+          }
+        }
+      },
+      "aide": {
+        "text": "Deux informations sont attendues : ce que vous demandez à Sonia, et le délai annoncé par le fournisseur."
+      }
+    },
+    {
+      "id": "O02-L03-07",
+      "consigne": "==Envoyez le transfert.== Une pièce jointe, un destinataire choisi, un objet préfixé « TR : » et un mot d'explication : le message est utilisable tel quel par quelqu'un qui n'a jamais vu la conversation.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "s.brunel@atelier-nord.fr"
+            ]
+          },
+          "objet": {
+            "prefixe": "TR",
+            "contient": [
+              "livraison"
+            ]
+          },
+          "pieces": {
+            "contient": [
+              "Commande-CD-1187.pdf"
+            ],
+            "absent": [
+              "Conditions-tarifaires-Atelier-Nord.pdf"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Le bouton Envoyer est le premier de la barre du haut de la fenêtre de rédaction."
+      }
+    },
+    {
+      "id": "O02-L03-08",
+      "consigne": "Dans la liste, le message d'origine porte maintenant une flèche ➜ — la marque du transfert, différente du ↩ de la réponse. ==Ouvrez le dossier Éléments envoyés== pour retrouver ce que vous venez de faire suivre.",
+      "action": {
+        "type": "O_SELECT_FOLDER",
+        "dossier": "envoyes"
+      },
+      "aide": {
+        "text": "Le dossier Éléments envoyés est dans la colonne de gauche, sous la Boîte de réception."
+      }
+    }
+  ]
+}

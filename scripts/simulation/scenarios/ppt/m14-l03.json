@@ -1,0 +1,203 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "mode": "LESSON",
+  "moduleTitle": "Des chiffres sans tableau",
+  "title": "L'ordre de grandeur",
+  "intro": {
+    "title": "L'ordre de grandeur",
+    "body": "Un chiffre projeté n'est pas un chiffre imprimé : il est lu en deux secondes, de loin, sans possibilité de revenir en arrière. Les décimales et les milliers y sont perdus — et ce qu'on perd avec, c'est le message."
+  },
+  "outro": {
+    "body": "Trois chiffres ramenés à ce qui se retient. La dernière leçon aligne une série de chiffres sans jamais poser de tableau."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "ppt": {
+    "fileName": "Transports Ghiselli.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Transports Ghiselli",
+          "sous-titre": "Bilan d'exploitation présenté aux associés"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "1 437 892 kilomètres parcourus",
+          "contenu": "Sur 12 480 tournées\nMoyenne de 115,21 km par tournée"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Coût de revient : 1,3847 € du kilomètre",
+          "contenu": "Gazole, péages, entretien, salaires"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Parc au 31 décembre",
+          "contenu": "23 porteurs, 8 tracteurs, 11 semi-remorques, 4 véhicules légers"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M14-L03-01",
+      "consigne": "« 1 437 892 kilomètres » : personne ne lit ce nombre, on lit **« un million quatre »** et on passe. Les six derniers chiffres n'ont donc servi à rien — sauf à rendre le titre plus long et plus lent à lire.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M14-L03-02",
+      "consigne": "==Affichez la deuxième diapositive==, celle du kilométrage.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 1
+      }
+    },
+    {
+      "id": "M14-L03-03",
+      "consigne": "==Remplacez son titre par 1,4 million de kilomètres==. Vous ne trichez pas : le chiffre exact reste dans vos notes et dans le rapport écrit. À l'écran, c'est l'ordre de grandeur qui informe.",
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:titre",
+        "accept": [
+          "1,4 million de kilomètres"
+        ]
+      },
+      "aide": {
+        "text": "Un titre déjà rempli s'ouvre au double-clic."
+      }
+    },
+    {
+      "id": "M14-L03-04",
+      "consigne": "==Remplacez le contenu== par : 12 480 tournées, Environ 115 km par tournée. La moyenne à deux décimales suggérait une précision que l'exploitation n'a pas.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Transports Ghiselli",
+                "sous-titre": "Bilan d'exploitation présenté aux associés"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "1,4 million de kilomètres",
+                "contenu": "Sur 12 480 tournées\nMoyenne de 115,21 km par tournée"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Coût de revient : 1,3847 € du kilomètre",
+                "contenu": "Gazole, péages, entretien, salaires"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Parc au 31 décembre",
+                "contenu": "23 porteurs, 8 tracteurs, 11 semi-remorques, 4 véhicules légers"
+              }
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:contenu",
+        "accept": [
+          "12 480 tournées\nEnviron 115 km par tournée",
+          "12 480 tournées, Environ 115 km par tournée"
+        ]
+      },
+      "feedback": "Deux chiffres qu'on retient, à la place de deux chiffres qu'on subit."
+    },
+    {
+      "id": "M14-L03-05",
+      "consigne": "==Écrivez la note de cette diapositive== : Chiffre exact 1 437 892 km si on me le demande. Arrondir à l'écran n'est acceptable que si l'exact est sous votre main.",
+      "action": {
+        "type": "P_EXPECT_DECK",
+        "deck": {
+          "slides": [
+            {
+              "index": 1,
+              "notes": "Chiffre exact 1 437 892 km si on me le demande"
+            }
+          ]
+        }
+      },
+      "aide": {
+        "text": "Le champ de notes est sous la diapositive ; sur petit écran, le bouton « Notes » l'ouvre."
+      }
+    },
+    {
+      "id": "M14-L03-06",
+      "consigne": "==Affichez la troisième diapositive==, celle du coût de revient à quatre décimales.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 2
+      }
+    },
+    {
+      "id": "M14-L03-07",
+      "consigne": "Quatre décimales sur un coût de revient, c'est le **dixième de centime** au kilomètre. Aucune décision ne se prend à cette échelle, et l'affichage laisse croire que si.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M14-L03-08",
+      "consigne": "==Remplacez le titre par 1,38 € du kilomètre==. Deux décimales sur un montant en euros : c'est la limite au-delà de laquelle on n'informe plus, on encombre.",
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:titre",
+        "accept": [
+          "1,38 € du kilomètre"
+        ]
+      }
+    },
+    {
+      "id": "M14-L03-09",
+      "consigne": "==Affichez la dernière diapositive==, celle du parc.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 3
+      }
+    },
+    {
+      "id": "M14-L03-10",
+      "consigne": "==Remplacez le titre par 46 véhicules au 31 décembre==. Quatre catégories additionnées donnent un total, et c'est le total qu'on retient — le détail reste en dessous pour qui le cherche.",
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:titre",
+        "accept": [
+          "46 véhicules au 31 décembre"
+        ]
+      },
+      "feedback": "Le public repart avec un nombre : quarante-six. Il ne serait reparti avec aucun des quatre."
+    },
+    {
+      "id": "M14-L03-11",
+      "consigne": "À retenir : **deux chiffres significatifs suffisent à l'écran**, le total prime sur le détail, et l'exact vit dans les notes. Arrondir n'est pas approximatif — c'est choisir ce que le public peut réellement emporter.",
+      "action": {
+        "type": "READ"
+      }
+    }
+  ]
+}

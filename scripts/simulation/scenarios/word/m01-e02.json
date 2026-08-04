@@ -1,0 +1,117 @@
+{
+  "schemaVersion": 1,
+  "app": "WORD",
+  "title": "Exercice — Saisir du texte",
+  "mode": "EXERCISE",
+  "moduleTitle": "Pour commencer",
+  "intro": {
+    "title": "À VOUS DE JOUER",
+    "body": "Une convocation laissée en chantier. Vous allez la terminer : compléter une phrase interrompue, puis ajouter les paragraphes qui manquent. Rappelez-vous que la touche Entrée ne sert qu'à commencer un NOUVEAU paragraphe."
+  },
+  "outro": "La convocation est complète. Vous avez complété un texte existant, créé des paragraphes, et laissé Word poser la ponctuation française à votre place.",
+  "document": {
+    "paragraphes": [
+      {
+        "texte": "Convocation"
+      },
+      {
+        "texte": "Les membres du comité sont convoqués le mardi 8 avril à "
+      },
+      {
+        "texte": "Ordre du jour"
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M01-E02-01",
+      "consigne": "La première phrase s'arrête au milieu. ==Terminez-la== par : 14 heures, salle Loire.",
+      "action": {
+        "type": "W_EXPECT_DOC",
+        "paragraphes": {
+          "p1": [
+            "Les membres du comité sont convoqués le mardi 8 avril à 14 heures, salle Loire."
+          ]
+        }
+      },
+      "aide": {
+        "text": "Cliquez à la fin de la ligne avant de taper : ne créez pas de nouveau paragraphe.",
+        "showTarget": true
+      },
+      "feedback": "La phrase est terminée, et le document compte toujours trois paragraphes."
+    },
+    {
+      "id": "M01-E02-02",
+      "consigne": "==Ajoutez le premier point de l'ordre du jour== : Approbation du compte rendu précédent",
+      "action": {
+        "type": "W_TYPE_TEXT",
+        "zone": "p2",
+        "accept": [
+          "Approbation du compte rendu précédent"
+        ]
+      },
+      "aide": {
+        "text": "Placez-vous à la fin de « Ordre du jour », puis Entrée.",
+        "showTarget": true
+      },
+      "feedback": "Premier point ajouté."
+    },
+    {
+      "id": "M01-E02-03",
+      "consigne": "==Ajoutez le deuxième point== : Point d'avancement du chantier de Nantes",
+      "action": {
+        "type": "W_TYPE_TEXT",
+        "zone": "p3",
+        "accept": [
+          "Point d'avancement du chantier de Nantes"
+        ]
+      },
+      "feedback": "Deuxième point ajouté."
+    },
+    {
+      "id": "M01-E02-04",
+      "consigne": "==Ajoutez le troisième point== : Questions diverses",
+      "action": {
+        "type": "W_TYPE_TEXT",
+        "zone": "p4",
+        "accept": [
+          "Questions diverses"
+        ]
+      },
+      "feedback": "L'ordre du jour compte trois points, chacun dans son propre paragraphe."
+    },
+    {
+      "id": "M01-E02-05",
+      "consigne": "==Ajoutez la phrase de clôture== en tapant les deux-points normalement — Word se chargera de l'espace : Merci de confirmer votre présence : le quorum en dépend.",
+      "action": {
+        "type": "W_TYPE_TEXT",
+        "zone": "p5",
+        "accept": [
+          "Merci de confirmer votre présence : le quorum en dépend."
+        ]
+      },
+      "aide": {
+        "text": "Tapez avec une espace ordinaire devant les deux-points.",
+        "showTarget": true
+      },
+      "feedback": "L'espace devant les deux-points a été remplacée par une insécable, sans que vous ayez rien à faire."
+    },
+    {
+      "id": "M01-E02-06",
+      "consigne": "Dernier ajout, avec des guillemets droits au clavier : ==saisissez== : Le dossier \"chantier de Nantes\" sera distribué en séance.",
+      "action": {
+        "type": "W_TYPE_TEXT",
+        "zone": "p6",
+        "accept": [
+          "Le dossier \"chantier de Nantes\" sera distribué en séance.",
+          "Le dossier « chantier de Nantes » sera distribué en séance."
+        ]
+      },
+      "aide": {
+        "text": "Tapez le guillemet droit du clavier : les chevrons apparaissent seuls.",
+        "showTarget": true
+      },
+      "feedback": "Convocation terminée, typographie française comprise."
+    }
+  ]
+}

@@ -1,0 +1,147 @@
+{
+  "schemaVersion": 1,
+  "app": "WORD",
+  "title": "Exercice — Construire une hiérarchie",
+  "mode": "EXERCISE",
+  "moduleTitle": "Les styles dans Word",
+  "intro": {
+    "title": "À VOUS DE JOUER",
+    "body": "Un règlement intérieur sans structure. Chaque consigne vous dit le RANG de la section — à vous d'en déduire le style. Attention à ne pas sauter de niveau."
+  },
+  "outro": "Deux parties, leurs sections, et un point de détail : la charpente se lit sans lire le texte.",
+  "document": {
+    "paragraphes": [
+      {
+        "texte": "Règlement intérieur"
+      },
+      {
+        "texte": "Applicable au 1er avril"
+      },
+      {
+        "texte": "Horaires et présence"
+      },
+      {
+        "texte": "Amplitude de travail"
+      },
+      {
+        "texte": "Retards et absences"
+      },
+      {
+        "texte": "Usage des locaux"
+      },
+      {
+        "texte": "Espaces communs"
+      },
+      {
+        "texte": "Réfectoire"
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M18-E01-01",
+      "consigne": "==Donnez au premier paragraphe la nature d'un titre de document.==",
+      "setup": {
+        "ribbon": {
+          "activeTab": "accueil"
+        }
+      },
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p0",
+        "style": {
+          "style": "Titre"
+        }
+      },
+      "feedback": "Titre général posé."
+    },
+    {
+      "id": "M18-E01-02",
+      "consigne": "==Donnez à la ligne d'application la nature qui accompagne un titre== sans entrer dans la hiérarchie des parties.",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p1",
+        "style": {
+          "style": "Sous-titre"
+        }
+      },
+      "feedback": "Sous-titre posé."
+    },
+    {
+      "id": "M18-E01-03",
+      "consigne": "« Horaires et présence » est une grande partie du règlement. ==Traitez-la en conséquence.==",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p2",
+        "style": {
+          "style": "Titre 1"
+        }
+      },
+      "feedback": "Première partie."
+    },
+    {
+      "id": "M18-E01-04",
+      "consigne": "« Amplitude de travail » est une section de cette partie. ==Traitez-la au rang qui convient.==",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p3",
+        "style": {
+          "style": "Titre 2"
+        }
+      },
+      "aide": {
+        "text": "Une section à l'intérieur d'une partie descend d'un niveau.",
+        "showTarget": true
+      },
+      "feedback": "Section posée."
+    },
+    {
+      "id": "M18-E01-05",
+      "consigne": "« Retards et absences » est une seconde section de la même partie. ==Traitez-la de la même façon.==",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p4",
+        "style": {
+          "style": "Titre 2"
+        }
+      },
+      "feedback": "Deux sections de même rang."
+    },
+    {
+      "id": "M18-E01-06",
+      "consigne": "« Usage des locaux » est une seconde grande partie. ==Traitez-la au rang qui convient.==",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p5",
+        "style": {
+          "style": "Titre 1"
+        }
+      },
+      "feedback": "Deuxième partie."
+    },
+    {
+      "id": "M18-E01-07",
+      "consigne": "==Traitez « Espaces communs » au rang de section.== C'est une section de la partie « Usage des locaux », et elle contiendra elle-même un point de détail.",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p6",
+        "style": {
+          "style": "Titre 2"
+        }
+      },
+      "feedback": "Section posée."
+    },
+    {
+      "id": "M18-E01-08",
+      "consigne": "==Traitez maintenant « Réfectoire » au rang qui lui revient== : un cran sous la section.",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p7",
+        "style": {
+          "style": "Titre 3"
+        }
+      },
+      "feedback": "Trois niveaux, aucun saut : la hiérarchie est valide."
+    }
+  ]
+}

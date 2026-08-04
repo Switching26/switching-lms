@@ -1,0 +1,105 @@
+{
+ "schemaVersion": 1,
+ "app": "WORD",
+ "title": "Évaluation — faire évoluer un tableau",
+ "mode": "EVALUATION",
+ "moduleTitle": "Les tableaux : faire évoluer une grille",
+ "intro": {
+  "title": "ÉVALUATION NOTÉE",
+  "body": "Vous montez la grille d'un bon de réception, puis vous l'ajustez à deux reprises. Chaque dimension attendue est notée."
+ },
+ "outro": "Vous savez dimensionner une grille après coup, sans jamais la refaire.",
+ "document": {
+  "paragraphes": [
+   {
+    "texte": "Inventaire de l'atelier",
+    "style": "titre"
+   },
+   {
+    "texte": "Le tableau ci-dessous recense le matériel et son état.",
+    "style": "normal"
+   },
+   {
+    "texte": "Contrôle réalisé le 18 mars par le responsable d'atelier.",
+    "style": "normal"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "id": "M13-EV01-00",
+   "points": 3,
+   "consigne": "==Ouvrez la boîte « Insérer un tableau »== depuis l'onglet Insertion.",
+   "action": {
+    "type": "W_CLICK_CONTROL",
+    "controle": "w-inserer-tableau"
+   },
+   "setup": {
+    "ribbon": {
+     "activeTab": "insertion"
+    }
+   },
+   "feedback": "La boîte de dialogue est ouverte."
+  },
+  {
+   "id": "M13-EV01-01",
+   "points": 3,
+   "consigne": "==Insérez un tableau de 3 lignes sur 3 colonnes.==",
+   "action": {
+    "type": "W_EXPECT_TABLE",
+    "lignes": 3,
+    "colonnes": 3
+   },
+   "setup": {
+    "ribbon": {
+     "activeTab": "insertion"
+    }
+   },
+   "feedback": "Grille de départ posée."
+  },
+  {
+   "id": "M13-EV01-02",
+   "points": 4,
+   "consigne": "Il faut une colonne de plus pour les références. ==Ajoutez une colonne à droite.==",
+   "action": {
+    "type": "W_EXPECT_TABLE",
+    "lignes": 3,
+    "colonnes": 4
+   },
+   "feedback": "Quatre colonnes."
+  },
+  {
+   "id": "M13-EV01-03",
+   "points": 4,
+   "consigne": "Deux articles s'ajoutent à la réception. ==Ajoutez deux lignes en dessous.==",
+   "action": {
+    "type": "W_EXPECT_TABLE",
+    "lignes": 5,
+    "colonnes": 4
+   },
+   "feedback": "Cinq lignes."
+  },
+  {
+   "id": "M13-EV01-04",
+   "points": 4,
+   "consigne": "La colonne des références ne sera pas utilisée. ==Supprimez une colonne.==",
+   "action": {
+    "type": "W_EXPECT_TABLE",
+    "lignes": 5,
+    "colonnes": 3
+   },
+   "feedback": "Trois colonnes."
+  },
+  {
+   "id": "M13-EV01-05",
+   "points": 4,
+   "consigne": "Un article est retiré de la commande. ==Supprimez une ligne.==",
+   "action": {
+    "type": "W_EXPECT_TABLE",
+    "lignes": 4,
+    "colonnes": 3
+   },
+   "feedback": "Quatre lignes sur trois colonnes : la grille correspond au bon de réception."
+  }
+ ]
+}

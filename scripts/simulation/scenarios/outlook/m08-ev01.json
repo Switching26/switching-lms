@@ -1,0 +1,297 @@
+{
+  "schemaVersion": 1,
+  "title": "S'évaluer — Traiter sa boîte du matin",
+  "mode": "EVALUATION",
+  "moduleTitle": "Traiter sa boîte du matin : la routine",
+  "intro": {
+    "title": "Mardi 31 mars, 8 h — sept messages avant le chantier",
+    "body": "Vous partez sur site à 8 h 30. Sept messages vous attendent : certains se règlent en une phrase, d'autres demandent une demi-journée, deux ne méritent rien. Traitez, classez, marquez, supprimez. Cette épreuve est notée sur les destinataires, les objets et le rangement. La rédaction ne compte pas dans la note."
+  },
+  "outro": {
+    "body": "Le barème portait sur ce qu'un observateur pourrait constater en regardant votre boîte à 8 h 30 : ce qui est parti, où chaque message a fini, et ce qui reste marqué. Une boîte bien triée n'est pas une boîte vide — c'est une boîte où tout ce qui reste attend quelque chose."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "clients",
+        "nom": "Clients 2026"
+      },
+      {
+        "id": "fournisseurs",
+        "nom": "Fournisseurs"
+      }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "messages": [
+      {
+        "id": "m-urgent",
+        "dossier": "reception",
+        "de": "marches@ville-lambersart.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Salle des mariages — confirmation demandée avant midi",
+        "corps": "Bonjour,\n\nPouvez-vous nous confirmer avant midi que la livraison est bien prévue le 8 avril ?\n\nService des marchés",
+        "date": "2026-03-31T07:15",
+        "lu": false
+      },
+      {
+        "id": "m-clos",
+        "dossier": "reception",
+        "de": "j.leroux@habitat-du-nord.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Escalier Beaulieu — réserve levée",
+        "corps": "Bonjour,\n\nLa réserve est levée, le dossier est clos.\n\nJulien Leroux",
+        "date": "2026-03-31T07:00",
+        "lu": false
+      },
+      {
+        "id": "m-fact",
+        "dossier": "reception",
+        "de": "compta@quincaillerie-delmas.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Facture QD-4712 — échéance 30 avril",
+        "corps": "Bonjour,\n\nVeuillez trouver la facture QD-4712.\n\nQuincaillerie Delmas",
+        "date": "2026-03-31T06:50",
+        "lu": true,
+        "pieces": [
+          {
+            "nom": "Facture-QD-4712.pdf",
+            "taille": "121 Ko"
+          }
+        ]
+      },
+      {
+        "id": "m-lourd",
+        "dossier": "reception",
+        "de": "marches@ville-lambersart.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Médiathèque — chiffrage complet sous quinze jours",
+        "corps": "Bonjour,\n\nDouze postes à chiffrer, plans joints.\n\nService des marchés",
+        "date": "2026-03-31T06:30",
+        "lu": false,
+        "pieces": [
+          {
+            "nom": "Plans-mediatheque.pdf",
+            "taille": "3,2 Mo"
+          }
+        ]
+      },
+      {
+        "id": "m-pub1",
+        "dossier": "reception",
+        "de": "offres@promo-outillage.net",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Fin de série — jusqu'à -70 %",
+        "corps": "Nos offres.",
+        "date": "2026-03-31T05:10",
+        "lu": false
+      },
+      {
+        "id": "m-pub2",
+        "dossier": "reception",
+        "de": "newsletter@bois-et-materiaux.info",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "La lettre du bois — 31 mars",
+        "corps": "L'actualité.",
+        "date": "2026-03-31T04:40",
+        "lu": false
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O08-EV01-01",
+      "consigne": "Commencez par ce qui n'appelle aucune action : sortez la fin de série de votre file d'attente.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-pub1": {
+              "dossier": "supprimes"
+            }
+          }
+        }
+      },
+      "points": 1
+    },
+    {
+      "id": "O08-EV01-02",
+      "consigne": "Faites de même avec la lettre du bois.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-pub2": {
+              "dossier": "supprimes"
+            }
+          }
+        }
+      },
+      "points": 1
+    },
+    {
+      "id": "O08-EV01-03",
+      "consigne": "Un seul message exige une réponse avant midi. Répondez-y, à son expéditeur seul.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "genre": "reponse",
+          "a": {
+            "contient": [
+              "marches@ville-lambersart.fr"
+            ]
+          },
+          "cc": {
+            "vide": true
+          }
+        }
+      },
+      "points": 3
+    },
+    {
+      "id": "O08-EV01-04",
+      "consigne": "Complétez l'objet de cette réponse avec la date `8 avril`, sans retirer le préfixe posé par Outlook.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "objet": {
+            "prefixe": "RE",
+            "contient": [
+              "8 avril"
+            ]
+          }
+        }
+      },
+      "points": 2
+    },
+    {
+      "id": "O08-EV01-05",
+      "consigne": "Rédigez la confirmation avec vos mots. **Cette étape n'entre pas dans la note.**",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "corps": {
+            "minMots": 10,
+            "revueManuelle": true
+          }
+        }
+      },
+      "points": 0
+    },
+    {
+      "id": "O08-EV01-06",
+      "consigne": "Envoyez cette confirmation.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "marches@ville-lambersart.fr"
+            ]
+          },
+          "cc": {
+            "vide": true
+          },
+          "objet": {
+            "prefixe": "RE",
+            "contient": [
+              "8 avril"
+            ]
+          }
+        }
+      },
+      "points": 3
+    },
+    {
+      "id": "O08-EV01-07",
+      "consigne": "Ce message est traité : rangez-le dans le dossier des clients.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-urgent": {
+              "dossier": "clients"
+            }
+          }
+        }
+      },
+      "points": 1
+    },
+    {
+      "id": "O08-EV01-08",
+      "consigne": "Julien Leroux clôt son dossier sans rien demander : classez son message au même endroit.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-clos": {
+              "dossier": "clients"
+            }
+          }
+        }
+      },
+      "points": 1
+    },
+    {
+      "id": "O08-EV01-09",
+      "consigne": "La facture est à régler fin avril : classez-la selon son expéditeur.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-fact": {
+              "dossier": "fournisseurs"
+            }
+          }
+        }
+      },
+      "points": 2
+    },
+    {
+      "id": "O08-EV01-10",
+      "consigne": "Le chiffrage de la médiathèque demande une demi-journée : vous ne le traiterez pas ce matin, mais il ne doit pas se perdre. Marquez-le et laissez-le dans votre boîte.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-lourd": {
+              "dossier": "reception",
+              "indicateur": true
+            }
+          }
+        }
+      },
+      "points": 2
+    }
+  ]
+}

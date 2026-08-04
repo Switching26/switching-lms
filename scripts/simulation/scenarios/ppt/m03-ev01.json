@@ -1,0 +1,549 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "mode": "EVALUATION",
+  "moduleTitle": "Mettre en forme le texte",
+  "title": "S'évaluer — Mettre en forme le texte",
+  "intro": {
+    "title": "S'évaluer — Mettre en forme le texte",
+    "body": "Une diapositive de synthèse vous arrive sans hiérarchie : rien ne ressort, un faux lien traîne, les alignements contredisent la fonction des textes, et une coquille s'est glissée dans le titre. Aucun défaut ne vous sera nommé. Épreuve notée, d'une traite ; un nouveau passage repart de zéro."
+  },
+  "outro": {
+    "body": "Épreuve terminée. Seule votre meilleure note est conservée."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "ppt": {
+    "fileName": "Synthese Verdeval.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Verdeval",
+          "sous-titre": "Synthèse de la saison"
+        }
+      },
+      {
+        "layout": "titre-seul",
+        "textes": {
+          "titre": "Ce qu'il faut retnir"
+        },
+        "objets": [
+          {
+            "id": "zt-cle",
+            "objectType": "texte",
+            "texte": "9 clients sur 10 renouvellent leur contrat",
+            "rect": {
+              "x": 70,
+              "y": 165,
+              "w": 560,
+              "h": 60
+            }
+          },
+          {
+            "id": "zt-detail",
+            "objectType": "texte",
+            "texte": "38 jardins créés, 120 entretiens réguliers et 12 chantiers de rénovation sur les trois agences",
+            "rect": {
+              "x": 70,
+              "y": 250,
+              "w": 640,
+              "h": 120
+            },
+            "style": {
+              "align": "center"
+            }
+          },
+          {
+            "id": "zt-mot",
+            "objectType": "texte",
+            "texte": "Le jardin n'a jamais été aussi bien tenu.",
+            "rect": {
+              "x": 70,
+              "y": 385,
+              "w": 620,
+              "h": 55
+            },
+            "style": {
+              "underline": true
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M03-EV01-01",
+      "consigne": "Cette diapositive doit tenir devant l'assemblée générale. Regardez-la avant d'agir : un chiffre décisif s'y perd au milieu des autres, un texte de trois lignes est centré, une phrase de client passe pour un lien cliquable, et le titre n'est traité ni en attribut ni en alignement. Rétablissez la hiérarchie.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M03-EV01-02",
+      "consigne": "Affichez la diapositive de synthèse.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 1
+      },
+      "points": 1
+    },
+    {
+      "id": "M03-EV01-03",
+      "consigne": "Le titre de la diapositive porte une faute de frappe. Ressaisissez-le correctement.",
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:titre",
+        "accept": [
+          "Ce qu'il faut retenir"
+        ]
+      },
+      "points": 2
+    },
+    {
+      "id": "M03-EV01-04",
+      "consigne": "Un seul chiffre doit rester en tête de l'auditoire : celui du renouvellement des contrats. Faites-le ressortir.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Synthèse de la saison"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Ce qu'il faut retenir"
+              },
+              "objets": [
+                {
+                  "id": "zt-cle",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 70,
+                    "y": 165,
+                    "w": 560,
+                    "h": 60
+                  },
+                  "texte": "9 clients sur 10 renouvellent leur contrat"
+                },
+                {
+                  "id": "zt-detail",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 70,
+                    "y": 250,
+                    "w": 640,
+                    "h": 120
+                  },
+                  "texte": "38 jardins créés, 120 entretiens réguliers et 12 chantiers de rénovation sur les trois agences",
+                  "style": {
+                    "align": "center"
+                  }
+                },
+                {
+                  "id": "zt-mot",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 70,
+                    "y": 385,
+                    "w": 620,
+                    "h": 55
+                  },
+                  "texte": "Le jardin n'a jamais été aussi bien tenu.",
+                  "style": {
+                    "underline": true
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "zt-cle",
+        "style": {
+          "bold": true
+        }
+      },
+      "points": 2
+    },
+    {
+      "id": "M03-EV01-05",
+      "consigne": "Le paragraphe de détail occupe trois lignes et se lit mal. Corrigez ce qui l'en empêche.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Synthèse de la saison"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Ce qu'il faut retenir"
+              },
+              "objets": [
+                {
+                  "id": "zt-cle",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 70,
+                    "y": 165,
+                    "w": 560,
+                    "h": 60
+                  },
+                  "texte": "9 clients sur 10 renouvellent leur contrat",
+                  "style": {
+                    "bold": true
+                  }
+                },
+                {
+                  "id": "zt-detail",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 70,
+                    "y": 250,
+                    "w": 640,
+                    "h": 120
+                  },
+                  "texte": "38 jardins créés, 120 entretiens réguliers et 12 chantiers de rénovation sur les trois agences",
+                  "style": {
+                    "align": "center"
+                  }
+                },
+                {
+                  "id": "zt-mot",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 70,
+                    "y": 385,
+                    "w": 620,
+                    "h": 55
+                  },
+                  "texte": "Le jardin n'a jamais été aussi bien tenu.",
+                  "style": {
+                    "underline": true
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "zt-detail",
+        "style": {
+          "align": "left"
+        }
+      },
+      "points": 2
+    },
+    {
+      "id": "M03-EV01-06",
+      "consigne": "La phrase du client ressemble à un lien cliquable. Retirez ce qui produit cet effet.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Synthèse de la saison"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Ce qu'il faut retenir"
+              },
+              "objets": [
+                {
+                  "id": "zt-cle",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 70,
+                    "y": 165,
+                    "w": 560,
+                    "h": 60
+                  },
+                  "texte": "9 clients sur 10 renouvellent leur contrat",
+                  "style": {
+                    "bold": true
+                  }
+                },
+                {
+                  "id": "zt-detail",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 70,
+                    "y": 250,
+                    "w": 640,
+                    "h": 120
+                  },
+                  "texte": "38 jardins créés, 120 entretiens réguliers et 12 chantiers de rénovation sur les trois agences",
+                  "style": {
+                    "align": "left"
+                  }
+                },
+                {
+                  "id": "zt-mot",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 70,
+                    "y": 385,
+                    "w": 620,
+                    "h": 55
+                  },
+                  "texte": "Le jardin n'a jamais été aussi bien tenu.",
+                  "style": {
+                    "underline": true
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "zt-mot",
+        "style": {
+          "underline": false
+        }
+      },
+      "points": 2
+    },
+    {
+      "id": "M03-EV01-07",
+      "consigne": "Cette phrase n'est pas de vous : signalez-le comme il se doit.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Synthèse de la saison"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Ce qu'il faut retenir"
+              },
+              "objets": [
+                {
+                  "id": "zt-cle",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 70,
+                    "y": 165,
+                    "w": 560,
+                    "h": 60
+                  },
+                  "texte": "9 clients sur 10 renouvellent leur contrat",
+                  "style": {
+                    "bold": true
+                  }
+                },
+                {
+                  "id": "zt-detail",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 70,
+                    "y": 250,
+                    "w": 640,
+                    "h": 120
+                  },
+                  "texte": "38 jardins créés, 120 entretiens réguliers et 12 chantiers de rénovation sur les trois agences",
+                  "style": {
+                    "align": "left"
+                  }
+                },
+                {
+                  "id": "zt-mot",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 70,
+                    "y": 385,
+                    "w": 620,
+                    "h": 55
+                  },
+                  "texte": "Le jardin n'a jamais été aussi bien tenu.",
+                  "style": {
+                    "underline": false
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "zt-mot",
+        "style": {
+          "italic": true
+        }
+      },
+      "points": 1
+    },
+    {
+      "id": "M03-EV01-08",
+      "consigne": "Le titre de la diapositive doit affirmer sa fonction. Commencez par son attribut.",
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "ph:titre",
+        "style": {
+          "bold": true
+        }
+      },
+      "points": 1
+    },
+    {
+      "id": "M03-EV01-09",
+      "consigne": "Donnez-lui ensuite l'alignement que sa longueur et sa fonction commandent.",
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "ph:titre",
+        "style": {
+          "align": "center"
+        }
+      },
+      "points": 2
+    },
+    {
+      "id": "M03-EV01-10",
+      "consigne": "Le chiffre décisif reste aligné comme le reste du texte : confirmez-le à gauche, avec le paragraphe.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Synthèse de la saison"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Ce qu'il faut retenir"
+              },
+              "objets": [
+                {
+                  "id": "zt-cle",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 70,
+                    "y": 165,
+                    "w": 560,
+                    "h": 60
+                  },
+                  "texte": "9 clients sur 10 renouvellent leur contrat",
+                  "style": {
+                    "bold": true
+                  }
+                },
+                {
+                  "id": "zt-detail",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 70,
+                    "y": 250,
+                    "w": 640,
+                    "h": 120
+                  },
+                  "texte": "38 jardins créés, 120 entretiens réguliers et 12 chantiers de rénovation sur les trois agences",
+                  "style": {
+                    "align": "left"
+                  }
+                },
+                {
+                  "id": "zt-mot",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 70,
+                    "y": 385,
+                    "w": 620,
+                    "h": 55
+                  },
+                  "texte": "Le jardin n'a jamais été aussi bien tenu.",
+                  "style": {
+                    "underline": false,
+                    "italic": true
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "zt-cle",
+        "style": {
+          "align": "left"
+        }
+      },
+      "points": 1
+    },
+    {
+      "id": "M03-EV01-11",
+      "consigne": "Contrôlez enfin le résultat comme l'assemblée le verra, depuis la première diapositive.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": true,
+          "index": 0
+        }
+      },
+      "points": 1
+    },
+    {
+      "id": "M03-EV01-12",
+      "consigne": "Avancez sur la diapositive que vous venez de reprendre.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "index": 1
+        }
+      },
+      "points": 1
+    },
+    {
+      "id": "M03-EV01-13",
+      "consigne": "Revenez à votre présentation.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": false
+        }
+      },
+      "points": 1
+    }
+  ]
+}

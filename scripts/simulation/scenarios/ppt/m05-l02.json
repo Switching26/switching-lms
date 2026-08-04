@@ -1,0 +1,298 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "mode": "LESSON",
+  "moduleTitle": "Choisir la bonne disposition",
+  "title": "Comparer deux options",
+  "intro": {
+    "title": "Comparer deux options",
+    "body": "Comparer, c'est mettre deux choses en regard sur les mêmes critères. La disposition Comparaison ajoute pour cela deux intitulés au-dessus des colonnes — et c'est ce détail qui change tout : sans eux, le lecteur ne sait pas ce qu'on lui demande de comparer."
+  },
+  "outro": {
+    "body": "Vous savez présenter un choix sans le commenter. La leçon suivante emploie la disposition de titre pour découper une présentation longue."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "ppt": {
+    "fileName": "Offre Verdeval.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Verdeval",
+          "sous-titre": "Notre offre 2027"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Deux formules d'entretien"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M05-L02-01",
+      "consigne": "**Comparaison** est la seule disposition à deux colonnes qui prévoit un **intitulé** au-dessus de chacune. C'est ce qui la distingue de Deux contenus : le lecteur sait ce que compare la colonne de gauche et ce que compare celle de droite, avant d'en lire le détail.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M05-L02-02",
+      "consigne": "==Affichez la deuxième diapositive==. Elle annonce deux formules et n'offre qu'un bloc pour les décrire toutes les deux.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 1
+      }
+    },
+    {
+      "id": "M05-L02-03",
+      "consigne": "==Passez-la en Comparaison==. Quatre cadres apparaissent : deux intitulés étroits en haut, deux blocs de contenu dessous.",
+      "action": {
+        "type": "P_SET_LAYOUT",
+        "layout": "comparaison"
+      },
+      "aide": {
+        "text": "« Comparaison » est la cinquième entrée du menu Disposition."
+      },
+      "feedback": "La structure de la comparaison est posée. Reste à la remplir dans le bon ordre."
+    },
+    {
+      "id": "M05-L02-04",
+      "consigne": "==Saisissez Formule mensuelle dans l'intitulé de gauche==. On commence toujours par les intitulés : ce sont eux qui définissent ce que les colonnes vont comparer.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Notre offre 2027"
+              }
+            },
+            {
+              "layout": "comparaison",
+              "textes": {
+                "titre": "Deux formules d'entretien"
+              }
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:texte",
+        "accept": [
+          "Formule mensuelle"
+        ]
+      },
+      "aide": {
+        "text": "L'intitulé est le cadre étroit du haut, à gauche, portant l'invite « Ajouter un intitulé »."
+      }
+    },
+    {
+      "id": "M05-L02-05",
+      "consigne": "==Saisissez Formule trimestrielle dans l'intitulé de droite==. Les deux intitulés doivent être de même nature : deux formules, deux périodes, deux fournisseurs — jamais une formule d'un côté et un avantage de l'autre.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Notre offre 2027"
+              }
+            },
+            {
+              "layout": "comparaison",
+              "textes": {
+                "titre": "Deux formules d'entretien",
+                "texte": "Formule mensuelle"
+              }
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:texte#2",
+        "accept": [
+          "Formule trimestrielle"
+        ]
+      },
+      "aide": {
+        "text": "C'est le cadre étroit du haut, à droite."
+      }
+    },
+    {
+      "id": "M05-L02-06",
+      "consigne": "==Saisissez 12 passages par an dans la colonne de gauche==, sous son intitulé.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Notre offre 2027"
+              }
+            },
+            {
+              "layout": "comparaison",
+              "textes": {
+                "titre": "Deux formules d'entretien",
+                "texte": "Formule mensuelle",
+                "texte#2": "Formule trimestrielle"
+              }
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:contenu",
+        "accept": [
+          "12 passages par an"
+        ]
+      },
+      "aide": {
+        "text": "C'est le grand cadre de gauche, sous l'intitulé que vous venez de saisir."
+      }
+    },
+    {
+      "id": "M05-L02-07",
+      "consigne": "==Saisissez 4 passages par an dans la colonne de droite==. Une comparaison ne vaut que si les deux colonnes répondent à la **même question** : ici le nombre de passages, des deux côtés.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Notre offre 2027"
+              }
+            },
+            {
+              "layout": "comparaison",
+              "textes": {
+                "titre": "Deux formules d'entretien",
+                "contenu": "12 passages par an",
+                "texte": "Formule mensuelle",
+                "texte#2": "Formule trimestrielle"
+              }
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:contenu#2",
+        "accept": [
+          "4 passages par an"
+        ]
+      }
+    },
+    {
+      "id": "M05-L02-08",
+      "consigne": "Le défaut classique de la comparaison : deux colonnes qui ne parlent pas de la même chose. « 12 passages par an » face à « moins cher » n'est pas une comparaison, c'est un plaidoyer. Si vous ne pouvez pas poser la même question aux deux colonnes, c'est que la comparaison n'a pas lieu d'être.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M05-L02-09",
+      "consigne": "==Mettez l'intitulé de gauche en gras==. Les intitulés se distinguent du contenu : c'est ce qui permet de balayer la diapositive et de comprendre sa structure en une seconde.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Notre offre 2027"
+              }
+            },
+            {
+              "layout": "comparaison",
+              "textes": {
+                "titre": "Deux formules d'entretien",
+                "contenu": "12 passages par an",
+                "texte": "Formule mensuelle",
+                "texte#2": "Formule trimestrielle",
+                "contenu#2": "4 passages par an"
+              }
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "ph:texte",
+        "style": {
+          "bold": true
+        }
+      },
+      "aide": {
+        "text": "Cliquez sur l'intitulé de gauche, puis sur G."
+      }
+    },
+    {
+      "id": "M05-L02-10",
+      "consigne": "==Mettez l'intitulé de droite en gras== lui aussi. Deux colonnes comparées se traitent à l'identique : toute différence de mise en forme se lit comme une préférence.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Notre offre 2027"
+              }
+            },
+            {
+              "layout": "comparaison",
+              "textes": {
+                "titre": "Deux formules d'entretien",
+                "contenu": "12 passages par an",
+                "texte": "Formule mensuelle",
+                "texte#2": "Formule trimestrielle",
+                "contenu#2": "4 passages par an"
+              }
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "ph:texte#2",
+        "style": {
+          "bold": true
+        }
+      }
+    },
+    {
+      "id": "M05-L02-11",
+      "consigne": "À retenir : **Comparaison** ajoute les deux intitulés qui manquent à Deux contenus. On les remplit **avant** le contenu, on pose la même question aux deux colonnes, et on les met en forme exactement pareil — une comparaison qui penche d'un côté n'est plus une comparaison.",
+      "action": {
+        "type": "READ"
+      }
+    }
+  ]
+}

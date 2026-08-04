@@ -1,0 +1,185 @@
+{
+  "schemaVersion": 1,
+  "title": "Arbitrer une journée déjà pleine",
+  "mode": "EXERCISE",
+  "moduleTitle": "Le calendrier au service du chantier",
+  "intro": {
+    "title": "Deux invitations, un seul créneau libre",
+    "body": "Votre mercredi est occupé toute la journée. Deux invitations arrivent, l'une sur ce mercredi, l'autre sur un jour encore libre. Consultez votre agenda avant de répondre — et répondez aux deux : celle qu'on décline autant que celle qu'on accepte."
+  },
+  "outro": {
+    "body": "Répondre à une invitation qu'on décline coûte un clic et fait gagner une demi-journée à l'organisateur. Ne pas répondre le laisse réserver une salle, préparer des documents, et vous attendre."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "clients",
+        "nom": "Clients 2026"
+      },
+      {
+        "id": "fournisseurs",
+        "nom": "Fournisseurs"
+      }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "evenements": [
+      {
+        "id": "ev-pose",
+        "titre": "Pose Beaulieu",
+        "date": "2026-03-04",
+        "debut": "08:00",
+        "fin": "17:00",
+        "lieu": "Résidence Beaulieu",
+        "participants": [],
+        "reunion": false
+      }
+    ],
+    "messages": [
+      {
+        "id": "m-inv-1",
+        "dossier": "reception",
+        "de": "contact@fleurs-de-saison.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Invitation — point sur la vitrine",
+        "corps": "Bonjour,\n\nNous souhaitons faire le point sur le projet de vitrine.\n\nFleurs de Saison",
+        "date": "2026-03-02T07:10",
+        "lu": false,
+        "invitation": {
+          "reponse": "aucune",
+          "evenement": {
+            "id": "ev-inv-vitrine",
+            "titre": "Point vitrine",
+            "date": "2026-03-04",
+            "debut": "10:00",
+            "fin": "11:00",
+            "lieu": "Boutique Fleurs de Saison",
+            "participants": [
+              "contact@fleurs-de-saison.fr",
+              "camille.aubertin@atelier-nord.fr"
+            ],
+            "reunion": true
+          }
+        }
+      },
+      {
+        "id": "m-inv-2",
+        "dossier": "reception",
+        "de": "h.vasseur@menuiserie-vasseur.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Invitation — revue de plans avant découpe",
+        "corps": "Bonjour Camille,\n\nOn revoit les plans avant de lancer la découpe ?\n\nHugo",
+        "date": "2026-03-02T07:25",
+        "lu": false,
+        "invitation": {
+          "reponse": "aucune",
+          "evenement": {
+            "id": "ev-inv-plans",
+            "titre": "Revue de plans avant découpe",
+            "date": "2026-03-03",
+            "debut": "14:00",
+            "fin": "15:00",
+            "lieu": "Menuiserie Vasseur",
+            "participants": [
+              "h.vasseur@menuiserie-vasseur.fr",
+              "camille.aubertin@atelier-nord.fr"
+            ],
+            "reunion": true
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O10-E02-01",
+      "consigne": "Consultez d'abord votre agenda : c'est lui, et non votre mémoire, qui doit décider de vos réponses.",
+      "action": {
+        "type": "O_CLICK_CONTROL",
+        "control": "cr-vue-calendrier"
+      },
+      "aide": {
+        "text": "L'icône du calendrier ; sur téléphone, la barre du bas."
+      }
+    },
+    {
+      "id": "O10-E02-02",
+      "consigne": "Revenez au courrier et ouvrez l'invitation de Fleurs de Saison : elle tombe sur une journée déjà entièrement occupée.",
+      "action": {
+        "type": "O_SELECT_MESSAGE",
+        "id": "m-inv-1"
+      },
+      "aide": {
+        "text": "Basculez d'abord sur Courrier, puis ouvrez le message qui parle de la vitrine."
+      }
+    },
+    {
+      "id": "O10-E02-03",
+      "consigne": "Répondez à cette invitation de la façon qui permet à l'organisateur d'avancer sans vous attendre.",
+      "action": {
+        "type": "O_CLICK_CONTROL",
+        "control": "cr-refuser"
+      },
+      "aide": {
+        "text": "Le bouton Refuser est le troisième de l'encadré bleu, sous le texte."
+      }
+    },
+    {
+      "id": "O10-E02-04",
+      "consigne": "Ouvrez l'invitation d'Hugo Vasseur : elle porte sur le mardi, encore libre.",
+      "action": {
+        "type": "O_SELECT_MESSAGE",
+        "id": "m-inv-2"
+      },
+      "aide": {
+        "text": "C'est le message qui propose une revue de plans."
+      }
+    },
+    {
+      "id": "O10-E02-05",
+      "consigne": "Acceptez-la, de façon que le rendez-vous s'inscrive réellement dans votre agenda avec ses participants.",
+      "setup": {
+        "courrier": {
+          "messageActif": "m-inv-2"
+        }
+      },
+      "action": {
+        "type": "O_EXPECT_CALENDRIER",
+        "calendrier": {
+          "titre": "Revue de plans avant découpe",
+          "date": "2026-03-03",
+          "debut": "14:00",
+          "fin": "15:00",
+          "reunion": true,
+          "participants": {
+            "contient": [
+              "h.vasseur@menuiserie-vasseur.fr",
+              "camille.aubertin@atelier-nord.fr"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Le bouton Accepter, premier des trois de l'encadré bleu."
+      }
+    }
+  ]
+}

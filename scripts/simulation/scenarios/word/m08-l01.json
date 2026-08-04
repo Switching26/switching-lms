@@ -1,0 +1,124 @@
+{
+  "schemaVersion": 1,
+  "app": "WORD",
+  "title": "Les marges : l'air autour du texte",
+  "mode": "LESSON",
+  "moduleTitle": "Mise en page",
+  "intro": {
+    "title": "CE QUI SE RÈGLE AVANT D'IMPRIMER",
+    "body": "Les **marges** sont l'espace laissé entre le texte et les bords de la feuille. On les croit décoratives : elles décident en réalité du nombre de pages, de la lisibilité, et de ce qui survivra à une reliure. Vous allez les régler sur un rapport."
+  },
+  "outro": "Marges larges pour un texte long, étroites pour tenir en une page, et jamais moins d'un centimètre : au-delà, l'imprimante coupe. Les marges se règlent une fois, au début, jamais après avoir mis en forme.",
+  "document": {
+    "paragraphes": [
+      {
+        "texte": "Rapport d'activité du premier semestre"
+      },
+      {
+        "texte": "Ateliers Rivedoux — direction technique"
+      },
+      {
+        "texte": "La production a progressé de neuf pour cent sur le semestre."
+      },
+      {
+        "texte": "Les effectifs de l'atelier de menuiserie sont restés stables."
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M08-L01-01",
+      "points": 0,
+      "consigne": "Word ouvre tout document avec des **marges normales de 2,5 cm** sur les quatre côtés. C'est un compromis, pas une règle : un rapport dense gagne à les réduire, un document destiné à être annoté gagne à les élargir. Elles se règlent dans le panneau **Mise en page**, onglet du même nom.",
+      "action": {
+        "type": "READ"
+      },
+      "montrer": [
+        {
+          "type": "W_CLICK_CONTROL",
+          "controle": "w-mise-en-page"
+        }
+      ],
+      "feedback": "2,5 cm partout : le point de départ de tout document Word."
+    },
+    {
+      "id": "M08-L01-02",
+      "consigne": "==Ouvrez le panneau Mise en page== depuis l'onglet du même ruban, puis ==choisissez les marges étroites== : 1,25 cm sur les quatre côtés. Regardez l'aperçu — la zone de texte grandit.",
+      "action": {
+        "type": "W_EXPECT_PAGE",
+        "page": {
+          "margeHaut": 1.25,
+          "margeBas": 1.25,
+          "margeGauche": 1.25,
+          "margeDroite": 1.25
+        }
+      },
+      "aide": {
+        "text": "Onglet « Mise en page », bouton « Marges », puis « Étroites ».",
+        "showTarget": true
+      },
+      "feedback": "Quatre marges réduites d'un seul geste : c'est l'intérêt des réglages prédéfinis."
+    },
+    {
+      "id": "M08-L01-03",
+      "consigne": "Un rapport destiné à être annoté en réunion a besoin de place dans la marge. ==Passez aux marges larges==, 5 cm sur les quatre côtés, et comparez l'aperçu.",
+      "action": {
+        "type": "W_EXPECT_PAGE",
+        "page": {
+          "margeHaut": 5,
+          "margeBas": 5,
+          "margeGauche": 5,
+          "margeDroite": 5
+        }
+      },
+      "feedback": "La zone de texte se réduit fortement : cinq centimètres, c'est beaucoup."
+    },
+    {
+      "id": "M08-L01-04",
+      "consigne": "Les prédéfinis ne conviennent pas toujours. ==Réglez des marges personnalisées== : 3 cm en haut, 2 cm en bas, 2,5 cm à gauche et à droite — la configuration d'un rapport relié.",
+      "action": {
+        "type": "W_EXPECT_PAGE",
+        "page": {
+          "margeHaut": 3,
+          "margeBas": 2,
+          "margeGauche": 2.5,
+          "margeDroite": 2.5
+        }
+      },
+      "aide": {
+        "text": "Les quatre champs « Marges personnalisées » du panneau.",
+        "showTarget": true
+      },
+      "feedback": "Une marge haute plus généreuse laisse la place à un en-tête ; la marge basse peut rester courte."
+    },
+    {
+      "id": "M08-L01-05",
+      "consigne": "Le panneau réglé, ==donnez au titre le style Titre== pour vérifier que la mise en page n'interfère pas avec la mise en forme : ce sont deux réglages indépendants.",
+      "setup": {
+        "ribbon": {
+          "activeTab": "accueil"
+        }
+      },
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p0",
+        "style": {
+          "style": "Titre"
+        }
+      },
+      "feedback": "Marges et styles ne se gênent pas : les unes cadrent la page, les autres qualifient les paragraphes."
+    },
+    {
+      "id": "M08-L01-06",
+      "consigne": "==Centrez le titre== : sur une page aux marges larges, un titre centré respire mieux qu'un titre collé à gauche.",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p0",
+        "style": {
+          "alignement": "centre"
+        }
+      },
+      "feedback": "Rapport prêt à imprimer."
+    }
+  ]
+}

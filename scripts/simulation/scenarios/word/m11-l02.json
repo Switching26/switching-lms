@@ -1,0 +1,153 @@
+{
+ "schemaVersion": 1,
+ "app": "WORD",
+ "title": "Composer une colonne de prix",
+ "mode": "LESSON",
+ "moduleTitle": "Les tabulations",
+ "intro": {
+  "title": "TROIS TAQUETS, UN TABLEAU SANS TABLEAU",
+  "body": "Une grille tarifaire n'a pas toujours besoin d'un tableau. Trois taquets bien posés — libellé à gauche, durée centrée, prix aligné sur la virgule — donnent une mise en page nette, plus légère qu'un tableau et plus facile à modifier."
+ },
+ "outro": "Les taquets appartiennent au paragraphe où se trouve le curseur : chaque ligne peut avoir les siens. C'est leur force, et la source de la confusion la plus fréquente.",
+ "document": {
+  "paragraphes": [
+   {
+    "texte": "Grille tarifaire 2026",
+    "style": "titre"
+   },
+   {
+    "texte": "Audit initial",
+    "style": "normal"
+   },
+   {
+    "texte": "Formation sur site",
+    "style": "normal"
+   },
+   {
+    "texte": "Suivi mensuel",
+    "style": "normal"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "id": "M11-L02-01",
+   "consigne": "==Affichez la règle== depuis l'onglet Affichage.",
+   "action": {
+    "type": "W_CLICK_CONTROL",
+    "controle": "w-regle"
+   },
+   "setup": {
+    "ribbon": {
+     "activeTab": "affichage"
+    }
+   },
+   "aide": {
+    "text": "Onglet « Affichage », bouton « Règle ».",
+    "showTarget": true
+   },
+   "feedback": "La règle est visible."
+  },
+  {
+   "id": "M11-L02-02",
+   "consigne": "==Posez un taquet gauche à 2 cm== sur le titre. Il fixe l'endroit où commencera la première colonne.",
+   "action": {
+    "type": "W_EXPECT_TABS",
+    "zone": "p0",
+    "taquets": [
+     {
+      "position": 2,
+      "type": "gauche"
+     }
+    ]
+   },
+   "aide": {
+    "text": "Cliquez la règle à la graduation 2.",
+    "showTarget": true
+   },
+   "feedback": "Première colonne calée à 2 cm."
+  },
+  {
+   "id": "M11-L02-03",
+   "consigne": "==Ajoutez un taquet centré à 8 cm.== La durée d'une prestation se lit mieux centrée : les valeurs courtes et longues restent visuellement groupées.",
+   "action": {
+    "type": "W_EXPECT_TABS",
+    "zone": "p0",
+    "taquets": [
+     {
+      "position": 2,
+      "type": "gauche"
+     },
+     {
+      "position": 8,
+      "type": "centre"
+     }
+    ]
+   },
+   "aide": {
+    "text": "Carré de gauche jusqu'au type centré, puis règle à 8.",
+    "showTarget": true
+   },
+   "feedback": "Deuxième colonne centrée."
+  },
+  {
+   "id": "M11-L02-04",
+   "consigne": "==Ajoutez un taquet décimal à 13 cm== pour la colonne des montants. Les virgules s'aligneront entre elles, quel que soit le nombre de chiffres avant.",
+   "action": {
+    "type": "W_EXPECT_TABS",
+    "zone": "p0",
+    "taquets": [
+     {
+      "position": 2,
+      "type": "gauche"
+     },
+     {
+      "position": 8,
+      "type": "centre"
+     },
+     {
+      "position": 13,
+      "type": "decimal"
+     }
+    ]
+   },
+   "aide": {
+    "text": "Carré jusqu'au type décimal, puis règle à 13.",
+    "showTarget": true
+   },
+   "feedback": "Trois taquets : la structure de la grille est posée."
+  },
+  {
+   "id": "M11-L02-05",
+   "consigne": "La colonne des durées est finalement abandonnée. ==Retirez le taquet centré de 8 cm== en cliquant dessus.",
+   "action": {
+    "type": "W_EXPECT_TABS",
+    "zone": "p0",
+    "taquets": [
+     {
+      "position": 2,
+      "type": "gauche"
+     },
+     {
+      "position": 13,
+      "type": "decimal"
+     }
+    ]
+   },
+   "aide": {
+    "text": "Cliquez le repère posé à la graduation 8.",
+    "showTarget": true
+   },
+   "feedback": "Deux colonnes : libellé et montant."
+  },
+  {
+   "id": "M11-L02-06",
+   "points": 0,
+   "action": {
+    "type": "READ"
+   },
+   "consigne": "Retenez le point qui trompe tout le monde : **les taquets appartiennent au paragraphe**, pas au document. Poser des taquets sur une ligne ne les pose pas sur les suivantes — il faut sélectionner les lignes concernées avant de les poser.",
+   "feedback": "Un paragraphe, ses taquets. C'est la règle."
+  }
+ ]
+}

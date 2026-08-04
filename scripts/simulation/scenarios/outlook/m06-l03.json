@@ -1,0 +1,227 @@
+{
+  "schemaVersion": 1,
+  "title": "Relancer sans braquer",
+  "mode": "LESSON",
+  "moduleTitle": "Écrire un message qu'on lit vraiment",
+  "intro": {
+    "title": "Dix jours sans réponse",
+    "body": "Relancer est un exercice délicat : trop tôt on agace, trop tard on perd le marché, et mal écrit on se fâche avec un client qui avait simplement oublié. La relance efficace tient en trois éléments et ne contient jamais de reproche — parce que dans la plupart des cas, le silence n'en méritait aucun."
+  },
+  "outro": {
+    "body": "Une relance rappelle le contexte, redonne l'information utile et propose une échéance. Elle ne contient ni reproche, ni « comme je vous l'ai déjà écrit », ni point d'exclamation. Dans neuf cas sur dix, votre message dormait au fond d'une boîte."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "clients",
+        "nom": "Clients 2026"
+      },
+      {
+        "id": "fournisseurs",
+        "nom": "Fournisseurs"
+      }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "messages": [
+      {
+        "id": "m-envoi-devis",
+        "dossier": "envoyes",
+        "de": "camille.aubertin@atelier-nord.fr",
+        "a": [
+          "accueil@cabinet-vermeulen.fr"
+        ],
+        "objet": "Devis 2026-152 — aménagement de la salle d'attente",
+        "corps": "Bonjour,\n\nVeuillez trouver notre devis 2026-152 pour l'aménagement de votre salle d'attente.\nIl est valable trente jours.\n\nCamille Aubertin",
+        "date": "2026-03-15T10:00",
+        "lu": true,
+        "pieces": [
+          {
+            "nom": "Devis-2026-152.pdf",
+            "taille": "204 Ko"
+          }
+        ]
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O06-L03-01",
+      "consigne": "==Ouvrez le dossier Éléments envoyés.== Votre devis est parti le 15 mars et n'a reçu aucune réponse. Une relance commence toujours par relire ce qu'on a écrit.",
+      "action": {
+        "type": "O_SELECT_FOLDER",
+        "dossier": "envoyes"
+      },
+      "aide": {
+        "text": "Colonne de gauche ; sur téléphone, derrière le bouton ☰ en haut de la liste."
+      }
+    },
+    {
+      "id": "O06-L03-02",
+      "consigne": "==Ouvrez le message du devis 2026-152.== Notez la date et le contenu : ce sont eux que la relance va rappeler, sans les reprocher.",
+      "action": {
+        "type": "O_SELECT_MESSAGE",
+        "id": "m-envoi-devis"
+      },
+      "aide": {
+        "text": "C'est le seul message de ce dossier."
+      }
+    },
+    {
+      "id": "O06-L03-03",
+      "consigne": "==Transférez-le à `accueil@cabinet-vermeulen.fr`.== Faire suivre l'envoi d'origine plutôt que réécrire présente un avantage : le devis repart avec, et le destinataire retrouve la version exacte dont on parle.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "genre": "transfert",
+          "a": {
+            "contient": [
+              "accueil@cabinet-vermeulen.fr"
+            ]
+          },
+          "pieces": {
+            "contient": [
+              "Devis-2026-152.pdf"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Le bouton Transférer est dans la barre du haut ; la pièce jointe suit toute seule."
+      }
+    },
+    {
+      "id": "O06-L03-04",
+      "consigne": "==Complétez l'objet avec le mot `relance`.== Annoncer la nature du message est une politesse : le destinataire sait qu'il s'agit d'un rappel et non d'un nouveau devis à examiner.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "objet": {
+            "prefixe": "TR",
+            "contient": [
+              "relance"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Ajoutez le mot à la fin de l'objet, en gardant le préfixe."
+      }
+    },
+    {
+      "id": "O06-L03-05",
+      "consigne": "==Rédigez la relance.== Trois éléments : **la date du premier envoi**, **la référence du devis**, et **une échéance** — la validité de trente jours donne une raison naturelle de répondre. Aucun reproche.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "corps": {
+            "salutation": [
+              "bonjour",
+              "madame",
+              "monsieur",
+              "bonsoir"
+            ],
+            "cloture": [
+              "cordialement",
+              "salutations",
+              "bien a vous",
+              "merci"
+            ],
+            "notions": [
+              {
+                "libelle": "la date du premier envoi",
+                "oneOf": [
+                  "15 mars",
+                  "15/03",
+                  "le 15",
+                  "mi-mars"
+                ]
+              },
+              {
+                "libelle": "la référence du devis",
+                "oneOf": [
+                  "2026-152",
+                  "152"
+                ]
+              },
+              {
+                "libelle": "une échéance ou la durée de validité",
+                "oneOf": [
+                  "trente jours",
+                  "30 jours",
+                  "validite",
+                  "valable",
+                  "avant le",
+                  "14 avril",
+                  "fin"
+                ]
+              }
+            ],
+            "interdit": [
+              {
+                "libelle": "un reproche ou une formule d'impatience",
+                "oneOf": [
+                  "sans reponse de votre part",
+                  "je m'etonne",
+                  "toujours rien",
+                  "comme je vous l'ai deja",
+                  "vous n'avez pas juge"
+                ]
+              }
+            ],
+            "minMots": 15
+          }
+        }
+      },
+      "aide": {
+        "text": "Trois informations sont attendues : la date, la référence, et l'échéance."
+      }
+    },
+    {
+      "id": "O06-L03-06",
+      "consigne": "==Envoyez la relance.== Elle donne au destinataire tout ce qu'il faut pour répondre en une ligne — et lui laisse la possibilité d'avoir simplement oublié, ce qui est presque toujours le cas.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "accueil@cabinet-vermeulen.fr"
+            ]
+          },
+          "objet": {
+            "prefixe": "TR",
+            "contient": [
+              "relance"
+            ]
+          },
+          "pieces": {
+            "contient": [
+              "Devis-2026-152.pdf"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Le bouton Envoyer, premier de la barre du haut."
+      }
+    }
+  ]
+}

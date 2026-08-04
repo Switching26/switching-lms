@@ -1,0 +1,596 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "mode": "EVALUATION",
+  "moduleTitle": "Organiser et enchaîner",
+  "title": "S'évaluer — Organiser et enchaîner",
+  "intro": {
+    "title": "S'évaluer — Organiser et enchaîner",
+    "body": "La présentation de l'assemblée générale part demain. Elle porte quatre défauts d'organisation, et aucun ne vous sera nommé : à vous de les voir. Cette épreuve est notée, elle se fait d'une traite, et un nouveau passage repart de zéro."
+  },
+  "outro": {
+    "body": "Épreuve terminée. Seule votre meilleure note est conservée."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "ppt": {
+    "fileName": "AG Verdeval.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Verdeval",
+          "sous-titre": "Assemblée générale du 12 mars 2027"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Merci de votre attention",
+          "contenu": "Questions et échanges"
+        }
+      },
+      {
+        "layout": "titre-seul",
+        "textes": {
+          "titre": "Chiffres de la saison"
+        },
+        "objets": [
+          {
+            "id": "zt-chiffres",
+            "objectType": "texte",
+            "texte": "38 jardins et 120 entretiens",
+            "rect": {
+              "x": 70,
+              "y": 210,
+              "w": 460,
+              "h": 70
+            }
+          },
+          {
+            "id": "zt-brouillon",
+            "objectType": "texte",
+            "texte": "brouillon - chiffres a confirmer",
+            "rect": {
+              "x": 70,
+              "y": 350,
+              "w": 440,
+              "h": 60
+            }
+          }
+        ]
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Annexe - grille tarifaire",
+          "contenu": "Réservé aux questions de la gérance"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Nos agences",
+          "contenu": "Nantes, Rennes et Angers"
+        },
+        "transition": {
+          "kind": "damier",
+          "duree": 1.5
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M02-EV01-01",
+      "consigne": "La présentation de l'assemblée générale vous revient en dernière relecture. Parcourez-la du regard avant d'agir : une mention de travail est restée sur une diapositive, le remerciement arrive trop tôt, une annexe destinée à la gérance figure dans le déroulé, et un effet d'enchaînement détonne. Corrigez les quatre.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M02-EV01-02",
+      "consigne": "Affichez la diapositive des chiffres de la saison.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 2
+      },
+      "points": 1
+    },
+    {
+      "id": "M02-EV01-03",
+      "consigne": "Une mention n'a rien à faire devant l'assemblée : faites-la disparaître de la diapositive, sans toucher au reste.",
+      "action": {
+        "type": "P_DELETE_OBJECT",
+        "objectId": "zt-brouillon"
+      },
+      "points": 2
+    },
+    {
+      "id": "M02-EV01-04",
+      "consigne": "Le remerciement arrive en deuxième position. Affichez-le.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Assemblée générale du 12 mars 2027"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Merci de votre attention",
+                "contenu": "Questions et échanges"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Chiffres de la saison"
+              },
+              "objets": [
+                {
+                  "id": "zt-chiffres",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 70,
+                    "y": 210,
+                    "w": 460,
+                    "h": 70
+                  },
+                  "texte": "38 jardins et 120 entretiens"
+                }
+              ]
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Annexe - grille tarifaire",
+                "contenu": "Réservé aux questions de la gérance"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Nos agences",
+                "contenu": "Nantes, Rennes et Angers"
+              },
+              "transition": {
+                "kind": "damier",
+                "duree": 1.5
+              }
+            }
+          ]
+        },
+        "slide": 2
+      },
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 1
+      },
+      "points": 1
+    },
+    {
+      "id": "M02-EV01-05",
+      "consigne": "Faites-le reculer d'un rang.",
+      "setupPpt": {
+        "slide": 1
+      },
+      "action": {
+        "type": "P_MOVE_SLIDE",
+        "from": 1,
+        "to": 2
+      },
+      "points": 1
+    },
+    {
+      "id": "M02-EV01-06",
+      "consigne": "Reculez-le encore d'un rang.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Assemblée générale du 12 mars 2027"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Chiffres de la saison"
+              },
+              "objets": [
+                {
+                  "id": "zt-chiffres",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 70,
+                    "y": 210,
+                    "w": 460,
+                    "h": 70
+                  },
+                  "texte": "38 jardins et 120 entretiens"
+                }
+              ]
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Merci de votre attention",
+                "contenu": "Questions et échanges"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Annexe - grille tarifaire",
+                "contenu": "Réservé aux questions de la gérance"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Nos agences",
+                "contenu": "Nantes, Rennes et Angers"
+              },
+              "transition": {
+                "kind": "damier",
+                "duree": 1.5
+              }
+            }
+          ]
+        },
+        "slide": 2
+      },
+      "action": {
+        "type": "P_MOVE_SLIDE",
+        "from": 2,
+        "to": 3
+      },
+      "points": 1
+    },
+    {
+      "id": "M02-EV01-07",
+      "consigne": "Amenez-le en toute fin de présentation.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Assemblée générale du 12 mars 2027"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Chiffres de la saison"
+              },
+              "objets": [
+                {
+                  "id": "zt-chiffres",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 70,
+                    "y": 210,
+                    "w": 460,
+                    "h": 70
+                  },
+                  "texte": "38 jardins et 120 entretiens"
+                }
+              ]
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Annexe - grille tarifaire",
+                "contenu": "Réservé aux questions de la gérance"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Merci de votre attention",
+                "contenu": "Questions et échanges"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Nos agences",
+                "contenu": "Nantes, Rennes et Angers"
+              },
+              "transition": {
+                "kind": "damier",
+                "duree": 1.5
+              }
+            }
+          ]
+        },
+        "slide": 3
+      },
+      "action": {
+        "type": "P_MOVE_SLIDE",
+        "from": 3,
+        "to": 4
+      },
+      "points": 1
+    },
+    {
+      "id": "M02-EV01-08",
+      "consigne": "Affichez l'annexe tarifaire.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Assemblée générale du 12 mars 2027"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Chiffres de la saison"
+              },
+              "objets": [
+                {
+                  "id": "zt-chiffres",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 70,
+                    "y": 210,
+                    "w": 460,
+                    "h": 70
+                  },
+                  "texte": "38 jardins et 120 entretiens"
+                }
+              ]
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Annexe - grille tarifaire",
+                "contenu": "Réservé aux questions de la gérance"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Nos agences",
+                "contenu": "Nantes, Rennes et Angers"
+              },
+              "transition": {
+                "kind": "damier",
+                "duree": 1.5
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Merci de votre attention",
+                "contenu": "Questions et échanges"
+              }
+            }
+          ]
+        },
+        "slide": 4
+      },
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 2
+      },
+      "points": 1
+    },
+    {
+      "id": "M02-EV01-09",
+      "consigne": "La gérance doit pouvoir s'y référer, mais l'assemblée ne doit pas la voir défiler. Agissez en conséquence.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Assemblée générale du 12 mars 2027"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Chiffres de la saison"
+              },
+              "objets": [
+                {
+                  "id": "zt-chiffres",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 70,
+                    "y": 210,
+                    "w": 460,
+                    "h": 70
+                  },
+                  "texte": "38 jardins et 120 entretiens"
+                }
+              ]
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Annexe - grille tarifaire",
+                "contenu": "Réservé aux questions de la gérance"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Nos agences",
+                "contenu": "Nantes, Rennes et Angers"
+              },
+              "transition": {
+                "kind": "damier",
+                "duree": 1.5
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Merci de votre attention",
+                "contenu": "Questions et échanges"
+              }
+            }
+          ]
+        },
+        "slide": 2
+      },
+      "action": {
+        "type": "P_EXPECT_DECK",
+        "deck": {
+          "slides": [
+            {
+              "index": 2,
+              "masquee": true
+            }
+          ]
+        }
+      },
+      "points": 2
+    },
+    {
+      "id": "M02-EV01-10",
+      "consigne": "Affichez la diapositive des agences, la seule qui porte encore un effet d'enchaînement voyant.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 3
+      },
+      "points": 1
+    },
+    {
+      "id": "M02-EV01-11",
+      "consigne": "Remplacez cet effet par le plus discret que propose le ruban.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Assemblée générale du 12 mars 2027"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Chiffres de la saison"
+              },
+              "objets": [
+                {
+                  "id": "zt-chiffres",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 70,
+                    "y": 210,
+                    "w": 460,
+                    "h": 70
+                  },
+                  "texte": "38 jardins et 120 entretiens"
+                }
+              ]
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Annexe - grille tarifaire",
+                "contenu": "Réservé aux questions de la gérance"
+              },
+              "masquee": true
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Nos agences",
+                "contenu": "Nantes, Rennes et Angers"
+              },
+              "transition": {
+                "kind": "damier",
+                "duree": 1.5
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Merci de votre attention",
+                "contenu": "Questions et échanges"
+              }
+            }
+          ]
+        },
+        "slide": 3
+      },
+      "action": {
+        "type": "P_EXPECT_DECK",
+        "deck": {
+          "slides": [
+            {
+              "index": 3,
+              "transition": {
+                "kind": "fondu"
+              }
+            }
+          ]
+        }
+      },
+      "points": 2
+    },
+    {
+      "id": "M02-EV01-12",
+      "consigne": "Contrôlez l'ensemble comme l'assemblée le verra, depuis la première diapositive.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": true,
+          "index": 0
+        }
+      },
+      "points": 1
+    },
+    {
+      "id": "M02-EV01-13",
+      "consigne": "Avancez d'une diapositive.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "index": 1
+        }
+      },
+      "points": 1
+    },
+    {
+      "id": "M02-EV01-14",
+      "consigne": "Revenez à votre présentation.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": false
+        }
+      },
+      "points": 1
+    }
+  ]
+}

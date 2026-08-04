@@ -1,0 +1,95 @@
+{
+ "schemaVersion": 1,
+ "app": "WORD",
+ "title": "Lier une note aux bonnes sources",
+ "mode": "EXERCISE",
+ "moduleTitle": "Les liens hypertexte",
+ "intro": {
+  "title": "À VOUS",
+  "body": "La note renvoie à un texte de loi et à un service interne. Deux liens à poser sur les bons mots."
+ },
+ "outro": "Deux liens bien posés remplacent quatre lignes d'adresses illisibles.",
+ "document": {
+  "paragraphes": [
+   {
+    "texte": "Note d'information aux salariés",
+    "style": "titre"
+   },
+   {
+    "texte": "Les démarches administratives se font désormais en ligne.",
+    "style": "normal"
+   },
+   {
+    "texte": "Le texte de référence est publié sur Légifrance.",
+    "style": "normal"
+   },
+   {
+    "texte": "Pour toute question, écrivez au secrétariat.",
+    "style": "normal"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "id": "M19-E01-01",
+   "consigne": "==Sélectionnez le mot « Légifrance »== dans le troisième paragraphe.",
+   "action": {
+    "type": "W_SELECT_TEXT",
+    "zone": "texte:Légifrance"
+   },
+   "aide": {
+    "text": "Double-cliquez sur le mot « Légifrance ».",
+    "showTarget": true
+   },
+   "feedback": "Passage sélectionné."
+  },
+  {
+   "id": "M19-E01-02",
+   "consigne": "==Liez-le vers legifrance.gouv.fr==, le site officiel des textes de loi.",
+   "action": {
+    "type": "W_EXPECT_LIEN",
+    "url": "https://www.legifrance.gouv.fr"
+   },
+   "aide": {
+    "text": "Bouton « Lien », adresse, « Valider ».",
+    "showTarget": true
+   },
+   "feedback": "La référence pointe vers la source officielle."
+  },
+  {
+   "id": "M19-E01-03",
+   "consigne": "==Sélectionnez le mot « secrétariat »== dans le dernier paragraphe.",
+   "action": {
+    "type": "W_SELECT_TEXT",
+    "zone": "texte:secrétariat"
+   },
+   "aide": {
+    "text": "Double-cliquez sur le mot « secrétariat ».",
+    "showTarget": true
+   },
+   "feedback": "Passage sélectionné."
+  },
+  {
+   "id": "M19-E01-04",
+   "consigne": "==Liez-le vers l'adresse contact@rivedoux.fr.== Un lien peut pointer vers un courriel : le clic ouvre alors un nouveau message.",
+   "action": {
+    "type": "W_EXPECT_LIEN",
+    "url": "contact@rivedoux.fr"
+   },
+   "aide": {
+    "text": "Bouton « Lien », puis la suggestion contact@rivedoux.fr.",
+    "showTarget": true
+   },
+   "feedback": "Le lecteur peut écrire au service d'un seul clic."
+  },
+  {
+   "id": "M19-E01-05",
+   "points": 0,
+   "action": {
+    "type": "READ"
+   },
+   "consigne": "La note ne contient **aucune adresse visible**, et pourtant elle mène à deux endroits précis. C'est la différence entre un document qu'on lit à l'écran et un document imprimé — et c'est pour cela qu'on ajoute parfois l'adresse en note de bas de page.",
+   "feedback": "Lisible à l'écran, traçable à l'impression."
+  }
+ ]
+}

@@ -1,0 +1,103 @@
+{
+  "schemaVersion": 1,
+  "app": "WORD",
+  "title": "Exercice — Listes à puces",
+  "mode": "EXERCISE",
+  "moduleTitle": "Puces et numéros",
+  "intro": {
+    "title": "À VOUS DE JOUER",
+    "body": "Une fiche de poste dont l'énumération est restée en texte courant. Transformez-la en liste — et faites attention à ce qui n'en fait pas partie."
+  },
+  "outro": "Une liste bien bornée vaut mieux qu'une liste qui déborde sur son commentaire.",
+  "document": {
+    "paragraphes": [
+      {
+        "texte": "Missions du magasinier"
+      },
+      {
+        "texte": "Réceptionner et contrôler les livraisons"
+      },
+      {
+        "texte": "Ranger les pièces selon le plan de stockage"
+      },
+      {
+        "texte": "Préparer les sorties de matériel"
+      },
+      {
+        "texte": "Ces missions sont exercées sous la responsabilité du chef d'atelier.",
+        "liste": "puces"
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M06-E01-01",
+      "consigne": "==Transformez la première mission en élément de liste.==",
+      "setup": {
+        "ribbon": {
+          "activeTab": "accueil"
+        }
+      },
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p1",
+        "style": {
+          "liste": "puces"
+        }
+      },
+      "aide": {
+        "text": "Curseur dans le paragraphe, puis le premier bouton du groupe Paragraphe.",
+        "showTarget": true
+      },
+      "feedback": "Premier élément."
+    },
+    {
+      "id": "M06-E01-02",
+      "consigne": "==Traitez la deuxième mission de la même façon.==",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p2",
+        "style": {
+          "liste": "puces"
+        }
+      },
+      "feedback": "Deuxième élément."
+    },
+    {
+      "id": "M06-E01-03",
+      "consigne": "==Traitez la troisième mission.==",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p3",
+        "style": {
+          "liste": "puces"
+        }
+      },
+      "feedback": "Trois missions alignées."
+    },
+    {
+      "id": "M06-E01-04",
+      "consigne": "==Sortez la dernière phrase de la liste== : ce n'est pas une mission, c'est un rattachement hiérarchique.",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p4",
+        "style": {
+          "liste": "aucune"
+        }
+      },
+      "feedback": "La liste s'arrête où elle doit."
+    },
+    {
+      "id": "M06-E01-05",
+      "consigne": "==Épaississez le titre de la fiche.==",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p0",
+        "format": {
+          "gras": true
+        }
+      },
+      "feedback": "Fiche de poste lisible."
+    }
+  ]
+}

@@ -1,0 +1,136 @@
+{
+ "schemaVersion": 1,
+ "app": "WORD",
+ "title": "Évaluation — en-tête, pied de page et filigrane",
+ "mode": "EVALUATION",
+ "moduleTitle": "En-tête, pied de page et filigrane",
+ "intro": {
+  "title": "ÉVALUATION NOTÉE",
+  "body": "Un compte rendu de réunion doit être identifié, marqué comme provisoire, numéroté, puis basculé en version définitive. Chaque geste est noté."
+ },
+ "outro": "Vous savez poser l'identité d'un document et la faire évoluer avec lui.",
+ "document": {
+  "paragraphes": [
+   {
+    "texte": "Compte rendu — comité de pilotage",
+    "style": "titre"
+   },
+   {
+    "texte": "La réunion s'est tenue en présence des cinq responsables de pôle.",
+    "style": "normal"
+   },
+   {
+    "texte": "Le budget de formation a été porté à quarante mille euros pour l'exercice.",
+    "style": "normal"
+   },
+   {
+    "texte": "La prochaine réunion se tiendra dans six semaines.",
+    "style": "normal"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "id": "M09-EV01-01",
+   "points": 2,
+   "consigne": "==Ouvrez le panneau En-tête et pied de page.==",
+   "action": {
+    "type": "W_CLICK_CONTROL",
+    "controle": "w-entete-pied"
+   },
+   "setup": {
+    "ribbon": {
+     "activeTab": "insertion"
+    }
+   },
+   "feedback": "Panneau ouvert."
+  },
+  {
+   "id": "M09-EV01-02",
+   "points": 3,
+   "consigne": "==Saisissez « Comité de pilotage » dans l'en-tête.==",
+   "action": {
+    "type": "W_EXPECT_ENTETE",
+    "emplacement": "entete",
+    "accept": [
+     "Comité de pilotage"
+    ]
+   },
+   "feedback": "Émetteur identifié."
+  },
+  {
+   "id": "M09-EV01-03",
+   "points": 3,
+   "consigne": "==Saisissez « Compte rendu provisoire » dans le pied de page.==",
+   "action": {
+    "type": "W_EXPECT_ENTETE",
+    "emplacement": "pied",
+    "accept": [
+     "Compte rendu provisoire"
+    ]
+   },
+   "feedback": "Statut porté en pied de page."
+  },
+  {
+   "id": "M09-EV01-04",
+   "points": 3,
+   "consigne": "==Posez « PROVISOIRE » en filigrane.== Le compte rendu n'est pas encore validé par les participants.",
+   "action": {
+    "type": "W_EXPECT_ENTETE",
+    "emplacement": "filigrane",
+    "accept": [
+     "PROVISOIRE"
+    ]
+   },
+   "feedback": "La mention barre la page."
+  },
+  {
+   "id": "M09-EV01-05",
+   "points": 3,
+   "consigne": "==Activez la numérotation des pages.==",
+   "action": {
+    "type": "W_EXPECT_PAGE",
+    "page": {
+     "numeroPage": true
+    }
+   },
+   "feedback": "Pages numérotées."
+  },
+  {
+   "id": "M09-EV01-06",
+   "points": 3,
+   "consigne": "Le compte rendu est validé. ==Videz le filigrane.==",
+   "action": {
+    "type": "W_EXPECT_ENTETE",
+    "emplacement": "filigrane",
+    "accept": [
+     ""
+    ]
+   },
+   "feedback": "Document démarqué."
+  },
+  {
+   "id": "M09-EV01-07",
+   "points": 3,
+   "consigne": "==Corrigez le pied de page en « Compte rendu validé ».==",
+   "action": {
+    "type": "W_EXPECT_ENTETE",
+    "emplacement": "pied",
+    "accept": [
+     "Compte rendu validé"
+    ]
+   },
+   "feedback": "Le statut suit le document."
+  },
+  {
+   "id": "M09-EV01-08",
+   "points": 2,
+   "consigne": "==Refermez le panneau.==",
+   "action": {
+    "type": "W_CLICK_CONTROL",
+    "controle": "w-entete-fermer"
+   },
+   "feedback": "Mentions conservées sur la page."
+  }
+ ]
+}

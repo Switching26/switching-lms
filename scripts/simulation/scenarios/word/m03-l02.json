@@ -1,0 +1,130 @@
+{
+  "schemaVersion": 1,
+  "app": "WORD",
+  "title": "Appliquer les corrections d'une relecture",
+  "mode": "LESSON",
+  "moduleTitle": "Modification de texte",
+  "intro": {
+    "title": "TRAITER UN DOCUMENT ANNOTÉ",
+    "body": "Un document relu revient avec des marques : passages surlignés à reprendre, passages barrés à réécrire. Vous allez traiter les deux — et surtout RETIRER la marque une fois le travail fait, sans quoi personne ne sait plus ce qui reste à traiter."
+  },
+  "outro": "Traiter une annotation, c'est corriger le texte ET retirer la marque. Une annotation qui survit à sa correction fait perdre du temps à tout le monde.",
+  "document": {
+    "paragraphes": [
+      {
+        "texte": "Note interne — accueil des nouveaux arrivants"
+      },
+      {
+        "texte": "Chaque nouvel arrivant est reçu par le responsable du service.",
+        "format": {
+          "surlignage": "#f1c40f"
+        }
+      },
+      {
+        "texte": "La visite des locaux dure environ deux heures."
+      },
+      {
+        "texte": "Le livret d'accueil sera remis ultérieurement.",
+        "format": {
+          "barre": true
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M03-L02-01",
+      "points": 0,
+      "consigne": "Le relecteur a laissé deux marques. Le **surlignage jaune** signale un passage à reprendre : la formulation ne convient pas. Le **barré** signale un passage devenu faux, à réécrire entièrement. Vous allez traiter les deux, puis retirer les marques.",
+      "action": {
+        "type": "READ"
+      },
+      "montrer": [
+        {
+          "type": "W_SELECT_TEXT",
+          "zone": "p1"
+        }
+      ],
+      "feedback": "Une marque appelle un geste, puis disparaît."
+    },
+    {
+      "id": "M03-L02-02",
+      "consigne": "==Reformulez le paragraphe surligné== ainsi : Chaque nouvel arrivant est reçu par son responsable direct dès le premier jour.",
+      "action": {
+        "type": "W_EXPECT_DOC",
+        "paragraphes": {
+          "p1": [
+            "Chaque nouvel arrivant est reçu par son responsable direct dès le premier jour."
+          ]
+        }
+      },
+      "aide": {
+        "text": "Triple-clic pour prendre le paragraphe, puis tapez la nouvelle version.",
+        "showTarget": true
+      },
+      "feedback": "La formulation est corrigée."
+    },
+    {
+      "id": "M03-L02-03",
+      "consigne": "==Retirez le surlignage== de ce paragraphe : sélectionnez-le, puis choisissez « Aucune » dans la liste Surlignage. Le texte est traité, la marque n'a plus lieu d'être.",
+      "setup": {
+        "ribbon": {
+          "activeTab": "accueil"
+        }
+      },
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p1",
+        "format": {
+          "surlignage": ""
+        }
+      },
+      "aide": {
+        "text": "La dernière liste du groupe Police propose « Aucune » en tête.",
+        "showTarget": true
+      },
+      "feedback": "Le paragraphe redevient neutre : plus rien n'attend le relecteur."
+    },
+    {
+      "id": "M03-L02-04",
+      "consigne": "==Réécrivez le paragraphe barré== en le remplaçant par : Le livret d'accueil est remis à la signature du contrat.",
+      "action": {
+        "type": "W_EXPECT_DOC",
+        "paragraphes": {
+          "p3": [
+            "Le livret d'accueil est remis à la signature du contrat."
+          ]
+        }
+      },
+      "feedback": "L'information est à jour. Reste à enlever le trait."
+    },
+    {
+      "id": "M03-L02-05",
+      "consigne": "==Retirez le barré== de ce paragraphe : sélectionnez-le et recliquez sur le bouton qui l'avait posé. Ces attributs sont des **interrupteurs** — le même geste les met et les enlève.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p3",
+        "format": {
+          "barre": false
+        }
+      },
+      "aide": {
+        "text": "Le second S du groupe Police, celui dont le trait passe au milieu.",
+        "showTarget": true
+      },
+      "feedback": "Document propre : plus une seule marque de relecture."
+    },
+    {
+      "id": "M03-L02-06",
+      "consigne": "==Épaississez le titre== pour finir. Un document rendu après corrections doit se présenter comme un document neuf, pas comme un brouillon retravaillé.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p0",
+        "format": {
+          "gras": true
+        }
+      },
+      "feedback": "Note prête à être diffusée."
+    }
+  ]
+}

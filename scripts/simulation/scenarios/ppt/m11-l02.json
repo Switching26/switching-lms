@@ -1,0 +1,236 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "mode": "LESSON",
+  "moduleTitle": "Projeter ou envoyer",
+  "title": "La version projetée",
+  "intro": {
+    "title": "La version projetée",
+    "body": "Vous serez là pour parler : l'écran n'a donc pas à tout dire. Cette leçon dépouille une présentation écrite pour la lecture, et la rend tenable dans une salle."
+  },
+  "outro": {
+    "body": "La version de salle est prête : peu de mots, un mot en gras par écran, tout le reste dans vos notes."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "ppt": {
+    "fileName": "Rivage Marée - salle.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Rivage Marée",
+          "sous-titre": "Proposition pour Le Comptoir des Halles"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Nos produits",
+          "contenu": "Nous achetons chaque matin à la criée de Lorient auprès de sept bateaux partenaires\nLa livraison est faite avant 6 h dans les cuisines, sous glace et en caisse consignée\nChaque caisse porte le nom du bateau, la date de pêche et la zone de capture"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Nos engagements",
+          "contenu": "Toute pièce non conforme est reprise le jour même sans discussion et remplacée\nLa facturation est mensuelle, avec un récapitulatif détaillé par service et par jour"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M11-L02-01",
+      "consigne": "Dans une salle, l'écran est **derrière vous** et le public est loin. Trois contraintes en découlent : peu de lignes, des mots courts, et un seul point d'accroche par diapositive. Ce n'est pas un appauvrissement — c'est le format qui vous laisse la parole.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M11-L02-02",
+      "consigne": "==Affichez la deuxième diapositive==, écrite pour la lecture : trois phrases de vingt mots.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 1
+      }
+    },
+    {
+      "id": "M11-L02-03",
+      "consigne": "==Remplacez son titre par Pêche de la veille, livrée à 6 h==. Un titre de salle **affirme** : c'est souvent la seule ligne que le public lira vraiment.",
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:titre",
+        "accept": [
+          "Pêche de la veille, livrée à 6 h"
+        ]
+      },
+      "aide": {
+        "text": "Un titre déjà rempli s'ouvre au double-clic."
+      }
+    },
+    {
+      "id": "M11-L02-04",
+      "consigne": "==Remplacez le contenu== par : Criée de Lorient, Sept bateaux, Caisse tracée. Trois repères de deux ou trois mots, lisibles d'un coup d'œil depuis le fond.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Rivage Marée",
+                "sous-titre": "Proposition pour Le Comptoir des Halles"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Pêche de la veille, livrée à 6 h",
+                "contenu": "Nous achetons chaque matin à la criée de Lorient auprès de sept bateaux partenaires\nLa livraison est faite avant 6 h dans les cuisines, sous glace et en caisse consignée\nChaque caisse porte le nom du bateau, la date de pêche et la zone de capture"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Nos engagements",
+                "contenu": "Toute pièce non conforme est reprise le jour même sans discussion et remplacée\nLa facturation est mensuelle, avec un récapitulatif détaillé par service et par jour"
+              }
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:contenu",
+        "accept": [
+          "Criée de Lorient\nSept bateaux\nCaisse tracée",
+          "Criée de Lorient, Sept bateaux, Caisse tracée"
+        ]
+      }
+    },
+    {
+      "id": "M11-L02-05",
+      "consigne": "==Écrivez la note== : Nom du bateau, date de pêche et zone sur chaque caisse. Les soixante mots retirés de l'écran tiennent en une ligne sous vos yeux.",
+      "action": {
+        "type": "P_EXPECT_DECK",
+        "deck": {
+          "slides": [
+            {
+              "index": 1,
+              "notes": "Nom du bateau, date de pêche et zone sur chaque caisse"
+            }
+          ]
+        }
+      },
+      "aide": {
+        "text": "Le champ de notes est sous la diapositive ; sur petit écran, le bouton « Notes » l'ouvre."
+      },
+      "feedback": "Rien n'est perdu : l'écran a maigri de soixante mots, votre intervention n'a rien perdu."
+    },
+    {
+      "id": "M11-L02-06",
+      "consigne": "==Mettez ce titre en gras==. Dans une salle mal éclairée, le gras du titre est ce qui accroche l'œil quand le public relève la tête.",
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "ph:titre",
+        "style": {
+          "bold": true
+        }
+      },
+      "aide": {
+        "text": "Sélectionnez le titre d'un clic, puis bouton G du groupe Police."
+      }
+    },
+    {
+      "id": "M11-L02-07",
+      "consigne": "==Affichez la troisième diapositive==, celle des engagements : deux phrases longues, même défaut.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 2
+      }
+    },
+    {
+      "id": "M11-L02-08",
+      "consigne": "==Remplacez son contenu== par : Reprise le jour même, Facture mensuelle. Deux lignes valent mieux que deux phrases : ce sont les mêmes engagements.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Rivage Marée",
+                "sous-titre": "Proposition pour Le Comptoir des Halles"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Pêche de la veille, livrée à 6 h",
+                "contenu": "Criée de Lorient\nSept bateaux\nCaisse tracée"
+              },
+              "notes": "Nom du bateau, date de pêche et zone sur chaque caisse"
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Nos engagements",
+                "contenu": "Toute pièce non conforme est reprise le jour même sans discussion et remplacée\nLa facturation est mensuelle, avec un récapitulatif détaillé par service et par jour"
+              }
+            }
+          ]
+        },
+        "slide": 2
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:contenu",
+        "accept": [
+          "Reprise le jour même\nFacture mensuelle",
+          "Reprise le jour même, Facture mensuelle"
+        ]
+      }
+    },
+    {
+      "id": "M11-L02-09",
+      "consigne": "==Écrivez sa note== : Reprise sans discussion, récapitulatif par service. C'est la nuance qui emporte la décision, et elle se dit mieux qu'elle ne se lit.",
+      "action": {
+        "type": "P_EXPECT_DECK",
+        "deck": {
+          "slides": [
+            {
+              "index": 2,
+              "notes": "Reprise sans discussion, récapitulatif par service"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "M11-L02-10",
+      "consigne": "==Lancez le diaporama depuis le début== et regardez la différence : trois écrans qu'on lit en trois secondes chacun.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": true,
+          "index": 0
+        }
+      }
+    },
+    {
+      "id": "M11-L02-11",
+      "consigne": "==Quittez le diaporama==. À retenir pour la salle : **le titre affirme, le contenu tient en trois repères, le reste va dans les notes**. Et cette version-là ne doit surtout pas être envoyée telle quelle — c'est l'objet de la leçon suivante.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": false
+        }
+      }
+    }
+  ]
+}

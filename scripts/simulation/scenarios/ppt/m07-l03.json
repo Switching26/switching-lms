@@ -1,0 +1,185 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "mode": "LESSON",
+  "moduleTitle": "Reprendre une présentation existante",
+  "title": "Retirer ce qui ne le concerne pas",
+  "intro": {
+    "title": "Retirer ce qui ne le concerne pas",
+    "body": "Le danger d'une présentation reprise, c'est ce qu'on oublie d'enlever. Cette leçon vous fait trier ce qui reste d'un autre public : ce qui est confidentiel, ce qui est interne, ce qui n'a plus cours — et le geste qui convient à chaque cas."
+  },
+  "outro": {
+    "body": "Rien de ce qui reste ne gêne. La dernière leçon vérifie l'ensemble avant l'envoi."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "ppt": {
+    "fileName": "Bilan Verdeval.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Verdeval",
+          "sous-titre": "Bilan présenté aux clients le 4 avril"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "38 jardins livrés en 2026",
+          "contenu": "38 jardins livrés\n120 entretiens honorés\n12 rénovations menées"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Détail des primes d'équipe",
+          "contenu": "Réservé au personnel"
+        }
+      },
+      {
+        "layout": "titre-seul",
+        "textes": {
+          "titre": "Nos partenaires"
+        },
+        "objets": [
+          {
+            "id": "zt-partenaires",
+            "objectType": "texte",
+            "texte": "Ville de Nantes et Rennes Métropole",
+            "rect": {
+              "x": 70,
+              "y": 180,
+              "w": 520,
+              "h": 70
+            }
+          },
+          {
+            "id": "zt-interne",
+            "objectType": "texte",
+            "texte": "Relancer la mairie avant juin - dossier Karim",
+            "rect": {
+              "x": 70,
+              "y": 330,
+              "w": 520,
+              "h": 60
+            }
+          }
+        ]
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Tarifs 2025",
+          "contenu": "Grille périmée depuis janvier"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M07-L03-01",
+      "consigne": "Trois catégories, trois gestes. Ce qui est **confidentiel** ne doit pas passer mais reste utile en interne : on masque. Ce qui est une **note de travail** n'a jamais eu vocation à être vu : on supprime. Ce qui est **périmé** ne resservira pas : on supprime aussi. Le tri se fait avant la réunion, jamais pendant.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M07-L03-02",
+      "consigne": "==Affichez la diapositive des primes d'équipe==. Elle est parfaitement légitime devant l'équipe, et impossible devant un client.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 2
+      },
+      "aide": {
+        "text": "C'est la troisième miniature du volet."
+      }
+    },
+    {
+      "id": "M07-L03-03",
+      "consigne": "==Masquez-la==. Elle resservira telle quelle à la prochaine réunion interne : la supprimer obligerait à la refaire, et l'oublier serait bien pire.",
+      "setupPpt": {
+        "slide": 2
+      },
+      "action": {
+        "type": "P_EXPECT_DECK",
+        "deck": {
+          "slides": [
+            {
+              "index": 2,
+              "masquee": true
+            }
+          ]
+        }
+      },
+      "aide": {
+        "text": "Groupe Diaporama, bouton Masquer."
+      },
+      "feedback": "Confidentiel, conservé, invisible en projection : les trois exigences sont tenues d'un seul clic."
+    },
+    {
+      "id": "M07-L03-04",
+      "consigne": "==Affichez la diapositive des partenaires==. Une note de travail y traîne : « Relancer la mairie avant juin — dossier Karim ».",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 3
+      }
+    },
+    {
+      "id": "M07-L03-05",
+      "consigne": "==Supprimez cette note==. Une consigne interne adressée à un collègue n'a aucune raison d'exister dans un fichier qui sortira de l'entreprise, même masquée.",
+      "action": {
+        "type": "P_DELETE_OBJECT",
+        "objectId": "zt-interne"
+      },
+      "aide": {
+        "text": "Sélectionnez la zone d'un clic, puis touche Suppr ou bouton Supprimer du groupe Objet."
+      }
+    },
+    {
+      "id": "M07-L03-06",
+      "consigne": "==Affichez la dernière diapositive==, celle des tarifs 2025.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 4
+      }
+    },
+    {
+      "id": "M07-L03-07",
+      "consigne": "==Supprimez-la==. Une grille tarifaire périmée est le seul cas où le doute n'existe pas : la montrer serait une erreur, la garder ferait courir le risque de la montrer un jour.",
+      "action": {
+        "type": "P_DELETE_SLIDE",
+        "index": 4
+      },
+      "aide": {
+        "text": "Groupe Diapositives, bouton Supprimer."
+      }
+    },
+    {
+      "id": "M07-L03-08",
+      "consigne": "Un fichier qui sort de l'entreprise emporte **tout** ce qu'il contient, y compris les diapositives masquées : le destinataire peut les afficher. Masquer protège de la projection, pas de la transmission. Pour un fichier réellement envoyé, seule la suppression protège.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M07-L03-09",
+      "consigne": "==Passez en Trieuse== pour voir ce qui reste : l'ouverture, les chiffres, les partenaires, et la diapositive de primes clairement marquée comme masquée.",
+      "action": {
+        "type": "P_SET_VIEW",
+        "view": "trieuse"
+      }
+    },
+    {
+      "id": "M07-L03-10",
+      "consigne": "==Revenez en affichage Normal==. À retenir : **masquer** ce qui resservira en interne, **supprimer** les notes de travail et le périmé. Et la limite à connaître — un fichier transmis emporte même ce qui est masqué.",
+      "action": {
+        "type": "P_SET_VIEW",
+        "view": "normal"
+      }
+    }
+  ]
+}

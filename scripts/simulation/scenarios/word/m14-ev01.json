@@ -1,0 +1,80 @@
+{
+ "schemaVersion": 1,
+ "app": "WORD",
+ "title": "Évaluation — insérer une image",
+ "mode": "EVALUATION",
+ "moduleTitle": "Insérer une image",
+ "intro": {
+  "title": "ÉVALUATION NOTÉE",
+  "body": "Vous illustrez un rapport d'activité : une image posée, une remplacée. Chaque geste est noté."
+ },
+ "outro": "Vous savez insérer, retirer et remplacer une image.",
+ "document": {
+  "paragraphes": [
+   {
+    "texte": "Ateliers Rivedoux — présentation",
+    "style": "titre"
+   },
+   {
+    "texte": "Notre atelier conçoit du mobilier sur mesure depuis douze ans.",
+    "style": "normal"
+   },
+   {
+    "texte": "L'équipe compte huit menuisiers et deux dessinateurs.",
+    "style": "normal"
+   },
+   {
+    "texte": "Chaque pièce est dessinée puis fabriquée dans nos locaux.",
+    "style": "normal"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "id": "M14-EV01-01",
+   "points": 3,
+   "consigne": "==Ouvrez la galerie d'images.==",
+   "action": {
+    "type": "W_CLICK_CONTROL",
+    "controle": "w-inserer-image"
+   },
+   "setup": {
+    "ribbon": {
+     "activeTab": "insertion"
+    }
+   },
+   "feedback": "Galerie ouverte."
+  },
+  {
+   "id": "M14-EV01-02",
+   "points": 5,
+   "consigne": "==Insérez le graphique de ventes.==",
+   "action": {
+    "type": "W_EXPECT_IMAGE",
+    "image": "graphique"
+   },
+   "feedback": "Graphique posé."
+  },
+  {
+   "id": "M14-EV01-03",
+   "points": 5,
+   "consigne": "Le rapport portera finalement sur les locaux. ==Retirez le graphique.==",
+   "action": {
+    "type": "W_EXPECT_IMAGE",
+    "image": "graphique",
+    "absente": true
+   },
+   "feedback": "Graphique retiré."
+  },
+  {
+   "id": "M14-EV01-04",
+   "points": 5,
+   "consigne": "==Insérez le plan d'atelier.==",
+   "action": {
+    "type": "W_EXPECT_IMAGE",
+    "image": "plan"
+   },
+   "feedback": "Plan posé : le rapport est illustré."
+  }
+ ]
+}

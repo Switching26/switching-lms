@@ -1,0 +1,143 @@
+{
+ "schemaVersion": 1,
+ "app": "WORD",
+ "title": "Évaluation — impression",
+ "mode": "EVALUATION",
+ "moduleTitle": "Impression",
+ "intro": {
+  "title": "ÉVALUATION NOTÉE",
+  "body": "Un dossier part en commission : quinze exemplaires, en paysage, recto verso, document complet. Puis un correctif de dernière minute. Chaque geste est noté."
+ },
+ "outro": "Vous savez régler une impression au lieu de la subir.",
+ "document": {
+  "paragraphes": [
+   {
+    "texte": "Dossier de candidature",
+    "style": "titre"
+   },
+   {
+    "texte": "La structure porte ce projet depuis deux exercices consécutifs.",
+    "style": "normal"
+   },
+   {
+    "texte": "Le financement demandé couvre la moitié du budget prévisionnel.",
+    "style": "normal"
+   },
+   {
+    "texte": "Les pièces justificatives sont jointes en annexe.",
+    "style": "normal"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "id": "M10-EV01-01",
+   "points": 3,
+   "consigne": "==Passez le document en paysage== depuis le panneau Mise en page.",
+   "action": {
+    "type": "W_EXPECT_PAGE",
+    "page": {
+     "orientation": "paysage"
+    }
+   },
+   "feedback": "Orientation posée."
+  },
+  {
+   "id": "M10-EV01-02",
+   "points": 2,
+   "consigne": "==Ouvrez l'écran Imprimer.==",
+   "action": {
+    "type": "W_CLICK_CONTROL",
+    "controle": "w-imprimer"
+   },
+   "setup": {
+    "ribbon": {
+     "activeTab": "fichier"
+    }
+   },
+   "feedback": "Écran ouvert."
+  },
+  {
+   "id": "M10-EV01-03",
+   "points": 3,
+   "consigne": "==Réglez 15 copies==, une par membre de la commission.",
+   "action": {
+    "type": "W_EXPECT_PRINT",
+    "impression": {
+     "copies": 15
+    }
+   },
+   "feedback": "Quinze exemplaires."
+  },
+  {
+   "id": "M10-EV01-04",
+   "points": 3,
+   "consigne": "==Activez le recto verso.==",
+   "action": {
+    "type": "W_EXPECT_PRINT",
+    "impression": {
+     "rectoVerso": true
+    }
+   },
+   "feedback": "Papier divisé par deux."
+  },
+  {
+   "id": "M10-EV01-05",
+   "points": 3,
+   "consigne": "Un membre demande uniquement la page affichée. ==Restreignez la plage à « Page courante ».==",
+   "action": {
+    "type": "W_EXPECT_PRINT",
+    "impression": {
+     "plage": "courante"
+    }
+   },
+   "feedback": "Plage restreinte."
+  },
+  {
+   "id": "M10-EV01-06",
+   "points": 3,
+   "consigne": "La commission veut finalement le dossier entier. ==Remettez la plage sur « Tout le document ».==",
+   "action": {
+    "type": "W_EXPECT_PRINT",
+    "impression": {
+     "plage": "tout"
+    }
+   },
+   "feedback": "Dossier complet."
+  },
+  {
+   "id": "M10-EV01-07",
+   "points": 3,
+   "consigne": "Pour un tirage de contrôle unique, ==ramenez le nombre de copies à 1.==",
+   "action": {
+    "type": "W_EXPECT_PRINT",
+    "impression": {
+     "copies": 1
+    }
+   },
+   "feedback": "Un seul exemplaire."
+  },
+  {
+   "id": "M10-EV01-08",
+   "points": 3,
+   "consigne": "==Désactivez le recto verso== pour cette page isolée.",
+   "action": {
+    "type": "W_EXPECT_PRINT",
+    "impression": {
+     "rectoVerso": false
+    }
+   },
+   "feedback": "Simple face."
+  },
+  {
+   "id": "M10-EV01-09",
+   "points": 2,
+   "consigne": "==Refermez l'aperçu.==",
+   "action": {
+    "type": "W_CLICK_CONTROL",
+    "controle": "w-print-fermer"
+   },
+   "feedback": "Réglages conservés."
+  }
+ ]
+}

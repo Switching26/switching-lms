@@ -1,0 +1,159 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "mode": "LESSON",
+  "moduleTitle": "Projeter ou envoyer",
+  "title": "Ce que le fichier emporte",
+  "intro": {
+    "title": "Ce que le fichier emporte",
+    "body": "Envoyer un fichier, ce n'est pas envoyer ce qu'on voit à l'écran : c'est envoyer tout ce qu'il contient. Les notes de l'orateur partent avec, les diapositives masquées aussi. Cette leçon vous fait faire le ménage avant l'envoi."
+  },
+  "outro": {
+    "body": "Le fichier ne contient plus rien que le destinataire ne doive lire. Les exercices du module vous attendent, puis l'évaluation."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "ppt": {
+    "fileName": "Rivage Marée - envoi.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Rivage Marée",
+          "sous-titre": "Proposition pour Le Comptoir des Halles"
+        },
+        "notes": "Ils ont déjà refusé une fois, ne pas commencer par le prix"
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Pêche de la veille, livrée à 6 h",
+          "contenu": "Achat quotidien à la criée de Lorient\nSept bateaux partenaires\nCaisse marquée bateau et zone de pêche"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "masquee": true,
+        "textes": {
+          "titre": "Marge par référence",
+          "contenu": "Bar : 31 %\nLieu jaune : 24 %"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Reprise sans discussion et facture unique",
+          "contenu": "Toute pièce non conforme est reprise le jour même\nUne seule facture par mois avec le détail par service"
+        },
+        "notes": "Marge la plus faible, ne pas descendre en dessous de 22 €"
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M11-L04-01",
+      "consigne": "Un fichier envoyé emporte **tout ce qu'il contient**, pas seulement ce que vous voyez à l'écran. Vos notes d'orateur partent avec. Les diapositives masquées aussi — le destinataire peut les afficher d'un clic. Ce sont les deux fuites classiques.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M11-L04-02",
+      "consigne": "Lisez la note de la première diapositive : « Ils ont déjà refusé une fois, ne pas commencer par le prix ». ==Videz-la entièrement== avant de penser à envoyer quoi que ce soit.",
+      "action": {
+        "type": "P_EXPECT_DECK",
+        "deck": {
+          "slides": [
+            {
+              "index": 0,
+              "notes": ""
+            }
+          ]
+        }
+      },
+      "aide": {
+        "text": "Cliquez dans les notes, effacez tout le texte, puis cliquez ailleurs."
+      },
+      "feedback": "Une note stratégique lue par le client coûte plus cher qu'une présentation ratée."
+    },
+    {
+      "id": "M11-L04-03",
+      "consigne": "Une note est écrite pour soi, dans le langage qu'on emploie pour soi — d'où sa franchise. C'est très bien tant que le fichier reste sur votre poste. Au moment de l'envoi, elle devient un document que le destinataire peut lire ligne à ligne.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M11-L04-04",
+      "consigne": "==Affichez la dernière diapositive==, celle des engagements : elle porte elle aussi une note qui ne doit pas sortir.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 3
+      }
+    },
+    {
+      "id": "M11-L04-05",
+      "consigne": "==Videz sa note==. « Ne pas descendre en dessous de 22 € » est exactement l'information qu'un acheteur aimerait connaître avant de négocier.",
+      "action": {
+        "type": "P_EXPECT_DECK",
+        "deck": {
+          "slides": [
+            {
+              "index": 3,
+              "notes": ""
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "M11-L04-06",
+      "consigne": "==Passez en Trieuse== pour voir la seconde fuite : une diapositive est marquée comme masquée.",
+      "action": {
+        "type": "P_SET_VIEW",
+        "view": "trieuse"
+      },
+      "aide": {
+        "text": "Groupe Affichage, bouton Trieuse."
+      }
+    },
+    {
+      "id": "M11-L04-07",
+      "consigne": "==Affichez cette diapositive masquée== : elle donne vos marges par référence. Masquée, elle ne sera pas projetée — mais elle est toujours dans le fichier.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 2
+      }
+    },
+    {
+      "id": "M11-L04-08",
+      "consigne": "==Supprimez-la==. Masquer protège de la **projection**, jamais de la **transmission** : pour un fichier qui part, seule la suppression protège.",
+      "action": {
+        "type": "P_DELETE_SLIDE",
+        "index": 2
+      },
+      "aide": {
+        "text": "Groupe Diapositives, bouton Supprimer."
+      },
+      "feedback": "C'est la distinction à retenir de toute la leçon : masquer et supprimer ne protègent pas de la même chose."
+    },
+    {
+      "id": "M11-L04-09",
+      "consigne": "==Revenez en affichage Normal==. Le fichier ne contient plus que trois diapositives, toutes destinées au client, et plus une seule note.",
+      "action": {
+        "type": "P_SET_VIEW",
+        "view": "normal"
+      }
+    },
+    {
+      "id": "M11-L04-10",
+      "consigne": "À retenir avant tout envoi, deux vérifications : **vider les notes** et **supprimer les diapositives masquées**. Ce sont deux gestes de trente secondes qui n'ont jamais d'urgence — jusqu'au jour où le fichier est déjà parti.",
+      "action": {
+        "type": "READ"
+      }
+    }
+  ]
+}

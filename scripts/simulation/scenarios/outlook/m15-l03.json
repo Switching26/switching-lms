@@ -1,0 +1,242 @@
+{
+  "schemaVersion": 1,
+  "title": "Contester une ligne de facture",
+  "mode": "LESSON",
+  "moduleTitle": "Commander, relancer, contester chez un fournisseur",
+  "intro": {
+    "title": "Facturé 48, livré 40",
+    "body": "Une contestation de facture se joue sur une seule chose : la preuve. Le bon de livraison dit 40 charnières, la facture en compte 48. Le message qui part doit citer le numéro de facture, la ligne exacte, et joindre la pièce — pas les comptes de l'atelier."
+  },
+  "outro": {
+    "body": "Un écart contesté sans le bon de livraison se discute ; avec le bon de livraison, il se corrige. Et la contestation va à la comptabilité du fournisseur, pas au service des commandes : ce ne sont ni les mêmes personnes ni les mêmes délais."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "achats",
+        "nom": "Achats"
+      },
+      {
+        "id": "factures",
+        "nom": "Factures fournisseurs"
+      }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "fichiers": [
+      {
+        "nom": "Bon-de-livraison-BL-4471.pdf",
+        "taille": "148 Ko"
+      },
+      {
+        "nom": "Facture-DEL-2026-0312.pdf",
+        "taille": "165 Ko"
+      },
+      {
+        "nom": "Plan-de-pose-mediatheque.pdf",
+        "taille": "810 Ko"
+      },
+      {
+        "nom": "Marges-atelier-2026.xlsx",
+        "taille": "72 Ko"
+      }
+    ],
+    "messages": [
+      {
+        "id": "m-fact",
+        "dossier": "reception",
+        "de": "compta@quincaillerie-delmas.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Votre relevé du mois",
+        "corps": "Bonjour,\n\nVeuillez trouver la facture DEL-2026-0312 correspondant à la commande CDE-8802.\n\nQuincaillerie Delmas — Comptabilité",
+        "date": "2026-04-28T09:00",
+        "lu": false,
+        "pieces": [
+          {
+            "nom": "Facture-DEL-2026-0312.pdf",
+            "taille": "165 Ko"
+          }
+        ]
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O15-L03-01",
+      "consigne": "==Ouvrez le message de la comptabilité Delmas.== La facture y est jointe et porte le numéro `DEL-2026-0312`. C'est ce numéro que la contestation devra citer, pas « votre dernière facture ».",
+      "action": {
+        "type": "O_SELECT_MESSAGE",
+        "id": "m-fact"
+      },
+      "aide": {
+        "text": "C'est le message qui vient de la comptabilité du fournisseur."
+      }
+    },
+    {
+      "id": "O15-L03-02",
+      "consigne": "==Cliquez sur Répondre.== La contestation repart vers la comptabilité, qui a émis la facture — le service des commandes ne peut pas l'avoir corrigée.",
+      "setup": {
+        "courrier": {
+          "messageActif": "m-fact"
+        }
+      },
+      "action": {
+        "type": "O_CLICK_CONTROL",
+        "control": "cr-repondre"
+      },
+      "aide": {
+        "text": "Le bouton Répondre : il vise l'expéditeur, donc la comptabilité."
+      }
+    },
+    {
+      "id": "O15-L03-03",
+      "consigne": "==Joignez `Bon-de-livraison-BL-4471.pdf`.== C'est la pièce qui prouve les quantités reçues. `Marges-atelier-2026.xlsx` contient vos prix d'achat : il ne sort jamais de l'entreprise.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "pieces": {
+            "contient": [
+              "Bon-de-livraison-BL-4471.pdf"
+            ],
+            "absent": [
+              "Marges-atelier-2026.xlsx"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Lisez les noms en entier avant de cliquer."
+      }
+    },
+    {
+      "id": "O15-L03-04",
+      "consigne": "==Complétez l'objet avec le mot `écart`.== L'objet reçu parle d'un relevé ordinaire. Le vôtre doit annoncer qu'il y a un point à traiter, sinon le message rejoint la pile des factures acceptées.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "objet": {
+            "prefixe": "RE",
+            "contient": [
+              "écart"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Ajoutez le mot à la fin de l'objet, en gardant le préfixe."
+      }
+    },
+    {
+      "id": "O15-L03-05",
+      "consigne": "==Rédigez la contestation, puis envoyez.== Trois éléments : **le numéro de facture**, **la ligne contestée avec les deux quantités**, **ce que vous demandez**. Sans le troisième, personne ne sait quoi faire du message.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "compta@quincaillerie-delmas.fr"
+            ]
+          },
+          "objet": {
+            "prefixe": "RE",
+            "contient": [
+              "écart"
+            ]
+          },
+          "pieces": {
+            "contient": [
+              "Bon-de-livraison-BL-4471.pdf"
+            ],
+            "absent": [
+              "Marges-atelier-2026.xlsx"
+            ]
+          },
+          "corps": {
+            "salutation": [
+              "bonjour",
+              "madame",
+              "monsieur",
+              "bonsoir"
+            ],
+            "cloture": [
+              "cordialement",
+              "salutations",
+              "bien a vous",
+              "merci"
+            ],
+            "notions": [
+              {
+                "libelle": "le numéro de facture",
+                "oneOf": [
+                  "del-2026-0312",
+                  "2026-0312",
+                  "0312"
+                ]
+              },
+              {
+                "libelle": "la ligne contestée et les deux quantités",
+                "oneOf": [
+                  "48",
+                  "40",
+                  "charnieres",
+                  "ch-118"
+                ]
+              },
+              {
+                "libelle": "ce que vous demandez",
+                "oneOf": [
+                  "avoir",
+                  "facture rectificative",
+                  "rectification",
+                  "corriger",
+                  "regularisation",
+                  "avoir correspondant"
+                ]
+              }
+            ],
+            "minMots": 25
+          }
+        }
+      },
+      "aide": {
+        "text": "Trois informations sont attendues : le numéro, l'écart, la demande."
+      }
+    },
+    {
+      "id": "O15-L03-06",
+      "consigne": "==Rangez la facture dans Factures fournisseurs.== Une facture contestée se classe comme les autres : c'est la réponse du fournisseur qui dira si elle est à payer, et il faudra les retrouver ensemble.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-fact": {
+              "dossier": "factures"
+            }
+          }
+        }
+      },
+      "aide": {
+        "text": "Déplacer, puis Factures fournisseurs."
+      }
+    }
+  ]
+}

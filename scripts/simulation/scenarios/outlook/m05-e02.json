@@ -1,0 +1,252 @@
+{
+  "schemaVersion": 1,
+  "title": "Régler un litige avec une preuve",
+  "mode": "EXERCISE",
+  "moduleTitle": "Retrouver l'information dans une boîte chargée",
+  "intro": {
+    "title": "« Nous n'avons jamais reçu le contrat »",
+    "body": "Le client affirme n'avoir rien reçu. Vous l'avez pourtant envoyé le 11 mars. Trouvez la preuve, renvoyez-la telle quelle, et rangez ce qui est traité. Aucune de ces trois choses ne se fait de mémoire."
+  },
+  "outro": {
+    "body": "On ne répond jamais « je vous l'ai bien envoyé » : on renvoie l'original, avec sa date. Le ton reste neutre — dans neuf cas sur dix, le message était bien parti et il dort dans les indésirables du destinataire."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "clients",
+        "nom": "Clients 2026"
+      },
+      {
+        "id": "fournisseurs",
+        "nom": "Fournisseurs"
+      }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "messages": [
+      {
+        "id": "m-litige",
+        "dossier": "reception",
+        "de": "j.leroux@habitat-du-nord.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Facture 2026-141 — nous n'avons jamais reçu le contrat",
+        "corps": "Bonjour,\n\nNotre comptable ne trouve pas le contrat signé de l'escalier. Pouvez-vous nous le renvoyer ?\n\nJulien Leroux",
+        "date": "2026-03-24T08:20",
+        "lu": false
+      },
+      {
+        "id": "m-relance",
+        "dossier": "reception",
+        "de": "marches@ville-lambersart.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Salle des mariages — commission du 25 mars",
+        "corps": "Bonjour,\n\nLa commission examine votre offre demain.\n\nService des marchés",
+        "date": "2026-03-24T07:40",
+        "lu": true
+      },
+      {
+        "id": "m-fourn",
+        "dossier": "reception",
+        "de": "compta@quincaillerie-delmas.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Avoir AV-0331 — régularisation",
+        "corps": "Bonjour,\n\nVeuillez trouver l'avoir régularisant l'écart signalé.\n\nQuincaillerie Delmas",
+        "date": "2026-03-23T16:05",
+        "lu": true
+      },
+      {
+        "id": "m-pub2",
+        "dossier": "reception",
+        "de": "newsletter@bois-et-materiaux.info",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "La lettre du bois — 24 mars",
+        "corps": "L'actualité de la semaine.",
+        "date": "2026-03-24T04:50",
+        "lu": false
+      },
+      {
+        "id": "m-env-contrat",
+        "dossier": "envoyes",
+        "de": "camille.aubertin@atelier-nord.fr",
+        "a": [
+          "j.leroux@habitat-du-nord.fr"
+        ],
+        "objet": "RE : Escalier — exemplaire signé du contrat 2026-141",
+        "corps": "Bonjour,\n\nVeuillez trouver l'exemplaire signé du contrat.\n\nCamille Aubertin",
+        "date": "2026-03-11T10:12",
+        "lu": true,
+        "pieces": [
+          {
+            "nom": "Contrat-escalier-signe.pdf",
+            "taille": "312 Ko"
+          }
+        ]
+      },
+      {
+        "id": "m-env-autre",
+        "dossier": "envoyes",
+        "de": "camille.aubertin@atelier-nord.fr",
+        "a": [
+          "contact@fleurs-de-saison.fr"
+        ],
+        "objet": "Vitrine — proposition de créneau",
+        "corps": "Bonjour,\n\nJe vous propose le 30 mars.\n\nCamille Aubertin",
+        "date": "2026-03-19T09:30",
+        "lu": true
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O05-E02-01",
+      "consigne": "Ouvrez la réclamation de Julien Leroux et relevez la référence qu'il cite.",
+      "action": {
+        "type": "O_SELECT_MESSAGE",
+        "id": "m-litige"
+      },
+      "aide": {
+        "text": "C'est le message non lu, en tête de la liste."
+      }
+    },
+    {
+      "id": "O05-E02-02",
+      "consigne": "Allez chercher la preuve là où elle se trouve : le dossier qui garde une copie de tout ce que vous envoyez.",
+      "action": {
+        "type": "O_SELECT_FOLDER",
+        "dossier": "envoyes"
+      },
+      "aide": {
+        "text": "Éléments envoyés, dans la colonne de gauche ; sur téléphone, derrière le bouton ☰."
+      }
+    },
+    {
+      "id": "O05-E02-03",
+      "consigne": "Filtrez ce dossier sur la référence du contrat pour isoler le bon message.",
+      "action": {
+        "type": "O_TYPE_TEXT",
+        "champ": "recherche",
+        "accept": [
+          "2026-141",
+          "141",
+          "contrat"
+        ],
+        "contient": true
+      },
+      "aide": {
+        "text": "La référence figure dans le message du client."
+      }
+    },
+    {
+      "id": "O05-E02-04",
+      "consigne": "Renvoyez cet envoi au client, de façon qu'il reçoive le document d'origine et non une nouvelle copie.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "genre": "transfert",
+          "a": {
+            "contient": [
+              "j.leroux@habitat-du-nord.fr"
+            ]
+          },
+          "pieces": {
+            "contient": [
+              "Contrat-escalier-signe.pdf"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Ouvrez le message trouvé, puis Transférer : la pièce jointe suit."
+      }
+    },
+    {
+      "id": "O05-E02-05",
+      "consigne": "Écrivez un mot neutre et envoyez. Il doit citer **la date du premier envoi** et **la référence** du contrat, sans reproche.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "j.leroux@habitat-du-nord.fr"
+            ]
+          },
+          "pieces": {
+            "contient": [
+              "Contrat-escalier-signe.pdf"
+            ]
+          },
+          "corps": {
+            "salutation": [
+              "bonjour",
+              "monsieur",
+              "madame",
+              "bonsoir"
+            ],
+            "cloture": [
+              "cordialement",
+              "salutations",
+              "bien a vous",
+              "merci"
+            ],
+            "notions": [
+              {
+                "libelle": "la date du premier envoi",
+                "oneOf": [
+                  "11 mars",
+                  "11/03",
+                  "le 11"
+                ]
+              },
+              {
+                "libelle": "la référence du contrat",
+                "oneOf": [
+                  "2026-141",
+                  "141"
+                ]
+              }
+            ],
+            "interdit": [
+              {
+                "libelle": "un reproche au client",
+                "oneOf": [
+                  "pourtant bien",
+                  "vous auriez du",
+                  "je vous l'avais bien",
+                  "comme je vous l'ai deja"
+                ]
+              }
+            ],
+            "minMots": 12
+          }
+        }
+      },
+      "aide": {
+        "text": "Deux informations sont attendues : la date d'envoi, et la référence."
+      }
+    }
+  ]
+}

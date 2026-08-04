@@ -1,0 +1,266 @@
+{
+  "schemaVersion": 1,
+  "title": "Choisir ce qu'on joint, et ce qu'on ne joint pas",
+  "mode": "LESSON",
+  "moduleTitle": "Les pièces jointes : ce qui part avec le message",
+  "intro": {
+    "title": "Cinq fichiers sur le poste, un seul doit partir",
+    "body": "Une pièce jointe est le seul élément d'un message qu'on ne relit jamais avant d'envoyer. C'est aussi celui qui fait le plus de dégâts : un brouillon envoyé à la place du définitif, des tarifs d'achat qui partent chez un client, un dossier photo de 46 Mo qui bloque la boîte du destinataire. Trois erreurs, trois gestes pour les éviter."
+  },
+  "outro": {
+    "body": "Trois contrôles avant d'envoyer : le nom complet du fichier, son poids, et la question qui compte vraiment — ce document a-t-il vocation à sortir de l'entreprise ? Les tarifs d'achat, les brouillons et les documents internes n'ont rien à faire chez un client."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "clients",
+        "nom": "Clients 2026"
+      },
+      {
+        "id": "fournisseurs",
+        "nom": "Fournisseurs"
+      }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "fichiers": [
+      {
+        "nom": "Devis-2026-168.pdf",
+        "taille": "188 Ko"
+      },
+      {
+        "nom": "Devis-2026-168-BROUILLON.pdf",
+        "taille": "181 Ko"
+      },
+      {
+        "nom": "Plan-agencement.pdf",
+        "taille": "1,1 Mo"
+      },
+      {
+        "nom": "Tarifs-achat-fournisseurs.pdf",
+        "taille": "96 Ko"
+      },
+      {
+        "nom": "Photos-chantier-HD.zip",
+        "taille": "46 Mo"
+      }
+    ],
+    "messages": [
+      {
+        "id": "m-demande",
+        "dossier": "reception",
+        "de": "j.leroux@habitat-du-nord.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Salle d'attente — devis et plan attendus",
+        "corps": "Bonjour,\n\nPourriez-vous nous adresser le devis définitif ainsi que le plan d'agencement ?\n\nJulien Leroux\nHabitat du Nord",
+        "date": "2026-04-01T08:30",
+        "lu": false
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O09-L01-01",
+      "consigne": "==Ouvrez la demande d'Habitat du Nord.== Le client réclame deux documents précis : le devis **définitif** et le plan. Ni l'un ni l'autre ne se devine — les noms de fichiers, si.",
+      "action": {
+        "type": "O_SELECT_MESSAGE",
+        "id": "m-demande"
+      },
+      "aide": {
+        "text": "C'est le message qui demande un devis et un plan."
+      }
+    },
+    {
+      "id": "O09-L01-02",
+      "consigne": "==Cliquez sur Répondre.== Une réponse ne reprend jamais les pièces jointes du message d'origine : votre liste partira vide, et c'est à vous de la remplir.",
+      "setup": {
+        "courrier": {
+          "messageActif": "m-demande"
+        }
+      },
+      "action": {
+        "type": "O_CLICK_CONTROL",
+        "control": "cr-repondre"
+      },
+      "aide": {
+        "text": "Le bouton Répondre, premier de la barre du haut du volet de lecture."
+      }
+    },
+    {
+      "id": "O09-L01-03",
+      "consigne": "==Cliquez sur Joindre.== La liste affiche le nom **complet** de chaque fichier et son poids. Ce sont les deux seules informations qui comptent, et elles sont là avant qu'on clique.",
+      "action": {
+        "type": "O_CLICK_CONTROL",
+        "control": "cr-joindre"
+      },
+      "aide": {
+        "text": "Le bouton Joindre porte un trombone, dans la barre du haut de la fenêtre de rédaction."
+      }
+    },
+    {
+      "id": "O09-L01-04",
+      "consigne": "==Joignez `Devis-2026-168.pdf`.== Deux fichiers portent presque le même nom ; seul le suffixe les distingue. `BROUILLON` n'est pas un détail : c'est une version de travail, avec des prix qui ne sont pas les prix finaux.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "pieces": {
+            "contient": [
+              "Devis-2026-168.pdf"
+            ],
+            "absent": [
+              "Devis-2026-168-BROUILLON.pdf"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Lisez le nom en entier avant de cliquer : le brouillon porte le même numéro."
+      }
+    },
+    {
+      "id": "O09-L01-05",
+      "consigne": "==Joignez aussi `Plan-agencement.pdf`.== Le client a demandé **deux** documents : n'en envoyer qu'un provoque un aller-retour, et donne l'impression qu'on a lu en diagonale.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "pieces": {
+            "contient": [
+              "Devis-2026-168.pdf",
+              "Plan-agencement.pdf"
+            ],
+            "absent": [
+              "Photos-chantier-HD.zip",
+              "Tarifs-achat-fournisseurs.pdf"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Rouvrez Joindre, puis cliquez sur le plan. Les deux fichiers doivent apparaître côte à côte."
+      }
+    },
+    {
+      "id": "O09-L01-06",
+      "consigne": "==Joignez maintenant `Tarifs-achat-fournisseurs.pdf`== — volontairement, pour voir ce que produit l'erreur la plus coûteuse : un document interne qui part chez un client.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "pieces": {
+            "contient": [
+              "Devis-2026-168.pdf",
+              "Plan-agencement.pdf",
+              "Tarifs-achat-fournisseurs.pdf"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Rouvrez Joindre et cliquez sur le fichier des tarifs d'achat."
+      }
+    },
+    {
+      "id": "O09-L01-07",
+      "consigne": "==Retirez `Tarifs-achat-fournisseurs.pdf`== avec sa croix. Vos prix d'achat chez un client, ce sont vos marges à la vue de tous. Tant que le message n'est pas parti, l'erreur se répare en un clic — après, plus jamais.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "pieces": {
+            "contient": [
+              "Devis-2026-168.pdf",
+              "Plan-agencement.pdf"
+            ],
+            "absent": [
+              "Tarifs-achat-fournisseurs.pdf"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Chaque pièce jointe porte une croix ✕ à droite de son nom."
+      }
+    },
+    {
+      "id": "O09-L01-08",
+      "consigne": "==Rédigez la réponse, puis envoyez.== Elle doit annoncer **que les deux documents sont joints** et rappeler **la référence du devis** : une pièce jointe sans un mot laisse deviner ce qu'on doit en faire.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "j.leroux@habitat-du-nord.fr"
+            ]
+          },
+          "pieces": {
+            "contient": [
+              "Devis-2026-168.pdf",
+              "Plan-agencement.pdf"
+            ],
+            "absent": [
+              "Tarifs-achat-fournisseurs.pdf",
+              "Photos-chantier-HD.zip"
+            ]
+          },
+          "corps": {
+            "salutation": [
+              "bonjour",
+              "madame",
+              "monsieur",
+              "bonsoir"
+            ],
+            "cloture": [
+              "cordialement",
+              "salutations",
+              "bien a vous",
+              "merci"
+            ],
+            "notions": [
+              {
+                "libelle": "que les documents sont joints",
+                "oneOf": [
+                  "ci-joint",
+                  "ci joint",
+                  "joint",
+                  "en piece jointe",
+                  "vous trouverez",
+                  "en annexe"
+                ]
+              },
+              {
+                "libelle": "la référence du devis",
+                "oneOf": [
+                  "2026-168",
+                  "168"
+                ]
+              }
+            ],
+            "minMots": 12
+          }
+        }
+      },
+      "aide": {
+        "text": "Deux informations sont attendues : la présence des documents, et la référence."
+      }
+    }
+  ]
+}

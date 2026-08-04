@@ -1,0 +1,409 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "mode": "LESSON",
+  "moduleTitle": "Images et formes",
+  "title": "Composer une diapositive visuelle",
+  "intro": {
+    "title": "Composer une diapositive visuelle",
+    "body": "Vous savez poser, placer, dimensionner et supprimer. Cette leçon enchaîne les quatre sur une diapositive complète, et vous donne l'ordre de travail qui évite de refaire trois fois le même placement."
+  },
+  "outro": {
+    "body": "Une diapositive visuelle composée de bout en bout. Les exercices reprennent chaque geste sans plus vous le montrer."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "ppt": {
+    "fileName": "Realisations Verdeval.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Verdeval",
+          "sous-titre": "Nos réalisations 2026"
+        }
+      },
+      {
+        "layout": "titre-seul",
+        "textes": {
+          "titre": "Le chantier des Tilleuls"
+        },
+        "objets": [
+          {
+            "id": "img-chantier",
+            "objectType": "image",
+            "src": "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22320%22%20height%3D%22200%22%3E%3Crect%20width%3D%22320%22%20height%3D%22200%22%20fill%3D%22%23DCEBD8%22%2F%3E%3Crect%20y%3D%22140%22%20width%3D%22320%22%20height%3D%2260%22%20fill%3D%22%237BA05B%22%2F%3E%3Ccircle%20cx%3D%2260%22%20cy%3D%2252%22%20r%3D%2222%22%20fill%3D%22%23F2D06B%22%2F%3E%3Cpath%20d%3D%22M120%20140%20L150%2078%20L180%20140%20Z%22%20fill%3D%22%233E6B3A%22%2F%3E%3Cpath%20d%3D%22M196%20140%20L220%2096%20L244%20140%20Z%22%20fill%3D%22%234E7F45%22%2F%3E%3Crect%20x%3D%22150%22%20y%3D%22140%22%20width%3D%226%22%20height%3D%2218%22%20fill%3D%22%236B4A2F%22%2F%3E%3Crect%20x%3D%22217%22%20y%3D%22140%22%20width%3D%226%22%20height%3D%2214%22%20fill%3D%22%236B4A2F%22%2F%3E%3C%2Fsvg%3E",
+            "rect": {
+              "x": 300,
+              "y": 60,
+              "w": 200,
+              "h": 125
+            }
+          },
+          {
+            "id": "zt-legende",
+            "objectType": "texte",
+            "rect": {
+              "x": 60,
+              "y": 400,
+              "w": 480,
+              "h": 60
+            }
+          },
+          {
+            "id": "fo-ancienne",
+            "objectType": "forme",
+            "shape": "rectangle",
+            "rect": {
+              "x": 640,
+              "y": 60,
+              "w": 240,
+              "h": 90
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M04-L04-01",
+      "consigne": "L'ordre de travail sur une diapositive visuelle tient en quatre temps : **retirer** ce qui ne sert plus, **dimensionner** ce qui reste, **placer** ensuite, **légender** en dernier. Placer avant de dimensionner oblige à replacer : une image agrandie ne reste pas là où on l'avait mise.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M04-L04-02",
+      "consigne": "==Affichez la deuxième diapositive==. Elle porte une photo trop petite posée en haut, un cadre bleu hérité d'une ancienne version, et une légende encore vide.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 1
+      }
+    },
+    {
+      "id": "M04-L04-03",
+      "consigne": "==Supprimez le rectangle bleu== en haut à droite : il n'encadre rien et ne désigne rien. Premier temps — on retire avant de composer, sinon on compose autour d'un élément qui va disparaître.",
+      "action": {
+        "type": "P_DELETE_OBJECT",
+        "objectId": "fo-ancienne"
+      },
+      "aide": {
+        "text": "Cliquez sur le rectangle, puis touche Suppr ou bouton Supprimer du groupe Objet."
+      }
+    },
+    {
+      "id": "M04-L04-04",
+      "consigne": "==Sélectionnez la photo== du chantier : c'est elle qui portera la diapositive, donc elle qu'on dimensionne en premier.",
+      "action": {
+        "type": "P_SELECT_OBJECT",
+        "objectId": "img-chantier"
+      }
+    },
+    {
+      "id": "M04-L04-05",
+      "consigne": "==Agrandissez-la à environ le double de sa largeur==, en tirant la poignée du coin bas-droit. Deuxième temps : la taille avant la position.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Nos réalisations 2026"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Le chantier des Tilleuls"
+              },
+              "objets": [
+                {
+                  "id": "img-chantier",
+                  "objectType": "image",
+                  "rect": {
+                    "x": 300,
+                    "y": 60,
+                    "w": 200,
+                    "h": 125
+                  },
+                  "src": "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22320%22%20height%3D%22200%22%3E%3Crect%20width%3D%22320%22%20height%3D%22200%22%20fill%3D%22%23DCEBD8%22%2F%3E%3Crect%20y%3D%22140%22%20width%3D%22320%22%20height%3D%2260%22%20fill%3D%22%237BA05B%22%2F%3E%3Ccircle%20cx%3D%2260%22%20cy%3D%2252%22%20r%3D%2222%22%20fill%3D%22%23F2D06B%22%2F%3E%3Cpath%20d%3D%22M120%20140%20L150%2078%20L180%20140%20Z%22%20fill%3D%22%233E6B3A%22%2F%3E%3Cpath%20d%3D%22M196%20140%20L220%2096%20L244%20140%20Z%22%20fill%3D%22%234E7F45%22%2F%3E%3Crect%20x%3D%22150%22%20y%3D%22140%22%20width%3D%226%22%20height%3D%2218%22%20fill%3D%22%236B4A2F%22%2F%3E%3Crect%20x%3D%22217%22%20y%3D%22140%22%20width%3D%226%22%20height%3D%2214%22%20fill%3D%22%236B4A2F%22%2F%3E%3C%2Fsvg%3E"
+                },
+                {
+                  "id": "zt-legende",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 60,
+                    "y": 400,
+                    "w": 480,
+                    "h": 60
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_MOVE_OBJECT",
+        "objectId": "img-chantier",
+        "rect": {
+          "w": 400,
+          "h": 250
+        },
+        "tolerance": 70
+      },
+      "aide": {
+        "text": "La poignée est le petit carré blanc au coin inférieur droit du cadre bleu."
+      }
+    },
+    {
+      "id": "M04-L04-06",
+      "consigne": "==Placez la photo dans la moitié droite==, sous le titre. Troisième temps : maintenant qu'elle a sa taille définitive, sa place ne bougera plus.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Nos réalisations 2026"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Le chantier des Tilleuls"
+              },
+              "objets": [
+                {
+                  "id": "img-chantier",
+                  "objectType": "image",
+                  "rect": {
+                    "x": 300,
+                    "y": 60,
+                    "w": 400,
+                    "h": 250
+                  },
+                  "src": "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22320%22%20height%3D%22200%22%3E%3Crect%20width%3D%22320%22%20height%3D%22200%22%20fill%3D%22%23DCEBD8%22%2F%3E%3Crect%20y%3D%22140%22%20width%3D%22320%22%20height%3D%2260%22%20fill%3D%22%237BA05B%22%2F%3E%3Ccircle%20cx%3D%2260%22%20cy%3D%2252%22%20r%3D%2222%22%20fill%3D%22%23F2D06B%22%2F%3E%3Cpath%20d%3D%22M120%20140%20L150%2078%20L180%20140%20Z%22%20fill%3D%22%233E6B3A%22%2F%3E%3Cpath%20d%3D%22M196%20140%20L220%2096%20L244%20140%20Z%22%20fill%3D%22%234E7F45%22%2F%3E%3Crect%20x%3D%22150%22%20y%3D%22140%22%20width%3D%226%22%20height%3D%2218%22%20fill%3D%22%236B4A2F%22%2F%3E%3Crect%20x%3D%22217%22%20y%3D%22140%22%20width%3D%226%22%20height%3D%2214%22%20fill%3D%22%236B4A2F%22%2F%3E%3C%2Fsvg%3E"
+                },
+                {
+                  "id": "zt-legende",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 60,
+                    "y": 400,
+                    "w": 480,
+                    "h": 60
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_MOVE_OBJECT",
+        "objectId": "img-chantier",
+        "rect": {
+          "x": 480,
+          "y": 165
+        },
+        "tolerance": 70
+      },
+      "feedback": "Taille d'abord, place ensuite : le placement tient du premier coup."
+    },
+    {
+      "id": "M04-L04-07",
+      "consigne": "==Ajoutez une flèche== depuis le menu Formes : elle servira à désigner la partie replantée de la photo.",
+      "action": {
+        "type": "P_ADD_OBJECT",
+        "objectType": "forme",
+        "shape": "fleche"
+      },
+      "aide": {
+        "text": "Groupe Insertion, bouton « Formes ▾ », entrée Flèche."
+      }
+    },
+    {
+      "id": "M04-L04-08",
+      "consigne": "==Double-cliquez dans la zone vide en bas à gauche et saisissez 420 m2 replantés en trois semaines==. Quatrième et dernier temps : la légende, écrite quand la composition ne bougera plus.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Nos réalisations 2026"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Le chantier des Tilleuls"
+              },
+              "objets": [
+                {
+                  "id": "img-chantier",
+                  "objectType": "image",
+                  "rect": {
+                    "x": 480,
+                    "y": 165,
+                    "w": 400,
+                    "h": 250
+                  },
+                  "src": "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22320%22%20height%3D%22200%22%3E%3Crect%20width%3D%22320%22%20height%3D%22200%22%20fill%3D%22%23DCEBD8%22%2F%3E%3Crect%20y%3D%22140%22%20width%3D%22320%22%20height%3D%2260%22%20fill%3D%22%237BA05B%22%2F%3E%3Ccircle%20cx%3D%2260%22%20cy%3D%2252%22%20r%3D%2222%22%20fill%3D%22%23F2D06B%22%2F%3E%3Cpath%20d%3D%22M120%20140%20L150%2078%20L180%20140%20Z%22%20fill%3D%22%233E6B3A%22%2F%3E%3Cpath%20d%3D%22M196%20140%20L220%2096%20L244%20140%20Z%22%20fill%3D%22%234E7F45%22%2F%3E%3Crect%20x%3D%22150%22%20y%3D%22140%22%20width%3D%226%22%20height%3D%2218%22%20fill%3D%22%236B4A2F%22%2F%3E%3Crect%20x%3D%22217%22%20y%3D%22140%22%20width%3D%226%22%20height%3D%2214%22%20fill%3D%22%236B4A2F%22%2F%3E%3C%2Fsvg%3E"
+                },
+                {
+                  "id": "zt-legende",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 60,
+                    "y": 400,
+                    "w": 480,
+                    "h": 60
+                  }
+                },
+                {
+                  "id": "obj7",
+                  "objectType": "forme",
+                  "shape": "fleche",
+                  "rect": {
+                    "x": 320,
+                    "y": 400,
+                    "w": 320,
+                    "h": 70
+                  },
+                  "fill": "#2F6FB0"
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "zt-legende",
+        "accept": [
+          "420 m2 replantés en trois semaines"
+        ]
+      },
+      "aide": {
+        "text": "Une zone de texte libre et vide n'affiche aucune invite : c'est le double-clic qui l'ouvre."
+      }
+    },
+    {
+      "id": "M04-L04-09",
+      "consigne": "==Mettez cette légende en italique== : c'est une mention d'accompagnement, pas un contenu. La mise en forme du texte vue au module précédent s'applique ici sans changement.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Nos réalisations 2026"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Le chantier des Tilleuls"
+              },
+              "objets": [
+                {
+                  "id": "img-chantier",
+                  "objectType": "image",
+                  "rect": {
+                    "x": 480,
+                    "y": 165,
+                    "w": 400,
+                    "h": 250
+                  },
+                  "src": "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22320%22%20height%3D%22200%22%3E%3Crect%20width%3D%22320%22%20height%3D%22200%22%20fill%3D%22%23DCEBD8%22%2F%3E%3Crect%20y%3D%22140%22%20width%3D%22320%22%20height%3D%2260%22%20fill%3D%22%237BA05B%22%2F%3E%3Ccircle%20cx%3D%2260%22%20cy%3D%2252%22%20r%3D%2222%22%20fill%3D%22%23F2D06B%22%2F%3E%3Cpath%20d%3D%22M120%20140%20L150%2078%20L180%20140%20Z%22%20fill%3D%22%233E6B3A%22%2F%3E%3Cpath%20d%3D%22M196%20140%20L220%2096%20L244%20140%20Z%22%20fill%3D%22%234E7F45%22%2F%3E%3Crect%20x%3D%22150%22%20y%3D%22140%22%20width%3D%226%22%20height%3D%2218%22%20fill%3D%22%236B4A2F%22%2F%3E%3Crect%20x%3D%22217%22%20y%3D%22140%22%20width%3D%226%22%20height%3D%2214%22%20fill%3D%22%236B4A2F%22%2F%3E%3C%2Fsvg%3E"
+                },
+                {
+                  "id": "zt-legende",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 60,
+                    "y": 400,
+                    "w": 480,
+                    "h": 60
+                  },
+                  "texte": "420 m2 replantés en trois semaines"
+                },
+                {
+                  "id": "obj7",
+                  "objectType": "forme",
+                  "shape": "fleche",
+                  "rect": {
+                    "x": 320,
+                    "y": 400,
+                    "w": 320,
+                    "h": 70
+                  },
+                  "fill": "#2F6FB0"
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "zt-legende",
+        "style": {
+          "italic": true
+        }
+      },
+      "aide": {
+        "text": "Sélectionnez la légende, puis cliquez sur I dans le groupe Police."
+      }
+    },
+    {
+      "id": "M04-L04-10",
+      "consigne": "==Lancez le diaporama depuis le début== pour juger la diapositive débarrassée du ruban et du volet, comme le public la verra.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": true,
+          "index": 0
+        }
+      }
+    },
+    {
+      "id": "M04-L04-11",
+      "consigne": "==Avancez d'une diapositive== pour voir votre composition en grand.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "index": 1
+        }
+      }
+    },
+    {
+      "id": "M04-L04-12",
+      "consigne": "==Quittez le diaporama==. À retenir, dans l'ordre : **retirer, dimensionner, placer, légender**. C'est ce qui évite de replacer trois fois la même image — et c'est valable pour toutes les diapositives visuelles que vous ferez.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": false
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,272 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "mode": "LESSON",
+  "moduleTitle": "Cas pratique : le point trimestriel",
+  "title": "Préparer et contrôler",
+  "intro": {
+    "title": "Préparer et contrôler",
+    "body": "Le contenu est là ; il reste ce qui fait la différence en séance. Une annexe rangée et masquée, une note d'ouverture, un contrôle d'homogénéité, un passage en diaporama. Un quart d'heure, et jamais plus."
+  },
+  "outro": {
+    "body": "La présentation est tenable jeudi. Les exercices du module reprennent le cas depuis le début, puis l'évaluation."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "ppt": {
+    "fileName": "Point trimestriel.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Régie Ternois",
+          "sous-titre": "Conseil syndical du 18 avril"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Ordre du jour",
+          "contenu": "Les charges\nLes travaux\nLes impayés"
+        }
+      },
+      {
+        "layout": "titre-seul",
+        "textes": {
+          "titre": "1. Les charges"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "6 300 € au-dessus du budget",
+          "contenu": "77 300 € dépensés\n71 000 € votés\nÉcart dû au chauffage"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "DÉTAIL DES SIX POSTES",
+          "contenu": "Chauffage 41 280,55 €\nEau 12 904,10 €\nEntretien 9 611,20 €\nAscenseur 7 430,00 €\nAssurance 6 118,45 €"
+        }
+      },
+      {
+        "layout": "titre-seul",
+        "textes": {
+          "titre": "2. Les travaux"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Ravalement : 96 000 € à voter",
+          "contenu": "Trois devis reçus\nÉtalement sur deux exercices\nDémarrage en septembre"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M16-L03-01",
+      "consigne": "Le détail des six postes n'a pas sa place dans le déroulé : personne ne le demandera, et s'il est demandé, il faut l'avoir. C'est la définition exacte d'une **annexe** — après la fin, et masquée.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M16-L03-02",
+      "consigne": "==Affichez la cinquième diapositive==, celle du détail des six postes.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 4
+      }
+    },
+    {
+      "id": "M16-L03-03",
+      "consigne": "==Descendez-la d'un cran== : elle quitte la partie « charges » et commence son voyage vers la fin.",
+      "setupPpt": {
+        "slide": 4
+      },
+      "action": {
+        "type": "P_MOVE_SLIDE",
+        "from": 4,
+        "to": 5
+      },
+      "aide": {
+        "text": "Le bouton « ↓ Descendre » est dans le groupe Diapositives."
+      }
+    },
+    {
+      "id": "M16-L03-04",
+      "consigne": "==Descendez-la encore d'un cran== : la voilà en dernière position, après le ravalement.",
+      "setupPpt": {
+        "slide": 5
+      },
+      "action": {
+        "type": "P_MOVE_SLIDE",
+        "from": 5,
+        "to": 6
+      }
+    },
+    {
+      "id": "M16-L03-05",
+      "consigne": "==Masquez-la==. Rangée en dernier, elle ne sortirait qu'en cas de dépassement — et un diaporama qui déborde devant un conseil syndical est exactement ce qu'on ne veut pas.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Régie Ternois",
+                "sous-titre": "Conseil syndical du 18 avril"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Ordre du jour",
+                "contenu": "Les charges\nLes travaux\nLes impayés"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "1. Les charges"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "6 300 € au-dessus du budget",
+                "contenu": "77 300 € dépensés\n71 000 € votés\nÉcart dû au chauffage"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "2. Les travaux"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Ravalement : 96 000 € à voter",
+                "contenu": "Trois devis reçus\nÉtalement sur deux exercices\nDémarrage en septembre"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "DÉTAIL DES SIX POSTES",
+                "contenu": "Chauffage 41 280,55 €\nEau 12 904,10 €\nEntretien 9 611,20 €\nAscenseur 7 430,00 €\nAssurance 6 118,45 €"
+              }
+            }
+          ]
+        },
+        "slide": 6
+      },
+      "action": {
+        "type": "P_EXPECT_DECK",
+        "deck": {
+          "slides": [
+            {
+              "index": 6,
+              "masquee": true
+            }
+          ]
+        }
+      },
+      "aide": {
+        "text": "Groupe Diaporama, bouton Masquer."
+      },
+      "feedback": "Invisible en projection, accessible en trois secondes si un copropriétaire réclame le détail."
+    },
+    {
+      "id": "M16-L03-06",
+      "consigne": "==Remplacez son titre par Détail des six postes== : elle est en capitales quand tous les autres titres sont en minuscules. Une annexe reste une diapositive de la présentation, et suit ses règles.",
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:titre",
+        "accept": [
+          "Détail des six postes"
+        ]
+      },
+      "aide": {
+        "text": "Un titre déjà rempli s'ouvre au double-clic."
+      }
+    },
+    {
+      "id": "M16-L03-07",
+      "consigne": "==Affichez la première diapositive== : il y manque la seule note qui se prépare mot à mot.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 0
+      }
+    },
+    {
+      "id": "M16-L03-08",
+      "consigne": "==Écrivez sa note== : Bonsoir, point du trimestre en vingt minutes, vote sur le ravalement à la fin. Annoncer la durée et la décision attendue dès la première phrase évite toutes les questions de calendrier.",
+      "action": {
+        "type": "P_EXPECT_DECK",
+        "deck": {
+          "slides": [
+            {
+              "index": 0,
+              "notes": "Bonsoir, point du trimestre en vingt minutes, vote sur le ravalement à la fin"
+            }
+          ]
+        }
+      },
+      "aide": {
+        "text": "Le champ de notes est sous la diapositive ; sur petit écran, le bouton « Notes » l'ouvre."
+      }
+    },
+    {
+      "id": "M16-L03-09",
+      "consigne": "==Passez en Trieuse== pour le contrôle d'ensemble : silhouettes, titres, et l'annexe bien marquée comme masquée à la fin.",
+      "action": {
+        "type": "P_SET_VIEW",
+        "view": "trieuse"
+      },
+      "aide": {
+        "text": "Groupe Affichage, bouton Trieuse."
+      }
+    },
+    {
+      "id": "M16-L03-10",
+      "consigne": "==Revenez en affichage Normal==.",
+      "action": {
+        "type": "P_SET_VIEW",
+        "view": "normal"
+      }
+    },
+    {
+      "id": "M16-L03-11",
+      "consigne": "==Lancez le diaporama depuis le début== : dernier contrôle, on vérifie ce que le conseil verra réellement, annexe sautée comprise.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": true,
+          "index": 0
+        }
+      },
+      "aide": {
+        "text": "Groupe Diaporama, bouton « ▶ Début »."
+      }
+    },
+    {
+      "id": "M16-L03-12",
+      "consigne": "==Quittez le diaporama==. À retenir pour tout cas réel : **la trame vient de la commande**, le relevé se réduit à son message, l'annexe se range et se masque, et la présentation se contrôle en Trieuse avant de se jouer en diaporama.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": false
+        }
+      }
+    }
+  ]
+}

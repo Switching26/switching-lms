@@ -183,6 +183,30 @@ export function SE_JUGE_SUR_ETAT_EXCEL(actionType: string): boolean {
 }
 
 /**
+ * Les observations qui RAPPORTENT un état plutôt qu'un geste.
+ *
+ * Symétrique de `SE_JUGE_SUR_ETAT_EXCEL`, qui interroge l'ACTION attendue : ici
+ * on interroge l'OBSERVATION reçue. Les deux sont nécessaires, et confondre
+ * l'une avec l'autre a coûté un plafond de note.
+ *
+ * Pourquoi ces observations ne comptent pas faute quand elles ne satisfont pas
+ * l'étape : un état se construit souvent en plusieurs gestes — centrer
+ * horizontalement PUIS verticalement. Chaque état intermédiaire est rapporté ;
+ * en compter un par faute punirait un apprenant qui fait juste.
+ */
+const OBSERVATIONS_ETAT_EXCEL = new Set([
+  "stateChange",
+  "chartChange",
+  "pivotChange",
+  "pageSetupChange",
+  "macroChange",
+])
+
+export function EST_OBSERVATION_ETAT_EXCEL(observed: ObservedAction): boolean {
+  return OBSERVATIONS_ETAT_EXCEL.has(observed.kind)
+}
+
+/**
  * Le juge complet d'une observation. Pur : mêmes entrées, même sortie.
  *
  * Les règles de classement ci-dessous ne sont pas des choix d'écriture : chacune
@@ -204,12 +228,22 @@ export function jugerEtape(
    */
   adaptateur?: AdaptateurApp,
 ): JugementEtape {
+  /*
+   * Repli sur le juge générique — corrige un trou trouvé en phase 2.
+   *
+   * Un adaptateur d'application ne connaît QUE ses propres actions préfixées.
+   * Les actions génériques du socle — `READ`, `MONTRER`, `KEY` — ne lui
+   * appartiennent pas et il rend `null` dessus. Sans ce repli, elles tombaient
+   * en « Action non reconnue » dans les trois applications : tout écran de
+   * lecture devenait infranchissable, alors que `check-montrer` en exige un
+   * sur CHAQUE écran `READ`.
+   *
+   * Excel n'est pas concerné : il n'a pas d'adaptateur passé et prend la
+   * branche `validateStep` directement, comme avant.
+   */
   const v: Verdict = adaptateur
-    ? adaptateur.juger(step as unknown as EtapeApp, observed as unknown as ObservationApp) ?? {
-        ok: false,
-        reason: "unknown_action",
-        message: "Action non reconnue.",
-      }
+    ? adaptateur.juger(step as unknown as EtapeApp, observed as unknown as ObservationApp) ??
+      validateStep(step, observed)
     : validateStep(step, observed)
   const frappe =
     observed.kind === "typed" && step.action.type === "EXPECT_STATE"
@@ -241,15 +275,26 @@ export function jugerEtape(
     ? adaptateur.seJugeSurEtat(step.action.type)
     : SE_JUGE_SUR_ETAT_EXCEL(step.action.type)
 
-  // Les étapes jugées sur un ÉTAT se construisent souvent en plusieurs gestes —
-  // centrer horizontalement PUIS verticalement : compter une faute à chaque état
-  // intermédiaire punirait un apprenant qui fait juste.
-  const surEtat =
-    observed.kind === "stateChange" ||
-    observed.kind === "chartChange" ||
-    observed.kind === "pivotChange" ||
-    observed.kind === "pageSetupChange" ||
-    observed.kind === "macroChange"
+  /*
+   * L'observation reçue rapporte-t-elle un ÉTAT ?
+   *
+   * TROISIÈME PRÉDICAT, et le dernier qui manquait. Cette ligne testait en dur
+   * les cinq `kind` d'Excel : aucune observation d'une autre application ne
+   * pouvait y figurer, ses `kind` étant préfixés `w:`, `p:`, `o:`. Une
+   * observation d'état non satisfaite comptait donc FAUTE dans les trois
+   * nouvelles applications là où Excel compte tâtonnement — mesuré par l'agent
+   * PowerPoint : parcours parfait noté 57 %, avec contre-épreuve Excel à 100 %.
+   *
+   * C'est le même défaut que les deux étages déjà corrigés le 02/08/2026 sur
+   * Excel, et il se serait révélé de la même façon : silencieusement, par des
+   * notes basses inexplicables sur des parcours justes.
+   *
+   * Sans adaptateur — les 246 chapitres Excel — c'est la même fonction qu'avant,
+   * simplement nommée.
+   */
+  const surEtat = adaptateur
+    ? adaptateur.estObservationEtat(observed as unknown as ObservationApp)
+    : EST_OBSERVATION_ETAT_EXCEL(observed)
 
   const frappeHorsCanal =
     observed.kind === "typed" && surEtatAttendu && frappe?.verdict !== "fausse"

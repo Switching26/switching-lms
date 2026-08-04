@@ -1,0 +1,100 @@
+{
+ "schemaVersion": 1,
+ "app": "WORD",
+ "title": "Évaluation — les liens hypertexte",
+ "mode": "EVALUATION",
+ "moduleTitle": "Les liens hypertexte",
+ "intro": {
+  "title": "ÉVALUATION NOTÉE",
+  "body": "Vous préparez une note destinée à l'intranet : deux liens à poser, un à retirer. Chaque geste est noté."
+ },
+ "outro": "Vous savez poser un lien sur les bons mots, et le retirer sans abîmer le texte.",
+ "document": {
+  "paragraphes": [
+   {
+    "texte": "Note d'information aux salariés",
+    "style": "titre"
+   },
+   {
+    "texte": "Les démarches administratives se font désormais en ligne.",
+    "style": "normal"
+   },
+   {
+    "texte": "Le texte de référence est publié sur Légifrance.",
+    "style": "normal"
+   },
+   {
+    "texte": "Pour toute question, écrivez au secrétariat.",
+    "style": "normal"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "id": "M19-EV01-01",
+   "points": 4,
+   "consigne": "==Sélectionnez le mot « Légifrance »== dans le troisième paragraphe.",
+   "action": {
+    "type": "W_SELECT_TEXT",
+    "zone": "texte:Légifrance"
+   },
+   "feedback": "Passage sélectionné."
+  },
+  {
+   "id": "M19-EV01-01B",
+   "points": 3,
+   "consigne": "==Ouvrez la boîte « Lien »== depuis l'onglet Insertion, sans encore saisir d'adresse.",
+   "action": {
+    "type": "W_CLICK_CONTROL",
+    "controle": "w-inserer-lien"
+   },
+   "setup": {
+    "ribbon": {
+     "activeTab": "insertion"
+    }
+   },
+   "feedback": "La boîte affiche le mot sélectionné."
+  },
+  {
+   "id": "M19-EV01-02",
+   "points": 5,
+   "consigne": "==Liez-le vers legifrance.gouv.fr.==",
+   "action": {
+    "type": "W_EXPECT_LIEN",
+    "url": "https://www.legifrance.gouv.fr"
+   },
+   "feedback": "Lien posé."
+  },
+  {
+   "id": "M19-EV01-03",
+   "points": 4,
+   "consigne": "==Sélectionnez le mot « secrétariat »== dans le dernier paragraphe.",
+   "action": {
+    "type": "W_SELECT_TEXT",
+    "zone": "texte:secrétariat"
+   },
+   "feedback": "Passage sélectionné."
+  },
+  {
+   "id": "M19-EV01-04",
+   "points": 5,
+   "consigne": "==Liez-le vers contact@rivedoux.fr.==",
+   "action": {
+    "type": "W_EXPECT_LIEN",
+    "url": "contact@rivedoux.fr"
+   },
+   "feedback": "Lien courriel posé."
+  },
+  {
+   "id": "M19-EV01-05",
+   "points": 5,
+   "consigne": "Le service change d'adresse. ==Retirez le lien vers contact@rivedoux.fr.==",
+   "action": {
+    "type": "W_EXPECT_LIEN",
+    "url": "contact@rivedoux.fr",
+    "absent": true
+   },
+   "feedback": "Lien retiré, texte intact."
+  }
+ ]
+}

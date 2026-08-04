@@ -1,0 +1,243 @@
+{
+  "schemaVersion": 1,
+  "title": "Retrouver une pièce jointe qu'on croit perdue",
+  "mode": "EXERCISE",
+  "moduleTitle": "Retrouver l'information dans une boîte chargée",
+  "intro": {
+    "title": "Hugo demande la dernière version des plans",
+    "body": "Il l'a pourtant envoyée lui-même, il y a deux jours. Vous allez la retrouver dans votre boîte, la lui renvoyer, et lui indiquer d'où elle vient. Rien ici ne se devine : tout se cherche."
+  },
+  "outro": {
+    "body": "Un fichier reçu ne se redemande pas : il se retrouve. Et le transfert vaut mieux que la pièce jointe recopiée — il emporte la date et l'expéditeur d'origine, donc la preuve de quelle version il s'agit."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "clients",
+        "nom": "Clients 2026"
+      },
+      {
+        "id": "fournisseurs",
+        "nom": "Fournisseurs"
+      }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "messages": [
+      {
+        "id": "m-devis-mairie",
+        "dossier": "reception",
+        "de": "marches@ville-lambersart.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Salle des mariages — devis MP-2026-24",
+        "corps": "Bonjour,\n\nNous accusons réception de votre devis MP-2026-24.\n\nService des marchés",
+        "date": "2026-03-23T09:40",
+        "lu": true
+      },
+      {
+        "id": "m-escalier",
+        "dossier": "reception",
+        "de": "j.leroux@habitat-du-nord.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Escalier Beaulieu — retouche de la main courante",
+        "corps": "Bonjour,\n\nUn léger jeu subsiste sur la main courante.\n\nJulien Leroux",
+        "date": "2026-03-23T08:55",
+        "lu": false
+      },
+      {
+        "id": "m-releve",
+        "dossier": "reception",
+        "de": "compta@quincaillerie-delmas.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Relevé de compte — mars 2026",
+        "corps": "Bonjour,\n\nVotre relevé du mois est joint.\n\nQuincaillerie Delmas",
+        "date": "2026-03-22T17:10",
+        "lu": true,
+        "pieces": [
+          {
+            "nom": "Releve-mars-2026.pdf",
+            "taille": "94 Ko"
+          }
+        ]
+      },
+      {
+        "id": "m-vitrine",
+        "dossier": "reception",
+        "de": "contact@fleurs-de-saison.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Vitrine — pose confirmée pour le 30 mars",
+        "corps": "Bonjour,\n\nNous confirmons la pose de la vitrine le 30 mars.\n\nFleurs de Saison",
+        "date": "2026-03-22T14:02",
+        "lu": true
+      },
+      {
+        "id": "m-plans",
+        "dossier": "reception",
+        "de": "h.vasseur@menuiserie-vasseur.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Plans de l'escalier Beaulieu — version 3",
+        "corps": "Bonjour Camille,\n\nVoici la version 3 des plans.\n\nHugo",
+        "date": "2026-03-21T16:20",
+        "lu": true,
+        "pieces": [
+          {
+            "nom": "Plans-escalier-v3.pdf",
+            "taille": "1,4 Mo"
+          }
+        ]
+      },
+      {
+        "id": "m-pub",
+        "dossier": "reception",
+        "de": "offres@promo-outillage.net",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Nouveautés de la semaine",
+        "corps": "Nos nouveautés.",
+        "date": "2026-03-23T05:10",
+        "lu": false
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O05-E01-01",
+      "consigne": "Filtrez votre boîte pour ne garder que ce qui parle des plans de l'escalier.",
+      "action": {
+        "type": "O_TYPE_TEXT",
+        "champ": "recherche",
+        "accept": [
+          "plans",
+          "escalier",
+          "vasseur",
+          "hugo"
+        ],
+        "contient": true
+      },
+      "aide": {
+        "text": "La recherche porte sur l'expéditeur, l'objet et le texte : un seul mot de l'objet suffit."
+      }
+    },
+    {
+      "id": "O05-E01-02",
+      "consigne": "Ouvrez le message d'Hugo Vasseur et vérifiez que la pièce jointe est bien la version 3.",
+      "action": {
+        "type": "O_SELECT_MESSAGE",
+        "id": "m-plans"
+      },
+      "aide": {
+        "text": "Le nom du fichier s'affiche sous l'en-tête du message."
+      }
+    },
+    {
+      "id": "O05-E01-03",
+      "consigne": "Retirez le filtre : vous n'allez pas travailler avec une boîte à moitié cachée.",
+      "action": {
+        "type": "O_TYPE_TEXT",
+        "champ": "recherche",
+        "accept": [
+          ""
+        ]
+      },
+      "aide": {
+        "text": "Videz complètement le champ de recherche."
+      }
+    },
+    {
+      "id": "O05-E01-04",
+      "consigne": "Renvoyez ce message à Hugo — `h.vasseur@menuiserie-vasseur.fr` — de façon qu'il reçoive le fichier lui-même, et pas une description.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "genre": "transfert",
+          "a": {
+            "contient": [
+              "h.vasseur@menuiserie-vasseur.fr"
+            ]
+          },
+          "pieces": {
+            "contient": [
+              "Plans-escalier-v3.pdf"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Transférer emporte la pièce jointe ; Répondre ne l'emporterait pas."
+      }
+    },
+    {
+      "id": "O05-E01-05",
+      "consigne": "Écrivez un mot et envoyez. Il doit préciser **de quelle version** il s'agit et **d'où elle vient**, pour qu'Hugo sache qu'il s'agit bien de son propre envoi.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "h.vasseur@menuiserie-vasseur.fr"
+            ]
+          },
+          "pieces": {
+            "contient": [
+              "Plans-escalier-v3.pdf"
+            ]
+          },
+          "corps": {
+            "notions": [
+              {
+                "libelle": "la version du document",
+                "oneOf": [
+                  "version 3",
+                  "v3",
+                  "troisieme"
+                ]
+              },
+              {
+                "libelle": "d'où vient ce document",
+                "oneOf": [
+                  "tu m'as",
+                  "ton envoi",
+                  "tu me l'avais",
+                  "du 21",
+                  "21 mars",
+                  "ton message"
+                ]
+              }
+            ],
+            "minMots": 10
+          }
+        }
+      },
+      "aide": {
+        "text": "Deux informations sont attendues : la version, et le fait qu'elle vienne de lui."
+      }
+    }
+  ]
+}

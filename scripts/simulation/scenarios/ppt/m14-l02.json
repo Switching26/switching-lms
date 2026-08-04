@@ -1,0 +1,278 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "mode": "LESSON",
+  "moduleTitle": "Des chiffres sans tableau",
+  "title": "Comparer deux chiffres",
+  "intro": {
+    "title": "Comparer deux chiffres",
+    "body": "Certains chiffres n'ont de sens que l'un contre l'autre : avant et après, prévu et réalisé, nous et eux. Deux colonnes suffisent — et la comparaison se lit alors sans que personne ait à calculer."
+  },
+  "outro": {
+    "body": "Deux comparaisons posées en deux colonnes, avec l'écart écrit noir sur blanc. La leçon suivante s'attaque aux décimales."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "ppt": {
+    "fileName": "Transports Ghiselli.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Transports Ghiselli",
+          "sous-titre": "Bilan d'exploitation présenté aux associés"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Le gazole",
+          "contenu": "Budget prévu 214 000 €, dépensé 246 300 €, soit un dépassement de 32 300 € sur l'année"
+        }
+      },
+      {
+        "layout": "titre-seul",
+        "textes": {
+          "titre": "Les retours à vide"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M14-L02-01",
+      "consigne": "« Prévu 214 000, dépensé 246 300, soit 32 300 de dépassement » : écrit en ligne, le public doit **retenir deux nombres et suivre une soustraction** pendant que vous parlez. Personne ne le fait. Deux colonnes lui épargnent ce travail.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M14-L02-02",
+      "consigne": "==Affichez la deuxième diapositive==, celle du gazole.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 1
+      }
+    },
+    {
+      "id": "M14-L02-03",
+      "consigne": "==Donnez-lui la disposition Comparaison== : elle offre deux colonnes titrées, faites exactement pour mettre deux valeurs en regard.",
+      "action": {
+        "type": "P_SET_LAYOUT",
+        "layout": "comparaison"
+      },
+      "aide": {
+        "text": "Groupe Diapositives, bouton Disposition, puis « Comparaison »."
+      }
+    },
+    {
+      "id": "M14-L02-04",
+      "consigne": "==Écrivez le titre de la colonne de gauche== : Budget voté. Une colonne titrée dit ce qu'on regarde avant de dire combien.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Transports Ghiselli",
+                "sous-titre": "Bilan d'exploitation présenté aux associés"
+              }
+            },
+            {
+              "layout": "comparaison",
+              "textes": {
+                "titre": "Le gazole",
+                "contenu": "Budget prévu 214 000 €, dépensé 246 300 €, soit un dépassement de 32 300 € sur l'année"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Les retours à vide"
+              }
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:texte",
+        "accept": [
+          "Budget voté"
+        ]
+      },
+      "aide": {
+        "text": "Cliquez dans le petit cadre en haut de la colonne de gauche."
+      }
+    },
+    {
+      "id": "M14-L02-05",
+      "consigne": "==Écrivez son contenu== : 214 000 €.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Transports Ghiselli",
+                "sous-titre": "Bilan d'exploitation présenté aux associés"
+              }
+            },
+            {
+              "layout": "comparaison",
+              "textes": {
+                "titre": "Le gazole",
+                "contenu": "Budget prévu 214 000 €, dépensé 246 300 €, soit un dépassement de 32 300 € sur l'année",
+                "texte": "Budget voté"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Les retours à vide"
+              }
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:contenu",
+        "accept": [
+          "214 000 €"
+        ]
+      }
+    },
+    {
+      "id": "M14-L02-06",
+      "consigne": "==Écrivez le titre de la colonne de droite== : Dépensé.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Transports Ghiselli",
+                "sous-titre": "Bilan d'exploitation présenté aux associés"
+              }
+            },
+            {
+              "layout": "comparaison",
+              "textes": {
+                "titre": "Le gazole",
+                "contenu": "214 000 €",
+                "texte": "Budget voté"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Les retours à vide"
+              }
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:texte#2",
+        "accept": [
+          "Dépensé"
+        ]
+      },
+      "aide": {
+        "text": "Le petit cadre en haut de la colonne de droite."
+      }
+    },
+    {
+      "id": "M14-L02-07",
+      "consigne": "==Écrivez son contenu== : 246 300 €. Les deux montants sont maintenant côte à côte, à la même hauteur : l'œil fait la comparaison tout seul.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Transports Ghiselli",
+                "sous-titre": "Bilan d'exploitation présenté aux associés"
+              }
+            },
+            {
+              "layout": "comparaison",
+              "textes": {
+                "titre": "Le gazole",
+                "contenu": "214 000 €",
+                "texte": "Budget voté",
+                "texte#2": "Dépensé"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Les retours à vide"
+              }
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:contenu#2",
+        "accept": [
+          "246 300 €"
+        ]
+      },
+      "feedback": "Aucun calcul demandé au public : il voit lequel est le plus gros avant même d'avoir lu les chiffres."
+    },
+    {
+      "id": "M14-L02-08",
+      "consigne": "Reste l'essentiel : **l'écart**. Ne le laissez jamais au public — c'est le seul nombre qui compte, et le seul qu'il ne calculera pas. Il se met dans le titre, là où il sera lu en premier.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M14-L02-09",
+      "consigne": "==Remplacez le titre par 32 300 € de dépassement sur le gazole==. Le titre porte la conclusion, les colonnes la justifient.",
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:titre",
+        "accept": [
+          "32 300 € de dépassement sur le gazole"
+        ]
+      },
+      "aide": {
+        "text": "Un titre déjà rempli s'ouvre au double-clic."
+      }
+    },
+    {
+      "id": "M14-L02-10",
+      "consigne": "==Mettez ce titre en gras== : c'est la ligne qui doit rester quand le public aura oublié les deux montants.",
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "ph:titre",
+        "style": {
+          "bold": true
+        }
+      }
+    },
+    {
+      "id": "M14-L02-11",
+      "consigne": "À retenir : deux chiffres qui s'opposent se posent en **deux colonnes titrées**, et **l'écart va dans le titre**. La disposition Comparaison fait le travail de mise en page ; vous n'avez qu'à décider ce qui s'oppose à quoi.",
+      "action": {
+        "type": "READ"
+      }
+    }
+  ]
+}

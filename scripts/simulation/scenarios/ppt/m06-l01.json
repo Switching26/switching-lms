@@ -1,0 +1,205 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "mode": "LESSON",
+  "moduleTitle": "Écrire pour être lu",
+  "title": "Une liste plutôt qu'un paragraphe",
+  "intro": {
+    "title": "Une liste plutôt qu'un paragraphe",
+    "body": "Personne ne lit un paragraphe sur une diapositive : on l'écoute ou on le lit, pas les deux. Cette leçon vous apprend à transformer un bloc de texte en liste balayable, et à savoir combien de lignes une diapositive supporte."
+  },
+  "outro": {
+    "body": "Vos contenus se balayent au lieu de se lire. La leçon suivante s'occupe des titres, qui font la moitié du travail."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "ppt": {
+    "fileName": "Reunion Verdeval.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Verdeval",
+          "sous-titre": "Réunion d'équipe"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Nos prestations",
+          "contenu": "Nous proposons la création de jardins complets ainsi que l'entretien annuel des espaces verts, et nous assurons également la taille des haies et l'élagage des arbres de moyenne hauteur pour nos clients."
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Nos zones d'intervention",
+          "contenu": "Nous intervenons principalement sur Nantes et son agglomération, ainsi que sur Rennes depuis 2025 et sur Angers depuis le printemps 2026."
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M06-L01-01",
+      "consigne": "Une diapositive n'est pas une page. Un **paragraphe** oblige l'auditoire à choisir : vous écouter ou vous lire — et il lira, en cessant de vous entendre. Une **liste**, elle, se balaye en une seconde et laisse l'attention disponible pour ce que vous dites.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M06-L01-02",
+      "consigne": "==Affichez la deuxième diapositive==. Son contenu est un paragraphe de trois lignes pleines : à l'écran, personne ne le lira en entier.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 1
+      }
+    },
+    {
+      "id": "M06-L01-03",
+      "consigne": "==Remplacez ce paragraphe par trois lignes : Création de jardins, Entretien annuel, Taille et élagage==. Écrivez-les l'une sous l'autre en passant à la ligne — chaque retour crée une nouvelle entrée.",
+      "setupPpt": {
+        "slide": 1
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:contenu",
+        "accept": [
+          "Création de jardins\nEntretien annuel\nTaille et élagage",
+          "Création de jardins, Entretien annuel, Taille et élagage"
+        ]
+      },
+      "aide": {
+        "text": "Double-cliquez dans le bloc, effacez le texte présent, puis saisissez les trois lignes en passant à la ligne entre chaque."
+      },
+      "feedback": "Le même contenu, mais lisible d'un coup d'œil : c'est tout ce qu'on demande à un bloc de diapositive."
+    },
+    {
+      "id": "M06-L01-04",
+      "consigne": "Trois choses ont disparu au passage, et c'est voulu : « nous proposons », « ainsi que », « pour nos clients ». Une liste ne fait pas de phrases — les mots de liaison appartiennent à ce que **vous** dites, pas à ce que l'écran montre.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M06-L01-05",
+      "consigne": "==Affichez la troisième diapositive==, qui souffre du même défaut à propos des zones d'intervention.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 2
+      }
+    },
+    {
+      "id": "M06-L01-06",
+      "consigne": "==Remplacez son contenu par trois lignes : Nantes, Rennes depuis 2025, Angers depuis 2026==. Gardez les dates : elles portent l'information, contrairement aux mots de liaison.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Réunion d'équipe"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Nos prestations",
+                "contenu": "Création de jardins\nEntretien annuel\nTaille et élagage"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Nos zones d'intervention",
+                "contenu": "Nous intervenons principalement sur Nantes et son agglomération, ainsi que sur Rennes depuis 2025 et sur Angers depuis le printemps 2026."
+              }
+            }
+          ]
+        },
+        "slide": 2
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:contenu",
+        "accept": [
+          "Nantes\nRennes depuis 2025\nAngers depuis 2026",
+          "Nantes, Rennes depuis 2025, Angers depuis 2026"
+        ]
+      }
+    },
+    {
+      "id": "M06-L01-07",
+      "consigne": "La règle de volume : **trois à cinq lignes** par diapositive. En dessous, la diapositive ne justifie pas son existence ; au-delà, l'auditoire décroche et vous devrez de toute façon commenter ligne à ligne. Six lignes veulent presque toujours dire deux diapositives.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M06-L01-08",
+      "consigne": "==Alignez ce contenu à gauche==. Une liste centrée perd son intérêt : les débuts de ligne ne s'alignent plus, et l'œil doit chercher chaque entrée au lieu de descendre.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Réunion d'équipe"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Nos prestations",
+                "contenu": "Création de jardins\nEntretien annuel\nTaille et élagage"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Nos zones d'intervention",
+                "contenu": "Nantes\nRennes depuis 2025\nAngers depuis 2026"
+              }
+            }
+          ]
+        },
+        "slide": 2
+      },
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "ph:contenu",
+        "style": {
+          "align": "left"
+        }
+      },
+      "aide": {
+        "text": "Sélectionnez le bloc, puis le premier des trois boutons d'alignement."
+      }
+    },
+    {
+      "id": "M06-L01-09",
+      "consigne": "==Mettez le titre en gras==. Sur une diapositive en liste, le titre est le seul élément qui doit ressortir : il annonce ce que la liste énumère.",
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "ph:titre",
+        "style": {
+          "bold": true
+        }
+      }
+    },
+    {
+      "id": "M06-L01-10",
+      "consigne": "À retenir : **liste plutôt que paragraphe, trois à cinq lignes, pas de mots de liaison**. Ce qui disparaît de l'écran ne disparaît pas de votre présentation — cela redevient ce que vous dites, et c'est exactement là que ça doit être.",
+      "action": {
+        "type": "READ"
+      }
+    }
+  ]
+}

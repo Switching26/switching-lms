@@ -10,7 +10,24 @@
 
 import { useEffect, useState } from "react"
 import { createPortal } from "react-dom"
+import dynamic from "next/dynamic"
 import SimulationPlayer, { type EntreeSommaire } from "./SimulationPlayer"
+
+/*
+ * Les players d'application sont chargés À LA DEMANDE.
+ *
+ * Un import statique enverrait les trois surfaces — Univer Docs pour Word, la
+ * scène SVG de PowerPoint, le client de messagerie d'Outlook — dans le bundle
+ * de TOUS les chapitres, Excel compris. Mesuré : les trois codes occupent
+ * aujourd'hui 0 des 130 chunks client, et `/learner/formation` ne doit pas
+ * grossir pour des applications qu'un chapitre Excel n'ouvrira jamais.
+ *
+ * `ssr: false` est obligatoire pour Word : Univer n'est pas importable côté
+ * serveur (`opentype.js` casse). Les trois suivent la même règle par cohérence.
+ */
+const WordPlayer = dynamic(() => import("./word/WordPlayer"), { ssr: false })
+const PptPlayer = dynamic(() => import("./ppt/PptPlayer"), { ssr: false })
+const OutlookPlayer = dynamic(() => import("./outlook/OutlookPlayer"), { ssr: false })
 import type { SimulationScenario } from "@/lib/simulation/types"
 import type { LearnerDocument } from "@/lib/learner-files"
 
@@ -184,6 +201,9 @@ export default function SimulationChapter({
    */
   const PLAYERS: Partial<Record<NonNullable<Payload["app"]>, typeof SimulationPlayer>> = {
     EXCEL: SimulationPlayer,
+    WORD: WordPlayer as unknown as typeof SimulationPlayer,
+    POWERPOINT: PptPlayer as unknown as typeof SimulationPlayer,
+    OUTLOOK: OutlookPlayer as unknown as typeof SimulationPlayer,
   }
   const Player = PLAYERS[data.app ?? "EXCEL"] ?? SimulationPlayer
 

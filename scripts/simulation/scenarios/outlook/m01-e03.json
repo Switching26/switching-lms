@@ -1,0 +1,138 @@
+{
+  "schemaVersion": 1,
+  "title": "Répondre avec la bonne pièce jointe",
+  "mode": "EXERCISE",
+  "moduleTitle": "Prise en main d'Outlook",
+  "intro": {
+    "title": "Quatre fichiers se ressemblent, un seul convient",
+    "body": "Un client réclame le contrat signé de son escalier. Votre poste contient quatre fichiers dont les noms se ressemblent : une version de travail, une version définitive, un dossier photo très lourd, et la plaquette de l'atelier. Envoyer le mauvais, c'est au mieux un aller-retour de plus, au pire un document interne qui part chez un client."
+  },
+  "outro": {
+    "body": "Deux vérifications valent tous les rattrapages : lire le nom du fichier en entier avant de cliquer, et regarder son poids. Le nom vous dit si c'est le bon document, le poids vous dit s'il arrivera."
+  },
+  "ribbon": [],
+  "workbook": { "sheets": [] },
+
+  "courrier": {
+    "compte": { "nom": "Camille Aubertin", "adresse": "camille.aubertin@atelier-nord.fr" },
+    "dossiers": [{ "id": "clients", "nom": "Clients 2026" }],
+    "fichiers": [
+      { "nom": "Contrat-escalier-BROUILLON.pdf", "taille": "210 Ko" },
+      { "nom": "Contrat-escalier-signe.pdf", "taille": "312 Ko" },
+      { "nom": "Photos-escalier-HD.zip", "taille": "38 Mo" },
+      { "nom": "Plaquette-Atelier-Nord.pdf", "taille": "2,1 Mo" }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "messages": [
+      {
+        "id": "m-contrat",
+        "dossier": "reception",
+        "de": "j.leroux@habitat-du-nord.fr",
+        "a": ["camille.aubertin@atelier-nord.fr"],
+        "objet": "Escalier — exemplaire signé du contrat",
+        "corps": "Bonjour,\n\nPourriez-vous me renvoyer l'exemplaire signé du contrat de l'escalier ? Notre comptable en a besoin pour le dossier 2026-141.\n\nBien à vous,\nJulien Leroux\nHabitat du Nord",
+        "date": "2026-03-06T09:30",
+        "lu": false
+      },
+      {
+        "id": "m-relance",
+        "dossier": "reception",
+        "de": "offres@promo-outillage.net",
+        "a": ["camille.aubertin@atelier-nord.fr"],
+        "objet": "Dernier jour pour en profiter !!!",
+        "corps": "Nos promotions se terminent ce soir.",
+        "date": "2026-03-06T06:14",
+        "lu": false
+      }
+    ]
+  },
+
+  "steps": [
+    {
+      "id": "O01-E03-01",
+      "consigne": "Ouvrez la demande de Julien Leroux et lisez-la jusqu'au bout : elle contient une référence de dossier dont vous aurez besoin ensuite.",
+      "action": { "type": "O_SELECT_MESSAGE", "id": "m-contrat" },
+      "aide": { "text": "C'est le message dont l'objet parle d'un exemplaire signé." }
+    },
+    {
+      "id": "O01-E03-02",
+      "consigne": "Répondez-lui en joignant le document demandé — **celui qui est signé**, pas la version de travail. Laissez de côté le dossier photo : 38 Mo ne franchiront aucune messagerie d'entreprise.",
+      "setup": { "courrier": { "messageActif": "m-contrat" } },
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "genre": "reponse",
+          "a": { "contient": ["j.leroux@habitat-du-nord.fr"] },
+          "pieces": {
+            "contient": ["Contrat-escalier-signe.pdf"],
+            "absent": ["Contrat-escalier-BROUILLON.pdf", "Photos-escalier-HD.zip"]
+          }
+        }
+      },
+      "aide": { "text": "Utilisez Répondre plutôt qu'un nouveau message : le destinataire et l'objet sont alors repris automatiquement. La liste de Joindre affiche le nom complet et le poids de chaque fichier." }
+    },
+    {
+      "id": "O01-E03-03",
+      "consigne": "Complétez l'objet avec la référence du dossier citée par le client, `2026-141`, sans retirer le « RE : » du début.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "objet": { "prefixe": "RE", "contient": ["2026-141"] }
+        }
+      },
+      "aide": { "text": "La référence figure dans la dernière phrase du message du client." }
+    },
+    {
+      "id": "O01-E03-04",
+      "consigne": "Écrivez la réponse. Elle doit dire que **le document est joint** et rappeler **de quel document il s'agit** — un comptable qui reçoit une pièce jointe sans explication la met de côté.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "corps": {
+            "salutation": ["bonjour", "monsieur", "madame", "bonsoir"],
+            "cloture": ["cordialement", "salutations", "bien a vous", "merci"],
+            "notions": [
+              {
+                "libelle": "que le document est joint au message",
+                "oneOf": ["ci-joint", "ci joint", "joint", "en piece jointe", "vous trouverez", "en annexe"]
+              },
+              {
+                "libelle": "de quel document il s'agit",
+                "oneOf": ["contrat", "escalier", "2026-141", "signe"]
+              }
+            ],
+            "minMots": 10
+          }
+        }
+      },
+      "aide": { "text": "Deux informations sont attendues : la présence de la pièce jointe, et la nature du document." }
+    },
+    {
+      "id": "O01-E03-05",
+      "consigne": "Vérifiez une dernière fois le nom du fichier attaché, puis envoyez.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": { "contient": ["j.leroux@habitat-du-nord.fr"] },
+          "objet": { "prefixe": "RE", "contient": ["2026-141"] },
+          "pieces": {
+            "contient": ["Contrat-escalier-signe.pdf"],
+            "absent": ["Contrat-escalier-BROUILLON.pdf"]
+          }
+        }
+      },
+      "aide": { "text": "Le nom du fichier attaché s'affiche sous les lignes d'adresses, avec une croix pour le retirer si vous vous êtes trompé." }
+    }
+  ]
+}

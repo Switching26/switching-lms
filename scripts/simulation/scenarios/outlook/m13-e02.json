@@ -1,0 +1,214 @@
+{
+  "schemaVersion": 1,
+  "title": "Relancer un devis sans réponse",
+  "mode": "EXERCISE",
+  "moduleTitle": "Le premier contact commercial",
+  "intro": {
+    "title": "Trois semaines de silence, une échéance qui approche",
+    "body": "Le devis part le 15 avril, valable trente jours. Nous sommes le 6 mai et personne n'a répondu. La validité qui approche vous donne une raison factuelle de relancer — sans reproche, sans insistance, et sans réécrire le devis."
+  },
+  "outro": {
+    "body": "Une relance commerciale efficace ne demande pas de réponse : elle rappelle une échéance et propose une suite. C'est la différence entre « avez-vous reçu mon devis ? », qui met le client en position de se justifier, et « la validité court jusqu'au 15 », qui l'informe."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "prospects",
+        "nom": "Prospects"
+      },
+      {
+        "id": "clients",
+        "nom": "Clients 2026"
+      }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "fichiers": [
+      {
+        "nom": "Devis-2026-190.pdf",
+        "taille": "196 Ko"
+      },
+      {
+        "nom": "Devis-2026-190-BROUILLON.pdf",
+        "taille": "188 Ko"
+      },
+      {
+        "nom": "Plaquette-Atelier-Nord.pdf",
+        "taille": "2,1 Mo"
+      },
+      {
+        "nom": "Tarifs-achat-fournisseurs.pdf",
+        "taille": "96 Ko"
+      }
+    ],
+    "messages": [
+      {
+        "id": "m-env-devis",
+        "dossier": "envoyes",
+        "de": "camille.aubertin@atelier-nord.fr",
+        "a": [
+          "m.delcourt@brasserie-du-canal.fr"
+        ],
+        "objet": "RE : Comptoir et banquettes — devis 2026-190",
+        "corps": "Bonjour,\n\nVeuillez trouver notre devis 2026-190 pour le comptoir et les banquettes.\nIl est valable trente jours.\n\nCamille Aubertin",
+        "date": "2026-04-15T10:30",
+        "lu": true,
+        "pieces": [
+          {
+            "nom": "Devis-2026-190.pdf",
+            "taille": "196 Ko"
+          }
+        ]
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O13-E02-01",
+      "consigne": "Retrouvez votre envoi du 15 avril : il est dans le dossier qui garde une copie de tout ce qui part.",
+      "action": {
+        "type": "O_SELECT_FOLDER",
+        "dossier": "envoyes"
+      },
+      "aide": {
+        "text": "Éléments envoyés, colonne de gauche ; sur téléphone, derrière le bouton ☰."
+      }
+    },
+    {
+      "id": "O13-E02-02",
+      "consigne": "Renvoyez ce message à la Brasserie du Canal, de façon que le devis reparte avec — plutôt que de le rechercher sur votre poste.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "genre": "transfert",
+          "a": {
+            "contient": [
+              "m.delcourt@brasserie-du-canal.fr"
+            ]
+          },
+          "pieces": {
+            "contient": [
+              "Devis-2026-190.pdf"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Ouvrez votre envoi, puis Transférer : la pièce jointe suit toute seule."
+      }
+    },
+    {
+      "id": "O13-E02-03",
+      "consigne": "Complétez l'objet avec le mot `relance`, en gardant le préfixe posé par Outlook.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "objet": {
+            "prefixe": "TR",
+            "contient": [
+              "relance"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Ajoutez le mot à la fin ; un transfert porte « TR : », pas « RE : »."
+      }
+    },
+    {
+      "id": "O13-E02-04",
+      "consigne": "Rédigez la relance et envoyez-la. Elle doit citer **la date du premier envoi** et **l'échéance de validité** — et ne contenir aucun reproche.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "m.delcourt@brasserie-du-canal.fr"
+            ]
+          },
+          "objet": {
+            "prefixe": "TR",
+            "contient": [
+              "relance"
+            ]
+          },
+          "pieces": {
+            "contient": [
+              "Devis-2026-190.pdf"
+            ]
+          },
+          "corps": {
+            "salutation": [
+              "bonjour",
+              "madame",
+              "monsieur",
+              "bonsoir"
+            ],
+            "cloture": [
+              "cordialement",
+              "salutations",
+              "bien a vous",
+              "merci"
+            ],
+            "notions": [
+              {
+                "libelle": "la date du premier envoi",
+                "oneOf": [
+                  "15 avril",
+                  "15/04",
+                  "le 15",
+                  "mi-avril"
+                ]
+              },
+              {
+                "libelle": "l'échéance de validité",
+                "oneOf": [
+                  "15 mai",
+                  "trente jours",
+                  "30 jours",
+                  "validite",
+                  "valable",
+                  "expire",
+                  "echeance"
+                ]
+              }
+            ],
+            "interdit": [
+              {
+                "libelle": "un reproche ou une formule d'impatience",
+                "oneOf": [
+                  "sans reponse de votre part",
+                  "je m'etonne",
+                  "toujours rien",
+                  "comme je vous l'ai deja",
+                  "vous n'avez pas"
+                ]
+              }
+            ],
+            "minMots": 15
+          }
+        }
+      },
+      "aide": {
+        "text": "Deux informations sont attendues : la date d'envoi, et l'échéance."
+      }
+    }
+  ]
+}

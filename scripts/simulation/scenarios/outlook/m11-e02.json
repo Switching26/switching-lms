@@ -1,0 +1,263 @@
+{
+  "schemaVersion": 1,
+  "title": "Laisser une boîte propre",
+  "mode": "EXERCISE",
+  "moduleTitle": "Reprendre la boîte d'un collègue",
+  "intro": {
+    "title": "Dernier jour de remplacement",
+    "body": "Sonia revient demain. Ce qu'elle retrouvera en ouvrant sa boîte dépend entièrement de la demi-heure qui vient : ce qui est clos doit être rangé, ce qui attend doit être marqué, et un seul message doit lui dire ce qui s'est passé."
+  },
+  "outro": {
+    "body": "Une passation ne se mesure pas au nombre de messages traités mais au temps qu'elle fait gagner à celui qui revient. Trois gestes de rangement et un récapitulatif valent mieux qu'une boîte vide sans explication."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Sonia Brunel",
+      "adresse": "s.brunel@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "chantiers",
+        "nom": "Chantiers en cours"
+      },
+      {
+        "id": "fournisseurs",
+        "nom": "Fournisseurs"
+      }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Sonia Brunel\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "messages": [
+      {
+        "id": "m-relance",
+        "dossier": "reception",
+        "de": "marches@ville-lambersart.fr",
+        "a": [
+          "s.brunel@atelier-nord.fr"
+        ],
+        "objet": "Médiathèque — sans réponse depuis le 30 mars",
+        "corps": "Bonjour,\n\nNous restons sans réponse à notre demande de pièces complémentaires.\n\nService des marchés",
+        "date": "2026-04-07T08:00",
+        "lu": false
+      },
+      {
+        "id": "m-hugo",
+        "dossier": "reception",
+        "de": "h.vasseur@menuiserie-vasseur.fr",
+        "a": [
+          "s.brunel@atelier-nord.fr"
+        ],
+        "objet": "Pose de mardi — j'ai besoin d'une confirmation",
+        "corps": "Bonjour Sonia,\n\nJe pars sur Beaulieu mardi. Tu me confirmes que le matériel sera livré lundi ?\n\nHugo",
+        "date": "2026-04-07T07:40",
+        "lu": false
+      },
+      {
+        "id": "m-pub",
+        "dossier": "reception",
+        "de": "newsletter@bois-et-materiaux.info",
+        "a": [
+          "s.brunel@atelier-nord.fr"
+        ],
+        "objet": "La lettre du bois — 7 avril",
+        "corps": "L'actualité.",
+        "date": "2026-04-07T04:20",
+        "lu": false
+      },
+      {
+        "id": "m-env-pieces",
+        "dossier": "envoyes",
+        "de": "camille.aubertin@atelier-nord.fr",
+        "a": [
+          "marches@ville-lambersart.fr"
+        ],
+        "objet": "Médiathèque — pièces complémentaires transmises",
+        "corps": "Bonjour,\n\nVeuillez trouver les pièces complémentaires demandées pour le marché de la médiathèque.\n\nSonia Brunel",
+        "date": "2026-04-02T17:20",
+        "lu": true,
+        "pieces": [
+          {
+            "nom": "Pieces-complementaires-mediatheque.pdf",
+            "taille": "310 Ko"
+          }
+        ]
+      },
+      {
+        "id": "m-env-materiel",
+        "dossier": "envoyes",
+        "de": "camille.aubertin@atelier-nord.fr",
+        "a": [
+          "compta@quincaillerie-delmas.fr"
+        ],
+        "objet": "Commande CD-1310 — livraison confirmée pour le lundi 6 avril",
+        "corps": "Bonjour,\n\nLa livraison du matériel est confirmée pour le lundi 6 avril, matin.\n\nSonia Brunel",
+        "date": "2026-04-03T09:10",
+        "lu": true
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O11-E02-01",
+      "consigne": "Commencez par ce qui n'appelle rien : la lettre du bois.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-pub": {
+              "dossier": "supprimes"
+            }
+          }
+        }
+      },
+      "aide": {
+        "text": "Ouvrez le message, puis Supprimer."
+      }
+    },
+    {
+      "id": "O11-E02-02",
+      "consigne": "La relance de la médiathèque est traitée : vous avez renvoyé les pièces. Classez-la avec les chantiers en cours.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-relance": {
+              "dossier": "chantiers"
+            }
+          }
+        }
+      },
+      "aide": {
+        "text": "Déplacer, puis Chantiers en cours."
+      }
+    },
+    {
+      "id": "O11-E02-03",
+      "consigne": "Hugo attend une confirmation pour mardi : elle dépend d'une livraison que vous n'avez pas vue arriver. Traitez ce message de la façon qui le remettra sous les yeux de Sonia demain.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-hugo": {
+              "dossier": "reception",
+              "indicateur": true
+            }
+          }
+        }
+      },
+      "aide": {
+        "text": "Ouvrez le message, puis le drapeau. Ne le déplacez pas."
+      }
+    },
+    {
+      "id": "O11-E02-04",
+      "consigne": "Écrivez le récapitulatif de passation à `s.brunel@atelier-nord.fr`, avec `n.kerbaj@atelier-nord.fr` en copie, et un objet contenant le mot `passation`.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "genre": "nouveau",
+          "a": {
+            "contient": [
+              "s.brunel@atelier-nord.fr"
+            ],
+            "absent": [
+              "n.kerbaj@atelier-nord.fr"
+            ]
+          },
+          "cc": {
+            "contient": [
+              "n.kerbaj@atelier-nord.fr"
+            ]
+          },
+          "objet": {
+            "contient": [
+              "passation"
+            ],
+            "nonVide": true
+          }
+        }
+      },
+      "aide": {
+        "text": "Nouveau message ; le titulaire dans À, la gérante dans Cc."
+      }
+    },
+    {
+      "id": "O11-E02-05",
+      "consigne": "Rédigez-le et envoyez-le. Deux points suffisent : **ce que vous avez traité** et **ce qui reste en attente** pour son retour.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "s.brunel@atelier-nord.fr"
+            ]
+          },
+          "cc": {
+            "contient": [
+              "n.kerbaj@atelier-nord.fr"
+            ]
+          },
+          "objet": {
+            "contient": [
+              "passation"
+            ]
+          },
+          "corps": {
+            "salutation": [
+              "bonjour",
+              "sonia",
+              "bonsoir",
+              "salut"
+            ],
+            "cloture": [
+              "merci",
+              "cordialement",
+              "bon retour",
+              "a demain",
+              "bien a toi"
+            ],
+            "notions": [
+              {
+                "libelle": "ce que vous avez traité",
+                "oneOf": [
+                  "mediatheque",
+                  "pieces",
+                  "renvoye",
+                  "transmis",
+                  "traite"
+                ]
+              },
+              {
+                "libelle": "ce qui reste en attente",
+                "oneOf": [
+                  "hugo",
+                  "confirmation",
+                  "livraison",
+                  "mardi",
+                  "en attente",
+                  "reste"
+                ]
+              }
+            ],
+            "minMots": 15
+          }
+        }
+      },
+      "aide": {
+        "text": "Deux informations sont attendues : le traité, et l'ouvert."
+      }
+    }
+  ]
+}

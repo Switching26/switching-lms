@@ -1,0 +1,120 @@
+{
+ "schemaVersion": 1,
+ "app": "WORD",
+ "title": "Relire un bon de commande",
+ "mode": "EXERCISE",
+ "moduleTitle": "Correction d'un document",
+ "intro": {
+  "title": "À VOUS",
+  "body": "Un bon de commande part chez un client. Trois signalements : deux fautes réelles, et le nom du client. Tranchez entrée par entrée."
+ },
+ "outro": "Un nom de client corrigé d'office, c'est un client qui se sent mal connu.",
+ "document": {
+  "paragraphes": [
+   {
+    "texte": "Bon de comande",
+    "style": "titre"
+   },
+   {
+    "texte": "La livrason est prévue sous quinze jours ouvrés.",
+    "style": "normal"
+   },
+   {
+    "texte": "Le client Belloir a validé le devis par courriel.",
+    "style": "normal"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "id": "M17-E01-01",
+   "consigne": "==Ouvrez le panneau Vérification.== Onglet Révision.",
+   "action": {
+    "type": "W_CLICK_CONTROL",
+    "controle": "w-verification"
+   },
+   "setup": {
+    "ribbon": {
+     "activeTab": "revision"
+    },
+    "correcteur": {
+     "fautes": [
+      {
+       "mot": "livrason",
+       "suggestion": "livraison",
+       "motif": "Lettre manquante."
+      },
+      {
+       "mot": "comande",
+       "suggestion": "commande",
+       "motif": "Consonne simple à tort."
+      },
+      {
+       "mot": "Belloir",
+       "suggestion": "Belloire",
+       "motif": "Mot absent du dictionnaire."
+      }
+     ]
+    }
+   },
+   "aide": {
+    "text": "Onglet « Révision », bouton « Vérifier ».",
+    "showTarget": true
+   },
+   "feedback": "Trois entrées à trancher."
+  },
+  {
+   "id": "M17-E01-02",
+   "consigne": "==Corrigez les deux fautes, ignorez le nom du client.== « Belloir » est le nom d'une entreprise cliente : la suggestion du correcteur est fausse.",
+   "action": {
+    "type": "W_EXPECT_DOC",
+    "paragraphes": {
+     "p0": [
+      "Bon de commande"
+     ],
+     "p1": [
+      "La livraison est prévue sous quinze jours ouvrés."
+     ],
+     "p2": [
+      "Le client Belloir a validé le devis par courriel."
+     ]
+    }
+   },
+   "setup": {
+    "correcteur": {
+     "fautes": [
+      {
+       "mot": "livrason",
+       "suggestion": "livraison",
+       "motif": "Lettre manquante."
+      },
+      {
+       "mot": "comande",
+       "suggestion": "commande",
+       "motif": "Consonne simple à tort."
+      },
+      {
+       "mot": "Belloir",
+       "suggestion": "Belloire",
+       "motif": "Mot absent du dictionnaire."
+      }
+     ]
+    }
+   },
+   "aide": {
+    "text": "« Corriger » deux fois, « Ignorer » sur « Belloir ».",
+    "showTarget": true
+   },
+   "feedback": "Deux fautes réparées, le nom du client intact."
+  },
+  {
+   "id": "M17-E01-03",
+   "points": 0,
+   "action": {
+    "type": "READ"
+   },
+   "consigne": "Vous venez de faire trois fois le même geste mental : **lire la suggestion, puis décider**. C'est ce geste qui distingue une relecture d'un clic répété sur « Corriger ».",
+   "feedback": "Lire avant d'accepter : la seule règle du correcteur."
+  }
+ ]
+}

@@ -1,0 +1,232 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "mode": "LESSON",
+  "moduleTitle": "Des chiffres sans tableau",
+  "title": "Un chiffre par diapositive",
+  "intro": {
+    "title": "Un chiffre par diapositive",
+    "body": "Un tableau projeté ne se lit pas : les colonnes sont trop petites, et le public cherche la ligne dont vous parlez. La parade tient en une règle — un seul chiffre par écran, en grand, avec ce qu'il veut dire."
+  },
+  "outro": {
+    "body": "Trois chiffres, trois écrans, trois messages. La leçon suivante traite le cas où deux chiffres doivent être vus ensemble."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "ppt": {
+    "fileName": "Transports Ghiselli.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Transports Ghiselli",
+          "sous-titre": "Bilan d'exploitation présenté aux associés"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Activité 2026",
+          "contenu": "Tournées effectuées : 12 480\nKilomètres parcourus : 1 437 892\nTaux de remplissage : 78,4 %\nLivraisons à l'heure : 96,2 %\nRetours à vide : 11,3 %"
+        }
+      },
+      {
+        "layout": "titre-seul",
+        "textes": {
+          "titre": "Deuxième point"
+        }
+      },
+      {
+        "layout": "titre-seul",
+        "textes": {
+          "titre": "Troisième point"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M14-L01-01",
+      "consigne": "Cinq indicateurs sur un écran, c'est un tableau — et un tableau projeté ne se lit pas. Le public parcourt les cinq lignes, cherche celle dont vous parlez, et **n'en retient aucune**. La règle est brutale mais elle marche : un chiffre par diapositive.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M14-L01-02",
+      "consigne": "==Affichez la deuxième diapositive==, celle qui porte les cinq indicateurs.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 1
+      }
+    },
+    {
+      "id": "M14-L01-03",
+      "consigne": "Sur ces cinq lignes, une seule porte votre message : **96,2 % de livraisons à l'heure**. Les quatre autres l'entourent, la diluent, et donnent au public quatre occasions de regarder ailleurs.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M14-L01-04",
+      "consigne": "==Remplacez son titre par 96,2 % de livraisons à l'heure==. Le chiffre monte dans le titre : c'est la ligne la plus grande de l'écran, et souvent la seule qui sera lue.",
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:titre",
+        "accept": [
+          "96,2 % de livraisons à l'heure"
+        ]
+      },
+      "aide": {
+        "text": "Un titre déjà rempli s'ouvre au double-clic."
+      }
+    },
+    {
+      "id": "M14-L01-05",
+      "consigne": "==Remplacez son contenu== par : Sur 12 480 tournées, Deux points de mieux qu'en 2025. Le contenu ne répète pas le chiffre — il dit **d'où il sort** et **ce qu'il vaut**.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Transports Ghiselli",
+                "sous-titre": "Bilan d'exploitation présenté aux associés"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "96,2 % de livraisons à l'heure",
+                "contenu": "Tournées effectuées : 12 480\nKilomètres parcourus : 1 437 892\nTaux de remplissage : 78,4 %\nLivraisons à l'heure : 96,2 %\nRetours à vide : 11,3 %"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Deuxième point"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Troisième point"
+              }
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:contenu",
+        "accept": [
+          "Sur 12 480 tournées\nDeux points de mieux qu'en 2025",
+          "Sur 12 480 tournées, Deux points de mieux qu'en 2025"
+        ]
+      },
+      "feedback": "Un chiffre, son assiette, sa comparaison : c'est tout ce qu'un indicateur demande."
+    },
+    {
+      "id": "M14-L01-06",
+      "consigne": "==Mettez ce titre en gras==. Un chiffre-titre doit gagner la bataille du regard contre tout le reste de l'écran.",
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "ph:titre",
+        "style": {
+          "bold": true
+        }
+      },
+      "aide": {
+        "text": "Sélectionnez le titre d'un clic, puis bouton G du groupe Police."
+      }
+    },
+    {
+      "id": "M14-L01-07",
+      "consigne": "==Affichez la troisième diapositive==, encore vide, pour y placer le deuxième indicateur.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 2
+      }
+    },
+    {
+      "id": "M14-L01-08",
+      "consigne": "==Donnez-lui la disposition Titre et contenu== : il lui faut un cadre sous le titre pour porter l'explication du chiffre.",
+      "action": {
+        "type": "P_SET_LAYOUT",
+        "layout": "titre-et-contenu"
+      },
+      "aide": {
+        "text": "Groupe Diapositives, bouton Disposition, puis « Titre et contenu »."
+      }
+    },
+    {
+      "id": "M14-L01-09",
+      "consigne": "==Écrivez son titre== : 78,4 % de remplissage.",
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:titre",
+        "accept": [
+          "78,4 % de remplissage"
+        ]
+      }
+    },
+    {
+      "id": "M14-L01-10",
+      "consigne": "==Écrivez son contenu== : Moyenne sur l'année, Objectif fixé à 80 %. Même structure que la précédente — et cette régularité est ce qui rend une série de chiffres lisible.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Transports Ghiselli",
+                "sous-titre": "Bilan d'exploitation présenté aux associés"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "96,2 % de livraisons à l'heure",
+                "contenu": "Sur 12 480 tournées\nDeux points de mieux qu'en 2025"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "78,4 % de remplissage"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Troisième point"
+              }
+            }
+          ]
+        },
+        "slide": 2
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:contenu",
+        "accept": [
+          "Moyenne sur l'année\nObjectif fixé à 80 %",
+          "Moyenne sur l'année, Objectif fixé à 80 %"
+        ]
+      }
+    },
+    {
+      "id": "M14-L01-11",
+      "consigne": "À retenir : **un chiffre par écran, dans le titre, en gras**, et sous lui son assiette et sa comparaison. Une présentation de dix indicateurs fait dix diapositives — c'est beaucoup moins long à traverser qu'un seul tableau que personne ne lit.",
+      "action": {
+        "type": "READ"
+      }
+    }
+  ]
+}

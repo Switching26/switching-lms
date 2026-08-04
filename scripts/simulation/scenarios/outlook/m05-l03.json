@@ -1,0 +1,244 @@
+{
+  "schemaVersion": 1,
+  "title": "Classer pour ne plus avoir à chercher",
+  "mode": "LESSON",
+  "moduleTitle": "Retrouver l'information dans une boîte chargée",
+  "intro": {
+    "title": "La recherche répare, le classement évite",
+    "body": "Chercher, c'est réparer un rangement qu'on n'a pas fait. Deux dossiers suffisent à l'Atelier Nord — les clients et les fournisseurs — à condition qu'un message y aille dès qu'il est traité. Vous allez vider une boîte de six messages en quatre décisions, et voir ce qui doit rester."
+  },
+  "outro": {
+    "body": "Le critère de classement n'est pas le sujet du message mais « qui l'a écrit » : un client, un fournisseur, ou personne d'utile. C'est ce qui rend la décision instantanée. Et ce qui reste dans la file d'attente devient, par élimination, votre liste de choses à faire."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "clients",
+        "nom": "Clients 2026"
+      },
+      {
+        "id": "fournisseurs",
+        "nom": "Fournisseurs"
+      }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "messages": [
+      {
+        "id": "m-devis-mairie",
+        "dossier": "reception",
+        "de": "marches@ville-lambersart.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Salle des mariages — devis MP-2026-24",
+        "corps": "Bonjour,\n\nNous accusons réception de votre devis MP-2026-24.\n\nService des marchés",
+        "date": "2026-03-23T09:40",
+        "lu": true
+      },
+      {
+        "id": "m-escalier",
+        "dossier": "reception",
+        "de": "j.leroux@habitat-du-nord.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Escalier Beaulieu — retouche de la main courante",
+        "corps": "Bonjour,\n\nUn léger jeu subsiste sur la main courante.\n\nJulien Leroux",
+        "date": "2026-03-23T08:55",
+        "lu": false
+      },
+      {
+        "id": "m-releve",
+        "dossier": "reception",
+        "de": "compta@quincaillerie-delmas.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Relevé de compte — mars 2026",
+        "corps": "Bonjour,\n\nVotre relevé du mois est joint.\n\nQuincaillerie Delmas",
+        "date": "2026-03-22T17:10",
+        "lu": true,
+        "pieces": [
+          {
+            "nom": "Releve-mars-2026.pdf",
+            "taille": "94 Ko"
+          }
+        ]
+      },
+      {
+        "id": "m-vitrine",
+        "dossier": "reception",
+        "de": "contact@fleurs-de-saison.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Vitrine — pose confirmée pour le 30 mars",
+        "corps": "Bonjour,\n\nNous confirmons la pose de la vitrine le 30 mars.\n\nFleurs de Saison",
+        "date": "2026-03-22T14:02",
+        "lu": true
+      },
+      {
+        "id": "m-plans",
+        "dossier": "reception",
+        "de": "h.vasseur@menuiserie-vasseur.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Plans de l'escalier Beaulieu — version 3",
+        "corps": "Bonjour Camille,\n\nVoici la version 3 des plans.\n\nHugo",
+        "date": "2026-03-21T16:20",
+        "lu": true,
+        "pieces": [
+          {
+            "nom": "Plans-escalier-v3.pdf",
+            "taille": "1,4 Mo"
+          }
+        ]
+      },
+      {
+        "id": "m-pub",
+        "dossier": "reception",
+        "de": "offres@promo-outillage.net",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Nouveautés de la semaine",
+        "corps": "Nos nouveautés.",
+        "date": "2026-03-23T05:10",
+        "lu": false
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O05-L03-01",
+      "consigne": "==Supprimez la publicité `Nouveautés de la semaine`.== Première décision, la plus rapide : ce qui n'appelle aucune action ne mérite ni lecture, ni classement.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-pub": {
+              "dossier": "supprimes"
+            }
+          }
+        }
+      },
+      "aide": {
+        "text": "Ouvrez le message, puis Supprimer dans la barre du haut."
+      }
+    },
+    {
+      "id": "O05-L03-02",
+      "consigne": "==Rangez le relevé de la Quincaillerie Delmas dans Fournisseurs.== Le critère n'est pas le sujet du message : c'est **qui l'écrit**. Un fournisseur va chez les fournisseurs, quel que soit son propos.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-releve": {
+              "dossier": "fournisseurs"
+            }
+          }
+        }
+      },
+      "aide": {
+        "text": "Ouvrez le message, puis Déplacer, puis Fournisseurs."
+      }
+    },
+    {
+      "id": "O05-L03-03",
+      "consigne": "==Rangez la confirmation de Fleurs de Saison dans Clients 2026.== La pose est calée, le message n'attend plus rien de vous : il sort de la file d'attente.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-vitrine": {
+              "dossier": "clients"
+            }
+          }
+        }
+      },
+      "aide": {
+        "text": "Même geste : Déplacer, puis le dossier des clients."
+      }
+    },
+    {
+      "id": "O05-L03-04",
+      "consigne": "==Rangez l'accusé de réception de la mairie dans Clients 2026.== Une collectivité est un client comme un autre : deux dossiers suffisent tant qu'on s'y tient.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-devis-mairie": {
+              "dossier": "clients"
+            }
+          }
+        }
+      },
+      "aide": {
+        "text": "Déplacer, puis Clients 2026."
+      }
+    },
+    {
+      "id": "O05-L03-05",
+      "consigne": "==Posez un indicateur sur la demande de retouche de Julien Leroux.== Elle, en revanche, **attend une action** : elle reste dans la file d'attente, marquée pour ne pas se noyer dans les arrivées de demain.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-escalier": {
+              "dossier": "reception",
+              "indicateur": true
+            }
+          }
+        }
+      },
+      "aide": {
+        "text": "Ouvrez le message, puis cliquez sur le drapeau. Ne le déplacez pas."
+      }
+    },
+    {
+      "id": "O05-L03-06",
+      "consigne": "==Posez un indicateur sur les plans d'Hugo Vasseur.== Ils attendent votre relecture : deux messages restent, et ce sont exactement vos deux tâches du jour.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-plans": {
+              "dossier": "reception",
+              "indicateur": true
+            }
+          }
+        }
+      },
+      "aide": {
+        "text": "Ouvrez le message, puis le drapeau."
+      }
+    },
+    {
+      "id": "O05-L03-07",
+      "consigne": "==Ouvrez le dossier Clients 2026.== Deux messages y sont, entiers. Ce contrôle est ce qui donne le courage de vider sa boîte sans crainte de perdre quelque chose.",
+      "action": {
+        "type": "O_SELECT_FOLDER",
+        "dossier": "clients"
+      },
+      "aide": {
+        "text": "Colonne de gauche ; sur téléphone, derrière le bouton ☰ de la liste."
+      }
+    }
+  ]
+}

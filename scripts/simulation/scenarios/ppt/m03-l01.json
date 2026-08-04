@@ -1,0 +1,296 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "mode": "LESSON",
+  "moduleTitle": "Mettre en forme le texte",
+  "title": "Sélectionner ce que l'on veut mettre en forme",
+  "intro": {
+    "title": "Sélectionner ce que l'on veut mettre en forme",
+    "body": "Aucun bouton de mise en forme ne s'applique « à la diapositive » : tous agissent sur ce qui est sélectionné, et sur rien d'autre. Cette leçon installe le réflexe qui conditionne tout le module — désigner d'abord, agir ensuite."
+  },
+  "outro": {
+    "body": "Le réflexe est posé. La leçon suivante peut passer aux trois attributs de caractère et à leur usage."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "ppt": {
+    "fileName": "Engagements Verdeval.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Verdeval",
+          "sous-titre": "Nos engagements 2027"
+        }
+      },
+      {
+        "layout": "titre-seul",
+        "textes": {
+          "titre": "Nos trois engagements"
+        },
+        "objets": [
+          {
+            "id": "zt-e1",
+            "objectType": "texte",
+            "texte": "Zéro produit phytosanitaire",
+            "rect": {
+              "x": 70,
+              "y": 170,
+              "w": 500,
+              "h": 60
+            }
+          },
+          {
+            "id": "zt-e2",
+            "objectType": "texte",
+            "texte": "Tonte raisonnée d'avril à septembre",
+            "rect": {
+              "x": 70,
+              "y": 270,
+              "w": 500,
+              "h": 60
+            }
+          },
+          {
+            "id": "zt-e3",
+            "objectType": "texte",
+            "texte": "Compost produit sur place",
+            "rect": {
+              "x": 70,
+              "y": 370,
+              "w": 500,
+              "h": 60
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M03-L01-01",
+      "consigne": "Un bouton de mise en forme ne demande jamais « sur quoi ? » : il agit sur ce qui est **sélectionné**. Un élément sélectionné se reconnaît à son cadre bleu et à ses poignées. Sans sélection, cliquer sur Gras ne produit rien — pas d'erreur, pas de message, simplement rien.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M03-L01-02",
+      "consigne": "==Affichez la deuxième diapositive==. Elle liste trois engagements, chacun dans sa propre zone de texte.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 1
+      }
+    },
+    {
+      "id": "M03-L01-03",
+      "consigne": "==Cliquez une fois sur le premier engagement==, celui qui parle des produits phytosanitaires. Un seul clic : le double-clic ouvrirait la saisie, ce qui n'est pas ce que vous voulez ici.",
+      "action": {
+        "type": "P_SELECT_OBJECT",
+        "objectId": "zt-e1"
+      },
+      "aide": {
+        "text": "C'est la première des trois lignes, en haut à gauche."
+      },
+      "feedback": "Le cadre bleu marque l'élément qui recevra vos prochaines commandes."
+    },
+    {
+      "id": "M03-L01-04",
+      "consigne": "==Cliquez sur G, dans le groupe Police==. Le gras s'applique à cette ligne, et à elle seule : les deux autres n'ont pas bougé. C'est la démonstration de la règle.",
+      "setupPpt": {
+        "slide": 1
+      },
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "zt-e1",
+        "style": {
+          "bold": true
+        }
+      },
+      "aide": {
+        "text": "Le bouton G est le premier du groupe Police, juste après le groupe Objet."
+      }
+    },
+    {
+      "id": "M03-L01-05",
+      "consigne": "Cliquer sur un autre élément **change** la sélection ; cliquer sur le fond de la diapositive l'annule. Il n'y a jamais deux sélections concurrentes : ce qui est sélectionné est ce qui recevra la commande, et c'est toujours visible à l'écran.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M03-L01-06",
+      "consigne": "==Cliquez sur le deuxième engagement==, celui de la tonte. Le cadre bleu quitte le premier pour venir sur celui-ci.",
+      "action": {
+        "type": "P_SELECT_OBJECT",
+        "objectId": "zt-e2"
+      }
+    },
+    {
+      "id": "M03-L01-07",
+      "consigne": "==Mettez cette ligne en italique==, avec le bouton I du groupe Police. Vous vérifiez au passage que la première ligne, elle, est restée en gras et n'est pas devenue italique.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Nos engagements 2027"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Nos trois engagements"
+              },
+              "objets": [
+                {
+                  "id": "zt-e1",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 70,
+                    "y": 170,
+                    "w": 500,
+                    "h": 60
+                  },
+                  "texte": "Zéro produit phytosanitaire",
+                  "style": {
+                    "bold": true
+                  }
+                },
+                {
+                  "id": "zt-e2",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 70,
+                    "y": 270,
+                    "w": 500,
+                    "h": 60
+                  },
+                  "texte": "Tonte raisonnée d'avril à septembre"
+                },
+                {
+                  "id": "zt-e3",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 70,
+                    "y": 370,
+                    "w": 500,
+                    "h": 60
+                  },
+                  "texte": "Compost produit sur place"
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "zt-e2",
+        "style": {
+          "italic": true
+        }
+      },
+      "aide": {
+        "text": "Le bouton I suit immédiatement le bouton G."
+      }
+    },
+    {
+      "id": "M03-L01-08",
+      "consigne": "Sur un ordinateur, **Maj + clic** ajoute un élément à la sélection : on peut alors mettre en forme plusieurs zones d'un coup. Sur tablette ou téléphone, cette combinaison n'existe pas — on traite les éléments un par un, et le résultat est exactement le même.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M03-L01-09",
+      "consigne": "==Sélectionnez le troisième engagement et mettez-le en gras==, comme le premier. Deux gestes, dans l'ordre : désigner, puis agir.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Nos engagements 2027"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Nos trois engagements"
+              },
+              "objets": [
+                {
+                  "id": "zt-e1",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 70,
+                    "y": 170,
+                    "w": 500,
+                    "h": 60
+                  },
+                  "texte": "Zéro produit phytosanitaire",
+                  "style": {
+                    "bold": true
+                  }
+                },
+                {
+                  "id": "zt-e2",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 70,
+                    "y": 270,
+                    "w": 500,
+                    "h": 60
+                  },
+                  "texte": "Tonte raisonnée d'avril à septembre",
+                  "style": {
+                    "italic": true
+                  }
+                },
+                {
+                  "id": "zt-e3",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 70,
+                    "y": 370,
+                    "w": 500,
+                    "h": 60
+                  },
+                  "texte": "Compost produit sur place"
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "zt-e3",
+        "style": {
+          "bold": true
+        }
+      },
+      "aide": {
+        "text": "Cliquez d'abord sur la ligne du compost, puis sur le bouton G."
+      }
+    },
+    {
+      "id": "M03-L01-10",
+      "consigne": "À retenir : **désigner, puis agir**. Un clic simple sélectionne, un double-clic ouvre la saisie, un clic sur le fond annule. Si un bouton semble ne rien faire, la première question à se poser est : qu'est-ce qui est sélectionné ?",
+      "action": {
+        "type": "READ"
+      }
+    }
+  ]
+}

@@ -1,0 +1,196 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "mode": "EXERCISE",
+  "moduleTitle": "Des chiffres sans tableau",
+  "title": "Sortir le chiffre du tableau",
+  "intro": {
+    "title": "Sortir le chiffre du tableau",
+    "body": "Le Comptoir Lavaux a collé ses six indicateurs sur un écran. Un seul porte le message : remontez-le en titre, gardez sous lui son assiette et sa comparaison, et faites de même sur la diapositive suivante."
+  },
+  "outro": {
+    "body": "Deux indicateurs sortis du pavé, deux écrans qui se lisent en deux secondes."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "ppt": {
+    "fileName": "Comptoir Lavaux.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Comptoir Lavaux",
+          "sous-titre": "Revue d'activité du premier semestre"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Indicateurs du semestre",
+          "contenu": "Commandes traitées : 8 940\nDélai moyen d'expédition : 1,8 jour\nTaux de réclamation : 2,1 %\nPanier moyen : 84,60 €\nClients actifs : 1 260\nRuptures de stock : 37"
+        }
+      },
+      {
+        "layout": "titre-seul",
+        "textes": {
+          "titre": "Deuxième indicateur"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M14-E01-01",
+      "consigne": "Affichez la deuxième diapositive, celle des six indicateurs.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 1
+      }
+    },
+    {
+      "id": "M14-E01-02",
+      "consigne": "Le message du semestre, c'est le délai d'expédition. Remplacez le titre par 1,8 jour d'expédition en moyenne.",
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:titre",
+        "accept": [
+          "1,8 jour d'expédition en moyenne"
+        ]
+      },
+      "aide": {
+        "text": "Un titre déjà rempli s'ouvre au double-clic."
+      }
+    },
+    {
+      "id": "M14-E01-03",
+      "consigne": "Remplacez le contenu par : Sur 8 940 commandes, Objectif fixé à 2 jours. L'assiette, puis la comparaison — jamais le chiffre une seconde fois.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Comptoir Lavaux",
+                "sous-titre": "Revue d'activité du premier semestre"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "1,8 jour d'expédition en moyenne",
+                "contenu": "Commandes traitées : 8 940\nDélai moyen d'expédition : 1,8 jour\nTaux de réclamation : 2,1 %\nPanier moyen : 84,60 €\nClients actifs : 1 260\nRuptures de stock : 37"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Deuxième indicateur"
+              }
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:contenu",
+        "accept": [
+          "Sur 8 940 commandes\nObjectif fixé à 2 jours",
+          "Sur 8 940 commandes, Objectif fixé à 2 jours"
+        ]
+      },
+      "aide": {
+        "text": "Double-cliquez dans le contenu pour l'ouvrir, puis remplacez tout."
+      }
+    },
+    {
+      "id": "M14-E01-04",
+      "consigne": "Mettez ce titre en gras.",
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "ph:titre",
+        "style": {
+          "bold": true
+        }
+      },
+      "aide": {
+        "text": "Sélectionnez le titre d'un clic, puis bouton G du groupe Police."
+      }
+    },
+    {
+      "id": "M14-E01-05",
+      "consigne": "Affichez la troisième diapositive, encore vide.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 2
+      }
+    },
+    {
+      "id": "M14-E01-06",
+      "consigne": "Donnez-lui la disposition Titre et contenu.",
+      "action": {
+        "type": "P_SET_LAYOUT",
+        "layout": "titre-et-contenu"
+      },
+      "aide": {
+        "text": "Groupe Diapositives, bouton Disposition, puis « Titre et contenu »."
+      }
+    },
+    {
+      "id": "M14-E01-07",
+      "consigne": "Écrivez son titre : 2,1 % de réclamations.",
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:titre",
+        "accept": [
+          "2,1 % de réclamations"
+        ]
+      }
+    },
+    {
+      "id": "M14-E01-08",
+      "consigne": "Écrivez son contenu : Sur 8 940 commandes, Un point de moins qu'au semestre passé.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Comptoir Lavaux",
+                "sous-titre": "Revue d'activité du premier semestre"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "1,8 jour d'expédition en moyenne",
+                "contenu": "Sur 8 940 commandes\nObjectif fixé à 2 jours"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "2,1 % de réclamations"
+              }
+            }
+          ]
+        },
+        "slide": 2
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:contenu",
+        "accept": [
+          "Sur 8 940 commandes\nUn point de moins qu'au semestre passé",
+          "Sur 8 940 commandes, Un point de moins qu'au semestre passé"
+        ]
+      },
+      "feedback": "Deux écrans de même structure : c'est cette régularité qui rend une série d'indicateurs suivable."
+    }
+  ]
+}

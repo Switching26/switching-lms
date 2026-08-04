@@ -1,0 +1,138 @@
+{
+  "schemaVersion": 1,
+  "app": "WORD",
+  "title": "Évaluation — Pour commencer",
+  "mode": "EVALUATION",
+  "moduleTitle": "Pour commencer",
+  "intro": {
+    "title": "ÉVALUATION DU MODULE",
+    "body": "Quatorze gestes notés, sans indice et sans démonstration. Chaque geste compte au premier essai : relisez la consigne avant d'agir. Vous pouvez passer une question, mais elle sera comptée comme ratée."
+  },
+  "outro": "Évaluation terminée. Vous pouvez la repasser autant de fois que vous le souhaitez : seule votre meilleure note est conservée, et chaque nouveau passage repart de zéro sur un document neuf.",
+  "document": {
+    "paragraphes": [
+      { "texte": "Note d'information" },
+      { "texte": "Ateliers Rivedoux — service des ressources humaines" },
+      { "texte": "Fermeture annuelle" },
+      { "texte": "Les ateliers seront fermés du " },
+      { "texte": "Congés" },
+      { "texte": "Les demandes de congés sont à déposer avant le 30 avril." },
+      { "texte": "Astreinte" },
+      { "texte": "Une astreinte téléphonique sera assurée par le service technique." }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M01-EV01-01",
+      "consigne": "Voici une note d'information rédigée d'un seul jet : une phrase est restée en plan, aucun paragraphe ne porte de style, et rien ne ressort. Vous allez la terminer, lui donner une structure et mettre en évidence les trois informations que le lecteur doit retenir. Les consignes disent ce qu'il faut obtenir, jamais quel bouton employer.",
+      "action": { "type": "READ" },
+      "points": 0
+    },
+    {
+      "id": "M01-EV01-02",
+      "consigne": "La phrase de la fermeture s'arrête au milieu. Complétez-la, sans créer de nouveau paragraphe, pour qu'elle se lise exactement : Les ateliers seront fermés du 3 au 24 août.",
+      "action": {
+        "type": "W_EXPECT_DOC",
+        "paragraphes": {
+          "p3": ["Les ateliers seront fermés du 3 au 24 août."]
+        }
+      },
+      "points": 2
+    },
+    {
+      "id": "M01-EV01-03",
+      "consigne": "Donnez au premier paragraphe la nature d'un titre de document — sa nature, pas son apparence.",
+      "setup": { "ribbon": { "activeTab": "accueil" } },
+      "action": { "type": "W_EXPECT_STYLE", "zone": "p0", "style": { "style": "Titre" } },
+      "points": 1
+    },
+    {
+      "id": "M01-EV01-04",
+      "consigne": "La ligne qui identifie le service vient juste en dessous du titre : donnez-lui la nature correspondante.",
+      "action": { "type": "W_EXPECT_STYLE", "zone": "p1", "style": { "style": "Sous-titre" } },
+      "points": 1
+    },
+    {
+      "id": "M01-EV01-05",
+      "consigne": "Cette note comporte trois sections de même importance. Faites de « Fermeture annuelle » une section de premier niveau.",
+      "action": { "type": "W_EXPECT_STYLE", "zone": "p2", "style": { "style": "Titre 1" } },
+      "points": 1
+    },
+    {
+      "id": "M01-EV01-06",
+      "consigne": "Traitez « Congés » de la même façon que la section précédente.",
+      "action": { "type": "W_EXPECT_STYLE", "zone": "p4", "style": { "style": "Titre 1" } },
+      "points": 1
+    },
+    {
+      "id": "M01-EV01-07",
+      "consigne": "Faites de même pour « Astreinte » : trois sections de même rang doivent porter le même style.",
+      "action": { "type": "W_EXPECT_STYLE", "zone": "p6", "style": { "style": "Titre 1" } },
+      "points": 1
+    },
+    {
+      "id": "M01-EV01-08",
+      "consigne": "Placez le titre de la note au milieu de la page.",
+      "action": { "type": "W_EXPECT_STYLE", "zone": "p0", "style": { "alignement": "centre" } },
+      "points": 1
+    },
+    {
+      "id": "M01-EV01-09",
+      "consigne": "Les dates de fermeture sont l'information la plus importante de la note. Désignez le passage « 3 au 24 août », puis épaississez-le sans toucher à la souris.",
+      "action": { "type": "W_KEY", "touches": ["Ctrl", "B"] },
+      "points": 2
+    },
+    {
+      "id": "M01-EV01-10",
+      "consigne": "Contrôlez le résultat dans le document : le passage « 3 au 24 août » doit être épaissi, et lui seul.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "texte:3 au 24 août",
+        "format": { "gras": true }
+      },
+      "points": 1
+    },
+    {
+      "id": "M01-EV01-11",
+      "consigne": "Vous vous ravisez. Défaites votre dernier geste sans retoucher le texte à la main.",
+      "action": { "type": "W_CLICK_CONTROL", "controle": "w-annuler" },
+      "points": 1
+    },
+    {
+      "id": "M01-EV01-12",
+      "consigne": "Finalement, l'épaississement était le bon choix : remettez-le, toujours sans repasser par le groupe Police.",
+      "action": { "type": "W_CLICK_CONTROL", "controle": "w-retablir" },
+      "points": 1
+    },
+    {
+      "id": "M01-EV01-13",
+      "consigne": "L'échéance de dépôt des demandes doit être repérable. Soulignez le passage « 30 avril », et lui seul.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "texte:30 avril",
+        "format": { "souligne": true }
+      },
+      "points": 1
+    },
+    {
+      "id": "M01-EV01-14",
+      "consigne": "« astreinte téléphonique » désigne un dispositif, pas une personne : mettez ce passage en italique.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "texte:astreinte téléphonique",
+        "format": { "italique": true }
+      },
+      "points": 1
+    },
+    {
+      "id": "M01-EV01-15",
+      "consigne": "Terminez la note par un nouveau paragraphe, à la suite du dernier, contenant exactement : Merci de votre attention : bonnes vacances à tous.",
+      "action": {
+        "type": "W_TYPE_TEXT",
+        "zone": "p7",
+        "accept": ["Merci de votre attention : bonnes vacances à tous."]
+      },
+      "points": 2
+    }
+  ]
+}

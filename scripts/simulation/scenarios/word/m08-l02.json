@@ -1,0 +1,135 @@
+{
+  "schemaVersion": 1,
+  "app": "WORD",
+  "title": "Portrait ou paysage : choisir le sens de la page",
+  "mode": "LESSON",
+  "moduleTitle": "Mise en page",
+  "intro": {
+    "title": "LE SENS DE LA FEUILLE EST UNE DÉCISION",
+    "body": "Le **portrait** est le sens naturel du texte : plus haut que large, il accueille des lignes de longueur confortable. Le **paysage** sert à ce qui s'étale — un tableau large, un planning, une frise. Choisir le mauvais sens se paye en colonnes tronquées."
+  },
+  "outro": "Portrait pour du texte, paysage pour ce qui s'étale en largeur. Et retenez le lien avec les marges : en paysage, des marges latérales larges deviennent vite absurdes puisque la largeur est justement ce qu'on cherchait.",
+  "document": {
+    "paragraphes": [
+      {
+        "texte": "Planning des interventions — semaine 12"
+      },
+      {
+        "texte": "Lundi : maintenance préventive de la ligne de conditionnement."
+      },
+      {
+        "texte": "Mercredi : contrôle réglementaire des appareils de levage."
+      },
+      {
+        "texte": "Vendredi : intervention sur le compresseur de l'atelier peinture."
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M08-L02-01",
+      "consigne": "Ce planning gagnerait à s'étaler. ==Ouvrez le panneau Mise en page et passez le document en paysage.== Regardez l'aperçu basculer : la feuille devient plus large que haute.",
+      "action": {
+        "type": "W_EXPECT_PAGE",
+        "page": {
+          "orientation": "paysage"
+        }
+      },
+      "aide": {
+        "text": "Onglet « Mise en page », bouton « Marges », puis le bouton « Paysage ».",
+        "showTarget": true
+      },
+      "feedback": "29,7 cm de large au lieu de 21 : un tableau de planning y tiendra sans être coupé."
+    },
+    {
+      "id": "M08-L02-02",
+      "consigne": "En paysage, la largeur est ce qu'on est venu chercher : il serait absurde de la reperdre en marges. ==Réglez les marges étroites==, 1,25 cm sur les quatre côtés.",
+      "action": {
+        "type": "W_EXPECT_PAGE",
+        "page": {
+          "orientation": "paysage",
+          "margeHaut": 1.25,
+          "margeBas": 1.25,
+          "margeGauche": 1.25,
+          "margeDroite": 1.25
+        }
+      },
+      "feedback": "Orientation et marges se décident ensemble : c'est la même question, celle de la surface utile."
+    },
+    {
+      "id": "M08-L02-03",
+      "consigne": "Ce document redevient finalement une note de service, pleine de texte. ==Repassez-le en portrait==, en gardant les marges étroites.",
+      "action": {
+        "type": "W_EXPECT_PAGE",
+        "page": {
+          "orientation": "portrait",
+          "margeHaut": 1.25,
+          "margeBas": 1.25,
+          "margeGauche": 1.25,
+          "margeDroite": 1.25
+        }
+      },
+      "feedback": "L'orientation change sans toucher aux marges : les deux réglages sont indépendants."
+    },
+    {
+      "id": "M08-L02-04",
+      "consigne": "Un texte courant se lit mal sur des lignes trop longues. ==Remettez les marges normales à 2,5 cm== : en portrait, elles ramènent la ligne à une longueur confortable.",
+      "action": {
+        "type": "W_EXPECT_PAGE",
+        "page": {
+          "orientation": "portrait",
+          "margeHaut": 2.5,
+          "margeBas": 2.5,
+          "margeGauche": 2.5,
+          "margeDroite": 2.5
+        }
+      },
+      "aide": {
+        "text": "Le bouton « Normales — 2,5 cm » du panneau.",
+        "showTarget": true
+      },
+      "feedback": "Portrait et marges normales : la configuration par défaut, et elle a ses raisons."
+    },
+    {
+      "id": "M08-L02-05",
+      "consigne": "==Mettez les trois interventions en liste à puces==, en commençant par celle du lundi : un planning se compte, il ne se lit pas.",
+      "setup": {
+        "ribbon": {
+          "activeTab": "accueil"
+        }
+      },
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p1",
+        "style": {
+          "liste": "puces"
+        }
+      },
+      "feedback": "Première intervention listée."
+    },
+    {
+      "id": "M08-L02-06",
+      "consigne": "==Poursuivez avec l'intervention du mercredi.==",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p2",
+        "style": {
+          "liste": "puces"
+        }
+      },
+      "feedback": "Deuxième intervention listée."
+    },
+    {
+      "id": "M08-L02-07",
+      "consigne": "==Épaississez le titre du planning== pour terminer.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p0",
+        "format": {
+          "gras": true
+        }
+      },
+      "feedback": "Planning mis en page et lisible."
+    }
+  ]
+}

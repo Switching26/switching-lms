@@ -1,0 +1,109 @@
+{
+ "schemaVersion": 1,
+ "app": "WORD",
+ "title": "Ajouter une ligne, ajouter une colonne",
+ "mode": "LESSON",
+ "moduleTitle": "Les tableaux : faire évoluer une grille",
+ "intro": {
+  "title": "UN TABLEAU N'EST JAMAIS DE LA BONNE TAILLE DU PREMIER COUP",
+  "body": "On crée un tableau à trois lignes, et il en faut cinq. C'est la règle, pas l'exception. Savoir **ajouter une ligne ou une colonne** après coup évite de tout refaire — et surtout évite de recopier des données à la main, là où naissent les erreurs."
+ },
+ "outro": "Le geste qui compte n'est pas le bouton : c'est de **cliquer d'abord dans la cellule** qui sert de repère. Sans point d'insertion dans le tableau, aucun bouton de ligne ou de colonne ne fait quoi que ce soit.",
+ "document": {
+  "paragraphes": [
+   {
+    "texte": "Inventaire de l'atelier",
+    "style": "titre"
+   },
+   {
+    "texte": "Le tableau ci-dessous recense le matériel et son état.",
+    "style": "normal"
+   },
+   {
+    "texte": "Contrôle réalisé le 18 mars par le responsable d'atelier.",
+    "style": "normal"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "id": "M13-L01-01",
+   "points": 0,
+   "action": {
+    "type": "READ"
+   },
+   "consigne": "Un tableau se modifie **depuis l'intérieur**. Word a besoin de savoir OÙ ajouter : au-dessus de quelle ligne, à droite de quelle colonne. C'est pour cela qu'on clique d'abord dans une cellule — elle sert de repère au geste suivant.",
+   "feedback": "Cliquer dans une cellule, c'est désigner le repère."
+  },
+  {
+   "id": "M13-L01-02",
+   "consigne": "==Insérez un tableau de 3 lignes sur 3 colonnes== depuis l'onglet Insertion. Il servira de base à tout le module.",
+   "action": {
+    "type": "W_EXPECT_TABLE",
+    "lignes": 3,
+    "colonnes": 3
+   },
+   "setup": {
+    "ribbon": {
+     "activeTab": "insertion"
+    }
+   },
+   "aide": {
+    "text": "Onglet « Insertion », bouton « Tableau », puis 3 et 3.",
+    "showTarget": true
+   },
+   "feedback": "Trois lignes, trois colonnes : la grille de départ."
+  },
+  {
+   "id": "M13-L01-03",
+   "consigne": "==Cliquez dans la première cellule, puis ajoutez une ligne en dessous.== Le tableau passe à quatre lignes. Sans le clic préalable, le bouton reste sans effet.",
+   "action": {
+    "type": "W_EXPECT_TABLE",
+    "lignes": 4,
+    "colonnes": 3
+   },
+   "aide": {
+    "text": "Clic dans la cellule en haut à gauche, puis « Ligne en dessous ».",
+    "showTarget": true
+   },
+   "feedback": "Quatre lignes : la ligne s'est insérée sous celle du repère."
+  },
+  {
+   "id": "M13-L01-04",
+   "consigne": "==Ajoutez une colonne à droite.== Le curseur est toujours dans la première cellule : la nouvelle colonne se place à sa droite, donc en deuxième position.",
+   "action": {
+    "type": "W_EXPECT_TABLE",
+    "lignes": 4,
+    "colonnes": 4
+   },
+   "aide": {
+    "text": "Clic dans une cellule, puis « Colonne à droite ».",
+    "showTarget": true
+   },
+   "feedback": "Quatre colonnes. La position dépend de la cellule où était le curseur."
+  },
+  {
+   "id": "M13-L01-05",
+   "consigne": "==Ajoutez une seconde ligne en dessous== pour atteindre cinq lignes : une d'en-tête et quatre de matériel.",
+   "action": {
+    "type": "W_EXPECT_TABLE",
+    "lignes": 5,
+    "colonnes": 4
+   },
+   "aide": {
+    "text": "Clic dans une cellule, puis « Ligne en dessous ».",
+    "showTarget": true
+   },
+   "feedback": "Cinq lignes sur quatre colonnes : la grille est dimensionnée."
+  },
+  {
+   "id": "M13-L01-06",
+   "points": 0,
+   "action": {
+    "type": "READ"
+   },
+   "consigne": "Retenez la logique : **« au-dessus » et « en dessous » se comptent depuis la cellule où est le curseur**, jamais depuis le bord du tableau. C'est la source de confusion la plus fréquente quand une ligne apparaît au mauvais endroit.",
+   "feedback": "Le repère, c'est le curseur."
+  }
+ ]
+}

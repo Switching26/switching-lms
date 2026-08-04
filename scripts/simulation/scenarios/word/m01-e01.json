@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "app": "WORD",
+  "title": "Exercice — Découvrir l'écran de Word",
+  "mode": "EXERCISE",
+  "moduleTitle": "Pour commencer",
+  "intro": {
+    "title": "À VOUS DE JOUER",
+    "body": "Un avis d'affichage à reprendre. Les consignes ne vous diront plus quel bouton employer : à vous de vous rappeler où il se trouve, et surtout de refaire le geste dans le bon ordre — désigner, puis agir. Un indice reste disponible si vous bloquez."
+  },
+  "outro": "Vous avez retrouvé seul la règle « on sélectionne, puis on agit », et vous savez défaire un geste. La suite du module s'appuie entièrement là-dessus.",
+  "document": {
+    "paragraphes": [
+      { "texte": "Avis aux visiteurs" },
+      { "texte": "L'accès aux ateliers est réservé aux personnes munies d'un badge nominatif." },
+      { "texte": "Les visiteurs sont accueillis au poste de garde, à l'entrée principale." },
+      { "texte": "Le port des chaussures de sécurité est obligatoire dans toute la zone de production." }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M01-E01-01",
+      "consigne": "Un titre d'avis doit se voir de loin. ==Désignez le titre== de ce document, en entier.",
+      "action": { "type": "W_SELECT_TEXT", "zone": "p0", "tolerance": 2 },
+      "aide": { "text": "Un triple-clic dans le paragraphe le prend entièrement.", "showTarget": true },
+      "feedback": "Titre désigné."
+    },
+    {
+      "id": "M01-E01-02",
+      "consigne": "==Faites-le ressortir en l'épaississant.==",
+      "setup": { "ribbon": { "activeTab": "accueil" } },
+      "action": { "type": "W_EXPECT_FORMAT", "zone": "p0", "format": { "gras": true } },
+      "aide": { "text": "Le premier bouton du groupe Police.", "showTarget": true },
+      "feedback": "Le titre est en gras."
+    },
+    {
+      "id": "M01-E01-03",
+      "consigne": "Vous changez d'avis : ==revenez à l'état précédent== sans retoucher le titre à la main.",
+      "action": { "type": "W_CLICK_CONTROL", "controle": "w-annuler" },
+      "aide": { "text": "Le groupe Annulation, à droite du ruban." },
+      "feedback": "Geste défait."
+    },
+    {
+      "id": "M01-E01-04",
+      "consigne": "Finalement, le gras était le bon choix. ==Remettez-le, toujours sans passer par le groupe Police.==",
+      "action": { "type": "W_CLICK_CONTROL", "controle": "w-retablir" },
+      "feedback": "Geste refait : rien ne se perd tant que le document est ouvert."
+    },
+    {
+      "id": "M01-E01-05",
+      "consigne": "Une obligation doit sauter aux yeux. ==Désignez le passage « chaussures de sécurité »== dans le dernier paragraphe.",
+      "action": { "type": "W_SELECT_TEXT", "zone": "texte:chaussures de sécurité", "tolerance": 3 },
+      "aide": { "text": "Glissez la souris du premier mot au dernier, sans changer de ligne.", "showTarget": true },
+      "feedback": "Passage désigné."
+    },
+    {
+      "id": "M01-E01-06",
+      "consigne": "==Soulignez ce passage== pour le distinguer du reste de la phrase.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "texte:chaussures de sécurité",
+        "format": { "souligne": true }
+      },
+      "aide": { "text": "Le troisième bouton du groupe Police.", "showTarget": true },
+      "feedback": "L'obligation ressort, et le reste de la phrase est intact."
+    }
+  ]
+}

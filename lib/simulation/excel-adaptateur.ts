@@ -48,7 +48,11 @@ import {
 } from "./attendu"
 import { planDemonstration } from "./demonstration"
 import { actionPublique } from "./expurge"
-import { EST_NAVIGATION_EXCEL, SE_JUGE_SUR_ETAT_EXCEL } from "./frappe"
+import {
+  EST_NAVIGATION_EXCEL,
+  EST_OBSERVATION_ETAT_EXCEL,
+  SE_JUGE_SUR_ETAT_EXCEL,
+} from "./frappe"
 
 /**
  * Gestes que `ExcelGrid` et les couches maison ÉMETTENT réellement.
@@ -129,6 +133,8 @@ export const adaptateurExcel: AdaptateurApp = {
 
   estNavigation: (observed) => EST_NAVIGATION_EXCEL(observed as unknown as ObservedAction),
   seJugeSurEtat: (actionType) => SE_JUGE_SUR_ETAT_EXCEL(actionType),
+  estObservationEtat: (observed) =>
+    EST_OBSERVATION_ETAT_EXCEL(observed as unknown as ObservedAction),
 
   observables: OBSERVABLES_EXCEL,
   libellesControles: LIBELLE_CONTROLE,

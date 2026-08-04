@@ -1,0 +1,136 @@
+{
+ "schemaVersion": 1,
+ "app": "WORD",
+ "title": "L'en-tête et le pied de page",
+ "mode": "LESSON",
+ "moduleTitle": "En-tête, pied de page et filigrane",
+ "intro": {
+  "title": "CE QUI SE RÉPÈTE SUR CHAQUE PAGE",
+  "body": "Un document professionnel porte son identité **en haut et en bas de chaque page** : le nom de l'entreprise, la date, le service émetteur. On ne le tape pas dans le texte — il se répéterait à la main et se décalerait au premier ajout. On le pose une fois dans l'**en-tête**."
+ },
+ "outro": "L'en-tête et le pied appartiennent au document, pas au texte : ils se répètent seuls sur chaque page et survivent à tous les ajouts. C'est la première chose qu'un lecteur voit et la dernière qu'un rédacteur pense à remplir.",
+ "document": {
+  "paragraphes": [
+   {
+    "texte": "Rapport d'activité — deuxième trimestre",
+    "style": "titre"
+   },
+   {
+    "texte": "Ce document présente les résultats commerciaux de la période d'avril à juin.",
+    "style": "normal"
+   },
+   {
+    "texte": "Trois régions ont dépassé leur objectif : Bretagne, Occitanie et Grand Est.",
+    "style": "normal"
+   },
+   {
+    "texte": "Les chiffres détaillés figurent dans l'annexe jointe à ce rapport.",
+    "style": "normal"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "id": "M09-L01-01",
+   "points": 0,
+   "action": {
+    "type": "READ"
+   },
+   "consigne": "L'**en-tête** est la bande située en haut de chaque page, le **pied de page** celle du bas. Tout ce que vous y écrivez se répète automatiquement, page après page. On y met ce qui identifie le document : émetteur, date, mention de confidentialité.",
+   "montrer": [
+    {
+     "type": "W_CLICK_CONTROL",
+     "controle": "w-entete-pied"
+    }
+   ],
+   "feedback": "Deux bandes, un seul principe : écrit une fois, répété partout."
+  },
+  {
+   "id": "M09-L01-02",
+   "consigne": "==Ouvrez le panneau En-tête== depuis l'onglet **Insertion**. C'est de là que se règlent l'en-tête, le pied de page et le filigrane — trois zones qui n'appartiennent pas au texte.",
+   "action": {
+    "type": "W_CLICK_CONTROL",
+    "controle": "w-entete-pied"
+   },
+   "setup": {
+    "ribbon": {
+     "activeTab": "insertion"
+    }
+   },
+   "aide": {
+    "text": "Onglet « Insertion », bouton « En-tête ».",
+    "showTarget": true
+   },
+   "feedback": "Le panneau est ouvert : les trois zones hors texte sont là."
+  },
+  {
+   "id": "M09-L01-03",
+   "consigne": "==Saisissez « Direction commerciale » dans l'en-tête.== C'est le service qui émet ce rapport. Regardez le haut de la page : le texte apparaît, séparé du document par un filet.",
+   "action": {
+    "type": "W_EXPECT_ENTETE",
+    "emplacement": "entete",
+    "accept": [
+     "Direction commerciale"
+    ]
+   },
+   "aide": {
+    "text": "Premier champ du panneau, celui intitulé « En-tête ».",
+    "showTarget": true
+   },
+   "feedback": "L'émetteur est identifié en haut de chaque page."
+  },
+  {
+   "id": "M09-L01-04",
+   "consigne": "==Saisissez « Document interne » dans le pied de page.== Le bas de page accueille ce qui relève du statut du document plutôt que de son contenu.",
+   "action": {
+    "type": "W_EXPECT_ENTETE",
+    "emplacement": "pied",
+    "accept": [
+     "Document interne"
+    ]
+   },
+   "aide": {
+    "text": "Deuxième champ du panneau, celui intitulé « Pied de page ».",
+    "showTarget": true
+   },
+   "feedback": "Le statut du document est désormais rappelé en bas de chaque page."
+  },
+  {
+   "id": "M09-L01-05",
+   "consigne": "==Cochez « Numéroter les pages ».== Sans numéro, un document imprimé qui tombe ne se remet pas dans l'ordre. C'est la mention la plus utile du pied de page, et la plus oubliée.",
+   "action": {
+    "type": "W_EXPECT_PAGE",
+    "page": {
+     "numeroPage": true
+    }
+   },
+   "aide": {
+    "text": "La case à cocher, sous les trois champs de texte.",
+    "showTarget": true
+   },
+   "feedback": "Le numéro s'ajoute au pied de page, à la suite du texte déjà saisi."
+  },
+  {
+   "id": "M09-L01-06",
+   "consigne": "==Refermez le panneau.== L'en-tête et le pied restent visibles sur la page : ils font maintenant partie du document, pas de la fenêtre de réglage.",
+   "action": {
+    "type": "W_CLICK_CONTROL",
+    "controle": "w-entete-fermer"
+   },
+   "aide": {
+    "text": "Bouton vert « Fermer l'en-tête », en bas du panneau.",
+    "showTarget": true
+   },
+   "feedback": "Panneau fermé, mentions conservées : c'est bien le document qui les porte."
+  },
+  {
+   "id": "M09-L01-07",
+   "points": 0,
+   "action": {
+    "type": "READ"
+   },
+   "consigne": "Regardez la page : **en-tête en haut, pied et numéro en bas**, et le texte intact entre les deux. Vous n'avez rien tapé dans le document — ces mentions lui appartiennent et se répéteront sur chaque page, quel que soit le nombre de paragraphes ajoutés ensuite.",
+   "feedback": "Trois mentions posées une fois, valables partout : c'est le principe de l'en-tête."
+  }
+ ]
+}

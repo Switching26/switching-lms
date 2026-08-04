@@ -1,0 +1,110 @@
+{
+  "schemaVersion": 1,
+  "app": "WORD",
+  "title": "Exercice — Tenir un code de trames",
+  "mode": "EXERCISE",
+  "moduleTitle": "Bordures et trames",
+  "intro": {
+    "title": "À VOUS DE JOUER",
+    "body": "Un règlement à baliser. Le code est le même que dans la leçon : jaune pour la sécurité, vert pour l'organisation. Tenez-le sans exception, y compris quand la tentation est de varier."
+  },
+  "outro": "Un code tenu jusqu'au bout se lit sans légende. Un code avec une exception ne se lit plus du tout.",
+  "document": {
+    "paragraphes": [
+      {
+        "texte": "Règlement de la zone de stockage"
+      },
+      {
+        "texte": "Les allées de circulation restent dégagées en permanence."
+      },
+      {
+        "texte": "Les entrées et sorties de stock sont enregistrées le jour même."
+      },
+      {
+        "texte": "Le gerbage au-delà de trois palettes est interdit."
+      },
+      {
+        "texte": "L'inventaire tournant a lieu le premier lundi du mois."
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M05-E02-01",
+      "consigne": "==Balisez la règle sur les allées de circulation== : elle conditionne l'évacuation, donc la sécurité.",
+      "setup": {
+        "ribbon": {
+          "activeTab": "accueil"
+        }
+      },
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p1",
+        "format": {
+          "surlignage": "#f1c40f"
+        }
+      },
+      "feedback": "Première règle balisée."
+    },
+    {
+      "id": "M05-E02-02",
+      "consigne": "==Balisez l'enregistrement des mouvements de stock== selon la catégorie qui lui revient.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p2",
+        "format": {
+          "surlignage": "#a9dfbf"
+        }
+      },
+      "feedback": "Organisation courante : la seconde couleur du code."
+    },
+    {
+      "id": "M05-E02-03",
+      "consigne": "==Balisez l'interdiction de gerbage.== Relisez le code avant de choisir : une limite de hauteur relève du risque d'écrasement.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p3",
+        "format": {
+          "surlignage": "#f1c40f"
+        }
+      },
+      "feedback": "Deux règles jaunes : la sécurité forme un ensemble."
+    },
+    {
+      "id": "M05-E02-04",
+      "consigne": "==Balisez l'inventaire tournant.==",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p4",
+        "format": {
+          "surlignage": "#a9dfbf"
+        }
+      },
+      "feedback": "Le règlement se lit en deux temps."
+    },
+    {
+      "id": "M05-E02-05",
+      "consigne": "==Épaississez « interdit »== dans la règle de gerbage : à l'intérieur d'un bloc balisé, la graisse désigne le mot qui engage.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "texte:interdit",
+        "format": {
+          "gras": true
+        }
+      },
+      "feedback": "Le mot décisif ressort dans son bloc."
+    },
+    {
+      "id": "M05-E02-06",
+      "consigne": "==Épaississez le titre==, sans trame : il n'appartient à aucune des deux catégories.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p0",
+        "format": {
+          "gras": true
+        }
+      },
+      "feedback": "Règlement balisé, code tenu."
+    }
+  ]
+}

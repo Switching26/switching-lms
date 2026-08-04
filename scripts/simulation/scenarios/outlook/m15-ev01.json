@@ -1,0 +1,338 @@
+{
+  "schemaVersion": 1,
+  "title": "S'évaluer — Commander, relancer, contester",
+  "mode": "EVALUATION",
+  "moduleTitle": "Commander, relancer, contester chez un fournisseur",
+  "intro": {
+    "title": "Mardi 28 avril — une commande, un retard, une facture fausse",
+    "body": "Trois messages sortants vers le même fournisseur, mais pas vers le même service. Chaque envoi sera jugé sur son enveloppe : le bon destinataire, la bonne copie, la bonne pièce, l'objet exploitable et le classement. Cette épreuve est notée ; la rédaction ne compte pas dans la note."
+  },
+  "outro": {
+    "body": "Le barème portait sur ce qui décide chez un fournisseur : à quel service on écrit, quelle preuve on joint, quelle référence figure dans l'objet — et ce qui n'est jamais sorti de l'atelier."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "achats",
+        "nom": "Achats"
+      },
+      {
+        "id": "factures",
+        "nom": "Factures fournisseurs"
+      }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "fichiers": [
+      {
+        "nom": "Bon-de-livraison-BL-4471.pdf",
+        "taille": "148 Ko"
+      },
+      {
+        "nom": "Facture-DEL-2026-0312.pdf",
+        "taille": "165 Ko"
+      },
+      {
+        "nom": "Plan-de-pose-mediatheque.pdf",
+        "taille": "810 Ko"
+      },
+      {
+        "nom": "Marges-atelier-2026.xlsx",
+        "taille": "72 Ko"
+      }
+    ],
+    "messages": [
+      {
+        "id": "m-besoin",
+        "dossier": "reception",
+        "de": "s.brunel@atelier-nord.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Il me manque de la quincaillerie",
+        "corps": "Camille,\n\n40 charnières CH-118, 12 poignées P-40, médiathèque, pose le 24, livraison atelier.\n\nSonia",
+        "date": "2026-04-28T07:20",
+        "lu": false
+      },
+      {
+        "id": "m-facture",
+        "dossier": "reception",
+        "de": "compta@quincaillerie-delmas.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Votre relevé du mois",
+        "corps": "Bonjour,\n\nFacture DEL-2026-0312, commande CDE-8802.\n\nQuincaillerie Delmas — Comptabilité",
+        "date": "2026-04-28T09:00",
+        "lu": false,
+        "pieces": [
+          {
+            "nom": "Facture-DEL-2026-0312.pdf",
+            "taille": "165 Ko"
+          }
+        ]
+      },
+      {
+        "id": "m-pub",
+        "dossier": "reception",
+        "de": "offres@promo-outillage.net",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Nouvelle gamme visserie",
+        "corps": "Nos nouveautés.",
+        "date": "2026-04-28T06:05",
+        "lu": false
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O15-EV01-01",
+      "consigne": "Ouvrez la demande de Sonia et relevez les références, les quantités et la date de pose.",
+      "action": {
+        "type": "O_SELECT_MESSAGE",
+        "id": "m-besoin"
+      },
+      "points": 1
+    },
+    {
+      "id": "O15-EV01-02",
+      "consigne": "Écrivez un message neuf au service des commandes de Delmas — sa comptabilité ne doit pas y figurer.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "genre": "nouveau",
+          "a": {
+            "contient": [
+              "commandes@quincaillerie-delmas.fr"
+            ],
+            "absent": [
+              "compta@quincaillerie-delmas.fr"
+            ]
+          }
+        }
+      },
+      "points": 4
+    },
+    {
+      "id": "O15-EV01-03",
+      "consigne": "Mettez Sonia `s.brunel@atelier-nord.fr` sur la ligne de ceux qui doivent seulement savoir.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "a": {
+            "contient": [
+              "commandes@quincaillerie-delmas.fr"
+            ],
+            "absent": [
+              "s.brunel@atelier-nord.fr"
+            ]
+          },
+          "cc": {
+            "contient": [
+              "s.brunel@atelier-nord.fr"
+            ]
+          }
+        }
+      },
+      "points": 3
+    },
+    {
+      "id": "O15-EV01-04",
+      "consigne": "Donnez un objet contenant `commande` et `médiathèque`.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "objet": {
+            "contient": [
+              "commande",
+              "médiathèque"
+            ]
+          }
+        }
+      },
+      "points": 2
+    },
+    {
+      "id": "O15-EV01-05",
+      "consigne": "Rédigez la commande avec vos mots. **Cette étape n'entre pas dans la note.**",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "corps": {
+            "minMots": 15,
+            "revueManuelle": true
+          }
+        }
+      },
+      "points": 0
+    },
+    {
+      "id": "O15-EV01-06",
+      "consigne": "Relisez les deux lignes d'adresses, puis envoyez la commande.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "commandes@quincaillerie-delmas.fr"
+            ]
+          },
+          "cc": {
+            "contient": [
+              "s.brunel@atelier-nord.fr"
+            ]
+          },
+          "objet": {
+            "contient": [
+              "commande",
+              "médiathèque"
+            ]
+          }
+        }
+      },
+      "points": 3
+    },
+    {
+      "id": "O15-EV01-07",
+      "consigne": "Répondez maintenant à la facture, en joignant la pièce qui prouve les quantités reçues. **Le classeur de marges ne doit pas partir.**",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "genre": "reponse",
+          "a": {
+            "contient": [
+              "compta@quincaillerie-delmas.fr"
+            ]
+          },
+          "pieces": {
+            "contient": [
+              "Bon-de-livraison-BL-4471.pdf"
+            ],
+            "absent": [
+              "Marges-atelier-2026.xlsx"
+            ]
+          }
+        }
+      },
+      "points": 4
+    },
+    {
+      "id": "O15-EV01-08",
+      "consigne": "Complétez l'objet avec le mot `écart`, sans retirer le préfixe.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "objet": {
+            "prefixe": "RE",
+            "contient": [
+              "écart"
+            ]
+          }
+        }
+      },
+      "points": 2
+    },
+    {
+      "id": "O15-EV01-09",
+      "consigne": "Rédigez la contestation avec vos mots, puis envoyez-la. **La rédaction n'entre pas dans la note.**",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "compta@quincaillerie-delmas.fr"
+            ]
+          },
+          "objet": {
+            "prefixe": "RE",
+            "contient": [
+              "écart"
+            ]
+          },
+          "pieces": {
+            "contient": [
+              "Bon-de-livraison-BL-4471.pdf"
+            ],
+            "absent": [
+              "Marges-atelier-2026.xlsx"
+            ]
+          },
+          "corps": {
+            "minMots": 12,
+            "revueManuelle": true
+          }
+        }
+      },
+      "points": 3
+    },
+    {
+      "id": "O15-EV01-10",
+      "consigne": "Rangez la facture contestée dans Factures fournisseurs.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-facture": {
+              "dossier": "factures"
+            }
+          }
+        }
+      },
+      "points": 2
+    },
+    {
+      "id": "O15-EV01-11",
+      "consigne": "Rangez la demande de Sonia dans Achats : la commande est partie.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-besoin": {
+              "dossier": "achats"
+            }
+          }
+        }
+      },
+      "points": 1
+    },
+    {
+      "id": "O15-EV01-12",
+      "consigne": "Sortez la nouvelle gamme visserie de votre file d'attente.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-pub": {
+              "dossier": "supprimes"
+            }
+          }
+        }
+      },
+      "points": 1
+    }
+  ]
+}

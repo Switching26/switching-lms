@@ -1,0 +1,232 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "mode": "LESSON",
+  "moduleTitle": "Projeter ou envoyer",
+  "title": "La version envoyée",
+  "intro": {
+    "title": "La version envoyée",
+    "body": "Personne ne sera là pour expliquer. Cette leçon reprend la version de salle et la rend autonome : titres qui portent le message, contenus qui se suffisent, et la diapositive que la salle n'exige jamais."
+  },
+  "outro": {
+    "body": "La version envoyée tient debout seule. La dernière leçon vérifie ce que le fichier emporte à votre insu."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "ppt": {
+    "fileName": "Rivage Marée - envoi.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Rivage Marée",
+          "sous-titre": "Proposition pour Le Comptoir des Halles"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Pêche de la veille, livrée à 6 h",
+          "contenu": "Criée de Lorient\nSept bateaux\nCaisse tracée"
+        },
+        "notes": "Nom du bateau, date de pêche et zone sur chaque caisse"
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Nos engagements",
+          "contenu": "Reprise le jour même\nFacture mensuelle"
+        },
+        "notes": "Reprise sans discussion, récapitulatif par service"
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M11-L03-01",
+      "consigne": "Un fichier envoyé est lu **seul, vite, souvent sur un téléphone**, par quelqu'un qui ne vous connaît pas encore. Trois repères de deux mots ne lui apprennent rien. Ce que la salle vous permettait de dire, il faut maintenant l'écrire.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M11-L03-02",
+      "consigne": "==Affichez la deuxième diapositive==. « Criée de Lorient, Sept bateaux, Caisse tracée » : parfait en salle, muet dans une boîte mail.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 1
+      }
+    },
+    {
+      "id": "M11-L03-03",
+      "consigne": "==Remplacez le contenu== par : Achat quotidien à la criée de Lorient, Sept bateaux partenaires, Caisse marquée bateau et zone de pêche. Chaque ligne se comprend sans commentaire.",
+      "setupPpt": {
+        "slide": 1
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:contenu",
+        "accept": [
+          "Achat quotidien à la criée de Lorient\nSept bateaux partenaires\nCaisse marquée bateau et zone de pêche",
+          "Achat quotidien à la criée de Lorient, Sept bateaux partenaires, Caisse marquée bateau et zone de pêche"
+        ]
+      },
+      "aide": {
+        "text": "Double-cliquez dans le contenu pour l'ouvrir, puis remplacez tout."
+      },
+      "feedback": "Les lignes ont doublé de longueur — c'est voulu : personne n'est là pour les développer."
+    },
+    {
+      "id": "M11-L03-04",
+      "consigne": "Attention au contresens : cette version ne serait **pas** meilleure. Projetée dans une salle, elle serait illisible du fond et vous condamnerait à la lire. Les deux versions sont bonnes, chacune pour son usage — et mauvaises pour l'autre.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M11-L03-05",
+      "consigne": "==Affichez la troisième diapositive==, celle des engagements.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 2
+      }
+    },
+    {
+      "id": "M11-L03-06",
+      "consigne": "==Remplacez son titre par Reprise sans discussion et facture unique==. Un titre envoyé porte le message : le lecteur pressé ne lira peut-être que lui.",
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:titre",
+        "accept": [
+          "Reprise sans discussion et facture unique"
+        ]
+      }
+    },
+    {
+      "id": "M11-L03-07",
+      "consigne": "==Remplacez le contenu== par : Toute pièce non conforme est reprise le jour même, Une seule facture par mois avec le détail par service.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Rivage Marée",
+                "sous-titre": "Proposition pour Le Comptoir des Halles"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Pêche de la veille, livrée à 6 h",
+                "contenu": "Achat quotidien à la criée de Lorient\nSept bateaux partenaires\nCaisse marquée bateau et zone de pêche"
+              },
+              "notes": "Nom du bateau, date de pêche et zone sur chaque caisse"
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Reprise sans discussion et facture unique",
+                "contenu": "Reprise le jour même\nFacture mensuelle"
+              },
+              "notes": "Reprise sans discussion, récapitulatif par service"
+            }
+          ]
+        },
+        "slide": 2
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:contenu",
+        "accept": [
+          "Toute pièce non conforme est reprise le jour même\nUne seule facture par mois avec le détail par service",
+          "Toute pièce non conforme est reprise le jour même, Une seule facture par mois avec le détail par service"
+        ]
+      }
+    },
+    {
+      "id": "M11-L03-08",
+      "consigne": "Il manque encore une chose qu'une présentation de salle n'a jamais besoin d'écrire : **comment vous joindre**. En salle vous êtes là ; par mail, le lecteur doit trouver le contact sans chercher, et sans revenir au message d'envoi.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M11-L03-09",
+      "consigne": "==Ajoutez une diapositive== à la fin de la présentation.",
+      "action": {
+        "type": "P_ADD_SLIDE"
+      },
+      "aide": {
+        "text": "Groupe Diapositives, bouton « Nouvelle »."
+      }
+    },
+    {
+      "id": "M11-L03-10",
+      "consigne": "==Écrivez son titre== : Nous contacter.",
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:titre",
+        "accept": [
+          "Nous contacter"
+        ]
+      },
+      "aide": {
+        "text": "Cliquez dans « Cliquez pour ajouter un titre »."
+      }
+    },
+    {
+      "id": "M11-L03-11",
+      "consigne": "==Écrivez son contenu== : Camille Roux 02 97 44 18 60, contact@rivage-maree.fr. À retenir : **on complète pour envoyer, on dépouille pour projeter** — et la version envoyée porte toujours un contact.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Rivage Marée",
+                "sous-titre": "Proposition pour Le Comptoir des Halles"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Pêche de la veille, livrée à 6 h",
+                "contenu": "Achat quotidien à la criée de Lorient\nSept bateaux partenaires\nCaisse marquée bateau et zone de pêche"
+              },
+              "notes": "Nom du bateau, date de pêche et zone sur chaque caisse"
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Reprise sans discussion et facture unique",
+                "contenu": "Toute pièce non conforme est reprise le jour même\nUne seule facture par mois avec le détail par service"
+              },
+              "notes": "Reprise sans discussion, récapitulatif par service"
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Nous contacter"
+              }
+            }
+          ]
+        },
+        "slide": 3
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:contenu",
+        "accept": [
+          "Camille Roux 02 97 44 18 60\ncontact@rivage-maree.fr",
+          "Camille Roux 02 97 44 18 60, contact@rivage-maree.fr"
+        ]
+      }
+    }
+  ]
+}

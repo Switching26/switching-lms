@@ -1,0 +1,182 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "mode": "EXERCISE",
+  "moduleTitle": "Une présentation homogène",
+  "title": "Remettre au même format",
+  "intro": {
+    "title": "Remettre au même format",
+    "body": "La Menuiserie Delcourt présente ses trois ateliers. Les trois diapositives font le même travail et aucune n'a la même disposition : remettez-les au format de la première."
+  },
+  "outro": {
+    "body": "Trois écrans de même silhouette : le public ne cherchera plus ce que la différence voulait dire."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "ppt": {
+    "fileName": "Menuiserie Delcourt.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Menuiserie Delcourt",
+          "sous-titre": "Présentation des ateliers"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "L'atelier bois",
+          "contenu": "Neuf compagnons\nDébit et assemblage"
+        }
+      },
+      {
+        "layout": "titre-seul",
+        "textes": {
+          "titre": "L'atelier finition"
+        },
+        "objets": [
+          {
+            "id": "zt-finition",
+            "objectType": "texte",
+            "texte": "Quatre compagnons, ponçage et vernis",
+            "rect": {
+              "x": 90,
+              "y": 260,
+              "w": 500,
+              "h": 70
+            }
+          }
+        ]
+      },
+      {
+        "layout": "deux-contenus",
+        "textes": {
+          "titre": "L'atelier pose",
+          "contenu": "Six poseurs\nChantiers en Île-de-France"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M15-E01-01",
+      "consigne": "Passez en Trieuse : les différences de silhouette ne se voient que côte à côte.",
+      "action": {
+        "type": "P_SET_VIEW",
+        "view": "trieuse"
+      },
+      "aide": {
+        "text": "Groupe Affichage, bouton Trieuse."
+      }
+    },
+    {
+      "id": "M15-E01-02",
+      "consigne": "Affichez la troisième diapositive, celle de l'atelier finition, montée en titre seul.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 2
+      }
+    },
+    {
+      "id": "M15-E01-03",
+      "consigne": "Revenez en affichage Normal.",
+      "action": {
+        "type": "P_SET_VIEW",
+        "view": "normal"
+      }
+    },
+    {
+      "id": "M15-E01-04",
+      "consigne": "Donnez-lui la disposition Titre et contenu, celle de l'atelier bois.",
+      "action": {
+        "type": "P_SET_LAYOUT",
+        "layout": "titre-et-contenu"
+      },
+      "aide": {
+        "text": "Groupe Diapositives, bouton Disposition, puis « Titre et contenu »."
+      }
+    },
+    {
+      "id": "M15-E01-05",
+      "consigne": "Supprimez la zone de texte libre : son contenu va reprendre sa place dans le cadre prévu.",
+      "action": {
+        "type": "P_DELETE_OBJECT",
+        "objectId": "zt-finition"
+      },
+      "aide": {
+        "text": "Sélectionnez la zone d'un clic, puis touche Suppr ou bouton Supprimer du groupe Objet."
+      }
+    },
+    {
+      "id": "M15-E01-06",
+      "consigne": "Écrivez le contenu : Quatre compagnons, Ponçage et vernis.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Menuiserie Delcourt",
+                "sous-titre": "Présentation des ateliers"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "L'atelier bois",
+                "contenu": "Neuf compagnons\nDébit et assemblage"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "L'atelier finition"
+              }
+            },
+            {
+              "layout": "deux-contenus",
+              "textes": {
+                "titre": "L'atelier pose",
+                "contenu": "Six poseurs\nChantiers en Île-de-France"
+              }
+            }
+          ]
+        },
+        "slide": 2
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:contenu",
+        "accept": [
+          "Quatre compagnons\nPonçage et vernis",
+          "Quatre compagnons, Ponçage et vernis"
+        ]
+      },
+      "aide": {
+        "text": "Cliquez dans « Cliquez pour ajouter du texte »."
+      }
+    },
+    {
+      "id": "M15-E01-07",
+      "consigne": "Affichez la dernière diapositive, montée en deux colonnes pour une seule information.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 3
+      }
+    },
+    {
+      "id": "M15-E01-08",
+      "consigne": "Donnez-lui la disposition Titre et contenu : la colonne de droite était vide, et le public la cherchait.",
+      "action": {
+        "type": "P_SET_LAYOUT",
+        "layout": "titre-et-contenu"
+      },
+      "feedback": "Trois ateliers, trois écrans identiques de forme : la comparaison devient immédiate."
+    }
+  ]
+}

@@ -1,0 +1,110 @@
+{
+  "schemaVersion": 1,
+  "app": "WORD",
+  "title": "Exercice — Choisir la bonne forme",
+  "mode": "EXERCISE",
+  "moduleTitle": "Mise en forme des paragraphes",
+  "intro": {
+    "title": "À VOUS DE JOUER",
+    "body": "Une affiche d'atelier, pas un courrier. Attention au réflexe : ce qui convient à une lettre ne convient pas ici. Chaque consigne vous demande une intention, à vous de trouver l'alignement qui la sert."
+  },
+  "outro": "Une affiche se centre, un courrier se justifie. Le même texte change de nature selon la forme qu'on lui donne.",
+  "document": {
+    "paragraphes": [
+      {
+        "texte": "Atelier fermé"
+      },
+      {
+        "texte": "Jeudi 14 et vendredi 15 mars"
+      },
+      {
+        "texte": "Maintenance annuelle des machines"
+      },
+      {
+        "texte": "Les livraisons reprendront le lundi 18 mars au matin."
+      },
+      {
+        "texte": "Service logistique"
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M04-E02-01",
+      "consigne": "Une affiche se lit de loin et d'un seul coup d'œil. ==Placez l'annonce au milieu de la page.==",
+      "setup": {
+        "ribbon": {
+          "activeTab": "accueil"
+        }
+      },
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p0",
+        "style": {
+          "alignement": "centre"
+        }
+      },
+      "feedback": "L'annonce accroche l'œil."
+    },
+    {
+      "id": "M04-E02-02",
+      "consigne": "==Traitez les dates de la même façon== : sur une affiche, tout ce qui doit être lu de loin se centre.",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p1",
+        "style": {
+          "alignement": "centre"
+        }
+      },
+      "feedback": "Les dates suivent l'annonce."
+    },
+    {
+      "id": "M04-E02-03",
+      "consigne": "==Centrez également le motif de la fermeture.== Trois lignes centrées forment un bloc que l'œil saisit en une fois.",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p2",
+        "style": {
+          "alignement": "centre"
+        }
+      },
+      "feedback": "Le bloc central est constitué."
+    },
+    {
+      "id": "M04-E02-04",
+      "consigne": "La précision sur les livraisons se lit de près, pas de loin. ==Laissez-la alignée à gauche et vérifiez-le== : elle se distingue ainsi du bloc d'annonce.",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p3",
+        "style": {
+          "alignement": "gauche"
+        }
+      },
+      "feedback": "Deux registres de lecture sur la même affiche."
+    },
+    {
+      "id": "M04-E02-05",
+      "consigne": "==Placez le service émetteur du côté de la signature.==",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p4",
+        "style": {
+          "alignement": "droite"
+        }
+      },
+      "feedback": "L'émetteur est identifié."
+    },
+    {
+      "id": "M04-E02-06",
+      "consigne": "==Portez l'annonce à la taille 24== : sur une affiche, c'est la taille qui fait la moitié du travail.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p0",
+        "format": {
+          "taille": 24
+        }
+      },
+      "feedback": "Affiche lisible depuis l'entrée de l'atelier."
+    }
+  ]
+}

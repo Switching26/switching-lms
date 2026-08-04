@@ -1,0 +1,182 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "mode": "EXERCISE",
+  "moduleTitle": "Projeter ou envoyer",
+  "title": "Le ménage avant l'envoi",
+  "intro": {
+    "title": "Le ménage avant l'envoi",
+    "body": "Ce fichier part chez un client dans dix minutes. Il contient deux notes internes, une note collée sur une diapositive et une diapositive masquée. Faites le ménage dans l'ordre, puis contrôlez."
+  },
+  "outro": {
+    "body": "Plus une note, plus une diapositive masquée, plus une consigne interne : le fichier peut partir."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "ppt": {
+    "fileName": "Scierie Vallonet - client.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Scierie Vallonet",
+          "sous-titre": "Proposition pour Charpentes Delmas"
+        },
+        "notes": "Ils comparent avec Sombreval, ne pas donner le prix en premier"
+      },
+      {
+        "layout": "titre-seul",
+        "textes": {
+          "titre": "Épicéa et sapin à moins de 30 km"
+        },
+        "objets": [
+          {
+            "id": "zt-offre",
+            "objectType": "texte",
+            "texte": "Séchage basse température, lot classé, certificat fourni",
+            "rect": {
+              "x": 70,
+              "y": 190,
+              "w": 560,
+              "h": 70
+            }
+          },
+          {
+            "id": "zt-interne",
+            "objectType": "texte",
+            "texte": "Vérifier avec Marc si on tient encore ce délai en juin",
+            "rect": {
+              "x": 70,
+              "y": 330,
+              "w": 560,
+              "h": 60
+            }
+          }
+        ]
+      },
+      {
+        "layout": "titre-et-contenu",
+        "masquee": true,
+        "textes": {
+          "titre": "Marge par section",
+          "contenu": "Chevron : 27 %\nMadrier : 19 %"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Livraison en 5 jours sur les sections courantes",
+          "contenu": "Sections courantes préparées en 4 jours\nSections hors standard en 3 semaines"
+        },
+        "notes": "Plancher à 19 %, refuser en dessous"
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M11-E03-01",
+      "consigne": "Videz la note de la première diapositive : elle nomme un concurrent et décrit votre tactique.",
+      "action": {
+        "type": "P_EXPECT_DECK",
+        "deck": {
+          "slides": [
+            {
+              "index": 0,
+              "notes": ""
+            }
+          ]
+        }
+      },
+      "aide": {
+        "text": "Cliquez dans les notes, effacez tout le texte, puis cliquez ailleurs."
+      }
+    },
+    {
+      "id": "M11-E03-02",
+      "consigne": "Affichez la deuxième diapositive : une consigne interne y a été collée dans une zone de texte, en clair, sur la diapositive elle-même.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 1
+      }
+    },
+    {
+      "id": "M11-E03-03",
+      "consigne": "Supprimez la zone « Vérifier avec Marc… ». Une note interne posée sur la diapositive est visible même en projection : c'est la plus grosse des trois fuites.",
+      "action": {
+        "type": "P_DELETE_OBJECT",
+        "objectId": "zt-interne"
+      },
+      "aide": {
+        "text": "Sélectionnez la zone d'un clic, puis touche Suppr ou bouton Supprimer du groupe Objet."
+      },
+      "feedback": "Celle-là, le client l'aurait lue sans même avoir à chercher."
+    },
+    {
+      "id": "M11-E03-04",
+      "consigne": "Passez en Trieuse pour repérer ce qui est masqué.",
+      "action": {
+        "type": "P_SET_VIEW",
+        "view": "trieuse"
+      },
+      "aide": {
+        "text": "Groupe Affichage, bouton Trieuse."
+      }
+    },
+    {
+      "id": "M11-E03-05",
+      "consigne": "Affichez la diapositive masquée, la troisième : elle donne vos marges par section.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 2
+      }
+    },
+    {
+      "id": "M11-E03-06",
+      "consigne": "Supprimez-la. Masquer suffit pour ne pas la projeter, jamais pour l'empêcher de voyager.",
+      "action": {
+        "type": "P_DELETE_SLIDE",
+        "index": 2
+      },
+      "aide": {
+        "text": "Groupe Diapositives, bouton Supprimer."
+      }
+    },
+    {
+      "id": "M11-E03-07",
+      "consigne": "Revenez en affichage Normal.",
+      "action": {
+        "type": "P_SET_VIEW",
+        "view": "normal"
+      }
+    },
+    {
+      "id": "M11-E03-08",
+      "consigne": "La suppression vous a laissé sur la dernière diapositive, celle des délais : il y reste une note. Videz-la — « Plancher à 19 %, refuser en dessous » est exactement ce qu'un acheteur cherche avant de négocier.",
+      "action": {
+        "type": "P_EXPECT_DECK",
+        "deck": {
+          "slides": [
+            {
+              "index": 2,
+              "notes": ""
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "M11-E03-09",
+      "consigne": "Lancez le diaporama depuis le début pour un dernier contrôle : trois diapositives, toutes destinées au client.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": true,
+          "index": 0
+        }
+      }
+    }
+  ]
+}

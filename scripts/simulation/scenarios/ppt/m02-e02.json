@@ -1,0 +1,286 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "mode": "EXERCISE",
+  "moduleTitle": "Organiser et enchaîner",
+  "title": "Exercice — Uniformiser les transitions",
+  "intro": {
+    "title": "Exercice — Uniformiser les transitions",
+    "body": "Cette présentation a hérité d'effets disparates au fil des versions. Ramenez-la à un enchaînement unique et discret, et laissez la dernière diapositive se terminer sans effet."
+  },
+  "outro": {
+    "body": "Un seul effet, posé partout où il sert, retiré là où il gêne : c'est tout ce qu'on demande à des transitions."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "ppt": {
+    "fileName": "Bilan Verdeval.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Verdeval",
+          "sous-titre": "Bilan de la saison 2026"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Chiffres de la saison",
+          "contenu": "38 jardins et 120 entretiens"
+        },
+        "transition": {
+          "kind": "damier",
+          "duree": 1.5
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Nos agences",
+          "contenu": "Nantes, Rennes et Angers"
+        },
+        "transition": {
+          "kind": "pousser",
+          "duree": 1.2
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Merci de votre attention",
+          "contenu": "Questions et échanges"
+        },
+        "transition": {
+          "kind": "morphose",
+          "duree": 2
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M02-E02-01",
+      "consigne": "Affichez la deuxième diapositive : elle porte un effet Damier hérité d'une ancienne version.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 1
+      },
+      "aide": {
+        "text": "C'est la miniature intitulée « Chiffres de la saison »."
+      }
+    },
+    {
+      "id": "M02-E02-02",
+      "consigne": "Remplacez cet effet par le plus discret des trois que propose le ruban.",
+      "setupPpt": {
+        "slide": 1
+      },
+      "action": {
+        "type": "P_EXPECT_DECK",
+        "deck": {
+          "slides": [
+            {
+              "index": 1,
+              "transition": {
+                "kind": "fondu"
+              }
+            }
+          ]
+        }
+      },
+      "aide": {
+        "text": "Groupe Transitions, bouton Fondu."
+      }
+    },
+    {
+      "id": "M02-E02-03",
+      "consigne": "Passez à la troisième diapositive, qui porte encore un autre effet.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 2
+      }
+    },
+    {
+      "id": "M02-E02-04",
+      "consigne": "Alignez-la sur la précédente.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Bilan de la saison 2026"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Chiffres de la saison",
+                "contenu": "38 jardins et 120 entretiens"
+              },
+              "transition": {
+                "kind": "fondu",
+                "duree": 0.7
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Nos agences",
+                "contenu": "Nantes, Rennes et Angers"
+              },
+              "transition": {
+                "kind": "pousser",
+                "duree": 1.2
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Merci de votre attention",
+                "contenu": "Questions et échanges"
+              },
+              "transition": {
+                "kind": "morphose",
+                "duree": 2
+              }
+            }
+          ]
+        },
+        "slide": 2
+      },
+      "action": {
+        "type": "P_EXPECT_DECK",
+        "deck": {
+          "slides": [
+            {
+              "index": 2,
+              "transition": {
+                "kind": "fondu"
+              }
+            }
+          ]
+        }
+      },
+      "aide": {
+        "text": "La même transition que celle posée à l'étape 2 : le Fondu."
+      }
+    },
+    {
+      "id": "M02-E02-05",
+      "consigne": "Affichez la dernière diapositive, celle du remerciement.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 3
+      }
+    },
+    {
+      "id": "M02-E02-06",
+      "consigne": "Une diapositive de clôture n'a pas besoin d'effet : faites en sorte qu'elle n'en porte plus aucun.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Bilan de la saison 2026"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Chiffres de la saison",
+                "contenu": "38 jardins et 120 entretiens"
+              },
+              "transition": {
+                "kind": "fondu",
+                "duree": 0.7
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Nos agences",
+                "contenu": "Nantes, Rennes et Angers"
+              },
+              "transition": {
+                "kind": "fondu",
+                "duree": 0.7
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Merci de votre attention",
+                "contenu": "Questions et échanges"
+              },
+              "transition": {
+                "kind": "morphose",
+                "duree": 2
+              }
+            }
+          ]
+        },
+        "slide": 3
+      },
+      "action": {
+        "type": "P_EXPECT_DECK",
+        "deck": {
+          "slides": [
+            {
+              "index": 3,
+              "transition": {
+                "kind": "aucune"
+              }
+            }
+          ]
+        }
+      },
+      "aide": {
+        "text": "Groupe Transitions, bouton « Aucune » : c'est le seul qui retire une transition."
+      }
+    },
+    {
+      "id": "M02-E02-07",
+      "consigne": "Vérifiez le rendu depuis le début de la présentation.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": true,
+          "index": 0
+        }
+      },
+      "aide": {
+        "text": "Groupe Diaporama, bouton « ▶ Début »."
+      }
+    },
+    {
+      "id": "M02-E02-08",
+      "consigne": "Avancez d'une diapositive, puis quittez le diaporama.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "index": 1
+        }
+      }
+    },
+    {
+      "id": "M02-E02-09",
+      "consigne": "Revenez à votre présentation.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": false
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,376 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "mode": "LESSON",
+  "moduleTitle": "Mettre en forme le texte",
+  "title": "Gras, italique et souligné",
+  "intro": {
+    "title": "Gras, italique et souligné",
+    "body": "Trois boutons, trois usages qui ne se valent pas. Cette leçon vous apprend ce que chacun dit au lecteur, comment les retirer, et pourquoi une diapositive où tout est mis en avant ne met plus rien en avant."
+  },
+  "outro": {
+    "body": "Vous savez appuyer un mot sans surcharger la diapositive. La leçon suivante s'occupe de la place du texte : les alignements."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "ppt": {
+    "fileName": "Bilan Verdeval.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Verdeval",
+          "sous-titre": "Bilan de la saison 2026"
+        }
+      },
+      {
+        "layout": "titre-seul",
+        "textes": {
+          "titre": "Le mot des clients"
+        },
+        "objets": [
+          {
+            "id": "zt-chiffre",
+            "objectType": "texte",
+            "texte": "38 jardins livrés en 2026",
+            "rect": {
+              "x": 70,
+              "y": 160,
+              "w": 520,
+              "h": 60
+            }
+          },
+          {
+            "id": "zt-citation",
+            "objectType": "texte",
+            "texte": "Un chantier propre et une équipe ponctuelle.",
+            "rect": {
+              "x": 70,
+              "y": 260,
+              "w": 620,
+              "h": 60
+            }
+          },
+          {
+            "id": "zt-source",
+            "objectType": "texte",
+            "texte": "Copropriété Les Tilleuls, Nantes",
+            "rect": {
+              "x": 70,
+              "y": 350,
+              "w": 520,
+              "h": 55
+            },
+            "style": {
+              "underline": true
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M03-L02-01",
+      "consigne": "Les trois attributs ne disent pas la même chose. Le **gras** met en avant : un chiffre, un mot-clé. L'**italique** signale un emprunt : une citation, un terme étranger. Le **souligné**, lui, est devenu le signe d'un lien cliquable — sur une diapositive, il fait hésiter le lecteur pour rien.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M03-L02-02",
+      "consigne": "==Affichez la deuxième diapositive==, celle qui reprend un retour de client.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 1
+      }
+    },
+    {
+      "id": "M03-L02-03",
+      "consigne": "==Mettez en gras la ligne du chiffre== (« 38 jardins livrés en 2026 ») : sélectionnez-la, puis cliquez sur G. C'est le chiffre que vous voulez que l'auditoire retienne.",
+      "setupPpt": {
+        "slide": 1
+      },
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "zt-chiffre",
+        "style": {
+          "bold": true
+        }
+      },
+      "aide": {
+        "text": "Cliquez une fois sur la ligne, puis sur le bouton G du groupe Police."
+      },
+      "feedback": "Le chiffre accroche l'œil avant le reste : c'est exactement le rôle du gras."
+    },
+    {
+      "id": "M03-L02-04",
+      "consigne": "==Mettez la phrase du client en italique==. Elle n'est pas de vous : l'italique le signale sans qu'il soit besoin de l'écrire.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Bilan de la saison 2026"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Le mot des clients"
+              },
+              "objets": [
+                {
+                  "id": "zt-chiffre",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 70,
+                    "y": 160,
+                    "w": 520,
+                    "h": 60
+                  },
+                  "texte": "38 jardins livrés en 2026",
+                  "style": {
+                    "bold": true
+                  }
+                },
+                {
+                  "id": "zt-citation",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 70,
+                    "y": 260,
+                    "w": 620,
+                    "h": 60
+                  },
+                  "texte": "Un chantier propre et une équipe ponctuelle."
+                },
+                {
+                  "id": "zt-source",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 70,
+                    "y": 350,
+                    "w": 520,
+                    "h": 55
+                  },
+                  "texte": "Copropriété Les Tilleuls, Nantes",
+                  "style": {
+                    "underline": true
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "zt-citation",
+        "style": {
+          "italic": true
+        }
+      },
+      "aide": {
+        "text": "C'est la ligne du milieu, entre le chiffre et le nom de la copropriété."
+      }
+    },
+    {
+      "id": "M03-L02-05",
+      "consigne": "Regardez la dernière ligne, le nom de la copropriété : elle est **soulignée**. Sur un écran, un texte souligné ressemble à un lien — l'auditoire se demande une seconde s'il faut cliquer, et cette seconde est perdue pour votre propos. C'est le seul des trois attributs qu'on retire par défaut.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M03-L02-06",
+      "consigne": "==Retirez le souligné== de cette ligne : sélectionnez-la, puis cliquez sur S. Le bouton **bascule** — il pose l'attribut s'il est absent, l'enlève s'il est présent. C'est vrai des trois.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Bilan de la saison 2026"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Le mot des clients"
+              },
+              "objets": [
+                {
+                  "id": "zt-chiffre",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 70,
+                    "y": 160,
+                    "w": 520,
+                    "h": 60
+                  },
+                  "texte": "38 jardins livrés en 2026",
+                  "style": {
+                    "bold": true
+                  }
+                },
+                {
+                  "id": "zt-citation",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 70,
+                    "y": 260,
+                    "w": 620,
+                    "h": 60
+                  },
+                  "texte": "Un chantier propre et une équipe ponctuelle.",
+                  "style": {
+                    "italic": true
+                  }
+                },
+                {
+                  "id": "zt-source",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 70,
+                    "y": 350,
+                    "w": 520,
+                    "h": 55
+                  },
+                  "texte": "Copropriété Les Tilleuls, Nantes",
+                  "style": {
+                    "underline": true
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "zt-source",
+        "style": {
+          "underline": false
+        }
+      },
+      "aide": {
+        "text": "Le bouton S est le troisième du groupe Police. Il apparaît allumé tant que le souligné est actif."
+      }
+    },
+    {
+      "id": "M03-L02-07",
+      "consigne": "==Mettez cette même ligne en italique==, comme la citation qu'elle attribue. Deux attributs peuvent se cumuler sur le même élément : l'un n'annule pas l'autre.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Bilan de la saison 2026"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Le mot des clients"
+              },
+              "objets": [
+                {
+                  "id": "zt-chiffre",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 70,
+                    "y": 160,
+                    "w": 520,
+                    "h": 60
+                  },
+                  "texte": "38 jardins livrés en 2026",
+                  "style": {
+                    "bold": true
+                  }
+                },
+                {
+                  "id": "zt-citation",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 70,
+                    "y": 260,
+                    "w": 620,
+                    "h": 60
+                  },
+                  "texte": "Un chantier propre et une équipe ponctuelle.",
+                  "style": {
+                    "italic": true
+                  }
+                },
+                {
+                  "id": "zt-source",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 70,
+                    "y": 350,
+                    "w": 520,
+                    "h": 55
+                  },
+                  "texte": "Copropriété Les Tilleuls, Nantes",
+                  "style": {
+                    "underline": false
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "zt-source",
+        "style": {
+          "italic": true
+        }
+      }
+    },
+    {
+      "id": "M03-L02-08",
+      "consigne": "Attention au piège suivant : si vous mettiez maintenant les trois lignes en gras, plus aucune ne ressortirait. **L'emphase est un contraste** — elle ne fonctionne que si l'essentiel du texte reste normal. Une diapositive où tout est en gras est une diapositive sans hiérarchie.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M03-L02-09",
+      "consigne": "==Mettez le titre de la diapositive en gras==. Le titre est le seul élément dont l'emphase ne coûte rien : il est déjà seul de son espèce, et le gras confirme sa fonction au lieu de la disputer.",
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "ph:titre",
+        "style": {
+          "bold": true
+        }
+      },
+      "aide": {
+        "text": "Cliquez sur le titre « Le mot des clients », puis sur G."
+      }
+    },
+    {
+      "id": "M03-L02-10",
+      "consigne": "À retenir : **gras** pour ce qu'on doit retenir, **italique** pour ce qui est cité, **souligné** presque jamais. Les boutons basculent, les attributs se cumulent, et l'emphase ne vaut que par ce qu'elle laisse en dehors d'elle.",
+      "action": {
+        "type": "READ"
+      }
+    }
+  ]
+}

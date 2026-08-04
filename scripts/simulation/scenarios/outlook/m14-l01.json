@@ -1,0 +1,269 @@
+{
+  "schemaVersion": 1,
+  "title": "Accuser réception sans s'engager",
+  "mode": "LESSON",
+  "moduleTitle": "Traiter une réclamation par écrit",
+  "intro": {
+    "title": "Un client mécontent, et vous ne savez pas encore qui a tort",
+    "body": "Le premier message d'une réclamation n'est pas celui qui règle le problème : c'est celui qui empêche qu'il grossisse. Il doit partir vite, dire qu'on a lu, annoncer une vérification et une date — et surtout ne rien reconnaître avant d'avoir vu. Ce que vous écrivez aujourd'hui pourra vous être opposé dans six mois."
+  },
+  "outro": {
+    "body": "« Nous vérifions et nous vous répondons vendredi » calme un client. « C'est de notre faute, nous remboursons » écrit avant d'avoir vu le chantier vous engage sur une somme que vous ne devez peut-être pas. La rapidité porte sur la réponse, jamais sur la conclusion."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "litiges",
+        "nom": "Réclamations"
+      },
+      {
+        "id": "clients",
+        "nom": "Clients 2026"
+      }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "fichiers": [
+      {
+        "nom": "Constat-chantier-Leroux.pdf",
+        "taille": "420 Ko"
+      },
+      {
+        "nom": "Devis-2026-174.pdf",
+        "taille": "180 Ko"
+      },
+      {
+        "nom": "Notes-internes-Leroux.pdf",
+        "taille": "64 Ko"
+      },
+      {
+        "nom": "Photos-panneau-raye.jpg",
+        "taille": "1,4 Mo"
+      }
+    ],
+    "messages": [
+      {
+        "id": "m-recla",
+        "dossier": "reception",
+        "de": "j.leroux@habitat-du-nord.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Ce n'est pas acceptable",
+        "corps": "Bonjour,\n\nLe panneau posé mardi est rayé sur toute la longueur et le joint du bas ne tient pas.\nNous recevons des locataires jeudi. Je veux une solution.\n\nJulien Leroux\nHabitat du Nord",
+        "date": "2026-04-16T07:35",
+        "lu": false
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O14-L01-01",
+      "consigne": "==Ouvrez la réclamation de Julien Leroux.== Deux griefs, une échéance jeudi, et un ton sec. Lisez d'abord : c'est le seul moment où vous saurez exactement ce qui est reproché.",
+      "action": {
+        "type": "O_SELECT_MESSAGE",
+        "id": "m-recla"
+      },
+      "aide": {
+        "text": "C'est le message d'Habitat du Nord."
+      }
+    },
+    {
+      "id": "O14-L01-02",
+      "consigne": "==Cliquez sur Répondre.== L'accusé de réception part aujourd'hui, avant même que vous ayez vu le chantier : c'est ce délai-là qui empêche le mécontentement de monter d'un cran.",
+      "setup": {
+        "courrier": {
+          "messageActif": "m-recla"
+        }
+      },
+      "action": {
+        "type": "O_CLICK_CONTROL",
+        "control": "cr-repondre"
+      },
+      "aide": {
+        "text": "Le bouton Répondre, premier de la barre du haut du volet de lecture."
+      }
+    },
+    {
+      "id": "O14-L01-03",
+      "consigne": "==Complétez l'objet avec le mot `réclamation`.== L'objet reçu exprime une humeur ; le vôtre doit nommer un dossier. C'est sous ce mot que vous retrouverez l'échange s'il tourne mal.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "objet": {
+            "prefixe": "RE",
+            "contient": [
+              "réclamation"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Ajoutez le mot à la fin de l'objet, en gardant le préfixe."
+      }
+    },
+    {
+      "id": "O14-L01-04",
+      "consigne": "==Rédigez l'accusé de réception.== Trois éléments : **la reprise des deux griefs**, **l'annonce d'une vérification**, **une date de retour**. Rien de plus — n'écrivez aucune reconnaissance de responsabilité.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "corps": {
+            "salutation": [
+              "bonjour",
+              "madame",
+              "monsieur",
+              "bonsoir"
+            ],
+            "cloture": [
+              "cordialement",
+              "salutations",
+              "bien a vous",
+              "merci"
+            ],
+            "notions": [
+              {
+                "libelle": "la reprise des griefs",
+                "oneOf": [
+                  "rayure",
+                  "raye",
+                  "joint",
+                  "panneau"
+                ]
+              },
+              {
+                "libelle": "l'annonce d'une vérification",
+                "oneOf": [
+                  "verifier",
+                  "verification",
+                  "constater",
+                  "constat",
+                  "passer sur place",
+                  "venir voir",
+                  "examiner"
+                ]
+              },
+              {
+                "libelle": "une date de retour",
+                "oneOf": [
+                  "jeudi",
+                  "mercredi",
+                  "demain",
+                  "avant jeudi",
+                  "d'ici",
+                  "des demain"
+                ]
+              }
+            ],
+            "interdit": [
+              {
+                "libelle": "une reconnaissance de responsabilité écrite avant vérification",
+                "oneOf": [
+                  "c'est de notre faute",
+                  "nous sommes responsables",
+                  "nous vous remboursons",
+                  "nous remplacons tout",
+                  "erreur de notre part",
+                  "nous reconnaissons"
+                ]
+              }
+            ],
+            "minMots": 20
+          }
+        }
+      },
+      "aide": {
+        "text": "Annoncez ce que vous allez faire et quand. Ne concluez pas sur la responsabilité."
+      }
+    },
+    {
+      "id": "O14-L01-05",
+      "consigne": "==Mettez `n.kerbaj@atelier-nord.fr` en copie.== Une réclamation écrite est un risque pour l'entreprise : la gérante doit le **savoir** dès le premier échange, pas le découvrir au troisième.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "a": {
+            "contient": [
+              "j.leroux@habitat-du-nord.fr"
+            ],
+            "absent": [
+              "n.kerbaj@atelier-nord.fr"
+            ]
+          },
+          "cc": {
+            "contient": [
+              "n.kerbaj@atelier-nord.fr"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Le champ Cc, deuxième ligne de la fenêtre de rédaction."
+      }
+    },
+    {
+      "id": "O14-L01-06",
+      "consigne": "==Envoyez l'accusé de réception.== Vous n'avez rien concédé, rien nié, et pourtant le client sait qu'il est pris au sérieux. C'est exactement ce que doit faire ce premier message.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "j.leroux@habitat-du-nord.fr"
+            ]
+          },
+          "cc": {
+            "contient": [
+              "n.kerbaj@atelier-nord.fr"
+            ]
+          },
+          "objet": {
+            "prefixe": "RE",
+            "contient": [
+              "réclamation"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Le bouton Envoyer."
+      }
+    },
+    {
+      "id": "O14-L01-07",
+      "consigne": "==Posez un indicateur sur la réclamation.== Vous vous êtes engagée sur une date. Tant que la vérification n'a pas eu lieu, ce message n'est pas traité — il est ouvert.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-recla": {
+              "dossier": "reception",
+              "indicateur": true
+            }
+          }
+        }
+      },
+      "aide": {
+        "text": "Ouvrez le message, puis le drapeau. Ne le rangez pas encore."
+      }
+    }
+  ]
+}

@@ -1,0 +1,99 @@
+{
+  "schemaVersion": 1,
+  "app": "WORD",
+  "title": "Exercice — Police et taille",
+  "mode": "EXERCISE",
+  "moduleTitle": "Saisie et mise en forme des caractères",
+  "intro": {
+    "title": "À VOUS DE JOUER",
+    "body": "Une affichette d'atelier à hiérarchiser. Trois niveaux de lecture à créer, avec deux réglages seulement : la police et la taille. À vous de choisir les valeurs qui creusent l'écart sans le rendre grotesque."
+  },
+  "outro": "Trois niveaux, deux réglages. C'est le minimum vital d'une mise en page lisible.",
+  "document": {
+    "paragraphes": [
+      {
+        "texte": "Fermeture exceptionnelle"
+      },
+      {
+        "texte": "Vendredi 3 avril, toute la journée"
+      },
+      {
+        "texte": "Les commandes en cours seront expédiées le lundi suivant."
+      },
+      {
+        "texte": "Merci de votre compréhension."
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M02-E02-01",
+      "consigne": "L'annonce doit se lire depuis l'entrée de l'atelier. ==Portez le titre à la taille 24.==",
+      "setup": {
+        "ribbon": {
+          "activeTab": "accueil"
+        }
+      },
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p0",
+        "format": {
+          "taille": 24
+        }
+      },
+      "feedback": "Le titre porte à distance."
+    },
+    {
+      "id": "M02-E02-02",
+      "consigne": "La date vient juste après le titre dans l'ordre de lecture. ==Portez-la à la taille 14==, un écart net avec le corps du texte.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p1",
+        "format": {
+          "taille": 14
+        }
+      },
+      "feedback": "Deuxième niveau installé."
+    },
+    {
+      "id": "M02-E02-03",
+      "consigne": "Cette affichette sera imprimée et punaisée. ==Mettez le titre dans une police à empattements==, celle qui se lit le mieux sur papier parmi les quatre proposées.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p0",
+        "format": {
+          "police": "Georgia"
+        }
+      },
+      "aide": {
+        "text": "Georgia et Times New Roman ont des empattements ; Georgia est la plus lisible en grand.",
+        "showTarget": true
+      },
+      "feedback": "Le titre a le dessin qui convient au papier."
+    },
+    {
+      "id": "M02-E02-04",
+      "consigne": "==Donnez la même police à la ligne de date== : deux niveaux de titre parlent d'une seule voix.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p1",
+        "format": {
+          "police": "Georgia"
+        }
+      },
+      "feedback": "L'ensemble se tient."
+    },
+    {
+      "id": "M02-E02-05",
+      "consigne": "La formule de politesse finale n'a pas besoin d'être lue de loin. ==Réduisez-la à la taille 9.==",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p3",
+        "format": {
+          "taille": 9
+        }
+      },
+      "feedback": "Quatre niveaux de lecture, obtenus sans une seule couleur."
+    }
+  ]
+}

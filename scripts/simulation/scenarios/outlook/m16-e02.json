@@ -1,0 +1,236 @@
+{
+  "schemaVersion": 1,
+  "title": "Le retour : trier ce qui s'est accumulé",
+  "mode": "EXERCISE",
+  "moduleTitle": "Préparer son absence, reprendre à son retour",
+  "intro": {
+    "title": "Lundi matin, vingt messages de retard",
+    "body": "Deux jours d'absence laissent une file où tout se ressemble. Le tri n'est pas différent d'un matin ordinaire : ce qui est traité se range, ce qui attend de vous se marque, ce qui est du bruit disparaît. Ce qui change, c'est le volume."
+  },
+  "outro": {
+    "body": "Au retour, la tentation est de tout lire dans l'ordre. Trier d'abord et lire ensuite prend deux fois moins de temps : sur vingt messages, la moitié est déjà réglée par la personne qui vous remplaçait."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "chantiers",
+        "nom": "Chantiers en cours"
+      },
+      {
+        "id": "clients",
+        "nom": "Clients 2026"
+      }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "fichiers": [
+      {
+        "nom": "Passation-dossiers-mars.pdf",
+        "taille": "210 Ko"
+      },
+      {
+        "nom": "Plan-de-pose-mediatheque.pdf",
+        "taille": "810 Ko"
+      },
+      {
+        "nom": "Marges-atelier-2026.xlsx",
+        "taille": "72 Ko"
+      }
+    ],
+    "messages": [
+      {
+        "id": "m-regle",
+        "dossier": "reception",
+        "de": "s.brunel@atelier-nord.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Ce que j'ai traité",
+        "corps": "Camille,\n\nJ'ai livré la médiathèque jeudi et signé le bon avec Rémi. Rien à reprendre.\n\nSonia",
+        "date": "2026-03-06T17:20",
+        "lu": false
+      },
+      {
+        "id": "m-attente",
+        "dossier": "reception",
+        "de": "j.leroux@habitat-du-nord.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Notre point de la semaine prochaine",
+        "corps": "Bonjour,\n\nPouvez-vous me confirmer un créneau pour le point de chantier ?\n\nJulien Leroux",
+        "date": "2026-03-05T10:05",
+        "lu": false
+      },
+      {
+        "id": "m-pub",
+        "dossier": "reception",
+        "de": "offres@promo-outillage.net",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Ventes flash du week-end",
+        "corps": "Nos prix.",
+        "date": "2026-03-06T06:30",
+        "lu": false
+      },
+      {
+        "id": "m-devis",
+        "dossier": "reception",
+        "de": "h.vasseur@menuiserie-vasseur.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Sous-traitance escalier",
+        "corps": "Bonjour Camille,\n\nJ'ai un escalier à sous-traiter en avril. Tu peux me chiffrer ça ?\n\nHugo",
+        "date": "2026-03-05T14:45",
+        "lu": false
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O16-E02-01",
+      "consigne": "Sonia a soldé la médiathèque : son compte rendu est une information, pas une tâche. Rangez-le dans Chantiers en cours.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-regle": {
+              "dossier": "chantiers"
+            }
+          }
+        }
+      },
+      "aide": {
+        "text": "Déplacer, puis Chantiers en cours."
+      }
+    },
+    {
+      "id": "O16-E02-02",
+      "consigne": "Sortez les ventes flash de votre file d'attente.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-pub": {
+              "dossier": "supprimes"
+            }
+          }
+        }
+      },
+      "aide": {
+        "text": "Le bouton Supprimer."
+      }
+    },
+    {
+      "id": "O16-E02-03",
+      "consigne": "Julien Leroux attend un créneau que vous seule pouvez donner : marquez son message comme restant à traiter.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-attente": {
+              "dossier": "reception",
+              "indicateur": true
+            }
+          }
+        }
+      },
+      "aide": {
+        "text": "Ouvrez son message, puis le drapeau."
+      }
+    },
+    {
+      "id": "O16-E02-04",
+      "consigne": "La demande d'Hugo Vasseur se règle en deux minutes : répondez-lui directement plutôt que de la marquer.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "genre": "reponse",
+          "a": {
+            "contient": [
+              "h.vasseur@menuiserie-vasseur.fr"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Ouvrez son message, puis Répondre."
+      }
+    },
+    {
+      "id": "O16-E02-05",
+      "consigne": "Rédigez cette réponse et envoyez-la. Elle doit dire **que vous pouvez chiffrer** et **ce qu'il vous faut** pour le faire.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "h.vasseur@menuiserie-vasseur.fr"
+            ]
+          },
+          "corps": {
+            "salutation": [
+              "bonjour",
+              "madame",
+              "monsieur",
+              "bonsoir"
+            ],
+            "cloture": [
+              "cordialement",
+              "salutations",
+              "bien a vous",
+              "merci"
+            ],
+            "notions": [
+              {
+                "libelle": "que vous pouvez chiffrer",
+                "oneOf": [
+                  "je peux",
+                  "avec plaisir",
+                  "bien sur",
+                  "c'est possible",
+                  "je te chiffre",
+                  "volontiers"
+                ]
+              },
+              {
+                "libelle": "ce qu'il vous faut pour chiffrer",
+                "oneOf": [
+                  "plan",
+                  "cotes",
+                  "dimensions",
+                  "hauteur",
+                  "essence",
+                  "photos",
+                  "details"
+                ]
+              }
+            ],
+            "minMots": 18
+          }
+        }
+      },
+      "aide": {
+        "text": "Deux informations sont attendues : votre accord, et ce qui vous manque."
+      }
+    }
+  ]
+}

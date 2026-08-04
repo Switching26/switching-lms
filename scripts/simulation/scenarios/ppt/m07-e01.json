@@ -1,0 +1,133 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "mode": "EXERCISE",
+  "moduleTitle": "Reprendre une présentation existante",
+  "title": "Exercice — Tirer une version d'une autre",
+  "intro": {
+    "title": "Exercice — Tirer une version d'une autre",
+    "body": "La présentation faite au conseil municipal doit resservir devant une copropriété. Tirez-en une seconde version sans détruire la première, et écartez du déroulé celle qui ne sert plus."
+  },
+  "outro": {
+    "body": "Dupliquer, adapter, masquer l'ancienne : la trace de ce qui a été présenté à qui est conservée."
+  },
+  "ppt": {
+    "fileName": "Offre Verdeval.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Verdeval",
+          "sous-titre": "Présenté au conseil municipal le 12 mars"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Notre offre d'entretien",
+          "contenu": "12 passages par an\nTaille et tonte\nÉvacuation des déchets verts"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Merci de votre attention",
+          "contenu": "Questions et échanges"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M07-E01-01",
+      "consigne": "Affichez la diapositive d'ouverture.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 0
+      },
+      "aide": {
+        "text": "C'est la première miniature du volet."
+      }
+    },
+    {
+      "id": "M07-E01-02",
+      "consigne": "Obtenez-en une seconde exemplaire, sans la refaire.",
+      "action": {
+        "type": "P_DUPLICATE_SLIDE",
+        "index": 0
+      },
+      "aide": {
+        "text": "Groupe Diapositives, bouton Dupliquer."
+      }
+    },
+    {
+      "id": "M07-E01-03",
+      "consigne": "Sur la copie, indiquez le nouveau public et la nouvelle date : Présenté à la copropriété le 6 mai.",
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:sous-titre",
+        "accept": [
+          "Présenté à la copropriété le 6 mai"
+        ]
+      },
+      "aide": {
+        "text": "Un sous-titre déjà rempli s'ouvre au double-clic."
+      }
+    },
+    {
+      "id": "M07-E01-04",
+      "consigne": "Deux ouvertures ne peuvent pas coexister dans le déroulé. Affichez l'ancienne.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 0
+      }
+    },
+    {
+      "id": "M07-E01-05",
+      "consigne": "Elle resservira pour la mairie l'an prochain : écartez-la du diaporama sans la détruire.",
+      "action": {
+        "type": "P_EXPECT_DECK",
+        "deck": {
+          "slides": [
+            {
+              "index": 0,
+              "masquee": true
+            }
+          ]
+        }
+      },
+      "aide": {
+        "text": "Groupe Diaporama, bouton Masquer."
+      }
+    },
+    {
+      "id": "M07-E01-06",
+      "consigne": "Vérifiez le déroulé tel que la copropriété le verra, depuis le début : l'ancienne ouverture ne doit pas apparaître.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": true,
+          "index": 1
+        }
+      },
+      "aide": {
+        "text": "Groupe Diaporama, bouton « ▶ Début ». Le diaporama démarre sur la première diapositive NON masquée."
+      }
+    },
+    {
+      "id": "M07-E01-07",
+      "consigne": "Revenez à votre présentation.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": false
+        }
+      }
+    }
+  ]
+}

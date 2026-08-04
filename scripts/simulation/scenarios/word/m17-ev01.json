@@ -1,0 +1,132 @@
+{
+ "schemaVersion": 1,
+ "app": "WORD",
+ "title": "Évaluation — correction d'un document",
+ "mode": "EVALUATION",
+ "moduleTitle": "Correction d'un document",
+ "intro": {
+  "title": "ÉVALUATION NOTÉE",
+  "body": "Une convention de partenariat part à la signature. Quatre signalements : trois fondés, un qui vise le nom du partenaire. Chaque décision est notée."
+ },
+ "outro": "Vous savez lire une suggestion avant de l'accepter — et refuser celles qui ont tort.",
+ "document": {
+  "paragraphes": [
+   {
+    "texte": "Conventio de partenariat",
+    "style": "titre"
+   },
+   {
+    "texte": "La société Malartre s'engage pour une durée de deux ans.",
+    "style": "normal"
+   },
+   {
+    "texte": "La signture des deux parties vaut acceptation.",
+    "style": "normal"
+   },
+   {
+    "texte": "Les données échangées relèvent du Rgpd.",
+    "style": "normal"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "id": "M17-EV01-01",
+   "points": 3,
+   "consigne": "==Ouvrez le panneau Vérification== depuis l'onglet Révision.",
+   "action": {
+    "type": "W_CLICK_CONTROL",
+    "controle": "w-verification"
+   },
+   "setup": {
+    "ribbon": {
+     "activeTab": "revision"
+    },
+    "correcteur": {
+     "fautes": [
+      {
+       "mot": "conventio",
+       "suggestion": "convention",
+       "motif": "Lettre finale manquante."
+      },
+      {
+       "mot": "signture",
+       "suggestion": "signature",
+       "motif": "Lettre manquante."
+      },
+      {
+       "mot": "Malartre",
+       "suggestion": "Malâtre",
+       "motif": "Mot absent du dictionnaire."
+      },
+      {
+       "mot": "Rgpd",
+       "suggestion": "RGPD",
+       "motif": "Sigle : capitales attendues."
+      }
+     ]
+    }
+   },
+   "feedback": "Quatre entrées à trancher."
+  },
+  {
+   "id": "M17-EV01-02",
+   "points": 10,
+   "consigne": "==Traitez les quatre signalements.== Corrigez les trois fautes réelles — dont le sigle, qui s'écrit en capitales — et ignorez le nom de la société partenaire, que le correcteur ne connaît pas.",
+   "action": {
+    "type": "W_EXPECT_DOC",
+    "paragraphes": {
+     "p0": [
+      "Convention de partenariat"
+     ],
+     "p1": [
+      "La société Malartre s'engage pour une durée de deux ans."
+     ],
+     "p2": [
+      "La signature des deux parties vaut acceptation."
+     ],
+     "p3": [
+      "Les données échangées relèvent du RGPD."
+     ]
+    }
+   },
+   "setup": {
+    "correcteur": {
+     "fautes": [
+      {
+       "mot": "conventio",
+       "suggestion": "convention",
+       "motif": "Lettre finale manquante."
+      },
+      {
+       "mot": "signture",
+       "suggestion": "signature",
+       "motif": "Lettre manquante."
+      },
+      {
+       "mot": "Malartre",
+       "suggestion": "Malâtre",
+       "motif": "Mot absent du dictionnaire."
+      },
+      {
+       "mot": "Rgpd",
+       "suggestion": "RGPD",
+       "motif": "Sigle : capitales attendues."
+      }
+     ]
+    }
+   },
+   "feedback": "Trois corrections, un refus motivé."
+  },
+  {
+   "id": "M17-EV01-03",
+   "points": 3,
+   "consigne": "==Refermez le panneau de vérification.==",
+   "action": {
+    "type": "W_CLICK_CONTROL",
+    "controle": "w-verif-fermer"
+   },
+   "feedback": "Document relu."
+  }
+ ]
+}

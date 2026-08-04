@@ -1,0 +1,286 @@
+{
+  "schemaVersion": 1,
+  "title": "Les quatre décisions du matin",
+  "mode": "LESSON",
+  "moduleTitle": "Traiter sa boîte du matin : la routine",
+  "intro": {
+    "title": "Cinq messages, quinze minutes",
+    "body": "Traiter sa boîte n'est pas la lire : c'est prendre, message par message, l'une des quatre seules décisions possibles. Répondre tout de suite si cela prend moins de deux minutes, classer si c'est traité, marquer si cela attend, supprimer si cela n'appelle rien. Rien d'autre. Vous allez le faire cinq fois."
+  },
+  "outro": {
+    "body": "Ce qui reste dans la file d'attente à la fin n'est pas ce que vous n'avez pas eu le temps de lire : c'est votre liste de choses à faire. Le tri du matin ne fait pas gagner du temps de lecture, il transforme une boîte en plan de journée."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "clients",
+        "nom": "Clients 2026"
+      },
+      {
+        "id": "fournisseurs",
+        "nom": "Fournisseurs"
+      }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "messages": [
+      {
+        "id": "m-court",
+        "dossier": "reception",
+        "de": "marches@ville-lambersart.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Salle des mariages — un seul point à confirmer",
+        "corps": "Bonjour,\n\nConfirmez-vous que le mobilier est livré monté ?\n\nService des marchés",
+        "date": "2026-03-30T07:50",
+        "lu": false
+      },
+      {
+        "id": "m-long",
+        "dossier": "reception",
+        "de": "j.leroux@habitat-du-nord.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Escalier Beaulieu — reprise effectuée, quelques remarques",
+        "corps": "Bonjour,\n\nLa reprise est faite et nous levons la réserve.\nNous reviendrons vers vous en mai pour le projet de mezzanine.\n\nJulien Leroux",
+        "date": "2026-03-30T07:20",
+        "lu": false
+      },
+      {
+        "id": "m-attente",
+        "dossier": "reception",
+        "de": "compta@quincaillerie-delmas.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Commande CD-1204 — livraison le 3 avril",
+        "corps": "Bonjour,\n\nVotre commande sera livrée le 3 avril entre 8 h et 12 h.\n\nQuincaillerie Delmas",
+        "date": "2026-03-30T06:40",
+        "lu": false
+      },
+      {
+        "id": "m-pub1",
+        "dossier": "reception",
+        "de": "offres@promo-outillage.net",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Lundi noir — 48 h de promotions",
+        "corps": "Nos offres.",
+        "date": "2026-03-30T05:10",
+        "lu": false
+      },
+      {
+        "id": "m-pub2",
+        "dossier": "reception",
+        "de": "newsletter@bois-et-materiaux.info",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "La lettre du bois — 30 mars",
+        "corps": "L'actualité.",
+        "date": "2026-03-30T04:30",
+        "lu": false
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O08-L01-01",
+      "consigne": "==Supprimez les promotions `Lundi noir`.== Première décision, et la plus rapide : ce qui n'appelle aucune action ne mérite ni lecture, ni classement, ni réflexion.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-pub1": {
+              "dossier": "supprimes"
+            }
+          }
+        }
+      },
+      "aide": {
+        "text": "Ouvrez le message, puis Supprimer dans la barre du haut."
+      }
+    },
+    {
+      "id": "O08-L01-02",
+      "consigne": "==Supprimez la lettre du bois.== Même décision, même geste. Traiter d'abord ce qui se jette dégage l'écran et fait apparaître ce qui compte vraiment.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-pub2": {
+              "dossier": "supprimes"
+            }
+          }
+        }
+      },
+      "aide": {
+        "text": "Ouvrez le message, puis Supprimer."
+      }
+    },
+    {
+      "id": "O08-L01-03",
+      "consigne": "==Ouvrez le message de la mairie.== Deuxième décision : **répondre tout de suite**. Une question fermée, une réponse d'une ligne — la traiter maintenant coûte moins cher que d'y penser trois fois dans la journée.",
+      "action": {
+        "type": "O_SELECT_MESSAGE",
+        "id": "m-court"
+      },
+      "aide": {
+        "text": "C'est le message qui pose un seul point à confirmer."
+      }
+    },
+    {
+      "id": "O08-L01-04",
+      "consigne": "==Répondez au service des marchés== et confirmez que le mobilier est livré monté. Restez court : une question fermée appelle une réponse fermée.",
+      "setup": {
+        "courrier": {
+          "messageActif": "m-court"
+        }
+      },
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "genre": "reponse",
+          "a": {
+            "contient": [
+              "marches@ville-lambersart.fr"
+            ]
+          },
+          "cc": {
+            "vide": true
+          }
+        }
+      },
+      "aide": {
+        "text": "Le bouton Répondre, premier de la barre du haut du volet de lecture."
+      }
+    },
+    {
+      "id": "O08-L01-05",
+      "consigne": "==Rédigez la réponse et envoyez-la.== Elle doit dire **que le mobilier est livré monté** et rappeler **le marché concerné** : deux informations, trois lignes.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "marches@ville-lambersart.fr"
+            ]
+          },
+          "cc": {
+            "vide": true
+          },
+          "corps": {
+            "salutation": [
+              "bonjour",
+              "madame",
+              "monsieur",
+              "bonsoir"
+            ],
+            "cloture": [
+              "cordialement",
+              "salutations",
+              "bien a vous",
+              "merci"
+            ],
+            "notions": [
+              {
+                "libelle": "que le mobilier est livré monté",
+                "oneOf": [
+                  "monte",
+                  "montee",
+                  "assemble",
+                  "pret a poser",
+                  "livre monte"
+                ]
+              },
+              {
+                "libelle": "le marché ou le chantier concerné",
+                "oneOf": [
+                  "mariages",
+                  "mp-2026-24",
+                  "2026-24",
+                  "salle"
+                ]
+              }
+            ],
+            "minMots": 10
+          }
+        }
+      },
+      "aide": {
+        "text": "Deux informations sont attendues : le mobilier monté, et le marché."
+      }
+    },
+    {
+      "id": "O08-L01-06",
+      "consigne": "==Rangez le message de la mairie dans Clients 2026.== Troisième décision : **classer ce qui est traité**. Répondu puis rangé, il quitte la file d'attente le jour même.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-court": {
+              "dossier": "clients"
+            }
+          }
+        }
+      },
+      "aide": {
+        "text": "Déplacer, puis le dossier des clients."
+      }
+    },
+    {
+      "id": "O08-L01-07",
+      "consigne": "==Rangez la levée de réserve d'Habitat du Nord dans Clients 2026.== Elle n'attend rien : le projet de mezzanine reviendra en mai par un autre message, il ne se garde pas sous les yeux pendant six semaines.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-long": {
+              "dossier": "clients"
+            }
+          }
+        }
+      },
+      "aide": {
+        "text": "Déplacer, puis Clients 2026."
+      }
+    },
+    {
+      "id": "O08-L01-08",
+      "consigne": "==Posez un indicateur sur la livraison du 3 avril.== Quatrième décision : **marquer ce qui attend**. Vous ne pouvez rien en faire aujourd'hui, mais quelqu'un devra être là le 3 au matin.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-attente": {
+              "dossier": "reception",
+              "indicateur": true
+            }
+          }
+        }
+      },
+      "aide": {
+        "text": "Ouvrez le message, puis cliquez sur le drapeau. Ne le déplacez pas."
+      }
+    }
+  ]
+}

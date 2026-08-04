@@ -1,0 +1,104 @@
+{
+  "schemaVersion": 1,
+  "app": "WORD",
+  "title": "Exercice — Choisir l'orientation",
+  "mode": "EXERCISE",
+  "moduleTitle": "Mise en page",
+  "intro": {
+    "title": "À VOUS DE JOUER",
+    "body": "Deux documents, deux sens de page. À vous de décider lequel convient, puis d'accorder les marges à ce choix."
+  },
+  "outro": "Le sens de la feuille et les marges répondent à la même question : de quelle surface utile ai-je besoin, et dans quel sens ?",
+  "document": {
+    "paragraphes": [
+      {
+        "texte": "Tableau de suivi des commandes fournisseurs"
+      },
+      {
+        "texte": "Référence, fournisseur, quantité, date de commande, date de livraison prévue, statut."
+      },
+      {
+        "texte": "Le suivi est mis à jour chaque vendredi par le service achats."
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M08-E02-01",
+      "consigne": "Ce tableau comporte six colonnes qui ne tiennent pas en largeur. ==Donnez à la page le sens qui convient.==",
+      "action": {
+        "type": "W_EXPECT_PAGE",
+        "page": {
+          "orientation": "paysage"
+        }
+      },
+      "aide": {
+        "text": "Ce qui s'étale en largeur réclame le second sens de page.",
+        "showTarget": true
+      },
+      "feedback": "La feuille est maintenant plus large que haute."
+    },
+    {
+      "id": "M08-E02-02",
+      "consigne": "==Accordez les marges à ce choix== : la largeur gagnée ne doit pas être reperdue. Réglez 1,25 cm sur les quatre côtés.",
+      "action": {
+        "type": "W_EXPECT_PAGE",
+        "page": {
+          "orientation": "paysage",
+          "margeHaut": 1.25,
+          "margeBas": 1.25,
+          "margeGauche": 1.25,
+          "margeDroite": 1.25
+        }
+      },
+      "feedback": "Surface utile maximale : c'est cohérent avec le choix du paysage."
+    },
+    {
+      "id": "M08-E02-03",
+      "consigne": "Le tableau est finalement remplacé par une note explicative, pleine de texte. ==Rendez à la page le sens qui convient à du texte.==",
+      "action": {
+        "type": "W_EXPECT_PAGE",
+        "page": {
+          "orientation": "portrait",
+          "margeHaut": 1.25,
+          "margeBas": 1.25,
+          "margeGauche": 1.25,
+          "margeDroite": 1.25
+        }
+      },
+      "feedback": "Portrait retrouvé."
+    },
+    {
+      "id": "M08-E02-04",
+      "consigne": "En portrait, des marges de 1,25 cm donnent des lignes trop longues à lire. ==Revenez aux marges normales.==",
+      "action": {
+        "type": "W_EXPECT_PAGE",
+        "page": {
+          "orientation": "portrait",
+          "margeHaut": 2.5,
+          "margeBas": 2.5,
+          "margeGauche": 2.5,
+          "margeDroite": 2.5
+        }
+      },
+      "feedback": "Longueur de ligne confortable retrouvée."
+    },
+    {
+      "id": "M08-E02-05",
+      "consigne": "==Épaississez le titre== pour terminer.",
+      "setup": {
+        "ribbon": {
+          "activeTab": "accueil"
+        }
+      },
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p0",
+        "format": {
+          "gras": true
+        }
+      },
+      "feedback": "Note prête."
+    }
+  ]
+}

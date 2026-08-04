@@ -51,6 +51,7 @@ import { NextRequest, NextResponse } from "next/server"
 import { auth } from "@/lib/auth"
 import { chargerContexteSimulation } from "@/lib/simulation/acces"
 import { jugerEtape } from "@/lib/simulation/frappe"
+import { adaptateurPourType } from "@/lib/simulation/registre"
 import { enregistrerVerdict, marquerPassee, passagePourVerdict } from "@/lib/simulation/run"
 import type { ObservedAction } from "@/lib/simulation/validate"
 import type { SimulationScenario, SimulationStep } from "@/lib/simulation/types"
@@ -155,7 +156,23 @@ export async function POST(req: NextRequest, { params }: { params: { chapterId: 
   // `jugerEtape` rend le verdict ET le sort de la frappe — la seconde moitié du
   // jugement, que l'atelier calculait lui-même à partir des cellules attendues.
   // Il ne les a plus : c'est ici, et nulle part ailleurs, qu'elles sont lues.
-  const jugement = jugerEtape(steps[index], observed as ObservedAction)
+  /*
+   * L'adaptateur de l'APPLICATION de cette étape — corrige un trou de phase 2.
+   *
+   * Sans lui, `jugerEtape` prenait la branche Excel quelle que soit l'app :
+   * toute évaluation notée Word, PowerPoint ou Outlook aurait été jugée par le
+   * juge d'Excel, donc entièrement fausse — et silencieusement, puisqu'un
+   * verdict était bien rendu.
+   *
+   * `adaptateurPourType` renvoie l'adaptateur Excel pour un type non préfixé :
+   * les 246 chapitres publiés empruntent exactement le même chemin qu'avant.
+   */
+  const adaptateurEtape = adaptateurPourType(String(steps[index]?.action?.type ?? ""))
+  const jugement = jugerEtape(
+    steps[index],
+    observed as ObservedAction,
+    adaptateurEtape ?? undefined,
+  )
 
   /* C'EST ICI, ET NULLE PART AILLEURS, QUE LA NOTE SE CONSTRUIT.
    *

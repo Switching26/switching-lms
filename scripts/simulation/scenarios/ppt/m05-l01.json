@@ -1,0 +1,238 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "mode": "LESSON",
+  "moduleTitle": "Choisir la bonne disposition",
+  "title": "Les six dispositions",
+  "intro": {
+    "title": "Les six dispositions",
+    "body": "Une disposition n'est pas un habillage : c'est une promesse faite au lecteur sur le nombre de blocs et leur place. Cette leçon vous fait employer les six, et surtout comprendre laquelle promet quoi."
+  },
+  "outro": {
+    "body": "Vous connaissez les six dispositions et leur usage. La leçon suivante s'attaque à la plus exigeante : la comparaison."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "ppt": {
+    "fileName": "Offre Verdeval.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Verdeval",
+          "sous-titre": "Notre offre 2027"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Création et entretien"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Nos chantiers en images",
+          "contenu": "Photos à insérer"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Merci de votre attention",
+          "contenu": "Questions et échanges"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M05-L01-01",
+      "consigne": "Les six dispositions se lisent comme six promesses. **Titre et contenu** : un bloc de texte. **Deux contenus** : deux blocs côte à côte. **Comparaison** : deux blocs, chacun avec son intitulé. **Titre seul** : à vous de composer dessous. **Vide** : rien du tout. **Diapositive de titre** : une ouverture, ou une section.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M05-L01-02",
+      "consigne": "==Affichez la deuxième diapositive==. Elle doit présenter deux métiers, création et entretien, et n'offre qu'un seul bloc pour les deux.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 1
+      }
+    },
+    {
+      "id": "M05-L01-03",
+      "consigne": "==Passez-la en Deux contenus==. Le bloc unique se scinde en deux colonnes de largeur égale : la disposition dit au lecteur qu'il va lire deux choses de même importance.",
+      "action": {
+        "type": "P_SET_LAYOUT",
+        "layout": "deux-contenus"
+      },
+      "aide": {
+        "text": "Groupe Diapositives, menu « Disposition ▾ », quatrième entrée."
+      },
+      "feedback": "Deux colonnes : le lecteur sait maintenant qu'il y a deux sujets, avant même de lire."
+    },
+    {
+      "id": "M05-L01-04",
+      "consigne": "==Saisissez Création de jardins dans la colonne de gauche==. Chaque colonne se remplit comme un bloc ordinaire : un clic dedans, puis on écrit.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Notre offre 2027"
+              }
+            },
+            {
+              "layout": "deux-contenus",
+              "textes": {
+                "titre": "Création et entretien"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Nos chantiers en images",
+                "contenu": "Photos à insérer"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Merci de votre attention",
+                "contenu": "Questions et échanges"
+              }
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:contenu",
+        "accept": [
+          "Création de jardins"
+        ]
+      },
+      "aide": {
+        "text": "C'est le cadre de gauche, qui porte l'invite « Cliquez pour ajouter du texte »."
+      }
+    },
+    {
+      "id": "M05-L01-05",
+      "consigne": "==Saisissez Entretien annuel dans la colonne de droite==. Les deux colonnes sont indépendantes : ce que vous écrivez dans l'une ne touche pas l'autre.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Notre offre 2027"
+              }
+            },
+            {
+              "layout": "deux-contenus",
+              "textes": {
+                "titre": "Création et entretien",
+                "contenu": "Création de jardins"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Nos chantiers en images",
+                "contenu": "Photos à insérer"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Merci de votre attention",
+                "contenu": "Questions et échanges"
+              }
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:contenu#2",
+        "accept": [
+          "Entretien annuel"
+        ]
+      },
+      "aide": {
+        "text": "C'est le second cadre, à droite du premier."
+      }
+    },
+    {
+      "id": "M05-L01-06",
+      "consigne": "Deux colonnes se justifient quand les deux contenus sont de **même nature et de même poids** : deux métiers, deux périodes, deux sites. Si l'un des deux est manifestement plus important, une seule colonne et un ordre valent mieux — deux colonnes déséquilibrées se voient tout de suite.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M05-L01-07",
+      "consigne": "==Affichez la troisième diapositive==. Elle annonce des photos, et son bloc de texte ne contient qu'une note de travail : ce cadre ne servira pas.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 2
+      }
+    },
+    {
+      "id": "M05-L01-08",
+      "consigne": "==Passez-la en Titre seul==. C'est la disposition des diapositives visuelles : elle garde le titre, et vous laisse tout l'espace du dessous pour poser vos images où vous voulez.",
+      "action": {
+        "type": "P_SET_LAYOUT",
+        "layout": "titre-seul"
+      },
+      "aide": {
+        "text": "« Titre seul » est la troisième entrée du menu Disposition."
+      }
+    },
+    {
+      "id": "M05-L01-09",
+      "consigne": "Reste **Vide**, la sixième. Elle ne propose aucun cadre, pas même de titre : elle sert aux diapositives entièrement composées à la main — une image plein écran, un schéma. À n'employer qu'en connaissance de cause : sans titre, une diapositive perd son repère de lecture.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M05-L01-10",
+      "consigne": "==Passez cette diapositive en Vide== pour en voir l'effet. Observez que le titre déjà saisi ne disparaît pas : PowerPoint ne détruit jamais un contenu existant, il cesse seulement de lui réserver une place.",
+      "action": {
+        "type": "P_SET_LAYOUT",
+        "layout": "vide"
+      },
+      "aide": {
+        "text": "« Vide » est la dernière entrée du menu Disposition."
+      }
+    },
+    {
+      "id": "M05-L01-11",
+      "consigne": "==Revenez en Titre seul== : la disposition vraiment adaptée à une diapositive d'images. Retenez la règle de décision — on choisit d'après **le nombre de blocs** dont on a besoin, jamais d'après l'aspect.",
+      "action": {
+        "type": "P_SET_LAYOUT",
+        "layout": "titre-seul"
+      }
+    },
+    {
+      "id": "M05-L01-12",
+      "consigne": "À retenir : la disposition annonce la **structure** avant que le lecteur ait lu un mot. Deux contenus pour deux sujets de même poids, Titre seul pour composer librement, Vide en dernier recours. Et le réflexe qui vaut pour toutes : choisir avant d'écrire.",
+      "action": {
+        "type": "READ"
+      }
+    }
+  ]
+}

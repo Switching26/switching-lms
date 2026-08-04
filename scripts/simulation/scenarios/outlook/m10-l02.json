@@ -1,0 +1,163 @@
+{
+  "schemaVersion": 1,
+  "title": "Une semaine de chantier posée d'un bout à l'autre",
+  "mode": "LESSON",
+  "moduleTitle": "Le calendrier au service du chantier",
+  "intro": {
+    "title": "Livraison, pose, réception : trois jalons, trois créneaux",
+    "body": "Un chantier ne tient pas parce qu'on s'en souvient : il tient parce que chaque jalon a une date, une heure de début et une heure de fin. Vous allez poser une semaine complète, en respectant l'ordre logique — on ne pose pas avant d'avoir livré — et sans jamais laisser deux créneaux se chevaucher."
+  },
+  "outro": {
+    "body": "Les heures de fin comptent autant que les heures de début : c'est elles qui disent ce qui reste disponible. Un créneau sans borne de sortie transforme une intervention d'une heure en journée bloquée, et fait refuser des rendez-vous qu'on aurait pu tenir."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "clients",
+        "nom": "Clients 2026"
+      },
+      {
+        "id": "fournisseurs",
+        "nom": "Fournisseurs"
+      }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "messages": [
+      {
+        "id": "m-planning",
+        "dossier": "reception",
+        "de": "j.leroux@habitat-du-nord.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Chantier Beaulieu — planning de la semaine",
+        "corps": "Bonjour,\n\nNous validons l'organisation suivante :\n- livraison des matériaux le mardi 3 mars, de 8 h à 9 h 30,\n- pose le mercredi 4 mars, de 8 h à 17 h,\n- réception de chantier le vendredi 6 mars, de 10 h à 11 h.\nTout se passe résidence Beaulieu.\n\nJulien Leroux",
+        "date": "2026-03-02T08:00",
+        "lu": true
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O10-L02-01",
+      "consigne": "==Ouvrez le planning d'Habitat du Nord.== Trois jalons, trois horaires, un lieu commun. Rien à décider : tout est à reporter, exactement.",
+      "action": {
+        "type": "O_SELECT_MESSAGE",
+        "id": "m-planning"
+      },
+      "aide": {
+        "text": "C'est le message qui détaille l'organisation de la semaine."
+      }
+    },
+    {
+      "id": "O10-L02-02",
+      "consigne": "==Basculez sur le Calendrier==, agenda vide. C'est le moment de le remplir : un planning qui reste dans un message n'existe pour personne.",
+      "setup": {
+        "courrier": {
+          "messageActif": "m-planning"
+        }
+      },
+      "action": {
+        "type": "O_CLICK_CONTROL",
+        "control": "cr-vue-calendrier"
+      },
+      "aide": {
+        "text": "L'icône du calendrier ; sur téléphone, la barre du bas."
+      }
+    },
+    {
+      "id": "O10-L02-03",
+      "consigne": "==Posez la livraison== : objet `Livraison matériaux Beaulieu`, le **mardi 3 mars 2026**, de **08:00** à **09:30**, lieu `Résidence Beaulieu`. Notez l'heure de fin : `09:30`, et non « une heure et demie ».",
+      "action": {
+        "type": "O_EXPECT_CALENDRIER",
+        "calendrier": {
+          "titre": "Livraison matériaux Beaulieu",
+          "date": "2026-03-03",
+          "debut": "08:00",
+          "fin": "09:30",
+          "lieu": "Résidence Beaulieu"
+        }
+      },
+      "aide": {
+        "text": "Nouveau rendez-vous, cinq champs, puis Enregistrer."
+      }
+    },
+    {
+      "id": "O10-L02-04",
+      "consigne": "==Posez la pose== : objet `Pose Beaulieu`, le **mercredi 4 mars 2026**, de **08:00** à **17:00**, même lieu. Une journée entière se bloque comme le reste — et elle dira aux autres de ne rien vous proposer ce jour-là.",
+      "action": {
+        "type": "O_EXPECT_CALENDRIER",
+        "calendrier": {
+          "titre": "Pose Beaulieu",
+          "date": "2026-03-04",
+          "debut": "08:00",
+          "fin": "17:00",
+          "lieu": "Résidence Beaulieu"
+        }
+      },
+      "aide": {
+        "text": "Nouveau rendez-vous, mercredi 4 mars, de 8 h à 17 h."
+      }
+    },
+    {
+      "id": "O10-L02-05",
+      "consigne": "==Posez la réception== : objet `Réception de chantier Beaulieu`, le **vendredi 6 mars 2026**, de **10:00** à **11:00**, même lieu. Le jeudi reste libre : c'est la marge qui absorbera un retard de pose.",
+      "action": {
+        "type": "O_EXPECT_CALENDRIER",
+        "calendrier": {
+          "titre": "Réception de chantier Beaulieu",
+          "date": "2026-03-06",
+          "debut": "10:00",
+          "fin": "11:00",
+          "lieu": "Résidence Beaulieu"
+        }
+      },
+      "aide": {
+        "text": "Nouveau rendez-vous, vendredi 6 mars, de 10 h à 11 h."
+      }
+    },
+    {
+      "id": "O10-L02-06",
+      "consigne": "==Revenez au Courrier.== Trois blocs posés, un jour de marge : la semaine est lisible d'un coup d'œil, par vous comme par quiconque vous demandera vos disponibilités.",
+      "action": {
+        "type": "O_CLICK_CONTROL",
+        "control": "cr-vue-courrier"
+      },
+      "aide": {
+        "text": "Le bouton Courrier, à côté du Calendrier."
+      }
+    },
+    {
+      "id": "O10-L02-07",
+      "consigne": "==Rangez le planning dans Clients 2026.== Il est reporté à l'agenda : le garder en boîte de réception ferait croire qu'il reste quelque chose à en faire.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-planning": {
+              "dossier": "clients"
+            }
+          }
+        }
+      },
+      "aide": {
+        "text": "Ouvrez le message, puis Déplacer, puis Clients 2026."
+      }
+    }
+  ]
+}

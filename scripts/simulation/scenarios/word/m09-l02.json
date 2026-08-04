@@ -1,0 +1,125 @@
+{
+ "schemaVersion": 1,
+ "app": "WORD",
+ "title": "Le filigrane : marquer un document",
+ "mode": "LESSON",
+ "moduleTitle": "En-tête, pied de page et filigrane",
+ "intro": {
+  "title": "DIRE CE QU'EST UN DOCUMENT, SANS L'ÉCRIRE DEDANS",
+  "body": "Un devis non validé, un contrat en relecture, une note confidentielle : tous doivent porter leur statut **de façon impossible à manquer**, sans qu'on puisse le confondre avec le texte. C'est le rôle du **filigrane** — un mot en grand, en diagonale, derrière le contenu."
+ },
+ "outro": "Un filigrane se lit avant le texte et se retire en un geste. C'est ce qui évite qu'un brouillon circule comme une version définitive — l'erreur la plus coûteuse et la plus fréquente en entreprise.",
+ "document": {
+  "paragraphes": [
+   {
+    "texte": "Proposition commerciale",
+    "style": "titre"
+   },
+   {
+    "texte": "Prestation de conseil en organisation, sur une durée de six mois.",
+    "style": "normal"
+   },
+   {
+    "texte": "Montant estimé : 24 000 euros hors taxes, révisable après audit.",
+    "style": "normal"
+   },
+   {
+    "texte": "Ce document doit être relu par la direction avant tout envoi au client.",
+    "style": "normal"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "id": "M09-L02-01",
+   "points": 0,
+   "action": {
+    "type": "READ"
+   },
+   "consigne": "Le **filigrane** s'affiche en diagonale, en gris pâle, **derrière** le texte. Il reste lisible sans gêner la lecture, et il ne peut pas être pris pour du contenu. Les mentions habituelles : BROUILLON, CONFIDENTIEL, COPIE, URGENT.",
+   "feedback": "Derrière le texte, jamais dedans : c'est ce qui le rend impossible à confondre."
+  },
+  {
+   "id": "M09-L02-02",
+   "consigne": "==Ouvrez le panneau En-tête== depuis l'onglet **Insertion**. Le filigrane s'y règle : comme l'en-tête, il appartient à la page et non au texte.",
+   "action": {
+    "type": "W_CLICK_CONTROL",
+    "controle": "w-entete-pied"
+   },
+   "setup": {
+    "ribbon": {
+     "activeTab": "insertion"
+    }
+   },
+   "aide": {
+    "text": "Onglet « Insertion », bouton « En-tête ».",
+    "showTarget": true
+   },
+   "feedback": "Les trois zones hors texte sont accessibles."
+  },
+  {
+   "id": "M09-L02-03",
+   "consigne": "==Saisissez « BROUILLON » en filigrane.== Ce document attend une relecture : tant qu'elle n'a pas eu lieu, personne ne doit pouvoir le prendre pour une proposition ferme.",
+   "action": {
+    "type": "W_EXPECT_ENTETE",
+    "emplacement": "filigrane",
+    "accept": [
+     "BROUILLON"
+    ]
+   },
+   "aide": {
+    "text": "Troisième champ du panneau, celui intitulé « Filigrane ».",
+    "showTarget": true
+   },
+   "feedback": "Le mot barre la page en diagonale : le statut ne peut plus échapper au lecteur."
+  },
+  {
+   "id": "M09-L02-04",
+   "consigne": "==Ajoutez « Proposition — version de travail » dans l'en-tête.== Le filigrane alerte ; l'en-tête précise. Les deux se complètent au lieu de se répéter.",
+   "action": {
+    "type": "W_EXPECT_ENTETE",
+    "emplacement": "entete",
+    "accept": [
+     "Proposition — version de travail"
+    ]
+   },
+   "aide": {
+    "text": "Premier champ du panneau.",
+    "showTarget": true
+   },
+   "feedback": "Alerte en diagonale, précision en haut de page."
+  },
+  {
+   "id": "M09-L02-05",
+   "consigne": "La relecture est faite, le document part au client. ==Videz le champ Filigrane== pour retirer la mention BROUILLON. Un filigrane oublié sur un document envoyé décrédibilise l'expéditeur.",
+   "action": {
+    "type": "W_EXPECT_ENTETE",
+    "emplacement": "filigrane",
+    "accept": [
+     ""
+    ]
+   },
+   "aide": {
+    "text": "Effacez tout le texte du troisième champ.",
+    "showTarget": true
+   },
+   "feedback": "Retiré aussi vite que posé — c'est tout l'intérêt d'un filigrane."
+  },
+  {
+   "id": "M09-L02-06",
+   "consigne": "==Corrigez l'en-tête en « Proposition commerciale ».== Le document n'est plus une version de travail : ses mentions doivent suivre son statut réel.",
+   "action": {
+    "type": "W_EXPECT_ENTETE",
+    "emplacement": "entete",
+    "accept": [
+     "Proposition commerciale"
+    ]
+   },
+   "aide": {
+    "text": "Remplacez le texte du premier champ.",
+    "showTarget": true
+   },
+   "feedback": "Statut réel, mentions à jour : le document est cohérent."
+  }
+ ]
+}

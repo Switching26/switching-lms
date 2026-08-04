@@ -1,0 +1,160 @@
+{
+  "schemaVersion": 1,
+  "app": "WORD",
+  "title": "Évaluation — Bordures et trames",
+  "mode": "EVALUATION",
+  "moduleTitle": "Bordures et trames",
+  "intro": {
+    "title": "ÉVALUATION DU MODULE",
+    "body": "Dix gestes notés, sans indice et sans démonstration. Une consigne de poste à baliser selon un code, avec un bloc d'alerte à constituer. Chaque geste compte au premier essai ; vous pouvez passer une question, mais elle sera comptée comme ratée."
+  },
+  "outro": "Évaluation terminée. Vous pouvez la repasser autant de fois que vous le souhaitez : seule votre meilleure note est conservée, et chaque passage repart de zéro sur un document neuf.",
+  "document": {
+    "paragraphes": [
+      {
+        "texte": "Consigne au poste de peinture"
+      },
+      {
+        "texte": "La cabine ne fonctionne qu'avec l'extraction en marche."
+      },
+      {
+        "texte": "Les pistolets sont nettoyés après chaque teinte."
+      },
+      {
+        "texte": "Toute odeur de solvant hors cabine impose l'arrêt immédiat du poste."
+      },
+      {
+        "texte": "Les bidons vides sont déposés au bac de tri des déchets dangereux."
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M05-EV01-01",
+      "points": 0,
+      "consigne": "Cette consigne de poste mélange sécurité et entretien courant. Balisez-la selon le code du module — jaune pour ce qui engage la sécurité, vert pour l'organisation — puis constituez un bloc d'alerte sur la phrase la plus critique. Les consignes disent le résultat à obtenir, jamais quel bouton employer.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M05-EV01-02",
+      "points": 1,
+      "consigne": "Balisez la règle sur l'extraction : sans elle, l'opérateur respire les solvants.",
+      "setup": {
+        "ribbon": {
+          "activeTab": "accueil"
+        }
+      },
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p1",
+        "format": {
+          "surlignage": "#f1c40f"
+        }
+      }
+    },
+    {
+      "id": "M05-EV01-03",
+      "points": 1,
+      "consigne": "Balisez le nettoyage des pistolets selon la catégorie qui lui revient.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p2",
+        "format": {
+          "surlignage": "#a9dfbf"
+        }
+      }
+    },
+    {
+      "id": "M05-EV01-04",
+      "points": 2,
+      "consigne": "Balisez la règle sur l'odeur de solvant hors cabine.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p3",
+        "format": {
+          "surlignage": "#f1c40f"
+        }
+      }
+    },
+    {
+      "id": "M05-EV01-05",
+      "points": 1,
+      "consigne": "Balisez le dépôt des bidons vides.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p4",
+        "format": {
+          "surlignage": "#a9dfbf"
+        }
+      }
+    },
+    {
+      "id": "M05-EV01-06",
+      "points": 1,
+      "consigne": "La règle sur l'odeur de solvant est la plus critique du poste : ajoutez-lui la graisse.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p3",
+        "format": {
+          "gras": true
+        }
+      }
+    },
+    {
+      "id": "M05-EV01-07",
+      "points": 1,
+      "consigne": "Complétez le bloc d'alerte en mettant ce même paragraphe en rouge.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p3",
+        "format": {
+          "couleur": "#c0392b"
+        }
+      }
+    },
+    {
+      "id": "M05-EV01-08",
+      "points": 2,
+      "consigne": "Isolez ce bloc du fil de lecture en le plaçant au milieu de la page.",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p3",
+        "style": {
+          "alignement": "centre"
+        }
+      }
+    },
+    {
+      "id": "M05-EV01-09",
+      "points": 2,
+      "consigne": "Une consigne de poste se termine par le numéro à appeler. Ajoutez un paragraphe à la suite du dernier, contenant exactement : En cas de doute, appeler le poste 118.",
+      "action": {
+        "type": "W_TYPE_TEXT",
+        "zone": "p4",
+        "accept": [
+          "En cas de doute, appeler le poste 118."
+        ]
+      }
+    },
+    {
+      "id": "M05-EV01-10",
+      "points": 1,
+      "consigne": "Vous jugez le rouge excessif sur ce bloc. Défaites-le sans retoucher le paragraphe à la main.",
+      "action": {
+        "type": "W_CLICK_CONTROL",
+        "controle": "w-annuler"
+      }
+    },
+    {
+      "id": "M05-EV01-11",
+      "points": 1,
+      "consigne": "Après relecture, une alerte respiratoire justifie le rouge : remettez-le, toujours sans repasser par le groupe Police.",
+      "action": {
+        "type": "W_CLICK_CONTROL",
+        "controle": "w-retablir"
+      }
+    }
+  ]
+}

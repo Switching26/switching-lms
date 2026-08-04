@@ -1,0 +1,160 @@
+{
+  "schemaVersion": 1,
+  "app": "WORD",
+  "title": "Évaluation — Les tableaux",
+  "mode": "EVALUATION",
+  "moduleTitle": "Les tableaux",
+  "intro": {
+    "title": "ÉVALUATION DU MODULE",
+    "body": "Dix gestes notés, sans indice et sans démonstration. Un état des stocks à structurer, puis à doter de ses tableaux. Comptez avant d'insérer : la ligne d'en-tête compte. Chaque geste compte au premier essai."
+  },
+  "outro": "Évaluation terminée. Vous pouvez la repasser autant de fois que vous le souhaitez : seule votre meilleure note est conservée, et chaque passage repart de zéro sur un document neuf.",
+  "document": {
+    "paragraphes": [
+      {
+        "texte": "État des stocks — atelier de menuiserie"
+      },
+      {
+        "texte": "Relevé du 28 mars"
+      },
+      {
+        "texte": "Matières premières"
+      },
+      {
+        "texte": "Cinq essences sont suivies, avec pour chacune la quantité en stock et le seuil d'alerte."
+      },
+      {
+        "texte": "Quincaillerie"
+      },
+      {
+        "texte": "Trois références sont suivies, avec la quantité, le seuil et le fournisseur."
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M12-EV01-01",
+      "points": 0,
+      "consigne": "Cet état des stocks n'a ni structure ni tableaux. Vous allez le mettre en forme, puis insérer les deux tableaux qu'il décrit — dimensionnés d'après l'énoncé. Les consignes disent le résultat, jamais quel bouton employer.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M12-EV01-02",
+      "points": 1,
+      "consigne": "Donnez au premier paragraphe la nature d'un titre de document.",
+      "setup": {
+        "ribbon": {
+          "activeTab": "accueil"
+        }
+      },
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p0",
+        "style": {
+          "style": "Titre"
+        }
+      }
+    },
+    {
+      "id": "M12-EV01-03",
+      "points": 1,
+      "consigne": "Donnez à la ligne « Relevé du 28 mars » la nature qui vient juste en dessous d'un titre.",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p1",
+        "style": {
+          "style": "Sous-titre"
+        }
+      }
+    },
+    {
+      "id": "M12-EV01-04",
+      "points": 1,
+      "consigne": "Faites de « Matières premières » une section de premier niveau.",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p2",
+        "style": {
+          "style": "Titre 1"
+        }
+      }
+    },
+    {
+      "id": "M12-EV01-05",
+      "points": 1,
+      "consigne": "Traitez « Quincaillerie » de la même façon : deux sections de même rang portent le même style.",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p4",
+        "style": {
+          "style": "Titre 1"
+        }
+      }
+    },
+    {
+      "id": "M12-EV01-06",
+      "points": 2,
+      "consigne": "Un état des stocks se termine par le nom de son auteur. Ajoutez un paragraphe à la suite du dernier, contenant exactement : Relevé établi par le magasinier de permanence.",
+      "action": {
+        "type": "W_TYPE_TEXT",
+        "zone": "p5",
+        "accept": [
+          "Relevé établi par le magasinier de permanence."
+        ]
+      }
+    },
+    {
+      "id": "M12-EV01-07",
+      "points": 1,
+      "consigne": "Le seuil d'alerte est l'information qui déclenche une commande : épaississez « seuil d'alerte » dans le paragraphe des matières premières.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "texte:seuil d'alerte",
+        "format": {
+          "gras": true
+        }
+      }
+    },
+    {
+      "id": "M12-EV01-08",
+      "points": 2,
+      "consigne": "Insérez le tableau des matières premières : cinq essences, deux informations chacune, plus la ligne d'en-tête.",
+      "action": {
+        "type": "W_EXPECT_TABLE",
+        "lignes": 6,
+        "colonnes": 2
+      }
+    },
+    {
+      "id": "M12-EV01-09",
+      "points": 2,
+      "consigne": "Insérez le tableau de la quincaillerie : trois références, trois informations chacune, plus la ligne d'en-tête.",
+      "action": {
+        "type": "W_EXPECT_TABLE",
+        "lignes": 4,
+        "colonnes": 3
+      }
+    },
+    {
+      "id": "M12-EV01-10",
+      "points": 2,
+      "consigne": "Le suivi des matières premières doit aussi porter le fournisseur. Insérez le tableau corrigé : même hauteur, une colonne de plus.",
+      "action": {
+        "type": "W_EXPECT_TABLE",
+        "lignes": 6,
+        "colonnes": 3
+      }
+    },
+    {
+      "id": "M12-EV01-11",
+      "points": 1,
+      "consigne": "Vous jugez ce dernier tableau prématuré. Défaites ce geste sans retoucher le document à la main.",
+      "action": {
+        "type": "W_CLICK_CONTROL",
+        "controle": "w-annuler"
+      }
+    }
+  ]
+}

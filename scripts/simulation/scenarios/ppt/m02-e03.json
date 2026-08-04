@@ -1,0 +1,277 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "mode": "EXERCISE",
+  "moduleTitle": "Organiser et enchaîner",
+  "title": "Exercice — Faire le ménage avant la réunion",
+  "intro": {
+    "title": "Exercice — Faire le ménage avant la réunion",
+    "body": "La réunion est demain. Cette présentation contient deux notes de travail, une annexe réservée à la gérance et une version périmée. Chaque cas appelle un geste différent : à vous de choisir lequel."
+  },
+  "outro": {
+    "body": "Supprimer, masquer, effacer un élément : trois gestes, trois situations. Les confondre coûte cher en réunion."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "ppt": {
+    "fileName": "Bilan Verdeval.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Verdeval",
+          "sous-titre": "Bilan de la saison 2026"
+        }
+      },
+      {
+        "layout": "titre-seul",
+        "textes": {
+          "titre": "Chiffres de la saison"
+        },
+        "objets": [
+          {
+            "id": "zt-chiffres",
+            "objectType": "texte",
+            "texte": "38 jardins et 120 entretiens",
+            "rect": {
+              "x": 70,
+              "y": 200,
+              "w": 460,
+              "h": 70
+            }
+          },
+          {
+            "id": "zt-relire",
+            "objectType": "texte",
+            "texte": "a relire avant envoi",
+            "rect": {
+              "x": 70,
+              "y": 340,
+              "w": 380,
+              "h": 60
+            }
+          },
+          {
+            "id": "zt-source",
+            "objectType": "texte",
+            "texte": "source ? demander a la compta",
+            "rect": {
+              "x": 560,
+              "y": 340,
+              "w": 340,
+              "h": 60
+            }
+          }
+        ]
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Annexe - grille tarifaire",
+          "contenu": "Réservé aux questions de la gérance"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Version 2025 - périmée",
+          "contenu": "31 jardins et 96 entretiens"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M02-E03-01",
+      "consigne": "Affichez la diapositive des chiffres : elle porte deux mentions qui ne doivent pas être projetées.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 1
+      },
+      "aide": {
+        "text": "C'est la deuxième miniature du volet."
+      }
+    },
+    {
+      "id": "M02-E03-02",
+      "consigne": "Sélectionnez la note « a relire avant envoi », sans l'ouvrir.",
+      "action": {
+        "type": "P_SELECT_OBJECT",
+        "objectId": "zt-relire"
+      },
+      "aide": {
+        "text": "Un simple clic sélectionne ; c'est le double-clic qui ouvre la saisie."
+      }
+    },
+    {
+      "id": "M02-E03-03",
+      "consigne": "Effacez-la de la diapositive.",
+      "action": {
+        "type": "P_DELETE_OBJECT",
+        "objectId": "zt-relire"
+      },
+      "aide": {
+        "text": "La touche Suppr, ou le bouton Supprimer du groupe Objet : les deux conviennent."
+      }
+    },
+    {
+      "id": "M02-E03-04",
+      "consigne": "Effacez de la même façon la question adressée à la comptabilité, à droite.",
+      "action": {
+        "type": "P_DELETE_OBJECT",
+        "objectId": "zt-source"
+      },
+      "aide": {
+        "text": "Sélectionnez d'abord la zone, puis supprimez-la."
+      }
+    },
+    {
+      "id": "M02-E03-05",
+      "consigne": "L'annexe tarifaire doit rester disponible pour répondre à une question, mais ne pas être projetée. Affichez-la.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 2
+      },
+      "aide": {
+        "text": "C'est la troisième miniature, intitulée « Annexe - grille tarifaire »."
+      }
+    },
+    {
+      "id": "M02-E03-06",
+      "consigne": "Appliquez-lui le traitement qui la conserve dans le fichier tout en l'écartant du diaporama.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Bilan de la saison 2026"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Chiffres de la saison"
+              },
+              "objets": [
+                {
+                  "id": "zt-chiffres",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 70,
+                    "y": 200,
+                    "w": 460,
+                    "h": 70
+                  },
+                  "texte": "38 jardins et 120 entretiens"
+                }
+              ]
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Annexe - grille tarifaire",
+                "contenu": "Réservé aux questions de la gérance"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Version 2025 - périmée",
+                "contenu": "31 jardins et 96 entretiens"
+              }
+            }
+          ]
+        },
+        "slide": 2
+      },
+      "action": {
+        "type": "P_EXPECT_DECK",
+        "deck": {
+          "slides": [
+            {
+              "index": 2,
+              "masquee": true
+            }
+          ]
+        }
+      },
+      "aide": {
+        "text": "Groupe Diaporama, bouton Masquer. La supprimer la rendrait indisponible : ce n'est pas ce qui est demandé."
+      }
+    },
+    {
+      "id": "M02-E03-07",
+      "consigne": "La dernière diapositive contient les chiffres de l'an dernier et ne resservira pas. Affichez-la.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 3
+      }
+    },
+    {
+      "id": "M02-E03-08",
+      "consigne": "Retirez-la définitivement.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Bilan de la saison 2026"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Chiffres de la saison"
+              },
+              "objets": [
+                {
+                  "id": "zt-chiffres",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 70,
+                    "y": 200,
+                    "w": 460,
+                    "h": 70
+                  },
+                  "texte": "38 jardins et 120 entretiens"
+                }
+              ]
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Annexe - grille tarifaire",
+                "contenu": "Réservé aux questions de la gérance"
+              },
+              "masquee": true
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Version 2025 - périmée",
+                "contenu": "31 jardins et 96 entretiens"
+              }
+            }
+          ]
+        },
+        "slide": 3
+      },
+      "action": {
+        "type": "P_DELETE_SLIDE",
+        "index": 3
+      },
+      "aide": {
+        "text": "Groupe Diapositives, bouton Supprimer — celui de gauche, pas celui du groupe Objet."
+      }
+    }
+  ]
+}

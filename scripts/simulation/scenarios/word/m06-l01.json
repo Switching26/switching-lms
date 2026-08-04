@@ -1,0 +1,146 @@
+{
+  "schemaVersion": 1,
+  "app": "WORD",
+  "title": "Transformer un texte en liste à puces",
+  "mode": "LESSON",
+  "moduleTitle": "Puces et numéros",
+  "intro": {
+    "title": "UNE LISTE N'EST PAS UNE SUITE DE PHRASES",
+    "body": "Une énumération écrite au fil du texte se lit mal : l'œil ne sait pas combien d'éléments il y a. La transformer en liste change cela d'un seul geste. Vous allez apprendre quand poser une puce — et surtout quand ne pas en poser."
+  },
+  "outro": "La puce marque une énumération dont l'ordre n'a pas d'importance. Chaque paragraphe devient un élément : c'est pour cela qu'une liste se prépare en tapant Entrée entre les éléments, jamais en les séparant par des virgules.",
+  "document": {
+    "paragraphes": [
+      {
+        "texte": "Matériel à prévoir pour l'intervention"
+      },
+      {
+        "texte": "Casque de chantier"
+      },
+      {
+        "texte": "Gants de manutention"
+      },
+      {
+        "texte": "Chaussures de sécurité"
+      },
+      {
+        "texte": "Ce matériel est fourni par l'atelier.",
+        "liste": "puces"
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M06-L01-01",
+      "points": 0,
+      "consigne": "Une **liste à puces** convient quand les éléments sont de même rang et que leur ordre est indifférent : du matériel, des critères, des options. Chaque **paragraphe** devient un élément — c'est la touche Entrée qui découpe la liste, pas la ponctuation.",
+      "action": {
+        "type": "READ"
+      },
+      "montrer": [
+        {
+          "type": "W_SELECT_TEXT",
+          "zone": "p1"
+        }
+      ],
+      "feedback": "Un paragraphe, un élément."
+    },
+    {
+      "id": "M06-L01-02",
+      "consigne": "==Transformez « Casque de chantier » en élément de liste== avec le bouton Puces du groupe Paragraphe. Placez simplement le curseur dedans : comme l'alignement, la puce s'applique au paragraphe entier.",
+      "setup": {
+        "ribbon": {
+          "activeTab": "accueil"
+        }
+      },
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p1",
+        "style": {
+          "liste": "puces"
+        }
+      },
+      "aide": {
+        "text": "Le premier bouton du groupe Paragraphe.",
+        "showTarget": true
+      },
+      "feedback": "Le paragraphe se décale et reçoit sa puce."
+    },
+    {
+      "id": "M06-L01-03",
+      "consigne": "==Faites de même pour « Gants de manutention ».== Une liste se construit élément par élément : chaque paragraphe doit porter sa puce.",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p2",
+        "style": {
+          "liste": "puces"
+        }
+      },
+      "feedback": "Deux éléments alignés."
+    },
+    {
+      "id": "M06-L01-04",
+      "consigne": "==Terminez avec « Chaussures de sécurité ».== Les trois éléments forment maintenant un bloc que l'œil compte d'un coup.",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p3",
+        "style": {
+          "liste": "puces"
+        }
+      },
+      "feedback": "Trois éléments : l'énumération se voit avant d'être lue."
+    },
+    {
+      "id": "M06-L01-05",
+      "consigne": "==Retirez la puce de la phrase de conclusion== : elle n'est pas un élément de la liste. Une liste qui déborde sur son commentaire perd son sens.",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p4",
+        "style": {
+          "liste": "aucune"
+        }
+      },
+      "feedback": "La conclusion redevient du texte courant : la liste s'arrête où elle doit."
+    },
+    {
+      "id": "M06-L01-06",
+      "consigne": "Une puce se retire du même geste qui la pose. ==Retirez celle de « Gants de manutention »==, puis observez : le paragraphe revient à la marge.",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p2",
+        "style": {
+          "liste": "aucune"
+        }
+      },
+      "aide": {
+        "text": "Recliquez sur le bouton Puces, curseur dans le paragraphe.",
+        "showTarget": true
+      },
+      "feedback": "Le bouton Puces est un interrupteur, comme le gras."
+    },
+    {
+      "id": "M06-L01-07",
+      "consigne": "==Remettez-la== : la liste doit rester complète. Retenez qu'un élément sans puce, au milieu d'une liste, se lit comme une erreur de frappe.",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p2",
+        "style": {
+          "liste": "puces"
+        }
+      },
+      "feedback": "Liste homogène. C'est l'homogénéité qui la rend lisible."
+    },
+    {
+      "id": "M06-L01-08",
+      "consigne": "==Épaississez le titre== pour finir : une liste a d'autant plus de force qu'elle est annoncée.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p0",
+        "format": {
+          "gras": true
+        }
+      },
+      "feedback": "Le document annonce puis énumère."
+    }
+  ]
+}

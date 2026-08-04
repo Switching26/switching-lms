@@ -1,0 +1,110 @@
+{
+  "schemaVersion": 1,
+  "app": "WORD",
+  "title": "Exercice — La couleur",
+  "mode": "EXERCISE",
+  "moduleTitle": "Saisie et mise en forme des caractères",
+  "intro": {
+    "title": "À VOUS DE JOUER",
+    "body": "Une procédure d'urgence à coder en couleur. Le code vous est donné : rouge pour ce qui engage la sécurité des personnes, bleu pour ce qui relève de la logistique. Respectez-le jusqu'au bout — un code qui souffre une exception ne code plus rien."
+  },
+  "outro": "Deux couleurs tenues sans exception valent mieux que cinq couleurs expressives.",
+  "document": {
+    "paragraphes": [
+      {
+        "texte": "Procédure en cas de coupure électrique"
+      },
+      {
+        "texte": "Couper immédiatement l'alimentation des machines en cours de cycle."
+      },
+      {
+        "texte": "Prévenir le service de maintenance au poste 412."
+      },
+      {
+        "texte": "Évacuer la zone de découpe si l'éclairage de secours ne s'allume pas."
+      },
+      {
+        "texte": "Reporter les livraisons prévues dans l'heure."
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M02-E03-01",
+      "consigne": "==Appliquez le rouge au paragraphe qui protège les machines et les opérateurs== — le deuxième.",
+      "setup": {
+        "ribbon": {
+          "activeTab": "accueil"
+        }
+      },
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p1",
+        "format": {
+          "couleur": "#c0392b"
+        }
+      },
+      "feedback": "Première consigne de sécurité codée."
+    },
+    {
+      "id": "M02-E03-02",
+      "consigne": "==Codez en bleu l'appel à la maintenance== : c'est de l'organisation, pas un danger immédiat.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p2",
+        "format": {
+          "couleur": "#1f4e79"
+        }
+      },
+      "feedback": "Le code tient."
+    },
+    {
+      "id": "M02-E03-03",
+      "consigne": "==Codez l'évacuation de la zone de découpe== selon la même règle que le premier paragraphe traité.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p3",
+        "format": {
+          "couleur": "#c0392b"
+        }
+      },
+      "feedback": "Deux consignes rouges : la sécurité se lit d'un bloc."
+    },
+    {
+      "id": "M02-E03-04",
+      "consigne": "==Codez le report des livraisons.==",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p4",
+        "format": {
+          "couleur": "#1f4e79"
+        }
+      },
+      "feedback": "Le document se lit désormais en deux temps."
+    },
+    {
+      "id": "M02-E03-05",
+      "consigne": "Le titre reste hors du code. ==Distinguez-le par la graisse seulement.==",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p0",
+        "format": {
+          "gras": true
+        }
+      },
+      "feedback": "Le titre se voit sans consommer une couleur du code."
+    },
+    {
+      "id": "M02-E03-06",
+      "consigne": "Un numéro de poste doit se retrouver en une seconde. ==Épaississez « poste 412 »== sans changer la couleur du paragraphe.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "texte:poste 412",
+        "format": {
+          "gras": true
+        }
+      },
+      "feedback": "Procédure prête : couleur pour le type, graisse pour l'essentiel."
+    }
+  ]
+}

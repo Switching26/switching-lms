@@ -1,0 +1,432 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "mode": "EVALUATION",
+  "moduleTitle": "Prise en main",
+  "title": "S'évaluer — Prise en main",
+  "intro": {
+    "title": "S'évaluer — Prise en main",
+    "body": "Une présentation à moitié faite vous est confiée pour l'assemblée générale de demain. Elle porte quatre défauts, et aucun ne vous sera nommé : à vous de les voir et de les corriger. Cette épreuve est notée, elle se fait d'une traite, et un nouveau passage repart de zéro."
+  },
+  "outro": {
+    "body": "Épreuve terminée. Seule votre meilleure note est conservée."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "ppt": {
+    "fileName": "AG Verdeval.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "sous-titre": "Assemblée générale du 12 mars 2027"
+        }
+      },
+      {
+        "layout": "titre-seul",
+        "textes": {
+          "titre": "Chiffres de la saison"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Notes pour la gérance",
+          "contenu": "Chiffres non validés - ne pas communiquer"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Nos partenaires",
+          "contenu": "Ville de Nantes et Rennes Métropole"
+        }
+      },
+      {
+        "layout": "titre-seul",
+        "textes": {
+          "titre": "Ancienne trame 2025"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M01-EV01-01",
+      "consigne": "La présentation de l'assemblée générale vous arrive inachevée. Parcourez-la d'abord du regard : elle s'ouvre sans nom, une diapositive ne peut rien recevoir sous son titre, une autre n'a rien à faire devant l'assemblée, et une trame de l'an dernier traîne à la fin. Il manque en outre une diapositive de clôture. Vous allez tout reprendre.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M01-EV01-02",
+      "consigne": "La présentation s'ouvre sans nom : donnez-lui pour titre le nom de l'entreprise, Verdeval.",
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:titre",
+        "accept": [
+          "Verdeval"
+        ]
+      },
+      "points": 1
+    },
+    {
+      "id": "M01-EV01-03",
+      "consigne": "Affichez la diapositive consacrée aux chiffres de la saison.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 1
+      },
+      "points": 1
+    },
+    {
+      "id": "M01-EV01-04",
+      "consigne": "Elle n'offre aucun cadre sous son titre. Corrigez cela sans rien dessiner vous-même.",
+      "action": {
+        "type": "P_SET_LAYOUT",
+        "layout": "titre-et-contenu"
+      },
+      "points": 2
+    },
+    {
+      "id": "M01-EV01-05",
+      "consigne": "Renseignez le résultat de la saison : 38 jardins et 120 entretiens.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Assemblée générale du 12 mars 2027"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Chiffres de la saison"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Notes pour la gérance",
+                "contenu": "Chiffres non validés - ne pas communiquer"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Nos partenaires",
+                "contenu": "Ville de Nantes et Rennes Métropole"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Ancienne trame 2025"
+              }
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:contenu",
+        "accept": [
+          "38 jardins et 120 entretiens",
+          "38 jardins, 120 entretiens"
+        ]
+      },
+      "points": 1
+    },
+    {
+      "id": "M01-EV01-06",
+      "consigne": "Il manque une diapositive de clôture. Ajoutez-en une juste après celle des chiffres.",
+      "action": {
+        "type": "P_ADD_SLIDE",
+        "layout": "titre-et-contenu"
+      },
+      "points": 1
+    },
+    {
+      "id": "M01-EV01-07",
+      "consigne": "Donnez-lui pour titre : Merci de votre attention.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Assemblée générale du 12 mars 2027"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Chiffres de la saison",
+                "contenu": "38 jardins et 120 entretiens"
+              }
+            },
+            {
+              "layout": "titre-et-contenu"
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Notes pour la gérance",
+                "contenu": "Chiffres non validés - ne pas communiquer"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Nos partenaires",
+                "contenu": "Ville de Nantes et Rennes Métropole"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Ancienne trame 2025"
+              }
+            }
+          ]
+        },
+        "slide": 2
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:titre",
+        "accept": [
+          "Merci de votre attention"
+        ]
+      },
+      "points": 1
+    },
+    {
+      "id": "M01-EV01-08",
+      "consigne": "Affichez la diapositive destinée à la gérance.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 3
+      },
+      "points": 1
+    },
+    {
+      "id": "M01-EV01-09",
+      "consigne": "Ses chiffres ne sont pas validés : elle ne doit pas être projetée devant l'assemblée. La gérance en a toutefois besoin dans le fichier. Agissez en conséquence.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Assemblée générale du 12 mars 2027"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Chiffres de la saison",
+                "contenu": "38 jardins et 120 entretiens"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Merci de votre attention"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Notes pour la gérance",
+                "contenu": "Chiffres non validés - ne pas communiquer"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Nos partenaires",
+                "contenu": "Ville de Nantes et Rennes Métropole"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Ancienne trame 2025"
+              }
+            }
+          ]
+        },
+        "slide": 3
+      },
+      "action": {
+        "type": "P_EXPECT_DECK",
+        "deck": {
+          "slides": [
+            {
+              "index": 3,
+              "masquee": true
+            }
+          ]
+        }
+      },
+      "points": 2
+    },
+    {
+      "id": "M01-EV01-10",
+      "consigne": "Affichez la trame de l'an dernier, restée en fin de présentation.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 5
+      },
+      "points": 1
+    },
+    {
+      "id": "M01-EV01-11",
+      "consigne": "Elle n'a plus aucune raison d'être : retirez-la définitivement.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Assemblée générale du 12 mars 2027"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Chiffres de la saison",
+                "contenu": "38 jardins et 120 entretiens"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Merci de votre attention"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Notes pour la gérance",
+                "contenu": "Chiffres non validés - ne pas communiquer"
+              },
+              "masquee": true
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Nos partenaires",
+                "contenu": "Ville de Nantes et Rennes Métropole"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Ancienne trame 2025"
+              }
+            }
+          ]
+        },
+        "slide": 5
+      },
+      "action": {
+        "type": "P_DELETE_SLIDE",
+        "index": 5
+      },
+      "points": 1
+    },
+    {
+      "id": "M01-EV01-12",
+      "consigne": "Vérifiez votre travail comme le public le verra, en repartant de la première diapositive.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Assemblée générale du 12 mars 2027"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Chiffres de la saison",
+                "contenu": "38 jardins et 120 entretiens"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Merci de votre attention"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Notes pour la gérance",
+                "contenu": "Chiffres non validés - ne pas communiquer"
+              },
+              "masquee": true
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Nos partenaires",
+                "contenu": "Ville de Nantes et Rennes Métropole"
+              }
+            }
+          ]
+        },
+        "slide": 4
+      },
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": true,
+          "index": 0
+        }
+      },
+      "points": 1
+    },
+    {
+      "id": "M01-EV01-13",
+      "consigne": "Passez à la diapositive suivante.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "index": 1
+        }
+      },
+      "points": 1
+    },
+    {
+      "id": "M01-EV01-14",
+      "consigne": "Revenez à votre présentation.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": false
+        }
+      },
+      "points": 1
+    }
+  ]
+}

@@ -1,0 +1,209 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "mode": "LESSON",
+  "moduleTitle": "Faire apparaître au bon moment",
+  "title": "Retenir jusqu'au bon moment",
+  "intro": {
+    "title": "Retenir jusqu'au bon moment",
+    "body": "Le public lit une diapositive en trois secondes, pendant que vous en êtes à votre première phrase. Une animation sert à ça, et à rien d'autre : garder une information cachée jusqu'au moment où vous en parlez."
+  },
+  "outro": {
+    "body": "Deux informations sont maintenant révélées au bon moment. La leçon suivante distingue les deux effets disponibles."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "ppt": {
+    "fileName": "Chantier passerelle.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Ateliers Roulier",
+          "sous-titre": "Chantier de la passerelle — point d'étape"
+        }
+      },
+      {
+        "layout": "titre-seul",
+        "textes": {
+          "titre": "Où en est le chantier"
+        },
+        "objets": [
+          {
+            "id": "zt-contexte",
+            "objectType": "texte",
+            "texte": "Livraison prévue le 12 mai",
+            "rect": {
+              "x": 70,
+              "y": 180,
+              "w": 500,
+              "h": 60
+            }
+          },
+          {
+            "id": "zt-avance",
+            "objectType": "texte",
+            "texte": "Trois semaines d'avance",
+            "rect": {
+              "x": 70,
+              "y": 300,
+              "w": 500,
+              "h": 70
+            }
+          }
+        ]
+      },
+      {
+        "layout": "titre-seul",
+        "textes": {
+          "titre": "Et le budget"
+        },
+        "objets": [
+          {
+            "id": "zt-budget",
+            "objectType": "texte",
+            "texte": "Enveloppe votée : 240 000 €",
+            "rect": {
+              "x": 70,
+              "y": 180,
+              "w": 500,
+              "h": 60
+            }
+          },
+          {
+            "id": "zt-economie",
+            "objectType": "texte",
+            "texte": "12 000 € non dépensés",
+            "rect": {
+              "x": 70,
+              "y": 300,
+              "w": 500,
+              "h": 70
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M13-L01-01",
+      "consigne": "Une diapositive se lit **en trois secondes**. Vous, vous mettez une minute à la dire. Pendant cinquante-sept secondes, le public sait déjà tout — et il attend, ou il décroche. C'est le seul problème qu'une animation résout : elle **retient** une information jusqu'à ce que vous y arriviez.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M13-L01-02",
+      "consigne": "==Affichez la deuxième diapositive==. Elle annonce une date de livraison, puis trois semaines d'avance — la bonne nouvelle, celle que vous voulez annoncer vous-même.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 1
+      }
+    },
+    {
+      "id": "M13-L01-03",
+      "consigne": "Projetée telle quelle, « Trois semaines d'avance » est lue **avant** que vous ne l'annonciez. Votre annonce tombe à plat : le public l'a lue trente secondes plus tôt, et personne ne réagit deux fois à la même nouvelle.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M13-L01-04",
+      "consigne": "==Sélectionnez la zone « Trois semaines d'avance »== d'un clic. Les boutons d'animation agissent sur ce qui est sélectionné : sans sélection, ils ne font rien.",
+      "action": {
+        "type": "P_SELECT_OBJECT",
+        "objectId": "zt-avance"
+      },
+      "aide": {
+        "text": "Un clic sur la zone suffit — pas besoin d'ouvrir le texte."
+      }
+    },
+    {
+      "id": "M13-L01-05",
+      "consigne": "==Appliquez-lui l'animation Apparaître==. La zone reste à sa place, mais elle ne s'affichera qu'à votre clic, quand vous en serez là.",
+      "setupPpt": {
+        "slide": 1
+      },
+      "action": {
+        "type": "P_EXPECT_ANIMATIONS",
+        "animations": [
+          {
+            "objectId": "zt-avance",
+            "kind": "apparaitre"
+          }
+        ]
+      },
+      "aide": {
+        "text": "Groupe Animations, bouton « Apparaître »."
+      },
+      "feedback": "L'information n'a pas bougé d'un pixel : seul le moment où le public la voit a changé."
+    },
+    {
+      "id": "M13-L01-06",
+      "consigne": "Notez ce que vous n'avez **pas** fait : ni déplacer, ni réécrire, ni ajouter une diapositive. Le contenu est identique, seul son **calendrier d'apparition** change. C'est la seule chose qu'une animation devrait jamais faire.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M13-L01-07",
+      "consigne": "==Lancez le diaporama depuis la diapositive affichée== pour vous mettre à la place du public : il voit la date, et rien d'autre.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": true,
+          "index": 1
+        }
+      },
+      "aide": {
+        "text": "Groupe Diaporama, bouton « ▶ Ici »."
+      }
+    },
+    {
+      "id": "M13-L01-08",
+      "consigne": "==Quittez le diaporama==. Vous tenez maintenant le rythme : c'est vous qui décidez du moment où la bonne nouvelle arrive à l'écran.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": false
+        }
+      }
+    },
+    {
+      "id": "M13-L01-09",
+      "consigne": "==Affichez la troisième diapositive==, celle du budget : même situation, une enveloppe votée puis une économie à annoncer.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 2
+      }
+    },
+    {
+      "id": "M13-L01-10",
+      "consigne": "==Animez « 12 000 € non dépensés » avec Apparaître==. Sélectionnez d'abord la zone, puis pressez le bouton : c'est toujours la même séquence.",
+      "setupPpt": {
+        "slide": 2
+      },
+      "action": {
+        "type": "P_EXPECT_ANIMATIONS",
+        "animations": [
+          {
+            "objectId": "zt-economie",
+            "kind": "apparaitre"
+          }
+        ]
+      },
+      "feedback": "Deux diapositives, deux annonces qui arrivent quand vous les faites."
+    },
+    {
+      "id": "M13-L01-11",
+      "consigne": "À retenir : on n'anime que ce qu'on veut **retenir jusqu'à un moment précis**. Si l'information peut être lue tout de suite sans rien gâcher, elle n'a pas besoin d'animation — et une diapositive sans animation reste la règle, pas l'exception.",
+      "action": {
+        "type": "READ"
+      }
+    }
+  ]
+}

@@ -1,0 +1,254 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "mode": "EXERCISE",
+  "moduleTitle": "Écrire pour être lu",
+  "title": "Exercice — Couper et alléger",
+  "intro": {
+    "title": "Exercice — Couper et alléger",
+    "body": "Une diapositive porte deux sujets, une autre répète une information, une troisième n'est pas prête. Coupez, retirez, et écartez ce qui n'est pas consolidé — chaque cas appelle un geste différent."
+  },
+  "outro": {
+    "body": "Une idée par diapositive, aucune redite, rien d'incertain à l'écran : la présentation est présentable."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "ppt": {
+    "fileName": "Reunion Verdeval.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Verdeval",
+          "sous-titre": "Réunion d'équipe"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Équipe et matériel",
+          "contenu": "12 salariés\n4 apprentis\n2 recrutements en cours\nDeux tondeuses autoportées\nUn broyeur de branches\nUne mini-pelle"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Pour mémoire",
+          "contenu": "12 salariés\n4 apprentis"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Budget 2027",
+          "contenu": "Montants en cours d'arbitrage"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M06-E03-01",
+      "consigne": "Affichez la diapositive dont le titre contient un « et » : elle porte deux sujets.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 1
+      },
+      "aide": {
+        "text": "C'est la deuxième miniature, intitulée « Équipe et matériel »."
+      }
+    },
+    {
+      "id": "M06-E03-02",
+      "consigne": "Ne gardez sur cette diapositive que les trois lignes qui concernent les personnes : 12 salariés, 4 apprentis, 2 recrutements en cours.",
+      "setupPpt": {
+        "slide": 1
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:contenu",
+        "accept": [
+          "12 salariés\n4 apprentis\n2 recrutements en cours",
+          "12 salariés, 4 apprentis, 2 recrutements en cours"
+        ]
+      },
+      "aide": {
+        "text": "Double-cliquez dans le bloc, effacez tout, puis saisissez les trois lignes conservées."
+      }
+    },
+    {
+      "id": "M06-E03-03",
+      "consigne": "Son titre doit maintenant annoncer un seul sujet : Seize personnes sur le terrain.",
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:titre",
+        "accept": [
+          "Seize personnes sur le terrain"
+        ]
+      }
+    },
+    {
+      "id": "M06-E03-04",
+      "consigne": "Le second sujet a besoin de sa propre diapositive. Créez-la juste après celle-ci.",
+      "action": {
+        "type": "P_ADD_SLIDE",
+        "layout": "titre-et-contenu"
+      },
+      "aide": {
+        "text": "Groupe Diapositives, bouton Nouvelle."
+      }
+    },
+    {
+      "id": "M06-E03-05",
+      "consigne": "Donnez-lui pour titre : Trois machines pour la saison.",
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:titre",
+        "accept": [
+          "Trois machines pour la saison"
+        ]
+      }
+    },
+    {
+      "id": "M06-E03-06",
+      "consigne": "Reportez-y les trois lignes de matériel : Deux tondeuses autoportées, Un broyeur de branches, Une mini-pelle.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Réunion d'équipe"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Seize personnes sur le terrain",
+                "contenu": "12 salariés\n4 apprentis\n2 recrutements en cours"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Trois machines pour la saison"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Pour mémoire",
+                "contenu": "12 salariés\n4 apprentis"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Budget 2027",
+                "contenu": "Montants en cours d'arbitrage"
+              }
+            }
+          ]
+        },
+        "slide": 2
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:contenu",
+        "accept": [
+          "Deux tondeuses autoportées\nUn broyeur de branches\nUne mini-pelle",
+          "Deux tondeuses autoportées, Un broyeur de branches, Une mini-pelle"
+        ]
+      }
+    },
+    {
+      "id": "M06-E03-07",
+      "consigne": "Une diapositive ne fait que redire l'effectif énoncé deux diapositives plus tôt. Affichez-la.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 3
+      },
+      "aide": {
+        "text": "C'est celle intitulée « Pour mémoire »."
+      }
+    },
+    {
+      "id": "M06-E03-08",
+      "consigne": "Une redite ne se déplace pas : retirez-la définitivement.",
+      "action": {
+        "type": "P_DELETE_SLIDE",
+        "index": 3
+      },
+      "aide": {
+        "text": "Groupe Diapositives, bouton Supprimer."
+      }
+    },
+    {
+      "id": "M06-E03-09",
+      "consigne": "Reste le budget, dont les montants ne sont pas arbitrés. Affichez cette diapositive.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 3
+      }
+    },
+    {
+      "id": "M06-E03-10",
+      "consigne": "Elle resservira une fois les arbitrages rendus : appliquez-lui le traitement qui la conserve sans la montrer.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Réunion d'équipe"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Seize personnes sur le terrain",
+                "contenu": "12 salariés\n4 apprentis\n2 recrutements en cours"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Trois machines pour la saison",
+                "contenu": "Deux tondeuses autoportées\nUn broyeur de branches\nUne mini-pelle"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Budget 2027",
+                "contenu": "Montants en cours d'arbitrage"
+              }
+            }
+          ]
+        },
+        "slide": 3
+      },
+      "action": {
+        "type": "P_EXPECT_DECK",
+        "deck": {
+          "slides": [
+            {
+              "index": 3,
+              "masquee": true
+            }
+          ]
+        }
+      },
+      "aide": {
+        "text": "Groupe Diaporama, bouton Masquer. La supprimer obligerait à la refaire."
+      }
+    }
+  ]
+}

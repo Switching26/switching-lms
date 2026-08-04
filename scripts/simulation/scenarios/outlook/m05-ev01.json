@@ -1,0 +1,303 @@
+{
+  "schemaVersion": 1,
+  "title": "S'évaluer — Retrouver l'information dans une boîte chargée",
+  "mode": "EVALUATION",
+  "moduleTitle": "Retrouver l'information dans une boîte chargée",
+  "intro": {
+    "title": "Mardi 24 mars — quatre messages, une preuve à produire",
+    "body": "Un client réclame un document que vous lui avez envoyé, la mairie relance sur un marché, un fournisseur régularise, une lettre d'information traîne. Vous devez retrouver, prouver, classer. Cette épreuve est notée : chaque geste compte au premier essai, aucune aide n'est proposée. La rédaction ne compte pas dans la note."
+  },
+  "outro": {
+    "body": "L'épreuve portait sur des gestes qui laissent une trace vérifiable : où vous avez cherché, ce que vous avez renvoyé, et où chaque message a fini. Retrouver vite n'est pas une qualité de mémoire, c'est une conséquence du rangement de la veille."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "clients",
+        "nom": "Clients 2026"
+      },
+      {
+        "id": "fournisseurs",
+        "nom": "Fournisseurs"
+      }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "messages": [
+      {
+        "id": "m-litige",
+        "dossier": "reception",
+        "de": "j.leroux@habitat-du-nord.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Facture 2026-141 — nous n'avons jamais reçu le contrat",
+        "corps": "Bonjour,\n\nNotre comptable ne trouve pas le contrat signé de l'escalier. Pouvez-vous nous le renvoyer ?\n\nJulien Leroux",
+        "date": "2026-03-24T08:20",
+        "lu": false
+      },
+      {
+        "id": "m-relance",
+        "dossier": "reception",
+        "de": "marches@ville-lambersart.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Salle des mariages — commission du 25 mars",
+        "corps": "Bonjour,\n\nLa commission examine votre offre demain.\n\nService des marchés",
+        "date": "2026-03-24T07:40",
+        "lu": true
+      },
+      {
+        "id": "m-fourn",
+        "dossier": "reception",
+        "de": "compta@quincaillerie-delmas.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Avoir AV-0331 — régularisation",
+        "corps": "Bonjour,\n\nVeuillez trouver l'avoir régularisant l'écart signalé.\n\nQuincaillerie Delmas",
+        "date": "2026-03-23T16:05",
+        "lu": true
+      },
+      {
+        "id": "m-pub2",
+        "dossier": "reception",
+        "de": "newsletter@bois-et-materiaux.info",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "La lettre du bois — 24 mars",
+        "corps": "L'actualité de la semaine.",
+        "date": "2026-03-24T04:50",
+        "lu": false
+      },
+      {
+        "id": "m-env-contrat",
+        "dossier": "envoyes",
+        "de": "camille.aubertin@atelier-nord.fr",
+        "a": [
+          "j.leroux@habitat-du-nord.fr"
+        ],
+        "objet": "RE : Escalier — exemplaire signé du contrat 2026-141",
+        "corps": "Bonjour,\n\nVeuillez trouver l'exemplaire signé du contrat.\n\nCamille Aubertin",
+        "date": "2026-03-11T10:12",
+        "lu": true,
+        "pieces": [
+          {
+            "nom": "Contrat-escalier-signe.pdf",
+            "taille": "312 Ko"
+          }
+        ]
+      },
+      {
+        "id": "m-env-autre",
+        "dossier": "envoyes",
+        "de": "camille.aubertin@atelier-nord.fr",
+        "a": [
+          "contact@fleurs-de-saison.fr"
+        ],
+        "objet": "Vitrine — proposition de créneau",
+        "corps": "Bonjour,\n\nJe vous propose le 30 mars.\n\nCamille Aubertin",
+        "date": "2026-03-19T09:30",
+        "lu": true
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O05-EV01-01",
+      "consigne": "Ouvrez la réclamation de Julien Leroux et relevez la référence du contrat qu'il réclame.",
+      "action": {
+        "type": "O_SELECT_MESSAGE",
+        "id": "m-litige"
+      },
+      "points": 1
+    },
+    {
+      "id": "O05-EV01-02",
+      "consigne": "Rendez-vous dans le dossier où se trouve la copie de ce que vous avez envoyé.",
+      "action": {
+        "type": "O_SELECT_FOLDER",
+        "dossier": "envoyes"
+      },
+      "points": 2
+    },
+    {
+      "id": "O05-EV01-03",
+      "consigne": "Filtrez ce dossier sur la référence `2026-141` pour isoler l'envoi concerné.",
+      "action": {
+        "type": "O_TYPE_TEXT",
+        "champ": "recherche",
+        "accept": [
+          "2026-141",
+          "141"
+        ],
+        "contient": true
+      },
+      "points": 2
+    },
+    {
+      "id": "O05-EV01-04",
+      "consigne": "Renvoyez cet envoi au client de façon qu'il reçoive le document d'origine, avec sa pièce jointe.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "genre": "transfert",
+          "a": {
+            "contient": [
+              "j.leroux@habitat-du-nord.fr"
+            ]
+          },
+          "pieces": {
+            "contient": [
+              "Contrat-escalier-signe.pdf"
+            ]
+          }
+        }
+      },
+      "points": 3
+    },
+    {
+      "id": "O05-EV01-05",
+      "consigne": "Complétez l'objet de ce transfert avec le mot `renvoi`, sans retirer le préfixe posé par Outlook.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "objet": {
+            "prefixe": "TR",
+            "contient": [
+              "renvoi"
+            ]
+          }
+        }
+      },
+      "points": 1
+    },
+    {
+      "id": "O05-EV01-06",
+      "consigne": "Rédigez le mot d'accompagnement avec vos mots. **Cette étape n'entre pas dans la note.**",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "corps": {
+            "minMots": 10,
+            "revueManuelle": true
+          }
+        }
+      },
+      "points": 0
+    },
+    {
+      "id": "O05-EV01-07",
+      "consigne": "Envoyez le renvoi.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "j.leroux@habitat-du-nord.fr"
+            ]
+          },
+          "objet": {
+            "prefixe": "TR",
+            "contient": [
+              "renvoi"
+            ]
+          },
+          "pieces": {
+            "contient": [
+              "Contrat-escalier-signe.pdf"
+            ]
+          }
+        }
+      },
+      "points": 3
+    },
+    {
+      "id": "O05-EV01-08",
+      "consigne": "Videz le filtre de recherche : une boîte filtrée cache les messages qui arrivent.",
+      "action": {
+        "type": "O_TYPE_TEXT",
+        "champ": "recherche",
+        "accept": [
+          ""
+        ]
+      },
+      "points": 1
+    },
+    {
+      "id": "O05-EV01-09",
+      "consigne": "Revenez à votre file d'attente.",
+      "action": {
+        "type": "O_SELECT_FOLDER",
+        "dossier": "reception"
+      },
+      "points": 1
+    },
+    {
+      "id": "O05-EV01-10",
+      "consigne": "L'avoir de la Quincaillerie Delmas est traité : rangez-le dans le dossier qui correspond à son expéditeur.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-fourn": {
+              "dossier": "fournisseurs"
+            }
+          }
+        }
+      },
+      "points": 1
+    },
+    {
+      "id": "O05-EV01-11",
+      "consigne": "Sortez la lettre d'information de la file d'attente.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-pub2": {
+              "dossier": "supprimes"
+            }
+          }
+        }
+      },
+      "points": 1
+    },
+    {
+      "id": "O05-EV01-12",
+      "consigne": "La commission de la mairie statue demain : vous ne pouvez rien y faire aujourd'hui. Marquez ce message et laissez-le dans votre boîte.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-relance": {
+              "dossier": "reception",
+              "indicateur": true
+            }
+          }
+        }
+      },
+      "points": 1
+    }
+  ]
+}

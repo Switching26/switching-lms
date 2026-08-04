@@ -1,0 +1,169 @@
+{
+  "schemaVersion": 1,
+  "title": "Vider la boîte du lundi matin",
+  "mode": "EXERCISE",
+  "moduleTitle": "Prise en main d'Outlook",
+  "intro": {
+    "title": "Cinq messages, quatre traitements différents",
+    "body": "Lundi, 8 h. Cinq messages vous attendent. Deux ne méritent que la corbeille, deux sont traités et doivent quitter la file d'attente, un demande une action que vous ne pouvez pas faire aujourd'hui. Le but n'est pas de tout lire : c'est de décider, message par message, où chacun doit aller."
+  },
+  "outro": {
+    "body": "Une boîte de réception vide en fin de journée n'est pas un exploit : c'est le résultat de quatre décisions répétées — classer, supprimer, marquer, ou traiter tout de suite. Ce qui reste dans la file d'attente est ce qui attend encore quelque chose de vous."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "clients",
+        "nom": "Clients 2026"
+      },
+      {
+        "id": "fournisseurs",
+        "nom": "Fournisseurs"
+      }
+    ],
+    "messages": [
+      {
+        "id": "m-client",
+        "dossier": "reception",
+        "de": "j.leroux@habitat-du-nord.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Escalier — contrat bien reçu, merci",
+        "corps": "Bonjour,\n\nJ'ai bien reçu le contrat signé, tout est en ordre de notre côté.\n\nBien à vous,\nJulien Leroux",
+        "date": "2026-03-09T07:55",
+        "lu": true
+      },
+      {
+        "id": "m-fournisseur",
+        "dossier": "reception",
+        "de": "compta@quincaillerie-delmas.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Avoir AV-0312 — régularisation de la facture QD-4471",
+        "corps": "Bonjour,\n\nVeuillez trouver l'avoir régularisant l'écart de quantité signalé.\n\nQuincaillerie Delmas",
+        "date": "2026-03-09T07:20",
+        "lu": true
+      },
+      {
+        "id": "m-devis-attente",
+        "dossier": "reception",
+        "de": "mairie-lambersart@ville-lambersart.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Salle des mariages — devis attendu avant le 20 mars",
+        "corps": "Bonjour,\n\nNous souhaitons un devis pour le mobilier de la salle des mariages, avant le 20 mars.\nLes cotes vous seront transmises la semaine prochaine par notre service technique.\n\nService des marchés\nVille de Lambersart",
+        "date": "2026-03-09T06:48",
+        "lu": false
+      },
+      {
+        "id": "m-pub1",
+        "dossier": "reception",
+        "de": "offres@promo-outillage.net",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "-50 % sur les scies circulaires !!!",
+        "corps": "Offre valable jusqu'à ce soir.",
+        "date": "2026-03-09T05:11",
+        "lu": false
+      },
+      {
+        "id": "m-pub2",
+        "dossier": "reception",
+        "de": "newsletter@bois-et-materiaux.info",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Votre lettre d'information hebdomadaire",
+        "corps": "Retrouvez l'actualité du bois cette semaine.",
+        "date": "2026-03-09T04:02",
+        "lu": false
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O01-E04-01",
+      "consigne": "Commencez par ce qui n'appelle aucune décision : les deux messages commerciaux, la promotion sur les scies et la lettre d'information. Sortez-les de la file d'attente.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-pub1": {
+              "dossier": "supprimes"
+            },
+            "m-pub2": {
+              "dossier": "supprimes"
+            }
+          }
+        }
+      },
+      "aide": {
+        "text": "Ouvrez chaque message, puis Supprimer dans la barre du haut. Ils partent dans Éléments supprimés et restent récupérables."
+      }
+    },
+    {
+      "id": "O01-E04-02",
+      "consigne": "Julien Leroux confirme avoir reçu son contrat : le dossier est clos, plus rien à faire. Rangez son message là où vous le retrouverez si ce client vous rappelle dans six mois.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-client": {
+              "dossier": "clients"
+            }
+          }
+        }
+      },
+      "aide": {
+        "text": "Ouvrez le message, puis Déplacer, puis choisissez le dossier des clients."
+      }
+    },
+    {
+      "id": "O01-E04-03",
+      "consigne": "L'avoir de la Quincaillerie Delmas règle l'écart de facturation : traité, lui aussi. Mais ce n'est pas un client — rangez-le dans le dossier qui lui correspond.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-fournisseur": {
+              "dossier": "fournisseurs"
+            }
+          }
+        }
+      },
+      "aide": {
+        "text": "Même geste que pour le message précédent, mais l'expéditeur est un fournisseur, pas un client."
+      }
+    },
+    {
+      "id": "O01-E04-04",
+      "consigne": "Reste la mairie : le devis est attendu avant le 20 mars, mais les cotes n'arrivent que la semaine prochaine. Vous ne pouvez ni le traiter, ni le classer. Marquez-le, et laissez-le dans votre boîte.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-devis-attente": {
+              "dossier": "reception",
+              "indicateur": true
+            }
+          }
+        }
+      },
+      "aide": {
+        "text": "Ouvrez le message, puis cliquez sur le drapeau dans la barre du haut du volet de lecture. Ne le déplacez pas : il attend encore une action de votre part."
+      }
+    }
+  ]
+}

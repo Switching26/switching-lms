@@ -1,0 +1,91 @@
+{
+ "schemaVersion": 1,
+ "app": "WORD",
+ "title": "Dimensionner une grille de planning",
+ "mode": "EXERCISE",
+ "moduleTitle": "Les tableaux : faire évoluer une grille",
+ "intro": {
+  "title": "À VOUS",
+  "body": "Un planning hebdomadaire : une colonne par jour ouvré, plus une colonne d'horaires, et une ligne d'en-tête suivie de trois créneaux. Partez d'un tableau trop petit et faites-le grandir."
+ },
+ "outro": "Faire grandir un tableau coûte trois clics. Le refaire coûte dix minutes.",
+ "document": {
+  "paragraphes": [
+   {
+    "texte": "Inventaire de l'atelier",
+    "style": "titre"
+   },
+   {
+    "texte": "Le tableau ci-dessous recense le matériel et son état.",
+    "style": "normal"
+   },
+   {
+    "texte": "Contrôle réalisé le 18 mars par le responsable d'atelier.",
+    "style": "normal"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "id": "M13-E01-01",
+   "consigne": "==Insérez un tableau de 2 lignes sur 3 colonnes.== C'est volontairement trop petit.",
+   "action": {
+    "type": "W_EXPECT_TABLE",
+    "lignes": 2,
+    "colonnes": 3
+   },
+   "setup": {
+    "ribbon": {
+     "activeTab": "insertion"
+    }
+   },
+   "aide": {
+    "text": "Onglet « Insertion », bouton « Tableau », puis 2 et 3.",
+    "showTarget": true
+   },
+   "feedback": "La base est posée."
+  },
+  {
+   "id": "M13-E01-02",
+   "consigne": "Il faut six colonnes : les horaires plus cinq jours. ==Ajoutez une colonne à droite== pour passer à quatre.",
+   "action": {
+    "type": "W_EXPECT_TABLE",
+    "lignes": 2,
+    "colonnes": 4
+   },
+   "aide": {
+    "text": "Clic dans le tableau, puis « Colonne à droite ».",
+    "showTarget": true
+   },
+   "feedback": "Quatre colonnes."
+  },
+  {
+   "id": "M13-E01-03",
+   "consigne": "==Ajoutez encore deux colonnes à droite== pour atteindre six.",
+   "action": {
+    "type": "W_EXPECT_TABLE",
+    "lignes": 2,
+    "colonnes": 6
+   },
+   "aide": {
+    "text": "Deux fois « Colonne à droite », en repartant du tableau.",
+    "showTarget": true
+   },
+   "feedback": "Six colonnes : horaires, lundi à vendredi."
+  },
+  {
+   "id": "M13-E01-04",
+   "consigne": "Il manque les créneaux. ==Ajoutez deux lignes en dessous== pour arriver à quatre lignes.",
+   "action": {
+    "type": "W_EXPECT_TABLE",
+    "lignes": 4,
+    "colonnes": 6
+   },
+   "aide": {
+    "text": "Deux fois « Ligne en dessous ».",
+    "showTarget": true
+   },
+   "feedback": "Quatre lignes sur six colonnes : le planning est dimensionné."
+  }
+ ]
+}

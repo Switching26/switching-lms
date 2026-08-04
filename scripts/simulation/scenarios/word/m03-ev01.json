@@ -1,0 +1,193 @@
+{
+  "schemaVersion": 1,
+  "app": "WORD",
+  "title": "Évaluation — Modification de texte",
+  "mode": "EVALUATION",
+  "moduleTitle": "Modification de texte",
+  "intro": {
+    "title": "ÉVALUATION DU MODULE",
+    "body": "Douze gestes notés, sans indice et sans démonstration. Un contrat de maintenance à reprendre : trois informations ont changé, une clause est devenue fausse, et le document porte encore ses marques de relecture. Chaque geste compte au premier essai."
+  },
+  "outro": "Évaluation terminée. Vous pouvez la repasser autant de fois que vous le souhaitez : seule votre meilleure note est conservée, et chaque passage repart de zéro sur un document neuf.",
+  "document": {
+    "paragraphes": [
+      {
+        "texte": "Contrat de maintenance — atelier de Nantes"
+      },
+      {
+        "texte": "La maintenance préventive est réalisée deux fois par an."
+      },
+      {
+        "texte": "Le délai d'intervention en cas de panne est de soixante-douze heures.",
+        "format": {
+          "surlignage": "#f1c40f"
+        }
+      },
+      {
+        "texte": "Les pièces détachées sont facturées en supplément.",
+        "format": {
+          "barre": true
+        }
+      },
+      {
+        "texte": "Le contrat est reconduit tacitement chaque année."
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M03-EV01-01",
+      "points": 0,
+      "consigne": "Reprenez ce contrat : la fréquence de maintenance a changé, le délai d'intervention aussi, une clause est devenue fausse, et il reste des marques de relecture à traiter. Les consignes disent ce qu'il faut obtenir, jamais quel bouton employer.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M03-EV01-02",
+      "points": 2,
+      "consigne": "La maintenance passe à quatre visites annuelles. Remplacez le passage concerné pour que le paragraphe se lise : La maintenance préventive est réalisée quatre fois par an.",
+      "action": {
+        "type": "W_EXPECT_DOC",
+        "paragraphes": {
+          "p1": [
+            "La maintenance préventive est réalisée quatre fois par an."
+          ]
+        }
+      }
+    },
+    {
+      "id": "M03-EV01-03",
+      "points": 2,
+      "consigne": "Le délai d'intervention est ramené à vingt-quatre heures. Réécrivez le paragraphe surligné pour qu'il se lise : Le délai d'intervention en cas de panne est de vingt-quatre heures.",
+      "action": {
+        "type": "W_EXPECT_DOC",
+        "paragraphes": {
+          "p2": [
+            "Le délai d'intervention en cas de panne est de vingt-quatre heures."
+          ]
+        }
+      }
+    },
+    {
+      "id": "M03-EV01-04",
+      "points": 2,
+      "consigne": "Le passage surligné est maintenant à jour : retirez la marque de relecture qu'il porte encore.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p2",
+        "format": {
+          "surlignage": ""
+        }
+      }
+    },
+    {
+      "id": "M03-EV01-05",
+      "points": 2,
+      "consigne": "La clause barrée est devenue fausse depuis l'avenant. Réécrivez-la : Les pièces détachées sont comprises dans le forfait annuel.",
+      "action": {
+        "type": "W_EXPECT_DOC",
+        "paragraphes": {
+          "p3": [
+            "Les pièces détachées sont comprises dans le forfait annuel."
+          ]
+        }
+      }
+    },
+    {
+      "id": "M03-EV01-06",
+      "points": 1,
+      "consigne": "Cette clause n'est plus caduque : retirez la marque qui la barre encore.",
+      "setup": {
+        "ribbon": {
+          "activeTab": "accueil"
+        }
+      },
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p3",
+        "format": {
+          "barre": false
+        }
+      }
+    },
+    {
+      "id": "M03-EV01-07",
+      "points": 2,
+      "consigne": "Le contrat doit mentionner sa date d'effet. Ajoutez un paragraphe à la suite du dernier, contenant exactement : Le présent contrat prend effet le 1er juillet.",
+      "action": {
+        "type": "W_TYPE_TEXT",
+        "zone": "p4",
+        "accept": [
+          "Le présent contrat prend effet le 1er juillet."
+        ]
+      }
+    },
+    {
+      "id": "M03-EV01-08",
+      "points": 1,
+      "consigne": "Le nouveau délai est l'information que le client vérifiera en premier : épaississez « vingt-quatre heures », ce passage seulement.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "texte:vingt-quatre heures",
+        "format": {
+          "gras": true
+        }
+      }
+    },
+    {
+      "id": "M03-EV01-09",
+      "points": 1,
+      "consigne": "La reconduction tacite est une réserve à signaler sans l'alourdir : mettez « reconduit tacitement » en italique.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "texte:reconduit tacitement",
+        "format": {
+          "italique": true
+        }
+      }
+    },
+    {
+      "id": "M03-EV01-10",
+      "points": 1,
+      "consigne": "Donnez au titre la taille 18.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p0",
+        "format": {
+          "taille": 18
+        }
+      }
+    },
+    {
+      "id": "M03-EV01-11",
+      "points": 1,
+      "consigne": "Vous jugez cette taille excessive pour un contrat. Défaites ce dernier geste sans retoucher le titre à la main.",
+      "action": {
+        "type": "W_CLICK_CONTROL",
+        "controle": "w-annuler"
+      }
+    },
+    {
+      "id": "M03-EV01-12",
+      "points": 1,
+      "consigne": "Après vérification, la taille 18 est bien celle du modèle maison : remettez-la, toujours sans repasser par le groupe Police.",
+      "action": {
+        "type": "W_CLICK_CONTROL",
+        "controle": "w-retablir"
+      }
+    },
+    {
+      "id": "M03-EV01-13",
+      "points": 1,
+      "consigne": "Terminez en épaississant le titre du contrat.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p0",
+        "format": {
+          "gras": true
+        }
+      }
+    }
+  ]
+}

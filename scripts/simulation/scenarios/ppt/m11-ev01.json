@@ -1,0 +1,335 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "mode": "EVALUATION",
+  "moduleTitle": "Projeter ou envoyer",
+  "title": "S'évaluer — Projeter ou envoyer",
+  "intro": {
+    "title": "S'évaluer — Projeter ou envoyer",
+    "body": "Cette présentation a servi en salle. Elle doit maintenant partir par mail chez un client : rendez-la autonome, faites le ménage de ce qui ne doit pas voyager, et ajoutez ce qui manque toujours à un fichier envoyé."
+  },
+  "outro": {
+    "body": "Évaluation terminée. Le test de l'absence, le ménage avant envoi et la diapositive de contact sont les trois acquis du module."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "ppt": {
+    "fileName": "Vallonet - évaluation.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Scierie Vallonet",
+          "sous-titre": "Proposition pour Charpentes Delmas"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Notre bois",
+          "contenu": "Forêts locales\nSéchage maison\nLot classé"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Nos délais",
+          "contenu": "Courant : voir grille\nSpécial : nous consulter"
+        },
+        "notes": "Plancher à 19 %, refuser en dessous"
+      },
+      {
+        "layout": "titre-et-contenu",
+        "masquee": true,
+        "textes": {
+          "titre": "Marge par section",
+          "contenu": "Chevron : 27 %\nMadrier : 19 %"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M11-EV01-01",
+      "consigne": "Affichez la deuxième diapositive, celle du bois.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 1
+      },
+      "points": 1
+    },
+    {
+      "id": "M11-EV01-02",
+      "consigne": "Remplacez son contenu par : Forêts à moins de 30 km, Séchage basse température 6 à 9 semaines, Chaque lot classé avec certificat.",
+      "setupPpt": {
+        "slide": 1
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:contenu",
+        "accept": [
+          "Forêts à moins de 30 km\nSéchage basse température 6 à 9 semaines\nChaque lot classé avec certificat",
+          "Forêts à moins de 30 km, Séchage basse température 6 à 9 semaines, Chaque lot classé avec certificat"
+        ]
+      },
+      "points": 2
+    },
+    {
+      "id": "M11-EV01-03",
+      "consigne": "Affichez la troisième diapositive, celle des délais.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 2
+      },
+      "points": 1
+    },
+    {
+      "id": "M11-EV01-04",
+      "consigne": "« Voir grille » et « nous consulter » ne disent rien à un lecteur seul. Remplacez le contenu par : Sections courantes livrées en 5 jours, Sections hors standard en 3 semaines.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Scierie Vallonet",
+                "sous-titre": "Proposition pour Charpentes Delmas"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Notre bois",
+                "contenu": "Forêts à moins de 30 km\nSéchage basse température 6 à 9 semaines\nChaque lot classé avec certificat"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Nos délais",
+                "contenu": "Courant : voir grille\nSpécial : nous consulter"
+              },
+              "notes": "Plancher à 19 %, refuser en dessous"
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Marge par section",
+                "contenu": "Chevron : 27 %\nMadrier : 19 %"
+              },
+              "masquee": true
+            }
+          ]
+        },
+        "slide": 2
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:contenu",
+        "accept": [
+          "Sections courantes livrées en 5 jours\nSections hors standard en 3 semaines",
+          "Sections courantes livrées en 5 jours, Sections hors standard en 3 semaines"
+        ]
+      },
+      "points": 2
+    },
+    {
+      "id": "M11-EV01-05",
+      "consigne": "Remplacez son titre par Livraison en 5 jours sur les sections courantes.",
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:titre",
+        "accept": [
+          "Livraison en 5 jours sur les sections courantes"
+        ]
+      },
+      "points": 2
+    },
+    {
+      "id": "M11-EV01-06",
+      "consigne": "Videz la note de cette diapositive : elle donne votre plancher de négociation, et le fichier va sortir de l'entreprise.",
+      "action": {
+        "type": "P_EXPECT_DECK",
+        "deck": {
+          "slides": [
+            {
+              "index": 2,
+              "notes": ""
+            }
+          ]
+        }
+      },
+      "points": 1
+    },
+    {
+      "id": "M11-EV01-07",
+      "consigne": "Passez en Trieuse pour repérer ce qui est masqué.",
+      "action": {
+        "type": "P_SET_VIEW",
+        "view": "trieuse"
+      },
+      "points": 1
+    },
+    {
+      "id": "M11-EV01-08",
+      "consigne": "Affichez la diapositive masquée, la quatrième.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 3
+      },
+      "points": 1
+    },
+    {
+      "id": "M11-EV01-09",
+      "consigne": "Supprimez-la : masquer protège de la projection, pas de la transmission.",
+      "action": {
+        "type": "P_DELETE_SLIDE",
+        "index": 3
+      },
+      "points": 2
+    },
+    {
+      "id": "M11-EV01-10",
+      "consigne": "Revenez en affichage Normal.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Scierie Vallonet",
+                "sous-titre": "Proposition pour Charpentes Delmas"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Notre bois",
+                "contenu": "Forêts à moins de 30 km\nSéchage basse température 6 à 9 semaines\nChaque lot classé avec certificat"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Livraison en 5 jours sur les sections courantes",
+                "contenu": "Sections courantes livrées en 5 jours\nSections hors standard en 3 semaines"
+              }
+            }
+          ]
+        },
+        "slide": 2,
+        "view": "trieuse"
+      },
+      "action": {
+        "type": "P_SET_VIEW",
+        "view": "normal"
+      },
+      "points": 1
+    },
+    {
+      "id": "M11-EV01-11",
+      "consigne": "Ajoutez une diapositive à la fin : il manque ce qu'une présentation de salle n'écrit jamais.",
+      "action": {
+        "type": "P_ADD_SLIDE"
+      },
+      "points": 2
+    },
+    {
+      "id": "M11-EV01-12",
+      "consigne": "Écrivez son titre : Nous contacter.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Scierie Vallonet",
+                "sous-titre": "Proposition pour Charpentes Delmas"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Notre bois",
+                "contenu": "Forêts à moins de 30 km\nSéchage basse température 6 à 9 semaines\nChaque lot classé avec certificat"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Livraison en 5 jours sur les sections courantes",
+                "contenu": "Sections courantes livrées en 5 jours\nSections hors standard en 3 semaines"
+              }
+            },
+            {
+              "layout": "titre-et-contenu"
+            }
+          ]
+        },
+        "slide": 3
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:titre",
+        "accept": [
+          "Nous contacter"
+        ]
+      },
+      "points": 2
+    },
+    {
+      "id": "M11-EV01-13",
+      "consigne": "Écrivez son contenu : Léa Vallonet 03 84 27 09 15, contact@scierie-vallonet.fr.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Scierie Vallonet",
+                "sous-titre": "Proposition pour Charpentes Delmas"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Notre bois",
+                "contenu": "Forêts à moins de 30 km\nSéchage basse température 6 à 9 semaines\nChaque lot classé avec certificat"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Livraison en 5 jours sur les sections courantes",
+                "contenu": "Sections courantes livrées en 5 jours\nSections hors standard en 3 semaines"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Nous contacter"
+              }
+            }
+          ]
+        },
+        "slide": 3
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:contenu",
+        "accept": [
+          "Léa Vallonet 03 84 27 09 15\ncontact@scierie-vallonet.fr",
+          "Léa Vallonet 03 84 27 09 15, contact@scierie-vallonet.fr"
+        ]
+      },
+      "points": 2
+    }
+  ]
+}

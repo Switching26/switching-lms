@@ -1,0 +1,418 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "mode": "EVALUATION",
+  "moduleTitle": "Dessiner et annoter",
+  "title": "S'évaluer — Dessiner et annoter",
+  "intro": {
+    "title": "S'évaluer — Dessiner et annoter",
+    "body": "Une photo de chantier doit partir chez le client, annotée. Elle porte des formes héritées qui ne désignent rien et une note interne. Aucun défaut ne vous sera nommé. Épreuve notée, d'une traite ; un nouveau passage repart de zéro."
+  },
+  "outro": {
+    "body": "Épreuve terminée. Seule votre meilleure note est conservée."
+  },
+  "ppt": {
+    "fileName": "Chantier Verdeval.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Verdeval",
+          "sous-titre": "Chantier des Tilleuls - remise au client"
+        }
+      },
+      {
+        "layout": "titre-seul",
+        "textes": {
+          "titre": "La terrasse livrée"
+        },
+        "objets": [
+          {
+            "id": "img-t",
+            "objectType": "image",
+            "src": "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22320%22%20height%3D%22200%22%3E%3Crect%20width%3D%22320%22%20height%3D%22200%22%20fill%3D%22%23DCEBD8%22%2F%3E%3Crect%20y%3D%22140%22%20width%3D%22320%22%20height%3D%2260%22%20fill%3D%22%237BA05B%22%2F%3E%3Ccircle%20cx%3D%2260%22%20cy%3D%2252%22%20r%3D%2222%22%20fill%3D%22%23F2D06B%22%2F%3E%3Cpath%20d%3D%22M120%20140%20L150%2078%20L180%20140%20Z%22%20fill%3D%22%233E6B3A%22%2F%3E%3Cpath%20d%3D%22M196%20140%20L220%2096%20L244%20140%20Z%22%20fill%3D%22%234E7F45%22%2F%3E%3Crect%20x%3D%22150%22%20y%3D%22140%22%20width%3D%226%22%20height%3D%2218%22%20fill%3D%22%236B4A2F%22%2F%3E%3Crect%20x%3D%22217%22%20y%3D%22140%22%20width%3D%226%22%20height%3D%2214%22%20fill%3D%22%236B4A2F%22%2F%3E%3C%2Fsvg%3E",
+            "rect": {
+              "x": 430,
+              "y": 150,
+              "w": 450,
+              "h": 281
+            }
+          },
+          {
+            "id": "fo-x",
+            "objectType": "forme",
+            "shape": "triangle",
+            "rect": {
+              "x": 70,
+              "y": 70,
+              "w": 150,
+              "h": 80
+            }
+          },
+          {
+            "id": "fo-y",
+            "objectType": "forme",
+            "shape": "ellipse",
+            "rect": {
+              "x": 70,
+              "y": 200,
+              "w": 150,
+              "h": 80
+            }
+          },
+          {
+            "id": "zt-int",
+            "objectType": "texte",
+            "texte": "verifier avec Karim avant envoi",
+            "rect": {
+              "x": 70,
+              "y": 440,
+              "w": 330,
+              "h": 60
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M09-EV01-01",
+      "consigne": "Cette diapositive part chez le client demain. Regardez-la avant d'agir : une note interne y figure, une forme ne désigne rien, une autre flotte à côté de la photo au lieu d'être dessus, il manque un commentaire attaché à un point précis, et le titre n'est pas traité. Reprenez le tout.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M09-EV01-02",
+      "consigne": "Affichez la diapositive de la terrasse.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 1
+      },
+      "points": 1
+    },
+    {
+      "id": "M09-EV01-03",
+      "consigne": "Une mention n'a rien à faire dans un document qui sort de l'entreprise : faites-la disparaître.",
+      "action": {
+        "type": "P_DELETE_OBJECT",
+        "objectId": "zt-int"
+      },
+      "points": 2
+    },
+    {
+      "id": "M09-EV01-04",
+      "consigne": "Une des deux formes ne désigne rien et ne peut rien désigner : retirez-la.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Chantier des Tilleuls - remise au client"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "La terrasse livrée"
+              },
+              "objets": [
+                {
+                  "id": "img-t",
+                  "objectType": "image",
+                  "rect": {
+                    "x": 430,
+                    "y": 150,
+                    "w": 450,
+                    "h": 281
+                  },
+                  "src": "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22320%22%20height%3D%22200%22%3E%3Crect%20width%3D%22320%22%20height%3D%22200%22%20fill%3D%22%23DCEBD8%22%2F%3E%3Crect%20y%3D%22140%22%20width%3D%22320%22%20height%3D%2260%22%20fill%3D%22%237BA05B%22%2F%3E%3Ccircle%20cx%3D%2260%22%20cy%3D%2252%22%20r%3D%2222%22%20fill%3D%22%23F2D06B%22%2F%3E%3Cpath%20d%3D%22M120%20140%20L150%2078%20L180%20140%20Z%22%20fill%3D%22%233E6B3A%22%2F%3E%3Cpath%20d%3D%22M196%20140%20L220%2096%20L244%20140%20Z%22%20fill%3D%22%234E7F45%22%2F%3E%3Crect%20x%3D%22150%22%20y%3D%22140%22%20width%3D%226%22%20height%3D%2218%22%20fill%3D%22%236B4A2F%22%2F%3E%3Crect%20x%3D%22217%22%20y%3D%22140%22%20width%3D%226%22%20height%3D%2214%22%20fill%3D%22%236B4A2F%22%2F%3E%3C%2Fsvg%3E"
+                },
+                {
+                  "id": "fo-x",
+                  "objectType": "forme",
+                  "shape": "triangle",
+                  "rect": {
+                    "x": 70,
+                    "y": 70,
+                    "w": 150,
+                    "h": 80
+                  }
+                },
+                {
+                  "id": "fo-y",
+                  "objectType": "forme",
+                  "shape": "ellipse",
+                  "rect": {
+                    "x": 70,
+                    "y": 200,
+                    "w": 150,
+                    "h": 80
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_DELETE_OBJECT",
+        "objectId": "fo-x"
+      },
+      "points": 2
+    },
+    {
+      "id": "M09-EV01-05",
+      "consigne": "L'autre flotte à gauche, loin de ce qu'elle devrait entourer. Amenez-la sur le centre de la photo.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Chantier des Tilleuls - remise au client"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "La terrasse livrée"
+              },
+              "objets": [
+                {
+                  "id": "img-t",
+                  "objectType": "image",
+                  "rect": {
+                    "x": 430,
+                    "y": 150,
+                    "w": 450,
+                    "h": 281
+                  },
+                  "src": "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22320%22%20height%3D%22200%22%3E%3Crect%20width%3D%22320%22%20height%3D%22200%22%20fill%3D%22%23DCEBD8%22%2F%3E%3Crect%20y%3D%22140%22%20width%3D%22320%22%20height%3D%2260%22%20fill%3D%22%237BA05B%22%2F%3E%3Ccircle%20cx%3D%2260%22%20cy%3D%2252%22%20r%3D%2222%22%20fill%3D%22%23F2D06B%22%2F%3E%3Cpath%20d%3D%22M120%20140%20L150%2078%20L180%20140%20Z%22%20fill%3D%22%233E6B3A%22%2F%3E%3Cpath%20d%3D%22M196%20140%20L220%2096%20L244%20140%20Z%22%20fill%3D%22%234E7F45%22%2F%3E%3Crect%20x%3D%22150%22%20y%3D%22140%22%20width%3D%226%22%20height%3D%2218%22%20fill%3D%22%236B4A2F%22%2F%3E%3Crect%20x%3D%22217%22%20y%3D%22140%22%20width%3D%226%22%20height%3D%2214%22%20fill%3D%22%236B4A2F%22%2F%3E%3C%2Fsvg%3E"
+                },
+                {
+                  "id": "fo-y",
+                  "objectType": "forme",
+                  "shape": "ellipse",
+                  "rect": {
+                    "x": 70,
+                    "y": 200,
+                    "w": 150,
+                    "h": 80
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_MOVE_OBJECT",
+        "objectId": "fo-y",
+        "rect": {
+          "x": 590,
+          "y": 240
+        },
+        "tolerance": 80
+      },
+      "points": 2
+    },
+    {
+      "id": "M09-EV01-06",
+      "consigne": "Elle est trop petite pour entourer quoi que ce soit : agrandissez-la d'environ moitié.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Chantier des Tilleuls - remise au client"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "La terrasse livrée"
+              },
+              "objets": [
+                {
+                  "id": "img-t",
+                  "objectType": "image",
+                  "rect": {
+                    "x": 430,
+                    "y": 150,
+                    "w": 450,
+                    "h": 281
+                  },
+                  "src": "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22320%22%20height%3D%22200%22%3E%3Crect%20width%3D%22320%22%20height%3D%22200%22%20fill%3D%22%23DCEBD8%22%2F%3E%3Crect%20y%3D%22140%22%20width%3D%22320%22%20height%3D%2260%22%20fill%3D%22%237BA05B%22%2F%3E%3Ccircle%20cx%3D%2260%22%20cy%3D%2252%22%20r%3D%2222%22%20fill%3D%22%23F2D06B%22%2F%3E%3Cpath%20d%3D%22M120%20140%20L150%2078%20L180%20140%20Z%22%20fill%3D%22%233E6B3A%22%2F%3E%3Cpath%20d%3D%22M196%20140%20L220%2096%20L244%20140%20Z%22%20fill%3D%22%234E7F45%22%2F%3E%3Crect%20x%3D%22150%22%20y%3D%22140%22%20width%3D%226%22%20height%3D%2218%22%20fill%3D%22%236B4A2F%22%2F%3E%3Crect%20x%3D%22217%22%20y%3D%22140%22%20width%3D%226%22%20height%3D%2214%22%20fill%3D%22%236B4A2F%22%2F%3E%3C%2Fsvg%3E"
+                },
+                {
+                  "id": "fo-y",
+                  "objectType": "forme",
+                  "shape": "ellipse",
+                  "rect": {
+                    "x": 590,
+                    "y": 240,
+                    "w": 150,
+                    "h": 80
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_MOVE_OBJECT",
+        "objectId": "fo-y",
+        "rect": {
+          "w": 230,
+          "h": 120
+        },
+        "tolerance": 70
+      },
+      "points": 2
+    },
+    {
+      "id": "M09-EV01-07",
+      "consigne": "Il manque de quoi attacher une remarque à un point précis de la photo. Posez la forme prévue pour cela.",
+      "action": {
+        "type": "P_ADD_OBJECT",
+        "objectType": "forme",
+        "shape": "bulle"
+      },
+      "points": 2
+    },
+    {
+      "id": "M09-EV01-08",
+      "consigne": "Le titre porte le propos de la diapositive : faites-le ressortir.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Chantier des Tilleuls - remise au client"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "La terrasse livrée"
+              },
+              "objets": [
+                {
+                  "id": "img-t",
+                  "objectType": "image",
+                  "rect": {
+                    "x": 430,
+                    "y": 150,
+                    "w": 450,
+                    "h": 281
+                  },
+                  "src": "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22320%22%20height%3D%22200%22%3E%3Crect%20width%3D%22320%22%20height%3D%22200%22%20fill%3D%22%23DCEBD8%22%2F%3E%3Crect%20y%3D%22140%22%20width%3D%22320%22%20height%3D%2260%22%20fill%3D%22%237BA05B%22%2F%3E%3Ccircle%20cx%3D%2260%22%20cy%3D%2252%22%20r%3D%2222%22%20fill%3D%22%23F2D06B%22%2F%3E%3Cpath%20d%3D%22M120%20140%20L150%2078%20L180%20140%20Z%22%20fill%3D%22%233E6B3A%22%2F%3E%3Cpath%20d%3D%22M196%20140%20L220%2096%20L244%20140%20Z%22%20fill%3D%22%234E7F45%22%2F%3E%3Crect%20x%3D%22150%22%20y%3D%22140%22%20width%3D%226%22%20height%3D%2218%22%20fill%3D%22%236B4A2F%22%2F%3E%3Crect%20x%3D%22217%22%20y%3D%22140%22%20width%3D%226%22%20height%3D%2214%22%20fill%3D%22%236B4A2F%22%2F%3E%3C%2Fsvg%3E"
+                },
+                {
+                  "id": "fo-y",
+                  "objectType": "forme",
+                  "shape": "ellipse",
+                  "rect": {
+                    "x": 590,
+                    "y": 240,
+                    "w": 230,
+                    "h": 120
+                  }
+                },
+                {
+                  "id": "obj7",
+                  "objectType": "forme",
+                  "shape": "bulle",
+                  "rect": {
+                    "x": 320,
+                    "y": 400,
+                    "w": 320,
+                    "h": 70
+                  },
+                  "fill": "#2F6FB0"
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "ph:titre",
+        "style": {
+          "bold": true
+        }
+      },
+      "points": 1
+    },
+    {
+      "id": "M09-EV01-09",
+      "consigne": "Centrez-le, comme il convient à un titre court et seul.",
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "ph:titre",
+        "style": {
+          "align": "center"
+        }
+      },
+      "points": 1
+    },
+    {
+      "id": "M09-EV01-10",
+      "consigne": "Jugez enfin le résultat en projection, depuis la première diapositive.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": true,
+          "index": 0
+        }
+      },
+      "points": 1
+    },
+    {
+      "id": "M09-EV01-11",
+      "consigne": "Avancez sur la diapositive que vous venez de reprendre.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "index": 1
+        }
+      },
+      "points": 1
+    },
+    {
+      "id": "M09-EV01-12",
+      "consigne": "Revenez à votre présentation.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": false
+        }
+      },
+      "points": 1
+    }
+  ]
+}

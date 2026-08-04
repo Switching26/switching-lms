@@ -1,0 +1,131 @@
+{
+  "schemaVersion": 1,
+  "title": "Un message, quatre destinataires, trois rôles",
+  "mode": "EXERCISE",
+  "moduleTitle": "Prise en main d'Outlook",
+  "intro": {
+    "title": "Le chantier de l'école démarre lundi",
+    "body": "Vous devez annoncer la date de démarrage. Rémi Tissot, le client, et Hugo Vasseur, le menuisier qui pose avec vous, doivent tous deux se rendre disponibles. Sonia doit être au courant. Et la gérante veut suivre le dossier sans que le client s'aperçoive qu'elle le lit. À vous de placer chacun au bon endroit."
+  },
+  "outro": {
+    "body": "Le classement des destinataires n'est pas une question de politesse mais de conséquence : ce qui est en Cc devient public pour tout le monde, ce qui est en Cci ne l'est pour personne. Une adresse interne posée en Cc devant un client, c'est une adresse donnée."
+  },
+  "ribbon": [],
+  "workbook": { "sheets": [] },
+
+  "courrier": {
+    "compte": { "nom": "Camille Aubertin", "adresse": "camille.aubertin@atelier-nord.fr" },
+    "dossiers": [{ "id": "clients", "nom": "Clients 2026" }],
+    "contacts": [
+      { "nom": "Rémi Tissot", "adresse": "r.tissot@ecole-arts-lambersart.fr", "societe": "École des Arts de Lambersart" },
+      { "nom": "Hugo Vasseur", "adresse": "h.vasseur@menuiserie-vasseur.fr", "societe": "Menuiserie Vasseur" },
+      { "nom": "Sonia Brunel", "adresse": "s.brunel@atelier-nord.fr", "societe": "Atelier Nord" },
+      { "nom": "Nadia Kerbaj", "adresse": "n.kerbaj@atelier-nord.fr", "societe": "Atelier Nord" }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "messages": [
+      {
+        "id": "m-planning",
+        "dossier": "reception",
+        "de": "n.kerbaj@atelier-nord.fr",
+        "a": ["camille.aubertin@atelier-nord.fr"],
+        "objet": "Chantier Lambersart — annonce du démarrage",
+        "corps": "Camille,\n\nMerci d'annoncer le démarrage du chantier pour lundi 9 mars, 8 h sur place.\nTiens-moi au courant, mais je préfère ne pas apparaître auprès du client.\n\nNadia",
+        "date": "2026-03-05T08:00",
+        "lu": true
+      }
+    ]
+  },
+
+  "steps": [
+    {
+      "id": "O01-E02-01",
+      "consigne": "Ouvrez une feuille blanche : ce message s'adresse à des personnes qui ne vous ont rien écrit.",
+      "action": { "type": "O_CLICK_CONTROL", "control": "cr-nouveau" },
+      "aide": { "text": "Le bouton Nouveau message, en haut de la colonne de gauche ; sur téléphone, le ✚ à côté de la recherche." }
+    },
+    {
+      "id": "O01-E02-02",
+      "consigne": "Placez chacun sur la bonne ligne. Doivent se rendre disponibles : `r.tissot@ecole-arts-lambersart.fr` et `h.vasseur@menuiserie-vasseur.fr`. Seulement informée : `s.brunel@atelier-nord.fr`. Suit sans être vue : `n.kerbaj@atelier-nord.fr`.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "genre": "nouveau",
+          "a": {
+            "contient": ["r.tissot@ecole-arts-lambersart.fr", "h.vasseur@menuiserie-vasseur.fr"],
+            "absent": ["n.kerbaj@atelier-nord.fr", "s.brunel@atelier-nord.fr"]
+          },
+          "cc": {
+            "contient": ["s.brunel@atelier-nord.fr"],
+            "absent": ["n.kerbaj@atelier-nord.fr"]
+          },
+          "cci": { "contient": ["n.kerbaj@atelier-nord.fr"] }
+        }
+      },
+      "aide": { "text": "À pour ceux qui doivent agir, Cc pour ceux qu'on informe, Cci pour ceux qui doivent rester invisibles. Le champ Cci est masqué : il faut cliquer sur le bouton Cci pour le faire apparaître." }
+    },
+    {
+      "id": "O01-E02-03",
+      "consigne": "Donnez au message un objet qui contienne le mot `chantier`. Souvenez-vous qu'il sera lu par un client, un artisan extérieur et deux personnes de l'atelier : il doit parler à tous.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "objet": { "contient": ["chantier"], "nonVide": true }
+        }
+      },
+      "aide": { "text": "Par exemple « Chantier de Lambersart — démarrage lundi 9 mars ». La formulation vous appartient." }
+    },
+    {
+      "id": "O01-E02-04",
+      "consigne": "Rédigez l'annonce. Elle doit donner **le jour** du démarrage et **l'heure de rendez-vous sur place** : sans ces deux informations, votre message obligera chacun à vous rappeler.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "corps": {
+            "salutation": ["bonjour", "madame", "monsieur", "bonsoir"],
+            "cloture": ["cordialement", "salutations", "bien a vous", "merci", "a lundi"],
+            "notions": [
+              {
+                "libelle": "le jour du démarrage",
+                "oneOf": ["lundi", "9 mars", "09/03", "9/3"]
+              },
+              {
+                "libelle": "l'heure du rendez-vous sur place",
+                "oneOf": ["8 h", "8h", "08:00", "8:00", "huit heures", "matin"]
+              }
+            ],
+            "minMots": 12
+          }
+        }
+      },
+      "aide": { "text": "Deux informations sont attendues : le jour, et l'heure de rendez-vous. Les deux figurent dans la consigne de la gérante." }
+    },
+    {
+      "id": "O01-E02-05",
+      "consigne": "Relisez les quatre lignes du haut, puis envoyez. Une fois parti, le placement des adresses ne se corrige plus.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": ["r.tissot@ecole-arts-lambersart.fr", "h.vasseur@menuiserie-vasseur.fr"]
+          },
+          "cc": { "contient": ["s.brunel@atelier-nord.fr"] },
+          "cci": { "contient": ["n.kerbaj@atelier-nord.fr"] },
+          "objet": { "contient": ["chantier"] }
+        }
+      },
+      "aide": { "text": "Le bouton Envoyer est le premier de la barre du haut de la fenêtre de rédaction." }
+    }
+  ]
+}

@@ -1,0 +1,149 @@
+{
+  "schemaVersion": 1,
+  "title": "Rattraper une diffusion mal partie",
+  "mode": "EXERCISE",
+  "moduleTitle": "Sécurité : reconnaître et traiter un message dangereux",
+  "intro": {
+    "title": "Un collègue vient d'exposer quinze adresses",
+    "body": "Le message d'annonce est parti avec tous les destinataires en clair — dont un confrère concurrent. On ne peut pas le rappeler, mais on peut faire trois choses : refaire l'envoi correctement pour les clients qui n'ont rien reçu, prévenir celui qui a commis l'erreur sans le faire devant tout le monde, et ne surtout pas répondre à tous."
+  },
+  "outro": {
+    "body": "Une adresse partie ne revient pas : le seul rattrapage possible est de ne pas aggraver. Refaire proprement, signaler en privé, et surtout ne pas répondre à tous — car une réponse « pour prévenir » atteint exactement les mêmes personnes que l'erreur qu'elle dénonce."
+  },
+  "ribbon": [],
+  "workbook": { "sheets": [] },
+
+  "courrier": {
+    "compte": { "nom": "Camille Aubertin", "adresse": "camille.aubertin@atelier-nord.fr" },
+    "dossiers": [{ "id": "clients", "nom": "Clients 2026" }],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "messages": [
+      {
+        "id": "m-diffusion",
+        "dossier": "reception",
+        "de": "s.brunel@atelier-nord.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr",
+          "r.tissot@ecole-arts-lambersart.fr",
+          "j.leroux@habitat-du-nord.fr",
+          "contact@menuiserie-concurrente.fr"
+        ],
+        "objet": "Portes ouvertes de l'atelier — samedi 21 mars",
+        "corps": "Bonjour à tous,\n\nNous ouvrons l'atelier au public samedi 21 mars, de 10 h à 17 h.\n\nSonia Brunel\nAtelier Nord",
+        "date": "2026-03-20T08:30",
+        "lu": false
+      }
+    ]
+  },
+
+  "steps": [
+    {
+      "id": "O04-E03-01",
+      "consigne": "Ouvrez le message de Sonia et lisez la ligne « À » : quatre adresses en clair, dont une entreprise concurrente qui découvre deux de vos clients.",
+      "action": { "type": "O_SELECT_MESSAGE", "id": "m-diffusion" },
+      "aide": { "text": "C'est le message dont l'objet annonce des portes ouvertes." }
+    },
+    {
+      "id": "O04-E03-02",
+      "consigne": "Prévenez Sonia — elle seule. Un « Répondre à tous » signalerait l'erreur aux quatre destinataires, y compris au concurrent, et doublerait le dégât.",
+      "setup": { "courrier": { "messageActif": "m-diffusion" } },
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "genre": "reponse",
+          "a": {
+            "contient": ["s.brunel@atelier-nord.fr"],
+            "absent": [
+              "r.tissot@ecole-arts-lambersart.fr",
+              "j.leroux@habitat-du-nord.fr",
+              "contact@menuiserie-concurrente.fr"
+            ]
+          },
+          "cc": { "vide": true }
+        }
+      },
+      "aide": { "text": "« Répondre » n'écrit qu'à l'expéditrice — c'est exactement ce qu'il faut ici." }
+    },
+    {
+      "id": "O04-E03-03",
+      "consigne": "Rédigez ce signalement, puis envoyez-le. Il doit dire **quel champ aurait dû être utilisé** et **pourquoi** — sans reproche : l'erreur est la plus courante de toutes.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": ["s.brunel@atelier-nord.fr"],
+            "absent": ["contact@menuiserie-concurrente.fr"]
+          },
+          "cc": { "vide": true },
+          "corps": {
+            "notions": [
+              {
+                "libelle": "le champ qui aurait dû être utilisé",
+                "oneOf": ["cci", "copie cachee", "copie carbone invisible"]
+              },
+              {
+                "libelle": "la raison — les adresses étaient visibles de tous",
+                "oneOf": ["visible", "en clair", "adresses", "concurrent", "tout le monde voit", "se voient"]
+              }
+            ],
+            "minMots": 12
+          }
+        }
+      },
+      "aide": { "text": "Deux informations sont attendues : le champ Cci, et ce que l'erreur a exposé." }
+    },
+    {
+      "id": "O04-E03-04",
+      "consigne": "Refaites l'annonce correctement pour les deux clients — et pour eux seuls. Souvenez-vous du montage : un destinataire visible qui est vous, et les clients ailleurs.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "genre": "nouveau",
+          "a": {
+            "contient": ["camille.aubertin@atelier-nord.fr"],
+            "absent": ["contact@menuiserie-concurrente.fr"]
+          },
+          "cc": { "vide": true },
+          "cci": {
+            "contient": ["r.tissot@ecole-arts-lambersart.fr", "j.leroux@habitat-du-nord.fr"],
+            "absent": ["contact@menuiserie-concurrente.fr"]
+          }
+        }
+      },
+      "aide": { "text": "Votre propre adresse dans « À », les deux clients dans « Cci » — le champ Cci s'affiche par le bouton du même nom." }
+    },
+    {
+      "id": "O04-E03-05",
+      "consigne": "Donnez un objet contenant `portes ouvertes`, rédigez l'annonce et envoyez-la. Elle doit rappeler **la date** et **les horaires**.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": { "contient": ["camille.aubertin@atelier-nord.fr"] },
+          "cci": {
+            "contient": ["r.tissot@ecole-arts-lambersart.fr", "j.leroux@habitat-du-nord.fr"]
+          },
+          "objet": { "contient": ["portes ouvertes"], "nonVide": true },
+          "corps": {
+            "notions": [
+              { "libelle": "la date", "oneOf": ["samedi", "21 mars", "21/03"] },
+              { "libelle": "les horaires", "oneOf": ["10 h", "10h", "17 h", "17h", "journee"] }
+            ],
+            "minMots": 10
+          }
+        }
+      },
+      "aide": { "text": "Deux informations sont attendues : le jour, et les horaires d'ouverture." }
+    }
+  ]
+}

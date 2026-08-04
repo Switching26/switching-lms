@@ -1,0 +1,167 @@
+{
+  "schemaVersion": 1,
+  "app": "WORD",
+  "title": "Évaluation — Mise en page",
+  "mode": "EVALUATION",
+  "moduleTitle": "Mise en page",
+  "intro": {
+    "title": "ÉVALUATION DU MODULE",
+    "body": "Dix gestes notés, sans indice et sans démonstration. Un dossier d'appel d'offres à mettre en page, puis à compléter. Chaque geste compte au premier essai ; vous pouvez passer une question, mais elle sera comptée comme ratée."
+  },
+  "outro": "Évaluation terminée. Vous pouvez la repasser autant de fois que vous le souhaitez : seule votre meilleure note est conservée, et chaque passage repart de zéro sur un document neuf.",
+  "document": {
+    "paragraphes": [
+      {
+        "texte": "Dossier de consultation — lot menuiserie"
+      },
+      {
+        "texte": "Ateliers Rivedoux — service achats"
+      },
+      {
+        "texte": "Les offres sont attendues pour le 30 septembre au plus tard."
+      },
+      {
+        "texte": "Le dossier technique est joint au présent document."
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M08-EV01-01",
+      "points": 0,
+      "consigne": "Ce dossier sera imprimé, relié et annoté par la commission. Vous allez le mettre en page en conséquence, puis le compléter. Les consignes disent l'usage et le résultat, jamais quel bouton employer.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M08-EV01-02",
+      "points": 2,
+      "consigne": "Le dossier sera annoté en commission : donnez-lui des marges de 5 cm sur les quatre côtés.",
+      "action": {
+        "type": "W_EXPECT_PAGE",
+        "page": {
+          "margeHaut": 5,
+          "margeBas": 5,
+          "margeGauche": 5,
+          "margeDroite": 5
+        }
+      }
+    },
+    {
+      "id": "M08-EV01-03",
+      "points": 2,
+      "consigne": "Il sera aussi relié sur le bord gauche, ce qui mange de la place. Réglez une marge gauche de 4 cm, une marge droite de 2 cm, et 3 cm en haut comme en bas.",
+      "action": {
+        "type": "W_EXPECT_PAGE",
+        "page": {
+          "margeHaut": 3,
+          "margeBas": 3,
+          "margeGauche": 4,
+          "margeDroite": 2
+        }
+      }
+    },
+    {
+      "id": "M08-EV01-04",
+      "points": 2,
+      "consigne": "Le dossier contient finalement un tableau de prix à six colonnes. Donnez à la page le sens qui convient, en gardant les marges que vous venez de régler.",
+      "action": {
+        "type": "W_EXPECT_PAGE",
+        "page": {
+          "orientation": "paysage",
+          "margeHaut": 3,
+          "margeBas": 3,
+          "margeGauche": 4,
+          "margeDroite": 2
+        }
+      }
+    },
+    {
+      "id": "M08-EV01-05",
+      "points": 1,
+      "consigne": "Le tableau est retiré du dossier : rendez à la page son sens habituel, sans toucher aux marges.",
+      "action": {
+        "type": "W_EXPECT_PAGE",
+        "page": {
+          "orientation": "portrait",
+          "margeHaut": 3,
+          "margeBas": 3,
+          "margeGauche": 4,
+          "margeDroite": 2
+        }
+      }
+    },
+    {
+      "id": "M08-EV01-06",
+      "points": 2,
+      "consigne": "Un dossier de consultation se termine par le contact du service. Ajoutez un paragraphe à la suite du dernier, contenant exactement : Renseignements auprès du service achats, poste 214.",
+      "action": {
+        "type": "W_TYPE_TEXT",
+        "zone": "p3",
+        "accept": [
+          "Renseignements auprès du service achats, poste 214."
+        ]
+      }
+    },
+    {
+      "id": "M08-EV01-07",
+      "points": 1,
+      "consigne": "La date limite est l'information décisive : épaississez « 30 septembre », ce passage seulement.",
+      "setup": {
+        "ribbon": {
+          "activeTab": "accueil"
+        }
+      },
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "texte:30 septembre",
+        "format": {
+          "gras": true
+        }
+      }
+    },
+    {
+      "id": "M08-EV01-08",
+      "points": 1,
+      "consigne": "Donnez au premier paragraphe la nature d'un titre de document.",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p0",
+        "style": {
+          "style": "Titre"
+        }
+      }
+    },
+    {
+      "id": "M08-EV01-09",
+      "points": 1,
+      "consigne": "Placez ce titre au milieu de la page.",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p0",
+        "style": {
+          "alignement": "centre"
+        }
+      }
+    },
+    {
+      "id": "M08-EV01-10",
+      "points": 1,
+      "consigne": "Vous jugez ce centrage inutile sur un dossier technique. Défaites ce dernier geste sans retoucher le paragraphe à la main.",
+      "action": {
+        "type": "W_CLICK_CONTROL",
+        "controle": "w-annuler"
+      }
+    },
+    {
+      "id": "M08-EV01-11",
+      "points": 1,
+      "consigne": "Après comparaison, le titre centré donne une meilleure page de garde : remettez-le, toujours sans repasser par le groupe Paragraphe.",
+      "action": {
+        "type": "W_CLICK_CONTROL",
+        "controle": "w-retablir"
+      }
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 1,
+  "app": "WORD",
+  "title": "Exercice — Gras, italique, souligné",
+  "mode": "EXERCISE",
+  "moduleTitle": "Pour commencer",
+  "intro": {
+    "title": "À VOUS DE JOUER",
+    "body": "Un courrier client à mettre en forme. Vous choisissez librement le chemin — bouton du ruban ou raccourci clavier — mais deux consignes imposent le clavier : elles vous demandent de retrouver le raccourci sans quitter les doigts des touches."
+  },
+  "outro": "Trois attributs, deux chemins, et le réflexe de désigner avant d'agir. Vous avez le socle de toute la mise en forme des caractères.",
+  "document": {
+    "paragraphes": [
+      { "texte": "Confirmation de commande" },
+      { "texte": "Nous accusons réception de votre commande du 3 mars, référence CD-2026-118." },
+      { "texte": "La livraison est prévue sous quinze jours ouvrés, hors rupture de stock." },
+      { "texte": "Le règlement est attendu à trente jours date de facture." }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M01-E04-01",
+      "consigne": "==Désignez le titre du courrier.==",
+      "action": { "type": "W_SELECT_TEXT", "zone": "p0", "tolerance": 2 },
+      "aide": { "text": "Le triple-clic prend le paragraphe entier.", "showTarget": true },
+      "feedback": "Titre désigné."
+    },
+    {
+      "id": "M01-E04-02",
+      "consigne": "==Épaississez-le sans toucher à la souris==, c'est-à-dire au raccourci clavier.",
+      "action": { "type": "W_KEY", "touches": ["Ctrl", "B"] },
+      "aide": { "text": "La touche de commande, plus l'initiale anglaise de « gras ».", "showTarget": true },
+      "feedback": "Le titre est en gras, sans un geste de souris."
+    },
+    {
+      "id": "M01-E04-03",
+      "consigne": "Une référence de commande doit se repérer instantanément. ==Désignez « CD-2026-118 »== dans le deuxième paragraphe.",
+      "action": { "type": "W_SELECT_TEXT", "zone": "texte:CD-2026-118", "tolerance": 3 },
+      "aide": { "text": "Faites glisser la souris d'un bout à l'autre de la référence.", "showTarget": true },
+      "feedback": "Référence désignée."
+    },
+    {
+      "id": "M01-E04-04",
+      "consigne": "==Épaississez cette référence== par le chemin de votre choix.",
+      "setup": { "ribbon": { "activeTab": "accueil" } },
+      "action": { "type": "W_EXPECT_FORMAT", "zone": "texte:CD-2026-118", "format": { "gras": true } },
+      "feedback": "La référence saute aux yeux."
+    },
+    {
+      "id": "M01-E04-05",
+      "consigne": "La réserve de la phrase suivante mérite une nuance, pas une alerte. ==Désignez « hors rupture de stock »==, puis ==mettez ce passage en italique.==",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "texte:hors rupture de stock",
+        "format": { "italique": true }
+      },
+      "aide": { "text": "Glissez la souris sur les quatre mots, puis Ctrl + I ou le bouton I.", "showTarget": true },
+      "feedback": "La réserve est signalée sans dramatiser."
+    },
+    {
+      "id": "M01-E04-06",
+      "consigne": "Enfin, l'échéance de règlement ne doit pas passer inaperçue. ==Désignez « trente jours »== dans le dernier paragraphe et ==soulignez ce passage.==",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "texte:trente jours",
+        "format": { "souligne": true }
+      },
+      "aide": { "text": "Le troisième bouton du groupe Police, ou Ctrl + U.", "showTarget": true },
+      "feedback": "Courrier prêt : chaque information importante porte le bon signal."
+    }
+  ]
+}

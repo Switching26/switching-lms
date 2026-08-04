@@ -1,0 +1,258 @@
+{
+  "schemaVersion": 1,
+  "title": "Demander un délai, pas une faveur",
+  "mode": "LESSON",
+  "moduleTitle": "Écrire à une administration ou un donneur d'ordre public",
+  "intro": {
+    "title": "La date limite tombe un jour trop tôt",
+    "body": "Une administration ne fait pas de faveur, mais elle accorde des délais — à condition qu'on les demande avant l'échéance, avec un motif et une date de remplacement. Demander après coup ne s'appelle plus une demande de délai : cela s'appelle un dossier hors délai."
+  },
+  "outro": {
+    "body": "Une demande de délai tient en trois éléments : la référence, le motif, et la nouvelle date que VOUS proposez. Laisser l'administration choisir la date à votre place, c'est accepter d'avance celle qui vous arrangera le moins."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "marches",
+        "nom": "Marchés publics"
+      },
+      {
+        "id": "clients",
+        "nom": "Clients 2026"
+      }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "fichiers": [
+      {
+        "nom": "Acte-engagement-MP-2026-24.pdf",
+        "taille": "210 Ko"
+      },
+      {
+        "nom": "Acte-engagement-MP-2026-24-BROUILLON.pdf",
+        "taille": "205 Ko"
+      },
+      {
+        "nom": "Attestation-fiscale-2026.pdf",
+        "taille": "96 Ko"
+      },
+      {
+        "nom": "Attestation-URSSAF-2026.pdf",
+        "taille": "88 Ko"
+      },
+      {
+        "nom": "Book-realisations-HD.zip",
+        "taille": "54 Mo"
+      }
+    ],
+    "messages": [
+      {
+        "id": "m-cotes",
+        "dossier": "reception",
+        "de": "technique@ville-lambersart.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Médiathèque MP-2026-31 — cotes définitives transmises le 22 avril",
+        "corps": "Madame, Monsieur,\n\nLes cotes définitives du chantier de la médiathèque vous seront transmises le 22 avril.\nPour mémoire, votre chiffrage est attendu pour le 24 avril.\n\nService technique\nVille de Lambersart",
+        "date": "2026-04-08T07:30",
+        "lu": false
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O12-L02-01",
+      "consigne": "==Ouvrez le message du service technique.== Les cotes arrivent le 22 et le chiffrage est attendu le 24 : deux jours pour douze postes, c'est intenable. La demande de délai se fait maintenant, pas le 24.",
+      "action": {
+        "type": "O_SELECT_MESSAGE",
+        "id": "m-cotes"
+      },
+      "aide": {
+        "text": "C'est le message qui annonce les cotes définitives."
+      }
+    },
+    {
+      "id": "O12-L02-02",
+      "consigne": "==Cliquez sur Répondre== pour formuler la demande dans le fil du dossier. Ouvrir un nouveau message ferait perdre le rattachement que le service a déjà créé.",
+      "setup": {
+        "courrier": {
+          "messageActif": "m-cotes"
+        }
+      },
+      "action": {
+        "type": "O_CLICK_CONTROL",
+        "control": "cr-repondre"
+      },
+      "aide": {
+        "text": "Le bouton Répondre, premier de la barre du haut."
+      }
+    },
+    {
+      "id": "O12-L02-03",
+      "consigne": "==Complétez l'objet avec le mot `délai`.== Le service doit savoir de quoi il s'agit avant d'ouvrir : une demande de délai se traite en amont, une réclamation après coup ne se traite plus.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "objet": {
+            "prefixe": "RE",
+            "contient": [
+              "delai"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Ajoutez le mot à la fin de l'objet ; les accents ne sont pas pris en compte."
+      }
+    },
+    {
+      "id": "O12-L02-04",
+      "consigne": "==Mettez `n.kerbaj@atelier-nord.fr` en copie== : un délai demandé engage l'entreprise sur une nouvelle date, et la gérante doit pouvoir s'y opposer avant qu'il ne soit accordé.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "a": {
+            "contient": [
+              "technique@ville-lambersart.fr"
+            ],
+            "absent": [
+              "n.kerbaj@atelier-nord.fr"
+            ]
+          },
+          "cc": {
+            "contient": [
+              "n.kerbaj@atelier-nord.fr"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Le champ Cc, deuxième ligne de la fenêtre de rédaction."
+      }
+    },
+    {
+      "id": "O12-L02-05",
+      "consigne": "==Rédigez la demande.== Trois éléments : **la référence du marché**, **le motif** — deux jours entre les cotes et la remise —, et **la date que vous proposez**. Ne demandez pas « un peu plus de temps » : proposez le 30 avril.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "corps": {
+            "salutation": [
+              "bonjour",
+              "madame",
+              "monsieur",
+              "madame, monsieur"
+            ],
+            "cloture": [
+              "cordialement",
+              "salutations distinguees",
+              "respectueusement",
+              "bien a vous",
+              "salutations"
+            ],
+            "notions": [
+              {
+                "libelle": "la référence du marché",
+                "oneOf": [
+                  "mp-2026-31",
+                  "2026-31",
+                  "mediatheque"
+                ]
+              },
+              {
+                "libelle": "le motif de la demande",
+                "oneOf": [
+                  "22 avril",
+                  "deux jours",
+                  "2 jours",
+                  "delai entre",
+                  "cotes",
+                  "douze postes",
+                  "12 postes"
+                ]
+              },
+              {
+                "libelle": "la nouvelle date que vous proposez",
+                "oneOf": [
+                  "30 avril",
+                  "le 30",
+                  "30/04",
+                  "29 avril",
+                  "2 mai"
+                ]
+              }
+            ],
+            "minMots": 18
+          }
+        }
+      },
+      "aide": {
+        "text": "Trois informations sont attendues : la référence, le motif, et la date proposée."
+      }
+    },
+    {
+      "id": "O12-L02-06",
+      "consigne": "==Envoyez la demande.== Elle part avant l'échéance, avec un motif vérifiable et une date précise : c'est la seule forme qu'une administration peut instruire.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "technique@ville-lambersart.fr"
+            ]
+          },
+          "cc": {
+            "contient": [
+              "n.kerbaj@atelier-nord.fr"
+            ]
+          },
+          "objet": {
+            "prefixe": "RE",
+            "contient": [
+              "delai"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Le bouton Envoyer, premier de la barre du haut."
+      }
+    },
+    {
+      "id": "O12-L02-07",
+      "consigne": "==Rangez ce message dans Marchés publics.== La demande est partie ; le dossier vit maintenant dans son dossier, pas dans la file d'attente.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-cotes": {
+              "dossier": "marches"
+            }
+          }
+        }
+      },
+      "aide": {
+        "text": "Déplacer, puis Marchés publics."
+      }
+    }
+  ]
+}

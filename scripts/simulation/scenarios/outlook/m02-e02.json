@@ -1,0 +1,158 @@
+{
+  "schemaVersion": 1,
+  "title": "Choisir entre répondre et répondre à tous",
+  "mode": "EXERCISE",
+  "moduleTitle": "Répondre, transférer, tenir une conversation",
+  "intro": {
+    "title": "Deux messages, deux boutons différents",
+    "body": "Deux messages vous attendent. L'un demande une décision collective, l'autre appelle une remarque qui ne regarde qu'une personne. Aucun des deux ne vous dit sur quel bouton appuyer : c'est vous qui devez juger, avant de cliquer, qui a besoin de lire votre réponse."
+  },
+  "outro": {
+    "body": "La règle tient en une question posée avant le clic : qui a besoin de MA réponse ? Sur une coordination, tout le monde ; sur une remarque individuelle, une seule personne. Le bouton ne se déduit pas de l'en-tête reçu, il se déduit de ce que vous allez écrire."
+  },
+  "ribbon": [],
+  "workbook": { "sheets": [] },
+
+  "courrier": {
+    "compte": { "nom": "Camille Aubertin", "adresse": "camille.aubertin@atelier-nord.fr" },
+    "dossiers": [{ "id": "clients", "nom": "Clients 2026" }],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "messages": [
+      {
+        "id": "m-date",
+        "dossier": "reception",
+        "de": "h.vasseur@menuiserie-vasseur.fr",
+        "a": ["camille.aubertin@atelier-nord.fr", "s.brunel@atelier-nord.fr"],
+        "cc": ["n.kerbaj@atelier-nord.fr"],
+        "objet": "Pose de l'escalier Leroux — deux dates possibles",
+        "corps": "Bonjour,\n\nJe peux poser l'escalier Leroux le mardi 10 ou le jeudi 12.\nMerci de me dire laquelle vous arrange : je bloque le créneau dès votre retour.\n\nHugo Vasseur",
+        "date": "2026-03-12T08:20",
+        "lu": false
+      },
+      {
+        "id": "m-devis-erreur",
+        "dossier": "reception",
+        "de": "n.kerbaj@atelier-nord.fr",
+        "a": ["camille.aubertin@atelier-nord.fr", "s.brunel@atelier-nord.fr"],
+        "cc": ["j.leroux@habitat-du-nord.fr"],
+        "objet": "Devis 2026-141 — envoyé au client ce matin",
+        "corps": "Bonjour,\n\nJ'ai adressé le devis 2026-141 à M. Leroux ce matin, comme convenu.\n\nNadia Kerbaj\nAtelier Nord",
+        "date": "2026-03-12T07:40",
+        "lu": false
+      }
+    ]
+  },
+
+  "steps": [
+    {
+      "id": "O02-E02-01",
+      "consigne": "Hugo propose deux dates de pose et attend un arbitrage. Ouvrez son message, puis répondez en retenant le jeudi — de façon que Sonia et Nadia sachent, elles aussi, quel créneau est bloqué.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "genre": "reponseATous",
+          "a": {
+            "contient": ["h.vasseur@menuiserie-vasseur.fr", "s.brunel@atelier-nord.fr"]
+          },
+          "cc": { "contient": ["n.kerbaj@atelier-nord.fr"] }
+        }
+      },
+      "aide": { "text": "Tout le monde a besoin de connaître la date retenue : c'est le cas d'usage de Répondre à tous." }
+    },
+    {
+      "id": "O02-E02-02",
+      "consigne": "Écrivez l'arbitrage. Votre message doit dire **quelle date vous retenez** et **pourquoi l'autre ne convient pas** — sans cela, Hugo reposera la question.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "corps": {
+            "salutation": ["bonjour", "hugo", "salut", "bonsoir"],
+            "cloture": ["cordialement", "merci", "a jeudi", "bien a toi", "salutations"],
+            "notions": [
+              {
+                "libelle": "la date que vous retenez",
+                "oneOf": ["jeudi", "12"]
+              },
+              {
+                "libelle": "la raison pour laquelle l'autre date ne convient pas",
+                "oneOf": ["mardi", "10", "atelier", "indisponible", "livraison", "occupe", "pas libre"]
+              }
+            ],
+            "minMots": 12
+          }
+        }
+      },
+      "aide": { "text": "Deux informations sont attendues : la date choisie, et ce qui empêche l'autre." }
+    },
+    {
+      "id": "O02-E02-03",
+      "consigne": "Envoyez cet arbitrage.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": ["h.vasseur@menuiserie-vasseur.fr", "s.brunel@atelier-nord.fr"]
+          },
+          "cc": { "contient": ["n.kerbaj@atelier-nord.fr"] }
+        }
+      },
+      "aide": { "text": "Le bouton Envoyer, en haut à gauche de la fenêtre de rédaction." }
+    },
+    {
+      "id": "O02-E02-04",
+      "consigne": "Second message : Nadia annonce l'envoi du devis 2026-141, avec le client `j.leroux@habitat-du-nord.fr` en copie. Vous avez repéré une erreur de montant et devez la prévenir. Écrivez-lui — en veillant à qui reçoit cette remarque.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "genre": "reponse",
+          "a": {
+            "contient": ["n.kerbaj@atelier-nord.fr"],
+            "absent": ["j.leroux@habitat-du-nord.fr"]
+          },
+          "cc": { "vide": true }
+        }
+      },
+      "aide": { "text": "Le client est en copie du message d'origine : « Répondre à tous » lui apprendrait qu'un devis qu'il a déjà reçu comporte une erreur." }
+    },
+    {
+      "id": "O02-E02-05",
+      "consigne": "Rédigez la remarque, puis envoyez-la. Elle doit citer **la référence du devis** et signaler **qu'un montant est à corriger**.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": ["n.kerbaj@atelier-nord.fr"],
+            "absent": ["j.leroux@habitat-du-nord.fr"]
+          },
+          "cc": { "vide": true },
+          "corps": {
+            "notions": [
+              {
+                "libelle": "la référence du devis concerné",
+                "oneOf": ["2026-141", "141"]
+              },
+              {
+                "libelle": "le fait qu'un montant est à corriger",
+                "oneOf": ["montant", "erreur", "corriger", "rectifier", "total", "prix"]
+              }
+            ],
+            "minMots": 10
+          }
+        }
+      },
+      "aide": { "text": "Deux informations sont attendues : la référence du devis, et la nature du problème." }
+    }
+  ]
+}

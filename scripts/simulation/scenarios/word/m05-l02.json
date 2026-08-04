@@ -1,0 +1,125 @@
+{
+  "schemaVersion": 1,
+  "app": "WORD",
+  "title": "Un code de trames pour un document long",
+  "mode": "LESSON",
+  "moduleTitle": "Bordures et trames",
+  "intro": {
+    "title": "QUAND PLUSIEURS TRAMES SE JUSTIFIENT",
+    "body": "La règle « une trame par document » vaut pour un document court. Dans un document long, plusieurs trames deviennent utiles à une condition : que chacune signifie toujours la même chose. Vous allez poser un code de deux trames et le tenir jusqu'au bout."
+  },
+  "outro": "Un code de trames ne vaut que par sa constance. Deux couleurs tenues sur cinquante pages valent mieux que cinq couleurs employées au gré de l'humeur.",
+  "document": {
+    "paragraphes": [
+      {
+        "texte": "Livret d'accueil — sécurité et organisation"
+      },
+      {
+        "texte": "Le port des équipements de protection est obligatoire en zone de production."
+      },
+      {
+        "texte": "Les horaires d'équipe sont affichés au tableau du réfectoire."
+      },
+      {
+        "texte": "L'accès aux nacelles est interdit sans habilitation."
+      },
+      {
+        "texte": "Les demandes de congés se déposent auprès du service du personnel."
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M05-L02-01",
+      "points": 0,
+      "consigne": "Fixez le code avant de poser la première trame : le **jaune** signalera ce qui engage la sécurité, le **vert** ce qui relève de l'organisation courante. Ce qui compte n'est pas le choix des couleurs, c'est de ne plus en changer une fois posé.",
+      "action": {
+        "type": "READ"
+      },
+      "montrer": [
+        {
+          "type": "W_SELECT_TEXT",
+          "zone": "p1"
+        }
+      ],
+      "feedback": "Le code se décide avant, jamais en cours de route."
+    },
+    {
+      "id": "M05-L02-02",
+      "consigne": "==Tramez en jaune la consigne sur les équipements de protection.== C'est une obligation de sécurité : elle entre dans la première catégorie du code.",
+      "setup": {
+        "ribbon": {
+          "activeTab": "accueil"
+        }
+      },
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p1",
+        "format": {
+          "surlignage": "#f1c40f"
+        }
+      },
+      "feedback": "Première entrée du code."
+    },
+    {
+      "id": "M05-L02-03",
+      "consigne": "==Tramez en vert l'information sur les horaires== : elle relève de l'organisation, pas du danger.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p2",
+        "format": {
+          "surlignage": "#a9dfbf"
+        }
+      },
+      "feedback": "Le code tient sur deux entrées."
+    },
+    {
+      "id": "M05-L02-04",
+      "consigne": "==Tramez l'interdiction d'accès aux nacelles== selon la même règle que la première consigne traitée.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p3",
+        "format": {
+          "surlignage": "#f1c40f"
+        }
+      },
+      "feedback": "Deux passages jaunes : la sécurité se repère d'un balayage du regard."
+    },
+    {
+      "id": "M05-L02-05",
+      "consigne": "==Tramez la procédure de congés.== C'est le dernier paragraphe, et il appartient clairement à l'une des deux catégories.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p4",
+        "format": {
+          "surlignage": "#a9dfbf"
+        }
+      },
+      "feedback": "Le livret se lit désormais en deux temps selon ce qu'on cherche."
+    },
+    {
+      "id": "M05-L02-06",
+      "consigne": "==Épaississez « obligatoire »== dans la première consigne : à l'intérieur d'un bloc tramé, la graisse sert encore à désigner le mot qui engage.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "texte:obligatoire",
+        "format": {
+          "gras": true
+        }
+      },
+      "feedback": "Trame pour la catégorie, graisse pour le mot décisif : chaque signal a son rôle."
+    },
+    {
+      "id": "M05-L02-07",
+      "consigne": "==Épaississez le titre du livret== pour terminer, sans lui poser de trame : un titre n'appartient à aucune des deux catégories du code.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p0",
+        "format": {
+          "gras": true
+        }
+      },
+      "feedback": "Livret cohérent : deux trames, un code, aucune exception."
+    }
+  ]
+}

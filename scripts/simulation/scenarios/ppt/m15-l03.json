@@ -1,0 +1,275 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "mode": "LESSON",
+  "moduleTitle": "Une présentation homogène",
+  "title": "Au même endroit d'un écran à l'autre",
+  "intro": {
+    "title": "Au même endroit d'un écran à l'autre",
+    "body": "Quand un même élément revient sur plusieurs diapositives, il doit revenir exactement à la même place. Sinon il saute d'un écran au suivant, et l'œil suit le saut au lieu de suivre le propos."
+  },
+  "outro": {
+    "body": "Le repère de millésime ne bouge plus d'un écran à l'autre. La dernière leçon fait le contrôle d'ensemble."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "ppt": {
+    "fileName": "Domaine Fontclaire.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Domaine Fontclaire",
+          "sous-titre": "Assemblée des associés — exercice 2026"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Les ventes",
+          "contenu": "84 000 bouteilles\nDont 12 000 en direct"
+        },
+        "objets": [
+          {
+            "id": "zt-mill-1",
+            "objectType": "texte",
+            "texte": "Millésime 2025",
+            "rect": {
+              "x": 700,
+              "y": 460,
+              "w": 210,
+              "h": 40
+            }
+          }
+        ]
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "L'export",
+          "contenu": "19 000 bouteilles\nBelgique et Suisse"
+        },
+        "objets": [
+          {
+            "id": "zt-mill-2",
+            "objectType": "texte",
+            "texte": "Millésime 2025",
+            "rect": {
+              "x": 90,
+              "y": 300,
+              "w": 210,
+              "h": 40
+            }
+          }
+        ]
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Les stocks",
+          "contenu": "31 000 bouteilles en cave\nRotation de quatorze mois"
+        },
+        "objets": [
+          {
+            "id": "zt-mill-3",
+            "objectType": "texte",
+            "texte": "Millésime 2025",
+            "rect": {
+              "x": 420,
+              "y": 120,
+              "w": 210,
+              "h": 40
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M15-L03-01",
+      "consigne": "Le même rappel « Millésime 2025 » revient sur trois diapositives, à trois endroits différents. En diaporama, il **saute** d'un coin à l'autre à chaque changement d'écran, et l'œil le suit — au lieu de lire le titre.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M15-L03-02",
+      "consigne": "==Affichez la deuxième diapositive==, celle des ventes : le rappel y est en bas à droite, discret, hors du chemin de lecture. C'est la bonne place — elle servira de référence.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 1
+      }
+    },
+    {
+      "id": "M15-L03-03",
+      "consigne": "Un élément récurrent se met **en bas**, à gauche ou à droite, jamais au milieu ni en haut : le haut appartient au titre, le milieu au contenu. Le bas est la seule zone qu'on peut occuper sans gêner la lecture.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M15-L03-04",
+      "consigne": "==Affichez la troisième diapositive==, celle de l'export : le rappel y traîne au milieu à gauche, en plein dans le contenu.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 2
+      }
+    },
+    {
+      "id": "M15-L03-05",
+      "consigne": "==Déplacez le rappel en bas à droite==, vers 700 en horizontal et 460 en vertical — la place qu'il occupe sur la diapositive des ventes.",
+      "setupPpt": {
+        "slide": 2
+      },
+      "action": {
+        "type": "P_MOVE_OBJECT",
+        "objectId": "zt-mill-2",
+        "rect": {
+          "x": 700,
+          "y": 460
+        }
+      },
+      "aide": {
+        "text": "Faites glisser la zone vers le coin bas droit ; l'ajustement n'a pas besoin d'être au pixel."
+      }
+    },
+    {
+      "id": "M15-L03-06",
+      "consigne": "==Affichez la dernière diapositive==, celle des stocks : le rappel y est carrément en haut, juste sous le titre.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 3
+      }
+    },
+    {
+      "id": "M15-L03-07",
+      "consigne": "==Déplacez-le lui aussi en bas à droite==, vers 700 et 460. Les trois rappels occupent désormais le même emplacement.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Domaine Fontclaire",
+                "sous-titre": "Assemblée des associés — exercice 2026"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Les ventes",
+                "contenu": "84 000 bouteilles\nDont 12 000 en direct"
+              },
+              "objets": [
+                {
+                  "id": "zt-mill-1",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 700,
+                    "y": 460,
+                    "w": 210,
+                    "h": 40
+                  },
+                  "texte": "Millésime 2025"
+                }
+              ]
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "L'export",
+                "contenu": "19 000 bouteilles\nBelgique et Suisse"
+              },
+              "objets": [
+                {
+                  "id": "zt-mill-2",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 700,
+                    "y": 460,
+                    "w": 210,
+                    "h": 40
+                  },
+                  "texte": "Millésime 2025"
+                }
+              ]
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Les stocks",
+                "contenu": "31 000 bouteilles en cave\nRotation de quatorze mois"
+              },
+              "objets": [
+                {
+                  "id": "zt-mill-3",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 420,
+                    "y": 120,
+                    "w": 210,
+                    "h": 40
+                  },
+                  "texte": "Millésime 2025"
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 3
+      },
+      "action": {
+        "type": "P_MOVE_OBJECT",
+        "objectId": "zt-mill-3",
+        "rect": {
+          "x": 700,
+          "y": 460
+        }
+      },
+      "feedback": "En diaporama, le rappel ne bougera plus d'un pixel : le public cessera de le voir, ce qui est exactement le but d'un repère."
+    },
+    {
+      "id": "M15-L03-08",
+      "consigne": "==Lancez le diaporama depuis le début== et enchaînez mentalement les écrans : un élément qui ne bouge pas devient invisible, et c'est ce qu'on lui demande.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": true,
+          "index": 0
+        }
+      },
+      "aide": {
+        "text": "Groupe Diaporama, bouton « ▶ Début »."
+      }
+    },
+    {
+      "id": "M15-L03-09",
+      "consigne": "==Quittez le diaporama==.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": false
+        }
+      }
+    },
+    {
+      "id": "M15-L03-10",
+      "consigne": "Un mot sur la méthode : on ne cherche pas la position **exacte**, on reprend celle du premier écran. Décider une fois puis recopier est plus rapide, plus sûr, et tient mieux quand la présentation s'allonge.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M15-L03-11",
+      "consigne": "À retenir : **un élément récurrent occupe la même place partout**, décidée une fois, en bas de l'écran. Ce qui bouge attire l'œil ; un repère qui attire l'œil à chaque diapositive n'est plus un repère, c'est une gêne.",
+      "action": {
+        "type": "READ"
+      }
+    }
+  ]
+}

@@ -1,0 +1,461 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "mode": "EXERCISE",
+  "moduleTitle": "Mettre en forme le texte",
+  "title": "Exercice — Une seule règle pour toute la présentation",
+  "intro": {
+    "title": "Exercice — Une seule règle pour toute la présentation",
+    "body": "Deux diapositives de contenu, traitées chacune à sa façon. Appliquez-leur la règle du module — titre en gras et centré, contenu aligné à gauche, source à droite — pour qu'elles deviennent indiscernables l'une de l'autre."
+  },
+  "outro": {
+    "body": "Deux diapositives, un seul traitement. C'est ce qui distingue une présentation d'un empilement de diapositives."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "ppt": {
+    "fileName": "Bilan Verdeval.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Verdeval",
+          "sous-titre": "Bilan de la saison 2026"
+        }
+      },
+      {
+        "layout": "titre-seul",
+        "textes": {
+          "titre": "Nos chantiers"
+        },
+        "objets": [
+          {
+            "id": "zt-x1",
+            "objectType": "texte",
+            "texte": "38 jardins créés et 120 entretiens réguliers",
+            "rect": {
+              "x": 70,
+              "y": 190,
+              "w": 620,
+              "h": 70
+            },
+            "style": {
+              "align": "right"
+            }
+          },
+          {
+            "id": "zt-x2",
+            "objectType": "texte",
+            "texte": "Source : tableau de suivi des chantiers",
+            "rect": {
+              "x": 440,
+              "y": 420,
+              "w": 440,
+              "h": 55
+            }
+          }
+        ]
+      },
+      {
+        "layout": "titre-seul",
+        "textes": {
+          "titre": "Nos équipes"
+        },
+        "objets": [
+          {
+            "id": "zt-y1",
+            "objectType": "texte",
+            "texte": "12 jardiniers et 4 apprentis répartis sur trois agences",
+            "rect": {
+              "x": 70,
+              "y": 190,
+              "w": 620,
+              "h": 70
+            },
+            "style": {
+              "align": "center"
+            }
+          },
+          {
+            "id": "zt-y2",
+            "objectType": "texte",
+            "texte": "Source : registre du personnel",
+            "rect": {
+              "x": 440,
+              "y": 420,
+              "w": 440,
+              "h": 55
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M03-E03-01",
+      "consigne": "Affichez la diapositive des chantiers.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 1
+      },
+      "aide": {
+        "text": "C'est la deuxième miniature du volet."
+      }
+    },
+    {
+      "id": "M03-E03-02",
+      "consigne": "Traitez son titre selon la règle : affirmé.",
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "ph:titre",
+        "style": {
+          "bold": true
+        }
+      }
+    },
+    {
+      "id": "M03-E03-03",
+      "consigne": "Puis placez-le comme la règle le prévoit pour un titre.",
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "ph:titre",
+        "style": {
+          "align": "center"
+        }
+      }
+    },
+    {
+      "id": "M03-E03-04",
+      "consigne": "Son contenu est mal aligné : corrigez-le.",
+      "setupPpt": {
+        "slide": 1
+      },
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "zt-x1",
+        "style": {
+          "align": "left"
+        }
+      },
+      "aide": {
+        "text": "Un corps de texte s'aligne à gauche."
+      }
+    },
+    {
+      "id": "M03-E03-05",
+      "consigne": "Placez sa source à l'endroit prévu par la règle.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Bilan de la saison 2026"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Nos chantiers"
+              },
+              "objets": [
+                {
+                  "id": "zt-x1",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 70,
+                    "y": 190,
+                    "w": 620,
+                    "h": 70
+                  },
+                  "texte": "38 jardins créés et 120 entretiens réguliers",
+                  "style": {
+                    "align": "left"
+                  }
+                },
+                {
+                  "id": "zt-x2",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 440,
+                    "y": 420,
+                    "w": 440,
+                    "h": 55
+                  },
+                  "texte": "Source : tableau de suivi des chantiers"
+                }
+              ]
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Nos équipes"
+              },
+              "objets": [
+                {
+                  "id": "zt-y1",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 70,
+                    "y": 190,
+                    "w": 620,
+                    "h": 70
+                  },
+                  "texte": "12 jardiniers et 4 apprentis répartis sur trois agences",
+                  "style": {
+                    "align": "center"
+                  }
+                },
+                {
+                  "id": "zt-y2",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 440,
+                    "y": 420,
+                    "w": 440,
+                    "h": 55
+                  },
+                  "texte": "Source : registre du personnel"
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "zt-x2",
+        "style": {
+          "align": "right"
+        }
+      }
+    },
+    {
+      "id": "M03-E03-06",
+      "consigne": "Passez à la diapositive des équipes.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 2
+      }
+    },
+    {
+      "id": "M03-E03-07",
+      "consigne": "Appliquez-lui exactement le même traitement de titre : d'abord l'attribut.",
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "ph:titre",
+        "style": {
+          "bold": true
+        }
+      }
+    },
+    {
+      "id": "M03-E03-08",
+      "consigne": "Puis l'alignement du titre.",
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "ph:titre",
+        "style": {
+          "align": "center"
+        }
+      }
+    },
+    {
+      "id": "M03-E03-09",
+      "consigne": "Son contenu est centré alors qu'il ne devrait pas l'être : corrigez.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Bilan de la saison 2026"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Nos chantiers"
+              },
+              "objets": [
+                {
+                  "id": "zt-x1",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 70,
+                    "y": 190,
+                    "w": 620,
+                    "h": 70
+                  },
+                  "texte": "38 jardins créés et 120 entretiens réguliers",
+                  "style": {
+                    "align": "left"
+                  }
+                },
+                {
+                  "id": "zt-x2",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 440,
+                    "y": 420,
+                    "w": 440,
+                    "h": 55
+                  },
+                  "texte": "Source : tableau de suivi des chantiers",
+                  "style": {
+                    "align": "right"
+                  }
+                }
+              ]
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Nos équipes"
+              },
+              "objets": [
+                {
+                  "id": "zt-y1",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 70,
+                    "y": 190,
+                    "w": 620,
+                    "h": 70
+                  },
+                  "texte": "12 jardiniers et 4 apprentis répartis sur trois agences",
+                  "style": {
+                    "align": "center"
+                  }
+                },
+                {
+                  "id": "zt-y2",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 440,
+                    "y": 420,
+                    "w": 440,
+                    "h": 55
+                  },
+                  "texte": "Source : registre du personnel"
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 2
+      },
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "zt-y1",
+        "style": {
+          "align": "left"
+        }
+      }
+    },
+    {
+      "id": "M03-E03-10",
+      "consigne": "Terminez par la source de cette diapositive.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Bilan de la saison 2026"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Nos chantiers"
+              },
+              "objets": [
+                {
+                  "id": "zt-x1",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 70,
+                    "y": 190,
+                    "w": 620,
+                    "h": 70
+                  },
+                  "texte": "38 jardins créés et 120 entretiens réguliers",
+                  "style": {
+                    "align": "left"
+                  }
+                },
+                {
+                  "id": "zt-x2",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 440,
+                    "y": 420,
+                    "w": 440,
+                    "h": 55
+                  },
+                  "texte": "Source : tableau de suivi des chantiers",
+                  "style": {
+                    "align": "right"
+                  }
+                }
+              ]
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Nos équipes"
+              },
+              "objets": [
+                {
+                  "id": "zt-y1",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 70,
+                    "y": 190,
+                    "w": 620,
+                    "h": 70
+                  },
+                  "texte": "12 jardiniers et 4 apprentis répartis sur trois agences",
+                  "style": {
+                    "align": "left"
+                  }
+                },
+                {
+                  "id": "zt-y2",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 440,
+                    "y": 420,
+                    "w": 440,
+                    "h": 55
+                  },
+                  "texte": "Source : registre du personnel"
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 2
+      },
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "zt-y2",
+        "style": {
+          "align": "right"
+        }
+      }
+    }
+  ]
+}

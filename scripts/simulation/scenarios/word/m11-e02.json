@@ -1,0 +1,144 @@
+{
+ "schemaVersion": 1,
+ "app": "WORD",
+ "title": "Corriger une grille mal alignée",
+ "mode": "EXERCISE",
+ "moduleTitle": "Les tabulations",
+ "intro": {
+  "title": "À VOUS",
+  "body": "Une grille a été montée avec des taquets approximatifs : trop serrés, et du mauvais type. Reprenez-la proprement."
+ },
+ "outro": "Reprendre des taquets coûte trois clics. Reprendre une colonne faite d'espaces coûte une refonte.",
+ "document": {
+  "paragraphes": [
+   {
+    "texte": "État des stocks",
+    "style": "titre"
+   },
+   {
+    "texte": "Papier A4 par ramette",
+    "style": "normal"
+   },
+   {
+    "texte": "Cartouches noires",
+    "style": "normal"
+   },
+   {
+    "texte": "Classeurs à levier",
+    "style": "normal"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "id": "M11-E02-01",
+   "consigne": "==Affichez la règle.==",
+   "action": {
+    "type": "W_CLICK_CONTROL",
+    "controle": "w-regle"
+   },
+   "setup": {
+    "ribbon": {
+     "activeTab": "affichage"
+    }
+   },
+   "aide": {
+    "text": "Onglet « Affichage », bouton « Règle ».",
+    "showTarget": true
+   },
+   "feedback": "Règle visible."
+  },
+  {
+   "id": "M11-E02-02",
+   "consigne": "Reproduisez le réglage maladroit d'origine : ==posez deux taquets gauches, à 4 et 5 cm.== Un centimètre d'écart ne laisse la place à aucun libellé.",
+   "action": {
+    "type": "W_EXPECT_TABS",
+    "zone": "p0",
+    "taquets": [
+     {
+      "position": 4,
+      "type": "gauche"
+     },
+     {
+      "position": 5,
+      "type": "gauche"
+     }
+    ]
+   },
+   "aide": {
+    "text": "Deux clics sur la règle, aux graduations 4 puis 5.",
+    "showTarget": true
+   },
+   "feedback": "Deux taquets trop serrés : le défaut à corriger."
+  },
+  {
+   "id": "M11-E02-03",
+   "consigne": "==Retirez le taquet de 5 cm.== Deux repères à un centimètre l'un de l'autre ne servent à rien : le second n'est jamais atteint.",
+   "action": {
+    "type": "W_EXPECT_TABS",
+    "zone": "p0",
+    "taquets": [
+     {
+      "position": 4,
+      "type": "gauche"
+     }
+    ]
+   },
+   "aide": {
+    "text": "Cliquez le repère de la graduation 5.",
+    "showTarget": true
+   },
+   "feedback": "Il ne reste que le taquet utile."
+  },
+  {
+   "id": "M11-E02-04",
+   "consigne": "==Ajoutez un taquet décimal à 12 cm== pour la colonne des quantités. Le type décimal aligne les virgules, ce qu'un taquet gauche ne fait pas.",
+   "action": {
+    "type": "W_EXPECT_TABS",
+    "zone": "p0",
+    "taquets": [
+     {
+      "position": 4,
+      "type": "gauche"
+     },
+     {
+      "position": 12,
+      "type": "decimal"
+     }
+    ]
+   },
+   "aide": {
+    "text": "Carré jusqu'au type décimal, puis règle à 12.",
+    "showTarget": true
+   },
+   "feedback": "Les quantités s'aligneront sur la virgule."
+  },
+  {
+   "id": "M11-E02-05",
+   "consigne": "==Ajoutez un taquet droit à 15 cm== pour une dernière colonne d'état.",
+   "action": {
+    "type": "W_EXPECT_TABS",
+    "zone": "p0",
+    "taquets": [
+     {
+      "position": 4,
+      "type": "gauche"
+     },
+     {
+      "position": 12,
+      "type": "decimal"
+     },
+     {
+      "position": 15,
+      "type": "droite"
+     }
+    ]
+   },
+   "aide": {
+    "text": "Carré jusqu'au type droit, puis règle à 15.",
+    "showTarget": true
+   },
+   "feedback": "Trois colonnes, trois types adaptés à leur contenu."
+  }
+ ]
+}

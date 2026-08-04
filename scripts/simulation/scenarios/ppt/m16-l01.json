@@ -1,0 +1,173 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "mode": "LESSON",
+  "moduleTitle": "Cas pratique : le point trimestriel",
+  "title": "La commande",
+  "intro": {
+    "title": "La commande",
+    "body": "La Régie Ternois vous demande de présenter le point du trimestre au conseil syndical, jeudi, en vingt minutes. Trois sujets sont attendus : les charges, les travaux, les impayés. Vous partez d'un fichier vide."
+  },
+  "outro": {
+    "body": "La trame est posée : ordre du jour et sections. La leçon suivante y met les chiffres."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "ppt": {
+    "fileName": "Point trimestriel.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Régie Ternois"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M16-L01-01",
+      "consigne": "Une commande contient toujours quatre choses : **pour qui**, **combien de temps**, **quels sujets**, **quelle décision attendue**. Ici : le conseil syndical, vingt minutes, trois sujets, et un vote sur les travaux. La trame se déduit de ces quatre points, pas de vos données.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M16-L01-02",
+      "consigne": "==Écrivez le sous-titre== de la diapositive d'ouverture : Conseil syndical du 18 avril. Une présentation qui circule doit dire à qui et à quand elle appartient.",
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:sous-titre",
+        "accept": [
+          "Conseil syndical du 18 avril"
+        ]
+      },
+      "aide": {
+        "text": "Cliquez dans « Cliquez pour ajouter un sous-titre »."
+      }
+    },
+    {
+      "id": "M16-L01-03",
+      "consigne": "==Ajoutez une diapositive== : ce sera l'ordre du jour, la première chose qu'on écrit et la dernière qu'on relit.",
+      "action": {
+        "type": "P_ADD_SLIDE"
+      },
+      "aide": {
+        "text": "Groupe Diapositives, bouton « Nouvelle »."
+      }
+    },
+    {
+      "id": "M16-L01-04",
+      "consigne": "==Écrivez son titre== : Ordre du jour.",
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:titre",
+        "accept": [
+          "Ordre du jour"
+        ]
+      },
+      "aide": {
+        "text": "Cliquez dans « Cliquez pour ajouter un titre »."
+      }
+    },
+    {
+      "id": "M16-L01-05",
+      "consigne": "==Écrivez son contenu== : Les charges, Les travaux, Les impayés. Trois parties, exactement les trois sujets demandés — ni un de plus, ni un de moins.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Régie Ternois",
+                "sous-titre": "Conseil syndical du 18 avril"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Ordre du jour"
+              }
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:contenu",
+        "accept": [
+          "Les charges\nLes travaux\nLes impayés",
+          "Les charges, Les travaux, Les impayés"
+        ]
+      },
+      "feedback": "L'ordre du jour est le contrat passé avec le conseil : ce qui n'y figure pas ne sera pas traité."
+    },
+    {
+      "id": "M16-L01-06",
+      "consigne": "Vingt minutes pour trois sujets, c'est **six à sept minutes chacun**, donc trois ou quatre diapositives par partie au maximum. Cette arithmétique décide de tout le reste : elle vous interdit d'avance la présentation de quarante écrans.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M16-L01-07",
+      "consigne": "==Ajoutez une diapositive== : ce sera le séparateur de la première partie.",
+      "action": {
+        "type": "P_ADD_SLIDE"
+      }
+    },
+    {
+      "id": "M16-L01-08",
+      "consigne": "==Donnez-lui la disposition Titre seul== : une section ne porte rien d'autre que le nom de la partie.",
+      "action": {
+        "type": "P_SET_LAYOUT",
+        "layout": "titre-seul"
+      },
+      "aide": {
+        "text": "Groupe Diapositives, bouton Disposition, puis « Titre seul »."
+      }
+    },
+    {
+      "id": "M16-L01-09",
+      "consigne": "==Écrivez son titre== : 1. Les charges. Le numéro renvoie à la première ligne de l'ordre du jour.",
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:titre",
+        "accept": [
+          "1. Les charges"
+        ]
+      }
+    },
+    {
+      "id": "M16-L01-10",
+      "consigne": "==Ajoutez une diapositive== pour la deuxième section.",
+      "action": {
+        "type": "P_ADD_SLIDE"
+      }
+    },
+    {
+      "id": "M16-L01-11",
+      "consigne": "==Donnez-lui la disposition Titre seul==, comme la précédente.",
+      "action": {
+        "type": "P_SET_LAYOUT",
+        "layout": "titre-seul"
+      }
+    },
+    {
+      "id": "M16-L01-12",
+      "consigne": "==Écrivez son titre== : 2. Les travaux. À retenir : **la trame vient de la commande**, pas des données. On pose l'ordre du jour et les sections avant d'ouvrir le moindre tableau de chiffres.",
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:titre",
+        "accept": [
+          "2. Les travaux"
+        ]
+      }
+    }
+  ]
+}

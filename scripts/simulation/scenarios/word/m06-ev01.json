@@ -1,0 +1,182 @@
+{
+  "schemaVersion": 1,
+  "app": "WORD",
+  "title": "Évaluation — Puces et numéros",
+  "mode": "EVALUATION",
+  "moduleTitle": "Puces et numéros",
+  "intro": {
+    "title": "ÉVALUATION DU MODULE",
+    "body": "Onze gestes notés, sans indice et sans démonstration. Un mode opératoire à structurer : une procédure ordonnée, une liste de fournitures, et un commentaire qui n'appartient à aucune des deux. Chaque geste compte au premier essai."
+  },
+  "outro": "Évaluation terminée. Vous pouvez la repasser autant de fois que vous le souhaitez : seule votre meilleure note est conservée, et chaque passage repart de zéro sur un document neuf.",
+  "document": {
+    "paragraphes": [
+      {
+        "texte": "Mode opératoire — remplacement d'un filtre"
+      },
+      {
+        "texte": "Consigner la machine et vérifier l'absence de tension"
+      },
+      {
+        "texte": "Déposer le carter latéral"
+      },
+      {
+        "texte": "Extraire le filtre usagé et le mettre au rebut"
+      },
+      {
+        "texte": "Fournitures nécessaires"
+      },
+      {
+        "texte": "Filtre de rechange référence FR-220"
+      },
+      {
+        "texte": "Joint torique neuf"
+      },
+      {
+        "texte": "Cette opération dure environ vingt minutes.",
+        "liste": "puces"
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M06-EV01-01",
+      "points": 0,
+      "consigne": "Ce mode opératoire est écrit mais pas structuré. Vous allez marquer la procédure et les fournitures avec la nature de liste qui convient à chacune, laisser hors liste ce qui n'y appartient pas, puis compléter le document. Les consignes disent le résultat à obtenir, jamais quel bouton employer.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M06-EV01-02",
+      "points": 1,
+      "consigne": "La procédure se fait dans un ordre imposé. Marquez la première opération en conséquence.",
+      "setup": {
+        "ribbon": {
+          "activeTab": "accueil"
+        }
+      },
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p1",
+        "style": {
+          "liste": "numerotee"
+        }
+      }
+    },
+    {
+      "id": "M06-EV01-03",
+      "points": 1,
+      "consigne": "Traitez la deuxième opération de la même façon.",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p2",
+        "style": {
+          "liste": "numerotee"
+        }
+      }
+    },
+    {
+      "id": "M06-EV01-04",
+      "points": 1,
+      "consigne": "Traitez la troisième opération.",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p3",
+        "style": {
+          "liste": "numerotee"
+        }
+      }
+    },
+    {
+      "id": "M06-EV01-05",
+      "points": 2,
+      "consigne": "Les fournitures n'ont pas d'ordre : on les rassemble avant de commencer. Marquez la première avec la nature de liste qui convient.",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p5",
+        "style": {
+          "liste": "puces"
+        }
+      }
+    },
+    {
+      "id": "M06-EV01-06",
+      "points": 1,
+      "consigne": "Traitez la seconde fourniture de la même façon.",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p6",
+        "style": {
+          "liste": "puces"
+        }
+      }
+    },
+    {
+      "id": "M06-EV01-07",
+      "points": 2,
+      "consigne": "La dernière phrase est un commentaire, pas une fourniture : sortez-la de la liste.",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p7",
+        "style": {
+          "liste": "aucune"
+        }
+      }
+    },
+    {
+      "id": "M06-EV01-08",
+      "points": 1,
+      "consigne": "Donnez à l'intertitre « Fournitures nécessaires » le style d'une section de premier niveau.",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p4",
+        "style": {
+          "style": "Titre 1"
+        }
+      }
+    },
+    {
+      "id": "M06-EV01-09",
+      "points": 2,
+      "consigne": "Le mode opératoire doit se terminer par une consigne de remise en service. Ajoutez un paragraphe à la suite du dernier, contenant exactement : Déconsigner la machine avant l'essai à vide.",
+      "action": {
+        "type": "W_TYPE_TEXT",
+        "zone": "p7",
+        "accept": [
+          "Déconsigner la machine avant l'essai à vide."
+        ]
+      }
+    },
+    {
+      "id": "M06-EV01-10",
+      "points": 1,
+      "consigne": "La référence du filtre doit se retrouver en une seconde : épaississez « FR-220 », ce passage seulement.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "texte:FR-220",
+        "format": {
+          "gras": true
+        }
+      }
+    },
+    {
+      "id": "M06-EV01-11",
+      "points": 1,
+      "consigne": "Vous jugez cette mise en évidence inutile. Défaites ce dernier geste sans retoucher le texte à la main.",
+      "action": {
+        "type": "W_CLICK_CONTROL",
+        "controle": "w-annuler"
+      }
+    },
+    {
+      "id": "M06-EV01-12",
+      "points": 1,
+      "consigne": "Après réflexion, une référence de pièce mérite d'être repérable : remettez-la, toujours sans repasser par le groupe Police.",
+      "action": {
+        "type": "W_CLICK_CONTROL",
+        "controle": "w-retablir"
+      }
+    }
+  ]
+}

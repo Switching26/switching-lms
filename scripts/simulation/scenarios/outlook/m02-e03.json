@@ -1,0 +1,267 @@
+{
+  "schemaVersion": 1,
+  "title": "Transférer une demande, et prévenir celui qui l'a envoyée",
+  "mode": "EXERCISE",
+  "moduleTitle": "Répondre, transférer, tenir une conversation",
+  "intro": {
+    "title": "Une demande qui n'est pas de votre métier",
+    "body": "Une cliente vous demande un devis pour des stores intérieurs. Ce n'est pas votre métier : Hugo Vasseur le fait. Deux gestes s'enchaînent — faire suivre la demande à Hugo, et prévenir la cliente que vous passez la main. Attention au message reçu : il contient deux fichiers, et l'un d'eux ne doit pas quitter votre boîte."
+  },
+  "outro": {
+    "body": "Un transfert bien fait s'accompagne toujours d'une réponse à l'expéditeur : sans elle, la cliente attend une réaction de votre part pendant que le travail avance ailleurs. Et relisez la ligne des pièces jointes avant d'envoyer — le transfert emporte tout, y compris ce qui ne le regarde pas."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "clients",
+        "nom": "Clients 2026"
+      }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "messages": [
+      {
+        "id": "m-stores",
+        "dossier": "reception",
+        "de": "contact@fleurs-de-saison.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Stores intérieurs — projet de la boutique",
+        "corps": "Bonjour,\n\nNous souhaitons équiper la boutique de stores intérieurs. Vous trouverez le plan de la vitrine en pièce jointe.\nPouvez-vous nous chiffrer cela ?\n\nCordialement,\nFleurs de Saison",
+        "date": "2026-03-12T10:05",
+        "lu": false,
+        "pieces": [
+          {
+            "nom": "Plan-vitrine-boutique.pdf",
+            "taille": "260 Ko"
+          },
+          {
+            "nom": "Remises-negociees-2026.pdf",
+            "taille": "74 Ko"
+          }
+        ]
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O02-E03-01",
+      "consigne": "Ouvrez la demande de Fleurs de Saison et regardez les deux fichiers joints : l'un décrit le chantier, l'autre est un document commercial interne qui s'est glissé dans l'échange.",
+      "action": {
+        "type": "O_SELECT_MESSAGE",
+        "id": "m-stores"
+      },
+      "aide": {
+        "text": "C'est le message dont l'objet parle de stores intérieurs."
+      }
+    },
+    {
+      "id": "O02-E03-02",
+      "consigne": "Faites suivre cette demande à `h.vasseur@menuiserie-vasseur.fr`. Il lui faut le plan de la vitrine — et rien d'autre.",
+      "setup": {
+        "courrier": {
+          "messageActif": "m-stores"
+        }
+      },
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "genre": "transfert",
+          "a": {
+            "contient": [
+              "h.vasseur@menuiserie-vasseur.fr"
+            ]
+          },
+          "pieces": {
+            "contient": [
+              "Plan-vitrine-boutique.pdf"
+            ],
+            "absent": [
+              "Remises-negociees-2026.pdf"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Le transfert emporte les deux fichiers : la croix ✕ à côté d'un nom retire celui qui ne doit pas partir."
+      }
+    },
+    {
+      "id": "O02-E03-03",
+      "consigne": "Complétez l'objet avec le mot `chiffrage`, en gardant le préfixe posé par Outlook.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "objet": {
+            "prefixe": "TR",
+            "contient": [
+              "chiffrage"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Un transfert porte le préfixe « TR : », pas « RE : ». Ne touchez pas au début de la ligne."
+      }
+    },
+    {
+      "id": "O02-E03-04",
+      "consigne": "Écrivez le mot d'accompagnement, puis envoyez. Hugo doit comprendre **ce que vous attendez de lui** et **qui est la cliente**, puisqu'il ne la connaît pas.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "h.vasseur@menuiserie-vasseur.fr"
+            ]
+          },
+          "objet": {
+            "prefixe": "TR",
+            "contient": [
+              "chiffrage"
+            ]
+          },
+          "pieces": {
+            "contient": [
+              "Plan-vitrine-boutique.pdf"
+            ],
+            "absent": [
+              "Remises-negociees-2026.pdf"
+            ]
+          },
+          "corps": {
+            "notions": [
+              {
+                "libelle": "ce que vous attendez d'Hugo",
+                "oneOf": [
+                  "chiffrer",
+                  "chiffrage",
+                  "devis",
+                  "peux-tu",
+                  "peux tu",
+                  "prendre en charge",
+                  "t'en occuper"
+                ]
+              },
+              {
+                "libelle": "qui est la cliente",
+                "oneOf": [
+                  "fleurs de saison",
+                  "fleurs-de-saison",
+                  "boutique",
+                  "fleuriste"
+                ]
+              }
+            ],
+            "minMots": 10
+          }
+        }
+      },
+      "aide": {
+        "text": "Deux informations sont attendues : la demande faite à Hugo, et l'identité de la cliente."
+      }
+    },
+    {
+      "id": "O02-E03-05",
+      "consigne": "La cliente, elle, ne sait toujours rien. Répondez-lui — à elle seule — pour lui dire que vous passez la main.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "genre": "reponse",
+          "a": {
+            "contient": [
+              "contact@fleurs-de-saison.fr"
+            ],
+            "absent": [
+              "h.vasseur@menuiserie-vasseur.fr"
+            ]
+          },
+          "cc": {
+            "vide": true
+          }
+        }
+      },
+      "aide": {
+        "text": "Rouvrez le message d'origine dans la liste, puis utilisez Répondre."
+      }
+    },
+    {
+      "id": "O02-E03-06",
+      "consigne": "Rédigez cette réponse et envoyez-la. Elle doit dire **que la demande a été transmise** et **à qui**, pour que la cliente sache qui la rappellera.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "contact@fleurs-de-saison.fr"
+            ]
+          },
+          "cc": {
+            "vide": true
+          },
+          "corps": {
+            "salutation": [
+              "bonjour",
+              "madame",
+              "monsieur",
+              "bonsoir"
+            ],
+            "cloture": [
+              "cordialement",
+              "salutations",
+              "bien a vous",
+              "merci"
+            ],
+            "notions": [
+              {
+                "libelle": "que la demande a été transmise",
+                "oneOf": [
+                  "transmis",
+                  "transfere",
+                  "fait suivre",
+                  "confie",
+                  "passe la main",
+                  "adresse"
+                ]
+              },
+              {
+                "libelle": "à qui elle a été transmise",
+                "oneOf": [
+                  "vasseur",
+                  "hugo",
+                  "menuiserie vasseur",
+                  "confrere",
+                  "partenaire"
+                ]
+              }
+            ],
+            "minMots": 12
+          }
+        }
+      },
+      "aide": {
+        "text": "Deux informations sont attendues : la transmission, et le nom de celui qui prend le relais."
+      }
+    }
+  ]
+}

@@ -1,0 +1,181 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "mode": "LESSON",
+  "moduleTitle": "Préparer son intervention",
+  "title": "Répéter avec le diaporama",
+  "intro": {
+    "title": "Répéter avec le diaporama",
+    "body": "Une répétition n'est pas une relecture. On parcourt la présentation dans l'ordre, sans s'arrêter, comme le jour J — et ce sont les endroits où l'on hésite qui indiquent quoi corriger."
+  },
+  "outro": {
+    "body": "Le défaut repéré en répétition a été corrigé, puis vérifié par une seconde passe. La dernière leçon prépare les deux moments qui ne s'improvisent pas."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "ppt": {
+    "fileName": "Ateliers Nomade.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Ateliers Nomade",
+          "sous-titre": "Salon du cuir — stand 14"
+        },
+        "notes": "Me présenter en une phrase puis annoncer les trois points"
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Notre atelier",
+          "contenu": "Deux tanneries françaises\nDix ans d'atelier\nQuatre artisans"
+        },
+        "notes": "Citer l'Aveyron et les deux artisans formés sur place"
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Nos tarifs",
+          "contenu": "Sac sur mesure : à partir de 450 €\nRéparation : 60 €"
+        },
+        "notes": "Ne pas s'excuser du prix"
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Nos délais",
+          "contenu": "Sac sur mesure : 6 semaines\nRéparation : 10 jours"
+        },
+        "notes": "Six semaines c'est la haute saison, dire quatre en hiver"
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Nous rencontrer",
+          "contenu": "Stand 14, allée C\nDémonstration à 15 h"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M10-L03-01",
+      "consigne": "Répéter, c'est parcourir la présentation **dans l'ordre et sans s'arrêter**, en disant à voix haute ce qu'on dira. Relire ses diapositives une par une ne remplace pas ce parcours : les défauts d'enchaînement n'apparaissent qu'en avançant.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M10-L03-02",
+      "consigne": "==Lancez le diaporama depuis le début==. Vous êtes dans les conditions réelles : plein écran, une diapositive à la fois, pas de retour en arrière commode.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": true,
+          "index": 0
+        }
+      },
+      "aide": {
+        "text": "Groupe Diaporama, bouton « ▶ Début »."
+      }
+    },
+    {
+      "id": "M10-L03-03",
+      "consigne": "==Avancez d'une diapositive== et dites l'atelier à voix haute, sans lire l'écran. Les trois repères suffisent-ils à tenir vingt secondes ?",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "index": 1
+        }
+      }
+    },
+    {
+      "id": "M10-L03-04",
+      "consigne": "==Avancez== jusqu'aux tarifs. C'est le passage que tout le monde redoute, et celui qu'il faut avoir dit une fois avant de le dire pour de vrai.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "index": 2
+        }
+      }
+    },
+    {
+      "id": "M10-L03-05",
+      "consigne": "==Avancez== jusqu'aux délais. C'est ici que la répétition sert : vous venez d'annoncer un prix, l'écran affiche des semaines, et il n'y a **aucune phrase** pour passer de l'un à l'autre.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "index": 3
+        }
+      },
+      "feedback": "Ce blanc de deux secondes est invisible à la relecture et évident en répétition."
+    },
+    {
+      "id": "M10-L03-06",
+      "consigne": "Un défaut d'enchaînement ne se corrige pas en changeant les diapositives : elles sont bonnes toutes les deux. Il se corrige avec **une phrase de liaison**, et une phrase de liaison s'écrit dans les notes de la diapositive qu'on quitte.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M10-L03-07",
+      "consigne": "==Quittez le diaporama== pour corriger.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": false
+        }
+      }
+    },
+    {
+      "id": "M10-L03-08",
+      "consigne": "==Affichez la diapositive des tarifs==, la troisième : c'est celle qu'on quitte, donc celle qui porte la liaison.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 2
+      }
+    },
+    {
+      "id": "M10-L03-09",
+      "consigne": "==Complétez sa note== : Ne pas s'excuser du prix, enchaîner sur le délai. La note dit maintenant deux choses — comment dire ce qui est à l'écran, et comment aller à la suite.",
+      "action": {
+        "type": "P_EXPECT_DECK",
+        "deck": {
+          "slides": [
+            {
+              "index": 2,
+              "notes": "Ne pas s'excuser du prix, enchaîner sur le délai"
+            }
+          ]
+        }
+      },
+      "aide": {
+        "text": "Cliquez dans les notes existantes et complétez la phrase."
+      }
+    },
+    {
+      "id": "M10-L03-10",
+      "consigne": "==Relancez le diaporama depuis le début== : une correction se vérifie toujours dans les conditions où le défaut est apparu.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": true,
+          "index": 0
+        }
+      }
+    },
+    {
+      "id": "M10-L03-11",
+      "consigne": "==Quittez le diaporama==. À retenir : on répète **dans l'ordre et sans s'arrêter**, on note les endroits où l'on hésite, et on corrige avec une note plutôt qu'avec une diapositive de plus. Deux passages suffisent presque toujours.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": false
+        }
+      }
+    }
+  ]
+}

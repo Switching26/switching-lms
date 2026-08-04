@@ -1,0 +1,128 @@
+{
+  "schemaVersion": 1,
+  "app": "WORD",
+  "title": "Les caractères qui ne sont pas sur le clavier",
+  "mode": "LESSON",
+  "moduleTitle": "Symboles et caractères spéciaux",
+  "intro": {
+    "title": "€, °, œ, — : LES CARACTÈRES QU'ON CROIT INTROUVABLES",
+    "body": "Un document professionnel réclame des caractères que le clavier ne montre pas : le symbole degré, la ligature œ, le tiret long des incises. Les taper approximativement se voit — « oeuvre » pour « œuvre », un trait d'union à la place d'un tiret. Vous allez composer une fiche technique correcte."
+  },
+  "outro": "Ces caractères existent, ils ont un sens, et les remplacer par des approximations se remarque. Un devis qui écrit « 20 degres » au lieu de « 20 °C » perd en crédibilité avant d'être lu.",
+  "document": {
+    "paragraphes": [
+      {
+        "texte": "Fiche technique — vernis polyuréthane"
+      },
+      {
+        "texte": "Conditions d'application"
+      },
+      {
+        "texte": "Conditionnement et tarif"
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M07-L01-01",
+      "consigne": "==Appuyez sur Entrée et saisissez== la première condition, avec le symbole degré : Température d'application : 18 °C minimum",
+      "action": {
+        "type": "W_TYPE_TEXT",
+        "zone": "p1",
+        "accept": [
+          "Température d'application : 18 °C minimum"
+        ]
+      },
+      "aide": {
+        "text": "Le symbole degré s'obtient par la touche du chiffre 0 avec Maj sur un clavier français.",
+        "showTarget": true
+      },
+      "feedback": "Notez l'espace entre le nombre et le symbole : elle est obligatoire en français."
+    },
+    {
+      "id": "M07-L01-02",
+      "consigne": "==Appuyez sur Entrée et saisissez== la seconde condition, avec le symbole pourcentage : Hygrométrie inférieure à 70 % pendant le séchage",
+      "action": {
+        "type": "W_TYPE_TEXT",
+        "zone": "p3",
+        "accept": [
+          "Hygrométrie inférieure à 70 % pendant le séchage"
+        ]
+      },
+      "feedback": "Même règle que pour le degré : une espace sépare le nombre du signe."
+    },
+    {
+      "id": "M07-L01-03",
+      "consigne": "==Saisissez une troisième ligne== avec un tiret long, celui des incises : Le support — bois brut ou apprêté — doit être sec.",
+      "action": {
+        "type": "W_TYPE_TEXT",
+        "zone": "p4",
+        "accept": [
+          "Le support — bois brut ou apprêté — doit être sec."
+        ]
+      },
+      "aide": {
+        "text": "Le tiret long est plus large qu'un trait d'union ; il encadre une incise comme des parenthèses.",
+        "showTarget": true
+      },
+      "feedback": "Le tiret long ouvre et ferme l'incise : un trait d'union à sa place se lirait comme une coupure de mot."
+    },
+    {
+      "id": "M07-L01-04",
+      "consigne": "==Saisissez la ligne de tarif== avec le symbole euro : Conditionnement de 5 litres : 148 € hors taxes",
+      "action": {
+        "type": "W_TYPE_TEXT",
+        "zone": "p5",
+        "accept": [
+          "Conditionnement de 5 litres : 148 € hors taxes"
+        ]
+      },
+      "feedback": "En français, le symbole euro se place APRÈS le montant, précédé d'une espace."
+    },
+    {
+      "id": "M07-L01-05",
+      "consigne": "==Saisissez la dernière ligne==, avec la ligature œ : Produit conforme aux normes en vigueur pour les œuvres de restauration.",
+      "action": {
+        "type": "W_TYPE_TEXT",
+        "zone": "p6",
+        "accept": [
+          "Produit conforme aux normes en vigueur pour les œuvres de restauration."
+        ]
+      },
+      "aide": {
+        "text": "La ligature œ est un caractère à part entière : « oeuvre » en deux lettres est une faute d'orthographe.",
+        "showTarget": true
+      },
+      "feedback": "Fiche complète, et typographiquement juste."
+    },
+    {
+      "id": "M07-L01-06",
+      "consigne": "==Épaississez le montant « 148 € »== : sur une fiche technique, le prix est l'information que le lecteur cherche.",
+      "setup": {
+        "ribbon": {
+          "activeTab": "accueil"
+        }
+      },
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "texte:148 €",
+        "format": {
+          "gras": true
+        }
+      },
+      "feedback": "Le tarif se repère immédiatement."
+    },
+    {
+      "id": "M07-L01-07",
+      "consigne": "==Donnez le style Titre 1 à l'intertitre « Conditions d'application »== pour structurer la fiche.",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p1",
+        "style": {
+          "style": "Titre 1"
+        }
+      },
+      "feedback": "La fiche a des sections."
+    }
+  ]
+}

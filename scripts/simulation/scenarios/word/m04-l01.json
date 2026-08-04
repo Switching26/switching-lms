@@ -1,0 +1,130 @@
+{
+  "schemaVersion": 1,
+  "app": "WORD",
+  "title": "Aligner un paragraphe : les quatre options",
+  "mode": "LESSON",
+  "moduleTitle": "Mise en forme des paragraphes",
+  "intro": {
+    "title": "OÙ LE TEXTE SE PLACE ENTRE LES MARGES",
+    "body": "L'alignement est le premier réglage de paragraphe, et le seul que tout le monde manipule sans y penser. Quatre options, quatre usages distincts. Vous allez les poser toutes les quatre sur un même document et voir ce que chacune change à la lecture."
+  },
+  "outro": "Gauche pour lire, centré pour annoncer, droite pour dater, justifié pour un document officiel. Quatre options, quatre intentions — et une seule règle : l'alignement porte sur le PARAGRAPHE entier, jamais sur une sélection partielle.",
+  "document": {
+    "paragraphes": [
+      {
+        "texte": "Attestation de fin de formation"
+      },
+      {
+        "texte": "Nantes, le 12 juin"
+      },
+      {
+        "texte": "Nous soussignés, Ateliers Rivedoux, attestons que Madame Salima Kerbaj a suivi la formation Sécurité machines dans nos ateliers, pour une durée totale de vingt et une heures."
+      },
+      {
+        "texte": "Le responsable de formation"
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M04-L01-01",
+      "points": 0,
+      "consigne": "Un point à retenir avant tout geste : l'alignement s'applique au **paragraphe entier**. Inutile de sélectionner le texte — il suffit d'y placer le curseur. C'est vrai de tous les réglages du groupe Paragraphe, et c'est ce qui les distingue des attributs de caractère.",
+      "action": {
+        "type": "READ"
+      },
+      "montrer": [
+        {
+          "type": "W_SELECT_TEXT",
+          "zone": "p2"
+        }
+      ],
+      "feedback": "Curseur dans le paragraphe : cela suffit."
+    },
+    {
+      "id": "M04-L01-02",
+      "consigne": "==Centrez le titre de l'attestation.== Le centrage sert à annoncer : il convient à un titre, à une mention d'en-tête, jamais à un corps de texte.",
+      "setup": {
+        "ribbon": {
+          "activeTab": "accueil"
+        }
+      },
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p0",
+        "style": {
+          "alignement": "centre"
+        }
+      },
+      "aide": {
+        "text": "Le deuxième des quatre boutons d'alignement du groupe Paragraphe.",
+        "showTarget": true
+      },
+      "feedback": "Le titre annonce le document."
+    },
+    {
+      "id": "M04-L01-03",
+      "consigne": "==Alignez la ligne de lieu et de date à droite.== C'est la convention du courrier français : le lieu et la date se placent en haut à droite.",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p1",
+        "style": {
+          "alignement": "droite"
+        }
+      },
+      "feedback": "La mention prend sa place conventionnelle."
+    },
+    {
+      "id": "M04-L01-04",
+      "consigne": "==Justifiez le corps de l'attestation.== Le texte s'aligne alors sur les deux marges à la fois, en étirant les espaces entre les mots — l'aspect d'un document officiel.",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p2",
+        "style": {
+          "alignement": "justifie"
+        }
+      },
+      "aide": {
+        "text": "Le quatrième bouton d'alignement.",
+        "showTarget": true
+      },
+      "feedback": "Les deux bords sont nets. Regardez les espaces entre les mots : ils ont été étirés."
+    },
+    {
+      "id": "M04-L01-05",
+      "consigne": "==Alignez la signature à droite.== Un signataire se place du côté où l'on signe, à l'opposé de la marge de reliure.",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p3",
+        "style": {
+          "alignement": "droite"
+        }
+      },
+      "feedback": "L'attestation a la forme attendue d'un document administratif."
+    },
+    {
+      "id": "M04-L01-06",
+      "consigne": "==Remettez le corps du texte aligné à gauche== pour comparer. L'alignement à gauche laisse le bord droit irrégulier — c'est le réglage par défaut, et le plus lisible pour un texte long.",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p2",
+        "style": {
+          "alignement": "gauche"
+        }
+      },
+      "feedback": "Bord droit irrégulier : c'est ce qu'on appelle un texte « en drapeau »."
+    },
+    {
+      "id": "M04-L01-07",
+      "consigne": "==Justifiez-le de nouveau== : sur une attestation destinée à être archivée, la forme officielle l'emporte sur le confort de lecture.",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p2",
+        "style": {
+          "alignement": "justifie"
+        }
+      },
+      "feedback": "Vous avez essayé les deux et choisi en connaissance de cause."
+    }
+  ]
+}

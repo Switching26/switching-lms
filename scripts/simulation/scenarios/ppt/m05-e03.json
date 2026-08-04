@@ -1,0 +1,198 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "mode": "EXERCISE",
+  "moduleTitle": "Choisir la bonne disposition",
+  "title": "Exercice — Redonner à chacune sa structure",
+  "intro": {
+    "title": "Exercice — Redonner à chacune sa structure",
+    "body": "Trois diapositives, trois dispositions qui ne correspondent pas à ce qu'elles portent. Comptez les blocs de chacune, puis donnez-lui la disposition qui convient — et ajoutez la section qui manque."
+  },
+  "outro": {
+    "body": "Compter les blocs avant de choisir : la règle vaut pour toutes les présentations que vous ferez."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "ppt": {
+    "fileName": "Offre Verdeval.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Verdeval",
+          "sous-titre": "Notre offre 2027"
+        }
+      },
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Nos engagements",
+          "sous-titre": "Trois promesses tenues depuis 2024"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Le chantier des Tilleuls",
+          "contenu": "Photos avant et après"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "2. Nos réalisations",
+          "contenu": "Ce que nous avons livré cette saison"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M05-E03-01",
+      "consigne": "Affichez la diapositive des engagements : elle porte un vrai contenu, dans la disposition d'une ouverture.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 1
+      },
+      "aide": {
+        "text": "C'est la deuxième miniature du volet."
+      }
+    },
+    {
+      "id": "M05-E03-02",
+      "consigne": "Un seul bloc de contenu à porter : donnez-lui la disposition correspondante.",
+      "action": {
+        "type": "P_SET_LAYOUT",
+        "layout": "titre-et-contenu"
+      },
+      "aide": {
+        "text": "Un bloc unique, c'est « Titre et contenu »."
+      }
+    },
+    {
+      "id": "M05-E03-03",
+      "consigne": "Renseignez ce bloc : Zéro produit phytosanitaire.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Notre offre 2027"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Nos engagements",
+                "sous-titre": "Trois promesses tenues depuis 2024"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Le chantier des Tilleuls",
+                "contenu": "Photos avant et après"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "2. Nos réalisations",
+                "contenu": "Ce que nous avons livré cette saison"
+              }
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:contenu",
+        "accept": [
+          "Zéro produit phytosanitaire"
+        ]
+      }
+    },
+    {
+      "id": "M05-E03-04",
+      "consigne": "Passez à la diapositive du chantier des Tilleuls : elle annonce des photos, pas du texte.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 2
+      }
+    },
+    {
+      "id": "M05-E03-05",
+      "consigne": "Donnez-lui la disposition qui garde le titre et libère la place en dessous.",
+      "action": {
+        "type": "P_SET_LAYOUT",
+        "layout": "titre-seul"
+      },
+      "aide": {
+        "text": "Composer librement sous un titre, c'est « Titre seul »."
+      }
+    },
+    {
+      "id": "M05-E03-06",
+      "consigne": "Confirmez que la place est libre en y posant une illustration.",
+      "action": {
+        "type": "P_ADD_OBJECT",
+        "objectType": "image"
+      },
+      "aide": {
+        "text": "Groupe Insertion, bouton Image."
+      }
+    },
+    {
+      "id": "M05-E03-07",
+      "consigne": "Affichez la dernière diapositive : son titre est numéroté et son contenu ne fait qu'annoncer la partie.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 3
+      }
+    },
+    {
+      "id": "M05-E03-08",
+      "consigne": "C'est une frontière, pas un contenu : donnez-lui la disposition des sections.",
+      "action": {
+        "type": "P_SET_LAYOUT",
+        "layout": "diapositive-de-titre"
+      },
+      "aide": {
+        "text": "Une section s'écrit avec « Diapositive de titre »."
+      }
+    },
+    {
+      "id": "M05-E03-09",
+      "consigne": "Une section s'annonce avant sa partie, jamais après. Remontez celle-ci d'un rang.",
+      "setupPpt": {
+        "slide": 3
+      },
+      "action": {
+        "type": "P_MOVE_SLIDE",
+        "from": 3,
+        "to": 2
+      },
+      "aide": {
+        "text": "Groupe Diapositives, bouton « ↑ Monter »."
+      }
+    },
+    {
+      "id": "M05-E03-10",
+      "consigne": "Faites en sorte que ce titre de section se voie de loin.",
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "ph:titre",
+        "style": {
+          "bold": true
+        }
+      }
+    }
+  ]
+}

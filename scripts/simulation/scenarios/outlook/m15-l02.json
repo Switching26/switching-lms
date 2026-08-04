@@ -1,0 +1,248 @@
+{
+  "schemaVersion": 1,
+  "title": "Relancer une livraison en retard",
+  "mode": "LESSON",
+  "moduleTitle": "Commander, relancer, contester chez un fournisseur",
+  "intro": {
+    "title": "La pose est mardi, la quincaillerie n'est pas là",
+    "body": "Une relance fournisseur efficace tient en trois faits : la référence de la commande, la date promise, et ce que le retard empêche. Pas de reproche — un fournisseur qui se sent attaqué se justifie au lieu de livrer. Ce qu'on veut, c'est une date ferme."
+  },
+  "outro": {
+    "body": "« Vous vous moquez de nous » n'accélère rien. « Commande du 14, promise le 22, pose prévue mardi : pouvez-vous me confirmer une date ? » place le fournisseur devant un fait, pas devant un jugement — et appelle une réponse, pas une justification."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "achats",
+        "nom": "Achats"
+      },
+      {
+        "id": "factures",
+        "nom": "Factures fournisseurs"
+      }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "fichiers": [
+      {
+        "nom": "Bon-de-livraison-BL-4471.pdf",
+        "taille": "148 Ko"
+      },
+      {
+        "nom": "Facture-DEL-2026-0312.pdf",
+        "taille": "165 Ko"
+      },
+      {
+        "nom": "Plan-de-pose-mediatheque.pdf",
+        "taille": "810 Ko"
+      },
+      {
+        "nom": "Marges-atelier-2026.xlsx",
+        "taille": "72 Ko"
+      }
+    ],
+    "messages": [
+      {
+        "id": "m-ar",
+        "dossier": "reception",
+        "de": "commandes@quincaillerie-delmas.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Bien reçu",
+        "corps": "Bonjour,\n\nNous avons bien enregistré votre demande sous la référence CDE-8802.\nExpédition prévue le 22.\n\nQuincaillerie Delmas",
+        "date": "2026-04-14T11:40",
+        "lu": true
+      },
+      {
+        "id": "m-sonia",
+        "dossier": "reception",
+        "de": "s.brunel@atelier-nord.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Toujours rien",
+        "corps": "Camille,\n\nOn est le 23 et je n'ai rien reçu. Je pose mardi.\n\nSonia",
+        "date": "2026-04-23T07:15",
+        "lu": false
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O15-L02-01",
+      "consigne": "==Ouvrez l'accusé de réception du fournisseur.== Il contient les deux faits sur lesquels votre relance va s'appuyer : une référence de commande et une date d'expédition annoncée.",
+      "action": {
+        "type": "O_SELECT_MESSAGE",
+        "id": "m-ar"
+      },
+      "aide": {
+        "text": "C'est le message de la Quincaillerie Delmas."
+      }
+    },
+    {
+      "id": "O15-L02-02",
+      "consigne": "==Cliquez sur Répondre.== La relance repart dans le fil de l'accusé de réception : le fournisseur retrouve sa propre promesse juste en dessous de votre message.",
+      "setup": {
+        "courrier": {
+          "messageActif": "m-ar"
+        }
+      },
+      "action": {
+        "type": "O_CLICK_CONTROL",
+        "control": "cr-repondre"
+      },
+      "aide": {
+        "text": "Le bouton Répondre."
+      }
+    },
+    {
+      "id": "O15-L02-03",
+      "consigne": "==Complétez l'objet avec la référence `CDE-8802`.== L'objet reçu ne dit rien du dossier. Chez un fournisseur, c'est la référence de commande qui permet de retrouver le colis, pas votre nom.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "objet": {
+            "prefixe": "RE",
+            "contient": [
+              "CDE-8802"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "La référence figure dans le message reçu."
+      }
+    },
+    {
+      "id": "O15-L02-04",
+      "consigne": "==Rédigez la relance.== Trois faits : **la date promise**, **ce que le retard empêche**, **la demande d'une date ferme**. Aucun reproche : vous voulez une livraison, pas une justification.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "corps": {
+            "salutation": [
+              "bonjour",
+              "madame",
+              "monsieur",
+              "bonsoir"
+            ],
+            "cloture": [
+              "cordialement",
+              "salutations",
+              "bien a vous",
+              "merci"
+            ],
+            "notions": [
+              {
+                "libelle": "la date promise par le fournisseur",
+                "oneOf": [
+                  "22",
+                  "le 22",
+                  "annoncee",
+                  "prevue le"
+                ]
+              },
+              {
+                "libelle": "ce que le retard empêche",
+                "oneOf": [
+                  "pose",
+                  "chantier",
+                  "mardi",
+                  "mediatheque",
+                  "intervention"
+                ]
+              },
+              {
+                "libelle": "la demande d'une date ferme",
+                "oneOf": [
+                  "date ferme",
+                  "confirmer une date",
+                  "quand",
+                  "me confirmer",
+                  "date de livraison",
+                  "pouvez-vous m'indiquer"
+                ]
+              }
+            ],
+            "interdit": [
+              {
+                "libelle": "un reproche ou une formule d'impatience",
+                "oneOf": [
+                  "vous vous moquez",
+                  "inadmissible",
+                  "c'est scandaleux",
+                  "comme d'habitude",
+                  "toujours en retard",
+                  "je m'etonne"
+                ]
+              }
+            ],
+            "minMots": 22
+          }
+        }
+      },
+      "aide": {
+        "text": "Trois informations sont attendues : la date promise, l'impact, la demande."
+      }
+    },
+    {
+      "id": "O15-L02-05",
+      "consigne": "==Envoyez la relance.== Vous n'avez rien reproché et pourtant tout est dit : la promesse, sa date, et ce qu'elle bloque. C'est le message le plus difficile à ignorer.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "commandes@quincaillerie-delmas.fr"
+            ]
+          },
+          "objet": {
+            "prefixe": "RE",
+            "contient": [
+              "CDE-8802"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Le bouton Envoyer."
+      }
+    },
+    {
+      "id": "O15-L02-06",
+      "consigne": "==Posez un indicateur sur le message de Sonia.== Elle attend une réponse que vous n'avez pas encore : tant que le fournisseur n'a pas donné de date, sa question reste ouverte.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-sonia": {
+              "dossier": "reception",
+              "indicateur": true
+            }
+          }
+        }
+      },
+      "aide": {
+        "text": "Ouvrez son message, puis le drapeau."
+      }
+    }
+  ]
+}

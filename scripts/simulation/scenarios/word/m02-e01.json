@@ -1,0 +1,103 @@
+{
+  "schemaVersion": 1,
+  "app": "WORD",
+  "title": "Exercice — Saisir, insérer et corriger",
+  "mode": "EXERCISE",
+  "moduleTitle": "Saisie et mise en forme des caractères",
+  "intro": {
+    "title": "À VOUS DE JOUER",
+    "body": "Un bon de livraison rédigé trop vite. Vous allez le reprendre : réparer deux coquilles, insérer une précision, puis le compléter. Aucune consigne ne vous dira où cliquer."
+  },
+  "outro": "Corriger, insérer, prolonger : vous savez intervenir n'importe où dans un texte existant.",
+  "document": {
+    "paragraphes": [
+      {
+        "texte": "Bon de livraison n 2026-418"
+      },
+      {
+        "texte": "Livraison effectuée le 12 mars par le transporteur."
+      },
+      {
+        "texte": "Colis reçus en bon état."
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M02-E01-01",
+      "consigne": "Le numéro du bon a perdu son symbole. ==Corrigez le titre== pour qu'il se lise : Bon de livraison n° 2026-418",
+      "action": {
+        "type": "W_EXPECT_DOC",
+        "paragraphes": {
+          "p0": [
+            "Bon de livraison n° 2026-418"
+          ]
+        }
+      },
+      "aide": {
+        "text": "Cliquez après le n, puis tapez le symbole degré.",
+        "showTarget": true
+      },
+      "feedback": "Titre corrigé."
+    },
+    {
+      "id": "M02-E01-02",
+      "consigne": "Le transporteur n'est pas nommé. ==Complétez le deuxième paragraphe== pour qu'il se lise : Livraison effectuée le 12 mars par le transporteur Ligéria.",
+      "action": {
+        "type": "W_EXPECT_DOC",
+        "paragraphes": {
+          "p1": [
+            "Livraison effectuée le 12 mars par le transporteur Ligéria."
+          ]
+        }
+      },
+      "feedback": "Le transporteur est identifié."
+    },
+    {
+      "id": "M02-E01-03",
+      "consigne": "==Ajoutez un paragraphe à la fin== du bon : Deux palettes sur trois ont été contrôlées.",
+      "action": {
+        "type": "W_TYPE_TEXT",
+        "zone": "p2",
+        "accept": [
+          "Deux palettes sur trois ont été contrôlées."
+        ]
+      },
+      "feedback": "Le bon est complet."
+    },
+    {
+      "id": "M02-E01-04",
+      "consigne": "Une réserve doit être visible de loin. ==Ajoutez une dernière ligne, en capitales== : RESERVE SUR LA TROISIEME PALETTE",
+      "action": {
+        "type": "W_TYPE_TEXT",
+        "zone": "p3",
+        "accept": [
+          "RESERVE SUR LA TROISIEME PALETTE"
+        ],
+        "strict": true
+      },
+      "aide": {
+        "text": "Verrouillage Maj avant de taper.",
+        "showTarget": true
+      },
+      "feedback": "La réserve est posée, en capitales."
+    },
+    {
+      "id": "M02-E01-05",
+      "consigne": "==Faites ressortir la date « 12 mars »== dans le deuxième paragraphe, en l'épaississant.",
+      "setup": {
+        "ribbon": {
+          "activeTab": "accueil"
+        }
+      },
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "texte:12 mars",
+        "format": {
+          "gras": true
+        }
+      },
+      "feedback": "La date de livraison se repère immédiatement."
+    }
+  ]
+}

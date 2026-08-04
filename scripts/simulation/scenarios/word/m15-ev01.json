@@ -1,0 +1,97 @@
+{
+ "schemaVersion": 1,
+ "app": "WORD",
+ "title": "Évaluation — l'habillage",
+ "mode": "EVALUATION",
+ "moduleTitle": "L'habillage des images",
+ "intro": {
+  "title": "ÉVALUATION NOTÉE",
+  "body": "Vous mettez en page un document illustré, en passant par trois habillages successifs. Chaque réglage est noté."
+ },
+ "outro": "Vous savez faire couler un texte autour d'une image, et choisir l'habillage selon l'effet voulu.",
+ "document": {
+  "paragraphes": [
+   {
+    "texte": "Ateliers Rivedoux — présentation",
+    "style": "titre"
+   },
+   {
+    "texte": "Notre atelier conçoit du mobilier sur mesure depuis douze ans.",
+    "style": "normal"
+   },
+   {
+    "texte": "L'équipe compte huit menuisiers et deux dessinateurs.",
+    "style": "normal"
+   },
+   {
+    "texte": "Chaque pièce est dessinée puis fabriquée dans nos locaux.",
+    "style": "normal"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "id": "M15-EV01-00",
+   "points": 3,
+   "consigne": "==Ouvrez la galerie d'images== depuis l'onglet Insertion.",
+   "action": {
+    "type": "W_CLICK_CONTROL",
+    "controle": "w-inserer-image"
+   },
+   "setup": {
+    "ribbon": {
+     "activeTab": "insertion"
+    }
+   },
+   "feedback": "La galerie est ouverte."
+  },
+  {
+   "id": "M15-EV01-01",
+   "points": 4,
+   "consigne": "==Insérez le plan d'atelier.==",
+   "action": {
+    "type": "W_EXPECT_IMAGE",
+    "image": "plan"
+   },
+   "setup": {
+    "ribbon": {
+     "activeTab": "insertion"
+    }
+   },
+   "feedback": "Plan posé."
+  },
+  {
+   "id": "M15-EV01-02",
+   "points": 5,
+   "consigne": "==Appliquez l'habillage « Rapproché »== pour que le texte contourne le plan.",
+   "action": {
+    "type": "W_EXPECT_IMAGE",
+    "image": "plan",
+    "habillage": "carre"
+   },
+   "feedback": "Texte contournant."
+  },
+  {
+   "id": "M15-EV01-03",
+   "points": 5,
+   "consigne": "Le plan passe en pleine largeur. ==Basculez en « Haut et bas ».==",
+   "action": {
+    "type": "W_EXPECT_IMAGE",
+    "image": "plan",
+    "habillage": "hautbas"
+   },
+   "feedback": "Bande pleine largeur."
+  },
+  {
+   "id": "M15-EV01-04",
+   "points": 5,
+   "consigne": "Le plan doit finalement se superposer au texte comme un calque. ==Passez en « Devant ».==",
+   "action": {
+    "type": "W_EXPECT_IMAGE",
+    "image": "plan",
+    "habillage": "devant"
+   },
+   "feedback": "Le plan flotte au-dessus du texte."
+  }
+ ]
+}

@@ -1,0 +1,151 @@
+{
+  "schemaVersion": 1,
+  "app": "WORD",
+  "title": "Évaluation — Symboles et caractères spéciaux",
+  "mode": "EVALUATION",
+  "moduleTitle": "Symboles et caractères spéciaux",
+  "intro": {
+    "title": "ÉVALUATION DU MODULE",
+    "body": "Neuf gestes notés, sans indice et sans démonstration. Un devis à composer, avec les symboles et les conventions d'écriture du français professionnel. La frappe compte au caractère près sur les symboles. Chaque geste compte au premier essai."
+  },
+  "outro": "Évaluation terminée. Vous pouvez la repasser autant de fois que vous le souhaitez : seule votre meilleure note est conservée, et chaque passage repart de zéro sur un document neuf.",
+  "document": {
+    "paragraphes": [
+      {
+        "texte": "Devis — traitement de charpente"
+      },
+      {
+        "texte": "Prestations"
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M07-EV01-01",
+      "points": 0,
+      "consigne": "Composez ce devis ligne par ligne. Chaque consigne donne le texte exact à saisir : les symboles, les unités et la ponctuation en font partie. Les conventions françaises s'appliquent — espace avant le symbole, virgule décimale, unités sans point abréviatif.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M07-EV01-02",
+      "points": 2,
+      "consigne": "Saisissez la référence du devis à la suite du dernier paragraphe : Devis n° 2026-311 du 3 juin",
+      "action": {
+        "type": "W_TYPE_TEXT",
+        "zone": "p1",
+        "accept": [
+          "Devis n° 2026-311 du 3 juin"
+        ]
+      }
+    },
+    {
+      "id": "M07-EV01-03",
+      "points": 2,
+      "consigne": "Saisissez la première prestation : Traitement fongicide — 96 m² de charpente",
+      "action": {
+        "type": "W_TYPE_TEXT",
+        "zone": "p2",
+        "accept": [
+          "Traitement fongicide — 96 m² de charpente"
+        ]
+      }
+    },
+    {
+      "id": "M07-EV01-04",
+      "points": 2,
+      "consigne": "Saisissez la seconde prestation : Application entre 10 °C et 28 °C, hygrométrie inférieure à 65 %",
+      "action": {
+        "type": "W_TYPE_TEXT",
+        "zone": "p3",
+        "accept": [
+          "Application entre 10 °C et 28 °C, hygrométrie inférieure à 65 %"
+        ]
+      }
+    },
+    {
+      "id": "M07-EV01-05",
+      "points": 2,
+      "consigne": "Saisissez le montant : Montant total : 2 840,60 € hors taxes",
+      "action": {
+        "type": "W_TYPE_TEXT",
+        "zone": "p4",
+        "accept": [
+          "Montant total : 2 840,60 € hors taxes"
+        ]
+      }
+    },
+    {
+      "id": "M07-EV01-06",
+      "points": 1,
+      "consigne": "Le montant est l'information décisive d'un devis : épaississez « 2 840,60 € », ce passage seulement.",
+      "setup": {
+        "ribbon": {
+          "activeTab": "accueil"
+        }
+      },
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "texte:2 840,60 €",
+        "format": {
+          "gras": true
+        }
+      }
+    },
+    {
+      "id": "M07-EV01-07",
+      "points": 1,
+      "consigne": "Mettez la première prestation en liste à puces.",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p2",
+        "style": {
+          "liste": "puces"
+        }
+      }
+    },
+    {
+      "id": "M07-EV01-08",
+      "points": 1,
+      "consigne": "Traitez la seconde prestation de la même façon.",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p3",
+        "style": {
+          "liste": "puces"
+        }
+      }
+    },
+    {
+      "id": "M07-EV01-09",
+      "points": 1,
+      "consigne": "Donnez à l'intertitre « Prestations » le style d'une section de premier niveau.",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p1",
+        "style": {
+          "style": "Titre 1"
+        }
+      }
+    },
+    {
+      "id": "M07-EV01-10",
+      "points": 1,
+      "consigne": "Vous jugez ce style trop appuyé pour un devis d'une page. Défaites ce dernier geste sans retoucher le paragraphe à la main.",
+      "action": {
+        "type": "W_CLICK_CONTROL",
+        "controle": "w-annuler"
+      }
+    },
+    {
+      "id": "M07-EV01-11",
+      "points": 1,
+      "consigne": "Après comparaison, la section se justifie : remettez-la, toujours sans repasser par le groupe Styles.",
+      "action": {
+        "type": "W_CLICK_CONTROL",
+        "controle": "w-retablir"
+      }
+    }
+  ]
+}

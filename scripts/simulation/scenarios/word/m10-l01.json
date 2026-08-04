@@ -1,0 +1,135 @@
+{
+ "schemaVersion": 1,
+ "app": "WORD",
+ "title": "L'aperçu : voir avant de sortir",
+ "mode": "LESSON",
+ "moduleTitle": "Impression",
+ "intro": {
+  "title": "LE DERNIER ENDROIT OÙ L'ON PEUT ENCORE CORRIGER",
+  "body": "L'écran **Imprimer** n'est pas un bouton, c'est une vérification. Il montre la page telle qu'elle sortira : orientation, marges, ce qui tient et ce qui déborde. Une rame de papier gâchée coûte plus cher que trente secondes de relecture."
+ },
+ "outro": "L'aperçu se regarde AVANT de lancer, jamais après. Orientation, marges, nombre de pages : trois vérifications, et l'essentiel des impressions ratées disparaît.",
+ "document": {
+  "paragraphes": [
+   {
+    "texte": "Convocation à l'assemblée générale",
+    "style": "titre"
+   },
+   {
+    "texte": "Les membres sont convoqués le vendredi 12 juin à quatorze heures.",
+    "style": "normal"
+   },
+   {
+    "texte": "L'ordre du jour comporte le rapport moral et le vote du budget.",
+    "style": "normal"
+   },
+   {
+    "texte": "Le pouvoir joint doit être retourné avant le 5 juin.",
+    "style": "normal"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "id": "M10-L01-01",
+   "points": 0,
+   "action": {
+    "type": "READ"
+   },
+   "consigne": "L'écran **Imprimer** réunit trois choses : l'**aperçu** de la page, le choix de l'**imprimante**, et les **réglages** — copies, pages à imprimer, recto verso. Il s'ouvre depuis l'onglet **Fichier**.",
+   "montrer": [
+    {
+     "type": "W_CLICK_CONTROL",
+     "controle": "w-imprimer"
+    }
+   ],
+   "feedback": "Un seul écran pour vérifier et régler."
+  },
+  {
+   "id": "M10-L01-02",
+   "consigne": "==Ouvrez l'écran Imprimer== depuis l'onglet **Fichier**. L'aperçu occupe la droite de l'écran : c'est la page telle qu'elle sortira.",
+   "action": {
+    "type": "W_CLICK_CONTROL",
+    "controle": "w-imprimer"
+   },
+   "setup": {
+    "ribbon": {
+     "activeTab": "fichier"
+    }
+   },
+   "aide": {
+    "text": "Onglet « Fichier », bouton « Imprimer ».",
+    "showTarget": true
+   },
+   "feedback": "L'aperçu est là, avec les réglages à sa gauche."
+  },
+  {
+   "id": "M10-L01-03",
+   "consigne": "==Agrandissez l'aperçu== avec le bouton **+**. Sur un document dense, c'est le seul moyen de voir si un titre se retrouve seul en bas de page.",
+   "action": {
+    "type": "W_CLICK_CONTROL",
+    "controle": "w-print-zoom-plus"
+   },
+   "aide": {
+    "text": "Bouton « + » au-dessus de l'aperçu.",
+    "showTarget": true
+   },
+   "feedback": "L'aperçu grandit : les détails de mise en page deviennent lisibles."
+  },
+  {
+   "id": "M10-L01-04",
+   "consigne": "==Refermez l'aperçu.== On y revient autant de fois qu'on veut : c'est une vérification, elle ne coûte rien.",
+   "action": {
+    "type": "W_CLICK_CONTROL",
+    "controle": "w-print-fermer"
+   },
+   "aide": {
+    "text": "Bouton vert « Fermer l'aperçu ».",
+    "showTarget": true
+   },
+   "feedback": "Retour au document."
+  },
+  {
+   "id": "M10-L01-05",
+   "consigne": "==Passez le document en paysage== depuis le panneau Mise en page. Vous allez voir l'aperçu suivre ce réglage.",
+   "action": {
+    "type": "W_EXPECT_PAGE",
+    "page": {
+     "orientation": "paysage"
+    }
+   },
+   "aide": {
+    "text": "Onglet « Mise en page », bouton « Marges », puis « Paysage ».",
+    "showTarget": true
+   },
+   "feedback": "Le document est en paysage."
+  },
+  {
+   "id": "M10-L01-06",
+   "consigne": "==Rouvrez l'écran Imprimer.== L'aperçu est désormais couché : il reflète le réglage réel, pas une image figée.",
+   "action": {
+    "type": "W_CLICK_CONTROL",
+    "controle": "w-imprimer"
+   },
+   "setup": {
+    "ribbon": {
+     "activeTab": "fichier"
+    }
+   },
+   "aide": {
+    "text": "Onglet « Fichier », bouton « Imprimer ».",
+    "showTarget": true
+   },
+   "feedback": "L'aperçu suit la mise en page : c'est ce qui en fait une vérification fiable."
+  },
+  {
+   "id": "M10-L01-07",
+   "points": 0,
+   "action": {
+    "type": "READ"
+   },
+   "consigne": "Retenez l'ordre : **on règle la mise en page, puis on vérifie à l'aperçu**. L'inverse — lancer l'impression puis constater — coûte du papier et du temps.",
+   "feedback": "Régler, vérifier, imprimer. Dans cet ordre."
+  }
+ ]
+}

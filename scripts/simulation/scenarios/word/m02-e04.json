@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "app": "WORD",
+  "title": "Exercice — Surligner et barrer",
+  "mode": "EXERCISE",
+  "moduleTitle": "Saisie et mise en forme des caractères",
+  "intro": {
+    "title": "À VOUS DE JOUER",
+    "body": "Une liste de travaux à annoter avant la réunion de chantier. Deux marques à employer : l'une pour ce qui attend une décision, l'autre pour ce qui a été abandonné. À vous de choisir laquelle pour quoi."
+  },
+  "outro": "Un document annoté dit au lecteur ce qu'on attend de lui. C'est un usage de travail, pas une mise en forme définitive.",
+  "document": {
+    "paragraphes": [
+      {
+        "texte": "Travaux du bâtiment C"
+      },
+      {
+        "texte": "Reprise de l'étanchéité de la toiture nord."
+      },
+      {
+        "texte": "Remplacement des fenêtres du premier étage."
+      },
+      {
+        "texte": "Création d'un local vélos à l'arrière du bâtiment."
+      },
+      {
+        "texte": "Réfection du parking visiteurs."
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M02-E04-01",
+      "consigne": "L'étanchéité doit être arbitrée en réunion. ==Marquez ce paragraphe de la couleur qui appelle une décision==, en jaune.",
+      "setup": {
+        "ribbon": {
+          "activeTab": "accueil"
+        }
+      },
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p1",
+        "format": {
+          "surlignage": "#f1c40f"
+        }
+      },
+      "feedback": "Le point est signalé au relecteur."
+    },
+    {
+      "id": "M02-E04-02",
+      "consigne": "Le local vélos a été abandonné hier, mais on garde la trace de la demande. ==Marquez-le comme caduc sans l'effacer.==",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p3",
+        "format": {
+          "barre": true
+        }
+      },
+      "aide": {
+        "text": "L'attribut qui trace un trait au milieu des lettres.",
+        "showTarget": true
+      },
+      "feedback": "Le point reste lisible et personne ne le retraitera."
+    },
+    {
+      "id": "M02-E04-03",
+      "consigne": "Les fenêtres attendent un devis, pas un arbitrage. ==Marquez ce paragraphe en vert== pour le distinguer du point jaune.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p2",
+        "format": {
+          "surlignage": "#a9dfbf"
+        }
+      },
+      "feedback": "Deux attentes, deux couleurs : le relecteur sait quoi préparer."
+    },
+    {
+      "id": "M02-E04-04",
+      "consigne": "Le parking est validé et budgété : il n'appelle rien. ==Laissez-le sans marque et épaississez simplement « Réfection »==, pour signaler que le chantier est lancé.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p4:mot1",
+        "format": {
+          "gras": true
+        }
+      },
+      "aide": {
+        "text": "Un double-clic prend le mot entier.",
+        "showTarget": true
+      },
+      "feedback": "Un document où trois états coexistent sans se confondre."
+    },
+    {
+      "id": "M02-E04-05",
+      "consigne": "==Épaississez le titre== pour terminer, et relisez : chaque ligne dit maintenant ce qu'on attend d'elle.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p0",
+        "format": {
+          "gras": true
+        }
+      },
+      "feedback": "Liste prête pour la réunion."
+    }
+  ]
+}

@@ -1,0 +1,208 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "mode": "LESSON",
+  "moduleTitle": "Faire apparaître au bon moment",
+  "title": "Apparaître ou Fondu",
+  "intro": {
+    "title": "Apparaître ou Fondu",
+    "body": "Deux effets seulement, et c'est bien assez. L'un est net et arrive d'un coup, l'autre est doux et se lève lentement. Le choix ne relève pas du goût : l'effet doit avoir le même tempérament que ce qu'il annonce."
+  },
+  "outro": {
+    "body": "Un chiffre net, une image douce : les deux effets sont posés là où ils conviennent. La leçon suivante traite le cas le plus fréquent — celui où il ne faut pas animer du tout."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "ppt": {
+    "fileName": "Chantier passerelle.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Ateliers Roulier",
+          "sous-titre": "Chantier de la passerelle — point d'étape"
+        }
+      },
+      {
+        "layout": "titre-seul",
+        "textes": {
+          "titre": "Le chiffre du trimestre"
+        },
+        "objets": [
+          {
+            "id": "zt-legende",
+            "objectType": "texte",
+            "texte": "Ouvrages livrés depuis janvier",
+            "rect": {
+              "x": 70,
+              "y": 180,
+              "w": 520,
+              "h": 60
+            }
+          },
+          {
+            "id": "zt-chiffre",
+            "objectType": "texte",
+            "texte": "14",
+            "rect": {
+              "x": 70,
+              "y": 280,
+              "w": 240,
+              "h": 120
+            }
+          }
+        ]
+      },
+      {
+        "layout": "titre-seul",
+        "textes": {
+          "titre": "La passerelle terminée"
+        },
+        "objets": [
+          {
+            "id": "img-passerelle",
+            "objectType": "image",
+            "rect": {
+              "x": 300,
+              "y": 150,
+              "w": 380,
+              "h": 250
+            }
+          },
+          {
+            "id": "zt-lieu",
+            "objectType": "texte",
+            "texte": "Franchissement du Doubs, mise en service le 3 avril",
+            "rect": {
+              "x": 60,
+              "y": 420,
+              "w": 500,
+              "h": 60
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M13-L02-01",
+      "consigne": "**Apparaître** pose l'objet d'un coup, sans transition : c'est franc, un peu brutal. **Fondu** le fait monter progressivement : c'est doux, plus lent. Le critère n'est pas esthétique — l'effet doit avoir le même tempérament que l'information qu'il porte.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M13-L02-02",
+      "consigne": "==Affichez la deuxième diapositive==, celle du chiffre du trimestre.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 1
+      }
+    },
+    {
+      "id": "M13-L02-03",
+      "consigne": "==Sélectionnez le chiffre 14== d'un clic : c'est lui qu'on veut retenir jusqu'à l'annonce.",
+      "action": {
+        "type": "P_SELECT_OBJECT",
+        "objectId": "zt-chiffre"
+      }
+    },
+    {
+      "id": "M13-L02-04",
+      "consigne": "==Appliquez Apparaître==. Un chiffre est une information tranchée : il tombe, on le lit, c'est fini. Le faire monter en fondu lui donnerait une douceur qu'il n'a pas.",
+      "setupPpt": {
+        "slide": 1
+      },
+      "action": {
+        "type": "P_EXPECT_ANIMATIONS",
+        "animations": [
+          {
+            "objectId": "zt-chiffre",
+            "kind": "apparaitre"
+          }
+        ]
+      },
+      "aide": {
+        "text": "Groupe Animations, bouton « Apparaître »."
+      }
+    },
+    {
+      "id": "M13-L02-05",
+      "consigne": "Le test est simple : **dites l'information à voix haute**. « Quatorze » se dit sec, en un temps — donc Apparaître. « Voici la passerelle terminée » se dit lentement, on laisse regarder — donc Fondu. L'effet suit la voix.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M13-L02-06",
+      "consigne": "==Affichez la troisième diapositive==, celle de la photo.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 2
+      }
+    },
+    {
+      "id": "M13-L02-07",
+      "consigne": "==Sélectionnez la photo== d'un clic.",
+      "action": {
+        "type": "P_SELECT_OBJECT",
+        "objectId": "img-passerelle"
+      }
+    },
+    {
+      "id": "M13-L02-08",
+      "consigne": "==Appliquez Fondu==. Une image demande à être regardée : elle se lève doucement pendant que vous la commentez, au lieu de gifler l'écran.",
+      "setupPpt": {
+        "slide": 2
+      },
+      "action": {
+        "type": "P_EXPECT_ANIMATIONS",
+        "animations": [
+          {
+            "objectId": "img-passerelle",
+            "kind": "fondu"
+          }
+        ]
+      },
+      "aide": {
+        "text": "Groupe Animations, bouton « Fondu »."
+      },
+      "feedback": "Même geste que pour le chiffre, effet opposé : c'est le contenu qui a décidé, pas vous."
+    },
+    {
+      "id": "M13-L02-09",
+      "consigne": "Un piège classique : mélanger les deux effets **sur la même diapositive** pour faire varié. Le public y voit un système — il cherche pourquoi cet objet-ci arrive autrement que celui-là, et ne trouve pas. Un effet par diapositive suffit.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M13-L02-10",
+      "consigne": "==Lancez le diaporama depuis la diapositive affichée== : la légende est là, la photo attend votre clic.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": true,
+          "index": 2
+        }
+      },
+      "aide": {
+        "text": "Groupe Diaporama, bouton « ▶ Ici »."
+      }
+    },
+    {
+      "id": "M13-L02-11",
+      "consigne": "==Quittez le diaporama==. À retenir : **Apparaître pour ce qui se dit sec** — un chiffre, une conclusion, un prix. **Fondu pour ce qui se regarde** — une image, une photo de chantier. Et un seul effet par diapositive.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": false
+        }
+      }
+    }
+  ]
+}

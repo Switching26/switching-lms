@@ -1,0 +1,191 @@
+{
+  "schemaVersion": 1,
+  "title": "Le nom peut mentir, l'adresse beaucoup moins",
+  "mode": "LESSON",
+  "moduleTitle": "Sécurité : reconnaître et traiter un message dangereux",
+  "intro": {
+    "title": "Trois messages qui se présentent bien",
+    "body": "Une fraude par messagerie ne ressemble jamais à une fraude : elle ressemble à un message ordinaire, d'un expéditeur connu, sur un sujet en cours. Le seul endroit où elle se trahit presque toujours, c'est l'adresse réelle de l'expéditeur — celle qui s'affiche en petit, à côté du nom. Vous allez apprendre à la lire avant tout le reste."
+  },
+  "outro": {
+    "body": "Trois signaux valent contrôle : une adresse qui imite un domaine connu à une lettre près, une urgence qui interdit de vérifier, et une demande qui change les habitudes — un RIB, un mot de passe, un virement. Un seul de ces trois suffit à décrocher le téléphone avant de répondre."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "clients",
+        "nom": "Clients 2026"
+      },
+      {
+        "id": "fournisseurs",
+        "nom": "Fournisseurs"
+      }
+    ],
+    "messages": [
+      {
+        "id": "m-vrai-fournisseur",
+        "dossier": "reception",
+        "de": "compta@quincaillerie-delmas.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Facture QD-4520 — échéance 30 mars",
+        "corps": "Bonjour,\n\nVeuillez trouver la facture QD-4520.\nRèglement à réception sur nos coordonnées habituelles.\n\nService comptabilité\nQuincaillerie Delmas",
+        "date": "2026-03-16T09:10",
+        "lu": false,
+        "pieces": [
+          {
+            "nom": "Facture-QD-4520.pdf",
+            "taille": "118 Ko"
+          }
+        ]
+      },
+      {
+        "id": "m-faux-rib",
+        "dossier": "reception",
+        "de": "compta@quincaillerie-de1mas.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "URGENT — changement de coordonnées bancaires",
+        "corps": "Bonjour,\n\nSuite à un changement de banque, merci de régler la facture QD-4520 sur notre nouveau compte.\nLe virement doit impérativement partir aujourd'hui pour éviter la suspension de votre compte client.\n\nService comptabilité",
+        "date": "2026-03-16T09:41",
+        "lu": false,
+        "pieces": [
+          {
+            "nom": "Nouveau-RIB.pdf",
+            "taille": "62 Ko"
+          }
+        ]
+      },
+      {
+        "id": "m-faux-livraison",
+        "dossier": "reception",
+        "de": "suivi@colis-express-livraison.info",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Votre colis n'a pas pu être livré — action requise",
+        "corps": "Votre colis est en attente. Réglez les 2,90 € de frais de représentation sous 24 h, faute de quoi il sera retourné.\n\nService de suivi",
+        "date": "2026-03-16T06:02",
+        "lu": false
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O04-L01-01",
+      "consigne": "==Ouvrez la facture de la Quincaillerie Delmas.== Regardez l'adresse de l'expéditeur, en haut : `compta@quincaillerie-delmas.fr`. C'est celle de votre fournisseur habituel — retenez-la, elle va servir de point de comparaison.",
+      "action": {
+        "type": "O_SELECT_MESSAGE",
+        "id": "m-vrai-fournisseur"
+      },
+      "aide": {
+        "text": "C'est le message dont l'objet parle de la facture QD-4520 avec une échéance."
+      }
+    },
+    {
+      "id": "O04-L01-02",
+      "consigne": "Trente minutes plus tard, un second message arrive de la « même » comptabilité. ==Ouvrez-le== et comparez son adresse à celle que vous venez de lire.",
+      "setup": {
+        "courrier": {
+          "messageActif": "m-vrai-fournisseur"
+        }
+      },
+      "action": {
+        "type": "O_SELECT_MESSAGE",
+        "id": "m-faux-rib"
+      },
+      "aide": {
+        "text": "C'est le message dont l'objet commence par URGENT et parle de coordonnées bancaires."
+      }
+    },
+    {
+      "id": "O04-L01-03",
+      "consigne": "==Marquez ce message d'un indicateur== : vous allez le traiter, pas l'ignorer. Dans `quincaillerie-de1mas.fr`, le **l** de « Delmas » est un **chiffre 1** — invisible à la vitesse où l'on lit. Trois signaux se cumulent : adresse imitée, urgence, changement de RIB.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-faux-rib": {
+              "indicateur": true
+            }
+          }
+        }
+      },
+      "aide": {
+        "text": "Le petit drapeau est dans la barre du haut du volet de lecture."
+      }
+    },
+    {
+      "id": "O04-L01-04",
+      "consigne": "==Ouvrez le troisième message==, celui du colis. Notez au passage que `Nouveau-RIB.pdf` n'a pas été ouvert : **un document joint à un message douteux ne s'ouvre pas « pour voir »**, c'est souvent lui qui porte le programme malveillant.",
+      "action": {
+        "type": "O_SELECT_MESSAGE",
+        "id": "m-faux-livraison"
+      },
+      "aide": {
+        "text": "C'est le message dont l'objet dit qu'un colis n'a pas pu être livré."
+      }
+    },
+    {
+      "id": "O04-L01-05",
+      "consigne": "==Supprimez ce message.== Même mécanique, autre déguisement : un domaine qui n'est celui d'aucun transporteur connu, un délai de 24 heures, et une somme dérisoire — **2,90 €**, assez faible pour qu'on paie sans réfléchir. Ce qui est visé, c'est votre numéro de carte.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-faux-livraison": {
+              "dossier": "supprimes"
+            }
+          }
+        }
+      },
+      "aide": {
+        "text": "Ouvrez le message, puis cliquez sur Supprimer dans la barre du haut du volet de lecture."
+      }
+    },
+    {
+      "id": "O04-L01-06",
+      "consigne": "Le faux fournisseur, lui, mérite mieux que la corbeille : il vise votre argent, et il reviendra. ==Rangez-le dans le dossier Courrier indésirable== — il y reste consultable si votre banque ou votre assureur vous en demande la trace.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-faux-rib": {
+              "dossier": "indesirables"
+            }
+          }
+        }
+      },
+      "aide": {
+        "text": "Ouvrez le message, puis Déplacer, puis choisissez Courrier indésirable."
+      }
+    },
+    {
+      "id": "O04-L01-07",
+      "consigne": "==Rangez enfin la vraie facture dans le dossier Fournisseurs.== Votre boîte est nette : le vrai message est classé, le faux est isolé et tracé, l'hameçonnage grossier est à la corbeille. Aucun des trois n'a reçu de réponse — c'est le point le plus important.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-vrai-fournisseur": {
+              "dossier": "fournisseurs"
+            }
+          }
+        }
+      },
+      "aide": {
+        "text": "Ouvrez la vraie facture, puis Déplacer, puis Fournisseurs."
+      }
+    }
+  ]
+}

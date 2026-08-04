@@ -1,0 +1,493 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "mode": "EVALUATION",
+  "moduleTitle": "Choisir la bonne disposition",
+  "title": "S'évaluer — Choisir la bonne disposition",
+  "intro": {
+    "title": "S'évaluer — Choisir la bonne disposition",
+    "body": "Une proposition commerciale vous arrive avec quatre diapositives dont la structure ne correspond pas à ce qu'elles portent. Aucun défaut ne vous sera nommé : comptez les blocs et déduisez. Épreuve notée, d'une traite ; un nouveau passage repart de zéro."
+  },
+  "outro": {
+    "body": "Épreuve terminée. Seule votre meilleure note est conservée."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "ppt": {
+    "fileName": "Proposition Verdeval.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Verdeval",
+          "sous-titre": "Proposition pour la commune de Sainte-Luce"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "1. Ce que nous proposons",
+          "contenu": "Le détail de notre offre en trois points"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Régie ou forfait"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Le parc de la mairie",
+          "contenu": "Photos de l'existant"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M05-EV01-01",
+      "consigne": "Cette proposition part demain à la mairie. Parcourez-la avant d'agir : une diapositive annonce une partie au lieu de la contenir, une autre doit mettre deux modes de facturation en regard sans en avoir la structure, une troisième annonce des photos dans un bloc de texte. Comptez les blocs de chacune et corrigez.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M05-EV01-02",
+      "consigne": "Affichez la deuxième diapositive.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 1
+      },
+      "points": 1
+    },
+    {
+      "id": "M05-EV01-03",
+      "consigne": "Son titre est numéroté et son contenu ne fait qu'annoncer la suite : donnez-lui la structure que cela commande.",
+      "action": {
+        "type": "P_SET_LAYOUT",
+        "layout": "diapositive-de-titre"
+      },
+      "points": 2
+    },
+    {
+      "id": "M05-EV01-04",
+      "consigne": "Passez à la diapositive « Régie ou forfait ».",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 2
+      },
+      "points": 1
+    },
+    {
+      "id": "M05-EV01-05",
+      "consigne": "Elle doit mettre deux modes de facturation en regard, chacun sous son propre intitulé. Donnez-lui la structure correspondante.",
+      "action": {
+        "type": "P_SET_LAYOUT",
+        "layout": "comparaison"
+      },
+      "points": 2
+    },
+    {
+      "id": "M05-EV01-06",
+      "consigne": "Renseignez l'intitulé de gauche : Régie.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Proposition pour la commune de Sainte-Luce"
+              }
+            },
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "1. Ce que nous proposons",
+                "contenu": "Le détail de notre offre en trois points"
+              }
+            },
+            {
+              "layout": "comparaison",
+              "textes": {
+                "titre": "Régie ou forfait"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Le parc de la mairie",
+                "contenu": "Photos de l'existant"
+              }
+            }
+          ]
+        },
+        "slide": 2
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:texte",
+        "accept": [
+          "Régie"
+        ]
+      },
+      "points": 1
+    },
+    {
+      "id": "M05-EV01-07",
+      "consigne": "Renseignez celui de droite : Forfait.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Proposition pour la commune de Sainte-Luce"
+              }
+            },
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "1. Ce que nous proposons",
+                "contenu": "Le détail de notre offre en trois points"
+              }
+            },
+            {
+              "layout": "comparaison",
+              "textes": {
+                "titre": "Régie ou forfait",
+                "texte": "Régie"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Le parc de la mairie",
+                "contenu": "Photos de l'existant"
+              }
+            }
+          ]
+        },
+        "slide": 2
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:texte#2",
+        "accept": [
+          "Forfait"
+        ]
+      },
+      "points": 1
+    },
+    {
+      "id": "M05-EV01-08",
+      "consigne": "Les deux colonnes doivent répondre à la même question, celle de la facturation. À gauche : Facturé à l'heure.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Proposition pour la commune de Sainte-Luce"
+              }
+            },
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "1. Ce que nous proposons",
+                "contenu": "Le détail de notre offre en trois points"
+              }
+            },
+            {
+              "layout": "comparaison",
+              "textes": {
+                "titre": "Régie ou forfait",
+                "texte": "Régie",
+                "texte#2": "Forfait"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Le parc de la mairie",
+                "contenu": "Photos de l'existant"
+              }
+            }
+          ]
+        },
+        "slide": 2
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:contenu",
+        "accept": [
+          "Facturé à l'heure"
+        ]
+      },
+      "points": 2
+    },
+    {
+      "id": "M05-EV01-09",
+      "consigne": "À droite, la réponse à la même question : Facturé à l'année.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Proposition pour la commune de Sainte-Luce"
+              }
+            },
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "1. Ce que nous proposons",
+                "contenu": "Le détail de notre offre en trois points"
+              }
+            },
+            {
+              "layout": "comparaison",
+              "textes": {
+                "titre": "Régie ou forfait",
+                "contenu": "Facturé à l'heure",
+                "texte": "Régie",
+                "texte#2": "Forfait"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Le parc de la mairie",
+                "contenu": "Photos de l'existant"
+              }
+            }
+          ]
+        },
+        "slide": 2
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:contenu#2",
+        "accept": [
+          "Facturé à l'année"
+        ]
+      },
+      "points": 2
+    },
+    {
+      "id": "M05-EV01-10",
+      "consigne": "Traitez les deux intitulés à l'identique, en commençant par celui de gauche.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Proposition pour la commune de Sainte-Luce"
+              }
+            },
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "1. Ce que nous proposons",
+                "contenu": "Le détail de notre offre en trois points"
+              }
+            },
+            {
+              "layout": "comparaison",
+              "textes": {
+                "titre": "Régie ou forfait",
+                "contenu": "Facturé à l'heure",
+                "texte": "Régie",
+                "texte#2": "Forfait",
+                "contenu#2": "Facturé à l'année"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Le parc de la mairie",
+                "contenu": "Photos de l'existant"
+              }
+            }
+          ]
+        },
+        "slide": 2
+      },
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "ph:texte",
+        "style": {
+          "bold": true
+        }
+      },
+      "points": 1
+    },
+    {
+      "id": "M05-EV01-11",
+      "consigne": "Puis celui de droite, exactement de la même façon.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Proposition pour la commune de Sainte-Luce"
+              }
+            },
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "1. Ce que nous proposons",
+                "contenu": "Le détail de notre offre en trois points"
+              }
+            },
+            {
+              "layout": "comparaison",
+              "textes": {
+                "titre": "Régie ou forfait",
+                "contenu": "Facturé à l'heure",
+                "texte": "Régie",
+                "texte#2": "Forfait",
+                "contenu#2": "Facturé à l'année"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Le parc de la mairie",
+                "contenu": "Photos de l'existant"
+              }
+            }
+          ]
+        },
+        "slide": 2
+      },
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "ph:texte#2",
+        "style": {
+          "bold": true
+        }
+      },
+      "points": 1
+    },
+    {
+      "id": "M05-EV01-12",
+      "consigne": "Affichez la dernière diapositive, celle du parc de la mairie.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 3
+      },
+      "points": 1
+    },
+    {
+      "id": "M05-EV01-13",
+      "consigne": "Elle annonce des photos : donnez-lui la structure qui laisse la place aux objets plutôt qu'au texte.",
+      "action": {
+        "type": "P_SET_LAYOUT",
+        "layout": "titre-seul"
+      },
+      "points": 2
+    },
+    {
+      "id": "M05-EV01-14",
+      "consigne": "Posez-y l'illustration annoncée.",
+      "action": {
+        "type": "P_ADD_OBJECT",
+        "objectType": "image"
+      },
+      "points": 1
+    },
+    {
+      "id": "M05-EV01-15",
+      "consigne": "Contrôlez l'ensemble comme la mairie le verra, depuis la première diapositive.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Proposition pour la commune de Sainte-Luce"
+              }
+            },
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "1. Ce que nous proposons",
+                "contenu": "Le détail de notre offre en trois points"
+              }
+            },
+            {
+              "layout": "comparaison",
+              "textes": {
+                "titre": "Régie ou forfait",
+                "contenu": "Facturé à l'heure",
+                "texte": "Régie",
+                "texte#2": "Forfait",
+                "contenu#2": "Facturé à l'année"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Le parc de la mairie",
+                "contenu": "Photos de l'existant"
+              },
+              "objets": [
+                {
+                  "id": "obj14",
+                  "objectType": "image",
+                  "rect": {
+                    "x": 560,
+                    "y": 180,
+                    "w": 320,
+                    "h": 200
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 3
+      },
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": true,
+          "index": 0
+        }
+      },
+      "points": 1
+    },
+    {
+      "id": "M05-EV01-16",
+      "consigne": "Revenez à votre présentation.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": false
+        }
+      },
+      "points": 1
+    }
+  ]
+}

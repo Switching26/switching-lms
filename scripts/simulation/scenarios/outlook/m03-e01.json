@@ -1,0 +1,125 @@
+{
+  "schemaVersion": 1,
+  "title": "Traduire un message en rendez-vous",
+  "mode": "EXERCISE",
+  "moduleTitle": "Le calendrier : rendez-vous et invitations",
+  "intro": {
+    "title": "Ce qui est écrit dans un message n'est pas dans votre agenda",
+    "body": "Un client vous confirme deux interventions par message. Tant qu'elles n'y sont pas, elles n'existent pas dans votre semaine — et un rendez-vous oublié coûte plus cher qu'un message non lu. À vous de lire les horaires, de les traduire en créneaux, et de les poser au bon endroit."
+  },
+  "outro": {
+    "body": "L'erreur classique n'est pas de se tromper de jour : c'est d'oublier l'heure de fin, ou de la mettre au jugé. Un créneau sans borne de sortie transforme une intervention d'une heure en après-midi bloqué."
+  },
+  "ribbon": [],
+  "workbook": { "sheets": [] },
+
+  "courrier": {
+    "compte": { "nom": "Camille Aubertin", "adresse": "camille.aubertin@atelier-nord.fr" },
+    "dossiers": [{ "id": "clients", "nom": "Clients 2026" }],
+    "evenements": [
+      {
+        "id": "ev-atelier",
+        "titre": "Point d'atelier hebdomadaire",
+        "date": "2026-03-02",
+        "debut": "08:00",
+        "fin": "09:00",
+        "lieu": "Atelier Nord",
+        "participants": [],
+        "reunion": false
+      }
+    ],
+    "messages": [
+      {
+        "id": "m-interventions",
+        "dossier": "reception",
+        "de": "j.leroux@habitat-du-nord.fr",
+        "a": ["camille.aubertin@atelier-nord.fr"],
+        "objet": "Escalier — deux interventions à caler",
+        "corps": "Bonjour,\n\nNous confirmons deux passages :\n- la reprise de la main courante, le mercredi 4 mars, de 10 h à 12 h,\n- la réception du chantier, le vendredi 6 mars, de 9 h à 10 h 30.\nLes deux se font sur le site de la résidence Beaulieu.\n\nBien à vous,\nJulien Leroux\nHabitat du Nord",
+        "date": "2026-03-02T09:20",
+        "lu": false
+      }
+    ]
+  },
+
+  "steps": [
+    {
+      "id": "O03-E01-01",
+      "consigne": "Ouvrez le message de Julien Leroux et relevez les deux créneaux qu'il confirme, ainsi que le lieu commun aux deux.",
+      "action": { "type": "O_SELECT_MESSAGE", "id": "m-interventions" },
+      "aide": { "text": "C'est le message dont l'objet parle de deux interventions à caler." }
+    },
+    {
+      "id": "O03-E01-02",
+      "consigne": "Passez à votre agenda et posez la première intervention. Son objet doit être exactement `Reprise de la main courante`, et le lieu `Résidence Beaulieu`.",
+      "action": {
+        "type": "O_EXPECT_CALENDRIER",
+        "calendrier": {
+          "titre": "Reprise de la main courante",
+          "date": "2026-03-04",
+          "debut": "10:00",
+          "fin": "12:00",
+          "lieu": "Résidence Beaulieu"
+        }
+      },
+      "aide": { "text": "Le message annonce le mercredi 4 mars, de 10 h à 12 h. Les cinq champs de la fiche doivent être renseignés avant Enregistrer." }
+    },
+    {
+      "id": "O03-E01-03",
+      "consigne": "Posez la seconde, objet `Réception du chantier`, au même lieu. Attention à l'heure de fin : le message parle de 9 h à 10 h 30.",
+      "action": {
+        "type": "O_EXPECT_CALENDRIER",
+        "calendrier": {
+          "titre": "Réception du chantier",
+          "date": "2026-03-06",
+          "debut": "09:00",
+          "fin": "10:30",
+          "lieu": "Résidence Beaulieu"
+        }
+      },
+      "aide": { "text": "Vendredi 6 mars. « 10 h 30 » s'écrit 10:30 dans le champ Fin." }
+    },
+    {
+      "id": "O03-E01-04",
+      "consigne": "Revenez au courrier pour confirmer les deux créneaux à Julien Leroux : écrivez-lui une réponse.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "genre": "reponse",
+          "a": { "contient": ["j.leroux@habitat-du-nord.fr"] },
+          "cc": { "vide": true }
+        }
+      },
+      "aide": { "text": "Rouvrez son message dans la liste, puis utilisez Répondre." }
+    },
+    {
+      "id": "O03-E01-05",
+      "consigne": "Rédigez la confirmation et envoyez-la. Elle doit reprendre **les deux jours** retenus, pour que le client puisse vérifier qu'il n'y a pas de malentendu.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": { "contient": ["j.leroux@habitat-du-nord.fr"] },
+          "cc": { "vide": true },
+          "corps": {
+            "salutation": ["bonjour", "monsieur", "madame", "bonsoir"],
+            "cloture": ["cordialement", "salutations", "bien a vous", "merci"],
+            "notions": [
+              {
+                "libelle": "le jour de la première intervention",
+                "oneOf": ["mercredi", "4 mars", "04/03", "4/3"]
+              },
+              {
+                "libelle": "le jour de la réception du chantier",
+                "oneOf": ["vendredi", "6 mars", "06/03", "6/3"]
+              }
+            ],
+            "minMots": 12
+          }
+        }
+      },
+      "aide": { "text": "Deux informations sont attendues : les deux jours d'intervention." }
+    }
+  ]
+}

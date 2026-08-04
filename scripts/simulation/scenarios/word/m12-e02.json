@@ -1,0 +1,110 @@
+{
+  "schemaVersion": 1,
+  "app": "WORD",
+  "title": "Exercice — Un tableau dans un document",
+  "mode": "EXERCISE",
+  "moduleTitle": "Les tableaux",
+  "intro": {
+    "title": "À VOUS DE JOUER",
+    "body": "Un compte rendu de contrôle à structurer, puis à compléter d'un tableau. Rappel de méthode : on met le document en forme d'abord, on insère le tableau ensuite."
+  },
+  "outro": "Structurer puis insérer : l'ordre compte, parce qu'un tableau posé au milieu d'un document en réorganise le fil.",
+  "document": {
+    "paragraphes": [
+      {
+        "texte": "Contrôle périodique des extincteurs"
+      },
+      {
+        "texte": "Bâtiment C — mars"
+      },
+      {
+        "texte": "Résultats du contrôle"
+      },
+      {
+        "texte": "Quatre extincteurs ont été contrôlés, avec pour chacun son emplacement et son verdict."
+      },
+      {
+        "texte": "Les anomalies relevées font l'objet d'une intervention sous quinze jours."
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M12-E02-01",
+      "consigne": "==Donnez au premier paragraphe la nature d'un titre de document.==",
+      "setup": {
+        "ribbon": {
+          "activeTab": "accueil"
+        }
+      },
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p0",
+        "style": {
+          "style": "Titre"
+        }
+      },
+      "feedback": "Titre posé."
+    },
+    {
+      "id": "M12-E02-02",
+      "consigne": "==Donnez à la ligne « Bâtiment C — mars » la nature qui vient juste en dessous d'un titre.==",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p1",
+        "style": {
+          "style": "Sous-titre"
+        }
+      },
+      "feedback": "Sous-titre posé."
+    },
+    {
+      "id": "M12-E02-03",
+      "consigne": "==Faites de « Résultats du contrôle » une section de premier niveau.==",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p2",
+        "style": {
+          "style": "Titre 1"
+        }
+      },
+      "feedback": "Section identifiée."
+    },
+    {
+      "id": "M12-E02-04",
+      "consigne": "==Épaississez « sous quinze jours »== dans le dernier paragraphe : c'est le délai qui engage.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "texte:sous quinze jours",
+        "format": {
+          "gras": true
+        }
+      },
+      "feedback": "Le délai ressort."
+    },
+    {
+      "id": "M12-E02-05",
+      "consigne": "Le document est structuré : ==insérez maintenant le tableau des résultats==, quatre extincteurs et deux informations chacun.",
+      "action": {
+        "type": "W_EXPECT_TABLE",
+        "lignes": 5,
+        "colonnes": 2
+      },
+      "aide": {
+        "text": "Quatre extincteurs plus la ligne d'en-tête.",
+        "showTarget": true
+      },
+      "feedback": "Cinq lignes sur deux colonnes."
+    },
+    {
+      "id": "M12-E02-06",
+      "consigne": "Le contrôleur demande d'ajouter la date de la prochaine vérification. ==Insérez le tableau corrigé.==",
+      "action": {
+        "type": "W_EXPECT_TABLE",
+        "lignes": 5,
+        "colonnes": 3
+      },
+      "feedback": "Compte rendu structuré et documenté."
+    }
+  ]
+}

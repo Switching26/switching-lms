@@ -1,0 +1,319 @@
+{
+  "schemaVersion": 1,
+  "title": "Tout caler avant de partir",
+  "mode": "EXERCISE",
+  "moduleTitle": "Préparer son absence, reprendre à son retour",
+  "intro": {
+    "title": "Mercredi 4 mars, fin de journée",
+    "body": "Il reste une heure. Trois clients à prévenir sans qu'ils se voient, deux journées à bloquer dans l'agenda, et Sonia à qui tout transmettre. Dans cet ordre."
+  },
+  "outro": {
+    "body": "Une absence bien préparée se mesure à ce qui n'arrive pas : aucun client dans le vide, aucun rendez-vous posé sur vos deux jours, aucune question à laquelle Sonia ne puisse répondre."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "chantiers",
+        "nom": "Chantiers en cours"
+      },
+      {
+        "id": "clients",
+        "nom": "Clients 2026"
+      }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "fichiers": [
+      {
+        "nom": "Passation-dossiers-mars.pdf",
+        "taille": "210 Ko"
+      },
+      {
+        "nom": "Plan-de-pose-mediatheque.pdf",
+        "taille": "810 Ko"
+      },
+      {
+        "nom": "Marges-atelier-2026.xlsx",
+        "taille": "72 Ko"
+      }
+    ],
+    "evenements": [],
+    "messages": [
+      {
+        "id": "m-rappel",
+        "dossier": "reception",
+        "de": "n.kerbaj@atelier-nord.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Tes deux jours",
+        "corps": "Camille,\n\nAbsente jeudi 5 et vendredi 6. Préviens les chantiers et briefe Sonia.\n\nNadia",
+        "date": "2026-03-04T16:00",
+        "lu": false
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O16-E01-01",
+      "consigne": "Écrivez un message neuf, adressé à vous-même sur la ligne principale.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "genre": "nouveau",
+          "a": {
+            "contient": [
+              "camille.aubertin@atelier-nord.fr"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Nouveau message, puis votre propre adresse dans le champ À."
+      }
+    },
+    {
+      "id": "O16-E01-02",
+      "consigne": "Placez les trois clients de façon qu'aucun ne voie l'adresse des deux autres : Leroux, l'École des Arts, Vasseur.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "cci": {
+            "contient": [
+              "j.leroux@habitat-du-nord.fr",
+              "contact@ecole-arts-lambersart.fr",
+              "h.vasseur@menuiserie-vasseur.fr"
+            ]
+          },
+          "cc": {
+            "vide": true
+          }
+        }
+      },
+      "aide": {
+        "text": "Affichez le champ Cci, puis saisissez les trois adresses."
+      }
+    },
+    {
+      "id": "O16-E01-03",
+      "consigne": "Donnez un objet contenant le mot `absence`, puis envoyez le message avec **les dates** et **le nom de la personne à joindre**.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "cci": {
+            "contient": [
+              "j.leroux@habitat-du-nord.fr",
+              "contact@ecole-arts-lambersart.fr",
+              "h.vasseur@menuiserie-vasseur.fr"
+            ]
+          },
+          "cc": {
+            "vide": true
+          },
+          "objet": {
+            "contient": [
+              "absence"
+            ]
+          },
+          "corps": {
+            "salutation": [
+              "bonjour",
+              "madame",
+              "monsieur",
+              "bonsoir"
+            ],
+            "cloture": [
+              "cordialement",
+              "salutations",
+              "bien a vous",
+              "merci"
+            ],
+            "notions": [
+              {
+                "libelle": "les dates d'absence",
+                "oneOf": [
+                  "5 et 6",
+                  "jeudi",
+                  "vendredi",
+                  "5 mars",
+                  "6 mars"
+                ]
+              },
+              {
+                "libelle": "le nom de la personne à joindre",
+                "oneOf": [
+                  "sonia",
+                  "brunel",
+                  "s.brunel"
+                ]
+              }
+            ],
+            "minMots": 20
+          }
+        }
+      },
+      "aide": {
+        "text": "Deux informations sont attendues : les dates, et le nom."
+      }
+    },
+    {
+      "id": "O16-E01-04",
+      "consigne": "Passez à la vue Calendrier pour bloquer vos deux journées.",
+      "action": {
+        "type": "O_CLICK_CONTROL",
+        "control": "cr-vue-calendrier"
+      },
+      "aide": {
+        "text": "Le bouton Calendrier, dans la barre de navigation."
+      }
+    },
+    {
+      "id": "O16-E01-05",
+      "consigne": "Bloquez le jeudi : `Absence — jeudi 5`, 5 mars, de 08:00 à 18:00, lieu `Atelier Nord`.",
+      "action": {
+        "type": "O_EXPECT_CALENDRIER",
+        "calendrier": {
+          "titre": "Absence — jeudi 5",
+          "date": "2026-03-05",
+          "debut": "08:00",
+          "fin": "18:00",
+          "lieu": "Atelier Nord"
+        }
+      },
+      "aide": {
+        "text": "Nouveau rendez-vous, puis renseignez titre, date, heures et lieu."
+      }
+    },
+    {
+      "id": "O16-E01-06",
+      "consigne": "Bloquez le vendredi : `Absence — vendredi 6`, 6 mars, 08:00 à 18:00, `Atelier Nord` — l'agenda pose des journées, pas des périodes.",
+      "action": {
+        "type": "O_EXPECT_CALENDRIER",
+        "calendrier": {
+          "titre": "Absence — vendredi 6",
+          "date": "2026-03-06",
+          "debut": "08:00",
+          "fin": "18:00",
+          "lieu": "Atelier Nord"
+        }
+      },
+      "aide": {
+        "text": "Un second rendez-vous, titre « Absence — vendredi 6 », date du 6 mars."
+      }
+    },
+    {
+      "id": "O16-E01-07",
+      "consigne": "Revenez au Courrier pour écrire la passation.",
+      "action": {
+        "type": "O_CLICK_CONTROL",
+        "control": "cr-vue-courrier"
+      },
+      "aide": {
+        "text": "Le bouton Courrier."
+      }
+    },
+    {
+      "id": "O16-E01-08",
+      "consigne": "Écrivez à Sonia `s.brunel@atelier-nord.fr` en joignant le récapitulatif des dossiers — et rien d'interne.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "genre": "nouveau",
+          "a": {
+            "contient": [
+              "s.brunel@atelier-nord.fr"
+            ]
+          },
+          "pieces": {
+            "contient": [
+              "Passation-dossiers-mars.pdf"
+            ],
+            "absent": [
+              "Marges-atelier-2026.xlsx"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Nouveau message, l'adresse de Sonia, puis Joindre."
+      }
+    },
+    {
+      "id": "O16-E01-09",
+      "consigne": "Donnez un objet contenant `passation` et envoyez, en citant **ce qui est bloqué** en attente d'un tiers.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "s.brunel@atelier-nord.fr"
+            ]
+          },
+          "objet": {
+            "contient": [
+              "passation"
+            ]
+          },
+          "pieces": {
+            "contient": [
+              "Passation-dossiers-mars.pdf"
+            ],
+            "absent": [
+              "Marges-atelier-2026.xlsx"
+            ]
+          },
+          "corps": {
+            "salutation": [
+              "bonjour",
+              "madame",
+              "monsieur",
+              "bonsoir"
+            ],
+            "cloture": [
+              "cordialement",
+              "salutations",
+              "bien a vous",
+              "merci"
+            ],
+            "notions": [
+              {
+                "libelle": "ce qui est bloqué en attente d'un tiers",
+                "oneOf": [
+                  "en attente",
+                  "bloque",
+                  "nous attendons",
+                  "sans reponse",
+                  "toujours pas",
+                  "relance"
+                ]
+              }
+            ],
+            "minMots": 20
+          }
+        }
+      },
+      "aide": {
+        "text": "Le point le plus utile est celui qu'on oublie : ce qui attend une réponse extérieure."
+      }
+    }
+  ]
+}

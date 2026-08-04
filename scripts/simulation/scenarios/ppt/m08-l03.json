@@ -1,0 +1,262 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "mode": "LESSON",
+  "moduleTitle": "Cas pratique : la réunion de lundi",
+  "title": "La finition et le contrôle",
+  "intro": {
+    "title": "La finition et le contrôle",
+    "body": "Le fond est écrit et ne bougera plus : c'est le moment, et seulement maintenant, de mettre en forme et d'habiller. Cette leçon termine la présentation et la déroule une fois de bout en bout."
+  },
+  "outro": {
+    "body": "La présentation de lundi est prête. Les exercices reprennent chacune des trois étapes."
+  },
+  "ppt": {
+    "fileName": "Point trimestriel.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Verdeval",
+          "sous-titre": "Point trimestriel du 12 avril"
+        }
+      },
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "1. Le trimestre écoulé"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Douze jardins livrés au premier trimestre",
+          "contenu": "12 jardins livrés\n34 entretiens\n2 chantiers en cours"
+        }
+      },
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "2. Ce que nous demandons"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Deux recrutements pour tenir l'été",
+          "contenu": "Un jardinier en mai\nUn apprenti en septembre"
+        }
+      },
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Merci de votre attention"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M08-L03-01",
+      "consigne": "La finition arrive **en dernier**, et c'est une règle et non une préférence : mettre en forme un contenu qu'on va encore réorganiser oblige à tout refaire. Trois passages suffisent — les titres de section, les listes, les transitions.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M08-L03-02",
+      "consigne": "==Affichez la première section==.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 1
+      }
+    },
+    {
+      "id": "M08-L03-03",
+      "consigne": "==Mettez son titre en gras==. Une section doit se voir de loin : c'est sa seule fonction.",
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "ph:titre",
+        "style": {
+          "bold": true
+        }
+      }
+    },
+    {
+      "id": "M08-L03-04",
+      "consigne": "==Affichez la seconde section== pour lui appliquer le même traitement.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 3
+      }
+    },
+    {
+      "id": "M08-L03-05",
+      "consigne": "==Mettez son titre en gras== lui aussi : deux sections traitées différemment se remarquent immédiatement.",
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "ph:titre",
+        "style": {
+          "bold": true
+        }
+      }
+    },
+    {
+      "id": "M08-L03-06",
+      "consigne": "==Affichez la diapositive des chiffres== pour vérifier l'alignement de sa liste.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 2
+      }
+    },
+    {
+      "id": "M08-L03-07",
+      "consigne": "==Alignez sa liste à gauche==. Une liste dont les débuts de ligne ne s'alignent pas se lit deux fois plus lentement.",
+      "setupPpt": {
+        "slide": 2
+      },
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "ph:contenu",
+        "style": {
+          "align": "left"
+        }
+      }
+    },
+    {
+      "id": "M08-L03-08",
+      "consigne": "==Posez un Fondu sur cette diapositive==. Une seule transition, la plus discrète : l'habillage ne doit pas se voir.",
+      "setupPpt": {
+        "slide": 2
+      },
+      "action": {
+        "type": "P_EXPECT_DECK",
+        "deck": {
+          "slides": [
+            {
+              "index": 2,
+              "transition": {
+                "kind": "fondu"
+              }
+            }
+          ]
+        }
+      },
+      "aide": {
+        "text": "Groupe Transitions, bouton Fondu."
+      }
+    },
+    {
+      "id": "M08-L03-09",
+      "consigne": "==Affichez la diapositive de la demande== et traitez-la de la même façon.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 4
+      }
+    },
+    {
+      "id": "M08-L03-10",
+      "consigne": "==Posez le même Fondu==. Une présentation où l'effet change d'une diapositive à l'autre paraît bricolée.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Point trimestriel du 12 avril"
+              }
+            },
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "1. Le trimestre écoulé"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Douze jardins livrés au premier trimestre",
+                "contenu": "12 jardins livrés\n34 entretiens\n2 chantiers en cours"
+              },
+              "transition": {
+                "kind": "fondu",
+                "duree": 0.7
+              }
+            },
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "2. Ce que nous demandons"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Deux recrutements pour tenir l'été",
+                "contenu": "Un jardinier en mai\nUn apprenti en septembre"
+              }
+            },
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Merci de votre attention"
+              }
+            }
+          ]
+        },
+        "slide": 4
+      },
+      "action": {
+        "type": "P_EXPECT_DECK",
+        "deck": {
+          "slides": [
+            {
+              "index": 4,
+              "transition": {
+                "kind": "fondu"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "M08-L03-11",
+      "consigne": "==Lancez le diaporama depuis le début==. Aucune présentation ne part en réunion sans avoir été déroulée une fois en entier.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": true,
+          "index": 0
+        }
+      }
+    },
+    {
+      "id": "M08-L03-12",
+      "consigne": "==Avancez d'une diapositive== jusqu'à la première section.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "index": 1
+        }
+      }
+    },
+    {
+      "id": "M08-L03-13",
+      "consigne": "==Quittez le diaporama==. À retenir l'ordre complet des trois leçons : **plan, contenu, finition**. Chaque étape suppose que la précédente ne bougera plus — c'est ce qui empêche de refaire trois fois le même travail.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": false
+        }
+      }
+    }
+  ]
+}

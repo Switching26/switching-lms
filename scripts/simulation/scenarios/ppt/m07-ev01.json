@@ -1,0 +1,530 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "mode": "EVALUATION",
+  "moduleTitle": "Reprendre une présentation existante",
+  "title": "S'évaluer — Reprendre une présentation existante",
+  "intro": {
+    "title": "S'évaluer — Reprendre une présentation existante",
+    "body": "Le bilan présenté à l'équipe doit être montré à un client la semaine prochaine. Reprenez-le : rien ne vous sera nommé, mais il reste de l'ancienne version ce qu'il ne faut pas montrer, ce qu'il faut réécrire, et ce qu'il faut jeter. Épreuve notée, d'une traite ; un nouveau passage repart de zéro."
+  },
+  "outro": {
+    "body": "Épreuve terminée. Seule votre meilleure note est conservée."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "ppt": {
+    "fileName": "Bilan Verdeval.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Verdeval",
+          "sous-titre": "Bilan présenté à l'équipe le 9 mars"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Notre charge de travail",
+          "contenu": "38 jardins créés\n120 entretiens réguliers\n12 chantiers de rénovation"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Primes et augmentations",
+          "contenu": "Réservé au personnel"
+        }
+      },
+      {
+        "layout": "titre-seul",
+        "textes": {
+          "titre": "Nos références"
+        },
+        "objets": [
+          {
+            "id": "zt-refs",
+            "objectType": "texte",
+            "texte": "Ville de Nantes\nRésidence du Parc\nCopropriété Les Tilleuls",
+            "rect": {
+              "x": 70,
+              "y": 175,
+              "w": 520,
+              "h": 150
+            }
+          },
+          {
+            "id": "zt-memo",
+            "objectType": "texte",
+            "texte": "Verifier l accord des Tilleuls avant citation",
+            "rect": {
+              "x": 70,
+              "y": 375,
+              "w": 560,
+              "h": 60
+            }
+          }
+        ]
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Tarifs 2025",
+          "contenu": "Grille périmée depuis janvier"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M07-EV01-01",
+      "consigne": "Ce bilan a été présenté à l'équipe ; il doit maintenant l'être à un client. Parcourez-le avant d'agir : l'ouverture nomme encore l'ancien public, une diapositive traite de rémunérations, une note de travail traîne sur les références, une grille tarifaire est périmée, et un titre est écrit du point de vue de l'entreprise. Reprenez le tout.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M07-EV01-02",
+      "consigne": "Affichez la diapositive d'ouverture.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 0
+      },
+      "points": 1
+    },
+    {
+      "id": "M07-EV01-03",
+      "consigne": "Obtenez-en une seconde exemplaire, sans la refaire et sans détruire celle qui existe.",
+      "action": {
+        "type": "P_DUPLICATE_SLIDE",
+        "index": 0
+      },
+      "points": 2
+    },
+    {
+      "id": "M07-EV01-04",
+      "consigne": "Sur cette copie, indiquez le nouveau public et la nouvelle date : Bilan présenté aux clients le 4 avril.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Bilan présenté à l'équipe le 9 mars"
+              }
+            },
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Bilan présenté à l'équipe le 9 mars"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Notre charge de travail",
+                "contenu": "38 jardins créés\n120 entretiens réguliers\n12 chantiers de rénovation"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Primes et augmentations",
+                "contenu": "Réservé au personnel"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Nos références"
+              },
+              "objets": [
+                {
+                  "id": "zt-refs",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 70,
+                    "y": 175,
+                    "w": 520,
+                    "h": 150
+                  },
+                  "texte": "Ville de Nantes\nRésidence du Parc\nCopropriété Les Tilleuls"
+                },
+                {
+                  "id": "zt-memo",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 70,
+                    "y": 375,
+                    "w": 560,
+                    "h": 60
+                  },
+                  "texte": "Verifier l accord des Tilleuls avant citation"
+                }
+              ]
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Tarifs 2025",
+                "contenu": "Grille périmée depuis janvier"
+              }
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:sous-titre",
+        "accept": [
+          "Bilan présenté aux clients le 4 avril"
+        ]
+      },
+      "points": 2
+    },
+    {
+      "id": "M07-EV01-05",
+      "consigne": "Affichez l'ouverture d'origine, celle qui nomme l'équipe.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 0
+      },
+      "points": 1
+    },
+    {
+      "id": "M07-EV01-06",
+      "consigne": "Elle resservira l'an prochain en interne, mais ne doit pas passer devant le client. Agissez en conséquence.",
+      "action": {
+        "type": "P_EXPECT_DECK",
+        "deck": {
+          "slides": [
+            {
+              "index": 0,
+              "masquee": true
+            }
+          ]
+        }
+      },
+      "points": 2
+    },
+    {
+      "id": "M07-EV01-07",
+      "consigne": "Affichez la diapositive des chiffres, dont le titre est écrit du point de vue de l'entreprise.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 2
+      },
+      "points": 1
+    },
+    {
+      "id": "M07-EV01-08",
+      "consigne": "Donnez-lui le titre qui répond à la question du client : 38 jardins livrés en 2026.",
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:titre",
+        "accept": [
+          "38 jardins livrés en 2026"
+        ]
+      },
+      "points": 2
+    },
+    {
+      "id": "M07-EV01-09",
+      "consigne": "Affichez la diapositive qui traite des rémunérations.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 3
+      },
+      "points": 1
+    },
+    {
+      "id": "M07-EV01-10",
+      "consigne": "Elle reste utile en interne mais n'a rien à faire devant un client : traitez-la comme il convient.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Bilan présenté à l'équipe le 9 mars"
+              },
+              "masquee": true
+            },
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Bilan présenté aux clients le 4 avril"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "38 jardins livrés en 2026",
+                "contenu": "38 jardins créés\n120 entretiens réguliers\n12 chantiers de rénovation"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Primes et augmentations",
+                "contenu": "Réservé au personnel"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Nos références"
+              },
+              "objets": [
+                {
+                  "id": "zt-refs",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 70,
+                    "y": 175,
+                    "w": 520,
+                    "h": 150
+                  },
+                  "texte": "Ville de Nantes\nRésidence du Parc\nCopropriété Les Tilleuls"
+                },
+                {
+                  "id": "zt-memo",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 70,
+                    "y": 375,
+                    "w": 560,
+                    "h": 60
+                  },
+                  "texte": "Verifier l accord des Tilleuls avant citation"
+                }
+              ]
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Tarifs 2025",
+                "contenu": "Grille périmée depuis janvier"
+              }
+            }
+          ]
+        },
+        "slide": 3
+      },
+      "action": {
+        "type": "P_EXPECT_DECK",
+        "deck": {
+          "slides": [
+            {
+              "index": 3,
+              "masquee": true
+            }
+          ]
+        }
+      },
+      "points": 2
+    },
+    {
+      "id": "M07-EV01-11",
+      "consigne": "Affichez la diapositive des références.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 4
+      },
+      "points": 1
+    },
+    {
+      "id": "M07-EV01-12",
+      "consigne": "Une note de travail y figure. Elle n'a jamais eu vocation à être vue, même masquée : traitez-la en conséquence.",
+      "action": {
+        "type": "P_DELETE_OBJECT",
+        "objectId": "zt-memo"
+      },
+      "points": 2
+    },
+    {
+      "id": "M07-EV01-13",
+      "consigne": "Affichez la dernière diapositive, celle des tarifs.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Bilan présenté à l'équipe le 9 mars"
+              },
+              "masquee": true
+            },
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Bilan présenté aux clients le 4 avril"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "38 jardins livrés en 2026",
+                "contenu": "38 jardins créés\n120 entretiens réguliers\n12 chantiers de rénovation"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Primes et augmentations",
+                "contenu": "Réservé au personnel"
+              },
+              "masquee": true
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Nos références"
+              },
+              "objets": [
+                {
+                  "id": "zt-refs",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 70,
+                    "y": 175,
+                    "w": 520,
+                    "h": 150
+                  },
+                  "texte": "Ville de Nantes\nRésidence du Parc\nCopropriété Les Tilleuls"
+                }
+              ]
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Tarifs 2025",
+                "contenu": "Grille périmée depuis janvier"
+              }
+            }
+          ]
+        },
+        "slide": 4
+      },
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 5
+      },
+      "points": 1
+    },
+    {
+      "id": "M07-EV01-14",
+      "consigne": "Sa grille est périmée depuis janvier et ne resservira pas : retirez-la.",
+      "action": {
+        "type": "P_DELETE_SLIDE",
+        "index": 5
+      },
+      "points": 2
+    },
+    {
+      "id": "M07-EV01-15",
+      "consigne": "Contrôlez enfin le déroulé tel que le client le verra, depuis le début.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Bilan présenté à l'équipe le 9 mars"
+              },
+              "masquee": true
+            },
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Bilan présenté aux clients le 4 avril"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "38 jardins livrés en 2026",
+                "contenu": "38 jardins créés\n120 entretiens réguliers\n12 chantiers de rénovation"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Primes et augmentations",
+                "contenu": "Réservé au personnel"
+              },
+              "masquee": true
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Nos références"
+              },
+              "objets": [
+                {
+                  "id": "zt-refs",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 70,
+                    "y": 175,
+                    "w": 520,
+                    "h": 150
+                  },
+                  "texte": "Ville de Nantes\nRésidence du Parc\nCopropriété Les Tilleuls"
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 4
+      },
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": true,
+          "index": 1
+        }
+      },
+      "points": 1
+    },
+    {
+      "id": "M07-EV01-16",
+      "consigne": "Avancez d'une diapositive et vérifiez que rien d'interne n'apparaît.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "index": 2
+        }
+      },
+      "points": 1
+    },
+    {
+      "id": "M07-EV01-17",
+      "consigne": "Revenez à votre présentation.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": false
+        }
+      },
+      "points": 1
+    }
+  ]
+}

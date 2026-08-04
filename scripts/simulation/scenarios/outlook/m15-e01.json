@@ -1,0 +1,226 @@
+{
+  "schemaVersion": 1,
+  "title": "Commander pour un chantier daté",
+  "mode": "EXERCISE",
+  "moduleTitle": "Commander, relancer, contester chez un fournisseur",
+  "intro": {
+    "title": "Sonia pose lundi, il manque tout",
+    "body": "Vous avez la liste, la date et le lieu. Reste à écrire une commande qu'un fournisseur puisse exécuter sans vous rappeler — et à en informer celle qui posera."
+  },
+  "outro": {
+    "body": "Une commande complète est un message qu'on n'a pas besoin de relire. Le jour où le fournisseur se trompe, c'est aussi ce message-là qui départage — d'où l'intérêt d'y avoir mis les quantités et la date."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "achats",
+        "nom": "Achats"
+      },
+      {
+        "id": "factures",
+        "nom": "Factures fournisseurs"
+      }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "fichiers": [
+      {
+        "nom": "Bon-de-livraison-BL-4471.pdf",
+        "taille": "148 Ko"
+      },
+      {
+        "nom": "Facture-DEL-2026-0312.pdf",
+        "taille": "165 Ko"
+      },
+      {
+        "nom": "Plan-de-pose-mediatheque.pdf",
+        "taille": "810 Ko"
+      },
+      {
+        "nom": "Marges-atelier-2026.xlsx",
+        "taille": "72 Ko"
+      }
+    ],
+    "messages": [
+      {
+        "id": "m-liste",
+        "dossier": "reception",
+        "de": "s.brunel@atelier-nord.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Il me manque de la quincaillerie",
+        "corps": "Camille,\n\n40 charnières CH-118 et 12 poignées P-40 pour la médiathèque.\nPose le 24 au matin, livraison à l'atelier avant.\n\nSonia",
+        "date": "2026-04-14T07:20",
+        "lu": false
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O15-E01-01",
+      "consigne": "Écrivez un message neuf au service qui prend les commandes chez Delmas — pas à sa comptabilité.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "genre": "nouveau",
+          "a": {
+            "contient": [
+              "commandes@quincaillerie-delmas.fr"
+            ],
+            "absent": [
+              "compta@quincaillerie-delmas.fr"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Nouveau message, puis l'adresse qui commence par « commandes »."
+      }
+    },
+    {
+      "id": "O15-E01-02",
+      "consigne": "Donnez un objet contenant `commande` et `médiathèque`.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "objet": {
+            "contient": [
+              "commande",
+              "médiathèque"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Le chantier est nommé dans le message de Sonia."
+      }
+    },
+    {
+      "id": "O15-E01-03",
+      "consigne": "Mettez Sonia `s.brunel@atelier-nord.fr` en copie : elle doit savoir, pas répondre au fournisseur.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "a": {
+            "contient": [
+              "commandes@quincaillerie-delmas.fr"
+            ],
+            "absent": [
+              "s.brunel@atelier-nord.fr"
+            ]
+          },
+          "cc": {
+            "contient": [
+              "s.brunel@atelier-nord.fr"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Le champ Cc."
+      }
+    },
+    {
+      "id": "O15-E01-04",
+      "consigne": "Rédigez la commande et envoyez-la. Elle doit porter **les références**, **les quantités**, **la date de besoin** et **le lieu de livraison**.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "commandes@quincaillerie-delmas.fr"
+            ]
+          },
+          "cc": {
+            "contient": [
+              "s.brunel@atelier-nord.fr"
+            ]
+          },
+          "objet": {
+            "contient": [
+              "commande",
+              "médiathèque"
+            ]
+          },
+          "corps": {
+            "salutation": [
+              "bonjour",
+              "madame",
+              "monsieur",
+              "bonsoir"
+            ],
+            "cloture": [
+              "cordialement",
+              "salutations",
+              "bien a vous",
+              "merci"
+            ],
+            "notions": [
+              {
+                "libelle": "les références",
+                "oneOf": [
+                  "ch-118",
+                  "ch118",
+                  "p-40",
+                  "p40"
+                ]
+              },
+              {
+                "libelle": "les quantités",
+                "oneOf": [
+                  "40",
+                  "quarante",
+                  "12",
+                  "douze"
+                ]
+              },
+              {
+                "libelle": "la date de besoin",
+                "oneOf": [
+                  "23",
+                  "24",
+                  "avant le",
+                  "mardi",
+                  "lundi",
+                  "pour le"
+                ]
+              },
+              {
+                "libelle": "le lieu de livraison",
+                "oneOf": [
+                  "atelier",
+                  "atelier nord",
+                  "chez nous",
+                  "nos locaux"
+                ]
+              }
+            ],
+            "minMots": 22
+          }
+        }
+      },
+      "aide": {
+        "text": "Quatre informations sont attendues."
+      }
+    }
+  ]
+}

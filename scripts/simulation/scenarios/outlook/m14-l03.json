@@ -1,0 +1,250 @@
+{
+  "schemaVersion": 1,
+  "title": "Quand la réclamation n'est pas fondée",
+  "mode": "LESSON",
+  "moduleTitle": "Traiter une réclamation par écrit",
+  "intro": {
+    "title": "Refuser sans perdre le client",
+    "body": "Une école demande la reprise gratuite d'un plan de travail marqué par des produits d'entretien. Le devis signé exclut ce cas. Refuser est légitime — la difficulté est d'écrire ce refus de façon qu'il s'appuie sur un document, pas sur votre parole, et qu'il laisse une porte ouverte."
+  },
+  "outro": {
+    "body": "Un refus qui cite le document signé n'est plus une opinion opposée à une autre : c'est un rappel de ce qui a été convenu. Et proposer une intervention payante après le refus, c'est transformer un litige en devis — ce qui arrive plus souvent qu'on ne le croit."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "litiges",
+        "nom": "Réclamations"
+      },
+      {
+        "id": "clients",
+        "nom": "Clients 2026"
+      }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "fichiers": [
+      {
+        "nom": "Constat-chantier-Leroux.pdf",
+        "taille": "420 Ko"
+      },
+      {
+        "nom": "Devis-2026-174.pdf",
+        "taille": "180 Ko"
+      },
+      {
+        "nom": "Notes-internes-Leroux.pdf",
+        "taille": "64 Ko"
+      },
+      {
+        "nom": "Photos-panneau-raye.jpg",
+        "taille": "1,4 Mo"
+      }
+    ],
+    "messages": [
+      {
+        "id": "m-ecole",
+        "dossier": "reception",
+        "de": "contact@ecole-arts-lambersart.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Plan de travail abîmé",
+        "corps": "Bonjour,\n\nLe plan de travail livré en janvier présente des marques blanches. Nous demandons son remplacement au titre de la garantie.\n\nRémi Tissot\nÉcole des Arts",
+        "date": "2026-04-21T09:15",
+        "lu": false
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O14-L03-01",
+      "consigne": "==Ouvrez la demande de l'École des Arts.== Elle invoque la garantie. Avant de répondre, il faut savoir ce que le devis signé couvre réellement.",
+      "action": {
+        "type": "O_SELECT_MESSAGE",
+        "id": "m-ecole"
+      },
+      "aide": {
+        "text": "C'est le message qui parle d'un plan de travail."
+      }
+    },
+    {
+      "id": "O14-L03-02",
+      "consigne": "==Cliquez sur Répondre.== Un refus se répond dans le fil de la demande, jamais dans un message neuf : le destinataire doit pouvoir relire sa demande juste en dessous.",
+      "setup": {
+        "courrier": {
+          "messageActif": "m-ecole"
+        }
+      },
+      "action": {
+        "type": "O_CLICK_CONTROL",
+        "control": "cr-repondre"
+      },
+      "aide": {
+        "text": "Le bouton Répondre."
+      }
+    },
+    {
+      "id": "O14-L03-03",
+      "consigne": "==Joignez `Devis-2026-174.pdf`.== C'est la pièce qui porte les conditions signées. Un refus sans le document qui le fonde se lit comme un refus de principe.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "pieces": {
+            "contient": [
+              "Devis-2026-174.pdf"
+            ],
+            "absent": [
+              "Notes-internes-Leroux.pdf"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Le devis 2026-174, celui de janvier."
+      }
+    },
+    {
+      "id": "O14-L03-04",
+      "consigne": "==Complétez l'objet avec le mot `garantie`.== L'objet reçu décrit un dégât ; le vôtre doit nommer le terrain sur lequel vous répondez. C'est de garantie qu'il s'agit, et de rien d'autre.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "objet": {
+            "prefixe": "RE",
+            "contient": [
+              "garantie"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Ajoutez le mot à la fin de l'objet, en gardant le préfixe."
+      }
+    },
+    {
+      "id": "O14-L03-05",
+      "consigne": "==Rédigez le refus, puis envoyez.== Trois éléments : **le renvoi au devis joint**, **la raison du refus**, **une proposition payante**. Un refus seul ferme la relation ; un refus suivi d'une offre la garde ouverte.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "contact@ecole-arts-lambersart.fr"
+            ]
+          },
+          "objet": {
+            "prefixe": "RE",
+            "contient": [
+              "garantie"
+            ]
+          },
+          "pieces": {
+            "contient": [
+              "Devis-2026-174.pdf"
+            ]
+          },
+          "corps": {
+            "salutation": [
+              "bonjour",
+              "madame",
+              "monsieur",
+              "bonsoir"
+            ],
+            "cloture": [
+              "cordialement",
+              "salutations",
+              "bien a vous",
+              "merci"
+            ],
+            "notions": [
+              {
+                "libelle": "le renvoi au devis joint",
+                "oneOf": [
+                  "2026-174",
+                  "174",
+                  "devis joint",
+                  "devis signe",
+                  "conditions",
+                  "ci-joint"
+                ]
+              },
+              {
+                "libelle": "la raison du refus",
+                "oneOf": [
+                  "produit d'entretien",
+                  "entretien",
+                  "n'entre pas",
+                  "hors garantie",
+                  "ne couvre pas",
+                  "exclut",
+                  "usage"
+                ]
+              },
+              {
+                "libelle": "une proposition payante",
+                "oneOf": [
+                  "devis de reprise",
+                  "intervention payante",
+                  "nous pouvons vous proposer",
+                  "chiffrer",
+                  "a titre payant",
+                  "nouveau devis"
+                ]
+              }
+            ],
+            "interdit": [
+              {
+                "libelle": "un reproche adressé au client",
+                "oneOf": [
+                  "vous auriez du",
+                  "c'est de votre faute",
+                  "vous n'avez pas respecte",
+                  "mauvais entretien de votre part"
+                ]
+              }
+            ],
+            "minMots": 25
+          }
+        }
+      },
+      "aide": {
+        "text": "Trois informations sont attendues : le document, la raison, et l'offre de suite."
+      }
+    },
+    {
+      "id": "O14-L03-06",
+      "consigne": "==Rangez cette demande dans Réclamations.== Même refusée, une réclamation se conserve : c'est le refus qu'il faudra pouvoir retrouver, plus encore que la demande.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-ecole": {
+              "dossier": "litiges"
+            }
+          }
+        }
+      },
+      "aide": {
+        "text": "Déplacer, puis Réclamations."
+      }
+    }
+  ]
+}

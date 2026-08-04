@@ -1,0 +1,251 @@
+{
+  "schemaVersion": 1,
+  "title": "L'objet, seule chose qu'on lit avant d'ouvrir",
+  "mode": "LESSON",
+  "moduleTitle": "Écrire un message qu'on lit vraiment",
+  "intro": {
+    "title": "Trente messages, huit mots pour se distinguer",
+    "body": "Votre correspondant reçoit soixante messages par jour. Il ne lit pas le vôtre : il lit son objet, et décide s'il l'ouvre maintenant, ce soir, ou jamais. Un objet utile dit de quoi il s'agit et ce qu'on attend — en huit mots. Vous allez en écrire trois, dans trois situations différentes."
+  },
+  "outro": {
+    "body": "Un bon objet contient toujours deux choses : le dossier dont on parle, et ce qui est attendu. Il permet aussi de retrouver le message six mois plus tard par une recherche — c'est le même travail qui sert deux fois."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "clients",
+        "nom": "Clients 2026"
+      },
+      {
+        "id": "fournisseurs",
+        "nom": "Fournisseurs"
+      }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "messages": [
+      {
+        "id": "m-contexte",
+        "dossier": "reception",
+        "de": "n.kerbaj@atelier-nord.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Trois messages à écrire aujourd'hui",
+        "corps": "Camille,\n\nTrois choses à faire partir :\n- demander à la mairie la date de la commission (marché MP-2026-24),\n- demander un délai de paiement à la Quincaillerie Delmas,\n- prévenir Hugo que la pose de l'escalier est décalée.\n\nNadia",
+        "date": "2026-03-25T08:00",
+        "lu": true
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O06-L01-01",
+      "consigne": "==Ouvrez une nouvelle fenêtre de rédaction== et adressez-la à `marches@ville-lambersart.fr`. Premier message : demander à la mairie quand la commission statue.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "genre": "nouveau",
+          "a": {
+            "contient": [
+              "marches@ville-lambersart.fr"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Nouveau message, puis saisissez l'adresse dans le champ À."
+      }
+    },
+    {
+      "id": "O06-L01-02",
+      "consigne": "==Donnez un objet contenant `MP-2026-24`.== « Question » ou « Demande » ne dit rien : dans un service qui traite trente marchés, seule **la référence** permet d'ouvrir le bon dossier avant même de vous lire.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "objet": {
+            "contient": [
+              "MP-2026-24"
+            ],
+            "nonVide": true
+          }
+        }
+      },
+      "aide": {
+        "text": "Par exemple « Marché MP-2026-24 — date de la commission ». La formulation est libre."
+      }
+    },
+    {
+      "id": "O06-L01-03",
+      "consigne": "==Rédigez la demande, puis envoyez.== Elle doit poser **une seule question** — la date de la commission — et rappeler **de quel marché** il s'agit. Un message qui en pose trois n'obtient jamais trois réponses.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "marches@ville-lambersart.fr"
+            ]
+          },
+          "objet": {
+            "contient": [
+              "MP-2026-24"
+            ]
+          },
+          "corps": {
+            "salutation": [
+              "bonjour",
+              "madame",
+              "monsieur",
+              "bonsoir"
+            ],
+            "cloture": [
+              "cordialement",
+              "salutations",
+              "bien a vous",
+              "merci"
+            ],
+            "notions": [
+              {
+                "libelle": "la question posée — la date de la commission",
+                "oneOf": [
+                  "date",
+                  "quand",
+                  "commission",
+                  "calendrier"
+                ]
+              },
+              {
+                "libelle": "le marché concerné",
+                "oneOf": [
+                  "mp-2026-24",
+                  "2026-24",
+                  "salle des mariages",
+                  "mariages"
+                ]
+              }
+            ],
+            "minMots": 12
+          }
+        }
+      },
+      "aide": {
+        "text": "Deux informations sont attendues : la question, et le marché concerné."
+      }
+    },
+    {
+      "id": "O06-L01-04",
+      "consigne": "==Ouvrez une deuxième fenêtre de rédaction== pour `compta@quincaillerie-delmas.fr`. Deuxième message : demander un délai de paiement.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "genre": "nouveau",
+          "a": {
+            "contient": [
+              "compta@quincaillerie-delmas.fr"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Nouveau message, puis l'adresse du fournisseur."
+      }
+    },
+    {
+      "id": "O06-L01-05",
+      "consigne": "==Donnez un objet contenant le mot `délai`.== Un objet qui annonce la demande évite le message d'ouverture inutile : le comptable sait ce qu'on lui demande avant de cliquer, et peut le traiter dans la foulée.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "objet": {
+            "contient": [
+              "delai"
+            ],
+            "nonVide": true
+          }
+        }
+      },
+      "aide": {
+        "text": "Par exemple « Demande de délai — facture QD-4610 ». L'accent ne compte pas."
+      }
+    },
+    {
+      "id": "O06-L01-06",
+      "consigne": "==Rédigez et envoyez.== Le message doit dire **ce que vous demandez** et **pour quand** : une demande de délai sans date proposée oblige votre interlocuteur à faire le travail à votre place.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "compta@quincaillerie-delmas.fr"
+            ]
+          },
+          "objet": {
+            "contient": [
+              "delai"
+            ]
+          },
+          "corps": {
+            "salutation": [
+              "bonjour",
+              "madame",
+              "monsieur",
+              "bonsoir"
+            ],
+            "cloture": [
+              "cordialement",
+              "salutations",
+              "bien a vous",
+              "merci"
+            ],
+            "notions": [
+              {
+                "libelle": "ce que vous demandez",
+                "oneOf": [
+                  "delai",
+                  "reporter",
+                  "echeance",
+                  "paiement",
+                  "reglement"
+                ]
+              },
+              {
+                "libelle": "la date que vous proposez",
+                "oneOf": [
+                  "avril",
+                  "15",
+                  "30",
+                  "fin du mois",
+                  "mai"
+                ]
+              }
+            ],
+            "minMots": 12
+          }
+        }
+      },
+      "aide": {
+        "text": "Deux informations sont attendues : la demande, et une date proposée."
+      }
+    }
+  ]
+}

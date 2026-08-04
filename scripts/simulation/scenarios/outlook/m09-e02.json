@@ -1,0 +1,216 @@
+{
+  "schemaVersion": 1,
+  "title": "Faire suivre un dossier sans tout faire suivre",
+  "mode": "EXERCISE",
+  "moduleTitle": "Les pièces jointes : ce qui part avec le message",
+  "intro": {
+    "title": "Trois pièces reçues, deux destinataires différents",
+    "body": "Votre gérante vous transmet un dossier de facturation complet. Deux personnes doivent en recevoir une partie — mais pas la même. À vous de découper : ce qui va au comptable du client, ce qui reste à l'intérieur de l'entreprise."
+  },
+  "outro": {
+    "body": "Un transfert emporte tout : découper un dossier consiste donc à retirer, pas à ajouter. Le réflexe utile est de regarder la ligne des pièces jointes juste avant d'envoyer — c'est le seul moment où l'erreur coûte encore zéro."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "clients",
+        "nom": "Clients 2026"
+      },
+      {
+        "id": "fournisseurs",
+        "nom": "Fournisseurs"
+      }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "fichiers": [
+      {
+        "nom": "Facture-2026-0412.pdf",
+        "taille": "96 Ko"
+      },
+      {
+        "nom": "Facture-2026-0412-AVOIR.pdf",
+        "taille": "92 Ko"
+      },
+      {
+        "nom": "Conditions-achat-2026.pdf",
+        "taille": "110 Ko"
+      }
+    ],
+    "messages": [
+      {
+        "id": "m-facturation",
+        "dossier": "reception",
+        "de": "n.kerbaj@atelier-nord.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Facturation Beaulieu — dossier complet",
+        "corps": "Camille,\n\nVoici le dossier de facturation : la facture, l'avoir, et nos conditions d'achat.\nLe comptable du client n'a besoin que de la facture et de l'avoir.\n\nNadia",
+        "date": "2026-04-02T07:50",
+        "lu": false,
+        "pieces": [
+          {
+            "nom": "Facture-2026-0412.pdf",
+            "taille": "96 Ko"
+          },
+          {
+            "nom": "Facture-2026-0412-AVOIR.pdf",
+            "taille": "92 Ko"
+          },
+          {
+            "nom": "Conditions-achat-2026.pdf",
+            "taille": "110 Ko"
+          }
+        ]
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O09-E02-01",
+      "consigne": "Ouvrez le dossier transmis par Nadia et repérez la pièce qui ne doit pas sortir de l'entreprise.",
+      "action": {
+        "type": "O_SELECT_MESSAGE",
+        "id": "m-facturation"
+      },
+      "aide": {
+        "text": "Le message précise ce dont le comptable du client a besoin."
+      }
+    },
+    {
+      "id": "O09-E02-02",
+      "consigne": "Faites suivre ce dossier à `compta@habitat-du-nord.fr` en ne laissant que ce qui le concerne.",
+      "setup": {
+        "courrier": {
+          "messageActif": "m-facturation"
+        }
+      },
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "genre": "transfert",
+          "a": {
+            "contient": [
+              "compta@habitat-du-nord.fr"
+            ]
+          },
+          "pieces": {
+            "contient": [
+              "Facture-2026-0412.pdf",
+              "Facture-2026-0412-AVOIR.pdf"
+            ],
+            "absent": [
+              "Conditions-achat-2026.pdf"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Le transfert emporte les trois pièces : la croix ✕ retire celle qui ne doit pas partir."
+      }
+    },
+    {
+      "id": "O09-E02-03",
+      "consigne": "Complétez l'objet avec le mot `règlement`, en gardant le préfixe posé par Outlook.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "objet": {
+            "prefixe": "TR",
+            "contient": [
+              "reglement"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Ajoutez le mot à la fin ; les accents ne sont pas pris en compte."
+      }
+    },
+    {
+      "id": "O09-E02-04",
+      "consigne": "Rédigez le mot d'accompagnement et envoyez. Il doit citer **le numéro de facture** et signaler **qu'un avoir l'accompagne** — sans quoi le comptable règlera le montant plein.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "compta@habitat-du-nord.fr"
+            ]
+          },
+          "objet": {
+            "prefixe": "TR",
+            "contient": [
+              "reglement"
+            ]
+          },
+          "pieces": {
+            "contient": [
+              "Facture-2026-0412.pdf",
+              "Facture-2026-0412-AVOIR.pdf"
+            ],
+            "absent": [
+              "Conditions-achat-2026.pdf"
+            ]
+          },
+          "corps": {
+            "salutation": [
+              "bonjour",
+              "madame",
+              "monsieur",
+              "bonsoir"
+            ],
+            "cloture": [
+              "cordialement",
+              "salutations",
+              "bien a vous",
+              "merci"
+            ],
+            "notions": [
+              {
+                "libelle": "le numéro de la facture",
+                "oneOf": [
+                  "2026-0412",
+                  "0412",
+                  "412"
+                ]
+              },
+              {
+                "libelle": "la présence d'un avoir",
+                "oneOf": [
+                  "avoir",
+                  "deduire",
+                  "deduction",
+                  "net a payer",
+                  "a deduire"
+                ]
+              }
+            ],
+            "minMots": 12
+          }
+        }
+      },
+      "aide": {
+        "text": "Deux informations sont attendues : le numéro, et l'avoir à déduire."
+      }
+    }
+  ]
+}

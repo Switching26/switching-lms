@@ -1,0 +1,136 @@
+{
+  "schemaVersion": 1,
+  "title": "Reporter un planning reçu par message",
+  "mode": "EXERCISE",
+  "moduleTitle": "Le calendrier au service du chantier",
+  "intro": {
+    "title": "Trois interventions annoncées, aucune dans l'agenda",
+    "body": "Un fournisseur vous confirme trois passages sur la semaine. Tant qu'ils restent dans un message, ils n'existent pour personne — ni pour vous le jour venu, ni pour ceux qui vous demanderont vos disponibilités. Reportez-les exactement, horaires de fin compris."
+  },
+  "outro": {
+    "body": "Reporter un planning n'est pas de la recopie : c'est ce qui transforme une information reçue en engagement visible. L'erreur la plus fréquente est l'heure de fin, qu'on met au jugé — et qui bloque ensuite une demi-journée pour rien."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "clients",
+        "nom": "Clients 2026"
+      },
+      {
+        "id": "fournisseurs",
+        "nom": "Fournisseurs"
+      }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "messages": [
+      {
+        "id": "m-passages",
+        "dossier": "reception",
+        "de": "compta@quincaillerie-delmas.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Interventions de la semaine — trois passages",
+        "corps": "Bonjour,\n\nNos passages sont confirmés :\n- lundi 2 mars, de 7 h 30 à 8 h 30, dépôt des consommables,\n- mercredi 4 mars, de 9 h à 10 h 30, reprise du matériel défectueux,\n- vendredi 6 mars, de 14 h à 15 h, contrôle annuel de l'outillage.\nTout à l'atelier.\n\nQuincaillerie Delmas",
+        "date": "2026-03-02T07:00",
+        "lu": false
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O10-E01-01",
+      "consigne": "Ouvrez le message de la Quincaillerie Delmas et relevez les trois créneaux, avec leurs heures de fin.",
+      "action": {
+        "type": "O_SELECT_MESSAGE",
+        "id": "m-passages"
+      },
+      "aide": {
+        "text": "C'est le message qui annonce trois passages."
+      }
+    },
+    {
+      "id": "O10-E01-02",
+      "consigne": "Reportez le premier passage dans votre agenda. Son objet doit être exactement `Dépôt des consommables`, et son lieu `Atelier Nord`.",
+      "action": {
+        "type": "O_EXPECT_CALENDRIER",
+        "calendrier": {
+          "titre": "Dépôt des consommables",
+          "date": "2026-03-02",
+          "debut": "07:30",
+          "fin": "08:30",
+          "lieu": "Atelier Nord"
+        }
+      },
+      "aide": {
+        "text": "Lundi 2 mars, de 7 h 30 à 8 h 30. « 7 h 30 » s'écrit 07:30."
+      }
+    },
+    {
+      "id": "O10-E01-03",
+      "consigne": "Reportez le deuxième, objet `Reprise du matériel défectueux`, au même lieu.",
+      "action": {
+        "type": "O_EXPECT_CALENDRIER",
+        "calendrier": {
+          "titre": "Reprise du matériel défectueux",
+          "date": "2026-03-04",
+          "debut": "09:00",
+          "fin": "10:30",
+          "lieu": "Atelier Nord"
+        }
+      },
+      "aide": {
+        "text": "Mercredi 4 mars, de 9 h à 10 h 30."
+      }
+    },
+    {
+      "id": "O10-E01-04",
+      "consigne": "Reportez le troisième, objet `Contrôle annuel de l'outillage`, au même lieu.",
+      "action": {
+        "type": "O_EXPECT_CALENDRIER",
+        "calendrier": {
+          "titre": "Contrôle annuel de l'outillage",
+          "date": "2026-03-06",
+          "debut": "14:00",
+          "fin": "15:00",
+          "lieu": "Atelier Nord"
+        }
+      },
+      "aide": {
+        "text": "Vendredi 6 mars, de 14 h à 15 h."
+      }
+    },
+    {
+      "id": "O10-E01-05",
+      "consigne": "Le planning est reporté : sortez ce message de votre file d'attente en le classant selon son expéditeur.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-passages": {
+              "dossier": "fournisseurs"
+            }
+          }
+        }
+      },
+      "aide": {
+        "text": "Déplacer, puis Fournisseurs."
+      }
+    }
+  ]
+}

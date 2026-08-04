@@ -1,0 +1,325 @@
+{
+  "schemaVersion": 1,
+  "title": "S'évaluer — Le premier contact commercial",
+  "mode": "EVALUATION",
+  "moduleTitle": "Le premier contact commercial",
+  "intro": {
+    "title": "Lundi 20 avril — un accord, une demande, un devis en attente",
+    "body": "Un prospect valide votre proposition, un autre vous découvre, et un troisième dossier attend une relance. Chaque envoi sera jugé sur son enveloppe : le bon destinataire, la bonne pièce, l'objet qui rend le dossier retrouvable. Cette épreuve est notée ; la rédaction ne compte pas dans la note."
+  },
+  "outro": {
+    "body": "Le barème portait sur ce qu'un tiers vérifierait dans vos Éléments envoyés : à qui, avec quoi, sous quel objet. En commercial, ces trois éléments décident autant que le prix — parce qu'ils décident si l'on vous retrouve."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "prospects",
+        "nom": "Prospects"
+      },
+      {
+        "id": "clients",
+        "nom": "Clients 2026"
+      }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "fichiers": [
+      {
+        "nom": "Devis-2026-190.pdf",
+        "taille": "196 Ko"
+      },
+      {
+        "nom": "Devis-2026-190-BROUILLON.pdf",
+        "taille": "188 Ko"
+      },
+      {
+        "nom": "Plaquette-Atelier-Nord.pdf",
+        "taille": "2,1 Mo"
+      },
+      {
+        "nom": "Tarifs-achat-fournisseurs.pdf",
+        "taille": "96 Ko"
+      }
+    ],
+    "messages": [
+      {
+        "id": "m-accord",
+        "dossier": "reception",
+        "de": "m.delcourt@brasserie-du-canal.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Votre proposition nous convient",
+        "corps": "Bonjour,\n\nVotre proposition à 18 400 € HT nous convient, nous validons.\n\nMarine Delcourt\nBrasserie du Canal",
+        "date": "2026-04-20T08:40",
+        "lu": false
+      },
+      {
+        "id": "m-nouveau",
+        "dossier": "reception",
+        "de": "accueil@cabinet-vermeulen.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Renseignement",
+        "corps": "Bonjour,\n\nOn envisage de refaire l'accueil du cabinet. Vous faites ça ?\n\nCabinet Vermeulen",
+        "date": "2026-04-20T07:55",
+        "lu": false
+      },
+      {
+        "id": "m-pub",
+        "dossier": "reception",
+        "de": "offres@promo-outillage.net",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Offres du printemps",
+        "corps": "Nos offres.",
+        "date": "2026-04-20T05:10",
+        "lu": false
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O13-EV01-01",
+      "consigne": "Ouvrez l'accord de la Brasserie du Canal et relevez le montant accepté.",
+      "action": {
+        "type": "O_SELECT_MESSAGE",
+        "id": "m-accord"
+      },
+      "points": 1
+    },
+    {
+      "id": "O13-EV01-02",
+      "consigne": "Répondez en associant `s.brunel@atelier-nord.fr`, qui va fabriquer, sur la ligne de ceux qui doivent agir.",
+      "setup": {
+        "courrier": {
+          "messageActif": "m-accord"
+        }
+      },
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "genre": "reponse",
+          "a": {
+            "contient": [
+              "m.delcourt@brasserie-du-canal.fr",
+              "s.brunel@atelier-nord.fr"
+            ],
+            "absent": [
+              "n.kerbaj@atelier-nord.fr"
+            ]
+          }
+        }
+      },
+      "points": 3
+    },
+    {
+      "id": "O13-EV01-03",
+      "consigne": "Mettez la gérante `n.kerbaj@atelier-nord.fr` en copie : un accord de ce montant engage l'entreprise.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "a": {
+            "contient": [
+              "m.delcourt@brasserie-du-canal.fr",
+              "s.brunel@atelier-nord.fr"
+            ],
+            "absent": [
+              "n.kerbaj@atelier-nord.fr"
+            ]
+          },
+          "cc": {
+            "contient": [
+              "n.kerbaj@atelier-nord.fr"
+            ]
+          }
+        }
+      },
+      "points": 2
+    },
+    {
+      "id": "O13-EV01-04",
+      "consigne": "Complétez l'objet avec le mot `commande`, sans retirer le préfixe posé par Outlook.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "objet": {
+            "prefixe": "RE",
+            "contient": [
+              "commande"
+            ]
+          }
+        }
+      },
+      "points": 2
+    },
+    {
+      "id": "O13-EV01-05",
+      "consigne": "Rédigez la confirmation avec vos mots. **Cette étape n'entre pas dans la note.**",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "corps": {
+            "minMots": 12,
+            "revueManuelle": true
+          }
+        }
+      },
+      "points": 0
+    },
+    {
+      "id": "O13-EV01-06",
+      "consigne": "Relisez les deux lignes d'adresses, puis envoyez la confirmation.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "m.delcourt@brasserie-du-canal.fr",
+              "s.brunel@atelier-nord.fr"
+            ]
+          },
+          "cc": {
+            "contient": [
+              "n.kerbaj@atelier-nord.fr"
+            ]
+          },
+          "objet": {
+            "prefixe": "RE",
+            "contient": [
+              "commande"
+            ]
+          }
+        }
+      },
+      "points": 3
+    },
+    {
+      "id": "O13-EV01-07",
+      "consigne": "Répondez maintenant au Cabinet Vermeulen, à lui seul, en joignant la plaquette de l'atelier — et rien d'autre.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "genre": "reponse",
+          "a": {
+            "contient": [
+              "accueil@cabinet-vermeulen.fr"
+            ]
+          },
+          "cc": {
+            "vide": true
+          },
+          "pieces": {
+            "contient": [
+              "Plaquette-Atelier-Nord.pdf"
+            ],
+            "absent": [
+              "Tarifs-achat-fournisseurs.pdf",
+              "Devis-2026-190.pdf",
+              "Devis-2026-190-BROUILLON.pdf"
+            ]
+          }
+        }
+      },
+      "points": 4
+    },
+    {
+      "id": "O13-EV01-08",
+      "consigne": "Rédigez cette réponse avec vos mots, puis envoyez-la. **La rédaction n'entre pas dans la note.**",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "accueil@cabinet-vermeulen.fr"
+            ]
+          },
+          "cc": {
+            "vide": true
+          },
+          "pieces": {
+            "contient": [
+              "Plaquette-Atelier-Nord.pdf"
+            ],
+            "absent": [
+              "Tarifs-achat-fournisseurs.pdf"
+            ]
+          },
+          "corps": {
+            "minMots": 10,
+            "revueManuelle": true
+          }
+        }
+      },
+      "points": 3
+    },
+    {
+      "id": "O13-EV01-09",
+      "consigne": "Le prospect de la Brasserie est devenu client : rangez son message dans Clients 2026.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-accord": {
+              "dossier": "clients"
+            }
+          }
+        }
+      },
+      "points": 1
+    },
+    {
+      "id": "O13-EV01-10",
+      "consigne": "Le Cabinet Vermeulen n'est encore qu'une piste : rangez son message dans Prospects.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-nouveau": {
+              "dossier": "prospects"
+            }
+          }
+        }
+      },
+      "points": 2
+    },
+    {
+      "id": "O13-EV01-11",
+      "consigne": "Sortez les offres du printemps de votre file d'attente.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-pub": {
+              "dossier": "supprimes"
+            }
+          }
+        }
+      },
+      "points": 1
+    }
+  ]
+}

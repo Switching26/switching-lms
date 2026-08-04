@@ -1,0 +1,203 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "mode": "LESSON",
+  "moduleTitle": "Une présentation homogène",
+  "title": "Ce qui doit se répéter",
+  "intro": {
+    "title": "Ce qui doit se répéter",
+    "body": "Trois diapositives qui font la même chose doivent se ressembler. Quand elles diffèrent, le public croit que la différence a un sens, la cherche, et ne la trouve pas — il perd le fil pour une raison qui n'existe pas."
+  },
+  "outro": {
+    "body": "Trois écrans de même usage, de même disposition. La leçon suivante s'occupe de leurs titres."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "ppt": {
+    "fileName": "Domaine Fontclaire.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Domaine Fontclaire",
+          "sous-titre": "Assemblée des associés — exercice 2026"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Les ventes",
+          "contenu": "84 000 bouteilles\nDont 12 000 en direct"
+        }
+      },
+      {
+        "layout": "titre-seul",
+        "textes": {
+          "titre": "L'export"
+        },
+        "objets": [
+          {
+            "id": "zt-export",
+            "objectType": "texte",
+            "texte": "19 000 bouteilles, Belgique et Suisse",
+            "rect": {
+              "x": 90,
+              "y": 250,
+              "w": 480,
+              "h": 70
+            }
+          }
+        ]
+      },
+      {
+        "layout": "deux-contenus",
+        "textes": {
+          "titre": "Les stocks",
+          "contenu": "31 000 bouteilles en cave"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M15-L01-01",
+      "consigne": "Le public lit une présentation comme une série : dès que deux écrans se ressemblent, il comprend qu'ils disent la même sorte de chose. **Une différence de forme est donc un signal** — et si elle ne veut rien dire, elle égare pour rien.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M15-L01-02",
+      "consigne": "==Passez en Trieuse== : c'est le seul affichage où l'on voit les diapositives les unes à côté des autres, donc le seul où les différences de forme sautent aux yeux.",
+      "action": {
+        "type": "P_SET_VIEW",
+        "view": "trieuse"
+      },
+      "aide": {
+        "text": "Groupe Affichage, bouton Trieuse."
+      }
+    },
+    {
+      "id": "M15-L01-03",
+      "consigne": "Trois diapositives font ici le même travail — ventes, export, stocks — et **aucune n'a la même disposition**. Le public croira que l'export est traité à part, qu'il compte moins ou plus. Rien de tout cela n'est vrai.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M15-L01-04",
+      "consigne": "==Affichez la diapositive de l'export==, la troisième, pour la remettre au format des autres.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 2
+      }
+    },
+    {
+      "id": "M15-L01-05",
+      "consigne": "==Revenez en affichage Normal== : c'est le seul où l'on modifie une diapositive.",
+      "action": {
+        "type": "P_SET_VIEW",
+        "view": "normal"
+      }
+    },
+    {
+      "id": "M15-L01-06",
+      "consigne": "==Donnez-lui la disposition Titre et contenu==, celle des ventes. Le cadre de contenu apparaît, mais la zone de texte libre reste posée par-dessus : changer la disposition n'efface pas ce qu'on avait dessiné à côté.",
+      "action": {
+        "type": "P_SET_LAYOUT",
+        "layout": "titre-et-contenu"
+      },
+      "aide": {
+        "text": "Groupe Diapositives, bouton Disposition, puis « Titre et contenu »."
+      }
+    },
+    {
+      "id": "M15-L01-07",
+      "consigne": "==Supprimez la zone de texte libre== « 19 000 bouteilles, Belgique et Suisse » : son contenu va reprendre sa place dans le cadre prévu.",
+      "action": {
+        "type": "P_DELETE_OBJECT",
+        "objectId": "zt-export"
+      },
+      "aide": {
+        "text": "Sélectionnez la zone d'un clic, puis touche Suppr ou bouton Supprimer du groupe Objet."
+      }
+    },
+    {
+      "id": "M15-L01-08",
+      "consigne": "==Écrivez le contenu== : 19 000 bouteilles, Belgique et Suisse. Même information qu'avant, mais dans le cadre que la disposition a prévu — donc à la même place que sur les autres écrans.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Domaine Fontclaire",
+                "sous-titre": "Assemblée des associés — exercice 2026"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Les ventes",
+                "contenu": "84 000 bouteilles\nDont 12 000 en direct"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "L'export"
+              }
+            },
+            {
+              "layout": "deux-contenus",
+              "textes": {
+                "titre": "Les stocks",
+                "contenu": "31 000 bouteilles en cave"
+              }
+            }
+          ]
+        },
+        "slide": 2
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:contenu",
+        "accept": [
+          "19 000 bouteilles\nBelgique et Suisse",
+          "19 000 bouteilles, Belgique et Suisse"
+        ]
+      },
+      "aide": {
+        "text": "Cliquez dans « Cliquez pour ajouter du texte »."
+      },
+      "feedback": "Une zone libre se pose n'importe où ; un espace réservé tombe toujours au même endroit. C'est toute la différence."
+    },
+    {
+      "id": "M15-L01-09",
+      "consigne": "==Affichez la diapositive des stocks==, la quatrième, montée en deux colonnes alors qu'elle n'a qu'une information.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 3
+      }
+    },
+    {
+      "id": "M15-L01-10",
+      "consigne": "==Donnez-lui la disposition Titre et contenu==. Deux colonnes n'ont de sens que si deux choses s'opposent : ici, la colonne de droite était vide et le public la cherchait.",
+      "action": {
+        "type": "P_SET_LAYOUT",
+        "layout": "titre-et-contenu"
+      }
+    },
+    {
+      "id": "M15-L01-11",
+      "consigne": "À retenir : **même usage, même disposition**. La Trieuse est l'outil de ce contrôle, parce qu'une incohérence de forme ne se voit jamais en regardant une diapositive seule — seulement en les voyant côte à côte.",
+      "action": {
+        "type": "READ"
+      }
+    }
+  ]
+}

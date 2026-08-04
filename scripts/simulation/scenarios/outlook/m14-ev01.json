@@ -1,0 +1,339 @@
+{
+  "schemaVersion": 1,
+  "title": "S'évaluer — Traiter une réclamation par écrit",
+  "mode": "EVALUATION",
+  "moduleTitle": "Traiter une réclamation par écrit",
+  "intro": {
+    "title": "Jeudi 16 avril — deux litiges et une publicité",
+    "body": "Un client mécontent, une demande de garantie infondée, et du bruit. Chaque envoi sera jugé sur son enveloppe : qui reçoit, qui est en copie, quelle pièce part, sous quel objet, et où le message finit. Cette épreuve est notée ; la rédaction ne compte pas dans la note."
+  },
+  "outro": {
+    "body": "Le barème portait sur ce qu'un tiers vérifierait dans un dossier de litige : la gérante informée, la bonne pièce jointe, le document interne resté à l'atelier, et un classement qui rendra la position retrouvable."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "litiges",
+        "nom": "Réclamations"
+      },
+      {
+        "id": "clients",
+        "nom": "Clients 2026"
+      }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "fichiers": [
+      {
+        "nom": "Constat-chantier-Leroux.pdf",
+        "taille": "420 Ko"
+      },
+      {
+        "nom": "Devis-2026-174.pdf",
+        "taille": "180 Ko"
+      },
+      {
+        "nom": "Notes-internes-Leroux.pdf",
+        "taille": "64 Ko"
+      },
+      {
+        "nom": "Photos-panneau-raye.jpg",
+        "taille": "1,4 Mo"
+      }
+    ],
+    "messages": [
+      {
+        "id": "m-recla",
+        "dossier": "reception",
+        "de": "j.leroux@habitat-du-nord.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Ce n'est pas acceptable",
+        "corps": "Bonjour,\n\nPanneau rayé, joint qui ne tient pas. Locataires jeudi.\n\nJulien Leroux\nHabitat du Nord",
+        "date": "2026-04-16T07:35",
+        "lu": false
+      },
+      {
+        "id": "m-garantie",
+        "dossier": "reception",
+        "de": "contact@ecole-arts-lambersart.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Plan de travail abîmé",
+        "corps": "Bonjour,\n\nMarques blanches sur le plan de janvier, nous demandons le remplacement.\n\nRémi Tissot\nÉcole des Arts",
+        "date": "2026-04-16T08:20",
+        "lu": false
+      },
+      {
+        "id": "m-pub",
+        "dossier": "reception",
+        "de": "offres@promo-outillage.net",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Déstockage vernis",
+        "corps": "Nos prix cassés.",
+        "date": "2026-04-16T05:40",
+        "lu": false
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O14-EV01-01",
+      "consigne": "Ouvrez la réclamation d'Habitat du Nord et relevez les deux griefs.",
+      "action": {
+        "type": "O_SELECT_MESSAGE",
+        "id": "m-recla"
+      },
+      "points": 1
+    },
+    {
+      "id": "O14-EV01-02",
+      "consigne": "Répondez à Julien Leroux, à lui seul sur la ligne principale.",
+      "setup": {
+        "courrier": {
+          "messageActif": "m-recla"
+        }
+      },
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "genre": "reponse",
+          "a": {
+            "contient": [
+              "j.leroux@habitat-du-nord.fr"
+            ],
+            "absent": [
+              "n.kerbaj@atelier-nord.fr"
+            ]
+          }
+        }
+      },
+      "points": 2
+    },
+    {
+      "id": "O14-EV01-03",
+      "consigne": "Associez la gérante `n.kerbaj@atelier-nord.fr` sur la ligne de ceux qui doivent seulement savoir.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "a": {
+            "contient": [
+              "j.leroux@habitat-du-nord.fr"
+            ],
+            "absent": [
+              "n.kerbaj@atelier-nord.fr"
+            ]
+          },
+          "cc": {
+            "contient": [
+              "n.kerbaj@atelier-nord.fr"
+            ]
+          }
+        }
+      },
+      "points": 3
+    },
+    {
+      "id": "O14-EV01-04",
+      "consigne": "Complétez l'objet avec le mot `réclamation`, sans retirer le préfixe.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "objet": {
+            "prefixe": "RE",
+            "contient": [
+              "réclamation"
+            ]
+          }
+        }
+      },
+      "points": 2
+    },
+    {
+      "id": "O14-EV01-05",
+      "consigne": "Joignez le constat de chantier. **Le document interne de l'atelier ne doit pas partir.**",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "pieces": {
+            "contient": [
+              "Constat-chantier-Leroux.pdf"
+            ],
+            "absent": [
+              "Notes-internes-Leroux.pdf"
+            ]
+          }
+        }
+      },
+      "points": 4
+    },
+    {
+      "id": "O14-EV01-06",
+      "consigne": "Rédigez le message avec vos mots. **Cette étape n'entre pas dans la note.**",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "corps": {
+            "minMots": 15,
+            "revueManuelle": true
+          }
+        }
+      },
+      "points": 0
+    },
+    {
+      "id": "O14-EV01-07",
+      "consigne": "Relisez l'enveloppe, puis envoyez.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "j.leroux@habitat-du-nord.fr"
+            ]
+          },
+          "cc": {
+            "contient": [
+              "n.kerbaj@atelier-nord.fr"
+            ]
+          },
+          "objet": {
+            "prefixe": "RE",
+            "contient": [
+              "réclamation"
+            ]
+          },
+          "pieces": {
+            "contient": [
+              "Constat-chantier-Leroux.pdf"
+            ],
+            "absent": [
+              "Notes-internes-Leroux.pdf"
+            ]
+          }
+        }
+      },
+      "points": 3
+    },
+    {
+      "id": "O14-EV01-08",
+      "consigne": "Répondez à l'École des Arts en joignant le devis qui porte les conditions signées.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "genre": "reponse",
+          "a": {
+            "contient": [
+              "contact@ecole-arts-lambersart.fr"
+            ]
+          },
+          "pieces": {
+            "contient": [
+              "Devis-2026-174.pdf"
+            ],
+            "absent": [
+              "Notes-internes-Leroux.pdf"
+            ]
+          }
+        }
+      },
+      "points": 3
+    },
+    {
+      "id": "O14-EV01-09",
+      "consigne": "Rédigez ce refus avec vos mots, puis envoyez-le. **La rédaction n'entre pas dans la note.**",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "contact@ecole-arts-lambersart.fr"
+            ]
+          },
+          "pieces": {
+            "contient": [
+              "Devis-2026-174.pdf"
+            ]
+          },
+          "corps": {
+            "minMots": 12,
+            "revueManuelle": true
+          }
+        }
+      },
+      "points": 2
+    },
+    {
+      "id": "O14-EV01-10",
+      "consigne": "Rangez la demande de garantie dans Réclamations.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-garantie": {
+              "dossier": "litiges"
+            }
+          }
+        }
+      },
+      "points": 2
+    },
+    {
+      "id": "O14-EV01-11",
+      "consigne": "Marquez la réclamation d'Habitat du Nord comme restant à suivre, sans la ranger.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-recla": {
+              "dossier": "reception",
+              "indicateur": true
+            }
+          }
+        }
+      },
+      "points": 2
+    },
+    {
+      "id": "O14-EV01-12",
+      "consigne": "Sortez le déstockage de vernis de votre file d'attente.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-pub": {
+              "dossier": "supprimes"
+            }
+          }
+        }
+      },
+      "points": 1
+    }
+  ]
+}

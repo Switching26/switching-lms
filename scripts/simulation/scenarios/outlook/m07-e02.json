@@ -1,0 +1,199 @@
+{
+  "schemaVersion": 1,
+  "title": "Clore un échange qui s'éternise",
+  "mode": "EXERCISE",
+  "moduleTitle": "Coordonner un dossier à plusieurs",
+  "intro": {
+    "title": "Sept messages et toujours pas de date",
+    "body": "L'échange tourne en rond : chacun propose, personne ne tranche. Vous allez y mettre fin par un message de synthèse — celui qui énonce la décision plutôt que de relancer la discussion. Il doit atteindre tous les participants, et lui seul fera référence."
+  },
+  "outro": {
+    "body": "Un fil se clôt par une décision écrite, pas par un dernier avis. Le message de synthèse s'adresse à tous, porte un objet qui le distingue, et tient en trois faits : quoi, qui, quand."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "clients",
+        "nom": "Clients 2026"
+      },
+      {
+        "id": "fournisseurs",
+        "nom": "Fournisseurs"
+      }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "messages": [
+      {
+        "id": "m-tourne",
+        "dossier": "reception",
+        "de": "s.brunel@atelier-nord.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr",
+          "h.vasseur@menuiserie-vasseur.fr"
+        ],
+        "objet": "Livraison des panneaux — on fait comment ?",
+        "corps": "Bonjour,\n\nHugo propose le mardi, la mairie préfère le jeudi, et je ne sais pas qui réceptionne.\nQuelqu'un tranche ?\n\nSonia",
+        "date": "2026-03-28T09:10",
+        "lu": false,
+        "cc": [
+          "n.kerbaj@atelier-nord.fr"
+        ]
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O07-E02-01",
+      "consigne": "Ouvrez le dernier message du fil et relevez ce qui reste indécis : la date, et la personne qui réceptionne.",
+      "action": {
+        "type": "O_SELECT_MESSAGE",
+        "id": "m-tourne"
+      },
+      "aide": {
+        "text": "C'est le message qui demande que quelqu'un tranche."
+      }
+    },
+    {
+      "id": "O07-E02-02",
+      "consigne": "Répondez de façon que les trois participants reçoivent la même décision au même moment.",
+      "setup": {
+        "courrier": {
+          "messageActif": "m-tourne"
+        }
+      },
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "genre": "reponseATous",
+          "a": {
+            "contient": [
+              "s.brunel@atelier-nord.fr",
+              "h.vasseur@menuiserie-vasseur.fr"
+            ]
+          },
+          "cc": {
+            "contient": [
+              "n.kerbaj@atelier-nord.fr"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Une synthèse envoyée à une seule personne crée une deuxième version de la vérité : c'est « Répondre à tous » qu'il faut."
+      }
+    },
+    {
+      "id": "O07-E02-03",
+      "consigne": "Donnez à ce message un objet contenant le mot `décision`, pour qu'il se distingue des sept précédents et se retrouve par une recherche.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "objet": {
+            "prefixe": "RE",
+            "contient": [
+              "decision"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Ajoutez le mot à la fin de l'objet ; les accents ne comptent pas."
+      }
+    },
+    {
+      "id": "O07-E02-04",
+      "consigne": "Rédigez la synthèse et envoyez-la. Trois faits, pas un de plus : **le jour retenu**, **qui réceptionne**, et **le lieu** de livraison.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "s.brunel@atelier-nord.fr",
+              "h.vasseur@menuiserie-vasseur.fr"
+            ]
+          },
+          "cc": {
+            "contient": [
+              "n.kerbaj@atelier-nord.fr"
+            ]
+          },
+          "objet": {
+            "prefixe": "RE",
+            "contient": [
+              "decision"
+            ]
+          },
+          "corps": {
+            "salutation": [
+              "bonjour",
+              "bonsoir",
+              "a tous",
+              "sonia"
+            ],
+            "cloture": [
+              "merci",
+              "cordialement",
+              "bien a vous",
+              "a jeudi",
+              "a mardi"
+            ],
+            "notions": [
+              {
+                "libelle": "le jour retenu",
+                "oneOf": [
+                  "mardi",
+                  "jeudi",
+                  "mercredi",
+                  "lundi",
+                  "vendredi"
+                ]
+              },
+              {
+                "libelle": "qui réceptionne la livraison",
+                "oneOf": [
+                  "sonia",
+                  "hugo",
+                  "je receptionne",
+                  "je serai",
+                  "receptionne"
+                ]
+              },
+              {
+                "libelle": "le lieu de livraison",
+                "oneOf": [
+                  "atelier",
+                  "ecole",
+                  "lambersart",
+                  "sur place",
+                  "chantier"
+                ]
+              }
+            ],
+            "minMots": 15
+          }
+        }
+      },
+      "aide": {
+        "text": "Trois informations sont attendues : le jour, la personne qui réceptionne, et le lieu."
+      }
+    }
+  ]
+}

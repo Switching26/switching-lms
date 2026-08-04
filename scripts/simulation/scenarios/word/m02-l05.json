@@ -1,0 +1,138 @@
+{
+  "schemaVersion": 1,
+  "app": "WORD",
+  "title": "Combiner les attributs sans surcharger",
+  "mode": "LESSON",
+  "moduleTitle": "Saisie et mise en forme des caractères",
+  "intro": {
+    "title": "METTRE EN FORME, C'EST CHOISIR",
+    "body": "Vous disposez maintenant de sept attributs. La compétence qui reste à acquérir n'est pas d'en poser davantage, c'est d'en poser MOINS : chaque attribut employé affaiblit tous les autres. Vous allez mettre en forme une fiche produit en vous fixant une limite."
+  },
+  "outro": "Une hiérarchie se construit avec deux ou trois signaux, pas sept. Quand tout ressort, plus rien ne ressort — c'est la seule règle à retenir de ce module.",
+  "document": {
+    "paragraphes": [
+      {
+        "texte": "Établi d'atelier — modèle Vertou"
+      },
+      {
+        "texte": "Plateau en hêtre massif de quarante millimètres, piétement acier."
+      },
+      {
+        "texte": "Dimensions : 180 x 80 centimètres, hauteur réglable."
+      },
+      {
+        "texte": "Délai de fabrication : trois semaines."
+      },
+      {
+        "texte": "Prix indicatif hors taxes : 1 240 euros."
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M02-L05-01",
+      "points": 0,
+      "consigne": "Fixez-vous une règle avant de commencer : **un attribut par intention**. Le titre doit se voir — taille et graisse suffisent. Une seule information doit ressortir dans le corps — ce sera le prix. Tout le reste doit rester neutre, sinon le lecteur ne saura plus où regarder.",
+      "action": {
+        "type": "READ"
+      },
+      "montrer": [
+        {
+          "type": "W_SELECT_TEXT",
+          "zone": "p0"
+        }
+      ],
+      "feedback": "Décider avant de cliquer : c'est ce qui distingue une mise en forme d'un empilement."
+    },
+    {
+      "id": "M02-L05-02",
+      "consigne": "Le titre d'abord. ==Sélectionnez-le et portez-le à la taille 18.== Une seule taille au-dessus du corps suffit à le faire lire en premier.",
+      "setup": {
+        "ribbon": {
+          "activeTab": "accueil"
+        }
+      },
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p0",
+        "format": {
+          "taille": 18
+        }
+      },
+      "feedback": "Le titre prend la première place."
+    },
+    {
+      "id": "M02-L05-03",
+      "consigne": "==Ajoutez-lui le gras.== Taille et graisse sur le même passage, c'est un cumul justifié : les deux disent la même chose — « commencez ici ».",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p0",
+        "format": {
+          "gras": true
+        }
+      },
+      "feedback": "Deux attributs, une seule intention. C'est un cumul qui se défend."
+    },
+    {
+      "id": "M02-L05-04",
+      "consigne": "L'information décisive d'une fiche produit, c'est le prix. ==Mettez le montant « 1 240 euros » en gras== — et rien d'autre dans ce paragraphe.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "texte:1 240 euros",
+        "format": {
+          "gras": true
+        }
+      },
+      "aide": {
+        "text": "Sélectionnez les trois mots du montant, sans le reste de la phrase.",
+        "showTarget": true
+      },
+      "feedback": "Le prix accroche l'œil parce qu'il est le seul passage épaissi du corps."
+    },
+    {
+      "id": "M02-L05-05",
+      "consigne": "Le délai est une réserve, pas une accroche : il se nuance au lieu de crier. ==Mettez « trois semaines » en italique.==",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "texte:trois semaines",
+        "format": {
+          "italique": true
+        }
+      },
+      "feedback": "L'italique dit « attention », le gras dit « regardez » : deux registres différents."
+    },
+    {
+      "id": "M02-L05-06",
+      "consigne": "Cette fiche part chez un client : elle doit être sobre. ==Mettez le titre en Georgia== et vérifiez le résultat d'ensemble — une police pour tout le document, deux attributs en tout.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p0",
+        "format": {
+          "police": "Georgia"
+        }
+      },
+      "feedback": "Trois signaux au total sur cinq paragraphes : la fiche se lit d'un coup d'œil."
+    },
+    {
+      "id": "M02-L05-07",
+      "consigne": "Faites l'expérience inverse pour comprendre la règle. ==Surlignez en jaune la ligne des dimensions== et observez ce qui arrive au prix : en ajoutant un signal, vous venez d'en affaiblir un autre.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p2",
+        "format": {
+          "surlignage": "#f1c40f"
+        }
+      },
+      "feedback": "Le prix ne ressort plus autant. C'est exactement ce qu'il fallait constater."
+    },
+    {
+      "id": "M02-L05-08",
+      "consigne": "Revenez à la version sobre : ==annulez ce dernier surlignage== avec le bouton Annuler, sans retoucher le paragraphe à la main.",
+      "action": {
+        "type": "W_CLICK_CONTROL",
+        "controle": "w-annuler"
+      },
+      "feedback": "La fiche retrouve sa hiérarchie. Retenez la démarche : on ajoute, on regarde, et on retire ce qui nuit."
+    }
+  ]
+}

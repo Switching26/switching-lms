@@ -1,0 +1,310 @@
+{
+  "schemaVersion": 1,
+  "title": "Trancher, documenter, classer",
+  "mode": "EXERCISE",
+  "moduleTitle": "Traiter une réclamation par écrit",
+  "intro": {
+    "title": "Deux dossiers à clore le même jour",
+    "body": "L'un est fondé et vous le reprenez ; l'autre ne l'est pas et vous le refusez. Les deux réponses partent avec la pièce qui les justifie — et aucune ne part avec les notes internes de l'atelier."
+  },
+  "outro": {
+    "body": "Un litige clos se reconnaît à trois choses : une position écrite, une pièce jointe qui la fonde, et un rangement qui la rendra retrouvable. Sans le troisième, les deux premiers ne servent que le jour même."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "litiges",
+        "nom": "Réclamations"
+      },
+      {
+        "id": "clients",
+        "nom": "Clients 2026"
+      }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "fichiers": [
+      {
+        "nom": "Constat-chantier-Leroux.pdf",
+        "taille": "420 Ko"
+      },
+      {
+        "nom": "Devis-2026-174.pdf",
+        "taille": "180 Ko"
+      },
+      {
+        "nom": "Notes-internes-Leroux.pdf",
+        "taille": "64 Ko"
+      },
+      {
+        "nom": "Photos-panneau-raye.jpg",
+        "taille": "1,4 Mo"
+      }
+    ],
+    "messages": [
+      {
+        "id": "m-fonde",
+        "dossier": "reception",
+        "de": "j.leroux@habitat-du-nord.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Suite à votre passage",
+        "corps": "Bonjour,\n\nQu'est-ce qui est repris et sous quel délai ?\n\nJulien Leroux\nHabitat du Nord",
+        "date": "2026-04-17T08:05",
+        "lu": false
+      },
+      {
+        "id": "m-nonfonde",
+        "dossier": "reception",
+        "de": "contact@ecole-arts-lambersart.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Plan de travail abîmé",
+        "corps": "Bonjour,\n\nMarques blanches sur le plan livré en janvier. Nous demandons le remplacement.\n\nRémi Tissot\nÉcole des Arts",
+        "date": "2026-04-21T09:15",
+        "lu": false
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O14-E02-01",
+      "consigne": "Répondez à Habitat du Nord en joignant le constat et les photos — et rien qui vienne de l'atelier.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "genre": "reponse",
+          "a": {
+            "contient": [
+              "j.leroux@habitat-du-nord.fr"
+            ]
+          },
+          "pieces": {
+            "contient": [
+              "Constat-chantier-Leroux.pdf",
+              "Photos-panneau-raye.jpg"
+            ],
+            "absent": [
+              "Notes-internes-Leroux.pdf"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Quatre fichiers portent le nom du client ; l'un d'eux est interne."
+      }
+    },
+    {
+      "id": "O14-E02-02",
+      "consigne": "Rédigez cette réponse et envoyez-la. Elle doit dire **ce qui est repris**, **ce qui ne l'est pas**, et **sous quel délai**.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "j.leroux@habitat-du-nord.fr"
+            ]
+          },
+          "pieces": {
+            "contient": [
+              "Constat-chantier-Leroux.pdf",
+              "Photos-panneau-raye.jpg"
+            ],
+            "absent": [
+              "Notes-internes-Leroux.pdf"
+            ]
+          },
+          "corps": {
+            "salutation": [
+              "bonjour",
+              "madame",
+              "monsieur",
+              "bonsoir"
+            ],
+            "cloture": [
+              "cordialement",
+              "salutations",
+              "bien a vous",
+              "merci"
+            ],
+            "notions": [
+              {
+                "libelle": "ce qui est repris",
+                "oneOf": [
+                  "nous remplacons",
+                  "nous reprenons",
+                  "remplacement",
+                  "sera repris",
+                  "prise en charge"
+                ]
+              },
+              {
+                "libelle": "ce qui ne l'est pas",
+                "oneOf": [
+                  "en revanche",
+                  "le joint",
+                  "conforme",
+                  "n'entre pas",
+                  "ne releve pas",
+                  "nettoyage"
+                ]
+              },
+              {
+                "libelle": "le délai",
+                "oneOf": [
+                  "mardi",
+                  "lundi",
+                  "semaine prochaine",
+                  "sous huit",
+                  "sous 8",
+                  "d'ici",
+                  "avant le"
+                ]
+              }
+            ],
+            "minMots": 22
+          }
+        }
+      },
+      "aide": {
+        "text": "Trois informations sont attendues."
+      }
+    },
+    {
+      "id": "O14-E02-03",
+      "consigne": "Rangez ce dossier tranché à l'endroit où l'on retrouvera la position écrite dans un an.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-fonde": {
+              "dossier": "litiges"
+            }
+          }
+        }
+      },
+      "aide": {
+        "text": "Déplacer, puis Réclamations."
+      }
+    },
+    {
+      "id": "O14-E02-04",
+      "consigne": "Répondez maintenant à l'École des Arts en joignant le document qui fixe les conditions signées.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "genre": "reponse",
+          "a": {
+            "contient": [
+              "contact@ecole-arts-lambersart.fr"
+            ]
+          },
+          "pieces": {
+            "contient": [
+              "Devis-2026-174.pdf"
+            ],
+            "absent": [
+              "Notes-internes-Leroux.pdf"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Le devis de janvier porte la référence 2026-174."
+      }
+    },
+    {
+      "id": "O14-E02-05",
+      "consigne": "Rédigez ce refus et envoyez-le. Il doit donner **la raison** et **une proposition payante**, sans aucun reproche adressé au client.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "contact@ecole-arts-lambersart.fr"
+            ]
+          },
+          "pieces": {
+            "contient": [
+              "Devis-2026-174.pdf"
+            ]
+          },
+          "corps": {
+            "salutation": [
+              "bonjour",
+              "madame",
+              "monsieur",
+              "bonsoir"
+            ],
+            "cloture": [
+              "cordialement",
+              "salutations",
+              "bien a vous",
+              "merci"
+            ],
+            "notions": [
+              {
+                "libelle": "la raison du refus",
+                "oneOf": [
+                  "produit d'entretien",
+                  "entretien",
+                  "n'entre pas",
+                  "hors garantie",
+                  "ne couvre pas",
+                  "exclut",
+                  "usage"
+                ]
+              },
+              {
+                "libelle": "une proposition payante",
+                "oneOf": [
+                  "devis de reprise",
+                  "intervention payante",
+                  "nous pouvons vous proposer",
+                  "chiffrer",
+                  "a titre payant",
+                  "nouveau devis"
+                ]
+              }
+            ],
+            "interdit": [
+              {
+                "libelle": "un reproche adressé au client",
+                "oneOf": [
+                  "vous auriez du",
+                  "c'est de votre faute",
+                  "vous n'avez pas respecte",
+                  "mauvais entretien de votre part"
+                ]
+              }
+            ],
+            "minMots": 20
+          }
+        }
+      },
+      "aide": {
+        "text": "Deux informations sont attendues : la raison, et l'offre de suite."
+      }
+    }
+  ]
+}

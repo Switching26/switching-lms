@@ -1,0 +1,109 @@
+{
+  "schemaVersion": 1,
+  "app": "WORD",
+  "title": "Exercice — Symboles et unités",
+  "mode": "EXERCISE",
+  "moduleTitle": "Symboles et caractères spéciaux",
+  "intro": {
+    "title": "À VOUS DE JOUER",
+    "body": "Un relevé de mesures à rédiger. Les unités et les symboles s'écrivent selon des conventions précises : c'est ce que l'exercice vérifie, autant que votre frappe."
+  },
+  "outro": "Les unités ne prennent pas de point abréviatif et se séparent du nombre par une espace. Un relevé qui respecte cela se lit sans ambiguïté.",
+  "document": {
+    "paragraphes": [
+      {
+        "texte": "Relevé de contrôle dimensionnel"
+      },
+      {
+        "texte": "Mesures relevées"
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M07-E02-01",
+      "consigne": "==Saisissez la référence du relevé==, avec le signe numéro : Relevé n° 2026-084",
+      "action": {
+        "type": "W_TYPE_TEXT",
+        "zone": "p1",
+        "accept": [
+          "Relevé n° 2026-084"
+        ]
+      },
+      "aide": {
+        "text": "Un o en exposant après le n, jamais un zéro.",
+        "showTarget": true
+      },
+      "feedback": "Référence conforme."
+    },
+    {
+      "id": "M07-E02-02",
+      "consigne": "==Saisissez la première mesure==, avec un signe multiplication : Plateau 1 200 × 800 millimètres",
+      "action": {
+        "type": "W_TYPE_TEXT",
+        "zone": "p2",
+        "accept": [
+          "Plateau 1 200 × 800 millimètres"
+        ]
+      },
+      "feedback": "Le signe × et l'espace des milliers."
+    },
+    {
+      "id": "M07-E02-03",
+      "consigne": "==Saisissez la deuxième mesure== : Épaisseur 38 mm à 20 °C",
+      "action": {
+        "type": "W_TYPE_TEXT",
+        "zone": "p3",
+        "accept": [
+          "Épaisseur 38 mm à 20 °C"
+        ]
+      },
+      "feedback": "Les unités sans point abréviatif."
+    },
+    {
+      "id": "M07-E02-04",
+      "consigne": "==Saisissez la tolérance== : Tolérance admise ± 0,5 mm",
+      "action": {
+        "type": "W_TYPE_TEXT",
+        "zone": "p4",
+        "accept": [
+          "Tolérance admise ± 0,5 mm"
+        ]
+      },
+      "aide": {
+        "text": "Le signe plus ou moins est un caractère unique, pas un + suivi d'un tiret.",
+        "showTarget": true
+      },
+      "feedback": "La tolérance s'écrit avec le signe dédié."
+    },
+    {
+      "id": "M07-E02-05",
+      "consigne": "==Saisissez la conclusion== : Conformité 100 % — lot accepté",
+      "action": {
+        "type": "W_TYPE_TEXT",
+        "zone": "p5",
+        "accept": [
+          "Conformité 100 % — lot accepté"
+        ]
+      },
+      "feedback": "Relevé complet."
+    },
+    {
+      "id": "M07-E02-06",
+      "consigne": "==Mettez les quatre mesures en liste à puces==, en commençant par la première.",
+      "setup": {
+        "ribbon": {
+          "activeTab": "accueil"
+        }
+      },
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p2",
+        "style": {
+          "liste": "puces"
+        }
+      },
+      "feedback": "Les mesures se comptent d'un coup d'œil."
+    }
+  ]
+}

@@ -1,0 +1,189 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "mode": "EXERCISE",
+  "moduleTitle": "Une présentation longue",
+  "title": "Remettre le plan dans l'ordre",
+  "intro": {
+    "title": "Remettre le plan dans l'ordre",
+    "body": "Les sections sont posées, mais deux diapositives ne sont pas dans la bonne partie : un chiffre de résultat rangé avec les investissements, et un séparateur qui arrive après ce qu'il devrait annoncer. Corrigez, cran par cran."
+  },
+  "outro": {
+    "body": "Trois crans de bouton, et le déroulé correspond enfin à l'ordre du jour annoncé."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "ppt": {
+    "fileName": "AG Grandval - ordre.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Coopérative Grandval",
+          "sous-titre": "Assemblée générale du 14 mars"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Ordre du jour",
+          "contenu": "Résultats 2026\nInvestissements 2027\nVie de la coopérative"
+        }
+      },
+      {
+        "layout": "titre-seul",
+        "textes": {
+          "titre": "1. Résultats 2026"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Chiffre d'affaires",
+          "contenu": "4,2 millions d'euros\nEn hausse de 6 %"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Charges",
+          "contenu": "3,6 millions d'euros\nÉnergie en hausse de 18 %"
+        }
+      },
+      {
+        "layout": "titre-seul",
+        "textes": {
+          "titre": "2. Investissements 2027"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Le nouveau séchoir",
+          "contenu": "420 000 € sur trois ans\nMise en service en octobre"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Résultat net",
+          "contenu": "600 000 euros\nDont 150 000 mis en réserve"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Nouveaux adhérents",
+          "contenu": "Onze exploitations\nDont quatre installations récentes"
+        }
+      },
+      {
+        "layout": "titre-seul",
+        "textes": {
+          "titre": "3. Vie de la coopérative"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Vote des résolutions",
+          "contenu": "Trois résolutions soumises au vote"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M12-E02-01",
+      "consigne": "Passez en Trieuse : c'est le seul affichage où l'on voit les groupes plutôt que les diapositives.",
+      "action": {
+        "type": "P_SET_VIEW",
+        "view": "trieuse"
+      },
+      "aide": {
+        "text": "Groupe Affichage, bouton Trieuse."
+      }
+    },
+    {
+      "id": "M12-E02-02",
+      "consigne": "Affichez la diapositive du résultat net, la huitième : c'est un chiffre de la première partie, tombé après le séparateur des investissements.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 7
+      }
+    },
+    {
+      "id": "M12-E02-03",
+      "consigne": "Montez-la d'un cran : elle passe avant le séchoir.",
+      "setupPpt": {
+        "slide": 7
+      },
+      "action": {
+        "type": "P_MOVE_SLIDE",
+        "from": 7,
+        "to": 6
+      },
+      "aide": {
+        "text": "Le bouton « ↑ Monter » est dans le groupe Diapositives."
+      }
+    },
+    {
+      "id": "M12-E02-04",
+      "consigne": "Montez-la encore d'un cran : elle repasse avant le séparateur, avec les charges et le chiffre d'affaires.",
+      "setupPpt": {
+        "slide": 6
+      },
+      "action": {
+        "type": "P_MOVE_SLIDE",
+        "from": 6,
+        "to": 5
+      },
+      "feedback": "Trois diapositives de résultats à la suite : la première partie est complète."
+    },
+    {
+      "id": "M12-E02-05",
+      "consigne": "Affichez le séparateur « 3. Vie de la coopérative », la dixième : il arrive après les nouveaux adhérents, donc après ce qu'il devrait annoncer.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 9
+      }
+    },
+    {
+      "id": "M12-E02-06",
+      "consigne": "Montez-le d'un cran. Un séparateur placé après sa partie ne sépare plus rien : il coupe la partie suivante en deux.",
+      "setupPpt": {
+        "slide": 9
+      },
+      "action": {
+        "type": "P_MOVE_SLIDE",
+        "from": 9,
+        "to": 8
+      }
+    },
+    {
+      "id": "M12-E02-07",
+      "consigne": "Revenez en affichage Normal.",
+      "action": {
+        "type": "P_SET_VIEW",
+        "view": "normal"
+      }
+    },
+    {
+      "id": "M12-E02-08",
+      "consigne": "Lancez le diaporama depuis le début pour vérifier le déroulé complet : trois parties, chacune annoncée avant ses diapositives.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": true,
+          "index": 0
+        }
+      },
+      "aide": {
+        "text": "Groupe Diaporama, bouton « ▶ Début »."
+      }
+    }
+  ]
+}

@@ -1,0 +1,230 @@
+{
+  "schemaVersion": 1,
+  "title": "Répondre : ce qu'Outlook remplit à votre place",
+  "mode": "LESSON",
+  "moduleTitle": "Répondre, transférer, tenir une conversation",
+  "intro": {
+    "title": "Une réponse n'est pas un nouveau message",
+    "body": "Vous savez écrire de zéro. La plupart des messages que vous enverrez ne partiront pourtant pas d'une feuille blanche : ce sont des réponses. Outlook y remplit trois choses tout seul — le destinataire, l'objet, et le lien avec le message d'origine. Encore faut-il savoir ce qu'il remplit, ce qu'il oublie, et ce que vous restez seul à devoir vérifier."
+  },
+  "outro": {
+    "body": "Répondre écrit à l'expéditeur, et à lui seul. L'objet reprend celui d'origine avec « RE : » devant, ce qui range votre message dans le même fil chez votre correspondant. Et rien n'est figé : une réponse se modifie comme un message ordinaire, destinataires compris."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "clients",
+        "nom": "Clients 2026"
+      }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "messages": [
+      {
+        "id": "m-cotes",
+        "dossier": "reception",
+        "de": "r.tissot@ecole-arts-lambersart.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "cc": [
+          "direction@ecole-arts-lambersart.fr"
+        ],
+        "objet": "Comptoir d'accueil — cotes définitives",
+        "corps": "Bonjour,\n\nVoici les cotes définitives relevées ce matin : 2,38 m de long, 0,95 m de haut.\nPouvez-vous confirmer que la fabrication peut démarrer sur ces bases ?\n\nBien cordialement,\nRémi Tissot\nÉcole des Arts de Lambersart",
+        "date": "2026-03-11T08:30",
+        "lu": false
+      },
+      {
+        "id": "m-relance-pub",
+        "dossier": "reception",
+        "de": "offres@promo-outillage.net",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Nouveautés du mois — catalogue en ligne",
+        "corps": "Découvrez nos nouveautés.",
+        "date": "2026-03-11T05:12",
+        "lu": false
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O02-L01-01",
+      "consigne": "Rémi Tissot vous transmet les cotes et attend une confirmation. ==Ouvrez son message== et lisez-le : une réponse commence toujours par la lecture complète de ce à quoi on répond.",
+      "action": {
+        "type": "O_SELECT_MESSAGE",
+        "id": "m-cotes"
+      },
+      "aide": {
+        "text": "C'est le message dont l'objet parle des cotes définitives."
+      }
+    },
+    {
+      "id": "O02-L01-02",
+      "consigne": "Trois boutons s'offrent à vous en haut du volet de lecture : Répondre, Répondre à tous, Transférer. ==Cliquez sur Répondre== — celui qui écrit à l'expéditeur, et à lui seul.",
+      "setup": {
+        "courrier": {
+          "messageActif": "m-cotes"
+        }
+      },
+      "action": {
+        "type": "O_CLICK_CONTROL",
+        "control": "cr-repondre"
+      },
+      "aide": {
+        "text": "Le bouton Répondre est le premier de la barre du haut du volet de lecture."
+      }
+    },
+    {
+      "id": "O02-L01-03",
+      "consigne": "==Ajoutez `direction@ecole-arts-lambersart.fr` dans le champ Cc== pour que l'école reste informée. Le champ **À** et l'**objet** se sont remplis seuls ; en revanche l'adresse qui était en copie du message reçu, elle, **n'a pas été reprise**.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "genre": "reponse",
+          "a": {
+            "contient": [
+              "r.tissot@ecole-arts-lambersart.fr"
+            ]
+          },
+          "cc": {
+            "contient": [
+              "direction@ecole-arts-lambersart.fr"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "L'adresse figure dans l'en-tête du message d'origine, sur la ligne Cc."
+      }
+    },
+    {
+      "id": "O02-L01-04",
+      "consigne": "Le « RE : » n'est pas décoratif : c'est lui qui range votre message dans le même fil chez votre correspondant. ==Complétez l'objet avec la référence `2026-118`== en gardant le préfixe intact.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "objet": {
+            "prefixe": "RE",
+            "contient": [
+              "2026-118"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Cliquez à la fin du champ Objet et ajoutez la référence : ne touchez pas au début de la ligne."
+      }
+    },
+    {
+      "id": "O02-L01-05",
+      "consigne": "==Rédigez la réponse.== Rémi pose une question précise : il faut y répondre. Votre message doit **confirmer que la fabrication peut démarrer** et rappeler **les cotes retenues**, pour qu'un désaccord se voie tout de suite plutôt que devant le comptoir fini.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "corps": {
+            "salutation": [
+              "bonjour",
+              "monsieur",
+              "madame",
+              "bonsoir"
+            ],
+            "cloture": [
+              "cordialement",
+              "salutations",
+              "bien a vous",
+              "merci"
+            ],
+            "notions": [
+              {
+                "libelle": "la confirmation que la fabrication peut démarrer",
+                "oneOf": [
+                  "confirme",
+                  "nous lancons",
+                  "je lance",
+                  "demarrage",
+                  "fabrication peut",
+                  "c'est note",
+                  "bien note"
+                ]
+              },
+              {
+                "libelle": "les cotes retenues",
+                "oneOf": [
+                  "2,38",
+                  "2.38",
+                  "0,95",
+                  "0.95",
+                  "cotes"
+                ]
+              }
+            ],
+            "minMots": 12
+          }
+        }
+      },
+      "aide": {
+        "text": "Deux informations sont attendues : la confirmation du démarrage, et les cotes que vous retenez."
+      }
+    },
+    {
+      "id": "O02-L01-06",
+      "consigne": "==Envoyez la réponse.== Elle partira à Rémi et à la direction de l'école, avec l'objet préfixé — trois éléments qu'Outlook a préparés, et qu'il vous appartenait de vérifier.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "r.tissot@ecole-arts-lambersart.fr"
+            ]
+          },
+          "cc": {
+            "contient": [
+              "direction@ecole-arts-lambersart.fr"
+            ]
+          },
+          "objet": {
+            "prefixe": "RE",
+            "contient": [
+              "2026-118"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Le bouton Envoyer est le premier de la barre du haut de la fenêtre de rédaction."
+      }
+    },
+    {
+      "id": "O02-L01-07",
+      "consigne": "Une flèche ↩ est apparue sur le message d'origine, dans la liste : c'est la trace de votre réponse. ==Ouvrez le message publicitaire== juste au-dessous, et comparez : lui n'en porte aucune. C'est ainsi qu'on repère, dans une boîte chargée, ce qui attend encore une réponse.",
+      "action": {
+        "type": "O_SELECT_MESSAGE",
+        "id": "m-relance-pub"
+      },
+      "aide": {
+        "text": "C'est le message dont l'objet parle des nouveautés du mois."
+      }
+    }
+  ]
+}

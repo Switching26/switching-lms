@@ -482,63 +482,6 @@ type Props = {
   cleGuide?: string | null
 }
 
-/**
- * Rend une consigne : `**gras**` pour le vocabulaire métier, `==action==` pour le
- * geste à effectuer, et `` `code` `` pour les formules et références.
- *
- * Les quantificateurs sont NON GREEDY et acceptent n'importe quel caractère à
- * l'intérieur. Une version antérieure utilisait `==[^=]+==`, ce qui échouait dès
- * qu'une consigne contenait un signe égal — donc sur toutes les consignes citant
- * une formule, c'est-à-dire les plus importantes. Le balisage s'affichait alors en
- * clair à l'écran.
- */
-const CONSIGNE_RE = /(\*\*[\s\S]+?\*\*|==[\s\S]+?==|`[^`]+`)/g
-
-/**
- * Rendu RÉCURSIF du balisage : une action mise en évidence contient presque
- * toujours une formule ou une référence entre accents graves
- * (« ==saisissez `=3+2`== »). Un découpage à un seul niveau affichait les accents
- * graves en clair à l'intérieur des blocs.
- */
-function renderConsigne(text: string, depth = 0): React.ReactNode[] {
-  if (depth > 3) return [text]
-  return text
-    .split(CONSIGNE_RE)
-    .filter(Boolean)
-    .map((p, i) => {
-      if (p.length > 4 && p.startsWith("**") && p.endsWith("**")) {
-        return (
-          <strong key={i} className="font-semibold text-neutral-900">
-            {renderConsigne(p.slice(2, -2), depth + 1)}
-          </strong>
-        )
-      }
-      if (p.length > 4 && p.startsWith("==") && p.endsWith("==")) {
-        return (
-          <span key={i} className="font-medium text-emerald-700">
-            {renderConsigne(p.slice(2, -2), depth + 1)}
-          </span>
-        )
-      }
-      if (p.length > 2 && p.startsWith("`") && p.endsWith("`")) {
-        return (
-          <code
-            key={i}
-            className="rounded bg-neutral-100 px-1 py-0.5 font-mono text-[12.5px] text-neutral-900"
-          >
-            {p.slice(1, -1)}
-          </code>
-        )
-      }
-      return <span key={i}>{p}</span>
-    })
-}
-
-function Consigne({ text }: { text: string }) {
-  const nodes = useMemo(() => renderConsigne(text), [text])
-  return <p className="text-[13.5px] leading-relaxed text-neutral-800">{nodes}</p>
-}
-
 /* ═══════════ COUCHES MONTÉES À LA DEMANDE ═══════════ */
 
 type Besoins = { graphique: boolean; tcd: boolean; miseEnPage: boolean; macros: boolean }
@@ -856,16 +799,6 @@ export default function SimulationPlayer({
    * l'aide se propose d'elle-même.
    */
   /** La consigne dépasse-t-elle son cadre ? Décide du voile qui annonce la suite. */
-  const [consigneDeborde, setConsigneDeborde] = useState(false)
-  const texteRef = useRef<HTMLDivElement>(null)
-  const majFonduConsigne = useCallback(() => {
-    const el = texteRef.current
-    if (!el) return
-    setConsigneDeborde(el.scrollHeight - el.scrollTop - el.clientHeight > 4)
-  }, [])
-  // Le bloc est remonté à chaque étape (clé `tx${index}`) : il faut remesurer
-  // après le rendu, sinon le voile garde l'état de l'étape précédente.
-  useEffect(majFonduConsigne, [majFonduConsigne, index])
   /**
    * Poste de travail (direction C). Absent du scénario — le cas des 243
    * chapitres existants — l'atelier s'ouvre directement dans le classeur.
@@ -5297,6 +5230,63 @@ export default function SimulationPlayer({
         onQuitter={onQuitter}
         pleinCadre={pleinCadre}
         finished={finished}
+        /*
+         * La bande de consigne appartient au CHÂSSIS depuis le chantier
+         * multi-app : Word, PowerPoint et Outlook s'en étaient chacun écrit une
+         * version provisoire, et trois copies auraient fini par diverger sur le
+         * badge de nature, le balisage `==…==` et le placement de l'aide.
+         *
+         * Ce que le player fournit ici est déjà CALCULÉ : du texte, des booléens
+         * et des gestes. Le châssis ne reçoit ni action, ni scénario — il ne
+         * peut donc rien déduire d'Excel en particulier.
+         *
+         * `null` quand le chapitre est terminé : l'écran de bilan remplace alors
+         * la zone de travail, et il n'y a plus de consigne à porter.
+         */
+        consigne={
+          finished || !step
+            ? null
+            : {
+                texte: step.consigne,
+                nature,
+                lecture: step.action.type === "READ",
+                aDemonstration: !!step.montrer?.length,
+                attendu,
+                // Jamais servie en évaluation : le bloc qui l'affiche y est déjà
+                // inatteignable, et la calculer serait la faire transiter pour rien.
+                reponse: evaluationNotee ? null : reponseAttendue(step.action),
+
+                aide: step.aide?.text ?? null,
+                aideVisible: hintShown,
+                // Un repère est ancré sur la feuille : la ligne ferait doublon.
+                aideAncree: !!halo,
+                indiceDisponible: mode === "EXERCISE" && !hintShown && !!step.aide,
+
+                evaluationNotee,
+                relais,
+                relaisActif,
+                verdict,
+                aplomb,
+                panneJuge: pannneJuge,
+                passageEnCours,
+
+                aideProposee: essais >= 3 || tatonnements >= 6 || tropLong,
+                demonstration,
+                demoFinie,
+                demoRejouable: !!demo && demoFinie,
+
+                index,
+                total,
+                reculPossible,
+
+                onMontrer: evaluationNotee ? passerLaQuestion : demarrerDemonstration,
+                onDebloquer: goNext,
+                onRejouerDemo: rejouerDemonstration,
+                onIndice: revealHint,
+                onSuivant: () => handleAction({ kind: "next" }),
+                onReculer: () => setReculDemande(true),
+              }
+        }
       >
       {!introVue && step && (
         <div
@@ -6009,420 +5999,6 @@ export default function SimulationPlayer({
                 }
               />
             )}
-          </div>
-
-          {/* Bande de consigne : pleine largeur sous la feuille, filet de couleur
-              à gauche qui porte le verdict. Le texte est passé à 15 px — c'est la
-              phrase que l'apprenant relit à chaque geste, elle ne peut pas être
-              plus petite que le contenu de la feuille. */}
-          <div
-            // Repère de mesure : ce bandeau est en `overflow:hidden`, donc ce
-            // qui dépasse est INATTEIGNABLE — ni défilement, ni clic. Un
-            // contrôle automatique doit pouvoir le retrouver même quand aucun
-            // bouton de progression n'est rendu.
-            data-bandeau-consigne=""
-            className="relative flex flex-shrink-0 flex-wrap items-center gap-x-4 gap-y-2 overflow-hidden border-t border-border px-4 py-3"
-            style={{
-              borderLeft: `4px solid ${
-                relaisActif ? "#22A75A"
-                : step?.action.type === "READ" ? "#3E5A67"
-                : verdict ? (verdict.ok ? "#059669" : "#e11d48")
-                : "#107C41"
-              }`,
-              background:
-                relaisActif ? "#F2FBF6"
-                : step?.action.type === "READ" ? "#fff"
-                : verdict ? (verdict.ok ? "#F2FBF6" : "#FEF4F5")
-                : "#fff",
-              transition: "background-color .3s ease, border-color .3s ease",
-            }}
-          >
-            {/* Coche de franchissement : elle prend la place du numéro d'étape le
-                temps que la nouvelle consigne s'installe. */}
-            {relaisActif && (
-              <span
-                aria-hidden
-                data-relais="coche"
-                className="absolute flex items-center justify-center rounded-full text-white"
-                style={{
-                  left: 16,
-                  top: "50%",
-                  width: 26,
-                  height: 26,
-                  background: "#22A75A",
-                  fontSize: 14,
-                  fontWeight: 700,
-                  zIndex: 3,
-                  // Purement décorative : elle ne doit jamais intercepter un clic.
-                  pointerEvents: "none",
-                  animation: "sim-coche .78s cubic-bezier(.2,.9,.2,1) both",
-                }}
-              >
-                ✓
-              </span>
-            )}
-            {/* Enveloppe relative : le voile doit rester FIXE en bas du cadre.
-                Posé dans le bloc défilant, il glisserait avec le texte. */}
-            <div className="relative min-w-0 flex-1">
-            <div
-              // La clé force le remontage à chaque étape : sans elle, React
-              // réutilise le nœud et l'animation d'entrée ne rejoue jamais.
-              key={`tx${index}`}
-              ref={texteRef}
-              onScroll={majFonduConsigne}
-              className="min-w-0 flex-1"
-              style={{
-                animation: relais ? "sim-consigne-in .34s cubic-bezier(.2,.85,.25,1) both" : undefined,
-                /**
-                 * La consigne prenait toute la place dont elle avait besoin, et
-                 * la feuille récupérait le reste. Sur un écran de portable avec
-                 * une consigne de 600 signes, il ne restait que SEPT lignes de
-                 * tableau — l'apprenant ne voit plus ce dont on lui parle
-                 * (audit visuel du 31/07/2026, mesuré à 192 px de feuille sur
-                 * 1280×720).
-                 *
-                 * Elle est donc plafonnée et défile à l'intérieur. Le plafond
-                 * est en `vh` : sur un grand écran il n'entre jamais en jeu,
-                 * sur un petit il rend sa place au tableau. Les boutons sont
-                 * hors de ce bloc et restent atteignables sans défiler.
-                 */
-                maxHeight: "17vh",
-                overflowY: "auto",
-              }}
-            >
-              {/* Nature de l'étape : la question qu'un débutant se pose en premier,
-                  « est-ce que je dois faire quelque chose ou seulement lire ? ».
-                  Elle n'avait aucune réponse à l'écran. */}
-              <span
-                className="mb-1.5 inline-flex items-center gap-1.5 rounded-md uppercase"
-                style={{
-                  fontSize: 9.5,
-                  fontWeight: 800,
-                  letterSpacing: ".07em",
-                  padding: "4px 8px",
-                  color: nature === "lecture" ? "#3E5A67" : nature === "evaluee" ? "#8A5A12" : "#107C41",
-                  background:
-                    nature === "lecture" ? "#E8F0F3" : nature === "evaluee" ? "#FBF1DF" : "#E7F3EB",
-                  visibility: relaisActif ? "hidden" : undefined,
-                  animation: relais ? "sim-etape-pop .5s cubic-bezier(.2,.9,.2,1) both" : undefined,
-                }}
-                data-control="sim-badge-etape"
-              >
-                <span aria-hidden>{nature === "lecture" ? "👁" : nature === "evaluee" ? "★" : "✋"}</span>
-                {/* « À lire » datait du temps où ces écrans n'étaient qu'un
-                    paragraphe. Ils portent maintenant une démonstration jouée :
-                    on y REGARDE et on COMPREND, il n'y a rien à lire seul. */}
-                {nature === "lecture"
-                  ? evaluationNotee
-                    ? "Énoncé"
-                    : "À comprendre"
-                  : nature === "evaluee"
-                  ? "Évalué"
-                  : "À vous de jouer"}
-              </span>
-              <div style={{ fontSize: 15, lineHeight: 1.45 }}>
-                {step && <Consigne text={step.consigne} />}
-              </div>
-              {/* Dire explicitement qu'on n'attend rien : sans cette ligne,
-                  l'apprenant cherche ce qu'il doit faire pendant que la
-                  démonstration se joue. */}
-              {nature === "lecture" && step?.montrer?.length ? (
-                <p className="mt-1.5 text-[12.5px] text-warm-500">
-                  <span aria-hidden>👁 </span>
-                  Démonstration à l’écran — <b className="font-semibold">aucune action attendue</b>.
-                </p>
-              ) : null}
-              {/* Critère de réussite, déduit de l'étape : la consigne dit quoi
-                  faire, jamais à quoi on reconnaît que c'est fait. */}
-              {attendu && (
-                <p className="mt-1.5 flex items-center gap-1.5 text-[12.5px] text-warm-500">
-                  <span aria-hidden>◎</span>
-                  Attendu : <b className="font-semibold text-ink">{attendu}</b>
-                </p>
-              )}
-              {evaluationNotee && nature !== "lecture" && (
-                <p className="mt-1 text-[12px]" style={{ color: "#8A5A12" }}>
-                  <span aria-hidden>★ </span>Compté dans votre note
-                </p>
-              )}
-              {/* L'aide ne vit qu'à UN endroit : dans la bulle ancrée à la cible
-                  quand elle peut l'être, ici sinon. Les deux s'affichaient, mot
-                  pour mot, sous la consigne et sur la feuille. */}
-              {mode !== "EVALUATION" && step?.aide?.text && hintShown && !halo && (
-                <p className="mt-1.5 text-[13px] text-warm-600">
-                  <span aria-hidden>👉 </span>
-                  {step.aide.text}
-                </p>
-              )}
-              {/* Écran de lecture : l'apprenant qui tape ou clique par réflexe ne
-                  voyait RIEN — la saisie est refusée en silence par le verrou de
-                  cellules, et le verdict ne sert qu'à teinter le fond. On le lui
-                  dit, en gris, sans le moindre air de reproche. */}
-              {step?.action.type === "READ" && verdict && !verdict.ok && (
-                <p className="mt-1.5 text-[13px] text-warm-600">
-                  <span aria-hidden>💡 </span>
-                  {verdict.message}
-                </p>
-              )}
-            </div>
-              {/* REMISE D'APLOMB : on le DIT, et on le dit là où ça se voit.
-                  Le ton reste neutre et le score n'est pas touché — explorer
-                  n'est pas une faute.
-
-                  Cette ligne vivait DANS le bloc plafonné à 17vh, en quatrième
-                  position derrière le badge, la consigne et « Attendu : ». Sur
-                  un portable elle passait donc sous le pli : des cases
-                  disparaissaient de la feuille et l'explication était hors
-                  champ. Même raisonnement que pour « Montrez-moi » le 31/07 —
-                  ce qui explique un changement que l'apprenant n'a pas
-                  demandé ne se cache pas derrière un défilement. */}
-              {/* PANNE DU JUGE — ni faute, ni silence.
-                  Le verdict d'une évaluation vient du serveur : s'il ne revient
-                  pas, rien n'est compté et le geste reste à refaire. Sans ce
-                  bandeau, l'apprenant retape indéfiniment une réponse juste
-                  devant un atelier muet. */}
-              {evaluationNotee && pannneJuge && (
-                <p
-                  data-panne-juge=""
-                  className="mt-2 flex items-start gap-1.5 rounded-lg px-3 py-2 text-[12.5px]"
-                  style={{ background: "#FDEDEC", border: "1px solid #F3D2CE", color: "#7A2620" }}
-                >
-                  <span aria-hidden>⚠</span>
-                  <span className="min-w-0 flex-1">
-                    {pannneJuge === "reseau" ? (
-                      <>
-                        <b>La correction n'a pas pu être demandée.</b> Rien n'a été compté comme
-                        faute : refaites le geste quand la connexion est revenue.
-                      </>
-                    ) : (
-                      <>
-                        <b>Ce passage n'est plus actif.</b> Rechargez la page pour en ouvrir un
-                        nouveau — rien de ce que vous ferez ici ne serait enregistré.
-                      </>
-                    )}
-                  </span>
-                </p>
-              )}
-              {aplomb && (
-                <p
-                  data-aplomb=""
-                  className="mt-2 flex items-start gap-1.5 rounded-lg px-3 py-2 text-[12.5px]"
-                  style={{ background: "#F4F1EA", border: "1px solid #E4DFD3", color: "#5C574E" }}
-                >
-                  <span aria-hidden>↺</span>
-                  <span className="min-w-0 flex-1">{aplomb}</span>
-                </p>
-              )}
-              {/* HORS du bloc plafonné : « Montrez-moi » est ce qu'on cherche
-                  quand on est bloqué. Enfermé dans la zone qui défile, il
-                  passait sous le pli — mesuré à 646 px pour un écran de 639
-                  (retour Samuel du 31/07/2026). Un bouton d'action ne se cache
-                  pas derrière un défilement. */}
-              {/* Aide progressive : l'apprenant coincé n'est jamais laissé sans issue. */}
-              {step && step.action.type !== "READ" && (essais >= 3 || tatonnements >= 6 || tropLong) && !demonstration && (
-                <div
-                  className="mt-2 flex flex-wrap items-center gap-2 rounded-lg px-3 py-2 text-[12.5px]"
-                  style={{ background: "#FDEDEC", border: "1px solid #F3D2CE", color: "#7A2620" }}
-                >
-                  <span className="min-w-0 flex-1">
-                    <b>Vous bloquez ?</b>{" "}
-                    {evaluationNotee
-                      ? "Vous pouvez passer cette question — elle sera comptée comme non réussie."
-                      : "Je peux vous montrer comment faire, vous pourrez ensuite continuer."}
-                  </span>
-                  {/* EN ÉVALUATION, CE BOUTON RENONCE VRAIMENT.
-                    * Il appelait `demarrerDemonstration` dans les deux modes. En
-                    * évaluation le plan de démonstration vaut `null` — rien n'était
-                    * donc révélé — mais l'atelier basculait quand même en « mode
-                    * démonstration » et affichait un encart de renoncement SANS avoir
-                    * rien dit au serveur. Le renoncement n'était inscrit que par un
-                    * SECOND bouton. Fermer l'onglet entre les deux laissait une
-                    * interface qui annonçait une question passée, et un passage qui
-                    * ne l'avait jamais enregistrée.
-                    *
-                    * Un seul clic, désormais : l'écriture serveur est attendue avant
-                    * d'avancer, et le verrou d'envoi ferme le double tap. */}
-                  <button
-                    type="button"
-                    data-control="sim-montrer"
-                    onClick={evaluationNotee ? passerLaQuestion : demarrerDemonstration}
-                    disabled={evaluationNotee && passageEnCours}
-                    aria-busy={evaluationNotee && passageEnCours}
-                    className="flex-shrink-0 rounded-lg bg-white px-3 py-1.5 text-[12px] font-bold"
-                    style={{
-                      border: "1px solid currentColor",
-                      color: "inherit",
-                      opacity: evaluationNotee && passageEnCours ? 0.6 : 1,
-                    }}
-                  >
-                    {evaluationNotee
-                      ? passageEnCours
-                        ? "Enregistrement…"
-                        : "Passer la question"
-                      : "Montrez-moi"}
-                  </button>
-                </div>
-              )}
-              {/* Bloc de démonstration : hors évaluation seulement. En évaluation
-                * le plan vaut `null`, et le renoncement se fait maintenant d'un
-                * seul clic ci-dessus — ce bloc y était devenu un cul-de-sac. */}
-              {step && demonstration && !evaluationNotee && step.action.type !== "READ" && (
-                <div
-                  className="mt-2 flex flex-wrap items-center gap-2 rounded-lg px-3 py-2 text-[12.5px]"
-                  style={
-                    evaluationNotee
-                      ? { background: "#FBF1DF", border: "1px solid #EBD9B4", color: "#6B4C10" }
-                      : { background: "#E7F3EB", border: "1px solid #BFE3CD", color: "#0C5B31" }
-                  }
-                >
-                  <span className="min-w-0 flex-1">
-                    <span aria-hidden>{evaluationNotee ? "★ " : "👉 "}</span>
-                    {evaluationNotee ? (
-                      <>
-                        <b>Question passée.</b> Elle sera comptée comme non réussie dans votre note.
-                      </>
-                    ) : (
-                      <>
-                        <b>Voici la réponse.</b>{" "}
-                        {reponseAttendue(step.action) ??
-                          "Suivez le repère affiché à l'écran, puis reprenez le geste."}
-                      </>
-                    )}
-                  </span>
-                  {/* Rejouer la démonstration : elle dure quelques secondes et un
-                      apprenant qui a regardé ailleurs n'avait aucun moyen de la
-                      revoir — il fallait recharger le chapitre. */}
-                  {demo && demoFinie && (
-                    <button
-                      type="button"
-                      data-control="sim-revoir-demo"
-                      onClick={rejouerDemonstration}
-                      className="flex flex-shrink-0 items-center gap-1.5 rounded-lg bg-white px-3 py-1.5 text-[12px] font-bold"
-                      style={{ border: "1px solid currentColor", color: "inherit" }}
-                    >
-                      <span aria-hidden>↻</span> Revoir la démonstration
-                    </button>
-                  )}
-                  <button
-                    type="button"
-                    data-control="sim-debloquer"
-                    onClick={evaluationNotee ? passerLaQuestion : goNext}
-                    disabled={evaluationNotee && passageEnCours}
-                    aria-busy={evaluationNotee && passageEnCours}
-                    className="flex-shrink-0 rounded-lg bg-white px-3 py-1.5 text-[12px] font-bold"
-                    style={{
-                      border: "1px solid currentColor",
-                      color: "inherit",
-                      opacity: evaluationNotee && passageEnCours ? 0.6 : 1,
-                    }}
-                  >
-                    {evaluationNotee
-                      ? passageEnCours
-                        ? "Enregistrement…"
-                        : "Question suivante ›"
-                      : "J'ai compris — continuer ›"}
-                  </button>
-                </div>
-              )}
-              {/* Le texte est plafonné : sans ce voile, il se coupait au milieu
-                  d'une phrase sans que rien n'annonce la suite. */}
-              <div
-                aria-hidden
-                className="pointer-events-none absolute inset-x-0 bottom-0 transition-opacity duration-200"
-                style={{
-                  // Blanc sur blanc, un dégradé de 26 px ne se voyait pas. Il
-                  // monte plus haut et finit opaque : la dernière ligne
-                  // s'efface franchement, ce qui se lit comme « ça continue ».
-                  height: 40,
-                  opacity: consigneDeborde ? 1 : 0,
-                  background: "linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,.75) 45%, #fff 100%)",
-                }}
-              />
-            </div>
-            <div className="flex flex-shrink-0 items-center gap-2">
-              {/* Retour en arrière. Il ne portait qu'un chevron « ‹ » gris pâle,
-                  sans libellé : personne ne comprenait que c'était le retour à
-                  l'étape précédente. Il dit maintenant ce qu'il fait, et à
-                  quelle étape il ramène. */}
-              {reculPossible && (
-                <button
-                  type="button"
-                  data-control="sim-reculer"
-                  onClick={() => setReculDemande(true)}
-                  aria-label={`Revenir à l'étape ${index} sur ${total}`}
-                  className="flex flex-shrink-0 items-center gap-1.5 rounded-lg px-3 py-2 text-[12.5px] font-semibold"
-                  style={{ border: "1px solid #D6D0C5", color: "#3C433F", background: "#fff" }}
-                >
-                  <span aria-hidden style={{ fontSize: 15, lineHeight: 1, marginTop: -1 }}>
-                    ‹
-                  </span>
-                  <span className="hidden sm:inline">Étape précédente</span>
-                  <span className="sm:hidden">Précédent</span>
-                  <span
-                    aria-hidden
-                    className="rounded px-1.5 py-0.5 text-[10.5px] font-bold"
-                    style={{ background: "#F0EDE6", color: "#6b6862" }}
-                  >
-                    {index} / {total}
-                  </span>
-                </button>
-              )}
-              {mode === "EXERCISE" && !hintShown && step?.aide && (
-                <button
-                  type="button"
-                  data-control="sim-indice"
-                  onClick={revealHint}
-                  className="rounded-lg border border-border px-3 py-1.5 text-[12.5px] font-medium text-warm-700 hover:bg-warm-50"
-                >
-                  Un indice
-                </button>
-              )}
-              {/* Écran de lecture qui décrit un geste : on le MONTRE. Le
-                  paragraphe devient une démonstration jouée, rejouable, sans
-                  rien exiger de l'apprenant — il regarde, puis il continue. */}
-              {/* Elle se joue seule à l'ouverture ; ce bouton ne sert plus qu'au
-                  cas où l'apprenant arrive après coup. */}
-              {step?.action.type === "READ" && step.montrer && !demonstration && (
-                <button
-                  type="button"
-                  data-control="sim-voir-geste"
-                  onClick={demarrerDemonstration}
-                  className="rounded-lg px-4 py-2 text-[12.5px] font-bold text-white"
-                  style={{ background: "#107C41" }}
-                >
-                  <span aria-hidden>▶</span> Voir le geste
-                </button>
-              )}
-              {step?.action.type === "READ" && step.montrer && demonstration && demoFinie && (
-                <button
-                  type="button"
-                  data-control="sim-revoir-geste"
-                  onClick={rejouerDemonstration}
-                  className="rounded-lg border px-4 py-2 text-[12.5px] font-bold"
-                  style={{ borderColor: "#107C41", color: "#107C41" }}
-                >
-                  <span aria-hidden>↻</span> Revoir
-                </button>
-              )}
-              {step?.action.type === "READ" && (
-                <button
-                  type="button"
-                  // Identifiant stable : le libellé a changé, un test qui vise le
-                  // texte se casse à chaque reformulation.
-                  data-control="sim-suivant"
-                  onClick={() => handleAction({ kind: "next" })}
-                  // « Suivant » n'indiquait pas qu'il n'y avait rien d'autre à
-                  // faire sur cette étape : le libellé le dit maintenant.
-                  // Couleur d'action propre au simulateur : `bg-primary` prenait la
-                  // couleur du partenaire (violette, puis turquoise) au milieu d'un
-                  // univers vert Excel et ivoire.
-                  className="rounded-lg px-4 py-2 text-[12.5px] font-bold text-white"
-                  style={{ background: evaluationNotee ? "#10201B" : "#3E5A67" }}
-                >
-                  J&apos;ai compris, continuer ›
-                </button>
-              )}
-            </div>
           </div>
         </>
       )}

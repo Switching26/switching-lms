@@ -1,0 +1,145 @@
+{
+  "schemaVersion": 1,
+  "app": "WORD",
+  "title": "Numéroter une liste : quand l'ordre compte",
+  "mode": "LESSON",
+  "moduleTitle": "Puces et numéros",
+  "intro": {
+    "title": "PUCE OU NUMÉRO ? LA QUESTION SE TRANCHE EN UNE PHRASE",
+    "body": "Si l'ordre des éléments change quelque chose, numérotez. S'il est indifférent, mettez des puces. C'est la seule règle — et elle évite les listes numérotées absurdes où le lecteur cherche en vain une progression."
+  },
+  "outro": "Numéro pour une procédure, puce pour un inventaire. Et surtout : la numérotation est automatique — on ne tape jamais les chiffres à la main, sinon toute insertion oblige à tout renuméroter.",
+  "document": {
+    "paragraphes": [
+      {
+        "texte": "Mise en route de la scie à ruban"
+      },
+      {
+        "texte": "Vérifier la tension de la lame"
+      },
+      {
+        "texte": "Contrôler le serrage du guide"
+      },
+      {
+        "texte": "Mettre l'aspiration en marche"
+      },
+      {
+        "texte": "Lancer le moteur et attendre la vitesse stable"
+      },
+      {
+        "texte": "Équipements de protection",
+        "liste": "puces"
+      },
+      {
+        "texte": "Lunettes et protections auditives"
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M06-L02-01",
+      "consigne": "==Numérotez la première opération== de la procédure, « Vérifier la tension de la lame », avec le bouton Numéros du groupe Paragraphe.",
+      "setup": {
+        "ribbon": {
+          "activeTab": "accueil"
+        }
+      },
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p1",
+        "style": {
+          "liste": "numerotee"
+        }
+      },
+      "aide": {
+        "text": "Le second bouton du groupe Paragraphe.",
+        "showTarget": true
+      },
+      "feedback": "Le chiffre 1 apparaît — et vous ne l'avez pas tapé."
+    },
+    {
+      "id": "M06-L02-02",
+      "consigne": "==Numérotez la deuxième opération.== Observez le chiffre qui s'affiche : Word compte tout seul, et recomptera si vous insérez une étape.",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p2",
+        "style": {
+          "liste": "numerotee"
+        }
+      },
+      "feedback": "Le 2 est venu seul : c'est tout l'intérêt de la numérotation automatique."
+    },
+    {
+      "id": "M06-L02-03",
+      "consigne": "==Numérotez la troisième opération.==",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p3",
+        "style": {
+          "liste": "numerotee"
+        }
+      },
+      "feedback": "Trois opérations ordonnées."
+    },
+    {
+      "id": "M06-L02-04",
+      "consigne": "==Numérotez la dernière opération== de la procédure.",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p4",
+        "style": {
+          "liste": "numerotee"
+        }
+      },
+      "feedback": "La procédure se lit dans l'ordre, du premier au dernier geste."
+    },
+    {
+      "id": "M06-L02-05",
+      "consigne": "Les équipements de protection, eux, n'ont pas d'ordre : on les porte tous. ==Mettez « Lunettes et protections auditives » en liste à puces==, et non en liste numérotée.",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p6",
+        "style": {
+          "liste": "puces"
+        }
+      },
+      "feedback": "Deux listes de nature différente dans le même document : chacune dit ce qu'elle est."
+    },
+    {
+      "id": "M06-L02-06",
+      "consigne": "==Retirez la puce de l'intertitre « Équipements de protection »== : un titre de section n'appartient à aucune des deux listes.",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p5",
+        "style": {
+          "liste": "aucune"
+        }
+      },
+      "feedback": "L'intertitre sépare les deux listes au lieu de s'y fondre."
+    },
+    {
+      "id": "M06-L02-07",
+      "consigne": "==Donnez le style Titre 1 à cet intertitre== pour marquer la coupure entre la procédure et les équipements.",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p5",
+        "style": {
+          "style": "Titre 1"
+        }
+      },
+      "feedback": "Le document a deux sections, chacune avec sa liste."
+    },
+    {
+      "id": "M06-L02-08",
+      "consigne": "==Épaississez le titre de la procédure== pour terminer.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p0",
+        "format": {
+          "gras": true
+        }
+      },
+      "feedback": "Procédure prête à être affichée près de la machine."
+    }
+  ]
+}

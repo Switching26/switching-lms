@@ -1,0 +1,211 @@
+{
+  "schemaVersion": 1,
+  "title": "S'évaluer — Sécurité : reconnaître et traiter un message dangereux",
+  "mode": "EVALUATION",
+  "moduleTitle": "Sécurité : reconnaître et traiter un message dangereux",
+  "intro": {
+    "title": "Vendredi 20 mars — la boîte du matin, sans filet",
+    "body": "Quatre messages. L'un se fait passer pour votre gérante et réclame un virement. Un autre est une vraie facture. Un troisième doit être diffusé à des clients qui ne doivent pas se voir. Vous devez vérifier, isoler, diffuser proprement et ranger — sans jamais répondre à ce qui est douteux. Cette épreuve est notée : chaque geste compte au premier essai, aucune aide n'est proposée. La rédaction ne compte pas dans la note."
+  },
+  "outro": {
+    "body": "L'épreuve portait sur des gestes qui se constatent : à quelle adresse vous avez écrit, quelles adresses étaient visibles, où chaque message a été rangé. C'est aussi ce qu'un assureur ou une banque regardera si une fraude aboutit un jour — pas votre bonne foi, mais ce que vous avez fait."
+  },
+  "ribbon": [],
+  "workbook": { "sheets": [] },
+
+  "courrier": {
+    "compte": { "nom": "Camille Aubertin", "adresse": "camille.aubertin@atelier-nord.fr" },
+    "dossiers": [
+      { "id": "clients", "nom": "Clients 2026" },
+      { "id": "fournisseurs", "nom": "Fournisseurs" }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "contacts": [
+      { "nom": "Nadia Kerbaj", "adresse": "n.kerbaj@atelier-nord.fr", "societe": "Atelier Nord" }
+    ],
+    "messages": [
+      {
+        "id": "m-fraude",
+        "dossier": "reception",
+        "de": "nadia.kerbaj@atelier-nord-direction.com",
+        "a": ["camille.aubertin@atelier-nord.fr"],
+        "objet": "Confidentiel — acompte à régler avant midi",
+        "corps": "Camille,\n\nJe suis en rendez-vous toute la matinée. Merci de passer un virement de 6 200 € au nouveau fournisseur, coordonnées jointes.\nNe pas en parler à l'équipe tant que le contrat n'est pas signé.\n\nNadia",
+        "date": "2026-03-20T07:12",
+        "lu": false,
+        "pieces": [{ "nom": "Coordonnees-fournisseur.pdf", "taille": "61 Ko" }]
+      },
+      {
+        "id": "m-facture",
+        "dossier": "reception",
+        "de": "compta@quincaillerie-delmas.fr",
+        "a": ["camille.aubertin@atelier-nord.fr"],
+        "objet": "Facture QD-4610 — échéance 15 avril",
+        "corps": "Bonjour,\n\nVeuillez trouver la facture QD-4610, réglable sur nos coordonnées habituelles.\n\nQuincaillerie Delmas",
+        "date": "2026-03-20T08:02",
+        "lu": false,
+        "pieces": [{ "nom": "Facture-QD-4610.pdf", "taille": "120 Ko" }]
+      },
+      {
+        "id": "m-annonce",
+        "dossier": "reception",
+        "de": "n.kerbaj@atelier-nord.fr",
+        "a": ["camille.aubertin@atelier-nord.fr"],
+        "objet": "À diffuser — nouveaux horaires de l'atelier",
+        "corps": "Camille,\n\nMerci d'annoncer nos nouveaux horaires à nos deux clients :\nr.tissot@ecole-arts-lambersart.fr et j.leroux@habitat-du-nord.fr.\nIls ne doivent pas voir les adresses l'un de l'autre.\nOuverture du lundi au vendredi, de 8 h à 18 h, à compter du 6 avril.\n\nNadia",
+        "date": "2026-03-20T08:20",
+        "lu": false
+      },
+      {
+        "id": "m-pub",
+        "dossier": "reception",
+        "de": "offres@promo-outillage.net",
+        "a": ["camille.aubertin@atelier-nord.fr"],
+        "objet": "Braderie de printemps — jusqu'à -60 %",
+        "corps": "Nos meilleures offres du printemps.",
+        "date": "2026-03-20T05:40",
+        "lu": false
+      }
+    ]
+  },
+
+  "steps": [
+    {
+      "id": "O04-EV01-01",
+      "consigne": "Ouvrez le message qui réclame un virement et lisez son adresse d'expéditeur jusqu'au dernier point.",
+      "action": { "type": "O_SELECT_MESSAGE", "id": "m-fraude" },
+      "points": 1
+    },
+    {
+      "id": "O04-EV01-02",
+      "consigne": "Vérifiez cette demande auprès de la vraie adresse de votre gérante, `n.kerbaj@atelier-nord.fr`. Le chemin compte autant que la destination : rien de ce que vous écrivez ne doit atteindre l'expéditeur du message reçu.",
+      "setup": { "courrier": { "messageActif": "m-fraude" } },
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "genre": "nouveau",
+          "a": {
+            "contient": ["n.kerbaj@atelier-nord.fr"],
+            "absent": ["nadia.kerbaj@atelier-nord-direction.com"]
+          },
+          "cc": { "vide": true }
+        }
+      },
+      "points": 3
+    },
+    {
+      "id": "O04-EV01-03",
+      "consigne": "Donnez à cette vérification un objet contenant le mot `vérification`.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "objet": { "contient": ["verification"], "nonVide": true }
+        }
+      },
+      "points": 1
+    },
+    {
+      "id": "O04-EV01-04",
+      "consigne": "Rédigez la vérification avec vos mots. **Cette étape n'entre pas dans la note.**",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "corps": { "minMots": 10, "revueManuelle": true }
+        }
+      },
+      "points": 0
+    },
+    {
+      "id": "O04-EV01-05",
+      "consigne": "Relisez la ligne du destinataire, puis envoyez la vérification.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": ["n.kerbaj@atelier-nord.fr"],
+            "absent": ["nadia.kerbaj@atelier-nord-direction.com"]
+          },
+          "cc": { "vide": true },
+          "objet": { "contient": ["verification"] }
+        }
+      },
+      "points": 2
+    },
+    {
+      "id": "O04-EV01-06",
+      "consigne": "Isolez la tentative de fraude sans l'effacer : elle doit rester consultable.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": { "messages": { "m-fraude": { "dossier": "indesirables" } } }
+      },
+      "points": 2
+    },
+    {
+      "id": "O04-EV01-07",
+      "consigne": "Diffusez maintenant les nouveaux horaires aux deux clients désignés par votre gérante. Ils ne doivent voir ni l'adresse de l'autre, ni pouvoir se répondre entre eux.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "genre": "nouveau",
+          "a": {
+            "contient": ["camille.aubertin@atelier-nord.fr"],
+            "absent": ["r.tissot@ecole-arts-lambersart.fr", "j.leroux@habitat-du-nord.fr"]
+          },
+          "cc": { "vide": true },
+          "cci": {
+            "contient": ["r.tissot@ecole-arts-lambersart.fr", "j.leroux@habitat-du-nord.fr"]
+          }
+        }
+      },
+      "points": 3
+    },
+    {
+      "id": "O04-EV01-08",
+      "consigne": "Donnez un objet contenant le mot `horaires`, rédigez l'annonce, puis envoyez-la.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": { "contient": ["camille.aubertin@atelier-nord.fr"] },
+          "cc": { "vide": true },
+          "cci": {
+            "contient": ["r.tissot@ecole-arts-lambersart.fr", "j.leroux@habitat-du-nord.fr"]
+          },
+          "objet": { "contient": ["horaires"] },
+          "corps": { "minMots": 10, "revueManuelle": true }
+        }
+      },
+      "points": 3
+    },
+    {
+      "id": "O04-EV01-09",
+      "consigne": "La facture de la Quincaillerie Delmas est authentique et traitée : rangez-la dans le dossier des fournisseurs.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": { "messages": { "m-facture": { "dossier": "fournisseurs" } } }
+      },
+      "points": 1
+    },
+    {
+      "id": "O04-EV01-10",
+      "consigne": "Sortez enfin la braderie de votre file d'attente.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": { "messages": { "m-pub": { "dossier": "supprimes" } } }
+      },
+      "points": 1
+    }
+  ]
+}

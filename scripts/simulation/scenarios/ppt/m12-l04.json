@@ -1,0 +1,207 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "mode": "LESSON",
+  "moduleTitle": "Une présentation longue",
+  "title": "Le contrôle d'une présentation longue",
+  "intro": {
+    "title": "Le contrôle d'une présentation longue",
+    "body": "Sur douze diapositives, on ne relit pas : on contrôle. Quatre passages, toujours dans le même ordre, chacun repérant une catégorie de défaut qu'aucun des trois autres ne voit."
+  },
+  "outro": {
+    "body": "Les quatre passages sont faits et deux défauts corrigés. Les exercices du module vous attendent, puis l'évaluation."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "ppt": {
+    "fileName": "AG Grandval - contrôle.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Coopérative Grandval",
+          "sous-titre": "Assemblée générale du 14 mars"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Ordre du jour",
+          "contenu": "Résultats 2026\nInvestissements 2027\nVie de la coopérative"
+        }
+      },
+      {
+        "layout": "titre-seul",
+        "textes": {
+          "titre": "1. Résultats 2026"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Chiffre d'affaires",
+          "contenu": "4,2 millions d'euros\nEn hausse de 6 %"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Point 3",
+          "contenu": "3,6 millions d'euros\nÉnergie en hausse de 18 %"
+        }
+      },
+      {
+        "layout": "titre-seul",
+        "textes": {
+          "titre": "2. Investissements 2027"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Résultat net",
+          "contenu": "600 000 euros\nDont 150 000 mis en réserve"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Le nouveau séchoir",
+          "contenu": "420 000 € sur trois ans\nMise en service en octobre"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Vote des résolutions",
+          "contenu": "Trois résolutions soumises au vote"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "masquee": true,
+        "textes": {
+          "titre": "Détail des charges par poste",
+          "contenu": "Énergie 640 000 €\nMain-d'œuvre 1 480 000 €\nTransport 310 000 €"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M12-L04-01",
+      "consigne": "Quatre passages, toujours dans cet ordre : **les titres**, **l'ordre**, **le déroulé**, **les masquées**. Chacun trouve une catégorie de défaut différente. Sur trois diapositives on peut s'en passer ; sur douze, aucun des quatre n'est facultatif.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M12-L04-02",
+      "consigne": "==Passez en Trieuse== : premier passage, on lit les titres seuls, sans regarder les contenus.",
+      "action": {
+        "type": "P_SET_VIEW",
+        "view": "trieuse"
+      },
+      "aide": {
+        "text": "Groupe Affichage, bouton Trieuse."
+      }
+    },
+    {
+      "id": "M12-L04-03",
+      "consigne": "==Affichez la cinquième diapositive==, celle qui s'appelle « Point 3 » : un titre hérité d'une réunion numérotée, au milieu de titres qui disent tous quelque chose.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 4
+      }
+    },
+    {
+      "id": "M12-L04-04",
+      "consigne": "==Revenez en affichage Normal== : c'est le seul où l'on modifie un contenu.",
+      "action": {
+        "type": "P_SET_VIEW",
+        "view": "normal"
+      }
+    },
+    {
+      "id": "M12-L04-05",
+      "consigne": "==Remplacez son titre par Charges==. Le premier passage ne trouve que ce genre de défaut — mais il le trouve à coup sûr, alors qu'une relecture normale passe dessus dix fois.",
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:titre",
+        "accept": [
+          "Charges"
+        ]
+      },
+      "aide": {
+        "text": "Un titre déjà rempli s'ouvre au double-clic."
+      }
+    },
+    {
+      "id": "M12-L04-06",
+      "consigne": "==Repassez en Trieuse== : deuxième passage, on ne lit plus les titres, on regarde **les groupes**. Le résultat net est tombé après le séparateur des investissements, donc dans la mauvaise partie.",
+      "action": {
+        "type": "P_SET_VIEW",
+        "view": "trieuse"
+      }
+    },
+    {
+      "id": "M12-L04-07",
+      "consigne": "==Affichez la diapositive du résultat net==, la septième.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 6
+      }
+    },
+    {
+      "id": "M12-L04-08",
+      "consigne": "==Montez-la d'un cran== : elle repasse avant le séparateur, avec les charges et le chiffre d'affaires. Une diapositive dans la mauvaise partie ne gêne personne à la lecture, et perd tout le monde en séance.",
+      "setupPpt": {
+        "slide": 6
+      },
+      "action": {
+        "type": "P_MOVE_SLIDE",
+        "from": 6,
+        "to": 5
+      },
+      "aide": {
+        "text": "Le bouton « ↑ Monter » est dans le groupe Diapositives."
+      },
+      "feedback": "Trois diapositives de résultats, puis le séparateur : les groupes correspondent enfin à l'ordre du jour."
+    },
+    {
+      "id": "M12-L04-09",
+      "consigne": "==Revenez en affichage Normal== avant le troisième passage.",
+      "action": {
+        "type": "P_SET_VIEW",
+        "view": "normal"
+      }
+    },
+    {
+      "id": "M12-L04-10",
+      "consigne": "==Lancez le diaporama depuis le début== : troisième passage, on vérifie ce que l'assemblée verra réellement, y compris que l'annexe masquée est bien sautée.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": true,
+          "index": 0
+        }
+      },
+      "aide": {
+        "text": "Groupe Diaporama, bouton « ▶ Début »."
+      }
+    },
+    {
+      "id": "M12-L04-11",
+      "consigne": "==Quittez le diaporama==. Reste le quatrième passage, celui qu'on oublie : relire ce qui est masqué et se demander si le fichier va être **envoyé**. Si oui, les annexes ne se masquent pas — elles se suppriment.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": false
+        }
+      }
+    }
+  ]
+}

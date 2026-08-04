@@ -1,0 +1,105 @@
+{
+  "schemaVersion": 1,
+  "app": "WORD",
+  "title": "Exercice — Les caractères introuvables",
+  "mode": "EXERCISE",
+  "moduleTitle": "Symboles et caractères spéciaux",
+  "intro": {
+    "title": "À VOUS DE JOUER",
+    "body": "Une fiche produit à composer. Chaque ligne réclame un caractère absent du clavier : degré, pourcentage, euro, tiret long, ligature. Tapez-les correctement — une approximation se verrait."
+  },
+  "outro": "Cinq caractères, cinq usages. Un document qui les respecte se lit comme un document professionnel.",
+  "document": {
+    "paragraphes": [
+      {
+        "texte": "Fiche produit — colle à bois D3"
+      },
+      {
+        "texte": "Caractéristiques"
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M07-E01-01",
+      "consigne": "==Saisissez la première caractéristique== : Résistance à l'eau conforme à la norme D3",
+      "action": {
+        "type": "W_TYPE_TEXT",
+        "zone": "p1",
+        "accept": [
+          "Résistance à l'eau conforme à la norme D3"
+        ]
+      },
+      "feedback": "Première ligne."
+    },
+    {
+      "id": "M07-E01-02",
+      "consigne": "==Saisissez la température de mise en œuvre==, avec le symbole degré : Mise en œuvre entre 12 °C et 30 °C",
+      "action": {
+        "type": "W_TYPE_TEXT",
+        "zone": "p2",
+        "accept": [
+          "Mise en œuvre entre 12 °C et 30 °C"
+        ]
+      },
+      "aide": {
+        "text": "Le symbole degré, et la ligature œ dans « œuvre ».",
+        "showTarget": true
+      },
+      "feedback": "Deux caractères spéciaux sur une seule ligne."
+    },
+    {
+      "id": "M07-E01-03",
+      "consigne": "==Saisissez le taux d'humidité== : Humidité du bois inférieure à 12 %",
+      "action": {
+        "type": "W_TYPE_TEXT",
+        "zone": "p3",
+        "accept": [
+          "Humidité du bois inférieure à 12 %"
+        ]
+      },
+      "feedback": "Espace avant le signe pourcentage : c'est la règle française."
+    },
+    {
+      "id": "M07-E01-04",
+      "consigne": "==Saisissez la ligne de conditionnement==, avec un tiret long : Conditionnement — flacon de 750 grammes — usage intérieur",
+      "action": {
+        "type": "W_TYPE_TEXT",
+        "zone": "p4",
+        "accept": [
+          "Conditionnement — flacon de 750 grammes — usage intérieur"
+        ]
+      },
+      "feedback": "Le tiret long encadre l'incise."
+    },
+    {
+      "id": "M07-E01-05",
+      "consigne": "==Saisissez le tarif== : Prix public conseillé : 9,80 € le flacon",
+      "action": {
+        "type": "W_TYPE_TEXT",
+        "zone": "p5",
+        "accept": [
+          "Prix public conseillé : 9,80 € le flacon"
+        ]
+      },
+      "feedback": "Virgule décimale et euro après le montant."
+    },
+    {
+      "id": "M07-E01-06",
+      "consigne": "==Épaississez le prix== pour terminer.",
+      "setup": {
+        "ribbon": {
+          "activeTab": "accueil"
+        }
+      },
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "texte:9,80 €",
+        "format": {
+          "gras": true
+        }
+      },
+      "feedback": "Fiche produit complète."
+    }
+  ]
+}

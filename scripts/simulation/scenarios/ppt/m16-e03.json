@@ -1,0 +1,229 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "mode": "EXERCISE",
+  "moduleTitle": "Cas pratique : le point trimestriel",
+  "title": "La finition avant le conseil",
+  "intro": {
+    "title": "La finition avant le conseil",
+    "body": "Le contenu est prêt, la séance est demain. Rangez l'annexe, remettez le titre hors modèle d'aplomb, préparez l'ouverture et contrôlez le tout — un quart d'heure, pas plus."
+  },
+  "outro": {
+    "body": "Annexe masquée en fin de fichier, titres homogènes, ouverture écrite, contrôle fait."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "ppt": {
+    "fileName": "Saint-Clair - rentrée.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Foyer Saint-Clair",
+          "sous-titre": "Conseil d'administration du 12 septembre"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Ordre du jour",
+          "contenu": "Les effectifs\nLe budget\nLes travaux d'été"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "79 places occupées sur 84",
+          "contenu": "14 entrées et 11 sorties cet été\n23 dossiers en attente\nCinq places à pourvoir"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "LISTE DES DOSSIERS EN ATTENTE",
+          "contenu": "23 dossiers, dont 9 en urgence sociale\nDélai moyen d'instruction : 47 jours"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "70 % du budget engagé au 31 août",
+          "contenu": "1 284 500 € notifiés\n902 000 € engagés\n382 000 € restants"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M16-E03-01",
+      "consigne": "Affichez la quatrième diapositive, la liste des dossiers en attente : c'est un détail que personne ne demandera, mais qu'il faut avoir sous la main.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 3
+      }
+    },
+    {
+      "id": "M16-E03-02",
+      "consigne": "Descendez-la d'un cran : elle passe après le budget, en dernière position.",
+      "setupPpt": {
+        "slide": 3
+      },
+      "action": {
+        "type": "P_MOVE_SLIDE",
+        "from": 3,
+        "to": 4
+      },
+      "aide": {
+        "text": "Le bouton « ↓ Descendre » est dans le groupe Diapositives."
+      }
+    },
+    {
+      "id": "M16-E03-03",
+      "consigne": "Masquez-la : une annexe rangée doit aussi être invisible en projection.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Foyer Saint-Clair",
+                "sous-titre": "Conseil d'administration du 12 septembre"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Ordre du jour",
+                "contenu": "Les effectifs\nLe budget\nLes travaux d'été"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "79 places occupées sur 84",
+                "contenu": "14 entrées et 11 sorties cet été\n23 dossiers en attente\nCinq places à pourvoir"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "70 % du budget engagé au 31 août",
+                "contenu": "1 284 500 € notifiés\n902 000 € engagés\n382 000 € restants"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "LISTE DES DOSSIERS EN ATTENTE",
+                "contenu": "23 dossiers, dont 9 en urgence sociale\nDélai moyen d'instruction : 47 jours"
+              }
+            }
+          ]
+        },
+        "slide": 4
+      },
+      "action": {
+        "type": "P_EXPECT_DECK",
+        "deck": {
+          "slides": [
+            {
+              "index": 4,
+              "masquee": true
+            }
+          ]
+        }
+      },
+      "aide": {
+        "text": "Groupe Diaporama, bouton Masquer."
+      }
+    },
+    {
+      "id": "M16-E03-04",
+      "consigne": "Son titre est en capitales quand tous les autres sont en minuscules. Remplacez-le par Dossiers en attente.",
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:titre",
+        "accept": [
+          "Dossiers en attente"
+        ]
+      },
+      "aide": {
+        "text": "Un titre déjà rempli s'ouvre au double-clic."
+      }
+    },
+    {
+      "id": "M16-E03-05",
+      "consigne": "Affichez la première diapositive pour préparer l'ouverture.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 0
+      }
+    },
+    {
+      "id": "M16-E03-06",
+      "consigne": "Écrivez sa note : Bonsoir, point de rentrée en quinze minutes, trois sujets.",
+      "action": {
+        "type": "P_EXPECT_DECK",
+        "deck": {
+          "slides": [
+            {
+              "index": 0,
+              "notes": "Bonsoir, point de rentrée en quinze minutes, trois sujets"
+            }
+          ]
+        }
+      },
+      "aide": {
+        "text": "Le champ de notes est sous la diapositive ; sur petit écran, le bouton « Notes » l'ouvre."
+      }
+    },
+    {
+      "id": "M16-E03-07",
+      "consigne": "Passez en Trieuse pour le contrôle d'ensemble : silhouettes, titres, annexe marquée en fin.",
+      "action": {
+        "type": "P_SET_VIEW",
+        "view": "trieuse"
+      },
+      "aide": {
+        "text": "Groupe Affichage, bouton Trieuse."
+      }
+    },
+    {
+      "id": "M16-E03-08",
+      "consigne": "Revenez en affichage Normal.",
+      "action": {
+        "type": "P_SET_VIEW",
+        "view": "normal"
+      }
+    },
+    {
+      "id": "M16-E03-09",
+      "consigne": "Lancez le diaporama depuis le début : dernier contrôle, l'annexe doit être sautée.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": true,
+          "index": 0
+        }
+      },
+      "aide": {
+        "text": "Groupe Diaporama, bouton « ▶ Début »."
+      }
+    },
+    {
+      "id": "M16-E03-10",
+      "consigne": "Quittez le diaporama.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": false
+        }
+      },
+      "feedback": "Un quart d'heure de finition, et une présentation qui se tient devant un conseil."
+    }
+  ]
+}

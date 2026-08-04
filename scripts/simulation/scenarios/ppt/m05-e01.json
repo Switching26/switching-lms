@@ -1,0 +1,154 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "mode": "EXERCISE",
+  "moduleTitle": "Choisir la bonne disposition",
+  "title": "Exercice — Deux colonnes",
+  "intro": {
+    "title": "Exercice — Deux colonnes",
+    "body": "Une diapositive doit présenter deux sites d'égale importance et n'offre qu'un seul bloc. Donnez-lui la structure qui convient, puis remplissez les deux colonnes."
+  },
+  "outro": {
+    "body": "Deux blocs de même poids : la disposition l'annonce avant que le lecteur ait lu un mot."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "ppt": {
+    "fileName": "Agences Verdeval.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Verdeval",
+          "sous-titre": "Nos implantations"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Nantes et Rennes"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M05-E01-01",
+      "consigne": "Affichez la diapositive des deux agences.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 1
+      },
+      "aide": {
+        "text": "C'est la deuxième miniature du volet."
+      }
+    },
+    {
+      "id": "M05-E01-02",
+      "consigne": "Elle doit porter deux contenus d'égale importance, sans intitulé particulier. Donnez-lui la disposition correspondante.",
+      "action": {
+        "type": "P_SET_LAYOUT",
+        "layout": "deux-contenus"
+      },
+      "aide": {
+        "text": "Groupe Diapositives, menu Disposition : deux blocs de même poids, c'est « Deux contenus »."
+      }
+    },
+    {
+      "id": "M05-E01-03",
+      "consigne": "Dans la colonne de gauche, indiquez : 8 jardiniers.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Nos implantations"
+              }
+            },
+            {
+              "layout": "deux-contenus",
+              "textes": {
+                "titre": "Nantes et Rennes"
+              }
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:contenu",
+        "accept": [
+          "8 jardiniers"
+        ]
+      },
+      "aide": {
+        "text": "C'est le cadre de gauche, portant l'invite « Cliquez pour ajouter du texte »."
+      }
+    },
+    {
+      "id": "M05-E01-04",
+      "consigne": "Dans celle de droite, indiquez : 4 jardiniers.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Nos implantations"
+              }
+            },
+            {
+              "layout": "deux-contenus",
+              "textes": {
+                "titre": "Nantes et Rennes",
+                "contenu": "8 jardiniers"
+              }
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:contenu#2",
+        "accept": [
+          "4 jardiniers"
+        ]
+      },
+      "aide": {
+        "text": "C'est le second cadre, à droite du premier."
+      }
+    },
+    {
+      "id": "M05-E01-05",
+      "consigne": "Le titre de la diapositive doit affirmer sa fonction.",
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "ph:titre",
+        "style": {
+          "bold": true
+        }
+      }
+    },
+    {
+      "id": "M05-E01-06",
+      "consigne": "Centrez-le, comme il convient à un titre court.",
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "ph:titre",
+        "style": {
+          "align": "center"
+        }
+      }
+    }
+  ]
+}

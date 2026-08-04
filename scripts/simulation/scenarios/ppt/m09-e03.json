@@ -1,0 +1,394 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "mode": "EXERCISE",
+  "moduleTitle": "Dessiner et annoter",
+  "title": "Exercice — Nettoyer une image sur-annotée",
+  "intro": {
+    "title": "Exercice — Nettoyer une image sur-annotée",
+    "body": "Quatre formes et une note de travail encombrent cette image : le regard ne sait plus où aller. Ne gardez que ce qui désigne vraiment, placez-le, et vérifiez en projection."
+  },
+  "outro": {
+    "body": "Deux annotations valent mieux que quatre : le regard sait enfin où aller."
+  },
+  "ppt": {
+    "fileName": "Chantier Verdeval.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Verdeval",
+          "sous-titre": "Le chantier des Tilleuls"
+        }
+      },
+      {
+        "layout": "titre-seul",
+        "textes": {
+          "titre": "Le massif central"
+        },
+        "objets": [
+          {
+            "id": "img-m",
+            "objectType": "image",
+            "src": "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22320%22%20height%3D%22200%22%3E%3Crect%20width%3D%22320%22%20height%3D%22200%22%20fill%3D%22%23DCEBD8%22%2F%3E%3Crect%20y%3D%22140%22%20width%3D%22320%22%20height%3D%2260%22%20fill%3D%22%237BA05B%22%2F%3E%3Ccircle%20cx%3D%2260%22%20cy%3D%2252%22%20r%3D%2222%22%20fill%3D%22%23F2D06B%22%2F%3E%3Cpath%20d%3D%22M120%20140%20L150%2078%20L180%20140%20Z%22%20fill%3D%22%233E6B3A%22%2F%3E%3Cpath%20d%3D%22M196%20140%20L220%2096%20L244%20140%20Z%22%20fill%3D%22%234E7F45%22%2F%3E%3Crect%20x%3D%22150%22%20y%3D%22140%22%20width%3D%226%22%20height%3D%2218%22%20fill%3D%22%236B4A2F%22%2F%3E%3Crect%20x%3D%22217%22%20y%3D%22140%22%20width%3D%226%22%20height%3D%2214%22%20fill%3D%22%236B4A2F%22%2F%3E%3C%2Fsvg%3E",
+            "rect": {
+              "x": 440,
+              "y": 150,
+              "w": 440,
+              "h": 275
+            }
+          },
+          {
+            "id": "fo-1",
+            "objectType": "forme",
+            "shape": "ellipse",
+            "rect": {
+              "x": 70,
+              "y": 60,
+              "w": 150,
+              "h": 80
+            }
+          },
+          {
+            "id": "fo-2",
+            "objectType": "forme",
+            "shape": "triangle",
+            "rect": {
+              "x": 70,
+              "y": 170,
+              "w": 140,
+              "h": 80
+            }
+          },
+          {
+            "id": "fo-3",
+            "objectType": "forme",
+            "shape": "rectangle-arrondi",
+            "rect": {
+              "x": 70,
+              "y": 280,
+              "w": 160,
+              "h": 80
+            }
+          },
+          {
+            "id": "fo-4",
+            "objectType": "forme",
+            "shape": "fleche",
+            "rect": {
+              "x": 70,
+              "y": 390,
+              "w": 160,
+              "h": 70
+            }
+          },
+          {
+            "id": "zt-todo",
+            "objectType": "texte",
+            "texte": "choisir lesquelles garder",
+            "rect": {
+              "x": 260,
+              "y": 460,
+              "w": 330,
+              "h": 55
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M09-E03-01",
+      "consigne": "Affichez la diapositive du massif central.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 1
+      },
+      "aide": {
+        "text": "C'est la deuxième miniature du volet."
+      }
+    },
+    {
+      "id": "M09-E03-02",
+      "consigne": "Une note de travail traîne en bas : elle n'a pas à être projetée.",
+      "action": {
+        "type": "P_DELETE_OBJECT",
+        "objectId": "zt-todo"
+      },
+      "aide": {
+        "text": "Sélectionnez-la d'un clic, puis Suppr ou le bouton Supprimer du groupe Objet."
+      }
+    },
+    {
+      "id": "M09-E03-03",
+      "consigne": "Le triangle ne repère rien : retirez-le.",
+      "action": {
+        "type": "P_DELETE_OBJECT",
+        "objectId": "fo-2"
+      }
+    },
+    {
+      "id": "M09-E03-04",
+      "consigne": "Le rectangle arrondi fait double emploi avec l'ellipse : retirez-le aussi.",
+      "action": {
+        "type": "P_DELETE_OBJECT",
+        "objectId": "fo-3"
+      }
+    },
+    {
+      "id": "M09-E03-05",
+      "consigne": "Il reste une ellipse et une flèche, ce qui est le bon compte. Amenez l'ellipse sur le centre de la photo.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Le chantier des Tilleuls"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Le massif central"
+              },
+              "objets": [
+                {
+                  "id": "img-m",
+                  "objectType": "image",
+                  "rect": {
+                    "x": 440,
+                    "y": 150,
+                    "w": 440,
+                    "h": 275
+                  },
+                  "src": "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22320%22%20height%3D%22200%22%3E%3Crect%20width%3D%22320%22%20height%3D%22200%22%20fill%3D%22%23DCEBD8%22%2F%3E%3Crect%20y%3D%22140%22%20width%3D%22320%22%20height%3D%2260%22%20fill%3D%22%237BA05B%22%2F%3E%3Ccircle%20cx%3D%2260%22%20cy%3D%2252%22%20r%3D%2222%22%20fill%3D%22%23F2D06B%22%2F%3E%3Cpath%20d%3D%22M120%20140%20L150%2078%20L180%20140%20Z%22%20fill%3D%22%233E6B3A%22%2F%3E%3Cpath%20d%3D%22M196%20140%20L220%2096%20L244%20140%20Z%22%20fill%3D%22%234E7F45%22%2F%3E%3Crect%20x%3D%22150%22%20y%3D%22140%22%20width%3D%226%22%20height%3D%2218%22%20fill%3D%22%236B4A2F%22%2F%3E%3Crect%20x%3D%22217%22%20y%3D%22140%22%20width%3D%226%22%20height%3D%2214%22%20fill%3D%22%236B4A2F%22%2F%3E%3C%2Fsvg%3E"
+                },
+                {
+                  "id": "fo-1",
+                  "objectType": "forme",
+                  "shape": "ellipse",
+                  "rect": {
+                    "x": 70,
+                    "y": 60,
+                    "w": 150,
+                    "h": 80
+                  }
+                },
+                {
+                  "id": "fo-4",
+                  "objectType": "forme",
+                  "shape": "fleche",
+                  "rect": {
+                    "x": 70,
+                    "y": 390,
+                    "w": 160,
+                    "h": 70
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_MOVE_OBJECT",
+        "objectId": "fo-1",
+        "rect": {
+          "x": 600,
+          "y": 240
+        },
+        "tolerance": 80
+      }
+    },
+    {
+      "id": "M09-E03-06",
+      "consigne": "Élargissez-la pour qu'elle entoure vraiment une zone, sans déborder de l'image.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Le chantier des Tilleuls"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Le massif central"
+              },
+              "objets": [
+                {
+                  "id": "img-m",
+                  "objectType": "image",
+                  "rect": {
+                    "x": 440,
+                    "y": 150,
+                    "w": 440,
+                    "h": 275
+                  },
+                  "src": "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22320%22%20height%3D%22200%22%3E%3Crect%20width%3D%22320%22%20height%3D%22200%22%20fill%3D%22%23DCEBD8%22%2F%3E%3Crect%20y%3D%22140%22%20width%3D%22320%22%20height%3D%2260%22%20fill%3D%22%237BA05B%22%2F%3E%3Ccircle%20cx%3D%2260%22%20cy%3D%2252%22%20r%3D%2222%22%20fill%3D%22%23F2D06B%22%2F%3E%3Cpath%20d%3D%22M120%20140%20L150%2078%20L180%20140%20Z%22%20fill%3D%22%233E6B3A%22%2F%3E%3Cpath%20d%3D%22M196%20140%20L220%2096%20L244%20140%20Z%22%20fill%3D%22%234E7F45%22%2F%3E%3Crect%20x%3D%22150%22%20y%3D%22140%22%20width%3D%226%22%20height%3D%2218%22%20fill%3D%22%236B4A2F%22%2F%3E%3Crect%20x%3D%22217%22%20y%3D%22140%22%20width%3D%226%22%20height%3D%2214%22%20fill%3D%22%236B4A2F%22%2F%3E%3C%2Fsvg%3E"
+                },
+                {
+                  "id": "fo-1",
+                  "objectType": "forme",
+                  "shape": "ellipse",
+                  "rect": {
+                    "x": 600,
+                    "y": 240,
+                    "w": 150,
+                    "h": 80
+                  }
+                },
+                {
+                  "id": "fo-4",
+                  "objectType": "forme",
+                  "shape": "fleche",
+                  "rect": {
+                    "x": 70,
+                    "y": 390,
+                    "w": 160,
+                    "h": 70
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_MOVE_OBJECT",
+        "objectId": "fo-1",
+        "rect": {
+          "w": 220,
+          "h": 120
+        },
+        "tolerance": 70
+      }
+    },
+    {
+      "id": "M09-E03-07",
+      "consigne": "Amenez la flèche à gauche de la photo, à mi-hauteur, pour qu'elle pointe vers elle.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Le chantier des Tilleuls"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Le massif central"
+              },
+              "objets": [
+                {
+                  "id": "img-m",
+                  "objectType": "image",
+                  "rect": {
+                    "x": 440,
+                    "y": 150,
+                    "w": 440,
+                    "h": 275
+                  },
+                  "src": "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22320%22%20height%3D%22200%22%3E%3Crect%20width%3D%22320%22%20height%3D%22200%22%20fill%3D%22%23DCEBD8%22%2F%3E%3Crect%20y%3D%22140%22%20width%3D%22320%22%20height%3D%2260%22%20fill%3D%22%237BA05B%22%2F%3E%3Ccircle%20cx%3D%2260%22%20cy%3D%2252%22%20r%3D%2222%22%20fill%3D%22%23F2D06B%22%2F%3E%3Cpath%20d%3D%22M120%20140%20L150%2078%20L180%20140%20Z%22%20fill%3D%22%233E6B3A%22%2F%3E%3Cpath%20d%3D%22M196%20140%20L220%2096%20L244%20140%20Z%22%20fill%3D%22%234E7F45%22%2F%3E%3Crect%20x%3D%22150%22%20y%3D%22140%22%20width%3D%226%22%20height%3D%2218%22%20fill%3D%22%236B4A2F%22%2F%3E%3Crect%20x%3D%22217%22%20y%3D%22140%22%20width%3D%226%22%20height%3D%2214%22%20fill%3D%22%236B4A2F%22%2F%3E%3C%2Fsvg%3E"
+                },
+                {
+                  "id": "fo-1",
+                  "objectType": "forme",
+                  "shape": "ellipse",
+                  "rect": {
+                    "x": 600,
+                    "y": 240,
+                    "w": 220,
+                    "h": 120
+                  }
+                },
+                {
+                  "id": "fo-4",
+                  "objectType": "forme",
+                  "shape": "fleche",
+                  "rect": {
+                    "x": 70,
+                    "y": 390,
+                    "w": 160,
+                    "h": 70
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_MOVE_OBJECT",
+        "objectId": "fo-4",
+        "rect": {
+          "x": 270,
+          "y": 270
+        },
+        "tolerance": 80
+      }
+    },
+    {
+      "id": "M09-E03-08",
+      "consigne": "Faites ressortir le titre, qui porte le propos.",
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "ph:titre",
+        "style": {
+          "bold": true
+        }
+      }
+    },
+    {
+      "id": "M09-E03-09",
+      "consigne": "Jugez le résultat en projection, depuis le début.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": true,
+          "index": 0
+        }
+      }
+    },
+    {
+      "id": "M09-E03-10",
+      "consigne": "Avancez d'une diapositive, puis revenez à votre présentation.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "index": 1
+        }
+      }
+    },
+    {
+      "id": "M09-E03-11",
+      "consigne": "Quittez le diaporama.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": false
+        }
+      }
+    }
+  ]
+}

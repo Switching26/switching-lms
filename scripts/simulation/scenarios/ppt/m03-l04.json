@@ -1,0 +1,480 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "mode": "LESSON",
+  "moduleTitle": "Mettre en forme le texte",
+  "title": "Rendre une présentation cohérente",
+  "intro": {
+    "title": "Rendre une présentation cohérente",
+    "body": "Une présentation se juge d'abord à sa régularité : si deux diapositives voisines ne traitent pas leurs titres de la même façon, le lecteur le remarque avant de lire. Cette leçon vous fait appliquer une règle unique à toute une présentation."
+  },
+  "outro": {
+    "body": "Trois diapositives traitées de la même façon : la présentation paraît professionnelle sans qu'aucune ne soit remarquable. Les exercices vous attendent."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "ppt": {
+    "fileName": "Bilan Verdeval.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Verdeval",
+          "sous-titre": "Bilan de la saison 2026"
+        }
+      },
+      {
+        "layout": "titre-seul",
+        "textes": {
+          "titre": "Chiffres de la saison"
+        },
+        "objets": [
+          {
+            "id": "zt-c1",
+            "objectType": "texte",
+            "texte": "38 jardins créés et 120 entretiens réguliers",
+            "rect": {
+              "x": 70,
+              "y": 190,
+              "w": 620,
+              "h": 70
+            },
+            "style": {
+              "align": "center"
+            }
+          },
+          {
+            "id": "zt-c2",
+            "objectType": "texte",
+            "texte": "Source : tableau de suivi des chantiers",
+            "rect": {
+              "x": 440,
+              "y": 420,
+              "w": 440,
+              "h": 55
+            }
+          }
+        ]
+      },
+      {
+        "layout": "titre-seul",
+        "textes": {
+          "titre": "Nos agences"
+        },
+        "objets": [
+          {
+            "id": "zt-a1",
+            "objectType": "texte",
+            "texte": "Nantes, Rennes et Angers",
+            "rect": {
+              "x": 70,
+              "y": 190,
+              "w": 620,
+              "h": 70
+            },
+            "style": {
+              "align": "right"
+            }
+          },
+          {
+            "id": "zt-a2",
+            "objectType": "texte",
+            "texte": "Source : registre commercial",
+            "rect": {
+              "x": 440,
+              "y": 420,
+              "w": 440,
+              "h": 55
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M03-L04-01",
+      "consigne": "Regardez les deux diapositives de contenu : l'une centre son texte, l'autre l'aligne à droite, et leurs titres ne sont traités ni l'un ni l'autre. Prises séparément, aucune n'est fautive. Enchaînées, elles donnent l'impression d'un document assemblé par deux personnes qui ne se sont pas parlé.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M03-L04-02",
+      "consigne": "Fixez d'abord la règle, puis appliquez-la partout — c'est l'ordre qui fait gagner du temps. **Titre : gras et centré. Contenu : aligné à gauche. Source : à droite, en italique.** Trois lignes, valables pour toutes les diapositives.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M03-L04-03",
+      "consigne": "==Affichez la deuxième diapositive==, celle des chiffres, et commencez par son titre.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 1
+      }
+    },
+    {
+      "id": "M03-L04-04",
+      "consigne": "==Mettez son titre en gras==, conformément à la règle que vous venez de fixer.",
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "ph:titre",
+        "style": {
+          "bold": true
+        }
+      },
+      "aide": {
+        "text": "Cliquez sur « Chiffres de la saison », puis sur G."
+      }
+    },
+    {
+      "id": "M03-L04-05",
+      "consigne": "==Centrez ce titre==. Vous appliquez la règle, pas votre jugement du moment : c'est ce qui garantit que la troisième diapositive sera traitée pareil.",
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "ph:titre",
+        "style": {
+          "align": "center"
+        }
+      }
+    },
+    {
+      "id": "M03-L04-06",
+      "consigne": "==Alignez le contenu à gauche==. Il était centré : c'était justement l'un des deux défauts repérés au début.",
+      "setupPpt": {
+        "slide": 1
+      },
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "zt-c1",
+        "style": {
+          "align": "left"
+        }
+      }
+    },
+    {
+      "id": "M03-L04-07",
+      "consigne": "==Alignez la source à droite et== passez ensuite à la diapositive suivante. La mention de source suit la même règle sur toutes les diapositives : c'est là qu'on ira la chercher.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Bilan de la saison 2026"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Chiffres de la saison"
+              },
+              "objets": [
+                {
+                  "id": "zt-c1",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 70,
+                    "y": 190,
+                    "w": 620,
+                    "h": 70
+                  },
+                  "texte": "38 jardins créés et 120 entretiens réguliers",
+                  "style": {
+                    "align": "left"
+                  }
+                },
+                {
+                  "id": "zt-c2",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 440,
+                    "y": 420,
+                    "w": 440,
+                    "h": 55
+                  },
+                  "texte": "Source : tableau de suivi des chantiers"
+                }
+              ]
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Nos agences"
+              },
+              "objets": [
+                {
+                  "id": "zt-a1",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 70,
+                    "y": 190,
+                    "w": 620,
+                    "h": 70
+                  },
+                  "texte": "Nantes, Rennes et Angers",
+                  "style": {
+                    "align": "right"
+                  }
+                },
+                {
+                  "id": "zt-a2",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 440,
+                    "y": 420,
+                    "w": 440,
+                    "h": 55
+                  },
+                  "texte": "Source : registre commercial"
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "zt-c2",
+        "style": {
+          "align": "right"
+        }
+      }
+    },
+    {
+      "id": "M03-L04-08",
+      "consigne": "==Affichez la troisième diapositive==, celle des agences, et refaites exactement les mêmes gestes.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 2
+      }
+    },
+    {
+      "id": "M03-L04-09",
+      "consigne": "==Mettez son titre en gras et== poursuivez : le premier des quatre gestes de la règle.",
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "ph:titre",
+        "style": {
+          "bold": true
+        }
+      }
+    },
+    {
+      "id": "M03-L04-10",
+      "consigne": "==Centrez ce titre== comme celui de la diapositive précédente.",
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "ph:titre",
+        "style": {
+          "align": "center"
+        }
+      }
+    },
+    {
+      "id": "M03-L04-11",
+      "consigne": "==Alignez le contenu à gauche==. Il était aligné à droite : second défaut corrigé.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Bilan de la saison 2026"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Chiffres de la saison"
+              },
+              "objets": [
+                {
+                  "id": "zt-c1",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 70,
+                    "y": 190,
+                    "w": 620,
+                    "h": 70
+                  },
+                  "texte": "38 jardins créés et 120 entretiens réguliers",
+                  "style": {
+                    "align": "left"
+                  }
+                },
+                {
+                  "id": "zt-c2",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 440,
+                    "y": 420,
+                    "w": 440,
+                    "h": 55
+                  },
+                  "texte": "Source : tableau de suivi des chantiers",
+                  "style": {
+                    "align": "right"
+                  }
+                }
+              ]
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Nos agences"
+              },
+              "objets": [
+                {
+                  "id": "zt-a1",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 70,
+                    "y": 190,
+                    "w": 620,
+                    "h": 70
+                  },
+                  "texte": "Nantes, Rennes et Angers",
+                  "style": {
+                    "align": "right"
+                  }
+                },
+                {
+                  "id": "zt-a2",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 440,
+                    "y": 420,
+                    "w": 440,
+                    "h": 55
+                  },
+                  "texte": "Source : registre commercial"
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 2
+      },
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "zt-a1",
+        "style": {
+          "align": "left"
+        }
+      }
+    },
+    {
+      "id": "M03-L04-12",
+      "consigne": "==Alignez la source à droite==, et la présentation devient régulière : deux diapositives traitées à l'identique, sans qu'aucune n'attire l'œil pour une mauvaise raison.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Bilan de la saison 2026"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Chiffres de la saison"
+              },
+              "objets": [
+                {
+                  "id": "zt-c1",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 70,
+                    "y": 190,
+                    "w": 620,
+                    "h": 70
+                  },
+                  "texte": "38 jardins créés et 120 entretiens réguliers",
+                  "style": {
+                    "align": "left"
+                  }
+                },
+                {
+                  "id": "zt-c2",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 440,
+                    "y": 420,
+                    "w": 440,
+                    "h": 55
+                  },
+                  "texte": "Source : tableau de suivi des chantiers",
+                  "style": {
+                    "align": "right"
+                  }
+                }
+              ]
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Nos agences"
+              },
+              "objets": [
+                {
+                  "id": "zt-a1",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 70,
+                    "y": 190,
+                    "w": 620,
+                    "h": 70
+                  },
+                  "texte": "Nantes, Rennes et Angers",
+                  "style": {
+                    "align": "left"
+                  }
+                },
+                {
+                  "id": "zt-a2",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 440,
+                    "y": 420,
+                    "w": 440,
+                    "h": 55
+                  },
+                  "texte": "Source : registre commercial"
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 2
+      },
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "zt-a2",
+        "style": {
+          "align": "right"
+        }
+      },
+      "feedback": "Deux diapositives, une seule règle. C'est ce que le lecteur appelle « une présentation soignée »."
+    },
+    {
+      "id": "M03-L04-13",
+      "consigne": "À retenir : **fixer la règle d'abord, l'appliquer ensuite**. Une règle écrite en trois lignes vaut mieux qu'un jugement repris à chaque diapositive — et elle se transmet, ce qu'un goût personnel ne fait pas.",
+      "action": {
+        "type": "READ"
+      }
+    }
+  ]
+}

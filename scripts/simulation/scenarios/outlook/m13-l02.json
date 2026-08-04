@@ -1,0 +1,259 @@
+{
+  "schemaVersion": 1,
+  "title": "Envoyer un devis qui se lit et se retrouve",
+  "mode": "LESSON",
+  "moduleTitle": "Le premier contact commercial",
+  "intro": {
+    "title": "Le devis est prêt, tout se joue maintenant",
+    "body": "Un devis part rarement seul : il part avec un objet qui le rend retrouvable, un texte qui dit ce qu'il contient, et une durée de validité qui donne une raison de répondre. Le fichier lui-même ne fait que la moitié du travail — l'autre moitié tient dans les quatre lignes qui l'accompagnent."
+  },
+  "outro": {
+    "body": "Un devis envoyé sans durée de validité ne se relance pas : on n'a aucune raison objective de rappeler. Avec une échéance, la relance devient factuelle plutôt qu'insistante — et c'est ce qui la rend acceptable."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "prospects",
+        "nom": "Prospects"
+      },
+      {
+        "id": "clients",
+        "nom": "Clients 2026"
+      }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "fichiers": [
+      {
+        "nom": "Devis-2026-190.pdf",
+        "taille": "196 Ko"
+      },
+      {
+        "nom": "Devis-2026-190-BROUILLON.pdf",
+        "taille": "188 Ko"
+      },
+      {
+        "nom": "Plaquette-Atelier-Nord.pdf",
+        "taille": "2,1 Mo"
+      },
+      {
+        "nom": "Tarifs-achat-fournisseurs.pdf",
+        "taille": "96 Ko"
+      }
+    ],
+    "messages": [
+      {
+        "id": "m-cotes",
+        "dossier": "reception",
+        "de": "m.delcourt@brasserie-du-canal.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Les cotes de la salle",
+        "corps": "Bonjour,\n\nVoici les cotes relevées : comptoir de 4,20 m, six banquettes de 1,80 m.\nNous attendons votre devis.\n\nMarine Delcourt\nBrasserie du Canal",
+        "date": "2026-04-15T09:00",
+        "lu": false
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O13-L02-01",
+      "consigne": "==Ouvrez le message des cotes.== Vous avez maintenant ce qui manquait : le chiffrage est possible, et le devis `2026-190` est prêt sur votre poste.",
+      "action": {
+        "type": "O_SELECT_MESSAGE",
+        "id": "m-cotes"
+      },
+      "aide": {
+        "text": "C'est le message qui donne les dimensions du comptoir et des banquettes."
+      }
+    },
+    {
+      "id": "O13-L02-02",
+      "consigne": "==Cliquez sur Répondre== : le devis part dans le fil de la demande, pas dans un message neuf. Votre interlocutrice retrouve ainsi tout l'échange au même endroit.",
+      "setup": {
+        "courrier": {
+          "messageActif": "m-cotes"
+        }
+      },
+      "action": {
+        "type": "O_CLICK_CONTROL",
+        "control": "cr-repondre"
+      },
+      "aide": {
+        "text": "Le bouton Répondre, premier de la barre du haut."
+      }
+    },
+    {
+      "id": "O13-L02-03",
+      "consigne": "==Joignez `Devis-2026-190.pdf`.== Deux fichiers portent la même référence : le suffixe `BROUILLON` désigne une version de travail dont les prix ne sont pas les prix finaux.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "pieces": {
+            "contient": [
+              "Devis-2026-190.pdf"
+            ],
+            "absent": [
+              "Devis-2026-190-BROUILLON.pdf",
+              "Tarifs-achat-fournisseurs.pdf"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Lisez le nom en entier avant de cliquer."
+      }
+    },
+    {
+      "id": "O13-L02-04",
+      "consigne": "==Joignez aussi `Plaquette-Atelier-Nord.pdf`.== Sur un premier contact, elle est utile : votre interlocutrice ne vous connaît pas et comparera trois devis dont deux viennent d'entreprises qu'elle ne connaît pas davantage.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "pieces": {
+            "contient": [
+              "Devis-2026-190.pdf",
+              "Plaquette-Atelier-Nord.pdf"
+            ],
+            "absent": [
+              "Tarifs-achat-fournisseurs.pdf",
+              "Devis-2026-190-BROUILLON.pdf"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Rouvrez Joindre, puis cliquez sur la plaquette."
+      }
+    },
+    {
+      "id": "O13-L02-05",
+      "consigne": "==Complétez l'objet avec la référence `2026-190`.== Un devis retrouvable est un devis qu'on peut relancer : sans référence dans l'objet, la relance oblige à faire défiler six mois d'échanges.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "objet": {
+            "prefixe": "RE",
+            "contient": [
+              "2026-190"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Ajoutez la référence à la fin de l'objet, en gardant le préfixe."
+      }
+    },
+    {
+      "id": "O13-L02-06",
+      "consigne": "==Rédigez le message, puis envoyez.== Il doit dire **ce que le devis couvre** et **sa durée de validité** : c'est cette échéance qui vous donnera, dans trois semaines, une raison factuelle de relancer.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "m.delcourt@brasserie-du-canal.fr"
+            ]
+          },
+          "cc": {
+            "vide": true
+          },
+          "objet": {
+            "prefixe": "RE",
+            "contient": [
+              "2026-190"
+            ]
+          },
+          "pieces": {
+            "contient": [
+              "Devis-2026-190.pdf",
+              "Plaquette-Atelier-Nord.pdf"
+            ],
+            "absent": [
+              "Devis-2026-190-BROUILLON.pdf",
+              "Tarifs-achat-fournisseurs.pdf"
+            ]
+          },
+          "corps": {
+            "salutation": [
+              "bonjour",
+              "madame",
+              "monsieur",
+              "bonsoir"
+            ],
+            "cloture": [
+              "cordialement",
+              "salutations",
+              "bien a vous",
+              "merci"
+            ],
+            "notions": [
+              {
+                "libelle": "ce que le devis couvre",
+                "oneOf": [
+                  "comptoir",
+                  "banquettes",
+                  "amenagement",
+                  "salle",
+                  "mobilier"
+                ]
+              },
+              {
+                "libelle": "la durée de validité du devis",
+                "oneOf": [
+                  "trente jours",
+                  "30 jours",
+                  "valable",
+                  "validite",
+                  "un mois",
+                  "jusqu'au"
+                ]
+              }
+            ],
+            "minMots": 15
+          }
+        }
+      },
+      "aide": {
+        "text": "Deux informations sont attendues : le périmètre, et la validité."
+      }
+    },
+    {
+      "id": "O13-L02-07",
+      "consigne": "==Posez un indicateur sur ce message.== Un devis envoyé n'est pas un dossier clos : c'est un dossier en attente de réponse, et il doit rester visible jusqu'à ce qu'on sache.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-cotes": {
+              "dossier": "reception",
+              "indicateur": true
+            }
+          }
+        }
+      },
+      "aide": {
+        "text": "Ouvrez le message, puis le drapeau."
+      }
+    }
+  ]
+}

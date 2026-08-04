@@ -1,0 +1,151 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "mode": "LESSON",
+  "moduleTitle": "Reprendre une présentation existante",
+  "title": "Partir de ce qui existe",
+  "intro": {
+    "title": "Partir de ce qui existe",
+    "body": "On refait rarement une présentation de zéro : on reprend celle du mois dernier. Cette leçon vous apprend à en tirer une nouvelle sans casser l'ancienne — dupliquer avant de modifier, et travailler sur la copie."
+  },
+  "outro": {
+    "body": "La copie est en place et l'originale intacte. La leçon suivante adapte les textes au nouveau public."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "ppt": {
+    "fileName": "Bilan Verdeval.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Verdeval",
+          "sous-titre": "Bilan présenté à l'équipe le 9 mars"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Une saison à 38 jardins",
+          "contenu": "38 jardins créés\n120 entretiens réguliers\n12 chantiers de rénovation"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Détail des primes d'équipe",
+          "contenu": "Réservé au personnel"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Merci de votre attention",
+          "contenu": "Questions et échanges"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M07-L01-01",
+      "consigne": "Le bilan présenté à l'équipe doit maintenant l'être devant les clients. Le réflexe coûteux serait de tout refaire ; le bon réflexe est de **dupliquer avant de modifier**. Une copie se retouche sans risque ; l'originale reste disponible si l'on s'est trompé de direction.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M07-L01-02",
+      "consigne": "==Affichez la diapositive de titre==. C'est elle qui porte la mention du public, donc la première à adapter.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 0
+      }
+    },
+    {
+      "id": "M07-L01-03",
+      "consigne": "==Dupliquez-la==. La copie se place juste après l'originale et devient la diapositive affichée : c'est sur elle que vous travaillerez.",
+      "action": {
+        "type": "P_DUPLICATE_SLIDE",
+        "index": 0
+      },
+      "aide": {
+        "text": "Groupe Diapositives, bouton Dupliquer."
+      },
+      "feedback": "Deux ouvertures : l'ancienne pour l'équipe, la nouvelle à écrire pour les clients."
+    },
+    {
+      "id": "M07-L01-04",
+      "consigne": "==Remplacez son sous-titre par Bilan présenté aux clients le 4 avril==. Le titre de l'entreprise ne change pas ; ce qui change, c'est à qui l'on parle et quand.",
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:sous-titre",
+        "accept": [
+          "Bilan présenté aux clients le 4 avril"
+        ]
+      },
+      "aide": {
+        "text": "Le sous-titre est déjà rempli : il s'ouvre au double-clic."
+      }
+    },
+    {
+      "id": "M07-L01-05",
+      "consigne": "Deux ouvertures ne peuvent pas coexister dans un même fichier : l'une des deux passera devant le public. Il faut choisir laquelle **maintenant**, pas le jour de la réunion.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M07-L01-06",
+      "consigne": "==Affichez l'ancienne ouverture==, la première du volet, celle qui mentionne l'équipe et le 9 mars.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 0
+      }
+    },
+    {
+      "id": "M07-L01-07",
+      "consigne": "==Masquez-la==. Elle resservira l'an prochain pour la réunion d'équipe : c'est exactement le cas où l'on masque plutôt que de supprimer.",
+      "action": {
+        "type": "P_EXPECT_DECK",
+        "deck": {
+          "slides": [
+            {
+              "index": 0,
+              "masquee": true
+            }
+          ]
+        }
+      },
+      "aide": {
+        "text": "Groupe Diaporama, bouton Masquer."
+      }
+    },
+    {
+      "id": "M07-L01-08",
+      "consigne": "==Passez en Trieuse== pour voir l'état du fichier : deux ouvertures, dont une écartée du déroulé, et le reste de la présentation intact.",
+      "action": {
+        "type": "P_SET_VIEW",
+        "view": "trieuse"
+      }
+    },
+    {
+      "id": "M07-L01-09",
+      "consigne": "==Revenez en affichage Normal== pour poursuivre l'adaptation.",
+      "action": {
+        "type": "P_SET_VIEW",
+        "view": "normal"
+      }
+    },
+    {
+      "id": "M07-L01-10",
+      "consigne": "À retenir : **dupliquer d'abord, modifier ensuite**, et masquer l'ancienne version plutôt que la détruire. Vous gardez la trace de ce qui a été présenté à qui — ce qui est une exigence courante dès qu'un client ou un financeur est dans la salle.",
+      "action": {
+        "type": "READ"
+      }
+    }
+  ]
+}

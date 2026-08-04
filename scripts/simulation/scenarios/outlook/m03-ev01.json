@@ -1,0 +1,272 @@
+{
+  "schemaVersion": 1,
+  "title": "S'évaluer — Le calendrier : rendez-vous et invitations",
+  "mode": "EVALUATION",
+  "moduleTitle": "Le calendrier : rendez-vous et invitations",
+  "intro": {
+    "title": "Lundi 2 mars — organiser la semaine avant qu'elle ne commence",
+    "body": "Trois messages arrivent en même temps : une mairie qui fixe une visite, un confrère qui vous invite, un fournisseur qui propose une démonstration au même moment. Vous devez poser ce qui doit l'être, répondre à ce qui attend une réponse, et laisser la boîte propre. Cette épreuve est notée : chaque geste compte au premier essai, aucune aide n'est proposée. La rédaction ne compte pas dans la note."
+  },
+  "outro": {
+    "body": "L'épreuve portait sur ce qui se vérifie sans discussion : le bon jour, les bonnes bornes horaires, le bon lieu, la bonne réponse à une invitation, le bon rangement. Un agenda juste vaut mieux qu'un agenda rempli."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "clients",
+        "nom": "Clients 2026"
+      },
+      {
+        "id": "fournisseurs",
+        "nom": "Fournisseurs"
+      }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "messages": [
+      {
+        "id": "m-mairie",
+        "dossier": "reception",
+        "de": "marches@ville-lambersart.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Salle des mariages — visite technique",
+        "corps": "Bonjour,\n\nNotre service technique vous attend pour la prise de cotes le mercredi 4 mars, de 14 h à 16 h, à l'hôtel de ville.\nMerci de nous confirmer votre présence.\n\nService des marchés\nVille de Lambersart",
+        "date": "2026-03-02T07:50",
+        "lu": false
+      },
+      {
+        "id": "m-inv-confrere",
+        "dossier": "reception",
+        "de": "h.vasseur@menuiserie-vasseur.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Invitation — revue des plans de l'escalier",
+        "corps": "Bonjour Camille,\n\nOn revoit les plans ensemble avant de lancer la découpe ?\n\nHugo",
+        "date": "2026-03-02T07:20",
+        "lu": false,
+        "invitation": {
+          "reponse": "aucune",
+          "evenement": {
+            "id": "ev-inv-plans",
+            "titre": "Revue des plans de l'escalier",
+            "date": "2026-03-03",
+            "debut": "14:00",
+            "fin": "15:30",
+            "lieu": "Menuiserie Vasseur",
+            "participants": [
+              "h.vasseur@menuiserie-vasseur.fr",
+              "camille.aubertin@atelier-nord.fr"
+            ],
+            "reunion": true
+          }
+        }
+      },
+      {
+        "id": "m-inv-demo",
+        "dossier": "reception",
+        "de": "contact@promo-outillage.net",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Invitation — présentation de notre catalogue",
+        "corps": "Bonjour,\n\nUne heure pour découvrir notre catalogue, sans engagement.\n\nPromo Outillage",
+        "date": "2026-03-02T05:30",
+        "lu": false,
+        "invitation": {
+          "reponse": "aucune",
+          "evenement": {
+            "id": "ev-inv-catalogue",
+            "titre": "Présentation catalogue outillage",
+            "date": "2026-03-03",
+            "debut": "14:00",
+            "fin": "15:00",
+            "lieu": "Showroom Promo Outillage",
+            "participants": [
+              "contact@promo-outillage.net",
+              "camille.aubertin@atelier-nord.fr"
+            ],
+            "reunion": true
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O03-EV01-01",
+      "consigne": "Ouvrez le message de la Ville de Lambersart et relevez le jour, les horaires et le lieu de la visite technique.",
+      "action": {
+        "type": "O_SELECT_MESSAGE",
+        "id": "m-mairie"
+      },
+      "points": 1
+    },
+    {
+      "id": "O03-EV01-02",
+      "consigne": "Posez ce rendez-vous dans votre agenda. Son objet doit être exactement `Visite technique — salle des mariages`, et son lieu `Hôtel de ville de Lambersart`.",
+      "action": {
+        "type": "O_EXPECT_CALENDRIER",
+        "calendrier": {
+          "titre": "Visite technique — salle des mariages",
+          "date": "2026-03-04",
+          "debut": "14:00",
+          "fin": "16:00",
+          "lieu": "Hôtel de ville de Lambersart"
+        }
+      },
+      "points": 3
+    },
+    {
+      "id": "O03-EV01-03",
+      "consigne": "Hugo Vasseur et Promo Outillage vous invitent tous deux le mardi à 14 h. Acceptez celle qui engage un chantier en cours.",
+      "action": {
+        "type": "O_EXPECT_CALENDRIER",
+        "calendrier": {
+          "titre": "Revue des plans de l'escalier",
+          "date": "2026-03-03",
+          "debut": "14:00",
+          "fin": "15:30",
+          "reunion": true,
+          "participants": {
+            "contient": [
+              "h.vasseur@menuiserie-vasseur.fr",
+              "camille.aubertin@atelier-nord.fr"
+            ]
+          }
+        }
+      },
+      "points": 3
+    },
+    {
+      "id": "O03-EV01-04",
+      "consigne": "Ouvrez maintenant l'autre invitation, celle de Promo Outillage : elle occupe exactement le même créneau que celle que vous venez d'accepter.",
+      "action": {
+        "type": "O_SELECT_MESSAGE",
+        "id": "m-inv-demo"
+      },
+      "points": 1
+    },
+    {
+      "id": "O03-EV01-05",
+      "consigne": "Répondez-lui de façon que l'organisateur sache qu'il ne doit pas vous attendre. Le silence le laisserait vous compter présente.",
+      "action": {
+        "type": "O_CLICK_CONTROL",
+        "control": "cr-refuser"
+      },
+      "points": 1
+    },
+    {
+      "id": "O03-EV01-06",
+      "consigne": "La mairie demande une confirmation de présence. Répondez-lui — à elle seule — et complétez l'objet avec le mot `confirmation`, sans retirer le préfixe.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "genre": "reponse",
+          "a": {
+            "contient": [
+              "marches@ville-lambersart.fr"
+            ]
+          },
+          "cc": {
+            "vide": true
+          },
+          "objet": {
+            "prefixe": "RE",
+            "contient": [
+              "confirmation"
+            ]
+          }
+        }
+      },
+      "points": 2
+    },
+    {
+      "id": "O03-EV01-07",
+      "consigne": "Rédigez la confirmation avec vos mots. **Cette étape n'entre pas dans la note.**",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "corps": {
+            "minMots": 10,
+            "revueManuelle": true
+          }
+        }
+      },
+      "points": 0
+    },
+    {
+      "id": "O03-EV01-08",
+      "consigne": "Envoyez cette confirmation.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "marches@ville-lambersart.fr"
+            ]
+          },
+          "cc": {
+            "vide": true
+          },
+          "objet": {
+            "prefixe": "RE",
+            "contient": [
+              "confirmation"
+            ]
+          }
+        }
+      },
+      "points": 2
+    },
+    {
+      "id": "O03-EV01-09",
+      "consigne": "La visite est calée et confirmée : rangez le message de la mairie dans le dossier des clients.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-mairie": {
+              "dossier": "clients"
+            }
+          }
+        }
+      },
+      "points": 1
+    },
+    {
+      "id": "O03-EV01-10",
+      "consigne": "L'invitation commerciale que vous avez déclinée n'a plus rien à faire dans votre file d'attente : sortez-la.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-inv-demo": {
+              "dossier": "supprimes"
+            }
+          }
+        }
+      },
+      "points": 1
+    }
+  ]
+}

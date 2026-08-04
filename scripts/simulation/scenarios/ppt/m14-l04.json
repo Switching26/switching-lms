@@ -1,0 +1,305 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "mode": "LESSON",
+  "moduleTitle": "Des chiffres sans tableau",
+  "title": "Une grille sans tableau",
+  "intro": {
+    "title": "Une grille sans tableau",
+    "body": "Quand trois chiffres doivent être vus ensemble, on n'insère pas un tableau : on pose trois zones et on les aligne. L'œil lit un alignement comme une grille — et une grille faite de zones reste lisible de loin."
+  },
+  "outro": {
+    "body": "Trois chiffres alignés, lisibles d'un regard, sans une seule bordure. Les exercices du module vous attendent, puis l'évaluation."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "ppt": {
+    "fileName": "Transports Ghiselli.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Transports Ghiselli",
+          "sous-titre": "Bilan d'exploitation présenté aux associés"
+        }
+      },
+      {
+        "layout": "titre-seul",
+        "textes": {
+          "titre": "Les trois indicateurs de l'année"
+        },
+        "objets": [
+          {
+            "id": "zt-un",
+            "objectType": "texte",
+            "texte": "96 % à l'heure",
+            "rect": {
+              "x": 60,
+              "y": 200,
+              "w": 250,
+              "h": 80
+            }
+          },
+          {
+            "id": "zt-deux",
+            "objectType": "texte",
+            "texte": "78 % de remplissage",
+            "rect": {
+              "x": 355,
+              "y": 310,
+              "w": 250,
+              "h": 80
+            }
+          },
+          {
+            "id": "zt-trois",
+            "objectType": "texte",
+            "texte": "11 % de retours à vide",
+            "rect": {
+              "x": 650,
+              "y": 130,
+              "w": 250,
+              "h": 80
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M14-L04-01",
+      "consigne": "Trois chiffres qui se comparent doivent être vus **d'un seul regard**, donc sur une même ligne. Posés en escalier comme ici, l'œil les lit l'un après l'autre et perd la comparaison en chemin — c'est exactement ce qu'un tableau évitait.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M14-L04-02",
+      "consigne": "==Affichez la deuxième diapositive==. Les trois indicateurs y sont posés à trois hauteurs différentes.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 1
+      }
+    },
+    {
+      "id": "M14-L04-03",
+      "consigne": "==Remontez « 78 % de remplissage » à la hauteur du premier==, vers 200 en vertical, sans changer sa colonne. Deux zones à la même hauteur se lisent déjà comme une ligne.",
+      "setupPpt": {
+        "slide": 1
+      },
+      "action": {
+        "type": "P_MOVE_OBJECT",
+        "objectId": "zt-deux",
+        "rect": {
+          "x": 355,
+          "y": 200
+        }
+      },
+      "aide": {
+        "text": "Faites glisser la zone vers le haut ; l'alignement n'a pas besoin d'être au pixel."
+      }
+    },
+    {
+      "id": "M14-L04-04",
+      "consigne": "==Descendez « 11 % de retours à vide » à la même hauteur==, vers 200 lui aussi. La ligne est complète.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Transports Ghiselli",
+                "sous-titre": "Bilan d'exploitation présenté aux associés"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Les trois indicateurs de l'année"
+              },
+              "objets": [
+                {
+                  "id": "zt-un",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 60,
+                    "y": 200,
+                    "w": 250,
+                    "h": 80
+                  },
+                  "texte": "96 % à l'heure"
+                },
+                {
+                  "id": "zt-deux",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 355,
+                    "y": 200,
+                    "w": 250,
+                    "h": 80
+                  },
+                  "texte": "78 % de remplissage"
+                },
+                {
+                  "id": "zt-trois",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 650,
+                    "y": 130,
+                    "w": 250,
+                    "h": 80
+                  },
+                  "texte": "11 % de retours à vide"
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_MOVE_OBJECT",
+        "objectId": "zt-trois",
+        "rect": {
+          "x": 650,
+          "y": 200
+        }
+      },
+      "feedback": "Trois zones, une seule ligne : l'œil compare sans se déplacer, ce qu'aucun escalier ne permet."
+    },
+    {
+      "id": "M14-L04-05",
+      "consigne": "L'alignement fait le travail des **bordures** d'un tableau. C'est même mieux : un tableau projeté impose ses traits, ses cellules et ses marges internes, alors que trois zones alignées ne montrent que les chiffres.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M14-L04-06",
+      "consigne": "==Mettez « 96 % à l'heure » en gras== : dans une série alignée, le gras désigne celui dont vous allez parler.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Transports Ghiselli",
+                "sous-titre": "Bilan d'exploitation présenté aux associés"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Les trois indicateurs de l'année"
+              },
+              "objets": [
+                {
+                  "id": "zt-un",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 60,
+                    "y": 200,
+                    "w": 250,
+                    "h": 80
+                  },
+                  "texte": "96 % à l'heure"
+                },
+                {
+                  "id": "zt-deux",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 355,
+                    "y": 200,
+                    "w": 250,
+                    "h": 80
+                  },
+                  "texte": "78 % de remplissage"
+                },
+                {
+                  "id": "zt-trois",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 650,
+                    "y": 200,
+                    "w": 250,
+                    "h": 80
+                  },
+                  "texte": "11 % de retours à vide"
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "zt-un",
+        "style": {
+          "bold": true
+        }
+      },
+      "aide": {
+        "text": "Sélectionnez la zone d'un clic, puis bouton G du groupe Police."
+      }
+    },
+    {
+      "id": "M14-L04-07",
+      "consigne": "Une grille de zones a une limite qu'un tableau n'a pas : **rien ne garantit l'alignement** quand vous ajoutez un quatrième chiffre six mois plus tard. D'où la règle — trois zones au maximum, et on vérifie l'alignement à chaque reprise.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M14-L04-08",
+      "consigne": "==Remplacez le titre par Trois indicateurs, une seule tendance==. Un titre de grille annonce ce que les chiffres ont en commun, sinon le public cherche lequel regarder.",
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:titre",
+        "accept": [
+          "Trois indicateurs, une seule tendance"
+        ]
+      },
+      "aide": {
+        "text": "Un titre déjà rempli s'ouvre au double-clic."
+      }
+    },
+    {
+      "id": "M14-L04-09",
+      "consigne": "==Lancez le diaporama depuis la diapositive affichée== et regardez la ligne de loin : c'est à cette distance que l'alignement se juge, pas au centimètre près dans l'éditeur.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": true,
+          "index": 1
+        }
+      },
+      "aide": {
+        "text": "Groupe Diaporama, bouton « ▶ Ici »."
+      }
+    },
+    {
+      "id": "M14-L04-10",
+      "consigne": "==Quittez le diaporama==.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": false
+        }
+      }
+    },
+    {
+      "id": "M14-L04-11",
+      "consigne": "À retenir : **trois zones alignées valent un tableau**, et sans ses traits. Une ligne, trois chiffres au plus, un gras sur celui dont on parle, et un titre qui dit ce qu'ils ont en commun.",
+      "action": {
+        "type": "READ"
+      }
+    }
+  ]
+}

@@ -1,0 +1,292 @@
+{
+  "schemaVersion": 1,
+  "title": "Rendre la boîte propre à celui qui revient",
+  "mode": "LESSON",
+  "moduleTitle": "Reprendre la boîte d'un collègue",
+  "intro": {
+    "title": "Sonia revient lundi",
+    "body": "Une passation réussie ne se juge pas à ce qu'on a traité, mais à ce que le titulaire retrouve en rentrant. Une boîte vidée sans explication est presque aussi pénible qu'une boîte pleine : il faut classer ce qui est clos, laisser marqué ce qui attend, et écrire en une fois ce qui s'est passé."
+  },
+  "outro": {
+    "body": "Le récapitulatif de passation tient en trois points : ce qui a été traité, ce qui reste ouvert, et ce qui a été promis à qui. Envoyé au titulaire avec la hiérarchie en copie, il devient la référence du retour — et évite la demi-journée de reconstitution."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Sonia Brunel",
+      "adresse": "s.brunel@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "chantiers",
+        "nom": "Chantiers en cours"
+      },
+      {
+        "id": "fournisseurs",
+        "nom": "Fournisseurs"
+      }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Sonia Brunel\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "messages": [
+      {
+        "id": "m-vitrine",
+        "dossier": "reception",
+        "de": "contact@fleurs-de-saison.fr",
+        "a": [
+          "s.brunel@atelier-nord.fr"
+        ],
+        "objet": "Vitrine — la pose de mardi est-elle maintenue ?",
+        "corps": "Bonjour,\n\nNous n'avons pas de nouvelles depuis vendredi. La pose de mardi est-elle maintenue ?\n\nFleurs de Saison",
+        "date": "2026-04-06T08:10",
+        "lu": false
+      },
+      {
+        "id": "m-devis",
+        "dossier": "reception",
+        "de": "j.leroux@habitat-du-nord.fr",
+        "a": [
+          "s.brunel@atelier-nord.fr"
+        ],
+        "objet": "Mezzanine — relance sur le devis",
+        "corps": "Bonjour,\n\nNous attendions un devis pour la mezzanine, annoncé pour la fin de semaine dernière.\n\nJulien Leroux",
+        "date": "2026-04-06T07:50",
+        "lu": false
+      },
+      {
+        "id": "m-livraison",
+        "dossier": "reception",
+        "de": "compta@quincaillerie-delmas.fr",
+        "a": [
+          "s.brunel@atelier-nord.fr"
+        ],
+        "objet": "Commande CD-1310 — livraison le 9 avril",
+        "corps": "Bonjour,\n\nLivraison prévue le 9 avril, une présence est nécessaire.\n\nQuincaillerie Delmas",
+        "date": "2026-04-06T07:20",
+        "lu": false
+      },
+      {
+        "id": "m-pub",
+        "dossier": "reception",
+        "de": "offres@promo-outillage.net",
+        "a": [
+          "s.brunel@atelier-nord.fr"
+        ],
+        "objet": "Semaine promo",
+        "corps": "Nos offres.",
+        "date": "2026-04-06T05:00",
+        "lu": false
+      },
+      {
+        "id": "m-env-vitrine",
+        "dossier": "envoyes",
+        "de": "camille.aubertin@atelier-nord.fr",
+        "a": [
+          "contact@fleurs-de-saison.fr"
+        ],
+        "objet": "Vitrine — confirmation de la pose du mardi 7 avril",
+        "corps": "Bonjour,\n\nJe vous confirme la pose de la vitrine le mardi 7 avril, à partir de 9 h.\n\nSonia Brunel",
+        "date": "2026-04-03T16:40",
+        "lu": true
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O11-L03-01",
+      "consigne": "==Supprimez la semaine promo.== Ce qui n'appelait aucune action pendant l'absence n'en appellera pas davantage au retour : le titulaire n'a pas à trier vos publicités.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-pub": {
+              "dossier": "supprimes"
+            }
+          }
+        }
+      },
+      "aide": {
+        "text": "Ouvrez le message, puis Supprimer."
+      }
+    },
+    {
+      "id": "O11-L03-02",
+      "consigne": "==Rangez la demande de Fleurs de Saison dans Chantiers en cours.== Elle est traitée : vous avez confirmé la pose. Un message traité qui reste en boîte de réception laisse croire qu'il ne l'est pas.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-vitrine": {
+              "dossier": "chantiers"
+            }
+          }
+        }
+      },
+      "aide": {
+        "text": "Déplacer, puis Chantiers en cours."
+      }
+    },
+    {
+      "id": "O11-L03-03",
+      "consigne": "==Posez un indicateur sur la livraison du 9 avril.== Elle tombe après le retour de Sonia et demande une présence : c'est à elle de s'organiser, mais elle doit la voir immédiatement.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-livraison": {
+              "dossier": "reception",
+              "indicateur": true
+            }
+          }
+        }
+      },
+      "aide": {
+        "text": "Ouvrez le message, puis le drapeau. Ne le déplacez pas."
+      }
+    },
+    {
+      "id": "O11-L03-04",
+      "consigne": "==Ouvrez une nouvelle fenêtre de rédaction== pour le récapitulatif de passation. Il s'écrit une fois, à la fin — pas au fil de l'eau, où il devient une suite de messages que personne ne relit.",
+      "action": {
+        "type": "O_CLICK_CONTROL",
+        "control": "cr-nouveau"
+      },
+      "aide": {
+        "text": "Le bouton Nouveau message ; sur téléphone, le ✚ à côté de la recherche."
+      }
+    },
+    {
+      "id": "O11-L03-05",
+      "consigne": "==Adressez-le à `s.brunel@atelier-nord.fr` et mettez `n.kerbaj@atelier-nord.fr` en copie.== Le titulaire est destinataire, la gérante est informée : elle saura quels engagements ont été pris en son absence.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "genre": "nouveau",
+          "a": {
+            "contient": [
+              "s.brunel@atelier-nord.fr"
+            ],
+            "absent": [
+              "n.kerbaj@atelier-nord.fr"
+            ]
+          },
+          "cc": {
+            "contient": [
+              "n.kerbaj@atelier-nord.fr"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "L'adresse du titulaire dans À, celle de la gérante dans Cc."
+      }
+    },
+    {
+      "id": "O11-L03-06",
+      "consigne": "==Donnez un objet contenant le mot `passation`.== Ce message doit se retrouver en une recherche le jour où quelqu'un demandera ce qui a été promis pendant l'absence.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "objet": {
+            "contient": [
+              "passation"
+            ],
+            "nonVide": true
+          }
+        }
+      },
+      "aide": {
+        "text": "Par exemple « Passation — semaine du 6 avril ». La formulation est libre."
+      }
+    },
+    {
+      "id": "O11-L03-07",
+      "consigne": "==Rédigez le récapitulatif, puis envoyez.== Trois points : **ce qui a été traité**, **ce qui reste ouvert**, et **ce qui a été promis à un client**. Rien d'autre — un récapitulatif long ne se lit pas.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "s.brunel@atelier-nord.fr"
+            ]
+          },
+          "cc": {
+            "contient": [
+              "n.kerbaj@atelier-nord.fr"
+            ]
+          },
+          "objet": {
+            "contient": [
+              "passation"
+            ]
+          },
+          "corps": {
+            "salutation": [
+              "bonjour",
+              "sonia",
+              "bonsoir",
+              "salut"
+            ],
+            "cloture": [
+              "merci",
+              "cordialement",
+              "bon retour",
+              "a lundi",
+              "bien a toi"
+            ],
+            "notions": [
+              {
+                "libelle": "ce qui a été traité",
+                "oneOf": [
+                  "vitrine",
+                  "pose",
+                  "fleurs",
+                  "confirme",
+                  "traite"
+                ]
+              },
+              {
+                "libelle": "ce qui reste ouvert",
+                "oneOf": [
+                  "livraison",
+                  "9 avril",
+                  "devis",
+                  "mezzanine",
+                  "en attente",
+                  "reste"
+                ]
+              },
+              {
+                "libelle": "ce qui a été promis à un client",
+                "oneOf": [
+                  "promis",
+                  "annonce",
+                  "j'ai indique",
+                  "devis",
+                  "cette semaine",
+                  "engage"
+                ]
+              }
+            ],
+            "minMots": 20
+          }
+        }
+      },
+      "aide": {
+        "text": "Trois informations sont attendues : le traité, l'ouvert, et l'engagement pris."
+      }
+    }
+  ]
+}

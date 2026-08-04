@@ -1,0 +1,102 @@
+{
+  "schemaVersion": 1,
+  "app": "WORD",
+  "title": "Exercice — Dimensionner un tableau",
+  "mode": "EXERCISE",
+  "moduleTitle": "Les tableaux",
+  "intro": {
+    "title": "À VOUS DE JOUER",
+    "body": "Trois tableaux à insérer, dimensionnés à partir d'un énoncé. Comptez avant de cliquer : la ligne d'en-tête se compte, et une information supplémentaire ajoute une colonne, jamais une ligne."
+  },
+  "outro": "Compter d'abord : c'est tout l'exercice, et c'est ce qui distingue un tableau utilisable d'un tableau à refaire.",
+  "document": {
+    "paragraphes": [
+      {
+        "texte": "Tableaux à préparer"
+      },
+      {
+        "texte": "Suivi des habilitations : six salariés, avec le type d'habilitation et la date d'échéance."
+      },
+      {
+        "texte": "Commande de consommables : trois références, avec la quantité et le fournisseur."
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M12-E01-01",
+      "consigne": "==Épaississez le titre== avant de commencer.",
+      "setup": {
+        "ribbon": {
+          "activeTab": "accueil"
+        }
+      },
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p0",
+        "format": {
+          "gras": true
+        }
+      },
+      "feedback": "Titre posé."
+    },
+    {
+      "id": "M12-E01-02",
+      "consigne": "==Mettez les deux besoins en liste à puces==, en commençant par le suivi des habilitations.",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p1",
+        "style": {
+          "liste": "puces"
+        }
+      },
+      "feedback": "Premier besoin listé."
+    },
+    {
+      "id": "M12-E01-03",
+      "consigne": "==Poursuivez avec la commande de consommables.==",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p2",
+        "style": {
+          "liste": "puces"
+        }
+      },
+      "feedback": "Deuxième besoin listé."
+    },
+    {
+      "id": "M12-E01-04",
+      "consigne": "==Insérez le tableau du suivi des habilitations== : six salariés, deux informations chacun, sans oublier la ligne d'en-tête.",
+      "action": {
+        "type": "W_EXPECT_TABLE",
+        "lignes": 7,
+        "colonnes": 2
+      },
+      "aide": {
+        "text": "Six salariés plus l'en-tête font sept lignes.",
+        "showTarget": true
+      },
+      "feedback": "Sept lignes sur deux colonnes."
+    },
+    {
+      "id": "M12-E01-05",
+      "consigne": "==Insérez le tableau de la commande== : trois références, deux informations chacune.",
+      "action": {
+        "type": "W_EXPECT_TABLE",
+        "lignes": 4,
+        "colonnes": 2
+      },
+      "feedback": "Quatre lignes sur deux colonnes."
+    },
+    {
+      "id": "M12-E01-06",
+      "consigne": "La commande doit aussi porter le prix unitaire. ==Insérez le tableau corrigé== : la même hauteur, une colonne de plus.",
+      "action": {
+        "type": "W_EXPECT_TABLE",
+        "lignes": 4,
+        "colonnes": 3
+      },
+      "feedback": "Une information de plus, une colonne de plus : le nombre de lignes n'a pas bougé."
+    }
+  ]
+}

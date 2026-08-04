@@ -1,0 +1,112 @@
+{
+ "schemaVersion": 1,
+ "app": "WORD",
+ "title": "Faire couler le texte autour d'une image",
+ "mode": "LESSON",
+ "moduleTitle": "L'habillage des images",
+ "intro": {
+  "title": "CE QUI SÉPARE UNE PAGE AMATEUR D'UNE PAGE PROFESSIONNELLE",
+  "body": "Une image posée par défaut coupe le texte en deux. L'**habillage** décide de la façon dont les mots se comportent autour d'elle : ils la contournent, la surplombent, ou passent derrière. C'est le réglage le plus visible d'une mise en page."
+ },
+ "outro": "Quatre habillages, quatre usages : aligné pour une image seule sur sa ligne, rapproché pour un texte qui contourne, haut et bas pour une bande large, devant pour un tampon ou un logo posé.",
+ "document": {
+  "paragraphes": [
+   {
+    "texte": "Ateliers Rivedoux — présentation",
+    "style": "titre"
+   },
+   {
+    "texte": "Notre atelier conçoit du mobilier sur mesure depuis douze ans.",
+    "style": "normal"
+   },
+   {
+    "texte": "L'équipe compte huit menuisiers et deux dessinateurs.",
+    "style": "normal"
+   },
+   {
+    "texte": "Chaque pièce est dessinée puis fabriquée dans nos locaux.",
+    "style": "normal"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "id": "M15-L01-01",
+   "consigne": "==Insérez le logo d'entreprise== depuis l'onglet Insertion. Il servira à essayer les habillages.",
+   "action": {
+    "type": "W_EXPECT_IMAGE",
+    "image": "logo"
+   },
+   "setup": {
+    "ribbon": {
+     "activeTab": "insertion"
+    }
+   },
+   "aide": {
+    "text": "Onglet « Insertion », bouton « Image », vignette « Logo ».",
+    "showTarget": true
+   },
+   "feedback": "Le logo est en place, aligné sur le texte."
+  },
+  {
+   "id": "M15-L01-02",
+   "points": 0,
+   "action": {
+    "type": "READ"
+   },
+   "consigne": "Par défaut, l'image est **alignée sur le texte** : elle occupe sa propre ligne et pousse ce qui suit. Aucun mot ne peut venir à sa hauteur. C'est correct pour une illustration pleine largeur, gênant pour un petit logo.",
+   "feedback": "Aligné sur le texte : l'image se comporte comme un caractère."
+  },
+  {
+   "id": "M15-L01-03",
+   "consigne": "==Passez l'habillage en « Rapproché ».== Le texte vient désormais épouser les bords de l'image au lieu de s'arrêter net.",
+   "action": {
+    "type": "W_EXPECT_IMAGE",
+    "image": "logo",
+    "habillage": "carre"
+   },
+   "aide": {
+    "text": "Onglet « Insertion », bouton « Rapproché ».",
+    "showTarget": true
+   },
+   "feedback": "Le texte contourne l'image : la page respire."
+  },
+  {
+   "id": "M15-L01-04",
+   "consigne": "==Essayez « Haut et bas ».== Le texte passe au-dessus et en dessous, mais jamais à côté : c'est l'habillage des bandeaux et des images larges.",
+   "action": {
+    "type": "W_EXPECT_IMAGE",
+    "image": "logo",
+    "habillage": "hautbas"
+   },
+   "aide": {
+    "text": "Bouton « Haut et bas ».",
+    "showTarget": true
+   },
+   "feedback": "Une bande pleine largeur, texte au-dessus et en dessous."
+  },
+  {
+   "id": "M15-L01-05",
+   "consigne": "==Terminez par « Devant ».== L'image se pose par-dessus le texte, sans le déplacer du tout : réservé aux tampons, filigranes et logos d'angle.",
+   "action": {
+    "type": "W_EXPECT_IMAGE",
+    "image": "logo",
+    "habillage": "devant"
+   },
+   "aide": {
+    "text": "Bouton « Devant ».",
+    "showTarget": true
+   },
+   "feedback": "L'image flotte au-dessus du texte, qui n'a pas bougé."
+  },
+  {
+   "id": "M15-L01-06",
+   "points": 0,
+   "action": {
+    "type": "READ"
+   },
+   "consigne": "Retenez le critère de choix : **le texte doit-il céder la place, contourner, ou ignorer l'image ?** « Devant » est le plus spectaculaire et le plus risqué — mal placé, il masque des mots sans que personne s'en aperçoive à l'écran.",
+   "feedback": "Choisir l'habillage, c'est décider qui cède la place."
+  }
+ ]
+}

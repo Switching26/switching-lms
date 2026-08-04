@@ -1,0 +1,118 @@
+{
+  "schemaVersion": 1,
+  "app": "WORD",
+  "title": "La couleur du texte",
+  "mode": "LESSON",
+  "moduleTitle": "Saisie et mise en forme des caractères",
+  "intro": {
+    "title": "LA COULEUR SE MÉRITE",
+    "body": "La couleur est l'attribut le plus tentant et le plus mal employé. Elle ne se met pas « pour faire joli » : elle attribue un SENS. Vous allez colorer un document d'atelier selon un code — et découvrir qu'au-delà de deux couleurs, plus rien ne ressort."
+  },
+  "outro": "Une couleur, un sens. Deux couleurs suffisent à presque tous les documents professionnels ; à la troisième, le lecteur cesse de faire la différence.",
+  "document": {
+    "paragraphes": [
+      {
+        "texte": "Consignes de l'atelier de menuiserie"
+      },
+      {
+        "texte": "Le port des lunettes est obligatoire près de la scie à ruban."
+      },
+      {
+        "texte": "Les chutes de bois sont déposées dans le bac vert."
+      },
+      {
+        "texte": "Toute anomalie est signalée au chef d'atelier avant la fin du poste."
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M02-L03-01",
+      "points": 0,
+      "consigne": "Avant de colorer, décidez du **code** : ici, le rouge signalera ce qui relève de la sécurité, le bleu ce qui relève de l'organisation. Retenez la règle : on choisit le sens d'abord, la couleur ensuite. L'inverse produit des documents bariolés que personne ne sait plus lire.",
+      "action": {
+        "type": "READ"
+      },
+      "montrer": [
+        {
+          "type": "W_SELECT_TEXT",
+          "zone": "p1"
+        }
+      ],
+      "feedback": "Le sens d'abord, la couleur ensuite."
+    },
+    {
+      "id": "M02-L03-02",
+      "consigne": "La consigne de sécurité vient en premier. ==Sélectionnez le deuxième paragraphe et mettez-le en rouge==, avec la liste Couleur du groupe Police.",
+      "setup": {
+        "ribbon": {
+          "activeTab": "accueil"
+        }
+      },
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p1",
+        "format": {
+          "couleur": "#c0392b"
+        }
+      },
+      "aide": {
+        "text": "La liste « Couleur », entre Taille et Surlignage.",
+        "showTarget": true
+      },
+      "feedback": "Le rouge est posé : dans ce document, il voudra dire « sécurité » et rien d'autre."
+    },
+    {
+      "id": "M02-L03-03",
+      "consigne": "Le tri des chutes relève de l'organisation, pas du danger. ==Mettez le troisième paragraphe en bleu== pour respecter le code que vous venez de définir.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p2",
+        "format": {
+          "couleur": "#1f4e79"
+        }
+      },
+      "feedback": "Deux couleurs, deux sens : le document se lit maintenant en diagonale."
+    },
+    {
+      "id": "M02-L03-04",
+      "consigne": "Le signalement d'anomalie relève lui aussi de l'organisation. ==Mettez le dernier paragraphe en bleu== : la cohérence d'un code vaut plus que la variété.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p3",
+        "format": {
+          "couleur": "#1f4e79"
+        }
+      },
+      "feedback": "Même sens, même couleur. C'est ce qui rend un code lisible."
+    },
+    {
+      "id": "M02-L03-05",
+      "consigne": "Un titre n'appartient à aucune des deux catégories : il les surplombe. ==Laissez-le en noir et mettez-le simplement en gras==, pour qu'il se distingue par la graisse et non par la couleur.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p0",
+        "format": {
+          "gras": true
+        }
+      },
+      "feedback": "Le titre se distingue sans consommer une couleur du code."
+    },
+    {
+      "id": "M02-L03-06",
+      "consigne": "Un dernier réglage utile : à l'intérieur d'une consigne de sécurité, une précision peut mériter d'être détachée. ==Mettez « scie à ruban » en italique==, sans toucher à la couleur du paragraphe.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "texte:scie à ruban",
+        "format": {
+          "italique": true
+        }
+      },
+      "aide": {
+        "text": "Sélectionnez les trois mots, puis le bouton I.",
+        "showTarget": true
+      },
+      "feedback": "Couleur et italique se cumulent : les attributs ne s'excluent pas."
+    }
+  ]
+}

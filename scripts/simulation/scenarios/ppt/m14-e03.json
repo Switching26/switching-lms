@@ -1,0 +1,415 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "mode": "EXERCISE",
+  "moduleTitle": "Des chiffres sans tableau",
+  "title": "Aligner et arrondir",
+  "intro": {
+    "title": "Aligner et arrondir",
+    "body": "Trois indicateurs posés en escalier, avec des décimales que personne ne lira. Alignez-les sur une même ligne, ramenez-les à ce qui se retient, et désignez celui dont vous allez parler."
+  },
+  "outro": {
+    "body": "Une ligne de trois chiffres lisibles de loin, sans une seule bordure."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "ppt": {
+    "fileName": "Comptoir Lavaux.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Comptoir Lavaux",
+          "sous-titre": "Revue d'activité du premier semestre"
+        }
+      },
+      {
+        "layout": "titre-seul",
+        "textes": {
+          "titre": "Le semestre en trois chiffres"
+        },
+        "objets": [
+          {
+            "id": "zt-a",
+            "objectType": "texte",
+            "texte": "8 940 commandes",
+            "rect": {
+              "x": 60,
+              "y": 320,
+              "w": 250,
+              "h": 80
+            }
+          },
+          {
+            "id": "zt-b",
+            "objectType": "texte",
+            "texte": "84,60 € de panier moyen",
+            "rect": {
+              "x": 355,
+              "y": 150,
+              "w": 250,
+              "h": 80
+            }
+          },
+          {
+            "id": "zt-c",
+            "objectType": "texte",
+            "texte": "1 260 clients actifs",
+            "rect": {
+              "x": 650,
+              "y": 400,
+              "w": 250,
+              "h": 80
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M14-E03-01",
+      "consigne": "Affichez la deuxième diapositive : les trois chiffres y sont posés à trois hauteurs différentes.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 1
+      }
+    },
+    {
+      "id": "M14-E03-02",
+      "consigne": "Descendez « 84,60 € de panier moyen » vers 250 en vertical, sans changer sa colonne : ce sera la hauteur commune.",
+      "setupPpt": {
+        "slide": 1
+      },
+      "action": {
+        "type": "P_MOVE_OBJECT",
+        "objectId": "zt-b",
+        "rect": {
+          "x": 355,
+          "y": 250
+        }
+      },
+      "aide": {
+        "text": "Faites glisser la zone ; l'alignement n'a pas besoin d'être au pixel."
+      }
+    },
+    {
+      "id": "M14-E03-03",
+      "consigne": "Remontez « 8 940 commandes » à la même hauteur, vers 250.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Comptoir Lavaux",
+                "sous-titre": "Revue d'activité du premier semestre"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Le semestre en trois chiffres"
+              },
+              "objets": [
+                {
+                  "id": "zt-a",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 60,
+                    "y": 320,
+                    "w": 250,
+                    "h": 80
+                  },
+                  "texte": "8 940 commandes"
+                },
+                {
+                  "id": "zt-b",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 355,
+                    "y": 250,
+                    "w": 250,
+                    "h": 80
+                  },
+                  "texte": "84,60 € de panier moyen"
+                },
+                {
+                  "id": "zt-c",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 650,
+                    "y": 400,
+                    "w": 250,
+                    "h": 80
+                  },
+                  "texte": "1 260 clients actifs"
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_MOVE_OBJECT",
+        "objectId": "zt-a",
+        "rect": {
+          "x": 60,
+          "y": 250
+        }
+      }
+    },
+    {
+      "id": "M14-E03-04",
+      "consigne": "Remontez « 1 260 clients actifs » à la même hauteur, vers 250. La ligne est complète.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Comptoir Lavaux",
+                "sous-titre": "Revue d'activité du premier semestre"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Le semestre en trois chiffres"
+              },
+              "objets": [
+                {
+                  "id": "zt-a",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 60,
+                    "y": 250,
+                    "w": 250,
+                    "h": 80
+                  },
+                  "texte": "8 940 commandes"
+                },
+                {
+                  "id": "zt-b",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 355,
+                    "y": 250,
+                    "w": 250,
+                    "h": 80
+                  },
+                  "texte": "84,60 € de panier moyen"
+                },
+                {
+                  "id": "zt-c",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 650,
+                    "y": 400,
+                    "w": 250,
+                    "h": 80
+                  },
+                  "texte": "1 260 clients actifs"
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_MOVE_OBJECT",
+        "objectId": "zt-c",
+        "rect": {
+          "x": 650,
+          "y": 250
+        }
+      },
+      "feedback": "Trois zones sur une ligne : l'œil compare sans se déplacer."
+    },
+    {
+      "id": "M14-E03-05",
+      "consigne": "Les centimes du panier moyen ne se lisent pas de loin. Remplacez le texte de cette zone par : 85 € de panier moyen.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Comptoir Lavaux",
+                "sous-titre": "Revue d'activité du premier semestre"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Le semestre en trois chiffres"
+              },
+              "objets": [
+                {
+                  "id": "zt-a",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 60,
+                    "y": 250,
+                    "w": 250,
+                    "h": 80
+                  },
+                  "texte": "8 940 commandes"
+                },
+                {
+                  "id": "zt-b",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 355,
+                    "y": 250,
+                    "w": 250,
+                    "h": 80
+                  },
+                  "texte": "84,60 € de panier moyen"
+                },
+                {
+                  "id": "zt-c",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 650,
+                    "y": 250,
+                    "w": 250,
+                    "h": 80
+                  },
+                  "texte": "1 260 clients actifs"
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "zt-b",
+        "accept": [
+          "85 € de panier moyen"
+        ]
+      },
+      "aide": {
+        "text": "Double-cliquez dans la zone pour ouvrir son texte."
+      }
+    },
+    {
+      "id": "M14-E03-06",
+      "consigne": "Mettez « 8 940 commandes » en gras : dans une série alignée, le gras désigne celui dont vous parlez.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Comptoir Lavaux",
+                "sous-titre": "Revue d'activité du premier semestre"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Le semestre en trois chiffres"
+              },
+              "objets": [
+                {
+                  "id": "zt-a",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 60,
+                    "y": 250,
+                    "w": 250,
+                    "h": 80
+                  },
+                  "texte": "8 940 commandes"
+                },
+                {
+                  "id": "zt-b",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 355,
+                    "y": 250,
+                    "w": 250,
+                    "h": 80
+                  },
+                  "texte": "85 € de panier moyen"
+                },
+                {
+                  "id": "zt-c",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 650,
+                    "y": 250,
+                    "w": 250,
+                    "h": 80
+                  },
+                  "texte": "1 260 clients actifs"
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "zt-a",
+        "style": {
+          "bold": true
+        }
+      },
+      "aide": {
+        "text": "Sélectionnez la zone d'un clic, puis bouton G du groupe Police."
+      }
+    },
+    {
+      "id": "M14-E03-07",
+      "consigne": "Remplacez le titre par Trois chiffres, un semestre en hausse : un titre de grille dit ce que les chiffres ont en commun.",
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:titre",
+        "accept": [
+          "Trois chiffres, un semestre en hausse"
+        ]
+      },
+      "aide": {
+        "text": "Un titre déjà rempli s'ouvre au double-clic."
+      }
+    },
+    {
+      "id": "M14-E03-08",
+      "consigne": "Lancez le diaporama depuis la diapositive affichée : c'est de loin que l'alignement se juge.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": true,
+          "index": 1
+        }
+      },
+      "aide": {
+        "text": "Groupe Diaporama, bouton « ▶ Ici »."
+      }
+    },
+    {
+      "id": "M14-E03-09",
+      "consigne": "Quittez le diaporama.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": false
+        }
+      }
+    }
+  ]
+}

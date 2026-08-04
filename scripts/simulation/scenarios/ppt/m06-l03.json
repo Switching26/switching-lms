@@ -1,0 +1,173 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "mode": "LESSON",
+  "moduleTitle": "Écrire pour être lu",
+  "title": "Une idée par diapositive",
+  "intro": {
+    "title": "Une idée par diapositive",
+    "body": "Une diapositive qui porte deux sujets n'en porte aucun : l'auditoire lit le premier pendant que vous parlez du second. Cette leçon vous apprend à repérer le défaut — il se voit dans le titre — et à couper la diapositive en deux."
+  },
+  "outro": {
+    "body": "Une idée, une diapositive. Dernière leçon du module : retirer ce qui n'apporte rien."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "ppt": {
+    "fileName": "Reunion Verdeval.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Verdeval",
+          "sous-titre": "Réunion d'équipe"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Résultats et perspectives",
+          "contenu": "38 jardins créés\n120 entretiens réguliers\n12 chantiers de rénovation\nOuverture d'une agence à Angers\nRecrutement de trois jardiniers\nNouveau matériel de taille"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M06-L03-01",
+      "consigne": "Le signe qui doit alerter est dans le titre : un **« et »** entre deux notions. « Résultats et perspectives », « Bilan et projets », « Chiffres et équipe » — chaque fois, la diapositive porte deux sujets, et six lignes au lieu de trois. Le remède est mécanique : on coupe en deux.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M06-L03-02",
+      "consigne": "==Affichez la deuxième diapositive==. Six lignes, deux sujets : les trois premières regardent l'année écoulée, les trois suivantes celle qui vient.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 1
+      }
+    },
+    {
+      "id": "M06-L03-03",
+      "consigne": "==Ne gardez que les trois premières lignes== : 38 jardins créés, 120 entretiens réguliers, 12 chantiers de rénovation. La diapositive redescend à un seul sujet.",
+      "setupPpt": {
+        "slide": 1
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:contenu",
+        "accept": [
+          "38 jardins créés\n120 entretiens réguliers\n12 chantiers de rénovation",
+          "38 jardins créés, 120 entretiens réguliers, 12 chantiers de rénovation"
+        ]
+      },
+      "aide": {
+        "text": "Double-cliquez dans le bloc, effacez tout, puis saisissez les trois lignes conservées."
+      }
+    },
+    {
+      "id": "M06-L03-04",
+      "consigne": "==Renommez-la Une saison à 38 jardins==. Le « et » disparaît du titre en même temps que le second sujet : c'est le contrôle que la coupe est faite.",
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:titre",
+        "accept": [
+          "Une saison à 38 jardins"
+        ]
+      }
+    },
+    {
+      "id": "M06-L03-05",
+      "consigne": "==Ajoutez une diapositive== pour recueillir le second sujet. Elle se place juste après : c'est exactement l'ordre dans lequel vous en parlerez.",
+      "action": {
+        "type": "P_ADD_SLIDE",
+        "layout": "titre-et-contenu"
+      }
+    },
+    {
+      "id": "M06-L03-06",
+      "consigne": "==Saisissez Trois chantiers pour 2027 comme titre==. Le second sujet reçoit à son tour un titre qui porte sa conclusion, pas son étiquette.",
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:titre",
+        "accept": [
+          "Trois chantiers pour 2027"
+        ]
+      }
+    },
+    {
+      "id": "M06-L03-07",
+      "consigne": "==Saisissez les trois lignes restantes== : Ouverture d'une agence à Angers, Recrutement de trois jardiniers, Nouveau matériel de taille.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Réunion d'équipe"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Une saison à 38 jardins",
+                "contenu": "38 jardins créés\n120 entretiens réguliers\n12 chantiers de rénovation"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Trois chantiers pour 2027"
+              }
+            }
+          ]
+        },
+        "slide": 2
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:contenu",
+        "accept": [
+          "Ouverture d'une agence à Angers\nRecrutement de trois jardiniers\nNouveau matériel de taille",
+          "Ouverture d'une agence à Angers, Recrutement de trois jardiniers, Nouveau matériel de taille"
+        ]
+      }
+    },
+    {
+      "id": "M06-L03-08",
+      "consigne": "Couper une diapositive en deux ne rallonge pas une présentation : cela la rend **plus rapide**. Deux diapositives de trois lignes se commentent en moins de temps qu'une seule de six, parce que l'auditoire n'a rien à démêler pendant que vous parlez.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M06-L03-09",
+      "consigne": "==Passez en Trieuse== pour juger le résultat : deux diapositives équilibrées, deux titres qui annoncent chacun leur sujet.",
+      "action": {
+        "type": "P_SET_VIEW",
+        "view": "trieuse"
+      }
+    },
+    {
+      "id": "M06-L03-10",
+      "consigne": "==Revenez en affichage Normal== pour poursuivre le travail sur le contenu.",
+      "action": {
+        "type": "P_SET_VIEW",
+        "view": "normal"
+      }
+    },
+    {
+      "id": "M06-L03-11",
+      "consigne": "À retenir : un **« et » dans un titre** annonce presque toujours une diapositive à couper. Trois lignes par sujet, un titre par idée. Et la conséquence contre-intuitive à garder en tête — plus de diapositives, mais moins de temps.",
+      "action": {
+        "type": "READ"
+      }
+    }
+  ]
+}

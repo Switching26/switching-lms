@@ -1,0 +1,171 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "mode": "LESSON",
+  "moduleTitle": "Reprendre une présentation existante",
+  "title": "Le contrôle avant l'envoi",
+  "intro": {
+    "title": "Le contrôle avant l'envoi",
+    "body": "Une présentation reprise se contrôle autrement qu'une présentation neuve : on ne cherche pas ce qui manque, on cherche ce qui reste. Cette leçon vous donne le parcours de vérification, dans l'ordre, et vous le fait exécuter."
+  },
+  "outro": {
+    "body": "Le contrôle est fait et prouvé. Les exercices du module vous attendent, puis l'évaluation."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "ppt": {
+    "fileName": "Bilan Verdeval.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Verdeval",
+          "sous-titre": "Bilan présenté aux clients le 4 avril"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "38 jardins livrés en 2026",
+          "contenu": "38 jardins livrés\n120 entretiens honorés\n12 rénovations menées"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "masquee": true,
+        "textes": {
+          "titre": "Détail des primes d'équipe",
+          "contenu": "Réservé au personnel"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Point 3",
+          "contenu": "Ville de Nantes\nRennes Métropole"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Merci de votre attention",
+          "contenu": "Questions et échanges"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M07-L04-01",
+      "consigne": "Le parcours de contrôle tient en quatre passages, toujours dans cet ordre : **les titres** en Trieuse, **l'ordre** des diapositives, **le déroulé** en diaporama, et enfin ce qui reste **masqué**. Chacun trouve une catégorie de défaut différente, et aucun ne remplace les autres.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M07-L04-02",
+      "consigne": "==Passez en Trieuse== et lisez les titres seuls. L'un d'eux dit « Point 3 » : c'est un reste de l'ancienne version, écrit pour une réunion où l'ordre du jour était numéroté.",
+      "action": {
+        "type": "P_SET_VIEW",
+        "view": "trieuse"
+      },
+      "aide": {
+        "text": "Groupe Affichage, bouton Trieuse."
+      }
+    },
+    {
+      "id": "M07-L04-03",
+      "consigne": "==Affichez cette diapositive== pour la corriger.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 3
+      }
+    },
+    {
+      "id": "M07-L04-04",
+      "consigne": "==Revenez en affichage Normal== : c'est le seul où l'on modifie un contenu.",
+      "action": {
+        "type": "P_SET_VIEW",
+        "view": "normal"
+      }
+    },
+    {
+      "id": "M07-L04-05",
+      "consigne": "==Remplacez son titre par Deux collectivités partenaires==. Un titre hérité d'un autre contexte est le reste le plus fréquent, et le plus visible.",
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:titre",
+        "accept": [
+          "Deux collectivités partenaires"
+        ]
+      },
+      "aide": {
+        "text": "Un titre déjà rempli s'ouvre au double-clic."
+      }
+    },
+    {
+      "id": "M07-L04-06",
+      "consigne": "==Lancez le diaporama depuis le début==. Le troisième passage vérifie ce que le public verra réellement — et notamment que la diapositive masquée est bien sautée.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": true,
+          "index": 0
+        }
+      },
+      "aide": {
+        "text": "Groupe Diaporama, bouton « ▶ Début »."
+      }
+    },
+    {
+      "id": "M07-L04-07",
+      "consigne": "==Avancez d'une diapositive== : vous arrivez sur les chiffres, comme prévu.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "index": 1
+        }
+      }
+    },
+    {
+      "id": "M07-L04-08",
+      "consigne": "==Avancez encore== : vous devez passer directement aux partenaires, sans voir les primes d'équipe. C'est la preuve que le masquage tient.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "index": 3
+        }
+      },
+      "feedback": "La diapositive confidentielle n'est jamais apparue : le contrôle est concluant."
+    },
+    {
+      "id": "M07-L04-09",
+      "consigne": "==Quittez le diaporama==. Reste le quatrième passage, celui qu'on oublie toujours : la liste de ce qui est masqué.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": false
+        }
+      }
+    },
+    {
+      "id": "M07-L04-10",
+      "consigne": "==Passez en Trieuse== et repérez les diapositives marquées comme masquées. Si le fichier doit être **envoyé** et non seulement projeté, chacune d'elles doit être supprimée : le destinataire peut les afficher d'un clic.",
+      "action": {
+        "type": "P_SET_VIEW",
+        "view": "trieuse"
+      }
+    },
+    {
+      "id": "M07-L04-11",
+      "consigne": "==Revenez en affichage Normal==. À retenir, dans l'ordre : **titres, ordre, déroulé, masquées**. Les trois premiers passages valent pour toute présentation ; le quatrième est propre aux présentations reprises, et c'est celui qui évite les accidents.",
+      "action": {
+        "type": "P_SET_VIEW",
+        "view": "normal"
+      }
+    }
+  ]
+}

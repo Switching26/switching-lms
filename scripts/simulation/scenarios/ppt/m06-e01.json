@@ -1,0 +1,216 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "mode": "EXERCISE",
+  "moduleTitle": "Écrire pour être lu",
+  "title": "Exercice — Du paragraphe à la liste",
+  "intro": {
+    "title": "Exercice — Du paragraphe à la liste",
+    "body": "Deux diapositives portent des paragraphes que personne ne lira. Transformez-les en listes de trois lignes, sans mots de liaison, et donnez-leur l'alignement qui rend une liste lisible."
+  },
+  "outro": {
+    "body": "Trois lignes, pas de liaison, aligné à gauche : un contenu de diapositive se balaye."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "ppt": {
+    "fileName": "Reunion Verdeval.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Verdeval",
+          "sous-titre": "Réunion d'équipe"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Notre matériel",
+          "contenu": "Nous disposons de deux tondeuses autoportées ainsi que d'un broyeur de branches, et nous avons également fait l'acquisition d'une mini-pelle au printemps dernier."
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Nos certifications",
+          "contenu": "L'entreprise est certifiée Qualipaysage depuis 2023, dispose de l'agrément phytosanitaire, et a obtenu le label Écojardin en 2025."
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M06-E01-01",
+      "consigne": "Affichez la diapositive du matériel.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 1
+      },
+      "aide": {
+        "text": "C'est la deuxième miniature du volet."
+      }
+    },
+    {
+      "id": "M06-E01-02",
+      "consigne": "Remplacez ce paragraphe par trois lignes : Deux tondeuses autoportées, Un broyeur de branches, Une mini-pelle.",
+      "setupPpt": {
+        "slide": 1
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:contenu",
+        "accept": [
+          "Deux tondeuses autoportées\nUn broyeur de branches\nUne mini-pelle",
+          "Deux tondeuses autoportées, Un broyeur de branches, Une mini-pelle"
+        ]
+      },
+      "aide": {
+        "text": "Double-cliquez dans le bloc, effacez tout, puis saisissez les trois lignes en passant à la ligne entre chaque."
+      }
+    },
+    {
+      "id": "M06-E01-03",
+      "consigne": "Donnez à cette liste l'alignement qui aligne les débuts de ligne.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Réunion d'équipe"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Notre matériel",
+                "contenu": "Deux tondeuses autoportées\nUn broyeur de branches\nUne mini-pelle"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Nos certifications",
+                "contenu": "L'entreprise est certifiée Qualipaysage depuis 2023, dispose de l'agrément phytosanitaire, et a obtenu le label Écojardin en 2025."
+              }
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "ph:contenu",
+        "style": {
+          "align": "left"
+        }
+      }
+    },
+    {
+      "id": "M06-E01-04",
+      "consigne": "Passez à la diapositive des certifications.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 2
+      }
+    },
+    {
+      "id": "M06-E01-05",
+      "consigne": "Même traitement, en gardant les dates qui portent l'information : Qualipaysage depuis 2023, Agrément phytosanitaire, Écojardin depuis 2025.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Réunion d'équipe"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Notre matériel",
+                "contenu": "Deux tondeuses autoportées\nUn broyeur de branches\nUne mini-pelle"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Nos certifications",
+                "contenu": "L'entreprise est certifiée Qualipaysage depuis 2023, dispose de l'agrément phytosanitaire, et a obtenu le label Écojardin en 2025."
+              }
+            }
+          ]
+        },
+        "slide": 2
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:contenu",
+        "accept": [
+          "Qualipaysage depuis 2023\nAgrément phytosanitaire\nÉcojardin depuis 2025",
+          "Qualipaysage depuis 2023, Agrément phytosanitaire, Écojardin depuis 2025"
+        ]
+      }
+    },
+    {
+      "id": "M06-E01-06",
+      "consigne": "Alignez cette liste comme la précédente.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Réunion d'équipe"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Notre matériel",
+                "contenu": "Deux tondeuses autoportées\nUn broyeur de branches\nUne mini-pelle"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Nos certifications",
+                "contenu": "Qualipaysage depuis 2023\nAgrément phytosanitaire\nÉcojardin depuis 2025"
+              }
+            }
+          ]
+        },
+        "slide": 2
+      },
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "ph:contenu",
+        "style": {
+          "align": "left"
+        }
+      }
+    },
+    {
+      "id": "M06-E01-07",
+      "consigne": "Sur une diapositive en liste, un seul élément doit ressortir. Traitez le titre en conséquence.",
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "ph:titre",
+        "style": {
+          "bold": true
+        }
+      }
+    }
+  ]
+}

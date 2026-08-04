@@ -1,0 +1,211 @@
+{
+  "schemaVersion": 1,
+  "title": "Escalader sans court-circuiter",
+  "mode": "LESSON",
+  "moduleTitle": "Coordonner un dossier à plusieurs",
+  "intro": {
+    "title": "Quand la réponse ne vient pas de celui qui devait la donner",
+    "body": "Un fournisseur ne répond plus depuis dix jours et le chantier attend. Il faut monter d'un cran — sans faire ce qui braque tout le monde : écrire au responsable en mettant l'interlocuteur d'origine en copie cachée, ou pire, en l'écartant. Escalader proprement, c'est rester lisible pour les deux."
+  },
+  "outro": {
+    "body": "Une escalade honnête garde l'interlocuteur d'origine sur la ligne principale, aux côtés de son responsable : il voit exactement ce qui est dit de lui, et peut répondre. Le mettre en copie cachée reviendrait à parler dans son dos, ce qui se découvre toujours."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "clients",
+        "nom": "Clients 2026"
+      },
+      {
+        "id": "fournisseurs",
+        "nom": "Fournisseurs"
+      }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "messages": [
+      {
+        "id": "m-attente",
+        "dossier": "envoyes",
+        "de": "camille.aubertin@atelier-nord.fr",
+        "a": [
+          "compta@quincaillerie-delmas.fr"
+        ],
+        "objet": "Commande CD-1204 — demande de date de livraison",
+        "corps": "Bonjour,\n\nPouvez-vous me confirmer une date de livraison pour la commande CD-1204 ?\n\nCamille Aubertin",
+        "date": "2026-03-17T09:20",
+        "lu": true
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O07-L02-01",
+      "consigne": "==Ouvrez le dossier Éléments envoyés.== Votre demande date du 17 mars et n'a jamais reçu de réponse. Avant d'escalader, on relit ce qu'on a effectivement écrit — et quand.",
+      "action": {
+        "type": "O_SELECT_FOLDER",
+        "dossier": "envoyes"
+      },
+      "aide": {
+        "text": "Colonne de gauche ; sur téléphone, derrière le bouton ☰ en haut de la liste."
+      }
+    },
+    {
+      "id": "O07-L02-02",
+      "consigne": "==Ouvrez votre demande du 17 mars.== Elle est courte, précise et sans ambiguïté : c'est ce qui vous autorise à monter d'un cran sans passer pour impatient.",
+      "action": {
+        "type": "O_SELECT_MESSAGE",
+        "id": "m-attente"
+      },
+      "aide": {
+        "text": "C'est le seul message de ce dossier."
+      }
+    },
+    {
+      "id": "O07-L02-03",
+      "consigne": "==Transférez-le à `direction@quincaillerie-delmas.fr`.== Transférer plutôt que réécrire a un avantage décisif : le responsable lit **le message d'origine**, avec sa date, et constate lui-même le délai.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "genre": "transfert",
+          "a": {
+            "contient": [
+              "direction@quincaillerie-delmas.fr"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Le bouton Transférer est dans la barre du haut du volet de lecture."
+      }
+    },
+    {
+      "id": "O07-L02-04",
+      "consigne": "==Ajoutez `compta@quincaillerie-delmas.fr` sur la même ligne À.== Votre interlocuteur d'origine reste destinataire principal : il voit ce qui est dit, et peut répondre. Le mettre en copie cachée serait parler dans son dos.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "a": {
+            "contient": [
+              "direction@quincaillerie-delmas.fr",
+              "compta@quincaillerie-delmas.fr"
+            ]
+          },
+          "cci": {
+            "vide": true
+          }
+        }
+      },
+      "aide": {
+        "text": "Les deux adresses sur la ligne À, séparées par un point-virgule. Rien en Cci."
+      }
+    },
+    {
+      "id": "O07-L02-05",
+      "consigne": "==Complétez l'objet avec le mot `relance`.== Annoncer la nature du message évite qu'il soit lu comme une plainte : c'est un rappel de délai, pas une mise en cause.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "objet": {
+            "prefixe": "TR",
+            "contient": [
+              "relance"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Ajoutez le mot à la fin de l'objet, en gardant le préfixe posé par Outlook."
+      }
+    },
+    {
+      "id": "O07-L02-06",
+      "consigne": "==Rédigez, puis envoyez.== Le message doit citer **la référence de la commande** et **la conséquence concrète** du retard — un chantier arrêté se comprend mieux qu'un mécontentement.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "direction@quincaillerie-delmas.fr",
+              "compta@quincaillerie-delmas.fr"
+            ]
+          },
+          "objet": {
+            "prefixe": "TR",
+            "contient": [
+              "relance"
+            ]
+          },
+          "corps": {
+            "salutation": [
+              "bonjour",
+              "madame",
+              "monsieur",
+              "bonsoir"
+            ],
+            "cloture": [
+              "cordialement",
+              "salutations",
+              "bien a vous",
+              "merci"
+            ],
+            "notions": [
+              {
+                "libelle": "la référence de la commande",
+                "oneOf": [
+                  "cd-1204",
+                  "1204"
+                ]
+              },
+              {
+                "libelle": "la conséquence du retard",
+                "oneOf": [
+                  "chantier",
+                  "arret",
+                  "bloque",
+                  "retard",
+                  "pose",
+                  "client",
+                  "attente"
+                ]
+              }
+            ],
+            "interdit": [
+              {
+                "libelle": "une mise en cause personnelle",
+                "oneOf": [
+                  "incompetent",
+                  "votre service ne",
+                  "inadmissible",
+                  "scandaleux"
+                ]
+              }
+            ],
+            "minMots": 15
+          }
+        }
+      },
+      "aide": {
+        "text": "Deux informations sont attendues : la référence, et ce que le retard bloque."
+      }
+    }
+  ]
+}

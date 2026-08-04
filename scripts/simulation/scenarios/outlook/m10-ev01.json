@@ -1,0 +1,299 @@
+{
+  "schemaVersion": 1,
+  "title": "S'évaluer — Le calendrier au service du chantier",
+  "mode": "EVALUATION",
+  "moduleTitle": "Le calendrier au service du chantier",
+  "intro": {
+    "title": "Lundi 2 mars — poser la semaine avant qu'elle ne commence",
+    "body": "Un client confirme deux jalons, un partenaire vous invite, un fournisseur vous propose une démonstration sur un créneau déjà pris. Vous devez reporter, arbitrer et répondre. Cette épreuve est notée sur les rendez-vous posés, les réponses aux invitations et le rangement. La rédaction ne compte pas dans la note."
+  },
+  "outro": {
+    "body": "Le barème portait sur ce qu'un tiers pourrait vérifier dans votre agenda à midi : les bons jours, les bonnes bornes horaires, le bon lieu, et une réponse à chaque invitation. Un agenda juste vaut mieux qu'un agenda rempli."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "clients",
+        "nom": "Clients 2026"
+      },
+      {
+        "id": "fournisseurs",
+        "nom": "Fournisseurs"
+      }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "messages": [
+      {
+        "id": "m-jalons",
+        "dossier": "reception",
+        "de": "j.leroux@habitat-du-nord.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Chantier Beaulieu — deux dates confirmées",
+        "corps": "Bonjour,\n\nNous confirmons :\n- la livraison le mardi 3 mars, de 8 h à 9 h,\n- la réception le vendredi 6 mars, de 10 h à 11 h 30.\nRésidence Beaulieu pour les deux.\n\nJulien Leroux",
+        "date": "2026-03-02T07:45",
+        "lu": false
+      },
+      {
+        "id": "m-inv-partenaire",
+        "dossier": "reception",
+        "de": "h.vasseur@menuiserie-vasseur.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Invitation — préparation de la pose",
+        "corps": "Bonjour Camille,\n\nOn prépare la pose ensemble mercredi matin ?\n\nHugo",
+        "date": "2026-03-02T07:20",
+        "lu": false,
+        "invitation": {
+          "reponse": "aucune",
+          "evenement": {
+            "id": "ev-prep",
+            "titre": "Préparation de la pose",
+            "date": "2026-03-04",
+            "debut": "09:00",
+            "fin": "10:30",
+            "lieu": "Atelier Nord",
+            "participants": [
+              "h.vasseur@menuiserie-vasseur.fr",
+              "camille.aubertin@atelier-nord.fr"
+            ],
+            "reunion": true
+          }
+        }
+      },
+      {
+        "id": "m-inv-demo",
+        "dossier": "reception",
+        "de": "contact@promo-outillage.net",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Invitation — démonstration outillage",
+        "corps": "Bonjour,\n\nUne heure pour découvrir notre gamme.\n\nPromo Outillage",
+        "date": "2026-03-02T05:40",
+        "lu": false,
+        "invitation": {
+          "reponse": "aucune",
+          "evenement": {
+            "id": "ev-demo",
+            "titre": "Démonstration outillage",
+            "date": "2026-03-04",
+            "debut": "09:00",
+            "fin": "10:00",
+            "lieu": "Showroom Promo Outillage",
+            "participants": [
+              "contact@promo-outillage.net",
+              "camille.aubertin@atelier-nord.fr"
+            ],
+            "reunion": true
+          }
+        }
+      },
+      {
+        "id": "m-pub",
+        "dossier": "reception",
+        "de": "newsletter@bois-et-materiaux.info",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "La lettre du bois — 2 mars",
+        "corps": "L'actualité.",
+        "date": "2026-03-02T04:30",
+        "lu": false
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O10-EV01-01",
+      "consigne": "Ouvrez la confirmation d'Habitat du Nord et relevez les deux jalons annoncés.",
+      "action": {
+        "type": "O_SELECT_MESSAGE",
+        "id": "m-jalons"
+      },
+      "points": 1
+    },
+    {
+      "id": "O10-EV01-02",
+      "consigne": "Reportez la livraison dans votre agenda. Objet exact : `Livraison Beaulieu`, lieu `Résidence Beaulieu`.",
+      "action": {
+        "type": "O_EXPECT_CALENDRIER",
+        "calendrier": {
+          "titre": "Livraison Beaulieu",
+          "date": "2026-03-03",
+          "debut": "08:00",
+          "fin": "09:00",
+          "lieu": "Résidence Beaulieu"
+        }
+      },
+      "points": 3
+    },
+    {
+      "id": "O10-EV01-03",
+      "consigne": "Reportez la réception. Objet exact : `Réception Beaulieu`, même lieu. Attention à l'heure de fin.",
+      "action": {
+        "type": "O_EXPECT_CALENDRIER",
+        "calendrier": {
+          "titre": "Réception Beaulieu",
+          "date": "2026-03-06",
+          "debut": "10:00",
+          "fin": "11:30",
+          "lieu": "Résidence Beaulieu"
+        }
+      },
+      "points": 3
+    },
+    {
+      "id": "O10-EV01-04",
+      "consigne": "Deux invitations portent sur le mercredi matin, au même moment. Acceptez celle qui sert le chantier en cours.",
+      "action": {
+        "type": "O_EXPECT_CALENDRIER",
+        "calendrier": {
+          "titre": "Préparation de la pose",
+          "date": "2026-03-04",
+          "debut": "09:00",
+          "fin": "10:30",
+          "reunion": true,
+          "participants": {
+            "contient": [
+              "h.vasseur@menuiserie-vasseur.fr",
+              "camille.aubertin@atelier-nord.fr"
+            ]
+          }
+        }
+      },
+      "points": 3
+    },
+    {
+      "id": "O10-EV01-05",
+      "consigne": "Ouvrez l'autre invitation, celle de Promo Outillage : elle occupe exactement le même créneau.",
+      "action": {
+        "type": "O_SELECT_MESSAGE",
+        "id": "m-inv-demo"
+      },
+      "points": 1
+    },
+    {
+      "id": "O10-EV01-06",
+      "consigne": "Répondez-lui de façon que l'organisateur sache qu'il ne doit pas vous attendre.",
+      "action": {
+        "type": "O_CLICK_CONTROL",
+        "control": "cr-refuser"
+      },
+      "points": 2
+    },
+    {
+      "id": "O10-EV01-07",
+      "consigne": "Confirmez les deux jalons au client. Répondez-lui, à lui seul, et complétez l'objet avec le mot `confirmés`.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "genre": "reponse",
+          "a": {
+            "contient": [
+              "j.leroux@habitat-du-nord.fr"
+            ]
+          },
+          "cc": {
+            "vide": true
+          },
+          "objet": {
+            "prefixe": "RE",
+            "contient": [
+              "confirmes"
+            ]
+          }
+        }
+      },
+      "points": 3
+    },
+    {
+      "id": "O10-EV01-08",
+      "consigne": "Rédigez cette confirmation avec vos mots. **Cette étape n'entre pas dans la note.**",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "corps": {
+            "minMots": 10,
+            "revueManuelle": true
+          }
+        }
+      },
+      "points": 0
+    },
+    {
+      "id": "O10-EV01-09",
+      "consigne": "Envoyez la confirmation.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "j.leroux@habitat-du-nord.fr"
+            ]
+          },
+          "cc": {
+            "vide": true
+          },
+          "objet": {
+            "prefixe": "RE",
+            "contient": [
+              "confirmes"
+            ]
+          }
+        }
+      },
+      "points": 2
+    },
+    {
+      "id": "O10-EV01-10",
+      "consigne": "Les jalons sont reportés et confirmés : rangez le message du client chez les clients.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-jalons": {
+              "dossier": "clients"
+            }
+          }
+        }
+      },
+      "points": 1
+    },
+    {
+      "id": "O10-EV01-11",
+      "consigne": "Sortez la lettre du bois de votre file d'attente.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-pub": {
+              "dossier": "supprimes"
+            }
+          }
+        }
+      },
+      "points": 1
+    }
+  ]
+}

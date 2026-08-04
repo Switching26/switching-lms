@@ -1,0 +1,156 @@
+{
+  "schemaVersion": 1,
+  "title": "Ce qu'on garde pour plus tard, et comment le retrouver",
+  "mode": "LESSON",
+  "moduleTitle": "Traiter sa boîte du matin : la routine",
+  "intro": {
+    "title": "Le piège du « je le laisse là, je le verrai »",
+    "body": "Un message qu'on laisse en boîte de réception sans le marquer disparaît sous les arrivées du lendemain. Le marquer, en revanche, en fait une tâche visible. Encore faut-il ne marquer que ce qui attend vraiment : un drapeau sur tout est un drapeau sur rien."
+  },
+  "outro": {
+    "body": "Deux messages marqués valent une liste de tâches ; dix messages marqués valent une deuxième boîte de réception. Réservez l'indicateur à ce qui attend une action de VOTRE part — pas à ce qui vous intéresse, pas à ce que vous voulez relire."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "clients",
+        "nom": "Clients 2026"
+      },
+      {
+        "id": "fournisseurs",
+        "nom": "Fournisseurs"
+      }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "messages": [
+      {
+        "id": "m-devis-attendu",
+        "dossier": "reception",
+        "de": "marches@ville-lambersart.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Salle des mariages — devis attendu avant le 20 avril",
+        "corps": "Bonjour,\n\nNous attendons votre devis avant le 20 avril. Les cotes vous seront transmises la semaine prochaine.\n\nService des marchés",
+        "date": "2026-03-30T07:10",
+        "lu": false
+      },
+      {
+        "id": "m-info",
+        "dossier": "reception",
+        "de": "n.kerbaj@atelier-nord.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Fermeture d'août — pour information",
+        "corps": "Bonjour,\n\nL'atelier fermera du 3 au 17 août. Rien à faire pour l'instant.\n\nNadia",
+        "date": "2026-03-30T06:55",
+        "lu": true
+      },
+      {
+        "id": "m-livraison",
+        "dossier": "reception",
+        "de": "compta@quincaillerie-delmas.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Commande CD-1204 — livraison le 3 avril, 8 h-12 h",
+        "corps": "Bonjour,\n\nLivraison confirmée le 3 avril entre 8 h et 12 h. Une présence est nécessaire.\n\nQuincaillerie Delmas",
+        "date": "2026-03-30T06:40",
+        "lu": false
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O08-L03-01",
+      "consigne": "==Posez un indicateur sur la demande de la mairie.== Elle attend un devis de VOTRE part avant le 20 avril, mais les cotes n'arrivent que la semaine prochaine : impossible de la traiter aujourd'hui, impossible de l'oublier.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-devis-attendu": {
+              "dossier": "reception",
+              "indicateur": true
+            }
+          }
+        }
+      },
+      "aide": {
+        "text": "Ouvrez le message, puis cliquez sur le drapeau dans la barre du haut."
+      }
+    },
+    {
+      "id": "O08-L03-02",
+      "consigne": "==Posez un indicateur sur la livraison du 3 avril.== Même cas : une présence sera nécessaire, mais rien ne se décide ce matin. Deux drapeaux, deux vraies échéances.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-livraison": {
+              "dossier": "reception",
+              "indicateur": true
+            }
+          }
+        }
+      },
+      "aide": {
+        "text": "Ouvrez le message, puis le drapeau."
+      }
+    },
+    {
+      "id": "O08-L03-03",
+      "consigne": "==Rangez l'annonce de fermeture dans Clients 2026.== Elle n'attend **aucune action de votre part** : la marquer ferait un troisième drapeau qui affaiblirait les deux autres. Ce qui est bon à savoir se classe, ne se marque pas.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-info": {
+              "dossier": "clients"
+            }
+          }
+        }
+      },
+      "aide": {
+        "text": "Déplacer, puis Clients 2026."
+      }
+    },
+    {
+      "id": "O08-L03-04",
+      "consigne": "==Ouvrez le dossier Clients 2026== pour vérifier que l'annonce y est bien. Ce contrôle est ce qui permet de classer sans crainte : rien n'est perdu, seulement rangé.",
+      "action": {
+        "type": "O_SELECT_FOLDER",
+        "dossier": "clients"
+      },
+      "aide": {
+        "text": "Colonne de gauche ; sur téléphone, derrière le bouton ☰ en haut de la liste."
+      }
+    },
+    {
+      "id": "O08-L03-05",
+      "consigne": "==Revenez à la Boîte de réception.== Deux messages y restent, tous deux marqués : votre liste de choses à faire tient sur un écran, et elle est exacte.",
+      "action": {
+        "type": "O_SELECT_FOLDER",
+        "dossier": "reception"
+      },
+      "aide": {
+        "text": "Premier dossier de la colonne de gauche."
+      }
+    }
+  ]
+}

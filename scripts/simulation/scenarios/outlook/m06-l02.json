@@ -1,0 +1,189 @@
+{
+  "schemaVersion": 1,
+  "title": "Une demande claire : quoi, pour quand, par qui",
+  "mode": "LESSON",
+  "moduleTitle": "Écrire un message qu'on lit vraiment",
+  "intro": {
+    "title": "Le message qui revient toujours avec une question",
+    "body": "Il existe une famille de messages qui produit systématiquement un aller-retour : ceux où l'on demande quelque chose sans dire précisément quoi, ni pour quand, ni qui doit s'en charger. Trois informations manquantes, trois messages de plus. Vous allez apprendre à les mettre toutes les trois du premier coup."
+  },
+  "outro": {
+    "body": "Une demande complète tient en trois éléments : ce qui est attendu, pour quelle date, et de qui. Quand les trois y sont, la réponse arrive en un échange. Quand un seul manque, il en faut trois de plus — et c'est presque toujours la date qu'on oublie."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "clients",
+        "nom": "Clients 2026"
+      },
+      {
+        "id": "fournisseurs",
+        "nom": "Fournisseurs"
+      }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "messages": [
+      {
+        "id": "m-chantier",
+        "dossier": "reception",
+        "de": "h.vasseur@menuiserie-vasseur.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Escalier Beaulieu — je peux intervenir la semaine prochaine",
+        "corps": "Bonjour Camille,\n\nJe suis disponible la semaine prochaine pour la retouche de la main courante.\nDis-moi ce dont tu as besoin.\n\nHugo",
+        "date": "2026-03-25T09:15",
+        "lu": false
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O06-L02-01",
+      "consigne": "==Ouvrez le message d'Hugo Vasseur.== Il propose son aide sans savoir ce qu'on attend de lui : c'est à vous de le lui dire précisément.",
+      "action": {
+        "type": "O_SELECT_MESSAGE",
+        "id": "m-chantier"
+      },
+      "aide": {
+        "text": "C'est le message qui annonce une disponibilité la semaine prochaine."
+      }
+    },
+    {
+      "id": "O06-L02-02",
+      "consigne": "==Cliquez sur Répondre.== Une demande se formule dans le fil de la conversation d'origine : Hugo retrouve ainsi le contexte sans avoir à chercher.",
+      "setup": {
+        "courrier": {
+          "messageActif": "m-chantier"
+        }
+      },
+      "action": {
+        "type": "O_CLICK_CONTROL",
+        "control": "cr-repondre"
+      },
+      "aide": {
+        "text": "Le bouton Répondre est le premier de la barre du haut du volet de lecture."
+      }
+    },
+    {
+      "id": "O06-L02-03",
+      "consigne": "==Complétez l'objet avec le mot `intervention`.== L'objet repris parle d'une disponibilité ; le vôtre doit annoncer une demande. C'est ce changement qui fait passer le message du bavardage à l'action.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "objet": {
+            "prefixe": "RE",
+            "contient": [
+              "intervention"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Ajoutez le mot à la fin du champ Objet, en gardant le « RE : »."
+      }
+    },
+    {
+      "id": "O06-L02-04",
+      "consigne": "==Rédigez la demande complète.== Elle doit contenir les trois éléments : **ce qu'il faut faire** — la reprise de la main courante —, **pour quand**, et **où**. Écrivez-la avec vos mots ; ce sont les informations qui comptent.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "corps": {
+            "salutation": [
+              "bonjour",
+              "hugo",
+              "salut",
+              "bonsoir"
+            ],
+            "cloture": [
+              "merci",
+              "cordialement",
+              "a bientot",
+              "bien a toi"
+            ],
+            "notions": [
+              {
+                "libelle": "ce qui est à faire",
+                "oneOf": [
+                  "main courante",
+                  "courante",
+                  "reprise",
+                  "retouche",
+                  "jeu"
+                ]
+              },
+              {
+                "libelle": "pour quand",
+                "oneOf": [
+                  "mardi",
+                  "mercredi",
+                  "jeudi",
+                  "vendredi",
+                  "lundi",
+                  "semaine prochaine",
+                  "avant le"
+                ]
+              },
+              {
+                "libelle": "où l'intervention a lieu",
+                "oneOf": [
+                  "beaulieu",
+                  "residence",
+                  "sur place",
+                  "chantier",
+                  "deuxieme etage"
+                ]
+              }
+            ],
+            "minMots": 15
+          }
+        }
+      },
+      "aide": {
+        "text": "Trois informations sont attendues : le travail, la date, et le lieu."
+      }
+    },
+    {
+      "id": "O06-L02-05",
+      "consigne": "==Envoyez la demande.== Hugo peut désormais répondre par oui ou par non : c'est le signe d'une demande bien écrite. Une demande floue, elle, appelle toujours une question.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "h.vasseur@menuiserie-vasseur.fr"
+            ]
+          },
+          "objet": {
+            "prefixe": "RE",
+            "contient": [
+              "intervention"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Le bouton Envoyer, en haut à gauche de la fenêtre de rédaction."
+      }
+    }
+  ]
+}

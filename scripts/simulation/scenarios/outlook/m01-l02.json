@@ -1,0 +1,213 @@
+{
+  "schemaVersion": 1,
+  "title": "Rédiger et envoyer un premier message",
+  "mode": "LESSON",
+  "moduleTitle": "Prise en main d'Outlook",
+  "intro": {
+    "title": "Le comptoir de l'école : il faut prévenir l'atelier",
+    "body": "Rémi Tissot vous a demandé un devis pour un comptoir d'accueil. Avant de lui répondre, vous devez prévenir Sonia, votre collègue d'atelier, pour qu'elle prépare la prise de mesures. Vous allez écrire votre premier message de bout en bout : destinataire, objet, texte, envoi — puis vérifier qu'il est bien parti."
+  },
+  "outro": {
+    "body": "Un message part en quatre gestes : le destinataire, l'objet, le texte, l'envoi. Retenez surtout l'objet : c'est la seule chose que votre destinataire lit avant de décider s'il vous ouvre tout de suite ou plus tard. Et prenez le réflexe d'aller voir dans Éléments envoyés — c'est la seule preuve qu'un message est réellement parti."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "clients",
+        "nom": "Clients 2026"
+      }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "messages": [
+      {
+        "id": "m-devis",
+        "dossier": "reception",
+        "de": "r.tissot@ecole-arts-lambersart.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Comptoir d'accueil — demande de devis",
+        "corps": "Bonjour,\n\nNous refaisons l'accueil de l'école et cherchons un comptoir sur mesure, en chêne clair, d'environ 2,40 m.\nPourriez-vous nous adresser un devis ?\n\nBien cordialement,\nRémi Tissot\nÉcole des Arts de Lambersart",
+        "date": "2026-03-02T08:41",
+        "lu": true
+      },
+      {
+        "id": "m-livraison",
+        "dossier": "reception",
+        "de": "logistique@transports-verhaeghe.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Livraison du 5 mars — créneau à confirmer",
+        "corps": "Bonjour,\n\nNous pouvons livrer vos panneaux le jeudi 5 mars entre 7 h et 9 h, ou entre 14 h et 16 h.\nMerci de nous indiquer le créneau qui vous arrange.\n\nService logistique\nTransports Verhaeghe",
+        "date": "2026-03-02T07:55",
+        "lu": true
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O01-L02-01",
+      "consigne": "Écrire à quelqu'un ne demande pas d'avoir reçu un message de sa part : on part d'une **feuille blanche**. ==Cliquez sur Nouveau message.== Une fenêtre de rédaction s'ouvre par-dessus votre boîte, qui reste intacte derrière.",
+      "action": {
+        "type": "O_CLICK_CONTROL",
+        "control": "cr-nouveau"
+      },
+      "aide": {
+        "text": "Le bouton Nouveau message est le premier de la colonne de gauche ; sur téléphone, c'est le ✚ à côté de la recherche."
+      }
+    },
+    {
+      "id": "O01-L02-02",
+      "consigne": "La ligne **À** reçoit le ou les destinataires principaux : ceux à qui vous demandez quelque chose. ==Saisissez `s.brunel@atelier-nord.fr` dans le champ À.== Une adresse ne contient jamais d'espace, et la moindre lettre de travers la rend inutilisable.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "genre": "nouveau",
+          "a": {
+            "contient": [
+              "s.brunel@atelier-nord.fr"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Cliquez dans le champ À, en haut de la fenêtre de rédaction, et tapez l'adresse en entier."
+      }
+    },
+    {
+      "id": "O01-L02-03",
+      "consigne": "==Saisissez un objet qui annonce le chantier== : il doit contenir le mot `comptoir`. L'**objet** est la seule chose que Sonia verra avant d'ouvrir — il doit dire de quoi il s'agit, pas seulement « Bonjour » ou « Info ».",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "objet": {
+            "contient": [
+              "comptoir"
+            ],
+            "nonVide": true
+          }
+        }
+      },
+      "aide": {
+        "text": "Par exemple « Comptoir de l'école des Arts — prise de mesures ». La formulation est libre, le mot comptoir doit y être."
+      }
+    },
+    {
+      "id": "O01-L02-04",
+      "consigne": "==Rédigez le message dans le grand cadre du bas.== Sonia doit y trouver deux informations : **de quel chantier** il s'agit, et **quand** se fait la prise de mesures — jeudi. Le texte exact est libre : ce sont les informations qui comptent, pas les mots.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "corps": {
+            "salutation": [
+              "bonjour",
+              "salut",
+              "sonia",
+              "bonsoir"
+            ],
+            "cloture": [
+              "merci",
+              "cordialement",
+              "a bientot",
+              "bien a toi",
+              "camille"
+            ],
+            "notions": [
+              {
+                "libelle": "de quel chantier il s'agit",
+                "oneOf": [
+                  "comptoir",
+                  "ecole des arts",
+                  "lambersart",
+                  "tissot",
+                  "accueil"
+                ]
+              },
+              {
+                "libelle": "quand se fait la prise de mesures",
+                "oneOf": [
+                  "jeudi",
+                  "5 mars",
+                  "05/03",
+                  "5/3",
+                  "cette semaine"
+                ]
+              }
+            ],
+            "minMots": 12
+          }
+        }
+      },
+      "aide": {
+        "text": "Deux informations sont attendues : le chantier concerné, et le jour de la prise de mesures."
+      }
+    },
+    {
+      "id": "O01-L02-05",
+      "consigne": "Votre signature apparaît en gris sous le texte : Outlook l'ajoute tout seul, vous n'avez pas à la retaper. ==Envoyez le message.== La fenêtre de rédaction se referme : c'est le signe que le message est parti.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "s.brunel@atelier-nord.fr"
+            ]
+          },
+          "objet": {
+            "contient": [
+              "comptoir"
+            ]
+          },
+          "pieces": {
+            "aucune": true
+          }
+        }
+      },
+      "aide": {
+        "text": "Le bouton Envoyer est le premier de la barre du haut de la fenêtre de rédaction."
+      }
+    },
+    {
+      "id": "O01-L02-06",
+      "consigne": "==Ouvrez le dossier Éléments envoyés.== La fenêtre s'est refermée, mais **rien ne prouve encore que le message est parti**. La preuve est ici : Outlook range une copie de tout ce que vous envoyez.",
+      "action": {
+        "type": "O_SELECT_FOLDER",
+        "dossier": "envoyes"
+      },
+      "aide": {
+        "text": "Le dossier Éléments envoyés est dans la colonne de gauche, sous la Boîte de réception."
+      }
+    },
+    {
+      "id": "O01-L02-07",
+      "consigne": "==Revenez à la Boîte de réception== pour reprendre votre travail. Votre message est bien là, avec son objet. C'est ce dossier qu'on ouvre quand un destinataire dit ne rien avoir reçu : on y vérifie **l'adresse exacte** à laquelle on a écrit.",
+      "action": {
+        "type": "O_SELECT_FOLDER",
+        "dossier": "reception"
+      },
+      "aide": {
+        "text": "Toujours dans la colonne de gauche, tout en haut."
+      }
+    }
+  ]
+}

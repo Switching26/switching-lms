@@ -116,6 +116,30 @@ async function main() {
 
   /* ── Lecture et contrôles AVANT toute écriture ─────────────────────────── */
 
+/**
+ * L'APPLICATION d'un scénario, déduite de son dossier.
+ *
+ *   scripts/simulation/scenarios/m06-l01.json        → EXCEL   (corpus historique, à plat)
+ *   scripts/simulation/scenarios/word/m01-l01.json   → WORD
+ *   scripts/simulation/scenarios/ppt/…               → POWERPOINT
+ *   scripts/simulation/scenarios/outlook/…           → OUTLOOK
+ *
+ * ⚠️ Cette fonction corrige un défaut BLOQUANT : `app` était écrit « EXCEL » en
+ * dur. Un chapitre Word semé était donc enregistré comme Excel, servi par le
+ * player d'Excel, et jugé par l'adaptateur d'Excel — sans qu'aucune erreur ne
+ * soit levée. Même famille que le registre non branché : faux, et silencieux.
+ *
+ * Le dossier fait foi plutôt qu'un champ du scénario : il est déjà la convention
+ * de rangement, et un champ pourrait contredire l'emplacement du fichier.
+ */
+function appDuFichier(file: string): "EXCEL" | "WORD" | "POWERPOINT" | "OUTLOOK" {
+  const dossier = path.basename(path.dirname(file))
+  if (dossier === "word") return "WORD"
+  if (dossier === "ppt") return "POWERPOINT"
+  if (dossier === "outlook") return "OUTLOOK"
+  return "EXCEL"
+}
+
   const parsed: Parsed[] = []
   const problems: string[] = []
 
@@ -283,12 +307,15 @@ async function main() {
           where: { chapterId: chapter.id },
           create: {
             chapterId: chapter.id,
-            app: "EXCEL",
+            app: appDuFichier(p.file),
             mode,
             scenario: p.scenario as never,
             stepCount: p.scenario.steps.length,
           },
           update: {
+            // Une app corrigée doit se propager : un scénario déplacé de dossier
+            // ne doit pas conserver l'application de son premier semis.
+            app: appDuFichier(p.file),
             mode,
             scenario: p.scenario as never,
             stepCount: p.scenario.steps.length,

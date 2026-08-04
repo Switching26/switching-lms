@@ -1,0 +1,238 @@
+{
+  "schemaVersion": 1,
+  "title": "Entrer dans une boîte qu'on ne connaît pas",
+  "mode": "LESSON",
+  "moduleTitle": "Reprendre la boîte d'un collègue",
+  "intro": {
+    "title": "Sonia est arrêtée, vous reprenez sa messagerie",
+    "body": "Reprendre la boîte d'un collègue, c'est arriver au milieu de conversations dont on ignore tout. Le réflexe qui fait perdre une journée : répondre à ce qu'on lit. Le réflexe qui fait gagner la matinée : chercher d'abord ce qui a déjà été dit, dans les Éléments envoyés."
+  },
+  "outro": {
+    "body": "Dans une boîte qu'on reprend, la réponse est presque toujours déjà écrite : elle est dans les Éléments envoyés. Chercher avant de répondre évite de contredire son collègue devant un client — l'erreur la plus embarrassante d'une passation."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Sonia Brunel",
+      "adresse": "s.brunel@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "chantiers",
+        "nom": "Chantiers en cours"
+      },
+      {
+        "id": "fournisseurs",
+        "nom": "Fournisseurs"
+      }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Sonia Brunel\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "messages": [
+      {
+        "id": "m-vitrine",
+        "dossier": "reception",
+        "de": "contact@fleurs-de-saison.fr",
+        "a": [
+          "s.brunel@atelier-nord.fr"
+        ],
+        "objet": "Vitrine — la pose de mardi est-elle maintenue ?",
+        "corps": "Bonjour,\n\nNous n'avons pas de nouvelles depuis vendredi. La pose de mardi est-elle maintenue ?\n\nFleurs de Saison",
+        "date": "2026-04-06T08:10",
+        "lu": false
+      },
+      {
+        "id": "m-devis",
+        "dossier": "reception",
+        "de": "j.leroux@habitat-du-nord.fr",
+        "a": [
+          "s.brunel@atelier-nord.fr"
+        ],
+        "objet": "Mezzanine — relance sur le devis",
+        "corps": "Bonjour,\n\nNous attendions un devis pour la mezzanine, annoncé pour la fin de semaine dernière.\n\nJulien Leroux",
+        "date": "2026-04-06T07:50",
+        "lu": false
+      },
+      {
+        "id": "m-livraison",
+        "dossier": "reception",
+        "de": "compta@quincaillerie-delmas.fr",
+        "a": [
+          "s.brunel@atelier-nord.fr"
+        ],
+        "objet": "Commande CD-1310 — livraison le 9 avril",
+        "corps": "Bonjour,\n\nLivraison prévue le 9 avril, une présence est nécessaire.\n\nQuincaillerie Delmas",
+        "date": "2026-04-06T07:20",
+        "lu": false
+      },
+      {
+        "id": "m-pub",
+        "dossier": "reception",
+        "de": "offres@promo-outillage.net",
+        "a": [
+          "s.brunel@atelier-nord.fr"
+        ],
+        "objet": "Semaine promo",
+        "corps": "Nos offres.",
+        "date": "2026-04-06T05:00",
+        "lu": false
+      },
+      {
+        "id": "m-env-vitrine",
+        "dossier": "envoyes",
+        "de": "camille.aubertin@atelier-nord.fr",
+        "a": [
+          "contact@fleurs-de-saison.fr"
+        ],
+        "objet": "Vitrine — confirmation de la pose du mardi 7 avril",
+        "corps": "Bonjour,\n\nJe vous confirme la pose de la vitrine le mardi 7 avril, à partir de 9 h.\n\nSonia Brunel",
+        "date": "2026-04-03T16:40",
+        "lu": true
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O11-L01-01",
+      "consigne": "==Ouvrez la relance de Fleurs de Saison.== La cliente demande si la pose de mardi est maintenue. Vous n'en savez rien — et c'est exactement le moment de ne pas improviser.",
+      "action": {
+        "type": "O_SELECT_MESSAGE",
+        "id": "m-vitrine"
+      },
+      "aide": {
+        "text": "C'est le message qui parle d'une pose de mardi."
+      }
+    },
+    {
+      "id": "O11-L01-02",
+      "consigne": "==Ouvrez le dossier Éléments envoyés.== Avant de répondre à la place de quelqu'un, on lit ce que cette personne a déjà écrit. C'est là que se trouve la version qui engage l'entreprise.",
+      "action": {
+        "type": "O_SELECT_FOLDER",
+        "dossier": "envoyes"
+      },
+      "aide": {
+        "text": "Colonne de gauche ; sur téléphone, derrière le bouton ☰ en haut de la liste."
+      }
+    },
+    {
+      "id": "O11-L01-03",
+      "consigne": "==Cherchez `vitrine` dans ce dossier.== La recherche filtre le dossier ouvert : elle va isoler ce que Sonia a envoyé à cette cliente, et rien d'autre.",
+      "action": {
+        "type": "O_TYPE_TEXT",
+        "champ": "recherche",
+        "accept": [
+          "vitrine",
+          "fleurs",
+          "pose"
+        ],
+        "contient": true
+      },
+      "aide": {
+        "text": "Le champ de recherche est en haut de la liste des messages."
+      }
+    },
+    {
+      "id": "O11-L01-04",
+      "consigne": "==Ouvrez le message trouvé.== Sonia a confirmé la pose le **vendredi 3 avril**, pour le mardi 7 à partir de 9 h. La cliente n'a donc rien inventé : elle relance une confirmation qui existe déjà.",
+      "action": {
+        "type": "O_SELECT_MESSAGE",
+        "id": "m-env-vitrine"
+      },
+      "aide": {
+        "text": "C'est le seul message que le filtre laisse afficher dans ce dossier."
+      }
+    },
+    {
+      "id": "O11-L01-05",
+      "consigne": "==Effacez la recherche.== Vous avez l'information ; laisser le filtre actif masquerait tout le reste de la boîte que vous devez traiter ce matin.",
+      "action": {
+        "type": "O_TYPE_TEXT",
+        "champ": "recherche",
+        "accept": [
+          ""
+        ]
+      },
+      "aide": {
+        "text": "Videz complètement le champ de recherche."
+      }
+    },
+    {
+      "id": "O11-L01-06",
+      "consigne": "==Revenez à la Boîte de réception== pour répondre à la cliente avec ce que vous savez maintenant, et non avec ce que vous supposiez il y a cinq minutes.",
+      "action": {
+        "type": "O_SELECT_FOLDER",
+        "dossier": "reception"
+      },
+      "aide": {
+        "text": "Premier dossier de la colonne de gauche."
+      }
+    },
+    {
+      "id": "O11-L01-07",
+      "consigne": "==Répondez à Fleurs de Saison== et envoyez. Votre message doit **maintenir la pose** et rappeler **le jour et l'heure** déjà annoncés : reprendre les mêmes termes évite tout doute côté client.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "contact@fleurs-de-saison.fr"
+            ]
+          },
+          "cc": {
+            "vide": true
+          },
+          "corps": {
+            "salutation": [
+              "bonjour",
+              "madame",
+              "monsieur",
+              "bonsoir"
+            ],
+            "cloture": [
+              "cordialement",
+              "salutations",
+              "bien a vous",
+              "merci"
+            ],
+            "notions": [
+              {
+                "libelle": "le maintien de la pose",
+                "oneOf": [
+                  "maintenue",
+                  "maintenons",
+                  "confirme",
+                  "bien prevue",
+                  "tient"
+                ]
+              },
+              {
+                "libelle": "le jour et l'heure annoncés",
+                "oneOf": [
+                  "mardi 7",
+                  "7 avril",
+                  "mardi",
+                  "9 h",
+                  "9h"
+                ]
+              }
+            ],
+            "minMots": 12
+          }
+        }
+      },
+      "aide": {
+        "text": "Ouvrez son message, Répondre, puis reprenez la date confirmée par Sonia."
+      }
+    }
+  ]
+}

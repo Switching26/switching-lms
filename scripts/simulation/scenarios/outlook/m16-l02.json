@@ -1,0 +1,178 @@
+{
+  "schemaVersion": 1,
+  "title": "Poser l'absence dans l'agenda",
+  "mode": "LESSON",
+  "moduleTitle": "Préparer son absence, reprendre à son retour",
+  "intro": {
+    "title": "Ce que vos collègues voient de votre semaine",
+    "body": "Prévenir par message ne suffit pas : c'est l'agenda que l'on consulte pour savoir si vous êtes là. Une absence qui n'y figure pas se traduit par des rendez-vous posés sur vos deux jours. Il faut aussi y réserver le temps de la passation, sinon il n'aura pas lieu."
+  },
+  "outro": {
+    "body": "Un agenda ne connaît pas les périodes : il connaît des journées. Une absence de deux jours s'y écrit donc deux fois. C'est un peu plus long, et c'est ce qui garantit que personne ne vous posera un rendez-vous sur le second jour."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "chantiers",
+        "nom": "Chantiers en cours"
+      },
+      {
+        "id": "clients",
+        "nom": "Clients 2026"
+      }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "fichiers": [
+      {
+        "nom": "Passation-dossiers-mars.pdf",
+        "taille": "210 Ko"
+      },
+      {
+        "nom": "Plan-de-pose-mediatheque.pdf",
+        "taille": "810 Ko"
+      },
+      {
+        "nom": "Marges-atelier-2026.xlsx",
+        "taille": "72 Ko"
+      }
+    ],
+    "evenements": [],
+    "messages": [
+      {
+        "id": "m-rappel",
+        "dossier": "reception",
+        "de": "n.kerbaj@atelier-nord.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Tes deux jours",
+        "corps": "Camille,\n\nTu es absente jeudi 5 et vendredi 6. Cale un point avec Sonia avant.\n\nNadia",
+        "date": "2026-03-02T08:00",
+        "lu": true
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O16-L02-01",
+      "consigne": "==Passez à la vue Calendrier.== Le courrier annonce l'absence à l'extérieur ; l'agenda l'annonce à l'intérieur. Les deux sont nécessaires, et ils ne parlent pas aux mêmes personnes.",
+      "action": {
+        "type": "O_CLICK_CONTROL",
+        "control": "cr-vue-calendrier"
+      },
+      "aide": {
+        "text": "Le bouton Calendrier, dans la barre de navigation."
+      }
+    },
+    {
+      "id": "O16-L02-02",
+      "consigne": "==Cliquez sur Nouveau rendez-vous.== Le premier des deux : l'agenda ne sait pas poser une période, il pose des journées.",
+      "action": {
+        "type": "O_CLICK_CONTROL",
+        "control": "cr-nouveau-rdv"
+      },
+      "aide": {
+        "text": "Le bouton Nouveau rendez-vous, en haut du calendrier."
+      }
+    },
+    {
+      "id": "O16-L02-03",
+      "consigne": "==Créez `Absence — jeudi 5` le 5 mars, de 08:00 à 18:00, lieu `Atelier Nord`.== Une journée entière bloquée : personne ne pourra y glisser un rendez-vous.",
+      "action": {
+        "type": "O_EXPECT_CALENDRIER",
+        "calendrier": {
+          "titre": "Absence — jeudi 5",
+          "date": "2026-03-05",
+          "debut": "08:00",
+          "fin": "18:00",
+          "lieu": "Atelier Nord"
+        }
+      },
+      "aide": {
+        "text": "Renseignez le titre, la date, les heures et le lieu, puis enregistrez."
+      }
+    },
+    {
+      "id": "O16-L02-04",
+      "consigne": "==Cliquez de nouveau sur Nouveau rendez-vous.== Le second jour d'absence demande sa propre entrée : c'est ce qui empêche qu'on vous croie disponible le vendredi.",
+      "action": {
+        "type": "O_CLICK_CONTROL",
+        "control": "cr-nouveau-rdv"
+      },
+      "aide": {
+        "text": "Le même bouton qu'à l'étape précédente."
+      }
+    },
+    {
+      "id": "O16-L02-05",
+      "consigne": "==Créez `Absence — vendredi 6` le 6 mars, de 08:00 à 18:00, lieu `Atelier Nord`.== Deux journées, deux entrées, et la semaine devient lisible pour tout le monde.",
+      "action": {
+        "type": "O_EXPECT_CALENDRIER",
+        "calendrier": {
+          "titre": "Absence — vendredi 6",
+          "date": "2026-03-06",
+          "debut": "08:00",
+          "fin": "18:00",
+          "lieu": "Atelier Nord"
+        }
+      },
+      "aide": {
+        "text": "Titre « Absence — vendredi 6 », mêmes horaires, date du 6."
+      }
+    },
+    {
+      "id": "O16-L02-06",
+      "consigne": "==Cliquez encore sur Nouveau rendez-vous.== Reste le plus vite oublié : le temps de la passation. Un briefing qui n'est pas dans l'agenda ne se fait pas.",
+      "action": {
+        "type": "O_CLICK_CONTROL",
+        "control": "cr-nouveau-rdv"
+      },
+      "aide": {
+        "text": "Le bouton Nouveau rendez-vous."
+      }
+    },
+    {
+      "id": "O16-L02-07",
+      "consigne": "==Créez `Passation avec Sonia` le mercredi 4 mars, de 14:00 à 15:00, lieu `Atelier Nord`.== La veille du départ : assez tôt pour corriger un oubli, assez tard pour que rien ne bouge après.",
+      "action": {
+        "type": "O_EXPECT_CALENDRIER",
+        "calendrier": {
+          "titre": "Passation avec Sonia",
+          "date": "2026-03-04",
+          "debut": "14:00",
+          "fin": "15:00",
+          "lieu": "Atelier Nord"
+        }
+      },
+      "aide": {
+        "text": "Mercredi 4, de 14:00 à 15:00."
+      }
+    },
+    {
+      "id": "O16-L02-08",
+      "consigne": "==Revenez à la vue Courrier.== La semaine est posée. Il reste à écrire à Sonia ce qu'elle devra tenir pendant ces deux jours.",
+      "action": {
+        "type": "O_CLICK_CONTROL",
+        "control": "cr-vue-courrier"
+      },
+      "aide": {
+        "text": "Le bouton Courrier, dans la barre de navigation."
+      }
+    }
+  ]
+}

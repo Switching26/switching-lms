@@ -1,0 +1,204 @@
+{
+  "schemaVersion": 1,
+  "title": "Bloquer le temps de travail, pas seulement les rendez-vous",
+  "mode": "LESSON",
+  "moduleTitle": "Le calendrier au service du chantier",
+  "intro": {
+    "title": "Un agenda qui ne montre que les rendez-vous ment",
+    "body": "Un agenda où ne figurent que les réunions donne l'illusion d'une semaine vide. Résultat : on accepte tout, et le travail de fond se fait le soir. Un chiffrage de deux heures est un engagement comme un autre — il se pose dans la semaine, avec un début et une fin."
+  },
+  "outro": {
+    "body": "Ce qui n'est pas dans l'agenda n'existe pas pour les autres : ils vous voient disponible et vous invitent. Bloquer une plage de travail n'est pas de la coquetterie, c'est la seule façon de protéger le temps qu'un dossier réclame vraiment."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "clients",
+        "nom": "Clients 2026"
+      },
+      {
+        "id": "fournisseurs",
+        "nom": "Fournisseurs"
+      }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "evenements": [
+      {
+        "id": "ev-pose",
+        "titre": "Pose du comptoir",
+        "date": "2026-03-05",
+        "debut": "14:00",
+        "fin": "17:00",
+        "lieu": "École des Arts de Lambersart",
+        "participants": [],
+        "reunion": false
+      }
+    ],
+    "messages": [
+      {
+        "id": "m-charge",
+        "dossier": "reception",
+        "de": "n.kerbaj@atelier-nord.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Semaine du 2 mars — deux dossiers à sortir",
+        "corps": "Camille,\n\nDeux choses à caler cette semaine :\n- le chiffrage de la médiathèque, environ trois heures,\n- la préparation du dossier d'expertise, environ deux heures.\nBloque-toi le temps, sinon tu ne l'auras pas.\n\nNadia",
+        "date": "2026-03-02T07:30",
+        "lu": true
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O10-L01-01",
+      "consigne": "==Basculez sur le Calendrier.== Votre semaine ne porte qu'un seul bloc : la pose de jeudi après-midi. Vue de l'extérieur, elle est donc presque entièrement libre — ce qui est faux.",
+      "action": {
+        "type": "O_CLICK_CONTROL",
+        "control": "cr-vue-calendrier"
+      },
+      "aide": {
+        "text": "L'icône du calendrier est en bas de la colonne des dossiers ; sur téléphone, dans la barre du bas."
+      }
+    },
+    {
+      "id": "O10-L01-02",
+      "consigne": "==Ouvrez une fiche de rendez-vous.== Le chiffrage de la médiathèque demande trois heures : c'est un engagement, il se pose comme les autres.",
+      "action": {
+        "type": "O_CLICK_CONTROL",
+        "control": "cr-nouveau-rdv"
+      },
+      "aide": {
+        "text": "Le bouton Nouveau rendez-vous, en haut à gauche de la vue Calendrier."
+      }
+    },
+    {
+      "id": "O10-L01-03",
+      "consigne": "==Posez le chiffrage== : objet `Chiffrage médiathèque`, le **lundi 2 mars 2026**, de **09:00** à **12:00**, lieu `Atelier Nord`. Trois heures d'affilée, pas trois fois une heure : un chiffrage interrompu se recommence.",
+      "action": {
+        "type": "O_EXPECT_CALENDRIER",
+        "calendrier": {
+          "titre": "Chiffrage médiathèque",
+          "date": "2026-03-02",
+          "debut": "09:00",
+          "fin": "12:00",
+          "lieu": "Atelier Nord"
+        }
+      },
+      "aide": {
+        "text": "Remplissez les cinq champs, puis Enregistrer."
+      }
+    },
+    {
+      "id": "O10-L01-04",
+      "consigne": "==Ouvrez une deuxième fiche.== Le dossier d'expertise demande deux heures, et il ne peut pas tomber jeudi après-midi : la pose y est déjà.",
+      "action": {
+        "type": "O_CLICK_CONTROL",
+        "control": "cr-nouveau-rdv"
+      },
+      "aide": {
+        "text": "Le même bouton Nouveau rendez-vous."
+      }
+    },
+    {
+      "id": "O10-L01-05",
+      "consigne": "==Posez la préparation== : objet `Préparation dossier expertise`, le **mercredi 4 mars 2026**, de **14:00** à **16:00**, lieu `Atelier Nord`. Le mercredi est libre, et cela laisse le mardi entier pour l'imprévu.",
+      "action": {
+        "type": "O_EXPECT_CALENDRIER",
+        "calendrier": {
+          "titre": "Préparation dossier expertise",
+          "date": "2026-03-04",
+          "debut": "14:00",
+          "fin": "16:00",
+          "lieu": "Atelier Nord"
+        }
+      },
+      "aide": {
+        "text": "Même fiche, mercredi 4 mars, créneau de l'après-midi."
+      }
+    },
+    {
+      "id": "O10-L01-06",
+      "consigne": "==Revenez au Courrier== pour confirmer à Nadia que les deux dossiers sont calés. Votre semaine porte maintenant trois blocs : elle dit la vérité.",
+      "action": {
+        "type": "O_CLICK_CONTROL",
+        "control": "cr-vue-courrier"
+      },
+      "aide": {
+        "text": "Le bouton Courrier est à côté de celui du Calendrier."
+      }
+    },
+    {
+      "id": "O10-L01-07",
+      "consigne": "==Répondez à Nadia== et envoyez. Votre message doit préciser **quand se fait le chiffrage** et **quand se fait la préparation** : elle saura ainsi quoi vous promettre, et quoi ne pas vous promettre.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "n.kerbaj@atelier-nord.fr"
+            ]
+          },
+          "cc": {
+            "vide": true
+          },
+          "corps": {
+            "salutation": [
+              "bonjour",
+              "nadia",
+              "salut",
+              "bonsoir"
+            ],
+            "cloture": [
+              "merci",
+              "cordialement",
+              "bien a toi",
+              "a bientot"
+            ],
+            "notions": [
+              {
+                "libelle": "quand se fait le chiffrage",
+                "oneOf": [
+                  "lundi",
+                  "2 mars",
+                  "lundi matin",
+                  "matin"
+                ]
+              },
+              {
+                "libelle": "quand se fait la préparation du dossier",
+                "oneOf": [
+                  "mercredi",
+                  "4 mars",
+                  "mercredi apres-midi",
+                  "apres-midi",
+                  "apres midi"
+                ]
+              }
+            ],
+            "minMots": 12
+          }
+        }
+      },
+      "aide": {
+        "text": "Ouvrez son message dans la liste, Répondre, puis citez les deux créneaux."
+      }
+    }
+  ]
+}

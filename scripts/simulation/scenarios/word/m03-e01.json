@@ -1,0 +1,107 @@
+{
+  "schemaVersion": 1,
+  "app": "WORD",
+  "title": "Exercice — Remplacer un passage",
+  "mode": "EXERCISE",
+  "moduleTitle": "Modification de texte",
+  "intro": {
+    "title": "À VOUS DE JOUER",
+    "body": "Un devis dont trois informations ont changé. À vous de les remplacer — sans effacer d'abord : rappelez-vous que taper alors qu'un texte est sélectionné suffit."
+  },
+  "outro": "Trois remplacements, trois sélections. Le devis est à jour sans avoir été réécrit.",
+  "document": {
+    "paragraphes": [
+      {
+        "texte": "Devis n° 2026-093"
+      },
+      {
+        "texte": "Fourniture de douze établis d'atelier."
+      },
+      {
+        "texte": "Délai de livraison : quatre semaines."
+      },
+      {
+        "texte": "Validité de l'offre : quinze jours."
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M03-E01-01",
+      "consigne": "==Portez la quantité à dix-huit== : Fourniture de dix-huit établis d'atelier.",
+      "action": {
+        "type": "W_EXPECT_DOC",
+        "paragraphes": {
+          "p1": [
+            "Fourniture de dix-huit établis d'atelier."
+          ]
+        }
+      },
+      "aide": {
+        "text": "Sélectionnez le mot à remplacer, puis tapez le nouveau.",
+        "showTarget": true
+      },
+      "feedback": "Quantité corrigée."
+    },
+    {
+      "id": "M03-E01-02",
+      "consigne": "==Ramenez le délai à trois semaines== : Délai de livraison : trois semaines.",
+      "action": {
+        "type": "W_EXPECT_DOC",
+        "paragraphes": {
+          "p2": [
+            "Délai de livraison : trois semaines."
+          ]
+        }
+      },
+      "feedback": "Délai corrigé."
+    },
+    {
+      "id": "M03-E01-03",
+      "consigne": "==Portez la validité à trente jours== : Validité de l'offre : trente jours.",
+      "action": {
+        "type": "W_EXPECT_DOC",
+        "paragraphes": {
+          "p3": [
+            "Validité de l'offre : trente jours."
+          ]
+        }
+      },
+      "feedback": "Validité corrigée."
+    },
+    {
+      "id": "M03-E01-04",
+      "consigne": "==Réécrivez le numéro du devis== en entier, la série ayant changé : Devis n° 2026-107",
+      "action": {
+        "type": "W_EXPECT_DOC",
+        "paragraphes": {
+          "p0": [
+            "Devis n° 2026-107"
+          ]
+        }
+      },
+      "aide": {
+        "text": "Un triple-clic prend le paragraphe entier.",
+        "showTarget": true
+      },
+      "feedback": "Numéro à jour."
+    },
+    {
+      "id": "M03-E01-05",
+      "consigne": "==Épaississez « dix-huit »== : c'est la quantité qui a changé, elle doit se voir au premier coup d'œil.",
+      "setup": {
+        "ribbon": {
+          "activeTab": "accueil"
+        }
+      },
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "texte:dix-huit",
+        "format": {
+          "gras": true
+        }
+      },
+      "feedback": "Devis à jour et lisible."
+    }
+  ]
+}

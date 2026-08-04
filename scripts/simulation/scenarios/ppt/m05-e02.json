@@ -1,0 +1,276 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "mode": "EXERCISE",
+  "moduleTitle": "Choisir la bonne disposition",
+  "title": "Exercice — Mettre deux offres en regard",
+  "intro": {
+    "title": "Exercice — Mettre deux offres en regard",
+    "body": "Le client hésite entre deux formules de plantation. Construisez la diapositive qui les met en regard : la structure d'abord, les intitulés ensuite, le contenu en dernier — et un traitement rigoureusement identique des deux côtés."
+  },
+  "outro": {
+    "body": "Deux colonnes, deux intitulés, la même question posée aux deux : c'est une comparaison, pas un plaidoyer."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "ppt": {
+    "fileName": "Offre Verdeval.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Verdeval",
+          "sous-titre": "Proposition de plantation"
+        }
+      },
+      {
+        "layout": "titre-seul",
+        "textes": {
+          "titre": "Deux façons de planter"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M05-E02-01",
+      "consigne": "Affichez la diapositive des deux façons de planter.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 1
+      },
+      "aide": {
+        "text": "C'est la deuxième miniature du volet."
+      }
+    },
+    {
+      "id": "M05-E02-02",
+      "consigne": "Donnez-lui la seule disposition qui prévoie un intitulé au-dessus de chaque colonne.",
+      "action": {
+        "type": "P_SET_LAYOUT",
+        "layout": "comparaison"
+      },
+      "aide": {
+        "text": "Groupe Diapositives, menu Disposition, entrée « Comparaison »."
+      }
+    },
+    {
+      "id": "M05-E02-03",
+      "consigne": "Intitulé de gauche : Plantation en godets.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Proposition de plantation"
+              }
+            },
+            {
+              "layout": "comparaison",
+              "textes": {
+                "titre": "Deux façons de planter"
+              }
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:texte",
+        "accept": [
+          "Plantation en godets"
+        ]
+      },
+      "aide": {
+        "text": "L'intitulé est le cadre étroit du haut, à gauche."
+      }
+    },
+    {
+      "id": "M05-E02-04",
+      "consigne": "Intitulé de droite : Plantation en mottes.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Proposition de plantation"
+              }
+            },
+            {
+              "layout": "comparaison",
+              "textes": {
+                "titre": "Deux façons de planter",
+                "texte": "Plantation en godets"
+              }
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:texte#2",
+        "accept": [
+          "Plantation en mottes"
+        ]
+      }
+    },
+    {
+      "id": "M05-E02-05",
+      "consigne": "Les deux colonnes doivent répondre à la même question, celle du délai de reprise. À gauche : Reprise en 3 semaines.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Proposition de plantation"
+              }
+            },
+            {
+              "layout": "comparaison",
+              "textes": {
+                "titre": "Deux façons de planter",
+                "texte": "Plantation en godets",
+                "texte#2": "Plantation en mottes"
+              }
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:contenu",
+        "accept": [
+          "Reprise en 3 semaines"
+        ]
+      }
+    },
+    {
+      "id": "M05-E02-06",
+      "consigne": "À droite, la réponse à la même question : Reprise en 8 jours.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Proposition de plantation"
+              }
+            },
+            {
+              "layout": "comparaison",
+              "textes": {
+                "titre": "Deux façons de planter",
+                "texte": "Plantation en godets",
+                "texte#2": "Plantation en mottes",
+                "contenu": "Reprise en 3 semaines"
+              }
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:contenu#2",
+        "accept": [
+          "Reprise en 8 jours"
+        ]
+      }
+    },
+    {
+      "id": "M05-E02-07",
+      "consigne": "Distinguez l'intitulé de gauche du contenu qu'il annonce.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Proposition de plantation"
+              }
+            },
+            {
+              "layout": "comparaison",
+              "textes": {
+                "titre": "Deux façons de planter",
+                "texte": "Plantation en godets",
+                "texte#2": "Plantation en mottes",
+                "contenu": "Reprise en 3 semaines",
+                "contenu#2": "Reprise en 8 jours"
+              }
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "ph:texte",
+        "style": {
+          "bold": true
+        }
+      },
+      "aide": {
+        "text": "Le gras suffit : groupe Police, bouton G."
+      }
+    },
+    {
+      "id": "M05-E02-08",
+      "consigne": "Traitez l'intitulé de droite exactement de la même façon.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Proposition de plantation"
+              }
+            },
+            {
+              "layout": "comparaison",
+              "textes": {
+                "titre": "Deux façons de planter",
+                "texte": "Plantation en godets",
+                "texte#2": "Plantation en mottes",
+                "contenu": "Reprise en 3 semaines",
+                "contenu#2": "Reprise en 8 jours"
+              }
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "ph:texte#2",
+        "style": {
+          "bold": true
+        }
+      },
+      "aide": {
+        "text": "Toute différence de mise en forme entre les deux colonnes se lirait comme une préférence."
+      }
+    }
+  ]
+}

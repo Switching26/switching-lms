@@ -1,0 +1,220 @@
+{
+  "schemaVersion": 1,
+  "title": "Deux minutes ou pas deux minutes",
+  "mode": "EXERCISE",
+  "moduleTitle": "Traiter sa boîte du matin : la routine",
+  "intro": {
+    "title": "Trois messages, un seul mérite une réponse immédiate",
+    "body": "Deux d'entre eux demandent un travail qu'on ne fait pas entre deux portes ; le troisième se règle en une phrase. Savoir lequel est la moitié du métier — répondre au mauvais fait perdre la matinée, et l'autre attend quand même."
+  },
+  "outro": {
+    "body": "La règle des deux minutes ne dit pas de tout traiter : elle dit de traiter ce qui prend deux minutes, et de marquer le reste. Confondre les deux transforme un tri de quinze minutes en matinée perdue."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "clients",
+        "nom": "Clients 2026"
+      },
+      {
+        "id": "fournisseurs",
+        "nom": "Fournisseurs"
+      }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "messages": [
+      {
+        "id": "m-devis-lourd",
+        "dossier": "reception",
+        "de": "marches@ville-lambersart.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Nouveau marché — chiffrage complet attendu",
+        "corps": "Bonjour,\n\nNous souhaitons un chiffrage complet pour l'aménagement de la médiathèque : douze postes, plans joints.\nRéponse attendue sous quinze jours.\n\nService des marchés",
+        "date": "2026-03-31T08:00",
+        "lu": false,
+        "pieces": [
+          {
+            "nom": "Plans-mediatheque.pdf",
+            "taille": "3,2 Mo"
+          }
+        ]
+      },
+      {
+        "id": "m-simple",
+        "dossier": "reception",
+        "de": "s.brunel@atelier-nord.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Le camion est bien réservé pour jeudi ?",
+        "corps": "Bonjour,\n\nTu confirmes que le camion est réservé pour jeudi ?\n\nSonia",
+        "date": "2026-03-31T08:15",
+        "lu": false
+      },
+      {
+        "id": "m-etude",
+        "dossier": "reception",
+        "de": "j.leroux@habitat-du-nord.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Mezzanine — étude de faisabilité",
+        "corps": "Bonjour,\n\nNous souhaitons étudier la création d'une mezzanine. Pouvez-vous nous dire ce qui est possible ?\n\nJulien Leroux",
+        "date": "2026-03-31T07:50",
+        "lu": false
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O08-E02-01",
+      "consigne": "Un seul de ces trois messages se traite en moins de deux minutes. Répondez-y — et à lui seul.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "genre": "reponse",
+          "a": {
+            "contient": [
+              "s.brunel@atelier-nord.fr"
+            ]
+          },
+          "cc": {
+            "vide": true
+          }
+        }
+      },
+      "aide": {
+        "text": "Un chiffrage sur douze postes et une étude de faisabilité ne s'expédient pas entre deux portes ; une réservation de camion, si."
+      }
+    },
+    {
+      "id": "O08-E02-02",
+      "consigne": "Rédigez cette réponse et envoyez-la. Elle doit **trancher sur la réservation** et rappeler **le jour** concerné.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "s.brunel@atelier-nord.fr"
+            ]
+          },
+          "cc": {
+            "vide": true
+          },
+          "corps": {
+            "salutation": [
+              "bonjour",
+              "sonia",
+              "salut",
+              "bonsoir"
+            ],
+            "cloture": [
+              "merci",
+              "cordialement",
+              "a bientot",
+              "bien a toi"
+            ],
+            "notions": [
+              {
+                "libelle": "votre réponse sur la réservation",
+                "oneOf": [
+                  "reserve",
+                  "c'est bon",
+                  "confirme",
+                  "oui",
+                  "pas encore",
+                  "je m'en occupe",
+                  "fait"
+                ]
+              },
+              {
+                "libelle": "le jour concerné",
+                "oneOf": [
+                  "jeudi",
+                  "2 avril",
+                  "le 2"
+                ]
+              }
+            ],
+            "minMots": 8
+          }
+        }
+      },
+      "aide": {
+        "text": "Deux informations sont attendues : la réponse, et le jour."
+      }
+    },
+    {
+      "id": "O08-E02-03",
+      "consigne": "L'échange avec Sonia est clos : sortez-le de la file d'attente en le classant dans Clients 2026, le dossier qui sert d'archive générale une fois une discussion terminée.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-simple": {
+              "dossier": "clients"
+            }
+          }
+        }
+      },
+      "aide": {
+        "text": "Ouvrez le message, puis Déplacer, puis Clients 2026."
+      }
+    },
+    {
+      "id": "O08-E02-04",
+      "consigne": "Les deux autres demandent un vrai travail. Marquez le chiffrage de la médiathèque pour ne pas le perdre.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-devis-lourd": {
+              "dossier": "reception",
+              "indicateur": true
+            }
+          }
+        }
+      },
+      "aide": {
+        "text": "Ouvrez le message, puis le drapeau. Il reste dans votre boîte."
+      }
+    },
+    {
+      "id": "O08-E02-05",
+      "consigne": "Marquez de même l'étude de faisabilité : deux tâches identifiées, aucune traitée à la légère.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-etude": {
+              "dossier": "reception",
+              "indicateur": true
+            }
+          }
+        }
+      },
+      "aide": {
+        "text": "Ouvrez le message, puis le drapeau."
+      }
+    }
+  ]
+}

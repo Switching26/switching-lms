@@ -1,0 +1,261 @@
+{
+  "schemaVersion": 1,
+  "title": "Répondre à la place de quelqu'un, sans se faire passer pour lui",
+  "mode": "LESSON",
+  "moduleTitle": "Reprendre la boîte d'un collègue",
+  "intro": {
+    "title": "Le client croit écrire à Sonia",
+    "body": "Répondre depuis la boîte d'un collègue pose une question de loyauté : le destinataire croit s'adresser à une personne, et c'est une autre qui lui répond. Le dire franchement, en une phrase, coûte deux secondes et évite un malentendu qui peut durer des semaines."
+  },
+  "outro": {
+    "body": "Deux phrases suffisent : qui vous êtes, et jusqu'à quand vous assurez le suivi. Sans elles, votre correspondant continuera d'écrire à une boîte que plus personne ne relèvera le jour où vous arrêterez."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Sonia Brunel",
+      "adresse": "s.brunel@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "chantiers",
+        "nom": "Chantiers en cours"
+      },
+      {
+        "id": "fournisseurs",
+        "nom": "Fournisseurs"
+      }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Sonia Brunel\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "messages": [
+      {
+        "id": "m-vitrine",
+        "dossier": "reception",
+        "de": "contact@fleurs-de-saison.fr",
+        "a": [
+          "s.brunel@atelier-nord.fr"
+        ],
+        "objet": "Vitrine — la pose de mardi est-elle maintenue ?",
+        "corps": "Bonjour,\n\nNous n'avons pas de nouvelles depuis vendredi. La pose de mardi est-elle maintenue ?\n\nFleurs de Saison",
+        "date": "2026-04-06T08:10",
+        "lu": false
+      },
+      {
+        "id": "m-devis",
+        "dossier": "reception",
+        "de": "j.leroux@habitat-du-nord.fr",
+        "a": [
+          "s.brunel@atelier-nord.fr"
+        ],
+        "objet": "Mezzanine — relance sur le devis",
+        "corps": "Bonjour,\n\nNous attendions un devis pour la mezzanine, annoncé pour la fin de semaine dernière.\n\nJulien Leroux",
+        "date": "2026-04-06T07:50",
+        "lu": false
+      },
+      {
+        "id": "m-livraison",
+        "dossier": "reception",
+        "de": "compta@quincaillerie-delmas.fr",
+        "a": [
+          "s.brunel@atelier-nord.fr"
+        ],
+        "objet": "Commande CD-1310 — livraison le 9 avril",
+        "corps": "Bonjour,\n\nLivraison prévue le 9 avril, une présence est nécessaire.\n\nQuincaillerie Delmas",
+        "date": "2026-04-06T07:20",
+        "lu": false
+      },
+      {
+        "id": "m-pub",
+        "dossier": "reception",
+        "de": "offres@promo-outillage.net",
+        "a": [
+          "s.brunel@atelier-nord.fr"
+        ],
+        "objet": "Semaine promo",
+        "corps": "Nos offres.",
+        "date": "2026-04-06T05:00",
+        "lu": false
+      },
+      {
+        "id": "m-env-vitrine",
+        "dossier": "envoyes",
+        "de": "camille.aubertin@atelier-nord.fr",
+        "a": [
+          "contact@fleurs-de-saison.fr"
+        ],
+        "objet": "Vitrine — confirmation de la pose du mardi 7 avril",
+        "corps": "Bonjour,\n\nJe vous confirme la pose de la vitrine le mardi 7 avril, à partir de 9 h.\n\nSonia Brunel",
+        "date": "2026-04-03T16:40",
+        "lu": true
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O11-L02-01",
+      "consigne": "==Ouvrez la relance de Julien Leroux.== Il attend un devis de mezzanine annoncé pour la fin de semaine dernière. Ce devis, vous ne l'avez pas — et vous ne pouvez pas l'inventer.",
+      "action": {
+        "type": "O_SELECT_MESSAGE",
+        "id": "m-devis"
+      },
+      "aide": {
+        "text": "C'est le message qui relance sur un devis de mezzanine."
+      }
+    },
+    {
+      "id": "O11-L02-02",
+      "consigne": "==Cliquez sur Répondre.== Vous allez lui écrire depuis la boîte de Sonia : il faut donc dire dès la première phrase que ce n'est pas elle qui répond.",
+      "setup": {
+        "courrier": {
+          "messageActif": "m-devis"
+        }
+      },
+      "action": {
+        "type": "O_CLICK_CONTROL",
+        "control": "cr-repondre"
+      },
+      "aide": {
+        "text": "Le bouton Répondre, premier de la barre du haut du volet de lecture."
+      }
+    },
+    {
+      "id": "O11-L02-03",
+      "consigne": "==Mettez `camille.aubertin@atelier-nord.fr` en copie.== Camille chiffre les mezzanines : elle doit **savoir** qu'un client attend, sans devenir la destinataire principale de la réponse.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "genre": "reponse",
+          "a": {
+            "contient": [
+              "j.leroux@habitat-du-nord.fr"
+            ]
+          },
+          "cc": {
+            "contient": [
+              "camille.aubertin@atelier-nord.fr"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Le champ Cc est la deuxième ligne de la fenêtre de rédaction."
+      }
+    },
+    {
+      "id": "O11-L02-04",
+      "consigne": "==Rédigez la réponse.== Trois éléments : **qui vous êtes**, **pourquoi vous répondez à la place de Sonia**, et **quand le devis lui parviendra**. Un client préfère une date honnête à une excuse.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "corps": {
+            "salutation": [
+              "bonjour",
+              "madame",
+              "monsieur",
+              "bonsoir"
+            ],
+            "cloture": [
+              "cordialement",
+              "salutations",
+              "bien a vous",
+              "merci"
+            ],
+            "notions": [
+              {
+                "libelle": "qui vous êtes",
+                "oneOf": [
+                  "sonia brunel",
+                  "je suis",
+                  "de ma part",
+                  "sonia"
+                ]
+              },
+              {
+                "libelle": "pourquoi vous répondez à sa place",
+                "oneOf": [
+                  "absente",
+                  "absence",
+                  "arret",
+                  "indisponible",
+                  "son retour",
+                  "je prends le relais",
+                  "assure le suivi",
+                  "remplace"
+                ]
+              },
+              {
+                "libelle": "quand le devis parviendra",
+                "oneOf": [
+                  "cette semaine",
+                  "vendredi",
+                  "jeudi",
+                  "mercredi",
+                  "avant le",
+                  "sous",
+                  "d'ici"
+                ]
+              }
+            ],
+            "minMots": 18
+          }
+        }
+      },
+      "aide": {
+        "text": "Trois informations sont attendues : votre identité, la raison, et la date de remise du devis."
+      }
+    },
+    {
+      "id": "O11-L02-05",
+      "consigne": "==Envoyez la réponse.== Le client sait à qui il parle, sait pourquoi, et sait quand. Aucune de ces trois choses ne se devine, et toutes les trois évitent une relance dans deux jours.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "j.leroux@habitat-du-nord.fr"
+            ]
+          },
+          "cc": {
+            "contient": [
+              "camille.aubertin@atelier-nord.fr"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Le bouton Envoyer, premier de la barre du haut."
+      }
+    },
+    {
+      "id": "O11-L02-06",
+      "consigne": "==Posez un indicateur sur ce message.== Le devis reste à produire : tant qu'il n'est pas parti, la relance de Julien Leroux est une tâche ouverte, pas un message traité.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-devis": {
+              "dossier": "reception",
+              "indicateur": true
+            }
+          }
+        }
+      },
+      "aide": {
+        "text": "Ouvrez le message, puis cliquez sur le drapeau. Ne le déplacez pas."
+      }
+    }
+  ]
+}

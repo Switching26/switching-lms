@@ -1,0 +1,131 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "mode": "EXERCISE",
+  "moduleTitle": "Dessiner et annoter",
+  "title": "Exercice — Choisir la bonne forme",
+  "intro": {
+    "title": "Exercice — Choisir la bonne forme",
+    "body": "Trois intentions différentes, trois formes à choisir. Posez celle qui convient à chaque cas, sans vous fier à l'aspect mais à ce que vous voulez faire regarder."
+  },
+  "outro": {
+    "body": "Encadrer, désigner, commenter : à chaque intention sa forme."
+  },
+  "ppt": {
+    "fileName": "Chantier Verdeval.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Verdeval",
+          "sous-titre": "Le chantier des Tilleuls"
+        }
+      },
+      {
+        "layout": "titre-seul",
+        "textes": {
+          "titre": "La parcelle nord"
+        },
+        "objets": [
+          {
+            "id": "img-p",
+            "objectType": "image",
+            "src": "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22320%22%20height%3D%22200%22%3E%3Crect%20width%3D%22320%22%20height%3D%22200%22%20fill%3D%22%23DCEBD8%22%2F%3E%3Crect%20y%3D%22140%22%20width%3D%22320%22%20height%3D%2260%22%20fill%3D%22%237BA05B%22%2F%3E%3Ccircle%20cx%3D%2260%22%20cy%3D%2252%22%20r%3D%2222%22%20fill%3D%22%23F2D06B%22%2F%3E%3Cpath%20d%3D%22M120%20140%20L150%2078%20L180%20140%20Z%22%20fill%3D%22%233E6B3A%22%2F%3E%3Cpath%20d%3D%22M196%20140%20L220%2096%20L244%20140%20Z%22%20fill%3D%22%234E7F45%22%2F%3E%3Crect%20x%3D%22150%22%20y%3D%22140%22%20width%3D%226%22%20height%3D%2218%22%20fill%3D%22%236B4A2F%22%2F%3E%3Crect%20x%3D%22217%22%20y%3D%22140%22%20width%3D%226%22%20height%3D%2214%22%20fill%3D%22%236B4A2F%22%2F%3E%3C%2Fsvg%3E",
+            "rect": {
+              "x": 440,
+              "y": 160,
+              "w": 440,
+              "h": 275
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M09-E01-01",
+      "consigne": "Affichez la diapositive de la parcelle nord.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 1
+      },
+      "aide": {
+        "text": "C'est la deuxième miniature du volet."
+      }
+    },
+    {
+      "id": "M09-E01-02",
+      "consigne": "Vous voulez délimiter une zone rectangulaire de la photo. Posez la forme correspondante.",
+      "action": {
+        "type": "P_ADD_OBJECT",
+        "objectType": "forme",
+        "shape": "rectangle"
+      },
+      "aide": {
+        "text": "Délimiter une zone à bords francs, c'est le rectangle."
+      }
+    },
+    {
+      "id": "M09-E01-03",
+      "consigne": "Vous voulez maintenant pointer un endroit précis, en montrant la direction. Posez la forme prévue pour cela.",
+      "action": {
+        "type": "P_ADD_OBJECT",
+        "objectType": "forme",
+        "shape": "fleche"
+      },
+      "aide": {
+        "text": "Pointer avec une direction affichée, c'est la flèche."
+      }
+    },
+    {
+      "id": "M09-E01-04",
+      "consigne": "Vous voulez enfin attacher une remarque à un point de l'image. Posez la forme qui porte un texte et désigne par sa pointe.",
+      "action": {
+        "type": "P_ADD_OBJECT",
+        "objectType": "forme",
+        "shape": "bulle"
+      },
+      "aide": {
+        "text": "Un commentaire attaché à un point, c'est la bulle."
+      }
+    },
+    {
+      "id": "M09-E01-05",
+      "consigne": "Le titre porte le propos de la diapositive : faites-le ressortir.",
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "ph:titre",
+        "style": {
+          "bold": true
+        }
+      }
+    },
+    {
+      "id": "M09-E01-06",
+      "consigne": "Vérifiez le rendu en projection, depuis le début.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": true,
+          "index": 0
+        }
+      }
+    },
+    {
+      "id": "M09-E01-07",
+      "consigne": "Revenez à votre présentation.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": false
+        }
+      }
+    }
+  ]
+}

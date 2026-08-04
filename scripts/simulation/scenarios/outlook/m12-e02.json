@@ -1,0 +1,239 @@
+{
+  "schemaVersion": 1,
+  "title": "S'engager sans promettre ce qu'on ne maîtrise pas",
+  "mode": "EXERCISE",
+  "moduleTitle": "Écrire à une administration ou un donneur d'ordre public",
+  "intro": {
+    "title": "On vous demande une date que vous ne tenez pas seule",
+    "body": "Le service technique veut une date d'intervention ferme. Elle dépend d'une livraison que votre fournisseur n'a pas confirmée. Vous devez répondre — sans refuser de vous engager, et sans promettre ce qui ne dépend pas de vous."
+  },
+  "outro": {
+    "body": "Une réserve n'affaiblit pas un engagement : elle le rend tenable. Dire à l'avance ce qui pourrait décaler la date est mieux reçu que de l'expliquer après coup, quand la date est déjà passée."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "marches",
+        "nom": "Marchés publics"
+      },
+      {
+        "id": "clients",
+        "nom": "Clients 2026"
+      }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "fichiers": [
+      {
+        "nom": "Memoire-technique-MP-2026-38.pdf",
+        "taille": "640 Ko"
+      },
+      {
+        "nom": "Memoire-technique-MP-2026-38-V1.pdf",
+        "taille": "612 Ko"
+      },
+      {
+        "nom": "Attestation-URSSAF-2026.pdf",
+        "taille": "88 Ko"
+      },
+      {
+        "nom": "Attestation-URSSAF-2024.pdf",
+        "taille": "86 Ko"
+      },
+      {
+        "nom": "Portfolio-photos-HD.zip",
+        "taille": "61 Mo"
+      }
+    ],
+    "messages": [
+      {
+        "id": "m-date",
+        "dossier": "reception",
+        "de": "technique@ville-lambersart.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Intervention sur site — date ferme attendue",
+        "corps": "Madame, Monsieur,\n\nMerci de nous indiquer une date ferme d'intervention pour le marché MP-2026-24.\nElle conditionne l'ouverture du site et la présence de notre agent.\n\nService technique\nVille de Lambersart",
+        "date": "2026-04-09T07:40",
+        "lu": false
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O12-E02-01",
+      "consigne": "Ouvrez la demande du service technique et notez ce que votre réponse va déclencher : l'ouverture du site et la présence d'un agent.",
+      "action": {
+        "type": "O_SELECT_MESSAGE",
+        "id": "m-date"
+      },
+      "aide": {
+        "text": "C'est le message qui demande une date ferme d'intervention."
+      }
+    },
+    {
+      "id": "O12-E02-02",
+      "consigne": "Répondez au service technique, avec la gérante `n.kerbaj@atelier-nord.fr` en copie : la date que vous donnerez engagera l'entreprise.",
+      "setup": {
+        "courrier": {
+          "messageActif": "m-date"
+        }
+      },
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "genre": "reponse",
+          "a": {
+            "contient": [
+              "technique@ville-lambersart.fr"
+            ],
+            "absent": [
+              "n.kerbaj@atelier-nord.fr"
+            ]
+          },
+          "cc": {
+            "contient": [
+              "n.kerbaj@atelier-nord.fr"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Répondre, puis ajoutez l'adresse de la gérante dans le champ Cc."
+      }
+    },
+    {
+      "id": "O12-E02-03",
+      "consigne": "Complétez l'objet avec la référence `MP-2026-24`, sans retirer le préfixe.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "objet": {
+            "prefixe": "RE",
+            "contient": [
+              "MP-2026-24"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "La référence figure dans le texte du message reçu."
+      }
+    },
+    {
+      "id": "O12-E02-04",
+      "consigne": "Rédigez la réponse et envoyez-la. Elle doit donner **une date d'intervention** et poser **la réserve** qui la conditionne — la livraison de votre fournisseur.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "technique@ville-lambersart.fr"
+            ]
+          },
+          "cc": {
+            "contient": [
+              "n.kerbaj@atelier-nord.fr"
+            ]
+          },
+          "objet": {
+            "prefixe": "RE",
+            "contient": [
+              "MP-2026-24"
+            ]
+          },
+          "corps": {
+            "salutation": [
+              "bonjour",
+              "madame",
+              "monsieur",
+              "madame, monsieur"
+            ],
+            "cloture": [
+              "cordialement",
+              "salutations distinguees",
+              "respectueusement",
+              "bien a vous",
+              "salutations"
+            ],
+            "notions": [
+              {
+                "libelle": "la date d'intervention proposée",
+                "oneOf": [
+                  "avril",
+                  "mai",
+                  "le 20",
+                  "le 21",
+                  "le 27",
+                  "le 28",
+                  "semaine du"
+                ]
+              },
+              {
+                "libelle": "la réserve qui conditionne cette date",
+                "oneOf": [
+                  "sous reserve",
+                  "reserve",
+                  "conditionne",
+                  "livraison",
+                  "fournisseur",
+                  "des lors que"
+                ]
+              }
+            ],
+            "interdit": [
+              {
+                "libelle": "un engagement sans réserve sur un délai non maîtrisé",
+                "oneOf": [
+                  "quoi qu'il arrive",
+                  "garantissons formellement",
+                  "en tout etat de cause",
+                  "sans aucune reserve"
+                ]
+              }
+            ],
+            "minMots": 15
+          }
+        }
+      },
+      "aide": {
+        "text": "Deux informations sont attendues : la date, et ce qui pourrait la décaler."
+      }
+    },
+    {
+      "id": "O12-E02-05",
+      "consigne": "Rangez ce message dans Marchés publics : l'échange est traité et devient une pièce du dossier.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-date": {
+              "dossier": "marches"
+            }
+          }
+        }
+      },
+      "aide": {
+        "text": "Déplacer, puis Marchés publics."
+      }
+    }
+  ]
+}

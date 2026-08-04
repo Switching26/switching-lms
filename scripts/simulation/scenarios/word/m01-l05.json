@@ -1,0 +1,151 @@
+{
+  "schemaVersion": 1,
+  "app": "WORD",
+  "title": "Donner une structure : les styles de paragraphe",
+  "mode": "LESSON",
+  "moduleTitle": "Pour commencer",
+  "intro": {
+    "title": "LE GRAS N'EST PAS UN TITRE",
+    "body": "Grossir un texte le fait ressembler à un titre ; lui donner un style le fait ÊTRE un titre. La différence est invisible à l'écran et décisive dans un document long : c'est elle qui permettra plus tard un sommaire automatique. Vous allez structurer un rapport en quatre gestes."
+  },
+  "outro": "Titre, Sous-titre, Titre 1 : votre rapport a maintenant une charpente, pas seulement une apparence. Un document structuré se remet en forme d'un seul geste ; un document mis en gras à la main se reprend ligne par ligne.",
+  "document": {
+    "paragraphes": [
+      {
+        "texte": "Rapport d'activité 2026"
+      },
+      {
+        "texte": "Ateliers Rivedoux — synthèse annuelle"
+      },
+      {
+        "texte": "Production"
+      },
+      {
+        "texte": "La production a progressé de neuf pour cent sur l'année, portée par la gamme des mobiliers de bureau et par un meilleur taux de service."
+      },
+      {
+        "texte": "Ressources humaines"
+      },
+      {
+        "texte": "Trois recrutements ont été menés à terme et deux alternants ont rejoint l'atelier de menuiserie."
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M01-L05-01",
+      "consigne": "Un paragraphe ne porte pas seulement une apparence, il porte une **nature** : corps de texte, titre, sous-titre. Cette nature s'appelle un **style**, et elle se choisit dans le groupe Styles du ruban. Ce qu'il faut comprendre : le gras ne change que l'épaisseur des lettres, le style change ce que le paragraphe EST pour Word.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0,
+      "feedback": "Apparence d'un côté, nature de l'autre : c'est toute la différence entre Gras et Titre 1."
+    },
+    {
+      "id": "M01-L05-02",
+      "consigne": "==Appliquez le style Titre au premier paragraphe.== Placez-y simplement le curseur : un style s'applique au paragraphe entier, inutile de le sélectionner.",
+      "setup": {
+        "ribbon": {
+          "activeTab": "accueil"
+        }
+      },
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p0",
+        "style": {
+          "style": "Titre"
+        }
+      },
+      "aide": {
+        "text": "Le bouton « Titre » du groupe Styles, à droite du ruban.",
+        "showTarget": true
+      },
+      "feedback": "Taille, graisse et espacement changent d'un coup : c'est le style qui décide, plus vous."
+    },
+    {
+      "id": "M01-L05-03",
+      "consigne": "Juste en dessous vient la ligne qui précise de quoi il s'agit. ==Appliquez le style Sous-titre== au deuxième paragraphe. Observez qu'il se distingue du titre sans que vous ayez réglé une seule taille de police.",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p1",
+        "style": {
+          "style": "Sous-titre"
+        }
+      },
+      "aide": {
+        "text": "Le bouton « Sous-titre » du groupe Styles.",
+        "showTarget": true
+      },
+      "feedback": "La hiérarchie commence à se lire d'un coup d'œil."
+    },
+    {
+      "id": "M01-L05-04",
+      "consigne": "Passons aux sections. ==Appliquez le style Titre 1== au paragraphe « Production ». Retenez la logique de numérotation : Titre 1 pour les grandes sections, Titre 2 pour leurs sous-parties, et ainsi de suite.",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p2",
+        "style": {
+          "style": "Titre 1"
+        }
+      },
+      "aide": {
+        "text": "Le bouton « Titre 1 » du groupe Styles.",
+        "showTarget": true
+      },
+      "feedback": "Première section identifiée comme telle par Word."
+    },
+    {
+      "id": "M01-L05-05",
+      "consigne": "Une structure ne vaut que si elle est cohérente : deux sections de même rang doivent porter le même style. ==Appliquez Titre 1== au paragraphe « Ressources humaines ».",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p4",
+        "style": {
+          "style": "Titre 1"
+        }
+      },
+      "feedback": "Deux sections, deux Titre 1 : Word sait maintenant que votre rapport a deux parties de même niveau."
+    },
+    {
+      "id": "M01-L05-06",
+      "consigne": "Le style fixe la nature ; l'**alignement**, lui, décide de la position du texte entre les marges. ==Centrez le titre du rapport== avec le bouton Centrer du groupe Paragraphe.",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p0",
+        "style": {
+          "alignement": "centre"
+        }
+      },
+      "aide": {
+        "text": "Placez le curseur dans le titre, puis cliquez sur Centrer.",
+        "showTarget": true
+      },
+      "feedback": "Le titre se place au milieu de la page."
+    },
+    {
+      "id": "M01-L05-07",
+      "consigne": "Dernier réglage, celui qui donne son allure à un rapport. ==Justifiez le paragraphe de la section Production== : le texte viendra s'aligner sur les deux marges à la fois, comme dans un livre.",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p3",
+        "style": {
+          "alignement": "justifie"
+        }
+      },
+      "aide": {
+        "text": "Curseur dans le paragraphe, puis le bouton Justifier.",
+        "showTarget": true
+      },
+      "feedback": "Les deux bords sont alignés : le bloc de texte paraît net."
+    },
+    {
+      "id": "M01-L05-08",
+      "consigne": "Ce que vous venez de faire dépasse l'apparence. Parce que vos titres portent de vrais styles, Word pourra plus tard en tirer un **sommaire automatique**, se repérer dans un document de cent pages, et vous laisser changer l'allure de tous les titres d'un seul réglage. Un titre mis en gras à la main n'offre rien de tout cela.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0,
+      "feedback": "Structurer, c'est travailler pour son futur soi — celui qui reprendra le document dans six mois."
+    }
+  ]
+}

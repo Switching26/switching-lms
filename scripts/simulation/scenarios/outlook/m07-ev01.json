@@ -1,0 +1,300 @@
+{
+  "schemaVersion": 1,
+  "title": "S'évaluer — Coordonner un dossier à plusieurs",
+  "mode": "EVALUATION",
+  "moduleTitle": "Coordonner un dossier à plusieurs",
+  "intro": {
+    "title": "Samedi 28 mars — un incident, quatre interlocuteurs",
+    "body": "Un désordre est signalé sur un chantier, le solde est suspendu, et le fournisseur ne répond plus. Vous devez répondre au client, associer celui qui doit agir, informer sans encombrer, et escalader proprement. Cette épreuve est notée sur les lignes d'adresses et les objets. La rédaction ne compte pas dans la note."
+  },
+  "outro": {
+    "body": "Le barème portait sur qui a reçu quoi, et sur quelle ligne. C'est ce que vos interlocuteurs constatent aussi : celui qui devait agir a-t-il compris qu'il devait agir, et celui qui devait rester invisible l'est-il resté."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "clients",
+        "nom": "Clients 2026"
+      },
+      {
+        "id": "fournisseurs",
+        "nom": "Fournisseurs"
+      }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "messages": [
+      {
+        "id": "m-incident",
+        "dossier": "reception",
+        "de": "j.leroux@habitat-du-nord.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr",
+          "s.brunel@atelier-nord.fr"
+        ],
+        "objet": "Escalier Beaulieu — désordre constaté, solde suspendu",
+        "corps": "Bonjour,\n\nNotre maître d'œuvre relève un jeu de 4 mm sur la main courante.\nNous suspendons le solde en attendant la reprise.\n\nJulien Leroux",
+        "date": "2026-03-28T08:05",
+        "lu": false
+      },
+      {
+        "id": "m-relance-env",
+        "dossier": "envoyes",
+        "de": "camille.aubertin@atelier-nord.fr",
+        "a": [
+          "compta@quincaillerie-delmas.fr"
+        ],
+        "objet": "Commande CD-1204 — demande de date de livraison",
+        "corps": "Bonjour,\n\nPouvez-vous me confirmer une date de livraison ?\n\nCamille Aubertin",
+        "date": "2026-03-17T09:20",
+        "lu": true
+      },
+      {
+        "id": "m-pub",
+        "dossier": "reception",
+        "de": "offres@promo-outillage.net",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Offres du week-end",
+        "corps": "Nos offres.",
+        "date": "2026-03-28T05:20",
+        "lu": false
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O07-EV01-01",
+      "consigne": "Ouvrez le message d'Habitat du Nord et relevez ce qui est reproché.",
+      "action": {
+        "type": "O_SELECT_MESSAGE",
+        "id": "m-incident"
+      },
+      "points": 1
+    },
+    {
+      "id": "O07-EV01-02",
+      "consigne": "Répondez à tous : le client et Sonia doivent recevoir votre réponse.",
+      "setup": {
+        "courrier": {
+          "messageActif": "m-incident"
+        }
+      },
+      "action": {
+        "type": "O_CLICK_CONTROL",
+        "control": "cr-repondre-tous"
+      },
+      "points": 1
+    },
+    {
+      "id": "O07-EV01-03",
+      "consigne": "Hugo Vasseur a posé cet escalier : il devra intervenir. Ajoutez `h.vasseur@menuiserie-vasseur.fr` là où se placent ceux qui doivent agir, et mettez la gérante `n.kerbaj@atelier-nord.fr` en simple copie.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "a": {
+            "contient": [
+              "j.leroux@habitat-du-nord.fr",
+              "s.brunel@atelier-nord.fr",
+              "h.vasseur@menuiserie-vasseur.fr"
+            ],
+            "absent": [
+              "n.kerbaj@atelier-nord.fr"
+            ]
+          },
+          "cc": {
+            "contient": [
+              "n.kerbaj@atelier-nord.fr"
+            ]
+          }
+        }
+      },
+      "points": 3
+    },
+    {
+      "id": "O07-EV01-04",
+      "consigne": "Sonia n'a rien à faire sur ce dossier : retirez-la de la ligne principale, sans toucher aux deux autres.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "a": {
+            "contient": [
+              "j.leroux@habitat-du-nord.fr",
+              "h.vasseur@menuiserie-vasseur.fr"
+            ],
+            "absent": [
+              "s.brunel@atelier-nord.fr"
+            ]
+          },
+          "cc": {
+            "contient": [
+              "n.kerbaj@atelier-nord.fr"
+            ],
+            "absent": [
+              "s.brunel@atelier-nord.fr"
+            ]
+          }
+        }
+      },
+      "points": 2
+    },
+    {
+      "id": "O07-EV01-05",
+      "consigne": "Complétez l'objet avec le mot `reprise`, sans retirer le préfixe.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "objet": {
+            "prefixe": "RE",
+            "contient": [
+              "reprise"
+            ]
+          }
+        }
+      },
+      "points": 1
+    },
+    {
+      "id": "O07-EV01-06",
+      "consigne": "Rédigez la réponse avec vos mots. **Cette étape n'entre pas dans la note.**",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "corps": {
+            "minMots": 12,
+            "revueManuelle": true
+          }
+        }
+      },
+      "points": 0
+    },
+    {
+      "id": "O07-EV01-07",
+      "consigne": "Relisez les deux lignes d'adresses, puis envoyez.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "j.leroux@habitat-du-nord.fr",
+              "h.vasseur@menuiserie-vasseur.fr"
+            ],
+            "absent": [
+              "s.brunel@atelier-nord.fr"
+            ]
+          },
+          "cc": {
+            "contient": [
+              "n.kerbaj@atelier-nord.fr"
+            ]
+          },
+          "objet": {
+            "prefixe": "RE",
+            "contient": [
+              "reprise"
+            ]
+          }
+        }
+      },
+      "points": 3
+    },
+    {
+      "id": "O07-EV01-08",
+      "consigne": "Le fournisseur ne répond pas depuis dix jours. Ouvrez le dossier qui contient votre demande d'origine.",
+      "action": {
+        "type": "O_SELECT_FOLDER",
+        "dossier": "envoyes"
+      },
+      "points": 1
+    },
+    {
+      "id": "O07-EV01-09",
+      "consigne": "Faites suivre votre demande à `direction@quincaillerie-delmas.fr`, en gardant `compta@quincaillerie-delmas.fr` sur la même ligne : on n'escalade pas dans le dos de son interlocuteur.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "genre": "transfert",
+          "a": {
+            "contient": [
+              "direction@quincaillerie-delmas.fr",
+              "compta@quincaillerie-delmas.fr"
+            ]
+          },
+          "cci": {
+            "vide": true
+          }
+        }
+      },
+      "points": 3
+    },
+    {
+      "id": "O07-EV01-10",
+      "consigne": "Rédigez le mot d'accompagnement, puis envoyez cette escalade. **La rédaction n'entre pas dans la note.**",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "direction@quincaillerie-delmas.fr",
+              "compta@quincaillerie-delmas.fr"
+            ]
+          },
+          "cci": {
+            "vide": true
+          },
+          "corps": {
+            "minMots": 10,
+            "revueManuelle": true
+          }
+        }
+      },
+      "points": 2
+    },
+    {
+      "id": "O07-EV01-11",
+      "consigne": "Vous êtes encore dans les Éléments envoyés. Revenez à votre file d'attente.",
+      "action": {
+        "type": "O_SELECT_FOLDER",
+        "dossier": "reception"
+      },
+      "points": 1
+    },
+    {
+      "id": "O07-EV01-12",
+      "consigne": "Sortez-en les offres du week-end : elles n'appellent aucune action.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-pub": {
+              "dossier": "supprimes"
+            }
+          }
+        }
+      },
+      "points": 1
+    }
+  ]
+}

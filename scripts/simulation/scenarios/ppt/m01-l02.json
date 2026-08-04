@@ -1,0 +1,273 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "mode": "LESSON",
+  "moduleTitle": "Prise en main",
+  "title": "Ajouter, dupliquer et supprimer des diapositives",
+  "intro": {
+    "title": "Faire grandir la présentation",
+    "body": "Une présentation se construit diapositive après diapositive. Cette leçon vous apprend les trois gestes qui la font vivre — ajouter, dupliquer, supprimer — et surtout à savoir sur QUELLE diapositive chacun s'applique."
+  },
+  "outro": {
+    "body": "Votre présentation compte quatre diapositives utiles. La leçon suivante s'occupe de leur plan intérieur : la disposition."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "ppt": {
+    "fileName": "Bilan Verdeval.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Verdeval",
+          "sous-titre": "Bilan de la saison 2026"
+        }
+      },
+      {
+        "layout": "titre-seul",
+        "textes": {
+          "titre": "Brouillon - ne pas diffuser"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M01-L02-01",
+      "consigne": "Les quatre boutons dont vous aurez besoin sont réunis dans le groupe **Diapositives**, à gauche du ruban : **Nouvelle**, **Disposition**, **Dupliquer**, **Supprimer**. Trois d'entre eux agissent sur la diapositive **affichée au centre**, jamais sur une autre : c'est la première chose à vérifier avant de cliquer.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M01-L02-02",
+      "consigne": "==Cliquez sur Nouvelle==, dans le groupe Diapositives. Observez deux choses : la diapositive s'insère **juste après celle qui était affichée**, et elle reçoit la disposition **Titre et contenu** — celle dont on a presque toujours besoin après une diapositive de titre.",
+      "action": {
+        "type": "P_ADD_SLIDE",
+        "layout": "titre-et-contenu"
+      },
+      "aide": {
+        "text": "Le bouton Nouvelle est le premier du ruban, sous l'étiquette Diapositives."
+      },
+      "feedback": "La présentation compte une diapositive de plus, et c'est elle qui est maintenant affichée."
+    },
+    {
+      "id": "M01-L02-03",
+      "consigne": "==Saisissez Chantiers livrés comme titre== de cette nouvelle diapositive.",
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:titre",
+        "accept": [
+          "Chantiers livrés"
+        ]
+      },
+      "aide": {
+        "text": "Cliquez dans le cadre du haut, portant l'invite « Cliquez pour ajouter un titre »."
+      }
+    },
+    {
+      "id": "M01-L02-04",
+      "consigne": "==Saisissez 38 jardins créés en 2026 dans la zone de contenu==, sous le titre.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Bilan de la saison 2026"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Chantiers livrés"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Brouillon - ne pas diffuser"
+              }
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:contenu",
+        "accept": [
+          "38 jardins créés en 2026",
+          "38 jardins créés"
+        ]
+      }
+    },
+    {
+      "id": "M01-L02-05",
+      "consigne": "==Ajoutez une deuxième diapositive==. Regardez ce qui se passe : elle reprend la disposition de celle que vous venez de remplir. PowerPoint **hérite** de la mise en page précédente, pour que la présentation garde le même rythme sans que vous ayez à y penser.",
+      "action": {
+        "type": "P_ADD_SLIDE",
+        "layout": "titre-et-contenu"
+      }
+    },
+    {
+      "id": "M01-L02-06",
+      "consigne": "==Saisissez Notre équipe comme titre== de cette troisième diapositive.",
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:titre",
+        "accept": [
+          "Notre équipe"
+        ]
+      }
+    },
+    {
+      "id": "M01-L02-07",
+      "consigne": "**Dupliquer** ne crée pas une diapositive vide : la copie emporte le texte, la disposition et la mise en forme de l'originale, et se place juste derrière elle. C'est le geste qui fait gagner du temps quand deux diapositives doivent se ressembler — on copie, puis on remplace ce qui change.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M01-L02-08",
+      "consigne": "==Cliquez sur Dupliquer==. La copie apparaît juste après l'originale et devient la diapositive affichée : c'est sur elle que vous allez travailler.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Bilan de la saison 2026"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Chantiers livrés",
+                "contenu": "38 jardins créés en 2026"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Notre équipe"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Brouillon - ne pas diffuser"
+              }
+            }
+          ]
+        },
+        "slide": 2
+      },
+      "action": {
+        "type": "P_DUPLICATE_SLIDE",
+        "index": 2
+      },
+      "aide": {
+        "text": "Le bouton Dupliquer est le troisième du groupe Diapositives."
+      }
+    },
+    {
+      "id": "M01-L02-09",
+      "consigne": "La copie porte encore le titre de l'originale. ==Double-cliquez dans ce titre et remplacez-le par Nos partenaires== : un cadre **déjà rempli** s'ouvre au double-clic, pas au simple clic — le simple clic, lui, ne fait que le sélectionner.",
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:titre",
+        "accept": [
+          "Nos partenaires"
+        ]
+      },
+      "aide": {
+        "text": "Double-cliquez sur le mot déjà écrit, effacez-le, puis saisissez le nouveau titre."
+      },
+      "feedback": "Deux diapositives bâties pareil, en un geste au lieu de deux."
+    },
+    {
+      "id": "M01-L02-10",
+      "consigne": "**Supprimer** retire définitivement la diapositive **affichée**. PowerPoint ne refuse qu'un seul cas : effacer la dernière, car une présentation ne peut pas être vide. D'où le réflexe à prendre — afficher la bonne diapositive AVANT de cliquer, et non l'inverse.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M01-L02-11",
+      "consigne": "La dernière diapositive est un reste de la version précédente. ==Affichez-la== : c'est la condition pour pouvoir la retirer.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 4
+      },
+      "aide": {
+        "text": "C'est la miniature du bas, intitulée « Brouillon - ne pas diffuser »."
+      }
+    },
+    {
+      "id": "M01-L02-12",
+      "consigne": "==Cliquez sur Supprimer==. La présentation retombe à quatre diapositives, toutes utiles.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Bilan de la saison 2026"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Chantiers livrés",
+                "contenu": "38 jardins créés en 2026"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Notre équipe"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Nos partenaires"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Brouillon - ne pas diffuser"
+              }
+            }
+          ]
+        },
+        "slide": 4
+      },
+      "action": {
+        "type": "P_DELETE_SLIDE",
+        "index": 4
+      },
+      "aide": {
+        "text": "Le bouton Supprimer est le dernier du groupe Diapositives."
+      }
+    },
+    {
+      "id": "M01-L02-13",
+      "consigne": "À retenir : **Nouvelle** insère après la diapositive affichée et hérite de sa disposition ; **Dupliquer** recopie tout son contenu ; **Supprimer** efface celle qui est affichée. Les trois se lisent de la même façon — ils parlent toujours de la diapositive que vous avez sous les yeux.",
+      "action": {
+        "type": "READ"
+      }
+    }
+  ]
+}

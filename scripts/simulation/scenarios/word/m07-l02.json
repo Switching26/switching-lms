@@ -1,0 +1,137 @@
+{
+  "schemaVersion": 1,
+  "app": "WORD",
+  "title": "Les symboles du document professionnel",
+  "mode": "LESSON",
+  "moduleTitle": "Symboles et caractères spéciaux",
+  "intro": {
+    "title": "MARQUES, RÉFÉRENCES ET UNITÉS",
+    "body": "Certains symboles ne sont pas décoratifs : ils ont une valeur juridique ou normative. Le symbole de marque déposée, le signe numéro, les unités de mesure. Les employer correctement fait partie de la rédaction professionnelle — les inventer expose à la contestation."
+  },
+  "outro": "Un symbole mal employé se retourne contre son auteur : une marque déposée signalée à tort, une unité mal écrite dans un devis. Ces caractères se tapent, ils ne se dessinent pas.",
+  "document": {
+    "paragraphes": [
+      {
+        "texte": "Bon de commande fournisseur"
+      },
+      {
+        "texte": "Références commandées"
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M07-L02-01",
+      "consigne": "==Appuyez sur Entrée et saisissez== la première ligne, avec le signe numéro : Commande n° 2026-517 du 14 mai",
+      "action": {
+        "type": "W_TYPE_TEXT",
+        "zone": "p1",
+        "accept": [
+          "Commande n° 2026-517 du 14 mai"
+        ]
+      },
+      "aide": {
+        "text": "Le « o » du signe numéro est un o en exposant, pas un zéro ni un degré.",
+        "showTarget": true
+      },
+      "feedback": "Le signe numéro s'écrit en minuscule après le n, jamais « No » ni « N° » avec un zéro."
+    },
+    {
+      "id": "M07-L02-02",
+      "consigne": "==Saisissez la première référence== avec le symbole de marque déposée : Vernis Duralaq ® en bidon de 5 litres",
+      "action": {
+        "type": "W_TYPE_TEXT",
+        "zone": "p2",
+        "accept": [
+          "Vernis Duralaq ® en bidon de 5 litres"
+        ]
+      },
+      "feedback": "Le symbole ® ne s'emploie que pour une marque effectivement déposée."
+    },
+    {
+      "id": "M07-L02-03",
+      "consigne": "==Saisissez la deuxième référence== avec un signe multiplication : Panneaux contreplaqué 250 × 122 centimètres",
+      "action": {
+        "type": "W_TYPE_TEXT",
+        "zone": "p3",
+        "accept": [
+          "Panneaux contreplaqué 250 × 122 centimètres"
+        ]
+      },
+      "aide": {
+        "text": "Le signe × n'est pas la lettre x : dans un tableau de dimensions, la différence se voit.",
+        "showTarget": true
+      },
+      "feedback": "Le signe multiplication est un caractère distinct de la lettre x."
+    },
+    {
+      "id": "M07-L02-04",
+      "consigne": "==Saisissez la troisième référence== : Colle vinylique — séchage 24 h à 20 °C",
+      "action": {
+        "type": "W_TYPE_TEXT",
+        "zone": "p4",
+        "accept": [
+          "Colle vinylique — séchage 24 h à 20 °C"
+        ]
+      },
+      "feedback": "Les unités s'écrivent sans point abréviatif et précédées d'une espace : 24 h, 20 °C."
+    },
+    {
+      "id": "M07-L02-05",
+      "consigne": "==Saisissez la ligne de total== : Montant total : 1 240,50 € hors taxes",
+      "action": {
+        "type": "W_TYPE_TEXT",
+        "zone": "p5",
+        "accept": [
+          "Montant total : 1 240,50 € hors taxes"
+        ]
+      },
+      "aide": {
+        "text": "En français, la virgule sépare les décimales et l'espace sépare les milliers.",
+        "showTarget": true
+      },
+      "feedback": "Virgule décimale et espace des milliers : deux conventions françaises que l'anglais inverse."
+    },
+    {
+      "id": "M07-L02-06",
+      "consigne": "==Épaississez le montant total== : c'est la ligne qu'un fournisseur vérifie en premier.",
+      "setup": {
+        "ribbon": {
+          "activeTab": "accueil"
+        }
+      },
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "texte:1 240,50 €",
+        "format": {
+          "gras": true
+        }
+      },
+      "feedback": "Le total ressort."
+    },
+    {
+      "id": "M07-L02-07",
+      "consigne": "==Mettez les trois références en liste à puces==, en commençant par la première.",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p2",
+        "style": {
+          "liste": "puces"
+        }
+      },
+      "feedback": "Les références se comptent d'un coup d'œil."
+    },
+    {
+      "id": "M07-L02-08",
+      "consigne": "==Poursuivez avec la deuxième référence.==",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p3",
+        "style": {
+          "liste": "puces"
+        }
+      },
+      "feedback": "Bon de commande lisible."
+    }
+  ]
+}

@@ -1,0 +1,354 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "mode": "EXERCISE",
+  "moduleTitle": "Une présentation homogène",
+  "title": "Le contrôle en trois passages",
+  "intro": {
+    "title": "Le contrôle en trois passages",
+    "body": "Un jeu de quatre diapositives avec un défaut de chaque sorte : une disposition qui détonne, un titre hors modèle, un repère qui a bougé. Faites les trois passages dans l'ordre."
+  },
+  "outro": {
+    "body": "Dispositions, titres, repères : les trois passages sont faits et le jeu se tient."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "ppt": {
+    "fileName": "Delcourt - contrôle.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Menuiserie Delcourt",
+          "sous-titre": "Présentation des ateliers"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "L'atelier bois",
+          "contenu": "Neuf compagnons\nDébit et assemblage"
+        },
+        "objets": [
+          {
+            "id": "zt-ref-1",
+            "objectType": "texte",
+            "texte": "Effectifs au 1er mars",
+            "rect": {
+              "x": 680,
+              "y": 465,
+              "w": 230,
+              "h": 40
+            }
+          }
+        ]
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "L'atelier finition",
+          "contenu": "Quatre compagnons\nPonçage et vernis"
+        },
+        "objets": [
+          {
+            "id": "zt-ref-2",
+            "objectType": "texte",
+            "texte": "Effectifs au 1er mars",
+            "rect": {
+              "x": 100,
+              "y": 140,
+              "w": 230,
+              "h": 40
+            }
+          }
+        ]
+      },
+      {
+        "layout": "titre-seul",
+        "textes": {
+          "titre": "LE BUREAU D'ÉTUDES"
+        },
+        "objets": [
+          {
+            "id": "zt-etudes",
+            "objectType": "texte",
+            "texte": "Deux dessinateurs, plans et métrés",
+            "rect": {
+              "x": 90,
+              "y": 250,
+              "w": 500,
+              "h": 70
+            }
+          },
+          {
+            "id": "zt-ref-3",
+            "objectType": "texte",
+            "texte": "Effectifs au 1er mars",
+            "rect": {
+              "x": 680,
+              "y": 465,
+              "w": 230,
+              "h": 40
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M15-E03-01",
+      "consigne": "Passez en Trieuse. Premier passage : la silhouette des diapositives.",
+      "action": {
+        "type": "P_SET_VIEW",
+        "view": "trieuse"
+      },
+      "aide": {
+        "text": "Groupe Affichage, bouton Trieuse."
+      }
+    },
+    {
+      "id": "M15-E03-02",
+      "consigne": "Affichez la dernière diapositive, la seule montée en titre seul.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 3
+      }
+    },
+    {
+      "id": "M15-E03-03",
+      "consigne": "Revenez en affichage Normal.",
+      "action": {
+        "type": "P_SET_VIEW",
+        "view": "normal"
+      }
+    },
+    {
+      "id": "M15-E03-04",
+      "consigne": "Donnez-lui la disposition Titre et contenu.",
+      "action": {
+        "type": "P_SET_LAYOUT",
+        "layout": "titre-et-contenu"
+      },
+      "aide": {
+        "text": "Groupe Diapositives, bouton Disposition, puis « Titre et contenu »."
+      }
+    },
+    {
+      "id": "M15-E03-05",
+      "consigne": "Supprimez la zone de texte libre « Deux dessinateurs… ».",
+      "action": {
+        "type": "P_DELETE_OBJECT",
+        "objectId": "zt-etudes"
+      },
+      "aide": {
+        "text": "Sélectionnez la zone d'un clic, puis touche Suppr ou bouton Supprimer du groupe Objet."
+      }
+    },
+    {
+      "id": "M15-E03-06",
+      "consigne": "Écrivez le contenu : Deux dessinateurs, Plans et métrés.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Menuiserie Delcourt",
+                "sous-titre": "Présentation des ateliers"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "L'atelier bois",
+                "contenu": "Neuf compagnons\nDébit et assemblage"
+              },
+              "objets": [
+                {
+                  "id": "zt-ref-1",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 680,
+                    "y": 465,
+                    "w": 230,
+                    "h": 40
+                  },
+                  "texte": "Effectifs au 1er mars"
+                }
+              ]
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "L'atelier finition",
+                "contenu": "Quatre compagnons\nPonçage et vernis"
+              },
+              "objets": [
+                {
+                  "id": "zt-ref-2",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 100,
+                    "y": 140,
+                    "w": 230,
+                    "h": 40
+                  },
+                  "texte": "Effectifs au 1er mars"
+                }
+              ]
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "LE BUREAU D'ÉTUDES"
+              },
+              "objets": [
+                {
+                  "id": "zt-ref-3",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 680,
+                    "y": 465,
+                    "w": 230,
+                    "h": 40
+                  },
+                  "texte": "Effectifs au 1er mars"
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 3
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:contenu",
+        "accept": [
+          "Deux dessinateurs\nPlans et métrés",
+          "Deux dessinateurs, Plans et métrés"
+        ]
+      },
+      "aide": {
+        "text": "Cliquez dans « Cliquez pour ajouter du texte »."
+      }
+    },
+    {
+      "id": "M15-E03-07",
+      "consigne": "Deuxième passage, les titres : remplacez « LE BUREAU D'ÉTUDES » par Le bureau d'études.",
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:titre",
+        "accept": [
+          "Le bureau d'études"
+        ]
+      },
+      "aide": {
+        "text": "Un titre déjà rempli s'ouvre au double-clic."
+      }
+    },
+    {
+      "id": "M15-E03-08",
+      "consigne": "Troisième passage, les repères. Affichez la troisième diapositive : son rappel d'effectifs est en haut à gauche.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 2
+      }
+    },
+    {
+      "id": "M15-E03-09",
+      "consigne": "Déplacez-le en bas à droite, vers 680 en horizontal et 465 en vertical, comme sur les autres écrans.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Menuiserie Delcourt",
+                "sous-titre": "Présentation des ateliers"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "L'atelier bois",
+                "contenu": "Neuf compagnons\nDébit et assemblage"
+              },
+              "objets": [
+                {
+                  "id": "zt-ref-1",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 680,
+                    "y": 465,
+                    "w": 230,
+                    "h": 40
+                  },
+                  "texte": "Effectifs au 1er mars"
+                }
+              ]
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "L'atelier finition",
+                "contenu": "Quatre compagnons\nPonçage et vernis"
+              },
+              "objets": [
+                {
+                  "id": "zt-ref-2",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 100,
+                    "y": 140,
+                    "w": 230,
+                    "h": 40
+                  },
+                  "texte": "Effectifs au 1er mars"
+                }
+              ]
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Le bureau d'études",
+                "contenu": "Deux dessinateurs\nPlans et métrés"
+              },
+              "objets": [
+                {
+                  "id": "zt-ref-3",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 680,
+                    "y": 465,
+                    "w": 230,
+                    "h": 40
+                  },
+                  "texte": "Effectifs au 1er mars"
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 2
+      },
+      "action": {
+        "type": "P_MOVE_OBJECT",
+        "objectId": "zt-ref-2",
+        "rect": {
+          "x": 680,
+          "y": 465
+        }
+      },
+      "aide": {
+        "text": "Faites glisser la zone vers le coin bas droit ; l'ajustement n'a pas besoin d'être au pixel."
+      },
+      "feedback": "Le repère ne saute plus d'un écran à l'autre : il redevient invisible, ce qu'on lui demande."
+    }
+  ]
+}

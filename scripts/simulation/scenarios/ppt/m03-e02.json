@@ -1,0 +1,252 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "mode": "EXERCISE",
+  "moduleTitle": "Mettre en forme le texte",
+  "title": "Exercice — Chaque texte à sa place",
+  "intro": {
+    "title": "Exercice — Chaque texte à sa place",
+    "body": "Sur cette diapositive, les trois alignements sont posés au hasard : le corps de texte est centré, le titre poussé à droite, la mention collée à gauche. Remettez chacun à l'alignement que sa fonction commande."
+  },
+  "outro": {
+    "body": "Titre centré, contenu à gauche, mention à droite : la règle des trois cas est acquise."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "ppt": {
+    "fileName": "Bilan Verdeval.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Verdeval",
+          "sous-titre": "Bilan de la saison 2026"
+        }
+      },
+      {
+        "layout": "titre-seul",
+        "textes": {
+          "titre": "Nos chantiers de l'année"
+        },
+        "objets": [
+          {
+            "id": "zt-corps",
+            "objectType": "texte",
+            "texte": "38 jardins créés, 120 entretiens réguliers et 12 chantiers de rénovation menés dans les trois agences",
+            "rect": {
+              "x": 70,
+              "y": 180,
+              "w": 640,
+              "h": 130
+            },
+            "style": {
+              "align": "center"
+            }
+          },
+          {
+            "id": "zt-source",
+            "objectType": "texte",
+            "texte": "Source : tableau de suivi, 31 octobre 2026",
+            "rect": {
+              "x": 440,
+              "y": 420,
+              "w": 440,
+              "h": 55
+            },
+            "style": {
+              "align": "left"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M03-E02-01",
+      "consigne": "Affichez la diapositive des chantiers.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 1
+      },
+      "aide": {
+        "text": "C'est la deuxième miniature du volet."
+      }
+    },
+    {
+      "id": "M03-E02-02",
+      "consigne": "Le texte principal fait trois lignes : donnez-lui l'alignement qui rend un paragraphe lisible.",
+      "setupPpt": {
+        "slide": 1
+      },
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "zt-corps",
+        "style": {
+          "align": "left"
+        }
+      },
+      "aide": {
+        "text": "Un corps de texte s'aligne à gauche : c'est le premier des trois boutons d'alignement."
+      }
+    },
+    {
+      "id": "M03-E02-03",
+      "consigne": "Le titre est court et seul sur sa ligne : placez-le comme il convient dans ce cas.",
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "ph:titre",
+        "style": {
+          "align": "center"
+        }
+      },
+      "aide": {
+        "text": "Sélectionnez le titre, puis utilisez le bouton d'alignement du milieu."
+      }
+    },
+    {
+      "id": "M03-E02-04",
+      "consigne": "La mention de source doit rester disponible sans disputer la place au propos. Placez-la en conséquence.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Bilan de la saison 2026"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Nos chantiers de l'année"
+              },
+              "objets": [
+                {
+                  "id": "zt-corps",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 70,
+                    "y": 180,
+                    "w": 640,
+                    "h": 130
+                  },
+                  "texte": "38 jardins créés, 120 entretiens réguliers et 12 chantiers de rénovation menés dans les trois agences",
+                  "style": {
+                    "align": "left"
+                  }
+                },
+                {
+                  "id": "zt-source",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 440,
+                    "y": 420,
+                    "w": 440,
+                    "h": 55
+                  },
+                  "texte": "Source : tableau de suivi, 31 octobre 2026",
+                  "style": {
+                    "align": "left"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "zt-source",
+        "style": {
+          "align": "right"
+        }
+      },
+      "aide": {
+        "text": "Une source se pose à droite : le troisième bouton d'alignement."
+      }
+    },
+    {
+      "id": "M03-E02-05",
+      "consigne": "Distinguez encore cette mention du contenu, sans la souligner.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Bilan de la saison 2026"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Nos chantiers de l'année"
+              },
+              "objets": [
+                {
+                  "id": "zt-corps",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 70,
+                    "y": 180,
+                    "w": 640,
+                    "h": 130
+                  },
+                  "texte": "38 jardins créés, 120 entretiens réguliers et 12 chantiers de rénovation menés dans les trois agences",
+                  "style": {
+                    "align": "left"
+                  }
+                },
+                {
+                  "id": "zt-source",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 440,
+                    "y": 420,
+                    "w": 440,
+                    "h": 55
+                  },
+                  "texte": "Source : tableau de suivi, 31 octobre 2026",
+                  "style": {
+                    "align": "right"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "zt-source",
+        "style": {
+          "italic": true
+        }
+      },
+      "aide": {
+        "text": "L'italique convient : il distingue sans imiter un lien."
+      }
+    },
+    {
+      "id": "M03-E02-06",
+      "consigne": "Achevez la hiérarchie de la diapositive en affirmant son titre.",
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "ph:titre",
+        "style": {
+          "bold": true
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,150 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "mode": "EXERCISE",
+  "moduleTitle": "Préparer son intervention",
+  "title": "Une répétition complète",
+  "intro": {
+    "title": "Une répétition complète",
+    "body": "Parcourez cette présentation en diaporama, dans l'ordre, sans vous arrêter. Un enchaînement ne tient pas : à vous de le repérer en avançant, puis de le corriger là où ça se corrige — dans les notes."
+  },
+  "outro": {
+    "body": "Défaut repéré en répétition, corrigé par une note, vérifié par une seconde passe : c'est le cycle complet."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "ppt": {
+    "fileName": "Le Pré Long.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Fromagerie Le Pré Long",
+          "sous-titre": "Proposition pour la boutique du Halage"
+        },
+        "notes": "Bonjour, Le Pré Long, six fromages de brebis affinés à la ferme"
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Nos fromages",
+          "contenu": "Six fromages au lait cru\nQuarante brebis\nAffinage sur place"
+        },
+        "notes": "Affinage en cave depuis 1998, pâturage tournant"
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Nos prix",
+          "contenu": "Tomme : 18 € le kilo\nFrais : 9 € la pièce"
+        },
+        "notes": "Prix boutique, remise de 10 % au-delà de 20 kilos"
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Nos livraisons",
+          "contenu": "Livraison le mardi\nCommande la veille"
+        },
+        "notes": "Livraison possible le vendredi à partir de mai"
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M10-E02-01",
+      "consigne": "Lancez le diaporama depuis le début et dites l'ouverture à voix haute.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": true,
+          "index": 0
+        }
+      },
+      "aide": {
+        "text": "Groupe Diaporama, bouton « ▶ Début »."
+      }
+    },
+    {
+      "id": "M10-E02-02",
+      "consigne": "Avancez d'une diapositive et présentez les fromages sans lire l'écran.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "index": 1
+        }
+      }
+    },
+    {
+      "id": "M10-E02-03",
+      "consigne": "Avancez jusqu'aux prix, et annoncez-les à voix haute.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "index": 2
+        }
+      }
+    },
+    {
+      "id": "M10-E02-04",
+      "consigne": "Avancez jusqu'aux livraisons. Vous venez d'annoncer des prix, l'écran passe à des jours de semaine, et rien ne relie les deux : c'est le défaut à corriger.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "index": 3
+        }
+      },
+      "feedback": "Deux secondes de silence, invisibles à la relecture, évidentes en répétition."
+    },
+    {
+      "id": "M10-E02-05",
+      "consigne": "Quittez le diaporama.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": false
+        }
+      }
+    },
+    {
+      "id": "M10-E02-06",
+      "consigne": "Affichez la diapositive des prix : la liaison s'écrit sur la diapositive qu'on quitte, pas sur celle qu'on rejoint.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 2
+      }
+    },
+    {
+      "id": "M10-E02-07",
+      "consigne": "Complétez sa note : Prix boutique, remise de 10 % au-delà de 20 kilos, puis enchaîner sur les livraisons.",
+      "action": {
+        "type": "P_EXPECT_DECK",
+        "deck": {
+          "slides": [
+            {
+              "index": 2,
+              "notes": "Prix boutique, remise de 10 % au-delà de 20 kilos, puis enchaîner sur les livraisons"
+            }
+          ]
+        }
+      },
+      "aide": {
+        "text": "Cliquez dans les notes existantes et complétez la phrase."
+      }
+    },
+    {
+      "id": "M10-E02-08",
+      "consigne": "Relancez le diaporama depuis le début : une correction se vérifie dans les conditions où le défaut est apparu.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": true,
+          "index": 0
+        }
+      }
+    }
+  ]
+}

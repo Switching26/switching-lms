@@ -1,0 +1,182 @@
+{
+  "schemaVersion": 1,
+  "title": "Trier le vrai du faux dans une boîte du matin",
+  "mode": "EXERCISE",
+  "moduleTitle": "Sécurité : reconnaître et traiter un message dangereux",
+  "intro": {
+    "title": "Quatre messages, deux imposteurs",
+    "body": "Quatre messages vous attendent. Deux viennent de correspondants réels, deux imitent des expéditeurs que vous connaissez. Rien dans le ton ni dans la mise en page ne les distingue : la réponse est dans l'adresse de l'expéditeur, et nulle part ailleurs. Lisez-les toutes avant de traiter quoi que ce soit."
+  },
+  "outro": {
+    "body": "On ne trie pas un message d'après son objet ni d'après son ton : les deux s'imitent en trois minutes. L'adresse complète de l'expéditeur, en revanche, ne peut pas mentir sur son domaine — c'est le seul point de contrôle qui tient."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "clients",
+        "nom": "Clients 2026"
+      },
+      {
+        "id": "fournisseurs",
+        "nom": "Fournisseurs"
+      }
+    ],
+    "messages": [
+      {
+        "id": "m-vrai-client",
+        "dossier": "reception",
+        "de": "j.leroux@habitat-du-nord.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Escalier — réception signée sans réserve",
+        "corps": "Bonjour,\n\nLa réception s'est bien passée, nous signons sans réserve.\n\nBien à vous,\nJulien Leroux\nHabitat du Nord",
+        "date": "2026-03-19T09:00",
+        "lu": false
+      },
+      {
+        "id": "m-faux-banque",
+        "dossier": "reception",
+        "de": "securite@banque-du-nord-verification.com",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Suspension de votre accès professionnel sous 24 h",
+        "corps": "Votre accès sera suspendu si vous ne confirmez pas vos identifiants dans les 24 heures.\n\nService sécurité",
+        "date": "2026-03-19T06:40",
+        "lu": false
+      },
+      {
+        "id": "m-vrai-fournisseur",
+        "dossier": "reception",
+        "de": "compta@quincaillerie-delmas.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Relevé de compte — mars 2026",
+        "corps": "Bonjour,\n\nVeuillez trouver votre relevé de compte du mois.\n\nQuincaillerie Delmas",
+        "date": "2026-03-19T08:15",
+        "lu": false,
+        "pieces": [
+          {
+            "nom": "Releve-mars-2026.pdf",
+            "taille": "94 Ko"
+          }
+        ]
+      },
+      {
+        "id": "m-faux-confrere",
+        "dossier": "reception",
+        "de": "h.vasseur@menuiserie-vasseur.fr.mail-pro.net",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Facture en attente — merci de régler ce jour",
+        "corps": "Bonjour Camille,\n\nMa facture est restée en attente. Merci de la régler aujourd'hui sur le compte indiqué en pièce jointe.\n\nHugo",
+        "date": "2026-03-19T07:05",
+        "lu": false,
+        "pieces": [
+          {
+            "nom": "Coordonnees.pdf",
+            "taille": "48 Ko"
+          }
+        ]
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O04-E01-01",
+      "consigne": "Un message annonce la suspension d'un accès sous 24 heures et réclame vos identifiants. Aucune banque ne procède ainsi, et son domaine n'est pas celui d'un établissement. Traitez-le : il doit sortir de votre file d'attente et rester consultable.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-faux-banque": {
+              "dossier": "indesirables"
+            }
+          }
+        }
+      },
+      "aide": {
+        "text": "Le dossier Courrier indésirable isole sans effacer : la trace reste disponible si votre banque vous la demande."
+      }
+    },
+    {
+      "id": "O04-E01-02",
+      "consigne": "Un second message se présente au nom d'Hugo Vasseur et réclame un règlement immédiat sur des coordonnées jointes. Lisez son adresse jusqu'au dernier point, puis marquez-le d'un indicateur : Hugo est un vrai partenaire, quelqu'un usurpe son identité et il faudra l'en avertir.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-faux-confrere": {
+              "indicateur": true
+            }
+          }
+        }
+      },
+      "aide": {
+        "text": "Le vrai domaine est celui qui précède le tout dernier point de l'adresse. Le drapeau est dans la barre du haut du volet de lecture."
+      }
+    },
+    {
+      "id": "O04-E01-03",
+      "consigne": "Ce message est signalé, il peut maintenant sortir de votre file d'attente — sans être effacé, car il servira de preuve.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-faux-confrere": {
+              "dossier": "indesirables"
+            }
+          }
+        }
+      },
+      "aide": {
+        "text": "Déplacer, puis Courrier indésirable : le message reste consultable."
+      }
+    },
+    {
+      "id": "O04-E01-04",
+      "consigne": "Reste les deux messages authentiques. Le relevé de compte vient de votre fournisseur habituel : rangez-le où il doit aller.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-vrai-fournisseur": {
+              "dossier": "fournisseurs"
+            }
+          }
+        }
+      },
+      "aide": {
+        "text": "Son adresse est bien celle de la Quincaillerie Delmas, sans domaine ajouté après."
+      }
+    },
+    {
+      "id": "O04-E01-05",
+      "consigne": "Julien Leroux confirme une réception signée : le dossier est clos. Rangez son message là où vous retrouverez ce client.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-vrai-client": {
+              "dossier": "clients"
+            }
+          }
+        }
+      },
+      "aide": {
+        "text": "Ouvrez le message, puis Déplacer, puis le dossier des clients."
+      }
+    }
+  ]
+}

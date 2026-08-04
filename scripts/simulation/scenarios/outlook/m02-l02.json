@@ -1,0 +1,256 @@
+{
+  "schemaVersion": 1,
+  "title": "Répondre à tous : quand, et quand surtout pas",
+  "mode": "LESSON",
+  "moduleTitle": "Répondre, transférer, tenir une conversation",
+  "intro": {
+    "title": "Le bouton qui fait le plus de dégâts",
+    "body": "« Répondre à tous » est le geste le plus mal utilisé de toute la messagerie professionnelle. Utilisé au bon moment, il évite trois échanges. Utilisé au mauvais, il envoie un désaccord interne à un client, ou un « merci » à quarante personnes. Vous allez voir les deux cas, dans l'ordre."
+  },
+  "outro": {
+    "body": "La question à se poser avant d'appuyer n'est pas « qui a écrit ? » mais « qui a besoin de lire ma réponse ? ». Sur une coordination à trois, tout le monde. Sur une remarque qui ne concerne qu'une personne, elle seule. Et une réponse reste modifiable : retirer une adresse de trop est un geste ordinaire, pas un aveu."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "clients",
+        "nom": "Clients 2026"
+      }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "messages": [
+      {
+        "id": "m-coord",
+        "dossier": "reception",
+        "de": "h.vasseur@menuiserie-vasseur.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr",
+          "s.brunel@atelier-nord.fr"
+        ],
+        "cc": [
+          "r.tissot@ecole-arts-lambersart.fr"
+        ],
+        "objet": "Pose du comptoir — qui fait quoi jeudi",
+        "corps": "Bonjour à tous,\n\nJe propose que j'apporte le comptoir jeudi matin et que la fixation murale se fasse l'après-midi.\nMerci de confirmer que ça vous va, pour que Rémi puisse prévenir l'accueil.\n\nHugo Vasseur",
+        "date": "2026-03-11T09:05",
+        "lu": false
+      },
+      {
+        "id": "m-remarque",
+        "dossier": "reception",
+        "de": "n.kerbaj@atelier-nord.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr",
+          "s.brunel@atelier-nord.fr",
+          "h.vasseur@menuiserie-vasseur.fr"
+        ],
+        "cc": [
+          "r.tissot@ecole-arts-lambersart.fr",
+          "direction@ecole-arts-lambersart.fr"
+        ],
+        "objet": "Chantier Lambersart — point d'avancement",
+        "corps": "Bonjour,\n\nLe chantier avance bien. Merci à chacun.\n\nNadia Kerbaj\nAtelier Nord",
+        "date": "2026-03-11T08:10",
+        "lu": false
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O02-L02-01",
+      "consigne": "Hugo propose une organisation pour jeudi et attend l'accord de chacun. ==Ouvrez son message== et regardez son en-tête : il est adressé à vous et à Sonia, avec Rémi en copie.",
+      "action": {
+        "type": "O_SELECT_MESSAGE",
+        "id": "m-coord"
+      },
+      "aide": {
+        "text": "C'est le message dont l'objet demande qui fait quoi jeudi."
+      }
+    },
+    {
+      "id": "O02-L02-02",
+      "consigne": "==Cliquez sur Répondre à tous.== Ici votre accord intéresse **tout le monde** : Sonia doit savoir qu'elle n'a pas à le donner deux fois, et Rémi doit pouvoir prévenir l'accueil.",
+      "setup": {
+        "courrier": {
+          "messageActif": "m-coord"
+        }
+      },
+      "action": {
+        "type": "O_CLICK_CONTROL",
+        "control": "cr-repondre-tous"
+      },
+      "aide": {
+        "text": "Le bouton Répondre à tous est le deuxième de la barre du haut du volet de lecture."
+      }
+    },
+    {
+      "id": "O02-L02-03",
+      "consigne": "Outlook a repris **l'expéditeur et les autres destinataires**, en vous retirant vous-même de la liste — on ne s'écrit pas à soi. ==Rédigez votre accord== : il doit dire **ce que vous prenez en charge** et **confirmer le créneau** de jeudi.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "genre": "reponseATous",
+          "corps": {
+            "salutation": [
+              "bonjour",
+              "hugo",
+              "bonsoir",
+              "salut"
+            ],
+            "cloture": [
+              "cordialement",
+              "a jeudi",
+              "merci",
+              "bien a vous",
+              "salutations"
+            ],
+            "notions": [
+              {
+                "libelle": "ce que vous prenez en charge",
+                "oneOf": [
+                  "fixation",
+                  "murale",
+                  "je m'occupe",
+                  "je prends",
+                  "je serai",
+                  "apres-midi",
+                  "apres midi"
+                ]
+              },
+              {
+                "libelle": "la confirmation du créneau de jeudi",
+                "oneOf": [
+                  "jeudi",
+                  "5 mars",
+                  "matin",
+                  "ok pour"
+                ]
+              }
+            ],
+            "minMots": 12
+          }
+        }
+      },
+      "aide": {
+        "text": "Deux informations sont attendues : la part du travail que vous assurez, et la confirmation du jour."
+      }
+    },
+    {
+      "id": "O02-L02-04",
+      "consigne": "==Envoyez cette réponse.== Les quatre personnes concernées reçoivent la même information au même moment : c'est exactement ce à quoi sert « Répondre à tous ».",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "h.vasseur@menuiserie-vasseur.fr",
+              "s.brunel@atelier-nord.fr"
+            ]
+          },
+          "cc": {
+            "contient": [
+              "r.tissot@ecole-arts-lambersart.fr"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Le bouton Envoyer, en haut à gauche de la fenêtre de rédaction."
+      }
+    },
+    {
+      "id": "O02-L02-05",
+      "consigne": "Deuxième cas, l'inverse du premier. ==Ouvrez le message de Nadia Kerbaj== : un point d'avancement adressé à cinq personnes, dont **deux personnes de l'école** en copie.",
+      "action": {
+        "type": "O_SELECT_MESSAGE",
+        "id": "m-remarque"
+      },
+      "aide": {
+        "text": "C'est le message dont l'objet parle d'un point d'avancement."
+      }
+    },
+    {
+      "id": "O02-L02-06",
+      "consigne": "Vous voulez seulement signaler à Nadia un retard de livraison interne — cela ne regarde pas le client. Faisons d'abord l'erreur : ==cliquez sur Répondre à tous== et observez qui se retrouve destinataire.",
+      "setup": {
+        "courrier": {
+          "messageActif": "m-remarque"
+        }
+      },
+      "action": {
+        "type": "O_CLICK_CONTROL",
+        "control": "cr-repondre-tous"
+      },
+      "aide": {
+        "text": "Le deuxième bouton de la barre du haut, comme tout à l'heure."
+      }
+    },
+    {
+      "id": "O02-L02-07",
+      "consigne": "==Ne gardez que Nadia dans le champ À, et videz le champ Cc.== Cinq destinataires, dont deux à l'école : votre remarque interne partirait chez le client. **Rien n'est perdu, une réponse se corrige.**",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "a": {
+            "contient": [
+              "n.kerbaj@atelier-nord.fr"
+            ],
+            "absent": [
+              "r.tissot@ecole-arts-lambersart.fr",
+              "direction@ecole-arts-lambersart.fr"
+            ]
+          },
+          "cc": {
+            "vide": true
+          }
+        }
+      },
+      "aide": {
+        "text": "Effacez le contenu du champ Cc, puis ne laissez dans le champ À que l'adresse de Nadia."
+      }
+    },
+    {
+      "id": "O02-L02-08",
+      "consigne": "==Envoyez.== Le réflexe à garder : après « Répondre à tous », **relire la ligne des destinataires avant le texte**. C'est le seul moment où l'erreur est encore réparable.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "n.kerbaj@atelier-nord.fr"
+            ],
+            "absent": [
+              "r.tissot@ecole-arts-lambersart.fr",
+              "direction@ecole-arts-lambersart.fr"
+            ]
+          },
+          "cc": {
+            "vide": true
+          }
+        }
+      },
+      "aide": {
+        "text": "Le bouton Envoyer, une fois les destinataires ramenés à la seule personne concernée."
+      }
+    }
+  ]
+}

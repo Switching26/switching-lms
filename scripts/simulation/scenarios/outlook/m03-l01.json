@@ -1,0 +1,151 @@
+{
+  "schemaVersion": 1,
+  "title": "Ouvrir son agenda et poser un rendez-vous",
+  "mode": "LESSON",
+  "moduleTitle": "Le calendrier : rendez-vous et invitations",
+  "intro": {
+    "title": "La semaine du chantier de Lambersart",
+    "body": "Outlook ne sert pas qu'au courrier : le même écran porte votre agenda. Trois rendez-vous sont à poser cette semaine — la prise de mesures, la livraison des panneaux, la pose du comptoir. Vous allez apprendre à les créer, et à voir d'un coup d'œil une journée qui en contient déjà deux."
+  },
+  "outro": {
+    "body": "Un rendez-vous se résume à cinq informations : ce que c'est, quel jour, de quelle heure à quelle heure, et où. C'est peu, et c'est exactement ce qui manque quand on note un rendez-vous sur un carnet : l'heure de fin, qui dit si l'après-midi est libre, et le lieu, qui évite l'appel de dix heures moins cinq."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "clients",
+        "nom": "Clients 2026"
+      }
+    ],
+    "messages": [
+      {
+        "id": "m-planning",
+        "dossier": "reception",
+        "de": "r.tissot@ecole-arts-lambersart.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Comptoir — organisation de la semaine",
+        "corps": "Bonjour,\n\nPour récapituler notre échange :\n- prise de mesures le mardi 3 mars, de 9 h à 11 h,\n- livraison des panneaux le jeudi 5 mars, de 8 h à 9 h,\n- pose du comptoir le jeudi 5 mars, de 14 h à 17 h.\nTout se passe à l'accueil de l'école.\n\nBien cordialement,\nRémi Tissot",
+        "date": "2026-03-02T08:00",
+        "lu": true
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O03-L01-01",
+      "consigne": "==Basculez sur le Calendrier.== Rémi vous a récapitulé la semaine par message ; il faut maintenant la poser dans votre agenda, sinon elle n'existe que dans un fil de discussion.",
+      "action": {
+        "type": "O_CLICK_CONTROL",
+        "control": "cr-vue-calendrier"
+      },
+      "aide": {
+        "text": "Sur ordinateur, l'icône du calendrier est en bas de la colonne des dossiers ; sur téléphone, dans la barre du bas."
+      }
+    },
+    {
+      "id": "O03-L01-02",
+      "consigne": "Voici la semaine du 2 mars, du lundi au vendredi, encore vide. ==Cliquez sur Nouveau rendez-vous== : une fiche s'ouvre avec les cinq seules informations qui comptent.",
+      "action": {
+        "type": "O_CLICK_CONTROL",
+        "control": "cr-nouveau-rdv"
+      },
+      "aide": {
+        "text": "Le bouton Nouveau rendez-vous est en haut à gauche de la vue Calendrier."
+      }
+    },
+    {
+      "id": "O03-L01-03",
+      "consigne": "==Renseignez la prise de mesures== : objet `Prise de mesures — comptoir`, le **mardi 3 mars 2026**, de **09:00** à **11:00**, lieu `École des Arts de Lambersart`. Puis enregistrez : le rendez-vous n'existe qu'une fois enregistré.",
+      "action": {
+        "type": "O_EXPECT_CALENDRIER",
+        "calendrier": {
+          "titre": "Prise de mesures — comptoir",
+          "date": "2026-03-03",
+          "debut": "09:00",
+          "fin": "11:00",
+          "lieu": "École des Arts de Lambersart"
+        }
+      },
+      "aide": {
+        "text": "Remplissez les cinq champs de la fiche, puis cliquez sur Enregistrer en bas à droite."
+      }
+    },
+    {
+      "id": "O03-L01-04",
+      "consigne": "Le rendez-vous apparaît dans la colonne du mardi. ==Ouvrez une nouvelle fiche== pour la livraison des panneaux.",
+      "action": {
+        "type": "O_CLICK_CONTROL",
+        "control": "cr-nouveau-rdv"
+      },
+      "aide": {
+        "text": "Le même bouton Nouveau rendez-vous, en haut de la vue Calendrier."
+      }
+    },
+    {
+      "id": "O03-L01-05",
+      "consigne": "==Posez la livraison== : objet `Livraison des panneaux`, le **jeudi 5 mars 2026**, de **08:00** à **09:00**, lieu `École des Arts de Lambersart`. Une heure suffit : mieux vaut un créneau juste qu'une matinée entière bloquée pour rien.",
+      "action": {
+        "type": "O_EXPECT_CALENDRIER",
+        "calendrier": {
+          "titre": "Livraison des panneaux",
+          "date": "2026-03-05",
+          "debut": "08:00",
+          "fin": "09:00",
+          "lieu": "École des Arts de Lambersart"
+        }
+      },
+      "aide": {
+        "text": "Même fiche que précédemment, avec la date du jeudi 5 mars."
+      }
+    },
+    {
+      "id": "O03-L01-06",
+      "consigne": "Reste la pose, le même jour. ==Ouvrez une troisième fiche== : deux rendez-vous peuvent parfaitement cohabiter dans une journée, tant que leurs horaires ne se chevauchent pas.",
+      "action": {
+        "type": "O_CLICK_CONTROL",
+        "control": "cr-nouveau-rdv"
+      },
+      "aide": {
+        "text": "Toujours le bouton Nouveau rendez-vous."
+      }
+    },
+    {
+      "id": "O03-L01-07",
+      "consigne": "==Posez la pose du comptoir== : objet `Pose du comptoir`, le **jeudi 5 mars 2026**, de **14:00** à **17:00**, lieu `École des Arts de Lambersart`. La colonne du jeudi porte maintenant deux blocs, l'un le matin, l'autre l'après-midi.",
+      "action": {
+        "type": "O_EXPECT_CALENDRIER",
+        "calendrier": {
+          "titre": "Pose du comptoir",
+          "date": "2026-03-05",
+          "debut": "14:00",
+          "fin": "17:00",
+          "lieu": "École des Arts de Lambersart"
+        }
+      },
+      "aide": {
+        "text": "Même fiche, jeudi 5 mars, mais sur le créneau de l'après-midi."
+      }
+    },
+    {
+      "id": "O03-L01-08",
+      "consigne": "Votre semaine est lisible d'un coup d'œil : deux jours occupés, trois libres. ==Revenez au Courrier== — votre boîte n'a pas bougé pendant que vous étiez dans l'agenda.",
+      "action": {
+        "type": "O_CLICK_CONTROL",
+        "control": "cr-vue-courrier"
+      },
+      "aide": {
+        "text": "Le bouton Courrier est à côté de celui du Calendrier."
+      }
+    }
+  ]
+}

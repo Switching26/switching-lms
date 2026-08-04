@@ -1,0 +1,98 @@
+{
+ "schemaVersion": 1,
+ "app": "WORD",
+ "title": "Poser un lien sur un passage",
+ "mode": "LESSON",
+ "moduleTitle": "Les liens hypertexte",
+ "intro": {
+  "title": "UNE ADRESSE ÉCRITE EN TOUTES LETTRES EST UNE ADRESSE ILLISIBLE",
+  "body": "Coller « https://www.service-public.fr/particuliers/vosdroits/F1234 » dans une phrase la casse en deux. Le **lien hypertexte** attache l'adresse à des mots choisis : le lecteur voit « le site officiel », et le clic l'emmène au bon endroit."
+ },
+ "outro": "Un lien se pose sur une SÉLECTION : on choisit d'abord les mots, on donne l'adresse ensuite. C'est l'ordre inverse de ce que font la plupart des débutants, et c'est la seule façon dont Word l'accepte.",
+ "document": {
+  "paragraphes": [
+   {
+    "texte": "Note d'information aux salariés",
+    "style": "titre"
+   },
+   {
+    "texte": "Les démarches administratives se font désormais en ligne.",
+    "style": "normal"
+   },
+   {
+    "texte": "Le texte de référence est publié sur Légifrance.",
+    "style": "normal"
+   },
+   {
+    "texte": "Pour toute question, écrivez au secrétariat.",
+    "style": "normal"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "id": "M19-L01-01",
+   "points": 0,
+   "action": {
+    "type": "READ"
+   },
+   "consigne": "Un lien tient en deux parties : le **texte affiché**, que le lecteur voit, et l'**adresse**, qui reste cachée. Le texte doit dire où l'on va — « le site officiel », « notre catalogue » — jamais « cliquez ici », qui n'apprend rien au lecteur.",
+   "montrer": [
+    {
+     "type": "W_CLICK_CONTROL",
+     "controle": "w-inserer-lien"
+    }
+   ],
+   "feedback": "Deux parties : ce qu'on lit, et où l'on va."
+  },
+  {
+   "id": "M19-L01-02",
+   "consigne": "==Sélectionnez le mot « Légifrance »== dans le troisième paragraphe. C'est ce mot qui portera le lien : on choisit toujours le texte AVANT de donner l'adresse.",
+   "action": {
+    "type": "W_SELECT_TEXT",
+    "zone": "texte:Légifrance"
+   },
+   "aide": {
+    "text": "Double-cliquez sur le mot « Légifrance ».",
+    "showTarget": true
+   },
+   "feedback": "Le passage est sélectionné : Word sait maintenant quoi lier."
+  },
+  {
+   "id": "M19-L01-03",
+   "consigne": "==Posez un lien vers legifrance.gouv.fr.== Ouvrez la boîte « Lien », saisissez l'adresse, validez. Le mot devient cliquable sans que l'adresse encombre la phrase.",
+   "action": {
+    "type": "W_EXPECT_LIEN",
+    "url": "https://www.legifrance.gouv.fr"
+   },
+   "aide": {
+    "text": "Onglet « Insertion », bouton « Lien », puis l'adresse, puis « Valider ».",
+    "showTarget": true
+   },
+   "feedback": "Le lien est posé : la phrase reste lisible."
+  },
+  {
+   "id": "M19-L01-04",
+   "points": 0,
+   "action": {
+    "type": "READ"
+   },
+   "consigne": "Remarquez ce que la boîte affichait : le **texte sélectionné**, en haut. S'il avait été vide, elle vous aurait arrêté — un lien sans texte n'a rien à envelopper. C'est l'erreur la plus fréquente : ouvrir la boîte avant d'avoir sélectionné.",
+   "feedback": "Pas de sélection, pas de lien."
+  },
+  {
+   "id": "M19-L01-05",
+   "consigne": "L'adresse a changé de site. ==Retirez le lien== : le texte reste, seule l'adresse disparaît.",
+   "action": {
+    "type": "W_EXPECT_LIEN",
+    "url": "https://www.legifrance.gouv.fr",
+    "absent": true
+   },
+   "aide": {
+    "text": "Onglet « Insertion », bouton « Retirer le lien ».",
+    "showTarget": true
+   },
+   "feedback": "Le texte est intact, le lien est parti."
+  }
+ ]
+}

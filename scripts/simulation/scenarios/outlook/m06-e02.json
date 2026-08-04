@@ -1,0 +1,261 @@
+{
+  "schemaVersion": 1,
+  "title": "Une relance et une réponse, deux tons différents",
+  "mode": "EXERCISE",
+  "moduleTitle": "Écrire un message qu'on lit vraiment",
+  "intro": {
+    "title": "Deux messages à écrire avant midi",
+    "body": "Un fournisseur ne vous a pas livré, un client attend une confirmation. Le premier appelle une relance ferme mais courtoise, le second une réponse brève et rassurante. Même boîte, même clavier, deux registres différents — et la même exigence : l'information exacte, du premier coup."
+  },
+  "outro": {
+    "body": "Fermeté et courtoisie ne s'opposent pas : ce qui rend une relance efficace, ce sont les faits — une date, une référence, une conséquence — pas le ton. Et une confirmation courte vaut mieux qu'un long message qui noie la seule information attendue."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "clients",
+        "nom": "Clients 2026"
+      },
+      {
+        "id": "fournisseurs",
+        "nom": "Fournisseurs"
+      }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "messages": [
+      {
+        "id": "m-retard",
+        "dossier": "reception",
+        "de": "compta@quincaillerie-delmas.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Commande CD-1204 — expédition en cours",
+        "corps": "Bonjour,\n\nVotre commande CD-1204 est en cours d'expédition. Livraison annoncée le 20 mars.\n\nQuincaillerie Delmas",
+        "date": "2026-03-16T11:00",
+        "lu": true
+      },
+      {
+        "id": "m-client",
+        "dossier": "reception",
+        "de": "r.tissot@ecole-arts-lambersart.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Comptoir — la pose de jeudi tient toujours ?",
+        "corps": "Bonjour,\n\nNous devons prévenir l'accueil : la pose de jeudi est-elle confirmée ?\n\nRémi Tissot",
+        "date": "2026-03-26T07:50",
+        "lu": false
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O06-E02-01",
+      "consigne": "La commande CD-1204 devait arriver le 20 mars, nous sommes le 26. Relancez le fournisseur en répondant à son message d'expédition.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "genre": "reponse",
+          "a": {
+            "contient": [
+              "compta@quincaillerie-delmas.fr"
+            ]
+          },
+          "cc": {
+            "vide": true
+          }
+        }
+      },
+      "aide": {
+        "text": "Ouvrez son message dans la liste, puis Répondre : le fil de la commande est conservé."
+      }
+    },
+    {
+      "id": "O06-E02-02",
+      "consigne": "Écrivez la relance et envoyez-la. Elle doit citer **la référence de la commande**, **la date de livraison annoncée**, et rester factuelle — aucune formule d'impatience.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "compta@quincaillerie-delmas.fr"
+            ]
+          },
+          "cc": {
+            "vide": true
+          },
+          "corps": {
+            "salutation": [
+              "bonjour",
+              "madame",
+              "monsieur",
+              "bonsoir"
+            ],
+            "cloture": [
+              "cordialement",
+              "salutations",
+              "bien a vous",
+              "merci"
+            ],
+            "notions": [
+              {
+                "libelle": "la référence de la commande",
+                "oneOf": [
+                  "cd-1204",
+                  "1204"
+                ]
+              },
+              {
+                "libelle": "la date de livraison annoncée",
+                "oneOf": [
+                  "20 mars",
+                  "20/03",
+                  "le 20"
+                ]
+              }
+            ],
+            "interdit": [
+              {
+                "libelle": "une formule d'impatience",
+                "oneOf": [
+                  "inadmissible",
+                  "toujours rien",
+                  "je m'etonne",
+                  "inacceptable",
+                  "scandaleux"
+                ]
+              }
+            ],
+            "minMots": 12
+          }
+        }
+      },
+      "aide": {
+        "text": "Deux informations sont attendues : la référence, et la date annoncée."
+      }
+    },
+    {
+      "id": "O06-E02-03",
+      "consigne": "Second message : Rémi Tissot demande si la pose de jeudi est confirmée. Répondez-lui — à lui seul.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "genre": "reponse",
+          "a": {
+            "contient": [
+              "r.tissot@ecole-arts-lambersart.fr"
+            ]
+          },
+          "cc": {
+            "vide": true
+          }
+        }
+      },
+      "aide": {
+        "text": "Ouvrez son message, puis Répondre."
+      }
+    },
+    {
+      "id": "O06-E02-04",
+      "consigne": "Complétez l'objet avec le mot `confirmée` : il doit porter la réponse à lui seul, pour l'accueil qui la lira en diagonale.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "objet": {
+            "prefixe": "RE",
+            "contient": [
+              "confirmee"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Ajoutez le mot à la fin de l'objet. Les accents ne sont pas pris en compte."
+      }
+    },
+    {
+      "id": "O06-E02-05",
+      "consigne": "Écrivez la confirmation et envoyez. Deux informations suffisent : **le jour** et **l'heure d'arrivée** sur place. Trois lignes valent mieux qu'un paragraphe.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "r.tissot@ecole-arts-lambersart.fr"
+            ]
+          },
+          "cc": {
+            "vide": true
+          },
+          "objet": {
+            "prefixe": "RE",
+            "contient": [
+              "confirmee"
+            ]
+          },
+          "corps": {
+            "salutation": [
+              "bonjour",
+              "madame",
+              "monsieur",
+              "bonsoir"
+            ],
+            "cloture": [
+              "cordialement",
+              "salutations",
+              "bien a vous",
+              "merci"
+            ],
+            "notions": [
+              {
+                "libelle": "le jour de la pose",
+                "oneOf": [
+                  "jeudi",
+                  "5 mars",
+                  "26",
+                  "27",
+                  "28"
+                ]
+              },
+              {
+                "libelle": "l'heure d'arrivée sur place",
+                "oneOf": [
+                  "h",
+                  "heure",
+                  "matin",
+                  "apres-midi",
+                  "apres midi"
+                ]
+              }
+            ],
+            "minMots": 10
+          }
+        }
+      },
+      "aide": {
+        "text": "Deux informations sont attendues : le jour, et l'heure."
+      }
+    }
+  ]
+}

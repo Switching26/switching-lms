@@ -1,0 +1,236 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "mode": "EXERCISE",
+  "moduleTitle": "Cas pratique : la réunion de lundi",
+  "title": "Exercice — Finir et contrôler",
+  "intro": {
+    "title": "Exercice — Finir et contrôler",
+    "body": "Le fond ne bougera plus : place à la finition. Traitez les deux sections à l'identique, alignez les listes, posez une transition unique, et déroulez la présentation une fois."
+  },
+  "outro": {
+    "body": "Traitée, habillée, déroulée : la présentation peut partir en réunion."
+  },
+  "ppt": {
+    "fileName": "Bilan de chantier.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Verdeval",
+          "sous-titre": "Bilan de chantier du 18 juin"
+        }
+      },
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "1. Ce qui a été livré"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "420 m2 replantés",
+          "contenu": "420 m2 replantés\n60 mètres d'allée\nArrosage automatique posé"
+        }
+      },
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "2. Ce qui reste à faire"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Deux semaines de finitions",
+          "contenu": "Plantation des haies\nRéception du chantier"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M08-E03-01",
+      "consigne": "Affichez la première section.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 1
+      }
+    },
+    {
+      "id": "M08-E03-02",
+      "consigne": "Une section doit se voir de loin : traitez son titre en conséquence.",
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "ph:titre",
+        "style": {
+          "bold": true
+        }
+      },
+      "aide": {
+        "text": "Sélectionnez le titre, puis le bouton G du groupe Police."
+      }
+    },
+    {
+      "id": "M08-E03-03",
+      "consigne": "Affichez la seconde section.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 3
+      }
+    },
+    {
+      "id": "M08-E03-04",
+      "consigne": "Appliquez-lui exactement le même traitement.",
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "ph:titre",
+        "style": {
+          "bold": true
+        }
+      }
+    },
+    {
+      "id": "M08-E03-05",
+      "consigne": "Affichez la diapositive des surfaces livrées.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 2
+      }
+    },
+    {
+      "id": "M08-E03-06",
+      "consigne": "Donnez à sa liste l'alignement qui aligne les débuts de ligne.",
+      "setupPpt": {
+        "slide": 2
+      },
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "ph:contenu",
+        "style": {
+          "align": "left"
+        }
+      }
+    },
+    {
+      "id": "M08-E03-07",
+      "consigne": "Posez sur cette diapositive l'effet d'enchaînement le plus discret.",
+      "setupPpt": {
+        "slide": 2
+      },
+      "action": {
+        "type": "P_EXPECT_DECK",
+        "deck": {
+          "slides": [
+            {
+              "index": 2,
+              "transition": {
+                "kind": "fondu"
+              }
+            }
+          ]
+        }
+      },
+      "aide": {
+        "text": "Groupe Transitions, bouton Fondu."
+      }
+    },
+    {
+      "id": "M08-E03-08",
+      "consigne": "Affichez la diapositive des finitions et posez-y le même effet.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 4
+      }
+    },
+    {
+      "id": "M08-E03-09",
+      "consigne": "Le même, pas un autre : un effet différent d'une diapositive à l'autre paraît bricolé.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Bilan de chantier du 18 juin"
+              }
+            },
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "1. Ce qui a été livré"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "420 m2 replantés",
+                "contenu": "420 m2 replantés\n60 mètres d'allée\nArrosage automatique posé"
+              },
+              "transition": {
+                "kind": "fondu",
+                "duree": 0.7
+              }
+            },
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "2. Ce qui reste à faire"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Deux semaines de finitions",
+                "contenu": "Plantation des haies\nRéception du chantier"
+              }
+            }
+          ]
+        },
+        "slide": 4
+      },
+      "action": {
+        "type": "P_EXPECT_DECK",
+        "deck": {
+          "slides": [
+            {
+              "index": 4,
+              "transition": {
+                "kind": "fondu"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "M08-E03-10",
+      "consigne": "Déroulez la présentation depuis le début avant de la considérer prête.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": true,
+          "index": 0
+        }
+      }
+    },
+    {
+      "id": "M08-E03-11",
+      "consigne": "Quittez le diaporama.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": false
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,220 @@
+{
+  "schemaVersion": 1,
+  "title": "Le premier message d'un litige",
+  "mode": "EXERCISE",
+  "moduleTitle": "Traiter une réclamation par écrit",
+  "intro": {
+    "title": "Un client en colère écrit à 7 h 30",
+    "body": "Vous n'avez pas encore vu le chantier. Vous ne pouvez donc ni reconnaître, ni contester. Il vous reste le plus utile : répondre vite, annoncer une vérification, donner une date, et prévenir la gérante."
+  },
+  "outro": {
+    "body": "Écrire vite sans rien concéder est un exercice précis. Toute phrase du type « c'est de notre faute » écrite avant d'avoir vu vaut reconnaissance, et ce message circulera bien au-delà de votre boîte."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "litiges",
+        "nom": "Réclamations"
+      },
+      {
+        "id": "clients",
+        "nom": "Clients 2026"
+      }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "fichiers": [
+      {
+        "nom": "Constat-chantier-Leroux.pdf",
+        "taille": "420 Ko"
+      },
+      {
+        "nom": "Devis-2026-174.pdf",
+        "taille": "180 Ko"
+      },
+      {
+        "nom": "Notes-internes-Leroux.pdf",
+        "taille": "64 Ko"
+      },
+      {
+        "nom": "Photos-panneau-raye.jpg",
+        "taille": "1,4 Mo"
+      }
+    ],
+    "messages": [
+      {
+        "id": "m-colere",
+        "dossier": "reception",
+        "de": "j.leroux@habitat-du-nord.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Ce n'est pas acceptable",
+        "corps": "Bonjour,\n\nLe panneau posé mardi est rayé et le joint du bas ne tient pas. Locataires jeudi.\n\nJulien Leroux\nHabitat du Nord",
+        "date": "2026-04-16T07:35",
+        "lu": false
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O14-E01-01",
+      "consigne": "Répondez à Julien Leroux en associant la gérante `n.kerbaj@atelier-nord.fr` sur la ligne de ceux qui doivent seulement **savoir**.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "genre": "reponse",
+          "a": {
+            "contient": [
+              "j.leroux@habitat-du-nord.fr"
+            ],
+            "absent": [
+              "n.kerbaj@atelier-nord.fr"
+            ]
+          },
+          "cc": {
+            "contient": [
+              "n.kerbaj@atelier-nord.fr"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Ouvrez le message, Répondre, puis renseignez le champ Cc."
+      }
+    },
+    {
+      "id": "O14-E01-02",
+      "consigne": "Complétez l'objet avec le mot `réclamation`, en gardant le préfixe posé par Outlook.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "objet": {
+            "prefixe": "RE",
+            "contient": [
+              "réclamation"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Ajoutez le mot à la fin de l'objet existant."
+      }
+    },
+    {
+      "id": "O14-E01-03",
+      "consigne": "Rédigez le message et envoyez-le. Il doit annoncer **une vérification** et **une date de retour** — et ne reconnaître aucune responsabilité.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "j.leroux@habitat-du-nord.fr"
+            ]
+          },
+          "cc": {
+            "contient": [
+              "n.kerbaj@atelier-nord.fr"
+            ]
+          },
+          "objet": {
+            "prefixe": "RE",
+            "contient": [
+              "réclamation"
+            ]
+          },
+          "corps": {
+            "salutation": [
+              "bonjour",
+              "madame",
+              "monsieur",
+              "bonsoir"
+            ],
+            "cloture": [
+              "cordialement",
+              "salutations",
+              "bien a vous",
+              "merci"
+            ],
+            "notions": [
+              {
+                "libelle": "l'annonce d'une vérification",
+                "oneOf": [
+                  "verifier",
+                  "verification",
+                  "constater",
+                  "constat",
+                  "passer sur place",
+                  "venir voir",
+                  "examiner"
+                ]
+              },
+              {
+                "libelle": "une date de retour",
+                "oneOf": [
+                  "jeudi",
+                  "mercredi",
+                  "demain",
+                  "avant jeudi",
+                  "d'ici",
+                  "des demain"
+                ]
+              }
+            ],
+            "interdit": [
+              {
+                "libelle": "une reconnaissance de responsabilité prématurée",
+                "oneOf": [
+                  "c'est de notre faute",
+                  "nous sommes responsables",
+                  "nous vous remboursons",
+                  "erreur de notre part",
+                  "nous reconnaissons"
+                ]
+              }
+            ],
+            "minMots": 18
+          }
+        }
+      },
+      "aide": {
+        "text": "Deux informations sont attendues : la vérification et la date."
+      }
+    },
+    {
+      "id": "O14-E01-04",
+      "consigne": "Marquez la réclamation comme restant à traiter : vous vous êtes engagée sur une date.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-colere": {
+              "dossier": "reception",
+              "indicateur": true
+            }
+          }
+        }
+      },
+      "aide": {
+        "text": "Le drapeau, dans la barre du haut du volet de lecture."
+      }
+    }
+  ]
+}

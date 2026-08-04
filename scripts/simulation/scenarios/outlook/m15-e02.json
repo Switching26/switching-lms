@@ -1,0 +1,214 @@
+{
+  "schemaVersion": 1,
+  "title": "Un écart entre le bon et la facture",
+  "mode": "EXERCISE",
+  "moduleTitle": "Commander, relancer, contester chez un fournisseur",
+  "intro": {
+    "title": "Huit charnières de trop",
+    "body": "La facture arrive avec la pièce jointe. Le bon de livraison est sur votre poste. L'écart est net — reste à le contester au bon service, avec la bonne preuve, et à ranger le dossier."
+  },
+  "outro": {
+    "body": "Deux erreurs se paient cher ici : écrire au service des commandes plutôt qu'à la comptabilité, et joindre le classeur de marges au lieu du bon de livraison. La première fait perdre une semaine, la seconde donne vos prix d'achat au fournisseur."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "achats",
+        "nom": "Achats"
+      },
+      {
+        "id": "factures",
+        "nom": "Factures fournisseurs"
+      }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "fichiers": [
+      {
+        "nom": "Bon-de-livraison-BL-4471.pdf",
+        "taille": "148 Ko"
+      },
+      {
+        "nom": "Facture-DEL-2026-0312.pdf",
+        "taille": "165 Ko"
+      },
+      {
+        "nom": "Plan-de-pose-mediatheque.pdf",
+        "taille": "810 Ko"
+      },
+      {
+        "nom": "Marges-atelier-2026.xlsx",
+        "taille": "72 Ko"
+      }
+    ],
+    "messages": [
+      {
+        "id": "m-releve",
+        "dossier": "reception",
+        "de": "compta@quincaillerie-delmas.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Votre relevé du mois",
+        "corps": "Bonjour,\n\nFacture DEL-2026-0312, commande CDE-8802.\n\nQuincaillerie Delmas — Comptabilité",
+        "date": "2026-04-28T09:00",
+        "lu": false,
+        "pieces": [
+          {
+            "nom": "Facture-DEL-2026-0312.pdf",
+            "taille": "165 Ko"
+          }
+        ]
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O15-E02-01",
+      "consigne": "Répondez au service qui a émis la facture, en joignant la pièce qui prouve les quantités reçues.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "genre": "reponse",
+          "a": {
+            "contient": [
+              "compta@quincaillerie-delmas.fr"
+            ],
+            "absent": [
+              "commandes@quincaillerie-delmas.fr"
+            ]
+          },
+          "pieces": {
+            "contient": [
+              "Bon-de-livraison-BL-4471.pdf"
+            ],
+            "absent": [
+              "Marges-atelier-2026.xlsx"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Répondre vise l'expéditeur. Le bon de livraison porte le numéro BL-4471."
+      }
+    },
+    {
+      "id": "O15-E02-02",
+      "consigne": "Complétez l'objet avec le mot `écart`, en gardant le préfixe posé par Outlook.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "objet": {
+            "prefixe": "RE",
+            "contient": [
+              "écart"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Ajoutez le mot à la fin de l'objet existant."
+      }
+    },
+    {
+      "id": "O15-E02-03",
+      "consigne": "Rédigez la contestation et envoyez-la. Elle doit citer **le numéro de facture** et **ce que vous demandez**.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "compta@quincaillerie-delmas.fr"
+            ]
+          },
+          "objet": {
+            "prefixe": "RE",
+            "contient": [
+              "écart"
+            ]
+          },
+          "pieces": {
+            "contient": [
+              "Bon-de-livraison-BL-4471.pdf"
+            ],
+            "absent": [
+              "Marges-atelier-2026.xlsx"
+            ]
+          },
+          "corps": {
+            "salutation": [
+              "bonjour",
+              "madame",
+              "monsieur",
+              "bonsoir"
+            ],
+            "cloture": [
+              "cordialement",
+              "salutations",
+              "bien a vous",
+              "merci"
+            ],
+            "notions": [
+              {
+                "libelle": "le numéro de facture",
+                "oneOf": [
+                  "del-2026-0312",
+                  "2026-0312",
+                  "0312"
+                ]
+              },
+              {
+                "libelle": "ce que vous demandez",
+                "oneOf": [
+                  "avoir",
+                  "facture rectificative",
+                  "rectification",
+                  "corriger",
+                  "regularisation"
+                ]
+              }
+            ],
+            "minMots": 20
+          }
+        }
+      },
+      "aide": {
+        "text": "Deux informations sont attendues : le numéro, et la demande."
+      }
+    },
+    {
+      "id": "O15-E02-04",
+      "consigne": "Rangez la facture contestée avec les autres factures du fournisseur.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-releve": {
+              "dossier": "factures"
+            }
+          }
+        }
+      },
+      "aide": {
+        "text": "Déplacer, puis Factures fournisseurs."
+      }
+    }
+  ]
+}

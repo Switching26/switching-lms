@@ -1,0 +1,477 @@
+/**
+ * Le document Word, vu par le simulateur — modèle déclaratif, lecture du modèle
+ * du moteur, et résolution des zones.
+ *
+ * ⚠️ CE MODULE EST PUR. Ni React, ni DOM, ni Univer. C'est une exigence, pas un
+ * style : le juge des évaluations notées tourne aussi CÔTÉ SERVEUR, sur la
+ * route `/api/simulations/[chapterId]/verify`, et Univer n'est pas importable
+ * côté serveur — son moteur de rendu casse à l'import Node. Un seul `import`
+ * d'un paquet `@univerjs/*` ici et toutes les évaluations Word deviendraient
+ * incorrigibles en production.
+ *
+ * Conséquence directe : les valeurs que le moteur stocke sont RECOPIÉES ici, et
+ * chacune a été mesurée dans un vrai navigateur (banc 8862, Univer 0.25.1). Une
+ * valeur devinée produirait un juge faux SANS ERREUR VISIBLE — la formation
+ * continuerait de se jouer normalement avec des verdicts absurdes.
+ */
+
+import type { WordParagrapheObserve, WordPlage, WordRunObserve } from "./observations"
+import { normaliserTypographie } from "./typo-fr"
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   CE QUE LE MOTEUR STOCKE — relevé au banc, geste par geste
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/**
+ * `paragraphStyle.namedStyleType`, mesuré en appliquant chaque commande de
+ * style puis en relisant `getSnapshot()`.
+ *
+ * « Normal » est le SEUL qui ne pose aucune valeur : la commande RETIRE la clé
+ * au lieu d'écrire 1. Un juge qui chercherait `namedStyleType === 1` pour
+ * « Normal » refuserait donc un paragraphe parfaitement normal.
+ */
+const STYLE_PAR_CODE: Record<number, string> = {
+  2: "Titre",
+  3: "Sous-titre",
+  4: "Titre 1",
+  5: "Titre 2",
+  6: "Titre 3",
+  7: "Titre 4",
+  8: "Titre 5",
+}
+/** Le libellé français d'un paragraphe sans `namedStyleType`. */
+export const STYLE_NORMAL = "Normal"
+
+/** `paragraphStyle.horizontalAlign`, mesuré : 1 gauche · 2 centre · 3 droite · 4 justifié. */
+const ALIGNEMENT_PAR_CODE: Record<number, WordParagrapheObserve["alignement"]> = {
+  1: "gauche",
+  2: "centre",
+  3: "droite",
+  4: "justifie",
+}
+
+/** `bullet.listType`, mesuré. */
+const LISTE_PAR_CODE: Record<string, WordParagrapheObserve["liste"]> = {
+  BULLET_LIST: "puces",
+  ORDER_LIST: "numerotee",
+  CHECK_LIST: "controle",
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   LE DOCUMENT DÉCLARÉ PAR UN SCÉNARIO
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/** Un paragraphe, tel qu'un auteur de scénario l'écrit. */
+export type WordParagrapheDeclare = {
+  texte: string
+  style?: string
+  alignement?: WordParagrapheObserve["alignement"]
+  liste?: WordParagrapheObserve["liste"]
+  /** Mise en forme appliquée à TOUT le paragraphe, pour un état de départ. */
+  format?: WordRunObserve
+}
+
+/** L'état de départ d'un document, déclaré par le scénario. */
+export type WordDocumentState = {
+  paragraphes: WordParagrapheDeclare[]
+  page?: {
+    orientation?: "portrait" | "paysage"
+    margeHaut?: number
+    margeBas?: number
+    margeGauche?: number
+    margeDroite?: number
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   CONSTRUIRE LE CORPS QUE LE MOTEUR ATTEND
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/** Un corps Univer, décrit sans importer Univer. */
+export type CorpsUniver = {
+  dataStream: string
+  textRuns: { st: number; ed: number; ts: Record<string, unknown> }[]
+  paragraphs: { startIndex: number; paragraphStyle?: Record<string, unknown>; bullet?: Record<string, unknown> }[]
+  sectionBreaks: { startIndex: number }[]
+  /**
+   * 🔴 OBLIGATOIRE, MÊME VIDE — sinon l'insertion de tableau échoue.
+   *
+   * `doc.command.create-table` construit une opération JSON qui écrit dans
+   * `body.tables` et dans `tableSource`. Une opération d'insertion sur un
+   * chemin ABSENT lève « Cannot insert into missing item » : le tableau ne se
+   * pose pas, et l'erreur ne dit rien du chemin fautif. Un tableau vide suffit
+   * à ouvrir le chemin.
+   */
+  tables: unknown[]
+}
+
+const CODE_PAR_STYLE: Record<string, number> = Object.fromEntries(
+  Object.entries(STYLE_PAR_CODE).map(([k, v]) => [v.toLowerCase(), Number(k)]),
+)
+const CODE_PAR_ALIGNEMENT: Record<string, number> = { gauche: 1, centre: 2, droite: 3, justifie: 4 }
+const CODE_PAR_LISTE: Record<string, string> = {
+  puces: "BULLET_LIST",
+  numerotee: "ORDER_LIST",
+  controle: "CHECK_LIST",
+}
+
+/** Traduit un format lisible en attributs de caractère du moteur. */
+export function attributsDeFormat(f: WordRunObserve): Record<string, unknown> {
+  const ts: Record<string, unknown> = {}
+  if (f.gras) ts.bl = 1
+  if (f.italique) ts.it = 1
+  if (f.souligne) ts.ul = { s: 1 }
+  if (f.barre) ts.st = { s: 1 }
+  if (f.taille !== undefined) ts.fs = f.taille
+  if (f.police !== undefined) ts.ff = f.police
+  if (f.couleur !== undefined) ts.cl = { rgb: f.couleur }
+  if (f.surlignage !== undefined) ts.bg = { rgb: f.surlignage }
+  return ts
+}
+
+/**
+ * Construit le corps Univer d'un document déclaré.
+ *
+ * 🔴 LA CONVENTION QUI DÉCIDE DE TOUT, et qui a coûté une heure de fausse piste :
+ * un `dataStream` n'est pas du texte libre. Chaque paragraphe se TERMINE par
+ * `\r`, le document se termine par un `\n` de saut de section, et les DEUX
+ * tableaux `paragraphs` et `sectionBreaks` doivent porter l'index de ces
+ * marqueurs. S'ils manquent, rien ne casse et aucune erreur n'est levée — le
+ * squelette compose simplement ZÉRO page, et l'écran reste blanc alors que le
+ * modèle contient bien le texte. Le compteur de pixels, lui, disait « peint ».
+ */
+export function corpsUniver(etat: WordDocumentState): CorpsUniver {
+  let flux = ""
+  const paragraphs: CorpsUniver["paragraphs"] = []
+  const textRuns: CorpsUniver["textRuns"] = []
+
+  for (const p of etat.paragraphes) {
+    const debut = flux.length
+    flux += p.texte
+    if (p.format) {
+      const ts = attributsDeFormat(p.format)
+      if (Object.keys(ts).length > 0 && flux.length > debut) {
+        textRuns.push({ st: debut, ed: flux.length, ts })
+      }
+    }
+
+    const paragraphStyle: Record<string, unknown> = {}
+    const code = p.style ? CODE_PAR_STYLE[p.style.toLowerCase()] : undefined
+    if (code !== undefined) paragraphStyle.namedStyleType = code
+    if (p.alignement) paragraphStyle.horizontalAlign = CODE_PAR_ALIGNEMENT[p.alignement]
+
+    const entree: CorpsUniver["paragraphs"][number] = { startIndex: flux.length }
+    if (Object.keys(paragraphStyle).length > 0) entree.paragraphStyle = paragraphStyle
+    if (p.liste && p.liste !== "aucune") {
+      entree.bullet = { nestingLevel: 0, listType: CODE_PAR_LISTE[p.liste], listId: `l-${paragraphs.length}` }
+    }
+    paragraphs.push(entree)
+    flux += "\r"
+  }
+
+  const sectionBreaks = [{ startIndex: flux.length }]
+  flux += "\n"
+  return { dataStream: flux, textRuns, tables: [], paragraphs, sectionBreaks }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   LIRE LE MODÈLE DU MOTEUR
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/** Le corps d'un instantané, décrit sans importer Univer. */
+export type CorpsInstantane = {
+  dataStream?: string
+  textRuns?: { st: number; ed: number; ts?: Record<string, unknown> }[]
+  paragraphs?: {
+    startIndex: number
+    paragraphStyle?: { namedStyleType?: number; horizontalAlign?: number }
+    bullet?: { listType?: string }
+  }[]
+  tables?: unknown[]
+  tableSource?: Record<string, { tableRows?: unknown[]; tableColumns?: unknown[] }>
+}
+
+/** Un paragraphe lu, avec les bornes qui permettent de résoudre les zones. */
+export type ParagrapheLu = WordParagrapheObserve & { debut: number; fin: number }
+
+/**
+ * Découpe l'instantané en paragraphes lisibles.
+ *
+ * Les bornes sont celles du TEXTE, marqueur `\r` exclu : c'est ce qui permet à
+ * une zone `"p2"` de désigner le texte du paragraphe et rien d'autre.
+ */
+export function lireParagraphes(corps: CorpsInstantane): ParagrapheLu[] {
+  const flux = corps.dataStream ?? ""
+  const marques = corps.paragraphs ?? []
+  const lus: ParagrapheLu[] = []
+  let debut = 0
+
+  for (const m of marques) {
+    const fin = m.startIndex
+    if (fin < debut) continue
+    const code = m.paragraphStyle?.namedStyleType
+    lus.push({
+      debut,
+      fin,
+      texte: flux.slice(debut, fin),
+      style: (code !== undefined && STYLE_PAR_CODE[code]) || STYLE_NORMAL,
+      alignement: ALIGNEMENT_PAR_CODE[m.paragraphStyle?.horizontalAlign ?? 0] ?? "gauche",
+      liste: (m.bullet?.listType && LISTE_PAR_CODE[m.bullet.listType]) || "aucune",
+    })
+    debut = fin + 1
+  }
+  return lus
+}
+
+/** Attributs de caractère effectifs sur une plage, tels que le modèle les porte. */
+export function lireFormat(corps: CorpsInstantane, plage: WordPlage): WordRunObserve {
+  const runs = (corps.textRuns ?? []).filter((r) => r.st < plage.fin && r.ed > plage.debut)
+  if (runs.length === 0) return {}
+
+  /**
+   * Un attribut n'est retenu que s'il couvre TOUTE la plage.
+   *
+   * Sinon « le titre est en gras » serait vrai dès qu'une seule lettre l'est —
+   * et l'apprenant qui n'a mis en gras que la moitié du titre verrait son étape
+   * validée. C'est le genre d'indulgence qui vide une évaluation de son sens.
+   */
+  const couvreTout = (predicat: (ts: Record<string, unknown>) => boolean): boolean => {
+    let couvert = plage.debut
+    for (const r of runs.slice().sort((a, b) => a.st - b.st)) {
+      if (!predicat(r.ts ?? {})) continue
+      if (r.st > couvert) return false
+      couvert = Math.max(couvert, r.ed)
+    }
+    return couvert >= plage.fin
+  }
+
+  const premier = runs[0].ts ?? {}
+  const f: WordRunObserve = {}
+  if (couvreTout((ts) => ts.bl === 1)) f.gras = true
+  if (couvreTout((ts) => ts.it === 1)) f.italique = true
+  if (couvreTout((ts) => (ts.ul as { s?: number } | undefined)?.s === 1)) f.souligne = true
+  if (couvreTout((ts) => (ts.st as { s?: number } | undefined)?.s === 1)) f.barre = true
+  if (typeof premier.fs === "number" && couvreTout((ts) => ts.fs === premier.fs)) {
+    f.taille = premier.fs as number
+  }
+  if (typeof premier.ff === "string" && couvreTout((ts) => ts.ff === premier.ff)) {
+    f.police = premier.ff as string
+  }
+  const rgb = (premier.cl as { rgb?: string } | undefined)?.rgb
+  if (rgb && couvreTout((ts) => (ts.cl as { rgb?: string } | undefined)?.rgb === rgb)) {
+    f.couleur = rgb
+  }
+  const bg = (premier.bg as { rgb?: string } | undefined)?.rgb
+  if (bg && couvreTout((ts) => (ts.bg as { rgb?: string } | undefined)?.rgb === bg)) {
+    f.surlignage = bg
+  }
+  return f
+}
+
+/** Dimensions des tableaux présents, dans l'ordre du document. */
+export function lireTableaux(corps: CorpsInstantane): { lignes: number; colonnes: number }[] {
+  const source = corps.tableSource ?? {}
+  return Object.values(source).map((t) => ({
+    lignes: t.tableRows?.length ?? 0,
+    colonnes: t.tableColumns?.length ?? 0,
+  }))
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   LES ZONES — désigner un endroit sans écrire un numéro de caractère
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/**
+ * Résout une zone de scénario en intervalle de caractères.
+ *
+ * POURQUOI DES ZONES NOMMÉES plutôt que des offsets. Un scénario qui écrirait
+ * `{ debut: 417, fin: 431 }` serait illisible à la relecture, et surtout FAUX
+ * dès qu'un auteur ajoute une phrase plus haut : chaque correction de contenu
+ * décalerait des dizaines d'étapes en silence. C'est la même leçon que les
+ * identifiants d'étapes côté Excel — un repère stable vaut mieux qu'une
+ * position.
+ *
+ * Grammaire acceptée :
+ *   `doc`            le document entier
+ *   `p2`             le troisième paragraphe (base 0)
+ *   `p2:mot3`        le troisième mot de ce paragraphe (base 1, comme on compte)
+ *   `p2:4-11`        les caractères 4 à 11 DANS ce paragraphe
+ *   `texte:Rapport`  la première occurrence, insensible à la casse et aux accents
+ *
+ * Rend `null` quand la zone ne désigne rien — le juge doit alors REFUSER
+ * bruyamment plutôt que de deviner : une zone qui ne résout pas est une erreur
+ * d'auteur, pas une faute d'apprenant.
+ */
+export function resoudreZone(zone: string, paragraphes: ParagrapheLu[]): WordPlage | null {
+  const z = (zone ?? "").trim()
+  if (!z || z === "doc") {
+    if (paragraphes.length === 0) return null
+    return { debut: paragraphes[0].debut, fin: paragraphes[paragraphes.length - 1].fin }
+  }
+
+  if (z.startsWith("texte:")) {
+    const cherche = sansAccent(z.slice(6))
+    if (!cherche) return null
+    for (const p of paragraphes) {
+      const i = sansAccent(p.texte).indexOf(cherche)
+      if (i >= 0) return { debut: p.debut + i, fin: p.debut + i + cherche.length }
+    }
+    return null
+  }
+
+  const m = /^p(\d+)(?::(.+))?$/.exec(z)
+  if (!m) return null
+  const p = paragraphes[Number(m[1])]
+  if (!p) return null
+  const detail = m[2]
+  if (!detail) return { debut: p.debut, fin: p.fin }
+
+  const mot = /^mot(\d+)$/.exec(detail)
+  if (mot) {
+    const rang = Number(mot[1])
+    if (rang < 1) return null
+    // On repère les mots par leur position réelle dans le paragraphe : découper
+    // puis recomposer perdrait les espaces multiples et décalerait la plage.
+    const re = /[^\s]+/g
+    let trouve: RegExpExecArray | null
+    let n = 0
+    while ((trouve = re.exec(p.texte)) !== null) {
+      n++
+      if (n === rang) {
+        return { debut: p.debut + trouve.index, fin: p.debut + trouve.index + trouve[0].length }
+      }
+    }
+    return null
+  }
+
+  const bornes = /^(\d+)-(\d+)$/.exec(detail)
+  if (bornes) {
+    const a = Number(bornes[1])
+    const b = Number(bornes[2])
+    if (a > b || b > p.texte.length) return null
+    return { debut: p.debut + a, fin: p.debut + b }
+  }
+
+  return null
+}
+
+/** Le texte réellement couvert par une plage. */
+export function texteDePlage(corps: CorpsInstantane, plage: WordPlage): string {
+  return (corps.dataStream ?? "").slice(plage.debut, plage.fin)
+}
+
+/**
+ * Formule une zone en français, pour la ligne « Attendu : … » et pour les
+ * messages d'erreur. Un apprenant ne doit jamais lire `p2:mot3`.
+ */
+export function zoneEnFrancais(zone: string): string {
+  const z = (zone ?? "").trim()
+  if (!z || z === "doc") return "le document"
+  if (z.startsWith("texte:")) return `« ${z.slice(6)} »`
+  const m = /^p(\d+)(?::(.+))?$/.exec(z)
+  if (!m) return z
+  const rang = Number(m[1]) + 1
+  const ordinal = rang === 1 ? "1er" : `${rang}e`
+  if (!m[2]) return `le ${ordinal} paragraphe`
+  const mot = /^mot(\d+)$/.exec(m[2])
+  if (mot) {
+    const r = Number(mot[1])
+    return `le ${r === 1 ? "1er" : `${r}e`} mot du ${ordinal} paragraphe`
+  }
+  return `une partie du ${ordinal} paragraphe`
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   COMPARER
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/** Retire les accents et la casse — pour les comparaisons tolérantes. */
+function sansAccent(s: string): string {
+  return s
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
+    .toLowerCase()
+}
+
+/**
+ * Une réponse tapée correspond-elle à l'une des formes acceptées ?
+ *
+ * Même principe que `matchesTypedAnswer` côté Excel, avec la couche
+ * typographique en plus : hors mode strict, une saisie naïve et une saisie
+ * francisée sont la MÊME réponse. Sans cela, l'apprenant qui tape `"oui"` et
+ * voit apparaître `« oui »` — ce que le simulateur a fait lui-même — se verrait
+ * refuser sa propre réponse.
+ */
+export function correspond(saisi: string, acceptes: string[], strict?: boolean): boolean {
+  if (strict) {
+    const s = (saisi ?? "").trim()
+    return acceptes.some((a) => a.trim() === s)
+  }
+  const s = sansAccent(normaliserTypographie(saisi ?? ""))
+  return acceptes.some((a) => sansAccent(normaliserTypographie(a)) === s)
+}
+
+/** Ce qui manque à un format observé pour satisfaire un format attendu. */
+export function ecartsDeFormat(
+  attendu: WordRunObserve,
+  observe: WordRunObserve,
+): string[] {
+  const manques: string[] = []
+  const bool = (cle: keyof WordRunObserve, nom: string) => {
+    if (attendu[cle] === undefined) return
+    if (attendu[cle] === true && observe[cle] !== true) manques.push(nom)
+    // Une exigence explicitement fausse — « ce passage ne doit PAS être en
+    // gras » — est un besoin réel des exercices de correction de mise en forme.
+    if (attendu[cle] === false && observe[cle] === true) manques.push(`pas ${nom}`)
+  }
+  bool("gras", "le gras")
+  bool("italique", "l'italique")
+  bool("souligne", "le soulignement")
+  bool("barre", "le barré")
+  if (attendu.taille !== undefined && observe.taille !== attendu.taille) {
+    manques.push(`la taille ${attendu.taille}`)
+  }
+  if (
+    attendu.police !== undefined &&
+    (observe.police ?? "").toLowerCase() !== attendu.police.toLowerCase()
+  ) {
+    manques.push(`la police ${attendu.police}`)
+  }
+  if (attendu.couleur !== undefined && !memeCouleur(observe.couleur, attendu.couleur)) {
+    manques.push("la couleur du texte")
+  }
+  if (attendu.surlignage !== undefined) {
+    /*
+     * D15 — une chaîne VIDE exige l'ABSENCE de surlignage.
+     *
+     * Même besoin que `gras: false` : un exercice de relecture demande de poser
+     * une annotation, puis de la retirer une fois le passage traité. Sans cette
+     * convention, l'absence n'était pas exprimable et l'étape « retirez le
+     * surlignage » ne pouvait pas être écrite.
+     */
+    if (attendu.surlignage === "") {
+      if (observe.surlignage) manques.push("le retrait du surlignage")
+    } else if (!memeCouleur(observe.surlignage, attendu.surlignage)) {
+      manques.push("le surlignage")
+    }
+  }
+  return manques
+}
+
+/** `#FFF`, `#ffffff` et `rgb(255,255,255)` désignent la même couleur. */
+function memeCouleur(a: string | undefined, b: string | undefined): boolean {
+  return canoniserCouleur(a) === canoniserCouleur(b)
+}
+
+function canoniserCouleur(c: string | undefined): string {
+  if (!c) return ""
+  const s = c.trim().toLowerCase()
+  const court = /^#([0-9a-f])([0-9a-f])([0-9a-f])$/.exec(s)
+  if (court) return `#${court[1]}${court[1]}${court[2]}${court[2]}${court[3]}${court[3]}`
+  const rgb = /^rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)/.exec(s)
+  if (rgb) {
+    const h = (n: string) => Number(n).toString(16).padStart(2, "0")
+    return `#${h(rgb[1])}${h(rgb[2])}${h(rgb[3])}`
+  }
+  return s
+}

@@ -1,0 +1,95 @@
+{
+  "schemaVersion": 1,
+  "app": "WORD",
+  "title": "Exercice — Annuler et rétablir",
+  "mode": "EXERCISE",
+  "moduleTitle": "Modification de texte",
+  "intro": {
+    "title": "À VOUS DE JOUER",
+    "body": "Vous allez poser trois mises en forme sur un même titre, puis en défaire deux et en remettre une. L'exercice ne teste pas votre goût : il teste votre compréhension de l'ordre dans lequel Word retient vos gestes."
+  },
+  "outro": "Dernier posé, premier retiré. Une fois cette règle acquise, on essaie sans crainte.",
+  "document": {
+    "paragraphes": [
+      {
+        "texte": "Règlement intérieur"
+      },
+      {
+        "texte": "Le présent règlement s'applique à l'ensemble du personnel."
+      },
+      {
+        "texte": "Il est affiché à l'entrée de chaque atelier."
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M03-E03-01",
+      "consigne": "==Mettez le titre en italique.== Premier geste de la pile.",
+      "setup": {
+        "ribbon": {
+          "activeTab": "accueil"
+        }
+      },
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p0",
+        "format": {
+          "italique": true
+        }
+      },
+      "feedback": "Premier geste."
+    },
+    {
+      "id": "M03-E03-02",
+      "consigne": "==Portez-le à la taille 14.== Deuxième geste.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p0",
+        "format": {
+          "taille": 14
+        }
+      },
+      "feedback": "Deuxième geste."
+    },
+    {
+      "id": "M03-E03-03",
+      "consigne": "==Mettez-le en bleu.== Troisième geste : votre pile est complète.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p0",
+        "format": {
+          "couleur": "#1f4e79"
+        }
+      },
+      "feedback": "Trois gestes empilés."
+    },
+    {
+      "id": "M03-E03-04",
+      "consigne": "==Défaites votre dernier geste.== Prévoyez ce qui va disparaître avant de cliquer.",
+      "action": {
+        "type": "W_CLICK_CONTROL",
+        "controle": "w-annuler"
+      },
+      "feedback": "La couleur est partie : c'était bien le dernier posé."
+    },
+    {
+      "id": "M03-E03-05",
+      "consigne": "==Défaites-en un second.==",
+      "action": {
+        "type": "W_CLICK_CONTROL",
+        "controle": "w-annuler"
+      },
+      "feedback": "La taille est revenue à l'origine."
+    },
+    {
+      "id": "M03-E03-06",
+      "consigne": "==Remettez ce que vous venez de défaire== sans repasser par le groupe Police.",
+      "action": {
+        "type": "W_CLICK_CONTROL",
+        "controle": "w-retablir"
+      },
+      "feedback": "La taille 14 est revenue. Vous maîtrisez votre historique."
+    }
+  ]
+}

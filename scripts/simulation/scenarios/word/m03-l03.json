@@ -1,0 +1,110 @@
+{
+  "schemaVersion": 1,
+  "app": "WORD",
+  "title": "Annuler et rétablir : revenir en arrière sans tout refaire",
+  "mode": "LESSON",
+  "moduleTitle": "Modification de texte",
+  "intro": {
+    "title": "WORD SE SOUVIENT DE VOS GESTES",
+    "body": "Chaque action que vous faites est mémorisée, et peut être défaite dans l'ordre inverse. Ce n'est pas un filet de sécurité pour débutants : c'est un outil de travail, qui permet d'essayer une mise en forme, de la regarder, et de la retirer si elle ne convient pas."
+  },
+  "outro": "Annuler défait le dernier geste, rétablir le remet. Les deux fonctionnent en pile : le dernier posé est le premier retiré. C'est ce qui permet d'essayer sans risque.",
+  "document": {
+    "paragraphes": [
+      {
+        "texte": "Conditions générales de vente"
+      },
+      {
+        "texte": "Les commandes sont fermes dès réception de l'acompte."
+      },
+      {
+        "texte": "Le solde est exigible à la livraison."
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M03-L03-01",
+      "consigne": "==Mettez le titre en gras== pour commencer. Vous allez ensuite empiler deux autres gestes, puis les défaire un à un — c'est en les défaisant qu'on comprend dans quel ordre Word les a retenus.",
+      "setup": {
+        "ribbon": {
+          "activeTab": "accueil"
+        }
+      },
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p0",
+        "format": {
+          "gras": true
+        }
+      },
+      "feedback": "Premier geste posé."
+    },
+    {
+      "id": "M03-L03-02",
+      "consigne": "==Portez le titre à la taille 18.== Deuxième geste sur le même paragraphe.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p0",
+        "format": {
+          "taille": 18
+        }
+      },
+      "feedback": "Deuxième geste posé."
+    },
+    {
+      "id": "M03-L03-03",
+      "consigne": "==Mettez le titre en rouge.== Troisième et dernier geste. Vous avez maintenant trois actions empilées, dans cet ordre : gras, taille, couleur.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p0",
+        "format": {
+          "couleur": "#c0392b"
+        }
+      },
+      "feedback": "Trois gestes empilés. Regardez bien le titre avant l'étape suivante."
+    },
+    {
+      "id": "M03-L03-04",
+      "consigne": "==Cliquez sur Annuler.== Observez ce qui disparaît : c'est la **couleur**, votre dernier geste — et non le gras, votre premier. Word défait toujours en commençant par la fin.",
+      "action": {
+        "type": "W_CLICK_CONTROL",
+        "controle": "w-annuler"
+      },
+      "aide": {
+        "text": "Le groupe Annulation, à droite du ruban."
+      },
+      "feedback": "Dernier posé, premier retiré : c'est la règle de la pile."
+    },
+    {
+      "id": "M03-L03-05",
+      "consigne": "==Cliquez une seconde fois sur Annuler.== Cette fois c'est la taille qui revient à sa valeur d'origine. Chaque clic remonte d'un cran dans votre historique.",
+      "action": {
+        "type": "W_CLICK_CONTROL",
+        "controle": "w-annuler"
+      },
+      "feedback": "Deux crans remontés. Seul le gras subsiste."
+    },
+    {
+      "id": "M03-L03-06",
+      "consigne": "==Cliquez sur Rétablir.== Le geste défait revient — et dans l'ordre inverse de l'annulation : la taille d'abord, la couleur ensuite si vous continuiez.",
+      "action": {
+        "type": "W_CLICK_CONTROL",
+        "controle": "w-retablir"
+      },
+      "feedback": "Rétablir est l'exact symétrique d'Annuler."
+    },
+    {
+      "id": "M03-L03-07",
+      "consigne": "==Vérifiez que la taille 18 est bien revenue== sur le titre. Retenez la conséquence pratique : vous pouvez essayer une mise en forme, la regarder, l'annuler, puis la remettre — sans jamais retoucher le texte à la main.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p0",
+        "format": {
+          "taille": 18
+        }
+      },
+      "feedback": "Vous savez naviguer dans votre propre historique."
+    }
+  ]
+}

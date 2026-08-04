@@ -1,0 +1,103 @@
+{
+  "schemaVersion": 1,
+  "app": "WORD",
+  "title": "Exercice — Détacher un avertissement",
+  "mode": "EXERCISE",
+  "moduleTitle": "Bordures et trames",
+  "intro": {
+    "title": "À VOUS DE JOUER",
+    "body": "Une consigne d'atelier dont l'avertissement se noie dans le texte. Faites-le exister — un seul bloc, pas trois."
+  },
+  "outro": "Un seul passage détaché, et il est impossible à manquer. C'est tout l'objet d'une trame.",
+  "document": {
+    "paragraphes": [
+      {
+        "texte": "Utilisation du chariot élévateur"
+      },
+      {
+        "texte": "Le chariot est réservé aux caristes titulaires de l'autorisation de conduite."
+      },
+      {
+        "texte": "Ne jamais circuler avec une charge levée au-dessus d'un mètre."
+      },
+      {
+        "texte": "La batterie se recharge en fin de poste, au local dédié."
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M05-E01-01",
+      "consigne": "==Détachez l'avertissement du reste du texte== en lui posant une trame jaune.",
+      "setup": {
+        "ribbon": {
+          "activeTab": "accueil"
+        }
+      },
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p2",
+        "format": {
+          "surlignage": "#f1c40f"
+        }
+      },
+      "aide": {
+        "text": "La dernière liste du groupe Police pose un fond de couleur.",
+        "showTarget": true
+      },
+      "feedback": "Le fond détache la phrase."
+    },
+    {
+      "id": "M05-E01-02",
+      "consigne": "==Ajoutez-lui l'urgence que la trame seule n'apporte pas.==",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p2",
+        "format": {
+          "gras": true
+        }
+      },
+      "aide": {
+        "text": "La graisse dit « c'est important », le fond dit « regardez ici ».",
+        "showTarget": true
+      },
+      "feedback": "Le signal est complet."
+    },
+    {
+      "id": "M05-E01-03",
+      "consigne": "==Mettez ce même paragraphe en rouge== : sur une consigne de sécurité, le cumul se justifie.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p2",
+        "format": {
+          "couleur": "#c0392b"
+        }
+      },
+      "feedback": "Bloc d'alerte constitué."
+    },
+    {
+      "id": "M05-E01-04",
+      "consigne": "==Isolez-le du fil de lecture== en le plaçant au milieu de la page.",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p2",
+        "style": {
+          "alignement": "centre"
+        }
+      },
+      "feedback": "Le bloc se lit comme un encadré."
+    },
+    {
+      "id": "M05-E01-05",
+      "consigne": "==Épaississez le titre== sans lui poser de trame : un seul bloc détaché par document.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p0",
+        "format": {
+          "gras": true
+        }
+      },
+      "feedback": "Consigne prête à être affichée."
+    }
+  ]
+}

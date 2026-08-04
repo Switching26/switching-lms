@@ -1,0 +1,136 @@
+{
+ "schemaVersion": 1,
+ "app": "WORD",
+ "title": "Réimprimer une seule page",
+ "mode": "EXERCISE",
+ "moduleTitle": "Impression",
+ "intro": {
+  "title": "À VOUS",
+  "body": "Un exemplaire est ressorti taché. Il ne faut réimprimer que la page abîmée — pas le document entier, et surtout pas en huit exemplaires."
+ },
+ "outro": "Savoir restreindre une impression vaut mieux que savoir la lancer.",
+ "document": {
+  "paragraphes": [
+   {
+    "texte": "Rapport de visite",
+    "style": "titre"
+   },
+   {
+    "texte": "La visite du site a eu lieu le mardi 3 mars en présence du responsable.",
+    "style": "normal"
+   },
+   {
+    "texte": "Deux non-conformités mineures ont été relevées sur le stockage.",
+    "style": "normal"
+   },
+   {
+    "texte": "Une contre-visite est programmée dans le trimestre.",
+    "style": "normal"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "id": "M10-E02-01",
+   "consigne": "==Ouvrez l'écran Imprimer.==",
+   "action": {
+    "type": "W_CLICK_CONTROL",
+    "controle": "w-imprimer"
+   },
+   "setup": {
+    "ribbon": {
+     "activeTab": "fichier"
+    }
+   },
+   "aide": {
+    "text": "Onglet « Fichier », bouton « Imprimer ».",
+    "showTarget": true
+   },
+   "feedback": "Écran ouvert."
+  },
+  {
+   "id": "M10-E02-02",
+   "consigne": "==Limitez l'impression à la page courante.== C'est elle qui doit être remplacée.",
+   "action": {
+    "type": "W_EXPECT_PRINT",
+    "impression": {
+     "plage": "courante"
+    }
+   },
+   "aide": {
+    "text": "Bouton « Page courante ».",
+    "showTarget": true
+   },
+   "feedback": "Seule la page affichée sortira."
+  },
+  {
+   "id": "M10-E02-03",
+   "consigne": "Un collègue a laissé ==le nombre de copies à 4== dans ses réglages précédents. Reproduisez d'abord son erreur : portez les copies à 4, vous la corrigerez ensuite.",
+   "action": {
+    "type": "W_EXPECT_PRINT",
+    "impression": {
+     "copies": 4
+    }
+   },
+   "aide": {
+    "text": "Champ « Copies ».",
+    "showTarget": true
+   },
+   "feedback": "Quatre copies demandées — c'est bien ce qu'il ne faut pas laisser."
+  },
+  {
+   "id": "M10-E02-03B",
+   "consigne": "==Ramenez les copies à 1.== Une page abîmée se remplace par une page, pas par quatre. Un réglage de copies survit d'une impression à l'autre : c'est le piège le plus courant.",
+   "action": {
+    "type": "W_EXPECT_PRINT",
+    "impression": {
+     "copies": 1
+    }
+   },
+   "aide": {
+    "text": "Champ « Copies ».",
+    "showTarget": true
+   },
+   "feedback": "Un seul exemplaire — l'erreur du collègue est corrigée."
+  },
+  {
+   "id": "M10-E02-03C",
+   "consigne": "Le collègue avait aussi ==activé le recto verso==. Activez-le à votre tour pour retrouver son réglage, avant de juger s'il convient à une page isolée.",
+   "action": {
+    "type": "W_EXPECT_PRINT",
+    "impression": {
+     "rectoVerso": true
+    }
+   },
+   "aide": {
+    "text": "Case « Recto verso ».",
+    "showTarget": true
+   },
+   "feedback": "Recto verso actif — reste à voir s'il a du sens ici."
+  },
+  {
+   "id": "M10-E02-04",
+   "consigne": "==Désactivez le recto verso.== Une page seule imprimée en recto verso ressortirait décalée du reste du jeu.",
+   "action": {
+    "type": "W_EXPECT_PRINT",
+    "impression": {
+     "rectoVerso": false
+    }
+   },
+   "aide": {
+    "text": "Décochez « Recto verso ».",
+    "showTarget": true
+   },
+   "feedback": "Impression simple face, cohérente avec le jeu d'origine."
+  },
+  {
+   "id": "M10-E02-05",
+   "points": 0,
+   "action": {
+    "type": "READ"
+   },
+   "consigne": "Trois réglages ajustés, **une seule feuille consommée** au lieu de huit jeux complets. C'est le réflexe qui distingue quelqu'un qui sait imprimer de quelqu'un qui clique sur Imprimer.",
+   "feedback": "Restreindre est un geste, pas une contrainte."
+  }
+ ]
+}

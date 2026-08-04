@@ -1,0 +1,212 @@
+{
+  "schemaVersion": 1,
+  "title": "Quand une invitation heurte un engagement",
+  "mode": "LESSON",
+  "moduleTitle": "Le calendrier au service du chantier",
+  "intro": {
+    "title": "On vous invite pile pendant la pose",
+    "body": "Un agenda bien tenu sert surtout à cela : répondre en trois secondes à une invitation, sans hésiter et sans se tromper. Deux invitations arrivent aujourd'hui, l'une compatible avec votre semaine, l'autre non. La réponse est dans le calendrier, pas dans votre mémoire."
+  },
+  "outro": {
+    "body": "Une invitation refusée n'est pas un refus de travailler : c'est une information dont l'organisateur a besoin pour avancer. Et le silence est la seule réponse vraiment coûteuse — il laisse trois personnes vous attendre."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "clients",
+        "nom": "Clients 2026"
+      },
+      {
+        "id": "fournisseurs",
+        "nom": "Fournisseurs"
+      }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "evenements": [
+      {
+        "id": "ev-pose",
+        "titre": "Pose Beaulieu",
+        "date": "2026-03-04",
+        "debut": "08:00",
+        "fin": "17:00",
+        "lieu": "Résidence Beaulieu",
+        "participants": [],
+        "reunion": false
+      }
+    ],
+    "messages": [
+      {
+        "id": "m-inv-fournisseur",
+        "dossier": "reception",
+        "de": "contact@promo-outillage.net",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Invitation — présentation de la gamme 2026",
+        "corps": "Bonjour,\n\nNous vous convions à la présentation de notre nouvelle gamme.\n\nPromo Outillage",
+        "date": "2026-03-02T06:20",
+        "lu": false,
+        "invitation": {
+          "reponse": "aucune",
+          "evenement": {
+            "id": "ev-inv-gamme",
+            "titre": "Présentation gamme 2026",
+            "date": "2026-03-04",
+            "debut": "09:00",
+            "fin": "12:00",
+            "lieu": "Showroom Promo Outillage",
+            "participants": [
+              "contact@promo-outillage.net",
+              "camille.aubertin@atelier-nord.fr"
+            ],
+            "reunion": true
+          }
+        }
+      },
+      {
+        "id": "m-inv-mairie",
+        "dossier": "reception",
+        "de": "marches@ville-lambersart.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Invitation — visite technique de la médiathèque",
+        "corps": "Bonjour,\n\nNous vous proposons une visite technique préalable au chiffrage.\n\nService des marchés",
+        "date": "2026-03-02T06:40",
+        "lu": false,
+        "invitation": {
+          "reponse": "aucune",
+          "evenement": {
+            "id": "ev-inv-visite",
+            "titre": "Visite technique médiathèque",
+            "date": "2026-03-05",
+            "debut": "10:00",
+            "fin": "11:30",
+            "lieu": "Médiathèque de Lambersart",
+            "participants": [
+              "marches@ville-lambersart.fr",
+              "camille.aubertin@atelier-nord.fr"
+            ],
+            "reunion": true
+          }
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O10-L03-01",
+      "consigne": "==Ouvrez l'invitation de Promo Outillage.== L'encadré bleu rappelle jour, horaires et lieu : c'est tout ce dont vous avez besoin pour décider, à condition d'avoir un agenda à jour.",
+      "action": {
+        "type": "O_SELECT_MESSAGE",
+        "id": "m-inv-fournisseur"
+      },
+      "aide": {
+        "text": "C'est le message qui invite à une présentation de gamme."
+      }
+    },
+    {
+      "id": "O10-L03-02",
+      "consigne": "==Basculez sur le Calendrier== pour vérifier : le mercredi 4 mars est déjà pris de 8 h à 17 h par la pose. La présentation tombe exactement dedans.",
+      "setup": {
+        "courrier": {
+          "messageActif": "m-inv-fournisseur"
+        }
+      },
+      "action": {
+        "type": "O_CLICK_CONTROL",
+        "control": "cr-vue-calendrier"
+      },
+      "aide": {
+        "text": "L'icône du calendrier ; sur téléphone, la barre du bas."
+      }
+    },
+    {
+      "id": "O10-L03-03",
+      "consigne": "==Revenez au Courrier== pour répondre. On ne laisse pas une invitation sans réponse sous prétexte qu'on ne peut pas venir : c'est le cas où répondre est le plus utile.",
+      "action": {
+        "type": "O_CLICK_CONTROL",
+        "control": "cr-vue-courrier"
+      },
+      "aide": {
+        "text": "Le bouton Courrier, à côté du Calendrier."
+      }
+    },
+    {
+      "id": "O10-L03-04",
+      "consigne": "==Cliquez sur Refuser.== Rien ne s'inscrit à l'agenda, et l'organisateur sait qu'il ne doit pas vous attendre. Les trois boutons disparaissent : on ne répond qu'une fois à une invitation.",
+      "action": {
+        "type": "O_CLICK_CONTROL",
+        "control": "cr-refuser"
+      },
+      "aide": {
+        "text": "Le bouton Refuser est le troisième de l'encadré bleu, sous le texte du message."
+      }
+    },
+    {
+      "id": "O10-L03-05",
+      "consigne": "==Ouvrez l'invitation de la Ville de Lambersart.== Celle-ci porte sur le jeudi 5 mars — le jour que vous aviez laissé libre en marge du chantier.",
+      "action": {
+        "type": "O_SELECT_MESSAGE",
+        "id": "m-inv-mairie"
+      },
+      "aide": {
+        "text": "C'est le message qui propose une visite technique."
+      }
+    },
+    {
+      "id": "O10-L03-06",
+      "consigne": "==Acceptez cette invitation.== Le rendez-vous s'inscrit **réellement** dans votre agenda, avec ses participants : c'est la différence de fond entre une invitation et un simple message d'information.",
+      "setup": {
+        "courrier": {
+          "messageActif": "m-inv-mairie"
+        }
+      },
+      "action": {
+        "type": "O_EXPECT_CALENDRIER",
+        "calendrier": {
+          "titre": "Visite technique médiathèque",
+          "date": "2026-03-05",
+          "debut": "10:00",
+          "fin": "11:30",
+          "reunion": true,
+          "participants": {
+            "contient": [
+              "marches@ville-lambersart.fr",
+              "camille.aubertin@atelier-nord.fr"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Le bouton Accepter est le premier des trois, dans l'encadré bleu."
+      }
+    },
+    {
+      "id": "O10-L03-07",
+      "consigne": "==Basculez sur le Calendrier== pour le constater : le jeudi porte désormais la visite, et la marge que vous aviez gardée a servi à quelque chose d'utile.",
+      "action": {
+        "type": "O_CLICK_CONTROL",
+        "control": "cr-vue-calendrier"
+      },
+      "aide": {
+        "text": "L'icône du calendrier ; sur téléphone, la barre du bas."
+      }
+    }
+  ]
+}

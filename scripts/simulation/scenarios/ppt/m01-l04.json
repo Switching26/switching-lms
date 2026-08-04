@@ -1,0 +1,297 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "mode": "LESSON",
+  "moduleTitle": "Prise en main",
+  "title": "Placer et compléter les éléments",
+  "intro": {
+    "title": "Placer et compléter les éléments",
+    "body": "Tout ne tient pas dans les cadres prévus par la disposition : une accroche, une légende, une illustration se posent où vous voulez. Cette leçon vous fait sélectionner, écrire, déplacer et redimensionner ces éléments libres — et comprendre quand ils sont légitimes."
+  },
+  "outro": {
+    "body": "Vous savez composer une diapositive au-delà des cadres imposés. Dernière leçon du module : regarder l'ensemble et le présenter."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "ppt": {
+    "fileName": "Bilan Verdeval.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Verdeval",
+          "sous-titre": "Bilan de la saison 2026"
+        }
+      },
+      {
+        "layout": "titre-seul",
+        "textes": {
+          "titre": "Nos trois agences"
+        },
+        "objets": [
+          {
+            "id": "zt-nantes",
+            "objectType": "texte",
+            "texte": "Nantes",
+            "rect": {
+              "x": 80,
+              "y": 200,
+              "w": 240,
+              "h": 70
+            }
+          },
+          {
+            "id": "zt-rennes",
+            "objectType": "texte",
+            "texte": "Rennes",
+            "rect": {
+              "x": 80,
+              "y": 300,
+              "w": 240,
+              "h": 70
+            }
+          },
+          {
+            "id": "zt-slogan",
+            "objectType": "texte",
+            "rect": {
+              "x": 520,
+              "y": 120,
+              "w": 360,
+              "h": 90
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M01-L04-01",
+      "consigne": "Il y a deux façons d'écrire sur une diapositive. L'**espace réservé** vient de la disposition : il garantit la régularité. La **zone de texte** libre, elle, se pose où vous voulez — pour une accroche, une légende, un contact. La règle : les espaces réservés d'abord, les zones libres seulement pour ce qui ne rentre nulle part.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M01-L04-02",
+      "consigne": "==Affichez la deuxième diapositive==. Elle n'a qu'un titre : tout le reste y est composé librement.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 1
+      }
+    },
+    {
+      "id": "M01-L04-03",
+      "consigne": "==Cliquez une fois sur la zone Nantes==. Un cadre bleu à poignées apparaît : l'élément est **sélectionné**. Tout ce que vous ferez ensuite — déplacer, redimensionner, mettre en forme — s'appliquera à lui et à lui seul. Sélectionner avant d'agir est le réflexe de base.",
+      "action": {
+        "type": "P_SELECT_OBJECT",
+        "objectId": "zt-nantes"
+      },
+      "aide": {
+        "text": "La zone « Nantes » est le premier des deux blocs de la colonne de gauche."
+      },
+      "feedback": "L'élément est sélectionné : les poignées marquent ses limites."
+    },
+    {
+      "id": "M01-L04-04",
+      "consigne": "La zone d'accroche, à droite, est encore vide et n'affiche aucune invite : une zone libre ne s'annonce pas. ==Double-cliquez dedans et saisissez Des jardins qui durent==. Retenez la différence : espace réservé vide, un clic suffit ; zone libre, il faut le double-clic.",
+      "setupPpt": {
+        "slide": 1
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "zt-slogan",
+        "accept": [
+          "Des jardins qui durent"
+        ]
+      },
+      "aide": {
+        "text": "La zone vide est le rectangle en haut à droite de la diapositive."
+      }
+    },
+    {
+      "id": "M01-L04-05",
+      "consigne": "L'accroche est posée tout en haut, à la même hauteur que le titre : deux textes sur une même ligne se disputent le regard. ==Faites-la glisser vers le bas de la diapositive==, à droite, à hauteur des noms de villes. Un élément se déplace en cliquant dessus et en tirant — et le placement n'a pas besoin d'être au pixel près.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Bilan de la saison 2026"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Nos trois agences"
+              },
+              "objets": [
+                {
+                  "id": "zt-nantes",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 80,
+                    "y": 200,
+                    "w": 240,
+                    "h": 70
+                  },
+                  "texte": "Nantes"
+                },
+                {
+                  "id": "zt-rennes",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 80,
+                    "y": 300,
+                    "w": 240,
+                    "h": 70
+                  },
+                  "texte": "Rennes"
+                },
+                {
+                  "id": "zt-slogan",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 520,
+                    "y": 120,
+                    "w": 360,
+                    "h": 90
+                  },
+                  "texte": "Des jardins qui durent"
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_MOVE_OBJECT",
+        "objectId": "zt-slogan",
+        "rect": {
+          "x": 520,
+          "y": 330
+        },
+        "tolerance": 70
+      },
+      "aide": {
+        "text": "Attrapez la zone en son milieu, pas sur une poignée, et tirez-la vers le bas."
+      },
+      "feedback": "L'accroche respire, et la diapositive se lit de nouveau de haut en bas."
+    },
+    {
+      "id": "M01-L04-06",
+      "consigne": "La zone Nantes est un peu étroite pour ce qu'elle devra contenir. ==Tirez sa poignée du coin bas-droit pour l'élargir== jusqu'à une largeur d'environ un tiers de la diapositive. Une poignée redimensionne ; le corps du cadre déplace : ne les confondez pas.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Bilan de la saison 2026"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Nos trois agences"
+              },
+              "objets": [
+                {
+                  "id": "zt-nantes",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 80,
+                    "y": 200,
+                    "w": 240,
+                    "h": 70
+                  },
+                  "texte": "Nantes"
+                },
+                {
+                  "id": "zt-rennes",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 80,
+                    "y": 300,
+                    "w": 240,
+                    "h": 70
+                  },
+                  "texte": "Rennes"
+                },
+                {
+                  "id": "zt-slogan",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 520,
+                    "y": 330,
+                    "w": 360,
+                    "h": 90
+                  },
+                  "texte": "Des jardins qui durent"
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_MOVE_OBJECT",
+        "objectId": "zt-nantes",
+        "rect": {
+          "w": 320
+        },
+        "tolerance": 70
+      },
+      "aide": {
+        "text": "Sélectionnez d'abord la zone Nantes : les poignées n'apparaissent que sur un élément sélectionné."
+      }
+    },
+    {
+      "id": "M01-L04-07",
+      "consigne": "Pour poser une zone qui n'existe pas encore, le ruban a le groupe **Insertion**. Ses boutons déposent l'élément au milieu de la diapositive, à vous de le placer et de le remplir ensuite : PowerPoint ne devine ni l'endroit ni le texte.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M01-L04-08",
+      "consigne": "==Cliquez sur Zone de texte, dans le groupe Insertion==. Un cadre vide se pose sur la diapositive : c'est le point de départ de toute zone libre.",
+      "action": {
+        "type": "P_ADD_OBJECT",
+        "objectType": "texte"
+      },
+      "aide": {
+        "text": "Le groupe Insertion suit le groupe Police ; faites défiler le ruban vers la droite si besoin."
+      }
+    },
+    {
+      "id": "M01-L04-09",
+      "consigne": "==Cliquez sur Image==, dans le même groupe. Une illustration s'ajoute à la diapositive. Retenez qu'une image n'est pas un objet à part : elle se sélectionne, se déplace et se redimensionne exactement comme une zone de texte.",
+      "action": {
+        "type": "P_ADD_OBJECT",
+        "objectType": "image"
+      },
+      "aide": {
+        "text": "Le bouton Image est juste après « Zone de texte »."
+      }
+    },
+    {
+      "id": "M01-L04-10",
+      "consigne": "À retenir : l'**espace réservé** donne la structure et la régularité ; la **zone libre** complète, et se paie d'un placement à faire soi-même. Les trois gestes qui vous serviront partout : cliquer pour sélectionner, tirer le corps pour déplacer, tirer une poignée pour redimensionner.",
+      "action": {
+        "type": "READ"
+      }
+    }
+  ]
+}

@@ -1,0 +1,210 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "mode": "EXERCISE",
+  "moduleTitle": "Projeter ou envoyer",
+  "title": "Alléger pour projeter",
+  "intro": {
+    "title": "Alléger pour projeter",
+    "body": "La Scierie Vallonet présente son offre à des charpentiers, en salle, avec l'écran derrière l'orateur. Le fichier a été écrit pour la lecture : dépouillez-le, et rangez dans les notes tout ce que vous direz."
+  },
+  "outro": {
+    "body": "Deux écrans lisibles du fond de la salle, et pas une information perdue."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "ppt": {
+    "fileName": "Scierie Vallonet.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Scierie Vallonet",
+          "sous-titre": "Rencontre des charpentiers du Haut-Jura"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Notre bois",
+          "contenu": "Nous sciions uniquement de l'épicéa et du sapin issus de forêts situées à moins de trente kilomètres\nLe séchage se fait en séchoir basse température pendant six à neuf semaines selon les sections\nChaque lot est classé mécaniquement et livré avec son certificat de résistance"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Nos délais",
+          "contenu": "Une commande de sections courantes est préparée en quatre jours ouvrés et livrée le cinquième\nLes sections hors standard demandent trois semaines, sciage et séchage compris"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M11-E01-01",
+      "consigne": "Affichez la deuxième diapositive, celle du bois.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 1
+      }
+    },
+    {
+      "id": "M11-E01-02",
+      "consigne": "Remplacez son titre par Épicéa et sapin à moins de 30 km. En salle, le titre affirme : c'est souvent la seule ligne lue.",
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:titre",
+        "accept": [
+          "Épicéa et sapin à moins de 30 km"
+        ]
+      },
+      "aide": {
+        "text": "Un titre déjà rempli s'ouvre au double-clic."
+      }
+    },
+    {
+      "id": "M11-E01-03",
+      "consigne": "Remplacez son contenu par trois repères : Forêts locales, Séchage basse température, Lot classé.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Scierie Vallonet",
+                "sous-titre": "Rencontre des charpentiers du Haut-Jura"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Épicéa et sapin à moins de 30 km",
+                "contenu": "Nous sciions uniquement de l'épicéa et du sapin issus de forêts situées à moins de trente kilomètres\nLe séchage se fait en séchoir basse température pendant six à neuf semaines selon les sections\nChaque lot est classé mécaniquement et livré avec son certificat de résistance"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Nos délais",
+                "contenu": "Une commande de sections courantes est préparée en quatre jours ouvrés et livrée le cinquième\nLes sections hors standard demandent trois semaines, sciage et séchage compris"
+              }
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:contenu",
+        "accept": [
+          "Forêts locales\nSéchage basse température\nLot classé",
+          "Forêts locales, Séchage basse température, Lot classé"
+        ]
+      },
+      "aide": {
+        "text": "Double-cliquez dans le contenu pour l'ouvrir, puis remplacez tout."
+      }
+    },
+    {
+      "id": "M11-E01-04",
+      "consigne": "Écrivez sa note : Six à neuf semaines de séchage, certificat de résistance fourni.",
+      "action": {
+        "type": "P_EXPECT_DECK",
+        "deck": {
+          "slides": [
+            {
+              "index": 1,
+              "notes": "Six à neuf semaines de séchage, certificat de résistance fourni"
+            }
+          ]
+        }
+      },
+      "aide": {
+        "text": "Le champ de notes est sous la diapositive ; sur petit écran, le bouton « Notes » l'ouvre."
+      },
+      "feedback": "Les précisions techniques quittent l'écran sans quitter la présentation."
+    },
+    {
+      "id": "M11-E01-05",
+      "consigne": "Mettez ce titre en gras : c'est ce qui accroche l'œil du public quand il relève la tête.",
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "ph:titre",
+        "style": {
+          "bold": true
+        }
+      },
+      "aide": {
+        "text": "Sélectionnez le titre d'un clic, puis bouton G du groupe Police."
+      }
+    },
+    {
+      "id": "M11-E01-06",
+      "consigne": "Affichez la troisième diapositive, celle des délais.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 2
+      }
+    },
+    {
+      "id": "M11-E01-07",
+      "consigne": "Remplacez son contenu par : Sections courantes 5 jours, Hors standard 3 semaines.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Scierie Vallonet",
+                "sous-titre": "Rencontre des charpentiers du Haut-Jura"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Épicéa et sapin à moins de 30 km",
+                "contenu": "Forêts locales\nSéchage basse température\nLot classé"
+              },
+              "notes": "Six à neuf semaines de séchage, certificat de résistance fourni"
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Nos délais",
+                "contenu": "Une commande de sections courantes est préparée en quatre jours ouvrés et livrée le cinquième\nLes sections hors standard demandent trois semaines, sciage et séchage compris"
+              }
+            }
+          ]
+        },
+        "slide": 2
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:contenu",
+        "accept": [
+          "Sections courantes 5 jours\nHors standard 3 semaines",
+          "Sections courantes 5 jours, Hors standard 3 semaines"
+        ]
+      }
+    },
+    {
+      "id": "M11-E01-08",
+      "consigne": "Lancez le diaporama depuis le début et vérifiez : chaque écran doit se lire en trois secondes.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": true,
+          "index": 0
+        }
+      },
+      "aide": {
+        "text": "Groupe Diaporama, bouton « ▶ Début »."
+      }
+    }
+  ]
+}

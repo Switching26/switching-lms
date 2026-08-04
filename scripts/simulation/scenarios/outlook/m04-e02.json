@@ -1,0 +1,129 @@
+{
+  "schemaVersion": 1,
+  "title": "Vérifier ailleurs, sans jamais répondre",
+  "mode": "EXERCISE",
+  "moduleTitle": "Sécurité : reconnaître et traiter un message dangereux",
+  "intro": {
+    "title": "Un client vous annonce un changement de RIB",
+    "body": "Le message se présente au nom de Julien Leroux et annonce un nouveau compte bancaire pour le règlement d'une facture. Vous n'allez ni répondre, ni ignorer : vous allez vérifier auprès du vrai Julien Leroux, avertir votre gérante, et isoler la tentative. Trois gestes, dans cet ordre — aucun d'eux ne consiste à cliquer « Répondre »."
+  },
+  "outro": {
+    "body": "Répondre à un message frauduleux, même pour poser une question, apprend à l'escroc que votre adresse est lue et que quelqu'un l'a remarqué. La vérification se fait toujours par un canal indépendant : une adresse que vous connaissez déjà, ou un numéro de téléphone que vous n'avez pas tiré du message suspect."
+  },
+  "ribbon": [],
+  "workbook": { "sheets": [] },
+
+  "courrier": {
+    "compte": { "nom": "Camille Aubertin", "adresse": "camille.aubertin@atelier-nord.fr" },
+    "dossiers": [
+      { "id": "clients", "nom": "Clients 2026" },
+      { "id": "fournisseurs", "nom": "Fournisseurs" }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "contacts": [
+      { "nom": "Julien Leroux", "adresse": "j.leroux@habitat-du-nord.fr", "societe": "Habitat du Nord" },
+      { "nom": "Nadia Kerbaj", "adresse": "n.kerbaj@atelier-nord.fr", "societe": "Atelier Nord" }
+    ],
+    "messages": [
+      {
+        "id": "m-faux-rib",
+        "dossier": "reception",
+        "de": "j.leroux@habitat-dunord.fr",
+        "a": ["camille.aubertin@atelier-nord.fr"],
+        "objet": "Changement de coordonnées bancaires — facture 2026-141",
+        "corps": "Bonjour,\n\nNotre banque a changé. Merci d'utiliser les nouvelles coordonnées jointes pour le règlement de la facture 2026-141.\nLe virement doit partir avant vendredi.\n\nJulien Leroux",
+        "date": "2026-03-20T07:45",
+        "lu": false,
+        "pieces": [{ "nom": "Nouveau-RIB-2026.pdf", "taille": "58 Ko" }]
+      }
+    ]
+  },
+
+  "steps": [
+    {
+      "id": "O04-E02-01",
+      "consigne": "Ouvrez le message et comparez son adresse à celle que vous connaissez de Julien Leroux : `j.leroux@habitat-du-nord.fr`. Un caractère manque.",
+      "action": { "type": "O_SELECT_MESSAGE", "id": "m-faux-rib" },
+      "aide": { "text": "Regardez le domaine, après l'arobase : le trait d'union entre « habitat » et « du » a disparu." }
+    },
+    {
+      "id": "O04-E02-02",
+      "consigne": "Vérifiez auprès du vrai Julien Leroux. Attention au chemin que vous prenez : la vérification ne doit passer par aucun élément du message suspect.",
+      "setup": { "courrier": { "messageActif": "m-faux-rib" } },
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "genre": "nouveau",
+          "a": {
+            "contient": ["j.leroux@habitat-du-nord.fr"],
+            "absent": ["j.leroux@habitat-dunord.fr"]
+          }
+        }
+      },
+      "aide": { "text": "« Répondre » écrirait à l'adresse frauduleuse : c'est un nouveau message qu'il faut, vers l'adresse que vous connaissez." }
+    },
+    {
+      "id": "O04-E02-03",
+      "consigne": "Votre gérante doit savoir qu'une tentative vise l'entreprise : mettez-la en copie, sans que cela change le destinataire principal.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "a": {
+            "contient": ["j.leroux@habitat-du-nord.fr"],
+            "absent": ["j.leroux@habitat-dunord.fr"]
+          },
+          "cc": { "contient": ["n.kerbaj@atelier-nord.fr"] }
+        }
+      },
+      "aide": { "text": "Le champ Cc est la deuxième ligne de la fenêtre de rédaction." }
+    },
+    {
+      "id": "O04-E02-04",
+      "consigne": "Donnez un objet contenant le mot `coordonnées`, rédigez la vérification, puis envoyez. Le texte doit citer **la référence de la facture** et signaler **qu'aucun virement n'a été fait** — c'est cette phrase qui rassure votre client.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": ["j.leroux@habitat-du-nord.fr"],
+            "absent": ["j.leroux@habitat-dunord.fr"]
+          },
+          "cc": { "contient": ["n.kerbaj@atelier-nord.fr"] },
+          "objet": { "contient": ["coordonnees"], "nonVide": true },
+          "corps": {
+            "notions": [
+              {
+                "libelle": "la référence de la facture concernée",
+                "oneOf": ["2026-141", "141"]
+              },
+              {
+                "libelle": "qu'aucun virement n'a été effectué",
+                "oneOf": ["aucun virement", "rien n'a ete", "pas de virement", "n'avons rien regle", "suspendu", "en attente de votre confirmation"]
+              }
+            ],
+            "minMots": 12
+          }
+        }
+      },
+      "aide": { "text": "Deux informations sont attendues : la référence de la facture, et le fait que rien n'a été payé." }
+    },
+    {
+      "id": "O04-E02-05",
+      "consigne": "Isolez enfin la tentative sans l'effacer : elle servira de preuve si le vrai Julien Leroux dépose plainte.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": { "messages": { "m-faux-rib": { "dossier": "indesirables" } } }
+      },
+      "aide": { "text": "Ouvrez le message frauduleux, puis Déplacer, puis Courrier indésirable." }
+    }
+  ]
+}

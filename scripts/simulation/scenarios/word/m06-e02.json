@@ -1,0 +1,120 @@
+{
+  "schemaVersion": 1,
+  "app": "WORD",
+  "title": "Exercice — Puces ou numéros",
+  "mode": "EXERCISE",
+  "moduleTitle": "Puces et numéros",
+  "intro": {
+    "title": "À VOUS DE JOUER",
+    "body": "Un document qui contient les deux natures de liste : une procédure, où l'ordre commande, et un inventaire, où il est indifférent. À vous de choisir la bonne marque pour chacune."
+  },
+  "outro": "Numéro quand l'ordre compte, puce sinon. Le lecteur comprend la nature de la liste avant d'en lire le premier mot.",
+  "document": {
+    "paragraphes": [
+      {
+        "texte": "Ouverture de l'atelier"
+      },
+      {
+        "texte": "Déverrouiller la porte principale"
+      },
+      {
+        "texte": "Couper l'alarme au boîtier d'entrée"
+      },
+      {
+        "texte": "Allumer l'éclairage général"
+      },
+      {
+        "texte": "À vérifier chaque matin"
+      },
+      {
+        "texte": "Niveau du compresseur"
+      },
+      {
+        "texte": "Propreté des allées de circulation"
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M06-E02-01",
+      "consigne": "La procédure d'ouverture se fait dans un ordre précis. ==Marquez la première opération en conséquence.==",
+      "setup": {
+        "ribbon": {
+          "activeTab": "accueil"
+        }
+      },
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p1",
+        "style": {
+          "liste": "numerotee"
+        }
+      },
+      "aide": {
+        "text": "Quand l'ordre compte, on numérote.",
+        "showTarget": true
+      },
+      "feedback": "Première opération numérotée."
+    },
+    {
+      "id": "M06-E02-02",
+      "consigne": "==Traitez la deuxième opération de la même façon.==",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p2",
+        "style": {
+          "liste": "numerotee"
+        }
+      },
+      "feedback": "Deuxième opération."
+    },
+    {
+      "id": "M06-E02-03",
+      "consigne": "==Traitez la troisième opération.==",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p3",
+        "style": {
+          "liste": "numerotee"
+        }
+      },
+      "feedback": "Procédure ordonnée."
+    },
+    {
+      "id": "M06-E02-04",
+      "consigne": "Les points à vérifier n'ont pas d'ordre imposé. ==Marquez le premier avec la bonne nature de liste.==",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p5",
+        "style": {
+          "liste": "puces"
+        }
+      },
+      "feedback": "Le contrôle se distingue de la procédure."
+    },
+    {
+      "id": "M06-E02-05",
+      "consigne": "==Traitez le second point de contrôle.==",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p6",
+        "style": {
+          "liste": "puces"
+        }
+      },
+      "feedback": "Deux listes, deux natures."
+    },
+    {
+      "id": "M06-E02-06",
+      "consigne": "==Donnez le style Titre 1 à l'intertitre « À vérifier chaque matin »== pour séparer les deux blocs.",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p4",
+        "style": {
+          "style": "Titre 1"
+        }
+      },
+      "feedback": "Document structuré en deux sections."
+    }
+  ]
+}

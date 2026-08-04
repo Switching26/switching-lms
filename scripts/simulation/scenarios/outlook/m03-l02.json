@@ -1,0 +1,166 @@
+{
+  "schemaVersion": 1,
+  "title": "Lire un agenda déjà rempli et s'y glisser",
+  "mode": "LESSON",
+  "moduleTitle": "Le calendrier : rendez-vous et invitations",
+  "intro": {
+    "title": "Trouver une place dans une semaine chargée",
+    "body": "Poser un rendez-vous dans un agenda vide est facile. Le vrai geste, c'est d'en poser un dans une semaine déjà occupée, sans écraser ce qui existe. Vous allez lire votre semaine, y placer deux nouveaux rendez-vous aux moments réellement libres, et découvrir la seule chose qu'Outlook refuse d'enregistrer."
+  },
+  "outro": {
+    "body": "Un agenda ne se lit pas jour par jour mais en creux : ce qu'on cherche, ce sont les trous. Et retenez la règle d'Outlook : un rendez-vous sans objet ne s'enregistre pas — il n'aurait aucun sens dans une colonne où l'on ne lit que le titre."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "clients",
+        "nom": "Clients 2026"
+      }
+    ],
+    "evenements": [
+      {
+        "id": "ev-mesures",
+        "titre": "Prise de mesures — comptoir",
+        "date": "2026-03-03",
+        "debut": "09:00",
+        "fin": "11:00",
+        "lieu": "École des Arts de Lambersart",
+        "participants": [],
+        "reunion": false
+      },
+      {
+        "id": "ev-livraison",
+        "titre": "Livraison des panneaux",
+        "date": "2026-03-05",
+        "debut": "08:00",
+        "fin": "09:00",
+        "lieu": "École des Arts de Lambersart",
+        "participants": [],
+        "reunion": false
+      },
+      {
+        "id": "ev-pose",
+        "titre": "Pose du comptoir",
+        "date": "2026-03-05",
+        "debut": "14:00",
+        "fin": "17:00",
+        "lieu": "École des Arts de Lambersart",
+        "participants": [],
+        "reunion": false
+      }
+    ],
+    "messages": [
+      {
+        "id": "m-demandes",
+        "dossier": "reception",
+        "de": "n.kerbaj@atelier-nord.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Deux créneaux à caler cette semaine",
+        "corps": "Camille,\n\nDeux choses à placer :\n- le point d'atelier hebdomadaire, lundi 2 mars de 8 h à 9 h, dans l'atelier,\n- la visite du fournisseur, mercredi 4 mars de 14 h à 15 h 30, à l'atelier également.\n\nNadia",
+        "date": "2026-03-02T07:15",
+        "lu": true
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O03-L02-01",
+      "consigne": "Nadia vous demande de caler deux créneaux. Avant de les poser au hasard, il faut voir ce qui occupe déjà la semaine. ==Basculez sur le Calendrier.==",
+      "action": {
+        "type": "O_CLICK_CONTROL",
+        "control": "cr-vue-calendrier"
+      },
+      "aide": {
+        "text": "L'icône du calendrier est en bas de la colonne des dossiers ; sur téléphone, dans la barre du bas."
+      }
+    },
+    {
+      "id": "O03-L02-02",
+      "consigne": "==Ouvrez une fiche de rendez-vous.== Votre semaine porte déjà trois rendez-vous : mardi matin, et deux fois jeudi. **Lundi et mercredi sont entièrement libres** — ce sont eux qui accueilleront les demandes de Nadia.",
+      "action": {
+        "type": "O_CLICK_CONTROL",
+        "control": "cr-nouveau-rdv"
+      },
+      "aide": {
+        "text": "Le bouton Nouveau rendez-vous est en haut à gauche de la vue Calendrier."
+      }
+    },
+    {
+      "id": "O03-L02-03",
+      "consigne": "Testons d'abord ce qu'Outlook refuse. ==Cliquez sur Enregistrer alors que la fiche est vide.== La fenêtre reste ouverte et rien ne s'inscrit : **un rendez-vous sans objet n'est pas enregistrable**, puisque c'est le titre — et lui seul — qui s'affiche dans la colonne du jour.",
+      "action": {
+        "type": "O_CLICK_CONTROL",
+        "control": "cr-enregistrer-rdv"
+      },
+      "aide": {
+        "text": "Cliquez sur Enregistrer, en bas à droite de la fiche, sans avoir rien saisi : le geste est volontaire."
+      }
+    },
+    {
+      "id": "O03-L02-04",
+      "consigne": "==Renseignez maintenant le point d'atelier== : objet `Point d'atelier hebdomadaire`, le **lundi 2 mars 2026**, de **08:00** à **09:00**, lieu `Atelier Nord`. Puis enregistrez.",
+      "action": {
+        "type": "O_EXPECT_CALENDRIER",
+        "calendrier": {
+          "titre": "Point d'atelier hebdomadaire",
+          "date": "2026-03-02",
+          "debut": "08:00",
+          "fin": "09:00",
+          "lieu": "Atelier Nord"
+        }
+      },
+      "aide": {
+        "text": "Complétez les cinq champs de la fiche déjà ouverte, puis Enregistrer."
+      }
+    },
+    {
+      "id": "O03-L02-05",
+      "consigne": "Le lundi est désormais occupé de 8 h à 9 h. ==Ouvrez une seconde fiche== pour la visite du fournisseur.",
+      "action": {
+        "type": "O_CLICK_CONTROL",
+        "control": "cr-nouveau-rdv"
+      },
+      "aide": {
+        "text": "Le même bouton Nouveau rendez-vous."
+      }
+    },
+    {
+      "id": "O03-L02-06",
+      "consigne": "==Posez la visite== : objet `Visite du fournisseur`, le **mercredi 4 mars 2026**, de **14:00** à **15:30**, lieu `Atelier Nord`. Notez l'heure de fin : `15:30`, et non « une heure et demie » — un agenda ne compte pas des durées, il pose des bornes.",
+      "action": {
+        "type": "O_EXPECT_CALENDRIER",
+        "calendrier": {
+          "titre": "Visite du fournisseur",
+          "date": "2026-03-04",
+          "debut": "14:00",
+          "fin": "15:30",
+          "lieu": "Atelier Nord"
+        }
+      },
+      "aide": {
+        "text": "Le champ Fin accepte les demi-heures : saisissez 15:30."
+      }
+    },
+    {
+      "id": "O03-L02-07",
+      "consigne": "Cinq rendez-vous, quatre jours occupés, et aucun chevauchement. ==Revenez au Courrier== pour prévenir Nadia que c'est calé.",
+      "action": {
+        "type": "O_CLICK_CONTROL",
+        "control": "cr-vue-courrier"
+      },
+      "aide": {
+        "text": "Le bouton Courrier est à côté de celui du Calendrier."
+      }
+    }
+  ]
+}

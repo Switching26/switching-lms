@@ -1,0 +1,125 @@
+{
+ "schemaVersion": 1,
+ "app": "WORD",
+ "title": "Marquer puis démarquer un contrat",
+ "mode": "EXERCISE",
+ "moduleTitle": "En-tête, pied de page et filigrane",
+ "intro": {
+  "title": "À VOUS",
+  "body": "Un contrat circule en relecture, puis part signé. Le même document change deux fois de statut — et ses mentions doivent suivre, sans jamais toucher au texte."
+ },
+ "outro": "Un statut qui ne suit pas le document est pire que pas de statut : il ment.",
+ "document": {
+  "paragraphes": [
+   {
+    "texte": "Contrat de prestation",
+    "style": "titre"
+   },
+   {
+    "texte": "Entre la société Vernet Conseil et le client désigné ci-après.",
+    "style": "normal"
+   },
+   {
+    "texte": "La mission débute le premier lundi suivant la signature des deux parties.",
+    "style": "normal"
+   },
+   {
+    "texte": "Toute modification fera l'objet d'un avenant écrit.",
+    "style": "normal"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "id": "M09-E02-01",
+   "consigne": "==Ouvrez le panneau En-tête.== Onglet Insertion.",
+   "action": {
+    "type": "W_CLICK_CONTROL",
+    "controle": "w-entete-pied"
+   },
+   "setup": {
+    "ribbon": {
+     "activeTab": "insertion"
+    }
+   },
+   "aide": {
+    "text": "Onglet « Insertion », bouton « En-tête ».",
+    "showTarget": true
+   },
+   "feedback": "Panneau ouvert."
+  },
+  {
+   "id": "M09-E02-02",
+   "consigne": "==Posez « EN RELECTURE » en filigrane.== Tant que les deux parties n'ont pas signé, ce document ne doit pas pouvoir passer pour un contrat en vigueur.",
+   "action": {
+    "type": "W_EXPECT_ENTETE",
+    "emplacement": "filigrane",
+    "accept": [
+     "EN RELECTURE"
+    ]
+   },
+   "aide": {
+    "text": "Troisième champ du panneau.",
+    "showTarget": true
+   },
+   "feedback": "La mention barre la page : aucun lecteur ne peut la manquer."
+  },
+  {
+   "id": "M09-E02-03",
+   "consigne": "==Ajoutez « Vernet Conseil » dans l'en-tête.== Un contrat porte le nom de la partie qui l'émet.",
+   "action": {
+    "type": "W_EXPECT_ENTETE",
+    "emplacement": "entete",
+    "accept": [
+     "Vernet Conseil"
+    ]
+   },
+   "aide": {
+    "text": "Premier champ du panneau.",
+    "showTarget": true
+   },
+   "feedback": "L'émetteur est identifié en haut de page."
+  },
+  {
+   "id": "M09-E02-04",
+   "consigne": "Le contrat est signé. ==Videz le filigrane== : la mention de relecture n'a plus lieu d'être et fausserait la valeur du document.",
+   "action": {
+    "type": "W_EXPECT_ENTETE",
+    "emplacement": "filigrane",
+    "accept": [
+     ""
+    ]
+   },
+   "aide": {
+    "text": "Effacez tout le texte du troisième champ.",
+    "showTarget": true
+   },
+   "feedback": "Document démarqué : son statut correspond de nouveau à la réalité."
+  },
+  {
+   "id": "M09-E02-05",
+   "consigne": "==Saisissez « Exemplaire signé » dans le pied de page== pour marquer la version qui fait foi.",
+   "action": {
+    "type": "W_EXPECT_ENTETE",
+    "emplacement": "pied",
+    "accept": [
+     "Exemplaire signé"
+    ]
+   },
+   "aide": {
+    "text": "Deuxième champ du panneau.",
+    "showTarget": true
+   },
+   "feedback": "La version de référence est explicite."
+  },
+  {
+   "id": "M09-E02-06",
+   "points": 0,
+   "action": {
+    "type": "READ"
+   },
+   "consigne": "Deux changements de statut, **zéro modification du texte contractuel**. C'est essentiel sur un document juridique : toucher au corps du contrat pour signaler un statut créerait une divergence entre les exemplaires.",
+   "feedback": "Le statut se pose autour du texte, jamais dedans."
+  }
+ ]
+}

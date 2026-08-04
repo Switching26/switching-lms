@@ -1,0 +1,105 @@
+{
+  "schemaVersion": 1,
+  "app": "WORD",
+  "title": "Créer un tableau et choisir ses dimensions",
+  "mode": "LESSON",
+  "moduleTitle": "Les tableaux",
+  "intro": {
+    "title": "QUAND LE TEXTE NE SUFFIT PLUS",
+    "body": "Un tableau sert à ce qui se compare : des lignes de même nature, des colonnes de même sens. Le réflexe qui compte n'est pas de savoir l'insérer — c'est de compter avant, pour ne pas se retrouver avec une colonne vide ou une ligne qui manque."
+  },
+  "outro": "Compter d'abord, insérer ensuite : autant de colonnes que d'informations par élément, autant de lignes que d'éléments, plus une pour les en-têtes. Un tableau bien dimensionné à la création évite de le reprendre entièrement.",
+  "document": {
+    "paragraphes": [
+      {
+        "texte": "Inventaire de l'atelier de menuiserie"
+      },
+      {
+        "texte": "Le tableau ci-dessous recense le matériel et son état."
+      },
+      {
+        "texte": "Contrôle réalisé le 18 mars par le responsable d'atelier."
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M12-L01-01",
+      "points": 0,
+      "consigne": "Avant d'insérer, comptez. Vous allez recenser **trois machines**, avec pour chacune sa **désignation** et son **état**. Cela fait deux colonnes, et quatre lignes : une pour les en-têtes, trois pour les machines. Retenez la règle — la ligne d'en-tête se compte, on l'oublie une fois sur deux.",
+      "action": {
+        "type": "READ"
+      },
+      "montrer": [
+        {
+          "type": "W_SELECT_TEXT",
+          "zone": "p1"
+        }
+      ],
+      "feedback": "Deux colonnes, quatre lignes : le compte est fait avant le premier clic."
+    },
+    {
+      "id": "M12-L01-02",
+      "consigne": "==Épaississez le titre de l'inventaire== : un document qui contient un tableau a d'autant plus besoin d'être annoncé.",
+      "setup": {
+        "ribbon": {
+          "activeTab": "accueil"
+        }
+      },
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p0",
+        "format": {
+          "gras": true
+        }
+      },
+      "feedback": "Le titre annonce, le tableau détaille."
+    },
+    {
+      "id": "M12-L01-03",
+      "consigne": "==Mettez en italique la ligne du contrôle== — la mention de date et de responsable — pour la distinguer du corps du document.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p2",
+        "format": {
+          "italique": true
+        }
+      },
+      "feedback": "Inventaire prêt : titre, présentation, tableaux, mention de contrôle."
+    },
+    {
+      "id": "M12-L01-04",
+      "consigne": "==Placez le curseur à la fin du deuxième paragraphe, puis insérez un tableau de 4 lignes sur 2 colonnes== avec le bouton Tableau de l'onglet Insertion. Le tableau se pose là où se trouve le point d'insertion.",
+      "action": {
+        "type": "W_EXPECT_TABLE",
+        "lignes": 4,
+        "colonnes": 2
+      },
+      "aide": {
+        "text": "Onglet « Insertion », bouton « Tableau », puis les deux champs de la boîte.",
+        "showTarget": true
+      },
+      "feedback": "Le tableau se dessine dans la page, à l'endroit exact du point d'insertion."
+    },
+    {
+      "id": "M12-L01-05",
+      "consigne": "Le contrôle porte finalement sur **cinq** machines. ==Insérez un second tableau de 6 lignes sur 2 colonnes== : cinq machines, plus la ligne d'en-tête.",
+      "action": {
+        "type": "W_EXPECT_TABLE",
+        "lignes": 6,
+        "colonnes": 2
+      },
+      "feedback": "Six lignes pour cinq machines : la ligne d'en-tête est comptée."
+    },
+    {
+      "id": "M12-L01-06",
+      "consigne": "On vous demande d'ajouter la date du dernier entretien. ==Insérez un tableau de 6 lignes sur 3 colonnes== : une colonne par information à consigner.",
+      "action": {
+        "type": "W_EXPECT_TABLE",
+        "lignes": 6,
+        "colonnes": 3
+      },
+      "feedback": "Trois colonnes : désignation, état, dernier entretien."
+    }
+  ]
+}

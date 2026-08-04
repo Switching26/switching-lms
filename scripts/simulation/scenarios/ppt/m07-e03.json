@@ -1,0 +1,198 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "mode": "EXERCISE",
+  "moduleTitle": "Reprendre une présentation existante",
+  "title": "Exercice — Trier ce qui reste de l'autre version",
+  "intro": {
+    "title": "Exercice — Trier ce qui reste de l'autre version",
+    "body": "Trois restes de la version interne traînent encore : une diapositive confidentielle, une note adressée à un collègue, une grille tarifaire périmée. Chacun appelle un geste différent — à vous de choisir lequel."
+  },
+  "outro": {
+    "body": "Masquer ce qui resservira, supprimer les notes de travail et le périmé : le tri est acquis."
+  },
+  "ppt": {
+    "fileName": "Offre Verdeval.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Verdeval",
+          "sous-titre": "Présenté à la copropriété le 6 mai"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Un jardin entretenu toute l'année",
+          "contenu": "Un passage par mois\nDeux jardiniers sur place\nDéchets verts évacués"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Marge par chantier",
+          "contenu": "Document interne - direction"
+        }
+      },
+      {
+        "layout": "titre-seul",
+        "textes": {
+          "titre": "Nos références"
+        },
+        "objets": [
+          {
+            "id": "zt-refs",
+            "objectType": "texte",
+            "texte": "Ville de Nantes\nRésidence du Parc\nCopropriété Les Tilleuls",
+            "rect": {
+              "x": 70,
+              "y": 175,
+              "w": 520,
+              "h": 150
+            }
+          },
+          {
+            "id": "zt-memo",
+            "objectType": "texte",
+            "texte": "Demander l'accord des Tilleuls avant citation - Lea",
+            "rect": {
+              "x": 70,
+              "y": 370,
+              "w": 560,
+              "h": 60
+            }
+          }
+        ]
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Tarifs 2025",
+          "contenu": "Grille périmée depuis janvier"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M07-E03-01",
+      "consigne": "Affichez la diapositive des marges par chantier.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 2
+      },
+      "aide": {
+        "text": "C'est la troisième miniature du volet."
+      }
+    },
+    {
+      "id": "M07-E03-02",
+      "consigne": "Elle est indispensable en interne et impossible devant un client : appliquez-lui le geste qui concilie les deux.",
+      "setupPpt": {
+        "slide": 2
+      },
+      "action": {
+        "type": "P_EXPECT_DECK",
+        "deck": {
+          "slides": [
+            {
+              "index": 2,
+              "masquee": true
+            }
+          ]
+        }
+      },
+      "aide": {
+        "text": "Groupe Diaporama, bouton Masquer : elle reste dans le fichier, hors du déroulé."
+      }
+    },
+    {
+      "id": "M07-E03-03",
+      "consigne": "Affichez la diapositive des références.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 3
+      }
+    },
+    {
+      "id": "M07-E03-04",
+      "consigne": "Une consigne adressée à une collègue y traîne. Elle n'a jamais eu vocation à être vue : traitez-la comme telle.",
+      "action": {
+        "type": "P_DELETE_OBJECT",
+        "objectId": "zt-memo"
+      },
+      "aide": {
+        "text": "Sélectionnez la zone d'un clic, puis Suppr ou le bouton Supprimer du groupe Objet."
+      }
+    },
+    {
+      "id": "M07-E03-05",
+      "consigne": "Affichez la dernière diapositive, celle des tarifs.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 4
+      }
+    },
+    {
+      "id": "M07-E03-06",
+      "consigne": "Sa grille est périmée et ne resservira pas : retirez-la du fichier.",
+      "action": {
+        "type": "P_DELETE_SLIDE",
+        "index": 4
+      },
+      "aide": {
+        "text": "Groupe Diapositives, bouton Supprimer."
+      }
+    },
+    {
+      "id": "M07-E03-07",
+      "consigne": "Contrôlez le déroulé tel que la copropriété le verra, depuis le début.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": true,
+          "index": 0
+        }
+      }
+    },
+    {
+      "id": "M07-E03-08",
+      "consigne": "Avancez d'une diapositive et vérifiez que les marges n'apparaissent pas.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "index": 1
+        }
+      }
+    },
+    {
+      "id": "M07-E03-09",
+      "consigne": "Avancez encore : vous devez arriver directement aux références.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "index": 3
+        }
+      },
+      "aide": {
+        "text": "Un seul clic suffit : la diapositive masquée est sautée automatiquement."
+      }
+    },
+    {
+      "id": "M07-E03-10",
+      "consigne": "Quittez le diaporama.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": false
+        }
+      }
+    }
+  ]
+}

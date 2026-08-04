@@ -1,0 +1,127 @@
+{
+ "schemaVersion": 1,
+ "app": "WORD",
+ "title": "Copies, plage et recto verso",
+ "mode": "LESSON",
+ "moduleTitle": "Impression",
+ "intro": {
+  "title": "TROIS RÉGLAGES QUI CHANGENT TOUT",
+  "body": "Imprimer, ce n'est presque jamais « tout, une fois ». C'est souvent **une page précise**, **plusieurs exemplaires**, ou **les deux côtés de la feuille**. Ces trois réglages sont côte à côte dans l'écran Imprimer, et ce sont eux qu'on oublie."
+ },
+ "outro": "Copies, plage, recto verso : les trois réglages qui séparent une impression utile d'une pile de papier à jeter.",
+ "document": {
+  "paragraphes": [
+   {
+    "texte": "Convocation à l'assemblée générale",
+    "style": "titre"
+   },
+   {
+    "texte": "Les membres sont convoqués le vendredi 12 juin à quatorze heures.",
+    "style": "normal"
+   },
+   {
+    "texte": "L'ordre du jour comporte le rapport moral et le vote du budget.",
+    "style": "normal"
+   },
+   {
+    "texte": "Le pouvoir joint doit être retourné avant le 5 juin.",
+    "style": "normal"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "id": "M10-L02-01",
+   "consigne": "==Ouvrez l'écran Imprimer== depuis l'onglet Fichier.",
+   "action": {
+    "type": "W_CLICK_CONTROL",
+    "controle": "w-imprimer"
+   },
+   "setup": {
+    "ribbon": {
+     "activeTab": "fichier"
+    }
+   },
+   "aide": {
+    "text": "Onglet « Fichier », bouton « Imprimer ».",
+    "showTarget": true
+   },
+   "feedback": "Les réglages sont à gauche de l'aperçu."
+  },
+  {
+   "id": "M10-L02-02",
+   "consigne": "La convocation part à douze membres. ==Portez le nombre de copies à 12.== Une seule impression multiple vaut mieux que douze impressions lancées à la suite.",
+   "action": {
+    "type": "W_EXPECT_PRINT",
+    "impression": {
+     "copies": 12
+    }
+   },
+   "aide": {
+    "text": "Champ « Copies », en haut des réglages.",
+    "showTarget": true
+   },
+   "feedback": "Douze exemplaires en un seul lancement."
+  },
+  {
+   "id": "M10-L02-03",
+   "consigne": "==Activez le recto verso.== Sur douze exemplaires d'un document de deux pages, c'est la moitié du papier économisée — et un envoi postal moins lourd.",
+   "action": {
+    "type": "W_EXPECT_PRINT",
+    "impression": {
+     "rectoVerso": true
+    }
+   },
+   "aide": {
+    "text": "Case « Recto verso », sous les boutons de plage.",
+    "showTarget": true
+   },
+   "feedback": "Les deux faces seront utilisées."
+  },
+  {
+   "id": "M10-L02-04",
+   "consigne": "Un membre réclame seulement la page affichée. ==Choisissez « Page courante ».== La plage limite l'impression à ce que vous voyez.",
+   "action": {
+    "type": "W_EXPECT_PRINT",
+    "impression": {
+     "plage": "courante"
+    }
+   },
+   "aide": {
+    "text": "Bouton « Page courante », dans « Pages à imprimer ».",
+    "showTarget": true
+   },
+   "feedback": "Seule la page affichée sortira."
+  },
+  {
+   "id": "M10-L02-05",
+   "consigne": "L'envoi complet reprend. ==Revenez sur « Tout le document ».== Une plage oubliée est la cause la plus fréquente d'un document imprimé incomplet.",
+   "action": {
+    "type": "W_EXPECT_PRINT",
+    "impression": {
+     "plage": "tout"
+    }
+   },
+   "aide": {
+    "text": "Bouton « Tout le document ».",
+    "showTarget": true
+   },
+   "feedback": "Le document entier repart à l'impression."
+  },
+  {
+   "id": "M10-L02-06",
+   "consigne": "==Ramenez le nombre de copies à 1.== Un réglage de copies reste en place : la fois suivante, on réimprime douze exemplaires sans s'en apercevoir.",
+   "action": {
+    "type": "W_EXPECT_PRINT",
+    "impression": {
+     "copies": 1
+    }
+   },
+   "aide": {
+    "text": "Champ « Copies ».",
+    "showTarget": true
+   },
+   "feedback": "Réglages remis au neutre — le réflexe qui évite les surprises."
+  }
+ ]
+}

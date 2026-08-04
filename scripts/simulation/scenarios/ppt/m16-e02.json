@@ -1,0 +1,253 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "mode": "EXERCISE",
+  "moduleTitle": "Cas pratique : le point trimestriel",
+  "title": "Du relevé au message",
+  "intro": {
+    "title": "Du relevé au message",
+    "body": "Le service comptable vous envoie ses lignes au centime. Extrayez-en le message — souvent un écart qui n'y figure pas —, mettez-le en titre, et gardez trois lignes dessous."
+  },
+  "outro": {
+    "body": "Deux relevés devenus deux messages, et le détail rangé dans les notes."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "ppt": {
+    "fileName": "Saint-Clair - rentrée.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Foyer Saint-Clair",
+          "sous-titre": "Conseil d'administration du 12 septembre"
+        }
+      },
+      {
+        "layout": "titre-seul",
+        "textes": {
+          "titre": "1. Les effectifs"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Relevé des présences",
+          "contenu": "Places agréées 84, occupées au 1er septembre 79, sorties de l'été 11, entrées de l'été 14, liste d'attente 23 dossiers"
+        }
+      },
+      {
+        "layout": "titre-seul",
+        "textes": {
+          "titre": "2. Le budget"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Relevé budgétaire",
+          "contenu": "Dotation notifiée 1 284 500,00 €, engagé au 31 août 902 317,45 €, reste à engager 382 182,55 €"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M16-E02-01",
+      "consigne": "Affichez la troisième diapositive, celle du relevé des présences.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 2
+      }
+    },
+    {
+      "id": "M16-E02-02",
+      "consigne": "Le message n'est aucune des cinq lignes : 79 places occupées sur 84, c'est un foyer plein à 94 % avec 23 dossiers en attente. Remplacez le titre par 79 places occupées sur 84.",
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:titre",
+        "accept": [
+          "79 places occupées sur 84"
+        ]
+      },
+      "aide": {
+        "text": "Un titre déjà rempli s'ouvre au double-clic."
+      }
+    },
+    {
+      "id": "M16-E02-03",
+      "consigne": "Remplacez le contenu par : 14 entrées et 11 sorties cet été, 23 dossiers en attente, Cinq places à pourvoir.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Foyer Saint-Clair",
+                "sous-titre": "Conseil d'administration du 12 septembre"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "1. Les effectifs"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "79 places occupées sur 84",
+                "contenu": "Places agréées 84, occupées au 1er septembre 79, sorties de l'été 11, entrées de l'été 14, liste d'attente 23 dossiers"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "2. Le budget"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Relevé budgétaire",
+                "contenu": "Dotation notifiée 1 284 500,00 €, engagé au 31 août 902 317,45 €, reste à engager 382 182,55 €"
+              }
+            }
+          ]
+        },
+        "slide": 2
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:contenu",
+        "accept": [
+          "14 entrées et 11 sorties cet été\n23 dossiers en attente\nCinq places à pourvoir",
+          "14 entrées et 11 sorties cet été, 23 dossiers en attente, Cinq places à pourvoir"
+        ]
+      },
+      "aide": {
+        "text": "Double-cliquez dans le contenu pour l'ouvrir, puis remplacez tout."
+      }
+    },
+    {
+      "id": "M16-E02-04",
+      "consigne": "Mettez ce titre en gras.",
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "ph:titre",
+        "style": {
+          "bold": true
+        }
+      },
+      "aide": {
+        "text": "Sélectionnez le titre d'un clic, puis bouton G du groupe Police."
+      }
+    },
+    {
+      "id": "M16-E02-05",
+      "consigne": "Affichez la dernière diapositive, celle du relevé budgétaire.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 4
+      }
+    },
+    {
+      "id": "M16-E02-06",
+      "consigne": "902 317 € engagés sur 1 284 500 € notifiés, c'est 70 % du budget consommé aux deux tiers de l'année. Remplacez le titre par 70 % du budget engagé au 31 août.",
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:titre",
+        "accept": [
+          "70 % du budget engagé au 31 août"
+        ]
+      }
+    },
+    {
+      "id": "M16-E02-07",
+      "consigne": "Remplacez le contenu par : 1 284 500 € notifiés, 902 000 € engagés, 382 000 € restants. Trois nombres ronds, l'exact restera dans les notes.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Foyer Saint-Clair",
+                "sous-titre": "Conseil d'administration du 12 septembre"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "1. Les effectifs"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "79 places occupées sur 84",
+                "contenu": "14 entrées et 11 sorties cet été\n23 dossiers en attente\nCinq places à pourvoir"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "2. Le budget"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "70 % du budget engagé au 31 août",
+                "contenu": "Dotation notifiée 1 284 500,00 €, engagé au 31 août 902 317,45 €, reste à engager 382 182,55 €"
+              }
+            }
+          ]
+        },
+        "slide": 4
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:contenu",
+        "accept": [
+          "1 284 500 € notifiés\n902 000 € engagés\n382 000 € restants",
+          "1 284 500 € notifiés, 902 000 € engagés, 382 000 € restants"
+        ]
+      }
+    },
+    {
+      "id": "M16-E02-08",
+      "consigne": "Mettez ce titre en gras, comme le précédent : c'est cette régularité qui rend une série de chiffres suivable.",
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "ph:titre",
+        "style": {
+          "bold": true
+        }
+      }
+    },
+    {
+      "id": "M16-E02-09",
+      "consigne": "Écrivez la note de cette diapositive : Montants au centime dans le relevé comptable si on me le demande.",
+      "action": {
+        "type": "P_EXPECT_DECK",
+        "deck": {
+          "slides": [
+            {
+              "index": 4,
+              "notes": "Montants au centime dans le relevé comptable si on me le demande"
+            }
+          ]
+        }
+      },
+      "aide": {
+        "text": "Le champ de notes est sous la diapositive ; sur petit écran, le bouton « Notes » l'ouvre."
+      },
+      "feedback": "Deux relevés devenus deux messages : le conseil peut discuter au lieu de déchiffrer."
+    }
+  ]
+}

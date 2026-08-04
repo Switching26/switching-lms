@@ -1,0 +1,256 @@
+{
+  "schemaVersion": 1,
+  "title": "Vider une boîte de six messages",
+  "mode": "EXERCISE",
+  "moduleTitle": "Traiter sa boîte du matin : la routine",
+  "intro": {
+    "title": "Six messages, six décisions, aucun débat",
+    "body": "Aucune consigne ne vous dira quoi faire de chacun : c'est vous qui décidez. Répondre tout de suite, classer, marquer, ou supprimer — une décision par message, et la boîte doit être vide de tout ce qui n'attend rien."
+  },
+  "outro": {
+    "body": "Le tri ne demande pas de réfléchir longtemps : il demande de décider vite et de s'y tenir. Ce qui coûte du temps, ce n'est pas de traiter un message, c'est de le relire trois fois sans rien en faire."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "clients",
+        "nom": "Clients 2026"
+      },
+      {
+        "id": "fournisseurs",
+        "nom": "Fournisseurs"
+      }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "messages": [
+      {
+        "id": "m-ok",
+        "dossier": "reception",
+        "de": "j.leroux@habitat-du-nord.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Escalier — tout est en ordre, merci",
+        "corps": "Bonjour,\n\nRien à signaler, le dossier est clos de notre côté.\n\nJulien Leroux",
+        "date": "2026-03-31T08:10",
+        "lu": false
+      },
+      {
+        "id": "m-facture",
+        "dossier": "reception",
+        "de": "compta@quincaillerie-delmas.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Facture QD-4712 — échéance 30 avril",
+        "corps": "Bonjour,\n\nVeuillez trouver la facture QD-4712.\n\nQuincaillerie Delmas",
+        "date": "2026-03-31T07:45",
+        "lu": true,
+        "pieces": [
+          {
+            "nom": "Facture-QD-4712.pdf",
+            "taille": "121 Ko"
+          }
+        ]
+      },
+      {
+        "id": "m-question",
+        "dossier": "reception",
+        "de": "marches@ville-lambersart.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Salle des mariages — un point à confirmer",
+        "corps": "Bonjour,\n\nLe mobilier est-il traité anti-rayures ?\n\nService des marchés",
+        "date": "2026-03-31T07:30",
+        "lu": false
+      },
+      {
+        "id": "m-echeance",
+        "dossier": "reception",
+        "de": "h.vasseur@menuiserie-vasseur.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Pose du 8 avril — je confirmerai l'heure vendredi",
+        "corps": "Bonjour Camille,\n\nJe te confirmerai l'heure exacte vendredi.\n\nHugo",
+        "date": "2026-03-31T07:05",
+        "lu": false
+      },
+      {
+        "id": "m-pub",
+        "dossier": "reception",
+        "de": "offres@promo-outillage.net",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Fin de série — jusqu'à -70 %",
+        "corps": "Nos offres.",
+        "date": "2026-03-31T05:00",
+        "lu": false
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O08-E01-01",
+      "consigne": "Commencez par ce qui n'appelle aucune action : la fin de série de Promo Outillage.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-pub": {
+              "dossier": "supprimes"
+            }
+          }
+        }
+      },
+      "aide": {
+        "text": "Ouvrez le message, puis Supprimer."
+      }
+    },
+    {
+      "id": "O08-E01-02",
+      "consigne": "La mairie pose une question fermée : répondez-lui tout de suite, à elle seule, en indiquant si le mobilier est traité anti-rayures.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "marches@ville-lambersart.fr"
+            ]
+          },
+          "cc": {
+            "vide": true
+          },
+          "corps": {
+            "salutation": [
+              "bonjour",
+              "madame",
+              "monsieur",
+              "bonsoir"
+            ],
+            "cloture": [
+              "cordialement",
+              "salutations",
+              "bien a vous",
+              "merci"
+            ],
+            "notions": [
+              {
+                "libelle": "la réponse sur le traitement du mobilier",
+                "oneOf": [
+                  "anti-rayures",
+                  "anti rayures",
+                  "vernis",
+                  "traite",
+                  "protection",
+                  "resistant"
+                ]
+              },
+              {
+                "libelle": "le chantier concerné",
+                "oneOf": [
+                  "mariages",
+                  "salle",
+                  "mp-2026-24",
+                  "2026-24",
+                  "mobilier"
+                ]
+              }
+            ],
+            "minMots": 10
+          }
+        }
+      },
+      "aide": {
+        "text": "Ouvrez son message, Répondre, puis rédigez trois lignes. La règle des deux minutes s'applique."
+      }
+    },
+    {
+      "id": "O08-E01-03",
+      "consigne": "Ce message est traité : sortez-le de la file d'attente en le rangeant chez les clients.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-question": {
+              "dossier": "clients"
+            }
+          }
+        }
+      },
+      "aide": {
+        "text": "Déplacer, puis Clients 2026."
+      }
+    },
+    {
+      "id": "O08-E01-04",
+      "consigne": "Julien Leroux clôt son dossier sans rien demander : rangez son message là où vous retrouverez ce client.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-ok": {
+              "dossier": "clients"
+            }
+          }
+        }
+      },
+      "aide": {
+        "text": "Déplacer, puis Clients 2026."
+      }
+    },
+    {
+      "id": "O08-E01-05",
+      "consigne": "La facture QD-4712 est à payer fin avril : elle est traitée pour aujourd'hui. Rangez-la selon son expéditeur.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-facture": {
+              "dossier": "fournisseurs"
+            }
+          }
+        }
+      },
+      "aide": {
+        "text": "Déplacer, puis Fournisseurs."
+      }
+    },
+    {
+      "id": "O08-E01-06",
+      "consigne": "Reste Hugo : il confirmera vendredi, vous ne pouvez rien en faire. Traitez-le de la seule façon qui vous le remettra sous les yeux au bon moment.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-echeance": {
+              "dossier": "reception",
+              "indicateur": true
+            }
+          }
+        }
+      },
+      "aide": {
+        "text": "Ouvrez le message, puis le drapeau. Ne le déplacez pas : il attend encore quelque chose."
+      }
+    }
+  ]
+}

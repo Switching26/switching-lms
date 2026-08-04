@@ -1,0 +1,93 @@
+{
+  "schemaVersion": 1,
+  "app": "WORD",
+  "title": "Sélectionner : mot, passage, paragraphe, document",
+  "mode": "LESSON",
+  "moduleTitle": "Pour commencer",
+  "intro": {
+    "title": "SÉLECTIONNER, LA COMPÉTENCE QUI DÉBLOQUE TOUT",
+    "body": "Chaque commande de Word s'applique à ce qui est sélectionné. Savoir désigner exactement le bon morceau — un mot, un passage, un paragraphe ou le document entier — est donc ce qui sépare un utilisateur lent d'un utilisateur efficace. Quatre portées, quatre gestes à retenir."
+  },
+  "outro": "Un mot, un passage, un paragraphe, tout le document : vous avez les quatre portées. À chaque fois que Word semble ne rien faire, c'est presque toujours que la sélection ne couvre pas ce que vous croyiez.",
+  "document": {
+    "paragraphes": [
+      { "texte": "Charte du télétravail" },
+      { "texte": "Chaque collaborateur peut demander deux journées de télétravail par semaine." },
+      { "texte": "La demande se fait auprès du responsable hiérarchique, au plus tard le jeudi de la semaine précédente." },
+      { "texte": "Le matériel est fourni par les Ateliers Rivedoux et reste leur propriété." }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M01-L03-01",
+      "consigne": "Quatre portées de sélection, du plus fin au plus large : un **mot** se prend d'un double-clic ; un **passage** en faisant glisser la souris d'un bout à l'autre ; un **paragraphe** entier d'un triple-clic ; le **document** entier avec Ctrl + A. Retenez surtout le principe : ce qui n'est pas sélectionné ne sera pas modifié.",
+      "action": { "type": "READ" },
+      "points": 0,
+      "feedback": "Double-clic, glisser, triple-clic, Ctrl + A : quatre gestes à avoir dans les doigts."
+    },
+    {
+      "id": "M01-L03-02",
+      "consigne": "Commençons par la portée la plus fine. ==Sélectionnez le mot « collaborateur »== dans le deuxième paragraphe, d'un double-clic dessus. Notez que Word prend le mot entier, sans que vous ayez à viser ses bords.",
+      "action": { "type": "W_SELECT_TEXT", "zone": "p1:mot2", "tolerance": 2 },
+      "aide": { "text": "Double-cliquez n'importe où à l'intérieur du mot.", "showTarget": true },
+      "feedback": "Le mot est pris d'un bloc : le double-clic vous épargne un glissement précis."
+    },
+    {
+      "id": "M01-L03-03",
+      "consigne": "Vérifiez que cette sélection est bien exploitable : ==mettez ce mot en italique==. Ce qu'il faut observer, c'est la portée exacte de l'effet — un seul mot penche, pas la phrase.",
+      "setup": { "ribbon": { "activeTab": "accueil" } },
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p1:mot2",
+        "format": { "italique": true }
+      },
+      "aide": { "text": "Le I penché, dans le groupe Police.", "showTarget": true },
+      "feedback": "Un mot en italique au milieu d'une phrase intacte."
+    },
+    {
+      "id": "M01-L03-04",
+      "consigne": "Deuxième portée : le passage libre, celui qui ne coïncide avec aucun mot ni aucun paragraphe. ==Sélectionnez « au plus tard le jeudi »== dans le troisième paragraphe, en faisant glisser la souris.",
+      "action": { "type": "W_SELECT_TEXT", "zone": "texte:au plus tard le jeudi", "tolerance": 3 },
+      "aide": {
+        "text": "Cliquez juste avant « au », maintenez enfoncé, allez jusqu'après « jeudi », relâchez.",
+        "showTarget": true
+      },
+      "feedback": "Cinq mots, choisis librement : c'est la portée la plus souple."
+    },
+    {
+      "id": "M01-L03-05",
+      "consigne": "==Mettez ce passage en gras== pour faire ressortir l'échéance. Vous venez d'employer les deux premières portées ; le geste qui suit, lui, ne change pas — c'est toujours sélectionner, puis agir.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "texte:au plus tard le jeudi",
+        "format": { "gras": true }
+      },
+      "feedback": "L'échéance saute aux yeux, et rien d'autre n'a bougé."
+    },
+    {
+      "id": "M01-L03-06",
+      "consigne": "Troisième portée : le paragraphe entier. ==Sélectionnez le quatrième paragraphe== — celui qui parle du matériel — d'un triple-clic à l'intérieur. C'est le geste à retenir dès qu'une consigne dit « le paragraphe ».",
+      "action": { "type": "W_SELECT_TEXT", "zone": "p3", "tolerance": 2 },
+      "aide": { "text": "Trois clics rapprochés, n'importe où dans le paragraphe.", "showTarget": true },
+      "feedback": "Le paragraphe entier est pris, de sa première lettre à son point final."
+    },
+    {
+      "id": "M01-L03-07",
+      "consigne": "Quatrième et dernière portée : le document entier. ==Appuyez sur Ctrl + A==. C'est le raccourci à employer avant toute mise en forme générale — changer la police de tout un rapport, par exemple.",
+      "action": { "type": "W_KEY", "touches": ["Ctrl", "A"] },
+      "aide": { "text": "Maintenez Ctrl et appuyez sur la lettre A.", "showTarget": true },
+      "feedback": "Tout le document est surligné : les quatre paragraphes d'un coup."
+    },
+    {
+      "id": "M01-L03-08",
+      "consigne": "Mettez cette sélection large à profit : ==justifiez le texte==, c'est-à-dire alignez-le sur les deux marges à la fois. Ce qu'il faut comprendre ici, c'est qu'une commande de paragraphe s'applique à TOUS les paragraphes touchés par la sélection.",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p2",
+        "style": { "alignement": "justifie" }
+      },
+      "aide": { "text": "Le bouton Justifier, dans le groupe Paragraphe.", "showTarget": true },
+      "feedback": "Les bords droits s'alignent : une seule commande, appliquée à tout ce qui était sélectionné."
+    }
+  ]
+}

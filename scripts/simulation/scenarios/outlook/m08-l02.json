@@ -1,0 +1,262 @@
+{
+  "schemaVersion": 1,
+  "title": "Répondre court, tout de suite",
+  "mode": "LESSON",
+  "moduleTitle": "Traiter sa boîte du matin : la routine",
+  "intro": {
+    "title": "La règle des deux minutes",
+    "body": "Un message auquel on peut répondre en moins de deux minutes doit être traité immédiatement : le rouvrir plus tard coûtera plus cher que de l'expédier maintenant. Encore faut-il savoir écrire court sans écrire sec — trois messages, trois réponses brèves, et aucune qui donne l'impression d'être expédiée."
+  },
+  "outro": {
+    "body": "Une réponse courte n'est pas une réponse brutale : elle garde la formule d'appel, la formule de politesse, et l'information exacte. Ce qu'on supprime, ce sont les phrases qui n'apportent rien — pas la courtoisie."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "clients",
+        "nom": "Clients 2026"
+      },
+      {
+        "id": "fournisseurs",
+        "nom": "Fournisseurs"
+      }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "messages": [
+      {
+        "id": "m-q1",
+        "dossier": "reception",
+        "de": "h.vasseur@menuiserie-vasseur.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Escalier — quelle référence de vis pour la fixation ?",
+        "corps": "Bonjour Camille,\n\nQuelle référence de vis avais-tu retenue pour la fixation murale ?\n\nHugo",
+        "date": "2026-03-30T08:05",
+        "lu": false
+      },
+      {
+        "id": "m-q2",
+        "dossier": "reception",
+        "de": "s.brunel@atelier-nord.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Atelier — je prends ma matinée jeudi, ça pose un problème ?",
+        "corps": "Bonjour,\n\nJe voudrais prendre ma matinée jeudi. Rien de bloquant de ton côté ?\n\nSonia",
+        "date": "2026-03-30T08:20",
+        "lu": false
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O08-L02-01",
+      "consigne": "==Ouvrez la question d'Hugo.== Une question fermée, une réponse d'une ligne : c'est exactement le cas où répondre maintenant coûte moins cher que d'y revenir.",
+      "action": {
+        "type": "O_SELECT_MESSAGE",
+        "id": "m-q1"
+      },
+      "aide": {
+        "text": "C'est le message qui demande une référence de vis."
+      }
+    },
+    {
+      "id": "O08-L02-02",
+      "consigne": "==Répondez-lui== en indiquant la référence `CH-88` et la longueur retenue. Court ne veut pas dire sec : gardez la formule d'appel et la politesse, supprimez seulement ce qui n'apporte rien.",
+      "setup": {
+        "courrier": {
+          "messageActif": "m-q1"
+        }
+      },
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "genre": "reponse",
+          "a": {
+            "contient": [
+              "h.vasseur@menuiserie-vasseur.fr"
+            ]
+          },
+          "cc": {
+            "vide": true
+          },
+          "corps": {
+            "salutation": [
+              "bonjour",
+              "hugo",
+              "salut",
+              "bonsoir"
+            ],
+            "cloture": [
+              "merci",
+              "cordialement",
+              "a bientot",
+              "bien a toi"
+            ],
+            "notions": [
+              {
+                "libelle": "la référence de la vis",
+                "oneOf": [
+                  "ch-88",
+                  "ch 88",
+                  "88"
+                ]
+              },
+              {
+                "libelle": "une longueur ou une précision de pose",
+                "oneOf": [
+                  "mm",
+                  "cm",
+                  "longueur",
+                  "cheville",
+                  "mur",
+                  "beton",
+                  "plaque"
+                ]
+              }
+            ],
+            "minMots": 8
+          }
+        }
+      },
+      "aide": {
+        "text": "Deux informations sont attendues : la référence, et une précision de pose."
+      }
+    },
+    {
+      "id": "O08-L02-03",
+      "consigne": "==Envoyez cette réponse.== Moins de deux minutes, message traité. Le fil est clos, et il ne réapparaîtra pas dans votre liste ce soir.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "h.vasseur@menuiserie-vasseur.fr"
+            ]
+          },
+          "cc": {
+            "vide": true
+          }
+        }
+      },
+      "aide": {
+        "text": "Le bouton Envoyer, premier de la barre du haut."
+      }
+    },
+    {
+      "id": "O08-L02-04",
+      "consigne": "==Rangez le message d'Hugo dans Fournisseurs.== Traité, donc sorti de la file d'attente. C'est ce geste — et pas la réponse — qui vide vraiment une boîte.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-q1": {
+              "dossier": "fournisseurs"
+            }
+          }
+        }
+      },
+      "aide": {
+        "text": "Déplacer, puis Fournisseurs — Hugo est un partenaire extérieur."
+      }
+    },
+    {
+      "id": "O08-L02-05",
+      "consigne": "==Ouvrez la demande de Sonia.== Deuxième cas : une question interne qui appelle un oui ou un non, et qui n'a aucune raison d'attendre l'après-midi.",
+      "action": {
+        "type": "O_SELECT_MESSAGE",
+        "id": "m-q2"
+      },
+      "aide": {
+        "text": "C'est le message qui demande une matinée de congé."
+      }
+    },
+    {
+      "id": "O08-L02-06",
+      "consigne": "==Répondez-lui et envoyez.== Votre réponse doit trancher — **d'accord ou non** — et dire **ce qui est prévu jeudi** à l'atelier, pour qu'elle sache sur quoi vous vous fondez.",
+      "setup": {
+        "courrier": {
+          "messageActif": "m-q2"
+        }
+      },
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "s.brunel@atelier-nord.fr"
+            ]
+          },
+          "cc": {
+            "vide": true
+          },
+          "corps": {
+            "salutation": [
+              "bonjour",
+              "sonia",
+              "salut",
+              "bonsoir"
+            ],
+            "cloture": [
+              "merci",
+              "cordialement",
+              "a bientot",
+              "bien a toi",
+              "bonne matinee"
+            ],
+            "notions": [
+              {
+                "libelle": "votre décision",
+                "oneOf": [
+                  "d'accord",
+                  "pas de probleme",
+                  "c'est bon",
+                  "ok",
+                  "aucun souci",
+                  "je prefere",
+                  "impossible",
+                  "difficile"
+                ]
+              },
+              {
+                "libelle": "ce qui est prévu jeudi",
+                "oneOf": [
+                  "jeudi",
+                  "livraison",
+                  "pose",
+                  "atelier",
+                  "chantier",
+                  "personne",
+                  "calme"
+                ]
+              }
+            ],
+            "minMots": 10
+          }
+        }
+      },
+      "aide": {
+        "text": "Deux informations sont attendues : votre réponse, et ce qui se passe jeudi."
+      }
+    }
+  ]
+}

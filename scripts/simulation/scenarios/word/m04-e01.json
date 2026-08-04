@@ -1,0 +1,99 @@
+{
+  "schemaVersion": 1,
+  "app": "WORD",
+  "title": "Exercice — Les quatre alignements",
+  "mode": "EXERCISE",
+  "moduleTitle": "Mise en forme des paragraphes",
+  "intro": {
+    "title": "À VOUS DE JOUER",
+    "body": "Une convocation à mettre en page. Les quatre alignements y ont chacun leur place — à vous de décider laquelle, sans qu'on vous nomme le bouton."
+  },
+  "outro": "Quatre paragraphes, quatre alignements : la convocation a la forme d'un document officiel.",
+  "document": {
+    "paragraphes": [
+      {
+        "texte": "Convocation à l'entretien professionnel"
+      },
+      {
+        "texte": "Nantes, le 7 novembre"
+      },
+      {
+        "texte": "Vous êtes convoqué à votre entretien professionnel annuel, qui se tiendra dans le bureau du responsable des ressources humaines, au premier étage du bâtiment administratif."
+      },
+      {
+        "texte": "La direction des ressources humaines"
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M04-E01-01",
+      "consigne": "==Placez le titre au milieu de la page.==",
+      "setup": {
+        "ribbon": {
+          "activeTab": "accueil"
+        }
+      },
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p0",
+        "style": {
+          "alignement": "centre"
+        }
+      },
+      "feedback": "Titre centré."
+    },
+    {
+      "id": "M04-E01-02",
+      "consigne": "==Placez le lieu et la date selon la convention du courrier français.==",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p1",
+        "style": {
+          "alignement": "droite"
+        }
+      },
+      "aide": {
+        "text": "En haut à droite, comme sur toute lettre.",
+        "showTarget": true
+      },
+      "feedback": "Mention bien placée."
+    },
+    {
+      "id": "M04-E01-03",
+      "consigne": "==Donnez au corps du texte la forme d'un document officiel==, avec ses deux bords alignés.",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p2",
+        "style": {
+          "alignement": "justifie"
+        }
+      },
+      "feedback": "Corps justifié."
+    },
+    {
+      "id": "M04-E01-04",
+      "consigne": "==Placez le signataire du côté où l'on signe.==",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p3",
+        "style": {
+          "alignement": "droite"
+        }
+      },
+      "feedback": "Signature à droite."
+    },
+    {
+      "id": "M04-E01-05",
+      "consigne": "==Épaississez le titre== pour terminer.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "p0",
+        "format": {
+          "gras": true
+        }
+      },
+      "feedback": "Convocation prête."
+    }
+  ]
+}

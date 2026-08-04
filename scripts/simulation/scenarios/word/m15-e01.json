@@ -1,0 +1,89 @@
+{
+ "schemaVersion": 1,
+ "app": "WORD",
+ "title": "Composer une page illustrée",
+ "mode": "EXERCISE",
+ "moduleTitle": "L'habillage des images",
+ "intro": {
+  "title": "À VOUS",
+  "body": "Une page de présentation avec un graphique. Choisissez l'habillage qui laisse le texte lisible, puis corrigez-le pour un usage différent."
+ },
+ "outro": "Un habillage se juge à l'œil : on l'applique, on regarde, on ajuste.",
+ "document": {
+  "paragraphes": [
+   {
+    "texte": "Ateliers Rivedoux — présentation",
+    "style": "titre"
+   },
+   {
+    "texte": "Notre atelier conçoit du mobilier sur mesure depuis douze ans.",
+    "style": "normal"
+   },
+   {
+    "texte": "L'équipe compte huit menuisiers et deux dessinateurs.",
+    "style": "normal"
+   },
+   {
+    "texte": "Chaque pièce est dessinée puis fabriquée dans nos locaux.",
+    "style": "normal"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "id": "M15-E01-01",
+   "consigne": "==Insérez le graphique de ventes.==",
+   "action": {
+    "type": "W_EXPECT_IMAGE",
+    "image": "graphique"
+   },
+   "setup": {
+    "ribbon": {
+     "activeTab": "insertion"
+    }
+   },
+   "aide": {
+    "text": "Onglet « Insertion », bouton « Image », vignette « Graphique ».",
+    "showTarget": true
+   },
+   "feedback": "Le graphique est posé."
+  },
+  {
+   "id": "M15-E01-02",
+   "consigne": "Le texte doit contourner le graphique pour tenir sur une page. ==Appliquez l'habillage « Rapproché ».==",
+   "action": {
+    "type": "W_EXPECT_IMAGE",
+    "image": "graphique",
+    "habillage": "carre"
+   },
+   "aide": {
+    "text": "Bouton « Rapproché ».",
+    "showTarget": true
+   },
+   "feedback": "Le texte épouse le graphique."
+  },
+  {
+   "id": "M15-E01-03",
+   "consigne": "La plaquette passe finalement en pleine largeur. ==Basculez en « Haut et bas ».==",
+   "action": {
+    "type": "W_EXPECT_IMAGE",
+    "image": "graphique",
+    "habillage": "hautbas"
+   },
+   "aide": {
+    "text": "Bouton « Haut et bas ».",
+    "showTarget": true
+   },
+   "feedback": "Le graphique occupe toute la largeur."
+  },
+  {
+   "id": "M15-E01-04",
+   "points": 0,
+   "action": {
+    "type": "READ"
+   },
+   "consigne": "Le même graphique, deux mises en page très différentes, **sans jamais toucher au texte**. C'est tout l'intérêt de l'habillage : il se change autant de fois qu'on veut, et rien d'autre ne bouge.",
+   "feedback": "L'habillage se change, le contenu reste."
+  }
+ ]
+}

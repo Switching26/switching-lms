@@ -1,0 +1,127 @@
+{
+  "schemaVersion": 1,
+  "app": "WORD",
+  "title": "Descendre au troisième niveau, et revenir au texte courant",
+  "mode": "LESSON",
+  "moduleTitle": "Les styles dans Word",
+  "intro": {
+    "title": "QUAND FAUT-IL UN TROISIÈME NIVEAU ?",
+    "body": "Quand une section contient elle-même des points qu'il faut pouvoir citer. Pas avant. Vous allez descendre d'un cran dans un manuel, puis faire le geste inverse — rendre à un paragraphe promu par erreur sa nature de texte courant."
+  },
+  "outro": "Un titre de trop nuit autant qu'un titre manquant : il annonce une section qui n'existe pas. Le style Normal est le geste de repli, et il fait partie du métier au même titre que les autres.",
+  "document": {
+    "paragraphes": [
+      {
+        "texte": "Procédure de réception",
+        "style": "Titre 1"
+      },
+      {
+        "texte": "Contrôle à l'arrivée",
+        "style": "Titre 2"
+      },
+      {
+        "texte": "Vérification quantitative"
+      },
+      {
+        "texte": "Le nombre de colis est comparé au bon de livraison."
+      },
+      {
+        "texte": "Vérification qualitative"
+      },
+      {
+        "texte": "L'état des emballages est constaté et photographié si nécessaire."
+      },
+      {
+        "texte": "Les écarts sont signalés au service achats le jour même.",
+        "style": "Titre 2"
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M18-L02-01",
+      "consigne": "« Vérification quantitative » est un point de détail à l'intérieur de la section Contrôle à l'arrivée. ==Appliquez-lui le Titre 3==, un niveau sous le Titre 2.",
+      "setup": {
+        "ribbon": {
+          "activeTab": "accueil"
+        }
+      },
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p2",
+        "style": {
+          "style": "Titre 3"
+        }
+      },
+      "aide": {
+        "text": "Le bouton « Titre 3 » du groupe Styles.",
+        "showTarget": true
+      },
+      "feedback": "Troisième niveau posé : la section a maintenant des points citables."
+    },
+    {
+      "id": "M18-L02-02",
+      "consigne": "==Appliquez le Titre 3 à « Vérification qualitative »== : deux points de même rang dans la même section.",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p4",
+        "style": {
+          "style": "Titre 3"
+        }
+      },
+      "feedback": "Deux points de détail, même niveau."
+    },
+    {
+      "id": "M18-L02-03",
+      "consigne": "Le dernier paragraphe a été promu Titre 2 par erreur : c'est une phrase, pas une section. ==Rendez-lui le style Normal== avec le bouton du même nom.",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p6",
+        "style": {
+          "style": "Normal"
+        }
+      },
+      "aide": {
+        "text": "Le bouton « Normal », premier du groupe Styles.",
+        "showTarget": true
+      },
+      "feedback": "Le paragraphe redevient du texte courant : la hiérarchie ne promet plus une section inexistante."
+    },
+    {
+      "id": "M18-L02-04",
+      "consigne": "==Justifiez ce paragraphe== redevenu texte courant : un corps de texte se justifie, un titre jamais.",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p6",
+        "style": {
+          "alignement": "justifie"
+        }
+      },
+      "feedback": "Le paragraphe a repris toutes les caractéristiques d'un corps de texte."
+    },
+    {
+      "id": "M18-L02-05",
+      "consigne": "==Épaississez « le jour même »== dans ce paragraphe : le délai est ce qui engage le lecteur.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "texte:le jour même",
+        "format": {
+          "gras": true
+        }
+      },
+      "feedback": "Le délai ressort sans qu'un titre ait été détourné pour le faire."
+    },
+    {
+      "id": "M18-L02-06",
+      "consigne": "==Justifiez le paragraphe de la vérification quantitative== pour finir : dans un manuel, le corps de texte se justifie d'un bout à l'autre.",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p3",
+        "style": {
+          "alignement": "justifie"
+        }
+      },
+      "feedback": "Manuel homogène : titres hiérarchisés, corps justifié."
+    }
+  ]
+}

@@ -1,0 +1,109 @@
+{
+  "schemaVersion": 1,
+  "app": "WORD",
+  "title": "Exercice — Régler les marges",
+  "mode": "EXERCISE",
+  "moduleTitle": "Mise en page",
+  "intro": {
+    "title": "À VOUS DE JOUER",
+    "body": "Un compte rendu à préparer pour l'impression. Les marges ne vous seront pas dictées bouton par bouton : la consigne dit l'usage, à vous de traduire en réglage."
+  },
+  "outro": "L'usage commande le réglage : un document annoté demande de la marge, un document dense en demande moins.",
+  "document": {
+    "paragraphes": [
+      {
+        "texte": "Compte rendu du comité de pilotage"
+      },
+      {
+        "texte": "Le calendrier du chantier de Nantes est confirmé."
+      },
+      {
+        "texte": "Le budget de formation est reconduit à l'identique."
+      },
+      {
+        "texte": "La prochaine réunion se tiendra le 12 septembre."
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M08-E01-01",
+      "consigne": "Ce compte rendu sera annoté à la main en séance. ==Donnez-lui des marges larges== sur les quatre côtés.",
+      "action": {
+        "type": "W_EXPECT_PAGE",
+        "page": {
+          "margeHaut": 5,
+          "margeBas": 5,
+          "margeGauche": 5,
+          "margeDroite": 5
+        }
+      },
+      "aide": {
+        "text": "Onglet « Mise en page », puis le prédéfini le plus généreux.",
+        "showTarget": true
+      },
+      "feedback": "De la place pour écrire à côté du texte."
+    },
+    {
+      "id": "M08-E01-02",
+      "consigne": "Finalement il sera diffusé par courriel, sans annotation. ==Revenez aux marges normales.==",
+      "action": {
+        "type": "W_EXPECT_PAGE",
+        "page": {
+          "margeHaut": 2.5,
+          "margeBas": 2.5,
+          "margeGauche": 2.5,
+          "margeDroite": 2.5
+        }
+      },
+      "feedback": "Retour au compromis par défaut."
+    },
+    {
+      "id": "M08-E01-03",
+      "consigne": "Le document doit tenir sur une seule page. ==Réglez une marge haute de 2 cm et une marge basse de 1,5 cm==, en laissant les côtés à 2,5 cm.",
+      "action": {
+        "type": "W_EXPECT_PAGE",
+        "page": {
+          "margeHaut": 2,
+          "margeBas": 1.5,
+          "margeGauche": 2.5,
+          "margeDroite": 2.5
+        }
+      },
+      "aide": {
+        "text": "Les champs « Marges personnalisées » acceptent les décimales.",
+        "showTarget": true
+      },
+      "feedback": "Gagner de la hauteur sans toucher à la longueur des lignes : c'est le bon arbitrage."
+    },
+    {
+      "id": "M08-E01-04",
+      "consigne": "==Donnez au titre le style Titre== et vérifiez que la mise en page n'a pas bougé.",
+      "setup": {
+        "ribbon": {
+          "activeTab": "accueil"
+        }
+      },
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p0",
+        "style": {
+          "style": "Titre"
+        }
+      },
+      "feedback": "Deux réglages indépendants, comme prévu."
+    },
+    {
+      "id": "M08-E01-05",
+      "consigne": "==Centrez le titre== pour terminer.",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p0",
+        "style": {
+          "alignement": "centre"
+        }
+      },
+      "feedback": "Compte rendu prêt."
+    }
+  ]
+}

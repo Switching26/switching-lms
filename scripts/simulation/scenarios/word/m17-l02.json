@@ -1,0 +1,191 @@
+{
+ "schemaVersion": 1,
+ "app": "WORD",
+ "title": "Synonymes : trouver le mot juste",
+ "mode": "LESSON",
+ "moduleTitle": "Correction d'un document",
+ "intro": {
+  "title": "QUAND LE MOT EST BON MAIS PAS LE MEILLEUR",
+  "body": "Un texte professionnel répète vite les mêmes mots. Le dictionnaire des **synonymes** propose des équivalents — mais un synonyme n'est jamais exactement le même mot : « rapide » et « expéditif » ne disent pas la même chose du travail de quelqu'un."
+ },
+ "outro": "Un synonyme se choisit pour son sens, pas pour éviter une répétition. Le dictionnaire propose ; le rédacteur pèse.",
+ "document": {
+  "paragraphes": [
+   {
+    "texte": "Note aux adhérents",
+    "style": "titre"
+   },
+   {
+    "texte": "La convosation vous parviendra par courrier.",
+    "style": "normal"
+   },
+   {
+    "texte": "Ce docuement est important pour la Sarl.",
+    "style": "normal"
+   },
+   {
+    "texte": "Nous vous remercions de votre attention.",
+    "style": "normal"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "id": "M17-L02-01",
+   "consigne": "==Ouvrez le panneau Vérification.== Onglet Révision.",
+   "action": {
+    "type": "W_CLICK_CONTROL",
+    "controle": "w-verification"
+   },
+   "setup": {
+    "ribbon": {
+     "activeTab": "revision"
+    },
+    "correcteur": {
+     "fautes": [
+      {
+       "mot": "convosation",
+       "suggestion": "convocation",
+       "motif": "Lettre erronée."
+      },
+      {
+       "mot": "docuement",
+       "suggestion": "document",
+       "motif": "Lettres inversées."
+      },
+      {
+       "mot": "Sarl",
+       "suggestion": "SARL",
+       "motif": "Sigle : capitales attendues."
+      }
+     ],
+     "synonymes": [
+      {
+       "mot": "important",
+       "synonymes": [
+        "essentiel",
+        "majeur"
+       ]
+      }
+     ]
+    }
+   },
+   "aide": {
+    "text": "Onglet « Révision », bouton « Vérifier ».",
+    "showTarget": true
+   },
+   "feedback": "Panneau ouvert."
+  },
+  {
+   "id": "M17-L02-02",
+   "consigne": "==Corrigez les trois entrées signalées.== Ici les trois sont justes, y compris le sigle : « SARL » s'écrit en capitales, c'est une forme juridique, pas un nom commun.",
+   "action": {
+    "type": "W_EXPECT_DOC",
+    "paragraphes": {
+     "p1": [
+      "La convocation vous parviendra par courrier."
+     ],
+     "p2": [
+      "Ce document est important pour la SARL."
+     ]
+    }
+   },
+   "setup": {
+    "correcteur": {
+     "fautes": [
+      {
+       "mot": "convosation",
+       "suggestion": "convocation",
+       "motif": "Lettre erronée."
+      },
+      {
+       "mot": "docuement",
+       "suggestion": "document",
+       "motif": "Lettres inversées."
+      },
+      {
+       "mot": "Sarl",
+       "suggestion": "SARL",
+       "motif": "Sigle : capitales attendues."
+      }
+     ],
+     "synonymes": [
+      {
+       "mot": "important",
+       "synonymes": [
+        "essentiel",
+        "majeur"
+       ]
+      }
+     ]
+    }
+   },
+   "aide": {
+    "text": "« Corriger » sur les trois entrées.",
+    "showTarget": true
+   },
+   "feedback": "Orthographe et typographie du sigle rétablies."
+  },
+  {
+   "id": "M17-L02-03",
+   "points": 0,
+   "action": {
+    "type": "READ"
+   },
+   "consigne": "Le second onglet du panneau donne les **synonymes**. On y va quand un mot revient trop, ou quand il est trop vague : « important » ne dit pas si le document est essentiel, urgent ou volumineux.",
+   "feedback": "Le dictionnaire des synonymes sert la précision, pas la variété."
+  },
+  {
+   "id": "M17-L02-04",
+   "consigne": "==Ouvrez l'onglet Synonymes== du panneau. Il propose des équivalents pour le mot « important ».",
+   "action": {
+    "type": "W_CLICK_CONTROL",
+    "controle": "w-verif-synonymes"
+   },
+   "setup": {
+    "correcteur": {
+     "fautes": [
+      {
+       "mot": "convosation",
+       "suggestion": "convocation",
+       "motif": "Lettre erronée."
+      },
+      {
+       "mot": "docuement",
+       "suggestion": "document",
+       "motif": "Lettres inversées."
+      },
+      {
+       "mot": "Sarl",
+       "suggestion": "SARL",
+       "motif": "Sigle : capitales attendues."
+      }
+     ],
+     "synonymes": [
+      {
+       "mot": "important",
+       "synonymes": [
+        "essentiel",
+        "majeur"
+       ]
+      }
+     ]
+    }
+   },
+   "aide": {
+    "text": "Onglet « Synonymes », en haut du panneau.",
+    "showTarget": true
+   },
+   "feedback": "Deux propositions s'affichent."
+  },
+  {
+   "id": "M17-L02-05",
+   "points": 0,
+   "action": {
+    "type": "READ"
+   },
+   "consigne": "« Essentiel » dit que le document est indispensable ; « majeur » qu'il compte plus que les autres. **Choisissez selon ce que vous voulez dire**, jamais parce que le mot semble plus soutenu — c'est ainsi qu'on écrit des phrases qui sonnent faux.",
+   "feedback": "Le sens d'abord, le style ensuite."
+  }
+ ]
+}

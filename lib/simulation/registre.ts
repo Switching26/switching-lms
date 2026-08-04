@@ -42,6 +42,9 @@ import type {
 } from "./contrats"
 import { prefixeDeType } from "./contrats"
 import { adaptateurExcel } from "./excel-adaptateur"
+import { adaptateurWord } from "./word/adaptateur"
+import { adaptateurPpt } from "./ppt/adaptateur"
+import { adaptateurOutlook } from "./outlook/adaptateur"
 
 /* ═══════════ L'ANNUAIRE ═══════════ */
 
@@ -60,6 +63,9 @@ import { adaptateurExcel } from "./excel-adaptateur"
  */
 const ANNUAIRE: Partial<Record<AppSimulee, AdaptateurApp>> = {
   EXCEL: adaptateurExcel,
+  WORD: adaptateurWord,
+  POWERPOINT: adaptateurPpt,
+  OUTLOOK: adaptateurOutlook,
 }
 
 /** Les applications réellement branchées à ce jour. */

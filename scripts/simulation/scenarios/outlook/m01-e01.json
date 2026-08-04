@@ -1,0 +1,100 @@
+{
+  "schemaVersion": 1,
+  "title": "Se repérer dans une boîte que vous ne connaissez pas",
+  "mode": "EXERCISE",
+  "moduleTitle": "Prise en main d'Outlook",
+  "intro": {
+    "title": "Vous remplacez Sonia pour deux jours",
+    "body": "Sonia est en congé et vous reprenez sa messagerie. Vous ne connaissez ni ses correspondants, ni ses dossiers. Quatre gestes suffisent pour s'y retrouver : filtrer, ouvrir, vérifier ce qui est parti, et revenir. À vous de jouer, sans qu'on vous montre le chemin cette fois."
+  },
+  "outro": {
+    "body": "Vous savez entrer dans une messagerie inconnue et y retrouver une information en quelques secondes. C'est exactement ce qu'on attend de vous le jour où vous reprenez un dossier en cours."
+  },
+  "ribbon": [],
+  "workbook": { "sheets": [] },
+
+  "courrier": {
+    "compte": { "nom": "Sonia Brunel", "adresse": "s.brunel@atelier-nord.fr" },
+    "dossiers": [{ "id": "chantiers", "nom": "Chantiers en cours" }],
+    "messages": [
+      {
+        "id": "m-vitrine",
+        "dossier": "reception",
+        "de": "contact@fleurs-de-saison.fr",
+        "a": ["s.brunel@atelier-nord.fr"],
+        "objet": "Vitrine de la boutique — pose reportée",
+        "corps": "Bonjour,\n\nLa pose de la vitrine ne pourra pas se faire mardi : les travaux de peinture ont pris du retard.\nPouvons-nous décaler à la semaine suivante ?\n\nCordialement,\nFleurs de Saison",
+        "date": "2026-03-04T08:20",
+        "lu": false
+      },
+      {
+        "id": "m-plan",
+        "dossier": "reception",
+        "de": "h.vasseur@menuiserie-vasseur.fr",
+        "a": ["s.brunel@atelier-nord.fr"],
+        "objet": "Plans de l'escalier — relecture",
+        "corps": "Bonjour Sonia,\n\nPeux-tu relire les plans avant que je les envoie au client ?\n\nHugo",
+        "date": "2026-03-04T07:45",
+        "lu": false
+      },
+      {
+        "id": "m-stock",
+        "dossier": "reception",
+        "de": "compta@quincaillerie-delmas.fr",
+        "a": ["s.brunel@atelier-nord.fr"],
+        "objet": "Réapprovisionnement — vis et équerres",
+        "corps": "Bonjour,\n\nVotre commande de vis et d'équerres est prête. Enlèvement possible dès demain.\n\nQuincaillerie Delmas",
+        "date": "2026-03-03T15:02",
+        "lu": true
+      },
+      {
+        "id": "m-envoye-1",
+        "dossier": "envoyes",
+        "de": "s.brunel@atelier-nord.fr",
+        "a": ["contact@fleurs-de-saison.fr"],
+        "objet": "Vitrine de la boutique — confirmation de la pose",
+        "corps": "Bonjour,\n\nJe vous confirme la pose de la vitrine mardi matin.\n\nSonia Brunel",
+        "date": "2026-03-03T11:10",
+        "lu": true
+      }
+    ]
+  },
+
+  "steps": [
+    {
+      "id": "O01-E01-01",
+      "consigne": "Un seul message parle de la **vitrine** d'une boutique. Ne parcourez pas la liste : filtrez la boîte pour ne garder que celui-là.",
+      "action": {
+        "type": "O_TYPE_TEXT",
+        "champ": "recherche",
+        "accept": ["vitrine", "fleurs", "fleurs-de-saison", "fleurs de saison"],
+        "contient": true
+      },
+      "aide": { "text": "Le champ de recherche est en haut de la liste des messages : il filtre le dossier ouvert sur l'expéditeur, l'objet et le texte." }
+    },
+    {
+      "id": "O01-E01-02",
+      "consigne": "Ouvrez le message qui reste affiché et lisez-le : le client demande de décaler la pose.",
+      "action": { "type": "O_SELECT_MESSAGE", "id": "m-vitrine" },
+      "aide": { "text": "Cliquez sur la ligne du message dans la liste filtrée." }
+    },
+    {
+      "id": "O01-E01-03",
+      "consigne": "Avant de répondre quoi que ce soit, il faut savoir ce que Sonia a déjà écrit à ce client. Retirez d'abord le filtre, sinon vous ne verrez qu'une partie de ce que vous cherchez.",
+      "action": { "type": "O_TYPE_TEXT", "champ": "recherche", "accept": [""] },
+      "aide": { "text": "Videz complètement le champ de recherche : il ne doit plus contenir un seul caractère." }
+    },
+    {
+      "id": "O01-E01-04",
+      "consigne": "Allez voir ce qui est parti de cette boîte : Sonia a confirmé la pose à ce même client la veille. C'est cette information qui rend la réponse possible.",
+      "action": { "type": "O_SELECT_FOLDER", "dossier": "envoyes" },
+      "aide": { "text": "Tout ce qu'on envoie est rangé automatiquement dans le dossier Éléments envoyés, dans la colonne de gauche." }
+    },
+    {
+      "id": "O01-E01-05",
+      "consigne": "Vous avez les deux versions de l'histoire. Revenez à la file d'attente pour reprendre le travail.",
+      "action": { "type": "O_SELECT_FOLDER", "dossier": "reception" },
+      "aide": { "text": "La Boîte de réception est le premier dossier de la colonne de gauche." }
+    }
+  ]
+}

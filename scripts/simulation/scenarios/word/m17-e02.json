@@ -1,0 +1,137 @@
+{
+ "schemaVersion": 1,
+ "app": "WORD",
+ "title": "Corriger une relance de facture",
+ "mode": "EXERCISE",
+ "moduleTitle": "Correction d'un document",
+ "intro": {
+  "title": "À VOUS",
+  "body": "Une relance de règlement part à un client. Quatre signalements, et tous sont fondés cette fois — accents, lettre manquante et sigle. Un document financier mal orthographié fait douter du montant."
+ },
+ "outro": "Sur un document qui réclame de l'argent, chaque faute affaiblit la demande.",
+ "document": {
+  "paragraphes": [
+   {
+    "texte": "Relance de factur",
+    "style": "titre"
+   },
+   {
+    "texte": "Votre echeance est dépassée depuis trois semaines.",
+    "style": "normal"
+   },
+   {
+    "texte": "Nous attendons votre reglement sous huitaine.",
+    "style": "normal"
+   },
+   {
+    "texte": "Le montant s'entend Tva incluse.",
+    "style": "normal"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "id": "M17-E02-01",
+   "consigne": "==Ouvrez le panneau Vérification.==",
+   "action": {
+    "type": "W_CLICK_CONTROL",
+    "controle": "w-verification"
+   },
+   "setup": {
+    "ribbon": {
+     "activeTab": "revision"
+    },
+    "correcteur": {
+     "fautes": [
+      {
+       "mot": "factur",
+       "suggestion": "facture",
+       "motif": "Lettre finale manquante."
+      },
+      {
+       "mot": "echeance",
+       "suggestion": "échéance",
+       "motif": "Accents manquants."
+      },
+      {
+       "mot": "reglement",
+       "suggestion": "règlement",
+       "motif": "Accent grave manquant."
+      },
+      {
+       "mot": "Tva",
+       "suggestion": "TVA",
+       "motif": "Sigle : capitales attendues."
+      }
+     ]
+    }
+   },
+   "aide": {
+    "text": "Onglet « Révision », bouton « Vérifier ».",
+    "showTarget": true
+   },
+   "feedback": "Quatre entrées signalées."
+  },
+  {
+   "id": "M17-E02-02",
+   "consigne": "==Corrigez les quatre entrées.== Les trois premières sont des fautes d'orthographe, la quatrième une convention : un sigle s'écrit en capitales.",
+   "action": {
+    "type": "W_EXPECT_DOC",
+    "paragraphes": {
+     "p0": [
+      "Relance de facture"
+     ],
+     "p1": [
+      "Votre échéance est dépassée depuis trois semaines."
+     ],
+     "p2": [
+      "Nous attendons votre règlement sous huitaine."
+     ],
+     "p3": [
+      "Le montant s'entend TVA incluse."
+     ]
+    }
+   },
+   "setup": {
+    "correcteur": {
+     "fautes": [
+      {
+       "mot": "factur",
+       "suggestion": "facture",
+       "motif": "Lettre finale manquante."
+      },
+      {
+       "mot": "echeance",
+       "suggestion": "échéance",
+       "motif": "Accents manquants."
+      },
+      {
+       "mot": "reglement",
+       "suggestion": "règlement",
+       "motif": "Accent grave manquant."
+      },
+      {
+       "mot": "Tva",
+       "suggestion": "TVA",
+       "motif": "Sigle : capitales attendues."
+      }
+     ]
+    }
+   },
+   "aide": {
+    "text": "« Corriger » sur chacune des quatre entrées.",
+    "showTarget": true
+   },
+   "feedback": "La relance est propre : elle peut partir."
+  },
+  {
+   "id": "M17-E02-03",
+   "points": 0,
+   "action": {
+    "type": "READ"
+   },
+   "consigne": "Notez la différence avec l'exercice précédent : **ici, tout était à corriger**. Un correcteur n'a pas toujours tort, et se méfier systématiquement fait perdre autant de temps que tout accepter.",
+   "feedback": "Ni confiance aveugle, ni méfiance systématique."
+  }
+ ]
+}

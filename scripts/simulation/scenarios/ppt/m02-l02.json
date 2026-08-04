@@ -1,0 +1,344 @@
+{
+  "schemaVersion": 1,
+  "app": "powerpoint",
+  "mode": "LESSON",
+  "moduleTitle": "Organiser et enchaîner",
+  "title": "Les transitions entre diapositives",
+  "intro": {
+    "title": "Les transitions entre diapositives",
+    "body": "Une transition est l'effet qui relie deux diapositives pendant le diaporama. Bien employée, elle donne un rythme ; mal employée, elle attire l'œil sur elle au lieu du propos. Cette leçon vous apprend à en poser une, à l'uniformiser, et à la retirer."
+  },
+  "outro": {
+    "body": "Vos diapositives s'enchaînent d'une seule façon, discrètement. La leçon suivante répète la présentation comme devant un public."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "ppt": {
+    "fileName": "Bilan Verdeval.pptx",
+    "format": "16:9",
+    "slides": [
+      {
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Verdeval",
+          "sous-titre": "Bilan de la saison 2026"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Chiffres de la saison",
+          "contenu": "38 jardins et 120 entretiens"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Nos agences",
+          "contenu": "Nantes, Rennes et Angers"
+        },
+        "transition": {
+          "kind": "damier",
+          "duree": 1.2
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Merci de votre attention",
+          "contenu": "Questions et échanges"
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M02-L02-01",
+      "consigne": "Une **transition** est l'effet joué au passage d'une diapositive à la suivante. Elle appartient à la diapositive qui **arrive**, jamais à celle qui part — c'est ce qui explique qu'on la pose sur la diapositive affichée. Le groupe **Transitions** du ruban en propose trois : Fondu, Balayage, et Aucune.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M02-L02-02",
+      "consigne": "==Affichez la deuxième diapositive==, celle des chiffres : c'est sur elle que vous allez poser votre première transition.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 1
+      }
+    },
+    {
+      "id": "M02-L02-03",
+      "consigne": "==Cliquez sur Fondu, dans le groupe Transitions==. Le bouton reste allumé : c'est ainsi que vous saurez, plus tard, quelle transition porte la diapositive affichée.",
+      "setupPpt": {
+        "slide": 1
+      },
+      "action": {
+        "type": "P_EXPECT_DECK",
+        "deck": {
+          "slides": [
+            {
+              "index": 1,
+              "transition": {
+                "kind": "fondu"
+              }
+            }
+          ]
+        }
+      },
+      "aide": {
+        "text": "Le groupe Transitions suit le groupe Objet dans le ruban."
+      },
+      "feedback": "Le fondu est le plus discret des effets : il enchaîne sans faire remarquer qu'il enchaîne."
+    },
+    {
+      "id": "M02-L02-04",
+      "consigne": "==Affichez la troisième diapositive==. Observez le groupe Transitions : aucun de ses trois boutons n'est allumé, parce qu'elle porte un effet **Damier** hérité d'une ancienne version du fichier.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 2
+      }
+    },
+    {
+      "id": "M02-L02-05",
+      "consigne": "==Posez le Balayage sur cette diapositive==, à la place du damier. Une transition en remplace toujours une autre : il ne peut y en avoir qu'une par diapositive.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Bilan de la saison 2026"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Chiffres de la saison",
+                "contenu": "38 jardins et 120 entretiens"
+              },
+              "transition": {
+                "kind": "fondu",
+                "duree": 0.7
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Nos agences",
+                "contenu": "Nantes, Rennes et Angers"
+              },
+              "transition": {
+                "kind": "damier",
+                "duree": 1.2
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Merci de votre attention",
+                "contenu": "Questions et échanges"
+              }
+            }
+          ]
+        },
+        "slide": 2
+      },
+      "action": {
+        "type": "P_EXPECT_DECK",
+        "deck": {
+          "slides": [
+            {
+              "index": 2,
+              "transition": {
+                "kind": "balayage"
+              }
+            }
+          ]
+        }
+      },
+      "aide": {
+        "text": "Le bouton Balayage est le deuxième du groupe Transitions."
+      }
+    },
+    {
+      "id": "M02-L02-06",
+      "consigne": "Vous avez maintenant deux effets différents dans la même présentation. C'est précisément ce qu'il faut éviter : l'usage professionnel est d'en choisir **un seul** et de s'y tenir. Un enchaînement qui change de nature à chaque diapositive donne l'impression d'un montage bâclé, et le public regarde l'effet au lieu d'écouter.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
+      "id": "M02-L02-07",
+      "consigne": "==Remplacez le balayage par un Fondu== pour aligner cette diapositive sur la précédente.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Bilan de la saison 2026"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Chiffres de la saison",
+                "contenu": "38 jardins et 120 entretiens"
+              },
+              "transition": {
+                "kind": "fondu",
+                "duree": 0.7
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Nos agences",
+                "contenu": "Nantes, Rennes et Angers"
+              },
+              "transition": {
+                "kind": "balayage",
+                "duree": 0.7
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Merci de votre attention",
+                "contenu": "Questions et échanges"
+              }
+            }
+          ]
+        },
+        "slide": 2
+      },
+      "action": {
+        "type": "P_EXPECT_DECK",
+        "deck": {
+          "slides": [
+            {
+              "index": 2,
+              "transition": {
+                "kind": "fondu"
+              }
+            }
+          ]
+        }
+      },
+      "feedback": "Deux diapositives, un seul effet : l'enchaînement devient invisible, donc efficace."
+    },
+    {
+      "id": "M02-L02-08",
+      "consigne": "==Affichez la dernière diapositive==, le remerciement.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 3
+      }
+    },
+    {
+      "id": "M02-L02-09",
+      "consigne": "==Cliquez sur Aucune==. Retenez ce bouton : c'est le seul moyen de **retirer** une transition. Il ne sert pas qu'aux erreurs — sur une diapositive de clôture, l'absence d'effet marque la fin bien mieux qu'un effet de plus.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Bilan de la saison 2026"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Chiffres de la saison",
+                "contenu": "38 jardins et 120 entretiens"
+              },
+              "transition": {
+                "kind": "fondu",
+                "duree": 0.7
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Nos agences",
+                "contenu": "Nantes, Rennes et Angers"
+              },
+              "transition": {
+                "kind": "fondu",
+                "duree": 0.7
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Merci de votre attention",
+                "contenu": "Questions et échanges"
+              }
+            }
+          ]
+        },
+        "slide": 3
+      },
+      "action": {
+        "type": "P_EXPECT_DECK",
+        "deck": {
+          "slides": [
+            {
+              "index": 3,
+              "transition": {
+                "kind": "aucune"
+              }
+            }
+          ]
+        }
+      },
+      "aide": {
+        "text": "« Aucune » est le troisième bouton du groupe Transitions."
+      }
+    },
+    {
+      "id": "M02-L02-10",
+      "consigne": "==Lancez le diaporama depuis le début== pour juger le résultat. Une transition ne se voit ni dans le volet, ni sur la scène : elle n'existe que pendant la projection.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": true,
+          "index": 0
+        }
+      },
+      "aide": {
+        "text": "Groupe Diaporama, bouton « ▶ Début »."
+      }
+    },
+    {
+      "id": "M02-L02-11",
+      "consigne": "==Avancez d'une diapositive== pour voir le fondu à l'œuvre.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "index": 1
+        }
+      }
+    },
+    {
+      "id": "M02-L02-12",
+      "consigne": "==Quittez le diaporama== avec Échap ou le bouton Quitter. À retenir : la transition appartient à la diapositive qui arrive, il n'y en a qu'une par diapositive, et **Aucune** est ce qui la retire.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": false
+        }
+      }
+    }
+  ]
+}

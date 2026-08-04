@@ -229,6 +229,27 @@ export type AdaptateurApp = {
    */
   seJugeSurEtat(actionType: string): boolean
 
+  /**
+   * Cette OBSERVATION rapporte-t-elle un état plutôt qu'un geste ?
+   *
+   * Le symétrique de `seJugeSurEtat`, qui interroge l'action ATTENDUE. Les deux
+   * questions sont distinctes et toutes deux nécessaires : la première dit
+   * comment l'étape se juge, la seconde ce que l'observation reçue apporte.
+   *
+   * Un état se construit souvent en plusieurs gestes — centrer horizontalement
+   * PUIS verticalement — et chacun est rapporté. Compter une faute à chaque
+   * état intermédiaire punirait un apprenant qui fait juste.
+   *
+   * ⚠️ AJOUTÉ APRÈS COUP, sur signalement mesuré de l'agent PowerPoint. Ce
+   * prédicat manquait et le noyau testait à sa place les cinq `kind` d'Excel en
+   * dur : les observations préfixées `w:` / `p:` / `o:` n'y figuraient jamais,
+   * donc une observation d'état non satisfaite comptait FAUTE hors d'Excel. Un
+   * parcours PowerPoint parfait sortait à 57 %. Rendre la méthode OBLIGATOIRE
+   * est délibéré : une application qui l'oublierait perdrait des points sans
+   * aucun message — mieux vaut une erreur de compilation.
+   */
+  estObservationEtat(observed: ObservationApp): boolean
+
   /* — CONTRÔLES STATIQUES — */
 
   /**
@@ -238,6 +259,29 @@ export type AdaptateurApp = {
    * ce qu'on lui demande et rien ne se passe. C'est ce qui a fait retirer
    * `CLICK_CELL_MODIFIER` d'Excel — il y figurait sur une supposition non
    * testée, et Ctrl+clic n'émet rien.
+   *
+   * ⚠️ RÈGLE VOISINE — NE JAMAIS VISER UN OBJET PAR UN IDENTIFIANT FABRIQUÉ.
+   *
+   * Un objet créé pendant le parcours — diapositive, graphique, tableau croisé,
+   * macro, message — reçoit un identifiant que le moteur invente à l'exécution.
+   * Le scénario, lui, s'écrit à l'avance : il ne peut pas le connaître. Une
+   * étape qui viserait cet identifiant est donc INJOUABLE, et le contrôle des
+   * observables ne la voit pas passer — le geste, lui, existe bien.
+   *
+   * Excel a rencontré le cas quatre fois et l'a résolu quatre fois de la même
+   * façon, sans jamais le nommer : `EXPECT_CHART` juge le graphique sur son
+   * type et ses séries, `EXPECT_PIVOT` sur ses champs, `EXPECT_MACRO` sur le
+   * nom que la consigne fait SAISIR, `DEFINE_NAME` sur un nom imposé par le
+   * scénario. Aucune ne désigne l'objet par une clé fabriquée. L'agent
+   * PowerPoint y est arrivé indépendamment avec `P_EXPECT_DECK`.
+   *
+   * La règle : viser l'ÉTAT, ou un nom que le scénario IMPOSE. Jamais une clé
+   * que le moteur a produite.
+   *
+   * Elle reste écrite ici et vérifiée PAR APPLICATION, dans le contrôle de
+   * cibles décliné : le noyau ne peut pas distinguer un identifiant fabriqué
+   * d'un identifiant fixe — les deux sont des chaînes — et toute tentative de le
+   * deviner produirait des faux positifs sur les boutons de ruban.
    */
   observables: ReadonlySet<string>
 

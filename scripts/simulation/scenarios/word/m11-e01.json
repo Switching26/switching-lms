@@ -1,0 +1,126 @@
+{
+ "schemaVersion": 1,
+ "app": "WORD",
+ "title": "Poser une structure à deux colonnes",
+ "mode": "EXERCISE",
+ "moduleTitle": "Les tabulations",
+ "intro": {
+  "title": "À VOUS",
+  "body": "Un sommaire doit aligner les intitulés à gauche et les numéros de page à droite. Deux taquets suffisent — encore faut-il choisir les bons types."
+ },
+ "outro": "Le taquet droit est celui des numéros de page : ils finissent tous au même endroit, quel que soit leur nombre de chiffres.",
+ "document": {
+  "paragraphes": [
+   {
+    "texte": "Sommaire",
+    "style": "titre"
+   },
+   {
+    "texte": "Présentation de la structure",
+    "style": "normal"
+   },
+   {
+    "texte": "Bilan de l'exercice écoulé",
+    "style": "normal"
+   },
+   {
+    "texte": "Perspectives et budget",
+    "style": "normal"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "id": "M11-E01-01",
+   "consigne": "==Affichez la règle.== Onglet Affichage.",
+   "action": {
+    "type": "W_CLICK_CONTROL",
+    "controle": "w-regle"
+   },
+   "setup": {
+    "ribbon": {
+     "activeTab": "affichage"
+    }
+   },
+   "aide": {
+    "text": "Onglet « Affichage », bouton « Règle ».",
+    "showTarget": true
+   },
+   "feedback": "Règle visible."
+  },
+  {
+   "id": "M11-E01-02",
+   "consigne": "==Posez un taquet gauche à 1 cm== : c'est là que démarreront les intitulés du sommaire.",
+   "action": {
+    "type": "W_EXPECT_TABS",
+    "zone": "p0",
+    "taquets": [
+     {
+      "position": 1,
+      "type": "gauche"
+     }
+    ]
+   },
+   "aide": {
+    "text": "Cliquez la règle à la graduation 1.",
+    "showTarget": true
+   },
+   "feedback": "Les intitulés démarreront à 1 cm."
+  },
+  {
+   "id": "M11-E01-03",
+   "consigne": "==Ajoutez un taquet droit à 15 cm== pour les numéros de page. Avec un taquet droit, le 9 et le 128 se termineront exactement au même endroit.",
+   "action": {
+    "type": "W_EXPECT_TABS",
+    "zone": "p0",
+    "taquets": [
+     {
+      "position": 1,
+      "type": "gauche"
+     },
+     {
+      "position": 15,
+      "type": "droite"
+     }
+    ]
+   },
+   "aide": {
+    "text": "Carré de gauche jusqu'au type droit, puis règle à 15.",
+    "showTarget": true
+   },
+   "feedback": "Les numéros finiront alignés sur le bord droit."
+  },
+  {
+   "id": "M11-E01-04",
+   "consigne": "Le sommaire est finalement décalé vers l'intérieur. ==Retirez le taquet de 1 cm== et ==posez-le à 3 cm==, toujours en type gauche.",
+   "action": {
+    "type": "W_EXPECT_TABS",
+    "zone": "p0",
+    "taquets": [
+     {
+      "position": 3,
+      "type": "gauche"
+     },
+     {
+      "position": 15,
+      "type": "droite"
+     }
+    ]
+   },
+   "aide": {
+    "text": "Cliquez le repère de 1 pour l'ôter, puis la règle à 3.",
+    "showTarget": true
+   },
+   "feedback": "Structure décalée sans rien retaper."
+  },
+  {
+   "id": "M11-E01-05",
+   "points": 0,
+   "action": {
+    "type": "READ"
+   },
+   "consigne": "Deux taquets, et le sommaire tiendra quelle que soit la longueur des intitulés. **Aucun espace n'a été tapé** : c'est ce qui garantit que l'alignement survivra à un changement de police.",
+   "feedback": "Des repères, pas des espaces."
+  }
+ ]
+}

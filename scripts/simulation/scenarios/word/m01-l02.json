@@ -1,0 +1,135 @@
+{
+  "schemaVersion": 1,
+  "app": "WORD",
+  "title": "Saisir du texte",
+  "mode": "LESSON",
+  "moduleTitle": "Pour commencer",
+  "intro": {
+    "title": "SAISIR DU TEXTE",
+    "body": "Écrire dans Word ne s'apprend pas en une frappe : ce qui s'apprend, c'est le rôle de la touche Entrée, qui ne sert PAS à passer à la ligne. Vous allez compléter un compte rendu de réunion et découvrir au passage que Word corrige votre ponctuation tout seul."
+  },
+  "outro": "Vous savez compléter un texte existant, créer de nouveaux paragraphes et laisser Word soigner votre ponctuation. Ce document compte maintenant huit paragraphes.",
+  "document": {
+    "paragraphes": [
+      {
+        "texte": "Compte rendu de la réunion du 12 mars"
+      },
+      {
+        "texte": "Présents : Claire Fontanel, Marc Ozenne, "
+      },
+      {
+        "texte": "Ordre du jour"
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M01-L02-01",
+      "consigne": "Retenez d'abord ceci, car c'est la faute la plus fréquente des débutants : dans Word, on n'appuie PAS sur Entrée en fin de ligne. Le texte revient à la ligne tout seul quand il atteint la marge. La touche **Entrée** sert uniquement à commencer un nouveau **paragraphe** — c'est-à-dire un nouveau bloc, avec sa propre mise en forme.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0,
+      "feedback": "Entrée = nouveau paragraphe, jamais « aller à la ligne »."
+    },
+    {
+      "id": "M01-L02-02",
+      "consigne": "Un texte déjà écrit se complète : il suffit d'y placer le curseur. La liste des présents est restée en plan. ==Cliquez à la fin du deuxième paragraphe== et ==complétez-la== par : Salima Kerbaj.",
+      "action": {
+        "type": "W_EXPECT_DOC",
+        "paragraphes": {
+          "p1": [
+            "Présents : Claire Fontanel, Marc Ozenne, Salima Kerbaj."
+          ]
+        }
+      },
+      "aide": {
+        "text": "Cliquez après la virgule qui termine la ligne, puis tapez. N'oubliez pas le point final.",
+        "showTarget": true
+      },
+      "feedback": "La liste est complète : vous venez de modifier un paragraphe existant, sans en créer d'autre."
+    },
+    {
+      "id": "M01-L02-03",
+      "consigne": "Passons aux nouveaux paragraphes. ==Placez le curseur à la fin de « Ordre du jour », appuyez sur Entrée, puis saisissez== : Budget de fonctionnement du second semestre",
+      "action": {
+        "type": "W_TYPE_TEXT",
+        "zone": "p2",
+        "accept": [
+          "Budget de fonctionnement du second semestre"
+        ]
+      },
+      "aide": {
+        "text": "Cliquez après le « r » de « jour », puis Entrée avant de taper.",
+        "showTarget": true
+      },
+      "feedback": "Premier point de l'ordre du jour. Le paragraphe précédent n'a pas bougé."
+    },
+    {
+      "id": "M01-L02-04",
+      "consigne": "Enchaînez le deuxième point. ==Appuyez sur Entrée et saisissez== : Recrutement de deux techniciens de maintenance",
+      "action": {
+        "type": "W_TYPE_TEXT",
+        "zone": "p3",
+        "accept": [
+          "Recrutement de deux techniciens de maintenance"
+        ]
+      },
+      "feedback": "Deuxième point ajouté."
+    },
+    {
+      "id": "M01-L02-05",
+      "consigne": "Et le troisième. ==Appuyez sur Entrée et saisissez== : Calendrier des congés d'été. Vous avez maintenant l'enchaînement en main : Entrée, puis on écrit.",
+      "action": {
+        "type": "W_TYPE_TEXT",
+        "zone": "p4",
+        "accept": [
+          "Calendrier des congés d'été"
+        ]
+      },
+      "feedback": "Trois points, trois paragraphes distincts."
+    },
+    {
+      "id": "M01-L02-06",
+      "consigne": "==Appuyez sur Entrée et saisissez== : La direction a tranché : le budget est reconduit. Tapez les deux-points normalement — Word pose seul l'espace **insécable**, une espace qui ne se coupe jamais en fin de ligne, devant : ; ! et ?",
+      "action": {
+        "type": "W_TYPE_TEXT",
+        "zone": "p5",
+        "accept": [
+          "La direction a tranché : le budget est reconduit."
+        ]
+      },
+      "aide": {
+        "text": "Tapez normalement, avec une espace ordinaire avant les deux-points : Word la remplace lui-même.",
+        "showTarget": true
+      },
+      "feedback": "Regardez l'espace devant les deux-points : c'est Word qui l'a posée, et elle ne se coupera jamais en bout de ligne."
+    },
+    {
+      "id": "M01-L02-07",
+      "consigne": "==Appuyez sur Entrée et saisissez==, guillemets droits compris : Marc Ozenne a proposé un \"plan de charge\" mensuel. Word remplacera seul vos guillemets droits par les **guillemets français** « … ».",
+      "action": {
+        "type": "W_TYPE_TEXT",
+        "zone": "p6",
+        "accept": [
+          "Marc Ozenne a proposé un \"plan de charge\" mensuel.",
+          "Marc Ozenne a proposé un « plan de charge » mensuel."
+        ]
+      },
+      "aide": {
+        "text": "Le guillemet droit est sur la touche 3 d'un clavier français.",
+        "showTarget": true
+      },
+      "feedback": "Les chevrons sont apparus d'eux-mêmes : votre document respecte la typographie française sans que vous y pensiez."
+    },
+    {
+      "id": "M01-L02-08",
+      "consigne": "Un mot sur la sauvegarde, car elle ne se fait pas toute seule dans Word : tant que vous n'avez pas enregistré, votre travail n'existe qu'en mémoire. Le raccourci **Ctrl + S** enregistre en un geste ; au premier enregistrement, Word demande un nom et un dossier, ensuite il écrase silencieusement. Un document Word porte l'extension **.docx**.",
+      "action": {
+        "type": "READ"
+      },
+      "points": 0,
+      "feedback": "Prenez l'habitude d'enregistrer dès les premières lignes, puis souvent."
+    }
+  ]
+}

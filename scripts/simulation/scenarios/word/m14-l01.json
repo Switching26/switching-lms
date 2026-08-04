@@ -1,0 +1,116 @@
+{
+ "schemaVersion": 1,
+ "app": "WORD",
+ "title": "Poser une image dans un document",
+ "mode": "LESSON",
+ "moduleTitle": "Insérer une image",
+ "intro": {
+  "title": "UNE IMAGE N'EST PAS DU TEXTE",
+  "body": "Elle ne se tape pas : on l'**insère**, et Word lui réserve une place dans le document. Comprendre cette différence évite la moitié des ennuis de mise en page — une image mal posée déplace tout le texte qui suit."
+ },
+ "outro": "Une image s'insère depuis l'onglet Insertion, à l'endroit du curseur. Elle prend sa place dans le fil du texte tant qu'on ne lui a pas donné d'habillage.",
+ "document": {
+  "paragraphes": [
+   {
+    "texte": "Ateliers Rivedoux — présentation",
+    "style": "titre"
+   },
+   {
+    "texte": "Notre atelier conçoit du mobilier sur mesure depuis douze ans.",
+    "style": "normal"
+   },
+   {
+    "texte": "L'équipe compte huit menuisiers et deux dessinateurs.",
+    "style": "normal"
+   },
+   {
+    "texte": "Chaque pièce est dessinée puis fabriquée dans nos locaux.",
+    "style": "normal"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "id": "M14-L01-01",
+   "points": 0,
+   "action": {
+    "type": "READ"
+   },
+   "consigne": "Word insère l'image **là où se trouve le curseur**. Elle s'installe d'abord « alignée sur le texte » : elle occupe une ligne à elle, comme le ferait une très grande lettre. C'est le comportement par défaut, et c'est rarement celui qu'on veut.",
+   "montrer": [
+    {
+     "type": "W_CLICK_CONTROL",
+     "controle": "w-inserer-image"
+    }
+   ],
+   "feedback": "Insérée au curseur, alignée sur le texte."
+  },
+  {
+   "id": "M14-L01-02",
+   "consigne": "==Ouvrez la galerie d'images== depuis l'onglet **Insertion**. Trois illustrations y sont proposées : un logo, un graphique et un plan.",
+   "action": {
+    "type": "W_CLICK_CONTROL",
+    "controle": "w-inserer-image"
+   },
+   "setup": {
+    "ribbon": {
+     "activeTab": "insertion"
+    }
+   },
+   "aide": {
+    "text": "Onglet « Insertion », bouton « Image ».",
+    "showTarget": true
+   },
+   "feedback": "La galerie est ouverte."
+  },
+  {
+   "id": "M14-L01-03",
+   "consigne": "==Insérez le logo d'entreprise.== Il apparaît dans le document, et le texte se décale pour lui faire place : l'image occupe sa propre ligne.",
+   "action": {
+    "type": "W_EXPECT_IMAGE",
+    "image": "logo"
+   },
+   "aide": {
+    "text": "Cliquez la vignette « Logo d'entreprise ».",
+    "showTarget": true
+   },
+   "feedback": "Le logo est posé dans le document."
+  },
+  {
+   "id": "M14-L01-04",
+   "points": 0,
+   "action": {
+    "type": "READ"
+   },
+   "consigne": "Regardez comme le texte s'est décalé vers le bas. **L'image est traitée comme un caractère géant** : elle pousse ce qui suit. Tant qu'elle reste alignée sur le texte, aucun paragraphe ne peut venir à côté d'elle.",
+   "feedback": "Alignée sur le texte : l'image pousse, elle ne se laisse pas contourner."
+  },
+  {
+   "id": "M14-L01-05",
+   "consigne": "L'illustration ne convient pas. ==Supprimez l'image== : le texte se recompose immédiatement comme avant.",
+   "action": {
+    "type": "W_EXPECT_IMAGE",
+    "image": "logo",
+    "absente": true
+   },
+   "aide": {
+    "text": "Onglet « Insertion », bouton « Supprimer l'image ».",
+    "showTarget": true
+   },
+   "feedback": "Image retirée, texte rétabli."
+  },
+  {
+   "id": "M14-L01-06",
+   "consigne": "==Insérez plutôt le graphique de ventes.== C'est lui qui illustrera la présentation.",
+   "action": {
+    "type": "W_EXPECT_IMAGE",
+    "image": "graphique"
+   },
+   "aide": {
+    "text": "Galerie d'images, vignette « Graphique de ventes ».",
+    "showTarget": true
+   },
+   "feedback": "Le graphique est en place."
+  }
+ ]
+}

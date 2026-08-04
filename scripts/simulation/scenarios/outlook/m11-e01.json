@@ -1,0 +1,257 @@
+{
+  "schemaVersion": 1,
+  "title": "Répondre sans savoir : chercher d'abord",
+  "mode": "EXERCISE",
+  "moduleTitle": "Reprendre la boîte d'un collègue",
+  "intro": {
+    "title": "Deux personnes attendent une réponse que vous n'avez pas",
+    "body": "Une collectivité affirme n'avoir rien reçu, un partenaire demande une confirmation. Vous ne connaissez ni l'un ni l'autre dossier. Tout est pourtant déjà écrit quelque part dans cette boîte : à vous de le retrouver avant d'écrire un mot."
+  },
+  "outro": {
+    "body": "Dans une boîte reprise, on ne répond jamais de mémoire — on n'en a pas. Les Éléments envoyés contiennent la version qui engage l'entreprise, et c'est elle qu'il faut reprendre, mot pour mot si nécessaire."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Sonia Brunel",
+      "adresse": "s.brunel@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "chantiers",
+        "nom": "Chantiers en cours"
+      },
+      {
+        "id": "fournisseurs",
+        "nom": "Fournisseurs"
+      }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Sonia Brunel\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "messages": [
+      {
+        "id": "m-relance",
+        "dossier": "reception",
+        "de": "marches@ville-lambersart.fr",
+        "a": [
+          "s.brunel@atelier-nord.fr"
+        ],
+        "objet": "Médiathèque — sans réponse depuis le 30 mars",
+        "corps": "Bonjour,\n\nNous restons sans réponse à notre demande de pièces complémentaires.\n\nService des marchés",
+        "date": "2026-04-07T08:00",
+        "lu": false
+      },
+      {
+        "id": "m-hugo",
+        "dossier": "reception",
+        "de": "h.vasseur@menuiserie-vasseur.fr",
+        "a": [
+          "s.brunel@atelier-nord.fr"
+        ],
+        "objet": "Pose de mardi — j'ai besoin d'une confirmation",
+        "corps": "Bonjour Sonia,\n\nJe pars sur Beaulieu mardi. Tu me confirmes que le matériel sera livré lundi ?\n\nHugo",
+        "date": "2026-04-07T07:40",
+        "lu": false
+      },
+      {
+        "id": "m-pub",
+        "dossier": "reception",
+        "de": "newsletter@bois-et-materiaux.info",
+        "a": [
+          "s.brunel@atelier-nord.fr"
+        ],
+        "objet": "La lettre du bois — 7 avril",
+        "corps": "L'actualité.",
+        "date": "2026-04-07T04:20",
+        "lu": false
+      },
+      {
+        "id": "m-env-pieces",
+        "dossier": "envoyes",
+        "de": "camille.aubertin@atelier-nord.fr",
+        "a": [
+          "marches@ville-lambersart.fr"
+        ],
+        "objet": "Médiathèque — pièces complémentaires transmises",
+        "corps": "Bonjour,\n\nVeuillez trouver les pièces complémentaires demandées pour le marché de la médiathèque.\n\nSonia Brunel",
+        "date": "2026-04-02T17:20",
+        "lu": true,
+        "pieces": [
+          {
+            "nom": "Pieces-complementaires-mediatheque.pdf",
+            "taille": "310 Ko"
+          }
+        ]
+      },
+      {
+        "id": "m-env-materiel",
+        "dossier": "envoyes",
+        "de": "camille.aubertin@atelier-nord.fr",
+        "a": [
+          "compta@quincaillerie-delmas.fr"
+        ],
+        "objet": "Commande CD-1310 — livraison confirmée pour le lundi 6 avril",
+        "corps": "Bonjour,\n\nLa livraison du matériel est confirmée pour le lundi 6 avril, matin.\n\nSonia Brunel",
+        "date": "2026-04-03T09:10",
+        "lu": true
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O11-E01-01",
+      "consigne": "La Ville de Lambersart dit n'avoir rien reçu. Allez chercher la preuve du contraire là où elle se trouve.",
+      "action": {
+        "type": "O_SELECT_FOLDER",
+        "dossier": "envoyes"
+      },
+      "aide": {
+        "text": "Éléments envoyés, colonne de gauche ; sur téléphone, derrière le bouton ☰."
+      }
+    },
+    {
+      "id": "O11-E01-02",
+      "consigne": "Filtrez ce dossier pour isoler ce qui concerne la médiathèque.",
+      "action": {
+        "type": "O_TYPE_TEXT",
+        "champ": "recherche",
+        "accept": [
+          "mediatheque",
+          "pieces",
+          "lambersart"
+        ],
+        "contient": true
+      },
+      "aide": {
+        "text": "La recherche porte sur l'expéditeur, l'objet et le texte du dossier ouvert."
+      }
+    },
+    {
+      "id": "O11-E01-03",
+      "consigne": "Renvoyez cet envoi à la collectivité, de façon qu'elle reçoive le document d'origine avec sa date.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "genre": "transfert",
+          "a": {
+            "contient": [
+              "marches@ville-lambersart.fr"
+            ]
+          },
+          "pieces": {
+            "contient": [
+              "Pieces-complementaires-mediatheque.pdf"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Ouvrez le message trouvé, puis Transférer : la pièce jointe suit."
+      }
+    },
+    {
+      "id": "O11-E01-04",
+      "consigne": "Rédigez le mot d'accompagnement et envoyez. Il doit citer **la date du premier envoi** et rester neutre : dans la plupart des cas, le message dormait dans les indésirables du destinataire.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "marches@ville-lambersart.fr"
+            ]
+          },
+          "pieces": {
+            "contient": [
+              "Pieces-complementaires-mediatheque.pdf"
+            ]
+          },
+          "corps": {
+            "salutation": [
+              "bonjour",
+              "madame",
+              "monsieur",
+              "bonsoir"
+            ],
+            "cloture": [
+              "cordialement",
+              "salutations",
+              "bien a vous",
+              "merci"
+            ],
+            "notions": [
+              {
+                "libelle": "la date du premier envoi",
+                "oneOf": [
+                  "2 avril",
+                  "02/04",
+                  "le 2",
+                  "jeudi"
+                ]
+              },
+              {
+                "libelle": "la nature du document renvoyé",
+                "oneOf": [
+                  "pieces",
+                  "complementaires",
+                  "justificatifs",
+                  "document"
+                ]
+              }
+            ],
+            "interdit": [
+              {
+                "libelle": "un reproche",
+                "oneOf": [
+                  "pourtant bien",
+                  "je vous l'avais bien",
+                  "comme indique deja",
+                  "vous auriez du"
+                ]
+              }
+            ],
+            "minMots": 12
+          }
+        }
+      },
+      "aide": {
+        "text": "Deux informations sont attendues : la date, et ce que contient l'envoi."
+      }
+    },
+    {
+      "id": "O11-E01-05",
+      "consigne": "Videz le filtre de recherche, puis revenez à la file d'attente : il reste un partenaire à renseigner.",
+      "action": {
+        "type": "O_TYPE_TEXT",
+        "champ": "recherche",
+        "accept": [
+          ""
+        ]
+      },
+      "aide": {
+        "text": "Le champ doit redevenir complètement vide."
+      }
+    },
+    {
+      "id": "O11-E01-06",
+      "consigne": "Revenez à la Boîte de réception.",
+      "action": {
+        "type": "O_SELECT_FOLDER",
+        "dossier": "reception"
+      },
+      "aide": {
+        "text": "Premier dossier de la colonne de gauche."
+      }
+    }
+  ]
+}

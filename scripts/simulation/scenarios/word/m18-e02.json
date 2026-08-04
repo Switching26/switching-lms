@@ -1,0 +1,129 @@
+{
+  "schemaVersion": 1,
+  "app": "WORD",
+  "title": "Exercice — Réparer une hiérarchie",
+  "mode": "EXERCISE",
+  "moduleTitle": "Les styles dans Word",
+  "intro": {
+    "title": "À VOUS DE JOUER",
+    "body": "Un document dont la structure a été posée à la va-vite : un niveau sauté, une phrase promue en titre. Repérez les deux défauts et corrigez-les — sans toucher à ce qui est juste."
+  },
+  "outro": "Réparer une hiérarchie, c'est surtout savoir la lire : un niveau sauté et un titre de trop se voient au rang, pas à l'apparence.",
+  "document": {
+    "paragraphes": [
+      {
+        "texte": "Guide d'accueil des nouveaux arrivants",
+        "style": "Titre"
+      },
+      {
+        "texte": "Premiers jours",
+        "style": "Titre 1"
+      },
+      {
+        "texte": "Remise du matériel",
+        "style": "Titre 3"
+      },
+      {
+        "texte": "Un ordinateur portable et un badge sont remis dès l'arrivée."
+      },
+      {
+        "texte": "Le badge donne accès aux locaux du lundi au samedi.",
+        "style": "Titre 2"
+      },
+      {
+        "texte": "Formation au poste",
+        "style": "Titre 1"
+      },
+      {
+        "texte": "Un tuteur accompagne le nouvel arrivant pendant deux semaines."
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M18-E02-01",
+      "consigne": "==Corrigez le rang de « Remise du matériel ».== C'est une section directement sous la partie « Premiers jours », or elle porte un Titre 3 : un niveau est sauté.",
+      "setup": {
+        "ribbon": {
+          "activeTab": "accueil"
+        }
+      },
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p2",
+        "style": {
+          "style": "Titre 2"
+        }
+      },
+      "aide": {
+        "text": "Une section sous une partie porte le niveau immédiatement inférieur.",
+        "showTarget": true
+      },
+      "feedback": "Le niveau sauté est réparé."
+    },
+    {
+      "id": "M18-E02-02",
+      "consigne": "Le paragraphe sur le badge est une phrase, pas une section — et il porte un Titre 2. ==Rendez-lui sa nature de texte courant.==",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p4",
+        "style": {
+          "style": "Normal"
+        }
+      },
+      "aide": {
+        "text": "Le premier bouton du groupe Styles.",
+        "showTarget": true
+      },
+      "feedback": "Le titre de trop a disparu : la hiérarchie ne promet plus de section inexistante."
+    },
+    {
+      "id": "M18-E02-03",
+      "consigne": "==Justifiez ce paragraphe== redevenu texte courant.",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p4",
+        "style": {
+          "alignement": "justifie"
+        }
+      },
+      "feedback": "Le paragraphe se comporte comme un corps de texte."
+    },
+    {
+      "id": "M18-E02-04",
+      "consigne": "==Justifiez également le paragraphe sur le matériel remis.==",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p3",
+        "style": {
+          "alignement": "justifie"
+        }
+      },
+      "feedback": "Corps de texte homogène."
+    },
+    {
+      "id": "M18-E02-05",
+      "consigne": "« Formation au poste » est bien une partie : ==vérifiez son rang en lui réappliquant le Titre 1==, pour prendre l'habitude de contrôler une structure entière.",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p5",
+        "style": {
+          "style": "Titre 1"
+        }
+      },
+      "feedback": "Deuxième partie confirmée."
+    },
+    {
+      "id": "M18-E02-06",
+      "consigne": "==Épaississez « deux semaines »== dans le dernier paragraphe : la durée d'accompagnement est l'information que le nouvel arrivant retiendra.",
+      "action": {
+        "type": "W_EXPECT_FORMAT",
+        "zone": "texte:deux semaines",
+        "format": {
+          "gras": true
+        }
+      },
+      "feedback": "Guide réparé et lisible."
+    }
+  ]
+}

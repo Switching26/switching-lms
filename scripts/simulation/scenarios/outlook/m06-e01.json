@@ -1,0 +1,181 @@
+{
+  "schemaVersion": 1,
+  "title": "Transformer un message flou en demande utilisable",
+  "mode": "EXERCISE",
+  "moduleTitle": "Écrire un message qu'on lit vraiment",
+  "intro": {
+    "title": "« Il faudrait qu'on voie pour le local »",
+    "body": "Un client vous écrit une phrase, sans référence, sans date, sans dire ce qu'il attend. Vous devez lui répondre — et c'est votre réponse qui doit apporter la précision que sa demande n'avait pas. Un objet qui situe, un texte qui pose les bonnes questions."
+  },
+  "outro": {
+    "body": "Face à une demande floue, on ne devine pas : on reformule et on propose. Poser deux questions précises fait gagner trois échanges, et donne au client l'impression, justifiée, qu'on a déjà réfléchi à son projet."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
+  },
+  "courrier": {
+    "compte": {
+      "nom": "Camille Aubertin",
+      "adresse": "camille.aubertin@atelier-nord.fr"
+    },
+    "dossiers": [
+      {
+        "id": "clients",
+        "nom": "Clients 2026"
+      },
+      {
+        "id": "fournisseurs",
+        "nom": "Fournisseurs"
+      }
+    ],
+    "signatures": [
+      {
+        "id": "pro",
+        "nom": "Professionnelle",
+        "contenu": "Camille Aubertin\nAtelier Nord — Menuiserie\n03 20 55 41 12"
+      }
+    ],
+    "signatureParDefaut": "pro",
+    "messages": [
+      {
+        "id": "m-flou",
+        "dossier": "reception",
+        "de": "accueil@cabinet-vermeulen.fr",
+        "a": [
+          "camille.aubertin@atelier-nord.fr"
+        ],
+        "objet": "Question",
+        "corps": "Bonjour,\n\nIl faudrait qu'on voie pour le local.\n\nCabinet Vermeulen",
+        "date": "2026-03-26T08:10",
+        "lu": false
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "O06-E01-01",
+      "consigne": "Ouvrez ce message et mesurez ce qui manque : ni ce qui est demandé, ni pour quand, ni de quel local il s'agit.",
+      "action": {
+        "type": "O_SELECT_MESSAGE",
+        "id": "m-flou"
+      },
+      "aide": {
+        "text": "C'est le message dont l'objet tient en un mot."
+      }
+    },
+    {
+      "id": "O06-E01-02",
+      "consigne": "Répondez-lui, et donnez à votre réponse un objet contenant le mot `aménagement` — puisque c'est de cela qu'il s'agit. Un objet qui reste « Question » ne se retrouvera jamais.",
+      "setup": {
+        "courrier": {
+          "messageActif": "m-flou"
+        }
+      },
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "redaction",
+          "genre": "reponse",
+          "a": {
+            "contient": [
+              "accueil@cabinet-vermeulen.fr"
+            ]
+          },
+          "objet": {
+            "prefixe": "RE",
+            "contient": [
+              "amenagement"
+            ]
+          }
+        }
+      },
+      "aide": {
+        "text": "Utilisez Répondre, puis complétez le champ Objet. L'accent n'est pas pris en compte."
+      }
+    },
+    {
+      "id": "O06-E01-03",
+      "consigne": "Rédigez la réponse et envoyez-la. Elle doit poser **ce qui est à faire** et proposer **une date de visite** : c'est vous qui apportez la précision, pas le client.",
+      "action": {
+        "type": "O_EXPECT_MAIL",
+        "message": {
+          "cible": "envoye",
+          "a": {
+            "contient": [
+              "accueil@cabinet-vermeulen.fr"
+            ]
+          },
+          "objet": {
+            "prefixe": "RE",
+            "contient": [
+              "amenagement"
+            ]
+          },
+          "corps": {
+            "salutation": [
+              "bonjour",
+              "madame",
+              "monsieur",
+              "bonsoir"
+            ],
+            "cloture": [
+              "cordialement",
+              "salutations",
+              "bien a vous",
+              "merci"
+            ],
+            "notions": [
+              {
+                "libelle": "ce qui serait à faire dans le local",
+                "oneOf": [
+                  "amenagement",
+                  "mobilier",
+                  "salle d'attente",
+                  "banque d'accueil",
+                  "agencement",
+                  "travaux"
+                ]
+              },
+              {
+                "libelle": "une date de visite proposée",
+                "oneOf": [
+                  "mardi",
+                  "mercredi",
+                  "jeudi",
+                  "vendredi",
+                  "lundi",
+                  "semaine prochaine",
+                  "avril",
+                  "le 30",
+                  "le 31"
+                ]
+              }
+            ],
+            "minMots": 15
+          }
+        }
+      },
+      "aide": {
+        "text": "Deux informations sont attendues : la nature du projet, et une date que vous proposez."
+      }
+    },
+    {
+      "id": "O06-E01-04",
+      "consigne": "La demande est reformulée et partie : ce message n'attend plus rien de vous. Rangez-le dans le dossier des clients.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-flou": {
+              "dossier": "clients"
+            }
+          }
+        }
+      },
+      "aide": {
+        "text": "Ouvrez le message, puis Déplacer, puis Clients 2026."
+      }
+    }
+  ]
+}

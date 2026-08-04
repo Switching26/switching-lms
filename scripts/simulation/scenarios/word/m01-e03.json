@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 1,
+  "app": "WORD",
+  "title": "Exercice — Sélectionner",
+  "mode": "EXERCISE",
+  "moduleTitle": "Pour commencer",
+  "intro": {
+    "title": "À VOUS DE JOUER",
+    "body": "Une note de procédure à mettre au propre. Chaque consigne vous demande une portée de sélection différente : à vous de choisir le geste — double-clic, glissement, triple-clic ou raccourci — sans qu'on vous le nomme."
+  },
+  "outro": "Vous avez employé les quatre portées sans qu'on vous les rappelle. C'est exactement ce réflexe qui fera la différence sur un document long.",
+  "document": {
+    "paragraphes": [
+      { "texte": "Procédure de réception des livraisons" },
+      { "texte": "Toute livraison est contrôlée à l'arrivée par le magasinier de permanence." },
+      { "texte": "Les écarts constatés sont notés sur le bon de livraison avant signature." },
+      { "texte": "Le bon signé est transmis au service comptable le jour même." }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M01-E03-01",
+      "consigne": "==Désignez le seul mot « magasinier »== dans le deuxième paragraphe, du geste le plus rapide.",
+      "action": { "type": "W_SELECT_TEXT", "zone": "p1:mot9", "tolerance": 2 },
+      "aide": { "text": "Un mot se prend d'un double-clic, sans viser ses bords.", "showTarget": true },
+      "feedback": "Mot désigné d'un seul geste."
+    },
+    {
+      "id": "M01-E03-02",
+      "consigne": "==Mettez ce mot en italique==, puisque c'est un rôle et non une personne.",
+      "setup": { "ribbon": { "activeTab": "accueil" } },
+      "action": { "type": "W_EXPECT_FORMAT", "zone": "p1:mot9", "format": { "italique": true } },
+      "feedback": "Un mot en italique, la phrase intacte."
+    },
+    {
+      "id": "M01-E03-03",
+      "consigne": "==Désignez le passage « avant signature »== dans le troisième paragraphe : ni un mot seul, ni le paragraphe entier.",
+      "action": { "type": "W_SELECT_TEXT", "zone": "texte:avant signature", "tolerance": 3 },
+      "aide": { "text": "Faites glisser la souris du premier mot au dernier.", "showTarget": true },
+      "feedback": "Passage désigné."
+    },
+    {
+      "id": "M01-E03-04",
+      "consigne": "==Faites-le ressortir en l'épaississant== : c'est le point sur lequel les erreurs coûtent cher.",
+      "action": { "type": "W_EXPECT_FORMAT", "zone": "texte:avant signature", "format": { "gras": true } },
+      "feedback": "L'ordre des opérations est maintenant visible d'un coup d'œil."
+    },
+    {
+      "id": "M01-E03-05",
+      "consigne": "==Désignez le document entier== en une seule frappe.",
+      "action": { "type": "W_KEY", "touches": ["Ctrl", "A"] },
+      "aide": { "text": "Une touche de commande, plus l'initiale de « all ».", "showTarget": true },
+      "feedback": "Les quatre paragraphes sont pris d'un coup."
+    },
+    {
+      "id": "M01-E03-06",
+      "consigne": "Profitez-en pour donner à toute la note une allure de document officiel : ==alignez le texte sur les deux marges à la fois.==",
+      "action": {
+        "type": "W_EXPECT_STYLE",
+        "zone": "p2",
+        "style": { "alignement": "justifie" }
+      },
+      "aide": { "text": "Le quatrième bouton d'alignement du groupe Paragraphe.", "showTarget": true },
+      "feedback": "Une commande, tous les paragraphes sélectionnés : c'est le bénéfice d'une sélection large."
+    }
+  ]
+}

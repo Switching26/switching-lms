@@ -458,6 +458,135 @@ export function ecartsDeFormat(
   return manques
 }
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   « PAS ENCORE FAIT » CONTRE « FAIT, MAIS FAUX » — la source unique
+   ═══════════════════════════════════════════════════════════════════════════
+
+   🔴 POURQUOI CETTE DISTINCTION DÉCIDE DE LA NOTE.
+
+   `frappe.ts` (gelé) ne compte une faute que si le verdict ne commence PAS par
+   `no_` — un motif `no_…` sur une étape d'état est traité comme un passage
+   obligé, donc comme un tâtonnement gratuit. L'adaptateur Word rendait
+   `pasEncore()` sur ses TREIZE variantes `W_EXPECT_*` : un apprenant qui pose
+   activement le MAUVAIS style était traité comme s'il n'avait rien fait, et
+   271 des 356 points du barème (76 %) étaient inperdables.
+
+   La règle, portée par les fonctions ci-dessous et par elles seules :
+
+     • l'attribut jugé est ABSENT ou à sa valeur NEUTRE (celle que le document
+       porte avant tout geste) → « pas encore » : l'apprenant construit, il ne
+       se trompe pas. C'est ce qui protège les états intermédiaires d'une
+       construction en plusieurs temps — mettre en gras PUIS appliquer le style ;
+     • l'attribut porte une AUTRE valeur → l'apprenant a agi, et il a agi faux.
+       C'est une faute, et elle doit coûter.
+
+   C'est exactement la sémantique qu'Excel obtient par `jugerFrappeSurEtat`
+   (`frappe.ts`) : sur une cellule attendue, une valeur fausse compte, une
+   cellule encore vide non. Excel peut la porter par le canal `typed` parce que
+   sa surface émet la frappe avant l'état ; Word n'a pas ce canal — sa surface
+   n'émet que `w:docState` — donc la même sémantique doit passer par l'état.
+
+   ⚠️ LIMITE ASSUMÉE. On ne juge la contradiction que sur l'attribut ATTENDU.
+   Un apprenant à qui l'on demande le gras et qui pose l'italique n'est pas
+   pénalisé : sur l'attribut « gras », l'état reste neutre. C'est délibéré —
+   punir un attribut qu'on n'a pas demandé exposerait à des fautes fantômes sur
+   toute construction en plusieurs gestes. Corollaire : un attribut BOOLÉEN
+   (gras, italique, souligné) n'est jamais contradictible, ce qui est juste —
+   on ne se « trompe » pas de gras, on l'a mis ou non. */
+
+/**
+ * L'état d'un attribut avant tout geste de l'apprenant.
+ *
+ * Source unique, consommée par le juge (`adaptateur.ts`) ET par le contrôle
+ * (`scripts/simulation/word/check-note-word.ts`). Deux copies finiraient par
+ * diverger, et le contrôle validerait alors un barème que le juge n'applique
+ * pas.
+ */
+export const NEUTRE_WORD = {
+  style: "Normal",
+  alignement: "gauche",
+  liste: "aucune",
+  habillage: "aligne",
+  page: {
+    orientation: "portrait",
+    margeHaut: 2.5,
+    margeBas: 2.5,
+    margeGauche: 2.5,
+    margeDroite: 2.5,
+    numeroPage: false,
+  } as Record<string, unknown>,
+  impression: { copies: 1, plage: "tout", rectoVerso: false } as Record<string, unknown>,
+} as const
+
+/**
+ * L'apprenant a-t-il POSÉ une valeur, et une valeur fausse ?
+ *
+ * `observe` absent ou égal au neutre ⇒ faux : rien n'a été fait sur cet
+ * attribut. Toute autre valeur différente de l'attendu ⇒ vrai : c'est un geste,
+ * et il est faux.
+ */
+export function contreditValeur(neutre: unknown, attendu: unknown, observe: unknown): boolean {
+  if (observe === undefined || observe === null || observe === "") return false
+  if (memeValeur(observe, attendu)) return false
+  return !memeValeur(observe, neutre)
+}
+
+function memeValeur(a: unknown, b: unknown): boolean {
+  if (typeof a === "string" && typeof b === "string") {
+    return a.trim().toLowerCase() === b.trim().toLowerCase()
+  }
+  if (typeof a === "number" && typeof b === "number") return Math.abs(a - b) < 1e-9
+  return a === b
+}
+
+/**
+ * Les attributs de format que l'apprenant a posés À UNE AUTRE VALEUR que celle
+ * attendue. Jumelle de `ecartsDeFormat`, qui liste ce qui MANQUE ; celle-ci
+ * liste ce qui est FAUX. Les booléens en sont absents par construction (voir la
+ * limite assumée ci-dessus) : un `gras` non posé est une absence, pas une
+ * contradiction.
+ */
+export function contradictionsDeFormat(
+  attendu: WordRunObserve,
+  observe: WordRunObserve,
+): string[] {
+  const faux: string[] = []
+  if (
+    attendu.taille !== undefined &&
+    observe.taille !== undefined &&
+    observe.taille !== attendu.taille
+  ) {
+    faux.push(`la taille ${observe.taille} au lieu de ${attendu.taille}`)
+  }
+  if (
+    attendu.police !== undefined &&
+    observe.police !== undefined &&
+    observe.police.toLowerCase() !== attendu.police.toLowerCase()
+  ) {
+    faux.push(`la police ${observe.police}`)
+  }
+  if (
+    attendu.couleur !== undefined &&
+    observe.couleur !== undefined &&
+    observe.couleur !== "" &&
+    !memeCouleur(observe.couleur, attendu.couleur)
+  ) {
+    faux.push("une autre couleur de texte")
+  }
+  // Un surlignage attendu VIDE est une demande de retrait : la couleur encore
+  // présente est une absence de geste, pas une contradiction.
+  if (
+    attendu.surlignage !== undefined &&
+    attendu.surlignage !== "" &&
+    observe.surlignage !== undefined &&
+    observe.surlignage !== "" &&
+    !memeCouleur(observe.surlignage, attendu.surlignage)
+  ) {
+    faux.push("une autre couleur de surlignage")
+  }
+  return faux
+}
+
 /** `#FFF`, `#ffffff` et `rgb(255,255,255)` désignent la même couleur. */
 function memeCouleur(a: string | undefined, b: string | undefined): boolean {
   return canoniserCouleur(a) === canoniserCouleur(b)

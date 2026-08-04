@@ -48,7 +48,19 @@
       "consigne": "Voici le réflexe à combattre : une diapositive de six lignes fait peur, alors on anime les six pour qu'elles arrivent une par une. Résultat — **six clics**, un rythme haché, et un public qui compte les lignes restantes au lieu de vous écouter.",
       "action": {
         "type": "READ"
-      }
+      },
+      "montrer": [
+        {
+          "type": "P_MONTRER",
+          "cible": "zone:scene",
+          "texte": "Six lignes font peur, alors on anime les six pour qu'elles arrivent une par une"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "ctrl:ani-apparaitre",
+          "texte": "Résultat : six clics, un rythme haché, et un public qui compte les lignes restantes"
+        }
+      ]
     },
     {
       "id": "M13-L03-02",
@@ -56,14 +68,27 @@
       "action": {
         "type": "P_SELECT_SLIDE",
         "index": 1
-      }
+      },
+      "feedback": "« Le déroulé du chantier » occupe le centre : c'est elle que les boutons modifieront."
     },
     {
       "id": "M13-L03-03",
       "consigne": "Le vrai problème n'est pas que les six lignes soient visibles trop tôt : c'est qu'il y en a **six**. L'animation cacherait le symptôme et laisserait la maladie. Le remède est la coupe : deux diapositives de trois étapes.",
       "action": {
         "type": "READ"
-      }
+      },
+      "montrer": [
+        {
+          "type": "P_MONTRER",
+          "cible": "obj5",
+          "texte": "Le vrai problème n'est pas que les six lignes soient visibles trop tôt : c'est qu'il y en a SIX"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "zone:volet",
+          "texte": "L'animation cacherait le symptôme — le remède est la coupe, deux diapositives de trois étapes"
+        }
+      ]
     },
     {
       "id": "M13-L03-04",
@@ -75,6 +100,7 @@
           "Le chantier, étapes 1 à 3"
         ]
       },
+      "feedback": "« Le chantier, étapes 1 à 3 » est en place — l'espace réservé porte votre texte, à la place et à la taille prévues.",
       "aide": {
         "text": "Un titre déjà rempli s'ouvre au double-clic."
       }
@@ -118,7 +144,8 @@
           "Relevé sur site\nÉtude de charge\nDébit des profilés",
           "Relevé sur site, Étude de charge, Débit des profilés"
         ]
-      }
+      },
+      "feedback": "« Relevé sur site\nÉtude de charge\nDébit des profilés » est saisi : le contenu n'est plus vide."
     },
     {
       "id": "M13-L03-06",
@@ -126,6 +153,7 @@
       "action": {
         "type": "P_ADD_SLIDE"
       },
+      "feedback": "Une diapositive de plus en position 3, insérée juste après celle qui était affichée — la présentation en compte 4.",
       "aide": {
         "text": "Groupe Diapositives, bouton « Nouvelle »."
       }
@@ -140,6 +168,7 @@
           "Le chantier, étapes 4 à 6"
         ]
       },
+      "feedback": "« Le chantier, étapes 4 à 6 » est en place — l'espace réservé porte votre texte, à la place et à la taille prévues.",
       "aide": {
         "text": "Cliquez dans « Cliquez pour ajouter un titre »."
       }
@@ -202,6 +231,7 @@
           "index": 0
         }
       },
+      "feedback": "Le diaporama est sur « Ateliers Roulier » : les masquées ont été sautées.",
       "aide": {
         "text": "Groupe Diaporama, bouton « ▶ Début »."
       }
@@ -214,7 +244,8 @@
         "show": {
           "actif": false
         }
-      }
+      },
+      "feedback": "Diaporama refermé — vous revoilà sur « Le chantier, étapes 4 à 6 », dans la vue où l'on compose."
     }
   ]
 }

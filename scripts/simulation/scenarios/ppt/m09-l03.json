@@ -86,7 +86,19 @@
       "consigne": "La **flèche** ne délimite pas, elle pointe : son extrémité doit toucher ce dont vous parlez, sinon elle envoie le regard à côté. La **bulle** attache un commentaire à un point précis grâce à sa pointe — une bulle posée n'importe où commente n'importe quoi.",
       "action": {
         "type": "READ"
-      }
+      },
+      "montrer": [
+        {
+          "type": "P_MONTRER",
+          "cible": "zone:scene",
+          "texte": "La flèche pointe : son extrémité doit toucher ce dont vous parlez, sinon elle envoie le regard à côté"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "ctrl:ins-forme",
+          "texte": "La bulle attache un commentaire par sa pointe — posée n'importe où, elle commente n'importe quoi"
+        }
+      ]
     },
     {
       "id": "M09-L03-02",
@@ -94,7 +106,8 @@
       "action": {
         "type": "P_SELECT_SLIDE",
         "index": 1
-      }
+      },
+      "feedback": "« Ce que nous avons changé » occupe le centre : c'est elle que les boutons modifieront."
     },
     {
       "id": "M09-L03-03",
@@ -111,6 +124,7 @@
         },
         "tolerance": 80
       },
+      "feedback": "Placée. Un élément laissé là où il tombe se voit immédiatement.",
       "aide": {
         "text": "Attrapez la flèche en son milieu et amenez-la à gauche de la photo."
       }
@@ -192,7 +206,8 @@
           "w": 260
         },
         "tolerance": 70
-      }
+      },
+      "feedback": "La forme occupe enfin la zone qui lui revient."
     },
     {
       "id": "M09-L03-05",
@@ -271,6 +286,7 @@
           "Haie taillée en octobre"
         ]
       },
+      "feedback": "La zone affiche « Haie taillée en octobre » : l'invite a disparu.",
       "aide": {
         "text": "Une forme s'ouvre à la saisie comme une zone de texte : double-clic."
       }
@@ -354,14 +370,32 @@
           "y": 410
         },
         "tolerance": 80
-      }
+      },
+      "feedback": "« Haie taillée en octobre » est à sa place : le geste n'était pas fini avant."
     },
     {
       "id": "M09-L03-07",
       "consigne": "Deux annotations suffisent presque toujours. Au-delà, elles se gênent : le regard ne sait plus laquelle suivre, et l'image qu'on voulait expliquer devient un schéma à déchiffrer. Si une image demande cinq annotations, c'est qu'il en faut deux.",
       "action": {
         "type": "READ"
-      }
+      },
+      "montrer": [
+        {
+          "type": "P_MONTRER",
+          "cible": "fo-fleche",
+          "texte": "Une première annotation…"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "fo-bulle",
+          "texte": "…une seconde : au-delà, le regard ne sait plus laquelle suivre"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "fo-inutile",
+          "texte": "Si une image demande cinq annotations, c'est qu'il en faut deux"
+        }
+      ]
     },
     {
       "id": "M09-L03-08",
@@ -370,6 +404,7 @@
         "type": "P_SELECT_OBJECT",
         "objectId": "fo-inutile"
       },
+      "feedback": "La forme porte maintenant son cadre : c'est elle qui recevra la commande.",
       "aide": {
         "text": "C'est la forme triangulaire en haut à droite de la diapositive."
       }
@@ -381,6 +416,7 @@
         "type": "P_DELETE_OBJECT",
         "objectId": "fo-inutile"
       },
+      "feedback": "La forme a disparu. Ce qui reste à l'écran a été voulu.",
       "aide": {
         "text": "Touche Suppr, ou bouton Supprimer du groupe Objet."
       }
@@ -390,7 +426,19 @@
       "consigne": "À retenir : la **pointe** de la flèche touche la cible, la **pointe** de la bulle aussi. Une bulle sans texte ne sert à rien, une flèche trop fine se perd. Et la règle de volume — deux annotations par image, rarement plus.",
       "action": {
         "type": "READ"
-      }
+      },
+      "montrer": [
+        {
+          "type": "P_MONTRER",
+          "cible": "fo-fleche",
+          "texte": "La pointe de la flèche touche la cible"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "fo-bulle",
+          "texte": "Celle de la bulle aussi — et deux annotations par image, rarement plus"
+        }
+      ]
     }
   ]
 }

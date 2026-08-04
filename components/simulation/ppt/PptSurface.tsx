@@ -38,6 +38,7 @@ import {
   inviteDe,
   type DeckState,
   type GestePpt,
+  type OngletPpt,
   type SlideObject,
   type SlideState,
 } from "@/lib/simulation/ppt/document"
@@ -53,6 +54,12 @@ type Props = {
   lecture?: boolean
   /** Largeur mesurée de la zone de travail — 0 tant qu'elle n'est pas connue. */
   largeurZone?: number
+  /**
+   * L'onglet du ruban que l'étape courante rend nécessaire. Traversée depuis le
+   * player, qui est le seul à connaître l'étape ; la surface ne fait que la
+   * passer au ruban.
+   */
+  ongletSuggere?: OngletPpt | null
 }
 
 /**
@@ -263,7 +270,14 @@ function Objet({
 
 /* ═══════════ COMPOSANT PRINCIPAL ═══════════ */
 
-export default function PptSurface({ deck, onGeste, halo = [], lecture = false, largeurZone = 0 }: Props) {
+export default function PptSurface({
+  deck,
+  onGeste,
+  halo = [],
+  lecture = false,
+  largeurZone = 0,
+  ongletSuggere = null,
+}: Props) {
   const [edition, setEdition] = useState<{ objectId: string; valeur: string } | null>(null)
   const [tiroirOuvert, setTiroirOuvert] = useState(false)
   /**
@@ -690,6 +704,7 @@ export default function PptSurface({ deck, onGeste, halo = [], lecture = false, 
         lecture={lecture}
         imageDemo={IMAGE_DEMO}
         etroit={etroit}
+        ongletSuggere={ongletSuggere}
       />
 
       <div style={{ flex: 1, minHeight: 0, display: "flex", position: "relative" }}>
@@ -986,6 +1001,57 @@ export default function PptSurface({ deck, onGeste, halo = [], lecture = false, 
           )}
         </div>
       </div>
+
+      {/* ─── Barre d'état ───
+          Absente jusqu'ici, alors qu'elle est en bas de PowerPoint depuis
+          toujours : la fenêtre se terminait sur le bord de la scène. Elle est
+          PERMANENTE, comme celle d'Excel — qui n'apparaissait d'abord qu'en
+          présence de nombres sélectionnés, si bien que la fenêtre se terminait
+          le plus souvent sur une barre de défilement grise (défaut relevé par
+          Samuel le 29/07).
+
+          Elle porte deux repères que l'apprenant cherche vraiment : où il en est
+          dans le jeu de diapositives, et s'il a bien quelque chose de
+          sélectionné — l'oubli de sélection est le premier motif de blocage
+          devant un bouton de mise en forme qui « ne fait rien ». */}
+      <div
+        data-zone="barre-etat"
+        aria-label="Barre d'état"
+        style={{
+          flexShrink: 0,
+          display: "flex",
+          alignItems: "center",
+          gap: 14,
+          borderTop: `1px solid ${BORD}`,
+          background: "#F6F7F9",
+          padding: "0 12px",
+          height: 24,
+          fontSize: 11,
+          color: "#5A636D",
+          whiteSpace: "nowrap",
+          overflow: "hidden",
+        }}
+      >
+        <span data-etat="position" style={{ flexShrink: 0 }}>
+          Diapositive {iActive + 1} sur {deck.slides.length}
+        </span>
+        {slide.masquee ? (
+          <span data-etat="masquee" style={{ flexShrink: 0, color: "#8D96A0" }}>
+            masquée
+          </span>
+        ) : null}
+        <span data-etat="selection" style={{ marginLeft: "auto", flexShrink: 0, overflow: "hidden", textOverflow: "ellipsis" }}>
+          {selection.length === 0
+            ? "Aucun élément sélectionné"
+            : selection.length === 1
+              ? "1 élément sélectionné"
+              : `${selection.length} éléments sélectionnés`}
+        </span>
+        <span data-etat="zoom" style={{ flexShrink: 0, fontVariantNumeric: "tabular-nums", color: "#8D96A0" }}>
+          100 %
+        </span>
+      </div>
+
       {diaporama}
     </div>
   )

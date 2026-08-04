@@ -141,7 +141,8 @@
       },
       "aide": {
         "text": "La recherche porte sur l'expéditeur, l'objet et le texte : un seul mot de l'objet suffit."
-      }
+      },
+      "feedback": "Le filtre isole la conversation qui porte les plans : plus rapide que de remonter la liste."
     },
     {
       "id": "O05-E01-02",
@@ -166,7 +167,8 @@
       },
       "aide": {
         "text": "Videz complètement le champ de recherche."
-      }
+      },
+      "feedback": "On ne travaille pas dans une boîte à moitié cachée : le filtre se retire dès qu'il a servi."
     },
     {
       "id": "O05-E01-04",
@@ -190,7 +192,8 @@
       },
       "aide": {
         "text": "Transférer emporte la pièce jointe ; Répondre ne l'emporterait pas."
-      }
+      },
+      "feedback": "Le transfert emporte le fichier lui-même — pas un lien, pas une copie refaite."
     },
     {
       "id": "O05-E01-05",
@@ -237,7 +240,26 @@
       },
       "aide": {
         "text": "Deux informations sont attendues : la version, et le fait qu'elle vienne de lui."
-      }
+      },
+      "feedback": "Hugo sait quelle version il reçoit et d'où elle vient : il ne renverra pas la mauvaise."
+    },
+    {
+      "id": "O05-E01-99",
+      "consigne": "Hugo a reçu la bonne version des plans. **Rangez-le dans `Fournisseurs`.** Répondre sans classer laisse la boîte aussi pleine qu'avant : c'est le classement, et non l'envoi, qui fait descendre le nombre de messages en attente.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-plans": {
+              "dossier": "fournisseurs"
+            }
+          }
+        }
+      },
+      "aide": {
+        "text": "Sélectionnez le message, puis Déplacer dans le ruban, et choisissez Fournisseurs."
+      },
+      "feedback": "Le classement suit l'expéditeur : un confrère va chez les fournisseurs, pas chez les clients."
     }
   ]
 }

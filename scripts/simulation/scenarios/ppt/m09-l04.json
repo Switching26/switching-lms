@@ -97,7 +97,19 @@
       "consigne": "Cette diapositive porte trois formes empilées à gauche et une note de travail. Aucune ne désigne quoi que ce soit. L'ordre de reprise est toujours le même : **retirer d'abord**, garder une ou deux formes, les **placer** sur ce qu'elles montrent, **vérifier** en projection.",
       "action": {
         "type": "READ"
-      }
+      },
+      "montrer": [
+        {
+          "type": "P_MONTRER",
+          "cible": "zone:scene",
+          "texte": "Trois formes empilées à gauche et une note de travail : aucune ne désigne quoi que ce soit"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "zone:volet",
+          "texte": "Retirer d'abord, garder une ou deux formes, les placer sur ce qu'elles montrent, vérifier en projection"
+        }
+      ]
     },
     {
       "id": "M09-L04-02",
@@ -105,7 +117,8 @@
       "action": {
         "type": "P_SELECT_SLIDE",
         "index": 1
-      }
+      },
+      "feedback": "« Le résultat » occupe le centre : c'est elle que les boutons modifieront."
     },
     {
       "id": "M09-L04-03",
@@ -114,6 +127,7 @@
         "type": "P_DELETE_OBJECT",
         "objectId": "zt-note"
       },
+      "feedback": "Retiré : « annotations a revoir » n'avait rien à faire devant le public.",
       "aide": {
         "text": "Sélectionnez-la d'un clic, puis Suppr ou le bouton Supprimer du groupe Objet."
       }
@@ -125,6 +139,7 @@
         "type": "P_DELETE_OBJECT",
         "objectId": "fo-b"
       },
+      "feedback": "Supprimé. Une diapositive propre n'est pas une diapositive jolie : c'est une diapositive sans reste.",
       "aide": {
         "text": "C'est la forme triangulaire, au milieu de la pile de gauche."
       }
@@ -135,7 +150,8 @@
       "action": {
         "type": "P_DELETE_OBJECT",
         "objectId": "fo-c"
-      }
+      },
+      "feedback": "La forme a disparu. Ce qui reste à l'écran a été voulu."
     },
     {
       "id": "M09-L04-06",
@@ -193,7 +209,8 @@
           "y": 240
         },
         "tolerance": 80
-      }
+      },
+      "feedback": "La forme est à sa place : le geste d'insertion n'était pas fini avant."
     },
     {
       "id": "M09-L04-07",
@@ -251,7 +268,8 @@
           "h": 130
         },
         "tolerance": 70
-      }
+      },
+      "feedback": "Placée. Un élément laissé là où il tombe se voit immédiatement."
     },
     {
       "id": "M09-L04-08",
@@ -261,6 +279,7 @@
         "objectType": "forme",
         "shape": "bulle"
       },
+      "feedback": "La forme « bulle » est posée au centre de « Le résultat » — elle n'est finie qu'une fois placée sur ce qu'elle désigne.",
       "aide": {
         "text": "Groupe Insertion, menu « Formes ▾ », entrée Bulle."
       }
@@ -274,7 +293,8 @@
         "style": {
           "bold": true
         }
-      }
+      },
+      "feedback": "« Le résultat » ressort maintenant : en gras, quand le reste ne l'est pas."
     },
     {
       "id": "M09-L04-10",
@@ -285,7 +305,8 @@
           "actif": true,
           "index": 0
         }
-      }
+      },
+      "feedback": "« Verdeval » s'affiche : le déroulé saute ce qui est masqué, sans le supprimer."
     },
     {
       "id": "M09-L04-11",
@@ -295,7 +316,8 @@
         "show": {
           "index": 1
         }
-      }
+      },
+      "feedback": "Le diaporama est sur « Le résultat » : les masquées ont été sautées."
     },
     {
       "id": "M09-L04-12",
@@ -305,7 +327,8 @@
         "show": {
           "actif": false
         }
-      }
+      },
+      "feedback": "Retour à l'édition sur « Le résultat » : un réglage de diaporama ne se vérifie qu'en projetant."
     }
   ]
 }

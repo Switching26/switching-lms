@@ -62,7 +62,24 @@
       "consigne": "Regardez le volet de gauche : le remerciement final arrive en **deuxième** position, et le sommaire en quatrième. Une présentation se lit dans l'ordre des miniatures, et cet ordre-là raconte l'histoire à l'envers. Deux boutons du groupe Diapositives servent à le corriger : **Monter** et **Descendre**.",
       "action": {
         "type": "READ"
-      }
+      },
+      "montrer": [
+        {
+          "type": "P_MONTRER",
+          "cible": "diapo:1",
+          "texte": "Le remerciement final, en deuxième position"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "diapo:3",
+          "texte": "Et le sommaire en quatrième : l'histoire est racontée à l'envers"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "ctrl:acc-monter-diapo",
+          "texte": "Monter et Descendre corrigent cet ordre, un cran à la fois"
+        }
+      ]
     },
     {
       "id": "M02-L01-02",
@@ -71,6 +88,7 @@
         "type": "P_SELECT_SLIDE",
         "index": 1
       },
+      "feedback": "« Merci de votre attention » occupe le centre : c'est elle que les boutons modifieront.",
       "aide": {
         "text": "C'est la deuxième miniature du volet, intitulée « Merci de votre attention »."
       }
@@ -101,7 +119,8 @@
         "type": "P_MOVE_SLIDE",
         "from": 2,
         "to": 3
-      }
+      },
+      "feedback": "« Merci de votre attention » est passée en position 4 : l'ordre du volet est celui que le public suivra."
     },
     {
       "id": "M02-L01-05",
@@ -121,7 +140,19 @@
       "consigne": "Il reste un défaut : **le sommaire arrive après les chiffres**, alors qu'il devrait les annoncer. Pour ce genre de vérification, mieux vaut regarder l'ensemble que les miniatures une par une — c'est le rôle de la **Trieuse**.",
       "action": {
         "type": "READ"
-      }
+      },
+      "montrer": [
+        {
+          "type": "P_MONTRER",
+          "cible": "zone:volet",
+          "texte": "Les miniatures se lisent une par une, en défilant"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "ctrl:aff-trieuse",
+          "texte": "La Trieuse, elle, montre tout d'un coup : c'est la vue qui sert à juger un enchaînement"
+        }
+      ]
     },
     {
       "id": "M02-L01-07",
@@ -130,6 +161,7 @@
         "type": "P_SET_VIEW",
         "view": "trieuse"
       },
+      "feedback": "Les 5 diapositives d'un seul regard — un défaut d'ordre s'y voit tout de suite.",
       "aide": {
         "text": "Le groupe Affichage est à droite du ruban ; faites-le défiler si nécessaire."
       }
@@ -141,6 +173,7 @@
         "type": "P_SELECT_SLIDE",
         "index": 2
       },
+      "feedback": "« Au programme » est au centre.",
       "aide": {
         "text": "C'est la troisième vignette de la trieuse."
       }
@@ -167,14 +200,32 @@
       "action": {
         "type": "P_SET_VIEW",
         "view": "normal"
-      }
+      },
+      "feedback": "De retour sur « Au programme » : c'est ici, et seulement ici, qu'on écrit."
     },
     {
       "id": "M02-L01-11",
       "consigne": "À retenir : l'ordre se corrige **un cran à la fois**, sur la diapositive affichée, avec Monter et Descendre. Et le réflexe qui fait gagner du temps — repérer les défauts d'enchaînement depuis la **Trieuse**, où l'on voit tout, plutôt qu'en faisant défiler les miniatures.",
       "action": {
         "type": "READ"
-      }
+      },
+      "montrer": [
+        {
+          "type": "P_MONTRER",
+          "cible": "ctrl:acc-monter-diapo",
+          "texte": "Monter : un cran vers le haut"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "ctrl:acc-descendre-diapo",
+          "texte": "Descendre : un cran vers le bas — toujours sur la diapositive affichée"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "zone:volet",
+          "texte": "Et le réflexe qui fait gagner du temps : repérer les défauts depuis la Trieuse, où l'on voit tout"
+        }
+      ]
     }
   ]
 }

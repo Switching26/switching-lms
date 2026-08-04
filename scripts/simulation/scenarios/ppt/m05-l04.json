@@ -55,7 +55,19 @@
       "consigne": "La règle de décision tient en une question : **combien de blocs de contenu cette diapositive doit-elle porter ?** Zéro bloc et un grand titre, c'est une section. Un bloc, Titre et contenu. Deux blocs de même poids, Deux contenus. Deux blocs à mettre en regard, Comparaison. Des objets libres, Titre seul.",
       "action": {
         "type": "READ"
-      }
+      },
+      "montrer": [
+        {
+          "type": "P_MONTRER",
+          "cible": "zone:scene",
+          "texte": "Combien de blocs de contenu cette diapositive doit-elle porter ?"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "ctrl:acc-disposition",
+          "texte": "Zéro bloc : une section. Un : Titre et contenu. Deux de même poids : Deux contenus. Deux en regard : Comparaison"
+        }
+      ]
     },
     {
       "id": "M05-L04-02",
@@ -63,7 +75,8 @@
       "action": {
         "type": "P_SELECT_SLIDE",
         "index": 1
-      }
+      },
+      "feedback": "« Nos deux métiers » occupe le centre : c'est elle que les boutons modifieront."
     },
     {
       "id": "M05-L04-03",
@@ -72,6 +85,7 @@
         "type": "P_SET_LAYOUT",
         "layout": "deux-contenus"
       },
+      "feedback": "La diapositive est passée en « Deux contenus » — et votre texte a suivi tout seul.",
       "aide": {
         "text": "Deux blocs de même poids, sans intitulés : c'est « Deux contenus »."
       }
@@ -121,7 +135,8 @@
         "accept": [
           "Création"
         ]
-      }
+      },
+      "feedback": "« Création » est saisi : le contenu n'est plus vide."
     },
     {
       "id": "M05-L04-05",
@@ -169,7 +184,8 @@
         "accept": [
           "Entretien"
         ]
-      }
+      },
+      "feedback": "La seconde colonne affiche « Entretien » : l'invite a disparu."
     },
     {
       "id": "M05-L04-06",
@@ -177,7 +193,8 @@
       "action": {
         "type": "P_SELECT_SLIDE",
         "index": 2
-      }
+      },
+      "feedback": "Vous êtes sur « 3. Tarifs ». Les commandes du ruban agissent sur la diapositive affichée."
     },
     {
       "id": "M05-L04-07",
@@ -186,6 +203,7 @@
         "type": "P_SET_LAYOUT",
         "layout": "diapositive-de-titre"
       },
+      "feedback": "« Diapositive de titre » : les cadres sont désormais ceux que cette disposition prévoit.",
       "aide": {
         "text": "Une section s'écrit avec « Diapositive de titre » : titre et sous-titre, rien d'autre."
       }
@@ -196,7 +214,8 @@
       "action": {
         "type": "P_SELECT_SLIDE",
         "index": 3
-      }
+      },
+      "feedback": "« Nos chantiers en photos » occupe le centre : c'est elle que les boutons modifieront."
     },
     {
       "id": "M05-L04-09",
@@ -205,6 +224,7 @@
         "type": "P_SET_LAYOUT",
         "layout": "titre-seul"
       },
+      "feedback": "La diapositive est passée en « Titre seul » — et votre texte a suivi tout seul.",
       "aide": {
         "text": "« Titre seul » garde le titre et libère tout l'espace du dessous."
       }
@@ -216,6 +236,7 @@
         "type": "P_ADD_OBJECT",
         "objectType": "image"
       },
+      "feedback": "L'image est déposée au milieu de « Nos chantiers en photos » : il reste à la placer et à la dimensionner.",
       "aide": {
         "text": "Groupe Insertion, bouton Image."
       }
@@ -225,7 +246,19 @@
       "consigne": "À retenir : on ne choisit pas une disposition parce qu'elle est jolie, mais parce qu'on a **compté les blocs**. La question tient en une phrase — combien de contenus, de même poids ou non — et la disposition en découle sans discussion.",
       "action": {
         "type": "READ"
-      }
+      },
+      "montrer": [
+        {
+          "type": "P_MONTRER",
+          "cible": "obj12",
+          "texte": "On ne choisit pas une disposition parce qu'elle est jolie : on a compté les blocs"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "ctrl:acc-disposition",
+          "texte": "La question tient en une phrase, et la disposition en découle sans discussion"
+        }
+      ]
     }
   ]
 }

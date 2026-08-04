@@ -39,8 +39,14 @@
    "consigne": "La **règle** est la bande graduée en centimètres qui surmonte le document. On y pose des **taquets** : des repères d'alignement. Elle ne s'affiche pas par défaut — c'est l'onglet **Affichage** qui la fait apparaître.",
    "montrer": [
     {
-     "type": "W_CLICK_CONTROL",
-     "controle": "w-regle"
+     "type": "W_MONTRER",
+     "cible": "p0",
+     "texte": "La RÈGLE est la bande graduée en centimètres qui vient se placer juste au-dessus du document."
+    },
+    {
+     "type": "W_MONTRER",
+     "cible": "ecran",
+     "texte": "On y pose des TAQUETS : des repères d'alignement. Elle ne s'affiche pas par défaut — c'est l'onglet Affichage qui la fait apparaître."
     }
    ],
    "feedback": "La règle est l'outil d'alignement de Word, et il est masqué par défaut."
@@ -89,7 +95,20 @@
     "type": "READ"
    },
    "consigne": "Le petit carré à gauche de la règle affiche le **type** du prochain taquet. Il en existe quatre : **gauche** (le texte démarre au taquet), **centré** (le texte se répartit autour), **droit** (le texte finit au taquet), **décimal** (les virgules s'alignent entre elles).",
-   "feedback": "Quatre types, quatre usages. Le décimal est celui des colonnes de prix."
+   "feedback": "Quatre types, quatre usages. Le décimal est celui des colonnes de prix.",
+   "montrer": [
+    {
+     "type": "W_MONTRER",
+     "cible": "ctrl:w-regle",
+     "texte": "La règle s'affiche depuis l'onglet Affichage ; le petit carré à sa gauche annonce le TYPE du prochain taquet.",
+     "onglet": "affichage"
+    },
+    {
+     "type": "W_MONTRER",
+     "cible": "p1",
+     "texte": "Quatre types : gauche (le texte démarre au taquet), centré, droit (le texte finit au taquet), décimal (les virgules s'alignent)."
+    }
+   ]
   },
   {
    "id": "M11-L01-05",

@@ -94,7 +94,19 @@
       "consigne": "Une **forme** sert à désigner, pas à remplir. Une flèche montre l'endroit dont vous parlez, une bulle attribue une remarque, un rectangle encadre ce qu'il faut comparer. Le groupe **Insertion** en propose six par le menu Formes — et le seul critère de choix est : qu'est-ce que je veux faire regarder ?",
       "action": {
         "type": "READ"
-      }
+      },
+      "montrer": [
+        {
+          "type": "P_MONTRER",
+          "cible": "ctrl:ins-forme",
+          "texte": "Le menu Formes en propose six"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "zone:scene",
+          "texte": "Une forme désigne : la flèche montre, la bulle attribue une remarque, le rectangle encadre"
+        }
+      ]
     },
     {
       "id": "M04-L03-02",
@@ -102,7 +114,8 @@
       "action": {
         "type": "P_SELECT_SLIDE",
         "index": 1
-      }
+      },
+      "feedback": "« Le détail qui compte » occupe le centre : c'est elle que les boutons modifieront."
     },
     {
       "id": "M04-L03-03",
@@ -125,6 +138,7 @@
         "objectType": "forme",
         "shape": "ellipse"
       },
+      "feedback": "La forme « ellipse » est posée au centre de « Le détail qui compte » — elle n'est finie qu'une fois placée sur ce qu'elle désigne.",
       "aide": {
         "text": "Rouvrez le menu Formes : il se referme après chaque choix."
       }
@@ -134,7 +148,19 @@
       "consigne": "Une forme mal placée est pire qu'une forme absente : elle désigne quelque chose au hasard, et le public cherche ce qu'on a voulu lui montrer. Sur la diapositive suivante, une flèche a été posée en haut à gauche et n'indique rien du tout.",
       "action": {
         "type": "READ"
-      }
+      },
+      "montrer": [
+        {
+          "type": "P_MONTRER",
+          "cible": "obj8",
+          "texte": "Cette flèche a été posée en haut à gauche"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "img-detail",
+          "texte": "Elle n'indique rien : le public cherche ce qu'on a voulu lui montrer"
+        }
+      ]
     },
     {
       "id": "M04-L03-06",
@@ -142,7 +168,8 @@
       "action": {
         "type": "P_SELECT_SLIDE",
         "index": 2
-      }
+      },
+      "feedback": "« Trois étapes de chantier » occupe le centre : c'est elle que les boutons modifieront."
     },
     {
       "id": "M04-L03-07",
@@ -255,6 +282,7 @@
         },
         "tolerance": 60
       },
+      "feedback": "La forme est à sa place : le geste d'insertion n'était pas fini avant.",
       "aide": {
         "text": "Le texte des étapes est au milieu de la diapositive : amenez la flèche juste au-dessus."
       }
@@ -369,14 +397,27 @@
           "w": 300
         },
         "tolerance": 70
-      }
+      },
+      "feedback": "La forme occupe enfin la zone qui lui revient."
     },
     {
       "id": "M04-L03-10",
       "consigne": "À retenir : une forme **désigne**, et se juge à ce qu'elle fait regarder. Posée puis placée, comme une image ; supprimée sans regret quand elle n'apporte rien. Le menu Formes se referme après chaque choix — il faut le rouvrir pour en poser une seconde.",
       "action": {
         "type": "READ"
-      }
+      },
+      "montrer": [
+        {
+          "type": "P_MONTRER",
+          "cible": "fo-fleche",
+          "texte": "Une forme se juge à ce qu'elle fait regarder"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "ctrl:ins-forme",
+          "texte": "Le menu se referme après chaque choix : il faut le rouvrir pour en poser une seconde"
+        }
+      ]
     }
   ]
 }

@@ -2,14 +2,14 @@
   "schemaVersion": 1,
   "app": "powerpoint",
   "mode": "EVALUATION",
-  "moduleTitle": "Cas pratique : le point trimestriel",
+  "moduleTitle": "Cas pratique",
   "title": "S'évaluer — Cas pratique",
   "intro": {
     "title": "S'évaluer — Cas pratique",
-    "body": "Un point de rentrée à monter de bout en bout : la trame depuis la commande, un relevé à réduire à son message, une annexe à ranger et masquer, le contrôle final. Aucune aide n'est affichée et chaque geste compte."
+    "body": "Le dossier du point de rentrée vous arrive trop plein : une note de travail sur l'ouverture, une pièce en double, une annexe encore projetable et un relevé qui ne dit pas son message. Ramenez-le à ce qui se tient devant un conseil. Aucune aide n'est affichée et chaque geste compte."
   },
   "outro": {
-    "body": "Évaluation terminée, et module terminé. Vous savez monter une présentation depuis une commande, la remplir, la préparer et la contrôler."
+    "body": "Épreuve terminée. Seule votre meilleure note est conservée."
   },
   "ribbon": [],
   "workbook": {
@@ -22,21 +22,55 @@
       {
         "layout": "diapositive-de-titre",
         "textes": {
-          "titre": "Foyer Saint-Clair"
-        }
+          "titre": "Foyer Saint-Clair",
+          "sous-titre": "Conseil d'administration du 18 septembre"
+        },
+        "objets": [
+          {
+            "id": "zt-brouillon",
+            "objectType": "texte",
+            "texte": "Vérifier les chiffres avec la direction",
+            "rect": {
+              "x": 70,
+              "y": 440,
+              "w": 460,
+              "h": 48
+            }
+          }
+        ]
       },
       {
         "layout": "titre-et-contenu",
         "textes": {
           "titre": "Relevé des présences",
-          "contenu": "Places agréées 84, occupées au 1er septembre 79, sorties de l'été 11, entrées de l'été 14, liste d'attente 23 dossiers"
+          "contenu": "Places agréées 84, occupées au 1er septembre 79, sorties 11, entrées 14 sur la période estivale"
         }
       },
       {
         "layout": "titre-et-contenu",
         "textes": {
           "titre": "LISTE DES DOSSIERS EN ATTENTE",
-          "contenu": "23 dossiers, dont 9 en urgence sociale\nDélai moyen d'instruction : 47 jours"
+          "contenu": "23 dossiers, dont 9 en urgence sociale\nDélai moyen : 4 mois"
+        },
+        "objets": [
+          {
+            "id": "zt-ref",
+            "objectType": "texte",
+            "texte": "Source : commission d'admission",
+            "rect": {
+              "x": 110,
+              "y": 150,
+              "w": 300,
+              "h": 40
+            }
+          }
+        ]
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Relevé des présences",
+          "contenu": "Places agréées 84, occupées au 1er septembre 79, sorties 11, entrées 14 sur la période estivale"
         }
       }
     ]
@@ -44,43 +78,83 @@
   "steps": [
     {
       "id": "M16-EV01-01",
-      "consigne": "Écrivez le sous-titre de la diapositive d'ouverture : Conseil d'administration du 12 septembre.",
+      "consigne": "Affichez l'ouverture.",
       "action": {
-        "type": "P_TYPE_TEXT",
-        "cible": "ph:sous-titre",
-        "accept": [
-          "Conseil d'administration du 12 septembre"
-        ]
-      },
-      "points": 2
-    },
-    {
-      "id": "M16-EV01-02",
-      "consigne": "Écrivez la note de cette diapositive : Bonsoir, point de rentrée en quinze minutes, trois sujets.",
-      "action": {
-        "type": "P_EXPECT_DECK",
-        "deck": {
-          "slides": [
-            {
-              "index": 0,
-              "notes": "Bonsoir, point de rentrée en quinze minutes, trois sujets"
-            }
-          ]
-        }
+        "type": "P_SELECT_SLIDE",
+        "index": 0
       },
       "points": 1
     },
     {
-      "id": "M16-EV01-03",
-      "consigne": "Ajoutez une diapositive : ce sera l'ordre du jour.",
+      "id": "M16-EV01-02",
+      "consigne": "Une note de travail y est posée. Elle ne se montre pas à un conseil : retirez-la.",
       "action": {
-        "type": "P_ADD_SLIDE"
+        "type": "P_DELETE_OBJECT",
+        "objectId": "zt-brouillon"
+      },
+      "points": 2
+    },
+    {
+      "id": "M16-EV01-03",
+      "consigne": "Un conseil doit savoir qui présente : posez la zone qui portera le nom et la fonction.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Foyer Saint-Clair",
+                "sous-titre": "Conseil d'administration du 18 septembre"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Relevé des présences",
+                "contenu": "Places agréées 84, occupées au 1er septembre 79, sorties 11, entrées 14 sur la période estivale"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "LISTE DES DOSSIERS EN ATTENTE",
+                "contenu": "23 dossiers, dont 9 en urgence sociale\nDélai moyen : 4 mois"
+              },
+              "objets": [
+                {
+                  "id": "zt-ref",
+                  "objectType": "texte",
+                  "texte": "Source : commission d'admission",
+                  "rect": {
+                    "x": 110,
+                    "y": 150,
+                    "w": 300,
+                    "h": 40
+                  }
+                }
+              ]
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Relevé des présences",
+                "contenu": "Places agréées 84, occupées au 1er septembre 79, sorties 11, entrées 14 sur la période estivale"
+              }
+            }
+          ]
+        },
+        "slide": 0
+      },
+      "action": {
+        "type": "P_ADD_OBJECT",
+        "objectType": "texte"
       },
       "points": 2
     },
     {
       "id": "M16-EV01-04",
-      "consigne": "Écrivez son titre : Ordre du jour.",
+      "consigne": "Le relevé des présences figure deux fois. Affichez le second.",
       "setupPpt": {
         "deck": {
           "format": "16:9",
@@ -89,43 +163,68 @@
               "layout": "diapositive-de-titre",
               "textes": {
                 "titre": "Foyer Saint-Clair",
-                "sous-titre": "Conseil d'administration du 12 septembre"
+                "sous-titre": "Conseil d'administration du 18 septembre"
               },
-              "notes": "Bonsoir, point de rentrée en quinze minutes, trois sujets"
-            },
-            {
-              "layout": "titre-et-contenu"
+              "objets": [
+                {
+                  "id": "obj3",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 560,
+                    "y": 180,
+                    "w": 320,
+                    "h": 200
+                  }
+                }
+              ]
             },
             {
               "layout": "titre-et-contenu",
               "textes": {
                 "titre": "Relevé des présences",
-                "contenu": "Places agréées 84, occupées au 1er septembre 79, sorties de l'été 11, entrées de l'été 14, liste d'attente 23 dossiers"
+                "contenu": "Places agréées 84, occupées au 1er septembre 79, sorties 11, entrées 14 sur la période estivale"
               }
             },
             {
               "layout": "titre-et-contenu",
               "textes": {
                 "titre": "LISTE DES DOSSIERS EN ATTENTE",
-                "contenu": "23 dossiers, dont 9 en urgence sociale\nDélai moyen d'instruction : 47 jours"
+                "contenu": "23 dossiers, dont 9 en urgence sociale\nDélai moyen : 4 mois"
+              },
+              "objets": [
+                {
+                  "id": "zt-ref",
+                  "objectType": "texte",
+                  "texte": "Source : commission d'admission",
+                  "rect": {
+                    "x": 110,
+                    "y": 150,
+                    "w": 300,
+                    "h": 40
+                  }
+                }
+              ]
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Relevé des présences",
+                "contenu": "Places agréées 84, occupées au 1er septembre 79, sorties 11, entrées 14 sur la période estivale"
               }
             }
           ]
         },
-        "slide": 1
+        "slide": 0
       },
       "action": {
-        "type": "P_TYPE_TEXT",
-        "cible": "ph:titre",
-        "accept": [
-          "Ordre du jour"
-        ]
+        "type": "P_SELECT_SLIDE",
+        "index": 3
       },
-      "points": 2
+      "points": 1
     },
     {
       "id": "M16-EV01-05",
-      "consigne": "Écrivez son contenu : Les effectifs, Le budget, Les travaux d'été.",
+      "consigne": "Une pièce en double n'apporte rien : retirez-la.",
       "setupPpt": {
         "deck": {
           "format": "16:9",
@@ -134,56 +233,185 @@
               "layout": "diapositive-de-titre",
               "textes": {
                 "titre": "Foyer Saint-Clair",
-                "sous-titre": "Conseil d'administration du 12 septembre"
+                "sous-titre": "Conseil d'administration du 18 septembre"
               },
-              "notes": "Bonsoir, point de rentrée en quinze minutes, trois sujets"
-            },
-            {
-              "layout": "titre-et-contenu",
-              "textes": {
-                "titre": "Ordre du jour"
-              }
+              "objets": [
+                {
+                  "id": "obj3",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 560,
+                    "y": 180,
+                    "w": 320,
+                    "h": 200
+                  }
+                }
+              ]
             },
             {
               "layout": "titre-et-contenu",
               "textes": {
                 "titre": "Relevé des présences",
-                "contenu": "Places agréées 84, occupées au 1er septembre 79, sorties de l'été 11, entrées de l'été 14, liste d'attente 23 dossiers"
+                "contenu": "Places agréées 84, occupées au 1er septembre 79, sorties 11, entrées 14 sur la période estivale"
               }
             },
             {
               "layout": "titre-et-contenu",
               "textes": {
                 "titre": "LISTE DES DOSSIERS EN ATTENTE",
-                "contenu": "23 dossiers, dont 9 en urgence sociale\nDélai moyen d'instruction : 47 jours"
+                "contenu": "23 dossiers, dont 9 en urgence sociale\nDélai moyen : 4 mois"
+              },
+              "objets": [
+                {
+                  "id": "zt-ref",
+                  "objectType": "texte",
+                  "texte": "Source : commission d'admission",
+                  "rect": {
+                    "x": 110,
+                    "y": 150,
+                    "w": 300,
+                    "h": 40
+                  }
+                }
+              ]
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Relevé des présences",
+                "contenu": "Places agréées 84, occupées au 1er septembre 79, sorties 11, entrées 14 sur la période estivale"
               }
             }
           ]
         },
-        "slide": 1
+        "slide": 3
       },
       "action": {
-        "type": "P_TYPE_TEXT",
-        "cible": "ph:contenu",
-        "accept": [
-          "Les effectifs\nLe budget\nLes travaux d'été",
-          "Les effectifs, Le budget, Les travaux d'été"
-        ]
+        "type": "P_DELETE_SLIDE",
+        "index": 3
       },
       "points": 2
     },
     {
       "id": "M16-EV01-06",
-      "consigne": "Affichez la diapositive du relevé des présences.",
+      "consigne": "Affichez le relevé des présences.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Foyer Saint-Clair",
+                "sous-titre": "Conseil d'administration du 18 septembre"
+              },
+              "objets": [
+                {
+                  "id": "obj3",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 560,
+                    "y": 180,
+                    "w": 320,
+                    "h": 200
+                  }
+                }
+              ]
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Relevé des présences",
+                "contenu": "Places agréées 84, occupées au 1er septembre 79, sorties 11, entrées 14 sur la période estivale"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "LISTE DES DOSSIERS EN ATTENTE",
+                "contenu": "23 dossiers, dont 9 en urgence sociale\nDélai moyen : 4 mois"
+              },
+              "objets": [
+                {
+                  "id": "zt-ref",
+                  "objectType": "texte",
+                  "texte": "Source : commission d'admission",
+                  "rect": {
+                    "x": 110,
+                    "y": 150,
+                    "w": 300,
+                    "h": 40
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 2
+      },
       "action": {
         "type": "P_SELECT_SLIDE",
-        "index": 2
+        "index": 1
       },
       "points": 1
     },
     {
       "id": "M16-EV01-07",
-      "consigne": "Le message est 79 places occupées sur 84. Remplacez le titre par 79 places occupées sur 84.",
+      "consigne": "Son titre nomme la pièce au lieu de porter le fait. Remplacez-le par 79 places occupées sur 84.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Foyer Saint-Clair",
+                "sous-titre": "Conseil d'administration du 18 septembre"
+              },
+              "objets": [
+                {
+                  "id": "obj3",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 560,
+                    "y": 180,
+                    "w": 320,
+                    "h": 200
+                  }
+                }
+              ]
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Relevé des présences",
+                "contenu": "Places agréées 84, occupées au 1er septembre 79, sorties 11, entrées 14 sur la période estivale"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "LISTE DES DOSSIERS EN ATTENTE",
+                "contenu": "23 dossiers, dont 9 en urgence sociale\nDélai moyen : 4 mois"
+              },
+              "objets": [
+                {
+                  "id": "zt-ref",
+                  "objectType": "texte",
+                  "texte": "Source : commission d'admission",
+                  "rect": {
+                    "x": 110,
+                    "y": 150,
+                    "w": 300,
+                    "h": 40
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 1
+      },
       "action": {
         "type": "P_TYPE_TEXT",
         "cible": "ph:titre",
@@ -195,7 +423,7 @@
     },
     {
       "id": "M16-EV01-08",
-      "consigne": "Remplacez le contenu par : 14 entrées et 11 sorties cet été, 23 dossiers en attente, Cinq places à pourvoir.",
+      "consigne": "Son contenu est une phrase. Ramenez-le à deux repères : 14 entrées et 11 sorties cet été, 23 dossiers en attente.",
       "setupPpt": {
         "deck": {
           "format": "16:9",
@@ -204,69 +432,181 @@
               "layout": "diapositive-de-titre",
               "textes": {
                 "titre": "Foyer Saint-Clair",
-                "sous-titre": "Conseil d'administration du 12 septembre"
+                "sous-titre": "Conseil d'administration du 18 septembre"
               },
-              "notes": "Bonsoir, point de rentrée en quinze minutes, trois sujets"
-            },
-            {
-              "layout": "titre-et-contenu",
-              "textes": {
-                "titre": "Ordre du jour",
-                "contenu": "Les effectifs\nLe budget\nLes travaux d'été"
-              }
+              "objets": [
+                {
+                  "id": "obj3",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 560,
+                    "y": 180,
+                    "w": 320,
+                    "h": 200
+                  }
+                }
+              ]
             },
             {
               "layout": "titre-et-contenu",
               "textes": {
                 "titre": "79 places occupées sur 84",
-                "contenu": "Places agréées 84, occupées au 1er septembre 79, sorties de l'été 11, entrées de l'été 14, liste d'attente 23 dossiers"
+                "contenu": "Places agréées 84, occupées au 1er septembre 79, sorties 11, entrées 14 sur la période estivale"
               }
             },
             {
               "layout": "titre-et-contenu",
               "textes": {
                 "titre": "LISTE DES DOSSIERS EN ATTENTE",
-                "contenu": "23 dossiers, dont 9 en urgence sociale\nDélai moyen d'instruction : 47 jours"
-              }
+                "contenu": "23 dossiers, dont 9 en urgence sociale\nDélai moyen : 4 mois"
+              },
+              "objets": [
+                {
+                  "id": "zt-ref",
+                  "objectType": "texte",
+                  "texte": "Source : commission d'admission",
+                  "rect": {
+                    "x": 110,
+                    "y": 150,
+                    "w": 300,
+                    "h": 40
+                  }
+                }
+              ]
             }
           ]
         },
-        "slide": 2
+        "slide": 1
       },
       "action": {
         "type": "P_TYPE_TEXT",
         "cible": "ph:contenu",
         "accept": [
-          "14 entrées et 11 sorties cet été\n23 dossiers en attente\nCinq places à pourvoir",
-          "14 entrées et 11 sorties cet été, 23 dossiers en attente, Cinq places à pourvoir"
+          "14 entrées et 11 sorties cet été\n23 dossiers en attente"
         ]
       },
       "points": 2
     },
     {
       "id": "M16-EV01-09",
-      "consigne": "Mettez ce titre en gras.",
-      "action": {
-        "type": "P_EXPECT_FORMAT",
-        "objectId": "ph:titre",
-        "style": {
-          "bold": true
-        }
+      "consigne": "Affichez la dernière diapositive, la liste des dossiers en attente.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Foyer Saint-Clair",
+                "sous-titre": "Conseil d'administration du 18 septembre"
+              },
+              "objets": [
+                {
+                  "id": "obj3",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 560,
+                    "y": 180,
+                    "w": 320,
+                    "h": 200
+                  }
+                }
+              ]
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "79 places occupées sur 84",
+                "contenu": "14 entrées et 11 sorties cet été\n23 dossiers en attente"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "LISTE DES DOSSIERS EN ATTENTE",
+                "contenu": "23 dossiers, dont 9 en urgence sociale\nDélai moyen : 4 mois"
+              },
+              "objets": [
+                {
+                  "id": "zt-ref",
+                  "objectType": "texte",
+                  "texte": "Source : commission d'admission",
+                  "rect": {
+                    "x": 110,
+                    "y": 150,
+                    "w": 300,
+                    "h": 40
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 1
       },
-      "points": 2
-    },
-    {
-      "id": "M16-EV01-10",
-      "consigne": "Affichez la dernière diapositive, la liste des dossiers en attente : c'est une annexe.",
       "action": {
         "type": "P_SELECT_SLIDE",
-        "index": 3
+        "index": 2
       },
       "points": 1
     },
     {
-      "id": "M16-EV01-11",
-      "consigne": "Remplacez son titre, en capitales, par Dossiers en attente.",
+      "id": "M16-EV01-10",
+      "consigne": "Son titre est en capitales, seul de la présentation : remplacez-le par Dossiers en attente.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Foyer Saint-Clair",
+                "sous-titre": "Conseil d'administration du 18 septembre"
+              },
+              "objets": [
+                {
+                  "id": "obj3",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 560,
+                    "y": 180,
+                    "w": 320,
+                    "h": 200
+                  }
+                }
+              ]
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "79 places occupées sur 84",
+                "contenu": "14 entrées et 11 sorties cet été\n23 dossiers en attente"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "LISTE DES DOSSIERS EN ATTENTE",
+                "contenu": "23 dossiers, dont 9 en urgence sociale\nDélai moyen : 4 mois"
+              },
+              "objets": [
+                {
+                  "id": "zt-ref",
+                  "objectType": "texte",
+                  "texte": "Source : commission d'admission",
+                  "rect": {
+                    "x": 110,
+                    "y": 150,
+                    "w": 300,
+                    "h": 40
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 2
+      },
       "action": {
         "type": "P_TYPE_TEXT",
         "cible": "ph:titre",
@@ -277,8 +617,8 @@
       "points": 2
     },
     {
-      "id": "M16-EV01-12",
-      "consigne": "Masquez-la : elle est déjà en dernière position, il lui manque d'être invisible en projection.",
+      "id": "M16-EV01-11",
+      "consigne": "Sa source est posée en haut, devant le contenu. Reléguez-la en bas de l'écran.",
       "setupPpt": {
         "deck": {
           "format": "16:9",
@@ -287,51 +627,265 @@
               "layout": "diapositive-de-titre",
               "textes": {
                 "titre": "Foyer Saint-Clair",
-                "sous-titre": "Conseil d'administration du 12 septembre"
+                "sous-titre": "Conseil d'administration du 18 septembre"
               },
-              "notes": "Bonsoir, point de rentrée en quinze minutes, trois sujets"
-            },
-            {
-              "layout": "titre-et-contenu",
-              "textes": {
-                "titre": "Ordre du jour",
-                "contenu": "Les effectifs\nLe budget\nLes travaux d'été"
-              }
+              "objets": [
+                {
+                  "id": "obj3",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 560,
+                    "y": 180,
+                    "w": 320,
+                    "h": 200
+                  }
+                }
+              ]
             },
             {
               "layout": "titre-et-contenu",
               "textes": {
                 "titre": "79 places occupées sur 84",
-                "contenu": "14 entrées et 11 sorties cet été\n23 dossiers en attente\nCinq places à pourvoir"
+                "contenu": "14 entrées et 11 sorties cet été\n23 dossiers en attente"
               }
             },
             {
               "layout": "titre-et-contenu",
               "textes": {
                 "titre": "Dossiers en attente",
-                "contenu": "23 dossiers, dont 9 en urgence sociale\nDélai moyen d'instruction : 47 jours"
-              }
+                "contenu": "23 dossiers, dont 9 en urgence sociale\nDélai moyen : 4 mois"
+              },
+              "objets": [
+                {
+                  "id": "zt-ref",
+                  "objectType": "texte",
+                  "texte": "Source : commission d'admission",
+                  "rect": {
+                    "x": 110,
+                    "y": 150,
+                    "w": 300,
+                    "h": 40
+                  }
+                }
+              ]
             }
           ]
         },
-        "slide": 3
+        "slide": 2
       },
       "action": {
-        "type": "P_EXPECT_DECK",
+        "type": "P_MOVE_OBJECT",
+        "objectId": "zt-ref",
+        "rect": {
+          "x": 70,
+          "y": 460,
+          "w": 300,
+          "h": 40
+        },
+        "tolerance": 24
+      },
+      "points": 2
+    },
+    {
+      "id": "M16-EV01-12",
+      "consigne": "Réduisez-la à une mention discrète, en italique.",
+      "setupPpt": {
         "deck": {
+          "format": "16:9",
           "slides": [
             {
-              "index": 3,
-              "masquee": true
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Foyer Saint-Clair",
+                "sous-titre": "Conseil d'administration du 18 septembre"
+              },
+              "objets": [
+                {
+                  "id": "obj3",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 560,
+                    "y": 180,
+                    "w": 320,
+                    "h": 200
+                  }
+                }
+              ]
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "79 places occupées sur 84",
+                "contenu": "14 entrées et 11 sorties cet été\n23 dossiers en attente"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Dossiers en attente",
+                "contenu": "23 dossiers, dont 9 en urgence sociale\nDélai moyen : 4 mois"
+              },
+              "objets": [
+                {
+                  "id": "zt-ref",
+                  "objectType": "texte",
+                  "texte": "Source : commission d'admission",
+                  "rect": {
+                    "x": 70,
+                    "y": 460,
+                    "w": 300,
+                    "h": 40
+                  }
+                }
+              ]
             }
           ]
+        },
+        "slide": 2
+      },
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "zt-ref",
+        "style": {
+          "italic": true
         }
       },
       "points": 1
     },
     {
       "id": "M16-EV01-13",
-      "consigne": "Passez en Trieuse pour le contrôle d'ensemble.",
+      "consigne": "C'est une annexe : elle doit rester consultable sans jamais défiler devant le conseil.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Foyer Saint-Clair",
+                "sous-titre": "Conseil d'administration du 18 septembre"
+              },
+              "objets": [
+                {
+                  "id": "obj3",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 560,
+                    "y": 180,
+                    "w": 320,
+                    "h": 200
+                  }
+                }
+              ]
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "79 places occupées sur 84",
+                "contenu": "14 entrées et 11 sorties cet été\n23 dossiers en attente"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Dossiers en attente",
+                "contenu": "23 dossiers, dont 9 en urgence sociale\nDélai moyen : 4 mois"
+              },
+              "objets": [
+                {
+                  "id": "zt-ref",
+                  "objectType": "texte",
+                  "texte": "Source : commission d'admission",
+                  "rect": {
+                    "x": 70,
+                    "y": 460,
+                    "w": 300,
+                    "h": 40
+                  },
+                  "style": {
+                    "italic": true
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 2
+      },
+      "action": {
+        "type": "P_EXPECT_DECK",
+        "deck": {
+          "slides": [
+            {
+              "index": 2,
+              "masquee": true
+            }
+          ]
+        }
+      },
+      "points": 2
+    },
+    {
+      "id": "M16-EV01-14",
+      "consigne": "Contrôle d'ensemble : prenez la présentation d'un seul coup d'œil.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Foyer Saint-Clair",
+                "sous-titre": "Conseil d'administration du 18 septembre"
+              },
+              "objets": [
+                {
+                  "id": "obj3",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 560,
+                    "y": 180,
+                    "w": 320,
+                    "h": 200
+                  }
+                }
+              ]
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "79 places occupées sur 84",
+                "contenu": "14 entrées et 11 sorties cet été\n23 dossiers en attente"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Dossiers en attente",
+                "contenu": "23 dossiers, dont 9 en urgence sociale\nDélai moyen : 4 mois"
+              },
+              "objets": [
+                {
+                  "id": "zt-ref",
+                  "objectType": "texte",
+                  "texte": "Source : commission d'admission",
+                  "rect": {
+                    "x": 70,
+                    "y": 460,
+                    "w": 300,
+                    "h": 40
+                  },
+                  "style": {
+                    "italic": true
+                  }
+                }
+              ],
+              "masquee": true
+            }
+          ]
+        },
+        "slide": 2
+      },
       "action": {
         "type": "P_SET_VIEW",
         "view": "trieuse"
@@ -339,23 +893,11 @@
       "points": 1
     },
     {
-      "id": "M16-EV01-14",
-      "consigne": "Revenez en affichage Normal.",
+      "id": "M16-EV01-15",
+      "consigne": "Revenez à l'affichage de travail.",
       "action": {
         "type": "P_SET_VIEW",
         "view": "normal"
-      },
-      "points": 1
-    },
-    {
-      "id": "M16-EV01-15",
-      "consigne": "Lancez le diaporama depuis le début : l'annexe masquée ne doit jamais apparaître.",
-      "action": {
-        "type": "P_EXPECT_SHOW",
-        "show": {
-          "actif": true,
-          "index": 0
-        }
       },
       "points": 1
     }

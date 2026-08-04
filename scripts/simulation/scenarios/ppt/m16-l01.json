@@ -33,7 +33,19 @@
       "consigne": "Une commande contient toujours quatre choses : **pour qui**, **combien de temps**, **quels sujets**, **quelle décision attendue**. Ici : le conseil syndical, vingt minutes, trois sujets, et un vote sur les travaux. La trame se déduit de ces quatre points, pas de vos données.",
       "action": {
         "type": "READ"
-      }
+      },
+      "montrer": [
+        {
+          "type": "P_MONTRER",
+          "cible": "ph:titre",
+          "texte": "Pour qui, combien de temps, quels sujets, quelle décision attendue"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "ph:sous-titre",
+          "texte": "Le conseil syndical, vingt minutes, trois sujets, un vote — la trame se déduit de ces quatre points, pas de vos données"
+        }
+      ]
     },
     {
       "id": "M16-L01-02",
@@ -45,6 +57,7 @@
           "Conseil syndical du 18 avril"
         ]
       },
+      "feedback": "Le sous-titre affiche « Conseil syndical du 18 avril » : l'invite a disparu.",
       "aide": {
         "text": "Cliquez dans « Cliquez pour ajouter un sous-titre »."
       }
@@ -55,6 +68,7 @@
       "action": {
         "type": "P_ADD_SLIDE"
       },
+      "feedback": "Une diapositive de plus en position 2, insérée juste après celle qui était affichée — la présentation en compte 2.",
       "aide": {
         "text": "Groupe Diapositives, bouton « Nouvelle »."
       }
@@ -69,6 +83,7 @@
           "Ordre du jour"
         ]
       },
+      "feedback": "« Ordre du jour » est saisi : le titre n'est plus vide.",
       "aide": {
         "text": "Cliquez dans « Cliquez pour ajouter un titre »."
       }
@@ -112,14 +127,27 @@
       "consigne": "Vingt minutes pour trois sujets, c'est **six à sept minutes chacun**, donc trois ou quatre diapositives par partie au maximum. Cette arithmétique décide de tout le reste : elle vous interdit d'avance la présentation de quarante écrans.",
       "action": {
         "type": "READ"
-      }
+      },
+      "montrer": [
+        {
+          "type": "P_MONTRER",
+          "cible": "obj5",
+          "texte": "Vingt minutes pour trois sujets : six à sept minutes chacun"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "zone:volet",
+          "texte": "Donc trois ou quatre diapositives par partie au maximum — cette arithmétique vous interdit d'avance les quarante écrans"
+        }
+      ]
     },
     {
       "id": "M16-L01-07",
       "consigne": "==Ajoutez une diapositive== : ce sera le séparateur de la première partie.",
       "action": {
         "type": "P_ADD_SLIDE"
-      }
+      },
+      "feedback": "Une diapositive de plus en position 3, insérée juste après celle qui était affichée — la présentation en compte 3."
     },
     {
       "id": "M16-L01-08",
@@ -128,6 +156,7 @@
         "type": "P_SET_LAYOUT",
         "layout": "titre-seul"
       },
+      "feedback": "« Titre seul » : les cadres sont désormais ceux que cette disposition prévoit.",
       "aide": {
         "text": "Groupe Diapositives, bouton Disposition, puis « Titre seul »."
       }
@@ -141,14 +170,16 @@
         "accept": [
           "1. Les charges"
         ]
-      }
+      },
+      "feedback": "Le titre affiche « 1. Les charges » : l'invite a disparu."
     },
     {
       "id": "M16-L01-10",
       "consigne": "==Ajoutez une diapositive== pour la deuxième section.",
       "action": {
         "type": "P_ADD_SLIDE"
-      }
+      },
+      "feedback": "Une diapositive de plus en position 4, insérée juste après celle qui était affichée — la présentation en compte 4."
     },
     {
       "id": "M16-L01-11",
@@ -156,7 +187,8 @@
       "action": {
         "type": "P_SET_LAYOUT",
         "layout": "titre-seul"
-      }
+      },
+      "feedback": "« Titre seul » : les cadres sont désormais ceux que cette disposition prévoit."
     },
     {
       "id": "M16-L01-12",
@@ -167,7 +199,8 @@
         "accept": [
           "2. Les travaux"
         ]
-      }
+      },
+      "feedback": "Le titre affiche « 2. Les travaux » : l'invite a disparu."
     }
   ]
 }

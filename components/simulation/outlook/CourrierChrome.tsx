@@ -79,6 +79,204 @@ export function BoutonCourrier({
   )
 }
 
+/* ═══════════ LE RUBAN ═══════════ */
+
+/**
+ * Pictogrammes du ruban.
+ *
+ * SVG inline, `currentColor`, aucun fichier à servir : le piège 0c (les assets
+ * de `public/` en 404 sur Railway en mode standalone) ne peut donc pas les
+ * atteindre. Un bouton sans pictogramme reste rendu en texte plutôt que de
+ * laisser un trou — c'est la même règle que le dictionnaire `ICONS` d'Excel.
+ */
+const PICTOS: Record<string, React.ReactNode> = {
+  "cr-repondre": (
+    <path d="M8 5 3 9l5 4V10.5c3 0 5 .8 6.2 3 .2-3.6-1.4-6-6.2-6.2V5Z" />
+  ),
+  "cr-repondre-tous": (
+    <>
+      <path d="M5 5 1 8.5 5 12V9.8c2.2 0 3.7.6 4.6 2.2.2-2.7-1-4.5-4.6-4.6V5Z" />
+      <path d="M10.5 5 6.5 8.5l4 3.5V9.8c2.2 0 3.7.6 4.6 2.2.2-2.7-1-4.5-4.6-4.6V5Z" opacity=".55" />
+    </>
+  ),
+  "cr-transferer": (
+    <path d="M8 5v2.3C3.2 7.5 1.6 9.9 1.8 13.5 3 11.3 5 10.5 8 10.5V13l5-4-5-4Z" />
+  ),
+  "cr-supprimer": (
+    <path d="M6 2h4l.6 1H13v1.6H3V3h2.4L6 2ZM4 5.6h8l-.6 8.2a1 1 0 0 1-1 .9H5.6a1 1 0 0 1-1-.9L4 5.6Z" />
+  ),
+  "cr-deplacer": (
+    <path d="M2 4.2A1.2 1.2 0 0 1 3.2 3h3l1.3 1.6h5.3A1.2 1.2 0 0 1 14 5.8v6A1.2 1.2 0 0 1 12.8 13H3.2A1.2 1.2 0 0 1 2 11.8V4.2Z" />
+  ),
+  "cr-indicateur": (
+    <path d="M4 2h1.4v12H4V2Zm2.2 1h6.3l-1.5 2.6 1.5 2.6H6.2V3Z" />
+  ),
+  "cr-non-lu": (
+    <path d="M2 4.6 8 9l6-4.4V4a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v.6Zm12 1.5-5.4 4a1 1 0 0 1-1.2 0L2 6.1V12a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V6.1Z" />
+  ),
+  "cr-joindre": (
+    <path d="M11.5 4.5v5.8a3.5 3.5 0 1 1-7 0V4.2a2.3 2.3 0 1 1 4.6 0v5.9a1.2 1.2 0 1 1-2.3 0V5h1.2v5.1a.1.1 0 0 0 .2 0V4.2a1.2 1.2 0 1 0-2.3 0v6.1a2.4 2.4 0 1 0 4.7 0V4.5h.9Z" />
+  ),
+  "cr-envoyer": <path d="M2 14 15 8 2 2l.02 4.7L11 8l-8.98 1.3L2 14Z" />,
+  "cr-cci": (
+    <path d="M8 3.5C4.5 3.5 1.9 5.8 1 8c.9 2.2 3.5 4.5 7 4.5s6.1-2.3 7-4.5c-.9-2.2-3.5-4.5-7-4.5Zm0 7.3A2.8 2.8 0 1 1 8 5.2a2.8 2.8 0 0 1 0 5.6Z" />
+  ),
+  "cr-abandonner": (
+    <path d="M4.3 3.3 8 7l3.7-3.7 1 1L9 8l3.7 3.7-1 1L8 9l-3.7 3.7-1-1L7 8 3.3 4.3l1-1Z" />
+  ),
+  "cr-accepter": <path d="m6.4 11.6-3.2-3.2 1.1-1.1 2.1 2.1 5.2-5.2 1.1 1.1-6.3 6.3Z" />,
+  "cr-refuser": (
+    <path d="M4.3 3.3 8 7l3.7-3.7 1 1L9 8l3.7 3.7-1 1L8 9l-3.7 3.7-1-1L7 8 3.3 4.3l1-1Z" />
+  ),
+  "cr-provisoire": (
+    <path d="M8 1.6A6.4 6.4 0 1 0 14.4 8 6.4 6.4 0 0 0 8 1.6Zm.7 6.7-2.4 1.5-.6-1 1.8-1.1V4.2h1.2v4.1Z" />
+  ),
+  "cr-nouveau-rdv": (
+    <path d="M4 1.6h1.3V3H4V1.6Zm6.7 0H12V3h-1.3V1.6ZM2.6 3.6h10.8a1 1 0 0 1 1 1v8.8a1 1 0 0 1-1 1H2.6a1 1 0 0 1-1-1V4.6a1 1 0 0 1 1-1Zm0 3v6.8h10.8V6.6H2.6Z" />
+  ),
+  "cr-enregistrer-rdv": (
+    <path d="M3 2h8.2L14 4.8V13a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1Zm2 0v4h5V2H5Zm-.5 7h7v5h-7V9Z" />
+  ),
+}
+
+/** Un bouton de ruban : pictogramme au-dessus, libellé dessous. */
+export function BoutonRuban({
+  id,
+  libelle,
+  onClick,
+  desactive,
+  actif,
+}: {
+  id: string
+  libelle: string
+  onClick: () => void
+  desactive?: boolean
+  actif?: boolean
+}) {
+  const picto = PICTOS[id]
+  return (
+    <button
+      type="button"
+      data-control={id}
+      onClick={desactive ? undefined : onClick}
+      disabled={desactive}
+      title={libelle}
+      aria-label={libelle}
+      style={{
+        ...BTN,
+        display: "inline-flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: 2,
+        // 44 px : la cible tactile réglementaire, tenue même sur téléphone.
+        minWidth: 52,
+        minHeight: 46,
+        padding: "4px 7px",
+        borderRadius: 6,
+        fontSize: 10.5,
+        lineHeight: 1.15,
+        whiteSpace: "nowrap",
+        color: desactive ? "#AEB6B1" : actif ? "#fff" : "#2C3A33",
+        background: actif ? ACCENT : "transparent",
+        cursor: desactive ? "default" : "pointer",
+      }}
+    >
+      {picto ? (
+        <svg viewBox="0 0 16 16" width={16} height={16} fill="currentColor" aria-hidden focusable="false">
+          {picto}
+        </svg>
+      ) : null}
+      <span>{libelle}</span>
+    </button>
+  )
+}
+
+/** Séparateur de groupe, comme entre deux blocs du ruban d'Excel. */
+function Separateur() {
+  return <span aria-hidden style={{ width: 1, alignSelf: "stretch", margin: "4px 3px", background: "#E4E0D8" }} />
+}
+
+/**
+ * LE RUBAN — permanent, au-dessus des trois volets.
+ *
+ * ⚠️ CE QUI A MOTIVÉ SA CRÉATION. Répondre, Transférer et Supprimer vivaient
+ * dans une barre du VOLET DE LECTURE : ils n'existaient donc que lorsqu'un
+ * message était déjà ouvert, et l'apprenant découvrait une fenêtre vide et
+ * silencieuse. Excel montre 7 onglets et 61 icônes en permanence ; la messagerie
+ * n'affichait aucun outil. C'était le plus gros écart visuel des trois
+ * applications.
+ *
+ * ⚠️ UN `data-control` NE DOIT EXISTER QU'UNE FOIS DANS LE DOM. Les boutons
+ * d'action ont donc été DÉPLACÉS ici, jamais recopiés : les laisser aux deux
+ * endroits ferait viser au halo d'aide et à la démonstration un exemplaire au
+ * hasard — et sur Excel, un `data-control` en double avait fait cliquer le
+ * pilote sur l'icône cachée derrière une modale.
+ *
+ * Les boutons restent RENDUS mais désactivés quand aucun message n'est
+ * sélectionné : c'est le comportement du vrai Outlook, et cela vaut mieux que de
+ * les faire disparaître — un outil qu'on voit grisé s'apprend, un outil absent
+ * ne s'apprend pas.
+ */
+export function RubanCourrier({
+  etat,
+  compact,
+  onControle,
+}: {
+  etat: EtatOutlook
+  compact?: boolean
+  onControle: (id: string) => void
+}) {
+  const m = etat.messages.find((x) => x.id === etat.messageActif)
+  const sansMessage = !m
+
+  /*
+   * Le ruban ne rend QUE les actions sur message.
+   *
+   * La fenêtre de rédaction porte déjà les siennes (Envoyer, Joindre, Cci,
+   * Abandonner), l'encadré d'invitation les siennes (Accepter, Provisoire,
+   * Refuser), et la vue Calendrier également. Les recopier ici mettrait deux
+   * fois le même `data-control` dans le DOM — le défaut qui fait viser au halo
+   * et au pilote un exemplaire au hasard, parfois celui qui est masqué.
+   */
+  if (etat.redaction || etat.vue !== "courrier") return null
+
+  return (
+    <div
+      data-ruban="courrier"
+      style={{
+        flexShrink: 0,
+        display: "flex",
+        alignItems: "stretch",
+        gap: 1,
+        padding: "3px 8px",
+        background: "#FAF9F7",
+        borderBottom: "1px solid #E4E0D8",
+        // Le ruban d'Excel fait 56 px sur une ligne et défile horizontalement à
+        // 390 px. Même choix ici : jamais d'empilement sur deux rangées, qui
+        // mangerait la hauteur de la zone de travail.
+        overflowX: "auto",
+        overflowY: "hidden",
+      }}
+    >
+      <BoutonRuban id={C.supprimer} libelle="Supprimer" onClick={() => onControle(C.supprimer)} desactive={sansMessage} />
+      <BoutonRuban id={C.deplacer} libelle="Déplacer" onClick={() => onControle(C.deplacer)} desactive={sansMessage} />
+      <Separateur />
+      <BoutonRuban id={C.repondre} libelle="Répondre" onClick={() => onControle(C.repondre)} desactive={sansMessage} />
+      <BoutonRuban
+        id={C.repondreTous}
+        libelle={compact ? "Rép. tous" : "Répondre à tous"}
+        onClick={() => onControle(C.repondreTous)}
+        desactive={sansMessage}
+      />
+      <BoutonRuban id={C.transferer} libelle="Transférer" onClick={() => onControle(C.transferer)} desactive={sansMessage} />
+      <Separateur />
+      <BoutonRuban id={C.indicateur} libelle="Indicateur" onClick={() => onControle(C.indicateur)} desactive={sansMessage} />
+      <BoutonRuban id={C.nonLu} libelle="Non lu" onClick={() => onControle(C.nonLu)} desactive={sansMessage} />
+    </div>
+  )
+}
+
 /**
  * Une ligne de dossier — la MÊME au rail et au tiroir.
  *

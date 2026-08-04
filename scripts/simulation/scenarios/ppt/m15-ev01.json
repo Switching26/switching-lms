@@ -6,10 +6,10 @@
   "title": "S'évaluer — Une présentation homogène",
   "intro": {
     "title": "S'évaluer — Une présentation homogène",
-    "body": "Un jeu de quatre diapositives à remettre d'aplomb : une disposition qui détonne, deux titres hors modèle, un repère qui a bougé. Aucune aide n'est affichée et chaque geste compte."
+    "body": "Quatre diapositives montées à des moments différents : elles se tiennent une à une, mais pas ensemble. Un élément hérité, deux titres hors modèle et un repère qui saute d'un écran à l'autre. Aucune aide n'est affichée et chaque geste compte."
   },
   "outro": {
-    "body": "Évaluation terminée. Même usage même disposition, titres de même facture, repères au même endroit, et le contrôle en trois passages : ce sont les acquis du module."
+    "body": "Épreuve terminée. Seule votre meilleure note est conservée."
   },
   "ribbon": [],
   "workbook": {
@@ -34,7 +34,7 @@
         },
         "objets": [
           {
-            "id": "zt-ref-1",
+            "id": "zt-repere-1",
             "objectType": "texte",
             "texte": "Effectifs au 1er mars",
             "rect": {
@@ -54,7 +54,7 @@
         },
         "objets": [
           {
-            "id": "zt-ref-2",
+            "id": "zt-repere-2",
             "objectType": "texte",
             "texte": "Effectifs au 1er mars",
             "rect": {
@@ -67,29 +67,30 @@
         ]
       },
       {
-        "layout": "titre-seul",
+        "layout": "titre-et-contenu",
         "textes": {
-          "titre": "LA POSE SUR CHANTIER"
+          "titre": "LA POSE SUR CHANTIER",
+          "contenu": "Six poseurs\nChantiers en Île-de-France"
         },
         "objets": [
           {
-            "id": "zt-pose",
+            "id": "zt-vignette",
             "objectType": "texte",
-            "texte": "Six poseurs, chantiers en Île-de-France",
+            "texte": "Ancien logo 2019",
             "rect": {
-              "x": 90,
-              "y": 250,
-              "w": 500,
-              "h": 70
+              "x": 760,
+              "y": 60,
+              "w": 150,
+              "h": 60
             }
           },
           {
-            "id": "zt-ref-3",
+            "id": "zt-repere-3",
             "objectType": "texte",
             "texte": "Effectifs au 1er mars",
             "rect": {
-              "x": 680,
-              "y": 465,
+              "x": 110,
+              "y": 380,
               "w": 230,
               "h": 40
             }
@@ -101,7 +102,7 @@
   "steps": [
     {
       "id": "M15-EV01-01",
-      "consigne": "Passez en Trieuse : premier passage du contrôle, la silhouette des diapositives.",
+      "consigne": "Premier passage du contrôle : prenez les quatre diapositives d'un seul coup d'œil, sans lire.",
       "action": {
         "type": "P_SET_VIEW",
         "view": "trieuse"
@@ -110,16 +111,7 @@
     },
     {
       "id": "M15-EV01-02",
-      "consigne": "Affichez la dernière diapositive, la seule montée en titre seul.",
-      "action": {
-        "type": "P_SELECT_SLIDE",
-        "index": 3
-      },
-      "points": 1
-    },
-    {
-      "id": "M15-EV01-03",
-      "consigne": "Revenez en affichage Normal.",
+      "consigne": "Revenez à l'affichage de travail.",
       "action": {
         "type": "P_SET_VIEW",
         "view": "normal"
@@ -127,26 +119,17 @@
       "points": 1
     },
     {
+      "id": "M15-EV01-03",
+      "consigne": "Affichez la dernière diapositive.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 3
+      },
+      "points": 1
+    },
+    {
       "id": "M15-EV01-04",
-      "consigne": "Donnez-lui la disposition Titre et contenu, celle des deux autres.",
-      "action": {
-        "type": "P_SET_LAYOUT",
-        "layout": "titre-et-contenu"
-      },
-      "points": 2
-    },
-    {
-      "id": "M15-EV01-05",
-      "consigne": "Supprimez la zone de texte libre « Six poseurs… ».",
-      "action": {
-        "type": "P_DELETE_OBJECT",
-        "objectId": "zt-pose"
-      },
-      "points": 2
-    },
-    {
-      "id": "M15-EV01-06",
-      "consigne": "Écrivez le contenu : Six poseurs, Chantiers en Île-de-France.",
+      "consigne": "Un élément d'un ancien modèle y est resté et ne figure sur aucune autre. Retirez-le.",
       "setupPpt": {
         "deck": {
           "format": "16:9",
@@ -166,15 +149,15 @@
               },
               "objets": [
                 {
-                  "id": "zt-ref-1",
+                  "id": "zt-repere-1",
                   "objectType": "texte",
+                  "texte": "Effectifs au 1er mars",
                   "rect": {
                     "x": 680,
                     "y": 465,
                     "w": 230,
                     "h": 40
-                  },
-                  "texte": "Effectifs au 1er mars"
+                  }
                 }
               ]
             },
@@ -186,34 +169,46 @@
               },
               "objets": [
                 {
-                  "id": "zt-ref-2",
+                  "id": "zt-repere-2",
                   "objectType": "texte",
+                  "texte": "Effectifs au 1er mars",
                   "rect": {
                     "x": 110,
                     "y": 150,
                     "w": 230,
                     "h": 40
-                  },
-                  "texte": "Effectifs au 1er mars"
+                  }
                 }
               ]
             },
             {
               "layout": "titre-et-contenu",
               "textes": {
-                "titre": "LA POSE SUR CHANTIER"
+                "titre": "LA POSE SUR CHANTIER",
+                "contenu": "Six poseurs\nChantiers en Île-de-France"
               },
               "objets": [
                 {
-                  "id": "zt-ref-3",
+                  "id": "zt-vignette",
                   "objectType": "texte",
+                  "texte": "Ancien logo 2019",
                   "rect": {
-                    "x": 680,
-                    "y": 465,
+                    "x": 760,
+                    "y": 60,
+                    "w": 150,
+                    "h": 60
+                  }
+                },
+                {
+                  "id": "zt-repere-3",
+                  "objectType": "texte",
+                  "texte": "Effectifs au 1er mars",
+                  "rect": {
+                    "x": 110,
+                    "y": 380,
                     "w": 230,
                     "h": 40
-                  },
-                  "texte": "Effectifs au 1er mars"
+                  }
                 }
               ]
             }
@@ -222,51 +217,14 @@
         "slide": 3
       },
       "action": {
-        "type": "P_TYPE_TEXT",
-        "cible": "ph:contenu",
-        "accept": [
-          "Six poseurs\nChantiers en Île-de-France",
-          "Six poseurs, Chantiers en Île-de-France"
-        ]
+        "type": "P_DELETE_OBJECT",
+        "objectId": "zt-vignette"
       },
       "points": 2
     },
     {
-      "id": "M15-EV01-07",
-      "consigne": "Deuxième passage, les titres : remplacez « LA POSE SUR CHANTIER » par L'atelier pose.",
-      "action": {
-        "type": "P_TYPE_TEXT",
-        "cible": "ph:titre",
-        "accept": [
-          "L'atelier pose"
-        ]
-      },
-      "points": 2
-    },
-    {
-      "id": "M15-EV01-08",
-      "consigne": "Affichez la troisième diapositive, dont le titre est une phrase complète.",
-      "action": {
-        "type": "P_SELECT_SLIDE",
-        "index": 2
-      },
-      "points": 1
-    },
-    {
-      "id": "M15-EV01-09",
-      "consigne": "Remplacez son titre par L'atelier finition.",
-      "action": {
-        "type": "P_TYPE_TEXT",
-        "cible": "ph:titre",
-        "accept": [
-          "L'atelier finition"
-        ]
-      },
-      "points": 2
-    },
-    {
-      "id": "M15-EV01-10",
-      "consigne": "Troisième passage, les repères : son rappel d'effectifs est en haut à gauche. Déplacez-le vers 680 en horizontal et 465 en vertical.",
+      "id": "M15-EV01-05",
+      "consigne": "Deuxième passage, les titres : « LA POSE SUR CHANTIER » est en capitales quand les autres sont en minuscules. Remplacez-le par L'atelier pose.",
       "setupPpt": {
         "deck": {
           "format": "16:9",
@@ -286,35 +244,122 @@
               },
               "objets": [
                 {
-                  "id": "zt-ref-1",
+                  "id": "zt-repere-1",
                   "objectType": "texte",
+                  "texte": "Effectifs au 1er mars",
                   "rect": {
                     "x": 680,
                     "y": 465,
                     "w": 230,
                     "h": 40
-                  },
-                  "texte": "Effectifs au 1er mars"
+                  }
                 }
               ]
             },
             {
               "layout": "titre-et-contenu",
               "textes": {
-                "titre": "L'atelier finition",
+                "titre": "Nous soignons particulièrement la finition",
                 "contenu": "Quatre compagnons\nPonçage et vernis"
               },
               "objets": [
                 {
-                  "id": "zt-ref-2",
+                  "id": "zt-repere-2",
                   "objectType": "texte",
+                  "texte": "Effectifs au 1er mars",
                   "rect": {
                     "x": 110,
                     "y": 150,
                     "w": 230,
                     "h": 40
-                  },
-                  "texte": "Effectifs au 1er mars"
+                  }
+                }
+              ]
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "LA POSE SUR CHANTIER",
+                "contenu": "Six poseurs\nChantiers en Île-de-France"
+              },
+              "objets": [
+                {
+                  "id": "zt-repere-3",
+                  "objectType": "texte",
+                  "texte": "Effectifs au 1er mars",
+                  "rect": {
+                    "x": 110,
+                    "y": 380,
+                    "w": 230,
+                    "h": 40
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 3
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:titre",
+        "accept": [
+          "L'atelier pose"
+        ]
+      },
+      "points": 2
+    },
+    {
+      "id": "M15-EV01-06",
+      "consigne": "Troisième passage, les repères : celui-ci est à mi-hauteur à gauche, alors que le modèle le place en bas à droite. Amenez-le à sa place.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Menuiserie Delcourt",
+                "sous-titre": "Présentation des ateliers"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "L'atelier bois",
+                "contenu": "Neuf compagnons\nDébit et assemblage"
+              },
+              "objets": [
+                {
+                  "id": "zt-repere-1",
+                  "objectType": "texte",
+                  "texte": "Effectifs au 1er mars",
+                  "rect": {
+                    "x": 680,
+                    "y": 465,
+                    "w": 230,
+                    "h": 40
+                  }
+                }
+              ]
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Nous soignons particulièrement la finition",
+                "contenu": "Quatre compagnons\nPonçage et vernis"
+              },
+              "objets": [
+                {
+                  "id": "zt-repere-2",
+                  "objectType": "texte",
+                  "texte": "Effectifs au 1er mars",
+                  "rect": {
+                    "x": 110,
+                    "y": 150,
+                    "w": 230,
+                    "h": 40
+                  }
                 }
               ]
             },
@@ -326,15 +371,277 @@
               },
               "objets": [
                 {
-                  "id": "zt-ref-3",
+                  "id": "zt-repere-3",
                   "objectType": "texte",
+                  "texte": "Effectifs au 1er mars",
+                  "rect": {
+                    "x": 110,
+                    "y": 380,
+                    "w": 230,
+                    "h": 40
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 3
+      },
+      "action": {
+        "type": "P_MOVE_OBJECT",
+        "objectId": "zt-repere-3",
+        "rect": {
+          "x": 680,
+          "y": 465,
+          "w": 230,
+          "h": 40
+        },
+        "tolerance": 24
+      },
+      "points": 2
+    },
+    {
+      "id": "M15-EV01-07",
+      "consigne": "Affichez la troisième diapositive, dont le titre est une phrase complète.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Menuiserie Delcourt",
+                "sous-titre": "Présentation des ateliers"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "L'atelier bois",
+                "contenu": "Neuf compagnons\nDébit et assemblage"
+              },
+              "objets": [
+                {
+                  "id": "zt-repere-1",
+                  "objectType": "texte",
+                  "texte": "Effectifs au 1er mars",
                   "rect": {
                     "x": 680,
                     "y": 465,
                     "w": 230,
                     "h": 40
-                  },
-                  "texte": "Effectifs au 1er mars"
+                  }
+                }
+              ]
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Nous soignons particulièrement la finition",
+                "contenu": "Quatre compagnons\nPonçage et vernis"
+              },
+              "objets": [
+                {
+                  "id": "zt-repere-2",
+                  "objectType": "texte",
+                  "texte": "Effectifs au 1er mars",
+                  "rect": {
+                    "x": 110,
+                    "y": 150,
+                    "w": 230,
+                    "h": 40
+                  }
+                }
+              ]
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "L'atelier pose",
+                "contenu": "Six poseurs\nChantiers en Île-de-France"
+              },
+              "objets": [
+                {
+                  "id": "zt-repere-3",
+                  "objectType": "texte",
+                  "texte": "Effectifs au 1er mars",
+                  "rect": {
+                    "x": 680,
+                    "y": 465,
+                    "w": 230,
+                    "h": 40
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 3
+      },
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 2
+      },
+      "points": 1
+    },
+    {
+      "id": "M15-EV01-08",
+      "consigne": "Un titre nomme, il ne commente pas : remplacez-le par L'atelier finition.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Menuiserie Delcourt",
+                "sous-titre": "Présentation des ateliers"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "L'atelier bois",
+                "contenu": "Neuf compagnons\nDébit et assemblage"
+              },
+              "objets": [
+                {
+                  "id": "zt-repere-1",
+                  "objectType": "texte",
+                  "texte": "Effectifs au 1er mars",
+                  "rect": {
+                    "x": 680,
+                    "y": 465,
+                    "w": 230,
+                    "h": 40
+                  }
+                }
+              ]
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Nous soignons particulièrement la finition",
+                "contenu": "Quatre compagnons\nPonçage et vernis"
+              },
+              "objets": [
+                {
+                  "id": "zt-repere-2",
+                  "objectType": "texte",
+                  "texte": "Effectifs au 1er mars",
+                  "rect": {
+                    "x": 110,
+                    "y": 150,
+                    "w": 230,
+                    "h": 40
+                  }
+                }
+              ]
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "L'atelier pose",
+                "contenu": "Six poseurs\nChantiers en Île-de-France"
+              },
+              "objets": [
+                {
+                  "id": "zt-repere-3",
+                  "objectType": "texte",
+                  "texte": "Effectifs au 1er mars",
+                  "rect": {
+                    "x": 680,
+                    "y": 465,
+                    "w": 230,
+                    "h": 40
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 2
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:titre",
+        "accept": [
+          "L'atelier finition"
+        ]
+      },
+      "points": 2
+    },
+    {
+      "id": "M15-EV01-09",
+      "consigne": "Son repère est en haut à gauche. Amenez-le à la même place que les autres.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Menuiserie Delcourt",
+                "sous-titre": "Présentation des ateliers"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "L'atelier bois",
+                "contenu": "Neuf compagnons\nDébit et assemblage"
+              },
+              "objets": [
+                {
+                  "id": "zt-repere-1",
+                  "objectType": "texte",
+                  "texte": "Effectifs au 1er mars",
+                  "rect": {
+                    "x": 680,
+                    "y": 465,
+                    "w": 230,
+                    "h": 40
+                  }
+                }
+              ]
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "L'atelier finition",
+                "contenu": "Quatre compagnons\nPonçage et vernis"
+              },
+              "objets": [
+                {
+                  "id": "zt-repere-2",
+                  "objectType": "texte",
+                  "texte": "Effectifs au 1er mars",
+                  "rect": {
+                    "x": 110,
+                    "y": 150,
+                    "w": 230,
+                    "h": 40
+                  }
+                }
+              ]
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "L'atelier pose",
+                "contenu": "Six poseurs\nChantiers en Île-de-France"
+              },
+              "objets": [
+                {
+                  "id": "zt-repere-3",
+                  "objectType": "texte",
+                  "texte": "Effectifs au 1er mars",
+                  "rect": {
+                    "x": 680,
+                    "y": 465,
+                    "w": 230,
+                    "h": 40
+                  }
                 }
               ]
             }
@@ -344,41 +651,368 @@
       },
       "action": {
         "type": "P_MOVE_OBJECT",
-        "objectId": "zt-ref-2",
+        "objectId": "zt-repere-2",
         "rect": {
           "x": 680,
-          "y": 465
-        }
+          "y": 465,
+          "w": 230,
+          "h": 40
+        },
+        "tolerance": 24
       },
       "points": 2
     },
     {
-      "id": "M15-EV01-11",
-      "consigne": "Repassez en Trieuse pour vérifier l'ensemble.",
+      "id": "M15-EV01-10",
+      "consigne": "Un repère se lit, il ne s'impose pas : mettez-le en italique comme le veut le modèle.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Menuiserie Delcourt",
+                "sous-titre": "Présentation des ateliers"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "L'atelier bois",
+                "contenu": "Neuf compagnons\nDébit et assemblage"
+              },
+              "objets": [
+                {
+                  "id": "zt-repere-1",
+                  "objectType": "texte",
+                  "texte": "Effectifs au 1er mars",
+                  "rect": {
+                    "x": 680,
+                    "y": 465,
+                    "w": 230,
+                    "h": 40
+                  }
+                }
+              ]
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "L'atelier finition",
+                "contenu": "Quatre compagnons\nPonçage et vernis"
+              },
+              "objets": [
+                {
+                  "id": "zt-repere-2",
+                  "objectType": "texte",
+                  "texte": "Effectifs au 1er mars",
+                  "rect": {
+                    "x": 680,
+                    "y": 465,
+                    "w": 230,
+                    "h": 40
+                  }
+                }
+              ]
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "L'atelier pose",
+                "contenu": "Six poseurs\nChantiers en Île-de-France"
+              },
+              "objets": [
+                {
+                  "id": "zt-repere-3",
+                  "objectType": "texte",
+                  "texte": "Effectifs au 1er mars",
+                  "rect": {
+                    "x": 680,
+                    "y": 465,
+                    "w": 230,
+                    "h": 40
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 2
+      },
       "action": {
-        "type": "P_SET_VIEW",
-        "view": "trieuse"
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "zt-repere-2",
+        "style": {
+          "italic": true
+        }
+      },
+      "points": 1
+    },
+    {
+      "id": "M15-EV01-11",
+      "consigne": "Affichez la deuxième diapositive.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Menuiserie Delcourt",
+                "sous-titre": "Présentation des ateliers"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "L'atelier bois",
+                "contenu": "Neuf compagnons\nDébit et assemblage"
+              },
+              "objets": [
+                {
+                  "id": "zt-repere-1",
+                  "objectType": "texte",
+                  "texte": "Effectifs au 1er mars",
+                  "rect": {
+                    "x": 680,
+                    "y": 465,
+                    "w": 230,
+                    "h": 40
+                  }
+                }
+              ]
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "L'atelier finition",
+                "contenu": "Quatre compagnons\nPonçage et vernis"
+              },
+              "objets": [
+                {
+                  "id": "zt-repere-2",
+                  "objectType": "texte",
+                  "texte": "Effectifs au 1er mars",
+                  "rect": {
+                    "x": 680,
+                    "y": 465,
+                    "w": 230,
+                    "h": 40
+                  },
+                  "style": {
+                    "italic": true
+                  }
+                }
+              ]
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "L'atelier pose",
+                "contenu": "Six poseurs\nChantiers en Île-de-France"
+              },
+              "objets": [
+                {
+                  "id": "zt-repere-3",
+                  "objectType": "texte",
+                  "texte": "Effectifs au 1er mars",
+                  "rect": {
+                    "x": 680,
+                    "y": 465,
+                    "w": 230,
+                    "h": 40
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 2
+      },
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 1
       },
       "points": 1
     },
     {
       "id": "M15-EV01-12",
-      "consigne": "Revenez en affichage Normal.",
-      "action": {
-        "type": "P_SET_VIEW",
-        "view": "normal"
+      "consigne": "Son repère est bien placé, mais pas encore au modèle : mettez-le en italique lui aussi.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Menuiserie Delcourt",
+                "sous-titre": "Présentation des ateliers"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "L'atelier bois",
+                "contenu": "Neuf compagnons\nDébit et assemblage"
+              },
+              "objets": [
+                {
+                  "id": "zt-repere-1",
+                  "objectType": "texte",
+                  "texte": "Effectifs au 1er mars",
+                  "rect": {
+                    "x": 680,
+                    "y": 465,
+                    "w": 230,
+                    "h": 40
+                  }
+                }
+              ]
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "L'atelier finition",
+                "contenu": "Quatre compagnons\nPonçage et vernis"
+              },
+              "objets": [
+                {
+                  "id": "zt-repere-2",
+                  "objectType": "texte",
+                  "texte": "Effectifs au 1er mars",
+                  "rect": {
+                    "x": 680,
+                    "y": 465,
+                    "w": 230,
+                    "h": 40
+                  },
+                  "style": {
+                    "italic": true
+                  }
+                }
+              ]
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "L'atelier pose",
+                "contenu": "Six poseurs\nChantiers en Île-de-France"
+              },
+              "objets": [
+                {
+                  "id": "zt-repere-3",
+                  "objectType": "texte",
+                  "texte": "Effectifs au 1er mars",
+                  "rect": {
+                    "x": 680,
+                    "y": 465,
+                    "w": 230,
+                    "h": 40
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 1
       },
-      "points": 1
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "zt-repere-1",
+        "style": {
+          "italic": true
+        }
+      },
+      "points": 2
     },
     {
       "id": "M15-EV01-13",
-      "consigne": "Lancez le diaporama depuis le début : le repère ne doit plus sauter d'un écran à l'autre.",
+      "consigne": "Dernier passage : vérifiez que le repère ne saute plus d'un écran à l'autre.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Menuiserie Delcourt",
+                "sous-titre": "Présentation des ateliers"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "L'atelier bois",
+                "contenu": "Neuf compagnons\nDébit et assemblage"
+              },
+              "objets": [
+                {
+                  "id": "zt-repere-1",
+                  "objectType": "texte",
+                  "texte": "Effectifs au 1er mars",
+                  "rect": {
+                    "x": 680,
+                    "y": 465,
+                    "w": 230,
+                    "h": 40
+                  },
+                  "style": {
+                    "italic": true
+                  }
+                }
+              ]
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "L'atelier finition",
+                "contenu": "Quatre compagnons\nPonçage et vernis"
+              },
+              "objets": [
+                {
+                  "id": "zt-repere-2",
+                  "objectType": "texte",
+                  "texte": "Effectifs au 1er mars",
+                  "rect": {
+                    "x": 680,
+                    "y": 465,
+                    "w": 230,
+                    "h": 40
+                  },
+                  "style": {
+                    "italic": true
+                  }
+                }
+              ]
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "L'atelier pose",
+                "contenu": "Six poseurs\nChantiers en Île-de-France"
+              },
+              "objets": [
+                {
+                  "id": "zt-repere-3",
+                  "objectType": "texte",
+                  "texte": "Effectifs au 1er mars",
+                  "rect": {
+                    "x": 680,
+                    "y": 465,
+                    "w": 230,
+                    "h": 40
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 1
+      },
       "action": {
-        "type": "P_EXPECT_SHOW",
-        "show": {
-          "actif": true,
-          "index": 0
-        }
+        "type": "P_SET_VIEW",
+        "view": "trieuse"
       },
       "points": 1
     }

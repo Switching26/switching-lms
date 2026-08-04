@@ -1047,6 +1047,19 @@ export function validerGeste(
       return OK
     }
 
+    /**
+     * `P_MONTRER` n'est PAS une action d'étape : elle ne vit que dans le tableau
+     * `montrer` d'un écran de lecture, où elle décrit ce que la démonstration
+     * fait voir. Rien ne l'émet, donc rien ne peut la valider — et une étape qui
+     * la porterait attendrait indéfiniment un geste qui n'arrivera jamais.
+     *
+     * Le refus est explicite plutôt que silencieux : c'est `check-scenario-ppt`
+     * qui doit attraper l'erreur d'écriture, mais si elle passait, l'apprenant
+     * lirait un motif net au lieu de rester bloqué sans explication.
+     */
+    case "P_MONTRER":
+      return KO("action_non_jouable", "Cet écran se lit : il n'attend aucun geste.")
+
     default: {
       // Exhaustivité de l'application, garantie ICI et non dans `validate.ts` :
       // c'est ce qui permet d'ajouter une action sans toucher un fichier gelé.
@@ -1230,4 +1243,72 @@ export const CONTROLES_PPT = {
    * tiroir des miniatures, coûte un bouton et rend la notion jouable partout.
    */
   notesBascule: "vol-notes-bascule",
+  /** Onglets du ruban. Un onglet est un bouton comme un autre : il se presse. */
+  onglet: (o: OngletPpt) => `ong-${o}`,
 } as const
+
+/* ═══════════ LES ONGLETS DU RUBAN ═══════════ */
+
+/**
+ * Les six onglets rendus par le ruban.
+ *
+ * Le lot 1 avait fait le choix inverse — une seule ligne défilante, sans onglet
+ * — et l'avait motivé : un ruban sans onglet ne peut pas produire la classe de
+ * défauts d'Excel, où 55 gestes de démonstration visaient un bouton logé sous un
+ * autre onglet, donc introuvable. Ce raisonnement était juste, mais il payait le
+ * risque avec une compétence : « aller dans l'onglet Insertion » est le geste le
+ * plus élémentaire de PowerPoint, et il n'était enseigné nulle part.
+ *
+ * Les onglets sont donc rendus, et le défaut qu'ils rouvrent est fermé par
+ * ailleurs — voir `ongletDuControle` : c'est la MÊME source qui décide où vit un
+ * bouton, qui ouvre l'onglet attendu par une étape, et qui fait basculer une
+ * démonstration avant de presser. Un bouton ne peut donc pas être hors de portée
+ * sans que les trois le soient ensemble, ce qui se voit tout de suite.
+ *
+ * Six et pas dix : le vrai PowerPoint a aussi Fichier, Dessin, Création et
+ * Révision. Aucune commande du moteur n'y vit. Un onglet vide serait un bouton
+ * fictif — exactement ce que la règle des contrôles interdit.
+ */
+export const ONGLETS_PPT = ["accueil", "insertion", "transitions", "animations", "diaporama", "affichage"] as const
+export type OngletPpt = (typeof ONGLETS_PPT)[number]
+
+export const LIBELLE_ONGLET_PPT: Record<OngletPpt, string> = {
+  accueil: "Accueil",
+  insertion: "Insertion",
+  transitions: "Transitions",
+  animations: "Animations",
+  diaporama: "Diaporama",
+  affichage: "Affichage",
+}
+
+/**
+ * Sous quel onglet vit un bouton — déduit de son PRÉFIXE, jamais d'une table.
+ *
+ * Une table à tenir à jour à la main dériverait le jour où un bouton naîtrait
+ * sans y être inscrit : il deviendrait injoignable, et l'étape qui le demande
+ * infranchissable. Le préfixe est déjà la convention de nommage de
+ * `CONTROLES_PPT` ; s'en servir rend l'oubli impossible par construction.
+ *
+ * `null` = le bouton ne vit pas dans le ruban (volet des miniatures, notes,
+ * barre d'état, boutons du diaporama en plein écran). Il est alors toujours
+ * atteignable, et aucune bascule d'onglet ne doit être tentée pour lui.
+ */
+export function ongletDuControle(id: string): OngletPpt | null {
+  if (id.startsWith("ong-")) {
+    const o = id.slice(4) as OngletPpt
+    return (ONGLETS_PPT as readonly string[]).includes(o) ? o : null
+  }
+  // « Objet » est un groupe de l'onglet Accueil, pas un onglet : dans le vrai
+  // PowerPoint, supprimer un élément sélectionné se fait depuis Accueil.
+  if (id.startsWith("acc-") || id.startsWith("obj-")) return "accueil"
+  if (id.startsWith("ins-")) return "insertion"
+  if (id.startsWith("tra-")) return "transitions"
+  if (id.startsWith("ani-")) return "animations"
+  // « Quitter » vit dans le diaporama en plein écran, pas dans le ruban — qui
+  // n'est même plus affiché à ce moment-là. Le ranger sous l'onglet Diaporama
+  // ferait tenter une bascule impossible avant de le presser.
+  if (id === CONTROLES_PPT.quitterShow) return null
+  if (id.startsWith("dia-")) return "diaporama"
+  if (id.startsWith("aff-")) return "affichage"
+  return null
+}

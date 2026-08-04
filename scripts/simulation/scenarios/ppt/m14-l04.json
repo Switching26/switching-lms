@@ -75,7 +75,19 @@
       "consigne": "Trois chiffres qui se comparent doivent être vus **d'un seul regard**, donc sur une même ligne. Posés en escalier comme ici, l'œil les lit l'un après l'autre et perd la comparaison en chemin — c'est exactement ce qu'un tableau évitait.",
       "action": {
         "type": "READ"
-      }
+      },
+      "montrer": [
+        {
+          "type": "P_MONTRER",
+          "cible": "zone:scene",
+          "texte": "Trois chiffres qui se comparent doivent être vus d'un seul regard, donc sur une même ligne"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "ph:sous-titre",
+          "texte": "Posés en escalier, l'œil les lit l'un après l'autre et perd la comparaison en chemin"
+        }
+      ]
     },
     {
       "id": "M14-L04-02",
@@ -83,7 +95,8 @@
       "action": {
         "type": "P_SELECT_SLIDE",
         "index": 1
-      }
+      },
+      "feedback": "« Les trois indicateurs de l'année » occupe le centre : c'est elle que les boutons modifieront."
     },
     {
       "id": "M14-L04-03",
@@ -99,6 +112,7 @@
           "y": 200
         }
       },
+      "feedback": "« 78 % de remplissage » occupe enfin la zone qui lui revient.",
       "aide": {
         "text": "Faites glisser la zone vers le haut ; l'alignement n'a pas besoin d'être au pixel."
       }
@@ -177,7 +191,24 @@
       "consigne": "L'alignement fait le travail des **bordures** d'un tableau. C'est même mieux : un tableau projeté impose ses traits, ses cellules et ses marges internes, alors que trois zones alignées ne montrent que les chiffres.",
       "action": {
         "type": "READ"
-      }
+      },
+      "montrer": [
+        {
+          "type": "P_MONTRER",
+          "cible": "zt-un",
+          "texte": "L'alignement fait le travail des bordures d'un tableau…"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "zt-deux",
+          "texte": "…et c'est même mieux : un tableau impose ses traits, ses cellules et ses marges"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "zt-trois",
+          "texte": "Trois zones alignées, elles, ne montrent que les chiffres"
+        }
+      ]
     },
     {
       "id": "M14-L04-06",
@@ -245,6 +276,7 @@
           "bold": true
         }
       },
+      "feedback": "« 96 % à l'heure » est en gras.",
       "aide": {
         "text": "Sélectionnez la zone d'un clic, puis bouton G du groupe Police."
       }
@@ -254,7 +286,19 @@
       "consigne": "Une grille de zones a une limite qu'un tableau n'a pas : **rien ne garantit l'alignement** quand vous ajoutez un quatrième chiffre six mois plus tard. D'où la règle — trois zones au maximum, et on vérifie l'alignement à chaque reprise.",
       "action": {
         "type": "READ"
-      }
+      },
+      "montrer": [
+        {
+          "type": "P_MONTRER",
+          "cible": "zt-trois",
+          "texte": "Rien ne garantit l'alignement quand vous ajouterez un quatrième chiffre dans six mois"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "zone:scene",
+          "texte": "D'où la règle : trois zones au maximum, et on vérifie l'alignement à chaque reprise"
+        }
+      ]
     },
     {
       "id": "M14-L04-08",
@@ -266,6 +310,7 @@
           "Trois indicateurs, une seule tendance"
         ]
       },
+      "feedback": "« Trois indicateurs, une seule tendance » est en place — l'espace réservé porte votre texte, à la place et à la taille prévues.",
       "aide": {
         "text": "Un titre déjà rempli s'ouvre au double-clic."
       }
@@ -280,6 +325,7 @@
           "index": 1
         }
       },
+      "feedback": "« Trois indicateurs, une seule tendance » s'affiche : le déroulé saute ce qui est masqué, sans le supprimer.",
       "aide": {
         "text": "Groupe Diaporama, bouton « ▶ Ici »."
       }
@@ -292,14 +338,27 @@
         "show": {
           "actif": false
         }
-      }
+      },
+      "feedback": "Retour à l'édition sur « Trois indicateurs, une seule tendance » : un réglage de diaporama ne se vérifie qu'en projetant."
     },
     {
       "id": "M14-L04-11",
       "consigne": "À retenir : **trois zones alignées valent un tableau**, et sans ses traits. Une ligne, trois chiffres au plus, un gras sur celui dont on parle, et un titre qui dit ce qu'ils ont en commun.",
       "action": {
         "type": "READ"
-      }
+      },
+      "montrer": [
+        {
+          "type": "P_MONTRER",
+          "cible": "zt-un",
+          "texte": "Trois zones alignées valent un tableau, et sans ses traits"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "ph:titre",
+          "texte": "Une ligne, trois chiffres au plus, un gras sur celui dont on parle, et un titre qui dit ce qu'ils ont en commun"
+        }
+      ]
     }
   ]
 }

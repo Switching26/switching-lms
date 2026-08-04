@@ -89,7 +89,19 @@
       "consigne": "Une présentation propre, ce n'est pas une présentation jolie : c'est une présentation où **tout ce qui reste à l'écran a été voulu**. Les notes de travail, les points d'interrogation, les diapositives d'une version précédente doivent partir avant la réunion — le public les lit toujours.",
       "action": {
         "type": "READ"
-      }
+      },
+      "montrer": [
+        {
+          "type": "P_MONTRER",
+          "cible": "zone:volet",
+          "texte": "Une note de travail, un point d'interrogation, une version précédente : le public les lit toujours"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "zone:scene",
+          "texte": "Une présentation propre, c'est une présentation où tout ce qui reste a été voulu"
+        }
+      ]
     },
     {
       "id": "M02-L04-02",
@@ -98,6 +110,7 @@
         "type": "P_SELECT_SLIDE",
         "index": 1
       },
+      "feedback": "« Chiffres de la saison » occupe le centre : c'est elle que les boutons modifieront.",
       "aide": {
         "text": "C'est la deuxième miniature du volet, intitulée « Chiffres de la saison »."
       }
@@ -109,6 +122,7 @@
         "type": "P_SELECT_OBJECT",
         "objectId": "zt-note"
       },
+      "feedback": "Sélectionné. Les boutons de mise en forme agiront sur « A verifier avec Karim avant diffusion », et sur rien d'autre.",
       "aide": {
         "text": "C'est la zone de texte du bas à gauche, sous les chiffres."
       }
@@ -130,7 +144,19 @@
       "consigne": "Le clavier n'est pas toujours là — sur une tablette ou un téléphone, il n'apparaît que pendant une saisie. Le bouton **Supprimer** du groupe **Objet** fait donc exactement la même chose, et sur le même élément sélectionné. Les deux chemins mènent au même résultat : ce n'est pas le geste qui compte, c'est ce qui reste à l'écran.",
       "action": {
         "type": "READ"
-      }
+      },
+      "montrer": [
+        {
+          "type": "P_MONTRER",
+          "cible": "zt-brouillon",
+          "texte": "L'élément sélectionné : la touche Suppr l'efface"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "ctrl:obj-supprimer",
+          "texte": "Le bouton Supprimer du groupe Objet fait exactement la même chose — utile quand il n'y a pas de clavier"
+        }
+      ]
     },
     {
       "id": "M02-L04-06",
@@ -139,6 +165,7 @@
         "type": "P_DELETE_OBJECT",
         "objectId": "zt-brouillon"
       },
+      "feedback": "Retiré : « chiffre provisoire ??? » n'avait rien à faire devant le public.",
       "aide": {
         "text": "Cliquez d'abord sur la zone à droite pour la sélectionner, puis sur « Supprimer » dans le groupe Objet."
       }
@@ -148,7 +175,24 @@
       "consigne": "Reste la dernière diapositive, celle de l'an dernier. Deux gestes possibles, et il faut choisir en connaissance de cause : **Masquer** la garde dans le fichier et se défait d'un clic ; **Supprimer** l'efface pour de bon. Ici les chiffres sont périmés et ne resserviront pas : c'est un cas de suppression.",
       "action": {
         "type": "READ"
-      }
+      },
+      "montrer": [
+        {
+          "type": "P_MONTRER",
+          "cible": "diapo:3",
+          "texte": "La diapositive de l'an dernier : ses chiffres sont périmés et ne resserviront pas"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "zone:volet",
+          "texte": "Masquer la garderait ici, grisée, et se déferait d'un clic"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "ctrl:acc-supprimer-diapo",
+          "texte": "Supprimer l'efface pour de bon : ici, c'est le bon choix"
+        }
+      ]
     },
     {
       "id": "M02-L04-08",
@@ -156,7 +200,8 @@
       "action": {
         "type": "P_SELECT_SLIDE",
         "index": 3
-      }
+      },
+      "feedback": "Vous êtes sur « Version 2025 - ne plus utiliser ». Les commandes du ruban agissent sur la diapositive affichée."
     },
     {
       "id": "M02-L04-09",
@@ -213,6 +258,7 @@
         "type": "P_DELETE_SLIDE",
         "index": 3
       },
+      "feedback": "« Version 2025 - ne plus utiliser » est retirée : la présentation en compte 3 maintenant.",
       "aide": {
         "text": "Le bouton se trouve dans le groupe Diapositives, à gauche du ruban."
       }
@@ -222,7 +268,19 @@
       "consigne": "À retenir : **sélectionner puis effacer** pour un élément, au clavier ou au bouton, indifféremment. Et le choix qui compte vraiment — **masquer** quand la diapositive pourra resservir, **supprimer** quand elle est périmée. Dans le doute, masquez : cela se défait.",
       "action": {
         "type": "READ"
-      }
+      },
+      "montrer": [
+        {
+          "type": "P_MONTRER",
+          "cible": "ctrl:obj-supprimer",
+          "texte": "Sélectionner puis effacer, au clavier ou au bouton, indifféremment"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "ctrl:acc-supprimer-diapo",
+          "texte": "Et le choix qui compte : masquer quand la diapositive pourra resservir, supprimer quand elle est périmée"
+        }
+      ]
     }
   ]
 }

@@ -29,7 +29,15 @@ import type { PptAction, PptTextStyle } from "./actions"
 import { JUGEES_SUR_ETAT_PPT, OBSERVABLES_PPT } from "./actions"
 import type { PptObservation } from "./observations"
 import { NAVIGATION_PPT, OBSERVATIONS_ETAT_PPT } from "./observations"
-import { CONTROLES_PPT, LAYOUTS, LAYOUTS_ORDRE, validerGeste } from "./document"
+import {
+  CONTROLES_PPT,
+  LAYOUTS,
+  LAYOUTS_ORDRE,
+  LIBELLE_ONGLET_PPT,
+  ONGLETS_PPT,
+  ongletDuControle,
+  validerGeste,
+} from "./document"
 
 /* ═══════════ LIBELLÉS DES BOUTONS ═══════════ */
 
@@ -72,6 +80,9 @@ export const LIBELLES_CONTROLES_PPT: Readonly<Record<string, string>> = {
   [CONTROLES_PPT.transition("aucune")]: "Aucune transition",
   [CONTROLES_PPT.animation("apparaitre")]: "Animation Apparaître",
   [CONTROLES_PPT.animation("fondu")]: "Animation Fondu",
+  /* Les onglets sont des boutons comme les autres : ils se pressent, une
+     démonstration les ouvre, et « Attendu : … » doit pouvoir les nommer. */
+  ...Object.fromEntries(ONGLETS_PPT.map((o) => [CONTROLES_PPT.onglet(o), `Onglet ${LIBELLE_ONGLET_PPT[o]}`])),
   ...Object.fromEntries(
     LAYOUTS_ORDRE.map((id) => [CONTROLES_PPT.dispositionChoix(id), `Disposition « ${LAYOUTS[id].nom} »`]),
   ),
@@ -122,9 +133,61 @@ function complete(action: PptAction): boolean {
     case "P_MOVE_OBJECT":
     case "P_DELETE_OBJECT":
       return typeof a.objectId === "string"
+    case "P_MONTRER":
+      return typeof a.cible === "string" && typeof a.texte === "string"
     default:
       return true
   }
+}
+
+/**
+ * La cible d'auteur d'un `P_MONTRER`, traduite pour le calque.
+ *
+ * Les formes sont celles que les scénarios emploient déjà ailleurs, plus deux
+ * qui n'ont de sens que pour une illustration : `ecran`, quand le propos ne se
+ * situe nulle part en particulier, et `diapo:<n>`, qui désigne une vignette du
+ * volet.
+ *
+ * ⚠️ `ecran` se traduit par `{ k: "clavier" }`, ce qui ne veut pas dire
+ * « clavier » : c'est la forme SANS LIEU du socle, que le calque rend au centre
+ * et sans curseur. Une flèche de souris pointée sur rien était l'un des défauts
+ * corrigés sur Excel — onze bulles y dessinaient un cadre au milieu du vide.
+ */
+/**
+ * Le type d'une cible de démonstration, DÉRIVÉ du plan plutôt qu'importé.
+ *
+ * `contrats.ts` ne réexporte que `PlanDemo` et `ContexteDemo` ; aller chercher
+ * `CibleDemo` dans `demonstration.ts` ajouterait une arête au graphe de
+ * dépendances pour un simple alias de type. La dérivation reste exacte par
+ * construction : si le socle change la forme d'une cible, ce fichier suit sans
+ * qu'on ait à y penser.
+ */
+type CibleDemo = PlanDemo["gestes"][number]["cible"]
+
+function cibleMontrer(brut: string): CibleDemo {
+  const c = brut.trim()
+  if (c === "" || c === "ecran") return { k: "clavier" }
+  if (c.startsWith("ctrl:")) return { k: "dom", sel: `[data-control="${c.slice(5)}"]` }
+  if (c.startsWith("dom:")) return { k: "dom", sel: c.slice(4) }
+  if (c.startsWith("diapo:")) return { k: "dom", sel: `[data-control="${CONTROLES_PPT.miniature(Number(c.slice(6)))}"]` }
+  /**
+   * ⚠️ LE VOLET N'EXISTE PAS SUR UN PETIT ÉCRAN.
+   *
+   * Sous le seuil, il devient un TIROIR fermé : `[data-zone="volet"]` ne
+   * désigne alors rien, et les 40 bulles qui parlent du volet des miniatures se
+   * jouaient à blanc — le compteur allait jusqu'au bout, l'apprenant sur
+   * téléphone ne voyait aucun repère. Mesuré au banc à 390 px, invisible à
+   * toute lecture du code.
+   *
+   * Le sélecteur désigne donc le volet OU le bouton qui l'ouvre. `querySelector`
+   * rend le premier nœud PRÉSENT : le volet sur grand écran, le bouton du
+   * tiroir sur petit — sans que le contenu ait à connaître la largeur.
+   */
+  if (c === "zone:volet") return { k: "dom", sel: `[data-zone="volet"], [data-control="${CONTROLES_PPT.voletBascule}"]` }
+  if (c.startsWith("zone:")) return { k: "dom", sel: `[data-zone="${c.slice(5)}"]` }
+  if (c.startsWith("ph:")) return { k: "dom", sel: `[data-ph="${c}"]` }
+  if (c.startsWith("[")) return { k: "dom", sel: c }
+  return { k: "dom", sel: `[data-object="${c}"]` }
 }
 
 /**
@@ -219,6 +282,10 @@ export function attenduPpt(action: PptAction): string | null {
       if (action.show.index !== undefined)
         return `le diaporama sur la diapositive ${action.show.index + 1}`
       return "le diaporama lancé, en plein cadre"
+    /* Une illustration n'attend rien de l'apprenant : lui afficher
+       « Attendu : … » lui ferait chercher un geste qui n'existe pas. */
+    case "P_MONTRER":
+      return null
     default: {
       // Exhaustivité de l'APPLICATION, garantie ici et non dans `validate.ts` :
       // c'est ce qui permet d'ajouter une action sans toucher un fichier gelé.
@@ -280,6 +347,10 @@ export function faitPpt(action: PptAction): string | null {
       return `Vous avez ouvert la diapositive ${action.index + 1}`
     case "P_DELETE_OBJECT":
       return "Vous avez supprimé l'élément"
+    /* Rien n'a été « fait » : l'apprenant a regardé. Une carte de franchissement
+       qui lui prêterait un geste serait fausse. */
+    case "P_MONTRER":
+      return null
     default: {
       const _exhaustif: never = action
       void _exhaustif
@@ -402,7 +473,53 @@ const domControle = (id: string) => ({ k: "dom", sel: `[data-control="${id}"]` }
  *     à neutraliser la validation : elle se saborderait en faisant passer
  *     l'étape au milieu de son explication.
  */
-export function demonstrationPpt(action: PptAction, _ctx: ContexteDemo): PlanDemo | null {
+export function demonstrationPpt(action: PptAction, ctx: ContexteDemo): PlanDemo | null {
+  const plan = planBrutPpt(action, ctx)
+  return plan ? avecOuvertureDOnglet(plan) : null
+}
+
+/**
+ * Ouvre l'onglet du ruban avant de presser un bouton qui y vit.
+ *
+ * LE défaut que les onglets rouvrent, et la seule raison pour laquelle le lot 1
+ * les avait écartés : sur Excel, 55 gestes de démonstration visaient un bouton
+ * logé sous un autre onglet. Le ruban ne rend que son onglet actif, donc le
+ * bouton n'existait pas dans le DOM : le curseur se promenait sur rien, le
+ * compteur allait jusqu'au bout, et l'apprenant qui venait de demander
+ * « Montrez-moi » — c'est-à-dire précisément celui qui n'avait pas trouvé
+ * l'onglet — ne voyait rien du tout.
+ *
+ * L'onglet est ouvert POUR DE VRAI (`presser`), jamais seulement désigné : même
+ * règle que les menus, où un geste qui se contente de pointer laisse le bouton
+ * suivant hors du DOM.
+ *
+ * L'ouverture est INCONDITIONNELLE, sans consulter l'onglet courant. C'est
+ * volontaire à double titre : presser un onglet déjà ouvert ne change rien, et
+ * surtout le chemin complet « onglet Insertion, puis Formes » EST la compétence
+ * à enseigner. Une démonstration qui sauterait l'étape parce que l'onglet se
+ * trouve déjà ouvert apprendrait un geste tronqué.
+ */
+function avecOuvertureDOnglet(plan: PlanDemo): PlanDemo {
+  const premier = plan.gestes[0]
+  const id = premier?.presser?.id
+  if (!id) return plan
+  const onglet = ongletDuControle(id)
+  if (!onglet) return plan
+  const ctrl = CONTROLES_PPT.onglet(onglet)
+  return {
+    gestes: [
+      {
+        cible: domControle(ctrl),
+        bulle: `Ouvrez l'onglet « ${LIBELLE_ONGLET_PPT[onglet]} ».`,
+        presser: { id: ctrl },
+      },
+      ...plan.gestes,
+    ],
+    pas: [`onglet ${LIBELLE_ONGLET_PPT[onglet]}`, ...plan.pas],
+  }
+}
+
+function planBrutPpt(action: PptAction, _ctx: ContexteDemo): PlanDemo | null {
   if (!complete(action)) return null
   switch (action.type) {
     case "P_TYPE_TEXT":
@@ -656,6 +773,29 @@ export function demonstrationPpt(action: PptAction, _ctx: ContexteDemo): PlanDem
       return { gestes, pas: ["afficher", ...Array.from({ length: pas }, () => (monte ? "monter" : "descendre"))] }
     }
 
+    /**
+     * Illustration pure : on désigne, on explique, on ne feint aucun geste.
+     * C'est ce qui permet d'équiper les 191 écrans « À comprendre », dont pas un
+     * seul ne pouvait montrer ce qu'il racontait.
+     */
+    case "P_MONTRER":
+      return {
+        gestes: [
+          {
+            cible: cibleMontrer(action.cible),
+            bulle: action.texte,
+            illustration: true,
+            ...(action.ecrire
+              ? { ecrire: { ref: action.ecrire.objet, valeur: action.ecrire.texte } }
+              : {}),
+          },
+        ],
+        // Aucun pas : une illustration ne se décompose pas en gestes à refaire,
+        // et quatre pastilles « Regarder » identiques ne diraient rien. Le
+        // compteur « i / n » suffit à situer l'avancement.
+        pas: [],
+      }
+
     case "P_EXPECT_DECK":
     case "P_EXPECT_ANIMATIONS":
       return null
@@ -728,6 +868,15 @@ export function publierPpt(action: PptAction): Record<string, unknown> | null {
       return null
     case "P_ADD_OBJECT":
       return { objectType: action.objectType, shape: action.shape }
+    /**
+     * Le texte ET la cible partent au navigateur, y compris en évaluation
+     * notée : une illustration n'est pas une aide sur une question, c'est le
+     * contenu lui-même — un énoncé d'ouverture qui désigne où lire les
+     * consignes ne souffle aucune réponse. Même règle que sur Excel, où les
+     * 26 énoncés d'évaluation sont équipés comme les autres.
+     */
+    case "P_MONTRER":
+      return { cible: action.cible, texte: action.texte, ecrire: action.ecrire }
     default: {
       const _exhaustif: never = action
       void _exhaustif

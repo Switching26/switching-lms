@@ -265,6 +265,26 @@ export type PptAction =
   | { type: "P_EXPECT_ANIMATIONS"; animations: Array<Partial<PptAnimation>> }
   /** L'état du diaporama : lancé, sur telle diapositive, terminé. */
   | { type: "P_EXPECT_SHOW"; show: PptShowAttendu }
+  /**
+   * DÉSIGNER un endroit de l'écran et l'expliquer, sans feindre un geste.
+   *
+   * Cette action ne se joue jamais comme une étape : elle vit uniquement dans le
+   * tableau `montrer` d'un écran de lecture, où elle décrit ce que la
+   * démonstration doit faire voir pendant que l'apprenant regarde. Elle n'est
+   * donc PAS observable, et ne doit jamais figurer dans `OBSERVABLES_PPT` — une
+   * étape dont l'action serait `P_MONTRER` attendrait un geste que rien
+   * n'émettra.
+   *
+   * Les 191 écrans de lecture de la formation n'avaient aucun moyen de montrer
+   * ce qu'ils racontaient : ils affirmaient « le volet des miniatures liste vos
+   * diapositives » et rien à l'écran ne le désignait. C'est le même manque
+   * qu'Excel avait sur ses 187 écrans avant de recevoir `MONTRER`.
+   *
+   * `cible` accepte les formes de `cibleDAuteur` (`ph:titre`, un identifiant
+   * d'objet, `ctrl:<data-control>`, `diapo:<n>`, `ecran`) ; `ecrire` pose un
+   * contre-exemple, que la démonstration efface ensuite.
+   */
+  | { type: "P_MONTRER"; cible: string; texte: string; ecrire?: { objet: string; texte: string } }
 
 export type PptActionType = PptAction["type"]
 

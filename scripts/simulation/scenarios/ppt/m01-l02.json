@@ -40,7 +40,34 @@
       "consigne": "Les quatre boutons dont vous aurez besoin sont réunis dans le groupe **Diapositives**, à gauche du ruban : **Nouvelle**, **Disposition**, **Dupliquer**, **Supprimer**. Trois d'entre eux agissent sur la diapositive **affichée au centre**, jamais sur une autre : c'est la première chose à vérifier avant de cliquer.",
       "action": {
         "type": "READ"
-      }
+      },
+      "montrer": [
+        {
+          "type": "P_MONTRER",
+          "cible": "ctrl:acc-nouvelle-diapo",
+          "texte": "Nouvelle : insère une diapositive après celle qui est affichée"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "ctrl:acc-disposition",
+          "texte": "Disposition : change le plan de la diapositive affichée"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "ctrl:acc-dupliquer-diapo",
+          "texte": "Dupliquer : en fait une copie"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "ctrl:acc-supprimer-diapo",
+          "texte": "Supprimer : l'efface"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "zone:scene",
+          "texte": "« Affichée », c'est celle-ci, au centre — le premier réflexe est de la vérifier"
+        }
+      ]
     },
     {
       "id": "M01-L02-02",
@@ -64,6 +91,7 @@
           "Chantiers livrés"
         ]
       },
+      "feedback": "« Chantiers livrés » est en place — l'espace réservé porte votre texte, à la place et à la taille prévues.",
       "aide": {
         "text": "Cliquez dans le cadre du haut, portant l'invite « Cliquez pour ajouter un titre »."
       }
@@ -105,7 +133,8 @@
           "38 jardins créés en 2026",
           "38 jardins créés"
         ]
-      }
+      },
+      "feedback": "« 38 jardins créés en 2026 » est saisi : le contenu n'est plus vide."
     },
     {
       "id": "M01-L02-05",
@@ -113,7 +142,8 @@
       "action": {
         "type": "P_ADD_SLIDE",
         "layout": "titre-et-contenu"
-      }
+      },
+      "feedback": "Une diapositive de plus, en « Titre et contenu », insérée après celle qui était affichée."
     },
     {
       "id": "M01-L02-06",
@@ -124,14 +154,27 @@
         "accept": [
           "Notre équipe"
         ]
-      }
+      },
+      "feedback": "« Notre équipe » est en place — l'espace réservé porte votre texte, à la place et à la taille prévues."
     },
     {
       "id": "M01-L02-07",
       "consigne": "**Dupliquer** ne crée pas une diapositive vide : la copie emporte le texte, la disposition et la mise en forme de l'originale, et se place juste derrière elle. C'est le geste qui fait gagner du temps quand deux diapositives doivent se ressembler — on copie, puis on remplace ce qui change.",
       "action": {
         "type": "READ"
-      }
+      },
+      "montrer": [
+        {
+          "type": "P_MONTRER",
+          "cible": "zone:scene",
+          "texte": "La diapositive affichée : c'est elle que Dupliquer va recopier"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "ctrl:acc-dupliquer-diapo",
+          "texte": "La copie se placera juste derrière, avec son texte et sa disposition"
+        }
+      ]
     },
     {
       "id": "M01-L02-08",
@@ -174,6 +217,7 @@
         "type": "P_DUPLICATE_SLIDE",
         "index": 2
       },
+      "feedback": "La copie de « Notre équipe » s'est placée juste derrière elle, avec son texte et sa disposition.",
       "aide": {
         "text": "Le bouton Dupliquer est le troisième du groupe Diapositives."
       }
@@ -198,7 +242,19 @@
       "consigne": "**Supprimer** retire définitivement la diapositive **affichée**. PowerPoint ne refuse qu'un seul cas : effacer la dernière, car une présentation ne peut pas être vide. D'où le réflexe à prendre — afficher la bonne diapositive AVANT de cliquer, et non l'inverse.",
       "action": {
         "type": "READ"
-      }
+      },
+      "montrer": [
+        {
+          "type": "P_MONTRER",
+          "cible": "zone:scene",
+          "texte": "La diapositive affichée : c'est celle-là que Supprimer effacerait"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "ctrl:acc-supprimer-diapo",
+          "texte": "Le bouton ne demande aucune confirmation — d'où le réflexe de vérifier avant"
+        }
+      ]
     },
     {
       "id": "M01-L02-11",
@@ -207,6 +263,7 @@
         "type": "P_SELECT_SLIDE",
         "index": 4
       },
+      "feedback": "Vous êtes sur « Brouillon - ne pas diffuser ». Les commandes du ruban agissent sur la diapositive affichée.",
       "aide": {
         "text": "C'est la miniature du bas, intitulée « Brouillon - ne pas diffuser »."
       }
@@ -258,6 +315,7 @@
         "type": "P_DELETE_SLIDE",
         "index": 4
       },
+      "feedback": "« Brouillon - ne pas diffuser » est retirée : la présentation en compte 4 maintenant.",
       "aide": {
         "text": "Le bouton Supprimer est le dernier du groupe Diapositives."
       }
@@ -267,7 +325,24 @@
       "consigne": "À retenir : **Nouvelle** insère après la diapositive affichée et hérite de sa disposition ; **Dupliquer** recopie tout son contenu ; **Supprimer** efface celle qui est affichée. Les trois se lisent de la même façon — ils parlent toujours de la diapositive que vous avez sous les yeux.",
       "action": {
         "type": "READ"
-      }
+      },
+      "montrer": [
+        {
+          "type": "P_MONTRER",
+          "cible": "ctrl:acc-nouvelle-diapo",
+          "texte": "Nouvelle : insère après"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "ctrl:acc-dupliquer-diapo",
+          "texte": "Dupliquer : recopie tout le contenu"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "ctrl:acc-supprimer-diapo",
+          "texte": "Supprimer : efface — et les trois parlent de la diapositive affichée"
+        }
+      ]
     }
   ]
 }

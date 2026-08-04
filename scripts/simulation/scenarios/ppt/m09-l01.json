@@ -53,7 +53,19 @@
       "consigne": "Les six formes se répartissent en trois familles. **Encadrer** : rectangle et rectangle arrondi, pour délimiter une zone. **Désigner** : flèche et triangle, pour pointer un endroit précis. **Commenter** : bulle et ellipse, pour attacher une remarque ou entourer un détail. Le choix se fait sur l'intention, jamais sur l'aspect.",
       "action": {
         "type": "READ"
-      }
+      },
+      "montrer": [
+        {
+          "type": "P_MONTRER",
+          "cible": "ctrl:ins-forme",
+          "texte": "Les six formes du menu se répartissent en trois familles"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "zone:scene",
+          "texte": "Encadrer, désigner, commenter : le choix se fait sur l'intention, jamais sur l'aspect"
+        }
+      ]
     },
     {
       "id": "M09-L01-02",
@@ -61,7 +73,8 @@
       "action": {
         "type": "P_SELECT_SLIDE",
         "index": 1
-      }
+      },
+      "feedback": "« Avant les travaux » occupe le centre : c'est elle que les boutons modifieront."
     },
     {
       "id": "M09-L01-03",
@@ -71,6 +84,7 @@
         "objectType": "forme",
         "shape": "rectangle"
       },
+      "feedback": "La forme « rectangle » est posée au centre de « Avant les travaux » — elle n'est finie qu'une fois placée sur ce qu'elle désigne.",
       "aide": {
         "text": "Groupe Insertion, bouton « Formes ▾ », entrée Rectangle."
       }
@@ -83,6 +97,7 @@
         "objectType": "forme",
         "shape": "rectangle-arrondi"
       },
+      "feedback": "La forme « rectangle arrondi » est posée au centre de « Avant les travaux » — elle n'est finie qu'une fois placée sur ce qu'elle désigne.",
       "aide": {
         "text": "Le menu Formes se referme après chaque choix : rouvrez-le."
       }
@@ -94,7 +109,8 @@
         "type": "P_ADD_OBJECT",
         "objectType": "forme",
         "shape": "fleche"
-      }
+      },
+      "feedback": "La forme « fleche » est posée au centre de « Avant les travaux » — elle n'est finie qu'une fois placée sur ce qu'elle désigne."
     },
     {
       "id": "M09-L01-06",
@@ -103,14 +119,27 @@
         "type": "P_ADD_OBJECT",
         "objectType": "forme",
         "shape": "triangle"
-      }
+      },
+      "feedback": "La forme « triangle » est posée au centre de « Avant les travaux » — elle n'est finie qu'une fois placée sur ce qu'elle désigne."
     },
     {
       "id": "M09-L01-07",
       "consigne": "Restent les deux formes qui **commentent**. L'**ellipse** entoure sans masquer : c'est le cercle qu'on trace au feutre sur une photo. La **bulle** attache un texte à un point précis — elle a une pointe, et cette pointe désigne.",
       "action": {
         "type": "READ"
-      }
+      },
+      "montrer": [
+        {
+          "type": "P_MONTRER",
+          "cible": "img-avant",
+          "texte": "L'ellipse entoure sans masquer : c'est le cercle qu'on trace au feutre sur une photo"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "zone:scene",
+          "texte": "La bulle, elle, a une pointe — et cette pointe attache le texte à un point précis"
+        }
+      ]
     },
     {
       "id": "M09-L01-08",
@@ -119,7 +148,8 @@
         "type": "P_ADD_OBJECT",
         "objectType": "forme",
         "shape": "ellipse"
-      }
+      },
+      "feedback": "La forme « ellipse » est posée au centre de « Avant les travaux » — elle n'est finie qu'une fois placée sur ce qu'elle désigne."
     },
     {
       "id": "M09-L01-09",
@@ -128,21 +158,46 @@
         "type": "P_ADD_OBJECT",
         "objectType": "forme",
         "shape": "bulle"
-      }
+      },
+      "feedback": "La forme « bulle » est posée au centre de « Avant les travaux » — elle n'est finie qu'une fois placée sur ce qu'elle désigne."
     },
     {
       "id": "M09-L01-10",
       "consigne": "Vous avez six formes empilées au milieu de la diapositive : c'est normal, elles arrivent toutes au même endroit. Une forme posée n'est jamais finie — il reste à la **placer** et à la **dimensionner**, et c'est là que se joue son utilité.",
       "action": {
         "type": "READ"
-      }
+      },
+      "montrer": [
+        {
+          "type": "P_MONTRER",
+          "cible": "zone:scene",
+          "texte": "Six formes empilées au milieu : elles arrivent toutes au même endroit"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "img-avant",
+          "texte": "Une forme posée n'est jamais finie — il reste à la placer et à la dimensionner"
+        }
+      ]
     },
     {
       "id": "M09-L01-11",
       "consigne": "À retenir : **encadrer** avec un rectangle, **désigner** avec une flèche, **commenter** avec une bulle ou une ellipse. Le triangle sert de repère. Et la règle qui vaut pour les six — on choisit d'après l'intention, et on place ensuite.",
       "action": {
         "type": "READ"
-      }
+      },
+      "montrer": [
+        {
+          "type": "P_MONTRER",
+          "cible": "ctrl:ins-forme",
+          "texte": "Encadrer avec un rectangle, désigner avec une flèche, commenter avec une bulle ou une ellipse"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "zone:scene",
+          "texte": "On choisit d'après l'intention, et on place ensuite"
+        }
+      ]
     }
   ]
 }

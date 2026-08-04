@@ -39,8 +39,14 @@
    "consigne": "L'**en-tête** est la bande située en haut de chaque page, le **pied de page** celle du bas. Tout ce que vous y écrivez se répète automatiquement, page après page. On y met ce qui identifie le document : émetteur, date, mention de confidentialité.",
    "montrer": [
     {
-     "type": "W_CLICK_CONTROL",
-     "controle": "w-entete-pied"
+     "type": "W_MONTRER",
+     "cible": "p0",
+     "texte": "L'EN-TÊTE est la bande située au-dessus de cette première ligne : tout ce qu'on y écrit se répète page après page."
+    },
+    {
+     "type": "W_MONTRER",
+     "cible": "p3",
+     "texte": "Le PIED DE PAGE est la bande symétrique, sous la dernière. On y met ce qui identifie le document : émetteur, date, confidentialité."
     }
    ],
    "feedback": "Deux bandes, un seul principe : écrit une fois, répété partout."
@@ -130,7 +136,20 @@
     "type": "READ"
    },
    "consigne": "Regardez la page : **en-tête en haut, pied et numéro en bas**, et le texte intact entre les deux. Vous n'avez rien tapé dans le document — ces mentions lui appartiennent et se répéteront sur chaque page, quel que soit le nombre de paragraphes ajoutés ensuite.",
-   "feedback": "Trois mentions posées une fois, valables partout : c'est le principe de l'en-tête."
+   "feedback": "Trois mentions posées une fois, valables partout : c'est le principe de l'en-tête.",
+   "montrer": [
+    {
+     "type": "W_MONTRER",
+     "cible": "p1",
+     "texte": "Le texte est intact entre les deux : vous n'avez rien tapé dans le document."
+    },
+    {
+     "type": "W_MONTRER",
+     "cible": "ctrl:w-entete-pied",
+     "texte": "En-tête en haut, pied et numéro en bas : ces mentions appartiennent au document et se répéteront sur chaque page.",
+     "onglet": "insertion"
+    }
+   ]
   }
  ]
 }

@@ -35,8 +35,14 @@
    "consigne": "Le panneau **Vérification** liste ce que Word ne reconnaît pas. Pour chaque entrée, deux boutons : **Corriger**, qui applique la suggestion, et **Ignorer**, qui la laisse telle quelle. C'est à vous de choisir, entrée par entrée.",
    "montrer": [
     {
-     "type": "W_CLICK_CONTROL",
-     "controle": "w-verification"
+     "type": "W_MONTRER",
+     "cible": "p1",
+     "texte": "C'est dans cette phrase que le correcteur a relevé quelque chose : « Kervanec » ne figure pas à son dictionnaire."
+    },
+    {
+     "type": "W_MONTRER",
+     "cible": "ecran",
+     "texte": "Le panneau Vérification liste ces entrées. Pour chacune, deux boutons : Corriger, qui applique la suggestion, et Ignorer. C'est à vous de choisir."
     }
    ],
    "feedback": "Deux boutons, et le second est aussi important que le premier."
@@ -126,7 +132,20 @@
     "type": "READ"
    },
    "consigne": "Le panneau annonce maintenant qu'il ne reste rien à signaler. **Cela ne veut pas dire que le texte est sans faute** : un correcteur ne voit pas un mot juste employé à tort — « ces » pour « ses », « à » pour « a ». Il ne remplace pas une relecture.",
-   "feedback": "Zéro signalement n'est pas zéro faute."
+   "feedback": "Zéro signalement n'est pas zéro faute.",
+   "montrer": [
+    {
+     "type": "W_MONTRER",
+     "cible": "ctrl:w-verification",
+     "texte": "Le panneau annonce qu'il ne reste rien à signaler.",
+     "onglet": "revision"
+    },
+    {
+     "type": "W_MONTRER",
+     "cible": "p1",
+     "texte": "Cela ne veut pas dire sans faute : un correcteur ne voit pas « ces » pour « ses », ni « à » pour « a »."
+    }
+   ]
   }
  ]
 }

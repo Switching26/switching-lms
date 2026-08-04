@@ -228,6 +228,22 @@ export type ConsigneAtelier = {
   /** Le jalon de franchissement est en cours : la coche remplace le reste. */
   relaisActif: boolean
   verdict: { ok: boolean; message?: string } | null
+  /**
+   * Le message du verdict est DÉJÀ annoncé sur la surface de travail.
+   *
+   * Même règle que `aideAncree`, pour la même raison : une phrase ne s'affiche
+   * qu'à UN endroit. Les applications annoncent une FAUTE par un effet ancré
+   * (`lancerFx(kind, rect, message)`) ; la répéter sous la consigne ferait lire
+   * deux fois le même mot, ce que l'atelier a déjà payé sur l'aide.
+   *
+   * ⚠️ Le tâtonnement, lui, ne lance AUCUN effet : le juge pose un verdict
+   * porteur d'un message — « Ce n'est pas le message demandé : vérifiez
+   * l'expéditeur… » — et ce message mourait ici, faute d'être un écran de
+   * lecture. C'est le cas que ce drapeau ouvre.
+   *
+   * Absent ⇒ l'application n'annonce rien ailleurs, donc on affiche.
+   */
+  verdictAncre?: boolean
   /** Message de remise d'aplomb du document, `null` s'il n'y a rien à dire. */
   aplomb: string | null
   /** Le juge serveur n'a pas répondu — ni faute, ni silence. */
@@ -425,8 +441,22 @@ function BandeConsigne({ c }: { c: ConsigneAtelier }) {
           {/* Écran de lecture : l'apprenant qui tape ou clique par réflexe ne
               voyait RIEN — la saisie est refusée en silence, et le verdict ne
               sert qu'à teinter le fond. On le lui dit, en gris, sans le moindre
-              air de reproche. */}
-          {c.lecture && c.verdict && !c.verdict.ok && (
+              air de reproche.
+
+              LE MÊME RAISONNEMENT VAUT SUR UNE ÉTAPE D'ACTION. Le test portait
+              sur `c.lecture` seul, alors que le refus muet ne lui est pas
+              propre : un geste classé TÂTONNEMENT pose un verdict porteur d'une
+              phrase utile SANS lancer d'effet ancré, et cette phrase n'était
+              rendue nulle part. Chez Outlook, `o:selectMessage` et
+              `o:selectFolder` sont toujours de la navigation, donc toujours des
+              tâtonnements : 127 étapes sur 728 refusaient le geste sans dire
+              pourquoi, alors que l'adaptateur avait écrit l'explication.
+
+              `verdictAncre` empêche le doublon : quand l'application affiche
+              déjà le message sur sa surface — ce que fait le flash de FAUTE —,
+              on ne le répète pas ici. Un message vide ne rend plus une bulle
+              orpheline. */}
+          {(c.lecture || !c.verdictAncre) && c.verdict && !c.verdict.ok && c.verdict.message && (
             <p className="mt-1.5 text-[13px] text-warm-600">
               <span aria-hidden>💡 </span>
               {c.verdict.message}

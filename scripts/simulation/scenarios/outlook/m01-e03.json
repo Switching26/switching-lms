@@ -77,7 +77,8 @@
           }
         }
       },
-      "aide": { "text": "Utilisez Répondre plutôt qu'un nouveau message : le destinataire et l'objet sont alors repris automatiquement. La liste de Joindre affiche le nom complet et le poids de chaque fichier." }
+      "aide": { "text": "Utilisez Répondre plutôt qu'un nouveau message : le destinataire et l'objet sont alors repris automatiquement. La liste de Joindre affiche le nom complet et le poids de chaque fichier." },
+      "feedback": "La version signée est jointe et le dossier photo est resté : 38 Mo n'auraient franchi aucune messagerie."
     },
     {
       "id": "O01-E03-03",
@@ -89,7 +90,8 @@
           "objet": { "prefixe": "RE", "contient": ["2026-141"] }
         }
       },
-      "aide": { "text": "La référence figure dans la dernière phrase du message du client." }
+      "aide": { "text": "La référence figure dans la dernière phrase du message du client." },
+      "feedback": "La référence est dans l'objet. Un comptable classe souvent sans même ouvrir le message."
     },
     {
       "id": "O01-E03-04",
@@ -132,7 +134,26 @@
           }
         }
       },
-      "aide": { "text": "Le nom du fichier attaché s'affiche sous les lignes d'adresses, avec une croix pour le retirer si vous vous êtes trompé." }
+      "aide": { "text": "Le nom du fichier attaché s'affiche sous les lignes d'adresses, avec une croix pour le retirer si vous vous êtes trompé." },
+      "feedback": "Parti avec la bonne pièce jointe — celle qui engage, pas la version de travail."
+    },
+    {
+      "id": "O01-E03-99",
+      "consigne": "Le contrat est parti au comptable : ce dossier est clos. **Rangez-le dans `Clients 2026`.** Répondre sans classer laisse la boîte aussi pleine qu'avant : c'est le classement, et non l'envoi, qui fait descendre le nombre de messages en attente.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-contrat": {
+              "dossier": "clients"
+            }
+          }
+        }
+      },
+      "aide": {
+        "text": "Sélectionnez le message, puis Déplacer dans le ruban, et choisissez Clients 2026."
+      },
+      "feedback": "Le message quitte la file d'attente, mais reste retrouvable au nom du client."
     }
   ]
 }

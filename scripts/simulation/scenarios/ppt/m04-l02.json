@@ -83,7 +83,19 @@
       "consigne": "Une image se redimensionne par la **poignée** de son coin bas-droit : le petit carré qui apparaît quand elle est sélectionnée. Tirer le corps de l'image la déplace, tirer la poignée la redimensionne — deux gestes voisins qu'il ne faut pas confondre, sous peine de refaire le travail.",
       "action": {
         "type": "READ"
-      }
+      },
+      "montrer": [
+        {
+          "type": "P_MONTRER",
+          "cible": "zone:scene",
+          "texte": "Sélectionnez une image : un petit carré apparaît à chaque coin — ce sont les poignées"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "zone:barre-etat",
+          "texte": "Tirer le corps déplace, tirer une poignée redimensionne : la barre d'état confirme la sélection"
+        }
+      ]
     },
     {
       "id": "M04-L02-02",
@@ -91,7 +103,8 @@
       "action": {
         "type": "P_SELECT_SLIDE",
         "index": 1
-      }
+      },
+      "feedback": "« Avant les travaux » occupe le centre : c'est elle que les boutons modifieront."
     },
     {
       "id": "M04-L02-03",
@@ -100,6 +113,7 @@
         "type": "P_SELECT_OBJECT",
         "objectId": "img-avant"
       },
+      "feedback": "Sélectionné. Les boutons de mise en forme agiront sur l'image, et sur rien d'autre.",
       "aide": {
         "text": "C'est la petite illustration à gauche de la diapositive."
       }
@@ -129,7 +143,19 @@
       "consigne": "Un piège à connaître : en tirant la poignée du **coin**, la largeur et la hauteur changent ensemble, et l'image garde à peu près ses proportions. En tirant un côté, une seule dimension change — l'image s'étire, les visages s'allongent, et le public le remarque sans toujours savoir pourquoi.",
       "action": {
         "type": "READ"
-      }
+      },
+      "montrer": [
+        {
+          "type": "P_MONTRER",
+          "cible": "img-avant",
+          "texte": "En tirant la poignée du COIN, largeur et hauteur changent ensemble : les proportions tiennent"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "zone:scene",
+          "texte": "En tirant un CÔTÉ, une seule dimension change : l'image s'étire et les visages s'allongent"
+        }
+      ]
     },
     {
       "id": "M04-L02-06",
@@ -137,7 +163,8 @@
       "action": {
         "type": "P_SELECT_SLIDE",
         "index": 2
-      }
+      },
+      "feedback": "« L'équipe sur place » occupe le centre : c'est elle que les boutons modifieront."
     },
     {
       "id": "M04-L02-07",
@@ -215,6 +242,7 @@
         },
         "tolerance": 70
       },
+      "feedback": "L'image est à sa place : le geste d'insertion n'était pas fini avant.",
       "aide": {
         "text": "Sélectionnez d'abord l'image, puis tirez la poignée du coin bas-droit vers l'intérieur."
       }
@@ -294,14 +322,27 @@
           "y": 200
         },
         "tolerance": 70
-      }
+      },
+      "feedback": "Placée. Un élément laissé là où il tombe se voit immédiatement."
     },
     {
       "id": "M04-L02-09",
       "consigne": "À retenir : la **poignée du coin** redimensionne en gardant les proportions, le **corps** déplace. Et la question qui décide de la taille — que doit-on distinguer sur cette image ? Assez grande pour qu'on le voie, assez petite pour laisser vivre le reste.",
       "action": {
         "type": "READ"
-      }
+      },
+      "montrer": [
+        {
+          "type": "P_MONTRER",
+          "cible": "img-equipe",
+          "texte": "La poignée du coin redimensionne en gardant les proportions ; le corps déplace"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "zone:scene",
+          "texte": "Assez grande pour qu'on distingue ce qui compte, assez petite pour laisser vivre le reste"
+        }
+      ]
     }
   ]
 }

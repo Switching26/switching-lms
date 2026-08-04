@@ -30,7 +30,19 @@
         "type": "READ"
       },
       "points": 0,
-      "feedback": "Entrée = nouveau paragraphe, jamais « aller à la ligne »."
+      "feedback": "Entrée = nouveau paragraphe, jamais « aller à la ligne ».",
+      "montrer": [
+        {
+          "type": "W_MONTRER",
+          "cible": "p1",
+          "texte": "Le texte revient à la ligne TOUT SEUL quand il atteint la marge : on ne fait rien pour cela."
+        },
+        {
+          "type": "W_MONTRER",
+          "cible": "p2",
+          "texte": "Entrée sert à ouvrir un NOUVEAU paragraphe. « Ordre du jour » en est un, distinct de celui du dessus."
+        }
+      ]
     },
     {
       "id": "M01-L02-02",
@@ -129,7 +141,23 @@
         "type": "READ"
       },
       "points": 0,
-      "feedback": "Prenez l'habitude d'enregistrer dès les premières lignes, puis souvent."
+      "feedback": "Prenez l'habitude d'enregistrer dès les premières lignes, puis souvent.",
+      "montrer": [
+        {
+          "type": "W_MONTRER",
+          "cible": "ecran",
+          "texte": "Ctrl + S enregistre en un geste. Au premier enregistrement, Word demande un nom et un dossier.",
+          "touches": [
+            "Ctrl",
+            "S"
+          ]
+        },
+        {
+          "type": "W_MONTRER",
+          "cible": "dom:[data-titre-word]",
+          "texte": "Le nom du document s'affiche en haut. Tant qu'il n'est pas enregistré, votre travail n'existe qu'en mémoire."
+        }
+      ]
     }
   ]
 }

@@ -75,7 +75,19 @@
       "consigne": "Un cadre posé au hasard ne désigne rien : il fait seulement du bruit. Sa règle d'emploi tient en deux temps — on le **place** sur ce qu'il doit délimiter, puis on le **dimensionne** pour qu'il contienne cette zone sans déborder sur le reste.",
       "action": {
         "type": "READ"
-      }
+      },
+      "montrer": [
+        {
+          "type": "P_MONTRER",
+          "cible": "zone:scene",
+          "texte": "Un cadre posé au hasard ne désigne rien : il fait seulement du bruit"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "ctrl:ins-forme",
+          "texte": "On le place sur ce qu'il délimite, puis on le dimensionne pour qu'il n'en déborde pas"
+        }
+      ]
     },
     {
       "id": "M09-L02-02",
@@ -83,7 +95,8 @@
       "action": {
         "type": "P_SELECT_SLIDE",
         "index": 1
-      }
+      },
+      "feedback": "« La zone replantée » occupe le centre : c'est elle que les boutons modifieront."
     },
     {
       "id": "M09-L02-03",
@@ -92,6 +105,7 @@
         "type": "P_SELECT_OBJECT",
         "objectId": "fo-cadre"
       },
+      "feedback": "Sélectionné. Les boutons de mise en forme agiront sur la forme, et sur rien d'autre.",
       "aide": {
         "text": "C'est la forme bleue en bas à gauche de la diapositive."
       }
@@ -111,6 +125,7 @@
         },
         "tolerance": 80
       },
+      "feedback": "La forme occupe enfin la zone qui lui revient.",
       "aide": {
         "text": "Attrapez la forme en son milieu, pas sur une poignée, et tirez-la vers la photo."
       }
@@ -182,14 +197,27 @@
           "h": 120
         },
         "tolerance": 70
-      }
+      },
+      "feedback": "Déplacée — la diapositive se lit maintenant sans que l'œil ait à chercher."
     },
     {
       "id": "M09-L02-06",
       "consigne": "Entre le rectangle et l'ellipse, le choix n'est pas esthétique. Le **rectangle** convient à une zone qui a des bords — une parcelle, un tableau, une portion d'écran. L'**ellipse** convient à un objet isolé au milieu d'autre chose : elle n'a pas de bord franc, donc elle n'en invente pas.",
       "action": {
         "type": "READ"
-      }
+      },
+      "montrer": [
+        {
+          "type": "P_MONTRER",
+          "cible": "fo-cadre",
+          "texte": "Le rectangle convient à une zone qui a des bords : une parcelle, un tableau"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "img-zone",
+          "texte": "L'ellipse convient à un objet isolé : elle n'a pas de bord franc, donc elle n'en invente pas"
+        }
+      ]
     },
     {
       "id": "M09-L02-07",
@@ -199,6 +227,7 @@
         "objectType": "forme",
         "shape": "ellipse"
       },
+      "feedback": "La forme « ellipse » est posée au centre de « La zone replantée » — elle n'est finie qu'une fois placée sur ce qu'elle désigne.",
       "aide": {
         "text": "Groupe Insertion, menu « Formes ▾ », entrée Ellipse."
       }
@@ -282,7 +311,8 @@
           "y": 170
         },
         "tolerance": 70
-      }
+      },
+      "feedback": "« Replantation sur 420 m2 » occupe enfin la zone qui lui revient."
     },
     {
       "id": "M09-L02-09",
@@ -361,14 +391,27 @@
         "style": {
           "italic": true
         }
-      }
+      },
+      "feedback": "« Replantation sur 420 m2 » est en italique."
     },
     {
       "id": "M09-L02-10",
       "consigne": "À retenir : un cadre se **place** puis se **dimensionne**, dans cet ordre. Rectangle pour une zone à bords, ellipse pour un objet isolé. Et le test qui tranche — si l'on retire la forme, l'auditoire cherche-t-il encore où regarder ? Si non, elle ne servait à rien.",
       "action": {
         "type": "READ"
-      }
+      },
+      "montrer": [
+        {
+          "type": "P_MONTRER",
+          "cible": "fo-cadre",
+          "texte": "Un cadre se place, puis se dimensionne — dans cet ordre"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "zone:scene",
+          "texte": "Le test qui tranche : si l'on retire la forme, l'auditoire cherche-t-il encore où regarder ?"
+        }
+      ]
     }
   ]
 }

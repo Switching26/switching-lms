@@ -55,7 +55,24 @@
       "consigne": "Trois façons de regarder une présentation, et une seule sert à écrire. L'affichage **Normal** est celui où l'on compose. La **Trieuse** montre toutes les diapositives côte à côte : c'est la vue qui sert à juger l'enchaînement. Le **Diaporama**, enfin, déroule la présentation comme le public la verra.",
       "action": {
         "type": "READ"
-      }
+      },
+      "montrer": [
+        {
+          "type": "P_MONTRER",
+          "cible": "ctrl:aff-normal",
+          "texte": "Normal : l'affichage où l'on compose"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "ctrl:aff-trieuse",
+          "texte": "Trieuse : toutes les diapositives côte à côte, pour juger l'enchaînement"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "zone:scene",
+          "texte": "Le Diaporama, lui, occupe tout l'espace et déroule la présentation comme le public la verra"
+        }
+      ]
     },
     {
       "id": "M01-L05-02",
@@ -76,6 +93,7 @@
         "type": "P_SELECT_SLIDE",
         "index": 2
       },
+      "feedback": "Vous êtes sur « Notes internes ». Les commandes du ruban agissent sur la diapositive affichée.",
       "aide": {
         "text": "C'est la troisième vignette, intitulée « Notes internes »."
       }
@@ -86,14 +104,27 @@
       "action": {
         "type": "P_SET_VIEW",
         "view": "normal"
-      }
+      },
+      "feedback": "Retour en Normal sur « Notes internes », l'affichage où l'on compose."
     },
     {
       "id": "M01-L05-05",
       "consigne": "**Masquer** une diapositive la laisse dans le fichier mais la fait **sauter pendant le diaporama**. C'est ce qu'on utilise pour des notes internes, des chiffres non validés, une diapositive de secours : on ne les détruit pas, on ne les montre pas. Supprimer serait irréversible ; masquer se défait d'un clic.",
       "action": {
         "type": "READ"
-      }
+      },
+      "montrer": [
+        {
+          "type": "P_MONTRER",
+          "cible": "zone:scene",
+          "texte": "Les notes internes : elles doivent rester dans le fichier, mais pas passer devant l'assemblée"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "ctrl:dia-masquer",
+          "texte": "Masquer les fait sauter pendant le diaporama, sans rien détruire — et se défait d'un clic"
+        }
+      ]
     },
     {
       "id": "M01-L05-06",
@@ -122,7 +153,19 @@
       "consigne": "Reste à vérifier le résultat. Le **diaporama** occupe tout l'espace de travail et déroule les diapositives une par une. Deux façons de le lancer : depuis le **début**, pour une répétition complète, ou depuis la diapositive **courante**, pour revoir un passage sans tout reprendre.",
       "action": {
         "type": "READ"
-      }
+      },
+      "montrer": [
+        {
+          "type": "P_MONTRER",
+          "cible": "ctrl:dia-depuis-debut",
+          "texte": "Depuis le début : la répétition complète"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "ctrl:dia-depuis-courante",
+          "texte": "À partir d'ici : revoir un seul passage sans tout reprendre"
+        }
+      ]
     },
     {
       "id": "M01-L05-08",
@@ -134,6 +177,7 @@
           "index": 0
         }
       },
+      "feedback": "Vous êtes arrivé sur « Verdeval » — c'est le chemin que suivra le public.",
       "aide": {
         "text": "« ▶ Début » est le premier bouton du groupe Diaporama."
       }
@@ -146,7 +190,8 @@
         "show": {
           "index": 1
         }
-      }
+      },
+      "feedback": "« Chantiers livrés » s'affiche : le déroulé saute ce qui est masqué, sans le supprimer."
     },
     {
       "id": "M01-L05-10",
@@ -167,14 +212,32 @@
         "show": {
           "actif": false
         }
-      }
+      },
+      "feedback": "Diaporama refermé — vous revoilà sur « Notes internes », dans la vue où l'on compose."
     },
     {
       "id": "M01-L05-12",
       "consigne": "À retenir : la **Trieuse** pour juger l'enchaînement, **Normal** pour écrire, le **Diaporama** pour vérifier. Et le réflexe qui évite les mauvaises surprises en réunion — masquer plutôt que supprimer, puis dérouler une fois le diaporama avant de présenter.",
       "action": {
         "type": "READ"
-      }
+      },
+      "montrer": [
+        {
+          "type": "P_MONTRER",
+          "cible": "ctrl:aff-trieuse",
+          "texte": "La Trieuse pour juger l'enchaînement"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "ctrl:aff-normal",
+          "texte": "Normal pour écrire"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "zone:scene",
+          "texte": "Et le diaporama pour vérifier — une fois, avant la réunion plutôt que pendant"
+        }
+      ]
     }
   ]
 }

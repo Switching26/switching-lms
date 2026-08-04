@@ -48,7 +48,8 @@
       "id": "O04-E03-01",
       "consigne": "Ouvrez le message de Sonia et lisez la ligne « À » : quatre adresses en clair, dont une entreprise concurrente qui découvre deux de vos clients.",
       "action": { "type": "O_SELECT_MESSAGE", "id": "m-diffusion" },
-      "aide": { "text": "C'est le message dont l'objet annonce des portes ouvertes." }
+      "aide": { "text": "C'est le message dont l'objet annonce des portes ouvertes." },
+      "feedback": "Quatre adresses en clair, dont une entreprise concurrente. La faute est dans le champ, pas dans le texte."
     },
     {
       "id": "O04-E03-02",
@@ -70,7 +71,8 @@
           "cc": { "vide": true }
         }
       },
-      "aide": { "text": "« Répondre » n'écrit qu'à l'expéditrice — c'est exactement ce qu'il faut ici." }
+      "aide": { "text": "« Répondre » n'écrit qu'à l'expéditrice — c'est exactement ce qu'il faut ici." },
+      "feedback": "Répondre à tous aurait signalé l'erreur au concurrent lui-même."
     },
     {
       "id": "O04-E03-03",
@@ -120,7 +122,8 @@
           }
         }
       },
-      "aide": { "text": "Votre propre adresse dans « À », les deux clients dans « Cci » — le champ Cci s'affiche par le bouton du même nom." }
+      "aide": { "text": "Votre propre adresse dans « À », les deux clients dans « Cci » — le champ Cci s'affiche par le bouton du même nom." },
+      "feedback": "Votre adresse dans À, les clients en Cci : le montage qui rend l'erreur impossible."
     },
     {
       "id": "O04-E03-05",
@@ -143,7 +146,26 @@
           }
         }
       },
-      "aide": { "text": "Deux informations sont attendues : le jour, et les horaires d'ouverture." }
+      "aide": { "text": "Deux informations sont attendues : le jour, et les horaires d'ouverture." },
+      "feedback": "L'annonce est refaite proprement, et cette fois aucun client ne voit l'adresse d'un autre."
+    },
+    {
+      "id": "O04-E03-99",
+      "consigne": "L'annonce est refaite proprement et Sonia est prévenue de l'erreur. **Rangez-le dans `Clients 2026`.** Répondre sans classer laisse la boîte aussi pleine qu'avant : c'est le classement, et non l'envoi, qui fait descendre le nombre de messages en attente.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-diffusion": {
+              "dossier": "clients"
+            }
+          }
+        }
+      },
+      "aide": {
+        "text": "Sélectionnez le message, puis Déplacer dans le ruban, et choisissez Clients 2026."
+      },
+      "feedback": "Rangé. L'incident est traité : le garder sous les yeux ne le réparerait pas davantage."
     }
   ]
 }

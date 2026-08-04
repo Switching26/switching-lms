@@ -38,6 +38,7 @@ import {
   BoutonCourrier,
   BoutonDossiers,
   RailDossiers,
+  RubanCourrier,
   TiroirDossiers,
 } from "./CourrierChrome"
 
@@ -134,6 +135,29 @@ export default function CourrierSurface({
         @keyframes o-boite { from { opacity: 0; transform: scale(.97) } to { opacity: 1; transform: none } }
         @keyframes o-tiroir { from { transform: translateX(-101%) } to { transform: translateX(0) } }
       `}</style>
+
+      {/* LE RUBAN — permanent, au-dessus des volets, comme dans un vrai Outlook.
+          Il se rend lui-même `null` en rédaction et hors vue Courrier, là où
+          d'autres surfaces portent déjà leurs propres commandes. */}
+      <RubanCourrier
+        etat={etat}
+        compact={mobile}
+        onControle={(id) => {
+          const m = etat.messages.find((x) => x.id === etat.messageActif)
+          const ctrl = { kind: "o:control" as const, control: id }
+          if (!m) return
+          if (id === C.repondre) onGeste({ type: "repondre", id: m.id }, ctrl)
+          else if (id === C.repondreTous) onGeste({ type: "repondreATous", id: m.id }, ctrl)
+          else if (id === C.transferer) onGeste({ type: "transferer", id: m.id }, ctrl)
+          else if (id === C.deplacer) onGeste({ type: "boite", boite: "deplacer" }, ctrl)
+          // `tentative` sur les gestes qui changent l'ÉTAT sans être eux-mêmes
+          // l'attendu : sans lui, une étape jugée sur l'état ne verrait jamais
+          // que l'apprenant a bien tenté l'action demandée.
+          else if (id === C.indicateur) onGeste({ type: "indicateur", id: m.id }, ctrl, { tentative: true })
+          else if (id === C.supprimer) onGeste({ type: "supprimer", id: m.id }, ctrl, { tentative: true })
+          else if (id === C.nonLu) onGeste({ type: "marquerLu", id: m.id, lu: false }, ctrl, { tentative: true })
+        }}
+      />
 
       {etat.vue === "calendrier" ? (
         <VueCalendrier etat={etat} mobile={mobile} onGeste={onGeste} />
@@ -494,49 +518,23 @@ function VoletLecture({
           background: "#FAF9F7",
         }}
       >
-        {mobile && (
+        {/* ⚠️ LES SIX ACTIONS SUR MESSAGE ONT MIGRÉ VERS LE RUBAN.
+            Elles vivaient ici, donc elles n'existaient QUE lorsqu'un message
+            était déjà ouvert : un apprenant devant une boîte fermée ne voyait
+            aucun outil, là où Excel montre 61 icônes en permanence. Elles ont
+            été DÉPLACÉES, jamais recopiées — deux fois le même `data-control`
+            ferait viser au halo et à la démonstration l'exemplaire caché.
+            Seul le retour à la liste reste : c'est de la navigation propre au
+            volet mobile, pas une action sur le message. */}
+        {mobile ? (
           <BoutonCourrier id="cr-retour" onClick={onRetour} style={{ fontWeight: 700 }}>
             ‹ Liste
           </BoutonCourrier>
+        ) : (
+          <span style={{ fontSize: 11.5, color: "#8C948F", padding: "6px 2px" }}>
+            Les actions sur ce message sont dans le ruban, en haut.
+          </span>
         )}
-        <BoutonCourrier
-          id={C.repondre}
-          onClick={() => onGeste({ type: "repondre", id: m.id }, ctrl(C.repondre))}
-        >
-          <span aria-hidden>↩</span> Répondre
-        </BoutonCourrier>
-        <BoutonCourrier
-          id={C.repondreTous}
-          onClick={() => onGeste({ type: "repondreATous", id: m.id }, ctrl(C.repondreTous))}
-        >
-          <span aria-hidden>↩↩</span> Répondre à tous
-        </BoutonCourrier>
-        <BoutonCourrier
-          id={C.transferer}
-          onClick={() => onGeste({ type: "transferer", id: m.id }, ctrl(C.transferer))}
-        >
-          <span aria-hidden>➜</span> Transférer
-        </BoutonCourrier>
-        <BoutonCourrier
-          id={C.deplacer}
-          onClick={() => onGeste({ type: "boite", boite: "deplacer" }, ctrl(C.deplacer))}
-        >
-          <span aria-hidden>🗂</span> Déplacer
-        </BoutonCourrier>
-        <BoutonCourrier
-          id={C.indicateur}
-          titre="Indicateur de suivi"
-          onClick={() => onGeste({ type: "indicateur", id: m.id }, ctrl(C.indicateur), { tentative: true })}
-        >
-          <span aria-hidden>⚑</span>
-        </BoutonCourrier>
-        <BoutonCourrier
-          id={C.supprimer}
-          titre="Supprimer"
-          onClick={() => onGeste({ type: "supprimer", id: m.id }, ctrl(C.supprimer), { tentative: true })}
-        >
-          <span aria-hidden>🗑</span>
-        </BoutonCourrier>
       </div>
 
       <div style={{ flex: 1, minHeight: 0, overflowY: "auto", padding: "13px 15px" }}>

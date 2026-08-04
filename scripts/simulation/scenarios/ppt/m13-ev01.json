@@ -6,10 +6,10 @@
   "title": "S'évaluer — Faire apparaître au bon moment",
   "intro": {
     "title": "S'évaluer — Faire apparaître au bon moment",
-    "body": "Une diapositive à animer dans le bon ordre, une autre à couper plutôt qu'à animer, et le contrôle en diaporama. Aucune aide n'est affichée et chaque geste compte."
+    "body": "Un écran chargé ne se rattrape pas avec des animations : on l'allège d'abord, on l'anime ensuite, et ce qui ne tient pas se coupe. Aucune aide n'est affichée et chaque geste compte."
   },
   "outro": {
-    "body": "Évaluation terminée. Retenir une seule information, choisir l'effet, respecter l'ordre du discours et couper plutôt qu'animer : ce sont les acquis du module."
+    "body": "Épreuve terminée. Seule votre meilleure note est conservée."
   },
   "ribbon": [],
   "workbook": {
@@ -38,7 +38,7 @@
             "texte": "Résultat net : 187 000 €",
             "rect": {
               "x": 70,
-              "y": 160,
+              "y": 280,
               "w": 540,
               "h": 60
             }
@@ -49,9 +49,20 @@
             "texte": "Chiffre d'affaires en hausse de 9 %",
             "rect": {
               "x": 70,
-              "y": 280,
+              "y": 160,
               "w": 540,
               "h": 60
+            }
+          },
+          {
+            "id": "zt-brouillon",
+            "objectType": "texte",
+            "texte": "Chiffres non arrêtés — vérifier avec le cabinet",
+            "rect": {
+              "x": 70,
+              "y": 430,
+              "w": 540,
+              "h": 48
             }
           }
         ]
@@ -60,7 +71,7 @@
         "layout": "titre-et-contenu",
         "textes": {
           "titre": "Les chantiers de l'année",
-          "contenu": "Réfection du cubilot\nMise aux normes des filtres\nNouveau hall de coulée\nFormation de six mouleurs\nCertification qualité\nRenouvellement des chariots"
+          "contenu": "Réfection du cubilot\nMise aux normes des filtres\nNouveau pont roulant\nFormation de six mouleurs\nCertification qualité\nRenouvellement du parc"
         }
       }
     ]
@@ -68,7 +79,7 @@
   "steps": [
     {
       "id": "M13-EV01-01",
-      "consigne": "Affichez la deuxième diapositive, celle de l'exercice écoulé.",
+      "consigne": "Affichez la diapositive de l'exercice écoulé.",
       "action": {
         "type": "P_SELECT_SLIDE",
         "index": 1
@@ -77,8 +88,134 @@
     },
     {
       "id": "M13-EV01-02",
-      "consigne": "Vous annoncerez d'abord l'activité, puis le résultat. Animez « Chiffre d'affaires en hausse de 9 % » avec Apparaître.",
+      "consigne": "Une mention de travail y figure. Elle n'a pas à apparaître devant le conseil, animée ou non : retirez-la d'abord.",
+      "action": {
+        "type": "P_DELETE_OBJECT",
+        "objectId": "zt-brouillon"
+      },
+      "points": 2
+    },
+    {
+      "id": "M13-EV01-03",
+      "consigne": "Le résultat est posé au-dessus de l'activité, alors que vous annoncerez l'activité en premier. Descendez le résultat sous elle.",
       "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Fonderie Basmont",
+                "sous-titre": "Conseil d'administration du 9 avril"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "L'exercice écoulé"
+              },
+              "objets": [
+                {
+                  "id": "zt-resultat",
+                  "objectType": "texte",
+                  "texte": "Résultat net : 187 000 €",
+                  "rect": {
+                    "x": 70,
+                    "y": 280,
+                    "w": 540,
+                    "h": 60
+                  }
+                },
+                {
+                  "id": "zt-activite",
+                  "objectType": "texte",
+                  "texte": "Chiffre d'affaires en hausse de 9 %",
+                  "rect": {
+                    "x": 70,
+                    "y": 160,
+                    "w": 540,
+                    "h": 60
+                  }
+                }
+              ]
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Les chantiers de l'année",
+                "contenu": "Réfection du cubilot\nMise aux normes des filtres\nNouveau pont roulant\nFormation de six mouleurs\nCertification qualité\nRenouvellement du parc"
+              }
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_MOVE_OBJECT",
+        "objectId": "zt-resultat",
+        "rect": {
+          "x": 70,
+          "y": 280,
+          "w": 540,
+          "h": 60
+        },
+        "tolerance": 24
+      },
+      "points": 1
+    },
+    {
+      "id": "M13-EV01-04",
+      "consigne": "Vous annoncerez d'abord l'activité : animez « Chiffre d'affaires en hausse de 9 % » avec Apparaître. C'est le rang 1.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Fonderie Basmont",
+                "sous-titre": "Conseil d'administration du 9 avril"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "L'exercice écoulé"
+              },
+              "objets": [
+                {
+                  "id": "zt-resultat",
+                  "objectType": "texte",
+                  "texte": "Résultat net : 187 000 €",
+                  "rect": {
+                    "x": 70,
+                    "y": 280,
+                    "w": 540,
+                    "h": 60
+                  }
+                },
+                {
+                  "id": "zt-activite",
+                  "objectType": "texte",
+                  "texte": "Chiffre d'affaires en hausse de 9 %",
+                  "rect": {
+                    "x": 70,
+                    "y": 160,
+                    "w": 540,
+                    "h": 60
+                  }
+                }
+              ]
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Les chantiers de l'année",
+                "contenu": "Réfection du cubilot\nMise aux normes des filtres\nNouveau pont roulant\nFormation de six mouleurs\nCertification qualité\nRenouvellement du parc"
+              }
+            }
+          ]
+        },
         "slide": 1
       },
       "action": {
@@ -90,12 +227,67 @@
           }
         ]
       },
-      "points": 2
+      "points": 3
     },
     {
-      "id": "M13-EV01-03",
-      "consigne": "Animez ensuite « Résultat net : 187 000 € » avec Apparaître : c'est le rang 2, même s'il est plus haut sur l'écran.",
+      "id": "M13-EV01-05",
+      "consigne": "Animez ensuite « Résultat net : 187 000 € », même effet : c'est le rang 2.",
       "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Fonderie Basmont",
+                "sous-titre": "Conseil d'administration du 9 avril"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "L'exercice écoulé"
+              },
+              "objets": [
+                {
+                  "id": "zt-resultat",
+                  "objectType": "texte",
+                  "texte": "Résultat net : 187 000 €",
+                  "rect": {
+                    "x": 70,
+                    "y": 280,
+                    "w": 540,
+                    "h": 60
+                  }
+                },
+                {
+                  "id": "zt-activite",
+                  "objectType": "texte",
+                  "texte": "Chiffre d'affaires en hausse de 9 %",
+                  "rect": {
+                    "x": 70,
+                    "y": 160,
+                    "w": 540,
+                    "h": 60
+                  }
+                }
+              ],
+              "animations": [
+                {
+                  "objectId": "zt-activite",
+                  "kind": "apparaitre"
+                }
+              ]
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Les chantiers de l'année",
+                "contenu": "Réfection du cubilot\nMise aux normes des filtres\nNouveau pont roulant\nFormation de six mouleurs\nCertification qualité\nRenouvellement du parc"
+              }
+            }
+          ]
+        },
         "slide": 1
       },
       "action": {
@@ -111,27 +303,73 @@
           }
         ]
       },
-      "points": 2
+      "points": 3
     },
     {
-      "id": "M13-EV01-04",
-      "consigne": "Écrivez la note de cette diapositive : Deux clics — activité puis résultat.",
-      "action": {
-        "type": "P_EXPECT_DECK",
+      "id": "M13-EV01-06",
+      "consigne": "Sur un écran qui démarre vide, le titre est le seul repère : faites-le ressortir.",
+      "setupPpt": {
         "deck": {
+          "format": "16:9",
           "slides": [
             {
-              "index": 1,
-              "notes": "Deux clics — activité puis résultat"
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Fonderie Basmont",
+                "sous-titre": "Conseil d'administration du 9 avril"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "L'exercice écoulé"
+              },
+              "objets": [
+                {
+                  "id": "zt-resultat",
+                  "objectType": "texte",
+                  "texte": "Résultat net : 187 000 €",
+                  "rect": {
+                    "x": 70,
+                    "y": 280,
+                    "w": 540,
+                    "h": 60
+                  }
+                },
+                {
+                  "id": "zt-activite",
+                  "objectType": "texte",
+                  "texte": "Chiffre d'affaires en hausse de 9 %",
+                  "rect": {
+                    "x": 70,
+                    "y": 160,
+                    "w": 540,
+                    "h": 60
+                  }
+                }
+              ],
+              "animations": [
+                {
+                  "objectId": "zt-activite",
+                  "kind": "apparaitre"
+                },
+                {
+                  "objectId": "zt-resultat",
+                  "kind": "apparaitre"
+                }
+              ]
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Les chantiers de l'année",
+                "contenu": "Réfection du cubilot\nMise aux normes des filtres\nNouveau pont roulant\nFormation de six mouleurs\nCertification qualité\nRenouvellement du parc"
+              }
             }
           ]
-        }
+        },
+        "slide": 1
       },
-      "points": 1
-    },
-    {
-      "id": "M13-EV01-05",
-      "consigne": "Mettez le titre de cette diapositive en gras : sur un écran qui démarre vide, c'est le seul repère du public.",
       "action": {
         "type": "P_EXPECT_FORMAT",
         "objectId": "ph:titre",
@@ -142,8 +380,70 @@
       "points": 2
     },
     {
-      "id": "M13-EV01-06",
+      "id": "M13-EV01-07",
       "consigne": "Affichez la troisième diapositive : six lignes sur un écran. Elle ne s'anime pas, elle se coupe.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Fonderie Basmont",
+                "sous-titre": "Conseil d'administration du 9 avril"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "L'exercice écoulé"
+              },
+              "objets": [
+                {
+                  "id": "zt-resultat",
+                  "objectType": "texte",
+                  "texte": "Résultat net : 187 000 €",
+                  "rect": {
+                    "x": 70,
+                    "y": 280,
+                    "w": 540,
+                    "h": 60
+                  }
+                },
+                {
+                  "id": "zt-activite",
+                  "objectType": "texte",
+                  "texte": "Chiffre d'affaires en hausse de 9 %",
+                  "rect": {
+                    "x": 70,
+                    "y": 160,
+                    "w": 540,
+                    "h": 60
+                  }
+                }
+              ],
+              "animations": [
+                {
+                  "objectId": "zt-activite",
+                  "kind": "apparaitre"
+                },
+                {
+                  "objectId": "zt-resultat",
+                  "kind": "apparaitre"
+                }
+              ]
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Les chantiers de l'année",
+                "contenu": "Réfection du cubilot\nMise aux normes des filtres\nNouveau pont roulant\nFormation de six mouleurs\nCertification qualité\nRenouvellement du parc"
+              }
+            }
+          ]
+        },
+        "slide": 1
+      },
       "action": {
         "type": "P_SELECT_SLIDE",
         "index": 2
@@ -151,20 +451,8 @@
       "points": 1
     },
     {
-      "id": "M13-EV01-07",
-      "consigne": "Remplacez son titre par Nos chantiers, 1 à 3.",
-      "action": {
-        "type": "P_TYPE_TEXT",
-        "cible": "ph:titre",
-        "accept": [
-          "Nos chantiers, 1 à 3"
-        ]
-      },
-      "points": 2
-    },
-    {
       "id": "M13-EV01-08",
-      "consigne": "Remplacez son contenu par : Réfection du cubilot, Mise aux normes des filtres, Nouveau hall de coulée.",
+      "consigne": "Plutôt que d'en créer une de toutes pièces, obtenez-en une copie : chacune portera trois chantiers.",
       "setupPpt": {
         "deck": {
           "format": "16:9",
@@ -185,33 +473,42 @@
                 {
                   "id": "zt-resultat",
                   "objectType": "texte",
-                  "rect": {
-                    "x": 70,
-                    "y": 160,
-                    "w": 540,
-                    "h": 60
-                  },
-                  "texte": "Résultat net : 187 000 €"
-                },
-                {
-                  "id": "zt-activite",
-                  "objectType": "texte",
+                  "texte": "Résultat net : 187 000 €",
                   "rect": {
                     "x": 70,
                     "y": 280,
                     "w": 540,
                     "h": 60
-                  },
-                  "texte": "Chiffre d'affaires en hausse de 9 %"
+                  }
+                },
+                {
+                  "id": "zt-activite",
+                  "objectType": "texte",
+                  "texte": "Chiffre d'affaires en hausse de 9 %",
+                  "rect": {
+                    "x": 70,
+                    "y": 160,
+                    "w": 540,
+                    "h": 60
+                  }
                 }
               ],
-              "notes": "Deux clics — activité puis résultat"
+              "animations": [
+                {
+                  "objectId": "zt-activite",
+                  "kind": "apparaitre"
+                },
+                {
+                  "objectId": "zt-resultat",
+                  "kind": "apparaitre"
+                }
+              ]
             },
             {
               "layout": "titre-et-contenu",
               "textes": {
-                "titre": "Nos chantiers, 1 à 3",
-                "contenu": "Réfection du cubilot\nMise aux normes des filtres\nNouveau hall de coulée\nFormation de six mouleurs\nCertification qualité\nRenouvellement des chariots"
+                "titre": "Les chantiers de l'année",
+                "contenu": "Réfection du cubilot\nMise aux normes des filtres\nNouveau pont roulant\nFormation de six mouleurs\nCertification qualité\nRenouvellement du parc"
               }
             }
           ]
@@ -219,26 +516,14 @@
         "slide": 2
       },
       "action": {
-        "type": "P_TYPE_TEXT",
-        "cible": "ph:contenu",
-        "accept": [
-          "Réfection du cubilot\nMise aux normes des filtres\nNouveau hall de coulée",
-          "Réfection du cubilot, Mise aux normes des filtres, Nouveau hall de coulée"
-        ]
+        "type": "P_DUPLICATE_SLIDE",
+        "index": 2
       },
-      "points": 2
+      "points": 1
     },
     {
       "id": "M13-EV01-09",
-      "consigne": "Ajoutez une diapositive pour les trois chantiers suivants.",
-      "action": {
-        "type": "P_ADD_SLIDE"
-      },
-      "points": 2
-    },
-    {
-      "id": "M13-EV01-10",
-      "consigne": "Écrivez son titre : Nos chantiers, 4 à 6.",
+      "consigne": "Sur cette copie, ne gardez que les trois derniers : Formation de six mouleurs, Certification qualité, Renouvellement du parc.",
       "setupPpt": {
         "deck": {
           "format": "16:9",
@@ -259,37 +544,131 @@
                 {
                   "id": "zt-resultat",
                   "objectType": "texte",
-                  "rect": {
-                    "x": 70,
-                    "y": 160,
-                    "w": 540,
-                    "h": 60
-                  },
-                  "texte": "Résultat net : 187 000 €"
-                },
-                {
-                  "id": "zt-activite",
-                  "objectType": "texte",
+                  "texte": "Résultat net : 187 000 €",
                   "rect": {
                     "x": 70,
                     "y": 280,
                     "w": 540,
                     "h": 60
-                  },
-                  "texte": "Chiffre d'affaires en hausse de 9 %"
+                  }
+                },
+                {
+                  "id": "zt-activite",
+                  "objectType": "texte",
+                  "texte": "Chiffre d'affaires en hausse de 9 %",
+                  "rect": {
+                    "x": 70,
+                    "y": 160,
+                    "w": 540,
+                    "h": 60
+                  }
                 }
               ],
-              "notes": "Deux clics — activité puis résultat"
+              "animations": [
+                {
+                  "objectId": "zt-activite",
+                  "kind": "apparaitre"
+                },
+                {
+                  "objectId": "zt-resultat",
+                  "kind": "apparaitre"
+                }
+              ]
             },
             {
               "layout": "titre-et-contenu",
               "textes": {
-                "titre": "Nos chantiers, 1 à 3",
-                "contenu": "Réfection du cubilot\nMise aux normes des filtres\nNouveau hall de coulée"
+                "titre": "Les chantiers de l'année",
+                "contenu": "Réfection du cubilot\nMise aux normes des filtres\nNouveau pont roulant\nFormation de six mouleurs\nCertification qualité\nRenouvellement du parc"
               }
             },
             {
-              "layout": "titre-et-contenu"
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Les chantiers de l'année",
+                "contenu": "Réfection du cubilot\nMise aux normes des filtres\nNouveau pont roulant\nFormation de six mouleurs\nCertification qualité\nRenouvellement du parc"
+              }
+            }
+          ]
+        },
+        "slide": 3
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:contenu",
+        "accept": [
+          "Formation de six mouleurs\nCertification qualité\nRenouvellement du parc"
+        ]
+      },
+      "points": 2
+    },
+    {
+      "id": "M13-EV01-10",
+      "consigne": "Son titre doit le dire : Nos chantiers, 4 à 6.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Fonderie Basmont",
+                "sous-titre": "Conseil d'administration du 9 avril"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "L'exercice écoulé"
+              },
+              "objets": [
+                {
+                  "id": "zt-resultat",
+                  "objectType": "texte",
+                  "texte": "Résultat net : 187 000 €",
+                  "rect": {
+                    "x": 70,
+                    "y": 280,
+                    "w": 540,
+                    "h": 60
+                  }
+                },
+                {
+                  "id": "zt-activite",
+                  "objectType": "texte",
+                  "texte": "Chiffre d'affaires en hausse de 9 %",
+                  "rect": {
+                    "x": 70,
+                    "y": 160,
+                    "w": 540,
+                    "h": 60
+                  }
+                }
+              ],
+              "animations": [
+                {
+                  "objectId": "zt-activite",
+                  "kind": "apparaitre"
+                },
+                {
+                  "objectId": "zt-resultat",
+                  "kind": "apparaitre"
+                }
+              ]
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Les chantiers de l'année",
+                "contenu": "Réfection du cubilot\nMise aux normes des filtres\nNouveau pont roulant\nFormation de six mouleurs\nCertification qualité\nRenouvellement du parc"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Les chantiers de l'année",
+                "contenu": "Formation de six mouleurs\nCertification qualité\nRenouvellement du parc"
+              }
             }
           ]
         },
@@ -306,7 +685,7 @@
     },
     {
       "id": "M13-EV01-11",
-      "consigne": "Écrivez son contenu : Formation de six mouleurs, Certification qualité, Renouvellement des chariots.",
+      "consigne": "Lancez le diaporama depuis le début pour le contrôle final.",
       "setupPpt": {
         "deck": {
           "format": "16:9",
@@ -327,39 +706,49 @@
                 {
                   "id": "zt-resultat",
                   "objectType": "texte",
-                  "rect": {
-                    "x": 70,
-                    "y": 160,
-                    "w": 540,
-                    "h": 60
-                  },
-                  "texte": "Résultat net : 187 000 €"
-                },
-                {
-                  "id": "zt-activite",
-                  "objectType": "texte",
+                  "texte": "Résultat net : 187 000 €",
                   "rect": {
                     "x": 70,
                     "y": 280,
                     "w": 540,
                     "h": 60
-                  },
-                  "texte": "Chiffre d'affaires en hausse de 9 %"
+                  }
+                },
+                {
+                  "id": "zt-activite",
+                  "objectType": "texte",
+                  "texte": "Chiffre d'affaires en hausse de 9 %",
+                  "rect": {
+                    "x": 70,
+                    "y": 160,
+                    "w": 540,
+                    "h": 60
+                  }
                 }
               ],
-              "notes": "Deux clics — activité puis résultat"
+              "animations": [
+                {
+                  "objectId": "zt-activite",
+                  "kind": "apparaitre"
+                },
+                {
+                  "objectId": "zt-resultat",
+                  "kind": "apparaitre"
+                }
+              ]
             },
             {
               "layout": "titre-et-contenu",
               "textes": {
-                "titre": "Nos chantiers, 1 à 3",
-                "contenu": "Réfection du cubilot\nMise aux normes des filtres\nNouveau hall de coulée"
+                "titre": "Les chantiers de l'année",
+                "contenu": "Réfection du cubilot\nMise aux normes des filtres\nNouveau pont roulant\nFormation de six mouleurs\nCertification qualité\nRenouvellement du parc"
               }
             },
             {
               "layout": "titre-et-contenu",
               "textes": {
-                "titre": "Nos chantiers, 4 à 6"
+                "titre": "Nos chantiers, 4 à 6",
+                "contenu": "Formation de six mouleurs\nCertification qualité\nRenouvellement du parc"
               }
             }
           ]
@@ -367,23 +756,21 @@
         "slide": 3
       },
       "action": {
-        "type": "P_TYPE_TEXT",
-        "cible": "ph:contenu",
-        "accept": [
-          "Formation de six mouleurs\nCertification qualité\nRenouvellement des chariots",
-          "Formation de six mouleurs, Certification qualité, Renouvellement des chariots"
-        ]
-      },
-      "points": 2
-    },
-    {
-      "id": "M13-EV01-12",
-      "consigne": "Lancez le diaporama depuis le début pour le contrôle final.",
-      "action": {
         "type": "P_EXPECT_SHOW",
         "show": {
           "actif": true,
           "index": 0
+        }
+      },
+      "points": 1
+    },
+    {
+      "id": "M13-EV01-12",
+      "consigne": "Revenez à votre présentation.",
+      "action": {
+        "type": "P_EXPECT_SHOW",
+        "show": {
+          "actif": false
         }
       },
       "points": 1

@@ -78,7 +78,24 @@
       "consigne": "Les trois attributs ne disent pas la même chose. Le **gras** met en avant : un chiffre, un mot-clé. L'**italique** signale un emprunt : une citation, un terme étranger. Le **souligné**, lui, est devenu le signe d'un lien cliquable — sur une diapositive, il fait hésiter le lecteur pour rien.",
       "action": {
         "type": "READ"
-      }
+      },
+      "montrer": [
+        {
+          "type": "P_MONTRER",
+          "cible": "ctrl:acc-gras",
+          "texte": "Gras : met en avant un chiffre, un mot-clé"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "ctrl:acc-italique",
+          "texte": "Italique : signale une citation, un terme étranger"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "ctrl:acc-souligne",
+          "texte": "Souligné : lu comme un lien cliquable — c'est ce qui le rend gênant sur une diapositive"
+        }
+      ]
     },
     {
       "id": "M03-L02-02",
@@ -86,7 +103,8 @@
       "action": {
         "type": "P_SELECT_SLIDE",
         "index": 1
-      }
+      },
+      "feedback": "« Le mot des clients » occupe le centre : c'est elle que les boutons modifieront."
     },
     {
       "id": "M03-L02-03",
@@ -178,6 +196,7 @@
           "italic": true
         }
       },
+      "feedback": "En italique sur « Un chantier propre et une équipe ponctue… » — et la mise en forme n'a touché que l'élément sélectionné.",
       "aide": {
         "text": "C'est la ligne du milieu, entre le chiffre et le nom de la copropriété."
       }
@@ -187,7 +206,19 @@
       "consigne": "Regardez la dernière ligne, le nom de la copropriété : elle est **soulignée**. Sur un écran, un texte souligné ressemble à un lien — l'auditoire se demande une seconde s'il faut cliquer, et cette seconde est perdue pour votre propos. C'est le seul des trois attributs qu'on retire par défaut.",
       "action": {
         "type": "READ"
-      }
+      },
+      "montrer": [
+        {
+          "type": "P_MONTRER",
+          "cible": "zt-source",
+          "texte": "Le nom de la copropriété, souligné : le public hésite une seconde à cliquer"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "ctrl:acc-souligne",
+          "texte": "Le bouton bascule : un second clic sur une zone soulignée retire l'attribut"
+        }
+      ]
     },
     {
       "id": "M03-L02-06",
@@ -264,6 +295,7 @@
           "underline": false
         }
       },
+      "feedback": "« Copropriété Les Tilleuls, Nantes » est sans le souligné.",
       "aide": {
         "text": "Le bouton S est le troisième du groupe Police. Il apparaît allumé tant que le souligné est actif."
       }
@@ -342,14 +374,32 @@
         "style": {
           "italic": true
         }
-      }
+      },
+      "feedback": "« Copropriété Les Tilleuls, Nantes » ressort maintenant : en italique, quand le reste ne l'est pas."
     },
     {
       "id": "M03-L02-08",
       "consigne": "Attention au piège suivant : si vous mettiez maintenant les trois lignes en gras, plus aucune ne ressortirait. **L'emphase est un contraste** — elle ne fonctionne que si l'essentiel du texte reste normal. Une diapositive où tout est en gras est une diapositive sans hiérarchie.",
       "action": {
         "type": "READ"
-      }
+      },
+      "montrer": [
+        {
+          "type": "P_MONTRER",
+          "cible": "zt-chiffre",
+          "texte": "Ce chiffre ressort parce qu'il est le seul en gras"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "zt-citation",
+          "texte": "Si cette ligne le devenait aussi, plus rien ne ressortirait"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "zone:scene",
+          "texte": "L'emphase est un contraste : elle ne vaut que par ce qu'elle laisse en dehors d'elle"
+        }
+      ]
     },
     {
       "id": "M03-L02-09",
@@ -361,6 +411,7 @@
           "bold": true
         }
       },
+      "feedback": "En gras sur « Le mot des clients » — et la mise en forme n'a touché que l'élément sélectionné.",
       "aide": {
         "text": "Cliquez sur le titre « Le mot des clients », puis sur G."
       }
@@ -370,7 +421,24 @@
       "consigne": "À retenir : **gras** pour ce qu'on doit retenir, **italique** pour ce qui est cité, **souligné** presque jamais. Les boutons basculent, les attributs se cumulent, et l'emphase ne vaut que par ce qu'elle laisse en dehors d'elle.",
       "action": {
         "type": "READ"
-      }
+      },
+      "montrer": [
+        {
+          "type": "P_MONTRER",
+          "cible": "ctrl:acc-gras",
+          "texte": "Gras pour ce qu'on doit retenir"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "ctrl:acc-italique",
+          "texte": "Italique pour ce qui est cité"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "ctrl:acc-souligne",
+          "texte": "Souligné presque jamais — et les trois boutons basculent"
+        }
+      ]
     }
   ]
 }

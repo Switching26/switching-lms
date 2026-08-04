@@ -74,6 +74,24 @@
  */
 
 import { LIBELLE_CONTROLE } from "./attendu"
+import { prefixeDeType } from "./contrats"
+
+/**
+ * Le type d'action débarrassé de son préfixe d'application.
+ *
+ * `MONTRER` · `W_MONTRER` · `P_MONTRER` · `O_MONTRER` sont le MÊME geste :
+ * désigner un endroit (`cible`) et l'expliquer (`texte`). Seul le préfixe
+ * change. On le déduit comme le fait `registre.ts` — `prefixeDeType` est la
+ * source unique — plutôt que de tenir ici une liste en dur, qui se périmerait
+ * silencieusement à la prochaine application branchée.
+ *
+ * L'import vient de `contrats.ts`, jamais du registre : le socle n'importe
+ * aucune valeur, donc il ne referme pas le cycle
+ * `registre → adaptateur → expurge` que `check-frontieres` interdit.
+ */
+function sansPrefixe(type: string): string {
+  return type.slice(prefixeDeType(type).length)
+}
 
 /**
  * Le mot par lequel une consigne désigne un bouton.
@@ -200,6 +218,19 @@ export function actionPublique(action: unknown): Objet {
     return o
   }
 
+  /* LE GESTE DE DÉSIGNATION, DANS LES QUATRE APPLICATIONS.
+   *
+   * Traité AVANT le `switch`, parce que le type porte un préfixe d'application
+   * (`W_MONTRER`, `P_MONTRER`) qu'un `case` littéral ne peut pas reconnaître —
+   * ils tombaient dans le `default`, qui ne laisse passer que le type. La
+   * démonstration survivait alors PRIVÉE de sa cible et de sa phrase : un
+   * énoncé muet, ce qui est pire qu'une démonstration absente.
+   *
+   * La liste blanche reste exactement la même — `cible` et `texte`, rien
+   * d'autre. `ecrire` n'est pas gardé ici, et un geste qui en porte fait de
+   * toute façon abandonner la démonstration entière (voir plus bas). */
+  if (sansPrefixe(t) === "MONTRER") return garde("cible", "texte")
+
   switch (t) {
     case "TYPE":
       // `accept` part. `target` reste : il verrouille la cellule éditable et
@@ -274,8 +305,6 @@ export function actionPublique(action: unknown): Objet {
       return garde("range", "duringEdit", "template")
     case "SELECT_CHART_ELEMENT":
       return garde("element")
-    case "MONTRER":
-      return garde("cible", "texte")
     case "READ":
       return { type: "READ" }
 
@@ -516,7 +545,16 @@ export function expurgerScenarioNote(
     if (type === "READ" && Array.isArray(e.montrer)) {
       const gestes = e.montrer.map((geste) => publier(geste))
       const tousMontrer = e.montrer.every(
-        (geste) => estObjet(geste) && geste.type === "MONTRER" && geste.ecrire === undefined,
+        (geste) =>
+          estObjet(geste) &&
+          typeof geste.type === "string" &&
+          // Le test portait sur le type LITTÉRAL `MONTRER` : `W_MONTRER` et
+          // `P_MONTRER` échouaient, et les 11 énoncés d'évaluation Word comme
+          // les 9 écrans PowerPoint étaient abandonnés en bloc. La garantie
+          // ci-dessus est INCHANGÉE — c'est toujours tout ou rien —, seule la
+          // reconnaissance du type s'aligne sur la déduction par préfixe.
+          sansPrefixe(geste.type) === "MONTRER" &&
+          geste.ecrire === undefined,
       )
       if (tousMontrer && gestes.length > 0) sortie.montrer = gestes
     }

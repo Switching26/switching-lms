@@ -1,4 +1,27 @@
 /**
+ * 🔴 SCRIPT DESTRUCTEUR — JAMAIS SANS BASE JETABLE.
+ *
+ * Avant toute autre considération : ce fichier commence par SEPT
+ * `deleteMany({})` en cascade — SimulationStepVerdict, SimulationRun,
+ * Simulation, Chapter, Section, Formation, User. Il VIDE la base qu'on lui
+ * donne. Lancé sur la production, il supprimerait la formation Excel 2024 (246
+ * chapitres publiés, de vrais apprenants inscrits), tous les comptes et toutes
+ * les progressions, sans confirmation et sans retour en arrière.
+ *
+ * Il n'y a qu'un pas entre l'usage normal et l'accident : le contrôle prend sa
+ * cible dans une VARIABLE D'ENVIRONNEMENT, et un `export DATABASE_URL` resté
+ * dans un shell suffit. D'où la défense en profondeur, à ne jamais retirer :
+ *
+ *   1. ici — refus si le nom de base ne contient pas « test » (`exit 2`), avec
+ *      un message qui énonce ce qui a failli être effacé ;
+ *   2. dans `lancer-controles.sh` — refus si l'URL ressemble à une base Railway,
+ *      ce qui rattrape le cas d'une base nommée « test » hébergée en production.
+ *
+ * La base de production Railway s'appelle `railway` : elle échoue donc déjà sur
+ * le premier critère. Le second existe pour le cas que le premier laisse passer.
+ *
+ * ─────────────────────────────────────────────────────────────────────────────
+ *
  * LE REGISTRE DE VERDICTS, ÉPROUVÉ SUR UNE VRAIE BASE.
  *
  *   createdb lms_verdicts_test
@@ -35,10 +58,22 @@ import {
 
 const url = process.env.DATABASE_URL ?? ""
 if (!/test/i.test(url)) {
+  // Le message DIT ce qui a failli arriver, et nomme les tables. Un garde-fou
+  // dont le message ressemble à un problème de configuration se contourne par
+  // réflexe — on « corrige » la variable et on relance, sur la prod.
   console.error(
-    "\n✗ Ce contrôle exige une base de TEST jetable.\n" +
-      "  Attendu : DATABASE_URL pointant sur une base dont le nom contient « test ».\n" +
-      "  Reçu : " + (url ? "une base sans « test » dans son nom" : "rien") + "\n",
+    "\n✗ ARRÊT — ce script est DESTRUCTEUR, et la base visée n'est pas une base de test.\n\n" +
+      "  Ce qui aurait été effacé, sans confirmation ni sauvegarde :\n" +
+      "    SimulationStepVerdict · SimulationRun · Simulation · Chapter · Section ·\n" +
+      "    Formation · User      (sept `deleteMany({})` en cascade)\n\n" +
+      "  Sur la production, cela supprime la formation Excel 2024 — 246 chapitres\n" +
+      "  publiés, 1 883 étapes — ainsi que TOUS les comptes apprenants et leurs\n" +
+      "  progressions. Il n'y a pas de retour en arrière.\n\n" +
+      "  Attendu : DATABASE_URL sur une base LOCALE JETABLE dont le nom contient « test ».\n" +
+      "  Reçu    : " + (url ? "une base dont le nom ne contient pas « test »" : "rien") + "\n\n" +
+      "  Ne « corrigez » pas en renommant la base : créez-en une neuve.\n" +
+      "    createdb lms_verdicts_test\n" +
+      "    DATABASE_URL=postgresql://…/lms_verdicts_test npx prisma migrate deploy\n",
   )
   process.exit(2)
 }
@@ -1055,13 +1090,36 @@ async function main() {
       "R24b · et plus d'aucune égalité de score",
       !/report\.attempt\.score === scoreServeur/.test(code),
     )
+    /**
+     * LE « JOUEUR », C'EST DÉSORMAIS DEUX FICHIERS.
+     *
+     * Depuis l'extraction du noyau (phase 0 du chantier multi-app), la
+     * persistance et le passage d'évaluation vivent dans le hook commun : c'est
+     * la pièce que les quatre apps doivent partager, faute de quoi il y aurait
+     * deux calculs de note pour un même parcours. Les règles ci-dessous portent
+     * donc sur les deux, concaténés — ce qui rend R24e plus strict qu'avant,
+     * puisqu'elle interdit l'enveloppe mutable des DEUX côtés.
+     */
     const joueur = fs.readFileSync(
       path.resolve(__dirname, "../../components/simulation/SimulationPlayer.tsx"),
       "utf8",
     )
-    const jcode = joueur.replace(/\/\*[\s\S]*?\*\//g, "")
+    const noyau = fs.readFileSync(
+      path.resolve(__dirname, "../../components/simulation/hooks/useAtelier.ts"),
+      "utf8",
+    )
+    const jcode = (joueur + "\n" + noyau).replace(/\/\*[\s\S]*?\*\//g, "")
     verifie("R24c · le corps entier est scellé avec la clé", /corps: \{/.test(jcode) && /deposer\(\{/.test(jcode))
-    verifie("R24d · l'ordonnancement est délégué au module pur", /creerFileEnvois</.test(jcode))
+    /* R24d — il faut un APPEL, pas une mention.
+     * La règle cherchait `creerFileEnvois<`, ce que la seule DÉCLARATION DE TYPE
+     * de la référence (`ReturnType<typeof creerFileEnvois<…>>`) suffisait à
+     * satisfaire : on pouvait remplacer l'ordonnanceur par autre chose sans que
+     * le contrôle bronche. Angle mort trouvé en le piégeant, et antérieur à
+     * l'extraction du noyau. On exige donc la position d'appel, `typeof` exclu. */
+    verifie(
+      "R24d · l'ordonnancement est délégué au module pur",
+      /(?<!typeof\s)creerFileEnvois\s*(<[^\n]*>)?\s*\(/.test(jcode),
+    )
     verifie("R24e · plus aucune enveloppe mutable", !/envoiRef\.current/.test(jcode))
     /* R24f — LE RENONCEMENT SE FAIT EN UN SEUL CLIC.
      * Le bouton « Passer la question » appelait `demarrerDemonstration` : rien

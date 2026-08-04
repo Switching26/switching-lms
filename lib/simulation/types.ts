@@ -16,6 +16,10 @@
  * additif — ne jamais changer le sens d'une primitive existante.
  */
 
+import type { WordAction } from "./word/actions"
+import type { PptAction } from "./ppt/actions"
+import type { OutlookAction } from "./outlook/actions"
+
 export const SIMULATION_SCHEMA_VERSION = 1 as const
 
 /* ═══════════ CLASSEUR ═══════════ */
@@ -571,6 +575,26 @@ export type SimulationAction =
     }
   /** Démarrer ou arrêter l'enregistreur. */
   | { type: "RECORD_MACRO"; expect: "started" | "stopped" }
+  /*
+   * ═══ LES AUTRES APPLICATIONS ═══
+   *
+   * Union ADDITIVE et PRÉFIXÉE : chaque application déclare ses variantes chez
+   * elle, dans une feuille sans import. C'est ce qui évite que trois agents
+   * éditent ce fichier en parallèle.
+   *
+   * Tant que ces trois unions valent `never` — l'union vide — cette union reste
+   * rigoureusement identique à ce qu'elle était : `A | never` vaut `A`. Les 246
+   * scénarios publiés ne sont donc pas touchés, et `SIMULATION_SCHEMA_VERSION`
+   * reste à 1.
+   *
+   * L'exhaustivité TypeScript est préservée en deux temps : `validate.ts` écarte
+   * ces variantes AVANT son `switch`, grâce à la garde typée `estActionApp` du
+   * registre — son `const _exhaustive: never` continue donc de protéger Excel —
+   * et chaque application pose son propre `never` dans SON adaptateur.
+   */
+  | WordAction
+  | PptAction
+  | OutlookAction
 
 /* ═══════════ ÉTAPES ═══════════ */
 

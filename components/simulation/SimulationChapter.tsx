@@ -15,6 +15,18 @@ import type { SimulationScenario } from "@/lib/simulation/types"
 import type { LearnerDocument } from "@/lib/learner-files"
 
 type Payload = {
+  /**
+   * Application simulée par ce chapitre.
+   *
+   * `Simulation.app` existait en base depuis le 28/07/2026, était chargé par
+   * `lib/data/formations.ts` et SERVI par `route.ts` — mais ce type ne le
+   * déclarait pas, donc personne ne le lisait. Le fil était tendu et jamais
+   * raccordé ; le voici branché.
+   *
+   * Optionnel à dessein : un déploiement où l'API serait momentanément plus
+   * ancienne que le client ne doit pas casser un atelier Excel.
+   */
+  app?: "EXCEL" | "WORD" | "POWERPOINT" | "OUTLOOK"
   mode: "LESSON" | "EXERCISE" | "EVALUATION"
   scenario: SimulationScenario
   stepCount: number
@@ -152,8 +164,31 @@ export default function SimulationChapter({
     )
   }
 
+  /*
+   * ROUTAGE PAR APPLICATION.
+   *
+   * Une entrée par application, ajoutée quand son player est livré (phase 2).
+   * Elles sont absentes aujourd'hui : livrer des entrées factices donnerait un
+   * aiguillage qui « marche » contre du vide.
+   *
+   * Le REPLI SUR EXCEL est explicite et volontaire : c'est ce qui garantit que
+   * les 246 chapitres publiés empruntent exactement le chemin d'avant, y compris
+   * si `app` est absent du payload.
+   *
+   * ⚠️ Un player d'application se monte PAR CE COMPOSANT, jamais en `position:
+   * fixed` dans le flux de la page : la page apprenant garde un `transform`
+   * résiduel (`animate-fade-in-up`) qui devient containing block et capture tout
+   * `fixed` descendant. C'est le piège qui avait fait échouer le mode immersif le
+   * 29/07/2026, et c'est pour cela que le rendu passe par un portail vers
+   * `document.body`, plus bas dans ce fichier.
+   */
+  const PLAYERS: Partial<Record<NonNullable<Payload["app"]>, typeof SimulationPlayer>> = {
+    EXCEL: SimulationPlayer,
+  }
+  const Player = PLAYERS[data.app ?? "EXCEL"] ?? SimulationPlayer
+
   const player = (
-    <SimulationPlayer
+    <Player
       // La clé garantit un état propre quand on passe d'un atelier à un autre :
       // l'étape courante et les compteurs ne doivent jamais fuiter entre chapitres.
       key={`${chapterId}#${passage}`}

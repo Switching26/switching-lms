@@ -26,6 +26,7 @@ import type {
   TypeAction,
 } from "./types"
 import { matchesTypedAnswer, normalizeFormula } from "./types"
+import { estActionApp, type Verdict } from "./contrats"
 import { sameArea } from "./grid"
 import { frToEngine } from "./formula-fr"
 import { verifierPoste } from "./poste"
@@ -128,10 +129,12 @@ export type ObservedAction =
   /** L'état du poste de travail après le geste : Excel lancé, fermé, enregistré. */
   | { kind: "posteChange"; poste: PosteState }
 
-export type Verdict =
-  | { ok: true }
-  /** `reason` est destiné au journal pédagogique, `message` à l'apprenant. */
-  | { ok: false; reason: string; message: string }
+/**
+ * Ré-exporté depuis `contrats.ts`, où il est désormais DÉFINI — les adaptateurs
+ * d'application doivent pouvoir le nommer sans importer la couture. Le ré-export
+ * garde intacts tous les imports existants `from "./validate"`.
+ */
+export type { Verdict }
 
 const OK: Verdict = { ok: true }
 
@@ -220,6 +223,28 @@ export function validateStep(
   requiredChannel?: ActionChannel,
 ): Verdict {
   const expected: SimulationAction = step.action
+
+  // Les actions des autres applications ne se jugent pas ici : leur juge est
+  // leur adaptateur, atteint par le registre. Cette porte a deux effets, et le
+  // second est le plus important :
+  //
+  //  1. à l'exécution, elle rend un verdict explicite plutôt qu'un
+  //     « Action non reconnue » venu du `default` ;
+  //  2. à la COMPILATION, elle restreint le `switch` ci-dessous à l'union
+  //     Excel — c'est ce qui permet au `const _exhaustive: never` de la fin de
+  //     continuer à protéger Excel quand Word, PowerPoint et Outlook auront
+  //     ajouté leurs variantes.
+  //
+  // Le registre n'est délibérément PAS importé ici : `registre.ts` importe
+  // `excel-adaptateur.ts`, qui importe ce fichier. La garde vient donc de
+  // `contrats.ts`, qui n'a aucun import de valeur.
+  if (estActionApp(expected)) {
+    return {
+      ok: false,
+      reason: "action_hors_excel",
+      message: "Action non reconnue.",
+    }
+  }
 
   // Écran de lecture : seul « Suivant » est attendu. Le message ne dit pas que
   // c'est faux — il n'y a rien à faire, donc rien ne peut être faux. Dire

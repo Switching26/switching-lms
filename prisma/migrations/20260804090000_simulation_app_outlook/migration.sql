@@ -1,0 +1,17 @@
+-- Ajoute OUTLOOK à l'enum des applications simulées.
+--
+-- Une valeur d'enum ne peut pas être utilisée dans la transaction qui la crée
+-- (PostgreSQL) : l'ajout est donc isolé dans sa propre migration, comme l'ont
+-- été ASSESSMENT_INVITATION et LOGIN_LINK. Toute migration qui écrirait
+-- app = 'OUTLOOK' doit venir APRÈS celle-ci, dans un fichier distinct.
+--
+-- Strictement additive : aucune colonne, aucune ligne, aucun index existant
+-- n'est touché. Les simulations en base restent en EXCEL (valeur par défaut).
+--
+-- WORD et POWERPOINT existent déjà : ils sont créés par
+-- 20260728050000_add_simulation. Seul OUTLOOK manquait.
+--
+-- Rappel de risque : Dockerfile applique `prisma migrate deploy` au démarrage
+-- du conteneur Railway. Une migration qui échoue empêche la plateforme
+-- ENTIÈRE de démarrer, pas seulement le simulateur.
+ALTER TYPE "SimulationApp" ADD VALUE IF NOT EXISTS 'OUTLOOK';

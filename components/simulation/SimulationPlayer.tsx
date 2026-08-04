@@ -19,7 +19,7 @@
  *    formateur une vision réelle des difficultés, là où une vidéo ne dit rien.
  */
 
-import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react"
+import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import dynamic from "next/dynamic"
 import type { GridApi } from "./ExcelGrid"
 import SimulationChrome, { SimulationFooter } from "./SimulationChrome"
@@ -49,7 +49,15 @@ import {
 import DesktopLayer from "./DesktopLayer"
 import AfficheModule, { numeroModule } from "./AfficheModule"
 import DemonstrationGeste, { type Rect } from "./DemonstrationGeste"
-import PanneauRessources, { LIBELLE_RESSOURCES } from "./PanneauRessources"
+import AtelierShell, { type EntreeSommaire } from "./AtelierShell"
+import {
+  useAideProgressive,
+  useMesureZoneTravail,
+  usePersistance,
+  useProgression,
+  useRetourVisuel,
+  type RectCible,
+} from "./hooks/useAtelier"
 import BilanFin from "./BilanFin"
 import type { BilanPublie } from "@/lib/simulation/bilan"
 import type { LearnerDocument } from "@/lib/learner-files"
@@ -277,7 +285,7 @@ import ChartLayer from "./ChartLayer"
 import PivotLayer from "./PivotLayer"
 import PageLayoutLayer from "./PageLayoutLayer"
 import MacroPanel from "./MacroPanel"
-import { dureeLisible, estimatedSimulationMinutes } from "@/lib/simulation/duree"
+import { estimatedSimulationMinutes } from "@/lib/simulation/duree"
 import type {
   CellState,
   ChartState,
@@ -351,7 +359,6 @@ const DELAI_VERDICT_MS = 15000
 
 // Univer casse à l'import côté serveur : le chargement différé est obligatoire,
 // pas une optimisation.
-import GuideFormation from "./GuideFormation"
 
 const ExcelGrid = dynamic(() => import("./ExcelGrid"), {
   ssr: false,
@@ -364,19 +371,13 @@ const ExcelGrid = dynamic(() => import("./ExcelGrid"), {
 
 type Mode = "LESSON" | "EXERCISE" | "EVALUATION"
 
-/** Une entrée du sommaire, telle que l'atelier l'affiche dans son panneau « Leçons ». */
-export type EntreeSommaire = {
-  id: string
-  titre: string
-  /** Module d'appartenance ; null pour un chapitre hors section. */
-  module: string | null
-  genre: "lecon" | "exercice" | "evaluation" | "autre"
-  termine: boolean
-  /** Nombre d'étapes du chapitre. 0 quand ce n'est pas une simulation. */
-  etapes?: number
-  /** Temps estimé, en secondes — même source que l'écran d'ouverture. */
-  secondes?: number
-}
+/**
+ * Une entrée du sommaire. Le type appartient désormais au châssis — c'est lui
+ * qui rend le panneau « Leçons », pour les quatre apps. On le réexporte ici :
+ * `SimulationChapter` et la page apprenant l'importent depuis ce fichier depuis
+ * l'origine, et rien ne justifie de les toucher pour un déménagement de type.
+ */
+export type { EntreeSommaire }
 
 type Props = {
   chapterId: string
@@ -696,37 +697,62 @@ export default function SimulationPlayer({
    * le classeur d'origine (`rejouerAvant(0)` ne rejoue rien).
    */
   const departForce = mode === "EVALUATION" ? 0 : initialStep
-  const [index, setIndex] = useState(() => Math.min(Math.max(departForce, 0), Math.max(total - 1, 0)))
   const [gridReady, setGridReady] = useState(false)
-  // Écran d'ouverture éditorial (Direction B validée par Samuel le 28/07) :
-  // affiché seulement en DÉBUT de chapitre — une reprise en cours saute
-  // l'intro. En évaluation on repart du début, donc l'intro se remontre — avec
-  // le mot qui explique pourquoi. La grille se monte derrière pendant la
-  // lecture, ce qui masque le temps de chargement d'Univer.
-  const [introVue, setIntroVue] = useState(departForce > 0)
-  /** Lisible depuis les rappels mémoïsés, sans les recréer à chaque bascule. */
-  const introVueRef = useRef(introVue)
-  introVueRef.current = introVue
+  /*
+   * RETOUR VISUEL — verdict, effet ancré, jalon, relais. Générique : seule la
+   * géométrie de la cible est propre à Excel, et c'est `rectDeLEtape` qui la
+   * calcule, juste en dessous.
+   */
+  const {
+    verdict,
+    setVerdict,
+    fx,
+    lancerFx: poserFx,
+    relais,
+    relaisActif,
+    marquerRelais,
+    jalon,
+    poserJalon,
+  } = useRetourVisuel()
+  /** Rappel du geste de l'étape franchie, pour le jalon. */
+  const resumerEtapeCourante = useCallback(
+    (i: number) => (steps[i] ? resumerFait(steps[i].action) : null),
+    [steps],
+  )
+  /*
+   * PROGRESSION — index, écran d'ouverture, avancer, reculer, fin de chapitre.
+   *
+   * `onAvancer` et `onTerminer` sont remplis plus bas, quand `persist` et
+   * `cloturer` existent : c'est le motif de refs déjà employé ici pour
+   * `goNextRef` et `cloturerRef`, et il disparaîtra quand la persistance
+   * rejoindra le hook au dernier étage.
+   */
+  const {
+    index,
+    indexRef,
+    introVue,
+    ouvrirLAtelier,
+    introVueRef,
+    finished,
+    setFinished,
+    goNext,
+    reculPossible,
+    reculDemande,
+    setReculDemande,
+    reculer,
+    onAvancer: onAvancerRef,
+    onTerminer: onTerminerRef,
+  } = useProgression({
+    total,
+    departForce,
+    mode,
+    resumerEtape: resumerEtapeCourante,
+    retour: { marquerRelais, poserJalon },
+  })
   const evaluationRepart = mode === "EVALUATION" && (repriseEvaluation || initialStep > 0)
   // Passage précédent DÉJÀ TERMINÉ, avec sa note : cas qu'aucun message ne
   // couvrait jusqu'ici.
   const dejaPassee = mode === "EVALUATION" && scorePrecedent != null
-  const carteRef = useRef<HTMLDivElement>(null)
-  /**
-   * Dimensions de la feuille — MESURÉES, jamais calculées par soustraction.
-   *
-   * Le plein écran navigateur a été retiré (choix Samuel du 29/07 : on reste
-   * dans l'onglet, comme OnlineFormaPro, la barre du navigateur et la navigation
-   * du LMS restent visibles). L'atelier occupe simplement toute la hauteur que
-   * son conteneur lui donne, et la feuille prend ce qui reste une fois le
-   * cockpit et la bande de consigne posés.
-   *
-   * L'ancienne formule « hauteur de l'écran moins 305 px » devenait fausse dès
-   * qu'un élément changeait de taille : la consigne se retrouvait coupée et une
-   * barre de défilement apparaissait — exactement ce que la vidéo montrait.
-   * Un observateur de taille supprime la classe entière de ce défaut.
-   */
-  const zoneGrilleRef = useRef<HTMLDivElement>(null)
   /**
    * Conteneur de TOUT l'atelier — bureau compris.
    *
@@ -737,25 +763,16 @@ export default function SimulationPlayer({
    * de la feuille.
    */
   const zoneAtelierRef = useRef<HTMLDivElement>(null)
-  const [hauteurGrille, setHauteurGrille] = useState(380)
-  const [largeurGrille, setLargeurGrille] = useState(0)
-  useEffect(() => {
-    const el = zoneGrilleRef.current
-    if (!el) return
-    const mesurer = () => {
-      const r = el.getBoundingClientRect()
-      if (r.height > 40) setHauteurGrille(Math.round(r.height))
-      setLargeurGrille(Math.round(r.width))
-    }
-    mesurer()
-    const obs = typeof ResizeObserver !== "undefined" ? new ResizeObserver(mesurer) : null
-    obs?.observe(el)
-    window.addEventListener("resize", mesurer)
-    return () => {
-      obs?.disconnect()
-      window.removeEventListener("resize", mesurer)
-    }
-  }, [introVue])
+  /**
+   * La feuille de calcul : c'est la zone de travail d'Excel, donc celle que le
+   * châssis mesure. La mesure elle-même est générique — voir
+   * `useMesureZoneTravail`, qui porte la garantie « rien ne défile ».
+   */
+  const zoneGrilleRef = useRef<HTMLDivElement>(null)
+  const { hauteur: hauteurGrille, largeur: largeurGrille } = useMesureZoneTravail(
+    zoneGrilleRef,
+    introVue,
+  )
   useEffect(() => {
     // Univer ne réagit qu'au resize de la fenêtre : sans cela son canvas garde
     // l'ancienne hauteur et la feuille flotte dans un cadre trop grand.
@@ -781,8 +798,6 @@ export default function SimulationPlayer({
    * 174 étapes d'action n'ont même pas d'indice à demander : celui qui bloque ne
    * pouvait ni comprendre, ni passer. Paliers retenus avec Samuel : 2 / 3 / 5.
    */
-  const [essais, setEssais] = useState(0)
-  const [demonstration, setDemonstration] = useState(false)
   /**
    * Phrase du bandeau quand des cellules ont été remises d'aplomb. Volontairement
    * factuelle et sans reproche : l'apprenant n'a rien fait de mal, il a exploré.
@@ -827,7 +842,6 @@ export default function SimulationPlayer({
    * la cause du « des fois c'est absent » signalé par Samuel. Ce compteur-ci
    * n'entre pas dans le score : il ne sert qu'à proposer l'aide.
    */
-  const [tatonnements, setTatonnements] = useState(0)
   /**
    * Compteur de salves de modification du classeur. Il ne sert qu'à faire
    * relire au graphique ses plages : sans lui, elles n'étaient relues qu'au
@@ -841,11 +855,6 @@ export default function SimulationPlayer({
    * faire, donc on ne fait rien, et aucun compteur ne bouge. Au bout de 45 s,
    * l'aide se propose d'elle-même.
    */
-  const [tropLong, setTropLong] = useState(false)
-  /** Compteur de rejeux : sert de clé au calque, pour le faire repartir du début. */
-  const [rejeu, setRejeu] = useState(0)
-  /** La démonstration est-elle allée à son terme ? Conditionne « Revoir ». */
-  const [demoFinie, setDemoFinie] = useState(false)
   /** La consigne dépasse-t-elle son cadre ? Décide du voile qui annonce la suite. */
   const [consigneDeborde, setConsigneDeborde] = useState(false)
   const texteRef = useRef<HTMLDivElement>(null)
@@ -857,21 +866,6 @@ export default function SimulationPlayer({
   // Le bloc est remonté à chaque étape (clé `tx${index}`) : il faut remesurer
   // après le rendu, sinon le voile garde l'état de l'étape précédente.
   useEffect(majFonduConsigne, [majFonduConsigne, index])
-  const [relais, setRelais] = useState(0)
-  const [relaisActif, setRelaisActif] = useState(false)
-  useEffect(() => {
-    if (!relais) return
-    setRelaisActif(true)
-    const t = window.setTimeout(() => setRelaisActif(false), 760)
-    return () => window.clearTimeout(t)
-  }, [relais])
-  /** Carte « Étape franchie », affichée par-dessus la feuille à chaque avancée. */
-  const [jalon, setJalon] = useState<{ n: number; texte: string | null } | null>(null)
-  useEffect(() => {
-    if (!jalon) return
-    const t = window.setTimeout(() => setJalon(null), 1150)
-    return () => window.clearTimeout(t)
-  }, [jalon])
   /**
    * Poste de travail (direction C). Absent du scénario — le cas des 243
    * chapitres existants — l'atelier s'ouvre directement dans le classeur.
@@ -902,94 +896,17 @@ export default function SimulationPlayer({
     )
     return () => t.forEach(window.clearTimeout)
   }, [poste.excel])
-  /**
-   * Panneau latéral ouvert dans l'atelier : sommaire des leçons, prise de notes
-   * ou documents téléchargeables. Un seul à la fois — ils se superposent à la
-   * feuille, en ouvrir deux la masquerait entièrement.
+  /*
+   * Les panneaux (leçons / notes / ressources) et le guide vivent désormais
+   * dans `AtelierShell`, qui garde leur état pour lui : le player n'a aucune
+   * raison de savoir quel tiroir est ouvert. C'est ce qui permet aux trois
+   * autres apps de les avoir sans rien réécrire.
    */
-  /** Guide transversal de la formation : ouvert/fermé, rien d'autre. */
-  const [guideOuvert, setGuideOuvert] = useState(false)
-  /** Cible du retour de focus quand le guide se ferme. */
-  const boutonGuideRef = useRef<HTMLButtonElement | null>(null)
-  const [panneau, setPanneau] = useState<"lecons" | "notes" | "ressources" | null>(null)
-  /** Cible du `aria-controls` du bouton « Ressource pédagogique téléchargeable ». */
-  const idPanneauRessources = useId()
-  useEffect(() => {
-    if (!panneau) return
-    const echap = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setPanneau(null)
-    }
-    window.addEventListener("keydown", echap)
-    return () => window.removeEventListener("keydown", echap)
-  }, [panneau])
-  const [verdict, setVerdict] = useState<Verdict | null>(null)
-  // Retour visuel DANS la grille (flash de réussite, secousse d'erreur, toast) :
-  // le texte sous l'écran ne suffit pas, l'apprenant regarde la feuille.
-  const [fx, setFx] = useState<{
-    kind: "ok" | "ko"
-    rect: { left: number; top: number; width: number; height: number } | null
-    message?: string
-    k: number
-  } | null>(null)
-  const fxTimerRef = useRef<number | null>(null)
-  const [hintShown, setHintShown] = useState(mode === "LESSON")
   const [selection, setSelection] = useState(scenario.workbook.selection ?? "A1")
   const [formulaText, setFormulaText] = useState("")
   // Agrégats de la sélection, rafraîchis à chaque geste : c'est ce que la barre
   // d'état d'Excel affiche, et la leçon « calculs à la volée » repose dessus.
   const [stats, setStats] = useState<ReturnType<GridApi["getSelectionStats"]>>(null)
-  const [finished, setFinished] = useState(false)
-  /**
-   * Bilan par compétence du passage qui vient de s'achever.
-   *
-   * Il est calculé PAR LE SERVEUR, à la complétion, et renvoyé dans la réponse
-   * du PUT : le navigateur n'a pas le bloc `remediation` (il est retiré du
-   * scénario servi en évaluation notée), et il ne l'aura jamais — le lire
-   * pendant l'épreuve désignerait la notion de chaque question.
-   *
-   * `null` couvre trois cas volontairement indistincts à l'écran : évaluation
-   * non annotée, annotation incomplète, journal invérifiable. Le repli est le
-   * même dans les trois, et il est honnête : la note, et pas un mot de conseil.
-   */
-  const [bilan, setBilan] = useState<BilanPublie | null>(null)
-  const [bilanEnAttente, setBilanEnAttente] = useState(false)
-  /**
-   * Le serveur a-t-il retenu la note de ce passage ?
-   *
-   * Il la refuse quand le journal ne couvre pas toutes les étapes notées. La
-   * carte de fin le dit alors franchement, plutôt que d'annoncer un
-   * enregistrement qui n'a pas eu lieu. Vrai par défaut : hors évaluation et en
-   * aperçu, la question ne se pose pas.
-   */
-  const [noteEnregistree, setNoteEnregistree] = useState(true)
-  /**
-   * Identifiant du PASSAGE tenu par le serveur.
-   *
-   * Il est ouvert au démarrage réel de l'évaluation, repris tel quel au
-   * rechargement de la page, et remplacé au « Repasser ». C'est lui qui porte
-   * les verdicts, donc la note : sans passage ouvert, l'atelier ne peut rien
-   * faire noter, et il le dit plutôt que de laisser croire le contraire.
-   */
-  const runIdRef = useRef<string | null>(null)
-  /**
-   * Deux verrous d'envoi, un par geste qui fait AVANCER l'atelier.
-   *
-   * Sans eux, un double tap lançait deux requêtes sur le même geste et leurs
-   * deux retours agissaient : deux passages ouverts, ou une étape sautée que le
-   * serveur n'avait jamais vue passer. Ils vivent dans `file-verdicts.ts`, purs
-   * et vérifiés hors navigateur.
-   */
-  const verrouOuvertureRef = useRef(creerVerrouEnvoi())
-  const verrouPassageRef = useRef(creerVerrouEnvoi())
-  const [passageEnCours, setPassageEnCours] = useState(false)
-  /**
-   * Le juge distant est injoignable, ou a refusé le passage.
-   *
-   * Ce n'est PAS une faute de l'apprenant : rien n'est compté, le geste peut
-   * être refait, et l'atelier doit le dire au lieu de rester muet — sinon
-   * l'apprenant retape indéfiniment une réponse juste.
-   */
-  const [pannneJuge, setPanneJuge] = useState<null | "reseau" | "passage">(null)
   // Saisie en cours dans la zone Nom. null = on y affiche la sélection courante.
   const [nameBoxDraft, setNameBoxDraft] = useState<string | null>(null)
   const [sheets, setSheets] = useState<Array<{ name: string; active: boolean }>>([])
@@ -1081,11 +998,6 @@ export default function SimulationPlayer({
   const [commandeMacro, setCommandeMacro] = useState<{ nonce: number; controle: string } | null>(null)
 
   const gridRef = useRef<GridApi | null>(null)
-  // Compteurs à envoyer au serveur : cumulés puis remis à zéro à chaque envoi.
-  const sessionSignaleeRef = useRef(false)
-  const pendingRef = useRef({ errors: 0, hints: 0, seconds: 0 })
-  /** File d'enveloppes scellées, vidée dans un ordre STRICT (module pur). */
-  const fileEnvoisRef = useRef<ReturnType<typeof creerFileEnvois<Record<string, unknown>, Reponse>> | null>(null)
   // Réussite au premier essai, par étape : c'est la base du score d'évaluation.
   const firstTryRef = useRef<Record<string, boolean>>({})
   const attemptedRef = useRef<Set<string>>(new Set())
@@ -1151,6 +1063,43 @@ export default function SimulationPlayer({
   const stepRef = useRef<SimulationStep | undefined>(step)
   stepRef.current = step
 
+  const goNextRef = useRef<(() => void) | null>(null)
+  /*
+   * PERSISTANCE ET PASSAGE D'ÉVALUATION.
+   *
+   * Tout le chemin de la note : file d'envois scellée, verrous anti-double-tap,
+   * ouverture et clôture du passage serveur. Générique par construction — c'est
+   * la pièce que les quatre apps DOIVENT partager, sous peine d'avoir deux
+   * calculs de note pour un même parcours (décision D6).
+   */
+  const {
+    pendingRef,
+    runIdRef,
+    persist,
+    commencer,
+    ouvertureEnCours,
+    passerLaQuestion,
+    passageEnCours,
+    cloturer,
+    cloturerRef,
+    clotureEnCours,
+    bilan,
+    bilanEnAttente,
+    setBilanEnAttente,
+    noteEnregistree,
+    pannneJuge,
+    setPanneJuge,
+  } = usePersistance({
+    chapterId,
+    mode,
+    preview,
+    nouveauPassage,
+    onCompleted,
+    indexRef,
+    stepRef,
+    goNextRef,
+  })
+
   /**
    * Une démonstration est une reconstitution, pas la poursuite de la précédente.
    *
@@ -1182,17 +1131,39 @@ export default function SimulationPlayer({
 
   const clicheDemoRef = useRef<ClicheDemo | null>(null)
 
-  const demarrerDemonstration = useCallback(() => {
-    restaurerDepartPostePourDemo()
-    setDemoFinie(false)
-    setDemonstration(true)
-  }, [restaurerDepartPostePourDemo])
-
-  const rejouerDemonstration = useCallback(() => {
-    restaurerDepartPostePourDemo()
-    setDemoFinie(false)
-    setRejeu((n) => n + 1)
-  }, [restaurerDepartPostePourDemo])
+  /*
+   * AIDE PROGRESSIVE — essais, tâtonnements, chrono, paliers 2 / 3 / 5.
+   *
+   * Entièrement générique : rien ici ne parle de cellules. Le seul crochet
+   * d'app est `avantDemonstration`, où Excel restaure l'état de départ du
+   * poste. Il est appelé ICI, et non plus haut avec les autres états, parce
+   * qu'il a besoin de `restaurerDepartPostePourDemo`, défini juste au-dessus.
+   */
+  const {
+    essais,
+    tatonnements,
+    tropLong,
+    hintShown,
+    montrerIndice,
+    compterEssai,
+    compterTatonnement,
+    demonstration,
+    demoFinie,
+    setDemoFinie,
+    rejeu,
+    demarrerDemonstration,
+    rejouerDemonstration,
+    reinitialiserPourEtape,
+    reinitialiserAAlArrivee,
+    ouvrirFenetreMiseEnPlace,
+    dansFenetreMiseEnPlace,
+  } = useAideProgressive({
+    mode,
+    index,
+    finished,
+    aUneEtape: !!step,
+    avantDemonstration: restaurerDepartPostePourDemo,
+  })
 
   /* ── Lecture du classeur pour les modèles ──────────────────────────────── */
 
@@ -1279,7 +1250,6 @@ export default function SimulationPlayer({
    * l'étape, pas de l'apprenant. Une ref, pas un state : `handleAction` la lit
    * sans que sa mémoïsation en dépende.
    */
-  const miseEnPlaceRef = useRef(0)
 
   const applyStep = useCallback(
     (s: SimulationStep | undefined) => {
@@ -1317,7 +1287,7 @@ export default function SimulationPlayer({
       // fenêtre, et pas seulement le premier. Si l'apprenant modifie la feuille
       // dans les 2,5 s, son geste ne sera pas compté : sans conséquence, le
       // score ne bouge pas et l'aide arrive un cran plus tard.
-      miseEnPlaceRef.current = Date.now() + 2500
+      ouvrirFenetreMiseEnPlace()
       if (s.setup?.cells) grid.applyCells(s.setup.cells)
       if (s.setup?.selection) {
         grid.setSelection(s.setup.selection)
@@ -1382,11 +1352,9 @@ export default function SimulationPlayer({
       }
       setVerdict(null)
       avantDemoRef.current = {}
-      setHintShown(mode === "LESSON")
       // Chaque étape repart d'une ardoise vierge : l'aide progressive se
       // rejoue depuis le premier palier.
-      setEssais(0)
-      setDemonstration(false)
+      reinitialiserPourEtape()
       // Le focus revient à la grille : sans cela, après un clic sur « Suivant »
       // ou sur un bouton du ruban, l'apprenant tape dans le vide jusqu'à ce qu'il
       // pense à recliquer dans une cellule.
@@ -2624,14 +2592,11 @@ export default function SimulationPlayer({
     // La trace d'audit des repères repart à zéro : hors production seulement.
     if (process.env.NODE_ENV !== "production" && typeof window !== "undefined")
       (window as any).__SIM_DEMO_VUS = {}
-    setRejeu(0)
-    setDemoFinie(false)
     // Le cliché appartient à l'étape : changer d'étape, c'est changer de point
     // de départ. Le garder ferait reposer sur la nouvelle étape le classeur de
     // l'ancienne, ce qui serait bien pire que le défaut qu'il corrige.
     clicheDemoRef.current = null
-    setTatonnements(0)
-    setTropLong(false)
+    reinitialiserAAlArrivee()
     // Le message d'aplomb n'est PAS effacé d'office : il a sa propre échéance
     // (voir `poserAplomb`). Sans cela il disparaissait avec le changement
     // d'étape, souvent moins de deux secondes après avoir été posé.
@@ -2716,29 +2681,6 @@ export default function SimulationPlayer({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [demonstration, rejeu, gridReady])
 
-  /**
-   * LE CHRONO D'AIDE PART DE LA PREMIÈRE TENTATIVE, PAS DE L'ARRIVÉE.
-   *
-   * Il courait depuis la mise en place de l'étape : quelqu'un qui lit
-   * tranquillement sa toute première consigne — la 1/14 du premier chapitre de
-   * la formation — se voyait proposer « Vous bloquez ? » au bout de 45 secondes
-   * sans avoir rien tenté. On propose de l'aide à qui n'a pas commencé, et le
-   * message donne le sentiment d'être en retard dès le premier écran.
-   *
-   * Une tentative, c'est une erreur réelle ou un geste qui n'a pas fait avancer
-   * (`tatonnements` compte aussi le simple clic de repérage). Les deux comptent
-   * remis à zéro à chaque étape, donc le chrono repart à chaque fois.
-   *
-   * Conséquence assumée : un apprenant parfaitement immobile n'aura jamais
-   * l'encart. C'est voulu — l'aide répond à un blocage, pas à une lecture. Les
-   * deux autres portes (3 erreurs, 6 tâtonnements) restent ouvertes.
-   */
-  const aTente = essais > 0 || tatonnements > 0
-  useEffect(() => {
-    if (!step || finished || mode === "EVALUATION" || !aTente) return
-    const t = window.setTimeout(() => setTropLong(true), 45_000)
-    return () => window.clearTimeout(t)
-  }, [step, index, finished, mode, aTente])
 
   /**
    * Un écran « À lire » joue sa démonstration TOUT SEUL.
@@ -2783,67 +2725,7 @@ export default function SimulationPlayer({
     return () => window.clearTimeout(t)
   }, [step, index, finished, gridReady, demarrerDemonstration])
 
-  /**
-   * Ouvre — ou reprend — le passage serveur d'une évaluation notée.
-   *
-   * Appelée au moment où l'apprenant commence réellement, pas au chargement de
-   * la page : ouvrir un passage en survolant un chapitre gonflerait le compteur
-   * d'essais sans qu'une seule question ait été jouée.
-   */
-  const ouvrirPassage = useCallback(
-    async (nouveau = false): Promise<boolean> => {
-      if (preview || mode !== "EVALUATION") return true
-      try {
-        const r = await fetch(`/api/simulations/${chapterId}/run`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ nouveau }),
-        })
-        if (!r.ok) return false
-        const j = (await r.json()) as { runId?: string }
-        if (typeof j.runId !== "string" || !j.runId) return false
-        runIdRef.current = j.runId
-        setPanneJuge(null)
-        return true
-      } catch {
-        return false
-      }
-    },
-    [chapterId, mode, preview],
-  )
 
-  /**
-   * OUVERTURE AU CLIC « COMMENCER », pas au montage.
-   *
-   * Ouvrir au montage revenait à ouvrir un passage dès qu'un chapitre
-   * s'affichait — y compris quand l'apprenant regarde l'écran d'ouverture puis
-   * ressort. Le compteur d'essais gonflait sans qu'une seule question ait été
-   * jouée.
-   *
-   * L'ouverture est donc déclenchée par le clic, et elle BLOQUE l'entrée dans
-   * l'atelier tant qu'elle n'a pas abouti : entrer sans passage laisserait
-   * l'apprenant jouer une évaluation dont rien ne serait noté. En échec, il
-   * reste sur l'écran d'ouverture, avec l'explication et le bouton pour
-   * réessayer.
-   *
-   * La reprise après un rechargement retombe sur le MÊME passage côté serveur —
-   * les verdicts déjà acquis ne sont pas perdus, et le rang ne bouge pas.
-   */
-  const [ouvertureEnCours, setOuvertureEnCours] = useState(false)
-  const commencer = useCallback(async (): Promise<boolean> => {
-    if (mode !== "EVALUATION" || preview) return true
-    if (!verrouOuvertureRef.current.prendre()) return false
-    setOuvertureEnCours(true)
-    setPanneJuge(null)
-    try {
-      const ok = await ouvrirPassage(nouveauPassage)
-      if (!ok) setPanneJuge("passage")
-      return ok
-    } finally {
-      verrouOuvertureRef.current.liberer()
-      setOuvertureEnCours(false)
-    }
-  }, [mode, preview, nouveauPassage, ouvrirPassage])
 
   /**
    * LES CELLULES À RELEVER POUR UNE OBSERVATION D'ÉTAT.
@@ -2880,262 +2762,53 @@ export default function SimulationPlayer({
 
   /* ── Persistance ───────────────────────────────────────────────────────── */
 
-  type Reponse = { bilan?: BilanPublie; noteEnregistree?: boolean; completed?: boolean } | null
 
-  const persist = useCallback(
-    async (opts: { step: number; finish?: boolean }): Promise<Reponse> => {
-      if (preview) return null
 
-      /* ═══ UNE CLÉ, UN CORPS, UN ENVOI À LA FOIS, DANS L'ORDRE ═══════════
-       *
-       * L'ordonnancement lui-même vit dans `creerFileEnvois` — module pur, donc
-       * vérifiable hors navigateur (`check-verdicts.ts`). Il ne reste ici que le
-       * SCELLAGE : tout ce qui décrit cet envoi est figé maintenant, y compris
-       * l'étape et le drapeau de fin, et ne sera jamais relu plus tard. C'est ce
-       * qui garantit qu'une clé ne désigne jamais deux corps — le défaut qui
-       * faisait rejeter une clôture comme doublon d'une remontée intermédiaire. */
-      if (!fileEnvoisRef.current) {
-        fileEnvoisRef.current = creerFileEnvois<Record<string, unknown>, Reponse>(async (e) => {
-          try {
-            const r = await fetch(`/api/simulations/${chapterId}`, {
-              method: "PUT",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ ...e.corps, enveloppe: e.cle }),
-              keepalive: true,
-            })
-            // 409 : le serveur avait déjà tout écrit — l'enveloppe est réglée.
-            // La garder en file la ferait boucler indéfiniment.
-            if (r.status === 409) return { reglee: true, corps: null }
-            if (!r.ok) return { reglee: false, corps: null }
-            return { reglee: true, corps: (await r.json().catch(() => null)) as Reponse }
-          } catch {
-            // Une progression non enregistrée ne bloque jamais l'apprenant : il
-            // continue, et l'enveloppe repart telle quelle au tour suivant.
-            return { reglee: false, corps: null }
-          }
-        })
-      }
 
-      // Une seule remontée par session porte `newSession` : sans ce marqueur le
-      // serveur ne peut pas distinguer l'ouverture d'un atelier d'un simple
-      // enregistrement d'étape, et comptait donc toujours une seule session.
-      const premiere = !sessionSignaleeRef.current
-      sessionSignaleeRef.current = true
-      const p = pendingRef.current
-      pendingRef.current = { errors: 0, hints: 0, seconds: 0 }
 
-      return fileEnvoisRef.current.deposer({
-        cle:
-          typeof crypto !== "undefined" && typeof crypto.randomUUID === "function"
-            ? crypto.randomUUID()
-            : `${Date.now()}-${Math.random().toString(36).slice(2)}`,
-        corps: {
-          currentStep: opts.step,
-          errorDelta: p.errors,
-          hintDelta: p.hints,
-          timeDeltaSeconds: p.seconds,
-          finish: opts.finish ?? false,
-          // Le passage à clore est DÉSIGNÉ, jamais deviné : la clôture vérifie
-          // qu'il appartient bien à cet apprenant, à cette simulation, à cette
-          // version de scénario, et que son curseur serveur est arrivé au bout.
-          ...(runIdRef.current ? { runId: runIdRef.current } : {}),
-          newSession: premiere,
-        },
-      })
-    },
-    [chapterId, preview],
-  )
-
-  // Temps réellement passé, pour les preuves de parcours. Compté seulement quand
-  // l'onglet est visible, comme le tracker vidéo du LMS.
-  useEffect(() => {
-    const id = window.setInterval(() => {
-      if (document.visibilityState === "visible") pendingRef.current.seconds += 5
-    }, 5000)
-    return () => window.clearInterval(id)
-  }, [])
-
-  /**
-   * « Question passée » — l'apprenant renonce à celle-ci.
-   *
-   * Il faut le DIRE au serveur : sans cela le curseur d'ordre du passage reste
-   * en arrière, et l'étape suivante serait refusée pour rupture d'ordre. Aucun
-   * verdict n'est écrit — l'étape reste donc sans point, exactement ce que
-   * l'atelier annonce à l'apprenant.
-   */
-  const passerLaQuestion = useCallback(() => {
-    const s = stepRef.current
-    if (preview || mode !== "EVALUATION") {
-      goNextRef.current?.()
-      return
-    }
-    if (!s || !runIdRef.current) {
-      setPanneJuge("passage")
-      return
-    }
-    /* VERROU ANTI-DOUBLE-ENVOI.
-     *
-     * Un double tap — fréquent au doigt — lançait deux requêtes sur la MÊME
-     * étape, et leurs deux retours appelaient `goNext` : l'atelier sautait une
-     * étape que le serveur n'avait jamais vue passer. Le curseur restait en
-     * arrière, et tout ce qui suivait était refusé pour rupture d'ordre.
-     *
-     * Le verrou est une référence, pas un état : il doit être posé dans le même
-     * tour que le clic, avant tout rendu. */
-    if (!verrouPassageRef.current.prendre()) return
-    setPassageEnCours(true)
-    /* ON ATTEND LA RÉPONSE AVANT D'AVANCER.
-     *
-     * Le curseur d'ordre du passage vit côté serveur. Avancer sans attendre le
-     * laissait en arrière : à la dernière question, la clôture pouvait devancer
-     * le curseur et le passage était refusé comme inachevé. Et sur une étape
-     * intermédiaire, la suivante était refusée pour rupture d'ordre.
-     *
-     * En panne, on N'AVANCE PAS : le bandeau explique, le bouton reste, rien
-     * n'est compté comme faute. Progresser sans que le serveur l'ait su ferait
-     * perdre le passage entier à la fin. */
-    setPanneJuge(null)
-    void fetch(`/api/simulations/${chapterId}/verify`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ runId: runIdRef.current, stepIndex: index, stepId: s.id, passer: true }),
-    })
-      .then((r) => {
-        if (!r.ok) {
-          setPanneJuge(r.status === 409 ? "passage" : "reseau")
-          return
-        }
-        goNextRef.current?.()
-      })
-      .catch(() => setPanneJuge("reseau"))
-      .finally(() => {
-        verrouPassageRef.current.liberer()
-        setPassageEnCours(false)
-      })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [chapterId, index, mode, preview])
-
-  const cloturerRef = useRef<(() => Promise<void>) | null>(null)
-  /** Dernier rang atteint, lisible sans recréer la clôture à chaque étape. */
-  const indexRef = useRef(0)
-
-  /**
-   * CLÔTURE DU PASSAGE, REJOUABLE.
-   *
-   * Le PUT clôt le passage côté serveur puis écrit la tentative. Si l'envoi
-   * échoue — réseau tombé, onglet en veille —, l'apprenant se retrouvait devant
-   * une note perdue, sans autre issue que « Repasser l'évaluation ». Or la
-   * clôture est IDEMPOTENTE : reclore le même passage rend la même note, sans
-   * rien modifier. Le bouton de reprise s'appuie là-dessus.
-   */
-  const [clotureEnCours, setClotureEnCours] = useState(false)
-  const verrouClotureRef = useRef(creerVerrouEnvoi())
-  const cloturer = useCallback(async () => {
-    if (!verrouClotureRef.current.prendre()) return
-    setClotureEnCours(true)
-    try {
-      const r = await persist({ step: indexRef.current, finish: true })
-      setBilan(r?.bilan ?? null)
-      const suite = deciderApresCompletion({ preview: !!preview, reponse: r })
-      setNoteEnregistree(suite.noteEnregistree)
-      setBilanEnAttente(false)
-      if (suite.cocherLeChapitre) onCompleted?.()
-    } finally {
-      verrouClotureRef.current.liberer()
-      setClotureEnCours(false)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [persist, preview, onCompleted])
-  cloturerRef.current = cloturer
-
-  /**
-   * L'ÉCRAN DE FIN REPART DU BORD GAUCHE.
-   *
-   * Le cadre de l'atelier ne défile pas verticalement, mais il peut défiler
-   * HORIZONTALEMENT : la grille Excel est plus large qu'un téléphone, et
-   * atteindre une colonne de droite laisse le conteneur décalé. Quand l'écran de
-   * fin remplace la grille, il héritait de ce décalage — mesuré à 390 × 844 :
-   * `scrollLeft` à 170, la carte de bilan commençait à −158 px et sa colonne
-   * gauche sortait de l'écran. Le contrôle d'overflow ne le voyait pas : la
-   * largeur du document, elle, était juste.
-   */
-  useEffect(() => {
-    if (!finished) return
-    const cadre = carteRef.current
-    if (cadre) cadre.scrollLeft = 0
-  }, [finished])
 
   /* ── Avancement ────────────────────────────────────────────────────────── */
 
-  const goNextRef = useRef<(() => void) | null>(null)
-  const goNext = useCallback(() => {
-    const next = index + 1
-    if (next >= total) {
-      /**
-       * LE NAVIGATEUR NE DÉCLARE PLUS RIEN.
-       *
-       * Il envoyait ici un journal de deux booléens par étape — réussie du
-       * premier coup, tentée — et une note. Le serveur les assainissait puis
-       * les croyait : une requête fabriquée portant tous les identifiants avec
-       * « premier essai » à vrai obtenait 100 % sans avoir joué.
-       *
-       * La note vient désormais des verdicts que le serveur a lui-même écrits,
-       * étape par étape, en corrigeant les observations. Ce PUT ne fait plus
-       * que clore le passage et demander le bilan.
-       */
-      setFinished(true)
-      // Le bilan arrive avec la réponse du PUT : la carte de fin s'affiche
-      // immédiatement avec la note, et complète son bilan quand il revient.
-      // L'inverse — attendre le serveur avant d'afficher quoi que ce soit —
-      // laisserait l'apprenant devant un écran vide sur une connexion lente.
-      if (mode === "EVALUATION" && !preview) setBilanEnAttente(true)
-      void cloturerRef.current?.()
-      return
-    }
-    // Le relais ne se joue qu'en AVANÇANT : reculer n'est pas une réussite.
-    setRelais((r) => r + 1)
-    // Jalon d'étape franchie (choix Samuel : à CHAQUE étape, pas seulement en
-    // fin de chapitre). Le rappel du geste est déduit de l'action — écrire une
-    // phrase sur mesure aurait voulu dire en rédiger 1 872.
-    const courante = steps[index]
-    setJalon({ n: index + 1, texte: courante ? resumerFait(courante.action) : null })
-    setIndex(next)
-    void persist({ step: next })
-  }, [index, total, mode, steps, persist, onCompleted, preview])
+  /*
+   * Ce que la progression déclenche : enregistrer l'avancée, et clore le
+   * chapitre. Les deux touchent la persistance, qui vit encore ici.
+   */
+  onAvancerRef.current = (i: number) => {
+    void persist({ step: i })
+  }
+  onTerminerRef.current = () => {
+    /**
+     * LE NAVIGATEUR NE DÉCLARE PLUS RIEN.
+     *
+     * Il envoyait ici un journal de deux booléens par étape — réussie du
+     * premier coup, tentée — et une note. Le serveur les assainissait puis
+     * les croyait : une requête fabriquée portant tous les identifiants avec
+     * « premier essai » à vrai obtenait 100 % sans avoir joué.
+     *
+     * La note vient désormais des verdicts que le serveur a lui-même écrits,
+     * étape par étape, en corrigeant les observations. Ce PUT ne fait plus
+     * que clore le passage et demander le bilan.
+     */
+    // Le bilan arrive avec la réponse du PUT : la carte de fin s'affiche
+    // immédiatement avec la note, et complète son bilan quand il revient.
+    // L'inverse — attendre le serveur avant d'afficher quoi que ce soit —
+    // laisserait l'apprenant devant un écran vide sur une connexion lente.
+    if (mode === "EVALUATION" && !preview) setBilanEnAttente(true)
+    void cloturerRef.current?.()
+  }
+  // Lisible depuis les rappels stables qui doivent avancer sans dépendre de
+  // l'étape courante (fin d'une réussite distante, rattrapage d'observation).
   goNextRef.current = goNext
-  indexRef.current = index
 
   /**
-   * Retour à l'étape précédente (choix Samuel du 29/07 : « oui, avec un
-   * avertissement »).
+   * Rectangle de la cible de l'étape, dans le repère de la grille.
    *
-   * `applyStep` étant rejoué à chaque changement d'index, reculer suffit à
-   * remettre en place le point de départ de l'étape visée — sa sélection, son
-   * onglet de ruban et ses éventuelles cellules de départ. Le reste du classeur
-   * est laissé intact : on ne rejoue PAS la leçon depuis le début, car les
-   * cellules écrites par l'apprenant aux étapes précédentes ne viennent d'aucun
-   * `setup` et seraient perdues — l'étape suivante deviendrait injouable.
-   *
-   * Interdit en évaluation notée : le barème compte les réussites au premier
-   * essai, et OnlineFormaPro ne propose pas non plus de pager en évaluation.
+   * C'est la seule part Excel du retour visuel : le flash vert et la secousse
+   * rouge s'ancrent à des CELLULES. Une autre app y mettra ses propres objets ;
+   * la pose de l'effet, elle, est commune (`useRetourVisuel`). Sans cible
+   * mesurable, on rend `null` et seul le message centré s'affiche.
    */
-  const reculPossible = index > 0 && mode !== "EVALUATION" && !finished
-  const [reculDemande, setReculDemande] = useState(false)
-  const reculer = useCallback(() => {
-    const cible = index - 1
-    if (cible < 0) return
-    setReculDemande(false)
-    setIndex(cible)
-    void persist({ step: cible })
-  }, [index, persist])
-
-  /**
-   * Retour visuel ancré à la cible de l'étape : flash vert à la réussite,
-   * secousse rouge + message à l'erreur. Le rectangle vient des métriques
-   * réelles de la grille (même mécanique que le halo d'aide) ; sans cible
-   * mesurable, seul le toast centré s'affiche.
-   */
-  const lancerFx = useCallback((s: SimulationStep, kind: "ok" | "ko", message?: string) => {
+  const rectDeLEtape = useCallback((s: SimulationStep): RectCible | null => {
     const grid = gridRef.current
     const a = s.action as Record<string, unknown> & { type: string }
     const refs: string[] =
@@ -3151,26 +2824,28 @@ export default function SimulationPlayer({
               : null
             return cible ? cible.split(":") : []
           })()
-    let rect: { left: number; top: number; width: number; height: number } | null = null
-    if (grid && refs.length) {
-      const rects = refs
-        .map((r) => grid.getCellRect(r))
-        .filter(Boolean) as { left: number; top: number; width: number; height: number }[]
-      if (rects.length) {
-        const left = Math.min(...rects.map((r) => r.left))
-        const top = Math.min(...rects.map((r) => r.top))
-        rect = {
-          left,
-          top,
-          width: Math.max(...rects.map((r) => r.left + r.width)) - left,
-          height: Math.max(...rects.map((r) => r.top + r.height)) - top,
-        }
-      }
+    if (!grid || !refs.length) return null
+    const rects = refs
+      .map((r) => grid.getCellRect(r))
+      .filter(Boolean) as RectCible[]
+    if (!rects.length) return null
+    const left = Math.min(...rects.map((r) => r.left))
+    const top = Math.min(...rects.map((r) => r.top))
+    return {
+      left,
+      top,
+      width: Math.max(...rects.map((r) => r.left + r.width)) - left,
+      height: Math.max(...rects.map((r) => r.top + r.height)) - top,
     }
-    if (fxTimerRef.current) window.clearTimeout(fxTimerRef.current)
-    setFx({ kind, rect, message, k: Date.now() })
-    fxTimerRef.current = window.setTimeout(() => setFx(null), kind === "ok" ? 1400 : 2800)
   }, [])
+  /** Retour visuel ancré à la cible de l'étape : flash vert à la réussite,
+   *  secousse rouge + message à l'erreur. */
+  const lancerFx = useCallback(
+    (s: SimulationStep, kind: "ok" | "ko", message?: string) => {
+      poserFx(kind, rectDeLEtape(s), message)
+    },
+    [poserFx, rectDeLEtape],
+  )
 
   /**
    * LE JUGE. Local en leçon et en exercice, SERVEUR en évaluation notée.
@@ -3482,14 +3157,7 @@ export default function SimulationPlayer({
                 message: `${jugement.frappe.ref} n'affiche pas le résultat attendu.`,
               }
             : v
-        setEssais((n) => {
-          const suivant = n + 1
-          // Palier 2 : l'indice s'affiche de lui-même, y compris en exercice où
-          // il se demande d'ordinaire. Palier 5 : la démonstration se déclenche.
-          if (suivant >= 2) setHintShown(true)
-          if (suivant >= 5) demarrerDemonstration()
-          return suivant
-        })
+        compterEssai()
         setVerdict(vAffiche)
         lancerFx(step, "ko", vAffiche.message)
       } else if (step.action.type === "READ") {
@@ -3518,7 +3186,7 @@ export default function SimulationPlayer({
         // `setup.selection` — sur `m11-l02` c'est une plage, donc un
         // `dragRange`, compté comme un tâtonnement que personne n'avait fait.
         const AUTOMATIQUES = ["stateChange", "dragRange", "cellClick", "selectColumn", "selectRow"]
-        const miseEnPlace = AUTOMATIQUES.includes(observed.kind) && Date.now() < miseEnPlaceRef.current
+        const miseEnPlace = AUTOMATIQUES.includes(observed.kind) && dansFenetreMiseEnPlace()
         if (!miseEnPlace && process.env.NODE_ENV !== "production" && typeof window !== "undefined") {
           // Trace d'audit : « pourquoi l'aide m'est-elle proposée alors que je
           // n'ai rien fait ? » ne se diagnostique pas sans savoir QUELLE
@@ -3528,19 +3196,14 @@ export default function SimulationPlayer({
           t.push({ etape: step.id, kind: observed.kind, quand: Date.now() })
           w.__SIM_TATONNEMENTS = t
         }
-        if (!miseEnPlace)
-          setTatonnements((n) => {
-            const suivant = n + 1
-            if (suivant >= 3) setHintShown(true)
-            return suivant
-          })
+        if (!miseEnPlace) compterTatonnement()
         // Un réglage intermédiaire mérite parfois une phrase, quand le juge sait
         // la dire. Sur une évaluation elle est générique, et c'est voulu.
         if (observed.kind !== "stateChange" && !v.ok && v.message) setVerdict(v)
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [goNext, lancerFx, demarrerDemonstration],
+    [goNext, lancerFx, demarrerDemonstration, compterEssai, compterTatonnement, dansFenetreMiseEnPlace],
   )
   appliquerJugementRef.current = appliquerJugement
   handleActionRef.current = handleAction
@@ -4577,9 +4240,9 @@ export default function SimulationPlayer({
 
   const revealHint = useCallback(() => {
     if (hintShown) return
-    setHintShown(true)
+    montrerIndice()
     pendingRef.current.hints += 1
-  }, [hintShown])
+  }, [hintShown, montrerIndice])
 
   /* ── Gestes dans les couches ───────────────────────────────────────────── */
 
@@ -5603,34 +5266,38 @@ export default function SimulationPlayer({
     return t
   })()
 
+  /*
+   * LE CHÂSSIS. Il porte la carte, le cockpit, les trois panneaux glissants et
+   * le guide. La fenêtre Excel et la bande de consigne sont ses enfants
+   * DIRECTS : c'est la colonne flex de la carte qui garantit qu'aucun
+   * défilement n'apparaît, et un conteneur intermédiaire la romprait.
+   */
   return (
-    <div
-      ref={carteRef}
-      // Plein cadre : une colonne verticale qui remplit exactement son conteneur
-      // et n'a AUCUN défilement. C'est la structure elle-même qui rend le
-      // débordement impossible — la consigne du bas ne peut plus être poussée
-      // hors de l'écran, ni une barre de défilement apparaître.
-      /**
-       * `overflow-clip`, PAS `overflow-hidden`.
-       *
-       * Les trois panneaux glissants sont rendus en permanence, poussés hors du
-       * cadre par `translateX(101%)` : ils portent le `scrollWidth` du conteneur
-       * à 721 px pour 390 px visibles. `overflow: hidden` masque ce débordement
-       * mais laisse un scrollport — il suffit alors qu'un élément prenne le
-       * focus pour que le navigateur fasse défiler tout l'atelier de plusieurs
-       * dizaines de pixels, cockpit compris (mesuré à 40 px sur 390 × 844).
-       * `overflow: clip` supprime le scrollport : le débordement reste masqué et
-       * `scrollLeft` ne peut plus jamais devenir non nul. C'est exactement
-       * l'intention déjà écrite plus haut — cette structure « n'a AUCUN
-       * défilement » — mais rendue impossible à contourner.
-       */
-      className={
-        pleinCadre
-          ? "relative flex h-full min-h-0 flex-col overflow-clip bg-white"
-          : "relative overflow-clip border border-border bg-white shadow-sm"
-      }
-      style={pleinCadre ? undefined : { borderRadius: 16 }}
-    >
+      <AtelierShell
+        chapterId={chapterId}
+        mode={mode}
+        evaluationNotee={evaluationNotee}
+        filModule={filModule}
+        filChapitre={filChapitre}
+        index={index}
+        total={total}
+        relais={relais}
+        sommaire={sommaire}
+        onNaviguer={onNaviguer}
+        note={note}
+        onNote={onNote}
+        notesHref={notesHref}
+        afficherRessources={afficherRessources}
+        documentsChapitre={documentsChapitre}
+        documentsFormation={documentsFormation}
+        documentsHref={documentsHref}
+        introVue={introVue}
+        cleGuide={cleGuide}
+        preview={preview}
+        onQuitter={onQuitter}
+        pleinCadre={pleinCadre}
+        finished={finished}
+      >
       {!introVue && step && (
         <div
           className="absolute inset-0 z-40 flex flex-col justify-center overflow-hidden px-6 py-8 sm:px-10"
@@ -5813,13 +5480,13 @@ export default function SimulationPlayer({
                 // s'en apercevrait qu'à la fin.
                 void commencer().then((ok) => {
                   if (!ok) return
-                  setIntroVue(true)
+                  ouvrirLAtelier()
                   // L'atelier apparaît : la grille se remesure, la sélection du
                   // scénario est reposée. Rien de tout cela n'est un geste de
                   // l'apprenant — il vient de cliquer « Commencer ». Sans ce
                   // réarmement, la sélection de plage de `m11-l02` arrivait une
                   // seconde après l'entrée et comptait un tâtonnement.
-                  miseEnPlaceRef.current = Date.now() + 2500
+                  ouvrirFenetreMiseEnPlace()
                   // Sans cela le focus clavier reste sur le bouton : la première
                   // frappe de la leçon n'atteint jamais la grille (même piège que
                   // le bouton « Suivant »).
@@ -5871,198 +5538,6 @@ export default function SimulationPlayer({
           </div>
         </div>
       )}
-      {/* Cockpit : une seule barre haute qui porte le repérage et les commandes.
-          Avant, deux bandeaux se superposaient (en-tête ivoire pâle + barre de
-          titre Excel) et la progression tenait dans un « 1 / 8 » gris de 12 px.
-          Le mode évaluation se signalait par un mot beige : il colore désormais
-          toute la barre. */}
-      <div
-        data-control="sim-cockpit"
-        className="flex flex-shrink-0 items-center gap-2 px-2 sm:gap-3 sm:px-3"
-        style={{
-          height: 44,
-          background: evaluationNotee ? "#3A2410" : "#10201B",
-          color: "#fff",
-          fontSize: 12,
-        }}
-      >
-        {sommaire && sommaire.length > 0 && (
-          <button
-            type="button"
-            data-control="sim-sommaire"
-            onClick={() => setPanneau((p) => (p === "lecons" ? null : "lecons"))}
-            aria-label="Toutes les leçons"
-            // Bascule : sans cet état, ni un lecteur d'écran ni un contrôle
-            // automatique ne savent si le panneau est ouvert.
-            aria-pressed={panneau === "lecons"}
-            className="flex flex-shrink-0 items-center gap-1.5 rounded-lg px-2.5 sm:px-3"
-            style={{
-              height: 28,
-              background: panneau === "lecons" ? "#fff" : "rgba(255,255,255,.09)",
-              color: panneau === "lecons" ? "#10201B" : "#DCE6E1",
-              fontSize: 11.5,
-              fontWeight: panneau === "lecons" ? 600 : 400,
-            }}
-          >
-            <span aria-hidden>☰</span>
-            <span className="hidden sm:inline">Leçons</span>
-          </button>
-        )}
-        {onNote && (
-          <button
-            type="button"
-            data-control="sim-notes"
-            onClick={() => setPanneau((p) => (p === "notes" ? null : "notes"))}
-            aria-label="Mes notes"
-            aria-pressed={panneau === "notes"}
-            className="flex flex-shrink-0 items-center gap-1.5 rounded-lg px-2.5 sm:px-3"
-            style={{
-              height: 28,
-              background: panneau === "notes" ? "#fff" : "rgba(255,255,255,.09)",
-              color: panneau === "notes" ? "#10201B" : "#DCE6E1",
-              fontSize: 11.5,
-              fontWeight: panneau === "notes" ? 600 : 400,
-            }}
-          >
-            <span aria-hidden>✎</span>
-            <span className="hidden sm:inline">Notes</span>
-            {note && note.trim() !== "" && (
-              <span aria-hidden style={{ width: 5, height: 5, borderRadius: 9, background: "#4ED08A" }} />
-            )}
-          </button>
-        )}
-        {afficherRessources && (
-          <button
-            type="button"
-            data-control="sim-ressources"
-            onClick={() => setPanneau((p) => (p === "ressources" ? null : "ressources"))}
-            aria-label={LIBELLE_RESSOURCES}
-            title={LIBELLE_RESSOURCES}
-            aria-expanded={panneau === "ressources"}
-            aria-controls={idPanneauRessources}
-            className="flex flex-shrink-0 items-center gap-1.5 rounded-lg px-2.5 sm:px-3"
-            style={{
-              height: 28,
-              background: panneau === "ressources" ? "#fff" : "rgba(255,255,255,.09)",
-              color: panneau === "ressources" ? "#10201B" : "#DCE6E1",
-              fontSize: 11.5,
-              fontWeight: panneau === "ressources" ? 600 : 400,
-            }}
-          >
-            {/* Icône dessinée plutôt qu'un glyphe : les caractères de document
-                ne sont pas rendus de la même façon d'un système à l'autre,
-                alors que ce bouton n'a QUE son icône sous 1024 px. */}
-            <svg aria-hidden width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.9}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M14 3v5h5M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8l-5-5z" />
-              <path strokeLinecap="round" strokeLinejoin="round" d="M12 11v5m0 0l-2-2m2 2l2-2" />
-            </svg>
-            {/* Le libellé exact ne tient qu'à partir du grand écran : à 640 px,
-                il écraserait le fil d'Ariane, seule information dont l'apprenant
-                a besoin en permanence. En dessous, il reste porté par
-                `aria-label` et `title`. */}
-            <span className="hidden lg:inline">{LIBELLE_RESSOURCES}</span>
-          </button>
-        )}
-        <div className="min-w-0 flex-1 truncate text-left sm:text-center" style={{ color: "#8FA49C" }}>
-          {evaluationNotee && (
-            <span
-              className="mr-2 rounded-full"
-              style={{ background: "#C6902A", color: "#231604", fontSize: 9.5, fontWeight: 800, padding: "2px 7px", letterSpacing: ".08em" }}
-            >
-              ÉVALUATION NOTÉE
-            </span>
-          )}
-          {/* Sur téléphone la barre ne peut pas tout porter : le module cède la
-              place au titre du chapitre, la seule information dont l'apprenant a
-              besoin en permanence. */}
-          {filModule && filModule !== filChapitre && (
-            <span className="hidden sm:inline">{filModule}&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-          )}
-          <b style={{ color: "#fff", fontWeight: 600 }}>{filChapitre}</b>
-        </div>
-        {/* Progression : segments quand le chapitre est court (on voit le chemin
-            entier), barre continue au-delà — vingt segments ne se lisent plus. */}
-        {total <= 14 ? (
-          <div className="hidden flex-shrink-0 items-center gap-[3px] sm:flex" aria-hidden>
-            {steps.map((_, i) => (
-              <span
-                // La clé du segment courant embarque le compteur de relais : elle
-                // change à chaque avancée, ce qui rejoue son animation.
-                key={i === index ? `cur${relais}` : i}
-                style={{
-                  display: "block",
-                  width: 13,
-                  height: 4,
-                  borderRadius: 9,
-                  background: i < index ? "#4ED08A" : i === index ? "#fff" : "rgba(255,255,255,.16)",
-                  transition: "background-color .3s ease",
-                  animation: i === index && relais ? "sim-seg-pop .5s cubic-bezier(.2,.9,.2,1) both" : undefined,
-                }}
-              />
-            ))}
-          </div>
-        ) : (
-          <div className="hidden flex-shrink-0 sm:block" aria-hidden style={{ width: 96, height: 4, borderRadius: 9, background: "rgba(255,255,255,.16)" }}>
-            <span style={{ display: "block", height: "100%", borderRadius: 9, background: "#4ED08A", width: `${Math.round((index / Math.max(1, total)) * 100)}%` }} />
-          </div>
-        )}
-        <span
-          data-control="sim-progression"
-          className="flex-shrink-0 tabular-nums"
-          style={{ color: "#8FA49C" }}
-        >
-          {Math.min(index + 1, total)}/{total}
-        </span>
-        {/* Guide de la formation. Il vit ICI plutôt que dans la navigation du
-            LMS : c'est dans l'atelier qu'on se demande comment revoir une
-            démonstration, pas sur la page d'accueil. Sous 640 px le libellé
-            cède la place au fil d'Ariane, le `aria-label` le porte seul. */}
-        {/* Le BOUTON fait 44 px de haut et de large — toute la hauteur de la
-            barre — tandis que sa pastille visible en garde 28, comme les autres
-            contrôles du cockpit. La cible tactile est donc réglementaire sans
-            que la barre change d'allure : c'est le fond intérieur qui dessine le
-            bouton, pas sa boîte. */}
-        <button
-          type="button"
-          data-control="sim-guide"
-          ref={boutonGuideRef}
-          onClick={() => setGuideOuvert((v) => !v)}
-          aria-pressed={guideOuvert}
-          aria-label="Guide de la formation"
-          title="Guide de la formation"
-          className="flex flex-shrink-0 items-center justify-center"
-          style={{ height: 44, minWidth: 44, padding: 0, background: "none" }}
-        >
-          <span
-            className="flex items-center gap-1.5 rounded-lg px-2.5 sm:px-3"
-            style={{
-              height: 28,
-              fontSize: 11.5,
-              background: guideOuvert ? "#fff" : "rgba(78,208,138,.15)",
-              color: guideOuvert ? "#10201B" : "#BFF0D4",
-              fontWeight: guideOuvert ? 600 : 400,
-              boxShadow: guideOuvert ? undefined : "inset 0 0 0 1px rgba(78,208,138,.35)",
-            }}
-          >
-            <span aria-hidden>?</span>
-            <span className="hidden sm:inline">Guide</span>
-          </span>
-        </button>
-        {onQuitter && (
-          <button
-            type="button"
-            data-control="sim-quitter"
-            onClick={onQuitter}
-            title="Quitter l'atelier"
-            aria-label="Quitter l'atelier"
-            className="flex flex-shrink-0 items-center justify-center rounded-lg"
-            style={{ width: 28, height: 28, background: "rgba(255,255,255,.07)", color: "#CFDAD5", fontSize: 13 }}
-          >
-            ✕
-          </button>
-        )}
-      </div>
-
       {finished ? (
         evaluationNotee ? (
           /* ÉVALUATION : la carte de fin porte le bilan par compétence quand il
@@ -6990,138 +6465,7 @@ export default function SimulationPlayer({
         </div>
       )}
 
-      {/* ── Panneaux de l'atelier ──────────────────────────────────────────────
-          Ils se SUPERPOSENT au lieu de pousser le contenu : l'écran garde ses
-          dimensions, donc la règle du « rien ne défile » tient même panneau
-          ouvert. */}
-      {panneau && (
-        <div
-          role="presentation"
-          onClick={() => setPanneau(null)}
-          className="absolute inset-0"
-          style={{ top: 44, background: "rgba(8,17,14,.5)", zIndex: 60 }}
-        />
-      )}
-      {sommaire && sommaire.length > 0 && (
-        <aside
-          aria-label="Toutes les leçons"
-          aria-hidden={panneau !== "lecons"}
-          className="absolute bottom-0 left-0 flex flex-col bg-white shadow-2xl"
-          style={{
-            top: 44,
-            // 460 px : en dessous, « 16 ét. · 11 min » chasse le titre. Au-dessus,
-            // le panneau mange la feuille de calcul, qui reste l'écran de travail.
-            width: "min(460px, 86%)",
-            zIndex: 70,
-            transform: panneau === "lecons" ? "translateX(0)" : "translateX(-101%)",
-            transition: "transform .26s cubic-bezier(.32,.72,0,1)",
-            visibility: panneau === "lecons" ? "visible" : "hidden",
-          }}
-        >
-          <div className="flex flex-shrink-0 items-center gap-2 border-b border-border bg-warm-50 px-3 py-2.5">
-            <h4 className="flex-1 text-[13.5px] font-bold">Toutes les leçons</h4>
-            <span className="text-[11px] text-warm-400">
-              {sommaire.length} chapitres · {dureeLisible(sommaire.reduce((t, e) => t + (e.secondes ?? 0), 0))}
-            </span>
-            <button
-              type="button"
-              onClick={() => setPanneau(null)}
-              aria-label="Fermer"
-              className="rounded-lg bg-warm-100 px-2 py-1 text-[12px] text-warm-600"
-            >
-              ✕
-            </button>
-          </div>
-          <div className="min-h-0 flex-1 overflow-y-auto px-2 py-2">
-            <SommaireAtelier
-              entrees={sommaire}
-              courant={chapterId}
-              etapeCourante={index + 1}
-              etapesTotal={total}
-              modeCourant={mode}
-              onNaviguer={(id) => {
-                setPanneau(null)
-                onNaviguer?.(id)
-              }}
-            />
-          </div>
-        </aside>
-      )}
-      {onNote && (
-        <aside
-          aria-label="Mes notes"
-          aria-hidden={panneau !== "notes"}
-          className="absolute bottom-0 right-0 flex flex-col bg-white shadow-2xl"
-          style={{
-            top: 44,
-            width: "min(340px, 84%)",
-            zIndex: 70,
-            transform: panneau === "notes" ? "translateX(0)" : "translateX(101%)",
-            transition: "transform .26s cubic-bezier(.32,.72,0,1)",
-            visibility: panneau === "notes" ? "visible" : "hidden",
-          }}
-        >
-          <div className="flex flex-shrink-0 items-center gap-2 border-b border-border bg-warm-50 px-3 py-2.5">
-            <h4 className="flex-1 text-[13.5px] font-bold">Mes notes</h4>
-            <button
-              type="button"
-              onClick={() => setPanneau(null)}
-              aria-label="Fermer"
-              className="rounded-lg bg-warm-100 px-2 py-1 text-[12px] text-warm-600"
-            >
-              ✕
-            </button>
-          </div>
-          <div className="min-h-0 flex-1 overflow-y-auto p-3">
-            <p className="mb-2 text-[11.5px] text-warm-400">
-              {filModule && filModule !== filChapitre ? `${filModule} · ` : ""}
-              {filChapitre}
-            </p>
-            <textarea
-              value={note ?? ""}
-              onChange={(e) => onNote(e.target.value)}
-              placeholder="Écrivez ici ce que vous voulez retenir de ce chapitre…"
-              className="w-full rounded-xl border border-border p-3 text-[13px] leading-relaxed text-ink outline-none focus:border-emerald-600"
-              style={{ minHeight: 170, resize: "vertical" }}
-            />
-            <p className="mt-2 flex items-center gap-1.5 text-[11.5px] text-warm-400">
-              <span aria-hidden style={{ width: 6, height: 6, borderRadius: 9, background: "#107C41" }} />
-              Enregistré automatiquement
-            </p>
-            {notesHref && (
-              <a href={notesHref} className="mt-3 inline-block text-[12.5px] font-semibold text-emerald-700">
-                Voir toutes mes notes →
-              </a>
-            )}
-          </div>
-        </aside>
-      )}
-      {afficherRessources && (
-        <PanneauRessources
-          id={idPanneauRessources}
-          ouvert={panneau === "ressources"}
-          onFermer={() => setPanneau(null)}
-          documentsChapitre={documentsChapitre}
-          documentsFormation={documentsFormation}
-          documentsHref={documentsHref}
-        />
-      )}
-      {/* Guide transversal. Il ne reçoit AUCUN setter du player : ni `setPanneau`,
-          ni `goNext`, ni la moindre fonction métier. Il lit le cockpit et
-          reconnaît les gestes ; il ne peut donc toucher ni la progression, ni
-          les tentatives, ni la note. */}
-      {introVue && (
-        <GuideFormation
-          ouvert={guideOuvert}
-          onOuvrir={() => setGuideOuvert(true)}
-          onFermer={() => setGuideOuvert(false)}
-          conteneur={carteRef}
-          declencheur={boutonGuideRef}
-          cleGuide={cleGuide}
-          sansPremiereVisite={!!preview}
-        />
-      )}
-    </div>
+      </AtelierShell>
   )
 }
 
@@ -7176,164 +6520,5 @@ function Enveloppe({
     >
       {children}
     </div>
-  )
-}
-
-/**
- * Sommaire de la formation dans l'atelier.
- *
- * Groupé par module, et seul le module en cours est déplié : sur 27 modules et
- * 246 chapitres, tout ouvrir d'entrée noie l'information (choix Samuel du 29/07).
- */
-function SommaireAtelier({
-  entrees,
-  courant,
-  etapeCourante,
-  etapesTotal,
-  modeCourant,
-  onNaviguer,
-}: {
-  entrees: EntreeSommaire[]
-  courant: string
-  /** Position dans le chapitre OUVERT — connue du player seul. */
-  etapeCourante: number
-  etapesTotal: number
-  modeCourant: string
-  onNaviguer: (id: string) => void
-}) {
-  const moduleCourant = entrees.find((e) => e.id === courant)?.module ?? null
-  const [ouverts, setOuverts] = useState<Record<string, boolean>>({ [moduleCourant ?? "—"]: true })
-
-  const groupes: Array<{ nom: string; items: EntreeSommaire[] }> = []
-  for (const e of entrees) {
-    const nom = e.module ?? "—"
-    const dernier = groupes[groupes.length - 1]
-    if (dernier && dernier.nom === nom) dernier.items.push(e)
-    else groupes.push({ nom, items: [e] })
-  }
-
-  const PASTILLE: Record<EntreeSommaire["genre"], { l: string; c: string; f: string }> = {
-    lecon: { l: "L", c: "#2C6BB0", f: "#E9F1FB" },
-    exercice: { l: "E", c: "#107C41", f: "#E7F3EB" },
-    evaluation: { l: "★", c: "#8A5A12", f: "#FBF1DF" },
-    autre: { l: "·", c: "#8D8880", f: "#F1EEE8" },
-  }
-
-  return (
-    <>
-      {groupes.map((g, i) => {
-        const ouvert = ouverts[g.nom] ?? false
-        const faits = g.items.filter((x) => x.termine).length
-        const estCourant = g.nom === moduleCourant
-        return (
-          <div key={`${g.nom}-${i}`} className="border-b border-warm-100 last:border-b-0">
-            <button
-              type="button"
-              onClick={() => setOuverts((o) => ({ ...o, [g.nom]: !ouvert }))}
-              className="flex w-full items-center gap-2 px-1 py-2 text-left"
-            >
-              <span
-                className="flex flex-shrink-0 items-center justify-center rounded-lg text-[10px] font-bold"
-                style={{
-                  width: 21,
-                  height: 21,
-                  background: estCourant ? "#107C41" : faits === g.items.length ? "#E7F3EB" : "#F1EEE8",
-                  color: estCourant ? "#fff" : faits === g.items.length ? "#107C41" : "#8D8880",
-                }}
-              >
-                {i + 1}
-              </span>
-              <span className="min-w-0 flex-1 truncate text-[12.5px] text-ink">{g.nom === "—" ? "Chapitres" : g.nom}</span>
-              <span className="flex-shrink-0 text-[10.5px] text-warm-400">
-                {faits}/{g.items.length}
-                {(() => {
-                  const t = g.items.reduce((n, x) => n + (x.secondes ?? 0), 0)
-                  return t > 0 ? ` · ${dureeLisible(t)}` : ""
-                })()}
-              </span>
-              <span aria-hidden className="flex-shrink-0 text-[10px] text-warm-400">
-                {ouvert ? "▾" : "▸"}
-              </span>
-            </button>
-            {ouvert && (
-              <ul className="mb-1.5 list-none pl-7">
-                {g.items.map((e) => {
-                  const p = PASTILLE[e.genre]
-                  const actif = e.id === courant
-                    // Le chapitre OUVERT s'étale : on y montre la position exacte
-                    // et le temps qu'il reste. Les autres tiennent sur une ligne,
-                    // pour qu'une dizaine reste visible sans défiler.
-                    const reste = actif
-                      ? Math.max(1, estimatedSimulationMinutes(modeCourant, Math.max(0, etapesTotal - etapeCourante + 1)))
-                      : 0
-                    return (
-                    <li key={e.id}>
-                      <button
-                        type="button"
-                        onClick={() => onNaviguer(e.id)}
-                        className="flex w-full items-center gap-2 rounded-lg px-1.5 py-1.5 text-left"
-                        style={{
-                          background: actif ? "#fff" : undefined,
-                          boxShadow: actif ? "0 1px 2px rgba(0,0,0,.09)" : undefined,
-                        }}
-                      >
-                        <span
-                          className="flex flex-shrink-0 items-center justify-center rounded"
-                          style={{ width: 15, height: 15, background: p.f, color: p.c, fontSize: 8, fontWeight: 700 }}
-                        >
-                          {p.l}
-                        </span>
-                        <span className="flex min-w-0 flex-1 flex-col gap-0.5">
-                          <span
-                            className="min-w-0 truncate text-[12px]"
-                            style={{ color: actif ? "#171a18" : "#6E6A62", fontWeight: actif ? 700 : 400 }}
-                          >
-                            {e.titre}
-                          </span>
-                          {actif && etapesTotal > 0 && (
-                            <>
-                              <span className="text-[10.5px] font-bold" style={{ color: "#0b5c30" }}>
-                                étape {etapeCourante} sur {etapesTotal} · ≈ {reste} min restantes
-                              </span>
-                              <span
-                                aria-hidden
-                                className="mt-0.5 overflow-hidden rounded-sm"
-                                style={{ height: 3, background: "#E4E0D8" }}
-                              >
-                                <span
-                                  className="block h-full rounded-sm"
-                                  style={{
-                                    width: `${Math.round(((etapeCourante - 1) / etapesTotal) * 100)}%`,
-                                    background: "#107C41",
-                                    transition: "width .3s ease",
-                                  }}
-                                />
-                              </span>
-                            </>
-                          )}
-                        </span>
-                        {!actif && !!e.etapes && (
-                          <span className="flex-shrink-0 text-[10.5px] text-warm-400">
-                            {e.etapes} ét. · {estimatedSimulationMinutes(
-                              e.genre === "exercice" ? "EXERCISE" : e.genre === "evaluation" ? "EVALUATION" : "LESSON",
-                              e.etapes,
-                            )} min
-                          </span>
-                        )}
-                        {e.termine && (
-                          <span aria-hidden className="flex-shrink-0 text-[11px] text-emerald-600">
-                            ✓
-                          </span>
-                        )}
-                      </button>
-                    </li>
-                  )
-                })}
-              </ul>
-            )}
-          </div>
-        )
-      })}
-    </>
   )
 }

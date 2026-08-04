@@ -31,10 +31,26 @@ import * as path from "path"
 
 const JOUEUR = path.join(__dirname, "..", "..", "components", "simulation", "SimulationPlayer.tsx")
 const CALQUE = path.join(__dirname, "..", "..", "components", "simulation", "DemonstrationGeste.tsx")
+/**
+ * Depuis l'extraction du noyau (phase 0 du chantier multi-app), les deux
+ * chemins de démonstration vivent dans le hook commun, pas dans le player : ils
+ * sont génériques, et les quatre apps doivent les partager. Le contrôle suit
+ * donc le code — mais il vérifie désormais les DEUX maillons de la chaîne, ce
+ * qu'il ne faisait pas avant :
+ *
+ *   1. le hook appelle le crochet de restauration en tête des deux fonctions ;
+ *   2. le player lui passe bien `restaurerDepartPostePourDemo` comme crochet.
+ *
+ * Casser l'un ou l'autre rend « Revoir la démonstration » faux sans erreur
+ * visible — c'est exactement le défaut du 03/08 que ce fichier existe pour
+ * empêcher de revenir.
+ */
+const HOOK = path.join(__dirname, "..", "..", "components", "simulation", "hooks", "useAtelier.ts")
 
 const src = fs.readFileSync(JOUEUR, "utf8")
 const calque = fs.readFileSync(CALQUE, "utf8")
-const lignes = src.split("\n")
+const hook = fs.readFileSync(HOOK, "utf8")
+const lignes = hook.split("\n")
 
 const echecs: string[] = []
 const ok: string[] = []
@@ -58,8 +74,9 @@ const departsDirects = lignes
   })
 exige(
   "un seul démarrage",
-  departsDirects.length === 0,
-  `setDemonstration(true) appelé hors de demarrerDemonstration, ligne(s) ${departsDirects.map((d) => d.n).join(", ")}`,
+  departsDirects.length === 0 && !/setDemonstration\(\s*true\s*\)/.test(src),
+  `setDemonstration(true) appelé hors de demarrerDemonstration, ligne(s) ${departsDirects.map((d) => d.n).join(", ")}` +
+    ` (ou remis en direct dans le player, ce qui court-circuiterait la remise en état)`,
 )
 
 const rejeuxDirects = lignes
@@ -71,24 +88,44 @@ const rejeuxDirects = lignes
   })
 exige(
   "un seul rejeu",
-  rejeuxDirects.length === 0,
-  `setRejeu(n => n + 1) appelé hors de rejouerDemonstration, ligne(s) ${rejeuxDirects.map((d) => d.n).join(", ")}`,
+  rejeuxDirects.length === 0 && !/setRejeu\(\s*\(?\s*n\s*\)?\s*=>/.test(src),
+  `setRejeu(n => n + 1) appelé hors de rejouerDemonstration, ligne(s) ${rejeuxDirects.map((d) => d.n).join(", ")}` +
+    ` (ou remis en direct dans le player)`,
 )
 
-/* ── 2. Les deux chemins remettent le POSTE dans son état d'entrée ───────── */
+/* ── 2. Les deux chemins remettent l'écran dans son état d'entrée ──────────
+   Deux maillons, tous deux nécessaires : le hook appelle le crochet, et le
+   player lui fournit celui qui restaure le poste. Vérifier un seul des deux
+   laisserait passer la moitié des façons de casser la propriété. */
 
-function corps(nom: string): string {
-  const i = src.indexOf(`const ${nom} = useCallback(`)
+/**
+ * Corps d'un `useCallback`, borné à SA fermeture.
+ *
+ * ⚠️ La version d'origine prenait 400 caractères au forfait. `demarrerDemonstration`
+ * et `rejouerDemonstration` étant adjacentes et courtes, la fenêtre débordait sur
+ * la seconde : retirer l'appel de la PREMIÈRE laissait le contrôle vert, puisqu'il
+ * trouvait celui de la voisine. Angle mort découvert en piégeant le contrôle, et
+ * qui existait avant l'extraction du noyau.
+ */
+function corps(source: string, nom: string): string {
+  const i = source.indexOf(`const ${nom} = useCallback(`)
   if (i < 0) return ""
-  return src.slice(i, i + 400)
+  // Fin du rappel : la ligne de fermeture `  }, [...])` à l'indentation 2.
+  const fin = source.indexOf("\n  }, [", i)
+  return fin < 0 ? source.slice(i, i + 400) : source.slice(i, fin)
 }
 for (const f of ["demarrerDemonstration", "rejouerDemonstration"]) {
   exige(
-    `${f} restaure le poste`,
-    /restaurerDepartPostePourDemo\(\)/.test(corps(f)),
-    "le poste de travail n'est plus remis dans son état d'entrée : « Enregistrer sous » redeviendra invisible au rejeu",
+    `${f} appelle le crochet de restauration`,
+    /avantRef\.current\?\.\(\)/.test(corps(hook, f)),
+    "le hook ne rappelle plus l'app avant de (re)jouer : l'écran repartira de l'état laissé par le passage précédent",
   )
 }
+exige(
+  "le player fournit la restauration du poste",
+  /avantDemonstration:\s*restaurerDepartPostePourDemo/.test(src),
+  "le poste de travail n'est plus remis dans son état d'entrée : « Enregistrer sous » redeviendra invisible au rejeu",
+)
 
 /* ── 3. Le cliché de départ est pris au premier lancement, reposé au rejeu ── */
 

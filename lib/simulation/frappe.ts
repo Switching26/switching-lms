@@ -24,6 +24,7 @@ import { lireDateOuHeureFr } from "./date-fr"
 import { lireNombreFr } from "./nombre-fr"
 import { validateStep, type ObservedAction, type Verdict } from "./validate"
 import type { SimulationStep } from "./types"
+import type { AdaptateurApp, EtapeApp, ObservationApp } from "./contrats"
 
 export type VerdictFrappe = { verdict: "juste" | "fausse" | "hors-sujet"; ref?: string }
 
@@ -149,13 +150,67 @@ const ETAPES_SUR_ETAT = new Set([
 ])
 
 /**
+ * Les deux prédicats de classement d'Excel, exposés pour son adaptateur.
+ *
+ * Ils sont EXPORTÉS plutôt que recopiés : `excel-adaptateur.ts` doit rendre le
+ * comportement d'Excel à l'identique, pas une seconde version qui en dérivera
+ * un jour. Le contrat les demande à chaque application parce que ce sont
+ * précisément les deux règles dont l'oubli a plafonné des évaluations entières.
+ */
+
+/**
+ * Se déplacer n'est pas se tromper. Avoir oublié `selectColumn` et `selectRow`
+ * plafonnait l'évaluation du module 4 à 95 % pour un parcours parfait.
+ */
+export function EST_NAVIGATION_EXCEL(observed: ObservedAction): boolean {
+  return (
+    observed.kind === "cellClick" ||
+    observed.kind === "dragRange" ||
+    observed.kind === "gotoRef" ||
+    observed.kind === "selectColumn" ||
+    observed.kind === "selectRow"
+  )
+}
+
+/**
+ * Cette étape se juge-t-elle sur l'ÉTAT du document plutôt que sur le geste ?
+ * Sur ces étapes, une frappe juste ne doit pas coûter le point « premier
+ * essai » : c'était le premier des trois étages qui plafonnaient 18 évaluations
+ * Excel sur 27.
+ */
+export function SE_JUGE_SUR_ETAT_EXCEL(actionType: string): boolean {
+  return ETAPES_SUR_ETAT.has(actionType)
+}
+
+/**
  * Le juge complet d'une observation. Pur : mêmes entrées, même sortie.
  *
  * Les règles de classement ci-dessous ne sont pas des choix d'écriture : chacune
  * corrige un défaut mesuré sur le corpus, et les commentaires disent lequel.
  */
-export function jugerEtape(step: SimulationStep, observed: ObservedAction): JugementEtape {
-  const v: Verdict = validateStep(step, observed)
+export function jugerEtape(
+  step: SimulationStep,
+  observed: ObservedAction,
+  /**
+   * Application qui juge cette étape. Absente — le cas des 246 chapitres Excel —
+   * le juge et les prédicats d'Excel s'appliquent, exactement comme avant : ce
+   * ne sont pas des variantes, ce sont les mêmes fonctions.
+   *
+   * L'adaptateur est passé en PARAMÈTRE plutôt qu'importé depuis le registre :
+   * `registre.ts → excel-adaptateur.ts → frappe.ts`, donc importer le registre
+   * ici fermerait un cycle d'initialisation. Le symptôme serait un adaptateur
+   * `undefined` au chargement — donc une évaluation jugée par personne, sans
+   * erreur visible.
+   */
+  adaptateur?: AdaptateurApp,
+): JugementEtape {
+  const v: Verdict = adaptateur
+    ? adaptateur.juger(step as unknown as EtapeApp, observed as unknown as ObservationApp) ?? {
+        ok: false,
+        reason: "unknown_action",
+        message: "Action non reconnue.",
+      }
+    : validateStep(step, observed)
   const frappe =
     observed.kind === "typed" && step.action.type === "EXPECT_STATE"
       ? jugerFrappeSurEtat(step.action.cells, observed.target, observed.text)
@@ -178,12 +233,13 @@ export function jugerEtape(step: SimulationStep, observed: ObservedAction): Juge
   // Se déplacer n'est pas se tromper : cliquer une cellule, sélectionner une
   // plage, une ligne, une colonne ou sauter par la zone Nom ne compte comme
   // faute que si l'étape jugeait précisément ce geste.
-  const navigation =
-    observed.kind === "cellClick" ||
-    observed.kind === "dragRange" ||
-    observed.kind === "gotoRef" ||
-    observed.kind === "selectColumn" ||
-    observed.kind === "selectRow"
+  const navigation = adaptateur
+    ? adaptateur.estNavigation(observed as unknown as ObservationApp)
+    : EST_NAVIGATION_EXCEL(observed)
+
+  const surEtatAttendu = adaptateur
+    ? adaptateur.seJugeSurEtat(step.action.type)
+    : SE_JUGE_SUR_ETAT_EXCEL(step.action.type)
 
   // Les étapes jugées sur un ÉTAT se construisent souvent en plusieurs gestes —
   // centrer horizontalement PUIS verticalement : compter une faute à chaque état
@@ -196,7 +252,7 @@ export function jugerEtape(step: SimulationStep, observed: ObservedAction): Juge
     observed.kind === "macroChange"
 
   const frappeHorsCanal =
-    observed.kind === "typed" && ETAPES_SUR_ETAT.has(step.action.type) && frappe?.verdict !== "fausse"
+    observed.kind === "typed" && surEtatAttendu && frappe?.verdict !== "fausse"
 
   // Un verdict `no_…` sur une étape d'état est un passage obligé, pas une faute :
   // ouvrir la boîte Macros ÉMET un `control` avant que l'état jugé n'existe.
@@ -205,7 +261,7 @@ export function jugerEtape(step: SimulationStep, observed: ObservedAction): Juge
   const passageOblige =
     typeof v.reason === "string" &&
     v.reason.startsWith("no_") &&
-    (ETAPES_SUR_ETAT.has(step.action.type) || step.action.type === "RECORD_MACRO")
+    (surEtatAttendu || step.action.type === "RECORD_MACRO")
 
   // Une étape de LECTURE ne peut pas être ratée : il n'y a rien à y faire.
   const faute =

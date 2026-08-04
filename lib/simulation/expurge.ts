@@ -433,7 +433,33 @@ type ScenarioBrut = { steps?: unknown } & Objet
  *  2. chaque étape est reconstruite à partir de ses seuls champs publics ;
  *  3. un balayage récursif final retire les clés secrètes partout ailleurs.
  */
-export function expurgerScenarioNote(scenario: unknown): Objet {
+/**
+ * Projection d'une action, injectable.
+ *
+ * Chaque application décide ce qui a le droit de partir au navigateur, via
+ * `adaptateur.publier()`. La fonction est passée en PARAMÈTRE et non importée du
+ * registre : `registre.ts → excel-adaptateur.ts → expurge.ts`, donc importer le
+ * registre ici fermerait un cycle d'initialisation — et un cycle sur CE
+ * fichier-là compromettrait l'expurgation des évaluations notées.
+ *
+ * Absente, la projection d'Excel s'applique : c'est exactement le comportement
+ * des 246 chapitres publiés.
+ */
+export type ProjectionAction = (action: unknown) => Objet | null
+
+export function expurgerScenarioNote(
+  scenario: unknown,
+  projeter: ProjectionAction = actionPublique,
+): Objet {
+  const publier = (a: unknown): Objet => {
+    const p = projeter(a)
+    // `null` ⇒ « seul le type ». Le silence est le bon défaut : une étape privée
+    // de ses champs est INJOUABLE, donc bruyante ; une réponse laissée passer
+    // serait silencieuse et compromettrait la note.
+    if (p) return p
+    const t = estObjet(a) ? (a as Objet).type : undefined
+    return typeof t === "string" ? { type: t } : {}
+  }
   const base = estObjet(scenario) ? (scenario as ScenarioBrut) : {}
   const steps = Array.isArray(base.steps) ? base.steps : []
 
@@ -458,7 +484,7 @@ export function expurgerScenarioNote(scenario: unknown): Objet {
      * L'atelier fonctionne sans : il observe le geste réellement accompli et le
      * serveur le compare à ce qu'il attend. */
     sortie.action = filtrerParLaConsigne(
-      actionPublique(e.action),
+      publier(e.action),
       typeof e.consigne === "string" ? e.consigne : "",
     )
 
@@ -488,7 +514,7 @@ export function expurgerScenarioNote(scenario: unknown): Objet {
      *     croire à l'apprenant qu'il a tout vu.
      */
     if (type === "READ" && Array.isArray(e.montrer)) {
-      const gestes = e.montrer.map((geste) => actionPublique(geste))
+      const gestes = e.montrer.map((geste) => publier(geste))
       const tousMontrer = e.montrer.every(
         (geste) => estObjet(geste) && geste.type === "MONTRER" && geste.ecrire === undefined,
       )

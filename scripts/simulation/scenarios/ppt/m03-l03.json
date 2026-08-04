@@ -67,7 +67,24 @@
       "consigne": "L'alignement se choisit selon la **fonction** du texte, jamais selon le goût du moment. Un corps de texte s'aligne **à gauche** : l'œil retrouve toujours le même point de départ. Un titre court se **centre**. Une mention, une source, une date se posent **à droite**, où l'on va les chercher sans qu'elles gênent.",
       "action": {
         "type": "READ"
-      }
+      },
+      "montrer": [
+        {
+          "type": "P_MONTRER",
+          "cible": "ctrl:acc-align-gauche",
+          "texte": "À gauche : le corps de texte, l'œil retrouve toujours le même point de départ"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "ctrl:acc-align-centre",
+          "texte": "Centré : un titre court"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "ctrl:acc-align-droite",
+          "texte": "À droite : une mention, une source, une date"
+        }
+      ]
     },
     {
       "id": "M03-L03-02",
@@ -75,7 +92,8 @@
       "action": {
         "type": "P_SELECT_SLIDE",
         "index": 1
-      }
+      },
+      "feedback": "« Ce que nous avons livré » occupe le centre : c'est elle que les boutons modifieront."
     },
     {
       "id": "M03-L03-03",
@@ -100,7 +118,19 @@
       "consigne": "Le centrage n'est pas interdit — il est **réservé**. Il convient à un texte court et isolé, dont on veut qu'il occupe le milieu de l'écran : un titre, une formule, un chiffre seul. Dès que le texte fait plus de deux lignes, il redevient un handicap.",
       "action": {
         "type": "READ"
-      }
+      },
+      "montrer": [
+        {
+          "type": "P_MONTRER",
+          "cible": "zt-liste",
+          "texte": "Ce texte fait plus de deux lignes : centré, il obligerait l'œil à chercher chaque début de ligne"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "ctrl:acc-align-centre",
+          "texte": "Le centrage n'est pas interdit, il est réservé au texte court et isolé"
+        }
+      ]
     },
     {
       "id": "M03-L03-05",
@@ -112,6 +142,7 @@
           "align": "center"
         }
       },
+      "feedback": "Centré sur « Ce que nous avons livré » — et la mise en forme n'a touché que l'élément sélectionné.",
       "aide": {
         "text": "Cliquez sur le titre « Ce que nous avons livré », puis sur le bouton d'alignement du milieu."
       }
@@ -174,6 +205,7 @@
           "align": "right"
         }
       },
+      "feedback": "« Chiffres arrêtés au 31 octobre 2026 » est aligné à droite.",
       "aide": {
         "text": "C'est le troisième des boutons d'alignement."
       }
@@ -183,7 +215,19 @@
       "consigne": "Un alignement s'applique à **toute la zone de texte**, pas à un mot. Si deux lignes doivent être alignées différemment, c'est qu'il faut deux zones — et non un alignement plus fin. C'est une règle qui vaut dans tous les logiciels de présentation.",
       "action": {
         "type": "READ"
-      }
+      },
+      "montrer": [
+        {
+          "type": "P_MONTRER",
+          "cible": "zt-liste",
+          "texte": "Un alignement s'applique à toute la zone de texte…"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "zt-mention",
+          "texte": "…deux traitements différents veulent donc dire deux zones différentes"
+        }
+      ]
     },
     {
       "id": "M03-L03-08",
@@ -245,7 +289,8 @@
         "style": {
           "italic": true
         }
-      }
+      },
+      "feedback": "« Chiffres arrêtés au 31 octobre 2026 » ressort maintenant : en italique, quand le reste ne l'est pas."
     },
     {
       "id": "M03-L03-09",
@@ -256,14 +301,32 @@
         "style": {
           "bold": true
         }
-      }
+      },
+      "feedback": "En gras sur « Ce que nous avons livré » — et la mise en forme n'a touché que l'élément sélectionné."
     },
     {
       "id": "M03-L03-10",
       "consigne": "À retenir, les trois cas : **à gauche** le corps de texte, **centré** le titre court, **à droite** la mention. L'alignement porte sur la zone entière — deux alignements différents veulent dire deux zones différentes.",
       "action": {
         "type": "READ"
-      }
+      },
+      "montrer": [
+        {
+          "type": "P_MONTRER",
+          "cible": "ctrl:acc-align-gauche",
+          "texte": "À gauche le corps de texte"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "ctrl:acc-align-centre",
+          "texte": "Centré le titre court"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "ctrl:acc-align-droite",
+          "texte": "À droite la mention — et toujours sur la zone entière, jamais sur un mot"
+        }
+      ]
     }
   ]
 }

@@ -6,7 +6,7 @@
   "title": "S'évaluer — Écrire pour être lu",
   "intro": {
     "title": "S'évaluer — Écrire pour être lu",
-    "body": "Une présentation d'équipe vous revient en relecture. Elle porte un paragraphe illisible, un titre qui n'apprend rien, une diapositive à deux sujets et une redite. Aucun défaut ne vous sera nommé. Épreuve notée, d'une traite ; un nouveau passage repart de zéro."
+    "body": "Une présentation d'équipe vous revient en relecture. Elle est trop chargée : ce qui compte s'y noie. Votre travail n'est pas de tout réécrire, mais de décider ce qui reste à l'écran, ce qui passe au second plan et ce qui part. Épreuve notée, d'une traite ; un nouveau passage repart de zéro."
   },
   "outro": {
     "body": "Épreuve terminée. Seule votre meilleure note est conservée."
@@ -16,28 +16,51 @@
     "sheets": []
   },
   "ppt": {
-    "fileName": "Reunion Verdeval.pptx",
+    "fileName": "Point equipe Verdeval.pptx",
     "format": "16:9",
     "slides": [
       {
         "layout": "diapositive-de-titre",
         "textes": {
-          "titre": "Verdeval",
-          "sous-titre": "Réunion d'équipe du 9 mars"
+          "titre": "Verdeval"
         }
       },
       {
         "layout": "titre-et-contenu",
         "textes": {
           "titre": "Généralités",
-          "contenu": "Notre équipe compte aujourd'hui douze salariés permanents ainsi que quatre apprentis, et deux recrutements sont actuellement en cours pour la saison qui vient."
-        }
+          "contenu": "Notre équipe compte aujourd'hui douze salariés permanents ainsi que quatre apprentis répartis sur les trois agences"
+        },
+        "objets": [
+          {
+            "id": "zt-repete",
+            "objectType": "texte",
+            "texte": "Douze salariés et quatre apprentis",
+            "rect": {
+              "x": 560,
+              "y": 180,
+              "w": 340,
+              "h": 70
+            }
+          },
+          {
+            "id": "zt-source",
+            "objectType": "texte",
+            "texte": "Source : registre du personnel, mars 2027",
+            "rect": {
+              "x": 80,
+              "y": 180,
+              "w": 430,
+              "h": 44
+            }
+          }
+        ]
       },
       {
         "layout": "titre-et-contenu",
         "textes": {
           "titre": "Agences et matériel",
-          "contenu": "Nantes\nRennes\nAngers depuis mars\nDeux tondeuses autoportées\nUn broyeur de branches\nUne mini-pelle"
+          "contenu": "Nantes\nRennes\nAngers depuis mars\nDeux tondeuses autoportées\nUn broyeur de branches\nUne remorque"
         }
       },
       {
@@ -52,14 +75,47 @@
   "steps": [
     {
       "id": "M06-EV01-01",
-      "consigne": "Cette présentation passe devant l'équipe lundi. Parcourez-la avant d'agir : une diapositive noie ses chiffres dans un paragraphe, une autre porte deux sujets à la fois, une troisième répète ce qui vient d'être dit, et deux titres n'apprennent rien à personne. Reprenez-la.",
+      "consigne": "Cette présentation passe devant l'équipe lundi. Ne corrigez rien encore : lisez-la comme un participant assis au fond. Sur chaque diapositive, demandez-vous ce qu'il retiendra — et tout le reste est de trop.",
       "action": {
         "type": "READ"
-      }
+      },
+      "montrer": [
+        {
+          "type": "P_MONTRER",
+          "cible": "zone:volet",
+          "texte": "Les quatre diapositives du point d'équipe"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "zone:scene",
+          "texte": "Ce qui est dit deux fois, ce qui n'est qu'une référence, ce qui n'est plus utile"
+        }
+      ]
     },
     {
       "id": "M06-EV01-02",
-      "consigne": "Affichez la deuxième diapositive.",
+      "consigne": "Affichez l'ouverture.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 0
+      },
+      "points": 1
+    },
+    {
+      "id": "M06-EV01-03",
+      "consigne": "Elle ne dit pas de quelle réunion il s'agit. Complétez sa seconde ligne : Point d'équipe du 9 mars.",
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:sous-titre",
+        "accept": [
+          "Point d'équipe du 9 mars"
+        ]
+      },
+      "points": 1
+    },
+    {
+      "id": "M06-EV01-04",
+      "consigne": "Passez à la diapositive « Généralités ».",
       "action": {
         "type": "P_SELECT_SLIDE",
         "index": 1
@@ -67,24 +123,256 @@
       "points": 1
     },
     {
-      "id": "M06-EV01-03",
-      "consigne": "Son contenu est un paragraphe. Ramenez-le à trois lignes sans mots de liaison : 12 salariés, 4 apprentis, 2 recrutements en cours.",
+      "id": "M06-EV01-05",
+      "consigne": "Une zone répète, en gros, ce que le bloc de texte dit déjà. Elle n'apprend rien de plus : faites-la disparaître.",
       "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Point d'équipe du 9 mars"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Généralités",
+                "contenu": "Notre équipe compte aujourd'hui douze salariés permanents ainsi que quatre apprentis répartis sur les trois agences"
+              },
+              "objets": [
+                {
+                  "id": "zt-repete",
+                  "objectType": "texte",
+                  "texte": "Douze salariés et quatre apprentis",
+                  "rect": {
+                    "x": 560,
+                    "y": 180,
+                    "w": 340,
+                    "h": 70
+                  }
+                },
+                {
+                  "id": "zt-source",
+                  "objectType": "texte",
+                  "texte": "Source : registre du personnel, mars 2027",
+                  "rect": {
+                    "x": 80,
+                    "y": 180,
+                    "w": 430,
+                    "h": 44
+                  }
+                }
+              ]
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Agences et matériel",
+                "contenu": "Nantes\nRennes\nAngers depuis mars\nDeux tondeuses autoportées\nUn broyeur de branches\nUne remorque"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Rappel",
+                "contenu": "Nantes\nRennes\nAngers depuis mars"
+              }
+            }
+          ]
+        },
         "slide": 1
       },
       "action": {
-        "type": "P_TYPE_TEXT",
-        "cible": "ph:contenu",
-        "accept": [
-          "12 salariés\n4 apprentis\n2 recrutements en cours",
-          "12 salariés, 4 apprentis, 2 recrutements en cours"
-        ]
+        "type": "P_DELETE_OBJECT",
+        "objectId": "zt-repete"
+      },
+      "aide": "La redite est la zone posée à droite du bloc de texte.",
+      "points": 1
+    },
+    {
+      "id": "M06-EV01-06",
+      "consigne": "La référence du registre n'est pas le message : elle doit se lire, sans occuper le premier plan. Reléguez-la en bas de la diapositive.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Point d'équipe du 9 mars"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Généralités",
+                "contenu": "Notre équipe compte aujourd'hui douze salariés permanents ainsi que quatre apprentis répartis sur les trois agences"
+              },
+              "objets": [
+                {
+                  "id": "zt-source",
+                  "objectType": "texte",
+                  "texte": "Source : registre du personnel, mars 2027",
+                  "rect": {
+                    "x": 80,
+                    "y": 180,
+                    "w": 430,
+                    "h": 44
+                  }
+                }
+              ]
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Agences et matériel",
+                "contenu": "Nantes\nRennes\nAngers depuis mars\nDeux tondeuses autoportées\nUn broyeur de branches\nUne remorque"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Rappel",
+                "contenu": "Nantes\nRennes\nAngers depuis mars"
+              }
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_MOVE_OBJECT",
+        "objectId": "zt-source",
+        "rect": {
+          "x": 80,
+          "y": 470,
+          "w": 430,
+          "h": 40
+        },
+        "tolerance": 24
+      },
+      "points": 1
+    },
+    {
+      "id": "M06-EV01-07",
+      "consigne": "Réduisez-la à une mention discrète, en italique.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Point d'équipe du 9 mars"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Généralités",
+                "contenu": "Notre équipe compte aujourd'hui douze salariés permanents ainsi que quatre apprentis répartis sur les trois agences"
+              },
+              "objets": [
+                {
+                  "id": "zt-source",
+                  "objectType": "texte",
+                  "texte": "Source : registre du personnel, mars 2027",
+                  "rect": {
+                    "x": 80,
+                    "y": 470,
+                    "w": 430,
+                    "h": 40
+                  }
+                }
+              ]
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Agences et matériel",
+                "contenu": "Nantes\nRennes\nAngers depuis mars\nDeux tondeuses autoportées\nUn broyeur de branches\nUne remorque"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Rappel",
+                "contenu": "Nantes\nRennes\nAngers depuis mars"
+              }
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "zt-source",
+        "style": {
+          "italic": true
+        }
       },
       "points": 2
     },
     {
-      "id": "M06-EV01-04",
+      "id": "M06-EV01-08",
       "consigne": "Son titre nomme sa place au lieu de son contenu. Donnez-lui le fait qu'elle porte : Seize personnes sur le terrain.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Point d'équipe du 9 mars"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Généralités",
+                "contenu": "Notre équipe compte aujourd'hui douze salariés permanents ainsi que quatre apprentis répartis sur les trois agences"
+              },
+              "objets": [
+                {
+                  "id": "zt-source",
+                  "objectType": "texte",
+                  "texte": "Source : registre du personnel, mars 2027",
+                  "rect": {
+                    "x": 80,
+                    "y": 470,
+                    "w": 430,
+                    "h": 40
+                  },
+                  "style": {
+                    "italic": true
+                  }
+                }
+              ]
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Agences et matériel",
+                "contenu": "Nantes\nRennes\nAngers depuis mars\nDeux tondeuses autoportées\nUn broyeur de branches\nUne remorque"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Rappel",
+                "contenu": "Nantes\nRennes\nAngers depuis mars"
+              }
+            }
+          ]
+        },
+        "slide": 1
+      },
       "action": {
         "type": "P_TYPE_TEXT",
         "cible": "ph:titre",
@@ -95,8 +383,8 @@
       "points": 2
     },
     {
-      "id": "M06-EV01-05",
-      "consigne": "Alignez cette liste comme une liste doit l'être.",
+      "id": "M06-EV01-09",
+      "consigne": "Son bloc reste un paragraphe. Alignez-le comme une liste doit l'être.",
       "setupPpt": {
         "deck": {
           "format": "16:9",
@@ -105,21 +393,37 @@
               "layout": "diapositive-de-titre",
               "textes": {
                 "titre": "Verdeval",
-                "sous-titre": "Réunion d'équipe du 9 mars"
+                "sous-titre": "Point d'équipe du 9 mars"
               }
             },
             {
               "layout": "titre-et-contenu",
               "textes": {
                 "titre": "Seize personnes sur le terrain",
-                "contenu": "12 salariés\n4 apprentis\n2 recrutements en cours"
-              }
+                "contenu": "Notre équipe compte aujourd'hui douze salariés permanents ainsi que quatre apprentis répartis sur les trois agences"
+              },
+              "objets": [
+                {
+                  "id": "zt-source",
+                  "objectType": "texte",
+                  "texte": "Source : registre du personnel, mars 2027",
+                  "rect": {
+                    "x": 80,
+                    "y": 470,
+                    "w": 430,
+                    "h": 40
+                  },
+                  "style": {
+                    "italic": true
+                  }
+                }
+              ]
             },
             {
               "layout": "titre-et-contenu",
               "textes": {
                 "titre": "Agences et matériel",
-                "contenu": "Nantes\nRennes\nAngers depuis mars\nDeux tondeuses autoportées\nUn broyeur de branches\nUne mini-pelle"
+                "contenu": "Nantes\nRennes\nAngers depuis mars\nDeux tondeuses autoportées\nUn broyeur de branches\nUne remorque"
               }
             },
             {
@@ -140,20 +444,11 @@
           "align": "left"
         }
       },
-      "points": 1
+      "points": 2
     },
     {
-      "id": "M06-EV01-06",
+      "id": "M06-EV01-10",
       "consigne": "Passez à la diapositive suivante, dont le titre trahit qu'elle porte deux sujets.",
-      "action": {
-        "type": "P_SELECT_SLIDE",
-        "index": 2
-      },
-      "points": 1
-    },
-    {
-      "id": "M06-EV01-07",
-      "consigne": "Ne lui laissez que le premier des deux sujets : Nantes, Rennes, Angers depuis mars.",
       "setupPpt": {
         "deck": {
           "format": "16:9",
@@ -162,21 +457,98 @@
               "layout": "diapositive-de-titre",
               "textes": {
                 "titre": "Verdeval",
-                "sous-titre": "Réunion d'équipe du 9 mars"
+                "sous-titre": "Point d'équipe du 9 mars"
               }
             },
             {
               "layout": "titre-et-contenu",
               "textes": {
                 "titre": "Seize personnes sur le terrain",
-                "contenu": "12 salariés\n4 apprentis\n2 recrutements en cours"
-              }
+                "contenu": "Notre équipe compte aujourd'hui douze salariés permanents ainsi que quatre apprentis répartis sur les trois agences"
+              },
+              "objets": [
+                {
+                  "id": "zt-source",
+                  "objectType": "texte",
+                  "texte": "Source : registre du personnel, mars 2027",
+                  "rect": {
+                    "x": 80,
+                    "y": 470,
+                    "w": 430,
+                    "h": 40
+                  },
+                  "style": {
+                    "italic": true
+                  }
+                }
+              ]
             },
             {
               "layout": "titre-et-contenu",
               "textes": {
                 "titre": "Agences et matériel",
-                "contenu": "Nantes\nRennes\nAngers depuis mars\nDeux tondeuses autoportées\nUn broyeur de branches\nUne mini-pelle"
+                "contenu": "Nantes\nRennes\nAngers depuis mars\nDeux tondeuses autoportées\nUn broyeur de branches\nUne remorque"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Rappel",
+                "contenu": "Nantes\nRennes\nAngers depuis mars"
+              }
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 2
+      },
+      "points": 1
+    },
+    {
+      "id": "M06-EV01-11",
+      "consigne": "Plutôt que d'en créer une de toutes pièces, obtenez-en une copie : chacune ne gardera qu'un sujet.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Point d'équipe du 9 mars"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Seize personnes sur le terrain",
+                "contenu": "Notre équipe compte aujourd'hui douze salariés permanents ainsi que quatre apprentis répartis sur les trois agences"
+              },
+              "objets": [
+                {
+                  "id": "zt-source",
+                  "objectType": "texte",
+                  "texte": "Source : registre du personnel, mars 2027",
+                  "rect": {
+                    "x": 80,
+                    "y": 470,
+                    "w": 430,
+                    "h": 40
+                  },
+                  "style": {
+                    "italic": true
+                  }
+                }
+              ]
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Agences et matériel",
+                "contenu": "Nantes\nRennes\nAngers depuis mars\nDeux tondeuses autoportées\nUn broyeur de branches\nUne remorque"
               }
             },
             {
@@ -191,39 +563,15 @@
         "slide": 2
       },
       "action": {
-        "type": "P_TYPE_TEXT",
-        "cible": "ph:contenu",
-        "accept": [
-          "Nantes\nRennes\nAngers depuis mars",
-          "Nantes, Rennes, Angers depuis mars"
-        ]
+        "type": "P_DUPLICATE_SLIDE",
+        "index": 2
       },
-      "points": 2
-    },
-    {
-      "id": "M06-EV01-08",
-      "consigne": "Son titre doit maintenant annoncer un seul sujet : Trois agences depuis mars.",
-      "action": {
-        "type": "P_TYPE_TEXT",
-        "cible": "ph:titre",
-        "accept": [
-          "Trois agences depuis mars"
-        ]
-      },
-      "points": 2
-    },
-    {
-      "id": "M06-EV01-09",
-      "consigne": "Le second sujet a besoin de sa propre diapositive. Créez-la juste après.",
-      "action": {
-        "type": "P_ADD_SLIDE",
-        "layout": "titre-et-contenu"
-      },
+      "aide": "Dupliquer conserve la mise en forme ; il ne restera qu'à retirer ce qui est en trop.",
       "points": 1
     },
     {
-      "id": "M06-EV01-10",
-      "consigne": "Donnez-lui pour titre : Trois machines pour la saison.",
+      "id": "M06-EV01-12",
+      "consigne": "Sur cette copie, ne laissez que le matériel : Deux tondeuses autoportées, Un broyeur de branches, Une remorque.",
       "setupPpt": {
         "deck": {
           "format": "16:9",
@@ -232,25 +580,116 @@
               "layout": "diapositive-de-titre",
               "textes": {
                 "titre": "Verdeval",
-                "sous-titre": "Réunion d'équipe du 9 mars"
+                "sous-titre": "Point d'équipe du 9 mars"
               }
             },
             {
               "layout": "titre-et-contenu",
               "textes": {
                 "titre": "Seize personnes sur le terrain",
-                "contenu": "12 salariés\n4 apprentis\n2 recrutements en cours"
+                "contenu": "Notre équipe compte aujourd'hui douze salariés permanents ainsi que quatre apprentis répartis sur les trois agences"
+              },
+              "objets": [
+                {
+                  "id": "zt-source",
+                  "objectType": "texte",
+                  "texte": "Source : registre du personnel, mars 2027",
+                  "rect": {
+                    "x": 80,
+                    "y": 470,
+                    "w": 430,
+                    "h": 40
+                  },
+                  "style": {
+                    "italic": true
+                  }
+                }
+              ]
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Agences et matériel",
+                "contenu": "Nantes\nRennes\nAngers depuis mars\nDeux tondeuses autoportées\nUn broyeur de branches\nUne remorque"
               }
             },
             {
               "layout": "titre-et-contenu",
               "textes": {
-                "titre": "Trois agences depuis mars",
-                "contenu": "Nantes\nRennes\nAngers depuis mars"
+                "titre": "Agences et matériel",
+                "contenu": "Nantes\nRennes\nAngers depuis mars\nDeux tondeuses autoportées\nUn broyeur de branches\nUne remorque"
               }
             },
             {
-              "layout": "titre-et-contenu"
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Rappel",
+                "contenu": "Nantes\nRennes\nAngers depuis mars"
+              }
+            }
+          ]
+        },
+        "slide": 3
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:contenu",
+        "accept": [
+          "Deux tondeuses autoportées\nUn broyeur de branches\nUne remorque"
+        ]
+      },
+      "points": 2
+    },
+    {
+      "id": "M06-EV01-13",
+      "consigne": "Son titre doit annoncer ce seul sujet : Trois machines pour la saison.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Point d'équipe du 9 mars"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Seize personnes sur le terrain",
+                "contenu": "Notre équipe compte aujourd'hui douze salariés permanents ainsi que quatre apprentis répartis sur les trois agences"
+              },
+              "objets": [
+                {
+                  "id": "zt-source",
+                  "objectType": "texte",
+                  "texte": "Source : registre du personnel, mars 2027",
+                  "rect": {
+                    "x": 80,
+                    "y": 470,
+                    "w": 430,
+                    "h": 40
+                  },
+                  "style": {
+                    "italic": true
+                  }
+                }
+              ]
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Agences et matériel",
+                "contenu": "Nantes\nRennes\nAngers depuis mars\nDeux tondeuses autoportées\nUn broyeur de branches\nUne remorque"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Agences et matériel",
+                "contenu": "Deux tondeuses autoportées\nUn broyeur de branches\nUne remorque"
+              }
             },
             {
               "layout": "titre-et-contenu",
@@ -270,11 +709,11 @@
           "Trois machines pour la saison"
         ]
       },
-      "points": 1
+      "points": 2
     },
     {
-      "id": "M06-EV01-11",
-      "consigne": "Reportez-y les trois lignes de matériel : Deux tondeuses autoportées, Un broyeur de branches, Une mini-pelle.",
+      "id": "M06-EV01-14",
+      "consigne": "Une dernière diapositive ne fait que redire ce qui vient d'être dit. Affichez-la.",
       "setupPpt": {
         "deck": {
           "format": "16:9",
@@ -283,27 +722,44 @@
               "layout": "diapositive-de-titre",
               "textes": {
                 "titre": "Verdeval",
-                "sous-titre": "Réunion d'équipe du 9 mars"
+                "sous-titre": "Point d'équipe du 9 mars"
               }
             },
             {
               "layout": "titre-et-contenu",
               "textes": {
                 "titre": "Seize personnes sur le terrain",
-                "contenu": "12 salariés\n4 apprentis\n2 recrutements en cours"
+                "contenu": "Notre équipe compte aujourd'hui douze salariés permanents ainsi que quatre apprentis répartis sur les trois agences"
+              },
+              "objets": [
+                {
+                  "id": "zt-source",
+                  "objectType": "texte",
+                  "texte": "Source : registre du personnel, mars 2027",
+                  "rect": {
+                    "x": 80,
+                    "y": 470,
+                    "w": 430,
+                    "h": 40
+                  },
+                  "style": {
+                    "italic": true
+                  }
+                }
+              ]
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Agences et matériel",
+                "contenu": "Nantes\nRennes\nAngers depuis mars\nDeux tondeuses autoportées\nUn broyeur de branches\nUne remorque"
               }
             },
             {
               "layout": "titre-et-contenu",
               "textes": {
-                "titre": "Trois agences depuis mars",
-                "contenu": "Nantes\nRennes\nAngers depuis mars"
-              }
-            },
-            {
-              "layout": "titre-et-contenu",
-              "textes": {
-                "titre": "Trois machines pour la saison"
+                "titre": "Trois machines pour la saison",
+                "contenu": "Deux tondeuses autoportées\nUn broyeur de branches\nUne remorque"
               }
             },
             {
@@ -318,36 +774,14 @@
         "slide": 3
       },
       "action": {
-        "type": "P_TYPE_TEXT",
-        "cible": "ph:contenu",
-        "accept": [
-          "Deux tondeuses autoportées\nUn broyeur de branches\nUne mini-pelle",
-          "Deux tondeuses autoportées, Un broyeur de branches, Une mini-pelle"
-        ]
-      },
-      "points": 2
-    },
-    {
-      "id": "M06-EV01-12",
-      "consigne": "Une diapositive ne fait que redire ce qui vient d'être dit. Affichez-la.",
-      "action": {
         "type": "P_SELECT_SLIDE",
         "index": 4
       },
       "points": 1
     },
     {
-      "id": "M06-EV01-13",
+      "id": "M06-EV01-15",
       "consigne": "Une redite ne resservira pas : traitez-la en conséquence.",
-      "action": {
-        "type": "P_DELETE_SLIDE",
-        "index": 4
-      },
-      "points": 2
-    },
-    {
-      "id": "M06-EV01-14",
-      "consigne": "Vérifiez enfin que les titres, lus seuls et dans l'ordre, racontent quelque chose.",
       "setupPpt": {
         "deck": {
           "format": "16:9",
@@ -356,48 +790,62 @@
               "layout": "diapositive-de-titre",
               "textes": {
                 "titre": "Verdeval",
-                "sous-titre": "Réunion d'équipe du 9 mars"
+                "sous-titre": "Point d'équipe du 9 mars"
               }
             },
             {
               "layout": "titre-et-contenu",
               "textes": {
                 "titre": "Seize personnes sur le terrain",
-                "contenu": "12 salariés\n4 apprentis\n2 recrutements en cours"
-              }
+                "contenu": "Notre équipe compte aujourd'hui douze salariés permanents ainsi que quatre apprentis répartis sur les trois agences"
+              },
+              "objets": [
+                {
+                  "id": "zt-source",
+                  "objectType": "texte",
+                  "texte": "Source : registre du personnel, mars 2027",
+                  "rect": {
+                    "x": 80,
+                    "y": 470,
+                    "w": 430,
+                    "h": 40
+                  },
+                  "style": {
+                    "italic": true
+                  }
+                }
+              ]
             },
             {
               "layout": "titre-et-contenu",
               "textes": {
-                "titre": "Trois agences depuis mars",
-                "contenu": "Nantes\nRennes\nAngers depuis mars"
+                "titre": "Agences et matériel",
+                "contenu": "Nantes\nRennes\nAngers depuis mars\nDeux tondeuses autoportées\nUn broyeur de branches\nUne remorque"
               }
             },
             {
               "layout": "titre-et-contenu",
               "textes": {
                 "titre": "Trois machines pour la saison",
-                "contenu": "Deux tondeuses autoportées\nUn broyeur de branches\nUne mini-pelle"
+                "contenu": "Deux tondeuses autoportées\nUn broyeur de branches\nUne remorque"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Rappel",
+                "contenu": "Nantes\nRennes\nAngers depuis mars"
               }
             }
           ]
         },
-        "slide": 3
+        "slide": 4
       },
       "action": {
-        "type": "P_SET_VIEW",
-        "view": "trieuse"
+        "type": "P_DELETE_SLIDE",
+        "index": 4
       },
-      "points": 1
-    },
-    {
-      "id": "M06-EV01-15",
-      "consigne": "Revenez à l'affichage de travail.",
-      "action": {
-        "type": "P_SET_VIEW",
-        "view": "normal"
-      },
-      "points": 1
+      "points": 2
     }
   ]
 }

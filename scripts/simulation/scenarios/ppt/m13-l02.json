@@ -93,7 +93,19 @@
       "consigne": "**Apparaître** pose l'objet d'un coup, sans transition : c'est franc, un peu brutal. **Fondu** le fait monter progressivement : c'est doux, plus lent. Le critère n'est pas esthétique — l'effet doit avoir le même tempérament que l'information qu'il porte.",
       "action": {
         "type": "READ"
-      }
+      },
+      "montrer": [
+        {
+          "type": "P_MONTRER",
+          "cible": "ctrl:ani-apparaitre",
+          "texte": "Apparaître pose l'objet d'un coup : franc, un peu brutal"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "ctrl:ani-fondu",
+          "texte": "Fondu le fait monter progressivement : doux, plus lent — l'effet doit avoir le tempérament de l'information"
+        }
+      ]
     },
     {
       "id": "M13-L02-02",
@@ -101,7 +113,8 @@
       "action": {
         "type": "P_SELECT_SLIDE",
         "index": 1
-      }
+      },
+      "feedback": "« Le chiffre du trimestre » occupe le centre : c'est elle que les boutons modifieront."
     },
     {
       "id": "M13-L02-03",
@@ -109,7 +122,8 @@
       "action": {
         "type": "P_SELECT_OBJECT",
         "objectId": "zt-chiffre"
-      }
+      },
+      "feedback": "Sélectionné. Les boutons de mise en forme agiront sur « 14 », et sur rien d'autre."
     },
     {
       "id": "M13-L02-04",
@@ -126,6 +140,7 @@
           }
         ]
       },
+      "feedback": "« 14 » attend désormais un clic pour apparaître.",
       "aide": {
         "text": "Groupe Animations, bouton « Apparaître »."
       }
@@ -135,7 +150,19 @@
       "consigne": "Le test est simple : **dites l'information à voix haute**. « Quatorze » se dit sec, en un temps — donc Apparaître. « Voici la passerelle terminée » se dit lentement, on laisse regarder — donc Fondu. L'effet suit la voix.",
       "action": {
         "type": "READ"
-      }
+      },
+      "montrer": [
+        {
+          "type": "P_MONTRER",
+          "cible": "zt-chiffre",
+          "texte": "« Quatorze » se dit sec, en un temps — donc Apparaître"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "zt-legende",
+          "texte": "« Voici la passerelle terminée » se dit lentement, on laisse regarder — donc Fondu : l'effet suit la voix"
+        }
+      ]
     },
     {
       "id": "M13-L02-06",
@@ -143,7 +170,8 @@
       "action": {
         "type": "P_SELECT_SLIDE",
         "index": 2
-      }
+      },
+      "feedback": "« La passerelle terminée » occupe le centre : c'est elle que les boutons modifieront."
     },
     {
       "id": "M13-L02-07",
@@ -151,7 +179,8 @@
       "action": {
         "type": "P_SELECT_OBJECT",
         "objectId": "img-passerelle"
-      }
+      },
+      "feedback": "Sélectionné. Les boutons de mise en forme agiront sur l'image, et sur rien d'autre."
     },
     {
       "id": "M13-L02-08",
@@ -178,7 +207,19 @@
       "consigne": "Un piège classique : mélanger les deux effets **sur la même diapositive** pour faire varié. Le public y voit un système — il cherche pourquoi cet objet-ci arrive autrement que celui-là, et ne trouve pas. Un effet par diapositive suffit.",
       "action": {
         "type": "READ"
-      }
+      },
+      "montrer": [
+        {
+          "type": "P_MONTRER",
+          "cible": "img-passerelle",
+          "texte": "Mélanger les deux effets sur la même diapositive…"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "zt-lieu",
+          "texte": "…le public y voit un système, cherche pourquoi celui-ci arrive autrement, et ne trouve pas"
+        }
+      ]
     },
     {
       "id": "M13-L02-10",
@@ -190,6 +231,7 @@
           "index": 2
         }
       },
+      "feedback": "Le diaporama est sur « La passerelle terminée » : les masquées ont été sautées.",
       "aide": {
         "text": "Groupe Diaporama, bouton « ▶ Ici »."
       }
@@ -202,7 +244,8 @@
         "show": {
           "actif": false
         }
-      }
+      },
+      "feedback": "Diaporama refermé — vous revoilà sur « La passerelle terminée », dans la vue où l'on compose."
     }
   ]
 }

@@ -6,7 +6,7 @@
   "title": "S'évaluer — Choisir la bonne disposition",
   "intro": {
     "title": "S'évaluer — Choisir la bonne disposition",
-    "body": "Une proposition commerciale vous arrive avec quatre diapositives dont la structure ne correspond pas à ce qu'elles portent. Aucun défaut ne vous sera nommé : comptez les blocs et déduisez. Épreuve notée, d'une traite ; un nouveau passage repart de zéro."
+    "body": "Un dossier de suivi de chantier vous arrive : chaque diapositive a reçu une structure au hasard, sans rapport avec ce qu'elle porte. Comptez les blocs de chacune, et donnez-lui celle qu'elle appelle — ni plus riche, ni plus pauvre. Épreuve notée, d'une traite ; un nouveau passage repart de zéro."
   },
   "outro": {
     "body": "Épreuve terminée. Seule votre meilleure note est conservée."
@@ -16,49 +16,104 @@
     "sheets": []
   },
   "ppt": {
-    "fileName": "Proposition Verdeval.pptx",
+    "fileName": "Chantier de la Roseraie.pptx",
     "format": "16:9",
     "slides": [
       {
         "layout": "diapositive-de-titre",
         "textes": {
-          "titre": "Verdeval",
-          "sous-titre": "Proposition pour la commune de Sainte-Luce"
+          "titre": "Chantier de la Roseraie"
+        }
+      },
+      {
+        "layout": "comparaison",
+        "textes": {
+          "titre": "Les étapes du chantier"
         }
       },
       {
         "layout": "titre-et-contenu",
         "textes": {
-          "titre": "1. Ce que nous proposons",
-          "contenu": "Le détail de notre offre en trois points"
+          "titre": "Avant / après",
+          "contenu": "Deux photos du même angle"
         }
       },
       {
         "layout": "titre-et-contenu",
         "textes": {
-          "titre": "Régie ou forfait"
-        }
-      },
-      {
-        "layout": "titre-et-contenu",
-        "textes": {
-          "titre": "Le parc de la mairie",
-          "contenu": "Photos de l'existant"
-        }
+          "titre": "La roseraie terminée"
+        },
+        "objets": [
+          {
+            "id": "img-roseraie",
+            "objectType": "image",
+            "rect": {
+              "x": 540,
+              "y": 300,
+              "w": 240,
+              "h": 150
+            }
+          },
+          {
+            "id": "zt-note",
+            "objectType": "texte",
+            "texte": "Vérifier les droits photo avant diffusion",
+            "rect": {
+              "x": 60,
+              "y": 440,
+              "w": 340,
+              "h": 48
+            }
+          }
+        ]
       }
     ]
   },
   "steps": [
     {
       "id": "M05-EV01-01",
-      "consigne": "Cette proposition part demain à la mairie. Parcourez-la avant d'agir : une diapositive annonce une partie au lieu de la contenir, une autre doit mettre deux modes de facturation en regard sans en avoir la structure, une troisième annonce des photos dans un bloc de texte. Comptez les blocs de chacune et corrigez.",
+      "consigne": "Ce dossier passe demain devant le comité de suivi. Ne corrigez rien encore : parcourez les quatre diapositives et, pour chacune, comptez les blocs qu'elle porte vraiment. C'est ce compte, et lui seul, qui désigne la disposition juste.",
       "action": {
         "type": "READ"
-      }
+      },
+      "montrer": [
+        {
+          "type": "P_MONTRER",
+          "cible": "zone:volet",
+          "texte": "Les quatre diapositives du dossier"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "zone:scene",
+          "texte": "Un bloc rempli, deux blocs, aucun bloc : le contenu commande la structure"
+        }
+      ]
     },
     {
       "id": "M05-EV01-02",
-      "consigne": "Affichez la deuxième diapositive.",
+      "consigne": "Affichez l'ouverture du dossier.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 0
+      },
+      "points": 1
+    },
+    {
+      "id": "M05-EV01-03",
+      "consigne": "Elle ne dit pas devant qui elle passe. Complétez sa seconde ligne : Comité de suivi du 12 mars.",
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:sous-titre",
+        "accept": [
+          "Comité de suivi du 12 mars"
+        ]
+      },
+      "aide": "La diapositive d'ouverture porte deux blocs de texte : le titre, puis le sous-titre.",
+      "points": 1
+    },
+    {
+      "id": "M05-EV01-04",
+      "consigne": "Passez aux étapes du chantier.",
       "action": {
         "type": "P_SELECT_SLIDE",
         "index": 1
@@ -66,17 +121,87 @@
       "points": 1
     },
     {
-      "id": "M05-EV01-03",
-      "consigne": "Son titre est numéroté et son contenu ne fait qu'annoncer la suite : donnez-lui la structure que cela commande.",
+      "id": "M05-EV01-05",
+      "consigne": "Cette diapositive ne porte qu'une seule liste à venir, et sa structure en attend deux, chacune sous son intitulé. Ramenez-la à ce qu'elle porte.",
       "action": {
         "type": "P_SET_LAYOUT",
-        "layout": "diapositive-de-titre"
+        "layout": "titre-et-contenu"
+      },
+      "aide": "Une comparaison sert à mettre deux choses en regard. Ici, il n'y en a qu'une.",
+      "points": 2
+    },
+    {
+      "id": "M05-EV01-06",
+      "consigne": "Portez-y la liste des étapes : Terrassement, plantation, arrosage.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Chantier de la Roseraie",
+                "sous-titre": "Comité de suivi du 12 mars"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Les étapes du chantier"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Avant / après",
+                "contenu": "Deux photos du même angle"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "La roseraie terminée"
+              },
+              "objets": [
+                {
+                  "id": "img-roseraie",
+                  "objectType": "image",
+                  "rect": {
+                    "x": 540,
+                    "y": 300,
+                    "w": 240,
+                    "h": 150
+                  }
+                },
+                {
+                  "id": "zt-note",
+                  "objectType": "texte",
+                  "texte": "Vérifier les droits photo avant diffusion",
+                  "rect": {
+                    "x": 60,
+                    "y": 440,
+                    "w": 340,
+                    "h": 48
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:contenu",
+        "accept": [
+          "Terrassement, plantation, arrosage"
+        ]
       },
       "points": 2
     },
     {
-      "id": "M05-EV01-04",
-      "consigne": "Passez à la diapositive « Régie ou forfait ».",
+      "id": "M05-EV01-07",
+      "consigne": "Passez à la diapositive « Avant / après ».",
       "action": {
         "type": "P_SELECT_SLIDE",
         "index": 2
@@ -84,331 +209,76 @@
       "points": 1
     },
     {
-      "id": "M05-EV01-05",
-      "consigne": "Elle doit mettre deux modes de facturation en regard, chacun sous son propre intitulé. Donnez-lui la structure correspondante.",
-      "action": {
-        "type": "P_SET_LAYOUT",
-        "layout": "comparaison"
-      },
-      "points": 2
-    },
-    {
-      "id": "M05-EV01-06",
-      "consigne": "Renseignez l'intitulé de gauche : Régie.",
-      "setupPpt": {
-        "deck": {
-          "format": "16:9",
-          "slides": [
-            {
-              "layout": "diapositive-de-titre",
-              "textes": {
-                "titre": "Verdeval",
-                "sous-titre": "Proposition pour la commune de Sainte-Luce"
-              }
-            },
-            {
-              "layout": "diapositive-de-titre",
-              "textes": {
-                "titre": "1. Ce que nous proposons",
-                "contenu": "Le détail de notre offre en trois points"
-              }
-            },
-            {
-              "layout": "comparaison",
-              "textes": {
-                "titre": "Régie ou forfait"
-              }
-            },
-            {
-              "layout": "titre-et-contenu",
-              "textes": {
-                "titre": "Le parc de la mairie",
-                "contenu": "Photos de l'existant"
-              }
-            }
-          ]
-        },
-        "slide": 2
-      },
-      "action": {
-        "type": "P_TYPE_TEXT",
-        "cible": "ph:texte",
-        "accept": [
-          "Régie"
-        ]
-      },
-      "points": 1
-    },
-    {
-      "id": "M05-EV01-07",
-      "consigne": "Renseignez celui de droite : Forfait.",
-      "setupPpt": {
-        "deck": {
-          "format": "16:9",
-          "slides": [
-            {
-              "layout": "diapositive-de-titre",
-              "textes": {
-                "titre": "Verdeval",
-                "sous-titre": "Proposition pour la commune de Sainte-Luce"
-              }
-            },
-            {
-              "layout": "diapositive-de-titre",
-              "textes": {
-                "titre": "1. Ce que nous proposons",
-                "contenu": "Le détail de notre offre en trois points"
-              }
-            },
-            {
-              "layout": "comparaison",
-              "textes": {
-                "titre": "Régie ou forfait",
-                "texte": "Régie"
-              }
-            },
-            {
-              "layout": "titre-et-contenu",
-              "textes": {
-                "titre": "Le parc de la mairie",
-                "contenu": "Photos de l'existant"
-              }
-            }
-          ]
-        },
-        "slide": 2
-      },
-      "action": {
-        "type": "P_TYPE_TEXT",
-        "cible": "ph:texte#2",
-        "accept": [
-          "Forfait"
-        ]
-      },
-      "points": 1
-    },
-    {
       "id": "M05-EV01-08",
-      "consigne": "Les deux colonnes doivent répondre à la même question, celle de la facturation. À gauche : Facturé à l'heure.",
-      "setupPpt": {
-        "deck": {
-          "format": "16:9",
-          "slides": [
-            {
-              "layout": "diapositive-de-titre",
-              "textes": {
-                "titre": "Verdeval",
-                "sous-titre": "Proposition pour la commune de Sainte-Luce"
-              }
-            },
-            {
-              "layout": "diapositive-de-titre",
-              "textes": {
-                "titre": "1. Ce que nous proposons",
-                "contenu": "Le détail de notre offre en trois points"
-              }
-            },
-            {
-              "layout": "comparaison",
-              "textes": {
-                "titre": "Régie ou forfait",
-                "texte": "Régie",
-                "texte#2": "Forfait"
-              }
-            },
-            {
-              "layout": "titre-et-contenu",
-              "textes": {
-                "titre": "Le parc de la mairie",
-                "contenu": "Photos de l'existant"
-              }
-            }
-          ]
-        },
-        "slide": 2
-      },
-      "action": {
-        "type": "P_TYPE_TEXT",
-        "cible": "ph:contenu",
-        "accept": [
-          "Facturé à l'heure"
-        ]
-      },
-      "points": 2
-    },
-    {
-      "id": "M05-EV01-09",
-      "consigne": "À droite, la réponse à la même question : Facturé à l'année.",
-      "setupPpt": {
-        "deck": {
-          "format": "16:9",
-          "slides": [
-            {
-              "layout": "diapositive-de-titre",
-              "textes": {
-                "titre": "Verdeval",
-                "sous-titre": "Proposition pour la commune de Sainte-Luce"
-              }
-            },
-            {
-              "layout": "diapositive-de-titre",
-              "textes": {
-                "titre": "1. Ce que nous proposons",
-                "contenu": "Le détail de notre offre en trois points"
-              }
-            },
-            {
-              "layout": "comparaison",
-              "textes": {
-                "titre": "Régie ou forfait",
-                "contenu": "Facturé à l'heure",
-                "texte": "Régie",
-                "texte#2": "Forfait"
-              }
-            },
-            {
-              "layout": "titre-et-contenu",
-              "textes": {
-                "titre": "Le parc de la mairie",
-                "contenu": "Photos de l'existant"
-              }
-            }
-          ]
-        },
-        "slide": 2
-      },
-      "action": {
-        "type": "P_TYPE_TEXT",
-        "cible": "ph:contenu#2",
-        "accept": [
-          "Facturé à l'année"
-        ]
-      },
-      "points": 2
-    },
-    {
-      "id": "M05-EV01-10",
-      "consigne": "Traitez les deux intitulés à l'identique, en commençant par celui de gauche.",
-      "setupPpt": {
-        "deck": {
-          "format": "16:9",
-          "slides": [
-            {
-              "layout": "diapositive-de-titre",
-              "textes": {
-                "titre": "Verdeval",
-                "sous-titre": "Proposition pour la commune de Sainte-Luce"
-              }
-            },
-            {
-              "layout": "diapositive-de-titre",
-              "textes": {
-                "titre": "1. Ce que nous proposons",
-                "contenu": "Le détail de notre offre en trois points"
-              }
-            },
-            {
-              "layout": "comparaison",
-              "textes": {
-                "titre": "Régie ou forfait",
-                "contenu": "Facturé à l'heure",
-                "texte": "Régie",
-                "texte#2": "Forfait",
-                "contenu#2": "Facturé à l'année"
-              }
-            },
-            {
-              "layout": "titre-et-contenu",
-              "textes": {
-                "titre": "Le parc de la mairie",
-                "contenu": "Photos de l'existant"
-              }
-            }
-          ]
-        },
-        "slide": 2
-      },
-      "action": {
-        "type": "P_EXPECT_FORMAT",
-        "objectId": "ph:texte",
-        "style": {
-          "bold": true
-        }
-      },
-      "points": 1
-    },
-    {
-      "id": "M05-EV01-11",
-      "consigne": "Puis celui de droite, exactement de la même façon.",
-      "setupPpt": {
-        "deck": {
-          "format": "16:9",
-          "slides": [
-            {
-              "layout": "diapositive-de-titre",
-              "textes": {
-                "titre": "Verdeval",
-                "sous-titre": "Proposition pour la commune de Sainte-Luce"
-              }
-            },
-            {
-              "layout": "diapositive-de-titre",
-              "textes": {
-                "titre": "1. Ce que nous proposons",
-                "contenu": "Le détail de notre offre en trois points"
-              }
-            },
-            {
-              "layout": "comparaison",
-              "textes": {
-                "titre": "Régie ou forfait",
-                "contenu": "Facturé à l'heure",
-                "texte": "Régie",
-                "texte#2": "Forfait",
-                "contenu#2": "Facturé à l'année"
-              }
-            },
-            {
-              "layout": "titre-et-contenu",
-              "textes": {
-                "titre": "Le parc de la mairie",
-                "contenu": "Photos de l'existant"
-              }
-            }
-          ]
-        },
-        "slide": 2
-      },
-      "action": {
-        "type": "P_EXPECT_FORMAT",
-        "objectId": "ph:texte#2",
-        "style": {
-          "bold": true
-        }
-      },
-      "points": 1
-    },
-    {
-      "id": "M05-EV01-12",
-      "consigne": "Affichez la dernière diapositive, celle du parc de la mairie.",
-      "action": {
-        "type": "P_SELECT_SLIDE",
-        "index": 3
-      },
-      "points": 1
-    },
-    {
-      "id": "M05-EV01-13",
-      "consigne": "Elle annonce des photos : donnez-lui la structure qui laisse la place aux objets plutôt qu'au texte.",
+      "consigne": "Elle annonce des photos, et son bloc de texte les empêche de tenir. Donnez-lui la structure qui laisse la scène libre.",
       "action": {
         "type": "P_SET_LAYOUT",
         "layout": "titre-seul"
       },
+      "aide": "Un bloc de contenu occupe la place ; sans lui, la scène reste disponible.",
       "points": 2
     },
     {
-      "id": "M05-EV01-14",
-      "consigne": "Posez-y l'illustration annoncée.",
+      "id": "M05-EV01-09",
+      "consigne": "Posez-y la première des deux photos annoncées.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Chantier de la Roseraie",
+                "sous-titre": "Comité de suivi du 12 mars"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Les étapes du chantier",
+                "contenu": "Terrassement, plantation, arrosage"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Avant / après",
+                "contenu": "Deux photos du même angle"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "La roseraie terminée"
+              },
+              "objets": [
+                {
+                  "id": "img-roseraie",
+                  "objectType": "image",
+                  "rect": {
+                    "x": 540,
+                    "y": 300,
+                    "w": 240,
+                    "h": 150
+                  }
+                },
+                {
+                  "id": "zt-note",
+                  "objectType": "texte",
+                  "texte": "Vérifier les droits photo avant diffusion",
+                  "rect": {
+                    "x": 60,
+                    "y": 440,
+                    "w": 340,
+                    "h": 48
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 2
+      },
       "action": {
         "type": "P_ADD_OBJECT",
         "objectType": "image"
@@ -416,8 +286,27 @@
       "points": 1
     },
     {
-      "id": "M05-EV01-15",
-      "consigne": "Contrôlez l'ensemble comme la mairie le verra, depuis la première diapositive.",
+      "id": "M05-EV01-10",
+      "consigne": "Passez à la dernière diapositive.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 3
+      },
+      "points": 1
+    },
+    {
+      "id": "M05-EV01-11",
+      "consigne": "Celle-ci ne montre qu'une photo, sans un mot : ni titre, ni bloc de texte. Donnez-lui la seule disposition qui n'en propose aucun.",
+      "action": {
+        "type": "P_SET_LAYOUT",
+        "layout": "vide"
+      },
+      "aide": "Les six dispositions vont de la plus riche à la plus dépouillée.",
+      "points": 2
+    },
+    {
+      "id": "M05-EV01-12",
+      "consigne": "La photo doit maintenant occuper la scène entière, du bord haut au bord bas.",
       "setupPpt": {
         "deck": {
           "format": "16:9",
@@ -425,36 +314,26 @@
             {
               "layout": "diapositive-de-titre",
               "textes": {
-                "titre": "Verdeval",
-                "sous-titre": "Proposition pour la commune de Sainte-Luce"
+                "titre": "Chantier de la Roseraie",
+                "sous-titre": "Comité de suivi du 12 mars"
               }
             },
             {
-              "layout": "diapositive-de-titre",
+              "layout": "titre-et-contenu",
               "textes": {
-                "titre": "1. Ce que nous proposons",
-                "contenu": "Le détail de notre offre en trois points"
-              }
-            },
-            {
-              "layout": "comparaison",
-              "textes": {
-                "titre": "Régie ou forfait",
-                "contenu": "Facturé à l'heure",
-                "texte": "Régie",
-                "texte#2": "Forfait",
-                "contenu#2": "Facturé à l'année"
+                "titre": "Les étapes du chantier",
+                "contenu": "Terrassement, plantation, arrosage"
               }
             },
             {
               "layout": "titre-seul",
               "textes": {
-                "titre": "Le parc de la mairie",
-                "contenu": "Photos de l'existant"
+                "titre": "Avant / après",
+                "contenu": "Deux photos du même angle"
               },
               "objets": [
                 {
-                  "id": "obj14",
+                  "id": "obj9",
                   "objectType": "image",
                   "rect": {
                     "x": 560,
@@ -464,11 +343,203 @@
                   }
                 }
               ]
+            },
+            {
+              "layout": "vide",
+              "textes": {
+                "titre": "La roseraie terminée"
+              },
+              "objets": [
+                {
+                  "id": "img-roseraie",
+                  "objectType": "image",
+                  "rect": {
+                    "x": 540,
+                    "y": 300,
+                    "w": 240,
+                    "h": 150
+                  }
+                },
+                {
+                  "id": "zt-note",
+                  "objectType": "texte",
+                  "texte": "Vérifier les droits photo avant diffusion",
+                  "rect": {
+                    "x": 60,
+                    "y": 440,
+                    "w": 340,
+                    "h": 48
+                  }
+                }
+              ]
             }
           ]
         },
         "slide": 3
       },
+      "action": {
+        "type": "P_MOVE_OBJECT",
+        "objectId": "img-roseraie",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "w": 960,
+          "h": 540
+        },
+        "tolerance": 40
+      },
+      "points": 2
+    },
+    {
+      "id": "M05-EV01-13",
+      "consigne": "Une note de travail est restée dessus. Elle n'a rien à faire devant le comité.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Chantier de la Roseraie",
+                "sous-titre": "Comité de suivi du 12 mars"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Les étapes du chantier",
+                "contenu": "Terrassement, plantation, arrosage"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Avant / après",
+                "contenu": "Deux photos du même angle"
+              },
+              "objets": [
+                {
+                  "id": "obj9",
+                  "objectType": "image",
+                  "rect": {
+                    "x": 560,
+                    "y": 180,
+                    "w": 320,
+                    "h": 200
+                  }
+                }
+              ]
+            },
+            {
+              "layout": "vide",
+              "textes": {
+                "titre": "La roseraie terminée"
+              },
+              "objets": [
+                {
+                  "id": "img-roseraie",
+                  "objectType": "image",
+                  "rect": {
+                    "x": 0,
+                    "y": 0,
+                    "w": 960,
+                    "h": 540
+                  }
+                },
+                {
+                  "id": "zt-note",
+                  "objectType": "texte",
+                  "texte": "Vérifier les droits photo avant diffusion",
+                  "rect": {
+                    "x": 60,
+                    "y": 440,
+                    "w": 340,
+                    "h": 48
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 3
+      },
+      "action": {
+        "type": "P_DELETE_OBJECT",
+        "objectId": "zt-note"
+      },
+      "points": 1
+    },
+    {
+      "id": "M05-EV01-14",
+      "consigne": "Revenez à l'ouverture et contrôlez le dossier comme le comité le verra.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Chantier de la Roseraie",
+                "sous-titre": "Comité de suivi du 12 mars"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Les étapes du chantier",
+                "contenu": "Terrassement, plantation, arrosage"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Avant / après",
+                "contenu": "Deux photos du même angle"
+              },
+              "objets": [
+                {
+                  "id": "obj9",
+                  "objectType": "image",
+                  "rect": {
+                    "x": 560,
+                    "y": 180,
+                    "w": 320,
+                    "h": 200
+                  }
+                }
+              ]
+            },
+            {
+              "layout": "vide",
+              "textes": {
+                "titre": "La roseraie terminée"
+              },
+              "objets": [
+                {
+                  "id": "img-roseraie",
+                  "objectType": "image",
+                  "rect": {
+                    "x": 0,
+                    "y": 0,
+                    "w": 960,
+                    "h": 540
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 3
+      },
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 0
+      },
+      "points": 1
+    },
+    {
+      "id": "M05-EV01-15",
+      "consigne": "Lancez le diaporama depuis la première diapositive.",
       "action": {
         "type": "P_EXPECT_SHOW",
         "show": {
@@ -480,7 +551,7 @@
     },
     {
       "id": "M05-EV01-16",
-      "consigne": "Revenez à votre présentation.",
+      "consigne": "Refermez-le et revenez à votre dossier.",
       "action": {
         "type": "P_EXPECT_SHOW",
         "show": {

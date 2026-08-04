@@ -5266,6 +5266,24 @@ export default function SimulationPlayer({
                 relais,
                 relaisActif,
                 verdict,
+                /* EXCEL ANNONCE SES VERDICTS SUR LA FEUILLE — déclaration
+                 * CONSTANTE, et c'est délibéré.
+                 *
+                 * Le flash d'erreur d'Excel porte déjà le message
+                 * (`lancerFx(step, "ko", vAffiche.message)`), donc le répéter
+                 * sous la consigne le ferait lire deux fois. Excel est en
+                 * PRODUCTION avec 202 progressions réelles : le socle change
+                 * pour les trois autres applications, son rendu ne bouge pas
+                 * d'un pixel.
+                 *
+                 * ⚠️ Conséquence connue, volontairement laissée en l'état :
+                 * la branche de tâtonnement pose bien un verdict porteur d'un
+                 * message (« Un réglage intermédiaire mérite parfois une
+                 * phrase »), sans lancer d'effet — cette phrase-là reste donc
+                 * muette chez Excel. La faire apparaître serait un changement
+                 * visible en production, pas un correctif de socle : c'est un
+                 * arbitrage, pas une évidence technique. */
+                verdictAncre: true,
                 aplomb,
                 panneJuge: pannneJuge,
                 passageEnCours,

@@ -39,8 +39,14 @@
    "consigne": "L'écran **Imprimer** réunit trois choses : l'**aperçu** de la page, le choix de l'**imprimante**, et les **réglages** — copies, pages à imprimer, recto verso. Il s'ouvre depuis l'onglet **Fichier**.",
    "montrer": [
     {
-     "type": "W_CLICK_CONTROL",
-     "controle": "w-imprimer"
+     "type": "W_MONTRER",
+     "cible": "p0",
+     "texte": "L'écran Imprimer réunit trois choses. D'abord l'APERÇU : la page telle qu'elle sortira."
+    },
+    {
+     "type": "W_MONTRER",
+     "cible": "ecran",
+     "texte": "Ensuite le choix de l'IMPRIMANTE, et enfin les RÉGLAGES — copies, pages à imprimer, recto verso. Il s'ouvre depuis l'onglet Fichier."
     }
    ],
    "feedback": "Un seul écran pour vérifier et régler."
@@ -129,7 +135,21 @@
     "type": "READ"
    },
    "consigne": "Retenez l'ordre : **on règle la mise en page, puis on vérifie à l'aperçu**. L'inverse — lancer l'impression puis constater — coûte du papier et du temps.",
-   "feedback": "Régler, vérifier, imprimer. Dans cet ordre."
+   "feedback": "Régler, vérifier, imprimer. Dans cet ordre.",
+   "montrer": [
+    {
+     "type": "W_MONTRER",
+     "cible": "ctrl:w-mise-en-page",
+     "texte": "On règle D'ABORD la mise en page : marges, orientation.",
+     "onglet": "mise-en-page"
+    },
+    {
+     "type": "W_MONTRER",
+     "cible": "ctrl:w-imprimer",
+     "texte": "On vérifie ENSUITE à l'aperçu. L'inverse coûte du papier et du temps.",
+     "onglet": "fichier"
+    }
+   ]
   }
  ]
 }

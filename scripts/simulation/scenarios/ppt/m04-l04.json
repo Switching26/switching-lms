@@ -74,7 +74,19 @@
       "consigne": "L'ordre de travail sur une diapositive visuelle tient en quatre temps : **retirer** ce qui ne sert plus, **dimensionner** ce qui reste, **placer** ensuite, **légender** en dernier. Placer avant de dimensionner oblige à replacer : une image agrandie ne reste pas là où on l'avait mise.",
       "action": {
         "type": "READ"
-      }
+      },
+      "montrer": [
+        {
+          "type": "P_MONTRER",
+          "cible": "zone:scene",
+          "texte": "Retirer ce qui ne sert plus, dimensionner ce qui reste, placer ensuite, légender en dernier"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "ctrl:ins-image",
+          "texte": "Placer avant de dimensionner oblige à replacer : une image agrandie ne reste pas où on l'avait mise"
+        }
+      ]
     },
     {
       "id": "M04-L04-02",
@@ -82,7 +94,8 @@
       "action": {
         "type": "P_SELECT_SLIDE",
         "index": 1
-      }
+      },
+      "feedback": "« Le chantier des Tilleuls » occupe le centre : c'est elle que les boutons modifieront."
     },
     {
       "id": "M04-L04-03",
@@ -91,6 +104,7 @@
         "type": "P_DELETE_OBJECT",
         "objectId": "fo-ancienne"
       },
+      "feedback": "Retiré — et la diapositive respire déjà mieux.",
       "aide": {
         "text": "Cliquez sur le rectangle, puis touche Suppr ou bouton Supprimer du groupe Objet."
       }
@@ -101,7 +115,8 @@
       "action": {
         "type": "P_SELECT_OBJECT",
         "objectId": "img-chantier"
-      }
+      },
+      "feedback": "L'image porte maintenant son cadre : c'est elle qui recevra la commande."
     },
     {
       "id": "M04-L04-05",
@@ -159,6 +174,7 @@
         },
         "tolerance": 70
       },
+      "feedback": "Déplacée — la diapositive se lit maintenant sans que l'œil ait à chercher.",
       "aide": {
         "text": "La poignée est le petit carré blanc au coin inférieur droit du cadre bleu."
       }
@@ -229,6 +245,7 @@
         "objectType": "forme",
         "shape": "fleche"
       },
+      "feedback": "La forme « fleche » est posée au centre de « Le chantier des Tilleuls » — elle n'est finie qu'une fois placée sur ce qu'elle désigne.",
       "aide": {
         "text": "Groupe Insertion, bouton « Formes ▾ », entrée Flèche."
       }
@@ -299,6 +316,7 @@
           "420 m2 replantés en trois semaines"
         ]
       },
+      "feedback": "La zone affiche « 420 m2 replantés en trois semaines » : l'invite a disparu.",
       "aide": {
         "text": "Une zone de texte libre et vide n'affiche aucune invite : c'est le double-clic qui l'ouvre."
       }
@@ -370,6 +388,7 @@
           "italic": true
         }
       },
+      "feedback": "« 420 m2 replantés en trois semaines » ressort maintenant : en italique, quand le reste ne l'est pas.",
       "aide": {
         "text": "Sélectionnez la légende, puis cliquez sur I dans le groupe Police."
       }
@@ -383,7 +402,8 @@
           "actif": true,
           "index": 0
         }
-      }
+      },
+      "feedback": "« Verdeval » s'affiche : le déroulé saute ce qui est masqué, sans le supprimer."
     },
     {
       "id": "M04-L04-11",
@@ -393,7 +413,8 @@
         "show": {
           "index": 1
         }
-      }
+      },
+      "feedback": "Le diaporama est sur « Le chantier des Tilleuls » : les masquées ont été sautées."
     },
     {
       "id": "M04-L04-12",
@@ -403,7 +424,8 @@
         "show": {
           "actif": false
         }
-      }
+      },
+      "feedback": "Retour à l'édition sur « Le chantier des Tilleuls » : un réglage de diaporama ne se vérifie qu'en projetant."
     }
   ]
 }

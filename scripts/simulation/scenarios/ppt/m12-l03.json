@@ -102,7 +102,19 @@
       "consigne": "Une **annexe** est une diapositive préparée mais pas prévue au déroulé : le tableau détaillé qu'un adhérent sur trente réclamera. Deux règles la définissent — elle est rangée **après la fin**, et elle est **masquée** pour ne jamais s'afficher toute seule.",
       "action": {
         "type": "READ"
-      }
+      },
+      "montrer": [
+        {
+          "type": "P_MONTRER",
+          "cible": "zone:volet",
+          "texte": "Une annexe se range APRÈS la fin"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "ctrl:dia-masquer",
+          "texte": "Et se masque, pour ne jamais s'afficher toute seule"
+        }
+      ]
     },
     {
       "id": "M12-L03-02",
@@ -110,7 +122,8 @@
       "action": {
         "type": "P_SELECT_SLIDE",
         "index": 7
-      }
+      },
+      "feedback": "« Barème des cotisations » occupe le centre : c'est elle que les boutons modifieront."
     },
     {
       "id": "M12-L03-03",
@@ -235,7 +248,8 @@
       "action": {
         "type": "P_SELECT_SLIDE",
         "index": 9
-      }
+      },
+      "feedback": "« Détail des charges par poste » occupe le centre : c'est elle que les boutons modifieront."
     },
     {
       "id": "M12-L03-06",
@@ -342,7 +356,8 @@
       "action": {
         "type": "P_SELECT_SLIDE",
         "index": 10
-      }
+      },
+      "feedback": "« Amortissement du séchoir » est au centre."
     },
     {
       "id": "M12-L03-08",
@@ -451,6 +466,7 @@
         "type": "P_SET_VIEW",
         "view": "trieuse"
       },
+      "feedback": "Les 11 diapositives d'un seul regard — un défaut d'ordre s'y voit tout de suite.",
       "aide": {
         "text": "Groupe Affichage, bouton Trieuse."
       }
@@ -461,7 +477,8 @@
       "action": {
         "type": "P_SET_VIEW",
         "view": "normal"
-      }
+      },
+      "feedback": "Retour en Normal sur « Amortissement du séchoir », l'affichage où l'on compose."
     }
   ]
 }

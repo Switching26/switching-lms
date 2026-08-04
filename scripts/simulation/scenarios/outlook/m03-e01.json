@@ -62,7 +62,8 @@
           "lieu": "Résidence Beaulieu"
         }
       },
-      "aide": { "text": "Le message annonce le mercredi 4 mars, de 10 h à 12 h. Les cinq champs de la fiche doivent être renseignés avant Enregistrer." }
+      "aide": { "text": "Le message annonce le mercredi 4 mars, de 10 h à 12 h. Les cinq champs de la fiche doivent être renseignés avant Enregistrer." },
+      "feedback": "Le premier créneau est posé. Un message se lit une fois ; un agenda se consulte tous les jours."
     },
     {
       "id": "O03-E01-03",
@@ -77,7 +78,8 @@
           "lieu": "Résidence Beaulieu"
         }
       },
-      "aide": { "text": "Vendredi 6 mars. « 10 h 30 » s'écrit 10:30 dans le champ Fin." }
+      "aide": { "text": "Vendredi 6 mars. « 10 h 30 » s'écrit 10:30 dans le champ Fin." },
+      "feedback": "Les deux interventions sont à l'agenda, avec le bon lieu et les bonnes heures."
     },
     {
       "id": "O03-E01-04",
@@ -119,7 +121,26 @@
           }
         }
       },
-      "aide": { "text": "Deux informations sont attendues : les deux jours d'intervention." }
+      "aide": { "text": "Deux informations sont attendues : les deux jours d'intervention." },
+      "feedback": "Le client peut vérifier de son côté : deux créneaux confirmés par écrit, plus rien à interpréter."
+    },
+    {
+      "id": "O03-E01-99",
+      "consigne": "Les deux créneaux sont à l'agenda et confirmés par écrit. **Rangez-le dans `Clients 2026`.** Répondre sans classer laisse la boîte aussi pleine qu'avant : c'est le classement, et non l'envoi, qui fait descendre le nombre de messages en attente.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-interventions": {
+              "dossier": "clients"
+            }
+          }
+        }
+      },
+      "aide": {
+        "text": "Sélectionnez le message, puis Déplacer dans le ruban, et choisissez Clients 2026."
+      },
+      "feedback": "Le message a fait son travail : l'agenda porte l'information désormais."
     }
   ]
 }

@@ -28,6 +28,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import AtelierShell, { type EntreeSommaire } from "../AtelierShell"
+import AfficheModule, { numeroModule } from "../AfficheModule"
 import DemonstrationGeste from "../DemonstrationGeste"
 import {
   useAideProgressive,
@@ -49,8 +50,10 @@ import type { PptChannel, PptObservation } from "@/lib/simulation/ppt/observatio
 import {
   appliquerGeste,
   cibleDAuteur,
+  CONTROLES_PPT,
   deckDepuisDeclaration,
   diapoActive,
+  ongletDuControle,
   trouverObjet,
   type DeclarationDeck,
   type DeckState,
@@ -182,6 +185,25 @@ export default function PptPlayer({
   const deckRef = useRef(deck)
   deckRef.current = deck
 
+  /**
+   * La présentation telle qu'elle était À L'ARRIVÉE sur l'étape.
+   *
+   * C'est le point de départ que toute démonstration doit retrouver. Sans lui,
+   * l'apprenant qui déplace un objet, vide un espace réservé ou change de
+   * disposition avant de réclamer « Montrez-moi » reçoit une explication qui
+   * parle d'une diapositive que l'écran ne montre plus — et le geste montré se
+   * pose sur une présentation que personne ne lui a demandé de produire.
+   *
+   * Photographié APRÈS le décor de l'étape, jamais avant : le prendre plus tôt
+   * figerait la présentation de l'étape PRÉCÉDENTE.
+   *
+   * L'identifiant de l'étape est retenu AVEC la photo, et vérifié avant de
+   * reposer quoi que ce soit : une photo qui ne serait pas celle de l'étape
+   * courante rembobinerait le travail de l'apprenant de plusieurs étapes. Mieux
+   * vaut alors ne rien restaurer que restaurer à côté.
+   */
+  const deckDepartEtapeRef = useRef<{ id: string; deck: DeckState } | null>(null)
+
   const zoneRef = useRef<HTMLDivElement | null>(null)
   const { hauteur: hauteurZone, largeur: largeurZone } = useMesureZoneTravail(zoneRef)
 
@@ -233,6 +255,22 @@ export default function PptPlayer({
     index,
     finished,
     aUneEtape: !!step,
+    /*
+     * Une démonstration est une RECONSTITUTION, pas la poursuite du travail en
+     * cours : on repose la présentation du début de l'étape avant chaque
+     * passage, le premier comme les « Revoir ». Excel fait de même avec le
+     * poste de travail, et pour la même raison — l'apprenant qui abîme quelque
+     * chose puis redemande à voir se retrouvait sinon avec une explication
+     * fausse, la deuxième fois comme la première.
+     */
+    avantDemonstration: () => {
+      const depart = deckDepartEtapeRef.current
+      if (!depart || depart.id !== stepRef.current?.id) return
+      // La ref est remise à jour sans attendre le rendu : la photo que prend
+      // l'écran de lecture juste après lit `deckRef`, pas l'état React.
+      deckRef.current = depart.deck
+      setDeck(depart.deck)
+    },
   })
 
   /* ─────────── MISE EN PLACE D'UNE ÉTAPE ───────────
@@ -252,15 +290,25 @@ export default function PptPlayer({
     aide.ouvrirFenetreMiseEnPlace()
 
     const s = step.setupPpt
-    if (!s) return
-    setDeck((d) => {
-      let n = s.deck ? deckDepuisDeclaration(s.deck) : d
-      if (s.slide !== undefined) n = { ...n, activeSlide: s.slide }
-      if (s.selection) n = { ...n, selection: s.selection }
-      if (s.view) n = { ...n, view: s.view }
-      if (s.show) n = { ...n, show: { ...s.show } }
-      return n
-    })
+    if (!s) {
+      // Aucun décor à poser : le point de départ est la présentation telle que
+      // l'étape précédente l'a laissée. Il faut quand même la photographier,
+      // sinon les étapes sans `setupPpt` n'auraient rien à restaurer.
+      deckDepartEtapeRef.current = { id: step.id, deck: deckRef.current }
+      return
+    }
+    // Idiome du fichier : on lit la ref, on calcule, on repose la ref, puis on
+    // rend. Passer par un rappel de `setDeck` empêcherait de retenir le
+    // résultat pour la photo sans écrire dans une ref au milieu d'un calcul
+    // que React peut rejouer.
+    let n = s.deck ? deckDepuisDeclaration(s.deck) : deckRef.current
+    if (s.slide !== undefined) n = { ...n, activeSlide: s.slide }
+    if (s.selection) n = { ...n, selection: s.selection }
+    if (s.view) n = { ...n, view: s.view }
+    if (s.show) n = { ...n, show: { ...s.show } }
+    deckDepartEtapeRef.current = { id: step.id, deck: n }
+    deckRef.current = n
+    setDeck(n)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [index, step?.id])
 
@@ -281,13 +329,127 @@ export default function PptPlayer({
     return { left: r.left - z.left, top: r.top - z.top, width: r.width, height: r.height }
   }, [])
 
+  /**
+   * Rectangle d'une cible, APRÈS l'avoir amenée dans le champ.
+   *
+   * 🔴 UN BOUTON HORS CHAMP SE RÉSOUT PARFAITEMENT — ET NE SE VOIT PAS.
+   *
+   * Le ruban défile horizontalement, et c'est tout le sujet sur téléphone.
+   * Mesuré à 390 px : l'onglet Accueil rend 13 boutons sur 997 px de contenu
+   * pour 390 px de fenêtre, donc 10 hors champ. L'élément existe, son rectangle
+   * est valide, `DemonstrationGeste` dessine son cadre — à côté de l'écran.
+   * Relevé sur `m02-l01#10` : le repère de « Monter : un cran vers le haut »
+   * était peint à left = 394 dans une zone large de 390. L'apprenant lit la
+   * phrase et ne voit jamais ce qu'elle désigne, pendant que le compteur va
+   * jusqu'à `n/n` et que la phase atteint « fini » sans lever la moindre
+   * erreur : le faux témoin exact que l'audit d'Excel décrit.
+   *
+   * ⚠️ C'est LE REMÈDE DE WORD (`rectDuDom`), pas une troisième solution — on
+   * amène la cible dans le champ, puis on REMESURE. Le choix a été tranché par
+   * la mesure, pas par analogie : sur les 13 boutons de l'onglet Accueil, 10
+   * sont hors champ et **0 le reste** après cette amenée. Le défilement suffit
+   * donc ici. Le tiroir des groupes que Word a dû ajouter en plus répond à un
+   * autre besoin — trouver un bouton AU DOIGT — et son ruban est deux fois plus
+   * long que celui-ci (25 boutons, 1 189 px de défilement, contre 13 et 607).
+   *
+   * ⚠️ `block: "nearest"` : `center` ferait aussi défiler la PAGE, et l'atelier
+   * est un écran unique qui ne défile jamais. Vérifié sur les 13 boutons —
+   * `window.scrollY` reste à 0.
+   *
+   * Le calque appelle `resoudre` à CHAQUE rendu : c'est sans effet de bord, une
+   * fois la cible dans le champ `dehors` est faux et plus rien ne bouge. Le
+   * défilement est instantané (jamais `smooth`), sinon la remesure qui suit
+   * lirait la position d'avant.
+   */
+  const rectDeVisible = useCallback(
+    (selecteur: string): RectCible | null => {
+      const zone = zoneRef.current
+      if (!zone) return null
+      const el = zone.querySelector(selecteur)
+      if (!(el instanceof HTMLElement)) return null
+      let r = el.getBoundingClientRect()
+      if (r.width === 0 && r.height === 0) return null
+      let z = zone.getBoundingClientRect()
+      const dehors = r.right > z.right || r.left < z.left || r.bottom > z.bottom || r.top < z.top
+      if (dehors) {
+        el.scrollIntoView({ block: "nearest", inline: "center" })
+        r = el.getBoundingClientRect()
+        z = zone.getBoundingClientRect()
+        /* Crochet d'audit — hors production, même idiome que
+           `__PPT_REPLI_UTILISE`. Il sert à PROUVER la symétrie au lieu de
+           l'argumenter : si l'amenée ne se déclenche jamais sur grand écran, le
+           comportement y est identique à celui d'avant le correctif. */
+        if (process.env.NODE_ENV !== "production" && typeof window !== "undefined") {
+          const w = window as unknown as Record<string, unknown>
+          const j = (w.__PPT_AMENE_DANS_CHAMP as string[] | undefined) ?? []
+          j.push(selecteur)
+          w.__PPT_AMENE_DANS_CHAMP = j
+        }
+      }
+      return { left: r.left - z.left, top: r.top - z.top, width: r.width, height: r.height }
+    },
+    [],
+  )
+
+  /**
+   * ⚠️ CE QU'UN PETIT ÉCRAN REPLIE, ET LE BOUTON QUI LE ROUVRE.
+   *
+   * Un contrôle logé dans un panneau replié n'est pas « caché » : il est ABSENT
+   * DU DOM. `rectDe` rend alors `null`, `DemonstrationGeste` ne rend son cadre
+   * que sous `{rect && …}` — et la bulle ne dessine RIEN, pendant que le
+   * compteur va jusqu'à `n/n` et que la phase atteint `fini`. L'apprenant croit
+   * avoir vu la démonstration ; il n'a rien vu. Mesuré à 390 px : 23 bulles
+   * muettes sur 12 chapitres, desktop parfait sur les mêmes.
+   *
+   * Le remède existait déjà pour `zone:volet`, posé dans l'adaptateur. Il vit
+   * ici pour les deux autres cas, et c'est sa place : quel panneau est replié
+   * dépend de la LARGEUR RENDUE, une chose que l'adaptateur — pur et sans
+   * surface — ne peut pas connaître. Le contenu n'a donc rien à déclarer.
+   *
+   * Deux replis, dérivés de `CONTROLES_PPT` et non de littéraux recopiés :
+   *  · le champ de notes → le bouton qui ouvre le panneau des notes ;
+   *  · une miniature `vol-diapo-N` → le bouton du tiroir des miniatures.
+   *
+   * ⚠️ On résout DANS L'ORDRE, jamais par un sélecteur composé `A, B` :
+   * `querySelector` rend le premier nœud en ORDRE DE DOCUMENT, pas le premier
+   * sélecteur satisfait. Or à l'étroit, panneau OUVERT, le bouton précède son
+   * panneau dans le DOM — un sélecteur composé désignerait le bouton alors que
+   * la vraie cible est là, sous les yeux de l'apprenant.
+   */
+  const repliPetitEcran = useCallback((selecteur: string): string | null => {
+    const m = /^\[data-control="([^"]+)"\]$/.exec(selecteur)
+    if (!m) return null
+    const id = m[1]
+    if (id === CONTROLES_PPT.notes) return CONTROLES_PPT.notesBascule
+    const n = Number(id.slice(id.lastIndexOf("-") + 1))
+    if (Number.isFinite(n) && CONTROLES_PPT.miniature(n) === id) return CONTROLES_PPT.voletBascule
+    return null
+  }, [])
+
   const resoudreDemo = useCallback(
     (cible: CibleDemo) => {
-      if (cible.k === "dom") return rectDe(cible.sel)
+      if (cible.k === "dom") {
+        const direct = rectDeVisible(cible.sel)
+        if (direct) return direct
+        const repli = repliPetitEcran(cible.sel)
+        if (!repli) return null
+        const r = rectDeVisible(`[data-control="${repli}"]`)
+        /* Crochet d'audit — hors production, même idiome que
+           `__PPT_BOUTONS_PRESSES`. Il sert à PROUVER la non-régression au lieu
+           de l'argumenter : si le repli ne se déclenche jamais sur grand écran,
+           le comportement y est identique à celui d'avant le correctif. */
+        if (r && process.env.NODE_ENV !== "production" && typeof window !== "undefined") {
+          const w = window as unknown as Record<string, unknown>
+          const j = (w.__PPT_REPLI_UTILISE as string[] | undefined) ?? []
+          j.push(`${cible.sel} → ${repli}`)
+          w.__PPT_REPLI_UTILISE = j
+        }
+        return r
+      }
       if (cible.k === "clavier") return null
       return null
     },
-    [rectDe],
+    [rectDeVisible, repliPetitEcran],
   )
 
   /** Rectangle de la cible de l'étape courante, pour l'effet ancré. */
@@ -374,7 +536,13 @@ export default function PptPlayer({
             pendingRef.current.errors += 1
             aide.compterEssai()
             setVerdict({ ok: false, reason: "ko", message: j.message ?? "" })
-            lancerFx("ko", rectEtape(), j.message)
+            // JAMAIS `rectEtape()` sur un « ko » : ce rectangle est celui de la
+            // CIBLE ATTENDUE, donc de la réponse. L'encadrer en rouge la désigne
+            // — en évaluation notée, c'est la donner. Word portait exactement ce
+            // défaut et l'a fermé de la même façon (`WordPlayer:733`).
+            // Le message survit sans rectangle : le rendu le pose alors en pied
+            // de zone au lieu de l'ancrer sous la cible (voir plus bas).
+            lancerFx("ko", null, j.message)
           } else if (!miseEnPlace) {
             aide.compterTatonnement()
           }
@@ -401,7 +569,9 @@ export default function PptPlayer({
         pendingRef.current.errors += 1
         aide.compterEssai()
         setVerdict({ ok: false, reason: j.reason ?? "ko", message: j.message ?? "" })
-        lancerFx("ko", rectEtape(), j.message)
+        // Même règle que dans le chemin serveur ci-dessus : un halo d'erreur ne
+        // s'ancre jamais sur la cible attendue, sous peine de la révéler.
+        lancerFx("ko", null, j.message)
       } else if (j.compte === "tatonnement") {
         aide.compterTatonnement()
       }
@@ -435,9 +605,72 @@ export default function PptPlayer({
   /* ─────────── DÉMONSTRATION ─────────── */
 
   const plan: PlanDemo | null = useMemo(() => {
-    if (!step || evaluationNotee) return null
+    if (!step) return null
+    /**
+     * UN ÉCRAN DE LECTURE MONTRE CE QU'IL RACONTE.
+     *
+     * Les 191 écrans « À comprendre » de la formation n'avaient aucun moyen de
+     * le faire : le plan se déduisait de `step.action`, et l'action d'un écran
+     * de lecture est `READ` — qui ne produit aucun geste. Un scénario pouvait
+     * donc déclarer un `montrer` complet, il était purement et simplement
+     * ignoré. C'est le même manque qu'Excel avait sur ses 187 écrans avant de
+     * recevoir `MONTRER`, et il est bien plus coûteux qu'il n'en a l'air :
+     * l'écran affirme « le volet des miniatures liste vos diapositives » et
+     * rien à l'écran ne le désigne.
+     *
+     * Les plans s'enchaînent : les gestes bout à bout, les repères de suivi à
+     * la file, pour un compteur « i / n » qui court sur toute la séquence.
+     *
+     * Y COMPRIS EN ÉVALUATION NOTÉE — et ce n'est pas une aide sur une question :
+     * un énoncé d'ouverture qui désigne où lire les consignes ne souffle aucune
+     * réponse, c'est le contenu lui-même. Même règle que sur Excel.
+     */
+    if (step.montrer?.length) {
+      const plans = step.montrer
+        .map((a) => adaptateurPpt.demonstration(a as unknown as Record<string, unknown> & { type: string }, {}))
+        .filter(Boolean) as PlanDemo[]
+      if (plans.length === 0) return null
+      return { gestes: plans.flatMap((p) => p.gestes), pas: plans.flatMap((p) => p.pas) }
+    }
+    if (evaluationNotee) return null
     return adaptateurPpt.demonstration(step.action as unknown as Record<string, unknown> & { type: string }, {})
   }, [step, evaluationNotee])
+
+  /**
+   * L'onglet du ruban que l'étape courante rend nécessaire.
+   *
+   * Déduit du plan de démonstration, donc de la MÊME source que le reste : le
+   * premier bouton que l'étape fait presser décide de l'onglet à ouvrir. Une
+   * seconde table à tenir à jour à la main dériverait, et un bouton oublié
+   * deviendrait injoignable — l'étape qui le demande, infranchissable.
+   *
+   * C'est ce qui permet d'ajouter les onglets sans rendre injouable une seule
+   * des 1 348 étapes déjà écrites : aucune ne déclarait d'onglet, puisqu'il n'y
+   * en avait pas.
+   *
+   * ⚠️ Un écran de LECTURE n'attend aucun geste : son action ne presse rien, et
+   * l'onglet resterait donc celui de l'étape précédente. Une bulle qui désigne
+   * « le groupe Transitions » pointerait alors un bouton absent du DOM, et
+   * montrerait du vide — exactement le défaut que les onglets rouvrent. On prend
+   * donc l'onglet du premier bouton de ruban que la démonstration DÉSIGNE : le
+   * ruban est déjà ouvert au bon endroit quand l'illustration démarre.
+   */
+  const ongletSuggere = useMemo(() => {
+    if (!step) return null
+    const p = adaptateurPpt.demonstration(
+      step.action as unknown as Record<string, unknown> & { type: string },
+      {},
+    )
+    const presse = p?.gestes.find((g) => g.presser?.id)?.presser?.id
+    if (presse) return ongletDuControle(presse)
+    for (const a of step.montrer ?? []) {
+      const c = (a as unknown as { cible?: string }).cible ?? ""
+      if (!c.startsWith("ctrl:")) continue
+      const o = ongletDuControle(c.slice(5))
+      if (o) return o
+    }
+    return null
+  }, [step])
 
   const demoEcrire = useCallback((ref: string, valeur: string) => {
     // La démonstration écrit POUR DE VRAI, sous verrou : sans écriture, elle
@@ -473,12 +706,97 @@ export default function PptPlayer({
     // « désignait » l'onglet sans l'ouvrir jouait tout le reste à blanc.
     const el = zoneRef.current?.querySelector(`[data-control="${id}"]`)
     if (el instanceof HTMLElement) el.click()
+    /* Crochet d'audit — hors production. `check-couverture-ppt` refuse de
+       mesurer les boutons employés depuis le code, parce qu'une carte de plus
+       divergerait comme les trois précédentes : sa seule source acceptable est
+       un relevé de ce qui a RÉELLEMENT été pressé dans un navigateur. C'est ici
+       qu'il se prend, au moment du clic, et nulle part ailleurs. */
+    if (process.env.NODE_ENV !== "production" && typeof window !== "undefined") {
+      const w = window as unknown as Record<string, unknown>
+      const j = (w.__PPT_BOUTONS_PRESSES as string[] | undefined) ?? []
+      if (!j.includes(id)) j.push(id)
+      w.__PPT_BOUTONS_PRESSES = j
+    }
   }, [])
 
   /* ─────────── FIN DE CHAPITRE ─────────── */
   progression.onTerminer.current = () => {
     void cloturer()
   }
+
+  /* ─────────── UN ÉCRAN DE LECTURE SE JOUE TOUT SEUL ───────────
+   *
+   * Sur un écran « À comprendre », l'apprenant n'a aucun geste à faire : rien ne
+   * déclencherait donc la démonstration, et le bouton « Montrez-moi » n'y
+   * apparaît pas — il est gouverné par les seuils d'erreur. Sans démarrage
+   * automatique, les 191 écrans resteraient muets même une fois équipés.
+   *
+   * Le délai laisse le temps de lire la consigne avant que ça bouge, et laisse
+   * la surface finir de se poser. La page de garde doit être passée : sur Excel,
+   * la démonstration se jouait PAR-DESSUS « Commencer la leçon », bulles et
+   * curseur compris, avant même que l'apprenant ait ouvert le chapitre.
+   */
+  useEffect(() => {
+    if (!step || finished || !introVue) return
+    if (step.action.type !== "READ" || !step.montrer?.length) return
+    const t = window.setTimeout(() => aide.demarrerDemonstration(), 1200)
+    return () => window.clearTimeout(t)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [step?.id, index, finished, introVue])
+
+  /**
+   * Forcer la démonstration sans passer par les seuils de l'apprenant.
+   *
+   * HORS PRODUCTION, et seulement si l'auditeur l'a demandé. Sans ce crochet, la
+   * démonstration d'une étape d'action n'est atteignable qu'après trois erreurs,
+   * six tâtonnements ou quarante-cinq secondes : un audit qui doit relever les
+   * boutons réellement pressés sur 130 chapitres ne peut pas les simuler. Le
+   * mécanisme est repris d'Excel, où l'absence d'équivalent avait fait conclure
+   * à tort que rien ne se pressait.
+   */
+  useEffect(() => {
+    if (process.env.NODE_ENV === "production") return
+    if (typeof window === "undefined" || !(window as unknown as Record<string, unknown>).__PPT_FORCE_DEMO) return
+    if (!step || finished || !introVue) return
+    const t = window.setTimeout(() => aide.demarrerDemonstration(), 900)
+    return () => window.clearTimeout(t)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [step?.id, index, finished, introVue])
+
+  /* ─────────── UNE LECTURE NE MODIFIE PAS LA PRÉSENTATION ───────────
+   *
+   * Une illustration peut poser un contre-exemple (`ecrire`) pour montrer ce
+   * qu'il ne faut pas faire. Si on le laissait en place, l'étape suivante
+   * partirait d'une présentation que l'apprenant n'a pas produite — et une étape
+   * jugée sur l'état deviendrait infranchissable.
+   *
+   * Le deck est donc photographié à l'ouverture de la démonstration et remis à
+   * l'identique à la fin, exactement comme Excel restaure son classeur. Rien
+   * n'est restauré sur une étape d'action : là, la démonstration écrit POUR DE
+   * VRAI, c'est tout son intérêt.
+   */
+  const avantDemoRef = useRef<DeckState | null>(null)
+  useEffect(() => {
+    const lecture = step?.action.type === "READ"
+    if (!lecture) return
+    if (aide.demonstration && !aide.demoFinie && !avantDemoRef.current) {
+      avantDemoRef.current = deckRef.current
+      return
+    }
+    if (aide.demoFinie && avantDemoRef.current) {
+      const avant = avantDemoRef.current
+      avantDemoRef.current = null
+      deckRef.current = avant
+      setDeck(avant)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [aide.demonstration, aide.demoFinie, step?.id])
+
+  /* Une nouvelle étape efface la photo : la garder ferait restaurer, à la fin
+     d'une démonstration ultérieure, l'état d'un écran déjà quitté. */
+  useEffect(() => {
+    avantDemoRef.current = null
+  }, [index])
 
   /* ─────────── CROCHETS D'AUDIT — HORS PRODUCTION ───────────
    *
@@ -519,6 +837,17 @@ export default function PptPlayer({
       ? adaptateurPpt.reponse(step.action as unknown as Record<string, unknown> & { type: string })
       : null
   const filModule = scenario.moduleTitle ?? ""
+  /*
+   * Le module a-t-il une affiche ? On teste le NUMÉRO, jamais l'élément JSX :
+   * `<AfficheModule/>` est toujours truthy même quand il rend `null`, et le
+   * repli n'aurait jamais lieu — Excel a payé exactement ce piège.
+   *
+   * 🔴 `app` n'est PAS facultatif ici. Le module 1 de PowerPoint s'appelle
+   * « Prise en main », exactement comme celui d'Excel : sans l'application, la
+   * résolution part dans l'ordre de préférence, tombe sur Excel et affiche une
+   * grille de tableur légendée « la grille » en tête d'un chapitre PowerPoint.
+   */
+  const afficheModule = numeroModule(scenario.moduleTitle, "POWERPOINT") !== null
 
   return (
     <AtelierShell
@@ -562,6 +891,20 @@ export default function PptPlayer({
               nature,
               lecture: step.action.type === "READ",
               aDemonstration: !!step.montrer?.length,
+              /*
+               * ⚠️ C'EST LE PLAN QU'ON TESTE, JAMAIS `montrer`.
+               *
+               * `aDemonstration` juste au-dessus vaut `!!step.montrer?.length`,
+               * et **aucune** des 939 étapes d'action de PowerPoint ne porte de
+               * `montrer` : s'y gater retirerait « Montrez-moi » à 863 étapes
+               * qui ont pourtant une vraie démonstration. Sur un écran `READ`
+               * les deux coïncident — le plan y est justement bâti depuis
+               * `montrer` —, mais sur une étape d'action seul `plan` sait.
+               *
+               * Absent ⇒ `true` côté châssis : renseigner le champ est donc la
+               * seule chose qui rende son correctif actif ici.
+               */
+              demoJouable: !!plan,
               attendu,
               // Jamais servie en évaluation : le bloc qui l'affiche y est déjà
               // inatteignable, et la calculer serait la faire transiter pour rien.
@@ -579,6 +922,21 @@ export default function PptPlayer({
               relais,
               relaisActif,
               verdict,
+              /**
+               * La phrase de refus est ANCRÉE à la diapositive, juste au-dessous.
+               *
+               * Même raison que `aideAncree` : un message ne se lit qu'à UN
+               * endroit. Vérifié dans les deux seuls chemins qui posent un
+               * verdict porteur d'un message — juge local et juge serveur — :
+               * chacun lance `lancerFx("ko", …, message)` avec EXACTEMENT la
+               * même phrase, donc rien n'est perdu en retirant la ligne.
+               *
+               * ⚠️ Le drapeau ne vaut que pour les étapes d'action : le châssis
+               * garde sa ligne sur un écran de lecture (`c.lecture || …`), où
+               * aucun effet n'est lancé. Et le TÂTONNEMENT ne pose ici aucun
+               * verdict — il n'y a donc pas de message à faire disparaître.
+               */
+              verdictAncre: true,
               // PowerPoint n'a pas encore de remise d'aplomb : `ppt/aplomb.ts`
               // est un lot à part. Le dire par `null` plutôt que d'inventer un
               // message qui laisserait croire à une réparation.
@@ -605,21 +963,29 @@ export default function PptPlayer({
       }
     >
       <style>{`
+        @keyframes ppt-intro-monte { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
         @keyframes ppt-fx-ok { 0%{opacity:0} 20%{opacity:1} 100%{opacity:0} }
         @keyframes ppt-fx-ko { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-5px)} 75%{transform:translateX(5px)} }
+        @keyframes ppt-fx-msg { 0%{opacity:0;transform:translateY(-4px)} 100%{opacity:1;transform:translateY(0)} }
         @keyframes ppt-jalon { 0%{opacity:0;transform:scale(.94)} 12%{opacity:1;transform:scale(1)} 82%{opacity:1} 100%{opacity:0} }
         @media (prefers-reduced-motion: reduce) {
           [style*="ppt-fx-"],[style*="ppt-jalon"]{animation-duration:.01ms !important}
         }
       `}</style>
 
-      {/* ── ÉCRAN D'OUVERTURE ── */}
+      {/* ── ÉCRAN D'OUVERTURE ──
+          L'affiche du module occupe la colonne de droite, comme sur Excel, et
+          disparaît sous `lg`. Elle est posée DANS LE FLUX et non en absolu :
+          l'absolu d'Excel peut recouvrir le texte autour de 1024 px, et le seul
+          moyen de garantir qu'aucune largeur ne fasse se chevaucher les deux
+          est de leur faire partager une rangée. */}
       {!introVue && step ? (
         <div
           className="absolute inset-0 z-40 flex flex-col justify-center px-6 py-8 sm:px-10"
           style={{ background: "linear-gradient(180deg,#faf9f5 0%,#f2efe8 100%)" }}
         >
-          <div style={{ maxWidth: 620 }}>
+        <div className="flex w-full items-center" style={{ gap: 40 }}>
+          <div style={{ maxWidth: 620, flex: "1 1 auto", minWidth: 0 }}>
             <p
               className="uppercase"
               style={{ fontSize: 12, fontWeight: 800, letterSpacing: "2.2px", color: "#8C3520", marginBottom: 12 }}
@@ -669,6 +1035,21 @@ export default function PptPlayer({
               </p>
             ) : null}
           </div>
+          {/* Pas de repli quand le module n'a pas encore d'affiche : le
+              mini-classeur vert d'Excel dessine une grille de tableur, et
+              inventer ici une seconde langue visuelle par application
+              reviendrait à poser trois jeux d'illustrations dans les players,
+              que l'affiche remplacera. Rien vaut mieux qu'à peu près. */}
+          {afficheModule ? (
+            <div
+              aria-hidden
+              className="hidden shrink-0 select-none lg:block"
+              style={{ width: 372, animation: "ppt-intro-monte .9s .35s ease both" }}
+            >
+              <AfficheModule moduleTitle={scenario.moduleTitle} app="POWERPOINT" />
+            </div>
+          ) : null}
+        </div>
         </div>
       ) : null}
 
@@ -683,6 +1064,7 @@ export default function PptPlayer({
           halo={halo}
           lecture={!!preview || finished}
           largeurZone={largeurZone}
+          ongletSuggere={ongletSuggere}
         />
 
         {/* Effet ancré à la cible : le guidage doit être visible DANS la zone de
@@ -707,6 +1089,70 @@ export default function PptPlayer({
               animation: fx.kind === "ok" ? "ppt-fx-ok 1.4s ease both" : "ppt-fx-ko .4s ease both",
             }}
           />
+        ) : null}
+
+        {/* LA PHRASE, ET PAS SEULEMENT LE CONTOUR.
+         *
+         * `lancerFx` recevait déjà le message ; il était JETÉ. PowerPoint
+         * refusait donc le geste en secouant un cadre rouge, muet, alors que le
+         * juge avait écrit pourquoi — « Ce n'est pas la bonne diapositive. »
+         * Un contour ne dit pas ce qui manque : c'est le retour de Samuel du
+         * 28/07, l'apprenant regarde sa diapositive, pas le texte sous l'écran.
+         *
+         * Le cadre reste `aria-hidden` — il est décoratif ; la phrase, elle,
+         * doit être ANNONCÉE, d'où le `role="status"` sur un élément distinct.
+         *
+         * Durée : le `fx` « ko » vit 2 800 ms. Mesuré en interrogeant le juge
+         * sur les 1 157 étapes d'action, ses messages font 50 signes au plus
+         * (médiane 33) — soit 18 signes/s, sous le seuil de lisibilité de 22.
+         * Aucune échéance propre n'est donc nécessaire ici, contrairement au
+         * message d'aplomb d'Excel qui, lui, était effacé avant d'être lu.
+         *
+         * `pointer-events: none` : une surface décorative qui avale les clics
+         * est le défaut le plus coûteux du lecteur d'Excel (invariant §6.4). */}
+        {fx?.kind === "ko" && fx.message ? (
+          <div
+            key={`fxmsg${fx.k}`}
+            role="status"
+            style={{
+              position: "absolute",
+              pointerEvents: "none",
+              zIndex: 46,
+              /* Sous la cible quand elle est mesurable, sinon en pied de zone :
+                 un message centré sur une cible inconnue se poserait au milieu
+                 de la diapositive, par-dessus ce que l'apprenant doit regarder.
+                 ⚠️ Et il REMONTE au-dessus de la cible quand il n'y a plus la
+                 place dessous : à 390 px une cible basse le pousserait hors du
+                 cadre, où il serait aussi absent que la phrase jetée. */
+              left: 8,
+              right: 8,
+              ...(fx.rect
+                ? hauteurZone > 0 && fx.rect.top + fx.rect.height + 8 > hauteurZone - 40
+                  ? { top: Math.max(4, fx.rect.top - 40) }
+                  : { top: Math.max(4, fx.rect.top + fx.rect.height + 8) }
+                : { bottom: 12 }),
+              display: "flex",
+              justifyContent: "center",
+              animation: "ppt-fx-msg .2s ease both",
+            }}
+          >
+            <span
+              style={{
+                maxWidth: "100%",
+                padding: "7px 12px",
+                borderRadius: 8,
+                background: "#7F1D1D",
+                color: "#fff",
+                fontSize: 12.5,
+                lineHeight: 1.35,
+                fontWeight: 600,
+                textAlign: "center",
+                boxShadow: "0 4px 14px rgba(16,24,32,.28)",
+              }}
+            >
+              {fx.message}
+            </span>
+          </div>
         ) : null}
 
         {jalon ? (

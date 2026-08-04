@@ -21,15 +21,30 @@
  *     acceptait tout. On injecte donc une réponse fausse sur chaque étape et on
  *     regarde ce que le moteur en fait.
  *
- *  3. LA PART RÉELLEMENT DISCRIMINANTE EST ANNONCÉE. Le point 2 révèle une
- *     propriété du socle qu'il vaut mieux connaître que découvrir : `frappe.ts`
- *     classe en « passage obligé » — donc en tâtonnement, jamais en faute —
- *     tout verdict `no_…` rendu sur une étape jugée sur l'état. Or l'adaptateur
- *     Word rend `no_…` sur TOUTES ses variantes `W_EXPECT_*`. Conséquence : ces
- *     étapes ne peuvent pas coûter de point, quel que soit le nombre d'essais.
- *     Ce contrôle ne le corrige pas — `frappe.ts` est gelé — il le MESURE et
- *     l'affiche, pour que le barème d'une évaluation soit écrit en connaissance
- *     de cause.
+ *  3. LA NOTE PEUT RÉELLEMENT DESCENDRE — ET LE CONTRÔLE ÉCHOUE SINON.
+ *     C'est le point qui a manqué le plus longtemps. Ce contrôle MESURAIT la
+ *     part discriminante du barème, puis sortait au vert quelle qu'elle soit :
+ *     il a affiché « 85/356 (24 %) » pendant tout un chantier en concluant
+ *     « ✓ ». Un contrôle qui mesure un défaut doit échouer dessus, sinon il
+ *     n'est qu'un afficheur — et c'est l'un des quatre faux témoins du dépôt.
+ *
+ *     Il applique donc deux planchers, l'un et l'autre justifiés :
+ *
+ *     • PAR ÉVALUATION, 50 %. Une évaluation dont moins de la moitié des points
+ *       sont perdables rend la moyenne à un apprenant qui se trompe partout.
+ *       Ces évaluations sont opposables — Switching Formation est un organisme
+ *       Qualiopi — donc ce plancher n'est pas négociable à la baisse.
+ *
+ *     • GLOBAL, 70 %. C'est le profil MESURÉ d'Excel (358/513 = 70 %), la seule
+ *       des quatre formations en production, avec 202 progressions d'élèves
+ *       réels. Word n'a aucune raison de noter plus mollement.
+ *
+ *     Ce qui reste inperdable après correction l'est PAR NATURE, et le contrôle
+ *     le nomme : un attribut booléen (« mettre en gras ») n'a pas de mauvaise
+ *     valeur, un retour à un réglage par défaut (« remettez à 1 copie ») ne se
+ *     rate qu'en ne le faisant pas, et une sélection à la souris est classée
+ *     navigation par le socle — délibérément, pour ne pas punir l'imprécision
+ *     d'un geste analogique.
  *
  * CE QU'IL NE PROUVE PAS : que l'attendu d'une étape est atteignable à l'écran.
  * L'observation canonique est construite depuis l'attente elle-même, donc la
@@ -45,7 +60,7 @@ import * as path from "path"
 
 import { adaptateurWord } from "../../../lib/simulation/word/adaptateur"
 import { jugerEtape } from "../../../lib/simulation/frappe"
-import { resoudreZone, type ParagrapheLu } from "../../../lib/simulation/word/document"
+import { NEUTRE_WORD, resoudreZone, type ParagrapheLu } from "../../../lib/simulation/word/document"
 import type { SimulationStep } from "../../../lib/simulation/types"
 import type { WordObservation, WordParagrapheObserve } from "../../../lib/simulation/word/observations"
 
@@ -265,6 +280,27 @@ function canonique(step: SimulationStep, paragraphes: WordParagrapheObserve[]): 
 /** Un texte qu'aucun scénario ne peut raisonnablement accepter. */
 const SENTINELLE = "zzz reponse volontairement fausse zzz"
 
+/**
+ * Une valeur que l'apprenant a POSÉE, et qui n'est ni l'attendue ni le neutre.
+ *
+ * 🔴 C'EST LA CORRECTION LA PLUS IMPORTANTE DE CE CONTRÔLE. La version
+ * précédente injectait, pour la plupart des types d'état, un document où RIEN
+ * n'avait été fait — un paragraphe vide, un tableau absent, un panneau à ses
+ * valeurs d'ouverture. Or « ne rien faire » n'est pas « se tromper » : le juge
+ * rend `no_…` et le noyau classe en tâtonnement, à juste titre. Le contrôle
+ * mesurait donc la perdabilité avec une observation qui ne peut, par
+ * construction, jamais coûter un point — et concluait que le barème était
+ * inperdable alors qu'il ne testait pas ce qu'il croyait tester.
+ *
+ * Ce qu'un apprenant qui se trompe produit réellement, c'est un geste FAIT et
+ * FAUX : le style « Titre 2 » quand on demande « Titre 1 ». C'est cela qu'on
+ * injecte désormais, quand le type d'attribut le permet.
+ */
+function autreQue<T>(neutre: T, attendu: T | undefined, candidats: readonly T[]): T | undefined {
+  if (attendu === undefined) return undefined
+  return candidats.find((c) => c !== attendu && c !== neutre)
+}
+
 /** Une observation délibérément FAUSSE, du même canal que la bonne. */
 function fausse(step: SimulationStep, paragraphes: WordParagrapheObserve[]): WordObservation | null {
   const a = step.action as unknown as Record<string, unknown>
@@ -294,9 +330,40 @@ function fausse(step: SimulationStep, paragraphes: WordParagrapheObserve[]): Wor
       return { kind: "w:key", touches: ["Ctrl", "Z"] }
     case "W_SELECT_TEXT":
       return { kind: "w:selection", plage: { debut: 0, fin: 1 }, texte: "x", paragraphes }
-    case "W_EXPECT_DOC":
-    case "W_EXPECT_STYLE":
-      return { kind: "w:docState", paragraphes }
+    case "W_EXPECT_DOC": {
+      // Le paragraphe visé porte un AUTRE texte : l'apprenant a écrit, et faux.
+      const copie = paragraphes.map((p) => ({ ...p }))
+      for (const cle of Object.keys(a.paragraphes as Record<string, string[]>)) {
+        const n = Number(cle.replace(/^p/, ""))
+        while (copie.length <= n) {
+          copie.push({ texte: "", style: "Normal", alignement: "gauche", liste: "aucune" })
+        }
+        copie[n] = { ...copie[n], texte: SENTINELLE }
+      }
+      return { kind: "w:docState", paragraphes: copie }
+    }
+
+    case "W_EXPECT_STYLE": {
+      // Un style, un alignement ou une liste POSÉS, mais pas les bons.
+      const i = indexDeZone(a.zone as string, paragraphes)
+      const copie = paragraphes.map((p) => ({ ...p }))
+      const s = (a.style ?? {}) as Record<string, string>
+      if (!copie[i]) return { kind: "w:docState", paragraphes: copie }
+      const style = autreQue(NEUTRE_WORD.style, s.style, ["Titre 1", "Titre 2", "Sous-titre"])
+      const alignement = autreQue(NEUTRE_WORD.alignement, s.alignement, [
+        "centre",
+        "droite",
+        "justifie",
+      ])
+      const liste = autreQue(NEUTRE_WORD.liste, s.liste, ["puces", "numerotee"])
+      copie[i] = {
+        ...copie[i],
+        ...(style ? { style } : {}),
+        ...(alignement ? { alignement: alignement as WordParagrapheObserve["alignement"] } : {}),
+        ...(liste ? { liste: liste as WordParagrapheObserve["liste"] } : {}),
+      }
+      return { kind: "w:docState", paragraphes: copie }
+    }
     case "W_EXPECT_FORMAT": {
       /*
        * ⚠️ UNE EXIGENCE NÉGATIVE SE RATE EN LAISSANT L'ATTRIBUT EN PLACE.
@@ -316,23 +383,57 @@ function fausse(step: SimulationStep, paragraphes: WordParagrapheObserve[]): Wor
         // encore posée. Sans ce cas, l'observation fausse valait la bonne
         // réponse et le contrôle criait au loup sur une étape saine.
         if (valeur === "") inverse[cle] = "#f1c40f"
+        // Les attributs à VALEURS MULTIPLES se ratent en en posant une autre —
+        // une taille 18 au lieu de 14, une police au lieu d'une autre. C'est la
+        // seule faute qu'un format sache compter : un booléen (gras, italique)
+        // n'a pas de « mauvaise » valeur, il est mis ou non.
+        if (cle === "taille" && typeof valeur === "number") inverse[cle] = valeur + 4
+        if (cle === "police" && typeof valeur === "string") {
+          inverse[cle] = valeur.toLowerCase() === "verdana" ? "Georgia" : "Verdana"
+        }
+        if ((cle === "couleur" || cle === "surlignage") && typeof valeur === "string" && valeur !== "") {
+          inverse[cle] = valeur.toLowerCase() === "#2e86c1" ? "#7d3c98" : "#2e86c1"
+        }
       }
       return { kind: "w:docState", paragraphes, formats: { [a.zone as string]: inverse } }
     }
     case "W_EXPECT_TABLE":
-      return { kind: "w:docState", paragraphes, tableaux: [] }
-    case "W_EXPECT_PAGE":
-      return { kind: "w:docState", paragraphes, page: {} }
-    case "W_EXPECT_LIEN":
-      // Exiger l'absence ⇒ l'observation fausse doit porter le lien.
+      // Un tableau INSÉRÉ, mais aux mauvaises dimensions.
       return {
         kind: "w:docState",
         paragraphes,
-        liens: a.absent ? [{ id: "l1", url: a.url as string, texte: "" }] : [],
+        tableaux: [{ lignes: (a.lignes as number) + 1, colonnes: (a.colonnes as number) + 1 }],
+      }
+    case "W_EXPECT_PAGE": {
+      // Des réglages POSÉS, mais pas les bons. Une orientation n'a que deux
+      // valeurs : l'autre est le neutre, donc elle n'est pas contradictible.
+      const attendu = a.page as Record<string, unknown>
+      const faux: Record<string, unknown> = {}
+      for (const [cle, valeur] of Object.entries(attendu)) {
+        if (typeof valeur === "number") {
+          const neutre = NEUTRE_WORD.page[cle]
+          faux[cle] = valeur + (typeof neutre === "number" && valeur + 1 === neutre ? 2 : 1)
+        }
+      }
+      return { kind: "w:docState", paragraphes, page: faux }
+    }
+    case "W_EXPECT_LIEN":
+      // Exiger l'absence ⇒ l'observation fausse doit porter le lien.
+      // Exiger une adresse ⇒ la faute, c'est un lien posé vers une AUTRE.
+      return {
+        kind: "w:docState",
+        paragraphes,
+        liens: a.absent
+          ? [{ id: "l1", url: a.url as string, texte: "" }]
+          : [{ id: "l1", url: "https://exemple.invalide/mauvaise-adresse", texte: "" }],
       }
     case "W_EXPECT_IMAGE":
       // ⚠️ Quand l'étape exige l'ABSENCE de l'image, l'observation fausse doit
       // la porter — sinon elle vaudrait la bonne réponse.
+      //
+      // Quand elle exige une image PRÉCISE, la faute est d'en insérer une autre :
+      // le sélecteur en propose six. Un document sans aucune image — la version
+      // précédente — n'est qu'une absence de geste, qui ne coûte rien.
       return {
         kind: "w:docState",
         paragraphes,
@@ -340,17 +441,24 @@ function fausse(step: SimulationStep, paragraphes: WordParagrapheObserve[]): Wor
           ? [{ id: a.image as string, habillage: "aligne" }]
           : a.habillage
           ? [{ id: a.image as string, habillage: a.habillage === "carre" ? "hautbas" : "carre" }]
-          : [],
+          : [{ id: `${a.image as string}-autre`, habillage: "aligne" }],
       }
     case "W_EXPECT_ENTETE": {
-      // ⚠️ Quand l'étape exige une zone VIDE, l'observation fausse doit porter
-      // du texte — sinon elle vaudrait la bonne réponse et le contrôle
-      // déclarerait « refusée » une étape qu'il vient en fait de valider.
-      const veutVide = (a.accept as string[])[0] === ""
+      /*
+       * La SENTINELLE dans les deux cas, et c'est ce qui a changé.
+       *
+       * Quand l'étape exige une zone VIDE, un texte encore là est l'absence de
+       * retrait : elle ne coûte rien, et c'est juste. Mais quand elle exige un
+       * texte, la version précédente injectait une zone VIDE — donc, là aussi,
+       * une absence de geste. Les 12 points de l'évaluation 9 portant sur des
+       * en-têtes à remplir étaient ainsi déclarés inperdables alors qu'écrire le
+       * mauvais texte dans un pied de page est exactement ce qu'un apprenant
+       * rate.
+       */
       return {
         kind: "w:docState",
         paragraphes,
-        horsFlux: { [a.emplacement as string]: veutVide ? SENTINELLE : "" },
+        horsFlux: { [a.emplacement as string]: SENTINELLE },
       }
     }
     case "W_EXPECT_PRINT": {
@@ -364,12 +472,16 @@ function fausse(step: SimulationStep, paragraphes: WordParagrapheObserve[]): Wor
     case "W_EXPECT_TABS": {
       const i = indexDeZone(a.zone as string, paragraphes)
       if (i === null) return null
-      // Un taquet de moins : jamais égal à l'attendu, quel qu'il soit.
+      /*
+       * Le bon NOMBRE de taquets, aux MAUVAISES positions : l'apprenant a posé
+       * sur la règle, et posé faux. Un taquet de moins — la version précédente —
+       * est une pose inachevée, donc un `no_…` qui ne coûte rien.
+       */
       const attendus = a.taquets as { position: number; type: string }[]
       return {
         kind: "w:docState",
         paragraphes,
-        taquets: { [String(i)]: attendus.slice(0, Math.max(0, attendus.length - 1)) },
+        taquets: { [String(i)]: attendus.map((t) => ({ ...t, position: t.position + 3 })) },
       }
     }
     default:
@@ -645,10 +757,20 @@ for (const f of fichiers) {
   })
 }
 
+/**
+ * Les deux planchers de discrimination. Voir l'en-tête pour leur justification :
+ * 50 % est le minimum en dessous duquel un apprenant qui rate tout garde la
+ * moyenne ; 70 % est le profil mesuré d'Excel, la formation en production.
+ */
+const PLANCHER_PAR_EVALUATION = 50
+const PLANCHER_GLOBAL = 70
+
 let evaluations = 0
 let etapesNotees = 0
 let pointsTotal = 0
 let pointsPenalisants = 0
+/** Le détail par évaluation, pour pouvoir nommer celles qui frôlent le plancher. */
+const parEvaluation: { fichier: string; total: number; perdables: number; part: number }[] = []
 
 for (const f of fichiers) {
   const sc = JSON.parse(fs.readFileSync(path.join(SCENARIOS, f), "utf8")) as Scenario
@@ -723,15 +845,24 @@ for (const f of fichiers) {
   pointsTotal += n.total
   pointsPenalisants += ptsPenalisants
 
+  const part = n.total > 0 ? (ptsPenalisants / n.total) * 100 : 0
+  parEvaluation.push({ fichier: f, total: n.total, perdables: ptsPenalisants, part })
+
   console.log(
     `  ${f} — ${n.total} point(s) · sans faute ${(n.score * 100).toFixed(0)} % · ` +
-      `${ptsPenalisants}/${n.total} point(s) réellement perdables (${penalisantes.length} étape(s))`,
+      `${ptsPenalisants}/${n.total} point(s) perdables (${part.toFixed(0)} %, ${penalisantes.length} étape(s))`,
   )
 
   /* ── 3. Une note qui ne peut RIEN perdre n'est pas une note ───────────── */
   if (ptsPenalisants === 0) {
     anomalies.push(
       `${f} : AUCUN point ne peut être perdu — cette évaluation rendra 100 % à tout le monde`,
+    )
+  } else if (part < PLANCHER_PAR_EVALUATION) {
+    anomalies.push(
+      `${f} : seuls ${ptsPenalisants}/${n.total} point(s) (${part.toFixed(0)} %) sont perdables — ` +
+        `sous le plancher de ${PLANCHER_PAR_EVALUATION} %, un apprenant qui se trompe partout ` +
+        `garderait ${(100 - part).toFixed(0)} % et donc la moyenne`,
     )
   }
 }
@@ -740,15 +871,30 @@ console.log(
   `\n  ${evaluations} évaluation(s) Word · ${etapesNotees} étape(s) notée(s) · ${pointsTotal} point(s)`,
 )
 if (pointsTotal > 0) {
-  const part = Math.round((pointsPenalisants / pointsTotal) * 100)
+  const part = (pointsPenalisants / pointsTotal) * 100
   console.log(
-    `  ${pointsPenalisants}/${pointsTotal} point(s) (${part} %) sont réellement perdables sur une réponse fausse.`,
+    `  ${pointsPenalisants}/${pointsTotal} point(s) (${part.toFixed(0)} %) sont réellement perdables ` +
+      `sur une réponse fausse — plancher ${PLANCHER_GLOBAL} % (le profil mesuré d'Excel).`,
   )
   console.log(
-    "  Les autres portent sur des étapes jugées sur l'ÉTAT du document : `frappe.ts` classe leur\n" +
-      "  verdict `no_…` en passage obligé, donc en tâtonnement — l'apprenant peut réessayer sans coût.\n" +
-      "  C'est une propriété du socle (fichier gelé), pas du contenu : à connaître avant d'écrire un barème.",
+    "  Le reste est inperdable PAR NATURE : un attribut booléen n'a pas de mauvaise valeur,\n" +
+      "  un retour à un réglage par défaut ne se rate qu'en ne le faisant pas, et une sélection\n" +
+      "  à la souris est classée navigation par le socle, délibérément.",
   )
+
+  // Les trois plus basses : c'est là que la prochaine régression se verra.
+  const basses = [...parEvaluation].sort((a, b) => a.part - b.part).slice(0, 3)
+  console.log(
+    `  Les plus proches du plancher : ` +
+      basses.map((e) => `${e.fichier.replace(/\.json$/, "")} ${e.part.toFixed(0)} %`).join(" · "),
+  )
+
+  if (part < PLANCHER_GLOBAL) {
+    anomalies.push(
+      `Seuls ${pointsPenalisants}/${pointsTotal} point(s) (${part.toFixed(0)} %) du barème Word sont ` +
+        `perdables, sous le plancher de ${PLANCHER_GLOBAL} % — Excel, à socle identique, est à 70 %`,
+    )
+  }
 }
 
 if (anomalies.length === 0) {

@@ -78,6 +78,18 @@
   },
   "steps": [
     {
+      "id": "O15-E02-00",
+      "consigne": "**Ouvrez le relevé de la Quincaillerie Delmas** et relevez le numéro de la facture ainsi que la ligne qui ne correspond pas. Une contestation se prépare toujours en lisant d'abord la pièce contestée : sans ce numéro, votre message sera renvoyé au service qui vous l'a envoyé.",
+      "action": {
+        "type": "O_SELECT_MESSAGE",
+        "id": "m-releve"
+      },
+      "aide": {
+        "text": "C'est le message de la comptabilité Delmas, dont l'objet parle d'un relevé."
+      },
+      "feedback": "Le numéro de facture est là. C'est lui qui permettra à la comptabilité d'ouvrir le bon dossier."
+    },
+    {
       "id": "O15-E02-01",
       "consigne": "Répondez au service qui a émis la facture, en joignant la pièce qui prouve les quantités reçues.",
       "action": {
@@ -105,7 +117,8 @@
       },
       "aide": {
         "text": "Répondre vise l'expéditeur. Le bon de livraison porte le numéro BL-4471."
-      }
+      },
+      "feedback": "Le bon de livraison prouve les quantités reçues. Sans lui, l'écart reste votre parole contre la leur."
     },
     {
       "id": "O15-E02-02",
@@ -191,7 +204,8 @@
       },
       "aide": {
         "text": "Deux informations sont attendues : le numéro, et la demande."
-      }
+      },
+      "feedback": "Numéro de facture et demande précise : la comptabilité peut émettre l'avoir sans rouvrir le dossier."
     },
     {
       "id": "O15-E02-04",
@@ -208,7 +222,8 @@
       },
       "aide": {
         "text": "Déplacer, puis Factures fournisseurs."
-      }
+      },
+      "feedback": "Contestée ou non, une facture se classe avec les autres du même fournisseur."
     }
   ]
 }

@@ -11,24 +11,51 @@
   "outro": "Vous savez nommer les trois zones de l'écran, vous connaissez la règle « on sélectionne, puis on agit », et vous savez revenir en arrière. C'est le socle de tous les gestes qui suivent.",
   "document": {
     "paragraphes": [
-      { "texte": "Note de service" },
-      { "texte": "Les Ateliers Rivedoux ouvriront un second atelier à Nantes au printemps prochain." },
-      { "texte": "Les équipes de production y seront transférées par groupes de quatre personnes." },
-      { "texte": "Une réunion d'information est prévue pour répondre à vos questions." }
+      {
+        "texte": "Note de service"
+      },
+      {
+        "texte": "Les Ateliers Rivedoux ouvriront un second atelier à Nantes au printemps prochain."
+      },
+      {
+        "texte": "Les équipes de production y seront transférées par groupes de quatre personnes."
+      },
+      {
+        "texte": "Une réunion d'information est prévue pour répondre à vos questions."
+      }
     ]
   },
   "steps": [
     {
       "id": "M01-L01-01",
       "consigne": "Prenez le temps de repérer trois zones, car les consignes de toute la formation s'y réfèrent. En haut, la **barre de titre** porte le nom du document. En dessous, le **ruban** : ses onglets rangent les commandes par domaine, et chaque onglet contient des groupes. Au centre, la **page**, avec ses marques de marges.",
-      "action": { "type": "READ" },
+      "action": {
+        "type": "READ"
+      },
       "points": 0,
-      "feedback": "Barre de titre, ruban, page : trois mots que vous retrouverez dans chaque consigne."
+      "feedback": "Barre de titre, ruban, page : trois mots que vous retrouverez dans chaque consigne.",
+      "montrer": [
+        {
+          "type": "W_MONTRER",
+          "cible": "dom:[data-control=\"w-gras\"]",
+          "texte": "Le RUBAN : ses onglets rangent les commandes par domaine, et chaque onglet contient des groupes.",
+          "onglet": "accueil"
+        },
+        {
+          "type": "W_MONTRER",
+          "cible": "p0",
+          "texte": "La PAGE, au centre : c'est ici que le texte s'écrit, entre les marques de marges."
+        }
+      ]
     },
     {
       "id": "M01-L01-02",
       "consigne": "Voici la règle qui commande tout : Word ne devine pas sur quoi travailler. ==Sélectionnez le titre== « Note de service » — cliquez juste avant le N et faites glisser jusqu'à la fin du mot « service ». Retenez que rien n'a encore changé : vous venez seulement de désigner.",
-      "action": { "type": "W_SELECT_TEXT", "zone": "p0", "tolerance": 2 },
+      "action": {
+        "type": "W_SELECT_TEXT",
+        "zone": "p0",
+        "tolerance": 2
+      },
       "aide": {
         "text": "Un paragraphe entier se sélectionne aussi d'un triple-clic dedans.",
         "showTarget": true
@@ -38,39 +65,82 @@
     {
       "id": "M01-L01-03",
       "consigne": "Le titre étant désigné, ==mettez-le en gras== avec le bouton **G** du groupe Police. C'est la deuxième moitié de la règle : on désigne, PUIS on agit. Un geste appliqué sans sélection ne trouve rien à modifier.",
-      "setup": { "ribbon": { "activeTab": "accueil" } },
+      "setup": {
+        "ribbon": {
+          "activeTab": "accueil"
+        }
+      },
       "action": {
         "type": "W_EXPECT_FORMAT",
         "zone": "p0",
-        "format": { "gras": true }
+        "format": {
+          "gras": true
+        }
       },
-      "aide": { "text": "Le G en caractères épais, tout à gauche du groupe Police.", "showTarget": true },
+      "aide": {
+        "text": "Le G en caractères épais, tout à gauche du groupe Police.",
+        "showTarget": true
+      },
       "feedback": "Le titre s'épaissit — et lui seul."
     },
     {
       "id": "M01-L01-04",
       "consigne": "Vous allez beaucoup vous tromper au début, et c'est sans conséquence : Word garde la trace de vos gestes. ==Cliquez sur Annuler== pour défaire le gras que vous venez de poser.",
-      "action": { "type": "W_CLICK_CONTROL", "controle": "w-annuler" },
-      "aide": { "text": "Annuler se trouve tout à droite du ruban, dans le groupe Annulation." },
+      "action": {
+        "type": "W_CLICK_CONTROL",
+        "controle": "w-annuler"
+      },
+      "aide": {
+        "text": "Annuler se trouve tout à droite du ruban, dans le groupe Annulation."
+      },
       "feedback": "Le titre a retrouvé son épaisseur d'origine : le geste est défait."
     },
     {
       "id": "M01-L01-05",
       "consigne": "Annuler a son symétrique. ==Cliquez sur Rétablir== pour remettre le gras. Ce qu'il faut retenir de ces deux boutons : dans Word, aucune erreur n'est définitive tant que vous n'avez pas fermé le document.",
-      "action": { "type": "W_CLICK_CONTROL", "controle": "w-retablir" },
+      "action": {
+        "type": "W_CLICK_CONTROL",
+        "controle": "w-retablir"
+      },
       "feedback": "Le gras est revenu. Vous pouvez désormais explorer sans crainte."
     },
     {
       "id": "M01-L01-06",
       "consigne": "Le ruban est rangé par **onglets**, chacun couvrant un domaine : Accueil pour écrire et mettre en forme, Insertion pour ajouter des éléments, Mise en page pour régler la feuille. Changer d'onglet ne modifie jamais le document : explorer ne coûte rien, et c'est même le meilleur moyen d'apprendre où sont les commandes.",
-      "action": { "type": "READ" },
+      "action": {
+        "type": "READ"
+      },
       "points": 0,
-      "feedback": "Ouvrez les onglets quand vous cherchez une commande : vous ne risquez rien."
+      "feedback": "Ouvrez les onglets quand vous cherchez une commande : vous ne risquez rien.",
+      "montrer": [
+        {
+          "type": "W_MONTRER",
+          "cible": "ctrl:w-inserer-tableau",
+          "texte": "L'onglet Insertion range tout ce qu'on AJOUTE : tableau, image, lien. Le document n'a pas bougé.",
+          "onglet": "insertion"
+        },
+        {
+          "type": "W_MONTRER",
+          "cible": "ctrl:w-mise-en-page",
+          "texte": "L'onglet Mise en page règle la FEUILLE : marges, orientation. Là non plus, rien n'a changé.",
+          "onglet": "mise-en-page"
+        },
+        {
+          "type": "W_MONTRER",
+          "cible": "ctrl:w-gras",
+          "texte": "Et l'onglet Accueil, où l'on écrit et met en forme. Explorer ne coûte rien.",
+          "onglet": "accueil"
+        }
+      ]
     },
     {
       "id": "M01-L01-07",
       "consigne": "Une sélection n'est pas forcément un paragraphe entier : elle peut porter sur quelques mots. ==Sélectionnez le passage== « second atelier à Nantes » dans le deuxième paragraphe, en faisant glisser la souris de son premier mot à son dernier.",
-      "action": { "type": "W_SELECT_TEXT", "zone": "texte:second atelier à Nantes", "tolerance": 3 },
+      "action": {
+        "type": "W_SELECT_TEXT",
+        "zone": "texte:second atelier à Nantes",
+        "tolerance": 3
+      },
       "aide": {
         "text": "Cliquez juste avant le « s » de « second », maintenez le bouton enfoncé, allez jusqu'après « Nantes », relâchez.",
         "showTarget": true
@@ -83,9 +153,14 @@
       "action": {
         "type": "W_EXPECT_FORMAT",
         "zone": "texte:second atelier à Nantes",
-        "format": { "souligne": true }
+        "format": {
+          "souligne": true
+        }
       },
-      "aide": { "text": "Le S souligné, à droite du I penché dans le groupe Police.", "showTarget": true },
+      "aide": {
+        "text": "Le S souligné, à droite du I penché dans le groupe Police.",
+        "showTarget": true
+      },
       "feedback": "Quatre mots soulignés, le reste intact : Word a agi exactement là où vous l'aviez désigné."
     }
   ]

@@ -6,7 +6,7 @@
   "title": "S'évaluer — Reprendre une présentation existante",
   "intro": {
     "title": "S'évaluer — Reprendre une présentation existante",
-    "body": "Le bilan présenté à l'équipe doit être montré à un client la semaine prochaine. Reprenez-le : rien ne vous sera nommé, mais il reste de l'ancienne version ce qu'il ne faut pas montrer, ce qu'il faut réécrire, et ce qu'il faut jeter. Épreuve notée, d'une traite ; un nouveau passage repart de zéro."
+    "body": "Un collègue a commencé d'adapter au client le bilan présenté à l'équipe, puis s'est arrêté en chemin. Il reste de l'interne à retirer, une page à finir et un déroulé à contrôler avant l'envoi. Épreuve notée, d'une traite ; un nouveau passage repart de zéro."
   },
   "outro": {
     "body": "Épreuve terminée. Seule votre meilleure note est conservée."
@@ -16,7 +16,7 @@
     "sheets": []
   },
   "ppt": {
-    "fileName": "Bilan Verdeval.pptx",
+    "fileName": "Bilan Verdeval - client.pptx",
     "format": "16:9",
     "slides": [
       {
@@ -49,23 +49,23 @@
           {
             "id": "zt-refs",
             "objectType": "texte",
-            "texte": "Ville de Nantes\nRésidence du Parc\nCopropriété Les Tilleuls",
+            "texte": "Ville de Nantes, Rennes Métropole, clinique du Parc",
             "rect": {
-              "x": 70,
-              "y": 175,
+              "x": 80,
+              "y": 300,
               "w": 520,
-              "h": 150
+              "h": 90
             }
           },
           {
-            "id": "zt-memo",
+            "id": "zt-interne",
             "objectType": "texte",
-            "texte": "Verifier l accord des Tilleuls avant citation",
+            "texte": "Relancer Rennes avant de citer leur nom",
             "rect": {
-              "x": 70,
-              "y": 375,
-              "w": 560,
-              "h": 60
+              "x": 80,
+              "y": 440,
+              "w": 430,
+              "h": 48
             }
           }
         ]
@@ -82,14 +82,26 @@
   "steps": [
     {
       "id": "M07-EV01-01",
-      "consigne": "Ce bilan a été présenté à l'équipe ; il doit maintenant l'être à un client. Parcourez-le avant d'agir : l'ouverture nomme encore l'ancien public, une diapositive traite de rémunérations, une note de travail traîne sur les références, une grille tarifaire est périmée, et un titre est écrit du point de vue de l'entreprise. Reprenez le tout.",
+      "consigne": "Ce bilan part chez un client cette semaine. Ne corrigez rien encore : parcourez-le en vous demandant, à chaque écran, s'il a été écrit pour l'équipe ou pour le client. Ce qui reste de l'interne doit disparaître.",
       "action": {
         "type": "READ"
-      }
+      },
+      "montrer": [
+        {
+          "type": "P_MONTRER",
+          "cible": "zone:volet",
+          "texte": "Le bilan, à mi-chemin entre deux versions"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "zone:scene",
+          "texte": "Une note de travail, une page réservée au personnel, une grille périmée"
+        }
+      ]
     },
     {
       "id": "M07-EV01-02",
-      "consigne": "Affichez la diapositive d'ouverture.",
+      "consigne": "Affichez l'ouverture.",
       "action": {
         "type": "P_SELECT_SLIDE",
         "index": 0
@@ -98,16 +110,28 @@
     },
     {
       "id": "M07-EV01-03",
-      "consigne": "Obtenez-en une seconde exemplaire, sans la refaire et sans détruire celle qui existe.",
+      "consigne": "Elle nomme encore l'ancien public. Indiquez le nouveau et la nouvelle date : Bilan présenté aux clients le 6 avril.",
       "action": {
-        "type": "P_DUPLICATE_SLIDE",
-        "index": 0
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:sous-titre",
+        "accept": [
+          "Bilan présenté aux clients le 6 avril"
+        ]
       },
       "points": 2
     },
     {
       "id": "M07-EV01-04",
-      "consigne": "Sur cette copie, indiquez le nouveau public et la nouvelle date : Bilan présenté aux clients le 4 avril.",
+      "consigne": "Affichez la diapositive des chiffres.",
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 1
+      },
+      "points": 1
+    },
+    {
+      "id": "M07-EV01-05",
+      "consigne": "Son titre est écrit du point de vue de l'entreprise. Donnez-lui celui qui répond à la question du client : 38 jardins livrés en 2026.",
       "setupPpt": {
         "deck": {
           "format": "16:9",
@@ -116,14 +140,7 @@
               "layout": "diapositive-de-titre",
               "textes": {
                 "titre": "Verdeval",
-                "sous-titre": "Bilan présenté à l'équipe le 9 mars"
-              }
-            },
-            {
-              "layout": "diapositive-de-titre",
-              "textes": {
-                "titre": "Verdeval",
-                "sous-titre": "Bilan présenté à l'équipe le 9 mars"
+                "sous-titre": "Bilan présenté aux clients le 6 avril"
               }
             },
             {
@@ -149,24 +166,24 @@
                 {
                   "id": "zt-refs",
                   "objectType": "texte",
+                  "texte": "Ville de Nantes, Rennes Métropole, clinique du Parc",
                   "rect": {
-                    "x": 70,
-                    "y": 175,
+                    "x": 80,
+                    "y": 300,
                     "w": 520,
-                    "h": 150
-                  },
-                  "texte": "Ville de Nantes\nRésidence du Parc\nCopropriété Les Tilleuls"
+                    "h": 90
+                  }
                 },
                 {
-                  "id": "zt-memo",
+                  "id": "zt-interne",
                   "objectType": "texte",
+                  "texte": "Relancer Rennes avant de citer leur nom",
                   "rect": {
-                    "x": 70,
-                    "y": 375,
-                    "w": 560,
-                    "h": 60
-                  },
-                  "texte": "Verifier l accord des Tilleuls avant citation"
+                    "x": 80,
+                    "y": 440,
+                    "w": 430,
+                    "h": 48
+                  }
                 }
               ]
             },
@@ -183,52 +200,6 @@
       },
       "action": {
         "type": "P_TYPE_TEXT",
-        "cible": "ph:sous-titre",
-        "accept": [
-          "Bilan présenté aux clients le 4 avril"
-        ]
-      },
-      "points": 2
-    },
-    {
-      "id": "M07-EV01-05",
-      "consigne": "Affichez l'ouverture d'origine, celle qui nomme l'équipe.",
-      "action": {
-        "type": "P_SELECT_SLIDE",
-        "index": 0
-      },
-      "points": 1
-    },
-    {
-      "id": "M07-EV01-06",
-      "consigne": "Elle resservira l'an prochain en interne, mais ne doit pas passer devant le client. Agissez en conséquence.",
-      "action": {
-        "type": "P_EXPECT_DECK",
-        "deck": {
-          "slides": [
-            {
-              "index": 0,
-              "masquee": true
-            }
-          ]
-        }
-      },
-      "points": 2
-    },
-    {
-      "id": "M07-EV01-07",
-      "consigne": "Affichez la diapositive des chiffres, dont le titre est écrit du point de vue de l'entreprise.",
-      "action": {
-        "type": "P_SELECT_SLIDE",
-        "index": 2
-      },
-      "points": 1
-    },
-    {
-      "id": "M07-EV01-08",
-      "consigne": "Donnez-lui le titre qui répond à la question du client : 38 jardins livrés en 2026.",
-      "action": {
-        "type": "P_TYPE_TEXT",
         "cible": "ph:titre",
         "accept": [
           "38 jardins livrés en 2026"
@@ -237,17 +208,8 @@
       "points": 2
     },
     {
-      "id": "M07-EV01-09",
+      "id": "M07-EV01-06",
       "consigne": "Affichez la diapositive qui traite des rémunérations.",
-      "action": {
-        "type": "P_SELECT_SLIDE",
-        "index": 3
-      },
-      "points": 1
-    },
-    {
-      "id": "M07-EV01-10",
-      "consigne": "Elle reste utile en interne mais n'a rien à faire devant un client : traitez-la comme il convient.",
       "setupPpt": {
         "deck": {
           "format": "16:9",
@@ -256,15 +218,7 @@
               "layout": "diapositive-de-titre",
               "textes": {
                 "titre": "Verdeval",
-                "sous-titre": "Bilan présenté à l'équipe le 9 mars"
-              },
-              "masquee": true
-            },
-            {
-              "layout": "diapositive-de-titre",
-              "textes": {
-                "titre": "Verdeval",
-                "sous-titre": "Bilan présenté aux clients le 4 avril"
+                "sous-titre": "Bilan présenté aux clients le 6 avril"
               }
             },
             {
@@ -290,24 +244,258 @@
                 {
                   "id": "zt-refs",
                   "objectType": "texte",
+                  "texte": "Ville de Nantes, Rennes Métropole, clinique du Parc",
                   "rect": {
-                    "x": 70,
-                    "y": 175,
+                    "x": 80,
+                    "y": 300,
                     "w": 520,
-                    "h": 150
-                  },
-                  "texte": "Ville de Nantes\nRésidence du Parc\nCopropriété Les Tilleuls"
+                    "h": 90
+                  }
                 },
                 {
-                  "id": "zt-memo",
+                  "id": "zt-interne",
                   "objectType": "texte",
+                  "texte": "Relancer Rennes avant de citer leur nom",
                   "rect": {
-                    "x": 70,
-                    "y": 375,
-                    "w": 560,
-                    "h": 60
-                  },
-                  "texte": "Verifier l accord des Tilleuls avant citation"
+                    "x": 80,
+                    "y": 440,
+                    "w": 430,
+                    "h": 48
+                  }
+                }
+              ]
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Tarifs 2025",
+                "contenu": "Grille périmée depuis janvier"
+              }
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 2
+      },
+      "points": 1
+    },
+    {
+      "id": "M07-EV01-07",
+      "consigne": "Elle reste utile en interne mais n'a rien à faire devant un client : traitez-la comme il convient, sans la détruire.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Bilan présenté aux clients le 6 avril"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "38 jardins livrés en 2026",
+                "contenu": "38 jardins créés\n120 entretiens réguliers\n12 chantiers de rénovation"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Primes et augmentations",
+                "contenu": "Réservé au personnel"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Nos références"
+              },
+              "objets": [
+                {
+                  "id": "zt-refs",
+                  "objectType": "texte",
+                  "texte": "Ville de Nantes, Rennes Métropole, clinique du Parc",
+                  "rect": {
+                    "x": 80,
+                    "y": 300,
+                    "w": 520,
+                    "h": 90
+                  }
+                },
+                {
+                  "id": "zt-interne",
+                  "objectType": "texte",
+                  "texte": "Relancer Rennes avant de citer leur nom",
+                  "rect": {
+                    "x": 80,
+                    "y": 440,
+                    "w": 430,
+                    "h": 48
+                  }
+                }
+              ]
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Tarifs 2025",
+                "contenu": "Grille périmée depuis janvier"
+              }
+            }
+          ]
+        },
+        "slide": 2
+      },
+      "action": {
+        "type": "P_EXPECT_DECK",
+        "deck": {
+          "slides": [
+            {
+              "index": 2,
+              "masquee": true
+            }
+          ]
+        }
+      },
+      "points": 2
+    },
+    {
+      "id": "M07-EV01-08",
+      "consigne": "Affichez la diapositive des références.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Bilan présenté aux clients le 6 avril"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "38 jardins livrés en 2026",
+                "contenu": "38 jardins créés\n120 entretiens réguliers\n12 chantiers de rénovation"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Primes et augmentations",
+                "contenu": "Réservé au personnel"
+              },
+              "masquee": true
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Nos références"
+              },
+              "objets": [
+                {
+                  "id": "zt-refs",
+                  "objectType": "texte",
+                  "texte": "Ville de Nantes, Rennes Métropole, clinique du Parc",
+                  "rect": {
+                    "x": 80,
+                    "y": 300,
+                    "w": 520,
+                    "h": 90
+                  }
+                },
+                {
+                  "id": "zt-interne",
+                  "objectType": "texte",
+                  "texte": "Relancer Rennes avant de citer leur nom",
+                  "rect": {
+                    "x": 80,
+                    "y": 440,
+                    "w": 430,
+                    "h": 48
+                  }
+                }
+              ]
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Tarifs 2025",
+                "contenu": "Grille périmée depuis janvier"
+              }
+            }
+          ]
+        },
+        "slide": 2
+      },
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 3
+      },
+      "points": 1
+    },
+    {
+      "id": "M07-EV01-09",
+      "consigne": "Une note de travail y figure. Elle n'a jamais eu vocation à être vue, même masquée : traitez-la autrement.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Bilan présenté aux clients le 6 avril"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "38 jardins livrés en 2026",
+                "contenu": "38 jardins créés\n120 entretiens réguliers\n12 chantiers de rénovation"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Primes et augmentations",
+                "contenu": "Réservé au personnel"
+              },
+              "masquee": true
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Nos références"
+              },
+              "objets": [
+                {
+                  "id": "zt-refs",
+                  "objectType": "texte",
+                  "texte": "Ville de Nantes, Rennes Métropole, clinique du Parc",
+                  "rect": {
+                    "x": 80,
+                    "y": 300,
+                    "w": 520,
+                    "h": 90
+                  }
+                },
+                {
+                  "id": "zt-interne",
+                  "objectType": "texte",
+                  "texte": "Relancer Rennes avant de citer leur nom",
+                  "rect": {
+                    "x": 80,
+                    "y": 440,
+                    "w": 430,
+                    "h": 48
+                  }
                 }
               ]
             },
@@ -323,39 +511,14 @@
         "slide": 3
       },
       "action": {
-        "type": "P_EXPECT_DECK",
-        "deck": {
-          "slides": [
-            {
-              "index": 3,
-              "masquee": true
-            }
-          ]
-        }
-      },
-      "points": 2
-    },
-    {
-      "id": "M07-EV01-11",
-      "consigne": "Affichez la diapositive des références.",
-      "action": {
-        "type": "P_SELECT_SLIDE",
-        "index": 4
-      },
-      "points": 1
-    },
-    {
-      "id": "M07-EV01-12",
-      "consigne": "Une note de travail y figure. Elle n'a jamais eu vocation à être vue, même masquée : traitez-la en conséquence.",
-      "action": {
         "type": "P_DELETE_OBJECT",
-        "objectId": "zt-memo"
+        "objectId": "zt-interne"
       },
       "points": 2
     },
     {
-      "id": "M07-EV01-13",
-      "consigne": "Affichez la dernière diapositive, celle des tarifs.",
+      "id": "M07-EV01-10",
+      "consigne": "La liste des références est reléguée en bas de l'écran. Remontez-la sous le titre, où le client la verra.",
       "setupPpt": {
         "deck": {
           "format": "16:9",
@@ -364,15 +527,7 @@
               "layout": "diapositive-de-titre",
               "textes": {
                 "titre": "Verdeval",
-                "sous-titre": "Bilan présenté à l'équipe le 9 mars"
-              },
-              "masquee": true
-            },
-            {
-              "layout": "diapositive-de-titre",
-              "textes": {
-                "titre": "Verdeval",
-                "sous-titre": "Bilan présenté aux clients le 4 avril"
+                "sous-titre": "Bilan présenté aux clients le 6 avril"
               }
             },
             {
@@ -399,13 +554,224 @@
                 {
                   "id": "zt-refs",
                   "objectType": "texte",
+                  "texte": "Ville de Nantes, Rennes Métropole, clinique du Parc",
                   "rect": {
-                    "x": 70,
-                    "y": 175,
+                    "x": 80,
+                    "y": 300,
                     "w": 520,
-                    "h": 150
+                    "h": 90
+                  }
+                }
+              ]
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Tarifs 2025",
+                "contenu": "Grille périmée depuis janvier"
+              }
+            }
+          ]
+        },
+        "slide": 3
+      },
+      "action": {
+        "type": "P_MOVE_OBJECT",
+        "objectId": "zt-refs",
+        "rect": {
+          "x": 80,
+          "y": 200,
+          "w": 520,
+          "h": 90
+        },
+        "tolerance": 24
+      },
+      "points": 2
+    },
+    {
+      "id": "M07-EV01-11",
+      "consigne": "Faites-la ressortir : ce sont vos meilleures cartes.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Bilan présenté aux clients le 6 avril"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "38 jardins livrés en 2026",
+                "contenu": "38 jardins créés\n120 entretiens réguliers\n12 chantiers de rénovation"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Primes et augmentations",
+                "contenu": "Réservé au personnel"
+              },
+              "masquee": true
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Nos références"
+              },
+              "objets": [
+                {
+                  "id": "zt-refs",
+                  "objectType": "texte",
+                  "texte": "Ville de Nantes, Rennes Métropole, clinique du Parc",
+                  "rect": {
+                    "x": 80,
+                    "y": 200,
+                    "w": 520,
+                    "h": 90
+                  }
+                }
+              ]
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Tarifs 2025",
+                "contenu": "Grille périmée depuis janvier"
+              }
+            }
+          ]
+        },
+        "slide": 3
+      },
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "zt-refs",
+        "style": {
+          "bold": true
+        }
+      },
+      "points": 1
+    },
+    {
+      "id": "M07-EV01-12",
+      "consigne": "Affichez la dernière diapositive, celle des tarifs.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Bilan présenté aux clients le 6 avril"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "38 jardins livrés en 2026",
+                "contenu": "38 jardins créés\n120 entretiens réguliers\n12 chantiers de rénovation"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Primes et augmentations",
+                "contenu": "Réservé au personnel"
+              },
+              "masquee": true
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Nos références"
+              },
+              "objets": [
+                {
+                  "id": "zt-refs",
+                  "objectType": "texte",
+                  "texte": "Ville de Nantes, Rennes Métropole, clinique du Parc",
+                  "rect": {
+                    "x": 80,
+                    "y": 200,
+                    "w": 520,
+                    "h": 90
                   },
-                  "texte": "Ville de Nantes\nRésidence du Parc\nCopropriété Les Tilleuls"
+                  "style": {
+                    "bold": true
+                  }
+                }
+              ]
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Tarifs 2025",
+                "contenu": "Grille périmée depuis janvier"
+              }
+            }
+          ]
+        },
+        "slide": 3
+      },
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 4
+      },
+      "points": 1
+    },
+    {
+      "id": "M07-EV01-13",
+      "consigne": "Sa grille est périmée depuis janvier et ne resservira pas : retirez-la.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Bilan présenté aux clients le 6 avril"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "38 jardins livrés en 2026",
+                "contenu": "38 jardins créés\n120 entretiens réguliers\n12 chantiers de rénovation"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Primes et augmentations",
+                "contenu": "Réservé au personnel"
+              },
+              "masquee": true
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Nos références"
+              },
+              "objets": [
+                {
+                  "id": "zt-refs",
+                  "objectType": "texte",
+                  "texte": "Ville de Nantes, Rennes Métropole, clinique du Parc",
+                  "rect": {
+                    "x": 80,
+                    "y": 200,
+                    "w": 520,
+                    "h": 90
+                  },
+                  "style": {
+                    "bold": true
+                  }
                 }
               ]
             },
@@ -421,23 +787,14 @@
         "slide": 4
       },
       "action": {
-        "type": "P_SELECT_SLIDE",
-        "index": 5
-      },
-      "points": 1
-    },
-    {
-      "id": "M07-EV01-14",
-      "consigne": "Sa grille est périmée depuis janvier et ne resservira pas : retirez-la.",
-      "action": {
         "type": "P_DELETE_SLIDE",
-        "index": 5
+        "index": 4
       },
       "points": 2
     },
     {
-      "id": "M07-EV01-15",
-      "consigne": "Contrôlez enfin le déroulé tel que le client le verra, depuis le début.",
+      "id": "M07-EV01-14",
+      "consigne": "Un envoi client se termine par un moyen de vous joindre. Ajoutez la diapositive qui portera cette mention ; elle reprendra la structure de la précédente, qui ne porte qu'un titre.",
       "setupPpt": {
         "deck": {
           "format": "16:9",
@@ -446,15 +803,7 @@
               "layout": "diapositive-de-titre",
               "textes": {
                 "titre": "Verdeval",
-                "sous-titre": "Bilan présenté à l'équipe le 9 mars"
-              },
-              "masquee": true
-            },
-            {
-              "layout": "diapositive-de-titre",
-              "textes": {
-                "titre": "Verdeval",
-                "sous-titre": "Bilan présenté aux clients le 4 avril"
+                "sous-titre": "Bilan présenté aux clients le 6 avril"
               }
             },
             {
@@ -481,13 +830,231 @@
                 {
                   "id": "zt-refs",
                   "objectType": "texte",
+                  "texte": "Ville de Nantes, Rennes Métropole, clinique du Parc",
                   "rect": {
-                    "x": 70,
-                    "y": 175,
+                    "x": 80,
+                    "y": 200,
                     "w": 520,
-                    "h": 150
+                    "h": 90
                   },
-                  "texte": "Ville de Nantes\nRésidence du Parc\nCopropriété Les Tilleuls"
+                  "style": {
+                    "bold": true
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 3
+      },
+      "action": {
+        "type": "P_ADD_SLIDE",
+        "layout": "titre-seul"
+      },
+      "aide": "Une diapositive ajoutée reprend la structure de celle qui est affichée.",
+      "points": 1
+    },
+    {
+      "id": "M07-EV01-15",
+      "consigne": "Intitulez-la : Nous contacter.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Bilan présenté aux clients le 6 avril"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "38 jardins livrés en 2026",
+                "contenu": "38 jardins créés\n120 entretiens réguliers\n12 chantiers de rénovation"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Primes et augmentations",
+                "contenu": "Réservé au personnel"
+              },
+              "masquee": true
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Nos références"
+              },
+              "objets": [
+                {
+                  "id": "zt-refs",
+                  "objectType": "texte",
+                  "texte": "Ville de Nantes, Rennes Métropole, clinique du Parc",
+                  "rect": {
+                    "x": 80,
+                    "y": 200,
+                    "w": 520,
+                    "h": 90
+                  },
+                  "style": {
+                    "bold": true
+                  }
+                }
+              ]
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {}
+            }
+          ]
+        },
+        "slide": 4
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:titre",
+        "accept": [
+          "Nous contacter"
+        ]
+      },
+      "points": 2
+    },
+    {
+      "id": "M07-EV01-16",
+      "consigne": "Posez-y la zone qui recevra l'adresse de l'agence.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Bilan présenté aux clients le 6 avril"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "38 jardins livrés en 2026",
+                "contenu": "38 jardins créés\n120 entretiens réguliers\n12 chantiers de rénovation"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Primes et augmentations",
+                "contenu": "Réservé au personnel"
+              },
+              "masquee": true
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Nos références"
+              },
+              "objets": [
+                {
+                  "id": "zt-refs",
+                  "objectType": "texte",
+                  "texte": "Ville de Nantes, Rennes Métropole, clinique du Parc",
+                  "rect": {
+                    "x": 80,
+                    "y": 200,
+                    "w": 520,
+                    "h": 90
+                  },
+                  "style": {
+                    "bold": true
+                  }
+                }
+              ]
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Nous contacter"
+              }
+            }
+          ]
+        },
+        "slide": 4
+      },
+      "action": {
+        "type": "P_ADD_OBJECT",
+        "objectType": "texte"
+      },
+      "points": 1
+    },
+    {
+      "id": "M07-EV01-17",
+      "consigne": "Ajoutez-y enfin le logo de l'entreprise.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Bilan présenté aux clients le 6 avril"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "38 jardins livrés en 2026",
+                "contenu": "38 jardins créés\n120 entretiens réguliers\n12 chantiers de rénovation"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Primes et augmentations",
+                "contenu": "Réservé au personnel"
+              },
+              "masquee": true
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Nos références"
+              },
+              "objets": [
+                {
+                  "id": "zt-refs",
+                  "objectType": "texte",
+                  "texte": "Ville de Nantes, Rennes Métropole, clinique du Parc",
+                  "rect": {
+                    "x": 80,
+                    "y": 200,
+                    "w": 520,
+                    "h": 90
+                  },
+                  "style": {
+                    "bold": true
+                  }
+                }
+              ]
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Nous contacter"
+              },
+              "objets": [
+                {
+                  "id": "obj16",
+                  "objectType": "texte",
+                  "rect": {
+                    "x": 560,
+                    "y": 180,
+                    "w": 320,
+                    "h": 200
+                  }
                 }
               ]
             }
@@ -496,33 +1063,8 @@
         "slide": 4
       },
       "action": {
-        "type": "P_EXPECT_SHOW",
-        "show": {
-          "actif": true,
-          "index": 1
-        }
-      },
-      "points": 1
-    },
-    {
-      "id": "M07-EV01-16",
-      "consigne": "Avancez d'une diapositive et vérifiez que rien d'interne n'apparaît.",
-      "action": {
-        "type": "P_EXPECT_SHOW",
-        "show": {
-          "index": 2
-        }
-      },
-      "points": 1
-    },
-    {
-      "id": "M07-EV01-17",
-      "consigne": "Revenez à votre présentation.",
-      "action": {
-        "type": "P_EXPECT_SHOW",
-        "show": {
-          "actif": false
-        }
+        "type": "P_ADD_OBJECT",
+        "objectType": "image"
       },
       "points": 1
     }

@@ -6,10 +6,10 @@
   "title": "S'évaluer — Des chiffres sans tableau",
   "intro": {
     "title": "S'évaluer — Des chiffres sans tableau",
-    "body": "Un pavé d'indicateurs à dégager, deux montants à mettre en regard, des décimales à ramener à l'essentiel. Aucune aide n'est affichée et chaque geste compte."
+    "body": "Trois écrans noyés sous les chiffres : un relevé de cinq indicateurs, deux montants perdus dans une phrase, un chiffre d'affaires au centime. Dégagez le message de chacun. Aucune aide n'est affichée et chaque geste compte."
   },
   "outro": {
-    "body": "Évaluation terminée. Un chiffre par écran, l'écart dans le titre, deux chiffres significatifs et l'alignement à la place des bordures : ce sont les acquis du module."
+    "body": "Épreuve terminée. Seule votre meilleure note est conservée."
   },
   "ribbon": [],
   "workbook": {
@@ -30,15 +30,51 @@
         "layout": "titre-et-contenu",
         "textes": {
           "titre": "Indicateurs du semestre",
-          "contenu": "Commandes traitées : 8 940\nDélai moyen d'expédition : 1,8 jour\nTaux de réclamation : 2,1 %\nPanier moyen : 84,60 €\nClients actifs : 1 260"
-        }
+          "contenu": "Commandes traitées : 8 940\nDélai moyen d'expédition : 1,8 jour\nObjectif fixé : 2 jours\nRetours : 1,2 %\nLitiges : 14"
+        },
+        "objets": [
+          {
+            "id": "zt-annexe",
+            "objectType": "texte",
+            "texte": "Détail par entrepôt disponible sur demande",
+            "rect": {
+              "x": 70,
+              "y": 450,
+              "w": 520,
+              "h": 44
+            }
+          }
+        ]
       },
       {
-        "layout": "titre-et-contenu",
+        "layout": "titre-seul",
         "textes": {
-          "titre": "Le poste emballage",
-          "contenu": "Budget voté de 41 000 € et dépense réelle de 52 700 €, soit 11 700 € de plus"
-        }
+          "titre": "Le poste emballage"
+        },
+        "objets": [
+          {
+            "id": "zt-budget",
+            "objectType": "texte",
+            "texte": "Budgété : 41 000 €",
+            "rect": {
+              "x": 70,
+              "y": 430,
+              "w": 300,
+              "h": 70
+            }
+          },
+          {
+            "id": "zt-depense",
+            "objectType": "texte",
+            "texte": "Dépensé : 52 700 €",
+            "rect": {
+              "x": 70,
+              "y": 160,
+              "w": 300,
+              "h": 70
+            }
+          }
+        ]
       },
       {
         "layout": "titre-seul",
@@ -73,19 +109,16 @@
     },
     {
       "id": "M14-EV01-02",
-      "consigne": "Le message du semestre est le délai d'expédition. Remplacez le titre par 1,8 jour d'expédition en moyenne.",
+      "consigne": "Le renvoi au détail par entrepôt n'est pas le message : il encombre. Retirez-le.",
       "action": {
-        "type": "P_TYPE_TEXT",
-        "cible": "ph:titre",
-        "accept": [
-          "1,8 jour d'expédition en moyenne"
-        ]
+        "type": "P_DELETE_OBJECT",
+        "objectId": "zt-annexe"
       },
       "points": 2
     },
     {
       "id": "M14-EV01-03",
-      "consigne": "Remplacez le contenu par : Sur 8 940 commandes, Objectif fixé à 2 jours.",
+      "consigne": "Le message du semestre est le délai d'expédition. Remplacez le titre par 1,8 jour de délai moyen d'expédition.",
       "setupPpt": {
         "deck": {
           "format": "16:9",
@@ -100,16 +133,39 @@
             {
               "layout": "titre-et-contenu",
               "textes": {
-                "titre": "1,8 jour d'expédition en moyenne",
-                "contenu": "Commandes traitées : 8 940\nDélai moyen d'expédition : 1,8 jour\nTaux de réclamation : 2,1 %\nPanier moyen : 84,60 €\nClients actifs : 1 260"
+                "titre": "Indicateurs du semestre",
+                "contenu": "Commandes traitées : 8 940\nDélai moyen d'expédition : 1,8 jour\nObjectif fixé : 2 jours\nRetours : 1,2 %\nLitiges : 14"
               }
             },
             {
-              "layout": "titre-et-contenu",
+              "layout": "titre-seul",
               "textes": {
-                "titre": "Le poste emballage",
-                "contenu": "Budget voté de 41 000 € et dépense réelle de 52 700 €, soit 11 700 € de plus"
-              }
+                "titre": "Le poste emballage"
+              },
+              "objets": [
+                {
+                  "id": "zt-budget",
+                  "objectType": "texte",
+                  "texte": "Budgété : 41 000 €",
+                  "rect": {
+                    "x": 70,
+                    "y": 430,
+                    "w": 300,
+                    "h": 70
+                  }
+                },
+                {
+                  "id": "zt-depense",
+                  "objectType": "texte",
+                  "texte": "Dépensé : 52 700 €",
+                  "rect": {
+                    "x": 70,
+                    "y": 160,
+                    "w": 300,
+                    "h": 70
+                  }
+                }
+              ]
             },
             {
               "layout": "titre-seul",
@@ -120,13 +176,96 @@
                 {
                   "id": "zt-detail",
                   "objectType": "texte",
+                  "texte": "Cumul des six mois",
                   "rect": {
                     "x": 70,
                     "y": 330,
                     "w": 400,
                     "h": 60
-                  },
-                  "texte": "Cumul des six mois"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_TYPE_TEXT",
+        "cible": "ph:titre",
+        "accept": [
+          "1,8 jour de délai moyen d'expédition"
+        ]
+      },
+      "points": 2
+    },
+    {
+      "id": "M14-EV01-04",
+      "consigne": "Ne gardez que ce qui l'éclaire : Sur 8 940 commandes, Objectif fixé à 2 jours.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Comptoir Lavaux",
+                "sous-titre": "Revue d'activité du premier semestre"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "1,8 jour de délai moyen d'expédition",
+                "contenu": "Commandes traitées : 8 940\nDélai moyen d'expédition : 1,8 jour\nObjectif fixé : 2 jours\nRetours : 1,2 %\nLitiges : 14"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Le poste emballage"
+              },
+              "objets": [
+                {
+                  "id": "zt-budget",
+                  "objectType": "texte",
+                  "texte": "Budgété : 41 000 €",
+                  "rect": {
+                    "x": 70,
+                    "y": 430,
+                    "w": 300,
+                    "h": 70
+                  }
+                },
+                {
+                  "id": "zt-depense",
+                  "objectType": "texte",
+                  "texte": "Dépensé : 52 700 €",
+                  "rect": {
+                    "x": 70,
+                    "y": 160,
+                    "w": 300,
+                    "h": 70
+                  }
+                }
+              ]
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Chiffre d'affaires : 756 384,20 €"
+              },
+              "objets": [
+                {
+                  "id": "zt-detail",
+                  "objectType": "texte",
+                  "texte": "Cumul des six mois",
+                  "rect": {
+                    "x": 70,
+                    "y": 330,
+                    "w": 400,
+                    "h": 60
+                  }
                 }
               ]
             }
@@ -138,27 +277,85 @@
         "type": "P_TYPE_TEXT",
         "cible": "ph:contenu",
         "accept": [
-          "Sur 8 940 commandes\nObjectif fixé à 2 jours",
-          "Sur 8 940 commandes, Objectif fixé à 2 jours"
+          "Sur 8 940 commandes\nObjectif fixé à 2 jours"
         ]
       },
       "points": 2
     },
     {
-      "id": "M14-EV01-04",
-      "consigne": "Mettez ce titre en gras.",
-      "action": {
-        "type": "P_EXPECT_FORMAT",
-        "objectId": "ph:titre",
-        "style": {
-          "bold": true
-        }
-      },
-      "points": 2
-    },
-    {
       "id": "M14-EV01-05",
-      "consigne": "Affichez la troisième diapositive, celle du poste emballage.",
+      "consigne": "Affichez la diapositive du poste emballage.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Comptoir Lavaux",
+                "sous-titre": "Revue d'activité du premier semestre"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "1,8 jour de délai moyen d'expédition",
+                "contenu": "Sur 8 940 commandes\nObjectif fixé à 2 jours"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Le poste emballage"
+              },
+              "objets": [
+                {
+                  "id": "zt-budget",
+                  "objectType": "texte",
+                  "texte": "Budgété : 41 000 €",
+                  "rect": {
+                    "x": 70,
+                    "y": 430,
+                    "w": 300,
+                    "h": 70
+                  }
+                },
+                {
+                  "id": "zt-depense",
+                  "objectType": "texte",
+                  "texte": "Dépensé : 52 700 €",
+                  "rect": {
+                    "x": 70,
+                    "y": 160,
+                    "w": 300,
+                    "h": 70
+                  }
+                }
+              ]
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Chiffre d'affaires : 756 384,20 €"
+              },
+              "objets": [
+                {
+                  "id": "zt-detail",
+                  "objectType": "texte",
+                  "texte": "Cumul des six mois",
+                  "rect": {
+                    "x": 70,
+                    "y": 330,
+                    "w": 400,
+                    "h": 60
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 1
+      },
       "action": {
         "type": "P_SELECT_SLIDE",
         "index": 2
@@ -167,16 +364,94 @@
     },
     {
       "id": "M14-EV01-06",
-      "consigne": "Donnez-lui la disposition Comparaison.",
+      "consigne": "Les deux montants sont l'un sous l'autre, dans le désordre. Posez le budget à gauche, à mi-hauteur.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Comptoir Lavaux",
+                "sous-titre": "Revue d'activité du premier semestre"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "1,8 jour de délai moyen d'expédition",
+                "contenu": "Sur 8 940 commandes\nObjectif fixé à 2 jours"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Le poste emballage"
+              },
+              "objets": [
+                {
+                  "id": "zt-budget",
+                  "objectType": "texte",
+                  "texte": "Budgété : 41 000 €",
+                  "rect": {
+                    "x": 70,
+                    "y": 430,
+                    "w": 300,
+                    "h": 70
+                  }
+                },
+                {
+                  "id": "zt-depense",
+                  "objectType": "texte",
+                  "texte": "Dépensé : 52 700 €",
+                  "rect": {
+                    "x": 70,
+                    "y": 160,
+                    "w": 300,
+                    "h": 70
+                  }
+                }
+              ]
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Chiffre d'affaires : 756 384,20 €"
+              },
+              "objets": [
+                {
+                  "id": "zt-detail",
+                  "objectType": "texte",
+                  "texte": "Cumul des six mois",
+                  "rect": {
+                    "x": 70,
+                    "y": 330,
+                    "w": 400,
+                    "h": 60
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 2
+      },
       "action": {
-        "type": "P_SET_LAYOUT",
-        "layout": "comparaison"
+        "type": "P_MOVE_OBJECT",
+        "objectId": "zt-budget",
+        "rect": {
+          "x": 90,
+          "y": 240,
+          "w": 340,
+          "h": 90
+        },
+        "tolerance": 24
       },
       "points": 2
     },
     {
       "id": "M14-EV01-07",
-      "consigne": "Écrivez le titre de la colonne de gauche : Budgété.",
+      "consigne": "Posez la dépense à sa droite, à la même hauteur : deux chiffres se comparent quand l'œil les prend ensemble.",
       "setupPpt": {
         "deck": {
           "format": "16:9",
@@ -191,16 +466,39 @@
             {
               "layout": "titre-et-contenu",
               "textes": {
-                "titre": "1,8 jour d'expédition en moyenne",
+                "titre": "1,8 jour de délai moyen d'expédition",
                 "contenu": "Sur 8 940 commandes\nObjectif fixé à 2 jours"
               }
             },
             {
-              "layout": "comparaison",
+              "layout": "titre-seul",
               "textes": {
-                "titre": "Le poste emballage",
-                "contenu": "Budget voté de 41 000 € et dépense réelle de 52 700 €, soit 11 700 € de plus"
-              }
+                "titre": "Le poste emballage"
+              },
+              "objets": [
+                {
+                  "id": "zt-budget",
+                  "objectType": "texte",
+                  "texte": "Budgété : 41 000 €",
+                  "rect": {
+                    "x": 90,
+                    "y": 240,
+                    "w": 340,
+                    "h": 90
+                  }
+                },
+                {
+                  "id": "zt-depense",
+                  "objectType": "texte",
+                  "texte": "Dépensé : 52 700 €",
+                  "rect": {
+                    "x": 70,
+                    "y": 160,
+                    "w": 300,
+                    "h": 70
+                  }
+                }
+              ]
             },
             {
               "layout": "titre-seul",
@@ -211,13 +509,13 @@
                 {
                   "id": "zt-detail",
                   "objectType": "texte",
+                  "texte": "Cumul des six mois",
                   "rect": {
                     "x": 70,
                     "y": 330,
                     "w": 400,
                     "h": 60
-                  },
-                  "texte": "Cumul des six mois"
+                  }
                 }
               ]
             }
@@ -226,17 +524,21 @@
         "slide": 2
       },
       "action": {
-        "type": "P_TYPE_TEXT",
-        "cible": "ph:texte",
-        "accept": [
-          "Budgété"
-        ]
+        "type": "P_MOVE_OBJECT",
+        "objectId": "zt-depense",
+        "rect": {
+          "x": 530,
+          "y": 240,
+          "w": 340,
+          "h": 90
+        },
+        "tolerance": 24
       },
       "points": 2
     },
     {
       "id": "M14-EV01-08",
-      "consigne": "Écrivez son contenu : 41 000 €.",
+      "consigne": "C'est le dépassement qui doit sauter aux yeux : faites ressortir la dépense.",
       "setupPpt": {
         "deck": {
           "format": "16:9",
@@ -251,17 +553,39 @@
             {
               "layout": "titre-et-contenu",
               "textes": {
-                "titre": "1,8 jour d'expédition en moyenne",
+                "titre": "1,8 jour de délai moyen d'expédition",
                 "contenu": "Sur 8 940 commandes\nObjectif fixé à 2 jours"
               }
             },
             {
-              "layout": "comparaison",
+              "layout": "titre-seul",
               "textes": {
-                "titre": "Le poste emballage",
-                "contenu": "Budget voté de 41 000 € et dépense réelle de 52 700 €, soit 11 700 € de plus",
-                "texte": "Budgété"
-              }
+                "titre": "Le poste emballage"
+              },
+              "objets": [
+                {
+                  "id": "zt-budget",
+                  "objectType": "texte",
+                  "texte": "Budgété : 41 000 €",
+                  "rect": {
+                    "x": 90,
+                    "y": 240,
+                    "w": 340,
+                    "h": 90
+                  }
+                },
+                {
+                  "id": "zt-depense",
+                  "objectType": "texte",
+                  "texte": "Dépensé : 52 700 €",
+                  "rect": {
+                    "x": 530,
+                    "y": 240,
+                    "w": 340,
+                    "h": 90
+                  }
+                }
+              ]
             },
             {
               "layout": "titre-seul",
@@ -272,13 +596,13 @@
                 {
                   "id": "zt-detail",
                   "objectType": "texte",
+                  "texte": "Cumul des six mois",
                   "rect": {
                     "x": 70,
                     "y": 330,
                     "w": 400,
                     "h": 60
-                  },
-                  "texte": "Cumul des six mois"
+                  }
                 }
               ]
             }
@@ -287,17 +611,17 @@
         "slide": 2
       },
       "action": {
-        "type": "P_TYPE_TEXT",
-        "cible": "ph:contenu",
-        "accept": [
-          "41 000 €"
-        ]
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "zt-depense",
+        "style": {
+          "bold": true
+        }
       },
       "points": 2
     },
     {
       "id": "M14-EV01-09",
-      "consigne": "Écrivez le titre de la colonne de droite : Dépensé.",
+      "consigne": "Le titre doit porter l'écart, pas le sujet : remplacez-le par 11 700 € de dépassement sur l'emballage.",
       "setupPpt": {
         "deck": {
           "format": "16:9",
@@ -312,17 +636,42 @@
             {
               "layout": "titre-et-contenu",
               "textes": {
-                "titre": "1,8 jour d'expédition en moyenne",
+                "titre": "1,8 jour de délai moyen d'expédition",
                 "contenu": "Sur 8 940 commandes\nObjectif fixé à 2 jours"
               }
             },
             {
-              "layout": "comparaison",
+              "layout": "titre-seul",
               "textes": {
-                "titre": "Le poste emballage",
-                "contenu": "41 000 €",
-                "texte": "Budgété"
-              }
+                "titre": "Le poste emballage"
+              },
+              "objets": [
+                {
+                  "id": "zt-budget",
+                  "objectType": "texte",
+                  "texte": "Budgété : 41 000 €",
+                  "rect": {
+                    "x": 90,
+                    "y": 240,
+                    "w": 340,
+                    "h": 90
+                  }
+                },
+                {
+                  "id": "zt-depense",
+                  "objectType": "texte",
+                  "texte": "Dépensé : 52 700 €",
+                  "rect": {
+                    "x": 530,
+                    "y": 240,
+                    "w": 340,
+                    "h": 90
+                  },
+                  "style": {
+                    "bold": true
+                  }
+                }
+              ]
             },
             {
               "layout": "titre-seul",
@@ -333,13 +682,13 @@
                 {
                   "id": "zt-detail",
                   "objectType": "texte",
+                  "texte": "Cumul des six mois",
                   "rect": {
                     "x": 70,
                     "y": 330,
                     "w": 400,
                     "h": 60
-                  },
-                  "texte": "Cumul des six mois"
+                  }
                 }
               ]
             }
@@ -347,80 +696,6 @@
         },
         "slide": 2
       },
-      "action": {
-        "type": "P_TYPE_TEXT",
-        "cible": "ph:texte#2",
-        "accept": [
-          "Dépensé"
-        ]
-      },
-      "points": 2
-    },
-    {
-      "id": "M14-EV01-10",
-      "consigne": "Écrivez son contenu : 52 700 €.",
-      "setupPpt": {
-        "deck": {
-          "format": "16:9",
-          "slides": [
-            {
-              "layout": "diapositive-de-titre",
-              "textes": {
-                "titre": "Comptoir Lavaux",
-                "sous-titre": "Revue d'activité du premier semestre"
-              }
-            },
-            {
-              "layout": "titre-et-contenu",
-              "textes": {
-                "titre": "1,8 jour d'expédition en moyenne",
-                "contenu": "Sur 8 940 commandes\nObjectif fixé à 2 jours"
-              }
-            },
-            {
-              "layout": "comparaison",
-              "textes": {
-                "titre": "Le poste emballage",
-                "contenu": "41 000 €",
-                "texte": "Budgété",
-                "texte#2": "Dépensé"
-              }
-            },
-            {
-              "layout": "titre-seul",
-              "textes": {
-                "titre": "Chiffre d'affaires : 756 384,20 €"
-              },
-              "objets": [
-                {
-                  "id": "zt-detail",
-                  "objectType": "texte",
-                  "rect": {
-                    "x": 70,
-                    "y": 330,
-                    "w": 400,
-                    "h": 60
-                  },
-                  "texte": "Cumul des six mois"
-                }
-              ]
-            }
-          ]
-        },
-        "slide": 2
-      },
-      "action": {
-        "type": "P_TYPE_TEXT",
-        "cible": "ph:contenu#2",
-        "accept": [
-          "52 700 €"
-        ]
-      },
-      "points": 2
-    },
-    {
-      "id": "M14-EV01-11",
-      "consigne": "Remplacez le titre par 11 700 € de dépassement sur l'emballage.",
       "action": {
         "type": "P_TYPE_TEXT",
         "cible": "ph:titre",
@@ -431,8 +706,82 @@
       "points": 2
     },
     {
-      "id": "M14-EV01-12",
+      "id": "M14-EV01-10",
       "consigne": "Affichez la dernière diapositive : son titre porte un chiffre d'affaires au centime près.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Comptoir Lavaux",
+                "sous-titre": "Revue d'activité du premier semestre"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "1,8 jour de délai moyen d'expédition",
+                "contenu": "Sur 8 940 commandes\nObjectif fixé à 2 jours"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "11 700 € de dépassement sur l'emballage"
+              },
+              "objets": [
+                {
+                  "id": "zt-budget",
+                  "objectType": "texte",
+                  "texte": "Budgété : 41 000 €",
+                  "rect": {
+                    "x": 90,
+                    "y": 240,
+                    "w": 340,
+                    "h": 90
+                  }
+                },
+                {
+                  "id": "zt-depense",
+                  "objectType": "texte",
+                  "texte": "Dépensé : 52 700 €",
+                  "rect": {
+                    "x": 530,
+                    "y": 240,
+                    "w": 340,
+                    "h": 90
+                  },
+                  "style": {
+                    "bold": true
+                  }
+                }
+              ]
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Chiffre d'affaires : 756 384,20 €"
+              },
+              "objets": [
+                {
+                  "id": "zt-detail",
+                  "objectType": "texte",
+                  "texte": "Cumul des six mois",
+                  "rect": {
+                    "x": 70,
+                    "y": 330,
+                    "w": 400,
+                    "h": 60
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 2
+      },
       "action": {
         "type": "P_SELECT_SLIDE",
         "index": 3
@@ -440,8 +789,82 @@
       "points": 1
     },
     {
-      "id": "M14-EV01-13",
-      "consigne": "Remplacez son titre par 756 000 € de chiffre d'affaires : deux chiffres significatifs suffisent à l'écran.",
+      "id": "M14-EV01-11",
+      "consigne": "Deux chiffres significatifs suffisent à l'oral : remplacez-le par 756 000 € de chiffre d'affaires.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Comptoir Lavaux",
+                "sous-titre": "Revue d'activité du premier semestre"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "1,8 jour de délai moyen d'expédition",
+                "contenu": "Sur 8 940 commandes\nObjectif fixé à 2 jours"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "11 700 € de dépassement sur l'emballage"
+              },
+              "objets": [
+                {
+                  "id": "zt-budget",
+                  "objectType": "texte",
+                  "texte": "Budgété : 41 000 €",
+                  "rect": {
+                    "x": 90,
+                    "y": 240,
+                    "w": 340,
+                    "h": 90
+                  }
+                },
+                {
+                  "id": "zt-depense",
+                  "objectType": "texte",
+                  "texte": "Dépensé : 52 700 €",
+                  "rect": {
+                    "x": 530,
+                    "y": 240,
+                    "w": 340,
+                    "h": 90
+                  },
+                  "style": {
+                    "bold": true
+                  }
+                }
+              ]
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Chiffre d'affaires : 756 384,20 €"
+              },
+              "objets": [
+                {
+                  "id": "zt-detail",
+                  "objectType": "texte",
+                  "texte": "Cumul des six mois",
+                  "rect": {
+                    "x": 70,
+                    "y": 330,
+                    "w": 400,
+                    "h": 60
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 3
+      },
       "action": {
         "type": "P_TYPE_TEXT",
         "cible": "ph:titre",
@@ -452,18 +875,264 @@
       "points": 2
     },
     {
-      "id": "M14-EV01-14",
-      "consigne": "Écrivez la note de cette diapositive : Chiffre exact 756 384,20 € si on me le demande.",
-      "action": {
-        "type": "P_EXPECT_DECK",
+      "id": "M14-EV01-12",
+      "consigne": "Le cumul exact reste utile, mais au second plan : reléguez-le en bas.",
+      "setupPpt": {
         "deck": {
+          "format": "16:9",
           "slides": [
             {
-              "index": 3,
-              "notes": "Chiffre exact 756 384,20 € si on me le demande"
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Comptoir Lavaux",
+                "sous-titre": "Revue d'activité du premier semestre"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "1,8 jour de délai moyen d'expédition",
+                "contenu": "Sur 8 940 commandes\nObjectif fixé à 2 jours"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "11 700 € de dépassement sur l'emballage"
+              },
+              "objets": [
+                {
+                  "id": "zt-budget",
+                  "objectType": "texte",
+                  "texte": "Budgété : 41 000 €",
+                  "rect": {
+                    "x": 90,
+                    "y": 240,
+                    "w": 340,
+                    "h": 90
+                  }
+                },
+                {
+                  "id": "zt-depense",
+                  "objectType": "texte",
+                  "texte": "Dépensé : 52 700 €",
+                  "rect": {
+                    "x": 530,
+                    "y": 240,
+                    "w": 340,
+                    "h": 90
+                  },
+                  "style": {
+                    "bold": true
+                  }
+                }
+              ]
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "756 000 € de chiffre d'affaires"
+              },
+              "objets": [
+                {
+                  "id": "zt-detail",
+                  "objectType": "texte",
+                  "texte": "Cumul des six mois",
+                  "rect": {
+                    "x": 70,
+                    "y": 330,
+                    "w": 400,
+                    "h": 60
+                  }
+                }
+              ]
             }
           ]
+        },
+        "slide": 3
+      },
+      "action": {
+        "type": "P_MOVE_OBJECT",
+        "objectId": "zt-detail",
+        "rect": {
+          "x": 70,
+          "y": 460,
+          "w": 400,
+          "h": 44
+        },
+        "tolerance": 24
+      },
+      "points": 2
+    },
+    {
+      "id": "M14-EV01-13",
+      "consigne": "Réduisez-le à une mention discrète, en italique.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Comptoir Lavaux",
+                "sous-titre": "Revue d'activité du premier semestre"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "1,8 jour de délai moyen d'expédition",
+                "contenu": "Sur 8 940 commandes\nObjectif fixé à 2 jours"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "11 700 € de dépassement sur l'emballage"
+              },
+              "objets": [
+                {
+                  "id": "zt-budget",
+                  "objectType": "texte",
+                  "texte": "Budgété : 41 000 €",
+                  "rect": {
+                    "x": 90,
+                    "y": 240,
+                    "w": 340,
+                    "h": 90
+                  }
+                },
+                {
+                  "id": "zt-depense",
+                  "objectType": "texte",
+                  "texte": "Dépensé : 52 700 €",
+                  "rect": {
+                    "x": 530,
+                    "y": 240,
+                    "w": 340,
+                    "h": 90
+                  },
+                  "style": {
+                    "bold": true
+                  }
+                }
+              ]
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "756 000 € de chiffre d'affaires"
+              },
+              "objets": [
+                {
+                  "id": "zt-detail",
+                  "objectType": "texte",
+                  "texte": "Cumul des six mois",
+                  "rect": {
+                    "x": 70,
+                    "y": 460,
+                    "w": 400,
+                    "h": 44
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 3
+      },
+      "action": {
+        "type": "P_EXPECT_FORMAT",
+        "objectId": "zt-detail",
+        "style": {
+          "italic": true
         }
+      },
+      "points": 2
+    },
+    {
+      "id": "M14-EV01-14",
+      "consigne": "Contrôlez enfin les trois écrans d'un seul coup d'œil.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Comptoir Lavaux",
+                "sous-titre": "Revue d'activité du premier semestre"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "1,8 jour de délai moyen d'expédition",
+                "contenu": "Sur 8 940 commandes\nObjectif fixé à 2 jours"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "11 700 € de dépassement sur l'emballage"
+              },
+              "objets": [
+                {
+                  "id": "zt-budget",
+                  "objectType": "texte",
+                  "texte": "Budgété : 41 000 €",
+                  "rect": {
+                    "x": 90,
+                    "y": 240,
+                    "w": 340,
+                    "h": 90
+                  }
+                },
+                {
+                  "id": "zt-depense",
+                  "objectType": "texte",
+                  "texte": "Dépensé : 52 700 €",
+                  "rect": {
+                    "x": 530,
+                    "y": 240,
+                    "w": 340,
+                    "h": 90
+                  },
+                  "style": {
+                    "bold": true
+                  }
+                }
+              ]
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "756 000 € de chiffre d'affaires"
+              },
+              "objets": [
+                {
+                  "id": "zt-detail",
+                  "objectType": "texte",
+                  "texte": "Cumul des six mois",
+                  "rect": {
+                    "x": 70,
+                    "y": 460,
+                    "w": 400,
+                    "h": 44
+                  },
+                  "style": {
+                    "italic": true
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 3
+      },
+      "action": {
+        "type": "P_SET_VIEW",
+        "view": "trieuse"
       },
       "points": 1
     }

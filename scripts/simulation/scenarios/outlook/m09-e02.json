@@ -90,7 +90,8 @@
       },
       "aide": {
         "text": "Le message précise ce dont le comptable du client a besoin."
-      }
+      },
+      "feedback": "Une pièce interne au milieu d'un dossier client : c'est le cas type de l'envoi qu'on regrette."
     },
     {
       "id": "O09-E02-02",
@@ -123,7 +124,8 @@
       },
       "aide": {
         "text": "Le transfert emporte les trois pièces : la croix ✕ retire celle qui ne doit pas partir."
-      }
+      },
+      "feedback": "Seul ce qui concerne le destinataire est parti. Le transfert ne trie jamais tout seul."
     },
     {
       "id": "O09-E02-03",
@@ -210,7 +212,26 @@
       },
       "aide": {
         "text": "Deux informations sont attendues : le numéro, et l'avoir à déduire."
-      }
+      },
+      "feedback": "Le numéro de facture et l'avoir signalés : la comptabilité peut traiter sans relancer personne."
+    },
+    {
+      "id": "O09-E02-99",
+      "consigne": "Le dossier est parti à la comptabilité du client, sans la pièce interne. **Rangez-le dans `Clients 2026`.** Répondre sans classer laisse la boîte aussi pleine qu'avant : c'est le classement, et non l'envoi, qui fait descendre le nombre de messages en attente.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-facturation": {
+              "dossier": "clients"
+            }
+          }
+        }
+      },
+      "aide": {
+        "text": "Sélectionnez le message, puis Déplacer dans le ruban, et choisissez Clients 2026."
+      },
+      "feedback": "Rangé au nom du client : c'est là qu'on ira chercher la trace du règlement."
     }
   ]
 }

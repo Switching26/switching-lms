@@ -28,11 +28,14 @@ import type {
   PlanDemo,
   Verdict,
 } from "../contrats"
-import type { WordAction } from "./actions"
+import type { WordAction, WordMontrer } from "./actions"
 import type { WordObservation, WordParagrapheObserve, WordRunObserve } from "./observations"
 import {
   correspond,
   ecartsDeFormat,
+  contradictionsDeFormat,
+  contreditValeur,
+  NEUTRE_WORD,
   resoudreZone,
   zoneEnFrancais,
   type ParagrapheLu,
@@ -180,6 +183,20 @@ const nul = (reason: string, message: string): Verdict => ({ ok: false, reason, 
  * un parcours parfait.
  */
 const pasEncore = (quoi: string, message: string): Verdict => nul(`no_${quoi}`, message)
+
+/**
+ * Un verdict « vous avez agi, et c'est faux » — celui qui COÛTE un point.
+ *
+ * Symétrique exact de `pasEncore`, et c'est toute la différence entre une note
+ * et un affichage : `frappe.ts` classe `no_…` en passage obligé (tâtonnement
+ * gratuit) et `wrong_…` en faute. Rendre `pasEncore` sur un geste réellement
+ * faux — ce que faisaient les treize variantes `W_EXPECT_*` — revient à noter
+ * sur un barème que l'apprenant ne peut pas perdre.
+ *
+ * Le partage entre les deux est décidé par `contreditValeur` et
+ * `contradictionsDeFormat` (`document.ts`), source unique du « neutre ».
+ */
+const contredit = (quoi: string, message: string): Verdict => nul(`wrong_${quoi}`, message)
 
 /** Recompose les bornes des paragraphes à partir de leurs seuls textes. */
 function bornes(paragraphes: WordParagrapheObserve[]): ParagrapheLu[] {
@@ -333,11 +350,18 @@ function juger(step: EtapeApp, observed: ObservationApp): Verdict | null {
         if (!p) {
           return pasEncore("doc", `Il manque le ${i + 1}e paragraphe.`)
         }
-        if (!correspond(p.texte, formes)) {
-          return pasEncore(
-            "doc",
-            `Le ${i + 1}e paragraphe ne contient pas encore le texte attendu.`,
-          )
+        if (!correspond(p.texte, formes, action.strict)) {
+          // Un paragraphe VIDE est une absence de geste ; un paragraphe écrit
+          // autrement est une réponse fausse, et elle doit coûter.
+          if (p.texte.trim() !== "") {
+            return contredit(
+              "doc",
+              action.strict
+                ? `Le ${i + 1}e paragraphe n'est pas écrit exactement comme attendu — la casse compte ici.`
+                : `Le ${i + 1}e paragraphe ne porte pas le texte attendu.`,
+            )
+          }
+          return pasEncore("doc", `Le ${i + 1}e paragraphe est encore vide.`)
         }
       }
       if (action.exact) {
@@ -358,6 +382,15 @@ function juger(step: EtapeApp, observed: ObservationApp): Verdict | null {
       if (!observeFormat) {
         return pasEncore("format", "La mise en forme demandée n'est pas encore posée.")
       }
+      // Un attribut posé à une AUTRE valeur passe avant ce qui manque : c'est un
+      // geste faux, pas une construction en cours.
+      const faux = contradictionsDeFormat(action.format, observeFormat)
+      if (faux.length > 0) {
+        return contredit(
+          "format",
+          `${zoneEnFrancais(action.zone)} porte ${enumerer(faux)}.`,
+        )
+      }
       const manques = ecartsDeFormat(action.format, observeFormat)
       if (manques.length > 0) {
         return pasEncore(
@@ -377,6 +410,29 @@ function juger(step: EtapeApp, observed: ObservationApp): Verdict | null {
       if (i === null) return nul("zone_introuvable", "Cette étape désigne un paragraphe qui n'existe pas.")
       const p = paragraphes[i]
       const manques: string[] = []
+      /*
+       * Un style, un alignement ou une liste POSÉS à une autre valeur que celle
+       * attendue sont un geste faux — pas une construction en cours. C'est le
+       * poste le plus lourd du barème Word (41 points sur 356) et il était
+       * intégralement inperdable : appliquer « Titre 2 » quand on demande
+       * « Titre 1 » rendait le même verdict que ne rien faire du tout.
+       */
+      const faux: string[] = []
+      if (contreditValeur(NEUTRE_WORD.style, action.style.style, p.style)) {
+        faux.push(`le style « ${p.style} »`)
+      }
+      if (contreditValeur(NEUTRE_WORD.alignement, action.style.alignement, p.alignement)) {
+        faux.push(`l'alignement ${p.alignement}`)
+      }
+      if (contreditValeur(NEUTRE_WORD.liste, action.style.liste, p.liste)) {
+        faux.push(`la liste ${p.liste}`)
+      }
+      if (faux.length > 0) {
+        return contredit(
+          "style",
+          `${zoneEnFrancais(action.zone)} porte ${enumerer(faux)}.`,
+        )
+      }
       if (action.style.style !== undefined && p.style.toLowerCase() !== action.style.style.toLowerCase()) {
         manques.push(`le style « ${action.style.style} »`)
       }
@@ -398,10 +454,21 @@ function juger(step: EtapeApp, observed: ObservationApp): Verdict | null {
       if (obs.kind !== "w:docState") {
         return pasEncore("table", "Le tableau n'est pas encore inséré.")
       }
-      const trouve = (obs.tableaux ?? []).some(
+      const poses = obs.tableaux ?? []
+      const trouve = poses.some(
         (t) => t.lignes === action.lignes && t.colonnes === action.colonnes,
       )
       if (!trouve) {
+        // Un tableau inséré aux MAUVAISES dimensions est un geste faux ;
+        // l'absence de tableau reste une absence de geste.
+        if (poses.length > 0) {
+          const t = poses[0]
+          return contredit(
+            "table",
+            `Le tableau inséré fait ${t.lignes} lignes sur ${t.colonnes} colonnes : ` +
+              `il en faut ${action.lignes} sur ${action.colonnes}.`,
+          )
+        }
         return pasEncore(
           "table",
           `Il faut un tableau de ${action.lignes} lignes sur ${action.colonnes} colonnes.`,
@@ -416,6 +483,7 @@ function juger(step: EtapeApp, observed: ObservationApp): Verdict | null {
       }
       const p = obs.page ?? {}
       const manques: string[] = []
+      const fauxPage: string[] = []
       for (const [cle, libelle] of [
         ["orientation", "l'orientation"],
         ["margeHaut", "la marge du haut"],
@@ -425,6 +493,14 @@ function juger(step: EtapeApp, observed: ObservationApp): Verdict | null {
       ] as const) {
         const attendu = action.page[cle]
         if (attendu !== undefined && p[cle] !== attendu) manques.push(libelle)
+        // Une marge réglée à 4 cm quand on en demande 3 est un geste faux ; la
+        // marge encore à sa valeur d'origine est une absence de geste.
+        if (contreditValeur(NEUTRE_WORD.page[cle], attendu, p[cle])) {
+          fauxPage.push(`${libelle} à ${String(p[cle])}`)
+        }
+      }
+      if (fauxPage.length > 0) {
+        return contredit("page", `La mise en page porte ${enumerer(fauxPage)}.`)
       }
       if (action.page.numeroPage !== undefined && (p.numeroPage ?? false) !== action.page.numeroPage) {
         manques.push(action.page.numeroPage ? "le numéro de page" : "le retrait du numéro de page")
@@ -444,7 +520,13 @@ function juger(step: EtapeApp, observed: ObservationApp): Verdict | null {
       if (action.absent) {
         return trouve ? pasEncore("lien", "Le lien est encore là.") : OK
       }
-      return trouve ? OK : pasEncore("lien", "Le texte ne pointe pas encore vers cette adresse.")
+      if (trouve) return OK
+      // Un lien posé vers une AUTRE adresse est un geste faux ; l'absence de
+      // tout lien reste une absence de geste.
+      if (poses.length > 0) {
+        return contredit("lien", `Le lien posé pointe vers « ${poses[0].url} ».`)
+      }
+      return pasEncore("lien", "Le texte ne pointe pas encore vers cette adresse.")
     }
 
     case "W_EXPECT_IMAGE": {
@@ -456,8 +538,31 @@ function juger(step: EtapeApp, observed: ObservationApp): Verdict | null {
       if (action.absente) {
         return trouvee ? pasEncore("image", "L'image est encore dans le document.") : OK
       }
-      if (!trouvee) return pasEncore("image", "L'image n'est pas encore insérée.")
+      if (!trouvee) {
+        /*
+         * Le sélecteur propose SIX images (`WordImagePicker`) : en insérer une
+         * autre que celle demandée est un geste courant, et il était gratuit.
+         * C'est le poste le plus lourd des évaluations 14 et 16, qui plafonnaient
+         * à 17 % et 36 % de points perdables.
+         */
+        if (posees.length > 0) {
+          return contredit(
+            "image",
+            `L'image insérée n'est pas celle qui est demandée.`,
+          )
+        }
+        return pasEncore("image", "L'image n'est pas encore insérée.")
+      }
       if (action.habillage && trouvee.habillage !== action.habillage) {
+        // Un habillage CHOISI, mais le mauvais, est un geste faux ; l'habillage
+        // resté à sa valeur d'origine est une absence de geste.
+        if (contreditValeur(NEUTRE_WORD.habillage, action.habillage, trouvee.habillage)) {
+          return contredit(
+            "image",
+            `L'habillage choisi est ${LIBELLE_HABILLAGE[trouvee.habillage] ?? trouvee.habillage}, ` +
+              `il faut ${LIBELLE_HABILLAGE[action.habillage]}.`,
+          )
+        }
         return pasEncore("image", `L'habillage n'est pas encore ${LIBELLE_HABILLAGE[action.habillage]}.`)
       }
       return OK
@@ -477,9 +582,13 @@ function juger(step: EtapeApp, observed: ObservationApp): Verdict | null {
       if (veutVide) {
         return lu.trim() === "" ? OK : pasEncore("entete", `${nom} n'est pas encore vide.`)
       }
-      return correspond(lu, action.accept)
-        ? OK
-        : pasEncore("entete", `${nom} ne porte pas encore le texte demandé.`)
+      if (correspond(lu, action.accept)) return OK
+      // Une zone remplie avec un AUTRE texte est un geste faux ; une zone encore
+      // vide est une absence de geste.
+      if (lu.trim() !== "") {
+        return contredit("entete", `${nom} porte « ${lu.trim().slice(0, 60)} ».`)
+      }
+      return pasEncore("entete", `${nom} ne porte pas encore le texte demandé.`)
     }
 
     case "W_EXPECT_PRINT": {
@@ -488,6 +597,18 @@ function juger(step: EtapeApp, observed: ObservationApp): Verdict | null {
       }
       const i = obs.impression ?? {}
       const manques: string[] = []
+      // Un réglage POSÉ à une autre valeur — 7 copies quand on en demande 15 —
+      // est un geste faux ; le panneau resté sur sa valeur d'ouverture non.
+      const fauxImpr: string[] = []
+      if (contreditValeur(NEUTRE_WORD.impression.copies, action.impression.copies, i.copies)) {
+        fauxImpr.push(`${String(i.copies)} copies`)
+      }
+      if (contreditValeur(NEUTRE_WORD.impression.plage, action.impression.plage, i.plage)) {
+        fauxImpr.push(`la plage « ${String(i.plage)} »`)
+      }
+      if (fauxImpr.length > 0) {
+        return contredit("impression", `Les réglages portent ${enumerer(fauxImpr)}.`)
+      }
       if (action.impression.copies !== undefined && i.copies !== action.impression.copies) {
         manques.push("le nombre de copies")
       }
@@ -516,11 +637,17 @@ function juger(step: EtapeApp, observed: ObservationApp): Verdict | null {
       const poses = obs.taquets?.[String(idx)] ?? []
       const attendus = action.taquets
       if (poses.length !== attendus.length) {
+        // Des taquets EN TROP sont un geste faux — la règle n'en pose pas toute
+        // seule. Il en manque : l'apprenant n'a pas fini, ce n'est pas une faute.
+        if (poses.length > attendus.length) {
+          return contredit(
+            "taquets",
+            `Il y a ${poses.length - attendus.length} taquet(s) de trop sur la règle.`,
+          )
+        }
         return pasEncore(
           "taquets",
-          attendus.length > poses.length
-            ? `Il manque ${attendus.length - poses.length} taquet(s) sur la règle.`
-            : `Il y a ${poses.length - attendus.length} taquet(s) de trop sur la règle.`,
+          `Il manque ${attendus.length - poses.length} taquet(s) sur la règle.`,
         )
       }
       // Une pose à la souris ne tombe jamais au pixel : 0,05 cm de tolérance.
@@ -530,7 +657,9 @@ function juger(step: EtapeApp, observed: ObservationApp): Verdict | null {
           (p) => p.type === a.type && Math.abs(p.position - a.position) <= 0.05,
         )
         if (j < 0) {
-          return pasEncore(
+          // Le bon NOMBRE de taquets, mais pas aux bonnes positions : ils ont
+          // tous été posés, et posés faux.
+          return contredit(
             "taquets",
             `Il manque un taquet ${LIBELLE_TAQUET[a.type]} à ${a.position.toFixed(2).replace(".", ",")} cm.`,
           )
@@ -775,6 +904,23 @@ export function ancre(zone: string): string {
   return `[data-word-zone="${zone}"]`
 }
 
+/**
+ * Contracte l'article : « à la fin de le 3e paragraphe » → « du 3e paragraphe ».
+ *
+ * `zoneEnFrancais` rend un groupe nominal avec son article (« le 3e
+ * paragraphe », « une partie du 2e paragraphe », « « Rapport » »). Le coller
+ * derrière « de » produit une faute que l'apprenant lit à chaque
+ * démonstration — dans un support de formation, ce n'est pas un détail.
+ */
+function deLa(groupe: string): string {
+  if (groupe.startsWith("le ")) return `du ${groupe.slice(3)}`
+  if (groupe.startsWith("les ")) return `des ${groupe.slice(4)}`
+  if (groupe.startsWith("la ")) return `de la ${groupe.slice(3)}`
+  if (groupe.startsWith("l'") || groupe.startsWith("l’")) return `de ${groupe}`
+  if (groupe.startsWith("une ")) return `d'${groupe}`
+  return `de ${groupe}`
+}
+
 /* ═══════════════════════════════════════════════════════════════════════════
    DÉMONSTRATION — « Montrez-moi »
    ═══════════════════════════════════════════════════════════════════════════ */
@@ -789,6 +935,13 @@ export function ancre(zone: string): string {
  * curseur sur le bon bouton pendant que rien ne change à l'écran.
  */
 function demonstration(a: ActionApp, _ctx: ContexteDemo): PlanDemo | null {
+  /*
+   * `W_MONTRER` d'abord, et AVANT la conversion vers `WordAction` : il n'est
+   * volontairement pas dans cette union (voir `actions.ts`), donc le `switch`
+   * ci-dessous ne saurait pas le nommer sans que TypeScript proteste.
+   */
+  if (a.type === "W_MONTRER") return planMontrer(a as unknown as WordMontrer)
+
   const action = a as unknown as WordAction
   switch (action.type) {
     case "W_TYPE_TEXT": {
@@ -799,13 +952,37 @@ function demonstration(a: ActionApp, _ctx: ContexteDemo): PlanDemo | null {
           {
             cible: zone ? { k: "dom", sel: ancre(zone) } : { k: "clavier" },
             bulle: zone
-              ? `On place le curseur dans ${zoneEnFrancais(zone)}.`
+              ? `On place le curseur à la fin ${deLa(zoneEnFrancais(zone))}.`
               : "On place le curseur dans le document.",
+            ...(zone ? { selectionner: zone } : {}),
           },
           {
             cible: zone ? { k: "dom", sel: ancre(zone) } : { k: "clavier" },
-            bulle: "On saisit le texte demandé.",
+            bulle: "On appuie sur Entrée, puis on saisit le texte : il vient dans son propre paragraphe.",
             frappe: texte,
+            /*
+             * ⚠️ ÉCRIRE POUR DE VRAI, pas seulement faire défiler les lettres.
+             *
+             * Sans ce champ, la démonstration montrait la frappe et le document
+             * restait vide : l'apprenant qui vient de réclamer de l'aide voyait
+             * un geste SANS résultat — la définition même d'une démonstration
+             * incomplète, et le défaut qui a valu à Excel un audit entier
+             * (550 formules arrêtées avant leur résultat).
+             *
+             * 🔴 `"fin"` ET SURTOUT PAS LA ZONE, défaut mesuré au banc puis
+             * corrigé. `zone` désigne le point de DÉPART du geste — « placez le
+             * curseur à la fin de « Ordre du jour », appuyez sur Entrée, puis
+             * saisissez » — et écrire À cet endroit ÉCRASE le paragraphe de
+             * départ. La démonstration de la leçon qui enseigne « Entrée ouvre
+             * un NOUVEAU paragraphe » faisait donc disparaître l'ancien : elle
+             * montrait l'exact contraire de son propos.
+             *
+             * `"fin"` = à la suite, ce qui est aussi la règle que suit la
+             * reconstitution du document à la reprise. Les deux DOIVENT coïncider,
+             * sinon la démonstration montre un document que l'étape suivante
+             * contredit.
+             */
+            ...(zone ? { ecrire: { ref: "fin", valeur: texte } } : {}),
           },
         ],
         pas: ["placer le curseur", "saisir"],
@@ -907,6 +1084,10 @@ function demonstration(a: ActionApp, _ctx: ContexteDemo): PlanDemo | null {
           cible: { k: "dom", sel: ancre(zone) },
           bulle: `On écrit ${zoneEnFrancais(zone)}.`,
           frappe: formes[0] ?? "",
+          selectionner: zone,
+          // Même raison que `W_TYPE_TEXT` : une frappe qui ne laisse rien dans
+          // le document n'est pas une démonstration, c'est une animation.
+          ecrire: { ref: zone, valeur: formes[0] ?? "" },
         })),
         pas: entrees.map(() => "écrire"),
       }
@@ -926,6 +1107,47 @@ function demonstration(a: ActionApp, _ctx: ContexteDemo): PlanDemo | null {
 
     default:
       return null
+  }
+}
+
+/**
+ * Le plan d'un écran « À comprendre » : on désigne, on explique, on ne feint
+ * aucun geste.
+ *
+ * `illustration: true` change le comportement du calque : la phrase reste
+ * affichée pendant toute la durée du geste — le temps de la lire — et aucun
+ * badge de validation ne vient suggérer une action qui n'aura pas lieu.
+ * `pas: []` est délibéré : une illustration ne se décompose pas en gestes à
+ * refaire, et des pastilles « Regarder » alignées n'apprenaient rien.
+ */
+function planMontrer(m: WordMontrer): PlanDemo {
+  const brut = (m.cible ?? "").trim()
+  let cible: PlanDemo["gestes"][number]["cible"]
+  if (brut === "" || brut === "ecran") cible = { k: "clavier" }
+  else if (brut.startsWith("ctrl:")) cible = { k: "dom", sel: `[data-control="${brut.slice(5)}"]` }
+  else if (brut.startsWith("dom:")) cible = { k: "dom", sel: brut.slice(4) }
+  else cible = { k: "dom", sel: ancre(brut) }
+
+  return {
+    gestes: [
+      {
+        cible,
+        bulle: m.texte,
+        illustration: true,
+        ...(m.touches?.length ? { touches: m.touches } : {}),
+        ...(m.ecrire ? { ecrire: { ref: m.ecrire.zone, valeur: m.ecrire.valeur } } : {}),
+        /*
+         * `onglet` est typé `RibbonTab` par le noyau — l'échelle d'Excel, qui
+         * ignore « fichier » et « affichage ». Word a ses six onglets à lui ;
+         * la valeur traverse le calque sans être interprétée et c'est le player
+         * qui l'ouvre, donc la conversion est sûre. Ne pas l'élargir dans le
+         * noyau : ce serait toucher un fichier gelé pour un besoin d'une seule
+         * application.
+         */
+        ...(m.onglet ? { onglet: m.onglet as never } : {}),
+      },
+    ],
+    pas: [],
   }
 }
 
@@ -1038,28 +1260,69 @@ function estNavigation(observed: ObservationApp): boolean {
   return obs.kind === "w:cursor" || obs.kind === "w:selection"
 }
 
-/** Ces étapes se jugent sur l'état du document, pas sur le geste. */
+/**
+ * Un verdict « pas encore » sur ce type d'action est-il un passage obligé ?
+ *
+ * ⚠️ CE PRÉDICAT RÉPOND À DEUX QUESTIONS, et le noyau ne s'en sert que pour la
+ * seconde. `frappe.ts` le lit dans `passageOblige` : un motif `no_…` sur un type
+ * dont ce prédicat rend `true` est classé tâtonnement, jamais faute.
+ *
+ * IL DIT DONC VRAI POUR TOUS LES TYPES WORD, et pas seulement pour les
+ * `W_EXPECT_*`. Raison mesurée : la surface Word émet `w:docState` à CHAQUE
+ * changement du document, y compris pendant une étape de saisie ou de clic. Ces
+ * observations sont jugées contre l'étape en cours et rendent `no_text`,
+ * `no_control`… Depuis que `estObservationEtat` rend `false` (voir plus bas),
+ * elles compteraient FAUTE sans ce prédicat : un apprenant qui tape le bon texte
+ * perdrait son point à cause de l'observation d'état déclenchée par sa propre
+ * frappe.
+ *
+ * ⚠️ SECOND CONSOMMATEUR, à ne pas oublier en le modifiant : `WordPlayer`
+ * (ligne ~568) s'en sert pour REDEMANDER l'état 420 ms après l'arrivée sur une
+ * étape. L'élargir fait donc relire l'état sur toutes les étapes. Effet mesuré :
+ * nul — cette relecture tombe dans la fenêtre de mise en place de 2 500 ms
+ * (`useAtelier.ts`), pendant laquelle `WordPlayer` ne compte aucun tâtonnement,
+ * et un `no_…` ne peut de toute façon rien coûter. Elle ne peut pas non plus
+ * valider une étape par erreur : le juge rend `pasEncore` sur un état qui ne
+ * satisfait pas l'attendu.
+ */
 function seJugeSurEtat(actionType: string): boolean {
-  return actionType.startsWith("W_EXPECT_")
+  return actionType.startsWith("W_")
 }
 
 /**
- * Cette OBSERVATION rapporte-t-elle un état plutôt qu'un geste ?
+ * Cette OBSERVATION doit-elle être mise à l'abri du classement en faute ?
  *
- * Le symétrique de `seJugeSurEtat` : la première question porte sur l'action
- * ATTENDUE, celle-ci sur ce que l'observation reçue apporte. Les deux sont
- * nécessaires.
+ * 🔴 WORD RÉPOND NON, ET C'EST CE QUI REND SES ÉVALUATIONS NOTABLES.
  *
- * Pour Word, un seul `kind` rapporte un état : `w:docState`, relevé après
- * stabilisation du modèle. Tous les autres rapportent un geste.
+ * Ce prédicat rendait `true` pour `w:docState`. Dans `frappe.ts`, un `true` ici
+ * envoie l'observation dans une branche dont AUCUNE sortie ne classe en faute —
+ * les paires qui y figurent sont celles d'Excel (`cellClick`/`CLICK_CELL`…),
+ * qu'une observation `w:…` ne peut par construction jamais satisfaire. Or
+ * `w:docState` est le SEUL canal par lequel les treize actions `W_EXPECT_*`
+ * sont jugées : 271 des 356 points du barème (76 %) étaient donc inperdables,
+ * quoi que fasse l'apprenant. Mesuré : 24 % de points réellement perdables
+ * contre 70 % chez Excel, à socle identique.
  *
- * ⚠️ Sans ce prédicat, chaque état INTERMÉDIAIRE d'une construction en
- * plusieurs temps — mettre en gras PUIS appliquer le style — comptait une
- * faute, et un parcours parfait perdait des points sans le moindre message.
- * C'est l'agent PowerPoint qui l'a mesuré : 57 % sur un sans-faute.
+ * Ce que le `true` protégeait — les états INTERMÉDIAIRES d'une construction en
+ * plusieurs temps, mettre en gras PUIS appliquer le style — reste protégé, mais
+ * par le bon mécanisme : le juge rend `pasEncore` (`no_…`) tant que l'attribut
+ * est absent ou à sa valeur neutre, et `passageOblige` neutralise alors
+ * l'observation. Seul un attribut POSÉ À UNE AUTRE VALEUR rend `contredit`
+ * (`wrong_…`), et coûte un point. La protection est ainsi accordée à ce qui la
+ * mérite — l'apprenant qui construit — au lieu d'être accordée au canal tout
+ * entier, faute comprise.
+ *
+ * C'est la sémantique d'Excel, portée dans le vocabulaire de Word :
+ * `jugerFrappeSurEtat` distingue là-bas une cellule attendue restée vide d'une
+ * cellule remplie faux. Excel peut la porter par le canal `typed` — sa surface
+ * émet la frappe avant l'état — que Word n'a pas.
+ *
+ * ⚠️ Ne pas remettre `true` sans rétablir un autre chemin de faute : la note
+ * redeviendrait un affichage, en silence et sans qu'aucun parcours ne le
+ * signale. `check-note-word.ts` échoue si le taux repasse sous son seuil.
  */
-function estObservationEtat(observed: ObservationApp): boolean {
-  return (observed as unknown as WordObservation).kind === "w:docState"
+function estObservationEtat(_observed: ObservationApp): boolean {
+  return false
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════

@@ -67,7 +67,19 @@
       "consigne": "Le public lit une présentation comme une série : dès que deux écrans se ressemblent, il comprend qu'ils disent la même sorte de chose. **Une différence de forme est donc un signal** — et si elle ne veut rien dire, elle égare pour rien.",
       "action": {
         "type": "READ"
-      }
+      },
+      "montrer": [
+        {
+          "type": "P_MONTRER",
+          "cible": "zone:volet",
+          "texte": "Le public lit une présentation comme une série : deux écrans qui se ressemblent disent la même sorte de chose"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "zone:scene",
+          "texte": "Une différence de forme est donc un signal — et si elle ne veut rien dire, elle égare pour rien"
+        }
+      ]
     },
     {
       "id": "M15-L01-02",
@@ -76,6 +88,7 @@
         "type": "P_SET_VIEW",
         "view": "trieuse"
       },
+      "feedback": "La Trieuse affiche les 4 diapositives côte à côte : c'est la vue qui sert à juger l'enchaînement.",
       "aide": {
         "text": "Groupe Affichage, bouton Trieuse."
       }
@@ -85,7 +98,19 @@
       "consigne": "Trois diapositives font ici le même travail — ventes, export, stocks — et **aucune n'a la même disposition**. Le public croira que l'export est traité à part, qu'il compte moins ou plus. Rien de tout cela n'est vrai.",
       "action": {
         "type": "READ"
-      }
+      },
+      "montrer": [
+        {
+          "type": "P_MONTRER",
+          "cible": "zone:trieuse",
+          "texte": "Trois diapositives font le même travail — ventes, export, stocks — et aucune n'a la même disposition"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "zone:volet",
+          "texte": "Le public croira que l'export est traité à part, qu'il compte moins, ou plus. Rien de cela n'est vrai"
+        }
+      ]
     },
     {
       "id": "M15-L01-04",
@@ -93,7 +118,8 @@
       "action": {
         "type": "P_SELECT_SLIDE",
         "index": 2
-      }
+      },
+      "feedback": "Vous êtes sur « L'export ». Les commandes du ruban agissent sur la diapositive affichée."
     },
     {
       "id": "M15-L01-05",
@@ -101,7 +127,8 @@
       "action": {
         "type": "P_SET_VIEW",
         "view": "normal"
-      }
+      },
+      "feedback": "Retour en Normal sur « L'export », l'affichage où l'on compose."
     },
     {
       "id": "M15-L01-06",
@@ -110,6 +137,7 @@
         "type": "P_SET_LAYOUT",
         "layout": "titre-et-contenu"
       },
+      "feedback": "Disposition « Titre et contenu » appliquée : le texte a été replacé dans les cadres équivalents, rien n'a été perdu.",
       "aide": {
         "text": "Groupe Diapositives, bouton Disposition, puis « Titre et contenu »."
       }
@@ -121,6 +149,7 @@
         "type": "P_DELETE_OBJECT",
         "objectId": "zt-export"
       },
+      "feedback": "« 19 000 bouteilles, Belgique et Suisse » a disparu de la diapositive. Ce qui reste à l'écran a été voulu.",
       "aide": {
         "text": "Sélectionnez la zone d'un clic, puis touche Suppr ou bouton Supprimer du groupe Objet."
       }
@@ -182,7 +211,8 @@
       "action": {
         "type": "P_SELECT_SLIDE",
         "index": 3
-      }
+      },
+      "feedback": "« Les stocks » occupe le centre : c'est elle que les boutons modifieront."
     },
     {
       "id": "M15-L01-10",
@@ -190,14 +220,27 @@
       "action": {
         "type": "P_SET_LAYOUT",
         "layout": "titre-et-contenu"
-      }
+      },
+      "feedback": "La diapositive est passée en « Titre et contenu » — et votre texte a suivi tout seul."
     },
     {
       "id": "M15-L01-11",
       "consigne": "À retenir : **même usage, même disposition**. La Trieuse est l'outil de ce contrôle, parce qu'une incohérence de forme ne se voit jamais en regardant une diapositive seule — seulement en les voyant côte à côte.",
       "action": {
         "type": "READ"
-      }
+      },
+      "montrer": [
+        {
+          "type": "P_MONTRER",
+          "cible": "ctrl:aff-trieuse",
+          "texte": "Même usage, même disposition — et la Trieuse est l'outil de ce contrôle"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "zone:volet",
+          "texte": "Une incohérence de forme ne se voit jamais sur une diapositive seule, seulement côte à côte"
+        }
+      ]
     }
   ]
 }

@@ -63,7 +63,19 @@
       "consigne": "Le parcours de contrôle tient en quatre passages, toujours dans cet ordre : **les titres** en Trieuse, **l'ordre** des diapositives, **le déroulé** en diaporama, et enfin ce qui reste **masqué**. Chacun trouve une catégorie de défaut différente, et aucun ne remplace les autres.",
       "action": {
         "type": "READ"
-      }
+      },
+      "montrer": [
+        {
+          "type": "P_MONTRER",
+          "cible": "ctrl:aff-trieuse",
+          "texte": "Les titres en Trieuse d'abord"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "zone:volet",
+          "texte": "Puis l'ordre des diapositives, le déroulé en diaporama, et enfin ce qui reste masqué — chacun trouve un défaut différent"
+        }
+      ]
     },
     {
       "id": "M07-L04-02",
@@ -72,6 +84,7 @@
         "type": "P_SET_VIEW",
         "view": "trieuse"
       },
+      "feedback": "La Trieuse affiche les 5 diapositives côte à côte : c'est la vue qui sert à juger l'enchaînement.",
       "aide": {
         "text": "Groupe Affichage, bouton Trieuse."
       }
@@ -82,7 +95,8 @@
       "action": {
         "type": "P_SELECT_SLIDE",
         "index": 3
-      }
+      },
+      "feedback": "Vous êtes sur « Point 3 ». Les commandes du ruban agissent sur la diapositive affichée."
     },
     {
       "id": "M07-L04-04",
@@ -90,7 +104,8 @@
       "action": {
         "type": "P_SET_VIEW",
         "view": "normal"
-      }
+      },
+      "feedback": "Retour en Normal sur « Point 3 », l'affichage où l'on compose."
     },
     {
       "id": "M07-L04-05",
@@ -102,6 +117,7 @@
           "Deux collectivités partenaires"
         ]
       },
+      "feedback": "Le titre affiche « Deux collectivités partenaires » : l'invite a disparu.",
       "aide": {
         "text": "Un titre déjà rempli s'ouvre au double-clic."
       }
@@ -116,6 +132,7 @@
           "index": 0
         }
       },
+      "feedback": "Vous êtes arrivé sur « Verdeval » — c'est le chemin que suivra le public.",
       "aide": {
         "text": "Groupe Diaporama, bouton « ▶ Début »."
       }
@@ -128,7 +145,8 @@
         "show": {
           "index": 1
         }
-      }
+      },
+      "feedback": "« 38 jardins livrés en 2026 » s'affiche : le déroulé saute ce qui est masqué, sans le supprimer."
     },
     {
       "id": "M07-L04-08",
@@ -149,7 +167,8 @@
         "show": {
           "actif": false
         }
-      }
+      },
+      "feedback": "Diaporama refermé — vous revoilà sur « Deux collectivités partenaires », dans la vue où l'on compose."
     },
     {
       "id": "M07-L04-10",
@@ -157,7 +176,8 @@
       "action": {
         "type": "P_SET_VIEW",
         "view": "trieuse"
-      }
+      },
+      "feedback": "Vue d'ensemble. Les titres se lisent à la suite, comme le public les recevra."
     },
     {
       "id": "M07-L04-11",
@@ -165,7 +185,8 @@
       "action": {
         "type": "P_SET_VIEW",
         "view": "normal"
-      }
+      },
+      "feedback": "De retour sur « Deux collectivités partenaires » : c'est ici, et seulement ici, qu'on écrit."
     }
   ]
 }

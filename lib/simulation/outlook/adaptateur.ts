@@ -115,9 +115,12 @@ const LIBELLES_OUTLOOK: Readonly<Record<string, string>> = {
   [CONTROLES.afficherCci]: "Afficher le champ Cci",
   [CONTROLES.supprimer]: "Supprimer",
   [CONTROLES.indicateur]: "Indicateur de suivi",
+  // Rendu par le ruban depuis qu'il existe : le libellé doit suivre, sinon la
+  // ligne « Attendu : … » retombe sur « le bouton indiqué », qui n'apprend rien.
+  [CONTROLES.nonLu]: "Marquer comme non lu",
   [CONTROLES.deplacer]: "Déplacer vers un dossier",
   /*
-   * `cr-non-lu`, `cr-regles` et `cr-reponse-auto` n'ont PAS de libellé ici : la
+   * `cr-regles` et `cr-reponse-auto` n'ont PAS de libellé ici : la
    * surface ne les rend pas encore. Un libellé sans bouton laisserait croire
    * qu'un scénario peut les exiger, et l'étape serait injouable.
    * `check-controles.ts` fait respecter les deux sens de cette règle.
@@ -154,7 +157,10 @@ const NOM_CHAMP: Record<string, string> = {
  * volée : les énumérer serait impossible, mais les laisser sans nom rendrait la
  * ligne « Attendu : … » muette là où elle sert le plus.
  */
-function libelleControle(id: string): string {
+function libelleControle(id: string | undefined): string {
+  // `undefined` est un cas réel : en évaluation notée l'action arrive expurgée,
+  // et une phrase déduite doit rester juste quand tous les champs ont disparu.
+  if (!id) return "le bouton indiqué"
   const direct = LIBELLES_OUTLOOK[id]
   if (direct) return direct
   if (id.startsWith("cr-dossier-")) return "le dossier indiqué"
@@ -185,34 +191,65 @@ function juger(step: EtapeApp, observed: ObservationApp): Verdict | null {
   const obs = observed as unknown as OutlookObservation
 
   switch (attendu.type) {
+    /*
+     * ⚠️ CES MESSAGES NE PARTENT QU'EN LEÇON ET EN EXERCICE.
+     *
+     * En évaluation notée, la correction passe par `/api/simulations/…/verify`,
+     * qui REMPLACE le texte par une phrase constante avant de répondre. Ils
+     * peuvent donc nommer le bouton ou le champ concerné sans rien divulguer
+     * d'un examen — c'est le même partage que `validateStep` côté Excel.
+     *
+     * Le message VIDE, lui, a un sens précis : « ce geste ne concerne pas cette
+     * étape ». Le noyau le lit comme un tâtonnement silencieux, et se taire est
+     * alors voulu — sans quoi l'atelier réprimanderait un apprenant qui explore
+     * sa boîte. Ne jamais remplir un `no_…` pour « faire parler » l'atelier.
+     */
     case "O_CLICK_CONTROL":
       if (obs.kind !== "o:control") return KO("no_control", "")
       return obs.control === attendu.control
         ? OK
-        : KO("wrong_control", "Ce n'est pas le bon bouton.")
+        : KO(
+            "wrong_control",
+            `Ce bouton n'est pas celui attendu ici : l'étape demande ${libelleControle(attendu.control)}.`,
+          )
 
     case "O_SELECT_MESSAGE":
       if (obs.kind !== "o:selectMessage") return KO("no_message_selection", "")
       return obs.id === attendu.id
         ? OK
-        : KO("wrong_message", "Ce n'est pas le message demandé.")
+        : KO(
+            "wrong_message",
+            "Ce n'est pas le message demandé : vérifiez l'expéditeur et l'objet dans la liste avant d'ouvrir.",
+          )
 
     case "O_SELECT_FOLDER":
       if (obs.kind !== "o:selectFolder") return KO("no_folder_selection", "")
       return obs.dossier === attendu.dossier
         ? OK
-        : KO("wrong_folder", "Ce n'est pas le dossier demandé.")
+        : KO("wrong_folder", "Ce n'est pas le dossier demandé : reprenez la liste des dossiers, à gauche.")
 
     case "O_TYPE_TEXT": {
       if (obs.kind !== "o:typed") return KO("no_typing", "")
       if (attendu.champ && obs.champ !== attendu.champ) {
-        return KO("wrong_field", "Ce n'est pas le bon champ.")
+        // Le texte est peut-être juste : c'est l'endroit qui ne l'est pas. Le
+        // dire évite de faire réécrire une saisie correcte.
+        return KO(
+          "wrong_field",
+          `Cette saisie n'est pas au bon endroit : elle est attendue dans ${NOM_CHAMP[attendu.champ] ?? "le champ indiqué"}.`,
+        )
       }
       const n = normaliser(obs.text)
       const ok = attendu.accept.some((a) =>
         attendu.contient ? n.includes(normaliser(a)) : normaliser(a) === n,
       )
-      return ok ? OK : KO("wrong_text", "Ce n'est pas ce qui est demandé.")
+      return ok
+        ? OK
+        : KO(
+            "wrong_text",
+            attendu.contient
+              ? "Il manque ce que la consigne demande de mentionner dans cette saisie."
+              : "Ce n'est pas le texte attendu ici : relisez la consigne, l'orthographe compte.",
+          )
     }
 
     /* Les cinq validations d'ÉTAT. Toutes lisent le même objet : l'état complet

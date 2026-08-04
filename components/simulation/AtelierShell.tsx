@@ -192,8 +192,46 @@ export type ConsigneAtelier = {
   nature: "lecture" | "action" | "evaluee"
   /** Cette étape n'attend aucun geste (`READ`) : elle se regarde et se comprend. */
   lecture: boolean
-  /** L'étape porte une démonstration jouable ; l'atelier le dit explicitement. */
+  /**
+   * ⚠️ NE DÉCRIT QUE LES ÉCRANS DE LECTURE — son nom ment sur les autres.
+   *
+   * Le châssis ne le lit que sous `c.lecture`, et c'est la seule raison pour
+   * laquelle personne n'a vu que les players le remplissent avec DEUX choses
+   * différentes : Word et Outlook y mettent `!!plan`, Excel et PowerPoint
+   * `!!step.montrer?.length`. Sur un écran `READ` les deux coïncident, le plan
+   * étant justement bâti depuis `montrer`.
+   *
+   * Mesuré sur les scénarios du dépôt, étapes d'ACTION hors évaluation :
+   * Excel 0/1354 et PowerPoint 0/939 portent un `montrer`. Gater quoi que ce
+   * soit d'une étape d'action sur ce champ retirerait donc « Montrez-moi » à
+   * 1354 étapes Excel et 863 étapes PowerPoint qui ont une VRAIE démonstration.
+   * Pour savoir si un geste peut être montré, lire `demoJouable`.
+   */
   aDemonstration: boolean
+  /**
+   * Un plan de démonstration existe RÉELLEMENT pour cette étape.
+   *
+   * Pourquoi ce champ n'est pas déductible ici : le châssis ne reçoit ni action,
+   * ni adaptateur (voir l'en-tête de ce type). Seul le player calcule le plan —
+   * `adaptateur.demonstration(action, ctx)` — et lui seul peut donc répondre.
+   *
+   * Le défaut qu'il ferme : « Montrez-moi » s'affichait sur des étapes où RIEN
+   * ne pouvait s'animer, et le bloc de démonstration renvoyait alors l'apprenant
+   * vers « le repère affiché à l'écran » — un repère que le calque, faute de
+   * plan, n'a jamais dessiné. Mesuré : 316 étapes d'action hors évaluation, dont
+   * Outlook 176/550, Word 64/439, PowerPoint 76/939, Excel 0/1354.
+   *
+   * Sur `O_EXPECT_BOITE`, `O_EXPECT_MAIL`, `P_EXPECT_DECK` et consorts, l'absence
+   * de plan est un CHOIX délibéré : ranger un message peut passer par le ruban ou
+   * par le menu, et une démonstration montrerait UN chemin en laissant croire
+   * qu'il est le seul. Le défaut n'a jamais été l'absence de plan, mais la
+   * promesse faite malgré elle.
+   *
+   * ABSENT ⇒ `true`, c'est-à-dire le comportement d'avant, à l'identique. Un
+   * player qui n'a pas encore adopté le champ rend exactement ce qu'il rendait :
+   * c'est ce qui garantit Excel inchangé par CONSTRUCTION, et non par prudence.
+   */
+  demoJouable?: boolean
   /**
    * Ligne « Attendu : … ». La consigne dit quoi faire, jamais à quoi on
    * reconnaît que c'est fait. Vient de l'adaptateur de l'application.
@@ -228,6 +266,22 @@ export type ConsigneAtelier = {
   /** Le jalon de franchissement est en cours : la coche remplace le reste. */
   relaisActif: boolean
   verdict: { ok: boolean; message?: string } | null
+  /**
+   * Le message du verdict est DÉJÀ annoncé sur la surface de travail.
+   *
+   * Même règle que `aideAncree`, pour la même raison : une phrase ne s'affiche
+   * qu'à UN endroit. Les applications annoncent une FAUTE par un effet ancré
+   * (`lancerFx(kind, rect, message)`) ; la répéter sous la consigne ferait lire
+   * deux fois le même mot, ce que l'atelier a déjà payé sur l'aide.
+   *
+   * ⚠️ Le tâtonnement, lui, ne lance AUCUN effet : le juge pose un verdict
+   * porteur d'un message — « Ce n'est pas le message demandé : vérifiez
+   * l'expéditeur… » — et ce message mourait ici, faute d'être un écran de
+   * lecture. C'est le cas que ce drapeau ouvre.
+   *
+   * Absent ⇒ l'application n'annonce rien ailleurs, donc on affiche.
+   */
+  verdictAncre?: boolean
   /** Message de remise d'aplomb du document, `null` s'il n'y a rien à dire. */
   aplomb: string | null
   /** Le juge serveur n'a pas répondu — ni faute, ni silence. */
@@ -288,6 +342,26 @@ function BandeConsigne({ c }: { c: ConsigneAtelier }) {
     setDeborde(el.scrollHeight - el.scrollTop - el.clientHeight > 4)
   }, [])
   useEffect(majFondu, [majFondu, c.index])
+
+  /**
+   * Y a-t-il quelque chose à MONTRER ? Absent ⇒ oui, comme avant.
+   *
+   * Ce seul booléen sépare les deux visages de l'encart d'aide. Le laisser
+   * indéfini rend exactement le code d'hier — c'est la garantie qu'un player non
+   * adapté, Excel en tête, ne bouge pas d'un pixel.
+   */
+  const montrable = c.demoJouable !== false
+
+  /**
+   * La réponse exacte se mérite d'un clic, comme avant.
+   *
+   * Sans plan, l'ancien chemin était : « Montrez-moi » → bloc vert → la réponse.
+   * L'animation n'existait pas, mais le clic, lui, existait bien. L'afficher
+   * d'office ici la révélerait plus tôt qu'hier, sur la seule foi d'un palier que
+   * l'apprenant n'a pas demandé à franchir.
+   */
+  const [reponseVue, setReponseVue] = useState(false)
+  useEffect(() => setReponseVue(false), [c.index])
 
   return (
     <div
@@ -425,8 +499,22 @@ function BandeConsigne({ c }: { c: ConsigneAtelier }) {
           {/* Écran de lecture : l'apprenant qui tape ou clique par réflexe ne
               voyait RIEN — la saisie est refusée en silence, et le verdict ne
               sert qu'à teinter le fond. On le lui dit, en gris, sans le moindre
-              air de reproche. */}
-          {c.lecture && c.verdict && !c.verdict.ok && (
+              air de reproche.
+
+              LE MÊME RAISONNEMENT VAUT SUR UNE ÉTAPE D'ACTION. Le test portait
+              sur `c.lecture` seul, alors que le refus muet ne lui est pas
+              propre : un geste classé TÂTONNEMENT pose un verdict porteur d'une
+              phrase utile SANS lancer d'effet ancré, et cette phrase n'était
+              rendue nulle part. Chez Outlook, `o:selectMessage` et
+              `o:selectFolder` sont toujours de la navigation, donc toujours des
+              tâtonnements : 127 étapes sur 728 refusaient le geste sans dire
+              pourquoi, alors que l'adaptateur avait écrit l'explication.
+
+              `verdictAncre` empêche le doublon : quand l'application affiche
+              déjà le message sur sa surface — ce que fait le flash de FAUTE —,
+              on ne le répète pas ici. Un message vide ne rend plus une bulle
+              orpheline. */}
+          {(c.lecture || !c.verdictAncre) && c.verdict && !c.verdict.ok && c.verdict.message && (
             <p className="mt-1.5 text-[13px] text-warm-600">
               <span aria-hidden>💡 </span>
               {c.verdict.message}
@@ -477,9 +565,17 @@ function BandeConsigne({ c }: { c: ConsigneAtelier }) {
             <span className="min-w-0 flex-1">{c.aplomb}</span>
           </p>
         )}
-        {/* Aide progressive : l'apprenant coincé n'est jamais laissé sans issue. */}
-        {!c.lecture && c.aideProposee && !c.demonstration && (
+        {/* Aide progressive : l'apprenant coincé n'est jamais laissé sans issue.
+            L'encart SURVIT à `demonstration` quand rien n'est montrable : sinon
+            le démarrage automatique au cinquième essai le ferait disparaître au
+            profit d'un bloc vert vide, et l'apprenant perdrait du même coup sa
+            porte de sortie. */}
+        {!c.lecture && c.aideProposee && (!c.demonstration || !montrable) && (
           <div
+            /* Repère de contrôle posé UNIQUEMENT sur le nouveau visage : le
+               poser toujours ajouterait un attribut au DOM d'Excel, et « rendu
+               inchangé » ne se négocie pas, même sur un attribut inerte. */
+            data-aide-sans-demo={!montrable && !c.evaluationNotee ? "" : undefined}
             className="mt-2 flex flex-wrap items-center gap-2 rounded-lg px-3 py-2 text-[12.5px]"
             style={{ background: "#FDEDEC", border: "1px solid #F3D2CE", color: "#7A2620" }}
           >
@@ -487,40 +583,107 @@ function BandeConsigne({ c }: { c: ConsigneAtelier }) {
               <b>Vous bloquez ?</b>{" "}
               {c.evaluationNotee
                 ? "Vous pouvez passer cette question — elle sera comptée comme non réussie."
-                : "Je peux vous montrer comment faire, vous pourrez ensuite continuer."}
+                : montrable
+                ? "Je peux vous montrer comment faire, vous pourrez ensuite continuer."
+                : /* NE JAMAIS DÉSIGNER UN REPÈRE ICI. Le calque n'a pas de plan à
+                     jouer, donc il ne dessinera rien : renvoyer vers « le repère
+                     affiché à l'écran » envoyait chercher ce qui n'existe pas.
+                     Les 316 étapes concernées sont TOUTES des `*_EXPECT_*`, qui
+                     se jugent sur l'état obtenu — la phrase ci-dessous décrit
+                     donc leur nature exacte, et non un pis-aller.
+
+                     LONGUEUR CALÉE SUR SES DEUX VOISINES (67 et 71 signes). Une
+                     première rédaction en faisait 134 : le bandeau est en
+                     `overflow:hidden`, et la phrase se coupait en deux à
+                     l'écran. Ce qui dépasse ici n'est pas seulement illisible,
+                     il est inatteignable. */
+                  "Il n’y a pas un geste unique à vous montrer : c’est le résultat obtenu qui est vérifié."}
+              {!montrable && !c.evaluationNotee && reponseVue && c.reponse && (
+                <>
+                  {" "}
+                  <b>Ce qu’il faut obtenir :</b> {c.reponse}
+                </>
+              )}
             </span>
-            {/* EN ÉVALUATION, CE BOUTON RENONCE VRAIMENT. Il déclenchait une
-                démonstration dans les deux modes ; en évaluation le plan vaut
-                `null`, donc rien n'était révélé, mais l'atelier annonçait une
-                question passée SANS l'avoir dite au serveur. Fermer l'onglet
-                entre les deux laissait une interface et un passage en
-                désaccord. Un seul clic désormais, et le verrou d'envoi ferme le
-                double tap. */}
-            <button
-              type="button"
-              data-control="sim-montrer"
-              onClick={c.onMontrer}
-              disabled={c.evaluationNotee && c.passageEnCours}
-              aria-busy={c.evaluationNotee && c.passageEnCours}
-              className="flex-shrink-0 rounded-lg bg-white px-3 py-1.5 text-[12px] font-bold"
-              style={{
-                border: "1px solid currentColor",
-                color: "inherit",
-                opacity: c.evaluationNotee && c.passageEnCours ? 0.6 : 1,
-              }}
-            >
-              {c.evaluationNotee
-                ? c.passageEnCours
-                  ? "Enregistrement…"
-                  : "Passer la question"
-                : "Montrez-moi"}
-            </button>
+            {/* SANS PLAN, « Montrez-moi » PROMETTAIT CE QUI N'ARRIVERAIT PAS.
+                Il reste la seule porte de sortie d'un apprenant coincé — le
+                retirer sèchement l'enfermerait —, alors il change de nature au
+                lieu de disparaître : la réponse exacte quand elle existe, sinon
+                le droit de passer. En ÉVALUATION rien ne bouge : le bouton y
+                renonce à la question, ce qui n'a jamais eu de rapport avec
+                l'existence d'un plan. */}
+            {!montrable && !c.evaluationNotee ? (
+              c.reponse && !reponseVue ? (
+                <button
+                  type="button"
+                  data-control="sim-voir-reponse"
+                  onClick={() => setReponseVue(true)}
+                  className="flex-shrink-0 rounded-lg bg-white px-3 py-1.5 text-[12px] font-bold"
+                  style={{ border: "1px solid currentColor", color: "inherit" }}
+                >
+                  Voir la réponse
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  data-control="sim-continuer-sans-demo"
+                  onClick={c.onDebloquer}
+                  className="flex-shrink-0 rounded-lg bg-white px-3 py-1.5 text-[12px] font-bold"
+                  style={{ border: "1px solid currentColor", color: "inherit" }}
+                >
+                  Continuer quand même ›
+                </button>
+              )
+            ) : (
+              /* EN ÉVALUATION, CE BOUTON RENONCE VRAIMENT. Il déclenchait une
+                 démonstration dans les deux modes ; en évaluation le plan vaut
+                 `null`, donc rien n'était révélé, mais l'atelier annonçait une
+                 question passée SANS l'avoir dite au serveur. Fermer l'onglet
+                 entre les deux laissait une interface et un passage en
+                 désaccord. Un seul clic désormais, et le verrou d'envoi ferme le
+                 double tap. */
+              <button
+                type="button"
+                data-control="sim-montrer"
+                onClick={c.onMontrer}
+                disabled={c.evaluationNotee && c.passageEnCours}
+                aria-busy={c.evaluationNotee && c.passageEnCours}
+                className="flex-shrink-0 rounded-lg bg-white px-3 py-1.5 text-[12px] font-bold"
+                style={{
+                  border: "1px solid currentColor",
+                  color: "inherit",
+                  opacity: c.evaluationNotee && c.passageEnCours ? 0.6 : 1,
+                }}
+              >
+                {c.evaluationNotee
+                  ? c.passageEnCours
+                    ? "Enregistrement…"
+                    : "Passer la question"
+                  : "Montrez-moi"}
+              </button>
+            )}
           </div>
         )}
         {/* Bloc de démonstration : hors évaluation seulement. En évaluation le
             plan vaut `null` et le renoncement se fait d'un seul clic ci-dessus —
-            ce bloc y était devenu un cul-de-sac. */}
-        {c.demonstration && !c.evaluationNotee && !c.lecture && (
+            ce bloc y était devenu un cul-de-sac.
+
+            `montrable` FERME LE SEUL ENDROIT OÙ L'ATELIER MENTAIT. La phrase de
+            repli ci-dessous — « Suivez le repère affiché à l'écran » — n'est
+            atteinte que si `reponse` est nulle, et deux populations très
+            différentes s'y croisaient. Mesuré sur les scénarios du dépôt, étapes
+            d'action hors évaluation :
+
+              · Excel  268 étapes  plan présent, pas de réponse → la phrase est
+                                   VRAIE, le calque dessine bien un repère ;
+              · Outlook 176 étapes AUCUN plan → le repère n'existait nulle part.
+
+            (Word 64 et PowerPoint 76 sans plan portent tous une `reponse` : ils
+            lisaient donc une réponse écrite, promesse non tenue mais pas fausse
+            direction.) La phrase reste donc INTACTE — la corriger aurait dégradé
+            les 268 étapes Excel où elle est juste. C'est l'ouverture du bloc qui
+            était fautive, pas son texte. */}
+        {c.demonstration && montrable && !c.evaluationNotee && !c.lecture && (
           <div
             className="mt-2 flex flex-wrap items-center gap-2 rounded-lg px-3 py-2 text-[12.5px]"
             style={{ background: "#E7F3EB", border: "1px solid #BFE3CD", color: "#0C5B31" }}

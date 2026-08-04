@@ -52,8 +52,20 @@
 
   "steps": [
     {
+      "id": "O02-E02-00",
+      "consigne": "**Ouvrez le message d'Hugo Vasseur** et relevez les deux dates qu'il propose. Regardez aussi qui d'autre l'a reçu : c'est cette ligne de destinataires qui décidera, à l'étape suivante, entre Répondre et Répondre à tous.",
+      "action": {
+        "type": "O_SELECT_MESSAGE",
+        "id": "m-date"
+      },
+      "aide": {
+        "text": "C'est le message dont l'objet parle de la pose de l'escalier Leroux."
+      },
+      "feedback": "Deux dates, et trois personnes en attente de l'arbitrage. Le choix du bouton se lit dans l'en-tête."
+    },
+    {
       "id": "O02-E02-01",
-      "consigne": "Hugo propose deux dates de pose et attend un arbitrage. Ouvrez son message, puis répondez en retenant le jeudi — de façon que Sonia et Nadia sachent, elles aussi, quel créneau est bloqué.",
+      "consigne": "Hugo attend un arbitrage. Répondez en retenant le jeudi — de façon que Sonia et Nadia sachent, elles aussi, quel créneau est bloqué.",
       "action": {
         "type": "O_EXPECT_MAIL",
         "message": {
@@ -65,7 +77,8 @@
           "cc": { "contient": ["n.kerbaj@atelier-nord.fr"] }
         }
       },
-      "aide": { "text": "Tout le monde a besoin de connaître la date retenue : c'est le cas d'usage de Répondre à tous." }
+      "aide": { "text": "Tout le monde a besoin de connaître la date retenue : c'est le cas d'usage de Répondre à tous." },
+      "feedback": "Tout le monde saura quelle date est retenue, sans avoir à se le redemander l'un à l'autre."
     },
     {
       "id": "O02-E02-02",
@@ -106,7 +119,8 @@
           "cc": { "contient": ["n.kerbaj@atelier-nord.fr"] }
         }
       },
-      "aide": { "text": "Le bouton Envoyer, en haut à gauche de la fenêtre de rédaction." }
+      "aide": { "text": "Le bouton Envoyer, en haut à gauche de la fenêtre de rédaction." },
+      "feedback": "L'arbitrage est parti à l'ensemble du groupe : personne n'attendra une date déjà tranchée."
     },
     {
       "id": "O02-E02-04",
@@ -123,7 +137,8 @@
           "cc": { "vide": true }
         }
       },
-      "aide": { "text": "Le client est en copie du message d'origine : « Répondre à tous » lui apprendrait qu'un devis qu'il a déjà reçu comporte une erreur." }
+      "aide": { "text": "Le client est en copie du message d'origine : « Répondre à tous » lui apprendrait qu'un devis qu'il a déjà reçu comporte une erreur." },
+      "feedback": "Ici le client n'a rien à savoir d'une correction interne. Répondre suffisait, répondre à tous aurait nui."
     },
     {
       "id": "O02-E02-05",
@@ -152,7 +167,26 @@
           }
         }
       },
-      "aide": { "text": "Deux informations sont attendues : la référence du devis, et la nature du problème." }
+      "aide": { "text": "Deux informations sont attendues : la référence du devis, et la nature du problème." },
+      "feedback": "Deux messages, deux choix opposés — et c'est le destinataire, jamais le bouton, qui décide."
+    },
+    {
+      "id": "O02-E02-99",
+      "consigne": "L'arbitrage est parti à tout le monde : la date est tranchée. **Rangez-le dans `Clients 2026`.** Répondre sans classer laisse la boîte aussi pleine qu'avant : c'est le classement, et non l'envoi, qui fait descendre le nombre de messages en attente.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-date": {
+              "dossier": "clients"
+            }
+          }
+        }
+      },
+      "aide": {
+        "text": "Sélectionnez le message, puis Déplacer dans le ruban, et choisissez Clients 2026."
+      },
+      "feedback": "Rangé chez le client concerné : le fil ne réapparaîtra pas demain matin."
     }
   ]
 }

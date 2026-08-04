@@ -94,7 +94,19 @@
       "consigne": "Une diapositive se lit **en trois secondes**. Vous, vous mettez une minute à la dire. Pendant cinquante-sept secondes, le public sait déjà tout — et il attend, ou il décroche. C'est le seul problème qu'une animation résout : elle **retient** une information jusqu'à ce que vous y arriviez.",
       "action": {
         "type": "READ"
-      }
+      },
+      "montrer": [
+        {
+          "type": "P_MONTRER",
+          "cible": "zone:scene",
+          "texte": "Une diapositive se lit en trois secondes ; vous mettez une minute à la dire"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "ctrl:ani-apparaitre",
+          "texte": "C'est le seul problème qu'une animation résout : retenir une information jusqu'à ce que vous y arriviez"
+        }
+      ]
     },
     {
       "id": "M13-L01-02",
@@ -102,14 +114,27 @@
       "action": {
         "type": "P_SELECT_SLIDE",
         "index": 1
-      }
+      },
+      "feedback": "« Où en est le chantier » occupe le centre : c'est elle que les boutons modifieront."
     },
     {
       "id": "M13-L01-03",
       "consigne": "Projetée telle quelle, « Trois semaines d'avance » est lue **avant** que vous ne l'annonciez. Votre annonce tombe à plat : le public l'a lue trente secondes plus tôt, et personne ne réagit deux fois à la même nouvelle.",
       "action": {
         "type": "READ"
-      }
+      },
+      "montrer": [
+        {
+          "type": "P_MONTRER",
+          "cible": "zt-avance",
+          "texte": "« Trois semaines d'avance » est lue AVANT que vous ne l'annonciez"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "zone:scene",
+          "texte": "Votre annonce tombe à plat : personne ne réagit deux fois à la même nouvelle"
+        }
+      ]
     },
     {
       "id": "M13-L01-04",
@@ -118,6 +143,7 @@
         "type": "P_SELECT_OBJECT",
         "objectId": "zt-avance"
       },
+      "feedback": "Sélectionné. Les boutons de mise en forme agiront sur « Trois semaines d'avance », et sur rien d'autre.",
       "aide": {
         "text": "Un clic sur la zone suffit — pas besoin d'ouvrir le texte."
       }
@@ -147,7 +173,19 @@
       "consigne": "Notez ce que vous n'avez **pas** fait : ni déplacer, ni réécrire, ni ajouter une diapositive. Le contenu est identique, seul son **calendrier d'apparition** change. C'est la seule chose qu'une animation devrait jamais faire.",
       "action": {
         "type": "READ"
-      }
+      },
+      "montrer": [
+        {
+          "type": "P_MONTRER",
+          "cible": "zt-avance",
+          "texte": "Ni déplacée, ni réécrite : seul son calendrier d'apparition a changé"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "ctrl:ani-apparaitre",
+          "texte": "C'est la seule chose qu'une animation devrait jamais faire"
+        }
+      ]
     },
     {
       "id": "M13-L01-07",
@@ -159,6 +197,7 @@
           "index": 1
         }
       },
+      "feedback": "Le diaporama est sur « Où en est le chantier » : les masquées ont été sautées.",
       "aide": {
         "text": "Groupe Diaporama, bouton « ▶ Ici »."
       }
@@ -171,7 +210,8 @@
         "show": {
           "actif": false
         }
-      }
+      },
+      "feedback": "Retour à l'édition sur « Où en est le chantier » : un réglage de diaporama ne se vérifie qu'en projetant."
     },
     {
       "id": "M13-L01-09",
@@ -179,7 +219,8 @@
       "action": {
         "type": "P_SELECT_SLIDE",
         "index": 2
-      }
+      },
+      "feedback": "« Et le budget » est au centre."
     },
     {
       "id": "M13-L01-10",
@@ -203,7 +244,19 @@
       "consigne": "À retenir : on n'anime que ce qu'on veut **retenir jusqu'à un moment précis**. Si l'information peut être lue tout de suite sans rien gâcher, elle n'a pas besoin d'animation — et une diapositive sans animation reste la règle, pas l'exception.",
       "action": {
         "type": "READ"
-      }
+      },
+      "montrer": [
+        {
+          "type": "P_MONTRER",
+          "cible": "zt-economie",
+          "texte": "On n'anime que ce qu'on veut retenir jusqu'à un moment précis"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "ctrl:ani-fondu",
+          "texte": "Si l'information peut être lue tout de suite sans rien gâcher, elle n'a pas besoin d'animation"
+        }
+      ]
     }
   ]
 }

@@ -1,132 +1,445 @@
 {
- "schemaVersion": 1,
- "app": "WORD",
- "title": "Évaluation — correction d'un document",
- "mode": "EVALUATION",
- "moduleTitle": "Correction d'un document",
- "intro": {
-  "title": "ÉVALUATION NOTÉE",
-  "body": "Une convention de partenariat part à la signature. Quatre signalements : trois fondés, un qui vise le nom du partenaire. Chaque décision est notée."
- },
- "outro": "Vous savez lire une suggestion avant de l'accepter — et refuser celles qui ont tort.",
- "document": {
-  "paragraphes": [
-   {
-    "texte": "Conventio de partenariat",
-    "style": "titre"
-   },
-   {
-    "texte": "La société Malartre s'engage pour une durée de deux ans.",
-    "style": "normal"
-   },
-   {
-    "texte": "La signture des deux parties vaut acceptation.",
-    "style": "normal"
-   },
-   {
-    "texte": "Les données échangées relèvent du Rgpd.",
-    "style": "normal"
-   }
-  ]
- },
- "steps": [
-  {
-   "id": "M17-EV01-01",
-   "points": 3,
-   "consigne": "==Ouvrez le panneau Vérification== depuis l'onglet Révision.",
-   "action": {
-    "type": "W_CLICK_CONTROL",
-    "controle": "w-verification"
-   },
-   "setup": {
-    "ribbon": {
-     "activeTab": "revision"
+  "schemaVersion": 1,
+  "app": "WORD",
+  "title": "Évaluation — correction d'un document",
+  "mode": "EVALUATION",
+  "moduleTitle": "Correction d'un document",
+  "intro": {
+    "title": "ÉVALUATION NOTÉE",
+    "body": "Une convention de partenariat part à la signature. Quatre signalements : trois fondés, un qui vise le nom du partenaire. Chaque décision est notée."
+  },
+  "outro": "Vous savez lire une suggestion avant de l'accepter — et refuser celles qui ont tort.",
+  "document": {
+    "paragraphes": [
+      {
+        "texte": "Conventio de partenariat"
+      },
+      {
+        "texte": "La société Malartre s'engage pour une durée de deux ans."
+      },
+      {
+        "texte": "La signture des deux parties vaut acceptation."
+      },
+      {
+        "texte": "Les données échangées relèvent du Rgpd."
+      },
+      {
+        "texte": "Ce point est important pour les deux parties."
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "M17-EV01-01",
+      "consigne": "Cette convention part à la signature : elle doit être relue. Le correcteur signale quatre passages, mais l'un d'eux n'est pas une faute — c'est à vous de trancher, entrée par entrée. Un mot trop vague reste aussi à préciser.",
+      "action": {
+        "type": "READ"
+      },
+      "montrer": [
+        {
+          "type": "W_MONTRER",
+          "cible": "p1",
+          "texte": "Ce nom propre sera signalé : le dictionnaire ne le connaît pas. Ce n'est pas une faute."
+        },
+        {
+          "type": "W_MONTRER",
+          "cible": "p3",
+          "texte": "Ce sigle s'écrit en capitales — une vraie faute, elle."
+        },
+        {
+          "type": "W_MONTRER",
+          "cible": "p4",
+          "texte": "Et ce mot-là est trop vague pour un contrat : il devra être précisé."
+        }
+      ],
+      "setup": {
+        "ribbon": {
+          "activeTab": "revision"
+        },
+        "correcteur": {
+          "fautes": [
+            {
+              "mot": "Conventio",
+              "suggestion": "Convention",
+              "motif": "Lettre manquante."
+            },
+            {
+              "mot": "signture",
+              "suggestion": "signature",
+              "motif": "Lettre manquante."
+            },
+            {
+              "mot": "Rgpd",
+              "suggestion": "RGPD",
+              "motif": "Sigle : capitales attendues."
+            },
+            {
+              "mot": "Malartre",
+              "suggestion": "Malâtre",
+              "motif": "Mot inconnu du dictionnaire."
+            }
+          ],
+          "synonymes": [
+            {
+              "mot": "important",
+              "synonymes": [
+                "essentiel",
+                "majeur"
+              ]
+            }
+          ]
+        }
+      },
+      "points": 0
     },
-    "correcteur": {
-     "fautes": [
-      {
-       "mot": "conventio",
-       "suggestion": "convention",
-       "motif": "Lettre finale manquante."
+    {
+      "id": "M17-EV01-02",
+      "consigne": "==Ouvrez le panneau Vérification== depuis l'onglet Révision.",
+      "action": {
+        "type": "W_CLICK_CONTROL",
+        "controle": "w-verification"
       },
-      {
-       "mot": "signture",
-       "suggestion": "signature",
-       "motif": "Lettre manquante."
-      },
-      {
-       "mot": "Malartre",
-       "suggestion": "Malâtre",
-       "motif": "Mot absent du dictionnaire."
-      },
-      {
-       "mot": "Rgpd",
-       "suggestion": "RGPD",
-       "motif": "Sigle : capitales attendues."
+      "points": 3,
+      "setup": {
+        "ribbon": {
+          "activeTab": "revision"
+        },
+        "correcteur": {
+          "fautes": [
+            {
+              "mot": "Conventio",
+              "suggestion": "Convention",
+              "motif": "Lettre manquante."
+            },
+            {
+              "mot": "signture",
+              "suggestion": "signature",
+              "motif": "Lettre manquante."
+            },
+            {
+              "mot": "Rgpd",
+              "suggestion": "RGPD",
+              "motif": "Sigle : capitales attendues."
+            },
+            {
+              "mot": "Malartre",
+              "suggestion": "Malâtre",
+              "motif": "Mot inconnu du dictionnaire."
+            }
+          ],
+          "synonymes": [
+            {
+              "mot": "important",
+              "synonymes": [
+                "essentiel",
+                "majeur"
+              ]
+            }
+          ]
+        }
       }
-     ]
-    }
-   },
-   "feedback": "Quatre entrées à trancher."
-  },
-  {
-   "id": "M17-EV01-02",
-   "points": 10,
-   "consigne": "==Traitez les quatre signalements.== Corrigez les trois fautes réelles — dont le sigle, qui s'écrit en capitales — et ignorez le nom de la société partenaire, que le correcteur ne connaît pas.",
-   "action": {
-    "type": "W_EXPECT_DOC",
-    "paragraphes": {
-     "p0": [
-      "Convention de partenariat"
-     ],
-     "p1": [
-      "La société Malartre s'engage pour une durée de deux ans."
-     ],
-     "p2": [
-      "La signature des deux parties vaut acceptation."
-     ],
-     "p3": [
-      "Les données échangées relèvent du RGPD."
-     ]
-    }
-   },
-   "setup": {
-    "correcteur": {
-     "fautes": [
-      {
-       "mot": "conventio",
-       "suggestion": "convention",
-       "motif": "Lettre finale manquante."
+    },
+    {
+      "id": "M17-EV01-03",
+      "consigne": "==Corrigez la faute du titre.==",
+      "action": {
+        "type": "W_EXPECT_DOC",
+        "paragraphes": {
+          "p0": [
+            "Convention de partenariat"
+          ]
+        }
       },
-      {
-       "mot": "signture",
-       "suggestion": "signature",
-       "motif": "Lettre manquante."
-      },
-      {
-       "mot": "Malartre",
-       "suggestion": "Malâtre",
-       "motif": "Mot absent du dictionnaire."
-      },
-      {
-       "mot": "Rgpd",
-       "suggestion": "RGPD",
-       "motif": "Sigle : capitales attendues."
+      "points": 4,
+      "setup": {
+        "ribbon": {
+          "activeTab": "revision"
+        },
+        "correcteur": {
+          "fautes": [
+            {
+              "mot": "Conventio",
+              "suggestion": "Convention",
+              "motif": "Lettre manquante."
+            },
+            {
+              "mot": "signture",
+              "suggestion": "signature",
+              "motif": "Lettre manquante."
+            },
+            {
+              "mot": "Rgpd",
+              "suggestion": "RGPD",
+              "motif": "Sigle : capitales attendues."
+            },
+            {
+              "mot": "Malartre",
+              "suggestion": "Malâtre",
+              "motif": "Mot inconnu du dictionnaire."
+            }
+          ],
+          "synonymes": [
+            {
+              "mot": "important",
+              "synonymes": [
+                "essentiel",
+                "majeur"
+              ]
+            }
+          ]
+        }
       }
-     ]
+    },
+    {
+      "id": "M17-EV01-04",
+      "consigne": "==Corrigez la faute de la clause d'acceptation.==",
+      "action": {
+        "type": "W_EXPECT_DOC",
+        "paragraphes": {
+          "p2": [
+            "La signature des deux parties vaut acceptation."
+          ]
+        }
+      },
+      "points": 4,
+      "setup": {
+        "ribbon": {
+          "activeTab": "revision"
+        },
+        "correcteur": {
+          "fautes": [
+            {
+              "mot": "Conventio",
+              "suggestion": "Convention",
+              "motif": "Lettre manquante."
+            },
+            {
+              "mot": "signture",
+              "suggestion": "signature",
+              "motif": "Lettre manquante."
+            },
+            {
+              "mot": "Rgpd",
+              "suggestion": "RGPD",
+              "motif": "Sigle : capitales attendues."
+            },
+            {
+              "mot": "Malartre",
+              "suggestion": "Malâtre",
+              "motif": "Mot inconnu du dictionnaire."
+            }
+          ],
+          "synonymes": [
+            {
+              "mot": "important",
+              "synonymes": [
+                "essentiel",
+                "majeur"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "M17-EV01-05",
+      "consigne": "==Corrigez le sigle== — il s'écrit en capitales. ==Laissez le nom de la société tel quel== : le correcteur le signale, mais il est juste.",
+      "action": {
+        "type": "W_EXPECT_DOC",
+        "paragraphes": {
+          "p1": [
+            "La société Malartre s'engage pour une durée de deux ans."
+          ],
+          "p3": [
+            "Les données échangées relèvent du RGPD."
+          ]
+        },
+        "strict": true
+      },
+      "points": 5,
+      "setup": {
+        "ribbon": {
+          "activeTab": "revision"
+        },
+        "correcteur": {
+          "fautes": [
+            {
+              "mot": "Conventio",
+              "suggestion": "Convention",
+              "motif": "Lettre manquante."
+            },
+            {
+              "mot": "signture",
+              "suggestion": "signature",
+              "motif": "Lettre manquante."
+            },
+            {
+              "mot": "Rgpd",
+              "suggestion": "RGPD",
+              "motif": "Sigle : capitales attendues."
+            },
+            {
+              "mot": "Malartre",
+              "suggestion": "Malâtre",
+              "motif": "Mot inconnu du dictionnaire."
+            }
+          ],
+          "synonymes": [
+            {
+              "mot": "important",
+              "synonymes": [
+                "essentiel",
+                "majeur"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "M17-EV01-06",
+      "consigne": "==Ouvrez l'onglet Synonymes== du panneau.",
+      "action": {
+        "type": "W_CLICK_CONTROL",
+        "controle": "w-verif-synonymes"
+      },
+      "points": 3,
+      "setup": {
+        "ribbon": {
+          "activeTab": "revision"
+        },
+        "correcteur": {
+          "fautes": [
+            {
+              "mot": "Conventio",
+              "suggestion": "Convention",
+              "motif": "Lettre manquante."
+            },
+            {
+              "mot": "signture",
+              "suggestion": "signature",
+              "motif": "Lettre manquante."
+            },
+            {
+              "mot": "Rgpd",
+              "suggestion": "RGPD",
+              "motif": "Sigle : capitales attendues."
+            },
+            {
+              "mot": "Malartre",
+              "suggestion": "Malâtre",
+              "motif": "Mot inconnu du dictionnaire."
+            }
+          ],
+          "synonymes": [
+            {
+              "mot": "important",
+              "synonymes": [
+                "essentiel",
+                "majeur"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "M17-EV01-07",
+      "consigne": "Dans un contrat, « important » ne dit rien : le point est-il indispensable, ou seulement prépondérant ? ==Remplacez-le par le synonyme qui dit « indispensable ».==",
+      "action": {
+        "type": "W_EXPECT_DOC",
+        "paragraphes": {
+          "p4": [
+            "Ce point est essentiel pour les deux parties."
+          ]
+        }
+      },
+      "points": 5,
+      "setup": {
+        "ribbon": {
+          "activeTab": "revision"
+        },
+        "correcteur": {
+          "fautes": [
+            {
+              "mot": "Conventio",
+              "suggestion": "Convention",
+              "motif": "Lettre manquante."
+            },
+            {
+              "mot": "signture",
+              "suggestion": "signature",
+              "motif": "Lettre manquante."
+            },
+            {
+              "mot": "Rgpd",
+              "suggestion": "RGPD",
+              "motif": "Sigle : capitales attendues."
+            },
+            {
+              "mot": "Malartre",
+              "suggestion": "Malâtre",
+              "motif": "Mot inconnu du dictionnaire."
+            }
+          ],
+          "synonymes": [
+            {
+              "mot": "important",
+              "synonymes": [
+                "essentiel",
+                "majeur"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "M17-EV01-08",
+      "consigne": "==Refermez le panneau de vérification.==",
+      "action": {
+        "type": "W_CLICK_CONTROL",
+        "controle": "w-verif-fermer"
+      },
+      "points": 3,
+      "setup": {
+        "ribbon": {
+          "activeTab": "revision"
+        },
+        "correcteur": {
+          "fautes": [
+            {
+              "mot": "Conventio",
+              "suggestion": "Convention",
+              "motif": "Lettre manquante."
+            },
+            {
+              "mot": "signture",
+              "suggestion": "signature",
+              "motif": "Lettre manquante."
+            },
+            {
+              "mot": "Rgpd",
+              "suggestion": "RGPD",
+              "motif": "Sigle : capitales attendues."
+            },
+            {
+              "mot": "Malartre",
+              "suggestion": "Malâtre",
+              "motif": "Mot inconnu du dictionnaire."
+            }
+          ],
+          "synonymes": [
+            {
+              "mot": "important",
+              "synonymes": [
+                "essentiel",
+                "majeur"
+              ]
+            }
+          ]
+        }
+      }
     }
-   },
-   "feedback": "Trois corrections, un refus motivé."
-  },
-  {
-   "id": "M17-EV01-03",
-   "points": 3,
-   "consigne": "==Refermez le panneau de vérification.==",
-   "action": {
-    "type": "W_CLICK_CONTROL",
-    "controle": "w-verif-fermer"
-   },
-   "feedback": "Document relu."
-  }
- ]
+  ]
 }

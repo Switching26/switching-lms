@@ -84,6 +84,18 @@
   },
   "steps": [
     {
+      "id": "O13-E01-00",
+      "consigne": "**Ouvrez la demande de la Brasserie du Canal** et vérifiez qu'elle contient bien tout ce qu'il faut pour chiffrer : les cotes, l'usage du local, l'échéance. C'est cette lecture qui distingue une demande exploitable d'une demande à compléter — et donc la réponse à donner.",
+      "action": {
+        "type": "O_SELECT_MESSAGE",
+        "id": "m-complet"
+      },
+      "aide": {
+        "text": "C'est le message dont l'objet annonce des cotes jointes."
+      },
+      "feedback": "Tout y est : vous pouvez chiffrer sans relancer. C'est rare, et c'est ce qui permet de répondre le jour même."
+    },
+    {
       "id": "O13-E01-01",
       "consigne": "La Brasserie du Canal a tout donné : répondez-lui en joignant le devis définitif — attention aux deux fichiers de même référence.",
       "action": {
@@ -112,7 +124,8 @@
       },
       "aide": {
         "text": "Ouvrez son message, Répondre, puis Joindre. Le suffixe BROUILLON désigne une version de travail."
-      }
+      },
+      "feedback": "Le devis définitif, pas le brouillon : deux fichiers voisins, une seule version qui engage."
     },
     {
       "id": "O13-E01-02",
@@ -204,7 +217,8 @@
       },
       "aide": {
         "text": "Deux informations sont attendues : la validité, et le périmètre."
-      }
+      },
+      "feedback": "Durée de validité et périmètre : les deux questions que le client poserait sinon par retour."
     },
     {
       "id": "O13-E01-04",
@@ -226,7 +240,8 @@
       },
       "aide": {
         "text": "Ouvrez son message, puis Répondre."
-      }
+      },
+      "feedback": "Répondre à qui n'a rien précisé fait avancer le dossier : c'est votre réponse qui apporte le cadre."
     },
     {
       "id": "O13-E01-05",
@@ -289,7 +304,26 @@
       },
       "aide": {
         "text": "Deux informations sont attendues : votre capacité à le faire, et ce qu'il vous faut."
-      }
+      },
+      "feedback": "Deux demandes, deux réponses le même matin — et aucun prospect laissé sans nouvelle."
+    },
+    {
+      "id": "O13-E01-99",
+      "consigne": "Le devis est parti le jour même de la demande. **Rangez-le dans `Prospects`.** Répondre sans classer laisse la boîte aussi pleine qu'avant : c'est le classement, et non l'envoi, qui fait descendre le nombre de messages en attente.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-complet": {
+              "dossier": "prospects"
+            }
+          }
+        }
+      },
+      "aide": {
+        "text": "Sélectionnez le message, puis Déplacer dans le ruban, et choisissez Prospects."
+      },
+      "feedback": "Chez les prospects, pas chez les clients : rien n'est signé tant que le devis n'est pas accepté."
     }
   ]
 }

@@ -28,6 +28,7 @@ import AtelierShell, {
   type ConsigneAtelier,
   type EntreeSommaire,
 } from "../AtelierShell"
+import AfficheModule, { numeroModule } from "../AfficheModule"
 import {
   useAideProgressive,
   useMesureZoneTravail,
@@ -35,7 +36,7 @@ import {
   useProgression,
   useRetourVisuel,
 } from "../hooks/useAtelier"
-import WordChrome, { type OngletWord } from "./WordChrome"
+import WordChrome, { WordFooter, type OngletWord } from "./WordChrome"
 import WordPageLayout, { PAGE_PAR_DEFAUT, type EtatPage } from "./WordPageLayout"
 import WordHeaderFooter, {
   CalqueHorsFlux,
@@ -48,6 +49,8 @@ import WordProofing, { type ReglagesCorrecteur } from "./WordProofing"
 import WordImagePicker from "./WordImagePicker"
 import WordLinkDialog from "./WordLinkDialog"
 import type { WordApi } from "./WordSurface"
+import DemonstrationGeste, { type Rect } from "../DemonstrationGeste"
+import type { CibleDemo, PlanDemo } from "@/lib/simulation/demonstration"
 
 import { adaptateurWord } from "@/lib/simulation/word/adaptateur"
 import type { WordObservation } from "@/lib/simulation/word/observations"
@@ -70,6 +73,9 @@ const WordSurface = dynamic(() => import("./WordSurface"), { ssr: false })
 /** Délai au-delà duquel on cesse d'attendre le juge serveur. */
 const DELAI_VERDICT_MS = 8000
 
+/** Hauteur de la barre d'état, en pixels. Doit suivre `WordFooter`. */
+const HAUTEUR_BARRE_ETAT = 26
+
 type EtapeWord = SimulationStep & {
   setup?: {
     document?: WordDocumentState
@@ -78,6 +84,15 @@ type EtapeWord = SimulationStep & {
     /** Fautes et synonymes que le correcteur doit proposer sur ce chapitre. */
     correcteur?: ReglagesCorrecteur
   }
+  /**
+   * Les gestes à MONTRER sur un écran de lecture (`W_MONTRER`).
+   *
+   * Retypé ici plutôt que de reprendre le `montrer?: SimulationAction[]` du
+   * noyau : cette union est celle d'EXCEL, et elle ne connaît aucune action
+   * `W_*`. La contrainte n'aurait donc rien contraint, elle aurait seulement
+   * exigé une conversion à chaque lecture.
+   */
+  montrer?: ({ type: string } & Record<string, unknown>)[]
 }
 
 type ScenarioWord = {
@@ -145,7 +160,11 @@ export default function WordPlayer({
   /* ═══════════ NOYAU COMMUN ═══════════ */
 
   const retour = useRetourVisuel()
-  const { verdict, setVerdict, lancerFx, relais, relaisActif, marquerRelais, poserJalon } = retour
+  // `fx` était le seul membre du retour visuel jamais déstructuré : `lancerFx`
+  // était appelé depuis l'origine, son résultat n'atteignait donc AUCUN pixel.
+  // Word était la seule des quatre applications sans le moindre signal ancré sur
+  // sa surface de travail — ni flash, ni secousse, ni message.
+  const { verdict, setVerdict, fx, lancerFx, relais, relaisActif, marquerRelais, poserJalon } = retour
 
   /**
    * Le rappel de geste de la carte de franchissement vient de l'ADAPTATEUR, pas
@@ -212,11 +231,39 @@ export default function WordPlayer({
     setPanneJuge,
   } = persistance
 
+  /**
+   * Remettre le document d'aplomb AVANT de montrer quoi que ce soit.
+   *
+   * Sans ce rappel, l'apprenant qui abîme le document puis réclame « Montrez-
+   * moi » reçoit la même explication fausse qu'au départ — la démonstration se
+   * jouerait sur un document qui ne ressemble plus à celui dont elle parle. Le
+   * rappel sert aussi au REJEU : « Revoir » doit repartir de l'état d'entrée,
+   * sinon le second passage montre autre chose que le premier.
+   *
+   * Passé par une ref parce que `useAideProgressive` se déclare avant la surface
+   * qu'il faudra piloter ; le noyau ne l'appelle de toute façon qu'au moment de
+   * démarrer.
+   */
+  const rendreDocumentRef = useRef<() => void>(() => {})
+  /**
+   * L'onglet que réclame le PREMIER geste de la démonstration.
+   *
+   * Il ne peut pas venir du calque : celui-ci n'ouvre un onglet qu'en FIN de
+   * geste, pour le suivant. Le premier n'a pas de prédécesseur, donc personne
+   * ne l'ouvrirait — et la démonstration s'ouvrirait sur un bouton absent.
+   */
+  const ongletInitialRef = useRef<string | undefined>(undefined)
+  const ouvrirOngletInitialRef = useRef<() => string | undefined>(() => undefined)
+
   const aide = useAideProgressive({
     mode,
     index,
     finished,
     aUneEtape: !!etape,
+    avantDemonstration: () => {
+      rendreDocumentRef.current()
+      ongletInitialRef.current = ouvrirOngletInitialRef.current()
+    },
   })
   const {
     essais,
@@ -228,6 +275,8 @@ export default function WordPlayer({
     compterTatonnement,
     demonstration,
     demoFinie,
+    setDemoFinie,
+    rejeu,
     demarrerDemonstration,
     rejouerDemonstration,
     reinitialiserPourEtape,
@@ -239,9 +288,24 @@ export default function WordPlayer({
   /* ═══════════ LA SURFACE ═══════════ */
 
   const zoneRef = useRef<HTMLDivElement | null>(null)
+  /**
+   * Le cadre du calque de démonstration : ruban COMPRIS.
+   *
+   * 🔴 Il ne peut pas être `zoneRef`, qui n'enveloppe que la surface d'édition.
+   * La moitié des démonstrations désignent un bouton du ruban — gras, style,
+   * alignement — et un calque posé sous le ruban ne peut ni le résoudre ni
+   * dessiner dessus : le geste se jouerait à blanc. Excel a payé exactement ce
+   * défaut, dans l'autre sens : son calque vivait dans la zone de grille, donc
+   * une démonstration ne montrait RIEN quand le classeur n'était pas à l'écran.
+   */
+  const zoneAtelierRef = useRef<HTMLDivElement | null>(null)
   const { hauteur } = useMesureZoneTravail(zoneRef, index)
   const apiRef = useRef<WordApi | null>(null)
   const [surfacePrete, setSurfacePrete] = useState(false)
+  /** Largeur du calque, pour garder bulles et étiquettes dans le champ. */
+  const [largeurAtelier, setLargeurAtelier] = useState(0)
+  /** Bord haut de la surface d'édition dans le repère du calque. */
+  const [hautSurface, setHautSurface] = useState(0)
 
   /*
    * ═══ MISE EN PAGE ═══
@@ -335,11 +399,37 @@ export default function WordPlayer({
     [],
   )
 
-  /** Les zones que l'étape courante désigne : elles reçoivent leur ancre. */
+  /**
+   * Les zones que l'étape courante désigne : elles reçoivent leur ancre.
+   *
+   * ⚠️ LES ZONES DE `montrer` EN FONT PARTIE, et c'est indispensable.
+   *
+   * Univer rend sur canvas : il n'existe aucun élément de DOM par paragraphe. La
+   * surface pose une ancre invisible `[data-word-zone="…"]` pour les seules
+   * zones qu'on lui passe, et c'est cette ancre que le calque de démonstration
+   * résout. Une illustration qui viserait `p3` sans que `p3` soit dans cette
+   * liste ne dessinerait donc RIEN — pendant que la minuterie tourne jusqu'à
+   * « Revoir ». C'est le faux témoin le plus coûteux du chantier Excel : un
+   * compteur qui arrive à `n/n` ne prouve pas qu'on a montré quelque chose.
+   */
   const zonesCibles = useMemo(() => {
     if (!etape) return []
+    const zones: string[] = []
     const c = adaptateurWord.cible(etape.action as never)
-    return c.zone ? [c.zone] : []
+    if (c.zone) zones.push(c.zone)
+    for (const m of etape.montrer ?? []) {
+      // Seules les cibles de document ont une ancre : `ctrl:` et `dom:` visent
+      // le châssis, qui est du vrai DOM et se résout tout seul.
+      const brut = String((m as { cible?: string }).cible ?? "").trim()
+      if (brut && !brut.startsWith("ctrl:") && !brut.startsWith("dom:") && brut !== "ecran") {
+        zones.push(brut)
+      }
+      const ec = (m as { ecrire?: { zone?: string } }).ecrire?.zone
+      if (ec) zones.push(ec)
+    }
+    // Dédoublonnage sans `Set` itérable : la cible de compilation du projet est
+    // sous ES2015 et `[...new Set(x)]` y échoue en TS2802.
+    return zones.filter((z, i) => zones.indexOf(z) === i)
   }, [etape])
 
   /**
@@ -490,6 +580,29 @@ export default function WordPlayer({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [index, surfacePrete, finished])
 
+  /**
+   * 🔴 LA SURFACE N'ÉMET `w:docState` QUE SUR CHANGEMENT.
+   *
+   * La barre d'état ne se remplissait donc jamais à l'ouverture d'un chapitre :
+   * elle annonçait « 0 mot · 0 caractère » devant un document de huit
+   * paragraphes. Une barre d'état qui ment est pire qu'une barre absente — c'est
+   * la première chose qu'un apprenant regarde pour savoir où il en est. On relit
+   * l'état une fois par étape, après la recomposition.
+   */
+  useEffect(() => {
+    if (!surfacePrete) return
+    const t = window.setTimeout(() => {
+      const api = apiRef.current
+      if (!api?.pret()) return
+      const textes = (api.lireEtat([]).paragraphes ?? []).map((x) => x.texte)
+      setCompteursTexte({
+        mots: textes.reduce((n, x) => n + (x.trim() ? x.trim().split(/\s+/).length : 0), 0),
+        caracteres: textes.reduce((n, x) => n + x.length, 0),
+      })
+    }, 480)
+    return () => window.clearTimeout(t)
+  }, [index, surfacePrete])
+
   onAvancer.current = useCallback(
     (i: number) => {
       marquerRelais()
@@ -555,6 +668,21 @@ export default function WordPlayer({
     [chapterId, introVueRef, runIdRef, setPanneJuge, validationLocale],
   )
 
+  /**
+   * Pendant une démonstration, l'atelier écrit LUI-MÊME dans le document.
+   *
+   * 🔴 C'est une ÉCHÉANCE, pas un booléen, et la différence a coûté cher côté
+   * Excel : avec un booléen, deux effets qui se chevauchent laissent le second
+   * remettre le verrou à faux pendant que le premier court encore. L'observation
+   * passait alors au travers, l'étape se validait toute seule — bandeau
+   * « C'est exact » en pleine explication — et comptait réussie du premier coup.
+   * `Math.max` interdit à quiconque de RACCOURCIR un verrou déjà posé.
+   */
+  const verrouDemoRef = useRef(0)
+  const verrouiller = useCallback((ms = 900) => {
+    verrouDemoRef.current = Math.max(verrouDemoRef.current, Date.now() + ms)
+  }, [])
+
   /** Rectangle de la cible de l'étape, pour poser le retour visuel au bon endroit. */
   const rectDeLEtape = useCallback((): { left: number; top: number; width: number; height: number } | null => {
     const api = apiRef.current
@@ -587,7 +715,22 @@ export default function WordPlayer({
         pendingRef.current.errors += 1
         compterEssai()
         setVerdict({ ok: false, reason: jugement.reason ?? "", message: jugement.message ?? "" })
-        lancerFx("ko", rectDeLEtape(), jugement.message)
+        /*
+         * ⚠️ LE HALO D'ERREUR NE S'ANCRE JAMAIS SUR LA CIBLE ATTENDUE.
+         *
+         * `rectDeLEtape()` rend le rectangle de `zonesCibles[0]`, c'est-à-dire
+         * `adaptateurWord.cible(action).zone` : LA RÉPONSE. Tant que `fx` n'était
+         * rendu nulle part, le passer ici était sans conséquence ; le rendre
+         * aurait entouré d'un cadre rouge le bon paragraphe à chaque erreur — en
+         * évaluation notée, une divulgation pure et simple. Outlook a payé
+         * exactement ce défaut (« vu à l'écran, pas dans le code »), et l'aide
+         * ancrée de Word se garde déjà de paraître en évaluation.
+         *
+         * Sans rectangle, le halo couvre la surface : il dit « ce geste ne
+         * convient pas » sans désigner celui qui conviendrait. Le halo de
+         * RÉUSSITE, lui, reste ancré : l'apprenant a déjà trouvé.
+         */
+        lancerFx("ko", null, jugement.message)
         return
       }
       // Tâtonnement : ne pénalise jamais la note. Il n'ouvre que l'aide.
@@ -620,7 +763,17 @@ export default function WordPlayer({
        * tomberaient sur le premier paragraphe et l'apprenant verrait sa pose
        * refusée sans comprendre pourquoi.
        */
-      if (obs.kind === "w:selection") selectionCourante.current = obs.texte ?? ""
+      if (obs.kind === "w:selection") {
+        selectionCourante.current = obs.texte ?? ""
+        setMotsSelection(compterMots(obs.texte ?? ""))
+      }
+      if (obs.kind === "w:docState") {
+        const textes = (obs.paragraphes ?? []).map((x) => x.texte)
+        setCompteursTexte({
+          mots: textes.reduce((n, t) => n + compterMots(t), 0),
+          caracteres: textes.reduce((n, t) => n + t.length, 0),
+        })
+      }
       if (obs.kind === "w:cursor" || obs.kind === "w:selection") {
         const pos = obs.kind === "w:cursor" ? obs.position : obs.plage?.debut
         const api = apiRef.current
@@ -645,6 +798,21 @@ export default function WordPlayer({
       const rang = indexRef.current ?? 0
       const s = steps[rang] as EtapeWord | undefined
       if (!s || finished) return
+
+      /*
+       * ⚠️ CE QUE LA DÉMONSTRATION ÉCRIT N'EST PAS UN GESTE DE L'APPRENANT.
+       *
+       * Sans cette porte, l'écriture de la démonstration valide l'étape et
+       * l'atelier saute à la suivante au milieu de l'explication : la
+       * démonstration se saborde elle-même.
+       *
+       * L'EXCEPTION est aussi importante que la règle. « J'ai compris,
+       * continuer » exprime une INTENTION, pas une observation du document :
+       * filtré comme le reste, il devenait mort juste après une démonstration —
+       * l'apprenant cliquait et rien ne se passait, sans le moindre message.
+       */
+      const intention = obs.kind === "w:control" && obs.controle === "__suivant__"
+      if (!intention && Date.now() < verrouDemoRef.current) return
 
       /*
        * ⚠️ UNE ÉTAPE NE SE VALIDE QU'UNE FOIS.
@@ -721,6 +889,18 @@ export default function WordPlayer({
     [relever],
   )
 
+  /**
+   * Ce que la barre d'état affiche.
+   *
+   * Alimenté par les relevés d'état que la surface émet déjà — aucune lecture
+   * supplémentaire du moteur, donc aucun coût : compter les mots à chaque frappe
+   * en interrogeant Univer serait le genre de détail qui rend une saisie
+   * poussive sans que personne comprenne pourquoi.
+   */
+  const [compteursTexte, setCompteursTexte] = useState({ mots: 0, caracteres: 0 })
+  const [motsSelection, setMotsSelection] = useState(0)
+  const compterMots = (t: string) => (t.trim() ? t.trim().split(/\s+/).length : 0)
+
   /** Les textes des paragraphes, pour la maquette de l'aperçu d'impression. */
   const lireTextes = useCallback((): string[] => {
     const api = apiRef.current
@@ -795,6 +975,377 @@ export default function WordPlayer({
     [indexRef, steps, surObservation],
   )
 
+  /* ═══════════════════════════════════════════════════════════════════════
+     « MONTREZ-MOI » — la démonstration animée du geste
+     ═══════════════════════════════════════════════════════════════════════
+
+     L'adaptateur CALCULAIT déjà le plan complet de chaque geste ; il ne
+     manquait que de le jouer. Le bouton « Montrez-moi » existait, basculait
+     bien l'état d'aide — et rien n'apparaissait à l'écran. Un apprenant bloqué
+     obtenait au mieux la réponse écrite, jamais l'endroit ni le mouvement. */
+
+  /**
+   * Le calque couvre le ruban ET la surface, donc les rectangles se mesurent
+   * dans SON repère, pas dans celui du document.
+   */
+  useEffect(() => {
+    const cadre = zoneAtelierRef.current
+    if (!cadre || typeof ResizeObserver === "undefined") return
+    const mesurer = () => {
+      const c = cadre.getBoundingClientRect()
+      setLargeurAtelier(c.width)
+      const s = zoneRef.current?.getBoundingClientRect()
+      setHautSurface(s ? s.top - c.top : 0)
+    }
+    mesurer()
+    const ro = new ResizeObserver(mesurer)
+    ro.observe(cadre)
+    if (zoneRef.current) ro.observe(zoneRef.current)
+    return () => ro.disconnect()
+  }, [])
+
+  /** Décalage de la surface d'édition dans le repère du calque. */
+  const decalageSurface = useCallback(() => {
+    const c = zoneAtelierRef.current?.getBoundingClientRect()
+    const s = zoneRef.current?.getBoundingClientRect()
+    if (!c || !s) return { x: 0, y: 0 }
+    return { x: s.left - c.left, y: s.top - c.top }
+  }, [])
+
+  /**
+   * Rectangle d'un élément du châssis, dans le repère du calque.
+   *
+   * 🔴 ON AMÈNE LA CIBLE DANS LE CHAMP AVANT DE LA MESURER.
+   *
+   * Le ruban défile horizontalement, et c'est TOUT le sujet sur téléphone :
+   * mesuré à 390 px, l'onglet Accueil rend 25 boutons dont 17 hors champ, avec
+   * 1 189 px de défilement. Un bouton hors cadre se « résout » parfaitement —
+   * l'élément existe, son rectangle est valide — et la démonstration dessine
+   * son repère à côté de l'écran. Compteur qui avance, « Revoir » qui apparaît,
+   * et rien de visible : le faux témoin exact que l'audit d'Excel décrit.
+   */
+  const rectDuDom = useCallback((selecteur: string): Rect | null => {
+    const cadre = zoneAtelierRef.current
+    if (!cadre) return null
+    const el = cadre.querySelector(selecteur)
+    if (!(el instanceof HTMLElement)) return null
+    let r = el.getBoundingClientRect()
+    if (r.width === 0 && r.height === 0) return null
+    const c = cadre.getBoundingClientRect()
+    const dehors = r.right > c.right || r.left < c.left || r.bottom > c.bottom || r.top < c.top
+    if (dehors) {
+      // `nearest` sur les deux axes : `center` ferait aussi défiler la PAGE, et
+      // l'atelier est un écran unique qui ne défile jamais.
+      el.scrollIntoView({ block: "nearest", inline: "center" })
+      r = el.getBoundingClientRect()
+    }
+    return { left: r.left - c.left, top: r.top - c.top, width: r.width, height: r.height }
+  }, [])
+
+  /**
+   * Résout une cible du plan.
+   *
+   * ⚠️ Deux chemins, et il faut les deux. Un bouton du ruban EST du DOM et se
+   * mesure directement ; une zone du document ne l'est pas — Univer rend sur
+   * canvas — et passe par l'ancre invisible, avec repli sur la géométrie du
+   * squelette de composition quand l'ancre n'est pas encore posée.
+   */
+  const resoudreDemo = useCallback(
+    (cible: CibleDemo): Rect | null => {
+      /*
+       * 🔴 UN RACCOURCI N'A PAS DE LIEU — mais il lui faut un CADRE.
+       *
+       * Rendre `null` ici paraissait juste : « Ctrl + S » ne se produit nulle
+       * part à l'écran. Sauf que le calque ne dessine sa bulle qu'à l'intérieur
+       * d'un rectangle : sans cadre réservé, la phrase ne s'affichait PAS DU
+       * TOUT. Mesuré au balayage : six écrans annonçaient deux désignations et
+       * n'en montraient qu'une, sans la moindre erreur. On réserve donc un
+       * cadre au centre, où le composant pose les touches sans curseur de
+       * souris — montrer une flèche pour « Ctrl + S » serait faux.
+       */
+      if (cible.k === "clavier") {
+        const c = zoneAtelierRef.current?.getBoundingClientRect()
+        if (!c) return null
+        return { left: c.width / 2 - 90, top: c.height / 2 - 34, width: 180, height: 68 }
+      }
+      if (cible.k !== "dom") return null
+      const direct = rectDuDom(cible.sel)
+      if (direct) return direct
+      const m = /^\[data-word-zone="(.+)"\]$/.exec(cible.sel)
+      if (!m) return null
+      const r = apiRef.current?.getPlageRect(m[1])
+      // ⚠️ Un rectangle DÉGÉNÉRÉ n'est pas un rectangle. Le squelette de
+      // composition n'existe pas au premier rendu et la façade rend alors des
+      // zéros, parfaitement truthy : le repère se posait dans le coin haut
+      // gauche et paraissait « résolu ». C'est la variante géométrique du faux
+      // témoin — un compteur qui avance ne prouve pas qu'on a montré quelque
+      // chose, un rectangle non nul non plus.
+      if (!r || (r.width === 0 && r.height === 0)) return null
+      const d = decalageSurface()
+      return { left: r.left + d.x, top: r.top + d.y, width: r.width, height: r.height }
+    },
+    [decalageSurface, rectDuDom],
+  )
+
+  /**
+   * Le plan à jouer.
+   *
+   * Sur un écran de lecture, il vient de `montrer` — la SÉQUENCE d'illustrations
+   * que le scénario déclare, jouées à la suite. Sur une étape d'action, de
+   * l'adaptateur. Jamais en évaluation notée : montrer le geste y reviendrait à
+   * souffler la réponse.
+   */
+  const plan: PlanDemo | null = useMemo(() => {
+    if (!etape) return null
+    /*
+     * ⚠️ L'ÉCRAN DE LECTURE EST TRAITÉ AVANT LA GARDE D'ÉVALUATION.
+     *
+     * Un énoncé d'ouverture n'est pas une question : il pose le décor, et son
+     * `montrer` est écrit pour désigner le CONTEXTE — où est l'anomalie, quel
+     * bloc fait quoi — jamais la méthode. `check-montrer-word` refuse la
+     * divulgation, et l'expurgation du noyau ne laisse d'un geste que sa cible
+     * et sa phrase. C'est la règle retenue côté Excel pour ses 26 énoncés.
+     *
+     * 🔴 LIMITE CONNUE, DANS LE NOYAU : `expurge.ts` n'accepte `montrer` que si
+     * TOUS les gestes portent le type Excel `MONTRER`. Un `W_MONTRER` est donc
+     * jeté à l'expurgation, et les dix énoncés d'évaluation de Word restent
+     * muets en évaluation NOTÉE tant que ce fichier gelé n'accepte pas les
+     * types préfixés. Le plan est prêt côté client ; il jouera le jour où le
+     * noyau le laissera passer.
+     */
+    if (etape.action.type === "READ") {
+      const plans = (etape.montrer ?? [])
+        .map((m) => adaptateurWord.demonstration(m as never, {}))
+        .filter((p): p is PlanDemo => !!p)
+      if (plans.length === 0) return null
+      const gestes = plans.flatMap((p) => p.gestes)
+      /*
+       * 🔴 `onglet` S'APPLIQUE À LA FIN D'UN GESTE, DONC IL OUVRE L'ONGLET DU
+       * GESTE SUIVANT — et pas du sien.
+       *
+       * Le calque exécute `onOnglet` dans sa phase de validation, juste avant de
+       * passer au geste d'après : c'est voulu, c'est ce qui met le bouton du
+       * SUIVANT dans la page. Un auteur, lui, écrit naturellement l'onglet sur
+       * le geste qui en a besoin — et ce geste-là se joue alors à blanc, sur un
+       * bouton que le ruban ne rend pas encore.
+       *
+       * Mesuré au balayage : 8 écrans sur 64 n'affichaient qu'une désignation
+       * sur deux, et `m01-l01-06` — qui promène l'apprenant sur trois onglets —
+       * n'en affichait AUCUNE. Zéro erreur de console, compteur qui avance : le
+       * faux témoin exact décrit par l'audit d'Excel.
+       *
+       * On décale donc d'un cran, et le tout premier onglet est ouvert avant que
+       * le calque ne démarre (`ongletInitial`).
+       */
+      const decales = gestes.map((g, k) => {
+        const suivant = gestes[k + 1]
+        const { onglet: _sien, ...reste } = g
+        return suivant?.onglet ? { ...reste, onglet: suivant.onglet } : reste
+      })
+      return { gestes: decales, pas: plans.flatMap((p) => p.pas) }
+    }
+    // Sur une étape d'ACTION en revanche, montrer le geste reviendrait à
+    // souffler la réponse : le renoncement se fait d'un clic (« Passer »).
+    if (evaluationNotee) return null
+    return adaptateurWord.demonstration(etape.action as never, {})
+  }, [etape, evaluationNotee])
+
+  /** Onglet ouvert par la démonstration, le temps qu'elle dure. */
+  const [ongletDemo, setOngletDemo] = useState<OngletWord | null>(null)
+
+  // Ouvre l'onglet du premier geste et rend sa valeur, pour la trace d'audit.
+  ouvrirOngletInitialRef.current = () => {
+    const premier = (etape?.montrer ?? [])[0] as { onglet?: string } | undefined
+    if (premier?.onglet) setOngletDemo(premier.onglet as OngletWord)
+    return premier?.onglet
+  }
+
+  /**
+   * Écrire POUR DE VRAI le résultat du geste.
+   *
+   * ⚠️ Le document est reposé en ENTIER, comme le fait déjà `appliquerEtape` à
+   * chaque changement d'étape : c'est le seul canal d'écriture que la façade
+   * expose. La mise en forme de caractère posée à l'intérieur d'un paragraphe
+   * n'y survit pas — limite connue et ANCIENNE, pas une régression de ce lot —
+   * tandis que style, alignement et liste sont relus et reposés.
+   */
+  const demoEcrire = useCallback(
+    (ref: string, valeur: string) => {
+      verrouiller(1400)
+      const api = apiRef.current
+      if (!api?.pret()) return
+      const lu = api.lireEtat([])
+      /*
+       * `"fin"` = à la suite, dans un nouveau paragraphe. C'est la règle que
+       * suit `documentAvant` pour toute saisie, donc la seule qui garantisse que
+       * ce que la démonstration montre survive au changement d'étape.
+       */
+      const m = ref.trim() === "fin" ? null : /^p(\d+)/.exec(ref.trim())
+      if (!m && ref.trim() !== "fin") return
+      const i = m ? Number(m[1]) : (lu.paragraphes ?? []).length
+      const paragraphes: WordParagrapheDeclare[] = (lu.paragraphes ?? []).map((p) => ({
+        texte: p.texte,
+        style: p.style,
+        alignement: p.alignement,
+        liste: p.liste,
+      }))
+      while (paragraphes.length <= i) paragraphes.push({ texte: "" })
+      paragraphes[i] = { ...paragraphes[i], texte: valeur }
+      api.applyDocument({ paragraphes })
+      // La signature doit redevenir fausse, sinon la repose de l'étape suivante
+      // se croirait déjà faite et laisserait le document tel que la
+      // démonstration l'a laissé.
+      signatureDocRef.current = ""
+    },
+    [verrouiller],
+  )
+
+  const demoSelectionner = useCallback(
+    (ref: string) => {
+      verrouiller()
+      apiRef.current?.setSelection(ref)
+    },
+    [verrouiller],
+  )
+
+  /**
+   * Presser le VRAI bouton du châssis.
+   *
+   * Désigner ne suffit pas : un bouton qui ouvre un panneau ou une boîte doit
+   * être pressé, sans quoi le geste SUIVANT vise un élément qui n'existe pas
+   * encore et se joue à blanc — repère, curseur et bulle absents — pendant que
+   * le compteur avance jusqu'à « Revoir ».
+   */
+  const demoPresser = useCallback(
+    (id: string, arg?: string) => {
+      verrouiller(1200)
+      const el = zoneAtelierRef.current?.querySelector(`[data-control="${id}"]`)
+      if (el instanceof HTMLElement && !(el instanceof HTMLSelectElement)) {
+        el.click()
+        return
+      }
+      // Les listes déroulantes du ruban (police, taille, couleur) ne se
+      // « cliquent » pas : elles portent une valeur, qu'on leur donne.
+      surControle(id, arg)
+    },
+    [surControle, verrouiller],
+  )
+
+  const demoOnglet = useCallback(
+    (onglet: string) => {
+      verrouiller(600)
+      setOngletDemo(onglet as OngletWord)
+    },
+    [verrouiller],
+  )
+
+  /**
+   * Remettre le document tel que l'étape le déclare.
+   *
+   * Appelé AVANT chaque démonstration (y compris un rejeu) et, sur un écran de
+   * lecture, à la fin : une lecture ne modifie jamais le document de l'étape
+   * suivante. Sur une étape d'action, ce que la démonstration a écrit RESTE —
+   * c'est la réponse, et l'apprenant reprend la main avec « J'ai compris ».
+   */
+  const rendreDocument = useCallback(() => {
+    verrouiller(1400)
+    signatureDocRef.current = ""
+    appliquerEtape(indexRef.current ?? 0)
+  }, [appliquerEtape, indexRef, verrouiller])
+  rendreDocumentRef.current = rendreDocument
+
+  const estLecture = etape?.action.type === "READ"
+
+  /** La démonstration se termine : on range ce qu'elle a ouvert. */
+  const finDemo = useCallback(() => {
+    setDemoFinie(true)
+    setOngletDemo(null)
+    if (estLecture) rendreDocument()
+  }, [estLecture, rendreDocument, setDemoFinie])
+
+  /**
+   * Sur un écran de lecture, la démonstration part D'ELLE-MÊME.
+   *
+   * Le délai laisse le temps de lire la consigne et à la surface de se poser :
+   * un repère demandé avant que le squelette de composition existe se résout à
+   * `null`, et le geste se joue à blanc.
+   */
+  useEffect(() => {
+    if (!estLecture || !plan || !surfacePrete || finished || !introVue) return
+    if (demonstration) return
+    const t = window.setTimeout(() => demarrerDemonstration(), 1200)
+    return () => window.clearTimeout(t)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [index, estLecture, !!plan, surfacePrete, finished, introVue])
+
+  /* ═══════════ L'AIDE, ANCRÉE SUR CE DONT ELLE PARLE ═══════════ */
+
+  /**
+   * 🔴 `aideAncree` PROMETTAIT une bulle que personne ne rendait.
+   *
+   * Le châssis masque sa ligne d'aide dès qu'on lui dit qu'elle est ancrée sur
+   * la surface — c'est ce qui évite de l'afficher deux fois, mot pour mot. Word
+   * le lui disait dès qu'une zone était désignée… sans jamais rendre la bulle.
+   * Mesuré : 118 aides de la formation ne s'affichaient NULLE PART, et comme
+   * `hintShown` vaut vrai d'emblée en leçon, elles étaient invisibles dès le
+   * premier écran.
+   */
+  const [haloAide, setHaloAide] = useState<Rect | null>(null)
+  const texteAide = (etape as { aide?: { text?: string } } | undefined)?.aide?.text ?? null
+  const aideAffichable =
+    !!texteAide && hintShown && !evaluationNotee && !demonstration && zonesCibles.length > 0
+
+  useEffect(() => {
+    if (!aideAffichable || !surfacePrete) {
+      setHaloAide(null)
+      return
+    }
+    /*
+     * 🔴 LE RECTANGLE ARRIVE EN DEUX TEMPS, ET LE PREMIER EST FAUX.
+     *
+     * Le document est reposé à chaque étape, puis le moteur recompose : tant
+     * que le squelette n'existe pas, la façade rend `{0,0,0,0}` — un objet
+     * parfaitement truthy. Une seule tentative « et on garde ce qu'on a »
+     * posait donc le halo dans le coin haut gauche, sur le ruban, avec une
+     * taille nulle : l'aide désignait le presse-papiers au lieu du paragraphe
+     * dont elle parle. Mesuré au banc avant correction.
+     *
+     * On réessaie donc jusqu'à obtenir une surface NON NULLE, sur la fenêtre
+     * qui couvre la recomposition (320 ms) et la pose de la sélection (220 ms).
+     */
+    const essais = [0, 200, 450, 800, 1300]
+    const minuteries: number[] = []
+    for (const attente of essais) {
+      minuteries.push(
+        window.setTimeout(() => {
+          const r = apiRef.current?.getPlageRect(zonesCibles[0])
+          if (!r || (r.width === 0 && r.height === 0)) return
+          const d = decalageSurface()
+          setHaloAide({ left: r.left + d.x, top: r.top + d.y, width: r.width, height: r.height })
+        }, attente),
+      )
+    }
+    return () => minuteries.forEach((t) => window.clearTimeout(t))
+  }, [aideAffichable, surfacePrete, zonesCibles, index, decalageSurface])
+
+  /* ═══════════ CROCHETS D'AUDIT — HORS PRODUCTION ═══════════
+   *
+   * Même rôle que `__SIM_GRID` et `__SIM_FORCE_DEMO` côté Excel. Sans eux,
+   * « pourquoi cette démonstration ne montre-t-elle rien ? » ne se diagnostique
+   * pas : il faudrait provoquer trois vraies erreurs de saisie pour seulement
+   * voir apparaître le bouton. Le remplacement de `process.env.NODE_ENV` les
+   * retire du bundle livré — un banc construit par erreur en production les perd
+   * aussi, et l'on croit alors à une régression du produit.
+   */
+  useEffect(() => {
+    if (process.env.NODE_ENV === "production" || typeof window === "undefined") return
+    const w = window as unknown as Record<string, unknown>
+    w.__WORD_ETAPE = etape?.id
+    w.__WORD_PLAN = plan
+    w.__WORD_COMPTEURS = { essais, tatonnements, demonstration, demoFinie }
+    w.__WORD_FORCE_DEMO = () => demarrerDemonstration()
+  })
+
   /* ═══════════ CE QUE LE CHÂSSIS AFFICHE ═══════════ */
 
   const consigne: ConsigneAtelier | null = useMemo(() => {
@@ -806,7 +1357,11 @@ export default function WordPlayer({
       texte: etape.consigne ?? "",
       nature: lecture ? "lecture" : evaluationNotee ? "evaluee" : "action",
       lecture,
-      aDemonstration: !!adaptateurWord.demonstration(action, {}),
+      aDemonstration: !!plan,
+      // Ce que le châssis lit pour décider s'il peut promettre « Montrez-moi ».
+      // Chez Word les deux coïncident, mais `aDemonstration` porte des sources
+      // différentes selon les applications : c'est `demoJouable` qui fait foi.
+      demoJouable: !!plan,
       attendu: adaptateurWord.attendu(action),
       // Jamais en évaluation : le noyau ne l'affiche pas, mais on ne la lui
       // fournit même pas — une réponse qui ne quitte pas le serveur ne peut pas
@@ -816,12 +1371,30 @@ export default function WordPlayer({
       aideVisible: hintShown && !!aideTexte,
       // Word ancre son aide sur la surface dès qu'une zone est désignée : sans
       // cette information, l'aide s'afficherait DEUX fois, mot pour mot.
-      aideAncree: zonesCibles.length > 0 && hintShown,
+      aideAncree: aideAffichable,
       indiceDisponible: !hintShown && !!aideTexte && !evaluationNotee,
       evaluationNotee,
       relais,
       relaisActif,
       verdict,
+      /* WORD ANNONCE SES VERDICTS SUR SA SURFACE — déclaration CONSTANTE,
+       * établie par la mesure et non par analogie avec Excel.
+       *
+       * Un seul chemin pose ici un verdict `ok: false` : la branche « faute »,
+       * qui appelle TOUJOURS `lancerFx("ko", …, jugement.message)` juste après,
+       * avec le même message. Le bandeau de la surface le dit donc déjà, et le
+       * répéter sous la consigne le ferait lire deux fois.
+       *
+       * Rien n'est perdu au passage, contrairement à Outlook :
+       *  — le tâtonnement n'appelle PAS `setVerdict` (il ne fait que compter),
+       *    donc aucun message de tâtonnement ne meurt ici ;
+       *  — un écran de lecture ne juge aucune observation hors « Suivant »
+       *    (garde de `surObservation`), donc son verdict ne vaut jamais faux.
+       * C'est la différence exacte avec Outlook, dont la branche tâtonnement
+       * porte un message SANS lancer d'effet : lui ne peut pas déclarer ce
+       * drapeau en constante sans redevenir muet sur 127 étapes.
+       */
+      verdictAncre: true,
       aplomb: null,
       panneJuge: pannneJuge,
       passageEnCours,
@@ -858,6 +1431,8 @@ export default function WordPlayer({
     pannneJuge,
     passageEnCours,
     passerLaQuestion,
+    plan,
+    aideAffichable,
     reculPossible,
     reculer,
     rejouerDemonstration,
@@ -914,10 +1489,23 @@ export default function WordPlayer({
         fausse dès qu'un élément change de taille, et c'est ainsi que la consigne
         du bas s'est retrouvée coupée côté Excel.
       */}
-      <div style={{ display: "flex", flexDirection: "column", height: "100%", minHeight: 0, overflow: "hidden" }}>
+      <div
+        ref={zoneAtelierRef}
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          height: "100%",
+          minHeight: 0,
+          overflow: "hidden",
+          // Repère du calque de démonstration, qui se pose en `absolute` dessus.
+          position: "relative",
+        }}
+      >
         <WordChrome
           onControle={surControle}
-          ongletImpose={etape?.setup?.ribbon?.activeTab}
+          // L'onglet vient de l'étape, ou de la démonstration quand elle a
+          // besoin d'un bouton rangé ailleurs.
+          ongletImpose={ongletDemo ?? etape?.setup?.ribbon?.activeTab}
           titreDocument={scenario.title}
         />
         {/* La règle ne s'affiche que si l'apprenant l'a demandée — c'est le
@@ -1031,6 +1619,195 @@ export default function WordPlayer({
               }}
             />
           )}
+
+          {/* ═══ RETOUR VISUEL DANS LA SURFACE ═══
+              `lancerFx` était appelé depuis l'origine (réussite et faute) sans
+              que rien ne soit rendu : Word était la SEULE des quatre
+              applications sans flash, sans secousse et sans message sur sa zone
+              de travail. Même idiome qu'Outlook et Excel — un halo sur la cible
+              quand elle est mesurable, un bandeau qui porte le mot — et non un
+              troisième.
+
+              Le calque vit DANS `zoneRef`, donc dans le repère où
+              `getPlageRect` rend déjà ses rectangles : aucun `decalageSurface`
+              ici, contrairement à l'aide et à la démonstration qui, elles,
+              couvrent le ruban.
+
+              `pointer-events: none` est NON NÉGOCIABLE : une surface décorative
+              qui avale les clics fait échouer l'étape suivante — le défaut le
+              plus coûteux du lecteur d'Excel.
+
+              Au-dessus des panneaux de Word (40) et de l'aperçu avant impression
+              (45) : une faute commise panneau ouvert doit rester lisible. */}
+          {fx && (
+            <div
+              key={fx.k}
+              aria-hidden
+              style={{
+                position: "absolute",
+                pointerEvents: "none",
+                zIndex: 46,
+                ...(fx.rect
+                  ? { left: fx.rect.left, top: fx.rect.top, width: fx.rect.width, height: fx.rect.height }
+                  : { inset: 0 }),
+                outline: fx.kind === "ok" ? "3px solid #2E9E63" : "3px solid #C0392B",
+                background: fx.kind === "ok" ? "rgba(46,158,99,.14)" : "rgba(192,57,43,.10)",
+                borderRadius: 6,
+                animation: fx.kind === "ok" ? "w-fx-ok 1.4s ease both" : "w-fx-ko .45s ease both",
+              }}
+            />
+          )}
+
+          {/* LE MOT QUI ACCOMPAGNE LE GESTE.
+              Un flash muet fait douter l'apprenant de son geste, même quand il
+              était bon. Le repli générique est indispensable : le juge rend un
+              message vide quand l'observation n'est pas du type attendu, et le
+              point du premier essai est pourtant bien perdu. */}
+          {fx && (
+            <div
+              aria-live="polite"
+              key={`m${fx.k}`}
+              style={{
+                position: "absolute",
+                left: 0,
+                right: 0,
+                bottom: 12,
+                display: "grid",
+                placeItems: "center",
+                pointerEvents: "none",
+                zIndex: 47,
+                padding: "0 12px",
+              }}
+            >
+              <span
+                style={{
+                  maxWidth: 470,
+                  padding: "9px 15px",
+                  borderRadius: 10,
+                  background: fx.kind === "ok" ? "rgba(16,74,45,.95)" : "rgba(122,32,24,.95)",
+                  color: "#fff",
+                  fontSize: 12.5,
+                  lineHeight: 1.55,
+                  textAlign: "center",
+                  animation: "w-fx-mot .34s ease both",
+                }}
+              >
+                {fx.kind === "ok"
+                  ? "✓ C'est exact"
+                  : fx.message || "Ce n'est pas encore ça — réessayez."}
+              </span>
+            </div>
+          )}
+          <style>{`
+            @keyframes w-intro-monte { from { opacity: 0; transform: translateY(14px) } to { opacity: 1; transform: translateY(0) } }
+            @keyframes w-fx-ok { 0% { opacity: 0 } 18% { opacity: 1 } 100% { opacity: 0 } }
+            @keyframes w-fx-ko { 0%,100% { transform: translateX(0) } 25% { transform: translateX(-5px) } 75% { transform: translateX(5px) } }
+            @keyframes w-fx-mot { from { opacity: 0; transform: translateY(6px) } to { opacity: 1; transform: none } }
+            @media (prefers-reduced-motion: reduce) {
+              [style*="w-fx-"] { animation-duration: .01ms !important }
+            }
+          `}</style>
+        </div>
+
+        {/* ═══ L'AIDE, POSÉE SUR CE DONT ELLE PARLE ═══
+            Halo ambre sur la zone visée et bulle à côté. Le châssis a masqué sa
+            propre ligne d'aide (`aideAncree`) : sans ce bloc, l'aide n'existe
+            nulle part — ce qui était le cas de 118 aides de la formation. */}
+        {aideAffichable && haloAide && (
+          <>
+            <div
+              aria-hidden
+              style={{
+                position: "absolute",
+                left: haloAide.left - 3,
+                top: haloAide.top - 3,
+                width: haloAide.width + 6,
+                height: haloAide.height + 6,
+                border: "2px solid #C8860D",
+                borderRadius: 5,
+                background: "rgba(200,134,13,.10)",
+                // Une surface décorative qui avale les clics fait échouer
+                // l'étape suivante : la règle vaut pour tout calque.
+                pointerEvents: "none",
+                zIndex: 38,
+              }}
+            />
+            <p
+              data-aide-ancree
+              style={{
+                position: "absolute",
+                left: Math.max(
+                  8,
+                  Math.min(haloAide.left, Math.max(8, largeurAtelier - 268)),
+                ),
+                // Sous la zone si la place existe, au-dessus sinon — mais jamais
+                // au-dessus du bord haut de la surface : une aide posée sur le
+                // ruban masque les repères qui servent à s'en servir.
+                top: Math.max(hautSurface + 4, haloAide.top + haloAide.height + 8),
+                maxWidth: 260,
+                margin: 0,
+                padding: "8px 10px",
+                borderRadius: 8,
+                background: "#FFF8E8",
+                border: "1px solid #E7D3A2",
+                color: "#5A4413",
+                fontSize: 12.5,
+                lineHeight: 1.45,
+                boxShadow: "0 6px 18px rgba(16,24,32,.12)",
+                pointerEvents: "none",
+                zIndex: 39,
+              }}
+            >
+              <span aria-hidden>👉 </span>
+              {texteAide}
+            </p>
+          </>
+        )}
+
+        {/* La barre d'état vient APRÈS la surface : c'est ce qui la place SOUS
+            le document, comme Word. Rendue par le châssis, elle s'affichait
+            au-dessus — l'inverse. */}
+        <WordFooter
+          mots={compteursTexte.mots}
+          caracteres={compteursTexte.caracteres}
+          motsSelection={motsSelection}
+        />
+
+        {/* ═══ « MONTREZ-MOI » ═══
+            Le calque couvre le ruban ET la surface : c'est la seule position
+            depuis laquelle il peut désigner un bouton comme un paragraphe. */}
+        {/* Le calque s'arrête AU-DESSUS de la barre d'état : sans cette borne,
+            son compteur de gestes se posait exactement sur le compteur de mots,
+            et les deux devenaient illisibles. Le repère reste positionné dans le
+            même repère qu'avant — seul le bord bas change. */}
+        <div
+          style={{
+            position: "absolute",
+            left: 0,
+            right: 0,
+            top: 0,
+            bottom: HAUTEUR_BARRE_ETAT,
+            pointerEvents: "none",
+            zIndex: 40,
+          }}
+        >
+        {demonstration && plan && (
+          <DemonstrationGeste
+            // Clé sur l'étape ET sur le rejeu : sans elle, React réutilise le
+            // nœud et la séquence ne repart jamais du premier geste.
+            key={`demo-${index}-${rejeu}`}
+            plan={plan}
+            resoudre={resoudreDemo}
+            largeur={largeurAtelier}
+            hautFeuille={hautSurface}
+            onEcrire={demoEcrire}
+            onSelectionner={demoSelectionner}
+            onPresser={demoPresser}
+            onOnglet={demoOnglet}
+            lecture={estLecture}
+            onFini={finDemo}
+          />
+        )}
         </div>
       </div>
 
@@ -1040,6 +1817,7 @@ export default function WordPlayer({
         <Ouverture
           titre={scenario.intro?.title ?? scenario.title ?? ""}
           corps={scenario.intro?.body ?? ""}
+          moduleTitle={scenario.moduleTitle}
           onCommencer={() => {
             ouvrirLAtelier()
             if (evaluationNotee) void commencer()
@@ -1063,12 +1841,24 @@ export default function WordPlayer({
 function Ouverture({
   titre,
   corps,
+  moduleTitle,
   onCommencer,
 }: {
   titre: string
   corps: string
+  moduleTitle?: string | null
   onCommencer: () => void
 }) {
+  /*
+   * Le module a-t-il une affiche ? On teste le NUMÉRO, jamais l'élément JSX :
+   * `<AfficheModule/>` est toujours truthy même quand il rend `null`, et le
+   * repli n'aurait jamais lieu — Excel a payé exactement ce piège.
+   *
+   * `app` est obligatoire : sans elle, la résolution suit un ordre de
+   * préférence qui commence par Excel, et un titre partagé par deux
+   * applications afficherait l'illustration de la mauvaise.
+   */
+  const affiche = numeroModule(moduleTitle, "WORD") !== null
   return (
     <div
       style={{
@@ -1077,38 +1867,67 @@ function Ouverture({
         zIndex: 40,
         background: "#FAF9F7",
         display: "flex",
-        flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        gap: 18,
+        gap: 40,
         padding: 24,
-        textAlign: "center",
       }}
     >
-      <h2 style={{ fontSize: 22, fontWeight: 700, color: "#1b1a17", margin: 0, letterSpacing: 0.4 }}>
-        {titre}
-      </h2>
-      <p style={{ maxWidth: 560, fontSize: 15, lineHeight: 1.5, color: "#4a453e", margin: 0 }}>
-        {corps}
-      </p>
-      <button
-        type="button"
-        data-control="intro-commencer"
-        onClick={onCommencer}
+      {/* L'affiche du module occupe la colonne de droite, comme sur Excel, et
+          disparaît sous `lg`. Elle partage une RANGÉE avec le texte plutôt que
+          d'être posée en absolu : le bloc de Word est centré, et un absolu à
+          droite le recouvrirait. */}
+      <div
         style={{
-          minHeight: 44,
-          padding: "0 22px",
-          borderRadius: 10,
-          border: "none",
-          background: "#1b5e3a",
-          color: "#fff",
-          fontSize: 15,
-          fontWeight: 600,
-          cursor: "pointer",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: 18,
+          textAlign: "center",
+          maxWidth: 620,
+          flex: "1 1 auto",
+          minWidth: 0,
         }}
       >
-        Commencer
-      </button>
+        <h2 style={{ fontSize: 22, fontWeight: 700, color: "#1b1a17", margin: 0, letterSpacing: 0.4 }}>
+          {titre}
+        </h2>
+        <p style={{ maxWidth: 560, fontSize: 15, lineHeight: 1.5, color: "#4a453e", margin: 0 }}>
+          {corps}
+        </p>
+        <button
+          type="button"
+          data-control="intro-commencer"
+          onClick={onCommencer}
+          style={{
+            minHeight: 44,
+            padding: "0 22px",
+            borderRadius: 10,
+            border: "none",
+            background: "#1b5e3a",
+            color: "#fff",
+            fontSize: 15,
+            fontWeight: 600,
+            cursor: "pointer",
+          }}
+        >
+          Commencer
+        </button>
+      </div>
+      {/* Pas de repli quand le module n'a pas encore d'affiche : le
+          mini-classeur vert d'Excel dessine une grille de tableur, et inventer
+          ici une page de substitution poserait une seconde langue visuelle que
+          l'affiche remplacera. Rien vaut mieux qu'à peu près. */}
+      {affiche ? (
+        <div
+          aria-hidden
+          className="hidden shrink-0 select-none lg:block"
+          style={{ width: 372, animation: "w-intro-monte .9s .35s ease both" }}
+        >
+          <AfficheModule moduleTitle={moduleTitle} app="WORD" />
+        </div>
+      ) : null}
     </div>
   )
 }

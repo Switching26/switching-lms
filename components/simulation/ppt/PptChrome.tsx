@@ -15,27 +15,35 @@
  * tout le premier retour visuel du player d'Excel.
  *
  * ─────────────────────────────────────────────────────────────────────────────
- * UNE SEULE LIGNE, DÉFILANTE — décision D2, et pas seulement pour le mobile
+ * DES ONGLETS, ET POURQUOI LE CHOIX INVERSE ÉTAIT DÉFENDABLE
  *
- * Le prototype empilait ses groupes sur quatre lignes : 150 px de haut à 390 px,
- * soit 18 % de la hauteur d'écran pour un ruban. Le motif retenu est celui,
- * éprouvé, du ruban mobile d'Excel : une ligne de 56 px qui défile
- * horizontalement.
+ * Le lot 1 rendait une seule ligne défilante, sans onglet, et le motivait ainsi :
+ * le ruban d'Excel a sept onglets dont un seul est rendu à la fois, ce qui a
+ * produit une classe entière de défauts — 55 gestes de démonstration visaient un
+ * bouton logé sous un autre onglet, donc introuvable, et le pilote y perdait
+ * 30 s de délai d'attente par onglet exploré. Un ruban sans onglet ne peut pas
+ * avoir ce défaut.
  *
- * Il est appliqué à TOUTES les tailles d'écran, et ce n'est pas de la paresse :
+ * Le raisonnement est juste. Il payait seulement ce risque avec une compétence :
+ * « aller dans l'onglet Insertion » est le geste le plus élémentaire de
+ * PowerPoint, et il n'était enseigné nulle part — le lot 1 l'écrivait d'ailleurs
+ * noir sur blanc comme une dette.
  *
- *  · le ruban d'Excel a sept onglets, dont un seul est rendu à la fois. C'est ce
- *    qui a produit une classe entière de défauts — 55 gestes de démonstration
- *    visaient un bouton logé sous un autre onglet, donc introuvable, et le
- *    pilote perdait 30 s de délai d'attente par onglet exploré. Un ruban sans
- *    onglet ne peut pas avoir ce défaut ;
- *  · les groupes restent NOMMÉS (« Diapositives », « Police », « Insertion »…),
- *    donc la structure du vrai ruban reste enseignée.
+ * Les onglets sont donc rendus, et le défaut qu'ils rouvrent est fermé par
+ * construction : `ongletDuControle` est la SOURCE UNIQUE qui décide où vit un
+ * bouton. C'est elle qui range les groupes ci-dessous, elle qui ouvre l'onglet
+ * attendu par l'étape courante (`ongletSuggere`), et elle qui fait basculer une
+ * démonstration avant de presser. Un bouton ne peut pas être hors de portée pour
+ * l'un sans l'être pour les trois — et cela se voit immédiatement.
  *
- * Contrepartie assumée, à porter au lot 2 : on n'enseigne pas encore le geste
- * « aller dans l'onglet Insertion ». Les onglets sont une brique à part entière,
- * avec son propre risque, et le contrat demande de reporter ce qui coûte plutôt
- * que de le bâcler.
+ * Six onglets et pas dix : Fichier, Dessin, Création et Révision n'ont aucune
+ * commande dans le moteur. Un onglet vide serait un bouton fictif, ce que la
+ * règle des contrôles interdit.
+ *
+ * La ligne de groupes reste à 56 px et défile horizontalement — le motif éprouvé
+ * du ruban mobile d'Excel. Les onglets ajoutent 30 px (44 sur écran étroit, pour
+ * la cible tactile) : le ruban complet tient donc sous 100 px, loin des 150 px
+ * empilés que le prototype avait rejetés.
  */
 
 import { useEffect, useRef, useState } from "react"
@@ -43,12 +51,16 @@ import {
   CONTROLES_PPT,
   LAYOUTS,
   LAYOUTS_ORDRE,
+  LIBELLE_ONGLET_PPT,
+  ONGLETS_PPT,
   type DeckState,
   type GestePpt,
+  type OngletPpt,
   type SlideObject,
   type SlideState,
 } from "@/lib/simulation/ppt/document"
 import { FORMES, NOM_FORME } from "./formes"
+import { ICONE_SEULE_PPT, iconePpt } from "./icones"
 
 type Props = {
   deck: DeckState
@@ -62,10 +74,24 @@ type Props = {
   imageDemo: string
   /** Vrai quand la zone de travail est étroite : cibles tactiles agrandies. */
   etroit: boolean
+  /**
+   * L'onglet que l'étape courante rend nécessaire, déduit du bouton qu'elle
+   * attend. Il ouvre l'onglet SANS l'imposer : l'apprenant peut en changer
+   * juste après, explorer le ruban n'est pas une faute.
+   *
+   * C'est ce qui permet d'ajouter les onglets sans rendre injouable une seule
+   * des 1 348 étapes déjà écrites — aucune ne déclarait d'onglet, puisqu'il n'y
+   * en avait pas.
+   */
+  ongletSuggere?: OngletPpt | null
 }
 
-/** Hauteur du ruban. 56 px sur une ligne, la valeur éprouvée sur Excel mobile. */
-export const HAUTEUR_RUBAN = 56
+/** Hauteur de la ligne de groupes. 56 px, la valeur éprouvée sur Excel mobile. */
+export const HAUTEUR_GROUPES = 56
+/** Hauteur de la barre d'onglets — 44 px sur écran étroit pour la cible tactile. */
+export const hauteurOnglets = (etroit: boolean) => (etroit ? 44 : 30)
+/** Hauteur totale du ruban, onglets compris. */
+export const hauteurRuban = (etroit: boolean) => HAUTEUR_GROUPES + hauteurOnglets(etroit)
 
 const ENCRE = "#1F2933"
 const BORD = "#D6DBE1"
@@ -102,9 +128,18 @@ export default function PptChrome({
   lecture,
   imageDemo,
   etroit,
+  ongletSuggere,
 }: Props) {
   const [menu, setMenu] = useState<null | "disposition" | "forme">(null)
+  const [onglet, setOnglet] = useState<OngletPpt>("accueil")
   const rubanRef = useRef<HTMLDivElement | null>(null)
+
+  /* L'étape courante ouvre l'onglet qui porte le bouton qu'elle attend. Sans
+     cela, une étape écrite avant les onglets demanderait un bouton que rien
+     n'aurait ouvert : 1 348 étapes seraient devenues injouables d'un coup. */
+  useEffect(() => {
+    if (ongletSuggere) setOnglet(ongletSuggere)
+  }, [ongletSuggere])
 
   /* Un menu ouvert se referme au clic ailleurs et à Échap — sans quoi il reste
      posé sur la scène et masque la diapositive que la consigne désigne. */
@@ -145,52 +180,58 @@ export default function PptChrome({
     libelle: string,
     action: () => void,
     opts?: { actif?: boolean; icone?: React.ReactNode; titre?: string },
-  ) => (
-    <button
-      key={id}
-      type="button"
-      data-control={id}
-      aria-label={opts?.titre ?? libelle}
-      title={opts?.titre ?? libelle}
-      aria-pressed={opts?.actif ? true : undefined}
-      onClick={() => {
-        if (lecture) return
-        action()
-      }}
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        border: "none",
-        background: "none",
-        padding: 0,
-        minHeight: cible,
-        minWidth: cible,
-        flexShrink: 0,
-        cursor: lecture ? "default" : "pointer",
-      }}
-    >
-      <span
+  ) => {
+    const pict = opts?.icone ?? iconePpt(id)
+    // Un bouton dont l'icône EST le libellé afficherait « G » sous un « G » :
+    // c'est le défaut qui doublait toute la rangée Police sur le ruban d'Excel.
+    const sansTexte = pict != null && ICONE_SEULE_PPT.has(id)
+    return (
+      <button
+        key={id}
+        type="button"
+        data-control={id}
+        aria-label={opts?.titre ?? libelle}
+        title={opts?.titre ?? libelle}
+        aria-pressed={opts?.actif ? true : undefined}
+        onClick={() => {
+          if (lecture) return
+          action()
+        }}
         style={{
           display: "flex",
           alignItems: "center",
-          gap: 4,
-          border: "1px solid " + (opts?.actif ? ACCENT : BORD),
-          background: opts?.actif ? "#FBEDE9" : "#fff",
-          color: opts?.actif ? ACCENT : ENCRE,
-          borderRadius: 4,
-          padding: "0 8px",
-          height: 28,
-          fontSize: 11.5,
-          lineHeight: 1,
-          whiteSpace: "nowrap",
+          justifyContent: "center",
+          border: "none",
+          background: "none",
+          padding: 0,
+          minHeight: cible,
+          minWidth: cible,
+          flexShrink: 0,
+          cursor: lecture ? "default" : "pointer",
         }}
       >
-        {opts?.icone}
-        {libelle}
-      </span>
-    </button>
-  )
+        <span
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: pict && !sansTexte ? 4 : 0,
+            border: "1px solid " + (opts?.actif ? ACCENT : BORD),
+            background: opts?.actif ? "#FBEDE9" : "#fff",
+            color: opts?.actif ? ACCENT : ENCRE,
+            borderRadius: 4,
+            padding: sansTexte ? "0 6px" : "0 8px",
+            height: 28,
+            fontSize: 11.5,
+            lineHeight: 1,
+            whiteSpace: "nowrap",
+          }}
+        >
+          {pict}
+          {sansTexte ? null : libelle}
+        </span>
+      </button>
+    )
+  }
 
   const optionMenu = (id: string, libelle: string, action: () => void, actif = false) => (
     <button
@@ -203,6 +244,9 @@ export default function PptChrome({
         action()
       }}
       style={{
+        display: "flex",
+        alignItems: "center",
+        gap: 8,
         border: "none",
         background: actif ? "#FBEDE9" : "transparent",
         color: ENCRE,
@@ -215,6 +259,7 @@ export default function PptChrome({
         whiteSpace: "nowrap",
       }}
     >
+      {iconePpt(id)}
       {libelle}
     </button>
   )
@@ -260,24 +305,11 @@ export default function PptChrome({
     )
   }
 
-  return (
-    <div
-      ref={rubanRef}
-      data-zone="ruban"
-      style={{
-        borderBottom: "1px solid " + BORD,
-        background: "#fff",
-        flexShrink: 0,
-        height: HAUTEUR_RUBAN,
-        // UNE seule ligne, qui défile horizontalement. `overflow-x: auto` et non
-        // `wrap` : c'est ce qui garantit que le ruban ne mange jamais plus de
-        // 56 px de hauteur, quelle que soit la largeur de l'écran.
-        overflowX: "auto",
-        overflowY: "hidden",
-        WebkitOverflowScrolling: "touch",
-      }}
-    >
-      <div style={{ display: "flex", alignItems: "center", gap: 6, padding: "2px 8px", height: "100%", width: "max-content" }}>
+  /* ═══════════ LES GROUPES, RANGÉS PAR ONGLET ═══════════ */
+
+  const groupes: Record<OngletPpt, React.ReactNode> = {
+    accueil: (
+      <>
         <Groupe nom="Diapositives">
           {btn(CONTROLES_PPT.nouvelleDiapo, "Nouvelle", () => onGeste({ type: "addSlide" }, "ribbon"), {
             titre: "Nouvelle diapositive",
@@ -314,10 +346,10 @@ export default function PptChrome({
               où tirer une vignette au doigt échoue plus souvent qu'il ne
               réussit. Les deux boutons agissent sur la diapositive AFFICHÉE,
               comme leurs voisins : une seule règle pour tout le groupe. */}
-          {btn(CONTROLES_PPT.monterDiapo, "↑ Monter", () => {
+          {btn(CONTROLES_PPT.monterDiapo, "Monter", () => {
             if (iActive > 0) onGeste({ type: "moveSlide", from: iActive, to: iActive - 1 }, "ribbon")
           })}
-          {btn(CONTROLES_PPT.descendreDiapo, "↓ Descendre", () => {
+          {btn(CONTROLES_PPT.descendreDiapo, "Descendre", () => {
             if (iActive < deck.slides.length - 1)
               onGeste({ type: "moveSlide", from: iActive, to: iActive + 1 }, "ribbon")
           })}
@@ -329,47 +361,23 @@ export default function PptChrome({
           {basculer(CONTROLES_PPT.gras, "bold", "G")}
           {basculer(CONTROLES_PPT.italique, "italic", "I")}
           {basculer(CONTROLES_PPT.souligne, "underline", "S")}
-          {btn(CONTROLES_PPT.alignGauche, "◧", () =>
-            selection.forEach((oid) => onGeste({ type: "format", objectId: oid, style: { align: "left" } }, "ribbon")),
-            { titre: "Aligner à gauche" },
-          )}
-          {btn(CONTROLES_PPT.alignCentre, "▣", () =>
-            selection.forEach((oid) => onGeste({ type: "format", objectId: oid, style: { align: "center" } }, "ribbon")),
-            { titre: "Centrer" },
-          )}
-          {btn(CONTROLES_PPT.alignDroite, "◨", () =>
-            selection.forEach((oid) => onGeste({ type: "format", objectId: oid, style: { align: "right" } }, "ribbon")),
-            { titre: "Aligner à droite" },
-          )}
         </Groupe>
 
         <Separateur />
 
-        <Groupe nom="Insertion">
-          {btn(CONTROLES_PPT.zoneTexte, "Zone de texte", () =>
-            onGeste({ type: "addObject", objectType: "texte", rect: { x: 320, y: 400, w: 320, h: 70 } }, "ribbon"),
+        <Groupe nom="Paragraphe">
+          {btn(CONTROLES_PPT.alignGauche, "Gauche", () =>
+            selection.forEach((oid) => onGeste({ type: "format", objectId: oid, style: { align: "left" } }, "ribbon")),
+            { titre: "Aligner à gauche" },
           )}
-          {btn(CONTROLES_PPT.image, "Image", () =>
-            onGeste(
-              { type: "addObject", objectType: "image", rect: { x: 560, y: 180, w: 320, h: 200 }, src: imageDemo },
-              "ribbon",
-            ),
+          {btn(CONTROLES_PPT.alignCentre, "Centrer", () =>
+            selection.forEach((oid) => onGeste({ type: "format", objectId: oid, style: { align: "center" } }, "ribbon")),
+            { titre: "Centrer" },
           )}
-          <span style={{ position: "relative", display: "flex" }}>
-            {btn(CONTROLES_PPT.forme, "Formes ▾", () => setMenu((m) => (m === "forme" ? null : "forme")), {
-              actif: menu === "forme",
-            })}
-            {menu === "forme"
-              ? panneauMenu(
-                  "Formes",
-                  Object.keys(FORMES).map((s) =>
-                    optionMenu(CONTROLES_PPT.formeChoix(s), NOM_FORME[s] ?? s, () =>
-                      onGeste({ type: "addObject", objectType: "forme", shape: s as SlideObject["shape"] }, "ribbon"),
-                    ),
-                  ),
-                )
-              : null}
-          </span>
+          {btn(CONTROLES_PPT.alignDroite, "Droite", () =>
+            selection.forEach((oid) => onGeste({ type: "format", objectId: oid, style: { align: "right" } }, "ribbon")),
+            { titre: "Aligner à droite" },
+          )}
         </Groupe>
 
         <Separateur />
@@ -383,79 +391,201 @@ export default function PptChrome({
             { titre: "Supprimer l'élément" },
           )}
         </Groupe>
+      </>
+    ),
 
-        <Separateur />
-
-        <Groupe nom="Transitions">
-          {btn(
-            CONTROLES_PPT.transition("fondu"),
-            "Fondu",
-            () => onGeste({ type: "setTransition", index: iActive, transition: { kind: "fondu", duree: 0.7 } }, "ribbon"),
-            { actif: slide.transition?.kind === "fondu", titre: "Transition Fondu" },
-          )}
-          {btn(
-            CONTROLES_PPT.transition("balayage"),
-            "Balayage",
-            () =>
-              onGeste(
-                { type: "setTransition", index: iActive, transition: { kind: "balayage", duree: 0.7 } },
-                "ribbon",
-              ),
-            { actif: slide.transition?.kind === "balayage", titre: "Transition Balayage" },
-          )}
-          {btn(
-            CONTROLES_PPT.transition("aucune"),
-            "Aucune",
-            () => onGeste({ type: "setTransition", index: iActive, transition: { kind: "aucune" } }, "ribbon"),
-            { actif: !slide.transition || slide.transition.kind === "aucune", titre: "Aucune transition" },
-          )}
-        </Groupe>
-
-        <Separateur />
-
-        <Groupe nom="Animations">
-          {btn(CONTROLES_PPT.animation("apparaitre"), "Apparaître", () =>
-            selection.forEach((oid) => onGeste({ type: "addAnimation", objectId: oid, kind: "apparaitre" }, "ribbon")),
-            { titre: "Animation Apparaître" },
-          )}
-          {btn(CONTROLES_PPT.animation("fondu"), "Fondu", () =>
-            selection.forEach((oid) => onGeste({ type: "addAnimation", objectId: oid, kind: "fondu" }, "ribbon")),
-            { titre: "Animation Fondu" },
-          )}
-        </Groupe>
-
-        <Separateur />
-
-        <Groupe nom="Diaporama">
-          {btn(CONTROLES_PPT.lancerDebut, "▶ Début", () => onGeste({ type: "startShow", depuis: "debut" }, "ribbon"), {
-            titre: "Diaporama depuis le début",
+    insertion: (
+      <Groupe nom="Insertion">
+        {btn(CONTROLES_PPT.zoneTexte, "Zone de texte", () =>
+          onGeste({ type: "addObject", objectType: "texte", rect: { x: 320, y: 400, w: 320, h: 70 } }, "ribbon"),
+        )}
+        {btn(CONTROLES_PPT.image, "Image", () =>
+          onGeste(
+            { type: "addObject", objectType: "image", rect: { x: 560, y: 180, w: 320, h: 200 }, src: imageDemo },
+            "ribbon",
+          ),
+        )}
+        <span style={{ position: "relative", display: "flex" }}>
+          {btn(CONTROLES_PPT.forme, "Formes ▾", () => setMenu((m) => (m === "forme" ? null : "forme")), {
+            actif: menu === "forme",
           })}
-          {btn(
-            CONTROLES_PPT.lancerCourante,
-            "▶ Ici",
-            () => onGeste({ type: "startShow", depuis: "courante" }, "ribbon"),
-            { titre: "Diaporama depuis cette diapositive" },
-          )}
-          {btn(
-            CONTROLES_PPT.masquerDiapo,
-            "Masquer",
-            () => onGeste({ type: "toggleMasquee", index: iActive }, "ribbon"),
-            { actif: !!slide.masquee, titre: "Masquer la diapositive" },
-          )}
-        </Groupe>
+          {menu === "forme"
+            ? panneauMenu(
+                "Formes",
+                Object.keys(FORMES).map((s) =>
+                  optionMenu(CONTROLES_PPT.formeChoix(s), NOM_FORME[s] ?? s, () =>
+                    onGeste({ type: "addObject", objectType: "forme", shape: s as SlideObject["shape"] }, "ribbon"),
+                  ),
+                ),
+              )
+            : null}
+        </span>
+      </Groupe>
+    ),
 
-        <Separateur />
+    transitions: (
+      <Groupe nom="Accès à cette diapositive">
+        {btn(
+          CONTROLES_PPT.transition("fondu"),
+          "Fondu",
+          () => onGeste({ type: "setTransition", index: iActive, transition: { kind: "fondu", duree: 0.7 } }, "ribbon"),
+          { actif: slide.transition?.kind === "fondu", titre: "Transition Fondu" },
+        )}
+        {btn(
+          CONTROLES_PPT.transition("balayage"),
+          "Balayage",
+          () =>
+            onGeste({ type: "setTransition", index: iActive, transition: { kind: "balayage", duree: 0.7 } }, "ribbon"),
+          { actif: slide.transition?.kind === "balayage", titre: "Transition Balayage" },
+        )}
+        {btn(
+          CONTROLES_PPT.transition("aucune"),
+          "Aucune",
+          () => onGeste({ type: "setTransition", index: iActive, transition: { kind: "aucune" } }, "ribbon"),
+          { actif: !slide.transition || slide.transition.kind === "aucune", titre: "Aucune transition" },
+        )}
+      </Groupe>
+    ),
 
-        <Groupe nom="Affichage">
-          {btn(CONTROLES_PPT.vue("normal"), "Normal", () => onGeste({ type: "setView", view: "normal" }, "ribbon"), {
-            actif: (deck.view ?? "normal") === "normal",
-            titre: "Affichage Normal",
-          })}
-          {btn(CONTROLES_PPT.vue("trieuse"), "Trieuse", () => onGeste({ type: "setView", view: "trieuse" }, "ribbon"), {
-            actif: deck.view === "trieuse",
-            titre: "Trieuse de diapositives",
-          })}
-        </Groupe>
+    animations: (
+      <Groupe nom="Animation">
+        {btn(CONTROLES_PPT.animation("apparaitre"), "Apparaître", () =>
+          selection.forEach((oid) => onGeste({ type: "addAnimation", objectId: oid, kind: "apparaitre" }, "ribbon")),
+          { titre: "Animation Apparaître" },
+        )}
+        {btn(CONTROLES_PPT.animation("fondu"), "Fondu", () =>
+          selection.forEach((oid) => onGeste({ type: "addAnimation", objectId: oid, kind: "fondu" }, "ribbon")),
+          { titre: "Animation Fondu" },
+        )}
+      </Groupe>
+    ),
+
+    diaporama: (
+      <Groupe nom="Démarrage du diaporama">
+        {btn(CONTROLES_PPT.lancerDebut, "Depuis le début", () => onGeste({ type: "startShow", depuis: "debut" }, "ribbon"), {
+          titre: "Diaporama depuis le début",
+        })}
+        {btn(
+          CONTROLES_PPT.lancerCourante,
+          "À partir d'ici",
+          () => onGeste({ type: "startShow", depuis: "courante" }, "ribbon"),
+          { titre: "Diaporama depuis cette diapositive" },
+        )}
+        {btn(CONTROLES_PPT.masquerDiapo, "Masquer", () => onGeste({ type: "toggleMasquee", index: iActive }, "ribbon"), {
+          actif: !!slide.masquee,
+          titre: "Masquer la diapositive",
+        })}
+      </Groupe>
+    ),
+
+    affichage: (
+      <Groupe nom="Modes d'affichage">
+        {btn(CONTROLES_PPT.vue("normal"), "Normal", () => onGeste({ type: "setView", view: "normal" }, "ribbon"), {
+          actif: (deck.view ?? "normal") === "normal",
+          titre: "Affichage Normal",
+        })}
+        {btn(CONTROLES_PPT.vue("trieuse"), "Trieuse", () => onGeste({ type: "setView", view: "trieuse" }, "ribbon"), {
+          actif: deck.view === "trieuse",
+          titre: "Trieuse de diapositives",
+        })}
+      </Groupe>
+    ),
+  }
+
+  return (
+    <div ref={rubanRef} data-zone="ruban" style={{ flexShrink: 0, background: "#fff" }}>
+      {/* ─── Les onglets ─── */}
+      <div
+        data-zone="onglets"
+        style={{
+          display: "flex",
+          alignItems: "stretch",
+          gap: 2,
+          /**
+           * `minHeight`, et non `height`.
+           *
+           * Avec `box-sizing: border-box`, le trait de séparation d'un pixel est
+           * COMPRIS dans la hauteur : une barre de 44 px ne laissait que 43 px à
+           * ses boutons, et les six onglets tombaient sous la cible tactile
+           * réglementaire — mesuré au banc à 390 px, invisible autrement. Le
+           * bouton porte lui aussi son propre `minHeight` : deux garanties
+           * valent mieux qu'un calcul juste aujourd'hui et faux après le
+           * prochain ajustement de bordure.
+           */
+          minHeight: hauteurOnglets(etroit),
+          padding: "0 6px",
+          background: "#F6F7F9",
+          borderBottom: "1px solid " + BORD,
+          overflowX: "auto",
+          overflowY: "hidden",
+          WebkitOverflowScrolling: "touch",
+        }}
+      >
+        {ONGLETS_PPT.map((o) => {
+          const actif = o === onglet
+          return (
+            <button
+              key={o}
+              type="button"
+              data-control={CONTROLES_PPT.onglet(o)}
+              data-ppt-onglet={o}
+              aria-pressed={actif}
+              aria-label={`Onglet ${LIBELLE_ONGLET_PPT[o]}`}
+              onClick={() => {
+                if (lecture) return
+                // Changer d'onglet n'est JAMAIS une faute : le ruban s'explore.
+                // Le menu ouvert se referme, sinon il resterait posé sur un
+                // onglet qui ne le contient plus.
+                setMenu(null)
+                setOnglet(o)
+              }}
+              style={{
+                flexShrink: 0,
+                border: "none",
+                borderBottom: "2px solid " + (actif ? ACCENT : "transparent"),
+                background: actif ? "#fff" : "transparent",
+                color: actif ? ACCENT : "#5A636D",
+                fontWeight: actif ? 600 : 400,
+                fontSize: 11.5,
+                padding: "0 12px",
+                minWidth: etroit ? 60 : 0,
+                minHeight: etroit ? 44 : 0,
+                cursor: lecture ? "default" : "pointer",
+                whiteSpace: "nowrap",
+              }}
+            >
+              {LIBELLE_ONGLET_PPT[o]}
+            </button>
+          )
+        })}
+      </div>
+
+      {/* ─── Les groupes de l'onglet ouvert ─── */}
+      <div
+        data-zone="groupes"
+        style={{
+          borderBottom: "1px solid " + BORD,
+          height: HAUTEUR_GROUPES,
+          // UNE seule ligne, qui défile horizontalement. `overflow-x: auto` et non
+          // `wrap` : c'est ce qui garantit que le ruban ne mange jamais plus de
+          // 56 px de hauteur, quelle que soit la largeur de l'écran.
+          overflowX: "auto",
+          overflowY: "hidden",
+          WebkitOverflowScrolling: "touch",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 6,
+            padding: "2px 8px",
+            height: "100%",
+            width: "max-content",
+          }}
+        >
+          {groupes[onglet]}
+        </div>
       </div>
     </div>
   )

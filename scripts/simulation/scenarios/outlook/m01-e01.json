@@ -70,7 +70,8 @@
         "accept": ["vitrine", "fleurs", "fleurs-de-saison", "fleurs de saison"],
         "contient": true
       },
-      "aide": { "text": "Le champ de recherche est en haut de la liste des messages : il filtre le dossier ouvert sur l'expéditeur, l'objet et le texte." }
+      "aide": { "text": "Le champ de recherche est en haut de la liste des messages : il filtre le dossier ouvert sur l'expéditeur, l'objet et le texte." },
+      "feedback": "Un seul message reste affiché. Les autres ne sont pas partis : ils sont masqués par le filtre."
     },
     {
       "id": "O01-E01-02",
@@ -82,19 +83,22 @@
       "id": "O01-E01-03",
       "consigne": "Avant de répondre quoi que ce soit, il faut savoir ce que Sonia a déjà écrit à ce client. Retirez d'abord le filtre, sinon vous ne verrez qu'une partie de ce que vous cherchez.",
       "action": { "type": "O_TYPE_TEXT", "champ": "recherche", "accept": [""] },
-      "aide": { "text": "Videz complètement le champ de recherche : il ne doit plus contenir un seul caractère." }
+      "aide": { "text": "Videz complètement le champ de recherche : il ne doit plus contenir un seul caractère." },
+      "feedback": "La boîte est revenue au complet : on ne cherche bien que dans une liste entière."
     },
     {
       "id": "O01-E01-04",
       "consigne": "Allez voir ce qui est parti de cette boîte : Sonia a confirmé la pose à ce même client la veille. C'est cette information qui rend la réponse possible.",
       "action": { "type": "O_SELECT_FOLDER", "dossier": "envoyes" },
-      "aide": { "text": "Tout ce qu'on envoie est rangé automatiquement dans le dossier Éléments envoyés, dans la colonne de gauche." }
+      "aide": { "text": "Tout ce qu'on envoie est rangé automatiquement dans le dossier Éléments envoyés, dans la colonne de gauche." },
+      "feedback": "La réponse de Sonia était ici. Les envoyés portent la moitié de l'histoire qu'on ne voit jamais en réception."
     },
     {
       "id": "O01-E01-05",
       "consigne": "Vous avez les deux versions de l'histoire. Revenez à la file d'attente pour reprendre le travail.",
       "action": { "type": "O_SELECT_FOLDER", "dossier": "reception" },
-      "aide": { "text": "La Boîte de réception est le premier dossier de la colonne de gauche." }
+      "aide": { "text": "La Boîte de réception est le premier dossier de la colonne de gauche." },
+      "feedback": "Vous avez les deux versions avant d'écrire une ligne. C'est l'ordre qui évite les réponses à côté."
     }
   ]
 }

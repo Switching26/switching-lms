@@ -32,7 +32,10 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import AtelierShell, { type EntreeSommaire } from "../AtelierShell"
+import AfficheModule, { numeroModule } from "../AfficheModule"
 import BilanFin from "../BilanFin"
+import DemonstrationGeste from "../DemonstrationGeste"
+import type { CibleDemo, PlanDemo } from "@/lib/simulation/demonstration"
 import {
   useAideProgressive,
   useMesureZoneTravail,
@@ -94,6 +97,28 @@ type Props = {
 type ScenarioAvecCourrier = SimulationScenario & { courrier?: SetupOutlook }
 type EtapeAvecCourrier = SimulationStep & { setup?: { courrier?: Partial<SetupOutlook> } }
 
+/**
+ * Le constat pédagogique d'une étape réussie.
+ *
+ * `types.ts` le définit sans ambiguïté : « message affiché APRÈS RÉUSSITE, quand
+ * une explication est utile ». Ce n'est donc pas un message d'erreur — c'est ce
+ * qui fait remarquer l'effet du geste qu'on vient de faire, et transforme une
+ * manipulation en apprentissage. Le ton d'Excel le montre bien : « Le 9 s'est
+ * aligné à droite : Excel l'a bien reconnu comme un nombre. »
+ *
+ * ⚠️ Le champ était déclaré depuis l'origine et n'était lu par PERSONNE : les
+ * 906 phrases d'Excel, les 546 de Word et les 98 de PowerPoint sont écrites puis
+ * jetées. Les afficher est le seul moyen que ce travail serve à quelqu'un.
+ *
+ * En évaluation notée il n'y en a pas : `feedback` figure dans `CLES_SECRETES`,
+ * donc l'expurgation l'a retiré avant que le scénario n'atteigne le navigateur —
+ * et c'est voulu, un examen ne commente pas les réponses au fil de l'eau.
+ */
+function constatDe(step?: SimulationStep): string | undefined {
+  const f = step?.feedback?.trim()
+  return f || undefined
+}
+
 export default function OutlookPlayer({
   chapterId,
   mode,
@@ -128,10 +153,55 @@ export default function OutlookPlayer({
 
   const setupInitial = (scenario as ScenarioAvecCourrier).courrier ?? {}
   const [etat, setEtat] = useState<EtatOutlook>(() => etatInitial(setupInitial))
+  /** Miroir de la boîte, lisible hors rendu — même idiome que `deckRef` côté PowerPoint. */
+  const etatRef = useRef(etat)
+  etatRef.current = etat
+
+  /**
+   * La boîte telle qu'elle était À L'ARRIVÉE sur l'étape.
+   *
+   * Point de départ que toute démonstration doit retrouver. Sans lui,
+   * l'apprenant qui ouvre le mauvais message, classe de travers ou commence une
+   * rédaction avant de réclamer « Montrez-moi » voit un geste joué sur une
+   * boîte qui n'est plus celle dont la consigne parle — et la démonstration
+   * peut désigner un message que le volet n'affiche même plus.
+   *
+   * L'identifiant de l'étape est retenu AVEC la photo, et vérifié avant de
+   * reposer quoi que ce soit : une photo qui ne serait pas celle de l'étape
+   * courante rembobinerait le travail de l'apprenant de plusieurs étapes. Mieux
+   * vaut alors ne rien restaurer que restaurer à côté.
+   */
+  const etatDepartEtapeRef = useRef<{ id: string; etat: EtatOutlook } | null>(null)
 
   /** Zone de travail : la hauteur se MESURE, elle ne se calcule jamais. */
   const zoneRef = useRef<HTMLDivElement>(null)
   const { largeur } = useMesureZoneTravail(zoneRef)
+
+  /*
+   * Le constat de réussite vit ICI, et pas dans le flash du noyau.
+   *
+   * `useAtelier.lancerFx` efface un « ok » au bout de 1 400 ms — durée juste
+   * pour un halo, beaucoup trop courte pour une phrase de deux lignes. Le
+   * commentaire du noyau l'assume (« la réussite ne fait que confirmer un geste
+   * déjà accompli »), ce qui n'est plus vrai dès qu'on y met une explication.
+   * Plutôt que de toucher au socle — partagé avec trois autres applications —,
+   * le constat garde son propre cycle de vie, aligné sur le temps de LECTURE.
+   */
+  const [constat, setConstat] = useState<{ texte: string; k: number } | null>(null)
+  const constatTimerRef = useRef<number | null>(null)
+  const montrerConstat = useCallback((texte?: string) => {
+    if (constatTimerRef.current) window.clearTimeout(constatTimerRef.current)
+    if (!texte) {
+      setConstat(null)
+      return
+    }
+    setConstat({ texte, k: Date.now() })
+    // ~45 signes par seconde, plancher 3 s : au-delà de 22 signes/s personne ne
+    // lit, c'est la mesure faite sur les bulles de démonstration d'Excel.
+    const duree = Math.min(9000, Math.max(3000, texte.length * 45))
+    constatTimerRef.current = window.setTimeout(() => setConstat(null), duree)
+  }, [])
+  useEffect(() => () => { if (constatTimerRef.current) window.clearTimeout(constatTimerRef.current) }, [])
 
   /* ═══════════ LE NOYAU ═══════════ */
 
@@ -139,6 +209,7 @@ export default function OutlookPlayer({
   const {
     verdict,
     setVerdict,
+    fx,
     lancerFx,
     relais,
     relaisActif,
@@ -146,6 +217,29 @@ export default function OutlookPlayer({
     jalon,
     poserJalon,
   } = retour
+
+  /*
+   * LE VERDICT COURANT A-T-IL DÉJÀ ÉTÉ DIT SUR LA SURFACE ?
+   *
+   * 🔴 CE DRAPEAU NE PEUT PAS ÊTRE UNE CONSTANTE ICI, contrairement à Excel et
+   * à Word. Outlook a DEUX chemins qui posent un verdict `ok: false` porteur
+   * d'un message, et un seul l'annonce sur la surface :
+   *   — « faute »       → `lancerFx("ko", null, dit)` : le bandeau le dit déjà,
+   *                       le répéter sous la consigne le ferait lire deux fois ;
+   *   — « tâtonnement » → AUCUN effet, délibérément (« rien n'est pénalisé, on
+   *                       informe sans dramatiser »). C'est précisément le cas
+   *                       que le drapeau du châssis a été créé pour rendre
+   *                       visible : `o:selectMessage` et `o:selectFolder` sont
+   *                       toujours classés navigation, soit 127 étapes sur 728
+   *                       qui refusaient le geste sans dire pourquoi.
+   * Déclarer `true` en constante les rendrait toutes muettes à nouveau — on
+   * réparerait le doublon en rouvrant le trou qu'on venait de boucher.
+   *
+   * On ne se fie pas non plus à la présence de `fx` : son minuteur l'efface au
+   * bout de 2,8 s, et la ligne sous la consigne, elle, est persistante. Le
+   * message réapparaîtrait sous la consigne à l'extinction du bandeau.
+   */
+  const [verdictAncre, setVerdictAncre] = useState(false)
 
   /** Rappel du geste franchi, DÉDUIT de l'action — jamais rédigé par étape. */
   const resumerEtape = useCallback(
@@ -175,6 +269,19 @@ export default function OutlookPlayer({
     onAvancer,
     onTerminer,
   } = progression
+
+  /**
+   * Le chapitre qui suit, pour l'écran de fin.
+   *
+   * Même calcul que chez Excel : la position dans le sommaire. Sans lui,
+   * l'apprenant qui termine un chapitre n'a aucune porte de sortie et doit
+   * rouvrir le panneau des leçons pour continuer.
+   */
+  const chapitreSuivant = (() => {
+    if (!sommaire?.length) return null
+    const i = sommaire.findIndex((e) => e.id === chapterId)
+    return i >= 0 && i < sommaire.length - 1 ? sommaire[i + 1] : null
+  })()
 
   const step = index < steps.length ? (steps[index] as EtapeAvecCourrier) : undefined
   const stepRef = useRef<{ id: string } | undefined>(step)
@@ -215,6 +322,22 @@ export default function OutlookPlayer({
     index,
     finished,
     aUneEtape: !!step,
+    /*
+     * Une démonstration est une RECONSTITUTION, pas la poursuite du travail en
+     * cours : on repose la boîte du début de l'étape avant chaque passage, le
+     * premier comme les « Revoir ». Excel fait de même avec le poste de
+     * travail, et pour la même raison — sans quoi l'apprenant qui abîme quelque
+     * chose puis redemande à voir reçoit la même explication fausse qu'au
+     * départ.
+     */
+    avantDemonstration: () => {
+      const depart = etatDepartEtapeRef.current
+      if (!depart || depart.id !== stepRef.current?.id) return
+      // La ref est reposée sans attendre le rendu : le plan de démonstration
+      // lit la boîte pour choisir ses cibles, et il est calculé aussitôt après.
+      etatRef.current = depart.etat
+      setEtat(depart.etat)
+    },
   })
   const {
     essais,
@@ -226,6 +349,7 @@ export default function OutlookPlayer({
     compterTatonnement,
     demonstration,
     demoFinie,
+    setDemoFinie,
     rejeu,
     demarrerDemonstration,
     rejouerDemonstration,
@@ -234,7 +358,6 @@ export default function OutlookPlayer({
     ouvrirFenetreMiseEnPlace,
     dansFenetreMiseEnPlace,
   } = aide
-  void rejeu
 
   /* ═══════════ MISE EN PLACE D'UNE ÉTAPE ═══════════ */
 
@@ -252,26 +375,40 @@ export default function OutlookPlayer({
     reinitialiserPourEtape()
     reinitialiserAAlArrivee()
     setVerdict(null)
-    if (!c) return
+    setVerdictAncre(false)
+    // L'identifiant vient de l'étape VISÉE, pas de `stepRef` : la mise en place
+    // est appelée avec le nouvel index avant que le rendu ne l'ait propagé.
+    const idEtape = e?.id ?? null
+    if (!c) {
+      // Aucun décor à poser : le point de départ est la boîte telle que l'étape
+      // précédente l'a laissée. Il faut quand même la photographier, sinon les
+      // étapes sans `setup.courrier` n'auraient rien à restaurer.
+      etatDepartEtapeRef.current = idEtape ? { id: idEtape, etat: etatRef.current } : null
+      return
+    }
     // La mise en place produit des observations qui ne sont PAS des gestes de
     // l'apprenant : sans cette fenêtre, elles comptent comme des tâtonnements et
     // l'aide se propose un cran trop tôt, sur toutes les étapes.
     ouvrirFenetreMiseEnPlace()
-    setEtat((prec) => {
-      let suivant = { ...prec }
-      if (c.vue) suivant.vue = c.vue
-      if (c.dossierActif) suivant.dossierActif = c.dossierActif
-      if (c.messageActif !== undefined) {
-        suivant.messageActif = c.messageActif
-        // Désigner un message actif implique qu'il a été ouvert, donc lu.
-        if (c.messageActif) {
-          suivant.messages = suivant.messages.map((m) =>
-            m.id === c.messageActif ? { ...m, lu: true } : m,
-          )
-        }
+    // On calcule depuis la ref plutôt que dans un rappel de `setEtat` : c'est
+    // ce qui permet de retenir le résultat pour la photo, et deux mises en
+    // place qui s'enchaînent avant un rendu restent correctes.
+    const prec = etatRef.current
+    const suivant: EtatOutlook = { ...prec }
+    if (c.vue) suivant.vue = c.vue
+    if (c.dossierActif) suivant.dossierActif = c.dossierActif
+    if (c.messageActif !== undefined) {
+      suivant.messageActif = c.messageActif
+      // Désigner un message actif implique qu'il a été ouvert, donc lu.
+      if (c.messageActif) {
+        suivant.messages = suivant.messages.map((m) =>
+          m.id === c.messageActif ? { ...m, lu: true } : m,
+        )
       }
-      return suivant
-    })
+    }
+    etatDepartEtapeRef.current = idEtape ? { id: idEtape, etat: suivant } : null
+    etatRef.current = suivant
+    setEtat(suivant)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [steps])
 
@@ -337,39 +474,181 @@ export default function OutlookPlayer({
     [chapterId, validationLocale],
   )
 
-  /** Rectangle de la cible, pour ancrer le retour visuel sur la surface. */
-  const rectDeLaCible = useCallback((): { left: number; top: number; width: number; height: number } | null => {
-    const c = step ? adaptateurOutlook.cible(step.action as never) : {}
-    const sel = c.controle ? `[data-control="${c.controle}"]` : c.dom
-    if (!sel) return null
+  /**
+   * Rectangle d'un élément de la surface, dans le repère de la zone de travail.
+   *
+   * La surface d'Outlook est du DOM : il n'y a aucune géométrie à calculer,
+   * contrairement au canvas d'Univer où Excel doit interroger le squelette de
+   * rendu. Un sélecteur suffit.
+   */
+  const rectDe = useCallback((sel: string): { left: number; top: number; width: number; height: number } | null => {
     const zone = zoneRef.current
     const cible = zone?.querySelector(sel) as HTMLElement | null
     if (!zone || !cible) return null
     const rz = zone.getBoundingClientRect()
     const rc = cible.getBoundingClientRect()
     return { left: rc.left - rz.left, top: rc.top - rz.top, width: rc.width, height: rc.height }
-  }, [step])
+  }, [])
+
+  /** Rectangle de la cible de l'étape, pour ancrer le retour visuel. */
+  const rectDeLaCible = useCallback((): { left: number; top: number; width: number; height: number } | null => {
+    const c = step ? adaptateurOutlook.cible(step.action as never) : {}
+    const sel = c.controle ? `[data-control="${c.controle}"]` : c.dom
+    return sel ? rectDe(sel) : null
+  }, [step, rectDe])
+
+  /* ═══════════ « MONTREZ-MOI » ═══════════ */
+
+  /**
+   * Fenêtre pendant laquelle les gestes viennent de la DÉMONSTRATION.
+   *
+   * La démonstration agit pour de vrai — sans quoi elle promènerait un curseur
+   * sur le bon bouton sans que rien ne change, ce qui est la définition d'une
+   * démonstration incomplète. Mais ses gestes ne doivent ni valider l'étape ni
+   * compter au score : sinon la séquence se saborde en pleine explication, et
+   * l'apprenant voit « C'est exact » sans avoir rien fait.
+   *
+   * C'est une ÉCHÉANCE, pas un booléen : deux effets qui se chevauchent, et le
+   * plus rapide relâcherait un verrou que l'autre vient de poser. Le défaut a
+   * coûté cher côté Excel, où une observation passait au travers et validait
+   * l'étape toute seule.
+   */
+  const verrouDemoRef = useRef(0)
+  const sousDemonstration = useCallback(() => Date.now() < verrouDemoRef.current, [])
+
+  const resoudreDemo = useCallback(
+    (cible: CibleDemo) => (cible.k === "dom" ? rectDe(cible.sel) : null),
+    [rectDe],
+  )
+
+  /**
+   * Le plan de la démonstration.
+   *
+   * ⚠️ Il vient de l'ACTION, pas seulement de `step.montrer`. L'atelier lisait
+   * jusqu'ici `!!step.montrer?.length` pour décider si une démonstration existe :
+   * aucun scénario Outlook ne porte ce champ, donc « Montrez-moi » ne pouvait
+   * apparaître nulle part — alors que l'adaptateur sait produire un plan pour
+   * presque toutes les actions de la formation.
+   *
+   * Mémoïsé sur l'étape, jamais recalculé dans un état : chaque écriture de la
+   * démonstration provoque un rendu, donc une nouvelle référence de `gestes`,
+   * donc une minuterie relancée à l'infini — la séquence resterait figée sur son
+   * premier geste, compteur bloqué à « 1 / n ».
+   */
+  const plan: PlanDemo | null = useMemo(() => {
+    if (!step) return null
+    if (step.montrer?.length) {
+      const plans = step.montrer
+        .map((a) => adaptateurOutlook.demonstration(a as never, {}))
+        .filter(Boolean) as PlanDemo[]
+      if (!plans.length) return null
+      return { gestes: plans.flatMap((p) => p.gestes), pas: plans.flatMap((p) => p.pas) }
+    }
+    // En évaluation notée, ni réponse ni cible : on propose « Passer la question ».
+    if (evaluationNotee) return null
+    return adaptateurOutlook.demonstration(step.action as never, {})
+  }, [step, evaluationNotee])
+
+  /**
+   * Presser un vrai bouton de la surface.
+   *
+   * On clique l'élément du DOM, jamais un gestionnaire interne : c'est le seul
+   * moyen d'ouvrir un panneau dont le contenu n'existe pas tant qu'il est fermé,
+   * et donc de rendre atteignable la cible du geste suivant. Une démonstration
+   * qui « désignait » sans ouvrir jouait tout le reste à blanc.
+   */
+  const demoPresser = useCallback((id: string) => {
+    verrouDemoRef.current = Math.max(verrouDemoRef.current, Date.now() + 900)
+    const el = zoneRef.current?.querySelector(`[data-control="${id}"]`)
+    if (el instanceof HTMLElement) el.click()
+  }, [])
+
+  /**
+   * Saisir dans un champ de rédaction, pour de vrai.
+   *
+   * `ref` arrive sous la forme d'un `data-control` (`cr-champ-a`) : c'est ainsi
+   * que l'adaptateur désigne ses cibles, la surface étant du DOM. Les trois
+   * champs d'adresses passent par `destinataires`, qui sait découper une saisie
+   * séparée par des points-virgules ; l'objet et le corps par `champ`.
+   */
+  const demoEcrire = useCallback((ref: string, valeur: string) => {
+    verrouDemoRef.current = Math.max(verrouDemoRef.current, Date.now() + 900)
+    const champ = ref.replace(/^cr-champ-/, "")
+    const geste: GesteOutlook | null =
+      champ === "a" || champ === "cc" || champ === "cci"
+        ? { type: "destinataires", champ, valeur }
+        : champ === "objet" || champ === "corps"
+        ? { type: "champ", champ, valeur }
+        : champ === "recherche"
+        ? { type: "recherche", texte: valeur }
+        : null
+    if (!geste) return
+    setEtat((p) => appliquerGeste(p, geste))
+  }, [])
+
+  const demoSelectionner = useCallback((ref: string) => {
+    verrouDemoRef.current = Math.max(verrouDemoRef.current, Date.now() + 900)
+    const el = zoneRef.current?.querySelector(`[data-control="${ref}"]`)
+    if (el instanceof HTMLElement) el.click()
+  }, [])
 
   const appliquerJugement = useCallback(
     (j: JugementEtape | null) => {
       if (!j) return
+      const courante = steps[indexRef.current]
       if (j.ok) {
         setVerdict({ ok: true })
         lancerFx("ok", rectDeLaCible())
+        // Le constat dit ce que le geste vient de produire — ce qu'aucune phrase
+        // déduite ne peut faire. Absent en évaluation, où il a été expurgé.
+        montrerConstat(constatDe(courante))
         goNext()
         return
       }
+      // Une erreur chasse le constat de l'étape précédente : le laisser
+      // afficherait un encouragement vert au-dessus d'un message rouge.
+      montrerConstat(undefined)
       if (j.compte === "faute") {
         compterEssai()
         pendingRef.current.errors += 1
-        if (j.message) {
-          setVerdict({ ok: false, reason: j.reason ?? "ko", message: j.message })
-          lancerFx("ko", rectDeLaCible(), j.message)
-        }
+        /*
+         * Une faute est TOUJOURS dite. Le juge rend un message vide quand
+         * l'observation n'est simplement pas du type attendu (`no_control`,
+         * `no_typing`…) : le point du premier essai est pourtant bien perdu, et
+         * se taire laissait l'apprenant devant un écran inerte sans savoir que
+         * son geste venait de lui coûter un point. Excel a le même repli.
+         */
+        const dit = j.message || "Ce n'est pas encore ça — réessayez."
+        setVerdict({ ok: false, reason: j.reason ?? "ko", message: dit })
+        // Dit sur la surface juste en dessous : le châssis ne le répète pas.
+        setVerdictAncre(true)
+        /*
+         * ⚠️ LE HALO D'ERREUR NE S'ANCRE JAMAIS SUR LA CIBLE ATTENDUE.
+         *
+         * Il le faisait, et cela DONNAIT la réponse : se tromper entourait d'un
+         * cadre rouge le bon bouton. Vu à l'écran, pas dans le code. En
+         * évaluation notée c'était une divulgation pure et simple — l'action est
+         * expurgée, mais `publier` conserve `control` pour que l'étape reste
+         * jouable, donc la cible restait calculable côté navigateur.
+         *
+         * Sans rectangle, le halo couvre la surface : il dit « ce geste ne
+         * convient pas » sans désigner celui qui conviendrait. Le halo de
+         * RÉUSSITE, lui, reste ancré : l'apprenant a déjà trouvé.
+         */
+        lancerFx("ko", null, dit)
       } else if (j.compte === "tatonnement") {
         // Un geste d'exploration ne coûte rien : il sert seulement à savoir
-        // quand proposer de l'aide.
+        // quand proposer de l'aide. Mais quand le juge sait dire POURQUOI le
+        // geste ne convient pas — mauvais message ouvert, mauvais dossier —, se
+        // taire serait gâcher la seule explication disponible. Pas de flash
+        // rouge ici : rien n'est pénalisé, on informe sans dramatiser.
         compterTatonnement()
+        if (j.message) {
+          setVerdict({ ok: false, reason: j.reason ?? "", message: j.message })
+          // Aucun effet n'est lancé ici : sans ce `false`, la seule explication
+          // disponible n'existerait nulle part.
+          setVerdictAncre(false)
+        }
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -383,6 +662,17 @@ export default function OutlookPlayer({
       const s = steps[indexRef.current]
       const rang = indexRef.current
       if (!s || finished) {
+        if (geste) setEtat((p) => appliquerGeste(p, geste))
+        return
+      }
+
+      /*
+       * Ce que la DÉMONSTRATION vient de faire n'est pas un geste de
+       * l'apprenant : l'état change bel et bien — c'est le but —, mais rien
+       * n'est jugé ni compté. Sans ce filtre, la démonstration validerait
+       * l'étape en pleine explication et sauterait à la suivante.
+       */
+      if (sousDemonstration()) {
         if (geste) setEtat((p) => appliquerGeste(p, geste))
         return
       }
@@ -502,7 +792,11 @@ export default function OutlookPlayer({
               texte: step.consigne,
               nature,
               lecture: step.action.type === "READ",
-              aDemonstration: !!step.montrer?.length,
+              aDemonstration: !!plan,
+              // Ce que le châssis lit pour décider s'il peut promettre
+              // « Montrez-moi ». Sans lui, 176 étapes Outlook affichaient le
+              // bouton puis renvoyaient vers un repère que rien n'avait dessiné.
+              demoJouable: !!plan,
               attendu,
               // Jamais servie en évaluation : le bloc qui l'affiche y est déjà
               // inatteignable, et la calculer serait la faire transiter pour rien.
@@ -520,6 +814,9 @@ export default function OutlookPlayer({
               relais,
               relaisActif,
               verdict,
+              // Vrai pour une faute (le bandeau de la surface la dit déjà),
+              // faux pour un tâtonnement (rien ne la dit ailleurs).
+              verdictAncre,
               aplomb: null,
               panneJuge: pannneJuge,
               passageEnCours,
@@ -527,7 +824,7 @@ export default function OutlookPlayer({
               aideProposee: essais >= 3 || tatonnements >= 6 || tropLong,
               demonstration,
               demoFinie,
-              demoRejouable: false,
+              demoRejouable: !!plan && demoFinie,
 
               index,
               total: steps.length,
@@ -550,6 +847,105 @@ export default function OutlookPlayer({
           surface rechargerait la boîte et perdrait le travail de l'apprenant. */}
       <div ref={zoneRef} style={{ position: "relative", flex: 1, minHeight: 0, display: "flex", flexDirection: "column" }}>
         <CourrierSurface etat={etat} onGeste={onGeste} largeur={largeur} />
+
+        {/* RETOUR VISUEL DANS LA SURFACE.
+            `lancerFx` était appelé depuis l'origine mais son résultat n'était
+            rendu NULLE PART : ni la réussite, ni l'erreur, ni le message
+            n'atteignaient l'écran. L'apprenant travaillait donc sans le moindre
+            signal sur sa zone de travail — exactement ce que Samuel a refusé
+            pour Excel le 28/07 (« l'élève doit voir la cible, l'erreur, la
+            réussite et l'aide sur la surface de travail elle-même »).
+            Le halo se cale sur la cible quand elle est mesurable, et couvre la
+            surface sinon. `pointer-events: none` est NON NÉGOCIABLE : une
+            surface décorative qui avale les clics est le défaut le plus coûteux
+            du lecteur d'Excel. */}
+        {fx && (
+          <div
+            key={fx.k}
+            aria-hidden
+            style={{
+              position: "absolute",
+              pointerEvents: "none",
+              zIndex: 45,
+              ...(fx.rect
+                ? { left: fx.rect.left, top: fx.rect.top, width: fx.rect.width, height: fx.rect.height }
+                : { inset: 0 }),
+              outline: fx.kind === "ok" ? "3px solid #2E9E63" : "3px solid #C0392B",
+              background: fx.kind === "ok" ? "rgba(46,158,99,.14)" : "rgba(192,57,43,.10)",
+              borderRadius: 6,
+              animation: fx.kind === "ok" ? "o-fx-ok 1.4s ease both" : "o-fx-ko .45s ease both",
+            }}
+          />
+        )}
+
+        {/* LE MOT QUI ACCOMPAGNE LE GESTE — un seul bandeau, jamais deux.
+            Un flash rouge muet fait douter l'apprenant de son geste, même quand
+            il était bon ; et un constat vert qui resterait affiché sous un
+            message d'erreur se contredirait à l'écran. L'erreur prime donc sur
+            le constat, et le constat sur le « C'est exact » générique. */}
+        {(fx || constat) &&
+          (() => {
+            const erreur = fx?.kind === "ko"
+            const texte = erreur
+              ? fx?.message || "Ce n'est pas encore ça — réessayez."
+              : constat?.texte ?? "✓ C'est exact"
+            // La clé relance l'animation d'entrée : sans elle, React réutilise le
+            // nœud et le bandeau apparaît sans transition.
+            const cle = erreur ? `e${fx?.k}` : constat ? `c${constat.k}` : `o${fx?.k}`
+            return (
+              <div
+                aria-live="polite"
+                key={cle}
+                style={{
+                  position: "absolute",
+                  left: 0,
+                  right: 0,
+                  bottom: 12,
+                  display: "grid",
+                  placeItems: "center",
+                  pointerEvents: "none",
+                  zIndex: 46,
+                  padding: "0 12px",
+                }}
+              >
+                <span
+                  style={{
+                    maxWidth: 470,
+                    padding: "9px 15px",
+                    borderRadius: 10,
+                    background: erreur ? "rgba(122,32,24,.95)" : "rgba(16,74,45,.95)",
+                    color: "#fff",
+                    fontSize: 12.5,
+                    lineHeight: 1.55,
+                    textAlign: "center",
+                    animation: "o-fx-mot .34s ease both",
+                  }}
+                >
+                  {!erreur && constat ? <b style={{ color: "#7BE0A8" }}>✓ </b> : null}
+                  {texte}
+                </span>
+              </div>
+            )
+          })()}
+
+        {/* « MONTREZ-MOI » — le geste joué à l'endroit exact.
+            L'adaptateur calculait déjà le plan ; il ne manquait que le calque
+            pour le rendre. `key` sur l'index ET le rejeu : sans elle, React
+            réutilise le nœud et la séquence ne repart jamais du premier geste. */}
+        {demonstration && plan && (
+          <DemonstrationGeste
+            key={`demo${index}-${rejeu}`}
+            plan={plan}
+            resoudre={resoudreDemo}
+            largeur={largeur}
+            hautFeuille={0}
+            onEcrire={demoEcrire}
+            onSelectionner={demoSelectionner}
+            onPresser={demoPresser}
+            lecture={step?.action.type === "READ"}
+            onFini={() => setDemoFinie(true)}
+          />
+        )}
 
         {/* Jalon de franchissement — décoratif, donc `pointer-events: none`.
             Sans cela il avalait le clic de l'apprenant qui enchaîne : quatre
@@ -627,15 +1023,108 @@ export default function OutlookPlayer({
                   flexDirection: "column",
                   alignItems: "center",
                   justifyContent: "center",
-                  padding: "40px 20px",
-                  textAlign: "center",
+                  padding: "36px 20px",
                 }}
               >
-                <span style={{ fontSize: 30, color: "#2E9E63" }}>✓</span>
-                <h2 style={{ margin: "10px 0 6px", fontSize: 17, color: "#0F1F17" }}>{filChapitre}</h2>
-                <p style={{ margin: 0, maxWidth: 460, fontSize: 13, lineHeight: 1.6, color: "#5A6660" }}>
-                  {scenario.outro?.body ?? `Chapitre terminé — ${steps.length} étapes franchies.`}
-                </p>
+                {/* La carte de fin d'Excel, à l'identique dans sa STRUCTURE :
+                    une pastille, le titre, ce qu'on retient, le compte des
+                    étapes, et surtout la SUITE. L'écran ne portait auparavant
+                    qu'une coche et un paragraphe — l'apprenant arrivait au bout
+                    d'un chapitre et se retrouvait sans rien à faire, obligé de
+                    rouvrir le sommaire pour continuer. */}
+                <div
+                  style={{
+                    width: "100%",
+                    maxWidth: 460,
+                    padding: "26px 24px",
+                    borderRadius: 16,
+                    border: "1px solid #E4E0D8",
+                    background: "#fff",
+                    textAlign: "center",
+                    boxShadow: "0 8px 24px rgba(16,32,27,.06)",
+                    animation: "o-fin-carte .42s cubic-bezier(.2,.9,.2,1) both",
+                  }}
+                >
+                  <div
+                    aria-hidden
+                    style={{
+                      width: 46,
+                      height: 46,
+                      margin: "0 auto 12px",
+                      display: "grid",
+                      placeItems: "center",
+                      borderRadius: "50%",
+                      background: "#E7F3EB",
+                      color: "#107C41",
+                      fontSize: 22,
+                      animation: "o-fin-rond .5s .1s cubic-bezier(.2,.9,.2,1) both",
+                    }}
+                  >
+                    ✓
+                  </div>
+                  <p style={{ margin: 0, fontSize: 17, fontWeight: 700, color: "#0F1F17" }}>Chapitre terminé</p>
+                  <p style={{ margin: "4px 0 0", fontSize: 13.5, color: "#5A6660" }}>{filChapitre}</p>
+
+                  {/* L'outro porte ce qu'il faut RETENIR. C'est du contenu
+                      pédagogique écrit chapitre par chapitre : il mérite mieux
+                      qu'une ligne grise perdue au milieu de l'écran. */}
+                  {scenario.outro?.body && (
+                    <p
+                      style={{
+                        margin: "14px 0 0",
+                        padding: "11px 13px",
+                        borderRadius: 10,
+                        background: "#F5F3EF",
+                        fontSize: 13,
+                        lineHeight: 1.6,
+                        color: "#3C4A43",
+                        textAlign: "left",
+                      }}
+                    >
+                      {scenario.outro.body}
+                    </p>
+                  )}
+
+                  <p style={{ margin: "13px 0 0", fontSize: 12.5, color: "#8C948F" }}>
+                    {steps.length} étape{steps.length > 1 ? "s" : ""} franchie{steps.length > 1 ? "s" : ""}
+                  </p>
+
+                  {chapitreSuivant && onNaviguer && (
+                    <>
+                      <button
+                        type="button"
+                        data-control="sim-chapitre-suivant"
+                        onClick={() => onNaviguer(chapitreSuivant.id)}
+                        style={{
+                          marginTop: 18,
+                          border: 0,
+                          borderRadius: 12,
+                          background: "#10201B",
+                          color: "#fff",
+                          padding: "11px 20px",
+                          fontSize: 13.5,
+                          fontWeight: 700,
+                          minHeight: 44,
+                          cursor: "pointer",
+                        }}
+                      >
+                        Chapitre suivant ›
+                      </button>
+                      <p
+                        style={{
+                          margin: "9px 0 0",
+                          fontSize: 12,
+                          color: "#AEB6B1",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          whiteSpace: "nowrap",
+                        }}
+                      >
+                        {chapitreSuivant.titre}
+                      </p>
+                    </>
+                  )}
+                </div>
               </div>
             )}
           </div>
@@ -685,8 +1174,16 @@ export default function OutlookPlayer({
         )}
 
         <style>{`
+          @keyframes o-intro-monte { from { opacity: 0; transform: translateY(14px) } to { opacity: 1; transform: translateY(0) } }
           @keyframes o-jalon { from { opacity: 0; transform: translateY(8px) scale(.97) } to { opacity: 1; transform: none } }
-          @media (prefers-reduced-motion: reduce) { [style*="o-jalon"] { animation: none !important } }
+          @keyframes o-fin-carte { from { opacity: 0; transform: translateY(12px) } to { opacity: 1; transform: none } }
+          @keyframes o-fin-rond { from { opacity: 0; transform: scale(.6) } to { opacity: 1; transform: none } }
+          @keyframes o-fx-ok { 0% { opacity: 0 } 18% { opacity: 1 } 100% { opacity: 0 } }
+          @keyframes o-fx-ko { 0%,100% { transform: translateX(0) } 25% { transform: translateX(-5px) } 75% { transform: translateX(5px) } }
+          @keyframes o-fx-mot { from { opacity: 0; transform: translateY(6px) } to { opacity: 1; transform: none } }
+          @media (prefers-reduced-motion: reduce) {
+            [style*="o-jalon"], [style*="o-fx-"], [style*="o-fin-"] { animation-duration: .01ms !important }
+          }
         `}</style>
       </div>
     </AtelierShell>
@@ -719,6 +1216,12 @@ function EcranOuverture({
   onCommencer: () => void
 }) {
   const evaluation = mode === "EVALUATION"
+  /*
+   * Le module a-t-il une affiche ? On teste le NUMÉRO, jamais l'élément JSX :
+   * `<AfficheModule/>` est toujours truthy même quand il rend `null`.
+   * `app` est obligatoire — voir la note de PowerPoint sur « Prise en main ».
+   */
+  const affiche = numeroModule(scenario.moduleTitle, "OUTLOOK") !== null
   return (
     <div
       style={{
@@ -733,7 +1236,12 @@ function EcranOuverture({
         background: "linear-gradient(180deg,#faf9f5 0%,#f2efe8 100%)",
       }}
     >
-      <div style={{ maxWidth: 560, margin: "0 auto" }}>
+      {/* L'affiche du module occupe la colonne de droite, comme sur Excel, et
+          disparaît sous `lg`. Elle partage une RANGÉE avec le texte au lieu
+          d'être posée en absolu : le bloc de texte d'Outlook est centré, et un
+          absolu à droite le recouvrait sur toutes les largeurs mesurées. */}
+      <div className="flex w-full items-center justify-center" style={{ gap: 40 }}>
+      <div style={{ maxWidth: 560, flex: "1 1 auto", minWidth: 0 }}>
         <span
           style={{
             display: "inline-block",
@@ -798,6 +1306,20 @@ function EcranOuverture({
         >
           {enCours ? "Ouverture…" : evaluation ? "Commencer l'évaluation" : "Commencer"}
         </button>
+      </div>
+      {/* Pas de repli quand le module n'a pas encore d'affiche : le
+          mini-classeur vert d'Excel dessine une grille de tableur, et inventer
+          ici une boîte mail de substitution poserait une seconde langue
+          visuelle que l'affiche remplacera. Rien vaut mieux qu'à peu près. */}
+      {affiche ? (
+        <div
+          aria-hidden
+          className="hidden shrink-0 select-none lg:block"
+          style={{ width: 372, animation: "o-intro-monte .9s .35s ease both" }}
+        >
+          <AfficheModule moduleTitle={scenario.moduleTitle} app="OUTLOOK" />
+        </div>
+      ) : null}
       </div>
     </div>
   )

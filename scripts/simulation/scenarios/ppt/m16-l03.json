@@ -74,7 +74,19 @@
       "consigne": "Le détail des six postes n'a pas sa place dans le déroulé : personne ne le demandera, et s'il est demandé, il faut l'avoir. C'est la définition exacte d'une **annexe** — après la fin, et masquée.",
       "action": {
         "type": "READ"
-      }
+      },
+      "montrer": [
+        {
+          "type": "P_MONTRER",
+          "cible": "zone:volet",
+          "texte": "Le détail des six postes n'a pas sa place dans le déroulé"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "ctrl:dia-masquer",
+          "texte": "Personne ne le demandera — et s'il est demandé, il faut l'avoir : après la fin, et masqué"
+        }
+      ]
     },
     {
       "id": "M16-L03-02",
@@ -82,7 +94,8 @@
       "action": {
         "type": "P_SELECT_SLIDE",
         "index": 4
-      }
+      },
+      "feedback": "« DÉTAIL DES SIX POSTES » occupe le centre : c'est elle que les boutons modifieront."
     },
     {
       "id": "M16-L03-03",
@@ -95,6 +108,7 @@
         "from": 4,
         "to": 5
       },
+      "feedback": "« DÉTAIL DES SIX POSTES » est passée en position 6 : l'ordre du volet est celui que le public suivra.",
       "aide": {
         "text": "Le bouton « ↓ Descendre » est dans le groupe Diapositives."
       }
@@ -109,7 +123,8 @@
         "type": "P_MOVE_SLIDE",
         "from": 5,
         "to": 6
-      }
+      },
+      "feedback": "« DÉTAIL DES SIX POSTES » est passée en position 7 : l'ordre du volet est celui que le public suivra."
     },
     {
       "id": "M16-L03-05",
@@ -195,6 +210,7 @@
           "Détail des six postes"
         ]
       },
+      "feedback": "« Détail des six postes » est en place — l'espace réservé porte votre texte, à la place et à la taille prévues.",
       "aide": {
         "text": "Un titre déjà rempli s'ouvre au double-clic."
       }
@@ -205,7 +221,8 @@
       "action": {
         "type": "P_SELECT_SLIDE",
         "index": 0
-      }
+      },
+      "feedback": "« Régie Ternois » est au centre."
     },
     {
       "id": "M16-L03-08",
@@ -232,6 +249,7 @@
         "type": "P_SET_VIEW",
         "view": "trieuse"
       },
+      "feedback": "Les 7 diapositives d'un seul regard — un défaut d'ordre s'y voit tout de suite.",
       "aide": {
         "text": "Groupe Affichage, bouton Trieuse."
       }
@@ -242,7 +260,8 @@
       "action": {
         "type": "P_SET_VIEW",
         "view": "normal"
-      }
+      },
+      "feedback": "Retour en Normal sur « Régie Ternois », l'affichage où l'on compose."
     },
     {
       "id": "M16-L03-11",
@@ -254,6 +273,7 @@
           "index": 0
         }
       },
+      "feedback": "Le diaporama est sur « Régie Ternois » : les masquées ont été sautées.",
       "aide": {
         "text": "Groupe Diaporama, bouton « ▶ Début »."
       }
@@ -266,7 +286,8 @@
         "show": {
           "actif": false
         }
-      }
+      },
+      "feedback": "Retour à l'édition sur « Régie Ternois » : un réglage de diaporama ne se vérifie qu'en projetant."
     }
   ]
 }

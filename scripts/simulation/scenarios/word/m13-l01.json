@@ -33,7 +33,20 @@
     "type": "READ"
    },
    "consigne": "Un tableau se modifie **depuis l'intérieur**. Word a besoin de savoir OÙ ajouter : au-dessus de quelle ligne, à droite de quelle colonne. C'est pour cela qu'on clique d'abord dans une cellule — elle sert de repère au geste suivant.",
-   "feedback": "Cliquer dans une cellule, c'est désigner le repère."
+   "feedback": "Cliquer dans une cellule, c'est désigner le repère.",
+   "montrer": [
+    {
+     "type": "W_MONTRER",
+     "cible": "p1",
+     "texte": "Un tableau se modifie depuis l'INTÉRIEUR : on clique d'abord dans une cellule."
+    },
+    {
+     "type": "W_MONTRER",
+     "cible": "ctrl:w-ligne-dessus",
+     "texte": "Word a besoin de savoir OÙ ajouter — au-dessus de quelle ligne. La cellule sert de repère au geste suivant.",
+     "onglet": "insertion"
+    }
+   ]
   },
   {
    "id": "M13-L01-02",
@@ -103,7 +116,21 @@
     "type": "READ"
    },
    "consigne": "Retenez la logique : **« au-dessus » et « en dessous » se comptent depuis la cellule où est le curseur**, jamais depuis le bord du tableau. C'est la source de confusion la plus fréquente quand une ligne apparaît au mauvais endroit.",
-   "feedback": "Le repère, c'est le curseur."
+   "feedback": "Le repère, c'est le curseur.",
+   "montrer": [
+    {
+     "type": "W_MONTRER",
+     "cible": "ctrl:w-ligne-dessus",
+     "texte": "« Au-dessus » se compte depuis la cellule où est le curseur…",
+     "onglet": "insertion"
+    },
+    {
+     "type": "W_MONTRER",
+     "cible": "ctrl:w-ligne-dessous",
+     "texte": "…et « en dessous » aussi. Jamais depuis le bord du tableau : c'est la confusion la plus fréquente.",
+     "onglet": "insertion"
+    }
+   ]
   }
  ]
 }

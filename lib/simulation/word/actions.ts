@@ -183,6 +183,22 @@ export type WordAction =
       paragraphes: Record<string, string[]>
       /** Exiger que le document n'ait pas d'autre paragraphe non vide. */
       exact?: boolean
+      /**
+       * Comparer à la casse et aux accents près.
+       *
+       * 🔴 SANS CETTE OPTION, UNE CORRECTION DE CASSE EST INJUGEABLE — et le
+       * module « Correction d'un document » enseigne précisément qu'un SIGLE
+       * s'écrit en capitales. `correspond` compare sans casse ni accents par
+       * défaut, ce qui est la bonne règle générale : refuser « resume » pour
+       * « résumé » punirait un apprenant qui a fait ce qu'on lui demandait.
+       * Mais « Rgpd » et « RGPD » y deviennent identiques : l'évaluation
+       * acceptait le document NON corrigé, donc ne mesurait rien. Le contrôle
+       * `check-note-word` l'a attrapé sur `M17-EV01-05`.
+       *
+       * Opt-in délibéré, étape par étape : la tolérance reste la règle, la
+       * rigueur l'exception motivée par la notion enseignée.
+       */
+      strict?: boolean
     }
 
   /** La zone visée porte-t-elle ce format de caractère ? */
@@ -310,3 +326,74 @@ export type WordAction =
       zone: string
       taquets: { position: number; type: TypeTaquet }[]
     }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   MONTRER — désigner et expliquer, sur un écran de lecture
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/**
+ * Ce qu'un écran « À comprendre » fait voir.
+ *
+ * ⚠️ VOLONTAIREMENT HORS DE `WordAction`, et ce n'est pas un détail de style.
+ *
+ * `W_MONTRER` ne se JUGE jamais : il ne vit que dans `step.montrer`, sur une
+ * étape dont l'action est `READ`. L'ajouter à l'union obligerait `juger()` à
+ * lui inventer un verdict pour satisfaire son `never` d'exhaustivité, et cette
+ * ligne-là est le seul filet de compilation de l'adaptateur — un verdict bidon
+ * posé pour la faire taire, et le filet ne protège plus rien.
+ *
+ * POURQUOI CE TYPE EXISTE. En tête de fichier, deux gestes sont déclarés
+ * inatteignables — `Maj+Flèche` et le presse-papiers système — avec la
+ * consigne d'en faire « un écran de lecture (`READ` + `montrer`) ». Le
+ * mécanisme était nommé sans exister : mesuré, 43 des 64 écrans de lecture de
+ * la formation n'avaient rien à montrer, et le paragraphe restait un
+ * paragraphe. Excel a payé exactement ce défaut sur 187 écrans.
+ *
+ * On DÉSIGNE, on ne feint pas un geste : la bulle reste affichée le temps
+ * d'être lue, aucun badge « ⏎ Entrée » ne vient suggérer une validation qui
+ * n'aura pas lieu, et ce que la démonstration écrit est restauré à la fin —
+ * un écran de lecture ne modifie jamais le document de l'étape suivante.
+ */
+export type WordMontrer = {
+  type: "W_MONTRER"
+  /**
+   * Où regarder. Quatre formes, résolues par l'adaptateur :
+   *
+   *   `p3` · `p3:mot2` · `texte:Rapport`   une zone du document
+   *   `ctrl:w-gras`                        un bouton du ruban
+   *   `dom:[data-regle-word]`              n'importe quel élément du châssis
+   *   `ecran` (ou absent)                  nulle part en particulier
+   *
+   * ⚠️ Une zone du document n'a d'ancre que si l'étape la DÉSIGNE : la surface
+   * ne pose `[data-word-zone]` que pour les zones qu'on lui passe. Le player
+   * ajoute donc à `zonesCibles` celles que `montrer` réclame — sans quoi le
+   * repère se joue à blanc pendant que le compteur avance jusqu'à « Revoir ».
+   */
+  cible?: string
+  /** La phrase de la bulle. C'est elle qui enseigne, pas le mouvement. */
+  texte: string
+  /**
+   * Touches à faire voir, une par badge : `["Ctrl", "S"]`.
+   *
+   * Un raccourci ne se produit nulle part à l'écran : le repère se place alors
+   * au centre, sans curseur — une flèche de souris pour « Ctrl + S » serait
+   * fausse.
+   */
+  touches?: string[]
+  /**
+   * Contre-exemple écrit POUR DE VRAI dans le document, puis effacé.
+   *
+   * Montrer qu'une touche Entrée en fin de ligne casse le paragraphe demande
+   * de le faire voir. `zone` désigne le paragraphe, `valeur` ce qu'il devient.
+   */
+  ecrire?: { zone: string; valeur: string }
+  /**
+   * Onglet du ruban à ouvrir POUR DE VRAI avant de désigner.
+   *
+   * Le ruban ne rend que son onglet actif : désigner un bouton rangé ailleurs
+   * ne montre rien, et le compteur avance quand même. C'est le défaut qui a
+   * fait jouer 55 gestes à blanc côté Excel, systématiquement au moment où
+   * l'aide sert.
+   */
+  onglet?: string
+}

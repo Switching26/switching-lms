@@ -66,6 +66,18 @@
   },
   "steps": [
     {
+      "id": "O06-E02-00",
+      "consigne": "**Ouvrez le message de la Quincaillerie Delmas** et notez la date d'expédition qu'il annonce. Une relance ne vaut que par les faits qu'elle cite : c'est cette date, écrite par le fournisseur lui-même, qui rendra votre message incontestable.",
+      "action": {
+        "type": "O_SELECT_MESSAGE",
+        "id": "m-retard"
+      },
+      "aide": {
+        "text": "C'est le message dont l'objet porte la référence CD-1204."
+      },
+      "feedback": "La date promise vient d'eux. Une relance qui cite l'engagement du fournisseur ne se discute pas."
+    },
+    {
       "id": "O06-E02-01",
       "consigne": "La commande CD-1204 devait arriver le 20 mars, nous sommes le 26. Relancez le fournisseur en répondant à son message d'expédition.",
       "action": {
@@ -150,7 +162,8 @@
       },
       "aide": {
         "text": "Deux informations sont attendues : la référence, et la date annoncée."
-      }
+      },
+      "feedback": "Référence, date annoncée, demande précise : une relance factuelle se répond, une plainte se discute."
     },
     {
       "id": "O06-E02-03",
@@ -191,7 +204,8 @@
       },
       "aide": {
         "text": "Ajoutez le mot à la fin de l'objet. Les accents ne sont pas pris en compte."
-      }
+      },
+      "feedback": "L'objet porte la réponse à lui seul : l'accueil peut la lire sans ouvrir le message."
     },
     {
       "id": "O06-E02-05",
@@ -255,7 +269,26 @@
       },
       "aide": {
         "text": "Deux informations sont attendues : le jour, et l'heure."
-      }
+      },
+      "feedback": "Deux tons différents dans la même matinée, et chacun adapté à qui le reçoit."
+    },
+    {
+      "id": "O06-E02-99",
+      "consigne": "La relance est partie ; le fournisseur a la balle. **Rangez-le dans `Fournisseurs`.** Répondre sans classer laisse la boîte aussi pleine qu'avant : c'est le classement, et non l'envoi, qui fait descendre le nombre de messages en attente.",
+      "action": {
+        "type": "O_EXPECT_BOITE",
+        "boite": {
+          "messages": {
+            "m-retard": {
+              "dossier": "fournisseurs"
+            }
+          }
+        }
+      },
+      "aide": {
+        "text": "Sélectionnez le message, puis Déplacer dans le ruban, et choisissez Fournisseurs."
+      },
+      "feedback": "Classé selon son expéditeur, pas selon le chantier dont il parle."
     }
   ]
 }

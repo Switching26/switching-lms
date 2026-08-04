@@ -40,7 +40,19 @@
       "consigne": "**Comparaison** est la seule disposition à deux colonnes qui prévoit un **intitulé** au-dessus de chacune. C'est ce qui la distingue de Deux contenus : le lecteur sait ce que compare la colonne de gauche et ce que compare celle de droite, avant d'en lire le détail.",
       "action": {
         "type": "READ"
-      }
+      },
+      "montrer": [
+        {
+          "type": "P_MONTRER",
+          "cible": "ctrl:acc-disposition",
+          "texte": "Comparaison : la seule disposition à deux colonnes qui prévoie un intitulé au-dessus de chacune"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "zone:scene",
+          "texte": "C'est ce qui la distingue de Deux contenus — le lecteur sait ce que compare chaque colonne"
+        }
+      ]
     },
     {
       "id": "M05-L02-02",
@@ -48,7 +60,8 @@
       "action": {
         "type": "P_SELECT_SLIDE",
         "index": 1
-      }
+      },
+      "feedback": "« Deux formules d'entretien » occupe le centre : c'est elle que les boutons modifieront."
     },
     {
       "id": "M05-L02-03",
@@ -93,6 +106,7 @@
           "Formule mensuelle"
         ]
       },
+      "feedback": "« Formule mensuelle » est saisi : l'intitulé n'est plus vide.",
       "aide": {
         "text": "L'intitulé est le cadre étroit du haut, à gauche, portant l'invite « Ajouter un intitulé »."
       }
@@ -129,6 +143,7 @@
           "Formule trimestrielle"
         ]
       },
+      "feedback": "L'intitulé affiche « Formule trimestrielle » : l'invite a disparu.",
       "aide": {
         "text": "C'est le cadre étroit du haut, à droite."
       }
@@ -166,6 +181,7 @@
           "12 passages par an"
         ]
       },
+      "feedback": "« 12 passages par an » est en place — l'espace réservé porte votre texte, à la place et à la taille prévues.",
       "aide": {
         "text": "C'est le grand cadre de gauche, sous l'intitulé que vous venez de saisir."
       }
@@ -203,14 +219,27 @@
         "accept": [
           "4 passages par an"
         ]
-      }
+      },
+      "feedback": "« 4 passages par an » est saisi : la seconde colonne n'est plus vide."
     },
     {
       "id": "M05-L02-08",
       "consigne": "Le défaut classique de la comparaison : deux colonnes qui ne parlent pas de la même chose. « 12 passages par an » face à « moins cher » n'est pas une comparaison, c'est un plaidoyer. Si vous ne pouvez pas poser la même question aux deux colonnes, c'est que la comparaison n'a pas lieu d'être.",
       "action": {
         "type": "READ"
-      }
+      },
+      "montrer": [
+        {
+          "type": "P_MONTRER",
+          "cible": "ph:texte",
+          "texte": "L'intitulé de gauche…"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "ph:contenu",
+          "texte": "…et le contenu qu'il annonce : la même question doit valoir pour les deux colonnes"
+        }
+      ]
     },
     {
       "id": "M05-L02-09",
@@ -247,6 +276,7 @@
           "bold": true
         }
       },
+      "feedback": "« Formule mensuelle » est en gras.",
       "aide": {
         "text": "Cliquez sur l'intitulé de gauche, puis sur G."
       }
@@ -285,14 +315,27 @@
         "style": {
           "bold": true
         }
-      }
+      },
+      "feedback": "C'est en gras : la mise en forme porte sur l'élément sélectionné, jamais sur toute la diapositive."
     },
     {
       "id": "M05-L02-11",
       "consigne": "À retenir : **Comparaison** ajoute les deux intitulés qui manquent à Deux contenus. On les remplit **avant** le contenu, on pose la même question aux deux colonnes, et on les met en forme exactement pareil — une comparaison qui penche d'un côté n'est plus une comparaison.",
       "action": {
         "type": "READ"
-      }
+      },
+      "montrer": [
+        {
+          "type": "P_MONTRER",
+          "cible": "ph:texte",
+          "texte": "Les deux intitulés se remplissent AVANT le contenu"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "zone:scene",
+          "texte": "Même question, même mise en forme : une comparaison qui penche d'un côté n'en est plus une"
+        }
+      ]
     }
   ]
 }

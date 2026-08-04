@@ -55,7 +55,19 @@
       "consigne": "« 1 437 892 kilomètres » : personne ne lit ce nombre, on lit **« un million quatre »** et on passe. Les six derniers chiffres n'ont donc servi à rien — sauf à rendre le titre plus long et plus lent à lire.",
       "action": {
         "type": "READ"
-      }
+      },
+      "montrer": [
+        {
+          "type": "P_MONTRER",
+          "cible": "ph:titre",
+          "texte": "« 1 437 892 kilomètres » : on lit « un million quatre », et on passe"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "zone:scene",
+          "texte": "Les six derniers chiffres n'ont servi qu'à rendre le titre plus long à lire"
+        }
+      ]
     },
     {
       "id": "M14-L03-02",
@@ -63,7 +75,8 @@
       "action": {
         "type": "P_SELECT_SLIDE",
         "index": 1
-      }
+      },
+      "feedback": "« 1 437 892 kilomètres parcourus » occupe le centre : c'est elle que les boutons modifieront."
     },
     {
       "id": "M14-L03-03",
@@ -75,6 +88,7 @@
           "1,4 million de kilomètres"
         ]
       },
+      "feedback": "« 1,4 million de kilomètres » est en place — l'espace réservé porte votre texte, à la place et à la taille prévues.",
       "aide": {
         "text": "Un titre déjà rempli s'ouvre au double-clic."
       }
@@ -152,14 +166,27 @@
       "action": {
         "type": "P_SELECT_SLIDE",
         "index": 2
-      }
+      },
+      "feedback": "Vous êtes sur « Coût de revient : 1,3847 € du kilomètre ». Les commandes du ruban agissent sur la diapositive affichée."
     },
     {
       "id": "M14-L03-07",
       "consigne": "Quatre décimales sur un coût de revient, c'est le **dixième de centime** au kilomètre. Aucune décision ne se prend à cette échelle, et l'affichage laisse croire que si.",
       "action": {
         "type": "READ"
-      }
+      },
+      "montrer": [
+        {
+          "type": "P_MONTRER",
+          "cible": "obj8",
+          "texte": "Quatre décimales sur un coût de revient, c'est le dixième de centime au kilomètre"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "zone:scene",
+          "texte": "Aucune décision ne se prend à cette échelle — et l'affichage laisse croire que si"
+        }
+      ]
     },
     {
       "id": "M14-L03-08",
@@ -170,7 +197,8 @@
         "accept": [
           "1,38 € du kilomètre"
         ]
-      }
+      },
+      "feedback": "« 1,38 € du kilomètre » est saisi : le titre n'est plus vide."
     },
     {
       "id": "M14-L03-09",
@@ -178,7 +206,8 @@
       "action": {
         "type": "P_SELECT_SLIDE",
         "index": 3
-      }
+      },
+      "feedback": "« Parc au 31 décembre » occupe le centre : c'est elle que les boutons modifieront."
     },
     {
       "id": "M14-L03-10",
@@ -197,7 +226,19 @@
       "consigne": "À retenir : **deux chiffres significatifs suffisent à l'écran**, le total prime sur le détail, et l'exact vit dans les notes. Arrondir n'est pas approximatif — c'est choisir ce que le public peut réellement emporter.",
       "action": {
         "type": "READ"
-      }
+      },
+      "montrer": [
+        {
+          "type": "P_MONTRER",
+          "cible": "obj10",
+          "texte": "Deux chiffres significatifs suffisent à l'écran, et le total prime sur le détail"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "ctrl:vol-notes",
+          "texte": "L'exact vit dans les notes : arrondir n'est pas approximatif, c'est choisir ce que le public peut emporter"
+        }
+      ]
     }
   ]
 }

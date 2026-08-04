@@ -47,7 +47,19 @@
       "consigne": "« Prévu 214 000, dépensé 246 300, soit 32 300 de dépassement » : écrit en ligne, le public doit **retenir deux nombres et suivre une soustraction** pendant que vous parlez. Personne ne le fait. Deux colonnes lui épargnent ce travail.",
       "action": {
         "type": "READ"
-      }
+      },
+      "montrer": [
+        {
+          "type": "P_MONTRER",
+          "cible": "zone:scene",
+          "texte": "« Prévu 214 000, dépensé 246 300, soit 32 300 de dépassement » : deux nombres à retenir et une soustraction à suivre"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "ctrl:acc-disposition",
+          "texte": "Personne ne le fait pendant que vous parlez — deux colonnes lui épargnent ce travail"
+        }
+      ]
     },
     {
       "id": "M14-L02-02",
@@ -55,7 +67,8 @@
       "action": {
         "type": "P_SELECT_SLIDE",
         "index": 1
-      }
+      },
+      "feedback": "« Le gazole » occupe le centre : c'est elle que les boutons modifieront."
     },
     {
       "id": "M14-L02-03",
@@ -64,6 +77,7 @@
         "type": "P_SET_LAYOUT",
         "layout": "comparaison"
       },
+      "feedback": "La diapositive est passée en « Comparaison » — et votre texte a suivi tout seul.",
       "aide": {
         "text": "Groupe Diapositives, bouton Disposition, puis « Comparaison »."
       }
@@ -106,6 +120,7 @@
           "Budget voté"
         ]
       },
+      "feedback": "« Budget voté » est saisi : l'intitulé n'est plus vide.",
       "aide": {
         "text": "Cliquez dans le petit cadre en haut de la colonne de gauche."
       }
@@ -148,7 +163,8 @@
         "accept": [
           "214 000 €"
         ]
-      }
+      },
+      "feedback": "Le contenu affiche « 214 000 € » : l'invite a disparu."
     },
     {
       "id": "M14-L02-06",
@@ -189,6 +205,7 @@
           "Dépensé"
         ]
       },
+      "feedback": "« Dépensé » est en place — l'espace réservé porte votre texte, à la place et à la taille prévues.",
       "aide": {
         "text": "Le petit cadre en haut de la colonne de droite."
       }
@@ -240,7 +257,19 @@
       "consigne": "Reste l'essentiel : **l'écart**. Ne le laissez jamais au public — c'est le seul nombre qui compte, et le seul qu'il ne calculera pas. Il se met dans le titre, là où il sera lu en premier.",
       "action": {
         "type": "READ"
-      }
+      },
+      "montrer": [
+        {
+          "type": "P_MONTRER",
+          "cible": "ph:titre",
+          "texte": "L'écart se met dans le titre, là où il sera lu en premier"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "ph:contenu",
+          "texte": "C'est le seul nombre qui compte, et le seul que le public ne calculera pas"
+        }
+      ]
     },
     {
       "id": "M14-L02-09",
@@ -252,6 +281,7 @@
           "32 300 € de dépassement sur le gazole"
         ]
       },
+      "feedback": "Le titre affiche « 32 300 € de dépassement sur le gazole » : l'invite a disparu.",
       "aide": {
         "text": "Un titre déjà rempli s'ouvre au double-clic."
       }
@@ -265,14 +295,27 @@
         "style": {
           "bold": true
         }
-      }
+      },
+      "feedback": "« 32 300 € de dépassement sur le gazole » ressort maintenant : en gras, quand le reste ne l'est pas."
     },
     {
       "id": "M14-L02-11",
       "consigne": "À retenir : deux chiffres qui s'opposent se posent en **deux colonnes titrées**, et **l'écart va dans le titre**. La disposition Comparaison fait le travail de mise en page ; vous n'avez qu'à décider ce qui s'oppose à quoi.",
       "action": {
         "type": "READ"
-      }
+      },
+      "montrer": [
+        {
+          "type": "P_MONTRER",
+          "cible": "ph:texte",
+          "texte": "Deux chiffres qui s'opposent se posent en deux colonnes titrées"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "ph:titre",
+          "texte": "Et l'écart va dans le titre : la disposition Comparaison fait le reste du travail"
+        }
+      ]
     }
   ]
 }

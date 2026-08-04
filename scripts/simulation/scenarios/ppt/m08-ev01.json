@@ -1,52 +1,129 @@
 {
   "schemaVersion": 1,
   "app": "powerpoint",
-  "ribbon": [],
-  "workbook": {
-    "sheets": []
-  },
   "mode": "EVALUATION",
-  "moduleTitle": "Cas pratique : la réunion de lundi",
+  "moduleTitle": "Cas pratique",
   "title": "S'évaluer — Cas pratique",
   "intro": {
     "title": "S'évaluer — Cas pratique",
-    "body": "Construisez de bout en bout la présentation du point mensuel : le plan, le contenu, la finition. Rien ne vous sera montré — vous appliquez la méthode des trois temps. Épreuve notée, d'une traite ; un nouveau passage repart de zéro."
+    "body": "Un collègue a commencé le point mensuel puis a été appelé ailleurs. La matière est là, mais le plan est dans le désordre, une page de travail traîne et rien n'est fini. Menez la présentation jusqu'à l'état livrable. Épreuve notée, d'une traite ; un nouveau passage repart de zéro."
   },
   "outro": {
     "body": "Épreuve terminée. Seule votre meilleure note est conservée."
+  },
+  "ribbon": [],
+  "workbook": {
+    "sheets": []
   },
   "ppt": {
     "fileName": "Point mensuel.pptx",
     "format": "16:9",
     "slides": [
       {
-        "layout": "diapositive-de-titre"
+        "layout": "diapositive-de-titre",
+        "textes": {
+          "titre": "Verdeval"
+        },
+        "objets": [
+          {
+            "id": "zt-ancien",
+            "objectType": "texte",
+            "texte": "Point mensuel du 4 avril",
+            "rect": {
+              "x": 80,
+              "y": 470,
+              "w": 360,
+              "h": 44
+            }
+          }
+        ]
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Neuf jardins livrés en avril",
+          "contenu": "9 jardins livrés\n28 entretiens\n1 chantier de rénovation"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "1. Le mois écoulé"
+        }
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Merci de votre attention"
+        },
+        "objets": [
+          {
+            "id": "zt-contact",
+            "objectType": "texte",
+            "texte": "contact@verdeval.fr — 02 40 12 34 56",
+            "rect": {
+              "x": 80,
+              "y": 120,
+              "w": 420,
+              "h": 48
+            }
+          }
+        ]
+      },
+      {
+        "layout": "titre-et-contenu",
+        "textes": {
+          "titre": "Brouillon — ne pas montrer",
+          "contenu": "Chiffres à recouper"
+        },
+        "objets": [
+          {
+            "id": "zt-brouillon",
+            "objectType": "texte",
+            "texte": "Reprendre avec la compta lundi",
+            "rect": {
+              "x": 80,
+              "y": 430,
+              "w": 420,
+              "h": 48
+            }
+          }
+        ]
       }
     ]
   },
   "steps": [
     {
       "id": "M08-EV01-01",
-      "consigne": "Vous présentez vendredi le point mensuel devant la direction. Vous partez d'une présentation vide et devez la livrer prête : plan d'abord, contenu ensuite, finition en dernier. La méthode compte autant que le résultat — une diapositive habillée avant d'être écrite se refait deux fois.",
+      "consigne": "Vous présentez vendredi le point mensuel devant la direction. Ne corrigez rien encore : parcourez ce qui existe et retrouvez-y les trois temps du montage — le plan, le contenu, la finition. C'est dans cet ordre que vous reprendrez le travail.",
       "action": {
         "type": "READ"
-      }
+      },
+      "montrer": [
+        {
+          "type": "P_MONTRER",
+          "cible": "zone:volet",
+          "texte": "La trame laissée en chantier"
+        },
+        {
+          "type": "P_MONTRER",
+          "cible": "zone:scene",
+          "texte": "Une section après son contenu, une page de travail, aucune finition"
+        }
+      ]
     },
     {
       "id": "M08-EV01-02",
-      "consigne": "Nommez la présentation : Verdeval.",
+      "consigne": "Affichez l'ouverture.",
       "action": {
-        "type": "P_TYPE_TEXT",
-        "cible": "ph:titre",
-        "accept": [
-          "Verdeval"
-        ]
+        "type": "P_SELECT_SLIDE",
+        "index": 0
       },
       "points": 1
     },
     {
       "id": "M08-EV01-03",
-      "consigne": "Situez la réunion dans le sous-titre : Point mensuel du 5 mai.",
+      "consigne": "Elle ne situe pas la réunion. Complétez sa seconde ligne : Point mensuel du 5 mai.",
       "action": {
         "type": "P_TYPE_TEXT",
         "cible": "ph:sous-titre",
@@ -54,19 +131,11 @@
           "Point mensuel du 5 mai"
         ]
       },
-      "points": 2
+      "points": 1
     },
     {
       "id": "M08-EV01-04",
-      "consigne": "Créez la diapositive qui ouvrira la première partie.",
-      "action": {
-        "type": "P_ADD_SLIDE"
-      },
-      "points": 1
-    },
-    {
-      "id": "M08-EV01-05",
-      "consigne": "Une section ne porte qu'un grand titre : donnez-lui la structure correspondante.",
+      "consigne": "Le bandeau de la réunion précédente y est resté. Retirez-le.",
       "setupPpt": {
         "deck": {
           "format": "16:9",
@@ -76,103 +145,30 @@
               "textes": {
                 "titre": "Verdeval",
                 "sous-titre": "Point mensuel du 5 mai"
-              }
+              },
+              "objets": [
+                {
+                  "id": "zt-ancien",
+                  "objectType": "texte",
+                  "texte": "Point mensuel du 4 avril",
+                  "rect": {
+                    "x": 80,
+                    "y": 470,
+                    "w": 360,
+                    "h": 44
+                  }
+                }
+              ]
             },
             {
-              "layout": "titre-et-contenu"
-            }
-          ]
-        },
-        "slide": 1
-      },
-      "action": {
-        "type": "P_SET_LAYOUT",
-        "layout": "diapositive-de-titre"
-      },
-      "points": 2
-    },
-    {
-      "id": "M08-EV01-06",
-      "consigne": "Intitulez-la : 1. Le mois écoulé.",
-      "action": {
-        "type": "P_TYPE_TEXT",
-        "cible": "ph:titre",
-        "accept": [
-          "1. Le mois écoulé",
-          "1 Le mois écoulé"
-        ]
-      },
-      "points": 1
-    },
-    {
-      "id": "M08-EV01-07",
-      "consigne": "Créez maintenant la diapositive de contenu de cette partie.",
-      "action": {
-        "type": "P_ADD_SLIDE"
-      },
-      "points": 1
-    },
-    {
-      "id": "M08-EV01-08",
-      "consigne": "Donnez-lui la structure à un bloc de texte.",
-      "setupPpt": {
-        "deck": {
-          "format": "16:9",
-          "slides": [
-            {
-              "layout": "diapositive-de-titre",
+              "layout": "titre-et-contenu",
               "textes": {
-                "titre": "Verdeval",
-                "sous-titre": "Point mensuel du 5 mai"
+                "titre": "Neuf jardins livrés en avril",
+                "contenu": "9 jardins livrés\n28 entretiens\n1 chantier de rénovation"
               }
             },
             {
-              "layout": "diapositive-de-titre",
-              "textes": {
-                "titre": "1. Le mois écoulé"
-              }
-            },
-            {
-              "layout": "titre-et-contenu"
-            }
-          ]
-        },
-        "slide": 2
-      },
-      "action": {
-        "type": "P_SET_LAYOUT",
-        "layout": "titre-et-contenu"
-      },
-      "points": 2
-    },
-    {
-      "id": "M08-EV01-09",
-      "consigne": "Son titre doit porter le fait : Neuf jardins livrés en avril.",
-      "action": {
-        "type": "P_TYPE_TEXT",
-        "cible": "ph:titre",
-        "accept": [
-          "Neuf jardins livrés en avril"
-        ]
-      },
-      "points": 2
-    },
-    {
-      "id": "M08-EV01-10",
-      "consigne": "Renseignez trois lignes, sans mots de liaison : 9 jardins livrés, 28 entretiens, 1 chantier en cours.",
-      "setupPpt": {
-        "deck": {
-          "format": "16:9",
-          "slides": [
-            {
-              "layout": "diapositive-de-titre",
-              "textes": {
-                "titre": "Verdeval",
-                "sous-titre": "Point mensuel du 5 mai"
-              }
-            },
-            {
-              "layout": "diapositive-de-titre",
+              "layout": "titre-et-contenu",
               "textes": {
                 "titre": "1. Le mois écoulé"
               }
@@ -180,34 +176,55 @@
             {
               "layout": "titre-et-contenu",
               "textes": {
-                "titre": "Neuf jardins livrés en avril"
-              }
+                "titre": "Merci de votre attention"
+              },
+              "objets": [
+                {
+                  "id": "zt-contact",
+                  "objectType": "texte",
+                  "texte": "contact@verdeval.fr — 02 40 12 34 56",
+                  "rect": {
+                    "x": 80,
+                    "y": 120,
+                    "w": 420,
+                    "h": 48
+                  }
+                }
+              ]
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Brouillon — ne pas montrer",
+                "contenu": "Chiffres à recouper"
+              },
+              "objets": [
+                {
+                  "id": "zt-brouillon",
+                  "objectType": "texte",
+                  "texte": "Reprendre avec la compta lundi",
+                  "rect": {
+                    "x": 80,
+                    "y": 430,
+                    "w": 420,
+                    "h": 48
+                  }
+                }
+              ]
             }
           ]
         },
-        "slide": 2
+        "slide": 0
       },
       "action": {
-        "type": "P_TYPE_TEXT",
-        "cible": "ph:contenu",
-        "accept": [
-          "9 jardins livrés\n28 entretiens\n1 chantier en cours",
-          "9 jardins livrés, 28 entretiens, 1 chantier en cours"
-        ]
-      },
-      "points": 2
-    },
-    {
-      "id": "M08-EV01-11",
-      "consigne": "Créez la diapositive de clôture.",
-      "action": {
-        "type": "P_ADD_SLIDE"
+        "type": "P_DELETE_OBJECT",
+        "objectId": "zt-ancien"
       },
       "points": 1
     },
     {
-      "id": "M08-EV01-12",
-      "consigne": "Donnez-lui la structure d'une clôture, celle qui ne porte qu'un titre centré.",
+      "id": "M08-EV01-05",
+      "consigne": "Affichez la diapositive « 1. Le mois écoulé ».",
       "setupPpt": {
         "deck": {
           "format": "16:9",
@@ -220,7 +237,237 @@
               }
             },
             {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Neuf jardins livrés en avril",
+                "contenu": "9 jardins livrés\n28 entretiens\n1 chantier de rénovation"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "1. Le mois écoulé"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Merci de votre attention"
+              },
+              "objets": [
+                {
+                  "id": "zt-contact",
+                  "objectType": "texte",
+                  "texte": "contact@verdeval.fr — 02 40 12 34 56",
+                  "rect": {
+                    "x": 80,
+                    "y": 120,
+                    "w": 420,
+                    "h": 48
+                  }
+                }
+              ]
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Brouillon — ne pas montrer",
+                "contenu": "Chiffres à recouper"
+              },
+              "objets": [
+                {
+                  "id": "zt-brouillon",
+                  "objectType": "texte",
+                  "texte": "Reprendre avec la compta lundi",
+                  "rect": {
+                    "x": 80,
+                    "y": 430,
+                    "w": 420,
+                    "h": 48
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 0
+      },
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 2
+      },
+      "points": 1
+    },
+    {
+      "id": "M08-EV01-06",
+      "consigne": "C'est une ouverture de partie : elle ne porte qu'un grand titre, et sa structure en attend un bloc de texte. Corrigez-la.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
               "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Point mensuel du 5 mai"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Neuf jardins livrés en avril",
+                "contenu": "9 jardins livrés\n28 entretiens\n1 chantier de rénovation"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "1. Le mois écoulé"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Merci de votre attention"
+              },
+              "objets": [
+                {
+                  "id": "zt-contact",
+                  "objectType": "texte",
+                  "texte": "contact@verdeval.fr — 02 40 12 34 56",
+                  "rect": {
+                    "x": 80,
+                    "y": 120,
+                    "w": 420,
+                    "h": 48
+                  }
+                }
+              ]
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Brouillon — ne pas montrer",
+                "contenu": "Chiffres à recouper"
+              },
+              "objets": [
+                {
+                  "id": "zt-brouillon",
+                  "objectType": "texte",
+                  "texte": "Reprendre avec la compta lundi",
+                  "rect": {
+                    "x": 80,
+                    "y": 430,
+                    "w": 420,
+                    "h": 48
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 2
+      },
+      "action": {
+        "type": "P_SET_LAYOUT",
+        "layout": "titre-seul"
+      },
+      "points": 2
+    },
+    {
+      "id": "M08-EV01-07",
+      "consigne": "Une partie s'annonce avant son contenu, jamais après. Faites-la remonter d'un rang.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Point mensuel du 5 mai"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Neuf jardins livrés en avril",
+                "contenu": "9 jardins livrés\n28 entretiens\n1 chantier de rénovation"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "1. Le mois écoulé"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Merci de votre attention"
+              },
+              "objets": [
+                {
+                  "id": "zt-contact",
+                  "objectType": "texte",
+                  "texte": "contact@verdeval.fr — 02 40 12 34 56",
+                  "rect": {
+                    "x": 80,
+                    "y": 120,
+                    "w": 420,
+                    "h": 48
+                  }
+                }
+              ]
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Brouillon — ne pas montrer",
+                "contenu": "Chiffres à recouper"
+              },
+              "objets": [
+                {
+                  "id": "zt-brouillon",
+                  "objectType": "texte",
+                  "texte": "Reprendre avec la compta lundi",
+                  "rect": {
+                    "x": 80,
+                    "y": 430,
+                    "w": 420,
+                    "h": 48
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 2
+      },
+      "action": {
+        "type": "P_MOVE_SLIDE",
+        "from": 2,
+        "to": 1
+      },
+      "aide": "Un seul rang suffit pour la faire passer devant les chiffres.",
+      "points": 2
+    },
+    {
+      "id": "M08-EV01-08",
+      "consigne": "Affichez la diapositive de clôture.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Point mensuel du 5 mai"
+              }
+            },
+            {
+              "layout": "titre-seul",
               "textes": {
                 "titre": "1. Le mois écoulé"
               }
@@ -229,11 +476,123 @@
               "layout": "titre-et-contenu",
               "textes": {
                 "titre": "Neuf jardins livrés en avril",
-                "contenu": "9 jardins livrés\n28 entretiens\n1 chantier en cours"
+                "contenu": "9 jardins livrés\n28 entretiens\n1 chantier de rénovation"
               }
             },
             {
-              "layout": "titre-et-contenu"
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Merci de votre attention"
+              },
+              "objets": [
+                {
+                  "id": "zt-contact",
+                  "objectType": "texte",
+                  "texte": "contact@verdeval.fr — 02 40 12 34 56",
+                  "rect": {
+                    "x": 80,
+                    "y": 120,
+                    "w": 420,
+                    "h": 48
+                  }
+                }
+              ]
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Brouillon — ne pas montrer",
+                "contenu": "Chiffres à recouper"
+              },
+              "objets": [
+                {
+                  "id": "zt-brouillon",
+                  "objectType": "texte",
+                  "texte": "Reprendre avec la compta lundi",
+                  "rect": {
+                    "x": 80,
+                    "y": 430,
+                    "w": 420,
+                    "h": 48
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 3
+      },
+      "points": 1
+    },
+    {
+      "id": "M08-EV01-09",
+      "consigne": "Une clôture ne porte qu'un titre : donnez-lui la même structure qu'une ouverture de partie.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Point mensuel du 5 mai"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "1. Le mois écoulé"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Neuf jardins livrés en avril",
+                "contenu": "9 jardins livrés\n28 entretiens\n1 chantier de rénovation"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Merci de votre attention"
+              },
+              "objets": [
+                {
+                  "id": "zt-contact",
+                  "objectType": "texte",
+                  "texte": "contact@verdeval.fr — 02 40 12 34 56",
+                  "rect": {
+                    "x": 80,
+                    "y": 120,
+                    "w": 420,
+                    "h": 48
+                  }
+                }
+              ]
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Brouillon — ne pas montrer",
+                "contenu": "Chiffres à recouper"
+              },
+              "objets": [
+                {
+                  "id": "zt-brouillon",
+                  "objectType": "texte",
+                  "texte": "Reprendre avec la compta lundi",
+                  "rect": {
+                    "x": 80,
+                    "y": 430,
+                    "w": 420,
+                    "h": 48
+                  }
+                }
+              ]
             }
           ]
         },
@@ -241,25 +600,358 @@
       },
       "action": {
         "type": "P_SET_LAYOUT",
-        "layout": "diapositive-de-titre"
+        "layout": "titre-seul"
+      },
+      "points": 1
+    },
+    {
+      "id": "M08-EV01-10",
+      "consigne": "Ses coordonnées sont posées en travers du titre. Descendez-les en bas de l'écran.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Point mensuel du 5 mai"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "1. Le mois écoulé"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Neuf jardins livrés en avril",
+                "contenu": "9 jardins livrés\n28 entretiens\n1 chantier de rénovation"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Merci de votre attention"
+              },
+              "objets": [
+                {
+                  "id": "zt-contact",
+                  "objectType": "texte",
+                  "texte": "contact@verdeval.fr — 02 40 12 34 56",
+                  "rect": {
+                    "x": 80,
+                    "y": 120,
+                    "w": 420,
+                    "h": 48
+                  }
+                }
+              ]
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Brouillon — ne pas montrer",
+                "contenu": "Chiffres à recouper"
+              },
+              "objets": [
+                {
+                  "id": "zt-brouillon",
+                  "objectType": "texte",
+                  "texte": "Reprendre avec la compta lundi",
+                  "rect": {
+                    "x": 80,
+                    "y": 430,
+                    "w": 420,
+                    "h": 48
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 3
+      },
+      "action": {
+        "type": "P_MOVE_OBJECT",
+        "objectId": "zt-contact",
+        "rect": {
+          "x": 80,
+          "y": 430,
+          "w": 420,
+          "h": 48
+        },
+        "tolerance": 24
+      },
+      "points": 2
+    },
+    {
+      "id": "M08-EV01-11",
+      "consigne": "Affichez la page de travail restée en fin de présentation.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Point mensuel du 5 mai"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "1. Le mois écoulé"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Neuf jardins livrés en avril",
+                "contenu": "9 jardins livrés\n28 entretiens\n1 chantier de rénovation"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Merci de votre attention"
+              },
+              "objets": [
+                {
+                  "id": "zt-contact",
+                  "objectType": "texte",
+                  "texte": "contact@verdeval.fr — 02 40 12 34 56",
+                  "rect": {
+                    "x": 80,
+                    "y": 430,
+                    "w": 420,
+                    "h": 48
+                  }
+                }
+              ]
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Brouillon — ne pas montrer",
+                "contenu": "Chiffres à recouper"
+              },
+              "objets": [
+                {
+                  "id": "zt-brouillon",
+                  "objectType": "texte",
+                  "texte": "Reprendre avec la compta lundi",
+                  "rect": {
+                    "x": 80,
+                    "y": 430,
+                    "w": 420,
+                    "h": 48
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 3
+      },
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 4
+      },
+      "points": 1
+    },
+    {
+      "id": "M08-EV01-12",
+      "consigne": "Une note de travail y est posée. Retirez-la avant de traiter la page elle-même.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Point mensuel du 5 mai"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "1. Le mois écoulé"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Neuf jardins livrés en avril",
+                "contenu": "9 jardins livrés\n28 entretiens\n1 chantier de rénovation"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Merci de votre attention"
+              },
+              "objets": [
+                {
+                  "id": "zt-contact",
+                  "objectType": "texte",
+                  "texte": "contact@verdeval.fr — 02 40 12 34 56",
+                  "rect": {
+                    "x": 80,
+                    "y": 430,
+                    "w": 420,
+                    "h": 48
+                  }
+                }
+              ]
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Brouillon — ne pas montrer",
+                "contenu": "Chiffres à recouper"
+              },
+              "objets": [
+                {
+                  "id": "zt-brouillon",
+                  "objectType": "texte",
+                  "texte": "Reprendre avec la compta lundi",
+                  "rect": {
+                    "x": 80,
+                    "y": 430,
+                    "w": 420,
+                    "h": 48
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 4
+      },
+      "action": {
+        "type": "P_DELETE_OBJECT",
+        "objectId": "zt-brouillon"
       },
       "points": 1
     },
     {
       "id": "M08-EV01-13",
-      "consigne": "Intitulez-la : Merci de votre attention.",
-      "action": {
-        "type": "P_TYPE_TEXT",
-        "cible": "ph:titre",
-        "accept": [
-          "Merci de votre attention"
-        ]
+      "consigne": "Cette page n'a jamais eu vocation à être montrée et ne resservira pas : retirez-la.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Point mensuel du 5 mai"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "1. Le mois écoulé"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Neuf jardins livrés en avril",
+                "contenu": "9 jardins livrés\n28 entretiens\n1 chantier de rénovation"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Merci de votre attention"
+              },
+              "objets": [
+                {
+                  "id": "zt-contact",
+                  "objectType": "texte",
+                  "texte": "contact@verdeval.fr — 02 40 12 34 56",
+                  "rect": {
+                    "x": 80,
+                    "y": 430,
+                    "w": 420,
+                    "h": 48
+                  }
+                }
+              ]
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Brouillon — ne pas montrer",
+                "contenu": "Chiffres à recouper"
+              }
+            }
+          ]
+        },
+        "slide": 4
       },
-      "points": 1
+      "action": {
+        "type": "P_DELETE_SLIDE",
+        "index": 4
+      },
+      "points": 2
     },
     {
       "id": "M08-EV01-14",
-      "consigne": "Le fond est écrit : passez à la finition. Affichez la section.",
+      "consigne": "Le fond est en place : passez à la finition. Affichez la section.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Point mensuel du 5 mai"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "1. Le mois écoulé"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Neuf jardins livrés en avril",
+                "contenu": "9 jardins livrés\n28 entretiens\n1 chantier de rénovation"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Merci de votre attention"
+              },
+              "objets": [
+                {
+                  "id": "zt-contact",
+                  "objectType": "texte",
+                  "texte": "contact@verdeval.fr — 02 40 12 34 56",
+                  "rect": {
+                    "x": 80,
+                    "y": 430,
+                    "w": 420,
+                    "h": 48
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 3
+      },
       "action": {
         "type": "P_SELECT_SLIDE",
         "index": 1
@@ -269,6 +961,53 @@
     {
       "id": "M08-EV01-15",
       "consigne": "Faites en sorte que ce titre de section se voie de loin.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Point mensuel du 5 mai"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "1. Le mois écoulé"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Neuf jardins livrés en avril",
+                "contenu": "9 jardins livrés\n28 entretiens\n1 chantier de rénovation"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Merci de votre attention"
+              },
+              "objets": [
+                {
+                  "id": "zt-contact",
+                  "objectType": "texte",
+                  "texte": "contact@verdeval.fr — 02 40 12 34 56",
+                  "rect": {
+                    "x": 80,
+                    "y": 430,
+                    "w": 420,
+                    "h": 48
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 1
+      },
       "action": {
         "type": "P_EXPECT_FORMAT",
         "objectId": "ph:titre",
@@ -276,11 +1015,58 @@
           "bold": true
         }
       },
-      "points": 1
+      "points": 2
     },
     {
       "id": "M08-EV01-16",
       "consigne": "Affichez la diapositive des chiffres.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Point mensuel du 5 mai"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "1. Le mois écoulé"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Neuf jardins livrés en avril",
+                "contenu": "9 jardins livrés\n28 entretiens\n1 chantier de rénovation"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Merci de votre attention"
+              },
+              "objets": [
+                {
+                  "id": "zt-contact",
+                  "objectType": "texte",
+                  "texte": "contact@verdeval.fr — 02 40 12 34 56",
+                  "rect": {
+                    "x": 80,
+                    "y": 430,
+                    "w": 420,
+                    "h": 48
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 1
+      },
       "action": {
         "type": "P_SELECT_SLIDE",
         "index": 2
@@ -302,7 +1088,7 @@
               }
             },
             {
-              "layout": "diapositive-de-titre",
+              "layout": "titre-seul",
               "textes": {
                 "titre": "1. Le mois écoulé"
               }
@@ -311,14 +1097,27 @@
               "layout": "titre-et-contenu",
               "textes": {
                 "titre": "Neuf jardins livrés en avril",
-                "contenu": "9 jardins livrés\n28 entretiens\n1 chantier en cours"
+                "contenu": "9 jardins livrés\n28 entretiens\n1 chantier de rénovation"
               }
             },
             {
-              "layout": "diapositive-de-titre",
+              "layout": "titre-seul",
               "textes": {
                 "titre": "Merci de votre attention"
-              }
+              },
+              "objets": [
+                {
+                  "id": "zt-contact",
+                  "objectType": "texte",
+                  "texte": "contact@verdeval.fr — 02 40 12 34 56",
+                  "rect": {
+                    "x": 80,
+                    "y": 430,
+                    "w": 420,
+                    "h": 48
+                  }
+                }
+              ]
             }
           ]
         },
@@ -331,7 +1130,7 @@
           "align": "left"
         }
       },
-      "points": 1
+      "points": 2
     },
     {
       "id": "M08-EV01-18",
@@ -348,7 +1147,7 @@
               }
             },
             {
-              "layout": "diapositive-de-titre",
+              "layout": "titre-seul",
               "textes": {
                 "titre": "1. Le mois écoulé"
               }
@@ -357,14 +1156,27 @@
               "layout": "titre-et-contenu",
               "textes": {
                 "titre": "Neuf jardins livrés en avril",
-                "contenu": "9 jardins livrés\n28 entretiens\n1 chantier en cours"
+                "contenu": "9 jardins livrés\n28 entretiens\n1 chantier de rénovation"
               }
             },
             {
-              "layout": "diapositive-de-titre",
+              "layout": "titre-seul",
               "textes": {
                 "titre": "Merci de votre attention"
-              }
+              },
+              "objets": [
+                {
+                  "id": "zt-contact",
+                  "objectType": "texte",
+                  "texte": "contact@verdeval.fr — 02 40 12 34 56",
+                  "rect": {
+                    "x": 80,
+                    "y": 430,
+                    "w": 420,
+                    "h": 48
+                  }
+                }
+              ]
             }
           ]
         },
@@ -383,11 +1195,61 @@
           ]
         }
       },
-      "points": 2
+      "points": 1
     },
     {
       "id": "M08-EV01-19",
       "consigne": "Déroulez la présentation depuis le début avant de la considérer prête.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Point mensuel du 5 mai"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "1. Le mois écoulé"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "Neuf jardins livrés en avril",
+                "contenu": "9 jardins livrés\n28 entretiens\n1 chantier de rénovation"
+              },
+              "transition": {
+                "kind": "fondu"
+              }
+            },
+            {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Merci de votre attention"
+              },
+              "objets": [
+                {
+                  "id": "zt-contact",
+                  "objectType": "texte",
+                  "texte": "contact@verdeval.fr — 02 40 12 34 56",
+                  "rect": {
+                    "x": 80,
+                    "y": 430,
+                    "w": 420,
+                    "h": 48
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "slide": 2
+      },
       "action": {
         "type": "P_EXPECT_SHOW",
         "show": {

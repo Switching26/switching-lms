@@ -27,10 +27,39 @@ import type { SimulationScenario } from "../../lib/simulation/types"
 
 const prisma = new PrismaClient()
 
-/** Titre de la formation cible. Un seul endroit à changer. */
-const FORMATION_TITLE = "Excel 2024 — Du débutant à l'avancé"
-const FORMATION_DESCRIPTION =
-  "Formation Excel interactive : vous travaillez dans un vrai classeur, pas devant une vidéo. Chaque leçon se termine par un exercice où vous refaites seul ce que vous venez d'apprendre."
+/**
+ * Titre et description de la formation, DÉDUITS DE L'APPLICATION.
+ *
+ * Une constante en dur ici a coûté cher le 04/08/2026 : les 101 chapitres de Word
+ * ont été semés DANS la formation Excel, mélangés à ses 246 chapitres publiés, à
+ * l'intérieur de ses propres sections. Le dry-run annonçait « 101 à créer,
+ * 0 conflit » — vrai, mais il ne disait pas DANS QUELLE formation.
+ *
+ * Chaque application a désormais sa formation. Un seed ne peut plus déborder
+ * sur une autre.
+ */
+const FORMATIONS: Record<string, { titre: string; description: string }> = {
+  EXCEL: {
+    titre: "Excel 2024 — Du débutant à l'avancé",
+    description:
+      "Formation Excel interactive : vous travaillez dans un vrai classeur, pas devant une vidéo. Chaque leçon se termine par un exercice où vous refaites seul ce que vous venez d'apprendre.",
+  },
+  WORD: {
+    titre: "Word 2024 — Du débutant à l'avancé",
+    description:
+      "Formation Word interactive : vous travaillez dans un vrai document, pas devant une vidéo. Chaque leçon se termine par un exercice où vous refaites seul ce que vous venez d'apprendre.",
+  },
+  POWERPOINT: {
+    titre: "PowerPoint 2024 — Du débutant à l'avancé",
+    description:
+      "Formation PowerPoint interactive : vous construisez une vraie présentation, pas devant une vidéo. Chaque leçon se termine par un exercice où vous refaites seul ce que vous venez d'apprendre.",
+  },
+  OUTLOOK: {
+    titre: "Outlook 2024 — Du débutant à l'avancé",
+    description:
+      "Formation Outlook interactive : vous travaillez dans une vraie boîte de réception, pas devant une vidéo. Chaque leçon se termine par un exercice où vous refaites seul ce que vous venez d'apprendre.",
+  },
+}
 
 /** Ordre et libellé des modules, repris du programme de référence. */
 const MODULE_TITLES: Record<number, string> = {
@@ -98,6 +127,20 @@ function chapterOrder(p: Parsed): number {
   return (p.kind === "L" ? 100 : p.kind === "E" ? 200 : 300) + p.index
 }
 
+/**
+ * Libellé de la section d'un module.
+ *
+ * Excel garde son catalogue historique `MODULE_TITLES` — ses 246 chapitres publiés
+ * en dépendent, changer un libellé déplacerait des chapitres existants.
+ * Les autres applications lisent le `moduleTitle` de leurs propres scénarios :
+ * chaque programme porte ses titres, aucun n'emprunte ceux d'un autre.
+ */
+function titreDeSection(app: string, num: number, items: Parsed[]): string {
+  if (app === "EXCEL") return MODULE_TITLES[num]
+  const depuisScenario = items.map((p) => p.scenario?.moduleTitle).find((t) => typeof t === "string" && t.trim())
+  return depuisScenario ?? `Module ${num}`
+}
+
 async function main() {
   const args = process.argv.slice(2)
   const apply = args.includes("--apply")
@@ -151,7 +194,11 @@ function appDuFichier(file: string): "EXCEL" | "WORD" | "POWERPOINT" | "OUTLOOK"
       )
       continue
     }
-    if (!MODULE_TITLES[meta.moduleNumber]) {
+    // Le catalogue MODULE_TITLES ne décrit que le programme Excel. Les autres
+    // applications portent leur propre libellé dans `moduleTitle` du scénario —
+    // s'appuyer sur la table d'Excel rangeait leurs chapitres dans les sections
+    // d'Excel (incident du 04/08/2026).
+    if (appDuFichier(file) === "EXCEL" && !MODULE_TITLES[meta.moduleNumber]) {
       problems.push(`${path.basename(file)} : module ${meta.moduleNumber} inconnu`)
       continue
     }
@@ -193,6 +240,23 @@ function appDuFichier(file: string): "EXCEL" | "WORD" | "POWERPOINT" | "OUTLOOK"
 
   parsed.sort((a, b) => a.moduleNumber - b.moduleNumber || chapterOrder(a) - chapterOrder(b))
 
+  /* ── Application cible : UNE SEULE par passe ───────────────────────────── */
+
+  // Garde-fou né de l'incident du 04/08/2026 : mélanger deux applications dans
+  // une même passe fait atterrir les chapitres de l'une dans les sections de
+  // l'autre. Le script REFUSE plutôt que de laisser l'opérateur y penser.
+  const appsPresentes = Array.from(new Set(parsed.map((p) => appDuFichier(p.file))))
+  if (appsPresentes.length > 1) {
+    console.error(
+      `\nRefus : ${appsPresentes.length} applications dans la même passe (${appsPresentes.join(", ")}).`,
+    )
+    console.error("Chaque application a sa propre formation. Relancez une commande par application.")
+    process.exit(1)
+  }
+  const APP = appsPresentes[0] ?? "EXCEL"
+  const FORMATION_TITLE = FORMATIONS[APP].titre
+  const FORMATION_DESCRIPTION = FORMATIONS[APP].description
+
   /* ── Récapitulatif ─────────────────────────────────────────────────────── */
 
   const existingFormation = await prisma.formation.findFirst({
@@ -218,7 +282,7 @@ function appDuFichier(file: string): "EXCEL" | "WORD" | "POWERPOINT" | "OUTLOOK"
   }
 
   for (const [num, items] of [...byModule.entries()].sort((a, b) => a[0] - b[0])) {
-    const sectionTitle = MODULE_TITLES[num]
+    const sectionTitle = titreDeSection(APP, num, items)
     const existingSection = existingFormation?.sections.find((s) => s.title === sectionTitle)
     console.log(`\nModule ${num} — ${sectionTitle}  ${existingSection ? "(section existante)" : "(section à créer)"}`)
     for (const p of items) {
@@ -263,7 +327,7 @@ function appDuFichier(file: string): "EXCEL" | "WORD" | "POWERPOINT" | "OUTLOOK"
       }))
 
     for (const [num, items] of [...byModule.entries()].sort((a, b) => a[0] - b[0])) {
-      const sectionTitle = MODULE_TITLES[num]
+      const sectionTitle = titreDeSection(APP, num, items)
       const section =
         (await tx.section.findFirst({ where: { formationId: formation.id, title: sectionTitle } })) ??
         (await tx.section.create({

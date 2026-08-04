@@ -28,6 +28,7 @@ import AtelierShell, {
   type ConsigneAtelier,
   type EntreeSommaire,
 } from "../AtelierShell"
+import AfficheModule, { numeroModule } from "../AfficheModule"
 import {
   useAideProgressive,
   useMesureZoneTravail,
@@ -1357,6 +1358,10 @@ export default function WordPlayer({
       nature: lecture ? "lecture" : evaluationNotee ? "evaluee" : "action",
       lecture,
       aDemonstration: !!plan,
+      // Ce que le châssis lit pour décider s'il peut promettre « Montrez-moi ».
+      // Chez Word les deux coïncident, mais `aDemonstration` porte des sources
+      // différentes selon les applications : c'est `demoJouable` qui fait foi.
+      demoJouable: !!plan,
       attendu: adaptateurWord.attendu(action),
       // Jamais en évaluation : le noyau ne l'affiche pas, mais on ne la lui
       // fournit même pas — une réponse qui ne quitte pas le serveur ne peut pas
@@ -1694,6 +1699,7 @@ export default function WordPlayer({
             </div>
           )}
           <style>{`
+            @keyframes w-intro-monte { from { opacity: 0; transform: translateY(14px) } to { opacity: 1; transform: translateY(0) } }
             @keyframes w-fx-ok { 0% { opacity: 0 } 18% { opacity: 1 } 100% { opacity: 0 } }
             @keyframes w-fx-ko { 0%,100% { transform: translateX(0) } 25% { transform: translateX(-5px) } 75% { transform: translateX(5px) } }
             @keyframes w-fx-mot { from { opacity: 0; transform: translateY(6px) } to { opacity: 1; transform: none } }
@@ -1811,6 +1817,7 @@ export default function WordPlayer({
         <Ouverture
           titre={scenario.intro?.title ?? scenario.title ?? ""}
           corps={scenario.intro?.body ?? ""}
+          moduleTitle={scenario.moduleTitle}
           onCommencer={() => {
             ouvrirLAtelier()
             if (evaluationNotee) void commencer()
@@ -1834,12 +1841,24 @@ export default function WordPlayer({
 function Ouverture({
   titre,
   corps,
+  moduleTitle,
   onCommencer,
 }: {
   titre: string
   corps: string
+  moduleTitle?: string | null
   onCommencer: () => void
 }) {
+  /*
+   * Le module a-t-il une affiche ? On teste le NUMÉRO, jamais l'élément JSX :
+   * `<AfficheModule/>` est toujours truthy même quand il rend `null`, et le
+   * repli n'aurait jamais lieu — Excel a payé exactement ce piège.
+   *
+   * `app` est obligatoire : sans elle, la résolution suit un ordre de
+   * préférence qui commence par Excel, et un titre partagé par deux
+   * applications afficherait l'illustration de la mauvaise.
+   */
+  const affiche = numeroModule(moduleTitle, "WORD") !== null
   return (
     <div
       style={{
@@ -1848,38 +1867,67 @@ function Ouverture({
         zIndex: 40,
         background: "#FAF9F7",
         display: "flex",
-        flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        gap: 18,
+        gap: 40,
         padding: 24,
-        textAlign: "center",
       }}
     >
-      <h2 style={{ fontSize: 22, fontWeight: 700, color: "#1b1a17", margin: 0, letterSpacing: 0.4 }}>
-        {titre}
-      </h2>
-      <p style={{ maxWidth: 560, fontSize: 15, lineHeight: 1.5, color: "#4a453e", margin: 0 }}>
-        {corps}
-      </p>
-      <button
-        type="button"
-        data-control="intro-commencer"
-        onClick={onCommencer}
+      {/* L'affiche du module occupe la colonne de droite, comme sur Excel, et
+          disparaît sous `lg`. Elle partage une RANGÉE avec le texte plutôt que
+          d'être posée en absolu : le bloc de Word est centré, et un absolu à
+          droite le recouvrirait. */}
+      <div
         style={{
-          minHeight: 44,
-          padding: "0 22px",
-          borderRadius: 10,
-          border: "none",
-          background: "#1b5e3a",
-          color: "#fff",
-          fontSize: 15,
-          fontWeight: 600,
-          cursor: "pointer",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: 18,
+          textAlign: "center",
+          maxWidth: 620,
+          flex: "1 1 auto",
+          minWidth: 0,
         }}
       >
-        Commencer
-      </button>
+        <h2 style={{ fontSize: 22, fontWeight: 700, color: "#1b1a17", margin: 0, letterSpacing: 0.4 }}>
+          {titre}
+        </h2>
+        <p style={{ maxWidth: 560, fontSize: 15, lineHeight: 1.5, color: "#4a453e", margin: 0 }}>
+          {corps}
+        </p>
+        <button
+          type="button"
+          data-control="intro-commencer"
+          onClick={onCommencer}
+          style={{
+            minHeight: 44,
+            padding: "0 22px",
+            borderRadius: 10,
+            border: "none",
+            background: "#1b5e3a",
+            color: "#fff",
+            fontSize: 15,
+            fontWeight: 600,
+            cursor: "pointer",
+          }}
+        >
+          Commencer
+        </button>
+      </div>
+      {/* Pas de repli quand le module n'a pas encore d'affiche : le
+          mini-classeur vert d'Excel dessine une grille de tableur, et inventer
+          ici une page de substitution poserait une seconde langue visuelle que
+          l'affiche remplacera. Rien vaut mieux qu'à peu près. */}
+      {affiche ? (
+        <div
+          aria-hidden
+          className="hidden shrink-0 select-none lg:block"
+          style={{ width: 372, animation: "w-intro-monte .9s .35s ease both" }}
+        >
+          <AfficheModule moduleTitle={moduleTitle} app="WORD" />
+        </div>
+      ) : null}
     </div>
   )
 }

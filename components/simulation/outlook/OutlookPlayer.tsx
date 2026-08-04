@@ -32,6 +32,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import AtelierShell, { type EntreeSommaire } from "../AtelierShell"
+import AfficheModule, { numeroModule } from "../AfficheModule"
 import BilanFin from "../BilanFin"
 import DemonstrationGeste from "../DemonstrationGeste"
 import type { CibleDemo, PlanDemo } from "@/lib/simulation/demonstration"
@@ -152,6 +153,25 @@ export default function OutlookPlayer({
 
   const setupInitial = (scenario as ScenarioAvecCourrier).courrier ?? {}
   const [etat, setEtat] = useState<EtatOutlook>(() => etatInitial(setupInitial))
+  /** Miroir de la boîte, lisible hors rendu — même idiome que `deckRef` côté PowerPoint. */
+  const etatRef = useRef(etat)
+  etatRef.current = etat
+
+  /**
+   * La boîte telle qu'elle était À L'ARRIVÉE sur l'étape.
+   *
+   * Point de départ que toute démonstration doit retrouver. Sans lui,
+   * l'apprenant qui ouvre le mauvais message, classe de travers ou commence une
+   * rédaction avant de réclamer « Montrez-moi » voit un geste joué sur une
+   * boîte qui n'est plus celle dont la consigne parle — et la démonstration
+   * peut désigner un message que le volet n'affiche même plus.
+   *
+   * L'identifiant de l'étape est retenu AVEC la photo, et vérifié avant de
+   * reposer quoi que ce soit : une photo qui ne serait pas celle de l'étape
+   * courante rembobinerait le travail de l'apprenant de plusieurs étapes. Mieux
+   * vaut alors ne rien restaurer que restaurer à côté.
+   */
+  const etatDepartEtapeRef = useRef<{ id: string; etat: EtatOutlook } | null>(null)
 
   /** Zone de travail : la hauteur se MESURE, elle ne se calcule jamais. */
   const zoneRef = useRef<HTMLDivElement>(null)
@@ -302,6 +322,22 @@ export default function OutlookPlayer({
     index,
     finished,
     aUneEtape: !!step,
+    /*
+     * Une démonstration est une RECONSTITUTION, pas la poursuite du travail en
+     * cours : on repose la boîte du début de l'étape avant chaque passage, le
+     * premier comme les « Revoir ». Excel fait de même avec le poste de
+     * travail, et pour la même raison — sans quoi l'apprenant qui abîme quelque
+     * chose puis redemande à voir reçoit la même explication fausse qu'au
+     * départ.
+     */
+    avantDemonstration: () => {
+      const depart = etatDepartEtapeRef.current
+      if (!depart || depart.id !== stepRef.current?.id) return
+      // La ref est reposée sans attendre le rendu : le plan de démonstration
+      // lit la boîte pour choisir ses cibles, et il est calculé aussitôt après.
+      etatRef.current = depart.etat
+      setEtat(depart.etat)
+    },
   })
   const {
     essais,
@@ -340,26 +376,39 @@ export default function OutlookPlayer({
     reinitialiserAAlArrivee()
     setVerdict(null)
     setVerdictAncre(false)
-    if (!c) return
+    // L'identifiant vient de l'étape VISÉE, pas de `stepRef` : la mise en place
+    // est appelée avec le nouvel index avant que le rendu ne l'ait propagé.
+    const idEtape = e?.id ?? null
+    if (!c) {
+      // Aucun décor à poser : le point de départ est la boîte telle que l'étape
+      // précédente l'a laissée. Il faut quand même la photographier, sinon les
+      // étapes sans `setup.courrier` n'auraient rien à restaurer.
+      etatDepartEtapeRef.current = idEtape ? { id: idEtape, etat: etatRef.current } : null
+      return
+    }
     // La mise en place produit des observations qui ne sont PAS des gestes de
     // l'apprenant : sans cette fenêtre, elles comptent comme des tâtonnements et
     // l'aide se propose un cran trop tôt, sur toutes les étapes.
     ouvrirFenetreMiseEnPlace()
-    setEtat((prec) => {
-      let suivant = { ...prec }
-      if (c.vue) suivant.vue = c.vue
-      if (c.dossierActif) suivant.dossierActif = c.dossierActif
-      if (c.messageActif !== undefined) {
-        suivant.messageActif = c.messageActif
-        // Désigner un message actif implique qu'il a été ouvert, donc lu.
-        if (c.messageActif) {
-          suivant.messages = suivant.messages.map((m) =>
-            m.id === c.messageActif ? { ...m, lu: true } : m,
-          )
-        }
+    // On calcule depuis la ref plutôt que dans un rappel de `setEtat` : c'est
+    // ce qui permet de retenir le résultat pour la photo, et deux mises en
+    // place qui s'enchaînent avant un rendu restent correctes.
+    const prec = etatRef.current
+    const suivant: EtatOutlook = { ...prec }
+    if (c.vue) suivant.vue = c.vue
+    if (c.dossierActif) suivant.dossierActif = c.dossierActif
+    if (c.messageActif !== undefined) {
+      suivant.messageActif = c.messageActif
+      // Désigner un message actif implique qu'il a été ouvert, donc lu.
+      if (c.messageActif) {
+        suivant.messages = suivant.messages.map((m) =>
+          m.id === c.messageActif ? { ...m, lu: true } : m,
+        )
       }
-      return suivant
-    })
+    }
+    etatDepartEtapeRef.current = idEtape ? { id: idEtape, etat: suivant } : null
+    etatRef.current = suivant
+    setEtat(suivant)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [steps])
 
@@ -744,6 +793,10 @@ export default function OutlookPlayer({
               nature,
               lecture: step.action.type === "READ",
               aDemonstration: !!plan,
+              // Ce que le châssis lit pour décider s'il peut promettre
+              // « Montrez-moi ». Sans lui, 176 étapes Outlook affichaient le
+              // bouton puis renvoyaient vers un repère que rien n'avait dessiné.
+              demoJouable: !!plan,
               attendu,
               // Jamais servie en évaluation : le bloc qui l'affiche y est déjà
               // inatteignable, et la calculer serait la faire transiter pour rien.
@@ -1121,6 +1174,7 @@ export default function OutlookPlayer({
         )}
 
         <style>{`
+          @keyframes o-intro-monte { from { opacity: 0; transform: translateY(14px) } to { opacity: 1; transform: translateY(0) } }
           @keyframes o-jalon { from { opacity: 0; transform: translateY(8px) scale(.97) } to { opacity: 1; transform: none } }
           @keyframes o-fin-carte { from { opacity: 0; transform: translateY(12px) } to { opacity: 1; transform: none } }
           @keyframes o-fin-rond { from { opacity: 0; transform: scale(.6) } to { opacity: 1; transform: none } }
@@ -1162,6 +1216,12 @@ function EcranOuverture({
   onCommencer: () => void
 }) {
   const evaluation = mode === "EVALUATION"
+  /*
+   * Le module a-t-il une affiche ? On teste le NUMÉRO, jamais l'élément JSX :
+   * `<AfficheModule/>` est toujours truthy même quand il rend `null`.
+   * `app` est obligatoire — voir la note de PowerPoint sur « Prise en main ».
+   */
+  const affiche = numeroModule(scenario.moduleTitle, "OUTLOOK") !== null
   return (
     <div
       style={{
@@ -1176,7 +1236,12 @@ function EcranOuverture({
         background: "linear-gradient(180deg,#faf9f5 0%,#f2efe8 100%)",
       }}
     >
-      <div style={{ maxWidth: 560, margin: "0 auto" }}>
+      {/* L'affiche du module occupe la colonne de droite, comme sur Excel, et
+          disparaît sous `lg`. Elle partage une RANGÉE avec le texte au lieu
+          d'être posée en absolu : le bloc de texte d'Outlook est centré, et un
+          absolu à droite le recouvrait sur toutes les largeurs mesurées. */}
+      <div className="flex w-full items-center justify-center" style={{ gap: 40 }}>
+      <div style={{ maxWidth: 560, flex: "1 1 auto", minWidth: 0 }}>
         <span
           style={{
             display: "inline-block",
@@ -1241,6 +1306,20 @@ function EcranOuverture({
         >
           {enCours ? "Ouverture…" : evaluation ? "Commencer l'évaluation" : "Commencer"}
         </button>
+      </div>
+      {/* Pas de repli quand le module n'a pas encore d'affiche : le
+          mini-classeur vert d'Excel dessine une grille de tableur, et inventer
+          ici une boîte mail de substitution poserait une seconde langue
+          visuelle que l'affiche remplacera. Rien vaut mieux qu'à peu près. */}
+      {affiche ? (
+        <div
+          aria-hidden
+          className="hidden shrink-0 select-none lg:block"
+          style={{ width: 372, animation: "o-intro-monte .9s .35s ease both" }}
+        >
+          <AfficheModule moduleTitle={scenario.moduleTitle} app="OUTLOOK" />
+        </div>
+      ) : null}
       </div>
     </div>
   )

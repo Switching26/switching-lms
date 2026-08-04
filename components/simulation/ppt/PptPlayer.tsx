@@ -28,6 +28,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import AtelierShell, { type EntreeSommaire } from "../AtelierShell"
+import AfficheModule, { numeroModule } from "../AfficheModule"
 import DemonstrationGeste from "../DemonstrationGeste"
 import {
   useAideProgressive,
@@ -184,6 +185,25 @@ export default function PptPlayer({
   const deckRef = useRef(deck)
   deckRef.current = deck
 
+  /**
+   * La présentation telle qu'elle était À L'ARRIVÉE sur l'étape.
+   *
+   * C'est le point de départ que toute démonstration doit retrouver. Sans lui,
+   * l'apprenant qui déplace un objet, vide un espace réservé ou change de
+   * disposition avant de réclamer « Montrez-moi » reçoit une explication qui
+   * parle d'une diapositive que l'écran ne montre plus — et le geste montré se
+   * pose sur une présentation que personne ne lui a demandé de produire.
+   *
+   * Photographié APRÈS le décor de l'étape, jamais avant : le prendre plus tôt
+   * figerait la présentation de l'étape PRÉCÉDENTE.
+   *
+   * L'identifiant de l'étape est retenu AVEC la photo, et vérifié avant de
+   * reposer quoi que ce soit : une photo qui ne serait pas celle de l'étape
+   * courante rembobinerait le travail de l'apprenant de plusieurs étapes. Mieux
+   * vaut alors ne rien restaurer que restaurer à côté.
+   */
+  const deckDepartEtapeRef = useRef<{ id: string; deck: DeckState } | null>(null)
+
   const zoneRef = useRef<HTMLDivElement | null>(null)
   const { hauteur: hauteurZone, largeur: largeurZone } = useMesureZoneTravail(zoneRef)
 
@@ -235,6 +255,22 @@ export default function PptPlayer({
     index,
     finished,
     aUneEtape: !!step,
+    /*
+     * Une démonstration est une RECONSTITUTION, pas la poursuite du travail en
+     * cours : on repose la présentation du début de l'étape avant chaque
+     * passage, le premier comme les « Revoir ». Excel fait de même avec le
+     * poste de travail, et pour la même raison — l'apprenant qui abîme quelque
+     * chose puis redemande à voir se retrouvait sinon avec une explication
+     * fausse, la deuxième fois comme la première.
+     */
+    avantDemonstration: () => {
+      const depart = deckDepartEtapeRef.current
+      if (!depart || depart.id !== stepRef.current?.id) return
+      // La ref est remise à jour sans attendre le rendu : la photo que prend
+      // l'écran de lecture juste après lit `deckRef`, pas l'état React.
+      deckRef.current = depart.deck
+      setDeck(depart.deck)
+    },
   })
 
   /* ─────────── MISE EN PLACE D'UNE ÉTAPE ───────────
@@ -254,15 +290,25 @@ export default function PptPlayer({
     aide.ouvrirFenetreMiseEnPlace()
 
     const s = step.setupPpt
-    if (!s) return
-    setDeck((d) => {
-      let n = s.deck ? deckDepuisDeclaration(s.deck) : d
-      if (s.slide !== undefined) n = { ...n, activeSlide: s.slide }
-      if (s.selection) n = { ...n, selection: s.selection }
-      if (s.view) n = { ...n, view: s.view }
-      if (s.show) n = { ...n, show: { ...s.show } }
-      return n
-    })
+    if (!s) {
+      // Aucun décor à poser : le point de départ est la présentation telle que
+      // l'étape précédente l'a laissée. Il faut quand même la photographier,
+      // sinon les étapes sans `setupPpt` n'auraient rien à restaurer.
+      deckDepartEtapeRef.current = { id: step.id, deck: deckRef.current }
+      return
+    }
+    // Idiome du fichier : on lit la ref, on calcule, on repose la ref, puis on
+    // rend. Passer par un rappel de `setDeck` empêcherait de retenir le
+    // résultat pour la photo sans écrire dans une ref au milieu d'un calcul
+    // que React peut rejouer.
+    let n = s.deck ? deckDepuisDeclaration(s.deck) : deckRef.current
+    if (s.slide !== undefined) n = { ...n, activeSlide: s.slide }
+    if (s.selection) n = { ...n, selection: s.selection }
+    if (s.view) n = { ...n, view: s.view }
+    if (s.show) n = { ...n, show: { ...s.show } }
+    deckDepartEtapeRef.current = { id: step.id, deck: n }
+    deckRef.current = n
+    setDeck(n)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [index, step?.id])
 
@@ -282,6 +328,68 @@ export default function PptPlayer({
     if (r.width === 0 && r.height === 0) return null
     return { left: r.left - z.left, top: r.top - z.top, width: r.width, height: r.height }
   }, [])
+
+  /**
+   * Rectangle d'une cible, APRÈS l'avoir amenée dans le champ.
+   *
+   * 🔴 UN BOUTON HORS CHAMP SE RÉSOUT PARFAITEMENT — ET NE SE VOIT PAS.
+   *
+   * Le ruban défile horizontalement, et c'est tout le sujet sur téléphone.
+   * Mesuré à 390 px : l'onglet Accueil rend 13 boutons sur 997 px de contenu
+   * pour 390 px de fenêtre, donc 10 hors champ. L'élément existe, son rectangle
+   * est valide, `DemonstrationGeste` dessine son cadre — à côté de l'écran.
+   * Relevé sur `m02-l01#10` : le repère de « Monter : un cran vers le haut »
+   * était peint à left = 394 dans une zone large de 390. L'apprenant lit la
+   * phrase et ne voit jamais ce qu'elle désigne, pendant que le compteur va
+   * jusqu'à `n/n` et que la phase atteint « fini » sans lever la moindre
+   * erreur : le faux témoin exact que l'audit d'Excel décrit.
+   *
+   * ⚠️ C'est LE REMÈDE DE WORD (`rectDuDom`), pas une troisième solution — on
+   * amène la cible dans le champ, puis on REMESURE. Le choix a été tranché par
+   * la mesure, pas par analogie : sur les 13 boutons de l'onglet Accueil, 10
+   * sont hors champ et **0 le reste** après cette amenée. Le défilement suffit
+   * donc ici. Le tiroir des groupes que Word a dû ajouter en plus répond à un
+   * autre besoin — trouver un bouton AU DOIGT — et son ruban est deux fois plus
+   * long que celui-ci (25 boutons, 1 189 px de défilement, contre 13 et 607).
+   *
+   * ⚠️ `block: "nearest"` : `center` ferait aussi défiler la PAGE, et l'atelier
+   * est un écran unique qui ne défile jamais. Vérifié sur les 13 boutons —
+   * `window.scrollY` reste à 0.
+   *
+   * Le calque appelle `resoudre` à CHAQUE rendu : c'est sans effet de bord, une
+   * fois la cible dans le champ `dehors` est faux et plus rien ne bouge. Le
+   * défilement est instantané (jamais `smooth`), sinon la remesure qui suit
+   * lirait la position d'avant.
+   */
+  const rectDeVisible = useCallback(
+    (selecteur: string): RectCible | null => {
+      const zone = zoneRef.current
+      if (!zone) return null
+      const el = zone.querySelector(selecteur)
+      if (!(el instanceof HTMLElement)) return null
+      let r = el.getBoundingClientRect()
+      if (r.width === 0 && r.height === 0) return null
+      let z = zone.getBoundingClientRect()
+      const dehors = r.right > z.right || r.left < z.left || r.bottom > z.bottom || r.top < z.top
+      if (dehors) {
+        el.scrollIntoView({ block: "nearest", inline: "center" })
+        r = el.getBoundingClientRect()
+        z = zone.getBoundingClientRect()
+        /* Crochet d'audit — hors production, même idiome que
+           `__PPT_REPLI_UTILISE`. Il sert à PROUVER la symétrie au lieu de
+           l'argumenter : si l'amenée ne se déclenche jamais sur grand écran, le
+           comportement y est identique à celui d'avant le correctif. */
+        if (process.env.NODE_ENV !== "production" && typeof window !== "undefined") {
+          const w = window as unknown as Record<string, unknown>
+          const j = (w.__PPT_AMENE_DANS_CHAMP as string[] | undefined) ?? []
+          j.push(selecteur)
+          w.__PPT_AMENE_DANS_CHAMP = j
+        }
+      }
+      return { left: r.left - z.left, top: r.top - z.top, width: r.width, height: r.height }
+    },
+    [],
+  )
 
   /**
    * ⚠️ CE QU'UN PETIT ÉCRAN REPLIE, ET LE BOUTON QUI LE ROUVRE.
@@ -321,11 +429,11 @@ export default function PptPlayer({
   const resoudreDemo = useCallback(
     (cible: CibleDemo) => {
       if (cible.k === "dom") {
-        const direct = rectDe(cible.sel)
+        const direct = rectDeVisible(cible.sel)
         if (direct) return direct
         const repli = repliPetitEcran(cible.sel)
         if (!repli) return null
-        const r = rectDe(`[data-control="${repli}"]`)
+        const r = rectDeVisible(`[data-control="${repli}"]`)
         /* Crochet d'audit — hors production, même idiome que
            `__PPT_BOUTONS_PRESSES`. Il sert à PROUVER la non-régression au lieu
            de l'argumenter : si le repli ne se déclenche jamais sur grand écran,
@@ -341,7 +449,7 @@ export default function PptPlayer({
       if (cible.k === "clavier") return null
       return null
     },
-    [rectDe, repliPetitEcran],
+    [rectDeVisible, repliPetitEcran],
   )
 
   /** Rectangle de la cible de l'étape courante, pour l'effet ancré. */
@@ -428,7 +536,13 @@ export default function PptPlayer({
             pendingRef.current.errors += 1
             aide.compterEssai()
             setVerdict({ ok: false, reason: "ko", message: j.message ?? "" })
-            lancerFx("ko", rectEtape(), j.message)
+            // JAMAIS `rectEtape()` sur un « ko » : ce rectangle est celui de la
+            // CIBLE ATTENDUE, donc de la réponse. L'encadrer en rouge la désigne
+            // — en évaluation notée, c'est la donner. Word portait exactement ce
+            // défaut et l'a fermé de la même façon (`WordPlayer:733`).
+            // Le message survit sans rectangle : le rendu le pose alors en pied
+            // de zone au lieu de l'ancrer sous la cible (voir plus bas).
+            lancerFx("ko", null, j.message)
           } else if (!miseEnPlace) {
             aide.compterTatonnement()
           }
@@ -455,7 +569,9 @@ export default function PptPlayer({
         pendingRef.current.errors += 1
         aide.compterEssai()
         setVerdict({ ok: false, reason: j.reason ?? "ko", message: j.message ?? "" })
-        lancerFx("ko", rectEtape(), j.message)
+        // Même règle que dans le chemin serveur ci-dessus : un halo d'erreur ne
+        // s'ancre jamais sur la cible attendue, sous peine de la révéler.
+        lancerFx("ko", null, j.message)
       } else if (j.compte === "tatonnement") {
         aide.compterTatonnement()
       }
@@ -721,6 +837,17 @@ export default function PptPlayer({
       ? adaptateurPpt.reponse(step.action as unknown as Record<string, unknown> & { type: string })
       : null
   const filModule = scenario.moduleTitle ?? ""
+  /*
+   * Le module a-t-il une affiche ? On teste le NUMÉRO, jamais l'élément JSX :
+   * `<AfficheModule/>` est toujours truthy même quand il rend `null`, et le
+   * repli n'aurait jamais lieu — Excel a payé exactement ce piège.
+   *
+   * 🔴 `app` n'est PAS facultatif ici. Le module 1 de PowerPoint s'appelle
+   * « Prise en main », exactement comme celui d'Excel : sans l'application, la
+   * résolution part dans l'ordre de préférence, tombe sur Excel et affiche une
+   * grille de tableur légendée « la grille » en tête d'un chapitre PowerPoint.
+   */
+  const afficheModule = numeroModule(scenario.moduleTitle, "POWERPOINT") !== null
 
   return (
     <AtelierShell
@@ -764,6 +891,20 @@ export default function PptPlayer({
               nature,
               lecture: step.action.type === "READ",
               aDemonstration: !!step.montrer?.length,
+              /*
+               * ⚠️ C'EST LE PLAN QU'ON TESTE, JAMAIS `montrer`.
+               *
+               * `aDemonstration` juste au-dessus vaut `!!step.montrer?.length`,
+               * et **aucune** des 939 étapes d'action de PowerPoint ne porte de
+               * `montrer` : s'y gater retirerait « Montrez-moi » à 863 étapes
+               * qui ont pourtant une vraie démonstration. Sur un écran `READ`
+               * les deux coïncident — le plan y est justement bâti depuis
+               * `montrer` —, mais sur une étape d'action seul `plan` sait.
+               *
+               * Absent ⇒ `true` côté châssis : renseigner le champ est donc la
+               * seule chose qui rende son correctif actif ici.
+               */
+              demoJouable: !!plan,
               attendu,
               // Jamais servie en évaluation : le bloc qui l'affiche y est déjà
               // inatteignable, et la calculer serait la faire transiter pour rien.
@@ -822,6 +963,7 @@ export default function PptPlayer({
       }
     >
       <style>{`
+        @keyframes ppt-intro-monte { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
         @keyframes ppt-fx-ok { 0%{opacity:0} 20%{opacity:1} 100%{opacity:0} }
         @keyframes ppt-fx-ko { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-5px)} 75%{transform:translateX(5px)} }
         @keyframes ppt-fx-msg { 0%{opacity:0;transform:translateY(-4px)} 100%{opacity:1;transform:translateY(0)} }
@@ -831,13 +973,19 @@ export default function PptPlayer({
         }
       `}</style>
 
-      {/* ── ÉCRAN D'OUVERTURE ── */}
+      {/* ── ÉCRAN D'OUVERTURE ──
+          L'affiche du module occupe la colonne de droite, comme sur Excel, et
+          disparaît sous `lg`. Elle est posée DANS LE FLUX et non en absolu :
+          l'absolu d'Excel peut recouvrir le texte autour de 1024 px, et le seul
+          moyen de garantir qu'aucune largeur ne fasse se chevaucher les deux
+          est de leur faire partager une rangée. */}
       {!introVue && step ? (
         <div
           className="absolute inset-0 z-40 flex flex-col justify-center px-6 py-8 sm:px-10"
           style={{ background: "linear-gradient(180deg,#faf9f5 0%,#f2efe8 100%)" }}
         >
-          <div style={{ maxWidth: 620 }}>
+        <div className="flex w-full items-center" style={{ gap: 40 }}>
+          <div style={{ maxWidth: 620, flex: "1 1 auto", minWidth: 0 }}>
             <p
               className="uppercase"
               style={{ fontSize: 12, fontWeight: 800, letterSpacing: "2.2px", color: "#8C3520", marginBottom: 12 }}
@@ -887,6 +1035,21 @@ export default function PptPlayer({
               </p>
             ) : null}
           </div>
+          {/* Pas de repli quand le module n'a pas encore d'affiche : le
+              mini-classeur vert d'Excel dessine une grille de tableur, et
+              inventer ici une seconde langue visuelle par application
+              reviendrait à poser trois jeux d'illustrations dans les players,
+              que l'affiche remplacera. Rien vaut mieux qu'à peu près. */}
+          {afficheModule ? (
+            <div
+              aria-hidden
+              className="hidden shrink-0 select-none lg:block"
+              style={{ width: 372, animation: "ppt-intro-monte .9s .35s ease both" }}
+            >
+              <AfficheModule moduleTitle={scenario.moduleTitle} app="POWERPOINT" />
+            </div>
+          ) : null}
+        </div>
         </div>
       ) : null}
 

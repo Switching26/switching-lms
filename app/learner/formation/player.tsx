@@ -4,7 +4,7 @@ import { useState, useEffect, useRef, useCallback, useMemo } from "react"
 import { useRouter } from "next/navigation"
 import SimulationChapter from "@/components/simulation/SimulationChapter"
 import type { EntreeSommaire } from "@/components/simulation/SimulationPlayer"
-import { dureeLisible, estimatedSimulationSeconds } from "@/lib/simulation/duree"
+import { estimatedSimulationSeconds } from "@/lib/simulation/duree"
 import {
   toApiFileUrl,
   filtrerDocuments,
@@ -13,10 +13,14 @@ import {
 } from "@/lib/learner-files"
 import {
   ActionsDocument,
-  LigneDocument,
   type EtatConsultation,
 } from "@/components/learner/DocumentActions"
 import PdfViewer from "@/components/learner/PdfViewer"
+import CadranFormation, {
+  type EntreeCadran,
+  type GenreChapitre,
+  type ValidationChapitre,
+} from "@/components/learner/CadranFormation"
 
 /* ═══════════ HELPERS ═══════════ */
 
@@ -51,8 +55,33 @@ function chapterDurationSeconds(c: {
   return 0
 }
 
-/** Alias local : la règle vit dans `lib/simulation/duree` et sert aussi au sommaire. */
-const formatDuration = dureeLisible
+/**
+ * Genre d'un chapitre pour le cadran : même arbitrage que `getChapterKind`,
+ * traduit dans le vocabulaire de l'apprenant. Un seul point de vérité pour le
+ * badge de la bande, la pastille du sommaire et le contenu de la scène.
+ */
+function genreCadran(kind: ChapterKind): GenreChapitre {
+  if (kind === "video") return "video"
+  if (kind === "simulation") return "atelier"
+  if (kind === "exercise") return "quiz"
+  if (kind === "pdf") return "document"
+  return "texte"
+}
+
+/**
+ * Durée en `m:ss`, pour tout ce qui se compare à la barre de lecture d'une
+ * vidéo. `dureeLisible` arrondit à la minute : elle convient au sommaire, pas à
+ * un seuil de validation que l'apprenant regarde défiler.
+ */
+function mmss(secondes: number): string {
+  const s = Math.max(0, Math.round(secondes))
+  return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`
+}
+
+/** Le PDF affiché en pleine page pour un chapitre de type document. */
+function pdfDuChapitre(ch?: { attachments?: ChapterAttachment[] } | null) {
+  return ch?.attachments?.find((a) => /\.pdf(\?|$)/i.test(a.fileUrl)) ?? null
+}
 
 /* ═══════════ TYPES ═══════════ */
 
@@ -155,7 +184,6 @@ export default function FormationPlayer({
   initialNotes?: Record<string, string>
   quizGlobal?: number | null
 }) {
-  const contentRef = useRef<HTMLDivElement>(null)
   const sortedSections = useMemo(
     () => (sections || []).slice().sort((a, b) => a.order - b.order),
     [sections]
@@ -197,7 +225,6 @@ export default function FormationPlayer({
     chapters.forEach((c) => { map[c.id] = c.completed })
     return map
   })
-  const [showChapters, setShowChapters] = useState(false)
   /**
    * Document consulté dans la visionneuse — un seul à la fois, comme dans le
    * cockpit du simulateur. Le player classique porte trois surfaces de
@@ -309,8 +336,10 @@ export default function FormationPlayer({
   }, [envoyerNote])
 
   const active = chapters[activeIndex]
-  const completedCount = Object.values(completedMap).filter(Boolean).length
-  const progressPercent = chapters.length > 0 ? Math.round((completedCount / chapters.length) * 100) : 0
+  const progressPercent =
+    chapters.length > 0
+      ? Math.round((Object.values(completedMap).filter(Boolean).length / chapters.length) * 100)
+      : 0
 
   // Position du chapitre actif dans l'ordre d'apprentissage (root → sections)
   const orderedIndex = active ? orderedChapters.findIndex((c) => c.id === active.id) : -1
@@ -320,12 +349,6 @@ export default function FormationPlayer({
       ? orderedChapters[orderedIndex + 1]
       : null
   const [marking, setMarking] = useState(false)
-
-  const isAccessible = (_index: number) => {
-    // Accès libre : tous les chapitres sont accessibles en permanence
-    // (style Rise Up — apprenant adulte autonome)
-    return true
-  }
 
   // Identité stable : évite de re-câbler les listeners Vimeo à chaque re-render
   // (la saisie de notes re-rendait le player et flushait la progression à chaque frappe)
@@ -340,34 +363,30 @@ export default function FormationPlayer({
     return m
   }, [orderedChapters])
 
-  const totalDuration = useMemo(
-    () => chapters.reduce((sum, c) => sum + chapterDurationSeconds(c), 0),
-    [chapters]
-  )
-  const completedDuration = useMemo(
-    () => chapters.filter((c) => completedMap[c.id]).reduce((sum, c) => sum + chapterDurationSeconds(c), 0),
-    [chapters, completedMap]
-  )
-
-  const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>(() => {
-    const m: Record<string, boolean> = {}
-    ;(sections || []).forEach((s) => { m[s.id] = true })
-    return m
-  })
-  const toggleSection = (id: string) =>
-    setExpandedSections((prev) => ({ ...prev, [id]: prev[id] === false ? true : false }))
+  /**
+   * Sommaire du cadran — même ordre d'apprentissage que `sommaireAtelier`, mais
+   * dans le vocabulaire des chapitres classiques (vidéo, quiz, document).
+   * Aucune requête : tout vient de ce que la page a déjà chargé.
+   */
+  const sommaireCadran: EntreeCadran[] = useMemo(() => {
+    const titreSection: Record<string, string> = {}
+    sortedSections.forEach((s) => {
+      titreSection[s.id] = s.title
+    })
+    return orderedChapters.map((c) => ({
+      id: c.id,
+      titre: c.title,
+      module: c.sectionId ? (titreSection[c.sectionId] ?? null) : null,
+      genre: genreCadran(getChapterKind(c)),
+      termine: !!completedMap[c.id],
+      secondes: chapterDurationSeconds(c),
+    }))
+  }, [orderedChapters, sortedSections, completedMap])
 
   const handleSelectChapter = useCallback((chapter: Chapter) => {
     const nextIndex = chapters.findIndex((c) => c.id === chapter.id)
     if (nextIndex < 0) return
     setActiveIndex(nextIndex)
-
-    if (window.matchMedia("(max-width: 1023px)").matches) {
-      setShowChapters(false)
-      window.requestAnimationFrame(() => {
-        contentRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })
-      })
-    }
   }, [chapters])
 
   // ─── Temps passé par chapitre (traçabilité Qualiopi) ───
@@ -479,46 +498,181 @@ export default function FormationPlayer({
     }
   }, [preview, flushTimeSpent])
 
-  return (
-    <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-6">
-      {/* Barre chapitres — sticky en haut sur mobile, toujours accessible pendant la formation */}
-      <div className="lg:hidden sticky z-30" style={{ top: "calc(var(--app-impersonation-offset, 0px) + 64px)" }}>
-        <button
-          onClick={() => setShowChapters(true)}
-          className="w-full py-3 bg-white/95 backdrop-blur rounded-2xl border border-border text-sm font-semibold text-warm-600 hover:bg-warm-50 transition-colors flex items-center justify-center gap-2 shadow-md"
-          style={{ minHeight: 48 }}
-        >
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-          </svg>
-          Voir les chapitres ({completedCount}/{chapters.length})
-        </button>
-      </div>
-      {/* Main content */}
-      <div ref={contentRef} className="space-y-5 min-w-0 scroll-mt-20 animate-fade-in-up">
-        {/* Encart de fin : affiché quand tous les chapitres de la formation sont terminés */}
-        {!preview && chapters.length > 0 && chapters.every((c) => c.completed) && (
-          <div className="rounded-2xl border border-emerald-200 bg-gradient-to-br from-emerald-50 to-green-50 p-5 flex items-center gap-4 flex-wrap">
-            <div className="w-12 h-12 rounded-2xl bg-white flex items-center justify-center flex-shrink-0 shadow-sm">
-              <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="#059669" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 01-10 0V4zM7 6H4v1a3 3 0 003 3M17 6h3v1a3 3 0 01-3 3" /></svg>
-            </div>
-            <div className="min-w-0">
-              <h3 className="font-display text-base font-semibold text-ink">Félicitations, vous avez terminé la formation ! 🎉</h3>
-              <p className="text-sm text-warm-700 mt-0.5">
-                {quizGlobal != null
-                  ? <>Votre score global aux évaluations est de <span className="font-semibold text-emerald-700">{Math.round(quizGlobal * 100)}%</span>.</>
-                  : "Retrouvez le récapitulatif de vos évaluations dans votre bilan."}
-              </p>
-            </div>
-            <a href="/learner/resultats" className="sm:ml-auto text-xs font-semibold px-4 py-2 rounded-lg bg-primary text-white hover:opacity-90 transition-opacity whitespace-nowrap">
-              Voir mon bilan
-            </a>
-          </div>
+  /* ── Ce que la bande de consigne doit dire du chapitre ouvert ──────────── */
+  const kind: ChapterKind = active ? getChapterKind(active) : "text"
+  const genre = genreCadran(kind)
+  const pdfActif = kind === "pdf" ? pdfDuChapitre(active) : null
+  // Un atelier prend l'écran entier lui-même : le cadran s'efface, sans se
+  // démonter (hôte Vimeo persistant).
+  const estAtelier = kind === "simulation"
+  const seuilSecondes =
+    active?.videoUrl && active.videoDuration ? Math.round(active.videoDuration * 0.5) : 0
+  const vuSecondes = active ? (watchMap[active.id] || 0) + (active.timeSpentSeconds || 0) : 0
+
+  const validation: ValidationChapitre = !active
+    ? { etat: "possible" }
+    : completedMap[active.id]
+      ? { etat: "termine" }
+      : preview
+        ? {
+            etat: "verrouille",
+            libelle: "Aperçu — non enregistré",
+            explication: "En aperçu, la progression de l'apprenant n'est pas modifiée.",
+          }
+        : marking
+          ? { etat: "enregistrement" }
+          : watchGate.locked
+            ? {
+                etat: "verrouille",
+                libelle: `Validation à ${mmss(seuilSecondes)}`,
+                explication:
+                  "Regardez au moins la moitié de la leçon pour la valider. La navigation, elle, reste libre.",
+              }
+            : { etat: "possible" }
+
+  const attendu =
+    kind === "video" && seuilSecondes > 0 ? (
+      <>
+        Attendu : <b className="font-semibold text-ink">regarder au moins la moitié de la leçon</b>
+        <span className="inline-block h-1 w-[88px] overflow-hidden rounded-full bg-warm-200 align-middle">
+          <span
+            className="block h-full rounded-full transition-all"
+            style={{
+              width: `${Math.min(100, seuilSecondes ? (vuSecondes / seuilSecondes) * 100 : 100)}%`,
+              background: "var(--partner-primary, #4F46E5)",
+            }}
+          />
+        </span>
+        <span className="tabular-nums">
+          {mmss(Math.min(vuSecondes, seuilSecondes))} / {mmss(seuilSecondes)}
+        </span>
+        {!watchGate.locked && (
+          <span className="font-semibold text-emerald-600">· seuil atteint</span>
         )}
-        {/* Video — hôte PERSISTANT : ce composant n'est JAMAIS démonté au changement
-            de chapitre (seule la src de l'iframe change). Le démontage/remontage keyé
-            laissait des players orphelins empilés dans le DOM (bug de suppression
-            silencieux constaté en prod, spécifique à ce sous-arbre iframe). */}
+      </>
+    ) : kind === "exercise" ? (
+      <>
+        Attendu :{" "}
+        <b className="font-semibold text-ink">
+          répondre aux {active?.exercises?.[0]?.questions?.length ?? 0} questions
+        </b>{" "}
+        — la validation se fait en bas du questionnaire.
+      </>
+    ) : kind === "pdf" ? (
+      <>
+        Attendu : <b className="font-semibold text-ink">ouvrir le support au moins une fois</b>.
+      </>
+    ) : (
+      <>
+        Attendu : <b className="font-semibold text-ink">lire ce chapitre</b>.
+      </>
+    )
+
+  const toutTermine = !preview && chapters.length > 0 && chapters.every((c) => !!completedMap[c.id])
+
+  return (
+    <>
+      {/* Atelier de simulation : il monte son propre cadre plein écran. */}
+      {estAtelier && active && (
+        <SimulationChapter
+          chapterId={active.id}
+          preview={!!preview}
+          onCompleted={() => handleChapterCompleted(active.id)}
+          sommaire={sommaireAtelier}
+          onNaviguer={(id) => {
+            const i = chapters.findIndex((c) => c.id === id)
+            if (i >= 0) setActiveIndex(i)
+          }}
+          onQuitter={() => router.push("/learner/accueil")}
+          note={notesMap[active.id] || ""}
+          onNote={(v) => noterDepuisAtelier(active.id, v)}
+          notesHref={`/learner/notes?id=${formationId || ""}&chapitre=${active.id}`}
+          documentsChapitre={active.attachments}
+          documentsFormation={documentsDeLaFormationEntiere}
+          afficherRessources={formationADesDocuments}
+          documentsHref="/learner/documents"
+          cleGuide={userId}
+        />
+      )}
+
+      <CadranFormation
+        chapterId={active?.id || ""}
+        filModule={
+          active?.sectionId
+            ? (sortedSections.find((s) => s.id === active.sectionId)?.title ?? null)
+            : null
+        }
+        filChapitre={active?.title || formationTitle}
+        index={active ? (displayNumberMap[active.id] ?? 1) : 1}
+        total={chapters.length}
+        progression={progressPercent}
+        sommaire={sommaireCadran}
+        positionCourante={
+          active?.videoUrl && active.videoDuration
+            ? { vu: Math.min(vuSecondes, active.videoDuration), total: active.videoDuration }
+            : null
+        }
+        onNaviguer={(id) => {
+          const ch = chapters.find((c) => c.id === id)
+          if (ch) handleSelectChapter(ch)
+        }}
+        note={active && !preview ? notesMap[active.id] || "" : undefined}
+        onNote={active && !preview ? (v) => noterDepuisAtelier(active.id, v) : undefined}
+        notesHref={active ? `/learner/notes?id=${formationId || ""}&chapitre=${active.id}` : undefined}
+        afficherRessources={formationADesDocuments}
+        documentsChapitre={active?.attachments}
+        documentsFormation={documentsDeLaFormationEntiere}
+        documentsHref="/learner/documents"
+        onQuitter={preview ? undefined : () => router.push("/learner/accueil")}
+        genre={genre}
+        titre={active?.title || formationTitle}
+        description={active?.description}
+        contenu={kind === "text" ? null : active?.content}
+        attendu={attendu}
+        validation={validation}
+        onTerminer={markCompleted}
+        precedent={prevChapter ? () => handleSelectChapter(prevChapter) : undefined}
+        suivant={nextChapter ? () => handleSelectChapter(nextChapter) : undefined}
+        bilan={
+          toutTermine ? (
+            <div className="flex flex-wrap items-center gap-3 rounded-2xl border border-emerald-200 bg-white/95 p-3 shadow-lg backdrop-blur">
+              <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-emerald-50">
+                <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="#059669" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 01-10 0V4zM7 6H4v1a3 3 0 003 3M17 6h3v1a3 3 0 01-3 3" />
+                </svg>
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="font-display text-[14px] font-semibold text-ink">
+                  Félicitations, vous avez terminé la formation ! 🎉
+                </p>
+                <p className="text-[12.5px] text-warm-600">
+                  {quizGlobal != null ? (
+                    <>
+                      Votre score global aux évaluations est de{" "}
+                      <span className="font-semibold text-emerald-700">{Math.round(quizGlobal * 100)}%</span>.
+                    </>
+                  ) : (
+                    "Retrouvez le récapitulatif de vos évaluations dans votre bilan."
+                  )}
+                </p>
+              </div>
+              <a
+                href="/learner/resultats"
+                className="inline-flex min-h-[44px] items-center rounded-lg px-4 text-xs font-semibold text-white"
+                style={{ background: "var(--partner-primary, #4F46E5)" }}
+              >
+                Voir mon bilan
+              </a>
+            </div>
+          ) : null
+        }
+        pleinCadre={!preview}
+        visible={!estAtelier}
+      >
+        {/* ── La scène ────────────────────────────────────────────────────
+            L'hôte Vimeo est PERSISTANT : jamais démonté, jamais keyé — seule
+            la `src` de son iframe change. Le démontage laissait des lecteurs
+            orphelins empilés dans le document. */}
         <VimeoPlayer
           vimeoId={active?.videoUrl || null}
           chapterId={active?.id || ""}
@@ -528,621 +682,112 @@ export default function FormationPlayer({
           onWatchProgress={handleWatchProgress}
           takePendingSeconds={takePendingSeconds}
         />
-        {/* Atelier bureautique : passe avant le quiz, car un chapitre de simulation
-            peut aussi porter un QCM de fin — c'est la simulation qui le définit. */}
-        {!active?.videoUrl && active?.simulation && (
-          <SimulationChapter
-            chapterId={active.id}
-            preview={!!preview}
-            onCompleted={() => handleChapterCompleted(active.id)}
-            sommaire={sommaireAtelier}
-            onNaviguer={(id) => {
-              const i = chapters.findIndex((c) => c.id === id)
-              if (i >= 0) setActiveIndex(i)
-            }}
-            onQuitter={() => router.push("/learner/accueil")}
-            note={notesMap[active.id] || ""}
-            onNote={(v) => noterDepuisAtelier(active.id, v)}
-            notesHref={`/learner/notes?id=${formationId || ""}&chapitre=${active.id}`}
-            documentsChapitre={active.attachments}
-            documentsFormation={documentsDeLaFormationEntiere}
-            afficherRessources={formationADesDocuments}
-            documentsHref="/learner/documents"
-            cleGuide={userId}
-          />
-        )}
-        {!active?.videoUrl && !active?.simulation && (active?.exercises?.length > 0 ? (
-          (() => {
-            const ex = active.exercises[0]
-            const questionsCount = ex.questions?.length || 0
-            return (
-              <div className="bg-white rounded-2xl border border-border shadow-sm p-5 sm:p-6">
-                <div className="flex flex-col sm:flex-row sm:items-center gap-4">
-                  <div className="w-12 h-12 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center flex-shrink-0">
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <p className="text-[11px] font-semibold text-warm-400 uppercase tracking-wider mb-1">
-                      Quiz · {questionsCount} question{questionsCount > 1 ? "s" : ""} · essais illimités
-                    </p>
-                    <h2 className="font-display text-lg sm:text-xl font-semibold text-primary">
-                      Répondez aux questions ci-dessous
-                    </h2>
-                    <p className="text-sm text-warm-500 mt-1">
-                      Les réponses sont validées en bas du questionnaire.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            )
-          })()
-        ) : active?.attachments?.find((a) => /\.pdf(\?|$)/i.test(a.fileUrl)) ? (
-          // PDF viewer inline (style Rise Up) — chapter PDF sans vidéo
-          (() => {
-            const pdf = active.attachments.find((a) => /\.pdf(\?|$)/i.test(a.fileUrl))!
-            const pdfHref = toApiFileUrl(pdf.fileUrl)
-            return (
-              <div className="bg-white rounded-2xl border border-border shadow-sm overflow-hidden">
-                {/* Header */}
-                <div className="flex items-center justify-between gap-3 px-4 py-3 border-b border-border bg-surface-subtle">
-                  <div className="flex items-center gap-3 min-w-0">
-                    <div className="flex-shrink-0 w-10 h-10 rounded-full bg-brand-100 flex items-center justify-center">
-                      <svg className="w-5 h-5 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
-                      </svg>
-                    </div>
-                    <div className="min-w-0">
-                      <h3 className="font-display font-semibold text-primary truncate">{pdf.name}</h3>
-                      <p className="text-[11px] text-warm-400 uppercase tracking-wider">Document</p>
-                    </div>
-                  </div>
-                  {/* Mêmes deux actions que dans le panneau du simulateur :
-                      un seul composant, partout. */}
-                  <ActionsDocument
-                    doc={pdf}
-                    onConsulter={setDocConsulte}
-                    etat={docConsulte?.id === pdf.id ? etatConsultation : null}
-                  />
-                </div>
-                {/* Mobile : l'iframe en flux ne rend qu'une page illisible sur
-                    iOS. La carte ouvre donc la visionneuse plein cadre, qui
-                    laisse au document toute la hauteur de l'écran. */}
-                <button
-                  type="button"
-                  data-action="consulter-mobile"
-                  onClick={() => setDocConsulte(pdf)}
-                  className="sm:hidden flex w-[calc(100%-2rem)] items-center gap-3 m-4 p-4 rounded-xl border border-border bg-surface-subtle hover:bg-warm-50 transition-colors text-left"
-                >
-                  <div className="flex-shrink-0 w-11 h-11 rounded-xl bg-brand-100 flex items-center justify-center">
-                    <svg className="w-5 h-5 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
-                    </svg>
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <p className="text-sm font-semibold text-primary">Consulter le document</p>
-                    <p className="text-xs text-warm-500 mt-0.5">La lecture plein cadre est plus confortable sur mobile.</p>
-                  </div>
-                  <svg className="w-5 h-5 text-warm-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-                  </svg>
-                </button>
-                {/* Desktop/tablette : viewer inline */}
-                <iframe
-                  src={`${pdfHref}#toolbar=0&navpanes=0`}
-                  className="hidden sm:block w-full h-[600px] sm:h-[720px] bg-warm-50"
-                  title={pdf.name}
-                />
-              </div>
-            )
-          })()
-        ) : (
-          <div className="aspect-video bg-warm-100 rounded-2xl flex items-center justify-center border border-warm-200">
-            <div className="text-center">
-              <svg className="w-10 h-10 text-warm-300 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                <path strokeLinecap="round" strokeLinejoin="round" d="M15.91 11.672a.375.375 0 010 .656l-5.603 3.113a.375.375 0 01-.557-.328V8.887c0-.286.307-.466.557-.327l5.603 3.112z" />
-              </svg>
-              <p className="text-warm-400 text-sm">Aucune vidéo pour ce chapitre</p>
-            </div>
-          </div>
-        ))}
 
-        {/* Chapter info */}
-        <div className="bg-white rounded-2xl border border-border p-6 shadow-sm">
-          <div className="flex items-start justify-between gap-4 mb-3">
-            <div className="min-w-0 flex-1">
-              <div className="flex items-center gap-2 flex-wrap mb-1">
-                <p className="text-[11px] font-semibold text-warm-400 uppercase tracking-wider">
-                  Chapitre {active ? displayNumberMap[active.id] : 1} / {chapters.length}
+        {kind === "exercise" && active && (
+          <div
+            className="max-h-full w-full max-w-[760px] overflow-y-auto rounded-2xl bg-white p-5 sm:p-6"
+            style={{ boxShadow: "0 22px 60px rgba(0,0,0,.5)" }}
+          >
+            <div className="mb-4 flex items-start gap-3">
+              <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-amber-100 text-amber-700">
+                <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              {/* Pas de titre ici : `ExerciseBlock` porte déjà le sien, juste
+                  en dessous, et la bande porte celui du chapitre. Le répéter
+                  affichait trois fois le même intitulé sur un seul écran. */}
+              <div className="min-w-0">
+                <p className="text-[10px] font-semibold uppercase tracking-wider text-warm-400">
+                  Quiz · {active.exercises[0]?.questions?.length || 0} question
+                  {(active.exercises[0]?.questions?.length || 0) > 1 ? "s" : ""} · essais illimités
                 </p>
-                {active?.videoDuration ? (
-                  <>
-                    <span className="text-warm-300">·</span>
-                    <span className="inline-flex items-center gap-1 text-[11px] font-medium text-warm-500">
-                      <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
-                      {formatDuration(active.videoDuration)}
-                    </span>
-                  </>
-                ) : null}
-                {totalDuration > 0 && (
-                  <>
-                    <span className="text-warm-300">·</span>
-                    <span className="text-[11px] text-warm-400">Formation : {formatDuration(totalDuration)}</span>
-                  </>
-                )}
-              </div>
-              <h2 className="font-display text-xl font-semibold text-primary">{active?.title}</h2>
-            </div>
-            {completedMap[active?.id] && (
-              <span className="flex-shrink-0 inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-emerald-100 text-emerald-700">
-                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={3}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                </svg>
-                Terminé
-              </span>
-            )}
-          </div>
-          {active?.description && (
-            <p className="text-warm-500 text-sm leading-relaxed mb-4 whitespace-pre-line">{active.description}</p>
-          )}
-          {active?.content && (
-            <div className="text-sm text-warm-600 leading-relaxed whitespace-pre-wrap border-t border-border pt-4">{active.content}</div>
-          )}
-          {active?.attachments?.length > 0 && (
-            <div className="mt-5 pt-5 border-t border-border">
-              <h3 className="text-xs font-semibold text-warm-400 uppercase tracking-wider mb-3">Pièces jointes</h3>
-              <div>
-                {active.attachments.map((att) => (
-                  <LigneDocument
-                    key={att.id}
-                    doc={att}
-                    onConsulter={setDocConsulte}
-                    etat={docConsulte?.id === att.id ? etatConsultation : null}
-                  />
-                ))}
+                <p className="mt-0.5 text-[13px] text-warm-500">
+                  Répondez aux questions ci-dessous, puis validez en bas du questionnaire.
+                </p>
               </div>
             </div>
-          )}
-        </div>
-
-        {/* Barre d'actions : navigation + complétion manuelle */}
-        {active && (
-          <div className="space-y-2">
-          <div className="bg-white rounded-2xl border border-border p-4 shadow-sm flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-            <div className="flex items-center gap-2 flex-1">
-              <button
-                type="button"
-                onClick={() => prevChapter && handleSelectChapter(prevChapter)}
-                disabled={!prevChapter}
-                className="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl text-sm font-medium text-warm-600 border border-border hover:bg-warm-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
-                style={{ minHeight: 44 }}
-              >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
-                </svg>
-                Précédent
-              </button>
-              <button
-                type="button"
-                onClick={() => nextChapter && handleSelectChapter(nextChapter)}
-                disabled={!nextChapter}
-                className="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl text-sm font-medium text-warm-600 border border-border hover:bg-warm-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
-                style={{ minHeight: 44 }}
-              >
-                Suivant
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-                </svg>
-              </button>
-            </div>
-            {completedMap[active.id] ? (
-              <div
-                className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold bg-emerald-100 text-emerald-700 sm:ml-auto"
-                style={{ minHeight: 44 }}
-              >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={3}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                </svg>
-                Chapitre terminé
-              </div>
-            ) : (
-              <button
-                type="button"
-                onClick={markCompleted}
-                disabled={marking || preview || watchGate.locked}
-                className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white transition-all active:scale-[0.98] disabled:opacity-50 sm:ml-auto"
-                style={{ background: "var(--partner-primary, #4F46E5)", minHeight: 44 }}
-              >
-                {marking ? (
-                  "Enregistrement…"
-                ) : (
-                  <>
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                    </svg>
-                    Marquer comme terminé
-                  </>
-                )}
-              </button>
-            )}
-          </div>
-          {/* Explication du déblocage : la navigation reste libre, seul le statut
-              « terminé » attend un vrai visionnage (fiabilité de la progression) */}
-          {watchGate.locked && (
-            <p className="text-xs text-warm-500 leading-relaxed px-1">
-              <span className="font-semibold text-warm-600">
-                Regardez au moins la moitié de la vidéo pour valider ce chapitre
-              </span>
-              {watchGate.pct > 0 ? <> ({watchGate.pct} % du visionnage requis)</> : null}
-              {" "}— vous pouvez tout à fait passer aux chapitres suivants et y revenir plus
-              tard : il restera simplement affiché comme « à terminer ».
-            </p>
-          )}
-          </div>
-        )}
-
-        {/* Exercises */}
-        {active?.exercises?.length > 0 && (
-          <div className="space-y-4">
-            {active.exercises.map((ex) => (
-              <ExerciseBlock key={ex.id} exercise={ex} userId={userId} preview={preview} />
-            ))}
-          </div>
-        )}
-
-        {/* Prise de notes du chapitre (autosave, personnelle — masquée en preview admin) */}
-        {active && !preview && (
-          <ChapterNotes
-            key={active.id}
-            chapterId={active.id}
-            value={notesMap[active.id] || ""}
-            onChange={(v) => setNotesMap((prev) => ({ ...prev, [active.id]: v }))}
-            notesHref={`/learner/notes?id=${formationId || ""}&chapitre=${active.id}`}
-          />
-        )}
-
-        {/* Formation-level attachments */}
-        {formationAttachments && formationAttachments.length > 0 && (
-          <div className="bg-white rounded-2xl border border-border p-6 shadow-sm">
-            <h3 className="text-xs font-semibold text-warm-400 uppercase tracking-wider mb-3">Documents de la formation</h3>
-            <div>
-              {formationAttachments.map((att) => (
-                <LigneDocument
-                  key={att.id}
-                  doc={att}
-                  onConsulter={setDocConsulte}
-                  etat={docConsulte?.id === att.id ? etatConsultation : null}
-                />
+            <div className="space-y-4">
+              {active.exercises.map((ex) => (
+                <ExerciseBlock key={ex.id} exercise={ex} userId={userId} preview={preview} />
               ))}
             </div>
           </div>
         )}
-      </div>
 
-      {/* Backdrop du drawer chapitres (mobile) */}
-      {showChapters && (
-        <div
-          className="lg:hidden fixed inset-0 z-40 bg-black/40 backdrop-blur-sm animate-fade-in"
-          style={{ top: "calc(var(--app-impersonation-offset, 0px) + 64px)" }}
-          onClick={() => setShowChapters(false)}
-          aria-hidden
-        />
-      )}
-
-      {/* Sidebar — drawer plein écran sur mobile (glisse depuis la droite), colonne sur desktop */}
-      <div
-        className={`${showChapters ? "fixed right-0 bottom-0 z-50 w-full max-w-[88vw] sm:max-w-[360px] overflow-y-auto overscroll-contain" : "hidden"} lg:static lg:block lg:z-auto lg:w-auto lg:max-w-none lg:overflow-visible`}
-        style={showChapters ? { top: "calc(var(--app-impersonation-offset, 0px) + 64px)" } : undefined}
-      >
-        <div className="bg-white min-h-full lg:min-h-0 lg:rounded-2xl border-l lg:border border-border shadow-2xl lg:shadow-sm lg:sticky lg:top-[80px] overflow-hidden">
-          {/* Sidebar header */}
-          <div className="p-4 border-b border-border bg-warm-50/50">
-            <div className="flex items-start justify-between gap-2 mb-3">
-              <h3 className="font-display text-sm font-semibold text-primary truncate">{formationTitle}</h3>
-              <button onClick={() => setShowChapters(false)} className="lg:hidden -mt-1 -mr-1 p-1.5 rounded-lg text-warm-500 hover:bg-warm-100 flex-shrink-0" aria-label="Fermer les chapitres">
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-              </button>
-            </div>
-            {/* Barre % chapitres complétés */}
-            <div className="flex items-center gap-3 mb-2">
-              <div className="flex-1 bg-warm-200/50 rounded-full h-1.5 overflow-hidden">
-                <div
-                  className="h-full rounded-full bg-emerald-500 transition-all duration-500"
-                  style={{ width: `${Math.max(progressPercent, 2)}%` }}
-                />
-              </div>
-              <span className="text-[11px] font-semibold text-emerald-600 tabular-nums w-9 text-right">{progressPercent}%</span>
-            </div>
-            {/* Barre heures visualisées */}
-            {totalDuration > 0 && (
-              <div className="flex items-center gap-3">
-                <div className="flex-1 bg-warm-200/50 rounded-full h-1.5 overflow-hidden">
-                  <div
-                    className="h-full rounded-full bg-brand-500 transition-all duration-500"
-                    style={{ width: `${Math.max((completedDuration / totalDuration) * 100, 2)}%` }}
-                  />
+        {kind === "pdf" && pdfActif && (
+          <div
+            className="flex h-full w-full flex-col overflow-hidden rounded-xl bg-white"
+            style={{ boxShadow: "0 22px 60px rgba(0,0,0,.5)" }}
+          >
+            <div className="flex flex-shrink-0 items-center justify-between gap-3 border-b border-border bg-surface-subtle px-4 py-2.5">
+              <div className="flex min-w-0 items-center gap-3">
+                <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg bg-brand-100">
+                  <svg className="h-4 w-4 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+                  </svg>
                 </div>
-                <span className="text-[10px] font-medium text-warm-500 tabular-nums whitespace-nowrap">
-                  {formatDuration(completedDuration) || "0 min"} / {formatDuration(totalDuration)}
-                </span>
+                <div className="min-w-0">
+                  <h3 className="truncate font-display text-[14px] font-semibold text-primary">{pdfActif.name}</h3>
+                  <p className="text-[10px] uppercase tracking-wider text-warm-400">Document</p>
+                </div>
+              </div>
+              <ActionsDocument
+                doc={pdfActif}
+                onConsulter={setDocConsulte}
+                etat={docConsulte?.id === pdfActif.id ? etatConsultation : null}
+              />
+            </div>
+            {/* Mobile : l'iframe en flux ne rend qu'une page illisible sur iOS.
+                La carte ouvre donc la visionneuse plein cadre. */}
+            <button
+              type="button"
+              data-action="consulter-mobile"
+              onClick={() => setDocConsulte(pdfActif)}
+              className="m-4 flex items-center gap-3 rounded-xl border border-border bg-surface-subtle p-4 text-left transition-colors hover:bg-warm-50 sm:hidden"
+            >
+              <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-brand-100">
+                <svg className="h-5 w-5 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+                </svg>
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="text-sm font-semibold text-primary">Consulter le document</p>
+                <p className="mt-0.5 text-xs text-warm-500">La lecture plein cadre est plus confortable sur mobile.</p>
+              </div>
+            </button>
+            <iframe
+              src={`${toApiFileUrl(pdfActif.fileUrl)}#toolbar=0&navpanes=0`}
+              className="hidden min-h-0 w-full flex-1 bg-warm-50 sm:block"
+              title={pdfActif.name}
+            />
+          </div>
+        )}
+
+        {kind === "text" && (
+          <div
+            className="max-h-full w-full max-w-[720px] overflow-y-auto rounded-2xl bg-white p-6 sm:p-8"
+            style={{ boxShadow: "0 22px 60px rgba(0,0,0,.5)" }}
+          >
+            {active?.content ? (
+              <div className="whitespace-pre-wrap text-[13.5px] leading-relaxed text-warm-700">{active.content}</div>
+            ) : (
+              <div className="py-10 text-center">
+                <svg className="mx-auto mb-2 h-10 w-10 text-warm-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M15.91 11.672a.375.375 0 010 .656l-5.603 3.113a.375.375 0 01-.557-.328V8.887c0-.286.307-.466.557-.327l5.603 3.112z" />
+                </svg>
+                <p className="text-sm text-warm-400">Ce chapitre n'a pas encore de contenu.</p>
               </div>
             )}
           </div>
-
-          {/* Chapter list */}
-          <div className="p-2 max-h-[calc(100dvh-200px)] overflow-y-auto">
-            {rootChapters.map((ch) => (
-              <ChapterButton
-                key={ch.id}
-                chapter={ch}
-                displayNumber={displayNumberMap[ch.id]}
-                kind={getChapterKind(ch)}
-                isActive={chapters[activeIndex]?.id === ch.id}
-                completed={!!completedMap[ch.id]}
-                onClick={() => handleSelectChapter(ch)}
-              />
-            ))}
-
-            {sortedSections.map((section) => {
-              const sectionChapters = chaptersBySection(section.id)
-              if (sectionChapters.length === 0 && rootChapters.length > 0) return null
-              const expanded = expandedSections[section.id] !== false
-              const sectionDone = sectionChapters.filter((c) => completedMap[c.id]).length
-              return (
-                <div key={section.id} className="mt-3">
-                  {/* Header section cliquable — pill teintée */}
-                  <button
-                    type="button"
-                    onClick={() => toggleSection(section.id)}
-                    className="w-full flex items-center gap-2.5 px-3 py-2.5 text-left rounded-lg transition-colors group hover:brightness-95"
-                    style={{ background: "color-mix(in srgb, var(--partner-primary, #4F46E5) 6%, transparent)" }}
-                  >
-                    <svg
-                      className={`w-3.5 h-3.5 text-primary transition-transform flex-shrink-0 ${expanded ? "rotate-90" : ""}`}
-                      fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}
-                    >
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                    </svg>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-[11px] font-bold uppercase tracking-wider truncate" style={{ color: "var(--partner-primary, #3730a3)" }}>{section.title}</p>
-                      {section.description && (
-                        <p className="text-[10px] text-warm-500 mt-0.5 leading-snug truncate">{section.description}</p>
-                      )}
-                    </div>
-                    <span className="text-[10px] font-semibold bg-white px-1.5 py-0.5 rounded-full tabular-nums flex-shrink-0" style={{ color: "var(--partner-primary, #6366f1)" }}>
-                      {sectionDone}/{sectionChapters.length}
-                    </span>
-                  </button>
-                  {/* Chapitres de la section */}
-                  {expanded && sectionChapters.map((ch) => (
-                    <ChapterButton
-                      key={ch.id}
-                      chapter={ch}
-                      displayNumber={displayNumberMap[ch.id]}
-                      kind={getChapterKind(ch)}
-                      isActive={chapters[activeIndex]?.id === ch.id}
-                      completed={!!completedMap[ch.id]}
-                      onClick={() => handleSelectChapter(ch)}
-                    />
-                  ))}
-                </div>
-              )
-            })}
-          </div>
-        </div>
-      </div>
-
-      {/* Visionneuse partagée avec le simulateur. Elle se rend par un portail
-          vers le corps du document : ni la grille du player, ni le `transform`
-          résiduel de la page ne peuvent la contraindre. */}
-      <PdfViewer doc={docConsulte} onClose={fermerVisionneuse} onEtat={setEtatConsultation} />
-    </div>
-  )
-}
-
-/* ═══════════ CHAPTER NOTES ═══════════ */
-
-function ChapterNotes({
-  chapterId,
-  value,
-  onChange,
-  notesHref,
-}: {
-  chapterId: string
-  value: string
-  onChange: (value: string) => void
-  notesHref: string
-}) {
-  const [saveState, setSaveState] = useState<"idle" | "saving" | "saved" | "error">("idle")
-  const [savedAt, setSavedAt] = useState<string>("")
-  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
-  const dirtyRef = useRef(false)
-  const valueRef = useRef(value)
-  valueRef.current = value
-
-  const save = useCallback(async (content: string) => {
-    setSaveState("saving")
-    try {
-      const res = await fetch("/api/notes", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ chapterId, content }),
-      })
-      if (!res.ok) throw new Error("save failed")
-      dirtyRef.current = false
-      setSaveState("saved")
-      setSavedAt(new Date().toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" }))
-    } catch {
-      setSaveState("error")
-    }
-  }, [chapterId])
-
-  const handleChange = (v: string) => {
-    onChange(v)
-    dirtyRef.current = true
-    if (debounceRef.current) clearTimeout(debounceRef.current)
-    debounceRef.current = setTimeout(() => save(v), 1200)
-  }
-
-  // Flush de la note en attente au changement de chapitre / sortie de page
-  useEffect(() => {
-    return () => {
-      if (debounceRef.current) clearTimeout(debounceRef.current)
-      if (dirtyRef.current) {
-        fetch("/api/notes", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ chapterId, content: valueRef.current }),
-          keepalive: true,
-        }).catch(() => {})
-      }
-    }
-  }, [chapterId])
-
-  return (
-    <div className="bg-white rounded-2xl border border-border p-5 sm:p-6 shadow-sm">
-      <div className="flex items-center justify-between gap-3 mb-3 flex-wrap">
-        <div className="flex items-center gap-2.5 min-w-0">
-          <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-amber-50 flex items-center justify-center">
-            <svg className="w-4 h-4 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.8}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
-            </svg>
-          </div>
-          <h3 className="font-display text-sm font-semibold text-primary">Prise de notes</h3>
-        </div>
-        <div className="flex items-center gap-3 flex-shrink-0">
-          {saveState === "saving" && (
-            <span className="inline-flex items-center gap-1.5 text-xs text-warm-400">
-              <span className="w-3 h-3 rounded-full border-2 border-warm-200 border-t-warm-500 animate-spin" />
-              Enregistrement…
-            </span>
-          )}
-          {saveState === "saved" && (
-            <span className="inline-flex items-center gap-1 text-xs text-emerald-600">
-              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-              </svg>
-              Enregistré{savedAt ? ` à ${savedAt}` : ""}
-            </span>
-          )}
-          {saveState === "error" && (
-            <span className="inline-flex items-center gap-1 text-xs text-red-600">
-              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m0 3.75h.008M12 3a9 9 0 100 18 9 9 0 000-18z" />
-              </svg>
-              Échec de l'enregistrement
-            </span>
-          )}
-          <a
-            href={notesHref}
-            className="inline-flex items-center gap-1 text-xs font-medium text-brand-600 hover:text-brand-700 transition-colors"
-          >
-            Toutes mes notes
-            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-            </svg>
-          </a>
-        </div>
-      </div>
-      <textarea
-        value={value}
-        onChange={(e) => handleChange(e.target.value)}
-        placeholder="Notez ici ce que vous retenez de ce chapitre — l'enregistrement est automatique."
-        className="w-full min-h-[120px] text-sm border border-border rounded-xl p-3.5 outline-none resize-y focus:border-primary transition-colors bg-surface-subtle/50 focus:bg-white"
-        style={{ fontSize: 16 }}
-      />
-    </div>
-  )
-}
-
-/* ═══════════ CHAPTER BUTTON ═══════════ */
-
-function ChapterButton({
-  chapter,
-  displayNumber,
-  kind,
-  isActive,
-  completed,
-  onClick,
-}: {
-  chapter: Chapter
-  displayNumber: number
-  kind: ChapterKind
-  isActive: boolean
-  completed: boolean
-  onClick: () => void
-}) {
-  // Config par type (icône + couleurs)
-  // Icône vidéo en gris clair neutre (indépendant du partenaire) : plus lisible
-  // et cohérent quelle que soit la palette du partenaire (feedback Samuel 07/07).
-  // Les autres types gardent des couleurs sémantiques fixes (quiz ambre, PDF rose).
-  const kindConfig: Record<ChapterKind, { bg: string; text: string; bgStyle?: React.CSSProperties; textStyle?: React.CSSProperties; icon: React.ReactNode }> = {
-    video: {
-      bg: "bg-warm-100", text: "text-warm-500",
-      icon: <svg viewBox="0 0 24 24" fill="currentColor" className="w-3 h-3"><path d="M8 5v14l11-7z" /></svg>,
-    },
-    // Icône grille : la simulation se reconnaît immédiatement comme un exercice
-    // « dans le logiciel ». Bleu ciel volontairement distinct de l'ambre du quiz,
-    // du rose des PDF et du vert de la complétion.
-    simulation: {
-      bg: "bg-sky-100", text: "text-sky-700",
-      icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-3 h-3"><path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 6v12h16V6M9 6v12m6-12v12M4 12h16" /></svg>,
-    },
-    exercise: {
-      bg: "bg-amber-100", text: "text-amber-700",
-      icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} className="w-3 h-3"><path strokeLinecap="round" strokeLinejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>,
-    },
-    pdf: {
-      bg: "bg-rose-100", text: "text-rose-700",
-      icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-3 h-3"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>,
-    },
-    text: {
-      bg: "bg-warm-100", text: "text-warm-600",
-      icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-3 h-3"><path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h10" /></svg>,
-    },
-  }
-  const cfg = kindConfig[kind]
-  const duration = formatDuration(chapterDurationSeconds(chapter))
-
-  return (
-    <button
-      onClick={onClick}
-      className={`w-full text-left px-3 py-2.5 rounded-xl text-[13px] transition-all duration-200 flex items-center gap-2.5 group ${
-        isActive
-          ? "bg-primary text-white font-medium shadow-sm"
-          : "hover:bg-warm-50 text-warm-700"
-      }`}
-    >
-      {/* Badge type (sans numéro overlay — feedback Samuel) */}
-      <div
-        className={`flex-shrink-0 w-7 h-7 rounded-lg flex items-center justify-center ${
-          isActive ? "bg-white/20" : completed ? "bg-emerald-100" : cfg.bg
-        }`}
-        style={!isActive && !completed ? cfg.bgStyle : undefined}
-      >
-        {completed && !isActive ? (
-          <svg className="w-3.5 h-3.5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={3}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-          </svg>
-        ) : (
-          <span className={isActive ? "text-white" : cfg.text} style={!isActive ? cfg.textStyle : undefined}>{cfg.icon}</span>
         )}
-      </div>
-      {/* Titre */}
-      <span className="truncate flex-1">{chapter.title}</span>
-      {/* Durée discrète à droite */}
-      {duration && (
-        <span className={`flex-shrink-0 text-[10px] tabular-nums font-medium ${
-          isActive ? "text-white/70" : "text-warm-400"
-        }`}>
-          {duration}
-        </span>
-      )}
-    </button>
+      </CadranFormation>
+
+      {/* Visionneuse partagée avec le simulateur : portail vers le corps du
+          document, elle passe au-dessus du cadran comme de l'atelier. */}
+      <PdfViewer doc={docConsulte} onClose={fermerVisionneuse} onEtat={setEtatConsultation} />
+    </>
   )
 }
 
@@ -1308,7 +953,7 @@ function ExerciseBlock({
         <button
           onClick={handleSubmit}
           disabled={submitting}
-          className="px-5 py-2.5 bg-primary text-white text-sm font-semibold rounded-xl hover:opacity-90 disabled:opacity-50 transition-all active:scale-[0.98]"
+          className="inline-flex min-h-[44px] items-center justify-center rounded-xl bg-primary px-5 text-sm font-semibold text-white transition-all hover:opacity-90 active:scale-[0.98] disabled:opacity-50"
         >
           {submitting ? "Validation..." : "Valider mes réponses"}
         </button>
@@ -1488,7 +1133,19 @@ function VimeoPlayer({
     : "about:blank"
 
   return (
-    <div className={`relative aspect-video bg-primary rounded-2xl overflow-hidden shadow-lg ${vimeoId ? "" : "hidden"}`}>
+    /*
+     * La vidéo s'inscrit dans la salle sans jamais être rognée ni déformée.
+     *
+     * Deux régimes, et il en faut bien deux : au-delà de 900 px c'est la
+     * HAUTEUR disponible qui commande (`h-full w-auto`), en dessous c'est la
+     * LARGEUR (`w-full h-auto`). Contraindre les deux axes en même temps fait
+     * ignorer `aspect-ratio` par le navigateur, et l'image se déforme.
+     */
+    <div
+      className={`relative aspect-video max-h-full max-w-full overflow-hidden rounded-[14px] bg-primary shadow-lg
+        h-auto w-full min-[901px]:h-full min-[901px]:w-auto ${vimeoId ? "" : "hidden"}`}
+      style={{ boxShadow: "0 24px 70px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.06)" }}
+    >
       <iframe
         ref={iframeRef}
         src={src}

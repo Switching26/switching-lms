@@ -500,6 +500,26 @@ function reponseEnveloppe(m: MessageAttendu): string | null {
 }
 
 /**
+ * L'identifiant RÉEL du champ visé par une saisie.
+ *
+ * 🔴 `CONTROLES.champ("recherche")` rend `cr-champ-recherche`, qui n'existe
+ * dans AUCUN écran : la zone de recherche est rendue avec la constante dédiée
+ * `CONTROLES.recherche` (`cr-recherche`), parce qu'elle vit dans l'en-tête de la
+ * liste et non dans la fenêtre de rédaction. La convention `cr-champ-<nom>` ne
+ * vaut donc que pour les champs de l'enveloppe (à, cc, cci, objet, corps).
+ *
+ * Conséquence de l'écart, mesurée sur le corpus : les 17 étapes de saisie qui
+ * visent la recherche n'avaient de repère NULLE PART — ni halo d'aide, ni
+ * démonstration, à aucune taille d'écran. Une étape qui dit « saisissez » sans
+ * jamais montrer où n'enseigne rien.
+ *
+ * On ne devine pas l'identifiant : il est pris dans la table du modèle.
+ */
+function idDuChamp(champ: string): string {
+  return champ === "recherche" ? CONTROLES.recherche : CONTROLES.champ(champ)
+}
+
+/**
  * Où poser le halo d'aide et la démonstration.
  *
  * Tout est désigné par `data-control` : la surface étant du DOM, il n'y a
@@ -515,7 +535,7 @@ function cibleDe(action: ActionApp): CibleGenerique {
     case "O_SELECT_FOLDER":
       return a.dossier ? { controle: CONTROLES.dossier(a.dossier) } : {}
     case "O_TYPE_TEXT":
-      return a.champ ? { controle: CONTROLES.champ(a.champ) } : {}
+      return a.champ ? { controle: idDuChamp(a.champ) } : {}
     case "O_EXPECT_MAIL":
       return a.message ? cibleEnveloppe(a.message) : {}
     case "O_EXPECT_BOITE":
@@ -610,7 +630,7 @@ function demonstrationDe(action: ActionApp, _ctx: ContexteDemo): PlanDemo | null
 
     case "O_TYPE_TEXT": {
       if (!a.champ || !a.accept?.length) return null
-      const id = CONTROLES.champ(a.champ)
+      const id = idDuChamp(a.champ)
       return {
         gestes: [
           {

@@ -565,9 +565,127 @@ export default function OutlookPlayer({
   const verrouDemoRef = useRef(0)
   const sousDemonstration = useCallback(() => Date.now() < verrouDemoRef.current, [])
 
+  /**
+   * ⚠️ CE QU'UN PETIT ÉCRAN REPLIE, ET LE BOUTON QUI LE ROUVRE.
+   *
+   * Mesuré sur les 103 chapitres, aux deux tailles : **59 gestes dessinent leur
+   * repère en 1440 et RIEN en 390.** Ce ne sont pas des cibles hors champ — ce
+   * sont des cibles ABSENTES DU DOM, parce que la surface se replie en mobile :
+   *
+   *   • le volet des dossiers devient un tiroir rendu seulement quand il est
+   *     ouvert (`CourrierSurface`, D13 : « c'est ce qui garantit qu'un
+   *     `cr-dossier-*` n'existe jamais deux fois dans le DOM ») — 21 gestes,
+   *     tous « Ouvrez ce dossier. » ;
+   *   • la liste des messages cède la place au volet de lecture dès qu'un
+   *     message est ouvert (`voletMobile`) — 18 gestes « Ouvrez ce message
+   *     dans la liste. ».
+   *
+   * Le remède est celui déjà éprouvé sur PowerPoint : quand la cible n'existe
+   * pas, on désigne LE BOUTON QUI LA FAIT APPARAÎTRE. L'apprenant voit alors
+   * un geste qu'il peut réellement accomplir, au lieu d'une bulle orpheline.
+   *
+   * On ne devine pas : les identifiants sont ceux du composant lui-même
+   * (`cr-dossiers` dans `BoutonDossiers`, `cr-retour` dans `VoletLecture`).
+   *
+   * ═══ POURQUOI UNE CHAÎNE, ET NON UN SEUL REPLI ═══
+   *
+   * Mesuré au navigateur à 390 px, sur `m04-l03` : ouvrir un message fait
+   * disparaître d'un coup TOUT l'en-tête de la liste — `cr-nouveau`,
+   * `cr-recherche` ET `cr-dossiers`, qui y vivent tous les trois. Donc :
+   *
+   *   • « Nouveau message » et la recherche n'existent plus tant qu'on lit un
+   *     message. Ce n'est pas seulement un repère manquant : l'étape devient
+   *     INFRANCHISSABLE au doigt, et rien ne dit à l'apprenant qu'il doit
+   *     d'abord revenir en arrière. Vérifié : après `cr-retour`, les trois
+   *     réapparaissent ;
+   *   • un repli unique `cr-dossier-* → cr-dossiers` échouerait dans ce même
+   *     état, puisque le ☰ est lui aussi parti. Il faut alors remonter d'un cran
+   *     de plus, jusqu'au bouton de retour.
+   *
+   * D'où une CHAÎNE, parcourue jusqu'au premier bouton réellement présent. On
+   * s'arrête là : pour un champ de la fenêtre de rédaction (`cr-champ-*`,
+   * `cr-cci`), aucun bouton unique ne la rouvre depuis n'importe quel état —
+   * inventer un repli y serait désigner un geste qui n'aboutit pas.
+   */
+  const chaineDeRepli = useCallback((selecteur: string): string[] => {
+    const m = /^\[data-control="([^"]+)"\]$/.exec(selecteur)
+    if (!m) return []
+    const id = m[1]
+
+    /*
+     * ⚠️ LA VUE CALENDRIER N'EST PAS UN REPLI D'ÉCRAN — et c'est le seul cas de
+     * cette liste qui vaut AUSSI en 1440.
+     *
+     * `VueCalendrier` remplace `VueCourrier` : ni liste, ni dossiers, ni volet de
+     * lecture. Mesuré aux deux tailles sur `m10-e02`, dont l'étape 0 bascule en
+     * calendrier et l'étape 1 demande d'ouvrir un message — sa consigne dit
+     * d'ailleurs « Revenez au courrier et ouvrez l'invitation ». Après un clic sur
+     * l'onglet Courrier, la liste et son message réapparaissent.
+     *
+     * Il n'est proposé QUE si l'on n'est pas déjà dans le courrier : l'onglet
+     * « Courrier » est rendu en permanence, et le désigner alors qu'il est déjà
+     * actif ferait montrer un geste qui n'aboutit à rien — précisément le défaut
+     * que ce mécanisme corrige.
+     */
+    const horsCourrier = etatRef.current.vue !== "courrier" ? ["cr-vue-courrier"] : []
+
+    if (id.startsWith("cr-dossier-")) return ["cr-dossiers", "cr-retour", ...horsCourrier]
+    if (id.startsWith("cr-message-")) return ["cr-retour", ...horsCourrier]
+    // Les trois habitants de l'en-tête de la liste, que le volet de lecture masque.
+    if (id === "cr-nouveau" || id === "cr-recherche" || id === "cr-dossiers")
+      return ["cr-retour", ...horsCourrier]
+    return []
+  }, [])
+
+  /**
+   * Le rectangle d'une cible, AMENÉE DANS LE CHAMP si elle en sort.
+   *
+   * `rectDe` seul lit la position telle quelle : un élément sous le pli rendait
+   * un rectangle hors zone, et le calque peignait son halo là où personne ne
+   * regarde. On amène d'abord, on remesure ensuite — l'ordre inverse lirait la
+   * position d'avant.
+   */
+  const rectDeVisible = useCallback(
+    (selecteur: string) => {
+      const zone = zoneRef.current
+      const el = zone?.querySelector(selecteur)
+      if (!zone || !(el instanceof HTMLElement)) return null
+      let rc = el.getBoundingClientRect()
+      if (rc.width === 0 && rc.height === 0) return null
+      let rz = zone.getBoundingClientRect()
+      if (rc.right > rz.right || rc.left < rz.left || rc.bottom > rz.bottom || rc.top < rz.top) {
+        el.scrollIntoView({ block: "nearest", inline: "center" })
+        rc = el.getBoundingClientRect()
+        rz = zone.getBoundingClientRect()
+      }
+      return { left: rc.left - rz.left, top: rc.top - rz.top, width: rc.width, height: rc.height }
+    },
+    [],
+  )
+
   const resoudreDemo = useCallback(
-    (cible: CibleDemo) => (cible.k === "dom" ? rectDe(cible.sel) : null),
-    [rectDe],
+    (cible: CibleDemo) => {
+      if (cible.k !== "dom") return null
+      const direct = rectDeVisible(cible.sel)
+      if (direct) return direct
+      for (const repli of chaineDeRepli(cible.sel)) {
+        const r = rectDeVisible(`[data-control="${repli}"]`)
+        if (!r) continue
+        /* Crochet d'audit — hors production, même idiome que `__PPT_REPLI_UTILISE`.
+           Il sert à PROUVER la symétrie au lieu de l'argumenter : si le repli ne se
+           déclenche jamais sur grand écran, le comportement y est identique à
+           celui d'avant le correctif. */
+        if (process.env.NODE_ENV !== "production" && typeof window !== "undefined") {
+          const w = window as unknown as Record<string, unknown>
+          const j = (w.__OUTLOOK_REPLI_UTILISE as string[] | undefined) ?? []
+          j.push(`${cible.sel} → ${repli}`)
+          w.__OUTLOOK_REPLI_UTILISE = j
+        }
+        return r
+      }
+      return null
+    },
+    [rectDeVisible, chaineDeRepli],
   )
 
   /**
@@ -718,6 +836,25 @@ export default function OutlookPlayer({
     }, 200)
     return () => window.clearInterval(id)
   }, [pendingRef])
+
+  /**
+   * Déclencheur de démonstration — HORS PRODUCTION, comme `__WORD_FORCE_DEMO`
+   * et `__PPT_FORCE_DEMO`. Outlook était la seule des quatre applications à ne
+   * pas l'exposer, et c'est ce qui rendait ses démonstrations coûteuses à
+   * éprouver : le bouton « Montrez-moi » n'apparaît qu'après trois erreurs, six
+   * tâtonnements ou quarante-cinq secondes, donc chaque cas demandait de
+   * fabriquer un échec avant de pouvoir seulement regarder.
+   *
+   * `__OUTLOOK_ETAPE` sert à se recaler AVANT toute mesure : juste après un
+   * changement d'étape, les repères de la précédente sont encore dans la page,
+   * et l'on compare alors l'attendu de l'étape N à l'écran de l'étape N-1.
+   */
+  useEffect(() => {
+    if (process.env.NODE_ENV === "production" || typeof window === "undefined") return
+    const w = window as unknown as Record<string, unknown>
+    w.__OUTLOOK_ETAPE = step?.id
+    w.__OUTLOOK_FORCE_DEMO = () => demarrerDemonstration()
+  }, [step, demarrerDemonstration])
 
   const aideDemandee = useCallback(() => {
     pendingRef.current.hints += 1

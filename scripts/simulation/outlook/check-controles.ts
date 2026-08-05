@@ -104,7 +104,58 @@ function controlesRendus(): { fixes: string[]; familles: string[] } {
 }
 
 const { fixes, familles } = controlesRendus()
-const estRendu = (id: string) => fixes.includes(id) || familles.some((p) => id.startsWith(p))
+
+/**
+ * 🔴 UN PRÉFIXE DE FAMILLE NE PROUVE PAS QU'UN MEMBRE PARTICULIER EST RENDU.
+ *
+ * C'est le trou par lequel un vrai défaut est passé sans être vu. La famille
+ * `cr-champ-` était déclarée rendue en bloc parce que la fenêtre de rédaction
+ * contient `data-control={C.champ(cle)}` : dès lors, N'IMPORTE QUEL suffixe
+ * passait pour rendu. Or `CONTROLES.champ("recherche")` donne
+ * `cr-champ-recherche`, qui n'existe dans aucun écran — la zone de recherche
+ * est rendue avec la constante dédiée `CONTROLES.recherche`, parce qu'elle vit
+ * dans l'en-tête de la liste et non dans l'enveloppe.
+ *
+ * Conséquence mesurée avant correctif : 17 étapes de saisie n'avaient de repère
+ * NULLE PART — ni halo d'aide, ni démonstration, à aucune taille. Le contrôle,
+ * lui, restait vert : piégé en rétablissant l'ancien identifiant, il rendait
+ * exactement le même verdict.
+ *
+ * Les familles dont les membres sont énumérables sont donc vérifiées membre par
+ * membre. Les autres (`cr-message-`, `cr-dossier-`…) portent des identifiants
+ * venus des données du scénario : leur ensemble n'est pas connu d'avance, le
+ * préfixe reste le seul critère possible.
+ */
+const MEMBRES_ENUMERES: Record<string, string[]> = {
+  // Les champs de l'ENVELOPPE, seuls habitants de `FenetreRedaction`.
+  // `corps` est rendu à part, les quatre autres par la fonction `champ(cle, …)`.
+  "cr-champ-": ["a", "cc", "cci", "objet", "corps"],
+}
+
+/* Une table qui mentirait serait pire que pas de table : on vérifie que chaque
+   membre déclaré apparaît RÉELLEMENT dans le source des surfaces. */
+{
+  const src = SURFACES.map((f) => readFileSync(f, "utf8")).join("\n")
+  for (const [prefixe, membres] of Object.entries(MEMBRES_ENUMERES)) {
+    for (const m of membres) {
+      const cite = src.includes(`"${m}"`) || src.includes(`'${m}'`) || src.includes(`{C.champ(cle)}`)
+      if (!cite) {
+        erreurs.push(
+          `MEMBRES_ENUMERES déclare « ${prefixe}${m} » comme rendu, mais « ${m} » n'apparaît ` +
+            `dans aucune surface. La table a dérivé du code : la corriger avant de s'y fier.`,
+        )
+      }
+    }
+  }
+}
+
+const estRendu = (id: string) => {
+  if (fixes.includes(id)) return true
+  for (const [prefixe, membres] of Object.entries(MEMBRES_ENUMERES)) {
+    if (id.startsWith(prefixe)) return membres.includes(id.slice(prefixe.length))
+  }
+  return familles.some((p) => id.startsWith(p))
+}
 
 /* ═══════════ 1. TOUT CONTRÔLE CITÉ EST RENDU ═══════════ */
 

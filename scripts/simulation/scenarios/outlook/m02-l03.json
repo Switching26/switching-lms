@@ -109,7 +109,7 @@
     },
     {
       "id": "O02-L03-04",
-      "consigne": "==Retirez `Conditions-tarifaires-Atelier-Nord.pdf`== avec sa croix, et gardez le bon de commande. Deuxième différence : **les deux pièces jointes ont suivi**, ce qu'une réponse ne fait jamais. Or les tarifs négociés ne regardent pas l'atelier.",
+      "consigne": "==Retirez `Conditions-tarifaires-Atelier-Nord.pdf`== avec sa croix, et gardez le bon de commande. Les tarifs négociés ne regardent pas l'atelier.",
       "action": {
         "type": "O_EXPECT_MAIL",
         "message": {
@@ -131,7 +131,7 @@
     },
     {
       "id": "O02-L03-05",
-      "consigne": "==Complétez l'objet avec le mot `livraison`== sans toucher au préfixe. Troisième différence : il porte « **TR :** » et non « RE : ». Le préfixe dit à qui reçoit qu'il lit un message d'origine externe.",
+      "consigne": "==Complétez l'objet avec le mot `livraison`== sans toucher au préfixe. Notez qu'il porte « **TR :** » et non « RE : ».",
       "action": {
         "type": "O_EXPECT_MAIL",
         "message": {
@@ -148,6 +148,13 @@
         "text": "Cliquez à la fin du champ Objet et ajoutez le mot : le « TR : » du début doit rester."
       },
       "feedback": "Troisième différence : « TR : » et non « RE : ». Le préfixe dit d'un coup d'œil ce qui est arrivé au message."
+    },
+    {
+      "id": "O02-L03-05B",
+      "consigne": "**Un transfert est l'inverse exact d'une réponse, sur trois points.** Le champ À arrive **vide**. L'objet porte « **TR :** » et non « RE : ». Et surtout **les pièces jointes suivent**, ce qu'une réponse ne fait jamais. C'est ce troisième point qui fait qu'un document interne se retrouve chez un tiers quand on transfère sans regarder.",
+      "action": {
+        "type": "READ"
+      }
     },
     {
       "id": "O02-L03-06",

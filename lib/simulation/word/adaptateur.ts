@@ -32,6 +32,7 @@ import type { WordAction, WordMontrer } from "./actions"
 import type { WordObservation, WordParagrapheObserve, WordRunObserve } from "./observations"
 import {
   correspond,
+  debutDUneReponse,
   ecartsDeFormat,
   contradictionsDeFormat,
   contreditValeur,
@@ -270,6 +271,41 @@ function juger(step: EtapeApp, observed: ObservationApp): Verdict | null {
       const candidats = [obs.saisi ?? "", obs.paragraphe ?? ""].filter(Boolean)
       const bon = candidats.some((c) => correspond(c, action.accept, action.strict))
       if (!bon) {
+        /*
+         * 🔴 TAPER UNE PHRASE NE DOIT PAS COÛTER LE POINT AVANT DE L'AVOIR
+         * FINIE.
+         *
+         * La surface émet une observation à CHAQUE caractère. Tout état
+         * intermédiaire — « M », « Me », « Mer »… — était donc déclaré réponse
+         * fausse, et la faute est comptée dès la première : sur l'évaluation du
+         * module 1, la dernière question valait 2 points qu'aucun apprenant ne
+         * pouvait obtenir, quelle que soit sa réponse. Mesuré en jouant le
+         * passage : `wrong_text` dès la première touche, puis `ok` à la fin —
+         * trop tard, le point était déjà perdu.
+         *
+         * Même partage que pour `W_EXPECT_DOC` : tant que ce qui est écrit peut
+         * encore devenir la réponse attendue, l'apprenant construit ; dès qu'il
+         * en diverge, il se trompe et cela coûte.
+         */
+        /*
+         * Rien de saisi ⇒ rien à déclarer faux. La surface émet aussi des
+         * observations où l'apprenant n'a encore rien tapé : le paragraphe qui
+         * vient d'être ouvert par la touche Entrée est vide, et celui d'où il
+         * partait porte son texte d'origine. Les compter comme réponse fausse
+         * retirait le point avant la première lettre — mesuré sur la dernière
+         * question de l'évaluation du module 1, ses 2 points étaient imprenables.
+         */
+        if (!(obs.saisi ?? "").trim()) {
+          return pasEncore("text", "Il faut saisir le texte demandé.")
+        }
+        // La chaîne vide est le début de toute réponse : pas de `filter` ici.
+        if (
+          [obs.saisi ?? "", obs.paragraphe ?? ""].some((c) =>
+            debutDUneReponse(c, action.accept, action.strict),
+          )
+        ) {
+          return pasEncore("text", "Le texte n'est pas encore complet.")
+        }
         return nul(
           "wrong_text",
           `Ce n'est pas le texte attendu. Vous avez saisi « ${saisi.trim().slice(0, 60)} ».`,
@@ -325,8 +361,24 @@ function juger(step: EtapeApp, observed: ObservationApp): Verdict | null {
         return pasEncore("control", "Il faut utiliser le bouton demandé du ruban.")
       }
       if (obs.controle !== action.controle) {
-        const nom = LIBELLES_CONTROLES_WORD[action.controle] ?? action.controle
-        return nul("wrong_control", `Ce n'est pas le bon bouton : il faut « ${nom} ».`)
+        /*
+         * 🔴 NE JAMAIS NOMMER LE BOUTON ATTENDU : C'EST LA RÉPONSE.
+         *
+         * Le message disait « il faut « Annuler » » au PREMIER clic faux. Il
+         * court-circuitait toute l'aide progressive — indice au 2ᵉ essai, geste
+         * montré au 3ᵉ, réponse exacte au 5ᵉ — qui existe précisément pour que
+         * la réponse se mérite. Un apprenant n'avait qu'à cliquer n'importe où
+         * pour se la faire souffler.
+         *
+         * On nomme en revanche ce que l'apprenant VIENT DE FAIRE : c'est son
+         * propre geste, cela ne révèle rien, et c'est ce qui rend le refus
+         * compréhensible plutôt qu'aveugle.
+         *
+         * Le corollaire côté noté est déjà tenu par le socle, qui ne relaie
+         * jamais ce texte et rend un refus constant.
+         */
+        const fait = LIBELLES_CONTROLES_WORD[obs.controle] ?? obs.controle
+        return nul("wrong_control", `Vous avez utilisé « ${fait} » : ce n'est pas le bouton attendu ici.`)
       }
       return OK
     }
@@ -335,9 +387,10 @@ function juger(step: EtapeApp, observed: ObservationApp): Verdict | null {
       if (obs.kind !== "w:key") return pasEncore("key", "Il faut employer le raccourci clavier.")
       const a = action.touches.map((t) => t.toLowerCase()).join("+")
       const b = obs.touches.map((t) => t.toLowerCase()).join("+")
+      // Même raison qu'au-dessus : on nomme le raccourci EMPLOYÉ, pas l'attendu.
       return a === b
         ? OK
-        : nul("wrong_key", `Ce n'est pas le bon raccourci : il faut ${action.touches.join(" + ")}.`)
+        : nul("wrong_key", `${obs.touches.join(" + ")} n'est pas le raccourci attendu ici.`)
     }
 
     /* ── ÉTAT ───────────────────────────────────────────────────────────── */
@@ -351,9 +404,20 @@ function juger(step: EtapeApp, observed: ObservationApp): Verdict | null {
           return pasEncore("doc", `Il manque le ${i + 1}e paragraphe.`)
         }
         if (!correspond(p.texte, formes, action.strict)) {
-          // Un paragraphe VIDE est une absence de geste ; un paragraphe écrit
-          // autrement est une réponse fausse, et elle doit coûter.
-          if (p.texte.trim() !== "") {
+          /*
+           * Un paragraphe qui n'est encore que le DÉBUT de la réponse est une
+           * construction en cours ; un paragraphe qui en diverge est une
+           * réponse fausse, et elle doit coûter.
+           *
+           * ⚠️ Le partage précédent était vide / non vide, et il punissait
+           * l'apprenant AVANT SON PREMIER GESTE : sur l'évaluation du module 1,
+           * le paragraphe à compléter porte déjà son début, la relecture d'état
+           * automatique le juge 420 ms après l'arrivée, et les 2 points étaient
+           * perdus sans qu'une touche ait été frappée. Prouvé au navigateur en
+           * ne faisant rien. Chaque caractère tapé ensuite retombait dans le
+           * même trou.
+           */
+          if (!debutDUneReponse(p.texte, formes, action.strict)) {
             return contredit(
               "doc",
               action.strict
@@ -361,7 +425,12 @@ function juger(step: EtapeApp, observed: ObservationApp): Verdict | null {
                 : `Le ${i + 1}e paragraphe ne porte pas le texte attendu.`,
             )
           }
-          return pasEncore("doc", `Le ${i + 1}e paragraphe est encore vide.`)
+          return pasEncore(
+            "doc",
+            p.texte.trim() === ""
+              ? `Le ${i + 1}e paragraphe est encore vide.`
+              : `Le ${i + 1}e paragraphe n'est pas encore complet.`,
+          )
         }
       }
       if (action.exact) {
@@ -697,30 +766,114 @@ function juger(step: EtapeApp, observed: ObservationApp): Verdict | null {
  * toute correction de contenu.
  */
 
+/**
+ * L'action porte-t-elle encore le champ que ces fonctions vont lire ?
+ *
+ * 🔴 SANS CE GARDE, 145 DES 168 ÉTAPES NOTÉES DE WORD ÉTAIENT CASSÉES — dont
+ * 188 qui levaient une EXCEPTION et tuaient l'atelier en pleine évaluation.
+ *
+ * `publier` (plus bas) rend `null` sur TOUS les types sauf `W_TYPE_TEXT`, dont
+ * il ne garde que `zone` : en évaluation notée, l'action qui parvient au
+ * navigateur est réduite à son seul `type`. C'est ce qui empêche de lire la
+ * réponse dans l'onglet réseau. Mais `attendu`, `fait`, `reponse`, `cible` et
+ * `demonstration` sont appelées sur cette action réduite et y lisaient
+ * `action.style.style`, `action.format.gras`, `action.accept[0]`,
+ * `Object.keys(action.paragraphes)`, `action.touches.join(…)`,
+ * `action.taquets.map(…)` : sept familles de `TypeError` distinctes, plus les
+ * phrases qui s'affichaient « un clic sur « undefined » ».
+ *
+ * ⚠️ LE CORRECTIF ÉVIDENT — `action.paragraphes ?? {}` — NE COUVRE QU'UNE DE
+ * CES SEPT CAUSES. Un crash qui a sept causes ne se corrige pas type par type :
+ * on refuse une bonne fois de parler d'une action qu'on ne connaît plus.
+ *
+ * ⚠️ MAIS SE TAIRE N'EST PAS RÉPARER — et c'est l'erreur que ce garde a
+ * d'abord produite. Rendre `null` faisait passer la mesure « 0 ligne cassée »
+ * en supprimant 126 lignes « Attendu » au lieu de les corriger : l'apprenant
+ * perdait le repère qui lui dit à quoi se reconnaît une étape réussie. Mesuré
+ * sur les 168 étapes notées de Word : 39 lignes justes avant, 26 après. La
+ * référence est Excel, qui en porte 268 sur 295 SANS aucune cassée.
+ *
+ * `complet` ne décide donc plus de parler ou de se taire : il dit seulement si
+ * l'action est AMPUTÉE, et chaque phrase dégrade vers une formulation générale
+ * mais vraie — exactement l'arbitrage retenu côté PowerPoint.
+ *
+ * Invisible en leçon et invisible au banc : seul le chemin SERVI expurge. Même
+ * garde, même raison et même forme que `complete()` côté PowerPoint.
+ */
+function complet(a: ActionApp): boolean {
+  const champ = CHAMP_LU[a.type]
+  return champ === undefined || (a as unknown as Record<string, unknown>)[champ] !== undefined
+}
+
+/**
+ * Le champ, par type d'action, dont dépendent les phrases de l'atelier.
+ *
+ * Un type absent de cette table n'a pas de champ de contenu — `W_EXPECT_PAGE`
+ * et `W_EXPECT_PRINT` rendent une phrase générique, vraie même expurgées.
+ */
+const CHAMP_LU: Record<string, string | undefined> = {
+  W_TYPE_TEXT: "accept",
+  W_SELECT_TEXT: "zone",
+  W_CLICK_CONTROL: "controle",
+  W_KEY: "touches",
+  W_EXPECT_DOC: "paragraphes",
+  W_EXPECT_FORMAT: "format",
+  W_EXPECT_STYLE: "style",
+  W_EXPECT_TABLE: "lignes",
+  W_EXPECT_LIEN: "url",
+  W_EXPECT_IMAGE: "image",
+  W_EXPECT_ENTETE: "accept",
+  W_EXPECT_TABS: "taquets",
+}
+
+/**
+ * UNE ACTION AMPUTÉE GARDE UNE LIGNE VRAIE, elle n'en perd pas.
+ *
+ * En évaluation notée, ce qui manque à l'action EST la réponse : le bouton
+ * exact, le texte exact, la valeur de format exacte. La ligne « Attendu », elle,
+ * n'a jamais eu pour rôle de donner la réponse — elle dit à quoi l'apprenant
+ * reconnaîtra que l'étape est réussie. Elle doit donc rester, en perdant
+ * seulement sa précision. C'est déjà ce que fait Excel de longue date sur
+ * `EXPECT_STATE` : « le classeur dans l'état décrit par la consigne ».
+ *
+ * Le repère de la zone survit quand `publier` l'a laissé passer : dire OÙ
+ * regarder ne dit pas QUOI répondre.
+ */
 function attendu(a: ActionApp): string | null {
   const action = a as unknown as WordAction
+  const ampute = !complet(a)
+  const ou = (zone: string | undefined) => (zone ? ` sur ${zoneEnFrancais(zone)}` : "")
   switch (action.type) {
     case "W_TYPE_TEXT":
       return action.zone
         ? `le texte demandé, saisi dans ${zoneEnFrancais(action.zone)}`
         : "le texte demandé, saisi dans le document"
     case "W_SELECT_TEXT":
-      return `${zoneEnFrancais(action.zone)} sélectionné`
+      return ampute
+        ? "le passage demandé, sélectionné"
+        : `${zoneEnFrancais(action.zone)} sélectionné`
     case "W_CLICK_CONTROL":
-      return `un clic sur « ${LIBELLES_CONTROLES_WORD[action.controle] ?? action.controle} »`
+      return ampute
+        ? "un clic sur le bouton demandé du ruban"
+        : `un clic sur « ${LIBELLES_CONTROLES_WORD[action.controle] ?? action.controle} »`
     case "W_KEY":
-      return `le raccourci ${action.touches.join(" + ")}`
+      return ampute
+        ? "le raccourci clavier demandé"
+        : `le raccourci ${action.touches.join(" + ")}`
     case "W_EXPECT_DOC": {
+      if (ampute) return "le texte demandé, écrit dans le document"
       const n = Object.keys(action.paragraphes).length
       return n === 1 ? "le paragraphe attendu, écrit" : `les ${n} paragraphes attendus, écrits`
     }
     case "W_EXPECT_FORMAT": {
+      if (ampute) return `la mise en forme demandée${ou(action.zone)}`
       const quoi = ecartsDeFormat(action.format, {})
       return quoi.length > 0
-        ? `${enumerer(quoi)} sur ${zoneEnFrancais(action.zone)}`
-        : `la mise en forme demandée sur ${zoneEnFrancais(action.zone)}`
+        ? `${enumerer(quoi)}${ou(action.zone)}`
+        : `la mise en forme demandée${ou(action.zone)}`
     }
     case "W_EXPECT_STYLE": {
+      if (ampute) return `le style demandé${ou(action.zone) || " sur le paragraphe indiqué"}`
       const bouts: string[] = []
       if (action.style.style) bouts.push(`le style « ${action.style.style} »`)
       if (action.style.alignement) bouts.push(`l'alignement ${action.style.alignement}`)
@@ -728,61 +881,90 @@ function attendu(a: ActionApp): string | null {
         bouts.push(`la liste ${action.style.liste}`)
       }
       if (action.style.liste === "aucune") bouts.push("aucune puce")
-      return `${enumerer(bouts)} sur ${zoneEnFrancais(action.zone)}`
+      return `${enumerer(bouts)}${ou(action.zone)}`
     }
     case "W_EXPECT_TABLE":
-      return `un tableau de ${action.lignes} lignes sur ${action.colonnes} colonnes`
+      return ampute
+        ? "un tableau aux dimensions demandées"
+        : `un tableau de ${action.lignes} lignes sur ${action.colonnes} colonnes`
     case "W_EXPECT_PAGE":
       return "la mise en page demandée"
     case "W_EXPECT_LIEN":
+      if (ampute) return "le lien demandé par la consigne"
       return action.absent ? "le texte sans lien" : action.url
     case "W_EXPECT_IMAGE":
+      if (ampute) return "l'image demandée"
       return action.absente ? "le document sans cette image" : "l'image demandée"
     case "W_EXPECT_ENTETE":
+      if (ampute) return "le texte demandé dans la zone indiquée"
       return action.accept[0] === "" ? `${{ entete: "l'en-tête", pied: "le pied de page", filigrane: "le filigrane" }[action.emplacement]} vidé` : action.accept[0]
     case "W_EXPECT_PRINT":
       return "les réglages d'impression demandés"
     case "W_EXPECT_TABS":
-      return action.taquets.map((t) => `${t.position.toFixed(2).replace(".", ",")} cm`).join(", ")
+      return ampute
+        ? "les taquets demandés, posés sur la règle"
+        : action.taquets.map((t) => `${t.position.toFixed(2).replace(".", ",")} cm`).join(", ")
     default:
       return null
   }
 }
 
+/**
+ * La carte de franchissement, après une réussite. Même règle que `attendu` :
+ * une action amputée dégrade sa phrase, elle ne la supprime pas — l'apprenant
+ * vient de réussir, lui dire QUOI ne révèle plus rien, mais se taire le prive
+ * du rappel de son propre geste.
+ */
 function fait(a: ActionApp): string | null {
   const action = a as unknown as WordAction
+  const ampute = !complet(a)
+  const la = (zone: string | undefined) => (zone ? zoneEnFrancais(zone) : "Le passage visé")
   switch (action.type) {
     case "W_TYPE_TEXT":
-      return `Vous avez saisi « ${(action.accept[0] ?? "").slice(0, 48)} ».`
+      return ampute
+        ? "Vous avez saisi le texte demandé."
+        : `Vous avez saisi « ${(action.accept[0] ?? "").slice(0, 48)} ».`
     case "W_SELECT_TEXT":
-      return `Vous avez sélectionné ${zoneEnFrancais(action.zone)}.`
+      return ampute
+        ? "Vous avez sélectionné le passage demandé."
+        : `Vous avez sélectionné ${zoneEnFrancais(action.zone)}.`
     case "W_CLICK_CONTROL":
-      return `Vous avez utilisé « ${LIBELLES_CONTROLES_WORD[action.controle] ?? action.controle} ».`
+      return ampute
+        ? "Vous avez utilisé le bouton demandé."
+        : `Vous avez utilisé « ${LIBELLES_CONTROLES_WORD[action.controle] ?? action.controle} ».`
     case "W_KEY":
-      return `Vous avez employé ${action.touches.join(" + ")}.`
+      return ampute
+        ? "Vous avez employé le raccourci demandé."
+        : `Vous avez employé ${action.touches.join(" + ")}.`
     case "W_EXPECT_DOC":
       return "Le document porte maintenant le texte attendu."
     case "W_EXPECT_FORMAT":
-      return `${zoneEnFrancais(action.zone)} porte maintenant la mise en forme demandée.`
+      return `${la(action.zone)} porte maintenant la mise en forme demandée.`
     case "W_EXPECT_STYLE":
-      return `${zoneEnFrancais(action.zone)} porte maintenant le style demandé.`
+      return `${la(action.zone)} porte maintenant le style demandé.`
     case "W_EXPECT_TABLE":
-      return `Le tableau ${action.lignes} × ${action.colonnes} est inséré.`
+      return ampute
+        ? "Le tableau est inséré."
+        : `Le tableau ${action.lignes} × ${action.colonnes} est inséré.`
     case "W_EXPECT_PAGE":
       return "La mise en page est réglée."
     case "W_EXPECT_LIEN":
+      if (ampute) return "Le lien demandé est en place."
       return action.absent ? "Le lien est retiré." : "Le lien est posé."
     case "W_EXPECT_IMAGE":
+      if (ampute) return "L'image est dans l'état demandé."
       return action.absente
         ? "L'image est retirée du document."
         : "L'image est en place."
     case "W_EXPECT_ENTETE":
+      if (ampute) return "La zone demandée est dans l'état attendu."
       return action.accept[0] === ""
         ? `${{ entete: "L'en-tête", pied: "Le pied de page", filigrane: "Le filigrane" }[action.emplacement]} est retiré.`
         : `${{ entete: "L'en-tête", pied: "Le pied de page", filigrane: "Le filigrane" }[action.emplacement]} porte maintenant le texte demandé.`
     case "W_EXPECT_PRINT":
       return "Les réglages d'impression sont posés."
     case "W_EXPECT_TABS":
+      if (ampute) return "La règle porte maintenant les taquets demandés."
       return action.taquets.length === 0
         ? "Les taquets sont retirés de la règle."
         : `La règle porte maintenant ${action.taquets.length} taquet(s).`
@@ -797,6 +979,7 @@ function fait(a: ActionApp): string | null {
  */
 function reponse(a: ActionApp): string | null {
   const action = a as unknown as WordAction
+  if (!complet(a)) return null
   switch (action.type) {
     case "W_TYPE_TEXT":
       return action.accept[0] ? `Saisissez : ${action.accept[0]}` : null
@@ -862,9 +1045,24 @@ function reponse(a: ActionApp): string | null {
  */
 function cible(a: ActionApp): CibleGenerique {
   const action = a as unknown as WordAction
+  // Même exception que dans `attendu` : `zone` survit à l'expurgation.
+  /*
+   * 🔴 UNE ZONE SERVIE SE DÉSIGNE, MÊME SI LE RESTE DE L'ACTION A ÉTÉ RETIRÉ.
+   *
+   * Ce n'est pas de l'esthétique : `WordPlayer` construit `zonesCibles` à
+   * partir d'ici, et `lireEtat(zonesCibles)` ne CALCULE le format que des zones
+   * qu'on lui désigne. Passer `W_EXPECT_FORMAT` au garde ci-dessous — dont le
+   * champ requis est `format`, absent en évaluation — rendait `{}`, donc aucune
+   * zone, donc aucun format jamais observé : le juge répondait éternellement
+   * « pas encore posée » à un apprenant qui venait de mettre le passage en
+   * gras. Or `cible` ne lit QUE la zone : elle n'a que faire du format.
+   */
+  const z = (a as unknown as { zone?: unknown }).zone
+  if (typeof z === "string" && z !== "") return { zone: z, dom: ancre(z) }
+  if (action.type === "W_TYPE_TEXT") return {}
+  if (!complet(a)) return {}
   switch (action.type) {
-    case "W_TYPE_TEXT":
-      return action.zone ? { zone: action.zone, dom: ancre(action.zone) } : {}
+    // `W_TYPE_TEXT` est traité au-dessus : sans zone, il n'a pas de cible.
     case "W_SELECT_TEXT":
     case "W_EXPECT_FORMAT":
     case "W_EXPECT_STYLE":
@@ -943,6 +1141,7 @@ function demonstration(a: ActionApp, _ctx: ContexteDemo): PlanDemo | null {
   if (a.type === "W_MONTRER") return planMontrer(a as unknown as WordMontrer)
 
   const action = a as unknown as WordAction
+  if (!complet(a)) return null
   switch (action.type) {
     case "W_TYPE_TEXT": {
       const texte = action.accept[0] ?? ""
@@ -1212,8 +1411,18 @@ function publier(a: ActionApp): Record<string, unknown> | null {
   const action = a as unknown as WordAction
   switch (action.type) {
     // La zone dit OÙ agir, pas QUOI répondre : on la garde, sans `accept`.
+    /*
+     * ⚠️ LE `type` DOIT FIGURER DANS CHAQUE PROJECTION.
+     *
+     * `expurgerScenarioNote` rend telle quelle toute valeur non nulle : un
+     * objet `{ zone }` arrivait donc au navigateur SANS SON TYPE, et le premier
+     * `action.type.startsWith(…)` du socle tuait l'atelier. Le repli
+     * « seul le type » ne s'applique qu'à `null` — un objet incomplet, lui,
+     * passe. Mesuré en branchant la projection : l'évaluation mourait d'un
+     * `TypeError` au lieu de s'ouvrir.
+     */
     case "W_TYPE_TEXT":
-      return action.zone !== undefined ? { zone: action.zone } : {}
+      return action.zone !== undefined ? { type: action.type, zone: action.zone } : { type: action.type }
     // Le passage à sélectionner EST la réponse : rien ne part.
     case "W_SELECT_TEXT":
       return null
@@ -1221,9 +1430,28 @@ function publier(a: ActionApp): Record<string, unknown> | null {
     case "W_CLICK_CONTROL":
     case "W_KEY":
       return null
-    // Les textes, formats, styles et dimensions attendus SONT les réponses.
-    case "W_EXPECT_DOC":
+    /*
+     * 🔴 LA ZONE DOIT PARTIR, SINON L'ÉTAPE EST INFRANCHISSABLE.
+     *
+     * Le juge de `W_EXPECT_FORMAT` lit `obs.formats[action.zone]`, et la
+     * surface ne CALCULE le format que des zones qu'on lui désigne
+     * (`lireEtat(zonesCibles)`). Or `zonesCibles` vient de `cible(action)` :
+     * sans zone dans l'action servie, aucun format n'est jamais observé, le
+     * juge répond éternellement « pas encore posée », et l'apprenant reste
+     * bloqué devant un passage qu'il vient pourtant de mettre en gras.
+     * Constaté au navigateur : le format ÉTAIT appliqué, le juge ne le voyait
+     * pas. 28 étapes notées des évaluations Word.
+     *
+     * Ce n'est pas une fuite : la réponse d'une étape de mise en forme est le
+     * FORMAT — gras, italique, souligné, taille, couleur — qui, lui, ne part
+     * pas. La zone dit seulement OÙ regarder, et la consigne la nomme déjà
+     * (« Désignez le passage « 3 au 24 août » »). Même raison que pour
+     * `W_TYPE_TEXT` juste au-dessus.
+     */
     case "W_EXPECT_FORMAT":
+      return { type: action.type, zone: action.zone }
+    // Les textes, styles et dimensions attendus SONT les réponses.
+    case "W_EXPECT_DOC":
     case "W_EXPECT_STYLE":
     case "W_EXPECT_TABLE":
     case "W_EXPECT_PAGE":

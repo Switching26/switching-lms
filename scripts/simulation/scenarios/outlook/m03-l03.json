@@ -119,7 +119,7 @@
     },
     {
       "id": "O03-L03-02",
-      "consigne": "La réunion est à 11 h, la pose à 14 h : les deux tiennent dans la journée. ==Cliquez sur Accepter.== C'est là toute la différence avec un message : accepter **inscrit réellement le rendez-vous dans votre agenda**, sans que vous ayez rien à ressaisir.",
+      "consigne": "La réunion est à 11 h, la pose à 14 h : les deux tiennent dans la journée. ==Cliquez sur Accepter.==",
       "setup": { "courrier": { "messageActif": "m-inv-chantier" } },
       "action": {
         "type": "O_EXPECT_CALENDRIER",
@@ -143,10 +143,17 @@
     },
     {
       "id": "O03-L03-03",
-      "consigne": "==Basculez sur le Calendrier== pour le constater : le jeudi porte maintenant deux blocs, celui que vous aviez posé et celui qui vient d'arriver par invitation. Ce dernier porte la liste des participants — c'est ce qui en fait une **réunion** et non un simple rendez-vous.",
+      "consigne": "==Basculez sur le Calendrier== pour le constater : le jeudi porte maintenant deux blocs. Celui qui vient d'arriver porte la liste des participants — c'est une **réunion**.",
       "action": { "type": "O_CLICK_CONTROL", "control": "cr-vue-calendrier" },
       "aide": { "text": "L'icône du calendrier est en bas de la colonne des dossiers ; sur téléphone, dans la barre du bas." },
       "feedback": "Le jeudi porte maintenant deux blocs : celui que vous aviez posé et celui que vous venez d'accepter."
+    },
+    {
+      "id": "O03-L03-03B",
+      "consigne": "**Accepter n'est pas répondre : c'est écrire dans votre agenda.** Le bloc est apparu dans la colonne du jeudi sans que vous ayez rien ressaisi. Trois conséquences : accepter **occupe** le créneau, donc vos collègues vous verront pris ; refuser **libère** la place et renseigne l'organisateur ; et une invitation ne se répond **qu'une fois**.",
+      "action": {
+        "type": "READ"
+      }
     },
     {
       "id": "O03-L03-04",
@@ -175,7 +182,7 @@
     },
     {
       "id": "O03-L03-08",
-      "consigne": "La visite du fournisseur de mercredi n'est pas encore confirmée : vous ne savez pas si vous serez là. ==Cliquez sur Répondre provisoirement.== Cette réponse dit à Nadia que vous avez lu et que vous confirmerez — un silence, lui, ne dit rien du tout.",
+      "consigne": "La visite du fournisseur de mercredi n'est pas confirmée : vous ne savez pas si vous serez là. ==Cliquez sur Répondre provisoirement.==",
       "action": { "type": "O_CLICK_CONTROL", "control": "cr-provisoire" },
       "aide": { "text": "C'est le bouton du milieu, entre Accepter et Refuser." },
       "feedback": "Le bloc apparaît en pointillé : provisoire ne veut pas dire absent, mais pas encore sûr."

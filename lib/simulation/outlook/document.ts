@@ -601,6 +601,67 @@ export function messagesVisibles(etat: EtatOutlook): Message[] {
  * inattendu laisse l'apprenant sans recours.
  */
 
+/* ═══════════════════ LA GRAVITÉ D'UN ÉCART ═══════════════════
+ *
+ * 🔴 C'EST CE QUI REND LE BARÈME D'OUTLOOK RÉEL. À lire avant d'y toucher.
+ *
+ * Les cinq vérificateurs ci-dessous rendaient une simple phrase : « il manque
+ * ceci ». Le juge la traduisait toujours en `wrong_…_state`, et le socle envoie
+ * alors l'observation dans une branche où AUCUNE sortie ne classe en faute —
+ * `estObservationEtat` renvoyait `true` pour tout `o:etatChange`. Résultat
+ * mesuré le 05/08/2026 : **12 points perdables sur 318, soit 4 %** du barème
+ * des seize évaluations, quand Excel — même socle, en production — est à 70 %.
+ * Un apprenant qui se trompait partout gardait 96 % et donc, très largement, la
+ * moyenne. Ces évaluations sont opposables : Switching Formation est un
+ * organisme Qualiopi.
+ *
+ * Le remède est celui déjà éprouvé sur Word : distinguer deux natures d'écart.
+ *
+ *   • `pasEncore` — la valeur observée est NEUTRE (champ vide, message pas
+ *     encore ouvert, réglage à son défaut) ou visiblement EN ROUTE vers la
+ *     réponse (préfixe de ce qui est attendu). L'apprenant n'a pas fini ; il ne
+ *     s'est pas trompé. Le juge en fait un `no_…`, que `frappe.ts` traite en
+ *     passage obligé : rien n'est compté, rien n'est perdu.
+ *
+ *   • `contredit` — la valeur observée est POSITIVEMENT autre chose : un
+ *     transfert au lieu d'une réponse, une adresse en clair là où la copie
+ *     cachée était exigée, un message rangé dans le mauvais dossier. Là, un
+ *     geste a été fait, et il est faux. Le juge en fait un `wrong_…`, qui coûte
+ *     le point du premier essai.
+ *
+ * ⚠️ POURQUOI LE PRÉFIXE COMPTE POUR `pasEncore`, ET PAS POUR DE LA CLÉMENCE.
+ * La surface d'Outlook émet un état à CHAQUE FRAPPE : `onChange` d'un champ de
+ * saisie, pas une validation par Entrée comme le tableur d'Excel. Sans cette
+ * règle, un apprenant qui tape correctement « vitrine » se voyait reprocher
+ * « v », puis « vi », puis « vit »… — six reproches et une proposition d'aide
+ * avant la septième lettre, qui validait. C'est le défaut que Samuel a filmé le
+ * 05/08/2026, et c'est le plus humiliant du lot : le simulateur propose de
+ * montrer la réponse à quelqu'un qui est en train de l'écrire juste.
+ *
+ * Une frappe en cours n'est donc JAMAIS un écart contredit. Une frappe qui
+ * DIVERGE de tout ce qui est accepté l'est.
+ */
+
+export type GraviteEcart = "pasEncore" | "contredit"
+
+/** Un écart constaté, et ce qu'il vaut. `null` = tout est conforme. */
+export type Souci = { texte: string; gravite: GraviteEcart }
+
+const pasEncore = (texte: string): Souci => ({ texte, gravite: "pasEncore" })
+const contredit = (texte: string): Souci => ({ texte, gravite: "contredit" })
+
+/**
+ * `obtenu` est-il une frappe EN COURS vers `attendu` ?
+ *
+ * Comparaison sur les formes normalisées : la casse et les accents ne font pas
+ * d'un apprenant qui tape juste un apprenant qui se trompe.
+ */
+function versLaReponse(obtenu: string, attendu: string): boolean {
+  const o = normaliser(obtenu)
+  const a = normaliser(attendu)
+  return o.length > 0 && o.length < a.length && a.startsWith(o)
+}
+
 /**
  * Vérifie un champ d'adresses.
  *
@@ -612,40 +673,86 @@ function verifierAdresses(
   obtenu: Adresse[] | undefined,
   attendu: ChampAdressesAttendu,
   libelle: string,
-): string | null {
+): Souci | null {
   const eu = dedupe(obtenu ?? []).map(normAdresse)
   const veut = dedupe(attendu.contient ?? []).map(normAdresse)
 
-  for (const v of veut) {
-    if (!eu.includes(v)) return `${libelle} : « ${v} » n'y figure pas.`
-  }
+  /*
+   * Une adresse « en route » est soit une adresse attendue déjà saisie, soit le
+   * début de l'une d'elles. Le champ se remplit une adresse à la fois et lettre
+   * à lettre : `["client@atelier.fr", "coll"]` est un apprenant qui compose
+   * correctement, pas un apprenant qui se trompe.
+   */
+  const enRoute = (a: string) => veut.includes(a) || veut.some((w) => versLaReponse(a, w))
+  const composeEncore = eu.every(enRoute)
+
+  // Une adresse interdite ne s'y trouve pas par inadvertance : elle y a été
+  // mise. C'est la faute que la leçon corrige — elle doit coûter, et elle prime
+  // sur une adresse simplement manquante, même déclarée après.
   for (const inter of (attendu.absent ?? []).map(normAdresse)) {
-    if (eu.includes(inter)) return `${libelle} : « ${inter} » ne devrait pas y figurer.`
+    if (eu.includes(inter)) return contredit(`${libelle} : « ${inter} » ne devrait pas y figurer.`)
+  }
+  for (const v of veut) {
+    if (!eu.includes(v)) {
+      return composeEncore
+        ? pasEncore(`${libelle} : « ${v} » n'y figure pas encore.`)
+        : contredit(`${libelle} : « ${v} » n'y figure pas.`)
+    }
   }
   if ((attendu.mode ?? "exact") === "exact") {
     const surplus = eu.find((a) => !veut.includes(a))
-    if (surplus) return `${libelle} : « ${surplus} » est en trop.`
-    if (attendu.contient && eu.length !== veut.length) return `${libelle} : le compte n'y est pas.`
+    if (surplus) {
+      return veut.some((w) => versLaReponse(surplus, w))
+        ? pasEncore(`${libelle} : « ${surplus} » n'est pas encore une adresse complète.`)
+        : contredit(`${libelle} : « ${surplus} » est en trop.`)
+    }
+    if (attendu.contient && eu.length !== veut.length) {
+      return composeEncore
+        ? pasEncore(`${libelle} : le compte n'y est pas encore.`)
+        : contredit(`${libelle} : le compte n'y est pas.`)
+    }
   }
-  if (attendu.vide && eu.length > 0) return `${libelle} devrait rester vide.`
+  if (attendu.vide && eu.length > 0) return contredit(`${libelle} devrait rester vide.`)
   return null
 }
 
-function verifierTexte(obtenu: string | undefined, attendu: TexteAttendu, libelle: string): string | null {
+function verifierTexte(
+  obtenu: string | undefined,
+  attendu: TexteAttendu,
+  libelle: string,
+): Souci | null {
   const n = normaliser(obtenu)
-  if (attendu.nonVide && !n) return `${libelle} est vide.`
+  if (attendu.nonVide && !n) return pasEncore(`${libelle} est encore vide.`)
   if (attendu.prefixe) {
     const p = attendu.prefixe === "RE" ? /^(re|rep|rép)\s*:/ : /^(tr|fwd|tf)\s*:/
-    if (!p.test(n)) return `${libelle} ne porte pas le préfixe attendu.`
+    if (!p.test(n)) {
+      /*
+       * Le préfixe ne se tape pas : il est posé par le GESTE — Répondre écrit
+       * « RE : », Transférer écrit « TR : ». Un objet vide n'a donc rien de
+       * fautif : la rédaction n'est pas encore ouverte, ou le champ est en cours
+       * de saisie. Mais un objet REMPLI sans le préfixe attendu veut dire que le
+       * préfixe posé par le geste a été effacé, ou qu'un autre bouton a été
+       * cliqué. Dans les deux cas un geste a eu lieu, et il est faux.
+       */
+      return n
+        ? contredit(`${libelle} ne porte pas le préfixe attendu.`)
+        : pasEncore(`${libelle} ne porte pas encore le préfixe attendu.`)
+    }
   }
   if (attendu.accept?.length) {
     if (!attendu.accept.some((a) => normaliser(a) === n)) {
-      return `${libelle} ne correspond pas à ce qui est demandé.`
+      // Une saisie en cours vers l'une des écritures acceptées n'est pas une
+      // erreur : c'est une réponse juste qu'on n'a pas fini d'écrire.
+      return attendu.accept.some((a) => versLaReponse(n, a)) || !n
+        ? pasEncore(`${libelle} n'est pas encore complet.`)
+        : contredit(`${libelle} ne correspond pas à ce qui est demandé.`)
     }
   }
   if (attendu.contient?.length) {
     const manque = attendu.contient.find((c) => !n.includes(normaliser(c)))
-    if (manque) return `${libelle} devrait mentionner « ${manque} ».`
+    // Un fragment exigé dans un texte que l'apprenant rédige librement ne peut
+    // pas être « contredit » : il est présent ou pas encore écrit.
+    if (manque) return pasEncore(`${libelle} devrait mentionner « ${manque} ».`)
   }
   return null
 }
@@ -666,49 +773,72 @@ function verifierTexte(obtenu: string | undefined, attendu: TexteAttendu, libell
  * trois échecs du premier passage au banc. Le comptage de mots est le contrôle
  * le plus grossier du lot : il passe donc EN DERNIER, quand rien de substantiel
  * ne manque, et ne sert plus qu'à écarter une réponse manifestement bâclée.
+ *
+ * ⚠️ TOUT ÉCART DE PROSE EST `pasEncore`, SAUF UN INTERDIT. Une notion absente
+ * d'un texte que l'apprenant écrit au fil des touches n'est pas une faute : elle
+ * n'est pas encore écrite. Ce qui se paie, c'est d'avoir écrit ce que la
+ * consigne demandait justement de ne pas écrire.
  */
-function verifierCorps(obtenu: string | undefined, attendu: CorpsAttendu): string | null {
+function verifierCorps(obtenu: string | undefined, attendu: CorpsAttendu): Souci | null {
   const n = normaliser(obtenu)
 
   for (const notion of attendu.notions ?? []) {
     if (!notion.oneOf.some((f) => n.includes(normaliser(f)))) {
-      return `Le message ne dit pas encore : ${notion.libelle}.`
+      return pasEncore(`Le message ne dit pas encore : ${notion.libelle}.`)
     }
   }
   for (const inter of attendu.interdit ?? []) {
     if (inter.oneOf.some((f) => n.includes(normaliser(f)))) {
-      return `À retirer du message : ${inter.libelle}.`
+      return contredit(`À retirer du message : ${inter.libelle}.`)
     }
   }
   if (attendu.salutation?.length && !attendu.salutation.some((s) => n.includes(normaliser(s)))) {
-    return "Le message ne commence pas par une formule d'appel."
+    return pasEncore("Le message ne commence pas par une formule d'appel.")
   }
   if (attendu.cloture?.length && !attendu.cloture.some((s) => n.includes(normaliser(s)))) {
-    return "Le message ne se termine pas par une formule de politesse."
+    return pasEncore("Le message ne se termine pas par une formule de politesse.")
   }
   if (attendu.minMots) {
     const mots = n ? n.split(" ").filter(Boolean).length : 0
     if (mots < attendu.minMots) {
-      return `Le message est trop court (${mots} mots sur ${attendu.minMots} attendus).`
+      return pasEncore(`Le message est trop court (${mots} mots sur ${attendu.minMots} attendus).`)
     }
   }
   return null
 }
 
-function verifierPieces(obtenu: PieceJointe[] | undefined, attendu: PiecesAttendues): string | null {
+function verifierPieces(
+  obtenu: PieceJointe[] | undefined,
+  attendu: PiecesAttendues,
+): Souci | null {
   const liste = obtenu ?? []
   const eu = liste.map((p) => normaliser(p.nom))
-  for (const v of attendu.contient ?? []) {
-    if (!eu.includes(normaliser(v))) return `La pièce jointe « ${v} » manque.`
-  }
+
+  /*
+   * ⚠️ CE QUI EST EN TROP PRIME SUR CE QUI MANQUE.
+   *
+   * L'ordre naturel — chercher d'abord la pièce attendue — faisait passer « il a
+   * joint le mauvais devis » pour « le bon devis manque », donc pour un simple
+   * « pas encore ». Or joindre un fichier est un geste posé : en joindre un autre
+   * est une faute, pas un travail inachevé. Six points du barème s'évanouissaient
+   * dans cette seule inversion.
+   */
   for (const i of attendu.absent ?? []) {
-    if (eu.includes(normaliser(i))) return `La pièce jointe « ${i} » ne devrait pas être là.`
+    if (eu.includes(normaliser(i))) {
+      return contredit(`La pièce jointe « ${i} » ne devrait pas être là.`)
+    }
   }
-  if (attendu.aucune && eu.length) return "Ce message ne devrait porter aucune pièce jointe."
+  if (attendu.aucune && eu.length) {
+    return contredit("Ce message ne devrait porter aucune pièce jointe.")
+  }
   if ((attendu.mode ?? "exact") === "exact" && attendu.contient) {
     const attendues = attendu.contient
     const surplus = liste.find((p) => !attendues.some((v) => normaliser(v) === normaliser(p.nom)))
-    if (surplus) return `La pièce jointe « ${surplus.nom} » est en trop.`
+    if (surplus) return contredit(`La pièce jointe « ${surplus.nom} » est en trop.`)
+  }
+  for (const v of attendu.contient ?? []) {
+    // Joindre est un geste unique : la pièce est là ou elle ne l'est pas encore.
+    if (!eu.includes(normaliser(v))) return pasEncore(`La pièce jointe « ${v} » manque.`)
   }
   return null
 }
@@ -720,14 +850,16 @@ function verifierPieces(obtenu: PieceJointe[] | undefined, attendu: PiecesAttend
  * chemin. Peu importe que l'apprenant ait cliqué « Répondre à tous » ou saisi
  * les adresses à la main : ce qui compte est l'enveloppe obtenue.
  */
-export function verifierMessage(etat: EtatOutlook, attendu: MessageAttendu): string | null {
+export function verifierMessage(etat: EtatOutlook, attendu: MessageAttendu): Souci | null {
   const cible = attendu.cible ?? "redaction"
   const r = cible === "envoye" ? dernierEnvoye(etat) : etat.redaction
 
   if (!r) {
-    return cible === "envoye"
-      ? "Aucun message n'a encore été envoyé."
-      : "Aucun message n'est en cours de rédaction."
+    return pasEncore(
+      cible === "envoye"
+        ? "Aucun message n'a encore été envoyé."
+        : "Aucun message n'est en cours de rédaction.",
+    )
   }
 
   // Le genre n'existe que sur une rédaction en cours : un message ENVOYÉ est un
@@ -740,7 +872,13 @@ export function verifierMessage(etat: EtatOutlook, attendu: MessageAttendu): str
       reponseATous: "une réponse à tous",
       transfert: "un transfert",
     }
-    return `Ce n'est pas ${noms[attendu.genre]}.`
+    /*
+     * Un genre faux n'arrive pas tout seul : un bouton a été cliqué, et c'est le
+     * mauvais. C'est même l'erreur la plus fréquente de la messagerie
+     * professionnelle — transférer au lieu de répondre — donc celle qui doit
+     * coûter, sinon la leçon ne mesure rien.
+     */
+    return contredit(`Ce n'est pas ${noms[attendu.genre]}.`)
   }
 
   const controles = [
@@ -751,11 +889,23 @@ export function verifierMessage(etat: EtatOutlook, attendu: MessageAttendu): str
     attendu.corps ? verifierCorps(r.corps, attendu.corps) : null,
     attendu.pieces ? verifierPieces(r.pieces, attendu.pieces) : null,
   ]
-  const souci = controles.find(Boolean)
+  /*
+   * ⚠️ UN CONTREDIT PRIME SUR UN PAS-ENCORE, quel que soit l'ordre des champs.
+   *
+   * Sans cette priorité, une enveloppe où le collègue est en clair dans « Cc »
+   * — la faute même que la leçon corrige — passait pour un simple « le corps ne
+   * dit pas encore le délai », donc gratuite, dès lors qu'un champ suivant
+   * n'était pas rempli. C'est un ordre d'affichage qui décidait de la note.
+   */
+  const souci = controles.find((c) => c?.gravite === "contredit") ?? controles.find(Boolean)
   if (souci) return souci
 
   if (attendu.importance && r.importance !== attendu.importance) {
-    return "L'importance du message n'est pas celle demandée."
+    // « normale » est le réglage par défaut : ne pas l'avoir changé n'est pas
+    // avoir choisi autre chose.
+    return r.importance === "normale"
+      ? pasEncore("L'importance du message n'a pas encore été réglée.")
+      : contredit("L'importance du message n'est pas celle demandée.")
   }
   return null
 }
@@ -767,41 +917,52 @@ function dernierEnvoye(etat: EtatOutlook): Message | null {
 }
 
 /** État de la boîte : rangement, lu/non lu, indicateurs, catégories. */
-export function verifierBoite(etat: EtatOutlook, attendu: BoiteAttendue): string | null {
+export function verifierBoite(etat: EtatOutlook, attendu: BoiteAttendue): Souci | null {
   for (const [id, att] of Object.entries(attendu.messages ?? {})) {
     const m = trouver(etat, id)
-    if (!m) return "Le message attendu n'est plus dans la boîte."
+    // Le message a disparu de la boîte : personne ne supprime par inadvertance.
+    if (!m) return contredit("Le message attendu n'est plus dans la boîte.")
     if (att.dossier && m.dossier !== att.dossier) {
       const nom = etat.dossiers.find((d) => d.id === att.dossier)?.nom ?? att.dossier
       const ou = etat.dossiers.find((d) => d.id === m.dossier)?.nom ?? m.dossier
-      return `« ${m.objet} » est encore dans ${ou} au lieu de ${nom}.`
+      /*
+       * La boîte de réception est le lieu de repos par défaut d'un message :
+       * l'y trouver encore, c'est ne pas avoir rangé. Le trouver dans un TROISIÈME
+       * dossier, c'est l'avoir rangé au mauvais endroit — un geste fait, et faux.
+       */
+      return m.dossier === "reception"
+        ? pasEncore(`« ${m.objet} » n'a pas encore été rangé dans ${nom}.`)
+        : contredit(`« ${m.objet} » est dans ${ou} au lieu de ${nom}.`)
     }
     if (att.lu !== undefined && m.lu !== att.lu) {
+      // Non lu est l'état d'arrivée ; marquer lu est un geste.
       return att.lu
-        ? `« ${m.objet} » n'est pas encore marqué comme lu.`
-        : `« ${m.objet} » ne devrait pas être marqué comme lu.`
+        ? pasEncore(`« ${m.objet} » n'est pas encore marqué comme lu.`)
+        : contredit(`« ${m.objet} » ne devrait pas être marqué comme lu.`)
     }
     if (att.indicateur !== undefined && m.indicateur !== att.indicateur) {
       return att.indicateur
-        ? `« ${m.objet} » ne porte pas d'indicateur de suivi.`
-        : `« ${m.objet} » porte encore un indicateur.`
+        ? pasEncore(`« ${m.objet} » ne porte pas encore d'indicateur de suivi.`)
+        : contredit(`« ${m.objet} » porte encore un indicateur.`)
     }
     if (att.categories) {
       const manque = att.categories.find((c) => !m.categories.includes(c))
       if (manque) {
         const nom = etat.categories.find((c) => c.id === manque)?.nom ?? manque
-        return `« ${m.objet} » n'est pas classé dans la catégorie ${nom}.`
+        return pasEncore(`« ${m.objet} » n'est pas encore classé dans la catégorie ${nom}.`)
       }
     }
   }
   if (attendu.dossierActif && etat.dossierActif !== attendu.dossierActif) {
-    return "Ce n'est pas le bon dossier qui est ouvert."
+    // Se déplacer dans l'arborescence ne se paie jamais : le socle classe déjà
+    // `o:selectFolder` en navigation, et l'état doit dire la même chose.
+    return pasEncore("Ce n'est pas encore le bon dossier qui est ouvert.")
   }
   if (attendu.dossierExiste) {
     const manque = attendu.dossierExiste.find(
       (n) => !etat.dossiers.some((d) => normaliser(d.nom) === normaliser(n)),
     )
-    if (manque) return `Le dossier « ${manque} » n'a pas été créé.`
+    if (manque) return pasEncore(`Le dossier « ${manque} » n'a pas encore été créé.`)
   }
   if (attendu.visibles) {
     const vus = messagesVisibles(etat)
@@ -809,31 +970,50 @@ export function verifierBoite(etat: EtatOutlook, attendu: BoiteAttendue): string
       .sort()
     const veut = [...attendu.visibles].sort()
     if (vus.join("|") !== veut.join("|")) {
-      return "La liste affichée ne correspond pas à ce qui est demandé."
+      // Une liste filtrée se construit lettre à lettre dans la recherche.
+      return pasEncore("La liste affichée ne correspond pas encore à ce qui est demandé.")
     }
   }
   return null
 }
 
-export function verifierCalendrier(etat: EtatOutlook, attendu: CalendrierAttendu): string | null {
+export function verifierCalendrier(etat: EtatOutlook, attendu: CalendrierAttendu): Souci | null {
   const ev =
     etat.evenements.find((x) => normaliser(x.titre) === normaliser(attendu.titre ?? "")) ??
     (attendu.titre ? null : etat.evenements[etat.evenements.length - 1])
   if (!ev) {
-    return attendu.titre
+    /*
+     * Aucun rendez-vous portant ce titre. Deux cas très différents : le
+     * formulaire n'est pas encore rempli — l'apprenant tape son titre lettre à
+     * lettre —, ou un rendez-vous a bel et bien été enregistré sous un AUTRE
+     * titre, ce qui est un geste posé et faux.
+     */
+    const enCours =
+      etat.rendezVous !== null ||
+      etat.evenements.length === 0 ||
+      (attendu.titre ? etat.evenements.some((x) => versLaReponse(x.titre, attendu.titre!)) : false)
+    const texte = attendu.titre
       ? `Aucun rendez-vous « ${attendu.titre} » au calendrier.`
       : "Aucun rendez-vous n'a été créé."
+    return enCours ? pasEncore(texte) : contredit(texte)
   }
-  if (attendu.date && ev.date !== attendu.date) return "Le rendez-vous n'est pas au bon jour."
-  if (attendu.debut && ev.debut !== attendu.debut) return "L'heure de début n'est pas la bonne."
-  if (attendu.fin && ev.fin !== attendu.fin) return "L'heure de fin n'est pas la bonne."
+  /*
+   * À partir d'ici le rendez-vous EXISTE : ses champs ont été saisis et
+   * enregistrés. Une date, une heure ou un lieu qui diffèrent ne sont pas des
+   * champs « pas encore remplis » — ce sont des valeurs posées, et fausses.
+   */
+  if (attendu.date && ev.date !== attendu.date) return contredit("Le rendez-vous n'est pas au bon jour.")
+  if (attendu.debut && ev.debut !== attendu.debut) return contredit("L'heure de début n'est pas la bonne.")
+  if (attendu.fin && ev.fin !== attendu.fin) return contredit("L'heure de fin n'est pas la bonne.")
   if (attendu.lieu && normaliser(ev.lieu) !== normaliser(attendu.lieu)) {
-    return "Le lieu n'est pas celui demandé."
+    return normaliser(ev.lieu)
+      ? contredit("Le lieu n'est pas celui demandé.")
+      : pasEncore("Le lieu n'a pas encore été renseigné.")
   }
   if (attendu.reunion !== undefined && ev.reunion !== attendu.reunion) {
     return attendu.reunion
-      ? "Aucun participant n'a été invité : ce n'est pas encore une réunion."
-      : "Ce rendez-vous ne devait pas être une réunion."
+      ? pasEncore("Aucun participant n'a été invité : ce n'est pas encore une réunion.")
+      : contredit("Ce rendez-vous ne devait pas être une réunion.")
   }
   if (attendu.participants) {
     const souci = verifierAdresses(ev.participants, attendu.participants, "Participants")
@@ -842,36 +1022,38 @@ export function verifierCalendrier(etat: EtatOutlook, attendu: CalendrierAttendu
   return null
 }
 
-export function verifierRegle(etat: EtatOutlook, attendu: RegleAttendue): string | null {
+export function verifierRegle(etat: EtatOutlook, attendu: RegleAttendue): Souci | null {
   const r = etat.regles[etat.regles.length - 1]
-  if (!r) return "Aucune règle n'a été créée."
+  if (!r) return pasEncore("Aucune règle n'a été créée.")
   if (attendu.condition?.champ && r.condition.champ !== attendu.condition.champ) {
-    return "La règle ne se déclenche pas sur le bon critère."
+    return contredit("La règle ne se déclenche pas sur le bon critère.")
   }
   if (attendu.condition?.valeur && normaliser(r.condition.valeur) !== normaliser(attendu.condition.valeur)) {
-    return "Le critère de la règle n'est pas celui demandé."
+    return versLaReponse(r.condition.valeur, attendu.condition.valeur)
+      ? pasEncore("Le critère de la règle n'est pas encore complet.")
+      : contredit("Le critère de la règle n'est pas celui demandé.")
   }
   if (attendu.action?.type && r.action.type !== attendu.action.type) {
-    return "La règle ne fait pas ce qui est demandé."
+    return contredit("La règle ne fait pas ce qui est demandé.")
   }
   if (attendu.action?.dossier && r.action.dossier !== attendu.action.dossier) {
-    return "La règle ne range pas dans le bon dossier."
+    return contredit("La règle ne range pas dans le bon dossier.")
   }
   return null
 }
 
-export function verifierReponseAuto(etat: EtatOutlook, attendu: ReponseAutoAttendue): string | null {
+export function verifierReponseAuto(etat: EtatOutlook, attendu: ReponseAutoAttendue): Souci | null {
   const ra = etat.reponseAuto
   if (attendu.active === false) {
-    return ra?.active ? "La réponse automatique est encore active." : null
+    return ra?.active ? contredit("La réponse automatique est encore active.") : null
   }
-  if (!ra?.active) return "La réponse automatique n'est pas activée."
+  if (!ra?.active) return pasEncore("La réponse automatique n'est pas activée.")
   if (attendu.message) {
     const souci = verifierCorps(ra.message, attendu.message)
     if (souci) return souci
   }
-  if (attendu.du && ra.du !== attendu.du) return "La date de début n'est pas la bonne."
-  if (attendu.au && ra.au !== attendu.au) return "La date de fin n'est pas la bonne."
+  if (attendu.du && ra.du !== attendu.du) return contredit("La date de début n'est pas la bonne.")
+  if (attendu.au && ra.au !== attendu.au) return contredit("La date de fin n'est pas la bonne.")
   return null
 }
 

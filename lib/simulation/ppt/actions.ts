@@ -326,9 +326,26 @@ export const OBSERVABLES_PPT: ReadonlySet<string> = new Set<string>([
  * `EXPECT_STATE` comptait une faute avec flash rouge muet, et plafonnait
  * l'évaluation de son module 1 à 46 %.
  */
-export const JUGEES_SUR_ETAT_PPT: ReadonlySet<string> = new Set<string>([
-  "P_EXPECT_DECK",
-  "P_EXPECT_FORMAT",
-  "P_EXPECT_ANIMATIONS",
-  "P_EXPECT_SHOW",
-])
+/**
+ * ÉLARGIE À TOUTE L'APPLICATION LE 05/08/2026 — et ce n'est pas un abus de sens.
+ *
+ * Ce prédicat n'a qu'un seul lecteur utile côté PowerPoint : le PASSAGE OBLIGÉ
+ * de `frappe.ts`, qui rend gratuit un verdict en `no_…` lorsqu'il est vrai.
+ * (Son autre lecteur, `frappeHorsCanal`, est conditionné à `observed.kind ===
+ * "typed"` — un `kind` d'Excel, qu'aucune observation `p:` ne porte : il ne
+ * peut donc rien changer ici.)
+ *
+ * Depuis que `NAVIGATION_PPT` et `OBSERVATIONS_ETAT_PPT` sont vides, c'est ce
+ * passage obligé qui porte TOUTE la gratuité : explorer le ruban, cliquer une
+ * vignette pour regarder, laisser un attribut à sa valeur neutre. Le restreindre
+ * aux quatre `P_EXPECT_*` ferait payer un point à l'apprenant qui clique à côté
+ * pendant une étape de saisie — exactement le défaut qu'Excel a corrigé le
+ * 02/08 sur son module 1, qui plafonnait à 46 %.
+ *
+ * Word a fait le même choix pour la même raison, et l'a documenté : « seJugeSurEtat
+ * doit alors répondre true pour tous les types de l'app ».
+ *
+ * ⚠️ Ce n'est PAS un blanc-seing : seuls les motifs en `no_…` passent. Un
+ * `wrong_…` reste une faute, quel que soit le type d'action.
+ */
+export const JUGEES_SUR_ETAT_PPT: ReadonlySet<string> = OBSERVABLES_PPT

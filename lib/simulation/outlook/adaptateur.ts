@@ -43,6 +43,7 @@ import type {
   ReponseAutoAttendue,
 } from "./actions"
 import type { EtatOutlook, OutlookObservation } from "./observations"
+import type { Souci } from "./document"
 
 import {
   CONTROLES,
@@ -176,6 +177,34 @@ const OK: Verdict = { ok: true }
 const KO = (reason: string, message: string): Verdict => ({ ok: false, reason, message })
 
 /**
+ * Rendre le verdict d'une validation d'ÉTAT — la porte du barème d'Outlook.
+ *
+ * 🔴 LE PRÉFIXE DU MOTIF DÉCIDE SI LE POINT EST PERDU. Ce n'est pas une
+ * convention cosmétique : `frappe.ts` traite un `no_…` sur une étape jugée sur
+ * l'état comme un PASSAGE OBLIGÉ — rien n'est compté — et un `wrong_…` comme une
+ * faute. Composer une enveloppe demande plusieurs gestes ; chacun émet l'état
+ * complet, et pénaliser ces états intermédiaires punirait un apprenant qui fait
+ * exactement ce qu'on lui demande, mais pas encore entièrement.
+ *
+ * La distinction vient donc de `Souci.gravite`, calculée par les vérificateurs
+ * de `document.ts`, seuls à connaître ce qui est neutre et ce qui est posé.
+ * Avant qu'elle existe, TOUT écart d'état rendait `wrong_…`, ce qui obligeait à
+ * neutraliser la classe entière côté socle — et laissait 4 % du barème perdable.
+ */
+function surEtat(
+  obs: OutlookObservation,
+  verifier: (etat: EtatOutlook) => Souci | null,
+  motif: string,
+): Verdict {
+  if (obs.kind !== "o:etatChange") return KO(`no_${motif}`, "")
+  const souci = verifier(obs.etat)
+  if (!souci) return OK
+  return souci.gravite === "contredit"
+    ? KO(`wrong_${motif}`, souci.texte)
+    : KO(`no_${motif}`, souci.texte)
+}
+
+/**
  * Confronte l'observation à l'action attendue.
  *
  * Même rôle que `validateStep` côté Excel : c'est le juge UNIQUE, employé par la
@@ -256,35 +285,20 @@ function juger(step: EtapeApp, observed: ObservationApp): Verdict | null {
        du client de messagerie, transmis tel quel par `o:etatChange`. C'est ce
        qui rend la correction serveur triviale — il n'y a rien à relire
        ailleurs, contrairement à Excel où il faut interroger le moteur Univer. */
-    case "O_EXPECT_MAIL": {
-      if (obs.kind !== "o:etatChange") return KO("no_state", "")
-      const souci = verifierMessage(obs.etat, attendu.message)
-      return souci ? KO("wrong_message_state", souci) : OK
-    }
+    case "O_EXPECT_MAIL":
+      return surEtat(obs, (etat) => verifierMessage(etat, attendu.message), "message_state")
 
-    case "O_EXPECT_BOITE": {
-      if (obs.kind !== "o:etatChange") return KO("no_state", "")
-      const souci = verifierBoite(obs.etat, attendu.boite)
-      return souci ? KO("wrong_mailbox_state", souci) : OK
-    }
+    case "O_EXPECT_BOITE":
+      return surEtat(obs, (etat) => verifierBoite(etat, attendu.boite), "mailbox_state")
 
-    case "O_EXPECT_CALENDRIER": {
-      if (obs.kind !== "o:etatChange") return KO("no_state", "")
-      const souci = verifierCalendrier(obs.etat, attendu.calendrier)
-      return souci ? KO("wrong_calendar_state", souci) : OK
-    }
+    case "O_EXPECT_CALENDRIER":
+      return surEtat(obs, (etat) => verifierCalendrier(etat, attendu.calendrier), "calendar_state")
 
-    case "O_EXPECT_REGLE": {
-      if (obs.kind !== "o:etatChange") return KO("no_state", "")
-      const souci = verifierRegle(obs.etat, attendu.regle)
-      return souci ? KO("wrong_rule", souci) : OK
-    }
+    case "O_EXPECT_REGLE":
+      return surEtat(obs, (etat) => verifierRegle(etat, attendu.regle), "rule")
 
-    case "O_EXPECT_REPONSE_AUTO": {
-      if (obs.kind !== "o:etatChange") return KO("no_state", "")
-      const souci = verifierReponseAuto(obs.etat, attendu.reponseAuto)
-      return souci ? KO("wrong_autoreply", souci) : OK
-    }
+    case "O_EXPECT_REPONSE_AUTO":
+      return surEtat(obs, (etat) => verifierReponseAuto(etat, attendu.reponseAuto), "autoreply")
 
     default: {
       /*
@@ -787,9 +801,31 @@ function seJugeSurEtatDe(actionType: string): boolean {
  * observations `o:` n'y figuraient jamais, donc un état non encore satisfait
  * comptait FAUTE. Un parcours PowerPoint parfait sortait à 57 % — mesuré par
  * l'agent PowerPoint, et c'est ce qui a rendu ce prédicat obligatoire.
+ *
+ * ═══ POURQUOI IL RÉPOND `false` DEPUIS LE 05/08/2026 ═══
+ *
+ * Répondre `true` envoie l'observation dans une branche de `frappe.ts` dont
+ * AUCUNE sortie ne classe en faute : les couples qui y figurent sont ceux
+ * d'Excel (`cellClick`/`CLICK_CELL`…), qu'un `kind` préfixé `o:` ne peut jamais
+ * satisfaire. C'était donc une AMNISTIE GÉNÉRALE sur tout ce qui se juge sur
+ * l'état — soit 281 des 318 points des seize évaluations. Mesuré : **12 points
+ * perdables sur 318, 4 %**, contre 70 % pour Excel et 83 % pour Word. Un
+ * apprenant qui se trompait partout gardait 96 %.
+ *
+ * La protection des états intermédiaires — composer une enveloppe demande
+ * plusieurs gestes, chacun émettant l'état complet — ne disparaît pas pour
+ * autant : elle est simplement portée par le VERDICT au lieu de l'être par une
+ * classe entière d'observations. `surEtat` rend `no_…` quand rien n'est encore
+ * posé et `wrong_…` quand quelque chose de faux l'est ; `frappe.ts` traite le
+ * premier en passage obligé et le second en faute. C'est exactement le remède
+ * appliqué à Word, et il tient à la même condition : que les vérificateurs de
+ * `document.ts` sachent distinguer le neutre du contredit.
+ *
+ * Ne pas remettre `true` sans remettre 88 % du barème à zéro.
  */
 function estObservationEtatDe(observed: ObservationApp): boolean {
-  return (observed as unknown as OutlookObservation).kind === "o:etatChange"
+  void observed
+  return false
 }
 
 /* ═══════════════════ L'ADAPTATEUR ═══════════════════ */

@@ -112,7 +112,7 @@
     },
     {
       "id": "O04-L01-03",
-      "consigne": "==Marquez ce message d'un indicateur== : vous allez le traiter, pas l'ignorer. Dans `quincaillerie-de1mas.fr`, le **l** de « Delmas » est un **chiffre 1** — invisible à la vitesse où l'on lit. Trois signaux se cumulent : adresse imitée, urgence, changement de RIB.",
+      "consigne": "==Marquez ce message d'un indicateur== : vous allez le traiter, pas l'ignorer. Comparez les deux adresses caractère par caractère — `quincaillerie-de1mas.fr` contre celle que vous venez de lire.",
       "action": {
         "type": "O_EXPECT_BOITE",
         "boite": {
@@ -129,6 +129,13 @@
       "feedback": "Dans `quincaillerie-de1mas.fr`, le « l » a été remplacé par un « 1 ». À l'écran, presque rien ne les distingue."
     },
     {
+      "id": "O04-L01-03B",
+      "consigne": "**Le nom affiché est déclaratif ; l'adresse, beaucoup moins.** N'importe qui peut écrire « Quincaillerie Delmas » : c'est un champ libre. Le domaine, lui, se falsifie **à une lettre près** — un `1` à la place du `l`. On lit donc l'adresse **caractère par caractère**, contre une adresse dont on est sûr. Trois signaux valent contrôle : adresse imitée, urgence, changement d'habitude.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
       "id": "O04-L01-04",
       "consigne": "==Ouvrez le troisième message==, celui du colis. Notez au passage que `Nouveau-RIB.pdf` n'a pas été ouvert : **un document joint à un message douteux ne s'ouvre pas « pour voir »**, c'est souvent lui qui porte le programme malveillant.",
       "action": {
@@ -142,7 +149,7 @@
     },
     {
       "id": "O04-L01-05",
-      "consigne": "==Supprimez ce message.== Même mécanique, autre déguisement : un domaine qui n'est celui d'aucun transporteur connu, un délai de 24 heures, et une somme dérisoire — **2,90 €**, assez faible pour qu'on paie sans réfléchir. Ce qui est visé, c'est votre numéro de carte.",
+      "consigne": "==Supprimez ce message.== Même mécanique, autre déguisement : un domaine inconnu, un délai de 24 heures, et **2,90 €** — assez faible pour qu'on paie sans réfléchir.",
       "action": {
         "type": "O_EXPECT_BOITE",
         "boite": {
@@ -178,7 +185,7 @@
     },
     {
       "id": "O04-L01-07",
-      "consigne": "==Rangez enfin la vraie facture dans le dossier Fournisseurs.== Votre boîte est nette : le vrai message est classé, le faux est isolé et tracé, l'hameçonnage grossier est à la corbeille. Aucun des trois n'a reçu de réponse — c'est le point le plus important.",
+      "consigne": "==Rangez enfin la vraie facture dans le dossier Fournisseurs.== Aucun des trois messages n'a reçu de réponse — c'est le point le plus important.",
       "action": {
         "type": "O_EXPECT_BOITE",
         "boite": {

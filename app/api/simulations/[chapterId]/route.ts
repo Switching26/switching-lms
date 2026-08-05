@@ -5,6 +5,8 @@ import { prisma } from "@/lib/prisma"
 import { doitRemplacerJournal } from "@/lib/simulation/journal"
 import { cloturerPassage, passageDeclare, passagePourCloture, reporterUneSeuleFois } from "@/lib/simulation/run"
 import { expurgerScenarioNote } from "@/lib/simulation/expurge"
+import { publierPour } from "@/lib/simulation/registre"
+import type { ActionApp } from "@/lib/simulation/contrats"
 import { chargerContexteSimulation } from "@/lib/simulation/acces"
 import { bilanPublie, type BilanPublie } from "@/lib/simulation/bilan"
 
@@ -70,7 +72,34 @@ export async function GET(_req: NextRequest, { params }: { params: { chapterId: 
       // Ce drapeau est LU par l'atelier : à faux, il n'a plus les réponses et
       // demande le verdict à `verify`.
       clientValidation: !graded,
-      scenario: graded ? expurgerScenarioNote(raw) : raw,
+      /*
+       * 🔴 LA PROJECTION DOIT ÊTRE CELLE DE L'APPLICATION, PAS CELLE D'EXCEL.
+       *
+       * `expurgerScenarioNote` retombe sur `actionPublique` — la projection
+       * d'EXCEL — quand on ne lui en passe aucune. Les types préfixés `W_`,
+       * `P_` et `O_` tombent alors dans son `default`, qui ne conserve que le
+       * `type` : toute l'action est jetée avant d'atteindre l'apprenant.
+       *
+       * Ce n'était pas qu'un affichage dégradé. `WordPlayer` construit
+       * `zonesCibles` depuis `cible(action)` — l'action SERVIE — et
+       * `lireEtat(zonesCibles)` ne calcule le format que de ces zones-là.
+       * Privé de sa `zone`, un `W_EXPECT_FORMAT` n'était donc JAMAIS observé :
+       * le juge répondait éternellement « pas encore posée » à un apprenant qui
+       * venait de mettre le passage en gras. 28 étapes notées, 9 évaluations
+       * Word sur 19, dont deux plafonnées à 58,8 %.
+       *
+       * `publierPour` déduit l'application du PRÉFIXE de chaque action, comme
+       * `adaptateurPourType` : le choix se fait action par action, jamais
+       * d'après `simulation.app`. Excel n'ayant pas de préfixe lui revient, et
+       * `adaptateurExcel.publier` EST `actionPublique` — les 27 évaluations en
+       * production reçoivent donc exactement les mêmes octets qu'avant.
+       *
+       * Le registre est importé ICI et non dans `expurge.ts` : `registre.ts →
+       * excel-adaptateur.ts → expurge.ts`, donc l'importer là-bas fermerait un
+       * cycle d'initialisation sur le fichier même qui protège les notes. Une
+       * route est un consommateur, en bout de chaîne : elle peut.
+       */
+      scenario: graded ? expurgerScenarioNote(raw, (a) => publierPour(a as ActionApp)) : raw,
       attempt: attempt ?? null,
     },
     { headers: { "Cache-Control": "no-store" } },

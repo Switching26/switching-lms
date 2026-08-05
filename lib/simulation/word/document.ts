@@ -411,6 +411,40 @@ export function correspond(saisi: string, acceptes: string[], strict?: boolean):
   return acceptes.some((a) => sansAccent(normaliserTypographie(a)) === s)
 }
 
+/**
+ * Le texte présent est-il le DÉBUT d'une réponse acceptée ?
+ *
+ * 🔴 CE QUI ARRIVE SANS CE PRÉDICAT, MESURÉ DANS UN VRAI NAVIGATEUR : sur
+ * l'évaluation notée du module 1, il suffit d'ARRIVER sur l'étape pour perdre
+ * ses 2 points. Le paragraphe à compléter porte déjà « Les ateliers seront
+ * fermés du », la relecture d'état automatique de `WordPlayer` le juge 420 ms
+ * après l'arrivée, et le juge répond `contredit` parce que le texte est non
+ * vide et différent de l'attendu. La faute est comptée, définitivement, avant
+ * que l'apprenant ait touché une seule touche.
+ *
+ * La même chose se produit PENDANT la frappe : chaque caractère émet un état,
+ * et tout état intermédiaire non vide était une réponse fausse.
+ *
+ * Le partage d'origine — vide = pas encore, non vide = faux — confondait « je
+ * n'ai pas fini » avec « je me suis trompé ». La bonne frontière est le DÉBUT
+ * de la réponse : tant que ce qui est écrit peut encore devenir la réponse
+ * attendue, l'apprenant construit ; dès qu'il en diverge, il se trompe et cela
+ * coûte. La chaîne vide est un préfixe de tout : le cas « paragraphe encore
+ * vide » reste couvert, sans exception à écrire.
+ *
+ * ⚠️ Ne concerne QUE le classement faute/tâtonnement. Une étape ne se valide
+ * jamais sur un préfixe : c'est `correspond` qui décide de la réussite, et lui
+ * exige l'égalité.
+ */
+export function debutDUneReponse(saisi: string, acceptes: string[], strict?: boolean): boolean {
+  if (strict) {
+    const s = (saisi ?? "").trim()
+    return acceptes.some((a) => a.trim().startsWith(s))
+  }
+  const s = sansAccent(normaliserTypographie(saisi ?? ""))
+  return acceptes.some((a) => sansAccent(normaliserTypographie(a)).startsWith(s))
+}
+
 /** Ce qui manque à un format observé pour satisfaire un format attendu. */
 export function ecartsDeFormat(
   attendu: WordRunObserve,
@@ -524,8 +558,25 @@ export const NEUTRE_WORD = {
  * `observe` absent ou égal au neutre ⇒ faux : rien n'a été fait sur cet
  * attribut. Toute autre valeur différente de l'attendu ⇒ vrai : c'est un geste,
  * et il est faux.
+ *
+ * 🔴 UN ATTRIBUT QUE L'ÉTAPE NE CONTRAINT PAS NE PEUT PAS ÊTRE CONTREDIT.
+ *
+ * Sans cette garde, l'apprenant était puni pour avoir obéi à l'étape
+ * PRÉCÉDENTE. Mesuré dans un vrai navigateur sur l'évaluation notée du
+ * module 1 : l'étape 3 fait appliquer le style « Titre » au premier
+ * paragraphe ; l'étape 8 demande de le CENTRER et ne contraint que
+ * l'alignement. Le style « Titre » encore en place — c'est-à-dire le travail
+ * juste, exigé cinq étapes plus tôt — était alors comparé au neutre
+ * « Normal », déclaré contradiction, et le point perdu quoi qu'il arrive.
+ * L'atelier annonçait « le titre porte le style « Titre » » comme s'il
+ * s'agissait d'une faute.
+ *
+ * « Contredire » suppose une attente : sans valeur attendue, il n'y a rien à
+ * contredire. Ce que la contradiction doit attraper — appliquer « Titre 2 »
+ * quand on demande « Titre 1 » — reste intact, `attendu` y étant défini.
  */
 export function contreditValeur(neutre: unknown, attendu: unknown, observe: unknown): boolean {
+  if (attendu === undefined) return false
   if (observe === undefined || observe === null || observe === "") return false
   if (memeValeur(observe, attendu)) return false
   return !memeValeur(observe, neutre)

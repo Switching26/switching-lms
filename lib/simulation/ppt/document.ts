@@ -872,6 +872,62 @@ function deckDe(obs: PptObservation): DeckState | null {
 const PAS_ENCORE = KO("no_deck", "Ce n'est pas encore fait.")
 
 /**
+ * ═══════════ LA DISCIPLINE `no_` / `wrong_`, ET POURQUOI ELLE PORTE LA NOTE ═══
+ *
+ * `frappe.ts` ne lit du verdict que son PRÉFIXE : un motif en `no_…` sur une
+ * étape jugée sur l'état est un PASSAGE OBLIGÉ — l'apprenant construit son
+ * résultat, rien ne lui est compté ; un motif en `wrong_…` est une FAUTE et
+ * retire le point du premier essai. Tout le barème tient dans ce choix de
+ * préfixe, motif par motif.
+ *
+ * ── Ce que la mesure du 05/08/2026 a montré ──
+ * PowerPoint ne rendait perdables que **165 des 309 points (53 %)**, contre
+ * 70 % pour Excel à socle identique, et quatre évaluations tombaient sous 45 %
+ * — le module 3 à **12 %** : un apprenant qui se trompait partout gardait 88 %.
+ * Deux causes, toutes deux dans le CLASSEMENT et non dans le juge :
+ *
+ *  1. `p:slideSelect`, `p:objectSelect` et `p:viewChange` étaient déclarés
+ *     NAVIGATION. Se déplacer n'est certes pas se tromper — mais quand l'étape
+ *     juge PRÉCISÉMENT ce déplacement, le rater EST une faute. Excel le sait :
+ *     `frappe.ts` y apparie en dur `selectColumn`+`SELECT_COLUMN`. PowerPoint
+ *     n'avait aucun équivalent, et 55 étapes `P_SELECT_SLIDE` étaient donc
+ *     imperdables ;
+ *  2. `p:deckChange`, `p:formatChange`, `p:animationChange` et `p:showChange`
+ *     étaient déclarés OBSERVATIONS D'ÉTAT, ce qui les envoyait dans une branche
+ *     dont aucune sortie ne classe en faute — même quand l'apprenant avait POSÉ
+ *     une autre valeur que celle demandée.
+ *
+ * ── Le remède, exactement celui que Word a validé le 04/08 ──
+ * Les deux listes sont vides, et la protection passe par le VERDICT :
+ *   · `no_…`  = rien n'a encore été posé, ou ce n'est pas ce geste-là. Explorer
+ *               le ruban, cliquer une vignette pour regarder, laisser un attribut
+ *               à sa valeur neutre : gratuit ;
+ *   · `wrong_…` = un AUTRE choix a été posé à la place de celui qu'on demande.
+ *               C'est la sémantique d'Excel (`jugerFrappeSurEtat` : cellule vide
+ *               ≠ cellule remplie faux), portée dans le vocabulaire de PowerPoint.
+ *
+ * ⚠️ Conséquence à ne pas défaire : ajouter un motif d'échec sans choisir son
+ * préfixe en connaissance de cause déplace la note de tous les apprenants.
+ * `check-note-ppt` mesure cette part et ÉCHOUE sous les planchers.
+ */
+
+/**
+ * L'attribut est-il resté à sa valeur NEUTRE — c'est-à-dire jamais choisi ?
+ *
+ * `undefined` et `null` sont l'absence ; `false` est la valeur de repos d'un
+ * attribut booléen (un texte qui n'a jamais été mis en gras) ; la chaîne vide
+ * est un texte jamais saisi. Tout le reste est un choix POSÉ par l'apprenant.
+ *
+ * ⚠️ `false` compte comme neutre À DESSEIN. Les attributs de style sont des
+ * bascules : « remettre en maigre » n'est pas « choisir autre chose que le
+ * gras », c'est ne pas l'avoir mis. Le classer en contradiction ferait payer
+ * un point à qui essaie puis annule — exactement l'inverse du but.
+ */
+function estNeutre(valeur: unknown): boolean {
+  return valeur === undefined || valeur === null || valeur === false || valeur === ""
+}
+
+/**
  * Le juge unique — client ET serveur.
  *
  * Reçoit l'action attendue par l'étape et ce que le simulateur a observé, rend
@@ -905,13 +961,13 @@ export function validerGeste(
   switch (action.type) {
     case "P_SELECT_SLIDE":
       if (obs.kind !== "p:slideSelect")
-        return KO("wrong_gesture", "Sélectionnez une diapositive dans le volet.")
+        return KO("no_gesture", "Sélectionnez une diapositive dans le volet.")
       return obs.index === action.index
         ? OK
         : KO("wrong_slide", `Vous avez sélectionné la diapositive ${obs.index + 1}, pas la ${action.index + 1}.`)
 
     case "P_ADD_SLIDE":
-      if (obs.kind !== "p:slideAdd") return KO("wrong_gesture", "Ajoutez une nouvelle diapositive.")
+      if (obs.kind !== "p:slideAdd") return KO("no_gesture", "Ajoutez une nouvelle diapositive.")
       if (action.layout && obs.layout !== action.layout)
         return KO(
           "wrong_layout",
@@ -920,27 +976,27 @@ export function validerGeste(
       return OK
 
     case "P_DELETE_SLIDE":
-      if (obs.kind !== "p:slideDelete") return KO("wrong_gesture", "Supprimez la diapositive demandée.")
+      if (obs.kind !== "p:slideDelete") return KO("no_gesture", "Supprimez la diapositive demandée.")
       return obs.index === action.index
         ? OK
         : KO("wrong_slide", `C'est la diapositive ${action.index + 1} qu'il fallait supprimer.`)
 
     case "P_DUPLICATE_SLIDE":
-      if (obs.kind !== "p:slideDuplicate") return KO("wrong_gesture", "Dupliquez la diapositive demandée.")
+      if (obs.kind !== "p:slideDuplicate") return KO("no_gesture", "Dupliquez la diapositive demandée.")
       return obs.index === action.index
         ? OK
         : KO("wrong_slide", `C'est la diapositive ${action.index + 1} qu'il fallait dupliquer.`)
 
     case "P_MOVE_SLIDE":
       if (obs.kind !== "p:slideMove")
-        return KO("wrong_gesture", "Faites glisser la diapositive à sa nouvelle place.")
+        return KO("no_gesture", "Faites glisser la diapositive à sa nouvelle place.")
       return obs.from === action.from && obs.to === action.to
         ? OK
         : KO("wrong_move", `La diapositive ${action.from + 1} doit venir en position ${action.to + 1}.`)
 
     case "P_SET_LAYOUT":
       if (obs.kind !== "p:layoutChange")
-        return KO("wrong_gesture", "Changez la disposition de la diapositive.")
+        return KO("no_gesture", "Changez la disposition de la diapositive.")
       return obs.layout === action.layout
         ? OK
         : KO(
@@ -949,19 +1005,19 @@ export function validerGeste(
           )
 
     case "P_SET_VIEW":
-      if (obs.kind !== "p:viewChange") return KO("wrong_gesture", "Changez de mode d'affichage.")
+      if (obs.kind !== "p:viewChange") return KO("no_gesture", "Changez de mode d'affichage.")
       return obs.view === action.view
         ? OK
         : KO("wrong_view", `Vous êtes passé en mode « ${obs.view} ».`)
 
     case "P_SELECT_OBJECT":
-      if (obs.kind !== "p:objectSelect") return KO("wrong_gesture", "Cliquez sur l'élément demandé.")
+      if (obs.kind !== "p:objectSelect") return KO("no_gesture", "Cliquez sur l'élément demandé.")
       return obs.objectId === action.objectId
         ? OK
         : KO("wrong_object", "Ce n'est pas l'élément demandé.")
 
     case "P_ADD_OBJECT":
-      if (obs.kind !== "p:objectAdd") return KO("wrong_gesture", "Insérez l'élément demandé.")
+      if (obs.kind !== "p:objectAdd") return KO("no_gesture", "Insérez l'élément demandé.")
       if (obs.objectType !== action.objectType)
         return KO("wrong_type", `Vous avez inséré un élément de type « ${obs.objectType} ».`)
       if (action.shape && obs.shape !== action.shape)
@@ -969,21 +1025,21 @@ export function validerGeste(
       return OK
 
     case "P_DELETE_OBJECT":
-      if (obs.kind !== "p:objectDelete") return KO("wrong_gesture", "Supprimez l'élément demandé.")
+      if (obs.kind !== "p:objectDelete") return KO("no_gesture", "Supprimez l'élément demandé.")
       return obs.objectId === action.objectId
         ? OK
         : KO("wrong_object", "Ce n'est pas l'élément demandé.")
 
     case "P_MOVE_OBJECT":
       if (obs.kind !== "p:objectMove")
-        return KO("wrong_gesture", "Faites glisser l'élément à l'endroit demandé.")
+        return KO("no_gesture", "Faites glisser l'élément à l'endroit demandé.")
       if (obs.objectId !== action.objectId) return KO("wrong_object", "Ce n'est pas l'élément demandé.")
       return memeCadre(obs.rect, action.rect, action.tolerance ?? TOLERANCE_DEFAUT)
         ? OK
         : KO("wrong_position", "L'élément n'est pas encore à la place demandée.")
 
     case "P_TYPE_TEXT": {
-      if (obs.kind !== "p:typed") return KO("wrong_gesture", "Saisissez le texte demandé.")
+      if (obs.kind !== "p:typed") return KO("no_gesture", "Saisissez le texte demandé.")
       if (obs.cible !== action.cible && obs.objectId !== action.cible)
         return KO("wrong_target", "Le texte n'a pas été saisi au bon endroit.")
       if (action.paragraphe !== undefined && obs.paragraphe !== action.paragraphe)
@@ -1000,6 +1056,56 @@ export function validerGeste(
     }
 
     case "P_EXPECT_FORMAT": {
+      /* 🔴 LA CONTRADICTION SE LIT DANS LE GESTE, PAS DANS L'ÉTAT.
+       *
+       * Le style d'un objet appartient AUSSI au scénario : une zone de texte
+       * peut arriver centrée alors que la consigne demande de l'aligner à
+       * gauche. Chercher la contradiction dans l'état fusionné revient donc à
+       * reprocher à l'apprenant un choix qu'il n'a pas fait — mesuré sur
+       * `m03-ev01`, où deux étapes comptaient une faute sur le simple
+       * `p:deckChange` qui suit la sélection de l'objet, avant tout geste de
+       * mise en forme. L'évaluation tombait à 76,5 % pour un parcours parfait.
+       *
+       * Seul `applique` — les attributs que le clic vient de poser — dit ce que
+       * l'apprenant a VOULU. L'état, lui, ne sait dire que « pas encore ». */
+      if (obs.kind === "p:formatChange") {
+        if (obs.objectId !== action.objectId)
+          return KO("no_format", "La mise en forme demandée n'est pas encore appliquée.")
+        const applique = (obs.applique ?? {}) as Record<string, unknown>
+        let toucheUnAttributDemande = false
+        for (const [cle, val] of Object.entries(action.style)) {
+          const pose = applique[cle]
+          if (pose === val) {
+            toucheUnAttributDemande = true
+            continue
+          }
+          // L'attribut demandé a été posé À UNE AUTRE VALEUR : choix contredit.
+          if (!estNeutre(pose)) return KO("wrong_format", "Ce n'est pas la mise en forme demandée.")
+        }
+        /* CLIQUER UN AUTRE BOUTON DE MISE EN FORME EST UNE FAUTE, même quand la
+         * consigne ne porte que sur un attribut booléen.
+         *
+         * « Un gras n'a pas de mauvaise valeur » est vrai de l'ATTRIBUT, pas du
+         * GESTE : on demande le gras, l'apprenant clique Souligné — il s'est
+         * trompé de bouton, et rien ne le lui disait. Sans cette règle, les sept
+         * étapes de mise en forme de `m03-ev01` étaient imperdables et
+         * l'évaluation ne discriminait que 35 % de ses points. */
+        if (!toucheUnAttributDemande) {
+          const posesReelles = Object.entries(applique).filter(([, v]) => !estNeutre(v))
+          if (posesReelles.length)
+            return KO("wrong_format", "Ce n'est pas la mise en forme demandée par la consigne.")
+        }
+        if (
+          action.fill !== undefined &&
+          obs.fillApplique !== undefined &&
+          obs.fillApplique !== action.fill &&
+          !estNeutre(obs.fillApplique)
+        )
+          return KO("wrong_fill", "La couleur de remplissage n'est pas celle demandée.")
+        // Le geste ne contredit rien : c'est le `p:deckChange` qui suit qui
+        // prononcera la réussite, sur l'état complet.
+        return KO("no_format", "La mise en forme demandée n'est pas encore appliquée.")
+      }
       const deck = deckDe(obs)
       if (!deck) return PAS_ENCORE
       const slide = diapoActive(deck)
@@ -1007,10 +1113,10 @@ export function validerGeste(
       if (!obj) return KO("no_object", "L'élément demandé n'est pas encore là.")
       for (const [cle, val] of Object.entries(action.style)) {
         if ((obj.style as Record<string, unknown> | undefined)?.[cle] !== val)
-          return KO("wrong_format", "La mise en forme demandée n'est pas encore appliquée.")
+          return KO("no_format", "La mise en forme demandée n'est pas encore appliquée.")
       }
       if (action.fill !== undefined && obj.fill !== action.fill)
-        return KO("wrong_fill", "La couleur de remplissage n'est pas celle demandée.")
+        return KO("no_fill", "La couleur de remplissage n'est pas encore posée.")
       return OK
     }
 
@@ -1037,11 +1143,16 @@ export function validerGeste(
       const show = deck.show ?? { actif: false, index: 0 }
       for (const [cle, val] of Object.entries(action.show)) {
         if ((show as unknown as Record<string, unknown>)[cle] !== val) {
+          /* Un diaporama ne se CONTREDIT pas : on le lance, on avance, on le
+             quitte. Chaque écart n'est qu'une étape pas encore franchie, donc
+             tous ces motifs sont en `no_` — l'apprenant qui appuie deux fois de
+             trop ne doit pas perdre le point. Excel classe de même ses écarts
+             d'état (`wrong_state_value` y est un tâtonnement). */
           if (cle === "actif")
-            return KO("show_state", val ? "Le diaporama n'est pas lancé." : "Le diaporama est encore en cours.")
+            return KO("no_show", val ? "Le diaporama n'est pas lancé." : "Le diaporama est encore en cours.")
           if (cle === "index")
-            return KO("show_index", `Le diaporama est sur la diapositive ${show.index + 1}.`)
-          return KO("show_state", "Le diaporama n'est pas dans l'état demandé.")
+            return KO("no_show_index", `Le diaporama est sur la diapositive ${show.index + 1}.`)
+          return KO("no_show", "Le diaporama n'est pas dans l'état demandé.")
         }
       }
       return OK
@@ -1079,39 +1190,49 @@ export function validerDeck(
   attendu: NonNullable<Extract<PptAction, { type: "P_EXPECT_DECK" }>["deck"]>,
   deck: DeckState,
 ): Verdict {
-  if (attendu.nbSlides !== undefined && deck.slides.length !== attendu.nbSlides)
-    return KO(
-      "wrong_count",
-      `La présentation compte ${deck.slides.length} diapositives, il en faut ${attendu.nbSlides}.`,
-    )
+  /* MOINS que demandé = pas encore fait ; PLUS = un ajout que personne n'a
+     demandé, donc un choix contredit. La direction fait toute la différence. */
+  if (attendu.nbSlides !== undefined && deck.slides.length !== attendu.nbSlides) {
+    const message = `La présentation compte ${deck.slides.length} diapositives, il en faut ${attendu.nbSlides}.`
+    return deck.slides.length < attendu.nbSlides ? KO("no_count", message) : KO("wrong_count", message)
+  }
 
   for (const att of attendu.slides ?? []) {
     const slide = deck.slides[att.index]
     if (!slide) return KO("no_slide", `La diapositive ${att.index + 1} n'existe pas encore.`)
 
+    // Une diapositive porte TOUJOURS une disposition : en avoir une autre que
+    // celle demandée est un choix posé, jamais une absence.
     if (att.layout && slide.layout !== att.layout)
       return KO(
         "wrong_layout",
         `La diapositive ${att.index + 1} n'utilise pas la disposition « ${nomLayout(att.layout)} ».`,
       )
     if (att.masquee !== undefined && !!slide.masquee !== att.masquee)
-      return KO("wrong_hidden", `La diapositive ${att.index + 1} n'est pas dans l'état demandé.`)
+      return att.masquee
+        ? KO("no_hidden", `La diapositive ${att.index + 1} n'est pas encore masquée.`)
+        : KO("wrong_hidden", `La diapositive ${att.index + 1} est masquée alors qu'elle ne devrait pas l'être.`)
     if (att.notes !== undefined && normaliserTexte(slide.notes ?? "") !== normaliserTexte(att.notes))
-      return KO("wrong_notes", `Les notes de la diapositive ${att.index + 1} ne correspondent pas.`)
-    if (att.nbObjets !== undefined && slide.objects.length !== att.nbObjets)
-      return KO(
-        "wrong_object_count",
-        `La diapositive ${att.index + 1} ne contient pas le bon nombre d'éléments.`,
-      )
+      return estNeutre(slide.notes)
+        ? KO("no_notes", `Les notes de la diapositive ${att.index + 1} ne sont pas encore écrites.`)
+        : KO("wrong_notes", `Les notes de la diapositive ${att.index + 1} ne correspondent pas.`)
+    if (att.nbObjets !== undefined && slide.objects.length !== att.nbObjets) {
+      const message = `La diapositive ${att.index + 1} ne contient pas le bon nombre d'éléments.`
+      return slide.objects.length < att.nbObjets
+        ? KO("no_object_count", message)
+        : KO("wrong_object_count", message)
+    }
 
     if (att.transition) {
       const tr = slide.transition as unknown as Record<string, unknown> | undefined
       for (const [cle, val] of Object.entries(att.transition)) {
-        if (tr?.[cle] !== val)
-          return KO(
-            "wrong_transition",
-            `La transition de la diapositive ${att.index + 1} n'est pas celle demandée.`,
-          )
+        if (tr?.[cle] === val) continue
+        return estNeutre(tr?.[cle])
+          ? KO("no_transition", `La transition de la diapositive ${att.index + 1} n'est pas encore réglée.`)
+          : KO(
+              "wrong_transition",
+              `La transition de la diapositive ${att.index + 1} n'est pas celle demandée.`,
+            )
       }
     }
 
@@ -1119,10 +1240,15 @@ export function validerDeck(
       const obj = trouverObjet(slide, `ph:${ph}`)
       const obtenu = normaliserTexte(texteDe(obj))
       if (!(textes as string[]).some((t) => normaliserTexte(t) === obtenu))
-        return KO(
-          "wrong_text",
-          `Le texte attendu n'est pas encore saisi dans la zone « ${ph} » de la diapositive ${att.index + 1}.`,
-        )
+        return obtenu === ""
+          ? KO(
+              "no_text",
+              `Le texte attendu n'est pas encore saisi dans la zone « ${ph} » de la diapositive ${att.index + 1}.`,
+            )
+          : KO(
+              "wrong_text",
+              `La zone « ${ph} » de la diapositive ${att.index + 1} porte un autre texte que celui demandé.`,
+            )
     }
 
     for (const attObj of att.objets ?? []) {
@@ -1138,12 +1264,19 @@ export function validerDeck(
       if (attObj.rect && !memeCadre(cible.rect, attObj.rect, attObj.tolerance ?? TOLERANCE_DEFAUT))
         return KO("wrong_position", "Un élément n'est pas à la place demandée.")
       if (attObj.fill !== undefined && cible.fill !== attObj.fill)
-        return KO("wrong_fill", "La couleur de remplissage n'est pas celle demandée.")
+        return estNeutre(cible.fill)
+          ? KO("no_fill", "La couleur de remplissage n'est pas encore posée.")
+          : KO("wrong_fill", "La couleur de remplissage n'est pas celle demandée.")
       if (attObj.texte && !attObj.texte.some((t) => normaliserTexte(t) === normaliserTexte(texteDe(cible))))
-        return KO("wrong_text", "Le texte d'un élément ne correspond pas.")
+        return normaliserTexte(texteDe(cible)) === ""
+          ? KO("no_text", "Le texte d'un élément n'est pas encore saisi.")
+          : KO("wrong_text", "Le texte d'un élément ne correspond pas.")
       for (const [cle, val] of Object.entries(attObj.style ?? {})) {
-        if ((cible.style as Record<string, unknown> | undefined)?.[cle] !== val)
-          return KO("wrong_format", "La mise en forme d'un élément n'est pas celle demandée.")
+        const pose = (cible.style as Record<string, unknown> | undefined)?.[cle]
+        if (pose === val) continue
+        return estNeutre(pose)
+          ? KO("no_format", "La mise en forme d'un élément n'est pas encore appliquée.")
+          : KO("wrong_format", "Un élément porte une autre mise en forme que celle demandée.")
       }
     }
   }

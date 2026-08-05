@@ -115,12 +115,52 @@ const nomLayout = (id: string) => LAYOUTS[id as keyof typeof LAYOUTS]?.nom ?? id
  * Invisible en leçon, invisible au banc — seul le chemin SERVI expurge. Prouvé
  * en appelant les cinq fonctions sur la sortie de `publierPpt` pour les seize
  * types.
+ *
+ * ────────────────────────────────────────────────────────────────────────────
+ * 🔴 `default: return true` A LAISSÉ PASSER 96 LIGNES « ATTENDU » CASSÉES SUR 227.
+ *
+ * Mesuré le 05/08/2026 par le VRAI chemin de service — scénario en base,
+ * `expurgerScenarioNote(raw)` comme `route.ts:73`, puis l'adaptateur : Excel
+ * 0/321, Outlook 0/178, **PowerPoint 96/227**, sur les seize modules. L'écran
+ * annonçait « Attendu : la diapositive NaN sélectionnée dans le volet », « la
+ * disposition « undefined » appliquée », « un élément « undefined » posé sur la
+ * diapositive ».
+ *
+ * La cause n'est pas dans `publier` : `route.ts` appelle `expurgerScenarioNote`
+ * SANS projection, donc les actions PowerPoint passent par `actionPublique`,
+ * la projection d'Excel, qui ne connaît aucun type préfixé et ne laisse
+ * survivre que le `type`. Sept types tombaient alors dans le `default` de ce
+ * garde et étaient déclarés « complets » alors qu'il ne leur restait rien :
+ * `P_SELECT_SLIDE` (55 cas), `P_ADD_OBJECT` (10), `P_SET_VIEW` (10),
+ * `P_SET_LAYOUT` (8), `P_DELETE_SLIDE` (7), `P_DUPLICATE_SLIDE` (4),
+ * `P_MOVE_SLIDE` (2).
+ *
+ * Le garde est donc EXHAUSTIF : chaque case cite les champs que `attendu`,
+ * `fait`, `reponse` et `cible` lisent réellement. Un type ajouté sans sa ligne
+ * ici ne compilera pas — c'est le `never` final qui l'impose.
  */
 function complete(action: PptAction): boolean {
   const a = action as unknown as Record<string, unknown>
+  const entier = (v: unknown) => typeof v === "number" && Number.isFinite(v)
+  const texte = (v: unknown) => typeof v === "string"
   switch (action.type) {
+    case "P_SELECT_SLIDE":
+    case "P_DELETE_SLIDE":
+    case "P_DUPLICATE_SLIDE":
+      return entier(a.index)
+    case "P_MOVE_SLIDE":
+      return entier(a.from) && entier(a.to)
+    case "P_SET_LAYOUT":
+      return texte(a.layout)
+    case "P_SET_VIEW":
+      return texte(a.view)
+    case "P_ADD_OBJECT":
+      return texte(a.objectType)
+    // `layout` est facultatif par contrat : son absence n'est pas une amputation.
+    case "P_ADD_SLIDE":
+      return true
     case "P_TYPE_TEXT":
-      return typeof a.cible === "string"
+      return texte(a.cible)
     case "P_EXPECT_DECK":
       return !!a.deck
     case "P_EXPECT_FORMAT":
@@ -132,11 +172,14 @@ function complete(action: PptAction): boolean {
     case "P_SELECT_OBJECT":
     case "P_MOVE_OBJECT":
     case "P_DELETE_OBJECT":
-      return typeof a.objectId === "string"
+      return texte(a.objectId)
     case "P_MONTRER":
-      return typeof a.cible === "string" && typeof a.texte === "string"
-    default:
-      return true
+      return texte(a.cible) && texte(a.texte)
+    default: {
+      const _exhaustif: never = action
+      void _exhaustif
+      return false
+    }
   }
 }
 
@@ -235,31 +278,54 @@ function decrireStyle(style: Partial<PptTextStyle>): string {
  * suit automatiquement quand le scénario change.
  */
 export function attenduPpt(action: PptAction): string | null {
-  if (!complete(action)) return null
+  /**
+   * UNE ACTION AMPUTÉE GARDE UNE LIGNE VRAIE, elle n'en perd pas.
+   *
+   * En évaluation notée, `route.ts` sert le scénario expurgé : la disposition
+   * demandée, le rang de la diapositive, le type d'élément ne partent plus au
+   * navigateur — ce sont des réponses. Rendre `null` ici priverait alors 96
+   * étapes de leur repère de réussite, exactement ce que la consigne ne dit
+   * jamais. On dégrade donc la phrase au lieu de la supprimer, comme Excel le
+   * fait depuis toujours pour `EXPECT_STATE` (« la présentation dans l'état
+   * décrit par la consigne »).
+   */
+  const ampute = !complete(action)
   switch (action.type) {
     case "P_SELECT_SLIDE":
-      return `la diapositive ${action.index + 1} sélectionnée dans le volet`
+      return ampute
+        ? "la diapositive demandée sélectionnée dans le volet"
+        : `la diapositive ${action.index + 1} sélectionnée dans le volet`
     case "P_ADD_SLIDE":
       return action.layout
         ? `une diapositive de plus, en « ${nomLayout(action.layout)} »`
         : "une diapositive de plus dans le volet"
     case "P_DELETE_SLIDE":
-      return `la diapositive ${action.index + 1} retirée de la présentation`
+      return ampute
+        ? "la diapositive indiquée retirée de la présentation"
+        : `la diapositive ${action.index + 1} retirée de la présentation`
     case "P_DUPLICATE_SLIDE":
-      return `une copie de la diapositive ${action.index + 1}, juste après elle`
+      return ampute
+        ? "une copie de la diapositive indiquée, juste après elle"
+        : `une copie de la diapositive ${action.index + 1}, juste après elle`
     case "P_MOVE_SLIDE":
-      return `la diapositive ${action.from + 1} en position ${action.to + 1}`
+      return ampute
+        ? "la diapositive à la place demandée par la consigne"
+        : `la diapositive ${action.from + 1} en position ${action.to + 1}`
     case "P_SET_LAYOUT":
-      return `la disposition « ${nomLayout(action.layout)} » appliquée`
+      return ampute
+        ? "la disposition demandée appliquée"
+        : `la disposition « ${nomLayout(action.layout)} » appliquée`
     case "P_SET_VIEW":
+      if (ampute) return "l'affichage demandé par la consigne"
       return action.view === "trieuse"
         ? "l'affichage en trieuse, toutes les diapositives côte à côte"
         : `l'affichage en mode « ${action.view} »`
     case "P_SELECT_OBJECT":
       return "l'élément entouré de ses poignées"
     case "P_TYPE_TEXT":
-      return `${nommerCible(action.cible)} renseigné`
+      return ampute ? "l'emplacement demandé renseigné" : `${nommerCible(action.cible)} renseigné`
     case "P_ADD_OBJECT":
+      if (ampute) return "l'élément demandé posé sur la diapositive"
       return action.shape
         ? `une forme « ${action.shape.replace("-", " ")} » posée sur la diapositive`
         : `un élément « ${action.objectType} » posé sur la diapositive`
@@ -268,16 +334,18 @@ export function attenduPpt(action: PptAction): string | null {
     case "P_MOVE_OBJECT":
       return "l'élément à sa nouvelle place"
     case "P_EXPECT_DECK":
-      if (action.deck.nbSlides !== undefined)
+      if (!ampute && action.deck.nbSlides !== undefined)
         return `une présentation de ${action.deck.nbSlides} diapositives`
       return "la présentation dans l'état décrit par la consigne"
     case "P_EXPECT_FORMAT":
-      return `le texte ${decrireStyle(action.style)}`
+      return ampute ? "la mise en forme décrite par la consigne" : `le texte ${decrireStyle(action.style)}`
     case "P_EXPECT_ANIMATIONS":
+      if (ampute) return "les animations réglées comme la consigne le demande"
       return action.animations.length === 1
         ? "une animation dans le volet Animations"
         : `${action.animations.length} animations dans le volet Animations`
     case "P_EXPECT_SHOW":
+      if (ampute) return "le diaporama dans l'état décrit par la consigne"
       if (action.show.actif === false) return "le diaporama terminé, de retour à l'édition"
       if (action.show.index !== undefined)
         return `le diaporama sur la diapositive ${action.show.index + 1}`
@@ -834,20 +902,34 @@ export function publierPpt(action: PptAction): Record<string, unknown> | null {
     case "P_EXPECT_FORMAT":
     case "P_EXPECT_ANIMATIONS":
       return null
-    // Ces champs-là ne sont pas des réponses : la consigne les nomme déjà, et la
-    // surface en a besoin pour rendre l'étape jouable.
+    /* Ces champs-là ne sont pas des réponses : la consigne les nomme déjà, et la
+     * surface en a besoin pour rendre l'étape jouable.
+     *
+     * ⚠️ LE `type` EST REPRIS SUR CHACUNE DE CES BRANCHES, et ce n'est pas une
+     * redite. `expurgerScenarioNote` ne le rétablit que sur `null` ; toute
+     * branche qui rend un objet doit donc le porter elle-même. Sans lui,
+     * l'action arrivait au navigateur SANS SON TYPE — l'atelier ne pouvait plus
+     * savoir de quelle sorte d'action il s'agissait, donc ni la rendre, ni
+     * l'expliquer, ni la juger. Exactement le défaut décrit plus bas pour `{}`,
+     * mais sur les branches qui, elles, ont bien quelque chose à dire.
+     *
+     * Il ne se voyait pas : `route.ts:73` appelle `expurgerScenarioNote(raw)`
+     * SANS projection, donc cette fonction n'est aujourd'hui empruntée par
+     * aucun apprenant — seulement par `check-expurgation-ppt`. Elle le sera le
+     * jour où le service passera la projection de l'application, et ce jour-là
+     * l'omission aurait coûté toutes les évaluations PowerPoint. */
     case "P_SELECT_SLIDE":
     case "P_DELETE_SLIDE":
     case "P_DUPLICATE_SLIDE":
-      return { index: action.index }
+      return { type: action.type, index: action.index }
     case "P_MOVE_SLIDE":
-      return { from: action.from, to: action.to }
+      return { type: action.type, from: action.from, to: action.to }
     case "P_SET_VIEW":
-      return { view: action.view }
+      return { type: action.type, view: action.view }
     case "P_SELECT_OBJECT":
     case "P_DELETE_OBJECT":
     case "P_MOVE_OBJECT":
-      return { objectId: action.objectId }
+      return { type: action.type, objectId: action.objectId }
     /**
      * `null`, et surtout PAS `{}`.
      *
@@ -867,7 +949,7 @@ export function publierPpt(action: PptAction): Record<string, unknown> | null {
     case "P_EXPECT_SHOW":
       return null
     case "P_ADD_OBJECT":
-      return { objectType: action.objectType, shape: action.shape }
+      return { type: action.type, objectType: action.objectType, shape: action.shape }
     /**
      * Le texte ET la cible partent au navigateur, y compris en évaluation
      * notée : une illustration n'est pas une aide sur une question, c'est le
@@ -876,7 +958,7 @@ export function publierPpt(action: PptAction): Record<string, unknown> | null {
      * 26 énoncés d'évaluation sont équipés comme les autres.
      */
     case "P_MONTRER":
-      return { cible: action.cible, texte: action.texte, ecrire: action.ecrire }
+      return { type: action.type, cible: action.cible, texte: action.texte, ecrire: action.ecrire }
     default: {
       const _exhaustif: never = action
       void _exhaustif

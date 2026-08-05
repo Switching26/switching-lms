@@ -137,6 +137,39 @@ const COORDONNEES_GARDEES = [
   "from",
   "element",
   "control",
+  /*
+   * DÉSIGNATIONS DES TROIS AUTRES APPLICATIONS.
+   *
+   * Elles ne partaient pas tant que `route.ts` servait tout le monde avec la
+   * projection d'Excel : l'action était vidée avant d'arriver. Le jour où la
+   * projection de chaque application est branchée, elles arrivent — et
+   * plusieurs SONT la réponse. Mesuré sur les 32 évaluations PowerPoint et
+   * Outlook : `objectId: "zt-repete"` servi sous « une zone répète ce que le
+   * bloc dit déjà : faites-la disparaître », `objectId: "fo-reste"` sous « un
+   * élément n'apporte rien : débarrassez-vous-en », `dossier: "envoyes"` sous
+   * « le dossier où se trouve la copie de ce que vous avez envoyé »,
+   * `shape: "fleche"` sous « ajoutez de quoi désigner un point précis ».
+   *
+   * La règle qui les gouverne est celle d'Excel, sans exception nouvelle : une
+   * désignation ne part QUE si la consigne la nomme. Aucune n'est nécessaire
+   * pour jouer — les players PowerPoint et Outlook ne lisent que `action.type`,
+   * et `cible()` n'y sert qu'au halo d'aide, éteint en évaluation notée. Sans
+   * elles, la ligne « Attendu » se dégrade en formulation générique, ce que les
+   * adaptateurs prévoient déjà.
+   *
+   * Deux désignations restent volontairement HORS de cette liste, parce
+   * qu'elles disent OÙ agir et non QUOI répondre — et que les retirer rendrait
+   * l'étape injouable : la `zone` de Word, dont la surface a besoin pour
+   * observer quoi que ce soit, et le `champ` d'Outlook, qui nomme la case à
+   * remplir quand la réponse est le texte qu'on y saisit.
+   */
+  "index",
+  "objectId",
+  "objectType",
+  "shape",
+  "view",
+  "id",
+  "dossier",
 ] as const
 
 /** Comparaison indifférente aux accents, à la casse et aux espaces multiples. */

@@ -10,8 +10,24 @@ const DISMISS_DAYS = 30
  * Pages où proposer l'installation n'a aucun sens et gêne : un candidat invité
  * à une évaluation vient répondre une seule fois, il n'a pas d'espace à
  * installer — et la bannière recouvrait les questions.
+ *
+ * `/learner/formation` porte l'atelier de simulation, et le même défaut y était
+ * BIEN PIRE : mesuré à 390×844, la bannière (`fixed bottom-3 inset-x-3 z-40`,
+ * 366×171) recouvrait 87 % de la bande de consigne et 100 % du bouton
+ * « Suivant » de l'atelier, qui vit dans un portail `z-index: 30`. Et comme
+ * elle ne porte pas `pointer-events:none`, c'est ELLE qui captait le clic au
+ * centre de la consigne : à sa toute première visite, un élève sur téléphone
+ * n'avait aucune consigne lisible et ne pouvait pas avancer tant qu'il n'avait
+ * pas fermé une invitation d'installation. Vérifié sur les quatre applications.
+ *
+ * Pourquoi le préfixe plutôt que le marqueur `data-surcouche` décrit plus bas :
+ * cet attribut n'est posé que par le guide de la formation, jamais par
+ * l'atelier — le mécanisme existait donc sans jamais couvrir ce cas. Le préfixe
+ * ne dépend, lui, du cycle de vie d'aucun composant. L'invitation reste
+ * proposée partout ailleurs dans l'espace apprenant (accueil, résultats,
+ * documents, notes, messages, compte).
  */
-const HIDDEN_PREFIXES = ["/evaluation/"]
+const HIDDEN_PREFIXES = ["/evaluation/", "/learner/formation"]
 
 /**
  * Même raison, autre mécanique : une surcouche plein écran ouverte par-dessus

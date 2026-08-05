@@ -29,6 +29,7 @@ import AtelierShell, {
   type EntreeSommaire,
 } from "../AtelierShell"
 import AfficheModule, { numeroModule } from "../AfficheModule"
+import { natureEtape } from "@/lib/simulation/attendu"
 import {
   useAideProgressive,
   useMesureZoneTravail,
@@ -574,7 +575,10 @@ export default function WordPlayer({
     const t = window.setTimeout(() => {
       const api = apiRef.current
       if (!api?.pret()) return
-      surObservation(etatComplet(api.lireEtat(zonesCibles)))
+      // Émise par l'atelier, pas par l'apprenant : voir `spontanees`.
+      const o = etatComplet(api.lireEtat(zonesCibles))
+      spontanees.current.add(o)
+      surObservation(o)
     }, 420)
     return () => window.clearTimeout(t)
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -694,8 +698,20 @@ export default function WordPlayer({
   const attemptedRef = useRef<Set<string>>(new Set())
   const firstTryRef = useRef<Record<string, boolean>>({})
 
+  /**
+   * Les observations que l'atelier s'émet à lui-même — la relecture d'arrivée
+   * et les relevés d'état après une commande qui n'en produit pas.
+   *
+   * Un `WeakSet` plutôt qu'un drapeau : le jugement est ASYNCHRONE en évaluation
+   * notée, et deux observations peuvent se croiser. Un booléen posé puis remis
+   * à faux par la seconde disculperait la première, ou l'inverse — c'est
+   * exactement le piège du verrou de démonstration côté Excel, où un booléen
+   * partagé laissait un effet raccourcir le verrou d'un autre.
+   */
+  const spontanees = useRef<WeakSet<object>>(new WeakSet())
+
   const appliquerJugement = useCallback(
-    (s: EtapeWord, jugement: JugementEtape) => {
+    (s: EtapeWord, jugement: JugementEtape, spontanee = false) => {
       if (jugement.ok) {
         if (!attemptedRef.current.has(s.id)) firstTryRef.current[s.id] = true
         setVerdict({ ok: true })
@@ -709,6 +725,8 @@ export default function WordPlayer({
       // La classification vient du JUGE, jamais d'une reconstitution ici :
       // en évaluation l'atelier n'a ni les réponses ni le motif détaillé.
       if (jugement.compte === "rien") return
+      // Voir `spontanees` : l'atelier ne se fait pas de faute à lui-même.
+      if (jugement.compte === "faute" && spontanee) return
       if (jugement.compte === "faute") {
         attemptedRef.current.add(s.id)
         firstTryRef.current[s.id] = false
@@ -844,14 +862,36 @@ export default function WordPlayer({
       ) {
         return
       }
+      /*
+       * 🔴 UNE RELECTURE QUE L'ATELIER S'EST FAITE À LUI-MÊME NE PEUT PAS ÊTRE
+       * UNE FAUTE DE L'APPRENANT.
+       *
+       * Le commentaire de la relecture de 420 ms affirme qu'elle « ne peut RIEN
+       * coûter, un état non satisfait rendant un verdict `no_…` classé en
+       * tâtonnement ». C'EST FAUX pour les trois juges d'état : un paragraphe,
+       * un style ou un format DÉJÀ POSÉS à une autre valeur rendent `contredit`
+       * — donc une faute — et l'état de départ d'une étape de correction est
+       * précisément « posé à une autre valeur ».
+       *
+       * Conséquence mesurée dans un vrai navigateur, en ne faisant RIEN :
+       * l'évaluation du module 3 perd ses points à la seconde où elle s'ouvre,
+       * parce que le contrat à corriger dit « deux fois par an » là où la
+       * consigne demande « quatre ». Le module 1 perdait les siens de la même
+       * façon. Aucun apprenant ne pouvait les gagner.
+       *
+       * On marque donc les observations que le player émet LUI-MÊME. Elles
+       * continuent d'être jugées — c'est ainsi qu'une étape déjà satisfaite se
+       * franchit — mais ne peuvent plus retirer le point du premier essai.
+       */
+      const spontanee = spontanees.current.has(obs)
       void jugerObservation(s, rang, obs).then((jugement) => {
         if (!jugement) return
         if ((indexRef.current ?? 0) !== rang) return
         if (jugement.ok) rangDejaValide.current = rang
-        appliquerJugement(s, jugement)
+        appliquerJugement(s, jugement, spontanee)
       })
     },
-    [appliquerJugement, finished, indexRef, jugerObservation, steps],
+    [appliquerJugement, finished, indexRef, jugerObservation, spontanees, steps],
   )
 
   /**
@@ -966,10 +1006,27 @@ export default function WordPlayer({
        * si l'étape courante juge précisément ce clic.
        */
       const s = steps[indexRef.current ?? 0] as EtapeWord | undefined
-      const attenduIci =
-        s?.action.type === "W_CLICK_CONTROL" &&
-        (s.action as { controle?: string }).controle === id
-      if (!agi || attenduIci) surObservation({ kind: "w:control", controle: id })
+      /*
+       * 🔴 IL FAUT ÉMETTRE SUR TOUTE ÉTAPE QUI JUGE UN CLIC, PAS SEULEMENT
+       * QUAND LE CLIC EST LE BON.
+       *
+       * La condition testait l'ÉGALITÉ avec le bouton attendu. Conséquence
+       * mesurée : sur une étape « cliquez sur Annuler », un clic sur Italique,
+       * Souligné ou Puces — c'est-à-dire sur la majorité du ruban, tous les
+       * boutons qui AGISSENT — n'émettait rien du tout. L'apprenant voyait son
+       * document changer sous ses yeux et l'atelier ne disait pas un mot : ni
+       * message, ni faute, ni tâtonnement. Le même clic sur un bouton qui
+       * échoue, lui, était bien signalé et bien compté : deux poids, deux
+       * mesures pour exactement la même erreur.
+       *
+       * Le danger que la condition d'origine évitait — l'observation du geste
+       * qui devance celle de l'état et fait échouer une étape jugée sur le
+       * document — ne concerne QUE les étapes `W_EXPECT_*`. Elles restent
+       * intactes : on ne regarde plus quel bouton a été cliqué, seulement si
+       * l'étape courante juge un clic.
+       */
+      const etapeJugeUnClic = s?.action.type === "W_CLICK_CONTROL"
+      if (!agi || etapeJugeUnClic) surObservation({ kind: "w:control", controle: id })
       window.setTimeout(() => api.focus(), 60)
     },
     [indexRef, steps, surObservation],
@@ -1344,6 +1401,18 @@ export default function WordPlayer({
     w.__WORD_PLAN = plan
     w.__WORD_COMPTEURS = { essais, tatonnements, demonstration, demoFinie }
     w.__WORD_FORCE_DEMO = () => demarrerDemonstration()
+    /*
+     * La surface elle-même — l'équivalent exact de `__SIM_GRID` côté Excel.
+     *
+     * Sans elle, une évaluation Word n'est PAS rejouable de bout en bout : ses
+     * étapes se jugent sur l'état du document et demandent de sélectionner un
+     * passage précis avant d'agir. Univer rend sur canvas, il n'existe aucun
+     * élément de DOM par paragraphe, et sélectionner au pixel est le geste que
+     * la documentation de ce dépôt décrit comme le moins fiable de tous. C'est
+     * la raison pour laquelle aucun passage noté Word n'avait encore pu être
+     * mené jusqu'à sa note.
+     */
+    w.__WORD_API = apiRef.current
   })
 
   /* ═══════════ CE QUE LE CHÂSSIS AFFICHE ═══════════ */
@@ -1355,7 +1424,11 @@ export default function WordPlayer({
     const aideTexte = (etape as { aide?: { text?: string } }).aide?.text ?? null
     return {
       texte: etape.consigne ?? "",
-      nature: lecture ? "lecture" : evaluationNotee ? "evaluee" : "action",
+      // Source unique : la règle vivait ici en double, réécrite à la main dans
+      // chaque player. C'est cette duplication qui a laissé le barème hors du
+      // calcul — `natureEtape` le prend en compte, ces copies non. Word n'a
+      // aucune étape à `points: 0`, le rendu est donc inchangé.
+      nature: natureEtape(etape.action, evaluationNotee ? "EVALUATION" : "LESSON", etape.points),
       lecture,
       aDemonstration: !!plan,
       // Ce que le châssis lit pour décider s'il peut promettre « Montrez-moi ».

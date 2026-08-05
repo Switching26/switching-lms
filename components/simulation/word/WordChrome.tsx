@@ -21,7 +21,7 @@
  * par un scénario sans rendu ici.
  */
 
-import { useEffect, useRef, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import { LIBELLES_CONTROLES_WORD } from "@/lib/simulation/word/adaptateur"
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -630,6 +630,68 @@ export default function WordChrome({ ongletImpose, onControle, titreDocument }: 
   // ses groupes ne sont plus ceux du ruban affiché.
   useEffect(() => setTiroir(false), [actif])
 
+  /* ═══════════ CE QUE LE RUBAN CACHE À DROITE, ET COMMENT L'ATTEINDRE ═══════════
+   *
+   * 🔴 MESURÉ AVANT D'ÊTRE ÉCRIT, ET SUR UN GRAND ÉCRAN : à 1 440 px — pas sur
+   * un téléphone — le groupe « Annulation » commence à x = 1 454. « Annuler »
+   * et « Rétablir » sont donc ENTIÈREMENT hors de la fenêtre, `elementFromPoint`
+   * confirme qu'ils ne sont pas cliquables, et 124 px de ruban défilent sans que
+   * rien ne l'indique. À 1 280 px il en manque 284.
+   *
+   * Ce que cela coûtait : 31 étapes de 16 chapitres exigent l'un de ces deux
+   * boutons, dont **21 POINTS DE 11 ÉVALUATIONS NOTÉES**. L'apprenant ne pouvait
+   * pas les prendre — non pas parce qu'il ignorait la réponse, mais parce que le
+   * bouton n'était pas à l'écran.
+   *
+   * ⚠️ POURQUOI PAS « AMENER LA CIBLE DANS LE CHAMP », le remède de PowerPoint
+   * et de la démonstration Word (`rectDuDom`) : il désignerait LA RÉPONSE. Faire
+   * défiler le ruban jusqu'au bouton attendu au moment où l'étape le demande,
+   * c'est le montrer du doigt — inacceptable sur les 21 points notés, qui sont
+   * précisément le cœur du défaut. Ce remède reste bon pour la démonstration,
+   * qui ne se joue jamais en évaluation.
+   *
+   * Le remède retenu ne révèle rien : il rend le ruban ENTIÈREMENT ATTEIGNABLE,
+   * à l'apprenant de trouver son bouton. C'est aussi ce que fait le vrai Word.
+   *
+   * ⚠️ Les chevrons sont des FRÈRES de la piste, jamais posés par-dessus. Une
+   * surface décorative superposée avale les clics — c'est le défaut qui faisait
+   * échouer 4 scénarios Excel sur 6, et celui du jalon sans `pointer-events`.
+   * En sortant de la piste, ils ne peuvent voler aucun clic par construction.
+   *
+   * Ils ne portent pas `data-control` : ce ne sont pas des boutons de scénario,
+   * et `check-controles` refuserait un identifiant qu'aucune étape ne cite.
+   * Même convention que `data-control-tiroir` juste en dessous.
+   */
+  const [debord, setDebord] = useState({ gauche: false, droite: false })
+
+  const mesurerDebord = useCallback(() => {
+    const b = barreRef.current
+    if (!b) return
+    const restant = b.scrollWidth - b.clientWidth - b.scrollLeft
+    setDebord({ gauche: b.scrollLeft > 1, droite: restant > 1 })
+  }, [])
+
+  useEffect(() => {
+    const b = barreRef.current
+    if (!b) return
+    mesurerDebord()
+    b.addEventListener("scroll", mesurerDebord, { passive: true })
+    const ro = typeof ResizeObserver !== "undefined" ? new ResizeObserver(mesurerDebord) : null
+    ro?.observe(b)
+    return () => {
+      b.removeEventListener("scroll", mesurerDebord)
+      ro?.disconnect()
+    }
+    // `actif` : changer d'onglet change les groupes, donc le débordement.
+  }, [mesurerDebord, actif])
+
+  const defiler = (sens: -1 | 1) => {
+    const b = barreRef.current
+    if (!b) return
+    // Un peu moins qu'un écran, pour garder un repère visuel commun aux deux vues.
+    b.scrollBy({ left: sens * Math.max(160, b.clientWidth * 0.6), behavior: "smooth" })
+  }
+
   const allerAuGroupe = (titre: string) => {
     setTiroir(false)
     const barre = barreRef.current
@@ -756,6 +818,7 @@ export default function WordChrome({ ongletImpose, onControle, titreDocument }: 
             ☰
           </button>
         )}
+        {debord.gauche && <ChevronRuban sens={-1} onClick={() => defiler(-1)} />}
         <div
           ref={barreRef}
           style={{
@@ -823,6 +886,7 @@ export default function WordChrome({ ongletImpose, onControle, titreDocument }: 
           </div>
         ))}
         </div>
+        {debord.droite && <ChevronRuban sens={1} onClick={() => defiler(1)} />}
       </div>
 
       {/* Le tiroir se SUPERPOSE au ruban au lieu de le pousser : le pousser
@@ -913,6 +977,44 @@ export default function WordChrome({ ongletImpose, onControle, titreDocument }: 
  * élément est un intitulé non sélectionnable, pour que la liste dise ce qu'elle
  * règle sans un libellé séparé qui mangerait la largeur.
  */
+/**
+ * La flèche qui dit qu'il reste du ruban de ce côté.
+ *
+ * Rendue seulement quand il y a vraiment quelque chose à atteindre : une flèche
+ * inerte apprendrait à l'apprenant à ne pas la regarder. Elle vit HORS de la
+ * piste défilante (voir `debord` plus haut) — donc elle ne recouvre aucun bouton
+ * et ne peut voler aucun clic.
+ *
+ * `aria-hidden` sur le glyphe seulement : le bouton garde son `aria-label`, la
+ * flèche n'a rien à dicter à un lecteur d'écran.
+ */
+function ChevronRuban({ sens, onClick }: { sens: -1 | 1; onClick: () => void }) {
+  return (
+    <button
+      type="button"
+      data-ruban-defiler={sens === 1 ? "droite" : "gauche"}
+      aria-label={sens === 1 ? "Voir la suite du ruban" : "Revenir au début du ruban"}
+      onClick={onClick}
+      style={{
+        flexShrink: 0,
+        alignSelf: "center",
+        minWidth: 26,
+        minHeight: 44,
+        margin: sens === 1 ? "0 4px 0 2px" : "0 2px 0 4px",
+        border: "1px solid #e2ded7",
+        borderRadius: 7,
+        background: "#fff",
+        color: "#1b5e3a",
+        fontSize: 15,
+        lineHeight: 1,
+        cursor: "pointer",
+      }}
+    >
+      <span aria-hidden>{sens === 1 ? "›" : "‹"}</span>
+    </button>
+  )
+}
+
 function SelecteurRuban({
   bouton,
   onValeur,

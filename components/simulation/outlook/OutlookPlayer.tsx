@@ -33,6 +33,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import AtelierShell, { type EntreeSommaire } from "../AtelierShell"
 import AfficheModule, { numeroModule } from "../AfficheModule"
+import { natureEtape } from "@/lib/simulation/attendu"
 import BilanFin from "../BilanFin"
 import DemonstrationGeste from "../DemonstrationGeste"
 import type { CibleDemo, PlanDemo } from "@/lib/simulation/demonstration"
@@ -117,6 +118,19 @@ type EtapeAvecCourrier = SimulationStep & { setup?: { courrier?: Partial<SetupOu
 function constatDe(step?: SimulationStep): string | undefined {
   const f = step?.feedback?.trim()
   return f || undefined
+}
+
+/**
+ * Un refus sur cette étape ne peut-il être QU'UNE FAUTE ?
+ *
+ * Se décide avec le seul type de l'étape et la nature de l'observation — deux
+ * choses que le navigateur possède déjà en évaluation notée. Aucune réponse
+ * attendue n'entre dans ce calcul : ce n'est pas un oracle, c'est une lecture
+ * du vocabulaire du juge.
+ */
+function fauteCertaine(step: SimulationStep, obs: OutlookObservation): boolean {
+  if (adaptateurOutlook.estNavigation(obs as never)) return false
+  return step.action.type === "O_CLICK_CONTROL" || step.action.type === "O_TYPE_TEXT"
 }
 
 export default function OutlookPlayer({
@@ -317,6 +331,26 @@ export default function OutlookPlayer({
     setPanneJuge,
   } = persistance
 
+  /**
+   * REPOSER LA BOÎTE TELLE QU'ELLE ÉTAIT À L'ARRIVÉE SUR L'ÉTAPE.
+   *
+   * Deux usages, une seule mécanique : la démonstration s'en sert pour
+   * reconstituer le point de départ, et l'apprenant coincé s'en sert pour
+   * SORTIR D'UNE IMPASSE (voir `impasse` plus bas).
+   *
+   * Déclarée en `ref` parce que `useAideProgressive` la reçoit en rappel et
+   * qu'elle doit rester stable, tout en lisant l'étape courante.
+   */
+  const reposerEtapeRef = useRef<() => void>(() => {})
+  reposerEtapeRef.current = () => {
+    const depart = etatDepartEtapeRef.current
+    if (!depart || depart.id !== stepRef.current?.id) return
+    // La ref est reposée sans attendre le rendu : le plan de démonstration lit
+    // la boîte pour choisir ses cibles, et il est calculé aussitôt après.
+    etatRef.current = depart.etat
+    setEtat(depart.etat)
+  }
+
   const aide = useAideProgressive({
     mode,
     index,
@@ -330,14 +364,7 @@ export default function OutlookPlayer({
      * chose puis redemande à voir reçoit la même explication fausse qu'au
      * départ.
      */
-    avantDemonstration: () => {
-      const depart = etatDepartEtapeRef.current
-      if (!depart || depart.id !== stepRef.current?.id) return
-      // La ref est reposée sans attendre le rendu : le plan de démonstration
-      // lit la boîte pour choisir ses cibles, et il est calculé aussitôt après.
-      etatRef.current = depart.etat
-      setEtat(depart.etat)
-    },
+    avantDemonstration: () => reposerEtapeRef.current(),
   })
   const {
     essais,
@@ -459,9 +486,31 @@ export default function OutlookPlayer({
           ok: j.ok === true,
           ...(typeof j.message === "string" ? { message: j.message } : {}),
           frappe: null,
-          // En évaluation, un échec ne doit rien apprendre du genre d'action
-          // attendu : on retombe sur « tâtonnement » pour l'affichage.
-          compte: j.ok === true ? "reussite" : "tatonnement",
+          /*
+           * 🔴 CE QUE LE CLIENT PEUT TRANCHER SANS DEVENIR UN ORACLE.
+           *
+           * La route de correction ne renvoie JAMAIS `compte` sur un échec, et
+           * c'est délibéré : distinguer « vraie faute » de « tâtonnement »
+           * reviendrait à dire si le geste était du bon GENRE, donc à renseigner
+           * sur l'action attendue. Le client retombait donc sur « tâtonnement »
+           * pour TOUT — et `errorCount` restait à zéro sur les évaluations, la
+           * trace Qualiopi la plus utile au formateur.
+           *
+           * Or il existe deux familles où le refus ne peut RIEN être d'autre
+           * qu'une faute, et où le déduire n'apprend rien de neuf : le TYPE de
+           * l'étape est déjà connu du navigateur (`publier` le conserve, sans
+           * quoi le player ne saurait pas quoi router).
+           *
+           *  · `O_CLICK_CONTROL` — un clic refusé est `wrong_control`, toujours.
+           *  · `O_TYPE_TEXT` hors recherche — un texte refusé est `wrong_text`
+           *    ou `wrong_field`, toujours.
+           *
+           * Les `O_EXPECT_*` restent ambigus (`no_…` en cours de composition
+           * contre `wrong_…` contredit) : on ne devine pas, on les laisse en
+           * tâtonnement. Leur compte exact vit côté serveur, dans le `fautes` du
+           * verdict d'étape, qui est la source de la note.
+           */
+          compte: j.ok === true ? "reussite" : fauteCertaine(s, obs) ? "faute" : "tatonnement",
         }
       } catch {
         setPanneJuge("reseau")
@@ -592,6 +641,89 @@ export default function OutlookPlayer({
     if (el instanceof HTMLElement) el.click()
   }, [])
 
+  /**
+   * LE MÊME REFUS, TROIS FOIS DE SUITE, N'APPREND PLUS RIEN.
+   *
+   * Samuel a cliqué quatre mauvais dossiers en lisant quatre fois la phrase
+   * « Ce n'est pas le dossier demandé : reprenez la liste des dossiers, à
+   * gauche. » Une explication répétée à l'identique est un mur : elle dit à
+   * l'apprenant qu'il se trompe sans jamais lui donner un angle neuf.
+   *
+   * Le compteur est PAR MOTIF, pas global : refuser deux fois pour deux raisons
+   * différentes est une progression, pas un blocage — l'apprenant avance, il
+   * n'insiste pas.
+   */
+  const [fauteSurEtape, setFauteSurEtape] = useState(false)
+  const refusRef = useRef<{ motif: string; fois: number }>({ motif: "", fois: 0 })
+  const escalader = useCallback(
+    (motif: string | undefined, message: string): string => {
+      const m = motif ?? ""
+      refusRef.current = refusRef.current.motif === m
+        ? { motif: m, fois: refusRef.current.fois + 1 }
+        : { motif: m, fois: 1 }
+      if (refusRef.current.fois < 2) return message
+      /*
+       * En ÉVALUATION on ne renvoie JAMAIS vers la consigne « qui nomme
+       * l'élément » : elle ne le nomme pas, l'action est expurgée, et promettre
+       * une aide inexistante est pire que se taire. On dit seulement que le
+       * geste a déjà été refusé, ce que l'apprenant a le droit de savoir.
+       */
+      if (evaluationNotee) {
+        return `${message} (${refusRef.current.fois}ᵉ tentative sur ce point.)`
+      }
+      return refusRef.current.fois === 2
+        ? `${message} Relisez la consigne : elle nomme précisément l'élément attendu.`
+        : `${message} Vous pouvez demander un indice, ou « Montrez-moi » pour voir le geste.`
+    },
+    [evaluationNotee],
+  )
+  // Une nouvelle étape efface l'historique des refus : le motif d'avant ne dit
+  // rien de celle-ci.
+  useEffect(() => {
+    refusRef.current = { motif: "", fois: 0 }
+    setFauteSurEtape(false)
+  }, [index])
+
+  /**
+   * 🔴 « MONTREZ-MOI » EST UNE AIDE, ET IL NE SE COMPTAIT NULLE PART.
+   *
+   * `hintCount` n'était incrémenté que par le bouton « Un indice », lui-même
+   * offert sous `mode === "EXERCISE" && !hintShown`. En LEÇON, `hintShown` vaut
+   * vrai dès l'arrivée : le bouton n'existe pas, donc `hintCount` ne pouvait
+   * structurellement JAMAIS dépasser zéro. Un apprenant pouvait réclamer la
+   * démonstration à chaque étape d'une leçon entière et laisser une trace
+   * Qualiopi vierge — c'est ce que Samuel a mesuré le 05/08/2026.
+   *
+   * Une démonstration est pourtant la forme la PLUS forte de l'aide : elle joue
+   * le geste. La compter n'a rien d'un durcissement — la note n'en dépend pas,
+   * seul le suivi du formateur en dépend.
+   *
+   * Le rejeu (« Revoir ») ne recompte pas : c'est la même aide regardée deux
+   * fois, pas une aide de plus.
+   */
+  /**
+   * Trace d'audit HORS PRODUCTION — même idiome que `__SIM_FAUTES` d'Excel.
+   *
+   * `persist` n'envoie ses compteurs qu'à la CLÔTURE du chapitre : sans ce
+   * crochet, vérifier que la trace Qualiopi se remplit obligerait à jouer les
+   * huit étapes d'une leçon dans un navigateur pour lire un seul nombre — et un
+   * échec de pilotage à l'étape 6 ferait conclure à tort que le compteur est
+   * mort. Le remplacement de `process.env.NODE_ENV` le retire du bundle livré.
+   */
+  useEffect(() => {
+    if (process.env.NODE_ENV === "production" || typeof window === "undefined") return
+    const w = window as unknown as Record<string, unknown>
+    const id = window.setInterval(() => {
+      w.__OUTLOOK_TRACE = { ...pendingRef.current }
+    }, 200)
+    return () => window.clearInterval(id)
+  }, [pendingRef])
+
+  const aideDemandee = useCallback(() => {
+    pendingRef.current.hints += 1
+    demarrerDemonstration()
+  }, [demarrerDemonstration, pendingRef])
+
   const appliquerJugement = useCallback(
     (j: JugementEtape | null) => {
       if (!j) return
@@ -610,6 +742,7 @@ export default function OutlookPlayer({
       montrerConstat(undefined)
       if (j.compte === "faute") {
         compterEssai()
+        setFauteSurEtape(true)
         pendingRef.current.errors += 1
         /*
          * Une faute est TOUJOURS dite. Le juge rend un message vide quand
@@ -618,7 +751,7 @@ export default function OutlookPlayer({
          * se taire laissait l'apprenant devant un écran inerte sans savoir que
          * son geste venait de lui coûter un point. Excel a le même repli.
          */
-        const dit = j.message || "Ce n'est pas encore ça — réessayez."
+        const dit = escalader(j.reason, j.message || "Ce n'est pas encore ça — réessayez.")
         setVerdict({ ok: false, reason: j.reason ?? "ko", message: dit })
         // Dit sur la surface juste en dessous : le châssis ne le répète pas.
         setVerdictAncre(true)
@@ -644,7 +777,7 @@ export default function OutlookPlayer({
         // rouge ici : rien n'est pénalisé, on informe sans dramatiser.
         compterTatonnement()
         if (j.message) {
-          setVerdict({ ok: false, reason: j.reason ?? "", message: j.message })
+          setVerdict({ ok: false, reason: j.reason ?? "", message: escalader(j.reason, j.message) })
           // Aucun effet n'est lancé ici : sans ce `false`, la seule explication
           // disponible n'existerait nulle part.
           setVerdictAncre(false)
@@ -656,6 +789,37 @@ export default function OutlookPlayer({
   )
 
   /* ═══════════ LES GESTES DE LA SURFACE ═══════════ */
+
+  /**
+   * 🔴 UNE FRAPPE EN COURS NE SE JUGE PAS. Le défaut le plus humiliant du lot.
+   *
+   * La surface d'Outlook est du DOM : chaque champ émet `onChange` À CHAQUE
+   * TOUCHE, contrairement au tableur d'Excel qui n'émet qu'à la validation par
+   * Entrée. Sans ce délai, un apprenant qui tapait correctement « vitrine » se
+   * voyait reprendre six fois — « v », « vi », « vit »… — et le simulateur lui
+   * proposait de MONTRER LA RÉPONSE avant la septième lettre, qui validait.
+   * Filmé par Samuel le 05/08/2026 sur un passage réel.
+   *
+   * Le geste s'applique toujours immédiatement : l'apprenant voit ses lettres.
+   * Seul le JUGEMENT attend que la frappe se pose. Ce n'est pas de la clémence,
+   * c'est la seule façon de distinguer « en train d'écrire » de « a écrit ».
+   *
+   * ⚠️ CE DÉLAI DOIT AUSSI RETENIR L'ENVOI AU JUGE DISTANT. En évaluation notée,
+   * chaque appel à `/verify` ÉCRIT un verdict : sans lui, les six lettres
+   * intermédiaires auraient déjà coûté le point avant que la septième n'arrive.
+   * Reporter seulement l'affichage n'aurait rien réglé là où ça compte.
+   */
+  const DELAI_FRAPPE_MS = 700
+  const frappeRef = useRef<{ minuterie: number | null }>({ minuterie: null })
+  const annulerFrappeEnCours = useCallback(() => {
+    if (frappeRef.current.minuterie !== null) {
+      window.clearTimeout(frappeRef.current.minuterie)
+      frappeRef.current.minuterie = null
+    }
+  }, [])
+  // Changer d'étape jette une frappe non posée : la juger contre la NOUVELLE
+  // étape reprocherait à l'apprenant un texte qu'on ne lui demande plus.
+  useEffect(() => annulerFrappeEnCours, [index, annulerFrappeEnCours])
 
   const onGeste = useCallback(
     (geste: GesteOutlook | null, obs: OutlookObservation | null, opts?: { tentative?: boolean }) => {
@@ -703,24 +867,65 @@ export default function OutlookPlayer({
          */
         const automatique = observation.kind === "o:etatChange" && dansFenetreMiseEnPlace()
 
-        void jugerObservation(s, rang, observation).then((j) => {
-          if (!j) return
-          /* Sur une étape d'état, un geste qui n'aboutit pas n'est un ÉCHEC que
-             si l'apprenant a vraiment tenté l'action attendue. Sans ce filtre,
-             la moindre navigation afficherait un reproche injuste — c'est ce qui
-             plafonnait 18 évaluations Excel sur 27. */
-          if (!j.ok && surEtat && !opts?.tentative) {
-            if (!automatique) compterTatonnement()
-            return
-          }
-          if (!j.ok && automatique) return
-          appliquerJugement(j)
-        })
+        const soumettre = () => {
+          void jugerObservation(s, rang, observation).then((j) => {
+            if (!j) return
+            /* Sur une étape d'état, un geste qui n'aboutit pas n'est un ÉCHEC que
+               si l'apprenant a vraiment tenté l'action attendue. Sans ce filtre,
+               la moindre navigation afficherait un reproche injuste — c'est ce qui
+               plafonnait 18 évaluations Excel sur 27. */
+            /*
+             * 🔴 LE SILENCE NE VAUT QUE POUR UN « PAS ENCORE ».
+             *
+             * Ce filtre taisait TOUT geste non délibéré sur une étape d'état, y
+             * compris celui qui CONTREDIT l'attendu. C'est ce qui rendait
+             * l'impasse silencieuse : cliquer « Transférer » quand la consigne
+             * dit « Répondre » ouvre la fenêtre de rédaction, fait disparaître
+             * le ruban avec le bouton Répondre — et ne disait rien. L'apprenant
+             * était coincé sans le savoir.
+             *
+             * Depuis que le juge distingue `no_…` de `wrong_…`, la question ne
+             * se pose plus en ces termes : un `pasEncore` reste muet (composer
+             * une enveloppe passe par des états incomplets, c'est normal), un
+             * `contredit` parle et coûte. `compte` porte exactement cette
+             * distinction.
+             */
+            if (!j.ok && surEtat && !opts?.tentative && j.compte !== "faute") {
+              if (!automatique) compterTatonnement()
+              return
+            }
+            if (!j.ok && automatique) return
+            appliquerJugement(j)
+          })
+        }
+
+        /*
+         * TOUTE frappe passe par le délai — celles jugées sur l'état comme les
+         * autres. Les deux chemins émettent une observation par touche : sur une
+         * étape `O_TYPE_TEXT` chaque lettre était comptée FAUTE, et sur une
+         * étape `O_EXPECT_*` chaque lettre comptait un tâtonnement, ce qui
+         * déclenchait l'aide au sixième caractère. Le symptôme diffère, la cause
+         * est la même.
+         *
+         * Un geste qui n'est PAS une frappe — un clic, un envoi — annule la
+         * frappe en attente : la nouvelle observation la remplace, et juger
+         * l'ancienne après coup reprocherait un texte que l'apprenant vient
+         * lui-même de dépasser.
+         */
+        annulerFrappeEnCours()
+        if (obs?.kind === "o:typed" && !automatique) {
+          frappeRef.current.minuterie = window.setTimeout(() => {
+            frappeRef.current.minuterie = null
+            soumettre()
+          }, DELAI_FRAPPE_MS)
+          return suivant
+        }
+        soumettre()
         return suivant
       })
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [steps, finished, jugerObservation, appliquerJugement],
+    [steps, finished, jugerObservation, appliquerJugement, annulerFrappeEnCours],
   )
 
   /* ═══════════ ENTRER DANS L'ATELIER ═══════════ */
@@ -747,13 +952,35 @@ export default function OutlookPlayer({
     () => (step ? adaptateurOutlook.attendu(step.action as never) : null),
     [step],
   )
+  // Source unique : la règle vivait ici en double, réécrite à la main. C'est
+  // cette duplication qui a laissé le barème hors du calcul. Les 16 évaluations
+  // d'Outlook — toutes — portent une rédaction libre à `points: 0` dont la
+  // consigne dit « Cette étape n'entre pas dans la note », sous un bandeau qui
+  // affirmait « ★ Compté dans votre note ».
+  // `evaluationNotee` vaut `mode === "EVALUATION" && !preview` : le repli sur
+  // « LESSON » conserve donc l'aperçu admin exactement tel qu'il était.
   const nature: "lecture" | "action" | "evaluee" = !step
     ? "action"
-    : step.action.type === "READ"
-      ? "lecture"
-      : evaluationNotee
-        ? "evaluee"
-        : "action"
+    : natureEtape(step.action, evaluationNotee ? "EVALUATION" : "LESSON", step.points)
+
+  /**
+   * L'apprenant est-il coincé dans une fenêtre qu'il a ouverte par erreur ?
+   *
+   * Deux conditions, toutes deux nécessaires : une faute signalée sur CETTE
+   * étape, et une fenêtre ouverte PENDANT l'étape — rédaction, rendez-vous ou
+   * boîte de dialogue. La photo d'arrivée sert de référence : c'est elle qui
+   * distingue « il a ouvert ça » de « c'était déjà ouvert ».
+   */
+  const impasse = useMemo(() => {
+    if (!fauteSurEtape || finished || !step) return false
+    const depart = etatDepartEtapeRef.current
+    if (!depart || depart.id !== step.id) return false
+    return (
+      (!!etat.redaction && !depart.etat.redaction) ||
+      (!!etat.rendezVous && !depart.etat.rendezVous) ||
+      (etat.boite !== "aucune" && depart.etat.boite === "aucune")
+    )
+  }, [fauteSurEtape, finished, step, etat])
 
   const filModule = scenario.moduleTitle ?? ""
   const filChapitre = scenario.title
@@ -821,7 +1048,26 @@ export default function OutlookPlayer({
               panneJuge: pannneJuge,
               passageEnCours,
 
-              aideProposee: essais >= 3 || tatonnements >= 6 || tropLong,
+              /*
+               * 🔴 TROIS TÂTONNEMENTS, PAS SIX. Outlook est le cas extrême de ce
+               * pour quoi ce palier a été écrit.
+               *
+               * 88 % de son barème se juge sur l'ÉTAT et l'essentiel de ses
+               * gestes sont de la navigation : `essais` y reste durablement à
+               * zéro, donc la porte « 3 erreurs » ne s'ouvre jamais et il ne
+               * restait que « 6 tâtonnements ». Samuel a cliqué quatre mauvais
+               * dossiers en lisant quatre fois la même phrase, sans qu'aucune
+               * aide n'apparaisse.
+               *
+               * La comparaison avec Excel tranche le seuil : là-bas, cliquer la
+               * mauvaise cellule sur une étape qui juge ce clic est une FAUTE
+               * (`frappe.ts` l'énumère), donc l'indice sort au 2ᵉ essai et
+               * l'encart au 3ᵉ. Trois gestes infructueux, c'est le rythme
+               * d'Excel — et c'est aussi le palier que le socle documente pour
+               * les tâtonnements (`useAtelier`, « tatonnements ≥ 3 »), auquel
+               * cette ligne était la seule à ne pas obéir.
+               */
+              aideProposee: essais >= 3 || tatonnements >= 3 || tropLong,
               demonstration,
               demoFinie,
               demoRejouable: !!plan && demoFinie,
@@ -830,14 +1076,30 @@ export default function OutlookPlayer({
               total: steps.length,
               reculPossible,
 
-              onMontrer: evaluationNotee ? passerLaQuestion : demarrerDemonstration,
+              onMontrer: evaluationNotee ? passerLaQuestion : aideDemandee,
               onDebloquer: goNext,
               onRejouerDemo: rejouerDemonstration,
               onIndice: () => {
                 montrerIndice()
                 pendingRef.current.hints += 1
               },
-              onSuivant: () => onGeste(null, { kind: "o:control", control: "sim-suivant" }),
+              /*
+               * 🔴 UN ÉCRAN DE LECTURE S'AVANCE AVEC « next », PAS AVEC UN CONTRÔLE.
+               *
+               * `validateStep` est formel : sur une étape `READ`, seule
+               * l'observation `{ kind: "next" }` passe ; tout le reste rend
+               * `read_step_action`. Outlook envoyait `o:control/sim-suivant`,
+               * que l'adaptateur ne connaît pas (l'action `READ` n'est pas
+               * préfixée `O_`) et que le socle refuse : le bouton « J'ai
+               * compris, continuer » ne franchissait donc RIEN.
+               *
+               * Le défaut était invisible tant qu'Outlook n'avait aucun écran de
+               * lecture — il était le seul des quatre dans ce cas. Dès que le
+               * contenu s'en est doté, l'apprenant s'est retrouvé bloqué devant
+               * un écran qui ne demande rien. Excel et PowerPoint émettent
+               * `next` ; Outlook fait désormais comme eux.
+               */
+              onSuivant: () => onGeste(null, { kind: "next" } as unknown as OutlookObservation),
               onReculer: () => setReculDemande(true),
             }
       }
@@ -847,6 +1109,88 @@ export default function OutlookPlayer({
           surface rechargerait la boîte et perdrait le travail de l'apprenant. */}
       <div ref={zoneRef} style={{ position: "relative", flex: 1, minHeight: 0, display: "flex", flexDirection: "column" }}>
         <CourrierSurface etat={etat} onGeste={onGeste} largeur={largeur} />
+
+        {/* 🔴 SORTIR DE L'IMPASSE — le défaut n° 2 du passage élève du 05/08/2026.
+
+            Un geste faux peut rendre l'étape INJOUABLE, et rien ne le disait.
+            « Cliquez sur Répondre » ; l'apprenant clique « Transférer » : la
+            fenêtre de rédaction s'ouvre, le ruban disparaît avec le bouton
+            Répondre, et il n'existe plus aucun chemin vers ce que la consigne
+            demande. Le message d'erreur, lui, continue de réclamer un bouton
+            qui n'est plus à l'écran.
+
+            La condition est volontairement ÉTROITE : il faut à la fois une
+            faute signalée sur CETTE étape et une fenêtre que l'apprenant a
+            ouverte PENDANT l'étape. Ouvrir la rédaction quand la consigne le
+            demande ne déclenche donc rien, même si l'enveloppe n'est pas encore
+            complète — sinon on proposerait d'annuler le travail en cours à
+            quelqu'un qui travaille bien.
+
+            Le retour se fait par la MÊME mécanique que la démonstration
+            (`reposerEtapeRef`) : la boîte telle qu'elle était à l'arrivée sur
+            l'étape. Une seule reconstitution, donc un seul comportement à
+            vérifier. */}
+        {impasse && (
+          <div
+            style={{
+              position: "absolute",
+              left: 12,
+              right: 12,
+              top: 12,
+              zIndex: 46,
+              /*
+               * 🔴 `pointer-events: none` EST NON NÉGOCIABLE, et le pilote l'a
+               * attrapé en une passe : sans lui, ce bandeau couvre le haut de la
+               * surface et AVALE LES CLICS DU RUBAN — donc il enfermait
+               * l'apprenant exactement comme le défaut qu'il est censé réparer.
+               * Même famille que le jalon d'Excel, qui avalait le clic de
+               * l'étape suivante. Le bouton, lui, les reprend.
+               */
+              pointerEvents: "none",
+              display: "flex",
+              alignItems: "center",
+              gap: 12,
+              flexWrap: "wrap",
+              padding: "10px 14px",
+              borderRadius: 10,
+              background: "#FFF6E8",
+              border: "1px solid #E4B363",
+              boxShadow: "0 6px 18px rgba(0,0,0,.10)",
+              fontSize: 13,
+              lineHeight: 1.35,
+              color: "#5A4212",
+            }}
+          >
+            <span style={{ flex: 1, minWidth: 200 }}>
+              Ce geste a ouvert une fenêtre que la consigne ne demandait pas. Le bouton attendu
+              n&apos;est plus à l&apos;écran : revenez au point de départ de l&apos;étape pour le
+              retrouver.
+            </span>
+            <button
+              type="button"
+              data-control="o-sortir-impasse"
+              onClick={() => {
+                reposerEtapeRef.current()
+                setFauteSurEtape(false)
+                setVerdict(null)
+              }}
+              style={{
+                pointerEvents: "auto",
+                flexShrink: 0,
+                padding: "7px 14px",
+                borderRadius: 8,
+                border: "1px solid #B8860B",
+                background: "#B8860B",
+                color: "#fff",
+                fontSize: 13,
+                fontWeight: 600,
+                cursor: "pointer",
+              }}
+            >
+              Revenir au départ de l&apos;étape
+            </button>
+          </div>
+        )}
 
         {/* RETOUR VISUEL DANS LA SURFACE.
             `lancerFx` était appelé depuis l'origine mais son résultat n'était

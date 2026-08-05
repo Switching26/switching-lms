@@ -5172,7 +5172,9 @@ export default function SimulationPlayer({
    * bilan, et on le dit. */
   const notePassage = evaluationNotee ? bilan?.score ?? null : null
   /** Nature de l'étape et critère de réussite, tous deux déduits de l'action. */
-  const nature = step ? natureEtape(step.action, mode) : "action"
+  // `step.points` : une étape hors barème n'est pas « évaluée ». Excel n'a
+  // aucune étape à `points: 0`, ce rendu est donc inchangé — mesuré, pas supposé.
+  const nature = step ? natureEtape(step.action, mode, step.points) : "action"
   const attendu = step ? resumerAttendu(step.action) : null
   /** Chapitre suivant du parcours, proposé sur le jalon de fin. */
   const chapitreSuivant = (() => {

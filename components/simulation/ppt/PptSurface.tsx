@@ -860,11 +860,43 @@ export default function PptSurface({
                 autoFocus
                 aria-label="Saisie de texte"
                 value={edition.valeur}
+                /**
+                 * OUVRIR SUR UN CADRE DÉJÀ REMPLI SÉLECTIONNE TOUT SON TEXTE.
+                 *
+                 * Double-cliquer un cadre qui porte déjà du texte, c'est vouloir
+                 * le REFAIRE. Sans cette sélection, la seule issue était
+                 * d'effacer caractère par caractère : mesuré en production le
+                 * 05/08/2026, un apprenant qui se trompait puis retapait
+                 * obtenait « NimportequoiVerdeval » sans comprendre pourquoi.
+                 * Un cadre vide, lui, s'ouvre normalement — il n'y a rien à
+                 * remplacer.
+                 */
+                onFocus={(e) => {
+                  if (e.currentTarget.value) e.currentTarget.select()
+                }}
                 onChange={(e) => setEdition({ ...edition, valeur: e.target.value })}
                 onBlur={validerEdition}
                 onKeyDown={(e) => {
                   if (e.key === "Escape") setEdition(null)
                   if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) validerEdition()
+                  /**
+                   * « TOUT SÉLECTIONNER » DOIT MARCHER AVEC LES DEUX RÉFLEXES.
+                   *
+                   * Dans un champ natif sur macOS, `Ctrl+A` n'est pas « tout
+                   * sélectionner » : c'est « aller en début de ligne », hérité
+                   * d'Emacs. Mesuré au navigateur — `Control+a` rendait une
+                   * sélection `{0, 0}`, `Meta+a` la sélection complète. Le
+                   * réflexe le plus répandu ne sélectionnait donc rien, et la
+                   * frappe suivante venait s'ajouter au texte au lieu de le
+                   * remplacer.
+                   *
+                   * L'apprenant vient apprendre PowerPoint, pas les conventions
+                   * clavier de son système : les deux raccourcis sélectionnent.
+                   */
+                  if ((e.key === "a" || e.key === "A") && (e.metaKey || e.ctrlKey)) {
+                    e.preventDefault()
+                    e.currentTarget.select()
+                  }
                 }}
                 style={{
                   position: "absolute",

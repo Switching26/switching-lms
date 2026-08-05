@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
-  "title": "Joindre un fichier sans encombrer la boîte du destinataire",
+  "title": "Répondre à un message et y joindre un fichier",
   "mode": "LESSON",
   "moduleTitle": "Prise en main d'Outlook",
   "intro": {
-    "title": "Le devis est prêt : il faut l'envoyer",
-    "body": "Rémi Tissot attend son devis. Vous allez lui répondre et joindre deux documents : le devis lui-même et le plan du comptoir. Quatre fichiers sont disponibles sur votre poste, et ils ne pèsent pas tous la même chose — c'est le détail qui fait la différence entre un message qui arrive et un message qui reste bloqué."
+    "title": "Répondre, plutôt que repartir d'une feuille blanche",
+    "body": "Rémi Tissot attend son devis. Vous savez écrire un message de zéro ; celui-ci répond à un message reçu, et il emporte deux fichiers. Deux gestes nouveaux, donc : le bouton Répondre et le bouton Joindre. Ce que ces deux gestes déclenchent en coulisses fait l'objet de modules entiers plus loin — ici, on apprend à les faire."
   },
   "outro": {
-    "body": "Deux réflexes à garder : joindre exactement ce qui est demandé — ni moins, ni la plaquette commerciale en prime — et regarder le poids avant d'envoyer. Au-delà de quelques mégaoctets, beaucoup de messageries refusent le message, et vous ne l'apprenez souvent que le lendemain."
+    "body": "Deux gestes acquis : répondre plutôt que réécrire, et attacher un fichier au message. Ce que Répondre remplit à votre place — et ce qu'il oublie — est le sujet du module 2. Comment choisir le bon fichier, et pourquoi certains ne partiront jamais, est celui du module 9."
   },
   "ribbon": [],
   "workbook": {
@@ -98,7 +98,7 @@
     },
     {
       "id": "O01-L04-02",
-      "consigne": "==Cliquez sur Répondre.== Quand vous répondez au lieu d'écrire un nouveau message, Outlook remplit tout seul le destinataire et reprend l'objet en le préfixant de « RE : » — votre correspondant retrouve ainsi le fil de la discussion.",
+      "consigne": "==Cliquez sur Répondre.== Le bouton est en haut du volet de lecture. Une fenêtre de rédaction s'ouvre, déjà partiellement remplie : ce qu'Outlook y a mis à votre place, et ce qu'il a laissé de côté, sera le sujet du module 2.",
       "setup": {
         "courrier": {
           "messageActif": "m-devis"
@@ -111,11 +111,11 @@
       "aide": {
         "text": "Le bouton Répondre est en haut du volet de lecture, à gauche."
       },
-      "feedback": "Destinataire et objet sont déjà remplis, avec « RE : » devant : répondre évite de retaper quoi que ce soit."
+      "feedback": "La fenêtre s'ouvre déjà remplie en partie : répondre évite de retaper l'adresse."
     },
     {
       "id": "O01-L04-03",
-      "consigne": "==Cliquez sur Joindre.== La liste qui s'ouvre affiche le **poids** de chaque fichier à côté de son nom : c'est la seule information qui compte vraiment avant d'attacher quoi que ce soit.",
+      "consigne": "==Cliquez sur Joindre.== Le bouton porte un trombone. Une liste des fichiers de votre poste s'ouvre : c'est là qu'on choisit ce qui partira avec le message.",
       "action": {
         "type": "O_CLICK_CONTROL",
         "control": "cr-joindre"
@@ -123,11 +123,11 @@
       "aide": {
         "text": "Le bouton Joindre porte un trombone, dans la barre du haut de la fenêtre de rédaction."
       },
-      "feedback": "Chaque fichier affiche son poids à côté de son nom. C'est la seule information qui compte avant de joindre."
+      "feedback": "La liste des fichiers de votre poste s'affiche. Un clic sur une ligne attache le fichier."
     },
     {
       "id": "O01-L04-04",
-      "consigne": "==Joignez `Devis-2026-118.pdf`.== C'est le document demandé — pas la plaquette commerciale, qui n'a rien à faire dans une réponse à une demande précise. Le fichier apparaît sous les lignes d'adresses, avec une croix pour le retirer si vous vous trompez.",
+      "consigne": "==Joignez `Devis-2026-118.pdf`.== Cliquez sur sa ligne : la liste se referme et le nom du fichier apparaît sous les lignes d'adresses, avec une croix à droite pour le retirer.",
       "action": {
         "type": "O_EXPECT_MAIL",
         "message": {
@@ -146,7 +146,7 @@
     },
     {
       "id": "O01-L04-05",
-      "consigne": "==Joignez aussi `Plan-comptoir.pdf`==, le second document demandé. Laissez `Photos-atelier.zip` de côté : **24 Mo** dépassent ce qu'acceptent la plupart des messageries — et le rejet n'arrive qu'après coup, souvent sans que vous en soyez averti.",
+      "consigne": "==Joignez aussi `Plan-comptoir.pdf`==, le second document demandé. Un message peut porter plusieurs fichiers : ils s'ajoutent les uns à côté des autres. Laissez `Photos-atelier.zip` de côté — le module 9 dira pourquoi.",
       "action": {
         "type": "O_EXPECT_MAIL",
         "message": {
@@ -165,31 +165,18 @@
       "aide": {
         "text": "Rouvrez Joindre, puis cliquez sur Plan-comptoir.pdf. Les deux fichiers doivent apparaître côte à côte."
       },
-      "feedback": "Les deux documents demandés sont joints, et les 24 Mo de photos sont restés où ils étaient."
+      "feedback": "Les deux documents demandés sont joints, côte à côte sous l'objet."
     },
     {
-      "id": "O01-L04-06",
-      "consigne": "L'objet repris par Outlook parle du devis en général. ==Complétez-le pour qu'il porte le numéro `2026-118`.== Un objet qui contient la référence permet à votre client de retrouver ce message dans six mois, sans vous rappeler.",
+      "id": "O01-L04-05B",
+      "consigne": "**Vous venez d'utiliser deux gestes dont vous ne connaissez pas encore les pièges.** C'est volontaire. Répondre a rempli des lignes à votre place : lesquelles, et surtout **laquelle il a oubliée**, se joue au module 2. Joindre a attaché un fichier sans vérifier ni que c'est le bon, ni qu'il arrivera : le module 9 y consacrera trois leçons.",
       "action": {
-        "type": "O_EXPECT_MAIL",
-        "message": {
-          "cible": "redaction",
-          "objet": {
-            "prefixe": "RE",
-            "contient": [
-              "2026-118"
-            ]
-          }
-        }
-      },
-      "aide": {
-        "text": "Cliquez à la fin du champ Objet et ajoutez la référence ; gardez le « RE : » du début."
-      },
-      "feedback": "L'objet porte la référence : votre client retrouvera ce message dans six mois en la cherchant."
+        "type": "READ"
+      }
     },
     {
       "id": "O01-L04-07",
-      "consigne": "==Rédigez la réponse.== Elle doit annoncer que **les documents sont joints** et indiquer le **délai de validité ou de réalisation** que vous vous engagez à tenir. Une pièce jointe sans un mot d'accompagnement laisse le destinataire deviner ce qu'il doit en faire.",
+      "consigne": "==Rédigez la réponse.== Elle doit annoncer que **les documents sont joints** et indiquer un **délai** que vous vous engagez à tenir. Une pièce jointe sans un mot d'accompagnement laisse le destinataire deviner ce qu'il doit en faire.",
       "action": {
         "type": "O_EXPECT_MAIL",
         "message": {
@@ -242,7 +229,7 @@
     },
     {
       "id": "O01-L04-08",
-      "consigne": "==Envoyez le message.== Vos deux fichiers partent avec lui, et une flèche ↩ apparaîtra sur la demande d'origine : c'est ainsi que vous saurez, dans quinze jours, que vous y avez déjà répondu.",
+      "consigne": "==Envoyez le message.== Vos deux fichiers partent avec lui. La fenêtre se referme : la réponse est partie, pièces comprises.",
       "action": {
         "type": "O_EXPECT_MAIL",
         "message": {
@@ -269,7 +256,7 @@
       "aide": {
         "text": "Le bouton Envoyer est le premier de la barre du haut de la fenêtre de rédaction."
       },
-      "feedback": "Une flèche ↩ est apparue sur la demande d'origine. C'est ainsi qu'on sait, plus tard, qu'on a répondu."
+      "feedback": "La réponse est partie avec ses deux fichiers."
     }
   ]
 }

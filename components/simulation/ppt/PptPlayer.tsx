@@ -828,7 +828,9 @@ export default function PptPlayer({
 
   /* ═══════════ RENDU ═══════════ */
 
-  const nature = step ? natureEtape(step.action, mode) : "action"
+  // `step.points` : une étape hors barème n'est pas « évaluée ». PowerPoint n'a
+  // aucune étape à `points: 0`, ce rendu est donc inchangé — mesuré, pas supposé.
+  const nature = step ? natureEtape(step.action, mode, step.points) : "action"
   const attendu = step
     ? adaptateurPpt.attendu(step.action as unknown as Record<string, unknown> & { type: string })
     : null
@@ -1355,7 +1357,12 @@ function observationDuGeste(geste: GestePpt, apres: DeckState, channel: PptChann
         kind: "p:formatChange",
         objectId: geste.objectId,
         style: (obj?.style ?? {}) as Record<string, unknown>,
+        // Ce que CE geste vient de poser, distinct de l'état fusionné : c'est la
+        // seule lecture qui permette de dire si l'apprenant a contredit la
+        // consigne ou s'il n'y est simplement pas encore venu.
+        applique: (geste.style ?? {}) as Record<string, unknown>,
         fill: obj?.fill,
+        fillApplique: geste.fill,
         channel,
       }
     }

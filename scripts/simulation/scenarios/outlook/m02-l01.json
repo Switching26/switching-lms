@@ -94,7 +94,7 @@
     },
     {
       "id": "O02-L01-03",
-      "consigne": "==Ajoutez `direction@ecole-arts-lambersart.fr` dans le champ Cc== pour que l'école reste informée. Le champ **À** et l'**objet** se sont remplis seuls ; en revanche l'adresse qui était en copie du message reçu, elle, **n'a pas été reprise**.",
+      "consigne": "==Ajoutez `direction@ecole-arts-lambersart.fr` dans le champ Cc== pour que l'école reste informée. Regardez d'abord ce qu'Outlook a rempli seul, et ce qu'il a laissé vide.",
       "action": {
         "type": "O_EXPECT_MAIL",
         "message": {
@@ -118,8 +118,15 @@
       "feedback": "Répondre n'avait gardé que l'expéditeur : une copie reçue ne se reconduit pas toute seule."
     },
     {
+      "id": "O02-L01-03B",
+      "consigne": "**Répondre remplit trois choses et en oublie une — c'est l'oubli qui compte.** Le champ **À** et l'**objet** étaient déjà remplis ; l'adresse qui était en **copie** du message reçu, elle, avait disparu. Si vous répondez sans regarder, la personne que l'expéditeur tenait à informer cesse de l'être, et personne ne vous le signalera.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
       "id": "O02-L01-04",
-      "consigne": "Le « RE : » n'est pas décoratif : c'est lui qui range votre message dans le même fil chez votre correspondant. ==Complétez l'objet avec la référence `2026-118`== en gardant le préfixe intact.",
+      "consigne": "==Complétez l'objet avec la référence `2026-118`== en gardant le préfixe « RE : » intact.",
       "action": {
         "type": "O_EXPECT_MAIL",
         "message": {
@@ -136,6 +143,13 @@
         "text": "Cliquez à la fin du champ Objet et ajoutez la référence : ne touchez pas au début de la ligne."
       },
       "feedback": "Le « RE : » n'est pas décoratif : c'est lui qui range votre message dans le même fil, chez votre correspondant."
+    },
+    {
+      "id": "O02-L01-04B",
+      "consigne": "**Le « RE : » n'est pas une décoration, c'est un identifiant.** C'est lui qui range votre message dans le même fil chez votre correspondant. Le supprimer coupe le fil : votre réponse arrive comme un message neuf. D'où la règle — on **complète** un objet de réponse, on ne le remplace jamais.",
+      "action": {
+        "type": "READ"
+      }
     },
     {
       "id": "O02-L01-05",
@@ -221,7 +235,7 @@
     },
     {
       "id": "O02-L01-07",
-      "consigne": "Une flèche ↩ est apparue sur le message d'origine, dans la liste : c'est la trace de votre réponse. ==Ouvrez le message publicitaire== juste au-dessous, et comparez : lui n'en porte aucune. C'est ainsi qu'on repère, dans une boîte chargée, ce qui attend encore une réponse.",
+      "consigne": "Une flèche ↩ est apparue sur le message d'origine : c'est la trace de votre réponse. ==Ouvrez le message publicitaire== juste au-dessous, et comparez.",
       "action": {
         "type": "O_SELECT_MESSAGE",
         "id": "m-relance-pub"

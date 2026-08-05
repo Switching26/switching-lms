@@ -76,7 +76,7 @@
     },
     {
       "id": "O04-L02-02",
-      "consigne": "==Marquez ce message d'un indicateur== : il ne partira nulle part avant d'avoir été signalé. Dans `n.kerbaj@atelier-nord.fr.securite-mail.co`, le vrai domaine est ce qui précède le tout dernier point : **securite-mail.co**. Le nom de votre entreprise n'est qu'un décor placé devant.",
+      "consigne": "==Marquez ce message d'un indicateur== : il ne partira nulle part avant d'avoir été signalé. Relisez l'adresse en entier : `n.kerbaj@atelier-nord.fr.securite-mail.co`.",
       "setup": {
         "courrier": {
           "messageActif": "m-fraude"
@@ -98,8 +98,15 @@
       "feedback": "Marqué, donc traité plus tard — mais pas oublié, et surtout pas répondu dans l'urgence."
     },
     {
+      "id": "O04-L02-02B",
+      "consigne": "**Le vrai domaine est ce qui précède le TOUT DERNIER point.** Dans `n.kerbaj@atelier-nord.fr.securite-mail.co`, ce n'est pas `atelier-nord.fr` : c'est **`securite-mail.co`**. Le nom de votre entreprise n'est qu'un décor placé devant, et il est là parce qu'il vous rassure. Lisez une adresse **de droite à gauche** : c'est la seule lecture qui donne le bon résultat.",
+      "action": {
+        "type": "READ"
+      }
+    },
+    {
       "id": "O04-L02-03",
-      "consigne": "==Écrivez un nouveau message à la vraie adresse de Nadia==, `n.kerbaj@atelier-nord.fr`. La tentation serait de répondre « c'est bien toi ? » : **ne répondez jamais à un message douteux**, la réponse confirme que votre adresse est lue. On vérifie ailleurs.",
+      "consigne": "==Écrivez un nouveau message à la vraie adresse de Nadia==, `n.kerbaj@atelier-nord.fr`. La tentation serait de répondre « c'est bien toi ? » — on vérifie ailleurs.",
       "action": {
         "type": "O_EXPECT_MAIL",
         "message": {
@@ -214,6 +221,13 @@
         "text": "Le bouton Envoyer est le premier de la barre du haut de la fenêtre de rédaction."
       },
       "feedback": "Aucun virement parti, aucune pièce jointe ouverte, et l'escroc n'a reçu aucune confirmation que l'adresse existe."
+    },
+    {
+      "id": "O04-L02-06B",
+      "consigne": "**Pourquoi vérifier ailleurs, jamais en répondant.** Répondre confirme que votre adresse est lue par un humain, et vous met en discussion avec l'escroc. On vérifie par un **canal qu'il ne contrôle pas**.\n\n**Hors de cet atelier :** le vrai Outlook sait *bloquer un expéditeur*, et votre administrateur peut poser des filtres. On les décrit, on les situe — ils ne remplacent pas la lecture de l'adresse.",
+      "action": {
+        "type": "READ"
+      }
     },
     {
       "id": "O04-L02-07",

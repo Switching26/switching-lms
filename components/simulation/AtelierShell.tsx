@@ -482,7 +482,16 @@ function BandeConsigne({ c }: { c: ConsigneAtelier }) {
               Attendu : <b className="font-semibold text-ink">{c.attendu}</b>
             </p>
           )}
-          {c.evaluationNotee && c.nature !== "lecture" && (
+          {/* Le bandeau suit la NATURE, seule source de la décision — le badge
+              au-dessus en dépend déjà. Il testait auparavant « tout sauf une
+              lecture », ce qui revenait au même tant que `natureEtape` ne
+              connaissait pas le barème : en évaluation, une étape était soit
+              une lecture, soit évaluée. Depuis qu'une étape hors barème
+              (`points: 0`) est rendue comme une action, ce test-là aurait
+              continué d'afficher « Compté dans votre note » sur une consigne
+              qui affirme le contraire. Aucune divergence à la bascule : les
+              trois valeurs de `nature` n'ont pas d'autre cas. */}
+          {c.evaluationNotee && c.nature === "evaluee" && (
             <p className="mt-1 text-[12px]" style={{ color: "#8A5A12" }}>
               <span aria-hidden>★ </span>Compté dans votre note
             </p>

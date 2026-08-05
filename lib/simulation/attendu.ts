@@ -39,14 +39,30 @@ function phrasePoste(p: PosteAttendu): string | null {
 
 export type NatureEtape = "lecture" | "action" | "evaluee"
 
-/** Ce que l'apprenant doit comprendre en un coup d'œil : lire, agir, ou être évalué. */
-export function natureEtape(action: SimulationAction, mode: string): NatureEtape {
+/**
+ * Ce que l'apprenant doit comprendre en un coup d'œil : lire, agir, ou être évalué.
+ *
+ * `points` est le barème DÉCLARÉ de l'étape. Il est optionnel, et son absence
+ * ne vaut pas zéro : `computeScore` lit `points ?? 1`, donc une étape sans
+ * champ compte pour 1 point. Seul un `points: 0` ÉCRIT sort du barème — d'où le
+ * test strict ci-dessous. Un appelant qui ne passe rien obtient exactement le
+ * comportement d'avant, ce qui garantit les applications non adoptantes
+ * inchangées par CONSTRUCTION plutôt que par prudence.
+ */
+export function natureEtape(action: SimulationAction, mode: string, points?: number): NatureEtape {
   // L'ordre compte : un écran de lecture reste une lecture même au sein d'une
   // évaluation. Les 26 énoncés d'ouverture affichaient « ★ Évalué » et
   // « Compté dans votre note » alors qu'il n'y a rien à y faire — l'apprenant
   // croyait être noté sur la page de consignes (retour Samuel du 29/07/2026).
   if (action.type === "READ") return "lecture"
-  if (mode === "EVALUATION") return "evaluee"
+  // Une étape hors barème n'est pas « évaluée », même au sein d'une évaluation.
+  // Les 16 évaluations d'Outlook — 100 % d'entre elles — portent chacune une
+  // rédaction libre à `points: 0` dont la consigne dit « Cette étape n'entre
+  // pas dans la note », pendant que le bandeau affichait juste dessous
+  // « ★ Compté dans votre note ». L'apprenant lisait deux affirmations
+  // contraires à trois lignes d'écart. Mesuré : Excel, Word et PowerPoint n'ont
+  // aucune étape dans ce cas, ils ne peuvent donc pas changer de rendu.
+  if (mode === "EVALUATION") return points === 0 ? "action" : "evaluee"
   return "action"
 }
 

@@ -68,7 +68,7 @@
     },
     {
       "id": "O01-L05-02",
-      "consigne": "Faisons d'abord l'erreur exprès. ==Cliquez sur Envoyer alors que le message est encore vide.== Regardez ce qui se passe : la fenêtre **reste ouverte** et rien ne part. C'est la seule chose qu'Outlook refuse — un message sans aucun destinataire.",
+      "consigne": "Faisons d'abord l'erreur exprès. ==Cliquez sur Envoyer alors que le message est encore vide.== Regardez ce qui se passe : la fenêtre **reste ouverte** et rien ne part.",
       "action": {
         "type": "O_CLICK_CONTROL",
         "control": "cr-envoyer"
@@ -80,7 +80,7 @@
     },
     {
       "id": "O01-L05-03",
-      "consigne": "Notez bien ce qu'Outlook n'a **pas** dit : l'objet est vide, le texte aussi, et cela ne l'a pas gêné. ==Saisissez `compta@quincaillerie-delmas.fr` dans le champ À== pour corriger le seul défaut qui le bloquait.",
+      "consigne": "Notez ce qu'Outlook n'a **pas** dit : l'objet est vide, le texte aussi. ==Saisissez `compta@quincaillerie-delmas.fr` dans le champ À== pour corriger le seul défaut qui le bloquait.",
       "action": {
         "type": "O_EXPECT_MAIL",
         "message": {
@@ -97,6 +97,13 @@
         "text": "L'adresse figure en haut du message de la Quincaillerie Delmas, dans votre boîte."
       },
       "feedback": "Cette fois l'envoi serait accepté — objet vide et message vide compris. Le contrôle, c'est vous."
+    },
+    {
+      "id": "O01-L05-03B",
+      "consigne": "**Vous venez de mesurer ce qu'Outlook surveille — et c'est peu.** Il a refusé un message sans destinataire. Rien dit de l'objet vide, rien du texte vide. La seule erreur dont il vous protège est celle que vous auriez remarquée seul. L'objet oublié, la pièce manquante, l'adresse presque juste : tout cela part sans un mot. La relecture est le seul filet.",
+      "action": {
+        "type": "READ"
+      }
     },
     {
       "id": "O01-L05-04",
@@ -217,7 +224,7 @@
     },
     {
       "id": "O01-L05-08",
-      "consigne": "==Cliquez sur la croix pour abandonner ce message.== La fenêtre se referme, rien n'est envoyé et rien n'est conservé. Renoncer est un geste franc : mieux vaut fermer que laisser traîner un brouillon à moitié écrit qu'on enverra par erreur.",
+      "consigne": "==Cliquez sur la croix pour abandonner ce message.== La fenêtre se referme, rien n'est envoyé et rien n'est conservé.",
       "action": {
         "type": "O_CLICK_CONTROL",
         "control": "cr-abandonner"

@@ -6,7 +6,7 @@
  "moduleTitle": "L'habillage des images",
  "intro": {
   "title": "ÉVALUATION NOTÉE",
-  "body": "Vous mettez en page un document illustré, en passant par trois habillages successifs. Chaque réglage est noté."
+  "body": "Vous mettez en page un document illustré. Trois états vous sont décrits par l'effet attendu, jamais par le nom du réglage : à vous de choisir l'habillage qui le produit. Chaque réglage est noté."
  },
  "outro": "Vous savez faire couler un texte autour d'une image, et choisir l'habillage selon l'effet voulu.",
  "document": {
@@ -33,7 +33,7 @@
   {
    "id": "M15-EV01-00",
    "points": 3,
-   "consigne": "==Ouvrez la galerie d'images== depuis l'onglet Insertion.",
+   "consigne": "==Ouvrez la galerie d'images.==",
    "action": {
     "type": "W_CLICK_CONTROL",
     "controle": "w-inserer-image"
@@ -63,35 +63,35 @@
   {
    "id": "M15-EV01-02",
    "points": 5,
-   "consigne": "==Appliquez l'habillage « Rapproché »== pour que le texte contourne le plan.",
-   "action": {
-    "type": "W_EXPECT_IMAGE",
-    "image": "plan",
-    "habillage": "carre"
-   },
-   "feedback": "Texte contournant."
-  },
-  {
-   "id": "M15-EV01-03",
-   "points": 5,
-   "consigne": "Le plan passe en pleine largeur. ==Basculez en « Haut et bas ».==",
-   "action": {
-    "type": "W_EXPECT_IMAGE",
-    "image": "plan",
-    "habillage": "hautbas"
-   },
-   "feedback": "Bande pleine largeur."
-  },
-  {
-   "id": "M15-EV01-04",
-   "points": 5,
-   "consigne": "Le plan doit finalement se superposer au texte comme un calque. ==Passez en « Devant ».==",
+   "consigne": "==Réglez l'habillage== pour que le plan se pose par-dessus la page, sans déplacer une seule ligne du texte.",
    "action": {
     "type": "W_EXPECT_IMAGE",
     "image": "plan",
     "habillage": "devant"
    },
-   "feedback": "Le plan flotte au-dessus du texte."
+   "feedback": "Le plan flotte au-dessus du texte, qui n'a pas bougé."
+  },
+  {
+   "id": "M15-EV01-03",
+   "points": 5,
+   "consigne": "Le plan est agrandi à la pleine largeur. ==Réglez l'habillage== pour qu'aucun mot ne tienne à sa hauteur, mais que le texte reprenne au-dessus et en dessous.",
+   "action": {
+    "type": "W_EXPECT_IMAGE",
+    "image": "plan",
+    "habillage": "hautbas"
+   },
+   "feedback": "Bande pleine largeur : le texte cède la place et reprend plus bas."
+  },
+  {
+   "id": "M15-EV01-04",
+   "points": 5,
+   "consigne": "Le plan est finalement réduit. ==Réglez l'habillage== pour que le texte vienne épouser ses bords au lieu de s'arrêter net.",
+   "action": {
+    "type": "W_EXPECT_IMAGE",
+    "image": "plan",
+    "habillage": "carre"
+   },
+   "feedback": "Le texte contourne le plan."
   }
  ]
 }

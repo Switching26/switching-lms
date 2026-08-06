@@ -353,213 +353,29 @@ const ICONES: Record<string, React.ReactNode> = {
 /** Boutons dont l'icône EST le libellé : afficher « G » sous « G » n'apprend rien. */
 const ICONE_SEULE = new Set(["w-gras", "w-italique", "w-souligne", "w-barre"])
 
-export type OngletWord = "fichier" | "accueil" | "insertion" | "mise-en-page" | "revision" | "affichage"
-
-type Bouton = {
-  id: string
-  /** Ce qui s'affiche : une lettre stylée pour G/I/S, un mot sinon. */
-  glyphe?: string
-  /** Le libellé sous l'icône. Absent : le glyphe suffit (G, I, S). */
-  texte?: string
-  style?: "gras" | "italique" | "souligne" | "barre"
-  large?: boolean
-  /**
-   * Valeurs proposées, pour les contrôles qui en EXIGENT une.
-   *
-   * 🔴 Sans elles, le bouton était rendu et inerte : la commande sous-jacente
-   * a besoin d'un argument, `executer` rendait donc `false`, et l'apprenant
-   * cliquait sur « Taille » sans que rien ne change. Le contrôle des boutons ne
-   * le voyait même pas, puisque l'identifiant FIGURAIT bien dans la table des
-   * commandes. Un bouton qui réclame une valeur doit offrir le moyen de la
-   * donner.
-   */
-  valeurs?: { valeur: string; libelle: string }[]
-}
-
-const POLICES = ["Arial", "Georgia", "Times New Roman", "Verdana"].map((f) => ({
-  valeur: f,
-  libelle: f,
-}))
-const TAILLES = [9, 11, 12, 14, 18, 24, 28, 36].map((n) => ({ valeur: String(n), libelle: String(n) }))
-const COULEURS = [
-  { valeur: "#1a1a1a", libelle: "Noir" },
-  { valeur: "#c0392b", libelle: "Rouge" },
-  { valeur: "#1b5e3a", libelle: "Vert" },
-  { valeur: "#1f4e79", libelle: "Bleu" },
-]
-/**
- * ⚠️ « Aucune » EST UNE COULEUR DE SURLIGNAGE — décision D15.
+/*
+ * ═══════════ CE QUE LE RUBAN CONTIENT — DÉCLARÉ AILLEURS ═══════════
  *
- * Sans cette entrée, un surlignage posé ne pouvait plus être retiré : la liste
- * n'offrait que trois couleurs. Or retirer une annotation fait partie du geste
- * de relecture au même titre que la poser, et son absence rendait injouables
- * trois leçons du module « Modification de texte ».
+ * Onglets, groupes et boutons vivent désormais dans `lib/simulation/word/ruban.ts`,
+ * module PUR. Ce fichier n'en est plus que le dessinateur.
  *
- * La valeur `aucune` — et non la chaîne vide, déjà employée par le sélecteur
- * comme sentinelle « rien choisi » — est traduite en `null` par la surface.
+ * 🔴 La raison n'est pas cosmétique. La démonstration doit savoir sous quel
+ * onglet vit un bouton pour l'ouvrir avant de le désigner — sans quoi le geste
+ * se joue à blanc, défaut mesuré sur 26 démonstrations de Word. Cette déduction
+ * est aussi ce que le contrôle `check-demo-onglets.ts` doit vérifier hors
+ * navigateur. Deux consommateurs, donc, dont un sans React : la structure ne
+ * pouvait pas rester enfermée dans un composant. Elle n'est pas recopiée pour
+ * autant — une seconde liste dériverait en silence de celle qui rend vraiment.
  */
-const SURLIGNAGES = [
-  { valeur: "aucune", libelle: "Aucune" },
-  { valeur: "#f1c40f", libelle: "Jaune" },
-  { valeur: "#a9dfbf", libelle: "Vert" },
-  { valeur: "#aed6f1", libelle: "Bleu" },
-]
-
-type Groupe = { titre: string; boutons: Bouton[] }
-
-/**
- * Les trois onglets rendus.
- *
- * Word en a huit ; n'afficher que ceux qui portent quelque chose éviterait à un
- * apprenant de chercher dans un onglet vide. Les autres sont rendus INERTES et
- * sans attribut d'onglet, exactement comme côté Excel : un pilote automatique
- * qui les verrait perdrait trente secondes de délai d'attente par onglet.
- */
-const ONGLETS: { id: OngletWord; libelle: string }[] = [
-  { id: "fichier", libelle: "Fichier" },
-  { id: "accueil", libelle: "Accueil" },
-  { id: "insertion", libelle: "Insertion" },
-  { id: "mise-en-page", libelle: "Mise en page" },
-  { id: "revision", libelle: "Révision" },
-  { id: "affichage", libelle: "Affichage" },
-]
-
-const ONGLETS_INERTES = ["Références", "Publipostage"]
-
-const GROUPES: Record<OngletWord, Groupe[]> = {
-  accueil: [
-    {
-      titre: "Presse-papiers",
-      boutons: [
-        { id: "w-coller", texte: "Coller", large: true },
-        { id: "w-copier", texte: "Copier" },
-        { id: "w-couper", texte: "Couper" },
-      ],
-    },
-    {
-      titre: "Police",
-      boutons: [
-        { id: "w-gras", glyphe: "G", style: "gras" },
-        { id: "w-italique", glyphe: "I", style: "italique" },
-        { id: "w-souligne", glyphe: "S", style: "souligne" },
-        { id: "w-barre", glyphe: "S", style: "barre" },
-        { id: "w-police", texte: "Police", valeurs: POLICES, large: true },
-        { id: "w-taille", texte: "Taille", valeurs: TAILLES },
-        { id: "w-couleur", texte: "Couleur", valeurs: COULEURS },
-        { id: "w-surlignage", texte: "Surlignage", valeurs: SURLIGNAGES, large: true },
-      ],
-    },
-    {
-      titre: "Paragraphe",
-      boutons: [
-        { id: "w-liste-puces", texte: "Puces" },
-        { id: "w-liste-numerotee", texte: "Numéros" },
-        { id: "w-align-gauche", texte: "Gauche" },
-        { id: "w-align-centre", texte: "Centrer" },
-        { id: "w-align-droite", texte: "Droite" },
-        { id: "w-align-justifie", texte: "Justifier" },
-      ],
-    },
-    {
-      titre: "Styles",
-      boutons: [
-        { id: "w-style-normal", texte: "Normal" },
-        { id: "w-style-titre", texte: "Titre" },
-        { id: "w-style-soustitre", texte: "Sous-titre", large: true },
-        { id: "w-style-titre1", texte: "Titre 1" },
-        { id: "w-style-titre2", texte: "Titre 2" },
-        { id: "w-style-titre3", texte: "Titre 3" },
-      ],
-    },
-    {
-      titre: "Annulation",
-      boutons: [
-        { id: "w-annuler", texte: "Annuler" },
-        { id: "w-retablir", texte: "Rétablir" },
-      ],
-    },
-  ],
-  insertion: [
-    {
-      titre: "Tableaux",
-      /*
-       * ⚠️ PAS DE BOUTON LIGNE/COLONNE POUR L'INSTANT — et c'est délibéré.
-       *
-       * Les commandes existent (`table-insert-row-above/bellow`,
-       * `table-insert-column-left/right`, `doc.table.delete-rows`) et elles ont
-       * été câblées puis RETIRÉES : elles exigent un point d'insertion situé
-       * DANS UNE CELLULE, que je n'ai pas su poser de façon reproductible. Sans
-       * cette garantie, elles rendraient `false` en silence — un bouton qui ne
-       * fait rien valide l'étape et laisse l'apprenant devant un écran inchangé,
-       * exactement le défaut que `check-controles` existe pour interdire.
-       */
-      boutons: [{ id: "w-inserer-tableau", texte: "Tableau", large: true }],
-    },
-    {
-      titre: "Liens",
-      boutons: [
-        { id: "w-inserer-lien", texte: "Lien", large: true },
-        { id: "w-retirer-lien", texte: "Retirer le lien" },
-      ],
-    },
-    {
-      titre: "Illustrations",
-      boutons: [
-        { id: "w-inserer-image", texte: "Image", large: true },
-        { id: "w-habillage-aligne", texte: "Aligné" },
-        { id: "w-habillage-carre", texte: "Rapproché" },
-        { id: "w-habillage-hautbas", texte: "Haut et bas" },
-        { id: "w-habillage-devant", texte: "Devant" },
-        { id: "w-supprimer-image", texte: "Supprimer l'image" },
-      ],
-    },
-    {
-      titre: "Lignes et colonnes",
-      boutons: [
-        { id: "w-ligne-dessus", texte: "Ligne au-dessus" },
-        { id: "w-ligne-dessous", texte: "Ligne en dessous" },
-        { id: "w-colonne-gauche", texte: "Colonne à gauche" },
-        { id: "w-colonne-droite", texte: "Colonne à droite" },
-        { id: "w-supprimer-ligne", texte: "Supprimer la ligne" },
-        { id: "w-supprimer-colonne", texte: "Supprimer la colonne" },
-      ],
-    },
-    {
-      titre: "En-tête et pied de page",
-      boutons: [{ id: "w-entete-pied", texte: "En-tête", large: true }],
-    },
-  ],
-  "mise-en-page": [
-    {
-      titre: "Mise en page",
-      boutons: [{ id: "w-mise-en-page", texte: "Marges", large: true }],
-    },
-  ],
-  /*
-   * Les trois onglets ci-dessous ouvrent des surfaces MAISON — le moteur n'a
-   * aucune commande d'en-tête, d'impression ni de taquet. Chacune enseigne le
-   * geste et son effet visuel, comme le panneau de mise en page.
-   */
-  fichier: [
-    {
-      titre: "Fichier",
-      boutons: [{ id: "w-imprimer", texte: "Imprimer", large: true }],
-    },
-  ],
-  revision: [
-    {
-      titre: "Vérification",
-      boutons: [{ id: "w-verification", texte: "Vérifier", large: true }],
-    },
-  ],
-  affichage: [
-    {
-      titre: "Afficher",
-      boutons: [{ id: "w-regle", texte: "Règle", large: true }],
-    },
-  ],
-}
-
+export type { OngletWord } from "@/lib/simulation/word/ruban"
+import {
+  GROUPES_WORD as GROUPES,
+  ONGLETS_WORD as ONGLETS,
+  ONGLETS_INERTES_WORD as ONGLETS_INERTES,
+  CONTROLES_RUBAN_WORD,
+  type BoutonRuban as Bouton,
+  type OngletWord,
+} from "@/lib/simulation/word/ruban"
 type Props = {
   /** Onglet imposé par l'étape courante, s'il y en a un. */
   ongletImpose?: OngletWord
@@ -1261,9 +1077,7 @@ export function WordFooter({
 
 /** Les identifiants réellement rendus — consommés par `check-controles`. */
 export const CONTROLES_RENDUS: string[] = [
-  ...Object.values(GROUPES)
-    .flat()
-    .flatMap((g) => g.boutons.map((b) => b.id)),
+  ...CONTROLES_RUBAN_WORD,
   "w-tableau-lignes",
   "w-tableau-colonnes",
   "w-tableau-annuler",

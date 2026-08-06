@@ -38,6 +38,7 @@ import {
   useRetourVisuel,
 } from "../hooks/useAtelier"
 import WordChrome, { WordFooter, type OngletWord } from "./WordChrome"
+import { ouverturesDOnglet } from "@/lib/simulation/word/ruban"
 import WordPageLayout, { PAGE_PAR_DEFAUT, type EtatPage } from "./WordPageLayout"
 import WordHeaderFooter, {
   CalqueHorsFlux,
@@ -1152,7 +1153,7 @@ export default function WordPlayer({
    * l'adaptateur. Jamais en évaluation notée : montrer le geste y reviendrait à
    * souffler la réponse.
    */
-  const plan: PlanDemo | null = useMemo(() => {
+  const planBrut: PlanDemo | null = useMemo(() => {
     if (!etape) return null
     /*
      * ⚠️ L'ÉCRAN DE LECTURE EST TRAITÉ AVANT LA GARDE D'ÉVALUATION.
@@ -1207,14 +1208,52 @@ export default function WordPlayer({
     return adaptateurWord.demonstration(etape.action as never, {})
   }, [etape, evaluationNotee])
 
+  /**
+   * AMENER LE RUBAN SUR L'ONGLET DE CHAQUE GESTE.
+   *
+   * 🔴 LE DÉFAUT CORRIGÉ LE 06/08/2026, mesuré au balayage exhaustif de Word.
+   *
+   * Le ruban ne rend que son onglet actif. Or dans tout l'adaptateur, la clé
+   * `onglet` n'apparaissait qu'à UN endroit : les illustrations d'écran de
+   * lecture dont l'auteur l'avait écrite à la main. Aucun plan déduit d'une
+   * ACTION ne pouvait donc ouvrir l'onglet de son bouton — 26 démonstrations sur
+   * 441 se jouaient à blanc, sur `w-mise-en-page` (14 gestes) et
+   * `w-inserer-tableau` (12), sans lever la moindre erreur : le compteur allait
+   * au bout, la phase atteignait `fini`, et l'apprenant qui venait de réclamer
+   * « Montrez-moi » ne voyait rien.
+   *
+   * La déduction vit dans `lib/simulation/word/ruban.ts` — le module qui déclare
+   * aussi ce que le ruban contient. Une seule source, consommée ici et par
+   * `check-demo-onglets.ts` : un contrôle qui modéliserait la règle de son côté
+   * finirait par valider autre chose que ce que le produit joue.
+   *
+   * ⚠️ L'ouverture initiale est INCONDITIONNELLE — on ne présume pas l'onglet
+   * affiché. Les onglets sont vivants, explorer le ruban n'est pas une faute, et
+   * l'apprenant qui demande de l'aide est précisément celui qui a cherché
+   * ailleurs. Rouvrir un onglet déjà ouvert ne coûte rien ; supposer qu'il l'est
+   * fait rejouer le défaut qu'on corrige.
+   */
+  const { plan, ongletInitialDeduit } = useMemo(() => {
+    if (!planBrut) return { plan: null as PlanDemo | null, ongletInitialDeduit: undefined }
+    const { gestes, ongletInitial } = ouverturesDOnglet(planBrut.gestes, undefined)
+    return { plan: { ...planBrut, gestes }, ongletInitialDeduit: ongletInitial }
+  }, [planBrut])
+
   /** Onglet ouvert par la démonstration, le temps qu'elle dure. */
   const [ongletDemo, setOngletDemo] = useState<OngletWord | null>(null)
 
   // Ouvre l'onglet du premier geste et rend sa valeur, pour la trace d'audit.
   ouvrirOngletInitialRef.current = () => {
-    const premier = (etape?.montrer ?? [])[0] as { onglet?: string } | undefined
-    if (premier?.onglet) setOngletDemo(premier.onglet as OngletWord)
-    return premier?.onglet
+    /*
+     * La CIBLE fait foi, l'onglet écrit par l'auteur ne sert que de repli : si
+     * le premier geste désigne un bouton, c'est son onglet qu'il faut, et lui
+     * seul. Le repli couvre les écrans dont le premier geste ne vise pas le
+     * ruban — l'auteur y amène le ruban pour un geste plus loin.
+     */
+    const auteur = ((etape?.montrer ?? [])[0] as { onglet?: string } | undefined)?.onglet
+    const initial = ongletInitialDeduit ?? auteur
+    if (initial) setOngletDemo(initial as OngletWord)
+    return initial
   }
 
   /**

@@ -38,35 +38,31 @@ import path from "path"
 
 const DIR = path.join(__dirname, "..", "scenarios", "word")
 const CHROME = path.join(__dirname, "..", "..", "..", "components", "simulation", "word", "WordChrome.tsx")
+import { CONTROLES_RUBAN_WORD, ongletDuControle } from "../../../lib/simulation/word/ruban"
 
 /* ═══════════ CE QUE LE CHÂSSIS REND RÉELLEMENT ═══════════ */
 
 /**
- * Les `data-control` rendus, lus dans la source du ruban.
+ * Les `data-control` rendus, demandés à la SOURCE et non au texte du composant.
  *
- * ⚠️ On DÉCOMMENTE avant de chercher. Le piège le plus coûteux du chantier
- * multi-app est tombé deux fois le même jour : un identifiant cité dans un
- * commentaire de documentation faisait passer un contrôle au vert alors que
- * rien n'était branché.
+ * ⚠️ Ce contrôle reconstruisait la carte onglet → bouton en parsant `WordChrome`
+ * par position de texte. Elle vit désormais dans `lib/simulation/word/ruban.ts`,
+ * d'où la démonstration la tire aussi pour ouvrir le bon onglet : une seule
+ * dérivation, donc aucune divergence possible entre ce que ce contrôle croit
+ * rendu et ce que le ruban rend vraiment.
+ *
+ * Les boîtes de dialogue restent lues dans le composant : elles rendent leurs
+ * boutons hors des groupes, et ne dépendent d'aucun onglet.
  */
 function controlesRendus(): { ids: string[]; ongletDe: Record<string, string> } {
-  const brut = fs.readFileSync(CHROME, "utf8")
-  const src = brut.replace(/\/\*[\s\S]*?\*\//g, "").replace(/^\s*\/\/.*$/gm, "")
-  const ids: string[] = []
+  const ids = [...CONTROLES_RUBAN_WORD]
   const ongletDe: Record<string, string> = {}
-  // Les groupes sont déclarés onglet par onglet : on suit l'onglet courant.
-  const bloc = /^\s{2}"?([a-z-]+)"?:\s*\[/gm
-  const positions: { onglet: string; index: number }[] = []
-  let m: RegExpExecArray | null
-  while ((m = bloc.exec(src))) positions.push({ onglet: m[1], index: m.index })
-  const idRe = /id:\s*"([a-z0-9-]+)"/g
-  while ((m = idRe.exec(src))) {
-    ids.push(m[1])
-    let onglet = "accueil"
-    for (const p of positions) if (p.index < m.index) onglet = p.onglet
-    ongletDe[m[1]] = onglet
-  }
-  // Les boutons des boîtes de dialogue, rendus hors des groupes.
+  for (const id of ids) ongletDe[id] = ongletDuControle(id) ?? "*"
+  // Les boutons des boîtes de dialogue, rendus hors des groupes du ruban.
+  const src = fs
+    .readFileSync(CHROME, "utf8")
+    .replace(/\/\*[\s\S]*?\*\//g, "")
+    .replace(/^\s*\/\/.*$/gm, "")
   for (const extra of src.matchAll(/data-control="([a-z0-9-]+)"/g)) {
     if (!ids.includes(extra[1])) {
       ids.push(extra[1])

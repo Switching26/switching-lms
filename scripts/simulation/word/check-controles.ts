@@ -31,6 +31,16 @@ import { LIBELLES_CONTROLES_WORD } from "../../../lib/simulation/word/adaptateur
 
 const RACINE = path.join(__dirname, "..", "..", "..")
 const CHROME = path.join(RACINE, "components", "simulation", "word", "WordChrome.tsx")
+/**
+ * ⚠️ LE RUBAN EST DÉCLARÉ AILLEURS QU'IL N'EST DESSINÉ.
+ *
+ * Onglets, groupes et boutons vivent dans `lib/simulation/word/ruban.ts` depuis
+ * le 06/08/2026 : la démonstration doit savoir sous quel onglet vit un bouton
+ * pour l'ouvrir avant de le désigner, et le contrôle qui le vérifie tourne sans
+ * React. Lire le seul `WordChrome.tsx` ferait passer les 45 boutons du ruban
+ * pour « non rendus » — 104 fausses anomalies, mesurées au déplacement.
+ */
+const RUBAN = path.join(RACINE, "lib", "simulation", "word", "ruban.ts")
 const SURFACE = path.join(RACINE, "components", "simulation", "word", "WordSurface.tsx")
 /**
  * Les surfaces MAISON, hors ruban : chacune rend ses propres `data-control`.
@@ -114,7 +124,7 @@ function lire(f: string): string {
 function controlesRendus(): string[] {
   // Les panneaux maison rendent leurs propres contrôles, hors du ruban.
   const src =
-    lire(CHROME) + PANNEAUX.filter((f) => fs.existsSync(f)).map(lire).join("\n")
+    lire(CHROME) + lire(RUBAN) + PANNEAUX.filter((f) => fs.existsSync(f)).map(lire).join("\n")
   const ids = new Set<string>()
   // ⚠️ Ne prendre QUE les identifiants de boutons : les onglets portent aussi
   // un champ `id`, et les compter les faisait passer pour des boutons inertes.
@@ -198,7 +208,7 @@ for (const id of rendus) {
 
 /* 4 — un contrôle qui EXIGE une valeur doit offrir le moyen de la donner. */
 const avecValeurRendus = new Set(
-  [...lire(CHROME).matchAll(/\bid:\s*"(w-[^"]+)",\s*texte:[^}]*valeurs:/g)].map((m) => m[1]),
+  [...lire(RUBAN).matchAll(/\bid:\s*"(w-[^"]+)",\s*texte:[^}]*valeurs:/g)].map((m) => m[1]),
 )
 const exigentValeur = (() => {
   const src = lire(SURFACE)

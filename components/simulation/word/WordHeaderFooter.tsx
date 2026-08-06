@@ -24,6 +24,7 @@
  */
 
 import { useEffect, useState } from "react"
+import { C } from "@/lib/simulation/couleurs"
 
 export type EtatHorsFlux = {
   entete: string
@@ -150,7 +151,7 @@ export default function WordHeaderFooter({
           minHeight: 44,
           borderRadius: 8,
           border: "none",
-          background: "#1b5e3a",
+          background: C.accentF,
           color: "#fff",
           fontWeight: 600,
           cursor: "pointer",

@@ -22,6 +22,7 @@
  */
 
 import { useState } from "react"
+import { C } from "@/lib/simulation/couleurs"
 
 export type EtatImpression = {
   copies: number
@@ -145,8 +146,8 @@ export default function WordPrintPreview({
                 cursor: "pointer",
                 fontSize: 13,
                 textAlign: "left",
-                border: valeur.plage === p.id ? "2px solid #1b5e3a" : "1px solid #d8d4cd",
-                background: valeur.plage === p.id ? "#eef6f1" : "#fff",
+                border: valeur.plage === p.id ? `2px solid ${C.accentF}` : "1px solid #d8d4cd",
+                background: valeur.plage === p.id ? C.voile : "#fff",
                 fontWeight: valeur.plage === p.id ? 600 : 400,
               }}
             >
@@ -174,7 +175,7 @@ export default function WordPrintPreview({
             minHeight: 44,
             borderRadius: 8,
             border: "none",
-            background: "#1b5e3a",
+            background: C.accentF,
             color: "#fff",
             fontWeight: 600,
             cursor: "pointer",

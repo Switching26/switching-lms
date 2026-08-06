@@ -27,6 +27,8 @@
  * gratuit en poids de page.
  */
 
+import { PALETTES, type AppSim } from "@/lib/simulation/couleurs"
+
 const ENCRE = "#171a18"
 const VERT = "#107C41"
 const VERT_F = "#0b5c30"
@@ -36,21 +38,23 @@ const PALE = "#E4E0D8"
 const SANS = "system-ui,-apple-system,BlinkMacSystemFont,sans-serif"
 const MONO = "ui-monospace,SFMono-Regular,Menlo,monospace"
 
-export type AppAffiche = "EXCEL" | "WORD" | "POWERPOINT" | "OUTLOOK"
+/**
+ * L'application d'une affiche. Même liste que le reste du simulateur : le type
+ * est un alias de `AppSim` pour ne pas maintenir deux vocabulaires.
+ */
+export type AppAffiche = AppSim
 
 /**
  * La couleur d'identité de chaque application. `rgb` sert aux voiles : une
  * couleur posée à faible opacité derrière du texte doit rester la MÊME teinte
  * que le trait, sinon l'affiche se met à jurer avec elle-même.
+ *
+ * ⚠️ La table vivait ICI jusqu'au 07/08/2026, et le châssis du simulateur en
+ * portait une COPIE figée sur le vert d'Excel. Elle a été extraite dans
+ * `lib/simulation/couleurs.ts` pour qu'affiche et châssis lisent la même
+ * source : deux tables auraient divergé au premier ajustement.
  */
 type Palette = { accent: string; accentF: string; rgb: string }
-
-const PALETTES: Record<AppAffiche, Palette> = {
-  EXCEL: { accent: VERT, accentF: VERT_F, rgb: "16,124,65" },
-  WORD: { accent: "#2B579A", accentF: "#1B3A6B", rgb: "43,87,154" },
-  POWERPOINT: { accent: "#C43E1C", accentF: "#8D2B12", rgb: "196,62,28" },
-  OUTLOOK: { accent: "#0F6CBD", accentF: "#0A4B84", rgb: "15,108,189" },
-}
 
 const EXCEL_P = PALETTES.EXCEL
 

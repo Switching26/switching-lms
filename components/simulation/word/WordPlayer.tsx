@@ -63,6 +63,7 @@ import type { WordDocumentState, WordParagrapheDeclare } from "@/lib/simulation/
 import { jugerEtape, type JugementEtape } from "@/lib/simulation/frappe"
 import type { SimulationStep } from "@/lib/simulation/types"
 import type { LearnerDocument } from "@/lib/learner-files"
+import { C } from "@/lib/simulation/couleurs"
 
 /**
  * Univer n'est PAS importable côté serveur — son moteur de rendu casse à
@@ -2017,7 +2018,7 @@ function Ouverture({
             padding: "0 22px",
             borderRadius: 10,
             border: "none",
-            background: "#1b5e3a",
+            background: C.accentF,
             color: "#fff",
             fontSize: 15,
             fontWeight: 600,

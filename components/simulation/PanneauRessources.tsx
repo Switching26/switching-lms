@@ -17,6 +17,7 @@ import { useCallback, useMemo, useState } from "react"
 import { dedupeDocuments, type LearnerDocument } from "@/lib/learner-files"
 import { LigneDocument, type EtatConsultation } from "@/components/learner/DocumentActions"
 import PdfViewer from "@/components/learner/PdfViewer"
+import { C } from "@/lib/simulation/couleurs"
 
 /** Libellé exact demandé, employé tel quel en titre et en `aria-label`. */
 export const LIBELLE_RESSOURCES = "Ressource pédagogique téléchargeable"
@@ -85,7 +86,7 @@ export default function PanneauRessources({
           dans la feuille compilée servie au banc. Règle du player : toute
           nouveauté visuelle passe en style embarqué. */}
       <style>{`
-        .res-focus:focus-visible { outline: 2px solid #107C41; outline-offset: 2px; border-radius: 10px; }
+        .res-focus:focus-visible { outline: 2px solid ${C.accent}; outline-offset: 2px; border-radius: 10px; }
       `}</style>
 
       <div className="flex flex-shrink-0 items-center gap-2 border-b border-border bg-warm-50 px-3 py-2.5">
@@ -135,7 +136,7 @@ export default function PanneauRessources({
           <a
             href={documentsHref}
             className="res-focus mt-1 inline-block text-[12.5px] font-semibold"
-            style={{ color: "#107C41" }}
+            style={{ color: C.accent }}
           >
             Voir tous mes documents →
           </a>

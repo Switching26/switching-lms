@@ -23,6 +23,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react"
 import { LIBELLES_CONTROLES_WORD } from "@/lib/simulation/word/adaptateur"
+import { C } from "@/lib/simulation/couleurs"
 
 /* ═══════════════════════════════════════════════════════════════════════════
    LES PICTOGRAMMES
@@ -339,7 +340,10 @@ const ICONES: Record<string, React.ReactNode> = {
   "w-verification": I(
     <>
       <path d="M2.4 12.6 5.8 3.4l3.4 9.2M3.6 9.8h4.4" {...t} />
-      <path d="M10 10.4l1.8 1.9 3-3.6" stroke="#1b5e3a" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+      {/* La coche du bouton « Vérification » : c'est une icône d'INTERFACE, pas
+          une image insérable — d'où la couleur de l'application. `var()` ne se
+          résout pas dans un attribut de présentation SVG : il faut un style. */}
+      <path d="M10 10.4l1.8 1.9 3-3.6" style={{ stroke: C.accentF }} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
     </>,
   ),
   "w-regle": I(
@@ -568,7 +572,7 @@ export default function WordChrome({ ongletImpose, onControle, titreDocument }: 
             style={{
               border: "none",
               background: actif === o.id ? "#fff" : "transparent",
-              color: actif === o.id ? "#1b5e3a" : "#5b554d",
+              color: actif === o.id ? C.accentF : "#5b554d",
               fontWeight: actif === o.id ? 600 : 400,
               fontSize: 13,
               padding: "7px 12px",
@@ -625,8 +629,8 @@ export default function WordChrome({ ongletImpose, onControle, titreDocument }: 
               margin: "0 2px 0 6px",
               border: "1px solid #e2ded7",
               borderRadius: 8,
-              background: tiroir ? "#eef5f0" : "#fff",
-              color: "#1b5e3a",
+              background: tiroir ? C.voile : "#fff",
+              color: C.accentF,
               fontSize: 15,
               cursor: "pointer",
             }}
@@ -755,7 +759,7 @@ export default function WordChrome({ ongletImpose, onControle, titreDocument }: 
                   cursor: "pointer",
                 }}
               >
-                <span aria-hidden style={{ color: "#1b5e3a" }}>
+                <span aria-hidden style={{ color: C.accentF }}>
                   {ICONES[g.boutons[0]?.id] ?? "•"}
                 </span>
                 {g.titre}
@@ -820,7 +824,7 @@ function ChevronRuban({ sens, onClick }: { sens: -1 | 1; onClick: () => void }) 
         border: "1px solid #e2ded7",
         borderRadius: 7,
         background: "#fff",
-        color: "#1b5e3a",
+        color: C.accentF,
         fontSize: 15,
         lineHeight: 1,
         cursor: "pointer",
@@ -1002,7 +1006,7 @@ function BoiteTableau({
           type="button"
           data-control="w-tableau-ok"
           onClick={onValider}
-          style={{ minHeight: 44, padding: "0 18px", borderRadius: 8, border: "none", background: "#1b5e3a", color: "#fff", cursor: "pointer", fontWeight: 600 }}
+          style={{ minHeight: 44, padding: "0 18px", borderRadius: 8, border: "none", background: C.accentF, color: "#fff", cursor: "pointer", fontWeight: 600 }}
         >
           OK
         </button>

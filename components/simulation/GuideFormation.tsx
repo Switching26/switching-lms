@@ -31,18 +31,26 @@ import {
   etapesDisponibles,
   type EtapeGuide,
 } from "@/lib/simulation/guide-formation"
+import { C } from "@/lib/simulation/couleurs"
 
-/* Couleurs du cockpit, reprises telles quelles de `SimulationPlayer.tsx` et
-   `DemonstrationGeste.tsx`. Le guide ne crée aucune couleur à lui. */
+/* Couleurs du cockpit. Le guide ne crée aucune couleur à lui.
+ *
+ * Il était bâti sur le vert d'Excel alors qu'il est le MÊME composant pour les
+ * quatre applications — et c'est le premier écran coloré que voit l'apprenant,
+ * à sa première visite. Ses cinq teintes d'identité lisent désormais la couleur
+ * de l'application ; leur repli est la valeur d'Excel, à l'identique.
+ *
+ * `LECT` / `LECT_PALE` restent en dur : c'est le bleu-gris de « À COMPRENDRE »,
+ * une couleur de SENS, pas d'identité. */
 const ENCRE = "#171a18"
-const COCKPIT = "#10201B"
-const VERT = "#107C41"
-const VERT_F = "#0b5c30"
-const VERT_PALE = "#E7F3EB"
-const VERT_BORD = "#BFE3CD"
+const COCKPIT = C.encre
+const VERT = C.accent
+const VERT_F = C.accentF
+const VERT_PALE = C.voile
+const VERT_BORD = C.voileBord
 const LECT = "#3E5A67"
 const LECT_PALE = "#E8F0F3"
-const SEG_OK = "#4ED08A"
+const SEG_OK = C.clair
 
 const GLISSE = "cubic-bezier(.32,.72,0,1)"
 const RESSORT = "cubic-bezier(.2,.9,.2,1)"
@@ -732,7 +740,9 @@ export default function GuideFormation({
               </span>
               <p
                 id="guide-tache"
-                style={{ margin: 0, fontSize: 13, lineHeight: 1.5, color: "#0C5B31" }}
+                // `guideTache`, pas `accentF` : Excel portait ici `#0C5B31`, à
+                // un point près de son accent foncé. Le banc a attrapé l'écart.
+                style={{ margin: 0, fontSize: 13, lineHeight: 1.5, color: C.guideTache }}
                 dangerouslySetInnerHTML={{ __html: etape.tache }}
               />
               {faite && (

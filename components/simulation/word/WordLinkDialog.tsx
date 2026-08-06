@@ -19,6 +19,7 @@
  */
 
 import { useState } from "react"
+import { C } from "@/lib/simulation/couleurs"
 
 /** Adresses proposées : un apprenant sur mobile ne doit pas tout retaper. */
 const SUGGESTIONS = [
@@ -138,7 +139,7 @@ export default function WordLinkDialog({
             minHeight: 44,
             borderRadius: 8,
             border: "none",
-            background: !adresse.trim() || sansSelection ? "#c9c4bc" : "#1b5e3a",
+            background: !adresse.trim() || sansSelection ? "#c9c4bc" : C.accentF,
             color: "#fff",
             fontWeight: 600,
             cursor: !adresse.trim() || sansSelection ? "default" : "pointer",

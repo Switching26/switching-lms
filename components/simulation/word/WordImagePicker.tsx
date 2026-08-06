@@ -23,6 +23,8 @@
  * ⚠️ Styles INLINE, jamais de classe Tailwind inédite.
  */
 
+import { C } from "@/lib/simulation/couleurs"
+
 const svg = (contenu: string) =>
   `data:image/svg+xml;base64,${typeof window === "undefined" ? "" : window.btoa(unescape(encodeURIComponent(contenu)))}`
 
@@ -133,7 +135,7 @@ export default function WordImagePicker({
           minHeight: 44,
           borderRadius: 8,
           border: "none",
-          background: "#1b5e3a",
+          background: C.accentF,
           color: "#fff",
           fontWeight: 600,
           cursor: "pointer",

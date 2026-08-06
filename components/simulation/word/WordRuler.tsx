@@ -29,6 +29,7 @@
  */
 
 import { useRef, useState } from "react"
+import { C } from "@/lib/simulation/couleurs"
 
 export type TypeTaquet = "gauche" | "centre" | "droite" | "decimal"
 export type Taquet = { position: number; type: TypeTaquet }
@@ -118,7 +119,7 @@ export default function WordRuler({
           fontSize: 15,
           lineHeight: 1,
           fontWeight: 700,
-          color: "#1b5e3a",
+          color: C.accentF,
           flexShrink: 0,
         }}
       >
@@ -191,7 +192,7 @@ export default function WordRuler({
               height: 20,
               border: "none",
               background: "transparent",
-              color: "#1b5e3a",
+              color: C.accentF,
               fontWeight: 700,
               fontSize: 14,
               lineHeight: 1,

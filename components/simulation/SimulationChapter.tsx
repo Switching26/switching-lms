@@ -30,6 +30,7 @@ const PptPlayer = dynamic(() => import("./ppt/PptPlayer"), { ssr: false })
 const OutlookPlayer = dynamic(() => import("./outlook/OutlookPlayer"), { ssr: false })
 import type { SimulationScenario } from "@/lib/simulation/types"
 import type { LearnerDocument } from "@/lib/learner-files"
+import { variablesCouleur, C } from "@/lib/simulation/couleurs"
 
 type Payload = {
   /**
@@ -207,6 +208,21 @@ export default function SimulationChapter({
   }
   const Player = PLAYERS[data.app ?? "EXCEL"] ?? SimulationPlayer
 
+  /*
+   * LA COULEUR DE LA FORMATION — posée ICI, et nulle part ailleurs.
+   *
+   * Le châssis, le chrome de l'application, l'écran d'ouverture et le guide
+   * sont tous descendants de ce point : une seule déclaration de variables CSS
+   * les atteint tous. Le châssis les lit en `var(--sim-…, <valeur d'Excel>)`,
+   * donc un chapitre sans `app` — ou servi par une version antérieure de l'API —
+   * retombe exactement sur l'écran d'avant.
+   *
+   * Ce composant est aussi le SEUL portail du simulateur (vérifié : un unique
+   * `createPortal` dans tout `components/simulation/`). Rien ne s'échappe donc
+   * de la portée des variables.
+   */
+  const couleurs = variablesCouleur(data.app)
+
   const player = (
     <Player
       // La clé garantit un état propre quand on passe d'un atelier à un autre :
@@ -256,7 +272,9 @@ export default function SimulationChapter({
     />
   )
 
-  if (!atelier) return player
+  // Aperçu admin et rendu en carte : le player reste dans le flux de la page,
+  // mais il lui faut quand même sa palette — d'où cette enveloppe.
+  if (!atelier) return <div style={couleurs}>{player}</div>
   if (!monte) return <div style={{ height: 420 }} />
 
   return createPortal(
@@ -264,13 +282,15 @@ export default function SimulationChapter({
       // Sous la navigation du LMS, qui reste visible pendant l'atelier — comme
       // OnlineFormaPro garde la sienne (choix Samuel du 29/07).
       style={{
+        ...couleurs,
         position: "fixed",
         top: "calc(var(--app-impersonation-offset, 0px) + var(--app-nav-height, 64px))",
         left: 0,
         right: 0,
         bottom: 0,
         zIndex: 30,
-        background: "#0B1512",
+        // Le fond du cadre : un noir teinté de l'application, comme le cockpit.
+        background: C.fond,
         overflow: "hidden",
       }}
     >

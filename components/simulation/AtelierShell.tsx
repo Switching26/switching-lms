@@ -44,6 +44,7 @@ import PanneauRessources, { LIBELLE_RESSOURCES } from "./PanneauRessources"
 import GuideFormation from "./GuideFormation"
 import { dureeLisible, estimatedSimulationMinutes } from "@/lib/simulation/duree"
 import type { LearnerDocument } from "@/lib/learner-files"
+import { C, voileGuide } from "@/lib/simulation/couleurs"
 
 /* ═══════════ BALISAGE DES CONSIGNES ═══════════ */
 
@@ -82,7 +83,11 @@ function renderConsigne(text: string, depth = 0): ReactNode[] {
       }
       if (p.length > 4 && p.startsWith("==") && p.endsWith("==")) {
         return (
-          <span key={i} className="font-medium text-emerald-700">
+          // LE GESTE SOULIGNÉ — l'accent le plus vu de tout l'écran : chaque
+          // consigne met en couleur le geste attendu. Il se rendait avec
+          // `text-emerald-700`, un vert de Tailwind qui n'était même pas celui
+          // d'Excel ; le repli de `C.souligne` conserve sa valeur exacte.
+          <span key={i} className="font-medium" style={{ color: C.souligne }}>
             {renderConsigne(p.slice(2, -2), depth + 1)}
           </span>
         )
@@ -157,7 +162,7 @@ function pastilleCockpit(actif: boolean): React.CSSProperties {
   return {
     height: 28,
     background: actif ? "#fff" : "rgba(255,255,255,.09)",
-    color: actif ? "#10201B" : "#DCE6E1",
+    color: actif ? C.encre : "#DCE6E1",
     fontSize: 11.5,
     fontWeight: actif ? 600 : 400,
   }
@@ -371,10 +376,13 @@ function BandeConsigne({ c }: { c: ConsigneAtelier }) {
       className="relative flex flex-shrink-0 flex-wrap items-center gap-x-4 gap-y-2 overflow-hidden border-t border-border px-4 py-3"
       style={{
         borderLeft: `4px solid ${
+          // Les trois premiers cas sont SÉMANTIQUES — franchissement, lecture,
+          // verdict — et gardent leur couleur quelle que soit l'application.
+          // Seul le dernier, l'étape d'action ordinaire, porte l'identité.
           c.relaisActif ? "#22A75A"
           : c.lecture ? "#3E5A67"
           : c.verdict ? (c.verdict.ok ? "#059669" : "#e11d48")
-          : "#107C41"
+          : C.accent
         }`,
         background:
           c.relaisActif ? "#F2FBF6"
@@ -443,9 +451,12 @@ function BandeConsigne({ c }: { c: ConsigneAtelier }) {
               fontWeight: 800,
               letterSpacing: ".07em",
               padding: "4px 8px",
-              color: c.nature === "lecture" ? "#3E5A67" : c.nature === "evaluee" ? "#8A5A12" : "#107C41",
+              // « À COMPRENDRE » (bleu-gris) et « ÉVALUÉ » (ambre) disent la
+              // NATURE de l'étape : intacts. Seul « À VOUS DE JOUER » porte
+              // l'identité de l'application.
+              color: c.nature === "lecture" ? "#3E5A67" : c.nature === "evaluee" ? "#8A5A12" : C.encreVoile,
               background:
-                c.nature === "lecture" ? "#E8F0F3" : c.nature === "evaluee" ? "#FBF1DF" : "#E7F3EB",
+                c.nature === "lecture" ? "#E8F0F3" : c.nature === "evaluee" ? "#FBF1DF" : C.voile,
               visibility: c.relaisActif ? "hidden" : undefined,
               animation: c.relais ? "sim-etape-pop .5s cubic-bezier(.2,.9,.2,1) both" : undefined,
             }}
@@ -695,6 +706,10 @@ function BandeConsigne({ c }: { c: ConsigneAtelier }) {
         {c.demonstration && montrable && !c.evaluationNotee && !c.lecture && (
           <div
             className="mt-2 flex flex-wrap items-center gap-2 rounded-lg px-3 py-2 text-[12.5px]"
+            // ⚠️ CET ENCART RESTE VERT, quelle que soit l'application.
+            // Décision de Samuel du 07/08/2026 : il apparaît quand l'apprenant
+            // a bloqué, juste au-dessus d'un encart rouge. Le passer au corail
+            // de PowerPoint le rapprocherait de l'alerte. Ne pas « harmoniser ».
             style={{ background: "#E7F3EB", border: "1px solid #BFE3CD", color: "#0C5B31" }}
           >
             <span className="min-w-0 flex-1">
@@ -788,7 +803,7 @@ function BandeConsigne({ c }: { c: ConsigneAtelier }) {
             data-control="sim-voir-geste"
             onClick={c.onMontrer}
             className="rounded-lg px-4 py-2 text-[12.5px] font-bold text-white"
-            style={{ background: "#107C41" }}
+            style={{ background: C.accent }}
           >
             <span aria-hidden>▶</span> Voir le geste
           </button>
@@ -799,7 +814,7 @@ function BandeConsigne({ c }: { c: ConsigneAtelier }) {
             data-control="sim-revoir-geste"
             onClick={c.onRejouerDemo}
             className="rounded-lg border px-4 py-2 text-[12.5px] font-bold"
-            style={{ borderColor: "#107C41", color: "#107C41" }}
+            style={{ borderColor: C.accent, color: C.accent }}
           >
             <span aria-hidden>↻</span> Revoir
           </button>
@@ -990,6 +1005,11 @@ export default function AtelierShell({
       }
       style={pleinCadre ? undefined : { borderRadius: 16 }}
     >
+      {/* Le focus du champ de note portait `focus:border-emerald-600`. Une
+          classe Tailwind ne peut pas lire la couleur de l'application, et la
+          feuille compilée n'est de toute façon pas garantie sur le banc : la
+          règle passe donc en style embarqué, comme celles du guide. */}
+      <style>{`.sim-focus-accent:focus { border-color: ${C.notes} }`}</style>
       {/* Cockpit : une seule barre haute qui porte le repérage et les commandes.
           Avant, deux bandeaux se superposaient (en-tête ivoire pâle + barre de
           titre Excel) et la progression tenait dans un « 1 / 8 » gris de 12 px.
@@ -1000,7 +1020,9 @@ export default function AtelierShell({
         className="flex flex-shrink-0 items-center gap-2 px-2 sm:gap-3 sm:px-3"
         style={{
           height: 44,
-          background: evaluationNotee ? "#3A2410" : "#10201B",
+          // En évaluation notée la barre passe à l'ambre du mode examen : c'est
+          // une information, elle ne suit pas l'application.
+          background: evaluationNotee ? "#3A2410" : C.encre,
           color: "#fff",
           fontSize: 12,
         }}
@@ -1043,7 +1065,7 @@ export default function AtelierShell({
               <span aria-hidden>✎</span>
               <span className="hidden sm:inline">Notes</span>
               {note && note.trim() !== "" && (
-                <span aria-hidden style={{ width: 5, height: 5, borderRadius: 9, background: "#4ED08A" }} />
+                <span aria-hidden style={{ width: 5, height: 5, borderRadius: 9, background: C.clair }} />
               )}
             </span>
           </button>
@@ -1110,7 +1132,7 @@ export default function AtelierShell({
                   width: 13,
                   height: 4,
                   borderRadius: 9,
-                  background: i < index ? "#4ED08A" : i === index ? "#fff" : "rgba(255,255,255,.16)",
+                  background: i < index ? C.clair : i === index ? "#fff" : "rgba(255,255,255,.16)",
                   transition: "background-color .3s ease",
                   animation: i === index && relais ? "sim-seg-pop .5s cubic-bezier(.2,.9,.2,1) both" : undefined,
                 }}
@@ -1119,7 +1141,7 @@ export default function AtelierShell({
           </div>
         ) : (
           <div className="hidden flex-shrink-0 sm:block" aria-hidden style={{ width: 96, height: 4, borderRadius: 9, background: "rgba(255,255,255,.16)" }}>
-            <span style={{ display: "block", height: "100%", borderRadius: 9, background: "#4ED08A", width: `${Math.round((index / Math.max(1, total)) * 100)}%` }} />
+            <span style={{ display: "block", height: "100%", borderRadius: 9, background: C.clair, width: `${Math.round((index / Math.max(1, total)) * 100)}%` }} />
           </div>
         )}
         <span
@@ -1154,10 +1176,10 @@ export default function AtelierShell({
             style={{
               height: 28,
               fontSize: 11.5,
-              background: guideOuvert ? "#fff" : "rgba(78,208,138,.15)",
-              color: guideOuvert ? "#10201B" : "#BFF0D4",
+              background: guideOuvert ? "#fff" : voileGuide(0.15),
+              color: guideOuvert ? C.encre : C.tresClair,
               fontWeight: guideOuvert ? 600 : 400,
-              boxShadow: guideOuvert ? undefined : "inset 0 0 0 1px rgba(78,208,138,.35)",
+              boxShadow: guideOuvert ? undefined : `inset 0 0 0 1px ${voileGuide(0.35)}`,
             }}
           >
             <span aria-hidden>?</span>
@@ -1284,15 +1306,15 @@ export default function AtelierShell({
               value={note ?? ""}
               onChange={(e) => onNote(e.target.value)}
               placeholder="Écrivez ici ce que vous voulez retenir de ce chapitre…"
-              className="w-full rounded-xl border border-border p-3 text-[13px] leading-relaxed text-ink outline-none focus:border-emerald-600"
+              className="w-full rounded-xl border border-border p-3 text-[13px] leading-relaxed text-ink outline-none sim-focus-accent"
               style={{ minHeight: 170, resize: "vertical" }}
             />
             <p className="mt-2 flex items-center gap-1.5 text-[11.5px] text-warm-400">
-              <span aria-hidden style={{ width: 6, height: 6, borderRadius: 9, background: "#107C41" }} />
+              <span aria-hidden style={{ width: 6, height: 6, borderRadius: 9, background: C.accent }} />
               Enregistré automatiquement
             </p>
             {notesHref && (
-              <a href={notesHref} className="mt-3 inline-block text-[12.5px] font-semibold text-emerald-700">
+              <a href={notesHref} className="mt-3 inline-block text-[12.5px] font-semibold" style={{ color: C.souligne }}>
                 Voir toutes mes notes →
               </a>
             )}
@@ -1362,8 +1384,10 @@ function SommaireAtelier({
   }
 
   const PASTILLE: Record<EntreeSommaire["genre"], { l: string; c: string; f: string }> = {
+    // « L » (bleu) et « ★ » (ambre) disent la NATURE du chapitre, pas
+    // l'application : elles ne bougent pas. « E » est la seule identitaire.
     lecon: { l: "L", c: "#2C6BB0", f: "#E9F1FB" },
-    exercice: { l: "E", c: "#107C41", f: "#E7F3EB" },
+    exercice: { l: "E", c: C.accent, f: C.voile },
     evaluation: { l: "★", c: "#8A5A12", f: "#FBF1DF" },
     autre: { l: "·", c: "#8D8880", f: "#F1EEE8" },
   }
@@ -1386,8 +1410,8 @@ function SommaireAtelier({
                 style={{
                   width: 21,
                   height: 21,
-                  background: estCourant ? "#107C41" : faits === g.items.length ? "#E7F3EB" : "#F1EEE8",
-                  color: estCourant ? "#fff" : faits === g.items.length ? "#107C41" : "#8D8880",
+                  background: estCourant ? C.accent : faits === g.items.length ? C.voile : "#F1EEE8",
+                  color: estCourant ? "#fff" : faits === g.items.length ? C.accent : "#8D8880",
                 }}
               >
                 {i + 1}
@@ -1441,7 +1465,7 @@ function SommaireAtelier({
                           </span>
                           {actif && etapesTotal > 0 && (
                             <>
-                              <span className="text-[10.5px] font-bold" style={{ color: "#0b5c30" }}>
+                              <span className="text-[10.5px] font-bold" style={{ color: C.accentF }}>
                                 étape {etapeCourante} sur {etapesTotal} · ≈ {reste} min restantes
                               </span>
                               <span
@@ -1453,7 +1477,7 @@ function SommaireAtelier({
                                   className="block h-full rounded-sm"
                                   style={{
                                     width: `${Math.round(((etapeCourante - 1) / etapesTotal) * 100)}%`,
-                                    background: "#107C41",
+                                    background: C.accent,
                                     transition: "width .3s ease",
                                   }}
                                 />
@@ -1470,7 +1494,7 @@ function SommaireAtelier({
                           </span>
                         )}
                         {e.termine && (
-                          <span aria-hidden className="flex-shrink-0 text-[11px] text-emerald-600">
+                          <span aria-hidden className="flex-shrink-0 text-[11px]" style={{ color: C.notes }}>
                             ✓
                           </span>
                         )}

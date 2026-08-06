@@ -29,9 +29,15 @@
 
 import { useCallback, useEffect, useRef, useState } from "react"
 import type { CibleDemo, PlanDemo } from "@/lib/simulation/demonstration"
+import { C, voileAccent } from "@/lib/simulation/couleurs"
 
-const VERT = "#107C41"
-const VERT_F = "#0b5c30"
+/* Le calque de démonstration est COMMUN aux quatre applications : l'anneau qui
+   appelle le regard, l'onde du clic et les jetons du plan portaient le vert
+   d'Excel. Le bouton qui les lance (« Voir le geste ») prend la couleur de
+   l'application — la démonstration qu'il déclenche devait la prendre aussi.
+   ⚠️ Le halo d'ERREUR n'est pas ici : il vit dans chaque player, en rouge. */
+const VERT = C.accent
+const VERT_F = C.accentF
 const ENCRE = "#171a18"
 
 export type Rect = { left: number; top: number; width: number; height: number }
@@ -475,7 +481,7 @@ export default function DemonstrationGeste({ plan, resoudre, largeur, hautFeuill
               key={`${n}-${p}`}
               className="flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] leading-none"
               style={{
-                background: actif ? "rgba(16,124,65,.1)" : "rgba(255,255,255,.94)",
+                background: actif ? voileAccent(0.1) : "rgba(255,255,255,.94)",
                 border: `1px solid ${actif || fait ? VERT : "#E4E0D8"}`,
                 color: actif || fait ? VERT_F : "#9aa19c",
                 fontWeight: actif ? 700 : 500,
@@ -537,7 +543,7 @@ export default function DemonstrationGeste({ plan, resoudre, largeur, hautFeuill
               height: rectFin && (phase === "glisse" || phase === "fini") ? rectFin.top + rectFin.height - rect.top : rect.height,
               outline: agit ? `2.5px solid ${VERT}` : "none",
               outlineOffset: -2,
-              background: agit && phase !== "fini" ? "rgba(16,124,65,.08)" : "transparent",
+              background: agit && phase !== "fini" ? voileAccent(0.08) : "transparent",
               transition: "width .5s ease, height .5s ease, left .25s ease, top .25s ease",
             }}
           />

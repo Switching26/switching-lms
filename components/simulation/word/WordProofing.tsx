@@ -35,6 +35,7 @@
  */
 
 import { useState } from "react"
+import { C } from "@/lib/simulation/couleurs"
 
 /** Une entrée du correcteur, telle que le scénario la déclare. */
 export type EntreeCorrecteur = {
@@ -138,8 +139,8 @@ export default function WordProofing({
               borderRadius: 8,
               fontSize: 13,
               cursor: "pointer",
-              border: onglet === id ? "2px solid #1b5e3a" : "1px solid #d8d4cd",
-              background: onglet === id ? "#eef6f1" : "#fff",
+              border: onglet === id ? `2px solid ${C.accentF}` : "1px solid #d8d4cd",
+              background: onglet === id ? C.voile : "#fff",
               fontWeight: onglet === id ? 600 : 400,
             }}
           >
@@ -182,7 +183,7 @@ export default function WordProofing({
                     minHeight: 40,
                     borderRadius: 8,
                     border: "none",
-                    background: "#1b5e3a",
+                    background: C.accentF,
                     color: "#fff",
                     fontSize: 13,
                     fontWeight: 600,
@@ -267,7 +268,7 @@ export default function WordProofing({
           minHeight: 44,
           borderRadius: 8,
           border: "none",
-          background: "#1b5e3a",
+          background: C.accentF,
           color: "#fff",
           fontWeight: 600,
           cursor: "pointer",

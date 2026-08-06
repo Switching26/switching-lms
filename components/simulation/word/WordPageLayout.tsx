@@ -28,6 +28,7 @@
  */
 
 import { useEffect, useRef, useState } from "react"
+import { C } from "@/lib/simulation/couleurs"
 
 export type EtatPage = {
   orientation?: "portrait" | "paysage"
@@ -129,8 +130,8 @@ export default function WordPageLayout({
                   borderRadius: 8,
                   cursor: "pointer",
                   fontSize: 13,
-                  border: brouillon.orientation === o ? "2px solid #1b5e3a" : "1px solid #d8d4cd",
-                  background: brouillon.orientation === o ? "#eef6f1" : "#fff",
+                  border: brouillon.orientation === o ? `2px solid ${C.accentF}` : "1px solid #d8d4cd",
+                  background: brouillon.orientation === o ? C.voile : "#fff",
                   fontWeight: brouillon.orientation === o ? 600 : 400,
                 }}
               >
@@ -211,7 +212,7 @@ export default function WordPageLayout({
             minHeight: 44,
             borderRadius: 8,
             border: "none",
-            background: "#1b5e3a",
+            background: C.accentF,
             color: "#fff",
             fontWeight: 600,
             cursor: "pointer",

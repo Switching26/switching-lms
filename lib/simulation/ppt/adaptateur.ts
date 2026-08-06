@@ -561,30 +561,77 @@ export function demonstrationPpt(action: PptAction, ctx: ContexteDemo): PlanDemo
  * règle que les menus, où un geste qui se contente de pointer laisse le bouton
  * suivant hors du DOM.
  *
- * L'ouverture est INCONDITIONNELLE, sans consulter l'onglet courant. C'est
- * volontaire à double titre : presser un onglet déjà ouvert ne change rien, et
- * surtout le chemin complet « onglet Insertion, puis Formes » EST la compétence
- * à enseigner. Une démonstration qui sauterait l'étape parce que l'onglet se
- * trouve déjà ouvert apprendrait un geste tronqué.
+ * L'ouverture est INCONDITIONNELLE vis-à-vis de l'onglet réellement affiché, sans
+ * consulter l'état de la surface. C'est volontaire à double titre : presser un
+ * onglet déjà ouvert ne change rien, et surtout le chemin complet « onglet
+ * Insertion, puis Formes » EST la compétence à enseigner. Une démonstration qui
+ * sauterait l'étape parce que l'onglet se trouve déjà ouvert apprendrait un geste
+ * tronqué.
+ *
+ * 🔴 CE QUI A ÉTÉ CORRIGÉ LE 06/08/2026 — la bascule ne regardait que le PREMIER
+ * geste, et seulement s'il PRESSAIT.
+ *
+ *     const id = plan.gestes[0]?.presser?.id
+ *     if (!id) return plan
+ *
+ * Deux familles entières de plans y échappaient, et leur bouton de ruban se
+ * jouait à blanc — bulle absente, compteur au bout quand même :
+ *
+ *  · ceux qui commencent par une MINIATURE (`P_MOVE_SLIDE`, `P_DELETE_SLIDE`,
+ *    `P_DUPLICATE_SLIDE`) : `ongletDuControle` rend `null` pour elle, à juste
+ *    titre — elle ne vit pas dans le ruban —, et la fonction rendait la main
+ *    avant d'avoir vu le bouton du geste suivant ;
+ *  · ceux qui DÉSIGNENT un bouton sans le presser, ce qui est la règle partout
+ *    où le geste n'est pas idempotent ou engage l'apprenant (`P_EXPECT_SHOW`,
+ *    `P_EXPECT_FORMAT`, `P_ADD_OBJECT`).
+ *
+ * On parcourt donc TOUS les gestes, on lit la cible autant que le `presser`, et
+ * on n'insère une bascule que lorsque l'onglet CHANGE par rapport à celui que la
+ * séquence a déjà ouvert. Une bascule par onglet traversé, jamais une par geste.
+ *
+ * Les illustrations (`P_MONTRER`) sont laissées intactes : leur onglet est ouvert
+ * en amont par `ongletSuggere`, et glisser « Ouvrez l'onglet X » au milieu d'une
+ * explication ferait passer un commentaire pour un geste à refaire.
  */
 function avecOuvertureDOnglet(plan: PlanDemo): PlanDemo {
-  const premier = plan.gestes[0]
-  const id = premier?.presser?.id
-  if (!id) return plan
-  const onglet = ongletDuControle(id)
-  if (!onglet) return plan
-  const ctrl = CONTROLES_PPT.onglet(onglet)
-  return {
-    gestes: [
-      {
+  const gestes: PlanDemo["gestes"] = []
+  const pas: string[] = []
+  const nomme = plan.pas.length > 0
+  let ouvert: string | null = null
+
+  plan.gestes.forEach((g, i) => {
+    const id = g.presser?.id ?? controleDuGeste(g)
+    const onglet = g.illustration || !id ? null : ongletDuControle(id)
+    if (onglet && onglet !== ouvert) {
+      const ctrl = CONTROLES_PPT.onglet(onglet)
+      gestes.push({
         cible: domControle(ctrl),
         bulle: `Ouvrez l'onglet « ${LIBELLE_ONGLET_PPT[onglet]} ».`,
         presser: { id: ctrl },
-      },
-      ...plan.gestes,
-    ],
-    pas: [`onglet ${LIBELLE_ONGLET_PPT[onglet]}`, ...plan.pas],
-  }
+      })
+      if (nomme) pas.push(`onglet ${LIBELLE_ONGLET_PPT[onglet]}`)
+      ouvert = onglet
+    }
+    gestes.push(g)
+    if (nomme) pas.push(plan.pas[i] ?? "")
+  })
+
+  return { gestes, pas }
+}
+
+/**
+ * Le bouton qu'un geste DÉSIGNE, pressé ou seulement montré.
+ *
+ * L'identifiant se relit dans le sélecteur parce que c'est ainsi que les cibles
+ * sont écrites ici — la surface étant du DOM, il n'existe aucun champ parallèle
+ * à tenir à jour, donc rien qui puisse diverger. `PptPlayer` fait la même
+ * lecture pour décider quel onglet l'étape ouvre : une seule règle, deux
+ * lecteurs.
+ */
+function controleDuGeste(g: PlanDemo["gestes"][number]): string | null {
+  if (g.cible.k !== "dom") return null
+  const m = /^\[data-control="([^"]+)"\]$/.exec(g.cible.sel)
+  return m ? m[1] : null
 }
 
 function planBrutPpt(action: PptAction, _ctx: ContexteDemo): PlanDemo | null {

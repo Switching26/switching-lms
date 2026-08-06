@@ -63,6 +63,25 @@ import {
 type Mode = "LESSON" | "EXERCISE" | "EVALUATION"
 
 /**
+ * Le bouton qu'un geste de démonstration DÉSIGNE — pressé ou seulement montré.
+ *
+ * Une démonstration qui se contente de pointer un bouton est la règle et non
+ * l'exception : on ne presse pas à la place de l'apprenant ce qui n'est pas
+ * idempotent (supprimer, dupliquer) ni ce qui l'engage (lancer le diaporama).
+ * Lire `presser` seul revenait donc à ignorer la moitié des cibles de ruban.
+ *
+ * L'identifiant se relit dans le sélecteur parce que c'est ainsi que
+ * l'adaptateur désigne ses cibles — la surface étant du DOM, il n'y a pas de
+ * champ séparé à tenir en parallèle, donc rien qui puisse diverger.
+ */
+function controleDuGeste(g: PlanDemo["gestes"][number]): string | null {
+  if (g.presser?.id) return g.presser.id
+  if (g.cible.k !== "dom") return null
+  const m = /^\[data-control="([^"]+)"\]$/.exec(g.cible.sel)
+  return m ? m[1] : null
+}
+
+/**
  * Ce qu'un scénario PowerPoint déclare EN PLUS de `SimulationScenario`.
  *
  * ⚠️ DETTE ASSUMÉE, signalée au chef d'orchestre. `SimulationScenario` exige
@@ -406,24 +425,33 @@ export default function PptPlayer({
    * dépend de la LARGEUR RENDUE, une chose que l'adaptateur — pur et sans
    * surface — ne peut pas connaître. Le contenu n'a donc rien à déclarer.
    *
-   * Deux replis, dérivés de `CONTROLES_PPT` et non de littéraux recopiés :
+   * Trois replis, dérivés de `CONTROLES_PPT` et non de littéraux recopiés :
    *  · le champ de notes → le bouton qui ouvre le panneau des notes ;
-   *  · une miniature `vol-diapo-N` → le bouton du tiroir des miniatures.
+   *  · une miniature `vol-diapo-N` → le bouton du tiroir des miniatures ;
+   *  · la ZONE des notes → le champ de notes, puis le bouton qui l'ouvre.
    *
    * ⚠️ On résout DANS L'ORDRE, jamais par un sélecteur composé `A, B` :
    * `querySelector` rend le premier nœud en ORDRE DE DOCUMENT, pas le premier
    * sélecteur satisfait. Or à l'étroit, panneau OUVERT, le bouton précède son
    * panneau dans le DOM — un sélecteur composé désignerait le bouton alors que
    * la vraie cible est là, sous les yeux de l'apprenant.
+   *
+   * ⚠️ C'est une CHAÎNE et non un repli unique, pour la même raison qu'Outlook :
+   * `zone:notes` n'existe à AUCUNE taille par défaut — au large les notes sont un
+   * simple champ (`vol-notes`) sans conteneur nommé, à l'étroit un panneau qui
+   * n'est rendu qu'ouvert. Un repli à cible unique laisserait donc muette la
+   * bulle de `M13-L04-11` sur les DEUX tailles, ce que la mesure confirme.
    */
-  const repliPetitEcran = useCallback((selecteur: string): string | null => {
+  const repliPetitEcran = useCallback((selecteur: string): string[] => {
+    const zone = /^\[data-zone="([^"]+)"\]$/.exec(selecteur)
+    if (zone) return zone[1] === "notes" ? [CONTROLES_PPT.notes, CONTROLES_PPT.notesBascule] : []
     const m = /^\[data-control="([^"]+)"\]$/.exec(selecteur)
-    if (!m) return null
+    if (!m) return []
     const id = m[1]
-    if (id === CONTROLES_PPT.notes) return CONTROLES_PPT.notesBascule
+    if (id === CONTROLES_PPT.notes) return [CONTROLES_PPT.notesBascule]
     const n = Number(id.slice(id.lastIndexOf("-") + 1))
-    if (Number.isFinite(n) && CONTROLES_PPT.miniature(n) === id) return CONTROLES_PPT.voletBascule
-    return null
+    if (Number.isFinite(n) && CONTROLES_PPT.miniature(n) === id) return [CONTROLES_PPT.voletBascule]
+    return []
   }, [])
 
   const resoudreDemo = useCallback(
@@ -431,20 +459,22 @@ export default function PptPlayer({
       if (cible.k === "dom") {
         const direct = rectDeVisible(cible.sel)
         if (direct) return direct
-        const repli = repliPetitEcran(cible.sel)
-        if (!repli) return null
-        const r = rectDeVisible(`[data-control="${repli}"]`)
-        /* Crochet d'audit — hors production, même idiome que
-           `__PPT_BOUTONS_PRESSES`. Il sert à PROUVER la non-régression au lieu
-           de l'argumenter : si le repli ne se déclenche jamais sur grand écran,
-           le comportement y est identique à celui d'avant le correctif. */
-        if (r && process.env.NODE_ENV !== "production" && typeof window !== "undefined") {
-          const w = window as unknown as Record<string, unknown>
-          const j = (w.__PPT_REPLI_UTILISE as string[] | undefined) ?? []
-          j.push(`${cible.sel} → ${repli}`)
-          w.__PPT_REPLI_UTILISE = j
+        for (const repli of repliPetitEcran(cible.sel)) {
+          const r = rectDeVisible(`[data-control="${repli}"]`)
+          if (!r) continue
+          /* Crochet d'audit — hors production, même idiome que
+             `__PPT_BOUTONS_PRESSES`. Il sert à PROUVER la non-régression au lieu
+             de l'argumenter : si le repli ne se déclenche jamais sur grand écran,
+             le comportement y est identique à celui d'avant le correctif. */
+          if (process.env.NODE_ENV !== "production" && typeof window !== "undefined") {
+            const w = window as unknown as Record<string, unknown>
+            const j = (w.__PPT_REPLI_UTILISE as string[] | undefined) ?? []
+            j.push(`${cible.sel} → ${repli}`)
+            w.__PPT_REPLI_UTILISE = j
+          }
+          return r
         }
-        return r
+        return null
       }
       if (cible.k === "clavier") return null
       return null
@@ -654,6 +684,31 @@ export default function PptPlayer({
    * montrerait du vide — exactement le défaut que les onglets rouvrent. On prend
    * donc l'onglet du premier bouton de ruban que la démonstration DÉSIGNE : le
    * ruban est déjà ouvert au bon endroit quand l'illustration démarre.
+   *
+   * 🔴 LE DÉFAUT CORRIGÉ LE 06/08/2026, mesuré sur les deux balayages exhaustifs.
+   *
+   * Cette déduction lisait le premier geste qui PRESSE, et s'arrêtait là :
+   *
+   *     const presse = p?.gestes.find((g) => g.presser?.id)?.presser?.id
+   *     if (presse) return ongletDuControle(presse)
+   *
+   * Deux fautes dans ces deux lignes, et 60 gestes joués à blanc :
+   *
+   *  1. `ongletDuControle` rend `null` pour une MINIATURE. Or `P_MOVE_SLIDE` et
+   *     `P_DELETE_SLIDE` commencent par presser la miniature de la diapositive
+   *     visée : `presse` était vrai, la fonction sortait sur `null`, et le bouton
+   *     de ruban des gestes SUIVANTS n'était jamais amené à l'écran ;
+   *  2. un bouton peut être DÉSIGNÉ sans être pressé — c'est délibéré partout où
+   *     le geste n'est pas idempotent (`P_DELETE_SLIDE`), engage l'apprenant à la
+   *     place de l'apprenant (`P_EXPECT_SHOW` : on ne lance pas le diaporama pour
+   *     lui) ou attend un état (`P_EXPECT_FORMAT`, `P_ADD_OBJECT`). Ces plans-là
+   *     n'ont AUCUN `presser` sur leur bouton de ruban : `presse` restait
+   *     `undefined` et aucun onglet n'était proposé.
+   *
+   * On parcourt donc tous les gestes, et on lit la cible autant que le `presser`.
+   * Le premier qui vit dans le ruban décide — un plan PowerPoint ne traverse
+   * aujourd'hui jamais deux onglets, et si cela arrivait, c'est l'adaptateur qui
+   * insère la bascule au bon endroit de la séquence.
    */
   const ongletSuggere = useMemo(() => {
     if (!step) return null
@@ -661,8 +716,11 @@ export default function PptPlayer({
       step.action as unknown as Record<string, unknown> & { type: string },
       {},
     )
-    const presse = p?.gestes.find((g) => g.presser?.id)?.presser?.id
-    if (presse) return ongletDuControle(presse)
+    for (const g of p?.gestes ?? []) {
+      const id = controleDuGeste(g)
+      const o = id ? ongletDuControle(id) : null
+      if (o) return o
+    }
     for (const a of step.montrer ?? []) {
       const c = (a as unknown as { cible?: string }).cible ?? ""
       if (!c.startsWith("ctrl:")) continue
@@ -698,26 +756,105 @@ export default function PptPlayer({
     setDeck(n)
   }, [])
 
-  const demoPresser = useCallback((id: string) => {
-    verrouDemoRef.current = Math.max(verrouDemoRef.current, Date.now() + 900)
-    // On presse le VRAI bouton du DOM : c'est le seul moyen d'ouvrir un menu,
-    // dont le contenu n'existe pas tant qu'il est fermé — donc de rendre
-    // atteignable le bouton du geste suivant. Sur Excel, une démonstration qui
-    // « désignait » l'onglet sans l'ouvrir jouait tout le reste à blanc.
-    const el = zoneRef.current?.querySelector(`[data-control="${id}"]`)
-    if (el instanceof HTMLElement) el.click()
-    /* Crochet d'audit — hors production. `check-couverture-ppt` refuse de
-       mesurer les boutons employés depuis le code, parce qu'une carte de plus
-       divergerait comme les trois précédentes : sa seule source acceptable est
-       un relevé de ce qui a RÉELLEMENT été pressé dans un navigateur. C'est ici
-       qu'il se prend, au moment du clic, et nulle part ailleurs. */
-    if (process.env.NODE_ENV !== "production" && typeof window !== "undefined") {
-      const w = window as unknown as Record<string, unknown>
-      const j = (w.__PPT_BOUTONS_PRESSES as string[] | undefined) ?? []
-      if (!j.includes(id)) j.push(id)
-      w.__PPT_BOUTONS_PRESSES = j
-    }
-  }, [])
+  /**
+   * Presser un vrai bouton de la surface — en ROUVRANT d'abord ce qui le cache.
+   *
+   * 🔴 LE SECOND DÉFAUT DU 06/08/2026, propre au téléphone et invisible au large.
+   *
+   * `resoudreDemo` savait déjà qu'un panneau replié rend sa cible ABSENTE du DOM,
+   * et retombait sur le bouton qui le rouvre. `demoPresser`, lui, n'avait aucun
+   * repli : il interrogeait le DOM, ne trouvait rien, et ne faisait RIEN — en
+   * silence. Mesuré à 390 px : 188 `P_SELECT_SLIDE` agissaient à 1440 et pas à
+   * 390, donc toute la suite du chapitre se jouait sur la mauvaise diapositive,
+   * et 85 gestes de plus devenaient muets faute d'objets à désigner.
+   *
+   * ⚠️ C'est le MÊME schéma qu'Outlook cette nuit — le repli existait pour
+   * RÉSOUDRE la cible, jamais pour AGIR dessus — mais PAS la même cause, et le
+   * remède ne se recopie pas : là-bas les cibles sortaient du DOM parce que la
+   * vue changeait (`voletMobile` bascule liste ↔ lecture), ici parce que le volet
+   * des miniatures est un TIROIR rendu seulement s'il est ouvert.
+   *
+   * On rouvre, PUIS on re-cherche : le tiroir se referme de lui-même au clic sur
+   * une miniature (`PptSurface`, `setTiroirOuvert(false)` dans son `onClick`),
+   * donc l'écran revient à l'état où l'apprenant le reprend.
+   *
+   * 🔴 ET LA RE-RECHERCHE NE PEUT PAS ÊTRE SYNCHRONE — mesuré, pas supposé.
+   *
+   * Première version : rouvrir puis interroger le DOM dans la foulée, au motif
+   * qu'un clic est un événement discret que React traite sur-le-champ. Faux
+   * depuis React 18 : les mises à jour d'un événement discret sont vidées dans
+   * une MICROTÂCHE, donc le tiroir n'existe pas encore quand `click()` rend la
+   * main. Mesuré au banc à 390 px : le repli se déclenchait bien (172 fois) et la
+   * diapositive active ne bougeait pas plus qu'avant sur 24 étapes. Un correctif
+   * qui « s'exécute » sans rien changer est le pire des deux mondes : il ferme le
+   * dossier en laissant le défaut.
+   *
+   * On repasse donc la main au navigateur, et l'on réessaie brièvement. Le geste
+   * dure ~850 ms, les tentatives couvrent 240 ms : le budget est large.
+   *
+   * ⚠️ Ce chemin est INATTEIGNABLE sur grand écran, par construction : le bouton
+   * y est présent, `cliquer()` réussit du premier coup et rien n'est différé.
+   * C'est ce qui rend la symétrie desktop démontrable au lieu d'argumentable.
+   */
+  const demoPresser = useCallback(
+    (id: string) => {
+      const sel = `[data-control="${id}"]`
+      const verrouiller = () => {
+        verrouDemoRef.current = Math.max(verrouDemoRef.current, Date.now() + 900)
+      }
+      verrouiller()
+
+      // On presse le VRAI bouton du DOM : c'est le seul moyen d'ouvrir un menu,
+      // dont le contenu n'existe pas tant qu'il est fermé — donc de rendre
+      // atteignable le bouton du geste suivant. Sur Excel, une démonstration qui
+      // « désignait » l'onglet sans l'ouvrir jouait tout le reste à blanc.
+      const cliquer = () => {
+        const el = zoneRef.current?.querySelector(sel)
+        /* 🔴 LE TROISIÈME DÉFAUT — un témoin qui journalisait un bouton JAMAIS
+           pressé. Ce relevé vivait HORS de cette garde : à 390 px il enregistrait
+           `vol-diapo-1/2/3` alors que `querySelector` n'avait rien trouvé et que
+           rien n'avait bougé. Or `check-couverture-ppt` n'accepte que cette
+           source, précisément parce qu'un journal de clics réels « ne peut pas
+           mentir » : il mentait. Le relevé appartient au clic, pas à l'intention. */
+        if (!(el instanceof HTMLElement)) return false
+        el.click()
+        if (process.env.NODE_ENV !== "production" && typeof window !== "undefined") {
+          const w = window as unknown as Record<string, unknown>
+          const j = (w.__PPT_BOUTONS_PRESSES as string[] | undefined) ?? []
+          if (!j.includes(id)) j.push(id)
+          w.__PPT_BOUTONS_PRESSES = j
+        }
+        return true
+      }
+
+      if (cliquer()) return
+
+      let rouvert = false
+      for (const repli of repliPetitEcran(sel)) {
+        const b = zoneRef.current?.querySelector(`[data-control="${repli}"]`)
+        if (!(b instanceof HTMLElement)) continue
+        b.click()
+        if (process.env.NODE_ENV !== "production" && typeof window !== "undefined") {
+          const w = window as unknown as Record<string, unknown>
+          const j = (w.__PPT_REPLI_PRESSE as string[] | undefined) ?? []
+          j.push(`${id} → ${repli}`)
+          w.__PPT_REPLI_PRESSE = j
+        }
+        rouvert = true
+        break
+      }
+      if (!rouvert) return
+
+      let restant = 6
+      const reessayer = () => {
+        verrouiller()
+        if (cliquer() || (restant -= 1) <= 0) return
+        window.setTimeout(reessayer, 40)
+      }
+      window.setTimeout(reessayer, 0)
+    },
+    [repliPetitEcran],
+  )
 
   /* ─────────── FIN DE CHAPITRE ─────────── */
   progression.onTerminer.current = () => {

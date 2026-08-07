@@ -949,6 +949,51 @@ export default function AtelierShell({
   const [guideOuvert, setGuideOuvert] = useState(false)
   /** Cible du retour de focus quand le guide se ferme. */
   const boutonGuideRef = useRef<HTMLButtonElement | null>(null)
+
+  /**
+   * 🔴 UNE DÉMONSTRATION QUI DÉMARRE NE DOIT PAS SE JOUER DERRIÈRE UN PANNEAU.
+   *
+   * Le cas, sans aucun forçage : l'apprenant arrive sur un écran « À comprendre »,
+   * ouvre le sommaire pour voir où il en est — le geste le plus banal qui soit —
+   * et un peu plus d'une seconde plus tard la démonstration démarre TOUTE SEULE,
+   * entièrement derrière le panneau. Il ne voit rien, le compteur affiche 3/3,
+   * et il ne peut même pas la rejouer : le bouton est lui aussi sous le voile.
+   *
+   * La cause n'est ni dans le player ni dans le cliché — c'est une frontière que
+   * personne ne surveillait :
+   *
+   *     calque de démonstration (DemonstrationGeste) ....... plan 40
+   *     voile des panneaux (ici) ........................... plan 60
+   *     panneau lui-même ................................... plan 70
+   *
+   * Mesuré par l'agent Excel en 1440×900 : sommaire ou notes ouverts, **0 repère
+   * visible sur 24**. Guide ouvert : 19 sur 24. Sans rien ouvrir : 24 sur 24.
+   * Ampleur : 233 écrans « À comprendre » sur Excel, 191 sur PowerPoint, 65 sur
+   * Word — tous démarrent seuls. Outlook n'en a aucun (55 écrans de lecture,
+   * mais aucun ne porte de démonstration).
+   *
+   * POURQUOI FERMER LE PANNEAU, ET NON REMONTER LE CALQUE.
+   * Faire passer le calque au-dessus du panneau donnerait des repères flottant
+   * par-dessus une surface blanche : ils désigneraient des cellules que le
+   * panneau cache. Ce serait pire que le défaut — on verrait la démonstration
+   * sans voir ce dont elle parle. Sur un écran « À comprendre », la
+   * démonstration EST le contenu : elle dure quelques secondes, et le panneau se
+   * rouvre d'un seul clic.
+   *
+   * ⚠️ ON NE FERME QU'AU DÉMARRAGE, jamais pendant. Ouvrir un panneau alors
+   * qu'une démonstration joue déjà est un choix de l'apprenant : on ne lui
+   * arrache pas ce qu'il vient d'ouvrir. C'est pour cela qu'on surveille la
+   * BASCULE de `demonstration`, et non sa valeur.
+   */
+  const demoEnCours = !!consigne?.demonstration
+  const demoPrecedenteRef = useRef(demoEnCours)
+  useEffect(() => {
+    const demarre = demoEnCours && !demoPrecedenteRef.current
+    demoPrecedenteRef.current = demoEnCours
+    if (!demarre) return
+    setPanneau(null)
+    setGuideOuvert(false)
+  }, [demoEnCours])
   /** Cible du `aria-controls` du bouton « Ressource pédagogique téléchargeable ». */
   const idPanneauRessources = useId()
   useEffect(() => {

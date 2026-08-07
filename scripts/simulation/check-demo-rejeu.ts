@@ -62,36 +62,127 @@ function exige(nom: string, condition: boolean, explication: string) {
 
 /* ── 1. Un seul chemin pour démarrer, un seul pour rejouer ─────────────────
    C'est LE point de rupture : les boutons appelaient `setDemonstration(true)`
-   et `setRejeu(n => n + 1)` en direct, donc aucune remise en état. */
+   et `setRejeu(n => n + 1)` en direct, donc aucune remise en état.
 
-const departsDirects = lignes
-  .map((l, i) => ({ l, n: i + 1 }))
-  .filter(({ l }) => /setDemonstration\(\s*true\s*\)/.test(l))
-  .filter(({ n }) => {
-    // La seule occurrence légitime est DANS `demarrerDemonstration`.
-    const contexte = lignes.slice(Math.max(0, n - 8), n).join("\n")
-    return !/const demarrerDemonstration = useCallback/.test(contexte)
-  })
-exige(
-  "un seul démarrage",
-  departsDirects.length === 0 && !/setDemonstration\(\s*true\s*\)/.test(src),
-  `setDemonstration(true) appelé hors de demarrerDemonstration, ligne(s) ${departsDirects.map((d) => d.n).join(", ")}` +
-    ` (ou remis en direct dans le player, ce qui court-circuiterait la remise en état)`,
-)
+   🔴 DEUX DÉFAUTS DE CE CONTRÔLE, corrigés le 07/08/2026.
 
-const rejeuxDirects = lignes
-  .map((l, i) => ({ l, n: i + 1 }))
-  .filter(({ l }) => /setRejeu\(\s*\(?\s*n\s*\)?\s*=>/.test(l))
-  .filter(({ n }) => {
-    const contexte = lignes.slice(Math.max(0, n - 8), n).join("\n")
-    return !/const rejouerDemonstration = useCallback/.test(contexte)
-  })
-exige(
-  "un seul rejeu",
-  rejeuxDirects.length === 0 && !/setRejeu\(\s*\(?\s*n\s*\)?\s*=>/.test(src),
-  `setRejeu(n => n + 1) appelé hors de rejouerDemonstration, ligne(s) ${rejeuxDirects.map((d) => d.n).join(", ")}` +
-    ` (ou remis en direct dans le player)`,
-)
+   (a) IL LISAIT LES COMMENTAIRES. La recherche portait sur le texte brut : une
+       ligne de documentation qui CITE `setDemonstration(true)` était comptée
+       comme un appel. Le contrôle a rougi sur la phrase qui explique le remède,
+       en désignant la ligne 268 — un commentaire. C'est le septième faux témoin
+       de ce chantier, et il était dans le garde-fou lui-même.
+
+   (b) IL MESURAIT UNE DISTANCE, PAS UNE APPARTENANCE. « Le `const
+       demarrerDemonstration = useCallback` est-il dans les 8 lignes qui
+       précèdent ? » tient tant que la fonction reste courte ; ajoutez trois
+       lignes et un appel parfaitement légitime devient une rupture. On délimite
+       désormais le CORPS de chaque fonction en suivant les accolades.
+
+   Ce que la règle autorise, et rien de plus :
+     · `setDemonstration(true)`  → uniquement dans `demarrerDemonstration` ;
+     · `setRejeu(n => n + 1)`    → dans `rejouerDemonstration`, ET dans
+       `demarrerDemonstration`, parce que démarrer une démonstration DÉJÀ à
+       l'écran doit passer par la clé de remontage : `setDemonstration(true)`
+       sur un état déjà vrai ne remonte pas le calque, et l'apprenant perdait
+       alors le bouton « Revoir » sans qu'aucune démonstration ne rejoue.
+     · dans le PLAYER : ni l'un ni l'autre, jamais. */
+
+/** Retire les commentaires. Un contrôle ne doit jamais chercher dans du texte. */
+function sansCommentaires(s: string): string {
+  let out = ""
+  let i = 0
+  let etat: "code" | "ligne" | "bloc" = "code"
+  while (i < s.length) {
+    const c = s[i]
+    const d = s[i + 1]
+    if (etat === "code") {
+      if (c === "/" && d === "/") { etat = "ligne"; i += 2; continue }
+      if (c === "/" && d === "*") { etat = "bloc"; i += 2; continue }
+      out += c; i++; continue
+    }
+    if (etat === "ligne") { if (c === "\n") { etat = "code"; out += "\n" } i++; continue }
+    if (c === "*" && d === "/") { etat = "code"; i += 2; continue }
+    if (c === "\n") out += "\n"
+    i++
+  }
+  return out
+}
+
+/** Le corps d'un `const <nom> = useCallback(...)`, accolades suivies. */
+function corpsDe(source: string, nom: string): { debut: number; fin: number } | null {
+  const m = new RegExp(`const\\s+${nom}\\s*=\\s*useCallback\\s*\\(`).exec(source)
+  if (!m) return null
+  let prof = 0
+  for (let i = m.index + m[0].length - 1; i < source.length; i++) {
+    if (source[i] === "(") prof++
+    else if (source[i] === ")") { prof--; if (prof === 0) return { debut: m.index, fin: i } }
+  }
+  return null
+}
+
+/**
+ * Les quatre propriétés des chemins, sur des sources DONNÉES.
+ *
+ * Factorisées pour que le piège (`--piege`) puisse les jouer sur des sources
+ * modifiées en mémoire. Un contrôle qu'on assouplit sans le repiéger devient un
+ * faux témoin — et celui-ci vient d'en être un.
+ */
+function verifierChemins(hookSrc: string, playerSrc: string): Array<{ nom: string; ok: boolean; detail: string }> {
+  const hookCode = sansCommentaires(hookSrc)
+  const playerCode = sansCommentaires(playerSrc)
+  const ligne = (i: number) => hookCode.slice(0, i).split("\n").length
+  const demarrer = corpsDe(hookCode, "demarrerDemonstration")
+  const rejouer = corpsDe(hookCode, "rejouerDemonstration")
+
+  const horsDe = (motif: RegExp, autorises: Array<{ debut: number; fin: number } | null>): number[] => {
+    const hors: number[] = []
+    const re = new RegExp(motif.source, "g")
+    let m: RegExpExecArray | null
+    while ((m = re.exec(hookCode))) {
+      const pos = m.index
+      if (!autorises.some((b) => b && pos >= b.debut && pos <= b.fin)) hors.push(ligne(pos))
+    }
+    return hors
+  }
+
+  const departs = horsDe(/setDemonstration\(\s*true\s*\)/, [demarrer])
+  const rejeux = horsDe(/setRejeu\(\s*\(?\s*n\s*\)?\s*=>/, [rejouer, demarrer])
+  const corps = (b: { debut: number; fin: number } | null) => (b ? hookCode.slice(b.debut, b.fin) : "")
+
+  return [
+    {
+      nom: "les deux chemins existent",
+      ok: !!demarrer && !!rejouer,
+      detail: "`demarrerDemonstration` ou `rejouerDemonstration` est introuvable dans le noyau",
+    },
+    {
+      nom: "un seul démarrage",
+      ok: departs.length === 0 && !/setDemonstration\(\s*true\s*\)/.test(playerCode),
+      detail:
+        `setDemonstration(true) appelé hors de demarrerDemonstration, ligne(s) ${departs.join(", ")}` +
+        ` (ou remis en direct dans le player, ce qui court-circuiterait la remise en état)`,
+    },
+    {
+      nom: "un seul rejeu",
+      ok: rejeux.length === 0 && !/setRejeu\(\s*\(?\s*n\s*\)?\s*=>/.test(playerCode),
+      detail:
+        `setRejeu(n => n + 1) appelé hors de rejouerDemonstration et de demarrerDemonstration,` +
+        ` ligne(s) ${rejeux.join(", ")} (ou remis en direct dans le player)`,
+    },
+    {
+      nom: "démarrer restaure d'abord",
+      ok: /avantRef\.current\?\.\(\)/.test(corps(demarrer)),
+      detail: "`demarrerDemonstration` n'appelle pas le crochet de restauration en tête",
+    },
+    {
+      nom: "rejouer restaure d'abord",
+      ok: /avantRef\.current\?\.\(\)/.test(corps(rejouer)),
+      detail: "`rejouerDemonstration` n'appelle pas le crochet de restauration en tête",
+    },
+  ]
+}
+
+for (const p of verifierChemins(hook, src)) exige(p.nom, p.ok, p.detail)
 
 /* ── 2. Les deux chemins remettent l'écran dans son état d'entrée ──────────
    Deux maillons, tous deux nécessaires : le hook appelle le crochet, et le
@@ -214,6 +305,84 @@ exige(
     /if \(process\.env\.NODE_ENV === "production" \|\| typeof window === "undefined"\) return 1/.test(calque),
   "`vitesse()` doit rendre la constante 1 en production, sinon un réglage d'audit pourrait atteindre un apprenant",
 )
+
+/* ── Le piège ──────────────────────────────────────────────────────────────
+   `npx tsx scripts/simulation/check-demo-rejeu.ts --piege`
+
+   Ce contrôle vient d'être ASSOUPLI : il accepte désormais `setRejeu` dans
+   `demarrerDemonstration`. Un assouplissement non repiégé est un faux témoin en
+   puissance — on en a déjà payé sept sur ce chantier, dont un DANS ce fichier
+   (il rougissait sur un commentaire). On vérifie donc, sur des sources modifiées
+   en mémoire, qu'il rougit toujours sur ce qu'il protège, et seulement là. */
+if (process.argv.includes("--piege")) {
+  let tout = true
+  const dire = (nom: string, reussi: boolean, detail: string) => {
+    if (!reussi) tout = false
+    console.log(`  ${reussi ? "✓" : "✗"} ${nom} — ${detail}`)
+  }
+  const rupture = (h: string, p: string, nom: string) => verifierChemins(h, p).find((x) => x.nom === nom)?.ok === false
+
+  console.log("PIÈGE — on casse chaque propriété et on exige que le contrôle rougisse.\n")
+
+  dire("sources réelles", verifierChemins(hook, src).every((x) => x.ok), "aucune rupture")
+
+  // 1. Un démarrage direct, hors des deux fonctions.
+  dire("démarrage hors fonction",
+    rupture(hook + "\nfunction __p(){ setDemonstration(true) }\n", src, "un seul démarrage"),
+    "le contrôle rougit")
+
+  // 2. Un démarrage direct DANS LE PLAYER.
+  dire("démarrage dans le player",
+    rupture(hook, src + "\nfunction __p(){ setDemonstration(true) }\n", "un seul démarrage"),
+    "le contrôle rougit")
+
+  // 3. Un rejeu direct, hors des deux fonctions.
+  dire("rejeu hors fonction",
+    rupture(hook + "\nfunction __p(){ setRejeu((n) => n + 1) }\n", src, "un seul rejeu"),
+    "le contrôle rougit")
+
+  // 4. Un rejeu direct DANS LE PLAYER.
+  dire("rejeu dans le player",
+    rupture(hook, src + "\nfunction __p(){ setRejeu((n) => n + 1) }\n", "un seul rejeu"),
+    "le contrôle rougit")
+
+  /* 5. LE CHEMIN QU'ON VIENT D'AUTORISER — il doit rester VERT.
+   *    C'est le remède du bouton de recours : démarrer une démonstration déjà à
+   *    l'écran passe par la clé de remontage, sinon rien ne rejoue. */
+  dire("rejeu DANS demarrerDemonstration (chemin légitime)",
+    verifierChemins(hook, src).find((x) => x.nom === "un seul rejeu")?.ok === true,
+    "le contrôle reste vert — c'est le remède du bouton de recours")
+
+  // 6. La restauration retirée de chaque chemin.
+  dire("démarrer sans restauration",
+    rupture(hook.replace(/(const demarrerDemonstration = useCallback\(\(\) => \{\s*\n\s*)avantRef\.current\?\.\(\)/, "$1"),
+      src, "démarrer restaure d'abord"),
+    "le contrôle rougit")
+  dire("rejouer sans restauration",
+    rupture(hook.replace(/(const rejouerDemonstration = useCallback\(\(\) => \{\s*\n\s*)avantRef\.current\?\.\(\)/, "$1"),
+      src, "rejouer restaure d'abord"),
+    "le contrôle rougit")
+
+  /* 7. LE FAUX TÉMOIN QUI A FAIT ROUGIR CE FICHIER LE 07/08/2026.
+   *    La version d'avant cherchait dans le texte BRUT : une ligne de
+   *    documentation citant `setDemonstration(true)` était comptée comme un
+   *    appel, et le contrôle désignait un commentaire comme une rupture. */
+  dire("un commentaire n'est pas un appel",
+    verifierChemins(hook + "\n// setDemonstration(true) et setRejeu((n) => n + 1) cités en commentaire\n", src)
+      .every((x) => x.ok),
+    "citer les deux appels en commentaire ne déclenche rien")
+
+  // 8. Et une fonction renommée doit rendre le contrôle aveugle → rupture.
+  dire("chemin disparu",
+    rupture(hook.replace("const rejouerDemonstration = useCallback", "const autreChose = useCallback"),
+      src, "les deux chemins existent"),
+    "le contrôle rougit si un chemin n'existe plus")
+
+  console.log(tout
+    ? "\n✓ Le contrôle détecte bien ce qu'il prétend détecter, et laisse passer le chemin légitime."
+    : "\n✗ PIÈGE EN ÉCHEC — ce contrôle ne prouve rien.")
+  process.exit(tout ? 0 : 1)
+}
 
 /* ── Verdict ──────────────────────────────────────────────────────────────── */
 

@@ -41,6 +41,7 @@ import {
   useAideProgressive,
   useMesureZoneTravail,
   usePersistance,
+  useClicheEtape,
   useProgression,
   useRetourVisuel,
 } from "../hooks/useAtelier"
@@ -186,6 +187,8 @@ export default function OutlookPlayer({
    * vaut alors ne rien restaurer que restaurer à côté.
    */
   const etatDepartEtapeRef = useRef<{ id: string; etat: EtatOutlook } | null>(null)
+  /** Rephotographier, appelé depuis `appliquerSetup` qui est déclaré avant le cliché. */
+  const clicheRef = useRef<(() => void) | null>(null)
 
   /** Zone de travail : la hauteur se MESURE, elle ne se calcule jamais. */
   const zoneRef = useRef<HTMLDivElement>(null)
@@ -341,15 +344,48 @@ export default function OutlookPlayer({
    * Déclarée en `ref` parce que `useAideProgressive` la reçoit en rappel et
    * qu'elle doit rester stable, tout en lisant l'étape courante.
    */
+  /**
+   * LE SOCLE COMMUN DES QUATRE APPLICATIONS — `useClicheEtape`.
+   *
+   * Outlook avait déjà ce mécanisme, écrit chez lui ; il passe à la version
+   * partagée pour que les quatre players se comportent pareil. Deux choses
+   * changent, et rien d'autre :
+   *
+   * · la photo se prend dans un effet lié à l'ÉTAPE, plus à la main dans
+   *   `appliquerSetup` — même instant en pratique, mais c'est désormais le
+   *   socle qui en répond, et `rephotographier()` reste appelé à la fin de la
+   *   mise en place pour que le décor soit bien dans la photo ;
+   * · le reset ne RENONCE PLUS EN SILENCE. L'ancien code sortait sans rien dire
+   *   quand la photo n'était pas celle de l'étape courante ; le socle
+   *   photographie sur-le-champ et le signale hors production. Un reset qui
+   *   échoue sans le dire est exactement le défaut filmé par Samuel.
+   *
+   * `relever` alimente aussi `etatDepartEtapeRef` : cette référence ne sert plus
+   * au reset, mais elle reste la mémoire du « c'était déjà ouvert ou non »
+   * qu'utilise la détection d'impasse (`impasse`, plus bas) et le bouton qui en
+   * sort. Deux photos distinctes divergeraient ; il n'y en a toujours qu'une.
+   */
+  const cliche = useClicheEtape<EtatOutlook>({
+    etapeId: step?.id,
+    prete: !!step,
+    relever: () => {
+      const e = etatRef.current
+      etatDepartEtapeRef.current = step?.id ? { id: step.id, etat: e } : null
+      return e
+    },
+    reposer: (e) => {
+      // La ref est reposée AVANT l'état React : le plan de démonstration lit la
+      // boîte pour choisir ses cibles, et il est calculé aussitôt après.
+      etatRef.current = e
+      setEtat(e)
+    },
+  })
+
   const reposerEtapeRef = useRef<() => void>(() => {})
-  reposerEtapeRef.current = () => {
-    const depart = etatDepartEtapeRef.current
-    if (!depart || depart.id !== stepRef.current?.id) return
-    // La ref est reposée sans attendre le rendu : le plan de démonstration lit
-    // la boîte pour choisir ses cibles, et il est calculé aussitôt après.
-    etatRef.current = depart.etat
-    setEtat(depart.etat)
-  }
+  reposerEtapeRef.current = () => cliche.avantDemonstration()
+  // `appliquerSetup` est déclaré plus bas que le cliché : on passe par une ref
+  // plutôt que de réordonner tout le composant pour une seule dépendance.
+  clicheRef.current = cliche.rephotographier
 
   const aide = useAideProgressive({
     mode,
@@ -411,6 +447,7 @@ export default function OutlookPlayer({
       // précédente l'a laissée. Il faut quand même la photographier, sinon les
       // étapes sans `setup.courrier` n'auraient rien à restaurer.
       etatDepartEtapeRef.current = idEtape ? { id: idEtape, etat: etatRef.current } : null
+      clicheRef.current?.()
       return
     }
     // La mise en place produit des observations qui ne sont PAS des gestes de
@@ -436,6 +473,11 @@ export default function OutlookPlayer({
     etatDepartEtapeRef.current = idEtape ? { id: idEtape, etat: suivant } : null
     etatRef.current = suivant
     setEtat(suivant)
+    /* La photo doit contenir le DÉCOR, pas l'écran d'avant lui. L'effet du socle
+       tourne au changement d'étape ; celui-ci garantit qu'une mise en place
+       arrivée après coup y entre aussi. Photographier deux fois le même écran
+       est sans effet. */
+    clicheRef.current?.()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [steps])
 

@@ -292,6 +292,82 @@ export function __piege2() {
     )
   }
 
+  /* ══════════════════════════════════════════════════════════════════════════
+   * (5 bis) LES QUATRE APPLICATIONS, UNE PAR UNE — rougir, puis reverdir.
+   *
+   * Les pièges ci-dessus valident chaque propriété isolément, sur un player
+   * choisi. Celui-ci fait le tour complet : pour CHACUNE des quatre apps, on
+   * part de sa source réelle, on introduit le défaut du 07/08 — la photo prise
+   * au clic ET le renoncement muet — et on exige que le contrôle rougisse ;
+   * puis on part de sa source RÉPARÉE et on exige 0 constat.
+   *
+   * « Reverdir » n'est pas « retrouver le verdict d'aujourd'hui » : les quatre
+   * apps portent encore de vrais défauts, et un piège qui se contenterait de
+   * retrouver leur nombre de constats prouverait seulement que le contrôle est
+   * stable. On construit donc une version SAINE de chaque source et on exige
+   * qu'elle passe à zéro — c'est la seule preuve que le contrôle sait dire oui.
+   * ═══════════════════════════════════════════════════════════════════════════ */
+  const tousConstats = (s: Source) =>
+    [...verifierSocle(s), ...verifierCablage(s), ...verifierInstant(s), ...verifierSilence(s)]
+
+  /** Le défaut du 07/08, greffé sur n'importe quelle app. */
+  const avecLeDefaut = (s: Source): Source => ({
+    ...s,
+    src:
+      s.src +
+      `
+export function __defautDu7Aout() {
+  useEffect(() => {
+    clicheDemoRef.current = prendreClicheDemo()
+  }, [demonstration, rejeu])
+  const depart = clicheDepartRef.current
+  if (!depart || depart.id !== stepRef.current?.id) return
+  reposer(depart.etat)
+}
+`,
+  })
+
+  /**
+   * La version RÉPARÉE : on retire ce que le contrôle reproche réellement.
+   *
+   *  · le socle    → on branche `useClicheEtape` ;
+   *  · l'instant   → on retire `demonstration` et `rejeu` des dépendances de
+   *                  l'effet qui photographie (Excel) ;
+   *  · le silence  → on remplace le `return` muet par un rattrapage explicite.
+   */
+  const reparee = (s: Source): Source => {
+    let src = s.src
+    // silence : le `return` nu gardé par une comparaison d'identifiant d'étape.
+    src = src.replace(
+      /if\s*\((\s*!\w+\s*\|\|\s*)?[\w.]*depart[\w.]*\.id\s*!==([^)]*)\)\s*return\b(?![^;\n]*\w)/gi,
+      "if ($1depart.id !==$2) { rattraper(); return }",
+    )
+    // instant : la photo ne dépend plus du déclenchement de la démonstration.
+    src = src.replace(/\}, \[demonstration, rejeu, gridReady\]\)/g, "}, [index, gridReady])")
+    // socle : le player passe par le cliché commun.
+    src += "\nconst __cliche = useClicheEtape({ etapeId, prete, relever, reposer })\n"
+    return { ...s, src }
+  }
+
+  for (const p of PLAYERS) {
+    const s: Source = { nom: p.nom, chemin: p.chemin, src: fs.readFileSync(p.chemin, "utf8") }
+    const n0 = tousConstats(s).length
+    const avec = tousConstats(avecLeDefaut(s)).length
+    dire(
+      `${p.nom} — défaut introduit`,
+      avec > n0,
+      `${n0} constat(s) sur la source réelle → ${avec} avec le défaut greffé : le contrôle rougit`,
+    )
+    const apres = tousConstats(reparee(s))
+    dire(
+      `${p.nom} — défaut retiré`,
+      apres.length === 0,
+      apres.length === 0
+        ? "0 constat sur la source réparée : le contrôle reverdit"
+        : `IL RESTE ${apres.length} constat(s) : ${apres.map((c) => c.propriete).join(", ")}`,
+    )
+  }
+
   // (6) socle : un player branché doit verdir, un player non branché rougir.
   const branche = { nom: 'Fictif', chemin: '', src: 'const c = useClicheEtape({ etapeId, prete, relever, reposer })\n' }
   const pasBranche = { nom: 'Fictif', chemin: '', src: 'const c = monClicheMaison({ etapeId })\n' }

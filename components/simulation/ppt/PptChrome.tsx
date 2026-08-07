@@ -84,6 +84,46 @@ type Props = {
    * en avait pas.
    */
   ongletSuggere?: OngletPpt | null
+  /**
+   * L'étape courante — pour REPOSER l'onglet suggéré à chaque arrivée.
+   *
+   * 🔴 Sans elle, un onglet pollué devient le « départ » de l'étape suivante.
+   *
+   * L'effet ci-dessous ne se déclenchait qu'au changement de `ongletSuggere`.
+   * Deux étapes voisines qui demandent le même onglet — le cas courant, Accueil
+   * en porte 33 à lui seul — ne le redéclenchent donc pas : l'apprenant qui
+   * bascule sur Affichage pendant l'étape N arrive sur l'étape N+1 toujours sur
+   * Affichage. La photo de départ de N+1 fige alors une pollution, et le
+   * « vrai reset » repose fidèlement le mauvais écran.
+   */
+  cleEtape?: string
+  /**
+   * Ouvre au player l'accès à l'état d'interface du ruban, pour le « vrai reset ».
+   *
+   * L'onglet actif et le menu ouvert vivent ICI, deux niveaux sous le player :
+   * il ne pouvait ni les lire ni les reposer, et son `avantDemonstration` ne
+   * remettait donc que le document. Mesuré le 07/08 : l'apprenant bascule sur
+   * Affichage, clique « Revoir », **le ruban reste sur Affichage** — et les 73
+   * écrans « À comprendre » qui désignent un bouton de ruban ne montrent alors
+   * plus rien, compteur au bout quand même.
+   *
+   * Le registre est préféré à une remontée d'état : contrôler `onglet` et `menu`
+   * depuis le player aurait fait traverser deux niveaux de props à quatre
+   * rappels, pour un état que RIEN d'autre ne lit. Ici le ruban reste maître de
+   * son état ; il prête seulement de quoi le photographier et le reposer.
+   */
+  registre?: (api: ApiEtatRuban | null) => void
+}
+
+/** L'état d'interface du ruban — opaque pour le socle, connu du seul player. */
+export type EtatRuban = {
+  onglet: OngletPpt
+  menu: null | "disposition" | "forme"
+}
+
+export type ApiEtatRuban = {
+  relever: () => EtatRuban
+  reposer: (e: EtatRuban) => void
 }
 
 /** Hauteur de la ligne de groupes. 56 px, la valeur éprouvée sur Excel mobile. */
@@ -129,17 +169,46 @@ export default function PptChrome({
   imageDemo,
   etroit,
   ongletSuggere,
+  cleEtape,
+  registre,
 }: Props) {
   const [menu, setMenu] = useState<null | "disposition" | "forme">(null)
   const [onglet, setOnglet] = useState<OngletPpt>("accueil")
   const rubanRef = useRef<HTMLDivElement | null>(null)
 
+  /* Miroirs de lecture : `relever` doit rendre l'état COURANT sans que l'API
+     change d'identité à chaque frappe — sinon l'effet ci-dessous se réabonnerait
+     en boucle. C'est l'idiome déjà employé pour `onGeste` dans la surface. */
+  const ongletRef = useRef(onglet)
+  ongletRef.current = onglet
+  const menuRef = useRef(menu)
+  menuRef.current = menu
+
+  const registreRef = useRef(registre)
+  registreRef.current = registre
+  useEffect(() => {
+    registreRef.current?.({
+      relever: () => ({ onglet: ongletRef.current, menu: menuRef.current }),
+      reposer: (e) => {
+        setOnglet(e.onglet)
+        setMenu(e.menu)
+      },
+    })
+    // Au démontage on rend la main : un player qui appellerait une API morte
+    // reposerait dans le vide, en silence.
+    return () => registreRef.current?.(null)
+  }, [])
+
   /* L'étape courante ouvre l'onglet qui porte le bouton qu'elle attend. Sans
      cela, une étape écrite avant les onglets demanderait un bouton que rien
-     n'aurait ouvert : 1 348 étapes seraient devenues injouables d'un coup. */
+     n'aurait ouvert : 1 348 étapes seraient devenues injouables d'un coup.
+
+     `cleEtape` est dans les dépendances pour que l'onglet soit reposé à CHAQUE
+     arrivée, et pas seulement quand l'onglet suggéré change de valeur — voir la
+     note du même nom dans les props. */
   useEffect(() => {
     if (ongletSuggere) setOnglet(ongletSuggere)
-  }, [ongletSuggere])
+  }, [ongletSuggere, cleEtape])
 
   /* Un menu ouvert se referme au clic ailleurs et à Échap — sans quoi il reste
      posé sur la scène et masque la diapositive que la consigne désigne. */

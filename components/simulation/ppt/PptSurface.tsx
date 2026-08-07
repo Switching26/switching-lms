@@ -43,7 +43,7 @@ import {
   type SlideState,
 } from "@/lib/simulation/ppt/document"
 import { FORMES } from "./formes"
-import PptChrome from "./PptChrome"
+import PptChrome, { type ApiEtatRuban, type EtatRuban } from "./PptChrome"
 
 type Props = {
   deck: DeckState
@@ -60,6 +60,40 @@ type Props = {
    * passer au ruban.
    */
   ongletSuggere?: OngletPpt | null
+  /** L'étape courante, traversée jusqu'au ruban — voir `PptChrome.cleEtape`. */
+  cleEtape?: string
+  /**
+   * Ouvre au player l'accès à l'état d'interface de la surface ET du ruban.
+   *
+   * La surface COMPOSE : elle relève ses propres états et y joint ceux que le
+   * ruban lui prête, si bien que le player n'a qu'un seul interlocuteur. Sans
+   * cela, `avantDemonstration` ne reposait que le document — c'est le « vrai
+   * reset » que Samuel a filmé le 07/08/2026.
+   */
+  registre?: (api: ApiEtatSurface | null) => void
+}
+
+/**
+ * L'état d'interface complet de PowerPoint — document exclu.
+ *
+ * ⚠️ Les six champs ne sont PAS tous en défaut : mesuré au banc le 07/08, seul
+ * `onglet` n'était pas reposé. `menu`, `edition` et la sélection revenaient déjà
+ * d'eux-mêmes, les deux premiers parce qu'un `mousedown` hors de leur zone les
+ * referme — et le clic sur « Revoir » en est un. On les photographie quand même :
+ * ils ne coûtent rien, et compter sur un écouteur de clic pour tenir une
+ * garantie de reset serait tenir la garantie par accident.
+ */
+export type EtatUiPpt = {
+  ruban: EtatRuban | null
+  edition: { objectId: string; valeur: string } | null
+  tiroirOuvert: boolean
+  notesOuvertes: boolean
+  notesLocal: string | null
+}
+
+export type ApiEtatSurface = {
+  relever: () => EtatUiPpt
+  reposer: (e: EtatUiPpt) => void
 }
 
 /**
@@ -277,6 +311,8 @@ export default function PptSurface({
   lecture = false,
   largeurZone = 0,
   ongletSuggere = null,
+  cleEtape,
+  registre,
 }: Props) {
   const [edition, setEdition] = useState<{ objectId: string; valeur: string } | null>(null)
   const [tiroirOuvert, setTiroirOuvert] = useState(false)
@@ -303,6 +339,47 @@ export default function PptSurface({
    * le motif déjà retenu pour l'éditeur de texte des objets, qui valide au blur.
    */
   const [notesLocal, setNotesLocal] = useState<string | null>(null)
+
+  /* ─────────── LE « VRAI RESET » — la part d'interface ───────────
+   *
+   * La surface compose l'état du ruban et le sien, et le prête au player. Les
+   * miroirs de lecture évitent que l'API change d'identité à chaque frappe :
+   * l'effet se réabonnerait alors en boucle, et le player reposerait une API
+   * périmée. */
+  const rubanApiRef = useRef<ApiEtatRuban | null>(null)
+  const editionRef = useRef(edition)
+  editionRef.current = edition
+  const tiroirRef = useRef(tiroirOuvert)
+  tiroirRef.current = tiroirOuvert
+  const notesOuvRef = useRef(notesOuvertes)
+  notesOuvRef.current = notesOuvertes
+  const notesLocalRef = useRef(notesLocal)
+  notesLocalRef.current = notesLocal
+
+  const registreRef = useRef(registre)
+  registreRef.current = registre
+  useEffect(() => {
+    registreRef.current?.({
+      relever: () => ({
+        ruban: rubanApiRef.current?.relever() ?? null,
+        // `edition` porte un objet : on le CLONE. Rendre la référence vivante
+        // reviendrait à ne rien photographier, et en silence — c'est
+        // l'avertissement que le contrat du socle met en tête de `relever`.
+        edition: editionRef.current ? { ...editionRef.current } : null,
+        tiroirOuvert: tiroirRef.current,
+        notesOuvertes: notesOuvRef.current,
+        notesLocal: notesLocalRef.current,
+      }),
+      reposer: (e) => {
+        if (e.ruban) rubanApiRef.current?.reposer(e.ruban)
+        setEdition(e.edition ? { ...e.edition } : null)
+        setTiroirOuvert(e.tiroirOuvert)
+        setNotesOuvertes(e.notesOuvertes)
+        setNotesLocal(e.notesLocal)
+      },
+    })
+    return () => registreRef.current?.(null)
+  }, [])
 
   const iActive = deck.activeSlide ?? 0
   const slide = deck.slides[iActive]
@@ -705,6 +782,10 @@ export default function PptSurface({
         imageDemo={IMAGE_DEMO}
         etroit={etroit}
         ongletSuggere={ongletSuggere}
+        cleEtape={cleEtape}
+        registre={(api) => {
+          rubanApiRef.current = api
+        }}
       />
 
       <div style={{ flex: 1, minHeight: 0, display: "flex", position: "relative" }}>

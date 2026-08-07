@@ -279,7 +279,7 @@ function memeCellule(a: CelluleCliche, b: CelluleCliche): boolean {
   if (typeof x === "number" && typeof y === "number") return Math.abs(x - y) < 1e-9
   return String(x) === String(y)
 }
-import { planDemonstration, type CibleDemo, type PlanDemo } from "@/lib/simulation/demonstration"
+import { planDemonstration, planSequence, type CibleDemo, type PlanDemo } from "@/lib/simulation/demonstration"
 import { CONTROLES_POSTE, appliquerGeste, posteInitial } from "@/lib/simulation/poste"
 import ChartLayer from "./ChartLayer"
 import PivotLayer from "./PivotLayer"
@@ -4525,7 +4525,11 @@ export default function SimulationPlayer({
       // démonstration.
       // Les plans s'enchaînent : les gestes bout à bout, les repères de suivi
       // à la file, pour un compteur « i / n » qui court sur toute la séquence.
-      const plans = step.montrer.map((a) => planDemonstration(a, depart)).filter(Boolean) as PlanDemo[]
+      /* `planSequence` propage l'onglet d'une action à la suivante : sans lui,
+         chacune recevait l'onglet d'AVANT la démonstration et une action dont le
+         bouton vit sous cet onglet n'ouvrait rien alors que l'écran était
+         ailleurs — repère jamais peint, compteur au bout quand même (M13-L02-08). */
+      const plans = planSequence(step.montrer, depart)
       if (plans.length === 0) return null
       return { gestes: plans.flatMap((p) => p.gestes), pas: plans.flatMap((p) => p.pas) }
     }
@@ -5050,7 +5054,9 @@ export default function SimulationPlayer({
       const plan =
         s.montrer?.length ?
           (() => {
-            const ps = s.montrer.map((a) => planDemonstration(a, { onglet, setup: s.setup })).filter(Boolean) as PlanDemo[]
+            /* Même enchaînement que le vrai plan : une sonde qui calculerait
+               autrement mentirait sur ce que l'apprenant voit. */
+            const ps = planSequence(s.montrer, { onglet, setup: s.setup })
             return ps.length ? { gestes: ps.flatMap((p) => p.gestes), pas: ps.flatMap((p) => p.pas) } : null
           })()
         : mode === "EVALUATION" ? null

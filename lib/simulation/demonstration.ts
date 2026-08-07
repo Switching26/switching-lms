@@ -549,6 +549,72 @@ function ongletRequis(plan: PlanDemo): RibbonTab | null {
   return null
 }
 
+/** Onglet sous lequel vit le bouton visé par un geste, `null` si ce n'en est pas un. */
+function ongletDuGeste(g: GesteDemo): RibbonTab | null {
+  if (g.cible.k !== "dom") return null
+  const m = /\[data-control="([^"]+)"\]/.exec(g.cible.sel)
+  return m && ONGLET_DU_CONTROLE[m[1]] ? ONGLET_DU_CONTROLE[m[1]] : null
+}
+
+/** Le geste qui ouvre un onglet du ruban, et son libellé de pas. */
+function ouvertureDOnglet(t: RibbonTab): GesteDemo {
+  return {
+    cible: { k: "dom", sel: `[data-ribbon-tab="${t}"]` },
+    bulle: `l'onglet ${LIBELLE_ONGLET[t] ?? t}`,
+    onglet: t,
+  }
+}
+const libelleOuverture = (t: RibbonTab) => `Ouvrir l'onglet ${LIBELLE_ONGLET[t] ?? t}`
+
+/**
+ * LES OUVERTURES D'ONGLET INTERMÉDIAIRES.
+ *
+ * `ongletRequis` s'arrête au PREMIER bouton de ruban du plan : une démonstration
+ * qui traverse deux onglets n'en rouvrait donc qu'un. Le second geste visait un
+ * bouton que le ruban ne rend pas — sa cible ne se résolvait pas, son repère
+ * n'était jamais peint — et **le compteur allait au bout quand même**. Mesuré
+ * sur `M13-L02-08` : « Figer les volets » (Affichage) puis « Titres à répéter »
+ * (Mise en page), joués depuis Mise en page, donnaient 3 repères sur 4 et un
+ * compteur affichant fièrement 4/4. Le chapitre porte sur la mise en page : ses
+ * étapes laissent naturellement le ruban sur cet onglet, donc l'apprenant n'a
+ * même pas besoin d'avoir exploré pour le subir.
+ *
+ * On suit ici l'onglet RÉELLEMENT ouvert au fil des gestes — un geste qui
+ * déclare `onglet` le fait basculer — et on insère une ouverture devant tout
+ * geste dont l'onglet diffère.
+ *
+ * NEUTRE PAR CONSTRUCTION quand un seul onglet est en jeu : l'ouverture de tête
+ * a déjà mis `courant` sur le bon onglet, aucune insertion n'a lieu, et le plan
+ * est renvoyé TEL QUEL — même objet, pas une copie.
+ */
+function avecOuverturesIntermediaires(plan: PlanDemo, depart: RibbonTab): PlanDemo {
+  let courant: RibbonTab = depart
+  let aInsere = false
+  const gestes: GesteDemo[] = []
+  const pas = [...plan.pas]
+
+  plan.gestes.forEach((g, i) => {
+    if (g.onglet) { courant = g.onglet; gestes.push(g); return }
+    const requis = ongletDuGeste(g)
+    if (requis && requis !== courant) {
+      gestes.push(ouvertureDOnglet(requis))
+      /* `pas` n'est PAS parallèle à `gestes` (1369 plans sur 2009) : le calque le
+         projette proportionnellement. On insère donc le libellé à la position
+         proportionnelle, et nulle part s'il n'y a aucun pas — c'est le cas des
+         illustrations `MONTRER`, qui n'en déclarent volontairement aucun. */
+      if (pas.length) {
+        const j = Math.round((i / Math.max(1, plan.gestes.length - 1)) * pas.length)
+        pas.splice(Math.min(j, pas.length), 0, libelleOuverture(requis))
+      }
+      courant = requis
+      aInsere = true
+    }
+    gestes.push(g)
+  })
+
+  return aInsere ? { gestes, pas } : plan
+}
+
 /**
  * Écrit une valeur attendue comme un apprenant la taperait dans un Excel
  * français, virgule décimale comprise.
@@ -597,19 +663,55 @@ export function planDemonstration(
   const brut = planBrut(action, ctx)
   const plan = brut ? rendreAgissant(brut) : null
   if (!plan || !ctx.onglet) return plan
+
+  /* 1. L'ouverture de TÊTE — comportement historique, conservé au geste près :
+        elle se place devant TOUT le plan, pas devant le geste concerné. */
   const requis = ongletRequis(plan)
-  if (!requis || requis === ctx.onglet) return plan
-  return {
-    gestes: [
-      {
-        cible: { k: "dom", sel: `[data-ribbon-tab="${requis}"]` },
-        bulle: `l'onglet ${LIBELLE_ONGLET[requis] ?? requis}`,
-        onglet: requis,
-      },
-      ...plan.gestes,
-    ],
-    pas: [`Ouvrir l'onglet ${LIBELLE_ONGLET[requis] ?? requis}`, ...plan.pas],
+  if (!requis || requis === ctx.onglet) return avecOuverturesIntermediaires(plan, ctx.onglet)
+  const enTete: PlanDemo = {
+    gestes: [ouvertureDOnglet(requis), ...plan.gestes],
+    pas: [libelleOuverture(requis), ...plan.pas],
   }
+  /* 2. Puis les ouvertures INTERMÉDIAIRES, pour les gestes suivants qui vivent
+        sous un autre onglet. Sans effet quand il n'y en a pas. */
+  return avecOuverturesIntermediaires(enTete, requis)
+}
+
+/**
+ * UNE SUITE D'ACTIONS `montrer`, ENCHAÎNÉE EN PROPAGEANT L'ONGLET.
+ *
+ * Chaque action recevait le MÊME onglet de départ — celui d'avant la
+ * démonstration — alors que l'action précédente vient peut-être d'en ouvrir un
+ * autre. Une action dont le bouton vit sous l'onglet de DÉPART se croyait donc
+ * chez elle et n'ouvrait rien, alors que l'écran était ailleurs : son repère
+ * n'était jamais peint, et le compteur allait au bout quand même.
+ *
+ * Mesuré sur `M13-L02-08` — « Figer les volets » (Affichage) puis « Titres à
+ * répéter » (Mise en page), joués depuis Mise en page : 3 repères sur 4, un
+ * compteur affichant 4/4, et aucune exploration nécessaire pour le subir, le
+ * chapitre laissant naturellement le ruban sur Mise en page.
+ *
+ * On suit donc l'onglet où chaque plan laisse l'écran, et on le passe au suivant.
+ * Pour une action unique — l'immense majorité — le résultat est identique.
+ */
+export function planSequence(actions: SimulationAction[], ctx: ContexteDemo): PlanDemo[] {
+  const plans: PlanDemo[] = []
+  let onglet = ctx.onglet
+  for (const a of actions) {
+    const p = planDemonstration(a, { ...ctx, onglet })
+    if (!p) continue
+    plans.push(p)
+    /* Où ce plan laisse-t-il le ruban ? Le dernier geste qui déclare un onglet
+       fait foi ; à défaut, l'onglet du dernier bouton de ruban qu'il presse. */
+    for (const g of p.gestes) {
+      if (g.onglet) onglet = g.onglet
+      else {
+        const t = ongletDuGeste(g)
+        if (t) onglet = t
+      }
+    }
+  }
+  return plans
 }
 
 function planBrut(action: SimulationAction, ctx: ContexteDemo): PlanDemo | null {

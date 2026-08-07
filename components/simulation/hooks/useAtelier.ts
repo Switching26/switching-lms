@@ -346,6 +346,142 @@ export function useAideProgressive(opts: {
 }
 
 /* ────────────────────────────────────────────────────────────────────────────
+ * LE « VRAI RESET » — la photo de départ d'étape
+ *
+ * Ce que Samuel a filmé le 07/08/2026, chapitre Word « Découvrir l'écran de
+ * Word », étape 3/8 : l'apprenant explore, ouvre l'onglet Affichage, puis clique
+ * « Revoir la démonstration ». Le document revient bien. Mais l'écran, lui, est
+ * resté sur Affichage — or le geste à montrer désigne le bouton **G** du groupe
+ * Police, qui vit dans l'onglet Accueil. Le ruban ne rend que son onglet actif :
+ * la cible n'existe pas dans la page, rien n'est dessiné, et le compteur affiche
+ * quand même 2/2. Ses mots : « il n'y a pas un vrai reset, il y a un semi-reset ».
+ *
+ * Mesuré au banc avant d'écrire une ligne : témoin 2 repères sur 2, après un
+ * simple clic sur un autre onglet 1 sur 2, et le rejeu reproduit le défaut à
+ * l'identique. Zéro erreur JS — c'est ce qui le rendait invisible.
+ *
+ * POURQUOI LES TROIS PROPRIÉTÉS DE L'AUDIT DU 03/08 NE POUVAIENT PAS LE VOIR
+ * Elles comparent le rejeu à l'état d'entrée `E0`, relevé quand la démonstration
+ * s'annonce. Ici les deux passages sont parfaitement identiques — et
+ * parfaitement vides. Deux passages qui ne montrent rien se ressemblent
+ * beaucoup.
+ *
+ * LES DEUX RÈGLES, et elles sont indissociables :
+ *
+ *   1. L'INSTANT — la photo se prend à l'ARRIVÉE SUR L'ÉTAPE, une fois le décor
+ *      posé. Jamais au clic de l'apprenant. Excel photographiait 400 ms après le
+ *      premier « Voir le geste » : la pollution de l'apprenant entrait dans la
+ *      photo, et chaque rejeu la reproduisait fidèlement.
+ *   2. LE PÉRIMÈTRE — la photo couvre le document ET L'INTERFACE : onglet de
+ *      ruban, volets, règle, zoom, mode d'affichage, boîtes et menus ouverts,
+ *      dossier ou vue courante. Chaque app relève le sien ; le socle ne
+ *      connaît pas leur contenu et n'a pas à le connaître.
+ *
+ * Arbitrage tranché le 07/08 (option A) : on repose l'état de départ de
+ * l'ÉTAPE, pas celui du chapitre — le travail des étapes précédentes n'est
+ * jamais touché. Le coût assumé est étroit : l'apprenant qui abandonne une
+ * démonstration en cours de route retrouve le départ de l'étape au lieu de son
+ * travail partiel. Ni la note, ni `errorCount`/`hintCount`, ni la progression
+ * serveur ne bougent — ce hook ne touche à aucun d'eux.
+ * ──────────────────────────────────────────────────────────────────────────── */
+
+export type ClicheEtape = {
+  /** À passer tel quel à `useAideProgressive`. */
+  avantDemonstration: () => void
+  /** Force une nouvelle photo — pour un décor qui s'installe en plusieurs temps. */
+  rephotographier: () => void
+}
+
+export function useClicheEtape<E>(opts: {
+  /** Étape courante. En changer JETTE la photo : elle appartient à l'étape. */
+  etapeId: string | undefined
+  /** L'app est-elle en état d'être photographiée ? (surface montée, grille prête…) */
+  prete: boolean
+  /**
+   * Relève l'état COMPLET : document ET interface.
+   *
+   * ⚠️ Doit rendre une VALEUR INDÉPENDANTE — clonez ce qui est mutable. Rendre
+   * une référence vivante revient à ne rien photographier, et en silence.
+   */
+  relever: () => E
+  /**
+   * Repose un état relevé.
+   *
+   * Posez les REFS avant l'état React quand le plan de démonstration lit les
+   * refs pour choisir ses cibles : il est calculé aussitôt après, sans attendre
+   * le rendu. C'est déjà l'idiome de PowerPoint et d'Outlook.
+   */
+  reposer: (etat: E) => void
+  /**
+   * Délai après l'arrivée sur l'étape, le temps que le décor soit posé.
+   *
+   * Excel a besoin de 420 ms : sa remise d'aplomb repose ses formats à 300 ms,
+   * et une photo prise avant les figerait dans leur état d'AVANT réparation.
+   */
+  delaiMs?: number
+}): ClicheEtape {
+  const { etapeId, prete, delaiMs = 0 } = opts
+
+  // Les deux rappels changent d'identité à chaque rendu : on les lit par
+  // référence, sinon l'effet de photographie repartirait en boucle.
+  const releverRef = useRef(opts.relever)
+  releverRef.current = opts.relever
+  const reposerRef = useRef(opts.reposer)
+  reposerRef.current = opts.reposer
+
+  /** La photo, et l'étape à laquelle elle appartient. */
+  const photoRef = useRef<{ etapeId: string; etat: E } | null>(null)
+
+  const photographier = useCallback(() => {
+    if (!etapeId) return
+    photoRef.current = { etapeId, etat: releverRef.current() }
+  }, [etapeId])
+
+  useEffect(() => {
+    /* LA PHOTO EST JETÉE DÈS LE CHANGEMENT D'ÉTAPE, avant même la nouvelle.
+     * La garder ferait reposer sur la nouvelle étape l'écran de l'ancienne, ce
+     * qui serait bien pire que le défaut qu'on corrige. */
+    photoRef.current = null
+    if (!etapeId || !prete) return
+    if (delaiMs <= 0) {
+      photographier()
+      return
+    }
+    const t = window.setTimeout(photographier, delaiMs)
+    return () => window.clearTimeout(t)
+  }, [etapeId, prete, delaiMs, photographier])
+
+  const avantDemonstration = useCallback(() => {
+    const p = photoRef.current
+    if (p && p.etapeId === etapeId) {
+      reposerRef.current(p.etat)
+      return
+    }
+    /* ON NE RENONCE JAMAIS EN SILENCE.
+     *
+     * PowerPoint et Outlook portaient tous deux `if (!depart || depart.id !==
+     * stepRef.current?.id) return` : quand la photo ne correspondait pas, rien
+     * n'était restauré et personne n'en savait rien. Un reset qui échoue sans le
+     * dire est exactement le défaut filmé.
+     *
+     * Ici on RATTRAPE : on photographie sur-le-champ, ce qui garantit au moins
+     * que le rejeu repartira de ce point. C'est moins bon qu'une photo prise à
+     * l'arrivée — l'apprenant a pu abîmer l'écran entre-temps —, donc on le dit
+     * hors production plutôt que de le laisser passer. */
+    photographier()
+    if (process.env.NODE_ENV !== "production") {
+      // eslint-disable-next-line no-console
+      console.warn(
+        `[reset] aucune photo de départ pour l'étape « ${etapeId ?? "?"} » au moment de la démonstration : ` +
+          "photographie de rattrapage. Vérifiez `prete` et `delaiMs` de `useClicheEtape`.",
+      )
+    }
+  }, [etapeId, photographier])
+
+  return { avantDemonstration, rephotographier: photographier }
+}
+
+/* ────────────────────────────────────────────────────────────────────────────
  * PROGRESSION ET NAVIGATION
  *
  * Où en est l'apprenant, et comment il avance ou revient. Rien ici ne parle de

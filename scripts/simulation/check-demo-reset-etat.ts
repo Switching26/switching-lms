@@ -185,6 +185,64 @@ function verifierRecours(noyau: string): Constat[] {
   return constats
 }
 
+/* ═══════════ LA DÉROGATION EXCEL ═══════════ */
+
+/**
+ * DÉROGATION `excel-rouvre-l-onglet` — décidée le 07/08/2026, chef d'orchestre.
+ *
+ * CE QU'ELLE COUVRE, et rien d'autre : les constats `socle` et `instant` sur le
+ * seul player Excel.
+ *
+ * LA RAISON. Excel ne RESTAURE pas l'onglet du ruban — il le ROUVRE pendant la
+ * démonstration. Il est la seule application à passer un contexte à
+ * `planDemonstration`, laquelle préfixe alors un geste qui ouvre l'onglet requis
+ * quand il diffère de l'onglet courant. Autre chemin que le cliché, même
+ * résultat pour l'apprenant, et pédagogiquement meilleur puisqu'il voit où
+ * aller. Mesuré par l'agent Excel sur les 1 587 démonstrations : un seul cas en
+ * défaut, et pour une autre cause. Samuel n'a autorisé que la correction du cas
+ * des deux onglets ; brancher Excel sur `useClicheEtape` sortirait de ce cadre.
+ *
+ * ⚠️ CE QU'ELLE NE COUVRE PAS — LE RESTE OUVERT, ÉCRIT NOIR SUR BLANC.
+ * Le geste préfixé ne rouvre QUE l'onglet. Les autres états d'interface d'Excel
+ * — un volet, une boîte de dialogue ou un menu qu'un apprenant laisserait
+ * ouvert AVANT son premier « Voir le geste » — ne sont ni photographiés à
+ * l'arrivée sur l'étape, ni compensés par un geste préfixé. **NON MESURÉ**, ni
+ * par l'agent Excel ni par l'agent socle. Une dérogation qui cache un trou est
+ * pire que le rouge : celle-ci le nomme.
+ *
+ * ELLE EST CONDITIONNELLE. Elle ne tient que tant qu'Excel passe réellement un
+ * contexte à `planDemonstration` — c'est ce qui déclenche le geste d'ouverture.
+ * Le jour où cet appel perd son second argument, la raison s'effondre et le
+ * contrôle REDEVIENT ROUGE, sans que personne ait à s'en souvenir.
+ */
+const DEROGATION = {
+  nom: "excel-rouvre-l-onglet",
+  date: "07/08/2026",
+  player: "Excel",
+  proprietes: ["socle", "instant"],
+  raison:
+    "Excel ne restaure pas l'onglet, il le ROUVRE pendant la démonstration : c'est la seule app qui " +
+    "passe un contexte à `planDemonstration`, laquelle préfixe un geste d'ouverture quand l'onglet " +
+    "requis diffère. Mesuré par l'agent Excel sur 1 587 démonstrations, 1 seul cas en défaut et pour " +
+    "une autre cause.",
+  resteOuvert:
+    "NON MESURÉ : les AUTRES états d'interface d'Excel — volet, boîte ou menu laissé ouvert AVANT le " +
+    "premier « Voir le geste » — ne sont ni photographiés à l'arrivée, ni compensés par un geste préfixé.",
+}
+
+/**
+ * La dérogation tient-elle encore ?
+ *
+ * Un seul critère, celui qui porte toute la raison : Excel passe-t-il un
+ * CONTEXTE à `planDemonstration` ? Sans second argument, aucun geste
+ * d'ouverture n'est préfixé et l'onglet laissé par l'apprenant reste en place —
+ * la dérogation n'a plus de fondement.
+ */
+function derogationTient(playerExcel: string): boolean {
+  const code = codeSeul(playerExcel)
+  return /planDemonstration\s*\(\s*[^,()]+(\([^()]*\))?[^,()]*,\s*[^)\s]/.test(code)
+}
+
 /** 1. CÂBLAGE — le player branche bien `avantDemonstration`. */
 function verifierCablage(s: Source): Constat[] {
   const code = codeSeul(s.src)
@@ -433,6 +491,29 @@ export function __defautDu7Aout() {
   dire('recours, palier repassé en >= 5', verifierRecours(seuilLache).length === 1,
        'le contrôle rougit : le palier se redéclencherait à chaque erreur')
 
+  /* (5 quater) LA DÉROGATION EXCEL — elle doit TOMBER si sa raison s'effondre.
+   *
+   * Condition posée par le chef : la dérogation ne vaut que tant qu'Excel passe
+   * un contexte à `planDemonstration`, puisque c'est ce second argument qui
+   * déclenche le geste d'ouverture d'onglet. Le jour où il disparaît, le
+   * contrôle doit redevenir rouge sans que personne ait à s'en souvenir. */
+  const excelSrc = fs.readFileSync(path.join(C, "SimulationPlayer.tsx"), "utf8")
+  dire("dérogation Excel, source réelle", derogationTient(excelSrc),
+       "elle tient : Excel passe bien un contexte à `planDemonstration`")
+
+  // Le second argument disparaît → la raison s'effondre → la dérogation tombe.
+  const sansContexte = excelSrc.replace(
+    /planDemonstration\(([^,()]*(?:\([^()]*\))?[^,()]*),\s*[^)]*\)/g,
+    "planDemonstration($1)",
+  )
+  dire("dérogation Excel, contexte retiré", !derogationTient(sansContexte),
+       "elle tombe : sans second argument, aucun geste n'ouvre l'onglet")
+
+  // Et la dérogation ne doit JAMAIS couvrir une autre application.
+  dire("dérogation Excel, portée",
+       DEROGATION.player === "Excel" && DEROGATION.proprietes.every((p) => ["socle", "instant"].includes(p)),
+       "elle ne couvre qu'Excel, et seulement `socle` et `instant`")
+
   // (6) socle : un player branché doit verdir, un player non branché rougir.
   const branche = { nom: 'Fictif', chemin: '', src: 'const c = useClicheEtape({ etapeId, prete, relever, reposer })\n' }
   const pasBranche = { nom: 'Fictif', chemin: '', src: 'const c = monClicheMaison({ etapeId })\n' }
@@ -457,7 +538,7 @@ function main() {
     process.exit(1)
   }
 
-  const constats: Constat[] = []
+  let constats: Constat[] = []
   // Le recours vit dans le NOYAU, pas dans un player : il se vérifie une fois.
   constats.push(...verifierRecours(fs.readFileSync(NOYAU, "utf8")))
   for (const p of PLAYERS) {
@@ -469,12 +550,32 @@ function main() {
     constats.push(...verifierSocle(s), ...verifierCablage(s), ...verifierInstant(s), ...verifierSilence(s))
   }
 
+  /* LA DÉROGATION EXCEL — retirée des constats, JAMAIS de l'affichage.
+   * Elle ne s'applique que si sa raison tient encore (§ `derogationTient`). */
+  const excel = PLAYERS.find((p) => p.nom === DEROGATION.player)
+  const excelSrc = excel && fs.existsSync(excel.chemin) ? fs.readFileSync(excel.chemin, "utf8") : ""
+  const derogationActive = !!excelSrc && derogationTient(excelSrc)
+  const derogues = constats.filter(
+    (c) => derogationActive && c.player === DEROGATION.player && DEROGATION.proprietes.includes(c.propriete),
+  )
+  if (derogues.length) constats = constats.filter((c) => !derogues.includes(c))
+
   console.log("LE « VRAI RESET » AVANT UNE DÉMONSTRATION — 4 applications\n")
   for (const p of PLAYERS) {
     const miens = constats.filter((c) => c.player === p.nom)
     if (!miens.length) { console.log(`  ✓ ${p.nom}`); continue }
     console.log(`  ✗ ${p.nom}`)
     for (const c of miens) console.log(`      [${c.propriete}] ${c.message}`)
+  }
+
+  /* LA DÉROGATION S'AFFICHE TOUJOURS, avec son reste ouvert.
+   * Une dérogation qu'on ne voit pas est un défaut qu'on a oublié. */
+  if (derogues.length) {
+    console.log(`\n  ⚖ DÉROGATION « ${DEROGATION.nom} » — ${DEROGATION.date}, ${DEROGATION.player} seulement`)
+    console.log(`      couvre : ${derogues.map((c) => c.propriete).join(", ")}`)
+    console.log(`      raison : ${DEROGATION.raison}`)
+    console.log(`      ⚠ RESTE OUVERT — ${DEROGATION.resteOuvert}`)
+    console.log(`      Elle tombe d'elle-même si Excel cesse de passer un contexte à \`planDemonstration\`.`)
   }
 
   if (constats.length) {

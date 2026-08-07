@@ -32,12 +32,13 @@ import AfficheModule, { numeroModule } from "../AfficheModule"
 import { natureEtape } from "@/lib/simulation/attendu"
 import {
   useAideProgressive,
+  useClicheEtape,
   useMesureZoneTravail,
   usePersistance,
   useProgression,
   useRetourVisuel,
 } from "../hooks/useAtelier"
-import WordChrome, { WordFooter, type OngletWord } from "./WordChrome"
+import WordChrome, { WordFooter, type EtatChassisWord, type OngletWord } from "./WordChrome"
 import { ouverturesDOnglet } from "@/lib/simulation/word/ruban"
 import WordPageLayout, { PAGE_PAR_DEFAUT, type EtatPage } from "./WordPageLayout"
 import WordHeaderFooter, {
@@ -133,6 +134,62 @@ export type WordPlayerProps = {
   afficherRessources?: boolean
   documentsHref?: string
   cleGuide?: string | null
+}
+
+/**
+ * LE CLICHÉ DE DÉPART DE WORD — document mis à part, il est rendu par le scénario.
+ *
+ * ⚠️ RÈGLE DE COMPLÉTUDE (contrat du socle) : tout état qui change ce qui est
+ * RENDU À L'ÉCRAN doit être là. Le test à appliquer pour chaque nouvel état du
+ * player : « si l'apprenant le met dans une autre valeur puis demande la
+ * démonstration, celle-ci montre-t-elle encore ce qu'elle annonce ? »
+ *
+ * Chacune des lignes ci-dessous a été mesurée NON RESTAURÉE au banc le
+ * 07/08/2026 (19 pollutions sur 19), avec le détail dans
+ * `~/checkos/scratchpads/lms-reset-word/inventaire.jsonl`.
+ */
+type ClicheWord = {
+  /** Le ruban ne rend QUE son onglet actif : c'est l'état le plus destructeur. */
+  chassis: EtatChassisWord
+  /** La règle pousse tout le document de 43 px vers le bas — mesuré. */
+  regleVisible: boolean
+  taquets: EtatTaquets
+  page: Required<EtatPage>
+  horsFlux: EtatHorsFlux
+  impression: EtatImpression
+  paragrapheCourant: number
+  /* Les panneaux et boîtes du player : chacun peint par-dessus le document. */
+  panneauPage: boolean
+  panneauEntete: boolean
+  ecranImpression: boolean
+  panneauVerif: boolean
+  galerieImages: boolean
+  boiteLien: boolean
+}
+
+const CHASSIS_PAR_DEFAUT: EtatChassisWord = {
+  onglet: "accueil",
+  boiteTableau: false,
+  lignes: 3,
+  colonnes: 4,
+}
+
+/* Photo de secours, jamais reposée en pratique : `useClicheEtape` ne relève que
+   si la surface est prête, et remplace la valeur avant tout usage. */
+const CLICHE_VIDE: ClicheWord = {
+  chassis: CHASSIS_PAR_DEFAUT,
+  regleVisible: false,
+  taquets: {},
+  page: PAGE_PAR_DEFAUT,
+  horsFlux: HORS_FLUX_PAR_DEFAUT,
+  impression: IMPRESSION_PAR_DEFAUT,
+  paragrapheCourant: 0,
+  panneauPage: false,
+  panneauEntete: false,
+  ecranImpression: false,
+  panneauVerif: false,
+  galerieImages: false,
+  boiteLien: false,
 }
 
 export default function WordPlayer({
@@ -258,12 +315,69 @@ export default function WordPlayer({
   const ongletInitialRef = useRef<string | undefined>(undefined)
   const ouvrirOngletInitialRef = useRef<() => string | undefined>(() => undefined)
 
+  /* ═══════════ LE CLICHÉ DE DÉPART DE L'ÉTAPE ═══════════
+   *
+   * 🔴 CE QUE CE BLOC RÉPARE — filmé par Samuel le 07/08/2026, puis mesuré.
+   *
+   * « Revoir la démonstration » remettait le DOCUMENT d'aplomb et rien d'autre.
+   * L'apprenant qui ouvre l'onglet Affichage, regarde la Règle, puis réclame la
+   * démonstration se la voyait jouer sur SON écran à lui : ruban resté sur
+   * Affichage, règle affichée qui pousse tout le document de 43 px. Sur
+   * `M01-L01-03` — « mettez le titre en gras avec le bouton G » — le bouton G
+   * vit sous Accueil, le ruban ne rend que son onglet actif, et le geste
+   * désignait donc un élément ABSENT du DOM : ni halo, ni bulle, cible `null`,
+   * compteur 2/2 quand même, phase `fini`, zéro erreur de console.
+   *
+   * Chiffré sur la formation : 441 étapes ont une démonstration, 300 visent un
+   * bouton de ruban, et **74** d'entre elles ne pouvaient pas retrouver leur
+   * onglet.
+   *
+   * ⚠️ CES 74 SONT EXACTEMENT LES ÉTAPES QUI DÉCLARENT L'ONGLET DONT ELLES ONT
+   * BESOIN, et c'est le cœur du défaut. `ongletImpose` vaut
+   * `ongletDemo ?? setup.ribbon.activeTab`, et `WordChrome` ne le ré-applique
+   * que sur un CHANGEMENT DE VALEUR. Une étape qui déclare `activeTab:
+   * "accueil"` et vise un bouton d'Accueil demande donc de reposer… la valeur
+   * déjà en place : aucune dépendance ne bouge, aucun effet ne repart. Une étape
+   * SANS `setup.ribbon` part de `undefined` et bascule très bien. **Déclarer
+   * l'onglet était précisément ce qui empêchait de le rétablir** — les étapes
+   * les mieux écrites étaient les seules à tomber, dont celle qui a été filmée.
+   *
+   * (Une première analyse attribuait la ligne de partage au fait que le PREMIER
+   * geste vise ou non le ruban, et comptait 215 étapes exposées. Le balayage
+   * l'a infirmée : `M01-E01-06`, `M01-E03-04` et `M01-E03-06` commencent par une
+   * sélection et basculent pourtant sans problème. C'est de là que vient le
+   * jeton de `WordChrome` : une repose doit être audible même à valeur égale.)
+   *
+   * La photo est prise à l'ARRIVÉE sur l'étape, jamais au clic : un cliché pris
+   * au moment où l'apprenant demande de l'aide contiendrait déjà sa pollution,
+   * et chaque « Revoir » la reproduirait fidèlement.
+   *
+   * ⚠️ Les REFS sont reposées avant l'état React : le plan de démonstration est
+   * calculé aussitôt après, sans attendre le rendu, et il lit les refs.
+   */
+  const [surfacePrete, setSurfacePrete] = useState(false)
+  const releverClicheRef = useRef<() => ClicheWord>(() => CLICHE_VIDE)
+  const reposerClicheRef = useRef<(e: ClicheWord) => void>(() => {})
+  const cliche = useClicheEtape<ClicheWord>({
+    etapeId: etape?.id,
+    prete: surfacePrete,
+    relever: () => releverClicheRef.current(),
+    reposer: (e) => reposerClicheRef.current(e),
+  })
+
   const aide = useAideProgressive({
     mode,
     index,
     finished,
     aUneEtape: !!etape,
     avantDemonstration: () => {
+      /*
+       * L'ORDRE COMPTE. Le cliché repose l'écran de départ — onglet compris —,
+       * et l'ouverture de l'onglet initial vient APRÈS : une démonstration dont
+       * le premier geste vise un bouton rangé ailleurs a besoin de SON onglet,
+       * pas de celui de l'étape. L'inverse annulerait la bascule.
+       */
+      cliche.avantDemonstration()
       rendreDocumentRef.current()
       ongletInitialRef.current = ouvrirOngletInitialRef.current()
     },
@@ -304,7 +418,6 @@ export default function WordPlayer({
   const zoneAtelierRef = useRef<HTMLDivElement | null>(null)
   const { hauteur } = useMesureZoneTravail(zoneRef, index)
   const apiRef = useRef<WordApi | null>(null)
-  const [surfacePrete, setSurfacePrete] = useState(false)
   /** Largeur du calque, pour garder bulles et étiquettes dans le champ. */
   const [largeurAtelier, setLargeurAtelier] = useState(0)
   /** Bord haut de la surface d'édition dans le repère du calque. */
@@ -371,9 +484,70 @@ export default function WordPlayer({
 
   const [taquets, setTaquets] = useState<EtatTaquets>({})
   const [regleVisible, setRegleVisible] = useState(false)
+  /**
+   * L'ÉTAT DU CHÂSSIS, remonté depuis `WordChrome` — miroir en lecture seule.
+   *
+   * L'onglet du ruban et la boîte « Insérer un tableau » vivent dans le châssis.
+   * Le player ne pouvait donc ni les photographier ni les remettre : c'est le
+   * canal qui manquait, pas le propriétaire. On garde une REF et non un état :
+   * le miroir ne doit provoquer aucun rendu, il ne sert qu'au cliché.
+   */
+  const chassisRef = useRef<EtatChassisWord>(CHASSIS_PAR_DEFAUT)
+  /** L'ordre de repose envoyé au châssis. Le jeton le rend audible à valeur égale. */
+  const [chassisRepose, setChassisRepose] = useState<(EtatChassisWord & { jeton: number }) | null>(null)
   const [paragrapheCourant, setParagrapheCourant] = useState(0)
   const taquetsRef = useRef<EtatTaquets>({})
   taquetsRef.current = taquets
+
+  /* ═══════════ RELEVER ET REPOSER LE CLICHÉ ═══════════
+   *
+   * Rempli à chaque rendu, lu par `useClicheEtape` au travers de ses refs : les
+   * états ci-dessous se déclarent APRÈS le hook, et cet idiome est déjà celui de
+   * `rendreDocumentRef` dans ce fichier.
+   *
+   * ⚠️ ON CLONE. Rendre `taquets` ou `page` par référence reviendrait à ne rien
+   * photographier : l'objet muterait sous la photo, en silence.
+   */
+  releverClicheRef.current = () => ({
+    chassis: { ...chassisRef.current },
+    regleVisible,
+    taquets: JSON.parse(JSON.stringify(taquetsRef.current)) as EtatTaquets,
+    page: { ...pageRef.current },
+    horsFlux: { ...horsFluxRef.current },
+    impression: { ...impressionRef.current },
+    paragrapheCourant,
+    panneauPage,
+    panneauEntete,
+    ecranImpression,
+    panneauVerif,
+    galerieImages,
+    boiteLien,
+  })
+
+  reposerClicheRef.current = (e) => {
+    /* LES REFS D'ABORD : le plan de démonstration les lit sans attendre le rendu. */
+    taquetsRef.current = e.taquets
+    pageRef.current = e.page
+    horsFluxRef.current = e.horsFlux
+    impressionRef.current = e.impression
+    chassisRef.current = { ...e.chassis }
+    /* Puis l'état React. Le jeton du châssis rend la repose audible même quand
+       l'onglet demandé est celui que l'étape déclarait déjà — sans lui, aucune
+       dépendance d'effet ne change et le ruban ne bouge pas. C'est LE défaut. */
+    setChassisRepose((c) => ({ ...e.chassis, jeton: (c?.jeton ?? 0) + 1 }))
+    setRegleVisible(e.regleVisible)
+    setTaquets(e.taquets)
+    setPage(e.page)
+    setHorsFlux(e.horsFlux)
+    setImpression(e.impression)
+    setParagrapheCourant(e.paragrapheCourant)
+    setPanneauPage(e.panneauPage)
+    setPanneauEntete(e.panneauEntete)
+    setEcranImpression(e.ecranImpression)
+    setPanneauVerif(e.panneauVerif)
+    setGalerieImages(e.galerieImages)
+    setBoiteLien(e.boiteLien)
+  }
 
   /**
    * L'état d'un document, TEL QUE LE JUGE DOIT LE VOIR.
@@ -1620,6 +1794,11 @@ export default function WordPlayer({
           // besoin d'un bouton rangé ailleurs.
           ongletImpose={ongletDemo ?? etape?.setup?.ribbon?.activeTab}
           titreDocument={scenario.title}
+          // Le cliché de départ a besoin de LIRE le châssis, et de le REMETTRE.
+          onEtatChassis={(e) => {
+            chassisRef.current = e
+          }}
+          chassisRepose={chassisRepose ?? undefined}
         />
         {/* La règle ne s'affiche que si l'apprenant l'a demandée — c'est le
             comportement de Word, et c'est aussi le geste que le module enseigne

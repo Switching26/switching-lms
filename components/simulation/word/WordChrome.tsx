@@ -386,12 +386,47 @@ type Props = {
   onControle: (id: string, argument?: string) => void
   /** Nom du document, affiché dans la barre de titre. */
   titreDocument?: string
+  /**
+   * L'onglet ouvert, remonté au player à chaque changement.
+   *
+   * 🔴 SANS CE CANAL, LE CLICHÉ DE DÉPART NE PEUT PAS PHOTOGRAPHIER L'ONGLET.
+   * L'état vit ici, le player ne le connaissait pas, donc `relever()` n'avait
+   * rien à relever — et c'est l'état le plus destructeur de tous : le ruban ne
+   * rend QUE son onglet actif, un bouton rangé ailleurs n'est pas dans le DOM.
+   */
+  onEtatChassis?: (etat: EtatChassisWord) => void
+  /**
+   * REPOSER un onglet relevé — jeton compris.
+   *
+   * ⚠️ Le jeton n'est pas une coquetterie : reposer « accueil » alors que
+   * `ongletImpose` vaut déjà « accueil » ne change AUCUNE dépendance d'effet,
+   * donc rien ne se redéclenche. C'est exactement le défaut mesuré le
+   * 07/08/2026 — l'apprenant passe sur Affichage, « Revoir » ne fait rien
+   * bouger, et la démonstration désigne un bouton absent de la page. Un jeton
+   * qui s'incrémente rend la repose observable même quand la valeur ne change
+   * pas.
+   */
+  chassisRepose?: EtatChassisWord & { jeton: number }
+}
+
+/**
+ * L'état du châssis que le cliché de départ doit savoir relever et reposer.
+ *
+ * Il vit ICI et non dans le player : le ruban et la boîte « Insérer un tableau »
+ * sont des affaires de châssis. Ce qui manquait n'était pas le bon propriétaire,
+ * c'était le CANAL — le player ne pouvait ni le lire ni le remettre.
+ */
+export type EtatChassisWord = {
+  onglet: OngletWord
+  boiteTableau: boolean
+  lignes: number
+  colonnes: number
 }
 
 /** Sous cette largeur, le ruban ne tient plus : on ouvre le tiroir des groupes. */
 const SEUIL_MOBILE = 640
 
-export default function WordChrome({ ongletImpose, onControle, titreDocument }: Props) {
+export default function WordChrome({ ongletImpose, onControle, titreDocument, onEtatChassis, chassisRepose }: Props) {
   const [onglet, setOnglet] = useState<OngletWord>(ongletImpose ?? "accueil")
   /**
    * 🔴 L'ÉTAPE REPREND LA MAIN, ELLE NE VERROUILLE PAS.
@@ -414,6 +449,59 @@ export default function WordChrome({ ongletImpose, onControle, titreDocument }: 
   const [boiteTableau, setBoiteTableau] = useState(false)
   const [lignes, setLignes] = useState(3)
   const [colonnes, setColonnes] = useState(4)
+
+  /* ═══════════ LE CLICHÉ DE DÉPART : RELEVER, PUIS REPOSER ═══════════
+   *
+   * 🔴 LE DÉFAUT FILMÉ PAR SAMUEL LE 07/08/2026 EST ICI, ET NULLE PART AILLEURS.
+   *
+   * L'apprenant ouvre l'onglet Affichage pour regarder la Règle, puis clique
+   * « Revoir la démonstration ». Le document était bien remis d'aplomb — mais
+   * pas le ruban. La démonstration désignait alors le bouton **G** du groupe
+   * Police, qui vit sous Accueil : le ruban ne rendant QUE son onglet actif, le
+   * bouton n'était pas dans le DOM. Mesuré : halo absent, bulle absente, cible
+   * `null`, `w-gras` introuvable sur 144 frames, compteur 2/2, phase `fini`,
+   * ZÉRO erreur de console. Le faux témoin parfait.
+   *
+   * ⚠️ POURQUOI `ongletImpose` NE POUVAIT PAS SUFFIRE. Il porte « l'étape
+   * commence ici » et se déclenche sur un CHANGEMENT DE VALEUR — c'est ce qui
+   * laisse l'apprenant explorer le ruban librement, et il faut le garder. Or
+   * l'étape déclarait déjà `activeTab: "accueil"` : reposer « accueil » ne
+   * changeait donc aucune dépendance, et l'effet ne repartait jamais. D'où le
+   * JETON : il rend la repose audible même quand la valeur demandée est celle
+   * qui était déjà déclarée.
+   */
+  const signalerRef = useRef(onEtatChassis)
+  signalerRef.current = onEtatChassis
+  useEffect(() => {
+    signalerRef.current?.({ onglet, boiteTableau, lignes, colonnes })
+  }, [onglet, boiteTableau, lignes, colonnes])
+
+  useEffect(() => {
+    if (!chassisRepose) return
+    /*
+     * 🔴 LE CLICHÉ NE DOIT PAS CONTREDIRE LA DÉMONSTRATION EN COURS.
+     *
+     * React exécute les effets dans leur ORDRE DE DÉCLARATION. Celui-ci est
+     * déclaré APRÈS l'effet de `ongletImpose`, donc il écrivait en dernier — et
+     * une démonstration dont le PREMIER geste vise un bouton rangé ailleurs
+     * (`w-inserer-tableau` sous Insertion, `w-mise-en-page` sous Mise en page)
+     * voyait son onglet ouvert puis aussitôt refermé par la repose. Le geste se
+     * jouait alors à blanc SUR UN ÉCRAN PROPRE, c'est-à-dire une régression pire
+     * que le défaut corrigé. Mesuré au balayage : 7 démonstrations perdues
+     * (`M08-L02-01`, `M09-L01-05`, `M12-E01-04`, `M12-E02-06`, `M13-E01-04`,
+     * `M13-E02-02`, `M13-L01-04`), témoin à 0/1 alors qu'il était à 1/1.
+     *
+     * `ongletImpose` porte l'intention COURANTE : hors démonstration c'est
+     * l'onglet que l'étape déclare — donc celui du cliché, aucun conflit — et
+     * pendant une démonstration c'est l'onglet du geste, qui doit primer.
+     */
+    setOnglet(ongletImpose ?? chassisRepose.onglet)
+    setBoiteTableau(chassisRepose.boiteTableau)
+    setLignes(chassisRepose.lignes)
+    setColonnes(chassisRepose.colonnes)
+    // Le jeton seul déclenche : la repose doit avoir lieu même à valeurs égales.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [chassisRepose?.jeton])
 
   /* ═══════════ LE TIROIR DES GROUPES — mobile seulement ═══════════
    *

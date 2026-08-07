@@ -64,6 +64,7 @@ const PLAYERS: Array<{ nom: string; chemin: string }> = [
 ]
 
 const NOYAU = path.join(C, "hooks", "useAtelier.ts")
+const CHASSIS = path.join(C, "AtelierShell.tsx")
 
 /**
  * Retire les COMMENTAIRES avant toute recherche. Rien d'autre.
@@ -183,6 +184,43 @@ function verifierRecours(noyau: string): Constat[] {
     })
   }
   return constats
+}
+
+/**
+ * 5. LES PANNEAUX — une démonstration ne se joue jamais derrière eux.
+ *
+ * Défaut trouvé le 07/08/2026 par l'agent Excel. L'apprenant arrive sur un écran
+ * « À comprendre », ouvre le sommaire pour voir où il en est, et un peu plus
+ * d'une seconde plus tard la démonstration démarre TOUTE SEULE, entièrement
+ * derrière le panneau. Il ne voit rien, le compteur affiche 3/3, et le bouton
+ * pour la rejouer est lui aussi sous le voile.
+ *
+ * Ce n'est ni le cliché ni un player : c'est une frontière que personne ne
+ * surveillait entre le calque (plan 40) et les panneaux du châssis (voile 60,
+ * panneau 70). Mesuré : sommaire ouvert, **0 repère visible sur 46** ; après
+ * correctif, **48 sur 48**.
+ *
+ * Concerne 489 écrans : Excel 233, PowerPoint 191, Word 65. Outlook n'en a
+ * aucun — 55 écrans de lecture, mais aucun ne porte de démonstration.
+ */
+function verifierPanneaux(chassis: string): Constat[] {
+  const code = codeSeul(chassis)
+  // L'effet doit exister, être déclenché par la démonstration, et fermer LES DEUX.
+  const effets = code.match(/useEffect\(\(\)\s*=>\s*\{[\s\S]{0,700}?\},\s*\[[^\]]*\]\)/g) ?? []
+  const ferme = effets.some(
+    (e) =>
+      /demoEnCours|demonstration/.test(e) &&
+      /setPanneau\(\s*null\s*\)/.test(e) &&
+      /setGuideOuvert\(\s*false\s*\)/.test(e),
+  )
+  if (ferme) return []
+  return [{
+    player: "châssis",
+    propriete: "panneaux",
+    message:
+      "aucun effet ne referme le panneau et le guide quand une démonstration démarre : elle se jouerait " +
+      "derrière eux (calque plan 40, voile 60, panneau 70), sans qu'aucune erreur ne le signale.",
+  }]
 }
 
 /* ═══════════ LA DÉROGATION EXCEL ═══════════ */
@@ -514,6 +552,20 @@ export function __defautDu7Aout() {
        DEROGATION.player === "Excel" && DEROGATION.proprietes.every((p) => ["socle", "instant"].includes(p)),
        "elle ne couvre qu'Excel, et seulement `socle` et `instant`")
 
+  /* (5 quinquies) LES PANNEAUX — l'effet de fermeture doit être là, et agir. */
+  const chassisReel = fs.readFileSync(CHASSIS, "utf8")
+  dire("panneaux, châssis réel", verifierPanneaux(chassisReel).length === 0,
+       "l'effet referme bien le panneau et le guide au démarrage")
+  dire("panneaux, effet retiré",
+       verifierPanneaux(chassisReel.replace(/setPanneau\(null\)\s*\n\s*setGuideOuvert\(false\)/, "")).length === 1,
+       "le contrôle rougit")
+  dire("panneaux, guide oublié",
+       verifierPanneaux(chassisReel.replace(/setGuideOuvert\(false\)/, "")).length === 1,
+       "le contrôle rougit si le guide n'est pas refermé aussi")
+  dire("panneaux, un commentaire ne suffit pas",
+       verifierPanneaux(chassisReel.replace(/setPanneau\(null\)/, "// setPanneau(null)")).length === 1,
+       "mettre la fermeture en commentaire ne trompe pas le contrôle")
+
   // (6) socle : un player branché doit verdir, un player non branché rougir.
   const branche = { nom: 'Fictif', chemin: '', src: 'const c = useClicheEtape({ etapeId, prete, relever, reposer })\n' }
   const pasBranche = { nom: 'Fictif', chemin: '', src: 'const c = monClicheMaison({ etapeId })\n' }
@@ -541,6 +593,8 @@ function main() {
   let constats: Constat[] = []
   // Le recours vit dans le NOYAU, pas dans un player : il se vérifie une fois.
   constats.push(...verifierRecours(fs.readFileSync(NOYAU, "utf8")))
+  // Les panneaux vivent dans le CHÂSSIS, commun aux quatre apps.
+  constats.push(...verifierPanneaux(fs.readFileSync(CHASSIS, "utf8")))
   for (const p of PLAYERS) {
     if (!fs.existsSync(p.chemin)) {
       constats.push({ player: p.nom, propriete: "câblage", message: `fichier introuvable : ${p.chemin}` })

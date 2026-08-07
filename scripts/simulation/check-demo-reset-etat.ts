@@ -132,6 +132,59 @@ function verifierSocle(s: Source): Constat[] {
   }]
 }
 
+/**
+ * 4. LE RECOURS — le bouton « Revoir la démonstration » ne doit pas s'évaporer.
+ *
+ * Défaut trouvé le 07/08/2026 par l'agent Outlook, cause établie ici en pilotant
+ * le noyau seul dans un vrai React :
+ *
+ *   démo finie   {demonstration:true, demoFinie:true,  rejeu:0}   ← bouton visible
+ *   essai 5      {demonstration:true, demoFinie:false, rejeu:0}   ← bouton perdu, RIEN ne rejoue
+ *   essai 6      {demonstration:true, demoFinie:false, rejeu:0}   ← et ça recommence
+ *
+ * Deux causes distinctes, toutes deux dans `useAtelier.ts` :
+ *
+ *   (a) `demarrerDemonstration` faisait `setDemonstration(true)` sur un état
+ *       DÉJÀ vrai. React ne remonte alors pas le calque — seule la clé `rejeu`
+ *       le remonte — mais `demoFinie` était quand même remis à faux. Résultat :
+ *       l'encart vert reste, son bouton disparaît, et aucune démonstration ne
+ *       joue. L'apprenant perd son seul recours au pire moment.
+ *   (b) `compterEssai` déclenchait le palier avec `>= 5` au lieu de `=== 5` :
+ *       la démonstration se relançait à CHAQUE erreur au-delà de la cinquième,
+ *       et `avantDemonstration` remettait l'écran à zéro à chaque fois — trois
+ *       remises à zéro pour six erreurs, sans un mot à l'apprenant.
+ *
+ * Ce défaut est dans le NOYAU COMMUN : les quatre players appellent
+ * `compterEssai` et passent `demoRejouable` au châssis. Il ne dépend donc ni de
+ * l'application, ni de l'étape — seulement du compteur d'erreurs.
+ */
+function verifierRecours(noyau: string): Constat[] {
+  const code = codeSeul(noyau)
+  const constats: Constat[] = []
+
+  const bloc = code.match(/const\s+demarrerDemonstration\s*=\s*useCallback\([\s\S]*?\}\s*,\s*\[[^\]]*\]\s*\)/)
+  if (!bloc) {
+    constats.push({ player: "noyau", propriete: "recours", message: "`demarrerDemonstration` introuvable dans le noyau" })
+  } else if (!/setRejeu\s*\(/.test(bloc[0])) {
+    constats.push({
+      player: "noyau", propriete: "recours",
+      message:
+        "`demarrerDemonstration` ne rejoue pas quand une démonstration est déjà à l'écran : " +
+        "`setDemonstration(true)` sur un état déjà vrai ne remonte pas le calque, mais retire le bouton « Revoir ».",
+    })
+  }
+
+  if (/\bsuivant\s*>=\s*5\b/.test(code)) {
+    constats.push({
+      player: "noyau", propriete: "recours",
+      message:
+        "le palier 5 se déclenche avec `>= 5` : la démonstration se relance à CHAQUE erreur au-delà, " +
+        "et l'écran de l'apprenant est remis à zéro à chaque fois. Un palier se franchit une fois (`=== 5`).",
+    })
+  }
+  return constats
+}
+
 /** 1. CÂBLAGE — le player branche bien `avantDemonstration`. */
 function verifierCablage(s: Source): Constat[] {
   const code = codeSeul(s.src)
@@ -292,6 +345,94 @@ export function __piege2() {
     )
   }
 
+  /* ══════════════════════════════════════════════════════════════════════════
+   * (5 bis) LES QUATRE APPLICATIONS, UNE PAR UNE — rougir, puis reverdir.
+   *
+   * Les pièges ci-dessus valident chaque propriété isolément, sur un player
+   * choisi. Celui-ci fait le tour complet : pour CHACUNE des quatre apps, on
+   * part de sa source réelle, on introduit le défaut du 07/08 — la photo prise
+   * au clic ET le renoncement muet — et on exige que le contrôle rougisse ;
+   * puis on part de sa source RÉPARÉE et on exige 0 constat.
+   *
+   * « Reverdir » n'est pas « retrouver le verdict d'aujourd'hui » : les quatre
+   * apps portent encore de vrais défauts, et un piège qui se contenterait de
+   * retrouver leur nombre de constats prouverait seulement que le contrôle est
+   * stable. On construit donc une version SAINE de chaque source et on exige
+   * qu'elle passe à zéro — c'est la seule preuve que le contrôle sait dire oui.
+   * ═══════════════════════════════════════════════════════════════════════════ */
+  const tousConstats = (s: Source) =>
+    [...verifierSocle(s), ...verifierCablage(s), ...verifierInstant(s), ...verifierSilence(s)]
+
+  /** Le défaut du 07/08, greffé sur n'importe quelle app. */
+  const avecLeDefaut = (s: Source): Source => ({
+    ...s,
+    src:
+      s.src +
+      `
+export function __defautDu7Aout() {
+  useEffect(() => {
+    clicheDemoRef.current = prendreClicheDemo()
+  }, [demonstration, rejeu])
+  const depart = clicheDepartRef.current
+  if (!depart || depart.id !== stepRef.current?.id) return
+  reposer(depart.etat)
+}
+`,
+  })
+
+  /**
+   * La version RÉPARÉE : on retire ce que le contrôle reproche réellement.
+   *
+   *  · le socle    → on branche `useClicheEtape` ;
+   *  · l'instant   → on retire `demonstration` et `rejeu` des dépendances de
+   *                  l'effet qui photographie (Excel) ;
+   *  · le silence  → on remplace le `return` muet par un rattrapage explicite.
+   */
+  const reparee = (s: Source): Source => {
+    let src = s.src
+    // silence : le `return` nu gardé par une comparaison d'identifiant d'étape.
+    src = src.replace(
+      /if\s*\((\s*!\w+\s*\|\|\s*)?[\w.]*depart[\w.]*\.id\s*!==([^)]*)\)\s*return\b(?![^;\n]*\w)/gi,
+      "if ($1depart.id !==$2) { rattraper(); return }",
+    )
+    // instant : la photo ne dépend plus du déclenchement de la démonstration.
+    src = src.replace(/\}, \[demonstration, rejeu, gridReady\]\)/g, "}, [index, gridReady])")
+    // socle : le player passe par le cliché commun.
+    src += "\nconst __cliche = useClicheEtape({ etapeId, prete, relever, reposer })\n"
+    return { ...s, src }
+  }
+
+  for (const p of PLAYERS) {
+    const s: Source = { nom: p.nom, chemin: p.chemin, src: fs.readFileSync(p.chemin, "utf8") }
+    const n0 = tousConstats(s).length
+    const avec = tousConstats(avecLeDefaut(s)).length
+    dire(
+      `${p.nom} — défaut introduit`,
+      avec > n0,
+      `${n0} constat(s) sur la source réelle → ${avec} avec le défaut greffé : le contrôle rougit`,
+    )
+    const apres = tousConstats(reparee(s))
+    dire(
+      `${p.nom} — défaut retiré`,
+      apres.length === 0,
+      apres.length === 0
+        ? "0 constat sur la source réparée : le contrôle reverdit"
+        : `IL RESTE ${apres.length} constat(s) : ${apres.map((c) => c.propriete).join(", ")}`,
+    )
+  }
+
+  /* (5 ter) LE RECOURS — le bouton qui s'évapore. */
+  const noyauReel = fs.readFileSync(NOYAU, "utf8")
+  dire('recours, noyau réel', verifierRecours(noyauReel).length === 0, 'aucun constat')
+  const sansRejeu = noyauReel.replace(
+    /if \(demonstrationRef\.current\) setRejeu\(\(n\) => n \+ 1\)\s*\n\s*else setDemonstration\(true\)/,
+    'setDemonstration(true)')
+  dire('recours, rejeu retiré du démarrage', verifierRecours(sansRejeu).length === 1,
+       'le contrôle rougit : démarrer une démo déjà à l\'écran ne relancerait rien')
+  const seuilLache = noyauReel.replace('if (suivant === 5)', 'if (suivant >= 5)')
+  dire('recours, palier repassé en >= 5', verifierRecours(seuilLache).length === 1,
+       'le contrôle rougit : le palier se redéclencherait à chaque erreur')
+
   // (6) socle : un player branché doit verdir, un player non branché rougir.
   const branche = { nom: 'Fictif', chemin: '', src: 'const c = useClicheEtape({ etapeId, prete, relever, reposer })\n' }
   const pasBranche = { nom: 'Fictif', chemin: '', src: 'const c = monClicheMaison({ etapeId })\n' }
@@ -317,6 +458,8 @@ function main() {
   }
 
   const constats: Constat[] = []
+  // Le recours vit dans le NOYAU, pas dans un player : il se vérifie une fois.
+  constats.push(...verifierRecours(fs.readFileSync(NOYAU, "utf8")))
   for (const p of PLAYERS) {
     if (!fs.existsSync(p.chemin)) {
       constats.push({ player: p.nom, propriete: "câblage", message: `fichier introuvable : ${p.chemin}` })

@@ -250,10 +250,42 @@ export function useAideProgressive(opts: {
   const avantRef = useRef(opts.avantDemonstration)
   avantRef.current = opts.avantDemonstration
 
+  /**
+   * L'état courant, lisible depuis un rappel stable.
+   *
+   * Sans lui, `demarrerDemonstration` ne peut pas savoir qu'une démonstration
+   * est DÉJÀ à l'écran — et c'est précisément ce qu'il doit savoir (voir plus
+   * bas). Le mettre dans les dépendances du rappel le recréerait à chaque
+   * bascule, ce qui casserait les rappels stables que les players lui passent.
+   */
+  const demonstrationRef = useRef(demonstration)
+  demonstrationRef.current = demonstration
+
+  /**
+   * 🔴 DÉMARRER UNE DÉMONSTRATION DÉJÀ À L'ÉCRAN NE RELANCE RIEN.
+   *
+   * Défaut trouvé le 07/08/2026 par l'agent Outlook, cause établie ici par
+   * exécution : `setDemonstration(true)` sur un état DÉJÀ vrai ne change rien,
+   * donc le calque ne se remonte pas — seule la clé `rejeu` le remonte. On
+   * remettait pourtant `demoFinie` à faux au passage.
+   *
+   * Résultat pour l'apprenant qui vient de regarder la démonstration puis se
+   * trompe une cinquième fois : l'encart vert reste (il suit `demonstration`),
+   * **son bouton « Revoir la démonstration » disparaît** (il suit `demoFinie`),
+   * et AUCUNE démonstration ne rejoue. Il perd son seul recours au moment
+   * précis où il en a le plus besoin. Mesuré sur le noyau seul :
+   *
+   *   démo finie   {demonstration:true, demoFinie:true,  rejeu:0}   ← bouton visible
+   *   essai 5      {demonstration:true, demoFinie:false, rejeu:0}   ← bouton perdu, rien ne rejoue
+   *
+   * Le remède : quand une démonstration est déjà à l'écran, on REJOUE — c'est
+   * le seul chemin qui remonte le calque.
+   */
   const demarrerDemonstration = useCallback(() => {
     avantRef.current?.()
     setDemoFinie(false)
-    setDemonstration(true)
+    if (demonstrationRef.current) setRejeu((n) => n + 1)
+    else setDemonstration(true)
   }, [])
   const rejouerDemonstration = useCallback(() => {
     avantRef.current?.()
@@ -269,7 +301,19 @@ export function useAideProgressive(opts: {
       // Palier 2 : l'indice s'affiche de lui-même, y compris en exercice où
       // il se demande d'ordinaire. Palier 5 : la démonstration se déclenche.
       if (suivant >= 2) setHintShown(true)
-      if (suivant >= 5) demarrerDemonstration()
+      /* 🔴 UN PALIER SE FRANCHIT UNE FOIS — d'où `=== 5` et non `>= 5`.
+       *
+       * Avec `>=`, la démonstration se redéclenchait à CHAQUE erreur au-delà de
+       * la cinquième. Deux conséquences mesurées, toutes deux silencieuses :
+       * `avantDemonstration` remettait l'écran à l'état de départ de l'étape à
+       * chaque faute — l'apprenant perdait son travail en cours sans comprendre
+       * pourquoi —, et `demoFinie` retombait à faux à chaque fois, ce qui lui
+       * retirait le bouton « Revoir la démonstration ». Mesuré sur le noyau
+       * seul : trois remises à zéro de l'écran pour six erreurs.
+       *
+       * Au-delà du palier, l'apprenant garde la main : le bouton « Revoir »
+       * reste à sa disposition, et c'est lui qui décide de revoir le geste. */
+      if (suivant === 5) demarrerDemonstration()
       return suivant
     })
   }, [demarrerDemonstration])

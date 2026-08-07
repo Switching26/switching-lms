@@ -32,13 +32,14 @@ import AfficheModule, { numeroModule } from "../AfficheModule"
 import DemonstrationGeste from "../DemonstrationGeste"
 import {
   useAideProgressive,
+  useClicheEtape,
   useMesureZoneTravail,
   usePersistance,
   useProgression,
   useRetourVisuel,
   type RectCible,
 } from "../hooks/useAtelier"
-import PptSurface from "./PptSurface"
+import PptSurface, { type ApiEtatSurface, type EtatUiPpt } from "./PptSurface"
 import type { SimulationScenario, SimulationStep } from "@/lib/simulation/types"
 import { natureEtape } from "@/lib/simulation/attendu"
 import { jugerEtape } from "@/lib/simulation/frappe"
@@ -205,23 +206,29 @@ export default function PptPlayer({
   deckRef.current = deck
 
   /**
-   * La présentation telle qu'elle était À L'ARRIVÉE sur l'étape.
+   * L'état d'interface, prêté par la surface — voir `PptSurface.registre`.
    *
-   * C'est le point de départ que toute démonstration doit retrouver. Sans lui,
-   * l'apprenant qui déplace un objet, vide un espace réservé ou change de
-   * disposition avant de réclamer « Montrez-moi » reçoit une explication qui
-   * parle d'une diapositive que l'écran ne montre plus — et le geste montré se
-   * pose sur une présentation que personne ne lui a demandé de produire.
-   *
-   * Photographié APRÈS le décor de l'étape, jamais avant : le prendre plus tôt
-   * figerait la présentation de l'étape PRÉCÉDENTE.
-   *
-   * L'identifiant de l'étape est retenu AVEC la photo, et vérifié avant de
-   * reposer quoi que ce soit : une photo qui ne serait pas celle de l'étape
-   * courante rembobinerait le travail de l'apprenant de plusieurs étapes. Mieux
-   * vaut alors ne rien restaurer que restaurer à côté.
+   * Onglet de ruban, menu ouvert, éditeur de texte, tiroir des miniatures et
+   * volet de notes vivent dans les composants d'affichage. Le player ne pouvait
+   * ni les lire ni les reposer : son reset ne remettait donc QUE le document.
    */
-  const deckDepartEtapeRef = useRef<{ id: string; deck: DeckState } | null>(null)
+  const uiApiRef = useRef<ApiEtatSurface | null>(null)
+
+  /**
+   * L'étape dont le décor est POSÉ — le drapeau `prete` du contrat de reset.
+   *
+   * 🔴 SANS LUI, LA PHOTO EST PRISE UNE ÉTAPE TROP TÔT.
+   *
+   * `useClicheEtape` doit être appelé AVANT `useAideProgressive`, à qui il
+   * fournit `avantDemonstration`. Son effet de photographie s'exécute donc avant
+   * celui qui applique `setupPpt`, plus bas dans ce fichier — React exécute les
+   * effets dans l'ordre où ils sont déclarés. Photographier à ce moment-là
+   * figerait la présentation de l'étape PRÉCÉDENTE, et chaque « Revoir »
+   * rembobinerait l'apprenant d'une étape.
+   *
+   * Le décor pose ce drapeau en dernier ; le socle n'attend rien d'autre.
+   */
+  const [etapeDecoree, setEtapeDecoree] = useState<string | null>(null)
 
   const zoneRef = useRef<HTMLDivElement | null>(null)
   const { hauteur: hauteurZone, largeur: largeurZone } = useMesureZoneTravail(zoneRef)
@@ -268,28 +275,51 @@ export default function PptPlayer({
   const { pendingRef, persist, commencer, ouvertureEnCours, passerLaQuestion, passageEnCours, cloturer, bilan } =
     persistance
 
+  /* ─────────── LE « VRAI RESET » ───────────
+   *
+   * Une démonstration est une RECONSTITUTION, pas la poursuite du travail en
+   * cours : on repose l'écran du début de l'étape avant chaque passage, le
+   * premier comme les « Revoir ».
+   *
+   * 🔴 CE QUI MANQUAIT, ET QUE SAMUEL A FILMÉ LE 07/08/2026.
+   *
+   * Ce reset ne reposait que `deck` — le DOCUMENT. L'INTERFACE restait celle que
+   * l'apprenant avait laissée, et d'abord son onglet de ruban. Mesuré au banc
+   * sur les 73 écrans « À comprendre » qui désignent un bouton de ruban : après
+   * un simple clic sur un autre onglet, le bouton désigné n'est plus dans la
+   * page, aucun repère n'est dessiné — et le compteur va jusqu'à `n/n` sans
+   * lever la moindre erreur. Sur `M01-L02-13`, les trois repères disparaissent :
+   * la démonstration se joue ENTIÈREMENT à blanc.
+   *
+   * Le cliché couvre donc maintenant le document ET l'interface. Deux états
+   * n'y entrent délibérément pas :
+   *  · `apercu` — l'ombre d'un objet pendant un glissé, effacée dès le relâché.
+   *    On ne peut pas cliquer « Revoir » en plein glissé : le photographier
+   *    reviendrait à conserver une valeur qui est toujours nulle à cet instant ;
+   *  · `ouvrirEnCours` — l'attente du bouton d'ouverture du chapitre, qui vit
+   *    AVANT que la première étape existe. Le reposer au milieu d'un atelier
+   *    rouvrirait un écran que l'apprenant a déjà quitté.
+   */
+  const cliche = useClicheEtape<{ deck: DeckState; ui: EtatUiPpt | null }>({
+    etapeId: step?.id,
+    prete: !!step && etapeDecoree === step.id,
+    relever: () => ({ deck: deckRef.current, ui: uiApiRef.current?.relever() ?? null }),
+    reposer: (e) => {
+      // Les REFS d'abord : le plan de démonstration est calculé aussitôt après,
+      // sans attendre le rendu, et il lit `deckRef` — pas l'état React.
+      deckRef.current = e.deck
+      setDeck(e.deck)
+      if (e.ui) uiApiRef.current?.reposer(e.ui)
+    },
+  })
+
   /* ── Noyau : aide progressive ── */
   const aide = useAideProgressive({
     mode,
     index,
     finished,
     aUneEtape: !!step,
-    /*
-     * Une démonstration est une RECONSTITUTION, pas la poursuite du travail en
-     * cours : on repose la présentation du début de l'étape avant chaque
-     * passage, le premier comme les « Revoir ». Excel fait de même avec le
-     * poste de travail, et pour la même raison — l'apprenant qui abîme quelque
-     * chose puis redemande à voir se retrouvait sinon avec une explication
-     * fausse, la deuxième fois comme la première.
-     */
-    avantDemonstration: () => {
-      const depart = deckDepartEtapeRef.current
-      if (!depart || depart.id !== stepRef.current?.id) return
-      // La ref est remise à jour sans attendre le rendu : la photo que prend
-      // l'écran de lecture juste après lit `deckRef`, pas l'état React.
-      deckRef.current = depart.deck
-      setDeck(depart.deck)
-    },
+    avantDemonstration: cliche.avantDemonstration,
   })
 
   /* ─────────── MISE EN PLACE D'UNE ÉTAPE ───────────
@@ -310,10 +340,10 @@ export default function PptPlayer({
 
     const s = step.setupPpt
     if (!s) {
-      // Aucun décor à poser : le point de départ est la présentation telle que
-      // l'étape précédente l'a laissée. Il faut quand même la photographier,
-      // sinon les étapes sans `setupPpt` n'auraient rien à restaurer.
-      deckDepartEtapeRef.current = { id: step.id, deck: deckRef.current }
+      // Aucun décor à poser : le point de départ est l'écran tel que l'étape
+      // précédente l'a laissé. Il faut quand même le photographier, sinon les
+      // étapes sans `setupPpt` n'auraient rien à restaurer.
+      setEtapeDecoree(step.id)
       return
     }
     // Idiome du fichier : on lit la ref, on calcule, on repose la ref, puis on
@@ -325,9 +355,10 @@ export default function PptPlayer({
     if (s.selection) n = { ...n, selection: s.selection }
     if (s.view) n = { ...n, view: s.view }
     if (s.show) n = { ...n, show: { ...s.show } }
-    deckDepartEtapeRef.current = { id: step.id, deck: n }
     deckRef.current = n
     setDeck(n)
+    // EN DERNIER : le décor est posé, le socle peut photographier.
+    setEtapeDecoree(step.id)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [index, step?.id])
 
@@ -1204,6 +1235,10 @@ export default function PptPlayer({
           lecture={!!preview || finished}
           largeurZone={largeurZone}
           ongletSuggere={ongletSuggere}
+          cleEtape={step?.id}
+          registre={(api) => {
+            uiApiRef.current = api
+          }}
         />
 
         {/* Effet ancré à la cible : le guidage doit être visible DANS la zone de

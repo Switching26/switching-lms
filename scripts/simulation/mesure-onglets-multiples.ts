@@ -163,7 +163,7 @@ for (const x of fragiles.slice(0, 30)) {
 }
 
 fs.writeFileSync(
-  path.join(__dirname, "..", "..", ".mesure-onglets-multiples.json"),
+  "/tmp/mesure-onglets-multiples.json",
   JSON.stringify({ etapesTotal, avecPlan, multi, fragiles }, null, 1),
 )
-console.log(`\nÉcrit : .mesure-onglets-multiples.json`)
+console.log(`\nÉcrit : /tmp/mesure-onglets-multiples.json`)

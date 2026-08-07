@@ -132,6 +132,59 @@ function verifierSocle(s: Source): Constat[] {
   }]
 }
 
+/**
+ * 4. LE RECOURS — le bouton « Revoir la démonstration » ne doit pas s'évaporer.
+ *
+ * Défaut trouvé le 07/08/2026 par l'agent Outlook, cause établie ici en pilotant
+ * le noyau seul dans un vrai React :
+ *
+ *   démo finie   {demonstration:true, demoFinie:true,  rejeu:0}   ← bouton visible
+ *   essai 5      {demonstration:true, demoFinie:false, rejeu:0}   ← bouton perdu, RIEN ne rejoue
+ *   essai 6      {demonstration:true, demoFinie:false, rejeu:0}   ← et ça recommence
+ *
+ * Deux causes distinctes, toutes deux dans `useAtelier.ts` :
+ *
+ *   (a) `demarrerDemonstration` faisait `setDemonstration(true)` sur un état
+ *       DÉJÀ vrai. React ne remonte alors pas le calque — seule la clé `rejeu`
+ *       le remonte — mais `demoFinie` était quand même remis à faux. Résultat :
+ *       l'encart vert reste, son bouton disparaît, et aucune démonstration ne
+ *       joue. L'apprenant perd son seul recours au pire moment.
+ *   (b) `compterEssai` déclenchait le palier avec `>= 5` au lieu de `=== 5` :
+ *       la démonstration se relançait à CHAQUE erreur au-delà de la cinquième,
+ *       et `avantDemonstration` remettait l'écran à zéro à chaque fois — trois
+ *       remises à zéro pour six erreurs, sans un mot à l'apprenant.
+ *
+ * Ce défaut est dans le NOYAU COMMUN : les quatre players appellent
+ * `compterEssai` et passent `demoRejouable` au châssis. Il ne dépend donc ni de
+ * l'application, ni de l'étape — seulement du compteur d'erreurs.
+ */
+function verifierRecours(noyau: string): Constat[] {
+  const code = codeSeul(noyau)
+  const constats: Constat[] = []
+
+  const bloc = code.match(/const\s+demarrerDemonstration\s*=\s*useCallback\([\s\S]*?\}\s*,\s*\[[^\]]*\]\s*\)/)
+  if (!bloc) {
+    constats.push({ player: "noyau", propriete: "recours", message: "`demarrerDemonstration` introuvable dans le noyau" })
+  } else if (!/setRejeu\s*\(/.test(bloc[0])) {
+    constats.push({
+      player: "noyau", propriete: "recours",
+      message:
+        "`demarrerDemonstration` ne rejoue pas quand une démonstration est déjà à l'écran : " +
+        "`setDemonstration(true)` sur un état déjà vrai ne remonte pas le calque, mais retire le bouton « Revoir ».",
+    })
+  }
+
+  if (/\bsuivant\s*>=\s*5\b/.test(code)) {
+    constats.push({
+      player: "noyau", propriete: "recours",
+      message:
+        "le palier 5 se déclenche avec `>= 5` : la démonstration se relance à CHAQUE erreur au-delà, " +
+        "et l'écran de l'apprenant est remis à zéro à chaque fois. Un palier se franchit une fois (`=== 5`).",
+    })
+  }
+  return constats
+}
+
 /** 1. CÂBLAGE — le player branche bien `avantDemonstration`. */
 function verifierCablage(s: Source): Constat[] {
   const code = codeSeul(s.src)
@@ -368,6 +421,18 @@ export function __defautDu7Aout() {
     )
   }
 
+  /* (5 ter) LE RECOURS — le bouton qui s'évapore. */
+  const noyauReel = fs.readFileSync(NOYAU, "utf8")
+  dire('recours, noyau réel', verifierRecours(noyauReel).length === 0, 'aucun constat')
+  const sansRejeu = noyauReel.replace(
+    /if \(demonstrationRef\.current\) setRejeu\(\(n\) => n \+ 1\)\s*\n\s*else setDemonstration\(true\)/,
+    'setDemonstration(true)')
+  dire('recours, rejeu retiré du démarrage', verifierRecours(sansRejeu).length === 1,
+       'le contrôle rougit : démarrer une démo déjà à l\'écran ne relancerait rien')
+  const seuilLache = noyauReel.replace('if (suivant === 5)', 'if (suivant >= 5)')
+  dire('recours, palier repassé en >= 5', verifierRecours(seuilLache).length === 1,
+       'le contrôle rougit : le palier se redéclencherait à chaque erreur')
+
   // (6) socle : un player branché doit verdir, un player non branché rougir.
   const branche = { nom: 'Fictif', chemin: '', src: 'const c = useClicheEtape({ etapeId, prete, relever, reposer })\n' }
   const pasBranche = { nom: 'Fictif', chemin: '', src: 'const c = monClicheMaison({ etapeId })\n' }
@@ -393,6 +458,8 @@ function main() {
   }
 
   const constats: Constat[] = []
+  // Le recours vit dans le NOYAU, pas dans un player : il se vérifie une fois.
+  constats.push(...verifierRecours(fs.readFileSync(NOYAU, "utf8")))
   for (const p of PLAYERS) {
     if (!fs.existsSync(p.chemin)) {
       constats.push({ player: p.nom, propriete: "câblage", message: `fichier introuvable : ${p.chemin}` })

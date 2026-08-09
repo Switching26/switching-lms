@@ -18,6 +18,11 @@
 
 import { useEffect, useLayoutEffect, useState } from "react"
 import { verdictEcranAtelier, type ZoneAtelier, type VerdictEcran } from "@/lib/simulation/acces-ecran"
+import {
+  illustrationAtelier,
+  normaliserAppAtelier,
+  type FormeIllustration,
+} from "@/lib/simulation/illustration-atelier"
 import { useCadranActions } from "@/components/learner/CadranFormation"
 
 /**
@@ -142,7 +147,7 @@ export function useVerdictEcranAtelier(actif: boolean): VerdictEcran | null {
  * déjà chargée par la page — aucun appel réseau n'est fait pour l'obtenir.
  */
 function cequOnPilote(app: string | null | undefined): string {
-  switch ((app || "").toUpperCase()) {
+  switch (normaliserAppAtelier(app)) {
     case "WORD":
       return "une vraie fenêtre Word — ruban, règle, volets et boîtes de dialogue"
     case "POWERPOINT":
@@ -155,6 +160,35 @@ function cequOnPilote(app: string | null | undefined): string {
       // Une application ajoutée plus tard ne doit pas produire une phrase vide.
       return "une vraie fenêtre de logiciel — ruban, volets et boîtes de dialogue"
   }
+}
+
+/**
+ * Une forme du dessin de droite, rendue telle que le module la décrit.
+ *
+ * Aucune décision ici : le choix de l'application, ses couleurs et sa géométrie
+ * vivent dans `lib/simulation/illustration-atelier.ts`. Ce composant ne fait que
+ * peindre — c'est ce qui permet au contrôle de juger le dessin sans navigateur.
+ */
+function Forme({ f }: { f: FormeIllustration }) {
+  if (f.k === "rect") {
+    return (
+      <rect
+        x={f.x}
+        y={f.y}
+        width={f.w}
+        height={f.h}
+        rx={f.rx}
+        fill={f.fill}
+        fillOpacity={f.opacite}
+        stroke={f.stroke}
+        strokeWidth={f.sw}
+      />
+    )
+  }
+  if (f.k === "cercle") {
+    return <circle cx={f.cx} cy={f.cy} r={f.r} fill={f.fill} stroke={f.stroke} strokeWidth={f.sw} />
+  }
+  return <path d={f.d} fill={f.fill} stroke={f.stroke} strokeWidth={f.sw} />
 }
 
 export default function EcranTropPetit({
@@ -179,6 +213,15 @@ export default function EcranTropPetit({
    * (`raison === "largeur"`), et la carte garde exactement l'aspect validé.
    */
   const compact = raison === "hauteur"
+
+  /*
+   * Le dessin de droite : la fenêtre de l'application que cet atelier fait piloter.
+   *
+   * Il vient de la MÊME source que la phrase juste en dessous — sans quoi les deux
+   * peuvent se contredire, et c'est exactement ce qui est arrivé : le texte disait
+   * « une vraie fenêtre Word » sous un dessin de tableur.
+   */
+  const illustration = illustrationAtelier(app)
 
   return (
     <div
@@ -235,20 +278,14 @@ export default function EcranTropPetit({
           strokeLinejoin="round"
         />
         <rect x="124.5" y="24.5" width="77" height="63" rx="7" stroke="#655a4d" strokeWidth="1.6" />
-        <path d="M124.5 31.5a7 7 0 017-7h63a7 7 0 017 7v3.5h-77v-3.5z" fill="#107C41" />
-        <g fill="#fff" fillOpacity=".6">
-          <rect x="130" y="28.5" width="9" height="2.6" rx="1.3" />
-          <rect x="142" y="28.5" width="9" height="2.6" rx="1.3" />
-          <rect x="154" y="28.5" width="9" height="2.6" rx="1.3" />
-        </g>
-        <g stroke="#e8e2d8" strokeWidth="1.1">
-          <path d="M124.5 45.5h77M124.5 56.5h77M124.5 67.5h77M124.5 78.5h77" />
-          <path d="M143.5 35v52.5M162.5 35v52.5M181.5 35v52.5" />
-        </g>
-        <rect x="145" y="47" width="16" height="8" rx="1.6" fill="#E7F3EB" />
-        <rect x="164" y="58" width="16" height="8" rx="1.6" fill="#E7F3EB" />
+        {/* Ce que l'apprenant retrouvera sur un grand écran : SON application, jamais
+            celle d'une autre formation. Le cadre ci-dessus et la coche ci-dessous sont
+            communs aux quatre — c'est l'intérieur de la fenêtre qui change. */}
+        {illustration.formes.map((f, i) => (
+          <Forme key={i} f={f} />
+        ))}
         <circle cx="199" cy="85" r="12" fill="#fff" />
-        <circle cx="199" cy="85" r="9.4" fill="#107C41" />
+        <circle cx="199" cy="85" r="9.4" fill={illustration.accent} />
         <path
           d="M195 85.2l2.9 2.9 5.3-6"
           stroke="#fff"

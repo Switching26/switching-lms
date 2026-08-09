@@ -286,6 +286,7 @@ for (const id of Object.keys(LIBELLES)) {
 const EXERCE_PAR_ETAT: Readonly<Record<string, string>> = {
   [CONTROLES.supprimer]: "O_EXPECT_BOITE { dossier: 'supprimes' }",
   [CONTROLES.indicateur]: "O_EXPECT_BOITE { indicateur: true }",
+  [CONTROLES.nonLu]: "O_EXPECT_BOITE { lu: false }",
   [CONTROLES.recherche]: "O_TYPE_TEXT { champ: 'recherche' }",
   [CONTROLES.accepter]: "O_EXPECT_CALENDRIER (l'événement accepté apparaît)",
 }
@@ -298,6 +299,16 @@ for (const f of readdirSync(SCENARIOS).filter((x) => x.endsWith(".json"))) {
       for (const m of Object.values<Record<string, unknown>>(a.boite?.messages ?? {})) {
         if (m.dossier === "supprimes") parEtat.add(CONTROLES.supprimer)
         if (m.indicateur) parEtat.add(CONTROLES.indicateur)
+        /**
+         * ⚠️ COMPARAISON STRICTE OBLIGATOIRE. `lu` est le seul attendu de ce
+         * bloc dont la valeur utile est `false` : un `if (!m.lu)` compterait
+         * aussi les 131 messages attendus qui ne portent pas la clé du tout, et
+         * le bouton passerait « exercé » sans qu'aucun chapitre ne le demande —
+         * exactement le faux positif contre lequel l'en-tête met en garde.
+         * Remettre `lu: true` ici serait tout aussi faux : c'est l'ouverture du
+         * message qui le marque comme lu, pas ce bouton.
+         */
+        if (m.lu === false) parEtat.add(CONTROLES.nonLu)
       }
     if (a.type === "O_TYPE_TEXT" && a.champ === "recherche") parEtat.add(CONTROLES.recherche)
     if (a.type === "O_EXPECT_CALENDRIER") parEtat.add(CONTROLES.accepter)

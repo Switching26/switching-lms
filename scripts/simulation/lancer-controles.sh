@@ -19,6 +19,7 @@ cd "$(dirname "$0")/../.."
 
 CONTROLES=(
   check-frontieres
+  check-acces-ecran
   check-note-nonregression
   check-scenario
   check-couverture

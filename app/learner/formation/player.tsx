@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from "react"
 import { useRouter } from "next/navigation"
 import SimulationChapter from "@/components/simulation/SimulationChapter"
+import EcranTropPetit, { useVerdictEcranAtelier } from "@/components/simulation/EcranTropPetit"
 import type { EntreeSommaire } from "@/components/simulation/SimulationPlayer"
 import { estimatedSimulationSeconds } from "@/lib/simulation/duree"
 import {
@@ -502,9 +503,38 @@ export default function FormationPlayer({
   const kind: ChapterKind = active ? getChapterKind(active) : "text"
   const genre = genreCadran(kind)
   const pdfActif = kind === "pdf" ? pdfDuChapitre(active) : null
-  // Un atelier prend l'écran entier lui-même : le cadran s'efface, sans se
-  // démonter (hôte Vimeo persistant).
-  const estAtelier = kind === "simulation"
+
+  /*
+   * L'écran est-il assez grand pour cet atelier ?
+   *
+   * `null` uniquement entre le premier rendu et la mesure, qui tombe AVANT la
+   * peinture : cet état n'est jamais à l'écran, et c'est ce qui évite qu'un
+   * simulateur s'affiche une image avant de disparaître. Le rendu serveur et le
+   * premier rendu client valent tous deux `null`, donc l'hydratation reste
+   * propre.
+   *
+   * ⚠️ Ne concerne QUE les ateliers, et ne MESURE que pour eux : le drapeau
+   * évite de poser une sonde et un observateur de taille sur les chapitres
+   * vidéo, PDF, questionnaire et texte, qui n'ont aucune contrainte d'écran.
+   */
+  const estChapitreAtelier = kind === "simulation"
+  const verdictEcran = useVerdictEcranAtelier(estChapitreAtelier)
+  const atelierBloque = estChapitreAtelier && verdictEcran !== null && !verdictEcran.suffisant
+
+  /*
+   * Un atelier prend l'écran entier lui-même : le cadran s'efface, sans se
+   * démonter (hôte Vimeo persistant). Bloqué, l'atelier n'est PAS monté du
+   * tout — aucun scénario n'est chargé — et le cadran reprend l'écran pour
+   * porter l'explication : cockpit, fil du chapitre, sommaire, notes et
+   * navigation restent donc en place.
+   *
+   * ⚠️ On exige un verdict FRANC pour monter l'atelier, au lieu de « tant qu'on
+   * ne sait pas, on monte ». C'est la différence entre un simulateur qui
+   * apparaît puis disparaît sur téléphone, et un simulateur qui ne s'affiche
+   * jamais. Le verdict tombant dans un effet de mise en page, l'attente n'est
+   * jamais peinte.
+   */
+  const estAtelier = estChapitreAtelier && verdictEcran?.suffisant === true
   const seuilSecondes =
     active?.videoUrl && active.videoDuration ? Math.round(active.videoDuration * 0.5) : 0
   const vuSecondes = active ? (watchMap[active.id] || 0) + (active.timeSpentSeconds || 0) : 0
@@ -512,25 +542,38 @@ export default function FormationPlayer({
   const validation: ValidationChapitre = !active
     ? { etat: "possible" }
     : completedMap[active.id]
-      ? { etat: "termine" }
-      : preview
+      ? // Un atelier déjà réussi sur un grand écran reste « terminé », même
+        // rouvert depuis un téléphone : le verrou ne réécrit pas l'histoire.
+        { etat: "termine" }
+      : atelierBloque
         ? {
             etat: "verrouille",
-            libelle: "Aperçu — non enregistré",
-            explication: "En aperçu, la progression de l'apprenant n'est pas modifiée.",
+            libelle: "Sur tablette ou ordinateur",
+            explication:
+              "Cet atelier reproduit une vraie fenêtre de logiciel : il demande au minimum une tablette. Votre progression n'est pas modifiée.",
           }
-        : marking
-          ? { etat: "enregistrement" }
-          : watchGate.locked
-            ? {
-                etat: "verrouille",
-                libelle: `Validation à ${mmss(seuilSecondes)}`,
-                explication:
-                  "Regardez au moins la moitié de la leçon pour la valider. La navigation, elle, reste libre.",
-              }
-            : { etat: "possible" }
+        : preview
+          ? {
+              etat: "verrouille",
+              libelle: "Aperçu — non enregistré",
+              explication: "En aperçu, la progression de l'apprenant n'est pas modifiée.",
+            }
+          : marking
+            ? { etat: "enregistrement" }
+            : watchGate.locked
+              ? {
+                  etat: "verrouille",
+                  libelle: `Validation à ${mmss(seuilSecondes)}`,
+                  explication:
+                    "Regardez au moins la moitié de la leçon pour la valider. La navigation, elle, reste libre.",
+                }
+              : { etat: "possible" }
 
-  const attendu =
+  const attendu = atelierBloque ? (
+    <>
+      Attendu : <b className="font-semibold text-ink">réaliser cet atelier sur tablette ou ordinateur</b>.
+    </>
+  ) : (
     kind === "video" && seuilSecondes > 0 ? (
       <>
         Attendu : <b className="font-semibold text-ink">regarder au moins la moitié de la leçon</b>
@@ -567,6 +610,7 @@ export default function FormationPlayer({
         Attendu : <b className="font-semibold text-ink">lire ce chapitre</b>.
       </>
     )
+  )
 
   const toutTermine = !preview && chapters.length > 0 && chapters.every((c) => !!completedMap[c.id])
 
@@ -682,6 +726,17 @@ export default function FormationPlayer({
           onWatchProgress={handleWatchProgress}
           takePendingSeconds={takePendingSeconds}
         />
+
+        {/* L'atelier que cet écran ne peut pas jouer. Il prend la place de la
+            surface, jamais celle du cadran : le sommaire, les notes et la
+            navigation de chapitre restent au-dessus et en dessous. */}
+        {atelierBloque && active && (
+          <EcranTropPetit
+            app={active.simulation?.app}
+            raison={verdictEcran?.raison ?? null}
+            onAccueil={preview ? undefined : () => router.push("/learner/accueil")}
+          />
+        )}
 
         {kind === "exercise" && active && (
           <div

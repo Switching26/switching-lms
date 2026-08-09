@@ -121,7 +121,7 @@
     },
     {
       "id": "O07-E02-04",
-      "consigne": "Rédigez la synthèse et envoyez-la. Trois faits, pas un de plus : **le jour retenu**, **qui réceptionne**, et **le lieu** de livraison.",
+      "consigne": "Rédigez la synthèse et envoyez-la. Trois faits, pas un de plus : **le jour retenu** — mardi comme le propose Hugo, ou jeudi comme le préfère la mairie —, **qui réceptionne**, et **le lieu** de livraison.",
       "action": {
         "type": "O_EXPECT_MAIL",
         "message": {
@@ -159,13 +159,10 @@
             ],
             "notions": [
               {
-                "libelle": "le jour retenu",
+                "libelle": "le jour retenu, mardi ou jeudi",
                 "oneOf": [
                   "mardi",
-                  "jeudi",
-                  "mercredi",
-                  "lundi",
-                  "vendredi"
+                  "jeudi"
                 ]
               },
               {
@@ -173,9 +170,9 @@
                 "oneOf": [
                   "sonia",
                   "hugo",
+                  "camille",
                   "je receptionne",
-                  "je serai",
-                  "receptionne"
+                  "je serai"
                 ]
               },
               {
@@ -194,13 +191,13 @@
         }
       },
       "aide": {
-        "text": "Trois informations sont attendues : le jour, la personne qui réceptionne, et le lieu."
+        "text": "Trois informations sont attendues : le jour tranché entre mardi et jeudi, la personne qui réceptionne, et le lieu."
       },
       "feedback": "Trois faits et rien de plus. Un fil se clôt par une décision, jamais par un argument de plus."
     },
     {
       "id": "O07-E02-99",
-      "consigne": "La décision est écrite et partagée : le fil est clos. **Rangez-le dans `Clients 2026`.** Répondre sans classer laisse la boîte aussi pleine qu'avant : c'est le classement, et non l'envoi, qui fait descendre le nombre de messages en attente.",
+      "consigne": "La décision est écrite et partagée : le fil est clos. **Rangez-le dans `Clients 2026`.** Un fil clos laissé en boîte se rouvre tout seul au premier message suivant.",
       "action": {
         "type": "O_EXPECT_BOITE",
         "boite": {

@@ -147,7 +147,7 @@
     },
     {
       "id": "O16-L01-05B",
-      "consigne": "**Trois clients en copie visible, c’est deux erreurs d’un geste :** vous leur donnez mutuellement leur adresse, et vous les invitez à répondre à tout le monde. La copie cachée règle les deux.\n\n**Hors de cet atelier :** le vrai Outlook a un *gestionnaire d’absence*, qui répond seul à quiconque vous écrit. On le décrit, on le situe. Votre message ne touche que ceux **auxquels vous avez pensé** ; lui touche aussi les autres.",
+      "consigne": "**Trois clients en copie visible, c’est deux erreurs d’un geste :** vous leur donnez mutuellement leur adresse, et vous les invitez à répondre à tout le monde. La copie cachée règle les deux.\n\n**Hors de cet atelier :** le vrai Outlook a un **gestionnaire d’absence**, qui répond seul à quiconque vous écrit. On le décrit, on le situe. Votre message ne touche que ceux **auxquels vous avez pensé** ; lui touche aussi les autres.",
       "action": {
         "type": "READ"
       }
@@ -173,7 +173,7 @@
     },
     {
       "id": "O16-L01-07",
-      "consigne": "==Rédigez le message, puis envoyez.== Trois éléments : **les dates d'absence**, **le nom de la personne à joindre**, **son adresse**. Sans les deux derniers, vous n'avez fait qu'annoncer un silence.",
+      "consigne": "==Rédigez le message, puis envoyez.== Trois éléments : **les deux dates d'absence**, **le nom de la personne à joindre**, **son adresse**. Sans les deux derniers, vous n'avez fait qu'annoncer un silence.",
       "action": {
         "type": "O_EXPECT_MAIL",
         "message": {
@@ -213,13 +213,24 @@
             ],
             "notions": [
               {
-                "libelle": "les dates d'absence",
+                "libelle": "le premier jour d'absence",
                 "oneOf": [
-                  "5 et 6",
                   "jeudi",
-                  "vendredi",
                   "5 mars",
-                  "6 mars"
+                  "5 et 6",
+                  "5 au 6",
+                  "le 5"
+                ]
+              },
+              {
+                "libelle": "le second jour d'absence",
+                "oneOf": [
+                  "vendredi",
+                  "6 mars",
+                  "5 et 6",
+                  "5 au 6",
+                  "le 6",
+                  "et 6"
                 ]
               },
               {

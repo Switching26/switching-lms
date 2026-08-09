@@ -34,11 +34,33 @@
  * l'autosave des notes, qui restent la propriété du player.
  */
 
-import { useEffect, useId, useRef, useState, type ReactNode } from "react"
+import { createContext, useContext, useEffect, useId, useMemo, useRef, useState, type ReactNode } from "react"
 import { createPortal } from "react-dom"
 import PanneauRessources, { LIBELLE_RESSOURCES } from "@/components/simulation/PanneauRessources"
 import { dureeLisible } from "@/lib/simulation/duree"
 import type { LearnerDocument } from "@/lib/learner-files"
+
+/* ═══════════ COMMANDES DU CADRAN ═══════════ */
+
+/**
+ * Les rares gestes du cadran qu'un enfant de la zone de travail doit pouvoir
+ * déclencher.
+ *
+ * Le panneau des leçons est un état INTERNE au cadran, et il doit le rester :
+ * le remonter au player obligerait chaque appelant à le porter alors qu'aucun
+ * n'a de raison de s'en occuper. Un contexte suffit, et il ne traverse que la
+ * distance qui sépare le cadran de ses propres enfants.
+ *
+ * Hors cadran, `ouvrirLecons` ne fait rien plutôt que de lever : un écran rendu
+ * en aperçu ou dans un test n'a pas à connaître son châssis.
+ */
+type CommandesCadran = { ouvrirLecons: () => void }
+
+const ContexteCadran = createContext<CommandesCadran>({ ouvrirLecons: () => {} })
+
+export function useCadranActions(): CommandesCadran {
+  return useContext(ContexteCadran)
+}
 
 /* ═══════════ CONTRAT ═══════════ */
 
@@ -217,7 +239,16 @@ export default function CadranFormation(p: Props) {
     }
   }, [p.pleinCadre, p.visible])
 
+  /*
+   * Les commandes offertes aux enfants de la zone de travail.
+   *
+   * Référence stable : sans elle, chaque rendu du cadran ferait re-rendre tout
+   * ce qui consomme le contexte — dont l'hôte Vimeo persistant.
+   */
+  const commandes = useMemo<CommandesCadran>(() => ({ ouvrirLecons: () => setPanneau("lecons") }), [])
+
   const carte = (
+    <ContexteCadran.Provider value={commandes}>
     <div
       className={
         p.pleinCadre
@@ -363,6 +394,7 @@ export default function CadranFormation(p: Props) {
         />
       )}
     </div>
+    </ContexteCadran.Provider>
   )
 
   if (!p.pleinCadre) return <div style={{ display: p.visible ? undefined : "none" }}>{carte}</div>

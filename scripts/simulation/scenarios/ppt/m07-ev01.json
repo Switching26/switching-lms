@@ -82,7 +82,7 @@
   "steps": [
     {
       "id": "M07-EV01-01",
-      "consigne": "Ce bilan part chez un client cette semaine. Ne corrigez rien encore : parcourez-le en vous demandant, à chaque écran, s'il a été écrit pour l'équipe ou pour le client. Ce qui reste de l'interne doit disparaître.",
+      "consigne": "Ce bilan part chez un client cette semaine. La version d'équipe est archivée de son côté : ce fichier-ci est la copie qui sort de l'entreprise. Ne corrigez rien encore : parcourez-le en vous demandant, à chaque écran, s'il a été écrit pour l'équipe ou pour le client. Ce qui reste de l'interne doit disparaître.",
       "action": {
         "type": "READ"
       },
@@ -284,7 +284,7 @@
     },
     {
       "id": "M07-EV01-07",
-      "consigne": "Elle reste utile en interne mais n'a rien à faire devant un client : traitez-la comme il convient, sans la détruire.",
+      "consigne": "Elle est réservée au personnel. Ce bilan, lui, part chez un client — et un fichier transmis emporte tout ce qu'il contient, y compris ce qui est masqué. Traitez-la en conséquence.",
       "setupPpt": {
         "deck": {
           "format": "16:9",
@@ -352,15 +352,8 @@
         "slide": 2
       },
       "action": {
-        "type": "P_EXPECT_DECK",
-        "deck": {
-          "slides": [
-            {
-              "index": 2,
-              "masquee": true
-            }
-          ]
-        }
+        "type": "P_DELETE_SLIDE",
+        "index": 2
       },
       "points": 2
     },
@@ -386,12 +379,72 @@
               }
             },
             {
+              "layout": "titre-seul",
+              "textes": {
+                "titre": "Nos références"
+              },
+              "objets": [
+                {
+                  "id": "zt-refs",
+                  "objectType": "texte",
+                  "texte": "Ville de Nantes, Rennes Métropole, clinique du Parc",
+                  "rect": {
+                    "x": 80,
+                    "y": 300,
+                    "w": 520,
+                    "h": 90
+                  }
+                },
+                {
+                  "id": "zt-interne",
+                  "objectType": "texte",
+                  "texte": "Relancer Rennes avant de citer leur nom",
+                  "rect": {
+                    "x": 80,
+                    "y": 440,
+                    "w": 430,
+                    "h": 48
+                  }
+                }
+              ]
+            },
+            {
               "layout": "titre-et-contenu",
               "textes": {
-                "titre": "Primes et augmentations",
-                "contenu": "Réservé au personnel"
-              },
-              "masquee": true
+                "titre": "Tarifs 2025",
+                "contenu": "Grille périmée depuis janvier"
+              }
+            }
+          ]
+        },
+        "slide": 1
+      },
+      "action": {
+        "type": "P_SELECT_SLIDE",
+        "index": 2
+      },
+      "points": 1
+    },
+    {
+      "id": "M07-EV01-09",
+      "consigne": "Une note de travail y figure. Elle n'a jamais eu vocation à être vue, même masquée : traitez-la autrement.",
+      "setupPpt": {
+        "deck": {
+          "format": "16:9",
+          "slides": [
+            {
+              "layout": "diapositive-de-titre",
+              "textes": {
+                "titre": "Verdeval",
+                "sous-titre": "Bilan présenté aux clients le 6 avril"
+              }
+            },
+            {
+              "layout": "titre-et-contenu",
+              "textes": {
+                "titre": "38 jardins livrés en 2026",
+                "contenu": "38 jardins créés\n120 entretiens réguliers\n12 chantiers de rénovation"
+              }
             },
             {
               "layout": "titre-seul",
@@ -433,82 +486,6 @@
           ]
         },
         "slide": 2
-      },
-      "action": {
-        "type": "P_SELECT_SLIDE",
-        "index": 3
-      },
-      "points": 1
-    },
-    {
-      "id": "M07-EV01-09",
-      "consigne": "Une note de travail y figure. Elle n'a jamais eu vocation à être vue, même masquée : traitez-la autrement.",
-      "setupPpt": {
-        "deck": {
-          "format": "16:9",
-          "slides": [
-            {
-              "layout": "diapositive-de-titre",
-              "textes": {
-                "titre": "Verdeval",
-                "sous-titre": "Bilan présenté aux clients le 6 avril"
-              }
-            },
-            {
-              "layout": "titre-et-contenu",
-              "textes": {
-                "titre": "38 jardins livrés en 2026",
-                "contenu": "38 jardins créés\n120 entretiens réguliers\n12 chantiers de rénovation"
-              }
-            },
-            {
-              "layout": "titre-et-contenu",
-              "textes": {
-                "titre": "Primes et augmentations",
-                "contenu": "Réservé au personnel"
-              },
-              "masquee": true
-            },
-            {
-              "layout": "titre-seul",
-              "textes": {
-                "titre": "Nos références"
-              },
-              "objets": [
-                {
-                  "id": "zt-refs",
-                  "objectType": "texte",
-                  "texte": "Ville de Nantes, Rennes Métropole, clinique du Parc",
-                  "rect": {
-                    "x": 80,
-                    "y": 300,
-                    "w": 520,
-                    "h": 90
-                  }
-                },
-                {
-                  "id": "zt-interne",
-                  "objectType": "texte",
-                  "texte": "Relancer Rennes avant de citer leur nom",
-                  "rect": {
-                    "x": 80,
-                    "y": 440,
-                    "w": 430,
-                    "h": 48
-                  }
-                }
-              ]
-            },
-            {
-              "layout": "titre-et-contenu",
-              "textes": {
-                "titre": "Tarifs 2025",
-                "contenu": "Grille périmée depuis janvier"
-              }
-            }
-          ]
-        },
-        "slide": 3
       },
       "action": {
         "type": "P_DELETE_OBJECT",
@@ -538,14 +515,6 @@
               }
             },
             {
-              "layout": "titre-et-contenu",
-              "textes": {
-                "titre": "Primes et augmentations",
-                "contenu": "Réservé au personnel"
-              },
-              "masquee": true
-            },
-            {
               "layout": "titre-seul",
               "textes": {
                 "titre": "Nos références"
@@ -573,7 +542,7 @@
             }
           ]
         },
-        "slide": 3
+        "slide": 2
       },
       "action": {
         "type": "P_MOVE_OBJECT",
@@ -610,14 +579,6 @@
               }
             },
             {
-              "layout": "titre-et-contenu",
-              "textes": {
-                "titre": "Primes et augmentations",
-                "contenu": "Réservé au personnel"
-              },
-              "masquee": true
-            },
-            {
               "layout": "titre-seul",
               "textes": {
                 "titre": "Nos références"
@@ -645,7 +606,7 @@
             }
           ]
         },
-        "slide": 3
+        "slide": 2
       },
       "action": {
         "type": "P_EXPECT_FORMAT",
@@ -678,14 +639,6 @@
               }
             },
             {
-              "layout": "titre-et-contenu",
-              "textes": {
-                "titre": "Primes et augmentations",
-                "contenu": "Réservé au personnel"
-              },
-              "masquee": true
-            },
-            {
               "layout": "titre-seul",
               "textes": {
                 "titre": "Nos références"
@@ -716,11 +669,11 @@
             }
           ]
         },
-        "slide": 3
+        "slide": 2
       },
       "action": {
         "type": "P_SELECT_SLIDE",
-        "index": 4
+        "index": 3
       },
       "points": 1
     },
@@ -746,14 +699,6 @@
               }
             },
             {
-              "layout": "titre-et-contenu",
-              "textes": {
-                "titre": "Primes et augmentations",
-                "contenu": "Réservé au personnel"
-              },
-              "masquee": true
-            },
-            {
               "layout": "titre-seul",
               "textes": {
                 "titre": "Nos références"
@@ -784,11 +729,11 @@
             }
           ]
         },
-        "slide": 4
+        "slide": 3
       },
       "action": {
         "type": "P_DELETE_SLIDE",
-        "index": 4
+        "index": 3
       },
       "points": 2
     },
@@ -814,14 +759,6 @@
               }
             },
             {
-              "layout": "titre-et-contenu",
-              "textes": {
-                "titre": "Primes et augmentations",
-                "contenu": "Réservé au personnel"
-              },
-              "masquee": true
-            },
-            {
               "layout": "titre-seul",
               "textes": {
                 "titre": "Nos références"
@@ -845,7 +782,7 @@
             }
           ]
         },
-        "slide": 3
+        "slide": 2
       },
       "action": {
         "type": "P_ADD_SLIDE",
@@ -875,14 +812,6 @@
               }
             },
             {
-              "layout": "titre-et-contenu",
-              "textes": {
-                "titre": "Primes et augmentations",
-                "contenu": "Réservé au personnel"
-              },
-              "masquee": true
-            },
-            {
               "layout": "titre-seul",
               "textes": {
                 "titre": "Nos références"
@@ -910,7 +839,7 @@
             }
           ]
         },
-        "slide": 4
+        "slide": 3
       },
       "action": {
         "type": "P_TYPE_TEXT",
@@ -943,14 +872,6 @@
               }
             },
             {
-              "layout": "titre-et-contenu",
-              "textes": {
-                "titre": "Primes et augmentations",
-                "contenu": "Réservé au personnel"
-              },
-              "masquee": true
-            },
-            {
               "layout": "titre-seul",
               "textes": {
                 "titre": "Nos références"
@@ -980,7 +901,7 @@
             }
           ]
         },
-        "slide": 4
+        "slide": 3
       },
       "action": {
         "type": "P_ADD_OBJECT",
@@ -1008,14 +929,6 @@
                 "titre": "38 jardins livrés en 2026",
                 "contenu": "38 jardins créés\n120 entretiens réguliers\n12 chantiers de rénovation"
               }
-            },
-            {
-              "layout": "titre-et-contenu",
-              "textes": {
-                "titre": "Primes et augmentations",
-                "contenu": "Réservé au personnel"
-              },
-              "masquee": true
             },
             {
               "layout": "titre-seul",
@@ -1059,7 +972,7 @@
             }
           ]
         },
-        "slide": 4
+        "slide": 3
       },
       "action": {
         "type": "P_ADD_OBJECT",

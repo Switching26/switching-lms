@@ -53,7 +53,7 @@ import WordImagePicker from "./WordImagePicker"
 import WordLinkDialog from "./WordLinkDialog"
 import type { WordApi } from "./WordSurface"
 import DemonstrationGeste, { type Rect } from "../DemonstrationGeste"
-import type { CibleDemo, PlanDemo } from "@/lib/simulation/demonstration"
+import { annoterBulleDAuteur, type CibleDemo, type PlanDemo } from "@/lib/simulation/demonstration"
 
 import { adaptateurWord } from "@/lib/simulation/word/adaptateur"
 import type { WordObservation } from "@/lib/simulation/word/observations"
@@ -1347,8 +1347,15 @@ export default function WordPlayer({
      * noyau le laissera passer.
      */
     if (etape.action.type === "READ") {
+      /* Rang pris sur l'index de l'ACTION, avant le `filter` : une action sans
+         plan décalerait sinon toutes les suivantes, sans erreur ni compteur
+         faux. Le décalage d'onglet ci-dessous préserve le champ (il ne retire
+         que `onglet`). Voir `annoterBulleDAuteur`. */
       const plans = (etape.montrer ?? [])
-        .map((m) => adaptateurWord.demonstration(m as never, {}))
+        .map((m, rang) => {
+          const p = adaptateurWord.demonstration(m as never, {})
+          return p ? annoterBulleDAuteur(p, rang) : null
+        })
         .filter((p): p is PlanDemo => !!p)
       if (plans.length === 0) return null
       const gestes = plans.flatMap((p) => p.gestes)

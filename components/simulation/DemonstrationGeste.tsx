@@ -232,13 +232,23 @@ export default function DemonstrationGeste({ plan, resoudre, largeur, hautFeuill
       phase === "avertir" ? (lecture ? DECOMPTE * 1000 : 3200)
       : phase === "vise" ? 900 * vite
       : phase === "bulle" ?
-          geste?.illustration
+          /* DURÉE IMPOSÉE, quand une voix dit cette bulle : la phrase parlée ne
+             dure pas ce que le texte écrit laisse croire — mesuré de 1,00 à
+             2,37 fois, parce que l'oral épelle les formules. Aucun coefficient
+             sur la longueur ne marche, la durée vient donc du manifeste audio.
+
+             ⚠️ C'est un NOMBRE, pas une attente : le calque n'attend jamais la
+             fin d'un son. Champ absent ⇒ la formule d'origine, à l'octet.
+             Et il passe par `tempo()` comme les autres — sans quoi un balayage
+             accéléré mesurerait un rythme qui n'existe pas. */
+          geste?.dureeBulleMs ??
+          (geste?.illustration
             // 55 ms par signe plafonnés à 4,2 s : au-delà de 76 signes le texte
             // était tronqué dans le temps, pas dans l'espace — 124 signes en
             // 4,2 s font 29 signes/seconde, une vitesse à laquelle on ne lit
             // pas. 62 ms par signe jusqu'à 6,2 s ramène le pire cas à 20.
             ? Math.min(6200, Math.max(1800, (geste.bulle?.length ?? 0) * 62))
-            : (i === 0 ? 1100 : 620)
+            : (i === 0 ? 1100 : 620))
       : phase === "clic" ? 700 * vite
       : phase === "glisse" ? 1200
       : phase === "frappe" ? (260 + (geste?.frappe?.length ?? 0) * 105 + 500) * vite

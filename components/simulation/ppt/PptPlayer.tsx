@@ -43,7 +43,7 @@ import PptSurface, { type ApiEtatSurface, type EtatUiPpt } from "./PptSurface"
 import type { SimulationScenario, SimulationStep } from "@/lib/simulation/types"
 import { natureEtape } from "@/lib/simulation/attendu"
 import { jugerEtape } from "@/lib/simulation/frappe"
-import type { CibleDemo, PlanDemo } from "@/lib/simulation/demonstration"
+import { annoterBulleDAuteur, type CibleDemo, type PlanDemo } from "@/lib/simulation/demonstration"
 import type { LearnerDocument } from "@/lib/learner-files"
 import { adaptateurPpt } from "@/lib/simulation/ppt/adaptateur"
 import type { PptAction, PptViewMode } from "@/lib/simulation/ppt/actions"
@@ -687,8 +687,14 @@ export default function PptPlayer({
      * réponse, c'est le contenu lui-même. Même règle que sur Excel.
      */
     if (step.montrer?.length) {
+      /* Le rang de la bulle d'auteur est pris sur l'index de l'ACTION, avant le
+         `filter` : une action sans plan décalerait sinon toutes les suivantes,
+         en silence. Voir `annoterBulleDAuteur`. */
       const plans = step.montrer
-        .map((a) => adaptateurPpt.demonstration(a as unknown as Record<string, unknown> & { type: string }, {}))
+        .map((a, rang) => {
+          const p = adaptateurPpt.demonstration(a as unknown as Record<string, unknown> & { type: string }, {})
+          return p ? annoterBulleDAuteur(p, rang) : null
+        })
         .filter(Boolean) as PlanDemo[]
       if (plans.length === 0) return null
       return { gestes: plans.flatMap((p) => p.gestes), pas: plans.flatMap((p) => p.pas) }

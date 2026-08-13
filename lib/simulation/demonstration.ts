@@ -110,6 +110,47 @@ export type GesteDemo = {
    * reste introuvable.
    */
   onglet?: RibbonTab
+  /**
+   * RANG DE LA BULLE D'AUTEUR — l'index de l'action `montrer[k]` dont ce geste
+   * est l'illustration. Absent sur tout le reste, et c'est le point.
+   *
+   * ⚠️ NE JAMAIS APPARIER UNE VOIX PAR L'INDEX DU GESTE. Deux mécanismes
+   * décalent silencieusement les deux numérotations :
+   *
+   *  1. `avecOuverturesIntermediaires` INSÈRE des gestes d'ouverture d'onglet
+   *     que l'auteur n'a pas écrits (mesuré : `M13-L02-08`, 3 bulles d'auteur
+   *     pour 4 gestes joués) ;
+   *  2. `planSequence` JETTE les actions dont le plan est nul (`if (!p)
+   *     continue`) — une action `FILL_HANDLE` ou un `EXPECT_STATE` vide ne
+   *     produit rien, et tout ce qui suit se décale d'un cran.
+   *
+   * Dans les deux cas le compteur `i / n` reste juste et aucune erreur n'est
+   * levée : le décalage est MUET. C'est la raison d'être de ce champ.
+   *
+   * Il est posé sur le geste `illustration`, seul geste qu'un auteur écrit
+   * lui-même dans un `montrer` — les ouvertures d'onglet du moteur n'en sont
+   * jamais. Voir `annoterBulleDAuteur`.
+   */
+  rangBulle?: number
+  /**
+   * DURÉE D'AFFICHAGE IMPOSÉE de la bulle, en millisecondes, avant application
+   * de l'accélérateur d'audit.
+   *
+   * Absent ⇒ la formule sur la longueur du texte s'applique, à l'octet près.
+   * C'est ce qui rend le guide vocal réversible sans retirer une ligne de code,
+   * et ce qui laisse les 271 chapitres sans voix strictement inchangés.
+   *
+   * ⚠️ C'est une VALEUR, pas une attente. Le calque ne sait pas qu'une voix
+   * existe : il reçoit un nombre. Lui faire attendre la fin d'un son le rendrait
+   * dépendant du réseau, et une piste absente figerait la démonstration — le
+   * seul défaut que ce simulateur ne tolère pas.
+   */
+  dureeBulleMs?: number
+  /**
+   * Geste AJOUTÉ PAR LE MOTEUR, jamais écrit par un auteur : une ouverture
+   * d'onglet intercalée. Il n'a ni rang, ni voix, ni durée imposée.
+   */
+  ouvertureAuto?: boolean
 }
 
 /**
@@ -562,6 +603,10 @@ function ouvertureDOnglet(t: RibbonTab): GesteDemo {
     cible: { k: "dom", sel: `[data-ribbon-tab="${t}"]` },
     bulle: `l'onglet ${LIBELLE_ONGLET[t] ?? t}`,
     onglet: t,
+    // Marqué à la SOURCE, et non deviné plus tard à la forme de la bulle : c'est
+    // ce marquage qui empêche une voix de se caler sur un geste que l'auteur n'a
+    // pas écrit. Voir `GesteDemo.rangBulle`.
+    ouvertureAuto: true,
   }
 }
 const libelleOuverture = (t: RibbonTab) => `Ouvrir l'onglet ${LIBELLE_ONGLET[t] ?? t}`
@@ -694,13 +739,38 @@ export function planDemonstration(
  * On suit donc l'onglet où chaque plan laisse l'écran, et on le passe au suivant.
  * Pour une action unique — l'immense majorité — le résultat est identique.
  */
+/**
+ * MARQUE LE GESTE D'AUTEUR D'UN PLAN AVEC LE RANG DE SON ACTION `montrer`.
+ *
+ * Le geste d'auteur est celui qui porte `illustration` : c'est le seul qu'un
+ * auteur écrit lui-même dans un `montrer` (`MONTRER`, `P_MONTRER`, `W_MONTRER`
+ * produisent chacun exactement un geste, vérifié dans les trois adaptateurs).
+ * Tout le reste — ouvertures d'onglet du moteur, sous-gestes techniques d'un
+ * plan déduit d'une action — reste sans rang, donc sans voix.
+ *
+ * ⚠️ NEUTRE PAR CONSTRUCTION quand il n'y a rien à annoter : le plan est rendu
+ * TEL QUEL, même objet, pas une copie. C'est ce qui garantit qu'un chapitre sans
+ * voix construit exactement le plan d'avant.
+ */
+export function annoterBulleDAuteur(plan: PlanDemo, rang: number): PlanDemo {
+  const k = plan.gestes.findIndex((g) => g.illustration && !g.ouvertureAuto)
+  if (k < 0) return plan
+  const gestes = [...plan.gestes]
+  gestes[k] = { ...gestes[k], rangBulle: rang }
+  return { gestes, pas: plan.pas }
+}
+
 export function planSequence(actions: SimulationAction[], ctx: ContexteDemo): PlanDemo[] {
   const plans: PlanDemo[] = []
   let onglet = ctx.onglet
-  for (const a of actions) {
+  /* Le rang vient de l'index de l'ACTION, jamais de celui du plan : la ligne
+     `if (!p) continue` ci-dessous jette les actions sans plan, et tout ce qui
+     suivrait se décalerait d'un cran — sans erreur, sans compteur faux. */
+  for (let rang = 0; rang < actions.length; rang++) {
+    const a = actions[rang]
     const p = planDemonstration(a, { ...ctx, onglet })
     if (!p) continue
-    plans.push(p)
+    plans.push(annoterBulleDAuteur(p, rang))
     /* Où ce plan laisse-t-il le ruban ? Le dernier geste qui déclare un onglet
        fait foi ; à défaut, l'onglet du dernier bouton de ruban qu'il presse. */
     for (const g of p.gestes) {

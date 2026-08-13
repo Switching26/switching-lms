@@ -244,6 +244,21 @@ export default function DemonstrationGeste({ plan, resoudre, largeur, hautFeuill
     if (phase !== "bulle" || doux.current) return
     const rang = geste?.rangBulle
     if (typeof rang !== "number") return
+    /* 🔴 L'INVARIANT, APPLIQUÉ ICI ET NULLE PART AILLEURS : une bulle ne parle
+     * que si SA DURÉE A ÉTÉ IMPOSÉE. Sans cette ligne, les deux décisions sont
+     * prises à deux instants différents — la durée à la construction du plan,
+     * la parole au moment de jouer — et elles divergent.
+     *
+     * MESURÉ SUR POWERPOINT le 14/08/2026 : son plan est bâti dès l'arrivée sur
+     * l'étape, avant que le manifeste ne soit chargé (Excel, lui, le bâtit au
+     * démarrage de la démonstration, 1,2 s plus tard, donc après). Résultat :
+     * aucune durée posée, mais une voix qui parlait quand même — la deuxième
+     * phrase durait 5,4 s pour 3,1 s d'affichage, coupée à 58 %. Aucune erreur,
+     * aucun compteur faux : le défaut ne s'entend qu'à l'oreille.
+     *
+     * Avec cette ligne, une démonstration qui n'a pas eu ses durées reste
+     * simplement muette, au rythme d'avant. Dégrader, jamais désaccorder. */
+    if (typeof geste?.dureeBulleMs !== "number") return
     bulleRef.current?.(rang)
   }, [phase, i, geste])
 

@@ -130,8 +130,20 @@ if (lireManifeste(null) !== null) rouge("un manifeste absent n'est pas rejeté")
     rouge("le retour de réussite est joué alors que le player avance seul 550 ms après")
   }
   if (!aDesPistes(m)) rouge("un manifeste porteur d'une consigne est déclaré vide")
-  if (aDesPistes(lireManifeste({ version: 1, etapes: { "E-1": [{ role: "bulle", fichier: "b.mp3" }] } })))
-    rouge("un manifeste ne portant que des bulles est déclaré sonore")
+  /* 🔴 CE CONTRÔLE A ÉTÉ RETOURNÉ LE 14/08/2026, et c'est le point.
+   *
+   * Il exigeait l'inverse — « un manifeste ne portant que des bulles n'est pas
+   * sonore » — ce qui était juste TANT QUE les bulles ne parlaient pas. Depuis
+   * qu'elles parlent, cette règle faisait servir `{ etapes: {} }` à un chapitre
+   * qui n'a que des bulles : aucune ne parlait, et rien ne le disait. Défaut
+   * trouvé en posant un manifeste d'essai sur PowerPoint, pas par lecture.
+   *
+   * ⚠️ Une règle de contrôle peut devenir FAUSSE sans que personne n'y touche,
+   * simplement parce que le produit a changé autour d'elle. */
+  if (!aDesPistes(lireManifeste({ version: 1, etapes: { "E-1": [{ role: "bulle", fichier: "b.mp3" }] } })))
+    rouge("un manifeste ne portant que des bulles n'est pas servi : elles resteraient muettes")
+  if (aDesPistes(lireManifeste({ version: 1, etapes: { "E-1": [{ role: "feedback", fichier: "f.mp3" }] } })))
+    rouge("un manifeste ne portant que des retours de réussite est déclaré sonore alors que rien ne les joue")
 }
 {
   /* LE FORMAT DE LA CHAÎNE DE SYNTHÈSE EST LU TEL QUEL, sans moulinette.

@@ -87,7 +87,33 @@ type Props = {
   cleGuide?: string | null
 }
 
-export default function SimulationChapter({
+/**
+ * LE CANAL DE LA VOIX EST MONTÉ AU-DESSUS DU CHARGEMENT DU SCÉNARIO.
+ *
+ * 🔴 LE DÉFAUT CORRIGÉ LE 14/08/2026, trouvé en mesurant PowerPoint.
+ *
+ * Le canal vivait à l'INTÉRIEUR, autour du player — donc sa requête de manifeste
+ * ne partait qu'une fois le scénario reçu, au moment même où le player se monte.
+ * PowerPoint construit son plan de démonstration dès l'arrivée sur l'étape (Excel
+ * attend le démarrage de la démonstration, 1,2 s plus tard) : son plan était donc
+ * bâti AVANT que la moindre durée soit connue. Mesuré : la voix parlait, l'écran
+ * gardait le rythme d'avant, et la deuxième phrase était coupée à 58 %.
+ *
+ * Ici, les deux requêtes partent ensemble et le manifeste — bien plus petit que
+ * le scénario — est arrivé avant que le player n'existe.
+ *
+ * ⚠️ Ce composant ne rend AUCUN élément : c'est un fournisseur de contexte. Le
+ * portail, les variables de couleur et la structure sont inchangés.
+ */
+export default function SimulationChapter(props: Props) {
+  return (
+    <FournisseurVoixDemo chapterId={props.chapterId} actif={!props.preview}>
+      <ChapitreCharge {...props} />
+    </FournisseurVoixDemo>
+  )
+}
+
+function ChapitreCharge({
   chapterId,
   preview,
   onCompleted,
@@ -236,54 +262,52 @@ export default function SimulationChapter({
    * démonstration garde exactement son rythme d'avant.
    */
   const player = (
-    <FournisseurVoixDemo chapterId={chapterId} actif={!preview}>
-      <Player
-        // La clé garantit un état propre quand on passe d'un atelier à un autre :
-        // l'étape courante et les compteurs ne doivent jamais fuiter entre chapitres.
-        key={`${chapterId}#${passage}`}
-        chapterId={chapterId}
-        mode={data.mode}
-        scenario={data.scenario}
-        // Une ÉVALUATION entamée repart de la première question : les réussites
-        // au premier essai ne sont pas persistées, reprendre au milieu notait
-        // ~0 % un apprenant qui avait tout juste (choix Samuel du 02/08/2026).
-        // Leçons et exercices, eux, reprennent où l'apprenant s'était arrêté et
-        // `rejouerAvant` restitue son travail — ne pas toucher à ce chemin-là.
-        initialStep={data.mode === "EVALUATION" ? 0 : (data.attempt?.currentStep ?? 0)}
-        repriseEvaluation={
-        data.mode === "EVALUATION" &&
-        (data.attempt?.currentStep ?? 0) > 0 &&
-        !data.attempt?.completedAt
-        }
-        // Une évaluation TERMINÉE ne rentrait dans aucun de ces cas : elle
-        // rouvrait sur un écran d'intro vierge, sans la moindre trace du passage
-        // précédent — d'où l'impression que rien n'avait été enregistré alors que
-        // le score était bien en base.
-        scorePrecedent={data.mode === "EVALUATION" ? data.attempt?.bestScore ?? null : null}
-        passagesPrecedents={data.attempt?.attemptCount ?? 0}
-        // Passe-plat strict : c'est l'API qui décide qui corrige, pas l'atelier.
-        validationLocale={data.clientValidation !== false}
-        // Au-delà du premier montage, l'atelier a été remonté par « Repasser » :
-        // il doit ouvrir un passage NEUF côté serveur, sans hériter des verdicts
-        // du précédent — sinon l'ancienne note survivrait à la nouvelle tentative.
-        nouveauPassage={passage > 0}
-        onRejouer={() => setPassage((n) => n + 1)}
-        preview={preview}
-        onCompleted={onCompleted}
-        pleinCadre={atelier}
-        sommaire={sommaire}
-        onNaviguer={onNaviguer}
-        onQuitter={onQuitter}
-        note={note}
-        onNote={onNote}
-        notesHref={notesHref}
-        documentsChapitre={documentsChapitre}
-        documentsFormation={documentsFormation}
-        afficherRessources={afficherRessources}
-        documentsHref={documentsHref}
-        cleGuide={cleGuide}
-      />
-    </FournisseurVoixDemo>
+    <Player
+      // La clé garantit un état propre quand on passe d'un atelier à un autre :
+      // l'étape courante et les compteurs ne doivent jamais fuiter entre chapitres.
+      key={`${chapterId}#${passage}`}
+      chapterId={chapterId}
+      mode={data.mode}
+      scenario={data.scenario}
+      // Une ÉVALUATION entamée repart de la première question : les réussites
+      // au premier essai ne sont pas persistées, reprendre au milieu notait
+      // ~0 % un apprenant qui avait tout juste (choix Samuel du 02/08/2026).
+      // Leçons et exercices, eux, reprennent où l'apprenant s'était arrêté et
+      // `rejouerAvant` restitue son travail — ne pas toucher à ce chemin-là.
+      initialStep={data.mode === "EVALUATION" ? 0 : (data.attempt?.currentStep ?? 0)}
+      repriseEvaluation={
+      data.mode === "EVALUATION" &&
+      (data.attempt?.currentStep ?? 0) > 0 &&
+      !data.attempt?.completedAt
+      }
+      // Une évaluation TERMINÉE ne rentrait dans aucun de ces cas : elle
+      // rouvrait sur un écran d'intro vierge, sans la moindre trace du passage
+      // précédent — d'où l'impression que rien n'avait été enregistré alors que
+      // le score était bien en base.
+      scorePrecedent={data.mode === "EVALUATION" ? data.attempt?.bestScore ?? null : null}
+      passagesPrecedents={data.attempt?.attemptCount ?? 0}
+      // Passe-plat strict : c'est l'API qui décide qui corrige, pas l'atelier.
+      validationLocale={data.clientValidation !== false}
+      // Au-delà du premier montage, l'atelier a été remonté par « Repasser » :
+      // il doit ouvrir un passage NEUF côté serveur, sans hériter des verdicts
+      // du précédent — sinon l'ancienne note survivrait à la nouvelle tentative.
+      nouveauPassage={passage > 0}
+      onRejouer={() => setPassage((n) => n + 1)}
+      preview={preview}
+      onCompleted={onCompleted}
+      pleinCadre={atelier}
+      sommaire={sommaire}
+      onNaviguer={onNaviguer}
+      onQuitter={onQuitter}
+      note={note}
+      onNote={onNote}
+      notesHref={notesHref}
+      documentsChapitre={documentsChapitre}
+      documentsFormation={documentsFormation}
+      afficherRessources={afficherRessources}
+      documentsHref={documentsHref}
+      cleGuide={cleGuide}
+    />
   )
 
   // Aperçu admin et rendu en carte : le player reste dans le flux de la page,

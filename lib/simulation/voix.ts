@@ -330,11 +330,28 @@ export function bullePour(
   return segments.find((s) => s.role === "bulle" && s.geste === rang) ?? null
 }
 
-/** Le chapitre a-t-il la moindre piste jouable ? Décide de l'affichage du bouton. */
+/**
+ * LE CHAPITRE A-T-IL LA MOINDRE PISTE QUE L'ATELIER SAIT JOUER ?
+ *
+ * C'est ce qui décide si la route SERT le manifeste. Depuis que les bulles
+ * parlent, elles en font partie.
+ *
+ * 🔴 LE DÉFAUT CORRIGÉ LE 14/08/2026, trouvé en posant un manifeste d'essai sur
+ * PowerPoint. Cette fonction ne regardait que `ROLES_JOUES` — consigne et aide.
+ * Un chapitre ne portant QUE des bulles, cas parfaitement réel dès qu'on produit
+ * les bulles avant les consignes, se voyait donc servir `{ etapes: {} }` : la
+ * route répondait 200, le player recevait un manifeste vide, aucune bulle ne
+ * parlait, et **rien nulle part ne le signalait**.
+ *
+ * ⚠️ NE PAS CONFONDRE avec l'affichage du bouton du cockpit, qui reste piloté
+ * par `ROLES_JOUES` dans le hook : ce bouton rejoue la CONSIGNE, et un chapitre
+ * qui n'a que des bulles n'a rien à lui faire rejouer — ses bulles se rejouent
+ * avec « Revoir la démonstration ».
+ */
 export function aDesPistes(manifeste: ManifesteVoix | null): boolean {
   if (!manifeste) return false
   return Object.values(manifeste.etapes).some((segments) =>
-    segments.some((s) => ROLES_JOUES.has(s.role)),
+    segments.some((s) => ROLES_JOUES.has(s.role) || s.role === "bulle"),
   )
 }
 

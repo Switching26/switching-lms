@@ -1169,6 +1169,7 @@ export default function OutlookPlayer({
   return (
     <AtelierShell
       chapterId={chapterId}
+      etapeId={step?.id ?? null}
       mode={mode}
       evaluationNotee={evaluationNotee}
       filModule={filModule}

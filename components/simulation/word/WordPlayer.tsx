@@ -1743,6 +1743,7 @@ export default function WordPlayer({
   return (
     <AtelierShell
       chapterId={chapterId}
+      etapeId={etape?.id ?? null}
       mode={mode}
       evaluationNotee={evaluationNotee}
       filModule={filModule}

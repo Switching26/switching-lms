@@ -1022,6 +1022,7 @@ export default function PptPlayer({
   return (
     <AtelierShell
       chapterId={chapterId}
+      etapeId={step?.id ?? null}
       mode={mode}
       evaluationNotee={evaluationNotee}
       filModule={filModule}

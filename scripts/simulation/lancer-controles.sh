@@ -20,6 +20,7 @@ cd "$(dirname "$0")/../.."
 CONTROLES=(
   check-frontieres
   check-acces-ecran
+  check-voix
   check-illustration-atelier
   check-note-nonregression
   check-scenario

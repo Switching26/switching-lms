@@ -42,6 +42,7 @@ import {
 } from "react"
 import PanneauRessources, { LIBELLE_RESSOURCES } from "./PanneauRessources"
 import GuideFormation from "./GuideFormation"
+import { useGuideVocal } from "./hooks/useGuideVocal"
 import { dureeLisible, estimatedSimulationMinutes } from "@/lib/simulation/duree"
 import type { LearnerDocument } from "@/lib/learner-files"
 import { C, voileGuide } from "@/lib/simulation/couleurs"
@@ -166,6 +167,45 @@ function pastilleCockpit(actif: boolean): React.CSSProperties {
     fontSize: 11.5,
     fontWeight: actif ? 600 : 400,
   }
+}
+
+/**
+ * Les trois états du guide vocal, dessinés en SVG inline.
+ *
+ * `currentColor` et aucun fichier : un pictogramme servi depuis `public/` ne
+ * l'est pas de façon fiable en standalone (piège 0c), et il faudrait le
+ * recolorer à la main pour chaque application. Même parti pris que les icônes du
+ * ruban.
+ */
+function IconeVoix({ variante }: { variante: "haut-parleur" | "coupe" | "stop" }) {
+  const commun = {
+    width: 13,
+    height: 13,
+    viewBox: "0 0 16 16",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: 1.5,
+    strokeLinecap: "round" as const,
+    strokeLinejoin: "round" as const,
+    "aria-hidden": true,
+  }
+  if (variante === "stop") {
+    return (
+      <svg {...commun}>
+        <rect x="4" y="4" width="8" height="8" rx="1.2" fill="currentColor" stroke="none" />
+      </svg>
+    )
+  }
+  return (
+    <svg {...commun}>
+      <path d="M8.5 3 5 6H2.5v4H5l3.5 3V3Z" />
+      {variante === "coupe" ? (
+        <path d="m11 6.5 3 3m0-3-3 3" />
+      ) : (
+        <path d="M11 6c.7.6.7 3.4 0 4" />
+      )}
+    </svg>
+  )
 }
 
 /* ═══════════ LA BANDE DE CONSIGNE ═══════════ */
@@ -899,6 +939,18 @@ export type AtelierShellProps = {
   onQuitter?: () => void
 
   /**
+   * Étape courante, pour le GUIDE VOCAL — et pour lui seul.
+   *
+   * C'est la seule chose que le châssis ne peut pas déduire : il reçoit le
+   * TEXTE de la consigne, jamais son identité. Chaque player la passe en une
+   * ligne, comme `demoJouable` ou `verdictAncre`.
+   *
+   * ABSENT ⇒ aucune voix, aucun bouton, rendu strictement identique à celui
+   * d'avant. Un player qui n'aurait pas adopté le champ n'a rien à craindre.
+   */
+  etapeId?: string | null
+
+  /**
    * La bande de consigne, rendue par le châssis SOUS la zone de travail.
    *
    * Absente — écran de fin, page de garde, aperçu admin — la bande n'est pas
@@ -935,6 +987,7 @@ export default function AtelierShell({
   finished,
   onQuitter,
   consigne,
+  etapeId,
   children,
 }: AtelierShellProps) {
   /** La carte de l'atelier : cadre du guide, et cible du recentrage ci-dessous. */
@@ -1004,6 +1057,33 @@ export default function AtelierShell({
     window.addEventListener("keydown", echap)
     return () => window.removeEventListener("keydown", echap)
   }, [panneau])
+
+  /**
+   * LE GUIDE VOCAL — la voix qui lit l'étape.
+   *
+   * Il est monté ICI, dans le châssis, pour la même raison que la bande de
+   * consigne : lire un énoncé à voix haute ne parle d'aucune application. Les
+   * quatre players lui passent une seule chose, l'identifiant de l'étape.
+   *
+   * ⚠️ `demonstrationAutomatique` mérite son détour. Un écran « À comprendre »
+   * porteur d'un `montrer` lance sa démonstration TOUT SEUL, 1,2 s après
+   * l'arrivée. Une voix qui démarrerait à 0,6 s serait donc couverte au bout
+   * d'une demi-seconde, sur les 489 écrans concernés. La voix attend que la
+   * démonstration soit finie — c'est la règle « jamais superposée », et c'est la
+   * démonstration qui a la priorité : elle porte déjà son texte à l'écran.
+   */
+  const voix = useGuideVocal({
+    chapterId,
+    etapeId,
+    // L'aperçu admin ne parle pas, et l'écran de fin n'a plus rien à dire.
+    actif: !preview && !finished,
+    introVue,
+    demonstration: !!consigne?.demonstration,
+    demoFinie: !!consigne?.demoFinie,
+    demonstrationAutomatique: !!consigne?.lecture && !!consigne?.aDemonstration,
+    aideVisible: !!consigne?.aideVisible,
+    zoneRef: carteRef,
+  })
 
   /**
    * L'ÉCRAN DE FIN REPART DU BORD GAUCHE.
@@ -1196,6 +1276,71 @@ export default function AtelierShell({
         >
           {Math.min(index + 1, total)}/{total}
         </span>
+        {/* ── Guide vocal ──────────────────────────────────────────────────────
+            Deux contrôles seulement, et jamais rendus quand le chapitre n'a pas
+            de voix : le premier écoute ou arrête, le second coupe pour de bon.
+
+            Ils vivent dans un `[data-voix]` : c'est ce qui les exempte de la
+            règle « l'apprenant agit, la voix se tait ». Sans cette enveloppe, le
+            bouton « Réécouter » s'arrêterait lui-même au moment du clic. */}
+        {voix.disponible && (
+          <span data-voix className="flex flex-shrink-0 items-center">
+            {!voix.coupee && (voix.enLecture || voix.etapeSonore) && (
+              <button
+                type="button"
+                data-control="sim-voix"
+                onClick={voix.enLecture ? voix.arreter : voix.rejouer}
+                aria-label={
+                  voix.enLecture
+                    ? "Arrêter la lecture à voix haute"
+                    : voix.bloquee
+                      ? "Activer le son"
+                      : "Réécouter la consigne"
+                }
+                title={
+                  voix.enLecture
+                    ? "Arrêter la lecture"
+                    : voix.bloquee
+                      ? "Activer le son"
+                      : "Réécouter la consigne"
+                }
+                className="flex flex-shrink-0 items-center justify-center"
+                style={CIBLE_COCKPIT}
+              >
+                <span
+                  className="flex items-center gap-1.5 rounded-lg px-2.5"
+                  style={pastilleCockpit(voix.enLecture)}
+                >
+                  <IconeVoix variante={voix.enLecture ? "stop" : "haut-parleur"} />
+                  <span className="hidden sm:inline">
+                    {voix.enLecture ? "Stop" : voix.bloquee ? "Activer" : "Écouter"}
+                  </span>
+                </span>
+              </button>
+            )}
+            <button
+              type="button"
+              data-control="sim-voix-couper"
+              onClick={voix.basculerCoupure}
+              aria-pressed={voix.coupee}
+              aria-label={voix.coupee ? "Réactiver le guide vocal" : "Couper le guide vocal"}
+              title={
+                voix.coupee
+                  ? "Réactiver le guide vocal"
+                  : "Couper le guide vocal (le choix est mémorisé)"
+              }
+              className="flex flex-shrink-0 items-center justify-center"
+              style={CIBLE_COCKPIT}
+            >
+              <span
+                className="flex items-center justify-center rounded-lg"
+                style={{ ...pastilleCockpit(false), width: 28, opacity: voix.coupee ? 1 : 0.75 }}
+              >
+                <IconeVoix variante={voix.coupee ? "coupe" : "haut-parleur"} />
+              </span>
+            </button>
+          </span>
+        )}
         {/* Guide de la formation. Il vit ICI plutôt que dans la navigation du
             LMS : c'est dans l'atelier qu'on se demande comment revoir une
             démonstration, pas sur la page d'accueil. Sous 640 px le libellé

@@ -44,6 +44,7 @@ import type { SimulationScenario, SimulationStep } from "@/lib/simulation/types"
 import { natureEtape } from "@/lib/simulation/attendu"
 import { jugerEtape } from "@/lib/simulation/frappe"
 import { annoterBulleDAuteur, type CibleDemo, type PlanDemo } from "@/lib/simulation/demonstration"
+import { avecDureesDeVoix, useVoixDemo } from "../hooks/useVoixDemo"
 import type { LearnerDocument } from "@/lib/learner-files"
 import { adaptateurPpt } from "@/lib/simulation/ppt/adaptateur"
 import type { PptAction, PptViewMode } from "@/lib/simulation/ppt/actions"
@@ -246,6 +247,18 @@ export default function PptPlayer({
   )
 
   /* ── Noyau : progression ── */
+  /**
+   * LA VOIX DES BULLES, lue par RÉFÉRENCE — jamais en dépendance.
+   *
+   * Le plan de démonstration est mémoïsé et volontairement figé : l'ajouter aux
+   * dépendances le recalculerait quand le manifeste arrive, changerait la
+   * référence des gestes en pleine séquence, et figerait la démonstration sur
+   * son premier geste. Ce qui compte est l'état au DÉMARRAGE.
+   */
+  const voix = useVoixDemo()
+  const voixRef = useRef(voix)
+  voixRef.current = voix
+
   const progression = useProgression({
     total,
     departForce,
@@ -697,7 +710,11 @@ export default function PptPlayer({
         })
         .filter(Boolean) as PlanDemo[]
       if (plans.length === 0) return null
-      return { gestes: plans.flatMap((p) => p.gestes), pas: plans.flatMap((p) => p.pas) }
+      return avecDureesDeVoix(
+        { gestes: plans.flatMap((p) => p.gestes), pas: plans.flatMap((p) => p.pas) },
+        step?.id,
+        voixRef.current,
+      )
     }
     if (evaluationNotee) return null
     return adaptateurPpt.demonstration(step.action as unknown as Record<string, unknown> & { type: string }, {})
@@ -1377,6 +1394,10 @@ export default function PptPlayer({
             onSelectionner={demoSelectionner}
             onPresser={demoPresser}
             lecture={nature === "lecture"}
+            // La bulle entre en scène : la voix la dit. Rien n'est attendu en
+            // retour — la minuterie du calque est déjà partie.
+            onBulle={(rang) => voixRef.current?.jouerBulle(step?.id, rang)}
+            onArreterVoix={() => voixRef.current?.arreter()}
             onFini={() => aide.setDemoFinie(true)}
           />
         ) : null}

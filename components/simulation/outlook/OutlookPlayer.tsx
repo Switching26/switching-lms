@@ -52,6 +52,7 @@ import type { EtatOutlook, OutlookObservation } from "@/lib/simulation/outlook/o
 import { jugerEtape, type JugementEtape } from "@/lib/simulation/frappe"
 import { gradableStepCount, type SimulationScenario, type SimulationStep } from "@/lib/simulation/types"
 import type { LearnerDocument } from "@/lib/learner-files"
+import { useVoixDemo } from "../hooks/useVoixDemo"
 
 /** Au-delà, le juge distant est considéré injoignable : le geste reste à refaire. */
 const DELAI_VERDICT_MS = 8000
@@ -168,6 +169,18 @@ export default function OutlookPlayer({
 
   const setupInitial = (scenario as ScenarioAvecCourrier).courrier ?? {}
   const [etat, setEtat] = useState<EtatOutlook>(() => etatInitial(setupInitial))
+
+  /**
+   * LA VOIX DES BULLES, lue par RÉFÉRENCE — jamais en dépendance.
+   *
+   * Le plan de démonstration est mémoïsé et volontairement figé : l'ajouter aux
+   * dépendances le recalculerait quand le manifeste arrive, changerait la
+   * référence des gestes en pleine séquence, et figerait la démonstration sur
+   * son premier geste. Ce qui compte est l'état au DÉMARRAGE.
+   */
+  const voix = useVoixDemo()
+  const voixRef = useRef(voix)
+  voixRef.current = voix
   /** Miroir de la boîte, lisible hors rendu — même idiome que `deckRef` côté PowerPoint. */
   const etatRef = useRef(etat)
   etatRef.current = etat
@@ -1467,6 +1480,11 @@ export default function OutlookPlayer({
             onSelectionner={demoSelectionner}
             onPresser={demoPresser}
             lecture={step?.action.type === "READ"}
+            // Outlook n'a aucun écran « À comprendre » à ce jour, donc aucune
+            // bulle d'auteur : ce branchement ne joue rien. Il est là pour que
+            // l'application ne dérive pas le jour où elle en aura.
+            onBulle={(rang) => voixRef.current?.jouerBulle(step?.id, rang)}
+            onArreterVoix={() => voixRef.current?.arreter()}
             onFini={() => setDemoFinie(true)}
           />
         )}

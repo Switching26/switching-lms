@@ -69,14 +69,19 @@ export type RoleVoix =
    */
   | "feedback"
   /**
-   * Une bulle de démonstration.
+   * Une bulle de démonstration. JOUÉE depuis le 13/08/2026 — choix de Samuel :
+   * « il veut que les bulles parlent ».
    *
-   * RÉSERVÉ, NON JOUÉ PAR LE PILOTE. La démonstration porte déjà son texte à
-   * l'écran, et la règle posée par Samuel est que la voix ne se superpose jamais
-   * à une démonstration en cours. Les faire parler suppose de les synchroniser
-   * sur `data-demo-geste`, ce qui touche le calque — le chantier le plus audité
-   * du simulateur. Le champ existe pour que les fichiers déjà produits aient une
-   * place déclarée, pas pour être lu aujourd'hui.
+   * Elle ne se joue JAMAIS à l'arrivée sur l'étape (`ROLES_ARRIVEE` ne la
+   * contient pas) : c'est le calque qui la déclenche, quand le geste qu'elle
+   * commente entre en phase `bulle`. L'appariement se fait par `geste` — le rang
+   * de la bulle d'AUTEUR — et jamais par l'index du geste joué : le moteur
+   * insère des ouvertures d'onglet que l'auteur n'a pas écrites.
+   *
+   * ⚠️ Elle N'EST PAS dans `ROLES_JOUES` : cet ensemble décide de l'affichage du
+   * bouton du cockpit, qui rejoue la CONSIGNE. Un chapitre qui ne porterait que
+   * des bulles n'a rien à rejouer d'un bouton — c'est la démonstration qui les
+   * rejoue, avec « Revoir la démonstration ».
    */
   | "bulle"
 
@@ -160,6 +165,30 @@ export function estIdentifiantSur(id: unknown): id is string {
  * dite au clic sur "Besoin d'aide" ») : lisible, mais impossible à consommer
  * comme une énumération. L'identifiant, lui, est régulier.
  */
+/**
+ * LE RANG DE LA BULLE, lu sur l'identifiant : `e5-bulle2` → 1.
+ *
+ * La chaîne de synthèse numérote ses bulles à partir de 1, dans l'ordre des
+ * actions `montrer` de l'étape ; le plan de démonstration les indexe à partir de
+ * 0 (`GesteDemo.rangBulle`). On convertit ici, une fois, plutôt que dans chaque
+ * appelant.
+ *
+ * ⚠️ On lit le NUMÉRO ÉCRIT, jamais la position dans le tableau : un segment
+ * absent — une bulle dont la synthèse a échoué, ou qu'on n'a pas produite —
+ * décalerait toutes les suivantes d'un cran. Le décalage serait muet : tout se
+ * jouerait, dans le désordre, sans erreur. C'est le même piège que celui qui
+ * impose `rangBulle` côté plan.
+ *
+ * `null` quand le numéro est absent ou illisible : la bulle est alors déclarée
+ * mais sans rang, donc jamais appariée — ce qui la rend inerte plutôt que fausse.
+ */
+function rangDepuisIdentifiant(id: string): number | null {
+  const m = /bulle[-_]?(\d+)/i.exec(id)
+  if (!m) return null
+  const n = Number(m[1])
+  return Number.isInteger(n) && n >= 1 ? n - 1 : null
+}
+
 function roleDepuisIdentifiant(id: string): RoleVoix {
   const s = id.toLowerCase()
   if (s.includes("bulle")) return "bulle"
@@ -198,11 +227,16 @@ function lireManifesteSynthese(o: Record<string, unknown>): ManifesteVoix | null
     if (!etapeId) continue
     if (!estNomDePisteValide(seg.fichier)) continue
     const id = typeof seg.id === "string" ? seg.id : ""
+    const role = roleDepuisIdentifiant(id)
+    const rang = role === "bulle" ? rangDepuisIdentifiant(id) : null
     const piste: SegmentVoix = {
-      role: roleDepuisIdentifiant(id),
+      role,
       fichier: seg.fichier,
       ...(typeof seg.duree_s === "number" && seg.duree_s > 0 ? { secondes: seg.duree_s } : {}),
       ...(typeof seg.texte_dit === "string" ? { texte: seg.texte_dit } : {}),
+      // Le rang n'a de sens que pour une bulle : c'est lui qui l'apparie au
+      // geste d'auteur, et rien d'autre ne le fait.
+      ...(rang !== null ? { geste: rang } : {}),
     }
     if (!etapes[etapeId]) etapes[etapeId] = []
     etapes[etapeId].push(piste)
@@ -271,6 +305,29 @@ export function segmentsPour(
   const segments = manifeste.etapes[etapeId]
   if (!segments) return []
   return segments.filter((s) => roles.has(s.role))
+}
+
+/**
+ * LA BULLE QUI COMMENTE LE GESTE D'AUTEUR DE RANG `rang`.
+ *
+ * `null` quand il n'y en a pas — chapitre sans voix, bulle non produite, ou
+ * segment déclaré sans numéro lisible. L'appelant doit alors garder le rythme
+ * d'avant : une bulle sans voix ne s'allonge pas.
+ *
+ * ⚠️ APPARIEMENT PAR RANG D'AUTEUR, JAMAIS PAR POSITION. Chercher « la n-ième
+ * bulle du tableau » se casserait dès qu'une piste manque, et le ferait en
+ * silence — tout se jouerait, décalé d'un cran. Le rang vient du numéro écrit
+ * dans l'identifiant du segment, et il doit correspondre à `GesteDemo.rangBulle`.
+ */
+export function bullePour(
+  manifeste: ManifesteVoix | null,
+  etapeId: string | null | undefined,
+  rang: number,
+): SegmentVoix | null {
+  if (!manifeste || !etapeId || !Number.isInteger(rang) || rang < 0) return null
+  const segments = manifeste.etapes[etapeId]
+  if (!segments) return null
+  return segments.find((s) => s.role === "bulle" && s.geste === rang) ?? null
 }
 
 /** Le chapitre a-t-il la moindre piste jouable ? Décide de l'affichage du bouton. */

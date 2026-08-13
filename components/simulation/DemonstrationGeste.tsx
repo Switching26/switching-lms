@@ -68,6 +68,30 @@ type Props = {
    * geste SUIVANT introuvable — et ce geste-là se joue alors à blanc.
    */
   onOnglet?: (onglet: string) => void
+  /**
+   * UNE BULLE D'AUTEUR ENTRE EN SCÈNE — appelé avec son rang, une fois par bulle.
+   *
+   * C'est le seul lien entre le calque et la voix, et il ne va que dans ce
+   * sens-là : le calque SIGNALE, il n'attend rien en retour et n'apprend jamais
+   * si un son a été joué. Lui faire attendre la fin d'une phrase le rendrait
+   * dépendant du réseau, et une piste absente figerait la démonstration — le
+   * seul défaut que ce simulateur ne tolère pas.
+   *
+   * N'est appelé que pour les gestes que l'AUTEUR a écrits (`rangBulle`), jamais
+   * pour les ouvertures d'onglet insérées par le moteur, et jamais en mouvement
+   * réduit — dans ce mode le calque exécute tout d'un coup, aucune bulle ne
+   * s'affiche séparément, donc rien n'a à être commenté.
+   */
+  onBulle?: (rangBulle: number) => void
+  /**
+   * LA SÉQUENCE PREND FIN — appelé au démontage du calque, et lui seul.
+   *
+   * Le calque est remonté à chaque changement d'étape et à chaque rejeu (sa
+   * `key` porte les deux) : son démontage est donc l'instant exact où une phrase
+   * en cours n'a plus d'écran pour la justifier. Sans cela, quitter l'étape
+   * pendant qu'une bulle parle laisserait la voix commenter l'écran suivant.
+   */
+  onArreterVoix?: () => void
   /** Crée réellement un nom de plage, sans déclencher la validation de l'étape. */
   onDefinir?: (nom: string, ref: string) => void
   /** Sélectionne réellement une cellule ou une plage. */
@@ -131,7 +155,7 @@ function tempo(ms: number): number {
   return v === 1 ? ms : Math.max(16, Math.round(ms / v))
 }
 
-export default function DemonstrationGeste({ plan, resoudre, largeur, hautFeuille = 0, onEcrire, onOnglet, onDefinir, onSelectionner, onPresser, lecture, onFini }: Props) {
+export default function DemonstrationGeste({ plan, resoudre, largeur, hautFeuille = 0, onEcrire, onOnglet, onBulle, onArreterVoix, onDefinir, onSelectionner, onPresser, lecture, onFini }: Props) {
   const [i, setI] = useState(0)
   const [phase, setPhase] = useState<Phase>("avertir")
   const [tapes, setTapes] = useState(0)
@@ -144,6 +168,8 @@ export default function DemonstrationGeste({ plan, resoudre, largeur, hautFeuill
   const definirRef = useRef(onDefinir)
   const selRef = useRef(onSelectionner)
   const presserRef = useRef(onPresser)
+  const bulleRef = useRef(onBulle)
+  const arretVoixRef = useRef(onArreterVoix)
   finiRef.current = onFini
   /**
    * LE CALQUE NE MEURT PAS PARCE QUE LE MOTEUR A TOUSSÉ.
@@ -169,6 +195,8 @@ export default function DemonstrationGeste({ plan, resoudre, largeur, hautFeuill
   definirRef.current = sansCasse(onDefinir)
   selRef.current = sansCasse(onSelectionner)
   presserRef.current = sansCasse(onPresser)
+  bulleRef.current = sansCasse(onBulle)
+  arretVoixRef.current = sansCasse(onArreterVoix)
 
   useEffect(() => {
     doux.current =
@@ -195,6 +223,39 @@ export default function DemonstrationGeste({ plan, resoudre, largeur, hautFeuill
       return "fini"
     })
   }, [geste])
+
+  /**
+   * LA BULLE ENTRE EN SCÈNE : on le SIGNALE, et c'est tout.
+   *
+   * Une seule fois par bulle — l'effet ne se rejoue qu'au changement de phase ou
+   * de geste. Et seulement pour une bulle que l'AUTEUR a écrite : les ouvertures
+   * d'onglet insérées par le moteur n'ont pas de rang, donc pas de voix (sans
+   * quoi chaque phrase se décalerait d'un cran, sans erreur ni compteur faux).
+   *
+   * ⚠️ ON N'ATTEND RIEN EN RETOUR. La minuterie ci-dessous part exactement comme
+   * avant ; sa durée a été décidée à la construction du plan, pas ici. C'est ce
+   * qui garantit qu'un son absent, refusé ou lent ne peut pas figer l'écran.
+   *
+   * En mouvement réduit, le calque saute directement à « fini » sans passer par
+   * cette phase : rien ne parle, ce qui est le comportement voulu — l'apprenant
+   * a demandé qu'on ne l'anime pas.
+   */
+  useEffect(() => {
+    if (phase !== "bulle" || doux.current) return
+    const rang = geste?.rangBulle
+    if (typeof rang !== "number") return
+    bulleRef.current?.(rang)
+  }, [phase, i, geste])
+
+  /**
+   * Une phrase en cours n'a plus d'écran pour la justifier : on la coupe.
+   *
+   * Au DÉMONTAGE seulement — la `key` du calque porte l'étape et le rejeu, donc
+   * il est remonté à chaque fois que la séquence recommence ou change de sujet.
+   */
+  useEffect(() => {
+    return () => arretVoixRef.current?.()
+  }, [])
 
   // Minuterie : chaque phase a sa durée. L'avertissement doit se lire, la
   // frappe dépend de la longueur du texte.

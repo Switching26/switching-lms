@@ -54,6 +54,7 @@ import WordLinkDialog from "./WordLinkDialog"
 import type { WordApi } from "./WordSurface"
 import DemonstrationGeste, { type Rect } from "../DemonstrationGeste"
 import { annoterBulleDAuteur, type CibleDemo, type PlanDemo } from "@/lib/simulation/demonstration"
+import { avecDureesDeVoix, useVoixDemo } from "../hooks/useVoixDemo"
 
 import { adaptateurWord } from "@/lib/simulation/word/adaptateur"
 import type { WordObservation } from "@/lib/simulation/word/observations"
@@ -356,6 +357,18 @@ export default function WordPlayer({
    * calculé aussitôt après, sans attendre le rendu, et il lit les refs.
    */
   const [surfacePrete, setSurfacePrete] = useState(false)
+
+  /**
+   * LA VOIX DES BULLES, lue par RÉFÉRENCE — jamais en dépendance.
+   *
+   * Le plan de démonstration est mémoïsé et volontairement figé : l'ajouter aux
+   * dépendances le recalculerait quand le manifeste arrive, changerait la
+   * référence des gestes en pleine séquence, et figerait la démonstration sur
+   * son premier geste. Ce qui compte est l'état au DÉMARRAGE.
+   */
+  const voix = useVoixDemo()
+  const voixRef = useRef(voix)
+  voixRef.current = voix
   const releverClicheRef = useRef<() => ClicheWord>(() => CLICHE_VIDE)
   const reposerClicheRef = useRef<(e: ClicheWord) => void>(() => {})
   const cliche = useClicheEtape<ClicheWord>({
@@ -1382,7 +1395,11 @@ export default function WordPlayer({
         const { onglet: _sien, ...reste } = g
         return suivant?.onglet ? { ...reste, onglet: suivant.onglet } : reste
       })
-      return { gestes: decales, pas: plans.flatMap((p) => p.pas) }
+      return avecDureesDeVoix(
+        { gestes: decales, pas: plans.flatMap((p) => p.pas) },
+        etape?.id,
+        voixRef.current,
+      )
     }
     // Sur une étape d'ACTION en revanche, montrer le geste reviendrait à
     // souffler la réponse : le renoncement se fait d'un clic (« Passer »).
@@ -2105,6 +2122,10 @@ export default function WordPlayer({
             onPresser={demoPresser}
             onOnglet={demoOnglet}
             lecture={estLecture}
+            // La bulle entre en scène : la voix la dit. Rien n'est attendu en
+            // retour — la minuterie du calque est déjà partie.
+            onBulle={(rang) => voixRef.current?.jouerBulle(etape?.id, rang)}
+            onArreterVoix={() => voixRef.current?.arreter()}
             onFini={finDemo}
           />
         )}

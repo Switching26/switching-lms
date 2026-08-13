@@ -31,6 +31,7 @@ const OutlookPlayer = dynamic(() => import("./outlook/OutlookPlayer"), { ssr: fa
 import type { SimulationScenario } from "@/lib/simulation/types"
 import type { LearnerDocument } from "@/lib/learner-files"
 import { variablesCouleur, C } from "@/lib/simulation/couleurs"
+import { FournisseurVoixDemo } from "./hooks/useVoixDemo"
 
 type Payload = {
   /**
@@ -223,53 +224,66 @@ export default function SimulationChapter({
    */
   const couleurs = variablesCouleur(data.app)
 
+  /*
+   * LA VOIX DES BULLES — montée ICI, pour la même raison que les couleurs.
+   *
+   * Le player construit le plan de démonstration et a besoin des durées audio ;
+   * le châssis, lui, est son ENFANT. L'information descend, elle ne remonte pas.
+   * Ce composant est le seul parent commun aux quatre applications, donc le seul
+   * point d'où les deux peuvent lire la même source.
+   *
+   * Inerte quand le chapitre n'a pas de voix : aucune durée n'est imposée, et la
+   * démonstration garde exactement son rythme d'avant.
+   */
   const player = (
-    <Player
-      // La clé garantit un état propre quand on passe d'un atelier à un autre :
-      // l'étape courante et les compteurs ne doivent jamais fuiter entre chapitres.
-      key={`${chapterId}#${passage}`}
-      chapterId={chapterId}
-      mode={data.mode}
-      scenario={data.scenario}
-      // Une ÉVALUATION entamée repart de la première question : les réussites
-      // au premier essai ne sont pas persistées, reprendre au milieu notait
-      // ~0 % un apprenant qui avait tout juste (choix Samuel du 02/08/2026).
-      // Leçons et exercices, eux, reprennent où l'apprenant s'était arrêté et
-      // `rejouerAvant` restitue son travail — ne pas toucher à ce chemin-là.
-      initialStep={data.mode === "EVALUATION" ? 0 : (data.attempt?.currentStep ?? 0)}
-      repriseEvaluation={
+    <FournisseurVoixDemo chapterId={chapterId} actif={!preview}>
+      <Player
+        // La clé garantit un état propre quand on passe d'un atelier à un autre :
+        // l'étape courante et les compteurs ne doivent jamais fuiter entre chapitres.
+        key={`${chapterId}#${passage}`}
+        chapterId={chapterId}
+        mode={data.mode}
+        scenario={data.scenario}
+        // Une ÉVALUATION entamée repart de la première question : les réussites
+        // au premier essai ne sont pas persistées, reprendre au milieu notait
+        // ~0 % un apprenant qui avait tout juste (choix Samuel du 02/08/2026).
+        // Leçons et exercices, eux, reprennent où l'apprenant s'était arrêté et
+        // `rejouerAvant` restitue son travail — ne pas toucher à ce chemin-là.
+        initialStep={data.mode === "EVALUATION" ? 0 : (data.attempt?.currentStep ?? 0)}
+        repriseEvaluation={
         data.mode === "EVALUATION" &&
         (data.attempt?.currentStep ?? 0) > 0 &&
         !data.attempt?.completedAt
-      }
-      // Une évaluation TERMINÉE ne rentrait dans aucun de ces cas : elle
-      // rouvrait sur un écran d'intro vierge, sans la moindre trace du passage
-      // précédent — d'où l'impression que rien n'avait été enregistré alors que
-      // le score était bien en base.
-      scorePrecedent={data.mode === "EVALUATION" ? data.attempt?.bestScore ?? null : null}
-      passagesPrecedents={data.attempt?.attemptCount ?? 0}
-      // Passe-plat strict : c'est l'API qui décide qui corrige, pas l'atelier.
-      validationLocale={data.clientValidation !== false}
-      // Au-delà du premier montage, l'atelier a été remonté par « Repasser » :
-      // il doit ouvrir un passage NEUF côté serveur, sans hériter des verdicts
-      // du précédent — sinon l'ancienne note survivrait à la nouvelle tentative.
-      nouveauPassage={passage > 0}
-      onRejouer={() => setPassage((n) => n + 1)}
-      preview={preview}
-      onCompleted={onCompleted}
-      pleinCadre={atelier}
-      sommaire={sommaire}
-      onNaviguer={onNaviguer}
-      onQuitter={onQuitter}
-      note={note}
-      onNote={onNote}
-      notesHref={notesHref}
-      documentsChapitre={documentsChapitre}
-      documentsFormation={documentsFormation}
-      afficherRessources={afficherRessources}
-      documentsHref={documentsHref}
-      cleGuide={cleGuide}
-    />
+        }
+        // Une évaluation TERMINÉE ne rentrait dans aucun de ces cas : elle
+        // rouvrait sur un écran d'intro vierge, sans la moindre trace du passage
+        // précédent — d'où l'impression que rien n'avait été enregistré alors que
+        // le score était bien en base.
+        scorePrecedent={data.mode === "EVALUATION" ? data.attempt?.bestScore ?? null : null}
+        passagesPrecedents={data.attempt?.attemptCount ?? 0}
+        // Passe-plat strict : c'est l'API qui décide qui corrige, pas l'atelier.
+        validationLocale={data.clientValidation !== false}
+        // Au-delà du premier montage, l'atelier a été remonté par « Repasser » :
+        // il doit ouvrir un passage NEUF côté serveur, sans hériter des verdicts
+        // du précédent — sinon l'ancienne note survivrait à la nouvelle tentative.
+        nouveauPassage={passage > 0}
+        onRejouer={() => setPassage((n) => n + 1)}
+        preview={preview}
+        onCompleted={onCompleted}
+        pleinCadre={atelier}
+        sommaire={sommaire}
+        onNaviguer={onNaviguer}
+        onQuitter={onQuitter}
+        note={note}
+        onNote={onNote}
+        notesHref={notesHref}
+        documentsChapitre={documentsChapitre}
+        documentsFormation={documentsFormation}
+        afficherRessources={afficherRessources}
+        documentsHref={documentsHref}
+        cleGuide={cleGuide}
+      />
+    </FournisseurVoixDemo>
   )
 
   // Aperçu admin et rendu en carte : le player reste dans le flux de la page,

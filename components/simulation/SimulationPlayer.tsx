@@ -280,6 +280,7 @@ function memeCellule(a: CelluleCliche, b: CelluleCliche): boolean {
   return String(x) === String(y)
 }
 import { planDemonstration, planSequence, type CibleDemo, type PlanDemo } from "@/lib/simulation/demonstration"
+import { avecDureesDeVoix, useVoixDemo } from "./hooks/useVoixDemo"
 import { CONTROLES_POSTE, appliquerGeste, posteInitial } from "@/lib/simulation/poste"
 import ChartLayer from "./ChartLayer"
 import PivotLayer from "./PivotLayer"
@@ -1132,6 +1133,24 @@ export default function SimulationPlayer({
   /** Onglet courant, lisible sans créer de dépendance — voir le plan de démonstration. */
   const ongletRef = useRef(onglet)
   ongletRef.current = onglet
+
+  /**
+   * LA VOIX DES BULLES, lue par RÉFÉRENCE — jamais en dépendance.
+   *
+   * Même discipline que l'onglet ci-dessus, et pour la même raison : le plan de
+   * démonstration est mémoïsé et volontairement figé. L'ajouter aux dépendances
+   * le recalculerait quand le manifeste arrive, changerait la référence des
+   * gestes en pleine séquence, et figerait la démonstration sur son premier
+   * geste. Ce qui compte est l'état au DÉMARRAGE de la démonstration.
+   *
+   * Conséquence assumée : si le manifeste arrive après la construction du plan
+   * — reprise à mi-chapitre, réseau lent —, cette démonstration-là garde le
+   * rythme d'avant et reste muette. Les suivantes parlent. Dégrader, jamais
+   * figer.
+   */
+  const voix = useVoixDemo()
+  const voixRef = useRef(voix)
+  voixRef.current = voix
 
   /* ── Mise en place de l'étape ──────────────────────────────────────────── */
 
@@ -4531,7 +4550,11 @@ export default function SimulationPlayer({
          ailleurs — repère jamais peint, compteur au bout quand même (M13-L02-08). */
       const plans = planSequence(step.montrer, depart)
       if (plans.length === 0) return null
-      return { gestes: plans.flatMap((p) => p.gestes), pas: plans.flatMap((p) => p.pas) }
+      return avecDureesDeVoix(
+        { gestes: plans.flatMap((p) => p.gestes), pas: plans.flatMap((p) => p.pas) },
+        step.id,
+        voixRef.current,
+      )
     }
     if (mode === "EVALUATION") return null
     return planDemonstration(step.action, depart)
@@ -6006,6 +6029,10 @@ export default function SimulationPlayer({
                 plan={demo}
                 resoudre={resoudreCible}
                 onEcrire={ecrireDemo}
+                // La bulle entre en scène : la voix la dit. Le calque n'attend
+                // rien en retour — sa minuterie est déjà partie.
+                onBulle={(rang) => voixRef.current?.jouerBulle(step?.id, rang)}
+                onArreterVoix={() => voixRef.current?.arreter()}
                 // Changer d'onglet ne valide rien — c'est déjà le cas quand
                 // l'apprenant explore le ruban lui-même.
                 onOnglet={(t) => setOnglet(t as RibbonTab)}

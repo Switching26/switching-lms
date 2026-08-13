@@ -24,6 +24,7 @@ import {
   estNomDePisteValide,
   lireManifeste,
   lirePlageOctets,
+  bullePour,
   ROLES_AIDE,
   ROLES_ARRIVEE,
   ROLES_JOUES,
@@ -32,6 +33,15 @@ import {
 } from "../../lib/simulation/voix"
 
 const RACINE = join(__dirname, "..", "..")
+/**
+ * Le plafond d'affichage d'une bulle, en millisecondes.
+ *
+ * Recopié de `useVoixDemo.tsx` plutôt qu'importé : ce contrôle doit tourner en
+ * `npx tsx` sans React ni navigateur, comme les 24 autres. Le décalage éventuel
+ * est sans danger — il ne sert ici qu'à SIGNALER les bulles à découper.
+ */
+const PLAFOND_MS = 8000
+let tropLongues = 0
 let anomalies = 0
 const dire = (m: string) => console.log(m)
 const rouge = (m: string) => {
@@ -243,9 +253,56 @@ if (existsSync(racineVoix)) {
       if (!f.endsWith(".mp3")) continue
       if (declares.indexOf(f) === -1) rouge(`${chapitre} : « ${f} » présent mais absent du manifeste`)
     }
+
+    /* ── LES BULLES : RANGS, TROUS ET DURÉES ──────────────────────────────
+     *
+     * C'est ici que se joue l'appariement voix ↔ démonstration. Trois défauts
+     * possibles, et les trois sont MUETS à l'exécution : tout se jouerait, dans
+     * le désordre, sans erreur ni compteur faux.
+     */
+    for (const [etapeId, segments] of Object.entries(manifeste.etapes)) {
+      const bulles = segments.filter((s) => s.role === "bulle")
+      if (!bulles.length) continue
+      const rangs = bulles.map((s) => s.geste)
+      // (a) une bulle sans rang ne sera jamais appariée : elle est inerte.
+      const sansRang = rangs.filter((r) => typeof r !== "number").length
+      if (sansRang) {
+        rouge(`${chapitre} · ${etapeId} : ${sansRang} bulle(s) sans rang — jamais jouées`)
+      }
+      // (b) deux bulles au même rang : l'une écraserait l'autre, en silence.
+      const vus = new Set<number>()
+      for (const r of rangs) {
+        if (typeof r !== "number") continue
+        if (vus.has(r)) rouge(`${chapitre} · ${etapeId} : deux bulles au rang ${r}`)
+        vus.add(r)
+      }
+      // (c) un TROU dans la série : la bulle absente laisse sa démonstration
+      // muette, ce qui est acceptable — mais le signaler évite de croire à un
+      // chapitre complet. Un rang au-delà du nombre de bulles, lui, est une
+      // dérive entre le manifeste et le scénario (le piège R7).
+      const max = Math.max(...[...vus])
+      for (let r = 0; r <= max; r++) {
+        if (!vus.has(r)) dire(`  · ${chapitre} · ${etapeId} : pas de voix pour la bulle ${r + 1}`)
+      }
+      // (d) LE PLAFOND. Au-delà, la phrase sera coupée par la démonstration :
+      // le remède est dans le contenu, pas dans le moteur. On le DIT — un
+      // chantier qui produit 1 188 pistes doit savoir lesquelles découper.
+      for (const b of bulles) {
+        if (typeof b.secondes === "number" && b.secondes * 1000 + 350 > PLAFOND_MS) {
+          dire(
+            `  · ${chapitre} · ${etapeId} : bulle ${(b.geste ?? 0) + 1} dure ${b.secondes.toFixed(1)} s ` +
+              `— au-delà du plafond de ${PLAFOND_MS / 1000} s, elle sera coupée. À découper à l'écriture.`,
+          )
+          tropLongues++
+        }
+      }
+    }
   }
 }
 dire(`  ${chapitres} chapitre(s), ${pistes} segment(s) déclarés`)
+if (tropLongues) {
+  dire(`  ⚠️  ${tropLongues} bulle(s) trop longue(s) pour être dites en entier — à découper dans le CONTENU`)
+}
 
 /* ═══════════ 3. L'ADOPTION PAR LES PLAYERS ═══════════ */
 
@@ -272,6 +329,54 @@ for (const p of PLAYERS) {
   if (!/etapeId=\{/.test(src)) {
     rouge(`${p} ne passe pas \`etapeId\` : le guide vocal y est inerte`)
   }
+  /* LA VOIX DES BULLES — même exigence, et pour la même raison : sans ces trois
+     lignes tout le reste est écrit pour rien, et rien ne le dit. */
+  if (!/onBulle=\{/.test(src)) rouge(`${p} ne signale pas ses bulles : elles resteront muettes`)
+  if (!/onArreterVoix=\{/.test(src)) {
+    rouge(`${p} ne coupe pas la voix au changement d'étape : une phrase commenterait l'écran suivant`)
+  }
+  if (!/voixRef\.current/.test(src)) rouge(`${p} ne lit pas la voix par référence`)
+  /* ⚠️ ET SURTOUT PAS EN DÉPENDANCE. Le plan de démonstration est mémoïsé et
+     volontairement figé : le recalculer en pleine séquence relance la minuterie
+     du calque à zéro et fige la démonstration sur son premier geste. Un `voix`
+     nu dans un tableau de dépendances est exactement cette faute. */
+  if (/\[[^\]]*\bvoix\b[^\]]*\]\s*\)/.test(src)) {
+    rouge(`${p} met \`voix\` en dépendance : le plan se recalculerait et figerait la démonstration`)
+  }
+}
+{
+  /* Les trois players porteurs d'écrans « À comprendre » doivent ANNOTER le rang
+     de la bulle d'auteur. Sans annotation, aucune bulle n'a de voix ; pire, une
+     voix calée sur l'index du geste parlerait à côté sans lever d'erreur. */
+  for (const p of PLAYERS.filter((x) => !/Outlook/.test(x))) {
+    const src = sansCommentaires(readFileSync(join(RACINE, p), "utf8"))
+    const annote = /annoterBulleDAuteur\(/.test(src) || /planSequence\(/.test(src)
+    if (!annote) rouge(`${p} n'annote pas le rang de la bulle d'auteur`)
+    if (!/avecDureesDeVoix\(/.test(src)) rouge(`${p} ne pose pas les durées de voix sur son plan`)
+  }
+  const chapitre = sansCommentaires(
+    readFileSync(join(RACINE, "components/simulation/SimulationChapter.tsx"), "utf8"),
+  )
+  if (!/FournisseurVoixDemo/.test(chapitre)) {
+    rouge("le parent commun ne monte pas le canal : aucun player ne verra les durées")
+  }
+  const calque = sansCommentaires(
+    readFileSync(join(RACINE, "components/simulation/DemonstrationGeste.tsx"), "utf8"),
+  )
+  /* LA RÈGLE QUI COMMANDE TOUT : le calque ne doit JAMAIS attendre un son. S'il
+     écoutait `ended`, une piste absente figerait la démonstration — le seul
+     défaut que ce simulateur ne tolère pas. */
+  if (/addEventListener\(\s*["']ended["']/.test(calque) || /\.play\(\)/.test(calque)) {
+    rouge("le calque touche à l'audio : il doit recevoir un NOMBRE, jamais attendre un son")
+  }
+  if (!/geste\?\.dureeBulleMs\s*\?\?/.test(calque)) {
+    rouge("le calque n'emploie pas la durée imposée, ou ne retombe pas sur la formule d'origine")
+  }
+  /* La durée imposée doit passer par `tempo()` comme les autres : sinon un
+     balayage accéléré mesurerait un rythme qui n'existe pas. */
+  if (!/setTimeout\(suite,\s*tempo\(duree\)\)/.test(calque)) {
+    rouge("la durée de phase ne passe plus par `tempo()` : les balayages accélérés mentiraient")
+  }
 }
 {
   const shell = sansCommentaires(readFileSync(join(RACINE, "components/simulation/AtelierShell.tsx"), "utf8"))
@@ -295,10 +400,37 @@ if (process.argv.includes("--piege")) {
   if ((m?.etapes.E ?? []).length === 1 && segmentsPour(m, "E", ROLES_ARRIVEE).length === 0) attrapes++
   // c) sans requête partielle, l'iPad ne lirait rien
   if (lirePlageOctets("bytes=0-9", 100) !== null) attrapes++
-  if (attrapes !== 3) {
-    rouge(`auto-épreuve : ${attrapes}/3 pièges attrapés`)
+  /* d) APPARIER PAR POSITION au lieu du rang écrit : c'est la faute qui décale
+        tout en silence le jour où une piste manque. */
+  {
+    const troue = lireManifeste({
+      chapitre: {},
+      segments: [
+        { id: "e1-bulle1", etape_lms: "E", fichier: "audio/b1.mp3", duree_s: 1 },
+        // e1-bulle2 n'a pas été produite
+        { id: "e1-bulle3", etape_lms: "E", fichier: "audio/b3.mp3", duree_s: 1 },
+      ],
+    })
+    const parPosition = (troue?.etapes.E ?? []).filter((x) => x.role === "bulle")[1]
+    const parRang = bullePour(troue, "E", 2)
+    // Par position, la 2e bulle du tableau est `b3` — donc « la bulle 2 » du
+    // scénario recevrait la voix de la bulle 3. Par rang, elle n'a pas de voix.
+    if (parPosition?.fichier === "audio/b3.mp3" && parRang?.fichier === "audio/b3.mp3" && !bullePour(troue, "E", 1))
+      attrapes++
+  }
+  /* e) UNE BULLE NE DOIT JAMAIS SE JOUER À L'ARRIVÉE sur l'étape : elle
+        commenterait un geste qui n'a pas encore eu lieu. */
+  {
+    const m2 = lireManifeste({
+      chapitre: {},
+      segments: [{ id: "e1-bulle1", etape_lms: "E", fichier: "audio/b.mp3", duree_s: 1 }],
+    })
+    if (segmentsPour(m2, "E", ROLES_ARRIVEE).length === 0 && (m2?.etapes.E ?? []).length === 1) attrapes++
+  }
+  if (attrapes !== 5) {
+    rouge(`auto-épreuve : ${attrapes}/5 pièges attrapés`)
   } else {
-    dire("  3/3 pièges attrapés")
+    dire("  5/5 pièges attrapés")
   }
 }
 

@@ -1,0 +1,800 @@
+{
+ "chapitre": {
+  "chapterId": "cms42copq0009hyoyxd5v809t",
+  "app": "EXCEL",
+  "section": "",
+  "titre": "Les quatre opérateurs et les parenthèses"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 27,
+  "caracteres_dits": 2924,
+  "duree_totale_s": 182.5,
+  "segments_valides": 26,
+  "segments_plusieurs_essais": 3,
+  "segments_jamais_valides": 1
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Addition, soustraction, multiplication, division. Et surtout : l'ordre dans lequel Excel les applique, qui n'est pas l'ordre où vous les écrivez.",
+   "empreinte_texte_dit": "ceac93c5da28dda4e68666389fc951281b66b4790cd9edf8f4f121052417fc74",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 149673,
+   "duree_s": 9.28,
+   "caracteres_dits": 145,
+   "caracteres_factures": 145,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "addition, soustraction, multiplication, division,\n et surtout l'ordre dans lequel Excel les applique, qui n'\nest pas l'ordre où vous les écrivez."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "addition, soustraction, multiplication, division.\n Et surtout, l'ordre dans lequel Excel les applique, qui n'\nest pas l'ordre où vous les écrivez."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M06-L01-01",
+   "role": "Etape 1 · consigne",
+   "texte_dit": "Le tableau contient une quantité, un prix unitaire et une remise. À vous : dans la cellule B5, calculez le total avant remise, la quantité multipliée par le prix.",
+   "empreinte_texte_dit": "c63cdc347dec23cac8bf1611bb3c98af8c005f2db6afa4003f69a0aa03f6e47a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 166391,
+   "duree_s": 10.32,
+   "caracteres_dits": 162,
+   "caracteres_factures": 162,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le tableau contient une quantité, un prix unitaire et une\n remise.\n À vous, dans la cellule B5, calculez le total avant remise,\n la quantité multipliée par le prix."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le tableau contient une quantité, un prix unitaire et une\n remise.\n À vous, dans la cellule B5,\n calculez le total avant remise, la quantité multipliée par\n le prix."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "M06-L01-01",
+   "role": "Etape 1 · aide",
+   "texte_dit": "L'astérisque est le signe de la multiplication.",
+   "empreinte_texte_dit": "cbb0c53d89367482e5075f4af683b328b419046bae2f91c7fee35418cc4f9b6c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 57304,
+   "duree_s": 3.52,
+   "caracteres_dits": 47,
+   "caracteres_factures": 47,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "L'astérisque est le signe de la multiplication."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "L'astérisque est le signe de la multiplication."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-feedback",
+   "etape_lms": "M06-L01-01",
+   "role": "Etape 1 · retour de reussite",
+   "texte_dit": "300 euros. Passons à la soustraction.",
+   "empreinte_texte_dit": "95ca83d5d0e1c9f92b81715654aef00f66ff4e627f15b6e45501c2938df4f763",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-feedback.mp3",
+   "octets": 45183,
+   "duree_s": 2.76,
+   "caracteres_dits": 37,
+   "caracteres_factures": 37,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "300 euros, passons à la soustraction."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "300 euros. Passons à la soustraction."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M06-L01-02",
+   "role": "Etape 2 · consigne",
+   "texte_dit": "À vous : dans la cellule B6, soustrayez la remise du total.",
+   "empreinte_texte_dit": "09a2266dbfc3d59e223b313455addfcd95a3f1d559463711b016940d245274f4",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 66917,
+   "duree_s": 4.12,
+   "caracteres_dits": 59,
+   "caracteres_factures": 59,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.028,
+     "transcription": "A vous, dans la cellule B6, soustrez-y la remise du total."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous, dans la cellule B6, soustrayez la remise du total."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-feedback",
+   "etape_lms": "M06-L01-02",
+   "role": "Etape 2 · retour de reussite",
+   "texte_dit": "270 euros.",
+   "empreinte_texte_dit": "ba5906c5a683b63776c00f64225ccff89a937c3c8b0dc606cca100d5391b4efc",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-feedback.mp3",
+   "octets": 28465,
+   "duree_s": 1.72,
+   "caracteres_dits": 10,
+   "caracteres_factures": 10,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "270 euros."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "270 euros."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M06-L01-03",
+   "role": "Etape 3 · consigne",
+   "texte_dit": "À vous : dans la cellule B7, calculez le prix moyen par unité, en divisant le total après remise par la quantité. La barre oblique est le signe de la division.",
+   "empreinte_texte_dit": "3c9c2c298876a4830e7c5e705e9234ad2b80f8b3ff876addc6088fc06111339e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 154688,
+   "duree_s": 9.6,
+   "caracteres_dits": 159,
+   "caracteres_factures": 159,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.01,
+     "transcription": "A vous, dans la cellule B7, calculez le prix moyen par unit\né, en divisant le total après remise par la quantité.\n La barre oblique est le signe de la division."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.01,
+     "transcription": "À vous, dans la cellule B7, calculez le prix moyen par unit\né, en divisant le total après remise par la quantité.\n La barre oblique est le signe de la division."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-feedback",
+   "etape_lms": "M06-L01-03",
+   "role": "Etape 3 · retour de reussite",
+   "texte_dit": "22,50 euros. Vous avez utilisé les quatre opérateurs.",
+   "empreinte_texte_dit": "8cdd097eeac91964bf1764abc2905cbfbddec52dc49d9e35ee69880eada55380",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-feedback.mp3",
+   "octets": 82382,
+   "duree_s": 5.08,
+   "caracteres_dits": 53,
+   "caracteres_factures": 53,
+   "essais": 6,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "22, 50 euros. Vous avez utilisé les quatre opérateurs."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "22,50 €\n Vous avez utilisé les quatre opérateurs."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M06-L01-04",
+   "role": "Etape 4 · consigne",
+   "texte_dit": "Attention, voici le piège le plus courant du tableur, et il ne provoque aucune erreur, juste un résultat faux. L'ordre réel dans lequel Excel exécute un calcul est montré à l'écran. C'est exactement la règle apprise à l'école, mais on l'oublie devant un tableur. Vous allez le vérifier vous-même à l'étape suivante.",
+   "empreinte_texte_dit": "15bccb21b7f4e7d11eec9135452bfbacf6f4753e220fffa9090f04b816eb9442",
+   "reparations": [
+    "l'écran"
+   ],
+   "ssml": true,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 302646,
+   "duree_s": 18.84,
+   "caracteres_dits": 315,
+   "caracteres_factures": 376,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.005,
+     "transcription": "Attention, voici le piège le plus courant du tableur, et il\n ne provoque aucune erreur,\n juste un résultat faux.\n L'ordre réel dans lequel Excel exécut un calcul est montré\n à l'écran.\n C'est exactement la règle apprise à L, école, mais on l'\noublie devant un tableur.\n Vous allez le vérifier vous-même à L, étape suivante."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Attention, voici le piège le plus courant du tableur, et il\n ne provoque aucune erreur,\n juste un résultat faux.\n L'ordre réel dans lequel Excel exécute un calcul est montré\n à l'écran.\n C'est exactement la règle à prise à L, école, mais on l'\noublie devant un tableur.\n Vous allez le vérifier vous-même à L, étape suivante."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-bulle1",
+   "etape_lms": "M06-L01-04",
+   "role": "Etape 4 · bulle 1 sur B1",
+   "texte_dit": "Excel ne calcule pas de gauche à droite.",
+   "empreinte_texte_dit": "4a1fdb7177ae4e8df71c864d37fd2c6eaea42004d7f85441679805795fd0c839",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-bulle1.mp3",
+   "octets": 36406,
+   "duree_s": 2.2,
+   "caracteres_dits": 40,
+   "caracteres_factures": 40,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Excel ne calcule pas de gauche à droite."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Excel ne calcule pas de gauche à droite."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-bulle2",
+   "etape_lms": "M06-L01-04",
+   "role": "Etape 4 · bulle 2 sur B2",
+   "texte_dit": "D'abord les multiplications et les divisions.",
+   "empreinte_texte_dit": "66e0df935981cc7c944898abf36ab6a76adbf5dfa44bc9e50b3195b820861fa4",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-bulle2.mp3",
+   "octets": 43929,
+   "duree_s": 2.68,
+   "caracteres_dits": 45,
+   "caracteres_factures": 45,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "D'abord les multiplications et les divisions."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "D'abord les multiplications et les divisions."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-bulle3",
+   "etape_lms": "M06-L01-04",
+   "role": "Etape 4 · bulle 3 sur B3",
+   "texte_dit": "Ensuite les additions et les soustractions.",
+   "empreinte_texte_dit": "53db4cdb4a5b6d8cb2b94173b86c1c4d0b1ce4bd1b5dbabecf87a839505014c0",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-bulle3.mp3",
+   "octets": 38078,
+   "duree_s": 2.32,
+   "caracteres_dits": 43,
+   "caracteres_factures": 43,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Ensuite, les additions et les soustractions."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Ensuite les additions et les soustractions."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M06-L01-05",
+   "role": "Etape 5 · consigne",
+   "texte_dit": "Vérifions. À vous : dans la cellule D1, additionnez les deux premières cellules, puis multipliez la seconde par 2, sans parenthèses. Réfléchissez d'abord au résultat que vous attendez.",
+   "empreinte_texte_dit": "340d37ca674550cc7831b18c104758c356924df9c69be743a12a71085b9457d0",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 188543,
+   "duree_s": 11.72,
+   "caracteres_dits": 184,
+   "caracteres_factures": 184,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Vérifions, à vous.\n Dans la cellule D1, additionnez les deux premières cellules\n, puis multipliez la seconde par deux sans parenthèse.\n Réfléchissez d'abord aux résultats que vous attendez."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Vérifions. À vous. Dans la cellule D1, additionnez les deux\n premières cellules, puis\n multipliez la seconde par deux, sans parenthèse.\n Réfléchissez d'abord aux résultats que vous attendez."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-feedback",
+   "etape_lms": "M06-L01-05",
+   "role": "Etape 5 · retour de reussite",
+   "texte_dit": "62, et non 74. Excel a d'abord multiplié 25 par 2, ce qui fait 50, puis il a ajouté 12.",
+   "empreinte_texte_dit": "d1e548639ffe220bfd266d0ab1588f35edecb483786e3c8158774ce37b5636f1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-feedback.mp3",
+   "octets": 135044,
+   "duree_s": 8.36,
+   "caracteres_dits": 87,
+   "caracteres_factures": 87,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "62 et non 74.\n Excel a d'abord multiplié 25 par 2, ce qui fait 50, puis il\n a ajouté 12."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "62 et non 74.\n Excel a d'abord multiplié 25 par 2, ce qui fait 50, puis il\n a ajouté 12."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M06-L01-06",
+   "role": "Etape 6 · consigne",
+   "texte_dit": "Si vous vouliez additionner avant de multiplier, il faut le dire avec des parenthèses. À vous : dans la cellule D2, reprenez le même calcul, en encadrant l'addition.",
+   "empreinte_texte_dit": "626f970f039665e0479aec9bc0bc1490a1f88b2199f2b368a651dcd6f716d433",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 146329,
+   "duree_s": 9.08,
+   "caracteres_dits": 165,
+   "caracteres_factures": 165,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": false,
+     "wer": 0.0,
+     "transcription": "Si vous vouliez additionner avant de multiplier, il faut le\n dire avec des parenthèses.\n À vous, dans la cellule des deux, reprenez le même calcul\n en encadrant l'addition."
+    },
+    "moteur_second_medium": {
+     "ok": false,
+     "wer": 0.0,
+     "transcription": "Si vous vouliez additionner avant de multiplier, il faut le\n dire avec des parenthèses.\n À vous, dans la cellule des deux, reprenez le même calcul\n en encadrant l'addition."
+    },
+    "valide_sur_les_deux": false
+   }
+  },
+  {
+   "id": "e6-aide",
+   "etape_lms": "M06-L01-06",
+   "role": "Etape 6 · aide",
+   "texte_dit": "Les parenthèses forcent Excel à calculer leur contenu en premier.",
+   "empreinte_texte_dit": "e1e44c7a791d36a0bf4c9c1ae488733e6b17e1ea97c34d808f112d650070d31d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-aide.mp3",
+   "octets": 55632,
+   "duree_s": 3.4,
+   "caracteres_dits": 65,
+   "caracteres_factures": 65,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Les parenthèses forcent excel à calculer leur contenu en\n premier."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.073,
+     "transcription": "Les parenthèses force-excel à calculer leur contenu en\n premier."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-feedback",
+   "etape_lms": "M06-L01-06",
+   "role": "Etape 6 · retour de reussite",
+   "texte_dit": "74. Même formule à un détail près, résultat totalement différent.",
+   "empreinte_texte_dit": "03cde48e49d79e14dd3f875d5545c631599e5abd95744932ca02d1a00e81139b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-feedback.mp3",
+   "octets": 85725,
+   "duree_s": 5.28,
+   "caracteres_dits": 65,
+   "caracteres_factures": 65,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "74. Même formule à un détail prêt résulta totalement\n différent."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "74. Même formule à un détail près résulta totalement\n différent."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "M06-L01-07",
+   "role": "Etape 7 · consigne",
+   "texte_dit": "Deux résultats très différents avec les mêmes nombres : seule la place des parenthèses change. La comparaison est faite à l'écran. La règle de conduite à adopter : dès qu'une formule mélange addition et multiplication, mettez des parenthèses même quand elles semblent inutiles. Elles ne coûtent rien, et rendent votre intention lisible six mois plus tard.",
+   "empreinte_texte_dit": "e48683bf38980ffb0e66c3bc1c1e47890bea857cb3832504d4dc6b47175a6fb5",
+   "reparations": [
+    "l'écran"
+   ],
+   "ssml": true,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 318528,
+   "duree_s": 19.84,
+   "caracteres_dits": 355,
+   "caracteres_factures": 416,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.034,
+     "transcription": "Deux résultats très différents avec les mêmes nombres.\n Seule la place des parenthèses change.\n La comparaison est faite à l'écran.\n La règle de conduite à adopter,\n dès qu'une formule mélange addition et multiplication,\n mettez des parenthèses même quand elle semble est inutile.\n Elle ne coûte rien et rende votre intention lisible six\n mois plus tard."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.039,
+     "transcription": "Deux résultats très différents avec les mêmes nombres.\n Seule la place des parenthèses change.\n La comparaison est faite à l'écran.\n La règle de conduite à adopter,\n dès qu'une formule mélange addition et multiplication,\n mettez des parenthèses même quand elle semble est inutile.\n Elle ne coûte rien et rend votre intention lisible six mois\n plus tard."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-bulle1",
+   "etape_lms": "M06-L01-07",
+   "role": "Etape 7 · bulle 1 sur B5",
+   "texte_dit": "Les mêmes nombres donnent deux résultats. Seules les parenthèses changent.",
+   "empreinte_texte_dit": "760f35d8ec9bfdd5ef749bb869f19a49d32b30e69afa6c48a706515bcc170d84",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-bulle1.mp3",
+   "octets": 63155,
+   "duree_s": 3.88,
+   "caracteres_dits": 74,
+   "caracteres_factures": 74,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Les mêmes nombres donnent deux résultats. Seules les\n parenthèses changent."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Les mêmes nombres donnent deux résultats.\n Seules les parenthèses changent."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-bulle2",
+   "etape_lms": "M06-L01-07",
+   "role": "Etape 7 · bulle 2 sur A5",
+   "texte_dit": "Dès qu'une formule mélange addition et multiplication, mettez des parenthèses.",
+   "empreinte_texte_dit": "ac01bc76ea5cb391b3626600894454702cc6e8f9ad1d92b82853ef3c8111c80b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-bulle2.mp3",
+   "octets": 81128,
+   "duree_s": 5.0,
+   "caracteres_dits": 78,
+   "caracteres_factures": 78,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Dès qu'une formule mélange addition et multiplication mette\n des parenthèses."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.021,
+     "transcription": "Dès qu'une formule mélange addition et multiplication, met\ntez des parenthèses."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-bulle3",
+   "etape_lms": "M06-L01-07",
+   "role": "Etape 7 · bulle 3 sur A5",
+   "texte_dit": "Même inutiles, elles rendent votre intention lisible.",
+   "empreinte_texte_dit": "a4593c7f92667249e3768c292710c3a05e56b8cb1d99e3cf1af6e3a5606e5d75",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-bulle3.mp3",
+   "octets": 56886,
+   "duree_s": 3.48,
+   "caracteres_dits": 53,
+   "caracteres_factures": 53,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.057,
+     "transcription": "Même inutile, elle rende votre intention lisible."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Même inutile, elles rendent votre intention lisible."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-consigne",
+   "etape_lms": "M06-L01-08",
+   "role": "Etape 8 · consigne",
+   "texte_dit": "Dernière méthode utile : construire une formule en cliquant sur les cellules, plutôt qu'en tapant leurs adresses. À vous : commencez par sélectionner la cellule D4.",
+   "empreinte_texte_dit": "79b270f82e911c7a10e972ae90c3c4762e0116f2004e9bdc8adb60f7f1f20b80",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-consigne.mp3",
+   "octets": 148419,
+   "duree_s": 9.2,
+   "caracteres_dits": 164,
+   "caracteres_factures": 164,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Dernière méthode utile, construire une formule en cliquant\n sur les cellules plutôt qu'en tapant leurs adresses.\n À vous, commencez par sélectionner la cellule D4."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Dernière méthode utile. Construire une formule en cliquant\n sur les cellules, plutôt qu'en tapant leurs adresses.\n À vous ! Commencez par sélectionner la cellule D4."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-aide",
+   "etape_lms": "M06-L01-08",
+   "role": "Etape 8 · aide",
+   "texte_dit": "Cliquez simplement dedans.",
+   "empreinte_texte_dit": "fc08602a7c73b7b75a3c65a0152df1fc49df7c0061fbde9517fc86a62e52d150",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-aide.mp3",
+   "octets": 33898,
+   "duree_s": 2.04,
+   "caracteres_dits": 26,
+   "caracteres_factures": 26,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Cliquez simplement dedans."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Cliquez simplement dedans."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e9-consigne",
+   "etape_lms": "M06-L01-09",
+   "role": "Etape 9 · consigne",
+   "texte_dit": "Tapez le signe égal, puis cliquez sur la première cellule, tapez l'astérisque, cliquez sur la seconde, et validez. Excel insère les références à votre place : c'est plus rapide, et on se trompe moins d'adresse.",
+   "empreinte_texte_dit": "a6c626fab54365f306c6c9a5cf69490ed0191ef1b64b417b9fa5b64c451cc14d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-consigne.mp3",
+   "octets": 198156,
+   "duree_s": 12.32,
+   "caracteres_dits": 210,
+   "caracteres_factures": 210,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Tapper le signe égal, puis cliquer sur la première cellule,\n taper l'astérisque,\n cliquer sur la seconde et valider.\n Excel insère les références à votre place.\n C'est plus rapide et on se trompe moins d'adresse."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.065,
+     "transcription": "Tapez le signe égal, puis cliquez sur la première cellule,\n tapez l'*, cliquez sur la seconde et validez.\n Excel insère les références à votre place. C'est plus rap\nide et on se trompe moins d'adresses."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e9-aide",
+   "etape_lms": "M06-L01-09",
+   "role": "Etape 9 · aide",
+   "texte_dit": "Vous pouvez aussi taper les références directement : le résultat est le même.",
+   "empreinte_texte_dit": "b91b458ccce67825012207b197da73f99bfbf2a8a29fcb72d3991f4e32705c55",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-aide.mp3",
+   "octets": 69007,
+   "duree_s": 4.24,
+   "caracteres_dits": 77,
+   "caracteres_factures": 77,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Vous pouvez aussi taper les références directement. Le\n résultat est le même."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Vous pouvez aussi taper les références directement. Le\n résultat est le même."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e9-feedback",
+   "etape_lms": "M06-L01-09",
+   "role": "Etape 9 · retour de reussite",
+   "texte_dit": "300 euros. Le pointage à la souris et la frappe donnent exactement la même formule.",
+   "empreinte_texte_dit": "604b035f1e39a9c0da1cf64b683630c3fe5bc31e54e3386be53b4f57b86f4184",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-feedback.mp3",
+   "octets": 92413,
+   "duree_s": 5.72,
+   "caracteres_dits": 83,
+   "caracteres_factures": 83,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "300 euros. Le pointage à la souris et la frappe donnent\n exactement la même formule."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "300 euros.\n Le pointage à la souris et la frappe donnent exactement la\n même formule."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Vous maîtrisez les quatre opérateurs et la priorité de calcul. C'est la cause numéro un des résultats faux dans un tableur.",
+   "empreinte_texte_dit": "c6021e53220a16068db544ee07f10912ca74de395f764d1e1617c8f6b1573d27",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 105369,
+   "duree_s": 6.52,
+   "caracteres_dits": 123,
+   "caracteres_factures": 123,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Vous maîtriser les quatre opérateurs et la priorité de\n calcul.\n C'est la cause numéro 1 des résultats faux dans un tableur."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Vous maîtrisez les quatre opérateurs et la priorité de\n calcul.\n C'est la cause numéro un des résultats faux dans un tableur\n."
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

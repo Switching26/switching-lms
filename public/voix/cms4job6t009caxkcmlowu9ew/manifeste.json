@@ -1,0 +1,388 @@
+{
+ "chapitre": {
+  "chapterId": "cms4job6t009caxkcmlowu9ew",
+  "app": "Excel",
+  "section": "Saisie semi-automatique et import de données",
+  "titre": "S'évaluer · Saisie semi-automatique et recopie"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)"
+  ],
+  "criteres": [
+   "WER <= 0.15",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe le moteur severe"
+ },
+ "totaux": {
+  "segments": 15,
+  "caracteres_dits": 1199,
+  "duree_totale_s": 77.8,
+  "segments_valides": 11,
+  "segments_plusieurs_essais": 5,
+  "segments_jamais_valides": 4
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Un bordereau de livraison à monter de bout en bout: import, calculs par recopie, numérotation incrémentée et contrôles. Neuf gestes sont attendus. Chacun est noté à la première tentative, et aucune aide n'est proposée.",
+   "empreinte_texte_dit": "f1e7c503939bcc1947fed9bb4ebd4a7493806ec3c214e03534602f711d9144da",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 218636,
+   "duree_s": 13.6,
+   "caracteres_dits": 218,
+   "caracteres_factures": 218,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.143,
+     "transcription": "Un bordero de livraison a monté de bout en bout. Un port, calcul par recopie, numérotations incrémentées et contrôle. Neuf gestes sont attendues. Chacun est noté à la première tentative et aucune aide n'est proposée."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M12-EV01-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Le bordereau est dans le presse-papiers, la feuille ne porte que son titre. Les données doivent atterrir dans la cellule A2, pour laisser le titre en ligne 1. Neuf gestes, notés au premier essai, sans aide.",
+   "empreinte_texte_dit": "ab1626a0c3239a69901220bb11831a5738d017b424e88cccc33ad6d0751bff2e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 199410,
+   "duree_s": 12.4,
+   "caracteres_dits": 206,
+   "caracteres_factures": 206,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.108,
+     "transcription": "Le bord de roue est dans le presse papier, la feuille ne porte que son titre. Les données doivent atterrir dans la cellule A2 pour laisser le titre en ligne 1. Neuf gestes, notez au premier essai sans aide."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e1-bulle1",
+   "etape_lms": "M12-EV01-01",
+   "role": "Étape 1 · bulle 1",
+   "texte_dit": "La feuille ne porte que son titre, en ligne 1.",
+   "empreinte_texte_dit": "9fb0413ff815959679593c834d93ecb63996456dd3acca19a2c1340fdb8b1ec1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-bulle1.mp3",
+   "octets": 46019,
+   "duree_s": 2.8,
+   "caracteres_dits": 46,
+   "caracteres_factures": 184,
+   "essais": 4,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.111,
+     "transcription": "La feuille ne porte que son titre en ligne."
+    },
+    "valide": true,
+    "re_controle": true
+   }
+  },
+  {
+   "id": "e1-bulle2",
+   "etape_lms": "M12-EV01-01",
+   "role": "Étape 1 · bulle 2",
+   "texte_dit": "Le bordereau est dans le presse-papiers: les données doivent atterrir ici, dans la cellule A2.",
+   "empreinte_texte_dit": "415a2ba97da32bc1b04353686a28f4e615a98549d7ae575083bf2eefbf034024",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-bulle2.mp3",
+   "octets": 93248,
+   "duree_s": 5.76,
+   "caracteres_dits": 94,
+   "caracteres_factures": 188,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": false,
+     "wer": 0.188,
+     "transcription": "Le bord d'euro est dans le presse papier. Les données doivent atterrir ici, dans la cellule A2."
+    },
+    "valide": false,
+    "re_controle": true
+   }
+  },
+  {
+   "id": "e1-bulle3",
+   "etape_lms": "M12-EV01-01",
+   "role": "Étape 1 · bulle 3",
+   "texte_dit": "Puis le total et la moyenne à compléter.",
+   "empreinte_texte_dit": "af6b8d842ffc3e61c496ab3095dabc2836d8d0e31e3e2d2b475bfbc893975241",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-bulle3.mp3",
+   "octets": 51035,
+   "duree_s": 3.12,
+   "caracteres_dits": 40,
+   "caracteres_factures": 40,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Puis le total et la moyenne à compléter."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M12-EV01-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Collez le bordereau à partir de la cellule A2.",
+   "empreinte_texte_dit": "e81f5e67368ee9dbbaf6d501a1e2c100feb12738e8baabd73c42e6096cf61169",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 42257,
+   "duree_s": 2.56,
+   "caracteres_dits": 46,
+   "caracteres_factures": 92,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": false,
+     "wer": 0.333,
+     "transcription": "Collez le bord de roue à partir de la cellule A2."
+    },
+    "valide": false,
+    "re_controle": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M12-EV01-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Dans la cellule E2, ajoutez l'en-tête Montant.",
+   "empreinte_texte_dit": "5b793aa8a4f7ed8ee5c76719a3257ba98851bb4af7992bbe027dbf1aed76743b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 54378,
+   "duree_s": 3.32,
+   "caracteres_dits": 46,
+   "caracteres_factures": 46,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Dans la cellule E2, ajoutez l'entête montant."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M12-EV01-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Dans la cellule E3, calculez le montant de la première livraison. La formule devra se recopier.",
+   "empreinte_texte_dit": "46c971fdc3dec5c3118ad0d62e1c498b6b3f9c8a07b885b52f3c70af0143f135",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 104951,
+   "duree_s": 6.48,
+   "caracteres_dits": 95,
+   "caracteres_factures": 95,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Dans la cellule E3, calculez le montant de la première livraison. La formule devra se recopier."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M12-EV01-05",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Complétez les cinq livraisons restantes.",
+   "empreinte_texte_dit": "3c3d48299a4e398dfa7993e0cd5f191b100fa83596ca2d3ddee99065e9a3ab31",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 36406,
+   "duree_s": 2.2,
+   "caracteres_dits": 40,
+   "caracteres_factures": 40,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Complétez les cinq livraisons restantes."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M12-EV01-06",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "Dans la cellule E10, calculez le total du bordereau.",
+   "empreinte_texte_dit": "5084235351aec709f1a2c73c9b8a7750ce4bb0e3b30a0ef3a6f6d7f5f78cacc1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 66917,
+   "duree_s": 4.12,
+   "caracteres_dits": 52,
+   "caracteres_factures": 156,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": false,
+     "wer": 0.333,
+     "transcription": "Dans la cellule E10, calculez le total du bord de roue."
+    },
+    "valide": false,
+    "re_controle": true
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "M12-EV01-07",
+   "role": "Étape 7 · consigne",
+   "texte_dit": "Dans la cellule E11, calculez le montant moyen d'une livraison.",
+   "empreinte_texte_dit": "e4b1b86af90c493d586c4e29b9a6ed0daa106219613556e86b37d86da20977f1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 59812,
+   "duree_s": 3.68,
+   "caracteres_dits": 63,
+   "caracteres_factures": 63,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Dans la cellule E11, calculez le montant moyen d'une livraison."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e8-consigne",
+   "etape_lms": "M12-EV01-08",
+   "role": "Étape 8 · consigne",
+   "texte_dit": "Numérotez les bons de 5 en 5 à partir de 100. Dans la cellule G3, posez la première valeur.",
+   "empreinte_texte_dit": "e1b9ace705f026cbcd378b236d69fd44e2a1c9ad195ca8b76a3d040963a3ba02",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-consigne.mp3",
+   "octets": 107877,
+   "duree_s": 6.68,
+   "caracteres_dits": 91,
+   "caracteres_factures": 364,
+   "essais": 4,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": false,
+     "wer": 0.263,
+     "transcription": "Numérautez les bonds de 55 à partir de 100. Dans la cellule G3, posez la première valeur."
+    },
+    "valide": false,
+    "re_controle": true
+   }
+  },
+  {
+   "id": "e9-consigne",
+   "etape_lms": "M12-EV01-09",
+   "role": "Étape 9 · consigne",
+   "texte_dit": "Dans la cellule G4, posez la valeur qui fixera le pas de la série.",
+   "empreinte_texte_dit": "3ad8c6a3d99b7c74b1fd663f8adc291a7b7d6dfabe3c7d8eb34ab88d750129d9",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-consigne.mp3",
+   "octets": 69425,
+   "duree_s": 4.28,
+   "caracteres_dits": 66,
+   "caracteres_factures": 66,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Dans la cellule G4, posez la valeur qui fixera le pas de la série."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e10-consigne",
+   "etape_lms": "M12-EV01-10",
+   "role": "Étape 10 · consigne",
+   "texte_dit": "Complétez la numérotation jusqu'à la ligne 8, sans la taper ligne par ligne.",
+   "empreinte_texte_dit": "422b2aa538f59d3c73b837ed23b4c96a32f7376c844ad7d996faea1dbe977361",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e10-consigne.mp3",
+   "octets": 84471,
+   "duree_s": 5.2,
+   "caracteres_dits": 76,
+   "caracteres_factures": 76,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Complétez la numérotation jusqu'à la ligne 8 sans la taper ligne par ligne."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Évaluation terminée.",
+   "empreinte_texte_dit": "db726a7ecc8b7e680aa1b6b116f32b390f7e8746934b3e85e8d7952949c32415",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 27211,
+   "duree_s": 1.64,
+   "caracteres_dits": 20,
+   "caracteres_factures": 20,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Evaluation terminée."
+    },
+    "valide": true
+   }
+  }
+ ]
+}

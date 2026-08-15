@@ -1,0 +1,460 @@
+{
+ "chapitre": {
+  "chapterId": "cms4joda500dqaxkcsary618f",
+  "app": "EXCEL",
+  "section": "",
+  "titre": "Exercice · Choisir le bon type"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 15,
+  "caracteres_dits": 1540,
+  "duree_totale_s": 93.3,
+  "segments_valides": 15,
+  "segments_plusieurs_essais": 0,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Deux tableaux sur la même feuille, deux questions différentes. À vous de trouver la bonne plage, et de choisir le type qui répond.",
+   "empreinte_texte_dit": "f6bb1c5dbdd3de9bdad8e9b79e1918f8204bef495728d1bdaea08821ecd50b45",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 109131,
+   "duree_s": 6.76,
+   "caracteres_dits": 130,
+   "caracteres_factures": 130,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "2 tableaux sur la même feuille, 2 questions différentes.\n A vous de trouver la bonne plage et de choisir le type qui\n répond."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Deux tableaux sur la même feuille, deux questions\n différentes.\n À vous de trouver la bonne plage et de choisir le type qui\n répond."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M17-E02-01",
+   "role": "Etape 1 · consigne",
+   "texte_dit": "Première question : comment la température évolue-t-elle sur l'année ? À vous : créez le graphique qui y répond, à partir du premier tableau. Une ligne continue doit relier les douze mois.",
+   "empreinte_texte_dit": "73ecea48cf452b044751ffb08fe3825c1e5bb9403ccf6de46196bb859f698703",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 166391,
+   "duree_s": 10.32,
+   "caracteres_dits": 188,
+   "caracteres_factures": 188,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Première question, comment la température évolue-t-elle sur\n l'année ?\n À vous, créez le graphique qui y répond à partir du premier\n tableau.\n Une ligne continue doit relier les 12 mois."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Première question, comment la température évolue-t-elle sur\n l'année?\n À vous, créez le graphique qui y répond, à partir du\n premier tableau.\n Une ligne continue doit relier les 12 mois."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "M17-E02-01",
+   "role": "Etape 1 · aide",
+   "texte_dit": "Une évolution dans le temps appelle la courbe. Sélectionnez les douze mois et leurs températures.",
+   "empreinte_texte_dit": "a441ee99af7fa9412cf47dec8b3ab8614da828ca0a173379034ea39d23cf6790",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 89905,
+   "duree_s": 5.56,
+   "caracteres_dits": 97,
+   "caracteres_factures": 97,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Une évolution dans le temps appelle la courbe.\n Sélectionnez les 12 mois et leur température."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Une évolution dans le temps appelle la courbe.\n Sélectionnez les 12 mois et leur température."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M17-E02-02",
+   "role": "Etape 2 · consigne",
+   "texte_dit": "Deuxième question : comment le budget se répartit-il entre les quatre postes ? À vous : créez le graphique qui y répond, à partir du second tableau, plus bas dans la feuille. Un disque partagé en quatre parts doit apparaître.",
+   "empreinte_texte_dit": "42a78def34b01fa71a472e4cd310095df288a65548bf850ed77fc71b576f10c7",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 191887,
+   "duree_s": 11.92,
+   "caracteres_dits": 225,
+   "caracteres_factures": 225,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Deuxième question, comment le budget se répartit-il entre\n les quatre postes ?\n À vous, créez le graphique qui y répond, à partir du second\n tableau, plus bas dans la feuille.\n Un disque partagé en quatre parts doit apparaître."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Deuxième question, comment le budget se répartit-il entre\n les quatre postes ?\n À vous, créez le graphique qui y répond.\n À partir du second tableau, plus bas dans la feuille,\n un disque partagé en quatre parts doit apparaître."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "M17-E02-02",
+   "role": "Etape 2 · aide",
+   "texte_dit": "Une répartition d'un total appelle le secteur. Le second tableau commence plus bas.",
+   "empreinte_texte_dit": "f9f8ea323ab670b0aa85aa24892c7f016d2e2cce8c31cf065bee493697131242",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 87397,
+   "duree_s": 5.4,
+   "caracteres_dits": 83,
+   "caracteres_factures": 83,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Une répartition d'un total appelle le secteur.\n Le second tableau commence plus bas."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Une répartition d'un total appelle le secteur.\n Le second tableau commence plus bas."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-feedback",
+   "etape_lms": "M17-E02-02",
+   "role": "Etape 2 · retour de reussite",
+   "texte_dit": "Le total des quatre postes est le budget : la part a donc un sens.",
+   "empreinte_texte_dit": "0f10400c4ce389f7b484de8903602a4db91d0edcfc7ed651b75eef15e0616780",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-feedback.mp3",
+   "octets": 71933,
+   "duree_s": 4.44,
+   "caracteres_dits": 66,
+   "caracteres_factures": 66,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le total des quatre postes est le budget.\n La part a donc un sens."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le total des quatre postes est le budget.\n La part a donc un sens."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M17-E02-03",
+   "role": "Etape 3 · consigne",
+   "texte_dit": "Deux postes ont des libellés longs, illisibles sous un histogramme. À vous : reprenez le budget avec le type qui couche les libellés à l'horizontale. Ils doivent alors se lire en entier.",
+   "empreinte_texte_dit": "ea660eefdf83fc1900b65a0216f3ddd3494c3d473c018ae75f0da83ba15dbacc",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 178930,
+   "duree_s": 11.12,
+   "caracteres_dits": 186,
+   "caracteres_factures": 186,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.03,
+     "transcription": "Deux postes ont délibéré longs, illisibles sous un\n histogramme.\n À vous, reprenez le budget avec le type qui couche les li\nbellées à l'horizontale.\n Ils doivent alors se lire en entier."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Deux postes ont des libellés longs, illisibles sous un\n histogramme.\n À vous, reprenez le budget avec le type qui couche les li\nbellés à l'horizontale.\n Ils doivent alors se lire en entier."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "M17-E02-03",
+   "role": "Etape 3 · aide",
+   "texte_dit": "Les barres horizontales : onglet Insertion, bouton Barres.",
+   "empreinte_texte_dit": "ed81dbdf4406bc42a0d90e733e8f5ef5d6bb1f5c13ca0fab62e1b90953979285",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 66499,
+   "duree_s": 4.08,
+   "caracteres_dits": 58,
+   "caracteres_factures": 58,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Les barres horizontales, onglet insertion.\n Bouton barres."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.061,
+     "transcription": "Les barres horizontales.\n Onglet insertion.\n Bouton barresse."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-feedback",
+   "etape_lms": "M17-E02-03",
+   "role": "Etape 3 · retour de reussite",
+   "texte_dit": "Les libellés se lisent d'un coup, sans incliner la tête ni la feuille.",
+   "empreinte_texte_dit": "ca32bc3266b5e0a969a947649341f7a701c32c60fab3033fcc531d6043cfebbe",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-feedback.mp3",
+   "octets": 79874,
+   "duree_s": 4.92,
+   "caracteres_dits": 70,
+   "caracteres_factures": 70,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Les libellées se lisent d'un coup, sans incliner la tête ni\n la feuille."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Les libellés se lisent d'un coup, sans incliner la tête ni\n la feuille."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M17-E02-04",
+   "role": "Etape 4 · consigne",
+   "texte_dit": "À vous : affichez les étiquettes de données, pour donner les montants exacts.",
+   "empreinte_texte_dit": "b27ccd7644ec78a3f8de82042df1cd70daf149b92f239d3b916e0feea4872aa2",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 79874,
+   "duree_s": 4.92,
+   "caracteres_dits": 77,
+   "caracteres_factures": 77,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous, affichez les étiquettes de données pour donner les\n montants exacts."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous ! Affichez les étiquettes de données pour donner les\n montants exacts."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "M17-E02-04",
+   "role": "Etape 4 · aide",
+   "texte_dit": "Onglet Création de graphique, groupe Éléments du graphique, bouton Étiquettes.",
+   "empreinte_texte_dit": "79351588e11907857e262cda2ee5227a1f8aa63efd8307b91187dde953154363",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 83635,
+   "duree_s": 5.16,
+   "caracteres_dits": 78,
+   "caracteres_factures": 78,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Onglet, création de graphique, groupe élément du graphique,\n bouton étiquette."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Onglet, création de graphique, groupe éléments du graphique\n, bouton étiquette."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M17-E02-05",
+   "role": "Etape 5 · consigne",
+   "texte_dit": "Les étiquettes rendent le quadrillage inutile. À vous : masquez-le. Les lignes horizontales du fond disparaissent.",
+   "empreinte_texte_dit": "453d648d152d38790adbac5499fcc36c49943622c41abe078fffde5832099d23",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 111221,
+   "duree_s": 6.88,
+   "caracteres_dits": 114,
+   "caracteres_factures": 114,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Les étiquettes rendent le quadriage inutile.\n À vous, masquez-le.\n Les lignes horizontales du fond disparaissent."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Les étiquettes rendent le quadrillage inutile.\n À vous, masquez-le.\n Les lignes horizontales du fond disparaissent."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "M17-E02-05",
+   "role": "Etape 5 · aide",
+   "texte_dit": "Onglet Création de graphique, groupe Éléments du graphique, bouton Quadrillage.",
+   "empreinte_texte_dit": "fb93079db9807807118120e006ebb4968e53422f886254ced1a84de5fc1799fb",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 95756,
+   "duree_s": 5.92,
+   "caracteres_dits": 79,
+   "caracteres_factures": 79,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Onglet création de graphique, groupe élément du graphique,\n bouton cadrillage."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Onglet Création de graphique, Groupe éléments du graphique,\n Bouton quadrillage."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-feedback",
+   "etape_lms": "M17-E02-05",
+   "role": "Etape 5 · retour de reussite",
+   "texte_dit": "Un élément qui répète une information qu'on lit déjà ailleurs se retire.",
+   "empreinte_texte_dit": "13d5a6f9f1284ac91c8a301280a20be4a3f5108a9224ec99823f80cd4906b93a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-feedback.mp3",
+   "octets": 69425,
+   "duree_s": 4.28,
+   "caracteres_dits": 72,
+   "caracteres_factures": 72,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Un élément qui répète une information qu'on lit déjà a\nilleurs se retire."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Un élément qui répète une information qu'on lit déjà a\nilleurs se retire."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Exercice terminé.",
+   "empreinte_texte_dit": "4b99724f36d437dda8d656c42f861242cad8e3f053427c09274e98917e46dc33",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 27211,
+   "duree_s": 1.64,
+   "caracteres_dits": 17,
+   "caracteres_factures": 17,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Exercice terminée."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Exercice terminé."
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

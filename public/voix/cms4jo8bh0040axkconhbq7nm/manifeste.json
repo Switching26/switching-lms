@@ -1,0 +1,1196 @@
+{
+ "chapitre": {
+  "chapterId": "cms4jo8bh0040axkconhbq7nm",
+  "app": "EXCEL",
+  "section": "",
+  "titre": "Le format des heures : cumuler et payer"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 41,
+  "caracteres_dits": 3954,
+  "duree_totale_s": 236.8,
+  "segments_valides": 36,
+  "segments_plusieurs_essais": 12,
+  "segments_jamais_valides": 5
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Une heure est une fraction de journée. Additionner des durées fonctionne donc parfaitement, jusqu'au moment où le total dépasse vingt-quatre heures et repart à zéro. Tout tient dans une paire de crochets.",
+   "empreinte_texte_dit": "a8b54810a0082e3af09a3d6d94246707ff82ed78a0d87ec4dae71844c9bb5b28",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 168899,
+   "duree_s": 10.48,
+   "caracteres_dits": 204,
+   "caracteres_factures": 204,
+   "essais": 8,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Une heure est une fraction de journée.\n Additionner des durées fonctionne donc parfaitement, jusqu'\nau moment où le total dépasse 24 heures et repart à zéro.\n Tout tient dans une paire de crochets."
+    },
+    "moteur_second_medium": {
+     "ok": false,
+     "wer": 0.029,
+     "transcription": "Une heure est une fraction de journée.\n Additionner des durées fonctionne donc parfaitement,\n jusqu'au moment où le total dépasse 24 heures et repart à z\néro.\n Tout tient dans une paire de crochets."
+    },
+    "valide_sur_les_deux": false
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M05-L03-01",
+   "role": "Etape 1 · consigne",
+   "texte_dit": "Reprenons la base des heures, car tout ce module en découle : Excel range une heure comme une portion de journée. La correspondance est rappelée à l'écran. C'est ce qui permet d'additionner des durées, et, comme vous allez le voir, ce qui impose de choisir le bon format pour les afficher.",
+   "empreinte_texte_dit": "63d3a1eedde1c3c2438eea660635cd6951665c33e5951d347c2869487f2a5d27",
+   "reparations": [
+    "l'écran"
+   ],
+   "ssml": true,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 253745,
+   "duree_s": 15.8,
+   "caracteres_dits": 289,
+   "caracteres_factures": 350,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Reprenons la base des heures, car tout ce module en découle\n.\n Excel range une heure comme une portion de journée.\n La correspondance est rappelée à l'écran.\n C'est ce qui permet d'additionner des durées, et, comme\n vous allez le voir,\n ce qui impose de choisir le bon format pour les afficher."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.013,
+     "transcription": "Reprenons la base des heures, car tout ce module en découle\n. Excel range une heure\n comme une portion de journée. La correspondance est rappel\née à l'écran.\n C'est ce qui permet d'additionner des durées et, comme vous\n allez le voir, ce qui impose\n de choisir le bon format pour les afficher."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-bulle1",
+   "etape_lms": "M05-L03-01",
+   "role": "Etape 1 · bulle 1 sur B3",
+   "texte_dit": "Une heure est une fraction de journée.",
+   "empreinte_texte_dit": "d6ff8e63d62c1c889d9f099453652cf6746b95b782f71da4a0f8bbde1a9a938a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-bulle1.mp3",
+   "octets": 33062,
+   "duree_s": 2.0,
+   "caracteres_dits": 38,
+   "caracteres_factures": 38,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Une heure est une fraction de journée."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Une heure est une fraction de journée."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-bulle2",
+   "etape_lms": "M05-L03-01",
+   "role": "Etape 1 · bulle 2 sur B4",
+   "texte_dit": "Chaque heure vaut une portion de journée.",
+   "empreinte_texte_dit": "514a524922ea549df840cada84477bd4b70d69f090add13ff8f4c4ab36f2d3d0",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-bulle2.mp3",
+   "octets": 38914,
+   "duree_s": 2.36,
+   "caracteres_dits": 41,
+   "caracteres_factures": 41,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Chaque heure vaut une portion de journée."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Chaque heure vaut une portion de journée."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-bulle3",
+   "etape_lms": "M05-L03-01",
+   "role": "Etape 1 · bulle 3 sur A9",
+   "texte_dit": "C'est ce qui rend les durées additionnables : des fractions, pas des textes.",
+   "empreinte_texte_dit": "7e86b914ad401e2f8e4160f1f1d11323971c8871653c404f0ce31e36229787a4",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-bulle3.mp3",
+   "octets": 75276,
+   "duree_s": 4.64,
+   "caracteres_dits": 76,
+   "caracteres_factures": 76,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "C'est ce qui rend les durées additionnables, des fractions,\n pas des textes."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "C'est ce qui rend les durées additionnables.\n Des fractions, pas des textes."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M05-L03-02",
+   "role": "Etape 2 · consigne",
+   "texte_dit": "Le chantier a duré sept heures et demie lundi. À vous : dans la cellule B4, saisissez sept heures trente.",
+   "empreinte_texte_dit": "39d63e1b037e9d7ef9623199f2b448283d8a77a29a61d66aca1419c0eb34df70",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 100772,
+   "duree_s": 6.24,
+   "caracteres_dits": 105,
+   "caracteres_factures": 105,
+   "essais": 10,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le chantier a duré 7h et demie lundi.\n À vous, dans la cellule B4, saisissez 7h30."
+    },
+    "moteur_second_medium": {
+     "ok": false,
+     "wer": 0.125,
+     "transcription": "Le chantier a duré 7h30 lundi.\n À vous !\n Dans la cellule B4, saisissez 7h30."
+    },
+    "valide_sur_les_deux": false
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "M05-L03-02",
+   "role": "Etape 2 · aide",
+   "texte_dit": "Tapez les heures, deux-points, les minutes. Pas de lettre h, pas de texte.",
+   "empreinte_texte_dit": "11bd4fdb527c8af64c8adc21edb6fae2f23125b83036c09c475ac3d991472a6e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 94502,
+   "duree_s": 5.84,
+   "caracteres_dits": 74,
+   "caracteres_factures": 74,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Tapper les heures, deux points, les minutes.\n Pas de lettres H, pas de texte."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Tapez les heures, deux points, les minutes.\n Pas de lettre H, pas de texte."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-feedback",
+   "etape_lms": "M05-L03-02",
+   "role": "Etape 2 · retour de reussite",
+   "texte_dit": "Aligné à droite : c'est bien une durée, donc un nombre.",
+   "empreinte_texte_dit": "366938a0cbd59dd3ea1e8de09f41f0afd401b77fded45361abd9935b4cc7f216",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-feedback.mp3",
+   "octets": 46437,
+   "duree_s": 2.84,
+   "caracteres_dits": 55,
+   "caracteres_factures": 55,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Aligné à droite, c'est bien une durée donc un nombre."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Aligné à droite, c'est bien une durée, donc un nombre."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M05-L03-03",
+   "role": "Etape 3 · consigne",
+   "texte_dit": "À vous : dans la cellule B5, saisissez huit heures quinze pour mardi.",
+   "empreinte_texte_dit": "2de4abc83bfece7d86e52e4858d71396f114eab980eb07b710bd12c327d60705",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 71933,
+   "duree_s": 4.44,
+   "caracteres_dits": 69,
+   "caracteres_factures": 69,
+   "essais": 5,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous dans la cellule B5, saisissez 8h15 pour mardi."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous ! Dans la cellule B5, saisissez 8h15 pour mardi."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "M05-L03-03",
+   "role": "Etape 3 · aide",
+   "texte_dit": "Même forme que la veille.",
+   "empreinte_texte_dit": "945d0722f4fe28c42f7b000baaaf7f4495f6638d0ab90191e246760f73a02dc1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 29301,
+   "duree_s": 1.76,
+   "caracteres_dits": 25,
+   "caracteres_factures": 25,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Même forme que la veille."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Même forme que la veille."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M05-L03-04",
+   "role": "Etape 4 · consigne",
+   "texte_dit": "À vous : dans la cellule B6, saisissez six heures quarante-cinq pour mercredi.",
+   "empreinte_texte_dit": "01c519f63400368178de598d80ee3cfb32864f9117e5a164b3a7a914a576719f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 82382,
+   "duree_s": 5.08,
+   "caracteres_dits": 78,
+   "caracteres_factures": 78,
+   "essais": 5,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous dans la cellule B6, saisissez 6h45 pour mercredi."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous ! Dans la cellule B6, saisissez 6h45 pour mercredi."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "M05-L03-04",
+   "role": "Etape 4 · aide",
+   "texte_dit": "Six heures quarante-cinq.",
+   "empreinte_texte_dit": "153e42a389ef9f51a75fbfb09d7901adec28165592534258bfe258f792f93275",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 26793,
+   "duree_s": 1.6,
+   "caracteres_dits": 25,
+   "caracteres_factures": 25,
+   "essais": 5,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "6h45"
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "6h45"
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M05-L03-05",
+   "role": "Etape 5 · consigne",
+   "texte_dit": "À vous : dans la cellule B7, saisissez neuf heures pour jeudi.",
+   "empreinte_texte_dit": "f49520cae53cbe306661d3e876443761f919223c3cc847e069cf8db9e096c0e3",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 69007,
+   "duree_s": 4.24,
+   "caracteres_dits": 62,
+   "caracteres_factures": 62,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous ! Dans la cellule B7, saisissez 9 heures pour jeudi."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous ! Dans la cellule B7, saisissez 9 heures pour jeudi."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "M05-L03-05",
+   "role": "Etape 5 · aide",
+   "texte_dit": "Une durée ronde s'écrit quand même avec ses minutes.",
+   "empreinte_texte_dit": "1c9d4647aca90e24a4c997e178e7228e250b972db40dc1de4509ace271079a11",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 70261,
+   "duree_s": 4.32,
+   "caracteres_dits": 52,
+   "caracteres_factures": 52,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.034,
+     "transcription": "Une durée ronde S écrite quand même avec ses minutes."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Une durée ronde S, écrit quand même avec ses minutes."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M05-L03-06",
+   "role": "Etape 6 · consigne",
+   "texte_dit": "À vous : dans la cellule B9, totalisez les quatre journées.",
+   "empreinte_texte_dit": "531a7eb8f0d542c93a7ea63f686901db49d77ed77787f618b58c87f41b75110a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 70679,
+   "duree_s": 4.36,
+   "caracteres_dits": 59,
+   "caracteres_factures": 59,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous, dans la cellule B9, totalisez les quatre journées."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous, dans la cellule B9, totalisez les quatre journées."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-aide",
+   "etape_lms": "M05-L03-06",
+   "role": "Etape 6 · aide",
+   "texte_dit": "Faites une somme, comme sur n'importe quelle colonne de nombres.",
+   "empreinte_texte_dit": "c883d1742bc75283e1d8acfbe56a99182df36ba68846c41b81bd97ecf241ab6b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-aide.mp3",
+   "octets": 56050,
+   "duree_s": 3.44,
+   "caracteres_dits": 64,
+   "caracteres_factures": 64,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Faites une somme comme sur n'importe quelle colonne de\n nombre."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Faites une somme comme sur n'importe quelle colonne de\n nombre."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-feedback",
+   "etape_lms": "M05-L03-06",
+   "role": "Etape 6 · retour de reussite",
+   "texte_dit": "Trente et une heures trente en tout, la somme des quatre journées.",
+   "empreinte_texte_dit": "a0b3b10bd67f1b6f8a8af9cd3415cc5959cdee732cb8cfef798fb91b966e29e4",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-feedback.mp3",
+   "octets": 56886,
+   "duree_s": 3.48,
+   "caracteres_dits": 66,
+   "caracteres_factures": 66,
+   "essais": 5,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "31h30 en tout, la somme des quatre journées."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "31h30 en tout, la somme des quatre journées."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "M05-L03-07",
+   "role": "Etape 7 · consigne",
+   "texte_dit": "Voici l'erreur de paie la plus classique, et elle passe inaperçue parce que le résultat reste plausible. Le mécanisme est montré à l'écran. Ce qu'il faut retenir : au-delà de vingt-quatre heures, l'affichage standard reboucle comme une horloge. Un écart d'exactement une journée sur un bulletin vient toujours de là.",
+   "empreinte_texte_dit": "163f402e461f4ce8f7cc1dc81d89c2ce37e2031cd5a54e2225fda4a83d5cb76e",
+   "reparations": [
+    "l'écran"
+   ],
+   "ssml": true,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 299302,
+   "duree_s": 18.64,
+   "caracteres_dits": 316,
+   "caracteres_factures": 377,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.011,
+     "transcription": "Voici l'erreur de paix la plus classique et elle passe in\naperçue parce que le résultat reste plausible.\n Le mécanisme est montré à l'écran.\n Ce qu'il faut retenir.\n Au-delà de 24 heures, l'affichage standard reboucle comme\n une horloge.\n Un écart d'exactement une journée sur un bulletin vient\n toujours de là."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.011,
+     "transcription": "Voici l'erreur de paix la plus classique, et elle passe in\naperçue parce que le résultat reste plausible.\n Le mécanisme est montré à l'écran.\n Ce qu'il faut retenir.\n Au-delà de 24 heures, l'affichage standard reboucle comme\n une horloge.\n Un écart d'exactement une journée sur un bulletin vient\n toujours de là."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-bulle1",
+   "etape_lms": "M05-L03-07",
+   "role": "Etape 7 · bulle 1 sur B9",
+   "texte_dit": "Avec un format d'heure ordinaire, ce total serait faux d'une journée entière.",
+   "empreinte_texte_dit": "06f2513b06cec6f7b83ae3d5ce7be82c87992d0ded262079b7b2da12c253b5a5",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-bulle1.mp3",
+   "octets": 76530,
+   "duree_s": 4.72,
+   "caracteres_dits": 77,
+   "caracteres_factures": 77,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Avec un format d'heure ordinaire, ce total serait faux d'\nune journée entière."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Avec un format d'heure ordinaire, ce total serait faux d'\nune journée entière."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-bulle2",
+   "etape_lms": "M05-L03-07",
+   "role": "Etape 7 · bulle 2 sur B9",
+   "texte_dit": "Passé une journée, il repart à zéro, comme une horloge.",
+   "empreinte_texte_dit": "e515565273f6a2a23cf39abc7283c2dca28736b367ed57706731c327cbdba55b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-bulle2.mp3",
+   "octets": 61902,
+   "duree_s": 3.8,
+   "caracteres_dits": 55,
+   "caracteres_factures": 55,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Passer une journée, il repart à zéro comme une horloge."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Passé une journée, il repart à zéro, comme une horloge."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-bulle3",
+   "etape_lms": "M05-L03-07",
+   "role": "Etape 7 · bulle 3 sur B9",
+   "texte_dit": "Le format qui cumule met le h entre crochets : ils disent de ne jamais reboucler.",
+   "empreinte_texte_dit": "3a003c89dbe45fcefb9b7ca8a7e477aaa2aed6c0df813fa9268ef99011081eb8",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-bulle3.mp3",
+   "octets": 75276,
+   "duree_s": 4.64,
+   "caracteres_dits": 81,
+   "caracteres_factures": 81,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le format qui cumule met le H entre crochet.\n Ils disent de ne jamais reboucler."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le format qui cumule met le H entre crochet.\n Ils disent de ne jamais reboucler."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-consigne",
+   "etape_lms": "M05-L03-08",
+   "role": "Etape 8 · consigne",
+   "texte_dit": "Pour payer ces heures, il faut des heures décimales. À vous : dans la cellule B11, multipliez le total par vingt-quatre.",
+   "empreinte_texte_dit": "7d0ac050ebeb060437b3ee89946c30eb421fada47596303d70f9f8ba386a7e8b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-consigne.mp3",
+   "octets": 117490,
+   "duree_s": 7.28,
+   "caracteres_dits": 120,
+   "caracteres_factures": 120,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Pour payer ces heures, il faut des heures décimales.\n À vous.\n Dans la cellule B11, multipliez le total par 24."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Pour payer ces heures, il faut des heures décimales.\n À vous.\n Dans la cellule B11, multipliez le total par 24."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-aide",
+   "etape_lms": "M05-L03-08",
+   "role": "Etape 8 · aide",
+   "texte_dit": "Vingt-quatre heures dans une journée : multiplier une fraction de journée par vingt-quatre donne des heures.",
+   "empreinte_texte_dit": "2db7c6225b7d72c4191526b2ee4b778d4cc68a4a19413f3cdaeaa17b41dd81ba",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-aide.mp3",
+   "octets": 91995,
+   "duree_s": 5.68,
+   "caracteres_dits": 108,
+   "caracteres_factures": 108,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "24 heures dans une journée.\n Multiplier une fraction de journée par 24 donne des heures."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "24 heures dans une journée.\n Multiplier une fraction de journée par 24 donne des heures."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-feedback",
+   "etape_lms": "M05-L03-08",
+   "role": "Etape 8 · retour de reussite",
+   "texte_dit": "31,5. Et non 31,30 : trente et une heures et demie, c'est trente et une heures virgule cinq. Confondre les deux fait perdre, ou payer, vingt minutes par semaine.",
+   "empreinte_texte_dit": "866bb5b0ba5694b197074ac076d4f9924432d4e82cc8509ea02715f0d87360d3",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-feedback.mp3",
+   "octets": 173915,
+   "duree_s": 10.8,
+   "caracteres_dits": 161,
+   "caracteres_factures": 161,
+   "essais": 6,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": false,
+     "wer": 0.313,
+     "transcription": "31, 5. Et non 31, 30. 31h30. C'est 31h5. Confondre les deux\n faits perdre ou payer 20 minutes par semaine."
+    },
+    "moteur_second_medium": {
+     "ok": false,
+     "wer": 0.12,
+     "transcription": "31,5 et non 31,30.\n 31,30 c'est 31,5.\n Confondre les deux fait perdre ou payer 20 minutes par\n semaine."
+    },
+    "valide_sur_les_deux": false
+   }
+  },
+  {
+   "id": "e9-consigne",
+   "etape_lms": "M05-L03-09",
+   "role": "Etape 9 · consigne",
+   "texte_dit": "Retenez surtout la frontière entre les deux mondes, car c'est elle qui décide du format. Tant qu'on reste dans les durées, on garde l'affichage horaire ; dès qu'on multiplie par un taux, il faut des heures décimales. La conversion dans les deux sens est rappelée à l'écran.",
+   "empreinte_texte_dit": "9f6cfc994cbcd142dccbcbb1fabb8642cec6072c9bff7e257a013f0a87e5b92e",
+   "reparations": [
+    "l'écran"
+   ],
+   "ssml": true,
+   "fichier": "audio/e9-consigne.mp3",
+   "octets": 226995,
+   "duree_s": 14.12,
+   "caracteres_dits": 273,
+   "caracteres_factures": 334,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.041,
+     "transcription": "Retenez surtout la frontière entre les deux mondes, car c'\nest elle qui décide du format.\n Quand on reste dans les durées, on garde l'affichage hor\naire.\n Dès qu'on multiplie par un taux, il faut des heures décim\nales.\n La conversion dans les deux sens est rappelée à l'écran."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.027,
+     "transcription": "Retenez surtout la frontière entre les deux mondes, car c'\nest elle qui décide du format.\n Pendant qu'on reste dans les durées, on garde l'affichage\n horaire.\n Dès qu'on multiplie par un taux, il faut des heures décim\nales.\n La conversion dans les deux sens est rappelée à l'écran."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e9-bulle1",
+   "etape_lms": "M05-L03-09",
+   "role": "Etape 9 · bulle 1 sur B9",
+   "texte_dit": "Multipliée par vingt-quatre, elle redonne des heures décimales.",
+   "empreinte_texte_dit": "60ec0def8fce2e8f51e2849b5224b82d3eb637989f6a1acdff1641aa3a7a8a06",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-bulle1.mp3",
+   "octets": 59394,
+   "duree_s": 3.64,
+   "caracteres_dits": 63,
+   "caracteres_factures": 63,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Multiplié par 24, elle redonne des heures décimales."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Multiplié par 24, elle redonne des heures décimales."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e9-bulle2",
+   "etape_lms": "M05-L03-09",
+   "role": "Etape 9 · bulle 2 sur B11",
+   "texte_dit": "Divisé par vingt-quatre : une fraction de journée.",
+   "empreinte_texte_dit": "7b56bdcf24ee4a86567dfc0480a9aca13ff997f7c278c8ed21b4c3ce5f21c113",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-bulle2.mp3",
+   "octets": 51035,
+   "duree_s": 3.12,
+   "caracteres_dits": 50,
+   "caracteres_factures": 50,
+   "essais": 6,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": false,
+     "wer": 0.087,
+     "transcription": "Divisé par 24, une fraction de journée."
+    },
+    "moteur_second_medium": {
+     "ok": false,
+     "wer": 0.087,
+     "transcription": "Divisé par 24, une fraction de journée."
+    },
+    "valide_sur_les_deux": false
+   }
+  },
+  {
+   "id": "e9-bulle3",
+   "etape_lms": "M05-L03-09",
+   "role": "Etape 9 · bulle 3 sur B13",
+   "texte_dit": "Dès qu'on multiplie par un taux, il faut des heures décimales.",
+   "empreinte_texte_dit": "ba3c4ff2854fdab1d6de7e3d394817a74e9847cd92e346f788832f41c9f4c421",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-bulle3.mp3",
+   "octets": 54796,
+   "duree_s": 3.36,
+   "caracteres_dits": 62,
+   "caracteres_factures": 62,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Dès qu'on multiplie par un taux, il faut des heures décim\nales."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Dès qu'on multiplie par un taux, il faut des heures décim\nales."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e10-consigne",
+   "etape_lms": "M05-L03-10",
+   "role": "Etape 10 · consigne",
+   "texte_dit": "Le taux horaire est déjà en place. À vous : dans la cellule B15, calculez le coût de la semaine.",
+   "empreinte_texte_dit": "df773b609cf7b966eaa11727f1b6693f637d0244f25eac3adb0ca6e3b4bf6d4b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e10-consigne.mp3",
+   "octets": 103697,
+   "duree_s": 6.4,
+   "caracteres_dits": 96,
+   "caracteres_factures": 96,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le taux horaire est déjà en place.\n À vous, dans la cellule B15, calculez le coût de la semaine\n."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le taux horaire est déjà en place.\n À vous, dans la cellule B15, calculer le coût de la semaine\n."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e10-aide",
+   "etape_lms": "M05-L03-10",
+   "role": "Etape 10 · aide",
+   "texte_dit": "Prenez les heures décimales, multipliées par le taux horaire.",
+   "empreinte_texte_dit": "3360b3180105da7be1746385283d3c2b8dfb8e562afa44db60101fa3bbd563fd",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e10-aide.mp3",
+   "octets": 56886,
+   "duree_s": 3.48,
+   "caracteres_dits": 61,
+   "caracteres_factures": 61,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Prenez les heures décimales multipliées par le taux horaire\n."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Prenez les heures décimales multipliées par le taux horaire\n."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e10-feedback",
+   "etape_lms": "M05-L03-10",
+   "role": "Etape 10 · retour de reussite",
+   "texte_dit": "447,30 euros. Si vous aviez multiplié le total horaire directement par le taux, vous auriez obtenu un montant vingt-quatre fois trop petit.",
+   "empreinte_texte_dit": "ad03727a6a8e70a732022255ca3a023b4329112c79e2bfcf39bbfbf26960b24e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e10-feedback.mp3",
+   "octets": 136298,
+   "duree_s": 8.44,
+   "caracteres_dits": 139,
+   "caracteres_factures": 139,
+   "essais": 6,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "447, 30 euros. Si vous aviez multiplié le total horaire\n directement par le taux, vous auriez obtenu un montant 24\n fois trop petit."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "447,30 €.\n Si vous aviez multiplié le total horaire directement par le\n taux, vous auriez obtenu\n un montant 24 fois trop petit."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e11-consigne",
+   "etape_lms": "M05-L03-11",
+   "role": "Etape 11 · consigne",
+   "texte_dit": "À vous : donnez un format monétaire à la cellule B15, avec le bouton euro.",
+   "empreinte_texte_dit": "534360c6f78b574ed253920e657293932d85a6b90763651d9147af1da2487bac",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e11-consigne.mp3",
+   "octets": 80292,
+   "duree_s": 4.96,
+   "caracteres_dits": 74,
+   "caracteres_factures": 74,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "A vous, donnez un format monétaire à la cellule B15 avec le\n bouton Euro."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous ! Donnez un format monétaire à la cellule B15 avec\n le bouton Euro."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e11-aide",
+   "etape_lms": "M05-L03-11",
+   "role": "Etape 11 · aide",
+   "texte_dit": "Groupe Nombre, bouton euro.",
+   "empreinte_texte_dit": "3f986970e4a87ed195a822e5e5cc858b0d774fa7236e6ad31ed84d7e4128accb",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e11-aide.mp3",
+   "octets": 41422,
+   "duree_s": 2.52,
+   "caracteres_dits": 27,
+   "caracteres_factures": 27,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "groupe nombre bouton euro"
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Groupe nombre, bouton euro."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e12-consigne",
+   "etape_lms": "M05-L03-12",
+   "role": "Etape 12 · consigne",
+   "texte_dit": "À vous : dans la cellule B17, affichez la journée la plus longue.",
+   "empreinte_texte_dit": "0dc917ac66e31ce16bd7302ee84aec54719b9171eb2651a563e190976a7f744f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e12-consigne.mp3",
+   "octets": 76112,
+   "duree_s": 4.68,
+   "caracteres_dits": 65,
+   "caracteres_factures": 65,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous, dans la cellule B17, affichez la journée la plus\n longue."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous ! Dans la cellule B17, affichez la journée la plus\n longue."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e12-aide",
+   "etape_lms": "M05-L03-12",
+   "role": "Etape 12 · aide",
+   "texte_dit": "La fonction MAX fonctionne sur des durées comme sur des nombres.",
+   "empreinte_texte_dit": "addc6c1912b8b39feda86976b4ad185c5ba4934f560d028710c18992c43ccbbe",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e12-aide.mp3",
+   "octets": 52288,
+   "duree_s": 3.2,
+   "caracteres_dits": 64,
+   "caracteres_factures": 64,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La fonction max fonctionne sur des durées comme sur des n\nombres."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La fonction MAX fonctionne sur des durées comme sur des n\nombres."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e12-feedback",
+   "etape_lms": "M05-L03-12",
+   "role": "Etape 12 · retour de reussite",
+   "texte_dit": "Neuf heures, la journée de jeudi.",
+   "empreinte_texte_dit": "50494340e45368de3a53df36dd193957d737ae8d1680abb405c71c13c20540d2",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e12-feedback.mp3",
+   "octets": 33898,
+   "duree_s": 2.04,
+   "caracteres_dits": 33,
+   "caracteres_factures": 33,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "9h, la journée de jeudi."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "9 heures, la journée de jeudi."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e13-consigne",
+   "etape_lms": "M05-L03-13",
+   "role": "Etape 13 · consigne",
+   "texte_dit": "Récapitulons les trois formats, parce que le bon choix se fait à une question : qu'est-ce que ce nombre représente ? Ils sont repris à l'écran avec leur usage. La règle de décision : une heure de la journée, un cumul qui peut dépasser une journée, ou une quantité qu'on va multiplier. Trois intentions, trois formats.",
+   "empreinte_texte_dit": "8645ce6a72c2ea9b5b8d05dc8972f17abe334a812f0aa26ebb381327c12ba8dd",
+   "reparations": [
+    "l'écran"
+   ],
+   "ssml": true,
+   "fichier": "audio/e13-consigne.mp3",
+   "octets": 298884,
+   "duree_s": 18.6,
+   "caracteres_dits": 317,
+   "caracteres_factures": 378,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Récapitulons les trois formats parce que le bon choix se\n fait à une question.\n Qu'est-ce que ce nombre représente ?\n Ils sont repris à l'écran avec leur usage.\n La règle de décision, une heure de la journée, un cumul qui\n peut dépasser une journée ou une quantité qu'on va\n multiplier.\n Trois intentions, trois formats."
+    },
+    "moteur_second_medium": {
+     "ok": false,
+     "wer": 0.0,
+     "transcription": "Récapitulons les trois formats, parce que le bon choix se\n fait à une question.\n Qu'est-ce que ce nombre représente ? Ils sont repris à l'éc\nran avec leur usage.\n La règle de décision, une heure de la journée, un cumul qui\n peut dépasser une journée,\n ou une quantité qu'on va multiplier.\n Trois intentions, trois formats."
+    },
+    "valide_sur_les_deux": false
+   }
+  },
+  {
+   "id": "e13-bulle1",
+   "etape_lms": "M05-L03-13",
+   "role": "Etape 13 · bulle 1 sur B4",
+   "texte_dit": "Le format horaire simple, pour une heure de la journée : une arrivée, un départ.",
+   "empreinte_texte_dit": "4e5b3ffaa5cedf9db18a0461cf9867781bcd1f012e39c8595032ffd3c2b1bdcf",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e13-bulle1.mp3",
+   "octets": 86143,
+   "duree_s": 5.32,
+   "caracteres_dits": 80,
+   "caracteres_factures": 80,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le format horaire simple pour une heure de la journée, une\n arrivée, un départ."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le format horaire simple, pour une heure de la journée, une\n arrivée, un départ."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e13-bulle2",
+   "etape_lms": "M05-L03-13",
+   "role": "Etape 13 · bulle 2 sur B9",
+   "texte_dit": "Ce format sert aux cumuls de durées de plus d'une journée.",
+   "empreinte_texte_dit": "757833a35c561e9cce622c6a4ea208a209efd5de2fc29dcc80c20e5852e918b0",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e13-bulle2.mp3",
+   "octets": 42257,
+   "duree_s": 2.56,
+   "caracteres_dits": 58,
+   "caracteres_factures": 58,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Ce format sert au cumul de durée de plus d'une journée."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Ce format sert au cumul de durée de plus d'une journée."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e13-bulle3",
+   "etape_lms": "M05-L03-13",
+   "role": "Etape 13 · bulle 3 sur B11",
+   "texte_dit": "Le nombre décimal, dès qu'il faut multiplier par un taux ou facturer.",
+   "empreinte_texte_dit": "10879cedcfdb9c52110ee22c778c99d5e95645271a38dbc3ab965dfe0e3bf6eb",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e13-bulle3.mp3",
+   "octets": 69425,
+   "duree_s": 4.28,
+   "caracteres_dits": 69,
+   "caracteres_factures": 69,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le nombre décimal dès qu'il faut multiplier par un taux ou\n facturer."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "le nombre décimal dès qu'il faut multiplier par un taux ou\n facturer."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Vous savez saisir une durée, cumuler des heures au-delà d'une journée, et les convertir en heures décimales pour les payer.",
+   "empreinte_texte_dit": "89569d956bcfd30dad0c59bd80bca046f936e7e92e4671e345e4b24ab6397907",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 122088,
+   "duree_s": 7.56,
+   "caracteres_dits": 123,
+   "caracteres_factures": 123,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Vous savez saisir une durée, cumuler des heures au-delà d'\nune journée et les convertir en heures décimales pour les\n payer."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Vous savez saisir une durée, cumuler des heures au-delà d'\nune journée et les convertir\n en heures décimales pour les payer."
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

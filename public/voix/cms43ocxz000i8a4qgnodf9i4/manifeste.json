@@ -1,0 +1,460 @@
+{
+ "chapitre": {
+  "chapterId": "cms43ocxz000i8a4qgnodf9i4",
+  "app": "EXCEL",
+  "section": "",
+  "titre": "Sélectionner lignes et colonnes"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 15,
+  "caracteres_dits": 1696,
+  "duree_totale_s": 94.2,
+  "segments_valides": 15,
+  "segments_plusieurs_essais": 0,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Pour mettre en forme, supprimer ou insérer, on ne sélectionne pas cellule par cellule : on clique dans l'en-tête.",
+   "empreinte_texte_dit": "acd73eb19f545828797fcecee0471bcba4f4c2b2b212cfeff2a3ce64253cb3ae",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 103697,
+   "duree_s": 6.4,
+   "caracteres_dits": 113,
+   "caracteres_factures": 113,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.015,
+     "transcription": "Pour mettre en forme, supprimer ou insérer, on ne sélection\nne pas cellules par cellules.\n On clique dans l'en tête."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.031,
+     "transcription": "Pour mettre en forme, supprimer ou insérer, on ne sélection\nne pas cellule par cellule.\n On clique dans l'entête."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M04-L01-01",
+   "role": "Etape 1 · consigne",
+   "texte_dit": "Pour sélectionner toute la colonne d'une année, à vous : cliquez sur sa lettre dans l'en-tête, au-dessus de la première ligne.",
+   "empreinte_texte_dit": "9e3d6c3a81e0fc3357b014cea08b12d2436c28f04e02dc23947951f75a626c93",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 103697,
+   "duree_s": 6.4,
+   "caracteres_dits": 126,
+   "caracteres_factures": 126,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Pour sélectionner toute la colonne d'une année, à vous,\n cliquez sur sa lettre dans l'en-tête au-dessus de la\n première ligne."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Pour sélectionner toute la colonne d'une année, à vous !\n Cliquez sur sa lettre dans l'en-tête, au-dessus de la\n première ligne."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "M04-L01-01",
+   "role": "Etape 1 · aide",
+   "texte_dit": "La bande grise en haut de la grille porte les lettres des colonnes.",
+   "empreinte_texte_dit": "862b27d86f7b1ada5e4dd541bffde5863ef98ef9a68e831ff74c9fcc318ce940",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 55632,
+   "duree_s": 3.4,
+   "caracteres_dits": 67,
+   "caracteres_factures": 67,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La bande grise en haut de la grille porte les lettres des\n colonnes."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La bande grise en haut de la grille porte les lettres des\n colonnes."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-feedback",
+   "etape_lms": "M04-L01-01",
+   "role": "Etape 1 · retour de reussite",
+   "texte_dit": "Toute la colonne est en surbrillance, et la barre d'état affiche la somme des effectifs de l'année.",
+   "empreinte_texte_dit": "b45f5954f0458d246c53f5f30ef9ae0bb6b7cfa8bd398dc64ada51691e43a770",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-feedback.mp3",
+   "octets": 84471,
+   "duree_s": 5.2,
+   "caracteres_dits": 99,
+   "caracteres_factures": 99,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Toute la colonne est en surbriance et la Bardée, État aff\niche la somme des effectifs de l'année."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Toute la colonne est en surbrillance et la barre D État aff\niche la somme des effectifs de l'année."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M04-L01-02",
+   "role": "Etape 2 · consigne",
+   "texte_dit": "Même principe pour une ligne. À vous : cliquez sur son numéro dans l'en-tête de gauche, pour sélectionner toute la ligne de l'Atelier.",
+   "empreinte_texte_dit": "97f6ac99182316da0160dba46054e0abff9a3b1e7c8428eab3a3e5a660ea4d86",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 117490,
+   "duree_s": 7.28,
+   "caracteres_dits": 134,
+   "caracteres_factures": 134,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.027,
+     "transcription": "Même principe pour une ligne.\n À vous, cliquez sur son numéro dans l'antenne de gauche\n pour sélectionner toute la ligne de l'atelier."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Même principe pour une ligne.\n À vous, cliquez sur son numéro dans l'en-tête de gauche\n pour sélectionner toute la ligne de l'atelier."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "M04-L01-02",
+   "role": "Etape 2 · aide",
+   "texte_dit": "La colonne grise à gauche porte les numéros de ligne.",
+   "empreinte_texte_dit": "819a055ed6dd846d1faa44311b25f6034fd838a41ed552ac3df92a1fe1819bb4",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 41422,
+   "duree_s": 2.52,
+   "caracteres_dits": 53,
+   "caracteres_factures": 53,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La colonne grise à gauche porte les numéros de ligne."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La colonne grise à gauche porte les numéros de ligne."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-feedback",
+   "etape_lms": "M04-L01-02",
+   "role": "Etape 2 · retour de reussite",
+   "texte_dit": "42 personnes cumulées sur les trois années pour l'Atelier.",
+   "empreinte_texte_dit": "2b3a14e7820466a8ea41dc17897b8786f84d70cbb3c81fae00439096dc74e04d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-feedback.mp3",
+   "octets": 54378,
+   "duree_s": 3.32,
+   "caracteres_dits": 58,
+   "caracteres_factures": 58,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "42 personnes cumulées sur les trois années pour l'atelier."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "42 personnes cumulées sur les trois années pour l'atelier."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M04-L01-03",
+   "role": "Etape 3 · consigne",
+   "texte_dit": "Une nuance qui a des conséquences : cliquer un en-tête retient toute la colonne ou la ligne jusqu'au bas de la feuille, pas seulement la partie remplie. C'est exactement ce qu'on veut pour mettre en forme, insérer ou supprimer. Mais c'est à éviter pour compter des cellules, qui trouveraient alors des milliers de cases vides.",
+   "empreinte_texte_dit": "32e19e53091a6ca47df8c5192dd28cb5e8f3554bc34d584fae3f5bcbbd18ab96",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 279658,
+   "duree_s": 17.4,
+   "caracteres_dits": 326,
+   "caracteres_factures": 326,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.023,
+     "transcription": "Une nuance qui a des conséquences.\n Cliquer un en tête retient toute la colonne ou la ligne\n jusqu'au bas de la feuille, pas seulement la partie remplie\n.\n C'est exactement ce qu'on veut pour mettre en forme, ins\nérer ou supprimer.\n Mais c'est à éviter pour compter des cellules, qui trouver\naient alors des milliers de cases vides."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.023,
+     "transcription": "Une nuance qui a des conséquences.\n Cliquer un en tête retient toute la colonne ou la ligne\n jusqu'au bas de la feuille,\n pas seulement la partie remplie.\n C'est exactement ce qu'on veut pour mettre en forme, ins\nérer ou supprimer.\n Mais c'est à éviter pour compter des cellules, qui trouver\naient alors des milliers de cases vides."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M04-L01-04",
+   "role": "Etape 4 · consigne",
+   "texte_dit": "Pour une sélection limitée aux données, on revient au glisser. À vous : sélectionnez les douze effectifs.",
+   "empreinte_texte_dit": "5eef03164d72a2e67d4ac140d5a5aa88929bf95ac96ff4a9b23b8df7b7f1eaf4",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 94084,
+   "duree_s": 5.8,
+   "caracteres_dits": 105,
+   "caracteres_factures": 105,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Pour une sélection limitée au données, on revient au glissé\n.\n À vous, sélectionnez les 12 effectifs."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.018,
+     "transcription": "Pour une sélection limitée aux données, on revient au gliss\né.\n À vous, sélectionnez les 12 effectifs."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "M04-L01-04",
+   "role": "Etape 4 · aide",
+   "texte_dit": "Sans les en-têtes, ni la colonne des services.",
+   "empreinte_texte_dit": "e9e8bef894dff278e82fdaa0d6716c754e029621e19f4550fa030239d6b01457",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 46019,
+   "duree_s": 2.8,
+   "caracteres_dits": 46,
+   "caracteres_factures": 46,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.042,
+     "transcription": "sans les entêtes, ni la colonne des services."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.042,
+     "transcription": "sans les entêtes, ni la colonne des services."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-feedback",
+   "etape_lms": "M04-L01-04",
+   "role": "Etape 4 · retour de reussite",
+   "texte_dit": "109 personnes au total sur trois ans. Retenez la distinction : l'en-tête pour agir sur la structure, le glisser pour agir sur les données.",
+   "empreinte_texte_dit": "d709e2d48b762448cb6d090e8e1db9a8626fa4cd3dd2d7a8c40383c9af3affee",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-feedback.mp3",
+   "octets": 147165,
+   "duree_s": 9.12,
+   "caracteres_dits": 138,
+   "caracteres_factures": 138,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "109 personnes au total sur 3 ans. Retenez la distinction. L\n'en tête pour agir sur la structure. Le glisser pour agir\n sur les données."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.012,
+     "transcription": "109 personnes au total sur 3 ans. Retenez la distinction.\n L'entête pour agir sur la structure, le glisser pour agir\n sur les données."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M04-L01-05",
+   "role": "Etape 5 · consigne",
+   "texte_dit": "À vous : sélectionnez la colonne de l'année en cours, puis mettez-la en gras avec le bouton du ruban, pour la faire ressortir. Toute la colonne s'épaissit, du haut jusqu'en bas.",
+   "empreinte_texte_dit": "788c8b149fbe21fe1cfff721eb66d1a30e808fe04b1be88e05ace7613f007822",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 162212,
+   "duree_s": 10.08,
+   "caracteres_dits": 177,
+   "caracteres_factures": 177,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "A vous, sélectionnez la colonne de l'année en cours, puis\n mettez-la en gras avec le bouton du ruban pour la faire\n ressortir.\n Toute la colonne S, épaisse-y, du haut jusqu'en bas."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous ! Sélectionnez la colonne de l'année en cours, puis\n mettez-la en gras avec le bouton du ruban pour la faire\n ressortir.\n Toute la colonne S, épaissie, du haut jusqu'en bas."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "M04-L01-05",
+   "role": "Etape 5 · aide",
+   "texte_dit": "Cliquez d'abord sur la lettre de la colonne, puis sur le bouton Gras, du groupe Police.",
+   "empreinte_texte_dit": "b53a7f3df22fa8f939514a21ee5beae849a3a0e5b135732777460b7c2f884235",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 80292,
+   "duree_s": 4.96,
+   "caracteres_dits": 87,
+   "caracteres_factures": 87,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Cliquez d'abord sur la lettre de la colonne, puis sur le\n bouton Gras du groupe Police."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Cliquez d'abord sur la lettre de la colonne, puis sur le\n bouton gras du groupe police."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-feedback",
+   "etape_lms": "M04-L01-05",
+   "role": "Etape 5 · retour de reussite",
+   "texte_dit": "La colonne de l'année en cours ressort. Une seule sélection, une seule mise en forme.",
+   "empreinte_texte_dit": "c0722de881ef13137759eac4f25aa2a9cb8047e787331a0748023cbc166a882f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-feedback.mp3",
+   "octets": 76530,
+   "duree_s": 4.72,
+   "caracteres_dits": 85,
+   "caracteres_factures": 85,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La colonne de l'année en cours ressort.\n Une seule sélection, une seule mise en forme."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La colonne de l'année en cours ressort.\n Une seule sélection, une seule mise en forme."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Vous savez sélectionner une colonne, une ligne, et lire leur total instantanément.",
+   "empreinte_texte_dit": "93a777a4b3cfac07556b40d9fdc34b91bbac4f55d9f0a58fadcd7e686683c4a0",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 77366,
+   "duree_s": 4.76,
+   "caracteres_dits": 82,
+   "caracteres_factures": 82,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Vous savez sélectionner une colonne, une ligne et lire leur\n total instantanément."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Vous savez sélectionner une colonne, une ligne et lire leur\n total instantanément."
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

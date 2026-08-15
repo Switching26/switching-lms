@@ -1,0 +1,516 @@
+{
+ "chapitre": {
+  "chapterId": "cms4jofjy00iwaxkct05r98ng",
+  "app": "EXCEL",
+  "section": "",
+  "titre": "S'évaluer · Validation et protection"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 17,
+  "caracteres_dits": 1582,
+  "duree_totale_s": 100.6,
+  "segments_valides": 15,
+  "segments_plusieurs_essais": 2,
+  "segments_jamais_valides": 2
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Un devis déjà rempli, et un client qui conteste le montant. Rien ne vous dit où est l'erreur : les contrôles sont là pour ça. Aucune aide sur cette évaluation.",
+   "empreinte_texte_dit": "5d18ff3ee88b9a4021ad71d6af86ef076daf2a73051695aaa5abcd85c0529d94",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 147165,
+   "duree_s": 9.12,
+   "caracteres_dits": 159,
+   "caracteres_factures": 159,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Un devis déjà rempli et un client qui conteste le montant.\n Rien ne vous dit où est l'erreur.\n Les contrôles sont là pour ça.\n Aucune aide sur cette évaluation."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Un devis déjà rempli et un client qui conteste le montant.\n Rien ne vous dit où est l'erreur.\n Les contrôles sont là pour ça.\n Aucune aide sur cette évaluation."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M21-EV01-01",
+   "role": "Etape 1 · consigne",
+   "texte_dit": "Le devis a été rempli par un collègue, et le client conteste le montant. Vous devez le remettre d'aplomb, puis empêcher que cela recommence. Onze gestes, sans aide, comptés au premier essai.",
+   "empreinte_texte_dit": "38de8ddd33ba772183b89701366471be23a65822cc80e6f9bf86993f14b19f10",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 181438,
+   "duree_s": 11.28,
+   "caracteres_dits": 190,
+   "caracteres_factures": 190,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le devis a été rempli par un collègue et le client conteste\n le montant.\n Vous devez le remettre d'aplomb, puis empêcher que cela\n recommence.\n 11 gestes, sans aide, comptez au premier essai."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le devis a été rempli par un collègue et le client conteste\n le montant.\n Vous devez le remettre d'aplomb, puis empêcher que cela\n recommence.\n 11 gestes, sans aide, comptés au premier essai."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-bulle1",
+   "etape_lms": "M21-EV01-01",
+   "role": "Etape 1 · bulle 1 sur A4:E7",
+   "texte_dit": "Les quatre lignes du devis, déjà saisies.",
+   "empreinte_texte_dit": "5701eeabd4d1d12bd74f6b1abbfd2b2b197a8c71175dc6ff1b26dee273680a0c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-bulle1.mp3",
+   "octets": 42675,
+   "duree_s": 2.6,
+   "caracteres_dits": 41,
+   "caracteres_factures": 41,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Les quatre lignes du devis, déjà saisies."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Les quatre lignes du devis, déjà saisies."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-bulle2",
+   "etape_lms": "M21-EV01-01",
+   "role": "Etape 1 · bulle 2 sur D9",
+   "texte_dit": "Les totaux à établir, sous le tableau.",
+   "empreinte_texte_dit": "dba40c3fa4e6bb401a8cbec1bc58a336548529311df1bef32f3f96bbfbe2521c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-bulle2.mp3",
+   "octets": 36406,
+   "duree_s": 2.2,
+   "caracteres_dits": 38,
+   "caracteres_factures": 38,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.048,
+     "transcription": "Les taux d'eau à établir sous le tableau."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "les totaux à établir sous le tableau."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-bulle3",
+   "etape_lms": "M21-EV01-01",
+   "role": "Etape 1 · bulle 3 sur ecran",
+   "texte_dit": "Le taux de TVA vit sur une autre feuille. Aucune aide.",
+   "empreinte_texte_dit": "9b3cda5def5d2713b993ec91e8590151b1525927bc5a0dbc9d37c06a7a9bb5f2",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-bulle3.mp3",
+   "octets": 65245,
+   "duree_s": 4.0,
+   "caracteres_dits": 54,
+   "caracteres_factures": 54,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le taux de TVA vit sur une autre feuille.\n Aucune aide."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le taux de TVA vit sur une autre feuille.\n Aucune aide."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M21-EV01-02",
+   "role": "Etape 2 · consigne",
+   "texte_dit": "À vous : dans la cellule E9, totalisez les montants du devis.",
+   "empreinte_texte_dit": "4409c21ba45f8df29119142ff607f355e7002229b31ac4775787e9a1007f3145",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 69007,
+   "duree_s": 4.24,
+   "caracteres_dits": 61,
+   "caracteres_factures": 61,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous, dans la cellule E9, totalisez les montants du devis\n."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous ! Dans la cellule E9, totalisez les montants du dev\nis."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M21-EV01-03",
+   "role": "Etape 3 · consigne",
+   "texte_dit": "À vous : passez la quantité de la deuxième ligne à 2. C'est ce que le client a commandé, et le devis en annonce quatre-vingt-dix.",
+   "empreinte_texte_dit": "0ae732bd3672e1fd6071ba93a864d6f561f4fcbe429ef8bf10892b998892f04f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 128357,
+   "duree_s": 7.96,
+   "caracteres_dits": 129,
+   "caracteres_factures": 129,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": false,
+     "wer": 0.031,
+     "transcription": "À vous.\n Passez la quantité de la deuxième ligne à 2.\n C'est ce que le client a commandé et le devis en annonce 90\n."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous ! Passez la quantité de la deuxième ligne à deux.\n C'est ce que le client a commandé, et le devis en annonce\n quatre-vingt-dix."
+    },
+    "valide_sur_les_deux": false
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M21-EV01-04",
+   "role": "Etape 4 · consigne",
+   "texte_dit": "Un montant du tableau n'a pas bougé, alors que sa ligne le devrait. À vous : rendez-lui son calcul.",
+   "empreinte_texte_dit": "d2ee719217f3f735b7382f531549cc3f3b6b8bd385bda2554307aea9e2f26566",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 91995,
+   "duree_s": 5.68,
+   "caracteres_dits": 99,
+   "caracteres_factures": 99,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Un montant du tableau n'a pas bougé, alors que sa ligne le\n devrait.\n À vous.\n Rendez-lui son calcul."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Un montant du tableau n'a pas bougé alors que sa ligne le\n devrait.\n À vous.\n Rendez-lui son calcul."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M21-EV01-05",
+   "role": "Etape 5 · consigne",
+   "texte_dit": "À vous : dans la cellule E10, calculez la TVA. Le taux vit sur la feuille Taux, il ne se recopie pas.",
+   "empreinte_texte_dit": "fe0adb3ebe92a6634271cbb8892b25265a33c7781ed0e03e76f74bc44c3b14c6",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 123342,
+   "duree_s": 7.64,
+   "caracteres_dits": 101,
+   "caracteres_factures": 101,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "A vous. Dans la cellule E10, calculez la TVA. Le taux vit\n sur la feuille taux, il ne se recopie pas."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous ! Dans la cellule E10, calculez la TVA.\n Le taux vit sur la feuille taux, il ne se recopie pas."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M21-EV01-06",
+   "role": "Etape 6 · consigne",
+   "texte_dit": "La TVA calculée est hors de proportion. Le devis n'y est pour rien. À vous : allez voir la feuille Taux.",
+   "empreinte_texte_dit": "f1d7405c08389db589c74d56a1803e1df3746859589aa248ef21169cca030cb6",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 102862,
+   "duree_s": 6.36,
+   "caracteres_dits": 104,
+   "caracteres_factures": 104,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.05,
+     "transcription": "La TVA calculée est hors de proportion. Le devinier pour\n rien.\n À vous. Allez voir la feuille tôt."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.05,
+     "transcription": "La TVA calculée est hors de proportion.\n Le devinier pour rien.\n À vous.\n Allez voir la feuille tôt."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "M21-EV01-07",
+   "role": "Etape 7 · consigne",
+   "texte_dit": "À vous : rétablissez le taux de TVA à 20 %.",
+   "empreinte_texte_dit": "d0bb53d60e14ba3597f6278939ddee414d5957e0df7f992f6cb9ca9a14440fdf",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 64409,
+   "duree_s": 3.96,
+   "caracteres_dits": 43,
+   "caracteres_factures": 43,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous, rétablissez le taux de TVA à 20%."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous ! Rétablissez le taux de TVA à 20 %."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-consigne",
+   "etape_lms": "M21-EV01-08",
+   "role": "Etape 8 · consigne",
+   "texte_dit": "À vous : revenez au devis.",
+   "empreinte_texte_dit": "639ed5d0820bc7e66e1b33d2c15a25779e4efbf7200702a7255e5711f76a1a5a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-consigne.mp3",
+   "octets": 33898,
+   "duree_s": 2.04,
+   "caracteres_dits": 26,
+   "caracteres_factures": 26,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": false,
+     "wer": 0.154,
+     "transcription": "À vous. Revenez aux deux vies."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous ! Revenez au devis."
+    },
+    "valide_sur_les_deux": false
+   }
+  },
+  {
+   "id": "e9-consigne",
+   "etape_lms": "M21-EV01-09",
+   "role": "Etape 9 · consigne",
+   "texte_dit": "À vous : dans la cellule E11, calculez le total toutes taxes comprises.",
+   "empreinte_texte_dit": "84589ef341d225a96e413128a90af7b5cea1f1f139add2c2956f206119b05f2d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-consigne.mp3",
+   "octets": 84471,
+   "duree_s": 5.2,
+   "caracteres_dits": 71,
+   "caracteres_factures": 71,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "A vous, dans la cellule E11, calculez le total toute taxe\n comprise."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous, dans la cellule E11, calculez le total toute taxe\n comprise."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e10-consigne",
+   "etape_lms": "M21-EV01-10",
+   "role": "Etape 10 · consigne",
+   "texte_dit": "Pour que la quantité erronée ne puisse plus passer, à vous : posez sur les quantités une règle qui n'accepte que des nombres de 1 à 40.",
+   "empreinte_texte_dit": "a5a1bb446b9aa58cbe29242b0f4aa7118cb48e32e961f2f4e48024749c6ef3ac",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e10-consigne.mp3",
+   "octets": 118326,
+   "duree_s": 7.32,
+   "caracteres_dits": 135,
+   "caracteres_factures": 135,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Pour que la quantité erronée ne puisse plus passer, à vous.\n Posez sur les quantités une règle qui n'accepte que des n\nombres de 1 à 40."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Pour que la quantité erronée ne puisse plus passer, à vous\n !\n Posez sur les quantités une règle qui n'accepte que des n\nombres de 1 à 40."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e11-consigne",
+   "etape_lms": "M21-EV01-11",
+   "role": "Etape 11 · consigne",
+   "texte_dit": "Les cellules de saisie ne se distinguent pas des cellules calculées. À vous : donnez un fond aux quantités, pour qu'on sache où écrire.",
+   "empreinte_texte_dit": "2dbc67e7599b34ad51ae83d0546577524feb5e4bc890c5fcb3eaf57fa635f84e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e11-consigne.mp3",
+   "octets": 122506,
+   "duree_s": 7.6,
+   "caracteres_dits": 135,
+   "caracteres_factures": 135,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Les cellules de saisie ne se distinguent pas des cellules\n calculées.\n À vous, donnez un fonds au quantité pour qu'on sache où é\ncrire."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Les cellules de saisie ne se distinguent pas des cellules\n calculées.\n À vous ! Donnez un fonds aux quantités pour qu'on sache où\n écrire."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e12-consigne",
+   "etape_lms": "M21-EV01-12",
+   "role": "Etape 12 · consigne",
+   "texte_dit": "Dernier contrôle. À vous : dans la cellule E13, recalculez le total hors taxes sans passer par la colonne des montants. S'il retombe sur le même chiffre, le devis est cohérent.",
+   "empreinte_texte_dit": "ea674b7b99eec838bf32344de903240d770fdeb194ddb0b06befbe2cff7ba69f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e12-consigne.mp3",
+   "octets": 191051,
+   "duree_s": 11.88,
+   "caracteres_dits": 176,
+   "caracteres_factures": 176,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.01,
+     "transcription": "Dernier contrôle.\n À vous, dans la cellule E13, recalculez le total Hortax\n sans passer par la colonne des montants.\n S'il retombe sur le même chiffre, le devis est cohérent."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Dernier contrôle.\n À vous, dans la cellule E13, recalculer le total hors taxe\n sans passer par la colonne des montants.\n S'il retombe sur le même chiffre, le devis est cohérent."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Évaluation terminée.",
+   "empreinte_texte_dit": "db726a7ecc8b7e680aa1b6b116f32b390f7e8746934b3e85e8d7952949c32415",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 25957,
+   "duree_s": 1.56,
+   "caracteres_dits": 20,
+   "caracteres_factures": 20,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Evaluation terminée."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Évaluation terminée."
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

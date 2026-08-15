@@ -1,0 +1,490 @@
+{
+ "chapitre": {
+  "chapterId": "cms47bdi3000477nbtg6yyvbe",
+  "app": "EXCEL",
+  "section": "",
+  "titre": "Le format ne change pas la valeur"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 16,
+  "caracteres_dits": 2651,
+  "duree_totale_s": 156.0,
+  "segments_valides": 15,
+  "segments_plusieurs_essais": 2,
+  "segments_jamais_valides": 1
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Une cellule contient une valeur, et l'affiche selon un format. Ces deux choses sont indépendantes, et confondre les deux est la source d'erreur la plus tenace d'Excel.",
+   "empreinte_texte_dit": "87804eb883dd3390d91ff879a92e3f42bf74b1c968ba230d86e8f9de91140af0",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 148837,
+   "duree_s": 9.24,
+   "caracteres_dits": 167,
+   "caracteres_factures": 167,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Une cellule contient une valeur et l'affiche selon un\n format.\n Ces deux choses sont indépendantes et confondre les deux\n est la source d'erreurs la plus tenace d'excelle."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Une cellule contient une valeur et l'affiche selon un\n format.\n Ces deux choses sont indépendantes et confondre les deux\n est la source d'erreur la plus tenace d'Excel."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M05-L01-01",
+   "role": "Etape 1 · consigne",
+   "texte_dit": "Regardez la colonne des montants hors taxes : ce sont des nombres corrects, mais illisibles pour un document commercial. À vous : sélectionnez la colonne des montants, et appliquez le format monétaire, avec le bouton euro du groupe Nombre.",
+   "empreinte_texte_dit": "5e6f787ba72283b6339a5130d7a431e76cebebb8d55bafea8e7b839d54eaf529",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 232847,
+   "duree_s": 14.48,
+   "caracteres_dits": 239,
+   "caracteres_factures": 239,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.015,
+     "transcription": "Regardez la colonne des montants Ortax.\n Ce sont des nombres correctes mais illisibles pour un\n document commercial.\n À vous, sélectionnez la colonne des montants et appliquez\n le format monétaire avec le bouton Euro du groupe Nombre."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Regardez la colonne des montants hors taxe.\n Ce sont des nombres corrects mais illisibles pour un\n document commercial.\n À vous, sélectionnez la colonne des montants et appliquez\n le format monétaire avec le\n bouton « Euro » du groupe nombre."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "M05-L01-01",
+   "role": "Etape 1 · aide",
+   "texte_dit": "Le bouton euro du groupe Nombre applique le format monétaire à la sélection.",
+   "empreinte_texte_dit": "018ed20220b36509f2aa58149efc662993f7929fc6caf4c034c6fa3ae541e8e8",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 78620,
+   "duree_s": 4.84,
+   "caracteres_dits": 76,
+   "caracteres_factures": 76,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.062,
+     "transcription": "Le bouton Euro du groupe nombre applique le format monéta\nire à la sélection."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.062,
+     "transcription": "Le bouton Euro du groupe nombre applique le format monéta\nire à la sélection."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-feedback",
+   "etape_lms": "M05-L01-01",
+   "role": "Etape 1 · retour de reussite",
+   "texte_dit": "Les montants s'affichent maintenant avec deux décimales, l'espace des milliers et le symbole euro. Le tableau devient présentable, sans qu'on ait retapé un seul chiffre.",
+   "empreinte_texte_dit": "06315c298310d560076af460c66b2b13a46f8549e761a48e67ea9274c8080fb2",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-feedback.mp3",
+   "octets": 140060,
+   "duree_s": 8.68,
+   "caracteres_dits": 169,
+   "caracteres_factures": 169,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Les montants s'affichent maintenant avec deux décimales, l'\nespace des milliers et le symbole euro.\n Le tableau devient présentable sans qu'on ait retapé un\n seul chiffre."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Les montants s'affichent maintenant avec deux décimales, l'\nespace des milliers et le symbole euro.\n Le tableau devient présentable sans qu'on ait retapé un\n seul chiffre."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M05-L01-02",
+   "role": "Etape 2 · consigne",
+   "texte_dit": "Le point capital. À vous : cliquez sur le premier montant, et regardez la barre de formule.",
+   "empreinte_texte_dit": "1c2f73ea7d27cca2fdfa289a4aba9049c4ecf8461243f81a3ef5bbba9b0e519d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 98264,
+   "duree_s": 6.08,
+   "caracteres_dits": 91,
+   "caracteres_factures": 91,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le point capital.\n À vous, cliquez sur le premier montant et regardez la barre\n de formule."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le point capital.\n À vous ! Cliquez sur le premier montant et regardez la\n barre de formules."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "M05-L01-02",
+   "role": "Etape 2 · aide",
+   "texte_dit": "Un simple clic sur la cellule du premier montant.",
+   "empreinte_texte_dit": "ad86ccc55d3fe3b470c1bde5f6c0ccd8d1544601188480d208ffed937c62873f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 44765,
+   "duree_s": 2.72,
+   "caracteres_dits": 49,
+   "caracteres_factures": 49,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Un simple clic sur la cellule du premier montant."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Un simple clic sur la cellule du premier montant."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-feedback",
+   "etape_lms": "M05-L01-02",
+   "role": "Etape 2 · retour de reussite",
+   "texte_dit": "La barre de formule affiche le nombre nu, sans espace ni symbole. La valeur n'a pas changé, seul son habillage a changé. C'est la distinction fondamentale de ce module.",
+   "empreinte_texte_dit": "303bbe6f1d666f10b82cf4d1c9087ad4079ae0ab27008d63ada3cfce6a7f9bce",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-feedback.mp3",
+   "octets": 151345,
+   "duree_s": 9.4,
+   "caracteres_dits": 168,
+   "caracteres_factures": 168,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La barre de formule affiche le nombre nu, sans espace ni\n symbole.\n La valeur n'a pas changé, seul son habillage a changé.\n C'est la distinction fondamentale de ce module."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La barre de formules affiche le nombre nu, sans espace ni\n symbole.\n La valeur n'a pas changé, seul son habillage a changé.\n C'est la distinction fondamentale de ce module."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M05-L01-03",
+   "role": "Etape 3 · consigne",
+   "texte_dit": "Conséquence directe, et c'est ce qui piège tout le monde : les calculs portent sur la valeur, jamais sur l'affichage. À vous : dans la cellule F1, additionnez les montants, et comparez au total que vous liriez à l'écran.",
+   "empreinte_texte_dit": "f4ce715e5fb39d3d18b0b3573e7c266dc44903a73aa541d397a78722ea1587b0",
+   "reparations": [
+    "l'écran"
+   ],
+   "ssml": true,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 212367,
+   "duree_s": 13.2,
+   "caracteres_dits": 220,
+   "caracteres_factures": 281,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.023,
+     "transcription": "Conséquence directe, et c'est ce qui piège tout le monde,\n les calculs portent sur la valeur, jamais sur l'affichage.\n À vous, dans la cellule Efin,\n additionnez les montants et comparez au total que vous lir\niez à l'écran."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Conséquences directes, et c'est ce qui piège tout le monde,\n les calculs portent sur la\n valeur, jamais sur l'affichage.\n À vous, dans la cellule F1, additionnez les montants et\n comparez au total que vous\n liriez à l'écran."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-feedback",
+   "etape_lms": "M05-L01-03",
+   "role": "Etape 3 · retour de reussite",
+   "texte_dit": "Si le format n'affichait aucune décimale, vous additionneriez mentalement des montants arrondis, vous trouveriez un euro de plus, et vous croiriez Excel fautif. Le format arrondit l'affichage, jamais la valeur.",
+   "empreinte_texte_dit": "40084ba9e7b87372615812f893abf0b8fb68d9af4a57bb410a22909cdf0fcc1f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-feedback.mp3",
+   "octets": 208605,
+   "duree_s": 12.96,
+   "caracteres_dits": 210,
+   "caracteres_factures": 210,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.016,
+     "transcription": "Si le format n'affichait aucune décimale, vous additionner\niez mentalement des montants arrondis,\n vous trouveriez un euro de plus et vous croiriez excel-faut\nif.\n Le format arrondit l'affichage, jamais la valeur."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.016,
+     "transcription": "Si le format n'affichait aucune décimale, vous additionner\niez mentalement des montants arrondis,\n vous trouveriez un euro de plus et vous croiriez Excel faut\nif.\n Le format arrondit l'affichage, jamais la valeur."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M05-L01-04",
+   "role": "Etape 4 · consigne",
+   "texte_dit": "Passons aux pourcentages, autre source d'erreurs. La colonne des remises contient des nombres décimaux. À vous : sélectionnez cette colonne, et cliquez sur le bouton pourcentage. Les décimales laissent place à des pourcentages lisibles.",
+   "empreinte_texte_dit": "4e671678569b6ce6ddc417ec6ec4c35ed60083a385fa83132ef19d7a3f5b95a5",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 223234,
+   "duree_s": 13.88,
+   "caracteres_dits": 236,
+   "caracteres_factures": 236,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Passons au pourcentage, autre source d'erreur.\n La colonne des remises contient des nombres décimaux.\n À vous, sélectionnez cette colonne et cliquez sur le bouton\n pourcentage.\n Les décimales laissent place à des pourcentages lisibles."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Passons au pourcentage, autre source d'erreur.\n La colonne des remises contient des nombres décimaux.\n À vous, sélectionnez cette colonne et cliquez sur le bouton\n Pourcentage.\n Les décimales laissent place à des pourcentages lisibles."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "M05-L01-04",
+   "role": "Etape 4 · aide",
+   "texte_dit": "C'est le bouton pourcentage, du groupe Nombre.",
+   "empreinte_texte_dit": "33870de7959a110156998f054368d146cb7857fa28d1cbcbda9e654a80255682",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 40586,
+   "duree_s": 2.48,
+   "caracteres_dits": 46,
+   "caracteres_factures": 46,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "C'est le bouton pourcentage du groupe Nombre."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "C'est le bouton pourcentage du groupe nombre."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-feedback",
+   "etape_lms": "M05-L01-04",
+   "role": "Etape 4 · retour de reussite",
+   "texte_dit": "Le format pourcentage multiplie l'affichage par cent, et ajoute le signe. La valeur stockée, elle, ne bouge pas.",
+   "empreinte_texte_dit": "970f581b79a0517d58fdd569e9c7357128d2cd7056dbc36703ec8f7a3aa8e163",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-feedback.mp3",
+   "octets": 119580,
+   "duree_s": 7.4,
+   "caracteres_dits": 112,
+   "caracteres_factures": 112,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.032,
+     "transcription": "Le format pourcentage multiplie l'affichage par 100 et aj\noute le signe.\n La valeur stockée, elle, ne bouge pas."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.032,
+     "transcription": "Le format pourcentage multiplie l'affichage par 100 et aj\noute le signe.\n La valeur stockée, elle, ne bouge pas."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M05-L01-05",
+   "role": "Etape 5 · consigne",
+   "texte_dit": "C'est pourquoi on écrit zéro virgule zéro cinq, et non cinq, pour une remise de 5 %. À vous : vérifiez-le. Dans la cellule F2, calculez le montant remisé du premier client.",
+   "empreinte_texte_dit": "8bda349939c126f14e774adc1e510c0ab49bb9141efbf5548fecf77c1cea179d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 180184,
+   "duree_s": 11.2,
+   "caracteres_dits": 172,
+   "caracteres_factures": 172,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": false,
+     "wer": 0.031,
+     "transcription": "C'est pourquoi on écrit 0,05 et non 5 pour une remise de 5\n%.\n À vous, vérifiez-le.\n Dans la cellule F2, calculez le montant remisé du premier\n client."
+    },
+    "moteur_second_medium": {
+     "ok": false,
+     "wer": 0.031,
+     "transcription": "C'est pourquoi on écrit 0,05 et non 5 pour une remise de 5\n %.\n À vous, vérifiez-le.\n Dans la cellule F2, calculez le montant remisé du premier\n client."
+    },
+    "valide_sur_les_deux": false
+   }
+  },
+  {
+   "id": "e5-feedback",
+   "etape_lms": "M05-L01-05",
+   "role": "Etape 5 · retour de reussite",
+   "texte_dit": "La formule a utilisé la valeur décimale, pas le nombre affiché, sinon on aurait obtenu un montant négatif absurde. Si vous saisissez une remise, tapez le nombre suivi du signe pourcentage : Excel enregistre la décimale tout seul.",
+   "empreinte_texte_dit": "a71e81b3064669f3d0f73297f5cc29b1c5be5812846272eb9506858a0b562606",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-feedback.mp3",
+   "octets": 219890,
+   "duree_s": 13.68,
+   "caracteres_dits": 229,
+   "caracteres_factures": 229,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.014,
+     "transcription": "La formule a utilisé la valeur décimale, pas le nombre aff\niché, sinon on aurait obtenu un montant négatif absurde.\n Si vous saisissez une remise, tapez le nombre suivi du sig\nne pourcentage.\n Excel enregistre la décimale tout seul."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.014,
+     "transcription": "La formule a utilisé la valeur décimale, pas le nombre aff\niché.\n Sinon on aurait obtenu un montant négatif absurde.\n Si vous saisissez une remise, tapez le nombre suivi du sig\nne pourcentage.\n Excel enregistre la décimale tout seul."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M05-L01-06",
+   "role": "Etape 6 · consigne",
+   "texte_dit": "Un réflexe qui évite des heures de recherche d'erreur : quand un total ne tombe pas juste de quelques centimes, ne cherchez pas un défaut de calcul. C'est presque toujours un format qui masque des décimales, et le calcul, lui, est exact. Cliquez sur les cellules et lisez la barre de formule : elle montre les valeurs réelles, sans arrondi d'affichage.",
+   "empreinte_texte_dit": "8c7bec1494d2245d0b47bdb8b9e4d642f8908548f95c55c06a1a499fe6fa93d8",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 316439,
+   "duree_s": 19.72,
+   "caracteres_dits": 352,
+   "caracteres_factures": 352,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.01,
+     "transcription": "Un réflexe qui évite des heures de recherche d'erreur.\n Quand un total ne tombe pas juste de quelques centimes, ne\n cherchez pas un défaut de calcul.\n C'est presque toujours un format qui masque des décimales,\n et le calcul, lui, est exact.\n Cliquez sur les cellules et lisez la barre de formule.\n Elles montrent les valeurs réelles sans arrondi d'affichage\n."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.01,
+     "transcription": "Un réflexe qui évite des heures de recherche d'erreurs.\n Quand un total ne tombe pas juste de quelques centimes, ne\n cherchez pas un défaut de calcul.\n C'est presque toujours un format qui masque des décimales,\n et le calcul, lui, est exact.\n Cliquez sur les cellules et lisez la barre de formules.\n Elles montrent les valeurs réelles, sans arrondis d'affich\nage."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Vous savez distinguer la valeur d'une cellule de son affichage, et appliquer un format monétaire ou en pourcentage.",
+   "empreinte_texte_dit": "26d0f1b18162204593f4ccaf0b7322e9e94a482469645ba7f5b16c005a13c89d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 97846,
+   "duree_s": 6.04,
+   "caracteres_dits": 115,
+   "caracteres_factures": 115,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Vous savez distinguer la valeur d'une cellule de son affich\nage et appliquer un format monétaire ou en pourcentage."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Vous savez distinguer la valeur d'une cellule de son affich\nage et appliquer un format monétaire ou en pourcentage."
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

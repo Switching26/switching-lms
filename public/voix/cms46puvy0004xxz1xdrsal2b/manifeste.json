@@ -1,0 +1,548 @@
+{
+ "chapitre": {
+  "chapterId": "cms46puvy0004xxz1xdrsal2b",
+  "app": "Excel",
+  "section": "Analyses et simulations",
+  "titre": "Simuler avec une table d'hypothèses"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)"
+  ],
+  "criteres": [
+   "WER <= 0.15",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe le moteur severe"
+ },
+ "totaux": {
+  "segments": 22,
+  "caracteres_dits": 2419,
+  "duree_totale_s": 163.0,
+  "segments_valides": 20,
+  "segments_plusieurs_essais": 2,
+  "segments_jamais_valides": 2
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Un tableau qui ne donne qu'un seul résultat ne répond qu'à une seule question. Une table d'hypothèses en donne dix d'un coup, et c'est ce qu'on attend d'une analyse.",
+   "empreinte_texte_dit": "5c883968be0b44aab0b8ff9eabca6509cf7fa6915773e6c1ee349a035a3ca0cd",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 125431,
+   "duree_s": 7.76,
+   "caracteres_dits": 165,
+   "caracteres_factures": 165,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.028,
+     "transcription": "Un tableau qui ne donne qu'un seul résultat ne répond que à une seule question. Une table d'hypothèse en donne dix d'un coup et c'est ce qu'on attend d'une analyse."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M23-L01-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Un modèle simple: un prix, une quantité, un coût, des charges fixes. Dans la cellule B8, calculez le résultat: la marge unitaire multipliée par la quantité, moins les charges fixes.",
+   "empreinte_texte_dit": "4b5019a96d4f9f40a9de1daecea015d5d9afb7271b7c8804b2f3d582d32db845",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 213621,
+   "duree_s": 13.28,
+   "caracteres_dits": 181,
+   "caracteres_factures": 181,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.033,
+     "transcription": "Un modèle simple, un prix, une quantité, un coût, des charges fixes. Dans la cellule B8, calculate le résultat. La marge unitaire multipliée par la quantité, moins les charges fixes."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "M23-L01-01",
+   "role": "Étape 1 · aide",
+   "texte_dit": "Marge unitaire égal prix moins coût. Multipliée par la quantité, moins les charges fixes.",
+   "empreinte_texte_dit": "f4dea8db1ae06bad4239f5a01a2fdd5d0645d0de9d1d2740e92905a02a5de8f1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 92413,
+   "duree_s": 5.72,
+   "caracteres_dits": 89,
+   "caracteres_factures": 89,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.143,
+     "transcription": "Marge unitaire égal prix moins cou, multiplié par la quantité moins les charges fixes."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e1-retour",
+   "etape_lms": "M23-L01-01",
+   "role": "Étape 1 · retour de réussite",
+   "texte_dit": "5400 euros de résultat. Une seule réponse, pour un seul prix, c'est là que s'arrête un tableau ordinaire.",
+   "empreinte_texte_dit": "6ee38197d086deed26b9ce2c2628d3da5cca08e56a77472766b031e95efb313a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-retour.mp3",
+   "octets": 124177,
+   "duree_s": 7.68,
+   "caracteres_dits": 105,
+   "caracteres_factures": 105,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "5 400 euros de résultats. Une seule réponse, pour un seul prix, c'est là que s'arrête un tableau ordinaire."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M23-L01-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "La bonne question n'est pas combien gagne-t-on à 49 euros? Mais à partir de quel prix devient-on rentable?. Une table d'hypothèses répond aux deux. À vous : dans la cellule D3, posez le premier prix à tester: 39.",
+   "empreinte_texte_dit": "18c46406962c68716080ebf0d8c54961867515f450bd755b220eed8928288341",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 202754,
+   "duree_s": 12.6,
+   "caracteres_dits": 212,
+   "caracteres_factures": 212,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.048,
+     "transcription": "La bonne question n'est pas combien gagne ton à 49 euros. Mais à partir de quel prix devient-on rentable ? Une table d'hypothèse répond aux deux. À vous, dans la cellule D3, posez le premier prix à tester. 39."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "M23-L01-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "Première hypothèse posée.",
+   "empreinte_texte_dit": "4481e25579d6d444086f274244a05d7bf370823e961fe4ceb712096c3e17d8d6",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 24703,
+   "duree_s": 1.48,
+   "caracteres_dits": 25,
+   "caracteres_factures": 25,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Première hypothèse posée."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M23-L01-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Dans la cellule D4, saisissez 43: l'écart entre vos deux valeurs fixera le pas de la série.",
+   "empreinte_texte_dit": "1e80b8b08ad2445b863d007bc2dfc7300c7289082fdabbc0e8cb87372e1b4cf7",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 107877,
+   "duree_s": 6.68,
+   "caracteres_dits": 91,
+   "caracteres_factures": 364,
+   "essais": 4,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": false,
+     "wer": 0.118,
+     "transcription": "Dans la cellule D4, saisissez 43. L et 4 entre vos deux valeurs fixera le pas de la série."
+    },
+    "valide": false,
+    "re_controle": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "M23-L01-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "Un pas de 4 euros.",
+   "empreinte_texte_dit": "1cc7b4080789dc0920147c3bf989b1aa0a13943ebb3393eaa45da73ac219a880",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 29301,
+   "duree_s": 1.76,
+   "caracteres_dits": 18,
+   "caracteres_factures": 18,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Un pas de 4 euros."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M23-L01-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Sélectionnez de la cellule D3 à D4 et recopiez jusqu'en D8 pour obtenir toute la gamme de prix à tester.",
+   "empreinte_texte_dit": "504e42b5cfdc56daa832c6ccd17336d00176bc9599b05a1c2f368e8fc30987a1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 120834,
+   "duree_s": 7.48,
+   "caracteres_dits": 104,
+   "caracteres_factures": 104,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.095,
+     "transcription": "Sélectionnez de la cellule D3 à D4 et recopiez jusqu'en D8 pour obtenir toute la gamme de prix attesté."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "M23-L01-04",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Deux cellules sélectionnées, puis la poignée de recopie vers le bas jusqu'à D8.",
+   "empreinte_texte_dit": "cd07ad13d20dcd00ffca10de8992265d2c2e1d7d6cc288414dd17a8dd4e11202",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 72768,
+   "duree_s": 4.48,
+   "caracteres_dits": 79,
+   "caracteres_factures": 79,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Deux cellules sélectionnées, puis la poignée de recopie vers le bas jusqu'à D8."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "M23-L01-04",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "39, 43, 47, 51, 55, 59: six scénarios de prix.",
+   "empreinte_texte_dit": "8b704d9ae714f8e77e1944db3ca82396dbbc37fa2a14c6267c9c5bae726e8b11",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 145911,
+   "duree_s": 9.04,
+   "caracteres_dits": 46,
+   "caracteres_factures": 46,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "39, 43, 47, 51, 55, 59, 6 scénarios de prix."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M23-L01-05",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Maintenant la formule qui calcule le résultat pour chaque prix. Dans la cellule E3, saisissez =, la cellule D3-$B$5,*$B$4-$B$6. Notez les dollars: seul le prix testé doit changer d'une ligne à l'autre.",
+   "empreinte_texte_dit": "84ea6b3857e7ae129d79876f822cd668f84c18a11295294e0559b4e14bb0150e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 264194,
+   "duree_s": 16.44,
+   "caracteres_dits": 201,
+   "caracteres_factures": 201,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.128,
+     "transcription": "Maintenant la formule qui calcule le résultat pour chaque prix. Dans la cellule E3, saisissez égal la cellule d'É3$5, asterisque $4$6. Notez les dollars. Seul le prix testé doit changer d'une ligne à l'autre."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "M23-L01-05",
+   "role": "Étape 5 · aide",
+   "texte_dit": "Le prix testé en référence relative, le coût, la quantité et les charges fixes en références absolues.",
+   "empreinte_texte_dit": "972270f297a96b9ec9a9c31435b5785202a5f535e780804eff9a4d32e1fff26e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 118744,
+   "duree_s": 7.36,
+   "caracteres_dits": 102,
+   "caracteres_factures": 102,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le prix testé en référence relative, le coût, la quantité et les charges fixes en référence absolue."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e5-retour",
+   "etape_lms": "M23-L01-05",
+   "role": "Étape 5 · retour de réussite",
+   "texte_dit": "2600 euros: à 39 euros, l'affaire perd de l'argent. Les dollars sont ici la clé, sans eux, la recopie irait chercher des cellules vides.",
+   "empreinte_texte_dit": "39e68552bc0e3f9548ba08e02db820da629286e0149609a54b19462883d927b6",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-retour.mp3",
+   "octets": 159286,
+   "duree_s": 9.88,
+   "caracteres_dits": 136,
+   "caracteres_factures": 136,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.077,
+     "transcription": "2600 euros à 39 euros, l'affaire perd de l'argent. Les dollars sont ici la clé, sans eux, la recopie et réchercher des cellules vides."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M23-L01-06",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "Recopiez la formule de E3 jusqu'en E8 pour compléter la table.",
+   "empreinte_texte_dit": "5d52205809db0007ba866b312b5f9c7f2b71b252e78ab84269d404d1832a5ebd",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 73604,
+   "duree_s": 4.52,
+   "caracteres_dits": 62,
+   "caracteres_factures": 62,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Recopiez la formule de E3 jusqu'en E8 pour compléter la table."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e6-aide",
+   "etape_lms": "M23-L01-06",
+   "role": "Étape 6 · aide",
+   "texte_dit": "Poignée de recopie de la cellule E3 vers le bas jusqu'à E8.",
+   "empreinte_texte_dit": "da0b73edc271400eee95823879f49e9bc09f5d311597bfc64defba87a9578f71",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-aide.mp3",
+   "octets": 72768,
+   "duree_s": 4.48,
+   "caracteres_dits": 59,
+   "caracteres_factures": 59,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Poignée de recopie de la cellule E3 vers le bas jusqu'à E8."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e6-retour",
+   "etape_lms": "M23-L01-06",
+   "role": "Étape 6 · retour de réussite",
+   "texte_dit": "La lecture est immédiate: le seuil de rentabilité se situe entre 39 et 43 euros. Chaque euro de prix rapporte 800 euros de résultat, puisque la quantité est de 800 unités.",
+   "empreinte_texte_dit": "a7f48a3a7b5516cdd5764801b43b8339172904993328082e7c0a70f67f971db0",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-retour.mp3",
+   "octets": 176004,
+   "duree_s": 10.92,
+   "caracteres_dits": 171,
+   "caracteres_factures": 171,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La lecture est immédiate. Le seuil de rentabilité se situe entre 39 et 43 €. Chaque € de prix rapporte 800 € de résultats, puisque la quantité est de 800 unités."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "M23-L01-07",
+   "role": "Étape 7 · consigne",
+   "texte_dit": "Voici la vraie valeur d'une table d'hypothèses, et elle dépasse les chiffres qu'elle affiche. Le point est souligné à l'écran. Ce qu'elle donne, c'est une pente: savoir qu'un euro de prix vaut 800 euros de résultat vous dit immédiatement où porter l'effort, une information qu'aucun calcul isolé ne fournit.",
+   "empreinte_texte_dit": "f20f48642cb9e50707856a23e7af8c3160d7bfb9c1ac97e2594df9a12af4d6fc",
+   "reparations": [
+    "l'écran"
+   ],
+   "ssml": true,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 271717,
+   "duree_s": 16.92,
+   "caracteres_dits": 307,
+   "caracteres_factures": 368,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.052,
+     "transcription": "Voici la vraie valeur d'une table d'hypothèse et elle dépasse les chiffres qu'elle affiche. Le point est souligné à l'écran. Ce qu'elle donne, c'est une pente. Savoir qu'un euro de prive aux 800 euros de résultats vous dites immédiatement où porter l'effort, une information qu'aucun calcul isolé ne fournit."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e7-bulle1",
+   "etape_lms": "M23-L01-07",
+   "role": "Étape 7 · bulle 1",
+   "texte_dit": "Une table d'hypothèses ne donne pas seulement des chiffres.",
+   "empreinte_texte_dit": "00b52048b25384a3343694f4efbb51e058e285d1c2bc36db8d089fa57a327327",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-bulle1.mp3",
+   "octets": 46437,
+   "duree_s": 2.84,
+   "caracteres_dits": 59,
+   "caracteres_factures": 59,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Une table d'hypothèse ne donne pas seulement des chiffres."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e7-bulle2",
+   "etape_lms": "M23-L01-07",
+   "role": "Étape 7 · bulle 2 · reprise V2/V3",
+   "texte_dit": "Elle montre une pente: un euro de prix vaut huit cents euros de résultat.",
+   "empreinte_texte_dit": "e495ab542413ed27471c545cb206abf6f0603082947aca1606a8aa8aff6b9944",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-bulle2.mp3",
+   "octets": 74858,
+   "duree_s": 4.6,
+   "caracteres_dits": 73,
+   "caracteres_factures": 292,
+   "essais": 4,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": false,
+     "wer": 0.143,
+     "transcription": "Elle montre une pente, un euro de prix vaut 800 euros de résultats."
+    },
+    "valide": false,
+    "re_controle": true
+   }
+  },
+  {
+   "id": "e7-bulle3",
+   "etape_lms": "M23-L01-07",
+   "role": "Étape 7 · bulle 3",
+   "texte_dit": "C'est ce qui vous dit immédiatement où porter l'effort.",
+   "empreinte_texte_dit": "b7e43ddaa44413f2f43f587b7a9f790f83ceda84dc4a88925b786edac0f46d7e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-bulle3.mp3",
+   "octets": 45183,
+   "duree_s": 2.76,
+   "caracteres_dits": 55,
+   "caracteres_factures": 55,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.091,
+     "transcription": "C'est ce qui vous dit immédiatement ou portez l'effort."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Vous savez bâtir une table d'hypothèses à une variable et lire une sensibilité.",
+   "empreinte_texte_dit": "70bffc6cb00b7ae23a2b5fa9bb36b37ea8b90a88d4a48fdad86680badbe37b14",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 70679,
+   "duree_s": 4.36,
+   "caracteres_dits": 79,
+   "caracteres_factures": 79,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Vous savez bâtir une table d'hypothèse à une variable et lire une sensibilité."
+    },
+    "valide": true
+   }
+  }
+ ]
+}

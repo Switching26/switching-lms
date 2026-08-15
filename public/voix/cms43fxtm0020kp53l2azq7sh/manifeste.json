@@ -1,0 +1,436 @@
+{
+ "chapitre": {
+  "chapterId": "cms43fxtm0020kp53l2azq7sh",
+  "app": "Excel",
+  "section": "Applications pratiques",
+  "titre": "Moyenne pondérée avec SOMMEPROD"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)"
+  ],
+  "criteres": [
+   "WER <= 0.15",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe le moteur severe"
+ },
+ "totaux": {
+  "segments": 17,
+  "caracteres_dits": 1951,
+  "duree_totale_s": 130.4,
+  "segments_valides": 12,
+  "segments_plusieurs_essais": 6,
+  "segments_jamais_valides": 5
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Une moyenne simple traite tout à égalité. Avec des coefficients, il faut SOMMEPROD, et comprendre ce qu'elle fait vraiment.",
+   "empreinte_texte_dit": "faa05a3241e28f38b32d7e1ea616eeef342ab22ae19a956b70f0a7a06e7ed66a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 114564,
+   "duree_s": 7.08,
+   "caracteres_dits": 123,
+   "caracteres_factures": 123,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.15,
+     "transcription": "Une moyenne simple, trait tout à égalité. Avec des coefficients, il faut s'omprendre et comprendre ce qu'elle fait vraiment."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M16-L02-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Commençons par la moyenne simple, celle qui ignore les coefficients. Dans la cellule E7, saisissez la fonction MOYENNE, de la cellule B2 à B5.",
+   "empreinte_texte_dit": "9b0ed2db187349f820155c2b6c3c314947b6b508f53e3380bb1b4139e8fefffa",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 168063,
+   "duree_s": 10.44,
+   "caracteres_dits": 142,
+   "caracteres_factures": 142,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.125,
+     "transcription": "Commençons par la moyenne simple, celle qui ignore les coefficients. Dans la cellule E7, saisissez la fonction moyenne de la cellule B2AB5."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e1-retour",
+   "etape_lms": "M16-L02-01",
+   "role": "Étape 1 · retour de réussite",
+   "texte_dit": "12,5. Mais cette note est trompeuse: elle donne autant de poids à l'anglais coefficient 2 qu'à la comptabilité coefficient 4.",
+   "empreinte_texte_dit": "f5e58bf23ada893b5def91a2c3e4fa37c61b838fc8382d4ae5ffc31406a127dd",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-retour.mp3",
+   "octets": 155524,
+   "duree_s": 9.64,
+   "caracteres_dits": 125,
+   "caracteres_factures": 125,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.125,
+     "transcription": "12, 5. Mais cette note est trompeuse. Elle donne autant de poids à l'anglais coéfficis 2 que à la comptabilité coéficien 4."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M16-L02-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "La vraie moyenne pondérée vaut, somme des notes fois coefficients, divisé par, somme des coefficients. SOMMEPROD calcule le numérateur d'un coup. Dans la cellule E8, saisissez la fonction SOMMEPROD, de la cellule B2 à B5, puis de la cellule C2 à C5 divisé par SOMME de la cellule C2 à C5.",
+   "empreinte_texte_dit": "93bbac89492c7d6a28f8837591a2210bc43ba58c9f5c576738e8e65005de085a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 332739,
+   "duree_s": 20.72,
+   "caracteres_dits": 288,
+   "caracteres_factures": 1152,
+   "essais": 4,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": false,
+     "wer": 0.308,
+     "transcription": "La vraie moyenne pondérée vaut somme des notes fois coefficient, divisé par somme des coefficients. Somme prod calcul le numérateur d'un coup. Dans la cellule 8, saisissez la fonction somme prod de la cellule B2AB5, puis de la cellule C2AC5 divisé par somme de la cellule C2AC5."
+    },
+    "valide": false,
+    "re_controle": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "M16-L02-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "SOMMEPROD multiplie les deux plages ligne par ligne, puis additionne le tout.",
+   "empreinte_texte_dit": "ac73ef0ac6d20230c3b84acbd86207668a5c2a0e87fe56317ea882d27a1fbd31",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 75276,
+   "duree_s": 4.64,
+   "caracteres_dits": 77,
+   "caracteres_factures": 154,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": false,
+     "wer": 0.167,
+     "transcription": "Somme prod, multiplie les deux plages lignes par ligne, puis additionne-le tout."
+    },
+    "valide": false,
+    "re_controle": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "M16-L02-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "12,2 au lieu de 12,5. L'écart vient du poids de la comptabilité, la matière la plus lourde et la moins réussie.",
+   "empreinte_texte_dit": "ffdfa8ea16d4c16ef26fcca4097f48e97a73666f48ca1647ad6466424d28020b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 141732,
+   "duree_s": 8.8,
+   "caracteres_dits": 111,
+   "caracteres_factures": 111,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.115,
+     "transcription": "12, 2 au lieu de 12, 5. Elle, écarvient du poids de la comptabilité, la matière la plus lourde et la moins réussie."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M16-L02-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Décomposons ce que la fonction fait réellement, car son nom le dit mal. Le calcul est déroulé à l'écran, produit par produit. L'idée: elle multiplie deux colonnes ligne à ligne puis additionne le tout, ce qui remplace la colonne intermédiaire qu'il faudrait sinon créer.",
+   "empreinte_texte_dit": "039bce3d09d758fa5ee57a8af984d13da7bbc5ba3c34409cff964f4485692297",
+   "reparations": [
+    "l'écran"
+   ],
+   "ssml": true,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 258342,
+   "duree_s": 16.08,
+   "caracteres_dits": 270,
+   "caracteres_factures": 331,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Décomposons ce que la fonction fait réellement car son nom le dit mal. Le calcul est déroulé à l'écran produit par produit. L'idée, elle multiplie deux colonnes ligne à ligne, puis additionne le tout, ce qui remplace la colonne intermédiaire qu'il faudrait sinon créer."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e3-bulle1",
+   "etape_lms": "M16-L02-03",
+   "role": "Étape 3 · bulle 1 · reprise V2/V3",
+   "texte_dit": "Seize fois trois, quarante-huit.",
+   "empreinte_texte_dit": "caa63ce38cf8a4d2fec76f02ed6101a20b3f63cac2167d2af7fdf0d795524b2a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-bulle1.mp3",
+   "octets": 31808,
+   "duree_s": 1.92,
+   "caracteres_dits": 32,
+   "caracteres_factures": 128,
+   "essais": 4,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": false,
+     "wer": 0.4,
+     "transcription": "16 x 3, 48."
+    },
+    "valide": false,
+    "re_controle": true
+   }
+  },
+  {
+   "id": "e3-bulle2",
+   "etape_lms": "M16-L02-03",
+   "role": "Étape 3 · bulle 2 · reprise V2/V3",
+   "texte_dit": "Puis chaque quantité multipliée par son coefficient, et la somme du tout.",
+   "empreinte_texte_dit": "9cb10147aee436d3e3aa5d1f850867ea30da07a68115e9b39267899e6164afa3",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-bulle2.mp3",
+   "octets": 67753,
+   "duree_s": 4.16,
+   "caracteres_dits": 73,
+   "caracteres_factures": 73,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.083,
+     "transcription": "Puis chaque quantité multipliée par son coefficient est la somme du tout."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e3-bulle3",
+   "etape_lms": "M16-L02-03",
+   "role": "Étape 3 · bulle 3 · reprise V2/V3",
+   "texte_dit": "On divise par la somme des coefficients. Sans elle, il faudrait une colonne intermédiaire.",
+   "empreinte_texte_dit": "e0b2f68249f69ffd68b9e6e51f138041b924c61601665f35d24e142403759284",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-bulle3.mp3",
+   "octets": 77784,
+   "duree_s": 4.8,
+   "caracteres_dits": 90,
+   "caracteres_factures": 90,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "On divise par la somme des coefficients. Sans elles, il faudrait une colonne intermédiaire."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M16-L02-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Vérifions-le. Dans la cellule D2, calculez le produit note fois coefficient de la première ligne, puis complétez la colonne jusqu'en D5.",
+   "empreinte_texte_dit": "585de408502b28ece5483a271f2ddb10bdaeb30ff0ed741354c8edba3f352656",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 140060,
+   "duree_s": 8.68,
+   "caracteres_dits": 136,
+   "caracteres_factures": 544,
+   "essais": 4,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Vérifions-le. Dans la cellule D2, calculez le produit note fois coefficient de la première ligne, puis complétez la colonne jusqu'en D5."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "M16-L02-04",
+   "role": "Étape 4 · aide",
+   "texte_dit": "La cellule B2 fois la cellule C2 dans la cellule D2, puis recopie vers le bas.",
+   "empreinte_texte_dit": "c81e1a9f34cebbbe2e1e65b29cff8c620b1e0adf58aa97189cf91af435abdf15",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 74858,
+   "duree_s": 4.6,
+   "caracteres_dits": 78,
+   "caracteres_factures": 312,
+   "essais": 4,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": false,
+     "wer": 0.125,
+     "transcription": "La cellule B deux fois la cellule C2 dans la cellule D2, puis recopie vers le bas."
+    },
+    "valide": false,
+    "re_controle": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "M16-L02-04",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "48, 44, 14, 18, dont la somme fait bien 122, exactement ce que SOMMEPROD a calculé sans colonne intermédiaire.",
+   "empreinte_texte_dit": "ea2a9660b95f12f8c74d4e3295b9525ef690901124758969878b20174c9da3a8",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 156778,
+   "duree_s": 9.72,
+   "caracteres_dits": 110,
+   "caracteres_factures": 440,
+   "essais": 4,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": false,
+     "wer": 0.13,
+     "transcription": "48, 44, 14, 18, dont la somme fait bien 122, exactement ce que somme prod a calculé 100 colonnes intermédiaires."
+    },
+    "valide": false,
+    "re_controle": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M16-L02-05",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Dernier contrôle: sélectionnez de la cellule D2 à D5 et vérifiez que la somme affichée en bas vaut bien 122.",
+   "empreinte_texte_dit": "738c57d4393c3c9a6c188d5a0f6064c1fc917631d18fe3d88f415793d5e0d6e2",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 124595,
+   "duree_s": 7.72,
+   "caracteres_dits": 108,
+   "caracteres_factures": 108,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.15,
+     "transcription": "Dernier contrôle, sélectionnez de la cellule D2AD5 et vérifiez que la somme affichée en bas vaut bien 122."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "M16-L02-05",
+   "role": "Étape 5 · aide",
+   "texte_dit": "Les quatre produits.",
+   "empreinte_texte_dit": "f57ddf690a55f41fa75bce0d8ac39206b97a6d64e069d34ff576802d6586e964",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 24703,
+   "duree_s": 1.48,
+   "caracteres_dits": 20,
+   "caracteres_factures": 20,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Les 4 produits."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e5-retour",
+   "etape_lms": "M16-L02-05",
+   "role": "Étape 5 · retour de réussite",
+   "texte_dit": "122. Votre moyenne pondérée est juste, et vous savez maintenant pourquoi.",
+   "empreinte_texte_dit": "3e33cc15452c861046eb65445f19a7796a9b3fa54f77bdb5343d239feaf4ac7f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-retour.mp3",
+   "octets": 77366,
+   "duree_s": 4.76,
+   "caracteres_dits": 73,
+   "caracteres_factures": 73,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "122. Votre moyenne pondérée est juste et vous savez maintenant pourquoi."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Vous savez calculer une moyenne pondérée et vous ne la confondrez plus avec une moyenne simple.",
+   "empreinte_texte_dit": "57138319611efe5a89f750f08211f5d85c2ec3d1c97f47f2f802e112073a6fc2",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 83635,
+   "duree_s": 5.16,
+   "caracteres_dits": 95,
+   "caracteres_factures": 95,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Vous savez calculer une moyenne pondérée et vous ne la confondrez plus avec une moyenne simple."
+    },
+    "valide": true
+   }
+  }
+ ]
+}

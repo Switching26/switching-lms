@@ -1,0 +1,630 @@
+{
+ "chapitre": {
+  "chapterId": "cms45ndmt000mzv4xth5p4rgu",
+  "app": "EXCEL",
+  "section": "",
+  "titre": "Consolider plusieurs feuilles identiques"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 21,
+  "caracteres_dits": 2268,
+  "duree_totale_s": 134.9,
+  "segments_valides": 21,
+  "segments_plusieurs_essais": 0,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Quand plusieurs feuilles ont la même structure, une par agence, une par mois, une par filiale, on peut les additionner cellule par cellule. C'est la consolidation, et elle repose sur une seule condition : que les feuilles soient réellement identiques.",
+   "empreinte_texte_dit": "b416ee619856c31b28ebbb32785b96a52ac98718d84541e7359227f1f87d4f45",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 241624,
+   "duree_s": 15.04,
+   "caracteres_dits": 251,
+   "caracteres_factures": 251,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Quand plusieurs feuilles ont la même structure, une par ag\nence, une par moi, une par filiale,\n on peut les additionner cellules par cellules.\n C'est la consolidation et elle repose sur une seule\n condition, que les feuilles soient réellement identiques."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Quand plusieurs feuilles ont la même structure, une par ag\nence, une par mois, une par filiale,\n on peut les additionner cellule par cellule.\n C'est la consolidation et elle repose sur une seule\n condition, que les feuilles soient\n réellement identiques."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M22-L01-01",
+   "role": "Etape 1 · consigne",
+   "texte_dit": "Quatre onglets : trois agences bâties exactement pareil, et une feuille Total à remplir. À vous : ouvrez l'onglet Lyon, pour vérifier la structure.",
+   "empreinte_texte_dit": "a49d642276a58da889dfbe5d62ef42fb33955a950f6a42271e4f86aa00b81946",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 144657,
+   "duree_s": 8.96,
+   "caracteres_dits": 147,
+   "caracteres_factures": 147,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "4 onglais, 3 agences bâti exactement pareil et une feuille\n totale à remplir.\n À vous, ouvrez l'onglet Lyon pour vérifier la structure."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.012,
+     "transcription": "Quatre onglets, trois agences bâties exactement pareilles\n et une feuille totale à remplir.\n À vous ! Ouvrez l'onglet Lyon pour vérifier la structure."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "M22-L01-01",
+   "role": "Etape 1 · aide",
+   "texte_dit": "C'est le premier onglet, en bas de la fenêtre.",
+   "empreinte_texte_dit": "1d6fff6666d7a2558664c0f541b3f29e75c145cbfbd84344afd4b2dae686b42b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 40586,
+   "duree_s": 2.48,
+   "caracteres_dits": 46,
+   "caracteres_factures": 46,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "C'est le premier onglet, en bas de la fenêtre."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "C'est le premier onglet, en bas de la fenêtre."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-feedback",
+   "etape_lms": "M22-L01-01",
+   "role": "Etape 1 · retour de reussite",
+   "texte_dit": "Produit, quantité, montant, et les licences sur la première ligne. Les trois agences suivent ce même plan : c'est ce qui rend la consolidation possible.",
+   "empreinte_texte_dit": "5e8a7391055133e8ece46ece97223aa37e4e61c46f422c45f5dfc24b08609390",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-feedback.mp3",
+   "octets": 147583,
+   "duree_s": 9.16,
+   "caracteres_dits": 152,
+   "caracteres_factures": 152,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.022,
+     "transcription": "Produits, quantités et montants, et les licences sur la\n première ligne.\n Les trois agences suivent ce même plan, c'est ce qui rend\n la consolidation possible."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.022,
+     "transcription": "produits, quantités et montants, et les licences sur la\n première ligne.\n Les trois agences suivent ce même plan, c'est ce qui rend\n la consolidation possible."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M22-L01-02",
+   "role": "Etape 2 · consigne",
+   "texte_dit": "À vous : revenez sur l'onglet Total.",
+   "empreinte_texte_dit": "b14b85e750ebe8bf91d9e3f2b5b10e1af6f7f0ea7ab46fa4e76386ced27d1167",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 44765,
+   "duree_s": 2.72,
+   "caracteres_dits": 36,
+   "caracteres_factures": 36,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.048,
+     "transcription": "À vous ! Revenez sur l'anglais Total !"
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous ! Revenez sur l'onglet Total."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "M22-L01-02",
+   "role": "Etape 2 · aide",
+   "texte_dit": "C'est le dernier onglet.",
+   "empreinte_texte_dit": "1429f56a795b8a914de847cce0cd951518af40b9153d76352d2aafe8ce5ddd59",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 23031,
+   "duree_s": 1.36,
+   "caracteres_dits": 24,
+   "caracteres_factures": 24,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.077,
+     "transcription": "C'est le dernier anglais."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "C'est le dernier onglet."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M22-L01-03",
+   "role": "Etape 3 · consigne",
+   "texte_dit": "À vous : dans la cellule B2, additionnez les quantités de licences des trois agences. On écrit le nom de la feuille, un point d'exclamation, puis la cellule.",
+   "empreinte_texte_dit": "6e428203773f7cac0eff83cc235470439f4b02035b075180977f9d48174b32a4",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 160958,
+   "duree_s": 10.0,
+   "caracteres_dits": 157,
+   "caracteres_factures": 157,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous, dans la cellule B2,\n additionnez les quantités de licence des trois agences.\n On écrit le nom de la feuille,\n un point d'exclamation,\n puis la cellule."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous ! Dans la cellule B2, additionnez les quantités de\n licence des trois agences.\n On écrit le nom de la feuille, un point d'exclamation, puis\n la cellule."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "M22-L01-03",
+   "role": "Etape 3 · aide",
+   "texte_dit": "Le nom de la feuille, un point d'exclamation, la cellule, et on additionne les trois.",
+   "empreinte_texte_dit": "8db0aa5c7c469cd16489ff5d792cecdb7c8b587ade4587dfdc2ac8be739031cd",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 78620,
+   "duree_s": 4.84,
+   "caracteres_dits": 85,
+   "caracteres_factures": 85,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le nom de la feuille, un point d'exclamation, la cellule,\n et on additionne les trois."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le nom de la feuille, un point d'exclamation, la cellule,\n et on additionne les trois."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-feedback",
+   "etape_lms": "M22-L01-03",
+   "role": "Etape 3 · retour de reussite",
+   "texte_dit": "34 licences au total. Comme les trois feuilles ont la même structure, la même cellule désigne la même chose partout.",
+   "empreinte_texte_dit": "cbedb27b586073e1bf2e379aeb46aaa4d041e725101e8c216565e33ba962bb08",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-feedback.mp3",
+   "octets": 102862,
+   "duree_s": 6.36,
+   "caracteres_dits": 116,
+   "caracteres_factures": 116,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "34 licences au total. Comme les trois feuilles ont la même\n structure,\n la même cellule désignait la même chose partout."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "34 licences au total.\n Comme les trois feuilles ont la même structure,\n la même cellule désigne la même chose partout."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M22-L01-04",
+   "role": "Etape 4 · consigne",
+   "texte_dit": "À vous : dans la cellule C2, faites de même pour le montant.",
+   "empreinte_texte_dit": "fc539d53005af714219be9fc03773cbdb1befa23f49b60f933fc696ca13e7bfd",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 70679,
+   "duree_s": 4.36,
+   "caracteres_dits": 60,
+   "caracteres_factures": 60,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "A vous, dans la cellule C2, faites de même pour le montant."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous ! Dans la cellule C2, faites de même pour le montant\n."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-feedback",
+   "etape_lms": "M22-L01-04",
+   "role": "Etape 4 · retour de reussite",
+   "texte_dit": "40800 euros de licences.",
+   "empreinte_texte_dit": "9752466529811e8f354fc8cac8eef12ce941725ff7f20a7849cf5e93fd8f0ea2",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-feedback.mp3",
+   "octets": 37660,
+   "duree_s": 2.28,
+   "caracteres_dits": 24,
+   "caracteres_factures": 24,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "40 800 euros de licence."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "40 800 euros de licence."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M22-L01-05",
+   "role": "Etape 5 · consigne",
+   "texte_dit": "À vous : recopiez les deux formules vers le bas, pour consolider les deux autres produits.",
+   "empreinte_texte_dit": "ec14a10ecec8f2ecc85c0db737cae80a3483c0a97636ab94c399ec92fa1c69dc",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 83635,
+   "duree_s": 5.16,
+   "caracteres_dits": 90,
+   "caracteres_factures": 90,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous, recopiez les deux formules vers le bas pour consol\nider les deux autres produits."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous ! Recopiez les deux formules vers le bas pour consol\nider les deux autres produits."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "M22-L01-05",
+   "role": "Etape 5 · aide",
+   "texte_dit": "Sélectionnez les deux cellules, et tirez la poignée de recopie vers le bas.",
+   "empreinte_texte_dit": "ea2c81a1afaa843ac0bcad21b65a097bfc0c92cffa6052d4737a64302e33c962",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 65245,
+   "duree_s": 4.0,
+   "caracteres_dits": 75,
+   "caracteres_factures": 75,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.026,
+     "transcription": "Sélectionnez les deux cellules et tirez la poignée de recop\nie vers le bas."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.026,
+     "transcription": "Sélectionnez les deux cellules et tirez la poignée de recop\nie vers le bas."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-feedback",
+   "etape_lms": "M22-L01-05",
+   "role": "Etape 5 · retour de reussite",
+   "texte_dit": "Les trois produits sont consolidés. La recopie a fait descendre les références dans les trois feuilles à la fois.",
+   "empreinte_texte_dit": "d4b4f875d788b2f31f70ebd6a8266543ba3b36b6a5f0a353d6d4ce7857831790",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-feedback.mp3",
+   "octets": 92413,
+   "duree_s": 5.72,
+   "caracteres_dits": 113,
+   "caracteres_factures": 113,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Les trois produits sont consolidés.\n La recopie a fait descendre les références dans les trois\n feuilles à la fois."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Les trois produits sont consolidés.\n La recopie a fait descendre les références dans les trois\n feuilles à la fois."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M22-L01-06",
+   "role": "Etape 6 · consigne",
+   "texte_dit": "Le contrôle indispensable. À vous : dans la cellule C6, totalisez la colonne des montants consolidés.",
+   "empreinte_texte_dit": "cacffa55c07c534837803581e87bf5cb1bb69b11b9cf2cb72515c70967c8859f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 125849,
+   "duree_s": 7.8,
+   "caracteres_dits": 101,
+   "caracteres_factures": 101,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.016,
+     "transcription": "Le contrôle indispensable.\n À vous, dans la cellule C6, totalisez la colonne des mont\nants consolidés."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.016,
+     "transcription": "Le contrôle indispensable.\n À vous, dans la cellule C6, totalisez la colonne des mont\nants consolidés."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-feedback",
+   "etape_lms": "M22-L01-06",
+   "role": "Etape 6 · retour de reussite",
+   "texte_dit": "77100 euros. Comparez toujours ce total à la somme des trois agences prises séparément : s'ils diffèrent, une ligne a été oubliée, ou une feuille n'a pas la même structure.",
+   "empreinte_texte_dit": "b707734126624bee23e131deb63b03f8446e742147d1a0437ffea33fea3f3b4a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-feedback.mp3",
+   "octets": 161794,
+   "duree_s": 10.04,
+   "caracteres_dits": 172,
+   "caracteres_factures": 172,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.032,
+     "transcription": "77100 euros. Comparer toujours ce total à la somme des\n trois agences prises séparément.\n S'il diffère, une ligne a été oubliée, ou une feuille n'a\n pas la même structure."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.032,
+     "transcription": "77 100 €.\n Comparer toujours ce total à la somme des trois agences pr\nises séparément.\n S'il diffère, une ligne a été oubliée, ou une feuille n'a\n pas la même structure."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "M22-L01-07",
+   "role": "Etape 7 · consigne",
+   "texte_dit": "La faiblesse de cette méthode mérite d'être comprise avant de l'adopter : elle suppose que rien ne bougera jamais. Le scénario de rupture est montré à l'écran. Une ligne insérée dans une agence décale ses cellules, et votre consolidation devient fausse sans afficher la moindre erreur. D'où la méthode par étiquette, que nous voyons juste après.",
+   "empreinte_texte_dit": "1336e9def80e5c6b8567d6fb6092e7a7dcb560fd6dd56f9dd22cd313614f4408",
+   "reparations": [
+    "l'écran"
+   ],
+   "ssml": true,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 313931,
+   "duree_s": 19.56,
+   "caracteres_dits": 345,
+   "caracteres_factures": 406,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.01,
+     "transcription": "La faiblesse de cette méthode mérite « dé » être comprise\n avant de l'adopter.\n Elle suppose que rien ne bougera jamais.\n Le scénario de rupture est montré à l'écran.\n Une ligne insérée dans une agence décale ses cellules\n et votre consolidation devient fausse sans afficher la mo\nindre erreur.\n D'où la méthode par étiquette que nous voyons juste après."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La faiblesse de cette méthode mérite d) être comprise avant\n de l'adopter.\n Elle suppose que rien ne bougera jamais.\n Le scénario de rupture est montré à l'écran.\n Une ligne insérée dans une agence décale ses cellules et\n votre consolidation devient\n fausse sans afficher la moindre erreur.\n D'où la méthode par étiquette que nous voyons juste après."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-bulle1",
+   "etape_lms": "M22-L01-07",
+   "role": "Etape 7 · bulle 1 sur A2:A4",
+   "texte_dit": "Cette méthode suppose que rien ne bougera.",
+   "empreinte_texte_dit": "96063353c03c30b18c31592861e03585ee4b7398e802ae3ce120578df50b9461",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-bulle1.mp3",
+   "octets": 42257,
+   "duree_s": 2.56,
+   "caracteres_dits": 42,
+   "caracteres_factures": 42,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Cette méthode suppose que rien ne bougera."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Cette méthode suppose que rien ne bougera."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-bulle2",
+   "etape_lms": "M22-L01-07",
+   "role": "Etape 7 · bulle 2 sur ligne:3",
+   "texte_dit": "Le jour où une agence insère une ligne produit, ses cellules se décalent.",
+   "empreinte_texte_dit": "18520c56f965f939175416499442884c0870850ec8ab23f12777f1f242ee616e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-bulle2.mp3",
+   "octets": 63155,
+   "duree_s": 3.88,
+   "caracteres_dits": 73,
+   "caracteres_factures": 73,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le jour où une agence insère une ligne produit, ses cell\nules se décalent."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.026,
+     "transcription": "Le jour où une agence insère une ligne au produit, ses cell\nules se décalent."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-bulle3",
+   "etape_lms": "M22-L01-07",
+   "role": "Etape 7 · bulle 3 sur dom:[aria-label=\"Feuille Total\"]",
+   "texte_dit": "Et la consolidation devient fausse, sans afficher la moindre erreur.",
+   "empreinte_texte_dit": "cf8f4d7a38b3dc8b7c13ef754781f75cd139832ba90f815368929f858af0e3d0",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-bulle3.mp3",
+   "octets": 59812,
+   "duree_s": 3.68,
+   "caracteres_dits": 68,
+   "caracteres_factures": 68,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.044,
+     "transcription": "Et la consolidation devient fausse, sans afficher la mo\nindre erreur."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.044,
+     "transcription": "et la consolidation devient fausse, sans afficher la mo\nindre erreur."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Vous savez consolider des feuilles de même structure, et vérifier que le total tombe juste.",
+   "empreinte_texte_dit": "5d40f4bca651b5f601618bdad17ffdfa03c442bce9dcb0f3b3a6a136219c5270",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 79874,
+   "duree_s": 4.92,
+   "caracteres_dits": 91,
+   "caracteres_factures": 91,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.02,
+     "transcription": "Vous savez consolider des feuilles de même structure et vér\nifier que le total tombe juste."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.02,
+     "transcription": "Vous savez consolider des feuilles de même structure et vér\nifier que le total tombe juste."
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

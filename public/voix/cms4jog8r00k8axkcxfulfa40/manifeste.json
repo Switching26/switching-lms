@@ -1,0 +1,740 @@
+{
+ "chapitre": {
+  "chapterId": "cms4jog8r00k8axkcxfulfa40",
+  "app": "EXCEL",
+  "section": "",
+  "titre": "Exercice · Atteindre un objectif sous contrainte"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 25,
+  "caracteres_dits": 2160,
+  "duree_totale_s": 144.0,
+  "segments_valides": 19,
+  "segments_plusieurs_essais": 7,
+  "segments_jamais_valides": 6
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Deux recherches de valeur cible, deux contraintes à vérifier vous-même, et l'écart que produit l'arrondi.",
+   "empreinte_texte_dit": "abbb4409845b17679f5782c4c0ddbc0ee707e7113967555db96e9a638a26d436",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 107877,
+   "duree_s": 6.68,
+   "caracteres_dits": 105,
+   "caracteres_factures": 105,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.036,
+     "transcription": "Deux recherches de valeur cible, deux contraintes à vér\nifier vous-même et elles, écart que produit la rondille."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.018,
+     "transcription": "Deux recherches de valeur cible, deux contraintes à vér\nifier vous-même, et L écarque produit l'arrondi."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M23-E03-01",
+   "role": "Etape 1 · consigne",
+   "texte_dit": "À vous : dans la cellule B8, calculez le résultat prévisionnel de la boutique.",
+   "empreinte_texte_dit": "dcfe715e71fb98cfd23ff9bfcc5c48c3b6cc2e4386fceff2984934aa08f8e147",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 86143,
+   "duree_s": 5.32,
+   "caracteres_dits": 78,
+   "caracteres_factures": 78,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.022,
+     "transcription": "À vous, dans la cellule B8, calculez le résultat prévision\nnel de la boutique."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.022,
+     "transcription": "À vous ! Dans la cellule B8, calculez le résultat prévision\nnel de la boutique."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "M23-E03-01",
+   "role": "Etape 1 · aide",
+   "texte_dit": "La marge unitaire multipliée par la quantité, moins les charges fixes.",
+   "empreinte_texte_dit": "39fc07d93e944da90632522765cc88ee90bf65400d74b3f5ecce99dfe34a3309",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 75276,
+   "duree_s": 4.64,
+   "caracteres_dits": 70,
+   "caracteres_factures": 70,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La marge unitaire multipliée par la quantité, moins les\n charges fixes."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La marge unitaire multipliée par la quantité moins les\n charges fixes."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-feedback",
+   "etape_lms": "M23-E03-01",
+   "role": "Etape 1 · retour de reussite",
+   "texte_dit": "7300 euros.",
+   "empreinte_texte_dit": "d54475c7bc7a87de61d75590ae6f4008a2b2cf1a2354a1a4645375130f04472d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-feedback.mp3",
+   "octets": 35152,
+   "duree_s": 2.12,
+   "caracteres_dits": 11,
+   "caracteres_factures": 11,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "7300 euros"
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "7 300 euros."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M23-E03-02",
+   "role": "Etape 2 · consigne",
+   "texte_dit": "L'objectif du gérant est de 12000 euros de résultat, sans toucher au prix. À vous : trouvez la quantité qu'il faudrait vendre. La quantité se met à jour, et le résultat affiche l'objectif.",
+   "empreinte_texte_dit": "6e029d89c5a27981cce25bb8dafb857404094932d04b3e0fc76a64112c99e7b6",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 181438,
+   "duree_s": 11.28,
+   "caracteres_dits": 188,
+   "caracteres_factures": 188,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "L'objectif du gérant est de 12 000 euros de résultats sans\n toucher au prix.\n À vous, trouvez la quantité qu'il faudrait vendre.\n La quantité se met à jour et le résultat affiche l'objectif\n."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "L'objectif du gérant est de 12 000 euros de résultats sans\n toucher au prix.\n À vous, trouvez la quantité qu'il faudrait vendre.\n La quantité se met à jour et le résultat affiche l'objectif\n."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "M23-E03-02",
+   "role": "Etape 2 · aide",
+   "texte_dit": "Valeur cible : la cellule à définir est le résultat, la cellule à modifier est la quantité.",
+   "empreinte_texte_dit": "d3594b84a55dd4387b2fbf2f7b6ddf10eca6bfa02e0fb51538abe8aadbd1d248",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 91159,
+   "duree_s": 5.64,
+   "caracteres_dits": 91,
+   "caracteres_factures": 91,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Valeur cible. La cellule à définir est le résultat. La cell\nule à modifier est la quantité."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.052,
+     "transcription": "Valeurs cibles. La cellule à définir est le résultat. La\n cellule a modifié la quantité."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-feedback",
+   "etape_lms": "M23-E03-02",
+   "role": "Etape 2 · retour de reussite",
+   "texte_dit": "1176,47 unités.",
+   "empreinte_texte_dit": "92122e9fa09877742b2833ff64951446b821e323c51db808cd9039a248836dae",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-feedback.mp3",
+   "octets": 46437,
+   "duree_s": 2.84,
+   "caracteres_dits": 15,
+   "caracteres_factures": 15,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": false,
+     "wer": 0.375,
+     "transcription": "1176 47 unités"
+    },
+    "moteur_second_medium": {
+     "ok": false,
+     "wer": 0.375,
+     "transcription": "1176 47 unités."
+    },
+    "valide_sur_les_deux": false
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M23-E03-03",
+   "role": "Etape 3 · consigne",
+   "texte_dit": "À vous : dans la cellule D3, vérifiez que cette quantité tient dans le stock disponible de 1000 unités. La cellule doit afficher OK, ou Stock insuffisant.",
+   "empreinte_texte_dit": "44725326895ad9fb24c1e518ae47c015b10e0a240452dfd04f63bbfb7fb437dc",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 166391,
+   "duree_s": 10.32,
+   "caracteres_dits": 154,
+   "caracteres_factures": 154,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous. Dans la cellule D3, vérifiez que cette quantité t\nient dans le stock disponible de 1000 unités.\n La cellule doit afficher OK ou stock insuffisant."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.022,
+     "transcription": "À vous ! Dans la cellule D3, vérifiez que cette quantité t\nient dans le stock disponible de 1000 unités.\n La cellule doit afficher « OK » ou « Stoxx insuffisant »."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "M23-E03-03",
+   "role": "Etape 3 · aide",
+   "texte_dit": "Une fonction SI, qui compare la quantité trouvée au stock.",
+   "empreinte_texte_dit": "859d00ac8bbff8b0e6b84d1a205afa90335d87854b0d10e42dcdf3cf2238fc10",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 59812,
+   "duree_s": 3.68,
+   "caracteres_dits": 58,
+   "caracteres_factures": 58,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Une fonction SI qui compare la quantité trouvée au stock."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Une fonction SI qui compare la quantité trouvée au stock."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-feedback",
+   "etape_lms": "M23-E03-03",
+   "role": "Etape 3 · retour de reussite",
+   "texte_dit": "Stock insuffisant. La valeur cible a trouvé une quantité que le stock ne permet pas : elle ignore les contraintes, et personne ne vous avertit. C'est vous qui venez de le découvrir, avec une formule.",
+   "empreinte_texte_dit": "8fd88fdbc68b92a24cdf6d4103e4057599b13dc26f92171b3510fa19b7d4c00a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-feedback.mp3",
+   "octets": 167645,
+   "duree_s": 10.4,
+   "caracteres_dits": 199,
+   "caracteres_factures": 199,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Stocs insuffisants.\n La valeur cible a trouvé une quantité que le stock ne\n permet pas.\n Elle ignore les contraintes et personne ne vous avertit.\n C'est vous qui venez de le découvrir avec une formule."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Stock insuffisant. La valeur cible a trouvé une quantité\n que le stock ne permet pas. Elle ignore les contraintes et\n personne ne vous avertit.\n C'est vous qui venez de le découvrir avec une formule."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M23-E03-04",
+   "role": "Etape 4 · consigne",
+   "texte_dit": "À vous : dans la cellule D4, donnez la quantité réellement à commander, en arrondissant à l'entier supérieur.",
+   "empreinte_texte_dit": "24e4f96ad1fae661a4f48060ba52b81a5d10c266032b0551bebcf9900c285d7e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 117490,
+   "duree_s": 7.28,
+   "caracteres_dits": 109,
+   "caracteres_factures": 109,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": false,
+     "wer": 0.0,
+     "transcription": "A vous, dans la cellule des 4, donnez la quantité réell\nement à commander, en arrondissant à l'entier supérieur."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous, dans la cellule D4, donner la quantité réellement à\n commander en arrondissant à l'entier supérieur."
+    },
+    "valide_sur_les_deux": false
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "M23-E03-04",
+   "role": "Etape 4 · aide",
+   "texte_dit": "On n'achète pas une fraction d'article.",
+   "empreinte_texte_dit": "6618036b48a8efda5345f18efa37339696cf8487055a5d1aa227c52201d8b720",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 37660,
+   "duree_s": 2.28,
+   "caracteres_dits": 39,
+   "caracteres_factures": 39,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "On n'achète pas une fraction d'articles."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "On n'achète pas une fraction d'articles."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-feedback",
+   "etape_lms": "M23-E03-04",
+   "role": "Etape 4 · retour de reussite",
+   "texte_dit": "1177 unités, soit 177 de plus que le stock disponible : cette piste suppose un réapprovisionnement. D'où l'intérêt de chercher ailleurs.",
+   "empreinte_texte_dit": "29a8e17e2c3a5d9d45830bc1c0c95d193ae483e8680980db9b42f0f537bdd394",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-feedback.mp3",
+   "octets": 164302,
+   "duree_s": 10.2,
+   "caracteres_dits": 136,
+   "caracteres_factures": 136,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": false,
+     "wer": 0.053,
+     "transcription": "1177 unités, 677 de plus que le stock disponible.\n Cette piste suppose un réapprovisionnement.\n D'où l'intérêt de chercher ailleurs."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "1177 unités, soit 177 de plus que le stock disponible.\n Cette piste suppose un réapprovisionnement, d'où l'intérêt\n de chercher ailleurs."
+    },
+    "valide_sur_les_deux": false
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M23-E03-05",
+   "role": "Etape 5 · consigne",
+   "texte_dit": "Autre piste : garder la quantité d'origine. À vous : remettez 900 dans la cellule de la quantité.",
+   "empreinte_texte_dit": "4e2176445bbaf4b1ff7605457c4faadf3bbb4dea2b5415948a88cfbb37c87405",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 108713,
+   "duree_s": 6.72,
+   "caracteres_dits": 97,
+   "caracteres_factures": 97,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Autre piste, gardez la quantité d'origine.\n À vous, remettez 900 dans la cellule de la quantité."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.018,
+     "transcription": "Autre piste, garder la quantité d'origine. À vous ! Remette\nz 900 dans la cellule de la quantité."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "M23-E03-05",
+   "role": "Etape 5 · aide",
+   "texte_dit": "La valeur cible a écrasé la valeur initiale.",
+   "empreinte_texte_dit": "5eb6b93647b0c5cacde815fdda1f1a118062f94c6c329afec4be9304cd03f4a2",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 45183,
+   "duree_s": 2.76,
+   "caracteres_dits": 44,
+   "caracteres_factures": 44,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La valeur cible a écrasé la valeur initiale."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La valeur cible a écrasé la valeur initiale."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M23-E03-06",
+   "role": "Etape 6 · consigne",
+   "texte_dit": "À vous : cherchez maintenant le prix de vente qui atteindrait le même objectif, à 900 unités. Le prix se met à jour, et le résultat retombe sur l'objectif.",
+   "empreinte_texte_dit": "9e1dd4568f327915a69e0fcdb29405622d167e1ef2f930cad47a490cba4bb35c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 148419,
+   "duree_s": 9.2,
+   "caracteres_dits": 155,
+   "caracteres_factures": 155,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous.\n Cherchez maintenant le prix de vente qui atteindrait le\n même objectif à 900 unités.\n Le prix se met à jour et le résultat retombe sur l'objectif\n."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.011,
+     "transcription": "À vous ! Cherchez maintenant le prix de vente qui atteind\nrait le même objectif à 900 unités.\n Le prix se met à jour et le résultat retombe sur l'objectif\n."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-aide",
+   "etape_lms": "M23-E03-06",
+   "role": "Etape 6 · aide",
+   "texte_dit": "Même boîte, mais la cellule à modifier est celle du prix.",
+   "empreinte_texte_dit": "9316eafd9d10380c7cf15436c0c042ffd84c953143e365d9d364d7fac1b57f18",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-aide.mp3",
+   "octets": 56050,
+   "duree_s": 3.44,
+   "caracteres_dits": 57,
+   "caracteres_factures": 57,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Même boîte, mais la cellule a modifié est celle du prix."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Même boîte, mais la cellule à modifier est celle du prix."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-feedback",
+   "etape_lms": "M23-E03-06",
+   "role": "Etape 6 · retour de reussite",
+   "texte_dit": "50,22 euros, un prix qu'aucune étiquette n'affichera jamais.",
+   "empreinte_texte_dit": "7d4b4d7b64aa9d5aaf4465e27ecc45f10b9d6b51aef4ba524022fe50b76f0dc4",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-feedback.mp3",
+   "octets": 81128,
+   "duree_s": 5.0,
+   "caracteres_dits": 60,
+   "caracteres_factures": 60,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": false,
+     "wer": 0.154,
+     "transcription": "50-22 euros, un prix qu'aucune étiquette n'affichera jamais\n."
+    },
+    "moteur_second_medium": {
+     "ok": false,
+     "wer": 0.154,
+     "transcription": "50, 22 euros, un prix qu'aucune étiquette n'affichera\n jamais."
+    },
+    "valide_sur_les_deux": false
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "M23-E03-07",
+   "role": "Etape 7 · consigne",
+   "texte_dit": "À vous : dans la cellule D6, arrondissez ce prix au demi-euro supérieur.",
+   "empreinte_texte_dit": "c7df44ca6f55a3eafdf5f2ae11ea517b8103238cc78822403b4255cf8a10e496",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 88233,
+   "duree_s": 5.44,
+   "caracteres_dits": 72,
+   "caracteres_factures": 72,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": false,
+     "wer": 0.0,
+     "transcription": "A vous, dans la cellule des 6, arrondissez ce prix au demi-\neuro supérieur."
+    },
+    "moteur_second_medium": {
+     "ok": false,
+     "wer": 0.0,
+     "transcription": "À vous, dans la cellule des 6, arrondissez ce prix au demi-\neuro supérieur."
+    },
+    "valide_sur_les_deux": false
+   }
+  },
+  {
+   "id": "e7-aide",
+   "etape_lms": "M23-E03-07",
+   "role": "Etape 7 · aide",
+   "texte_dit": "La fonction PLAFOND arrondit au multiple supérieur de son second argument.",
+   "empreinte_texte_dit": "4d94ad3b8d0055af27c3cdaa9fced1ee3a8562b437a31fdaf37177d1722d98c1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-aide.mp3",
+   "octets": 66917,
+   "duree_s": 4.12,
+   "caracteres_dits": 74,
+   "caracteres_factures": 74,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La fonction plafond arrondit au multiple supérieur de son\n second argument."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La fonction plafond arrondit au multiple supérieur de son\n second argument."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-feedback",
+   "etape_lms": "M23-E03-07",
+   "role": "Etape 7 · retour de reussite",
+   "texte_dit": "50,50 euros.",
+   "empreinte_texte_dit": "d94d5a0bcbfb794b52618fefd277e4b8c8c27bdad04c85337ba478dfc0c3b0de",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-feedback.mp3",
+   "octets": 32644,
+   "duree_s": 1.96,
+   "caracteres_dits": 12,
+   "caracteres_factures": 12,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": false,
+     "wer": 0.615,
+     "transcription": "50 €"
+    },
+    "moteur_second_medium": {
+     "ok": false,
+     "wer": 0.462,
+     "transcription": "50, 50 euros."
+    },
+    "valide_sur_les_deux": false
+   }
+  },
+  {
+   "id": "e8-consigne",
+   "etape_lms": "M23-E03-08",
+   "role": "Etape 8 · consigne",
+   "texte_dit": "À vous : dans la cellule D8, calculez le résultat obtenu à ce prix arrondi, pour 900 unités vendues.",
+   "empreinte_texte_dit": "313eb28896cc915656dff4fba53161b58186552cc55e720d728cf2f16d9cbfb2",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-consigne.mp3",
+   "octets": 112893,
+   "duree_s": 7.0,
+   "caracteres_dits": 100,
+   "caracteres_factures": 100,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "A vous, dans la cellule D8, calculer le résultat obtenu à\n ce prix arrondi pour 900 unités vendues."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.033,
+     "transcription": "À vous, dans la cellule D8,\n calculez le résultat obtenu à ce prix arrondi pour 900 unit\nés vendues."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-aide",
+   "etape_lms": "M23-E03-08",
+   "role": "Etape 8 · aide",
+   "texte_dit": "La même formule que le résultat prévisionnel, en remplaçant le prix par la cellule arrondie.",
+   "empreinte_texte_dit": "de4ad8a46cc684c89758cfe47449f77d9640765be067bbebaf1748a23d4726d2",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-aide.mp3",
+   "octets": 83217,
+   "duree_s": 5.12,
+   "caracteres_dits": 92,
+   "caracteres_factures": 92,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La même formule que le résultat prévisionnel en remplaçant\n le prix par la cellule arrondie."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La même formule que le résultat prévisionnel en remplaçant\n le prix par la cellule arrondie."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-feedback",
+   "etape_lms": "M23-E03-08",
+   "role": "Etape 8 · retour de reussite",
+   "texte_dit": "12250 euros : l'arrondi fait gagner 250 euros au-dessus de l'objectif. Un Solveur aurait traité l'arrondi comme une contrainte.",
+   "empreinte_texte_dit": "f4cfdca2670d7f0fadf3f9a97c3759c0111fe3239fc55b56a89d88c9b3064614",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-feedback.mp3",
+   "octets": 146329,
+   "duree_s": 9.08,
+   "caracteres_dits": 127,
+   "caracteres_factures": 127,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "12 250 euros.\n L'arrondi fait gagner 250 euros au-dessus de l'objectif.\n Un solveur aurait traité l'arrondi comme une contrainte."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.028,
+     "transcription": "12 250 €.\n La rondie fait gagner 250 € au-dessus de l'objectif.\n Un solver aurait traité la rondie comme une contrainte."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Exercice terminé.",
+   "empreinte_texte_dit": "4b99724f36d437dda8d656c42f861242cad8e3f053427c09274e98917e46dc33",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 25539,
+   "duree_s": 1.52,
+   "caracteres_dits": 17,
+   "caracteres_factures": 17,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Exercice terminé."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Exercice terminé."
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

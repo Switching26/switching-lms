@@ -1,0 +1,488 @@
+{
+ "chapitre": {
+  "chapterId": "cms4jodzk00fgaxkce5x2gezq",
+  "app": "EXCEL",
+  "section": "",
+  "titre": "S'évaluer · Manipuler les séries de données"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 16,
+  "caracteres_dits": 1320,
+  "duree_totale_s": 83.0,
+  "segments_valides": 13,
+  "segments_plusieurs_essais": 6,
+  "segments_jamais_valides": 3
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Le suivi commercial du semestre : devis envoyés, devis signés et taux de signature. Aucune aide sur cette évaluation : chaque étape compte au premier essai.",
+   "empreinte_texte_dit": "b96c06c72fedd9eac5c8d7d2b8db5be4953636dac05ef6364d3dc96d9ae9690b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 155942,
+   "duree_s": 9.68,
+   "caracteres_dits": 156,
+   "caracteres_factures": 156,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le suivi commercial du semestre devit envoyer, devit signer\n et taux de signature.\n Aucune aide sur cette évaluation. Chaque étape compte au\n premier essai."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.022,
+     "transcription": "Le suivi commercial du semestre, de vie envoyée, de vie\n signée et taux de signature.\n Aucune aide sur cette évaluation. Chaque étape compte au\n premier essai."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M18-EV01-01",
+   "role": "Etape 1 · consigne",
+   "texte_dit": "Quatre colonnes vous attendent, dont une exprimée en pourcentage. Dix gestes vous sont demandés, comptés au premier essai, sans aide ni retour en arrière.",
+   "empreinte_texte_dit": "4a937e4c6f1b71ea5a2435c6b6c3b893bf300558f359a113600c072b29dbe678",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 152599,
+   "duree_s": 9.48,
+   "caracteres_dits": 154,
+   "caracteres_factures": 154,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "4 colonnes vous attendent, dont une exprimée en pourcentage\n.\n 10 gestes vous sont demandés, comptez au premier essai sans\n aide ni retour en arrière."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Quatre colonnes vous attendent, dont une exprimée en pour\ncentage.\n Dix gestes vous sont demandés.\n Comptez au premier essai sans aide ni retour en arrière."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-bulle1",
+   "etape_lms": "M18-EV01-01",
+   "role": "Etape 1 · bulle 1 sur B1:C1",
+   "texte_dit": "Devis envoyés et devis signés.",
+   "empreinte_texte_dit": "b683581293b837614a5d853cfb5ca7b7faeb70ddafbd50da4a29d646a93f87ab",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-bulle1.mp3",
+   "octets": 33062,
+   "duree_s": 2.0,
+   "caracteres_dits": 30,
+   "caracteres_factures": 30,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.111,
+     "transcription": "de vie envoyée et de vie signée."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.111,
+     "transcription": "De vie envoyée et de vie signée."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-bulle2",
+   "etape_lms": "M18-EV01-01",
+   "role": "Etape 1 · bulle 2 sur D1",
+   "texte_dit": "Une quatrième colonne est en pourcentage : elle n'a pas la même unité.",
+   "empreinte_texte_dit": "95d3c087da363714a86b26ba688631b1f3cb040e40d8c5ddc71ba81da5f7a70c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-bulle2.mp3",
+   "octets": 67753,
+   "duree_s": 4.16,
+   "caracteres_dits": 70,
+   "caracteres_factures": 70,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Une quatrième colonne est en pourcentage, elle n'a pas la\n même unité."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Une quatrième colonne est en pourcentage, elle n'a pas la\n même unité."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-bulle3",
+   "etape_lms": "M18-EV01-01",
+   "role": "Etape 1 · bulle 3 sur ecran",
+   "texte_dit": "Huit gestes vous sont demandés.",
+   "empreinte_texte_dit": "bad2167bcf676028adf361d3da39937ed35cdec18120475907437cd251428f93",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-bulle3.mp3",
+   "octets": 31808,
+   "duree_s": 1.92,
+   "caracteres_dits": 31,
+   "caracteres_factures": 31,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "8 gestes vous sont demandés."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Huit gestes vous sont demandés."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M18-EV01-02",
+   "role": "Etape 2 · consigne",
+   "texte_dit": "À vous : créez un histogramme comparant mois par mois les devis envoyés et les devis signés, titres de colonnes compris.",
+   "empreinte_texte_dit": "b445b24aa1288eb2c3fd470287bc42fe5f147b7fd1b94f76dde29273712006d6",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 109967,
+   "duree_s": 6.8,
+   "caracteres_dits": 120,
+   "caracteres_factures": 120,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": false,
+     "wer": 0.074,
+     "transcription": "A vous, créez un histogramme comparant mois par mois les\n deux vies envoyées et les deux vies signées, titre de colon\nne compris."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous ! Créez un histogramme comparant mois par mois les\n devis envoyés et les devis signés,\n titres de colonnes compris."
+    },
+    "valide_sur_les_deux": false
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M18-EV01-03",
+   "role": "Etape 3 · consigne",
+   "texte_dit": "À vous : ajoutez la série du taux de signature au graphique.",
+   "empreinte_texte_dit": "1ba45fb971e48554674241be3c73ab1419b6c0ceda2fd975aad5f85ac60de251",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 61902,
+   "duree_s": 3.8,
+   "caracteres_dits": 60,
+   "caracteres_factures": 60,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "A vous.\n Ajoutez la série du taux de signature au graphique."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous ! Ajoutez la série du taux de signature au graphique\n."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M18-EV01-04",
+   "role": "Etape 4 · consigne",
+   "texte_dit": "Un taux en pourcentage n'a rien à faire sur le même axe que des nombres de devis. À vous : retirez cette série du graphique.",
+   "empreinte_texte_dit": "8857b6e9110547cd953f58b0ae5fdb66b08ed30cc93c3cf893694ea71bdde807",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 108713,
+   "duree_s": 6.72,
+   "caracteres_dits": 124,
+   "caracteres_factures": 124,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Un taux en pourcentage n'a rien à faire sur le même axe que\n des nombres de devis.\n À vous, retirez cette série du graphique."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Un taux en pourcentage n'a rien à faire sur le même axe que\n des nombres de devis.\n À vous ! Retirez cette série du graphique."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M18-EV01-05",
+   "role": "Etape 5 · consigne",
+   "texte_dit": "À vous : sélectionnez la série des devis signés.",
+   "empreinte_texte_dit": "953f06345ff25838e7077d4a1c5dfa933f973cd7c92662f2faae5942e03e6011",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 62737,
+   "duree_s": 3.84,
+   "caracteres_dits": 48,
+   "caracteres_factures": 48,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": false,
+     "wer": 0.08,
+     "transcription": "À vous, sélectionnez la série des deux vis signées."
+    },
+    "moteur_second_medium": {
+     "ok": false,
+     "wer": 0.08,
+     "transcription": "À vous! Sélectionnez la série des Deux vies signées."
+    },
+    "valide_sur_les_deux": false
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M18-EV01-06",
+   "role": "Etape 6 · consigne",
+   "texte_dit": "C'est le chiffre que la direction regarde. À vous : passez cette série en ocre.",
+   "empreinte_texte_dit": "32e99071bd5696b5207eead7fdea21481320974098255dbd23b5e6fe0b7d3a58",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 77784,
+   "duree_s": 4.8,
+   "caracteres_dits": 79,
+   "caracteres_factures": 79,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "C'est le chiffre que la direction regarde.\n À vous.\n Passez cette série en ocre."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "C'est le chiffre que la direction regarde.\n À vous.\n Passez cette série en okre."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "M18-EV01-07",
+   "role": "Etape 7 · consigne",
+   "texte_dit": "Pour la réunion, ne gardez visible que les devis signés. À vous : masquez l'autre série, sans la supprimer.",
+   "empreinte_texte_dit": "04b9d9175764b1fa0cda7e111a8c7b2b7003910cb61c5b2d656e1a997fc48cd0",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 112475,
+   "duree_s": 6.96,
+   "caracteres_dits": 107,
+   "caracteres_factures": 107,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": false,
+     "wer": 0.035,
+     "transcription": "Pour la réunion, ne gardez visible que les deux vis signées\n.\n À vous. Masquez l'autre série sans la supprimer."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Pour la réunion, ne gardez visible que les devis signés.\n À vous ! Masquez l'autre série sans la supprimer."
+    },
+    "valide_sur_les_deux": false
+   }
+  },
+  {
+   "id": "e8-consigne",
+   "etape_lms": "M18-EV01-08",
+   "role": "Etape 8 · consigne",
+   "texte_dit": "On veut suivre la progression des signatures. À vous : passez le graphique en courbes.",
+   "empreinte_texte_dit": "ced8d4b1396f099e52f2fc35a5783d78486f9f04383001aa47962eb3fc7b6f7c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-consigne.mp3",
+   "octets": 84471,
+   "duree_s": 5.2,
+   "caracteres_dits": 86,
+   "caracteres_factures": 86,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "On veut suivre la progression des signatures.\n À vous, passez le graphique en courbe."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "On veut suivre la progression des signatures.\n À vous, passez le graphique en courbe."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e9-consigne",
+   "etape_lms": "M18-EV01-09",
+   "role": "Etape 9 · consigne",
+   "texte_dit": "Montrez le mouvement de fond. À vous : ajoutez à la série visible la courbe de tendance linéaire.",
+   "empreinte_texte_dit": "ae940efe7b5a368b67e9093ec9c826e97f54528a804e304be2f6e023842a55f2",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-consigne.mp3",
+   "octets": 116236,
+   "duree_s": 7.2,
+   "caracteres_dits": 97,
+   "caracteres_factures": 97,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.019,
+     "transcription": "Montrez le mouvement de fond.\n À vous. Ajoutez à la série visible la courbe de tendance\n inhéaire."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Montrez le mouvement de fond.\n À vous !\n Ajoutez à la série visible la courbe de tendance linéaire."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e10-consigne",
+   "etape_lms": "M18-EV01-10",
+   "role": "Etape 10 · consigne",
+   "texte_dit": "À vous : affichez les étiquettes de données, et masquez le quadrillage.",
+   "empreinte_texte_dit": "fc752f704b7acdb7bdf7004ebed8682044c55b43a503741cf2bdddf602ee777d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e10-consigne.mp3",
+   "octets": 77366,
+   "duree_s": 4.76,
+   "caracteres_dits": 71,
+   "caracteres_factures": 71,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous, affichez les étiquettes de données et masquez le\n quadrillage."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous, affichez les étiquettes de données et masquez le\n quadrillage."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e11-consigne",
+   "etape_lms": "M18-EV01-11",
+   "role": "Etape 11 · consigne",
+   "texte_dit": "À vous : terminez en titrant le graphique Devis signés du semestre.",
+   "empreinte_texte_dit": "1d99551d0fef9b32984209411e4b0d9648e32b9a19b79c895732b49235b39d2c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e11-consigne.mp3",
+   "octets": 66499,
+   "duree_s": 4.08,
+   "caracteres_dits": 67,
+   "caracteres_factures": 67,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.026,
+     "transcription": "À vous, terminez en titrant le graphique de vie signé du\n semestre."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.026,
+     "transcription": "À vous ! Terminé en titrant le graphique de vie signé du\n semestre."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Évaluation terminée.",
+   "empreinte_texte_dit": "db726a7ecc8b7e680aa1b6b116f32b390f7e8746934b3e85e8d7952949c32415",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 25957,
+   "duree_s": 1.56,
+   "caracteres_dits": 20,
+   "caracteres_factures": 20,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Evaluation terminée."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Évaluation terminée."
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

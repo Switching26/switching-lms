@@ -1,0 +1,516 @@
+{
+ "chapitre": {
+  "chapterId": "cms4jocsw00ckaxkccgk6s808",
+  "app": "EXCEL",
+  "section": "",
+  "titre": "Exercice · Planning de la rentrée"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 17,
+  "caracteres_dits": 1490,
+  "duree_totale_s": 94.2,
+  "segments_valides": 17,
+  "segments_plusieurs_essais": 2,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Quatre sessions, chacune de douze jours calendaires. Les dates de démarrage sont saisies sous leur forme brute : rendez le planning lisible, et complétez-le.",
+   "empreinte_texte_dit": "ab1724ed0e12744f109fa25ee498c5b9afecd3d02141e7dd05aed9544210164a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 141732,
+   "duree_s": 8.8,
+   "caracteres_dits": 157,
+   "caracteres_factures": 157,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "4 sessions, chacune de 12 jours calendaires.\n Les dates de démarrage sont saisies sous leur forme brute.\n Rendez le planning lisible et complétez-le."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "4 sessions, chacune de 12 jours calendaires.\n Les dates de démarrage sont saisies sous leur forme brute.\n Rendez le planning lisible et complétez-le."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M16-E02-01",
+   "role": "Etape 1 · consigne",
+   "texte_dit": "Les dates de démarrage sont sélectionnées, et illisibles. À vous : donnez-leur un format de date.",
+   "empreinte_texte_dit": "9cf82cbbf06a7152a87165c73abc614eb3fba4c62cc7744c57bc723f50bf6023",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 101608,
+   "duree_s": 6.28,
+   "caracteres_dits": 97,
+   "caracteres_factures": 97,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Les dates de démarrage sont sélectionnées et illisibles.\n À vous, donnez-leur un format de date."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Les dates de démarrage sont sélectionnées et illisibles.\n À vous ! Donnez-leur un format de date."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "M16-E02-01",
+   "role": "Etape 1 · aide",
+   "texte_dit": "Un format, pas une formule.",
+   "empreinte_texte_dit": "ceafd716f575cd0435c31bda400cda6e8390c62903b2b16b54ebf652ac83ade6",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 38914,
+   "duree_s": 2.36,
+   "caracteres_dits": 27,
+   "caracteres_factures": 27,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Un format, pas une formule."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Un format, pas une formule."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M16-E02-02",
+   "role": "Etape 2 · consigne",
+   "texte_dit": "À vous : dans la cellule C5, calculez le dernier jour de la session : le démarrage, plus la durée saisie en haut. La formule devra se recopier.",
+   "empreinte_texte_dit": "a195e8f81418350426533fac8ed4f681c00bd06e77c512de876533be33b8a82c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 157196,
+   "duree_s": 9.76,
+   "caracteres_dits": 143,
+   "caracteres_factures": 143,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "A vous, dans la cellule C5, calculez le dernier jour de la\n session.\n Le démarrage, plus la durée saisie en haut.\n La formule devra se recopier."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous, dans la cellule C5, calculez le dernier jour de la\n session, le démarrage plus la durée saisi en haut.\n La formule devra se recopier."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "M16-E02-02",
+   "role": "Etape 2 · aide",
+   "texte_dit": "La durée est commune aux quatre sessions : elle doit être figée.",
+   "empreinte_texte_dit": "3afbf7e3ad615656587eee82a178943b0f34a1aa4675b5bf325f00b39ecd96c4",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 69007,
+   "duree_s": 4.24,
+   "caracteres_dits": 64,
+   "caracteres_factures": 64,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La durée est commune aux quatre sessions. Elle doit être\n figée."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La durée est commune aux quatre sessions. Elle doit être\n figée."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M16-E02-03",
+   "role": "Etape 3 · consigne",
+   "texte_dit": "À vous : dans la cellule D5, calculez la fin du mois du démarrage, la date de clôture administrative.",
+   "empreinte_texte_dit": "114b567341a11fdee8e4aed9933ad9eb666b94f2dffe2360c7d475a1ee18045a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 109131,
+   "duree_s": 6.76,
+   "caracteres_dits": 101,
+   "caracteres_factures": 101,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.031,
+     "transcription": "A vous, dans la cellule D5, calculer la fin du mois du dé\nmarrage, la date de clôture administrative."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous, dans la cellule D5,\n calculez la fin du mois du démarrage,\n la date de clôture administrative."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "M16-E02-03",
+   "role": "Etape 3 · aide",
+   "texte_dit": "Une fonction donne le dernier jour d'un mois, sans qu'on ait à compter les jours.",
+   "empreinte_texte_dit": "e7baffe4dd5bbc73f8975eac011b2ff196ac9b149192867982a3deaa98408745",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 59812,
+   "duree_s": 3.68,
+   "caracteres_dits": 81,
+   "caracteres_factures": 81,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Une fonction donne le dernier jour d'un mois, sans qu'on\n ait à compter les jours."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Une fonction donne le dernier jour d'un mois, sans qu'on\n ait à compter les jours."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M16-E02-04",
+   "role": "Etape 4 · consigne",
+   "texte_dit": "À vous : dans la cellule E5, donnez le jour de la semaine du démarrage, avec la convention française, où lundi vaut 1.",
+   "empreinte_texte_dit": "c6f031baad43bc039454ea7bad427ca0b9b75867481b6851c21cb4daa5f191cc",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 121252,
+   "duree_s": 7.52,
+   "caracteres_dits": 118,
+   "caracteres_factures": 118,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "A vous, dans la cellule E5, donnez le jour de la semaine du\n démarrage avec la Convention française ou l'indivaud 1."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous ! Dans la cellule E5, donnez le jour de la semaine\n du démarrage avec la Convention française ou lundi VAU 1."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "M16-E02-04",
+   "role": "Etape 4 · aide",
+   "texte_dit": "Le second argument de la fonction fixe la convention.",
+   "empreinte_texte_dit": "663954ae3bfa9e85f6c6306ce086bba07df5c76757e23dbae8d0e70dbf023a4a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 53542,
+   "duree_s": 3.28,
+   "caracteres_dits": 53,
+   "caracteres_factures": 53,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le second argument de la fonction fixe la convention."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le second argument de la fonction fixe la convention."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M16-E02-05",
+   "role": "Etape 5 · consigne",
+   "texte_dit": "À vous : complétez les trois sessions restantes.",
+   "empreinte_texte_dit": "879e33b9c9e9d36ad3b0bc3d101220f8f3bc56ed02b6f1b4b1099ddba66ea997",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 49781,
+   "duree_s": 3.04,
+   "caracteres_dits": 48,
+   "caracteres_factures": 48,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "A vous, complétez les trois sessions restantes."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous! Complétez les trois sessions restantes."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "M16-E02-05",
+   "role": "Etape 5 · aide",
+   "texte_dit": "Sélectionnez les trois cellules de la première ligne avant de recopier.",
+   "empreinte_texte_dit": "8ef87b289eb54de273f750341a16d4b1017ef82f284d566c6cbf6c741cc26dc9",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 66917,
+   "duree_s": 4.12,
+   "caracteres_dits": 71,
+   "caracteres_factures": 71,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Sélectionnez les trois cellules de la première ligne avant\n de recopier."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Sélectionnez les trois cellules de la première ligne avant\n de recopier."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M16-E02-06",
+   "role": "Etape 6 · consigne",
+   "texte_dit": "À vous : rendez lisibles les colonnes du dernier jour et de la fin du mois, déjà sélectionnées.",
+   "empreinte_texte_dit": "58cc232ca45a42a93801ce154e41765b4e23789444d2c0d1822844233ed0f5f1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 89487,
+   "duree_s": 5.52,
+   "caracteres_dits": 95,
+   "caracteres_factures": 95,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.093,
+     "transcription": "A vous, rendez-les les colonnes du dernier jour et de la\n fin du mois déjà sélectionnés."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous ! Rendez lisibles les colonnes du dernier jour et de\n la fin du mois, déjà sélectionnées."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-aide",
+   "etape_lms": "M16-E02-06",
+   "role": "Etape 6 · aide",
+   "texte_dit": "Ne formatez pas la colonne du jour de semaine : ce n'est pas une date.",
+   "empreinte_texte_dit": "8fa4684c7e6908415c30e9da16bee3200586a7d3949946ee86f4be0dcf1a2c42",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-aide.mp3",
+   "octets": 64409,
+   "duree_s": 3.96,
+   "caracteres_dits": 70,
+   "caracteres_factures": 70,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Ne formatez pas la colonne du jour de semaine. Ce n'est pas\n une date."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Ne formatez pas la colonne du jour de semaine.\n Ce n'est pas une date."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "M16-E02-07",
+   "role": "Etape 7 · consigne",
+   "texte_dit": "À vous : dans la cellule B10, calculez le total des durées des quatre sessions.",
+   "empreinte_texte_dit": "614dbd7612cce928fdc879574860648e3ad1f6ed524b5a53b310dbcd7c2b2014",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 102862,
+   "duree_s": 6.36,
+   "caracteres_dits": 79,
+   "caracteres_factures": 79,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous.\n Dans la cellule B10, calculez le total des durées des\n quatre sessions."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous !\n Dans la cellule B10, calculez le total des durées des\n quatre sessions."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-consigne",
+   "etape_lms": "M16-E02-08",
+   "role": "Etape 8 · consigne",
+   "texte_dit": "À vous : dans la cellule B11, calculez l'étendue du planning : le nombre de jours entre le premier démarrage, et le dernier jour de la dernière session.",
+   "empreinte_texte_dit": "b213852d229c58a254c7ed0349e68412a88df9686f7aaad19fbfb5bc00cbfd6d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-consigne.mp3",
+   "octets": 153435,
+   "duree_s": 9.52,
+   "caracteres_dits": 152,
+   "caracteres_factures": 152,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.012,
+     "transcription": "A vous, dans la cellule B11, calculez-elle, étendu du\n planning, le nombre de jours entre le premier démarrage et\n le dernier jour de la dernière session."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.012,
+     "transcription": "À vous ! Dans la cellule B11, calculez-elle, étendue du\n planning, le nombre de jours entre le premier démarrage et\n le dernier jour de la dernière session."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-aide",
+   "etape_lms": "M16-E02-08",
+   "role": "Etape 8 · aide",
+   "texte_dit": "Une différence de deux dates donne un nombre de jours.",
+   "empreinte_texte_dit": "1635624d7d8ada356618d81bf5a95cb32f2324638d002d802c79e6d07cc02836",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-aide.mp3",
+   "octets": 56886,
+   "duree_s": 3.48,
+   "caracteres_dits": 54,
+   "caracteres_factures": 54,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.077,
+     "transcription": "Une différence de deux dates donne un membre de jour."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Une différence de deux dates donne un nombre de jours."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Planning complet : dernier jour, fin de mois, jour de semaine et étendue totale.",
+   "empreinte_texte_dit": "74151ac06828b3cc077327a21ae8c320b7a484c07dd39ab8036c51b7e2eb1e2f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 89487,
+   "duree_s": 5.52,
+   "caracteres_dits": 80,
+   "caracteres_factures": 80,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Planning complet. Dernier jour, fin de mois, jour de\n semaine et étendu total."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Planning complet. Dernier jour, fin de mois, jour de\n semaine et étendue totale."
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

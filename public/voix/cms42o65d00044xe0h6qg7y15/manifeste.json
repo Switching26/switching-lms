@@ -1,0 +1,714 @@
+{
+ "chapitre": {
+  "chapterId": "cms42o65d00044xe0h6qg7y15",
+  "app": "EXCEL",
+  "section": "",
+  "titre": "La feuille de calcul"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 24,
+  "caracteres_dits": 2459,
+  "duree_totale_s": 151.1,
+  "segments_valides": 23,
+  "segments_plusieurs_essais": 2,
+  "segments_jamais_valides": 1
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Avant toute formule, il faut savoir lire une feuille de calcul : des colonnes, des lignes, et à leur croisement des cellules qui portent chacune une adresse unique.",
+   "empreinte_texte_dit": "bb1094a36fbb949c4751df61b8fbd193e894dafe1c0096a9a5f7c95ccbd160f6",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 142568,
+   "duree_s": 8.84,
+   "caracteres_dits": 164,
+   "caracteres_factures": 164,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.022,
+     "transcription": "Avant toute formule, il faut savoir lire une feuille de\n calcul, des colonnes, des lignes,\n et alors croisement des cellules qui portent chacune une ad\nresse unique."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.022,
+     "transcription": "Avant toute formule, il faut savoir lire une feuille de\n calcul, des colonnes, des lignes\n et alors croisement des cellules qui portent chacune une ad\nresse unique."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M01-L03-01",
+   "role": "Etape 1 · consigne",
+   "texte_dit": "Une feuille de calcul est un tableau. Les colonnes portent des lettres, les lignes des numéros. À leur croisement, une cellule. À vous : cliquez sur la cellule B2, et regardez la zone à gauche de la barre de formule.",
+   "empreinte_texte_dit": "5438bc5415e0023a2853e8f1f6ecf368362720fb178b6ed08cc0eb5857b709b8",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 202754,
+   "duree_s": 12.6,
+   "caracteres_dits": 216,
+   "caracteres_factures": 216,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Une feuille de calcul est un tableau. Les colonnes portent\n des lettres. Les lignes des numéros. À leur croisement, une\n cellule.\n À vous, cliquez sur la cellule B2 et regardez la zone à\n gauche de la barre de formule."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Une feuille de calcul est un tableau.\n Les colonnes portent des lettres.\n Les lignes des numéros.\n À leur croisement, une cellule.\n À vous ! Cliquez sur la cellule B2\n et regardez la zone à gauche de la barre de formules."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "M01-L03-01",
+   "role": "Etape 1 · aide",
+   "texte_dit": "Colonne B, ligne 2 : cliquez à l'intersection.",
+   "empreinte_texte_dit": "dd73e552b60543ba6fc31825fc60c43e627f325c87fcba5e808c6e1cae128665",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 64409,
+   "duree_s": 3.96,
+   "caracteres_dits": 46,
+   "caracteres_factures": 46,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Colonne B, ligne 2. Cliquez à l'intersection."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "colonne B, ligne 2.\n Cliquez à l'intersection."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-feedback",
+   "etape_lms": "M01-L03-01",
+   "role": "Etape 1 · retour de reussite",
+   "texte_dit": "La zone Nom affiche l'adresse de la cellule active. On dit aussi sa référence.",
+   "empreinte_texte_dit": "1aeee4ce89df709e452ef78ed19e084fc3063c5250e99b509559b05f26507524",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-feedback.mp3",
+   "octets": 88233,
+   "duree_s": 5.44,
+   "caracteres_dits": 78,
+   "caracteres_factures": 78,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La zone non affiche l'adresse de la cellule active. On dit\n aussi sa référence."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La zone nom affiche l'adresse de la cellule active.\n On dit aussi sa référence."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M01-L03-02",
+   "role": "Etape 2 · consigne",
+   "texte_dit": "L'adresse se lit toujours colonne puis ligne. À vous : cliquez sur la cellule C3, la colonne C, la troisième ligne.",
+   "empreinte_texte_dit": "96cf9beba4fe76a6758a1481eecb4b7cd8acf0727ae027167d50c395d6c2e85d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 130865,
+   "duree_s": 8.12,
+   "caracteres_dits": 115,
+   "caracteres_factures": 115,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "L'adresse se lit toujours colonne, puis ligne.\n À vous, cliquez sur la cellule C3, la colonne C, la\n troisième ligne."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "L'adresse se lit toujours colonne puis ligne.\n À vous, cliquez sur la cellule C3, la colonne C, la\n troisième ligne."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "M01-L03-02",
+   "role": "Etape 2 · aide",
+   "texte_dit": "Troisième colonne, troisième ligne.",
+   "empreinte_texte_dit": "2e8b55430a5c36a570798f53c3b37269424b16b7f7da757b4bd0d4772fabf338",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 40586,
+   "duree_s": 2.48,
+   "caracteres_dits": 35,
+   "caracteres_factures": 35,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Troisième colonne, troisième ligne."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Troisième colonne, troisième ligne."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-feedback",
+   "etape_lms": "M01-L03-02",
+   "role": "Etape 2 · retour de reussite",
+   "texte_dit": "Cette cellule contient le chiffre de Lyon en février.",
+   "empreinte_texte_dit": "a323e744e9efdcfb6b1f50fa8f75640f03b089040143259812b0565648cb6639",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-feedback.mp3",
+   "octets": 46019,
+   "duree_s": 2.8,
+   "caracteres_dits": 53,
+   "caracteres_factures": 53,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Cette cellule contient le chiffre de Lyon en février."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Cette cellule contient le chiffre de Lyon en février."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M01-L03-03",
+   "role": "Etape 3 · consigne",
+   "texte_dit": "Arrêtons-nous une seconde sur cette façon d'écrire, parce que tout le reste en dépend : chaque formule que vous écrirez désignera des cellules par leur adresse. L'ordre des deux coordonnées est montré à l'écran, ainsi que l'endroit où la vérifier en cas de doute. Une adresse inversée, et le calcul porte sur la mauvaise cellule.",
+   "empreinte_texte_dit": "d9d5de1e4f48153204d1b9ae3fbe30fac920598dbfaeb91ab45f9cf80dfd23c9",
+   "reparations": [
+    "l'écran"
+   ],
+   "ssml": true,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 279658,
+   "duree_s": 17.4,
+   "caracteres_dits": 329,
+   "caracteres_factures": 390,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Arrêtons-nous une seconde sur cette façon d'écrire, parce\n que tout le reste en dépend.\n Chaque formule que vous écrirez désignera des cellules par\n leur adresse.\n L'ordre des deux coordonnées est montré à l'écran ainsi que\n l'endroit où la vérifiez en cas de doute.\n Une adresse inversée et le calcul porte sur la mauvaise\n cellule."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Arrêtons-nous une seconde sur cette façon d'écrire, parce\n que tout le reste en dépend.\n Chaque formule que vous écrirez désignera des cellules par\n leur adresse.\n L'ordre des deux coordonnées est montré à l'écran, ainsi\n que l'endroit où la vérifier en cas de doute.\n Une adresse inversée, et le calcul porte sur la mauvaise\n cellule."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-bulle1",
+   "etape_lms": "M01-L03-03",
+   "role": "Etape 3 · bulle 1 sur B2",
+   "texte_dit": "La colonne d'abord, la ligne ensuite. Toujours.",
+   "empreinte_texte_dit": "2b96fc2db8cb7e1c8dbc9c2ec0b5c9b87fa21630cb260674397cc9833f17d9a7",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-bulle1.mp3",
+   "octets": 70679,
+   "duree_s": 4.36,
+   "caracteres_dits": 47,
+   "caracteres_factures": 47,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La colonne d'abord, la ligne ensuite.\n Toujours."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La colonne d'abord, la ligne ensuite.\n Toujours."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-bulle2",
+   "etape_lms": "M01-L03-03",
+   "role": "Etape 3 · bulle 2 sur dom:[aria-label=\"Zone Nom\"]",
+   "texte_dit": "En cas de doute, la zone Nom donne l'adresse exacte.",
+   "empreinte_texte_dit": "42bf8b54d1f9e051dfa1203b5a9e34ecb14526b6105a1f5309e42f81b8792e44",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-bulle2.mp3",
+   "octets": 60648,
+   "duree_s": 3.72,
+   "caracteres_dits": 52,
+   "caracteres_factures": 52,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "En cas de doute, la zone non donne l'adresse exacte."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "En cas de doute, la zone nom donne l'adresse exacte."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M01-L03-04",
+   "role": "Etape 4 · consigne",
+   "texte_dit": "La barre de formule, en haut, montre ce que la cellule contient réellement. À vous : cliquez sur la cellule A2, et comparez ce que vous voyez dans la cellule, et dans la barre.",
+   "empreinte_texte_dit": "93fc0c4724714460a00d47b2282b58c1d562c91257be6def02c2dd234e1f1929",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 159704,
+   "duree_s": 9.92,
+   "caracteres_dits": 176,
+   "caracteres_factures": 176,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.01,
+     "transcription": "La barre de formule en haut montre ce que la cellule cont\nient réellement.\n À vous, cliquez sur la cellule A2 et comparez ce que vous\n voyez dans la cellule et dans la barre."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La barre de formules, en haut, montre ce que la cellule\n contient réellement.\n À vous, cliquez sur la cellule A2 et comparez ce que vous\n voyez dans la cellule et dans la barre."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "M01-L03-04",
+   "role": "Etape 4 · aide",
+   "texte_dit": "Première colonne, deuxième ligne.",
+   "empreinte_texte_dit": "7c098b9df0816804a96578579da161d4ccb3e5402c8679e3083657870ae3d128",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 41422,
+   "duree_s": 2.52,
+   "caracteres_dits": 33,
+   "caracteres_factures": 33,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "première colonne, deuxième ligne."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Première colonne, deuxième ligne."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-feedback",
+   "etape_lms": "M01-L03-04",
+   "role": "Etape 4 · retour de reussite",
+   "texte_dit": "Pour du texte simple, les deux sont identiques. La différence apparaîtra dès qu'il y aura une formule.",
+   "empreinte_texte_dit": "d10a1434e6365302159bc295e70732eed18c02fa935f90c3ca40510050e9557b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-feedback.mp3",
+   "octets": 103697,
+   "duree_s": 6.4,
+   "caracteres_dits": 102,
+   "caracteres_factures": 102,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Pour du texte simple, les deux sont identiques.\n La différence apparaîtra dès qu'il y aura une formule."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Pour du texte simple, les deux sont identiques. La\n différence apparaîtra dès qu'il y aura une formule."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M01-L03-05",
+   "role": "Etape 5 · consigne",
+   "texte_dit": "Vous pouvez écrire directement. À vous : dans la cellule A5, saisissez le nom Bordeaux, pour ajouter une quatrième boutique.",
+   "empreinte_texte_dit": "c1cc4ef3d922140d37f31fcf1bf1b98553b10dd363eb2c7647ff09d5ad766ac6",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 145911,
+   "duree_s": 9.04,
+   "caracteres_dits": 124,
+   "caracteres_factures": 124,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Vous pouvez écrire directement.\n A vous, dans la cellule A5, saisissez le nom Bordeaux pour\n ajouter une quatrième boutique."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Vous pouvez écrire directement.\n À vous ! Dans la cellule A5, saisissez le nom Bordeaux pour\n ajouter une quatrième boutique."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "M01-L03-05",
+   "role": "Etape 5 · aide",
+   "texte_dit": "Cliquez dans la cellule, tapez, puis validez avec Entrée.",
+   "empreinte_texte_dit": "2f272918ea2aaea20db0f74f16998daed8d424c5c54b6e982cd38cf96d4c9566",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 62737,
+   "duree_s": 3.84,
+   "caracteres_dits": 57,
+   "caracteres_factures": 57,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Cliquez dans la cellule, tapez, puis validez avec entrée."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Cliquez dans la cellule, tapez, puis validez avec Entrée."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-feedback",
+   "etape_lms": "M01-L03-05",
+   "role": "Etape 5 · retour de reussite",
+   "texte_dit": "Le texte se cale à gauche de la cellule. Retenez-le : Excel aligne le texte à gauche, et les nombres à droite.",
+   "empreinte_texte_dit": "ca74f13096a0553b3ef00a781767f16a43f96b6a66819ee2bb1a7ffa6d153a46",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-feedback.mp3",
+   "octets": 116236,
+   "duree_s": 7.2,
+   "caracteres_dits": 110,
+   "caracteres_factures": 110,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.016,
+     "transcription": "Le texte se calme à gauche de la cellule. Retenez-le, Excel\n aligne le texte à gauche et les nombres à droite."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le texte se cale à gauche de la cellule. Retenez-le. Excel\n aligne le texte à gauche et les nombres à droite."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M01-L03-06",
+   "role": "Etape 6 · consigne",
+   "texte_dit": "À vous : dans la cellule B5, saisissez 9500, et observez l'alignement.",
+   "empreinte_texte_dit": "27b2e45345b490dee3208fddba3bfdabd760244bb2dd8d329b43410c368b71a0",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 105369,
+   "duree_s": 6.52,
+   "caracteres_dits": 70,
+   "caracteres_factures": 70,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "A vous, dans la cellule B5, saisissez 9500 et observez l'al\nignement."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous, dans la cellule B5, saisissez 9500 et observez l'al\nignement."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-feedback",
+   "etape_lms": "M01-L03-06",
+   "role": "Etape 6 · retour de reussite",
+   "texte_dit": "Le nombre se cale à droite : Excel l'a bien compris comme un nombre, pas comme du texte. C'est votre premier contrôle qualité.",
+   "empreinte_texte_dit": "9d0e5ed1ca21c07a6339473272350b3a677fc247d80e9f9736777199208c642c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-feedback.mp3",
+   "octets": 112893,
+   "duree_s": 7.0,
+   "caracteres_dits": 126,
+   "caracteres_factures": 126,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.049,
+     "transcription": "Le nombre se calme à droite. Excel est bien compris comme\n un nombre, pas comme du texte.\n C'est votre premier contrôle qualité."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le nombre se cas la droite. Excel l'a bien compris comme un\n nombre, pas comme du texte.\n C'est votre premier contrôle qualité."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "M01-L03-07",
+   "role": "Etape 7 · consigne",
+   "texte_dit": "Pourquoi s'arrêter sur un détail d'alignement ? Parce que c'est le seul signal qu'Excel donne gratuitement sur la nature d'une cellule, sans rien cliquer. Les deux cas vont être mis côte à côte sur la feuille. Ce réflexe vous évitera plus tard des totaux qui restent à zéro sans raison apparente.",
+   "empreinte_texte_dit": "002ba5ca29d994cd25a62e78f5dc134eff6a7930fc861646bf03e82e9c7a9952",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 239952,
+   "duree_s": 14.92,
+   "caracteres_dits": 296,
+   "caracteres_factures": 296,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Pourquoi s'arrêter sur un détail d'alignement ?\n Parce que c'est le seul signal qu'Excel donne gratuitement\n sur la nature d'une cellule,\n sans rien cliquer.\n Les deux cas vont être mis côte à côte sur la feuille.\n Ce réflexe vous évitera plus tard des tautos qui restent à\n zéro, sans raison apparente."
+    },
+    "moteur_second_medium": {
+     "ok": false,
+     "wer": 0.018,
+     "transcription": "Pourquoi s'arrêter sur un détail d'alignement ? Parce que c\n'est le seul signal qu'Excel\n donne gratuitement sur la nature d'une cellule, sans rien\n cliquer.\n Les deux cas vont être mis côte à côte sur la feuille.\n Ce réflexe vous évitera plus tard des totos qui restent à z\néro, sans raison apparente."
+    },
+    "valide_sur_les_deux": false
+   }
+  },
+  {
+   "id": "e7-bulle1",
+   "etape_lms": "M01-L03-07",
+   "role": "Etape 7 · bulle 1 sur B2",
+   "texte_dit": "Un nombre se range à droite.",
+   "empreinte_texte_dit": "6806f2502898a1bcbdc4269f01d28ab91a94539b8495b7a0c8dd76d22f984018",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-bulle1.mp3",
+   "octets": 28047,
+   "duree_s": 1.68,
+   "caracteres_dits": 28,
+   "caracteres_factures": 28,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Un nombre se range à droite."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Un nombre se range à droite."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-bulle2",
+   "etape_lms": "M01-L03-07",
+   "role": "Etape 7 · bulle 2 sur A2",
+   "texte_dit": "Du texte se range à gauche.",
+   "empreinte_texte_dit": "a07f1199412a3e6ac8c5b35094a0bbdb6fdcb39f40a2212e3bdfea7169bf6efe",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-bulle2.mp3",
+   "octets": 32644,
+   "duree_s": 1.96,
+   "caracteres_dits": 27,
+   "caracteres_factures": 27,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Du texte se range à gauche."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Du texte se range à gauche."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-bulle3",
+   "etape_lms": "M01-L03-07",
+   "role": "Etape 7 · bulle 3 sur B6",
+   "texte_dit": "Ici, collé à gauche : donc du texte.",
+   "empreinte_texte_dit": "d72561c9ccf941b7a1a16351f2c112d28b1818d01de1c2f01a9a92cb644d0987",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-bulle3.mp3",
+   "octets": 52288,
+   "duree_s": 3.2,
+   "caracteres_dits": 36,
+   "caracteres_factures": 36,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Ici, collez à gauche, donc du texte."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Ici collé à gauche, donc du texte."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-bulle4",
+   "etape_lms": "M01-L03-07",
+   "role": "Etape 7 · bulle 4 sur B6",
+   "texte_dit": "Aucun calcul ne fonctionnera dessus.",
+   "empreinte_texte_dit": "9f3f782936fcd74ec7878ec7411e694d6b4705fb751a8a0afb75b0a72122b380",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-bulle4.mp3",
+   "octets": 36824,
+   "duree_s": 2.24,
+   "caracteres_dits": 36,
+   "caracteres_factures": 36,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Aucun calcul ne fonctionnera dessus."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Aucun calcul ne fonctionnera dessus."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Vous savez lire une adresse de cellule, et distinguer ce qu'une cellule contient de ce qu'elle affiche.",
+   "empreinte_texte_dit": "052ef0ef3991a737f1875e50c1716dc4fbbe0021c3f6d4c3a160d229c660de46",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 80292,
+   "duree_s": 4.96,
+   "caracteres_dits": 103,
+   "caracteres_factures": 103,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Vous savez lire une adresse de cellules et distinguer ce qu\n'une cellule contient de ce qu'elle affiche."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Vous savez lire une adresse de cellule et distinguer ce qu'\nune cellule contient de ce qu'elle affiche."
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

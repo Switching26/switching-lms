@@ -1,0 +1,600 @@
+{
+ "chapitre": {
+  "chapterId": "cms4joais0082axkclo1vgi1q",
+  "app": "EXCEL",
+  "section": "",
+  "titre": "S'évaluer · Fonctions avancées"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 20,
+  "caracteres_dits": 1881,
+  "duree_totale_s": 126.3,
+  "segments_valides": 20,
+  "segments_plusieurs_essais": 2,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Un relevé d'inscriptions, une table de tarifs, un emprunt et une session à planifier. Quatorze gestes sont attendus. Chacun est noté à la première tentative, et aucune aide n'est proposée. Attention : un dossier porte un code absent de la table, et vos formules ne doivent pas s'en trouver bloquées.",
+   "empreinte_texte_dit": "30d2333ce294afd8af46991f766d4d41468f75585fdd6407fad38003a67407c4",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 301392,
+   "duree_s": 18.76,
+   "caracteres_dits": 299,
+   "caracteres_factures": 299,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Un relevé d'inscription, une table de tarifs, un emprunt et\n une session à planifier.\n 14 gestes sont attendus.\n Chacun est noté à la première tentative et aucune aide n'\nest proposée.\n Attention, un dossier porte un code absent de la table et\n vos formules ne doivent pas\n s'en trouver bloqués."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Un relevé d'inscription, une table de tarif, un emprunt et\n une session à planifier.\n Quatorze gestes sont attendus.\n Chacun est noté à la première tentative et aucune aide n'\nest proposée.\n Attention, un dossier porte un code absent de la table et\n vos formules ne doivent pas\n s'en trouver bloquées."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M10-EV01-01",
+   "role": "Etape 1 · consigne",
+   "texte_dit": "Repérez d'abord les quatre blocs : les inscriptions à gauche, la table des tarifs, la synthèse, et les deux calculs du bas. Le seuil de parcours long est en haut. Quatorze gestes, comptés au premier essai, sans aide.",
+   "empreinte_texte_dit": "cedf75f292afe3e4e8fc62138b2e8d9953a91b6885a4158b81407ea92277ab8b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 226995,
+   "duree_s": 14.12,
+   "caracteres_dits": 216,
+   "caracteres_factures": 216,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Repérez d'abord les quatre blocs, les inscriptions à gauche\n, la table des tarifs, la synthèse et les deux calculs du\n bas.\n Le seuil de parcours long est en haut. 14 gestes, comptez\n au premier essai sans aide."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.019,
+     "transcription": "Repérez d'abord les quatre blocs, les inscriptions à gauche\n, la table des tarifs, la synthèse et les deux calculs du\n bas.\n Le seuil de parcours long est en haut. 14 gestes, comptez\n au premier essai sans Z."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-bulle1",
+   "etape_lms": "M10-EV01-01",
+   "role": "Etape 1 · bulle 1 sur C1",
+   "texte_dit": "Le seuil de parcours long est ici.",
+   "empreinte_texte_dit": "ebf33ac410835f972e5d41a5aed870b762aa20e322f76c43b07c64c43530fd63",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-bulle1.mp3",
+   "octets": 35570,
+   "duree_s": 2.16,
+   "caracteres_dits": 34,
+   "caracteres_factures": 34,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le seuil de parcours long est ici."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le seuil de parcours long est ici."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-bulle2",
+   "etape_lms": "M10-EV01-01",
+   "role": "Etape 1 · bulle 2 sur H1",
+   "texte_dit": "La table des tarifs, à droite.",
+   "empreinte_texte_dit": "4f8b18e7d4bb31520a54361a59068028aa356e1027842909ddf2b6e233968ac3",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-bulle2.mp3",
+   "octets": 37660,
+   "duree_s": 2.28,
+   "caracteres_dits": 30,
+   "caracteres_factures": 30,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La table des tarifs à droite."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La table des tarifs, à droite."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-bulle3",
+   "etape_lms": "M10-EV01-01",
+   "role": "Etape 1 · bulle 3 sur K2",
+   "texte_dit": "La synthèse à produire, et les deux calculs du bas. Quatre blocs.",
+   "empreinte_texte_dit": "a5227fe13b96ed39d8a4b6df017bbd56936cf3ac873e41b447b22ae6af52a215",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-bulle3.mp3",
+   "octets": 80292,
+   "duree_s": 4.96,
+   "caracteres_dits": 65,
+   "caracteres_factures": 65,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La synthèse à produire et les deux calculs du bas.\n 4 blocs."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La synthèse à produire et les deux calculs du bas.\n Quatre blocs."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M10-EV01-02",
+   "role": "Etape 2 · consigne",
+   "texte_dit": "À vous : dans la cellule D3, retrouvez le libellé de la formation dans la table des tarifs. La formule devra se recopier, et afficher Code inconnu, plutôt qu'une erreur, si le code est absent.",
+   "empreinte_texte_dit": "179b7dce9ceba0e37777b3fe3f1b68d271f5d0025a720979ff9dcfef2e3f89b2",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 195648,
+   "duree_s": 12.16,
+   "caracteres_dits": 192,
+   "caracteres_factures": 192,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous.\n Dans la cellule D3, retrouvez le libellé de la formation\n dans la table des tarifs.\n La formule devra se recopier et afficher code inconnu,\n plutôt qu'une erreur, si le\n code est absent."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous !\n Dans la cellule D3, retrouvez le libellé de la formation\n dans la table des tarifs.\n La formule devra se recopier et afficher code inconnu,\n plutôt qu'une erreur, si le code\n est absent."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M10-EV01-03",
+   "role": "Etape 3 · consigne",
+   "texte_dit": "À vous : dans la cellule E3, retrouvez le tarif horaire, avec la même exigence : zéro si le code est inconnu.",
+   "empreinte_texte_dit": "af7581daeb42745870ed9c86623052e958857158bb67388bdf4b0ccc7f3c8000",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 117490,
+   "duree_s": 7.28,
+   "caracteres_dits": 109,
+   "caracteres_factures": 109,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous, dans la cellule E3, retrouvez le tarif horaire avec\n la même exigence,\n 0 si le code est inconnu."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous ! Dans la cellule E3, retrouvez le tarif horaire\n avec la même exigence.\n 0 si le code est inconnu."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M10-EV01-04",
+   "role": "Etape 4 · consigne",
+   "texte_dit": "À vous : dans la cellule F3, calculez le montant du dossier.",
+   "empreinte_texte_dit": "50405245611db69bfd8d571908a1211f128a12e7de1d68b2b4524397ebe75588",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 60648,
+   "duree_s": 3.72,
+   "caracteres_dits": 60,
+   "caracteres_factures": 60,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "A vous, dans la cellule F3, calculez le montant du dossier."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous, dans la cellule F3, calculer le montant du dossier."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M10-EV01-05",
+   "role": "Etape 5 · consigne",
+   "texte_dit": "À vous : dans la cellule G3, affichez Long si la durée atteint le seuil, et Court sinon.",
+   "empreinte_texte_dit": "a803bc2024a20bd6770a75ddacaec514cd9091683926e52d87cea676e5612f5d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 102026,
+   "duree_s": 6.32,
+   "caracteres_dits": 88,
+   "caracteres_factures": 88,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.082,
+     "transcription": "A vous, dans la cellule G3, affichez-l'on s'il a duré à\n atteindre le seuil et cours sinon."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.02,
+     "transcription": "À vous, dans la cellule G3, affichez long si la durée atte\nint le seuil et court si non."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M10-EV01-06",
+   "role": "Etape 6 · consigne",
+   "texte_dit": "À vous : complétez les quatre dossiers restants, sur les quatre colonnes.",
+   "empreinte_texte_dit": "c9684bb17e9960b06972efcb036c00387d2588c6dad3a8d0f7f6e4fdb9988273",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 63155,
+   "duree_s": 3.88,
+   "caracteres_dits": 73,
+   "caracteres_factures": 73,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous, complétez les quatre dossiers restants sur les\n quatre colonnes."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous ! Complétez les quatre dossiers restants sur les\n quatre colonnes."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "M10-EV01-07",
+   "role": "Etape 7 · consigne",
+   "texte_dit": "À vous : dans la cellule L3, calculez le montant total du relevé.",
+   "empreinte_texte_dit": "583c3ddfc84931dd9feba5577a0feb9a3e1f73de41fb739fb6e81c083fd3cee7",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 72768,
+   "duree_s": 4.48,
+   "caracteres_dits": 65,
+   "caracteres_factures": 65,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous ! Dans la cellule L3, calculez le montant total du\n relevé."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous ! Dans la cellule L3, calculez le montant total du\n relevé."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-consigne",
+   "etape_lms": "M10-EV01-08",
+   "role": "Etape 8 · consigne",
+   "texte_dit": "À vous : dans la cellule L4, comptez les parcours longs.",
+   "empreinte_texte_dit": "a8a4cee4f4eb95e08af0428277cb8c68153643e21f0b3356c29301906a98397b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-consigne.mp3",
+   "octets": 59812,
+   "duree_s": 3.68,
+   "caracteres_dits": 56,
+   "caracteres_factures": 56,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous, dans la cellule L4, comptez les parcours longs."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous ! Dans la cellule L4, comptez les parcours longs."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e9-consigne",
+   "etape_lms": "M10-EV01-09",
+   "role": "Etape 9 · consigne",
+   "texte_dit": "À vous : dans la cellule L5, calculez le montant des parcours longs.",
+   "empreinte_texte_dit": "b602a9cfcc86ab2974f7f8f5216cb49cf99567bcc7d503b00c250472e9350f3a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-consigne.mp3",
+   "octets": 76112,
+   "duree_s": 4.68,
+   "caracteres_dits": 68,
+   "caracteres_factures": 68,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous ! Dans la cellule L5, calculez le montant des parc\nours longs."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous ! Dans la cellule L5, calculez le montant des parc\nours longs."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e10-consigne",
+   "etape_lms": "M10-EV01-10",
+   "role": "Etape 10 · consigne",
+   "texte_dit": "À vous : dans la cellule L6, calculez la durée moyenne des parcours.",
+   "empreinte_texte_dit": "77d816245569c668f4fbf3456a29901be19bec90b4cd346825e1de0d71cf023a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e10-consigne.mp3",
+   "octets": 77366,
+   "duree_s": 4.76,
+   "caracteres_dits": 68,
+   "caracteres_factures": 68,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous. Dans la cellule L6, calculez la durée moyenne des\n parcours."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous ! Dans la cellule L6, calculez la durée moyenne des\n parcours."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e11-consigne",
+   "etape_lms": "M10-EV01-11",
+   "role": "Etape 11 · consigne",
+   "texte_dit": "Passons à l'emprunt. À vous : dans la cellule L9, calculez le taux mensuel.",
+   "empreinte_texte_dit": "5b52f3849ed4ac07f1935a4e4358d8bb9a9eccf9bcdc0c9575da9cb291def6a1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e11-consigne.mp3",
+   "octets": 89905,
+   "duree_s": 5.56,
+   "caracteres_dits": 75,
+   "caracteres_factures": 75,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.023,
+     "transcription": "Passons à l'empreint.\n À vous.\n Dans la cellule L9, calculez le taux mensuel."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Passons à l'emprunt.\n À vous.\n Dans la cellule L9, calculez le taux mensuel."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e12-consigne",
+   "etape_lms": "M10-EV01-12",
+   "role": "Etape 12 · consigne",
+   "texte_dit": "À vous : dans la cellule L10, calculez le nombre de mensualités.",
+   "empreinte_texte_dit": "063cc6d62b9ceb063d628fdeb081edbf55ca494ac90d62ec77d5bb0fdb0274fb",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e12-consigne.mp3",
+   "octets": 81546,
+   "duree_s": 5.04,
+   "caracteres_dits": 64,
+   "caracteres_factures": 64,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous, dans la cellule L10, calculez le nombre de mensual\nité."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous, dans la cellule L10, calculez le nombre de mensual\nités."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e13-consigne",
+   "etape_lms": "M10-EV01-13",
+   "role": "Etape 13 · consigne",
+   "texte_dit": "À vous : dans la cellule L11, calculez la mensualité. Elle doit s'afficher en positif.",
+   "empreinte_texte_dit": "1df0d6dff2424204774b90d3c1c4f1c39b6ecd972867c352075a8bd06a95a479",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e13-consigne.mp3",
+   "octets": 104115,
+   "duree_s": 6.44,
+   "caracteres_dits": 86,
+   "caracteres_factures": 86,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous. Dans la cellule L11, calculez la mensualité.\n Elle doit s'afficher en positif."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous ! Dans la cellule L11, calculez la mensualité. Elle\n doit s'afficher en positif."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e14-consigne",
+   "etape_lms": "M10-EV01-14",
+   "role": "Etape 14 · consigne",
+   "texte_dit": "À vous : dans la cellule L12, calculez le coût du crédit.",
+   "empreinte_texte_dit": "fbad7eb88b109ed4f48e6847952f77e3cdc305ef613615f7d71b7c7f0e1035fd",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e14-consigne.mp3",
+   "octets": 69007,
+   "duree_s": 4.24,
+   "caracteres_dits": 57,
+   "caracteres_factures": 57,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "A vous, dans la cellule L12, calculez le coût du crédit."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous, dans la cellule L12, calculez le coût du crédit."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e15-consigne",
+   "etape_lms": "M10-EV01-15",
+   "role": "Etape 15 · consigne",
+   "texte_dit": "Session d'automne. À vous : dans la cellule L15, comptez les jours ouvrés entre les deux dates, week-ends exclus. Aucun jour férié ne tombe dans la période.",
+   "empreinte_texte_dit": "ef2629291093d3d47ced6ae2bf590479c6b6bc864f6fd6ab54c1940b5bc989d9",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e15-consigne.mp3",
+   "octets": 161794,
+   "duree_s": 10.04,
+   "caracteres_dits": 156,
+   "caracteres_factures": 156,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.012,
+     "transcription": "Session d'automne.\n À vous, dans la cellule L15, comptez les jours ouvrés entre\n les deux dates, week-end exclus.\n Aucun jour ferrier ne tombe dans la période."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Session d'automne.\n À vous.\n Dans la cellule L15, comptez les jours ouvrés entre les\n deux dates.\n Week-end exclu.\n Aucun jour férié ne tombe dans la période."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Évaluation terminée.",
+   "empreinte_texte_dit": "db726a7ecc8b7e680aa1b6b116f32b390f7e8746934b3e85e8d7952949c32415",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 28465,
+   "duree_s": 1.72,
+   "caracteres_dits": 20,
+   "caracteres_factures": 20,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Evaluation terminée."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Évaluation terminée."
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

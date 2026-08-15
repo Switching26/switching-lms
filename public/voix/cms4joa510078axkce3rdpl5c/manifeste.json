@@ -1,0 +1,544 @@
+{
+ "chapitre": {
+  "chapterId": "cms4joa510078axkce3rdpl5c",
+  "app": "Excel",
+  "section": "Fonctions avancées",
+  "titre": "Compter les jours ouvrés"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)"
+  ],
+  "criteres": [
+   "WER <= 0.15",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe le moteur severe"
+ },
+ "totaux": {
+  "segments": 23,
+  "caracteres_dits": 2406,
+  "duree_totale_s": 140.4,
+  "segments_valides": 23,
+  "segments_plusieurs_essais": 0,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Une session s'étend du 27 avril au 29 mai. Entre les deux, des week-ends et quatre jours fériés. Compter à la main sur un calendrier, c'est se tromper une fois sur deux, et refaire le calcul à chaque report de date.",
+   "empreinte_texte_dit": "c1b67acb5232cd30da07f208c8ff7da7cfc5b90c174bf02b6f99eb2db07b4bcb",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 230757,
+   "duree_s": 14.36,
+   "caracteres_dits": 215,
+   "caracteres_factures": 215,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.023,
+     "transcription": "Une session S étant du 27 avril au 29 mai, entre les deux des week-end et quatre jours fériés. Comptez à la main sur un calendrier, c'est se tromper une fois sur deux et refaire le calcul à chaque report de date."
+    }
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M10-L06-01",
+   "role": "Etape 1 · consigne, dite a l'arrivee",
+   "texte_dit": "Avant de calculer sur des dates, il faut comprendre ce qu'Excel manipule réellement, sans quoi ces nombres à cinq chiffres passent pour un dysfonctionnement. Ce qu'il faut retenir est plutôt libérateur : une date étant un nombre, tout ce que vous savez faire avec des nombres devient possible avec des dates.",
+   "empreinte_texte_dit": "ef07c413fd042e14bf0e964245eebbe8a18f972fc77f10da1c37dd472ce2a6ca",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 255835,
+   "duree_s": 15.92,
+   "caracteres_dits": 308,
+   "caracteres_factures": 308,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.019,
+     "transcription": "Avant de calculer sur des dates, il faut comprendre ce qu'Excel manipule réellement, sans quoi ses nombres à 5 chiffres passent pour un dysfonctionnement. Ce qu'il faut retenir est plutôt libérateur. Une date étant un nombre, tout ce que vous savez faire avec des nombres devient possible avec des dates."
+    }
+   }
+  },
+  {
+   "id": "e1-bulle1",
+   "etape_lms": "M10-L06-01",
+   "role": "Etape 1 · bulle sur B3",
+   "texte_dit": "Un nombre à cinq chiffres, là où on attendait une date.",
+   "empreinte_texte_dit": "03086df70858cb5222c6fc68e1716539781cbefa948a612112cc3bb795f38e5f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-bulle1.mp3",
+   "octets": 53542,
+   "duree_s": 3.28,
+   "caracteres_dits": 55,
+   "caracteres_factures": 55,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Un nombre à 5 chiffres, là où on attendait une date."
+    }
+   }
+  },
+  {
+   "id": "e1-bulle2",
+   "etape_lms": "M10-L06-01",
+   "role": "Etape 1 · bulle sur B4",
+   "texte_dit": "Pour Excel, une date est un nombre de jours.",
+   "empreinte_texte_dit": "8a769de9d6b9ef7b73db5d33278d211e5aad22c731aa96cf0cc002bb49ec0846",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-bulle2.mp3",
+   "octets": 54796,
+   "duree_s": 3.36,
+   "caracteres_dits": 44,
+   "caracteres_factures": 44,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Pour Excel, une date est un nombre de jours."
+    }
+   }
+  },
+  {
+   "id": "e1-bulle3",
+   "etape_lms": "M10-L06-01",
+   "role": "Etape 1 · bulle sur A6",
+   "texte_dit": "Le format d'affichage la rend lisible, et ce nombre permet de calculer.",
+   "empreinte_texte_dit": "b385ad66ce01715b4ac2241abc257a1ae7f480ac0c18c52444954ee473a37d16",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-bulle3.mp3",
+   "octets": 73604,
+   "duree_s": 4.52,
+   "caracteres_dits": 71,
+   "caracteres_factures": 71,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le format d'affichage la rend lisible et ce nombre permet de calculer."
+    }
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M10-L06-01b",
+   "role": "Etape 2 · consigne, dite a l'arrivee",
+   "texte_dit": "Donnez un format de date aux deux bornes de la session, déjà sélectionnées.",
+   "empreinte_texte_dit": "4a458cf122e6f6fe5a437f8363f325193dd1ff4ba89477a1f38c4287cce7895b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 59394,
+   "duree_s": 3.64,
+   "caracteres_dits": 75,
+   "caracteres_factures": 75,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Donnez un format de date aux deux bornes de la session, déjà sélectionnée."
+    }
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "M10-L06-01b",
+   "role": "Etape 2 · aide, dite au devoilement",
+   "texte_dit": "Cherchez le bouton de format de date, dans l'onglet Accueil.",
+   "empreinte_texte_dit": "f5b5fea99d6bc9c54aba8dc61cb4952b1c615c2cb833d56342519e014d3b4b06",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 61066,
+   "duree_s": 3.76,
+   "caracteres_dits": 60,
+   "caracteres_factures": 60,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Cherchez le bouton de format de date dans l'onglet Accueil."
+    }
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M10-L06-01c",
+   "role": "Etape 3 · consigne, dite a l'arrivee",
+   "texte_dit": "Faites de même pour les quatre jours fériés de la colonne E.",
+   "empreinte_texte_dit": "6857a618f00336c2f90c1bca2c78ff06acc70ae5cf65f2d95c2bcd4cfae57cd3",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 56886,
+   "duree_s": 3.48,
+   "caracteres_dits": 60,
+   "caracteres_factures": 60,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.083,
+     "transcription": "Faites de même pour les 4 jours ferriers de la colonne E."
+    }
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "M10-L06-01c",
+   "role": "Etape 3 · aide, dite au devoilement",
+   "texte_dit": "C'est le même bouton, sur une autre sélection.",
+   "empreinte_texte_dit": "1a2cc7186ffcff207322f3f9ae234eebe630d60a30ac6a9c5b1bb01e3a811489",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 44765,
+   "duree_s": 2.72,
+   "caracteres_dits": 46,
+   "caracteres_factures": 46,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "C'est le même bouton sur une autre sélection."
+    }
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M10-L06-02",
+   "role": "Etape 4 · consigne, dite a l'arrivee",
+   "texte_dit": "Dans la cellule B6, appelez la fonction NB.JOURS.OUVRES : elle compte les jours ouvrés du calendrier, week-ends exclus.",
+   "empreinte_texte_dit": "618c5e033eeca5b711b3a343f0355d435c29d280bde8a8870685361baed7b76d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 132119,
+   "duree_s": 8.2,
+   "caracteres_dits": 119,
+   "caracteres_factures": 119,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.105,
+     "transcription": "Dans la cellule B6, appelez la fonction nbjour.ouvre. Elle compte les jours ouvrés du calendrier Weekends Exclu."
+    }
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "M10-L06-02",
+   "role": "Etape 4 · aide, dite au devoilement",
+   "texte_dit": "Deux arguments seulement : la date de début et la date de fin, toutes deux comprises.",
+   "empreinte_texte_dit": "dc77f25d43b99a0aa03a1370999760bc7897ebb5460f0ae6ad9e979055fd0326",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 83635,
+   "duree_s": 5.16,
+   "caracteres_dits": 85,
+   "caracteres_factures": 85,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Deux arguments seulement. La date de début et la date de fin. Toutes deux comprises."
+    }
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M10-L06-03",
+   "role": "Etape 5 · consigne, dite a l'arrivee",
+   "texte_dit": "Dans la cellule B7, reprenez la même fonction, en ajoutant la liste des fériés en troisième argument.",
+   "empreinte_texte_dit": "9cf681b6292b8fc6d9548edc6bcf7f25fd58c5e0d0f119560234f5cbddd8df20",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 107459,
+   "duree_s": 6.64,
+   "caracteres_dits": 101,
+   "caracteres_factures": 101,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.059,
+     "transcription": "Dans la cellule B7, reprenez la même fonction en ajoutant la liste des ferriers en troisième argument."
+    }
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "M10-L06-03",
+   "role": "Etape 5 · aide, dite au devoilement",
+   "texte_dit": "Prenez la plage des dates fériées, dans la colonne E, et non la colonne des libellés.",
+   "empreinte_texte_dit": "5db6f279344f55ee8877b48f8e9c8f519086b19f7e9bfdf5b1dfb1649a83ba70",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 78620,
+   "duree_s": 4.84,
+   "caracteres_dits": 85,
+   "caracteres_factures": 85,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.125,
+     "transcription": "Prenez la plage des dates ferriers dans la colonne E et non la colonne des Libélais."
+    }
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M10-L06-04",
+   "role": "Etape 6 · consigne, dite a l'arrivee",
+   "texte_dit": "Dans la cellule B8, convertissez ces jours en heures de formation, à sept heures par jour.",
+   "empreinte_texte_dit": "560521b25952e171572c12469f2610bbbabb714c51329a064ba293fb4a87fa6c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 92413,
+   "duree_s": 5.72,
+   "caracteres_dits": 90,
+   "caracteres_factures": 90,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Dans la cellule B8, convertissez ces jours en heures de formation à 7 heures par jour."
+    }
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "M10-L06-05",
+   "role": "Etape 7 · consigne, dite a l'arrivee",
+   "texte_dit": "Le dossier doit être remis quinze jours ouvrés après le démarrage. Dans la cellule B9, appelez la fonction SERIE.JOUR.OUVRE.",
+   "empreinte_texte_dit": "1f3b5ed3e79f7ca4ab917bd17e2271558ef7c71d9415e29f189c46612e1780ba",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 138806,
+   "duree_s": 8.6,
+   "caracteres_dits": 124,
+   "caracteres_factures": 124,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.095,
+     "transcription": "Le dossier doit être remis 15 jours ouvrés après le démarrage. Dans la cellule B9, appelez la fonction série.jour.ouv.e."
+    }
+   }
+  },
+  {
+   "id": "e7-aide",
+   "etape_lms": "M10-L06-05",
+   "role": "Etape 7 · aide, dite au devoilement",
+   "texte_dit": "Cette fonction ne compte pas des jours : elle en renvoie une date.",
+   "empreinte_texte_dit": "51407e81ae7a5bc1127274fcb5ec13081803a08af71248665f7ed564cdb7526a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-aide.mp3",
+   "octets": 52288,
+   "duree_s": 3.2,
+   "caracteres_dits": 66,
+   "caracteres_factures": 66,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Cette fonction ne compte pas des jours. Elle en renvoie une date."
+    }
+   }
+  },
+  {
+   "id": "e8-consigne",
+   "etape_lms": "M10-L06-06",
+   "role": "Etape 8 · consigne, dite a l'arrivee",
+   "texte_dit": "Donnez à cette cellule un format de date, pour la rendre lisible.",
+   "empreinte_texte_dit": "80d14f9e651e22009fd36885dc296600ae19dce301450f386dacbddc7fe45616",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-consigne.mp3",
+   "octets": 60648,
+   "duree_s": 3.72,
+   "caracteres_dits": 65,
+   "caracteres_factures": 65,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Donnez à cette cellule un format de date pour la rendre lisible."
+    }
+   }
+  },
+  {
+   "id": "e8-aide",
+   "etape_lms": "M10-L06-06",
+   "role": "Etape 8 · aide, dite au devoilement",
+   "texte_dit": "C'est le bouton de format de date, dans l'onglet Accueil.",
+   "empreinte_texte_dit": "6a5d4c7381d8f8f048c1229bcaf9e73f56bc488cd859b5491a78d5a118fb55b7",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-aide.mp3",
+   "octets": 60648,
+   "duree_s": 3.72,
+   "caracteres_dits": 57,
+   "caracteres_factures": 57,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "C'est le bouton de format de date dans l'onglet « Accueil »."
+    }
+   }
+  },
+  {
+   "id": "e9-consigne",
+   "etape_lms": "M10-L06-07",
+   "role": "Etape 9 · consigne, dite a l'arrivee",
+   "texte_dit": "Deux précisions, pour éviter deux déconvenues classiques. La seconde est la plus sournoise : si la liste des jours fériés contient des libellés au lieu de vraies dates, la fonction n'en tient tout simplement pas compte, et renvoie un résultat inchangé, sans le moindre avertissement.",
+   "empreinte_texte_dit": "fa93b5b52f2f26a5f6598acd4cb2bbc11c79c25d1dc634616441b5fb5f7dc66b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-consigne.mp3",
+   "octets": 229085,
+   "duree_s": 14.24,
+   "caracteres_dits": 283,
+   "caracteres_factures": 283,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.067,
+     "transcription": "2 précisions pour éviter 2 déconvenues classiques. La seconde est la plus saurnoise. Si la liste des jours ferriers contient des libellées au lieu de vraies dates, la fonction n'en tient tout simplement pas compte et renvoie un résultat inchangé sans le moindre avertissement."
+    }
+   }
+  },
+  {
+   "id": "e9-bulle1",
+   "etape_lms": "M10-L06-07",
+   "role": "Etape 9 · bulle sur A6",
+   "texte_dit": "Les deux fonctions considèrent le week-end comme samedi et dimanche.",
+   "empreinte_texte_dit": "553cd07b67cd0ca534ffa08656443a2318def67542c2ad2ca7c6a8e5003c243a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-bulle1.mp3",
+   "octets": 51453,
+   "duree_s": 3.16,
+   "caracteres_dits": 68,
+   "caracteres_factures": 68,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Les deux fonctions considèrent le week-end comme samedi et dimanche."
+    }
+   }
+  },
+  {
+   "id": "e9-bulle2",
+   "etape_lms": "M10-L06-07",
+   "role": "Etape 9 · bulle sur A7",
+   "texte_dit": "Pour un autre rythme, leurs variantes laissent choisir.",
+   "empreinte_texte_dit": "908c084f180df3aaff3add93d0c983356f826fbe832473a88a024d4846326345",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-bulle2.mp3",
+   "octets": 52288,
+   "duree_s": 3.2,
+   "caracteres_dits": 55,
+   "caracteres_factures": 55,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Pour un autre rythme, leurs variantes laissent choisir."
+    }
+   }
+  },
+  {
+   "id": "e9-bulle3",
+   "etape_lms": "M10-L06-07",
+   "role": "Etape 9 · bulle sur A9",
+   "texte_dit": "Et la liste doit contenir de vraies dates, pas du texte, sinon le résultat est faux.",
+   "empreinte_texte_dit": "29e9f8c6b0830d4263b860d862041e0eb636939452c779453b4c931320f8a64e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-bulle3.mp3",
+   "octets": 84889,
+   "duree_s": 5.24,
+   "caracteres_dits": 84,
+   "caracteres_factures": 84,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Et la liste doit contenir de vraies dates, pas du texte, sinon le résultat est faux."
+    }
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Vous savez compter des jours ouvrés en tenant compte des fériés, et calculer une échéance en jours ouvrés. Ce sont les deux fonctions qui font gagner le plus de temps dans une planification.",
+   "empreinte_texte_dit": "80f21a4be10156ba5221588eceb0a774132da5a47d5afd33bc38f26a67d8e8de",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 157196,
+   "duree_s": 9.76,
+   "caracteres_dits": 190,
+   "caracteres_factures": 190,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.03,
+     "transcription": "Vous savez compter des jours ouvrés en tenant compte des ferriers et calculer une échéance en jours ouvrés. Ce sont les deux fonctions qui font gagner le plus de temps dans une planification."
+    }
+   }
+  }
+ ]
+}

@@ -1,0 +1,505 @@
+{
+ "chapitre": {
+  "chapterId": "cms43fxs5001wkp53mh42nayl",
+  "app": "Excel",
+  "section": "Applications pratiques",
+  "titre": "Commissionner des vendeurs"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)"
+  ],
+  "criteres": [
+   "WER <= 0.15",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe le moteur severe"
+ },
+ "totaux": {
+  "segments": 20,
+  "caracteres_dits": 1971,
+  "duree_totale_s": 127.4,
+  "segments_valides": 17,
+  "segments_plusieurs_essais": 6,
+  "segments_jamais_valides": 3
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Trois taux de commission selon le chiffre réalisé. Le cas classique où l'on empile les SI, et où l'ordre des tests décide de tout.",
+   "empreinte_texte_dit": "f603e30c3e91e6a93769960c8160e0b40a2695211451c230afbb6e0e5d5a5642",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 134208,
+   "duree_s": 8.32,
+   "caracteres_dits": 130,
+   "caracteres_factures": 520,
+   "essais": 4,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": false,
+     "wer": 0.077,
+     "transcription": "Trois taux de commission selon le chiffre réalisé. Le cas classique où l'on empile les S.I. et où l'ordre des tests décide de tout."
+    },
+    "valide": false,
+    "re_controle": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M16-L01-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Lisez le barème avant de penser à la formule, car c'est sa structure qui va imposer l'écriture. Les paliers sont repris à l'écran, du plus haut au plus bas. Cet ordre n'est pas une question de style: il détermine le résultat, et vous verrez pourquoi dans deux étapes.",
+   "empreinte_texte_dit": "2c059ed90c43d1182237fbeb5e5fb70fbe01b2b64f1c0d9a1d9c09a2db6f1959",
+   "reparations": [
+    "l'écran"
+   ],
+   "ssml": true,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 227831,
+   "duree_s": 14.16,
+   "caracteres_dits": 267,
+   "caracteres_factures": 328,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.058,
+     "transcription": "Lisez le barème avant de penser à la formule, car c'est sa structure qui va imposer l'aile et créture. Les paliers sont repris à l'écran du plus haut au plus bas. Cet ordre n'est pas une question de style. Il détermine le résultat et vous verrez pourquoi dans deux étapes."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e1-bulle1",
+   "etape_lms": "M16-L01-01",
+   "role": "Étape 1 · bulle 1 · reprise V2/V3",
+   "texte_dit": "Le palier le plus haut, réservé aux plus gros montants.",
+   "empreinte_texte_dit": "48ea440f8dfb196e21bfa8e01ce258bf6de792705d8c77f85887ea017134542e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-bulle1.mp3",
+   "octets": 46437,
+   "duree_s": 2.84,
+   "caracteres_dits": 55,
+   "caracteres_factures": 55,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.1,
+     "transcription": "Le palier le plus haut, réservé au plus gros montant."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e1-bulle2",
+   "etape_lms": "M16-L01-01",
+   "role": "Étape 1 · bulle 2 · reprise V2/V3",
+   "texte_dit": "Deux paliers: le meilleur taux va aux plus gros montants.",
+   "empreinte_texte_dit": "01d28ac51594641a3e199f06f6efbdf9819cebf6da39665cf827257de4c25930",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-bulle2.mp3",
+   "octets": 62737,
+   "duree_s": 3.84,
+   "caracteres_dits": 57,
+   "caracteres_factures": 57,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.1,
+     "transcription": "2 paliers. Le meilleur taux va au plus gros montant."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e1-bulle3",
+   "etape_lms": "M16-L01-01",
+   "role": "Étape 1 · bulle 3 · reprise V2/V3",
+   "texte_dit": "Sous le premier palier, rien. Il faut tester du plus haut au plus bas.",
+   "empreinte_texte_dit": "fa8b259cb009fe4a9ad6ad370e7b3b1417769954ba213fa33594fcba344b014e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-bulle3.mp3",
+   "octets": 58140,
+   "duree_s": 3.56,
+   "caracteres_dits": 70,
+   "caracteres_factures": 70,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Sous le premier palier, rien. Il faut tester du plus haut au plus bas."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M16-L01-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Dans la cellule C6, saisissez la fonction SI, la cellule B6 supérieur ou égal à B3, puis la cellule C3, puis SI B6 supérieur ou égal à B2, puis la cellule C2, puis SI B6 supérieur ou égal à B1, puis la cellule C1, puis 0.",
+   "empreinte_texte_dit": "ba91212852a2c706619747ef858f490fc95d1f0f82bd44c6e2c1b557255236a9",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 295541,
+   "duree_s": 18.4,
+   "caracteres_dits": 221,
+   "caracteres_factures": 442,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": false,
+     "wer": 0.2,
+     "transcription": "Dans la cellule C6, saisissez la fonction SI. La cellule B6, supérieure ou égal à B3, puis la cellule C3, puis S6, supérieure ou égal à B2, puis la cellule C2, puis S6, supérieure ou égal à B1, puis la cellule C1, puis zéro."
+    },
+    "valide": false,
+    "re_controle": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "M16-L01-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Trois SI emboîtés, tous les paliers figés par des dollars.",
+   "empreinte_texte_dit": "bc466382d006d37222a766565c624b730973ba59f1586bc8b549f6f49aff4b7c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 70261,
+   "duree_s": 4.32,
+   "caracteres_dits": 58,
+   "caracteres_factures": 58,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.1,
+     "transcription": "Trois essis emboîtés, tous les paliers figés par des dollars."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "M16-L01-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "0,06 pour Amina: 62000 euros dépasse le palier le plus haut.",
+   "empreinte_texte_dit": "1a738db96ff4780caf5fb9d372aaf631f35754a10ce8a6b2381c8036a1d50f76",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 82382,
+   "duree_s": 5.08,
+   "caracteres_dits": 60,
+   "caracteres_factures": 60,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.077,
+     "transcription": "0,06 pour Amina, 62 000 € dépassent le palier le plus haut."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M16-L01-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Voici la démonstration promise, sur un cas réel du tableau. Ce qui se passerait avec l'ordre inverse est joué à l'écran. La règle à retenir pour tous vos SI imbriqués: du plus exigeant au moins exigeant, car le premier test qui répond vrai arrête la cascade, les suivants ne sont jamais évalués.",
+   "empreinte_texte_dit": "c6c7398c687291f89ecd6b50e4ce2472daa4c4dcb9c9c21b41cda49b1ea0b008",
+   "reparations": [
+    "l'écran"
+   ],
+   "ssml": true,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 262940,
+   "duree_s": 16.36,
+   "caracteres_dits": 295,
+   "caracteres_factures": 356,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.037,
+     "transcription": "Voici la démonstration promise sur un cas réel du tableau, ce qui se passerait avec l'ordre inverse et joué à l'écran. La règle à retenir pour tous vos essis imbriqués. Du plus exigeant au moins exigeant, car le premier test qui répond vrai, arrête la cascade, les suivants ne sont jamais évalués."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e3-bulle1",
+   "etape_lms": "M16-L01-03",
+   "role": "Étape 3 · bulle 1 · reprise V2/V3",
+   "texte_dit": "Amina dépasse les trois paliers.",
+   "empreinte_texte_dit": "64f1da5ab42e87ad50e37a29b2642991b687edbb8aef25880bbf85010331f662",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-bulle1.mp3",
+   "octets": 35152,
+   "duree_s": 2.12,
+   "caracteres_dits": 32,
+   "caracteres_factures": 32,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Amina dépasse les trois paliers."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e3-bulle2",
+   "etape_lms": "M16-L01-03",
+   "role": "Étape 3 · bulle 2 · reprise V2/V3",
+   "texte_dit": "En testant d'abord le palier le plus bas, ce test l'attrape.",
+   "empreinte_texte_dit": "ef091a352565bdaa785b1bc78aa3795b87872b1097d3ce4b765aa95af0b4efac",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-bulle2.mp3",
+   "octets": 62737,
+   "duree_s": 3.84,
+   "caracteres_dits": 60,
+   "caracteres_factures": 120,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": false,
+     "wer": 0.231,
+     "transcription": "En testant d'abord le palier le plus bas, se teste la trappe."
+    },
+    "valide": false,
+    "re_controle": true
+   }
+  },
+  {
+   "id": "e3-bulle3",
+   "etape_lms": "M16-L01-03",
+   "role": "Étape 3 · bulle 3 · reprise V2/V3",
+   "texte_dit": "Et elle toucherait le taux le plus bas. Du plus exigeant au moins exigeant.",
+   "empreinte_texte_dit": "693ba1d573d8d889365a5b32f1caebb408fba552c2bca7263952f7e2b2cbf2d9",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-bulle3.mp3",
+   "octets": 79874,
+   "duree_s": 4.92,
+   "caracteres_dits": 75,
+   "caracteres_factures": 75,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "et elle toucherait le taux le plus bas, du plus exigeant au moins exigeant."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M16-L01-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Dans la cellule D6, calculez la commission: le chiffre réalisé multiplié par le taux.",
+   "empreinte_texte_dit": "7cb4ead37b2f315e14561b63cf4f76bb1aef7ccc8e5baad46acd2de1e0a777fa",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 93248,
+   "duree_s": 5.76,
+   "caracteres_dits": 85,
+   "caracteres_factures": 340,
+   "essais": 4,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Dans la cellule D6, calculez la commission. Le chiffre réalisé multiplié par le taux."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "M16-L01-04",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "3720 euros.",
+   "empreinte_texte_dit": "c7e15c1bece3e63d801179809d5d04d8164fa147190b9c2197cada11262de301",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 31808,
+   "duree_s": 1.92,
+   "caracteres_dits": 11,
+   "caracteres_factures": 11,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "3720 euros."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M16-L01-05",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Complétez les trois vendeurs restants, taux et commission.",
+   "empreinte_texte_dit": "b5c003b84f1842a8b725e5adf57bd4dc5fc95c892429c299bf5ed570bc6b5ee8",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 58140,
+   "duree_s": 3.56,
+   "caracteres_dits": 58,
+   "caracteres_factures": 58,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "complétez les trois vendeurs restants, taux et commissions."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "M16-L01-05",
+   "role": "Étape 5 · aide",
+   "texte_dit": "Sélectionnez de la cellule C6 à D6 et recopiez vers le bas jusqu'à la ligne 9.",
+   "empreinte_texte_dit": "dad31c0d4c9063059399e7282fc896d6dd9e0522fe988963b87a18c0e855c602",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 85725,
+   "duree_s": 5.28,
+   "caracteres_dits": 78,
+   "caracteres_factures": 156,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Sélectionnez de la cellule C6 à D6 et recopiez vers le bas jusqu'à la ligne 9."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e5-retour",
+   "etape_lms": "M16-L01-05",
+   "role": "Étape 5 · retour de réussite",
+   "texte_dit": "David est sous le premier palier: taux nul, commission nulle. Le barème fonctionne aux quatre niveaux.",
+   "empreinte_texte_dit": "68167ccc307e42c4389aefcb4ccae5eac03a0f8c10b24c48fd687cf4c23e4f58",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-retour.mp3",
+   "octets": 104115,
+   "duree_s": 6.44,
+   "caracteres_dits": 102,
+   "caracteres_factures": 102,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.125,
+     "transcription": "David est sous le premier palier. Taux nuls, commission nuls. Le barème fonctionne au 4 niveaux."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M16-L01-06",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "Dans la cellule G6, calculez le coût total des commissions.",
+   "empreinte_texte_dit": "bd21411467efa1a2c53d6b98f2e4aa8e4f79e9d068671079e8f318b3df6281fa",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 61066,
+   "duree_s": 3.76,
+   "caracteres_dits": 59,
+   "caracteres_factures": 59,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Dans la cellule G6, calculez le coût total des commissions."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e6-retour",
+   "etape_lms": "M16-L01-06",
+   "role": "Étape 6 · retour de réussite",
+   "texte_dit": "5320 euros. Changez un palier en de la cellule B1 à B3 et tout se recalcule, c'est l'intérêt d'avoir sorti le barème des formules.",
+   "empreinte_texte_dit": "6fc98e01bbdd894cdef8e64b3f7499ae1e5c564f62d2d66016d762f1db539c56",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-retour.mp3",
+   "octets": 145075,
+   "duree_s": 9.0,
+   "caracteres_dits": 130,
+   "caracteres_factures": 260,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.037,
+     "transcription": "5 320 €. Changer un palier en de la cellule B1 à B3 et tout se recalcule. C'est l'intérêt d'avoir sorti le barème des formules."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Vous savez appliquer un barème à paliers et vérifier votre résultat.",
+   "empreinte_texte_dit": "44e2b0f7681d18bac998181427bb644c73af5ae5abaac7ef1621dd15e0ac0b55",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 63155,
+   "duree_s": 3.88,
+   "caracteres_dits": 68,
+   "caracteres_factures": 68,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Vous savez appliquer un barème à palier et vérifier votre résultat."
+    },
+    "valide": true
+   }
+  }
+ ]
+}

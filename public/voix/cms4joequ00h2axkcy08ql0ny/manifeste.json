@@ -1,0 +1,658 @@
+{
+ "chapitre": {
+  "chapterId": "cms4joequ00h2axkcy08ql0ny",
+  "app": "EXCEL",
+  "section": "",
+  "titre": "Mettre à jour un tableau croisé dynamique"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 22,
+  "caracteres_dits": 2312,
+  "duree_totale_s": 138.8,
+  "segments_valides": 21,
+  "segments_plusieurs_essais": 1,
+  "segments_jamais_valides": 1
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Un tableau croisé ne recalcule pas tout seul. Il garde les chiffres du jour où il a été construit, jusqu'à ce qu'on le lui demande. C'est déroutant une fois, puis c'est un réflexe.",
+   "empreinte_texte_dit": "2a375c0098633abff03877adecb5b62cf04d57171dbcbaaed8a0a81f25ed27c1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 149673,
+   "duree_s": 9.28,
+   "caracteres_dits": 180,
+   "caracteres_factures": 180,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Un tableau croisé ne recalcule pas tout seul.\n Il garde les chiffres du jour où il a été construit, jusqu'\nà ce qu'on le lui demande.\n C'est déroutant une fois, puis c'est un réflexe."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Un tableau croisé ne recalcule pas tout seul.\n Il garde les chiffres du jour où il a été construit,\n jusqu'à ce qu'on le lui demande.\n C'est déroutant une fois, puis c'est un réflexe."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M20-L03-01",
+   "role": "Etape 1 · consigne",
+   "texte_dit": "Une facture était fausse : une vente vaut 2780 euros, et non 1780. À vous : corrigez la cellule E4.",
+   "empreinte_texte_dit": "97c39623778f20590843cad327982bffd02991a1024ab6701b3d7b9651bba5f1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 141732,
+   "duree_s": 8.8,
+   "caracteres_dits": 99,
+   "caracteres_factures": 99,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Une facture était fausse. Une vente vaut 2780 euros et non\n 1780.\n À vous, corrigez la cellule E4."
+    },
+    "moteur_second_medium": {
+     "ok": false,
+     "wer": 0.0,
+     "transcription": "Une facture était fausse. Une vente vaut 2 780 € et non 1 7\n80.\n À vous, corrigez la cellule E4."
+    },
+    "valide_sur_les_deux": false
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "M20-L03-01",
+   "role": "Etape 1 · aide",
+   "texte_dit": "Tapez la nouvelle valeur, puis validez avec Entrée.",
+   "empreinte_texte_dit": "3b81df27935adf586470f6e5124ab7bb3d874b4a74539f0e103dca64c26d6886",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 49781,
+   "duree_s": 3.04,
+   "caracteres_dits": 51,
+   "caracteres_factures": 51,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Tapper la nouvelle valeur, puis valider avec Entrée."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Tapez la nouvelle valeur, puis validez avec Entrée."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-feedback",
+   "etape_lms": "M20-L03-01",
+   "role": "Etape 1 · retour de reussite",
+   "texte_dit": "La correction est saisie. Le tableau croisé, lui, n'a pas bougé. C'est normal, et c'est tout le sujet de cette leçon.",
+   "empreinte_texte_dit": "fc0832db6a71f6affd95fa4d57752b8430d8887a62772145ba7c55e9be4bb9dc",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-feedback.mp3",
+   "octets": 114564,
+   "duree_s": 7.08,
+   "caracteres_dits": 117,
+   "caracteres_factures": 117,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La correction est saisie. Le tableau croisé, lui n'a pas\n bougé. C'est normal.\n Et c'est tout le sujet de cette leçon."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La correction est saisie. Le tableau croisé, lui n'a pas\n bougé. C'est normal. Et c'est tout le sujet de cette leçon."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M20-L03-02",
+   "role": "Etape 2 · consigne",
+   "texte_dit": "Voici le comportement qui surprend tout le monde la première fois. Le décalage est pointé à l'écran. Un tableau croisé ne lit pas la source en permanence : il travaille sur une photographie prise au moment de sa construction. Tant qu'on ne l'actualise pas, une correction apportée aux données ne l'atteint pas.",
+   "empreinte_texte_dit": "96b3a78db045e53f13b3fa2ab356a2295aae87718a22525ce246511c4e8d9e44",
+   "reparations": [
+    "l'écran"
+   ],
+   "ssml": true,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 248311,
+   "duree_s": 15.44,
+   "caracteres_dits": 310,
+   "caracteres_factures": 371,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Voici le comportement qui surprend tout le monde la\n première fois.\n Le décalage est pointé à l'écran.\n Un tableau croisé ne lit pas la source en permanence.\n Il travaille sur une photographie prise au moment de sa\n construction.\n Tant qu'on ne l'actualise pas, une correction apportée aux\n données ne l'atteint pas."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Voici le comportement qui surprend tout le monde la\n première fois.\n Le décalage est pointé à l'écran.\n Un tableau croisé ne lit pas la source en permanence.\n Il travaille sur une photographie prise au moment de sa\n construction.\n Tant qu'on ne l'actualise pas, une correction apportée aux\n données ne l'atteint pas."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-bulle1",
+   "etape_lms": "M20-L03-02",
+   "role": "Etape 2 · bulle 1 sur E2",
+   "texte_dit": "La source a été corrigée ici.",
+   "empreinte_texte_dit": "699249f634c266c161e741005040bbdab150bd6bce128b5d65dd341910f58e9a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-bulle1.mp3",
+   "octets": 32644,
+   "duree_s": 1.96,
+   "caracteres_dits": 29,
+   "caracteres_factures": 29,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La source a été corrigée ici."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La source a été corrigée ici."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-bulle2",
+   "etape_lms": "M20-L03-02",
+   "role": "Etape 2 · bulle 2 sur I5",
+   "texte_dit": "Mais le tableau croisé affiche toujours l'ancien total.",
+   "empreinte_texte_dit": "a72d1f6a014d1134b3b723fa7c2c54ffd667a0c018ed805858a8a4669ab6beb4",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-bulle2.mp3",
+   "octets": 51035,
+   "duree_s": 3.12,
+   "caracteres_dits": 55,
+   "caracteres_factures": 55,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Mais le tableau croisé affiche toujours l'ancien total."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Mais le tableau croisé affiche toujours l'ancien total."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-bulle3",
+   "etape_lms": "M20-L03-02",
+   "role": "Etape 2 · bulle 3 sur A1:F5",
+   "texte_dit": "Il travaille sur une photographie de la source, prise à sa construction.",
+   "empreinte_texte_dit": "bb8e9152d8ec24660e15d99b76e6f4107d402cdadf75c74d5e86a1afe9689edb",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-bulle3.mp3",
+   "octets": 60648,
+   "duree_s": 3.72,
+   "caracteres_dits": 72,
+   "caracteres_factures": 72,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Il travaille sur une photographie de la source prise à sa\n construction."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Il travaille sur une photographie de la source prise à sa\n construction."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M20-L03-03",
+   "role": "Etape 3 · consigne",
+   "texte_dit": "À vous : cliquez sur Actualiser, dans l'onglet Analyse du tableau croisé. Le total de la région corrigée doit enfin bouger.",
+   "empreinte_texte_dit": "9a4f8c65062f422bd78f156e33029c431088d625664a800615ddc0ec52f84494",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 117490,
+   "duree_s": 7.28,
+   "caracteres_dits": 123,
+   "caracteres_factures": 123,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous, cliquez sur Actualiser dans l'onglet Analyse du\n tableau croisé.\n Le total de la région corrigeée doit enfin bouger."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous ! Cliquez sur Actualiser dans l'onglet Analyse du\n tableau croisé.\n Le total de la région corrigée doit enfin bouger."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "M20-L03-03",
+   "role": "Etape 3 · aide",
+   "texte_dit": "Le bouton Actualiser se trouve dans le groupe Requêtes et connexions.",
+   "empreinte_texte_dit": "b980164d18da992ac452e8fcf92f3c070a8bb27a1555264e5fcb03ff447a9dd7",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 59812,
+   "duree_s": 3.68,
+   "caracteres_dits": 69,
+   "caracteres_factures": 69,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.023,
+     "transcription": "Le bouton Actualisé se trouve dans le groupe Requête et Con\nnexion."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.047,
+     "transcription": "Le bouton Actualiser se trouve dans le groupe Request et\n Connexions."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-feedback",
+   "etape_lms": "M20-L03-03",
+   "role": "Etape 3 · retour de reussite",
+   "texte_dit": "Le total de la région et le total général ont bougé. Actualiser relit la source, et recalcule tout.",
+   "empreinte_texte_dit": "3884ad21f4525f689ef6126bfbfe786b459079e1d37553cc7aabe848269e510e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-feedback.mp3",
+   "octets": 106623,
+   "duree_s": 6.6,
+   "caracteres_dits": 99,
+   "caracteres_factures": 99,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le total de la région et le total général ont bougé.\n Actualisez, relis la source et recalcule tout."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le total de la région et le total général ont bougé.\n Actualisez, relis la source et recalcule tout."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M20-L03-04",
+   "role": "Etape 4 · consigne",
+   "texte_dit": "Deuxième cas, plus délicat que le précédent : une vente supplémentaire vient d'être saisie tout en bas de la liste. Ce n'est plus une valeur corrigée, c'est une ligne qui n'existait pas au moment où le tableau croisé a été construit.",
+   "empreinte_texte_dit": "0040faca1a3bbe7e30451444e294b18f90b6bc9f6985a3837a0614a4aa81d4ac",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 189379,
+   "duree_s": 11.76,
+   "caracteres_dits": 233,
+   "caracteres_factures": 233,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Deuxième cas, plus délicat que le précédent.\n Une vente supplémentaire vient d'être saisie tout en bas de\n la liste.\n Ce n'est plus une valeur corrigée, c'est une ligne qui n'\nexistait pas au moment où\n le tableau croisé a été construit."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Deuxième cas, plus délicat que le précédent, une vente\n supplémentaire vient d'être saisie tout en bas de la liste.\n Ce n'est plus une valeur corrigée, c'est une ligne qui n'\nexistait pas au moment où le tableau croisé a été construit."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M20-L03-05",
+   "role": "Etape 5 · consigne",
+   "texte_dit": "À vous : actualisez de nouveau le tableau croisé.",
+   "empreinte_texte_dit": "39797b461e68020c7ff4a7892003ffa90d37408129b73cb4b257f6057559f636",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 54796,
+   "duree_s": 3.36,
+   "caracteres_dits": 49,
+   "caracteres_factures": 49,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous, actualisez de nouveau le tableau croisé."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous ! Actualisez de nouveau le tableau croisé."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "M20-L03-05",
+   "role": "Etape 5 · aide",
+   "texte_dit": "C'est le même bouton Actualiser.",
+   "empreinte_texte_dit": "8c429d606acc5f1c44dbf868600f88c63463ce7df83b28d395181d41fc371623",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 33898,
+   "duree_s": 2.04,
+   "caracteres_dits": 32,
+   "caracteres_factures": 32,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "C'est le même bouton Actualisé."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "C'est le même bouton Actualiser."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-feedback",
+   "etape_lms": "M20-L03-05",
+   "role": "Etape 5 · retour de reussite",
+   "texte_dit": "Rien n'a changé. La nouvelle ligne est hors de la plage source : Actualiser relit la plage, il ne l'élargit pas.",
+   "empreinte_texte_dit": "cda7728c5ec2b1450026c9c468791ecbadc293a7d98a90a8b7451645a7b6c998",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-feedback.mp3",
+   "octets": 129193,
+   "duree_s": 8.0,
+   "caracteres_dits": 112,
+   "caracteres_factures": 112,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.061,
+     "transcription": "Rien n'a changé. La nouvelle ligne est hors de la plage\n source.\n Actualisé relit la plage, il ne l'est et l'argie pas."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.03,
+     "transcription": "Rien n'a changé. La nouvelle ligne est hors de la plage\n source.\n Actualisé relis la plage, il ne l'aile, élargit pas."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M20-L03-06",
+   "role": "Etape 6 · consigne",
+   "texte_dit": "À vous : modifiez la source de données du tableau, pour qu'elle descende jusqu'à la nouvelle ligne.",
+   "empreinte_texte_dit": "fc42e11ec987625938fb5a949f3643a30a96d977d541614332a891d568a532e3",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 96592,
+   "duree_s": 5.96,
+   "caracteres_dits": 99,
+   "caracteres_factures": 99,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous, modifiez la source de données du tableau pour qu'\nelle descende jusque à la nouvelle ligne."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous ! Modifiez la source de données du tableau pour qu'\nelle descende jusqu'à la nouvelle ligne."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-aide",
+   "etape_lms": "M20-L03-06",
+   "role": "Etape 6 · aide",
+   "texte_dit": "Onglet Analyse du tableau croisé, bouton Modifier la source de données : étendez la plage d'une ligne.",
+   "empreinte_texte_dit": "bf1fd183475aa73e9438befd129f0546bf98ea9312a9964bf2cbf57c9653c57a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-aide.mp3",
+   "octets": 105369,
+   "duree_s": 6.52,
+   "caracteres_dits": 102,
+   "caracteres_factures": 102,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Onglet Analyse du tableau croisé, bouton Modifier la source\n de données, étender la plage d'une ligne."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Onglet Analyse du tableau croisé, bouton Modifier la source\n de données, étendez la plage d'une ligne."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-feedback",
+   "etape_lms": "M20-L03-06",
+   "role": "Etape 6 · retour de reussite",
+   "texte_dit": "Cette fois la vente est comptée : 80000 euros. Retenez l'ordre : élargir la source, puis actualiser.",
+   "empreinte_texte_dit": "a426a9eedf6fcfc354dfb3b40963e65af977e84c7a14fc50709fbd9dec31bdb1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-feedback.mp3",
+   "octets": 107877,
+   "duree_s": 6.68,
+   "caracteres_dits": 100,
+   "caracteres_factures": 100,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Cette fois, la vente est comptée, 80 000 euros.\n Retenez l'ordre, élargir la source, puis actualisez."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Cette fois, la vente est comptée, 80 000 €.\n Retenez l'ordre, élargir la source, puis actualiser."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "M20-L03-07",
+   "role": "Etape 7 · consigne",
+   "texte_dit": "Dernier contrôle. À vous : dans la cellule B35, additionnez toute la colonne des montants. Le total doit égaler celui du tableau croisé.",
+   "empreinte_texte_dit": "0cab5e268f65375b278a675a3dde43d393981d129ec6bd051c2b983a1406c579",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 155524,
+   "duree_s": 9.64,
+   "caracteres_dits": 136,
+   "caracteres_factures": 136,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Dernier contrôle.\n À vous, dans la cellule B35, additionnez toute la colonne\n des montants.\n Le total doit égaler celui du tableau croisé."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Dernier contrôle.\n À vous, dans la cellule B35, additionnez toute la colonne\n des montants.\n Le total doit égaler celui du tableau croisé."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-aide",
+   "etape_lms": "M20-L03-07",
+   "role": "Etape 7 · aide",
+   "texte_dit": "Faites une somme sur la colonne entière, jusqu'à la dernière ligne.",
+   "empreinte_texte_dit": "cb88b3d34f6e3f4ac25796f78e7c6ca3ab76cd4a59f32af791d4d1356c76532e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-aide.mp3",
+   "octets": 74858,
+   "duree_s": 4.6,
+   "caracteres_dits": 67,
+   "caracteres_factures": 67,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Faites une somme sur la colonne entière jusqu'à la dernière\n ligne."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Faites une somme sur la colonne entière jusqu'à la dernière\n ligne."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-feedback",
+   "etape_lms": "M20-L03-07",
+   "role": "Etape 7 · retour de reussite",
+   "texte_dit": "Les deux chiffres coïncident : votre tableau croisé est à jour.",
+   "empreinte_texte_dit": "809f3eaaf18409969bfa2625b2cc304c4f11a70cb06512935b9eb16eeeaae597",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-feedback.mp3",
+   "octets": 59812,
+   "duree_s": 3.68,
+   "caracteres_dits": 63,
+   "caracteres_factures": 63,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Les deux chiffres coincident. Votre tableau croisé est à\n jour."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Les deux chiffres coïncident. Votre tableau croisé est à\n jour."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Vous savez actualiser un tableau croisé après correction, et reconnaître le cas où il faut élargir la plage source.",
+   "empreinte_texte_dit": "0aa21964fb0139f43a46c363b108a957e9d56b590228fb7025c15788624b1cf1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 105369,
+   "duree_s": 6.52,
+   "caracteres_dits": 115,
+   "caracteres_factures": 115,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Vous savez actualiser un tableau croisé après correction et\n reconnaître le cas où il faut élargir la plage source."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Vous savez actualiser un tableau croisé après correction et\n reconnaître le cas où il faut élargir la plage source."
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

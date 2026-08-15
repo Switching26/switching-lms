@@ -1,0 +1,610 @@
+{
+ "chapitre": {
+  "chapterId": "cms4job270092axkcayu0ktiq",
+  "app": "Excel",
+  "section": "Saisie semi-automatique et recopie",
+  "titre": "Importer un relevé et le compléter"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)"
+  ],
+  "criteres": [
+   "WER sous le seuil, adapte a la longueur du segment",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe le moteur severe"
+ },
+ "totaux": {
+  "segments": 26,
+  "caracteres_dits": 2874,
+  "duree_totale_s": 169.6,
+  "segments_valides": 26,
+  "segments_plusieurs_essais": 3,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Un export occupe la colonne A, un second relevé attend dans le presse-papiers. Les retaper, c'est une demi-heure de perdue et deux fautes de frappe. Deux boutons suffisent à les faire entrer dans la feuille, prêts à calculer.",
+   "empreinte_texte_dit": "5bfe99bf3a2b543da72ac1c642232b0597af152ca28207f58b55838af0d05261",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 195648,
+   "duree_s": 12.16,
+   "caracteres_dits": 225,
+   "caracteres_factures": 225,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.049,
+     "transcription": "Un export occupe la colonne A, un second relevé attend dans le presse papier. Les retaper, c'est une demi-heure de perdu et deux fautes de frappe. Deux boutons suffisent à les faire entrer dans la feuille, prêts à calculer."
+    }
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M12-L03-01",
+   "role": "Etape 1 · consigne, dite a l'arrivee",
+   "texte_dit": "Voici à quoi ressemble un export brut avant traitement, et c'est le point de départ de la plupart des imports. Quatre informations sont empilées dans une seule cellule, séparées par des points-virgules. En l'état, aucun calcul n'est possible : pour Excel, la ligne entière n'est qu'une phrase. L'outil Convertir, dans l'onglet Données, va la découper en colonnes.",
+   "empreinte_texte_dit": "17351d435b3f2c9e9022e16c239c6e8a1c738ae58f3b08638092c6decf7d2957",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 358653,
+   "duree_s": 22.36,
+   "caracteres_dits": 363,
+   "caracteres_factures": 363,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.031,
+     "transcription": "Voici à quoi ressemble un export brut avant traitement et c'est le point de départ de la plupart des imports. 4 informations sont empilées dans une seule cellule séparées par des points virgules. En L, État, aucun calcul n'est possible. Pour Excel, la ligne entière n'est qu'une phrase. L'outil Convertir, dans l'onglet Donner, va la découper en colonne."
+    }
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M12-L03-02",
+   "role": "Etape 2 · consigne, dite a l'arrivee",
+   "texte_dit": "Les quatre lignes sont sélectionnées, en-tête comprise. Cliquez sur Convertir, en choisissant le point-virgule comme séparateur. La colonne unique doit se scinder en quatre.",
+   "empreinte_texte_dit": "53186c7ca93a931e3023f1b0ae8bda3817f62d1ad7efe98ca1fee5b2dfc3ee72",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 170153,
+   "duree_s": 10.56,
+   "caracteres_dits": 173,
+   "caracteres_factures": 173,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.038,
+     "transcription": "Les quatre lignes sont sélectionnées, en tête comprise. Cliquez sur Convertir, en choisissant le point virgule comme séparateur. La colonne unique doit se cinder en 4."
+    }
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "M12-L03-02",
+   "role": "Etape 2 · aide, dite au devoilement",
+   "texte_dit": "C'est le bouton Convertir, dans le groupe Outils de données.",
+   "empreinte_texte_dit": "47c7be3fc047e78a9e41f8c2c2fc89d64a322b27fb879ac36d8725c29dd67a60",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 53124,
+   "duree_s": 3.24,
+   "caracteres_dits": 60,
+   "caracteres_factures": 60,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.091,
+     "transcription": "C'est le bouton Convertir dans le groupe outil de données."
+    }
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M12-L03-03",
+   "role": "Etape 3 · consigne, dite a l'arrivee",
+   "texte_dit": "Il manque une colonne de total. Dans la cellule E1, saisissez l'en-tête.",
+   "empreinte_texte_dit": "53321183373625e511b513e498b42ada61b7e1ceac5c35093465b659f84d5607",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 77366,
+   "duree_s": 4.76,
+   "caracteres_dits": 72,
+   "caracteres_factures": 72,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.077,
+     "transcription": "Il manque une colonne de totale. Dans la cellule E1, saisissez l'entête."
+    }
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "M12-L03-03",
+   "role": "Etape 3 · aide, dite au devoilement",
+   "texte_dit": "Un simple mot, dans la première cellule libre de la ligne d'en-têtes.",
+   "empreinte_texte_dit": "90a6fdc46962b10991b5947051e1da62bd4ef0ca2bc5b433b6d8e578751458ec",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 69425,
+   "duree_s": 4.28,
+   "caracteres_dits": 69,
+   "caracteres_factures": 138,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.071,
+     "transcription": "Un simple mot dans la première cellule libre de la ligne d'en tête."
+    }
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M12-L03-04",
+   "role": "Etape 4 · consigne, dite a l'arrivee",
+   "texte_dit": "Dans la cellule E2, calculez le total de la première ligne.",
+   "empreinte_texte_dit": "f5b8c85330fe9a9ba5a56522632399b9a63760137c4bdd058d9321960348683b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 66917,
+   "duree_s": 4.12,
+   "caracteres_dits": 59,
+   "caracteres_factures": 59,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Dans la cellule E2, calculez le total de la première ligne."
+    }
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "M12-L03-04",
+   "role": "Etape 4 · aide, dite au devoilement",
+   "texte_dit": "C'est la quantité multipliée par le prix unitaire.",
+   "empreinte_texte_dit": "fec4ad2460721358639433da3a4de34a3361e64f4bb49972ec3004404e7099f4",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 53542,
+   "duree_s": 3.28,
+   "caracteres_dits": 50,
+   "caracteres_factures": 50,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "C'est la quantité multipliée par le prix unitaire."
+    }
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M12-L03-05",
+   "role": "Etape 5 · consigne, dite a l'arrivee",
+   "texte_dit": "Recopiez la formule vers le bas, pour les deux autres articles.",
+   "empreinte_texte_dit": "cec45857ead6d897da1511c82b6500f675463e72546ec44eef8f00d89311e411",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 65245,
+   "duree_s": 4.0,
+   "caracteres_dits": 63,
+   "caracteres_factures": 63,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Recopiez la formule vers le bas pour les deux autres articles."
+    }
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "M12-L03-05",
+   "role": "Etape 5 · aide, dite au devoilement",
+   "texte_dit": "Attrapez la poignée de recopie, en bas à droite de la cellule, et tirez vers le bas.",
+   "empreinte_texte_dit": "af0d6e3cabe60eb8d3ddca2650388ab08866edd32b22f78769ac70307e9f6663",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 77366,
+   "duree_s": 4.76,
+   "caracteres_dits": 84,
+   "caracteres_factures": 84,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Attrapez la poignée de recopie en bas à droite de la cellule et tirez vers le bas."
+    }
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M12-L03-06",
+   "role": "Etape 6 · consigne, dite a l'arrivee",
+   "texte_dit": "Tous les imports ne demandent pas le même travail, et mieux vaut le reconnaître avant de se lancer. Les deux cas sont comparés. La règle : quand les champs sont séparés par des tabulations, le collage fait le découpage tout seul. Il n'y a rien à convertir.",
+   "empreinte_texte_dit": "a179c03c28a79280e7db3580e1924f1896e51cd3e30eb681042357e6a70386c9",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 232011,
+   "duree_s": 14.44,
+   "caracteres_dits": 256,
+   "caracteres_factures": 256,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.043,
+     "transcription": "Tous les imports ne demandent pas le même travail et mieux vaut le reconnaître avant de se lancer. Les deux cas sont comparés. La règle, quand les champs sont séparés par d'établations, le collage fait le découpage tout seul. Il n'y a rien à convertir."
+    }
+   }
+  },
+  {
+   "id": "e6-bulle1",
+   "etape_lms": "M12-L03-06",
+   "role": "Etape 6 · bulle sur A2",
+   "texte_dit": "Le premier relevé était séparé par des points-virgules : il a fallu le convertir.",
+   "empreinte_texte_dit": "87ea8e0b6447edbb5eba75c6f6e690976b903cdcdfb6201b79234756f21b6519",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-bulle1.mp3",
+   "octets": 69425,
+   "duree_s": 4.28,
+   "caracteres_dits": 81,
+   "caracteres_factures": 81,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le premier relevé était séparé par des points virgules. Il a fallu le convertir."
+    }
+   }
+  },
+  {
+   "id": "e6-bulle2",
+   "etape_lms": "M12-L03-06",
+   "role": "Etape 6 · bulle sur A6",
+   "texte_dit": "Le second arrive déjà tabulé, et le collage sait le découper tout seul.",
+   "empreinte_texte_dit": "1a4c8bea5e7d2fc2e73ba702b06179a38e667687512540814368a7dcea7da3b6",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-bulle2.mp3",
+   "octets": 70679,
+   "duree_s": 4.36,
+   "caracteres_dits": 71,
+   "caracteres_factures": 71,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le second arrive déjà tabulé et le collage sait le découper tout seul."
+    }
+   }
+  },
+  {
+   "id": "e6-bulle3",
+   "etape_lms": "M12-L03-06",
+   "role": "Etape 6 · bulle sur A6",
+   "texte_dit": "Rien à convertir : il suffit de le coller sous le premier.",
+   "empreinte_texte_dit": "7561e7b6c10d6131f6ef46a5e9537fe02c3ebf0dafb61785158568698a05048e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-bulle3.mp3",
+   "octets": 58140,
+   "duree_s": 3.56,
+   "caracteres_dits": 58,
+   "caracteres_factures": 58,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Rien à convertir. Il suffit de le coller sous le premier."
+    }
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "M12-L03-07",
+   "role": "Etape 7 · consigne, dite a l'arrivee",
+   "texte_dit": "La cellule de destination est sélectionnée. Cliquez sur Coller pour déposer le relevé. Il se dépose sous le premier, déjà découpé en colonnes.",
+   "empreinte_texte_dit": "7d41075bb2d73f7b5f22a6e18b0beb3fd7d4f071c5d629782c6706dae42a75a0",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 142986,
+   "duree_s": 8.88,
+   "caracteres_dits": 142,
+   "caracteres_factures": 142,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.087,
+     "transcription": "La cellule de destination est sélectionnée. Cliquez sur colère pour déposer le relevé. Il se dépose sous le premier, déjà découpé en colonne."
+    }
+   }
+  },
+  {
+   "id": "e7-aide",
+   "etape_lms": "M12-L03-07",
+   "role": "Etape 7 · aide, dite au devoilement",
+   "texte_dit": "C'est le bouton Coller, dans le groupe Presse-papiers.",
+   "empreinte_texte_dit": "00fabaa3e8f09f7c54ae5425eabe141c4cd885cacb6ebafd873e5739b257bad6",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-aide.mp3",
+   "octets": 47273,
+   "duree_s": 2.88,
+   "caracteres_dits": 54,
+   "caracteres_factures": 108,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.1,
+     "transcription": "C'est le bouton coller dans le groupe presse-papier."
+    }
+   }
+  },
+  {
+   "id": "e8-consigne",
+   "etape_lms": "M12-L03-08",
+   "role": "Etape 8 · consigne, dite a l'arrivee",
+   "texte_dit": "Dans la cellule E6, calculez le total de la première ligne collée.",
+   "empreinte_texte_dit": "c35153950444d8f2745654b4f2d9571978776de755fb306fff3c0efb57c63a1c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-consigne.mp3",
+   "octets": 72768,
+   "duree_s": 4.48,
+   "caracteres_dits": 66,
+   "caracteres_factures": 66,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Dans la cellule E6, calculez le total de la première ligne collée."
+    }
+   }
+  },
+  {
+   "id": "e8-aide",
+   "etape_lms": "M12-L03-08",
+   "role": "Etape 8 · aide, dite au devoilement",
+   "texte_dit": "Même formule que plus haut, une ligne plus bas.",
+   "empreinte_texte_dit": "dffb75255d74a9b47a1e52540b6a148d3f7e88d961ee6edf1542c867e720399c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-aide.mp3",
+   "octets": 53542,
+   "duree_s": 3.28,
+   "caracteres_dits": 47,
+   "caracteres_factures": 47,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Même formule que plus haut, une ligne plus bas."
+    }
+   }
+  },
+  {
+   "id": "e9-consigne",
+   "etape_lms": "M12-L03-09",
+   "role": "Etape 9 · consigne, dite a l'arrivee",
+   "texte_dit": "Recopiez cette formule vers le bas, jusqu'à la fin du second relevé.",
+   "empreinte_texte_dit": "c07b959281cda5706f3d29309258501d1f2ebfb2db3173e38d26667df3fd40a4",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-consigne.mp3",
+   "octets": 71933,
+   "duree_s": 4.44,
+   "caracteres_dits": 68,
+   "caracteres_factures": 68,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Recopiez cette formule vers le bas jusqu'à la fin du second relevé."
+    }
+   }
+  },
+  {
+   "id": "e9-aide",
+   "etape_lms": "M12-L03-09",
+   "role": "Etape 9 · aide, dite au devoilement",
+   "texte_dit": "Attrapez la poignée de recopie, et descendez de quatre lignes.",
+   "empreinte_texte_dit": "20a5b7f1a2879b749fc7d7d450db7cd3d1db227e3413201349ccbd0fa0fff2ee",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-aide.mp3",
+   "octets": 58140,
+   "duree_s": 3.56,
+   "caracteres_dits": 62,
+   "caracteres_factures": 62,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Attrapez la poignée de recopie et descendez de quatre lignes."
+    }
+   }
+  },
+  {
+   "id": "e10-consigne",
+   "etape_lms": "M12-L03-10",
+   "role": "Etape 10 · consigne, dite a l'arrivee",
+   "texte_dit": "Dans la cellule E12, additionnez les deux parties du relevé.",
+   "empreinte_texte_dit": "a7315d36a09485a0a4896a83e925eb884c14be8a998bcae0efe8a17c93c727b1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e10-consigne.mp3",
+   "octets": 56050,
+   "duree_s": 3.44,
+   "caracteres_dits": 60,
+   "caracteres_factures": 60,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Dans la cellule E12, additionnez les deux parties du relevé."
+    }
+   }
+  },
+  {
+   "id": "e11-consigne",
+   "etape_lms": "M12-L03-11",
+   "role": "Etape 11 · consigne, dite a l'arrivee",
+   "texte_dit": "Le réflexe à garder après tout import, quel qu'en soit le format : vérifier qu'un calcul passe. Les deux pannes classiques sont montrées. Une multiplication d'essai sur la première ligne coûte cinq secondes, et vous évite de bâtir un fichier entier sur des nombres qui n'en sont pas.",
+   "empreinte_texte_dit": "881de3ee7d5c61eca02185a66469b740bb85238ceef1637a1a632e0278c2b9cf",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e11-consigne.mp3",
+   "octets": 234101,
+   "duree_s": 14.56,
+   "caracteres_dits": 283,
+   "caracteres_factures": 283,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.078,
+     "transcription": "Le réflexe à garder après tout import quel qu'en soit le format. Vérifiez qu'un calcul passe. Les deux panne classiques sont montrés. Une multiplication d'essais sur la première ligne coûte 5 secondes et vous évite de bâtir un fichier entier sur des nombres qui n'en sont pas."
+    }
+   }
+  },
+  {
+   "id": "e11-bulle1",
+   "etape_lms": "M12-L03-11",
+   "role": "Etape 11 · bulle sur A2",
+   "texte_dit": "Une fois l'import terminé, vérifiez qu'un calcul passe.",
+   "empreinte_texte_dit": "fbac9bf31e5c82c8c4305f99fdca9d8c1ee8c38a6b03da5bce9b945acb87d7df",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e11-bulle1.mp3",
+   "octets": 57304,
+   "duree_s": 3.52,
+   "caracteres_dits": 55,
+   "caracteres_factures": 55,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Une fois l'import terminé, vérifiez qu'un calcul passe."
+    }
+   }
+  },
+  {
+   "id": "e11-bulle2",
+   "etape_lms": "M12-L03-11",
+   "role": "Etape 11 · bulle sur D12",
+   "texte_dit": "Des nombres arrivés en texte s'alignent à gauche, et refusent de s'additionner.",
+   "empreinte_texte_dit": "082f8957f14be5992fef5f895907d0821d222156fd4511f740af1e5f48fb7097",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e11-bulle2.mp3",
+   "octets": 62737,
+   "duree_s": 3.84,
+   "caracteres_dits": 79,
+   "caracteres_factures": 79,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Des nombres arrivés en texte s'alignent à gauche et refusent de s'additionner."
+    }
+   }
+  },
+  {
+   "id": "e11-bulle3",
+   "etape_lms": "M12-L03-11",
+   "role": "Etape 11 · bulle sur D12",
+   "texte_dit": "Et une virgule mal placée multiplie un montant par cent. Une multiplication d'essai suffit.",
+   "empreinte_texte_dit": "e4b7f69399fa24d34b388ac449e50e31720456739035982dd5cdd4dfefe9769c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e11-bulle3.mp3",
+   "octets": 97010,
+   "duree_s": 6.0,
+   "caracteres_dits": 91,
+   "caracteres_factures": 182,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.143,
+     "transcription": "Et 1, mal placé multiplie un montant par 100. Une multiplication des C suffit."
+    }
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Vous savez découper un export arrivé en une seule colonne, coller un relevé déjà tabulé, et vérifier que les nombres importés sont bien des nombres. Ensuite, la recopie fait le reste.",
+   "empreinte_texte_dit": "4ed19284c0d0fa0cd8dad949d65e37753ab72dc4f647f7df2ccc6976defcc16f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 169317,
+   "duree_s": 10.52,
+   "caracteres_dits": 183,
+   "caracteres_factures": 183,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Vous savez découper un export arrivé en une seule colonne, coller un relevé déjà tabulé, et vérifier que les nombres importés sont bien des nombres. Ensuite, la recopie fait le reste."
+    }
+   }
+  }
+ ]
+}

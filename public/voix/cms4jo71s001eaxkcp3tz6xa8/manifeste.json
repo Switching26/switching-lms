@@ -1,0 +1,859 @@
+{
+ "chapitre": {
+  "chapterId": "cms4jo71s001eaxkcp3tz6xa8",
+  "app": "Excel",
+  "section": "Saisie des données",
+  "titre": "Saisir des dates et des heures"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)"
+  ],
+  "criteres": [
+   "WER <= 0.15",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe le moteur severe"
+ },
+ "totaux": {
+  "segments": 35,
+  "caracteres_dits": 3499,
+  "duree_totale_s": 220.2,
+  "segments_valides": 28,
+  "segments_plusieurs_essais": 13,
+  "segments_jamais_valides": 7
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Une date et une heure ne sont pas du texte: Excel les stocke comme des nombres, et c'est ce qui permet de calculer des délais et des durées. Encore faut-il les saisir sous une forme qu'il reconnaît.",
+   "empreinte_texte_dit": "cebab1382338a1aa8d2b7a978f59deb1074d72fb5d3c0b74d6ea7dd2bd41c0ae",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 164302,
+   "duree_s": 10.2,
+   "caracteres_dits": 198,
+   "caracteres_factures": 198,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.05,
+     "transcription": "Une date et une heure ne sont pas du texte. Excellent les stocks comme des nombres, et c'est ce qui permet de calculer des délais et des durées. Encore faut-il les saisir sous une forme qu'il reconnaît."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M02-L04-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Une date se saisit avec des barres obliques. Dans la cellule B4, saisissez 15/03/2026.",
+   "empreinte_texte_dit": "98448a7e3e97e233e12527c550f85c6d97ec2064c2108b01f1cfa614414b49e6",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 119580,
+   "duree_s": 7.4,
+   "caracteres_dits": 86,
+   "caracteres_factures": 344,
+   "essais": 4,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.062,
+     "transcription": "Une date se saisit avec des bars obliques. Dans la cellule B4, saisissez 15-3-2026."
+    },
+    "valide": true,
+    "re_controle": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "M02-L04-01",
+   "role": "Étape 1 · aide",
+   "texte_dit": "Jour, mois, année, séparés par des barres obliques.",
+   "empreinte_texte_dit": "4cfbb6160beea2e4d537bb182ebcd791a871b672e3f95bd348cdfb105ad3513c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 67753,
+   "duree_s": 4.16,
+   "caracteres_dits": 51,
+   "caracteres_factures": 102,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": false,
+     "wer": 0.25,
+     "transcription": "jour, mois, année, séparées par des bars obliques."
+    },
+    "valide": false,
+    "re_controle": true
+   }
+  },
+  {
+   "id": "e1-retour",
+   "etape_lms": "M02-L04-01",
+   "role": "Étape 1 · retour de réussite",
+   "texte_dit": "La date se cale à droite: Excel l'a reconnue comme une date, donc comme un nombre. C'est le seul contrôle à faire.",
+   "empreinte_texte_dit": "801209ba1ac1996cc2372f6d448f299856a3b51e2d7bd23b35b9c48a5d8b52ae",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-retour.mp3",
+   "octets": 120834,
+   "duree_s": 7.48,
+   "caracteres_dits": 114,
+   "caracteres_factures": 114,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.042,
+     "transcription": "La date se calme à droite, Excel l'a reconnue comme une date, donc comme un nombre. C'est le seul contrôle à faire."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M02-L04-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Excel est souple sur l'écriture des dates, et cette souplesse cache un piège de conversion. Les écritures acceptées, puis la règle des années à deux chiffres, sont montrées à l'écran. La conséquence pratique: sur une date de naissance ou un document ancien, écrivez toujours l'année en entier, l'erreur est silencieuse et n'apparaît qu'au calcul.",
+   "empreinte_texte_dit": "ea7574a5229017f7496c45b7d858e0cd62fb72eff10432e223b85f3068cdfbde",
+   "reparations": [
+    "l'écran"
+   ],
+   "ssml": true,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 314767,
+   "duree_s": 19.6,
+   "caracteres_dits": 346,
+   "caracteres_factures": 407,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.017,
+     "transcription": "Excel est souple sur L, écriture des dates et cette souplesse cache un piège de conversion. Les écritures acceptées, puis la règle des années à deux chiffres, sont montrées à l'écran. La conséquence pratique, sur une date de naissance ou un document ancien, écrivait toujours l'année en entier, l'erreur est silencieuse et n'apparaît qu'au calcul."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e2-bulle1",
+   "etape_lms": "M02-L04-02",
+   "role": "Étape 2 · bulle 1 · reprise V2/V3",
+   "texte_dit": "Excel accepte les trois écritures d'une même date.",
+   "empreinte_texte_dit": "7547b17162ae74128e30c25c3fae35fe794c4ba40c76401c1618b71ec5a88e64",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-bulle1.mp3",
+   "octets": 54796,
+   "duree_s": 3.36,
+   "caracteres_dits": 50,
+   "caracteres_factures": 50,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Excel accepte les trois écritures d'une même date."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e2-bulle2",
+   "etape_lms": "M02-L04-02",
+   "role": "Étape 2 · bulle 2 · reprise V2/V3",
+   "texte_dit": "Mais deux chiffres seuls changent de siècle.",
+   "empreinte_texte_dit": "659a2b285f33bea8c06fd9f69e07eb9227f85a21174c247a53d2b4ea810a50c6",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-bulle2.mp3",
+   "octets": 41422,
+   "duree_s": 2.52,
+   "caracteres_dits": 44,
+   "caracteres_factures": 44,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Mais deux chiffres seuls changent de siècle."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e2-bulle3",
+   "etape_lms": "M02-L04-02",
+   "role": "Étape 2 · bulle 3",
+   "texte_dit": "Sur une date de naissance, écrivez l'année en entier.",
+   "empreinte_texte_dit": "11a06fcdd2b15d9ad622e3869b76c60c9e9e20cac70f78acf7b41140e0d410ee",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-bulle3.mp3",
+   "octets": 55632,
+   "duree_s": 3.4,
+   "caracteres_dits": 53,
+   "caracteres_factures": 53,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Sur une date de naissance, écrivez l'année en entier."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M02-L04-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Vérifions cette souplesse. Dans la cellule B5, saisissez 16/3/26 et regardez ce qu'Excel affiche.",
+   "empreinte_texte_dit": "1e25c9c0da3f8815952f24563e0e7887048aa47f46e906cf1388bc013d6fd483",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 122088,
+   "duree_s": 7.56,
+   "caracteres_dits": 97,
+   "caracteres_factures": 388,
+   "essais": 4,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": false,
+     "wer": 0.125,
+     "transcription": "Vérifions cette souplesse. Dans la cellule B5, saisissez 16-36 et regardez ce qu'excelle affiche."
+    },
+    "valide": false,
+    "re_controle": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "M02-L04-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "Trois caractères pour l'année suffisent, deux, en réalité.",
+   "empreinte_texte_dit": "8bdedad495eea9977b46973f0f3a14a2d07672a6efb4ca9aa2b00f4e831c3ec1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 62737,
+   "duree_s": 3.84,
+   "caracteres_dits": 58,
+   "caracteres_factures": 58,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.111,
+     "transcription": "Trois caractères pour l'année suffise, deux en réalité."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "M02-L04-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "Vous avez tapé 16/3/26, Excel affiche 16/03/2026. La saisie est souple, l'affichage est normalisé.",
+   "empreinte_texte_dit": "ca042ac6e6da49ea71b9c4221f22a4a934b2f1d646d0d14a791de8a9e92fe740",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 138806,
+   "duree_s": 8.6,
+   "caracteres_dits": 98,
+   "caracteres_factures": 392,
+   "essais": 4,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": false,
+     "wer": 0.111,
+     "transcription": "Vous avez tapé 16-36 26. Excelle affiche 16-3-2026. La saisie est souple, l'affichage est normalisé."
+    },
+    "valide": false,
+    "re_controle": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M02-L04-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Une heure se saisit avec des deux-points. Dans la cellule C4, saisissez 08:30, l'heure d'arrivée du technicien.",
+   "empreinte_texte_dit": "eede200ee5de67e6fd59c67fb0ca54f1b18bd97dbd037d2b240edde6b9b2675d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 114564,
+   "duree_s": 7.08,
+   "caracteres_dits": 111,
+   "caracteres_factures": 444,
+   "essais": 4,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Une heure se saisit avec des deux points. Dans la cellule C4, saisissez 8h30, l'heure d'arrivée du technicien."
+    },
+    "valide": true,
+    "re_controle": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "M02-L04-04",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Heures, deux-points, minutes.",
+   "empreinte_texte_dit": "76a9b281da5ec8e195afd2725d8951710d8b6e177ade5f7dece4d7726aef3d49",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 52288,
+   "duree_s": 3.2,
+   "caracteres_dits": 29,
+   "caracteres_factures": 29,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Heure, 2 points, minutes."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "M02-L04-04",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "8:30 donnerait exactement la même valeur: le zéro de tête n'est qu'un confort de lecture.",
+   "empreinte_texte_dit": "ba1db59e29235548f02408d92f2a35be38e2d87256071662223f275d463d33f8",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 107877,
+   "duree_s": 6.68,
+   "caracteres_dits": 89,
+   "caracteres_factures": 89,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.056,
+     "transcription": "8 sur 30 donnerait exactement la même valeur. Le 0 de tête n'est qu'un confort de lecture."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M02-L04-05",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Dans la cellule D4, saisissez 12:15, l'heure de départ.",
+   "empreinte_texte_dit": "e32c19eeaa280466603a027c682228c563e692e9abd7c4d24fe6609755e19ba2",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 65663,
+   "duree_s": 4.04,
+   "caracteres_dits": 55,
+   "caracteres_factures": 220,
+   "essais": 4,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": false,
+     "wer": 0.4,
+     "transcription": "Dans la cellule des 4, saisissez midi 15, l'heure de départ."
+    },
+    "valide": false,
+    "re_controle": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "M02-L04-05",
+   "role": "Étape 5 · aide",
+   "texte_dit": "Même forme que l'heure d'arrivée.",
+   "empreinte_texte_dit": "135a8c82941c8d82b2c3bf499dd3f06e6492a3df3ff10ab3a1c835ccca796252",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 29719,
+   "duree_s": 1.8,
+   "caracteres_dits": 33,
+   "caracteres_factures": 66,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Même forme que l'heure d'arrivée."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M02-L04-06",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "Pourquoi une heure se comporte-t-elle comme un nombre? Parce que c'en est un: Excel la range en interne comme une portion de journée. La correspondance est montrée à l'écran. C'est ce qui explique qu'une soustraction d'heures fonctionne, et vous allez justement en calculer une à l'étape suivante.",
+   "empreinte_texte_dit": "c05999808f0a40fbf3993161c9d0b39453a80a1cb2677645a3871b1de5e89d99",
+   "reparations": [
+    "l'écran"
+   ],
+   "ssml": true,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 258342,
+   "duree_s": 16.08,
+   "caracteres_dits": 297,
+   "caracteres_factures": 716,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.127,
+     "transcription": "Pourquoi une heure se comporte-t-elle comme un nombre ? Parce que son éteint. Excel la range en interne comme une portion de journée. La correspondance est montrée à l'écran. C'est ce qui explique qu'une sous-straction d'heure fonctionne et vous allez justement en calculer une à elle, étape suivante."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e6-bulle1",
+   "etape_lms": "M02-L04-06",
+   "role": "Étape 6 · bulle 1",
+   "texte_dit": "Une heure est une fraction de journée.",
+   "empreinte_texte_dit": "d6ff8e63d62c1c889d9f099453652cf6746b95b782f71da4a0f8bbde1a9a938a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-bulle1.mp3",
+   "octets": 38914,
+   "duree_s": 2.36,
+   "caracteres_dits": 38,
+   "caracteres_factures": 38,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Une heure est une fraction de journée."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e6-bulle2",
+   "etape_lms": "M02-L04-06",
+   "role": "Étape 6 · bulle 2 · reprise V2/V3",
+   "texte_dit": "Midi vaut une demi-journée, et ainsi de suite.",
+   "empreinte_texte_dit": "f7ecd24cf25499e1b026f52fcf4f6787f0fbbf34b5e2b79e2425edb0f200aadf",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-bulle2.mp3",
+   "octets": 54378,
+   "duree_s": 3.32,
+   "caracteres_dits": 46,
+   "caracteres_factures": 46,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Midi vaut une demi-journée et ainsi de suite."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e6-bulle3",
+   "etape_lms": "M02-L04-06",
+   "role": "Étape 6 · bulle 3",
+   "texte_dit": "C'est ce qui rend deux heures soustrayables: deux fractions du même jour.",
+   "empreinte_texte_dit": "dec59573fa8131dbfa0bddb93731adaae0b6937a0dcc263e00979ebcce0b3966",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-bulle3.mp3",
+   "octets": 71515,
+   "duree_s": 4.4,
+   "caracteres_dits": 73,
+   "caracteres_factures": 146,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": false,
+     "wer": 0.154,
+     "transcription": "C'est ce qui rend deux heures sous-strayables, deux fractions du même jour."
+    },
+    "valide": false,
+    "re_controle": true
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "M02-L04-07",
+   "role": "Étape 7 · consigne",
+   "texte_dit": "Dans la cellule E4, calculez la durée de l'intervention: l'heure de départ moins l'heure d'arrivée.",
+   "empreinte_texte_dit": "3ace1ef05e5aae06d43f50ba4183a910573628700ea3c317907b8c70f49e17b1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 92413,
+   "duree_s": 5.72,
+   "caracteres_dits": 99,
+   "caracteres_factures": 99,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Dans la cellule E4, calculez la durée de l'intervention, l'heure de départ moins l'heure d'arrivée."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e7-aide",
+   "etape_lms": "M02-L04-07",
+   "role": "Étape 7 · aide",
+   "texte_dit": "Une simple soustraction entre les deux cellules d'heures.",
+   "empreinte_texte_dit": "a199dc104e7d2ab73c5edcf44de4726b1ac63f42368a0236536da7ba7953a71d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-aide.mp3",
+   "octets": 49781,
+   "duree_s": 3.04,
+   "caracteres_dits": 57,
+   "caracteres_factures": 57,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Une simple soustraction entre les deux cellules d'heures."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e7-retour",
+   "etape_lms": "M02-L04-07",
+   "role": "Étape 7 · retour de réussite",
+   "texte_dit": "3 h 45. Une durée est une soustraction d'heures, rien de plus.",
+   "empreinte_texte_dit": "23213ed24e5eaf8d049aee0ff02de9e96c76dedd6cf9ccd6c4fba7cd68cdd87c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-retour.mp3",
+   "octets": 83217,
+   "duree_s": 5.12,
+   "caracteres_dits": 62,
+   "caracteres_factures": 248,
+   "essais": 4,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "3h45. Une durée est une soustraction d'heure, rien de plus."
+    },
+    "valide": true,
+    "re_controle": true
+   }
+  },
+  {
+   "id": "e8-consigne",
+   "etape_lms": "M02-L04-08",
+   "role": "Étape 8 · consigne",
+   "texte_dit": "Les dates se soustraient de la même façon, et donnent un nombre de jours. Dans la cellule G4, calculez l'écart entre les deux dates saisies.",
+   "empreinte_texte_dit": "36192ac636dccd03c79243f3f73a2b6418de69c104e7700a60184d6fe9db0b86",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-consigne.mp3",
+   "octets": 145075,
+   "duree_s": 9.0,
+   "caracteres_dits": 140,
+   "caracteres_factures": 280,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.077,
+     "transcription": "Les dates se soustraient de la même façon et donnent un nombre de jours. Dans la cellule G4, calculer L écarre entre les deux dates saisies."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e8-aide",
+   "etape_lms": "M02-L04-08",
+   "role": "Étape 8 · aide",
+   "texte_dit": "La seconde date moins la première.",
+   "empreinte_texte_dit": "f85a86c2e8d9d7d1ee378b575428593b60386e13f98bab6a6dfe428c1b3a166a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-aide.mp3",
+   "octets": 36406,
+   "duree_s": 2.2,
+   "caracteres_dits": 34,
+   "caracteres_factures": 34,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.167,
+     "transcription": "La seconde date-moi la première."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e8-retour",
+   "etape_lms": "M02-L04-08",
+   "role": "Étape 8 · retour de réussite",
+   "texte_dit": "1 jour. Si vous obteniez #valeur!, l'une des deux dates aurait été saisie comme du texte.",
+   "empreinte_texte_dit": "240eb99932f30762e8e673889af7467abad4005cd19162cc8e880ea44cbd2104",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-retour.mp3",
+   "octets": 107459,
+   "duree_s": 6.64,
+   "caracteres_dits": 89,
+   "caracteres_factures": 356,
+   "essais": 4,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": false,
+     "wer": 0.118,
+     "transcription": "Un jour. Si vous obteniez hashtag Valeur, l'une des deux dates aurait été saisie comme du texte."
+    },
+    "valide": false,
+    "re_controle": true
+   }
+  },
+  {
+   "id": "e9-consigne",
+   "etape_lms": "M02-L04-09",
+   "role": "Étape 9 · consigne",
+   "texte_dit": "Pour la date du jour, dans la cellule G5, saisissez la fonction AUJOURDHUI.",
+   "empreinte_texte_dit": "963e8b556a484f3c70ff1945835113599b1803eb6e409af994de4f929b9393c5",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-consigne.mp3",
+   "octets": 79874,
+   "duree_s": 4.92,
+   "caracteres_dits": 75,
+   "caracteres_factures": 150,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": false,
+     "wer": 0.154,
+     "transcription": "Pour la date du jour, dans la cellule G5, saisissez la fonction aujourd'hui."
+    },
+    "valide": false,
+    "re_controle": true
+   }
+  },
+  {
+   "id": "e9-aide",
+   "etape_lms": "M02-L04-09",
+   "role": "Étape 9 · aide",
+   "texte_dit": "Une fonction sans argument: les parenthèses restent vides.",
+   "empreinte_texte_dit": "3e80f0f8398f0d6e0f3eb2056bfec874fa11788269abed1a870c1568d685d72b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-aide.mp3",
+   "octets": 59812,
+   "duree_s": 3.68,
+   "caracteres_dits": 58,
+   "caracteres_factures": 58,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Une fonction sans arguments, les parenthèses restent vides."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e9-retour",
+   "etape_lms": "M02-L04-09",
+   "role": "Étape 9 · retour de réussite",
+   "texte_dit": "La date d'aujourd'hui s'affiche.",
+   "empreinte_texte_dit": "3a7cbeb2c5579edb35446651f7bf70b583dac33a1e814816696d558877d9b4ed",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-retour.mp3",
+   "octets": 31808,
+   "duree_s": 1.92,
+   "caracteres_dits": 32,
+   "caracteres_factures": 32,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La date d'aujourd'hui s'affiche."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e10-consigne",
+   "etape_lms": "M02-L04-10",
+   "role": "Étape 10 · consigne",
+   "texte_dit": "Deux façons d'obtenir la date du jour, et les confondre coûte cher. Contrôle; insère la date d'aujourd'hui comme une valeur figée, qui ne bougera plus jamais. AUJOURDHUI se recalcule à chaque ouverture du classeur. Le bon choix dépend de l'usage: une facture veut une date figée, un tableau de bord veut la fonction.",
+   "empreinte_texte_dit": "2275c1afe2163c0e5bcd3207ce18382be3974db88f173bcd4e96e5f221b5c836",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e10-consigne.mp3",
+   "octets": 283838,
+   "duree_s": 17.68,
+   "caracteres_dits": 316,
+   "caracteres_factures": 316,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.088,
+     "transcription": "Deux façons d'obtenir la date du jour et les confondres coups de chair. Contrôle. Insère la date d'aujourd'hui comme une valeur figée qui ne bougera plus jamais. Aujourd'hui se recalcule à chaque ouverture du classeur. Le bon choix dépend de l'usage. Une facture veut une date figée. Un tableau de bord veut la fonction."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e11-consigne",
+   "etape_lms": "M02-L04-11",
+   "role": "Étape 11 · consigne",
+   "texte_dit": "Terminons par le diagnostic, car une date non reconnue ne déclenche aucune alerte. Le symptôme et ses causes habituelles sont pointés à l'écran. Ce qu'il faut en retenir: devant un calcul de délai qui refuse de fonctionner, regardez l'alignement de la date avant de chercher l'erreur dans la formule.",
+   "empreinte_texte_dit": "a617532fc67b0cf1d788dba8f320a8ab1d5028ea0372c0102fa08a4b9d41340f",
+   "reparations": [
+    "l'écran"
+   ],
+   "ssml": true,
+   "fichier": "audio/e11-consigne.mp3",
+   "octets": 263358,
+   "duree_s": 16.4,
+   "caracteres_dits": 300,
+   "caracteres_factures": 361,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.019,
+     "transcription": "Terminons par le diagnostic, car une date non reconnue ne déclenche aucune alerte. Le symptôme et ses causes habituelles sont pointées à l'écran. Ce qu'il faut en retenir, devant un calcul de délais qui refuse de fonctionner, regardez l'alignement de la date avant de chercher l'erreur dans la formule."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e11-bulle1",
+   "etape_lms": "M02-L04-11",
+   "role": "Étape 11 · bulle 1",
+   "texte_dit": "Une date collée à GAUCHE n'a pas été reconnue.",
+   "empreinte_texte_dit": "2ed73666f1894e47551610878252ba1d397692b0bdac38df861fd613e747067b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e11-bulle1.mp3",
+   "octets": 37660,
+   "duree_s": 2.28,
+   "caracteres_dits": 46,
+   "caracteres_factures": 46,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Une date collée à gauche n'a pas été reconnue."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e11-bulle2",
+   "etape_lms": "M02-L04-11",
+   "role": "Étape 11 · bulle 2",
+   "texte_dit": "Un point au lieu d'une barre oblique, un mois abrégé, un espace parasite.",
+   "empreinte_texte_dit": "fa6159f6674e2ebb30aa4ab847ef464c7d2a9e391f0ba76c656291bd68f4de3f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e11-bulle2.mp3",
+   "octets": 78620,
+   "duree_s": 4.84,
+   "caracteres_dits": 73,
+   "caracteres_factures": 73,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "un point au lieu d'une barre oblique, un mois abrégé, un espace parasite."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e11-bulle3",
+   "etape_lms": "M02-L04-11",
+   "role": "Étape 11 · bulle 3",
+   "texte_dit": "Et aucun calcul de délai ne fonctionnera dessus.",
+   "empreinte_texte_dit": "8ac2f1efba5b9455dcc2c2f90f18760c04fffcd003a2ba44c031c7c672a4f4af",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e11-bulle3.mp3",
+   "octets": 40586,
+   "duree_s": 2.48,
+   "caracteres_dits": 48,
+   "caracteres_factures": 48,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "et aucun calcul de délai ne fonctionnera dessus."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Vous savez saisir une date, une heure, calculer une durée, et repérer une date qui n'a pas été reconnue.",
+   "empreinte_texte_dit": "c692c6a2021db7e8b0bfed2b44091f6e0fff5c7efb26ba3c0b746a705323e275",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 116236,
+   "duree_s": 7.2,
+   "caracteres_dits": 104,
+   "caracteres_factures": 104,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Vous savez saisir une date, une heure, calculer une durée et repérer une date qui n'a pas été reconnue."
+    },
+    "valide": true
+   }
+  }
+ ]
+}

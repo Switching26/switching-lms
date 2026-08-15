@@ -1,0 +1,632 @@
+{
+ "chapitre": {
+  "chapterId": "cms45ndoh000qzv4xyldiasmr",
+  "app": "EXCEL",
+  "section": "",
+  "titre": "Consolider par étiquette avec SOMME.SI"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 21,
+  "caracteres_dits": 2900,
+  "duree_totale_s": 173.2,
+  "segments_valides": 21,
+  "segments_plusieurs_essais": 3,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Plutôt que de faire confiance à la position des lignes, on additionne en désignant ce qu'on cherche. La consolidation devient insensible à l'ordre et aux insertions.",
+   "empreinte_texte_dit": "32185f2a9c2f7ab780104ec71c4d30247936d470c1de3892706449cbb002015d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 132955,
+   "duree_s": 8.24,
+   "caracteres_dits": 165,
+   "caracteres_factures": 165,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.02,
+     "transcription": "Plutôt que de faire confiance à la position des lignes, on\n additionne en désignant ce qu'on cherche.\n La consolidation devient insensible à l'ordre et aux insert\nions."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.02,
+     "transcription": "Plutôt que de faire confiance à la position des lignes, on\n additionne en désignant ce qu'on cherche.\n La consolidation devient insensible à l'ordre et aux insert\nions."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M22-L02-01",
+   "role": "Etape 1 · consigne",
+   "texte_dit": "Cette fois les lignes sont dans le désordre : les produits reviennent à des positions quelconques. Additionner par position serait impossible. À vous : dans la cellule F2, additionnez sous condition avec SOMME point SI, en figeant les deux plages.",
+   "empreinte_texte_dit": "3f98c0e94061a2172861b398a8b93598d17bab2f553a8efc9d8461d0fdc81c8d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 235355,
+   "duree_s": 14.64,
+   "caracteres_dits": 247,
+   "caracteres_factures": 247,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.056,
+     "transcription": "Cette fois les lignes sont dans le désordre. Les produits\n reviennent à des positions quelconques.\n Additionnées par position, ce serait impossible.\n À vous !\n Dans la cellule F2, additionnez sous condition avec SOME.SY\n en figant les deux plages."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.042,
+     "transcription": "Cette fois les lignes sont dans le désordre.\n Les produits reviennent à des positions quelconques.\n Additionner par position serait impossible.\n À vous.\n Dans la cellule F2, additionner sous condition avec Somme.\nsi,\n en figant les deux plages."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "M22-L02-01",
+   "role": "Etape 1 · aide",
+   "texte_dit": "Trois arguments : la colonne où chercher, ce qu'on cherche, la colonne à additionner.",
+   "empreinte_texte_dit": "e2767ce4c00460dcfdc05285727906f47ffe7c086998b92a2282c8ce38dc7e31",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 88233,
+   "duree_s": 5.44,
+   "caracteres_dits": 85,
+   "caracteres_factures": 85,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Trois arguments, la colonne ou chercher, ce qu'on cherche,\n la colonne à additionner."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Trois arguments, la colonne où chercher, ce qu'on cherche,\n la colonne à additionner."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-feedback",
+   "etape_lms": "M22-L02-01",
+   "role": "Etape 1 · retour de reussite",
+   "texte_dit": "40800 euros de licences. La fonction a parcouru les huit lignes, et n'a additionné que celles portant le mot Licence.",
+   "empreinte_texte_dit": "76ae894f4fcf50dafb402452e3eecd2ce5380ee5cd6584836d1499849d4c6295",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-feedback.mp3",
+   "octets": 112893,
+   "duree_s": 7.0,
+   "caracteres_dits": 117,
+   "caracteres_factures": 117,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "40 800 euros de licence.\n La fonction a parcouru les 8 lignes\n et n'a additionné que celle portant le mot licence."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "40 800 euros de licence.\n La fonction a parcouru les huit lignes\n et n'a additionné que celles portant le mot \"licence\"."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M22-L02-02",
+   "role": "Etape 2 · consigne",
+   "texte_dit": "Décomposons la formule, car chaque dollar y a une raison d'être, et c'est ce qui la rend recopiable. Les trois arguments sont repris à l'écran. La contrainte à ne pas oublier : les deux plages doivent avoir exactement la même hauteur, sinon la fonction rapproche des lignes qui ne se correspondent pas.",
+   "empreinte_texte_dit": "5d05cd72306ac495144fbcd4723b26b44b8afe61cb2073e562cdb4e22363db2e",
+   "reparations": [
+    "l'écran"
+   ],
+   "ssml": true,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 278404,
+   "duree_s": 17.32,
+   "caracteres_dits": 302,
+   "caracteres_factures": 363,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.006,
+     "transcription": "Décomposons la formule car chaque dollar y a une raison D,\n être et c'est ce qui la rend recopiable.\n Les trois arguments sont repris à l'écran. La contrainte à\n ne pas oublier.\n Les deux plages doivent avoir exactement la même hauteur,\n sinon la fonction rapproche des lignes qui ne se correspond\nent pas."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Décomposons la formule, car chaque dollar y a une raison D,\n être, et c'est ce qui\n la rend recopiable.\n Les trois arguments sont repris à l'écran.\n La contrainte à ne pas oublier.\n Les deux plages doivent avoir exactement la même hauteur,\n sinon la fonction rapproche\n des lignes qui ne se correspondent pas."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-bulle1",
+   "etape_lms": "M22-L02-02",
+   "role": "Etape 2 · bulle 1 sur B2:B8",
+   "texte_dit": "La plage de recherche, figée pour survivre à la recopie.",
+   "empreinte_texte_dit": "173c76ece7b41bd261c46184b0589a68f5a5f6cb9fe02ebe9d9d62dfb1a95124",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-bulle1.mp3",
+   "octets": 56886,
+   "duree_s": 3.48,
+   "caracteres_dits": 56,
+   "caracteres_factures": 56,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La plage de recherche, figée pour survivre à la recopie."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La plage de recherche, figée pour survivre à la recopie."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-bulle2",
+   "etape_lms": "M22-L02-02",
+   "role": "Etape 2 · bulle 2 sur E2",
+   "texte_dit": "Le critère, laissé relatif pour changer à chaque ligne.",
+   "empreinte_texte_dit": "0bce43c59ff2d46c28ba112e3c97097734cae7f836e89cbf1f8154fb6e535a87",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-bulle2.mp3",
+   "octets": 64409,
+   "duree_s": 3.96,
+   "caracteres_dits": 55,
+   "caracteres_factures": 55,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le critère, laissez relatif pour changer à chaque ligne."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le critère, l'essai relatif pour changer à chaque ligne."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-bulle3",
+   "etape_lms": "M22-L02-02",
+   "role": "Etape 2 · bulle 3 sur C2:C8",
+   "texte_dit": "La plage à additionner est figée elle aussi. Les deux plages doivent avoir la même hauteur.",
+   "empreinte_texte_dit": "16c41b035730e925dfc977836c3bf8ee4bb28f8291702d89c18976688c4cc39b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-bulle3.mp3",
+   "octets": 85725,
+   "duree_s": 5.28,
+   "caracteres_dits": 91,
+   "caracteres_factures": 91,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.02,
+     "transcription": "La plage a additionné et figé elle aussi. Les deux plages\n doivent avoir la même hauteur."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La plage à additionner est figée elle aussi.\n Les deux plages doivent avoir la même hauteur."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M22-L02-03",
+   "role": "Etape 3 · consigne",
+   "texte_dit": "À vous : recopiez la formule vers le bas, jusqu'au dernier produit.",
+   "empreinte_texte_dit": "e192eb25dd3c504319e208396e9264d3a613f79877306dc14603bb604a59a0d3",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 82382,
+   "duree_s": 5.08,
+   "caracteres_dits": 67,
+   "caracteres_factures": 67,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous, recopiez la formule vers le bas jusqu'au dernier\n produit."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous ! Recopiez la formule vers le bas jusqu'au dernier\n produit."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "M22-L02-03",
+   "role": "Etape 3 · aide",
+   "texte_dit": "Tirez la poignée de recopie vers le bas. Grâce aux dollars, seule la référence du critère change.",
+   "empreinte_texte_dit": "c394834e9e6c25f2a2d9f74c1a1ab591200dd3e51bd6b08dbbf50029840ebd81",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 88233,
+   "duree_s": 5.44,
+   "caracteres_dits": 97,
+   "caracteres_factures": 97,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Tirer la poignée de recopie vers le bas.\n Grâce au dollar, seule la référence du critère change."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Tirez la poignée de recopie vers le bas.\n Grâce au dollar, seule la référence du critère change."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-feedback",
+   "etape_lms": "M22-L02-03",
+   "role": "Etape 3 · retour de reussite",
+   "texte_dit": "21000 euros de formation, 8400 euros de support. Les trois totaux sont justes, quel que soit l'ordre des lignes.",
+   "empreinte_texte_dit": "6b206ef0749786bc003d47806cf3ed4336c018dc6ba4300f105e2437fe0da2e2",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-feedback.mp3",
+   "octets": 122088,
+   "duree_s": 7.56,
+   "caracteres_dits": 112,
+   "caracteres_factures": 112,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "21 000 € de formation, 8 400 € de support. Les trois totaux\n sont justes,\n quel que soit l'ordre des lignes."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "21 000 € de formation, 8 400 € de support.\n Les trois totaux sont justes, quel que soit l'ordre des l\nignes."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M22-L02-04",
+   "role": "Etape 4 · consigne",
+   "texte_dit": "Vérifions. À vous : dans la cellule F6, totalisez les trois consolidations, et comparez à la colonne des montants.",
+   "empreinte_texte_dit": "29a39dcb974e1dea08ca7d5bab740c24ae6f340c32f9c7fd17cf53770bf0d48f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 144657,
+   "duree_s": 8.96,
+   "caracteres_dits": 114,
+   "caracteres_factures": 114,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.015,
+     "transcription": "Vérifions.\n A vous, dans la cellule F6, totalisez les trois consolid\nations et comparez à la colonne des montants."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.015,
+     "transcription": "Vérifions.\n À vous, dans la cellule F6, totalisez les trois consolid\nations et comparez à la colonne des montants."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-feedback",
+   "etape_lms": "M22-L02-04",
+   "role": "Etape 4 · retour de reussite",
+   "texte_dit": "70200 euros, exactement la somme de la colonne Montant. Si ce contrôle ne tombe pas juste, c'est qu'une étiquette est mal orthographiée, et que ses lignes n'ont été comptées nulle part.",
+   "empreinte_texte_dit": "28f73d875b904800edad5964e15269962e95bd7cf3ad78fa725516d9dd3142fd",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-feedback.mp3",
+   "octets": 183528,
+   "duree_s": 11.4,
+   "caracteres_dits": 185,
+   "caracteres_factures": 185,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "70 200 euros, exactement la somme de la colonne montant.\n Si ce contrôle ne tombe pas juste, c'est qu'une étiquette\n est mal orthographiée et que ses lignes n'ont été comptées\n nulle part."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "70 200 €, exactement la somme de la colonne montant.\n Si ce contrôle ne tombe pas juste, c'est qu'une étiquette\n est mal orthographiée\n et que ces lignes n'ont été comptées nulle part."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M22-L02-05",
+   "role": "Etape 5 · consigne",
+   "texte_dit": "C'est le piège de cette méthode, et il est redoutable : un mot, et le même mot suivi d'un espace, sont deux étiquettes différentes pour Excel. La ligne disparaît de la synthèse sans aucun message. À vous : contrôlez donc aussi le nombre de lignes prises en compte. Dans la cellule F7, comptez-les avec NB point SI.",
+   "empreinte_texte_dit": "a36276dd1f25c2de5e6b7a0acc3e92a79a94b3cba28e6c1d6e6e81714572ab7f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 309751,
+   "duree_s": 19.28,
+   "caracteres_dits": 314,
+   "caracteres_factures": 314,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.028,
+     "transcription": "C'est le piège de cette méthode et il est redoutable.\n Un mot et le même mot suivi d'un espace sont deux étiqu\nettes différentes pour Excel.\n La ligne disparaît de la synthèse sans aucun message.\n À vous, contrôlez donc aussi le nombre de lignes pris en\n compte.\n Dans la cellule F7, comptez-les avec nb.si."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.023,
+     "transcription": "C'est le piège de cette méthode et il est redoutable.\n Un mot et le même mot suivi d'un espace sont deux étiqu\nettes différentes pour Excel.\n La ligne disparaît de la synthèse sans aucun message.\n À vous, contrôlez donc aussi le nombre de lignes prises en\n compte.\n Dans la cellule F7, comptez-les avec nb.si."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "M22-L02-05",
+   "role": "Etape 5 · aide",
+   "texte_dit": "La fonction NB point SI compte au lieu d'additionner : même plage de recherche, même critère.",
+   "empreinte_texte_dit": "d88848f86e0a6c51753d007f91e6118045e031607e5b0f54750bcbd16b822d3a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 95756,
+   "duree_s": 5.92,
+   "caracteres_dits": 93,
+   "caracteres_factures": 93,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.074,
+     "transcription": "La fonction nb.sci compte au lieu d'additionner.\n Même plage de recherche, même critères."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.074,
+     "transcription": "La fonction nb.si compte au lieu d'additionner.\n Même plage de recherche, même critère."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-feedback",
+   "etape_lms": "M22-L02-05",
+   "role": "Etape 5 · retour de reussite",
+   "texte_dit": "Trois lignes, ce qui correspond bien aux trois villes concernées. Le comptage est votre garde-fou contre les étiquettes fautives.",
+   "empreinte_texte_dit": "9d0ec1384615d2e2301b8285c8564dbb59224688d190367472efac629145b945",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-feedback.mp3",
+   "octets": 127103,
+   "duree_s": 7.88,
+   "caracteres_dits": 129,
+   "caracteres_factures": 129,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.015,
+     "transcription": "Trois lignes, ce qui correspond bien aux trois villes\n concernées.\n Le comptage est votre garde-fou contre les étiquettes faut\nives."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.015,
+     "transcription": "Trois lignes, ce qui correspond bien aux trois villes\n concernées.\n Le comptage est votre garde-fou contre les étiquettes faut\nives."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M22-L02-06",
+   "role": "Etape 6 · consigne",
+   "texte_dit": "Le critère de choix entre les deux méthodes est résumé à l'écran. En pratique : la consolidation par position ne convient qu'à des feuilles figées et strictement identiques. Dès que les données bougent, ou viennent de sources différentes, il faut passer par étiquette. Une formule de plus, et des synthèses qui ne deviennent pas fausses en silence.",
+   "empreinte_texte_dit": "b38a2cff169743195de76ca70fb3121a30ad52e38355d4cfb10f353467b1fd78",
+   "reparations": [
+    "l'écran"
+   ],
+   "ssml": true,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 295959,
+   "duree_s": 18.44,
+   "caracteres_dits": 348,
+   "caracteres_factures": 409,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le critère de choix entre les deux méthodes est résumé à l'\nécran.\n En pratique, la consolidation par position ne convient qu'à\n des feuilles figées et strictement identiques.\n Dès que les données bougent ou viennent de sources\n différentes, il faut passer par étiquette,\n une formule de plus et des synthèses qui ne deviennent pas\n fausses en silence."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le critère de choix entre les deux méthodes est résumé à l'\nécran.\n En pratique, la consolidation par position ne convient qu'à\n des feuilles figées et strictement identiques.\n Dès que les données bougent ou viennent de sources\n différentes,\n il faut passer par étiquette, une formule de plus et des\n synthèses qui ne deviennent pas fausses en silence."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-bulle1",
+   "etape_lms": "M22-L02-06",
+   "role": "Etape 6 · bulle 1 sur A2:C8",
+   "texte_dit": "Par position : quand les feuilles sont figées et strictement identiques.",
+   "empreinte_texte_dit": "d7148ec54b7e097e873ae080f024d7dc833125fa11b12b4af6440a6feccc9539",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-bulle1.mp3",
+   "octets": 63155,
+   "duree_s": 3.88,
+   "caracteres_dits": 72,
+   "caracteres_factures": 72,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "par position, quand les feuilles sont figées et strictement\n identiques."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "par position, quand les feuilles sont figées et strictement\n identiques."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-bulle2",
+   "etape_lms": "M22-L02-06",
+   "role": "Etape 6 · bulle 2 sur E2",
+   "texte_dit": "Par étiquette : dès que les données bougent, ou viennent de sources différentes.",
+   "empreinte_texte_dit": "f4b87caffcad152b6f9a3ccb8f8c8e7875d39acd94a725c4d5b2b58b2aa8fef0",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-bulle2.mp3",
+   "octets": 77784,
+   "duree_s": 4.8,
+   "caracteres_dits": 80,
+   "caracteres_factures": 80,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Par étiquette, dès que les données bougent ou viennent de\n sources différentes."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Par étiquette, dès que les données bougent ou viennent de\n sources différentes."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-bulle3",
+   "etape_lms": "M22-L02-06",
+   "role": "Etape 6 · bulle 3 sur B2",
+   "texte_dit": "La seconde demande une formule de plus, mais elle survit aux réorganisations.",
+   "empreinte_texte_dit": "66eeab0aec284ea29b788a590407ac442d32f70034f9ffa13cfdc918452ff753",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-bulle3.mp3",
+   "octets": 71515,
+   "duree_s": 4.4,
+   "caracteres_dits": 77,
+   "caracteres_factures": 77,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La seconde demande une formule de plus, mais elle survit\n aux réorganisations."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La seconde demande une formule de plus, mais elle survit\n aux réorganisations."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Vous savez consolider une liste hétérogène par étiquette, sans dépendre de l'ordre des lignes.",
+   "empreinte_texte_dit": "ca9cb5d3fa465ba9c4a1e685772231bb05af3bd4b91df60f03ad787764a92c64",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 77784,
+   "duree_s": 4.8,
+   "caracteres_dits": 94,
+   "caracteres_factures": 94,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Vous savez consolider une liste hétérogène par étiquette\n sans dépendre de l'ordre des lignes."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Vous savez consolider une liste hétérogène par étiquette,\n sans dépendre de l'ordre des lignes."
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

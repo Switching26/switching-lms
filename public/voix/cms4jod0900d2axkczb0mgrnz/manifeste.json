@@ -1,0 +1,632 @@
+{
+ "chapitre": {
+  "chapterId": "cms4jod0900d2axkczb0mgrnz",
+  "app": "EXCEL",
+  "section": "",
+  "titre": "Créer un graphique rapidement"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 21,
+  "caracteres_dits": 2628,
+  "duree_totale_s": 154.9,
+  "segments_valides": 21,
+  "segments_plusieurs_essais": 0,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Excel construit le graphique à partir de ce que vous avez sélectionné, sans rien demander. Il devine les libellés dans la première colonne, et les noms de séries dans la première ligne. Bien sélectionner, c'est 90 % du travail.",
+   "empreinte_texte_dit": "2201b402e70ac07b4cfca8e67df1a52d2ad6b057fa5935b17eb4e9c40c32714c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 206097,
+   "duree_s": 12.8,
+   "caracteres_dits": 227,
+   "caracteres_factures": 227,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.014,
+     "transcription": "Excel construit le graphique à partir de ce que vous avez\n sélectionné sans rien demander.\n Il devine les libérer dans la première colonne et les noms\n de série dans la première ligne.\n Bien sélectionné, c'est 90% du travail."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Excel construit le graphique à partir de ce que vous avez\n sélectionné, sans rien demander.\n Il devine les libellés dans la première colonne et les noms\n de série dans la première ligne.\n Bien sélectionné, c'est 90% du travail."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M17-L02-01",
+   "role": "Etape 1 · consigne",
+   "texte_dit": "Avant de sélectionner quoi que ce soit, repérons le piège classique de la création de graphique. Il est pointé à l'écran. Une colonne de total incluse dans la sélection devient une série comme les autres, sauf qu'elle vaut la somme des précédentes, et écrase visuellement tout le reste. On l'exclut toujours.",
+   "empreinte_texte_dit": "3fb581c555239cf4e1231f6fc5441115feefb5da6a607ef59c35eecd07154938",
+   "reparations": [
+    "l'écran"
+   ],
+   "ssml": true,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 271299,
+   "duree_s": 16.88,
+   "caracteres_dits": 308,
+   "caracteres_factures": 369,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.005,
+     "transcription": "Avant de sélectionner quoi que ce soit, repérons le piège\n classique de la création de graphique.\n Il est pointé à l'écran.\n Une colonne de totale incluse dans la sélection devient une\n série comme les autres,\n sauf qu'elle vaut la somme des précédentes et écrasse vis\nuellement tout le reste.\n On l'exclu toujours."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.005,
+     "transcription": "Avant de sélectionner quoi que ce soit, repérons le piège\n classique de la création de graphique.\n Il est pointé à l'écran.\n Une colonne de total incluse dans la sélection devient une\n série comme les autres.\n Sauf qu'elle vaut la somme des précédentes et écrase vis\nuellement tout le reste.\n On l'exclut toujours."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-bulle1",
+   "etape_lms": "M17-L02-01",
+   "role": "Etape 1 · bulle 1 sur B1:E1",
+   "texte_dit": "Quatre régions, quatre trimestres.",
+   "empreinte_texte_dit": "70524748b3fc81183f70f7d0a85027b5c3dce49d40365a1b757b9ebeb22c0e73",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-bulle1.mp3",
+   "octets": 46019,
+   "duree_s": 2.8,
+   "caracteres_dits": 34,
+   "caracteres_factures": 34,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "4 régions, 4 trimestres."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "4 régions, 4 trimestres."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-bulle2",
+   "etape_lms": "M17-L02-01",
+   "role": "Etape 1 · bulle 2 sur F1",
+   "texte_dit": "Et une colonne Total en bout de ligne : c'est le piège classique.",
+   "empreinte_texte_dit": "19faba5b110e776dcaac957a1bbcd4a7e8b5912f58dbde94d14ae60bd93a5f0c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-bulle2.mp3",
+   "octets": 66917,
+   "duree_s": 4.12,
+   "caracteres_dits": 65,
+   "caracteres_factures": 65,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Et une colonne totale en bout de ligne, c'est le piège\n classique."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Et une colonne totale en bout de ligne, c'est le piège\n classique."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-bulle3",
+   "etape_lms": "M17-L02-01",
+   "role": "Etape 1 · bulle 3 sur F2",
+   "texte_dit": "Incluse dans la sélection, elle vaut quatre fois plus, et écrase tout le graphique.",
+   "empreinte_texte_dit": "c25aa5c07b6908dc9ea8e0264b1834598937c4ba53186785ecfeeea786dc9c71",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-bulle3.mp3",
+   "octets": 81128,
+   "duree_s": 5.0,
+   "caracteres_dits": 83,
+   "caracteres_factures": 83,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Incluse dans la sélection, elle vaut 4 fois plus et écrasse\n tout le graphique."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Incluses dans la sélection, elle vaut 4 fois plus et écrase\n tout le graphique."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M17-L02-02",
+   "role": "Etape 2 · consigne",
+   "texte_dit": "À vous : sélectionnez les titres de colonnes, les noms de régions et les quatre trimestres, mais pas les totaux.",
+   "empreinte_texte_dit": "170d3f9e18d6b0c7ccfc8a4cf5be33f597284e1f10986d7c3e3ed57fc55f5b8a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 120834,
+   "duree_s": 7.48,
+   "caracteres_dits": 112,
+   "caracteres_factures": 112,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous.\n Sélectionnez les titres de colonne, les noms de région et\n les quatre trimestres, mais pas\n les taux taux."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous !\n Sélectionnez les titres de colonnes, les noms de régions et\n les quatre trimestres,\n mais pas les totaux."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "M17-L02-02",
+   "role": "Etape 2 · aide",
+   "texte_dit": "Faites glisser depuis la première cellule, sans aller jusqu'à la colonne des totaux.",
+   "empreinte_texte_dit": "41b52a49faf259e6c821ba5cd7b2d1ac44f59d28b39f6d05ca206bdb5e14f9da",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 77784,
+   "duree_s": 4.8,
+   "caracteres_dits": 84,
+   "caracteres_factures": 84,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.022,
+     "transcription": "Faites glisser depuis la première cellule, sans aller jus\nque, à la colonne des tautos."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "faites glisser depuis la première cellule, sans aller jusqu\n'à la colonne des tautos."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-feedback",
+   "etape_lms": "M17-L02-02",
+   "role": "Etape 2 · retour de reussite",
+   "texte_dit": "La première ligne et la première colonne sont dans la sélection : Excel s'en servira comme légende et comme libellés d'axe, pas comme données.",
+   "empreinte_texte_dit": "ff99f7dc0cc1c32437abff282ffde735fc311de3b0eba1918ca6ecf3775dbd6f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-feedback.mp3",
+   "octets": 130447,
+   "duree_s": 8.08,
+   "caracteres_dits": 142,
+   "caracteres_factures": 142,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.034,
+     "transcription": "La première ligne et la première colonne sont dans la sé\nlection.\n Excel s'en servira comme légende et comme libéledax, pas\n comme donnée."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.034,
+     "transcription": "La première ligne et la première colonne sont dans la sé\nlection.\n Excel s'en servira comme légende et comme Liber les Dax.\n Pas comme donné."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M17-L02-03",
+   "role": "Etape 3 · consigne",
+   "texte_dit": "À vous : cliquez sur Graphique recommandé, dans l'onglet Insertion. Excel propose le type qui convient, et le pose sur la feuille.",
+   "empreinte_texte_dit": "59f35e2dadf87b02ded924ceabbaea7ca641f8dbdffe9d449a36b71c4eaef938",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 119580,
+   "duree_s": 7.4,
+   "caracteres_dits": 130,
+   "caracteres_factures": 130,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.013,
+     "transcription": "À vous ! Cliquez sur graphique recommandée, dans l'onglet «\n Insertion ».\n Excel propose le type qui convient et le pose sur la feu\nille."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.013,
+     "transcription": "À vous ! Cliquez sur Graphique recommandée dans l'onglet\n Insertions.\n Excel propose le type qui convient et le pose sur la feu\nille."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "M17-L02-03",
+   "role": "Etape 3 · aide",
+   "texte_dit": "Onglet Insertion, groupe Graphiques, bouton Graphique recommandé.",
+   "empreinte_texte_dit": "b160fc976a3ae2a72e761eccf6dc1fb0b042b8d2301f99b6d761fbb89e347868",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 73604,
+   "duree_s": 4.52,
+   "caracteres_dits": 65,
+   "caracteres_factures": 65,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Onglet Insertion, groupe graphique, bouton graphique recomm\nandé."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Onglets insertion, groupe graphique, bouton graphique\n recommandé."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-feedback",
+   "etape_lms": "M17-L02-03",
+   "role": "Etape 3 · retour de reussite",
+   "texte_dit": "Quatre séries, un trimestre chacune, et quatre groupes de barres, un par région. Au clavier, les touches Alt et F1 font exactement la même chose.",
+   "empreinte_texte_dit": "d1dcef92bce7f53350ded13526664cae2d0083160eb653493d46d3c68ca53e20",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-feedback.mp3",
+   "octets": 149673,
+   "duree_s": 9.28,
+   "caracteres_dits": 145,
+   "caracteres_factures": 145,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.027,
+     "transcription": "4 séries, 1 trimestre chacune et 4 groupes de bar, un par\n région.\n Au clavier, les touches ALT-F1 font exactement la même\n chose."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "4 séries, 1 trimestre chacune, et 4 groupes de barres, 1\n par région.\n Au clavier, les touches ALT et F1 font exactement la même\n chose."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M17-L02-04",
+   "role": "Etape 4 · consigne",
+   "texte_dit": "Excel a mis les régions en abscisse, et un trimestre par série. Pour lire l'inverse, les trimestres en abscisse et une région par série, à vous : cliquez sur Intervertir lignes et colonnes. Les abscisses et la légende échangent leur contenu.",
+   "empreinte_texte_dit": "2806f884fd6f23bc1f313f18d7658ce3770e5868d9d04ac52f4ce3d45495b9b4",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 201918,
+   "duree_s": 12.56,
+   "caracteres_dits": 241,
+   "caracteres_factures": 241,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.007,
+     "transcription": "Excel a mis les régions en abscisse et un trimestre par\n série.\n Pour lire inverse, les trimestres en abscisse et une région\n par série,\n à vous, cliquez sur Intervertir ligne et colonne.\n Les abscisse et la légende échangent leur contenu."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Excel a mis les régions en abscisse et un trimestre par\n série.\n Pour lire l'inverse, les trimestres en abscisse et une\n région par série,\n à vous, cliquez sur Intervertir lignes et colonnes.\n Les abscisses et la légende échangent leurs contenus."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "M17-L02-04",
+   "role": "Etape 4 · aide",
+   "texte_dit": "Onglet Création de graphique, groupe Données, bouton Lignes et colonnes.",
+   "empreinte_texte_dit": "3e5462a73cd12d5ef8c4fb88327c6911896ea3b5115e320934bcc093a45a3f60",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 84471,
+   "duree_s": 5.2,
+   "caracteres_dits": 72,
+   "caracteres_factures": 72,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Onglet création de graphique, groupe donnée, bouton ligne\n et colonne."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Onglet création de graphique, groupe donné, bouton ligne et\n colonne."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-feedback",
+   "etape_lms": "M17-L02-04",
+   "role": "Etape 4 · retour de reussite",
+   "texte_dit": "Mêmes chiffres, question différente : on suit maintenant la progression de chaque région, trimestre par trimestre.",
+   "empreinte_texte_dit": "ac79013608835003fd440fbe0436868c346b66734073d2bd963778ac35bb0c82",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-feedback.mp3",
+   "octets": 97010,
+   "duree_s": 6.0,
+   "caracteres_dits": 114,
+   "caracteres_factures": 114,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Même chiffre, question différente on suit maintenant la\n progression de chaque région, trimestre par trimestre."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Même chiffre, questions différentes, on suit maintenant la\n progression de chaque région, trimestre par trimestre."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M17-L02-05",
+   "role": "Etape 5 · consigne",
+   "texte_dit": "Un graphique n'a pas besoin de tout le tableau. À vous : sélectionnez seulement le premier trimestre, avec les noms de régions.",
+   "empreinte_texte_dit": "efc57ca13749f02d229ef70b64ee932e8411edd4124b7ec1463792486cffcfe3",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 117072,
+   "duree_s": 7.24,
+   "caracteres_dits": 127,
+   "caracteres_factures": 127,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Un graphique n'a pas besoin de tout le tableau.\n À vous, sélectionnez seulement le premier trimestre avec\n les noms de région."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Un graphique n'a pas besoin de tout le tableau.\n À vous !\n Sélectionnez seulement le premier trimestre avec les noms\n de région."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "M17-L02-05",
+   "role": "Etape 5 · aide",
+   "texte_dit": "Deux colonnes seulement.",
+   "empreinte_texte_dit": "bced4123ddc9fc59456376f914b9c9b3ecdf24dc32347ed0410fbbd079db666f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 23449,
+   "duree_s": 1.4,
+   "caracteres_dits": 24,
+   "caracteres_factures": 24,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Deux colonnes seulement."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Deux colonnes seulement."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M17-L02-06",
+   "role": "Etape 6 · consigne",
+   "texte_dit": "À vous : insérez un histogramme sur cette sélection. Des barres verticales apparaissent sur la feuille, une par région.",
+   "empreinte_texte_dit": "78572c692c80e89901340edbdb5b0e111ceb70bdef8a68122f8c1fcf166838ca",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 117490,
+   "duree_s": 7.28,
+   "caracteres_dits": 119,
+   "caracteres_factures": 119,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "A vous, insérez un histogramme sur cette sélection.\n Des bars verticales apparaissent sur la feuille, une par\n région."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous, insérez un histogramme sur cette sélection.\n Des barres verticales apparaissent sur la feuille, une par\n région."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-aide",
+   "etape_lms": "M17-L02-06",
+   "role": "Etape 6 · aide",
+   "texte_dit": "Onglet Insertion, groupe Graphiques, bouton Histogramme.",
+   "empreinte_texte_dit": "a039e244ec82d96c5501b21c33b38f7bcf501222e9933e8acd67ac0a8191b2a8",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-aide.mp3",
+   "octets": 72768,
+   "duree_s": 4.48,
+   "caracteres_dits": 56,
+   "caracteres_factures": 56,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Onglet, insertion, groupe graphique, bouton histogramme."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Onglets, insertions, groupes graphiques, boutons histogram\nmes."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-feedback",
+   "etape_lms": "M17-L02-06",
+   "role": "Etape 6 · retour de reussite",
+   "texte_dit": "À une seule série, Excel prend le nom de la série comme titre, et n'affiche pas de légende : elle n'aurait rien à distinguer.",
+   "empreinte_texte_dit": "f02f2594fd4fa8784a8e0bc14c097d6b4f6bfbf7285d00b6cc153615e17179bb",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-feedback.mp3",
+   "octets": 114982,
+   "duree_s": 7.12,
+   "caracteres_dits": 125,
+   "caracteres_factures": 125,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "A une seule série, Excel prend le nom de la série comme\n titre et n'affiche pas de légende.\n Elle n'aurait rien à distinguer."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À une seule série, Excel prend le nom de la série comme\n titre et n'affiche pas de légende.\n Elle n'aurait rien à distinguer."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "M17-L02-07",
+   "role": "Etape 7 · consigne",
+   "texte_dit": "Retenez les deux raccourcis, joués à l'écran. Alt et F1 posent le graphique sur la feuille courante ; F11 le place sur une feuille entière qui lui est réservée. Dans les deux cas, le graphique reste lié aux données : corrigez un chiffre dans le tableau, il se redessine tout seul.",
+   "empreinte_texte_dit": "eba1387e9f5bdaa2623d47df727f521e2bc380e7469ba959b484cff4797742a4",
+   "reparations": [
+    "l'écran"
+   ],
+   "ssml": true,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 270045,
+   "duree_s": 16.8,
+   "caracteres_dits": 280,
+   "caracteres_factures": 341,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Retenez les deux raccourcis joués à l'écran.\n Alt et F1 posent le graphique sur la feuille courante.\n F11 le place sur une feuille entière qui lui est réservée.\n Dans les deux cas, le graphique reste lié au donné.\n Corrigez un chiffre dans le tableau, il se redessine tout\n seul."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.029,
+     "transcription": "Retenez les deux raccourcis, jouez à l'écran.\n Alt+F1 pose le graphique sur la feuille courante.\n F11 le place sur une feuille entière qui lui est réservée.\n Dans les deux cas, le graphique reste lié aux données.\n Corrigez un chiffre dans le tableau, il se redessine tout\n seul."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Vous créez un graphique en deux gestes, et vous savez ce qu'Excel a deviné.",
+   "empreinte_texte_dit": "57f53cc12d01fe264c7a923f6063dc97d706b59e17abf93d6b1e80da57ba8954",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 59394,
+   "duree_s": 3.64,
+   "caracteres_dits": 75,
+   "caracteres_factures": 75,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Vous créez un graphique en deux gestes et vous savez ce qu'\nExcel a deviné."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Vous créez un graphique en deux gestes et vous savez ce qu'\nExcel a deviné."
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

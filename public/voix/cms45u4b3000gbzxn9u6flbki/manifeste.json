@@ -1,0 +1,500 @@
+{
+ "chapitre": {
+  "chapterId": "cms45u4b3000gbzxn9u6flbki",
+  "app": "Excel",
+  "section": "Mise en forme conditionnelle",
+  "titre": "Exercice · Piloter par la couleur"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)"
+  ],
+  "criteres": [
+   "WER <= 0.15",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe le moteur severe"
+ },
+ "totaux": {
+  "segments": 20,
+  "caracteres_dits": 1446,
+  "duree_totale_s": 99.6,
+  "segments_valides": 18,
+  "segments_plusieurs_essais": 6,
+  "segments_jamais_valides": 2
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Un suivi de stock à rendre lisible d'un coup d'œil.",
+   "empreinte_texte_dit": "ed9e930e48a77da9331e804010c8e46b363dda98aa37d3feb98542e17e5d649a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 62737,
+   "duree_s": 3.84,
+   "caracteres_dits": 51,
+   "caracteres_factures": 51,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Un suivi de stock à rendre lisible d'un coup d'œil."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M11-E01-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Signalez en rouge toutes les références dont le stock est inférieur à 10: elles sont en rupture imminente. Les lignes concernées doivent virer au rouge, et elles seules.",
+   "empreinte_texte_dit": "6d68c4b410c50ceb39f6e79f9d3bfc71021c845dfe7461d9d64cc78b43ba282e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 148419,
+   "duree_s": 9.2,
+   "caracteres_dits": 169,
+   "caracteres_factures": 169,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.036,
+     "transcription": "Signalez en rouge toutes les références dont le stock est inférieur à 10. Elles sont en rupture éminente. Les lignes concernées doivent virer au rouge et elles seules."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "M11-E01-01",
+   "role": "Étape 1 · aide",
+   "texte_dit": "Bouton Mise en forme cond., règle inférieur à.",
+   "empreinte_texte_dit": "351b64a6f74665e15bcc3d96c83d2a1a77bfd1b4f69c8c3b9247331ae3e60e37",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 58140,
+   "duree_s": 3.56,
+   "caracteres_dits": 46,
+   "caracteres_factures": 92,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": false,
+     "wer": 0.375,
+     "transcription": "Boutons mis en forme con, règle inférieure A."
+    },
+    "valide": false,
+    "re_controle": true
+   }
+  },
+  {
+   "id": "e1-retour",
+   "etape_lms": "M11-E01-01",
+   "role": "Étape 1 · retour de réussite",
+   "texte_dit": "Srs-220 et wbc-500 sont en alerte.",
+   "empreinte_texte_dit": "cfbbd5314c87e923c9da650ada2d2e2858904d746eed976776056ce8373445a9",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-retour.mp3",
+   "octets": 66499,
+   "duree_s": 4.08,
+   "caracteres_dits": 34,
+   "caracteres_factures": 68,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "SRS-220 et WBC-500 sont en alerte."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M11-E01-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Signalez en orange les stocks entre 10 et 20, à surveiller. Une deuxième teinte apparaît, sans effacer la première.",
+   "empreinte_texte_dit": "c7e202769abf8f81063e4fc7b7817b587de57fbfb5b28c58d23cdc5b38047461",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 117072,
+   "duree_s": 7.24,
+   "caracteres_dits": 115,
+   "caracteres_factures": 115,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.105,
+     "transcription": "Signalez en orange les stocks entre 10 et 20 à surveiller une deuxième teinte à parait sans effacer la première."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "M11-E01-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Une règle entre avec deux bornes.",
+   "empreinte_texte_dit": "67844c8783e7c15bfbd6da137f7fe5f0b70e6d4fdbed86a577481608a6e30164",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 42257,
+   "duree_s": 2.56,
+   "caracteres_dits": 33,
+   "caracteres_factures": 33,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.167,
+     "transcription": "Une règle entre eux avec deux bornes."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "M11-E01-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "Ecr-340 et la seconde ligne clv-100 passent en orange.",
+   "empreinte_texte_dit": "b8e28129a4dd8e8533c2a731356f2a2c0fd3d23d9e559951efbba55f8a71bc01",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 85725,
+   "duree_s": 5.28,
+   "caracteres_dits": 54,
+   "caracteres_factures": 108,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": false,
+     "wer": 0.273,
+     "transcription": "ECR-340 et la seconde ligne, Célevé 100, Pastan Orange."
+    },
+    "valide": false,
+    "re_controle": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M11-E01-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "La liste contient une référence en double. Faites-la ressortir. Les deux lignes identiques doivent se colorer ensemble.",
+   "empreinte_texte_dit": "c3e6df9e1288b8f4e81ca0e1054cbfc6890f43eba7b35f695748f84a52e7b202",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 117072,
+   "duree_s": 7.24,
+   "caracteres_dits": 119,
+   "caracteres_factures": 119,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La liste contient une référence en double. Faites-la ressortir. Les deux lignes identiques doivent se colorer ensemble."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "M11-E01-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "Règle valeurs en double, sur la colonne des références.",
+   "empreinte_texte_dit": "114d4d19e173ea22abbb4bb5d3b87a2c8ee9c7034c10ccec25765b35608df2ff",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 53542,
+   "duree_s": 3.28,
+   "caracteres_dits": 55,
+   "caracteres_factures": 55,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Règle valeur en double sur la colonne des références."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "M11-E01-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "Clv-100 apparaît deux fois, une même référence saisie sur deux lignes, avec deux fournisseurs différents.",
+   "empreinte_texte_dit": "90969cd6e2907d9bb1735add5fb2edf88eecd48e4e2d25e7823d6eed099af8c3",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 116236,
+   "duree_s": 7.2,
+   "caracteres_dits": 105,
+   "caracteres_factures": 210,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.125,
+     "transcription": "Célevée-moins-100 apparaît deux fois une même référence saisie sur deux lignes avec deux fournisseurs différents."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M11-E01-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Doublez le signal d'un mot: dans la cellule E2, affichez À commander si le stock est sous le seuil, OK sinon.",
+   "empreinte_texte_dit": "d2dbfce8fa6dc9fe06af795c3e67b3b24bb30eab8d185833b73c6a19ac86a25e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 110385,
+   "duree_s": 6.84,
+   "caracteres_dits": 109,
+   "caracteres_factures": 109,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Doublez le signal d'un mot. Dans la cellule E2, affichez à commander si le stock est sous le seuil. Ok, sinon."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "M11-E01-04",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Une fonction SI comparant le stock au seuil.",
+   "empreinte_texte_dit": "891ca118cbe85715ff0db6aeef13f26dec53e9be8a3f56554b2552d78fbb14ab",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 54796,
+   "duree_s": 3.36,
+   "caracteres_dits": 44,
+   "caracteres_factures": 176,
+   "essais": 4,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.125,
+     "transcription": "Une fonction S6 comparant le stock au seuil."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "M11-E01-04",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "OK pour clv-100 avec ses 42 unités.",
+   "empreinte_texte_dit": "81d5bcda69e1e2f1c8eb8b9d606de26bcd37fa57ac5a02eb8e1566e42784c4fb",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 59394,
+   "duree_s": 3.64,
+   "caracteres_dits": 35,
+   "caracteres_factures": 35,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.125,
+     "transcription": "OK pour Céélevé 100 avec ses 42 unités."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M11-E01-05",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Complétez la colonne pour toutes les références.",
+   "empreinte_texte_dit": "bf49d68ad09d2cf9b19445dba10fc9a6c4b2583887e71a9570e7408d1df81810",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 40586,
+   "duree_s": 2.48,
+   "caracteres_dits": 48,
+   "caracteres_factures": 48,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Complétez la colonne pour toutes les références."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "M11-E01-05",
+   "role": "Étape 5 · aide",
+   "texte_dit": "Poignée de recopie de la cellule E2 vers le bas jusqu'à E7.",
+   "empreinte_texte_dit": "00c47a0cbe3d90780d1e26ec8846d087602a796810c2bdf55d5515e78d585726",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 75276,
+   "duree_s": 4.64,
+   "caracteres_dits": 59,
+   "caracteres_factures": 59,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Poignée de recopie de la cellule E2 vers le bas jusqu'à E7."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e5-retour",
+   "etape_lms": "M11-E01-05",
+   "role": "Étape 5 · retour de réussite",
+   "texte_dit": "Quatre références à commander. Le tableau est lisible en couleur et exploitable par filtre ou par formule.",
+   "empreinte_texte_dit": "921cf478ef5b2cfc4ca75b1e068c5f014929c9a33fe9a7e7cf07ba68155366be",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-retour.mp3",
+   "octets": 107877,
+   "duree_s": 6.68,
+   "caracteres_dits": 106,
+   "caracteres_factures": 106,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "4 références à commander. Le tableau est lisible en couleur et exploitable par filtre ou par formule."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M11-E01-06",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "Dernier réflexe: comptez combien de références sont à commander, dans la cellule G1.",
+   "empreinte_texte_dit": "f28bf713753579e095df762ee66cb6d3b63b01f18e5b2ee007ca702ac8836578",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 93248,
+   "duree_s": 5.76,
+   "caracteres_dits": 84,
+   "caracteres_factures": 84,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Dernier réflexe. Comptez combien de références sont à commander dans la cellule G1 ?"
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e6-aide",
+   "etape_lms": "M11-E01-06",
+   "role": "Étape 6 · aide",
+   "texte_dit": "NB.SI sur la colonne que vous venez de remplir.",
+   "empreinte_texte_dit": "94d1ceb473c9c5a3d0e773240db39e931cf5e2c40195c25d9bf5635fd8ca8697",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-aide.mp3",
+   "octets": 66917,
+   "duree_s": 4.12,
+   "caracteres_dits": 47,
+   "caracteres_factures": 94,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Nb.si sur la colonne que vous venez de remplir."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e6-retour",
+   "etape_lms": "M11-E01-06",
+   "role": "Étape 6 · retour de réussite",
+   "texte_dit": "4 références. Un chiffre, pas seulement des couleurs: c'est ce qu'on peut mettre dans un mail ou un tableau de bord.",
+   "empreinte_texte_dit": "12ecbf2687dc24c848e715411bdaae50f8eaa5c29267c43eb5a9d5a02a2d6ad9",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-retour.mp3",
+   "octets": 114564,
+   "duree_s": 7.08,
+   "caracteres_dits": 116,
+   "caracteres_factures": 116,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "4 références Un chiffre, pas seulement des couleurs, c'est ce qu'on peut mettre dans un mail ou un tableau de bord."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Exercice terminé.",
+   "empreinte_texte_dit": "4b99724f36d437dda8d656c42f861242cad8e3f053427c09274e98917e46dc33",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 24703,
+   "duree_s": 1.48,
+   "caracteres_dits": 17,
+   "caracteres_factures": 17,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Exercice terminé."
+    },
+    "valide": true
+   }
+  }
+ ]
+}

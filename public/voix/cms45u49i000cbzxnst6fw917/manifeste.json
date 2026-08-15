@@ -1,0 +1,461 @@
+{
+ "chapitre": {
+  "chapterId": "cms45u49i000cbzxnst6fw917",
+  "app": "Excel",
+  "section": "Mise en forme conditionnelle",
+  "titre": "Gérer et effacer les règles"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)"
+  ],
+  "criteres": [
+   "WER <= 0.15",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe le moteur severe"
+ },
+ "totaux": {
+  "segments": 18,
+  "caracteres_dits": 1883,
+  "duree_totale_s": 110.1,
+  "segments_valides": 16,
+  "segments_plusieurs_essais": 2,
+  "segments_jamais_valides": 2
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Les règles s'accumulent vite, s'empilent, se contredisent. Savoir les retirer est aussi important que savoir les poser.",
+   "empreinte_texte_dit": "886184c5ed75e88bb1e66a5ae5faafdf6006da19ca545db8fc969a3df4723565",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 125431,
+   "duree_s": 7.76,
+   "caracteres_dits": 119,
+   "caracteres_factures": 119,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.053,
+     "transcription": "Les règles s'accumulent vite, s'empile, se contredisent. Savoir les retirer est aussi important que savoir les poser."
+    }
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M11-L03-01",
+   "role": "Etape 1 · consigne, dite a l'arrivee",
+   "texte_dit": "Posez une première règle : en vert, au-dessus de mille cinq cents. Les montants concernés verdissent.",
+   "empreinte_texte_dit": "a497525f7f214325c2442d3020d18287ede94caf59af814721a0aff8c4b9749b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 99518,
+   "duree_s": 6.16,
+   "caracteres_dits": 101,
+   "caracteres_factures": 202,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": false,
+     "wer": 0.267,
+     "transcription": "Posez une première règle, en vert, au-dessus de 1500. Les montants concernés vers 10.",
+     "nombres": {
+      "attendus": [
+       "1",
+       "1000",
+       "5100"
+      ],
+      "entendus": [
+       "1",
+       "1500",
+       "10"
+      ]
+     }
+    }
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "M11-L03-01",
+   "role": "Etape 1 · aide, dite au devoilement",
+   "texte_dit": "Prenez le bouton Mise en forme conditionnelle.",
+   "empreinte_texte_dit": "ca8994d9197aa2295b7c9a5d9ca661da9268e7759dc9b25918675845f0980396",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 47273,
+   "duree_s": 2.88,
+   "caracteres_dits": 46,
+   "caracteres_factures": 46,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Prenez le bouton Mise en forme conditionnelle."
+    }
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M11-L03-02",
+   "role": "Etape 2 · consigne, dite a l'arrivee",
+   "texte_dit": "Posez-en une seconde, contradictoire : en rouge, au-dessus de mille sept cents. Une partie des cellules change de teinte : les deux règles se disputent les mêmes.",
+   "empreinte_texte_dit": "316146b2e9f83a9944843d922b715d7e5f28eb6cfe247f36f9b965e105ff1837",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 162212,
+   "duree_s": 10.08,
+   "caracteres_dits": 162,
+   "caracteres_factures": 324,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": false,
+     "wer": 0.125,
+     "transcription": "posaisant une seconde contradictoire en rouge au-dessus de 1700. Une partie des cellules change de teinte. Les deux règles se disputent les mêmes.",
+     "nombres": {
+      "attendus": [
+       "1",
+       "1000",
+       "7100",
+       "1",
+       "2"
+      ],
+      "entendus": [
+       "1",
+       "1700",
+       "1",
+       "2"
+      ]
+     }
+    }
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "M11-L03-02",
+   "role": "Etape 2 · aide, dite au devoilement",
+   "texte_dit": "C'est le même bouton, avec un second seuil.",
+   "empreinte_texte_dit": "3cbbac3fdfcbd4e80a5539e9a758028b51824c2721953d7f39ec9601eee9fd9a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 47691,
+   "duree_s": 2.92,
+   "caracteres_dits": 43,
+   "caracteres_factures": 43,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "C'est le même bouton avec un second seuil."
+    }
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M11-L03-03",
+   "role": "Etape 3 · consigne, dite a l'arrivee",
+   "texte_dit": "Voici la première cause d'appel à l'aide sur ce sujet : ma couleur ne s'applique pas. Il n'y a presque jamais de dysfonctionnement : une autre règle passe devant. L'ordre compte, et il se lit comme il se modifie, dans le gestionnaire de règles.",
+   "empreinte_texte_dit": "3aef656590bfd6055e1ee267abaa0bdcc3d0b3dd45bd23f4226a1e9963c5ee3c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 213621,
+   "duree_s": 13.28,
+   "caracteres_dits": 244,
+   "caracteres_factures": 244,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Voici la première cause d'appel à l'aide sur ce sujet. Ma couleur ne s'applique pas. Il n'y a presque jamais de dysfonctionnement. Une autre règle passe devant. L'ordre compte et il se lit comme il se modifie dans le gestionnaire de règles."
+    }
+   }
+  },
+  {
+   "id": "e3-bulle1",
+   "etape_lms": "M11-L03-03",
+   "role": "Etape 3 · bulle sur C2",
+   "texte_dit": "Ma couleur ne s'applique pas ? Presque toujours, une autre règle passe devant.",
+   "empreinte_texte_dit": "3322c644d2ce92417868dd957021be6228dd0c321b80329f9dd316ed098083a4",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-bulle1.mp3",
+   "octets": 91995,
+   "duree_s": 5.68,
+   "caracteres_dits": 78,
+   "caracteres_factures": 78,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Ma couleur ne s'applique pas, presque toujours, une autre règle passe devant."
+    }
+   }
+  },
+  {
+   "id": "e3-bulle2",
+   "etape_lms": "M11-L03-03",
+   "role": "Etape 3 · bulle sur ctrl:acc-mfc-regle",
+   "texte_dit": "Le réflexe : ouvrir le gestionnaire de règles.",
+   "empreinte_texte_dit": "a71b9c8d9347f4ff4c30bde1a0e881dedd6e78829542aff80c5cb263d82e3f65",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-bulle2.mp3",
+   "octets": 55632,
+   "duree_s": 3.4,
+   "caracteres_dits": 46,
+   "caracteres_factures": 46,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le réflexe, ouvrir le gestionnaire de règles."
+    }
+   }
+  },
+  {
+   "id": "e3-bulle3",
+   "etape_lms": "M11-L03-03",
+   "role": "Etape 3 · bulle sur C2:C5",
+   "texte_dit": "Lire l'ordre, et remonter celle qui doit primer.",
+   "empreinte_texte_dit": "c250d7f86cff0118fbb7c14d5c7d5a49c91eed0a54b73136782e2e12b69b49ac",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-bulle3.mp3",
+   "octets": 49781,
+   "duree_s": 3.04,
+   "caracteres_dits": 48,
+   "caracteres_factures": 48,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Lire l'ordre et remontez celle qui doit primer."
+    }
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M11-L03-04",
+   "role": "Etape 4 · consigne, dite a l'arrivee",
+   "texte_dit": "Effacez toutes les règles de la colonne, pour repartir proprement. Toutes les couleurs disparaissent, la colonne redevient neutre.",
+   "empreinte_texte_dit": "0e0a408d702edb97cb6406fcf0af1b287d3b0da46fb94e9b188fc73704907418",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 122088,
+   "duree_s": 7.56,
+   "caracteres_dits": 130,
+   "caracteres_factures": 130,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Effacez toutes les règles de la colonne pour repartir proprement. Toutes les couleurs disparaissent, la colonne redevient neutre."
+    }
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "M11-L03-04",
+   "role": "Etape 4 · aide, dite au devoilement",
+   "texte_dit": "C'est le bouton Effacer les règles, dans le groupe Styles.",
+   "empreinte_texte_dit": "bba5a6971d363eb59df16ac6773ba4b71e052297da25e7cf5ffc3fe2cacc90a5",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 50199,
+   "duree_s": 3.08,
+   "caracteres_dits": 58,
+   "caracteres_factures": 58,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.091,
+     "transcription": "C'est le bouton Éfacer les règles dans le groupe Style."
+    }
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M11-L03-05",
+   "role": "Etape 5 · consigne, dite a l'arrivee",
+   "texte_dit": "Reposez une seule règle propre : en vert, ce qui atteint ou dépasse l'objectif. Seuls les montants atteignant l'objectif se colorent.",
+   "empreinte_texte_dit": "89d86eb5e4042666fb85269a5c517155b9dedd69c7f1f51d9c47aef165794df9",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 140478,
+   "duree_s": 8.72,
+   "caracteres_dits": 133,
+   "caracteres_factures": 133,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.091,
+     "transcription": "Reposez une seule règle propre, envers, ce qui atteint ou dépasse l'objectif. Seuls les montants atteignant l'objectif se colorent."
+    }
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "M11-L03-05",
+   "role": "Etape 5 · aide, dite au devoilement",
+   "texte_dit": "Reprenez le bouton Mise en forme conditionnelle, avec une seule règle cette fois.",
+   "empreinte_texte_dit": "0a7b704cd705ee08e8508ee10672f8524c358e981265b878f11adfc2098a7d86",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 64409,
+   "duree_s": 3.96,
+   "caracteres_dits": 81,
+   "caracteres_factures": 81,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Reprenez le bouton Mise en forme conditionnelle avec une seule règle cette fois."
+    }
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M11-L03-06",
+   "role": "Etape 6 · consigne, dite a l'arrivee",
+   "texte_dit": "Deux points de vigilance pour finir, l'un sur la propreté du classeur, l'autre sur sa vitesse. Le second se prévient facilement : appliquez vos règles à la plage réellement utile, plutôt qu'à une colonne entière, sinon Excel évalue des centaines de milliers de cellules vides à chaque frappe.",
+   "empreinte_texte_dit": "e88ca4eec34a68e43b05fdc872a2d247ac5f5f1597431cca34e740a0da8e08cf",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 252491,
+   "duree_s": 15.72,
+   "caracteres_dits": 292,
+   "caracteres_factures": 292,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "2 points de vigilance pour finir, l'un sur la propreté du classeur, l'autre sur sa vitesse. Le second se prévient facilement. Appliquez vos règles à la plage réellement utiles, plutôt qu'à une colonne entière, sinon Excel évalue des centaines de milliers de cellules vides à chaque frappe."
+    }
+   }
+  },
+  {
+   "id": "e6-bulle1",
+   "etape_lms": "M11-L03-06",
+   "role": "Etape 6 · bulle sur C2",
+   "texte_dit": "La mise en forme conditionnelle se copie avec les cellules.",
+   "empreinte_texte_dit": "6ff378fcb6d5c389bab16359987ea7d9f297d59d9c1357ea9ae4394cd0bb33da",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-bulle1.mp3",
+   "octets": 50199,
+   "duree_s": 3.08,
+   "caracteres_dits": 59,
+   "caracteres_factures": 59,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La mise en forme conditionnelle se copie avec les cellules."
+    }
+   }
+  },
+  {
+   "id": "e6-bulle2",
+   "etape_lms": "M11-L03-06",
+   "role": "Etape 6 · bulle sur ctrl:acc-coller",
+   "texte_dit": "Un copier-coller transporte les règles, souvent là où vous ne les voulez pas.",
+   "empreinte_texte_dit": "7054f40b2b226c3861dd5a92b5cfba9edbe05b91312ba1414ca5257c5cd81d90",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-bulle2.mp3",
+   "octets": 66917,
+   "duree_s": 4.12,
+   "caracteres_dits": 77,
+   "caracteres_factures": 77,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.071,
+     "transcription": "Un copier-collet transporte les règles, souvent là où vous ne les voulez pas."
+    }
+   }
+  },
+  {
+   "id": "e6-bulle3",
+   "etape_lms": "M11-L03-06",
+   "role": "Etape 6 · bulle sur col:C",
+   "texte_dit": "Et des dizaines de règles sur des colonnes entières ralentissent sensiblement le classeur.",
+   "empreinte_texte_dit": "f90678068526f1da96471692c48850a2166869437486325e2f75f41fecbca2f3",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-bulle3.mp3",
+   "octets": 75276,
+   "duree_s": 4.64,
+   "caracteres_dits": 90,
+   "caracteres_factures": 90,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Et des dizaines de règles sur des colonnes entières ralentissent sensiblement le classeur."
+    }
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Vous savez empiler des règles en connaissance de cause, et faire table rase.",
+   "empreinte_texte_dit": "f5016268f6aed3fd31e7d9e57a7af4a770e3edb1234d11dc3388bc1bac7d5189",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 65663,
+   "duree_s": 4.04,
+   "caracteres_dits": 76,
+   "caracteres_factures": 76,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Vous savez empiler des règles en connaissance de cause et faire table rase."
+    }
+   }
+  }
+ ]
+}

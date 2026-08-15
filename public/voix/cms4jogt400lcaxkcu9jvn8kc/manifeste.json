@@ -1,0 +1,768 @@
+{
+ "chapitre": {
+  "chapterId": "cms4jogt400lcaxkcu9jvn8kc",
+  "app": "EXCEL",
+  "section": "",
+  "titre": "Rechercher, atteindre, remplacer"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 26,
+  "caracteres_dits": 3073,
+  "duree_totale_s": 190.9,
+  "segments_valides": 26,
+  "segments_plusieurs_essais": 1,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Remplacer 25 par 26 dans un classeur de références, c'est se réveiller avec des numéros de commande faux. Voir le mécanisme en formule, c'est comprendre comment cibler.",
+   "empreinte_texte_dit": "9185c2f5001c0fdb729c07986f3be52cafb56c2da397543406037bb9d99b9dba",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 153853,
+   "duree_s": 9.56,
+   "caracteres_dits": 168,
+   "caracteres_factures": 168,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Remplacez 25 par 26 dans un classeur de référence,\n c'est se réveiller avec des numéros de commande faux.\n Voir le mécanisme en formule, c'est comprendre comment cib\nler."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Remplacer 25 par 26 dans un classeur de référence, c'est se\n réveiller avec des numéros de commande faux.\n Voir le mécanisme en formule, c'est comprendre comment cib\nler."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M25-L04-01",
+   "role": "Etape 1 · consigne",
+   "texte_dit": "Sur un classeur de plusieurs centaines de lignes, on ne descend pas à la molette. À vous : tapez l'adresse A11 dans la zone Nom, et validez, pour atteindre directement la dernière commande.",
+   "empreinte_texte_dit": "561fc32a14bb593bcab41a779cf4336542fe24d7c05f9c2e65c26779e9be6c23",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 177258,
+   "duree_s": 11.0,
+   "caracteres_dits": 189,
+   "caracteres_factures": 189,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Sur un classeur de plusieurs centaines de lignes, on ne\n descend pas à la molette.\n À vous, tapez l'adresse A11 dans la zone non et validez\n pour atteindre directement la dernière commande."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.009,
+     "transcription": "Sur un classeur de plusieurs centaines de lignes, on ne\n descend pas à la molette.\n À vous !\n Tapez l'adresse A11 dans la zone NON et validez pour atte\nindre directement la dernière commande."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "M25-L04-01",
+   "role": "Etape 1 · aide",
+   "texte_dit": "La zone Nom est le champ à gauche de la barre de formule. C'est l'équivalent de la commande Atteindre, touche F5.",
+   "empreinte_texte_dit": "873f88bc54c95c305c34ab3bef04c58402683b9f3743a67200027e2bf638d015",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 109967,
+   "duree_s": 6.8,
+   "caracteres_dits": 113,
+   "caracteres_factures": 113,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La zone non est le champ à gauche de la barre de formule.\n C'est L, équivalent de la commande atteindre touche F5."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.015,
+     "transcription": "La zone nom et le champ à gauche de la barre de formule.\n C'est L, équivalent de la commande atteindre, touche F5."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-feedback",
+   "etape_lms": "M25-L04-01",
+   "role": "Etape 1 · retour de reussite",
+   "texte_dit": "La sélection a sauté tout en bas. Sur un vrai fichier, c'est le geste qui remplace trente secondes de défilement.",
+   "empreinte_texte_dit": "2f09cd2b15dd48a78ec92194727ae3e826d37f561e0ebd33b7a880df1958344b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-feedback.mp3",
+   "octets": 102862,
+   "duree_s": 6.36,
+   "caracteres_dits": 113,
+   "caracteres_factures": 113,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.03,
+     "transcription": "La sélection a sauté tout en bas.\n Sur un vrai fichier, c'est le geste qui remplace 30 second\nes de défilement."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La sélection a sauté tout en bas. Sur un vrai fichier, c'\nest le geste qui remplace 30 secondes de défilement."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M25-L04-02",
+   "role": "Etape 2 · consigne",
+   "texte_dit": "L'exercice comptable change de millésime. À vous : dans la cellule E2, remplacez 2025 par 2026 dans la référence, avec la fonction SUBSTITUE.",
+   "empreinte_texte_dit": "76ff4a3024127d1a8093320c3d1d5564fd06e2880d909f98699e0cdfda0d2a12",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 178930,
+   "duree_s": 11.12,
+   "caracteres_dits": 141,
+   "caracteres_factures": 141,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "L'exercice comptable change de millésime.\n À vous.\n Dans la cellule E2,\n remplacez 2025 par 2026 dans la référence\n avec la fonction Substitue."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "L'exercice comptable change de millésime.\n À vous !\n Dans la cellule E2, remplacez 2025 par 2026 dans la réf\nérence avec la fonction Substitut."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "M25-L04-02",
+   "role": "Etape 2 · aide",
+   "texte_dit": "La fonction SUBSTITUE remplace un texte par un autre à l'intérieur d'une cellule.",
+   "empreinte_texte_dit": "f5822100dde94215f5d9b11bd10470857dba394b9f1b98d1bf82781df3311616",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 73604,
+   "duree_s": 4.52,
+   "caracteres_dits": 81,
+   "caracteres_factures": 81,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La fonction Substitue remplace un texte par un autre à l'\nintérieur d'une cellule."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La fonction Substitut remplace un texte par un autre à l'\nintérieur d'une cellule."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-feedback",
+   "etape_lms": "M25-L04-02",
+   "role": "Etape 2 · retour de reussite",
+   "texte_dit": "L'exercice est passé au millésime suivant. Contrairement à Rechercher et Remplacer, la formule laisse la source intacte : on voit l'avant et l'après côte à côte.",
+   "empreinte_texte_dit": "09385a95b5096a848e00af94def6232d7c0dd8fa490e33f8f168b6175d5bcd1f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-feedback.mp3",
+   "octets": 140060,
+   "duree_s": 8.68,
+   "caracteres_dits": 161,
+   "caracteres_factures": 161,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "L'exercice est passé au millésime suivant.\n Contrairement à rechercher et remplacer, la formule laisse\n la source intacte.\n On voit l'avant et l'après côte à côte."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "L'exercice est passé au millésime suivant. Contrairement à\n rechercher et remplacer,\n la formule laisse la source intacte. On voit l'avant et l'\naprès, côte à côte."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M25-L04-03",
+   "role": "Etape 3 · consigne",
+   "texte_dit": "À vous : recopiez la formule jusqu'à la dernière ligne.",
+   "empreinte_texte_dit": "a0d8e57f9a51a52be7e3c536629db556149395d1a6ea852689fcf8af0afdb0be",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 63155,
+   "duree_s": 3.88,
+   "caracteres_dits": 55,
+   "caracteres_factures": 55,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous, recopiez la formule jusqu'à la dernière ligne."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous ! Recopiez la formule jusqu'à la dernière ligne."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "M25-L04-03",
+   "role": "Etape 3 · aide",
+   "texte_dit": "Tirez la poignée de recopie vers le bas.",
+   "empreinte_texte_dit": "8c0b635fc4dbc42b85f8a573f23f348a14db2b2b14018323dd0512b71f334846",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 36824,
+   "duree_s": 2.24,
+   "caracteres_dits": 40,
+   "caracteres_factures": 40,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Tirez la poignée de recopie vers le bas."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Tirez la poignée de recopie vers le bas."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M25-L04-04",
+   "role": "Etape 4 · consigne",
+   "texte_dit": "Voici maintenant le piège qui coûte le plus cher avec Remplacer tout. Quelqu'un de pressé remplacerait juste 25 par 26. À vous : dans la cellule I2, essayez, avec la même fonction.",
+   "empreinte_texte_dit": "82df1786245cf4e7fd60336b77f905f8b8e327464aedef215c27886abee7bee6",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 194395,
+   "duree_s": 12.08,
+   "caracteres_dits": 180,
+   "caracteres_factures": 180,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Voici maintenant le piège qui coûte le plus cher avec rempl\nacer tout.\n Quelqu'un de pressés remplacerait juste 25 par 26.\n À vous, dans la cellule I2, essayez avec la même fonction."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Voici maintenant le piège qui coûte le plus cher avec \"rem\nplacer tout\".\n Quelqu'un de pressé remplacerait juste 25 par 26.\n À vous ! Dans la cellule I2, essayez avec la même fonction."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "M25-L04-04",
+   "role": "Etape 4 · aide",
+   "texte_dit": "La même fonction, avec un texte cherché trop court.",
+   "empreinte_texte_dit": "f522a0aaeb9777d347513e24330bd2c9207234c76e57186fd806b9d3a573d9ab",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 58140,
+   "duree_s": 3.56,
+   "caracteres_dits": 51,
+   "caracteres_factures": 51,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La même fonction avec un texte cherché trop court."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La même fonction avec un texte cherché trop court."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-feedback",
+   "etape_lms": "M25-L04-04",
+   "role": "Etape 4 · retour de reussite",
+   "texte_dit": "L'exercice est bien passé à 2026, mais le numéro de commande aussi. L'ancienne référence n'existe plus, et deux commandes portent peut-être maintenant le même numéro. Un remplacement partiel ne prévient jamais.",
+   "empreinte_texte_dit": "fbc8424a3b49699eef6c4808cc29487d2b29f90607ca55058e2ff9dc656c2163",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-feedback.mp3",
+   "octets": 201918,
+   "duree_s": 12.56,
+   "caracteres_dits": 210,
+   "caracteres_factures": 210,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.015,
+     "transcription": "L'exercice est bien passé à 2026, mais le numéro de command\ne aussi.\n L'ancienne référence n'existe plus, et deux commandes port\nent peut-être maintenant le même numéro.\n Un remplacement partiel ne prévient jamais."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.015,
+     "transcription": "L'exercice est bien passé à 2026, mais le numéro de command\ne aussi.\n L'ancienne référence n'existe plus, et deux commandes port\nent peut-être maintenant le même numéro.\n Un remplacement partiel ne prévient jamais."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M25-L04-05",
+   "role": "Etape 5 · consigne",
+   "texte_dit": "Deux fonctions aident à cibler avant de remplacer. À vous : dans la cellule I3, cherchez la position du premier tiret, avec la fonction CHERCHE.",
+   "empreinte_texte_dit": "deacfadbee093a235bf37219561c945d4b5e51060677f8f299ffc5871a9aa99b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 144657,
+   "duree_s": 8.96,
+   "caracteres_dits": 144,
+   "caracteres_factures": 144,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.012,
+     "transcription": "Deux fonctions aident à cibler avant de remplacer.\n À vous, dans la cellule I3,\n cherchez la position du premier tiré avec la fonction Cher\nche."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Deux fonctions aident à cibler avant de remplacer.\n À vous, dans la cellule I3, chercher la position du premier\n tirer avec la fonction \"cherche\"."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "M25-L04-05",
+   "role": "Etape 5 · aide",
+   "texte_dit": "La fonction CHERCHE renvoie la position d'un texte dans un autre. TROUVE fait de même, en respectant la casse.",
+   "empreinte_texte_dit": "19b69195727a9907d6824e95909d37e8705b4dc7cbacfb1b0e3b9e7e54d101d5",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 119998,
+   "duree_s": 7.44,
+   "caracteres_dits": 110,
+   "caracteres_factures": 110,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.03,
+     "transcription": "La fonction \"chers\" renvoie la position d'un texte dans un\n autre.\n Trouve fait de même, en respectant la casse."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La fonction Cherche renvoie la position d'un texte dans un\n autre.\n Trouve fait de même en respectant la casse."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-feedback",
+   "etape_lms": "M25-L04-05",
+   "role": "Etape 5 · retour de reussite",
+   "texte_dit": "Position 4. C'est ce genre de repère qui permet de découper proprement une référence.",
+   "empreinte_texte_dit": "f2b875935998fc38b7ddd085a44c40c8e699f974c898a614259996a18a5ec072",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-feedback.mp3",
+   "octets": 92413,
+   "duree_s": 5.72,
+   "caracteres_dits": 85,
+   "caracteres_factures": 85,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Position 4. C'est ce genre de repère qui permet de découper\n proprement une référence."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Position 4. C'est ce genre de repère qui permet de découper\n proprement une référence."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M25-L04-06",
+   "role": "Etape 6 · consigne",
+   "texte_dit": "À vous : dans la cellule I4, extrayez l'exercice avec la fonction STXT : quatre caractères, à partir du cinquième.",
+   "empreinte_texte_dit": "2ab2aef8bb3e65adbceeb40c02be2233a04d1f09a4d1e3594b3ad4b1165077d1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 149673,
+   "duree_s": 9.28,
+   "caracteres_dits": 114,
+   "caracteres_factures": 114,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "A vous, dans la cellule I4,\n extrayez l'exercice avec la fonction STXT 4 caractères à\n partir du cinquième."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous, dans la cellule I4, extrayez l'exercice avec la\n fonction STXT 4 caractères à partir du cinquième."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-aide",
+   "etape_lms": "M25-L04-06",
+   "role": "Etape 6 · aide",
+   "texte_dit": "La fonction STXT extrait un morceau de texte : la cellule, la position de départ, le nombre de caractères.",
+   "empreinte_texte_dit": "6b93d3accb6371e1627deb27a54398f4d7742f851df4a91379dc99ad4d9e28a7",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-aide.mp3",
+   "octets": 131701,
+   "duree_s": 8.16,
+   "caracteres_dits": 106,
+   "caracteres_factures": 106,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La fonction STXT extrait un morceau de texte, la cellule,\n la position de départ, le nombre de caractères."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La fonction STXT extrait un morceau de texte, la cellule,\n la position de départ, le nombre de caractères."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-feedback",
+   "etape_lms": "M25-L04-06",
+   "role": "Etape 6 · retour de reussite",
+   "texte_dit": "L'année est isolée proprement. Sur une colonne comme celle-ci, on préfère souvent extraire l'année dans sa propre colonne plutôt que de remplacer du texte : la donnée devient filtrable.",
+   "empreinte_texte_dit": "a20e325c1c80fcf15d32bd5bfbe4bd92fc604f60d4b00333823eaf6785ac35e1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-feedback.mp3",
+   "octets": 150091,
+   "duree_s": 9.32,
+   "caracteres_dits": 185,
+   "caracteres_factures": 185,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "L'année est isolée proprement.\n Sur une colonne comme celle-ci, on préfère souvent extraire\n l'année dans sa propre colonne\n plutôt que de remplacer du texte. La donnée devient filtr\nable."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.009,
+     "transcription": "L'année est isolée proprement. Sur une colonne comme celle-\nci, on préfère souvent extraire l'année dans sa propre colon\nne, plutôt que de remplacer du texte.\n La donnée devient filtrable."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "M25-L04-07",
+   "role": "Etape 7 · consigne",
+   "texte_dit": "Contrôle F cherche, Contrôle H remplace, F5 atteint. Trois réflexes évitent l'accident de tout à l'heure. Un quatrième le referme : dans les Options, Totalité du contenu de la cellule interdit à un nombre court de se remplacer au milieu d'un numéro.",
+   "empreinte_texte_dit": "59e1e13ba2cd5bdd56a130e66fc0465b64e4046543e3d94fdadb2a97a005e2b1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 234101,
+   "duree_s": 14.56,
+   "caracteres_dits": 249,
+   "caracteres_factures": 249,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.007,
+     "transcription": "Contrôle F Cherche, contrôle H Remplace, F5 Atteint.\n Trois réflexes évitent l'accident de tout à l'heure.\n Un quatrième le referme.\n Dans les options, totalité du contenu de la cellule inter\ndit à un nombre cours de se remplacer au milieu d'un numéro."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.048,
+     "transcription": "Ctrl+F cherche, Ctrl+H remplace, F5 atteint.\n Trois réflexes évitent l'accident de tout à l'heure.\n Un quatrième le referme.\n Dans les options, totalité du contenu de la cellule inter\ndit à un nombre court de se remplacer au milieu d'un numéro."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-bulle1",
+   "etape_lms": "M25-L04-07",
+   "role": "Etape 7 · bulle 1 sur A2:A11",
+   "texte_dit": "Sélectionnez la plage avant d'ouvrir la boîte, sinon Excel travaille sur toute la feuille.",
+   "empreinte_texte_dit": "cbea3816912ea3917ec00eb69e56cde963c136d8f0b40e0acfba6b0ae9a50ca6",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-bulle1.mp3",
+   "octets": 77784,
+   "duree_s": 4.8,
+   "caracteres_dits": 90,
+   "caracteres_factures": 90,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Sélectionnez la plage avant d'ouvrir la boîte, sinon Excel\n travaille sur toute la feuille."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Sélectionnez la plage avant d'ouvrir la boîte, sinon Excel\n travaille sur toute la feuille."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-bulle2",
+   "etape_lms": "M25-L04-07",
+   "role": "Etape 7 · bulle 2 sur I2",
+   "texte_dit": "Rechercher tout d'abord : vous voyez ce que vous allez modifier, avant de le modifier.",
+   "empreinte_texte_dit": "673512395087ddb70ad64c1cc954f8e9744436745850e3c62c71eaa9d969e38a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-bulle2.mp3",
+   "octets": 85725,
+   "duree_s": 5.28,
+   "caracteres_dits": 86,
+   "caracteres_factures": 86,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Recherchez tout d'abord, vous voyez ce que vous allez\n modifier avant de le modifier."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Recherchez tout d'abord, vous voyez ce que vous allez\n modifier, avant de le modifier."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-bulle3",
+   "etape_lms": "M25-L04-07",
+   "role": "Etape 7 · bulle 3 sur E2",
+   "texte_dit": "La recherche lit les valeurs affichées. Pour traquer une formule, il faut le lui demander.",
+   "empreinte_texte_dit": "c240eedd3537e49fd4e255267a6818cab51b10c398c890b900ce6600cd7e0a5b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-bulle3.mp3",
+   "octets": 81128,
+   "duree_s": 5.0,
+   "caracteres_dits": 90,
+   "caracteres_factures": 90,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La recherche lit les valeurs affichées.\n Pour traquer une formule, il faut le lui demander."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La recherche lit les valeurs affichées.\n Pour traquer une formule, il faut le lui demander."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-consigne",
+   "etape_lms": "M25-L04-08",
+   "role": "Etape 8 · consigne",
+   "texte_dit": "Terminez par un contrôle. À vous : dans la cellule I6, totalisez les commandes.",
+   "empreinte_texte_dit": "b6ebaa6635118f0340c9ba076e5a7990da7811d7249ccefbfbb50539b0f4e918",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-consigne.mp3",
+   "octets": 91995,
+   "duree_s": 5.68,
+   "caracteres_dits": 79,
+   "caracteres_factures": 79,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Terminée par un contrôle.\n À vous, dans la cellule I6, totalisez les commandes."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Terminé par un contrôle.\n À vous.\n Dans la cellule I6, totalisez les commandes."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-aide",
+   "etape_lms": "M25-L04-08",
+   "role": "Etape 8 · aide",
+   "texte_dit": "Faites une somme sur la colonne Montant.",
+   "empreinte_texte_dit": "9f456cca13192e02ccf819b44b0d489d3091efbe22dbb6533e895de2a8c9b9f7",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-aide.mp3",
+   "octets": 35152,
+   "duree_s": 2.12,
+   "caracteres_dits": 40,
+   "caracteres_factures": 40,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Faites une somme sur la colonne montant."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Faites une somme sur la colonne montant."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-feedback",
+   "etape_lms": "M25-L04-08",
+   "role": "Etape 8 · retour de reussite",
+   "texte_dit": "16130 euros. Un remplacement massif ne doit jamais changer ce total : contrôlez-le avant et après.",
+   "empreinte_texte_dit": "af1b74e4193a2d44f1ac2ef818a15c65aedd52dea4c1040af473c8956093caad",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-feedback.mp3",
+   "octets": 107459,
+   "duree_s": 6.64,
+   "caracteres_dits": 98,
+   "caracteres_factures": 98,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "16 130 euros.\n Un remplacement massif ne doit jamais changer ce total.\n Contrôlez-le avant et après."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "16 130 euros. Un remplacement massif ne doit jamais changer\n ce total.\n Contrôlez-le avant et après."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Vous savez atteindre une cellule, remplacer un texte de façon ciblée, et contrôler le résultat.",
+   "empreinte_texte_dit": "955f659b5fa544cdb1a0bfc665ee5985745558c52d869a2ab1e6ac2d64ba2dfe",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 90741,
+   "duree_s": 5.6,
+   "caracteres_dits": 95,
+   "caracteres_factures": 95,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Vous savez atteindre une cellule, remplacer un texte de\n façon ciblée et contrôler le résultat."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Vous savez atteindre une cellule, remplacer un texte de\n façon ciblée et contrôler le résultat."
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

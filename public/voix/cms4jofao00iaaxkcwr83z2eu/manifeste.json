@@ -1,0 +1,484 @@
+{
+ "chapitre": {
+  "chapterId": "cms4jofao00iaaxkcwr83z2eu",
+  "app": "Excel",
+  "section": "Validation des données et protection",
+  "titre": "Verrouiller les formules d'une feuille"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)"
+  ],
+  "criteres": [
+   "WER <= 0.15",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe le moteur severe"
+ },
+ "totaux": {
+  "segments": 20,
+  "caracteres_dits": 2239,
+  "duree_totale_s": 136.7,
+  "segments_valides": 18,
+  "segments_plusieurs_essais": 2,
+  "segments_jamais_valides": 2
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Une validation empêche une mauvaise valeur. Elle n'empêche pas d'écraser une formule, et ça, personne ne le voit. La protection de feuille est faite pour ça.",
+   "empreinte_texte_dit": "4a10bd752408804708e22cd89a9b03867336f15b37b6c0e0291c03e2d032882e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 152181,
+   "duree_s": 9.44,
+   "caracteres_dits": 157,
+   "caracteres_factures": 157,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Une validation empêche une mauvaise valeur. Elle n'empêche pas d'écraser une formule et ça, personne ne le voit. La protection de feuilles est faite pour ça."
+    }
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M21-L04-01",
+   "role": "Etape 1 · consigne, dite a l'arrivee",
+   "texte_dit": "Le devis est déjà calculé : chaque ligne porte une formule, et le bas du tableau les totalise. Commençons par contraindre la saisie. Cliquez sur Validation, pour n'accepter dans la colonne Quantité qu'un nombre compris entre 1 et 500. Une quantité hors bornes doit être refusée.",
+   "empreinte_texte_dit": "24530404ff3ffa4315f72929bcc208d3cb22174d1049ac46ecb803bd7d6880a5",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 290525,
+   "duree_s": 18.08,
+   "caracteres_dits": 278,
+   "caracteres_factures": 278,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le devis est déjà calculé. Chaque ligne porte une formule et le bas du tableau les totalise. Commençons par contraindre la saisie. Cliquez sur Validation pour n'accepter dans la colonne Quantité qu'un nombre compris entre 1 et 500. Une quantité hors-borne doit être refusée."
+    }
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "M21-L04-01",
+   "role": "Etape 1 · aide, dite au devoilement",
+   "texte_dit": "Prenez le bouton Validation, puis la règle nombre entre.",
+   "empreinte_texte_dit": "1267daa430653b94c0b3fb07113456676c57090c15c1f28fad90fb9ef8ff390f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 69007,
+   "duree_s": 4.24,
+   "caracteres_dits": 56,
+   "caracteres_factures": 56,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Prenez le bouton Validation, puis la règle Nombre entre."
+    }
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M21-L04-02",
+   "role": "Etape 2 · consigne, dite a l'arrivee",
+   "texte_dit": "Portez la quantité de stylos à six.",
+   "empreinte_texte_dit": "f97e8ae25f12f598f3849edd6a79f732101575ba3e5f54ef74ed2d6f70f05956",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 40168,
+   "duree_s": 2.44,
+   "caracteres_dits": 35,
+   "caracteres_factures": 70,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": false,
+     "wer": 0.0,
+     "transcription": "Portez la quantité de stylo A6.",
+     "nombres": {
+      "attendus": [
+       "6"
+      ],
+      "entendus": []
+     }
+    }
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "M21-L04-02",
+   "role": "Etape 2 · aide, dite au devoilement",
+   "texte_dit": "La contrainte accepte cette valeur.",
+   "empreinte_texte_dit": "f97b4c38ec9463f3a0f02e6be89adf7fb095f46d39b877316a8caf5c8a9297a6",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 43929,
+   "duree_s": 2.68,
+   "caracteres_dits": 35,
+   "caracteres_factures": 35,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La contrainte accepte cette valeur."
+    }
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M21-L04-03",
+   "role": "Etape 3 · consigne, dite a l'arrivee",
+   "texte_dit": "Maintenant, voyons ce que la validation ne protège pas. Dans la cellule E6, tapez 100 par-dessus la formule.",
+   "empreinte_texte_dit": "613213fdba9fc14f370bd916b202cbbb015c721b64280cb1de943ed908593e7e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 121252,
+   "duree_s": 7.52,
+   "caracteres_dits": 108,
+   "caracteres_factures": 108,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Maintenant, voyons ce que la validation ne protège pas. Dans la cellule E6, tapez 100 par-dessus la formule."
+    }
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "M21-L04-03",
+   "role": "Etape 3 · aide, dite au devoilement",
+   "texte_dit": "Écrivez directement le nombre dans la cellule qui contient la formule.",
+   "empreinte_texte_dit": "200e7f30e43b93763bb509f4f11e2d87de8388b51225e17d8de75b43316a1ec1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 63155,
+   "duree_s": 3.88,
+   "caracteres_dits": 70,
+   "caracteres_factures": 70,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Écrivez directement le nombre dans la cellule qui contient la formule."
+    }
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M21-L04-04",
+   "role": "Etape 4 · consigne, dite a l'arrivee",
+   "texte_dit": "Rétablissez la formule que vous venez d'écraser.",
+   "empreinte_texte_dit": "b139faca8a8eaa5a317ce07a0fbc02f56a2f69ac4aabd0d9c8ab6fc5a12b1016",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 58140,
+   "duree_s": 3.56,
+   "caracteres_dits": 48,
+   "caracteres_factures": 48,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.125,
+     "transcription": "Rétablissez la formule que vous venez d'E, écraser."
+    }
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "M21-L04-04",
+   "role": "Etape 4 · aide, dite au devoilement",
+   "texte_dit": "C'est la quantité multipliée par le prix unitaire, comme les autres lignes.",
+   "empreinte_texte_dit": "b5cfc6bc4cf8e10639c8d76be95269bde6b49bb4565cb73a920633042928669e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 73604,
+   "duree_s": 4.52,
+   "caracteres_dits": 75,
+   "caracteres_factures": 75,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "C'est la quantité multipliée par le prix unitaire, comme les autres lignes ?"
+    }
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M21-L04-05",
+   "role": "Etape 5 · consigne, dite a l'arrivee",
+   "texte_dit": "Ces trois gestes vivent tous dans l'onglet Révision. Ce qu'il faut en retenir : une fois la feuille protégée, la colonne Quantité restera ouverte à la saisie, et toute écriture dans les totaux sera refusée. Pour reprendre la main, il faudra ôter la protection, au même endroit.",
+   "empreinte_texte_dit": "e7203e6129c8fdf0e1edfe7ee854268cbe5617d26e97a4d2fab73e2fc8778fdf",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 253745,
+   "duree_s": 15.8,
+   "caracteres_dits": 277,
+   "caracteres_factures": 277,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.042,
+     "transcription": "Ces trois gestes vivent tous dans l'onglet Révision. Ce qu'il faut en retenir, une fois la feuille protégée, la colonne quantité restera ouverte à la saisie et toute écriture dans les taux taux sera refusée. Pour reprendre la main, il faudra ôter la protection, au même endroit."
+    }
+   }
+  },
+  {
+   "id": "e5-bulle1",
+   "etape_lms": "M21-L04-05",
+   "role": "Etape 5 · bulle sur C4",
+   "texte_dit": "Premier geste : sélectionner la zone de saisie et la déverrouiller.",
+   "empreinte_texte_dit": "c4f5a7107a774ad0848f058e3b154b4d303330abbf9fceb8f01431dab1a7ff4f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-bulle1.mp3",
+   "octets": 68171,
+   "duree_s": 4.2,
+   "caracteres_dits": 67,
+   "caracteres_factures": 67,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Premier geste. Sélectionnez la zone de saisie et la déverrouiller."
+    }
+   }
+  },
+  {
+   "id": "e5-bulle2",
+   "etape_lms": "M21-L04-05",
+   "role": "Etape 5 · bulle sur E4",
+   "texte_dit": "Deuxième geste : tout le reste demeure verrouillé, formules comprises.",
+   "empreinte_texte_dit": "b264e094f47d9a22d87fab497f296652ddcb091b44381975f6a34525d8884338",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-bulle2.mp3",
+   "octets": 77366,
+   "duree_s": 4.76,
+   "caracteres_dits": 70,
+   "caracteres_factures": 70,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Deuxième geste. Tout le reste demeure verrouillé. Formule comprise."
+    }
+   }
+  },
+  {
+   "id": "e5-bulle3",
+   "etape_lms": "M21-L04-05",
+   "role": "Etape 5 · bulle sur A1",
+   "texte_dit": "Troisième geste : protéger la feuille, dans l'onglet Révision. C'est lui qui active tout.",
+   "empreinte_texte_dit": "df39573f5fba0c50bcce6346db71d31866c69121e63098e479f1c911ced886b4",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-bulle3.mp3",
+   "octets": 86143,
+   "duree_s": 5.32,
+   "caracteres_dits": 89,
+   "caracteres_factures": 89,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Troisième geste, protéger la feuille dans l'onglet Révision. C'est lui qui active tout."
+    }
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M21-L04-06",
+   "role": "Etape 6 · consigne, dite a l'arrivee",
+   "texte_dit": "Une contrainte peut aussi devenir gênante : un fournisseur livre par mille. Effacez la validation de la colonne Quantité. Une valeur de mille doit de nouveau passer.",
+   "empreinte_texte_dit": "8353833e45d6def3f16da650ef9daa5a466b69aa6d68fafb1c9d75b141bda506",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 158032,
+   "duree_s": 9.8,
+   "caracteres_dits": 165,
+   "caracteres_factures": 165,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Une contrainte peut aussi devenir gênante, un fournisseur livre par mille. Effacer la validation de la colonne quantité. Une valeur de mille doit de nouveau passer."
+    }
+   }
+  },
+  {
+   "id": "e6-aide",
+   "etape_lms": "M21-L04-06",
+   "role": "Etape 6 · aide, dite au devoilement",
+   "texte_dit": "C'est le bouton Effacer la validation, à côté de Validation.",
+   "empreinte_texte_dit": "1f63b28d17e9025ab0a45cfe2ff6a9e7748a07c92669b472131693b31a65e890",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-aide.mp3",
+   "octets": 56050,
+   "duree_s": 3.44,
+   "caracteres_dits": 60,
+   "caracteres_factures": 60,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.091,
+     "transcription": "C'est le bouton « Éfacer la validation » à côté de « Validation »."
+    }
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "M21-L04-07",
+   "role": "Etape 7 · consigne, dite a l'arrivee",
+   "texte_dit": "Mieux vaut souvent avertir que bloquer. Reposez la contrainte en simple avertissement : l'utilisateur est prévenu, mais reste libre de passer outre. Une valeur hors bornes passe désormais, après un simple avertissement.",
+   "empreinte_texte_dit": "a55ddb2d2f3504a844a29d7b5618dae20105551aa498acfa0f54075fc61199c2",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 193559,
+   "duree_s": 12.04,
+   "caracteres_dits": 219,
+   "caracteres_factures": 219,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Mieux vaut souvent avertir que bloquer. Reposez la contrainte en simple avertissement. L'utilisateur est prévenu, mais reste libre de passer outre. Une valeur hors-borne passe désormais après un simple avertissement."
+    }
+   }
+  },
+  {
+   "id": "e7-aide",
+   "etape_lms": "M21-L04-07",
+   "role": "Etape 7 · aide, dite au devoilement",
+   "texte_dit": "C'est le même bouton, mais avec le style Avertissement plutôt qu'Arrêt.",
+   "empreinte_texte_dit": "2005c02e2b123c83ab7645a35788b5cc2e9d5eb23448ab531eca6fde73a6f8f8",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-aide.mp3",
+   "octets": 59812,
+   "duree_s": 3.68,
+   "caracteres_dits": 71,
+   "caracteres_factures": 142,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": false,
+     "wer": 0.154,
+     "transcription": "C'est le même bouton, mais avec le style avertissement plutôt carré."
+    }
+   }
+  },
+  {
+   "id": "e8-consigne",
+   "etape_lms": "M21-L04-08",
+   "role": "Etape 8 · consigne, dite a l'arrivee",
+   "texte_dit": "Terminons par le contrôle qui aurait détecté l'accident tout seul. Dans la cellule E11, recalculez le devis depuis les colonnes source, avec la fonction SOMMEPROD.",
+   "empreinte_texte_dit": "3b790b6f5d69f26400c99439d38bd4d7b81cb4e602e6003128e86bb575dca7cc",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-consigne.mp3",
+   "octets": 165137,
+   "duree_s": 10.24,
+   "caracteres_dits": 163,
+   "caracteres_factures": 163,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.038,
+     "transcription": "Terminons par le contrôle qui aurait détecté l'accident tout seul. Dans la cellule E11, recalculez le devis depuis les colonnes sources, avec la fonction SOMPRODE."
+    }
+   }
+  },
+  {
+   "id": "e8-aide",
+   "etape_lms": "M21-L04-08",
+   "role": "Etape 8 · aide, dite au devoilement",
+   "texte_dit": "La fonction SOMMEPROD multiplie les deux plages ligne à ligne, puis additionne le tout.",
+   "empreinte_texte_dit": "b6581a128d6cfd43d63eeaaa8057966c63bda7f5fcd6f7775d5ebbf5ef174365",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-aide.mp3",
+   "octets": 77366,
+   "duree_s": 4.76,
+   "caracteres_dits": 87,
+   "caracteres_factures": 87,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.143,
+     "transcription": "La fonction SOME PRODE multiplie les deux plages ligne à ligne, puis additionne le tout."
+    }
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Vous savez contraindre une saisie, lever une contrainte, et poser le contrôle qui révèle une formule écrasée.",
+   "empreinte_texte_dit": "dd3ce3ac3da8cfb0d169b53b7961ec50987ca855a243ee37b0def74c3591c839",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 101608,
+   "duree_s": 6.28,
+   "caracteres_dits": 109,
+   "caracteres_factures": 109,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Vous savez contraindre une saisie, lever une contrainte et poser le contrôle qui révèle une formule écrasée."
+    }
+   }
+  }
+ ]
+}

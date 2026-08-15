@@ -1,0 +1,572 @@
+{
+ "chapitre": {
+  "chapterId": "cms461ttl000c113trxtoe97r",
+  "app": "EXCEL",
+  "section": "",
+  "titre": "Exercice · Sécuriser une feuille de saisie"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 19,
+  "caracteres_dits": 1395,
+  "duree_totale_s": 92.6,
+  "segments_valides": 19,
+  "segments_plusieurs_essais": 0,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Un formulaire de commande à rendre incassable.",
+   "empreinte_texte_dit": "cb9be19ab78af470f7d55d9f21362c9b17cf9a61fa6b43244dd881ec65b495ca",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 55632,
+   "duree_s": 3.4,
+   "caracteres_dits": 46,
+   "caracteres_factures": 46,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "un formulaire de commande à rendre incassable."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "un formulaire de commande à rendre incassable."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M21-E01-01",
+   "role": "Etape 1 · consigne",
+   "texte_dit": "La colonne Priorité ne doit accepter que trois valeurs : Haute, Normale, Basse. À vous : posez la validation adéquate sur ces trois cellules. Une flèche de liste doit apparaître quand on les sélectionne.",
+   "empreinte_texte_dit": "b54c344c256b17f8016cd6a8c60b32e3d84fbb46a467a08b1af3a2f415f79fe7",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 194813,
+   "duree_s": 12.12,
+   "caracteres_dits": 203,
+   "caracteres_factures": 203,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.009,
+     "transcription": "La colonne priorité ne doit accepter que trois valeurs.\n Haute, Normal, Basse.\n À vous, posez la validation adéquate sur ces trois cellules\n.\n Une flèche de liste doit apparaître quand on les sélection\nne."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.027,
+     "transcription": "La colonne Priorité ne doit accepter que trois valeurs ha\nute, normale, basse.\n À vous, posez la validation adéquate sur ces trois cellules\n.\n Une flèche de liste doit apparaître quand on les sélection\nne."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "M21-E01-01",
+   "role": "Etape 1 · aide",
+   "texte_dit": "Bouton Validation, type Liste.",
+   "empreinte_texte_dit": "b1613f191589e33daee4b37e25a2521c8bcf6a65d12ba388c4a4fdfc963bba4d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 54796,
+   "duree_s": 3.36,
+   "caracteres_dits": 30,
+   "caracteres_factures": 30,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.091,
+     "transcription": "Bouton Validation, type list."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Bouton validation, type, liste."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M21-E01-02",
+   "role": "Etape 2 · consigne",
+   "texte_dit": "La quantité doit être comprise entre 1 et 500. À vous : posez la contrainte sur la colonne. Une saisie hors de ces bornes doit désormais être refusée.",
+   "empreinte_texte_dit": "67f2ced956608bb4a8ec2fcabd9874f326c9f9a33aecdd3a95dae5c8fe1a1833",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 161794,
+   "duree_s": 10.04,
+   "caracteres_dits": 150,
+   "caracteres_factures": 150,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La quantité doit être comprise entre 1 et 500.\n A vous, posez la contrainte sur la colonne.\n Une saisie hors de ces bornes doit désormais être refusée."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La quantité doit être comprise entre 1 et 500.\n À vous !\n Posez la contrainte sur la colonne.\n Une saisie hors de ses bornes doit désormais être refusée."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "M21-E01-02",
+   "role": "Etape 2 · aide",
+   "texte_dit": "Bouton Validation, règle nombre entre.",
+   "empreinte_texte_dit": "525ba3bd6f4110556efdaacbbc98a7c64524929bad9144cdfdc1bade95a272ad",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 47273,
+   "duree_s": 2.88,
+   "caracteres_dits": 38,
+   "caracteres_factures": 38,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Boutons Validation, règle nombre entre."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Bouton validation. Règle nombre entre."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M21-E01-03",
+   "role": "Etape 3 · consigne",
+   "texte_dit": "À vous : renseignez la première commande, avec une priorité Haute.",
+   "empreinte_texte_dit": "30e95075842d62a1247059fc0c67e19ec11a2255c328ebbb984dc96d55d347e2",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 75276,
+   "duree_s": 4.64,
+   "caracteres_dits": 66,
+   "caracteres_factures": 66,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "A vous, renseignez la première commande avec une priorité\n haute."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous ! Renseignez la première commande avec une priorité\n haute."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "M21-E01-03",
+   "role": "Etape 3 · aide",
+   "texte_dit": "Choisissez dans la liste, ou tapez la valeur exacte.",
+   "empreinte_texte_dit": "64302957d19830f4023424145f21d314b036c23c069b7131f6cf4408f07ab3ff",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 51035,
+   "duree_s": 3.12,
+   "caracteres_dits": 52,
+   "caracteres_factures": 52,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Choisissez dans la liste ou tapez la valeur exacte."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Choisissez dans la liste ou tapez la valeur exacte."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M21-E01-04",
+   "role": "Etape 4 · consigne",
+   "texte_dit": "À vous : saisissez une quantité de 50.",
+   "empreinte_texte_dit": "24e419081769003ee2ea94a9ff8cc6cbb600134bb83a6871769330744cd65bca",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 50199,
+   "duree_s": 3.08,
+   "caracteres_dits": 38,
+   "caracteres_factures": 38,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous, saisissez une quantité de 50."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous! Saisissez une quantité de 50."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-feedback",
+   "etape_lms": "M21-E01-04",
+   "role": "Etape 4 · retour de reussite",
+   "texte_dit": "Dans les bornes, donc accepté.",
+   "empreinte_texte_dit": "b909dd44af9302f359c8eb5723cdbad6561b5586a6e8e0279bcd9c8f08887eee",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-feedback.mp3",
+   "octets": 38914,
+   "duree_s": 2.36,
+   "caracteres_dits": 30,
+   "caracteres_factures": 30,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "dans les bornes, donc acceptées."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Dans les bornes, donc accepté."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M21-E01-05",
+   "role": "Etape 5 · consigne",
+   "texte_dit": "À vous : calculez le total de la ligne, puis recopiez la formule vers le bas.",
+   "empreinte_texte_dit": "1088feb011edb01d5b1c4ec44544ecffc1d4cbf0e415862172b186fbac81b8e9",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 75276,
+   "duree_s": 4.64,
+   "caracteres_dits": 77,
+   "caracteres_factures": 77,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous, calculez le total de la ligne, puis recopiez la\n formule vers le bas."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous ! Calculez le total de la ligne, puis recopiez la\n formule vers le bas."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "M21-E01-05",
+   "role": "Etape 5 · aide",
+   "texte_dit": "La quantité multipliée par le prix unitaire.",
+   "empreinte_texte_dit": "ace9b76dae1bdd842b1ea74ca2f9c8ebcb714aad8d41533ad4d85f71bda30986",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 52288,
+   "duree_s": 3.2,
+   "caracteres_dits": 44,
+   "caracteres_factures": 44,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La quantité multipliée par le prix unitaire."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La quantité multipliée par le prix unitaire."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-feedback",
+   "etape_lms": "M21-E01-05",
+   "role": "Etape 5 · retour de reussite",
+   "texte_dit": "6000 euros.",
+   "empreinte_texte_dit": "9553f0603eacaa5e194da21de22138879c963937586dd132316a837d67add01e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-feedback.mp3",
+   "octets": 20942,
+   "duree_s": 1.24,
+   "caracteres_dits": 11,
+   "caracteres_factures": 11,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "6000 euros"
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "6000 euros."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M21-E01-06",
+   "role": "Etape 6 · consigne",
+   "texte_dit": "À vous : complétez les deux autres lignes. Priorité et quantité au choix dans les contraintes, puis les totaux.",
+   "empreinte_texte_dit": "2af488bce837855df69a85f86df1cc426e63464821f997329b914a5bd0eeecb0",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 108713,
+   "duree_s": 6.72,
+   "caracteres_dits": 111,
+   "caracteres_factures": 111,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.018,
+     "transcription": "A vous, complétez les deux autres lignes, priorité et quant\nité au choix dans les contraintes, puis les taux taux."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.018,
+     "transcription": "À vous. Complétez les deux autres lignes, priorité et quant\nité au choix dans les contraintes,\n puis les totaux."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-aide",
+   "etape_lms": "M21-E01-06",
+   "role": "Etape 6 · aide",
+   "texte_dit": "Recopiez la formule vers le bas, et renseignez les quantités des deux dernières lignes.",
+   "empreinte_texte_dit": "f6de8aa623c0fb56c8a6d619b82f889e67cd03412492a03546805868b1482e79",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-aide.mp3",
+   "octets": 77784,
+   "duree_s": 4.8,
+   "caracteres_dits": 87,
+   "caracteres_factures": 87,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Recopiez la formule vers le bas et renseignez les quantités\n des deux dernières lignes."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Recopiez la formule vers le bas et renseignez les quantités\n des deux dernières lignes."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-feedback",
+   "etape_lms": "M21-E01-06",
+   "role": "Etape 6 · retour de reussite",
+   "texte_dit": "Le formulaire est maintenant difficile à casser : les priorités sont normalisées, les quantités bornées, et les totaux calculés.",
+   "empreinte_texte_dit": "e2c73d56eadf35e9a63f98edb499bd6dbec468c00456a3f51189bb9125cac51b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-feedback.mp3",
+   "octets": 127103,
+   "duree_s": 7.88,
+   "caracteres_dits": 128,
+   "caracteres_factures": 128,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le formulaire est maintenant difficile à casser. Les\n priorités sont normalisées, les quantités bornées et les t\naux tôt calculés."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le formulaire est maintenant difficile à casser.\n Les priorités sont normalisées, les quantités bornées et\n les tautos calculés."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "M21-E01-07",
+   "role": "Etape 7 · consigne",
+   "texte_dit": "Dernier contrôle. À vous : dans la cellule H1, comptez les commandes de priorité Haute.",
+   "empreinte_texte_dit": "021981d2547163522302f381c00d701606d054af3b29df4eed9790303c69fb2d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 106205,
+   "duree_s": 6.56,
+   "caracteres_dits": 87,
+   "caracteres_factures": 87,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Dernier contrôle.\n À vous, dans la cellule H1, comptez les commandes de prior\nité haute."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Dernier contrôle. A vous, dans la cellule H1, compter les\n commandes de priorité haute."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-aide",
+   "etape_lms": "M21-E01-07",
+   "role": "Etape 7 · aide",
+   "texte_dit": "La fonction NB point SI, sur la colonne Priorité.",
+   "empreinte_texte_dit": "bfc48763f52431a30007126850220aa58c45a830cc9e5f8540baf0812fb2fe04",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-aide.mp3",
+   "octets": 65663,
+   "duree_s": 4.04,
+   "caracteres_dits": 49,
+   "caracteres_factures": 49,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.114,
+     "transcription": "la fonction nb.si sur la colonne Priorité."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.114,
+     "transcription": "la fonction nb.si sur la colonne Priorité."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-feedback",
+   "etape_lms": "M21-E01-07",
+   "role": "Etape 7 · retour de reussite",
+   "texte_dit": "Un comptage fiable, parce que la saisie était contrainte. C'est tout l'enchaînement : valider en amont, pour compter juste en aval.",
+   "empreinte_texte_dit": "f06fe81972fcf53a99bca646ba125e057eedfa308878facc18f4db9b1ce5a485",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-feedback.mp3",
+   "octets": 113728,
+   "duree_s": 7.04,
+   "caracteres_dits": 131,
+   "caracteres_factures": 131,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Un comptage fiable parce que la saisie était contrainte.\n C'est tout l'enchaînement, validé en amont, pour compter\n juste en aval."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Un comptage fiable, parce que la saisie était contrainte.\n C'est tout l'enchaînement, validé en amont pour compter\n juste en aval."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Exercice terminé.",
+   "empreinte_texte_dit": "4b99724f36d437dda8d656c42f861242cad8e3f053427c09274e98917e46dc33",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 24703,
+   "duree_s": 1.48,
+   "caracteres_dits": 17,
+   "caracteres_factures": 17,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Exercice terminé."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Exercice terminé."
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

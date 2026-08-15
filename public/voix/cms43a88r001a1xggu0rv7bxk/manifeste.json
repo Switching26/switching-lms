@@ -1,0 +1,518 @@
+{
+ "chapitre": {
+  "chapterId": "cms43a88r001a1xggu0rv7bxk",
+  "app": "EXCEL",
+  "section": "",
+  "titre": "Compter et additionner sous condition"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 17,
+  "caracteres_dits": 1725,
+  "duree_totale_s": 103.0,
+  "segments_valides": 17,
+  "segments_plusieurs_essais": 3,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Combien de commandes dépassent 500 euros ? Quel est leur montant total ? Deux fonctions répondent sans trier le tableau.",
+   "empreinte_texte_dit": "74808f7065c9f950fbc916b5d108a72d0e9c4970b37ecc1785803988d2133fba",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 107459,
+   "duree_s": 6.64,
+   "caracteres_dits": 120,
+   "caracteres_factures": 120,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.039,
+     "transcription": "Combien de commandes dépasse 500 euros ? Quel est leur mont\nant total ?\n Deux fonctions répondent sans trier le tableau."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.026,
+     "transcription": "Combien de commandes dépassent 500 euros ?\n Quel est leur montant total ?\n Deux fonctions répondent centrier le tableau."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M07-L02-01",
+   "role": "Etape 1 · consigne",
+   "texte_dit": "À vous : dans la cellule E2, comptez les commandes supérieures à 500 euros, avec la fonction NB point SI. Le critère s'écrit entre guillemets.",
+   "empreinte_texte_dit": "b7d8903561776eeda9ba26a89672019153790263fe082d39f412011af0be9389",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 167645,
+   "duree_s": 10.4,
+   "caracteres_dits": 142,
+   "caracteres_factures": 142,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.061,
+     "transcription": "À vous, dans la cellule E2, comptez les commandes supérie\nures à 500 € avec la fonction nb.si.\n Le critère S écrit entre guillemets."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.061,
+     "transcription": "À vous ! Dans la cellule E2, comptez les commandes supérie\nures à 500 € avec la fonction NB.SI.\n Le critère S écrit entre guillemets."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "M07-L02-01",
+   "role": "Etape 1 · aide",
+   "texte_dit": "Le critère s'écrit entre guillemets, avec le signe supérieur suivi du nombre.",
+   "empreinte_texte_dit": "16ea53bd8b274b731652a5070a56e5c588a545bb23de3042c768bc2c547c0034",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 76530,
+   "duree_s": 4.72,
+   "caracteres_dits": 77,
+   "caracteres_factures": 77,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le critère S écrit entre guillemets avec le signe supérieur\n suivi du nombre."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le critère S écrit entre guillemets avec le signe supérieur\n suivi du nombre."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-feedback",
+   "etape_lms": "M07-L02-01",
+   "role": "Etape 1 · retour de reussite",
+   "texte_dit": "Trois commandes. Le critère de comparaison va entre guillemets, c'est ce qui surprend au début.",
+   "empreinte_texte_dit": "56fefb2aad98f002fb96b57c2b19f3ccbdcab9758cdd414e48815ee1464db417",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-feedback.mp3",
+   "octets": 77784,
+   "duree_s": 4.8,
+   "caracteres_dits": 95,
+   "caracteres_factures": 95,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.058,
+     "transcription": "Trois commandes. Le critère de comparaison va entre guillem\nets, c'est ce qui surprend au début."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Trois commandes.\n Le critère de comparaison va entre guillemets, c'est ce qui\n surprend au début."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M07-L02-02",
+   "role": "Etape 2 · consigne",
+   "texte_dit": "À vous : dans la cellule E3, additionnez le montant de ces mêmes commandes, avec SOMME point SI.",
+   "empreinte_texte_dit": "d9dae1efc701d5a4c8cfbfa7786b2ea94aebc99889d89479d47ef1a21b3cde1f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 114564,
+   "duree_s": 7.08,
+   "caracteres_dits": 96,
+   "caracteres_factures": 96,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.091,
+     "transcription": "À vous ! Dans la cellule E3, additionnez le montant de ces\n mêmes commandes avec SOME.SI."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.073,
+     "transcription": "À vous ! Dans la cellule E3, additionnez le montant de ces\n mêmes commandes avec Somme.si."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-feedback",
+   "etape_lms": "M07-L02-02",
+   "role": "Etape 2 · retour de reussite",
+   "texte_dit": "2220 euros. La première fonction compte, la seconde additionne. Même critère, question différente.",
+   "empreinte_texte_dit": "a5a13ddbb48d8b5a4addb0fd233615f7c3c9840c31b806758b4ec2c03cd13114",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-feedback.mp3",
+   "octets": 115818,
+   "duree_s": 7.16,
+   "caracteres_dits": 98,
+   "caracteres_factures": 98,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "2220 euros. La première fonction compte, la seconde\n additionne. Même critères, question différente."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "2220 €. La première fonction compte, la seconde additionne.\n Même critère, questions différentes."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M07-L02-03",
+   "role": "Etape 3 · consigne",
+   "texte_dit": "Le critère peut aussi être un texte. À vous : dans la cellule E4, comptez les commandes de Lille.",
+   "empreinte_texte_dit": "c1e0d67cd45d2226342d88c5d5d005f932f6aebeb3a4491fb0831d02586d8999",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 99100,
+   "duree_s": 6.12,
+   "caracteres_dits": 97,
+   "caracteres_factures": 97,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.02,
+     "transcription": "Le critère peut aussi être un texte.\n À vous, dans la cellule E4, comptez les commandes de l'île."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.02,
+     "transcription": "Le critère peut aussi être un texte.\n À vous, dans la cellule E4, compter les commandes de l'île."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "M07-L02-03",
+   "role": "Etape 3 · aide",
+   "texte_dit": "La plage examinée est celle des villes, pas des montants.",
+   "empreinte_texte_dit": "2a179ce90d10841e9a482dec60b457f70559a1b10c4f62aeadcf95ab0cae44fc",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 52288,
+   "duree_s": 3.2,
+   "caracteres_dits": 57,
+   "caracteres_factures": 57,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La plage examinée est celle des villes, pas des montants."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La plage examinée est celle des villes, pas des montants."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-feedback",
+   "etape_lms": "M07-L02-03",
+   "role": "Etape 3 · retour de reussite",
+   "texte_dit": "Trois clients à Lille.",
+   "empreinte_texte_dit": "49badf4976d38faa760bc52c9c133916b791dc07b6c55d7fcd4055e71874d7b2",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-feedback.mp3",
+   "octets": 24285,
+   "duree_s": 1.44,
+   "caracteres_dits": 22,
+   "caracteres_factures": 22,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.111,
+     "transcription": "Trois clients à l'île."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Trois clients à Lille"
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M07-L02-04",
+   "role": "Etape 4 · consigne",
+   "texte_dit": "Cas plus subtil : on veut le chiffre d'affaires de Lille. Le critère porte sur les villes, mais c'est la colonne des montants qu'il faut additionner. À vous : dans la cellule E5, écrivez cette formule à trois arguments.",
+   "empreinte_texte_dit": "c33f5cfd45da7370e8509f16f1cdbb0bc841912f78ccb9b48f338acebbf9ce86",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 183528,
+   "duree_s": 11.4,
+   "caracteres_dits": 219,
+   "caracteres_factures": 219,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.009,
+     "transcription": "Qu'à plus subtil, on veut le chiffre d'affaires de l'île.\n Le critère porte sur les villes, mais c'est la colonne des\n montants qu'il faut additionner.\n À vous, dans la cellule E5, écrivez cette formule à trois\n arguments."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Cas plus subtil, on veut le chiffre d'affaires de Lille.\n Le critère porte sur les villes, mais c'est la colonne des\n montants qu'il faut additionner.\n À vous, dans la cellule E5, écrivez cette formule à trois\n arguments."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "M07-L02-04",
+   "role": "Etape 4 · aide",
+   "texte_dit": "Trois arguments : où chercher, quoi chercher, quoi additionner.",
+   "empreinte_texte_dit": "c5c20100bca55b9520fb71cd016b890b95f5c295ae38c4958b836d02be0c00dc",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 67753,
+   "duree_s": 4.16,
+   "caracteres_dits": 63,
+   "caracteres_factures": 63,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Trois arguments.\n Ou chercher, quoi chercher, quoi additionner."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Trois arguments. Où chercher ? Quoi chercher ? Quoi\n additionner ?"
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-feedback",
+   "etape_lms": "M07-L02-04",
+   "role": "Etape 4 · retour de reussite",
+   "texte_dit": "1970 euros. C'est le troisième argument qui fait la différence : sans lui, Excel additionnerait la colonne des villes.",
+   "empreinte_texte_dit": "d6f86779d289476b3f1ef5184c4c57ce895e82a802d11d53ec50181c6e8f6eb6",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-feedback.mp3",
+   "octets": 119998,
+   "duree_s": 7.44,
+   "caracteres_dits": 118,
+   "caracteres_factures": 118,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "1970 euros. C'est le troisième argument qui fait la\n différence.\n Sans lui, Excel additionnerait la colonne des villes."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "1 970 €. C'est le troisième argument qui fait la différence\n.\n Sans lui, Excel additionnerait la colonne des villes."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M07-L02-05",
+   "role": "Etape 5 · consigne",
+   "texte_dit": "Récapitulons la logique de ces fonctions, car elle est la même quel que soit leur nom : où chercher, quoi chercher, et éventuellement quoi additionner. Les trois arguments sont repris à l'écran dans l'ordre. Le seul piège tient au troisième : quand on l'omet, la fonction additionne la colonne dans laquelle elle a cherché.",
+   "empreinte_texte_dit": "dc2d5f4e424605b6de30d92ccd0b06714eac8fd84223ad907077e75bdc7a3191",
+   "reparations": [
+    "l'écran"
+   ],
+   "ssml": true,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 260850,
+   "duree_s": 16.24,
+   "caracteres_dits": 323,
+   "caracteres_factures": 384,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.005,
+     "transcription": "Récapitulons la logique de ces fonctions, car elle est la\n même quelle que soit leur nom.\n Ou chercher, quoi chercher, et éventuellement quoi addition\nner.\n Les trois arguments sont repris à l'écran dans l'ordre.\n Le seul piège tient au troisième.\n Quand on l'aumait, la fonction additionne la colonne dans\n laquelle elle a cherché."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.016,
+     "transcription": "Récapitulons la logique de ces fonctions, car elle est la\n même quel que soit leur nom.\n Où chercher, quoi chercher, et éventuellement quoi addition\nner.\n Les trois arguments sont repris à l'écran dans l'ordre.\n Le seul piège tient au troisième.\n Quand on le met, la fonction additionne la colonne dans\n laquelle elle a cherché."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-bulle1",
+   "etape_lms": "M07-L02-05",
+   "role": "Etape 5 · bulle 1 sur B2:B7",
+   "texte_dit": "Premier argument : où chercher le critère.",
+   "empreinte_texte_dit": "3010921cbd15e0d80e6cb22bc7f8e76395bcd25de1d58120fc4303924ee3e7bc",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-bulle1.mp3",
+   "octets": 46019,
+   "duree_s": 2.8,
+   "caracteres_dits": 42,
+   "caracteres_factures": 42,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Première argument, où chercher le critère."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Premier argument, où chercher le critère."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-bulle2",
+   "etape_lms": "M07-L02-05",
+   "role": "Etape 5 · bulle 2 sur B2",
+   "texte_dit": "Deuxième : quel critère.",
+   "empreinte_texte_dit": "8dca84f5b8b98bc1cc0dec62bc69e99d30756826d2cd38894995c906b05f4a63",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-bulle2.mp3",
+   "octets": 30555,
+   "duree_s": 1.84,
+   "caracteres_dits": 24,
+   "caracteres_factures": 24,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Deuxième, quel critère ?"
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Deuxième, quels critères ?"
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-bulle3",
+   "etape_lms": "M07-L02-05",
+   "role": "Etape 5 · bulle 3 sur C2:C7",
+   "texte_dit": "Le troisième argument est facultatif : la colonne à additionner.",
+   "empreinte_texte_dit": "9fdfe3fffbd03535947181bc0d702948d59d3f6a4194a64221191304f9a15971",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-bulle3.mp3",
+   "octets": 61066,
+   "duree_s": 3.76,
+   "caracteres_dits": 64,
+   "caracteres_factures": 64,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le troisième argument est facultatif.\n La colonne a additionné."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le troisième argument est facultatif.\n La colonne a additionné."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Vous savez compter et totaliser selon un critère, y compris textuel.",
+   "empreinte_texte_dit": "927408d7c09b2f14a704f0bd5a2c46cd2029e3dd7382d16cf989d9b3d46d6d5f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 62737,
+   "duree_s": 3.84,
+   "caracteres_dits": 68,
+   "caracteres_factures": 68,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Vous savez compter et totaliser selon un critère, y compris\n textuel."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Vous savez compter et totaliser selon un critère, y compris\n textuel."
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

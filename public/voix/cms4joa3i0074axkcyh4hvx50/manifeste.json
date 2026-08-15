@@ -1,0 +1,744 @@
+{
+ "chapitre": {
+  "chapterId": "cms4joa3i0074axkcyh4hvx50",
+  "app": "EXCEL",
+  "section": "",
+  "titre": "Calculer la mensualité d'un prêt"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 25,
+  "caracteres_dits": 2890,
+  "duree_totale_s": 186.5,
+  "segments_valides": 22,
+  "segments_plusieurs_essais": 8,
+  "segments_jamais_valides": 3
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Un emprunt de 18000 euros sur cinq ans, à 3,6 %. La mensualité ne se calcule pas en divisant le capital par le nombre de mois : il y a des intérêts. La fonction VPM s'en charge, à trois conditions qu'il faut connaître.",
+   "empreinte_texte_dit": "fffa0af7d5a93fe86debabc426344d3b4e68534274dd4b5a427417e31fb7b14b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 230339,
+   "duree_s": 14.32,
+   "caracteres_dits": 218,
+   "caracteres_factures": 218,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.058,
+     "transcription": "Un emprunt de 18 000 € sur 5 ans à 3, 6 %.\n La mensualité ne se calcule pas en divisant le capital par\n le nombre de mois.\n Il y a des intérêts.\n La fonction VPM s'en charge à 3 conditions qu'il faut conna\nître."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Un emprunt de 18 000 € sur 5 ans à 3,6 %.\n La mensualité ne se calcule pas en divisant le capital par\n le nombre de mois, il y a des intérêts.\n La fonction VPM s'en charge, à trois conditions qu'il faut\n connaître."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M10-L05-01",
+   "role": "Etape 1 · consigne",
+   "texte_dit": "Cette fonction demande une préparation, et c'est là que se jouent la plupart des erreurs de calcul de prêt. Ce qu'elle attend est détaillé à l'écran. Le principe à comprendre : elle ne connaît que des périodes, ni des années ni des mois. C'est à vous de lui fournir un taux et une durée exprimés dans la même unité.",
+   "empreinte_texte_dit": "849fb99acf2d3d2ccd0d52cf47186c0ffd63270b4af587d234c29eb8312eee4e",
+   "reparations": [
+    "l'écran"
+   ],
+   "ssml": true,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 263358,
+   "duree_s": 16.4,
+   "caracteres_dits": 315,
+   "caracteres_factures": 376,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Cette fonction demande une préparation et c'est là que se\n jouent la plupart des erreurs de calcul de près.\n Ce qu'elle attend est détaillé à l'écran.\n Le principe à comprendre.\n Elle ne connaît que des périodes, ni des années, ni des\n mois.\n C'est à vous de lui fournir un taux et une durée exprimée\n dans la même unité."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.011,
+     "transcription": "Cette fonction demande une préparation et c'est là que se\n joue la plupart des erreurs de calcul de prêt.\n Ce qu'elle attend est détaillé à l'écran.\n Le principe à comprendre. Elle ne connaît que des périodes,\n ni des années ni des mois.\n C'est à vous de lui fournir un taux et une durée exprimée\n dans la même unité."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-bulle1",
+   "etape_lms": "M10-L05-01",
+   "role": "Etape 1 · bulle 1 sur B4",
+   "texte_dit": "Le taux affiché est annuel : la fonction attend un taux par mois.",
+   "empreinte_texte_dit": "6ab69ad3982dfa57724a1883031622a59e118cee1232725bc6d52b44e6915fe3",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-bulle1.mp3",
+   "octets": 69425,
+   "duree_s": 4.28,
+   "caracteres_dits": 65,
+   "caracteres_factures": 65,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le taux affiché est annuel.\n La fonction attend un taux par mois."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le taux affiché est annuel.\n La fonction attend un taux par mois."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-bulle2",
+   "etape_lms": "M10-L05-01",
+   "role": "Etape 1 · bulle 2 sur B5",
+   "texte_dit": "La durée est en années : il faut la convertir en mois.",
+   "empreinte_texte_dit": "0920f8c3fae3977ff125d3b4027f732535d0e835832bb251a43aad7bd9c03f6a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-bulle2.mp3",
+   "octets": 49781,
+   "duree_s": 3.04,
+   "caracteres_dits": 54,
+   "caracteres_factures": 54,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La durée est en année, il faut la convertir en mois."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La durée est en années, il faut la convertir en mois."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-bulle3",
+   "etape_lms": "M10-L05-01",
+   "role": "Etape 1 · bulle 3 sur A7",
+   "texte_dit": "On prépare ces deux valeurs avant d'appeler la fonction.",
+   "empreinte_texte_dit": "0276741e6363dbd26d7c800f99942653fb105bfab8cf90dcf16daf813c80a416",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-bulle3.mp3",
+   "octets": 52288,
+   "duree_s": 3.2,
+   "caracteres_dits": 56,
+   "caracteres_factures": 56,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "On prépare ces deux valeurs avant d'appeler la fonction."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "On prépare ces deux valeurs avant d'appeler la fonction."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M10-L05-02",
+   "role": "Etape 2 · consigne",
+   "texte_dit": "À vous : dans la cellule B7, calculez le taux mensuel, à partir du taux annuel.",
+   "empreinte_texte_dit": "0b09dee12b04876c4290a3768a8170ca4518229024cb8ef504227531d84175b2",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 88651,
+   "duree_s": 5.48,
+   "caracteres_dits": 79,
+   "caracteres_factures": 79,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "A vous, dans la cellule B7, calculez le taux mensuel à\n partir du taux annuel."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous, dans la cellule B7, calculez le taux mensuel à\n partir du taux annuel."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "M10-L05-02",
+   "role": "Etape 2 · aide",
+   "texte_dit": "Le taux annuel est saisi juste au-dessus.",
+   "empreinte_texte_dit": "df68ceda246fd7d071fb8bd7b2595e677b5bff47cedc46ee87f36de28b7f3ba1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 41422,
+   "duree_s": 2.52,
+   "caracteres_dits": 41,
+   "caracteres_factures": 41,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le taux annuel est saisie juste au-dessus."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le taux annuel est saisi juste au-dessus."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-feedback",
+   "etape_lms": "M10-L05-02",
+   "role": "Etape 2 · retour de reussite",
+   "texte_dit": "0,003, soit 0,3 % par mois. C'est cette valeur que la fonction attend, pas le taux annuel.",
+   "empreinte_texte_dit": "f587a44dc8385eda7a03d42503550e8be2c08324afbb0bb981a8951d6dd99b96",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-feedback.mp3",
+   "octets": 116236,
+   "duree_s": 7.2,
+   "caracteres_dits": 90,
+   "caracteres_factures": 90,
+   "essais": 4,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "0,003 soit 0,3% par mois.\n C'est cette valeur que la fonction attend, pas le taux ann\nuel."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "0,003 soit 0,3% par mois.\n C'est cette valeur que la fonction attend, pas le taux ann\nuel."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M10-L05-03",
+   "role": "Etape 3 · consigne",
+   "texte_dit": "À vous : dans la cellule B8, calculez le nombre de mensualités.",
+   "empreinte_texte_dit": "ab5331886baed024b714db1498d652d50dac2a68e81d7f67abf835bb1d8121ba",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 71933,
+   "duree_s": 4.44,
+   "caracteres_dits": 63,
+   "caracteres_factures": 63,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "A vous. Dans la cellule B8, calculez le nombre de mensual\nité."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous ! Dans la cellule B8, calculez le nombre de mensual\nités."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-feedback",
+   "etape_lms": "M10-L05-03",
+   "role": "Etape 3 · retour de reussite",
+   "texte_dit": "60 mensualités.",
+   "empreinte_texte_dit": "6dbf175acaed4a827d02f47d570cb7bdda57e35950199734eea8fdab07c1fd9e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-feedback.mp3",
+   "octets": 35570,
+   "duree_s": 2.16,
+   "caracteres_dits": 15,
+   "caracteres_factures": 15,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "60 mensualités"
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "60 mensualités"
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M10-L05-04",
+   "role": "Etape 4 · consigne",
+   "texte_dit": "À vous : dans la cellule B9, appelez la fonction VPM, avec le taux mensuel, le nombre de mensualités, et le capital précédé d'un signe moins. Ce signe moins donne une mensualité positive.",
+   "empreinte_texte_dit": "0e1e2e89b9c4cca6df79b590ee7c4cc4e082a632eed4942606cd84af53e29cbe",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 199410,
+   "duree_s": 12.4,
+   "caracteres_dits": 187,
+   "caracteres_factures": 187,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous, dans la cellule B9, appelez la fonction VPM avec le\n taux mensuel, le nombre de mensualité et le capital précédé\n d'un signe moins.\n Ce signe moins donne une mensualité positive."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.009,
+     "transcription": "À vous, dans la cellule B9, appelez la fonction VPM avec le\n taux mensuel, le nombre de mensualités et le capital précéd\né d'un signe moins.\n Ce signe moins donne une mensualité positive."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "M10-L05-04",
+   "role": "Etape 4 · aide",
+   "texte_dit": "Trois arguments : taux mensuel, nombre de mensualités, capital emprunté avec un signe moins.",
+   "empreinte_texte_dit": "f15fe87c8b3a94406b487f76dbd195a04d6afd3a5f163a14c9ff658f102e601c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 98264,
+   "duree_s": 6.08,
+   "caracteres_dits": 92,
+   "caracteres_factures": 92,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.017,
+     "transcription": "Trois arguments. Taux mensuels. Nombre de mensualité. Capit\nale empruntée avec un signe moins."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Trois arguments. Taux mensuel, nombre de mensualités,\n capital emprunté avec un signe moins."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-feedback",
+   "etape_lms": "M10-L05-04",
+   "role": "Etape 4 · retour de reussite",
+   "texte_dit": "328,26 euros par mois. Sans le signe moins, Excel afficherait le même montant en négatif : pour lui, une somme reçue et une somme versée sont de signes opposés.",
+   "empreinte_texte_dit": "c58c92dcf4eaba82cd620f21be006ce0c7e5a5972fd3081066cf3de01d3fa82a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-feedback.mp3",
+   "octets": 176004,
+   "duree_s": 10.92,
+   "caracteres_dits": 160,
+   "caracteres_factures": 160,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "328,26 euros par mois.\n Sans le signe moins, Excel afficherait le même montant en\n négatif.\n Pour lui, une somme reçue et une somme versée sont de signe\n opposée."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.021,
+     "transcription": "328,26 € par mois.\n Sans le signe moins, Excel afficherait le même montant en\n négatif.\n Pour lui, une somme reçue et une somme versée sont de sign\nes opposés."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M10-L05-05",
+   "role": "Etape 5 · consigne",
+   "texte_dit": "À vous : dans la cellule B10, calculez le total remboursé sur toute la durée du prêt.",
+   "empreinte_texte_dit": "b41ca5454dda51d6001413873815ad02bcd6007b1b04e085f730e2080fd54eca",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 92413,
+   "duree_s": 5.72,
+   "caracteres_dits": 85,
+   "caracteres_factures": 85,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "A vous, dans la cellule B10, calculez le total remboursé\n sur toute la durée du prêt."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous, dans la cellule B10,\n calculez le total remboursé sur toute la durée du prêt."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-feedback",
+   "etape_lms": "M10-L05-05",
+   "role": "Etape 5 · retour de reussite",
+   "texte_dit": "19695,49 euros versés au total.",
+   "empreinte_texte_dit": "d2f1512bd52c27c3a421940d6cb7d851cb7302b09d5940bb3daf05b42a8ac01e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-feedback.mp3",
+   "octets": 69425,
+   "duree_s": 4.28,
+   "caracteres_dits": 31,
+   "caracteres_factures": 31,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "19 695, 49 euros versés au total."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "19 695, 49 € versés au total."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M10-L05-06",
+   "role": "Etape 6 · consigne",
+   "texte_dit": "À vous : dans la cellule B11, calculez le coût du crédit, ce que la banque garde.",
+   "empreinte_texte_dit": "d6fcf6d4d7bb2df005fe6ba539f5a8ae4734102ea089dc4be58ae1c32af08861",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 88233,
+   "duree_s": 5.44,
+   "caracteres_dits": 81,
+   "caracteres_factures": 81,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous, dans la cellule B11, calculez le coût du crédit, ce\n que la banque garde."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous, dans la cellule B11,\n calculez le coût du crédit, ce que la banque garde."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-feedback",
+   "etape_lms": "M10-L05-06",
+   "role": "Etape 6 · retour de reussite",
+   "texte_dit": "1695,49 euros d'intérêts, pour 18000 euros empruntés.",
+   "empreinte_texte_dit": "1d1fd3f8faea4b84a1166f5e868ecc4a884f0b858c891d6f78d4595184092d84",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-feedback.mp3",
+   "octets": 89487,
+   "duree_s": 5.52,
+   "caracteres_dits": 53,
+   "caracteres_factures": 53,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": false,
+     "wer": 0.135,
+     "transcription": "1695 €, 49 € d'intérêt pour 18 000 € empruntés."
+    },
+    "moteur_second_medium": {
+     "ok": false,
+     "wer": 0.135,
+     "transcription": "1695 €, 49 € d'intérêt pour 18 000 € empruntés."
+    },
+    "valide_sur_les_deux": false
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "M10-L05-07",
+   "role": "Etape 7 · consigne",
+   "texte_dit": "La banque propose d'étaler sur sept ans. À vous : portez la durée à sept années, et regardez les quatre lignes du bas.",
+   "empreinte_texte_dit": "bfbc0eb3c1da7d19e66b16427176fae80e4addbffd80c53c5904263b58aa10db",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 117490,
+   "duree_s": 7.28,
+   "caracteres_dits": 118,
+   "caracteres_factures": 118,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La banque propose d'étaler sur 7 ans.\n À vous, portez la durée à 7 années et regardez les quatre l\nignes du bas."
+    },
+    "moteur_second_medium": {
+     "ok": false,
+     "wer": 0.054,
+     "transcription": "La banque propose des étalées sur 7 ans.\n À vous, portez la durée à cette année et regardez les\n quatre lignes du bas."
+    },
+    "valide_sur_les_deux": false
+   }
+  },
+  {
+   "id": "e7-aide",
+   "etape_lms": "M10-L05-07",
+   "role": "Etape 7 · aide",
+   "texte_dit": "Une seule cellule à modifier : tout le reste suit.",
+   "empreinte_texte_dit": "122640860c20726fe49e7119d5ad7d2e210844a75aae1aa792c54a6df92a45c7",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-aide.mp3",
+   "octets": 56886,
+   "duree_s": 3.48,
+   "caracteres_dits": 50,
+   "caracteres_factures": 50,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Une seule cellule a modifié. Tout le reste suit."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Une seule cellule à modifier.\n Tout le reste suit."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-feedback",
+   "etape_lms": "M10-L05-07",
+   "role": "Etape 7 · retour de reussite",
+   "texte_dit": "La mensualité tombe à 242,74 euros, mais le crédit coûte 2390 euros au lieu de 1695,49. Allonger la durée soulage la trésorerie et alourdit la facture : c'est exactement l'arbitrage qu'un tableau de simulation doit rendre visible.",
+   "empreinte_texte_dit": "761ba0fae891f42c2e6a2bcb483bab453111ac24e2b85b04971197edaa70f763",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-feedback.mp3",
+   "octets": 271299,
+   "duree_s": 16.88,
+   "caracteres_dits": 230,
+   "caracteres_factures": 230,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.019,
+     "transcription": "La mensualité tombe à 242,74 €, mais le crédit coûte 2390 €\n au lieu de 1695,49 €.\n Allonger la durée soulage, la trésorerie et alourdie la\n facture,\n c'est exactement l'arbitrage qu'un tableau de simulation\n doit rendre visible."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.006,
+     "transcription": "La mensualité tombe à 242,74 €, mais le crédit coûte 2390 €\n au lieu de 1695,49.\n Allongez la durée soulage la trésorerie et alourdis la fact\nure.\n C'est exactement l'arbitrage qu'un tableau de simulation\n doit rendre visible."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-consigne",
+   "etape_lms": "M10-L05-08",
+   "role": "Etape 8 · consigne",
+   "texte_dit": "Les trois erreurs qui faussent un calcul de prêt, dans leur ordre de fréquence, sont reprises à l'écran. La troisième n'est d'ailleurs pas une erreur de calcul, mais de lecture : un résultat négatif est normal, c'est la convention d'Excel pour de l'argent qui sort. Les deux premières donnent des mensualités absurdes, qu'un simple ordre de grandeur suffit à repérer.",
+   "empreinte_texte_dit": "955853a891d0777d0eeb7e01b11fd06fe51ec4561db3c646dceae7a4f5a8a583",
+   "reparations": [
+    "l'écran"
+   ],
+   "ssml": true,
+   "fichier": "audio/e8-consigne.mp3",
+   "octets": 288435,
+   "duree_s": 17.96,
+   "caracteres_dits": 367,
+   "caracteres_factures": 428,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.023,
+     "transcription": "Les trois erreurs qu'il faut s'incalculent de près, dans\n leur ordre de fréquence, sont reprises à l'écran.\n La troisième n'est d'ailleurs pas une erreur de calcul mais\n de lecture.\n Un résultat négatif est normal, c'est la convention d'Excel\n pour de l'argent qui sort.\n Les deux premières donnent des mensualités absurdes, qu'un\n simple ordre de grandeur suffit à repérer."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.005,
+     "transcription": "Les trois erreurs qui fossent un calcul de près, dans leur\n ordre de fréquence, sont\n reprises à l'écran.\n La troisième n'est d'ailleurs pas une erreur de calcul mais\n de lecture.\n Un résultat négatif et normal.\n C'est la convention d'Excel pour de l'argent qui sort.\n Les deux premières donnent des mensualités absurdes, qu'un\n simple ordre de grandeur\n suffit à repérer."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-bulle1",
+   "etape_lms": "M10-L05-08",
+   "role": "Etape 8 · bulle 1 sur B4",
+   "texte_dit": "Erreur la plus fréquente : oublier de ramener le taux au mois.",
+   "empreinte_texte_dit": "1f25cd871dba523d398a1a6dee1bfbbae6d0df260c93a3b8c796188fa4a3133f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-bulle1.mp3",
+   "octets": 61066,
+   "duree_s": 3.76,
+   "caracteres_dits": 62,
+   "caracteres_factures": 62,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Erreur la plus fréquente.\n Oubliez de ramener le taux au mois."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.031,
+     "transcription": "Erreur la plus fréquente.\n Oubliez de ramener le taux au moins."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-bulle2",
+   "etape_lms": "M10-L05-08",
+   "role": "Etape 8 · bulle 2 sur B5",
+   "texte_dit": "Deuxième : saisir la durée en années au lieu de mois.",
+   "empreinte_texte_dit": "70aaf91626e083eae45cad3bc9964352802e303f09f9b0580f8029fc80ae8e87",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-bulle2.mp3",
+   "octets": 58558,
+   "duree_s": 3.6,
+   "caracteres_dits": 53,
+   "caracteres_factures": 53,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": false,
+     "wer": 0.259,
+     "transcription": "2e. Saisir la durée en année au lieu de mois."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Deuxième, saisir la durée en années au lieu de mois."
+    },
+    "valide_sur_les_deux": false
+   }
+  },
+  {
+   "id": "e8-bulle3",
+   "etape_lms": "M10-L05-08",
+   "role": "Etape 8 · bulle 3 sur A9",
+   "texte_dit": "Troisième erreur : lire le résultat négatif comme une erreur. C'est de l'argent qui sort.",
+   "empreinte_texte_dit": "512270f34dab3b79cd1e0361d34ee91c63a4d67c2463bd780989ec76d96adcd4",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-bulle3.mp3",
+   "octets": 79874,
+   "duree_s": 4.92,
+   "caracteres_dits": 89,
+   "caracteres_factures": 89,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Troisième erreur, lire le résultat négatif comme une erreur\n.\n C'est de l'argent qui sort."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Troisième erreur, lire le résultat négatif comme une erreur\n.\n C'est de l'argent qui sort."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Vous savez calculer une mensualité, en déduire le coût réel du crédit, et voir aussitôt l'effet d'un allongement de la durée. Les trois pièges de la fonction sont derrière vous : taux par période, durée en périodes, et signe du capital.",
+   "empreinte_texte_dit": "1cc51b71c45a92291156abdf916ae68f7ade2dfa6ef43b739458f30f68e2e5ca",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 244132,
+   "duree_s": 15.2,
+   "caracteres_dits": 236,
+   "caracteres_factures": 236,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.023,
+     "transcription": "Vous savez calculer une mensualité, en déduire le cours ré\nel du crédit et voir aussi tous\n les faits d'un allongement de la durée.\n Les trois pièges de la fonction sont derrière vous, tôt par\n période, durée en période\n et signe du capital."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Vous savez calculer une mensualité, en déduire le coût réel\n du crédit et voir aussitôt\n l'effet d'un allongement de la durée.\n Les trois pièges de la fonction sont derrière vous.\n Tôt par période, durée en période et signe du capital."
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

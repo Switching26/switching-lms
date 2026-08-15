@@ -1,0 +1,522 @@
+{
+ "chapitre": {
+  "chapterId": "cms4jog3s00jyaxkc8kq9npcz",
+  "app": "Excel",
+  "section": "Analyses et simulations",
+  "titre": "Optimiser sous contrainte"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)"
+  ],
+  "criteres": [
+   "WER <= 0.15",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe le moteur severe"
+ },
+ "totaux": {
+  "segments": 22,
+  "caracteres_dits": 2503,
+  "duree_totale_s": 150.4,
+  "segments_valides": 22,
+  "segments_plusieurs_essais": 1,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "La valeur cible trouve une inconnue, et ignore tout le reste : les entiers, les capacités, les minima. Voir où elle s'arrête, c'est comprendre à quoi sert le Solveur.",
+   "empreinte_texte_dit": "be2bcf3337702e95bc5881baeb9a8c460033ad32e5de5dab52b24b0a68685cba",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 163048,
+   "duree_s": 10.12,
+   "caracteres_dits": 166,
+   "caracteres_factures": 166,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La valeur cible trouve une inconnue et ignore tout le reste. Les entiers, les capacités, les minima. Voir où elle s'arrête, c'est comprendre à quoi sert le solveur."
+    }
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M23-L04-01",
+   "role": "Etape 1 · consigne, dite a l'arrivee",
+   "texte_dit": "Même modèle, autre question. Dans la cellule B9, posez la marge : le chiffre d'affaires, moins l'ensemble des coûts.",
+   "empreinte_texte_dit": "3cd23e6b2e80bbc3d1766fa9d517cb287cb694a5a0ec6ab7fdc311ebc95c7eca",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 112475,
+   "duree_s": 6.96,
+   "caracteres_dits": 116,
+   "caracteres_factures": 116,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Même modèle autre question. Dans la cellule B9, posez la marge. Le chiffre d'affaires, moins l'ensemble des coûts."
+    }
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "M23-L04-01",
+   "role": "Etape 1 · aide, dite au devoilement",
+   "texte_dit": "C'est le chiffre d'affaires, moins les coûts.",
+   "empreinte_texte_dit": "6fce34dfc60bf9084cd429564e6bcb775b721b7c82940762a30bc0becae01786",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 40586,
+   "duree_s": 2.48,
+   "caracteres_dits": 45,
+   "caracteres_factures": 45,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "C'est le chiffre d'affaires moins les coûts."
+    }
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M23-L04-02",
+   "role": "Etape 2 · consigne, dite a l'arrivee",
+   "texte_dit": "La direction veut 7000 euros de marge, et le prix ne bougera pas. Ouvrez l'onglet Données, et cliquez sur Valeur cible pour trouver l'effectif nécessaire. L'effectif se met à jour, et la marge affiche le montant voulu.",
+   "empreinte_texte_dit": "350063bf24d68d432082a23119fb502c7a965ae3444b1d0c9117433adddde4cc",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 190633,
+   "duree_s": 11.84,
+   "caracteres_dits": 218,
+   "caracteres_factures": 218,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.075,
+     "transcription": "La direction veut 7 000 euros de marge et le prix ne bougera pas. Ouvrez l'onglet « Donner » et cliquez sur « Valeurs cibles » pour trouver l'effectif nécessaire. L'effectif se met à jour et la marge affiche le montant voulu."
+    }
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "M23-L04-02",
+   "role": "Etape 2 · aide, dite au devoilement",
+   "texte_dit": "La cellule à définir est celle de la marge, la valeur à atteindre 7000, et la cellule à modifier celle de l'effectif.",
+   "empreinte_texte_dit": "676138074e745183e67116f6c0a029c69a0023690fea4daeef9f62677dd96286",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 112893,
+   "duree_s": 7.0,
+   "caracteres_dits": 117,
+   "caracteres_factures": 117,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La cellule à définir est celle de la marge, la valeur à atteindre 7000 et la cellule à modifier celle de l'effectif."
+    }
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M23-L04-03",
+   "role": "Etape 3 · consigne, dite a l'arrivee",
+   "texte_dit": "Et la salle ne contient que dix places. Dans la colonne de contrôle, vérifiez la contrainte avec la fonction SI : elle affichera un message si l'effectif dépasse la capacité.",
+   "empreinte_texte_dit": "6d7e069f3ea28dfe9d9b4eb60c5c6452e717950ce2391140e0fe803ff8609cfc",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 152181,
+   "duree_s": 9.44,
+   "caracteres_dits": 174,
+   "caracteres_factures": 174,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.133,
+     "transcription": "et la salle ne contient que 10 places. Dans la colonne de contrôle, vérifiez la contrainte avec la fonction SI. Elle affichera un message s'il est factif dépasse la capacité."
+    }
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "M23-L04-03",
+   "role": "Etape 3 · aide, dite au devoilement",
+   "texte_dit": "Une fonction SI qui compare l'effectif trouvé à la capacité de la salle.",
+   "empreinte_texte_dit": "a0e27b8017f2a35a2a41a10d5fed00336b331593937d0e92c1ed53281661870c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 73604,
+   "duree_s": 4.52,
+   "caracteres_dits": 72,
+   "caracteres_factures": 72,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.071,
+     "transcription": "Une fonction AC qui compare l'effectif trouvé à la capacité de la salle."
+    }
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M23-L04-04",
+   "role": "Etape 4 · consigne, dite a l'arrivee",
+   "texte_dit": "Juste en dessous, arrondissez à l'entier supérieur avec la fonction ARRONDI.SUP. C'est le nombre de stagiaires à inscrire réellement.",
+   "empreinte_texte_dit": "b4359e5c9917412cbf04139b3de6dbaf0170efcf7e32799fca628e56a6965dca",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 140478,
+   "duree_s": 8.72,
+   "caracteres_dits": 133,
+   "caracteres_factures": 133,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Juste en dessous, arrondissez à l'entier supérieur avec la fonction arrondi.sup. C'est le nombre de stagiaires à inscrire réellement."
+    }
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "M23-L04-04",
+   "role": "Etape 4 · aide, dite au devoilement",
+   "texte_dit": "Utilisez ARRONDI.SUP, avec zéro décimale.",
+   "empreinte_texte_dit": "2648fdd951017812ecac5ea9b3b01c94373c97083d7e649f80e67276bf7975a6",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 59394,
+   "duree_s": 3.64,
+   "caracteres_dits": 41,
+   "caracteres_factures": 41,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.167,
+     "transcription": "Utilisez arrondi.sup avec 0 décimales."
+    }
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M23-L04-05",
+   "role": "Etape 5 · consigne, dite a l'arrivee",
+   "texte_dit": "Deuxième levier : garder 8 stagiaires, et raccourcir la session. Remettez la valeur d'origine dans la cellule de l'effectif.",
+   "empreinte_texte_dit": "858e972722ed3001895d5b5627d723673f680662406aaabd0f93b9f4a1038887",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 123342,
+   "duree_s": 7.64,
+   "caracteres_dits": 124,
+   "caracteres_factures": 124,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.05,
+     "transcription": "2e levier, garder 8 stagiaires et raccourcir la session. Remettez la valeur d'origine dans la cellule de l'effectif."
+    }
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "M23-L04-05",
+   "role": "Etape 5 · aide, dite au devoilement",
+   "texte_dit": "C'est la valeur d'origine du modèle.",
+   "empreinte_texte_dit": "159511be632e4856d6ccaf1dc264304a0f1c98137e973f4213f18e504b33b692",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 34316,
+   "duree_s": 2.08,
+   "caracteres_dits": 36,
+   "caracteres_factures": 36,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "C'est la valeur d'origine du modèle."
+    }
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M23-L04-06",
+   "role": "Etape 6 · consigne, dite a l'arrivee",
+   "texte_dit": "Relancez la valeur cible, pour trouver le nombre de jours qui donnerait la même marge avec huit personnes. Le nombre de jours change, et la marge retombe sur le montant voulu.",
+   "empreinte_texte_dit": "89c3586fef0e4b54744a9cbe0d41b1456282cfb0dc25a7fa0c47ba4233bf82b7",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 148419,
+   "duree_s": 9.2,
+   "caracteres_dits": 175,
+   "caracteres_factures": 175,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Relancer la valeur cible pour trouver le nombre de jours qui donnerait la même marge avec 8 personnes. Le nombre de jours change et la marge retombe sur le montant voulu."
+    }
+   }
+  },
+  {
+   "id": "e6-aide",
+   "etape_lms": "M23-L04-06",
+   "role": "Etape 6 · aide, dite au devoilement",
+   "texte_dit": "Même boîte de dialogue, mais la cellule à modifier est celle du nombre de jours.",
+   "empreinte_texte_dit": "268b8785554f84723ed21536e7c50cdc2d315ab7a2b3f808642de1ded2ca4711",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-aide.mp3",
+   "octets": 64409,
+   "duree_s": 3.96,
+   "caracteres_dits": 80,
+   "caracteres_factures": 80,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.133,
+     "transcription": "Même boîte de dialogue, mais la cellule a modifié celle du nombre de jours."
+    }
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "M23-L04-07",
+   "role": "Etape 7 · consigne, dite a l'arrivee",
+   "texte_dit": "Dans la cellule D6, arrondissez au jour entier inférieur, avec la fonction ARRONDI.INF.",
+   "empreinte_texte_dit": "70e1ecbae1b9978fcb1178d32dc018db32ff7cbae7a62d69d447f72ca0f87685",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 95338,
+   "duree_s": 5.88,
+   "caracteres_dits": 87,
+   "caracteres_factures": 174,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.071,
+     "transcription": "Dans la cellule D6, arrondissez au jour entier inférieur avec la fonction arrondi.ign."
+    }
+   }
+  },
+  {
+   "id": "e7-aide",
+   "etape_lms": "M23-L04-07",
+   "role": "Etape 7 · aide, dite au devoilement",
+   "texte_dit": "Utilisez ARRONDI.INF, zéro décimale. Sur une durée facturée au client, on arrondit vers le bas.",
+   "empreinte_texte_dit": "a8e51f006572d8990cfa4cd87f1acc7648e6a5143145e4edea7fe86bf5f0a1cd",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-aide.mp3",
+   "octets": 122088,
+   "duree_s": 7.56,
+   "caracteres_dits": 95,
+   "caracteres_factures": 95,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.062,
+     "transcription": "Utilisez arrondi.inf 0 décimal. Sur une durée facturée au client, on arrondit vers le bas."
+    }
+   }
+  },
+  {
+   "id": "e8-consigne",
+   "etape_lms": "M23-L04-08",
+   "role": "Etape 8 · consigne, dite a l'arrivee",
+   "texte_dit": "Vérifions ce que vaut vraiment cette solution arrondie. Dans la cellule D8, calculez la marge obtenue avec 8 stagiaires et ce nombre de jours.",
+   "empreinte_texte_dit": "bba52b9f585552a026f7a80a8e0eb57a80940ae7564c22f4d73bfc4244bfc9a3",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-consigne.mp3",
+   "octets": 145911,
+   "duree_s": 9.04,
+   "caracteres_dits": 142,
+   "caracteres_factures": 142,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.083,
+     "transcription": "Vérifions ce que vaut vraiment cette solution arrondie. Dans la cellule d'é8, calculez la marge obtenue avec huit stagiaires et ce nombre de jours."
+    }
+   }
+  },
+  {
+   "id": "e8-aide",
+   "etape_lms": "M23-L04-08",
+   "role": "Etape 8 · aide, dite au devoilement",
+   "texte_dit": "C'est la même formule que la marge du départ, mais avec le nombre de jours arrondi.",
+   "empreinte_texte_dit": "c4b5d6722f02446aee6e8ad7f20d4d8bdbabfcad5f55e9775d1902116a176927",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-aide.mp3",
+   "octets": 73604,
+   "duree_s": 4.52,
+   "caracteres_dits": 83,
+   "caracteres_factures": 83,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.059,
+     "transcription": "C'est la même formule que la marge du départ, mais avec le nombre de jours arrondis."
+    }
+   }
+  },
+  {
+   "id": "e9-consigne",
+   "etape_lms": "M23-L04-09",
+   "role": "Etape 9 · consigne, dite a l'arrivee",
+   "texte_dit": "Le Solveur demande trois choses que la valeur cible ignore : un objectif à maximiser ou à minimiser, plusieurs cellules variables, et des contraintes. Retenez la frontière : une seule inconnue sans contrainte, valeur cible. Plusieurs inconnues, ou des contraintes, Solveur.",
+   "empreinte_texte_dit": "1fe0fcffea80bb707eaecb48cdf2e848b3f35191e6b094c74f60306cb23613ed",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-consigne.mp3",
+   "octets": 294705,
+   "duree_s": 18.36,
+   "caracteres_dits": 273,
+   "caracteres_factures": 273,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le solveur demande trois choses que la valeur cible ignore. Un objectif à maximiser ou à minimiser, plusieurs cellules variables et des contraintes. Retenez la frontière. Une seule inconnue sans contrainte, valeur cible, plusieurs inconnues ou des contraintes, solveur."
+    }
+   }
+  },
+  {
+   "id": "e9-bulle1",
+   "etape_lms": "M23-L04-09",
+   "role": "Etape 9 · bulle sur B4",
+   "texte_dit": "Ce que vous venez de faire en cinq étapes, le Solveur le fait d'un coup.",
+   "empreinte_texte_dit": "f56eff2044c1e6e7dc447b0ed61be6c1c620bfc63503b13498bcd5a6d62a4582",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-bulle1.mp3",
+   "octets": 68171,
+   "duree_s": 4.2,
+   "caracteres_dits": 72,
+   "caracteres_factures": 72,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Ce que vous venez de faire en cinq étapes, le solveur le fait d'un coup."
+    }
+   }
+  },
+  {
+   "id": "e9-bulle2",
+   "etape_lms": "M23-L04-09",
+   "role": "Etape 9 · bulle sur B3",
+   "texte_dit": "Il optimise plusieurs cellules à la fois, sous contraintes.",
+   "empreinte_texte_dit": "1ec1ec386f0abb6a47f15ad7a6656121818716222459f5d05a8e8d1e5f53c163",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-bulle2.mp3",
+   "octets": 54796,
+   "duree_s": 3.36,
+   "caracteres_dits": 59,
+   "caracteres_factures": 59,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.111,
+     "transcription": "Il optimise plusieurs cellules à la fois sous contrainte."
+    }
+   }
+  },
+  {
+   "id": "e9-bulle3",
+   "etape_lms": "M23-L04-09",
+   "role": "Etape 9 · bulle sur A1",
+   "texte_dit": "C'est un complément à activer une seule fois, depuis les options du fichier.",
+   "empreinte_texte_dit": "6e6846cee0e734bbf49970e8357b862c39f068cbb60900d326c34835e49ba09b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-bulle3.mp3",
+   "octets": 59812,
+   "duree_s": 3.68,
+   "caracteres_dits": 76,
+   "caracteres_factures": 76,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "C'est un complément à activer une seule fois depuis les options du fichier."
+    }
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Vous savez chercher une valeur cible, vérifier les contraintes qu'elle ignore, et dire quand il faut passer au Solveur.",
+   "empreinte_texte_dit": "49950dbd711ab34d1d7bb4beb9940ba6f2ec457d7caf1d5a515d000b7990fc3d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 99518,
+   "duree_s": 6.16,
+   "caracteres_dits": 119,
+   "caracteres_factures": 119,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Vous savez chercher une valeur cible, vérifier les contraintes qu'elle ignore et dire quand il faut passer au solveur."
+    }
+   }
+  }
+ ]
+}

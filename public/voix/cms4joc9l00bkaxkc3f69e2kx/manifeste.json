@@ -1,0 +1,488 @@
+{
+ "chapitre": {
+  "chapterId": "cms4joc9l00bkaxkc3f69e2kx",
+  "app": "EXCEL",
+  "section": "",
+  "titre": "S'évaluer · Noms de cellules"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 16,
+  "caracteres_dits": 1322,
+  "duree_totale_s": 89.8,
+  "segments_valides": 15,
+  "segments_plusieurs_essais": 2,
+  "segments_jamais_valides": 1
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Un devis annuel à nommer, à calculer, puis à corriger quand une prestation s'ajoute. Dix gestes sont attendus. Chacun est noté à la première tentative, et aucune aide n'est proposée.",
+   "empreinte_texte_dit": "e59d9feaff467206ebbb240ba81df254a75f7e02514c5a92b65f3e0ca269538c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 190633,
+   "duree_s": 11.84,
+   "caracteres_dits": 182,
+   "caracteres_factures": 182,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Un devis annuel à nommé, à calculer, puis à corriger quand\n une prestation s'ajoute.\n 10 gestes sont attendus.\n Chacun est noté à la première tentative et aucune aide n'\nest proposée."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Un devis annuel à nommer, à calculer, puis à corriger quand\n une prestation s'ajoute.\n Dix gestes sont attendus.\n Chacun est noté à la première tentative et aucune aide n'\nest proposée."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M14-EV01-01",
+   "role": "Etape 1 · consigne",
+   "texte_dit": "Le taux de remise est en haut, les prestations juste en dessous. Vos formules devront employer des noms, pas des références. Dix gestes, comptés au premier essai, sans indice ni retour en arrière.",
+   "empreinte_texte_dit": "69c68c98ef87681c8c1cef61cb215d0cdf4114a0b234fb9267556535e07ebedf",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 182274,
+   "duree_s": 11.32,
+   "caracteres_dits": 196,
+   "caracteres_factures": 196,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": false,
+     "wer": 0.019,
+     "transcription": "Le taux de remise est en haut, les prestations juste en\n dessous.\n Vos formules devront employer des noms, pas des références.\n Dis geste, comptez au premier essai, sans indices ni retour\n en arrière."
+    },
+    "moteur_second_medium": {
+     "ok": false,
+     "wer": 0.019,
+     "transcription": "Le taux de remise est en haut, les prestations juste en\n dessous.\n Vos formules devront employer des noms, pas des références.\n Digeste.\n Comptez au premier essai, sans indice ni retour en arrière."
+    },
+    "valide_sur_les_deux": false
+   }
+  },
+  {
+   "id": "e1-bulle1",
+   "etape_lms": "M14-EV01-01",
+   "role": "Etape 1 · bulle 1 sur B2",
+   "texte_dit": "Le taux de remise est ici.",
+   "empreinte_texte_dit": "85be8a137df42867834124c669f325f9f68120e428af26eebd54bd68960b19c8",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-bulle1.mp3",
+   "octets": 35570,
+   "duree_s": 2.16,
+   "caracteres_dits": 26,
+   "caracteres_factures": 26,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le taux de remise est ici."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le taux de remise est ici."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-bulle2",
+   "etape_lms": "M14-EV01-01",
+   "role": "Etape 1 · bulle 2 sur B4:B7",
+   "texte_dit": "Les prestations sont dans cette colonne.",
+   "empreinte_texte_dit": "f4ad590e1b2017fcfe65f4a50eb6bf3a41714755f65f73c30218b18b668b7caf",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-bulle2.mp3",
+   "octets": 46019,
+   "duree_s": 2.8,
+   "caracteres_dits": 40,
+   "caracteres_factures": 40,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Les prestations sont dans cette colonne."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Les prestations sont dans cette colonne."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-bulle3",
+   "etape_lms": "M14-EV01-01",
+   "role": "Etape 1 · bulle 3 sur A10",
+   "texte_dit": "Vos formules devront employer des noms, pas des références.",
+   "empreinte_texte_dit": "b2beae10e63b1e732a2a408a2fadf7f149dafec3f24c447a5537899b716cbfb8",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-bulle3.mp3",
+   "octets": 62737,
+   "duree_s": 3.84,
+   "caracteres_dits": 59,
+   "caracteres_factures": 59,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Vos formules devront employer des noms, pas des références."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Vos formules devront employer des noms, pas des références."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M14-EV01-02",
+   "role": "Etape 2 · consigne",
+   "texte_dit": "À vous : nommez la cellule du taux de remise, Taux souligné remise.",
+   "empreinte_texte_dit": "6b0b35df97177668ba579fc45c874dc1a94d36ff470b007c67fbd72ce1e74731",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 71933,
+   "duree_s": 4.44,
+   "caracteres_dits": 67,
+   "caracteres_factures": 67,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous. Nommez la cellule du taux de remise, taux soulignés\n remises."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous ! Nommez la cellule du taux de remise. Taux souligné\n remise."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M14-EV01-03",
+   "role": "Etape 3 · consigne",
+   "texte_dit": "À vous : sélectionnez les quatre montants des prestations.",
+   "empreinte_texte_dit": "63afe74f502bac4a69d88772771462db78cbeafb7d918c7a7c05e65ab685b981",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 56050,
+   "duree_s": 3.44,
+   "caracteres_dits": 58,
+   "caracteres_factures": 58,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous, sélectionnez les quatre montants des prestations."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous, sélectionnez les quatre montants des prestations."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M14-EV01-04",
+   "role": "Etape 4 · consigne",
+   "texte_dit": "À vous : nommez cette plage Prestations.",
+   "empreinte_texte_dit": "2fd24967a717d95e8d9d4581201947e9911beaf0f042da98b6c8cf12dc0a5626",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 47691,
+   "duree_s": 2.92,
+   "caracteres_dits": 40,
+   "caracteres_factures": 40,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous, nommez cette plage Prestation."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous ! Nommez cette plage prestation."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M14-EV01-05",
+   "role": "Etape 5 · consigne",
+   "texte_dit": "À vous : dans la cellule B10, calculez le total des prestations, en utilisant le nom.",
+   "empreinte_texte_dit": "395ff5cbf67fd53c2139396c9094532244c6ada6c2692a8730d3cb8ee74cb39c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 99100,
+   "duree_s": 6.12,
+   "caracteres_dits": 85,
+   "caracteres_factures": 85,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "A vous.\n Dans la cellule B10, calculez le total des prestations en\n utilisant le nom."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.038,
+     "transcription": "À vous ! Dans la cellule B10, calculez le total des prest\nations en utilisant le nom."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M14-EV01-06",
+   "role": "Etape 6 · consigne",
+   "texte_dit": "À vous : dans la cellule B11, calculez la remise accordée : le total multiplié par le taux. Les deux noms doivent apparaître dans la formule.",
+   "empreinte_texte_dit": "1dd36c95a4bda62c17169629890500390a4cbec15d0e698bd5f7e6d8d8a2ca6e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 139224,
+   "duree_s": 8.64,
+   "caracteres_dits": 141,
+   "caracteres_factures": 141,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous, dans la cellule B11, calculez la remise accordée,\n le total multiplié par le taux.\n Les deux noms doivent apparaître dans la formule."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous, dans la cellule B11, calculez la remise accordée,\n le total multiplié par le taux.\n Les deux noms doivent apparaître dans la formule."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "M14-EV01-07",
+   "role": "Etape 7 · consigne",
+   "texte_dit": "Une cinquième prestation est signée. À vous : saisissez 2500 dans la cellule B8.",
+   "empreinte_texte_dit": "9f9e6017a2b029533ebee5905dd69afc861fea7da8824bd03de0c2429e138a58",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 105369,
+   "duree_s": 6.52,
+   "caracteres_dits": 80,
+   "caracteres_factures": 80,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Une cinquième prestation est signée.\n À vous, saisissez 2500 dans la cellule B8."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Une cinquième prestation est signée.\n À vous, saisissez 2500 dans la cellule B8."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-consigne",
+   "etape_lms": "M14-EV01-08",
+   "role": "Etape 8 · consigne",
+   "texte_dit": "Le total n'a pas bougé. À vous : montrez ce que le nom Prestations désigne réellement.",
+   "empreinte_texte_dit": "f1743baafcb00fb6034ce840f916b35e7b8eba2c37bb1b7b04a8a7d753ce0cd1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-consigne.mp3",
+   "octets": 91995,
+   "duree_s": 5.68,
+   "caracteres_dits": 86,
+   "caracteres_factures": 86,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le total n'a pas bougé.\n À vous, montrez ce que le nom prestation désigne réellement\n."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le total n'a pas bougé.\n À vous, montrer ce que le nom prestation désigne réellement\n."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e9-consigne",
+   "etape_lms": "M14-EV01-09",
+   "role": "Etape 9 · consigne",
+   "texte_dit": "À vous : sélectionnez la plage complète, et nommez-la Prestations 2026.",
+   "empreinte_texte_dit": "cdc24945202f8c01262e40892f7c568fc32c6835eecdb7a98b62f91c40aff771",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-consigne.mp3",
+   "octets": 85725,
+   "duree_s": 5.28,
+   "caracteres_dits": 71,
+   "caracteres_factures": 71,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.043,
+     "transcription": "À vous, sélectionnez la plage complète et nommez-la Prest\nation 2026."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.043,
+     "transcription": "À vous ! Sélectionnez la plage complète et nommez-la Prest\nation 2026."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e10-consigne",
+   "etape_lms": "M14-EV01-10",
+   "role": "Etape 10 · consigne",
+   "texte_dit": "À vous : dans la cellule B13, calculez le total corrigé, avec le nouveau nom.",
+   "empreinte_texte_dit": "b7f45f9aec32abfa18b32b772aaf23a64e84dfdca5ac0e3c859e2d6859ff3910",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e10-consigne.mp3",
+   "octets": 100772,
+   "duree_s": 6.24,
+   "caracteres_dits": 77,
+   "caracteres_factures": 77,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "A vous, dans la cellule B13, calculez le total corrigé avec\n le nouveau nom."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous, dans la cellule B13, calculez le total corrigé avec\n le nouveau nom."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e11-consigne",
+   "etape_lms": "M14-EV01-11",
+   "role": "Etape 11 · consigne",
+   "texte_dit": "À vous : dans la cellule B14, calculez le montant moyen d'une prestation, avec le nom corrigé.",
+   "empreinte_texte_dit": "e5c680a1806a54d3db9694824ebf1c8a57b2da44cc8c305af3c8c978feb771fc",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e11-consigne.mp3",
+   "octets": 111221,
+   "duree_s": 6.88,
+   "caracteres_dits": 94,
+   "caracteres_factures": 94,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "A vous. Dans la cellule B14, calculez le montant moyen d'\nune prestation avec le nom \"corrigé\"."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous ! Dans la cellule B14, calculez le montant moyen d'\nune prestation avec le nom corrigé."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Évaluation terminée.",
+   "empreinte_texte_dit": "db726a7ecc8b7e680aa1b6b116f32b390f7e8746934b3e85e8d7952949c32415",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 28465,
+   "duree_s": 1.72,
+   "caracteres_dits": 20,
+   "caracteres_factures": 20,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Evaluation terminée."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Évaluation terminée."
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

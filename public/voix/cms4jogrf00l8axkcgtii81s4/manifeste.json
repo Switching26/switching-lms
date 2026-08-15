@@ -1,0 +1,708 @@
+{
+ "chapitre": {
+  "chapterId": "cms4jogrf00l8axkcgtii81s4",
+  "app": "Excel",
+  "section": "Outils divers",
+  "titre": "Harmoniser des libellés"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)"
+  ],
+  "criteres": [
+   "WER <= 0.15",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe le moteur severe"
+ },
+ "totaux": {
+  "segments": 29,
+  "caracteres_dits": 3140,
+  "duree_totale_s": 216.1,
+  "segments_valides": 26,
+  "segments_plusieurs_essais": 5,
+  "segments_jamais_valides": 3
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Une espace finale, une capitale, un accent manquant: trois fautes invisibles qui font disparaître des lignes de vos comptages. Le correcteur d'orthographe n'en verra aucune.",
+   "empreinte_texte_dit": "6c8c39beec20a8f49009ff9aaa47da7271de9f4baea9a1fc98f7529bf77d0dfd",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 166809,
+   "duree_s": 10.36,
+   "caracteres_dits": 173,
+   "caracteres_factures": 173,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Une espace finale, une capitale, un accent manquant. Trois fautes invisibles qui font disparaître des lignes de vos comptages. Le correcteur d'orthographe n'en verra aucune."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M25-L03-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "À l'œil, la cellule C2 et la cellule C3 portent le même service. Vérifions. À vous : dans la cellule F2, mesurez la longueur du libellé de la cellule C3: la fonction NBCAR, la cellule C3.",
+   "empreinte_texte_dit": "929be286e2e7b1846c4504a61ff7444600829622fc006275752d898fae33f739",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 282584,
+   "duree_s": 17.6,
+   "caracteres_dits": 187,
+   "caracteres_factures": 187,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.028,
+     "transcription": "A, L, œil, la cellule C2 et la cellule C3 portent le même service. Vérifions. À vous. Dans la cellule F2, mesurez la longueur du libellet de la cellule C3, la fonction NBCAR, la cellule C3."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "M25-L03-01",
+   "role": "Étape 1 · aide",
+   "texte_dit": "NBCAR compte les caractères d'un texte, espaces comprises.",
+   "empreinte_texte_dit": "4930452e42cecd3145a92317aae4de7b806d85c9b5b7c31ca307fc4a86808826",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 70261,
+   "duree_s": 4.32,
+   "caracteres_dits": 58,
+   "caracteres_factures": 116,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": false,
+     "wer": 0.333,
+     "transcription": "NBCAR compte les caractères d'un texte et se passe comprise."
+    },
+    "valide": false,
+    "re_controle": true
+   }
+  },
+  {
+   "id": "e1-retour",
+   "etape_lms": "M25-L03-01",
+   "role": "Étape 1 · retour de réussite",
+   "texte_dit": "13 caractères, alors que Comptabilité n'en compte que 12. Il y a une espace finale dans la cellule C3, invisible, et suffisante pour fausser un comptage.",
+   "empreinte_texte_dit": "785be4d1d829dc403f53ed9e0f53ff72839221fc204aa40bbb4e92c84319b23f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-retour.mp3",
+   "octets": 153853,
+   "duree_s": 9.56,
+   "caracteres_dits": 153,
+   "caracteres_factures": 153,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "13 caractères alors que comptabilité n'en compte que 12. Il y a une espace finale dans la cellule C3, invisible et suffisante pour fausser un comptage."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M25-L03-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "À vous : dans la cellule F3, comparez les deux libellés: la fonction exact, la cellule C2, puis la cellule C3.",
+   "empreinte_texte_dit": "092971f432bacbc29405c7f51f92b0f20e5f90077187e5b7a91080a8eadc359d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 123342,
+   "duree_s": 7.64,
+   "caracteres_dits": 110,
+   "caracteres_factures": 110,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.1,
+     "transcription": "A vous, dans la cellule F3, comparez les deux libellées, la fonction exacte, la cellule C2, puis la cellule C3."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "M25-L03-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Exact répond vrai seulement si les deux textes sont rigoureusement identiques.",
+   "empreinte_texte_dit": "afcc9b082fb116334b78aeacd4a4d1db9f35de40113f0507f867f90fcdc5f89d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 69425,
+   "duree_s": 4.28,
+   "caracteres_dits": 78,
+   "caracteres_factures": 78,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Exact répond vrai seulement si les deux textes sont rigoureusement identiques."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "M25-L03-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "Faux. Pour Excel, ce sont deux services différents: deux lignes dans un tableau croisé, deux valeurs dans un filtre, un NB.SI qui en oublie une.",
+   "empreinte_texte_dit": "61fc4717aafc93c0fdcacf64cd3efb9ee1643824f3b75be96808d2c9a6abedba",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 148419,
+   "duree_s": 9.2,
+   "caracteres_dits": 144,
+   "caracteres_factures": 144,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.077,
+     "transcription": "Faux, pour Excel, ce sont deux services différents. Deux lignes dans un tableau croisé, deux valeurs dans un filtre, un NBSI qui en oublie une."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M25-L03-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "À vous : dans la cellule F4, nettoyez le libellé: la fonction SUPPRESPACE, la cellule C3.",
+   "empreinte_texte_dit": "4b23a81857496ffd1a2deeb24b9d75c491b9cb19f83950e0ee886a71173122fd",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 118326,
+   "duree_s": 7.32,
+   "caracteres_dits": 89,
+   "caracteres_factures": 89,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.067,
+     "transcription": "À vous ! Dans la cellule F4, nettoyez le libellé. La fonction suprespace, la cellule C3."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "M25-L03-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "SUPPRESPACE retire les espaces de début et de fin, et réduit les espaces multiples.",
+   "empreinte_texte_dit": "46beeb1da2633b32453d5f22e92f30f91059e5c4b178e9bb251059f30381fcab",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 75276,
+   "duree_s": 4.64,
+   "caracteres_dits": 83,
+   "caracteres_factures": 83,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.143,
+     "transcription": "Supe espace retire les espaces de début et de fin et réduit les espaces multiples."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "M25-L03-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "Le libellé propre s'affiche. Attention: la formule ne corrige pas la cellule C3, elle en produit une copie ailleurs. C'est utile pour un import; sur une colonne de travail, mieux vaut corriger la source.",
+   "empreinte_texte_dit": "9921ecb7da86f29c4e16e8491e53329dc91c79c5ff46643c730675bba9f7c958",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 206515,
+   "duree_s": 12.84,
+   "caracteres_dits": 203,
+   "caracteres_factures": 203,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.083,
+     "transcription": "Le libre est propre, s'affiche. Attention, la formule ne corrige pas la cellule C3, elle en produit une copie ailleurs. C'est utile pour un importe. Sur une colonne de travail, mieux vaut corriger la source."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M25-L03-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "L'autre libellé est en capitales sans accent. À vous : dans la cellule F5, essayez la fonction NOMPROPRE, la cellule C4.",
+   "empreinte_texte_dit": "e27680016cbed0d6a5b8ba30d5832f682e685ce551a6468b847a4c187c2727ca",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 139224,
+   "duree_s": 8.64,
+   "caracteres_dits": 120,
+   "caracteres_factures": 240,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.143,
+     "transcription": "L'autre libellé est en capital sans accent. À vous, dans la cellule F5, essayez la fonction non propre, la cellule C4."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "M25-L03-04",
+   "role": "Étape 4 · aide",
+   "texte_dit": "NOMPROPRE met une majuscule à chaque mot et le reste en minuscules.",
+   "empreinte_texte_dit": "400979f9982fba2570bde42cd009879bfdf11829884842e995b39f043ae9973f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 71933,
+   "duree_s": 4.44,
+   "caracteres_dits": 67,
+   "caracteres_factures": 134,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": false,
+     "wer": 0.167,
+     "transcription": "Non propre, met une majuscule à chaque mot et le reste en minuscule."
+    },
+    "valide": false,
+    "re_controle": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "M25-L03-04",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "Comptabilite: la casse est réparée, l'accent manquant ne l'est pas. Aucune fonction ne devine un accent perdu, il faut corriger la donnée à la main.",
+   "empreinte_texte_dit": "dcc3685dee2b7e89efb2c7e6f6c29594875d561316cadb7592350c48c44020fa",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 152599,
+   "duree_s": 9.48,
+   "caracteres_dits": 148,
+   "caracteres_factures": 148,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.037,
+     "transcription": "Contabilite. La casse est réparée. L'accent manquant ne l'est pas. Aucune fonction ne devine un accent perdu. Il faut corriger la donnée à la main."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M25-L03-05",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Le correcteur d'orthographe, onglet Révision, ou la cellule F7, relit vos textes et retient vos termes métier dans un dictionnaire personnel. Mais rien de ce qui abîme cette colonne n'est une faute d'orthographe. Le vrai remède n'est pas de corriger: c'est d'empêcher, avec une liste de validation.",
+   "empreinte_texte_dit": "684623272c13858537fdaea9d05226dd11774c5af3c5f7b8e9b7ae71e5a86786",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 288435,
+   "duree_s": 17.96,
+   "caracteres_dits": 298,
+   "caracteres_factures": 298,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.019,
+     "transcription": "Le correcteur d'orthographe, onglet révisions, ou la cellule F7, relive vos textes et retient vos termes métiers dans un dictionnaire personnel. Mais rien de ce qui abîme cette colonne n'est une faute d'orthographe. Le vrai remède n'est pas de corriger, c'est d'empêcher, avec une liste de validations."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e5-bulle1",
+   "etape_lms": "M25-L03-05",
+   "role": "Étape 5 · bulle 1",
+   "texte_dit": "Trois écritures du même service: pour le correcteur, aucune n'est une faute.",
+   "empreinte_texte_dit": "eb70746e3d179ae21192d533456838faf40190061326756ecb4e5acac0982760",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-bulle1.mp3",
+   "octets": 81546,
+   "duree_s": 5.04,
+   "caracteres_dits": 76,
+   "caracteres_factures": 76,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Trois écritures du même service. Pour le correcteur, aucune n'est une faute."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e5-bulle2",
+   "etape_lms": "M25-L03-05",
+   "role": "Étape 5 · bulle 2",
+   "texte_dit": "Exact a répondu faux à cause d'une espace finale, que rien ne signale à l'œil.",
+   "empreinte_texte_dit": "7b062bacf6c6b217da806c8a4998bf7ad49e7c9c5375822838e378ad18292e6f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-bulle2.mp3",
+   "octets": 87397,
+   "duree_s": 5.4,
+   "caracteres_dits": 78,
+   "caracteres_factures": 156,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.059,
+     "transcription": "Exact a répondu faux à cause d'une espace finale, que rien ne signale à l'aile, œil."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e5-bulle3",
+   "etape_lms": "M25-L03-05",
+   "role": "Étape 5 · bulle 3",
+   "texte_dit": "NOMPROPRE répare la casse, mais il faudra le refaire à chaque nouvelle saisie.",
+   "empreinte_texte_dit": "3f15036c8778960fff1a9ba7df0036bd6f659b37ca50da944eaea06c39155139",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-bulle3.mp3",
+   "octets": 70679,
+   "duree_s": 4.36,
+   "caracteres_dits": 78,
+   "caracteres_factures": 156,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": false,
+     "wer": 0.154,
+     "transcription": "Non propre, répare la casse, mais il faudra le refaire à chaque nouvelle saisie."
+    },
+    "valide": false,
+    "re_controle": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M25-L03-06",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "Corrigeons donc à la source. Dans la cellule C3, saisissez Comptabilité proprement.",
+   "empreinte_texte_dit": "7665bc09ddce0c23927b62fe0ffcc6e87c3f20e364e0ff593f8920a0600708aa",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 86143,
+   "duree_s": 5.32,
+   "caracteres_dits": 83,
+   "caracteres_factures": 83,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.083,
+     "transcription": "Corrigons donc à la source. Dans la cellule C3, saisissez comptabilité proprement."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e6-aide",
+   "etape_lms": "M25-L03-06",
+   "role": "Étape 6 · aide",
+   "texte_dit": "Réécrivez le libellé complet par-dessus.",
+   "empreinte_texte_dit": "a57b06044c704c6d68077d68fabee11a0bcb00df4c8315155e68a497e9e51408",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-aide.mp3",
+   "octets": 42675,
+   "duree_s": 2.6,
+   "caracteres_dits": 40,
+   "caracteres_factures": 40,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.167,
+     "transcription": "Réécrivez le libellet complet par-dessus."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "M25-L03-07",
+   "role": "Étape 7 · consigne",
+   "texte_dit": "À vous : même correction dans la cellule C4.",
+   "empreinte_texte_dit": "bdb505fed07e18d0d80f15a8ff2c4341325366ef7f0cd51c4b6374ecf94f15f8",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 55632,
+   "duree_s": 3.4,
+   "caracteres_dits": 44,
+   "caracteres_factures": 44,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "A vous, même correction dans la cellule C4."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e7-aide",
+   "etape_lms": "M25-L03-07",
+   "role": "Étape 7 · aide",
+   "texte_dit": "Le libellé exact, accent compris.",
+   "empreinte_texte_dit": "0e604038ec6412c5b1351fffc58116db934bb3d42b9bad471598fdbcbf21ba9f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-aide.mp3",
+   "octets": 43929,
+   "duree_s": 2.68,
+   "caracteres_dits": 33,
+   "caracteres_factures": 33,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le libellé exact, accent compris."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e7-retour",
+   "etape_lms": "M25-L03-07",
+   "role": "Étape 7 · retour de réussite",
+   "texte_dit": "Les quatre lignes de la comptabilité portent enfin le même libellé.",
+   "empreinte_texte_dit": "281b070bc7df1ea70a5ebf705061c4de74859b3dc6ef4d18c025034842a4dd99",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-retour.mp3",
+   "octets": 62737,
+   "duree_s": 3.84,
+   "caracteres_dits": 67,
+   "caracteres_factures": 67,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Les quatre lignes de la comptabilité portent enfin le même libellé."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e8-consigne",
+   "etape_lms": "M25-L03-08",
+   "role": "Étape 8 · consigne",
+   "texte_dit": "Le comptage devient fiable. À vous : dans la cellule F7, saisissez la fonction NB.SI, de la cellule C2 à C13, puis Comptabilité.",
+   "empreinte_texte_dit": "90204f2ecc275c983d62527e8018b47db6b5f864cb25e2787bf3f18f813eb9b0",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-consigne.mp3",
+   "octets": 177676,
+   "duree_s": 11.04,
+   "caracteres_dits": 128,
+   "caracteres_factures": 128,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.043,
+     "transcription": "Le comptage devient fiable. À vous, dans la cellule F7, saisissez la fonction nb.si, de la cellule C2 à C13, puis comptabilitez."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e8-aide",
+   "etape_lms": "M25-L03-08",
+   "role": "Étape 8 · aide",
+   "texte_dit": "NB.SI compte les cellules égales au critère.",
+   "empreinte_texte_dit": "53f4ceb5c4018c53ea7adb2e1cae8fa7376d81cadde66db11ae22872ea5581bf",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-aide.mp3",
+   "octets": 71933,
+   "duree_s": 4.44,
+   "caracteres_dits": 44,
+   "caracteres_factures": 44,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.125,
+     "transcription": "nb.si compte les cellules égales aux critères."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e8-retour",
+   "etape_lms": "M25-L03-08",
+   "role": "Étape 8 · retour de réussite",
+   "texte_dit": "4 salariés. Avant correction, la même formule en aurait trouvé 2: deux personnes manquaient à l'appel, sans le moindre message d'erreur.",
+   "empreinte_texte_dit": "0e1ef466dd8fbcb87c68522e37273114a405a4bfb7abbb61ad8327b685a58feb",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-retour.mp3",
+   "octets": 137970,
+   "duree_s": 8.56,
+   "caracteres_dits": 136,
+   "caracteres_factures": 136,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "4 salariés. Avant correction, la même formule en aurait trouvé 2. 2 personnes manquaient à l'appel sans le moindre message d'erreur."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e9-consigne",
+   "etape_lms": "M25-L03-09",
+   "role": "Étape 9 · consigne",
+   "texte_dit": "À vous : dans la cellule F8, la masse salariale du service: la fonction SOMME.SI, de la cellule C2 à C13, puis Comptabilité, puis de la cellule D2 à D13.",
+   "empreinte_texte_dit": "2cf0650c2bf5df0ed97971308f9a5c5292ad63eb16dda110c950cf17d75b0209",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-consigne.mp3",
+   "octets": 187289,
+   "duree_s": 11.64,
+   "caracteres_dits": 153,
+   "caracteres_factures": 153,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "A vous, dans la cellule F8, la masse salariale du service. La fonction somme.si de la cellule C2 à C13, puis comptabilité, puis de la cellule D2 à D13."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e9-aide",
+   "etape_lms": "M25-L03-09",
+   "role": "Étape 9 · aide",
+   "texte_dit": "SOMME.SI: plage de critère, critère, plage à additionner.",
+   "empreinte_texte_dit": "d755133de66d2c3d553319f2179eea71b9388e7607b98418a26c72d6134a2cab",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-aide.mp3",
+   "octets": 85725,
+   "duree_s": 5.28,
+   "caracteres_dits": 57,
+   "caracteres_factures": 57,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.111,
+     "transcription": "Somme.sci plage de critères, critères, plage à additionner."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e9-retour",
+   "etape_lms": "M25-L03-09",
+   "role": "Étape 9 · retour de réussite",
+   "texte_dit": "9500 euros. Retenez la chaîne: un libellé sale fausse un comptage, qui fausse une masse salariale, qui fausse un budget.",
+   "empreinte_texte_dit": "112cd9e488f968178214e5a7b0a4c92aa82b781c3f62381a43ac373bfca320d5",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-retour.mp3",
+   "octets": 136716,
+   "duree_s": 8.48,
+   "caracteres_dits": 120,
+   "caracteres_factures": 120,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.1,
+     "transcription": "9500 euros. Retenez la chaîne. Un Libéles sale fausse en comptage, qui fausse une masse salariale, qui fausse un budget."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Vous savez repérer un libellé sale, le nettoyer, et vérifier vos comptages après correction.",
+   "empreinte_texte_dit": "7624aa52ad07b781592b5bbadca77f0502d533a586b1e96c1e99b02f4671f8e0",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 93248,
+   "duree_s": 5.76,
+   "caracteres_dits": 92,
+   "caracteres_factures": 92,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.071,
+     "transcription": "Vous savez repérer un libélet sale, le nettoyer et vérifier vos comptages après correction."
+    },
+    "valide": true
+   }
+  }
+ ]
+}

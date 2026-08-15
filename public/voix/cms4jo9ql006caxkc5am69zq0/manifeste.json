@@ -1,0 +1,994 @@
+{
+ "chapitre": {
+  "chapterId": "cms4jo9ql006caxkc5am69zq0",
+  "app": "EXCEL",
+  "section": "",
+  "titre": "Calculer des honoraires"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 34,
+  "caracteres_dits": 3333,
+  "duree_totale_s": 211.6,
+  "segments_valides": 32,
+  "segments_plusieurs_essais": 8,
+  "segments_jamais_valides": 2
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Un consultant ne vend pas des articles : il vend des heures, et refacture ses déplacements. La note d'honoraires se construit donc autrement qu'une facture de marchandises, et le tableur y gagne un paramètre à figer.",
+   "empreinte_texte_dit": "27fe5cc70cdb0483510e12d7e1a3b7c215fd4601eb61d73526cd83886e0fa6c5",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 188543,
+   "duree_s": 11.72,
+   "caracteres_dits": 216,
+   "caracteres_factures": 216,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Un consultant ne vend pas des articles, il vend des heures\n et refacture ses déplacements.\n La note d'honoraires se construit donc autrement qu'une\n facture de marchandises et le tableur y gagne un paramètre\n à figer."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.008,
+     "transcription": "Un consultant ne vend pas des articles, il vend des heures\n et refacture ses déplacements.\n La note d'honoraire se construit donc autrement qu'une fact\nure de marchandises et le tableur\n y gagne un paramètre affigé."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M09-L03-01",
+   "role": "Etape 1 · consigne",
+   "texte_dit": "Prenons le temps de lire ce classeur avant de calculer quoi que ce soit : c'est ce qui distingue un tableau juste d'un tableau qui tombe en panne au premier changement. En haut, les quatre paramètres de la mission : taux horaire, indemnité kilométrique, taux de TVA, acompte reçu. En dessous, les quatre interventions avec leurs heures et leurs kilomètres. Rien d'autre n'est saisi : tout le reste se calculera.",
+   "empreinte_texte_dit": "132ef923672b95929ae3b3ee64b82bb31e08e30fe3b59bd58d6f7be326709d36",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 362832,
+   "duree_s": 22.6,
+   "caracteres_dits": 411,
+   "caracteres_factures": 411,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.018,
+     "transcription": "Prenons le temps de lire ce classeur avant de calculer quoi\n que ce soit.\n C'est ce qui distingue un tableau juste d'un tableau qui\n tombe en panne au premier changement.\n En haut, les quatre paramètres de la mission.\n Taux horaires, indemnités kilométriques, taux de TVA, à\n contresus.\n En dessous, les quatre interventions avec leurs heures et\n leurs kilomètres.\n Rien d'autre n'est saisi.\n Tout le reste se calculera."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.004,
+     "transcription": "Prenons le temps de lire ce classeur avant de calculer quoi\n que ce soit.\n C'est ce qui distingue un tableau juste d'un tableau qui\n tombe en panne au premier changement.\n En haut, les quatre paramètres de la mission.\n Taux horaire, indemnité kilométrique.\n Taux de TVA, à contreçu.\n En dessous, les quatre interventions avec leurs heures et\n leurs kilomètres.\n Rien d'autre n'est saisi.\n Tout le reste se calculera."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-bulle2",
+   "etape_lms": "M09-L03-01",
+   "role": "Etape 1 · bulle 2 sur A3:B6",
+   "texte_dit": "Les quatre paramètres de la mission, isolés en haut.",
+   "empreinte_texte_dit": "fa313aa763f1ddb588f53a1617e2cde0db5ca659063ba9d1c996976bddc142f6",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-bulle2.mp3",
+   "octets": 47691,
+   "duree_s": 2.92,
+   "caracteres_dits": 52,
+   "caracteres_factures": 52,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Les quatre paramètres de la mission isolés en haut."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "les quatre paramètres de la mission isolés en haut."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-bulle3",
+   "etape_lms": "M09-L03-01",
+   "role": "Etape 1 · bulle 3 sur A9:C12",
+   "texte_dit": "Les quatre interventions : leurs heures et leurs kilomètres.",
+   "empreinte_texte_dit": "c7799cd1fa6d4cb33d8b736dc816e21fdb4567eb9d121c4fdb24001e2f98f446",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-bulle3.mp3",
+   "octets": 69007,
+   "duree_s": 4.24,
+   "caracteres_dits": 60,
+   "caracteres_factures": 60,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Les quatre interventions, leurs heures et leurs kilomètres."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Les quatre interventions, leurs heures et leurs kilomètres."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-bulle4",
+   "etape_lms": "M09-L03-01",
+   "role": "Etape 1 · bulle 4 sur D8:F8",
+   "texte_dit": "Ces trois colonnes sont vides : tout s'y calculera.",
+   "empreinte_texte_dit": "c61526b1fd16873bda24614acd7511c57622a7ba065cae0adcb99340bb6757c4",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-bulle4.mp3",
+   "octets": 46019,
+   "duree_s": 2.8,
+   "caracteres_dits": 51,
+   "caracteres_factures": 51,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Ces trois colonnes sont vides, tout s'y calculera."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Ces trois colonnes sont vides, tout s'y calculera."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M09-L03-02",
+   "role": "Etape 2 · consigne",
+   "texte_dit": "À vous : dans la cellule D9, calculez les honoraires de la première mission, les heures multipliées par le taux horaire. La formule devra descendre sur les trois autres lignes.",
+   "empreinte_texte_dit": "5accdbdba9b5d457857777234f7213c4ad6774449f15be7c5ba63b0ef995c45a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 183528,
+   "duree_s": 11.4,
+   "caracteres_dits": 176,
+   "caracteres_factures": 176,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.1,
+     "transcription": "A vous, dans la cellule des neufs, calculer les zones hor\naires de la première mission, les heures multipliées par le\n taux horaire.\n La formule devra descendre sur les trois autres lignes."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.011,
+     "transcription": "À vous, dans la cellule D9,\n calculez les zones horaires de la première mission,\n les heures multipliées par le taux horaires.\n La formule devra descendre sur les trois autres lignes."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "M09-L03-02",
+   "role": "Etape 2 · aide",
+   "texte_dit": "Le taux horaire est toujours dans la même cellule : figez-la avec des dollars, sinon la recopie ira le chercher une ligne plus bas.",
+   "empreinte_texte_dit": "1fd9fec702eafd2079f5c5e22fe063729b52472eb938615b9ca0bc1aafd7f54c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 104951,
+   "duree_s": 6.48,
+   "caracteres_dits": 131,
+   "caracteres_factures": 131,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le taux horaire est toujours dans la même cellule.\n Figez-la avec des dollars, sinon la recopie ira le chercher\n une ligne plus bas."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le taux horaire est toujours dans la même cellule.\n Figez-la avec des dollars, sinon la recopie ira le chercher\n une ligne plus bas."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-feedback",
+   "etape_lms": "M09-L03-02",
+   "role": "Etape 2 · retour de reussite",
+   "texte_dit": "780 euros pour douze heures. Ce sont les dollars qui rendront la recopie juste.",
+   "empreinte_texte_dit": "4a164aa3fff251808a7411fc4cfcbdfed6d16534a6e417819c60fb64e119d483",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-feedback.mp3",
+   "octets": 77784,
+   "duree_s": 4.8,
+   "caracteres_dits": 79,
+   "caracteres_factures": 79,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "780 euros pour 12 heures.\n Ce sont les dollars qui rendront la recopie juste."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "780 euros pour 12 heures.\n Ce sont les dollars qui rendront la recopie juste."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M09-L03-03",
+   "role": "Etape 3 · consigne",
+   "texte_dit": "À vous : dans la cellule E9, refacturez le déplacement, les kilomètres multipliés par l'indemnité.",
+   "empreinte_texte_dit": "9e6c8470536a4450a13c398113a7565edff6e3ce3a856e72f2abdd4b4ee2e6ee",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 109131,
+   "duree_s": 6.76,
+   "caracteres_dits": 98,
+   "caracteres_factures": 98,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous ! Dans la cellule E9, refacturez le déplacement, les\n kilomètres multipliés par l'indemnité."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous ! Dans la cellule E9, refacturez le déplacement, les\n kilomètres multipliés par l'indemnité."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "M09-L03-03",
+   "role": "Etape 3 · aide",
+   "texte_dit": "Même principe, avec la cellule de l'indemnité.",
+   "empreinte_texte_dit": "4980246d0d3fc7ad135580a8d993ac9e009dfa05c62342de2c5f919f5669e077",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 43929,
+   "duree_s": 2.68,
+   "caracteres_dits": 46,
+   "caracteres_factures": 46,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Même principe, avec la cellule de l'indemnité."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Même principe avec la cellule de l'indemnité."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-feedback",
+   "etape_lms": "M09-L03-03",
+   "role": "Etape 3 · retour de reussite",
+   "texte_dit": "40 euros pour 80 kilomètres.",
+   "empreinte_texte_dit": "a26c82c7fc275b2d67e3fabe3833a0fffecc7b63f80b6f9aeb26cb8434e9e194",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-feedback.mp3",
+   "octets": 40168,
+   "duree_s": 2.44,
+   "caracteres_dits": 28,
+   "caracteres_factures": 28,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "40 euros pour 80 km."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "40 euros pour 80 km."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M09-L03-04",
+   "role": "Etape 4 · consigne",
+   "texte_dit": "À vous : dans la cellule F9, totalisez la ligne.",
+   "empreinte_texte_dit": "fa5a32aa9270f1d7dd3b7a5bb2e7bd3f26f384d5c1383290416769f2e167de64",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 72768,
+   "duree_s": 4.48,
+   "caracteres_dits": 48,
+   "caracteres_factures": 48,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "A vous, dans la cellule F9, totalisez la ligne."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous ! Dans la cellule F9, totalisez la ligne."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-feedback",
+   "etape_lms": "M09-L03-04",
+   "role": "Etape 4 · retour de reussite",
+   "texte_dit": "820 euros pour cette première mission.",
+   "empreinte_texte_dit": "57a2dc0cfa60b062d2ddc10c79358337fd4ca6b24520e99a7a0e831eb5892912",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-feedback.mp3",
+   "octets": 36406,
+   "duree_s": 2.2,
+   "caracteres_dits": 38,
+   "caracteres_factures": 38,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "820 euros pour cette première mission."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "820 euros pour cette première mission."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M09-L03-05",
+   "role": "Etape 5 · consigne",
+   "texte_dit": "À vous : complétez les trois missions restantes, en recopiant les trois formules de la ligne vers le bas.",
+   "empreinte_texte_dit": "840730ac78b9cd880775464859db779f665733ea4489a28036697e2251347160",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 100772,
+   "duree_s": 6.24,
+   "caracteres_dits": 105,
+   "caracteres_factures": 105,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "A vous, complétez les trois missions restantes en recopiant\n les trois formules de la ligne vers le bas."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.019,
+     "transcription": "À vous, complétez les trois missions restantes, en recop\niant les trois formules de la ligne vers le bas."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "M09-L03-05",
+   "role": "Etape 5 · aide",
+   "texte_dit": "Sélectionnez les trois cellules, puis tirez la poignée de recopie jusqu'à la dernière mission.",
+   "empreinte_texte_dit": "91a9d50a3ab7901247f3ad1b81c7ee407dc4c10eab77c03f3b21c41456748503",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 77784,
+   "duree_s": 4.8,
+   "caracteres_dits": 94,
+   "caracteres_factures": 94,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Sélectionnez les trois cellules, puis tirez la poignée de\n recopie jusqu'à la dernière mission."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Sélectionnez les trois cellules, puis tirez la poignée de\n recopie jusqu'à la dernière mission."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-feedback",
+   "etape_lms": "M09-L03-05",
+   "role": "Etape 5 · retour de reussite",
+   "texte_dit": "La dernière mission n'a aucun kilomètre : son déplacement tombe à zéro, ce qui est le bon résultat, et non une erreur.",
+   "empreinte_texte_dit": "aca2336d5b1fbb08979bf89b4563d303070233381831d91e195511f8bfb4f7e6",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-feedback.mp3",
+   "octets": 111221,
+   "duree_s": 6.88,
+   "caracteres_dits": 118,
+   "caracteres_factures": 118,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La dernière mission n'a aucun kilomètre.\n Son déplacement tomba zéro, ce qui est le bon résultat et\n non une erreur."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La dernière mission n'a aucun kilomètre.\n Son déplacement tombe à zéro, ce qui est le bon résultat,\n et non une erreur."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M09-L03-06",
+   "role": "Etape 6 · consigne",
+   "texte_dit": "À vous : dans la cellule B14, totalisez les honoraires.",
+   "empreinte_texte_dit": "650fbb64c568692ea7a38187b6bf41eb33b76a612723dc9520f3306d16a8ece2",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 64409,
+   "duree_s": 3.96,
+   "caracteres_dits": 55,
+   "caracteres_factures": 55,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "A vous, dans la cellule B14, totalisez les honoraires."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous, dans la cellule B14, totalisez les honoraires."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-feedback",
+   "etape_lms": "M09-L03-06",
+   "role": "Etape 6 · retour de reussite",
+   "texte_dit": "2470 euros de temps facturé.",
+   "empreinte_texte_dit": "f575739868d5c19350efccb1e9f7a432975093e8b4ba994fd21f842f13a90078",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-feedback.mp3",
+   "octets": 53124,
+   "duree_s": 3.24,
+   "caracteres_dits": 28,
+   "caracteres_factures": 28,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "2470 euros de temps facturé."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "2470 euros de temps facturé."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "M09-L03-07",
+   "role": "Etape 7 · consigne",
+   "texte_dit": "À vous : dans la cellule B15, totalisez les déplacements.",
+   "empreinte_texte_dit": "e92cf04b5b757189a4f88cfa534d819d2dc2010d8cb4a3a073f382b5d849c8c8",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 73604,
+   "duree_s": 4.52,
+   "caracteres_dits": 57,
+   "caracteres_factures": 57,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.029,
+     "transcription": "A vous, dans la Célu B15, totalisez les déplacements."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous, dans la cellule B15, totalisez les déplacements."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-feedback",
+   "etape_lms": "M09-L03-07",
+   "role": "Etape 7 · retour de reussite",
+   "texte_dit": "122,5 euros de frais kilométriques.",
+   "empreinte_texte_dit": "a977ec076bb03f5f714a41546f48c65ef8035a96945e6fbbc7df6f5c7efa2975",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-feedback.mp3",
+   "octets": 56050,
+   "duree_s": 3.44,
+   "caracteres_dits": 35,
+   "caracteres_factures": 35,
+   "essais": 6,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "122, 5 euros de frais kilométriques."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "122,5 € de frais kilométriques."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-consigne",
+   "etape_lms": "M09-L03-08",
+   "role": "Etape 8 · consigne",
+   "texte_dit": "À vous : dans la cellule B16, calculez le total hors taxes de la note.",
+   "empreinte_texte_dit": "8af4263e6de63b4e8c5df51b3b09db596da65b347799ee210b7b37410c0f4e2b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-consigne.mp3",
+   "octets": 83217,
+   "duree_s": 5.12,
+   "caracteres_dits": 70,
+   "caracteres_factures": 70,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous ! Dans la cellule B16, calculez le total hors-taxe\n de la note."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous ! Dans la cellule B16, calculez le total hors taxe\n de la note."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-feedback",
+   "etape_lms": "M09-L03-08",
+   "role": "Etape 8 · retour de reussite",
+   "texte_dit": "2592,5 euros hors taxes. Deux chemins donnent le même résultat : la somme des deux totaux, ou la somme de la colonne Total. Les deux sont justes.",
+   "empreinte_texte_dit": "cedc0a0580b6609e718b40449f255c7ce252940f36605eba60c15dff9fe71c6d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-feedback.mp3",
+   "octets": 176004,
+   "duree_s": 10.92,
+   "caracteres_dits": 145,
+   "caracteres_factures": 145,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.086,
+     "transcription": "2592, 5 euros hors-tax.\n Deux chemins donnent le même résultat.\n La somme des deux totaux,\n ou la somme de la colonne totale.\n Les deux sont justes."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.074,
+     "transcription": "2 592 5 € hors taxe.\n Deux chemins donnent le même résultat.\n La somme des deux totaux ou la somme de la colonne totale.\n Les deux sont justes."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e9-consigne",
+   "etape_lms": "M09-L03-09",
+   "role": "Etape 9 · consigne",
+   "texte_dit": "À vous : dans la cellule B17, calculez la TVA, en vous servant du taux saisi en haut.",
+   "empreinte_texte_dit": "cad91497233df0a3e520e1e8a46a5e8ac329ecd36cd960aa24f42f566dde57d4",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-consigne.mp3",
+   "octets": 102026,
+   "duree_s": 6.32,
+   "caracteres_dits": 85,
+   "caracteres_factures": 85,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "A vous, dans la cellule B17, calculez la TVA en vous\n servant du taux saisis en haut."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous, dans la cellule B17, calculez la TVA en vous\n servant du taux saisie en haut."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e9-aide",
+   "etape_lms": "M09-L03-09",
+   "role": "Etape 9 · aide",
+   "texte_dit": "Pointez la cellule du taux plutôt que de taper le nombre : le jour où il change, vous n'aurez qu'une cellule à corriger.",
+   "empreinte_texte_dit": "e9ec0c52158748fcf4f57c312f1795022d36af765541914677efbe2cd860065b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-aide.mp3",
+   "octets": 103697,
+   "duree_s": 6.4,
+   "caracteres_dits": 120,
+   "caracteres_factures": 120,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Pointez la cellule du taux plutôt que de taper le nombre.\n Le jour où il change, vous n'aurez qu'une cellule à corr\niger."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Pointez la cellule du taux plutôt que de taper le nombre.\n Le jour où il change, vous n'aurez qu'une cellule à corr\niger."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e9-feedback",
+   "etape_lms": "M09-L03-09",
+   "role": "Etape 9 · retour de reussite",
+   "texte_dit": "518,5 euros de TVA.",
+   "empreinte_texte_dit": "a2988d498ca35379e54b881d4bc4783c494a23c3cea1ef4eecade8e049c07ba6",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-feedback.mp3",
+   "octets": 54796,
+   "duree_s": 3.36,
+   "caracteres_dits": 19,
+   "caracteres_factures": 19,
+   "essais": 6,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": false,
+     "wer": 0.353,
+     "transcription": "518.5 euros de TVA."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "518,5 € de TVA."
+    },
+    "valide_sur_les_deux": false
+   }
+  },
+  {
+   "id": "e10-consigne",
+   "etape_lms": "M09-L03-10",
+   "role": "Etape 10 · consigne",
+   "texte_dit": "À vous : dans la cellule B18, calculez le total toutes taxes comprises.",
+   "empreinte_texte_dit": "2c334a95191dffea18444ff357d815a757878fca636ddffea122abce154697d9",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e10-consigne.mp3",
+   "octets": 86143,
+   "duree_s": 5.32,
+   "caracteres_dits": 71,
+   "caracteres_factures": 71,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "A vous ! Dans la cellule B18, calculez le total toute taxe\n comprise."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous ! Dans la cellule B18, calculez le total toute taxe\n comprise."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e10-feedback",
+   "etape_lms": "M09-L03-10",
+   "role": "Etape 10 · retour de reussite",
+   "texte_dit": "3111 euros toutes taxes comprises.",
+   "empreinte_texte_dit": "d27216782f00835d58a869f4435f0228c92a59c09342c67583f4f3a464915c66",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e10-feedback.mp3",
+   "octets": 45183,
+   "duree_s": 2.76,
+   "caracteres_dits": 34,
+   "caracteres_factures": 34,
+   "essais": 6,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": false,
+     "wer": 0.048,
+     "transcription": "311 euros, toute taxe comprise."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "3 111 euros, toute taxe comprise."
+    },
+    "valide_sur_les_deux": false
+   }
+  },
+  {
+   "id": "e11-consigne",
+   "etape_lms": "M09-L03-11",
+   "role": "Etape 11 · consigne",
+   "texte_dit": "Un acompte de 600 euros a déjà été encaissé. À vous : dans la cellule B19, calculez le solde à régler.",
+   "empreinte_texte_dit": "b4586ef409b5be9e98dbdc773ac9883a9587764c2867347887dd8864f8637c09",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e11-consigne.mp3",
+   "octets": 111639,
+   "duree_s": 6.92,
+   "caracteres_dits": 102,
+   "caracteres_factures": 102,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.017,
+     "transcription": "Un à compte de 600 euros a déjà été encaissé.\n À vous, dans la cellule B19, calculez le sol d'arrêt glé."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Un à compte de 600 euros a déjà été encaissé.\n À vous ! Dans la cellule B19, calculez le solde à régler."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e11-feedback",
+   "etape_lms": "M09-L03-11",
+   "role": "Etape 11 · retour de reussite",
+   "texte_dit": "2511 euros restent dus. Le client a déjà payé, la note doit le dire.",
+   "empreinte_texte_dit": "52094b4936e9749770a061b7fdb3e942ca3afb568904f5f41afe272b3a4bda8c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e11-feedback.mp3",
+   "octets": 94084,
+   "duree_s": 5.8,
+   "caracteres_dits": 68,
+   "caracteres_factures": 68,
+   "essais": 4,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.05,
+     "transcription": "2511 euros reste dû. Le client a déjà payé, la note doit le\n dire."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "2 511 € restent dû.\n Le client a déjà payé, la note doit le dire."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e12-consigne",
+   "etape_lms": "M09-L03-12",
+   "role": "Etape 12 · consigne",
+   "texte_dit": "Deux réflexes de facturation à emporter, car ce sont les erreurs qu'on retrouve le plus souvent dans les classeurs réels. L'ordre des opérations est rappelé à l'écran. Retenez la logique plutôt que la recette : chaque montant se calcule sur la base qui lui correspond, et un encaissement déjà toutes taxes comprises ne peut se retrancher qu'à la fin.",
+   "empreinte_texte_dit": "79d80e1466f389b5a42f0b082e42505a6eaf32a69ed21d31febf953f2bdfcdb0",
+   "reparations": [
+    "l'écran"
+   ],
+   "ssml": true,
+   "fichier": "audio/e12-consigne.mp3",
+   "octets": 309751,
+   "duree_s": 19.28,
+   "caracteres_dits": 350,
+   "caracteres_factures": 411,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.014,
+     "transcription": "Deux réflexes de facturation à emporter, car ce sont les\n erreurs qu'on retrouve le plus souvent dans les classeurs\n réels.\n L'ordre des opérations est rappelé à l'écran. Retenez la\n logite plutôt que la recette.\n Chaque montant se calcule sur la base qui lui correspond,\n et un encaissement déjà toute taxe comprise ne peut se ret\nrancher qu'à la fin."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.014,
+     "transcription": "Deux réflexes de facturation à emporter, car ce sont les\n erreurs qu'on retrouve le plus souvent dans les classeurs\n réels.\n L'ordre des opérations est rappelé à l'écran. Retenez la\n logite plutôt que la recette.\n Chaque montant se calcule sur la base qui lui correspond,\n et un encaissement déjà toute taxe comprise ne peut se ret\nrancher qu'à la fin."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e12-bulle1",
+   "etape_lms": "M09-L03-12",
+   "role": "Etape 12 · bulle 1 sur B5",
+   "texte_dit": "La TVA se calcule sur le hors taxes, jamais sur un total qui la contient déjà.",
+   "empreinte_texte_dit": "85dbe9969ea93e27fdfe51236db74e048fe77317e78fb59b3f49de7658262749",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e12-bulle1.mp3",
+   "octets": 82382,
+   "duree_s": 5.08,
+   "caracteres_dits": 78,
+   "caracteres_factures": 78,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.02,
+     "transcription": "La TVA se calcule sur le hors-tax, jamais sur un total qui\n la contient déjà."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La TVA se calcule sur le hors taxe, jamais sur un total qui\n la contient déjà."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e12-bulle2",
+   "etape_lms": "M09-L03-12",
+   "role": "Etape 12 · bulle 2 sur B6",
+   "texte_dit": "Et l'acompte se déduit à la fin, après la TVA.",
+   "empreinte_texte_dit": "ae69df8ec5836f05f34d651f3bb22698bf02aaede89aaeff0c79d5f0e19a084d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e12-bulle2.mp3",
+   "octets": 49781,
+   "duree_s": 3.04,
+   "caracteres_dits": 46,
+   "caracteres_factures": 46,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "et la compte se déduit à la fin après la TVA."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.034,
+     "transcription": "Et la comte se déduit à la fin, après la TVA."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e12-bulle3",
+   "etape_lms": "M09-L03-12",
+   "role": "Etape 12 · bulle 3 sur A22",
+   "texte_dit": "Parce qu'il a été encaissé toutes taxes comprises.",
+   "empreinte_texte_dit": "83144d67f2a89682704aef5ca963b3aba3deed850d772694e7510f0687726088",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e12-bulle3.mp3",
+   "octets": 41422,
+   "duree_s": 2.52,
+   "caracteres_dits": 50,
+   "caracteres_factures": 50,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "parce qu'il a été encaissé toute taxe comprise."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "parce qu'il a été encaissé toute taxe comprise."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Vous savez bâtir une note d'honoraires complète : temps passé, frais, TVA et acompte déduit. Les quatre paramètres du haut se modifient sans toucher à une seule formule.",
+   "empreinte_texte_dit": "b7e3cb513c8cafe80a224fde3a0d169738a7ca04b5cd7d6f6606943af6ad4103",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 163048,
+   "duree_s": 10.12,
+   "caracteres_dits": 169,
+   "caracteres_factures": 169,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Vous savez bâtir une note d'honoraire complète, tant passé,\n frais, TVA et à compte déduits.\n Les quatre paramètres du haut se modifient sans toucher à\n une seule formule."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Vous savez bâtir une note d'honoraire complète, temps passé\n, frais, TVA et à compte déduit.\n Les quatre paramètres du haut se modifient sans toucher à\n une seule formule."
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

@@ -1,0 +1,630 @@
+{
+ "chapitre": {
+  "chapterId": "cms4585vc000mcz37altytlta",
+  "app": "EXCEL",
+  "section": "",
+  "titre": "Filtrer pour n'afficher que l'utile"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 21,
+  "caracteres_dits": 1954,
+  "duree_totale_s": 122.8,
+  "segments_valides": 20,
+  "segments_plusieurs_essais": 2,
+  "segments_jamais_valides": 1
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Le filtre masque les lignes qui ne vous intéressent pas. Rien n'est perdu, rien n'est supprimé, et le tableau redevient complet en un clic.",
+   "empreinte_texte_dit": "576a270dc3bcb475be417d9670d03942d119a544df83f3c02039540c4a638bf1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 147165,
+   "duree_s": 9.12,
+   "caracteres_dits": 139,
+   "caracteres_factures": 139,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le filtre masque les lignes qui ne vous intéressent pas.\n Rien n'est perdu, rien n'est supprimé et le tableau redev\nient complet en un clic."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le filtre masque les lignes qui ne vous intéressent pas.\n Rien n'est perdu, rien n'est supprimé et le tableau redev\nient complet en un clic."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M19-L02-01",
+   "role": "Etape 1 · consigne",
+   "texte_dit": "À vous : cliquez sur Filtrer, dans l'onglet Données. Une flèche apparaît sur chaque en-tête de colonne.",
+   "empreinte_texte_dit": "c651575a759b7efe865f62f1b0378cc0b74e4c4c46869f46c4aaff5a4bfe1fba",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 117072,
+   "duree_s": 7.24,
+   "caracteres_dits": 103,
+   "caracteres_factures": 103,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.038,
+     "transcription": "À vous, cliquez sur Filter dans l'onglet Donner.\n Une flèche apparaît sur chaque entête de colonne."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.058,
+     "transcription": "À vous ! Cliquez sur \"Filtreur\", dans l'onglet \"Donnais\".\n Une flèche apparaît sur chaque entête de colonne."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "M19-L02-01",
+   "role": "Etape 1 · aide",
+   "texte_dit": "C'est le bouton Filtrer, du groupe Trier et filtrer.",
+   "empreinte_texte_dit": "8bf9bd857756ce37b789826ff846392f5ce1cefb346820cbc5e50d1cea5aa23d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 55632,
+   "duree_s": 3.4,
+   "caracteres_dits": 52,
+   "caracteres_factures": 52,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "C'est le bouton filtraire du groupe trier et filtrer."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.065,
+     "transcription": "C'est le bouton filtreur du groupe trier et filtrer."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-feedback",
+   "etape_lms": "M19-L02-01",
+   "role": "Etape 1 · retour de reussite",
+   "texte_dit": "De petits boutons sont apparus sur la ligne de titres. Chaque colonne a maintenant son propre filtre.",
+   "empreinte_texte_dit": "a301b30d7736c514be5337a4564d3b84b34b52cc86d59656eb9a91ef16388963",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-feedback.mp3",
+   "octets": 94084,
+   "duree_s": 5.8,
+   "caracteres_dits": 101,
+   "caracteres_factures": 101,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "De petits boutons sont apparus sur la ligne de titre.\n Chaque colonne a maintenant son propre filtre."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "De petits boutons sont apparus sur la ligne de titre.\n Chaque colonne a maintenant son propre filtre."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M19-L02-02",
+   "role": "Etape 2 · consigne",
+   "texte_dit": "À vous : ouvrez le filtre de la colonne Région, décochez Tout sélectionner, puis ne gardez que le Sud, et confirmez.",
+   "empreinte_texte_dit": "8581997d99bb126bd515f28d7f86dbece5ca1b27539cb13c4e3946c193d2471f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 135462,
+   "duree_s": 8.4,
+   "caracteres_dits": 116,
+   "caracteres_factures": 116,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "A vous, ouvrez le filtre de la colonne région,\n décochez tout sélectionné, puis ne gardez que le Sud et\n confirmez."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous, ouvrez le filtre de la colonne région, décochez\n tout sélectionné, puis ne gardez\n que le sud et confirmez."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "M19-L02-02",
+   "role": "Etape 2 · aide",
+   "texte_dit": "Cliquez sur le bouton de filtre dans la cellule Région, décochez tout, cochez Sud, puis Confirmer.",
+   "empreinte_texte_dit": "e0229d3ba31285ec93f5167aa88863e92aa457885111eff0190bb2d4fc9f9855",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 102026,
+   "duree_s": 6.32,
+   "caracteres_dits": 98,
+   "caracteres_factures": 98,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.018,
+     "transcription": "Cliquez sur le bouton de filtre dans la cellule région, dé\ncochez tout, cochez Sud, puis confirmez."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.018,
+     "transcription": "Cliquez sur le bouton de filtre dans la cellule région, dé\ncochez tout, cochez Sud, puis confirmez."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-feedback",
+   "etape_lms": "M19-L02-02",
+   "role": "Etape 2 · retour de reussite",
+   "texte_dit": "Trois lignes restent. Les autres sont masquées, pas effacées : regardez les numéros de lignes, ils sautent.",
+   "empreinte_texte_dit": "2f13c51322e27870053ad5a99ad3eb1e5963545af7f06b2f1ee13ffc02b3d4f3",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-feedback.mp3",
+   "octets": 93248,
+   "duree_s": 5.76,
+   "caracteres_dits": 107,
+   "caracteres_factures": 107,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.061,
+     "transcription": "Trois lignes restent. Les autres sont masquées, pas effac\nées.\n Regardez les numéros de ligne, ils sautent."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Trois lignes restent. Les autres sont masqués, pas effacés.\n Regardez les numéros de ligne, ils sautent."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M19-L02-03",
+   "role": "Etape 3 · consigne",
+   "texte_dit": "Apprenez à repérer ce signal, il vous évitera des conclusions fausses. Il est pointé à l'écran. Des numéros de lignes discontinus veulent dire qu'un filtre est actif. Et l'erreur classique consiste à lire un tableau, à en tirer un total, sans voir qu'un filtre oublié en cache la moitié.",
+   "empreinte_texte_dit": "6442a4915bf96a2c92e5af93969b2e80525f8403458c1ea887c25a5c11609b40",
+   "reparations": [
+    "l'écran"
+   ],
+   "ssml": true,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 252491,
+   "duree_s": 15.72,
+   "caracteres_dits": 287,
+   "caracteres_factures": 348,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.012,
+     "transcription": "Apprenez à repérer ce signal, il vous évitera des\n conclusions fausses.\n Il est pointé à l'écran.\n Des numéros de ligne discontinue veulent dire qu'un filtre\n est actif.\n Et l'erreur classique consiste à lire un tableau, à en tir\ner un total,\n sans voir qu'un filtre oubliant cache la moitié."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.012,
+     "transcription": "Apprenez à repérer ce signal, il vous évitera des\n conclusions fausses.\n Il est pointé à l'écran.\n Des numéros de ligne discontinues veulent dire qu'un filtre\n est actif.\n Et l'erreur classique consiste à lire un tableau, à en tir\ner un total, sans voir qu'un filtre oubliant cache la moitié\n."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-bulle1",
+   "etape_lms": "M19-L02-03",
+   "role": "Etape 3 · bulle 1 sur ligne:3",
+   "texte_dit": "Des numéros de lignes discontinus.",
+   "empreinte_texte_dit": "cb4b12b6c885ea3a6ec22ddd665d7131d9b573052211d1c66d6d575fd87abdb3",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-bulle1.mp3",
+   "octets": 41422,
+   "duree_s": 2.52,
+   "caracteres_dits": 34,
+   "caracteres_factures": 34,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Des numéros de ligne discontinues."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "des numéros de ligne discontinues."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-bulle2",
+   "etape_lms": "M19-L02-03",
+   "role": "Etape 3 · bulle 2 sur ligne:5",
+   "texte_dit": "C'est votre signal : un filtre est actif.",
+   "empreinte_texte_dit": "88051e6efedf9c0acbdcea26dddd0560d13bd37f6dd66ee6d10f56e6e878084e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-bulle2.mp3",
+   "octets": 46019,
+   "duree_s": 2.8,
+   "caracteres_dits": 41,
+   "caracteres_factures": 41,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "C'est votre signal. Un filtre est actif."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "C'est votre signal ? Un filtre est actif."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-bulle3",
+   "etape_lms": "M19-L02-03",
+   "role": "Etape 3 · bulle 3 sur A1:D1",
+   "texte_dit": "L'erreur classique est de croire qu'on voit tout, alors qu'un filtre en cache la moitié.",
+   "empreinte_texte_dit": "7a57ea2d6eb92d0f6aeba8628820b44e4af60cb818f4e8355d0358b271b91949",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-bulle3.mp3",
+   "octets": 73604,
+   "duree_s": 4.52,
+   "caracteres_dits": 88,
+   "caracteres_factures": 88,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "L'erreur classique est de croire qu'on regarde tout un\n tableau, alors qu'un filtre en cache la moitié."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "L'erreur classique est de croire qu'on regarde tout un\n tableau, alors qu'un filtre\n en cache la moitié."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M19-L02-04",
+   "role": "Etape 4 · consigne",
+   "texte_dit": "Un filtre peut retenir plusieurs valeurs. À vous : rouvrez le filtre de région, et gardez cette fois le Nord et l'Ouest.",
+   "empreinte_texte_dit": "9efd7069b71089ade1d86de9d3bd78d1be08c7ace1b421204ddd13a873fa7ad1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 129193,
+   "duree_s": 8.0,
+   "caracteres_dits": 120,
+   "caracteres_factures": 120,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Un filtre peut retenir plusieurs valeurs.\n À vous, rouvrez le filtre de région et gardez cette fois le\n nord et l'ouest."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Un filtre peut retenir plusieurs valeurs.\n À vous !\n R'ouvrez le filtre de région et gardez cette fois le Nord\n et l'Ouest."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "M19-L02-04",
+   "role": "Etape 4 · aide",
+   "texte_dit": "Même bouton de filtre : cochez Nord et Ouest, décochez Sud.",
+   "empreinte_texte_dit": "209a9e4b9e692f024c46a2b30fa73ca2844bc73bb147dbc5d1ad8714b378b1f6",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 73604,
+   "duree_s": 4.52,
+   "caracteres_dits": 59,
+   "caracteres_factures": 59,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.033,
+     "transcription": "Même bouton de filtre, cocher nord et west, décocher sud."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Même bouton de filtre. Cocher nord et ouest, décocher sud."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-feedback",
+   "etape_lms": "M19-L02-04",
+   "role": "Etape 4 · retour de reussite",
+   "texte_dit": "Quatre lignes visibles. L'ordre dans lequel vous cochez ne change rien.",
+   "empreinte_texte_dit": "8fa5d733e1a348c284a3bce8f93a1535381579325a0ede5bc212929911f9d3d7",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-feedback.mp3",
+   "octets": 71933,
+   "duree_s": 4.44,
+   "caracteres_dits": 71,
+   "caracteres_factures": 71,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "4 lignes visibles.\n L'ordre dans lequel vous cochez ne change rien."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Quatre lignes visibles.\n L'ordre dans lequel vous cochez ne change rien."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M19-L02-05",
+   "role": "Etape 5 · consigne",
+   "texte_dit": "Les filtres se cumulent entre colonnes. À vous : filtrez maintenant la colonne Produit sur les licences, en gardant le filtre de région.",
+   "empreinte_texte_dit": "c043c88d7d5038b4ab075396a2c7f4fde38bbe2aa950091e1054f238c39048ac",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 132955,
+   "duree_s": 8.24,
+   "caracteres_dits": 136,
+   "caracteres_factures": 136,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Les filtres se cumulent entre colonnes.\n À vous, filtrez maintenant la colonne produit sur les lic\nences en gardant le filtre de région."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Les filtres se cumulent entre colonnes.\n À vous, filtrez maintenant la colonne produit sur les lic\nences, en gardant le filtre de région."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "M19-L02-05",
+   "role": "Etape 5 · aide",
+   "texte_dit": "Le bouton de filtre de la colonne Produit, puis ne cochez que Licence.",
+   "empreinte_texte_dit": "c088569b6d32b6799f43243403e74a6d0d5416eda1fdbba1ccd8e0d2e462700a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 59394,
+   "duree_s": 3.64,
+   "caracteres_dits": 70,
+   "caracteres_factures": 70,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le bouton de filtre de la colonne produit puis ne cocher\n que licence."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le bouton de filtre de la colonne produit puis ne cocher\n que license."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-feedback",
+   "etape_lms": "M19-L02-05",
+   "role": "Etape 5 · retour de reussite",
+   "texte_dit": "Deux critères actifs en même temps : la région, et le produit. Il ne reste que deux lignes.",
+   "empreinte_texte_dit": "edfce7497986edd4b4ee18f6532133665531820dc118dc3f082a18a12bb1f24b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-feedback.mp3",
+   "octets": 99518,
+   "duree_s": 6.16,
+   "caracteres_dits": 91,
+   "caracteres_factures": 91,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Deux critères actifs en même temps, la région et le produit\n.\n Il ne reste que deux lignes."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Deux critères actifs en même temps, la région et le produit\n.\n Il ne reste que deux lignes."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M19-L02-06",
+   "role": "Etape 6 · consigne",
+   "texte_dit": "Pour tout réafficher, à vous : cliquez sur Effacer.",
+   "empreinte_texte_dit": "a57186ceace607558348385a97a9212ad72af8e69bdfb275f8bec8e747293989",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 59394,
+   "duree_s": 3.64,
+   "caracteres_dits": 51,
+   "caracteres_factures": 51,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.08,
+     "transcription": "Pour tout réafficher, à vous, cliquez sur Effaceur."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.08,
+     "transcription": "Pour tout réafficher, à vous ! Cliquez sur Effaceur."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-aide",
+   "etape_lms": "M19-L02-06",
+   "role": "Etape 6 · aide",
+   "texte_dit": "C'est le bouton Effacer, du groupe Trier et filtrer.",
+   "empreinte_texte_dit": "a34b73072f90fb90d4efedea3d2179eacdf146c256cb23502edf33740ef53ae8",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-aide.mp3",
+   "octets": 56050,
+   "duree_s": 3.44,
+   "caracteres_dits": 52,
+   "caracteres_factures": 52,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "C'est le bouton effacé du groupe trié et filtré."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "C'est le bouton effacer du groupe trié et filtré."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-feedback",
+   "etape_lms": "M19-L02-06",
+   "role": "Etape 6 · retour de reussite",
+   "texte_dit": "Les huit lignes sont de retour. Le filtre ne détruit jamais rien.",
+   "empreinte_texte_dit": "27b13fac443c984c7f6dc2dfe5ddcb098a60f66097b1a44172f8df671e8ea848",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-feedback.mp3",
+   "octets": 77366,
+   "duree_s": 4.76,
+   "caracteres_dits": 65,
+   "caracteres_factures": 65,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": false,
+     "wer": 0.059,
+     "transcription": "Les huilignes sont de retour.\n Le filtre ne détruit jamais rien."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Les huit lignes sont de retour.\n Le filtre ne détruit jamais rien."
+    },
+    "valide_sur_les_deux": false
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Vous savez poser des filtres, combiner deux critères, et tout réafficher.",
+   "empreinte_texte_dit": "d025238c59aae6873ca1cefe5c80117b4003892d9b861cb3d1edfdd95454fde7",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 70261,
+   "duree_s": 4.32,
+   "caracteres_dits": 73,
+   "caracteres_factures": 73,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Vous savez poser des filtres, combiner deux critères et\n tout réafficher."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Vous savez poser des filtres, combiner deux critères et\n tout réafficher."
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

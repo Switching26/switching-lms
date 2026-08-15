@@ -1,0 +1,302 @@
+{
+ "chapitre": {
+  "chapterId": "cms4joa9m007iaxkc8fg4ypei",
+  "app": "Excel",
+  "section": "Fonctions avancées",
+  "titre": "Exercice · Décider avec SI"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)"
+  ],
+  "criteres": [
+   "WER <= 0.15",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe le moteur severe"
+ },
+ "totaux": {
+  "segments": 12,
+  "caracteres_dits": 1048,
+  "duree_totale_s": 62.8,
+  "segments_valides": 12,
+  "segments_plusieurs_essais": 0,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Un état de stock avec, pour chaque référence, son seuil de réapprovisionnement. À vous de faire dire au tableau ce qu'il faut commander.",
+   "empreinte_texte_dit": "dd9baacb76e098f52228fc6ded70f515cc2841b7ed3e01d4652c5bf8320b60c9",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 112893,
+   "duree_s": 7.0,
+   "caracteres_dits": 136,
+   "caracteres_factures": 136,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Un état de stock avec, pour chaque référence, son seuil de réapprovisionnement. A vous de faire dire au tableau ce qu'il faut commander."
+    }
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M10-E02-01",
+   "role": "Etape 1 · consigne, dite a l'arrivee",
+   "texte_dit": "Dans la cellule E2, affichez le mot Oui s'il faut commander cette référence, c'est-à-dire si le stock est passé sous son seuil, et le mot Non sinon. La formule devra être recopiable.",
+   "empreinte_texte_dit": "b57d229f292ee360de7f2688a9d530ab3199537f4d4acedf620f361e904e8c73",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 183946,
+   "duree_s": 11.44,
+   "caracteres_dits": 182,
+   "caracteres_factures": 182,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.056,
+     "transcription": "Dans la cellule E2, affichez le mot « oui » s'il faut commander cette référence, c'est-à-dire si le stock est passé sous son seuil, et le mot « non » si non. La formule devra être recopiable."
+    }
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "M10-E02-01",
+   "role": "Etape 1 · aide, dite au devoilement",
+   "texte_dit": "Attention à la frontière : un stock égal au seuil n'est pas encore en dessous.",
+   "empreinte_texte_dit": "948e2a4caaa07a8b2cca64577ba474f7548428a183c4621e57f42e3684cf9064",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 66499,
+   "duree_s": 4.08,
+   "caracteres_dits": 78,
+   "caracteres_factures": 78,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Attention à la frontière, un stock égal au seuil n'est pas encore en dessous."
+    }
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M10-E02-02",
+   "role": "Etape 2 · consigne, dite a l'arrivee",
+   "texte_dit": "Juste à droite, calculez la quantité à commander pour revenir au seuil, ou zéro s'il n'y a rien à commander.",
+   "empreinte_texte_dit": "a90b8950b3877437d021ef02eefc58f0c8bc6232a0a57a20275a925a2082796d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 104951,
+   "duree_s": 6.48,
+   "caracteres_dits": 108,
+   "caracteres_factures": 108,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Juste à droite, calculez la quantité à commander pour revenir au seuil ou 0 s'il n'y a rien à commander."
+    }
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M10-E02-03",
+   "role": "Etape 3 · consigne, dite a l'arrivee",
+   "texte_dit": "Dans la cellule G2, calculez le montant de cette ligne de commande.",
+   "empreinte_texte_dit": "28f19ef9d18ca07f107df15b1b6c23f453b5081d93f9226d28a72502c4769968",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 81128,
+   "duree_s": 5.0,
+   "caracteres_dits": 67,
+   "caracteres_factures": 67,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Dans la cellule G2, calculez le montant de cette ligne de commande."
+    }
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M10-E02-04",
+   "role": "Etape 4 · consigne, dite a l'arrivee",
+   "texte_dit": "Complétez les quatre références restantes.",
+   "empreinte_texte_dit": "78deaa99db70462225d4425124bc9fd1d13ddeb0b1f9a94a29ce9d3c955e20f6",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 36406,
+   "duree_s": 2.2,
+   "caracteres_dits": 42,
+   "caracteres_factures": 42,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Complétez les quatre références restantes."
+    }
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "M10-E02-04",
+   "role": "Etape 4 · aide, dite au devoilement",
+   "texte_dit": "Sélectionnez les trois cellules de la première ligne, avant de recopier.",
+   "empreinte_texte_dit": "93b13892fa8264a085c489a91f520ebe8fe8bc60014a38cfd7d2cd2afb9d43b3",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 59812,
+   "duree_s": 3.68,
+   "caracteres_dits": 72,
+   "caracteres_factures": 72,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Sélectionnez les trois cellules de la première ligne avant de recopier."
+    }
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M10-E02-05",
+   "role": "Etape 5 · consigne, dite a l'arrivee",
+   "texte_dit": "Dans la cellule J1, calculez la quantité totale à commander.",
+   "empreinte_texte_dit": "fbd6abef486738c2a829981a27f12d946a43eedb75512254ff01dc10c67e6e10",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 63155,
+   "duree_s": 3.88,
+   "caracteres_dits": 60,
+   "caracteres_factures": 60,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Dans la cellule J1, calculez la quantité totale à commander."
+    }
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M10-E02-06",
+   "role": "Etape 6 · consigne, dite a l'arrivee",
+   "texte_dit": "Juste en dessous, calculez le montant total de la commande.",
+   "empreinte_texte_dit": "543dc447aa9df8b062181b6b7b90beb4e3e2af875505b576461171217ce62623",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 60648,
+   "duree_s": 3.72,
+   "caracteres_dits": 59,
+   "caracteres_factures": 59,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "juste en dessous, calculer le montant total de la commande."
+    }
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "M10-E02-07",
+   "role": "Etape 7 · consigne, dite a l'arrivee",
+   "texte_dit": "Contrôle : sélectionnez la colonne des quantités, et vérifiez que la somme affichée en bas correspond à votre total.",
+   "empreinte_texte_dit": "8d1c3bebf5bfc5566b6f355e826144f066e38522dbe09b72e7071ddd9ac34c18",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 107877,
+   "duree_s": 6.68,
+   "caracteres_dits": 116,
+   "caracteres_factures": 116,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.056,
+     "transcription": "Contrôle. Sélectionnez la colonne des quantités et vérifiez que la somme affichée en bas correspond à votre totale."
+    }
+   }
+  },
+  {
+   "id": "e7-aide",
+   "etape_lms": "M10-E02-07",
+   "role": "Etape 7 · aide, dite au devoilement",
+   "texte_dit": "Prenez les cinq quantités, sans l'en-tête.",
+   "empreinte_texte_dit": "66198bf93acd4b7ecbe8ad5861581832c47d70380968b6c20a83a6db24339a5f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-aide.mp3",
+   "octets": 48527,
+   "duree_s": 2.96,
+   "caracteres_dits": 42,
+   "caracteres_factures": 42,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.125,
+     "transcription": "Prenez les cinq entités sans l'en tête."
+    }
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Un état de stock qui se relit tout seul : le jour où un stock bouge, la commande suit.",
+   "empreinte_texte_dit": "14bb6f4865c504ef9846628a80cf6c0aa1fda03dc4c565d034798654bfa15bdd",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 91995,
+   "duree_s": 5.68,
+   "caracteres_dits": 86,
+   "caracteres_factures": 86,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.056,
+     "transcription": "Un état de stock qui se relie tout seul. Le jour où un stock bouge, la commande suit."
+    }
+   }
+  }
+ ]
+}

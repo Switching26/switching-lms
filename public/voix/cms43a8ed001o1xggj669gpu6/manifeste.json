@@ -1,0 +1,546 @@
+{
+ "chapitre": {
+  "chapterId": "cms43a8ed001o1xggj669gpu6",
+  "app": "EXCEL",
+  "section": "",
+  "titre": "Calculer une évolution en pourcentage"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 18,
+  "caracteres_dits": 1880,
+  "duree_totale_s": 121.4,
+  "segments_valides": 16,
+  "segments_plusieurs_essais": 2,
+  "segments_jamais_valides": 2
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "On a fait plus 12 % : encore faut-il savoir le calculer, et ne pas confondre la variation avec l'écart.",
+   "empreinte_texte_dit": "4c0dad3c32841019ce5f437704a1dbce956647861b8cf4abef883ec91f513193",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 118744,
+   "duree_s": 7.36,
+   "caracteres_dits": 103,
+   "caracteres_factures": 103,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.043,
+     "transcription": "On a fait plus 12%.\n Encore faut-il savoir le calculer et ne pas confondre la\n variation avec L et K."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "On a fait plus 12%.\n Encore faut-il savoir le calculer et ne pas confondre la\n variation avec L écarre."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M09-L02-01",
+   "role": "Etape 1 · consigne",
+   "texte_dit": "Commençons par l'écart en euros. À vous : dans la cellule D2, saisissez la différence entre les deux années.",
+   "empreinte_texte_dit": "69467b0cc5f19387d6a0810c3338744735cc570282af4ff4b68e1f5b6980b4c0",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 122088,
+   "duree_s": 7.56,
+   "caracteres_dits": 108,
+   "caracteres_factures": 108,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": false,
+     "wer": 0.053,
+     "transcription": "Commençons par L et 4 en euros.\n À vous, dans la cellule D2, saisissez la différence entre\n les deux années."
+    },
+    "moteur_second_medium": {
+     "ok": false,
+     "wer": 0.088,
+     "transcription": "Commençons par L et 40 euros.\n À vous, dans la cellule D2, saisissez la différence entre\n les deux années."
+    },
+    "valide_sur_les_deux": false
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "M09-L02-01",
+   "role": "Etape 1 · aide",
+   "texte_dit": "L'année récente moins l'année de référence, dans cet ordre.",
+   "empreinte_texte_dit": "e6927a9c242027cd9ee23b55113e8bcd6b81bcdc6420141d9c4deaafd8481f9c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 52288,
+   "duree_s": 3.2,
+   "caracteres_dits": 59,
+   "caracteres_factures": 59,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "l'année récente moins l'année de référence dans cet ordre."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "L'année récente moins l'année de référence dans cet ordre."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-feedback",
+   "etape_lms": "M09-L02-01",
+   "role": "Etape 1 · retour de reussite",
+   "texte_dit": "Plus 18000 euros. L'ordre compte : inversé, le signe serait faux. Mais l'écart en euros ne dit pas tout. La même somme n'a pas le même sens selon le chiffre d'affaires de départ. D'où le pourcentage.",
+   "empreinte_texte_dit": "1160d742d4bbbd4745683d57d6aa91656c44aa67f5d0d8530513552ec351105b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-feedback.mp3",
+   "octets": 228249,
+   "duree_s": 14.2,
+   "caracteres_dits": 199,
+   "caracteres_factures": 199,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.079,
+     "transcription": "Plus 18 000 euros.\n L'ordre compte, inversé, le signe serait faux.\n Mais elle, et car en euro, ne dit pas tout.\n La même somme n'a pas le même sens selon le chiffre d'aff\naires de départ.\n Doux le pourcentage."
+    },
+    "moteur_second_medium": {
+     "ok": false,
+     "wer": 0.099,
+     "transcription": "Plus 18 000 euros.\n L'ordre compte, inversé, le signe serait faux.\n Mais L et 40 euros ne dit pas tout.\n La même somme n'a pas le même sens selon le chiffre d'aff\naires de départ.\n D'où le pourcentage."
+    },
+    "valide_sur_les_deux": false
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M09-L02-03",
+   "role": "Etape 2 · consigne",
+   "texte_dit": "La formule est : le nouveau moins l'ancien, divisé par l'ancien. À vous : dans la cellule E2, écrivez-la, en encadrant la soustraction par des parenthèses.",
+   "empreinte_texte_dit": "d6e6c50fc46961e1c9f7f53f12db1aed536bd20d3f1a7ed48a6275e758b746ac",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 161794,
+   "duree_s": 10.04,
+   "caracteres_dits": 155,
+   "caracteres_factures": 155,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.021,
+     "transcription": "La formule est « le nouveau moins l'ancien, divisé par l'\nancien ».\n À vous, dans la cellule E2 écrivez-la en encadrant la soust\nraction par des parenthèses."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La formule est le nouveau moins l'ancien divisé par l'anci\nen.\n À vous ! Dans la cellule E2 écrivez-la en encadrant la sou\nstraction par des parenthèses."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "M09-L02-03",
+   "role": "Etape 2 · aide",
+   "texte_dit": "Les parenthèses sont indispensables : sans elles, Excel ferait la division en premier.",
+   "empreinte_texte_dit": "f63f5194ab49fc09591a6e05c3ef9310d60780bfe4612ddd8db173f68be679a6",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 92413,
+   "duree_s": 5.72,
+   "caracteres_dits": 86,
+   "caracteres_factures": 86,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Les parenthèses sont indispensables.\n Sans elles, Excel ferait la division en premier."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Les parenthèses sont indispensables.\n Sans elles, Excel ferait la division en premier."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-feedback",
+   "etape_lms": "M09-L02-03",
+   "role": "Etape 2 · retour de reussite",
+   "texte_dit": "Une hausse de 15 %. Retenez qu'on divise toujours par l'ancien, jamais par le nouveau : diviser par le nouveau donne un chiffre qui ressemble à un pourcentage, mais ne veut rien dire.",
+   "empreinte_texte_dit": "66beee2f176d0de77bb05b4adb8ba2c5e7e384c96ae5a409d796d49913f05b4d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-feedback.mp3",
+   "octets": 180184,
+   "duree_s": 11.2,
+   "caracteres_dits": 183,
+   "caracteres_factures": 183,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Une hausse de 15%.\n Retenez qu'on divise toujours par l'ancien, jamais par le\n nouveau.\n Diviser par le nouveau donne un chiffre qui ressemble à un\n pourcentage, mais ne veut rien dire."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Une hausse de 15%.\n Retenez qu'on divise toujours par l'ancien, jamais par le\n nouveau.\n Diviser par le nouveau donne un chiffre qui ressemble à un\n pourcentage, mais ne veut rien dire."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M09-L02-05",
+   "role": "Etape 3 · consigne",
+   "texte_dit": "À vous : complétez les colonnes Écart et Évolution, pour les trois autres agences.",
+   "empreinte_texte_dit": "4dc45bf406650519e98c5511f154e13d275bcefbc8fa319dbd362b3a82d090bd",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 84889,
+   "duree_s": 5.24,
+   "caracteres_dits": 82,
+   "caracteres_factures": 82,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "A vous. Complétez les colonnes écarts et évolutions pour\n les 3 autres agences."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous.\n Complétez les colonnes Écarts et Evolutions pour les trois\n autres agences."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "M09-L02-05",
+   "role": "Etape 3 · aide",
+   "texte_dit": "Sélectionnez les deux cellules, et recopiez vers le bas.",
+   "empreinte_texte_dit": "2cf6fc56f895b46d1cf919eb68c3f357da405d792eb8c24c91b227dd020ca92d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 52288,
+   "duree_s": 3.2,
+   "caracteres_dits": 56,
+   "caracteres_factures": 56,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Sélectionnez les deux cellules et recopiez vers le bas."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Sélectionnez les deux cellules et recopiez vers le bas."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-feedback",
+   "etape_lms": "M09-L02-05",
+   "role": "Etape 3 · retour de reussite",
+   "texte_dit": "Le Sud recule, l'Est bondit de 25 %, l'Ouest est stable.",
+   "empreinte_texte_dit": "89e6b6bc73112680ddf06365c47c39cde8e495b11cb3f04c5bd1a0e769ac8738",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-feedback.mp3",
+   "octets": 81128,
+   "duree_s": 5.0,
+   "caracteres_dits": 56,
+   "caracteres_factures": 56,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le sud recule, l'est bondi de 25%, l'ouest est stable."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le Sud recule, l'Est bondit de 25%, l'Ouest est stable."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M09-L02-07",
+   "role": "Etape 4 · consigne",
+   "texte_dit": "Dernier calcul. À vous : dans la cellule C7, calculez l'évolution globale du chiffre d'affaires, toutes agences confondues.",
+   "empreinte_texte_dit": "792c54ceb0314a819d0a1747add905d3c15fe3ab60d56f22bf2ae737ebbf991b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 137970,
+   "duree_s": 8.56,
+   "caracteres_dits": 123,
+   "caracteres_factures": 123,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.014,
+     "transcription": "Dernier calcul.\n À vous, dans la cellule C7,\n calculez-elle évolution globale du chiffre d'affaires,\n toutes agences confondues."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Dernier calcul.\n À vous, dans la cellule C7, calculer L, évolution globale\n du chiffre d'affaires, toutes agences confondues."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "M09-L02-07",
+   "role": "Etape 4 · aide",
+   "texte_dit": "Même formule, mais sur les totaux des deux colonnes.",
+   "empreinte_texte_dit": "3babbe5e0242767c57047310dd49f4840e01fa06a4a7ea8329177f2756d56a1f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 57304,
+   "duree_s": 3.52,
+   "caracteres_dits": 52,
+   "caracteres_factures": 52,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Même formule, mais sur les taux taux des deux colonnes."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Même formule, mais sur les totaux des deux colonnes."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-feedback",
+   "etape_lms": "M09-L02-07",
+   "role": "Etape 4 · retour de reussite",
+   "texte_dit": "Une hausse de 7,9 %, bien plus modérée que les 25 % de l'Est. C'est pour ça qu'on regarde toujours le global et le détail.",
+   "empreinte_texte_dit": "fa472cbd6f963ef61da8aeb99f4cca96b8be55ca5239fa83c1fd8687e64bf4e8",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-feedback.mp3",
+   "octets": 132119,
+   "duree_s": 8.2,
+   "caracteres_dits": 122,
+   "caracteres_factures": 122,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.074,
+     "transcription": "Une hausse de 7, 9%, bien plus modérée que les 25% de l'est\n.\n C'est pour ça qu'on regarde toujours le global et le détail\n."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Une hausse de 7,9%, bien plus modérée que les 25% de l'Est.\n C'est pour ça qu'on regarde toujours le global et le détail\n."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M09-L02-06",
+   "role": "Etape 5 · consigne",
+   "texte_dit": "Terminons par une confusion de vocabulaire qui fait dire des choses fausses en réunion. L'exemple est repris à l'écran avec ses deux lectures. Le mot juste est point : il lève le malentendu, et il montre que vous savez de quoi vous parlez.",
+   "empreinte_texte_dit": "3af538fa2dbda6c83b520c286df3b952f65f3a81fd65f77bbce773bdaf383542",
+   "reparations": [
+    "l'écran"
+   ],
+   "ssml": true,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 197738,
+   "duree_s": 12.28,
+   "caracteres_dits": 239,
+   "caracteres_factures": 300,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Terminons par une confusion de vocabulaire qui fait dire\n des choses fausses en réunion.\n L'exemple est repris à l'écran avec ces deux lectures.\n Le mot juste est point.\n Il lève le malentendu et il montre que vous savez de quoi\n vous parlez."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Terminons par une confusion de vocabulaire qui fait dire\n des choses fausses en réunion.\n L'exemple est repris à l'écran avec ces deux lectures.\n Le mot juste est point.\n Il lève le malentendu et il montre que vous savez de quoi\n vous parlez."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-bulle1",
+   "etape_lms": "M09-L02-06",
+   "role": "Etape 5 · bulle 1 sur E2",
+   "texte_dit": "Ce n'est pas cinq pour cent de plus : c'est cinq points.",
+   "empreinte_texte_dit": "84035596434506f0824fcec3deefc787860a35fe9568fa155dbdb6692a833c7d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-bulle1.mp3",
+   "octets": 49781,
+   "duree_s": 3.04,
+   "caracteres_dits": 56,
+   "caracteres_factures": 56,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Ce n'est pas 5% de plus, c'est 5 points."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Ce n'est pas 5% de plus, c'est 5 points."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-bulle2",
+   "etape_lms": "M09-L02-06",
+   "role": "Etape 5 · bulle 2 sur E2",
+   "texte_dit": "En pourcentage, c'est une hausse d'un tiers.",
+   "empreinte_texte_dit": "1688beda77fba6c60fdc44c8c65e5bb1fd2ba1e7261ec4371d0d8c055dfa8798",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-bulle2.mp3",
+   "octets": 56886,
+   "duree_s": 3.48,
+   "caracteres_dits": 44,
+   "caracteres_factures": 44,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "En pourcentage, c'est une hausse d'un tiers."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "En pourcentage, c'est une hausse d'un tiers."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-bulle3",
+   "etape_lms": "M09-L02-06",
+   "role": "Etape 5 · bulle 3 sur E1",
+   "texte_dit": "Dire cinq pour cent serait faux. Le mot point évite le malentendu.",
+   "empreinte_texte_dit": "7d6d564853c108db281455ffce2485a25cf6b2acb39d40c6d5ab98ddeac93830",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-bulle3.mp3",
+   "octets": 69007,
+   "duree_s": 4.24,
+   "caracteres_dits": 66,
+   "caracteres_factures": 66,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Dire 5% serait faux. Le mot point évite le malentendu."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Dire 5 % serait faux.\n Le mot \"point\" évite le malentendu."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Vous savez calculer une évolution, et vous ne confondrez plus les points et le pourcentage.",
+   "empreinte_texte_dit": "da33054a567f1cf53130d42afb35e783fcc4660e188df391d3231f88caddef9e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 87397,
+   "duree_s": 5.4,
+   "caracteres_dits": 91,
+   "caracteres_factures": 91,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Vous savez calculer une évolution et vous ne confondrez\n plus les points et le pourcentage."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Vous savez calculer une évolution et vous ne confondrez\n plus les points et le pourcentage."
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

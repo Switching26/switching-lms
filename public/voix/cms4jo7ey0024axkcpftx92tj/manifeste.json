@@ -1,0 +1,686 @@
+{
+ "chapitre": {
+  "chapterId": "cms4jo7ey0024axkcpftx92tj",
+  "app": "EXCEL",
+  "section": "",
+  "titre": "Sélectionner des cellules disjointes"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 23,
+  "caracteres_dits": 3032,
+  "duree_totale_s": 188.2,
+  "segments_valides": 22,
+  "segments_plusieurs_essais": 9,
+  "segments_jamais_valides": 1
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Comparer janvier et décembre, additionner deux trimestres non voisins, colorer trois lignes éparpillées : il faut alors sélectionner des cellules qui ne se touchent pas. Excel sait le faire, à la souris comme dans une formule.",
+   "empreinte_texte_dit": "bb144ee18974b79f0214f7af29ee359cedb414dd4db4a7a594723d29d7f61be5",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 203172,
+   "duree_s": 12.64,
+   "caracteres_dits": 226,
+   "caracteres_factures": 226,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.008,
+     "transcription": "Comparé janvier et décembre, additionné deux trimestres non\n voisins colorés trois lignes et parpillés,\n il faut alors sélectionner des cellules qui ne se touchent\n pas.\n Excel sait le faire à la souris comme dans une formule."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Comparer janvier et décembre, additionner deux trimestres\n non voisins, colorer trois\n lignes éparpillées, il faut alors sélectionner des cellules\n qui ne se touchent pas.\n Excel sait le faire, à la souris comme dans une formule."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M03-L04-01",
+   "role": "Etape 1 · consigne",
+   "texte_dit": "Deux manières de désigner des cellules éloignées, et nous allons pratiquer la seconde. À la souris, la touche Contrôle maintenue pendant les clics ajoute à la sélection au lieu de la remplacer : le geste est montré à l'écran. Dans une formule, la même idée s'écrit avec un point-virgule entre les zones. C'est celle-là que nous travaillons, parce qu'elle se relit et se corrige.",
+   "empreinte_texte_dit": "aa421d9ba8dd8bd12d32d5e23b314506a804dd7dd6c84f406871324acd66098e",
+   "reparations": [
+    "l'écran"
+   ],
+   "ssml": true,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 336501,
+   "duree_s": 20.96,
+   "caracteres_dits": 378,
+   "caracteres_factures": 439,
+   "essais": 4,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.009,
+     "transcription": "Deux manières de désigner des cellules éloignées et nous\n allons pratiquer la seconde.\n A la souris, la touche Control maintenue pendant les clics\n ajoute à la sélection au lieu de la remplacer.\n Le geste est montré à l'écran.\n Dans une formule, la même idée est écrit avec un point virg\nule entre les zones.\n C'est celle-là que nous travaillons, parce qu'elle se relie\n et se corrige."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Deux manières de désigner des cellules éloignées et nous\n allons pratiquer la seconde.\n À la souris, la touche contrôle maintenue pendant les clics\n ajoute à la sélection,\n au lieu de la remplacer.\n Le geste est montré à l'écran.\n Dans une formule, la même idée S écrit avec un point virg\nule entre les zones.\n C'est celle-là que nous travaillons, parce qu'elle se relie\n et se corrige."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M03-L04-02",
+   "role": "Etape 2 · consigne",
+   "texte_dit": "Comparons les deux extrémités de l'année. À vous : dans la cellule D4, additionnez janvier et décembre, séparés par un point-virgule.",
+   "empreinte_texte_dit": "ddaf16a4b1bfc6c0c9137d1ee5f6b9ca147dd7895e339c5acd3bec4bd79dd1da",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 149673,
+   "duree_s": 9.28,
+   "caracteres_dits": 133,
+   "caracteres_factures": 133,
+   "essais": 6,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Comparons les deux extrémités de l'année.\n À vous, dans la cellule D4, additionnée janvier et décembre\n, séparée par un point virgule."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Comparons les deux extrémités de l'année.\n À vous, dans la cellule D4, additionnée janvier et décembre\n, séparée par un point virgule."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "M03-L04-02",
+   "role": "Etape 2 · aide",
+   "texte_dit": "Deux cellules précises, séparées par un point-virgule.",
+   "empreinte_texte_dit": "a795e293ba957183196f203d757d8daf77d71db1f140ab21cb5516e9b6791f82",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 59394,
+   "duree_s": 3.64,
+   "caracteres_dits": 54,
+   "caracteres_factures": 54,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Deux cellules précises séparées par un point virgule."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Deux cellules précises séparées par un point virgule."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-feedback",
+   "etape_lms": "M03-L04-02",
+   "role": "Etape 2 · retour de reussite",
+   "texte_dit": "46700 euros. Le point-virgule sépare deux cellules choisies. Il ne faut pas le confondre avec le deux-points, qui prend tout ce qu'il y a entre les deux.",
+   "empreinte_texte_dit": "837b11f907a00f37d49791a490c2a1b94d17a82a8b64880e1eb73065fa613178",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-feedback.mp3",
+   "octets": 160958,
+   "duree_s": 10.0,
+   "caracteres_dits": 153,
+   "caracteres_factures": 153,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "46 700 €\n Le point virgule sépare deux cellules choisis.\n Il ne faut pas le confondre avec le deux points qui prend\n tout ce qu'il y a entre les deux."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "46 700 €.\n Le point virgule sépare deux cellules choisies.\n Il ne faut pas le confondre avec le deux points, qui prend\n tout ce qu'il y a entre les deux."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M03-L04-03",
+   "role": "Etape 3 · consigne",
+   "texte_dit": "On peut mélanger plages et cellules. À vous : dans la cellule D5, additionnez le premier et le quatrième trimestre.",
+   "empreinte_texte_dit": "fed80d5a626ac3e8010a49e5cbd85a87fb4c7673855bddd1292dc2485b4a6ed1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 124177,
+   "duree_s": 7.68,
+   "caracteres_dits": 115,
+   "caracteres_factures": 115,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "On peut mélanger plages et cellules.\n À vous !\n Dans la cellule D5, additionnez le premier et le quatrième\n trimestre."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "On peut mélanger plages et cellules.\n À vous !\n Dans la cellule D5, additionnez le premier et le quatrième\n trimestre."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "M03-L04-03",
+   "role": "Etape 3 · aide",
+   "texte_dit": "Deux plages de trois mois, séparées par un point-virgule.",
+   "empreinte_texte_dit": "9b29bd8fc2287d0569e3b6af1f47eaaf5770e40fe8fe532c968d27d001ef617a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 59812,
+   "duree_s": 3.68,
+   "caracteres_dits": 57,
+   "caracteres_factures": 57,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "2 plages de 3 mois, séparées par un point virgule."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Deux plages de trois mois, séparées par un point virgule."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-feedback",
+   "etape_lms": "M03-L04-03",
+   "role": "Etape 3 · retour de reussite",
+   "texte_dit": "133000 euros. Six mois additionnés, six mois ignorés, en une seule formule.",
+   "empreinte_texte_dit": "e872a78364be0d4ebffea18bd1d0c1479957b47da4c435c39062b09be22b61ec",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-feedback.mp3",
+   "octets": 80292,
+   "duree_s": 4.96,
+   "caracteres_dits": 75,
+   "caracteres_factures": 75,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "133 000 euros.\n 6 mois additionnés, 6 mois ignorés, en une seule formule."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "133 000 €. 6 mois additionnés, 6 mois ignorés, en une seule\n formule."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M03-L04-04",
+   "role": "Etape 4 · consigne",
+   "texte_dit": "Les autres fonctions acceptent la même écriture : MOYENNE renvoie la moyenne, MAX la plus grande valeur. À vous : dans la cellule D6, calculez la moyenne de juillet et août, les deux mois creux.",
+   "empreinte_texte_dit": "9666f8388e3d56e8dd6527d2d7154fc98525435031f5b3640455fbe584fc4344",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 202754,
+   "duree_s": 12.6,
+   "caracteres_dits": 194,
+   "caracteres_factures": 194,
+   "essais": 6,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": false,
+     "wer": 0.0,
+     "transcription": "Les autres fonctions acceptent la même écriture.\n Moyenne renvoie la moyenne, max la plus grande valeur.\n À vous, dans la cellule des 6,\n calculer la moyenne de juillet et août les deux mois creux."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Les autres fonctions acceptent la même écriture.\n Moyenne renvoie la moyenne, max la plus grande valeur.\n À vous, dans la cellule D6,\n calculez la moyenne de juillet et août les deux mois creux."
+    },
+    "valide_sur_les_deux": false
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "M03-L04-04",
+   "role": "Etape 4 · aide",
+   "texte_dit": "La fonction MOYENNE, puis les deux cellules séparées par un point-virgule.",
+   "empreinte_texte_dit": "9fe119a77406127b6d052d22ffccd6a30cf4467aa2eac750669ca40fc410e71f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 70679,
+   "duree_s": 4.36,
+   "caracteres_dits": 74,
+   "caracteres_factures": 74,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La fonction moyenne, puis les deux cellules séparées par un\n point virgule."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "la fonction moyenne, puis les deux cellules séparées par un\n point virgule."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-feedback",
+   "etape_lms": "M03-L04-04",
+   "role": "Etape 4 · retour de reussite",
+   "texte_dit": "12850 euros en moyenne sur l'été, contre plus de 20000 le reste de l'année.",
+   "empreinte_texte_dit": "2fbe310dc7c62fdde363735466f16d212bc7207a88105e95c9aebec6649c2114",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-feedback.mp3",
+   "octets": 95756,
+   "duree_s": 5.92,
+   "caracteres_dits": 75,
+   "caracteres_factures": 75,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "12 850 euros en moyenne sur L était, contre plus de 20 000\n le reste de l'année."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "12 850 euros en moyenne sur L était, contre plus de 20 000\n le reste de l'année."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M03-L04-05",
+   "role": "Etape 5 · consigne",
+   "texte_dit": "Pourquoi préférer la formule ? Parce qu'un clic de trop ajoute une cellule sans que rien ne le signale : le total lu en bas de la fenêtre devient faux, et il n'en reste aucune trace. Une formule, elle, se relit, se vérifie et se corrige. D'où la règle : un total qu'on doit conserver ou justifier s'écrit toujours dans une cellule.",
+   "empreinte_texte_dit": "a7a24bc90e7b806238c91dcb1cdd4c675885b6fc7bb74d7722828286130507b3",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 317275,
+   "duree_s": 19.76,
+   "caracteres_dits": 331,
+   "caracteres_factures": 331,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.011,
+     "transcription": "Pourquoi préférer la formule ?\n Parce qu'un clic de trop ajoute une cellule sans que rien\n ne le signale.\n Le total lu en bas de la fenêtre devient faux et il n'en\n reste aucune trace.\n Une formule, elle, se relie, se vérifie et se corrige.\n D'où la règle, un total qu'on doit conserver ou justifier\n est écrit toujours dans une cellule."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Pourquoi préférer la formule ? Parce qu'un clic de trop aj\noute une cellule sans que rien ne le signale.\n Le total lu en bas de la fenêtre devient faux et il n'en\n reste aucune trace.\n Une formule, elle, se relit, se vérifie et se corrige.\n D'où la règle, un total qu'on doit conserver ou justifier S\n écrit toujours dans une cellule."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M03-L04-06",
+   "role": "Etape 6 · consigne",
+   "texte_dit": "Vérifions par comparaison. À vous : tapez la plage des douze mois dans la zone Nom pour les sélectionner d'un coup, puis lisez la barre d'état.",
+   "empreinte_texte_dit": "844a56066c8664f10188d763e65cb9f943c1cfb84a023b4cf5c17535c23b5b5a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 134208,
+   "duree_s": 8.32,
+   "caracteres_dits": 143,
+   "caracteres_factures": 143,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Vérifions par comparaison.\n À vous, tapez la plage des 12 mois dans la zone non pour\n les sélectionner d'un coup, puis lisez la barre D, ETA."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.013,
+     "transcription": "Vérifions par comparaison.\n À vous.\n Tapez la plage des 12 mois dans la zone NON pour les sé\nlectionner d'un coup, puis lisez\n la barre D, État."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-aide",
+   "etape_lms": "M03-L04-06",
+   "role": "Etape 6 · aide",
+   "texte_dit": "Sur douze lignes, la zone Nom est plus sûre qu'un glissement : la plage est exacte du premier coup.",
+   "empreinte_texte_dit": "6b03eb2d1709fb8a667ceedb0a2d810cb26243a8fa1036c96ee9fe9f3b5684c8",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-aide.mp3",
+   "octets": 102026,
+   "duree_s": 6.32,
+   "caracteres_dits": 99,
+   "caracteres_factures": 99,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Sur 12 lignes, la zone non est plus sûre qu'un glissement.\n La plage est exacte du premier coup."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Sur 12 lignes, la zone non est plus sûre qu'un glissement.\n La plage est exacte du premier coup."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-feedback",
+   "etape_lms": "M03-L04-06",
+   "role": "Etape 6 · retour de reussite",
+   "texte_dit": "245500 euros sur l année, douze valeurs.",
+   "empreinte_texte_dit": "54da11b458377738452f7f5cd0856a4ecb2ad0101a51a7414e6dad76d682031e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-feedback.mp3",
+   "octets": 64409,
+   "duree_s": 3.96,
+   "caracteres_dits": 40,
+   "caracteres_factures": 40,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.045,
+     "transcription": "245 500 € sur elle-année, 12 valeurs."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "245 500 euros sur l'année, 12 valeurs."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "M03-L04-07",
+   "role": "Etape 7 · consigne",
+   "texte_dit": "À vous : dans la cellule D7, écrivez ce total de l'année, pour le garder.",
+   "empreinte_texte_dit": "a87f11bb7c82a2c27101e4e8d71cc7dc47d6d98eeea58970d73ad2e359932707",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 84471,
+   "duree_s": 5.2,
+   "caracteres_dits": 73,
+   "caracteres_factures": 73,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "A vous, dans la cellule D7, écrivez ce total de l'année\n pour le garder."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous, dans la cellule D7, écrivez ce total de l'année\n pour le garder."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-aide",
+   "etape_lms": "M03-L04-07",
+   "role": "Etape 7 · aide",
+   "texte_dit": "Une plage continue, du premier au dernier mois.",
+   "empreinte_texte_dit": "236aef764e9ee6fb8bd7d7e7685324278d649564770539015609563e1a35681d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-aide.mp3",
+   "octets": 54796,
+   "duree_s": 3.36,
+   "caracteres_dits": 47,
+   "caracteres_factures": 47,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Une plage continue du premier au dernier mois."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Une plage continue du premier au dernier mois."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-feedback",
+   "etape_lms": "M03-L04-07",
+   "role": "Etape 7 · retour de reussite",
+   "texte_dit": "245500 euros : le même chiffre que la barre d'état, mais cette fois vérifiable et durable.",
+   "empreinte_texte_dit": "e5253bf4542b72ab0bf941f859ae0dc6557bd6b8aada45e4a9ce275e1f30d3bf",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-feedback.mp3",
+   "octets": 119580,
+   "duree_s": 7.4,
+   "caracteres_dits": 90,
+   "caracteres_factures": 90,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "245 500 €, le même chiffre que la barre, d'État, mais cette\n fois vérifiable et durable."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "245 500 €. Le même chiffre que la barre, déta, mais cette\n fois vérifiable et durable."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-consigne",
+   "etape_lms": "M03-L04-08",
+   "role": "Etape 8 · consigne",
+   "texte_dit": "À vous : dans la cellule D8, affichez le meilleur mois de l'année. C'est la fonction MAX qui renvoie la plus grande valeur d'une plage.",
+   "empreinte_texte_dit": "4f8f63d3c85645f0b7bea059923d412d154345344b40fb1e928db07bbba5eb32",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-consigne.mp3",
+   "octets": 117490,
+   "duree_s": 7.28,
+   "caracteres_dits": 135,
+   "caracteres_factures": 135,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "A vous, dans la cellule D8, affichez le meilleur mois de l'\nannée.\n C'est la fonction max qui renvoie la plus grande valeur d'\nune plage."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous, dans la cellule D8, affichez le meilleur mois de l'\nannée.\n C'est la fonction MAX qui renvoie la plus grande valeur d'\nune plage."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-aide",
+   "etape_lms": "M03-L04-08",
+   "role": "Etape 8 · aide",
+   "texte_dit": "La fonction MAX, sur les douze mois.",
+   "empreinte_texte_dit": "f3bfa7ccce36a5cb2a4f75f5c3c8881c45b33407ad889e158bffb7136edb1215",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-aide.mp3",
+   "octets": 42257,
+   "duree_s": 2.56,
+   "caracteres_dits": 36,
+   "caracteres_factures": 36,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La fonction max sur les 12 mois."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La fonction MAX sur les 12 mois."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-feedback",
+   "etape_lms": "M03-L04-08",
+   "role": "Etape 8 · retour de reussite",
+   "texte_dit": "28300 euros, en décembre.",
+   "empreinte_texte_dit": "35654d44e2238cdf3617d354631063581bbd4b582e9bd6f2bb3172713eb86196",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-feedback.mp3",
+   "octets": 42675,
+   "duree_s": 2.6,
+   "caracteres_dits": 25,
+   "caracteres_factures": 25,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "28 300 € en décembre."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "28 300 euros en décembre."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e9-consigne",
+   "etape_lms": "M03-L04-09",
+   "role": "Etape 9 · consigne",
+   "texte_dit": "L'autre usage de la touche Contrôle avec le clic, celui pour lequel il reste irremplaçable : la mise en forme. Sélectionnez trois lignes éparpillées, un seul clic sur le bouton de remplissage les colore toutes. Il fonctionne aussi sur les en-têtes : Contrôle et clic sur trois lettres de colonnes retient ces trois colonnes sans toucher aux autres.",
+   "empreinte_texte_dit": "9150dc3c142a5ad0a9699adffcf1d02a71850674bebd8a7173e50e0414c8beb5",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-consigne.mp3",
+   "octets": 303064,
+   "duree_s": 18.88,
+   "caracteres_dits": 348,
+   "caracteres_factures": 348,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.005,
+     "transcription": "L'autre usage de la touche contrôle avec le clic, celui\n pour lequel il reste irremplaçable, la mise en forme.\n Sélectionnez trois lignes éparpillées, un seul clic sur le\n bouton de remplissage les colors toutes.\n Il fonctionne aussi sur les entêtes.\n Contrôle et clic sur trois lettres de colonne retient ces\n trois colonnes sans toucher aux autres."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.015,
+     "transcription": "L'autre usage de la touche contrôle avec le clic, celui\n pour lequel il reste irremplaçable.\n La mise en forme.\n Sélectionnez trois lignes éparpillées, un seul clic, sur le\n bouton de remplissage\n les couleurs toutes.\n Il fonctionne aussi sur les entêtes.\n Contrôle et clic sur trois lettres de colonnes retient ces\n trois colonnes sans toucher aux autres."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Vous savez sélectionner et additionner des cellules éparpillées, et vous connaissez le risque de la sélection à la touche Contrôle.",
+   "empreinte_texte_dit": "c4379ef168a9af82a9477ce6d7b3d61ed53edfc5d15d31311637e9ea130bcee9",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 110385,
+   "duree_s": 6.84,
+   "caracteres_dits": 131,
+   "caracteres_factures": 131,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.014,
+     "transcription": "Vous savez sélectionner et additionner des cellules éparp\nillées,\n et vous connaissez le risque de la sélection à la touche\n Control."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.014,
+     "transcription": "Vous savez sélectionner et additionner des cellules éparp\nillées, et vous connaissez le risque de la sélection à la\n touche contrôle."
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

@@ -1,0 +1,456 @@
+{
+ "chapitre": {
+  "chapterId": "cms4jog2600juaxkc7lgqnjwv",
+  "app": "Excel",
+  "section": "Analyses et simulations",
+  "titre": "Comparer trois scénarios"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)"
+  ],
+  "criteres": [
+   "WER <= 0.15",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe le moteur severe"
+ },
+ "totaux": {
+  "segments": 18,
+  "caracteres_dits": 2086,
+  "duree_totale_s": 118.9,
+  "segments_valides": 16,
+  "segments_plusieurs_essais": 3,
+  "segments_jamais_valides": 2
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Un modèle ne vaut que par les hypothèses qu'on lui fait subir. Trois colonnes suffisent pour comparer un scénario prudent, un réaliste et un ambitieux, et pour mesurer le risque réel.",
+   "empreinte_texte_dit": "a30a911dbb4353f9df36e68d270d2a8788f63f30165152ec9cd26685b5663aac",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 154688,
+   "duree_s": 9.6,
+   "caracteres_dits": 183,
+   "caracteres_factures": 183,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Un modèle ne vaut que par les hypothèses qu'on lui fait subir. Trois colonnes suffisent pour comparer un scénario prudent, un réaliste et un ambitieux, et pour mesurer le risque réel."
+    }
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M23-L03-01",
+   "role": "Etape 1 · consigne, dite a l'arrivee",
+   "texte_dit": "Le modèle est en place : un prix, un effectif, un coût de formateur, une durée, une salle. Dans la cellule B9, calculez la marge.",
+   "empreinte_texte_dit": "1f8ab00086aa04f10ddb8a1c63ebe65ce26fa1791eab8133c0d830476fa1ebf9",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 159286,
+   "duree_s": 9.88,
+   "caracteres_dits": 129,
+   "caracteres_factures": 129,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le modèle est en place. Un prix, un effectif, un coût de formateur, une durée, une salle. Dans la cellule B9, calculez la marge."
+    }
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "M23-L03-01",
+   "role": "Etape 1 · aide, dite au devoilement",
+   "texte_dit": "C'est le chiffre d'affaires, moins le coût du formateur sur tous les jours, moins la salle.",
+   "empreinte_texte_dit": "12f6cdb30bddcec50a99bdb9c37a50d9b22658b50d64e5a7f59ff215abf89c29",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 70679,
+   "duree_s": 4.36,
+   "caracteres_dits": 91,
+   "caracteres_factures": 91,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "C'est le chiffre d'affaires, moins le coût du formateur sur tous les jours, moins la salle."
+    }
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M23-L03-02",
+   "role": "Etape 2 · consigne, dite a l'arrivee",
+   "texte_dit": "Trois scénarios sont à monter côte à côte. Commençons par le plus prudent : la session ne se remplit qu'à six, et le prix baisse. Dans la cellule D3, saisissez l'effectif prudent.",
+   "empreinte_texte_dit": "96e1da619cdd6ce67161b0a9df1346f608a9f4884661e8a0a8582959012b72f7",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 201918,
+   "duree_s": 12.56,
+   "caracteres_dits": 179,
+   "caracteres_factures": 358,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Trois scénarios sont à monter côte à côte. Commençons par le plus prudent. La session ne se remplit qu'à 6 et le prix baisse. Dans la cellule D3, saisissez l'effectif prudent."
+    }
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "M23-L03-02",
+   "role": "Etape 2 · aide, dite au devoilement",
+   "texte_dit": "C'est la première colonne de scénario, sur la ligne des stagiaires.",
+   "empreinte_texte_dit": "ccaebb8bcddb9fc2b0e3d4fad0df8be67b3fb0701774a9e9ea9d2494567c7763",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 56886,
+   "duree_s": 3.48,
+   "caracteres_dits": 67,
+   "caracteres_factures": 67,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "C'est la première colonne de scénario sur la ligne des stagiaires."
+    }
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M23-L03-03",
+   "role": "Etape 3 · consigne, dite a l'arrivee",
+   "texte_dit": "Juste en dessous, saisissez le prix du scénario prudent.",
+   "empreinte_texte_dit": "3e5ed8b4f92f74e8cc5410d70fd483ef1fb8622189e244e9ee6a89fffce00829",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 53542,
+   "duree_s": 3.28,
+   "caracteres_dits": 56,
+   "caracteres_factures": 56,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Juste en dessous, saisissez le prix du scénario prudent."
+    }
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "M23-L03-03",
+   "role": "Etape 3 · aide, dite au devoilement",
+   "texte_dit": "C'est la cellule juste en dessous.",
+   "empreinte_texte_dit": "89be0b88b1244623f5977538c17d9449a96fe50f2a7604939e740a8f8284a643",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 32644,
+   "duree_s": 1.96,
+   "caracteres_dits": 34,
+   "caracteres_factures": 34,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "C'est la cellule juste en dessous."
+    }
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M23-L03-04",
+   "role": "Etape 4 · consigne, dite a l'arrivee",
+   "texte_dit": "La formule de marge doit maintenant lire les hypothèses de la colonne, tout en gardant les coûts du modèle. Dans la cellule D5, reprenez le calcul de marge, en figeant seulement les coûts.",
+   "empreinte_texte_dit": "b86f28b31828110e4a165234050b661fcb21dd8464f08c148401e8200537bf53",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 158032,
+   "duree_s": 9.8,
+   "caracteres_dits": 188,
+   "caracteres_factures": 188,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.091,
+     "transcription": "La formule de marge doit maintenant lire les hypothèses de la colonne tout en gardant les coups du modèle. Dans la cellule D5, reprenez le calcul de marge en figant seulement les coups."
+    }
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "M23-L03-04",
+   "role": "Etape 4 · aide, dite au devoilement",
+   "texte_dit": "C'est le prix multiplié par les stagiaires de cette colonne, moins les coûts figés du modèle.",
+   "empreinte_texte_dit": "6a0e33d9c3bba2b142799eea3cbc04132dd7b698d3c75b8b07049515f671805c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 75276,
+   "duree_s": 4.64,
+   "caracteres_dits": 93,
+   "caracteres_factures": 93,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.059,
+     "transcription": "C'est le prix multiplié par les stagiaires de cette colonne, moins les coups figés du modèle."
+    }
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M23-L03-05",
+   "role": "Etape 5 · consigne, dite a l'arrivee",
+   "texte_dit": "Complétez les deux autres colonnes : le réaliste avec huit stagiaires, l'ambitieux avec onze, puis recopiez la formule de marge vers la droite.",
+   "empreinte_texte_dit": "f26820add25f065e7ab9f10be6762b85f470acdf6dd7146cf8942c858d0e83cd",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 132955,
+   "duree_s": 8.24,
+   "caracteres_dits": 143,
+   "caracteres_factures": 286,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": false,
+     "wer": 0.13,
+     "transcription": "Complétez les deux autres colonnes, le réaliste avec Huis-Tagière, l'ambitieux avec Onze, puis recopiez la formule de marche vers la droite.",
+     "nombres": {
+      "attendus": [
+       "2",
+       "8",
+       "11"
+      ],
+      "entendus": [
+       "2",
+       "11"
+      ]
+     }
+    }
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "M23-L03-05",
+   "role": "Etape 5 · aide, dite au devoilement",
+   "texte_dit": "Ce sont six saisies : quatre hypothèses, puis la recopie de la marge sur les deux colonnes.",
+   "empreinte_texte_dit": "96c32cf015066950d0066d56e0d41ca1df67a51b0960f3a04f0b14a77a79487b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 86143,
+   "duree_s": 5.32,
+   "caracteres_dits": 91,
+   "caracteres_factures": 91,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Ce sont 6 saisies, 4 hypothèses, puis la recopie de la marge sur les deux colonnes."
+    }
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M23-L03-06",
+   "role": "Etape 6 · consigne, dite a l'arrivee",
+   "texte_dit": "Un tableau de scénarios se lit d'abord par son amplitude. Dans la cellule D7, mesurez l'écart entre le meilleur et le pire, avec les fonctions MAX et MIN.",
+   "empreinte_texte_dit": "9c5f48b7d3b7c6e25497ef8ba0f99a5220188b4aafb16ceb31601973607ba329",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 148419,
+   "duree_s": 9.2,
+   "caracteres_dits": 154,
+   "caracteres_factures": 154,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.033,
+     "transcription": "Un tableau de scénario se lit d'abord par son amplitude. Dans la cellule D7, mesurée L écart entre le meilleur et le pire avec les fonctions max et mine."
+    }
+   }
+  },
+  {
+   "id": "e6-aide",
+   "etape_lms": "M23-L03-06",
+   "role": "Etape 6 · aide, dite au devoilement",
+   "texte_dit": "C'est le maximum de la ligne de marge, moins son minimum.",
+   "empreinte_texte_dit": "288028f7b70f31ff7f3a7d377419ddb48c408f1c20b8c9db73af0c8346df6674",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-aide.mp3",
+   "octets": 52288,
+   "duree_s": 3.2,
+   "caracteres_dits": 57,
+   "caracteres_factures": 57,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "C'est le maximum de la ligne de marge, moins son minimum."
+    }
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "M23-L03-07",
+   "role": "Etape 7 · consigne, dite a l'arrivee",
+   "texte_dit": "Trois réserves avant d'employer le gestionnaire de scénarios. Il ne gère que trente-deux cellules variables. Les valeurs sont figées à l'enregistrement : si le modèle change, les scénarios mentent sans le dire. Et ils sont invisibles : rien dans la feuille ne signale leur existence. Le tableau côte à côte que vous venez de bâtir n'a aucun de ces défauts.",
+   "empreinte_texte_dit": "d0c38a03ce47994417d4ee87d533fdaf2871d41299ee16ad760895af3bc07b43",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 313931,
+   "duree_s": 19.56,
+   "caracteres_dits": 356,
+   "caracteres_factures": 712,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": false,
+     "wer": 0.033,
+     "transcription": "Trois réserves avant d'employer le gestionnaire de scénario. Il ne gère que 32 cellules variables. Les valeurs sont figées à l'enregistrement. Si le modèle change, les scénarios mentent sans le dire. Et ils sont invisibles. Rien dans la feuille ne signale leur existence. Le tableau côte à côte que vous venez de bâtir n'a aucun de ses défauts.",
+     "nombres": {
+      "attendus": [
+       "3",
+       "30",
+       "2"
+      ],
+      "entendus": [
+       "3",
+       "32"
+      ]
+     }
+    }
+   }
+  },
+  {
+   "id": "e7-bulle1",
+   "etape_lms": "M23-L03-07",
+   "role": "Etape 7 · bulle sur B3",
+   "texte_dit": "Le gestionnaire de scénarios est dans l'onglet Données.",
+   "empreinte_texte_dit": "b97e4fb67da77a6831bc2acf9064f4ccc0807420120f2f8eee9f7d10142f8481",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-bulle1.mp3",
+   "octets": 48527,
+   "duree_s": 2.96,
+   "caracteres_dits": 55,
+   "caracteres_factures": 55,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le gestionnaire de scénario est dans l'onglet « Donner »."
+    }
+   }
+  },
+  {
+   "id": "e7-bulle2",
+   "etape_lms": "M23-L03-07",
+   "role": "Etape 7 · bulle sur B4",
+   "texte_dit": "On enregistre un jeu de valeurs sous un nom, avec ses cellules variables.",
+   "empreinte_texte_dit": "cac9da002e3d0dfc07104a9f4f95353b9ae84e5a58f060a8e099082c2489a85d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-bulle2.mp3",
+   "octets": 59812,
+   "duree_s": 3.68,
+   "caracteres_dits": 73,
+   "caracteres_factures": 73,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "On enregistre un jeu de valeur sous un nom avec ses cellules variables."
+    }
+   }
+  },
+  {
+   "id": "e7-bulle3",
+   "etape_lms": "M23-L03-07",
+   "role": "Etape 7 · bulle sur B7",
+   "texte_dit": "Un bouton les rejoue ensuite, sans retaper les chiffres.",
+   "empreinte_texte_dit": "d500bae6770ebf7f098b47fda79a2aab234837f6eff748ff3fa768e93a949f36",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-bulle3.mp3",
+   "octets": 52288,
+   "duree_s": 3.2,
+   "caracteres_dits": 56,
+   "caracteres_factures": 56,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Un bouton les rejoue ensuite, sans retaper les chiffres."
+    }
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Vous savez monter un tableau de scénarios comparables, et en mesurer l'amplitude.",
+   "empreinte_texte_dit": "40b4813ae529ccfa79610b5d964465fb243e1d746b4a6073e82bb3cc172707a7",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 65245,
+   "duree_s": 4.0,
+   "caracteres_dits": 81,
+   "caracteres_factures": 81,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Vous savez monter un tableau de scénario comparable et en mesurer l'amplitude."
+    }
+   }
+  }
+ ]
+}

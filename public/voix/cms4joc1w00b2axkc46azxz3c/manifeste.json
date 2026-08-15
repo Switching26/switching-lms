@@ -1,0 +1,884 @@
+{
+ "chapitre": {
+  "chapterId": "cms4joc1w00b2axkc46azxz3c",
+  "app": "EXCEL",
+  "section": "",
+  "titre": "Vérifier et corriger l'étendue d'un nom"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 30,
+  "caracteres_dits": 2923,
+  "duree_totale_s": 186.0,
+  "segments_valides": 30,
+  "segments_plusieurs_essais": 3,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Nommer une plage rend les formules lisibles, jusqu'au jour où une ligne s'ajoute sous la plage nommée. Le total ne bouge pas, aucune erreur ne s'affiche, et le budget est faux. Voici comment le repérer et le réparer.",
+   "empreinte_texte_dit": "1e62779ca654099c52a434c1766f9d0aa06114e1cc657dc08b7d9c80a1615fd2",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 200246,
+   "duree_s": 12.44,
+   "caracteres_dits": 216,
+   "caracteres_factures": 216,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Nommez une plage, rend les formules lisibles jusqu'au jour\n où une ligne s'ajoute sous la plage nommée.\n Le total ne bouge pas, aucune erreur ne s'affiche et le\n budget est faux.\n Voici comment le repérer et le réparer."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Nommer une plage rend les formules lisibles jusqu'au jour\n où une ligne s'ajoute sous la plage nommée.\n Le total ne bouge pas, aucune erreur ne s'affiche et le\n budget est faux. Voici comment le repérer et le réparer."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M14-L03-01",
+   "role": "Etape 1 · consigne",
+   "texte_dit": "Cinq postes de dépense. À vous : sélectionnez la plage des montants, en faisant glisser.",
+   "empreinte_texte_dit": "a694d052654757c2d11c1ab7c97b332dc3f3eb2966d305cebb9ad72f4d13fc25",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 94502,
+   "duree_s": 5.84,
+   "caracteres_dits": 88,
+   "caracteres_factures": 88,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "5 postes de dépenses.\n À vous.\n Sélectionnez la plage des montants en faisant glisser."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "5 postes de dépenses.\n À vous !\n Sélectionnez la plage des montants en faisant glisser."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "M14-L03-01",
+   "role": "Etape 1 · aide",
+   "texte_dit": "Cliquez sur la première cellule et descendez jusqu'à la dernière, sans relâcher.",
+   "empreinte_texte_dit": "dc8c1c1ecf18a463af5f3056ab13c9060ebb105009cc1cdd47b55a889d91ffea",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 86143,
+   "duree_s": 5.32,
+   "caracteres_dits": 80,
+   "caracteres_factures": 80,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Cliquez sur la première cellule et descends des jusques à\n la dernière sans relâcher."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Cliquez sur la première cellule et descendez jusqu'à la\n dernière sans relâcher."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M14-L03-02",
+   "role": "Etape 2 · consigne",
+   "texte_dit": "À vous : dans la zone Nom, tapez le mot Budget, et validez avec Entrée.",
+   "empreinte_texte_dit": "8fe44b9dc3229f2e92638816bbe9235fa8a94860b3b89f01ecc1193bcfe89e97",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 81128,
+   "duree_s": 5.0,
+   "caracteres_dits": 71,
+   "caracteres_factures": 71,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "A vous, dans la zone non, tapez le mot budget et validez\n avec entrée."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous ! Dans la zone NON, tapez le mot « budget » et val\nidez avec Entrez."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "M14-L03-02",
+   "role": "Etape 2 · aide",
+   "texte_dit": "La zone Nom est le champ à gauche de la barre de formule.",
+   "empreinte_texte_dit": "bda008c3b8016c30650625dbdcaa52d5b1136e2ced24af66a4901cffdc1c3629",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 57304,
+   "duree_s": 3.52,
+   "caracteres_dits": 57,
+   "caracteres_factures": 57,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La zone non est le champ à gauche de la barre de formule."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La zone non est le champ à gauche de la barre de formule."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-feedback",
+   "etape_lms": "M14-L03-02",
+   "role": "Etape 2 · retour de reussite",
+   "texte_dit": "La plage porte un nom. Retenez bien ce qu'il désigne : cinq lignes, ni plus ni moins.",
+   "empreinte_texte_dit": "7e17b7a57f515b14bbd23f252035e5a71ac8480ef4dd5b9ee505cdbc1e6aea75",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-feedback.mp3",
+   "octets": 99518,
+   "duree_s": 6.16,
+   "caracteres_dits": 85,
+   "caracteres_factures": 85,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La plage porte un nom. Retenez bien ce qu'il désigne.\n Cinq lignes. Ni plus ni moins."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La plage porte un nom.\n Retenez bien ce qu'il désigne.\n Cinq lignes. Ni plus ni moins."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M14-L03-03",
+   "role": "Etape 3 · consigne",
+   "texte_dit": "À vous : dans la cellule B9, totalisez le budget en utilisant le nom.",
+   "empreinte_texte_dit": "9fcefd49f52c949daf56e706bbc79897eaa85948282083ed7dcb5092c3e9a23c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 82382,
+   "duree_s": 5.08,
+   "caracteres_dits": 69,
+   "caracteres_factures": 69,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.024,
+     "transcription": "À vous ! Dans la cellule B9, totalisez le budget en utilis\nant le nom."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.024,
+     "transcription": "À vous ! Dans la cellule B9, totalisez le budget en utilis\nant le nom."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "M14-L03-03",
+   "role": "Etape 3 · aide",
+   "texte_dit": "Le nom s'écrit à la place de la plage.",
+   "empreinte_texte_dit": "d271f0984812886e55f8be655ecb542406892303059e22a32ebc2e0997f15689",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 50199,
+   "duree_s": 3.08,
+   "caracteres_dits": 38,
+   "caracteres_factures": 38,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le nom \"S\" écrit à la place de la plage."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le nom S écrit à la place de la plage."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-feedback",
+   "etape_lms": "M14-L03-03",
+   "role": "Etape 3 · retour de reussite",
+   "texte_dit": "30450 euros. La formule se lit toute seule, c'est tout l'intérêt d'un nom.",
+   "empreinte_texte_dit": "01fb1d78f377fdd7212c28215308568cdd89348cae72a0178754469ae91281de",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-feedback.mp3",
+   "octets": 89905,
+   "duree_s": 5.56,
+   "caracteres_dits": 74,
+   "caracteres_factures": 74,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.05,
+     "transcription": "30 450 euros.\n La formule solide toute seule, c'est tout l'intérêt d'un\n nom."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "30 450 euros.\n La formule se lit toute seule, c'est tout l'intérêt d'un\n nom."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M14-L03-04",
+   "role": "Etape 4 · consigne",
+   "texte_dit": "Le budget évolue : les certifications ont été oubliées. À vous : dans la cellule B8, saisissez 2450.",
+   "empreinte_texte_dit": "ec0c63e230b3e8c9a838b91ab3c64b150f7f89ca25352883ef9e27e19a697fcd",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 128357,
+   "duree_s": 7.96,
+   "caracteres_dits": 100,
+   "caracteres_factures": 100,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le budget évolue. Les certifications ont été oubliées.\n À vous, dans la cellule B8, saisissez 2450."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le budget évolue, les certifications ont été oubliées.\n À vous, dans la cellule B8, saisissez 2450."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "M14-L03-04",
+   "role": "Etape 4 · aide",
+   "texte_dit": "C'est la ligne juste sous le dernier poste.",
+   "empreinte_texte_dit": "f8b79fd9bd28e11f5d002a577ad024d342ea2cc81173bcfd7caf245264564681",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 43511,
+   "duree_s": 2.64,
+   "caracteres_dits": 43,
+   "caracteres_factures": 43,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "C'est la ligne juste sous le dernier poste."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "C'est la ligne juste sous le dernier poste."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-feedback",
+   "etape_lms": "M14-L03-04",
+   "role": "Etape 4 · retour de reussite",
+   "texte_dit": "Le poste est saisi. Regardez maintenant le total.",
+   "empreinte_texte_dit": "61509f3d1324fe76a27973ad1c11fae6f843e4c50957fedfa9ee3bbc788c9b57",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-feedback.mp3",
+   "octets": 58558,
+   "duree_s": 3.6,
+   "caracteres_dits": 49,
+   "caracteres_factures": 49,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le poste est saisi. Regardez maintenant le total."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le poste est saisi. Regardez maintenant le total."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M14-L03-05",
+   "role": "Etape 5 · consigne",
+   "texte_dit": "Regardez bien ce qui vient de se passer, car c'est le défaut le plus sournois des plages nommées : aucune erreur, aucune alerte, et pourtant le total est faux. L'explication est pointée à l'écran. Un nom fige une étendue au moment où on le crée. Il n'a aucun moyen de deviner qu'une ligne s'est ajoutée depuis.",
+   "empreinte_texte_dit": "cc7e968d7995512bb764621ca4fef9a35d2f95c5fc30d14eddd188c13a9f4792",
+   "reparations": [
+    "l'écran"
+   ],
+   "ssml": true,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 249983,
+   "duree_s": 15.56,
+   "caracteres_dits": 310,
+   "caracteres_factures": 371,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.006,
+     "transcription": "Regardez bien ce qui vient de se passer, car c'est le déf\naut le plus sournoi des plages\n nommés.\n Aucune erreur, aucune alerte, et pourtant le total est faux\n.\n L'explication est pointée à l'écran.\n Un nom fiche une étendue au moment où on le crée.\n Il n'a aucun moyen de deviner qu'une ligne s'est ajoutée\n depuis."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.006,
+     "transcription": "Regardez bien ce qui vient de se passer, car c'est le déf\naut le plus sournois des plages nommées.\n Aucune erreur, aucune alerte, et pourtant le total est faux\n.\n L'explication est pointée à l'écran. Un nom fige une étend\nue au moment où on le crée.\n Il n'a aucun moyen de deviner qu'une ligne s'est ajoutée\n depuis."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-bulle1",
+   "etape_lms": "M14-L03-05",
+   "role": "Etape 5 · bulle 1 sur B9",
+   "texte_dit": "Le montant affiché ne change pas. Aucune erreur, aucune alerte.",
+   "empreinte_texte_dit": "87dd5d054ff055ea181500f05f4f35837c6c303e1bcca0784dc0450e03d91bab",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-bulle1.mp3",
+   "octets": 75276,
+   "duree_s": 4.64,
+   "caracteres_dits": 63,
+   "caracteres_factures": 63,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le montant affiché ne change pas.\n Aucune erreur, aucune alerte."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le montant affiché ne change pas.\n Aucune erreur, aucune alerte."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-bulle2",
+   "etape_lms": "M14-L03-05",
+   "role": "Etape 5 · bulle 2 sur B3:B7",
+   "texte_dit": "Le nom Budget désigne cette colonne…",
+   "empreinte_texte_dit": "7b63e0e0d716fda352a4f1256ec297820b1cf05597788ffa331a80db210a4f01",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-bulle2.mp3",
+   "octets": 42257,
+   "duree_s": 2.56,
+   "caracteres_dits": 36,
+   "caracteres_factures": 36,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le nom budget désigne cette colonne."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le nom budget désigne cette colonne."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-bulle3",
+   "etape_lms": "M14-L03-05",
+   "role": "Etape 5 · bulle 3 sur B8",
+   "texte_dit": "…et la dernière ligne n'en fait pas partie. C'est ainsi qu'un budget devient faux.",
+   "empreinte_texte_dit": "963d688a54c413f30a6b5f69c2acc545b24a4cc8fd6fcacde766f53a8b9f8c8d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-bulle3.mp3",
+   "octets": 71515,
+   "duree_s": 4.4,
+   "caracteres_dits": 82,
+   "caracteres_factures": 82,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Et la dernière ligne n'en fait pas partie. C'est ainsi qu'\nun budget devient faux."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Et la dernière ligne n'en fait pas partie.\n C'est ainsi qu'un budget devient faux."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M14-L03-06",
+   "role": "Etape 6 · consigne",
+   "texte_dit": "Vérifions l'étendue réelle du nom. À vous : tapez le mot Budget dans la zone Nom, et validez. Excel sélectionne ce que le nom désigne.",
+   "empreinte_texte_dit": "03d46642f36d33ddbd279f2e5117c2eb5067700db7f781b8cb83e27ea4b9308d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 169317,
+   "duree_s": 10.52,
+   "caracteres_dits": 134,
+   "caracteres_factures": 134,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.013,
+     "transcription": "Vérifions-elles étendu réel du nom.\n À vous.\n Tapez le mot budget dans la zone non et validez.\n Excel sélectionne ce que le nom désigne."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.013,
+     "transcription": "Vérifions-elle étendue réelle du nom.\n À vous !\n Tapez le mot « budget » dans la zone « NON » et validez.\n Excel sélectionne ce que le nom désigne."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-aide",
+   "etape_lms": "M14-L03-06",
+   "role": "Etape 6 · aide",
+   "texte_dit": "Un nom qui existe déjà ne renomme pas : il déplace la sélection.",
+   "empreinte_texte_dit": "3a9ed09aff32e4919db652df102a1636a0b9a7978f653e9038d66f36c0c5afb5",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-aide.mp3",
+   "octets": 66499,
+   "duree_s": 4.08,
+   "caracteres_dits": 64,
+   "caracteres_factures": 64,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.023,
+     "transcription": "Un nom qui existe déjà ne renomme pas. Il déplace la sé\nlection."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Un nom qui existe déjà ne renomme pas.\n Il déplace la sélection."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-feedback",
+   "etape_lms": "M14-L03-06",
+   "role": "Etape 6 · retour de reussite",
+   "texte_dit": "La sélection s'arrête avant la nouvelle ligne. Le diagnostic est fait, et il n'a coûté que deux secondes : c'est le premier réflexe devant un total suspect.",
+   "empreinte_texte_dit": "7f995e955e908dd37cc7d1496ff6cd396908a5e2e334da668418fe7092e1c40b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-feedback.mp3",
+   "octets": 140478,
+   "duree_s": 8.72,
+   "caracteres_dits": 156,
+   "caracteres_factures": 156,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La sélection s'arrête avant la nouvelle ligne.\n Le diagnostic est fait et il n'a coûté que deux secondes.\n C'est le premier réflexe devant un total suspect."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La sélection s'arrête avant la nouvelle ligne.\n Le diagnostic est fait et il n'a coûté que deux secondes.\n C'est le premier réflexe devant un total suspect."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "M14-L03-07",
+   "role": "Etape 7 · consigne",
+   "texte_dit": "Réparons. À vous : sélectionnez la plage complète, jusqu'au nouveau poste.",
+   "empreinte_texte_dit": "bf37656b853cf0619a3ce38389619bba70bcc1befa4f732489e8d254a812e23a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 82382,
+   "duree_s": 5.08,
+   "caracteres_dits": 74,
+   "caracteres_factures": 74,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Réparons, à vous. Sélectionnez la plage complète jusqu'au\n nouveau poste."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Répare-on. À vous.\n Sélectionnez la plage complète jusqu'au nouveau poste."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-aide",
+   "etape_lms": "M14-L03-07",
+   "role": "Etape 7 · aide",
+   "texte_dit": "Les six postes cette fois, certifications comprises.",
+   "empreinte_texte_dit": "2a4549c8141b78ccc8633d79b25bc0736aa3f1a77c2afbd0b73e876bac0716b7",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-aide.mp3",
+   "octets": 54796,
+   "duree_s": 3.36,
+   "caracteres_dits": 52,
+   "caracteres_factures": 52,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Les six postes cette fois, certification comprise."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Les six postes cette fois, certification comprise."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-consigne",
+   "etape_lms": "M14-L03-08",
+   "role": "Etape 8 · consigne",
+   "texte_dit": "À vous : nommez-la Budget souligné complet, depuis la zone Nom.",
+   "empreinte_texte_dit": "5614b416dc08b64b6a72f7b4ab57b767e69cd94bb970a85326472384e4f8317e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-consigne.mp3",
+   "octets": 65245,
+   "duree_s": 4.0,
+   "caracteres_dits": 63,
+   "caracteres_factures": 63,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.056,
+     "transcription": "À vous.\n Nommez la budgée soulignée complète depuis la zone non."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous ! Nommez-la budget souligné complet depuis la zone\n non."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-aide",
+   "etape_lms": "M14-L03-08",
+   "role": "Etape 8 · aide",
+   "texte_dit": "Souvenez-vous : pas d'espace dans un nom, le souligné le remplace.",
+   "empreinte_texte_dit": "1538912ce7b05a4a70fe20aa8dcfc07de05081e0be4b4b55da2cd170c8e40af2",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-aide.mp3",
+   "octets": 71515,
+   "duree_s": 4.4,
+   "caracteres_dits": 66,
+   "caracteres_factures": 66,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Souvenez-vous, pas d'espace dans un nom, le souligner le\n remplace."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Souvenez-vous, pas d'espace dans un nom, le souligner le\n remplace."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e9-consigne",
+   "etape_lms": "M14-L03-09",
+   "role": "Etape 9 · consigne",
+   "texte_dit": "À vous : dans la cellule B10, totalisez avec le nom corrigé.",
+   "empreinte_texte_dit": "df7461a20f83897983be34d75335af1c353a4028035185a3a7146de92dfe591e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-consigne.mp3",
+   "octets": 69007,
+   "duree_s": 4.24,
+   "caracteres_dits": 60,
+   "caracteres_factures": 60,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.083,
+     "transcription": "À vous, dans la cellule B10, totalisée avec le nom \"corrig\née\"."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous ! Dans la cellule B10, totalisée avec le nom corrigé\n."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e9-feedback",
+   "etape_lms": "M14-L03-09",
+   "role": "Etape 9 · retour de reussite",
+   "texte_dit": "32900 euros, soit 2450 euros de plus. Voilà le vrai budget.",
+   "empreinte_texte_dit": "71521553c3479a7ca53b9f1ed207042c67ca39c93f139e1c3a570c98e30e5303",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-feedback.mp3",
+   "octets": 95338,
+   "duree_s": 5.88,
+   "caracteres_dits": 59,
+   "caracteres_factures": 59,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "32 900 € soit 2450 € de plus.\n Voilà le vrai budget."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "32 900 €, soit 2450 € de plus.\n Voilà le vrai budget."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e10-consigne",
+   "etape_lms": "M14-L03-10",
+   "role": "Etape 10 · consigne",
+   "texte_dit": "Trois façons d'éviter ce piège, de la plus rapide à la plus solide. Elles sont reprises à l'écran. Le critère de choix : réparer un nom existant se fait dans le gestionnaire de noms, prévoir large évite le problème sans vraiment le résoudre, et convertir en tableau structuré est la seule solution qui suive d'elle-même les lignes ajoutées.",
+   "empreinte_texte_dit": "e2fa3e93978c82e7f874b5d923394b4da28b00ae43d5b373443ac128c17a9f18",
+   "reparations": [
+    "l'écran"
+   ],
+   "ssml": true,
+   "fichier": "audio/e10-consigne.mp3",
+   "octets": 296795,
+   "duree_s": 18.48,
+   "caracteres_dits": 340,
+   "caracteres_factures": 401,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.015,
+     "transcription": "Trois façons d'éviter ce piège de la plus rapide à la plus\n solide, elles sont reprises à l'écran.\n Le critère de choix, réparer un non existant se fait dans\n le gestionnaire de non, prévoir large et évite le problème\n sans vraiment le résoudre,\n et convertir en tableau structuré est la seule solution qui\n suit d'elle-même les lignes ajoutées."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.02,
+     "transcription": "Trois façons d'éviter ce piège, de la plus rapide à la plus\n solide.\n Elles sont reprises à l'écran.\n Le critère de choix, réparer un nom existant se fait dans\n le gestionnaire de nom.\n Prévoir large évite le problème sans vraiment le résoudre\n et convertir en tableau structuré\n est la seule solution qui suit d'elle-même les lignes ajout\nées."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e10-bulle1",
+   "etape_lms": "M14-L03-10",
+   "role": "Etape 10 · bulle 1 sur dom:[aria-label=\"Zone Nom\"]",
+   "texte_dit": "Le gestionnaire de noms modifie l'étendue sans créer de second nom.",
+   "empreinte_texte_dit": "ba13a2cf4786de966a91ecb98b01580aebd922faff0f8b36062e0b5210e4ff6f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e10-bulle1.mp3",
+   "octets": 77784,
+   "duree_s": 4.8,
+   "caracteres_dits": 67,
+   "caracteres_factures": 67,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le gestionnaire de nom modifie \"L\" étendu sans créer de\n second nom."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le gestionnaire de nom modifie \"L\", étendu sans créer de\n second nom."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e10-bulle2",
+   "etape_lms": "M14-L03-10",
+   "role": "Etape 10 · bulle 2 sur B3:B8",
+   "texte_dit": "On peut aussi nommer plus large dès le départ, en incluant les lignes à venir.",
+   "empreinte_texte_dit": "d04b9663166b579ff8171fe72fc38c3e407896000da6cbeac3783fd360bd9ec0",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e10-bulle2.mp3",
+   "octets": 68171,
+   "duree_s": 4.2,
+   "caracteres_dits": 78,
+   "caracteres_factures": 78,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "On peut aussi nommer plus large dès le départ, en incluant\n les lignes à venir."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "On peut aussi nommer plus larges dès le départ, en incluant\n les lignes à venir."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e10-bulle3",
+   "etape_lms": "M14-L03-10",
+   "role": "Etape 10 · bulle 3 sur A9",
+   "texte_dit": "Le plus solide reste de convertir en tableau : le nom suit alors les lignes ajoutées.",
+   "empreinte_texte_dit": "fd5a4d208438fb2ef885573a5a6148052f1fdcb1f2ba61922632ac8a9dbf0a52",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e10-bulle3.mp3",
+   "octets": 87397,
+   "duree_s": 5.4,
+   "caracteres_dits": 85,
+   "caracteres_factures": 85,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le plus solide reste de convertir en tableau.\n Le nom suit alors les lignes ajoutées."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le plus solide reste de convertir en tableau. Le nom suit\n alors les lignes ajoutées."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Vous savez lire l'étendue réelle d'un nom depuis la zone Nom, et reconnaître le symptôme d'un nom trop court : un total qui ne bouge pas quand les données changent.",
+   "empreinte_texte_dit": "be0613631c183ea5c72395bb0c0ea37c765da05e1802bd725cb7056998943870",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 152181,
+   "duree_s": 9.44,
+   "caracteres_dits": 164,
+   "caracteres_factures": 164,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Vous savez lire \"L\" étant du réel d'un nom depuis la zone\n non et reconnaître le symptôme d'un nom trop court,\n un total qui ne bouge pas quand les données changent."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.022,
+     "transcription": "Vous savez lire L, étendre L d'un nom depuis la zone nom,\n et reconnaître le symptôme d'un nom trop court,\n un total qui ne bouge pas quand les données changent."
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

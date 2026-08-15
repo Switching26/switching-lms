@@ -1,0 +1,357 @@
+{
+ "chapitre": {
+  "chapterId": "cms4job5c0098axkc9vvwl983",
+  "app": "Excel",
+  "section": "Saisie semi-automatique et recopie",
+  "titre": "Exercice · Reprendre un export"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)"
+  ],
+  "criteres": [
+   "WER <= 0.15",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe le moteur severe"
+ },
+ "totaux": {
+  "segments": 14,
+  "caracteres_dits": 1016,
+  "duree_totale_s": 62.4,
+  "segments_valides": 13,
+  "segments_plusieurs_essais": 1,
+  "segments_jamais_valides": 1
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Un export de votre logiciel de gestion, arrivé tout entier dans la première colonne. Rendez-le exploitable, calculez-le, et numérotez les lignes de dix en dix.",
+   "empreinte_texte_dit": "a2d591f614431a586842bdc249e459fd4b417ee12d71b27243fe1c53e3cbe60d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 160540,
+   "duree_s": 9.96,
+   "caracteres_dits": 159,
+   "caracteres_factures": 318,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": false,
+     "wer": 0.185,
+     "transcription": "Un export de votre logiciel de gestion arrivait tout entier dans la première colonne. Rendez-le exploitable, calculez-le et numéreté les lignes de 1010.",
+     "nombres": {
+      "attendus": [
+       "1",
+       "10",
+       "10"
+      ],
+      "entendus": [
+       "1",
+       "1010"
+      ]
+     }
+    }
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M12-E02-01",
+   "role": "Etape 1 · consigne, dite a l'arrivee",
+   "texte_dit": "Découpez cet export en colonnes exploitables. Le séparateur est le point-virgule. Chaque information doit se retrouver dans sa propre colonne.",
+   "empreinte_texte_dit": "6ed374510192ee540dcee15c3baa9ce0917542a9e1bd9f603164ad26da09aa32",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 132955,
+   "duree_s": 8.24,
+   "caracteres_dits": 142,
+   "caracteres_factures": 142,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Découpez cet export en colonne exploitable. Le séparateur est le point virgule. Chaque information doit se retrouver dans sa propre colonne."
+    }
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "M12-E02-01",
+   "role": "Etape 1 · aide, dite au devoilement",
+   "texte_dit": "L'outil se trouve dans l'onglet Données.",
+   "empreinte_texte_dit": "bbe1afa02cebdd04e4adaaa65dc8870c706a8a1b60ab534bdd0e8b820374a919",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 38914,
+   "duree_s": 2.36,
+   "caracteres_dits": 40,
+   "caracteres_factures": 40,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "L'outil se trouve dans l'onglet donné."
+    }
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M12-E02-02",
+   "role": "Etape 2 · consigne, dite a l'arrivee",
+   "texte_dit": "Dans la cellule E1, ajoutez l'en-tête des montants.",
+   "empreinte_texte_dit": "b75c0f874592766d7c176dec8293ee83e025fa33e32cf936a570810f2bcd8270",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 59394,
+   "duree_s": 3.64,
+   "caracteres_dits": 51,
+   "caracteres_factures": 51,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Dans la cellule E1, ajoutez l'entête des montants."
+    }
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M12-E02-03",
+   "role": "Etape 3 · consigne, dite a l'arrivee",
+   "texte_dit": "Juste en dessous, calculez le montant de la première ligne. La formule devra être recopiable.",
+   "empreinte_texte_dit": "8f8dc75acc339a93893040292922f612fa68f07970b322436e018dcafe4bc7f2",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 91159,
+   "duree_s": 5.64,
+   "caracteres_dits": 93,
+   "caracteres_factures": 93,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Juste en dessous, calculez le montant de la première ligne. La formule devra être recopiable."
+    }
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M12-E02-04",
+   "role": "Etape 4 · consigne, dite a l'arrivee",
+   "texte_dit": "Complétez les quatre lignes restantes.",
+   "empreinte_texte_dit": "5c0b69dde535f41333f128bad55d672be41f2530e3f23f199050fec2d603da95",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 34316,
+   "duree_s": 2.08,
+   "caracteres_dits": 38,
+   "caracteres_factures": 38,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Complétez les quatre lignes restantes."
+    }
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "M12-E02-04",
+   "role": "Etape 4 · aide, dite au devoilement",
+   "texte_dit": "Attrapez la poignée de recopie, et descendez.",
+   "empreinte_texte_dit": "46a47d585becd34b16b6b5299c59842ecdf870f7522f5cf1b2db902e93e3a159",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 48527,
+   "duree_s": 2.96,
+   "caracteres_dits": 45,
+   "caracteres_factures": 45,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Attrapez la poignée de recopie et descendez."
+    }
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M12-E02-05",
+   "role": "Etape 5 · consigne, dite a l'arrivee",
+   "texte_dit": "Dans la cellule E8, totalisez l'export.",
+   "empreinte_texte_dit": "7fdee623a58a418e47aa8540d0cd88392e1159b979170051a54aab4947bf0ea1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 54796,
+   "duree_s": 3.36,
+   "caracteres_dits": 39,
+   "caracteres_factures": 39,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Dans la cellule E8, totalisez l'export."
+    }
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M12-E02-06",
+   "role": "Etape 6 · consigne, dite a l'arrivee",
+   "texte_dit": "Numérotez maintenant les lignes de dix en dix. Dans la cellule G2, saisissez la première valeur.",
+   "empreinte_texte_dit": "25c07a5e76f9ca77d2c6e0ab4a8fd9a4906e14a8964591aa67c76df31898b022",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 91995,
+   "duree_s": 5.68,
+   "caracteres_dits": 96,
+   "caracteres_factures": 96,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.062,
+     "transcription": "Numérautez maintenant les lignes de 10 en 10. Dans la cellule G2, saisissez la première valeur."
+    }
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "M12-E02-07",
+   "role": "Etape 7 · consigne, dite a l'arrivee",
+   "texte_dit": "Juste en dessous, donnez la valeur qui fixera le pas de la série.",
+   "empreinte_texte_dit": "59035e0f626c0b07954a9efc66e0aa3f4e51788b3dac943e614149e81f557077",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 66499,
+   "duree_s": 4.08,
+   "caracteres_dits": 65,
+   "caracteres_factures": 65,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Juste en dessous, donnez la valeur qui fixera le pas de la série."
+    }
+   }
+  },
+  {
+   "id": "e7-aide",
+   "etape_lms": "M12-E02-07",
+   "role": "Etape 7 · aide, dite au devoilement",
+   "texte_dit": "Une série a besoin de deux valeurs pour que son pas soit reconnaissable.",
+   "empreinte_texte_dit": "069f62f9cd9853ef78d48d095aa808bc75e318f4500d18eb37dbac8c2cde3dc7",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-aide.mp3",
+   "octets": 62737,
+   "duree_s": 3.84,
+   "caracteres_dits": 72,
+   "caracteres_factures": 72,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Une série a besoin de deux valeurs pour que son pas soit reconnaissable."
+    }
+   }
+  },
+  {
+   "id": "e8-consigne",
+   "etape_lms": "M12-E02-08",
+   "role": "Etape 8 · consigne, dite a l'arrivee",
+   "texte_dit": "Complétez la numérotation jusqu'à la dernière ligne.",
+   "empreinte_texte_dit": "79f1221189f7a1de2ab895a00c15f66e51e0045dfc7224d5274b288d4848f69d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-consigne.mp3",
+   "octets": 56050,
+   "duree_s": 3.44,
+   "caracteres_dits": 52,
+   "caracteres_factures": 52,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Complétez la numérotation jusqu'à la dernière ligne."
+    }
+   }
+  },
+  {
+   "id": "e8-aide",
+   "etape_lms": "M12-E02-08",
+   "role": "Etape 8 · aide, dite au devoilement",
+   "texte_dit": "Sélectionnez les deux premières valeurs avant de tirer la poignée.",
+   "empreinte_texte_dit": "ba2ba9550f5f59dcddf5fb8f663fdc0917c127fdb7d06ed987e6879878fa358b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-aide.mp3",
+   "octets": 56886,
+   "duree_s": 3.48,
+   "caracteres_dits": 66,
+   "caracteres_factures": 66,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Sélectionnez les deux premières valeurs avant de tirer la poignée."
+    }
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Un export illisible devenu un tableau calculé et numéroté.",
+   "empreinte_texte_dit": "056059b8730e7749a36a7e0a58cc547f43d1088e3adff43a74a0ca8287868d46",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 59812,
+   "duree_s": 3.68,
+   "caracteres_dits": 58,
+   "caracteres_factures": 58,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Un export illisible devenu un tableau calculé et numéroté."
+    }
+   }
+  }
+ ]
+}

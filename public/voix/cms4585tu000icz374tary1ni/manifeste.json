@@ -1,0 +1,660 @@
+{
+ "chapitre": {
+  "chapterId": "cms4585tu000icz374tary1ni",
+  "app": "EXCEL",
+  "section": "",
+  "titre": "Trier une liste de données"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 22,
+  "caracteres_dits": 2586,
+  "duree_totale_s": 150.3,
+  "segments_valides": 20,
+  "segments_plusieurs_essais": 2,
+  "segments_jamais_valides": 2
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Une liste de données se lit mal dans l'ordre de saisie. La trier prend deux clics, à condition de ne pas emporter la ligne de titres avec elle.",
+   "empreinte_texte_dit": "6f788174664a2d9508e7a2574cb170544f820c42af75109fb5fe2b60e1ec6737",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 118326,
+   "duree_s": 7.32,
+   "caracteres_dits": 143,
+   "caracteres_factures": 143,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Une liste de données se lit mal dans l'ordre de saisie.\n La triée prend deux clics, à condition de ne pas emporter\n la ligne de titre avec elle."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Une liste de données se lit mal dans l'ordre de saisie.\n La triée prend deux clics, à condition de ne pas emporter\n la ligne de titre avec elle."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M19-L01-01",
+   "role": "Etape 1 · consigne",
+   "texte_dit": "Sept ventes, saisies dans le désordre. L'onglet Données rassemble les outils de liste. À vous : cliquez sur une cellule de la colonne Montant, puis sur le tri décroissant, pour classer du plus gros au plus petit.",
+   "empreinte_texte_dit": "bb1c0d2f4897e10cc242732ffdb3814546618b023fc98f1dbc0aa4e7f312a32d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 193559,
+   "duree_s": 12.04,
+   "caracteres_dits": 212,
+   "caracteres_factures": 212,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": false,
+     "wer": 0.026,
+     "transcription": "Cette vente saisit dans le désordre.\n L'onglet Donner rassemble les outils de liste.\n À vous.\n Cliquez sur une cellule de la colonne montant,\n puis sur le tri décroissant pour classer du plus gros au\n plus petit."
+    },
+    "moteur_second_medium": {
+     "ok": false,
+     "wer": 0.026,
+     "transcription": "Cette vente, saisie dans le désordre.\n L'onglet Donner rassemble les outils de liste.\n À vous !\n Cliquez sur une cellule de la colonne Montant,\n puis sur le tri décroissant pour classer du plus gros au\n plus petit."
+    },
+    "valide_sur_les_deux": false
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "M19-L01-01",
+   "role": "Etape 1 · aide",
+   "texte_dit": "La sélection est déjà dans la colonne Montant : il reste à cliquer sur le tri décroissant, dans l'onglet Données.",
+   "empreinte_texte_dit": "b3a7a8ae6dc6ea3b60344349d72ca7223e3eb68b0fef9d8e61099a9871574e24",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 109967,
+   "duree_s": 6.8,
+   "caracteres_dits": 113,
+   "caracteres_factures": 113,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La sélection est déjà dans la colonne montant.\n Il reste à cliquer sur le tri décroissant dans l'onglet «\n Donner »."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.014,
+     "transcription": "La sélection est déjà dans la colonne montant.\n Il reste à cliquer sur le tri des croissants dans l'onglet\n Donner."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-feedback",
+   "etape_lms": "M19-L01-01",
+   "role": "Etape 1 · retour de reussite",
+   "texte_dit": "Le plus gros montant passe en tête, le plus petit ferme la marche. Les lignes ont voyagé en entier : le nom, la région et le produit ont suivi leur montant.",
+   "empreinte_texte_dit": "e8d53247cdf2521d244786e752fe3c0a65dd8fc9e1a4e6416e2cf688d8488428",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-feedback.mp3",
+   "octets": 150091,
+   "duree_s": 9.32,
+   "caracteres_dits": 156,
+   "caracteres_factures": 156,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le plus gros montant passe en tête, le plus petit ferme la\n marche.\n Les lignes ont voyagé en entier.\n Le nom, la région et le produit ont suivi leurs montants."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le plus gros montant passe en tête, le plus petit ferme la\n marche.\n Les lignes ont voyagé en entier.\n Le nom, la région et le produit ont suivi leur montant."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M19-L01-02",
+   "role": "Etape 2 · consigne",
+   "texte_dit": "Voici le point capital du tri, et la cause de presque tous les accidents sur ce sujet. Le comportement est montré à l'écran. Excel déplace des lignes entières. Le jour où vos données se retrouvent mélangées après un tri, c'est presque toujours qu'une seule colonne avait été sélectionnée avant de lancer l'opération.",
+   "empreinte_texte_dit": "f2e7057ec8829a42c6dedf587a99c71e10db75abc6201199b22603b1fdde75b6",
+   "reparations": [
+    "l'écran"
+   ],
+   "ssml": true,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 267955,
+   "duree_s": 16.68,
+   "caracteres_dits": 316,
+   "caracteres_factures": 377,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.005,
+     "transcription": "Voici le point capital du tri et la cause de presque tous\n les accidents sur ce sujet.\n Le comportement est montré à l'écran.\n Excel déplace des lignes entières.\n Le jour où vos données se retrouvent mélangées après un tri\n,\n c'est presque toujours qu'une seule colonne avait été sé\nlectionnée avant de lancer l'opération."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.005,
+     "transcription": "Voici le point capital du tri et la cause de presque tous\n les accidents sur ce sujet.\n Le comportement est montré à l'écran.\n Excel déplace des lignes entières.\n Le jour où vos données se retrouvent mélangées après un tri\n, c'est presque toujours qu'une\n seule colonne avait été sélectionnée avant de lancer l'op\nération."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-bulle1",
+   "etape_lms": "M19-L01-02",
+   "role": "Etape 2 · bulle 1 sur A2:D2",
+   "texte_dit": "Excel déplace des lignes complètes, jamais une colonne seule.",
+   "empreinte_texte_dit": "cb40076235a0942ddba590ece591b78b36bc67643272a98bb28df44e168c3360",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-bulle1.mp3",
+   "octets": 63155,
+   "duree_s": 3.88,
+   "caracteres_dits": 61,
+   "caracteres_factures": 61,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Excel déplace des lignes complètes jamais une colonne seule\n."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Excel déplace des lignes complètes, jamais une colonne\n seule."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-bulle2",
+   "etape_lms": "M19-L01-02",
+   "role": "Etape 2 · bulle 2 sur col:D",
+   "texte_dit": "Si vos données se mélangent après un tri…",
+   "empreinte_texte_dit": "cdcfe994271aaf6b3b737b5b3ac584883a12e410bb2dd2be076e09a58d92817e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-bulle2.mp3",
+   "octets": 36406,
+   "duree_s": 2.2,
+   "caracteres_dits": 41,
+   "caracteres_factures": 41,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": false,
+     "wer": 0.174,
+     "transcription": "Si vous donnez ce mélange après un tri,"
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Si vos données se mélangent après un tri,"
+    },
+    "valide_sur_les_deux": false
+   }
+  },
+  {
+   "id": "e2-bulle3",
+   "etape_lms": "M19-L01-02",
+   "role": "Etape 2 · bulle 3 sur A2:D8",
+   "texte_dit": "…c'est presque toujours qu'une seule colonne avait été sélectionnée.",
+   "empreinte_texte_dit": "cd30589bcca03ef82a2fb2b61140af54c20d3387eaaffa74e12da5bc1bb28e9b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-bulle3.mp3",
+   "octets": 56050,
+   "duree_s": 3.44,
+   "caracteres_dits": 68,
+   "caracteres_factures": 68,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.028,
+     "transcription": "C'est presque toujours qu'une seule colonne avait été sé\nlectionnée."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.028,
+     "transcription": "C'est presque toujours qu'une seule colonne avait été sé\nlectionnée."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M19-L01-03",
+   "role": "Etape 3 · consigne",
+   "texte_dit": "Triez maintenant par ordre alphabétique de commercial. À vous : cliquez dans la première colonne, puis sur le tri croissant.",
+   "empreinte_texte_dit": "21d0a02763b2eeaae5a854ada305811d98368d51bda064c8b34e90d33a32bc15",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 125431,
+   "duree_s": 7.76,
+   "caracteres_dits": 124,
+   "caracteres_factures": 124,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Triez maintenant par ordre alphabetique de commercial.\n À vous, cliquez dans la première colonne, puis sur le tri\n croissant."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Triez maintenant par ordre alphabétique de commercial.\n À vous !\n Cliquez dans la première colonne, puis sur le tri croissant\n."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "M19-L01-03",
+   "role": "Etape 3 · aide",
+   "texte_dit": "Une cellule de la colonne Commercial, puis le bouton de tri croissant.",
+   "empreinte_texte_dit": "136f7ccf107436f6f0f84b13f6681780045534f45384d283105bef8914a14484",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 70679,
+   "duree_s": 4.36,
+   "caracteres_dits": 70,
+   "caracteres_factures": 70,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Une cellule de la colonne commerciale, puis le bouton de tr\nicroissant."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "une cellule de la colonne commerciale, puis le bouton de tr\nicroissant."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-feedback",
+   "etape_lms": "M19-L01-03",
+   "role": "Etape 3 · retour de reussite",
+   "texte_dit": "Les noms se rangent par ordre alphabétique. Le tri alphabétique fonctionne comme le tri numérique.",
+   "empreinte_texte_dit": "3408a1243673497a9f9db00684174c35e776e77f04dbed688023aa6793f3b376",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-feedback.mp3",
+   "octets": 104115,
+   "duree_s": 6.44,
+   "caracteres_dits": 98,
+   "caracteres_factures": 98,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Les noms se rangent par ordre alphabetique.\n Le tri alphabetique fonctionne comme le tri numérique."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Les noms se rangent par ordre alphabétique.\n Le trialphabétique fonctionne comme le trinumérique."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M19-L01-04",
+   "role": "Etape 4 · consigne",
+   "texte_dit": "Triez par région, cette fois en ordre décroissant. À vous : cliquez dans la colonne des régions, puis sur le tri décroissant.",
+   "empreinte_texte_dit": "8c7ec212f7b87e08007f0be80620d7a10c0ab265fb9d92a625e3bc4402862a1e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 122088,
+   "duree_s": 7.56,
+   "caracteres_dits": 125,
+   "caracteres_factures": 125,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Triez par région, cette fois en ordre décroissant.\n À vous, cliquez dans la colonne des régions, puis sur le\n tri décroissant."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Triez par région, cette fois en ordre décroissant.\n À vous ! Cliquez dans la colonne des régions, puis sur le\n tri décroissant."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "M19-L01-04",
+   "role": "Etape 4 · aide",
+   "texte_dit": "Une cellule de la colonne Région, puis le tri décroissant.",
+   "empreinte_texte_dit": "8728ce9d654104ac351df4c9597bafdb2710d32730bd09501878cce1e325793b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 60648,
+   "duree_s": 3.72,
+   "caracteres_dits": 58,
+   "caracteres_factures": 58,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.056,
+     "transcription": "Une cellule de la colonne région, puis le tri des croiss\nants."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Une cellule de la colonne région, puis le tri décroissant."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-feedback",
+   "etape_lms": "M19-L01-04",
+   "role": "Etape 4 · retour de reussite",
+   "texte_dit": "Sud, Ouest, Nord. À l'intérieur d'une même région, l'ordre précédent est conservé. C'est ce qui permet d'enchaîner deux tris pour obtenir un tri à deux niveaux.",
+   "empreinte_texte_dit": "b63fbb80e64b2b25fcdb7ee630caeab2951a14081b8b48722d140bfe3e93ef1a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-feedback.mp3",
+   "octets": 158450,
+   "duree_s": 9.84,
+   "caracteres_dits": 160,
+   "caracteres_factures": 160,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.011,
+     "transcription": "Sud, ouest, nord.\n A l'intérieur d'une même région, l'ordre précédent est\n conservé.\n C'est ce qui permet d'enchaîner deux trices pour obtenir un\n tri à deux niveaux."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "sud, ouest, nord.\n À l'intérieur d'une même région, l'ordre précédent est\n conservé.\n C'est ce qui permet d'enchaîner deux tris, pour obtenir un\n tri à deux niveaux."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M19-L01-05",
+   "role": "Etape 5 · consigne",
+   "texte_dit": "Ce point mérite d'être retenu, car l'ordre est contre-intuitif : pour obtenir un tri par région puis par montant, on applique les critères du moins important au plus important, donc le montant d'abord. La logique est montrée à l'écran. La boîte Trier permet aussi de déclarer tous les niveaux d'un coup, dans l'ordre naturel.",
+   "empreinte_texte_dit": "c2fc583e058247e0854b30d9e28bb0669e6022411627bcc00b7cbb97415ff045",
+   "reparations": [
+    "l'écran"
+   ],
+   "ssml": true,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 289271,
+   "duree_s": 18.0,
+   "caracteres_dits": 325,
+   "caracteres_factures": 386,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.005,
+     "transcription": "Ce point mérite d'être retenu car l'ordre est contre-intuit\nif.\n Pour obtenir un tri par région puis par montant,\n on applique les critères du moins important au plus\n important, donc le montant d'abord.\n La logique est montrée à l'écran.\n La boîte triée permet aussi de déclarer tous les niveaux d'\nun coup dans l'ordre naturel."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.005,
+     "transcription": "Ce point mérite d) être retenu car l'ordre est contre-int\nuitif.\n Pour obtenir un tri par région puis par montant, on appl\nique les critères du moins important\n au plus important, donc le montant d'abord.\n La logique est montrée à l'écran.\n La boîte trier permet aussi de déclarer tous les niveaux d'\nun coup dans l'ordre naturel."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-bulle1",
+   "etape_lms": "M19-L01-05",
+   "role": "Etape 5 · bulle 1 sur D1",
+   "texte_dit": "Pour trier par région puis par montant, on trie d'abord par montant.",
+   "empreinte_texte_dit": "3f0b30ea369c6c96fc96b29787fa32fc48e8752a7fcfe136f13a9ba06855e79d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-bulle1.mp3",
+   "octets": 67753,
+   "duree_s": 4.16,
+   "caracteres_dits": 68,
+   "caracteres_factures": 68,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Pour trier par région puis par montant, on trier d'abord\n par montant."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Pour trier par région puis par montant, on trie d'abord par\n montant."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-bulle2",
+   "etape_lms": "M19-L01-05",
+   "role": "Etape 5 · bulle 2 sur B1",
+   "texte_dit": "Ensuite par région : du moins important au plus important.",
+   "empreinte_texte_dit": "908bf7033705801b969c5cd0f23643107894516987f73a94b97aec09e3e615f6",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-bulle2.mp3",
+   "octets": 66499,
+   "duree_s": 4.08,
+   "caracteres_dits": 58,
+   "caracteres_factures": 58,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Ensuite, par région, du moins important au plus important."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "ensuite par région, du moins important au plus important."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-bulle3",
+   "etape_lms": "M19-L01-05",
+   "role": "Etape 5 · bulle 3 sur A1:D1",
+   "texte_dit": "La boîte Trier permet de tout déclarer d'un coup, dans l'ordre naturel.",
+   "empreinte_texte_dit": "6feb37a79aaa0caeaeda1931df3601da5447699855a663f79896c2107d440093",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-bulle3.mp3",
+   "octets": 62737,
+   "duree_s": 3.84,
+   "caracteres_dits": 71,
+   "caracteres_factures": 71,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La boîte triée permet de tout déclarer d'un coup dans l'\nordre naturel."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La boite triée permet de tout déclarer d'un coup, dans l'\nordre naturel."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M19-L01-06",
+   "role": "Etape 6 · consigne",
+   "texte_dit": "Vérifions l'ordre obtenu. À vous : dans la cellule F1, relevez le montant de la première ligne du tableau.",
+   "empreinte_texte_dit": "3c2fa0126a2337fecfe0df33440c78f9ece751b0bdd3b110a6a6761a3480716a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 102862,
+   "duree_s": 6.36,
+   "caracteres_dits": 106,
+   "caracteres_factures": 106,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Vérifions l'ordre obtenu.\n À vous, dans la cellule F1,\n relevez le montant de la première ligne du tableau."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Vérifions l'ordre obtenu.\n À vous !\n Dans la cellule F1, relevez le montant de la première ligne\n du tableau."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-aide",
+   "etape_lms": "M19-L01-06",
+   "role": "Etape 6 · aide",
+   "texte_dit": "Une référence simple vers cette cellule suffit.",
+   "empreinte_texte_dit": "4639d0d7d4110e7a7566319c86a3b7934295663ca43f40b8cc31b7edc67bc6f8",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-aide.mp3",
+   "octets": 45183,
+   "duree_s": 2.76,
+   "caracteres_dits": 47,
+   "caracteres_factures": 47,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Une référence simple vers cette cellule suffit."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Une référence simple vers cette cellule suffit."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-feedback",
+   "etape_lms": "M19-L01-06",
+   "role": "Etape 6 · retour de reussite",
+   "texte_dit": "La formule suit le tableau : retriez, et ce repère affichera la nouvelle première valeur.",
+   "empreinte_texte_dit": "60803d8ed4c8f9c17428836555effed0e2c6aba10a68cd2fcea7c4e38a9dc446",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-feedback.mp3",
+   "octets": 91995,
+   "duree_s": 5.68,
+   "caracteres_dits": 89,
+   "caracteres_factures": 89,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La formule suit le tableau, retriez et se repère affichera\n la nouvelle première valeur."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La formule suit le tableau. Retriez. Et ce repère affichera\n la nouvelle première valeur."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Vous savez trier une liste sur la colonne de votre choix, dans les deux sens.",
+   "empreinte_texte_dit": "646821ade7bb68a6e81bda81c31a39cf2aa3dfdb80f7b0386530e37688becb2d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 65663,
+   "duree_s": 4.04,
+   "caracteres_dits": 77,
+   "caracteres_factures": 77,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Vous savez trier une liste sur la colonne de votre choix,\n dans les deux sens."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Vous savez trier une liste sur la colonne de votre choix,\n dans les deux sens."
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

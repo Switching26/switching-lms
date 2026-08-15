@@ -1,0 +1,856 @@
+{
+ "chapitre": {
+  "chapterId": "cms4joapf008caxkc6wbshyhc",
+  "app": "EXCEL",
+  "section": "",
+  "titre": "Faire ressortir les meilleures valeurs"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 29,
+  "caracteres_dits": 3355,
+  "duree_totale_s": 192.5,
+  "segments_valides": 28,
+  "segments_plusieurs_essais": 9,
+  "segments_jamais_valides": 1
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Dix agences, dix chiffres. On veut voir d'un coup d'œil les trois meilleures et les trois plus faibles, sans trier le tableau, qui doit rester dans l'ordre alphabétique pour être comparé au mois dernier.",
+   "empreinte_texte_dit": "20c44d1acbd9cb8bc76b46137652c854b2eb22d8c2ca98dd96020f5347840783",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 178930,
+   "duree_s": 11.12,
+   "caracteres_dits": 203,
+   "caracteres_factures": 203,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "10 agences, 10 chiffres. On veut voir d'un coup d'œil les 3\n meilleurs et les 3 plus faibles\n sans trier le tableau, qui doit rester dans l'ordre\n alphabetique pour être comparé au\n mois dernier."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.039,
+     "transcription": "10 agences, 10 chiffres.\n On veut voir d'un coup des...\n Euille les 3 meilleurs et les 3 plus faibles,\n centriez le tableau, qui doit rester dans l'ordre alphab\nétique pour être comparé au mois dernier."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M11-L04-01",
+   "role": "Etape 1 · consigne",
+   "texte_dit": "Il y a une difficulté à lever avant de colorer quoi que ce soit, et elle explique tout le déroulé de cette leçon. Le raisonnement est posé à l'écran. En deux mots : une règle compare à un seuil chiffré. Donc, pour éclairer les trois meilleures agences, il faut d'abord calculer le chiffre de la troisième.",
+   "empreinte_texte_dit": "c443ab5a794c582b50d524d996fb4835f74b95b6c21b5d95433cada1cd576ec0",
+   "reparations": [
+    "l'écran"
+   ],
+   "ssml": true,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 262104,
+   "duree_s": 16.32,
+   "caracteres_dits": 305,
+   "caracteres_factures": 366,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Il y a une difficulté à lever avant de colorer quoi que ce\n soit,\n et elle explique tout le déroulé de cette leçon.\n Le raisonnement est posé à l'écran.\n En deux mots, une règle compare à un seuil chiffré.\n Donc pour éclairer les trois meilleures agences,\n il faut d'abord calculer le chiffre de la troisième."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Il y a une difficulté à lever avant de colorer quoi que ce\n soit, et elle explique tout le\n déroulé de cette leçon.\n Le raisonnement est posé à l'écran.\n En deux mots, une règle compare à un seuil chiffré.\n Donc pour éclairer les trois meilleures agences, il faut d'\nabord calculer le chiffre de la\n troisième."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-bulle1",
+   "etape_lms": "M11-L04-01",
+   "role": "Etape 1 · bulle 1 sur B2:B5",
+   "texte_dit": "Une règle compare chaque cellule à un seuil chiffré.",
+   "empreinte_texte_dit": "a13cd1be34780870ff2074e8b193daecb4d10d4a01ccace61d7931cfc4ffa98c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-bulle1.mp3",
+   "octets": 44765,
+   "duree_s": 2.72,
+   "caracteres_dits": 52,
+   "caracteres_factures": 52,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Une règle compare chaque cellule à un seuil chiffré."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Une règle compare chaque cellule à un seuil chiffré."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-bulle2",
+   "etape_lms": "M11-L04-01",
+   "role": "Etape 1 · bulle 2 sur D1",
+   "texte_dit": "Pour éclairer les trois meilleures, il faut donc le chiffre de la troisième.",
+   "empreinte_texte_dit": "d4b77fc5006133365d15e3f714b665ff3c2c79d65a61d9788b737ba700fcb4b3",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-bulle2.mp3",
+   "octets": 61902,
+   "duree_s": 3.8,
+   "caracteres_dits": 76,
+   "caracteres_factures": 76,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Pour éclairer les trois meilleurs, il faut donc le chiffre\n de la troisième."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Pour éclairer les trois meilleurs, il faut donc le chiffre\n de la troisième."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-bulle3",
+   "etape_lms": "M11-L04-01",
+   "role": "Etape 1 · bulle 3 sur D1",
+   "texte_dit": "C'est le travail de la fonction GRANDE VALEUR.",
+   "empreinte_texte_dit": "bfc08ca56c6dac5c34de15cc36a2f5e2ae2f19e309fb534666f3a1215208f3af",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-bulle3.mp3",
+   "octets": 36406,
+   "duree_s": 2.2,
+   "caracteres_dits": 46,
+   "caracteres_factures": 46,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "C'est le travail de la fonction grande valeur."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "C'est le travail de la fonction grande valeur."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M11-L04-02",
+   "role": "Etape 2 · consigne",
+   "texte_dit": "À vous : dans la cellule E1, demandez le troisième meilleur chiffre du mois. La fonction GRANDE VALEUR prend la plage des chiffres, puis le rang cherché.",
+   "empreinte_texte_dit": "ac8a057a17654dc9dcb6032a424bb96d0d3d87544c1dc13e20dd184b99a5316d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 148419,
+   "duree_s": 9.2,
+   "caracteres_dits": 153,
+   "caracteres_factures": 153,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.011,
+     "transcription": "A vous, dans la cellule E1, demandez le troisième meilleur\n chiffre du mois.\n La fonction grande-valeur prend la plage des chiffres, puis\n le rencherchez."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.011,
+     "transcription": "À vous, dans la cellule E1, demandez le troisième meilleur\n chiffre du mois.\n La fonction grande valeur prend la plage des chiffres, puis\n le rend chercher."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "M11-L04-02",
+   "role": "Etape 2 · aide",
+   "texte_dit": "Deux arguments : la plage, puis le rang cherché.",
+   "empreinte_texte_dit": "1e44d5c2cc1a469fa1c18ebddc27fc682a517468d279c397b51670f1aeb72c40",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 58558,
+   "duree_s": 3.6,
+   "caracteres_dits": 48,
+   "caracteres_factures": 48,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.12,
+     "transcription": "Deux arguments. La plage puis le rechercher."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Deux arguments. La plage, puis le rang cherché."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-feedback",
+   "etape_lms": "M11-L04-02",
+   "role": "Etape 2 · retour de reussite",
+   "texte_dit": "Les trois meilleures agences sont donc toutes au-dessus de 15000 euros, et la quatrième en dessous. 15000 euros est le seuil qui isole exactement le trio.",
+   "empreinte_texte_dit": "6c8f656115290898e983af9b11d60463d54c8750ec37e4e03429de2a6d224e23",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-feedback.mp3",
+   "octets": 119998,
+   "duree_s": 7.44,
+   "caracteres_dits": 154,
+   "caracteres_factures": 154,
+   "essais": 6,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": false,
+     "wer": 0.011,
+     "transcription": "Les trois meilleures agences sont donc tout au-dessus de 15\n 000 euros et la quatrième en dessous.\n 15 000 euros est le seuil qui isole exactement le trio."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Les trois meilleures agences sont donc toutes au-dessus de\n 15 000 € et la quatrième en dessous.\n 15 000 € est le seuil qui isole exactement le trio."
+    },
+    "valide_sur_les_deux": false
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M11-L04-03",
+   "role": "Etape 3 · consigne",
+   "texte_dit": "La colonne des chiffres est sélectionnée. À vous : ouvrez la Mise en forme conditionnelle, pour colorer en vert tout ce qui dépasse 15000 euros. Les meilleures agences verdissent.",
+   "empreinte_texte_dit": "3b1d5e2f06efa3c78e967c4d6d14a7b093c4a1cdfdba7ad14eadc8a689714d42",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 163466,
+   "duree_s": 10.16,
+   "caracteres_dits": 179,
+   "caracteres_factures": 179,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.051,
+     "transcription": "La colonne des chiffres est sélectionnée.\n À vous, ouvrez la mise en forme conditionnelle pour colorer\n en vert tout ce qui dépasse 15 000 euros.\n Les Meilleurs agences Ver10"
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La colonne des chiffres est sélectionnée.\n À vous !\n Ouvrez la mise en forme conditionnelle pour colorer en vert\n tout ce qui dépasse 15 000 €.\n Les meilleures agences verdissent."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "M11-L04-03",
+   "role": "Etape 3 · aide",
+   "texte_dit": "C'est le bouton Mise en forme conditionnelle, du groupe Styles.",
+   "empreinte_texte_dit": "852bbbcc94462c8575ea53c766ea58717858832e64665165482681102e49ff87",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 57304,
+   "duree_s": 3.52,
+   "caracteres_dits": 63,
+   "caracteres_factures": 63,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "C'est le bouton Mise en forme conditionnelle du groupe STY\nLES."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "C'est le bouton \"Mise en forme conditionnelle\" du groupe\n Styles."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-feedback",
+   "etape_lms": "M11-L04-03",
+   "role": "Etape 3 · retour de reussite",
+   "texte_dit": "Le trio de tête ressort, sans avoir déplacé une seule ligne.",
+   "empreinte_texte_dit": "aa4a0006c2be3b9510978d074ea10ec74ba67add5ae2588a68e03411a3bb7b74",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-feedback.mp3",
+   "octets": 70679,
+   "duree_s": 4.36,
+   "caracteres_dits": 60,
+   "caracteres_factures": 60,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le trio de têtes ressort, sans avoir déplacé une seule\n ligne."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le trio de têtes ressort sans avoir déplacé une seule ligne\n."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M11-L04-04",
+   "role": "Etape 4 · consigne",
+   "texte_dit": "Même chose par le bas. À vous : dans la cellule E2, affichez le troisième plus faible chiffre, avec la fonction PETITE VALEUR.",
+   "empreinte_texte_dit": "7337b425f069536a237ddf7d4427822b2d01e039361c6550394199b6360ab2f3",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 123342,
+   "duree_s": 7.64,
+   "caracteres_dits": 126,
+   "caracteres_factures": 126,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.027,
+     "transcription": "Même chose par le bas.\n À vous. Dans la cellule E2, affichez le troisième plus fa\nible chiffre avec la fonction Petite valeur."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.027,
+     "transcription": "Même chose par le bas.\n À vous ! Dans la cellule E2, affichez le troisième plus fa\nible chiffre, avec la fonction petite valeur."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "M11-L04-04",
+   "role": "Etape 4 · aide",
+   "texte_dit": "C'est la jumelle de GRANDE VALEUR, avec les mêmes arguments.",
+   "empreinte_texte_dit": "f85d2a9d96266a9e02b972a9fcfe61a45518ebbfe5a49cd832a9315d2b576992",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 56886,
+   "duree_s": 3.48,
+   "caracteres_dits": 60,
+   "caracteres_factures": 60,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "C'est la jumelle de grande valeur avec les mêmes arguments."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "C'est la jumelle de grande valeur, avec les mêmes arguments\n."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-feedback",
+   "etape_lms": "M11-L04-04",
+   "role": "Etape 4 · retour de reussite",
+   "texte_dit": "Un seuil à 11000 euros isolera donc les trois agences en difficulté.",
+   "empreinte_texte_dit": "0253efa3fd2a38abd0b80dd3404c465b98381c5c776f842fed64a0fc32c8ca6a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-feedback.mp3",
+   "octets": 67753,
+   "duree_s": 4.16,
+   "caracteres_dits": 68,
+   "caracteres_factures": 68,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Un seuil à 11 000 euros isolera donc les trois agences en\n difficulté."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Un seuil à 11 000 € isolera donc les trois agences en\n difficulté."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M11-L04-05",
+   "role": "Etape 5 · consigne",
+   "texte_dit": "À vous : posez une seconde règle, en rouge, pour tout ce qui est inférieur à 11000 euros. Les plus faibles passent au rouge.",
+   "empreinte_texte_dit": "22b0b26567f18db6c6cecb426187f7229ba0694721587d35873e33f8d91bd418",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 119580,
+   "duree_s": 7.4,
+   "caracteres_dits": 124,
+   "caracteres_factures": 124,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.03,
+     "transcription": "A vous, posez une seconde règle en rouge pour tout ce qui\n est inférieur à 11 000 euros.\n Les plus faibles pastos rouges."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous ! Posez une seconde règle en rouge pour tout ce qui\n est inférieur à 11 000 €.\n Les plus faibles passent au rouge."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "M11-L04-05",
+   "role": "Etape 5 · aide",
+   "texte_dit": "Même bouton : la nouvelle règle s'ajoute à la première.",
+   "empreinte_texte_dit": "b808bddde2231b41fef2f95d93ac473a4488872c4e3e23e9b58fccbd159742c1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 66917,
+   "duree_s": 4.12,
+   "caracteres_dits": 55,
+   "caracteres_factures": 55,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Même bouton, la nouvelle règle s'ajoute à la première."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Même bouton, la nouvelle règle s'ajoute à la première."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-feedback",
+   "etape_lms": "M11-L04-05",
+   "role": "Etape 5 · retour de reussite",
+   "texte_dit": "Les trois agences les plus faibles passent en rouge. Le tableau se lit maintenant en trois secondes.",
+   "empreinte_texte_dit": "3f92f1c0ae1f04393b4fdf13a4ad2434abcb03bf4d797bbe2e8a5cbe7307c3f6",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-feedback.mp3",
+   "octets": 88233,
+   "duree_s": 5.44,
+   "caracteres_dits": 100,
+   "caracteres_factures": 100,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Les trois agences les plus faibles passent en rouge.\n Le tableau se lit maintenant en trois secondes."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Les trois agences les plus faibles passent en rouge.\n Le tableau se lit maintenant en trois secondes."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M11-L04-06",
+   "role": "Etape 6 · consigne",
+   "texte_dit": "Contrôlons que la couleur ne mente pas. À vous : dans la cellule E4, comptez les agences au-dessus de 15000 euros.",
+   "empreinte_texte_dit": "c9e3bf554c7234909a8d592a50d2acc22a21fc7dadd6da5bcb946e1df2c30fd9",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 110385,
+   "duree_s": 6.84,
+   "caracteres_dits": 114,
+   "caracteres_factures": 114,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.032,
+     "transcription": "Contrôle-on que la couleur ne monte pas.\n À vous.\n Dans la cellule E4, comptez les agences au-dessus de 15 000\n euros."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.032,
+     "transcription": "Contrôlons que la couleur ne monte pas.\n À vous !\n Dans la cellule E4, comptez les agences au-dessus de 15 000\n €."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-feedback",
+   "etape_lms": "M11-L04-06",
+   "role": "Etape 6 · retour de reussite",
+   "texte_dit": "Autant que de cellules vertes. C'est le contrôle à faire quand on doute d'une règle.",
+   "empreinte_texte_dit": "f0a311a42afbd97ab5d177253fa934baa3a3234a99f728c192b3b1c7f877c843",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-feedback.mp3",
+   "octets": 62737,
+   "duree_s": 3.84,
+   "caracteres_dits": 84,
+   "caracteres_factures": 84,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Autant que de cellules vertes. C'est le contrôle à faire\n quand on doute d'une règle."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "autant que de cellules vertes.\n C'est le contrôle à faire quand on doute d'une règle."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "M11-L04-07",
+   "role": "Etape 7 · consigne",
+   "texte_dit": "À vous : dans la cellule E5, comptez les agences sous 11000 euros.",
+   "empreinte_texte_dit": "cbf5415e0bb1f8940c39fd49f5755c2cd783375b58a76c6146fd4d1eac0c2ed1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 98264,
+   "duree_s": 6.08,
+   "caracteres_dits": 66,
+   "caracteres_factures": 66,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous.\n Dans la cellule E5, comptez les agences sous 11 000 euros."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous !\n Dans la cellule E5, comptez les agences sous 11 000 €."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-feedback",
+   "etape_lms": "M11-L04-07",
+   "role": "Etape 7 · retour de reussite",
+   "texte_dit": "Autant que de cellules rouges : la couleur dit vrai des deux côtés.",
+   "empreinte_texte_dit": "32394692985036a2c3f186e485fe077c20fad00f69efb4f2540193471ecb1f77",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-feedback.mp3",
+   "octets": 65245,
+   "duree_s": 4.0,
+   "caracteres_dits": 67,
+   "caracteres_factures": 67,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Autant que de cellules rouges, la couleur divrait des deux\n côtés."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "autant que de cellules rouges, la couleur d'ivrée des deux\n côtés."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-consigne",
+   "etape_lms": "M11-L04-08",
+   "role": "Etape 8 · consigne",
+   "texte_dit": "Cholet avait oublié de saisir une grosse affaire. À vous : portez son chiffre à 19500 dans la cellule B3, et regardez ce qui suit, et ce qui ne suit pas.",
+   "empreinte_texte_dit": "774199bc11421f46cac3e280d49c4620ac9777a5517e62e544bdfe0d2a3da3e3",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-consigne.mp3",
+   "octets": 181020,
+   "duree_s": 11.24,
+   "caracteres_dits": 153,
+   "caracteres_factures": 153,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Cholet avait oublié de saisir une grosse affaire.\n À vous, portez son chiffre à 19 500 dans la cellule B3 et\n regardez ce qui suit et ce qui ne suit pas."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Chollet avait oublié de saisir une grosse affaire.\n À vous, portez son chiffre à 19 500 dans la cellule B3 et\n regardez ce qui suit et ce qui ne suit pas."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-aide",
+   "etape_lms": "M11-L04-08",
+   "role": "Etape 8 · aide",
+   "texte_dit": "Une seule cellule à corriger.",
+   "empreinte_texte_dit": "490575dc7f1310870658801d76c08b672e5e1238655a1e6ae94863b8fa0cf00b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-aide.mp3",
+   "octets": 32644,
+   "duree_s": 1.96,
+   "caracteres_dits": 29,
+   "caracteres_factures": 29,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Une seule cellule à corriger."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Une seule cellule à corriger."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-feedback",
+   "etape_lms": "M11-L04-08",
+   "role": "Etape 8 · retour de reussite",
+   "texte_dit": "Le seuil du trio a changé, et quatre agences dépassent maintenant l'ancien seuil. La formule a suivi, la règle non : son seuil est resté figé. C'est la limite à connaître.",
+   "empreinte_texte_dit": "e2b06455aed300e35318c14faada4f91f97429859bed988e396bd323b4910996",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-feedback.mp3",
+   "octets": 172661,
+   "duree_s": 10.72,
+   "caracteres_dits": 171,
+   "caracteres_factures": 171,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.019,
+     "transcription": "Le seuil du trio a changé et quatre agences dépasse\n maintenant l'ancien seuil.\n La formule a suivi, la règle non, son seuil est resté figé.\n C'est la limite à connaître."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le seuil du trio a changé et quatre agences dépassent\n maintenant l'ancien seuil.\n La formule a suivi.\n La règle non.\n Son seuil est resté figé.\n C'est la limite à connaître."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e9-consigne",
+   "etape_lms": "M11-L04-09",
+   "role": "Etape 9 · consigne",
+   "texte_dit": "Deux façons de vivre avec cette limite, et aucune n'est meilleure dans l'absolu. Elles sont comparées à l'écran. L'arbitrage : garder un seuil calculé rend la limite visible, mais impose de la relire quand les données changent. La règle Valeurs les plus élevées suit les données toute seule, mais ne dira jamais à partir de quel chiffre on entre dans le trio.",
+   "empreinte_texte_dit": "aced0d50ccc3e55a3e0e0fce5da8f3c26cd283cdd3e3c5ec1f309fd1ca148bed",
+   "reparations": [
+    "l'écran"
+   ],
+   "ssml": true,
+   "fichier": "audio/e9-consigne.mp3",
+   "octets": 288435,
+   "duree_s": 17.96,
+   "caracteres_dits": 359,
+   "caracteres_factures": 420,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.005,
+     "transcription": "Deux façons de vivre avec cette limite et aucune n'est\n meilleure dans l'absolu.\n Elles sont comparées à l'écran, l'arbitrage.\n Garder un seuil calculé rend la limite visible, mais impose\n de la relire quand les données changent.\n La règle valeur les plus élevées suit les données toutes se\nules,\n mais ne dira jamais à partir de quel chiffre on entre dans\n le trio."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.005,
+     "transcription": "Deux façons de vivre avec cette limite et aucune n'est\n meilleure dans l'absolu.\n Elles sont comparées à l'écran.\n L'arbitrage.\n Garder un seuil calculé rend la limite visible, mais impose\n de la relire quand les données\n changent.\n La règle valeur les plus élevée suit les données toutes se\nules, mais ne dira jamais\n à partir de quels chiffres on entre dans le trio."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e9-bulle1",
+   "etape_lms": "M11-L04-09",
+   "role": "Etape 9 · bulle 1 sur E1",
+   "texte_dit": "Première façon : relire ce seuil et modifier la règle quand les données changent.",
+   "empreinte_texte_dit": "8efa3b727212d30094ffec67baba0cb84f1c55946c9ee17fc523c7292c0e71c5",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-bulle1.mp3",
+   "octets": 71515,
+   "duree_s": 4.4,
+   "caracteres_dits": 81,
+   "caracteres_factures": 81,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Première façon, relire ce seuil et modifier la règle quand\n les données changent."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Première façon, relire ce seuil et modifier la règle quand\n les données changent."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e9-bulle2",
+   "etape_lms": "M11-L04-09",
+   "role": "Etape 9 · bulle 2 sur B2:B5",
+   "texte_dit": "Seconde : la règle Valeurs les plus élevées, qui raisonne en nombre d'éléments.",
+   "empreinte_texte_dit": "f50f2eb89473926016a0bc137b3c8da80974f926c81e7562fc7fe9f5a39cacd7",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-bulle2.mp3",
+   "octets": 76530,
+   "duree_s": 4.72,
+   "caracteres_dits": 79,
+   "caracteres_factures": 79,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Seconde, la règle valeur les plus élevées qui résonne en\n nombre d'éléments."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Seconde, la règle valeur les plus élevée, qui résonne en\n nombre d'élément."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e9-bulle3",
+   "etape_lms": "M11-L04-09",
+   "role": "Etape 9 · bulle 3 sur D1",
+   "texte_dit": "C'est pour cela que la cellule du seuil existe : elle rend la limite visible.",
+   "empreinte_texte_dit": "23c9dc3a73be3edd48396272bd9b3da1434aeda55f50aab5d383fbe9056b99e6",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-bulle3.mp3",
+   "octets": 68171,
+   "duree_s": 4.2,
+   "caracteres_dits": 77,
+   "caracteres_factures": 77,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "C'est pour cela que la cellule du seuil existe. Elle rend\n la limite visible."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "C'est pour cela que la cellule du seuil existe.\n Elle rend la limite visible."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Vous savez calculer le seuil d'un trio de tête, et le transformer en couleur. Et vous connaissez la limite d'une règle chiffrée : elle ne suit pas les données, contrairement à la formule qui l'a fournie.",
+   "empreinte_texte_dit": "6c37425a8e8abec2c50eac75109732fa7c862986b79d22446d858ab427d2cff9",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 159286,
+   "duree_s": 9.88,
+   "caracteres_dits": 203,
+   "caracteres_factures": 203,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Vous savez calculer le seuil d'un trio de têtes et le\n transformer en couleur,\n et vous connaissez la limite d'une règle chiffrée.\n Elle ne suit pas les données, contrairement à la formule qu\n'il a fournie."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Vous savez calculer le seuil d'un trio de têtes et le\n transformer en couleur.\n Et vous connaissez la limite d'une règle chiffrée.\n Elle ne suit pas les données, contrairement à la formule\n qui l'a fournie."
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

@@ -1,0 +1,600 @@
+{
+ "chapitre": {
+  "chapterId": "cms4joevs00heaxkcte2lcnaq",
+  "app": "EXCEL",
+  "section": "",
+  "titre": "Exercice · Créer un tableau croisé"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 20,
+  "caracteres_dits": 1532,
+  "duree_totale_s": 98.0,
+  "segments_valides": 20,
+  "segments_plusieurs_essais": 0,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Le même journal de ventes. Construisez le tableau croisé, puis faites-le parler.",
+   "empreinte_texte_dit": "bd1868c867e79fd28ce438869cda69d2d2e865aa6785c7d27a78be5111225c51",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 72768,
+   "duree_s": 4.48,
+   "caracteres_dits": 80,
+   "caracteres_factures": 80,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le même journal de vente.\n Construisez le tableau croisé puis faites-le parler."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le même journal de vente.\n Construisez le tableau croisé puis faites-le parler."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M20-E01-01",
+   "role": "Etape 1 · consigne",
+   "texte_dit": "À vous : posez un tableau croisé qui donne le montant vendu par famille de produit. Les familles doivent apparaître en lignes, chacune avec son total.",
+   "empreinte_texte_dit": "af78c1beaf60bf2b29a412f57cbd8ceed1b4a05cc93618241b0647e80c787647",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 137970,
+   "duree_s": 8.56,
+   "caracteres_dits": 150,
+   "caracteres_factures": 150,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "A vous, posez un tableau croisé qui donne le montant vendu\n par famille de produit.\n Les familles doivent apparaître en ligne, chacune avec son\n total."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous, posez un tableau croisé qui donne le montant vendu\n par famille de produits.\n Les familles doivent apparaître en ligne, chacune avec son\n total."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "M20-E01-01",
+   "role": "Etape 1 · aide",
+   "texte_dit": "La famille en Lignes, le montant en Valeurs.",
+   "empreinte_texte_dit": "74cf4c1be90353e64e2e3a193dbb7d49c2b901fc1b5c02f0e9c0b4ffa33d948d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 52288,
+   "duree_s": 3.2,
+   "caracteres_dits": 44,
+   "caracteres_factures": 44,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La famille en ligne, le montant en valeur."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La famille en ligne, le montant en valeur."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-feedback",
+   "etape_lms": "M20-E01-01",
+   "role": "Etape 1 · retour de reussite",
+   "texte_dit": "75870 euros au total, répartis sur trois familles.",
+   "empreinte_texte_dit": "6c2271c2cf2dab8ebd829ec87b856cffcc84af3ae60255263544caf930cfe026",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-feedback.mp3",
+   "octets": 75276,
+   "duree_s": 4.64,
+   "caracteres_dits": 50,
+   "caracteres_factures": 50,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "75 870 euros au total réparti sur trois familles."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "75 870 euros au total, répartis sur trois familles."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M20-E01-02",
+   "role": "Etape 2 · consigne",
+   "texte_dit": "À vous : détaillez ces familles par trimestre, en colonnes. Une colonne par trimestre s'ajoute, et les totaux se répartissent.",
+   "empreinte_texte_dit": "7089a9cacf7297d0eb54958cb4b4be7db9b5f8da57f11ec7c52afc7a5b5b5e34",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 130865,
+   "duree_s": 8.12,
+   "caracteres_dits": 126,
+   "caracteres_factures": 126,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.014,
+     "transcription": "À vous, détaillez ces familles par trimestre en colonne.\n Une colonne par trimestre s'ajoute et les tautos se répart\nissent."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.014,
+     "transcription": "À vous, détaillez ces familles par trimestre en colonnes.\n Une colonne par trimestre s'ajoute et les totos se répart\nissent."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "M20-E01-02",
+   "role": "Etape 2 · aide",
+   "texte_dit": "Le trimestre va dans la zone Colonnes.",
+   "empreinte_texte_dit": "897064aea13ab968e9145a72f0f843ec178af7984f37747379cb47b262496599",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 36406,
+   "duree_s": 2.2,
+   "caracteres_dits": 38,
+   "caracteres_factures": 38,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le trimestre va dans la zone colonne."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le trimestre va dans la zone colonne."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-feedback",
+   "etape_lms": "M20-E01-02",
+   "role": "Etape 2 · retour de reussite",
+   "texte_dit": "Le détail par trimestre apparaît, avec le total de chaque famille au bout de sa ligne.",
+   "empreinte_texte_dit": "0615231ee29d03f1bc67314bc3c233a9be6b742d3311d5f43f53d97ba3f0baab",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-feedback.mp3",
+   "octets": 70261,
+   "duree_s": 4.32,
+   "caracteres_dits": 86,
+   "caracteres_factures": 86,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le détail par trimestre apparaît avec le total de chaque\n famille au bout de sa ligne."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le détail par trimestre apparaît avec le total de chaque\n famille au bout de sa ligne."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M20-E01-03",
+   "role": "Etape 3 · consigne",
+   "texte_dit": "À vous : revenez à un tableau sans colonnes, en retirant le trimestre. Le tableau retrouve une seule colonne de montants.",
+   "empreinte_texte_dit": "3308a0825481454731b0b39c55699ebdea31d17411d742a6d6709e3a087bfee9",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 117490,
+   "duree_s": 7.28,
+   "caracteres_dits": 121,
+   "caracteres_factures": 121,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous, revenez à un tableau sans colonne en retirant le\n trimestre.\n Le tableau retrouve une seule colonne de montants."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous ! Revenez à un tableau sans colonnes en retirant le\n trimestre.\n Le tableau retrouve une seule colonne de montants."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "M20-E01-03",
+   "role": "Etape 3 · aide",
+   "texte_dit": "Sortez le trimestre de la zone Colonnes.",
+   "empreinte_texte_dit": "789ae7ddeed96b1def0a197ec37ccd40e2a6662d7fac9c8b2b5c23f5a2c0ae3d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 36406,
+   "duree_s": 2.2,
+   "caracteres_dits": 40,
+   "caracteres_factures": 40,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Sortez le trimestre de la zone colonne."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Sortez le trimestre de la zone colonne."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-feedback",
+   "etape_lms": "M20-E01-03",
+   "role": "Etape 3 · retour de reussite",
+   "texte_dit": "Retour à une seule colonne de valeurs.",
+   "empreinte_texte_dit": "26617363429e9c679af96a6ff399beedd030dd5b7aef2b0c9b163324fb85f212",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-feedback.mp3",
+   "octets": 36406,
+   "duree_s": 2.2,
+   "caracteres_dits": 38,
+   "caracteres_factures": 38,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Retour à une seule colonne de valeur."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Retour à une seule colonne de valeur."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M20-E01-04",
+   "role": "Etape 4 · consigne",
+   "texte_dit": "À vous : ajoutez le nombre d'articles vendus à côté des montants. Une seconde colonne de chiffres apparaît.",
+   "empreinte_texte_dit": "c631ec8cd1106cb117dd183369143c120680ec1fc265ce3381843145687cd052",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 114982,
+   "duree_s": 7.12,
+   "caracteres_dits": 107,
+   "caracteres_factures": 107,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.018,
+     "transcription": "A vous, ajoutez le nombre d'articles vendus à côté des mont\nants.\n Une seconde colonne de chiffres apparaît."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous ! Ajoutez le nombre d'articles vendus à côté des\n montants.\n Une seconde colonne de chiffres apparaît."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "M20-E01-04",
+   "role": "Etape 4 · aide",
+   "texte_dit": "La quantité rejoint le montant dans la zone Valeurs : deux colonnes de calcul.",
+   "empreinte_texte_dit": "4b98b3102c11cdf725855f4fce07c67bd19ffc78bb6bab59629aaefbd0da6da0",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 75276,
+   "duree_s": 4.64,
+   "caracteres_dits": 78,
+   "caracteres_factures": 78,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La quantité rejoint le montant dans la zone valeur, deux\n colonnes de calcul."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La quantité rejoint le montant dans la zone valeur.\n Deux colonnes de calcul."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-feedback",
+   "etape_lms": "M20-E01-04",
+   "role": "Etape 4 · retour de reussite",
+   "texte_dit": "Montants et quantités côte à côte.",
+   "empreinte_texte_dit": "3477d2080ff2c998004b8a6dd8d36bffe3c222e5a60358d06950b1d217d942f9",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-feedback.mp3",
+   "octets": 47691,
+   "duree_s": 2.92,
+   "caracteres_dits": 34,
+   "caracteres_factures": 34,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.048,
+     "transcription": "Montance et quantité côte à côte."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Montants et quantités côte à côte."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M20-E01-05",
+   "role": "Etape 5 · consigne",
+   "texte_dit": "Cette seconde colonne serait plus parlante en nombre de ventes qu'en total d'articles. À vous : changez son calcul.",
+   "empreinte_texte_dit": "43099121d5c9ade228e60bcc1fc144f4b50d3427891778d29f1a65085bb8fc1e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 119998,
+   "duree_s": 7.44,
+   "caracteres_dits": 115,
+   "caracteres_factures": 115,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Cette seconde colonne serait plus parlante en nombre de\n ventes qu'en totale d'articles.\n À vous, changez son calcul."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Cette seconde colonne serait plus parlante en nombre de\n ventes qu'en total d'articles.\n À vous, changez son calcul."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "M20-E01-05",
+   "role": "Etape 5 · aide",
+   "texte_dit": "Paramètres des champs de valeurs, sur le champ Quantité : choisissez Nombre.",
+   "empreinte_texte_dit": "674f3284de8484ce45e0c2def8d43228abc74a412d5eae5a66eb9c6b9206c6ed",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 75276,
+   "duree_s": 4.64,
+   "caracteres_dits": 76,
+   "caracteres_factures": 76,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.071,
+     "transcription": "Paramètres des champs de valeur sur le champ quantité chois\nissent ces nombres."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Paramètres des champs de valeur sur le champ quantité,\n choisissez nombre."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-feedback",
+   "etape_lms": "M20-E01-05",
+   "role": "Etape 5 · retour de reussite",
+   "texte_dit": "30 ventes en tout : le calcul Nombre compte les lignes, pas les articles.",
+   "empreinte_texte_dit": "6c55ce804d78e52a595f6b6b82bfd0d440f232254dcb5264526f9ac6e523091c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-feedback.mp3",
+   "octets": 82382,
+   "duree_s": 5.08,
+   "caracteres_dits": 73,
+   "caracteres_factures": 73,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "30 ventes en tout. Le calcul nombre compte les lignes, pas\n les articles."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "30 ventes en tout.\n Le calcul nombre compte les lignes, pas les articles."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M20-E01-06",
+   "role": "Etape 6 · consigne",
+   "texte_dit": "Enfin, à vous : n'affichez plus que les ventes de la région Sud, sans toucher aux zones Lignes et Colonnes.",
+   "empreinte_texte_dit": "dbfa91e13ff37a73f36648ba253f8880f5c2e52439a87c4b481fb32f770366a6",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 109131,
+   "duree_s": 6.76,
+   "caracteres_dits": 107,
+   "caracteres_factures": 107,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Enfin, à vous. N'afficher plus que les ventes de la région\n sud, sans toucher aux zones lignes et colonnes."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Enfin, à vous ! N'affichez plus que les ventes de la région\n sud sans toucher aux zones lignes et colonnes."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-aide",
+   "etape_lms": "M20-E01-06",
+   "role": "Etape 6 · aide",
+   "texte_dit": "La région se dépose dans la zone Filtres ; on choisit ensuite le Sud dans la liste.",
+   "empreinte_texte_dit": "3a3ca22428814f9f4e7df7604ddcbb9a6f087eed453831f51d4911aa51deccc6",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-aide.mp3",
+   "octets": 77366,
+   "duree_s": 4.76,
+   "caracteres_dits": 83,
+   "caracteres_factures": 83,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La région se dépose dans la zone filtre, on choisit ensuite\n le sud dans la liste."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La région se dépose dans la zone filtre, on choisit ensuite\n le sud dans la liste."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-feedback",
+   "etape_lms": "M20-E01-06",
+   "role": "Etape 6 · retour de reussite",
+   "texte_dit": "Le rapport entier est passé sous condition : 20480 euros pour le Sud.",
+   "empreinte_texte_dit": "2b31bc1aed8aa8292abaf6ab7610381f7a3ba9aba741430b41cab66075031252",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-feedback.mp3",
+   "octets": 94502,
+   "duree_s": 5.84,
+   "caracteres_dits": 69,
+   "caracteres_factures": 69,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le rapport entier est passé sous condition. 20 480 euros\n pour le sud."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le rapport entier est passé sous condition.\n 20 480 € pour le Sud."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Exercice terminé.",
+   "empreinte_texte_dit": "4b99724f36d437dda8d656c42f861242cad8e3f053427c09274e98917e46dc33",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 26793,
+   "duree_s": 1.6,
+   "caracteres_dits": 17,
+   "caracteres_factures": 17,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Exercice terminé."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Exercice terminé."
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

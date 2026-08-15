@@ -1,0 +1,488 @@
+{
+ "chapitre": {
+  "chapterId": "cms42o68300084xe0u87y877a",
+  "app": "EXCEL",
+  "section": "",
+  "titre": "Se repérer et se déplacer"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 16,
+  "caracteres_dits": 1883,
+  "duree_totale_s": 107.0,
+  "segments_valides": 15,
+  "segments_plusieurs_essais": 2,
+  "segments_jamais_valides": 1
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Sur un tableau de dix lignes on clique. Sur un tableau de dix mille, il faut savoir se déplacer autrement.",
+   "empreinte_texte_dit": "579640f57e3d55519f0b34d631c2bc2212c4aaa749664ef9ba5edcda1b3d17b5",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 108713,
+   "duree_s": 6.72,
+   "caracteres_dits": 106,
+   "caracteres_factures": 106,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.033,
+     "transcription": "Sur un tableau de 10 lignes, on clique.\n Sur un tableau de 10 000, il faut savoir se déplacer autre\nment."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.033,
+     "transcription": "Sur un tableau de 10 lignes, on clique.\n Sur un tableau de 10 000, il faut savoir se déplacer autre\nment."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M01-L04-01",
+   "role": "Etape 1 · consigne",
+   "texte_dit": "Pour travailler sur plusieurs cellules d'un coup, on les sélectionne. À vous : sélectionnez la plage de neuf cellules, en faisant glisser la souris d'un coin à l'autre.",
+   "empreinte_texte_dit": "c2c8a326c5a32c24ac42f29ea4867e8ca96be554aea69759f2ae6aebc6387dbe",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 148837,
+   "duree_s": 9.24,
+   "caracteres_dits": 168,
+   "caracteres_factures": 168,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.011,
+     "transcription": "Pour travailler sur plusieurs cellules d'un coup, on les sé\nlectionne.\n À vous, sélectionnez la plage de 9 cellules en faisant gl\nisser la souris d'un coin à l'autre."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.011,
+     "transcription": "Pour travailler sur plusieurs cellules d'un coup, on les sé\nlectionne.\n À vous ! Sélectionnez la plage de 9 cellules en faisant gl\nisser la souris d'un coin à l'autre."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "M01-L04-01",
+   "role": "Etape 1 · aide",
+   "texte_dit": "Cliquez sur la première cellule, maintenez le bouton enfoncé, et glissez jusqu'à la dernière.",
+   "empreinte_texte_dit": "54a8aca222c9dd824dab1bfb30a8101e054f1d990157e8420cc6f37d8b77136e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 89905,
+   "duree_s": 5.56,
+   "caracteres_dits": 93,
+   "caracteres_factures": 93,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Cliquez sur la première cellule, maintenez le bouton Enfon\ncer et glissez jusqu'à la dernière."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Cliquez sur la première cellule, maintenez le bouton enf\noncé et glissez jusqu'à la dernière."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-feedback",
+   "etape_lms": "M01-L04-01",
+   "role": "Etape 1 · retour de reussite",
+   "texte_dit": "Neuf cellules en surbrillance. En bas de la fenêtre, la somme des neuf chiffres s'affiche.",
+   "empreinte_texte_dit": "2e126f75230918636ebf9559ecc56577f66b26e80fc7df72cc10a69992e34095",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-feedback.mp3",
+   "octets": 88233,
+   "duree_s": 5.44,
+   "caracteres_dits": 90,
+   "caracteres_factures": 90,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "9 cellules en surbrillance.\n En bas de la fenêtre, la somme des 9 chiffres s'affiche."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "9 cellules en surbrillance.\n En bas de la fenêtre, la somme des 9 chiffres s'affiche."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M01-L04-02",
+   "role": "Etape 2 · consigne",
+   "texte_dit": "Cette façon de désigner un bloc de cellules revient dans presque toutes les formules de la formation, autant la lire correctement dès maintenant. Les deux coins qui la définissent vont être pointés. Retenez le principe : on nomme le coin de départ, puis le coin d'arrivée.",
+   "empreinte_texte_dit": "655c23f10a7f325d5e4da6f9561bd9edc0d563d13ea99bd7f8f2265bd68f20fd",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 216964,
+   "duree_s": 13.48,
+   "caracteres_dits": 272,
+   "caracteres_factures": 272,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.025,
+     "transcription": "Cette façon de désigner un bloc de cellules revient dans\n presque toutes les formules de la formation, autant la lire\n correctement dès maintenant.\n Les deux coins qu'il a définis vont être pointés. Retenez\n le principe. On nomme le coin de départ puis le coin d'ar\nrivée."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Cette façon de désigner un bloc de cellules revient dans\n presque toutes les formules de la formation.\n Autant la lire correctement dès maintenant.\n Les deux coins qui la définissent vont être pointés.\n Retenez le principe.\n On nomme le coin de départ, puis le coin d'arrivée."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-bulle1",
+   "etape_lms": "M01-L04-02",
+   "role": "Etape 2 · bulle 1 sur B2:D4",
+   "texte_dit": "Le deux-points se lit « jusqu'à ».",
+   "empreinte_texte_dit": "145b8410bd33da906669109a0822edaf3a7fb0d46ef53a7521f59b08494bc531",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-bulle1.mp3",
+   "octets": 33898,
+   "duree_s": 2.04,
+   "caracteres_dits": 34,
+   "caracteres_factures": 34,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le 2 points se lie jusqu'à..."
+    },
+    "moteur_second_medium": {
+     "ok": false,
+     "wer": 0.143,
+     "transcription": "Le deux points se lient jusqu'à..."
+    },
+    "valide_sur_les_deux": false
+   }
+  },
+  {
+   "id": "e2-bulle2",
+   "etape_lms": "M01-L04-02",
+   "role": "Etape 2 · bulle 2 sur B2",
+   "texte_dit": "Le coin haut gauche de la plage…",
+   "empreinte_texte_dit": "6a866faedc55a65a6d7fb4c4d80e5bccd2f72a40e14ba660ff96def2c6d41e35",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-bulle2.mp3",
+   "octets": 33898,
+   "duree_s": 2.04,
+   "caracteres_dits": 32,
+   "caracteres_factures": 32,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le coin au gauche de la plage."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le coin au gauche de la plage."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-bulle3",
+   "etape_lms": "M01-L04-02",
+   "role": "Etape 2 · bulle 3 sur D4",
+   "texte_dit": "…et son coin bas droit. C'est la notation de toutes vos formules.",
+   "empreinte_texte_dit": "3a14c139c1a8a839dbd2bee9ff40b521a8ef5bc1de26354461b86a5db7bb755c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-bulle3.mp3",
+   "octets": 58140,
+   "duree_s": 3.56,
+   "caracteres_dits": 65,
+   "caracteres_factures": 65,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "et son coin bas droit.\n C'est la notation de toutes vos formules."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "et son coin bas droit.\n C'est la notation de toutes vos formules."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M01-L04-03",
+   "role": "Etape 3 · consigne",
+   "texte_dit": "On peut aussi sélectionner une seule ligne du tableau. À vous : sélectionnez les trois mois de Lyon.",
+   "empreinte_texte_dit": "aad25918605a2adcf9dd20662fc78f90c2fd508ac5e774345101a236fd6da5d0",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 95756,
+   "duree_s": 5.92,
+   "caracteres_dits": 100,
+   "caracteres_factures": 100,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "On peut aussi sélectionner une seule ligne du tableau.\n À vous, sélectionnez les trois mois de Lyon."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "On peut aussi sélectionner une seule ligne du tableau.\n À vous, sélectionnez les trois mois de Lyon."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "M01-L04-03",
+   "role": "Etape 3 · aide",
+   "texte_dit": "Horizontalement, sur la ligne de Lyon.",
+   "empreinte_texte_dit": "b0b0956e26db86eb3be7a0735e4e0418d6362cc5efd09280e78f4ef5d7574109",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 47273,
+   "duree_s": 2.88,
+   "caracteres_dits": 38,
+   "caracteres_factures": 38,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "horizontalement sur la ligne de Lyon."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "horizontalement sur la ligne de Lyon."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-feedback",
+   "etape_lms": "M01-L04-03",
+   "role": "Etape 3 · retour de reussite",
+   "texte_dit": "La barre d'état indique une somme de 28500 euros pour Lyon sur le trimestre.",
+   "empreinte_texte_dit": "808e29e8ace54d3cd04f138a037044c7c27d20e999be24c4fadeffc54a96ac84",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-feedback.mp3",
+   "octets": 87397,
+   "duree_s": 5.4,
+   "caracteres_dits": 76,
+   "caracteres_factures": 76,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La Bardée, état indique une somme de 28 500 euros pour Lyon\n sur le trimestre."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La barre D, État indique une somme de 28 500 euros pour Ly\non sur le trimestre."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M01-L04-04",
+   "role": "Etape 4 · consigne",
+   "texte_dit": "Les cellules d'une sélection ne sont pas forcément voisines : on peut en cumuler plusieurs en maintenant la touche Contrôle pendant les clics. Regardez le geste : la barre d'état totalise alors uniquement les cellules retenues, en ignorant tout ce qui les sépare. C'est ce qui permet de contrôler trois chiffres dispersés sans toucher au tableau.",
+   "empreinte_texte_dit": "5b40459d5b89177381a712301695c4644b0cda6d61562ef73a14805a64021982",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 296795,
+   "duree_s": 18.48,
+   "caracteres_dits": 346,
+   "caracteres_factures": 346,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.01,
+     "transcription": "Les cellules d'une sélection ne sont pas forcément voisines\n.\n On peut accumuler plusieurs en maintenant la touche Control\n pendant les clics.\n Regardez le geste.\n La Bardet, État totalise alors uniquement les cellules re\ntenues, en ignorant tout ce qui les sépare.\n C'est ce qui permet de contrôler 3 chiffres dispersés sans\n toucher au tableau."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.01,
+     "transcription": "Les cellules d'une sélection ne sont pas forcément voisines\n.\n On peut en cumuler plusieurs en maintenant la touche \"Cont\nrol\" pendant les clics.\n Regardez le geste.\n La barre D, ETA totalise alors uniquement les cellules re\ntenues, en ignorant tout ce qui les sépare.\n C'est ce qui permet de contrôler trois chiffres dispersés\n sans toucher au tableau."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M01-L04-05",
+   "role": "Etape 5 · consigne",
+   "texte_dit": "Dernier repère utile : la zone Nom, à gauche de la barre de formule, affiche toujours où vous êtes. À vous : cliquez sur la cellule D4, et vérifiez qu'elle affiche bien cette adresse.",
+   "empreinte_texte_dit": "9de96af358772012fea5d471aba1bc0b3808b2cf3af9b6abec0233242cf29350",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 177676,
+   "duree_s": 11.04,
+   "caracteres_dits": 183,
+   "caracteres_factures": 183,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.021,
+     "transcription": "Dernier repère utile. La zone NON, à gauche de la barre de\n formule, affiche toujours où vous êtes.\n À vous, cliquez sur la cellule D4 et vérifiez qu'elle aff\niche bien cet adresse."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Dernier repère utile. La zone NON, à gauche de la barre de\n formules, affiche toujours où vous êtes.\n À vous ! Cliquez sur la cellule D4 et vérifiez qu'elle aff\niche bien cette adresse."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "M01-L04-05",
+   "role": "Etape 5 · aide",
+   "texte_dit": "Dernière colonne du tableau, quatrième ligne.",
+   "empreinte_texte_dit": "27eab8621ac5b6461a98e49d75eb0ef599d7b1d75f8f299913d76a6a8259aacf",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 49781,
+   "duree_s": 3.04,
+   "caracteres_dits": 45,
+   "caracteres_factures": 45,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Dernière colonne du tableau, quatrième ligne."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Dernière colonne du tableau, quatrième ligne."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-feedback",
+   "etape_lms": "M01-L04-05",
+   "role": "Etape 5 · retour de reussite",
+   "texte_dit": "Ce petit champ est votre boussole : quand une formule donne un résultat inattendu, commencez par vérifier dans quelle cellule vous êtes réellement.",
+   "empreinte_texte_dit": "d72973956fa33d7265c633576401b4dd34bc7165fa38a50d0ec257e9946dd6e5",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-feedback.mp3",
+   "octets": 124177,
+   "duree_s": 7.68,
+   "caracteres_dits": 147,
+   "caracteres_factures": 147,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Ce petit champ est votre boussole. Quand une formule donne\n un résultat inattendu,\n commencez par vérifier dans quelle cellule vous êtes réell\nement."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Ce petit champ est votre boussole.\n Quand une formule donne un résultat inattendu,\n commencez par vérifier dans quelle cellule vous êtes réell\nement."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Vous savez atteindre n'importe quelle cellule, et sélectionner ce dont vous avez besoin.",
+   "empreinte_texte_dit": "c996c1765cff846e3a12d7166fdc9999dc20b9e24ef0d996b45c4f04c1ae40ec",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 71933,
+   "duree_s": 4.44,
+   "caracteres_dits": 88,
+   "caracteres_factures": 88,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.02,
+     "transcription": "Vous savez atteindre n'importe quelle cellule et sélection\nner ce dont vous avez besoin."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.02,
+     "transcription": "Vous savez atteindre n'importe quelle cellule et sélection\nner ce dont vous avez besoin."
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

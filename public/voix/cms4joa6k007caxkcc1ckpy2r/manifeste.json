@@ -1,0 +1,524 @@
+{
+ "chapitre": {
+  "chapterId": "cms4joa6k007caxkcc1ckpy2r",
+  "app": "Excel",
+  "section": "Fonctions avancées",
+  "titre": "Quatre fonctions qui font gagner du temps"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)"
+  ],
+  "criteres": [
+   "WER <= 0.15",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe le moteur severe"
+ },
+ "totaux": {
+  "segments": 21,
+  "caracteres_dits": 2185,
+  "duree_totale_s": 130.6,
+  "segments_valides": 17,
+  "segments_plusieurs_essais": 4,
+  "segments_jamais_valides": 4
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Six commerciaux, un objectif chacun, et une prime réservée au trio de tête qui a tenu son objectif. Quatre fonctions suffisent : RANG, ARRONDI, ET, et GRANDE.VALEUR.",
+   "empreinte_texte_dit": "d17e7083546ef79536fdfd5efbc13bf981f2a9aefe39a89be0d37ec55f32c71a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 184782,
+   "duree_s": 11.48,
+   "caracteres_dits": 165,
+   "caracteres_factures": 165,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.111,
+     "transcription": "6 commerciaux, 1 objectif chacun et 1 prime réservé au trio de tête qui a tenu son objectif. 4 fonctions suffisent RANG, ARONDI, ET et GRANDE POIN VALUEUR."
+    }
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M10-L07-01",
+   "role": "Etape 1 · consigne, dite a l'arrivee",
+   "texte_dit": "Dans la cellule D3, appelez la fonction RANG, pour classer Bertrand parmi les six chiffres réalisés.",
+   "empreinte_texte_dit": "e0d11765ec09a373346f22ece16fab759bb7be92ec3f7885e6db1c03d4fe2905",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 104951,
+   "duree_s": 6.48,
+   "caracteres_dits": 100,
+   "caracteres_factures": 200,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": false,
+     "wer": 0.188,
+     "transcription": "Dans la cellule des trois, appelez la fonction Rangée pour classer Bertrand parmi les six chiffres réalisés.",
+     "nombres": {
+      "attendus": [
+       "6"
+      ],
+      "entendus": [
+       "3",
+       "6"
+      ]
+     }
+    }
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "M10-L07-01",
+   "role": "Etape 1 · aide, dite au devoilement",
+   "texte_dit": "Deux arguments : la valeur à situer, et la liste dans laquelle la situer, figée, pour que la recopie interroge toujours les six.",
+   "empreinte_texte_dit": "2ab6380c447dacb3d877902472809ddff9959a60e7dcf9be78e32b2200e42084",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 115818,
+   "duree_s": 7.16,
+   "caracteres_dits": 128,
+   "caracteres_factures": 128,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Deux arguments, la valeur à situer et la liste dans laquelle la situer, figer, pour que la recopie interroge toujours les six."
+    }
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M10-L07-02",
+   "role": "Etape 2 · consigne, dite a l'arrivee",
+   "texte_dit": "Recopiez cette formule vers le bas, pour classer les six commerciaux.",
+   "empreinte_texte_dit": "329a0029cebbfb429a09b2d774f305b7dadacb999bcbab37509adc723de4cc45",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 70261,
+   "duree_s": 4.32,
+   "caracteres_dits": 69,
+   "caracteres_factures": 69,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Recopiez cette formule vers le bas pour classer les six commerciaux."
+    }
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "M10-L07-02",
+   "role": "Etape 2 · aide, dite au devoilement",
+   "texte_dit": "Attrapez la poignée de recopie, et descendez.",
+   "empreinte_texte_dit": "46a47d585becd34b16b6b5299c59842ecdf870f7522f5cf1b2db902e93e3a159",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 48527,
+   "duree_s": 2.96,
+   "caracteres_dits": 45,
+   "caracteres_factures": 45,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Attrapez la poignée de recopie et descendez."
+    }
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M10-L07-03",
+   "role": "Etape 3 · consigne, dite a l'arrivee",
+   "texte_dit": "Dans la cellule E3, calculez la prime : 1,5 pour cent du chiffre réalisé, arrondie au centime avec la fonction ARRONDI.",
+   "empreinte_texte_dit": "a921d31539b2d9f83acf72224fd42a602eb26e1a57c9b59c5a78205a900fd8ea",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 132119,
+   "duree_s": 8.2,
+   "caracteres_dits": 119,
+   "caracteres_factures": 119,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.091,
+     "transcription": "Dans la cellule E3, calculez la prime. 1. 5% du chiffre réalisé arrondit au centime, avec la fonction arrondi."
+    }
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "M10-L07-03",
+   "role": "Etape 3 · aide, dite au devoilement",
+   "texte_dit": "Le taux de prime est écrit en haut à droite. La fonction ARRONDI prend la valeur, puis le nombre de décimales à garder.",
+   "empreinte_texte_dit": "85d0771d1806189c44cbc28f70874b1b8b14ed8e04eea79d6dcd681f04adf2eb",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 109131,
+   "duree_s": 6.76,
+   "caracteres_dits": 119,
+   "caracteres_factures": 119,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.043,
+     "transcription": "Le taux de prime est écrit en haut à droite. La fonction arrondie prend la valeur, puis le nombre de décimales à garder."
+    }
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M10-L07-04",
+   "role": "Etape 4 · consigne, dite a l'arrivee",
+   "texte_dit": "Voici la nuance qui décide de la justesse d'une facture, et elle est invisible à l'œil. La règle à emporter : un format d'affichage change ce qu'on voit, la fonction ARRONDI change ce qui est stocké. Dès qu'un montant doit être payé, c'est la valeur qu'il faut arrondir, pas son apparence.",
+   "empreinte_texte_dit": "6af4f5223491bb3d5a6416dc135e362b2c0e7d2fad0cb7367daad96e03f6e010",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 252073,
+   "duree_s": 15.68,
+   "caracteres_dits": 289,
+   "caracteres_factures": 289,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.035,
+     "transcription": "Voici la nuance qui décide de la justesse d'une facture et elle est invisible à elle, œil. La règle à emporter, un format d'affichage change ce qu'on voit, la fonction arrondie change ce qui est stocké. Dès qu'un montant doit être payé, c'est la valeur qu'il faut arrondir, pas son apparence."
+    }
+   }
+  },
+  {
+   "id": "e4-bulle1",
+   "etape_lms": "M10-L07-04",
+   "role": "Etape 4 · bulle sur E2",
+   "texte_dit": "Un format à deux décimales arrondit seulement l'affichage.",
+   "empreinte_texte_dit": "51063d5135180fa0de1f29e5e772660628ba12dbf8357c725200b449695e3ce6",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-bulle1.mp3",
+   "octets": 53542,
+   "duree_s": 3.28,
+   "caracteres_dits": 58,
+   "caracteres_factures": 58,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Un format à deux décimales arrondit seulement l'affichage."
+    }
+   }
+  },
+  {
+   "id": "e4-bulle2",
+   "etape_lms": "M10-L07-04",
+   "role": "Etape 4 · bulle sur dom:[aria-label=\"Barre de formule\"]",
+   "texte_dit": "Mais la cellule garde toutes ses décimales. Vos totaux tomberont à côté.",
+   "empreinte_texte_dit": "0e11f0634f45013ad5e7d7aa63026f1c6200e8f1b6abf3964b88ec4889229ea7",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-bulle2.mp3",
+   "octets": 66499,
+   "duree_s": 4.08,
+   "caracteres_dits": 72,
+   "caracteres_factures": 144,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": false,
+     "wer": 0.167,
+     "transcription": "Mais la cellule garde toutes ses décimales. Vos taux taux tomberont à côté."
+    }
+   }
+  },
+  {
+   "id": "e4-bulle3",
+   "etape_lms": "M10-L07-04",
+   "role": "Etape 4 · bulle sur G5",
+   "texte_dit": "La fonction ARRONDI modifie la valeur elle-même. Sur des montants à payer, c'est elle qu'il faut.",
+   "empreinte_texte_dit": "13f89f03d6f2c7f19cc1161204a493ec8e5e2c1126629a9e7e345d4042ce644c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-bulle3.mp3",
+   "octets": 95756,
+   "duree_s": 5.92,
+   "caracteres_dits": 97,
+   "caracteres_factures": 97,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.053,
+     "transcription": "La fonction arrondie modifie la valeur elle-même. Sur des montants à payer, c'est elle qu'il faut."
+    }
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M10-L07-05",
+   "role": "Etape 5 · consigne, dite a l'arrivee",
+   "texte_dit": "La prime n'est versée qu'au trio de tête ayant atteint son objectif. Dans la cellule F3, combinez une fonction SI et une fonction ET, pour exiger les deux conditions à la fois.",
+   "empreinte_texte_dit": "ed38f632e1764978bf6c4363025e89a74030eb3960b06ad1bc21eaa2e6a017f5",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 171407,
+   "duree_s": 10.64,
+   "caracteres_dits": 176,
+   "caracteres_factures": 176,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La prime n'est versée qu'au trio de tête ayant atteint son objectif. Dans la cellule F3, combinez une fonction SI et une fonction ET pour exiger les deux conditions à la fois."
+    }
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "M10-L07-05",
+   "role": "Etape 5 · aide, dite au devoilement",
+   "texte_dit": "La fonction ET est vraie seulement si toutes ses conditions le sont. Elle s'écrit à l'intérieur de la fonction SI, à la place de la condition simple.",
+   "empreinte_texte_dit": "85235a10943d0e1c65be66a7b378cf27980b0bba37a4cd0ac2f603f8db50a572",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 141732,
+   "duree_s": 8.8,
+   "caracteres_dits": 149,
+   "caracteres_factures": 149,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.138,
+     "transcription": "La fonction ET est vrai seulement si toutes ces conditions le sont. LS écrit à l'intérieur de la fonction SI, à la place de la condition simple."
+    }
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M10-L07-06",
+   "role": "Etape 6 · consigne, dite a l'arrivee",
+   "texte_dit": "Recopiez les deux formules vers le bas, jusqu'au dernier commercial.",
+   "empreinte_texte_dit": "5283358feff44984d676b61aae874de599fd4f4c8c6f2eb0bf7b7196ab0d25cc",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 63155,
+   "duree_s": 3.88,
+   "caracteres_dits": 68,
+   "caracteres_factures": 68,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Recopiez les deux formules vers le bas jusqu'au dernier commercial."
+    }
+   }
+  },
+  {
+   "id": "e6-aide",
+   "etape_lms": "M10-L07-06",
+   "role": "Etape 6 · aide, dite au devoilement",
+   "texte_dit": "Sélectionnez les deux cellules, puis attrapez la poignée.",
+   "empreinte_texte_dit": "ae6fec903de1fad86b3cdfa03347f2dddf7e8f99a04b275c5045d54659fc0341",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-aide.mp3",
+   "octets": 49781,
+   "duree_s": 3.04,
+   "caracteres_dits": 57,
+   "caracteres_factures": 57,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Sélectionnez les deux cellules, puis attrapez la poignée."
+    }
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "M10-L07-07",
+   "role": "Etape 7 · consigne, dite a l'arrivee",
+   "texte_dit": "Dans la cellule H3, affichez le meilleur chiffre avec la fonction GRANDE.VALEUR.",
+   "empreinte_texte_dit": "b6173e994b3529ba212e74d644721fb2592034be6057ab4f6950ac8c67a5f368",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 84889,
+   "duree_s": 5.24,
+   "caracteres_dits": 80,
+   "caracteres_factures": 80,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Dans la cellule H3, affichez le meilleur chiffre avec la fonction grande.valeur."
+    }
+   }
+  },
+  {
+   "id": "e7-aide",
+   "etape_lms": "M10-L07-07",
+   "role": "Etape 7 · aide, dite au devoilement",
+   "texte_dit": "Deux arguments : la plage, puis le rang voulu.",
+   "empreinte_texte_dit": "49d2191e19c4b87350099a71d7b3d094b9b437daacbd31c9da91fe9d2768d65a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-aide.mp3",
+   "octets": 56050,
+   "duree_s": 3.44,
+   "caracteres_dits": 46,
+   "caracteres_factures": 92,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": false,
+     "wer": 0.25,
+     "transcription": "Deux arguments. La plage puis le renvolu."
+    }
+   }
+  },
+  {
+   "id": "e8-consigne",
+   "etape_lms": "M10-L07-08",
+   "role": "Etape 8 · consigne, dite a l'arrivee",
+   "texte_dit": "Dans la cellule H4, affichez le troisième meilleur chiffre.",
+   "empreinte_texte_dit": "0ced92fd73aa38aeeee58118d8cbab80e5a7991e81458ba2b347181ce9f9b5a0",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-consigne.mp3",
+   "octets": 59812,
+   "duree_s": 3.68,
+   "caracteres_dits": 59,
+   "caracteres_factures": 59,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Dans la cellule H4, affichez le troisième meilleur chiffre."
+    }
+   }
+  },
+  {
+   "id": "e8-aide",
+   "etape_lms": "M10-L07-08",
+   "role": "Etape 8 · aide, dite au devoilement",
+   "texte_dit": "C'est la même formule, avec un autre rang.",
+   "empreinte_texte_dit": "147ec73d14b846449cbc60d930f0c3ba6d99eae6aef41e3f9b062b6afcf14f12",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-aide.mp3",
+   "octets": 37660,
+   "duree_s": 2.28,
+   "caracteres_dits": 42,
+   "caracteres_factures": 42,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "C'est la même formule avec un autre rang."
+    }
+   }
+  },
+  {
+   "id": "e9-consigne",
+   "etape_lms": "M10-L07-09",
+   "role": "Etape 9 · consigne, dite a l'arrivee",
+   "texte_dit": "Dans la cellule H5, totalisez les primes réellement versées.",
+   "empreinte_texte_dit": "d91601c8678434829e108360545030ec1911265c0840f38c9a75375b42b74790",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-consigne.mp3",
+   "octets": 63991,
+   "duree_s": 3.92,
+   "caracteres_dits": 60,
+   "caracteres_factures": 60,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Dans la cellule H5, totalisez les primes réellement versées."
+    }
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Vous savez classer sans trier, arrondir une valeur pour de bon, et combiner deux conditions dans une même fonction SI. Trois outils qui reviennent dans presque tous les tableaux de suivi.",
+   "empreinte_texte_dit": "57ede1574f95f0f46934e51e91f847bc0092fc055618f1494d0b20d6eefe9294",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 151345,
+   "duree_s": 9.4,
+   "caracteres_dits": 187,
+   "caracteres_factures": 374,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": false,
+     "wer": 0.065,
+     "transcription": "Vous savez classer sans trier, arrondir une valeur pour deux bonds, et combiner deux conditions dans une même fonction S-I. Trois outils qui reviennent dans presque tous les tableaux de suivi.",
+     "nombres": {
+      "attendus": [
+       "1",
+       "2",
+       "1",
+       "3"
+      ],
+      "entendus": [
+       "1",
+       "2",
+       "2",
+       "1",
+       "3"
+      ]
+     }
+    }
+   }
+  }
+ ]
+}

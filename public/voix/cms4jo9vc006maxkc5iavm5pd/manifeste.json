@@ -1,0 +1,572 @@
+{
+ "chapitre": {
+  "chapterId": "cms4jo9vc006maxkc5iavm5pd",
+  "app": "EXCEL",
+  "section": "",
+  "titre": "S'évaluer · Premières applications"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 19,
+  "caracteres_dits": 1869,
+  "duree_totale_s": 118.4,
+  "segments_valides": 19,
+  "segments_plusieurs_essais": 4,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Quatre documents dans un même classeur : une facture, un suivi de chiffre d'affaires, une note d'honoraires et une grille de rémunération. Treize gestes sont attendus. Chacun est noté à la première tentative, et aucune aide n'est proposée.",
+   "empreinte_texte_dit": "29bba1d9f887959950a9eb75a4d33da590afa992ff37cfe7f71695e5913ce4c6",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 219890,
+   "duree_s": 13.68,
+   "caracteres_dits": 239,
+   "caracteres_factures": 239,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "4 documents dans un même classeur, une facture, un suivi de\n chiffre d'affaires, une note\n d'honoraires et une grille de rémunération.\n 13 gestes sont attendus.\n Chacun est noté à la première tentative et aucune aide n'\nest proposée."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Quatre documents dans un même classeur, une facture, un\n suivi de chiffre d'affaires,\n une note d'honoraire et une grille de rémunération.\n Treize gestes sont attendus.\n Chacun est noté à la première tentative et aucune aide n'\nest proposée."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M09-EV01-01",
+   "role": "Etape 1 · consigne",
+   "texte_dit": "Prenez le temps de repérer les quatre blocs avant de commencer : ils sont indépendants, et chacun porte ses paramètres en haut. Treize gestes vous attendent, comptés au premier essai, sans indice ni retour en arrière.",
+   "empreinte_texte_dit": "7dcc33daf5b1150ececb782e623444d0a7b0ee3f55f4fc822880500b64b5dc0a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 183946,
+   "duree_s": 11.44,
+   "caracteres_dits": 217,
+   "caracteres_factures": 217,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Prenez le temps de repérer les quatre blocs avant de\n commencer.\n Ils sont indépendants, et chacun porte ses paramètres en\n haut.\n 13 gestes vous attendent, comptez au premier essai, sans\n indices ni retour en arrière."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Prenez le temps de repérer les quatre blocs avant de\n commencer.\n Ils sont indépendants et chacun porte ses paramètres en\n haut.\n Treize gestes vous attendent.\n Comptez au premier essai, sans indice ni retour en arrière."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-bulle1",
+   "etape_lms": "M09-EV01-01",
+   "role": "Etape 1 · bulle 1 sur A1",
+   "texte_dit": "Premier bloc : la facture, avec son taux de remise en haut.",
+   "empreinte_texte_dit": "747323b6affac8b20099715979971fbe73ac85154b42e2aae6d3980e010e944b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-bulle1.mp3",
+   "octets": 63155,
+   "duree_s": 3.88,
+   "caracteres_dits": 59,
+   "caracteres_factures": 59,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Premier bloc, la facture avec son taux de remise en haut."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Premier bloc, la facture, avec son taux de remise en haut."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-bulle2",
+   "etape_lms": "M09-EV01-01",
+   "role": "Etape 1 · bulle 2 sur A11",
+   "texte_dit": "Deuxième : le chiffre d'affaires par trimestre.",
+   "empreinte_texte_dit": "5e415238d3a65656ee65ea85c3302bd71e5695b44a102beaef21ad68e056b093",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-bulle2.mp3",
+   "octets": 48527,
+   "duree_s": 2.96,
+   "caracteres_dits": 47,
+   "caracteres_factures": 47,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Deuxième, le chiffre d'affaires par trimestre."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Deuxième, le chiffre d'affaires par trimestre."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-bulle3",
+   "etape_lms": "M09-EV01-01",
+   "role": "Etape 1 · bulle 3 sur A17",
+   "texte_dit": "Troisième bloc : les honoraires. Quatre blocs indépendants, chacun ses paramètres en haut.",
+   "empreinte_texte_dit": "d06d677bef6d99495c2de7ab533c2b1c3f2b10a976010bc09c496e0c45b8ab75",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-bulle3.mp3",
+   "octets": 81546,
+   "duree_s": 5.04,
+   "caracteres_dits": 90,
+   "caracteres_factures": 90,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.02,
+     "transcription": "Troisième bloc, les zones horaires.\n Quatre blocs indépendants chacun ses paramètres en haut."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.02,
+     "transcription": "Troisième bloc, les zones horaires.\n Quatre blocs indépendants, chacun ses paramètres en haut."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M09-EV01-02",
+   "role": "Etape 2 · consigne",
+   "texte_dit": "Commençons par la facture. À vous : dans la cellule D4, calculez le total hors taxes de la première ligne. La formule devra se recopier.",
+   "empreinte_texte_dit": "1a967b96266135fadab0a31687ba490969c0398a286ad9af3629d924c231b0e6",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 145911,
+   "duree_s": 9.04,
+   "caracteres_dits": 136,
+   "caracteres_factures": 136,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.012,
+     "transcription": "Commençons par la facture.\n À vous, dans la cellule D4, calculer le total \"Ortax\" de la\n première ligne.\n La formule devra se recopier."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Commençons par la facture.\n À vous.\n Dans la cellule D4,\n calculez le total hors taxe de la première ligne.\n La formule devra se recopier."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M09-EV01-03",
+   "role": "Etape 3 · consigne",
+   "texte_dit": "À vous : complétez les deux autres lignes de la facture.",
+   "empreinte_texte_dit": "380c6162b1670bfa400d931498e6aa0da66e5b70e4d008334f3ce4ac3ed4e8c1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 52288,
+   "duree_s": 3.2,
+   "caracteres_dits": 56,
+   "caracteres_factures": 56,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "A vous, complétez les deux autres lignes de la facture."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous ! Complétez les deux autres lignes de la facture."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M09-EV01-04",
+   "role": "Etape 4 · consigne",
+   "texte_dit": "À vous : dans la cellule D7, calculez le hors taxes brut de la facture.",
+   "empreinte_texte_dit": "77a13ded58f005fb295d5ae32d08372ee99c406751dbf972d02c62aa92a75d30",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 78620,
+   "duree_s": 4.84,
+   "caracteres_dits": 71,
+   "caracteres_factures": 71,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous, dans la cellule D7, calculez le hors-taxe brut de\n la facture."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.025,
+     "transcription": "À vous, dans la cellule D7, calculer le ortax brut de la\n facture."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M09-EV01-05",
+   "role": "Etape 5 · consigne",
+   "texte_dit": "À vous : dans la cellule D8, calculez le montant de la remise, à partir du taux saisi en haut.",
+   "empreinte_texte_dit": "c3890bffb6f8c997d32b96d0024a7b4410e15d382983a6596327f1c2411f4be4",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 89905,
+   "duree_s": 5.56,
+   "caracteres_dits": 94,
+   "caracteres_factures": 94,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous, dans la cellule D8,\n calculez le montant de la remise à partir du taux saisi en\n haut."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous, dans la cellule D8,\n calculez le montant de la remise à partir du taux saisi en\n haut."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M09-EV01-06",
+   "role": "Etape 6 · consigne",
+   "texte_dit": "À vous : dans la cellule D9, calculez le net hors taxes après remise.",
+   "empreinte_texte_dit": "0d432c67161a1ce22d4f0fb9b99523ccbc6b63d66f2c8b06efc467a1d6d2a058",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 87397,
+   "duree_s": 5.4,
+   "caracteres_dits": 69,
+   "caracteres_factures": 69,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.108,
+     "transcription": "A vous, dans la cellule des neufs, calculer le net Hortax\n après remise."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous, dans la cellule D9, calculez le net hors taxe après\n remise."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "M09-EV01-07",
+   "role": "Etape 7 · consigne",
+   "texte_dit": "Passons au chiffre d'affaires. À vous : dans la cellule D13, calculez l'évolution du premier trimestre entre les deux années, en pourcentage.",
+   "empreinte_texte_dit": "e112e7131cfa4e534d66c486f11208b29eaf79b70eab8f8dbd4f106317eb5eb3",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 143822,
+   "duree_s": 8.92,
+   "caracteres_dits": 141,
+   "caracteres_factures": 141,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Passons aux chiffres d'affaires.\n À vous.\n Dans la cellule D13,\n calculez-les « évolution du premier trimestre entre les\n deux années en pourcentage »."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Passons au chiffre d'affaires.\n À vous.\n Dans la cellule D13,\n calculez L, évolution du premier trimestre entre les deux\n années, en pourcentage."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-consigne",
+   "etape_lms": "M09-EV01-08",
+   "role": "Etape 8 · consigne",
+   "texte_dit": "À vous : complétez l'évolution des deux autres trimestres.",
+   "empreinte_texte_dit": "9479a7dc316b916bc853aef0dc3695bddb0b415da51559b3020f6f52cbc9b262",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-consigne.mp3",
+   "octets": 62737,
+   "duree_s": 3.84,
+   "caracteres_dits": 58,
+   "caracteres_factures": 58,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "A vous, complétez-les, évolution des deux autres trimestres\n."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.062,
+     "transcription": "À vous ! Complétez les évolutions des deux autres trimest\nres."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e9-consigne",
+   "etape_lms": "M09-EV01-09",
+   "role": "Etape 9 · consigne",
+   "texte_dit": "Passons aux honoraires. À vous : dans la cellule C20, calculez les honoraires du premier module. La formule devra se recopier.",
+   "empreinte_texte_dit": "c4b3c3a0685a59b54a09609b49e72a8155ee52d53e17e7a8ce83fa3abe844d87",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-consigne.mp3",
+   "octets": 130865,
+   "duree_s": 8.12,
+   "caracteres_dits": 126,
+   "caracteres_factures": 126,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Passons aux honoraires.\n À vous, dans la cellule C20,\n calculer les honoraires du premier module.\n La formule devra se recopier."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Passons aux honoraires.\n À vous, dans la cellule C20,\n calculez les honoraires du premier module.\n La formule devra se recopier."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e10-consigne",
+   "etape_lms": "M09-EV01-10",
+   "role": "Etape 10 · consigne",
+   "texte_dit": "À vous : complétez le second module.",
+   "empreinte_texte_dit": "8113d2b1dfb9815bd8e800475c75a71cb60a0a69882965dbfb77a1042ce56358",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e10-consigne.mp3",
+   "octets": 55632,
+   "duree_s": 3.4,
+   "caracteres_dits": 36,
+   "caracteres_factures": 36,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "A vous, complétez le second module."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous, complétez le second module."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e11-consigne",
+   "etape_lms": "M09-EV01-11",
+   "role": "Etape 11 · consigne",
+   "texte_dit": "À vous : dans la cellule C22, calculez le total à payer au vacataire.",
+   "empreinte_texte_dit": "a391b84f9ea8ed1a4961495db49ec2ad9a1c9520bfcae4d4361031a5e79a547f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e11-consigne.mp3",
+   "octets": 81546,
+   "duree_s": 5.04,
+   "caracteres_dits": 69,
+   "caracteres_factures": 69,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous, dans la cellule C22, calculez le total à payer au\n vacataire."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous ! Dans la cellule C22, calculez le total à payer au\n vacataire."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e12-consigne",
+   "etape_lms": "M09-EV01-12",
+   "role": "Etape 12 · consigne",
+   "texte_dit": "Passons à la rémunération. À vous : dans la cellule D27, calculez le salaire brut d'Amina : le salaire de base, majoré du taux saisi en haut si le statut est Cadre, inchangé sinon. La formule devra se recopier sur les trois salariés.",
+   "empreinte_texte_dit": "49662dc480ab77cfec4fe6fd726ad8f928e487254e028210063d0ec881861a36",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e12-consigne.mp3",
+   "octets": 232847,
+   "duree_s": 14.48,
+   "caracteres_dits": 233,
+   "caracteres_factures": 233,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Passons à la rémunération.\n À vous. Dans la cellule D27, calculer le salaire brut d'Am\nina.\n Le salaire de base.\n Majorer du taux saisiant haut si le statut est cadre.\n Un changer sinon.\n La formule devra se recopier sur les trois salariés."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Passons à la rémunération.\n À vous.\n Dans la cellule D27, calculez le salaire brut d'Amina.\n Le salaire de base.\n Majorer du taux saisie en haut si le statut est cadre.\n Un changé sinon.\n La formule devra se recopier sur les trois salariés."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e13-consigne",
+   "etape_lms": "M09-EV01-13",
+   "role": "Etape 13 · consigne",
+   "texte_dit": "À vous : complétez les deux autres salariés.",
+   "empreinte_texte_dit": "ce0639ac52db28088e99bdb03130837a91694c7f53ed84723e2d04b503841c65",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e13-consigne.mp3",
+   "octets": 48945,
+   "duree_s": 3.0,
+   "caracteres_dits": 44,
+   "caracteres_factures": 44,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous, complétez les deux autres salariés."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous ! Complétez les deux autres salariés."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e14-consigne",
+   "etape_lms": "M09-EV01-14",
+   "role": "Etape 14 · consigne",
+   "texte_dit": "À vous : dans la cellule G27, calculez la masse salariale brute.",
+   "empreinte_texte_dit": "04633a90ab5ceb1e4e1a8cd4afa23fd44d6af2416f582b8024af275da36156f9",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e14-consigne.mp3",
+   "octets": 78620,
+   "duree_s": 4.84,
+   "caracteres_dits": 64,
+   "caracteres_factures": 64,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous, dans la cellule G27, calculez la masse salariale\n brute."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous ! Dans la cellule G27, calculez la masse salariale\n brute."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Évaluation terminée.",
+   "empreinte_texte_dit": "db726a7ecc8b7e680aa1b6b116f32b390f7e8746934b3e85e8d7952949c32415",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 28465,
+   "duree_s": 1.72,
+   "caracteres_dits": 20,
+   "caracteres_factures": 20,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Evaluation terminée."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Évaluation terminée."
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

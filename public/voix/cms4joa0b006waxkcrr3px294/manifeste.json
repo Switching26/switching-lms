@@ -1,0 +1,642 @@
+{
+ "chapitre": {
+  "chapterId": "cms4joa0b006waxkcrr3px294",
+  "app": "Excel",
+  "section": "Fonctions avancées",
+  "titre": "La fonction SI : faire décider le tableur"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)"
+  ],
+  "criteres": [
+   "WER <= 0.15",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe le moteur severe"
+ },
+ "totaux": {
+  "segments": 26,
+  "caracteres_dits": 2783,
+  "duree_totale_s": 179.3,
+  "segments_valides": 24,
+  "segments_plusieurs_essais": 5,
+  "segments_jamais_valides": 2
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Cinq clients, cinq règlements à qualifier. Relire chaque ligne pour écrire Soldé ou Reste à payer se refait à chaque encaissement. SI le fait une fois pour toutes.",
+   "empreinte_texte_dit": "b926e5a375b59ee736283ad96b5211c8738d19ddd15b4b0fd80f16413299c725",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 150091,
+   "duree_s": 9.32,
+   "caracteres_dits": 163,
+   "caracteres_factures": 163,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.107,
+     "transcription": "5 clients, 5 règlements à qualifier. Relire chaque ligne pour écrire seul des ou reste à payer se refait à chaque encaissement. Et si le fait une fois pour toutes."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M10-L03-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Voici pourquoi on écrit une formule au lieu de remplir à la main: demain un virement arrive, et tout serait à refaire. La situation et la structure de la fonction sont posées à l'écran. Gardez-en l'idée générale: trois arguments, la condition d'abord, puis les deux issues possibles.",
+   "empreinte_texte_dit": "84c24005af41311d2b75d4e810cc9e218d3af6f6d24d25a7ecfc0bd7c671156f",
+   "reparations": [
+    "l'écran"
+   ],
+   "ssml": true,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 257924,
+   "duree_s": 16.04,
+   "caracteres_dits": 283,
+   "caracteres_factures": 344,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Voici pourquoi on écrit une formule au lieu de remplir à la main. Demain, un virement arrive et tout serait à refaire. La situation et la structure de la fonction sont posées à l'écran. Gardez-en l'idée générale. Trois arguments, la condition d'abord, puis les deux issues possibles."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e1-bulle1",
+   "etape_lms": "M10-L03-01",
+   "role": "Étape 1 · bulle 1",
+   "texte_dit": "Statut et Pénalité sont vides.",
+   "empreinte_texte_dit": "9d46ee2e9ebc049b730870c736056f0fb71b2e413a2650518a351442ecb5c3ec",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-bulle1.mp3",
+   "octets": 33062,
+   "duree_s": 2.0,
+   "caracteres_dits": 30,
+   "caracteres_factures": 30,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.2,
+     "transcription": "Statue et pénalité sont vides."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e1-bulle2",
+   "etape_lms": "M10-L03-01",
+   "role": "Étape 1 · bulle 2",
+   "texte_dit": "On ne les remplit pas à la main: demain un virement arrive et tout serait à refaire.",
+   "empreinte_texte_dit": "6af0783e355d54c8d508a26f8d27dff32efa8fbcb3a3af0791f01176d889fbd3",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-bulle2.mp3",
+   "octets": 80292,
+   "duree_s": 4.96,
+   "caracteres_dits": 84,
+   "caracteres_factures": 84,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.118,
+     "transcription": "On ne les remplit pas à la main. Demain, environnement arrive et tout serait à refaire."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e1-bulle3",
+   "etape_lms": "M10-L03-01",
+   "role": "Étape 1 · bulle 3",
+   "texte_dit": "SI prend trois arguments: la condition, le résultat si vrai, le résultat si faux.",
+   "empreinte_texte_dit": "f784b3c55ea6c7320d6928dccb0ae6b18a0bf8d122dd0990cacb9ef5e03ab476",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-bulle3.mp3",
+   "octets": 104115,
+   "duree_s": 6.44,
+   "caracteres_dits": 81,
+   "caracteres_factures": 81,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.071,
+     "transcription": "Et si prend trois arguments ? La condition, le résultat si vrai, le résultat si faux."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M10-L03-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Dans la cellule D3, saisissez la fonction SI, la cellule C3 supérieur ou égal à B3, puis Soldé, puis Reste à payer La formule devra descendre sur les cinq lignes.",
+   "empreinte_texte_dit": "9eaa3398505dc3c174165d3071defecca9c5ad02ffd834b630a8d7cee4b3aa94",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 190633,
+   "duree_s": 11.84,
+   "caracteres_dits": 162,
+   "caracteres_factures": 324,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.1,
+     "transcription": "Dans la cellule D3, saisissez la fonction SI, la cellule C3 supérieure ou égale à B3, puis soldez, puis reste à payer. La formule devra descendre sur les cinq lignes."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "M10-L03-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Le texte renvoyé se met entre guillemets droits, sinon Excel le prend pour un nom de plage et refuse la formule.",
+   "empreinte_texte_dit": "83680728d3a6b2ab61c0d5a68c60ebe9df27be559bc73dd0f444ee9c43b9bb40",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 102026,
+   "duree_s": 6.32,
+   "caracteres_dits": 112,
+   "caracteres_factures": 112,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.048,
+     "transcription": "Le texte renvoyer se met entre guillemets droits, sinon Excel le prend pour un nom de plage et refuse la formule."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "M10-L03-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "Soldé: le reçu égale le dû. Notez le signe supérieur ou égal, avec un simple >, un client ayant payé au centime près serait déclaré débiteur.",
+   "empreinte_texte_dit": "49f8ec3e157f302124569c3bfe27a0e5459aae20cddf3752bece966b128e0db4",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 170153,
+   "duree_s": 10.56,
+   "caracteres_dits": 141,
+   "caracteres_factures": 282,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": false,
+     "wer": 0.24,
+     "transcription": "Soldé. Le reçu égal le dû. Noter le signe supérieur ou égal, avec un simple plus grand que, un client ayant payé au centime presse serait déclaré débiteur."
+    },
+    "valide": false,
+    "re_controle": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M10-L03-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Recopiez la formule de D3 jusqu'en D7 pour qualifier les quatre autres clients.",
+   "empreinte_texte_dit": "fdd253cf78681d074858572d801a2d7685c08724a866aa6a84b99caa34173401",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 77784,
+   "duree_s": 4.8,
+   "caracteres_dits": 79,
+   "caracteres_factures": 79,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Recopiez la formule de D3 jusqu'en D7 pour qualifier les quatre autres clients."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "M10-L03-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "Poignée de recopie en bas à droite de la cellule D3, vers le bas.",
+   "empreinte_texte_dit": "a54d0007f5c7b93741b2517317f4b0b1106e1745e8889f8d90988b06b7924a0f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 65663,
+   "duree_s": 4.04,
+   "caracteres_dits": 65,
+   "caracteres_factures": 65,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Poignée de recopie en bas à droite de la cellule D3 vers le bas."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "M10-L03-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "Deux clients restent débiteurs. La colonne se met à jour d'elle-même dès qu'un montant reçu change.",
+   "empreinte_texte_dit": "bb20871e49c4fc07c262a2339163c32da633e7c7c499eee8ad91c36e6c5164f7",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 88651,
+   "duree_s": 5.48,
+   "caracteres_dits": 99,
+   "caracteres_factures": 99,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Deux clients restent débiteurs. La colonne se met à jour d'elle-même, dès qu'un montant reçu change."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M10-L03-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Une condition peut aussi renvoyer un calcul. Dans la cellule E3, saisissez la fonction SI, la cellule C3 inférieur à B3, puis B3-la cellule C3 fois H2, puis 0: 2 % de pénalité sur ce qui reste dû, rien si le compte est soldé.",
+   "empreinte_texte_dit": "bf9ea63b27c5bee47c06f08dd8d88fe8c957e8645394839ef21d4f1c65b81c05",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 243714,
+   "duree_s": 15.16,
+   "caracteres_dits": 225,
+   "caracteres_factures": 450,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.043,
+     "transcription": "Une condition peut aussi renvoyer un calcul. Dans la cellule E3, saisissez la fonction SI, la cellule C3 inférieure à B3, puis B3, la cellule C3xH2, puis 0 sur 2% de pénalité sur ce qui reste dû, rien si le compte est soldé."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "M10-L03-04",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Le taux de la cellule H2 est figé par des dollars: la recopie ne doit pas l'entraîner vers le bas.",
+   "empreinte_texte_dit": "3c9f4006ffd10607399d74906613ab836adedbb1d37918aa0e79a713f32bc754",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 93248,
+   "duree_s": 5.76,
+   "caracteres_dits": 98,
+   "caracteres_factures": 98,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le taux de la cellule H2 est figé par des dollars. La recopie ne doit pas l'entraîner vers le bas."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "M10-L03-04",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "0 euros: ce client a soldé, la pénalité ne s'applique pas.",
+   "empreinte_texte_dit": "ae95c320ccdf20e7a76ffa37791377cbf825fc1c8d518de6ea9a4061e1f21525",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 76112,
+   "duree_s": 4.68,
+   "caracteres_dits": 58,
+   "caracteres_factures": 58,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "0 €, ce client a soldé, la pénalité ne s'applique pas."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M10-L03-05",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "À vous : recopiez la formule de E3 jusqu'en E7.",
+   "empreinte_texte_dit": "69e26be050a921a83200565d40d896867cba7b115fcabc5cb2a12a70da799214",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 73604,
+   "duree_s": 4.52,
+   "caracteres_dits": 47,
+   "caracteres_factures": 47,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous, recopiez la formule de E3 jusqu'en E7."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "M10-L03-05",
+   "role": "Étape 5 · aide",
+   "texte_dit": "Même geste que pour la colonne Statut.",
+   "empreinte_texte_dit": "3586b49f52c625b4990e0ae2041028d3198257b3521e9d84616929cfeca9b6b8",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 36824,
+   "duree_s": 2.24,
+   "caracteres_dits": 38,
+   "caracteres_factures": 38,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.143,
+     "transcription": "Même geste que pour la colonne statue."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e5-retour",
+   "etape_lms": "M10-L03-05",
+   "role": "Étape 5 · retour de réussite",
+   "texte_dit": "9 euros et 12,8 euros de pénalités, calculées sur le reste dû et non sur le montant total.",
+   "empreinte_texte_dit": "82017527a3ce0ef95919ee6b301866416abff5cd077d9b09a8fdbaf7af2f37df",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-retour.mp3",
+   "octets": 104115,
+   "duree_s": 6.44,
+   "caracteres_dits": 90,
+   "caracteres_factures": 360,
+   "essais": 4,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": false,
+     "wer": 0.25,
+     "transcription": "9,12 €, 8 € de pénalité, calculés sur le reste dû et non sur le montant total."
+    },
+    "valide": false,
+    "re_controle": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M10-L03-06",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "Trois pièges à connaître, tous silencieux, aucun ne déclenche de message d'erreur. Les deux premiers sont montrés à l'écran. Le troisième mérite d'être écrit: une comparaison de texte ignore la casse mais pas les espaces. Cadre et cadre sont égaux; Cadre avec une espace de trop ne l'est pas, et rien ne vous le signalera.",
+   "empreinte_texte_dit": "e904b1b3f6c797ec0c22b1ccf6ed58aa990168793776ad816a0180417b694f5f",
+   "reparations": [
+    "l'écran"
+   ],
+   "ssml": true,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 300138,
+   "duree_s": 18.68,
+   "caracteres_dits": 322,
+   "caracteres_factures": 383,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Trois pièges à connaître, tous silencieux, aucun ne déclenche de message d'erreur. Les deux premiers sont montrés à l'écran. Le troisième mérite D, être écrit. Une comparaison de texte ignore la casse, mais pas les espaces. Cadres et cadres sont égaux. Cadres avec une espace de trop ne l'est pas et rien ne vous le signalera."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e6-bulle1",
+   "etape_lms": "M10-L03-06",
+   "role": "Étape 6 · bulle 1",
+   "texte_dit": "Le texte se met entre guillemets, jamais les nombres.",
+   "empreinte_texte_dit": "0c7b71561a4feccbfbf4892e593958fb35e4a187933eb87258c0fb153317bf89",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-bulle1.mp3",
+   "octets": 53542,
+   "duree_s": 3.28,
+   "caracteres_dits": 53,
+   "caracteres_factures": 53,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le texte se met entre guillemets « Jamais les nombres »."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e6-bulle2",
+   "etape_lms": "M10-L03-06",
+   "role": "Étape 6 · bulle 2",
+   "texte_dit": "L'ordre ne se devine pas: condition, puis vrai, puis faux.",
+   "empreinte_texte_dit": "f8848ba7d1252cc99abfec0a924b4a3f1a4ef1ad4c212fad5c8bc1b83ec36891",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-bulle2.mp3",
+   "octets": 77366,
+   "duree_s": 4.76,
+   "caracteres_dits": 58,
+   "caracteres_factures": 58,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "L'ordre ne se devine pas. Condition, puis vrai, puis faux."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e6-bulle3",
+   "etape_lms": "M10-L03-06",
+   "role": "Étape 6 · bulle 3",
+   "texte_dit": "Les inverser donne le contraire de ce que vous voulez, sans message d'erreur.",
+   "empreinte_texte_dit": "e147cd803effcb7ec095db378a6152cf4679bc77ca7e653c1866792e9dc273af",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-bulle3.mp3",
+   "octets": 73604,
+   "duree_s": 4.52,
+   "caracteres_dits": 77,
+   "caracteres_factures": 77,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.143,
+     "transcription": "Les inversés donnent le contraire de ce que vous voulez. Sans message d'erreur."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "M10-L03-07",
+   "role": "Étape 7 · consigne",
+   "texte_dit": "Dans la cellule H4, calculez l'encours total: ce qui est dû moins ce qui est reçu.",
+   "empreinte_texte_dit": "4d758df7e79000cfde1758f3d2066a9b32efb180477d7b431d2845d185cce520",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 90741,
+   "duree_s": 5.6,
+   "caracteres_dits": 82,
+   "caracteres_factures": 82,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Dans la cellule H4, calculez l'encour total, ce qui est du moins ce qui est reçu."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e7-retour",
+   "etape_lms": "M10-L03-07",
+   "role": "Étape 7 · retour de réussite",
+   "texte_dit": "1090 euros restent à encaisser.",
+   "empreinte_texte_dit": "8487f7cd12c9b65659aacd53da024e36ad3f2123d70d1e38b6f2aadb66ccbc76",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-retour.mp3",
+   "octets": 40586,
+   "duree_s": 2.48,
+   "caracteres_dits": 31,
+   "caracteres_factures": 62,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.2,
+     "transcription": "1090 euros reste à encaisser."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e8-consigne",
+   "etape_lms": "M10-L03-08",
+   "role": "Étape 8 · consigne",
+   "texte_dit": "Dans la cellule H5, totalisez les pénalités.",
+   "empreinte_texte_dit": "9cb3202a3a43edfc9a5c0b8ab586ba3031d84880a163a82316feea2fe13db014",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-consigne.mp3",
+   "octets": 61902,
+   "duree_s": 3.8,
+   "caracteres_dits": 44,
+   "caracteres_factures": 44,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Dans la cellule H5, totalisez les pénalités."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "e8-retour",
+   "etape_lms": "M10-L03-08",
+   "role": "Étape 8 · retour de réussite",
+   "texte_dit": "21,8 euros. Les trois clients à jour n'y contribuent pas, puisque leur SI a renvoyé 0.",
+   "empreinte_texte_dit": "2bb66d179074cc5f963ab62194ad33f3823162a3a82f251c87834de7fa08fa77",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-retour.mp3",
+   "octets": 107877,
+   "duree_s": 6.68,
+   "caracteres_dits": 86,
+   "caracteres_factures": 86,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.053,
+     "transcription": "21, 8 euros. Les trois clients à jour n'y contribuent pas, puisque leur essi a renvoyé zéro."
+    },
+    "valide": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Vous savez écrire une condition qui renvoie du texte, et une condition qui renvoie un calcul. C'est la fonction la plus utilisée d'Excel, et celle qui ouvre toutes les autres.",
+   "empreinte_texte_dit": "e940ae55412ea0d70cb2612d9b5c5bc4b36b5b53b65c9368657c23de10e0835e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 142986,
+   "duree_s": 8.88,
+   "caracteres_dits": 175,
+   "caracteres_factures": 175,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Vous savez écrire une condition qui renvoie du texte et une condition qui renvoie un calcul. C'est la fonction la plus utilisée d'excelles et celle qui ouvre toutes les autres."
+    },
+    "valide": true
+   }
+  }
+ ]
+}

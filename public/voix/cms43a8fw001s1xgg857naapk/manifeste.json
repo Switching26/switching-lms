@@ -1,0 +1,516 @@
+{
+ "chapitre": {
+  "chapterId": "cms43a8fw001s1xgg857naapk",
+  "app": "EXCEL",
+  "section": "",
+  "titre": "Exercice · Grille de rémunération"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 17,
+  "caracteres_dits": 853,
+  "duree_totale_s": 62.4,
+  "segments_valides": 17,
+  "segments_plusieurs_essais": 3,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Un cas complet: salaires, majorations et contrôle.",
+   "empreinte_texte_dit": "8798eb52f588a0cfd5a05da1dcb7bdecf187f22834cf06d302895dfab8e0a5b2",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 70261,
+   "duree_s": 4.32,
+   "caracteres_dits": 50,
+   "caracteres_factures": 50,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Un cas complet, salaire, majoration et contrôle."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Un cas complet, salaire, majoration et contrôle."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M09-E01-01",
+   "role": "Etape 1 · consigne",
+   "texte_dit": "Dans la cellule D5, calculez le salaire d'Amina: le salaire de référence, majoré si le statut est Cadre, inchangé sinon. La formule devra être recopiable sur les quatre lignes.",
+   "empreinte_texte_dit": "03d886f5ac5ffd774c1348455803012f0b92bc2d88b4238cbd0c5cc1c1ac1f3f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 173079,
+   "duree_s": 10.76,
+   "caracteres_dits": 176,
+   "caracteres_factures": 176,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Dans la cellule D5, calculer le salaire d'Amina, le salaire\n de référence, majorer si le statut est cadre, un changer\n sinon.\n La formule devra être recopiable sur les quatre lignes."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Dans la cellule D5, calculez le salaire d'Amina.\n Le salaire de référence, majoré si le statut est cadre,\n inchangé sinon.\n La formule devra être recopiable sur les quatre lignes."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "M09-E01-01",
+   "role": "Etape 1 · aide",
+   "texte_dit": "Une condition sur le statut, et deux références figées: le salaire et le taux.",
+   "empreinte_texte_dit": "0c0bfcfa8cdafb0cfccd5d6afc430e1154c733e59bd705130563567cd92ae46d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 92413,
+   "duree_s": 5.72,
+   "caracteres_dits": 78,
+   "caracteres_factures": 78,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Une condition sur le statut et deux références figées, le\n salaire et le taux."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Une condition sur le statut et deux références figées, le\n salaire et le taux."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-feedback",
+   "etape_lms": "M09-E01-01",
+   "role": "Etape 1 · retour de reussite",
+   "texte_dit": "2880 euros pour Amina.",
+   "empreinte_texte_dit": "06e91214c0c59e67d350eff1180730c5fe1fd38ba39e327a3b75af5bef995d2b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-feedback.mp3",
+   "octets": 42257,
+   "duree_s": 2.56,
+   "caracteres_dits": 22,
+   "caracteres_factures": 22,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "2880 euros pour Amina."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "2880 euros pour Amina."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M09-E01-02",
+   "role": "Etape 2 · consigne",
+   "texte_dit": "Complétez les trois autres salaires.",
+   "empreinte_texte_dit": "75c183ad02cd0a6b7222d7ca54d6e59a074e9110aa36114cc8752f147037f7ff",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 28047,
+   "duree_s": 1.68,
+   "caracteres_dits": 36,
+   "caracteres_factures": 36,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "complétez les trois autres salaires."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "compléter les trois autres salaires."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "M09-E01-02",
+   "role": "Etape 2 · aide",
+   "texte_dit": "Poignée de recopie vers le bas.",
+   "empreinte_texte_dit": "0abbb0e597ad4716d11f84010908bcd110047a2bd5b06136b6319503fa3c58d7",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 28047,
+   "duree_s": 1.68,
+   "caracteres_dits": 31,
+   "caracteres_factures": 31,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Poignée de recopie vers le bas."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Poignée de recopie vers le bas."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-feedback",
+   "etape_lms": "M09-E01-02",
+   "role": "Etape 2 · retour de reussite",
+   "texte_dit": "Les cadres à 2880 euros, les autres à 2400 euros.",
+   "empreinte_texte_dit": "425c9c2399739f5f4807d4360f621737f62c889867b3b62c9f9d00510acaba9e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-feedback.mp3",
+   "octets": 77366,
+   "duree_s": 4.76,
+   "caracteres_dits": 49,
+   "caracteres_factures": 49,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Les cadres à 2 880 euros, les autres à 2 400 euros."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Les cadres à 2880 euros, les autres à 2400 euros."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M09-E01-03",
+   "role": "Etape 3 · consigne",
+   "texte_dit": "Dans la cellule G5, calculez la masse salariale totale.",
+   "empreinte_texte_dit": "e9a8e102472faf95c38109cdcbae365ca93a13b269a9050f453a48b6e89eec5f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 62737,
+   "duree_s": 3.84,
+   "caracteres_dits": 55,
+   "caracteres_factures": 55,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Dans la cellule G5, calculez la masse salariale totale."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Dans la cellule G5, calculez la masse salariale totale."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-feedback",
+   "etape_lms": "M09-E01-03",
+   "role": "Etape 3 · retour de reussite",
+   "texte_dit": "10560 euros.",
+   "empreinte_texte_dit": "5ed85b528865318cef7c3132e3446f5d5abcafd61f3fea1314f3b26af843fd40",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-feedback.mp3",
+   "octets": 33898,
+   "duree_s": 2.04,
+   "caracteres_dits": 12,
+   "caracteres_factures": 12,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "10.560 euros"
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "10 560 €"
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M09-E01-04",
+   "role": "Etape 4 · consigne",
+   "texte_dit": "Dans la cellule G6, comptez le nombre de cadres.",
+   "empreinte_texte_dit": "fbbfcca675b4a7607bf3ba14a8a637917901b1134bcff3992d0b9d2478d84605",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 52288,
+   "duree_s": 3.2,
+   "caracteres_dits": 48,
+   "caracteres_factures": 48,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Dans la cellule G6, comptez le nombre de cadres."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Dans la cellule G6, comptez le nombre de cadres."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-feedback",
+   "etape_lms": "M09-E01-04",
+   "role": "Etape 4 · retour de reussite",
+   "texte_dit": "2 cadres.",
+   "empreinte_texte_dit": "9c5e0c820b13bb7a1d1462483cd55c49255b1514c5a898862b94826763a66d6b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-feedback.mp3",
+   "octets": 18852,
+   "duree_s": 1.12,
+   "caracteres_dits": 9,
+   "caracteres_factures": 9,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Deux cadres."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Deux cadres."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M09-E01-05",
+   "role": "Etape 5 · consigne",
+   "texte_dit": "Dans la cellule G7, calculez le salaire moyen.",
+   "empreinte_texte_dit": "ab651670afe835f6ed64de5d4d95c264a88ea46368c46767794b9c4eb52dcb31",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 51453,
+   "duree_s": 3.16,
+   "caracteres_dits": 46,
+   "caracteres_factures": 46,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Dans la cellule G7, calculez le salaire moyen."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Dans la cellule G7, calculez le salaire moyen."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-feedback",
+   "etape_lms": "M09-E01-05",
+   "role": "Etape 5 · retour de reussite",
+   "texte_dit": "2640 euros.",
+   "empreinte_texte_dit": "a3859d25dd58033f576320b48552ed78d29436daad27e70e191c4eadff398e4b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-feedback.mp3",
+   "octets": 28047,
+   "duree_s": 1.68,
+   "caracteres_dits": 11,
+   "caracteres_factures": 11,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "2640 euros."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "2640 €"
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M09-E01-06",
+   "role": "Etape 6 · consigne",
+   "texte_dit": "Contrôle final: sélectionnez tous les salaires et vérifiez que le total affiché en bas correspond à votre masse salariale.",
+   "empreinte_texte_dit": "75e7caa4179f740c3469806f2e93b5f4d15bf4205da44a3352d21b9c29b4a23b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 122088,
+   "duree_s": 7.56,
+   "caracteres_dits": 122,
+   "caracteres_factures": 122,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Contrôle final. Sélectionnez tous les salaires et vérifiez\n que le total affiché en bas correspond à votre masse salar\niale."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Contrôle final.\n Sélectionnez tous les salaires et vérifiez que le total aff\niché en bas correspond à votre masse salariale."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-aide",
+   "etape_lms": "M09-E01-06",
+   "role": "Etape 6 · aide",
+   "texte_dit": "Les quatre salaires, sans la cellule de total.",
+   "empreinte_texte_dit": "71d09da624b3d859ada4b7429c4d9ebd33e41dee90240fa92ec30c3b2b1da03b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-aide.mp3",
+   "octets": 45183,
+   "duree_s": 2.76,
+   "caracteres_dits": 46,
+   "caracteres_factures": 46,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Les quatre salaires sans la cellule de total."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Les quatre salaires sans la cellule de total."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-feedback",
+   "etape_lms": "M09-E01-06",
+   "role": "Etape 6 · retour de reussite",
+   "texte_dit": "10560 euros des deux côtés. Grille cohérente.",
+   "empreinte_texte_dit": "805c3a2fba4ae28d50a4f31d553fc12208ed5bbe77699172d9620632d1b5d182",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-feedback.mp3",
+   "octets": 66499,
+   "duree_s": 4.08,
+   "caracteres_dits": 45,
+   "caracteres_factures": 45,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "10.560 € des deux côtés. Gris cohérente."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "10 560 € des deux côtés. Grille cohérente."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Exercice terminé.",
+   "empreinte_texte_dit": "4b99724f36d437dda8d656c42f861242cad8e3f053427c09274e98917e46dc33",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 24703,
+   "duree_s": 1.48,
+   "caracteres_dits": 17,
+   "caracteres_factures": 17,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Exercice terminé."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Exercice terminé."
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

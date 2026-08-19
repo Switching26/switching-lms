@@ -1,0 +1,600 @@
+{
+ "chapitre": {
+  "chapterId": "cms4jogw800liaxkcaopmxkyb",
+  "app": "EXCEL",
+  "section": "",
+  "titre": "Exercice · Nettoyer un fichier clients"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 20,
+  "caracteres_dits": 1110,
+  "duree_totale_s": 80.0,
+  "segments_valides": 19,
+  "segments_plusieurs_essais": 1,
+  "segments_jamais_valides": 1
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Trouver deux libellés sales, les corriger, puis vérifier ce que les comptages y gagnent.",
+   "empreinte_texte_dit": "9f0745d701d98a0dafbc1316e4ba197b624a3b97fa53743248cf6458c739803e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 82382,
+   "duree_s": 5.08,
+   "caracteres_dits": 88,
+   "caracteres_factures": 88,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Trouvez deux libélés sales, les corriger, puis vérifiez ce\n que les comptages y gagnent."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.023,
+     "transcription": "Trouvez deux libelles sales, les corrigez, puis vérifiez ce\n que les contagies gagnent."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M25-E02-01",
+   "role": "Etape 1 · consigne",
+   "texte_dit": "Deux villes semblent identiques à l'œil, dans la cellule B2 et B3. Dans la cellule F2, mesurez la longueur du libellé de la cellule B3.",
+   "empreinte_texte_dit": "8e7866363c061f60289c808b626b3096c87f2d9d19d1f93c70be4cf4a0834c36",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 164302,
+   "duree_s": 10.2,
+   "caracteres_dits": 135,
+   "caracteres_factures": 135,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": false,
+     "wer": 0.0,
+     "transcription": "Deux villes semblent identiques à L, œil, dans la cellule B\n2 et B3.\n Dans la cellule F2, mesurez la longueur du libélé de la\n cellule B3."
+    },
+    "moteur_second_medium": {
+     "ok": false,
+     "wer": 0.052,
+     "transcription": "Deville semble identique à L, œil, dans la cellule B2 et B3\n.\n Dans la cellule F2, mesurez la longueur du libellé de la\n cellule B3."
+    },
+    "valide_sur_les_deux": false
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "M25-E02-01",
+   "role": "Etape 1 · aide",
+   "texte_dit": "La fonction qui compte les caractères.",
+   "empreinte_texte_dit": "457501a1c294bd14056b1c931c2f31522391a03bba8c81f7a06055353965c5cd",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 42257,
+   "duree_s": 2.56,
+   "caracteres_dits": 38,
+   "caracteres_factures": 38,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La fonction qui compte les caractères."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La fonction qui compte les caractères."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-feedback",
+   "etape_lms": "M25-E02-01",
+   "role": "Etape 1 · retour de reussite",
+   "texte_dit": "5 caractères pour quatre lettres: une espace finale se cache là.",
+   "empreinte_texte_dit": "e79d5d32133b8f5b605b1b3f44c6b2fa2ca0ef419ff6bbe577c2badb0dce6463",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-feedback.mp3",
+   "octets": 76530,
+   "duree_s": 4.72,
+   "caracteres_dits": 64,
+   "caracteres_factures": 64,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "5 caractères pour 4 lettres. Une espace finale se cache là."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "5 caractères pour 4 lettres.\n Un espace final se cache là."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M25-E02-02",
+   "role": "Etape 2 · consigne",
+   "texte_dit": "Dans la cellule F3, prouvez que les deux libellés ne sont pas identiques.",
+   "empreinte_texte_dit": "368d23dfae71d4f836cd6cd4b100eb53ae5dfda6335a06618bff1f29743e692d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 69425,
+   "duree_s": 4.28,
+   "caracteres_dits": 73,
+   "caracteres_factures": 73,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Dans la cellule F3, prouvez que les deux libelles ne sont\n pas identiques."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Dans la cellule F3, prouvez que les deux libellés ne sont\n pas identiques."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "M25-E02-02",
+   "role": "Etape 2 · aide",
+   "texte_dit": "La fonction de comparaison stricte de deux textes.",
+   "empreinte_texte_dit": "906f3a1359df08df4f0c0527540cab9957e3503770da40284420e89b2405e0a0",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 53124,
+   "duree_s": 3.24,
+   "caracteres_dits": 50,
+   "caracteres_factures": 50,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La fonction de comparaison stricte de deux textes."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La fonction de comparaison stricte de deux textes."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M25-E02-03",
+   "role": "Etape 3 · consigne",
+   "texte_dit": "La ville de la cellule B4 est en capitales. Dans la cellule F4, affichez-la en nom propre.",
+   "empreinte_texte_dit": "8a1eec8ecc3870e88247dab4286d6d23c608c578ed4481f372fd80fe651fac73",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 106205,
+   "duree_s": 6.56,
+   "caracteres_dits": 90,
+   "caracteres_factures": 90,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La ville de la cellule B4 est en capital.\n Dans la cellule F4, affichez-la en nom propre."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La ville de la cellule B4 est en capitale.\n Dans la cellule F4, affichez-la en nom propre."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "M25-E02-03",
+   "role": "Etape 3 · aide",
+   "texte_dit": "La fonction qui met une majuscule à chaque mot.",
+   "empreinte_texte_dit": "275bb0b573dcacf05e52de819c01203f752e4ba1a93a7274f6012c895edc7b55",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 40586,
+   "duree_s": 2.48,
+   "caracteres_dits": 47,
+   "caracteres_factures": 47,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La fonction qui met une majuscule à chaque mot."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "la fonction qui met une majuscule à chaque mot."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-feedback",
+   "etape_lms": "M25-E02-03",
+   "role": "Etape 3 · retour de reussite",
+   "texte_dit": "Ici, NOMPROPRE suffit: lyon ne comporte aucun accent à retrouver.",
+   "empreinte_texte_dit": "8192ef95d2932a522274d6aed33cd0e500f692f334c3a5c92196a8531feadf44",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-feedback.mp3",
+   "octets": 82382,
+   "duree_s": 5.08,
+   "caracteres_dits": 65,
+   "caracteres_factures": 65,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Ici, non propre suffit.\n Lyon ne comporte aucun accent à retrouver."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Ici, \"non propre suffit\".\n \"Lion\" ne comporte aucun accent à retrouver."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M25-E02-04",
+   "role": "Etape 4 · consigne",
+   "texte_dit": "Corrigez la source: dans la cellule B3, saisissez la ville proprement.",
+   "empreinte_texte_dit": "1ade4f3983ebef11c27086f6ba29af5c60b01d7ed1b4cf919a4a35e21dcebc55",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 94084,
+   "duree_s": 5.8,
+   "caracteres_dits": 70,
+   "caracteres_factures": 70,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Corrigez la source. Dans la cellule B3, saisissez la ville\n proprement."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Corrigez la source. Dans la cellule B3, saisissez la ville\n proprement."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "M25-E02-04",
+   "role": "Etape 4 · aide",
+   "texte_dit": "Réécrivez le libellé par-dessus.",
+   "empreinte_texte_dit": "9f88b6ad81969a2b51523400b55fb11d1659bbc8c960ec71a647aa71b08c32be",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 40168,
+   "duree_s": 2.44,
+   "caracteres_dits": 32,
+   "caracteres_factures": 32,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Réécrivez le Libélé par-dessus."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Réécrivez le libellé par-dessus."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M25-E02-05",
+   "role": "Etape 5 · consigne",
+   "texte_dit": "Corrigez la cellule B4 de la même façon.",
+   "empreinte_texte_dit": "72b261abfb706b7c1b337c9f6a7fa00e26210b5d2206e62f0356cde93af02398",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 36824,
+   "duree_s": 2.24,
+   "caracteres_dits": 40,
+   "caracteres_factures": 40,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Corrigez la cellule B4 de la même façon."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Corrigez la cellule B4 de la même façon."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "M25-E02-05",
+   "role": "Etape 5 · aide",
+   "texte_dit": "Le libellé de référence, en minuscules sauf l'initiale.",
+   "empreinte_texte_dit": "5187383f75b6b760dcea83ea2dcb8c0978606535bdcd1281a2b0abd3d08925b2",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 72768,
+   "duree_s": 4.48,
+   "caracteres_dits": 55,
+   "caracteres_factures": 55,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le libellé de référence en minuscule sauf l'initial."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le libellé de référence en minuscule sauf l'initiale."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M25-E02-06",
+   "role": "Etape 6 · consigne",
+   "texte_dit": "Dans la cellule F6, comptez les clients lyonnais.",
+   "empreinte_texte_dit": "362b1d3a683335715de3b62dcb141c78826e969b24589dbfa825bfd39c726141",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 51453,
+   "duree_s": 3.16,
+   "caracteres_dits": 49,
+   "caracteres_factures": 49,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Dans la cellule F6, comptez les clients lyonnais."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Dans la cellule F6, comptez les clients lyonnais."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-aide",
+   "etape_lms": "M25-E02-06",
+   "role": "Etape 6 · aide",
+   "texte_dit": "NB.SI sur la colonne Ville.",
+   "empreinte_texte_dit": "b361a4ae885889a115b4483f1c7a8371a3d77a66b343ca0282cb49358581b5cc",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-aide.mp3",
+   "octets": 41422,
+   "duree_s": 2.52,
+   "caracteres_dits": 27,
+   "caracteres_factures": 27,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.062,
+     "transcription": "NBSI sur la Cologne Ville."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "NBSI sur la colonne Ville."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-feedback",
+   "etape_lms": "M25-E02-06",
+   "role": "Etape 6 · retour de reussite",
+   "texte_dit": "4 clients, deux de plus qu'avant vos corrections.",
+   "empreinte_texte_dit": "a9a8c50d7897cc905869c8b4afe0c65969b1f3b786b894347f448684e076201d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-feedback.mp3",
+   "octets": 53124,
+   "duree_s": 3.24,
+   "caracteres_dits": 49,
+   "caracteres_factures": 49,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "4 clients, 2 de plus qu'avant vos corrections."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "4 clients, 2 de plus qu'avant vos corrections."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "M25-E02-07",
+   "role": "Etape 7 · consigne",
+   "texte_dit": "Dans la cellule F7, calculez le chiffre d'affaires réalisé à Lyon.",
+   "empreinte_texte_dit": "4682df79223c0d751791c7c10a3d605928e8fca0bd89e0cd6f3be270cd6f819f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 74858,
+   "duree_s": 4.6,
+   "caracteres_dits": 66,
+   "caracteres_factures": 66,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Dans la cellule F7, calculez le chiffre d'affaires réalisé\n à Lyon."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Dans la cellule F7, calculez le chiffre d'affaires réalisé\n à Lyon."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-aide",
+   "etape_lms": "M25-E02-07",
+   "role": "Etape 7 · aide",
+   "texte_dit": "SOMME.SI: critère puis plage à additionner.",
+   "empreinte_texte_dit": "ed1fd9ba965fef7bef5569effbe741a8143a8a79a1155e704451ff10fc54572a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-aide.mp3",
+   "octets": 65663,
+   "duree_s": 4.04,
+   "caracteres_dits": 43,
+   "caracteres_factures": 43,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Somme.sci. Critères puis plage à additionner."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.08,
+     "transcription": "Somme.si Criterres puis plages à additionner"
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-feedback",
+   "etape_lms": "M25-E02-07",
+   "role": "Etape 7 · retour de reussite",
+   "texte_dit": "16400 euros.",
+   "empreinte_texte_dit": "ae598f84c6fae85ab59dbe2d8901b7a0ceab353b70d925c9fadcbe26cf641207",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-feedback.mp3",
+   "octets": 29719,
+   "duree_s": 1.8,
+   "caracteres_dits": 12,
+   "caracteres_factures": 12,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "16 400 €"
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "16 400 €"
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Exercice terminé.",
+   "empreinte_texte_dit": "4b99724f36d437dda8d656c42f861242cad8e3f053427c09274e98917e46dc33",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 24703,
+   "duree_s": 1.48,
+   "caracteres_dits": 17,
+   "caracteres_factures": 17,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Exercice terminé."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Exercice terminé."
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

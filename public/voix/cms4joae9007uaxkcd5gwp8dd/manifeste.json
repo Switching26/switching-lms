@@ -1,0 +1,460 @@
+{
+ "chapitre": {
+  "chapterId": "cms4joae9007uaxkcd5gwp8dd",
+  "app": "EXCEL",
+  "section": "",
+  "titre": "Exercice · Délais en jours ouvrés"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 15,
+  "caracteres_dits": 1129,
+  "duree_totale_s": 76.3,
+  "segments_valides": 15,
+  "segments_plusieurs_essais": 2,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Une commande passée le 1ᵉʳ juin, livrée le 30. Le fournisseur promettait dix jours ouvrés. Mesurez l'écart.",
+   "empreinte_texte_dit": "a30e7fbdc059278f0f960633bc2d45cffd69fff42ebebbcb4abacf83a431d4d6",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 141314,
+   "duree_s": 8.76,
+   "caracteres_dits": 107,
+   "caracteres_factures": 107,
+   "essais": 6,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Une commande passait le 1er juin, livrait le 30.\n Le fournisseur promettait 10 jours ouvrés.\n Mesurer le écart."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Une commande passait le 1er juin, livrée le 30.\n Le fournisseur promettait 10 jours ouvrés.\n Mesurez-le.\n Écart."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M10-E05-00",
+   "role": "Etape 1 · consigne",
+   "texte_dit": "Les dates arrivent sous leur forme brute. Rendez lisibles les deux dates de la commande, déjà sélectionnées.",
+   "empreinte_texte_dit": "7ad5a0bd5acecbcb5e77cadebe1e7b74fb66786597ec5eb7ebc2771cc930ac00",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 93248,
+   "duree_s": 5.76,
+   "caracteres_dits": 108,
+   "caracteres_factures": 108,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.016,
+     "transcription": "Les dates arrivent sous leur forme brute.\n Rendez-lisible les deux dates de la commande, déjà sé\nlectionnées."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.016,
+     "transcription": "Les dates arrivent sous leur forme brute.\n Rendez lisible les deux dates de la commande déjà sélection\nnées."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "M10-E05-00",
+   "role": "Etape 1 · aide",
+   "texte_dit": "Un format de nombre, pas une formule.",
+   "empreinte_texte_dit": "c29fb050400e0864de2f592b1524f9c889ccce9e6c4fe5fa6de447e5f0b3004b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 47691,
+   "duree_s": 2.92,
+   "caracteres_dits": 37,
+   "caracteres_factures": 37,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Un format de nombre, pas une formule."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Un format de nombre, pas une formule."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M10-E05-01",
+   "role": "Etape 2 · consigne",
+   "texte_dit": "Dans la cellule B7, comptez les jours ouvrés écoulés entre la commande et la livraison, jours fériés déduits.",
+   "empreinte_texte_dit": "70cc73ed764fbefcccd38e7a78113b77da2765daa88e3970a0142f58f423400c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 102026,
+   "duree_s": 6.32,
+   "caracteres_dits": 109,
+   "caracteres_factures": 109,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.016,
+     "transcription": "Dans la cellule B7, comptez les jours ouvrés écoulés entre\n la commande et la livraison,\n jour ferrier déduit."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Dans la cellule B7, comptez les jours ouvrés écoulés entre\n la commande et la livraison, jour férié déduit."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "M10-E05-01",
+   "role": "Etape 2 · aide",
+   "texte_dit": "La liste des fériés est un troisième argument, pas une soustraction à faire soi-même.",
+   "empreinte_texte_dit": "996f0d329267122987fb47f812539832825ef4ec6a86b652e39dc7ea9e49b5ae",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 78620,
+   "duree_s": 4.84,
+   "caracteres_dits": 85,
+   "caracteres_factures": 85,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.019,
+     "transcription": "La liste des ferriers est un troisième argument, pas une\n soustraction à faire soi-même."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.019,
+     "transcription": "La liste des ferriers est un troisième argument, pas une\n soustraction à faire soi-même."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M10-E05-02",
+   "role": "Etape 3 · consigne",
+   "texte_dit": "Dans la cellule B8, calculez la date d'expédition promise: 10 jours ouvrés après la commande.",
+   "empreinte_texte_dit": "c514d42372836052c712708ccbfea4c62573f1ad9217228886b5772681b0b049",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 107459,
+   "duree_s": 6.64,
+   "caracteres_dits": 93,
+   "caracteres_factures": 93,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Dans la cellule B8, calculer la date d'expédition promise.\n Dix jours ouvrez après la commande."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Dans la cellule B8, calculez la date d'expédition promise.\n Dix jours ouvrés après la commande."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "M10-E05-02",
+   "role": "Etape 3 · aide",
+   "texte_dit": "Cette fonction renvoie une date, pas un nombre de jours.",
+   "empreinte_texte_dit": "dddd7ec739a3c9c5dda05f1f8e528535419ed5169d5ec0f4375c65cb0841434d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 50199,
+   "duree_s": 3.08,
+   "caracteres_dits": 56,
+   "caracteres_factures": 56,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Cette fonction renvoie une date, pas un nombre de jours."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Cette fonction renvoie une date, pas un nombre de jours."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M10-E05-03",
+   "role": "Etape 4 · consigne",
+   "texte_dit": "Rendez cette date lisible.",
+   "empreinte_texte_dit": "f6896ee5db7d1aeeafe7368583ed7f269b16d8eb40805644389291fd18de27c5",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 27211,
+   "duree_s": 1.64,
+   "caracteres_dits": 26,
+   "caracteres_factures": 26,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.062,
+     "transcription": "Rendez cette date visible."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Rendez cette date lisible."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "M10-E05-03",
+   "role": "Etape 4 · aide",
+   "texte_dit": "Un format, pas une formule.",
+   "empreinte_texte_dit": "ceafd716f575cd0435c31bda400cda6e8390c62903b2b16b54ebf652ac83ade6",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 39332,
+   "duree_s": 2.4,
+   "caracteres_dits": 27,
+   "caracteres_factures": 27,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.059,
+     "transcription": "Un format passe une formule."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Un format, pas une formule."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M10-E05-04",
+   "role": "Etape 5 · consigne",
+   "texte_dit": "Dans la cellule B9, calculez l'échéance de la facture: 30 jours calendaires après la commande.",
+   "empreinte_texte_dit": "4bbcd78a8fffd46a5f309ef78f904c6429701319521ee5d66a58ccb51ed1a726",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 128357,
+   "duree_s": 7.96,
+   "caracteres_dits": 94,
+   "caracteres_factures": 94,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Dans la cellule B9, calculez « L », échéance de la facture,\n 30 jours calendaires après la commande."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Dans la cellule B9, calculer L, échéance de la facture, 30\n jours calendaires après la commande."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "M10-E05-04",
+   "role": "Etape 5 · aide",
+   "texte_dit": "30 jours calendaires, pas ouvrés: ici, une simple addition suffit.",
+   "empreinte_texte_dit": "9a128b44b67a590fa8204452ca600ba1e04fc79caa5eaf84d62cb470d8c1fefd",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 96592,
+   "duree_s": 5.96,
+   "caracteres_dits": 66,
+   "caracteres_factures": 66,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "30 jours calendaires, pas ouvrés.\n Ici, une simple addition suffit."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "30 jours calandaires, pas ouvrés.\n Ici, une simple addition suffit."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M10-E05-05",
+   "role": "Etape 6 · consigne",
+   "texte_dit": "Rendez cette échéance lisible elle aussi.",
+   "empreinte_texte_dit": "0cca8a0e331d5f7c1b8d7dc45c539a034e0065cc03601cc837f1a5078043a5e5",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 41422,
+   "duree_s": 2.52,
+   "caracteres_dits": 41,
+   "caracteres_factures": 41,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Rendez cette échéance lisible elle aussi."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Rendez cette échéance lisible elle aussi."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "M10-E05-06",
+   "role": "Etape 7 · consigne",
+   "texte_dit": "Dans la cellule B10, calculez le retard en jours ouvrés entre l'expédition promise et la livraison constatée. Le jour de l'expédition promise ne compte pas.",
+   "empreinte_texte_dit": "3be814c225be35d072954b53f19248b55d312f63ef274b53b64fe26a778e1db9",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 148419,
+   "duree_s": 9.2,
+   "caracteres_dits": 156,
+   "caracteres_factures": 156,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Dans la cellule B10, calculez le retard en jour ouvré entre\n l'expédition promise et la livraison constatée.\n Le jour de l'expédition promise ne compte pas."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Dans la cellule B10, calculez le retard en jour ouvré entre\n l'expédition promise et la livraison constatée.\n Le jour de l'expédition promise ne compte pas."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-aide",
+   "etape_lms": "M10-E05-06",
+   "role": "Etape 7 · aide",
+   "texte_dit": "NB.JOURS.ouvres compte les deux bornes: il faut en retirer une.",
+   "empreinte_texte_dit": "eb6284c6826966fba1d5649ab4149af7866a3f372675c273ef1b8534d7bf7d0b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-aide.mp3",
+   "octets": 75276,
+   "duree_s": 4.64,
+   "caracteres_dits": 63,
+   "caracteres_factures": 63,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "nbjour.ouvre compte les deux bornes il faut en retirer une"
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "nbjour.ouvre compte les deux bornes. Il faut en retirer une\n."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Délais et échéances calculés en jours ouvrés, fériés déduits.",
+   "empreinte_texte_dit": "600b7e38b864e6028dbf8ff624117c323952bc50b52ebb3e66bee00ada4a74f2",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 59812,
+   "duree_s": 3.68,
+   "caracteres_dits": 61,
+   "caracteres_factures": 61,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.091,
+     "transcription": "Délets à échéance calculés en jour ouvré, ferriers déduits."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.061,
+     "transcription": "Délais à échéance calculé en jour ouvré, ferier déduit."
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

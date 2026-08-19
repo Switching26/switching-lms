@@ -1,0 +1,460 @@
+{
+ "chapitre": {
+  "chapterId": "cms4joc6o00bcaxkcjfj00g9e",
+  "app": "EXCEL",
+  "section": "",
+  "titre": "Exercice · Corriger un nom trop court"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 15,
+  "caracteres_dits": 920,
+  "duree_totale_s": 62.4,
+  "segments_valides": 14,
+  "segments_plusieurs_essais": 1,
+  "segments_jamais_valides": 1
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Cinq mois saisis, un sixième à ajouter. Nommez, calculez, puis débrouillez-vous avec la conséquence.",
+   "empreinte_texte_dit": "929be16bfe2d1afb8a1c83b4ed91439b0d44bb6b2c9f0fcb86980661ee52b35c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 123342,
+   "duree_s": 7.64,
+   "caracteres_dits": 100,
+   "caracteres_factures": 100,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Cinq mois saisis, un sixième a ajouté.\n Nommez, calculez, puis débrouillez-vous avec la conséquence\n."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.088,
+     "transcription": "5 mois saisis, un 6ème à ajouter.\n Nommez, calculez, puis débrouillez-vous avec la conséquence\n."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M14-E02-01",
+   "role": "Etape 1 · consigne",
+   "texte_dit": "Sélectionnez les cinq chiffres d'affaires saisis.",
+   "empreinte_texte_dit": "2a0f90b96ca12a56971187410697992f1db9b373bc53a6fbb3e8fbfc87633948",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 38914,
+   "duree_s": 2.36,
+   "caracteres_dits": 49,
+   "caracteres_factures": 49,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Sélectionnez les cinq chiffres d'affaires saisies."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Sélectionnez les cinq chiffres d'affaires saisies."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "M14-E02-01",
+   "role": "Etape 1 · aide",
+   "texte_dit": "Les montants seuls, sans l'en-tête ni les lignes de total.",
+   "empreinte_texte_dit": "f202eb5492865062daf64b5346abcc5eb1289d9905229a8bbc4777fb747c2f2c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 60648,
+   "duree_s": 3.72,
+   "caracteres_dits": 58,
+   "caracteres_factures": 58,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.032,
+     "transcription": "Les montants seuls, sans l'entête, ni les lignes de total."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "les montants seuls, sans l'en-tête ni les lignes de total."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M14-E02-02",
+   "role": "Etape 2 · consigne",
+   "texte_dit": "Nommez cette plage Ventes.",
+   "empreinte_texte_dit": "5277215cedd07a676e6a955acd1d44b0929014c8a69c8b1ef77aa6fe40b7cf38",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 24703,
+   "duree_s": 1.48,
+   "caracteres_dits": 26,
+   "caracteres_factures": 26,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Nommez cette plage vente."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.071,
+     "transcription": "Nommez cette plage vante."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "M14-E02-02",
+   "role": "Etape 2 · aide",
+   "texte_dit": "La zone Nom se trouve à gauche de la barre de formule.",
+   "empreinte_texte_dit": "439afa3cbc7ce7f5b5560319fc0f160cc907faf47301f40ccbcf1964fc5df07d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 55632,
+   "duree_s": 3.4,
+   "caracteres_dits": 54,
+   "caracteres_factures": 54,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La zone non se trouve à gauche de la barre de formule."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La zone non se trouve à gauche de la barre de formule."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M14-E02-03",
+   "role": "Etape 3 · consigne",
+   "texte_dit": "Dans la cellule B9, calculez le total en utilisant le nom.",
+   "empreinte_texte_dit": "920b3b686b2320a0452cb9d84cc0fc43979942dc00f2e31a13b31a6f6b2c58e5",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 66917,
+   "duree_s": 4.12,
+   "caracteres_dits": 58,
+   "caracteres_factures": 58,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Dans la cellule B9, calculez le total en utilisant le nom."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Dans la cellule B9, calculez le total en utilisant le nom."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M14-E02-04",
+   "role": "Etape 4 · consigne",
+   "texte_dit": "Le mois de juin vient d'être clôturé à 15300 euros. Saisissez-le dans la cellule B8.",
+   "empreinte_texte_dit": "42f35ed0ec73a0df6810259e119ba506993528dce2f6bac915145c660361e5b8",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 102862,
+   "duree_s": 6.36,
+   "caracteres_dits": 84,
+   "caracteres_factures": 84,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.02,
+     "transcription": "Le mois de juin vient dès, être clôturé à 15 300 €. Sais\nissez-le dans la cellule B8."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Le mois de juin vient d) être clôturé à 15 300 euros.\n Saisissez-le dans la cellule B8."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M14-E02-05",
+   "role": "Etape 5 · consigne",
+   "texte_dit": "Le total de la cellule B9 n'a pas bougé. Vérifiez ce que le nom Ventes désigne réellement en utilisant la zone Nom.",
+   "empreinte_texte_dit": "e128537e0dd0c3112057f1f8e96c85a677fe1348b2b63a591047302724b66734",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 122088,
+   "duree_s": 7.56,
+   "caracteres_dits": 115,
+   "caracteres_factures": 115,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.015,
+     "transcription": "Le total de la cellule B9 n'a pas bougé.\n Vérifiez ce que le nom vente désigne réellement, en utilis\nant la zone non."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.03,
+     "transcription": "Le total de la cellule B9 n'a pas bougé.\n Vérifiez ce que le nom Vante désigne réellement en utilis\nant la zone Nom."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "M14-E02-05",
+   "role": "Etape 5 · aide",
+   "texte_dit": "Taper un nom qui existe déjà ne le redéfinit pas: il y conduit.",
+   "empreinte_texte_dit": "d3d1e07634341abe334af24eabd96abe14f7dbea9bb30c288189e04522c29158",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 71515,
+   "duree_s": 4.4,
+   "caracteres_dits": 63,
+   "caracteres_factures": 63,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Tapper un nom qui existe déjà ne le redéfinit pas. Il y\n conduit."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Taper un nom qui existe déjà ne le redéfinit pas.\n Il y conduit."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M14-E02-06",
+   "role": "Etape 6 · consigne",
+   "texte_dit": "Sélectionnez la plage complète, juin compris.",
+   "empreinte_texte_dit": "7149cad2ee764539288ac749d1fc8896c9c43d316a60e3e9d090fe1d240e6452",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 47273,
+   "duree_s": 2.88,
+   "caracteres_dits": 45,
+   "caracteres_factures": 45,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.062,
+     "transcription": "Sélectionnez la plage complète Je vous incompris."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.031,
+     "transcription": "Sélectionnez la plage complète, jeun compris."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "M14-E02-07",
+   "role": "Etape 7 · consigne",
+   "texte_dit": "Nommez-la Ventes_S1.",
+   "empreinte_texte_dit": "182925bb530bc57d9ac342154f95858a65da8a441e1b3680bd442777757aaed1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 41422,
+   "duree_s": 2.52,
+   "caracteres_dits": 20,
+   "caracteres_factures": 20,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": false,
+     "wer": 0.727,
+     "transcription": "Nommez-la Vantestireba S1."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Nommez-la Ventes-S1."
+    },
+    "valide_sur_les_deux": false
+   }
+  },
+  {
+   "id": "e7-aide",
+   "etape_lms": "M14-E02-07",
+   "role": "Etape 7 · aide",
+   "texte_dit": "Pas d'espace dans un nom de plage.",
+   "empreinte_texte_dit": "882846e1df0a3785e5bc5b89fd0e5d57d2b48976a0189cd5ebeebcfb785265c9",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-aide.mp3",
+   "octets": 31808,
+   "duree_s": 1.92,
+   "caracteres_dits": 34,
+   "caracteres_factures": 34,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.05,
+     "transcription": "Pas d'espace dans un monde plage."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.05,
+     "transcription": "Pas d'espace dans un monde plage."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-consigne",
+   "etape_lms": "M14-E02-08",
+   "role": "Etape 8 · consigne",
+   "texte_dit": "Dans la cellule B10, calculez le total corrigé avec ce nouveau nom.",
+   "empreinte_texte_dit": "35e922734394dc1bff7730905742781bfe60d542b0602f9b812a0f398ccf8443",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-consigne.mp3",
+   "octets": 65245,
+   "duree_s": 4.0,
+   "caracteres_dits": 67,
+   "caracteres_factures": 67,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Dans la cellule B10, calculez le total corrigé avec ce\n nouveau nom."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Dans la cellule B10, calculez le total corrigé avec ce\n nouveau nom."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e9-consigne",
+   "etape_lms": "M14-E02-09",
+   "role": "Etape 9 · consigne",
+   "texte_dit": "Dans la cellule B11, calculez la moyenne mensuelle du semestre, toujours avec le nom.",
+   "empreinte_texte_dit": "9b64c07f7bcad258fa985f605992dda62e1603548cdbd3d2fc9d197ebd94bcf5",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-consigne.mp3",
+   "octets": 80292,
+   "duree_s": 4.96,
+   "caracteres_dits": 85,
+   "caracteres_factures": 85,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Dans la cellule B11, calculez la moyenne mensuelle du sem\nestre toujours avec le nom."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Dans la cellule B11, calculez la moyenne mensuelle du sem\nestre toujours avec le nom."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Nom posé, symptôme repéré, étendue corrigée: le cycle complet.",
+   "empreinte_texte_dit": "943c408ee80e560ea4ecbf9ca82012c20a40c6547a8878317defbe881dd114d1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 83217,
+   "duree_s": 5.12,
+   "caracteres_dits": 62,
+   "caracteres_factures": 62,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Non posé, symptôme repéré, étant du corriger, le cycle\n complet."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Non posé, symptôme repéré, étendu corrigé, le cycle complet\n."
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

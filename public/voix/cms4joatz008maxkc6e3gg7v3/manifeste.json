@@ -1,0 +1,348 @@
+{
+ "chapitre": {
+  "chapterId": "cms4joatz008maxkc6e3gg7v3",
+  "app": "EXCEL",
+  "section": "",
+  "titre": "Exercice · Isoler les extrêmes"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 11,
+  "caracteres_dits": 971,
+  "duree_totale_s": 56.7,
+  "segments_valides": 11,
+  "segments_plusieurs_essais": 1,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Huit formations, leurs volumes d'heures vendues. Faites ressortir le duo de tête en vert et les deux plus faibles en rouge, puis contrôlez vos règles par un comptage.",
+   "empreinte_texte_dit": "fd921bfe71f1e76c376c41d71bec505a1aa2081dc6714f36ab464e31da4655e4",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 134208,
+   "duree_s": 8.32,
+   "caracteres_dits": 166,
+   "caracteres_factures": 166,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.043,
+     "transcription": "8 formations, leur volume d'or vendu.\n Faites ressortir le duo de tête en vert et les deux plus fa\nibles en rouge.\n Puis contrôlez vos règles par incontage."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.033,
+     "transcription": "Huit formations, leur volume d'or vendu.\n Faites ressortir le duo de tête en vert et les deux plus fa\nibles en rouge, puis contrôlez vos règles par un comptage."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M11-E02-01",
+   "role": "Etape 1 · consigne",
+   "texte_dit": "Dans la cellule E1, affichez le deuxième volume le plus élevé: c'est le seuil d'entrée dans le duo de tête.",
+   "empreinte_texte_dit": "2ba8e9c64094224ca239c6bd34e3822a4f1fd672d014a5d63184f34a69961430",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 98264,
+   "duree_s": 6.08,
+   "caracteres_dits": 107,
+   "caracteres_factures": 107,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.033,
+     "transcription": "Dans la cellule E1, affichez le deuxième volume le plus éle\nvé.\n C'est le seuil d'entrée dans le duo Tête."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.016,
+     "transcription": "Dans la cellule E1, affichez le deuxième volume le plus éle\nvé.\n C'est le seuil d'entrée dans le duo de tête."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "M11-E02-01",
+   "role": "Etape 1 · aide",
+   "texte_dit": "Une fonction, deux arguments: où chercher, et quel rang.",
+   "empreinte_texte_dit": "4907f4264f97359eb8303afa51fbf5b9e389e3a9fab6ccfab6b9c7221995a077",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 65245,
+   "duree_s": 4.0,
+   "caracteres_dits": 56,
+   "caracteres_factures": 56,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.032,
+     "transcription": "une fonction, deux arguments, où chercher et quel rend."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Une fonction, deux arguments, où chercher et quel rang."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M11-E02-02",
+   "role": "Etape 2 · consigne",
+   "texte_dit": "Colorez en vert les formations qui dépassent 200 heures.",
+   "empreinte_texte_dit": "a2730fcf24c309bf01e0af99b0e273bf55568f163847dfe0f5f28d398e430ca1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 47691,
+   "duree_s": 2.92,
+   "caracteres_dits": 56,
+   "caracteres_factures": 56,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Colorer en vert les formations qui dépassent 200 heures."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Coloré en vert, les formations qui dépassent 200 heures."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "M11-E02-02",
+   "role": "Etape 2 · aide",
+   "texte_dit": "La plage est déjà sélectionnée: il reste le bouton du groupe Styles.",
+   "empreinte_texte_dit": "58fb6fe50873928349421071b2a033f1bf5fda765b58ec1648cc759ed1b12e4d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 66917,
+   "duree_s": 4.12,
+   "caracteres_dits": 68,
+   "caracteres_factures": 68,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La plage est déjà sélectionnée. Il reste le bouton du\n groupe Styles."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La plage est déjà sélectionnée.\n Il reste le bouton du groupe Styles."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M11-E02-03",
+   "role": "Etape 3 · consigne",
+   "texte_dit": "Dans la cellule E2, affichez le deuxième volume le plus faible.",
+   "empreinte_texte_dit": "769d4f9057e6e848d94beb1600a47ce8aac24368debde437a68b5ab63bf52891",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 69007,
+   "duree_s": 4.24,
+   "caracteres_dits": 63,
+   "caracteres_factures": 63,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.054,
+     "transcription": "Dans la cellule E2, affichez le deuxième volume le plus fa\nible."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.054,
+     "transcription": "Dans la cellule E2, affichez le deuxième volume le plus fa\nible."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M11-E02-04",
+   "role": "Etape 4 · consigne",
+   "texte_dit": "Colorez en rouge les formations de moins de 100 heures. Les formations les plus courtes passent au rouge.",
+   "empreinte_texte_dit": "f815dd7f3d562c36e56352261e8074316bccef6f28ff68297392dc9944ad8a4f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 97010,
+   "duree_s": 6.0,
+   "caracteres_dits": 105,
+   "caracteres_factures": 105,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Colorer en rouge les formations de moins de 100 heures.\n Les formations les plus courtes passent au rouge."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Colorer en rouge les formations de moins de 100 heures.\n Les formations les plus courtes passent au rouge."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M11-E02-05",
+   "role": "Etape 5 · consigne",
+   "texte_dit": "Dans la cellule E4, comptez les formations au-dessus de 200 heures: le compte doit tomber sur le nombre de cellules vertes.",
+   "empreinte_texte_dit": "eed18840a52a0aed4edf0c13b23b8c3dbf2ea656fb4fef6c24a47e631777cb4c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 117490,
+   "duree_s": 7.28,
+   "caracteres_dits": 123,
+   "caracteres_factures": 123,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Dans la cellule E4, comptez les formations au-dessus de 200\n heures,\n le compte doit tomber sur le nombre de cellules vertes."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Dans la cellule E4, compter les formations au-dessus de 200\n heures,\n le compte doit tomber sur le nombre de cellules vertes."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M11-E02-06",
+   "role": "Etape 6 · consigne",
+   "texte_dit": "Dans la cellule E5, totalisez les heures de ces mêmes formations.",
+   "empreinte_texte_dit": "7c46977ab5f00d62abb24a56ef5ad9237e9eb7139289c4e45f30d1bb4eb720d0",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 65245,
+   "duree_s": 4.0,
+   "caracteres_dits": 65,
+   "caracteres_factures": 65,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Dans la cellule E5, totalisez les heures de ces mêmes\n formations."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Dans la cellule E5, totalisez les heures de ces mêmes\n formations."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-aide",
+   "etape_lms": "M11-E02-06",
+   "role": "Etape 6 · aide",
+   "texte_dit": "La colonne testée est aussi celle à additionner.",
+   "empreinte_texte_dit": "d30dbb73a2f6a7feaf51a12eee5886eb1869ac336b7bedbff48308581354aa9f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-aide.mp3",
+   "octets": 51035,
+   "duree_s": 3.12,
+   "caracteres_dits": 48,
+   "caracteres_factures": 48,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La colomne testée est aussi celle à additionner."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La colonne testée est aussi celle à additionner."
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Deux règles posées sur des seuils que vous avez calculés, et vérifiées par un comptage: c'est la méthode complète.",
+   "empreinte_texte_dit": "eb2e5aad3556f6d6e3276dd0287421dda68c916d804bde04e00952f208bccb11",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 107459,
+   "duree_s": 6.64,
+   "caracteres_dits": 114,
+   "caracteres_factures": 114,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Deux règles posées sur des seuils que vous avez calculées\n et vérifiées par un comptage.\n C'est la méthode complète."
+    },
+    "moteur_second_medium": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Deux règles posées sur des seuils que vous avez calculées\n et vérifiées par un comptage.\n C'est la méthode complète."
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

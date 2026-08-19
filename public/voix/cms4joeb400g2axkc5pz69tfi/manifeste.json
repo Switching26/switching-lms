@@ -1,0 +1,852 @@
+{
+ "chapitre": {
+  "chapterId": "cms4joeb400g2axkc5pz69tfi",
+  "app": "Excel",
+  "section": "Tri, filtre et sous-totaux",
+  "titre": "Consulter et compléter une liste, fiche par fiche"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)"
+  ],
+  "criteres": [
+   "WER <= seuil adaptatif",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits",
+   "references de cellule et colonnes identiques"
+  ],
+  "regle": "un segment n'est valide que s'il passe le moteur severe",
+  "rejeu": "verdicts recalcules le 19/08/2026 avec le comparateur corrige, sans resynthese : aucun caractere refacture"
+ },
+ "totaux": {
+  "segments": 28,
+  "caracteres_dits": 2956,
+  "duree_totale_s": 201.0,
+  "segments_valides": 27,
+  "segments_plusieurs_essais": 3,
+  "segments_jamais_valides": 1
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Consulter un enregistrement, en ajouter un, et découvrir le piège qui rend une fiche aveugle: la plage qui n'a pas suivi.",
+   "empreinte_texte_dit": "abc2796045f6558acfaf197c72158b55a8ca44b2858a315f313c9410033c4b9a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 110385,
+   "duree_s": 6.84,
+   "caracteres_dits": 121,
+   "caracteres_factures": 121,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Consultez un enregistrement, en ajoutez un et découvrirez le piège qui rend une fiche aveugle. La plage qui n'a pas suivi."
+    },
+    "valide": true,
+    "details": {
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "references": null
+    }
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M19-L07-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Une liste de trois cents lignes ne se lit pas ligne à ligne. Une fiche en montre une seule, celle du client indiqué dans la cellule H1. À vous : dans la cellule H2, saisissez la fonction RECHERCHEV, la cellule H1, puis de la cellule A2 à E13, puis 2, puis faux.",
+   "empreinte_texte_dit": "83b50bbbe4f48335cc7c8b0bd0c3e54c44566bfce5c1a4807af5219a81db2807",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 293451,
+   "duree_s": 18.28,
+   "caracteres_dits": 261,
+   "caracteres_factures": 1044,
+   "essais": 4,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Une liste de 300 lignes ne se lit pas ligne à ligne. Une fiche en montre une seule, celle du client indiqué dans la cellule H1. À vous. Dans la cellule H2, saisissez la fonction Recherchev, la cellule H1, puis de la cellule A2 à E13, puis 2, puis faux."
+    },
+    "valide": true,
+    "details": {
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "references": null
+    }
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "M19-L07-01",
+   "role": "Étape 1 · aide",
+   "texte_dit": "Valeur cherchée, plage de la liste, numéro de colonne, puis faux pour exiger une correspondance exacte.",
+   "empreinte_texte_dit": "88643b8b59ca038a37094c4aa11b98786401f9e0158007fd9e90be39ec415b19",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 114564,
+   "duree_s": 7.08,
+   "caracteres_dits": 103,
+   "caracteres_factures": 103,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Valeur chercher, plage de la liste, numéro de colonne, puis faux pour exiger une correspondance exacte."
+    },
+    "valide": true,
+    "details": {
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "references": null
+    }
+   }
+  },
+  {
+   "id": "e1-retour",
+   "etape_lms": "M19-L07-01",
+   "role": "Étape 1 · retour de réussite",
+   "texte_dit": "La fiche affiche Est. Le faux du dernier argument n'est pas facultatif: sans lui, RECHERCHEV accepte une valeur approchée et renvoie le client voisin.",
+   "empreinte_texte_dit": "9fd8554769508aa6f89d26ba8f5029d1dda03d5a85a392e5e860e97c1cd7f954",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-retour.mp3",
+   "octets": 152599,
+   "duree_s": 9.48,
+   "caracteres_dits": 150,
+   "caracteres_factures": 150,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La fiche affiche est. Le faux du dernier argument n'est pas facultatif. Sans lui, Recherchev accepte une valeur approchée et renvoie le client voisin."
+    },
+    "valide": true,
+    "details": {
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "references": null
+    }
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M19-L07-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Complétez la fiche: catégorie dans la cellule H3, commercial dans la cellule H4, montant dans la cellule H5. Seul le numéro de colonne change.",
+   "empreinte_texte_dit": "0be700903f23a448a1102469ef94b7d575f2318ef5e032e9d7294be78ad5b11d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 159286,
+   "duree_s": 9.88,
+   "caracteres_dits": 142,
+   "caracteres_factures": 142,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Complétez la fiche. Categorie dans la cellule H3, commerciale dans la cellule H4, montant dans la cellule H5. Seule le numéro de colonne change."
+    },
+    "valide": true,
+    "details": {
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "references": null
+    }
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "M19-L07-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Trois RECHERCHEV identiques, avec 3, 4 puis 5 en troisième argument.",
+   "empreinte_texte_dit": "a306ffd4c99af9e75fd3d1d7ba780b5d54c4aae102abcaefcaba85717bb8ffab",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 93248,
+   "duree_s": 5.76,
+   "caracteres_dits": 68,
+   "caracteres_factures": 68,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.083,
+     "transcription": "Trois recherches identiques avec 3, 4 puis 5 en troisième argument."
+    },
+    "valide": true,
+    "details": {
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "references": null
+    }
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "M19-L07-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "Mobilier, Girard, 3150 euros. Attention: une recopie vers le bas n'incrémente pas le numéro de colonne, il faut le corriger à la main.",
+   "empreinte_texte_dit": "03a283c81cbeb719fda3fcd1733d71b06d53a17a3c8674916b447845b7d0dd35",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 155942,
+   "duree_s": 9.68,
+   "caracteres_dits": 134,
+   "caracteres_factures": 134,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Mobilier, girard, 3150 euros. Attention, une recopie vers le bas n'incrémente pas le numéro de colonne, il faut le corriger à la main."
+    },
+    "valide": true,
+    "details": {
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "references": null
+    }
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M19-L07-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Changer de fiche demande une seule saisie. À vous : dans la cellule H1, tapez Clinique Saint-Yon.",
+   "empreinte_texte_dit": "37024fe1e1b6bc42146a17b4357fae62ca0464f4945860684aaedec6ed74c84f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 117072,
+   "duree_s": 7.24,
+   "caracteres_dits": 97,
+   "caracteres_factures": 97,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.059,
+     "transcription": "Changer de fiche demande une seule saisie. À vous, dans la cellule H1, tapez Clinique Saint-Ion."
+    },
+    "valide": true,
+    "details": {
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "references": null
+    }
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "M19-L07-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "Écrivez par-dessus le nom précédent.",
+   "empreinte_texte_dit": "e47074bfa25a42e2a357e392275d1949fa7d7ce6527defee92108db4baef8f2d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 33898,
+   "duree_s": 2.04,
+   "caracteres_dits": 36,
+   "caracteres_factures": 36,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "écrivez par-dessus le nom précédent."
+    },
+    "valide": true,
+    "details": {
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "references": null
+    }
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "M19-L07-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "Toute la fiche a suivi: Sud, Informatique, Delaunay, 6480 euros.",
+   "empreinte_texte_dit": "58bae80b3f619541119f0d400c969ddb5f2316a1bf1e471f94c242fb07b234fc",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 103697,
+   "duree_s": 6.4,
+   "caracteres_dits": 64,
+   "caracteres_factures": 128,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": false,
+     "wer": 0.4,
+     "transcription": "Toute la fiche est suivie. Sud, informatique, de l'ONÉ, 6480 euros."
+    },
+    "valide": false,
+    "details": {
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "references": null
+    }
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M19-L07-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Excel propose aussi une commande Formulaire, héritée de ses premières versions, qui affiche un enregistrement à la fois. Elle n'existe pas dans cet atelier: on la décrit, et on la situe. Si elle est cachée depuis longtemps, il faut l'ajouter soi-même à la barre d'accès rapide, c'est qu'elle a été supplantée: la fiche que vous venez de construire fait le même travail, mais elle reste visible dans la feuille et elle s'imprime.",
+   "empreinte_texte_dit": "acbccc533979fa88affb60e09f9a290a113dab1531ac3555c0f4c21ecbd580e6",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 360324,
+   "duree_s": 22.44,
+   "caracteres_dits": 428,
+   "caracteres_factures": 428,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Excel propose aussi une commande formulaire héritée de ses premières versions qui affiche un enregistrement à la fois. Elle n'existe pas dans cet atelier. On la décrit et on la situe. Si elle est cachée depuis longtemps, il faut l'ajouter soi-même à la barre d'accès rapide. C'est qu'elle a été supplantée. La fiche que vous venez de construire fait le même travail, mais elle reste visible dans la feuille et elle s'imprime."
+    },
+    "valide": true,
+    "details": {
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "references": null
+    }
+   }
+  },
+  {
+   "id": "e4-bulle1",
+   "etape_lms": "M19-L07-04",
+   "role": "Étape 4 · bulle 1",
+   "texte_dit": "La commande Formulaire, dans le vrai Excel: une ligne à la fois, présentée comme une fiche.",
+   "empreinte_texte_dit": "15e3af04eb2ebf2739fd25f002b308471b25a2dbdf7873e76304a7031466e32f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-bulle1.mp3",
+   "octets": 104115,
+   "duree_s": 6.44,
+   "caracteres_dits": 91,
+   "caracteres_factures": 91,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La commande formulaire, dans le vrai Excel, une ligne à la fois présentée comme une fiche."
+    },
+    "valide": true,
+    "details": {
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "references": null
+    }
+   }
+  },
+  {
+   "id": "e4-bulle2",
+   "etape_lms": "M19-L07-04",
+   "role": "Étape 4 · bulle 2",
+   "texte_dit": "Sa fiche porte un bouton Nouveau, un bouton Supprimer, un bouton Critères.",
+   "empreinte_texte_dit": "5045ebd8a03c9f501a98648b770ff1d7e878b1d560c265d39e69624e80e537c0",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-bulle2.mp3",
+   "octets": 74022,
+   "duree_s": 4.56,
+   "caracteres_dits": 74,
+   "caracteres_factures": 148,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.083,
+     "transcription": "Sa fiche porte un bouton nouveau, un bouton supprimeur, un bouton critère."
+    },
+    "valide": true,
+    "details": {
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "references": null
+    }
+   }
+  },
+  {
+   "id": "e4-bulle3",
+   "etape_lms": "M19-L07-04",
+   "role": "Étape 4 · bulle 3",
+   "texte_dit": "Héritée des premières versions, elle est cachée depuis longtemps, il faut l'ajouter au ruban.",
+   "empreinte_texte_dit": "3e259288c32e7a8b52adad7328ee2ffab00454348f527fa77e1b21744ee4d51b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-bulle3.mp3",
+   "octets": 77366,
+   "duree_s": 4.76,
+   "caracteres_dits": 93,
+   "caracteres_factures": 93,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Héritez des premières versions. Elle est cachée depuis longtemps. Il faut l'ajouter au ruban."
+    },
+    "valide": true,
+    "details": {
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "references": null
+    }
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M19-L07-05",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Une nouvelle commande arrive. À vous : dans la cellule A14, saisissez le client Ébénisterie Cauchy.",
+   "empreinte_texte_dit": "d8bac3f0206fc7f4045f0a557cb3db93634c7b517ad221e2c359896d30c1bb84",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 118326,
+   "duree_s": 7.32,
+   "caracteres_dits": 99,
+   "caracteres_factures": 99,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.067,
+     "transcription": "Une nouvelle commande arrive. À vous. Dans la cellule A14, saisissez le client Ebénisteri Kochi."
+    },
+    "valide": true,
+    "details": {
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "references": null
+    }
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "M19-L07-05",
+   "role": "Étape 5 · aide",
+   "texte_dit": "La première ligne libre, juste sous la dernière commande.",
+   "empreinte_texte_dit": "9ad7e4c4cdd62fd9706bc78c5961acbcf7795bc925b1710e5068dcd5ec88019c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 53124,
+   "duree_s": 3.24,
+   "caracteres_dits": 57,
+   "caracteres_factures": 57,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La première ligne libre, juste sous la dernière commande."
+    },
+    "valide": true,
+    "details": {
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "references": null
+    }
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M19-L07-06",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "Complétez la ligne: Ouest, Mobilier, Chevalier, 2460.",
+   "empreinte_texte_dit": "fec7afb1a069fb895da6d6669ada57023c26eaa5542b2e27a572bbe97bdd26b9",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 102862,
+   "duree_s": 6.36,
+   "caracteres_dits": 53,
+   "caracteres_factures": 53,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.143,
+     "transcription": "Complétez la ligne West, Mobilier, Chevalier 2460."
+    },
+    "valide": true,
+    "details": {
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "references": null
+    }
+   }
+  },
+  {
+   "id": "e6-aide",
+   "etape_lms": "M19-L07-06",
+   "role": "Étape 6 · aide",
+   "texte_dit": "De la cellule B14 à E14.",
+   "empreinte_texte_dit": "89cc1fbb16aa75477fad709fa5ab59083eace707bc75c02b09417051b4176980",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-aide.mp3",
+   "octets": 52288,
+   "duree_s": 3.2,
+   "caracteres_dits": 24,
+   "caracteres_factures": 24,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "de la cellule B14 à E14."
+    },
+    "valide": true,
+    "details": {
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "references": null
+    }
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "M19-L07-07",
+   "role": "Étape 7 · consigne",
+   "texte_dit": "Interrogeons la fiche sur ce nouveau client. À vous : dans la cellule H1, tapez Ébénisterie Cauchy.",
+   "empreinte_texte_dit": "2e513d8f9023e35794315ce1ad93b525933589d2b33bd1510f07f79861bb8b02",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 119580,
+   "duree_s": 7.4,
+   "caracteres_dits": 99,
+   "caracteres_factures": 99,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.125,
+     "transcription": "Interrogeons la fiche sur ce nouveau client. À vous, dans la cellule H1, TAPE et bénisterie Cauchy."
+    },
+    "valide": true,
+    "details": {
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "references": null
+    }
+   }
+  },
+  {
+   "id": "e7-aide",
+   "etape_lms": "M19-L07-07",
+   "role": "Étape 7 · aide",
+   "texte_dit": "Comme précédemment, par-dessus le nom affiché.",
+   "empreinte_texte_dit": "f9dd33a1ae21546664f84844447166a9c19a23f0e464b107708a6d6a4510d1cc",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-aide.mp3",
+   "octets": 43929,
+   "duree_s": 2.68,
+   "caracteres_dits": 46,
+   "caracteres_factures": 46,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "comme précédemment, par-dessus le nom affiché."
+    },
+    "valide": true,
+    "details": {
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "references": null
+    }
+   }
+  },
+  {
+   "id": "e7-retour",
+   "etape_lms": "M19-L07-07",
+   "role": "Étape 7 · retour de réussite",
+   "texte_dit": "La fiche répond #N/A: sa plage s'arrête à la ligne 13. Le client existe, la fiche ne le voit pas. C'est le défaut classique d'une plage écrite en dur.",
+   "empreinte_texte_dit": "80a1b0f8a885cd7ff26f83c047f6db41d1b62abb658548181798e4f7bd9e6584",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-retour.mp3",
+   "octets": 166809,
+   "duree_s": 10.36,
+   "caracteres_dits": 150,
+   "caracteres_factures": 150,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.091,
+     "transcription": "La fiche répond croisiant en un, sa plage s'arrête à la ligne 13. Le client existe, la fiche ne le voit pas. C'est le défaut classique d'une plage écrite en dur."
+    },
+    "valide": true,
+    "details": {
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "references": null
+    }
+   }
+  },
+  {
+   "id": "e8-consigne",
+   "etape_lms": "M19-L07-08",
+   "role": "Étape 8 · consigne",
+   "texte_dit": "À vous : corrigez la cellule H2 en étendant la plage jusqu'à la ligne 14.",
+   "empreinte_texte_dit": "ed8d5d41ff140dcf48927e60e361acdf9e93d631837e8c9b2ce09e9aa3462f4d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-consigne.mp3",
+   "octets": 91159,
+   "duree_s": 5.64,
+   "caracteres_dits": 73,
+   "caracteres_factures": 73,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "À vous. Corrigez la cellule H2 en étendant la plage jusqu'à la ligne 14."
+    },
+    "valide": true,
+    "details": {
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "references": null
+    }
+   }
+  },
+  {
+   "id": "e8-aide",
+   "etape_lms": "M19-L07-08",
+   "role": "Étape 8 · aide",
+   "texte_dit": "Seule la fin de la plage change: de la cellule A2 jusqu'à E14.",
+   "empreinte_texte_dit": "cf625822eb4e6df9cbbafb99eb30265a54a7af2f4f1909c132268bcae7ca0d91",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-aide.mp3",
+   "octets": 72768,
+   "duree_s": 4.48,
+   "caracteres_dits": 62,
+   "caracteres_factures": 62,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Seule la fin de la plage change. De la cellule A2 jusqu'à E14."
+    },
+    "valide": true,
+    "details": {
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "references": null
+    }
+   }
+  },
+  {
+   "id": "e8-retour",
+   "etape_lms": "M19-L07-08",
+   "role": "Étape 8 · retour de réussite",
+   "texte_dit": "La région Ouest s'affiche. Une plage nommée, ou un tableau structuré, s'étendrait tout seul.",
+   "empreinte_texte_dit": "4ea070220984d5db3f53a6677dcac66fa7249d159866cd0d8c63bdb5065fdca0",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-retour.mp3",
+   "octets": 117072,
+   "duree_s": 7.24,
+   "caracteres_dits": 92,
+   "caracteres_factures": 92,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La région ouest s'affiche. Une plage nommée ou un tableau structuré, S, étendrait tout seul."
+    },
+    "valide": true,
+    "details": {
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "references": null
+    }
+   }
+  },
+  {
+   "id": "e9-consigne",
+   "etape_lms": "M19-L07-09",
+   "role": "Étape 9 · consigne",
+   "texte_dit": "Corrigez les trois autres lignes de la fiche de la même façon.",
+   "empreinte_texte_dit": "baa25649b9f7ae10f348df3f8e63fbf43e38d085784f606efce292e0dc077cbe",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-consigne.mp3",
+   "octets": 50199,
+   "duree_s": 3.08,
+   "caracteres_dits": 62,
+   "caracteres_factures": 62,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Corrigez les trois autres lignes de la fiche de la même façon."
+    },
+    "valide": true,
+    "details": {
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "references": null
+    }
+   }
+  },
+  {
+   "id": "e9-aide",
+   "etape_lms": "M19-L07-09",
+   "role": "Étape 9 · aide",
+   "texte_dit": "Même correction de plage sur la cellule H3, H4 et H5.",
+   "empreinte_texte_dit": "12410773f81fc40ed55e6be6a3128691d274d63bc8704eecd7fb219f7e5be766",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-aide.mp3",
+   "octets": 92413,
+   "duree_s": 5.72,
+   "caracteres_dits": 53,
+   "caracteres_factures": 53,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Même correction de plage sur la cellule H3, H4 et H5."
+    },
+    "valide": true,
+    "details": {
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "references": null
+    }
+   }
+  },
+  {
+   "id": "e9-retour",
+   "etape_lms": "M19-L07-09",
+   "role": "Étape 9 · retour de réussite",
+   "texte_dit": "La fiche est de nouveau complète. Retenez le réflexe: après chaque ajout de ligne, vérifiez les plages de vos formules de synthèse.",
+   "empreinte_texte_dit": "46f91747beb21ddfb76467858e8298a3f253a0fd05d2262893fe43abf3212cbd",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-retour.mp3",
+   "octets": 127939,
+   "duree_s": 7.92,
+   "caracteres_dits": 131,
+   "caracteres_factures": 131,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "La fiche est de nouveau complète. Retenez le réflexe. Après chaque ajout de ligne, vérifiez les plages de vos formules de synthèse."
+    },
+    "valide": true,
+    "details": {
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "references": null
+    }
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Vous savez consulter une liste par fiche, y ajouter un enregistrement et corriger les plages.",
+   "empreinte_texte_dit": "27341eb01b75a4d7969f3c4f8e83e382f7172893e638e4b33294d5437e31580b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 89487,
+   "duree_s": 5.52,
+   "caracteres_dits": 93,
+   "caracteres_factures": 93,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Vous savez consulter une liste par fiche, y ajouter un enregistrement et corriger les plages."
+    },
+    "valide": true,
+    "details": {
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "references": null
+    }
+   }
+  }
+ ]
+}

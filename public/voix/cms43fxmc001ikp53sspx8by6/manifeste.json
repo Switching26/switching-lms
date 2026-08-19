@@ -1,0 +1,632 @@
+{
+ "chapitre": {
+  "chapterId": "cms43fxmc001ikp53sspx8by6",
+  "app": "Excel",
+  "section": "Fonctions avancées",
+  "titre": "RECHERCHEV : retrouver une information"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)"
+  ],
+  "criteres": [
+   "WER <= seuil adaptatif",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits",
+   "references de cellule et colonnes identiques"
+  ],
+  "regle": "un segment n'est valide que s'il passe le moteur severe",
+  "rejeu": "verdicts recalcules le 19/08/2026 avec le comparateur corrige, sans resynthese : aucun caractere refacture"
+ },
+ "totaux": {
+  "segments": 20,
+  "caracteres_dits": 2485,
+  "duree_totale_s": 155.7,
+  "segments_valides": 19,
+  "segments_plusieurs_essais": 4,
+  "segments_jamais_valides": 1
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Vous avez un code article, il vous faut son prix. RECHERCHEV va le chercher dans une table de référence, c'est la fonction qui fait gagner le plus de temps au quotidien.",
+   "empreinte_texte_dit": "e3cabcd46924754f74776db0f9aed1d19f798b9555855830e003f9aea747d2e9",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 124595,
+   "duree_s": 7.72,
+   "caracteres_dits": 169,
+   "caracteres_factures": 169,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.031,
+     "transcription": "Vous avez un code article, il vous faut son prix. Rechercher va le chercher dans une table de référence. C'est la fonction qui fait gagner le plus de temps au quotidien."
+    },
+    "valide": true,
+    "details": {
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "references": null
+    }
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M10-L01-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Voici la situation la plus fréquente en entreprise: une table de référence d'un côté, un document à remplir de l'autre. À droite, le catalogue, code, article, prix. À gauche, un bon de commande où seuls les codes et les quantités ont été saisis. Tout le reste va se remplir tout seul, et c'est précisément ce qu'on attend d'un tableur.",
+   "empreinte_texte_dit": "23c5287d82ab930862cad32606acc2300305b3cda460bfc58bc3f8a8f30c33f4",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 321872,
+   "duree_s": 20.04,
+   "caracteres_dits": 335,
+   "caracteres_factures": 335,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Voici la situation la plus fréquente en entreprise. Une table de référence d'un côté, un document à remplir de l'autre. À droite, le catalogue, code, article, prix. À gauche, un bon de commande où seuls les codes et les quantités ont été saisis. Tout le reste va se remplir tout seul, et c'est précisément ce qu'on attend d'un tableur."
+    },
+    "valide": true,
+    "details": {
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "references": null
+    }
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M10-L01-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Dans la cellule B2, saisissez la fonction RECHERCHEV, la cellule A2, puis de la cellule H2 jusqu'à J5, puis 2, puis faux pour retrouver le nom de l'article.",
+   "empreinte_texte_dit": "7c8154ef1b831f93b4f3e37406f49735489fa20928b856c75d203306069a7d18",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 188543,
+   "duree_s": 11.72,
+   "caracteres_dits": 156,
+   "caracteres_factures": 156,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Dans la cellule B2, saisissez la fonction recherchève, la cellule A2, puis de la cellule H2 jusqu'à J5, puis 2, puis faux pour retrouver le nom de l'article."
+    },
+    "valide": true,
+    "details": {
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "references": null
+    }
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "M10-L01-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Quatre arguments: quoi chercher, où chercher, quelle colonne rapporter, et faux pour exiger une correspondance exacte.",
+   "empreinte_texte_dit": "cac1c933c7a8c0ed320ff994a6597578d02d842fdc0ea93c44b725cace5536ef",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 119580,
+   "duree_s": 7.4,
+   "caracteres_dits": 118,
+   "caracteres_factures": 118,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Quatre arguments. Quoi chercher ou chercher, quelle colonne rapporter et faux pour exiger une correspondance exacte."
+    },
+    "valide": true,
+    "details": {
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "references": null
+    }
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "M10-L01-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "Écran: la fonction a trouvé ecr dans la table et rapporté la 2ᵉ colonne. Décomposez les quatre arguments, chacun a son piège: ce qu'on cherche, où chercher, table figée, quelle colonne rapporter, comptée depuis la première colonne de la table, pas depuis la colonne A, et faux pour exiger une correspondance exacte.",
+   "empreinte_texte_dit": "29cd6e0a2461bb8ae9ca43164441fe7df1a2c33c726af05085f6bcb7573113d0",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 315185,
+   "duree_s": 19.64,
+   "caracteres_dits": 315,
+   "caracteres_factures": 1260,
+   "essais": 4,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.019,
+     "transcription": "Écran, la fonction à trouver ECR dans la table est rapportée la deuxième colonne. Décomposer les quatre arguments, chacun à son piège. Ce qu'on cherche, ou chercher, table figée, quelle colonne rapportée, comptée depuis la première colonne de la table, pas depuis la colonne A, et faux pour exiger une correspondance exacte."
+    },
+    "valide": true,
+    "details": {
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "references": null
+    }
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M10-L01-04",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Dans la cellule D2, rapportez le prix unitaire. C'est la 3ᵉ colonne de la table.",
+   "empreinte_texte_dit": "2efb3f3744f61002b084b927a8e4894634145846bc0d1f19765bd3292409abab",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 95756,
+   "duree_s": 5.92,
+   "caracteres_dits": 80,
+   "caracteres_factures": 320,
+   "essais": 4,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Dans la cellule D2, rapportez le prix unitaire. C'est la troisième colonne de la table."
+    },
+    "valide": true,
+    "details": {
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "references": null
+    }
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "M10-L01-04",
+   "role": "Étape 3 · aide",
+   "texte_dit": "Même formule, mais le numéro de colonne change.",
+   "empreinte_texte_dit": "8636e250797ab09d9b046b898aee21f8562e6de62440f68625c838071f02831a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 56886,
+   "duree_s": 3.48,
+   "caracteres_dits": 47,
+   "caracteres_factures": 47,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Même formule, mais le numéro de colonne change."
+    },
+    "valide": true,
+    "details": {
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "references": null
+    }
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "M10-L01-04",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "180 euros.",
+   "empreinte_texte_dit": "38f5d5c0d9376e94f050953cf69929a6ffb5a2c93fbd85cd561cacfa6e871f08",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 24703,
+   "duree_s": 1.48,
+   "caracteres_dits": 10,
+   "caracteres_factures": 10,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "180 euros."
+    },
+    "valide": true,
+    "details": {
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "references": null
+    }
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M10-L01-05",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Dans la cellule E2, calculez le total de la ligne.",
+   "empreinte_texte_dit": "9f965cc57bb61acc492ebbe53f7af15e1b8f527b952357afc65fa0f7a8305a20",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 56050,
+   "duree_s": 3.44,
+   "caracteres_dits": 50,
+   "caracteres_factures": 50,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Dans la cellule E2, calculez le total de la ligne."
+    },
+    "valide": true,
+    "details": {
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "references": null
+    }
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "M10-L01-05",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "360 euros.",
+   "empreinte_texte_dit": "387ccba0eaab30488e5fc1aced0e67d6ab9ee33c3d279ae791d3b905666ed713",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 28047,
+   "duree_s": 1.68,
+   "caracteres_dits": 10,
+   "caracteres_factures": 10,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "360 €"
+    },
+    "valide": true,
+    "details": {
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "references": null
+    }
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M10-L01-06",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Complétez les trois lignes restantes en recopiant de la cellule B2 à E2 vers le bas.",
+   "empreinte_texte_dit": "3ffe9c016be96756c72725766af48a23ac4909e714892e2118b11a9134bd5a5b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 86143,
+   "duree_s": 5.32,
+   "caracteres_dits": 84,
+   "caracteres_factures": 168,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Complétez les trois lignes restantes en recopiant de la cellule B2 à E2 vers le bas."
+    },
+    "valide": true,
+    "details": {
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "references": null
+    }
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "M10-L01-06",
+   "role": "Étape 5 · aide",
+   "texte_dit": "Sélectionnez de la cellule B2 à E2 et tirez la poignée jusqu'à la ligne 5.",
+   "empreinte_texte_dit": "92531555557f9bed4df92fbf19f41fe595b74da3cef29fe224ea62f84f26833d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 77784,
+   "duree_s": 4.8,
+   "caracteres_dits": 74,
+   "caracteres_factures": 74,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Sélectionnez de la cellule B2 à E2 et tirez la poignée jusqu'à la ligne 5."
+    },
+    "valide": true,
+    "details": {
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "references": null
+    }
+   }
+  },
+  {
+   "id": "e5-retour",
+   "etape_lms": "M10-L01-06",
+   "role": "Étape 5 · retour de réussite",
+   "texte_dit": "Tout le bon de commande est rempli à partir de codes et de quantités. Le piège numéro un de RECHERCHEV est justement là: sans le signe dollar autour de la table, la recopie la fait glisser vers le bas et les dernières lignes ne trouvent plus rien.",
+   "empreinte_texte_dit": "1261190a7e6a70d68342dea19fd58557155cb02ba8bac053aa76fe12b199e3a8",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-retour.mp3",
+   "octets": 215293,
+   "duree_s": 13.4,
+   "caracteres_dits": 247,
+   "caracteres_factures": 247,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.106,
+     "transcription": "Tout le bon de commande est rempli à partir de codes et de quantités. Le piège numéro 1 de recherche F est justement là. Sans le signe de la retour de la table, la recopie la fait glisser vers le bas et les dernières lignes ne trouvent plus rien."
+    },
+    "valide": true,
+    "details": {
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "references": null
+    }
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M10-L01-08",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "Un dernier argument, souvent bâclé, qui décide pourtant de la fiabilité de toute la recherche. Les deux comportements sont comparés à l'écran. La consigne pratique est simple: mettez faux par défaut et ne dérogez qu'en connaissance de cause, l'autre valeur accepte l'à-peu-près, et l'à-peu-près sur un prix se voit rarement à temps.",
+   "empreinte_texte_dit": "5c723fc88531035064d13b0b7916952ac6ad22c608d3ba53f9e93a6b1834cf41",
+   "reparations": [
+    "l'écran"
+   ],
+   "ssml": true,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 323126,
+   "duree_s": 20.12,
+   "caracteres_dits": 332,
+   "caracteres_factures": 393,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.049,
+     "transcription": "Un dernier argument, souvent bacclé, qui décide pourtant de la fiabilité de toute la recherche. Les deux comportements sont comparés à l'écran. La consigne pratique est simple. Mettez faux par défaut et ne dérogez qu'en connaissance de cause. L'autre valeur accepte elle, à peu près, et elle, à peu près sur un prix se voit rarement à temps."
+    },
+    "valide": true,
+    "details": {
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "references": null
+    }
+   }
+  },
+  {
+   "id": "e6-bulle1",
+   "etape_lms": "M10-L01-08",
+   "role": "Étape 6 · bulle 1",
+   "texte_dit": "Faux exige une correspondance exacte dans cette table.",
+   "empreinte_texte_dit": "469b8e28c89bbf30c872856ce6c3969d6cfe6e86d717e05a9c6d29d9ae87abe8",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-bulle1.mp3",
+   "octets": 55632,
+   "duree_s": 3.4,
+   "caracteres_dits": 54,
+   "caracteres_factures": 54,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.125,
+     "transcription": "Faus exige une correspondance exacte dans cette table."
+    },
+    "valide": true,
+    "details": {
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "references": null
+    }
+   }
+  },
+  {
+   "id": "e6-bulle2",
+   "etape_lms": "M10-L01-08",
+   "role": "Étape 6 · bulle 2",
+   "texte_dit": "Avec vrai, Excel accepte la valeur la plus proche en dessous.",
+   "empreinte_texte_dit": "e6ca115d91f435a3a6df5478aaf06780026b2705cc237a9948e2349b513c6386",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-bulle2.mp3",
+   "octets": 64409,
+   "duree_s": 3.96,
+   "caracteres_dits": 61,
+   "caracteres_factures": 61,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.0,
+     "transcription": "Avec vrai, Excel accepte la valeur la plus proche en dessous."
+    },
+    "valide": true,
+    "details": {
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "references": null
+    }
+   }
+  },
+  {
+   "id": "e6-bulle3",
+   "etape_lms": "M10-L01-08",
+   "role": "Étape 6 · bulle 3",
+   "texte_dit": "Sur une table non triée, cela donne des résultats faux. Mettez faux par défaut.",
+   "empreinte_texte_dit": "91e76e04f5bbc06ae00e4d36e89e187387e151b57b26115291894dca84d96269",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-bulle3.mp3",
+   "octets": 77784,
+   "duree_s": 4.8,
+   "caracteres_dits": 79,
+   "caracteres_factures": 79,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.143,
+     "transcription": "Sur une table n'entrier, cela donne des résultats faux. Mettez faux par défaut."
+    },
+    "valide": true,
+    "details": {
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "references": null
+    }
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "M10-L01-09",
+   "role": "Étape 7 · consigne",
+   "texte_dit": "Vérifiez votre bon de commande: dans la cellule E7, totalisez la commande.",
+   "empreinte_texte_dit": "b67d142969d9bd14cfbcb7394ff20023ef776a4ed584de1a1fe8cc8289b24324",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 86143,
+   "duree_s": 5.32,
+   "caracteres_dits": 74,
+   "caracteres_factures": 74,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.083,
+     "transcription": "Vérifiez votre bond de commande. Dans la cellule E7, totalisez la commande."
+    },
+    "valide": true,
+    "details": {
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "references": null
+    }
+   }
+  },
+  {
+   "id": "e7-retour",
+   "etape_lms": "M10-L01-09",
+   "role": "Étape 7 · retour de réussite",
+   "texte_dit": "895 euros. Un bon de commande complet à partir de quatre codes.",
+   "empreinte_texte_dit": "7084c5004a66cdd4fba3f3aed4721b7ee4f8ddd257b322c60cde1bba9e25195f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-retour.mp3",
+   "octets": 77784,
+   "duree_s": 4.8,
+   "caracteres_dits": 63,
+   "caracteres_factures": 63,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": true,
+     "wer": 0.083,
+     "transcription": "895 €. Un bond de commande complet à partir de quatre codes."
+    },
+    "valide": true,
+    "details": {
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "references": null
+    }
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Vous savez interroger une table de référence, et vous connaissez les deux pièges qui font échouer RECHERCHEV neuf fois sur dix.",
+   "empreinte_texte_dit": "c1e54d71666e99be1560e2a578537d24c22d175d20d52cec758fa70f89ae76f6",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 117072,
+   "duree_s": 7.24,
+   "caracteres_dits": 127,
+   "caracteres_factures": 508,
+   "essais": 4,
+   "controle": {
+    "moteur_severe_small": {
+     "ok": false,
+     "wer": 0.095,
+     "transcription": "Vous savez interroger une table de référence et vous connaissez les deux pièges qui font échouer Recherchef 9 fois sur 10."
+    },
+    "valide": false,
+    "details": {
+     "manquants": [],
+     "artefacts": [],
+     "nombres": {
+      "attendus": [
+       "2",
+       "9",
+       "10"
+      ],
+      "entendus": [
+       "2",
+       "10"
+      ]
+     },
+     "references": null
+    }
+   }
+  }
+ ]
+}

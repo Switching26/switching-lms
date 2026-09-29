@@ -45,7 +45,9 @@ export default function LoginForm({
       if (check.ok) {
         const status = await check.json()
         if (status.disabled) {
-          setError("Votre compte a été désactivé. Contactez votre administrateur.")
+          setError(status.pending
+            ? "Votre compte n'est pas encore activé. Ouvrez le lien reçu par email, ou cliquez sur « Créez votre mot de passe » ci-dessous pour en recevoir un nouveau."
+            : "Votre compte a été désactivé. Contactez votre administrateur.")
           setLoading(false)
           return
         }

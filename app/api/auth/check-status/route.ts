@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 import { checkRateLimit, rateLimitResponse } from "@/lib/rate-limit"
+import { isPendingActivation } from "@/lib/activation-email"
 
 export async function POST(req: Request) {
   const ip = req.headers.get("x-forwarded-for") || "unknown"
@@ -16,12 +17,14 @@ export async function POST(req: Request) {
 
   const user = await prisma.user.findUnique({
     where: { email },
-    select: { isActive: true, archivedAt: true },
+    select: { id: true, isActive: true, archivedAt: true, reference: true },
   })
 
-  // Don't reveal if account exists — only flag disabled if account exists AND is inactive/archived
+  // Don't reveal if account exists — only flag disabled if account exists AND is inactive/archived.
+  // « pending » distingue l'invité qui n'a jamais activé son compte d'un compte
+  // réellement désactivé : le message et l'issue proposée ne sont pas les mêmes.
   if (user && (!user.isActive || user.archivedAt)) {
-    return NextResponse.json({ disabled: true })
+    return NextResponse.json({ disabled: true, pending: await isPendingActivation(user) })
   }
 
   return NextResponse.json({ disabled: false })

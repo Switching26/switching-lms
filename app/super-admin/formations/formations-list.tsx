@@ -194,7 +194,7 @@ export default function FormationsList({ formations }: { formations: FormationIt
                   <div>
                     <p className="text-sm font-medium text-gray-500 line-through">{f.title}</p>
                     <Badge variant="error">
-                      Supprimée le {new Date(f.deletedAt!).toLocaleDateString("fr-FR")}
+                      Supprimée le {new Date(f.deletedAt!).toLocaleDateString("fr-FR", { timeZone: "Europe/Paris" })}
                     </Badge>
                   </div>
                 </div>

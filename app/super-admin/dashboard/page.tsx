@@ -101,7 +101,7 @@ export default async function SuperAdminDashboard() {
                     <span className="text-xs text-ink-50 truncate hidden sm:inline">{log.user.email}</span>
                   </div>
                   <span className="text-xs text-ink-50 shrink-0 font-medium tabular-nums">
-                    {new Date(log.sentAt).toLocaleDateString("fr-FR", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" })}
+                    {new Date(log.sentAt).toLocaleDateString("fr-FR", { timeZone: "Europe/Paris", day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" })}
                   </span>
                 </div>
               )

@@ -1,10 +1,6 @@
 import { NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
-import { generateToken } from "@/lib/tokens"
-import { sendEmail } from "@/lib/email"
-import { resendActivationEmail } from "@/lib/email-templates"
-import { resolveTemplate, replaceVariables } from "@/lib/email-template-engine"
-import { getBaseUrl } from "@/lib/get-base-url"
+import { isPendingActivation, sendActivationEmail } from "@/lib/activation-email"
 import { checkRateLimit, rateLimitResponse } from "@/lib/rate-limit"
 import { auth } from "@/lib/auth"
 
@@ -38,41 +34,12 @@ export async function POST(req: Request) {
     })
 
     // Ne (ré)envoyer une activation que pour un compte réellement en attente
-    // d'activation : jamais un compte déjà actif, archivé, ou migré depuis
-    // RiseUp (import silencieux — aucun email tant que Samuel n'a pas donné le GO).
-    const isMigratedRiseup = user?.reference?.startsWith("RISEUP-") ?? false
-    const eligible = !!user && !user.isActive && !user.archivedAt && !isMigratedRiseup
-
-    if (user && eligible) {
+    // d'activation : jamais un compte déjà actif, archivé, désactivé par un admin
+    // après usage, ou migré depuis RiseUp (voir isPendingActivation).
+    if (user && (await isPendingActivation(user))) {
       canReadDelivery = session?.user?.role === "SUPER_ADMIN" ||
         (session?.user?.role === "PARTNER_ADMIN" && session.user.partnerId === user.partnerId)
-
-      const token = await generateToken(user.id, "ACTIVATION")
-      const baseUrl = getBaseUrl()
-      const partnerParam = user.partner?.slug ? `&partner=${user.partner.slug}` : ""
-      const activationUrl = `${baseUrl}/login/activer?token=${token}${partnerParam}`
-      const loginUrl = user.partner?.slug ? `${baseUrl}/login?partner=${user.partner.slug}` : `${baseUrl}/login`
-
-      const dynamic = await resolveTemplate("ACTIVATION_LINK", user.partnerId)
-      if (dynamic) {
-        const vars = {
-          prenom: user.firstName,
-          nom: user.lastName,
-          email: user.email,
-          lien_activation: activationUrl,
-          lien_connexion: loginUrl,
-          plateforme_nom: user.partner?.name || "Switching Formation",
-          plateforme_url: loginUrl,
-          partenaire_nom: user.partner?.name || "",
-          couleur_principale: user.partner?.primaryColor || "#111111",
-          couleur_secondaire: user.partner?.secondaryColor || "#F5F5F7",
-          logo_url: user.partner?.logoUrl ? (user.partner.logoUrl.startsWith("http") ? user.partner.logoUrl : `${baseUrl}${user.partner.logoUrl.startsWith("/") ? "" : "/"}${user.partner.logoUrl}`) : "",
-        }
-        emailSent = await sendEmail(user.email, replaceVariables(dynamic.subject, vars), replaceVariables(dynamic.htmlContent, vars), user.id, "ACTIVATION_LINK", user.partner)
-      } else {
-        const emailData = resendActivationEmail(user.firstName, token, user.partner, user.partner?.slug)
-        emailSent = await sendEmail(user.email, emailData.subject, emailData.html, user.id, "ACTIVATION_LINK", user.partner)
-      }
+      emailSent = await sendActivationEmail(user)
     }
   } catch (err) {
     console.error("[RESEND-ACTIVATION]", err)

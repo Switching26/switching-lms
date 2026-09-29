@@ -436,7 +436,7 @@ export default function EmailManager({ logs }: { logs: Log[] }) {
                       {log.subject || "—"}
                     </td>
                     <td className="px-4 py-3 text-sm text-gray-500 whitespace-nowrap">
-                      {new Date(log.sentAt).toLocaleDateString("fr-FR", {
+                      {new Date(log.sentAt).toLocaleDateString("fr-FR", { timeZone: "Europe/Paris",
                         day: "2-digit",
                         month: "2-digit",
                         year: "numeric",

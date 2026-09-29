@@ -161,7 +161,7 @@ export default function LearnerMessagesPage() {
                   {msg.content}
                 </div>
                 <p className={`text-[10px] text-gray-400 mt-1 ${isMe ? "text-right" : "text-left"}`}>
-                  {new Date(msg.createdAt).toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })}
+                  {new Date(msg.createdAt).toLocaleTimeString("fr-FR", { timeZone: "Europe/Paris", hour: "2-digit", minute: "2-digit" })}
                 </p>
               </div>
             </div>

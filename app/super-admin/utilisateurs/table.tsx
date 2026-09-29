@@ -106,7 +106,9 @@ export default function UsersTable({
 }) {
   const router = useRouter()
   const [users, setUsers] = useState(initialUsers)
-  const [statusFilter, setStatusFilter] = useState<StatusFilter>("active")
+  // « Tous » par défaut : sur « Actifs », les invités qui n'avaient jamais activé leur
+  // compte n'apparaissaient pas, et personne ne voyait qu'ils étaient bloqués.
+  const [statusFilter, setStatusFilter] = useState<StatusFilter>("all")
   const [orgFilter, setOrgFilter] = useState<"all" | "internal" | "partner">("all")
   const [message, setMessage] = useState("")
   const [modalMessage, setModalMessage] = useState("")
@@ -178,7 +180,7 @@ export default function UsersTable({
   const [newFormationId, setNewFormationId] = useState("")
   const [newStartsAt, setNewStartsAt] = useState(dateInputValue())
   const [newExpiresAt, setNewExpiresAt] = useState("")
-  const [newAssignFormation, setNewAssignFormation] = useState(false)
+  const [newAssignFormation, setNewAssignFormation] = useState(true)
 
   // Actions dropdown
   // Two separate refs: the mobile card (.lg:hidden) and the desktop table
@@ -216,14 +218,13 @@ export default function UsersTable({
       if (orgFilter === "partner" && !u.partnerId) return false
     }
     // Search
-    if (search) {
-      const q = search.toLowerCase()
-      const match = u.firstName.toLowerCase().includes(q) ||
-        u.lastName.toLowerCase().includes(q) ||
-        u.email.toLowerCase().includes(q) ||
-        u.partner?.name.toLowerCase().includes(q) ||
-        (u.reference && u.reference.toLowerCase().includes(q))
-      if (!match) return false
+    if (search.trim()) {
+      // « Prénom Nom » doit trouver la personne : chaque mot doit apparaître dans
+      // l'un des champs, accents et casse ignorés (« Mauries » trouve MAURIÈS).
+      const sansAccent = (t: string) => t.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase()
+      const botte = sansAccent([u.firstName, u.lastName, u.email, u.partner?.name || "", u.reference || ""].join(" "))
+      const mots = sansAccent(search).split(/\s+/).filter(Boolean)
+      if (!mots.every((m) => botte.includes(m))) return false
     }
     return true
   }).sort((a, b) => {
@@ -280,7 +281,7 @@ export default function UsersTable({
     setNewPartnerId("")
     setNewReference("")
     setNewPassword(generatePassword())
-    setNewAssignFormation(false)
+    setNewAssignFormation(true)
     setNewFormationId("")
     setNewStartsAt(dateInputValue())
     setNewExpiresAt("")
@@ -429,6 +430,12 @@ export default function UsersTable({
   const handleCreate = async () => {
     if (!newFirstName.trim() || !newLastName.trim() || !newEmail.trim()) {
       modalFlash("Tous les champs sont requis")
+      return
+    }
+    // Interrupteur activé sans formation choisie : avant, le compte était créé sans
+    // formation et l'apprenant arrivait sur un espace vide.
+    if (newRole === "LEARNER" && newAssignFormation && !newFormationId) {
+      modalFlash("Choisissez la formation à attribuer, ou désactivez l'option.")
       return
     }
     setCreating(true)
@@ -1753,7 +1760,7 @@ export default function UsersTable({
             <div className="flex items-center justify-between bg-gray-50 rounded-lg p-3">
               <div>
                 <p className="text-sm font-medium">Attribuer une formation</p>
-                <p className="text-xs text-gray-400 mt-0.5">Optionnel — attribuer une formation dès la création</p>
+                <p className="text-xs text-gray-400 mt-0.5">{newRole === "LEARNER" ? "Recommandé — l'apprenant la trouve dès sa première connexion" : "Optionnel — attribuer une formation dès la création"}</p>
               </div>
               <button
                 onClick={() => setNewAssignFormation(!newAssignFormation)}
@@ -1765,6 +1772,9 @@ export default function UsersTable({
                 </span>
               </button>
             </div>
+            {newRole === "LEARNER" && !newAssignFormation && (
+              <p className="text-xs text-amber-700 bg-amber-50 rounded-lg px-3 py-2 mt-2">Sans formation, l&apos;apprenant arrivera sur un espace vide. Vous pourrez lui en attribuer une ensuite avec « Attribuer formation ».</p>
+            )}
             {newAssignFormation && (
               <div className="mt-3 space-y-3">
                 <div>
@@ -1903,7 +1913,7 @@ export default function UsersTable({
                 <p className="text-xs text-gray-500">Dernière connexion</p>
                 <p className="text-sm font-semibold">
                   {progressData.lastLogin
-                    ? new Date(progressData.lastLogin).toLocaleDateString("fr-FR", { day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" })
+                    ? new Date(progressData.lastLogin).toLocaleDateString("fr-FR", { timeZone: "Europe/Paris", day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" })
                     : "—"}
                 </p>
               </div>
@@ -1921,7 +1931,7 @@ export default function UsersTable({
                     return (
                       <div key={i} className="flex items-center justify-between gap-2 text-xs text-gray-500 py-1 border-b border-gray-50">
                         <span>
-                          {new Date(entry.date).toLocaleDateString("fr-FR", { day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" })}
+                          {new Date(entry.date).toLocaleDateString("fr-FR", { timeZone: "Europe/Paris", day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" })}
                         </span>
                         <span className="flex items-center gap-2 shrink-0">
                           {entry.durationSeconds ? <span className="text-gray-400">{formatSeconds(entry.durationSeconds)}</span> : null}
@@ -2003,7 +2013,7 @@ export default function UsersTable({
                               <td className="py-2 text-right font-medium">{ev.bestScore != null ? `${Math.round(ev.bestScore * 100)}%` : "—"}</td>
                               <td className="py-2 text-right text-gray-500">{ev.lastScore != null ? `${Math.round(ev.lastScore * 100)}%` : "—"}</td>
                               <td className="py-2 text-right text-gray-500">{ev.attempts || "—"}</td>
-                              <td className="py-2 text-right text-gray-400 whitespace-nowrap">{ev.lastAt ? new Date(ev.lastAt).toLocaleDateString("fr-FR", { day: "2-digit", month: "2-digit" }) : "—"}</td>
+                              <td className="py-2 text-right text-gray-400 whitespace-nowrap">{ev.lastAt ? new Date(ev.lastAt).toLocaleDateString("fr-FR", { timeZone: "Europe/Paris", day: "2-digit", month: "2-digit" }) : "—"}</td>
                             </tr>
                           ))}
                         </tbody>

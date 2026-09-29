@@ -126,7 +126,10 @@ export async function POST(req: NextRequest) {
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
     path: "/",
-    maxAge: 60 * 60, // 1 hour
+    // Aussi longtemps que la session elle-même (30 j, défaut NextAuth). À 1 h,
+    // l'admin qui revenait plus tard ne pouvait plus « Quitter » : le bouton restait
+    // bloqué et il devait se déconnecter (constaté chez CNFDI, septembre 2026).
+    maxAge: 30 * 24 * 60 * 60,
   })
 
   // Replace session with impersonated token
@@ -140,21 +143,27 @@ export async function POST(req: NextRequest) {
   return res
 }
 
-export async function DELETE(req: NextRequest) {
+// Base publique de la requête (Railway / Tailscale passent par un proxy) : même
+// règle que le middleware, sinon la redirection partirait vers l'hôte interne.
+function baseDeLaRequete(req: NextRequest): string {
+  const proto = req.headers.get("x-forwarded-proto") || "https"
+  const host = req.headers.get("x-forwarded-host") || req.headers.get("host")
+  return host ? `${proto}://${host}` : req.nextUrl.origin
+}
+
+const effacer = { httpOnly: true, secure: process.env.NODE_ENV === "production", sameSite: "lax" as const, path: "/", maxAge: 0 }
+
+async function sortirDeLEspace(req: NextRequest, mode: "json" | "redirect") {
   const session = await auth()
   const currentUser = session?.user
+  const base = baseDeLaRequete(req)
 
   if (!currentUser?.realAdmin) {
-    return NextResponse.json({ error: "Pas en impersonation" }, { status: 400 })
+    return mode === "json"
+      ? NextResponse.json({ error: "Pas en impersonation" }, { status: 400 })
+      : NextResponse.redirect(new URL("/", base))
   }
 
-  // Restore the backup token
-  const backupToken = req.cookies.get("impersonate-backup")?.value
-  if (!backupToken) {
-    return NextResponse.json({ error: "Token de sauvegarde introuvable" }, { status: 400 })
-  }
-
-  // Log impersonation stop
   await prisma.impersonationLog.create({
     data: {
       adminId: currentUser.realAdmin.userId,
@@ -166,11 +175,29 @@ export async function DELETE(req: NextRequest) {
     },
   })
 
+  const backupToken = req.cookies.get("impersonate-backup")?.value
+
+  // Sauvegarde perdue (cookie effacé, navigateur nettoyé…) : on ne laisse jamais
+  // l'admin coincé dans l'espace de l'apprenant. La session est fermée proprement
+  // et il revient sur SA page de connexion, où il se reconnecte.
+  if (!backupToken) {
+    const slug = currentUser.partnerSlug
+    const loginUrl = `/login${slug ? `?partner=${slug}` : ""}`
+    const res = mode === "json"
+      ? NextResponse.json({ ok: true, redirectUrl: loginUrl, reconnexion: true })
+      : NextResponse.redirect(new URL(loginUrl, base))
+    res.cookies.set(cookieName, "", effacer)
+    res.cookies.set("impersonate-backup", "", effacer)
+    return res
+  }
+
   const redirectUrl = currentUser.realAdmin.role === "PARTNER_ADMIN"
     ? "/partner-admin/utilisateurs"
     : "/super-admin/utilisateurs"
 
-  const res = NextResponse.json({ ok: true, redirectUrl })
+  const res = mode === "json"
+    ? NextResponse.json({ ok: true, redirectUrl })
+    : NextResponse.redirect(new URL(redirectUrl, base))
 
   // Restore original session
   res.cookies.set(cookieName, backupToken, {
@@ -179,15 +206,20 @@ export async function DELETE(req: NextRequest) {
     sameSite: "lax",
     path: "/",
   })
-
-  // Clear backup cookie
-  res.cookies.set("impersonate-backup", "", {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
-    path: "/",
-    maxAge: 0,
-  })
-
+  res.cookies.set("impersonate-backup", "", effacer)
   return res
+}
+
+/** Bouton « Quitter » du bandeau orange. */
+export async function DELETE(req: NextRequest) {
+  return sortirDeLEspace(req, "json")
+}
+
+/**
+ * Sortie par navigation : le middleware y renvoie l'admin qui retourne vers SON
+ * espace (favori, adresse tapée, onglet rouvert) pendant qu'il visualise celui d'un
+ * apprenant — avant, il était renvoyé chez l'apprenant et devait se déconnecter.
+ */
+export async function GET(req: NextRequest) {
+  return sortirDeLEspace(req, "redirect")
 }

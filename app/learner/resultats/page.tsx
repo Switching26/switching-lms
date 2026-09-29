@@ -110,7 +110,7 @@ export default async function ResultatsPage() {
                               <div className={`font-display text-base ${scoreText(pct)}`}>{pct}%</div>
                               <div className="text-[10.5px] text-ink-30">
                                 {ev.attempts} essai{ev.attempts > 1 ? "s" : ""}
-                                {ev.lastAt ? ` · ${new Date(ev.lastAt).toLocaleDateString("fr-FR", { day: "2-digit", month: "2-digit" })}` : ""}
+                                {ev.lastAt ? ` · ${new Date(ev.lastAt).toLocaleDateString("fr-FR", { timeZone: "Europe/Paris", day: "2-digit", month: "2-digit" })}` : ""}
                               </div>
                             </>
                           ) : (

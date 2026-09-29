@@ -143,7 +143,7 @@ export default function AdminMessages() {
                     <span className="w-2 h-2 rounded-full bg-red-500 flex-shrink-0" />
                   )}
                   <span className="text-[10px] text-gray-400">
-                    {conv.lastMessage ? new Date(conv.lastMessage.createdAt).toLocaleDateString("fr-FR", {
+                    {conv.lastMessage ? new Date(conv.lastMessage.createdAt).toLocaleDateString("fr-FR", { timeZone: "Europe/Paris",
                       day: "2-digit", month: "2-digit",
                     }) : ""}
                   </span>
@@ -207,7 +207,7 @@ export default function AdminMessages() {
                         {msg.content}
                       </div>
                       <p className={`text-[10px] text-gray-400 mt-1 ${isAdmin ? "text-right" : "text-left"}`}>
-                        {new Date(msg.createdAt).toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })}
+                        {new Date(msg.createdAt).toLocaleTimeString("fr-FR", { timeZone: "Europe/Paris", hour: "2-digit", minute: "2-digit" })}
                       </p>
                     </div>
                   </div>

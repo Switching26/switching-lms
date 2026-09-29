@@ -91,7 +91,7 @@ export default async function PartnerDashboard() {
                     <span className="text-sm font-medium text-ink">{log.user.firstName} {log.user.lastName}</span>
                   </div>
                   <span className="text-xs text-ink-50 shrink-0 font-medium tabular-nums">
-                    {new Date(log.sentAt).toLocaleDateString("fr-FR", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" })}
+                    {new Date(log.sentAt).toLocaleDateString("fr-FR", { timeZone: "Europe/Paris", day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" })}
                   </span>
                 </div>
               )

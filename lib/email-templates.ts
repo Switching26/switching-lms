@@ -112,7 +112,7 @@ export function accountCreatedEmail(
     </p>
     ${button("Activer mon compte", activationUrl, brand.primaryColor)}
     <p style="margin:0;color:#999;font-size:13px;text-align:center;">
-      Ce lien est valable 72 heures.
+      Ce lien reste valable jusqu'à l'activation de votre compte.
     </p>
   `)
   return { subject, html }
@@ -167,7 +167,7 @@ export function resendActivationEmail(
     </p>
     ${button("Activer mon compte", activationUrl, brand.primaryColor)}
     <p style="margin:0;color:#999;font-size:13px;text-align:center;">
-      Ce lien est valable 72 heures.
+      Ce lien reste valable jusqu'à l'activation de votre compte.
     </p>
   `)
   return { subject, html }

@@ -60,8 +60,15 @@ export default auth((req) => {
 
   const effectiveRole = user.role
 
-  if (pathname.startsWith("/super-admin") && user.realAdmin) {
-    return Response.redirect(new URL("/learner/accueil", base))
+  // L'admin qui visualise l'espace d'un apprenant et retourne vers SON propre espace
+  // (favori, adresse tapée, onglet rouvert) : on termine la visualisation au lieu de
+  // le renvoyer chez l'apprenant — c'était une impasse, seule la déconnexion en sortait.
+  if (user.realAdmin) {
+    const espaceAdmin = user.realAdmin.role === "SUPER_ADMIN" ? "/super-admin"
+      : user.realAdmin.role === "PARTNER_ADMIN" ? "/partner-admin" : null
+    if (espaceAdmin && pathname.startsWith(espaceAdmin)) {
+      return Response.redirect(new URL("/api/impersonate", base))
+    }
   }
 
   for (const [prefix, role] of Object.entries(roleRoutes)) {

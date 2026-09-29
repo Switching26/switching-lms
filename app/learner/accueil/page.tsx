@@ -4,7 +4,9 @@ import Link from "next/link"
 import { getLearnerEnrollments, getLearnerProgress } from "@/lib/data/formations"
 
 function greeting() {
-  const h = new Date().getHours()
+  // Heure de Paris : la page est rendue par le serveur, réglé en UTC (« Bon
+  // après-midi » s'affichait jusqu'à 20 h l'été).
+  const h = Number(new Intl.DateTimeFormat("en-GB", { hour: "2-digit", hourCycle: "h23", timeZone: "Europe/Paris" }).format(new Date()))
   if (h < 12) return "Bonjour"
   if (h < 18) return "Bon après-midi"
   return "Bonsoir"

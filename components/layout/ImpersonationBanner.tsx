@@ -17,12 +17,13 @@ export default function ImpersonationBanner({
     setLoading(true)
     try {
       const res = await fetch("/api/impersonate", { method: "DELETE" })
-      const data = await res.json()
-      if (data.ok) {
-        window.location.href = data.redirectUrl
-      }
+      const data = await res.json().catch(() => ({}))
+      // Jamais de bouton bloqué sur « … » : si la visualisation est déjà terminée
+      // (autre onglet), on recharge l'accueil, qui renvoie vers le bon espace.
+      window.location.href = data.ok && data.redirectUrl ? data.redirectUrl : "/"
     } catch {
-      setLoading(false)
+      // Réseau : la sortie par navigation fait le même travail côté serveur.
+      window.location.href = "/api/impersonate"
     }
   }
 

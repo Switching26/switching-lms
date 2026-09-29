@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 import { hash } from "bcryptjs"
-import { verifyToken, markTokenUsed } from "@/lib/tokens"
+import { verifyToken, markTokenUsed, markAllActivationTokensUsed } from "@/lib/tokens"
 import { validatePassword } from "@/lib/validate-password"
 import { checkRateLimit, rateLimitResponse } from "@/lib/rate-limit"
 import { encryptVisiblePassword } from "@/lib/visible-password"
@@ -39,6 +39,7 @@ export async function POST(req: Request) {
   })
 
   await markTokenUsed(token)
+  await markAllActivationTokensUsed(result.record.userId)
 
   return NextResponse.json({ success: true })
 }

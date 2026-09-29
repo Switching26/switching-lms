@@ -51,7 +51,7 @@ export default async function ApercuFormationPage({ params }: { params: { id: st
         <div className="mt-4 flex gap-4 text-sm text-gray-400">
           <span>{formation.chapters.length} chapitre{formation.chapters.length > 1 ? "s" : ""}</span>
           <span>{formation.enrollments.length} apprenant{formation.enrollments.length > 1 ? "s" : ""}</span>
-          <span>Créée le {new Date(formation.createdAt).toLocaleDateString("fr-FR")}</span>
+          <span>Créée le {new Date(formation.createdAt).toLocaleDateString("fr-FR", { timeZone: "Europe/Paris" })}</span>
         </div>
       </div>
 

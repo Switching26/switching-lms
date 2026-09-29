@@ -33,7 +33,7 @@ export async function GET(req: NextRequest) {
       String(Math.round(p.timeSpentSeconds / 60)),
       String(p.sessionCount),
       String(p.lastPosition),
-      p.completedAt ? new Date(p.completedAt).toLocaleDateString("fr-FR") : "",
+      p.completedAt ? new Date(p.completedAt).toLocaleDateString("fr-FR", { timeZone: "Europe/Paris" }) : "",
     ]),
   ]
 
@@ -57,7 +57,7 @@ export async function GET(req: NextRequest) {
         er.exercise.chapter.title,
         er.exercise.type,
         er.score != null ? `${Math.round(er.score * 100)}%` : "—",
-        new Date(er.completedAt).toLocaleDateString("fr-FR"),
+        new Date(er.completedAt).toLocaleDateString("fr-FR", { timeZone: "Europe/Paris" }),
       ])
     })
   }

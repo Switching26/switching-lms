@@ -6,6 +6,7 @@ import { passwordResetEmail } from "@/lib/email-templates"
 import { resolveTemplate, replaceVariables } from "@/lib/email-template-engine"
 import { getBaseUrl } from "@/lib/get-base-url"
 import { checkRateLimit, rateLimitResponse } from "@/lib/rate-limit"
+import { isPendingActivation, sendActivationEmail } from "@/lib/activation-email"
 
 export const dynamic = "force-dynamic"
 
@@ -60,6 +61,11 @@ export async function POST(req: Request) {
         const emailData = passwordResetEmail(user.firstName, token, user.partner, user.partner?.slug)
         await sendEmail(user.email, emailData.subject, emailData.html, user.id, "PASSWORD_RESET", user.partner)
       }
+    } else if (user && (await isPendingActivation(user))) {
+      // Invité qui n'a jamais créé son mot de passe : une réinitialisation ne peut
+      // rien pour lui (compte inactif). Avant, la page annonçait un mail qui ne
+      // partait jamais ; on lui envoie à la place son lien d'activation.
+      await sendActivationEmail(user)
     }
   } catch (err) {
     console.error("[FORGOT-PASSWORD]", err)

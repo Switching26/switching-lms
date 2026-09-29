@@ -16,12 +16,16 @@ export default async function DocumentsPage() {
   if (!session) redirect("/login")
 
   const userId = session.user.id
-  const enrollments = await getLearnerFormationsWithDocuments(userId)
+  // Formation expirée : le téléchargement est refusé (403) ; ne pas afficher de
+  // bouton qui mène à une erreur.
+  const maintenant = new Date()
+  const enrollments = (await getLearnerFormationsWithDocuments(userId))
+    .filter((e) => !e.expiresAt || new Date(e.expiresAt) > maintenant)
 
   if (enrollments.length === 0) {
     return (
       <div className="text-center py-20">
-        <h1 className="font-display text-xl font-semibold text-ink">Aucune formation</h1>
+        <h1 className="font-display text-xl font-semibold text-ink">Aucun document à télécharger pour le moment</h1>
       </div>
     )
   }

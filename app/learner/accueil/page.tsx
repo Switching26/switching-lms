@@ -57,9 +57,13 @@ export default async function LearnerAccueil() {
       gradient: COVER_GRADIENTS[idx % COVER_GRADIENTS.length],
     }
   })
+    // Une formation expirée passait en tête (tri par date d'inscription) et était
+    // comptée « disponible » : l'apprenant tombait d'abord sur une porte fermée.
+    .sort((a, b) => Number(a.expired) - Number(b.expired))
 
-  const totalCompleted = formationStats.reduce((s, f) => s + f.completed, 0)
-  const totalChapters = formationStats.reduce((s, f) => s + f.total, 0)
+  const actives = formationStats.filter((f) => !f.expired)
+  const totalCompleted = actives.reduce((s, f) => s + f.completed, 0)
+  const totalChapters = actives.reduce((s, f) => s + f.total, 0)
 
   if (enrollments.length === 0) {
     return (
@@ -84,8 +88,10 @@ export default async function LearnerAccueil() {
           {greeting()}{firstName ? `, ${firstName}` : ""}.
         </h1>
         <p className="text-ink-50 mt-3 text-base max-w-2xl">
-          {totalCompleted === 0
-            ? `Vous avez ${enrollments.length} formation${enrollments.length > 1 ? "s" : ""} disponible${enrollments.length > 1 ? "s" : ""}. Choisissez celle par laquelle vous voulez commencer.`
+          {actives.length === 0
+            ? "L'accès à vos formations a expiré. Pour le prolonger, contactez votre organisme de formation."
+            : totalCompleted === 0
+            ? `Vous avez ${actives.length} formation${actives.length > 1 ? "s" : ""} disponible${actives.length > 1 ? "s" : ""}. Choisissez celle par laquelle vous voulez commencer.`
             : totalCompleted >= totalChapters
               ? "Félicitations, vous avez terminé toutes vos formations !"
               : `Vous avez complété ${totalCompleted} chapitre${totalCompleted > 1 ? "s" : ""} sur ${totalChapters}. Continuez sur votre lancée.`}
@@ -94,7 +100,7 @@ export default async function LearnerAccueil() {
 
       {/* Stats line */}
       <div className="animate-fade-in-up-delay-1 grid grid-cols-3 gap-3 sm:gap-4">
-        <StatCard label="Formations" value={enrollments.length} accent="brand" />
+        <StatCard label="Formations" value={actives.length} accent="brand" />
         <StatCard label="Chapitres terminés" value={totalCompleted} accent="emerald" />
         <StatCard label="Total chapitres" value={totalChapters} accent="ink" />
       </div>
@@ -157,11 +163,11 @@ export default async function LearnerAccueil() {
                 </div>
 
                 {enrollment.expiresAt && (
-                  <div className="mt-4 pt-4 border-t border-ink-10 flex items-center gap-2 text-[11px] text-amber-700">
+                  <div className={`mt-4 pt-4 border-t border-ink-10 flex items-center gap-2 text-[11px] ${expired ? "text-red-600" : "text-amber-700"}`}>
                     <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
-                    Expire le {new Date(enrollment.expiresAt).toLocaleDateString("fr-FR", { day: "numeric", month: "short", year: "numeric" })}
+                    {expired ? "Accès terminé le" : "Expire le"} {new Date(enrollment.expiresAt).toLocaleDateString("fr-FR", { day: "numeric", month: "short", year: "numeric" })}
                   </div>
                 )}
               </div>

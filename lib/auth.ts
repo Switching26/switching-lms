@@ -6,6 +6,29 @@ import { authConfig } from "@/lib/auth.config"
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   ...authConfig,
+  callbacks: {
+    ...authConfig.callbacks,
+    // Le jeton de session vit 30 jours et ne portait que le rôle : un apprenant
+    // archivé ou désactivé gardait vidéos et documents jusqu'à son expiration
+    // (constaté en production le 29/09/2026). On revérifie le compte à chaque
+    // lecture de session côté serveur ; un compte archivé, désactivé ou supprimé
+    // perd sa session immédiatement (null = session effacée).
+    // Pendant une visualisation (« Voir l'espace »), c'est le compte de l'ADMIN qui
+    // compte, pas celui de l'apprenant : un admin doit pouvoir regarder l'espace d'un
+    // invité qui n'a pas encore activé son compte.
+    // Ne vit qu'ici (runtime Node) : le middleware Edge garde authConfig sans base.
+    async jwt(params) {
+      const token = await authConfig.callbacks.jwt(params)
+      const compteId = (token.realAdmin as { userId?: string } | undefined)?.userId || token.sub
+      if (!compteId) return token
+      const compte = await prisma.user.findUnique({
+        where: { id: compteId },
+        select: { isActive: true, archivedAt: true },
+      })
+      if (!compte || !compte.isActive || compte.archivedAt) return null
+      return token
+    },
+  },
   providers: [
     Credentials({
       name: "credentials",

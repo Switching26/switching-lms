@@ -1,7 +1,7 @@
 "use client"
 
 import { useRouter } from "next/navigation"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 export default function ImpersonationBanner({
   name,
@@ -12,6 +12,17 @@ export default function ImpersonationBanner({
 }) {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
+
+  // La hauteur du bandeau doit être connue de TOUTE la page, pas seulement du
+  // shell qui la déclare : le lecteur de formation et l'atelier sont rendus dans
+  // un portail sous <body>, hors du shell. Sans ça, pendant « Voir l'espace », ils
+  // remontaient de 40 px et leur barre (Leçons, Notes, Ressources) passait cachée
+  // sous le menu du haut (constaté sur téléphone le 29/09/2026).
+  useEffect(() => {
+    const racine = document.documentElement
+    racine.style.setProperty("--app-impersonation-offset", "40px")
+    return () => { racine.style.removeProperty("--app-impersonation-offset") }
+  }, [])
 
   const handleQuit = async () => {
     setLoading(true)

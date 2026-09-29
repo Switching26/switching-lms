@@ -435,7 +435,7 @@ export default function UsersTable({
     // Interrupteur activé sans formation choisie : avant, le compte était créé sans
     // formation et l'apprenant arrivait sur un espace vide.
     if (newRole === "LEARNER" && newAssignFormation && !newFormationId) {
-      modalFlash("Choisissez la formation à attribuer, ou désactivez l'option.")
+      modalFlash("Sélectionnez la formation à attribuer, ou désactivez l'option.")
       return
     }
     setCreating(true)

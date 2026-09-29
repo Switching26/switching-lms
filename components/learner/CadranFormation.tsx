@@ -263,7 +263,14 @@ export default function CadranFormation(p: Props) {
       {/* La salle. `flex-1 min-h-0` : c'est elle qui absorbe la place restante,
           et c'est ce qui rend le débordement structurellement impossible. */}
       <div
-        className="relative flex min-h-0 flex-1 items-center justify-center"
+        className={`relative flex min-h-0 flex-1 items-center justify-center${
+          /* Écran en portrait (téléphone, tablette tenue droite) : une vidéo 16/9
+             n'occupe qu'un tiers de la salle, le reste faisait deux grandes bandes
+             noires. La salle se réduit alors à la vidéo et la bande du chapitre
+             remonte juste dessous, comme sur une appli vidéo. Les autres genres
+             (quiz, PDF) gardent toute la hauteur dont ils ont besoin. */
+          p.genre === "video" && !p.bilan ? " portrait:flex-none" : ""
+        }`}
         style={{
           background: FOND_SALLE,
           padding: 18,

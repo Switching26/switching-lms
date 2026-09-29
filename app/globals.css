@@ -67,6 +67,13 @@ body {
 html[data-surcouche] [data-pwa-invite] {
   display: none;
 }
+/* Même principe pour toute fenêtre modale (fiche de suivi, aperçus d'e-mails…) :
+   la modale vit dans un conteneur qui crée son propre empilement, si bien que
+   l'invitation d'installation, posée à la racine, passait PAR-DESSUS son contenu
+   (constaté le 29/09/2026 sur la fiche de suivi de l'admin partenaire). */
+body:has(.app-modal-overlay) [data-pwa-invite] {
+  display: none !important;
+}
 
 /* Brand utility classes */
 .btn-primary {

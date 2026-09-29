@@ -27,6 +27,20 @@ interface Template {
 // Espace admin partenaire : LECTURE SEULE. L'admin partenaire visualise les emails
 // automatiques envoyés à ses apprenants (rendu final à ses couleurs), sans pouvoir
 // créer, modifier, dupliquer ou tester — seul le super-admin gère les templates (07/07/2026).
+// Objet affiché dans la liste : les variables deviennent des repères lisibles
+// (« Activez votre compte [nom de la plateforme] ») au lieu de « {{plateforme_nom}} ».
+const LIBELLES_VARIABLES: Record<string, string> = {
+  plateforme_nom: "[nom de la plateforme]",
+  partenaire_nom: "[nom de l'organisme]",
+  prenom: "[prénom]",
+  nom: "[nom]",
+  formation_titre: "[formation]",
+  chapitre_titre: "[chapitre]",
+}
+function objetLisible(sujet: string) {
+  return sujet.replace(/\{\{\s*(\w+)\s*\}\}/g, (_, v: string) => LIBELLES_VARIABLES[v] ?? `[${v.replace(/_/g, " ")}]`)
+}
+
 export default function PartnerEmailsPage() {
   const [templates, setTemplates] = useState<Template[]>([])
   const [loading, setLoading] = useState(true)
@@ -90,7 +104,7 @@ export default function PartnerEmailsPage() {
                   <Badge variant={badge.variant}>{badge.label}</Badge>
                   <div className="min-w-0">
                     <p className="text-sm font-medium truncate">{t.name}</p>
-                    <p className="text-xs text-gray-400 truncate">{t.subject}</p>
+                    <p className="text-xs text-gray-400 truncate">{objetLisible(t.subject)}</p>
                   </div>
                 </div>
                 <button

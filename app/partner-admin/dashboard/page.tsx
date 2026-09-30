@@ -7,6 +7,9 @@ import { getRecentActivity } from "@/lib/data/emails"
 import KPICard from "@/components/ui/KPICard"
 import Badge from "@/components/ui/Badge"
 import { emailTypeLabel } from "@/lib/email-type-labels"
+import { Fragment } from "react"
+import Link from "next/link"
+import { prisma } from "@/lib/prisma"
 
 const emailTypeVariant: Record<string, string> = {
   ACCOUNT_CREATED: "blue",
@@ -31,6 +34,15 @@ export default async function PartnerDashboard() {
     getCompletionRate(partnerId),
     getRecentActivity(partnerId),
   ])
+  const partner = await prisma.partner.findUnique({ where: { id: partnerId }, select: { isInternal: true } })
+  const internalFormations = partner?.isInternal ? await prisma.formation.findMany({
+    where: { deletedAt: null }, orderBy: { title: "asc" },
+    select: { id: true, title: true, _count: { select: { enrollments: { where: { user: { partnerId } } } } } },
+  }) : []
+  const dashboardLicenses = partner?.isInternal
+    ? internalFormations.map((f) => ({ id: f.id, title: f.title, used: f._count.enrollments, total: null }))
+    : licenseStats.licenses.map((l) => ({ id: l.id, title: l.formation.title, used: l.usedSeats, total: l.isUnlimited ? null : l.totalSeats }))
+  const activityDay = (date: Date) => new Intl.DateTimeFormat("fr-FR", { timeZone: "Europe/Paris", weekday: "long", day: "numeric", month: "long" }).format(date)
 
   return (
     <div className="space-y-8">
@@ -39,7 +51,7 @@ export default async function PartnerDashboard() {
         <p className="text-ink-50 mt-1 text-[15px]">Suivi de vos apprenants</p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 animate-fade-in-up-delay-1">
+      <div className="lms-metrics grid grid-cols-3 animate-fade-in-up-delay-1">
         <KPICard
           label="Apprenants actifs"
           value={activeUsers}
@@ -69,7 +81,8 @@ export default async function PartnerDashboard() {
         />
       </div>
 
-      <div className="bg-white rounded-2xl border border-ink-10 p-6 shadow-sm animate-fade-in-up-delay-2">
+      <div className="lms-dashboard-columns">
+      <div className="lms-dashboard-panel animate-fade-in-up-delay-2">
         <div className="flex items-center justify-between mb-5">
           <h2 className="font-display text-lg font-semibold text-ink">Activité récente</h2>
         </div>
@@ -85,7 +98,9 @@ export default async function PartnerDashboard() {
             {recentActivity.map((log, i) => {
               const variant = emailTypeVariant[log.type] || "default"
               return (
-                <div key={log.id} className={`flex flex-col sm:flex-row sm:items-center justify-between py-3.5 gap-2 sm:gap-3 ${i > 0 ? "border-t border-ink-10" : ""}`}>
+                <Fragment key={log.id}>
+                {(i === 0 || activityDay(log.sentAt) !== activityDay(recentActivity[i - 1].sentAt)) && <h3 className="lms-activity-day">{activityDay(log.sentAt)}</h3>}
+                <div className={`flex flex-col sm:flex-row sm:items-center justify-between py-3.5 gap-2 sm:gap-3 ${i > 0 ? "border-t border-ink-10" : ""}`}>
                   <div className="flex flex-wrap items-center gap-2.5 min-w-0">
                     <Badge variant={variant}>{emailTypeLabel(log.type)}</Badge>
                     <span className="text-sm font-medium text-ink">{log.user.firstName} {log.user.lastName}</span>
@@ -94,10 +109,20 @@ export default async function PartnerDashboard() {
                     {new Date(log.sentAt).toLocaleDateString("fr-FR", { timeZone: "Europe/Paris", day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" })}
                   </span>
                 </div>
+                </Fragment>
               )
             })}
           </div>
         )}
+      </div>
+      <section className="lms-dashboard-panel">
+        <div className="flex items-baseline justify-between gap-2"><h2>Licences par formation</h2><Link className="text-xs text-brand-600" href="/partner-admin/licences">Voir les licences →</Link></div>
+        {dashboardLicenses.length === 0 ? <p className="text-sm text-ink-50">Aucune licence attribuée.</p> : dashboardLicenses.map((l) => <div className="lms-license-row" key={l.id}>
+          <h3>{l.title}</h3>
+          <p>{l.used} utilisée{l.used > 1 ? "s" : ""} · {l.total === null ? "Illimité" : `${Math.max(0, l.total - l.used)} disponible${l.total - l.used > 1 ? "s" : ""} sur ${l.total}`}</p>
+          {l.total !== null && <progress aria-label={`Utilisation des licences ${l.title}`} value={l.used} max={Math.max(l.total, 1)} />}
+        </div>)}
+      </section>
       </div>
     </div>
   )

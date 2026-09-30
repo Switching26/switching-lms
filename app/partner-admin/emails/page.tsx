@@ -95,11 +95,11 @@ export default function PartnerEmailsPage() {
       ) : templates.length === 0 ? (
         <div className="text-center text-sm text-gray-400 py-12">Aucun template disponible.</div>
       ) : (
-        <div className="space-y-3">
+        <div className="lms-email-list">
           {templates.map((t) => {
             const badge = EMAIL_TYPES[t.type] || { label: t.type, variant: "default" }
             return (
-              <div key={t.id} className="bg-white rounded-xl border border-border p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+              <div key={t.id} className="lms-email-row bg-white rounded-xl border border-border p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                 <div className="flex items-start gap-4 min-w-0">
                   <Badge variant={badge.variant}>{badge.label}</Badge>
                   <div className="min-w-0">

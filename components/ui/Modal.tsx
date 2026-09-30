@@ -1,61 +1,73 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { createPortal } from "react-dom"
+import { X } from "lucide-react"
 
-export default function Modal({
-  open,
-  onClose,
-  title,
-  children,
-  wide,
-  headerAction,
-  panel = false,
-}: {
-  open: boolean
-  onClose: () => void
-  title: string
-  children: React.ReactNode
-  /** Modale large (fiches riches en tableaux) — sm:max-w-4xl au lieu de 2xl */
-  wide?: boolean
-  /** Action affichée dans le header, à côté du titre (ex. bouton Export CSV) */
-  headerAction?: React.ReactNode
-  panel?: boolean
+/** Native dialog provides focus containment, Escape and restoration to the trigger. */
+export default function Modal({ open, onClose, title, children, wide, headerAction, panel = false }: {
+  open: boolean; onClose: () => void; title: string; children: React.ReactNode
+  wide?: boolean; headerAction?: React.ReactNode; panel?: boolean
 }) {
   const [mounted, setMounted] = useState(false)
+  const dialog = useRef<HTMLDialogElement>(null)
+  const surface = useRef<HTMLDivElement>(null)
+  const content = useRef<HTMLDivElement>(null)
   useEffect(() => setMounted(true), [])
   useEffect(() => {
-    if (!open) return
+    const node = dialog.current
+    if (!open || !node) return
+    const trigger = document.activeElement instanceof HTMLElement ? document.activeElement : null
     const previous = document.body.style.overflow
     document.body.style.overflow = "hidden"
-    return () => { document.body.style.overflow = previous }
-  }, [open])
-
-  if (!open) return null
-
-  const modal = (
-    // Centrage ADAPTATIF dans la zone libre sous la navbar (padding-top du
-    // conteneur = navbar sticky + bandeau d'impersonation éventuel, padding-bottom
-    // = marge basse garantie). Petite modale → centrée dans cette zone ; grande
-    // modale → la remplit sans jamais passer sous la barre du haut ni toucher le
-    // bas. Mobile : bottom sheet inchangé.
-    <div className={`app-modal-overlay ${panel ? "lms-panel-overlay" : ""}`}>
-      <div className="fixed inset-0 bg-black/40" onClick={onClose} />
-      <div role="dialog" aria-modal="true" aria-label={title} className={`app-modal-panel ${panel ? `lms-panel ${wide ? "lms-panel-wide" : ""}` : ""} relative flex min-h-0 flex-col bg-white sm:rounded-xl rounded-t-xl border border-border shadow-lg w-full ${wide ? "sm:max-w-4xl" : "sm:max-w-2xl"}`}>
-        <div className="flex items-center justify-between gap-3 px-5 pt-5 pb-4 sm:px-6 sm:pt-6 border-b border-border">
-          <h2 className="text-lg font-semibold min-w-0 truncate">{title}</h2>
-          <div className="flex items-center gap-2 shrink-0">
-            {headerAction}
-            <button aria-label="Fermer" onClick={onClose} className="text-gray-400 hover:text-gray-600 text-xl leading-none w-11 h-11 flex items-center justify-center shrink-0 -mr-2">&times;</button>
-          </div>
-        </div>
-        <div className="min-h-0 overflow-y-auto px-5 py-5 sm:px-6 sm:py-6">
-          {children}
-        </div>
-      </div>
+    node.showModal()
+    const containFocus = (event: KeyboardEvent) => {
+      if (event.key !== "Tab" || Array.from(document.querySelectorAll("dialog[open]")).at(-1) !== node) return
+      const controls = Array.from(node.querySelectorAll<HTMLElement>("button:not(:disabled),a[href],input:not(:disabled),select:not(:disabled),textarea:not(:disabled),[tabindex]:not([tabindex='-1'])")).filter(el => el.getClientRects().length && getComputedStyle(el).visibility !== "hidden")
+      const first = controls[0], last = controls.at(-1)
+      if (!first || !last) return
+      if (event.shiftKey && (document.activeElement === first || !node.contains(document.activeElement))) { event.preventDefault(); last.focus() }
+      else if (!event.shiftKey && (document.activeElement === last || !node.contains(document.activeElement))) { event.preventDefault(); first.focus() }
+    }
+    document.addEventListener("keydown", containFocus, true)
+    const animation = surface.current && !matchMedia("(prefers-reduced-motion: reduce)").matches
+      ? (() => {
+          const r = surface.current!.getBoundingClientRect(), t = trigger?.getBoundingClientRect()
+          const x = t ? t.left + t.width / 2 - (r.left + r.width / 2) : 0
+          const y = t ? t.top + t.height / 2 - (r.top + r.height / 2) : 24
+          return surface.current!.animate([{ opacity: 0, transform: `translate(${x * .12}px, ${y * .12}px) scale(.94)` }, { opacity: 1, transform: "translate(0, 0) scale(1)" }], { duration: 260, easing: "cubic-bezier(.22,1,.36,1)" })
+        })()
+      : null
+    return () => { document.removeEventListener("keydown", containFocus, true); animation?.cancel(); node.close(); document.body.style.overflow = previous; if (trigger?.isConnected) trigger.focus({ preventScroll: true }) }
+  }, [open, mounted])
+  useEffect(() => {
+    const node = surface.current
+    if (!open || !node || matchMedia("(prefers-reduced-motion: reduce)").matches) return
+    let previous = node.getBoundingClientRect().height
+    let moving = false, animation: Animation | undefined
+    const observer = new ResizeObserver(() => {
+      if (moving) return
+      const height = node.getBoundingClientRect().height
+      if (Math.abs(height - previous) < 2) return
+      moving = true
+      animation = node.animate([{ height: `${previous}px` }, { height: `${height}px` }], { duration: 280, easing: "cubic-bezier(.22,1,.36,1)" })
+      previous = height
+      animation.onfinish = () => { moving = false }
+    })
+    observer.observe(node)
+    return () => { observer.disconnect(); animation?.cancel() }
+  }, [open, mounted])
+  useEffect(() => {
+    if (open && content.current && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      const animation = content.current.animate([{ opacity: .45, transform: "translateY(6px)" }, { opacity: 1, transform: "translateY(0)" }], { duration: 180, easing: "ease-out" })
+      return () => animation.cancel()
+    }
+  }, [title, open])
+  if (!open || !mounted) return null
+  return createPortal(<dialog ref={dialog} className="app-modal-overlay lms-fluid-modal" aria-label={title} onCancel={e => { e.preventDefault(); onClose() }} onClick={e => { if (e.target === e.currentTarget) onClose() }}>
+    <div ref={surface} className={`app-modal-panel lms-sheet-panel ${wide ? "lms-sheet-wide" : ""} ${panel ? "lms-sheet-detail" : ""}`}>
+      <div className="lms-sheet-head"><h2>{title}</h2><div className="flex items-center gap-2">{headerAction}<button aria-label="Fermer" onClick={onClose} className="lms-icon-button"><X size={20} /></button></div></div>
+      <div ref={content} className="lms-sheet-content">{children}</div>
     </div>
-  )
-  return panel && mounted
-    ? createPortal(<div className="lms-plaquette" style={{ minHeight: 0 }}>{modal}</div>, document.body)
-    : modal
+  </dialog>, document.body)
 }

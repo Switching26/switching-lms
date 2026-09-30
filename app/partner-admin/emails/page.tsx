@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from "react"
 import Badge from "@/components/ui/Badge"
+import Modal from "@/components/ui/Modal"
+import { emailTypeLabel } from "@/lib/email-type-labels"
 
 const EMAIL_TYPES: Record<string, { label: string; variant: string }> = {
   ACCOUNT_CREATED: { label: "Création compte", variant: "blue" },
@@ -97,7 +99,7 @@ export default function PartnerEmailsPage() {
       ) : (
         <div className="lms-email-list">
           {templates.map((t) => {
-            const badge = EMAIL_TYPES[t.type] || { label: t.type, variant: "default" }
+            const badge = EMAIL_TYPES[t.type] || { label: emailTypeLabel(t.type), variant: "default" }
             return (
               <div key={t.id} className="lms-email-row bg-white rounded-xl border border-border p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                 <div className="flex items-start gap-4 min-w-0">
@@ -122,21 +124,13 @@ export default function PartnerEmailsPage() {
       )}
 
       {preview && (
-        <div className="app-modal-overlay app-modal-overlay-scroll bg-black/40" onClick={() => setPreview(null)}>
-          <div className="app-modal-panel flex flex-col bg-white rounded-xl shadow-xl w-full max-w-2xl min-h-0" onClick={(e) => e.stopPropagation()}>
-            <div className="flex shrink-0 items-center justify-between gap-3 border-b border-border px-4 py-3">
-              <div className="min-w-0">
-                <p className="text-sm font-semibold truncate">{preview.name}</p>
-                <p className="text-xs text-gray-400 truncate">Sujet : {preview.subject}</p>
-              </div>
-              <button onClick={() => setPreview(null)} aria-label="Fermer" className="w-9 h-9 shrink-0 flex items-center justify-center text-gray-400 hover:text-gray-700 text-xl leading-none">&times;</button>
-            </div>
+        <Modal open onClose={() => setPreview(null)} title={preview.name} wide>
+            <p className="text-xs text-gray-400">Sujet : {preview.subject}</p>
             <div className="shrink-0 px-4 pt-2 text-[11px] text-gray-400 text-center">Aperçu à vos couleurs (données d&apos;exemple)</div>
             <div className="min-h-0 p-2 sm:p-4 pt-2">
               <iframe srcDoc={preview.html} sandbox="" className="app-email-preview-frame w-full rounded-lg border border-border bg-white" title="Aperçu email" />
             </div>
-          </div>
-        </div>
+        </Modal>
       )}
     </div>
   )

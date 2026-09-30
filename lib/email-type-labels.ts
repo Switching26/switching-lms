@@ -15,12 +15,14 @@ const EMAIL_TYPE_LABELS: Record<string, string> = {
   FORMATION_COMPLETED: "Formation terminée",
   CHAPTER_COMPLETED: "Chapitre terminé",
   CUSTOM: "Message",
+  ASSESSMENT_INVITATION: "Invitation à une évaluation",
+  ASSESSMENT_COMPLETED: "Évaluation terminée",
 }
 
 /**
  * Renvoie le libellé FR d'un type d'email.
- * Fallback : le type tel quel s'il n'est pas mappé.
+ * Fallback : un libellé lisible pour les événements non encore mappés.
  */
 export function emailTypeLabel(type: string): string {
-  return EMAIL_TYPE_LABELS[type] ?? type
+  return EMAIL_TYPE_LABELS[type] ?? "Événement de la plateforme"
 }

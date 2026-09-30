@@ -42,6 +42,7 @@ import type { LearnerDocument } from "@/lib/learner-files"
 import { filtrerDocuments } from "@/lib/learner-files"
 import { LigneDocument } from "@/components/learner/DocumentActions"
 import PdfViewer from "@/components/learner/PdfViewer"
+import SlidingTrack from "@/components/ui/SlidingTrack"
 
 /* ═══════════ COMMANDES DU CADRAN ═══════════ */
 
@@ -229,7 +230,7 @@ export default function CadranFormation(p: Props) {
   // Le portail n'existe qu'après l'hydratation : `document` est absent au rendu
   // serveur. Même contrat que le conteneur d'atelier.
   const [monte, setMonte] = useState(false)
-  useEffect(() => { setMonte(true); if (window.innerWidth >= 768) setOnglet(p.onNote ? "notes" : "description") }, [])
+  useEffect(() => { setMonte(true); if (window.innerWidth >= 761) setOnglet(p.onNote ? "notes" : "description") }, [])
 
   /*
    * La page cesse de défiler tant que le cadran est à l'écran.
@@ -275,7 +276,7 @@ export default function CadranFormation(p: Props) {
       {/* La salle. `flex-1 min-h-0` : c'est elle qui absorbe la place restante,
           et c'est ce qui rend le débordement structurellement impossible. */}
       <div
-        className={`lms-reader-scene relative flex min-h-0 flex-1 items-center justify-center${
+        className={`lms-reader-scene ${p.bilan ? "lms-reader-scene-bilan" : p.genre === "video" ? "lms-reader-scene-video" : "lms-reader-scene-content"} relative flex min-h-0 items-center justify-center${
           /* Écran en portrait (téléphone, tablette tenue droite) : une vidéo 16/9
              n'occupe qu'un tiers de la salle, le reste faisait deux grandes bandes
              noires. La salle se réduit alors à la vidéo et la bande du chapitre
@@ -284,8 +285,6 @@ export default function CadranFormation(p: Props) {
           p.genre === "video" && !p.bilan ? " portrait:flex-none" : ""
         }`}
         style={{
-          background: FOND_SALLE,
-          padding: 18,
           /*
            * La salle CLIPPE son contenu. Ce n'est pas une précaution
            * cosmétique : sans elle, une surface plus haute que la salle
@@ -293,13 +292,11 @@ export default function CadranFormation(p: Props) {
            * de 790 px dans une salle de 624 rendait le bouton « Leçons »
            * inatteignable sans qu'aucune erreur ne soit levée.
            */
-          overflow: "hidden",
           /*
            * En aperçu admin la carte n'a pas de hauteur définie, donc `h-full`
            * de la vidéo se résoudrait à zéro : elle disparaîtrait sans lever la
            * moindre erreur. La salle se donne alors une hauteur explicite.
            */
-          ...(p.pleinCadre ? null : { height: 420 }),
         }}
         data-zone-scene=""
       >
@@ -313,12 +310,12 @@ export default function CadranFormation(p: Props) {
 
       <div className="lms-reader-band"><BandeChapitre {...p} description={null} contenu={null} /></div>
       <div className="lms-reader-details">
-        <div className="lms-reader-tabs" role="tablist" aria-label="Contenu de la leçon">
+        <SlidingTrack className="lms-reader-tabs" activeKey={onglet} label="Contenu de la leçon" role="tablist">
           <button className="lms-chapters-tab" role="tab" aria-selected={onglet === "lecons"} onClick={() => setOnglet("lecons")}>Chapitres</button>
-          {p.onNote && <button role="tab" aria-selected={onglet === "notes"} onClick={() => setOnglet("notes")}>Mes notes</button>}
+          {p.onNote && <button role="tab" aria-selected={onglet === "notes"} onClick={() => setOnglet("notes")}>Notes</button>}
           <button role="tab" aria-selected={onglet === "documents"} onClick={() => setOnglet("documents")}>Documents</button>
-          <button role="tab" aria-selected={onglet === "description"} onClick={() => setOnglet("description")}>Description</button>
-        </div>
+          <button role="tab" aria-selected={onglet === "description"} onClick={() => setOnglet("description")}>À propos</button>
+        </SlidingTrack>
         <div className="lms-reader-tab-content" role="tabpanel">
           {onglet === "lecons" && <>
             <div className="lms-reader-mobile-chapters"><Sommaire entrees={p.sommaire} courant={p.chapterId} position={p.positionCourante ?? null} onNaviguer={p.onNaviguer} /></div>
@@ -342,6 +339,36 @@ export default function CadranFormation(p: Props) {
         </div>
       </div>
 
+      <div className="lms-reader-footer">
+        <button
+          type="button"
+          data-control="cad-precedent"
+          onClick={p.precedent}
+          disabled={!p.precedent}
+          aria-label="Chapitre précédent"
+          className="inline-flex min-h-[44px] items-center justify-center gap-1.5 rounded-xl border border-border px-3.5 text-[13.5px] font-medium text-warm-600 transition-colors hover:bg-warm-50 disabled:cursor-not-allowed disabled:opacity-40 "
+        >
+          <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2} aria-hidden>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+          </svg>
+          <span >Précédent</span>
+        </button>
+        <button
+          type="button"
+          data-control="cad-suivant"
+          onClick={p.suivant}
+          disabled={!p.suivant}
+          aria-label="Chapitre suivant"
+          className="inline-flex min-h-[44px] items-center justify-center gap-1.5 rounded-xl border border-border px-3.5 text-[13.5px] font-medium text-warm-600 transition-colors hover:bg-warm-50 disabled:cursor-not-allowed disabled:opacity-40 "
+        >
+          <span >Suivant</span>
+          <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2} aria-hidden>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+          </svg>
+        </button>
+
+      </div>
+
       <PdfViewer doc={documentOuvert} onClose={() => setDocumentOuvert(null)} />
 
       {/* ── Panneaux ─────────────────────────────────────────────────────── */}
@@ -356,15 +383,7 @@ export default function CadranFormation(p: Props) {
 
       <aside
         aria-label="Toutes les leçons"
-        className={`lms-reader-sidebar ${replie ? "lms-reader-sidebar-collapsed" : ""} absolute bottom-0 left-0 flex flex-col bg-white shadow-2xl`}
-        style={{
-          top: COCKPIT,
-          width: "min(460px, 86%)",
-          zIndex: 70,
-          transform: panneau === "lecons" ? "translateX(0)" : "translateX(-101%)",
-          transition: "transform .26s cubic-bezier(.32,.72,0,1)",
-          visibility: panneau === "lecons" ? "visible" : "hidden",
-        }}
+        className={`lms-reader-sidebar ${replie ? "lms-reader-sidebar-collapsed" : ""}`}
       >
         <EnTetePanneau
           titre={p.formationTitle || "Toutes les leçons"}
@@ -466,7 +485,7 @@ export default function CadranFormation(p: Props) {
       style={{
         position: "fixed",
         top: "calc(var(--app-impersonation-offset, 0px) + var(--app-nav-height, 64px))",
-        left: 0,
+        left: "var(--app-sidebar-offset, 0px)",
         right: 0,
         bottom: 0,
         zIndex: 30,
@@ -704,12 +723,7 @@ function BandeChapitre({
   return (
     <div
       data-bandeau-chapitre=""
-      className="relative flex flex-shrink-0 flex-wrap items-center gap-x-4 gap-y-2 overflow-hidden border-t border-border px-4 py-3"
-      style={{
-        borderLeft: `4px solid ${termine ? "#059669" : n.filet}`,
-        background: termine ? "#F2FBF6" : "#fff",
-        transition: "background-color .3s ease, border-color .3s ease",
-      }}
+      className="relative flex flex-shrink-0 flex-wrap items-center gap-x-4 gap-y-2 overflow-hidden px-4 py-3"
     >
       <div className="relative flex min-w-0 flex-1 flex-col">
         <div ref={texteRef} className="min-w-0" style={{ maxHeight: "17vh", overflowY: "auto" }}>
@@ -717,12 +731,12 @@ function BandeChapitre({
             data-control="cad-badge"
             className="mb-1.5 inline-flex items-center gap-1.5 rounded-md uppercase"
             style={{
-              fontSize: 9.5,
-              fontWeight: 800,
-              letterSpacing: ".07em",
+              fontSize: 11,
+              fontWeight: 600,
+              letterSpacing: ".03em",
               padding: "4px 8px",
-              color: n.teinte,
-              background: n.fond,
+              color: "var(--lms-accent)",
+              background: "var(--lms-soft)",
             }}
           >
             <span aria-hidden>{n.icone}</span>
@@ -747,7 +761,7 @@ function BandeChapitre({
             height: 26,
             opacity: deborde ? 1 : 0,
             transition: "opacity .2s",
-            background: `linear-gradient(transparent, ${termine ? "#F2FBF6" : "#fff"})`,
+            background: "linear-gradient(transparent, var(--surface))",
           }}
         />
 
@@ -761,32 +775,6 @@ function BandeChapitre({
       </div>
 
       <div className="ml-auto flex flex-shrink-0 items-center gap-2 max-sm:w-full max-sm:pt-0.5">
-        <button
-          type="button"
-          data-control="cad-precedent"
-          onClick={precedent}
-          disabled={!precedent}
-          aria-label="Chapitre précédent"
-          className="inline-flex min-h-[44px] items-center justify-center gap-1.5 rounded-xl border border-border px-3.5 text-[13.5px] font-medium text-warm-600 transition-colors hover:bg-warm-50 disabled:cursor-not-allowed disabled:opacity-40 max-sm:w-[52px] max-sm:flex-none max-sm:px-0"
-        >
-          <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2} aria-hidden>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
-          </svg>
-          <span className="max-sm:hidden">Précédent</span>
-        </button>
-        <button
-          type="button"
-          data-control="cad-suivant"
-          onClick={suivant}
-          disabled={!suivant}
-          aria-label="Chapitre suivant"
-          className="inline-flex min-h-[44px] items-center justify-center gap-1.5 rounded-xl border border-border px-3.5 text-[13.5px] font-medium text-warm-600 transition-colors hover:bg-warm-50 disabled:cursor-not-allowed disabled:opacity-40 max-sm:w-[52px] max-sm:flex-none max-sm:px-0"
-        >
-          <span className="max-sm:hidden">Suivant</span>
-          <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2} aria-hidden>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-          </svg>
-        </button>
 
         {validation.etat === "termine" ? (
           <span
@@ -807,7 +795,7 @@ function BandeChapitre({
             data-control="cad-verrou"
             title={validation.explication}
             className="inline-flex min-h-[44px] cursor-not-allowed items-center justify-center gap-2 rounded-xl border border-dashed px-4 text-[13.5px] text-warm-500 max-sm:flex-1"
-            style={{ borderColor: "#d4cbc0", background: "#fff" }}
+            style={{ borderColor: "var(--lms-line)", background: "var(--lms-paper)" }}
           >
             <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.9} aria-hidden>
               <rect x="4.5" y="10.5" width="15" height="9.5" rx="2.2" />
@@ -822,7 +810,7 @@ function BandeChapitre({
             onClick={onTerminer}
             disabled={validation.etat === "enregistrement"}
             className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-xl px-5 text-[13.5px] font-semibold text-white transition-all active:scale-[0.98] disabled:opacity-50 max-sm:flex-1"
-            style={{ background: "var(--partner-primary, #4F46E5)" }}
+            style={{ background: "var(--lms-ink)" }}
           >
             {validation.etat === "enregistrement" ? (
               "Enregistrement…"

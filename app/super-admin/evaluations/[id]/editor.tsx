@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation"
 import { useState } from "react"
+import SlidingTrack from "@/components/ui/SlidingTrack"
 
 type QType = "QCM_SINGLE" | "QCM_MULTI" | "TEXTE" | "ECHELLE"
 
@@ -144,7 +145,7 @@ export default function AssessmentEditor({ assessment }: { assessment: Assessmen
         </div>
       )}
 
-      <div className="flex gap-1 border-b" style={{ borderColor: "rgba(17,24,39,0.08)" }}>
+      <SlidingTrack activeKey={tab} label="Détail de l’évaluation" role="tablist" className="overflow-x-auto">
         {([
           ["questions", `Questions (${questions.length})`],
           ["invitations", `Invitations (${assessment.invitations.length})`],
@@ -152,18 +153,14 @@ export default function AssessmentEditor({ assessment }: { assessment: Assessmen
         ] as const).map(([key, label]) => (
           <button
             key={key}
+            role="tab" aria-selected={tab === key}
             onClick={() => setTab(key)}
-            className="px-4 py-2.5 text-sm font-medium min-h-[44px] border-b-2 -mb-px transition-colors"
-            style={
-              tab === key
-                ? { borderColor: "#4F46E5", color: "#4F46E5" }
-                : { borderColor: "transparent", color: "rgba(17,24,39,0.55)" }
-            }
+            className="px-4 py-2.5 text-sm font-medium min-h-[44px]"
           >
             {label}
           </button>
         ))}
-      </div>
+      </SlidingTrack>
 
       {tab === "questions" && (
         <div className="space-y-4">

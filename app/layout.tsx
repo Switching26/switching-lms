@@ -1,7 +1,15 @@
 import "./globals.css"
-import "./plaquette.css"
+import "./fluid.css"
+import localFont from "next/font/local"
 import Providers from "@/components/Providers"
 import PwaInstallBanner from "@/components/PwaInstallBanner"
+
+const geist = localFont({ src: [
+  { path: "./fonts/Geist-400.woff", weight: "400" },
+  { path: "./fonts/Geist-500.woff", weight: "500" },
+  { path: "./fonts/Geist-600.woff", weight: "600" },
+  { path: "./fonts/Geist-700.woff", weight: "700" },
+], variable: "--font-geist", display: "swap" })
 
 export const metadata = {
   title: "Switching LMS",
@@ -28,15 +36,9 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="fr">
+    <html lang="fr" className={geist.variable}>
       <head>
         <meta name="theme-color" content="#18181B" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&display=swap"
-          rel="stylesheet"
-        />
       </head>
       <body>
         <Providers>{children}</Providers>

@@ -3,398 +3,108 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { signOut, useSession } from "next-auth/react"
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect } from "react"
+import { BookOpen, Building2, ChartNoAxesColumn, ChevronRight, Download, FileText, Home, KeyRound, LogOut, Mail, MessagesSquare, MoreHorizontal, Palette, RefreshCw, Settings2, ShieldCheck, StickyNote, UsersRound } from "lucide-react"
+import Modal from "@/components/ui/Modal"
+import SlidingTrack from "@/components/ui/SlidingTrack"
+import ProfileForm from "@/components/profile/ProfileForm"
 
-interface NavItem {
-  label: string
-  href: string
-}
-
-/* ─── Mapping icônes par label nav ─── */
+interface NavItem { label: string; href: string }
+type AccountUser = { id: string; firstName: string; lastName: string; email: string }
 function NavIcon({ label }: { label: string }) {
   const key = label.toLowerCase()
-  const cls = "w-4 h-4"
-  const props = { className: cls, fill: "none" as const, stroke: "currentColor", viewBox: "0 0 24 24", strokeWidth: 1.8 }
-  if (key.includes("accueil") || key.includes("dashboard"))
-    return <svg {...props}><path strokeLinecap="round" strokeLinejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
-  if (key.includes("formation") || key.includes("ma formation"))
-    return <svg {...props}><path strokeLinecap="round" strokeLinejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
-  if (key.includes("document"))
-    return <svg {...props}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
-  if (key.includes("note"))
-    return <svg {...props}><path strokeLinecap="round" strokeLinejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
-  if (key.includes("message"))
-    return <svg {...props}><path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
-  if (key.includes("email"))
-    return <svg {...props}><path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
-  if (key.includes("utilisateur"))
-    return <svg {...props}><path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
-  if (key.includes("migration"))
-    return <svg {...props}><path strokeLinecap="round" strokeLinejoin="round" d="M7 7h10m0 0-3-3m3 3-3 3M17 17H7m0 0 3 3m-3-3 3-3" /></svg>
-  if (key.includes("partenaire"))
-    return <svg {...props}><path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M7 20H2v-2a3 3 0 015.356-1.857m11.288 0a4.5 4.5 0 10-3.488-8.276M5.356 16.143a4.5 4.5 0 113.488-8.276M16 8a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
-  if (key.includes("licence"))
-    return <svg {...props}><path strokeLinecap="round" strokeLinejoin="round" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" /></svg>
-  if (key.includes("apparence"))
-    return <svg {...props}><path strokeLinecap="round" strokeLinejoin="round" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" /></svg>
-  if (key.includes("catalogue"))
-    return <svg {...props}><path strokeLinecap="round" strokeLinejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>
-  // « Mes résultats » ne matchait aucun mot-clé et retombait sur le point de
-  // repli : un cercle de 3 px de rayon, qui n'évoque ni évaluation ni score.
-  // Barres croissantes = les scores obtenus, dans le même trait que le reste.
-  if (key.includes("résultat") || key.includes("resultat"))
-    return <svg {...props}><path strokeLinecap="round" strokeLinejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>
-  return <svg {...props}><circle cx="12" cy="12" r="3" /></svg>
+  const Icon = key.includes("ensemble") || key.includes("accueil") || key === "dashboard" ? Home
+    : key.includes("utilisateur") ? UsersRound : key.includes("partenaire") ? Building2
+    : key.includes("évaluation") || key.includes("résultat") ? ChartNoAxesColumn
+    : key.includes("document") ? FileText : key.includes("note") ? StickyNote
+    : key.includes("message") ? MessagesSquare : key.includes("email") ? Mail
+    : key.includes("migration") ? RefreshCw : key.includes("licence") ? KeyRound
+    : key.includes("apparence") ? Palette : BookOpen
+  return <Icon size={20} strokeWidth={1.65} aria-hidden="true" />
 }
-
-function getRoleLabel(role?: string): string {
-  if (!role) return ""
-  if (role === "SUPER_ADMIN") return "Super Administrateur"
-  if (role === "PARTNER_ADMIN") return "Administrateur"
-  if (role === "LEARNER") return "Apprenant"
-  return role
-}
-
-function getInitials(name?: string | null, email?: string | null): string {
-  if (name && name.trim()) {
-    const parts = name.trim().split(/\s+/)
-    if (parts.length >= 2) return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase()
-    return parts[0].slice(0, 2).toUpperCase()
-  }
-  if (email) return email.slice(0, 2).toUpperCase()
-  return "?"
-}
-
-export default function TopNav({
-  brand,
-  badge,
-  items,
-  brandColor,
-  brandLogo,
-  userEmail,
-  plaquette = false,
-}: {
-  brand: string
-  badge?: string
-  items: NavItem[]
-  brandColor?: string
-  brandLogo?: string | null
-  userEmail?: string
-  plaquette?: boolean
+export default function TopNav({ brand, badge, items, brandLogo, userEmail }: {
+  brand: string; badge?: string; items: NavItem[]; brandColor?: string; brandLogo?: string | null; userEmail?: string; plaquette?: boolean
 }) {
   const pathname = usePathname()
-  const { data: session, status } = useSession()
-  const color = brandColor || "#1a1a2e"
+  const { data: session } = useSession()
   const [unreadCount, setUnreadCount] = useState(0)
-  const [menuOpen, setMenuOpen] = useState(false)
-  const [profileOpen, setProfileOpen] = useState(false)
-  const menuRef = useRef<HTMLDivElement>(null)
-  const profileRef = useRef<HTMLDivElement>(null)
-
-  const userName = (session?.user?.name as string | undefined) || undefined
-  const userRole = (session?.user?.role as string | undefined) || undefined
-  const email = userEmail || (session?.user?.email as string | undefined) || ""
-  // Avoid an avatar-initials flash: while the session is still loading, derive
-  // initials from the server-provided email prop only (a single deliberate
-  // upgrade to name-based initials once authenticated), instead of swapping
-  // between two different computed values as the session hydrates.
-  const initials = status === "loading"
-    ? getInitials(undefined, userEmail || email)
-    : getInitials(userName, email)
-  const roleLabel = getRoleLabel(userRole)
-
-  // Détection du root du rôle pour les liens dynamiques
-  const roleRoot = pathname.startsWith("/super-admin")
-    ? "/super-admin"
-    : pathname.startsWith("/partner-admin")
-      ? "/partner-admin"
-      : "/learner"
-  // Super-admin : "Mon compte" et "Paramètres" sont fusionnés sous /parametres
-  // (profil + config plateforme sur une seule page, 07/07/2026), accessibles via
-  // "Mon compte" dans le menu profil. L'apprenant et l'admin partenaire gèrent
-  // profil + mot de passe via "Mon compte" (fusion côté apprenant, 06/07/2026).
-  const accountHref = roleRoot === "/super-admin" ? `${roleRoot}/parametres` : `${roleRoot}/mon-compte`
-
-  // Items affichés (Paramètres extrait dans bouton à droite)
-  const visibleItems = items.filter((i) => !i.label.toLowerCase().includes("paramètre"))
-
+  const [moreOpen, setMoreOpen] = useState(false)
+  const [accountOpen, setAccountOpen] = useState(false)
+  const [accountPage, setAccountPage] = useState<"menu" | "profile" | "password">("menu")
+  const [accountUser, setAccountUser] = useState<AccountUser | null>(null)
+  const [accountError, setAccountError] = useState("")
+  const [installAllowed, setInstallAllowed] = useState(true)
+  const roleRoot = pathname.startsWith("/super-admin") ? "/super-admin" : pathname.startsWith("/partner-admin") ? "/partner-admin" : "/learner"
+  const superAdmin = roleRoot === "/super-admin", learner = roleRoot === "/learner"
+  const roleLabel = superAdmin ? "Super admin" : learner ? "Apprenant" : "Administrateur"
+  const email = session?.user?.email || userEmail || "", name = session?.user?.name || email
+  const initials = name.trim().split(/\s+/).map(p => p[0]).slice(0, 2).join("").toUpperCase()
+  const home = `${roleRoot}/${learner ? "accueil" : "dashboard"}`
+  const all = items.filter(i => !i.href.endsWith("/parametres")).map(i => ({ ...i, label: i.label === "Dashboard" ? "Vue d’ensemble" : i.label === "Migration" ? "Migration Rise Up" : i.label }))
+  const paths = superAdmin ? ["dashboard", "utilisateurs", "partenaires", "formations"] : learner ? ["accueil", "resultats", "documents", "messages"] : ["dashboard", "utilisateurs", "licences", "messages"]
+  const primary = paths.map(path => all.find(i => i.href === `${roleRoot}/${path}`)).filter((i): i is NavItem => !!i)
+  const secondary = all.filter(i => !primary.some(p => p.href === i.href))
+  const isActive = (href: string) => pathname === href || pathname.startsWith(href + "/") || learner && href === home && pathname.startsWith("/learner/formation")
+  const moreActive = secondary.some(i => isActive(i.href))
   useEffect(() => {
-    const fetchCount = async () => {
-      try {
-        const res = await fetch("/api/messages/unread-count")
-        const data = await res.json()
-        setUnreadCount(data.count || 0)
-      } catch {}
-    }
-    fetchCount()
-    const interval = setInterval(fetchCount, 3000)
-    return () => clearInterval(interval)
+    let active = true
+    const count = async () => { try { const r = await fetch("/api/messages/unread-count"); if (r.ok && active) setUnreadCount((await r.json()).count || 0) } catch {} }
+    count(); const timer = setInterval(count, 3000)
+    return () => { active = false; clearInterval(timer) }
   }, [])
-
-  useEffect(() => { setMenuOpen(false); setProfileOpen(false) }, [pathname])
-
   useEffect(() => {
-    if (!profileOpen) return
-    const handleClick = (e: MouseEvent) => {
-      if (profileRef.current && !profileRef.current.contains(e.target as Node)) setProfileOpen(false)
+    setMoreOpen(false); setAccountOpen(false)
+    const main = document.querySelector(".lms-main")
+    if (main && !matchMedia("(prefers-reduced-motion: reduce)").matches) main.animate([{ opacity: .6 }, { opacity: 1 }], { duration: 180, easing: "ease-out" })
+  }, [pathname])
+  useEffect(() => {
+    setInstallAllowed(!matchMedia("(display-mode: standalone)").matches && !(navigator as Navigator & { standalone?: boolean }).standalone)
+    const root = document.documentElement
+    const sync = () => {
+      const desktop = innerWidth >= 761
+      root.style.setProperty("--app-nav-height", desktop ? "84px" : "72px")
+      const compactWorkspace = root.dataset.lmsWorkspace === "simulation" && innerWidth <= 1100
+      root.style.setProperty("--app-sidebar-offset", desktop ? (compactWorkspace ? innerWidth <= 850 ? "0px" : "104px" : innerWidth <= 1100 ? "230px" : "268px") : "0px")
+      root.style.setProperty("--app-bottom-offset", desktop ? "0px" : "calc(98px + env(safe-area-inset-bottom))")
     }
-    document.addEventListener("mousedown", handleClick)
-    return () => document.removeEventListener("mousedown", handleClick)
-  }, [profileOpen])
-
-  useEffect(() => {
-    if (!menuOpen) return
-    const handleClick = (e: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(e.target as Node)) setMenuOpen(false)
-    }
-    document.addEventListener("mousedown", handleClick)
-    return () => document.removeEventListener("mousedown", handleClick)
-  }, [menuOpen])
-
-  useEffect(() => {
-    if (menuOpen) document.body.style.overflow = "hidden"
-    else document.body.style.overflow = ""
-    return () => { document.body.style.overflow = "" }
-  }, [menuOpen])
-
-  const dashboardHref = pathname.startsWith("/partner-admin")
-    ? "/partner-admin/dashboard"
-    : pathname.startsWith("/super-admin")
-      ? "/super-admin/dashboard"
-      : "/learner/accueil"
-
-  return (
-    <>
-      {plaquette && <nav className="lms-bottom-nav" aria-label="Navigation mobile">
-        {visibleItems.slice(0, 5).map((item) => <Link key={item.href} href={item.href} aria-current={pathname === item.href || pathname.startsWith(item.href + "/") ? "page" : undefined}>
-          <NavIcon label={item.label} /><span>{item.label}</span>
-          {item.label.toLowerCase().includes("message") && unreadCount > 0 && <b className="lms-unread">{unreadCount}</b>}
-        </Link>)}
-      </nav>}
-      <nav className={`${plaquette ? "lms-top-nav" : "glass-card"} sticky top-0 z-40 border-b`} style={{ borderBottomColor: `${color}12`, top: "var(--app-impersonation-offset, 0px)" }}>
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
-          {/* GAUCHE : Logo + badge + items */}
-          <div className="flex items-center gap-5 lg:gap-8">
-            <Link href={dashboardHref} className="flex items-center gap-2 group">
-              {brandLogo ? (
-                <img
-                  src={brandLogo}
-                  alt={brand || ""}
-                  style={{ height: "34px", width: "auto", objectFit: "contain" }}
-                  className="transition-transform group-hover:scale-[1.02] max-w-[120px] sm:max-w-[160px]"
-                />
-              ) : (
-                <span className="font-display text-lg font-semibold tracking-tight" style={{ color }}>
-                  {brand}
-                </span>
-              )}
-            </Link>
-            {badge && (
-              <span
-                className="text-[10px] px-2 py-0.5 rounded-md font-semibold tracking-wide uppercase hidden md:inline-block whitespace-nowrap"
-                style={{ backgroundColor: `${color}10`, color, border: `1px solid ${color}20` }}
-              >
-                {badge}
-              </span>
-            )}
-            <div className="lms-nav-links hidden lg:flex items-center gap-0.5 ml-1">
-              {visibleItems.map((item) => {
-                const active = pathname === item.href || pathname.startsWith(item.href + "/")
-                const isMessages = item.label.toLowerCase().includes("message")
-                return (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    aria-label={item.label}
-                    aria-current={active ? "page" : undefined}
-                    title={item.label}
-                    className={`relative flex items-center gap-1.5 px-2.5 xl:px-3 py-2 rounded-lg text-[13px] font-medium transition-all duration-200 ${
-                      active
-                        ? "text-white shadow-sm"
-                        : "text-ink-70 hover:text-ink hover:bg-ink-10/40"
-                    }`}
-                    style={active ? { backgroundColor: color } : undefined}
-                  >
-                    <NavIcon label={item.label} />
-                    <span className="hidden xl:inline">{item.label}</span>
-                    {isMessages && unreadCount > 0 && (
-                      <span className="absolute -top-1 -right-1 min-w-[18px] h-[18px] flex items-center justify-center rounded-full bg-rose-500 text-white text-[10px] font-bold px-1 shadow-sm">
-                        {unreadCount}
-                      </span>
-                    )}
-                  </Link>
-                )
-              })}
-            </div>
-          </div>
-
-          {/* DROITE : Avatar dropdown + Burger mobile */}
-          <div className="flex items-center gap-2">
-            {/* Avatar profil + dropdown (desktop) */}
-            <div ref={profileRef} className="hidden lg:block relative">
-              <button
-                onClick={() => setProfileOpen(!profileOpen)}
-                className="flex items-center gap-2 px-1.5 py-1 rounded-full hover:bg-ink-10/40 transition-colors group"
-                aria-label="Mon profil"
-              >
-                <div
-                  className="w-9 h-9 rounded-full flex items-center justify-center text-white font-semibold text-[12px] shadow-sm"
-                  style={{ backgroundColor: color }}
-                >
-                  {initials}
-                </div>
-                <svg className={`w-3.5 h-3.5 text-ink-50 transition-transform ${profileOpen ? "rotate-180" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
-              {profileOpen && (
-                <div className="absolute right-0 mt-2 w-72 bg-white rounded-xl shadow-xl border border-ink-10 overflow-hidden z-50 animate-fade-in">
-                  {/* Header dropdown */}
-                  <div className="px-4 py-3.5 border-b border-ink-10 flex items-center gap-3" style={{ background: `${color}06` }}>
-                    <div
-                      className="w-11 h-11 rounded-full flex items-center justify-center text-white font-semibold text-[13px] flex-shrink-0"
-                      style={{ backgroundColor: color }}
-                    >
-                      {initials}
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <p className="text-sm font-semibold text-ink truncate">{userName || email}</p>
-                      <p className="text-[11px] text-ink-50 truncate">{roleLabel}</p>
-                    </div>
-                  </div>
-                  {/* Items */}
-                  <div className="py-1.5">
-                    <Link
-                      href={accountHref}
-                      className="flex items-center gap-3 px-4 py-2.5 text-[13px] text-ink-70 hover:bg-ink-10/30 hover:text-ink transition-colors"
-                      onClick={() => setProfileOpen(false)}
-                    >
-                      <svg className="w-4 h-4 text-ink-50" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.8}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                      </svg>
-                      Mon compte
-                    </Link>
-                  </div>
-                  <div className="border-t border-ink-10 py-1.5">
-                    <button
-                      onClick={() => signOut({ callbackUrl: "/login" })}
-                      className="w-full flex items-center gap-3 px-4 py-2.5 text-[13px] text-rose-600 hover:bg-rose-50 transition-colors"
-                    >
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.8}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" />
-                      </svg>
-                      Déconnexion
-                    </button>
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* Burger mobile */}
-            <button
-              onClick={() => setMenuOpen(!menuOpen)}
-              className="lg:hidden flex items-center justify-center w-10 h-10 rounded-xl hover:bg-ink-10/40 transition-colors"
-              aria-label="Menu"
-            >
-              <svg className="w-5 h-5 text-ink-70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                {menuOpen ? (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                ) : (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                )}
-              </svg>
-            </button>
-          </div>
-        </div>
-      </nav>
-
-      {/* Drawer mobile */}
-      {menuOpen && (
-        <div className="fixed inset-0 z-50 lg:hidden" style={{ top: "var(--app-impersonation-offset, 0px)" }}>
-          <div className="fixed inset-0 bg-black/20 backdrop-blur-sm" style={{ top: "var(--app-impersonation-offset, 0px)" }} onClick={() => setMenuOpen(false)} />
-          <div
-            ref={menuRef}
-            className="fixed right-0 top-0 bottom-0 w-full max-w-[85vw] sm:max-w-[320px] bg-white shadow-2xl flex flex-col"
-            style={{ borderLeft: `3px solid ${color}`, top: "var(--app-impersonation-offset, 0px)" }}
-          >
-            {/* Header mobile : avatar + nom */}
-            <div className="px-5 py-4 border-b border-ink-10 flex items-center gap-3" style={{ background: `${color}06` }}>
-              <div
-                className="w-11 h-11 rounded-full flex items-center justify-center text-white font-semibold text-[13px] flex-shrink-0"
-                style={{ backgroundColor: color }}
-              >
-                {initials}
-              </div>
-              <div className="min-w-0 flex-1">
-                <p className="text-sm font-semibold text-ink truncate">{userName || email}</p>
-                <p className="text-[11px] text-ink-50 truncate">{roleLabel}</p>
-              </div>
-              <button
-                onClick={() => setMenuOpen(false)}
-                className="w-9 h-9 flex items-center justify-center rounded-lg hover:bg-ink-10/30 flex-shrink-0"
-                aria-label="Fermer"
-              >
-                <svg className="w-5 h-5 text-ink-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-            </div>
-            {/* Items mobile */}
-            <div className="flex-1 overflow-y-auto py-3 px-3">
-              {visibleItems.map((item) => {
-                const active = pathname === item.href || pathname.startsWith(item.href + "/")
-                const isMessages = item.label.toLowerCase().includes("message")
-                return (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    onClick={() => setMenuOpen(false)}
-                    className={`flex items-center gap-3 px-3 py-3 rounded-xl text-sm transition-all mb-0.5 ${
-                      active
-                        ? "font-semibold text-white"
-                        : "text-ink-70 hover:bg-ink-10/30"
-                    }`}
-                    style={active ? { backgroundColor: color } : undefined}
-                  >
-                    <NavIcon label={item.label} />
-                    <span className="flex-1">{item.label}</span>
-                    {isMessages && unreadCount > 0 && (
-                      <span className="min-w-[22px] h-[22px] flex items-center justify-center rounded-full bg-rose-500 text-white text-xs font-bold px-1.5">
-                        {unreadCount}
-                      </span>
-                    )}
-                  </Link>
-                )
-              })}
-              {/* Mon compte + Paramètres mobile */}
-              <div className="border-t border-ink-10 mt-3 pt-3">
-                <Link
-                  href={accountHref}
-                  onClick={() => setMenuOpen(false)}
-                  className="flex items-center gap-3 px-3 py-3 rounded-xl text-sm text-ink-70 hover:bg-ink-10/30 mb-0.5"
-                >
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.8}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                  </svg>
-                  Mon compte
-                </Link>
-              </div>
-            </div>
-            {/* Déconnexion mobile */}
-            <div className="border-t border-ink-10 p-4">
-              <button
-                onClick={() => signOut({ callbackUrl: "/login" })}
-                className="w-full py-2.5 text-sm font-medium text-rose-600 bg-rose-50 rounded-xl hover:bg-rose-100 transition-colors flex items-center justify-center gap-2"
-              >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.8}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" />
-                </svg>
-                Déconnexion
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-    </>
-  )
+    sync(); window.addEventListener("resize", sync); window.addEventListener("lms-workspace-change", sync)
+    return () => { window.removeEventListener("resize", sync); window.removeEventListener("lms-workspace-change", sync); ["--app-nav-height", "--app-sidebar-offset", "--app-bottom-offset"].forEach(key => root.style.removeProperty(key)) }
+  }, [])
+  const openAccount = async () => {
+    setAccountPage("menu"); setAccountUser(null); setAccountOpen(true); setAccountError("")
+    try { const r = await fetch("/api/user/profile"); if (!r.ok) throw Error("Votre profil n’a pas pu être chargé."); setAccountUser(await r.json()) }
+    catch (e) { setAccountError(e instanceof Error ? e.message : "Votre profil n’a pas pu être chargé.") }
+  }
+  const identity = <span className="lms-avatar">{initials || "?"}</span>
+  const brandLock = <Link href={home} className="lms-brand-lock" aria-label={`${brand}, accueil`}>
+    {brandLogo ? <span className="lms-real-brand"><img src={brandLogo} alt={brand} /><small>{superAdmin ? badge || "Administration" : learner ? "Espace formation" : "Espace administration"}</small></span> : <><span className="lms-brand-mark"><BookOpen size={22} /></span><span><strong>{brand}</strong><small>{superAdmin ? badge || "Administration" : learner ? "Espace formation" : "Espace administration"}</small></span></>}
+  </Link>
+  const itemLink = (item: NavItem, mobile = false) => <Link key={item.href} href={item.href} aria-label={item.label} aria-current={isActive(item.href) && !(mobile && moreOpen) ? "page" : undefined}>
+    <NavIcon label={item.label} /><span>{mobile ? item.href === home ? "Accueil" : item.label.replace(/^Mes /, "") : item.label}</span>
+    {item.label === "Messages" && unreadCount > 0 && <b className="lms-unread">{unreadCount}</b>}
+  </Link>
+  return <>
+    <aside className="lms-side">{brandLock}<span className="lms-side-label">{learner ? "MON ESPACE" : "GESTION"}</span>
+      <nav className="lms-side-links" aria-label="Navigation principale ordinateur"><SlidingTrack className="lms-side-track" label="Destinations" activeKey={pathname} gesture={false}>{all.map(i => itemLink(i))}</SlidingTrack></nav>
+      <button className="lms-side-account" onClick={openAccount} aria-label="Réglages de mon compte">{identity}<span className="lms-account-name"><strong>{name}</strong><small>{roleLabel}</small></span><Settings2 size={18} /></button>
+    </aside>
+    <header className="lms-top-nav"><div className="lms-mobile-brand">{brandLock}</div><div className="lms-crumb">{brand}<ChevronRight size={14} /><span>{all.find(i => isActive(i.href))?.label || "Mon compte"}</span></div><button className="lms-top-account" onClick={openAccount} aria-label="Réglages de mon compte">{identity}</button></header>
+    <nav className="lms-bottom-nav" aria-label="Navigation mobile"><SlidingTrack className="lms-dock-track" activeKey={pathname + String(moreOpen)} label="Destinations principales">
+      {primary.map(i => itemLink(i, true))}<button onClick={() => setMoreOpen(true)} aria-current={moreActive || moreOpen ? "page" : undefined} aria-label="Plus"><MoreHorizontal size={22} /><span>Plus</span></button>
+    </SlidingTrack></nav>
+    <Modal open={moreOpen} onClose={() => setMoreOpen(false)} title="Plus"><div className="lms-menu-list">{secondary.map(i => <Link key={i.href} href={i.href} className="lms-menu-row"><NavIcon label={i.label} /><span>{i.label}</span><ChevronRight size={16} /></Link>)}</div></Modal>
+    <Modal open={accountOpen} onClose={() => setAccountOpen(false)} title={accountPage === "menu" ? "Mon compte" : accountPage === "profile" ? "Informations personnelles" : "Mot de passe"}>
+      <div hidden={accountPage !== "menu"}><div className="lms-account-person">{identity}<span><h2>{name}</h2><p>{roleLabel} · {brand}</p></span></div>
+        <button className="lms-menu-row" onClick={() => setAccountPage("profile")}><UsersRound size={20} /><span><strong>Informations personnelles</strong><small>Nom et coordonnées</small></span><ChevronRight size={16} /></button>
+        <button className="lms-menu-row" onClick={() => setAccountPage("password")}><ShieldCheck size={20} /><span><strong>Mot de passe</strong><small>Sécurité de votre compte</small></span><ChevronRight size={16} /></button>
+        {superAdmin && <Link className="lms-menu-row" href="/super-admin/parametres"><Settings2 size={20} /><span><strong>Paramètres de la plateforme</strong><small>Configuration générale du LMS</small></span><ChevronRight size={16} /></Link>}
+        {installAllowed && <button className="lms-menu-row" onClick={() => { setAccountOpen(false); window.dispatchEvent(new Event("lms-open-install")) }}><Download size={20} /><span><strong>Installer l’application</strong><small>Ajouter cet espace à votre appareil</small></span><ChevronRight size={16} /></button>}
+        <button className="lms-menu-row lms-danger" onClick={() => signOut({ callbackUrl: "/login" })}><LogOut size={20} /><span>Se déconnecter</span></button>
+      </div>
+      <div hidden={accountPage === "menu"}><button className="lms-back-button" onClick={() => setAccountPage("menu")}>← Mon compte</button>
+        {accountError && <p role="alert">{accountError}</p>}{!accountUser && !accountError && <p role="status">Chargement du profil…</p>}
+        {accountUser && <ProfileForm user={accountUser} section={accountPage === "password" ? "password" : "profile"} />}
+      </div>
+    </Modal>
+  </>
 }

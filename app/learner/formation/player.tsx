@@ -685,7 +685,7 @@ export default function FormationPlayer({
         suivant={nextChapter ? () => handleSelectChapter(nextChapter) : undefined}
         bilan={
           toutTermine ? (
-            <div className="flex flex-wrap items-center gap-3 rounded-2xl border border-emerald-200 bg-white/95 p-3 shadow-lg backdrop-blur">
+            <div className="lms-formation-bilan flex flex-wrap items-center gap-3 rounded-2xl border border-emerald-200 bg-white/95 p-3 shadow-lg backdrop-blur">
               <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-emerald-50">
                 <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="#059669" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
                   <path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 01-10 0V4zM7 6H4v1a3 3 0 003 3M17 6h3v1a3 3 0 01-3 3" />
@@ -747,7 +747,7 @@ export default function FormationPlayer({
         {kind === "exercise" && active && (
           <div
             className="max-h-full w-full max-w-[760px] overflow-y-auto rounded-2xl bg-white p-5 sm:p-6"
-            style={{ boxShadow: "0 22px 60px rgba(0,0,0,.5)" }}
+            style={{ boxShadow: "none" }}
           >
             <div className="mb-4 flex items-start gap-3">
               <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-amber-100 text-amber-700">
@@ -779,7 +779,7 @@ export default function FormationPlayer({
         {kind === "pdf" && pdfActif && (
           <div
             className="flex h-full w-full flex-col overflow-hidden rounded-xl bg-white"
-            style={{ boxShadow: "0 22px 60px rgba(0,0,0,.5)" }}
+            style={{ boxShadow: "none" }}
           >
             <div className="flex flex-shrink-0 items-center justify-between gap-3 border-b border-border bg-surface-subtle px-4 py-2.5">
               <div className="flex min-w-0 items-center gap-3">
@@ -828,7 +828,7 @@ export default function FormationPlayer({
         {kind === "text" && (
           <div
             className="max-h-full w-full max-w-[720px] overflow-y-auto rounded-2xl bg-white p-6 sm:p-8"
-            style={{ boxShadow: "0 22px 60px rgba(0,0,0,.5)" }}
+            style={{ boxShadow: "none" }}
           >
             {active?.content ? (
               <div className="whitespace-pre-wrap text-[13.5px] leading-relaxed text-warm-700">{active.content}</div>

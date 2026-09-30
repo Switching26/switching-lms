@@ -3,6 +3,7 @@
 import { useState, useRef, useCallback, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import Badge from "@/components/ui/Badge"
+import SlidingTrack from "@/components/ui/SlidingTrack"
 
 /* ═══════════ TYPES ═══════════ */
 
@@ -939,24 +940,22 @@ function ChapterPanel({
       </div>
 
       {/* Tabs */}
-      <div className="flex border-b border-border">
+      <SlidingTrack activeKey={activeTab} label="Contenu du chapitre" role="tablist">
         <button
+          role="tab" aria-selected={activeTab === "contenu"}
           onClick={() => setActiveTab("contenu")}
-          className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${
-            activeTab === "contenu" ? "border-primary text-primary" : "border-transparent text-gray-400 hover:text-gray-600"
-          }`}
+          className="px-4 py-2 text-sm font-medium"
         >
           Contenu
         </button>
         <button
+          role="tab" aria-selected={activeTab === "exercices"}
           onClick={() => setActiveTab("exercices")}
-          className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${
-            activeTab === "exercices" ? "border-primary text-primary" : "border-transparent text-gray-400 hover:text-gray-600"
-          }`}
+          className="px-4 py-2 text-sm font-medium"
         >
           Exercices
         </button>
-      </div>
+      </SlidingTrack>
 
       {activeTab === "contenu" ? (
         <>

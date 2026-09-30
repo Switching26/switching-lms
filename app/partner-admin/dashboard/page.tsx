@@ -5,21 +5,10 @@ import { getPartnerLicenseStats } from "@/lib/data/licenses"
 import { getCompletionRate } from "@/lib/data/progress"
 import { getRecentActivity } from "@/lib/data/emails"
 import KPICard from "@/components/ui/KPICard"
-import Badge from "@/components/ui/Badge"
-import { emailTypeLabel } from "@/lib/email-type-labels"
-import { Fragment } from "react"
+import ActivityFeed from "@/components/ui/ActivityFeed"
+import { Plus, ChevronRight, UsersRound } from "lucide-react"
 import Link from "next/link"
 import { prisma } from "@/lib/prisma"
-
-const emailTypeVariant: Record<string, string> = {
-  ACCOUNT_CREATED: "blue",
-  FORMATION_ASSIGNED: "success",
-  CHAPTER_COMPLETED: "purple",
-  FORMATION_COMPLETED: "warning",
-  ACTIVATION_LINK: "blue",
-  PASSWORD_RESET: "error",
-  LOGIN_LINK: "blue",
-}
 
 export default async function PartnerDashboard() {
   const session = await auth()
@@ -42,79 +31,25 @@ export default async function PartnerDashboard() {
   const dashboardLicenses = partner?.isInternal
     ? internalFormations.map((f) => ({ id: f.id, title: f.title, used: f._count.enrollments, total: null }))
     : licenseStats.licenses.map((l) => ({ id: l.id, title: l.formation.title, used: l.usedSeats, total: l.isUnlimited ? null : l.totalSeats }))
-  const activityDay = (date: Date) => new Intl.DateTimeFormat("fr-FR", { timeZone: "Europe/Paris", weekday: "long", day: "numeric", month: "long" }).format(date)
+  const totalLearners = await prisma.user.count({ where: { partnerId, role: "LEARNER", archivedAt: null } })
+  const invited = await prisma.user.count({ where: { partnerId, role: "LEARNER", archivedAt: null, isActive: false } })
+  const monthStart = new Date(); monthStart.setUTCDate(1); monthStart.setUTCHours(0, 0, 0, 0)
+  const newLearners = await prisma.user.count({ where: { partnerId, role: "LEARNER", archivedAt: null, createdAt: { gte: monthStart } } })
 
   return (
     <div className="space-y-8">
-      <div className="animate-fade-in-up">
-        <h1 className="font-display text-3xl font-semibold text-ink tracking-tight">Dashboard</h1>
-        <p className="text-ink-50 mt-1 text-[15px]">Suivi de vos apprenants</p>
+      <div className="lms-page-heading"><div><p className="lms-page-date">{new Intl.DateTimeFormat("fr-FR", { timeZone: "Europe/Paris", weekday: "long", day: "numeric", month: "long" }).format(new Date())}</p><h1>Vue d’ensemble</h1><p className="text-ink-50 mt-3 text-[15px]">Votre activité, en un coup d’œil.</p></div><Link className="lms-primary lms-create-shortcut" href="/partner-admin/utilisateurs?creer=1" aria-label="Nouvel utilisateur"><Plus size={19} /><span>Nouvel utilisateur</span></Link></div>
+      <div className="lms-metrics grid grid-cols-2 lg:grid-cols-4">
+        <KPICard label="Apprenants" value={totalLearners} sub={`${activeUsers} actifs`} />
+        <KPICard label="Nouveaux inscrits" value={newLearners} sub="Ce mois-ci" />
+        <KPICard label="Formations" value={dashboardLicenses.length} sub={partner?.isInternal ? "Catalogue interne" : "Sous licence"} />
+        <KPICard label="Licences restantes" value={partner?.isInternal || licenseStats.hasUnlimited ? "Illimité" : Math.max(0, licenseStats.totalSeats - licenseStats.usedSeats)} sub={`${licenseStats.usedSeats} utilisées`} />
       </div>
-
-      <div className="lms-metrics grid grid-cols-3 animate-fade-in-up-delay-1">
-        <KPICard
-          label="Apprenants actifs"
-          value={activeUsers}
-          icon={
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" />
-            </svg>
-          }
-        />
-        <KPICard
-          label="Licences utilisées"
-          value={licenseStats.hasUnlimited ? `${licenseStats.usedSeats}/Illimité` : `${licenseStats.usedSeats}/${licenseStats.totalSeats}`}
-          icon={
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 5.25a3 3 0 013 3m3 0a6 6 0 01-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1121.75 8.25z" />
-            </svg>
-          }
-        />
-        <KPICard
-          label="Taux de complétion"
-          value={`${completionRate}%`}
-          icon={
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" />
-            </svg>
-          }
-        />
-      </div>
+      <p className="text-xs text-ink-50">Taux de complétion : {completionRate}%</p>
 
       <div className="lms-dashboard-columns">
-      <div className="lms-dashboard-panel animate-fade-in-up-delay-2">
-        <div className="flex items-center justify-between mb-5">
-          <h2 className="font-display text-lg font-semibold text-ink">Activité récente</h2>
-        </div>
-        {recentActivity.length === 0 ? (
-          <div className="text-center py-8">
-            <svg className="w-10 h-10 text-ink-30 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            <p className="text-sm text-ink-50">Aucune activité récente</p>
-          </div>
-        ) : (
-          <div className="space-y-0">
-            {recentActivity.map((log, i) => {
-              const variant = emailTypeVariant[log.type] || "default"
-              return (
-                <Fragment key={log.id}>
-                {(i === 0 || activityDay(log.sentAt) !== activityDay(recentActivity[i - 1].sentAt)) && <h3 className="lms-activity-day">{activityDay(log.sentAt)}</h3>}
-                <div className={`flex flex-col sm:flex-row sm:items-center justify-between py-3.5 gap-2 sm:gap-3 ${i > 0 ? "border-t border-ink-10" : ""}`}>
-                  <div className="flex flex-wrap items-center gap-2.5 min-w-0">
-                    <Badge variant={variant}>{emailTypeLabel(log.type)}</Badge>
-                    <span className="text-sm font-medium text-ink">{log.user.firstName} {log.user.lastName}</span>
-                  </div>
-                  <span className="text-xs text-ink-50 shrink-0 font-medium tabular-nums">
-                    {new Date(log.sentAt).toLocaleDateString("fr-FR", { timeZone: "Europe/Paris", day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" })}
-                  </span>
-                </div>
-                </Fragment>
-              )
-            })}
-          </div>
-        )}
-      </div>
+      <section className="lms-dashboard-panel lms-dashboard-activity"><h2>Activité récente</h2><ActivityFeed activities={recentActivity} /></section>
+      <div className="lms-dashboard-aside space-y-5">
       <section className="lms-dashboard-panel">
         <div className="flex items-baseline justify-between gap-2"><h2>Licences par formation</h2><Link className="text-xs text-brand-600" href="/partner-admin/licences">Voir les licences →</Link></div>
         {dashboardLicenses.length === 0 ? <p className="text-sm text-ink-50">Aucune licence attribuée.</p> : dashboardLicenses.map((l) => <div className="lms-license-row" key={l.id}>
@@ -123,6 +58,8 @@ export default async function PartnerDashboard() {
           {l.total !== null && <progress aria-label={`Utilisation des licences ${l.title}`} value={l.used} max={Math.max(l.total, 1)} />}
         </div>)}
       </section>
+      <section className="lms-dashboard-panel flex items-start gap-4"><span className="lms-avatar"><UsersRound size={21} /></span><div><h3 className="font-semibold text-[16px]">{invited} compte{invited !== 1 ? "s" : ""} invité{invited !== 1 ? "s" : ""} / inactif{invited !== 1 ? "s" : ""}</h3><p className="text-xs text-ink-50 mt-2 leading-relaxed">Retrouvez les accès qui attendent leur activation.</p><Link className="lms-text-link mt-3" href="/partner-admin/utilisateurs?statut=inactive">Voir les apprenants <ChevronRight size={17} /></Link></div></section>
+      </div>
       </div>
     </div>
   )

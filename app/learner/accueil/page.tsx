@@ -44,6 +44,7 @@ export default async function LearnerAccueil() {
       completed,
       total,
       pct,
+      started: progressList.some((p) => chapters.some((c: { id: string }) => c.id === p.chapterId) && (p.lastAccessedAt || p.completedAt || p.timeSpentSeconds > 0 || p.lastPosition > 0)),
       expired: !!(e.expiresAt && new Date(e.expiresAt) < now),
     }
   })
@@ -97,20 +98,13 @@ export default async function LearnerAccueil() {
           {resumeFormation.formation.coverImageUrl ? <img src={resumeFormation.formation.coverImageUrl} alt="" /> : <span>{initials(resumeFormation.formation.title)}</span>}
         </div>
         <div className="lms-resume-body">
-          <span className="lms-eyebrow">Reprendre</span>
+          <span className="lms-eyebrow">CONTINUER MA FORMATION</span>
           <h2>{resumeFormation.formation.title}</h2>
           <p>{lastLesson.chapter.title}</p>
-          <p>{resumeFormation.completed} / {resumeFormation.total} chapitres terminés · {resumeFormation.pct}%</p>
+          <div className="w-full max-w-[300px]"><div className="progress-bar mb-2"><div className="progress-bar-fill" style={{ width: `${resumeFormation.pct}%` }} /></div><p>{resumeFormation.completed} / {resumeFormation.total} chapitres terminés · {resumeFormation.pct}%</p></div>
           <Link className="lms-primary" href={`/learner/formation?id=${resumeFormation.formation.id}&chapitre=${lastLesson.chapterId}`}>Continuer la leçon <span aria-hidden>→</span></Link>
         </div>
       </section>}
-
-      {/* Stats line */}
-      <div className="lms-metrics animate-fade-in-up-delay-1 grid grid-cols-3">
-        <StatCard label="Formations" value={actives.length} accent="brand" />
-        <StatCard label="Chapitres terminés" value={totalCompleted} accent="emerald" />
-        <StatCard label="Total chapitres" value={totalChapters} accent="ink" />
-      </div>
 
       {/* Formations grid */}
       <section className="animate-fade-in-up-delay-2">
@@ -120,7 +114,7 @@ export default async function LearnerAccueil() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {formationStats.map(({ formation, completed, total, pct, enrollment, expired }) => (
+          {formationStats.map(({ formation, completed, total, pct, started, enrollment, expired }) => (
             <Link
               key={formation.id}
               href={`/learner/formation?id=${formation.id}`}
@@ -158,12 +152,12 @@ export default async function LearnerAccueil() {
 
                 <div className="mt-auto">
                   <div className="progress-bar mb-3">
-                    <div className="progress-bar-fill" style={{ width: `${Math.max(pct, 2)}%` }} />
+                    <div className="progress-bar-fill" style={{ width: `${pct}%` }} />
                   </div>
                   <div className="flex items-center justify-between text-xs text-ink-50">
                     <span className="tabular-nums">{completed} / {total} chapitres</span>
                     <span className={`font-semibold group-hover:translate-x-0.5 transition-transform ${expired ? "text-red-600" : "text-brand-600"}`}>
-                      {expired ? "Accès expiré" : pct === 0 ? "Commencer →" : pct >= 100 ? "Revoir →" : "Reprendre →"}
+                      {expired ? "Accès expiré" : pct >= 100 ? "Revoir →" : started ? "Reprendre →" : "Commencer →"}
                     </span>
                   </div>
                 </div>
@@ -181,6 +175,11 @@ export default async function LearnerAccueil() {
           ))}
         </div>
       </section>
+      <div className="lms-metrics grid grid-cols-3">
+        <StatCard label="Formations" value={actives.length} accent="brand" />
+        <StatCard label="Chapitres terminés" value={totalCompleted} accent="emerald" />
+        <StatCard label="Total chapitres" value={totalChapters} accent="ink" />
+      </div>
     </div>
   )
 }

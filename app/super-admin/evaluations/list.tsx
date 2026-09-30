@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation"
 import { useState } from "react"
+import Modal from "@/components/ui/Modal"
 
 interface Assessment {
   id: string
@@ -121,9 +122,7 @@ export default function AssessmentsList({
       )}
 
       {creating && (
-        <div className="app-modal-overlay" onClick={() => !busy && setCreating(false)}>
-          <div className="app-modal-panel max-w-[480px] w-full p-6" onClick={(e) => e.stopPropagation()}>
-            <h2 className="font-display text-lg font-semibold text-ink mb-4">Nouvelle évaluation</h2>
+        <Modal open onClose={() => { if (!busy) setCreating(false) }} title="Nouvelle évaluation">
             {error && (
               <div className="text-sm text-red-700 bg-red-50 border border-red-100 rounded-xl px-4 py-3 mb-4">
                 {error}
@@ -175,8 +174,7 @@ export default function AssessmentsList({
                 {busy ? "Création…" : "Créer"}
               </button>
             </div>
-          </div>
-        </div>
+        </Modal>
       )}
     </div>
   )

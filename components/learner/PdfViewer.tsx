@@ -141,11 +141,11 @@ export default function PdfViewer({
   const meta = [type, taille].filter(Boolean).join(" · ")
 
   return createPortal(
-    <div className="fixed inset-0 z-[70] flex items-center justify-center p-3 sm:p-6">
+    <div className="lms-document-overlay fixed inset-0 z-[70] flex items-center justify-center p-3 sm:p-6">
       <div
         role="presentation"
         onClick={fermer}
-        className="absolute inset-0 bg-[rgba(8,17,14,.72)]"
+        className="lms-document-backdrop absolute inset-0"
         aria-hidden
       />
       <div
@@ -155,13 +155,13 @@ export default function PdfViewer({
         aria-labelledby="visionneuse-titre"
         tabIndex={-1}
         data-visionneuse
-        className="relative flex h-full max-h-[92dvh] w-full max-w-[880px] flex-col overflow-hidden rounded-2xl bg-white shadow-2xl outline-none"
+        className="lms-document-panel relative flex h-full max-h-[92dvh] w-full max-w-[880px] flex-col overflow-hidden rounded-2xl bg-white shadow-2xl outline-none"
       >
         <div className="flex flex-shrink-0 items-center gap-2.5 border-b border-border bg-warm-50 px-3 py-2.5">
           <span
             aria-hidden
-            className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg text-[9.5px] font-extrabold"
-            style={{ background: "#eaf4ee", color: "#107C41" }}
+            className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg text-[11px] font-semibold"
+            style={{ background: "var(--lms-soft)", color: "var(--lms-accent)" }}
           >
             {type && type.length <= 4 ? type : "DOC"}
           </span>

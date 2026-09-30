@@ -1,5 +1,6 @@
 "use client"
 
+import { Eye, Pencil, Settings2 } from "lucide-react"
 import { useState, useRef } from "react"
 import { useRouter } from "next/navigation"
 import Badge from "@/components/ui/Badge"
@@ -333,10 +334,10 @@ export default function PartnersTable({
               </div>
               <div className="flex gap-2 pt-1">
                 {admin && (
-                  <button onClick={() => handleImpersonate(admin.id)} className="flex-1 py-2 text-xs bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors" style={{ minHeight: 44 }}>👁 Espace admin</button>
+                  <button onClick={() => handleImpersonate(admin.id)} className="flex-1 py-2 text-xs bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors" style={{ minHeight: 44 }}><Eye size={16} className="inline mr-1" aria-hidden="true" />Espace admin</button>
                 )}
-                <button onClick={() => openEdit(p)} className="flex-1 py-2 text-xs bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors" style={{ minHeight: 44 }}>✏️ Modifier</button>
-                <button onClick={() => openLicenses(p)} className="flex-1 py-2 text-xs bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors" style={{ minHeight: 44 }}>⚙️ Licences</button>
+                <button onClick={() => openEdit(p)} className="flex-1 py-2 text-xs bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors" style={{ minHeight: 44 }}><Pencil size={16} className="inline mr-1" aria-hidden="true" />Modifier</button>
+                <button onClick={() => openLicenses(p)} className="flex-1 py-2 text-xs bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors" style={{ minHeight: 44 }}><Settings2 size={16} className="inline mr-1" aria-hidden="true" />Licences</button>
               </div>
             </div>
           )
@@ -404,10 +405,10 @@ export default function PartnersTable({
                   <td className="px-4 py-3">
                     <div className="flex gap-3">
                       {admin && (
-                        <button onClick={() => handleImpersonate(admin.id)} className="text-sm text-gray-400 hover:text-orange-500" title="Accéder à l'espace admin">{"👁"}</button>
+                        <button onClick={() => handleImpersonate(admin.id)} className="text-sm text-gray-400 hover:text-orange-500" title="Accéder à l'espace admin"><Eye size={18} aria-hidden="true" /></button>
                       )}
-                      <button onClick={() => openEdit(p)} className="text-sm text-gray-400 hover:text-primary" title="Modifier">✏️</button>
-                      <button onClick={() => openLicenses(p)} className="text-sm text-gray-400 hover:text-primary" title="Licences">⚙️</button>
+                      <button onClick={() => openEdit(p)} className="text-sm text-gray-400 hover:text-primary" title="Modifier"><Pencil size={18} aria-hidden="true" /></button>
+                      <button onClick={() => openLicenses(p)} className="text-sm text-gray-400 hover:text-primary" title="Licences"><Settings2 size={18} aria-hidden="true" /></button>
                     </div>
                   </td>
                 </tr>

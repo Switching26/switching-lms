@@ -53,8 +53,8 @@ const config: Config = {
         },
       },
       fontFamily: {
-        sans: ["DM Sans", "ui-sans-serif", "system-ui", "sans-serif"],
-        display: ["Fraunces", "Georgia", "serif"],
+        sans: ["var(--font-geist)", "system-ui", "sans-serif"],
+        display: ["var(--font-geist)", "system-ui", "sans-serif"],
       },
       borderRadius: {
         xl: "0.875rem",

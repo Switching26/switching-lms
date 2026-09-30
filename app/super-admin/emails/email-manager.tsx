@@ -2,6 +2,9 @@
 
 import { useState, useEffect, useRef } from "react"
 import Badge from "@/components/ui/Badge"
+import SlidingTrack from "@/components/ui/SlidingTrack"
+import Modal from "@/components/ui/Modal"
+import { emailTypeLabel } from "@/lib/email-type-labels"
 import { TEMPLATE_VARIABLES } from "@/lib/email-template-engine"
 
 const EMAIL_TYPES = [
@@ -202,20 +205,22 @@ export default function EmailManager({ logs }: { logs: Log[] }) {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <h1 className="text-xl font-semibold">Emails</h1>
-        <div className="flex gap-2">
+        <SlidingTrack activeKey={tab} label="Vue des emails" role="tablist">
           <button
+            role="tab" aria-selected={tab === "templates"}
             onClick={() => setTab("templates")}
-            className={`px-4 py-2 text-sm rounded-lg transition-colors ${tab === "templates" ? "bg-black text-white" : "bg-gray-100 hover:bg-gray-200"}`}
+            className="px-4 py-2 text-sm"
           >
             Templates
           </button>
           <button
+            role="tab" aria-selected={tab === "logs"}
             onClick={() => setTab("logs")}
-            className={`px-4 py-2 text-sm rounded-lg transition-colors ${tab === "logs" ? "bg-black text-white" : "bg-gray-100 hover:bg-gray-200"}`}
+            className="px-4 py-2 text-sm"
           >
             Logs
           </button>
-        </div>
+        </SlidingTrack>
       </div>
 
       {message && (
@@ -380,7 +385,7 @@ export default function EmailManager({ logs }: { logs: Log[] }) {
               ) : (
                 <div className="space-y-3">
                   {templates.map((t) => {
-                    const badge = emailTypeBadge[t.type] || { label: t.type, variant: "default" }
+                    const badge = emailTypeBadge[t.type] || { label: emailTypeLabel(t.type), variant: "default" }
                     return (
                       <div key={t.id} className="bg-white rounded-xl border border-border p-4 sm:p-5 space-y-3 sm:space-y-0 sm:flex sm:items-center sm:justify-between">
                         <div className="flex flex-wrap items-center gap-2 sm:gap-4 min-w-0">
@@ -422,7 +427,7 @@ export default function EmailManager({ logs }: { logs: Log[] }) {
             </thead>
             <tbody>
               {logs.map((log) => {
-                const badge = emailTypeBadge[log.type] || { label: log.type, variant: "default" }
+                const badge = emailTypeBadge[log.type] || { label: emailTypeLabel(log.type), variant: "default" }
                 return (
                   <tr key={log.id} className="border-b border-gray-50 hover:bg-gray-50 transition-colors">
                     <td className="px-4 py-3">
@@ -465,21 +470,13 @@ export default function EmailManager({ logs }: { logs: Log[] }) {
       )}
 
       {previewTpl && (
-        <div className="app-modal-overlay app-modal-overlay-scroll bg-black/40" onClick={() => setPreviewTpl(null)}>
-          <div className="app-modal-panel flex flex-col bg-white rounded-xl shadow-xl w-full max-w-2xl min-h-0" onClick={(e) => e.stopPropagation()}>
-            <div className="flex shrink-0 items-center justify-between gap-3 border-b border-border px-4 py-3">
-              <div className="min-w-0">
-                <p className="text-sm font-semibold truncate">{previewTpl.name}</p>
-                <p className="text-xs text-gray-400 truncate">Sujet : {renderFinalHtml(previewTpl.subject)}</p>
-              </div>
-              <button onClick={() => setPreviewTpl(null)} aria-label="Fermer" className="w-9 h-9 shrink-0 flex items-center justify-center text-gray-400 hover:text-gray-700 text-xl leading-none">&times;</button>
-            </div>
+        <Modal open onClose={() => setPreviewTpl(null)} title={previewTpl.name} wide>
+            <p className="text-xs text-gray-400">Sujet : {renderFinalHtml(previewTpl.subject)}</p>
             <div className="shrink-0 px-4 pt-2 text-[11px] text-gray-400 text-center">Aperçu du rendu final (données d&apos;exemple)</div>
             <div className="min-h-0 p-2 sm:p-4 pt-2">
               <iframe srcDoc={renderFinalHtml(previewTpl.htmlContent)} sandbox="" className="app-email-preview-frame w-full rounded-lg border border-border bg-white" title="Aperçu email" />
             </div>
-          </div>
-        </div>
+        </Modal>
       )}
     </div>
   )

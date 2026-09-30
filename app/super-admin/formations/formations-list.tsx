@@ -3,6 +3,8 @@
 import { useState } from "react"
 import Link from "next/link"
 import Badge from "@/components/ui/Badge"
+import SlidingTrack from "@/components/ui/SlidingTrack"
+import Modal from "@/components/ui/Modal"
 
 interface FormationItem {
   id: string
@@ -90,24 +92,22 @@ export default function FormationsList({ formations }: { formations: FormationIt
       </div>
 
       {/* Tabs */}
-      <div className="flex border-b border-border">
+      <SlidingTrack activeKey={tab} label="État des formations" role="tablist">
         <button
+          role="tab" aria-selected={tab === "active"}
           onClick={() => setTab("active")}
-          className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${
-            tab === "active" ? "border-primary text-primary" : "border-transparent text-gray-400 hover:text-gray-600"
-          }`}
+          className="px-4 py-2 text-sm font-medium"
         >
           Actives ({active.length})
         </button>
         <button
+          role="tab" aria-selected={tab === "trash"}
           onClick={() => setTab("trash")}
-          className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${
-            tab === "trash" ? "border-primary text-primary" : "border-transparent text-gray-400 hover:text-gray-600"
-          }`}
+          className="px-4 py-2 text-sm font-medium"
         >
           Corbeille ({trashed.length})
         </button>
-      </div>
+      </SlidingTrack>
 
       {/* List */}
       <div className="bg-white rounded-xl border border-border overflow-hidden">
@@ -227,11 +227,10 @@ export default function FormationsList({ formations }: { formations: FormationIt
 
       {/* Modal */}
       {modal && (
-        <div className="app-modal-overlay bg-black/40">
-          <div className="app-modal-panel bg-white rounded-xl border border-border p-6 max-w-md w-full mx-4 space-y-4 overflow-y-auto">
+        <Modal open onClose={() => { if (!loading) setModal(null) }} title={modal.type === "soft" ? "Supprimer la formation" : "Suppression définitive"}>
+          <div className="space-y-4">
             {modal.type === "soft" ? (
               <>
-                <h3 className="text-base font-semibold">Supprimer la formation</h3>
                 <p className="text-sm text-gray-600">
                   Êtes-vous sûr de vouloir supprimer <strong>{modal.formation.title}</strong> ?
                   La formation sera placée dans la corbeille.
@@ -254,7 +253,6 @@ export default function FormationsList({ formations }: { formations: FormationIt
               </>
             ) : (
               <>
-                <h3 className="text-base font-semibold text-red-600">Suppression définitive</h3>
                 <p className="text-sm text-gray-600">
                   Cette action est irréversible. La formation <strong>{modal.formation.title}</strong> et
                   tous ses chapitres seront supprimés définitivement.
@@ -277,7 +275,7 @@ export default function FormationsList({ formations }: { formations: FormationIt
               </>
             )}
           </div>
-        </div>
+        </Modal>
       )}
     </div>
   )

@@ -1,9 +1,10 @@
 "use client"
 
 import { useState, useEffect, useRef, Fragment } from "react"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import Badge from "@/components/ui/Badge"
 import Modal from "@/components/ui/Modal"
+import SlidingTrack from "@/components/ui/SlidingTrack"
 
 interface User {
   id: string
@@ -117,14 +118,23 @@ export default function UsersTable({
   const [users, setUsers] = useState(initialUsers)
   // « Tous » par défaut : sur « Actifs », les invités qui n'avaient jamais activé leur
   // compte n'apparaissaient pas, et personne ne voyait qu'ils étaient bloqués.
-  const [statusFilter, setStatusFilter] = useState<StatusFilter>("all")
+  const searchParams = useSearchParams()
+  const [statusFilter, setStatusFilter] = useState<StatusFilter>(searchParams.get("statut") === "inactive" ? "inactive" : "all")
   const [orgFilter, setOrgFilter] = useState<"all" | "internal" | "partner">("all")
   const [message, setMessage] = useState("")
   const [modalMessage, setModalMessage] = useState("")
   const [search, setSearch] = useState("")
+  const [compactColumns, setCompactColumns] = useState(false)
+  useEffect(() => {
+    const query = matchMedia("(min-width:761px) and (max-width:1100px)")
+    const sync = () => setCompactColumns(query.matches)
+    sync(); query.addEventListener("change", sync)
+    return () => query.removeEventListener("change", sync)
+  }, [])
 
   // Modal states
-  const [createOpen, setCreateOpen] = useState(false)
+  const [createOpen, setCreateOpen] = useState(searchParams.get("creer") === "1")
+  const [createStep, setCreateStep] = useState(1)
   const [editModal, setEditModal] = useState<User | null>(null)
   const [passwordModal, setPasswordModal] = useState<string | null>(null)
   const [progressModal, setProgressModal] = useState<string | null>(null)
@@ -191,29 +201,7 @@ export default function UsersTable({
   const [newExpiresAt, setNewExpiresAt] = useState("")
   const [newAssignFormation, setNewAssignFormation] = useState(true)
 
-  // Actions dropdown
-  // Two separate refs: the mobile card (.lg:hidden) and the desktop table
-  // (.hidden.lg:block) are BOTH mounted in the DOM at once — only `display`
-  // differs by breakpoint. A single shared ref bound to both containers of the
-  // same row ends up pointing at the last-rendered one (desktop), so on mobile
-  // the outside-click handler saw the tap on "Modifier" as OUTSIDE the menu and
-  // closed it on mousedown before the click reached openEdit() → modale never
-  // opened. Keeping one ref per variant fixes the mobile edit flow.
   const [openMenuId, setOpenMenuId] = useState<string | null>(null)
-  const mobileMenuRef = useRef<HTMLDivElement>(null)
-  const desktopMenuRef = useRef<HTMLDivElement>(null)
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      const target = e.target as Node
-      const insideMobile = mobileMenuRef.current?.contains(target)
-      const insideDesktop = desktopMenuRef.current?.contains(target)
-      if (!insideMobile && !insideDesktop) {
-        setOpenMenuId(null)
-      }
-    }
-    document.addEventListener("mousedown", handleClickOutside)
-    return () => document.removeEventListener("mousedown", handleClickOutside)
-  }, [])
 
   // Filter users
   const filtered = users.filter((u) => {
@@ -256,7 +244,7 @@ export default function UsersTable({
   // Compteurs par groupe de rôle (pour les en-têtes de section du tableau)
   const roleGroupCounts: Record<string, number> = { SUPER_ADMIN: 0, PARTNER_ADMIN: 0, LEARNER: 0 }
   filtered.forEach((u) => { if (u.role in roleGroupCounts) roleGroupCounts[u.role]++ })
-  const colCount = isPartnerAdmin ? 5 : 8
+  const colCount = isPartnerAdmin || compactColumns ? 5 : 8
 
   const flash = (msg: string) => {
     setMessage(msg)
@@ -844,36 +832,34 @@ export default function UsersTable({
       {/* ═══ STATUS FILTERS ═══ */}
       <div className="space-y-3 mb-4">
         <div className="flex flex-wrap items-center gap-3">
-          <div className="flex gap-1 bg-gray-100 rounded-lg p-1 overflow-x-auto">
+          <SlidingTrack className="lms-user-filters overflow-x-auto" activeKey={statusFilter} label="Statut des utilisateurs">
             {(["all", "active", "inactive", ...(isPartnerAdmin ? [] : ["archived"])] as StatusFilter[]).map((f) => (
               <button
                 key={f}
                 onClick={() => setStatusFilter(f)}
-                className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors whitespace-nowrap ${
-                  statusFilter === f ? "bg-white shadow-sm text-black" : "text-gray-500 hover:text-gray-700"
-                }`}
+                aria-selected={statusFilter === f}
+                className="px-3 py-1.5 text-sm font-medium whitespace-nowrap"
               >
-                {f === "all" ? "Tous" : f === "active" ? "Actifs" : f === "inactive" ? "Inactifs" : "Archivés"}
+                {f === "all" ? "Tous" : f === "active" ? "Actifs" : f === "inactive" ? "Invités / Inactifs" : "Archivés"}
                 {" "}
                 <span className="text-xs text-gray-400">({statusCounts[f]})</span>
               </button>
             ))}
-          </div>
+          </SlidingTrack>
 
           {!isPartnerAdmin && (
-            <div className="flex gap-1 bg-gray-100 rounded-lg p-1">
+            <SlidingTrack activeKey={orgFilter} label="Organisme des utilisateurs">
               {(["all", "internal", "partner"] as const).map((f) => (
                 <button
                   key={f}
                   onClick={() => setOrgFilter(f)}
-                  className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors whitespace-nowrap ${
-                    orgFilter === f ? "bg-white shadow-sm text-black" : "text-gray-500 hover:text-gray-700"
-                  }`}
+                  aria-selected={orgFilter === f}
+                  className="px-3 py-1.5 text-sm font-medium whitespace-nowrap"
                 >
                   {f === "all" ? "Tous" : f === "internal" ? "Internes" : "Partenaires"}
                 </button>
               ))}
-            </div>
+            </SlidingTrack>
           )}
         </div>
 
@@ -906,7 +892,7 @@ export default function UsersTable({
             )}
           </div>
           <button
-            onClick={() => { setModalMessage(""); setCreateOpen(true) }}
+            onClick={() => { setModalMessage(""); setCreateStep(1); setCreateOpen(true) }}
             className="px-4 py-2 bg-primary text-white text-sm rounded-lg hover:opacity-90 transition-opacity whitespace-nowrap shrink-0"
             style={{ minHeight: 44 }}
           >
@@ -916,7 +902,7 @@ export default function UsersTable({
       </div>
 
       {/* ═══ MOBILE CARDS ═══ */}
-      <div className="lg:hidden space-y-3">
+      <div className="lms-user-cards space-y-3">
         {filtered.map((u, i) => {
           const showGroup = i === 0 || filtered[i - 1].role !== u.role
           return (
@@ -931,7 +917,7 @@ export default function UsersTable({
             <div className="flex items-start justify-between">
               <div className="min-w-0">
                 <div className="flex items-center gap-2 flex-wrap">
-                  <span className="text-sm font-medium">{u.firstName} {u.lastName}</span>
+                  <button type="button" onClick={() => openProgress(u.id)} className="lms-person-link text-sm font-medium text-left"><span className="lms-avatar" aria-hidden="true">{u.firstName[0]}{u.lastName[0]}</span><span>{u.firstName} {u.lastName}</span></button>
                   {u.role === "PARTNER_ADMIN" && <Badge variant="blue">Admin</Badge>}
                   {u.role === "SUPER_ADMIN" && <Badge variant="error">Super Admin</Badge>}
                   {!isPartnerAdmin && u.partner && <Badge variant="purple">{u.partner.name}</Badge>}
@@ -952,7 +938,7 @@ export default function UsersTable({
                 </button>
               )}
             </div>
-            <div className="flex items-start gap-3 text-xs text-gray-500">
+            <div hidden={u.role !== "LEARNER" && u.enrollments.length === 0} className="flex items-start gap-3 text-xs text-gray-500">
               {u.enrollments.length === 0 ? (
                 <span>Aucune formation</span>
               ) : (
@@ -970,65 +956,7 @@ export default function UsersTable({
                 <span className="inline-block px-2 py-0.5 bg-gray-100 text-gray-600 rounded-md font-medium shrink-0">{u.reference}</span>
               )}
             </div>
-            <div className="pt-2 border-t border-gray-50">
-              {isArchived(u) ? (
-                <div className="flex gap-2">
-                  <button onClick={() => handleRestore(u)} className="flex-1 py-2 text-xs bg-gray-100 hover:bg-green-50 hover:text-green-600 rounded-lg transition-colors" style={{ minHeight: 44 }}>
-                    Restaurer
-                  </button>
-                  {!isPartnerAdmin && (
-                    <button onClick={() => setDeleteModal(u)} className="flex-1 py-2 text-xs bg-red-50 text-red-600 hover:bg-red-100 rounded-lg transition-colors" style={{ minHeight: 44 }}>
-                      Supprimer
-                    </button>
-                  )}
-                </div>
-              ) : (
-                <div className="relative flex justify-end" ref={openMenuId === u.id ? mobileMenuRef : undefined}>
-                  <button
-                    onClick={() => setOpenMenuId(openMenuId === u.id ? null : u.id)}
-                    className="w-11 h-11 flex items-center justify-center rounded-lg hover:bg-gray-100 transition-colors text-gray-500 hover:text-gray-800"
-                    aria-label="Actions"
-                  >
-                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                      <circle cx="12" cy="5" r="1.8"/>
-                      <circle cx="12" cy="12" r="1.8"/>
-                      <circle cx="12" cy="19" r="1.8"/>
-                    </svg>
-                  </button>
-                  {openMenuId === u.id && (
-                    <div className="max-h-[80dvh] overflow-y-auto" style={{ position: "fixed", left: 16, right: 16, bottom: 16, background: "white", border: "0.5px solid #E5E5E5", borderRadius: 12, boxShadow: "0 -4px 24px rgba(0,0,0,0.15)", zIndex: 50 }}>
-                      <div className="px-4 py-2 border-b border-gray-100 flex items-center justify-between">
-                        <span className="text-sm font-medium">{u.firstName} {u.lastName}</span>
-                        <button onClick={() => setOpenMenuId(null)} aria-label="Fermer" className="w-11 h-11 -mr-2 flex items-center justify-center text-gray-400 hover:text-gray-600 text-xl leading-none">&times;</button>
-                      </div>
-                      {canViewSpace(u) && (
-                        <button onClick={() => { setOpenMenuId(null); handleImpersonate(u.id) }} className="w-full flex items-center gap-3 text-left px-4 py-3 text-sm text-primary font-medium hover:bg-gray-50 transition-colors"><span className="w-4 h-4 flex items-center justify-center shrink-0"><span className="w-2 h-2 rounded-full bg-primary" /></span>Voir l&apos;espace</button>
-                      )}
-                      <button onClick={() => { setOpenMenuId(null); openEdit(u) }} className="w-full flex items-center gap-3 text-left px-4 py-3 text-sm hover:bg-gray-50 transition-colors">{IconEdit}Modifier</button>
-                      <button onClick={() => { setOpenMenuId(null); openPasswordModal(u.id) }} className="w-full flex items-center gap-3 text-left px-4 py-3 text-sm hover:bg-gray-50 transition-colors">{IconKey}Changer mot de passe</button>
-                      <button onClick={() => { setOpenMenuId(null); openCurrentPasswordModal(u) }} className="w-full flex items-center gap-3 text-left px-4 py-3 text-sm hover:bg-gray-50 transition-colors">{IconEye}Voir le mot de passe actuel</button>
-                      {u.isActive && !u.archivedAt && !neverLoggedIn(u) && (
-                        <button onClick={() => { setOpenMenuId(null); openResetModal(u) }} className="w-full flex items-center gap-3 text-left px-4 py-3 text-sm hover:bg-gray-50 transition-colors">{IconReset}Envoyer réinitialisation</button>
-                      )}
-                      {canSendLoginLink(u) && (
-                        <button onClick={() => { setOpenMenuId(null); openLoginLinkModal(u) }} className="w-full flex items-center gap-3 text-left px-4 py-3 text-sm hover:bg-gray-50 transition-colors">{IconSend}Envoyer lien de connexion</button>
-                      )}
-                      <button onClick={() => { setOpenMenuId(null); openProgress(u.id) }} className="w-full flex items-center gap-3 text-left px-4 py-3 text-sm hover:bg-gray-50 transition-colors">{IconChart}Suivi</button>
-                      <button onClick={() => { setOpenMenuId(null); setModalMessage(""); setAssignModal(u.id); setAssignFormationId(""); setAssignStarts(dateInputValue()); setAssignExpires("") }} className="w-full flex items-center gap-3 text-left px-4 py-3 text-sm hover:bg-gray-50 transition-colors">{IconAssign}Attribuer formation</button>
-                      {neverLoggedIn(u) && !u.archivedAt && u.role !== "SUPER_ADMIN" && (
-                        <button onClick={() => { setOpenMenuId(null); handleResendActivation(u) }} disabled={resending === u.id} className="w-full flex items-center gap-3 text-left px-4 py-3 text-sm hover:bg-gray-50 transition-colors disabled:opacity-50">{IconSend}{resending === u.id ? "Envoi..." : "Renvoyer activation"}</button>
-                      )}
-                      {u.role !== "SUPER_ADMIN" && (
-                        <>
-                          <div className="border-t border-gray-100 my-1" />
-                          <button onClick={() => { setOpenMenuId(null); setArchiveModal(u) }} className="w-full flex items-center gap-3 text-left px-4 py-3 text-sm text-red-600 hover:bg-red-50 transition-colors">{IconArchive}Archiver</button>
-                        </>
-                      )}
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
+            <div className="lms-user-actions"><button type="button" onClick={() => setOpenMenuId(u.id)} className="w-11 h-11 flex items-center justify-center rounded-lg hover:bg-gray-100 text-gray-500" aria-label="Actions"><svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="5" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="12" cy="19" r="1.8"/></svg></button></div>
           </div>
           </Fragment>
           )
@@ -1041,7 +969,7 @@ export default function UsersTable({
       </div>
 
       {/* ═══ DESKTOP TABLE ═══ */}
-      <div className="hidden lg:block bg-white rounded-xl border border-border" style={{ overflow: "visible" }}>
+      <div className="lms-user-table bg-white rounded-xl border border-border" data-partner={isPartnerAdmin ? "true" : "false"} style={{ overflow: "visible" }}>
         <table className="w-full">
           <thead>
             <tr className="border-b border-border">
@@ -1052,7 +980,7 @@ export default function UsersTable({
               {!isPartnerAdmin && <th className="text-left text-xs font-medium text-gray-500 px-4 py-3">Appartenance</th>}
               <th className="text-left text-xs font-medium text-gray-500 px-4 py-3">Formation</th>
               <th className="text-left text-xs font-medium text-gray-500 px-4 py-3">Statut</th>
-              <th className="text-left text-xs font-medium text-gray-500 px-4 py-3">Actions</th>
+              <th className="text-left text-xs font-medium text-gray-500 px-4 py-3"><span className="sr-only">Actions</span><span aria-hidden="true">···</span></th>
             </tr>
           </thead>
           <tbody>
@@ -1072,8 +1000,9 @@ export default function UsersTable({
                 )}
               <tr className={`border-b border-gray-50 hover:bg-gray-50 transition-colors ${isArchived(u) ? "opacity-60" : ""}`}>
                 <td className="px-4 py-3">
-                  <span className="text-sm font-medium">{u.firstName} {u.lastName}</span>
+                  <button type="button" onClick={() => openProgress(u.id)} className="lms-person-link text-sm font-medium text-left"><span className="lms-avatar" aria-hidden="true">{u.firstName[0]}{u.lastName[0]}</span><span>{u.firstName} {u.lastName}</span></button>
                   {isPartnerAdmin && <><span className="lms-user-email">{u.email}</span>{u.reference && <span className="text-xs text-gray-500">Réf. {u.reference}</span>}</>}
+                  {!isPartnerAdmin && <span className="lms-user-compact-meta"><span className="lms-user-email">{u.email}</span>{u.partner?.name || "Interne"}{u.reference && ` · Réf. ${u.reference}`}</span>}
                 </td>
                 <td className="px-4 py-3">
                   {u.role === "SUPER_ADMIN" ? (
@@ -1106,7 +1035,7 @@ export default function UsersTable({
                     <span className="text-gray-300">—</span>
                   ) : (
                     <div className="space-y-0.5">
-                      <div className="flex items-center gap-2">
+                      <div className="lms-formation-cell">
                         <span className="font-medium text-gray-700">{u.enrollments.length} formation{u.enrollments.length > 1 ? "s" : ""}</span>
                         <button type="button" onClick={() => setFormationsModal(u)} className="text-primary text-xs hover:underline">Voir plus</button>
                       </div>
@@ -1132,61 +1061,7 @@ export default function UsersTable({
                     </button>
                   )}
                 </td>
-                <td className="px-4 py-3" style={{ position: "relative", overflow: "visible" }}>
-                  {isArchived(u) ? (
-                    <div className="flex gap-1.5">
-                      <button onClick={() => handleRestore(u)} className="px-2 py-1 text-xs bg-gray-100 hover:bg-green-50 hover:text-green-600 rounded transition-colors">
-                        Restaurer
-                      </button>
-                      {!isPartnerAdmin && (
-                        <button onClick={() => setDeleteModal(u)} className="px-2 py-1 text-xs bg-red-50 text-red-600 hover:bg-red-100 rounded transition-colors">
-                          Supprimer
-                        </button>
-                      )}
-                    </div>
-                  ) : (
-                    <div className="relative flex justify-end" ref={openMenuId === u.id ? desktopMenuRef : undefined}>
-                      <button
-                        onClick={() => setOpenMenuId(openMenuId === u.id ? null : u.id)}
-                        className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 transition-colors text-gray-500 hover:text-gray-800"
-                        aria-label="Actions"
-                      >
-                        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                          <circle cx="12" cy="5" r="1.8"/>
-                          <circle cx="12" cy="12" r="1.8"/>
-                          <circle cx="12" cy="19" r="1.8"/>
-                        </svg>
-                      </button>
-                      {openMenuId === u.id && (
-                        <div style={{ position: "absolute", right: 0, top: "100%", marginTop: 4, background: "white", border: "0.5px solid #E5E5E5", borderRadius: 8, boxShadow: "0 4px 12px rgba(0,0,0,0.1)", zIndex: 50, minWidth: 250, overflow: "hidden" }}>
-                          {canViewSpace(u) && (
-                            <button onClick={() => { setOpenMenuId(null); handleImpersonate(u.id) }} className="w-full flex items-center gap-3 text-left px-4 py-2 text-sm text-primary font-medium hover:bg-gray-50 transition-colors"><span className="w-4 h-4 flex items-center justify-center shrink-0"><span className="w-2 h-2 rounded-full bg-primary" /></span>Voir l&apos;espace</button>
-                          )}
-                          <button onClick={() => { setOpenMenuId(null); openEdit(u) }} className="w-full flex items-center gap-3 text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors">{IconEdit}Modifier</button>
-                          <button onClick={() => { setOpenMenuId(null); openPasswordModal(u.id) }} className="w-full flex items-center gap-3 text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors">{IconKey}Changer mot de passe</button>
-                          <button onClick={() => { setOpenMenuId(null); openCurrentPasswordModal(u) }} className="w-full flex items-center gap-3 text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors">{IconEye}Voir le mot de passe actuel</button>
-                          {u.isActive && !u.archivedAt && !neverLoggedIn(u) && (
-                            <button onClick={() => { setOpenMenuId(null); openResetModal(u) }} className="w-full flex items-center gap-3 text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors">{IconReset}Envoyer réinitialisation</button>
-                          )}
-                          {canSendLoginLink(u) && (
-                            <button onClick={() => { setOpenMenuId(null); openLoginLinkModal(u) }} className="w-full flex items-center gap-3 text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors">{IconSend}Envoyer lien de connexion</button>
-                          )}
-                          <button onClick={() => { setOpenMenuId(null); openProgress(u.id) }} className="w-full flex items-center gap-3 text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors">{IconChart}Suivi</button>
-                          <button onClick={() => { setOpenMenuId(null); setModalMessage(""); setAssignModal(u.id); setAssignFormationId(""); setAssignStarts(dateInputValue()); setAssignExpires("") }} className="w-full flex items-center gap-3 text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors">{IconAssign}Attribuer formation</button>
-                          {neverLoggedIn(u) && !u.archivedAt && u.role !== "SUPER_ADMIN" && (
-                            <button onClick={() => { setOpenMenuId(null); handleResendActivation(u) }} disabled={resending === u.id} className="w-full flex items-center gap-3 text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors disabled:opacity-50">{IconSend}{resending === u.id ? "Envoi..." : "Renvoyer activation"}</button>
-                          )}
-                          {u.role !== "SUPER_ADMIN" && (
-                            <>
-                              <div className="border-t border-gray-100 my-1" />
-                              <button onClick={() => { setOpenMenuId(null); setArchiveModal(u) }} className="w-full flex items-center gap-3 text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors">{IconArchive}Archiver</button>
-                            </>
-                          )}
-                        </div>
-                      )}
-                    </div>
-                  )}
-                </td>
+                <td className="px-4 py-3"><button type="button" onClick={() => setOpenMenuId(u.id)} className="w-11 h-11 flex items-center justify-center rounded-lg hover:bg-gray-100 text-gray-500" aria-label="Actions"><svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="5" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="12" cy="19" r="1.8"/></svg></button></td>
               </tr>
               </Fragment>
               )
@@ -1201,6 +1076,35 @@ export default function UsersTable({
           </tbody>
         </table>
       </div>
+
+      <Modal open={!!openMenuId} onClose={() => setOpenMenuId(null)} title="Actions de l’utilisateur">
+        {(() => { const u = users.find(user => user.id === openMenuId); if (!u) return null; if (isArchived(u)) return <><p className="text-sm text-ink-50 mb-3">{u.firstName} {u.lastName}</p><button className="lms-menu-row" onClick={() => { setOpenMenuId(null); handleRestore(u) }}>{IconReset}<span>Restaurer</span></button>{!isPartnerAdmin && <button className="lms-menu-row lms-danger" onClick={() => { setOpenMenuId(null); setDeleteModal(u) }}>{IconEdit}<span>Supprimer</span></button>}</>; return <><p className="text-sm text-ink-50 mb-3">{u.firstName} {u.lastName}</p>
+{canViewSpace(u) && (
+                        <button onClick={() => { setOpenMenuId(null); handleImpersonate(u.id) }} className="w-full flex items-center gap-3 text-left px-4 py-3 text-sm text-primary font-medium hover:bg-gray-50 transition-colors"><span className="w-4 h-4 flex items-center justify-center shrink-0"><span className="w-2 h-2 rounded-full bg-primary" /></span>Voir l&apos;espace</button>
+                      )}
+                      <button onClick={() => { setOpenMenuId(null); openEdit(u) }} className="w-full flex items-center gap-3 text-left px-4 py-3 text-sm hover:bg-gray-50 transition-colors">{IconEdit}Modifier</button>
+                      <button onClick={() => { setOpenMenuId(null); openPasswordModal(u.id) }} className="w-full flex items-center gap-3 text-left px-4 py-3 text-sm hover:bg-gray-50 transition-colors">{IconKey}Changer mot de passe</button>
+                      <button onClick={() => { setOpenMenuId(null); openCurrentPasswordModal(u) }} className="w-full flex items-center gap-3 text-left px-4 py-3 text-sm hover:bg-gray-50 transition-colors">{IconEye}Voir le mot de passe actuel</button>
+                      {u.isActive && !u.archivedAt && !neverLoggedIn(u) && (
+                        <button onClick={() => { setOpenMenuId(null); openResetModal(u) }} className="w-full flex items-center gap-3 text-left px-4 py-3 text-sm hover:bg-gray-50 transition-colors">{IconReset}Envoyer réinitialisation</button>
+                      )}
+                      {canSendLoginLink(u) && (
+                        <button onClick={() => { setOpenMenuId(null); openLoginLinkModal(u) }} className="w-full flex items-center gap-3 text-left px-4 py-3 text-sm hover:bg-gray-50 transition-colors">{IconSend}Envoyer lien de connexion</button>
+                      )}
+                      <button onClick={() => { setOpenMenuId(null); openProgress(u.id) }} className="w-full flex items-center gap-3 text-left px-4 py-3 text-sm hover:bg-gray-50 transition-colors">{IconChart}Suivi</button>
+                      <button onClick={() => { setOpenMenuId(null); setModalMessage(""); setAssignModal(u.id); setAssignFormationId(""); setAssignStarts(dateInputValue()); setAssignExpires("") }} className="w-full flex items-center gap-3 text-left px-4 py-3 text-sm hover:bg-gray-50 transition-colors">{IconAssign}Attribuer formation</button>
+                      {neverLoggedIn(u) && !u.archivedAt && u.role !== "SUPER_ADMIN" && (
+                        <button onClick={() => { setOpenMenuId(null); handleResendActivation(u) }} disabled={resending === u.id} className="w-full flex items-center gap-3 text-left px-4 py-3 text-sm hover:bg-gray-50 transition-colors disabled:opacity-50">{IconSend}{resending === u.id ? "Envoi..." : "Renvoyer activation"}</button>
+                      )}
+                      {u.role !== "SUPER_ADMIN" && (
+                        <>
+                          <div className="border-t border-gray-100 my-1" />
+                          <button onClick={() => { setOpenMenuId(null); setArchiveModal(u) }} className="w-full flex items-center gap-3 text-left px-4 py-3 text-sm text-red-600 hover:bg-red-50 transition-colors">{IconArchive}Archiver</button>
+                        </>
+                      )}
+
+</> })()}
+      </Modal>
 
       {/* ═══ DEACTIVATE CONFIRMATION MODAL ═══ */}
       <Modal open={!!deactivateModal} onClose={() => setDeactivateModal(null)} title="Désactiver cet utilisateur ?">
@@ -1715,10 +1619,11 @@ export default function UsersTable({
       </Modal>
 
       {/* ═══ CREATE USER MODAL ═══ */}
-      <Modal panel={isPartnerAdmin} open={createOpen} onClose={() => { setCreateOpen(false); setModalMessage("") }} title="Nouvel utilisateur">
+      <Modal panel={isPartnerAdmin} open={createOpen} onClose={() => { setCreateOpen(false); setCreateStep(1); setModalMessage("") }} title={createStep === 1 ? "Nouvel utilisateur" : "Attribuer une formation"}>
         <div className="space-y-4">
           <FeedbackBanner message={modalMessage} />
-
+          <p className="lms-step-label">0{createStep} / 02 · {createStep === 1 ? "Coordonnées" : "Accès à la formation"}</p>
+          <div hidden={createStep !== 1} className="space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium mb-1">Prénom</label>
@@ -1768,6 +1673,8 @@ export default function UsersTable({
             </div>
           )}
           {/* Optional formation assignment */}
+          </div>
+          <div hidden={createStep !== 2} className="space-y-4">
           <div>
             <div className="flex items-center justify-between bg-gray-50 rounded-lg p-3">
               <div>
@@ -1817,9 +1724,12 @@ export default function UsersTable({
           <div className="bg-blue-50 border border-blue-100 rounded-lg px-4 py-3">
             <p className="text-sm text-blue-700">Un email d&apos;activation sera envoyé automatiquement à l&apos;utilisateur pour qu&apos;il crée son mot de passe.</p>
           </div>
+          </div>
+          {createStep === 1 ? <button className="lms-primary w-full" onClick={() => { if (!newFirstName.trim() || !newLastName.trim() || !newEmail.trim()) { setModalMessage("Renseignez le prénom, le nom et l’email."); return } setModalMessage(""); setCreateStep(2) }}>Continuer →</button> : <div className="flex gap-3"><button className="lms-back-button" onClick={() => setCreateStep(1)}>← Retour</button>
           <button onClick={handleCreate} disabled={creating} className="w-full py-2.5 bg-primary text-white text-sm rounded-lg hover:opacity-90 disabled:opacity-50">
             {creating ? "Création..." : "Créer et envoyer invitation"}
           </button>
+          </div>}
         </div>
       </Modal>
 
@@ -1871,7 +1781,7 @@ export default function UsersTable({
       <Modal
         open={!!progressModal}
         onClose={() => { setProgressModal(null); setProgressData(null) }}
-        title="Fiche de suivi détaillée"
+        title="Suivi de l’apprenant"
         panel={isPartnerAdmin}
         wide
         headerAction={progressData ? (
@@ -1890,17 +1800,19 @@ export default function UsersTable({
             {(() => {
               const progressUser = users.find((u) => u.id === progressModal)
               return progressUser ? (
-                <div className="flex items-center gap-2 mb-1">
-                  <span className="text-sm font-semibold">{progressUser.firstName} {progressUser.lastName}</span>
+                <div className="lms-account-person">
+                  <span className="lms-avatar">{progressUser.firstName[0]}{progressUser.lastName[0]}</span>
+                  <div className="grow"><h2>{progressUser.firstName} {progressUser.lastName}</h2><p>{progressUser.email}</p><Badge variant={progressUser.isActive ? "success" : "warning"}>{progressUser.isActive ? "Actif" : "Invité / Inactif"}</Badge>
                   {progressUser.reference && (
                     <span className="inline-block px-2 py-0.5 bg-gray-100 text-gray-600 text-xs rounded-md font-medium">
                       Réf: {progressUser.reference}
                     </span>
                   )}
+                  </div>
                 </div>
               ) : null
             })()}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <div className="lms-detail-metrics grid grid-cols-2 sm:grid-cols-4 gap-3">
               {(() => {
                 const totalCh = (progressData.formations || []).reduce((s: number, f: any) => s + (f.totalChapters || 0), 0)
                 const doneCh = (progressData.formations || []).reduce((s: number, f: any) => s + (f.completedChapters || 0), 0)
@@ -1960,6 +1872,14 @@ export default function UsersTable({
                 </div>
               </div>
             )}
+            <div className="flex flex-wrap gap-3">
+              {(() => {
+                const user = users.find(u => u.id === progressModal)
+                if (!user) return null
+                const close = () => { setProgressModal(null); setProgressData(null) }
+                return <><button className="lms-primary" onClick={() => { close(); openEdit(user) }}>Modifier le profil</button><button className="lms-primary" onClick={() => { close(); setModalMessage(""); setAssignModal(user.id); setAssignFormationId(""); setAssignStarts(dateInputValue()); setAssignExpires("") }}>Attribuer une formation</button>{canViewSpace(user) && <button className="lms-primary" onClick={() => handleImpersonate(user.id)}>Voir l’espace</button>}</>
+              })()}
+            </div>
             {progressData.formations?.map((f: any) => (
               <div key={f.id}>
                 <div className="flex items-baseline justify-between gap-2 mb-1">

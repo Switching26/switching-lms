@@ -38,7 +38,7 @@ export default async function PartenairesPage() {
   const formationOptions = formations.map((f) => ({ id: f.id, title: f.title }))
 
   return (
-    <div className="space-y-6">
+    <div className="lms-partners space-y-6">
       <h1 className="text-xl font-semibold">Partenaires</h1>
       <PartnersTable partners={serializedPartners} formations={formationOptions} />
     </div>

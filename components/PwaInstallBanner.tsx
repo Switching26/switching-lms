@@ -1,43 +1,11 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { usePathname } from "next/navigation"
+import Modal from "@/components/ui/Modal"
 
 const DISMISS_KEY = "lms-pwa-banner-dismissed-at"
-const DISMISS_DAYS = 30
 
-/**
- * Pages où proposer l'installation n'a aucun sens et gêne : un candidat invité
- * à une évaluation vient répondre une seule fois, il n'a pas d'espace à
- * installer — et la bannière recouvrait les questions.
- *
- * `/learner/formation` porte l'atelier de simulation, et le même défaut y était
- * BIEN PIRE : mesuré à 390×844, la bannière (`fixed bottom-3 inset-x-3 z-40`,
- * 366×171) recouvrait 87 % de la bande de consigne et 100 % du bouton
- * « Suivant » de l'atelier, qui vit dans un portail `z-index: 30`. Et comme
- * elle ne porte pas `pointer-events:none`, c'est ELLE qui captait le clic au
- * centre de la consigne : à sa toute première visite, un élève sur téléphone
- * n'avait aucune consigne lisible et ne pouvait pas avancer tant qu'il n'avait
- * pas fermé une invitation d'installation. Vérifié sur les quatre applications.
- *
- * Pourquoi le préfixe plutôt que le marqueur `data-surcouche` décrit plus bas :
- * cet attribut n'est posé que par le guide de la formation, jamais par
- * l'atelier — le mécanisme existait donc sans jamais couvrir ce cas. Le préfixe
- * ne dépend, lui, du cycle de vie d'aucun composant. L'invitation reste
- * proposée partout ailleurs dans l'espace apprenant (accueil, résultats,
- * documents, notes, messages, compte).
- */
-const HIDDEN_PREFIXES = ["/evaluation/", "/learner/formation"]
-
-/**
- * Même raison, autre mécanique : une surcouche plein écran ouverte par-dessus
- * l'application ne doit pas se faire recouvrir par l'invitation d'installation.
- * L'atelier est monté dans un portail `z-index: 30`, cette bannière vit à
- * `z-40` au niveau racine : elle passe donc devant, y compris devant les
- * commandes. Le marqueur `data-pwa-invite` permet à `globals.css` de la
- * retirer tant que `html[data-surcouche]` est posé — elle revient d'elle-même
- * à la fermeture, rien n'est désactivé.
- */
+/** Installation explicite depuis le compte ; aucun recouvrement du contenu ou du dock. */
 
 type Mode = "ios" | "android" | "desktop"
 
@@ -62,8 +30,6 @@ function StepDot({ n }: { n: number }) {
 //    desktop quand le navigateur la propose)
 // Masquée en mode app installée ; refus mémorisé 30 jours par appareil.
 export default function PwaInstallBanner() {
-  const pathname = usePathname()
-  const hidden = HIDDEN_PREFIXES.some((p) => pathname?.startsWith(p))
   const [visible, setVisible] = useState(false)
   const [mode, setMode] = useState<Mode>("desktop")
   const [deferred, setDeferred] = useState<any>(null)
@@ -82,17 +48,14 @@ export default function PwaInstallBanner() {
       (navigator as any).standalone === true
     if (standalone) return
 
-    // Refus récent → ne pas harceler
-    try {
-      const at = Number(localStorage.getItem(DISMISS_KEY) || 0)
-      if (at && Date.now() - at < DISMISS_DAYS * 86400000) return
-    } catch {}
+    // Installation disponible depuis Mon compte, sans bannière automatique.
+    const open = () => { setVisible(true); setShowGuide(false) }
+    window.addEventListener("lms-open-install", open)
 
     const ua = navigator.userAgent
     const isIos = /iPad|iPhone|iPod/.test(ua) || (ua.includes("Macintosh") && "ontouchend" in document)
     const isMobile = isIos || /Android|Mobi/i.test(ua)
     setMode(isIos ? "ios" : isMobile ? "android" : "desktop")
-    setVisible(true)
 
     const onBeforeInstall = (e: Event) => {
       e.preventDefault()
@@ -105,12 +68,13 @@ export default function PwaInstallBanner() {
     window.addEventListener("beforeinstallprompt", onBeforeInstall)
     window.addEventListener("appinstalled", onInstalled)
     return () => {
+      window.removeEventListener("lms-open-install", open)
       window.removeEventListener("beforeinstallprompt", onBeforeInstall)
       window.removeEventListener("appinstalled", onInstalled)
     }
   }, [])
 
-  if (hidden || !visible) return null
+  if (!visible) return null
 
   const dismiss = () => {
     setVisible(false)
@@ -148,36 +112,23 @@ export default function PwaInstallBanner() {
     </div>
   )
 
-  const closeButton = (
-    <button
-      type="button"
-      onClick={dismiss}
-      aria-label="Ne plus afficher"
-      className="flex-shrink-0 p-1.5 rounded-lg text-warm-400 hover:bg-warm-100 hover:text-warm-600 transition-colors"
-    >
-      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-      </svg>
-    </button>
-  )
-
   if (installed) {
     return (
-      <div data-pwa-invite="" className="fixed bottom-4 inset-x-4 sm:inset-x-auto sm:right-4 z-40 sm:max-w-sm">
+      <Modal open={visible} onClose={dismiss} title="Installer l’application"><div data-pwa-invite="" className="space-y-4">
         <div className="bg-emerald-50 border border-emerald-200 rounded-2xl shadow-lg px-4 py-3 flex items-center gap-2.5">
           <svg className="w-5 h-5 text-emerald-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
           </svg>
           <p className="text-sm font-semibold text-emerald-700">Application installée sur votre écran d'accueil !</p>
         </div>
-      </div>
+      </div></Modal>
     )
   }
 
   // ── Desktop : message discret en bas à droite ──
   if (mode === "desktop") {
     return (
-      <div data-pwa-invite="" className="fixed bottom-4 right-4 z-40 max-w-sm">
+      <Modal open={visible} onClose={dismiss} title="Installer l’application"><div data-pwa-invite="" className="space-y-4">
         <div className="bg-white border border-border rounded-2xl shadow-lg p-4">
           <div className="flex items-start gap-3">
             <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-warm-100 flex items-center justify-center">
@@ -202,16 +153,15 @@ export default function PwaInstallBanner() {
                 </button>
               )}
             </div>
-            {closeButton}
           </div>
         </div>
-      </div>
+      </div></Modal>
     )
   }
 
   // ── Mobile (iOS + Android) : carte en bas de l'écran ──
   return (
-    <div data-pwa-invite="" className="fixed bottom-3 inset-x-3 z-40">
+    <Modal open={visible} onClose={dismiss} title="Installer l’application"><div data-pwa-invite="" className="space-y-4">
       <div className="bg-white border border-border rounded-2xl shadow-xl p-4 max-w-md mx-auto">
         <div className="flex items-start gap-3">
           {appIcon}
@@ -221,7 +171,6 @@ export default function PwaInstallBanner() {
               Retrouvez vos formations depuis votre écran d'accueil, en plein écran comme une vraie app.
             </p>
           </div>
-          {closeButton}
         </div>
 
         {!showGuide ? (
@@ -271,6 +220,6 @@ export default function PwaInstallBanner() {
           </ol>
         )}
       </div>
-    </div>
+    </div></Modal>
   )
 }

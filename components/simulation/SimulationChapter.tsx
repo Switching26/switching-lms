@@ -161,6 +161,18 @@ function ChapitreCharge({
   const atelier = !preview
   useEffect(() => {
     if (!atelier) return
+    const root = document.documentElement
+    const before = root.dataset.lmsWorkspace
+    root.dataset.lmsWorkspace = "simulation"
+    window.dispatchEvent(new Event("lms-workspace-change"))
+    return () => {
+      if (before) root.dataset.lmsWorkspace = before
+      else delete root.dataset.lmsWorkspace
+      window.dispatchEvent(new Event("lms-workspace-change"))
+    }
+  }, [atelier])
+  useEffect(() => {
+    if (!atelier) return
     const avant = document.body.style.overflow
     document.body.style.overflow = "hidden"
     return () => {
@@ -323,16 +335,17 @@ function ChapitreCharge({
         ...couleurs,
         position: "fixed",
         top: "calc(var(--app-impersonation-offset, 0px) + var(--app-nav-height, 64px))",
-        left: 0,
+        left: "var(--app-sidebar-offset, 0px)",
         right: 0,
         bottom: 0,
         zIndex: 30,
         // Le fond du cadre : un noir teinté de l'application, comme le cockpit.
         background: C.fond,
-        overflow: "hidden",
+        overflowX: "auto",
+        overflowY: "hidden",
       }}
     >
-      {player}
+      <div style={{ height: "100%", minWidth: 1024 }}>{player}</div>
     </div>,
     document.body,
   )

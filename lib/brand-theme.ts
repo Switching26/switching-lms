@@ -19,6 +19,5 @@ export function brandTheme(primary?: string | null, secondary?: string | null): 
     "--partner-secondary": secondary || "#0F172A",
     "--lms-accent": accent,
     "--lms-hue": String(hue),
-    "--app-nav-height": "64px",
   } as CSSProperties
 }

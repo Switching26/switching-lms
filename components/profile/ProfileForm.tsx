@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useId, useState } from "react"
 import { MIN_PASSWORD_LENGTH, PASSWORD_REQUIREMENT_LABEL } from "@/lib/validate-password"
 
 interface User {
@@ -10,7 +10,8 @@ interface User {
   email: string
 }
 
-export default function ProfileForm({ user }: { user: User }) {
+export default function ProfileForm({ user, section = "all" }: { user: User; section?: "all" | "profile" | "password" }) {
+  const id = useId()
   const [firstName, setFirstName] = useState(user.firstName)
   const [lastName, setLastName] = useState(user.lastName)
   const [email, setEmail] = useState(user.email)
@@ -83,8 +84,8 @@ export default function ProfileForm({ user }: { user: User }) {
         </div>
       )}
 
-      <form onSubmit={handleProfile} className="bg-white rounded-2xl border border-border p-6 space-y-4 shadow-sm">
-        <div className="flex items-center gap-2.5 mb-2">
+      <form hidden={section === "password"} onSubmit={handleProfile} className="bg-white rounded-2xl border border-border p-6 space-y-4 shadow-sm">
+        <div hidden={section !== "all"} className="flex items-center gap-2.5 mb-2">
           <svg className="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.8}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
           </svg>
@@ -92,16 +93,18 @@ export default function ProfileForm({ user }: { user: User }) {
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium mb-1.5 text-warm-700">Prénom</label>
+            <label htmlFor={`${id}-first`} className="block text-sm font-medium mb-1.5 text-warm-700">Prénom</label>
             <input
+              id={`${id}-first`}
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
               className="w-full px-3.5 py-2.5 text-sm border border-border rounded-lg outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1.5 text-warm-700">Nom</label>
+            <label htmlFor={`${id}-last`} className="block text-sm font-medium mb-1.5 text-warm-700">Nom</label>
             <input
+              id={`${id}-last`}
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
               className="w-full px-3.5 py-2.5 text-sm border border-border rounded-lg outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition"
@@ -109,8 +112,9 @@ export default function ProfileForm({ user }: { user: User }) {
           </div>
         </div>
         <div>
-          <label className="block text-sm font-medium mb-1.5 text-warm-700">Email</label>
+          <label htmlFor={`${id}-email`} className="block text-sm font-medium mb-1.5 text-warm-700">Email</label>
           <input
+            id={`${id}-email`}
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -126,16 +130,17 @@ export default function ProfileForm({ user }: { user: User }) {
         </button>
       </form>
 
-      <form onSubmit={handlePassword} className="bg-white rounded-2xl border border-border p-6 space-y-4 shadow-sm">
-        <div className="flex items-center gap-2.5 mb-2">
+      <form hidden={section === "profile"} onSubmit={handlePassword} className="bg-white rounded-2xl border border-border p-6 space-y-4 shadow-sm">
+        <div hidden={section !== "all"} className="flex items-center gap-2.5 mb-2">
           <svg className="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.8}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
           </svg>
           <h2 className="text-base font-semibold">Changer le mot de passe</h2>
         </div>
         <div>
-          <label className="block text-sm font-medium mb-1.5 text-warm-700">Mot de passe actuel</label>
+          <label htmlFor={`${id}-current`} className="block text-sm font-medium mb-1.5 text-warm-700">Mot de passe actuel</label>
           <input
+            id={`${id}-current`}
             type="password"
             value={currentPassword}
             onChange={(e) => setCurrentPassword(e.target.value)}
@@ -144,8 +149,9 @@ export default function ProfileForm({ user }: { user: User }) {
           />
         </div>
         <div>
-          <label className="block text-sm font-medium mb-1.5 text-warm-700">Nouveau mot de passe</label>
+          <label htmlFor={`${id}-new`} className="block text-sm font-medium mb-1.5 text-warm-700">Nouveau mot de passe</label>
           <input
+            id={`${id}-new`}
             type="password"
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}

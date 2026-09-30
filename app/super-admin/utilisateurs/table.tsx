@@ -1777,6 +1777,8 @@ export default function UsersTable({
               <button
                 onClick={() => setNewAssignFormation(!newAssignFormation)}
                 aria-label="Attribuer une formation"
+                role="checkbox"
+                aria-checked={newAssignFormation}
                 className="flex items-center justify-center min-w-[44px] min-h-[44px] shrink-0 -mr-2"
               >
                 <span className={`relative block w-10 h-5 rounded-full transition-colors ${newAssignFormation ? "bg-green-500" : "bg-gray-300"}`}>

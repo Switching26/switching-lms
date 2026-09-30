@@ -1,6 +1,7 @@
 "use client"
 
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
+import { createPortal } from "react-dom"
 
 export default function Modal({
   open,
@@ -21,6 +22,8 @@ export default function Modal({
   headerAction?: React.ReactNode
   panel?: boolean
 }) {
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => setMounted(true), [])
   useEffect(() => {
     if (!open) return
     const previous = document.body.style.overflow
@@ -30,7 +33,7 @@ export default function Modal({
 
   if (!open) return null
 
-  return (
+  const modal = (
     // Centrage ADAPTATIF dans la zone libre sous la navbar (padding-top du
     // conteneur = navbar sticky + bandeau d'impersonation éventuel, padding-bottom
     // = marge basse garantie). Petite modale → centrée dans cette zone ; grande
@@ -52,4 +55,7 @@ export default function Modal({
       </div>
     </div>
   )
+  return panel && mounted
+    ? createPortal(<div className="lms-plaquette" style={{ minHeight: 0 }}>{modal}</div>, document.body)
+    : modal
 }

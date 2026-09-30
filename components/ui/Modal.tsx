@@ -9,6 +9,7 @@ export default function Modal({
   children,
   wide,
   headerAction,
+  panel = false,
 }: {
   open: boolean
   onClose: () => void
@@ -18,11 +19,13 @@ export default function Modal({
   wide?: boolean
   /** Action affichée dans le header, à côté du titre (ex. bouton Export CSV) */
   headerAction?: React.ReactNode
+  panel?: boolean
 }) {
   useEffect(() => {
-    if (open) document.body.style.overflow = "hidden"
-    else document.body.style.overflow = ""
-    return () => { document.body.style.overflow = "" }
+    if (!open) return
+    const previous = document.body.style.overflow
+    document.body.style.overflow = "hidden"
+    return () => { document.body.style.overflow = previous }
   }, [open])
 
   if (!open) return null
@@ -33,14 +36,14 @@ export default function Modal({
     // = marge basse garantie). Petite modale → centrée dans cette zone ; grande
     // modale → la remplit sans jamais passer sous la barre du haut ni toucher le
     // bas. Mobile : bottom sheet inchangé.
-    <div className="app-modal-overlay">
+    <div className={`app-modal-overlay ${panel ? "lms-panel-overlay" : ""}`}>
       <div className="fixed inset-0 bg-black/40" onClick={onClose} />
-      <div className={`app-modal-panel relative flex min-h-0 flex-col bg-white sm:rounded-xl rounded-t-xl border border-border shadow-lg w-full ${wide ? "sm:max-w-4xl" : "sm:max-w-2xl"}`}>
+      <div role="dialog" aria-modal="true" aria-label={title} className={`app-modal-panel ${panel ? `lms-panel ${wide ? "lms-panel-wide" : ""}` : ""} relative flex min-h-0 flex-col bg-white sm:rounded-xl rounded-t-xl border border-border shadow-lg w-full ${wide ? "sm:max-w-4xl" : "sm:max-w-2xl"}`}>
         <div className="flex items-center justify-between gap-3 px-5 pt-5 pb-4 sm:px-6 sm:pt-6 border-b border-border">
           <h2 className="text-lg font-semibold min-w-0 truncate">{title}</h2>
           <div className="flex items-center gap-2 shrink-0">
             {headerAction}
-            <button onClick={onClose} className="text-gray-400 hover:text-gray-600 text-xl leading-none w-11 h-11 flex items-center justify-center shrink-0 -mr-2">&times;</button>
+            <button aria-label="Fermer" onClick={onClose} className="text-gray-400 hover:text-gray-600 text-xl leading-none w-11 h-11 flex items-center justify-center shrink-0 -mr-2">&times;</button>
           </div>
         </div>
         <div className="min-h-0 overflow-y-auto px-5 py-5 sm:px-6 sm:py-6">

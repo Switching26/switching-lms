@@ -39,6 +39,9 @@ import { createPortal } from "react-dom"
 import PanneauRessources, { LIBELLE_RESSOURCES } from "@/components/simulation/PanneauRessources"
 import { dureeLisible } from "@/lib/simulation/duree"
 import type { LearnerDocument } from "@/lib/learner-files"
+import { filtrerDocuments } from "@/lib/learner-files"
+import { LigneDocument } from "@/components/learner/DocumentActions"
+import PdfViewer from "@/components/learner/PdfViewer"
 
 /* ═══════════ COMMANDES DU CADRAN ═══════════ */
 
@@ -207,6 +210,10 @@ function pastilleCockpit(actif: boolean): React.CSSProperties {
 
 export default function CadranFormation(p: Props) {
   const [panneau, setPanneau] = useState<"lecons" | "notes" | "ressources" | null>(null)
+  const [replie, setReplie] = useState(false)
+  const [onglet, setOnglet] = useState<"lecons" | "notes" | "documents" | "description">("lecons")
+  const [documentOuvert, setDocumentOuvert] = useState<LearnerDocument | null>(null)
+  const documents = filtrerDocuments([...(p.documentsChapitre || []), ...(p.documentsFormation || [])]).filter((doc, i, all) => all.findIndex((other) => other.id === doc.id) === i)
   const idRessources = useId()
 
   useEffect(() => {
@@ -221,7 +228,7 @@ export default function CadranFormation(p: Props) {
   // Le portail n'existe qu'après l'hydratation : `document` est absent au rendu
   // serveur. Même contrat que le conteneur d'atelier.
   const [monte, setMonte] = useState(false)
-  useEffect(() => setMonte(true), [])
+  useEffect(() => { setMonte(true); if (window.innerWidth >= 768) setOnglet(p.onNote ? "notes" : "description") }, [])
 
   /*
    * La page cesse de défiler tant que le cadran est à l'écran.
@@ -245,25 +252,29 @@ export default function CadranFormation(p: Props) {
    * Référence stable : sans elle, chaque rendu du cadran ferait re-rendre tout
    * ce qui consomme le contexte — dont l'hôte Vimeo persistant.
    */
-  const commandes = useMemo<CommandesCadran>(() => ({ ouvrirLecons: () => setPanneau("lecons") }), [])
+  const commandes = useMemo<CommandesCadran>(() => ({ ouvrirLecons: () => { setReplie(false); setPanneau("lecons"); setOnglet("lecons") } }), [])
 
   const carte = (
     <ContexteCadran.Provider value={commandes}>
     <div
       className={
         p.pleinCadre
-          ? "relative flex h-full min-h-0 flex-col overflow-clip bg-white"
-          : "relative overflow-clip border border-border bg-white shadow-sm"
+          ? `lms-reader lms-portail ${replie ? "lms-reader-collapsed" : ""} relative h-full min-h-0 bg-white`
+          : `lms-reader lms-portail ${replie ? "lms-reader-collapsed" : ""} relative border border-border bg-white shadow-sm`
       }
       style={p.pleinCadre ? undefined : { borderRadius: 16 }}
       data-cadran-formation=""
     >
-      <Cockpit {...p} panneau={panneau} setPanneau={setPanneau} idRessources={idRessources} />
+      <div className="lms-reader-toolbar">
+        <button type="button" onClick={() => setReplie(!replie)} aria-expanded={!replie}>{replie ? "Afficher les chapitres" : "Replier les chapitres"}</button>
+        <span>{p.filModule ? `${p.filModule} · ` : ""}{p.index} / {p.total}</span>
+        {p.onQuitter && <button type="button" onClick={p.onQuitter} aria-label="Retour à mes formations">Mes formations</button>}
+      </div>
 
       {/* La salle. `flex-1 min-h-0` : c'est elle qui absorbe la place restante,
           et c'est ce qui rend le débordement structurellement impossible. */}
       <div
-        className={`relative flex min-h-0 flex-1 items-center justify-center${
+        className={`lms-reader-scene relative flex min-h-0 flex-1 items-center justify-center${
           /* Écran en portrait (téléphone, tablette tenue droite) : une vidéo 16/9
              n'occupe qu'un tiers de la salle, le reste faisait deux grandes bandes
              noires. La salle se réduit alors à la vidéo et la bande du chapitre
@@ -299,22 +310,52 @@ export default function CadranFormation(p: Props) {
         {p.children}
       </div>
 
-      <BandeChapitre {...p} />
+      <div className="lms-reader-band"><BandeChapitre {...p} description={null} contenu={null} /></div>
+      <div className="lms-reader-details">
+        <div className="lms-reader-tabs" role="tablist" aria-label="Contenu de la leçon">
+          <button className="lms-chapters-tab" role="tab" aria-selected={onglet === "lecons"} onClick={() => setOnglet("lecons")}>Chapitres</button>
+          {p.onNote && <button role="tab" aria-selected={onglet === "notes"} onClick={() => setOnglet("notes")}>Mes notes</button>}
+          <button role="tab" aria-selected={onglet === "documents"} onClick={() => setOnglet("documents")}>Documents</button>
+          <button role="tab" aria-selected={onglet === "description"} onClick={() => setOnglet("description")}>Description</button>
+        </div>
+        <div className="lms-reader-tab-content" role="tabpanel">
+          {onglet === "lecons" && <>
+            <div className="lms-reader-mobile-chapters"><Sommaire entrees={p.sommaire} courant={p.chapterId} position={p.positionCourante ?? null} onNaviguer={p.onNaviguer} /></div>
+            <div className="lms-reader-desktop-default">
+              {p.onNote ? <textarea aria-label="Mes notes de la leçon" value={p.note ?? ""} onChange={(e) => p.onNote?.(e.target.value)} placeholder="Écrivez ici ce que vous voulez retenir de ce chapitre…" /> : <p className="whitespace-pre-line">{p.description || p.contenu || "Aucune description pour cette leçon."}</p>}
+            </div>
+          </>}
+          {onglet === "notes" && <>
+            <textarea aria-label="Mes notes de la leçon" value={p.note ?? ""} onChange={(e) => p.onNote?.(e.target.value)} placeholder="Écrivez ici ce que vous voulez retenir de ce chapitre…" />
+            <p className="mt-2 text-xs">Enregistré automatiquement</p>
+            {p.notesHref && <a className="inline-flex min-h-11 items-center text-sm" href={p.notesHref}>Voir toutes mes notes →</a>}
+          </>}
+          {onglet === "documents" && <>
+            {documents.length ? documents.map((doc) => <LigneDocument key={doc.id} doc={doc} onConsulter={setDocumentOuvert} />) : <p>Aucun document disponible.</p>}
+            {p.documentsHref && <a className="ml-3 inline-flex min-h-11 items-center text-sm" href={p.documentsHref}>Tous mes documents →</a>}
+          </>}
+          {onglet === "description" && <>
+            <p className="whitespace-pre-line">{p.description || "Aucune description pour cette leçon."}</p>
+            {p.contenu && <p className="mt-3 whitespace-pre-wrap">{p.contenu}</p>}
+          </>}
+        </div>
+      </div>
+
+      <PdfViewer doc={documentOuvert} onClose={() => setDocumentOuvert(null)} />
 
       {/* ── Panneaux ─────────────────────────────────────────────────────── */}
       {panneau && (
         <div
           role="presentation"
           onClick={() => setPanneau(null)}
-          className="absolute inset-0"
+          className={`lms-reader-overlay ${panneau === "lecons" ? "lms-reader-chapters-overlay" : ""} absolute inset-0`}
           style={{ top: COCKPIT, background: "rgba(8,12,20,.52)", zIndex: 60 }}
         />
       )}
 
       <aside
         aria-label="Toutes les leçons"
-        aria-hidden={panneau !== "lecons"}
-        className="absolute bottom-0 left-0 flex flex-col bg-white shadow-2xl"
+        className={`lms-reader-sidebar ${replie ? "lms-reader-sidebar-collapsed" : ""} absolute bottom-0 left-0 flex flex-col bg-white shadow-2xl`}
         style={{
           top: COCKPIT,
           width: "min(460px, 86%)",
@@ -331,8 +372,9 @@ export default function CadranFormation(p: Props) {
               ? ` · ${dureeLisible(p.sommaire.reduce((t, e) => t + e.secondes, 0))}`
               : ""
           }`}
-          onFermer={() => setPanneau(null)}
+          onFermer={() => { setPanneau(null); setReplie(true) }}
         />
+        <div className="lms-reader-sidebar-progress px-4 py-3"><span>{p.progression}% terminé</span><progress aria-label="Progression de la formation" value={p.progression} max={100} /></div>
         <div className="min-h-0 flex-1 overflow-y-auto px-2 py-2">
           <Sommaire
             entrees={p.sommaire}
@@ -431,6 +473,7 @@ export default function CadranFormation(p: Props) {
         overflow: "hidden",
         display: p.visible ? undefined : "none",
       }}
+      className="lms-portail"
       data-cadran-portail=""
     >
       {carte}

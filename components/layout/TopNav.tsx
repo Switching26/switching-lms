@@ -72,6 +72,7 @@ export default function TopNav({
   brandColor,
   brandLogo,
   userEmail,
+  plaquette = false,
 }: {
   brand: string
   badge?: string
@@ -79,6 +80,7 @@ export default function TopNav({
   brandColor?: string
   brandLogo?: string | null
   userEmail?: string
+  plaquette?: boolean
 }) {
   const pathname = usePathname()
   const { data: session, status } = useSession()
@@ -163,7 +165,13 @@ export default function TopNav({
 
   return (
     <>
-      <nav className="glass-card sticky top-0 z-40 border-b" style={{ borderBottomColor: `${color}12`, top: "var(--app-impersonation-offset, 0px)" }}>
+      {plaquette && <nav className="lms-bottom-nav" aria-label="Navigation mobile">
+        {visibleItems.slice(0, 5).map((item) => <Link key={item.href} href={item.href} aria-current={pathname === item.href || pathname.startsWith(item.href + "/") ? "page" : undefined}>
+          <NavIcon label={item.label} /><span>{item.label}</span>
+          {item.label.toLowerCase().includes("message") && unreadCount > 0 && <b className="lms-unread">{unreadCount}</b>}
+        </Link>)}
+      </nav>}
+      <nav className={`${plaquette ? "lms-top-nav" : "glass-card"} sticky top-0 z-40 border-b`} style={{ borderBottomColor: `${color}12`, top: "var(--app-impersonation-offset, 0px)" }}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
           {/* GAUCHE : Logo + badge + items */}
           <div className="flex items-center gap-5 lg:gap-8">
@@ -189,7 +197,7 @@ export default function TopNav({
                 {badge}
               </span>
             )}
-            <div className="hidden lg:flex items-center gap-0.5 ml-1">
+            <div className="lms-nav-links hidden lg:flex items-center gap-0.5 ml-1">
               {visibleItems.map((item) => {
                 const active = pathname === item.href || pathname.startsWith(item.href + "/")
                 const isMessages = item.label.toLowerCase().includes("message")
@@ -198,6 +206,7 @@ export default function TopNav({
                     key={item.href}
                     href={item.href}
                     aria-label={item.label}
+                    aria-current={active ? "page" : undefined}
                     title={item.label}
                     className={`relative flex items-center gap-1.5 px-2.5 xl:px-3 py-2 rounded-lg text-[13px] font-medium transition-all duration-200 ${
                       active

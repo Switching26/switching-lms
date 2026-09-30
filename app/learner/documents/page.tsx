@@ -49,7 +49,7 @@ export default async function DocumentsPage() {
   const anyDoc = formationsDocs.some((f) => f.hasAny)
 
   return (
-    <div className="space-y-8">
+    <div className="lms-documents space-y-8">
       <header>
         <h1 className="font-display text-2xl sm:text-3xl font-semibold text-ink">Documents</h1>
         <p className="text-ink-50 mt-1">Tous les supports de vos formations à télécharger.</p>

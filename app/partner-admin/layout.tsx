@@ -2,6 +2,8 @@ import { auth } from "@/lib/auth"
 import { redirect } from "next/navigation"
 import { prisma } from "@/lib/prisma"
 import PartnerAdminShell from "./shell"
+import { brandTheme } from "@/lib/brand-theme"
+import BrandTheme from "@/components/layout/BrandTheme"
 
 export async function generateMetadata() {
   const session = await auth()
@@ -38,17 +40,12 @@ export default async function PartnerAdminLayout({ children }: { children: React
       })
     : null
 
-  const primaryColor = partner?.primaryColor || "#111111"
+  const primaryColor = partner?.primaryColor || "#4F46E5"
   const secondaryColor = partner?.secondaryColor || "#FFFFFF"
 
   return (
-    <div
-      style={{
-        // @ts-expect-error CSS custom properties
-        "--partner-primary": primaryColor,
-        "--partner-secondary": secondaryColor,
-      }}
-    >
+    <div className="lms-plaquette" style={brandTheme(primaryColor, secondaryColor)}>
+      <BrandTheme theme={brandTheme(primaryColor, secondaryColor)} />
       <PartnerAdminShell
         partnerName={partner?.name || "Partenaire"}
         partnerColor={primaryColor}

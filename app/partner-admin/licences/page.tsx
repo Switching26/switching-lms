@@ -21,7 +21,7 @@ export default async function LicencesPage() {
         <p className="text-warm-500 mt-1 text-[15px]">Gérez vos places de formation</p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 animate-fade-in-up-delay-1">
+      <div className="lms-metrics grid grid-cols-3 animate-fade-in-up-delay-1">
         <KPICard
           label="Total licences"
           value={hasUnlimited ? "Illimité" : totalSeats}
@@ -71,10 +71,10 @@ export default async function LicencesPage() {
               style={{
                 width: `${Math.max(usagePercent, 2)}%`,
                 background: usagePercent > 90
-                  ? "linear-gradient(90deg, #ef4444, #dc2626)"
+                  ? "#dc2626"
                   : usagePercent > 70
-                  ? "linear-gradient(90deg, #f59e0b, #d97706)"
-                  : "linear-gradient(90deg, #10b981, #059669)",
+                  ? "#d97706"
+                  : "var(--lms-accent, #4F46E5)",
               }}
             >
               {usagePercent > 0 && usagePercent < 100 && (

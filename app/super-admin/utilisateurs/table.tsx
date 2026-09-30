@@ -16,9 +16,18 @@ interface User {
   archivedAt: string | null
   partnerId: string | null
   partner: { id: string; name: string } | null
-  enrollments: { id: string; formationId: string; startedAt: string; expiresAt: string | null; formation: { id: string; title: string } }[]
+  enrollments: { id: string; formationId: string; startedAt: string; expiresAt: string | null; formation: { id: string; title: string; chapters?: { id: string }[] } }[]
+  progress?: { chapterId: string; completedAt: string | null }[]
   _count?: { loginLogs: number }
   createdAt: string
+}
+
+function FormationProgress({ user }: { user: User }) {
+  const chapters = user.enrollments[0]?.formation.chapters
+  if (!chapters?.length || !user.progress) return null
+  const completed = chapters.filter((c) => user.progress!.some((p) => p.chapterId === c.id && p.completedAt)).length
+  const percent = Math.round(completed / chapters.length * 100)
+  return <span className="lms-user-progress"><progress aria-label="Progression de formation" value={percent} max={100} />{percent}% · {completed}/{chapters.length}</span>
 }
 
 // Jamais connecté = compte jamais réellement activé (ex. import RiseUp) :
@@ -247,7 +256,7 @@ export default function UsersTable({
   // Compteurs par groupe de rôle (pour les en-têtes de section du tableau)
   const roleGroupCounts: Record<string, number> = { SUPER_ADMIN: 0, PARTNER_ADMIN: 0, LEARNER: 0 }
   filtered.forEach((u) => { if (u.role in roleGroupCounts) roleGroupCounts[u.role]++ })
-  const colCount = isPartnerAdmin ? 7 : 8
+  const colCount = isPartnerAdmin ? 5 : 8
 
   const flash = (msg: string) => {
     setMessage(msg)
@@ -928,6 +937,7 @@ export default function UsersTable({
                   {!isPartnerAdmin && u.partner && <Badge variant="purple">{u.partner.name}</Badge>}
                 </div>
                 <p className="text-xs text-gray-400 mt-0.5 truncate">{u.email}</p>
+                {isPartnerAdmin && <FormationProgress user={u} />}
               </div>
               {isArchived(u) ? (
                 <Badge variant="default">Archivé</Badge>
@@ -1037,8 +1047,8 @@ export default function UsersTable({
             <tr className="border-b border-border">
               <th className="text-left text-xs font-medium text-gray-500 px-4 py-3">Nom</th>
               <th className="text-left text-xs font-medium text-gray-500 px-4 py-3">Rôle</th>
-              <th className="text-left text-xs font-medium text-gray-500 px-4 py-3">Référence</th>
-              <th className="text-left text-xs font-medium text-gray-500 px-4 py-3">Email</th>
+              {!isPartnerAdmin && <th className="text-left text-xs font-medium text-gray-500 px-4 py-3">Référence</th>}
+              {!isPartnerAdmin && <th className="text-left text-xs font-medium text-gray-500 px-4 py-3">Email</th>}
               {!isPartnerAdmin && <th className="text-left text-xs font-medium text-gray-500 px-4 py-3">Appartenance</th>}
               <th className="text-left text-xs font-medium text-gray-500 px-4 py-3">Formation</th>
               <th className="text-left text-xs font-medium text-gray-500 px-4 py-3">Statut</th>
@@ -1063,6 +1073,7 @@ export default function UsersTable({
               <tr className={`border-b border-gray-50 hover:bg-gray-50 transition-colors ${isArchived(u) ? "opacity-60" : ""}`}>
                 <td className="px-4 py-3">
                   <span className="text-sm font-medium">{u.firstName} {u.lastName}</span>
+                  {isPartnerAdmin && <><span className="lms-user-email">{u.email}</span>{u.reference && <span className="text-xs text-gray-500">Réf. {u.reference}</span>}</>}
                 </td>
                 <td className="px-4 py-3">
                   {u.role === "SUPER_ADMIN" ? (
@@ -1073,14 +1084,14 @@ export default function UsersTable({
                     <Badge variant="default">Apprenant</Badge>
                   )}
                 </td>
-                <td className="px-4 py-3 text-sm">
+                {!isPartnerAdmin && <td className="px-4 py-3 text-sm">
                   {u.reference ? (
                     <span className="inline-block px-2 py-0.5 bg-gray-100 text-gray-600 text-xs rounded-md font-medium">{u.reference}</span>
                   ) : (
                     <span className="text-gray-300">—</span>
                   )}
-                </td>
-                <td className="px-4 py-3 text-sm text-gray-500"><span className="block truncate max-w-[220px]" title={u.email}>{u.email}</span></td>
+                </td>}
+                {!isPartnerAdmin && <td className="px-4 py-3 text-sm text-gray-500"><span className="block truncate max-w-[220px]" title={u.email}>{u.email}</span></td>}
                 {!isPartnerAdmin && (
                   <td className="px-4 py-3">
                     {u.partner ? (
@@ -1102,6 +1113,7 @@ export default function UsersTable({
                       {u.enrollments.length === 1 && (
                         <div className="text-gray-500 truncate max-w-[240px]">{u.enrollments[0].formation.title}</div>
                       )}
+                      {isPartnerAdmin && <FormationProgress user={u} />}
                     </div>
                   )}
                 </td>
@@ -1703,7 +1715,7 @@ export default function UsersTable({
       </Modal>
 
       {/* ═══ CREATE USER MODAL ═══ */}
-      <Modal open={createOpen} onClose={() => { setCreateOpen(false); setModalMessage("") }} title="Nouvel utilisateur">
+      <Modal panel={isPartnerAdmin} open={createOpen} onClose={() => { setCreateOpen(false); setModalMessage("") }} title="Nouvel utilisateur">
         <div className="space-y-4">
           <FeedbackBanner message={modalMessage} />
 
@@ -1858,6 +1870,7 @@ export default function UsersTable({
         open={!!progressModal}
         onClose={() => { setProgressModal(null); setProgressData(null) }}
         title="Fiche de suivi détaillée"
+        panel={isPartnerAdmin}
         wide
         headerAction={progressData ? (
           <a

@@ -94,7 +94,7 @@ export default function NotesEditor({
   }, [])
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-6">
+    <div className="lms-notes grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-6">
       {/* Mobile dropdown — groupé par formation */}
       <div className="md:hidden">
         <select

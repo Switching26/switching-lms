@@ -115,7 +115,7 @@ export default function AdminMessages() {
   }
 
   return (
-    <div className="flex flex-col md:flex-row h-[calc(100vh-120px)] bg-white rounded-xl border border-border overflow-hidden">
+    <div className="lms-messages flex flex-col md:flex-row h-[calc(100vh-120px)] bg-white rounded-xl border border-border overflow-hidden">
       {/* Conversation list - full width on mobile when no active, side panel on desktop */}
       <div className={`${activeId ? "hidden md:flex" : "flex"} w-full md:w-80 border-r border-border flex-col`}>
         <div className="px-4 py-3 border-b border-border">
@@ -200,7 +200,7 @@ export default function AdminMessages() {
                         className="px-4 py-2.5 max-w-[280px] sm:max-w-[400px] text-sm leading-relaxed"
                         style={{
                           borderRadius: 18,
-                          backgroundColor: isAdmin ? "#111111" : "#F5F5F7",
+                          backgroundColor: isAdmin ? "var(--lms-accent, #111111)" : "var(--lms-sunk, #F5F5F7)",
                           color: isAdmin ? "#ffffff" : "#111111",
                         }}
                       >

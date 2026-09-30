@@ -1,4 +1,5 @@
 import "./globals.css"
+import "./plaquette.css"
 import Providers from "@/components/Providers"
 import PwaInstallBanner from "@/components/PwaInstallBanner"
 

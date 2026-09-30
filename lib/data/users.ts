@@ -53,7 +53,7 @@ export async function getAllUsersByPartner(partnerId: string) {
   // Vue admin partenaire : ne pas exposer les comptes archivés.
   const users = await prisma.user.findMany({
     where: { partnerId, archivedAt: null },
-    include: { partner: true, enrollments: { include: { formation: true } }, _count: { select: { loginLogs: { where: { OR: [{ userAgent: null }, { NOT: { userAgent: { startsWith: "riseup-import" } } }] } } } } },
+    include: { partner: true, progress: { select: { chapterId: true, completedAt: true } }, enrollments: { include: { formation: { include: { chapters: { where: { isPublished: true }, select: { id: true } } } } } }, _count: { select: { loginLogs: { where: { OR: [{ userAgent: null }, { NOT: { userAgent: { startsWith: "riseup-import" } } }] } } } } },
     orderBy: { createdAt: "desc" },
   })
   return stripUsersSecrets(users)

@@ -128,7 +128,7 @@ export default function LearnerMessagesPage() {
   }
 
   return (
-    <div className="flex flex-col h-[calc(100vh-100px)] sm:h-[calc(100vh-120px)] bg-white rounded-xl border border-border overflow-hidden">
+    <div className="lms-messages flex flex-col h-[calc(100vh-100px)] sm:h-[calc(100vh-120px)] bg-white rounded-xl border border-border overflow-hidden">
       {/* Header */}
       <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-border">
         <h1 className="text-lg font-semibold">Messages</h1>
@@ -154,7 +154,7 @@ export default function LearnerMessagesPage() {
                   className="px-4 py-2.5 max-w-[280px] sm:max-w-[400px] text-sm leading-relaxed"
                   style={{
                     borderRadius: 18,
-                    backgroundColor: isMe ? "#111111" : "#F5F5F7",
+                    backgroundColor: isMe ? "var(--lms-accent, #4F46E5)" : "var(--lms-sunk, #F5F5F7)",
                     color: isMe ? "#ffffff" : "#111111",
                   }}
                 >

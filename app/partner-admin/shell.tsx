@@ -38,6 +38,7 @@ export default function PartnerAdminShell({
       )}
       <div style={shellStyle}>
         <TopNav
+          plaquette
           brand={partnerName}
           badge="Admin partenaire"
           items={items}
@@ -45,7 +46,7 @@ export default function PartnerAdminShell({
           brandLogo={partnerLogo}
           userEmail={userEmail}
         />
-        <main className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-5 pb-8 sm:pt-6 sm:pb-12">{children}</main>
+        <main className="lms-main relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-5 pb-8 sm:pt-6 sm:pb-12">{children}</main>
       </div>
     </div>
   )

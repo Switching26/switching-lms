@@ -3,6 +3,8 @@ import { redirect } from "next/navigation"
 import { prisma } from "@/lib/prisma"
 import { pwaManifestHref, pwaAppleIconHref } from "@/lib/pwa"
 import LearnerShell from "./shell"
+import { brandTheme } from "@/lib/brand-theme"
+import BrandTheme from "@/components/layout/BrandTheme"
 
 export async function generateMetadata() {
   const session = await auth()
@@ -47,17 +49,12 @@ export default async function LearnerLayout({ children }: { children: React.Reac
       })
     : null
 
-  const primaryColor = partner?.primaryColor || "#111111"
+  const primaryColor = partner?.primaryColor || "#4F46E5"
   const secondaryColor = partner?.secondaryColor || "#FFFFFF"
 
   return (
-    <div
-      style={{
-        // @ts-expect-error CSS custom properties
-        "--partner-primary": primaryColor,
-        "--partner-secondary": secondaryColor,
-      }}
-    >
+    <div className="lms-plaquette" style={brandTheme(primaryColor, secondaryColor)}>
+      <BrandTheme theme={brandTheme(primaryColor, secondaryColor)} />
       <LearnerShell
         brand={partner?.name || "Switching Formation"}
         brandColor={primaryColor}

@@ -23,11 +23,11 @@ interface User {
 }
 
 function FormationProgress({ user }: { user: User }) {
-  const chapters = user.enrollments[0]?.formation.chapters
-  if (!chapters?.length || !user.progress) return null
+  const chapters = user.enrollments.flatMap((enrollment) => enrollment.formation.chapters ?? [])
+  if (!chapters.length || !user.progress) return null
   const completed = chapters.filter((c) => user.progress!.some((p) => p.chapterId === c.id && p.completedAt)).length
   const percent = Math.round(completed / chapters.length * 100)
-  return <span className="lms-user-progress"><progress aria-label="Progression de formation" value={percent} max={100} />{percent}% · {completed}/{chapters.length}</span>
+  return <span className="lms-user-progress"><progress aria-label="Progression totale des formations" value={percent} max={100} />{percent}% · {completed}/{chapters.length}</span>
 }
 
 // Jamais connecté = compte jamais réellement activé (ex. import RiseUp) :

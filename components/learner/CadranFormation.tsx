@@ -96,6 +96,7 @@ export type ValidationChapitre =
 type Props = {
   /* — Repérage — */
   chapterId: string
+  formationTitle?: string
   filModule: string | null
   filChapitre: string
   /** Position du chapitre dans l'ordre d'apprentissage, à partir de 1. */
@@ -366,7 +367,7 @@ export default function CadranFormation(p: Props) {
         }}
       >
         <EnTetePanneau
-          titre="Toutes les leçons"
+          titre={p.formationTitle || "Toutes les leçons"}
           meta={`${p.total} chapitre${p.total > 1 ? "s" : ""}${
             p.sommaire.some((e) => e.secondes > 0)
               ? ` · ${dureeLisible(p.sommaire.reduce((t, e) => t + e.secondes, 0))}`

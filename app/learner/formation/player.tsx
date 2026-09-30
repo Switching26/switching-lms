@@ -645,6 +645,7 @@ export default function FormationPlayer({
       )}
 
       <CadranFormation
+        formationTitle={formationTitle}
         chapterId={active?.id || ""}
         filModule={
           active?.sectionId

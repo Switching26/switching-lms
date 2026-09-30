@@ -22,15 +22,6 @@ function initials(title: string) {
     .toUpperCase()
 }
 
-const COVER_GRADIENTS = [
-  "linear-gradient(135deg, #4F46E5 0%, #818CF8 100%)",
-  "linear-gradient(135deg, #0EA5E9 0%, #38BDF8 100%)",
-  "linear-gradient(135deg, #F59E0B 0%, #FBBF24 100%)",
-  "linear-gradient(135deg, #10B981 0%, #34D399 100%)",
-  "linear-gradient(135deg, #EC4899 0%, #F472B6 100%)",
-  "linear-gradient(135deg, #8B5CF6 0%, #A78BFA 100%)",
-]
-
 export default async function LearnerAccueil() {
   const session = await auth()
   if (!session) redirect("/login")
@@ -42,7 +33,7 @@ export default async function LearnerAccueil() {
 
   // Compute progress per formation
   const now = new Date()
-  const formationStats = enrollments.map((e, idx) => {
+  const formationStats = enrollments.map((e) => {
     const chapters = e.formation.chapters
     const completed = progressList.filter((p) => p.completedAt && chapters.some((c: { id: string }) => c.id === p.chapterId)).length
     const total = chapters.length
@@ -54,7 +45,6 @@ export default async function LearnerAccueil() {
       total,
       pct,
       expired: !!(e.expiresAt && new Date(e.expiresAt) < now),
-      gradient: COVER_GRADIENTS[idx % COVER_GRADIENTS.length],
     }
   })
     // Une formation expirée passait en tête (tri par date d'inscription) et était
@@ -64,6 +54,10 @@ export default async function LearnerAccueil() {
   const actives = formationStats.filter((f) => !f.expired)
   const totalCompleted = actives.reduce((s, f) => s + f.completed, 0)
   const totalChapters = actives.reduce((s, f) => s + f.total, 0)
+  const lastLesson = progressList
+    .filter((p) => p.lastAccessedAt && !p.completedAt && actives.some((f) => f.formation.chapters.some((c) => c.id === p.chapterId)))
+    .sort((a, b) => b.lastAccessedAt!.getTime() - a.lastAccessedAt!.getTime())[0]
+  const resumeFormation = lastLesson && actives.find((f) => f.formation.id === lastLesson.chapter.formationId)
 
   if (enrollments.length === 0) {
     return (
@@ -98,8 +92,21 @@ export default async function LearnerAccueil() {
         </p>
       </header>
 
+      {lastLesson && resumeFormation && <section className="lms-resume" aria-label="Reprendre la dernière leçon">
+        <div className="lms-resume-cover">
+          {resumeFormation.formation.coverImageUrl ? <img src={resumeFormation.formation.coverImageUrl} alt="" /> : <span>{initials(resumeFormation.formation.title)}</span>}
+        </div>
+        <div className="lms-resume-body">
+          <span className="lms-eyebrow">Reprendre</span>
+          <h2>{resumeFormation.formation.title}</h2>
+          <p>{lastLesson.chapter.title}</p>
+          <p>{resumeFormation.completed} / {resumeFormation.total} chapitres terminés · {resumeFormation.pct}%</p>
+          <Link className="lms-primary" href={`/learner/formation?id=${resumeFormation.formation.id}&chapitre=${lastLesson.chapterId}`}>Continuer la leçon <span aria-hidden>→</span></Link>
+        </div>
+      </section>}
+
       {/* Stats line */}
-      <div className="animate-fade-in-up-delay-1 grid grid-cols-3 gap-3 sm:gap-4">
+      <div className="lms-metrics animate-fade-in-up-delay-1 grid grid-cols-3">
         <StatCard label="Formations" value={actives.length} accent="brand" />
         <StatCard label="Chapitres terminés" value={totalCompleted} accent="emerald" />
         <StatCard label="Total chapitres" value={totalChapters} accent="ink" />
@@ -113,18 +120,17 @@ export default async function LearnerAccueil() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {formationStats.map(({ formation, completed, total, pct, gradient, enrollment, expired }) => (
+          {formationStats.map(({ formation, completed, total, pct, enrollment, expired }) => (
             <Link
               key={formation.id}
               href={`/learner/formation?id=${formation.id}`}
               className="card card-hover group flex flex-col overflow-hidden"
             >
               {/* Cover */}
-              <div className="relative h-[140px] overflow-hidden" style={{ background: formation.coverImageUrl ? undefined : gradient }}>
+              <div className="lms-cover relative h-[140px] overflow-hidden">
                 {formation.coverImageUrl ? (
                   <>
                     <img src={formation.coverImageUrl} alt={formation.title} className="w-full h-full object-cover" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent" />
                   </>
                 ) : (
                   <div className="absolute inset-0 flex items-center justify-center">

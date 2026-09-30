@@ -7,6 +7,28 @@ import { resolveTemplate, replaceVariables } from "@/lib/email-template-engine"
 import { getBaseUrl } from "@/lib/get-base-url"
 import { sortChaptersByLearningOrder } from "@/lib/data/chapter-order"
 
+/** Record navigation for Resume, independently of completion, time and emails. */
+export async function POST(_req: NextRequest, { params }: { params: { chapterId: string } }) {
+  const session = await auth()
+  if (!session) return NextResponse.json({ error: "Non autorisé" }, { status: 401 })
+  // Viewing another person's space must never change their learning history.
+  if (session.user.impersonating) return NextResponse.json({ ok: true })
+  const chapter = await prisma.chapter.findUnique({
+    where: { id: params.chapterId },
+    select: { isPublished: true, formationId: true, formation: { select: { isPublished: true, deletedAt: true } } },
+  })
+  if (!chapter?.isPublished || !chapter.formation.isPublished || chapter.formation.deletedAt) return NextResponse.json({ error: "Chapitre indisponible" }, { status: 404 })
+  const now = new Date()
+  const enrollment = await prisma.enrollment.findUnique({ where: { userId_formationId: { userId: session.user.id, formationId: chapter.formationId } } })
+  if (!enrollment || (enrollment.expiresAt && enrollment.expiresAt < now) || (enrollment.startedAt && enrollment.startedAt > now)) return NextResponse.json({ error: "Accès indisponible" }, { status: 403 })
+  await prisma.progress.upsert({
+    where: { userId_chapterId: { userId: session.user.id, chapterId: params.chapterId } },
+    update: { lastAccessedAt: now },
+    create: { userId: session.user.id, chapterId: params.chapterId, lastAccessedAt: now },
+  })
+  return NextResponse.json({ ok: true })
+}
+
 export async function PUT(req: NextRequest, { params }: { params: { chapterId: string } }) {
   const session = await auth()
   if (!session) return NextResponse.json({ error: "Non autorisé" }, { status: 401 })

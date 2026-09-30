@@ -251,6 +251,7 @@ model Progress {
   completedAt      DateTime?
   timeSpentSeconds Int       @default(0)
   lastPosition     Int       @default(0)
+  lastAccessedAt   DateTime?
   sessionCount     Int       @default(0)
 
   @@unique([userId, chapterId])

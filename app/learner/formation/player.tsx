@@ -337,6 +337,11 @@ export default function FormationPlayer({
   }, [envoyerNote])
 
   const active = chapters[activeIndex]
+  // The resume marker does not alter validation, watch time or the simulation engine.
+  useEffect(() => {
+    if (preview || !active?.id) return
+    fetch(`/api/progress/${encodeURIComponent(active.id)}`, { method: "POST", keepalive: true }).catch(() => {})
+  }, [active?.id, preview])
   const progressPercent =
     chapters.length > 0
       ? Math.round((Object.values(completedMap).filter(Boolean).length / chapters.length) * 100)

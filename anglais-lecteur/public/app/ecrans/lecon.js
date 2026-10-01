@@ -1,4 +1,5 @@
 import { adresse, modeLMS } from '../../services/base.js';
+import { relectureAutorisee } from '../../services/droits-lms.js';
 import { unite, lien, medias } from '../../services/unite.js';
 // LA PAGE DE LA LEÇON : bandeau, promesse, séquences et étapes (durée, compétence, état).
 import { e, coquille, chargement, duree, pastilleCompetence, REGIMES, compte } from '../ui.js';
@@ -57,8 +58,8 @@ export async function afficher(racine) {
         ${L.promesse ? `<div class="objectifs-lecon"><span class="surtitre-encre">Objectifs de la leçon</span><p class="promesse">${e(L.promesse)}</p></div>` : ''}
       </div>
     </article>
-    ${test && unite().startsWith('EVAL') ? '<button class="btn btn-secondaire" data-mode-relecture>Choisir la relecture auteur</button>' : ''}
-    ${test ? `<p class="carte" style="padding:16px;margin-top:16px">Évaluation · ${L.evaluation?.duree_min || L.duree_min} minutes prévues. ${L.evaluation?.mode_fidele_disponible === false ? 'Contenu à intégrer : mode noté bloqué, relecture auteur disponible.' : 'Aucune correction avant remise.'}</p>` : ''}
+    ${test && unite().startsWith('EVAL') && relectureAutorisee() ? '<button class="btn btn-secondaire" data-mode-relecture>Choisir la relecture auteur</button>' : ''}
+    ${test ? `<p class="carte" style="padding:16px;margin-top:16px">Évaluation · ${L.evaluation?.duree_min || L.duree_min} minutes prévues. ${L.evaluation?.mode_fidele_disponible === false ? (relectureAutorisee() ? 'Contenu à intégrer : mode noté bloqué, relecture auteur disponible.' : 'Évaluation actuellement indisponible.') : 'Aucune correction avant remise.'}</p>` : ''}
     ${L.unites_liees?.length ? `<p style="margin-top:16px">Unités liées : ${L.unites_liees.map(id => `<a href="${lien('', id)}">${e(id)}</a>`).join(' · ')}</p>` : ''}
     <section class="parcours-apercu" aria-labelledby="t-parcours">
       <h2 class="titre-filet" id="t-parcours">Le parcours en ${compte(phases.length, 'phase')}</h2>

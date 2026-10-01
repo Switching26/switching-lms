@@ -19,7 +19,7 @@ export function afficherLMS(racine,id,etape) {
 }
 if(modeLMS) {
   document.documentElement.classList.add('mode-lms');
-  const adapter=()=>{ let largeur=innerWidth; try { largeur=parent.innerWidth; } catch {} document.documentElement.classList.toggle('lms-grand-ecran',largeur>=900);document.documentElement.classList.toggle('lms-tablette',largeur>=768);document.documentElement.classList.toggle('lms-avec-libelles',largeur>760);document.documentElement.style.setProperty('--lms-vw',`${largeur/100}px`); };
+  const adapter=()=>{ let largeur=innerWidth; try { largeur=parent.innerWidth; } catch {} document.documentElement.classList.toggle('lms-grand-ecran',largeur>=900);document.documentElement.classList.toggle('lms-tablette',largeur>=768);document.documentElement.classList.toggle('lms-photo-tablette',largeur>=600&&largeur<900);document.documentElement.classList.toggle('lms-avec-libelles',largeur>760);document.documentElement.style.setProperty('--lms-vw',`${largeur/100}px`); };
   adapter();window.addEventListener('resize',adapter);
   try { if(parent!==window) parent.addEventListener('resize',adapter); } catch {}
   document.addEventListener('click',async ev=>{

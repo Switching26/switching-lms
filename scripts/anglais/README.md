@@ -8,7 +8,7 @@ Aucune commande de ce dossier ne cible une base implicitement. Toujours fournir 
 2. Appliquer les migrations avec `DATABASE_URL=... npx prisma migrate deploy` (migration ANGLAIS additive).
 3. `scripts/anglais/importer-lecteur.sh <dossier-source>` copie `public` hors vignettes, essais et rapports de recette, `services`, `activities`, `data`, sans médias, serveur ou modèles. La provenance est dans `anglais-lecteur/SOURCE.txt`. La copie est tracée dans le standalone Next et servie par une route authentifiée, jamais par `public/`.
 4. `DATABASE_URL=... npx tsx scripts/anglais/seed-formation.ts` : contrôle sans écriture. Source par défaut `~/checkos/work/lms-anglais-contenu`. `ANGLAIS_CONTENU`, `ANGLAIS_PROTOTYPE`, `ANGLAIS_ASSETS_U01`, `ANGLAIS_VIGNETTES` permettent de préciser les sources locales en lecture seule.
-5. `--apply --confirm SEED_ANGLAIS` écrit puis relit 10 sections/74 chapitres **en brouillon**. Deux relances ne créent pas de doublons et une version de simulation n'augmente que si son contenu change. Le semis refuse une formation déjà publiée. BILAN porte le document original `EVAL/bilan-final.json`, avec son plan d'hébergement (pas de lecon.json dans la source).
+5. `--apply --confirm SEED_ANGLAIS` écrit puis relit 10 sections/74 chapitres **en brouillon**, sous le titre validé `Anglais niveau 1 — Débutant (A1/A2)`. Deux relances ne créent pas de doublons et une version de simulation n'augmente que si son contenu change. Le semis refuse une formation déjà publiée. BILAN porte le document original `EVAL/bilan-final.json`, avec son plan d'hébergement (pas de lecon.json dans la source).
 
 ## Médias
 
@@ -25,9 +25,11 @@ La route `/api/anglais/import` exige un Bearer secret configuré par `ANGLAIS_IM
 - `/anglais/` → `/anglais/index.html`, paramètres préservés (évite la normalisation du slash final par Next).
 - Tout fichier exige une session active ET une inscription active à une formation anglaise publiée ; le super-admin peut prévisualiser un brouillon. Les chapitres non publiés restent refusés aux apprenants.
 - `/anglais/api/{sante,niveau,activites,lecon/ID,medias/ID}` et `contenu/ID/script/fichier.json` reproduisent les formats du prototype depuis Simulation.scenario.
+- `api/sante` indique `preview: true` uniquement pour une session super-admin ; le lecteur combine cette confirmation avec le mode aperçu pour proposer la relecture auteur.
 - `api/chapitre/<chapterId>` traduit la clé du LMS vers U01, etc.
 - `api/etat/ID` GET/PUT : `{version:1,valeurs,commun}`, 1 Mio max, SimulationAttempt.stepLog.etat. Fusion par horodatage des entrées ; sérialisation par verrou transactionnel. Un aperçu ne modifie pas la progression.
 - `api/progression/ID` POST/GET : compteurs absolus `{vues,faites,total,termine}` ; total comparé au plan, jamais de temps ou score officiel reçu ici. Progress.completedAt est écrit à la fin. Le suivi de présence existant compte les secondes.
+- Pour T1–T6 et EVAL, la fin exige aussi une remise présente dans l’état enregistré ; le serveur refuse une complétion anticipée même lorsque toutes les étapes ont été parcourues.
 - Prononciation/transcription : `ANGLAIS_PRONONCIATION_URL` optionnelle, même chemin `api/...`, corps et paramètres relayés, aucun cookie transmis. Sans service : réponse jouable `code: indisponible`, sans score.
 - Le protocole postMessage valide origine ET fenêtre source. L'iframe persiste en immersion ; notes/documents appartiennent au LMS. Le cadre du tenant conserve sa charte ; la palette marine est limitée au lecteur anglais.
 - Les MP3/MP4 prennent en charge GET/HEAD, Range simple et suffixe, 206/416 ; aucun cache public.

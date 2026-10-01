@@ -347,10 +347,16 @@
 .lms-reader-anglais { --partner-primary:#1B2A4A; --lms-ink:#1B2A4A; --lms-accent:#1B2A4A; --lms-soft:#edf0f6; }
 .lms-reader-anglais .lms-reader-scene { padding:0; background:#F7F6F3; overflow:visible; }
 .lms-reader-anglais .lms-reader-band h2 { color:#1B2A4A; }
-.lms-reader-anglais.anglais-immersif { display:block; padding:0; overflow:hidden; }
+/* L'immersion ne doit pas conserver le défilement horizontal du cadran :
+   un focus dans les panneaux peut déplacer un conteneur overflow:hidden. */
+.lms-reader-anglais.anglais-immersif { display:block; padding:0; overflow:clip; }
 .anglais-immersif > :is(.lms-reader-toolbar,.lms-reader-band,.lms-reader-details,.lms-reader-footer,.lms-reader-sidebar) { display:none; }
 .anglais-immersif > .lms-reader-scene { position:absolute; inset:0; width:100%; height:100%; margin:0; border:0; border-radius:0; overflow:hidden; }
 .anglais-immersif .anglais-frame { height:100% !important; }
+.lms-reader-anglais .lms-reader-sidebar > div:first-child { display:grid; grid-template-columns:minmax(0,1fr) 44px; gap:6px 4px; padding:20px 14px 16px 18px; background:transparent; }
+.lms-reader-anglais .lms-reader-sidebar > div:first-child h4 { grid-column:1; grid-row:1; font-size:14px; line-height:1.4; }
+.lms-reader-anglais .lms-reader-sidebar > div:first-child > span { grid-column:1; grid-row:2; }
+.lms-reader-anglais .lms-reader-sidebar > div:first-child > button { grid-column:2; grid-row:1 / 3; align-self:start; }
 @media(max-width:760px) {
  .anglais-portail-immersif { top:0 !important; left:0 !important; z-index:65 !important; }
  .lms-reader-anglais:not(.anglais-immersif) .lms-reader-scene { margin-inline:12px; width:calc(100% - 24px); }

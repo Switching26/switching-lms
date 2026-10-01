@@ -54,7 +54,7 @@ export function coquille(racine, actif, opts = {}) {
   racine.innerHTML = `
     <div class="coquille">
       <header class="bandeau"><div class="bandeau-in">
-        <a class="marque" href="#/"><img src="./logo-switching.png" alt="" width="30" height="30"><span>Anglais niveau 1<small>Switching Formation</small></span></a>
+        <a class="marque" href="#/"><img src="./logo-switching.png" alt="" width="30" height="30"><span>Anglais niveau 1 — Débutant (A1/A2)<small>Switching Formation</small></span></a>
         <nav class="nav-haut" aria-label="Navigation principale">${LIENS.map((l) => lien(l, false)).join('')}</nav>
       </div></header>
       <main class="contenu" id="contenu"></main>

@@ -1,4 +1,5 @@
 import { modeLMS, idInterne } from '../services/base.js';
+import { chargerDroitsLMS } from '../services/droits-lms.js';
 import { chargerEtat, chargerTransversaux, definirPlan, synchroniser } from '../services/etat-lms.js';
 import { afficherLMS } from '../services/lms.js';
 import { chargerLecon } from './donnees.js';
@@ -43,7 +44,8 @@ async function naviguer() {
   const moi = ++jeton;
   delete app.dataset.pret;
   if (demonter) { try { await demonter(); } catch (err) { console.warn('[socle] démontage', err); } demonter = null; }
-  await synchroniser();
+  void synchroniser();
+  if(modeLMS) app.innerHTML='<div class="chargement" role="status">Chargement du chapitre…</div>';
   chapitreActif = cibleUnite;
   activerUnite(cibleUnite);
   await chargerEtat(cibleUnite);
@@ -85,4 +87,4 @@ let navigation = Promise.resolve();
 const demanderNavigation = () => { navigation = navigation.catch(() => {}).then(naviguer); };
 window.addEventListener('hashchange', demanderNavigation);
 document.addEventListener('click', (ev) => { if (ev.target.closest('button, a')) debloquer(); }, { capture: true });
-demanderNavigation();
+chargerDroitsLMS().then(demanderNavigation);

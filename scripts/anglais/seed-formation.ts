@@ -5,7 +5,7 @@ import path from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { createHash } from 'node:crypto'
 import { ids, contenu, prototype, dossier, json, inventaire } from './sources'
-const db=new PrismaClient(); const titre='Anglais niveau 1'
+const db=new PrismaClient(); const titre='Anglais niveau 1 — Débutant (A1/A2)'
 async function main() {
  const apply=process.argv.includes('--apply')
  if(apply && process.argv[process.argv.indexOf('--confirm')+1]!=='SEED_ANGLAIS') throw Error('Confirmation SEED_ANGLAIS requise')

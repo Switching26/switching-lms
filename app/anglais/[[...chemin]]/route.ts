@@ -27,7 +27,7 @@ async function route(req:NextRequest,{params}:{params:{chemin?:string[]}}){
    if(origin&&origin!==`${protocol}://${host}`)throw new RefusAnglais(403,'Origine refusée')
    if(req.headers.get('sec-fetch-site')==='cross-site')throw new RefusAnglais(403,'Origine refusée')
   }
-  if(api==='sante')return repondre({ok:true,service:'lms-anglais',prononciation:{disponible:!!process.env.ANGLAIS_PRONONCIATION_URL}})
+  if(api==='sante')return repondre({ok:true,service:'lms-anglais',preview:ctx.admin,prononciation:{disponible:!!process.env.ANGLAIS_PRONONCIATION_URL}})
   if(api==='chapitre'&&raw)return repondre({id:raw.id,duree_min:raw.duree_min,preview:ctx.admin})
   if(api==='niveau'){
    const all=await simulations();const shared=await commun()
@@ -52,7 +52,7 @@ async function route(req:NextRequest,{params}:{params:{chemin?:string[]}}){
    if(api==='progression'){
     const {vues,faites,total,termine}=body
     const attendu=raw.id==='BILAN'?1:ctx.simulation.stepCount
-    if(![vues,faites,total].every(n=>Number.isInteger(n)&&n>=0&&n<=10000)||faites>vues||vues>total||total!==attendu||typeof termine!=='boolean'||termine!==(total>0&&faites===total))throw new RefusAnglais(400,'Progression invalide')
+    if(![vues,faites,total].every(n=>Number.isInteger(n)&&n>=0&&n<=10000)||faites>vues||vues>total||total!==attendu||typeof termine!=='boolean'||(termine&&!(total>0&&faites===total)))throw new RefusAnglais(400,'Progression invalide')
    }
    const result=await prisma.$transaction(async tx=>{
     await tx.$executeRaw`SELECT pg_advisory_xact_lock(hashtext(${key.simulationId+':'+key.userId}))`
@@ -64,7 +64,12 @@ async function route(req:NextRequest,{params}:{params:{chemin?:string[]}}){
      log.etat={...body,valeurs:merger(courant.valeurs,body.valeurs),commun:Object.fromEntries(Array.from(new Set([...Object.keys(courant.commun||{}),...Object.keys(body.commun)])).map(k=>[k,merger(courant.commun?.[k],body.commun[k])]))}
      if(Buffer.byteLength(JSON.stringify(log.etat))>1024*1024)throw new RefusAnglais(413,'État trop volumineux')
     }
-    else log.progression=body
+    else {
+     const cleTest=/^T[1-6]$/.test(raw.id)?`test:${raw.id}`:/^EVAL/.test(raw.id)?`eval:${raw.id}:note`:null
+     const remis=!cleTest||!!log.etat?.valeurs?.[cleTest]?.valeur?.remis
+     if(body.termine!==(body.total>0&&body.faites===body.total&&remis))throw new RefusAnglais(400,'Le test doit être remis avant de terminer le chapitre')
+     log.progression=body
+    }
     const termine=api==='progression'&&(body.termine===true||body.completed===true)
     const date=a?.completedAt|| (termine?new Date():null)
     await tx.simulationAttempt.upsert({where:{simulationId_userId:key},create:{...key,stepLog:log,completedAt:date},update:{stepLog:log,completedAt:date}})

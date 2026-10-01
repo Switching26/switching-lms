@@ -12,7 +12,7 @@ async function main(){
  for(const [email,role,firstName] of [['admin-anglais@example.invalid','SUPER_ADMIN','Admin'],['apprenant-anglais@example.invalid','LEARNER','Camille'],['sans-inscription@example.invalid','LEARNER','Sans inscription']] as const){
   users.push(await db.user.upsert({where:{email},create:{email,password:hashed,role,firstName,lastName:'Recette',partnerId:partner.id},update:{password:hashed}}))
  }
- const f=await db.formation.findFirstOrThrow({where:{title:'Anglais niveau 1',deletedAt:null},include:{chapters:{include:{simulation:true}}}})
+ const f=await db.formation.findFirstOrThrow({where:{title:'Anglais niveau 1 — Débutant (A1/A2)',deletedAt:null},include:{chapters:{include:{simulation:true}}}})
  await db.formation.update({where:{id:f.id},data:{isPublished:true}})
  for(const c of f.chapters)await db.chapter.update({where:{id:c.id},data:{isPublished:!/^EVAL-B/.test((c.simulation?.scenario as any)?.id)}})
  await db.enrollment.upsert({where:{userId_formationId:{userId:users[1].id,formationId:f.id}},create:{userId:users[1].id,formationId:f.id,startedAt:new Date('2026-01-01'),expiresAt:new Date('2027-12-31')},update:{}})

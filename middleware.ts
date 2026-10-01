@@ -26,6 +26,12 @@ export default auth((req) => {
   const user = req.auth?.user
   const base = getBaseUrl(req)
 
+  // Avant le passe-droit des extensions : les JS, MP3 et JSON anglais sont privés.
+  if (pathname === "/anglais" || pathname.startsWith("/anglais/")) {
+    if (!user) return Response.json({ ok: false, erreur: "Session requise" }, { status: 401 })
+    return // La route Node revérifie le compte et l'inscription pour CHAQUE fichier.
+  }
+
   if (pathname.startsWith("/uploads/") && PROTECTED_UPLOAD_EXT.test(pathname)) {
     const filename = pathname.split("/").pop()!
     return Response.redirect(new URL(`/api/files/${filename}`, base))

@@ -1,0 +1,180 @@
+/*
+ * SOCLE — visuel v2 « livre de cours » (30/09/2026).
+ * Identité du manuel d'anglais Switching : marine #1B2A4A, rouge britannique #C8102E en accent,
+ * papier chaud, titres en Lora ; texte courant en Geist (la police de notre LMS).
+ * Les NOMS de variables et de classes sont ceux du contrat des activités : seules les valeurs
+ * changent, et tout le prototype suit.
+ *
+ * Couleurs SÉMANTIQUES (juste, faux, « Voici la réponse ») : elles portent une information.
+ * Ne jamais s'en servir pour décorer. Le rouge d'accent reste typographique (surtitres, numéros,
+ * filets) : il ne remplit jamais un bouton ni un fond, pour ne pas se confondre avec « faux ».
+ */
+@import url('../fonts/geist.css');
+@import url('../fonts/lora.css');
+
+:root {
+  /* Papier et encres (manuel : papier #f7f6f3 / #f2f0eb, ardoise #3c4354, gris chaud #8b8778) */
+  --fond: #F7F6F3;
+  --fond-chaud: #F2F0EB;
+  --papier-fonce: #E9E6DE;
+  --surface: #FFFFFF;
+  --encre: #1B2A4A;          /* marine : titres et texte fort (14:1 sur blanc) */
+  --encre-70: #3C4354;       /* ardoise : texte courant (10:1) */
+  --encre-50: #676457;       /* gris chaud lisible : 5,9:1 sur blanc, 5,5:1 sur papier */
+  --encre-30: #8B8778;       /* gris chaud du manuel : décor et désactivé seulement, jamais du texte utile */
+  --filet: #E4E0D7;
+  --filet-fort: #CEC8BB;
+
+  /* Marque : le marine du manuel. Le rouge est l'accent typographique. */
+  --marque: #1B2A4A;
+  --marque-fonce: #121D36;
+  --marque-tres-fonce: #0C1528;
+  --marque-clair: #3A5585;
+  --marque-voile: #EAEDF3;
+  --marque-voile-bord: #C3CCDC;
+  --rouge: #C8102E;          /* 5,9:1 sur blanc */
+  --rouge-fonce: #A10D25;
+  --rouge-voile: #FBEEF0;
+
+  /* Sémantique — reprise du simulateur, encre renforcée pour des retours francs */
+  --juste: #047857;
+  --juste-fonce: #065F46;
+  --juste-voile: #EAF6F0;
+  --juste-bord: #9FD9BF;
+  --faux: #C81E43;
+  --faux-fonce: #9F1239;
+  --faux-voile: #FDEEF1;
+  --faux-bord: #F4B8C6;
+  --reponse-fond: #E7F3EB;   /* encart « Voici la réponse » : VERT, décision Samuel 07/08/2026 */
+  --reponse-bord: #9CCFB0;
+  --reponse-encre: #0C5B31;
+  --ambre: #8A5A12;          /* évaluation notée */
+  --ambre-voile: #FBF3E4;
+  --lecture: #3E5A67;
+
+  /* Les quatre compétences — teintes d'encre sourdes, identiques partout (≥ 4,5:1 sur blanc) */
+  --c-ecouter: #2F5B96;  --c-ecouter-voile: #EBF0F7;
+  --c-lire: #6E4E96;     --c-lire-voile: #F2EEF7;
+  --c-parler: #A4532B;   --c-parler-voile: #FAEFE8;
+  --c-ecrire: #266E73;   --c-ecrire-voile: #E7F3F3;
+
+  /* Formes : plus nettes, façon livre de cours */
+  --rayon-carte: 12px;
+  --rayon-bloc: 8px;
+  --rayon-bouton: 10px;
+  --rayon-pastille: 999px;
+  --ombre-carte: 0 1px 2px rgba(27, 42, 74, 0.06), 0 2px 10px rgba(27, 42, 74, 0.04);
+  --ombre-carte-forte: 0 2px 6px rgba(27, 42, 74, 0.08), 0 14px 34px rgba(27, 42, 74, 0.10);
+  --ombre-survol: 0 6px 18px rgba(27, 42, 74, 0.10), 0 2px 6px rgba(27, 42, 74, 0.06);
+  --ressort: cubic-bezier(0.22, 1.4, 0.36, 1);
+  --doux: cubic-bezier(0.2, 0.8, 0.2, 1);
+
+  --police: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --police-titre: 'Lora', Georgia, 'Times New Roman', serif;
+
+  --cible: 44px;
+  --gouttiere: 16px;
+  --largeur-lecture: 760px;
+  --haut-bandeau: 56px;
+  --bas-sur: env(safe-area-inset-bottom, 0px);
+  --haut-sur: env(safe-area-inset-top, 0px);
+}
+
+@media (min-width: 768px) { :root { --gouttiere: 24px; --haut-bandeau: 64px; } }
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: var(--police);
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--encre-70);
+  background: var(--fond);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-tap-highlight-color: transparent;
+
+}
+img, video, svg { max-width: 100%; }
+img, video { height: auto; display: block; }
+button, input, select, textarea { font: inherit; color: inherit; }
+input, textarea, select { font-size: 16px; } /* pas de zoom automatique sur iPhone */
+:focus-visible { outline: 3px solid var(--marque-clair); outline-offset: 2px; border-radius: 6px; }
+[hidden] { display: none !important; }
+
+.titre, h1, h2 { font-family: var(--police-titre); font-weight: 600; letter-spacing: -0.005em; line-height: 1.22; margin: 0; color: var(--encre); }
+h1 { font-size: clamp(1.7rem, 1.3rem + 1.6vw, 2.4rem); }
+h2 { font-size: clamp(1.3rem, 1.1rem + 0.8vw, 1.6rem); }
+h3 { font-size: 1.05rem; font-weight: 700; margin: 0; color: var(--encre); }
+b, strong { color: inherit; }
+p { margin: 0; }
+.discret { color: var(--encre-50); }
+.petit { font-size: 0.875rem; }
+.tres-petit { font-size: 0.8125rem; }
+.anglais { font-feature-settings: 'kern'; }
+.visuellement-cache { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* ── Boutons ─────────────────────────────────────────── */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+  min-height: var(--cible); padding: 0.65rem 1.2rem;
+  border-radius: var(--rayon-bouton); border: 1.5px solid transparent;
+  font-weight: 600; font-size: 1rem; line-height: 1.2; letter-spacing: 0.005em;
+  cursor: pointer; user-select: none; text-decoration: none;
+  transition: transform 0.2s var(--ressort), box-shadow 0.2s, background-color 0.15s, border-color 0.15s, color 0.15s;
+}
+.btn:disabled, .btn[aria-disabled="true"] { opacity: 0.45; cursor: not-allowed; transform: none !important; box-shadow: none !important; }
+.btn-primaire { background: var(--marque); color: #fff; box-shadow: 0 1px 2px rgba(27, 42, 74, 0.18), 0 6px 16px rgba(27, 42, 74, 0.16); }
+.btn-primaire:hover:not(:disabled) { background: var(--marque-fonce); transform: translateY(-1px); box-shadow: 0 2px 4px rgba(27, 42, 74, 0.2), 0 10px 22px rgba(27, 42, 74, 0.22); }
+.btn-secondaire { background: var(--surface); color: var(--encre); border-color: var(--filet-fort); }
+.btn-secondaire:hover:not(:disabled) { border-color: var(--encre); background: var(--surface); }
+.btn-fantome { background: transparent; color: var(--encre); padding-inline: 0.75rem; text-decoration: underline; text-decoration-color: var(--filet-fort); text-underline-offset: 4px; text-decoration-thickness: 1.5px; }
+.btn-fantome:hover:not(:disabled) { background: var(--marque-voile); text-decoration-color: var(--encre); }
+.btn-plein { width: 100%; }
+.btn-rond { width: var(--cible); padding: 0; border-radius: var(--rayon-pastille); }
+.btn:active:not(:disabled) { transform: scale(0.98); }
+.btn svg { width: 20px; height: 20px; flex: none; }
+
+/* ── Cartes ──────────────────────────────────────────── */
+.carte {
+  background: var(--surface); border: 1px solid var(--filet); border-radius: var(--rayon-carte);
+  box-shadow: var(--ombre-carte);
+}
+.carte-survol { transition: transform 0.25s var(--ressort), box-shadow 0.25s, border-color 0.25s; }
+.carte-survol:hover { border-color: var(--filet-fort); box-shadow: var(--ombre-survol); transform: translateY(-2px); }
+.bloc { border-radius: var(--rayon-bloc); background: var(--fond-chaud); border: 1px solid var(--filet); }
+
+/* ── Progression ─────────────────────────────────────── */
+.progression { position: relative; width: 100%; height: 6px; background: var(--papier-fonce); border-radius: 999px; overflow: hidden; }
+.progression > span { display: block; height: 100%; width: 0; border-radius: 999px; background: var(--marque); transition: width 0.4s var(--ressort); }
+
+/* ── Pastilles (les compétences portent leur icône, partout) ─ */
+.pastille {
+  display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.18rem 0.6rem 0.18rem 0.5rem;
+  border-radius: var(--rayon-pastille); font-size: 0.8125rem; font-weight: 600; line-height: 1.35;
+  background: var(--marque-voile); color: var(--encre); white-space: nowrap;
+}
+.pastille svg { width: 14px; height: 14px; flex: none; }
+.pastille-ecouter { background: var(--c-ecouter-voile); color: var(--c-ecouter); }
+.pastille-lire { background: var(--c-lire-voile); color: var(--c-lire); }
+.pastille-parler { background: var(--c-parler-voile); color: var(--c-parler); }
+.pastille-ecrire { background: var(--c-ecrire-voile); color: var(--c-ecrire); }
+.pastille-neutre { background: var(--fond-chaud); color: var(--encre-70); }
+
+/* ── Encarts de retour : francs, lisibles, un filet de couleur à gauche ─ */
+.encart { display: flex; gap: 0.7rem; align-items: flex-start; padding: 0.85rem 1rem 0.85rem 0.9rem; border-radius: var(--rayon-bloc); border: 1px solid; border-left-width: 4px; font-size: 1rem; line-height: 1.45; font-weight: 500; }
+.encart svg { width: 22px; height: 22px; flex: none; margin-top: 0; }
+.encart b { font-weight: 700; }
+.encart-juste { background: var(--juste-voile); border-color: var(--juste-bord); border-left-color: var(--juste); color: var(--juste-fonce); }
+.encart-faux { background: var(--faux-voile); border-color: var(--faux-bord); border-left-color: var(--faux); color: var(--faux-fonce); }
+.encart-reponse { background: var(--reponse-fond); border-color: var(--reponse-bord); border-left-color: #2E7D4F; color: var(--reponse-encre); }
+.encart-info { background: var(--marque-voile); border-color: var(--marque-voile-bord); border-left-color: var(--marque); color: var(--encre); }
+.encart-note { background: var(--ambre-voile); border-color: #EBD3A6; border-left-color: var(--ambre); color: var(--ambre); }
+.encart .explication { display: block; margin-top: 0.3rem; color: var(--encre-70); font-weight: 400; }
+
+@keyframes monter { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+.apparait { animation: monter 0.45s var(--doux) both; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}

@@ -25,14 +25,15 @@ import CadranFormation, {
 
 /* ═══════════ HELPERS ═══════════ */
 
-type ChapterKind = "video" | "simulation" | "exercise" | "pdf" | "text"
+type ChapterKind = "anglais" | "video" | "simulation" | "exercise" | "pdf" | "text"
 
 function getChapterKind(ch: {
   videoUrl: string | null
-  simulation?: { id: string; mode: string; stepCount: number } | null
+  simulation?: { id: string; app?: string; mode: string; stepCount: number } | null
   exercises?: { id: string }[]
   attachments?: { fileUrl: string }[]
 }): ChapterKind {
+  if (ch.simulation?.app === "ANGLAIS") return "anglais"
   if (ch.videoUrl) return "video"
   // Une simulation passe avant le quiz : un chapitre de simulation peut porter
   // en plus un QCM de fin, c'est la simulation qui définit le chapitre.
@@ -49,7 +50,7 @@ function getChapterKind(ch: {
  */
 function chapterDurationSeconds(c: {
   videoDuration?: number | null
-  simulation?: { mode: string; stepCount: number } | null
+  simulation?: { app?: string; mode: string; stepCount: number } | null
 }): number {
   if (c.videoDuration) return c.videoDuration
   if (c.simulation) return estimatedSimulationSeconds(c.simulation.mode, c.simulation.stepCount)
@@ -62,6 +63,7 @@ function chapterDurationSeconds(c: {
  * badge de la bande, la pastille du sommaire et le contenu de la scène.
  */
 function genreCadran(kind: ChapterKind): GenreChapitre {
+  if (kind === "anglais") return "anglais"
   if (kind === "video") return "video"
   if (kind === "simulation") return "atelier"
   if (kind === "exercise") return "quiz"
@@ -265,7 +267,7 @@ export default function FormationPlayer({
       termine: !!completedMap[c.id],
       // Charge du chapitre : déjà chargée en métadonnées, aucune requête de plus.
       etapes: c.simulation?.stepCount ?? 0,
-      secondes: c.simulation ? estimatedSimulationSeconds(c.simulation.mode, c.simulation.stepCount) : 0,
+      secondes: c.simulation?.app === "ANGLAIS" ? chapterDurationSeconds(c) : c.simulation ? estimatedSimulationSeconds(c.simulation.mode, c.simulation.stepCount) : 0,
     }))
   }, [orderedChapters, sortedSections, completedMap])
 
@@ -563,6 +565,8 @@ export default function FormationPlayer({
               libelle: "Aperçu — non enregistré",
               explication: "En aperçu, la progression de l'apprenant n'est pas modifiée.",
             }
+          : kind === "anglais"
+            ? { etat: "verrouille", libelle: "Terminez les étapes de la leçon", explication: "La progression se valide dans votre leçon d’anglais." }
           : marking
             ? { etat: "enregistrement" }
             : watchGate.locked
@@ -625,6 +629,7 @@ export default function FormationPlayer({
       {estAtelier && active && (
         <SimulationChapter
           chapterId={active.id}
+          app={active.simulation?.app}
           preview={!!preview}
           onCompleted={() => handleChapterCompleted(active.id)}
           sommaire={sommaireAtelier}
@@ -732,6 +737,14 @@ export default function FormationPlayer({
           onWatchProgress={handleWatchProgress}
           takePendingSeconds={takePendingSeconds}
         />
+
+        {kind === "anglais" && active && (
+          <SimulationChapter key={active.id} chapterId={active.id} app="ANGLAIS" preview={!!preview}
+            onCompleted={() => handleChapterCompleted(active.id)}
+            onPrecedent={prevChapter ? () => handleSelectChapter(prevChapter) : undefined}
+            onSuivant={nextChapter ? () => handleSelectChapter(nextChapter) : undefined}
+            onQuitter={() => router.push("/learner/accueil")} />
+        )}
 
         {/* L'atelier que cet écran ne peut pas jouer. Il prend la place de la
             surface, jamais celle du cadran : le sommaire, les notes et la

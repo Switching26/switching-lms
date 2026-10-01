@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'standalone',
+  experimental: { outputFileTracingIncludes: { '/anglais/**': ['./anglais-lecteur/**/*'] } },
   images: {
     remotePatterns: [
       {
@@ -38,6 +39,7 @@ const nextConfig = {
           { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
         ],
       },
+      ...['/anglais/:path*', '/learner/formation', '/super-admin/:path*'].map(source => ({ source, headers: [{ key: 'Permissions-Policy', value: 'camera=(), microphone=(self), geolocation=()' }] })),
     ]
   },
 }

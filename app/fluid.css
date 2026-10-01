@@ -342,3 +342,22 @@
  html[data-lms-workspace="simulation"] .lms-side .lms-brand-lock { padding:0; justify-content:center; }
  html[data-lms-workspace="simulation"] .lms-side-account { justify-content:center; padding:8px 0; }
 }
+
+/* Anglais : seul le lecteur de formation change de palette, pas le cadre tenant. */
+.lms-reader-anglais { --partner-primary:#1B2A4A; --lms-ink:#1B2A4A; --lms-accent:#1B2A4A; --lms-soft:#edf0f6; }
+.lms-reader-anglais .lms-reader-scene { padding:0; background:#F7F6F3; overflow:visible; }
+.lms-reader-anglais .lms-reader-band h2 { color:#1B2A4A; }
+.lms-reader-anglais.anglais-immersif { display:block; padding:0; overflow:hidden; }
+.anglais-immersif > :is(.lms-reader-toolbar,.lms-reader-band,.lms-reader-details,.lms-reader-footer,.lms-reader-sidebar) { display:none; }
+.anglais-immersif > .lms-reader-scene { position:absolute; inset:0; width:100%; height:100%; margin:0; border:0; border-radius:0; overflow:hidden; }
+.anglais-immersif .anglais-frame { height:100% !important; }
+@media(max-width:760px) {
+ .anglais-portail-immersif { top:0 !important; left:0 !important; z-index:65 !important; }
+ .lms-reader-anglais:not(.anglais-immersif) .lms-reader-scene { margin-inline:12px; width:calc(100% - 24px); }
+}
+
+@media(min-width:761px) and (max-width:1100px) {
+ .lms-reader-anglais { grid-template-columns:minmax(0,1fr); }
+ .lms-reader-anglais :is(.lms-reader-toolbar,.lms-reader-scene,.lms-reader-band,.lms-reader-details,.lms-reader-footer) { grid-column:1; }
+ .lms-reader-anglais .lms-reader-sidebar { position:absolute; top:60px; left:0; z-index:55; width:300px; max-width:calc(100% - 28px); height:calc(100% - 80px); box-shadow:0 12px 40px #1b2a4a30; }
+}

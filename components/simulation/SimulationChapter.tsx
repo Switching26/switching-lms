@@ -63,7 +63,12 @@ type Payload = {
   } | null
 }
 
+const AnglaisChapter = dynamic(() => import("@/components/anglais/AnglaisChapter"), { ssr: false })
+
 type Props = {
+  app?: string
+  onPrecedent?: () => void
+  onSuivant?: () => void
   chapterId: string
   preview?: boolean
   onCompleted?: () => void
@@ -106,6 +111,7 @@ type Props = {
  * portail, les variables de couleur et la structure sont inchangés.
  */
 export default function SimulationChapter(props: Props) {
+  if (props.app === "ANGLAIS") return <AnglaisChapter {...props} />
   return (
     <FournisseurVoixDemo chapterId={props.chapterId} actif={!props.preview}>
       <ChapitreCharge {...props} />

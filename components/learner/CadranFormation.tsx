@@ -58,9 +58,9 @@ import SlidingTrack from "@/components/ui/SlidingTrack"
  * Hors cadran, `ouvrirLecons` ne fait rien plutôt que de lever : un écran rendu
  * en aperçu ou dans un test n'a pas à connaître son châssis.
  */
-type CommandesCadran = { ouvrirLecons: () => void }
+type CommandesCadran = { ouvrirLecons: () => void; ouvrirNotes: () => void; ouvrirRessources: () => void; immersion: (active: boolean) => void }
 
-const ContexteCadran = createContext<CommandesCadran>({ ouvrirLecons: () => {} })
+const ContexteCadran = createContext<CommandesCadran>({ ouvrirLecons: () => {}, ouvrirNotes: () => {}, ouvrirRessources: () => {}, immersion: () => {} })
 
 export function useCadranActions(): CommandesCadran {
   return useContext(ContexteCadran)
@@ -74,7 +74,7 @@ export function useCadranActions(): CommandesCadran {
  * les distinguer. La bande de consigne, elle, n'est jamais rendue pour un
  * atelier — c'est le player de simulation qui prend l'écran entier.
  */
-export type GenreChapitre = "video" | "quiz" | "document" | "texte" | "atelier"
+export type GenreChapitre = "video" | "quiz" | "document" | "texte" | "atelier" | "anglais"
 
 export type EntreeCadran = {
   id: string
@@ -169,6 +169,7 @@ const FOND_COCKPIT = "#151B2B"
 const FOND_SALLE = "#0E1218"
 
 const NATURE: Record<GenreChapitre, { badge: string; icone: string; teinte: string; fond: string; filet: string }> = {
+  anglais: { badge: "Anglais", icone: "EN", teinte: "#1B2A4A", fond: "#EEF1F7", filet: "#C8102E" },
   video: { badge: "À regarder", icone: "▶", teinte: "#3730A3", fond: "#EEF2FF", filet: "var(--partner-primary, #4F46E5)" },
   quiz: { badge: "À vous de jouer", icone: "✋", teinte: "#8A5A12", fond: "#FBF1DF", filet: "#C6902A" },
   document: { badge: "À consulter", icone: "👁", teinte: "#3E5A67", fond: "#E8F0F3", filet: "#3E5A67" },
@@ -177,6 +178,7 @@ const NATURE: Record<GenreChapitre, { badge: string; icone: string; teinte: stri
 }
 
 const PASTILLE: Record<GenreChapitre, { l: string; c: string; f: string }> = {
+  anglais: { l: "EN", c: "#1B2A4A", f: "#EEF1F7" },
   video: { l: "V", c: "#2C6BB0", f: "#E9F1FB" },
   quiz: { l: "★", c: "#8A5A12", f: "#FBF1DF" },
   document: { l: "D", c: "#3E5A67", f: "#E8F0F3" },
@@ -211,8 +213,11 @@ function pastilleCockpit(actif: boolean): React.CSSProperties {
 /* ═══════════ COMPOSANT ═══════════ */
 
 export default function CadranFormation(p: Props) {
+  const [immersif, setImmersif] = useState(false)
+  const anglais = p.genre === "anglais"
   const [panneau, setPanneau] = useState<"lecons" | "notes" | "ressources" | null>(null)
   const [replie, setReplie] = useState(false)
+  useEffect(() => { if (anglais && window.innerWidth > 760 && window.innerWidth <= 1100) setReplie(true) }, [anglais])
   const [onglet, setOnglet] = useState<"lecons" | "notes" | "documents" | "description">("lecons")
   const [documentOuvert, setDocumentOuvert] = useState<LearnerDocument | null>(null)
   const documents = filtrerDocuments([...(p.documentsChapitre || []), ...(p.documentsFormation || [])]).filter((doc, i, all) => all.findIndex((other) => other.id === doc.id) === i)
@@ -254,15 +259,15 @@ export default function CadranFormation(p: Props) {
    * Référence stable : sans elle, chaque rendu du cadran ferait re-rendre tout
    * ce qui consomme le contexte — dont l'hôte Vimeo persistant.
    */
-  const commandes = useMemo<CommandesCadran>(() => ({ ouvrirLecons: () => { setReplie(false); setPanneau("lecons"); setOnglet("lecons") } }), [])
+  const commandes = useMemo<CommandesCadran>(() => ({ ouvrirLecons: () => { setReplie(false); setPanneau("lecons"); setOnglet("lecons") }, ouvrirNotes: () => setPanneau("notes"), ouvrirRessources: () => setPanneau("ressources"), immersion: setImmersif }), [])
 
   const carte = (
     <ContexteCadran.Provider value={commandes}>
     <div
       className={
         p.pleinCadre
-          ? `lms-reader lms-portail ${replie ? "lms-reader-collapsed" : ""} relative h-full min-h-0 bg-white`
-          : `lms-reader lms-portail ${replie ? "lms-reader-collapsed" : ""} relative border border-border bg-white shadow-sm`
+          ? `lms-reader lms-portail ${anglais ? "lms-reader-anglais" : ""} ${anglais && immersif ? "anglais-immersif" : ""} ${replie ? "lms-reader-collapsed" : ""} relative h-full min-h-0 bg-white`
+          : `lms-reader lms-portail ${anglais ? "lms-reader-anglais" : ""} ${anglais && immersif ? "anglais-immersif" : ""} ${replie ? "lms-reader-collapsed" : ""} relative border border-border bg-white shadow-sm`
       }
       style={p.pleinCadre ? undefined : { borderRadius: 16 }}
       data-cadran-formation=""
@@ -452,7 +457,7 @@ export default function CadranFormation(p: Props) {
         </aside>
       )}
 
-      {p.afficherRessources && (
+      {(p.afficherRessources || anglais) && (
         <PanneauRessources
           id={idRessources}
           ouvert={panneau === "ressources"}
@@ -493,7 +498,7 @@ export default function CadranFormation(p: Props) {
         overflow: "hidden",
         display: p.visible ? undefined : "none",
       }}
-      className="lms-portail"
+      className={`lms-portail ${anglais && immersif ? "anglais-portail-immersif" : ""}`}
       data-cadran-portail=""
     >
       {carte}

@@ -61,6 +61,7 @@ export default function PreviewFormationPage() {
 
       <FormationPlayer
         formationTitle={formation.title}
+        dureeAfficheeMinutes={formation.dureeAfficheeMinutes}
         chapters={chapters}
         sections={formation.sections || []}
         formationAttachments={formation.attachments || []}

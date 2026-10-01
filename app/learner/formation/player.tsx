@@ -164,6 +164,7 @@ interface FormationAttachment {
 
 export default function FormationPlayer({
   formationTitle,
+  dureeAfficheeMinutes,
   formationCoverUrl,
   chapters,
   sections,
@@ -176,6 +177,7 @@ export default function FormationPlayer({
   quizGlobal,
 }: {
   formationTitle: string
+  dureeAfficheeMinutes?: number | null
   formationCoverUrl?: string | null
   chapters: Chapter[]
   sections?: Section[]
@@ -651,6 +653,7 @@ export default function FormationPlayer({
 
       <CadranFormation
         formationTitle={formationTitle}
+        dureeAfficheeMinutes={dureeAfficheeMinutes}
         chapterId={active?.id || ""}
         filModule={
           active?.sectionId

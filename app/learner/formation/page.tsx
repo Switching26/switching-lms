@@ -103,6 +103,7 @@ export default async function FormationPage({ searchParams }: { searchParams: Pr
       <FormationPlayer
         key={enrollment.formationId}
         formationTitle={enrollment.formation.title}
+        dureeAfficheeMinutes={enrollment.formation.dureeAfficheeMinutes}
         formationCoverUrl={enrollment.formation.coverImageUrl || null}
         chapters={JSON.parse(JSON.stringify(chapters))}
         sections={JSON.parse(JSON.stringify(sections))}

@@ -98,6 +98,7 @@ type Props = {
   /* — Repérage — */
   chapterId: string
   formationTitle?: string
+  dureeAfficheeMinutes?: number | null
   filModule: string | null
   filChapitre: string
   /** Position du chapitre dans l'ordre d'apprentissage, à partir de 1. */
@@ -213,6 +214,11 @@ function pastilleCockpit(actif: boolean): React.CSSProperties {
 /* ═══════════ COMPOSANT ═══════════ */
 
 export default function CadranFormation(p: Props) {
+  const dureeDeclaree = p.dureeAfficheeMinutes != null && p.dureeAfficheeMinutes > 0
+  const secondesFormation = dureeDeclaree
+    ? p.dureeAfficheeMinutes! * 60
+    : p.sommaire.reduce((t, e) => t + e.secondes, 0)
+  const metaFormation = `${p.total} chapitre${p.total > 1 ? "s" : ""}${secondesFormation > 0 ? ` · ${dureeLisible(secondesFormation)}` : ""}`
   const [immersif, setImmersif] = useState(false)
   const anglais = p.genre === "anglais"
   const apercuAnglais = anglais && !p.pleinCadre
@@ -344,7 +350,10 @@ export default function CadranFormation(p: Props) {
         </SlidingTrack>
         <div className="lms-reader-tab-content" role="tabpanel">
           {onglet === "lecons" && <>
-            <div className="lms-reader-mobile-chapters"><Sommaire entrees={p.sommaire} courant={p.chapterId} position={p.positionCourante ?? null} onNaviguer={p.onNaviguer} /></div>
+            <div className="lms-reader-mobile-chapters">
+              {dureeDeclaree && <p className="px-2 py-2 text-sm text-ink-50">{metaFormation}</p>}
+              <Sommaire entrees={p.sommaire} courant={p.chapterId} position={p.positionCourante ?? null} onNaviguer={p.onNaviguer} masquerDureesSections={dureeDeclaree} />
+            </div>
             <div className="lms-reader-desktop-default">
               {p.onNote ? <textarea aria-label="Mes notes de la leçon" value={p.note ?? ""} onChange={(e) => p.onNote?.(e.target.value)} placeholder="Écrivez ici ce que vous voulez retenir de ce chapitre…" /> : <p className="whitespace-pre-line">{p.description || p.contenu || "Aucune description pour cette leçon."}</p>}
             </div>
@@ -413,17 +422,14 @@ export default function CadranFormation(p: Props) {
       >
         <EnTetePanneau
           titre={p.formationTitle || "Toutes les leçons"}
-          meta={`${p.total} chapitre${p.total > 1 ? "s" : ""}${
-            p.sommaire.some((e) => e.secondes > 0)
-              ? ` · ${dureeLisible(p.sommaire.reduce((t, e) => t + e.secondes, 0))}`
-              : ""
-          }`}
+          meta={metaFormation}
           onFermer={() => { setPanneau(null); setReplie(true) }}
         />
         <div className="lms-reader-sidebar-progress px-4 py-3"><span>{p.progression}% terminé</span><progress aria-label="Progression de la formation" value={p.progression} max={100} /></div>
         <div className="min-h-0 flex-1 overflow-y-auto px-2 py-2">
           <Sommaire
             entrees={p.sommaire}
+            masquerDureesSections={dureeDeclaree}
             courant={p.chapterId}
             position={p.positionCourante ?? null}
             onNaviguer={(id) => {
@@ -901,11 +907,13 @@ function Sommaire({
   courant,
   position,
   onNaviguer,
+  masquerDureesSections = false,
 }: {
   entrees: EntreeCadran[]
   courant: string
   position: { vu: number; total: number } | null
   onNaviguer: (id: string) => void
+  masquerDureesSections?: boolean
 }) {
   const moduleCourant = entrees.find((e) => e.id === courant)?.module ?? null
   const [ouverts, setOuverts] = useState<Record<string, boolean>>({})
@@ -951,7 +959,7 @@ function Sommaire({
               </span>
               <span className="flex-shrink-0 text-[10.5px] tabular-nums text-warm-400">
                 {faits}/{g.items.length}
-                {secondes > 0 ? ` · ${dureeLisible(secondes)}` : ""}
+                {!masquerDureesSections && secondes > 0 ? ` · ${dureeLisible(secondes)}` : ""}
               </span>
               <span aria-hidden className="flex-shrink-0 text-[10px] text-warm-400">
                 {ouvert ? "▾" : "▸"}

@@ -1127,14 +1127,19 @@ async function main() {
      * au serveur non plus. Un second bouton s'en chargeait. Fermer l'onglet
      * entre les deux laissait une interface qui annonçait une question passée,
      * et un passage qui ne l'avait jamais enregistrée. */
-    verifie(
-      "R24f · en évaluation, « Passer la question » appelle bien le renoncement serveur",
-      /data-control="sim-montrer"[\s\S]{0,120}onClick=\{evaluationNotee \? passerLaQuestion : demarrerDemonstration\}/.test(jcode),
-    )
-    verifie(
-      "R24g · et le bloc de démonstration ne s'affiche plus en évaluation",
-      /demonstration && !evaluationNotee &&/.test(jcode),
-    )
+    const shell = fs.readFileSync(path.resolve(__dirname, "../../components/simulation/AtelierShell.tsx"), "utf8").replace(/\/\*[\s\S]*?\*\//g, "")
+    // Le bouton a été extrait dans AtelierShell : vérifier les DEUX extrémités.
+    const renoncementRaccorde = (player: string, cadre: string) =>
+      /onMontrer:\s*evaluationNotee \? passerLaQuestion : demarrerDemonstration/.test(player) &&
+      /data-control="sim-montrer"[\s\S]{0,120}onClick=\{c.onMontrer\}/.test(cadre)
+    const demoHorsEvaluation = (cadre: string) =>
+      /c.demonstration && montrable && !c.evaluationNotee && !c.lecture &&/.test(cadre)
+    verifie("R24f · en évaluation, le bouton appelle le renoncement serveur via le cadre", renoncementRaccorde(jcode, shell))
+    verifie("R24g · le cadre exclut la démonstration en évaluation", demoHorsEvaluation(shell))
+    verifie("R24h · le contrôle détecte un mauvais callback", !renoncementRaccorde(jcode.replace("onMontrer: evaluationNotee ? passerLaQuestion", "onMontrer: evaluationNotee ? demarrerDemonstration"), shell))
+    verifie("R24i · le contrôle détecte un bouton débranché", !renoncementRaccorde(jcode, shell.replace("onClick={c.onMontrer}", "onClick={undefined}")))
+    verifie("R24j · le contrôle détecte la perte du garde de démonstration", !demoHorsEvaluation(shell.replace("c.demonstration && montrable && !c.evaluationNotee &&", "c.demonstration && montrable &&")))
+
   }
 
   console.log(`\n${echecs === 0 ? "✓" : "✗"} ${total - echecs}/${total} contrôles passés`)

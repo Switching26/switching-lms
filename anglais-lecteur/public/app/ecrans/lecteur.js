@@ -14,6 +14,9 @@ import { icones } from '../../services/icones.js';
 import { ouvrirComparaison } from './comparaison.js';
 
 const { audio, guide, micro, voix, visuels, stockage, retour } = services;
+// Les notes personnelles n'existent pas dans l'aperçu du LMS. Ce paramètre
+// ne donne aucun droit : il retire seulement un outil sans panneau hôte.
+const notesDisponibles = new URLSearchParams(globalThis.location?.search || '').get('preview') !== '1';
 
 export async function afficher(racine, id) {
   chargement(racine, 'Préparation de l’étape…');
@@ -54,7 +57,7 @@ export async function afficher(racine, id) {
           <b>${e(etape.titre || '')}</b>
         </div>
         <button class="btn-icone" type="button" data-voix data-guide aria-label="Guide vocal" hidden>${icones.voix}<span class="onde"></span></button>
-        ${modeLMS ? `<span class="outils-lms"><button type="button" class="btn btn-secondaire" data-lms-outil="notes" aria-label="Notes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M15 3H5v18h14V7zM14 3v5h5"/></svg><span>Notes</span></button><button type="button" class="btn btn-secondaire" data-lms-outil="ressources" aria-label="Ressources"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m16 6-8.414 8.586a2 2 0 0 0 2.829 2.829l8.414-8.586a4 4 0 1 0-5.657-5.657l-8.379 8.551a6 6 0 0 0 8.485 8.485l8.379-8.551"/></svg><span>Ressources</span></button></span>` : `        <button class="btn btn-secondaire btn-comparer" type="button" data-voix data-comparer>${icones.comparer}<span>Comparer avec Reflex'English</span></button>
+        ${modeLMS ? `<span class="outils-lms">${notesDisponibles ? `<button type="button" class="btn btn-secondaire" data-lms-outil="notes" aria-label="Notes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M15 3H5v18h14V7zM14 3v5h5"/></svg><span>Notes</span></button>` : ''}<button type="button" class="btn btn-secondaire" data-lms-outil="ressources" aria-label="Ressources"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m16 6-8.414 8.586a2 2 0 0 0 2.829 2.829l8.414-8.586a4 4 0 1 0-5.657-5.657l-8.379 8.551a6 6 0 0 0 8.485 8.485l8.379-8.551"/></svg><span>Ressources</span></button></span>` : `        <button class="btn btn-secondaire btn-comparer" type="button" data-voix data-comparer>${icones.comparer}<span>Comparer avec Reflex'English</span></button>
         <button class="btn-icone btn-comparer-icone" type="button" data-voix data-comparer aria-label="Comparer avec Reflex'English">${icones.comparer}</button>`}
 
       </div>

@@ -353,6 +353,12 @@
 .anglais-immersif > :is(.lms-reader-toolbar,.lms-reader-band,.lms-reader-details,.lms-reader-footer,.lms-reader-sidebar) { display:none; }
 .anglais-immersif > .lms-reader-scene { position:absolute; inset:0; width:100%; height:100%; margin:0; border:0; border-radius:0; overflow:hidden; }
 .anglais-immersif .anglais-frame { height:100% !important; }
+/* Uniquement l'aperçu anglais : la carte n'a pas le portail plein cadre
+   de l'apprenant. Garder la scène dans la hauteur visible sous son en-tête. */
+.anglais-apercu.anglais-immersif { height:max(320px, calc(100dvh - var(--anglais-apercu-top, 180px) - 24px)); }
+@media(max-width:760px) {
+ .anglais-apercu.anglais-immersif { position:fixed; inset:0; width:100%; height:100dvh; z-index:65; border:0; border-radius:0 !important; }
+}
 .lms-reader-anglais .lms-reader-sidebar > div:first-child { display:grid; grid-template-columns:minmax(0,1fr) 44px; gap:6px 4px; padding:20px 14px 16px 18px; background:transparent; }
 .lms-reader-anglais .lms-reader-sidebar > div:first-child h4 { grid-column:1; grid-row:1; font-size:14px; line-height:1.4; }
 .lms-reader-anglais .lms-reader-sidebar > div:first-child > span { grid-column:1; grid-row:2; }

@@ -215,6 +215,27 @@ function pastilleCockpit(actif: boolean): React.CSSProperties {
 export default function CadranFormation(p: Props) {
   const [immersif, setImmersif] = useState(false)
   const anglais = p.genre === "anglais"
+  const apercuAnglais = anglais && !p.pleinCadre
+  const apercu = useRef<HTMLDivElement>(null)
+  // L'aperçu reste dans le flux ; sa scène absolue a besoin d'une hauteur
+  // propre. Ne pas déplacer l'iframe : cela perdrait l'exercice en cours.
+  useEffect(() => {
+    if (!apercuAnglais || !immersif || !p.visible) return
+    const scroll = window.scrollY
+    const overflow = document.body.style.overflow
+    window.scrollTo(0, 0)
+    document.body.style.overflow = "hidden"
+    const mesurer = () => apercu.current?.style.setProperty("--anglais-apercu-top", `${Math.max(0, apercu.current.getBoundingClientRect().top)}px`)
+    mesurer()
+    const frame = requestAnimationFrame(mesurer)
+    window.addEventListener("resize", mesurer)
+    return () => {
+      cancelAnimationFrame(frame)
+      window.removeEventListener("resize", mesurer)
+      document.body.style.overflow = overflow
+      window.scrollTo(0, scroll)
+    }
+  }, [apercuAnglais, immersif, p.visible])
   const [panneau, setPanneau] = useState<"lecons" | "notes" | "ressources" | null>(null)
   const [replie, setReplie] = useState(false)
   useEffect(() => { if (anglais && window.innerWidth > 760 && window.innerWidth <= 1100) setReplie(true) }, [anglais])
@@ -267,7 +288,7 @@ export default function CadranFormation(p: Props) {
       className={
         p.pleinCadre
           ? `lms-reader lms-portail ${anglais ? "lms-reader-anglais" : ""} ${anglais && immersif ? "anglais-immersif" : ""} ${replie ? "lms-reader-collapsed" : ""} relative h-full min-h-0 bg-white`
-          : `lms-reader lms-portail ${anglais ? "lms-reader-anglais" : ""} ${anglais && immersif ? "anglais-immersif" : ""} ${replie ? "lms-reader-collapsed" : ""} relative border border-border bg-white shadow-sm`
+          : `lms-reader lms-portail ${anglais ? "lms-reader-anglais anglais-apercu" : ""} ${anglais && immersif ? "anglais-immersif" : ""} ${replie ? "lms-reader-collapsed" : ""} relative border border-border bg-white shadow-sm`
       }
       style={p.pleinCadre ? undefined : { borderRadius: 16 }}
       data-cadran-formation=""
@@ -471,7 +492,7 @@ export default function CadranFormation(p: Props) {
     </ContexteCadran.Provider>
   )
 
-  if (!p.pleinCadre) return <div style={{ display: p.visible ? undefined : "none" }}>{carte}</div>
+  if (!p.pleinCadre) return <div ref={apercu} style={{ display: p.visible ? undefined : "none" }}>{carte}</div>
   // Avant l'hydratation, on réserve la place sans rendre le portail.
   if (!monte) return <div style={{ height: 420 }} />
 

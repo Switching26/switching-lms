@@ -416,3 +416,18 @@
 .mode-lms.lms-tablette .lecon-tete .actions .btn { width:auto; }
 h3, h4 { font-family:var(--police-titre); color:var(--encre); }
 .mode-lms.lms-photo-tablette .lecon-tete .image { aspect-ratio:16 / 6; }
+
+/* Ressources de l’unité : mêmes titres et surfaces que le parcours. */
+.ressources-unite { margin-top: 28px; }
+.mots-unite, .fiches-unite { list-style: none; padding: 0; margin: 16px 0 0; display: grid; gap: 12px; }
+.mots-unite { grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); }
+.mots-unite li { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px; background: var(--surface); border-bottom: 1px solid var(--filet); min-width: 0; }
+.mot-traduction { display: grid; gap: 4px; min-width: 0; overflow-wrap: anywhere; }
+.mots-unite .btn { min-height: 44px; min-width: 44px; flex: none; }
+.mots-unite .btn:disabled { max-width: 130px; white-space: normal; }
+.fiches-unite a { display: grid; gap: 6px; padding: 14px 16px; min-height: 44px; overflow-wrap: anywhere; color: var(--encre); text-decoration: none; }
+
+/* L’arrêt au pointerdown ne doit pas déplacer la cible du clic en tablette. */
+.ouverture-libelle { display: inline-grid; }
+.ouverture-libelle > span { grid-area: 1 / 1; }
+.ouverture-reserve { visibility: hidden; }

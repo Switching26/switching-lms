@@ -23,6 +23,11 @@ if(modeLMS) {
   adapter();window.addEventListener('resize',adapter);
   try { if(parent!==window) parent.addEventListener('resize',adapter); } catch {}
   document.addEventListener('click',async ev=>{
+    const lien=ev.target.closest('a[href^="#/unite/"]');
+    const cible=lien?.getAttribute('href')?.match(/^#\/unite\/([A-Z0-9-]+)$/)?.[1];
+    if(cible && idChapitre(cible)!==idChapitre(new URLSearchParams(location.search).get('id'))) {
+      ev.preventDefault(); await synchroniser(); message('naviguer',{vers:'chapitre',id:idChapitre(cible)}); return;
+    }
     const outil=ev.target.closest('[data-lms-outil]');
     if(outil) { ev.preventDefault(); message('outil',{outil:outil.dataset.lmsOutil}); }
     const nav=ev.target.closest('[data-lms-vers]');

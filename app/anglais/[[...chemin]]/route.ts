@@ -28,7 +28,15 @@ async function route(req:NextRequest,{params}:{params:{chemin?:string[]}}){
    if(req.headers.get('sec-fetch-site')==='cross-site')throw new RefusAnglais(403,'Origine refusée')
   }
   if(api==='sante')return repondre({ok:true,service:'lms-anglais',preview:ctx.admin,prononciation:{disponible:!!process.env.ANGLAIS_PRONONCIATION_URL}})
-  if(api==='chapitre'&&raw)return repondre({id:raw.id,duree_min:raw.duree_min,preview:ctx.admin})
+  if(api==='chapitre'&&raw){
+   const cible=req.nextUrl.searchParams.get('cible')
+   if(cible!==null){
+    const destination=await prisma.simulation.findFirst({where:{app:'ANGLAIS',scenario:{path:['id'],equals:identifiant(cible)},chapter:{formationId:ctx.simulation!.chapter.formationId,...(ctx.admin?{}:{isPublished:true})}},select:{chapterId:true}})
+    if(!destination)throw new RefusAnglais(404,'Fiche non accessible dans cette formation')
+    return repondre({chapterId:destination.chapterId})
+   }
+   return repondre({id:raw.id,duree_min:raw.duree_min,preview:ctx.admin})
+  }
   if(api==='niveau'){
    const all=await simulations();const shared=await commun()
    return repondre({...shared?.catalogue,elements:all.map(s=>{const r=s.scenario as any;const p=r.lecon.lecon;return{id:r.id,nature:/^T|^EVAL/.test(r.id)?'test':/^[GV]/.test(r.id)?'fiche':'unite',titre:p.titre?.fr||p.titre,duree_min:r.duree_min,present:true,disponible:true}})})

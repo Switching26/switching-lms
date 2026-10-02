@@ -26,7 +26,7 @@ La route `/api/anglais/import` exige un Bearer secret configuré par `ANGLAIS_IM
 - Tout fichier exige une session active ET une inscription active à une formation anglaise publiée ; le super-admin peut prévisualiser un brouillon. Les chapitres non publiés restent refusés aux apprenants.
 - `/anglais/api/{sante,niveau,activites,lecon/ID,medias/ID}` et `contenu/ID/script/fichier.json` reproduisent les formats du prototype depuis Simulation.scenario.
 - `api/sante` indique `preview: true` uniquement pour une session super-admin ; le lecteur combine cette confirmation avec le mode aperçu pour proposer la relecture auteur.
-- `api/chapitre/<chapterId>` traduit la clé du LMS vers U01, etc.
+- `api/chapitre/<chapterId>` traduit la clé du LMS vers U01, etc. Avec `?cible=V04` (ou G20…), retrouve la clé du chapitre par `scenario.id` dans la même formation accessible ; refuse un chapitre non publié pour un apprenant. Le message `anglais:naviguer` avec `vers: chapitre, id: V04` utilise cette résolution en apprenant comme en aperçu admin.
 - `api/etat/ID` GET/PUT : `{version:1,valeurs,commun}`, 1 Mio max, SimulationAttempt.stepLog.etat. Fusion par horodatage des entrées ; sérialisation par verrou transactionnel. Un aperçu ne modifie pas la progression.
 - `api/progression/ID` POST/GET : compteurs absolus `{vues,faites,total,termine}` ; total comparé au plan, jamais de temps ou score officiel reçu ici. Progress.completedAt est écrit à la fin. Le suivi de présence existant compte les secondes.
 - Pour T1–T6 et EVAL, la fin exige aussi une remise présente dans l’état enregistré ; le serveur refuse une complétion anticipée même lorsque toutes les étapes ont été parcourues.
@@ -43,3 +43,11 @@ PostgreSQL 16 sur 127.0.0.1:55432, base `anglais` pour l'apprenant ; base sépar
 `node scripts/anglais/check-api.mjs` et `node scripts/anglais/check-import-reprise.mjs` exercent les vraies routes sur :3096. Le second utilise uniquement le secret jetable de `.env.local` et nettoie ses fichiers témoins.
 
 La procédure de mise en production et les preuves de recette sont dans `~/checkos/scratchpads/lms-anglais-l1/INTEG/RAPPORT-LMS.md`. Aucune production n'est autorisée par ce README.
+
+### Recette de l’enrichissement lexical
+
+Après import du lecteur, build, copie de `public/` et `.next/static/` dans le standalone, lancer avec `PORT=3096` et attendre HTTP 200 sur `/login` avant les tests.
+
+`node scripts/anglais/fabriquer-recette-enrichissement.mjs apprenant` (puis `admin` ou `bilan`) produit un script **privé** sous `.local/` depuis les comptes fictifs. Exécuter avec `playwright-cli run-code --filename <sortie>`, dans un profil persistant distinct de ceux des autres agents.
+
+Les recettes apprenant/admin vérifient mots, cibles, largeur, clics V04/G20, retour U10 et formes entières aux trois formats. `bilan` reproduit dans la vraie iframe les productions T1 non visitées, passées et déposées : écrit 33 %, oral sans score automatique. Elles supposent les scénarios enrichis U01/U10/T1 et les médias copiés uniquement dans la base/le volume locaux. Une voix absente reste explicitement non évaluée ; la recette ne prouve pas une sortie son physique.

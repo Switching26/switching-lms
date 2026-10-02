@@ -22,6 +22,7 @@ export async function monter(racine, ctx) {
   const texte = String(etape.support?.texte_avec_trous || '');
   const morceaux = texte.split(/\[(\d+)\]/);
   const items = liste(etape.items);
+  const historique = ctx.unite === 'U01' && etape.id === 'EX-03';
   if (morceaux.length < 3 || !items.length) return afficherEnPreparation(racine, ctx, 'texte à trous absent');
   const itemDuTrou = (n) => items.find((i) => String(i.id).endsWith(`-${n}`)) || items[n - 1];
 
@@ -61,9 +62,24 @@ export async function monter(racine, ctx) {
         class: 'b3-trou', type: 'text', inputmode: 'text', autocomplete: 'off', autocapitalize: 'none', autocorrect: 'off', spellcheck: 'false',
         maxlength: '14', 'aria-label': `Trou ${n}${item.sujet ? `, sujet : ${item.sujet}` : ''}`, 'data-trou': String(n),
       });
-      if (ctx.unite !== 'U01') { const longueur = Math.max(5, ...[...(item.reponse?.attendues || []), ...(item.reponse?.variantes || [])].map(x => String(x).length)); input.maxLength = Math.max(80,longueur); input.style.width = `min(${longueur + 4}ch, 100%)`; }
+      if (!historique) { const longueur = Math.max(5, ...[...(item.reponse?.attendues || []), ...(item.reponse?.variantes || [])].map(x => String(x).length)); input.maxLength = Math.max(80,longueur); input.style.width = `min(${longueur + 4}ch, 100%)`; }
       const marque = el('span', { class: 'b3-trou-marque', 'aria-hidden': 'true' });
       const env = el('label', { class: 'b3-trou-env' }, el('span', { class: 'b3-trou-num', 'aria-hidden': 'true', texte: String(n) }), input, marque);
+      const stimulus = item.stimulus;
+      if (stimulus?.description_fr) {
+        const visuel = el('span', { class: 'b3-stimulus', role: 'img', 'aria-label': stimulus.description_fr, lang: 'fr' });
+        if (/^#[0-9a-f]{6}$/i.test(stimulus.couleur) && ['bag', 'cup'].includes(stimulus.objet)) {
+          const objet = el('span', { class: `b3-objet b3-objet-${stimulus.objet}`, 'aria-hidden': 'true' });
+          objet.style.backgroundColor = stimulus.couleur;
+          visuel.append(objet);
+        } else if (stimulus.image && urlImage(ctx, stimulus.image)) {
+          const img = el('img', { src: urlImage(ctx, stimulus.image), alt: '', 'aria-hidden': 'true' });
+          if (stimulus.taille === 'petite') img.style.width = '88px';
+          if ([0, 10].includes(stimulus.rotation)) img.style.transform = `rotate(${stimulus.rotation}deg)`;
+          visuel.append(img);
+        }
+        if (visuel.childElementCount) { env.classList.add('b3-trou-illustre'); env.prepend(visuel); }
+      }
       bulle.append(env);
       trous.push({ n, item, input, env, resolu: false, derniere: '', ko: false, explication: '' });
     });
@@ -121,7 +137,7 @@ export async function monter(racine, ctx) {
     }
 
     function secondIndice() {
-      if (ctx.unite && ctx.unite !== 'U01') return texteFr(etape.aide?.indice) || 'Relisez la phrase autour du trou.';
+      if (!historique) return texteFr(etape.aide?.indice) || 'Relisez la phrase autour du trou.';
       const t = trous.find((x) => x.n === dernierFaux && !x.resolu) || trous.find((x) => !x.resolu);
       return t?.item?.sujet ? `Trou ${t.n} : le sujet est « ${t.item.sujet} ». Remplacez-le par un pronom, puis choisissez am, is ou are.` : null;
     }
@@ -198,7 +214,7 @@ export async function monter(racine, ctx) {
       t.env.scrollIntoView?.({ block: 'center', behavior: mouvementReduit() ? 'auto' : 'smooth' });
       await attendre(350, signal);
       const marque = surlignerSujet(t);
-      const pronom = ctx.unite && ctx.unite !== 'U01' ? null : pronomDe(t.item);
+      const pronom = historique ? pronomDe(t.item) : null;
       if (marque && pronom && pronom.toLowerCase() !== String(t.item.sujet).toLowerCase()) {
         const badge = el('span', { class: 'b3-tat-pronom', lang: 'en', texte: `= ${pronom}` });
         marque.after(badge);
@@ -306,6 +322,15 @@ ${p} .b3-tat-initiale { display: grid; place-items: center; font-weight: 700; co
 ${p} .b3-tat-bulle { margin: 0; padding: 14px 16px; border-radius: 4px 18px 18px 18px; background: var(--fond); border: 1px solid var(--filet); font-size: 1.05rem; line-height: 2.55; color: var(--encre); overflow-wrap: anywhere; }
 @media (min-width: 768px) { ${p} .b3-tat-bulle { padding: 18px 22px; font-size: 1.1rem; } }
 ${p} .b3-trou-env { position: relative; display: inline-flex; align-items: center; vertical-align: middle; padding: 3px 0; margin: 0 2px; cursor: text; }
+${p} .b3-trou-env { max-width: 100%; }
+${p} .b3-trou-illustre { flex-wrap: wrap; gap: 12px; }
+${p} .b3-stimulus { width: 130px; height: 130px; display: inline-flex; align-items: center; justify-content: center; flex: none; }
+${p} .b3-stimulus img { width: 112px; height: 112px; object-fit: contain; }
+${p} .b3-objet { display: block; width: 68px; height: 66px; border: 2px solid #1B2A4A; position: relative; }
+${p} .b3-objet-bag { border-radius: 4px 4px 12px 12px; }
+${p} .b3-objet-bag::before { content: ''; position: absolute; width: 28px; height: 22px; border: 2px solid #1B2A4A; border-bottom: 0; border-radius: 18px 18px 0 0; left: 17px; top: -24px; }
+${p} .b3-objet-cup { border-radius: 3px 3px 18px 18px; }
+${p} .b3-objet-cup::after { content: ''; position: absolute; width: 18px; height: 30px; border: 3px solid #1B2A4A; border-left: 0; border-radius: 0 14px 14px 0; right: -21px; top: 8px; }
 ${p} .b3-trou-num { position: absolute; top: -4px; left: 6px; font-size: 0.625rem; font-weight: 700; color: var(--encre-50); line-height: 1; background: var(--fond); padding: 0 3px; border-radius: 4px; pointer-events: none; }
 ${p} .b3-trou { width: 4.2em; height: 38px; padding: 0 22px 0 10px; border-radius: 10px; border: 1.5px solid var(--filet-fort); background: var(--surface); color: var(--encre); font: inherit; font-size: 16px; font-weight: 700; line-height: 1; text-align: left; transition: border-color .15s, box-shadow .15s, background-color .15s; }
 ${p} .b3-trou:focus { outline: none; border-color: var(--marque); box-shadow: 0 0 0 3px var(--marque-voile-bord); }

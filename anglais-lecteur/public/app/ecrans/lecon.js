@@ -11,6 +11,7 @@ import { voix } from '../../services/voix.js';
 import { guide } from '../../services/guide.js';
 import { lire, ecrire } from '../../services/stockage.js';
 import { vignetteEtape } from '../vignettes.js';
+import { ressourcesUnite, ressourcesHTML, brancherMots } from '../mots-a-retenir.js';
 
 export async function afficher(racine) {
   const zone = coquille(racine, 'niveau', { aReviser: revisions.aReviser().length });
@@ -19,6 +20,7 @@ export async function afficher(racine) {
   if (l.en_preparation) { zone.innerHTML = `<div class="carte" style="padding:24px"><h1>${e(unite())} · en préparation</h1><p>Ce contenu est encore en cours de rédaction.</p><a href="#/niveau">Revenir à la carte du niveau</a></div>`; return; }
   const a = avancement(l);
   const L = l.lecon;
+  const [ressources] = await Promise.all([ressourcesUnite(l), voix.recharger().catch(() => null)]);
   const test = L.nature === 'test' || /^T|^EVAL/.test(unite());
   const image = visuels.image(L.image_bandeau);
   const reprise = a.prochaine;
@@ -53,7 +55,7 @@ export async function afficher(racine) {
         </dl>
         <div class="actions">
           ${cible ? `<a class="btn btn-primaire" href="${lien(`etape/${e(cible)}`)}">${cta}${icones.suivant}</a>` : ''}
-          <button type="button" class="btn btn-secondaire" data-voix data-ouverture hidden>${icones.ecouter}<span>Écouter la présentation</span></button>
+          <button type="button" class="btn btn-secondaire" data-voix data-ouverture hidden>${icones.ecouter}<span class="ouverture-libelle"><span data-ouverture-texte>Écouter la présentation</span><span aria-hidden="true" class="ouverture-reserve">Écouter la présentation</span></span></button>
         </div>
         ${L.promesse ? `<div class="objectifs-lecon"><span class="surtitre-encre">Objectifs de la leçon</span><p class="promesse">${e(L.promesse)}</p></div>` : ''}
       </div>
@@ -61,6 +63,7 @@ export async function afficher(racine) {
     ${test && unite().startsWith('EVAL') && relectureAutorisee() ? '<button class="btn btn-secondaire" data-mode-relecture>Choisir la relecture auteur</button>' : ''}
     ${test ? `<p class="carte" style="padding:16px;margin-top:16px">Évaluation · ${L.evaluation?.duree_min || L.duree_min} minutes prévues. ${L.evaluation?.mode_fidele_disponible === false ? (relectureAutorisee() ? 'Contenu à intégrer : mode noté bloqué, relecture auteur disponible.' : 'Évaluation actuellement indisponible.') : 'Aucune correction avant remise.'}</p>` : ''}
     ${L.unites_liees?.length ? `<p style="margin-top:16px">Unités liées : ${L.unites_liees.map(id => `<a href="${lien('', id)}">${e(id)}</a>`).join(' · ')}</p>` : ''}
+    ${ressourcesHTML(ressources)}
     <section class="parcours-apercu" aria-labelledby="t-parcours">
       <h2 class="titre-filet" id="t-parcours">Le parcours en ${compte(phases.length, 'phase')}</h2>
       <ol class="phases">
@@ -106,17 +109,17 @@ export async function afficher(racine) {
 
   // La présentation de la leçon, par la voix du LMS (voix_ouverture de D) : proposée d'un bouton, et
   // jouée d'elle-même à la toute première visite. Elle s'arrête dès qu'on touche autre chose.
-  await voix.recharger();
+  const couperMots = brancherMots(zone);
   let ouvertureTimer;
   const sequence = L.voix_ouverture?.sequence || [];
   const btn = zone.querySelector('[data-ouverture]');
   if (sequence.some((s) => voix.info(s.id))) {
     btn.hidden = false;
-    const jouer = () => { btn.querySelector('span').textContent = 'Arrêter'; guide.dire(sequence).then(() => { btn.querySelector('span').textContent = 'Écouter la présentation'; }); };
+    const jouer = () => { btn.querySelector('[data-ouverture-texte]').textContent = 'Arrêter'; guide.dire(sequence).then(() => { btn.querySelector('[data-ouverture-texte]').textContent = 'Écouter la présentation'; }); };
     btn.addEventListener('click', () => { if (guide.etat().enLecture) guide.arreter(); else jouer(); });
     if (!lire('ouverture-entendue', false) && !guide.estCoupe()) { ecrire('ouverture-entendue', true); ouvertureTimer = setTimeout(jouer, 600); }
   }
   const couper = (ev) => { if (!ev.target.closest('[data-voix]')) guide.arreter(); };
   zone.addEventListener('pointerdown', couper, true);
-  return () => { clearTimeout(ouvertureTimer); guide.arreter(); zone.removeEventListener('pointerdown', couper, true); };
+  return () => { clearTimeout(ouvertureTimer); guide.arreter(); couperMots(); zone.removeEventListener('pointerdown', couper, true); };
 }

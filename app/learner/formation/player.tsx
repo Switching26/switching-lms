@@ -743,6 +743,7 @@ export default function FormationPlayer({
 
         {kind === "anglais" && active && (
           <SimulationChapter key={active.id} chapterId={active.id} app="ANGLAIS" preview={!!preview}
+            onNaviguer={id => { const chapitre = chapters.find(ch => ch.id === id); if (chapitre) handleSelectChapter(chapitre) }}
             onCompleted={() => handleChapterCompleted(active.id)}
             onPrecedent={prevChapter ? () => handleSelectChapter(prevChapter) : undefined}
             onSuivant={nextChapter ? () => handleSelectChapter(nextChapter) : undefined}

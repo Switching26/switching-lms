@@ -28,7 +28,8 @@
         "name": "Feuil1",
         "columnWidths": {
           "A": 150,
-          "B": 120
+          "B": 120,
+          "H": 190
         },
         "cells": {
           "A1": {
@@ -185,11 +186,11 @@
         "text": "NB.SI avec le statut exact entre guillemets.",
         "showTarget": true
       },
-      "feedback": "1. Ce comptage serait faux si la colonne contenait « terminé » ou « Terminé  » avec un espace — précisément ce que la liste empêche."
+      "feedback": "1. NB.SI ignore la casse : « terminé » serait aussi compté. Une espace finale dans « Terminé  » empêcherait en revanche la correspondance. La liste évite ces variantes de saisie."
     },
     {
       "id": "M21-L01-06",
-      "consigne": "Une bonne pratique professionnelle, qui distingue un fichier jetable d'un fichier maintenu. Elle est montrée à l'écran. Le raisonnement : des valeurs tapées dans la boîte de dialogue sont invisibles et impossibles à réutiliser, alors qu'une plage à part — souvent sur une feuille « Paramètres » — se met à jour en écrivant une ligne.",
+      "consigne": "Pour maintenir une liste, placez les valeurs autorisées dans une plage séparée, souvent sur une feuille **Paramètres**. L’exemple visible en **H2:H4** distingue cette source des statuts saisis en colonne C. Dans Excel, le champ **Source** de la validation peut référencer cette plage ; une Table ou un nom dynamique permet de l’étendre proprement.",
       "action": {
         "type": "READ"
       },
@@ -197,20 +198,48 @@
       "montrer": [
         {
           "type": "MONTRER",
-          "cible": "C1",
-          "texte": "Ne tapez pas vos valeurs dans la boîte de dialogue"
+          "cible": "H2:H4",
+          "texte": "La plage de référence contient les statuts autorisés"
         },
         {
           "type": "MONTRER",
-          "cible": "C2",
-          "texte": "Placez-les dans une plage à part — souvent une feuille « Paramètres »"
+          "cible": "C2:C6",
+          "texte": "Les statuts choisis pour les stagiaires sont les données saisies"
         },
         {
           "type": "MONTRER",
-          "cible": "C2:C5",
-          "texte": "Puis référencez cette plage : ajouter un statut se fait alors en écrivant une ligne"
+          "cible": "H7",
+          "texte": "Dans Excel, le champ Source peut référencer =$H$2:$H$4"
         }
-      ]
+      ],
+      "setup": {
+        "cells": {
+          "H1": {
+            "v": "Statuts autorisés",
+            "format": {
+              "bold": true
+            }
+          },
+          "H2": {
+            "v": "Inscrit"
+          },
+          "H3": {
+            "v": "En cours"
+          },
+          "H4": {
+            "v": "Terminé"
+          },
+          "H6": {
+            "v": "Source de la liste",
+            "format": {
+              "bold": true
+            }
+          },
+          "H7": {
+            "v": "Source : =$H$2:$H$4"
+          }
+        }
+      }
     }
   ]
 }

@@ -152,7 +152,14 @@
       "aide": {
         "text": "La poignée de recopie de B6 vers la droite."
       },
-      "feedback": "29 et 22."
+      "feedback": "29 et 22.",
+      "montrer": [
+        {
+          "type": "FILL_HANDLE",
+          "from": "B6",
+          "to": "D6"
+        }
+      ]
     },
     {
       "id": "M06-E02-03",
@@ -208,7 +215,22 @@
       "aide": {
         "text": "Une formule en E2, puis recopie vers le bas jusqu'à E5."
       },
-      "feedback": "Le tableau est totalisé dans les deux sens, et les deux totaux généraux concordent."
+      "feedback": "Le tableau est totalisé dans les deux sens, et les deux totaux généraux concordent.",
+      "montrer": [
+        {
+          "type": "TYPE",
+          "target": "E2",
+          "accept": [
+            "=SOMME(B2:D2)"
+          ],
+          "formulaMode": true
+        },
+        {
+          "type": "FILL_HANDLE",
+          "from": "E2",
+          "to": "E5"
+        }
+      ]
     },
     {
       "id": "M06-E02-05",

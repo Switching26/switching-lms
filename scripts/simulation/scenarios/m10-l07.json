@@ -256,7 +256,7 @@
     },
     {
       "id": "M10-L07-04",
-      "consigne": "Voici la nuance qui décide de la justesse d'une facture, et elle est invisible à l'œil. Les deux comportements sont comparés à l'écran, cellule et barre de formule à l'appui. La règle à emporter : un format d'affichage change ce qu'on voit, `ARRONDI` change ce qui est stocké — dès qu'un montant doit être payé, c'est la valeur qu'il faut arrondir, pas son apparence.",
+      "consigne": "Les deux cellules d’exemple à droite affichent **723,75**, mais leurs valeurs diffèrent. La cellule H10 conserve **723,7512** sous son format à deux décimales ; H11 utilise `ARRONDI` et vaut **723,75**. Un format change l’affichage, tandis qu’ARRONDI change la valeur utilisée dans les calculs.",
       "action": {
         "type": "READ"
       },
@@ -264,20 +264,49 @@
       "montrer": [
         {
           "type": "MONTRER",
-          "cible": "E2",
-          "texte": "Un FORMAT à deux décimales affiche 723,75…"
+          "cible": "H10",
+          "texte": "Le format affiche 723,75, sans arrondir la valeur utilisée dans les calculs"
         },
         {
           "type": "MONTRER",
           "cible": "dom:[aria-label=\"Barre de formule\"]",
-          "texte": "…mais la cellule conserve 723,7512, et vos totaux tomberont à côté d'un centime"
+          "texte": "H10 conserve 723,7512 : la barre de formule montre la valeur complète"
         },
         {
           "type": "MONTRER",
-          "cible": "G5",
-          "texte": "ARRONDI modifie la valeur elle-même. Sur des montants à payer, c'est ARRONDI qu'il faut"
+          "cible": "H11",
+          "texte": "ARRONDI ramène réellement la valeur à 723,75"
         }
-      ]
+      ],
+      "setup": {
+        "selection": "H10",
+        "cells": {
+          "G10": {
+            "v": "Affichage seul",
+            "format": {
+              "bold": true
+            }
+          },
+          "H10": {
+            "v": 723.7512,
+            "format": {
+              "numberFormat": "0.00"
+            }
+          },
+          "G11": {
+            "v": "Valeur arrondie",
+            "format": {
+              "bold": true
+            }
+          },
+          "H11": {
+            "f": "=ARRONDI(H10;2)",
+            "format": {
+              "numberFormat": "0.00"
+            }
+          }
+        }
+      }
     },
     {
       "id": "M10-L07-05",

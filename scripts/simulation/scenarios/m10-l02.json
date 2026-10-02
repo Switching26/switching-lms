@@ -141,17 +141,35 @@
         "type": "EXPECT_STATE",
         "cells": {
           "B3": {
-            "v": "Clavier"
+            "v": "Clavier",
+            "anyOf": [
+              "=RECHERCHEV(A3;$H$2:$J$5;2;FAUX)"
+            ]
           },
           "B5": {
-            "v": "Souris"
+            "v": "Souris",
+            "anyOf": [
+              "=RECHERCHEV(A5;$H$2:$J$5;2;FAUX)"
+            ]
+          },
+          "B4": {
+            "anyOf": [
+              "=RECHERCHEV(A4;$H$2:$J$5;2;FAUX)"
+            ]
           }
         }
       },
       "aide": {
         "text": "Poignée de recopie vers le bas."
       },
-      "feedback": "B4 affiche #N/A : le code XXX n'existe pas dans la table. Techniquement correct, mais illisible pour un client."
+      "feedback": "B4 affiche #N/A : le code XXX n'existe pas dans la table. Techniquement correct, mais illisible pour un client.",
+      "montrer": [
+        {
+          "type": "FILL_HANDLE",
+          "from": "B2",
+          "to": "B5"
+        }
+      ]
     },
     {
       "id": "M10-L02-03",
@@ -180,20 +198,36 @@
         "type": "EXPECT_STATE",
         "cells": {
           "B3": {
-            "v": "Clavier"
+            "v": "Clavier",
+            "anyOf": [
+              "=SIERREUR(RECHERCHEV(A3;$H$2:$J$5;2;FAUX);\"Code inconnu\")"
+            ]
           },
           "B4": {
-            "v": "Code inconnu"
+            "v": "Code inconnu",
+            "anyOf": [
+              "=SIERREUR(RECHERCHEV(A4;$H$2:$J$5;2;FAUX);\"Code inconnu\")"
+            ]
           },
           "B5": {
-            "v": "Souris"
+            "v": "Souris",
+            "anyOf": [
+              "=SIERREUR(RECHERCHEV(A5;$H$2:$J$5;2;FAUX);\"Code inconnu\")"
+            ]
           }
         }
       },
       "aide": {
         "text": "Poignée de recopie vers le bas."
       },
-      "feedback": "« Code inconnu » au lieu de #N/A. Le tableau est présentable, et le problème reste visible."
+      "feedback": "« Code inconnu » au lieu de #N/A. Le tableau est présentable, et le problème reste visible.",
+      "montrer": [
+        {
+          "type": "FILL_HANDLE",
+          "from": "B2",
+          "to": "B5"
+        }
+      ]
     },
     {
       "id": "M10-L02-05",

@@ -129,7 +129,7 @@
     },
     {
       "id": "M26-L02-04",
-      "consigne": "Et voici le piège qui coûte le plus cher. Si un fichier français contient `Dupont;1200,50;Lyon` et que vous découpez sur la **virgule**, vous obtenez quatre colonnes au lieu de trois, et le montant se coupe en deux : `1200` et `50`. Le tableau paraît plausible, les totaux sont faux. ==Comptez les colonnes obtenues : en **E2**, comptez les cellules non vides de la ligne 2==.",
+      "consigne": "Vérifiez le séparateur avant de convertir. Avec `Dupont;1200,50;Lyon`, le **point-virgule** produit trois champs et préserve le montant. La **virgule seule** produit deux champs : `Dupont;1200` et `50;Lyon`. Choisir les deux séparateurs produit quatre champs et coupe le montant. ==En **E2**, comptez les cellules non vides de la ligne 2==.",
       "setup": {
         "selection": "E2",
         "cells": {
@@ -153,7 +153,7 @@
     },
     {
       "id": "M26-L02-05",
-      "consigne": "Une précaution avant de lancer la conversion, et elle ne pardonne pas : l'opération **écrase les colonnes situées à droite**, sans prévenir. Le point est montré à l'écran. Vérifiez qu'elles sont vides, ou insérez d'abord assez de colonnes — une fois le classeur enregistré, c'est irréversible.",
+      "consigne": "La conversion écrit ses résultats dans les colonnes à droite et peut remplacer des données. Vérifiez que la destination est vide ou insérez d’abord assez de colonnes. Enregistrer le classeur n’efface pas à lui seul l’historique **Annuler** : vous pouvez revenir en arrière tant que l’opération y reste disponible. Gardez une copie avant de convertir, car la fermeture du classeur fait perdre cet historique.",
       "action": {
         "type": "READ"
       },
@@ -162,17 +162,17 @@
         {
           "type": "MONTRER",
           "cible": "col:A",
-          "texte": "La conversion écrase les colonnes situées à DROITE"
+          "texte": "La conversion répartit cette colonne dans plusieurs colonnes"
         },
         {
           "type": "MONTRER",
           "cible": "col:B",
-          "texte": "Sans prévenir : vérifiez qu'elles sont vides"
+          "texte": "Vérifiez les cellules de destination avant de remplacer leur contenu"
         },
         {
           "type": "MONTRER",
           "cible": "col:C",
-          "texte": "Ou insérez d'abord assez de colonnes. C'est irréversible une fois le classeur enregistré"
+          "texte": "Enregistrer seul ne supprime pas Annuler ; gardez tout de même une copie"
         }
       ]
     },

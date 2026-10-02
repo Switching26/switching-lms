@@ -33,7 +33,9 @@
           "A": 155,
           "B": 90,
           "C": 110,
-          "D": 105
+          "D": 105,
+          "H": 140,
+          "I": 100
         },
         "cells": {
           "A1": {
@@ -314,7 +316,7 @@
     },
     {
       "id": "M19-L05-04",
-      "consigne": "Voici ce que le **filtre élaboré** permet d'écrire noir sur blanc, dans une zone de critères posée au-dessus du tableau. Sa grammaire est montrée à l'écran : la position d'un critère suffit à dire ET ou OU. Il sait de plus **extraire** le résultat vers une autre plage plutôt que de masquer des lignes — pratique pour constituer un extrait sans toucher à la source.",
+      "consigne": "Le **filtre élaboré** utilise une zone de critères distincte de la liste. Les exemples à droite illustrent sa grammaire : **Mobilier ET Est** sur une même ligne, **Mobilier OU Est** sur deux lignes. Les en-têtes des critères reprennent ceux de la liste. Dans Excel, ce filtre peut aussi extraire les résultats vers une autre plage.",
       "action": {
         "type": "READ"
       },
@@ -322,20 +324,72 @@
       "montrer": [
         {
           "type": "MONTRER",
-          "cible": "H1",
-          "texte": "La zone de critères se pose au-dessus du tableau"
+          "cible": "H16:I16",
+          "texte": "Les en-têtes des critères reprennent exactement ceux de la liste"
         },
         {
           "type": "MONTRER",
-          "cible": "H1",
-          "texte": "Deux critères sur la MÊME ligne se lisent ET"
+          "cible": "H17:I17",
+          "texte": "Sur la même ligne : catégorie Mobilier ET région Est"
         },
         {
           "type": "MONTRER",
-          "cible": "H1",
-          "texte": "Deux critères sur des lignes DIFFÉRENTES se lisent OU"
+          "cible": "H21:I22",
+          "texte": "Sur des lignes différentes : catégorie Mobilier OU région Est"
         }
-      ]
+      ],
+      "setup": {
+        "cells": {
+          "H15": {
+            "v": "Critères ET",
+            "format": {
+              "bold": true
+            }
+          },
+          "H16": {
+            "v": "Catégorie",
+            "format": {
+              "bold": true
+            }
+          },
+          "I16": {
+            "v": "Région",
+            "format": {
+              "bold": true
+            }
+          },
+          "H17": {
+            "v": "Mobilier"
+          },
+          "I17": {
+            "v": "Est"
+          },
+          "H19": {
+            "v": "Critères OU",
+            "format": {
+              "bold": true
+            }
+          },
+          "H20": {
+            "v": "Catégorie",
+            "format": {
+              "bold": true
+            }
+          },
+          "I20": {
+            "v": "Région",
+            "format": {
+              "bold": true
+            }
+          },
+          "H21": {
+            "v": "Mobilier"
+          },
+          "I22": {
+            "v": "Est"
+          }
+        }
+      }
     },
     {
       "id": "M19-L05-05",

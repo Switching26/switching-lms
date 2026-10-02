@@ -221,31 +221,75 @@
     },
     {
       "id": "M10-L01-06",
-      "consigne": "==Complétez les trois lignes restantes== en recopiant B2:E2 vers le bas.",
+      "consigne": "==Complétez les trois lignes restantes== : recopiez **B2 jusqu’en B5**, puis **D2:E2 jusqu’en E5**. La colonne C contient les quantités commandées et doit les conserver.",
       "action": {
         "type": "EXPECT_STATE",
         "cells": {
           "B3": {
+            "anyOf": [
+              "=RECHERCHEV(A3;$H$2:$J$5;2;FAUX)"
+            ],
             "v": "Clavier"
           },
           "D3": {
+            "anyOf": [
+              "=RECHERCHEV(A3;$H$2:$J$5;3;FAUX)"
+            ],
             "v": 45
           },
           "E3": {
+            "anyOf": [
+              "=C3*D3",
+              "=D3*C3"
+            ],
             "v": 225
           },
           "B5": {
+            "anyOf": [
+              "=RECHERCHEV(A5;$H$2:$J$5;2;FAUX)"
+            ],
             "v": "Souris"
           },
+          "D5": {
+            "anyOf": [
+              "=RECHERCHEV(A5;$H$2:$J$5;3;FAUX)"
+            ],
+            "v": 25
+          },
           "E5": {
+            "anyOf": [
+              "=C5*D5",
+              "=D5*C5"
+            ],
             "v": 100
+          },
+          "C3": {
+            "v": 5
+          },
+          "C4": {
+            "v": 3
+          },
+          "C5": {
+            "v": 4
           }
         }
       },
       "aide": {
-        "text": "Sélectionnez B2:E2 et tirez la poignée jusqu'à la ligne 5."
+        "text": "Deux recopies : la poignée de B2 jusqu’à B5, puis celle de D2:E2 jusqu’à E5. Ne recopiez pas la colonne C."
       },
-      "feedback": "Tout le bon de commande est rempli à partir de codes et de quantités. Le piège numéro un de RECHERCHEV est justement là : sans dollars autour de la table, la recopie la fait glisser vers le bas et les dernières lignes ne trouvent plus rien."
+      "feedback": "Tout le bon de commande est rempli à partir de codes et de quantités. Le piège numéro un de RECHERCHEV est justement là : sans dollars autour de la table, la recopie la fait glisser vers le bas et les dernières lignes ne trouvent plus rien.",
+      "montrer": [
+        {
+          "type": "FILL_HANDLE",
+          "from": "B2",
+          "to": "B5"
+        },
+        {
+          "type": "FILL_HANDLE",
+          "from": "D2:E2",
+          "to": "E5"
+        }
+      ]
     },
     {
       "id": "M10-L01-08",

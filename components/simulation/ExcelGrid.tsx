@@ -399,8 +399,8 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
 
     const boot = async () => {
       const [
-        { createUniver, LocaleType, mergeLocales },
-        { UniverSheetsCorePreset },
+        { createUniver, LocaleType, mergeLocales, CellValueType, InterceptorEffectEnum },
+        { UniverSheetsCorePreset, SheetInterceptorService, INTERCEPTOR_POINT },
         locale,
         { UniverSheetsSortPreset },
         localeSort,
@@ -498,13 +498,14 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
         /* sans localisation les nombres restent anglais, la grille fonctionne */
       }
 
+      // Les services du plugin Sheets ne sont enregistrés qu'à la création du
+      // premier classeur. L'intercepteur doit être installé après cette étape.
+      univerAPI.createWorkbook({ name: "Simulation" })
+
       // Les valeurs logiques sont peintes en anglais même en locale FR.
       // L'intercepteur transforme uniquement la vue, jamais les 0/1 du modèle
       // dont le moteur de calcul a besoin (EXACT, SI et formules dépendantes).
       try {
-        const [{ SheetInterceptorService, INTERCEPTOR_POINT }, { CellValueType, InterceptorEffectEnum }] = await Promise.all([
-          import("@univerjs/sheets"), import("@univerjs/core"),
-        ])
         const service = created.univer.__getInjector().get(SheetInterceptorService)
         const ecoute = service.intercept(INTERCEPTOR_POINT.CELL_CONTENT, {
           priority: 8,
@@ -519,8 +520,6 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
       } catch (e) {
         signalerEnDev("affichage français des valeurs logiques", e)
       }
-
-      univerAPI.createWorkbook({ name: "Simulation" })
 
       /* Deux accès nommés, sans mémorisation : une façade `FWorkbook` gardée
          d'un rendu à l'autre peut devenir périmée — la liste des feuilles

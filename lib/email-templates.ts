@@ -1,3 +1,5 @@
+import { buildLoginLinks } from "@/lib/login-link"
+
 interface BrandConfig {
   name: string
   primaryColor: string
@@ -184,8 +186,7 @@ export function loginLinkEmail(
 ) {
   const brand = getBrand(partner)
   const subject = `Votre lien de connexion à ${brand.name}`
-  const loginUrl = partnerSlug ? `${brand.baseUrl}/login?partner=${partnerSlug}` : `${brand.baseUrl}/login`
-  const forgotUrl = partnerSlug ? `${brand.baseUrl}/login/mot-de-passe-oublie?partner=${partnerSlug}` : `${brand.baseUrl}/login/mot-de-passe-oublie`
+  const { loginUrl, forgotPasswordUrl: forgotUrl } = buildLoginLinks(brand.baseUrl, partnerSlug)
   const html = layout(brand, `
     <h1 style="margin:0 0 16px;font-size:22px;color:#111;">Lien de connexion</h1>
     <p style="margin:0 0 20px;color:#555;font-size:15px;line-height:1.6;">

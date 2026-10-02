@@ -1,7 +1,7 @@
 "use client"
 import { useEffect,useRef,useState } from 'react'
 import { useCadranActions } from '@/components/learner/CadranFormation'
-type Props={chapterId:string,preview?:boolean,onCompleted?:()=>void,onPrecedent?:()=>void,onSuivant?:()=>void,onQuitter?:()=>void}
+type Props={chapterId:string,preview?:boolean,onCompleted?:()=>void,onPrecedent?:()=>void,onSuivant?:()=>void,onQuitter?:()=>void,onNaviguer?:(chapterId:string)=>void}
 /** Le même iframe persiste en immersion : aucun exercice ou enregistrement perdu. */
 export default function AnglaisChapter(p:Props){
  const frame=useRef<HTMLIFrameElement>(null);const [id,setId]=useState('');const [error,setError]=useState('');const [hauteur,setHauteur]=useState(900)
@@ -11,6 +11,7 @@ export default function AnglaisChapter(p:Props){
   return()=>{alive=false;actions.immersion(false)}
  },[p.chapterId,actions])
  useEffect(()=>{
+  const navigation=new AbortController()
   const recevoir=(event:MessageEvent)=>{
    if(event.origin!==window.location.origin||event.source!==frame.current?.contentWindow)return
    const d=event.data;if(!d||typeof d!=='object')return
@@ -18,12 +19,18 @@ export default function AnglaisChapter(p:Props){
    if(d.type==='anglais:immersion'&&typeof d.active==='boolean')actions.immersion(d.active)
    if(d.type==='anglais:outil') {if(d.outil==='notes')actions.ouvrirNotes();if(d.outil==='ressources')actions.ouvrirRessources()}
    if(d.type==='anglais:naviguer') {if(d.vers==='chapitre-suivant')callbacks.current.onSuivant?.();if(d.vers==='chapitre-precedent')callbacks.current.onPrecedent?.();if(d.vers==='mes-formations')callbacks.current.onQuitter?.()}
+   if(d.type==='anglais:naviguer'&&d.vers==='chapitre'&&typeof d.id==='string'){
+    const chapitre=callbacks.current.chapterId
+    fetch('/anglais/api/chapitre/'+encodeURIComponent(chapitre)+'?cible='+encodeURIComponent(d.id),{signal:navigation.signal})
+     .then(async r=>{const cible=await r.json();if(!r.ok)throw Error(cible.erreur||'Fiche indisponible');if(!navigation.signal.aborted&&callbacks.current.chapterId===chapitre)callbacks.current.onNaviguer?.(cible.chapterId)})
+     .catch(e=>{if(!navigation.signal.aborted)setError(e.message)})
+   }
    if(d.type==='anglais:termine'&&d.id===id&&!callbacks.current.preview){
     // Le lecteur a déjà envoyé la progression ; relire avant de peindre la coche.
     fetch('/anglais/api/progression/'+id).then(r=>r.json()).then(s=>{if(s.termine)callbacks.current.onCompleted?.()}).catch(()=>{})
    }
   }
-  window.addEventListener('message',recevoir);return()=>window.removeEventListener('message',recevoir)
+  window.addEventListener('message',recevoir);return()=>{navigation.abort();window.removeEventListener('message',recevoir)}
  },[id,actions])
  if(error)return <p role="alert">{error}</p>
  if(!id)return <p role="status">Ouverture de la leçon…</p>

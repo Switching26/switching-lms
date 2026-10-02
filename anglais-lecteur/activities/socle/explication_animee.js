@@ -21,6 +21,8 @@ const STYLE = `
 @media (min-width: 768px) { .xa-soustitre, .xa-tableau, .xa-controles, [data-fin] { width: min(100%, calc(52vh * 16 / 9)); margin-inline: auto; } }
 .xa-image { position: absolute; inset: 0; background: center / cover no-repeat; transform: scale(1.04); transition: opacity .6s var(--doux), transform 9s linear; }
 .xa-image.vivante { transform: scale(1.1); }
+/* Les formes pédagogiques doivent rester entières, sans zoom ni recadrage. */
+.xa-image.forme-entiere { background-size: contain; transform: none; transition: opacity .6s var(--doux); }
 .xa-voile { position: absolute; inset: 0; background: rgba(12,21,40,.28); transition: background .5s; }
 .xa-projecteur { position: absolute; border-radius: 40% / 30%; box-shadow: 0 0 0 200vmax rgba(12,21,40,.5); border: 2px solid rgba(255,255,255,.85); transition: all .7s var(--doux); opacity: 0; pointer-events: none; }
 .xa-projecteur.visible { opacity: 1; }
@@ -164,6 +166,7 @@ export async function monter(racine, ctx) {
     const idImg = id || imageCourante || e.images?.[0];
     if (!idImg || idImg === imageCourante) return;
     imageCourante = idImg;
+    scene.image.classList.toggle('forme-entiere', /^U10-F0[1-9]$/.test(idImg));
     const url = visuels.image(idImg);
     scene.image.style.backgroundImage = url ? `url('${url}')` : 'linear-gradient(135deg,#0C1528,#121D36)';
     scene.image.textContent = url ? '' : visuels.description(idImg);

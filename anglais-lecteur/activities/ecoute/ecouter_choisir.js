@@ -70,7 +70,7 @@ export async function monter(racine, ctx) {
     opts.setAttribute('aria-label', it.question);
     const avecImages = it.options.some((o) => o.image && vignette(ctx, o.image, o.texte));
     opts.classList.toggle('avec-images', avecImages);
-    opts.innerHTML = it.options.map((o, k) => `<button type="button" class="ecc-option" data-o="${k}">${vignette(ctx, o.image, o.texte)}<span class="ecc-option-texte">${echapper(o.texte)}</span><span class="ecc-option-icone"></span></button>`).join('');
+    opts.innerHTML = it.options.map((o, k) => `<button type="button" class="ecc-option" data-o="${k}">${/^#[0-9a-f]{6}$/i.test(o.couleur) ? `<span class="ecc-couleur" aria-hidden="true" style="background-color:${o.couleur}"></span>` : vignette(ctx, o.image, o.texte)}<span class="ecc-option-texte">${echapper(o.texte)}</span><span class="ecc-option-icone"></span></button>`).join('');
     opts.querySelectorAll('.ecc-option').forEach((b) => b.addEventListener('click', () => repondre(b)));
     $('.ec-aide').innerHTML = '';
     barre = null;
@@ -213,6 +213,7 @@ export async function monter(racine, ctx) {
 
 const CSS = `
 ${RACINES} .ecc-options { display: grid; gap: 8px; }
+${RACINES} .ecc-couleur { display: block; width: 56px; height: 56px; flex: 0 0 56px; border: 1px solid #1B2A4A; border-radius: 4px; }
 @media (min-width: 640px) { ${RACINES} .ecc-options.avec-images { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 ${RACINES} .ecc-option { display: flex; align-items: center; gap: 12px; min-height: 56px; padding: 8px 14px 8px 8px; border-radius: var(--rayon-bloc); border: 1.5px solid var(--filet-fort); background: var(--surface); color: var(--encre); font: inherit; font-weight: 600; text-align: left; cursor: pointer; transition: border-color .15s, background-color .15s, transform .2s var(--ressort); }
 ${RACINES} .ecc-options:not(.avec-images) .ecc-option { padding-left: 16px; }

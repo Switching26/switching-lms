@@ -5,9 +5,9 @@ import { createPortal } from "react-dom"
 import { X } from "lucide-react"
 
 /** Native dialog provides focus containment, Escape and restoration to the trigger. */
-export default function Modal({ open, onClose, title, children, wide, headerAction, panel = false }: {
+export default function Modal({ open, onClose, title, children, wide, headerAction, footer, panel = false }: {
   open: boolean; onClose: () => void; title: string; children: React.ReactNode
-  wide?: boolean; headerAction?: React.ReactNode; panel?: boolean
+  wide?: boolean; headerAction?: React.ReactNode; footer?: React.ReactNode; panel?: boolean
 }) {
   const [mounted, setMounted] = useState(false)
   const dialog = useRef<HTMLDialogElement>(null)
@@ -68,6 +68,7 @@ export default function Modal({ open, onClose, title, children, wide, headerActi
     <div ref={surface} className={`app-modal-panel lms-sheet-panel ${wide ? "lms-sheet-wide" : ""} ${panel ? "lms-sheet-detail" : ""}`}>
       <div className="lms-sheet-head"><h2>{title}</h2><div className="flex items-center gap-2">{headerAction}<button aria-label="Fermer" onClick={onClose} className="lms-icon-button"><X size={20} /></button></div></div>
       <div ref={content} className="lms-sheet-content">{children}</div>
+      {footer}
     </div>
   </dialog>, document.body)
 }

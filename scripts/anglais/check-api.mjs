@@ -8,6 +8,11 @@ try{
 const anonyme=await fetch(base+'/anglais/services/base.js');check('sans session JS',anonyme.status===401,anonyme.status);
 const sans=await login(comptes.sansInscription);const refus=await sans('/anglais/api/lecon/U01');check('sans inscription',refus.status===403,refus.status);
 const user=await login(comptes.apprenant);
+const sourceChapitre='/anglais/api/chapitre/'+comptes.chapitres.U01;
+for(const cible of ['V04','G20']){const r=await user(sourceChapitre+'?cible='+cible);check('fiche apprenant '+cible,r.status===200&&(await r.json()).chapterId===comptes.chapitres[cible]);}
+check('résolution sans inscription',(await sans(sourceChapitre+'?cible=V04')).status===403);
+check('résolution blanche non publiée',(await user(sourceChapitre+'?cible=BLANC1')).status===404);
+check('identifiant destination invalide',(await user(sourceChapitre+'?cible=inconnu')).status===404);
 check('apprenant sans relecture auteur',(await(await user('/anglais/api/sante')).json()).preview===false);
 const mediaRefus=await sans('/anglais/audio/l01-c2-r03-ex.mp3');check('média sans inscription',mediaRefus.status===403,mediaRefus.status);
 for(const url of ['/anglais/api/lecon/U01','/anglais/api/lecon/U05','/anglais/api/activites','/anglais/contenu/U01/script/exercices.json']){const r=await user(url);check(url,r.status===200,r.status)}
@@ -30,6 +35,7 @@ const f=manifest.find(f=>f.chemin.endsWith('.mp3'));r=await user('/anglais/'+f.c
 r=await user('/anglais/'+f.chemin,{headers:{Range:'bytes=999999999-'}});check('Range hors fichier',r.status===416,r.status);
 r=await user('/anglais/api/prononciation',{method:'POST',body:'test'});const note=await r.json();check('note indisponible',note.code==='indisponible'&&note.ok===false,note.code);
 const admin=await login(comptes.admin);r=await admin('/anglais/api/lecon/BLANC1');check('aperçu admin blanc',r.status===200,r.status);
+for(const cible of ['V04','G20']){const r=await admin(sourceChapitre+'?cible='+cible);check('fiche aperçu admin '+cible,r.status===200&&(await r.json()).chapterId===comptes.chapitres[cible]);}
 check('super-admin avec relecture auteur',(await(await admin('/anglais/api/sante')).json()).preview===true);
 const testPlan=await(await user('/anglais/api/lecon/T4')).json();const testTotal=testPlan.etapes.length;
 r=await user('/anglais/api/progression/T4',{method:'POST',body:JSON.stringify({vues:testTotal,faites:testTotal,total:testTotal,termine:true})});check('test non remis ne termine pas le chapitre',r.status===400,r.status);

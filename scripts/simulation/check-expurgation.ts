@@ -336,7 +336,7 @@ console.log(`\n=== G. L'évaluation reste jouable ===`)
         if (a.cells !== undefined) manques.push(`${e.id}: cells servies`)
       }
       if (ab.type === "CLICK_CONTROL" && a.control !== undefined && a.control !== ab.control) manques.push(`${e.id}: control`)
-      if (ab.type === "SORT_RANGE" && a.range !== undefined && a.range !== ab.range) manques.push(`${e.id}: range de tri`)
+      if (ab.type === "SORT_RANGE" && a.range !== ab.range) manques.push(`${e.id}: range de tri`)
       if (ab.type === "EXPECT_PIVOT" && a.pivot !== undefined) manques.push(`${e.id}: pivot servi`)
       if (ab.type === "EXPECT_MACRO" && (a.macro as any)?.effet !== undefined) manques.push(`${e.id}: effet de macro`)
     })
@@ -490,6 +490,9 @@ console.log(`\n=== I. Critère et carte de franchissement ===`)
     "I3' · la colonne de tri n'est plus annoncée en évaluation",
     tris.every((e) => !(resumerAttendu(e.action) ?? "").includes("colonne")),
   )
+  verifie("I3'' · plage opérationnelle conservée sans colonne ni sens", tris.every((e) =>
+    typeof e.action.range === "string" && e.action.column === undefined && e.action.ascending === undefined,
+  ))
 }
 
 /* ═══ J. AUCUNE COORDONNÉE QUE LA CONSIGNE NE DONNE PAS ══════════════════
@@ -526,6 +529,9 @@ console.log(`\n=== J. Coordonnées servies ===`)
         if (ab[champ] !== undefined && a[champ] === undefined) retirees++
         const v = a[champ]
         if (v === undefined || typeof v === "object") continue
+        // La plage opérationnelle ne donne ni la colonne ni le sens du tri.
+        // Sa suppression entraîne au contraire les titres dans les données.
+        if (a.type === "SORT_RANGE" && champ === "range") continue
         servies++
         const cherche = champ === "control" ? (LIBELLE_CONTROLE[String(v)] ?? String(v)) : String(v)
         if (!consigneNommeLaCible(consigne, cherche)) muettes.push(`${e.id}.${champ}=${cherche}`)

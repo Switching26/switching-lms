@@ -45,6 +45,7 @@ import {
   columnLetterToIndex,
 } from "@/lib/simulation/grid"
 import { frToEngine, engineToFr } from "@/lib/simulation/formula-fr"
+import { referenceNomAbsolue, referencesCellulesDuSnapshot, texteCelluleBrut, trierPlageFr } from "@/lib/simulation/grid-runtime"
 
 /** Ce que le simulateur peut demander à la grille. */
 export type GridApi = {
@@ -58,6 +59,12 @@ export type GridApi = {
   getFormula: (ref: string) => string
   /** Valeur calculée d'une cellule. */
   getValue: (ref: string) => unknown
+  /** Contenu de la barre de formule : formule ou valeur brute en français. */
+  getCellInput: (ref: string) => string
+  /** Cellules présentes dans le modèle de la feuille active, même hors zone initiale. */
+  getPopulatedCellRefs: () => string[]
+  /** Remplissage natif (déplacement des références et séries), pour les démonstrations. */
+  fillRange: (source: string, destination: string, mode?: "COPY" | "SERIES") => Promise<boolean>
   /**
    * Rectangle d'une cellule DANS le conteneur de la grille, en pixels CSS.
    * Calculé depuis les métriques d'Univer — largeurs de colonnes, hauteurs de
@@ -491,6 +498,28 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
         /* sans localisation les nombres restent anglais, la grille fonctionne */
       }
 
+      // Les valeurs logiques sont peintes en anglais même en locale FR.
+      // L'intercepteur transforme uniquement la vue, jamais les 0/1 du modèle
+      // dont le moteur de calcul a besoin (EXACT, SI et formules dépendantes).
+      try {
+        const [{ SheetInterceptorService, INTERCEPTOR_POINT }, { CellValueType, InterceptorEffectEnum }] = await Promise.all([
+          import("@univerjs/sheets"), import("@univerjs/core"),
+        ])
+        const service = created.univer.__getInjector().get(SheetInterceptorService)
+        const ecoute = service.intercept(INTERCEPTOR_POINT.CELL_CONTENT, {
+          priority: 8,
+          effect: InterceptorEffectEnum.Value,
+          handler: (cell, _lieu, next) => {
+            if (!cell || cell.t !== CellValueType.BOOLEAN) return next(cell)
+            const vrai = cell.v === 1 || cell.v === true || String(cell.v).toUpperCase() === "TRUE"
+            return next({ ...cell, v: vrai ? "VRAI" : "FAUX" })
+          },
+        })
+        disposers.push(() => ecoute.dispose())
+      } catch (e) {
+        signalerEnDev("affichage français des valeurs logiques", e)
+      }
+
       univerAPI.createWorkbook({ name: "Simulation" })
 
       /* Deux accès nommés, sans mémorisation : une façade `FWorkbook` gardée
@@ -806,6 +835,36 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
           if (typeof brut === "number") return brut
           return rg.getValue?.() ?? null
         },
+        getCellInput: (ref) => texteCelluleBrut(api.getFormula(ref), api.getValue(ref)),
+        getPopulatedCellRefs: () => {
+          try {
+            const sh = sheet()
+            const snapshot = classeur()?.save?.()
+            return referencesCellulesDuSnapshot(snapshot?.sheets?.[sh?.getSheetId?.()]?.cellData)
+          } catch (e) {
+            signalerEnDev("lecture des cellules du modèle", e)
+            return []
+          }
+        },
+        fillRange: async (source, destination, mode) => {
+          try {
+            const sh = sheet()
+            const src = parseRange(source)
+            const dest = parseRange(destination)
+            if (!sh || !src || !dest) return false
+            // Le contrat natif attend la plage TOTALE, cellules source comprises.
+            const total = formatRange({
+              startRow: Math.min(src.startRow, dest.startRow),
+              startCol: Math.min(src.startCol, dest.startCol),
+              endRow: Math.max(src.endRow, dest.endRow),
+              endCol: Math.max(src.endCol, dest.endCol),
+            })
+            return Boolean(await sh.getRange(source)?.autoFill?.(sh.getRange(total), mode))
+          } catch (e) {
+            signalerEnDev("remplissage natif", e)
+            return false
+          }
+        },
         scrollToCell: (ref) => {
           try {
             const pos = parseCell(ref)
@@ -1012,40 +1071,13 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
          */
         sortRange: (range, column, ascending) => {
           try {
-            const aire = parseRange(range)
-            const sh = sheet()
-            if (!aire || !sh) return false
-            const lignes: Array<{ cles: unknown; cellules: Array<{ f: string; v: unknown }> }> = []
-            for (let r = aire.startRow; r <= aire.endRow; r++) {
-              const cellules = []
-              for (let c = aire.startCol; c <= aire.endCol; c++) {
-                const ref = `${columnIndexToLetter(c)}${r + 1}`
-                cellules.push({ f: api.getFormula(ref) ?? "", v: api.getValue(ref) })
-              }
-              lignes.push({ cles: cellules[column]?.v ?? "", cellules })
-            }
-            const cmp = (x: unknown, y: unknown) => {
-              const nx = typeof x === "number" ? x : Number(String(x ?? "").replace(",", "."))
-              const ny = typeof y === "number" ? y : Number(String(y ?? "").replace(",", "."))
-              const xNum = Number.isFinite(nx) && String(x ?? "").trim() !== ""
-              const yNum = Number.isFinite(ny) && String(y ?? "").trim() !== ""
-              // Excel place les nombres avant le texte en ordre croissant.
-              if (xNum && yNum) return nx - ny
-              if (xNum) return -1
-              if (yNum) return 1
-              return String(x ?? "").localeCompare(String(y ?? ""), "fr", { numeric: true, sensitivity: "base" })
-            }
-            const ordonne = [...lignes].sort((a2, b2) => (ascending ? cmp(a2.cles, b2.cles) : cmp(b2.cles, a2.cles)))
-            const cells: Record<string, { v?: unknown; f?: string }> = {}
-            ordonne.forEach((ligne, i) => {
-              const r = aire.startRow + i
-              ligne.cellules.forEach((cel, j) => {
-                const ref = `${columnIndexToLetter(aire.startCol + j)}${r + 1}`
-                cells[ref] = cel.f ? { f: cel.f } : { v: cel.v ?? "" }
-              })
-            })
-            applyCells(cells as Record<string, CellState>)
-            return true
+            if (!sheet()) return false
+            return trierPlageFr({
+              getFormula: api.getFormula,
+              getValue: api.getValue,
+              applyCells,
+              onSort: (action) => onActionRef.current(action),
+            }, range, column, ascending)
           } catch {
             return false
           }
@@ -1707,8 +1739,11 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
           try {
             // Une plage nommée se déclare au niveau du classeur, avec la feuille
             // active en préfixe pour que la référence reste valide partout.
+            const wb = classeur()
             const sh = sheet()?.getSheetName?.() ?? "Feuil1"
-            classeur()?.insertDefinedName?.(name, `${sh}!${ref}`)
+            const absolue = referenceNomAbsolue(sh, ref)
+            if (!absolue || !wb?.insertDefinedName) return false
+            wb.insertDefinedName(name, absolue)
             return true
           } catch {
             return false
@@ -1903,9 +1938,19 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
 
       // Verrou d'édition : hors des cellules autorisées, on annule l'entrée en
       // édition. `cancel = true` est le mécanisme officiel des événements Before*.
+      let editionEnCours = false
+      let derniereValidation: string | undefined
+      const noterValidation = (e: KeyboardEvent) => {
+        if (!editionEnCours || (e.key !== "Enter" && e.key !== "Tab")) return
+        derniereValidation = `${e.shiftKey ? "Shift+" : ""}${e.ctrlKey || e.metaKey ? "Control+" : ""}${e.key}`
+      }
+      window.addEventListener("keydown", noterValidation, true)
+      disposers.push(() => window.removeEventListener("keydown", noterValidation, true))
       listen("BeforeSheetEditStart", (p: unknown) => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const e = p as any
+        editionEnCours = true
+        derniereValidation = undefined
         const allowed = editableRef.current
         if (!allowed) return
         if (typeof e?.row !== "number" || typeof e?.column !== "number") return
@@ -1925,6 +1970,9 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
       listen("SheetEditEnded", (p: unknown) => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const e = p as any
+        const commitKey = derniereValidation
+        editionEnCours = false
+        derniereValidation = undefined
         if (typeof e?.row !== "number" || typeof e?.column !== "number") return
         const ref = formatCell({ row: e.row, col: e.column })
         const rg = sheet()?.getRange(ref)
@@ -1988,21 +2036,23 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
         // On rapporte ce que l'apprenant a écrit, en français : c'est cela que la
         // validation doit comparer, et cela qu'il faut réafficher.
         const formula = stored ? engineToFr(stored) : ""
-        const value = api.getValue(ref)
-        const text = formula || (value == null ? "" : String(value))
-        onActionRef.current({
-          kind: "typed",
-          target: ref,
-          text,
-          // Ce que l'apprenant VOIT, qui n'est pas toujours ce que le moteur retient :
-          // une date tapée « 07/04/2026 » est retenue comme le nombre 46207, et
-          // comparer l'attendu au seul texte retenu refusait quelqu'un qui avait tapé
-          // exactement ce qu'on lui demandait.
-          displayed: api.getDisplayValue(ref),
-          channel: channelRef.current === "unknown" ? "keyboard" : channelRef.current,
-          // Relue APRÈS la retraduction : c'est la valeur que l'apprenant voit.
-          computed: api.getValue(ref),
-        })
+        const channel = channelRef.current === "unknown" ? "keyboard" : channelRef.current
+        const rapporter = () => {
+          const value = api.getValue(ref)
+          onActionRef.current({
+            kind: "typed", target: ref,
+            text: formula || (value == null ? "" : String(value)),
+            displayed: api.getDisplayValue(ref),
+            channel, commitKey,
+            // Lire après recalcul : un ancien nombre ne prouve pas qu'une
+            // nouvelle formule a calculé (SOMMEPROD incompatible, #VALEUR…).
+            computed: value,
+          })
+        }
+        if (formula) {
+          const t = setTimeout(() => { enAttente.delete(t); rapporter() }, 200)
+          enAttente.add(t)
+        } else rapporter()
         channelRef.current = "unknown"
         // Un résultat décimal doit s'afficher « 13,67 » et non « 13.67 ».
         // Le recalcul prend 60 à 120 ms, on laisse une marge.

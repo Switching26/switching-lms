@@ -30,6 +30,7 @@ export function observationCanonique(s: SimulationStep): ObservedAction | null {
         target: a.target,
         text: texte,
         channel: a.target === "formula-bar" ? "formulaBar" : "keyboard",
+        commitKey: a.commitKey,
       }
     }
     case "CLICK_CELL":

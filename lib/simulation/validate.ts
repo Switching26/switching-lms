@@ -29,6 +29,7 @@ import { matchesTypedAnswer, normalizeFormula } from "./types"
 import { estActionApp, type Verdict } from "./contrats"
 import { sameArea } from "./grid"
 import { frToEngine } from "./formula-fr"
+import { matricesSommeprodIncompatibles } from "./formula-validation"
 import { verifierPoste } from "./poste"
 
 /** Origine réelle de l'action, pour les exercices qui imposent le moyen. */
@@ -66,6 +67,7 @@ export type ObservedAction =
       displayed?: string
       channel: ActionChannel
       computed?: unknown
+      commitKey?: string
     }
   | { kind: "cellClick"; cell: string; modifier?: "Control" | "Shift"; channel: ActionChannel }
   | { kind: "control"; control: string; channel: ActionChannel }
@@ -284,6 +286,9 @@ export function validateStep(
           message: `La cellule affiche ${String(observed.computed)} : la formule n'a pas pu être calculée.`,
         }
       }
+      if (expected.formulaMode && matricesSommeprodIncompatibles(observed.text)) {
+        return { ok: false, reason: "incompatible_arrays", message: "Les matrices de SOMMEPROD doivent avoir le même nombre de lignes et de colonnes." }
+      }
       // On accepte la forme retenue par le moteur OU la forme affichée : une date
       // et une heure ne sont retenues que comme nombres, et l'apprenant ne peut pas
       // deviner un numéro de série. Refuser une réponse juste est la faute la plus
@@ -299,6 +304,9 @@ export function validateStep(
             ? "Cette formule ne donne pas le résultat attendu."
             : "Ce n'est pas la valeur attendue.",
         }
+      }
+      if (expected.commitKey && observed.commitKey !== expected.commitKey) {
+        return { ok: false, reason: "wrong_commit_key", message: `Validez cette saisie avec la touche ${expected.commitKey}.` }
       }
       if (!channelOk(requiredChannel, observed.channel)) {
         return {
@@ -484,6 +492,9 @@ export function validateStep(
       if (observed.kind !== "sort") {
         return { ok: false, reason: "not_a_sort", message: "Utilisez un bouton de tri du ruban Données." }
       }
+      if (!sameArea(expected.range, observed.range)) {
+        return { ok: false, reason: "wrong_sort_range", message: "Le tri doit porter sur les lignes de données de la liste." }
+      }
       if (observed.column.toUpperCase() !== expected.column.toUpperCase()) {
         return { ok: false, reason: "wrong_sort_column", message: "Le tri ne porte pas sur la bonne colonne." }
       }
@@ -563,6 +574,9 @@ export function validateStep(
         const got = observed.readings[ref]
         if (!got) {
           return { ok: false, reason: "cell_unreadable", message: `La cellule ${ref} n'a pas pu être lue.` }
+        }
+        if (matricesSommeprodIncompatibles(got.formula)) {
+          return { ok: false, reason: "formula_error", message: `${ref} contient une formule en erreur.` }
         }
         // Formule attendue, éventuellement parmi plusieurs écritures valables.
         const formulaCandidates = want.anyOf ?? (want.f !== undefined ? [want.f] : null)

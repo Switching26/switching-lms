@@ -269,7 +269,7 @@ export function actionPublique(action: unknown): Objet {
       // `accept` part. `target` reste : il verrouille la cellule éditable et
       // porte le critère affiché. `prefill` reste : il est DÉJÀ dans la cellule
       // au début de l'étape, le cacher ne cacherait rien.
-      return garde("target", "formulaMode", "caseSensitive", "maxLength", "prefill")
+      return garde("target", "formulaMode", "caseSensitive", "maxLength", "prefill", "commitKey")
 
     case "EXPECT_STATE":
     case "EXPECT_FORMAT":
@@ -357,6 +357,12 @@ export function actionPublique(action: unknown): Objet {
 export function filtrerParLaConsigne(action: Objet, consigne: string): Objet {
   const sortie: Objet = {}
   for (const [cle, valeur] of Object.entries(action)) {
+    // La portée est une donnée de fonctionnement : privé de la plage de
+    // données, le ruban trie aussi les titres. Colonne et sens restent secrets.
+    if (action.type === "SORT_RANGE" && cle === "range") {
+      sortie[cle] = valeur
+      continue
+    }
     if (!(COORDONNEES_GARDEES as readonly string[]).includes(cle)) {
       sortie[cle] = valeur
       continue

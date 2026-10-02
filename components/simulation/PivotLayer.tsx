@@ -25,7 +25,8 @@
 import { useCallback, useEffect, useRef, useState } from "react"
 import type { PivotAgg, PivotState } from "@/lib/simulation/types"
 import type { PositionAxe, TableauCroise, ZoneTcd } from "@/lib/simulation/pivot"
-import { STYLES_TCD, libelleValeur, styleTcd } from "@/lib/simulation/pivot"
+import { STYLES_TCD, libelleValeur, posterTcd, styleTcd } from "@/lib/simulation/pivot"
+import { cadreRapportTcd } from "@/lib/simulation/pivot-layout"
 
 /* ═══════════ ZONES ═══════════ */
 
@@ -83,6 +84,14 @@ type Props = {
    * quel type est un champ, il fournit donc la réponse.
    */
   zoneParDefaut?: (champ: string) => ZoneTcd
+  /** Rectangle du rapport, relatif à la grille (jamais toute la feuille). */
+  reportRect?: { left: number; top: number; width: number; height: number } | null
+  /** Bascule contrôlée par le Player, notamment pour une saisie dans la source. */
+  showReport?: boolean
+  onShowSource?: () => void
+  onShowReport?: () => void
+  /** Affichage de la cellule réelle : les formats € survivent à Actualiser. */
+  getFormattedValue?: (ref: string, value: number) => string
   className?: string
 }
 
@@ -257,8 +266,30 @@ export default function PivotLayer({
   valeursFiltre,
   onSetFilterValues,
   zoneParDefaut,
+  reportRect,
+  showReport,
+  onShowSource,
+  onShowReport,
+  getFormattedValue,
   className,
 }: Props) {
+  const [rapportLocal, setRapportLocal] = useState(true)
+  const rapportVisible = showReport ?? rapportLocal
+  const layerRef = useRef<HTMLDivElement | null>(null)
+  const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
+  useEffect(() => {
+    const hote = layerRef.current
+    if (!hote) return
+    const mesurer = () => {
+      const { width, height } = hote.getBoundingClientRect()
+      setDimensions({ width, height })
+    }
+    mesurer()
+    const observateur = new ResizeObserver(mesurer)
+    observateur.observe(hote)
+    return () => observateur.disconnect()
+  }, [])
+  const cadreRapport = dimensions.width ? cadreRapportTcd(reportRect, dimensions.width, dimensions.height) : null
   // État strictement local à l'affichage : glissement en cours, champ armé pour le
   // repli au clic, menu de calcul ouvert, tiroir ouvert sur mobile.
   //
@@ -515,6 +546,7 @@ export default function PivotLayer({
 
   const style = styleTcd(pivot?.styleId)
   const niveaux = tableau ? entetesParNiveau(tableau) : []
+  const refsValeurs = pivot && tableau ? posterTcd(pivot, tableau).refsValeurs : []
 
   const corps = (
     <div className="flex min-w-0 flex-1 flex-col gap-2">
@@ -650,10 +682,11 @@ export default function PivotLayer({
                     return (
                       <td
                         key={j}
+                        data-pivot-value={refsValeurs[i]?.[j]}
                         className={["px-2 py-1 text-right tabular-nums", totalise ? "font-semibold" : ""].join(" ")}
                         style={totalise && !pl.total ? { background: style.total.fond, color: style.total.texte } : undefined}
                       >
-                        {v === null ? "" : nf.format(v)}
+                        {v === null ? "" : (getFormattedValue?.(refsValeurs[i]?.[j] ?? "", v) || nf.format(v))}
                       </td>
                     )
                   })}
@@ -669,11 +702,28 @@ export default function PivotLayer({
   /* ── Assemblage : colonne à droite, tiroir au doigt ─────────────────────── */
 
   return (
-    <div className={["flex w-full flex-col gap-2 md:flex-row md:items-start", className ?? ""].join(" ")}>
-      <div className="flex min-w-0 flex-1 flex-col gap-2">
-        {/* Sous 768 px, le volet devient un tiroir : à 390 px, une colonne de
-            256 px ne laisserait pas de quoi lire le tableau. */}
-        <div className="flex justify-end md:hidden">
+    <div
+      data-pivot-layer=""
+      ref={layerRef}
+      className={["h-full w-full pointer-events-none", className ?? ""].join(" ")}
+      style={{ background: "transparent", position: "absolute", inset: 0 }}
+    >
+      <div className="pointer-events-auto absolute left-2 top-1 z-20 flex gap-1">
+        <button
+          type="button"
+          data-pivot-action="show-source"
+          aria-pressed={!rapportVisible}
+          onClick={() => { setRapportLocal(false); onShowSource?.() }}
+          className="rounded border border-neutral-300 bg-white px-2 py-1 text-[11px] text-neutral-700"
+        >Données source</button>
+        <button
+          type="button"
+          data-pivot-action="show-report"
+          aria-pressed={rapportVisible}
+          onClick={() => { setRapportLocal(true); onShowReport?.() }}
+          className="rounded border border-neutral-300 bg-white px-2 py-1 text-[11px] text-neutral-700"
+        >Tableau croisé</button>
+        <div className="md:hidden">
           <button
             type="button"
             data-pivot-action="ouvrir-volet"
@@ -683,13 +733,23 @@ export default function PivotLayer({
             Champs du tableau croisé
           </button>
         </div>
-        {corps}
       </div>
 
+      {rapportVisible && (
+        <div
+          data-pivot-report=""
+          className="pointer-events-auto absolute overflow-auto rounded bg-white shadow-sm"
+          style={cadreRapport ?? { left: 0, top: 36, width: "calc(100% - 288px)", maxHeight: "calc(100% - 36px)" }}
+        >{corps}</div>
+      )}
+
       {/* Volet en colonne dès 768 px. */}
-      <aside className="hidden w-72 shrink-0 self-stretch rounded border border-neutral-200 md:block">{voletRendu(true)}</aside>
+      <aside
+        data-pivot-panel=""
+        className="pointer-events-auto absolute inset-y-0 right-0 hidden w-72 overflow-hidden rounded border border-neutral-200 md:block"
+      >{voletRendu(true)}</aside>
       {tiroir && (
-        <div className="fixed inset-0 z-40 flex md:hidden" role="dialog" aria-label="Champs de tableau croisé dynamique">
+        <div className="pointer-events-auto fixed inset-0 z-40 flex md:hidden" role="dialog" aria-label="Champs de tableau croisé dynamique">
           <div className="flex-1 bg-black/30" onClick={() => setTiroir(false)} />
           <div className="flex w-[86%] max-w-xs flex-col border-l border-neutral-300 bg-neutral-50 shadow-xl">
             <div className="flex items-center justify-between border-b border-neutral-200 px-2 py-1.5">

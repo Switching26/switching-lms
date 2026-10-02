@@ -19,6 +19,7 @@
 import type { WordAction } from "./word/actions"
 import type { PptAction } from "./ppt/actions"
 import type { OutlookAction } from "./outlook/actions"
+import { normaliserFormuleExcel } from "./formula-validation"
 
 export const SIMULATION_SCHEMA_VERSION = 1 as const
 
@@ -387,6 +388,8 @@ export type TypeAction = {
    * noms de fonction et des références).
    */
   formulaMode?: boolean
+  /** Touche de validation exigée seulement lorsque la consigne l'enseigne. */
+  commitKey?: string
   maxLength?: number
   /**
    * Contenu déjà présent au début de l'étape, quand une étape précédente a
@@ -779,13 +782,7 @@ export function gradableStepCount(scenario: SimulationScenario): number {
  * jamais recalé pour une espace ou une minuscule : seul le sens compte.
  */
 export function normalizeFormula(input: string): string {
-  return input
-    .trim()
-    .toUpperCase()
-    // Espaces superflus, y compris autour des opérateurs et séparateurs.
-    .replace(/\s+/g, "")
-    // Excel accepte les deux séparateurs d'arguments selon la locale.
-    .replace(/,/g, ";")
+  return normaliserFormuleExcel(input)
 }
 
 /**

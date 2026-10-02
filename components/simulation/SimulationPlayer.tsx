@@ -5942,8 +5942,8 @@ export default function SimulationPlayer({
           <div className="w-full rounded-2xl bg-white p-5 shadow-2xl" style={{ maxWidth: 420 }}>
             <h4 className="font-display text-[16px] font-bold text-ink">Revenir à l'étape {index} ?</h4>
             <p className="mt-2 text-[13.5px] leading-relaxed text-warm-700">
-              Vous allez revoir sa consigne. Ce que vous avez déjà saisi reste dans la feuille, mais le point
-              de départ de cette étape est remis en place : il faudra refaire le geste pour avancer à nouveau.
+              Vous allez retrouver le point de départ de cette étape et revoir sa consigne. Les modifications
+              faites depuis seront annulées ; il faudra refaire le geste pour avancer à nouveau.
             </p>
             <div className="mt-4 flex flex-wrap justify-end gap-2">
               <button

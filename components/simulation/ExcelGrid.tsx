@@ -264,6 +264,8 @@ export type GridApi = {
   aUnFiltre: () => boolean
   /** Coche les valeurs à garder visibles sur une colonne filtrée. */
   setFilterCriteria: (column: string, values: string[]) => boolean
+  /** Ouvre le vrai panneau du filtre natif, pour la colonne demandée. */
+  openFilterMenu: (column: string) => Promise<boolean>
   /** Retire le filtre et réaffiche toutes les lignes. */
   removeFilter: () => boolean
   /** Indices des lignes masquées par le filtre en cours. */
@@ -1162,6 +1164,22 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
             f.setColumnFilterCriteria(columnLetterToIndex(column), { filters: { filters: values } })
             return true
           } catch {
+            return false
+          }
+        },
+        openFilterMenu: async (column) => {
+          if (!/^[A-Za-z]{1,3}$/.test(column.trim())) return false
+          try {
+            const wb = classeur()
+            const sh = wb?.getActiveSheet()
+            const col = columnLetterToIndex(column.trim())
+            const range = sh?.getFilter?.()?.getRange?.()?.getRange?.()
+            if (!range || col < range.startColumn || col > range.endColumn) return false
+            return Boolean(await univerAPI.executeCommand("sheet.operation.open-filter-panel", {
+              unitId: wb.getId(), subUnitId: sh.getSheetId(), col,
+            }))
+          } catch (e) {
+            signalerEnDev("ouverture du filtre", e)
             return false
           }
         },

@@ -1,4 +1,5 @@
 "use client"
+import { BoutonImmersion } from "@/components/learner/useImmersion"
 
 /**
  * LE CHÂSSIS DE L'ATELIER — ce que voit l'apprenant, quelle que soit l'app.
@@ -1052,7 +1053,7 @@ export default function AtelierShell({
   useEffect(() => {
     if (!panneau) return
     const echap = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setPanneau(null)
+      if (e.key === "Escape") { e.preventDefault(); setPanneau(null) }
     }
     window.addEventListener("keydown", echap)
     return () => window.removeEventListener("keydown", echap)
@@ -1105,6 +1106,8 @@ export default function AtelierShell({
   return (
     <div
       ref={carteRef}
+      data-immersion-atelier=""
+      data-immersion-panel-open={panneau || guideOuvert ? "" : undefined}
       // Plein cadre : une colonne verticale qui remplit exactement son conteneur
       // et n'a AUCUN défilement. C'est la structure elle-même qui rend le
       // débordement impossible — la consigne du bas ne peut plus être poussée
@@ -1376,6 +1379,7 @@ export default function AtelierShell({
             <span className="hidden sm:inline">Guide</span>
           </span>
         </button>
+        <BoutonImmersion sombre />
         {onQuitter && (
           <button
             type="button"

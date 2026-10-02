@@ -32,6 +32,7 @@ import type { SimulationScenario } from "@/lib/simulation/types"
 import type { LearnerDocument } from "@/lib/learner-files"
 import { variablesCouleur, C } from "@/lib/simulation/couleurs"
 import { FournisseurVoixDemo } from "./hooks/useVoixDemo"
+import { ContexteImmersion, useImmersion } from "@/components/learner/useImmersion"
 
 type Payload = {
   /**
@@ -138,6 +139,7 @@ function ChapitreCharge({
   const [data, setData] = useState<Payload | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [monte, setMonte] = useState(false)
+  const immersion = useImmersion()
   /**
    * Compteur de passages, incrémenté par « Repasser l'évaluation ».
    *
@@ -313,7 +315,7 @@ function ChapitreCharge({
       onRejouer={() => setPassage((n) => n + 1)}
       preview={preview}
       onCompleted={onCompleted}
-      pleinCadre={atelier}
+      pleinCadre={atelier || immersion.active}
       sommaire={sommaire}
       onNaviguer={onNaviguer}
       onQuitter={onQuitter}
@@ -330,11 +332,13 @@ function ChapitreCharge({
 
   // Aperçu admin et rendu en carte : le player reste dans le flux de la page,
   // mais il lui faut quand même sa palette — d'où cette enveloppe.
-  if (!atelier) return <div style={couleurs}>{player}</div>
+  if (!atelier) return <ContexteImmersion.Provider value={immersion}><div ref={immersion.cadre} className={`lms-immersion-cadre lms-immersion-apercu lms-simulation-cadre ${immersion.active ? "lms-immersion-active" : ""}`} style={couleurs}>{player}</div></ContexteImmersion.Provider>
   if (!monte) return <div style={{ height: 420 }} />
 
   return createPortal(
-    <div
+    <ContexteImmersion.Provider value={immersion}><div
+      ref={immersion.cadre}
+      className={`lms-immersion-cadre lms-simulation-cadre ${immersion.active ? "lms-immersion-active" : ""}`}
       // Sous la navigation du LMS, qui reste visible pendant l'atelier — comme
       // OnlineFormaPro garde la sienne (choix Samuel du 29/07).
       style={{
@@ -352,7 +356,7 @@ function ChapitreCharge({
       }}
     >
       <div style={{ height: "100%", minWidth: 1024 }}>{player}</div>
-    </div>,
+    </div></ContexteImmersion.Provider>,
     document.body,
   )
 }

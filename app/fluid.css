@@ -373,3 +373,62 @@
  .lms-reader-anglais :is(.lms-reader-toolbar,.lms-reader-scene,.lms-reader-band,.lms-reader-details,.lms-reader-footer) { grid-column:1; }
  .lms-reader-anglais .lms-reader-sidebar { position:absolute; top:60px; left:0; z-index:55; width:300px; max-width:calc(100% - 28px); height:calc(100% - 80px); box-shadow:0 12px 40px #1b2a4a30; }
 }
+
+/* Agrandir : mêmes hôtes React, seule la géométrie change (bureau/tablette). */
+.lms-agrandir { display:none; }
+@media(min-width:768px) {
+ /* Les panneaux fermés restent dans le cadre : un translateX hors champ
+    élargissait le scrollWidth et décalait la vidéo lors des changements de focus. */
+ :is(.lms-reader,[data-immersion-atelier]) > aside[aria-hidden] { transform:none !important; clip-path:inset(0); transition:clip-path .26s ease !important; }
+ :is(.lms-reader,[data-immersion-atelier]) > aside[aria-hidden=true] { clip-path:inset(0 0 0 100%); }
+ [data-immersion-atelier] { container-type:inline-size; }
+ .lms-reader-footer { min-width:0; flex-wrap:wrap; }
+ .lms-immersion-cadre { transition:top .28s ease,left .28s ease; }
+ .lms-immersion-active { position:fixed !important; inset:0 !important; width:100% !important; height:100dvh !important; z-index:80 !important; border-radius:0 !important; overflow:hidden !important; background:var(--lms-bg); }
+ .lms-immersion-masque { visibility:hidden !important; pointer-events:none !important; }
+ .lms-agrandir { display:inline-flex; flex-shrink:0; align-items:center; justify-content:center; gap:6px; min-height:44px; padding:0 10px; color:var(--lms-ink); font-size:12px; white-space:nowrap; }
+ .lms-agrandir-sombre { color:#fff; background:transparent; }
+ .lms-agrandir:hover { background:#10201b0a; }
+ .lms-agrandir-sombre:hover { background:#ffffff14; }
+ .lms-reader-toolbar > span { flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+ .lms-immersion-active .lms-reader { grid-template-columns:minmax(0,1fr); grid-template-rows:52px max-content max-content max-content; border:0 !important; border-radius:0 !important; }
+ .lms-immersion-active .lms-reader > :is(.lms-reader-toolbar,.lms-reader-scene,.lms-reader-band,.lms-reader-details,.lms-reader-footer) { grid-column:1; }
+ .lms-immersion-active .lms-reader-toolbar > [aria-label="Retour à mes formations"] { display:none; }
+ .lms-immersion-active .lms-reader-scene-video { width:min(calc(100% - 44px),calc((100dvh - 300px) * 16 / 9)); height:auto; min-height:0; max-height:none; aspect-ratio:16/9; justify-self:center; }
+ .lms-immersion-active .lms-reader-band { margin-top:14px; }
+ .lms-immersion-active .lms-reader-band > div { padding-bottom:12px; }
+ .lms-immersion-active .lms-reader-details { margin-top:12px; padding-top:12px; }
+ .lms-immersion-active .lms-reader-sidebar,
+ .anglais-immersif > .lms-reader-sidebar { display:none; }
+ .lms-immersion-active [data-lecons-ouvertes] > .lms-reader-sidebar,
+ .anglais-immersif[data-lecons-ouvertes] > .lms-reader-sidebar { display:flex; position:absolute; top:44px; left:0; width:300px; max-width:84%; height:calc(100% - 44px); margin:0; border-radius:0; z-index:70; box-shadow:0 12px 40px #1b2a4a30; }
+ .lms-immersion-active .lms-reader-chapters-overlay,
+ .anglais-immersif > .lms-reader-chapters-overlay { display:block; }
+ .lms-reader-anglais.anglais-immersif > .lms-reader-toolbar { display:flex; position:absolute; inset:0 0 auto; height:44px; margin:0; padding:0 14px; background:var(--lms-bg); z-index:10; }
+ .lms-reader-anglais.anglais-immersif > .lms-reader-scene { top:44px; height:calc(100% - 44px); }
+ .lms-immersion-active .anglais-apercu.anglais-immersif { height:100%; }
+ .lms-simulation-cadre > div { min-width:0 !important; }
+ .lms-immersion-active.lms-simulation-cadre > div { height:100%; }
+ [data-control="sim-cockpit"] { min-width:0; }
+}
+@media(min-width:768px) and (max-width:1100px) {
+ [data-control="sim-cockpit"] { gap:6px !important; padding-inline:8px !important; }
+ [data-control="sim-ressources"] > span { max-width:180px; }
+ [data-control="sim-ressources"] > span > span { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+ [data-control="sim-cockpit"] > button:not(.lms-agrandir) > span { padding-inline:7px !important; }
+}
+@media(min-width:768px) {
+ @container (max-width:900px) {
+  [data-control="sim-ressources"] > span > span,
+  [data-control="sim-cockpit"] > div[aria-hidden] { display:none; }
+ }
+ @container (max-width:650px) {
+  [data-control="sim-cockpit"] { flex-wrap:wrap; height:76px !important; column-gap:4px !important; row-gap:0 !important; }
+  [data-control="sim-cockpit"] > div.truncate { order:2; flex:1 0 calc(100% - 50px); height:32px; line-height:32px; text-align:left; }
+  [data-control="sim-progression"] { order:3; }
+  :is([data-control="sim-notes"],[data-control="sim-guide"]) > span > span:last-child { display:none; }
+ }
+}
+@media(prefers-reduced-motion:reduce) {
+ .lms-immersion-cadre { transition:none; }
+}

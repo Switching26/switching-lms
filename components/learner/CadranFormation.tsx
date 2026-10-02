@@ -43,6 +43,7 @@ import { filtrerDocuments } from "@/lib/learner-files"
 import { LigneDocument } from "@/components/learner/DocumentActions"
 import PdfViewer from "@/components/learner/PdfViewer"
 import SlidingTrack from "@/components/ui/SlidingTrack"
+import { BoutonImmersion, useImmersion } from "./useImmersion"
 
 /* ═══════════ COMMANDES DU CADRAN ═══════════ */
 
@@ -243,6 +244,7 @@ export default function CadranFormation(p: Props) {
     }
   }, [apercuAnglais, immersif, p.visible])
   const [panneau, setPanneau] = useState<"lecons" | "notes" | "ressources" | null>(null)
+  const immersion = useImmersion(p.visible)
   const [replie, setReplie] = useState(false)
   useEffect(() => { if (anglais && window.innerWidth > 760 && window.innerWidth <= 1100) setReplie(true) }, [anglais])
   const [onglet, setOnglet] = useState<"lecons" | "notes" | "documents" | "description">("lecons")
@@ -253,7 +255,7 @@ export default function CadranFormation(p: Props) {
   useEffect(() => {
     if (!panneau) return
     const echap = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setPanneau(null)
+      if (e.key === "Escape") { e.preventDefault(); setPanneau(null) }
     }
     window.addEventListener("keydown", echap)
     return () => window.removeEventListener("keydown", echap)
@@ -298,11 +300,14 @@ export default function CadranFormation(p: Props) {
       }
       style={p.pleinCadre ? undefined : { borderRadius: 16 }}
       data-cadran-formation=""
+      data-immersion-panel-open={panneau ? "" : undefined}
+      data-lecons-ouvertes={panneau === "lecons" ? "" : undefined}
     >
       <div className="lms-reader-toolbar">
-        <button type="button" onClick={() => setReplie(!replie)} aria-expanded={!replie}>{replie ? "Afficher les chapitres" : "Replier les chapitres"}</button>
+        <button type="button" onClick={() => immersion.active || (anglais && immersif) ? setPanneau(panneau === "lecons" ? null : "lecons") : setReplie(!replie)} aria-expanded={immersion.active || (anglais && immersif) ? panneau === "lecons" : !replie}>{immersion.active || (anglais && immersif) ? "Leçons" : replie ? "Afficher les chapitres" : "Replier les chapitres"}</button>
         <span>{p.filModule ? `${p.filModule} · ` : ""}{p.index} / {p.total}</span>
         {p.onQuitter && <button type="button" onClick={p.onQuitter} aria-label="Retour à mes formations">Mes formations</button>}
+        <BoutonImmersion controle={immersion} />
       </div>
 
       {/* La salle. `flex-1 min-h-0` : c'est elle qui absorbe la place restante,
@@ -498,7 +503,7 @@ export default function CadranFormation(p: Props) {
     </ContexteCadran.Provider>
   )
 
-  if (!p.pleinCadre) return <div ref={apercu} style={{ display: p.visible ? undefined : "none" }}>{carte}</div>
+  if (!p.pleinCadre) return <div ref={apercu} style={{ display: p.visible ? undefined : "none" }}><div ref={immersion.cadre} className={`lms-immersion-cadre lms-immersion-apercu ${immersion.active ? "lms-immersion-active" : ""}`}>{carte}</div></div>
   // Avant l'hydratation, on réserve la place sans rendre le portail.
   if (!monte) return <div style={{ height: 420 }} />
 
@@ -514,6 +519,7 @@ export default function CadranFormation(p: Props) {
    */
   return createPortal(
     <div
+      ref={immersion.cadre}
       style={{
         position: "fixed",
         top: "calc(var(--app-impersonation-offset, 0px) + var(--app-nav-height, 64px))",
@@ -525,7 +531,7 @@ export default function CadranFormation(p: Props) {
         overflow: "hidden",
         display: p.visible ? undefined : "none",
       }}
-      className={`lms-portail ${anglais && immersif ? "anglais-portail-immersif" : ""}`}
+      className={`lms-portail lms-immersion-cadre ${immersion.active ? "lms-immersion-active" : ""} ${anglais && immersif ? "anglais-portail-immersif" : ""}`}
       data-cadran-portail=""
     >
       {carte}

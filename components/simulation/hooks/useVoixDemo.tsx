@@ -53,8 +53,8 @@
  * indépendamment. C'est le prix — assumé — de ne pas toucher au guide vocal, la
  * pièce déjà prouvée au banc.
  *
- * Elles ne se superposent pas : le guide vocal refuse de démarrer tant qu'une
- * démonstration est en cours ou sur le point de démarrer.
+ * Le guide attend la fin de la démonstration. Un arbitre de lecture partagé
+ * coupe aussi toute bulle encore en attente avant que la consigne ne démarre.
  */
 
 import {
@@ -68,6 +68,7 @@ import {
   type ReactNode,
 } from "react"
 import { bullePour, SILENCE_DEBLOCAGE, type ManifesteVoix, type SegmentVoix } from "@/lib/simulation/voix"
+import { LecteurVoix } from "@/lib/simulation/lecture-voix"
 
 /** Un segment tel que la route le sert : le manifeste plus l'adresse. */
 type SegmentServi = SegmentVoix & { url: string }
@@ -181,6 +182,7 @@ export function FournisseurVoixDemo({
   const [coupee, setCoupee] = useState(false)
 
   const audioRef = useRef<HTMLAudioElement | null>(null)
+  const lecteurRef = useRef<LecteurVoix | null>(null)
   /**
    * UNE LECTURE A ÉCHOUÉ DANS CETTE SÉQUENCE.
    *
@@ -209,6 +211,7 @@ export function FournisseurVoixDemo({
 
   /* ── Le manifeste du chapitre ───────────────────────────────────────────── */
   useEffect(() => {
+    setManifeste(null)
     if (!actif || !chapterId) return
     let annule = false
     fetch(`/api/simulations/${chapterId}/voix`)
@@ -235,19 +238,16 @@ export function FournisseurVoixDemo({
     return audioRef.current
   }, [])
 
+  const obtenirLecteur = useCallback(() => {
+    if (!lecteurRef.current) lecteurRef.current = new LecteurVoix(obtenirAudio)
+    return lecteurRef.current
+  }, [obtenirAudio])
+
   /* ── Déblocage iOS au premier geste ─────────────────────────────────────── */
   useEffect(() => {
     if (!actif) return
     const debloquer = () => {
-      const a = obtenirAudio()
-      if (!a || !a.paused) return
-      try {
-        a.src = SILENCE
-        const p = a.play()
-        if (p && typeof p.then === "function") p.then(() => a.pause()).catch(() => {})
-      } catch {
-        /* le geste n'a pas suffi : les bulles resteront muettes, pas figées */
-      }
+      obtenirLecteur().debloquer(SILENCE)
     }
     document.addEventListener("pointerdown", debloquer, { once: true, capture: true })
     document.addEventListener("keydown", debloquer, { once: true, capture: true })
@@ -255,19 +255,16 @@ export function FournisseurVoixDemo({
       document.removeEventListener("pointerdown", debloquer, true)
       document.removeEventListener("keydown", debloquer, true)
     }
-  }, [actif, obtenirAudio])
+  }, [actif, obtenirLecteur])
 
   const arreter = useCallback(() => {
     echecRef.current = false
-    const a = audioRef.current
-    if (!a) return
-    a.pause()
-    try {
-      a.currentTime = 0
-    } catch {
-      /* piste pas encore chargée : rien à rembobiner */
-    }
+    lecteurRef.current?.arreter()
   }, [])
+
+  useEffect(() => {
+    arreter()
+  }, [chapterId, actif, coupee, arreter])
 
   /**
    * La durée imposée, et la décision de parler : UNE SEULE ET MÊME LECTURE.
@@ -299,35 +296,22 @@ export function FournisseurVoixDemo({
       if (!seg?.secondes || seg.secondes <= 0) return
       const url = (seg as SegmentServi).url
       if (!url) return
-      const a = obtenirAudio()
-      if (!a) return
-      try {
-        a.pause()
-        a.src = url
-        a.currentTime = 0
-        const p = a.play()
-        if (p && typeof p.then === "function") {
-          p.catch(() => {
-            /* Refus d'autoplay ou piste absente : on cesse d'allonger les bulles
-               suivantes. Dégrader vers le rythme d'avant, jamais figer. */
-            echecRef.current = true
-          })
-        }
-      } catch {
-        echecRef.current = true
-      }
+      obtenirLecteur().jouer(url, {
+        limiteMs: Math.min(PLAFOND_BULLE_MS, Math.round(seg.secondes * 1000) + MARGE_MS),
+        onEchec: () => {
+          /* Seul l'échec de la lecture courante compte, jamais le rejet d'une
+             ancienne promesse interrompue par la bulle suivante. */
+          echecRef.current = true
+        },
+      })
     },
-    [manifeste, coupee, actif, obtenirAudio],
+    [manifeste, coupee, actif, obtenirLecteur],
   )
 
   /** Au démontage — sortie de l'atelier, navigation, fin du chapitre. */
   useEffect(() => {
     return () => {
-      const a = audioRef.current
-      if (a) {
-        a.pause()
-        a.src = ""
-      }
+      lecteurRef.current?.arreter(false)
     }
   }, [])
 

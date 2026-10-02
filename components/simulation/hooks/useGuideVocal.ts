@@ -36,6 +36,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState, type RefObject } from "react"
 import { ROLES_AIDE, ROLES_ARRIVEE, ROLES_JOUES, SILENCE_DEBLOCAGE, type SegmentVoix } from "@/lib/simulation/voix"
+import { LecteurVoix } from "@/lib/simulation/lecture-voix"
 
 /** Un segment tel que la route le sert : le manifeste plus l'adresse. */
 type SegmentServi = SegmentVoix & { url: string }
@@ -133,6 +134,7 @@ export function useGuideVocal(opts: {
   /** L'élément audio : UN seul pour tout l'atelier, réutilisé d'une piste à
    *  l'autre. Deux éléments voudraient dire deux déblocages iOS à obtenir. */
   const audioRef = useRef<HTMLAudioElement | null>(null)
+  const lecteurRef = useRef<LecteurVoix | null>(null)
   /** La suite des pistes qui reste à jouer. */
   const fileRef = useRef<string[]>([])
   /** Démarrage différé en cours, qu'un geste de l'apprenant doit pouvoir annuler. */
@@ -149,6 +151,7 @@ export function useGuideVocal(opts: {
 
   /* ── Le manifeste du chapitre ───────────────────────────────────────────── */
   useEffect(() => {
+    setManifeste(null)
     if (!actif || !chapterId) return
     let annule = false
     fetch(`/api/simulations/${chapterId}/voix`)
@@ -195,25 +198,18 @@ export function useGuideVocal(opts: {
     return audioRef.current
   }, [])
 
+  const obtenirLecteur = useCallback(() => {
+    if (!lecteurRef.current) lecteurRef.current = new LecteurVoix(obtenirAudio)
+    return lecteurRef.current
+  }, [obtenirAudio])
+
   const arreter = useCallback(() => {
     if (minuterieRef.current !== null) {
       window.clearTimeout(minuterieRef.current)
       minuterieRef.current = null
     }
     fileRef.current = []
-    const a = audioRef.current
-    if (a) {
-      a.pause()
-      // On ne vide PAS `src` : le remettre à vide relance un chargement de
-      // l'URL courante sur certains navigateurs, et parasite le prochain
-      // `play()`. Mettre la tête à zéro suffit à ce que la reprise reparte du
-      // début.
-      try {
-        a.currentTime = 0
-      } catch {
-        /* la piste n'était pas encore chargée : rien à rembobiner */
-      }
-    }
+    lecteurRef.current?.arreter()
     setEnLecture(false)
   }, [])
 
@@ -221,20 +217,24 @@ export function useGuideVocal(opts: {
   const arreterRef = useRef(arreter)
   arreterRef.current = arreter
 
+  const suiteRef = useRef<() => void>(() => {})
   const jouerLaSuite = useCallback(() => {
-    const a = obtenirAudio()
     const url = fileRef.current.shift()
-    if (!a || !url) {
+    if (!url) {
       setEnLecture(false)
       return
     }
-    a.src = url
-    const p = a.play()
-    if (p && typeof p.then === "function") {
-      p.then(() => {
+    obtenirLecteur().jouer(url, {
+      onDemarre: () => {
         setEnLecture(true)
         setBloquee(false)
-      }).catch((e: unknown) => {
+      },
+      onFin: () => suiteRef.current(),
+      onArret: () => {
+        fileRef.current = []
+        setEnLecture(false)
+      },
+      onEchec: (e: unknown) => {
         /* LE REFUS D'AUTOPLAY N'EST PAS UNE PANNE.
          *
          * Il faut le distinguer d'une piste manquante : le premier se répare
@@ -244,34 +244,17 @@ export function useGuideVocal(opts: {
         if (nom === "NotAllowedError") setBloquee(true)
         fileRef.current = []
         setEnLecture(false)
-      })
-    } else {
-      setEnLecture(true)
-    }
-  }, [obtenirAudio])
-
-  // L'enchaînement des segments : « le problème » puis « la conclusion » d'une
-  // même consigne coupée en deux ne doivent pas demander deux clics.
-  useEffect(() => {
-    const a = obtenirAudio()
-    if (!a) return
-    const suite = () => jouerLaSuite()
-    const echec = () => {
-      // Une piste absente ou illisible n'interrompt pas les suivantes.
-      fileRef.current = []
-      setEnLecture(false)
-    }
-    a.addEventListener("ended", suite)
-    a.addEventListener("error", echec)
-    return () => {
-      a.removeEventListener("ended", suite)
-      a.removeEventListener("error", echec)
-    }
-  }, [obtenirAudio, jouerLaSuite])
+      },
+    })
+  }, [obtenirLecteur])
+  // Une consigne divisée en segments garde son enchaînement, mais seul le
+  // ended de la lecture encore courante peut l'avancer.
+  suiteRef.current = jouerLaSuite
 
   const jouer = useCallback(
     (liste: SegmentServi[]) => {
       if (!liste.length) return
+      arreterRef.current()
       fileRef.current = liste.map((s) => s.url)
       jouerLaSuite()
     },
@@ -282,24 +265,7 @@ export function useGuideVocal(opts: {
   useEffect(() => {
     if (!actif) return
     const debloquer = () => {
-      const a = obtenirAudio()
-      // Ne jamais déranger une lecture en cours : le déblocage est un
-      // préliminaire, pas une interruption.
-      if (!a || fileRef.current.length || !a.paused) return
-      try {
-        a.src = SILENCE
-        const p = a.play()
-        if (p && typeof p.then === "function") {
-          p.then(() => {
-            a.pause()
-            setBloquee(false)
-          }).catch(() => {
-            /* Le geste n'a pas suffi : le bouton du cockpit reste la porte. */
-          })
-        }
-      } catch {
-        /* rien à faire : le bouton reste la porte */
-      }
+      obtenirLecteur().debloquer(SILENCE, () => setBloquee(false))
     }
     // `once` : un seul déblocage, et il ne coûte rien au reste de la session.
     document.addEventListener("pointerdown", debloquer, { once: true, capture: true })
@@ -308,7 +274,7 @@ export function useGuideVocal(opts: {
       document.removeEventListener("pointerdown", debloquer, true)
       document.removeEventListener("keydown", debloquer, true)
     }
-  }, [actif, obtenirAudio])
+  }, [actif, obtenirLecteur])
 
   /* ── Règle 2 : l'apprenant agit, la voix se tait ────────────────────────── */
   useEffect(() => {
@@ -384,11 +350,7 @@ export function useGuideVocal(opts: {
   /** Au démontage — sortie de l'atelier, navigation, fin du chapitre. */
   useEffect(() => {
     return () => {
-      const a = audioRef.current
-      if (a) {
-        a.pause()
-        a.src = ""
-      }
+      lecteurRef.current?.arreter(false)
       fileRef.current = []
       if (minuterieRef.current !== null) window.clearTimeout(minuterieRef.current)
     }

@@ -1427,6 +1427,7 @@ export default function SimulationPlayer({
         const s = steps[k]
         if (!s) continue
         suivreSelection(s)
+        if (s.setup?.ribbon?.activeTab) setOnglet(s.setup.ribbon.activeTab)
         if (s.setup?.cells) grid.applyCells(s.setup.cells)
         if (s.setup?.selection) grid.setSelection(s.setup.selection)
         appliquerModeles(s, false)
@@ -3919,6 +3920,7 @@ export default function SimulationPlayer({
     const cible = estReference ? raw.toUpperCase() : (defini?.ref ?? "").split("!").pop() || ""
     if (!cible) return
     grid.setSelection(cible)
+    grid.scrollToCell(cible.split(":")[0])
     grid.focus()
     const now = grid.getSelection()
     if (now) {

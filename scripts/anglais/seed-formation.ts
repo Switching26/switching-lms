@@ -5,10 +5,13 @@ import path from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { createHash } from 'node:crypto'
 import { ids, contenu, prototype, dossier, json, inventaire } from './sources'
+import { mettreAJour } from './mise-a-jour'
 const db=new PrismaClient(); const titre='Anglais niveau 1 — Débutant (A1/A2)'
 async function main() {
  const apply=process.argv.includes('--apply')
- if(apply && process.argv[process.argv.indexOf('--confirm')+1]!=='SEED_ANGLAIS') throw Error('Confirmation SEED_ANGLAIS requise')
+ const update=process.argv.includes('--update')
+ const confirmation=update?'UPDATE_ANGLAIS':'SEED_ANGLAIS'
+ if(apply && (!process.argv.includes('--confirm') || process.argv[process.argv.indexOf('--confirm')+1]!==confirmation)) throw Error(`Confirmation ${confirmation} requise`)
  let existing=await db.formation.findMany({where:{title:titre,deletedAt:null},include:{sections:true,chapters:{include:{simulation:true}}}})
  if(existing.length>1) throw Error('Plusieurs formations homonymes : arrêt sans écriture')
  const verifierExistant=(list:typeof existing)=>{
@@ -19,7 +22,9 @@ async function main() {
   if(f.chapters.some(c=>c.simulation?.app!=='ANGLAIS')||connus.some(id=>!ids.includes(id))||new Set(connus).size!==connus.length)throw Error('Formation existante incompatible ou chapitres dupliqués')
   if(new Set(f.sections.map(s=>s.order)).size!==f.sections.length||f.sections.some(s=>s.order<0||s.order>9))throw Error('Sections existantes incompatibles')
  }
- verifierExistant(existing)
+ if(!update)verifierExistant(existing)
+ // L'assembleur doit lire exactement le même corpus que fichiers/scénarios.
+ process.env.LMS_CONTENU=contenu
  const {routeLecon,routeActivites}=await import(pathToFileURL(path.join(prototype,'serveur/lecon.mjs')).href)
  const capter=async(fn:any,id?:string)=>{let value:any; await fn({}, {writeHead(){},end(v:string){value=JSON.parse(v)}},id);return value}
  const activites=await capter(routeActivites)
@@ -47,6 +52,7 @@ async function main() {
   prepared.push({id,section,plan,scenario,hash})
  }
  if(prepared.length!==74) throw Error(`Attendu 74, obtenu ${prepared.length}`)
+ if(update){await mettreAJour(db,titre,sections,prepared,apply);return}
  console.log(JSON.stringify({mode:apply?'écriture':'essai à blanc',formation:existing[0]?.id||'à créer',sections:sections.length,chapitres:prepared.length,etapes:prepared.reduce((n,p)=>n+p.scenario.lecon.etapes.length,0),minutes:prepared.reduce((n,p)=>n+p.plan.duree_min,0),blancs:'non publiés'},null,2))
  if(!apply)return
  const formation=await db.$transaction(async tx=>{

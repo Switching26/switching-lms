@@ -51,3 +51,30 @@ Après import du lecteur, build, copie de `public/` et `.next/static/` dans le s
 `node scripts/anglais/fabriquer-recette-enrichissement.mjs apprenant` (puis `admin` ou `bilan`) produit un script **privé** sous `.local/` depuis les comptes fictifs. Exécuter avec `playwright-cli run-code --filename <sortie>`, dans un profil persistant distinct de ceux des autres agents.
 
 Les recettes apprenant/admin vérifient mots, cibles, largeur, clics V04/G20, retour U10 et formes entières aux trois formats. `bilan` reproduit dans la vraie iframe les productions T1 non visitées, passées et déposées : écrit 33 %, oral sans score automatique. Elles supposent les scénarios enrichis U01/U10/T1 et les médias copiés uniquement dans la base/le volume locaux. Une voix absente reste explicitement non évaluée ; la recette ne prouve pas une sortie son physique.
+
+## Mettre à jour une formation existante, y compris publiée
+
+`seed-formation.ts --update` prépare uniquement les nouveaux scénarios. La formation,
+ses dix sections et ses 74 chapitres doivent déjà exister avec exactement les mêmes
+titres, identités, rattachements, ordres et durées. Toute différence structurelle
+arrête le script avant écriture ; publication et durée déclarée restent intactes.
+
+1. Sauvegarder la base et relever les empreintes des autres formations, inscriptions
+   et licences. Choisir explicitement `DATABASE_URL` et `ANGLAIS_CONTENU`.
+2. Lancer `npx tsx scripts/anglais/seed-formation.ts --update`. Le rapport détaille
+   chaque chapitre, ses étapes avant/après, les médias ajoutés, les inscriptions et
+   les tentatives. Si des apprenants existent, contrôler leurs états et informer le
+   responsable avant écriture. Les anciens identifiants et leur ordre sont alors
+   obligatoirement conservés ; les états ne sont jamais réinitialisés.
+3. Reprendre l'empreinte affichée : `--update --apply --confirm UPDATE_ANGLAIS
+   --expect <empreinte>`. Toute modification intervenue depuis l'essai à blanc
+   invalide l'opération. Relecture et écriture se font en transaction sérialisable.
+4. Seuls `Simulation.scenario`, son `stepCount`, sa `version` et son horodatage sont
+   modifiés. Vérifier ensuite les empreintes métier avant/après et les parcours.
+
+L'assembleur reçoit automatiquement le même dossier de contenu que le semeur.
+Retour arrière : reprendre le corpus antérieur via `ANGLAIS_CONTENU`, refaire un
+essai à blanc puis la même mise à jour. Si de nouvelles étapes ont été pratiquées,
+le retrait est refusé : analyser les états avant de décider, sans les effacer.
+Contre-épreuves : `scripts/anglais/check-mise-a-jour.ts`, uniquement sur PostgreSQL
+local au port 55432 ; aucun changement en base.

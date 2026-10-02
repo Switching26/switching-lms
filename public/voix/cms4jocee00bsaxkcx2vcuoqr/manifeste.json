@@ -23,12 +23,13 @@
    "aucun « SI » epele",
    "nombres entendus identiques aux nombres dits"
   ],
-  "regle": "un segment n'est valide que s'il passe le moteur severe"
+  "regle": "un segment n'est valide que s'il passe le moteur severe",
+  "corrections_20261002": "Pistes corrigées acceptées après relecture sémantique des transcriptions small et medium CPU ; résultat automatique small conservé séparément."
  },
  "totaux": {
   "segments": 28,
-  "caracteres_dits": 3128,
-  "duree_totale_s": 206.1,
+  "caracteres_dits": 2949,
+  "duree_totale_s": 195.2,
   "segments_valides": 28,
   "segments_plusieurs_essais": 1,
   "segments_jamais_valides": 0
@@ -61,23 +62,55 @@
    "id": "e1-consigne",
    "etape_lms": "M15-L04-01",
    "role": "Étape 1 · consigne",
-   "texte_dit": "Prenons le temps de repérer la structure, car c'est elle qui rend le calcul possible. Cinq onglets en bas: la cellule T1, T2, T3, T4 et Année. Les quatre premiers sont bâtis à l'identique, trois agences, un total dans la cellule B6. La feuille Année, où vous êtes, attend ses chiffres. Une référence à une autre feuille s'écrit: nom de la feuille, point d'exclamation, cellule.",
-   "empreinte_texte_dit": "e5e917d72c7a6cda54e2b384e218805306cca96853b98f17a28d359cd0dd57b1",
+   "texte_dit": "Les cinq onglets sont T1, T2, T3, T4 et Année. Les quatre feuilles trimestrielles ont la même structure et un total en B6. La feuille Année attend leur synthèse. Une référence entre feuilles relie un nom de feuille à une cellule.",
+   "empreinte_texte_dit": "999a74079f4462ba0286263321bc787c6e3bd209e94a90191e159d0cc9ff7b7d",
    "reparations": [],
    "ssml": false,
-   "fichier": "audio/e1-consigne.mp3",
-   "octets": 415913,
-   "duree_s": 25.92,
-   "caracteres_dits": 377,
-   "caracteres_factures": 377,
+   "fichier": "audio/e1-consigne-corr20261002-202c7a6c24.mp3",
+   "octets": 280912,
+   "duree_s": 17.48,
+   "caracteres_dits": 229,
+   "caracteres_factures": 229,
    "essais": 1,
    "controle": {
     "moteur_severe_small": {
-     "ok": true,
-     "wer": 0.029,
-     "transcription": "Prenons le temps de repérer la structure, car c'est elle qui rend le calcul possible. 5 conglais en bas, la cellule T1, T2, T3, T4 et année. Les quatre premiers sont bâti à l'identique, trois agences, un total dans la cellule B6. La feuille année, où vous êtes, attend ces chiffres. Une référence à une autre feuille S écrit, nom de la feuille, point d'exclamation, cellule."
+     "statut": "ok",
+     "wer": 0.122,
+     "seuil": 0.15,
+     "raison": null,
+     "transcription": "Les cinq onglaissons, T1, T2, T3, T4 et années. Les quatre feuilles trimestrielles ont la même structure et un total embêtis. La feuille années attend leur synthèse. Une référence entre feuilles relit un nom de feuille à une cellule.",
+     "tirages": 1,
+     "detail_tirages": [
+      {
+       "n": 1,
+       "ok": true,
+       "wer": 0.122,
+       "raison": null,
+       "transcription": "Les cinq onglaissons, T1, T2, T3, T4 et années. Les quatre feuilles trimestrielles ont la même structure et un total embêtis. La feuille années attend leur synthèse. Une référence entre feuilles relit un nom de feuille à une cellule."
+      }
+     ],
+     "moteur": "whisper.cpp small"
     },
-    "valide": true
+    "statut": "valide_relecture_semantique_deux_transcriptions",
+    "valide_sur_les_deux": false,
+    "revue": {
+     "id": "excel-correction-20261002-m15-l04-01-e1-consigne-202c7a6c24",
+     "step_id": "M15-L04-01",
+     "kind": "consigne",
+     "expected": "Les cinq onglets sont T1, T2, T3, T4 et Année. Les quatre feuilles trimestrielles ont la même structure et un total en B6. La feuille Année attend leur synthèse. Une référence entre feuilles relie un nom de feuille à une cellule.",
+     "small_transcript": "Les cinq onglaissons, T1, T2, T3, T4 et années. Les quatre feuilles trimestrielles ont la même structure et un total embêtis. La feuille années attend leur synthèse. Une référence entre feuilles relit un nom de feuille à une cellule.",
+     "small_status": "ok",
+     "small_reason": null,
+     "small_attempts": 1,
+     "medium_cpu_transcript": "Les cinq onglais sont T1, T2, T3, T4 et ANE. Les quatre feuilles trimestrielles ont la même structure et un total en B6. La feuille ANE attend leur synthèse. Une référence entre feuilles relie un nom de feuille à une cellule.",
+     "full_audio_sha256": "d400a7e05aeee32a64005634d8e711e2ec7775b96bae70308a251e1a8a72f885",
+     "duration_seconds": 17.48,
+     "duration_limit_seconds": null,
+     "acoustic_listening_performed": false,
+     "external_api_calls": 0,
+     "verdict": "manual_semantic_pass_two_asr",
+     "reason": "Relecture du fichier entier : les gestes, références, nombres et catégories sont identiques. Les écarts restants concernent ponctuation, accords inaudibles ou segmentation phonétique ASR, sans instruction différente."
+    }
    }
   },
   {
@@ -337,23 +370,55 @@
    "id": "e5-consigne",
    "etape_lms": "M15-L04-05",
    "role": "Étape 5 · consigne",
-   "texte_dit": "Allons le vérifier. Cliquez sur l'onglet la cellule T4 et regardez son total dans la cellule B6.",
-   "empreinte_texte_dit": "5f71d6ae88331f5c387c998e2c419efcd8c67d5cc478dbc4398e2e52b335e646",
+   "texte_dit": "Cliquez sur l’onglet T4 et regardez son total dans la cellule B6.",
+   "empreinte_texte_dit": "fcec4865d841bb499db7686194ed2d3f2d3c9aa9b835e8384249feccaf0967b9",
    "reparations": [],
    "ssml": false,
-   "fichier": "audio/e5-consigne.mp3",
-   "octets": 118326,
-   "duree_s": 7.32,
-   "caracteres_dits": 96,
-   "caracteres_factures": 96,
+   "fichier": "audio/e5-consigne-corr20261002-f61919f3da.mp3",
+   "octets": 79038,
+   "duree_s": 4.88,
+   "caracteres_dits": 65,
+   "caracteres_factures": 65,
    "essais": 1,
    "controle": {
     "moteur_severe_small": {
-     "ok": true,
-     "wer": 0.0,
-     "transcription": "Allons le vérifier. Cliquez sur l'onglet La cellule T4 et regardez son total dans la cellule B6."
+     "statut": "ok",
+     "wer": 0,
+     "seuil": 0.15,
+     "raison": null,
+     "transcription": "Cliquez sur l'onglet T4 et regardez son total dans la cellule B6.",
+     "tirages": 1,
+     "detail_tirages": [
+      {
+       "n": 1,
+       "ok": true,
+       "wer": 0,
+       "raison": null,
+       "transcription": "Cliquez sur l'onglet T4 et regardez son total dans la cellule B6."
+      }
+     ],
+     "moteur": "whisper.cpp small"
     },
-    "valide": true
+    "statut": "valide_relecture_semantique_deux_transcriptions",
+    "valide_sur_les_deux": false,
+    "revue": {
+     "id": "excel-correction-20261002-m15-l04-05-e5-consigne-f61919f3da",
+     "step_id": "M15-L04-05",
+     "kind": "consigne",
+     "expected": "Cliquez sur l’onglet T4 et regardez son total dans la cellule B6.",
+     "small_transcript": "Cliquez sur l'onglet T4 et regardez son total dans la cellule B6.",
+     "small_status": "ok",
+     "small_reason": null,
+     "small_attempts": 1,
+     "medium_cpu_transcript": "Cliquez sur l'onglet T4 et regardez son total dans la cellule B6.",
+     "full_audio_sha256": "7877559745c8df0811a0fbb231872d0040dcb4b9bf06ec5aed248adaecdbcbe6",
+     "duration_seconds": 4.88,
+     "duration_limit_seconds": null,
+     "acoustic_listening_performed": false,
+     "external_api_calls": 0,
+     "verdict": "manual_semantic_pass_two_asr",
+     "reason": "Relecture du fichier entier : les gestes, références, nombres et catégories sont identiques. Les écarts restants concernent ponctuation, accords inaudibles ou segmentation phonétique ASR, sans instruction différente."
+    }
    }
   },
   {
@@ -680,5 +745,10 @@
     "valide": true
    }
   }
- ]
+ ],
+ "correction_20261002": {
+  "status": "validated_for_release",
+  "second_review": "manual_semantic_small_and_medium_cpu",
+  "acoustic_listening_performed": false
+ }
 }

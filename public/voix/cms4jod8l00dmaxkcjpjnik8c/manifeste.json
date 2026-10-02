@@ -23,12 +23,13 @@
    "aucun « SI » epele",
    "nombres entendus identiques aux nombres dits"
   ],
-  "regle": "un segment n'est valide que s'il passe le moteur severe"
+  "regle": "un segment n'est valide que s'il passe le moteur severe",
+  "corrections_20261002": "Pistes corrigées acceptées après relecture sémantique des transcriptions small et medium CPU ; résultat automatique small conservé séparément."
  },
  "totaux": {
   "segments": 14,
-  "caracteres_dits": 1347,
-  "duree_totale_s": 85.2,
+  "caracteres_dits": 1349,
+  "duree_totale_s": 84.36,
   "segments_valides": 13,
   "segments_plusieurs_essais": 1,
   "segments_jamais_valides": 1
@@ -176,23 +177,55 @@
    "id": "e3-consigne",
    "etape_lms": "M17-E01-03",
    "role": "Étape 3 · consigne",
-   "texte_dit": "Placez la légende à droite pour rendre de la largeur au tracé. La légende quitte le bas, et le tracé s'élargit d'autant.",
-   "empreinte_texte_dit": "732418f616e88f08f1c8d7b4b6cc421e529ae458f1054dd7791567150b95b383",
+   "texte_dit": "Placez la légende à droite. Elle quitte le bas : le tracé gagne de la hauteur, mais perd de la largeur dans le même cadre.",
+   "empreinte_texte_dit": "a1a962b4e3fa33d2578a9b99059920550b3ac77a010e05f74d78c5a11a1b3b8d",
    "reparations": [],
    "ssml": false,
-   "fichier": "audio/e3-consigne.mp3",
-   "octets": 130865,
-   "duree_s": 8.12,
-   "caracteres_dits": 120,
-   "caracteres_factures": 120,
+   "fichier": "audio/e3-consigne-corr20261002-d9bfa078f9.mp3",
+   "octets": 117072,
+   "duree_s": 7.24,
+   "caracteres_dits": 122,
+   "caracteres_factures": 122,
    "essais": 1,
    "controle": {
     "moteur_severe_small": {
-     "ok": true,
-     "wer": 0.083,
-     "transcription": "Placez la légende à droite pour rendre de la largeur au tracé. La légende quitte le bas et le tracé S est large d'autant."
+     "statut": "ok",
+     "wer": 0,
+     "seuil": 0.15,
+     "raison": null,
+     "transcription": "Placez la légende à droite. Elle quitte le bas. Le tracé gagne de la hauteur, mais perd de la largeur dans le même cadre.",
+     "tirages": 1,
+     "detail_tirages": [
+      {
+       "n": 1,
+       "ok": true,
+       "wer": 0,
+       "raison": null,
+       "transcription": "Placez la légende à droite. Elle quitte le bas. Le tracé gagne de la hauteur, mais perd de la largeur dans le même cadre."
+      }
+     ],
+     "moteur": "whisper.cpp small"
     },
-    "valide": true
+    "statut": "valide_relecture_semantique_deux_transcriptions",
+    "valide_sur_les_deux": false,
+    "revue": {
+     "id": "excel-correction-20261002-m17-e01-03-e3-consigne-d9bfa078f9",
+     "step_id": "M17-E01-03",
+     "kind": "consigne",
+     "expected": "Placez la légende à droite. Elle quitte le bas : le tracé gagne de la hauteur, mais perd de la largeur dans le même cadre.",
+     "small_transcript": "Placez la légende à droite. Elle quitte le bas. Le tracé gagne de la hauteur, mais perd de la largeur dans le même cadre.",
+     "small_status": "ok",
+     "small_reason": null,
+     "small_attempts": 1,
+     "medium_cpu_transcript": "Placez la légende à droite. Elle quitte le bas. Le tracé gagne de la hauteur, mais perd de la largeur dans le même cadre.",
+     "full_audio_sha256": "07cc94a7cea4ee0c8fecb6d30d2c64968b3cf31df308d7d8e0b23cea98bdcb9f",
+     "duration_seconds": 7.24,
+     "duration_limit_seconds": null,
+     "acoustic_listening_performed": false,
+     "external_api_calls": 0,
+     "verdict": "manual_semantic_pass_two_asr",
+     "reason": "Relecture du fichier entier : les gestes, références, nombres et catégories sont identiques. Les écarts restants concernent ponctuation, accords inaudibles ou segmentation phonétique ASR, sans instruction différente."
+    }
    }
   },
   {
@@ -357,5 +390,10 @@
     "valide": true
    }
   }
- ]
+ ],
+ "correction_20261002": {
+  "status": "validated_for_release",
+  "second_review": "manual_semantic_small_and_medium_cpu",
+  "acoustic_listening_performed": false
+ }
 }

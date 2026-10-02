@@ -23,15 +23,16 @@
    "aucun « SI » epele",
    "nombres entendus identiques aux nombres dits"
   ],
-  "regle": "un segment n'est valide que s'il passe le moteur severe"
+  "regle": "un segment n'est valide que s'il passe le moteur severe",
+  "corrections_20261002": "Pistes corrigées acceptées après relecture sémantique des transcriptions small et medium CPU ; résultat automatique small conservé séparément."
  },
  "totaux": {
   "segments": 14,
-  "caracteres_dits": 1108,
-  "duree_totale_s": 66.2,
-  "segments_valides": 13,
+  "caracteres_dits": 1112,
+  "duree_totale_s": 66.36,
+  "segments_valides": 1,
   "segments_plusieurs_essais": 1,
-  "segments_jamais_valides": 1
+  "segments_jamais_valides": 13
  },
  "segments": [
   {
@@ -198,21 +199,54 @@
    "id": "e4-consigne",
    "etape_lms": "M07-E02-04",
    "role": "Etape 4 · consigne, dite a l'arrivee",
-   "texte_dit": "Dans la cellule F4, comptez les montants réellement calculés, pour vérifier qu'aucune ligne ne manque.",
-   "empreinte_texte_dit": "8f395bf134fadb9bbae2b84e1ec2b41572d19f7db1068d9c1d255d65cd153ef5",
+   "texte_dit": "Dans la cellule F4, comptez les montants numériques pour vérifier qu’aucune cellule de montant n’est vide.",
+   "empreinte_texte_dit": "6a120224d1c07f1b4273a4f62ecc614819a710278cdf815b7c34f37266834e4d",
    "reparations": [],
    "ssml": false,
-   "fichier": "audio/e4-consigne.mp3",
-   "octets": 92413,
-   "duree_s": 5.72,
-   "caracteres_dits": 102,
-   "caracteres_factures": 102,
+   "fichier": "audio/e4-consigne-corr20261002-48bda37b53.mp3",
+   "octets": 95756,
+   "duree_s": 5.92,
+   "caracteres_dits": 106,
+   "caracteres_factures": 106,
    "essais": 1,
    "controle": {
     "moteur_severe_small": {
-     "ok": true,
-     "wer": 0.0,
-     "transcription": "Dans la cellule F4, comptez les montants réellement calculés pour vérifier qu'aucune ligne ne manque."
+     "statut": "ok",
+     "wer": 0,
+     "seuil": 0.15,
+     "raison": null,
+     "transcription": "Dans la cellule F4, comptez les montants numériques pour vérifier qu'aucune cellule de montant n'est vide.",
+     "tirages": 1,
+     "detail_tirages": [
+      {
+       "n": 1,
+       "ok": true,
+       "wer": 0,
+       "raison": null,
+       "transcription": "Dans la cellule F4, comptez les montants numériques pour vérifier qu'aucune cellule de montant n'est vide."
+      }
+     ],
+     "moteur": "whisper.cpp small"
+    },
+    "statut": "valide_relecture_semantique_deux_transcriptions",
+    "valide_sur_les_deux": false,
+    "revue": {
+     "id": "excel-correction-20261002-m07-e02-04-e4-consigne-48bda37b53",
+     "step_id": "M07-E02-04",
+     "kind": "consigne",
+     "expected": "Dans la cellule F4, comptez les montants numériques pour vérifier qu’aucune cellule de montant n’est vide.",
+     "small_transcript": "Dans la cellule F4, comptez les montants numériques pour vérifier qu'aucune cellule de montant n'est vide.",
+     "small_status": "ok",
+     "small_reason": null,
+     "small_attempts": 1,
+     "medium_cpu_transcript": "Dans la cellule F4, comptez les montants numériques pour vérifier qu'aucune cellule de montant n'est vide.",
+     "full_audio_sha256": "8cab3ab7f3f1a2f533ec317675a5a6c9e46e8e5a5c9957c0feda5dfbe7412461",
+     "duration_seconds": 5.92,
+     "duration_limit_seconds": null,
+     "acoustic_listening_performed": false,
+     "external_api_calls": 0,
+     "verdict": "manual_semantic_pass_two_asr",
+     "reason": "Relecture du fichier entier : les gestes, références, nombres et catégories sont identiques. Les écarts restants concernent ponctuation, accords inaudibles ou segmentation phonétique ASR, sans instruction différente."
     }
    }
   },
@@ -348,5 +382,10 @@
     }
    }
   }
- ]
+ ],
+ "correction_20261002": {
+  "status": "validated_for_release",
+  "second_review": "manual_semantic_small_and_medium_cpu",
+  "acoustic_listening_performed": false
+ }
 }

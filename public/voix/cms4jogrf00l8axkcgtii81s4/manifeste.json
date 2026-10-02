@@ -23,12 +23,13 @@
    "aucun « SI » epele",
    "nombres entendus identiques aux nombres dits"
   ],
-  "regle": "un segment n'est valide que s'il passe le moteur severe"
+  "regle": "un segment n'est valide que s'il passe le moteur severe",
+  "corrections_20261002": "Pistes corrigées acceptées après relecture sémantique des transcriptions small et medium CPU ; résultat automatique small conservé séparément."
  },
  "totaux": {
   "segments": 29,
-  "caracteres_dits": 3140,
-  "duree_totale_s": 216.1,
+  "caracteres_dits": 3048,
+  "duree_totale_s": 209.8,
   "segments_valides": 26,
   "segments_plusieurs_essais": 5,
   "segments_jamais_valides": 3
@@ -339,46 +340,110 @@
    "id": "e5-consigne",
    "etape_lms": "M25-L03-05",
    "role": "Étape 5 · consigne",
-   "texte_dit": "Le correcteur d'orthographe, onglet Révision, ou la cellule F7, relit vos textes et retient vos termes métier dans un dictionnaire personnel. Mais rien de ce qui abîme cette colonne n'est une faute d'orthographe. Le vrai remède n'est pas de corriger: c'est d'empêcher, avec une liste de validation.",
-   "empreinte_texte_dit": "684623272c13858537fdaea9d05226dd11774c5af3c5f7b8e9b7ae71e5a86786",
+   "texte_dit": "Dans l’onglet Révision, le correcteur d’orthographe se lance aussi avec la touche F7. Il aide à relire les mots, sans garantir l’uniformité des libellés. Une liste de validation évite les variantes de saisie.",
+   "empreinte_texte_dit": "829daaacc8e737c1e63ac1b931b785fa5128ac596c873e5920be5da53edeff99",
    "reparations": [],
    "ssml": false,
-   "fichier": "audio/e5-consigne.mp3",
-   "octets": 288435,
-   "duree_s": 17.96,
-   "caracteres_dits": 298,
-   "caracteres_factures": 298,
+   "fichier": "audio/e5-consigne-corr20261002-18aa67ddc7.mp3",
+   "octets": 189379,
+   "duree_s": 11.76,
+   "caracteres_dits": 208,
+   "caracteres_factures": 208,
    "essais": 1,
    "controle": {
     "moteur_severe_small": {
-     "ok": true,
-     "wer": 0.019,
-     "transcription": "Le correcteur d'orthographe, onglet révisions, ou la cellule F7, relive vos textes et retient vos termes métiers dans un dictionnaire personnel. Mais rien de ce qui abîme cette colonne n'est une faute d'orthographe. Le vrai remède n'est pas de corriger, c'est d'empêcher, avec une liste de validations."
+     "statut": "ok",
+     "wer": 0,
+     "seuil": 0.15,
+     "raison": null,
+     "transcription": "Dans l'onglet Révisions, le correcteur d'orthographe se lance aussi avec la touche F7. Il aide à relire les mots, sans garantir l'uniformité des libellés. Une liste de validations évite les variantes de saisie.",
+     "tirages": 1,
+     "detail_tirages": [
+      {
+       "n": 1,
+       "ok": true,
+       "wer": 0,
+       "raison": null,
+       "transcription": "Dans l'onglet Révisions, le correcteur d'orthographe se lance aussi avec la touche F7. Il aide à relire les mots, sans garantir l'uniformité des libellés. Une liste de validations évite les variantes de saisie."
+      }
+     ],
+     "moteur": "whisper.cpp small"
     },
-    "valide": true
+    "statut": "valide_relecture_semantique_deux_transcriptions",
+    "valide_sur_les_deux": false,
+    "revue": {
+     "id": "excel-correction-20261002-m25-l03-05-e5-consigne-18aa67ddc7",
+     "step_id": "M25-L03-05",
+     "kind": "consigne",
+     "expected": "Dans l’onglet Révision, le correcteur d’orthographe se lance aussi avec la touche F7. Il aide à relire les mots, sans garantir l’uniformité des libellés. Une liste de validation évite les variantes de saisie.",
+     "small_transcript": "Dans l'onglet Révisions, le correcteur d'orthographe se lance aussi avec la touche F7. Il aide à relire les mots, sans garantir l'uniformité des libellés. Une liste de validations évite les variantes de saisie.",
+     "small_status": "ok",
+     "small_reason": null,
+     "small_attempts": 1,
+     "medium_cpu_transcript": "Dans l'onglet Révision, le correcteur d'orthographe se lance aussi avec la touche F7. Il aide à relire les mots sans garantir l'uniformité des libellés. Une liste de validation évite les variantes de saisie.",
+     "full_audio_sha256": "c37c0617cff21a9c145af23dccf6044d98f7682e6d3f4251e4ab900075ab0d7b",
+     "duration_seconds": 11.76,
+     "duration_limit_seconds": null,
+     "acoustic_listening_performed": false,
+     "external_api_calls": 0,
+     "verdict": "manual_semantic_pass_two_asr",
+     "reason": "Relecture du fichier entier : les gestes, références, nombres et catégories sont identiques. Les écarts restants concernent ponctuation, accords inaudibles ou segmentation phonétique ASR, sans instruction différente."
+    }
    }
   },
   {
    "id": "e5-bulle1",
    "etape_lms": "M25-L03-05",
    "role": "Étape 5 · bulle 1",
-   "texte_dit": "Trois écritures du même service: pour le correcteur, aucune n'est une faute.",
-   "empreinte_texte_dit": "eb70746e3d179ae21192d533456838faf40190061326756ecb4e5acac0982760",
+   "texte_dit": "Le correcteur d’orthographe ne contrôle pas l’uniformité de cette colonne.",
+   "empreinte_texte_dit": "beddd63752b2ccc15ecab0a04c4424cbcd4d99733593064bc56ad3badc822bc7",
    "reparations": [],
    "ssml": false,
-   "fichier": "audio/e5-bulle1.mp3",
-   "octets": 81546,
-   "duree_s": 5.04,
-   "caracteres_dits": 76,
-   "caracteres_factures": 76,
+   "fichier": "audio/e5-bulle1-corr20261002-ba3ec2679f.mp3",
+   "octets": 79874,
+   "duree_s": 4.92,
+   "caracteres_dits": 74,
+   "caracteres_factures": 74,
    "essais": 1,
    "controle": {
     "moteur_severe_small": {
-     "ok": true,
-     "wer": 0.0,
-     "transcription": "Trois écritures du même service. Pour le correcteur, aucune n'est une faute."
+     "statut": "ok",
+     "wer": 0,
+     "seuil": 0.15,
+     "raison": null,
+     "transcription": "Le correcteur d'orthographe ne contrôle pas l'uniformité de cette colonne.",
+     "tirages": 1,
+     "detail_tirages": [
+      {
+       "n": 1,
+       "ok": true,
+       "wer": 0,
+       "raison": null,
+       "transcription": "Le correcteur d'orthographe ne contrôle pas l'uniformité de cette colonne."
+      }
+     ],
+     "moteur": "whisper.cpp small"
     },
-    "valide": true
+    "statut": "valide_relecture_semantique_deux_transcriptions",
+    "valide_sur_les_deux": false,
+    "revue": {
+     "id": "excel-correction-20261002-m25-l03-05-e5-bulle1-ba3ec2679f",
+     "step_id": "M25-L03-05",
+     "kind": "bulle",
+     "expected": "Le correcteur d’orthographe ne contrôle pas l’uniformité de cette colonne.",
+     "small_transcript": "Le correcteur d'orthographe ne contrôle pas l'uniformité de cette colonne.",
+     "small_status": "ok",
+     "small_reason": null,
+     "small_attempts": 1,
+     "medium_cpu_transcript": "Le correcteur d'orthographe ne contrôle pas l'uniformité de cette colonne.",
+     "full_audio_sha256": "2250ae7db8435924080b8fc61d7549ed5304b1356401555672d1b5749d464781",
+     "duration_seconds": 4.92,
+     "duration_limit_seconds": 7.65,
+     "acoustic_listening_performed": false,
+     "external_api_calls": 0,
+     "verdict": "manual_semantic_pass_two_asr",
+     "reason": "Relecture du fichier entier : les gestes, références, nombres et catégories sont identiques. Les écarts restants concernent ponctuation, accords inaudibles ou segmentation phonétique ASR, sans instruction différente."
+    }
    }
   },
   {
@@ -704,5 +769,10 @@
     "valide": true
    }
   }
- ]
+ ],
+ "correction_20261002": {
+  "status": "validated_for_release",
+  "second_review": "manual_semantic_small_and_medium_cpu",
+  "acoustic_listening_performed": false
+ }
 }

@@ -25,12 +25,13 @@
    "references de cellule et colonnes identiques"
   ],
   "regle": "un segment n'est valide que s'il passe le moteur severe",
-  "rejeu": "verdicts recalcules le 19/08/2026 avec le comparateur corrige, sans resynthese : aucun caractere refacture"
+  "rejeu": "verdicts recalcules le 19/08/2026 avec le comparateur corrige, sans resynthese : aucun caractere refacture",
+  "corrections_20261002": "Pistes corrigées acceptées après relecture sémantique des transcriptions small et medium CPU ; résultat automatique small conservé séparément."
  },
  "totaux": {
   "segments": 18,
-  "caracteres_dits": 1052,
-  "duree_totale_s": 71.4,
+  "caracteres_dits": 986,
+  "duree_totale_s": 67.48,
   "segments_valides": 18,
   "segments_plusieurs_essais": 1,
   "segments_jamais_valides": 0
@@ -69,28 +70,54 @@
    "id": "e1-consigne",
    "etape_lms": "M24-E02-01",
    "role": "Étape 1 · consigne",
-   "texte_dit": "Illustrez la première ligne du catalogue avec sa photo, dans la cellule. La vignette doit se loger dans la cellule elle-même.",
-   "empreinte_texte_dit": "ee8e0fe51c425092752552c0ebc6d80b712b8c66b470df793e4a7c30e356939b",
+   "texte_dit": "Placez l’illustration de la première ligne dans sa cellule.",
+   "empreinte_texte_dit": "30dd122746195c9da6502ce9e795d8fa782244856f8f2765c5609361bd6bb7f8",
    "reparations": [],
    "ssml": false,
-   "fichier": "audio/e1-consigne.mp3",
-   "octets": 118744,
-   "duree_s": 7.36,
-   "caracteres_dits": 125,
-   "caracteres_factures": 125,
+   "fichier": "audio/e1-consigne-corr20261002-9a17094c18.mp3",
+   "octets": 56886,
+   "duree_s": 3.48,
+   "caracteres_dits": 59,
+   "caracteres_factures": 59,
    "essais": 1,
    "controle": {
     "moteur_severe_small": {
-     "ok": true,
-     "wer": 0.0,
-     "transcription": "Illustrez la première ligne du catalogue avec sa photo dans la cellule. La vignette doit se loger dans la cellule elle-même."
+     "statut": "ok",
+     "wer": 0,
+     "seuil": 0.15,
+     "raison": null,
+     "transcription": "Placez l'illustration de la première ligne dans sa cellule.",
+     "tirages": 1,
+     "detail_tirages": [
+      {
+       "n": 1,
+       "ok": true,
+       "wer": 0,
+       "raison": null,
+       "transcription": "Placez l'illustration de la première ligne dans sa cellule."
+      }
+     ],
+     "moteur": "whisper.cpp small"
     },
-    "valide": true,
-    "details": {
-     "manquants": [],
-     "artefacts": [],
-     "nombres": null,
-     "references": null
+    "statut": "valide_relecture_semantique_deux_transcriptions",
+    "valide_sur_les_deux": false,
+    "revue": {
+     "id": "excel-correction-20261002-m24-e02-01-e1-consigne-9a17094c18",
+     "step_id": "M24-E02-01",
+     "kind": "consigne",
+     "expected": "Placez l’illustration de la première ligne dans sa cellule.",
+     "small_transcript": "Placez l'illustration de la première ligne dans sa cellule.",
+     "small_status": "ok",
+     "small_reason": null,
+     "small_attempts": 1,
+     "medium_cpu_transcript": "Placez l'illustration de la première ligne dans sa cellule.",
+     "full_audio_sha256": "b9cfdfb05f053f13a9709a9c11df0257297dd8cc2d50f0cc67c7b61d4789c105",
+     "duration_seconds": 3.48,
+     "duration_limit_seconds": null,
+     "acoustic_listening_performed": false,
+     "external_api_calls": 0,
+     "verdict": "manual_semantic_pass_two_asr",
+     "reason": "Relecture du fichier entier : les gestes, références, nombres et catégories sont identiques. Les écarts restants concernent ponctuation, accords inaudibles ou segmentation phonétique ASR, sans instruction différente."
     }
    }
   },
@@ -558,5 +585,10 @@
     }
    }
   }
- ]
+ ],
+ "correction_20261002": {
+  "status": "validated_for_release",
+  "second_review": "manual_semantic_small_and_medium_cpu",
+  "acoustic_listening_performed": false
+ }
 }

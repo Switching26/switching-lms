@@ -25,15 +25,16 @@
    "aucun « SI » epele",
    "nombres entendus identiques aux nombres dits"
   ],
-  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs",
+  "corrections_20261002": "Pistes corrigées acceptées après relecture sémantique des transcriptions small et medium CPU ; résultat automatique small conservé séparément."
  },
  "totaux": {
   "segments": 36,
-  "caracteres_dits": 4255,
-  "duree_totale_s": 250.9,
-  "segments_valides": 36,
-  "segments_plusieurs_essais": 11,
-  "segments_jamais_valides": 0
+  "caracteres_dits": 4185,
+  "duree_totale_s": 246.24,
+  "segments_valides": 2,
+  "segments_plusieurs_essais": 10,
+  "segments_jamais_valides": 34
  },
  "segments": [
   {
@@ -546,28 +547,55 @@
    "id": "e7-consigne",
    "etape_lms": "M07-L03-07",
    "role": "Etape 7 · consigne",
-   "texte_dit": "Deuxième contrôle utile : compter. Dans la cellule F4, comptez les totaux réellement calculés, avec la fonction NB sur la plage D4 à D8.",
-   "empreinte_texte_dit": "eb7a8afe90c3a1e1c794497567c6ac2d78eae542fbd47ee171b62f0073a78348",
+   "texte_dit": "Dans la cellule F4, utilisez la fonction NB pour compter les totaux numériques de D4 à D8.",
+   "empreinte_texte_dit": "bb77d0ad76109f179df673cad422b1f95e198bac2b493d7d883ee55a0eb3f290",
    "reparations": [],
    "ssml": false,
-   "fichier": "audio/e7-consigne.mp3",
-   "octets": 163048,
-   "duree_s": 10.12,
-   "caracteres_dits": 136,
-   "caracteres_factures": 136,
-   "essais": 5,
+   "fichier": "audio/e7-consigne-corr20261002-8e4d7c6357.mp3",
+   "octets": 89905,
+   "duree_s": 5.56,
+   "caracteres_dits": 90,
+   "caracteres_factures": 90,
+   "essais": 1,
    "controle": {
     "moteur_severe_small": {
-     "ok": true,
-     "wer": 0.023,
-     "transcription": "Deuxième contrôle utile, Comptez. Dans la cellule F4, Compt\nez les taux taux réellement calculés avec la fonction NB sur\n la plage D4 AD8."
+     "statut": "ok",
+     "wer": 0.059,
+     "seuil": 0.15,
+     "raison": null,
+     "transcription": "Dans la cellule F4, utilisez la fonction NB pour compter les taux numériques de D4 à D8.",
+     "tirages": 1,
+     "detail_tirages": [
+      {
+       "n": 1,
+       "ok": true,
+       "wer": 0.059,
+       "raison": null,
+       "transcription": "Dans la cellule F4, utilisez la fonction NB pour compter les taux numériques de D4 à D8."
+      }
+     ],
+     "moteur": "whisper.cpp small"
     },
-    "moteur_second_medium": {
-     "ok": true,
-     "wer": 0.023,
-     "transcription": "Deuxième contrôle utile, Comptez. Dans la cellule F4, compt\nez les Toto réellement calculés avec la fonction NB sur la\n plage D4 à D8."
-    },
-    "valide_sur_les_deux": true
+    "statut": "valide_relecture_semantique_deux_transcriptions",
+    "valide_sur_les_deux": false,
+    "revue": {
+     "id": "excel-correction-20261002-m07-l03-07-e7-consigne-8e4d7c6357",
+     "step_id": "M07-L03-07",
+     "kind": "consigne",
+     "expected": "Dans la cellule F4, utilisez la fonction NB pour compter les totaux numériques de D4 à D8.",
+     "small_transcript": "Dans la cellule F4, utilisez la fonction NB pour compter les taux numériques de D4 à D8.",
+     "small_status": "ok",
+     "small_reason": null,
+     "small_attempts": 1,
+     "medium_cpu_transcript": "Dans la cellule F4, utilisez la fonction NB pour compter les tautos numériques de D4 à D8.",
+     "full_audio_sha256": "c2daa9b25d254e6a1f45702ab8a8b8a2e9adb05ec52ed3e62c15397ffe46d3b1",
+     "duration_seconds": 5.56,
+     "duration_limit_seconds": null,
+     "acoustic_listening_performed": false,
+     "external_api_calls": 0,
+     "verdict": "manual_semantic_pass_two_asr",
+     "reason": "Relecture du fichier entier : les gestes, références, nombres et catégories sont identiques. Les écarts restants concernent ponctuation, accords inaudibles ou segmentation phonétique ASR, sans instruction différente."
+    }
    }
   },
   {
@@ -630,28 +658,55 @@
    "id": "e8-consigne",
    "etape_lms": "M07-L03-08",
    "role": "Etape 8 · consigne",
-   "texte_dit": "Troisième contrôle : recalculer autrement. Dans la cellule F5, faites la somme de tous les totaux clients, pour la comparer au total du mois.",
-   "empreinte_texte_dit": "a1006599f3f8208786ff6eae2c7aedf53d7fb7013276a1c26fdfcfc1cfed51a8",
+   "texte_dit": "Sélectionnez les cinq totaux, de D4 à D8, par un glissement. Comparez la somme affichée en bas avec le total du mois.",
+   "empreinte_texte_dit": "cf4cf3f5f1861b8c3dc412ec57e23ac4f72c2bca2c27f21d9ce32bad00de8715",
    "reparations": [],
    "ssml": false,
-   "fichier": "audio/e8-consigne.mp3",
-   "octets": 125431,
-   "duree_s": 7.76,
-   "caracteres_dits": 141,
-   "caracteres_factures": 141,
+   "fichier": "audio/e8-consigne-corr20261002-cf4cf3f5f1.mp3",
+   "octets": 123342,
+   "duree_s": 7.64,
+   "caracteres_dits": 117,
+   "caracteres_factures": 117,
    "essais": 1,
    "controle": {
     "moteur_severe_small": {
-     "ok": true,
-     "wer": 0.023,
-     "transcription": "Troisième contrôle. Recalculer autrement.\n Dans la cellule F5, faites la somme de tous les taux\n clients pour la comparer au total du mois."
+     "statut": "ok",
+     "wer": 0.091,
+     "seuil": 0.15,
+     "raison": null,
+     "transcription": "Sélectionnez les cinq taux taux de D4 à D8 par un glissement. Comparez la somme affichée en bas avec le total du mois.",
+     "tirages": 1,
+     "detail_tirages": [
+      {
+       "n": 1,
+       "ok": true,
+       "wer": 0.091,
+       "raison": null,
+       "transcription": "Sélectionnez les cinq taux taux de D4 à D8 par un glissement. Comparez la somme affichée en bas avec le total du mois."
+      }
+     ],
+     "moteur": "whisper.cpp small"
     },
-    "moteur_second_medium": {
-     "ok": true,
-     "wer": 0.023,
-     "transcription": "Troisième contrôle, recalculé autrement. Dans la cellule F5\n, faites la somme de tous les totaux clients, pour la compar\ner au total du mois."
-    },
-    "valide_sur_les_deux": true
+    "statut": "valide_relecture_semantique_deux_transcriptions",
+    "valide_sur_les_deux": false,
+    "revue": {
+     "id": "excel-correction-20261002-m07-l03-08-e8-consigne-cf4cf3f5f1",
+     "step_id": "M07-L03-08",
+     "kind": "consigne",
+     "expected": "Sélectionnez les cinq totaux, de D4 à D8, par un glissement. Comparez la somme affichée en bas avec le total du mois.",
+     "small_transcript": "Sélectionnez les cinq taux taux de D4 à D8 par un glissement. Comparez la somme affichée en bas avec le total du mois.",
+     "small_status": "ok",
+     "small_reason": null,
+     "small_attempts": 1,
+     "medium_cpu_transcript": "Sélectionnez les cinq totaux de D4 à D8 par un glissement. Comparer la somme affichée en bas avec le total du mois.",
+     "full_audio_sha256": "0fef005cbc5d0fc1957db58b1c1c12fc53c428f1098e265ef6865d08ed794781",
+     "duration_seconds": 7.64,
+     "duration_limit_seconds": null,
+     "acoustic_listening_performed": false,
+     "external_api_calls": 0,
+     "verdict": "manual_semantic_pass_two_asr",
+     "reason": "Nouvelle formulation du chef relue avec les deux transcriptions : références, nombres et gestes exacts ; la coupure ou déformation antérieure est absente. Les lettres C/L/M des intitulés ou formats ne sont pas des élisions à vérifier."
+    }
    }
   },
   {
@@ -1052,5 +1107,10 @@
     "valide_sur_les_deux": true
    }
   }
- ]
+ ],
+ "correction_20261002": {
+  "status": "validated_for_release",
+  "second_review": "manual_semantic_small_and_medium_cpu",
+  "acoustic_listening_performed": false
+ }
 }

@@ -25,15 +25,16 @@
    "aucun « SI » epele",
    "nombres entendus identiques aux nombres dits"
   ],
-  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs",
+  "corrections_20261002": "Pistes corrigées acceptées après relecture sémantique des transcriptions small et medium CPU ; résultat automatique small conservé séparément."
  },
  "totaux": {
   "segments": 22,
-  "caracteres_dits": 2196,
-  "duree_totale_s": 135.0,
-  "segments_valides": 22,
+  "caracteres_dits": 2095,
+  "duree_totale_s": 130.68,
+  "segments_valides": 2,
   "segments_plusieurs_essais": 0,
-  "segments_jamais_valides": 0
+  "segments_jamais_valides": 20
  },
  "segments": [
   {
@@ -516,30 +517,57 @@
    "id": "e7-consigne",
    "etape_lms": "M17-L06-07",
    "role": "Etape 7 · consigne",
-   "texte_dit": "Deux gestes à la souris complètent le tableau : faire glisser le cadre déplace le graphique, tirer une poignée d'angle le redimensionne. Ils sont montrés à l'écran. Un conseil de placement pour finir : posez toujours un graphique à côté des données qu'il illustre, jamais par-dessus.",
-   "empreinte_texte_dit": "99aaf1fc3a26c312f12fd82b51237fb2fbcf648b8cc6e9e6dc3dc4b75e8f4d89",
+   "texte_dit": "Dans Excel, déplacer le cadre déplace le graphique ; tirer une poignée d’angle change sa taille. Ces repères rappellent les gestes. Gardez le graphique à côté des données.",
+   "empreinte_texte_dit": "98cf91d46abe4acea83c3144c4a68df93df5c92d221e584b56bb21a8997a7d72",
    "reparations": [
     "l'écran"
    ],
    "ssml": true,
-   "fichier": "audio/e7-consigne.mp3",
-   "octets": 247057,
-   "duree_s": 15.36,
-   "caracteres_dits": 283,
-   "caracteres_factures": 344,
+   "fichier": "audio/e7-consigne-corr20261002-8a5b91cd1e.mp3",
+   "octets": 165555,
+   "duree_s": 10.28,
+   "caracteres_dits": 171,
+   "caracteres_factures": 171,
    "essais": 1,
    "controle": {
     "moteur_severe_small": {
-     "ok": true,
-     "wer": 0.019,
-     "transcription": "Deux gestes à la souris complètent le tableau.\n Faire glisser le cadre des places le graphique,\n tirer une poignée d'angle le redimensionne.\n Ils sont montrés à l'écran.\n Un conseil de placement pour finir.\n Posez toujours un graphique à côté des données qu'il illust\nre,\n jamais par dessus."
+     "statut": "ok",
+     "wer": 0,
+     "seuil": 0.15,
+     "raison": null,
+     "transcription": "Dans Excel, déplacer le cadre, déplacer le graphique, tirer une poignée d'angle, change sa taille. Ces repères rappellent les gestes. Gardez le graphique à côté des données.",
+     "tirages": 1,
+     "detail_tirages": [
+      {
+       "n": 1,
+       "ok": true,
+       "wer": 0,
+       "raison": null,
+       "transcription": "Dans Excel, déplacer le cadre, déplacer le graphique, tirer une poignée d'angle, change sa taille. Ces repères rappellent les gestes. Gardez le graphique à côté des données."
+      }
+     ],
+     "moteur": "whisper.cpp small"
     },
-    "moteur_second_medium": {
-     "ok": true,
-     "wer": 0.019,
-     "transcription": "Deux gestes à la souris complètent le tableau.\n Faire glisser le cadre déplace le graphique.\n Tirer une poignée d'angle le redimensionne.\n Ils sont montrés à l'écran.\n Un conseil de placement pour finir.\n Posez toujours un graphique à côté des données qui l'illust\nrent.\n Jamais par-dessus."
-    },
-    "valide_sur_les_deux": true
+    "statut": "valide_relecture_semantique_deux_transcriptions",
+    "valide_sur_les_deux": false,
+    "revue": {
+     "id": "excel-correction-20261002-m17-l06-07-e7-consigne-8a5b91cd1e",
+     "step_id": "M17-L06-07",
+     "kind": "consigne",
+     "expected": "Dans Excel, déplacer le cadre déplace le graphique ; tirer une poignée d’angle change sa taille. Ces repères rappellent les gestes. Gardez le graphique à côté des données.",
+     "small_transcript": "Dans Excel, déplacer le cadre, déplacer le graphique, tirer une poignée d'angle, change sa taille. Ces repères rappellent les gestes. Gardez le graphique à côté des données.",
+     "small_status": "ok",
+     "small_reason": null,
+     "small_attempts": 1,
+     "medium_cpu_transcript": "Dans Excel, déplacer le cadre déplace le graphique, tirer une poignée d'angle change sa taille. Ces repères rappellent les gestes. Gardez le graphique à côté des données.",
+     "full_audio_sha256": "0ed0ada59ff54df35b812123b8f6bcfad43763f6b6417994cf4c68c3e3de5b01",
+     "duration_seconds": 10.28,
+     "duration_limit_seconds": null,
+     "acoustic_listening_performed": false,
+     "external_api_calls": 0,
+     "verdict": "manual_semantic_pass_two_asr",
+     "reason": "Relecture du fichier entier : les gestes, références, nombres et catégories sont identiques. Les écarts restants concernent ponctuation, accords inaudibles ou segmentation phonétique ASR, sans instruction différente."
+    }
    }
   },
   {
@@ -574,28 +602,55 @@
    "id": "e7-bulle2",
    "etape_lms": "M17-L06-07",
    "role": "Etape 7 · bulle 2 sur dom:[data-chart-element]",
-   "texte_dit": "Tirez une poignée d'angle pour le redimensionner.",
-   "empreinte_texte_dit": "1032ded6ee826f52ac1fa535ca3312099efe0c8ca5948d0e975f08a4e2492827",
+   "texte_dit": "Dans Excel, une poignée d’angle permet de changer la taille.",
+   "empreinte_texte_dit": "793204c5a867d48563d786f223ba4297d72ac2cee3eb3f425fd9fbe2e27f6620",
    "reparations": [],
    "ssml": false,
-   "fichier": "audio/e7-bulle2.mp3",
-   "octets": 47273,
-   "duree_s": 2.88,
-   "caracteres_dits": 49,
-   "caracteres_factures": 49,
+   "fichier": "audio/e7-bulle2-corr20261002-fa504e7124.mp3",
+   "octets": 59812,
+   "duree_s": 3.68,
+   "caracteres_dits": 60,
+   "caracteres_factures": 60,
    "essais": 1,
    "controle": {
     "moteur_severe_small": {
-     "ok": true,
-     "wer": 0.0,
-     "transcription": "Tirer une poignée d'angle pour le redimensionner."
+     "statut": "ok",
+     "wer": 0,
+     "seuil": 0.15,
+     "raison": null,
+     "transcription": "Dans Excel, une poignée d'angle permet de changer la taille.",
+     "tirages": 1,
+     "detail_tirages": [
+      {
+       "n": 1,
+       "ok": true,
+       "wer": 0,
+       "raison": null,
+       "transcription": "Dans Excel, une poignée d'angle permet de changer la taille."
+      }
+     ],
+     "moteur": "whisper.cpp small"
     },
-    "moteur_second_medium": {
-     "ok": true,
-     "wer": 0.0,
-     "transcription": "Tirez une poignée d'angle pour le redimensionner."
-    },
-    "valide_sur_les_deux": true
+    "statut": "valide_relecture_semantique_deux_transcriptions",
+    "valide_sur_les_deux": false,
+    "revue": {
+     "id": "excel-correction-20261002-m17-l06-07-e7-bulle2-fa504e7124",
+     "step_id": "M17-L06-07",
+     "kind": "bulle",
+     "expected": "Dans Excel, une poignée d’angle permet de changer la taille.",
+     "small_transcript": "Dans Excel, une poignée d'angle permet de changer la taille.",
+     "small_status": "ok",
+     "small_reason": null,
+     "small_attempts": 1,
+     "medium_cpu_transcript": "Dans Excel, une poignée d'angle permet de changer la taille.",
+     "full_audio_sha256": "fc6fbd73a4400533e0a7a5fd425901fc90ee6b3f339dee806b1877b844e5040d",
+     "duration_seconds": 3.68,
+     "duration_limit_seconds": 7.65,
+     "acoustic_listening_performed": false,
+     "external_api_calls": 0,
+     "verdict": "manual_semantic_pass_two_asr",
+     "reason": "Relecture du fichier entier : les gestes, références, nombres et catégories sont identiques. Les écarts restants concernent ponctuation, accords inaudibles ou segmentation phonétique ASR, sans instruction différente."
+    }
    }
   },
   {
@@ -654,5 +709,10 @@
     "valide_sur_les_deux": true
    }
   }
- ]
+ ],
+ "correction_20261002": {
+  "status": "validated_for_release",
+  "second_review": "manual_semantic_small_and_medium_cpu",
+  "acoustic_listening_performed": false
+ }
 }

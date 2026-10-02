@@ -23,15 +23,16 @@
    "aucun « SI » epele",
    "nombres entendus identiques aux nombres dits"
   ],
-  "regle": "un segment n'est valide que s'il passe le moteur severe"
+  "regle": "un segment n'est valide que s'il passe le moteur severe",
+  "corrections_20261002": "Pistes corrigées acceptées après relecture sémantique des transcriptions small et medium CPU ; résultat automatique small conservé séparément."
  },
  "totaux": {
   "segments": 13,
-  "caracteres_dits": 825,
-  "duree_totale_s": 50.2,
-  "segments_valides": 13,
+  "caracteres_dits": 805,
+  "duree_totale_s": 49.0,
+  "segments_valides": 1,
   "segments_plusieurs_essais": 0,
-  "segments_jamais_valides": 0
+  "segments_jamais_valides": 12
  },
  "segments": [
   {
@@ -60,21 +61,54 @@
    "id": "e1-consigne",
    "etape_lms": "M24-E01-01",
    "role": "Etape 1 · consigne, dite a l'arrivee",
-   "texte_dit": "Illustrez la ligne du clavier avec sa photo, dans la cellule. La vignette doit se loger dans la cellule, pas flotter au-dessus.",
-   "empreinte_texte_dit": "9023fc596279eabb4ae2e2362d8a83a07471e6235540f7c451448d47a04cdce0",
+   "texte_dit": "Placez l’illustration du clavier dans sa cellule. Elle doit rester dans la cellule, sans flotter au-dessus.",
+   "empreinte_texte_dit": "2e2dfc759a8924081edd7d8c8b8fca1b34cddd3754145c7e1ae4cb86ed6c0de6",
    "reparations": [],
    "ssml": false,
-   "fichier": "audio/e1-consigne.mp3",
-   "octets": 122088,
-   "duree_s": 7.56,
-   "caracteres_dits": 127,
-   "caracteres_factures": 127,
+   "fichier": "audio/e1-consigne-corr20261002-4bfa5f95a5.mp3",
+   "octets": 102026,
+   "duree_s": 6.32,
+   "caracteres_dits": 107,
+   "caracteres_factures": 107,
    "essais": 1,
    "controle": {
     "moteur_severe_small": {
-     "ok": true,
-     "wer": 0.0,
-     "transcription": "Illustrez la ligne du clavier avec sa photo dans la cellule. La vignette doit se loger dans la cellule. Pas flotter au-dessus."
+     "statut": "ok",
+     "wer": 0,
+     "seuil": 0.15,
+     "raison": null,
+     "transcription": "Placez l'illustration du clavier dans sa cellule. Elle doit rester dans la cellule sans flotter au-dessus.",
+     "tirages": 1,
+     "detail_tirages": [
+      {
+       "n": 1,
+       "ok": true,
+       "wer": 0,
+       "raison": null,
+       "transcription": "Placez l'illustration du clavier dans sa cellule. Elle doit rester dans la cellule sans flotter au-dessus."
+      }
+     ],
+     "moteur": "whisper.cpp small"
+    },
+    "statut": "valide_relecture_semantique_deux_transcriptions",
+    "valide_sur_les_deux": false,
+    "revue": {
+     "id": "excel-correction-20261002-m24-e01-01-e1-consigne-4bfa5f95a5",
+     "step_id": "M24-E01-01",
+     "kind": "consigne",
+     "expected": "Placez l’illustration du clavier dans sa cellule. Elle doit rester dans la cellule, sans flotter au-dessus.",
+     "small_transcript": "Placez l'illustration du clavier dans sa cellule. Elle doit rester dans la cellule sans flotter au-dessus.",
+     "small_status": "ok",
+     "small_reason": null,
+     "small_attempts": 1,
+     "medium_cpu_transcript": "Placez l'illustration du clavier dans sa cellule. Elle doit rester dans la cellule sans flotter au-dessus.",
+     "full_audio_sha256": "62967654dc388adf2edb6f4a2111f1748194b3022dc4e4521cc5eee8aa341094",
+     "duration_seconds": 6.32,
+     "duration_limit_seconds": null,
+     "acoustic_listening_performed": false,
+     "external_api_calls": 0,
+     "verdict": "manual_semantic_pass_two_asr",
+     "reason": "Relecture du fichier entier : les gestes, références, nombres et catégories sont identiques. Les écarts restants concernent ponctuation, accords inaudibles ou segmentation phonétique ASR, sans instruction différente."
     }
    }
   },
@@ -324,5 +358,10 @@
     }
    }
   }
- ]
+ ],
+ "correction_20261002": {
+  "status": "validated_for_release",
+  "second_review": "manual_semantic_small_and_medium_cpu",
+  "acoustic_listening_performed": false
+ }
 }

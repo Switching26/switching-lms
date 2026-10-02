@@ -25,15 +25,16 @@
    "aucun « SI » epele",
    "nombres entendus identiques aux nombres dits"
   ],
-  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs",
+  "corrections_20261002": "Pistes corrigées acceptées après relecture sémantique des transcriptions small et medium CPU ; résultat automatique small conservé séparément."
  },
  "totaux": {
   "segments": 21,
-  "caracteres_dits": 2536,
-  "duree_totale_s": 146.6,
-  "segments_valides": 21,
+  "caracteres_dits": 2309,
+  "duree_totale_s": 131.32,
+  "segments_valides": 5,
   "segments_plusieurs_essais": 0,
-  "segments_jamais_valides": 0
+  "segments_jamais_valides": 16
  },
  "segments": [
   {
@@ -68,28 +69,55 @@
    "id": "e1-consigne",
    "etape_lms": "M13-L04-01",
    "role": "Etape 1 · consigne",
-   "texte_dit": "La boîte de dialogue n'est pas le seul chemin, et ce n'est pas le plus confortable : on y écrit sans voir le résultat. À vous : passez en mode Mise en page, dans l'onglet Affichage.",
-   "empreinte_texte_dit": "665afcf93e736925166dd9d799c211873f98b0056b6e98d2caade5a2cf8476b0",
+   "texte_dit": "Dans l’onglet Affichage, passez en mode Mise en page pour voir les zones d’en-tête et de pied de page.",
+   "empreinte_texte_dit": "71dac3ef9fb0b340fced5ef9db7b983d0f26d3600d4ef4f93f7ce3daef1ff464",
    "reparations": [],
    "ssml": false,
-   "fichier": "audio/e1-consigne.mp3",
-   "octets": 178930,
-   "duree_s": 11.12,
-   "caracteres_dits": 181,
-   "caracteres_factures": 181,
+   "fichier": "audio/e1-consigne-corr20261002-962686a63d.mp3",
+   "octets": 82382,
+   "duree_s": 5.08,
+   "caracteres_dits": 102,
+   "caracteres_factures": 102,
    "essais": 1,
    "controle": {
     "moteur_severe_small": {
-     "ok": true,
-     "wer": 0.0,
-     "transcription": "La boîte de dialogue n'est pas le seul chemin et ce n'est\n pas le plus confortable.\n On y écrit sans voir le résultat.\n À vous !\n Passez en mode mise en page, dans l'onglet affichage."
+     "statut": "ok",
+     "wer": 0.091,
+     "seuil": 0.15,
+     "raison": null,
+     "transcription": "Dans l'onglet « affichage », passez en mode « mise en page » pour voir les zones d'entête et de pied de page.",
+     "tirages": 1,
+     "detail_tirages": [
+      {
+       "n": 1,
+       "ok": true,
+       "wer": 0.091,
+       "raison": null,
+       "transcription": "Dans l'onglet « affichage », passez en mode « mise en page » pour voir les zones d'entête et de pied de page."
+      }
+     ],
+     "moteur": "whisper.cpp small"
     },
-    "moteur_second_medium": {
-     "ok": true,
-     "wer": 0.0,
-     "transcription": "La boîte de dialogue n'est pas le seul chemin, et ce n'est\n pas le plus confortable.\n On y écrit sans voir le résultat.\n À vous !\n Passez en mode mise en page dans l'onglet Affichage."
-    },
-    "valide_sur_les_deux": true
+    "statut": "valide_relecture_semantique_deux_transcriptions",
+    "valide_sur_les_deux": false,
+    "revue": {
+     "id": "excel-correction-20261002-m13-l04-01-e1-consigne-962686a63d",
+     "step_id": "M13-L04-01",
+     "kind": "consigne",
+     "expected": "Dans l’onglet Affichage, passez en mode Mise en page pour voir les zones d’en-tête et de pied de page.",
+     "small_transcript": "Dans l'onglet « affichage », passez en mode « mise en page » pour voir les zones d'entête et de pied de page.",
+     "small_status": "ok",
+     "small_reason": null,
+     "small_attempts": 1,
+     "medium_cpu_transcript": "Dans l'onglet Affichage, passez en mode mise en page pour voir les zones d'en-tête et de pied de page.",
+     "full_audio_sha256": "40788c873d324ab5988f97baf5f82fb447300fa54d199da2433b70c077c87b72",
+     "duration_seconds": 5.08,
+     "duration_limit_seconds": null,
+     "acoustic_listening_performed": false,
+     "external_api_calls": 0,
+     "verdict": "manual_semantic_pass_two_asr",
+     "reason": "Relecture du fichier entier : les gestes, références, nombres et catégories sont identiques. Les écarts restants concernent ponctuation, accords inaudibles ou segmentation phonétique ASR, sans instruction différente."
+    }
    }
   },
   {
@@ -152,28 +180,55 @@
    "id": "e2-consigne",
    "etape_lms": "M13-L04-02",
    "role": "Etape 2 · consigne",
-   "texte_dit": "À vous : cliquez sur la zone Cliquez pour ajouter un en-tête, à gauche. La zone passe en saisie, curseur clignotant.",
-   "empreinte_texte_dit": "9ea98ae12ee276df33fd3aebc92196bfb9304b07caccfcf9902dd65a16da3988",
+   "texte_dit": "Cliquez sur la zone d’en-tête, à gauche. Dans cet atelier, ce clic ouvre la fenêtre En-tête et pied de page.",
+   "empreinte_texte_dit": "c8b29316f3e8c3e2eb2e4bb742d0283db3fd5a17432b1ae9f6a684e46eec3738",
    "reparations": [],
    "ssml": false,
-   "fichier": "audio/e2-consigne.mp3",
-   "octets": 130865,
-   "duree_s": 8.12,
-   "caracteres_dits": 116,
-   "caracteres_factures": 116,
+   "fichier": "audio/e2-consigne-corr20261002-c8b29316f3.mp3",
+   "octets": 114564,
+   "duree_s": 7.08,
+   "caracteres_dits": 108,
+   "caracteres_factures": 108,
    "essais": 1,
    "controle": {
     "moteur_severe_small": {
-     "ok": true,
-     "wer": 0.0,
-     "transcription": "A vous, cliquez sur la zone « Cliquer pour ajouter un en\n tête » à gauche.\n La zone « Pas sans saisie » curseur clignotant."
+     "statut": "ok",
+     "wer": 0,
+     "seuil": 0.15,
+     "raison": null,
+     "transcription": "Cliquez sur la zone d'en-tête à gauche. Dans cet atelier, ce clic ouvre la fenêtre en tête et pied de page.",
+     "tirages": 1,
+     "detail_tirages": [
+      {
+       "n": 1,
+       "ok": true,
+       "wer": 0,
+       "raison": null,
+       "transcription": "Cliquez sur la zone d'en-tête à gauche. Dans cet atelier, ce clic ouvre la fenêtre en tête et pied de page."
+      }
+     ],
+     "moteur": "whisper.cpp small"
     },
-    "moteur_second_medium": {
-     "ok": true,
-     "wer": 0.016,
-     "transcription": "À vous, cliquez sur la zone Cliquer pour ajouter un entête,\n à gauche.\n La zone passe en saisi, curseur clignotant."
-    },
-    "valide_sur_les_deux": true
+    "statut": "valide_relecture_semantique_deux_transcriptions",
+    "valide_sur_les_deux": false,
+    "revue": {
+     "id": "excel-correction-20261002-m13-l04-02-e2-consigne-c8b29316f3",
+     "step_id": "M13-L04-02",
+     "kind": "consigne",
+     "expected": "Cliquez sur la zone d’en-tête, à gauche. Dans cet atelier, ce clic ouvre la fenêtre En-tête et pied de page.",
+     "small_transcript": "Cliquez sur la zone d'en-tête à gauche. Dans cet atelier, ce clic ouvre la fenêtre en tête et pied de page.",
+     "small_status": "ok",
+     "small_reason": null,
+     "small_attempts": 1,
+     "medium_cpu_transcript": "Cliquez sur la zone d'en-tête à gauche. Dans cet atelier, ce clic ouvre la fenêtre « En tête » et « Pieds de page ».",
+     "full_audio_sha256": "9f1b2491f6389f95a340fa4a5d25de91a290f6aa543b6b33b5b45178e49b6833",
+     "duration_seconds": 7.08,
+     "duration_limit_seconds": null,
+     "acoustic_listening_performed": false,
+     "external_api_calls": 0,
+     "verdict": "manual_semantic_pass_two_asr",
+     "reason": "Nouvelle formulation du chef relue avec les deux transcriptions : références, nombres et gestes exacts ; la coupure ou déformation antérieure est absente. Les lettres C/L/M des intitulés ou formats ne sont pas des élisions à vérifier."
+    }
    }
   },
   {
@@ -236,56 +291,110 @@
    "id": "e3-consigne",
    "etape_lms": "M13-L04-03",
    "role": "Etape 3 · consigne",
-   "texte_dit": "À vous : saisissez Service achats dans cette case. Le texte apparaît directement sur la page, sans passer par une boîte.",
-   "empreinte_texte_dit": "1c3664419e18215f4f69509f79b2a98eb2b21b4c23210f9f55fc5e6c279fba3e",
+   "texte_dit": "Saisissez Service achats dans la case de gauche de cette fenêtre, puis validez.",
+   "empreinte_texte_dit": "91cc1c21e1f39d95f824da61b9f820ac9fdf4d4188ec06e9859aee28286c1ee3",
    "reparations": [],
    "ssml": false,
-   "fichier": "audio/e3-consigne.mp3",
-   "octets": 124177,
-   "duree_s": 7.68,
-   "caracteres_dits": 120,
-   "caracteres_factures": 120,
+   "fichier": "audio/e3-consigne-corr20261002-91cc1c21e1.mp3",
+   "octets": 75276,
+   "duree_s": 4.64,
+   "caracteres_dits": 79,
+   "caracteres_factures": 79,
    "essais": 1,
    "controle": {
     "moteur_severe_small": {
-     "ok": true,
-     "wer": 0.0,
-     "transcription": "À vous. Saisissez service à chat dans cette case.\n Le texte apparaît directement sur la page, sans passer par\n une boîte."
+     "statut": "ok",
+     "wer": 0,
+     "seuil": 0.15,
+     "raison": null,
+     "transcription": "Saisissez service à chat dans la case de gauche de cette fenêtre, puis validez.",
+     "tirages": 1,
+     "detail_tirages": [
+      {
+       "n": 1,
+       "ok": true,
+       "wer": 0,
+       "raison": null,
+       "transcription": "Saisissez service à chat dans la case de gauche de cette fenêtre, puis validez."
+      }
+     ],
+     "moteur": "whisper.cpp small"
     },
-    "moteur_second_medium": {
-     "ok": true,
-     "wer": 0.0,
-     "transcription": "À vous ! Saisissez Service achat dans cette case.\n Le texte apparaît directement sur la page, sans passer par\n une boîte."
-    },
-    "valide_sur_les_deux": true
+    "statut": "valide_relecture_semantique_deux_transcriptions",
+    "valide_sur_les_deux": false,
+    "revue": {
+     "id": "excel-correction-20261002-m13-l04-03-e3-consigne-91cc1c21e1",
+     "step_id": "M13-L04-03",
+     "kind": "consigne",
+     "expected": "Saisissez Service achats dans la case de gauche de cette fenêtre, puis validez.",
+     "small_transcript": "Saisissez service à chat dans la case de gauche de cette fenêtre, puis validez.",
+     "small_status": "ok",
+     "small_reason": null,
+     "small_attempts": 1,
+     "medium_cpu_transcript": "Saisissez « Service achat » dans la case de gauche de cette fenêtre, puis validez.",
+     "full_audio_sha256": "7c0dac8f4c5f7ad51f5c06eb92a145bb0026b05b0740e23c1742ab9258f8064d",
+     "duration_seconds": 4.64,
+     "duration_limit_seconds": null,
+     "acoustic_listening_performed": false,
+     "external_api_calls": 0,
+     "verdict": "manual_semantic_pass_two_asr",
+     "reason": "Nouvelle formulation du chef relue avec les deux transcriptions : références, nombres et gestes exacts ; la coupure ou déformation antérieure est absente. Les lettres C/L/M des intitulés ou formats ne sont pas des élisions à vérifier."
+    }
    }
   },
   {
    "id": "e3-aide",
    "etape_lms": "M13-L04-03",
    "role": "Etape 3 · aide",
-   "texte_dit": "Vous tapez directement dans la feuille, à l'endroit exact où le texte s'imprimera.",
-   "empreinte_texte_dit": "da4451433289b8250678058d4c8be16755fdf05c93c00e50dfd75e33e9abce12",
+   "texte_dit": "La case de gauche de l’onglet En-tête.",
+   "empreinte_texte_dit": "bb4af2bdad1e91e8836fa26b191353e0a6e34a343c961d143facbf98a9fbaff2",
    "reparations": [],
    "ssml": false,
-   "fichier": "audio/e3-aide.mp3",
-   "octets": 72768,
-   "duree_s": 4.48,
-   "caracteres_dits": 82,
-   "caracteres_factures": 82,
+   "fichier": "audio/e3-aide-corr20261002-12b7f8cd9a.mp3",
+   "octets": 47273,
+   "duree_s": 2.88,
+   "caracteres_dits": 38,
+   "caracteres_factures": 38,
    "essais": 1,
    "controle": {
     "moteur_severe_small": {
-     "ok": true,
-     "wer": 0.0,
-     "transcription": "Vous tapez directement dans la feuille, à l'endroit exact\n où le texte s'imprimera."
+     "statut": "ok",
+     "wer": 0,
+     "seuil": 0.167,
+     "raison": null,
+     "transcription": "La case de gauche de l'onglet en tête.",
+     "tirages": 1,
+     "detail_tirages": [
+      {
+       "n": 1,
+       "ok": true,
+       "wer": 0,
+       "raison": null,
+       "transcription": "La case de gauche de l'onglet en tête."
+      }
+     ],
+     "moteur": "whisper.cpp small"
     },
-    "moteur_second_medium": {
-     "ok": true,
-     "wer": 0.0,
-     "transcription": "Vous tapez directement dans la feuille, à l'endroit exact\n où le texte s'imprimera."
-    },
-    "valide_sur_les_deux": true
+    "statut": "valide_relecture_semantique_deux_transcriptions",
+    "valide_sur_les_deux": false,
+    "revue": {
+     "id": "excel-correction-20261002-m13-l04-03-e3-aide-12b7f8cd9a",
+     "step_id": "M13-L04-03",
+     "kind": "aide",
+     "expected": "La case de gauche de l’onglet En-tête.",
+     "small_transcript": "La case de gauche de l'onglet en tête.",
+     "small_status": "ok",
+     "small_reason": null,
+     "small_attempts": 1,
+     "medium_cpu_transcript": "La case de gauche de l'onglet en tête.",
+     "full_audio_sha256": "b33e48b0b4c76edfeb914f964a30386597074cdb28219f2c14f9909e24d1a984",
+     "duration_seconds": 2.88,
+     "duration_limit_seconds": null,
+     "acoustic_listening_performed": false,
+     "external_api_calls": 0,
+     "verdict": "manual_semantic_pass_two_asr",
+     "reason": "Relecture du fichier entier : les gestes, références, nombres et catégories sont identiques. Les écarts restants concernent ponctuation, accords inaudibles ou segmentation phonétique ASR, sans instruction différente."
+    }
    }
   },
   {
@@ -320,28 +429,55 @@
    "id": "e4-consigne",
    "etape_lms": "M13-L04-04",
    "role": "Etape 4 · consigne",
-   "texte_dit": "Descendez au bas de la feuille. À vous : saisissez le code du numéro de page, puis une barre oblique, puis le code du nombre total de pages, dans la case de droite du pied de page.",
-   "empreinte_texte_dit": "a81a818b1fc585d16e8f840f5a2c0b2d7ce78aedf980ca2c76eff34bc098cbb5",
+   "texte_dit": "Ouvrez Pied de page. Dans la case de droite, saisissez les codes affichés pour le numéro et le nombre de pages, puis validez.",
+   "empreinte_texte_dit": "15b4ee204035c8dbc594ade500d4c93446a92b157aa9fab473025aca6c2e1986",
    "reparations": [],
    "ssml": false,
-   "fichier": "audio/e4-consigne.mp3",
-   "octets": 182692,
-   "duree_s": 11.36,
-   "caracteres_dits": 180,
-   "caracteres_factures": 180,
+   "fichier": "audio/e4-consigne-corr20261002-15b4ee2040.mp3",
+   "octets": 126685,
+   "duree_s": 7.84,
+   "caracteres_dits": 125,
+   "caracteres_factures": 125,
    "essais": 1,
    "controle": {
     "moteur_severe_small": {
-     "ok": true,
-     "wer": 0.0,
-     "transcription": "Décendez au bas de la feuille.\n À vous, saisissez le code du numéro de page, puis une barre\n oblique, puis le code du nombre total de page dans la case\n de droite du pied de page."
+     "statut": "ok",
+     "wer": 0,
+     "seuil": 0.15,
+     "raison": null,
+     "transcription": "Ouvrez pieds de page. Dans la case de droite, saisissez les codes affichés pour le numéro et le nombre de pages, puis valider.",
+     "tirages": 1,
+     "detail_tirages": [
+      {
+       "n": 1,
+       "ok": true,
+       "wer": 0,
+       "raison": null,
+       "transcription": "Ouvrez pieds de page. Dans la case de droite, saisissez les codes affichés pour le numéro et le nombre de pages, puis valider."
+      }
+     ],
+     "moteur": "whisper.cpp small"
     },
-    "moteur_second_medium": {
-     "ok": true,
-     "wer": 0.0,
-     "transcription": "Descendez au bas de la feuille.\n À vous, saisissez le code du numéro de page, puis une barre\n oblique, puis le code du nombre\n total de pages dans la case de droite du pied de page."
-    },
-    "valide_sur_les_deux": true
+    "statut": "valide_relecture_semantique_deux_transcriptions",
+    "valide_sur_les_deux": false,
+    "revue": {
+     "id": "excel-correction-20261002-m13-l04-04-e4-consigne-15b4ee2040",
+     "step_id": "M13-L04-04",
+     "kind": "consigne",
+     "expected": "Ouvrez Pied de page. Dans la case de droite, saisissez les codes affichés pour le numéro et le nombre de pages, puis validez.",
+     "small_transcript": "Ouvrez pieds de page. Dans la case de droite, saisissez les codes affichés pour le numéro et le nombre de pages, puis valider.",
+     "small_status": "ok",
+     "small_reason": null,
+     "small_attempts": 1,
+     "medium_cpu_transcript": "Ouvrez « Pieds de page ». Dans la case de droite, saisissez les codes affichés pour le numéro et le nombre de pages, puis validez.",
+     "full_audio_sha256": "2f52379e67a20440a43467285ec5cdd3fdc1e6d821576bdf852b1d7c3c409c7d",
+     "duration_seconds": 7.84,
+     "duration_limit_seconds": null,
+     "acoustic_listening_performed": false,
+     "external_api_calls": 0,
+     "verdict": "manual_semantic_pass_two_asr",
+     "reason": "Nouvelle formulation du chef relue avec les deux transcriptions : références, nombres et gestes exacts ; la coupure ou déformation antérieure est absente. Les lettres C/L/M des intitulés ou formats ne sont pas des élisions à vérifier."
+    }
    }
   },
   {
@@ -626,5 +762,10 @@
     "valide_sur_les_deux": true
    }
   }
- ]
+ ],
+ "correction_20261002": {
+  "status": "validated_for_release",
+  "second_review": "manual_semantic_small_and_medium_cpu",
+  "acoustic_listening_performed": false
+ }
 }

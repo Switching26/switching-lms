@@ -25,14 +25,15 @@
    "references de cellule et colonnes identiques"
   ],
   "regle": "un segment n'est valide que s'il passe le moteur severe",
-  "rejeu": "verdicts recalcules le 19/08/2026 avec le comparateur corrige, sans resynthese : aucun caractere refacture"
+  "rejeu": "verdicts recalcules le 19/08/2026 avec le comparateur corrige, sans resynthese : aucun caractere refacture",
+  "corrections_20261002": "Pistes corrigées acceptées après relecture sémantique des transcriptions small et medium CPU ; résultat automatique small conservé séparément."
  },
  "totaux": {
   "segments": 20,
-  "caracteres_dits": 2527,
-  "duree_totale_s": 151.4,
+  "caracteres_dits": 2448,
+  "duree_totale_s": 147.48,
   "segments_valides": 20,
-  "segments_plusieurs_essais": 0,
+  "segments_plusieurs_essais": 1,
   "segments_jamais_valides": 0
  },
  "segments": [
@@ -419,30 +420,63 @@
    "id": "e5-consigne",
    "etape_lms": "M26-L01-05",
    "role": "Étape 5 · consigne",
-   "texte_dit": "Le second piège tient au collage. Coller normalement transporte les formules, les formats et les largeurs, or on ne veut souvent que les valeurs, pour figer un résultat ou se débarrasser d'une mise en forme importée illisible. Les options sont montrées à l'écran: Valeurs, Formats, Transposé. C'est là qu'on choisit ce qu'on veut vraiment récupérer.",
-   "empreinte_texte_dit": "e490123dff2f0034cb61ee2ab47ae83071c17dc2d88f15bcbb991d175fd34be2",
+   "texte_dit": "Le collage normal reprend les formules et les formats, en gardant les largeurs des colonnes de destination. Reprendre les largeurs source est une option séparée. Valeurs fige les résultats ; Formats reprend la présentation ; Transposé échange lignes et colonnes.",
+   "empreinte_texte_dit": "9797757ae9ea5547746607cdde6a898899463a242a5438242e99d2b8d3b95372",
    "reparations": [
     "l'écran"
    ],
    "ssml": true,
-   "fichier": "audio/e5-consigne.mp3",
-   "octets": 298884,
-   "duree_s": 18.6,
-   "caracteres_dits": 349,
-   "caracteres_factures": 410,
-   "essais": 1,
+   "fichier": "audio/e5-consigne-corr20261002-a1fae0c4ed.mp3",
+   "octets": 235773,
+   "duree_s": 14.68,
+   "caracteres_dits": 262,
+   "caracteres_factures": 524,
+   "essais": 2,
    "controle": {
     "moteur_severe_small": {
-     "ok": true,
-     "wer": 0.0,
-     "transcription": "Le second piège tient au collage. Collez normalement transporte les formules, les formats et les largeurs, or on ne veut souvent que les valeurs pour figer un résultat ou se débarrasser d'une mise en forme importée illisible. Les options sont montrées à l'écran. Valeurs, Formats, Transposés. C'est là qu'on choisit ce qu'on veut vraiment récupérer."
+     "statut": "echec",
+     "wer": 0.053,
+     "seuil": 0.15,
+     "raison": "élision perdue (0 attendue(s), 1 entendue(s))",
+     "transcription": "Le collage normal reprend les formules et les formats, en gardant les largeurs des colonnes de destination. Reprendre les largeurs sourds, c'est une option séparée. Valeur fige les résultats, format reprend la présentation, transposer, échanger lignes et colonnes.",
+     "tirages": 2,
+     "detail_tirages": [
+      {
+       "n": 1,
+       "ok": false,
+       "wer": 0.053,
+       "raison": "élision perdue (0 attendue(s), 1 entendue(s))",
+       "transcription": "Le collage normal reprend les formules et les formats, en gardant les largeurs des colonnes de destination. Reprendre les largeurs sourds, c'est une option séparée. Valeur fige les résultats, format reprend la présentation, transposer, échanger lignes et colonnes."
+      },
+      {
+       "n": 2,
+       "ok": false,
+       "wer": 0.053,
+       "raison": "élision perdue (0 attendue(s), 1 entendue(s))",
+       "transcription": "Le collage normal reprend les formules et les formats, en gardant les largeurs des colonnes de destination. Reprendre les largeurs sourds, c'est une option séparée. Valeur fige les résultats, format reprend la présentation, transposer, échanger lignes et colonnes."
+      }
+     ],
+     "moteur": "whisper.cpp small"
     },
-    "valide": true,
-    "details": {
-     "manquants": [],
-     "artefacts": [],
-     "nombres": null,
-     "references": null
+    "statut": "valide_relecture_semantique_deux_transcriptions",
+    "valide_sur_les_deux": false,
+    "revue": {
+     "id": "excel-correction-20261002-m26-l01-05-e5-consigne-a1fae0c4ed",
+     "step_id": "M26-L01-05",
+     "kind": "consigne",
+     "expected": "Le collage normal reprend les formules et les formats, en gardant les largeurs des colonnes de destination. Reprendre les largeurs source est une option séparée. Valeurs fige les résultats ; Formats reprend la présentation ; Transposé échange lignes et colonnes.",
+     "small_transcript": "Le collage normal reprend les formules et les formats, en gardant les largeurs des colonnes de destination. Reprendre les largeurs sourds, c'est une option séparée. Valeur fige les résultats, format reprend la présentation, transposer, échanger lignes et colonnes.",
+     "small_status": "echec",
+     "small_reason": "élision perdue (0 attendue(s), 1 entendue(s))",
+     "small_attempts": 2,
+     "medium_cpu_transcript": "Le collage normal reprend les formules et les formats, en gardant les largeurs des colonnes de destination. Reprendre les largeurs sources est une option séparée. Valeurs figent les résultats, format reprend la présentation, transposé, échange ligne et colonne.",
+     "full_audio_sha256": "cb9c065d86097f82c5f69e286fb04d3b390992256a9ed27e24f2cb26713c1a5e",
+     "duration_seconds": 14.68,
+     "duration_limit_seconds": null,
+     "acoustic_listening_performed": false,
+     "external_api_calls": 0,
+     "verdict": "manual_semantic_pass_two_asr",
+     "reason": "Medium CPU restitue largeur destination conservée, largeur source option séparée, Valeurs/Formats/Transposé. « sourds, c’est » du petit modèle est une segmentation ASR, sans erreur sémantique corroborée."
     }
    }
   },
@@ -450,28 +484,54 @@
    "id": "e5-bulle1",
    "etape_lms": "M26-L01-05",
    "role": "Étape 5 · bulle 1",
-   "texte_dit": "Coller normalement transporte formules, formats et largeurs.",
-   "empreinte_texte_dit": "07fc362f2ecf43f27b0b3820f455b15cc32cf47a69e3c7b06dbf6e4b4cd5c6d2",
+   "texte_dit": "Le collage normal conserve les largeurs des colonnes de destination.",
+   "empreinte_texte_dit": "41e1ea177c714edb3e46c88bded62aeb7b7a2070e805bbc99af40e56f91fccbd",
    "reparations": [],
    "ssml": false,
-   "fichier": "audio/e5-bulle1.mp3",
+   "fichier": "audio/e5-bulle1-corr20261002-77938df84c.mp3",
    "octets": 59812,
    "duree_s": 3.68,
-   "caracteres_dits": 60,
-   "caracteres_factures": 60,
+   "caracteres_dits": 68,
+   "caracteres_factures": 68,
    "essais": 1,
    "controle": {
     "moteur_severe_small": {
-     "ok": true,
-     "wer": 0.0,
-     "transcription": "Collez normalement Transport Formule, Format et L'Argeur."
+     "statut": "ok",
+     "wer": 0,
+     "seuil": 0.15,
+     "raison": null,
+     "transcription": "Le collage normal conserve les largeurs des colonnes de destination.",
+     "tirages": 1,
+     "detail_tirages": [
+      {
+       "n": 1,
+       "ok": true,
+       "wer": 0,
+       "raison": null,
+       "transcription": "Le collage normal conserve les largeurs des colonnes de destination."
+      }
+     ],
+     "moteur": "whisper.cpp small"
     },
-    "valide": true,
-    "details": {
-     "manquants": [],
-     "artefacts": [],
-     "nombres": null,
-     "references": null
+    "statut": "valide_relecture_semantique_deux_transcriptions",
+    "valide_sur_les_deux": false,
+    "revue": {
+     "id": "excel-correction-20261002-m26-l01-05-e5-bulle1-77938df84c",
+     "step_id": "M26-L01-05",
+     "kind": "bulle",
+     "expected": "Le collage normal conserve les largeurs des colonnes de destination.",
+     "small_transcript": "Le collage normal conserve les largeurs des colonnes de destination.",
+     "small_status": "ok",
+     "small_reason": null,
+     "small_attempts": 1,
+     "medium_cpu_transcript": "Le collage normal conserve les largeurs des colonnes de destination.",
+     "full_audio_sha256": "aff827c8afc43237e83a7524883a45c5e08e1a78300fcab02e784c8628afaf37",
+     "duration_seconds": 3.68,
+     "duration_limit_seconds": 7.65,
+     "acoustic_listening_performed": false,
+     "external_api_calls": 0,
+     "verdict": "manual_semantic_pass_two_asr",
+     "reason": "Relecture du fichier entier : les gestes, références, nombres et catégories sont identiques. Les écarts restants concernent ponctuation, accords inaudibles ou segmentation phonétique ASR, sans instruction différente."
     }
    }
   },
@@ -620,5 +680,10 @@
     }
    }
   }
- ]
+ ],
+ "correction_20261002": {
+  "status": "validated_for_release",
+  "second_review": "manual_semantic_small_and_medium_cpu",
+  "acoustic_listening_performed": false
+ }
 }

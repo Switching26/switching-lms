@@ -23,15 +23,16 @@
    "aucun « SI » epele",
    "nombres entendus identiques aux nombres dits"
   ],
-  "regle": "un segment n'est valide que s'il passe le moteur severe"
+  "regle": "un segment n'est valide que s'il passe le moteur severe",
+  "corrections_20261002": "Pistes corrigées acceptées après relecture sémantique des transcriptions small et medium CPU ; résultat automatique small conservé séparément."
  },
  "totaux": {
   "segments": 21,
-  "caracteres_dits": 2185,
-  "duree_totale_s": 130.6,
-  "segments_valides": 17,
-  "segments_plusieurs_essais": 4,
-  "segments_jamais_valides": 4
+  "caracteres_dits": 2174,
+  "duree_totale_s": 131.44,
+  "segments_valides": 1,
+  "segments_plusieurs_essais": 3,
+  "segments_jamais_valides": 20
  },
  "segments": [
   {
@@ -245,21 +246,54 @@
    "id": "e4-bulle2",
    "etape_lms": "M10-L07-04",
    "role": "Etape 4 · bulle sur dom:[aria-label=\"Barre de formule\"]",
-   "texte_dit": "Mais la cellule garde toutes ses décimales. Vos totaux tomberont à côté.",
-   "empreinte_texte_dit": "0e11f0634f45013ad5e7d7aa63026f1c6200e8f1b6abf3964b88ec4889229ea7",
+   "texte_dit": "La barre de formule montre les décimales conservées dans H10.",
+   "empreinte_texte_dit": "9c59eecb2a4468a6c2de721894bd8c4ebdc5c09ba48ff57a12f653631fb8cfcd",
    "reparations": [],
    "ssml": false,
-   "fichier": "audio/e4-bulle2.mp3",
-   "octets": 66499,
-   "duree_s": 4.08,
-   "caracteres_dits": 72,
-   "caracteres_factures": 144,
-   "essais": 2,
+   "fichier": "audio/e4-bulle2-corr20261002-f6258cdde4.mp3",
+   "octets": 79038,
+   "duree_s": 4.88,
+   "caracteres_dits": 61,
+   "caracteres_factures": 61,
+   "essais": 1,
    "controle": {
     "moteur_severe_small": {
-     "ok": false,
-     "wer": 0.167,
-     "transcription": "Mais la cellule garde toutes ses décimales. Vos taux taux tomberont à côté."
+     "statut": "ok",
+     "wer": 0,
+     "seuil": 0.15,
+     "raison": null,
+     "transcription": "La barre de formule montre les décimales conservées dans H10.",
+     "tirages": 1,
+     "detail_tirages": [
+      {
+       "n": 1,
+       "ok": true,
+       "wer": 0,
+       "raison": null,
+       "transcription": "La barre de formule montre les décimales conservées dans H10."
+      }
+     ],
+     "moteur": "whisper.cpp small"
+    },
+    "statut": "valide_relecture_semantique_deux_transcriptions",
+    "valide_sur_les_deux": false,
+    "revue": {
+     "id": "excel-correction-20261002-m10-l07-04-e4-bulle2-f6258cdde4",
+     "step_id": "M10-L07-04",
+     "kind": "bulle",
+     "expected": "La barre de formule montre les décimales conservées dans H10.",
+     "small_transcript": "La barre de formule montre les décimales conservées dans H10.",
+     "small_status": "ok",
+     "small_reason": null,
+     "small_attempts": 1,
+     "medium_cpu_transcript": "La barre de formules montre les décimales conservées dans H10.",
+     "full_audio_sha256": "7a306afd808fe30a9e8cae051f56bc8900f3556049d68e53777ac2f3396b2ff4",
+     "duration_seconds": 4.88,
+     "duration_limit_seconds": 7.65,
+     "acoustic_listening_performed": false,
+     "external_api_calls": 0,
+     "verdict": "manual_semantic_pass_two_asr",
+     "reason": "Relecture du fichier entier : les gestes, références, nombres et catégories sont identiques. Les écarts restants concernent ponctuation, accords inaudibles ou segmentation phonétique ASR, sans instruction différente."
     }
    }
   },
@@ -520,5 +554,10 @@
     }
    }
   }
- ]
+ ],
+ "correction_20261002": {
+  "status": "validated_for_release",
+  "second_review": "manual_semantic_small_and_medium_cpu",
+  "acoustic_listening_performed": false
+ }
 }

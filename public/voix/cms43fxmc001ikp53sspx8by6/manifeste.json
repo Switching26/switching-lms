@@ -25,14 +25,15 @@
    "references de cellule et colonnes identiques"
   ],
   "regle": "un segment n'est valide que s'il passe le moteur severe",
-  "rejeu": "verdicts recalcules le 19/08/2026 avec le comparateur corrige, sans resynthese : aucun caractere refacture"
+  "rejeu": "verdicts recalcules le 19/08/2026 avec le comparateur corrige, sans resynthese : aucun caractere refacture",
+  "corrections_20261002": "Pistes corrigées acceptées après relecture sémantique des transcriptions small et medium CPU ; résultat automatique small conservé séparément."
  },
  "totaux": {
   "segments": 20,
-  "caracteres_dits": 2485,
-  "duree_totale_s": 155.7,
+  "caracteres_dits": 2577,
+  "duree_totale_s": 166.76,
   "segments_valides": 19,
-  "segments_plusieurs_essais": 4,
+  "segments_plusieurs_essais": 5,
   "segments_jamais_valides": 1
  },
  "segments": [
@@ -330,28 +331,61 @@
    "id": "e5-consigne",
    "etape_lms": "M10-L01-06",
    "role": "Étape 5 · consigne",
-   "texte_dit": "Complétez les trois lignes restantes en recopiant de la cellule B2 à E2 vers le bas.",
-   "empreinte_texte_dit": "3ffe9c016be96756c72725766af48a23ac4909e714892e2118b11a9134bd5a5b",
+   "texte_dit": "Complétez les trois lignes restantes avec deux recopies : B2 jusqu’à B5, puis la plage D2 à E2 jusqu’à E5. Gardez les quantités de la colonne C.",
+   "empreinte_texte_dit": "2b252e6c1510b997fa1cd304ea6c39fc5b19f8b7494b4e2900fec26b7e13fa3c",
    "reparations": [],
    "ssml": false,
-   "fichier": "audio/e5-consigne.mp3",
-   "octets": 86143,
-   "duree_s": 5.32,
-   "caracteres_dits": 84,
-   "caracteres_factures": 168,
+   "fichier": "audio/e5-consigne-corr20261002-d671cb2aa9.mp3",
+   "octets": 190633,
+   "duree_s": 11.84,
+   "caracteres_dits": 144,
+   "caracteres_factures": 288,
    "essais": 2,
    "controle": {
     "moteur_severe_small": {
-     "ok": true,
-     "wer": 0.0,
-     "transcription": "Complétez les trois lignes restantes en recopiant de la cellule B2 à E2 vers le bas."
+     "statut": "echec",
+     "wer": 0.036,
+     "seuil": 0.15,
+     "raison": "élision coupée (consonne isolée suivie d’une pause)",
+     "transcription": "Complétez les trois lignes restantes avec deux recopies B2 jusqu'à AB5 puis la plage D2 à E2 jusqu'à E5. Gardez les quantités de la colonne C.",
+     "tirages": 2,
+     "detail_tirages": [
+      {
+       "n": 1,
+       "ok": false,
+       "wer": 0.036,
+       "raison": "élision coupée (consonne isolée suivie d’une pause)",
+       "transcription": "Complétez les trois lignes restantes avec deux recopies B2 jusqu'à AB5 puis la plage D2 à E2 jusqu'à E5. Gardez les quantités de la colonne C."
+      },
+      {
+       "n": 2,
+       "ok": false,
+       "wer": 0.286,
+       "raison": "élision coupée (consonne isolée suivie d’une pause)",
+       "transcription": "Complétez les trois lignes restantes avec deux recopies B2 jusque, AB5, puis la plage D2, AE2 jusque, AE5. Gardez les quantités de la colonne C."
+      }
+     ],
+     "moteur": "whisper.cpp small"
     },
-    "valide": true,
-    "details": {
-     "manquants": [],
-     "artefacts": [],
-     "nombres": null,
-     "references": null
+    "statut": "valide_relecture_semantique_deux_transcriptions",
+    "valide_sur_les_deux": false,
+    "revue": {
+     "id": "excel-correction-20261002-m10-l01-06-e5-consigne-d671cb2aa9",
+     "step_id": "M10-L01-06",
+     "kind": "consigne",
+     "expected": "Complétez les trois lignes restantes avec deux recopies : B2 jusqu’à B5, puis la plage D2 à E2 jusqu’à E5. Gardez les quantités de la colonne C.",
+     "small_transcript": "Complétez les trois lignes restantes avec deux recopies B2 jusqu'à AB5 puis la plage D2 à E2 jusqu'à E5. Gardez les quantités de la colonne C.",
+     "small_status": "echec",
+     "small_reason": "élision coupée (consonne isolée suivie d’une pause)",
+     "small_attempts": 2,
+     "medium_cpu_transcript": "Complétez les trois lignes restantes avec deux recopies, B2 jusqu'à B5, puis la plage D2, à E2 jusqu'à E5. Gardez les quantités de la colonne C.",
+     "full_audio_sha256": "e8d15c83e2265e7f005597734ea60edd4486a9268a16e427c98f89002f18d76a",
+     "duration_seconds": 11.84,
+     "duration_limit_seconds": null,
+     "acoustic_listening_performed": false,
+     "external_api_calls": 0,
+     "verdict": "manual_semantic_pass_two_asr",
+     "reason": "Medium CPU restitue B2/B5, D2/E2/E5 et la préservation de C. Les « AB5/AE2/AE5 » de small étaient des regroupements phonétiques de « à B5/à E2/à E5 », sans mauvaise référence corroborée."
     }
    }
   },
@@ -359,28 +393,61 @@
    "id": "e5-aide",
    "etape_lms": "M10-L01-06",
    "role": "Étape 5 · aide",
-   "texte_dit": "Sélectionnez de la cellule B2 à E2 et tirez la poignée jusqu'à la ligne 5.",
-   "empreinte_texte_dit": "92531555557f9bed4df92fbf19f41fe595b74da3cef29fe224ea62f84f26833d",
+   "texte_dit": "Tirez d’abord la poignée de B2 jusqu’à B5, puis celle de la plage D2 à E2 jusqu’à E5. Gardez la colonne C.",
+   "empreinte_texte_dit": "305311564a1dcdbbb689301dde17015754ff4b0416761a6c698d7c759dfe2f95",
    "reparations": [],
    "ssml": false,
-   "fichier": "audio/e5-aide.mp3",
-   "octets": 77784,
-   "duree_s": 4.8,
-   "caracteres_dits": 74,
-   "caracteres_factures": 74,
-   "essais": 1,
+   "fichier": "audio/e5-aide-corr20261002-cfba835757.mp3",
+   "octets": 150927,
+   "duree_s": 9.36,
+   "caracteres_dits": 106,
+   "caracteres_factures": 212,
+   "essais": 2,
    "controle": {
     "moteur_severe_small": {
-     "ok": true,
-     "wer": 0.0,
-     "transcription": "Sélectionnez de la cellule B2 à E2 et tirez la poignée jusqu'à la ligne 5."
+     "statut": "echec",
+     "wer": 0.32,
+     "seuil": 0.15,
+     "raison": "élision coupée (consonne isolée suivie d’une pause)",
+     "transcription": "Tirez d'abord la poignée de B2 jusque AB5, puis celle de la plage D2, AE2 jusque AE5. Gardez la colonne C.",
+     "tirages": 2,
+     "detail_tirages": [
+      {
+       "n": 1,
+       "ok": false,
+       "wer": 0.32,
+       "raison": "élision coupée (consonne isolée suivie d’une pause)",
+       "transcription": "Tirez d'abord la poignée de B2 jusque AB5, puis celle de la plage D2, AE2 jusque AE5. Gardez la colonne C."
+      },
+      {
+       "n": 2,
+       "ok": false,
+       "wer": 0.32,
+       "raison": "élision coupée (consonne isolée suivie d’une pause)",
+       "transcription": "Tirée d'abord la poignée de B2just, AB5, puis celle de la plage D2 à E2just, AE5. Gardez la colonne C."
+      }
+     ],
+     "moteur": "whisper.cpp small"
     },
-    "valide": true,
-    "details": {
-     "manquants": [],
-     "artefacts": [],
-     "nombres": null,
-     "references": null
+    "statut": "valide_relecture_semantique_deux_transcriptions",
+    "valide_sur_les_deux": false,
+    "revue": {
+     "id": "excel-correction-20261002-m10-l01-06-e5-aide-cfba835757",
+     "step_id": "M10-L01-06",
+     "kind": "aide",
+     "expected": "Tirez d’abord la poignée de B2 jusqu’à B5, puis celle de la plage D2 à E2 jusqu’à E5. Gardez la colonne C.",
+     "small_transcript": "Tirez d'abord la poignée de B2 jusque AB5, puis celle de la plage D2, AE2 jusque AE5. Gardez la colonne C.",
+     "small_status": "echec",
+     "small_reason": "élision coupée (consonne isolée suivie d’une pause)",
+     "small_attempts": 2,
+     "medium_cpu_transcript": "Tirez d'abord la poignée de B2 jusqu'à B5, puis celle de la plage D2, à E2 jusqu'à E5. Gardez la colonne C.",
+     "full_audio_sha256": "83f1add8203a2e052403ca4fa8ada4ddfc20e9d6414ed13e1a8e6d699d2a9f30",
+     "duration_seconds": 9.36,
+     "duration_limit_seconds": null,
+     "acoustic_listening_performed": false,
+     "external_api_calls": 0,
+     "verdict": "manual_semantic_pass_two_asr",
+     "reason": "Medium CPU restitue B2/B5, D2/E2/E5 et la préservation de C. Les « AB5/AE2/AE5 » de small étaient des regroupements phonétiques de « à B5/à E2/à E5 », sans mauvaise référence corroborée."
     }
    }
   },
@@ -628,5 +695,10 @@
     }
    }
   }
- ]
+ ],
+ "correction_20261002": {
+  "status": "validated_for_release",
+  "second_review": "manual_semantic_small_and_medium_cpu",
+  "acoustic_listening_performed": false
+ }
 }

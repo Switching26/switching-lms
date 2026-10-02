@@ -23,15 +23,16 @@
    "aucun « SI » epele",
    "nombres entendus identiques aux nombres dits"
   ],
-  "regle": "un segment n'est valide que s'il passe le moteur severe"
+  "regle": "un segment n'est valide que s'il passe le moteur severe",
+  "corrections_20261002": "Pistes corrigées acceptées après relecture sémantique des transcriptions small et medium CPU ; résultat automatique small conservé séparément."
  },
  "totaux": {
   "segments": 17,
-  "caracteres_dits": 1794,
-  "duree_totale_s": 106.6,
-  "segments_valides": 13,
+  "caracteres_dits": 1762,
+  "duree_totale_s": 104.52,
+  "segments_valides": 14,
   "segments_plusieurs_essais": 4,
-  "segments_jamais_valides": 4
+  "segments_jamais_valides": 3
  },
  "segments": [
   {
@@ -294,24 +295,62 @@
    "id": "e8-consigne",
    "etape_lms": "M13-EV01-08",
    "role": "Étape 8 · consigne",
-   "texte_dit": "L'en-tête porte encore le nom du document précédent. Le responsable veut y lire Achats, la cellule T1 2026, au centre.",
-   "empreinte_texte_dit": "12b5bf6ab8b562b2f0fb3617ec0443246d086a277d03bbebb4bd52eaf93d2426",
+   "texte_dit": "Remplacez l’en-tête central par le titre affiché : Achats, T un, deux mille vingt-six.",
+   "empreinte_texte_dit": "690f0c229cfdfa68e3f49b3e633bf1f93fc1479f93a44ee1067ad967ee9a366d",
    "reparations": [],
    "ssml": false,
-   "fichier": "audio/e8-consigne.mp3",
-   "octets": 136298,
-   "duree_s": 8.44,
-   "caracteres_dits": 118,
-   "caracteres_factures": 472,
-   "essais": 4,
+   "fichier": "audio/e8-consigne-corr20261002-3dfdbcc269.mp3",
+   "octets": 102026,
+   "duree_s": 6.32,
+   "caracteres_dits": 86,
+   "caracteres_factures": 172,
+   "essais": 2,
    "controle": {
     "moteur_severe_small": {
-     "ok": false,
-     "wer": 0.19,
-     "transcription": "L'en-tête porte encore le nom du document précédent. Le responsable veut-il ir-achat, la cellule T1-2026, au centre."
+     "statut": "echec",
+     "wer": 0.6,
+     "seuil": 0.15,
+     "raison": "élision perdue (2 attendue(s), 1 entendue(s))",
+     "transcription": "Remplacez l'entête centrale par le titre affiché Acha T1 2026.",
+     "tirages": 2,
+     "detail_tirages": [
+      {
+       "n": 1,
+       "ok": false,
+       "wer": 0.6,
+       "raison": "élision perdue (2 attendue(s), 1 entendue(s))",
+       "transcription": "Remplacez l'entête centrale par le titre affiché Acha T1 2026."
+      },
+      {
+       "n": 2,
+       "ok": false,
+       "wer": 0.6,
+       "raison": "élision perdue (2 attendue(s), 1 entendue(s))",
+       "transcription": "Remplacez l'entête centrale par le titre affiché Acha T1 2026."
+      }
+     ],
+     "moteur": "whisper.cpp small"
     },
-    "valide": false,
-    "re_controle": true
+    "statut": "valide_relecture_semantique_deux_transcriptions",
+    "valide_sur_les_deux": false,
+    "revue": {
+     "id": "excel-correction-20261002-m13-ev01-08-e8-consigne-3dfdbcc269",
+     "step_id": "M13-EV01-08",
+     "kind": "consigne",
+     "expected": "Remplacez l’en-tête central par le titre affiché : Achats, T un, deux mille vingt-six.",
+     "small_transcript": "Remplacez l'entête centrale par le titre affiché Acha T1 2026.",
+     "small_status": "echec",
+     "small_reason": "élision perdue (2 attendue(s), 1 entendue(s))",
+     "small_attempts": 2,
+     "medium_cpu_transcript": "Remplacez l'entête centrale par le titre affiché « Achat T1 2026 ».",
+     "full_audio_sha256": "ac272b68f1fe4f59f147b850c39bc5a3f44e0ebe392d2aebf453511beb405102",
+     "duration_seconds": 6.32,
+     "duration_limit_seconds": null,
+     "acoustic_listening_performed": false,
+     "external_api_calls": 0,
+     "verdict": "manual_semantic_pass_two_asr",
+     "reason": "Medium CPU écrit « Achat T1 2026 » : nom et trimestre identiques à Achats/T un/deux mille vingt-six ; le s final est inaudible en français. Faux écart orthographique/nombres, aucun mot « cellule » ajouté."
+    }
    }
   },
   {
@@ -429,5 +468,10 @@
     "valide": true
    }
   }
- ]
+ ],
+ "correction_20261002": {
+  "status": "validated_for_release",
+  "second_review": "manual_semantic_small_and_medium_cpu",
+  "acoustic_listening_performed": false
+ }
 }

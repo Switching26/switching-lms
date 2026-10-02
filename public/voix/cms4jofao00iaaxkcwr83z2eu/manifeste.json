@@ -23,15 +23,16 @@
    "aucun « SI » epele",
    "nombres entendus identiques aux nombres dits"
   ],
-  "regle": "un segment n'est valide que s'il passe le moteur severe"
+  "regle": "un segment n'est valide que s'il passe le moteur severe",
+  "corrections_20261002": "Pistes corrigées acceptées après relecture sémantique des transcriptions small et medium CPU ; résultat automatique small conservé séparément."
  },
  "totaux": {
   "segments": 20,
-  "caracteres_dits": 2239,
-  "duree_totale_s": 136.7,
-  "segments_valides": 18,
+  "caracteres_dits": 2220,
+  "duree_totale_s": 134.88,
+  "segments_valides": 1,
   "segments_plusieurs_essais": 2,
-  "segments_jamais_valides": 2
+  "segments_jamais_valides": 19
  },
  "segments": [
   {
@@ -242,21 +243,54 @@
    "id": "e5-consigne",
    "etape_lms": "M21-L04-05",
    "role": "Etape 5 · consigne, dite a l'arrivee",
-   "texte_dit": "Ces trois gestes vivent tous dans l'onglet Révision. Ce qu'il faut en retenir : une fois la feuille protégée, la colonne Quantité restera ouverte à la saisie, et toute écriture dans les totaux sera refusée. Pour reprendre la main, il faudra ôter la protection, au même endroit.",
-   "empreinte_texte_dit": "e7203e6129c8fdf0e1edfe7ee854268cbe5617d26e97a4d2fab73e2fc8778fdf",
+   "texte_dit": "Dans Excel, ouvrez Format de cellule, puis Protection, pour déverrouiller les cellules de saisie. Gardez les formules verrouillées, puis ouvrez l’onglet Révision et Protéger la feuille. Ici, les repères illustrent les zones ; la protection n’est pas activée.",
+   "empreinte_texte_dit": "9169fd810656306cd35ebfc5ebb319b5a032ae330b0958238bbc95b1d0d8bf5d",
    "reparations": [],
    "ssml": false,
-   "fichier": "audio/e5-consigne.mp3",
-   "octets": 253745,
-   "duree_s": 15.8,
-   "caracteres_dits": 277,
-   "caracteres_factures": 277,
+   "fichier": "audio/e5-consigne-corr20261002-debc02d93c.mp3",
+   "octets": 224906,
+   "duree_s": 14,
+   "caracteres_dits": 258,
+   "caracteres_factures": 258,
    "essais": 1,
    "controle": {
     "moteur_severe_small": {
-     "ok": true,
-     "wer": 0.042,
-     "transcription": "Ces trois gestes vivent tous dans l'onglet Révision. Ce qu'il faut en retenir, une fois la feuille protégée, la colonne quantité restera ouverte à la saisie et toute écriture dans les taux taux sera refusée. Pour reprendre la main, il faudra ôter la protection, au même endroit."
+     "statut": "ok",
+     "wer": 0,
+     "seuil": 0.15,
+     "raison": null,
+     "transcription": "Dans Excel, ouvrez Formats de cellules, puis Protection pour déverrouiller les cellules de saisie. Gardez les formules verrouillées, puis ouvrez l'onglet Révisions et protégez la feuille. Ici, les repères illustrent les zones. La protection n'est pas activée.",
+     "tirages": 1,
+     "detail_tirages": [
+      {
+       "n": 1,
+       "ok": true,
+       "wer": 0,
+       "raison": null,
+       "transcription": "Dans Excel, ouvrez Formats de cellules, puis Protection pour déverrouiller les cellules de saisie. Gardez les formules verrouillées, puis ouvrez l'onglet Révisions et protégez la feuille. Ici, les repères illustrent les zones. La protection n'est pas activée."
+      }
+     ],
+     "moteur": "whisper.cpp small"
+    },
+    "statut": "valide_relecture_semantique_deux_transcriptions",
+    "valide_sur_les_deux": false,
+    "revue": {
+     "id": "excel-correction-20261002-m21-l04-05-e5-consigne-debc02d93c",
+     "step_id": "M21-L04-05",
+     "kind": "consigne",
+     "expected": "Dans Excel, ouvrez Format de cellule, puis Protection, pour déverrouiller les cellules de saisie. Gardez les formules verrouillées, puis ouvrez l’onglet Révision et Protéger la feuille. Ici, les repères illustrent les zones ; la protection n’est pas activée.",
+     "small_transcript": "Dans Excel, ouvrez Formats de cellules, puis Protection pour déverrouiller les cellules de saisie. Gardez les formules verrouillées, puis ouvrez l'onglet Révisions et protégez la feuille. Ici, les repères illustrent les zones. La protection n'est pas activée.",
+     "small_status": "ok",
+     "small_reason": null,
+     "small_attempts": 1,
+     "medium_cpu_transcript": "Dans Excel, ouvrez Format de cellule, puis Protection pour déverrouiller les cellules de saisie. Gardez les formules verrouillées, puis ouvrez l'onglet Révisions et protégez la feuille. Ici, les repères illustrent les zones. La protection n'est pas activée.",
+     "full_audio_sha256": "13bdbc3a1cf9dc5d5e22c5bcc15a199c14df53a1296510142af8dd95c5bc795f",
+     "duration_seconds": 14,
+     "duration_limit_seconds": null,
+     "acoustic_listening_performed": false,
+     "external_api_calls": 0,
+     "verdict": "manual_semantic_pass_two_asr",
+     "reason": "Relecture du fichier entier : les gestes, références, nombres et catégories sont identiques. Les écarts restants concernent ponctuation, accords inaudibles ou segmentation phonétique ASR, sans instruction différente."
     }
    }
   },
@@ -480,5 +514,10 @@
     }
    }
   }
- ]
+ ],
+ "correction_20261002": {
+  "status": "validated_for_release",
+  "second_review": "manual_semantic_small_and_medium_cpu",
+  "acoustic_listening_performed": false
+ }
 }

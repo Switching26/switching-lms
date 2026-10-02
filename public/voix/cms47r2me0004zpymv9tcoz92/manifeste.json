@@ -25,15 +25,16 @@
    "aucun « SI » epele",
    "nombres entendus identiques aux nombres dits"
   ],
-  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs",
+  "corrections_20261002": "Pistes corrigées acceptées après relecture sémantique des transcriptions small et medium CPU ; résultat automatique small conservé séparément."
  },
  "totaux": {
   "segments": 19,
-  "caracteres_dits": 2286,
-  "duree_totale_s": 134.2,
-  "segments_valides": 19,
+  "caracteres_dits": 2118,
+  "duree_totale_s": 126.52,
+  "segments_valides": 2,
   "segments_plusieurs_essais": 0,
-  "segments_jamais_valides": 0
+  "segments_jamais_valides": 17
  },
  "segments": [
   {
@@ -70,28 +71,55 @@
    "id": "e1-consigne",
    "etape_lms": "M24-L01-01",
    "role": "Etape 1 · consigne",
-   "texte_dit": "Un petit catalogue : trois produits, une colonne Photo vide. À vous : ouvrez l'onglet Insertion, et cliquez sur Image dans la cellule, pour placer la photo du clavier sur la première ligne. La photo se loge dans la cellule, qui s'adapte à sa hauteur.",
-   "empreinte_texte_dit": "4871d0596790838319751601511b3b4f36cf525829a70a65c4f8d69e652a5195",
+   "texte_dit": "Ouvrez l’onglet Insertion, puis Image dans la cellule, pour placer l’illustration du clavier en A2. La cellule s’adapte à sa hauteur.",
+   "empreinte_texte_dit": "5fffe282c8ab68b1b695b8765fd2d894508770990de8e8863f952738dd1858bd",
    "reparations": [],
    "ssml": false,
-   "fichier": "audio/e1-consigne.mp3",
-   "octets": 214039,
-   "duree_s": 13.32,
-   "caracteres_dits": 250,
-   "caracteres_factures": 250,
+   "fichier": "audio/e1-consigne-corr20261002-d233a62ebe.mp3",
+   "octets": 142986,
+   "duree_s": 8.88,
+   "caracteres_dits": 133,
+   "caracteres_factures": 133,
    "essais": 1,
    "controle": {
     "moteur_severe_small": {
-     "ok": true,
-     "wer": 0.0,
-     "transcription": "Un petit catalogue, trois produits, une colonne photo vide,\n à vous, ouvrez l'onglet Insertion et cliquez sur Images\n dans la cellule\n pour placer la photo du clavier sur la première ligne.\n La photo se loge dans la cellule qui s'adapte à sa hauteur."
+     "statut": "ok",
+     "wer": 0,
+     "seuil": 0.15,
+     "raison": null,
+     "transcription": "Ouvrez l'onglet Insertion, puis Image dans la cellule pour placer l'illustration du clavier en A2. La cellule s'adapte à sa hauteur.",
+     "tirages": 1,
+     "detail_tirages": [
+      {
+       "n": 1,
+       "ok": true,
+       "wer": 0,
+       "raison": null,
+       "transcription": "Ouvrez l'onglet Insertion, puis Image dans la cellule pour placer l'illustration du clavier en A2. La cellule s'adapte à sa hauteur."
+      }
+     ],
+     "moteur": "whisper.cpp small"
     },
-    "moteur_second_medium": {
-     "ok": true,
-     "wer": 0.0,
-     "transcription": "un petit catalogue, trois produits, une colonne photo vide.\n À vous, ouvrez l'onglet Insertions et cliquez sur Images\n dans la cellule pour placer la photo du clavier sur la\n première ligne.\n La photo se loge dans la cellule, qui s'adapte à sa hauteur\n."
-    },
-    "valide_sur_les_deux": true
+    "statut": "valide_relecture_semantique_deux_transcriptions",
+    "valide_sur_les_deux": false,
+    "revue": {
+     "id": "excel-correction-20261002-m24-l01-01-e1-consigne-d233a62ebe",
+     "step_id": "M24-L01-01",
+     "kind": "consigne",
+     "expected": "Ouvrez l’onglet Insertion, puis Image dans la cellule, pour placer l’illustration du clavier en A2. La cellule s’adapte à sa hauteur.",
+     "small_transcript": "Ouvrez l'onglet Insertion, puis Image dans la cellule pour placer l'illustration du clavier en A2. La cellule s'adapte à sa hauteur.",
+     "small_status": "ok",
+     "small_reason": null,
+     "small_attempts": 1,
+     "medium_cpu_transcript": "Ouvrez l'onglet insertion, puis images dans la cellule pour placer l'illustration du clavier en A2. La cellule s'adapte à sa hauteur.",
+     "full_audio_sha256": "bf482d89840df70831e615442e0fae8f32a1e56a010c338fa709e17f774e739b",
+     "duration_seconds": 8.88,
+     "duration_limit_seconds": null,
+     "acoustic_listening_performed": false,
+     "external_api_calls": 0,
+     "verdict": "manual_semantic_pass_two_asr",
+     "reason": "Relecture du fichier entier : les gestes, références, nombres et catégories sont identiques. Les écarts restants concernent ponctuation, accords inaudibles ou segmentation phonétique ASR, sans instruction différente."
+    }
    }
   },
   {
@@ -154,28 +182,55 @@
    "id": "e2-consigne",
    "etape_lms": "M24-L01-02",
    "role": "Etape 2 · consigne",
-   "texte_dit": "À vous : placez la photo de la souris sur la ligne suivante. La deuxième vignette prend place.",
-   "empreinte_texte_dit": "2aeb056f7c3550d75f86cdf811645667e33f83bb5fd13cb27cd12218700d5502",
+   "texte_dit": "Placez l’illustration de la souris dans A3.",
+   "empreinte_texte_dit": "88a4968b98696b2ca69938fa10bec2cb3003b4dfbda1c1d5de93a0154d30044f",
    "reparations": [],
    "ssml": false,
-   "fichier": "audio/e2-consigne.mp3",
-   "octets": 102862,
-   "duree_s": 6.36,
-   "caracteres_dits": 94,
-   "caracteres_factures": 94,
+   "fichier": "audio/e2-consigne-corr20261002-9fa5187bdd.mp3",
+   "octets": 51035,
+   "duree_s": 3.12,
+   "caracteres_dits": 43,
+   "caracteres_factures": 43,
    "essais": 1,
    "controle": {
     "moteur_severe_small": {
-     "ok": true,
-     "wer": 0.0,
-     "transcription": "À vous, placez la photo de la souris sur la ligne suivante.\n La deuxième vignette prend place."
+     "statut": "ok",
+     "wer": 0.125,
+     "seuil": 0.188,
+     "raison": null,
+     "transcription": "Passez l'illustration de la souris dans A3.",
+     "tirages": 1,
+     "detail_tirages": [
+      {
+       "n": 1,
+       "ok": true,
+       "wer": 0.125,
+       "raison": null,
+       "transcription": "Passez l'illustration de la souris dans A3."
+      }
+     ],
+     "moteur": "whisper.cpp small"
     },
-    "moteur_second_medium": {
-     "ok": true,
-     "wer": 0.0,
-     "transcription": "À vous ! Placez la photo de la souris sur la ligne suivante\n.\n La deuxième vignette prend place."
-    },
-    "valide_sur_les_deux": true
+    "statut": "valide_relecture_semantique_deux_transcriptions",
+    "valide_sur_les_deux": false,
+    "revue": {
+     "id": "excel-correction-20261002-m24-l01-02-e2-consigne-9fa5187bdd",
+     "step_id": "M24-L01-02",
+     "kind": "consigne",
+     "expected": "Placez l’illustration de la souris dans A3.",
+     "small_transcript": "Passez l'illustration de la souris dans A3.",
+     "small_status": "ok",
+     "small_reason": null,
+     "small_attempts": 1,
+     "medium_cpu_transcript": "Passez l'illustration de la souris dans A3.",
+     "full_audio_sha256": "54800e1aa3dce938349cc12640102be6970ad5d33aeaf4f3e77ebf4fcd1dc9ba",
+     "duration_seconds": 3.12,
+     "duration_limit_seconds": null,
+     "acoustic_listening_performed": false,
+     "external_api_calls": 0,
+     "verdict": "manual_semantic_pass_two_asr",
+     "reason": "Relecture du fichier entier : les gestes, références, nombres et catégories sont identiques. Les écarts restants concernent ponctuation, accords inaudibles ou segmentation phonétique ASR, sans instruction différente."
+    }
    }
   },
   {
@@ -576,5 +631,10 @@
     "valide_sur_les_deux": true
    }
   }
- ]
+ ],
+ "correction_20261002": {
+  "status": "validated_for_release",
+  "second_review": "manual_semantic_small_and_medium_cpu",
+  "acoustic_listening_performed": false
+ }
 }

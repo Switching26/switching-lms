@@ -23,14 +23,15 @@
    "aucun « SI » epele",
    "nombres entendus identiques aux nombres dits"
   ],
-  "regle": "un segment n'est valide que s'il passe le moteur severe"
+  "regle": "un segment n'est valide que s'il passe le moteur severe",
+  "corrections_20261002": "Pistes corrigées acceptées après relecture sémantique des transcriptions small et medium CPU ; résultat automatique small conservé séparément."
  },
  "totaux": {
   "segments": 37,
-  "caracteres_dits": 3680,
-  "duree_totale_s": 233.7,
+  "caracteres_dits": 3532,
+  "duree_totale_s": 222.6,
   "segments_valides": 34,
-  "segments_plusieurs_essais": 6,
+  "segments_plusieurs_essais": 9,
   "segments_jamais_valides": 3
  },
  "segments": [
@@ -779,71 +780,188 @@
    "id": "e13-consigne",
    "etape_lms": "M27-L01-13",
    "role": "Étape 13 · consigne",
-   "texte_dit": "Deux points à retenir, et le premier peut vous coûter tout votre travail. Ils sont rappelés à l'écran. Un classeur contenant une macro ne s'enregistre plus en.xlsx: il faut le format.xlsm, sinon Excel jette le code au passage sans que vous vous en aperceviez. Le second explique l'exercice qui suit: cette macro écrit toujours au même endroit, où que vous vous trouviez au moment de la lancer.",
-   "empreinte_texte_dit": "d6b70f67f84c4bf3db98ec1b35778f5e9c4974b33f459cd33ba35ab0e9b60205",
+   "texte_dit": "Pour conserver une macro, choisissez le format X L S M pour ce classeur. Le format X L S X ne garde pas le code VBA : Excel avertit avant de supprimer les macros. Cette macro utilise des références absolues et écrit toujours au même endroit.",
+   "empreinte_texte_dit": "a019cc575408edce2af7bf597985afc6424c5ef76dd715383b2f67f9614fb9f6",
    "reparations": [
     "l'écran"
    ],
    "ssml": true,
-   "fichier": "audio/e13-consigne.mp3",
-   "octets": 363250,
-   "duree_s": 22.64,
-   "caracteres_dits": 393,
-   "caracteres_factures": 454,
-   "essais": 1,
+   "fichier": "audio/e13-consigne-corr20261002-a019cc5754.mp3",
+   "octets": 232847,
+   "duree_s": 14.48,
+   "caracteres_dits": 241,
+   "caracteres_factures": 482,
+   "essais": 2,
    "controle": {
     "moteur_severe_small": {
-     "ok": true,
-     "wer": 0.0,
-     "transcription": "Deux points à retenir, et le premier peut vous coûter tout votre travail. Ils sont rappelés à l'écran. Un classeur contenant une macro ne s'enregistre plus en. XLSX, il faut le format. XLSM, sinon Excel jette le code au passage sans que vous vous en aperceviez. Le second explique l'exercice qui suit. Cette macro écrit toujours au même endroit, ou que vous vous trouviez au moment de la lancer."
+     "statut": "echec",
+     "wer": 0.2,
+     "seuil": 0.15,
+     "raison": "élision perdue (5 attendue(s), 0 entendue(s))",
+     "transcription": "Pour conserver une macro, choisissez le format XLSM pour ce classeur. Le format XLSX ne garde pas le code VBA, Excel averti avant de supprimer les macros. Cette macro utilise des références absolues et écrit toujours au même endroit.",
+     "tirages": 2,
+     "detail_tirages": [
+      {
+       "n": 1,
+       "ok": false,
+       "wer": 0.267,
+       "raison": "élision perdue (5 attendue(s), 0 entendue(s))",
+       "transcription": "Pour conserver une macro, choisissez le format XLSM pour ce classeur. Le format XLSX ne garde pas le code VBA et que cela vertie avant de supprimer les macros. Cette macro utilise des références absolues et écrit toujours au même endroit."
+      },
+      {
+       "n": 2,
+       "ok": false,
+       "wer": 0.2,
+       "raison": "élision perdue (5 attendue(s), 0 entendue(s))",
+       "transcription": "Pour conserver une macro, choisissez le format XLSM pour ce classeur. Le format XLSX ne garde pas le code VBA, Excel averti avant de supprimer les macros. Cette macro utilise des références absolues et écrit toujours au même endroit."
+      }
+     ],
+     "moteur": "whisper.cpp small"
     },
-    "valide": true
+    "statut": "valide_relecture_semantique_deux_transcriptions",
+    "valide_sur_les_deux": false,
+    "revue": {
+     "id": "excel-correction-20261002-m27-l01-13-e13-consigne-a019cc5754",
+     "step_id": "M27-L01-13",
+     "kind": "consigne",
+     "expected": "Pour conserver une macro, choisissez le format X L S M pour ce classeur. Le format X L S X ne garde pas le code VBA : Excel avertit avant de supprimer les macros. Cette macro utilise des références absolues et écrit toujours au même endroit.",
+     "small_transcript": "Pour conserver une macro, choisissez le format XLSM pour ce classeur. Le format XLSX ne garde pas le code VBA, Excel averti avant de supprimer les macros. Cette macro utilise des références absolues et écrit toujours au même endroit.",
+     "small_status": "echec",
+     "small_reason": "élision perdue (5 attendue(s), 0 entendue(s))",
+     "small_attempts": 2,
+     "medium_cpu_transcript": "Pour conserver une macro, choisissez le format xlsm pour ce classeur. Le format xlsx ne garde pas le code VBA, Excel avertit avant de supprimer les macros. Cette macro utilise des références absolues et écrit toujours au même endroit.",
+     "full_audio_sha256": "0bcf1b3657f38851c1b4dbdc29f1142c9d1716a492a6a4e8ca5d90c491e5b8bd",
+     "duration_seconds": 14.48,
+     "duration_limit_seconds": null,
+     "acoustic_listening_performed": false,
+     "external_api_calls": 0,
+     "verdict": "manual_semantic_pass_two_asr",
+     "reason": "Nouvelle formulation du chef relue avec les deux transcriptions : références, nombres et gestes exacts ; la coupure ou déformation antérieure est absente. Les lettres C/L/M des intitulés ou formats ne sont pas des élisions à vérifier."
+    }
    }
   },
   {
    "id": "e13-bulle1",
    "etape_lms": "M27-L01-13",
    "role": "Étape 13 · bulle 1",
-   "texte_dit": "Un classeur qui contient une macro ne s'enregistre plus en.xlsx.",
-   "empreinte_texte_dit": "1223b3dda42bdff37b3c9f6986af79eb2af784a38b279a34adbe9e8df49ade9f",
+   "texte_dit": "Le format X L S X ne conserve pas les macros VBA.",
+   "empreinte_texte_dit": "7b1393e80b7ea80d1ae002ea97af07adee4c459b7101e342225b43d0e09e100e",
    "reparations": [],
    "ssml": false,
-   "fichier": "audio/e13-bulle1.mp3",
-   "octets": 103697,
-   "duree_s": 6.4,
-   "caracteres_dits": 64,
-   "caracteres_factures": 64,
-   "essais": 1,
+   "fichier": "audio/e13-bulle1-corr20261002-dac403623a.mp3",
+   "octets": 53124,
+   "duree_s": 3.24,
+   "caracteres_dits": 49,
+   "caracteres_factures": 98,
+   "essais": 2,
    "controle": {
     "moteur_severe_small": {
-     "ok": true,
-     "wer": 0.0,
-     "transcription": "Un classeur qui contient une macro ne s'enregistre plus en XLSX."
+     "statut": "echec",
+     "wer": 0.25,
+     "seuil": 0.15,
+     "raison": "élision perdue (2 attendue(s), 0 entendue(s))",
+     "transcription": "Le format XL-SX ne conserve pas les macro VBA.",
+     "tirages": 2,
+     "detail_tirages": [
+      {
+       "n": 1,
+       "ok": false,
+       "wer": 0.25,
+       "raison": "élision perdue (2 attendue(s), 0 entendue(s))",
+       "transcription": "Le format XL-SX ne conserve pas les macro VBA."
+      },
+      {
+       "n": 2,
+       "ok": false,
+       "wer": 0.25,
+       "raison": "élision perdue (2 attendue(s), 0 entendue(s))",
+       "transcription": "Le format XLX ne conserve pas les macros VBA."
+      }
+     ],
+     "moteur": "whisper.cpp small"
     },
-    "valide": true
+    "statut": "valide_relecture_semantique_deux_transcriptions",
+    "valide_sur_les_deux": false,
+    "revue": {
+     "id": "excel-correction-20261002-m27-l01-13-e13-bulle1-dac403623a",
+     "step_id": "M27-L01-13",
+     "kind": "bulle",
+     "expected": "Le format X L S X ne conserve pas les macros VBA.",
+     "small_transcript": "Le format XL-SX ne conserve pas les macro VBA.",
+     "small_status": "echec",
+     "small_reason": "élision perdue (2 attendue(s), 0 entendue(s))",
+     "small_attempts": 2,
+     "medium_cpu_transcript": "Le format XLSX ne conserve pas les macros VBA.",
+     "full_audio_sha256": "c0cba4dfe44d8cad27906ee1c5ad13dab0e7a84bf044216975b2afb059256d18",
+     "duration_seconds": 3.24,
+     "duration_limit_seconds": 7.65,
+     "acoustic_listening_performed": false,
+     "external_api_calls": 0,
+     "verdict": "manual_semantic_pass_two_asr",
+     "reason": "Medium CPU écrit XLSX et VBA ; les lettres L de X L S X ne sont pas des élisions attendues. Faux échec du contrôle des lettres."
+    }
    }
   },
   {
    "id": "e13-bulle2",
    "etape_lms": "M27-L01-13",
    "role": "Étape 13 · bulle 2",
-   "texte_dit": "Il faut le format.xlsm, sinon Excel jette le code au passage.",
-   "empreinte_texte_dit": "c165f1e7e4bf9e49fe3846da1c8c420f375920dfdedc22ae49563e203d215ce7",
+   "texte_dit": "Le format X L S M conserve les macros. Excel avertit avant de supprimer le code.",
+   "empreinte_texte_dit": "29f97b9b21128391345be9828bea099a17fae9844d1ce43126e08fc4eeda724f",
    "reparations": [],
    "ssml": false,
-   "fichier": "audio/e13-bulle2.mp3",
-   "octets": 86143,
-   "duree_s": 5.32,
-   "caracteres_dits": 61,
-   "caracteres_factures": 61,
-   "essais": 1,
+   "fichier": "audio/e13-bulle2-corr20261002-29f97b9b21.mp3",
+   "octets": 89487,
+   "duree_s": 5.52,
+   "caracteres_dits": 80,
+   "caracteres_factures": 160,
+   "essais": 2,
    "controle": {
     "moteur_severe_small": {
-     "ok": true,
-     "wer": 0.0,
-     "transcription": "Il faut le format XLSM, sinon Excel jette le code au passage."
+     "statut": "echec",
+     "wer": 0.188,
+     "seuil": 0.15,
+     "raison": "élision perdue (3 attendue(s), 0 entendue(s))",
+     "transcription": "Le format XLSM conserve les macros. Excel avertit avant de supprimer le code.",
+     "tirages": 2,
+     "detail_tirages": [
+      {
+       "n": 1,
+       "ok": false,
+       "wer": 0.313,
+       "raison": "élision perdue (3 attendue(s), 0 entendue(s))",
+       "transcription": "Le format XLSM conserve les macros, excèles avertis avant de supprimer le code."
+      },
+      {
+       "n": 2,
+       "ok": false,
+       "wer": 0.188,
+       "raison": "élision perdue (3 attendue(s), 0 entendue(s))",
+       "transcription": "Le format XLSM conserve les macros. Excel avertit avant de supprimer le code."
+      }
+     ],
+     "moteur": "whisper.cpp small"
     },
-    "valide": true
+    "statut": "valide_relecture_semantique_deux_transcriptions",
+    "valide_sur_les_deux": false,
+    "revue": {
+     "id": "excel-correction-20261002-m27-l01-13-e13-bulle2-29f97b9b21",
+     "step_id": "M27-L01-13",
+     "kind": "bulle",
+     "expected": "Le format X L S M conserve les macros. Excel avertit avant de supprimer le code.",
+     "small_transcript": "Le format XLSM conserve les macros. Excel avertit avant de supprimer le code.",
+     "small_status": "echec",
+     "small_reason": "élision perdue (3 attendue(s), 0 entendue(s))",
+     "small_attempts": 2,
+     "medium_cpu_transcript": "Le format XLSM conserve les macros. Excel avertit avant de supprimer le code.",
+     "full_audio_sha256": "adfbb2a38e18f1c9f634e3f31a8c8e35b64ada7ccc73d975e42d238b27335566",
+     "duration_seconds": 5.52,
+     "duration_limit_seconds": 7.65,
+     "acoustic_listening_performed": false,
+     "external_api_calls": 0,
+     "verdict": "manual_semantic_pass_two_asr",
+     "reason": "Nouvelle formulation du chef relue avec les deux transcriptions : références, nombres et gestes exacts ; la coupure ou déformation antérieure est absente. Les lettres C/L/M des intitulés ou formats ne sont pas des élisions à vérifier."
+    }
    }
   },
   {
@@ -892,5 +1010,10 @@
     "valide": true
    }
   }
- ]
+ ],
+ "correction_20261002": {
+  "status": "validated_for_release",
+  "second_review": "manual_semantic_small_and_medium_cpu",
+  "acoustic_listening_performed": false
+ }
 }

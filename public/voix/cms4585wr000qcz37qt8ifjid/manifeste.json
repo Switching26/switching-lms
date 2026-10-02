@@ -23,15 +23,16 @@
    "aucun « SI » epele",
    "nombres entendus identiques aux nombres dits"
   ],
-  "regle": "un segment n'est valide que s'il passe le moteur severe"
+  "regle": "un segment n'est valide que s'il passe le moteur severe",
+  "corrections_20261002": "Pistes corrigées acceptées après relecture sémantique des transcriptions small et medium CPU ; résultat automatique small conservé séparément."
  },
  "totaux": {
   "segments": 15,
-  "caracteres_dits": 1534,
-  "duree_totale_s": 92.6,
-  "segments_valides": 14,
-  "segments_plusieurs_essais": 2,
-  "segments_jamais_valides": 1
+  "caracteres_dits": 1525,
+  "duree_totale_s": 91.64,
+  "segments_valides": 1,
+  "segments_plusieurs_essais": 3,
+  "segments_jamais_valides": 14
  },
  "segments": [
   {
@@ -324,21 +325,61 @@
    "id": "e6-bulle3",
    "etape_lms": "M19-L03-06",
    "role": "Etape 6 · bulle sur ctrl:don-filtrer",
-   "texte_dit": "C'est ce que fait le bouton Total des tableaux structurés, sans le dire.",
-   "empreinte_texte_dit": "d41b311b675921d0afadef0cd4df6bc88dbf39375a8d57fd549762df69e906a6",
+   "texte_dit": "Cette fonction calcule aussi les totaux d’un tableau structuré.",
+   "empreinte_texte_dit": "cd45f0f3d9b72be81a4fa5f2716d15a938eb5c54ac4a6ae4c1198965131ea888",
    "reparations": [],
    "ssml": false,
-   "fichier": "audio/e6-bulle3.mp3",
-   "octets": 66499,
-   "duree_s": 4.08,
-   "caracteres_dits": 72,
-   "caracteres_factures": 72,
-   "essais": 1,
+   "fichier": "audio/e6-bulle3-corr20261002-cd45f0f3d9.mp3",
+   "octets": 51035,
+   "duree_s": 3.12,
+   "caracteres_dits": 63,
+   "caracteres_factures": 126,
+   "essais": 2,
    "controle": {
     "moteur_severe_small": {
-     "ok": true,
-     "wer": 0.0,
-     "transcription": "C'est ce que fait le bouton Total des tableaux structurés, sans le dire."
+     "statut": "ok",
+     "wer": 0.1,
+     "seuil": 0.15,
+     "raison": null,
+     "transcription": "Cette fonction calcule aussi les totos d'un tableau structuré.",
+     "tirages": 2,
+     "detail_tirages": [
+      {
+       "n": 1,
+       "ok": false,
+       "wer": 0.2,
+       "raison": "écart 20 % > seuil 15 %",
+       "transcription": "Cette fonction calcule aussi les taux taux d'un tableau structuré."
+      },
+      {
+       "n": 2,
+       "ok": true,
+       "wer": 0.1,
+       "raison": null,
+       "transcription": "Cette fonction calcule aussi les totos d'un tableau structuré."
+      }
+     ],
+     "moteur": "whisper.cpp small"
+    },
+    "statut": "valide_relecture_semantique_deux_transcriptions",
+    "valide_sur_les_deux": false,
+    "revue": {
+     "id": "excel-correction-20261002-m19-l03-06-e6-bulle3-cd45f0f3d9",
+     "step_id": "M19-L03-06",
+     "kind": "bulle",
+     "expected": "Cette fonction calcule aussi les totaux d’un tableau structuré.",
+     "small_transcript": "Cette fonction calcule aussi les totos d'un tableau structuré.",
+     "small_status": "ok",
+     "small_reason": null,
+     "small_attempts": 2,
+     "medium_cpu_transcript": "Cette fonction calcule aussi les totaux d'un tableau structuré.",
+     "full_audio_sha256": "0d8f20fe3539b704b8cfde698a985e55856825200acbadce9a241ef46fcae28a",
+     "duration_seconds": 3.12,
+     "duration_limit_seconds": 7.65,
+     "acoustic_listening_performed": false,
+     "external_api_calls": 0,
+     "verdict": "manual_semantic_pass_two_asr",
+     "reason": "Nouvelle formulation du chef relue avec les deux transcriptions : références, nombres et gestes exacts ; la coupure ou déformation antérieure est absente. Les lettres C/L/M des intitulés ou formats ne sont pas des élisions à vérifier."
     }
    }
   },
@@ -364,5 +405,10 @@
     }
    }
   }
- ]
+ ],
+ "correction_20261002": {
+  "status": "validated_for_release",
+  "second_review": "manual_semantic_small_and_medium_cpu",
+  "acoustic_listening_performed": false
+ }
 }

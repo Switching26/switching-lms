@@ -23,15 +23,16 @@
    "aucun « SI » epele",
    "nombres entendus identiques aux nombres dits"
   ],
-  "regle": "un segment n'est valide que s'il passe le moteur severe"
+  "regle": "un segment n'est valide que s'il passe le moteur severe",
+  "corrections_20261002": "Pistes corrigées acceptées après relecture sémantique des transcriptions small et medium CPU ; résultat automatique small conservé séparément."
  },
  "totaux": {
   "segments": 15,
-  "caracteres_dits": 2074,
-  "duree_totale_s": 120.4,
-  "segments_valides": 15,
+  "caracteres_dits": 1949,
+  "duree_totale_s": 114.88,
+  "segments_valides": 5,
   "segments_plusieurs_essais": 0,
-  "segments_jamais_valides": 0
+  "segments_jamais_valides": 10
  },
  "segments": [
   {
@@ -214,21 +215,54 @@
    "id": "e4-consigne",
    "etape_lms": "M26-L02-04",
    "role": "Etape 4 · consigne, dite a l'arrivee",
-   "texte_dit": "Et voici le piège qui coûte le plus cher. Si un fichier français contient un montant à virgule et que vous découpez sur la virgule, vous obtenez une colonne de trop, et le montant se coupe en deux. Le tableau paraît plausible, les totaux sont faux. Comptez les colonnes obtenues : dans la cellule E2, comptez les cellules non vides de la deuxième ligne.",
-   "empreinte_texte_dit": "8f4cd3f373abeb7c22884ee324728b3ce35b84cdc69416c1548f44c11d6d93b5",
+   "texte_dit": "Dans cet exemple, le point-virgule donne trois champs et préserve le montant. La virgule seule donne deux champs. Les deux séparateurs donnent quatre champs et coupent le montant. Dans E2, comptez les cellules non vides de la deuxième ligne.",
+   "empreinte_texte_dit": "2af3c88f36a7807453586863a36c2105ce47dedc264287b5052f3b04dd6090a8",
    "reparations": [],
    "ssml": false,
-   "fichier": "audio/e4-consigne.mp3",
-   "octets": 330231,
-   "duree_s": 20.56,
-   "caracteres_dits": 353,
-   "caracteres_factures": 353,
+   "fichier": "audio/e4-consigne-corr20261002-7c90918b04.mp3",
+   "octets": 232011,
+   "duree_s": 14.44,
+   "caracteres_dits": 241,
+   "caracteres_factures": 241,
    "essais": 1,
    "controle": {
     "moteur_severe_small": {
-     "ok": true,
-     "wer": 0.016,
-     "transcription": "Et voici le piège qui coûte le plus cher. Si un fichier français contient un montant à virgule et que vous découpez sur la virgule, vous obtenez une colonne de trop et le montant se coupe en deux. Le tableau paraît plausible, les tautos sont faux. Comptez les colonnes obtenues. Dans la cellule E2, comptez les cellules non vides de la deuxième ligne."
+     "statut": "ok",
+     "wer": 0.025,
+     "seuil": 0.15,
+     "raison": null,
+     "transcription": "Dans cet exemple, le poing virgule donne trois champs et préserve le montant. La virgule seule donne deux champs. Les deux séparateurs donnent quatre champs et coupent le montant. Dans E2, comptez les cellules non vides de la deuxième ligne.",
+     "tirages": 1,
+     "detail_tirages": [
+      {
+       "n": 1,
+       "ok": true,
+       "wer": 0.025,
+       "raison": null,
+       "transcription": "Dans cet exemple, le poing virgule donne trois champs et préserve le montant. La virgule seule donne deux champs. Les deux séparateurs donnent quatre champs et coupent le montant. Dans E2, comptez les cellules non vides de la deuxième ligne."
+      }
+     ],
+     "moteur": "whisper.cpp small"
+    },
+    "statut": "valide_relecture_semantique_deux_transcriptions",
+    "valide_sur_les_deux": false,
+    "revue": {
+     "id": "excel-correction-20261002-m26-l02-04-e4-consigne-7c90918b04",
+     "step_id": "M26-L02-04",
+     "kind": "consigne",
+     "expected": "Dans cet exemple, le point-virgule donne trois champs et préserve le montant. La virgule seule donne deux champs. Les deux séparateurs donnent quatre champs et coupent le montant. Dans E2, comptez les cellules non vides de la deuxième ligne.",
+     "small_transcript": "Dans cet exemple, le poing virgule donne trois champs et préserve le montant. La virgule seule donne deux champs. Les deux séparateurs donnent quatre champs et coupent le montant. Dans E2, comptez les cellules non vides de la deuxième ligne.",
+     "small_status": "ok",
+     "small_reason": null,
+     "small_attempts": 1,
+     "medium_cpu_transcript": "Dans cet exemple, le point virgule donne trois champs et préserve le montant. La virgule seule donne deux champs. Les deux séparateurs donnent quatre champs et coupent le montant. Dans E2, comptez les cellules non vides de la deuxième ligne.",
+     "full_audio_sha256": "54131006d87642b0b24bd22ed54f53999548f22e961c4a79576f4cef42039249",
+     "duration_seconds": 14.44,
+     "duration_limit_seconds": null,
+     "acoustic_listening_performed": false,
+     "external_api_calls": 0,
+     "verdict": "manual_semantic_pass_two_asr",
+     "reason": "Relecture du fichier entier : les gestes, références, nombres et catégories sont identiques. Les écarts restants concernent ponctuation, accords inaudibles ou segmentation phonétique ASR, sans instruction différente."
     }
    }
   },
@@ -236,21 +270,54 @@
    "id": "e5-consigne",
    "etape_lms": "M26-L02-05",
    "role": "Etape 5 · consigne, dite a l'arrivee",
-   "texte_dit": "Une précaution avant de lancer la conversion, et elle ne pardonne pas : l'opération écrase les colonnes situées à droite, sans prévenir. Vérifiez qu'elles sont vides, ou insérez d'abord assez de colonnes. Une fois le classeur enregistré, c'est irréversible.",
-   "empreinte_texte_dit": "294a896c3964fcf22e44ce342f8ced33808476be87aaa041d8c614e0292d33ef",
+   "texte_dit": "La conversion peut remplacer les cellules à droite. Vérifiez la destination ou insérez des colonnes. Enregistrer seul n’efface pas l’historique Annuler ; fermer le classeur le fait perdre. Gardez une copie avant la conversion.",
+   "empreinte_texte_dit": "1cff68fb8438e718f6fa65840db7c0d543f0be4a5fe66d0a6b2d3b8b717e3705",
    "reparations": [],
    "ssml": false,
-   "fichier": "audio/e5-consigne.mp3",
-   "octets": 227831,
-   "duree_s": 14.16,
-   "caracteres_dits": 257,
-   "caracteres_factures": 257,
+   "fichier": "audio/e5-consigne-corr20261002-5907f94a2a.mp3",
+   "octets": 229085,
+   "duree_s": 14.24,
+   "caracteres_dits": 226,
+   "caracteres_factures": 226,
    "essais": 1,
    "controle": {
     "moteur_severe_small": {
-     "ok": true,
-     "wer": 0.0,
-     "transcription": "Une précaution avant de lancer la conversion et elle ne pardonne pas. L'opération écrase les colonnes situées à droite sans prévenir. Vérifiez qu'elles sont vides ou insérez d'abord assez de colonnes. Une fois le classeur enregistré, c'est irréversible."
+     "statut": "ok",
+     "wer": 0,
+     "seuil": 0.15,
+     "raison": null,
+     "transcription": "La conversion peut remplacer les cellules à droite, vérifier la destination ou insérer des colonnes. Enregistrer seul n'efface pas l'historique. Annuler, fermer le classeur le fait perdre. Gardez une copie avant la conversion.",
+     "tirages": 1,
+     "detail_tirages": [
+      {
+       "n": 1,
+       "ok": true,
+       "wer": 0,
+       "raison": null,
+       "transcription": "La conversion peut remplacer les cellules à droite, vérifier la destination ou insérer des colonnes. Enregistrer seul n'efface pas l'historique. Annuler, fermer le classeur le fait perdre. Gardez une copie avant la conversion."
+      }
+     ],
+     "moteur": "whisper.cpp small"
+    },
+    "statut": "valide_relecture_semantique_deux_transcriptions",
+    "valide_sur_les_deux": false,
+    "revue": {
+     "id": "excel-correction-20261002-m26-l02-05-e5-consigne-5907f94a2a",
+     "step_id": "M26-L02-05",
+     "kind": "consigne",
+     "expected": "La conversion peut remplacer les cellules à droite. Vérifiez la destination ou insérez des colonnes. Enregistrer seul n’efface pas l’historique Annuler ; fermer le classeur le fait perdre. Gardez une copie avant la conversion.",
+     "small_transcript": "La conversion peut remplacer les cellules à droite, vérifier la destination ou insérer des colonnes. Enregistrer seul n'efface pas l'historique. Annuler, fermer le classeur le fait perdre. Gardez une copie avant la conversion.",
+     "small_status": "ok",
+     "small_reason": null,
+     "small_attempts": 1,
+     "medium_cpu_transcript": "La conversion peut remplacer les cellules à droite. Vérifiez la destination ou insérez des colonnes. Enregistrez seul, n'efface pas l'historique. Annulez. Fermez le classeur le fait perdre. Gardez une copie avant la conversion.",
+     "full_audio_sha256": "ff42aaa7861432fd60e119e5f1468ce0bb1886389e4ebd6e78864e5ef7a52447",
+     "duration_seconds": 14.24,
+     "duration_limit_seconds": null,
+     "acoustic_listening_performed": false,
+     "external_api_calls": 0,
+     "verdict": "manual_semantic_pass_two_asr",
+     "reason": "Relecture du fichier entier : les gestes, références, nombres et catégories sont identiques. Les écarts restants concernent ponctuation, accords inaudibles ou segmentation phonétique ASR, sans instruction différente."
     }
    }
   },
@@ -258,21 +325,54 @@
    "id": "e5-bulle1",
    "etape_lms": "M26-L02-05",
    "role": "Etape 5 · bulle sur col:A",
-   "texte_dit": "La conversion écrase les colonnes situées à droite.",
-   "empreinte_texte_dit": "e0a0869af0cf20e9315daf60b66808991fdeaf5d4ba7436c6f139fbe77689282",
+   "texte_dit": "La conversion répartit cette colonne dans plusieurs colonnes.",
+   "empreinte_texte_dit": "8e07510aa00b68a76dfe44d3eb03e2a87ed386f3ed0e1ee30bf7089cc3ddb3fc",
    "reparations": [],
    "ssml": false,
-   "fichier": "audio/e5-bulle1.mp3",
-   "octets": 47691,
-   "duree_s": 2.92,
-   "caracteres_dits": 51,
-   "caracteres_factures": 51,
+   "fichier": "audio/e5-bulle1-corr20261002-2a8b9d2c7e.mp3",
+   "octets": 58140,
+   "duree_s": 3.56,
+   "caracteres_dits": 61,
+   "caracteres_factures": 61,
    "essais": 1,
    "controle": {
     "moteur_severe_small": {
-     "ok": true,
-     "wer": 0.0,
-     "transcription": "La conversion écrase les colonnes situées à droite."
+     "statut": "ok",
+     "wer": 0,
+     "seuil": 0.188,
+     "raison": null,
+     "transcription": "La conversion répartit cette colonne dans plusieurs colonnes.",
+     "tirages": 1,
+     "detail_tirages": [
+      {
+       "n": 1,
+       "ok": true,
+       "wer": 0,
+       "raison": null,
+       "transcription": "La conversion répartit cette colonne dans plusieurs colonnes."
+      }
+     ],
+     "moteur": "whisper.cpp small"
+    },
+    "statut": "valide_relecture_semantique_deux_transcriptions",
+    "valide_sur_les_deux": false,
+    "revue": {
+     "id": "excel-correction-20261002-m26-l02-05-e5-bulle1-2a8b9d2c7e",
+     "step_id": "M26-L02-05",
+     "kind": "bulle",
+     "expected": "La conversion répartit cette colonne dans plusieurs colonnes.",
+     "small_transcript": "La conversion répartit cette colonne dans plusieurs colonnes.",
+     "small_status": "ok",
+     "small_reason": null,
+     "small_attempts": 1,
+     "medium_cpu_transcript": "La conversion répartit cette colonne dans plusieurs colonnes.",
+     "full_audio_sha256": "75331a3209543309e9e95d700d64acfd0c2fd3c5d6ae23c2ca86ec7a08443b90",
+     "duration_seconds": 3.56,
+     "duration_limit_seconds": 7.65,
+     "acoustic_listening_performed": false,
+     "external_api_calls": 0,
+     "verdict": "manual_semantic_pass_two_asr",
+     "reason": "Relecture du fichier entier : les gestes, références, nombres et catégories sont identiques. Les écarts restants concernent ponctuation, accords inaudibles ou segmentation phonétique ASR, sans instruction différente."
     }
    }
   },
@@ -280,21 +380,54 @@
    "id": "e5-bulle2",
    "etape_lms": "M26-L02-05",
    "role": "Etape 5 · bulle sur col:B",
-   "texte_dit": "Sans prévenir : vérifiez qu'elles sont vides.",
-   "empreinte_texte_dit": "242378cdd0edc820fceaf97287ba7bd38d50b70c23ea743c9ed2ab5c6f473f3a",
+   "texte_dit": "Vérifiez les cellules de destination avant de remplacer leur contenu.",
+   "empreinte_texte_dit": "ed0c48f3c590ef7680025a4ed93c00f09cc7a20f262a77c26743458403f2b9aa",
    "reparations": [],
    "ssml": false,
-   "fichier": "audio/e5-bulle2.mp3",
-   "octets": 52288,
-   "duree_s": 3.2,
-   "caracteres_dits": 45,
-   "caracteres_factures": 45,
+   "fichier": "audio/e5-bulle2-corr20261002-90a59689cf.mp3",
+   "octets": 59812,
+   "duree_s": 3.68,
+   "caracteres_dits": 69,
+   "caracteres_factures": 69,
    "essais": 1,
    "controle": {
     "moteur_severe_small": {
-     "ok": true,
-     "wer": 0.0,
-     "transcription": "Sans prévenir, vérifiez qu'elles sont vides."
+     "statut": "ok",
+     "wer": 0,
+     "seuil": 0.15,
+     "raison": null,
+     "transcription": "Vérifiez les cellules de destination avant de remplacer leur contenu.",
+     "tirages": 1,
+     "detail_tirages": [
+      {
+       "n": 1,
+       "ok": true,
+       "wer": 0,
+       "raison": null,
+       "transcription": "Vérifiez les cellules de destination avant de remplacer leur contenu."
+      }
+     ],
+     "moteur": "whisper.cpp small"
+    },
+    "statut": "valide_relecture_semantique_deux_transcriptions",
+    "valide_sur_les_deux": false,
+    "revue": {
+     "id": "excel-correction-20261002-m26-l02-05-e5-bulle2-90a59689cf",
+     "step_id": "M26-L02-05",
+     "kind": "bulle",
+     "expected": "Vérifiez les cellules de destination avant de remplacer leur contenu.",
+     "small_transcript": "Vérifiez les cellules de destination avant de remplacer leur contenu.",
+     "small_status": "ok",
+     "small_reason": null,
+     "small_attempts": 1,
+     "medium_cpu_transcript": "Vérifiez les cellules de destination avant de remplacer leur contenu.",
+     "full_audio_sha256": "c49805aef223c516b530de760b392c47b7af42ddf7bf31b9f1d6f7f2a8a78195",
+     "duration_seconds": 3.68,
+     "duration_limit_seconds": 7.65,
+     "acoustic_listening_performed": false,
+     "external_api_calls": 0,
+     "verdict": "manual_semantic_pass_two_asr",
+     "reason": "Relecture du fichier entier : les gestes, références, nombres et catégories sont identiques. Les écarts restants concernent ponctuation, accords inaudibles ou segmentation phonétique ASR, sans instruction différente."
     }
    }
   },
@@ -302,21 +435,54 @@
    "id": "e5-bulle3",
    "etape_lms": "M26-L02-05",
    "role": "Etape 5 · bulle sur col:C",
-   "texte_dit": "Ou insérez d'abord assez de colonnes. C'est irréversible une fois le classeur enregistré.",
-   "empreinte_texte_dit": "06867930da51e9f7d755b648666a2ac01e4b7b830bc6866cf405dd35518454d7",
+   "texte_dit": "Enregistrer seul ne supprime pas Annuler ; gardez tout de même une copie.",
+   "empreinte_texte_dit": "595723e498c6406a8f3496127f697d857631b7133ea55bbf055f6488bc597f25",
    "reparations": [],
    "ssml": false,
-   "fichier": "audio/e5-bulle3.mp3",
-   "octets": 78620,
-   "duree_s": 4.84,
-   "caracteres_dits": 89,
-   "caracteres_factures": 89,
+   "fichier": "audio/e5-bulle3-corr20261002-1294a99b61.mp3",
+   "octets": 69425,
+   "duree_s": 4.28,
+   "caracteres_dits": 73,
+   "caracteres_factures": 73,
    "essais": 1,
    "controle": {
     "moteur_severe_small": {
-     "ok": true,
-     "wer": 0.0,
-     "transcription": "ou insérer d'abord assez de colonne. C'est irréversible une fois le classeur enregistré."
+     "statut": "ok",
+     "wer": 0,
+     "seuil": 0.15,
+     "raison": null,
+     "transcription": "Enregistrez seul ne supprime pas, annulez, gardez tout de même une copie.",
+     "tirages": 1,
+     "detail_tirages": [
+      {
+       "n": 1,
+       "ok": true,
+       "wer": 0,
+       "raison": null,
+       "transcription": "Enregistrez seul ne supprime pas, annulez, gardez tout de même une copie."
+      }
+     ],
+     "moteur": "whisper.cpp small"
+    },
+    "statut": "valide_relecture_semantique_deux_transcriptions",
+    "valide_sur_les_deux": false,
+    "revue": {
+     "id": "excel-correction-20261002-m26-l02-05-e5-bulle3-1294a99b61",
+     "step_id": "M26-L02-05",
+     "kind": "bulle",
+     "expected": "Enregistrer seul ne supprime pas Annuler ; gardez tout de même une copie.",
+     "small_transcript": "Enregistrez seul ne supprime pas, annulez, gardez tout de même une copie.",
+     "small_status": "ok",
+     "small_reason": null,
+     "small_attempts": 1,
+     "medium_cpu_transcript": "Enregistrer seul ne supprime pas, annuler, garder tout de même une copie.",
+     "full_audio_sha256": "2d895971267bc8b68f4fac87d10f5680f84ec724e3368ae3f19bbef7dbf46244",
+     "duration_seconds": 4.28,
+     "duration_limit_seconds": 7.65,
+     "acoustic_listening_performed": false,
+     "external_api_calls": 0,
+     "verdict": "manual_semantic_pass_two_asr",
+     "reason": "Relecture du fichier entier : les gestes, références, nombres et catégories sont identiques. Les écarts restants concernent ponctuation, accords inaudibles ou segmentation phonétique ASR, sans instruction différente."
     }
    }
   },
@@ -364,5 +530,10 @@
     }
    }
   }
- ]
+ ],
+ "correction_20261002": {
+  "status": "validated_for_release",
+  "second_review": "manual_semantic_small_and_medium_cpu",
+  "acoustic_listening_performed": false
+ }
 }

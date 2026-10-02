@@ -24,15 +24,16 @@
    "aucun « SI » epele",
    "nombres entendus identiques aux nombres dits"
   ],
-  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs",
+  "corrections_20261002": "Pistes corrigées acceptées après relecture sémantique des transcriptions small et medium CPU ; résultat automatique small conservé séparément."
  },
  "totaux": {
   "segments": 35,
-  "caracteres_dits": 3839,
-  "duree_totale_s": 240.6,
-  "segments_valides": 35,
+  "caracteres_dits": 3776,
+  "duree_totale_s": 235.0,
+  "segments_valides": 1,
   "segments_plusieurs_essais": 3,
-  "segments_jamais_valides": 0
+  "segments_jamais_valides": 34
  },
  "segments": [
   {
@@ -153,30 +154,57 @@
    "id": "e1-bulle3",
    "etape_lms": "M07-L01-01",
    "role": "Étape 1 · bulle 3 sur C3 — structure générique, dite en toutes lettres",
-   "texte_dit": "Et elle donne deux réponses. Ça s'écrit : égal, SI, puis entre parenthèses, la question, la réponse si c'est vrai, la réponse si c'est faux.",
-   "empreinte_texte_dit": "2523ba304cfe58facb7cfc0975ecaf16af2db187800c49ab675d569bc7195dba",
+   "texte_dit": "Cette fonction pose une question et choisit une réponse : si vrai ou si faux.",
+   "empreinte_texte_dit": "3060f88f730d489b6e442881b794ba128cc2a0cb751d18708b289301cf57a5f1",
    "reparations": [
     "Ça s'écrit"
    ],
    "ssml": true,
-   "fichier": "audio/e1-bulle3.mp3",
-   "octets": 166391,
-   "duree_s": 10.32,
-   "caracteres_dits": 140,
-   "caracteres_factures": 203,
+   "fichier": "audio/e1-bulle3-corr20261002-3060f88f73.mp3",
+   "octets": 77366,
+   "duree_s": 4.76,
+   "caracteres_dits": 77,
+   "caracteres_factures": 77,
    "essais": 1,
    "controle": {
     "moteur_severe_small": {
-     "ok": true,
-     "wer": 0.148,
-     "transcription": "et elle donne deux réponses. Ça s'écrit. Égale, est-ce-y, puis entre parenthèses, la question, la réponse si c'est vrai, la réponse si c'est faux."
+     "statut": "ok",
+     "wer": 0,
+     "seuil": 0.15,
+     "raison": null,
+     "transcription": "Cette fonction pose une question et choisit une réponse. Si vrai ou si faux.",
+     "tirages": 1,
+     "detail_tirages": [
+      {
+       "n": 1,
+       "ok": true,
+       "wer": 0,
+       "raison": null,
+       "transcription": "Cette fonction pose une question et choisit une réponse. Si vrai ou si faux."
+      }
+     ],
+     "moteur": "whisper.cpp small"
     },
-    "moteur_second_medium": {
-     "ok": true,
-     "wer": 0.148,
-     "transcription": "et elle donne deux réponses. Ça s'écrit égale est-ce-ci, puis entre parenthèses, la question, la réponse si c'est vrai, la réponse si c'est faux."
-    },
-    "valide_sur_les_deux": true
+    "statut": "valide_relecture_semantique_deux_transcriptions",
+    "valide_sur_les_deux": false,
+    "revue": {
+     "id": "excel-correction-20261002-m07-l01-01-e1-bulle3-3060f88f73",
+     "step_id": "M07-L01-01",
+     "kind": "bulle",
+     "expected": "Cette fonction pose une question et choisit une réponse : si vrai ou si faux.",
+     "small_transcript": "Cette fonction pose une question et choisit une réponse. Si vrai ou si faux.",
+     "small_status": "ok",
+     "small_reason": null,
+     "small_attempts": 1,
+     "medium_cpu_transcript": "Cette fonction pose une question et choisit une réponse, si vrai ou si faux.",
+     "full_audio_sha256": "77a9acd5b13f7341cb2fd44f3eae90889fa3ca3ab46fcfb1ace918ca2853fc55",
+     "duration_seconds": 4.76,
+     "duration_limit_seconds": 7.65,
+     "acoustic_listening_performed": false,
+     "external_api_calls": 0,
+     "verdict": "manual_semantic_pass_two_asr",
+     "reason": "Nouvelle formulation du chef relue avec les deux transcriptions : références, nombres et gestes exacts ; la coupure ou déformation antérieure est absente. Les lettres C/L/M des intitulés ou formats ne sont pas des élisions à vérifier."
+    }
    }
   },
   {
@@ -1031,5 +1059,10 @@
     "valide_sur_les_deux": true
    }
   }
- ]
+ ],
+ "correction_20261002": {
+  "status": "validated_for_release",
+  "second_review": "manual_semantic_small_and_medium_cpu",
+  "acoustic_listening_performed": false
+ }
 }

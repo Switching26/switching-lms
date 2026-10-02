@@ -23,12 +23,13 @@
    "aucun « SI » epele",
    "nombres entendus identiques aux nombres dits"
   ],
-  "regle": "un segment n'est valide que s'il passe le moteur severe"
+  "regle": "un segment n'est valide que s'il passe le moteur severe",
+  "corrections_20261002": "Pistes corrigées acceptées après relecture sémantique des transcriptions small et medium CPU ; résultat automatique small conservé séparément."
  },
  "totaux": {
   "segments": 50,
-  "caracteres_dits": 5165,
-  "duree_totale_s": 334.9,
+  "caracteres_dits": 5069,
+  "duree_totale_s": 329.28,
   "segments_valides": 43,
   "segments_plusieurs_essais": 15,
   "segments_jamais_valides": 7
@@ -830,23 +831,55 @@
    "id": "e12-consigne",
    "etape_lms": "M01-L05-12",
    "role": "Étape 12 · consigne",
-   "texte_dit": "Le devis est complet. Si vous cliquiez sur Enregistrer, Excel écraserait le devis reçu sans rien demander: le fichier a déjà un nom. Pour garder les deux versions, cliquez sur Enregistrer sous, la cellule F12.",
-   "empreinte_texte_dit": "9de60091d7e4b0c80e4c64fbaa7692b0de46435dffe532f5ca807f327b729449",
+   "texte_dit": "Le devis est complet. Pour conserver le devis reçu et votre version, utilisez Enregistrer sous, ou la touche F12.",
+   "empreinte_texte_dit": "178a863c6904935fc0782594fa69f66a62461cb8dec0a604af968e81ef82cc1a",
    "reparations": [],
    "ssml": false,
-   "fichier": "audio/e12-consigne.mp3",
-   "octets": 209859,
-   "duree_s": 13.04,
-   "caracteres_dits": 209,
-   "caracteres_factures": 209,
+   "fichier": "audio/e12-consigne-corr20261002-75a3bb7d06.mp3",
+   "octets": 119998,
+   "duree_s": 7.44,
+   "caracteres_dits": 113,
+   "caracteres_factures": 113,
    "essais": 1,
    "controle": {
     "moteur_severe_small": {
-     "ok": true,
-     "wer": 0.029,
-     "transcription": "Le devis est complet. Si vous cliquez sur Enregistrer, Excel écraserait le devis reçu sans rien demander. Le fichier a déjà un nom. Pour garder les deux versions, cliquez sur Enregistrer sous la cellule F12."
+     "statut": "ok",
+     "wer": 0,
+     "seuil": 0.15,
+     "raison": null,
+     "transcription": "Le devis est complet. Pour conserver le devis reçu et votre version, utilisez Enregistré sous ou la touche F12.",
+     "tirages": 1,
+     "detail_tirages": [
+      {
+       "n": 1,
+       "ok": true,
+       "wer": 0,
+       "raison": null,
+       "transcription": "Le devis est complet. Pour conserver le devis reçu et votre version, utilisez Enregistré sous ou la touche F12."
+      }
+     ],
+     "moteur": "whisper.cpp small"
     },
-    "valide": true
+    "statut": "valide_relecture_semantique_deux_transcriptions",
+    "valide_sur_les_deux": false,
+    "revue": {
+     "id": "excel-correction-20261002-m01-l05-12-e12-consigne-75a3bb7d06",
+     "step_id": "M01-L05-12",
+     "kind": "consigne",
+     "expected": "Le devis est complet. Pour conserver le devis reçu et votre version, utilisez Enregistrer sous, ou la touche F12.",
+     "small_transcript": "Le devis est complet. Pour conserver le devis reçu et votre version, utilisez Enregistré sous ou la touche F12.",
+     "small_status": "ok",
+     "small_reason": null,
+     "small_attempts": 1,
+     "medium_cpu_transcript": "Le devis est complet. Pour conserver le devis reçu et votre version, utilisez enregistrer sous ou la touche F12.",
+     "full_audio_sha256": "f9b0177e10a8f03c89da41fb830aa3fed457eb3c37ffbfde9c3c98b70f7a6ae5",
+     "duration_seconds": 7.44,
+     "duration_limit_seconds": null,
+     "acoustic_listening_performed": false,
+     "external_api_calls": 0,
+     "verdict": "manual_semantic_pass_two_asr",
+     "reason": "Relecture du fichier entier : les gestes, références, nombres et catégories sont identiques. Les écarts restants concernent ponctuation, accords inaudibles ou segmentation phonétique ASR, sans instruction différente."
+    }
    }
   },
   {
@@ -1199,5 +1232,10 @@
     "valide": true
    }
   }
- ]
+ ],
+ "correction_20261002": {
+  "status": "validated_for_release",
+  "second_review": "manual_semantic_small_and_medium_cpu",
+  "acoustic_listening_performed": false
+ }
 }

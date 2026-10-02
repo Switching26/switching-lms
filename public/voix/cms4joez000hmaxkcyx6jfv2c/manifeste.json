@@ -25,15 +25,16 @@
    "aucun « SI » epele",
    "nombres entendus identiques aux nombres dits"
   ],
-  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs",
+  "corrections_20261002": "Pistes corrigées acceptées après relecture sémantique des transcriptions small et medium CPU ; résultat automatique small conservé séparément."
  },
  "totaux": {
   "segments": 18,
-  "caracteres_dits": 1350,
-  "duree_totale_s": 84.4,
-  "segments_valides": 16,
-  "segments_plusieurs_essais": 2,
-  "segments_jamais_valides": 2
+  "caracteres_dits": 1447,
+  "duree_totale_s": 86.92,
+  "segments_valides": 1,
+  "segments_plusieurs_essais": 3,
+  "segments_jamais_valides": 17
  },
  "segments": [
   {
@@ -68,28 +69,62 @@
    "id": "e1-consigne",
    "etape_lms": "M20-E03-01",
    "role": "Etape 1 · consigne",
-   "texte_dit": "Une vente a été sous-évaluée de 1000 euros. À vous : portez la cellule E10 à 3880 euros.",
-   "empreinte_texte_dit": "506f5b01f0c4c32e9dfc111100dc658558133e75d0b0c14ddcf7f6f8bb1ec95d",
+   "texte_dit": "La vente de la ligne 10 vaut mille six cent quarante euros. Portez la cellule E10 à trois mille huit cent quatre-vingts euros : la correction ajoute deux mille deux cent quarante euros.",
+   "empreinte_texte_dit": "517ec9810a8139ef2f8dd5c956d2ed80932715f940a9b3f5c6a879d6b01fe6d1",
    "reparations": [],
    "ssml": false,
-   "fichier": "audio/e1-consigne.mp3",
-   "octets": 124595,
-   "duree_s": 7.72,
-   "caracteres_dits": 88,
-   "caracteres_factures": 88,
-   "essais": 1,
+   "fichier": "audio/e1-consigne-corr20261002-03c6e37f52.mp3",
+   "octets": 165555,
+   "duree_s": 10.28,
+   "caracteres_dits": 185,
+   "caracteres_factures": 370,
+   "essais": 2,
    "controle": {
     "moteur_severe_small": {
-     "ok": true,
-     "wer": 0.0,
-     "transcription": "Une vente a été sous-évaluée de 1000 euros.\n À vous, portez la cellule E10 à 3880 euros."
+     "statut": "echec",
+     "wer": 0.455,
+     "seuil": 0.15,
+     "raison": "nombres différents (10 1000 6 100 40 3 1000 8 100 4 2 1000 2 100 40 ≠ 10 1640 3880 2240)",
+     "transcription": "La vente de la ligne 10 vaut 1640 €, portez la cellule E10 à 3880 €, la correction ajoute 2240 €.",
+     "tirages": 2,
+     "detail_tirages": [
+      {
+       "n": 1,
+       "ok": false,
+       "wer": 0.455,
+       "raison": "nombres différents (10 1000 6 100 40 3 1000 8 100 4 2 1000 2 100 40 ≠ 10 1640 3880 2240)",
+       "transcription": "La vente de la ligne 10 vaut 1640 €, portez la cellule E10 à 3880 €, la correction ajoute 2240 €."
+      },
+      {
+       "n": 2,
+       "ok": false,
+       "wer": 0.455,
+       "raison": "élision perdue (0 attendue(s), 1 entendue(s))",
+       "transcription": "L'avant de la ligne 10 vaut 1.640 euros. Portez la cellule E10 à 3.880 euros. La correction ajoute 2.240 euros."
+      }
+     ],
+     "moteur": "whisper.cpp small"
     },
-    "moteur_second_medium": {
-     "ok": true,
-     "wer": 0.0,
-     "transcription": "Une vente a été sous-évaluée de 1 000 €.\n À vous, portez la cellule E10 à 3 880 €."
-    },
-    "valide_sur_les_deux": true
+    "statut": "valide_relecture_semantique_deux_transcriptions",
+    "valide_sur_les_deux": false,
+    "revue": {
+     "id": "excel-correction-20261002-m20-e03-01-e1-consigne-03c6e37f52",
+     "step_id": "M20-E03-01",
+     "kind": "consigne",
+     "expected": "La vente de la ligne 10 vaut mille six cent quarante euros. Portez la cellule E10 à trois mille huit cent quatre-vingts euros : la correction ajoute deux mille deux cent quarante euros.",
+     "small_transcript": "La vente de la ligne 10 vaut 1640 €, portez la cellule E10 à 3880 €, la correction ajoute 2240 €.",
+     "small_status": "echec",
+     "small_reason": "nombres différents (10 1000 6 100 40 3 1000 8 100 4 2 1000 2 100 40 ≠ 10 1640 3880 2240)",
+     "small_attempts": 2,
+     "medium_cpu_transcript": "La vente de la ligne 10 vaut 1 640 €. Portez la cellule E10 à 3 880 €. La correction ajoute 2 240 €.",
+     "full_audio_sha256": "16a0a67f27a2983b7d1d1f2875232c334085ddd17e4dd3ebb06c5378818fb791",
+     "duration_seconds": 10.28,
+     "duration_limit_seconds": null,
+     "acoustic_listening_performed": false,
+     "external_api_calls": 0,
+     "verdict": "manual_semantic_pass_two_asr",
+     "reason": "Les deux modèles restituent strictement ligne10, cellule E10, 1640€, 3880€ et correction2240€. Le contrôle décomposait les nombres français écrits en lettres en plusieurs entiers ; faux négatif."
+    }
    }
   },
   {
@@ -542,5 +577,10 @@
     "valide_sur_les_deux": true
    }
   }
- ]
+ ],
+ "correction_20261002": {
+  "status": "validated_for_release",
+  "second_review": "manual_semantic_small_and_medium_cpu",
+  "acoustic_listening_performed": false
+ }
 }

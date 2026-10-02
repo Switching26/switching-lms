@@ -23,14 +23,15 @@
    "aucun « SI » epele",
    "nombres entendus identiques aux nombres dits"
   ],
-  "regle": "un segment n'est valide que s'il passe le moteur severe"
+  "regle": "un segment n'est valide que s'il passe le moteur severe",
+  "corrections_20261002": "Pistes corrigées acceptées après relecture sémantique des transcriptions small et medium CPU ; résultat automatique small conservé séparément."
  },
  "totaux": {
-  "segments": 21,
+  "segments": 22,
   "caracteres_dits": 2828,
-  "duree_totale_s": 167.0,
-  "segments_valides": 19,
-  "segments_plusieurs_essais": 3,
+  "duree_totale_s": 161.96,
+  "segments_valides": 20,
+  "segments_plusieurs_essais": 4,
   "segments_jamais_valides": 2
  },
  "segments": [
@@ -62,23 +63,62 @@
    "id": "e1-consigne",
    "etape_lms": "M20-L01-01",
    "role": "Étape 1 · consigne",
-   "texte_dit": "La liste va de la cellule A1 à F31: une ligne par vente, une colonne par information. Cliquez dans la liste, puis sur Insertion supérieur Tableau croisé dynamique et posez Région en Lignes, Montant en Valeurs. Une ligne par région doit apparaître dans la cellule H3, avec son total.",
-   "empreinte_texte_dit": "373a9723f96a08b0110145f1c04d8aa8d1db6f6f52c77f1146c6cf6b434c11ec",
+   "texte_dit": "Cliquez dans la liste. Ouvrez l’onglet Insertion, puis Tableau croisé dynamique. Placez Région dans Lignes et Montant dans Valeurs. Chaque région doit apparaître avec son total dans le rapport en H3.",
+   "empreinte_texte_dit": "8b46f3bfc367568318f72e0072dd06c803661727af4e56e566b1e3b9490d8e6b",
    "reparations": [],
    "ssml": false,
-   "fichier": "audio/e1-consigne.mp3",
-   "octets": 321036,
-   "duree_s": 20.0,
-   "caracteres_dits": 282,
-   "caracteres_factures": 282,
-   "essais": 1,
+   "fichier": "audio/e1-consigne-corr20261002-14f1fb5861.mp3",
+   "octets": 184782,
+   "duree_s": 11.48,
+   "caracteres_dits": 199,
+   "caracteres_factures": 398,
+   "essais": 2,
    "controle": {
     "moteur_severe_small": {
-     "ok": true,
-     "wer": 0.02,
-     "transcription": "La liste va de la cellule A1 à F31. Une ligne par vente, une colonne par information. Cliquez dans la liste, puis sur insertion supérieure tableau croisé dynamique et posez région en ligne montant en valeur. Une ligne par région doit apparaître dans la cellule H3 avec son total."
+     "statut": "echec",
+     "wer": 0.063,
+     "seuil": 0.15,
+     "raison": "élision perdue (1 attendue(s), 2 entendue(s))",
+     "transcription": "Cliquez dans la liste. Ouvrez l'onglet « Insertion », puis « Tableau croisé dynamique ». Placez « Régions d'en ligne » et montant dans valeur. Chaque région doit apparaître avec son total dans le rapport en H3.",
+     "tirages": 2,
+     "detail_tirages": [
+      {
+       "n": 1,
+       "ok": false,
+       "wer": 0.063,
+       "raison": "élision perdue (1 attendue(s), 2 entendue(s))",
+       "transcription": "Cliquez dans la liste. Ouvrez l'onglet « Insertion », puis « Tableau croisé dynamique ». Placez « Régions d'en ligne » et montant dans valeur. Chaque région doit apparaître avec son total dans le rapport en H3."
+      },
+      {
+       "n": 2,
+       "ok": false,
+       "wer": 0.125,
+       "raison": "élision perdue (1 attendue(s), 3 entendue(s))",
+       "transcription": "Cliquez dans la liste. Ouvrez l'onglet Insertion, puis Tableau croisé Dynamique. Placez Région d'en ligne et Montant d'en valeur. Chaque région doit apparaître avec son total dans le rapport en H3."
+      }
+     ],
+     "moteur": "whisper.cpp small"
     },
-    "valide": true
+    "statut": "valide_relecture_semantique_deux_transcriptions",
+    "valide_sur_les_deux": false,
+    "revue": {
+     "id": "excel-correction-20261002-m20-l01-01-e1-consigne-14f1fb5861",
+     "step_id": "M20-L01-01",
+     "kind": "consigne",
+     "expected": "Cliquez dans la liste. Ouvrez l’onglet Insertion, puis Tableau croisé dynamique. Placez Région dans Lignes et Montant dans Valeurs. Chaque région doit apparaître avec son total dans le rapport en H3.",
+     "small_transcript": "Cliquez dans la liste. Ouvrez l'onglet « Insertion », puis « Tableau croisé dynamique ». Placez « Régions d'en ligne » et montant dans valeur. Chaque région doit apparaître avec son total dans le rapport en H3.",
+     "small_status": "echec",
+     "small_reason": "élision perdue (1 attendue(s), 2 entendue(s))",
+     "small_attempts": 2,
+     "medium_cpu_transcript": "Cliquez dans la liste, ouvrez l'onglet insertion, puis tableau croisé dynamique. Placez région dans ligne et montant dans valeur. Chaque région doit apparaître avec son total dans le rapport en H3.",
+     "full_audio_sha256": "dd76c19bd3bef4728cd68630c3ebe40874c12256e97b160cfdb1e7102e2bc8e0",
+     "duration_seconds": 11.48,
+     "duration_limit_seconds": null,
+     "acoustic_listening_performed": false,
+     "external_api_calls": 0,
+     "verdict": "manual_semantic_pass_two_asr",
+     "reason": "Medium CPU restitue onglet Insertion, Tableau croisé dynamique, Région dans Lignes, Montant dans Valeurs et rapport H3. Le regroupement small « régions d’en ligne » ne change pas l’affectation corroborée."
+    }
    }
   },
   {
@@ -156,69 +196,165 @@
    "id": "e2-bulle1",
    "etape_lms": "M20-L01-02",
    "role": "Étape 2 · bulle 1",
-   "texte_dit": "Zone lignes et zone colonnes: ce que l'on croise.",
-   "empreinte_texte_dit": "45d91763f56824c4b40ead38923211f9d3dabb455c64a7d1ec5755f6e5361777",
+   "texte_dit": "La zone Lignes place les catégories les unes sous les autres.",
+   "empreinte_texte_dit": "42c3b6ea2f2ce81c4fca684649d3c84c6ed8c61f7d06a2bb778acaec0716bc80",
    "reparations": [],
    "ssml": false,
-   "fichier": "audio/e2-bulle1.mp3",
+   "fichier": "audio/e2-bulle1-corr20261002-4573736230.mp3",
    "octets": 63155,
    "duree_s": 3.88,
-   "caracteres_dits": 49,
-   "caracteres_factures": 49,
+   "caracteres_dits": 61,
+   "caracteres_factures": 61,
    "essais": 1,
    "controle": {
     "moteur_severe_small": {
-     "ok": true,
-     "wer": 0.0,
-     "transcription": "Zone ligne et zone colonne, ce que l'on croise."
+     "statut": "ok",
+     "wer": 0,
+     "seuil": 0.15,
+     "raison": null,
+     "transcription": "La zone ligne place les catégories les unes sous les autres.",
+     "tirages": 1,
+     "detail_tirages": [
+      {
+       "n": 1,
+       "ok": true,
+       "wer": 0,
+       "raison": null,
+       "transcription": "La zone ligne place les catégories les unes sous les autres."
+      }
+     ],
+     "moteur": "whisper.cpp small"
     },
-    "valide": true
+    "statut": "valide_relecture_semantique_deux_transcriptions",
+    "valide_sur_les_deux": false,
+    "revue": {
+     "id": "excel-correction-20261002-m20-l01-02-e2-bulle1-4573736230",
+     "step_id": "M20-L01-02",
+     "kind": "bulle",
+     "expected": "La zone Lignes place les catégories les unes sous les autres.",
+     "small_transcript": "La zone ligne place les catégories les unes sous les autres.",
+     "small_status": "ok",
+     "small_reason": null,
+     "small_attempts": 1,
+     "medium_cpu_transcript": "La zone ligne place les catégories les unes sous les autres.",
+     "full_audio_sha256": "3ae9374f07edf0e65dece6c345561173e403acb17a5f4e4cfee60aa7921611f3",
+     "duration_seconds": 3.88,
+     "duration_limit_seconds": 7.65,
+     "acoustic_listening_performed": false,
+     "external_api_calls": 0,
+     "verdict": "manual_semantic_pass_two_asr",
+     "reason": "Relecture du fichier entier : les gestes, références, nombres et catégories sont identiques. Les écarts restants concernent ponctuation, accords inaudibles ou segmentation phonétique ASR, sans instruction différente."
+    }
    }
   },
   {
    "id": "e2-bulle2",
    "etape_lms": "M20-L01-02",
    "role": "Étape 2 · bulle 2",
-   "texte_dit": "Zone valeurs: ce que l'on calcule.",
-   "empreinte_texte_dit": "e0450a53e3136d82728c2a8499f51a7d35cb47b841fc4868c3ed7acc09a84a7c",
+   "texte_dit": "La zone Colonnes croise ces catégories avec un second champ.",
+   "empreinte_texte_dit": "f3e8389c797df9f03be7b26c219ccbb5860dd29f8a9da0b038325129b79f4377",
    "reparations": [],
    "ssml": false,
-   "fichier": "audio/e2-bulle2.mp3",
-   "octets": 40586,
-   "duree_s": 2.48,
-   "caracteres_dits": 34,
-   "caracteres_factures": 34,
+   "fichier": "audio/e2-bulle2-corr20261002-92e499d010.mp3",
+   "octets": 56886,
+   "duree_s": 3.48,
+   "caracteres_dits": 60,
+   "caracteres_factures": 60,
    "essais": 1,
    "controle": {
     "moteur_severe_small": {
-     "ok": true,
-     "wer": 0.0,
-     "transcription": "Zone valeur, ce que l'on calcule."
+     "statut": "ok",
+     "wer": 0.1,
+     "seuil": 0.15,
+     "raison": null,
+     "transcription": "La zone colonne croise ses catégories avec un second champ.",
+     "tirages": 1,
+     "detail_tirages": [
+      {
+       "n": 1,
+       "ok": true,
+       "wer": 0.1,
+       "raison": null,
+       "transcription": "La zone colonne croise ses catégories avec un second champ."
+      }
+     ],
+     "moteur": "whisper.cpp small"
     },
-    "valide": true
+    "statut": "valide_relecture_semantique_deux_transcriptions",
+    "valide_sur_les_deux": false,
+    "revue": {
+     "id": "excel-correction-20261002-m20-l01-02-e2-bulle2-92e499d010",
+     "step_id": "M20-L01-02",
+     "kind": "bulle",
+     "expected": "La zone Colonnes croise ces catégories avec un second champ.",
+     "small_transcript": "La zone colonne croise ses catégories avec un second champ.",
+     "small_status": "ok",
+     "small_reason": null,
+     "small_attempts": 1,
+     "medium_cpu_transcript": "La zone colonne croise ses catégories avec un second champ.",
+     "full_audio_sha256": "cebc0899e431804412385c566a52c67d70e2241f0a6d600309653574c60e31fb",
+     "duration_seconds": 3.48,
+     "duration_limit_seconds": 7.65,
+     "acoustic_listening_performed": false,
+     "external_api_calls": 0,
+     "verdict": "manual_semantic_pass_two_asr",
+     "reason": "Relecture du fichier entier : les gestes, références, nombres et catégories sont identiques. Les écarts restants concernent ponctuation, accords inaudibles ou segmentation phonétique ASR, sans instruction différente."
+    }
    }
   },
   {
    "id": "e2-bulle3",
    "etape_lms": "M20-L01-02",
    "role": "Étape 2 · bulle 3 · reprise V2/V3",
-   "texte_dit": "La zone des filtres, c'est ce qu'on met de côté. Changer un champ de zone change la question.",
-   "empreinte_texte_dit": "a838bd6c34f2898716c9a89d2b5459a4d528f909e4840b4a2e2d72014d2e2566",
+   "texte_dit": "La zone Valeurs contient les nombres à additionner, compter ou moyenner.",
+   "empreinte_texte_dit": "29244520736e7e063e20a6f6d71dfd7b8ecf805e76deb2b501d2d85650ddd987",
    "reparations": [],
    "ssml": false,
-   "fichier": "audio/e2-bulle3.mp3",
-   "octets": 71933,
-   "duree_s": 4.44,
-   "caracteres_dits": 93,
-   "caracteres_factures": 93,
+   "fichier": "audio/e2-bulle3-corr20261002-f05bc53085.mp3",
+   "octets": 62737,
+   "duree_s": 3.84,
+   "caracteres_dits": 72,
+   "caracteres_factures": 72,
    "essais": 1,
    "controle": {
     "moteur_severe_small": {
-     "ok": true,
-     "wer": 0.0,
-     "transcription": "La zone des filtres, c'est ce qu'on met de côté. Changer un champ de zone change la question."
+     "statut": "ok",
+     "wer": 0.091,
+     "seuil": 0.15,
+     "raison": null,
+     "transcription": "La zone valeur contient les nombres à additionner, compter ou moyener.",
+     "tirages": 1,
+     "detail_tirages": [
+      {
+       "n": 1,
+       "ok": true,
+       "wer": 0.091,
+       "raison": null,
+       "transcription": "La zone valeur contient les nombres à additionner, compter ou moyener."
+      }
+     ],
+     "moteur": "whisper.cpp small"
     },
-    "valide": true
+    "statut": "valide_relecture_semantique_deux_transcriptions",
+    "valide_sur_les_deux": false,
+    "revue": {
+     "id": "excel-correction-20261002-m20-l01-02-e2-bulle3-f05bc53085",
+     "step_id": "M20-L01-02",
+     "kind": "bulle",
+     "expected": "La zone Valeurs contient les nombres à additionner, compter ou moyenner.",
+     "small_transcript": "La zone valeur contient les nombres à additionner, compter ou moyener.",
+     "small_status": "ok",
+     "small_reason": null,
+     "small_attempts": 1,
+     "medium_cpu_transcript": "La zone valeur contient les nombres à additionner, compter ou moyenné.",
+     "full_audio_sha256": "ee19366ab610d1f5f0cfb11da7e9fc238e2920b0c3a495714ed2ffdbf3229217",
+     "duration_seconds": 3.84,
+     "duration_limit_seconds": 7.65,
+     "acoustic_listening_performed": false,
+     "external_api_calls": 0,
+     "verdict": "manual_semantic_pass_two_asr",
+     "reason": "Relecture du fichier entier : les gestes, références, nombres et catégories sont identiques. Les écarts restants concernent ponctuation, accords inaudibles ou segmentation phonétique ASR, sans instruction différente."
+    }
    }
   },
   {
@@ -520,6 +656,66 @@
     },
     "valide": true
    }
+  },
+  {
+   "id": "e2-bulle4",
+   "etape_lms": "M20-L01-02",
+   "role": "Étape 2 · bulle 4",
+   "reparations": [],
+   "ssml": false,
+   "texte_dit": "La zone Filtres choisit les données retenues pour tout le tableau.",
+   "empreinte_texte_dit": "108bcec8426c64fceed05b97177e5a497d8117df7aa1bad47b75a4f30550ca08",
+   "fichier": "audio/e2-bulle4-corr20261002-4e150a97c5.mp3",
+   "octets": 50199,
+   "duree_s": 3.08,
+   "caracteres_dits": 66,
+   "caracteres_factures": 66,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "statut": "ok",
+     "wer": 0,
+     "seuil": 0.15,
+     "raison": null,
+     "transcription": "La zone Filtre choisit les données retenues pour tout le tableau.",
+     "tirages": 1,
+     "detail_tirages": [
+      {
+       "n": 1,
+       "ok": true,
+       "wer": 0,
+       "raison": null,
+       "transcription": "La zone Filtre choisit les données retenues pour tout le tableau."
+      }
+     ],
+     "moteur": "whisper.cpp small"
+    },
+    "statut": "valide_relecture_semantique_deux_transcriptions",
+    "valide_sur_les_deux": false,
+    "revue": {
+     "id": "excel-correction-20261002-m20-l01-02-e2-bulle4-4e150a97c5",
+     "step_id": "M20-L01-02",
+     "kind": "bulle",
+     "expected": "La zone Filtres choisit les données retenues pour tout le tableau.",
+     "small_transcript": "La zone Filtre choisit les données retenues pour tout le tableau.",
+     "small_status": "ok",
+     "small_reason": null,
+     "small_attempts": 1,
+     "medium_cpu_transcript": "La zone filtre choisit les données retenues pour tout le tableau.",
+     "full_audio_sha256": "d5d15cc93c00452121e3899287e14939e495c9f0d415631258da327c4faff8b2",
+     "duration_seconds": 3.08,
+     "duration_limit_seconds": 7.65,
+     "acoustic_listening_performed": false,
+     "external_api_calls": 0,
+     "verdict": "manual_semantic_pass_two_asr",
+     "reason": "Relecture du fichier entier : les gestes, références, nombres et catégories sont identiques. Les écarts restants concernent ponctuation, accords inaudibles ou segmentation phonétique ASR, sans instruction différente."
+    }
+   }
   }
- ]
+ ],
+ "correction_20261002": {
+  "status": "validated_for_release",
+  "second_review": "manual_semantic_small_and_medium_cpu",
+  "acoustic_listening_performed": false
+ }
 }

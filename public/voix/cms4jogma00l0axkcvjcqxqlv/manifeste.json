@@ -25,15 +25,16 @@
    "aucun « SI » epele",
    "nombres entendus identiques aux nombres dits"
   ],
-  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs",
+  "corrections_20261002": "Pistes corrigées acceptées après relecture sémantique des transcriptions small et medium CPU ; résultat automatique small conservé séparément."
  },
  "totaux": {
   "segments": 18,
-  "caracteres_dits": 1444,
-  "duree_totale_s": 98.4,
-  "segments_valides": 16,
+  "caracteres_dits": 1443,
+  "duree_totale_s": 98.08,
+  "segments_valides": 1,
   "segments_plusieurs_essais": 3,
-  "segments_jamais_valides": 2
+  "segments_jamais_valides": 17
  },
  "segments": [
   {
@@ -292,28 +293,55 @@
    "id": "e6-consigne",
    "etape_lms": "M24-EV01-06",
    "role": "Etape 6 · consigne",
-   "texte_dit": "La ligne du vidéoprojecteur n'a pas sa photo. À vous : mettez-la dans la cellule.",
-   "empreinte_texte_dit": "c98efd0877a648ce0a897ec684b8fe586a5e48ce4ad613f6f01ff2c28e009f7a",
+   "texte_dit": "La ligne du vidéoprojecteur n’a pas son illustration. Mettez-la dans sa cellule.",
+   "empreinte_texte_dit": "a8896ab9b22db343995fdeefb28d9118862a339b12d95bd0b75aa655e6e0489d",
    "reparations": [],
    "ssml": false,
-   "fichier": "audio/e6-consigne.mp3",
-   "octets": 86143,
-   "duree_s": 5.32,
-   "caracteres_dits": 81,
-   "caracteres_factures": 81,
+   "fichier": "audio/e6-consigne-corr20261002-44462976e0.mp3",
+   "octets": 80292,
+   "duree_s": 4.96,
+   "caracteres_dits": 80,
+   "caracteres_factures": 80,
    "essais": 1,
    "controle": {
     "moteur_severe_small": {
-     "ok": true,
-     "wer": 0.0,
-     "transcription": "La ligne du vidéo projecteur n'a pas sa photo.\n À vous, mettez-la dans la cellule."
+     "statut": "ok",
+     "wer": 0,
+     "seuil": 0.15,
+     "raison": null,
+     "transcription": "La ligne du vidéo-projecteur n'a pas son illustration. Mettez-la dans sa cellule.",
+     "tirages": 1,
+     "detail_tirages": [
+      {
+       "n": 1,
+       "ok": true,
+       "wer": 0,
+       "raison": null,
+       "transcription": "La ligne du vidéo-projecteur n'a pas son illustration. Mettez-la dans sa cellule."
+      }
+     ],
+     "moteur": "whisper.cpp small"
     },
-    "moteur_second_medium": {
-     "ok": true,
-     "wer": 0.0,
-     "transcription": "La ligne du vidéoprojecteur n'a pas sa photo.\n À vous, mettez-la dans la cellule."
-    },
-    "valide_sur_les_deux": true
+    "statut": "valide_relecture_semantique_deux_transcriptions",
+    "valide_sur_les_deux": false,
+    "revue": {
+     "id": "excel-correction-20261002-m24-ev01-06-e6-consigne-44462976e0",
+     "step_id": "M24-EV01-06",
+     "kind": "consigne",
+     "expected": "La ligne du vidéoprojecteur n’a pas son illustration. Mettez-la dans sa cellule.",
+     "small_transcript": "La ligne du vidéo-projecteur n'a pas son illustration. Mettez-la dans sa cellule.",
+     "small_status": "ok",
+     "small_reason": null,
+     "small_attempts": 1,
+     "medium_cpu_transcript": "La ligne du vidéoprojecteur n'a pas son illustration. Mettez-la dans sa cellule.",
+     "full_audio_sha256": "4def158c00826005f5918cd913ac42912accc90d41cf5926610ceafb025c0853",
+     "duration_seconds": 4.96,
+     "duration_limit_seconds": null,
+     "acoustic_listening_performed": false,
+     "external_api_calls": 0,
+     "verdict": "manual_semantic_pass_two_asr",
+     "reason": "Relecture du fichier entier : les gestes, références, nombres et catégories sont identiques. Les écarts restants concernent ponctuation, accords inaudibles ou segmentation phonétique ASR, sans instruction différente."
+    }
    }
   },
   {
@@ -540,5 +568,10 @@
     "valide_sur_les_deux": true
    }
   }
- ]
+ ],
+ "correction_20261002": {
+  "status": "validated_for_release",
+  "second_review": "manual_semantic_small_and_medium_cpu",
+  "acoustic_listening_performed": false
+ }
 }

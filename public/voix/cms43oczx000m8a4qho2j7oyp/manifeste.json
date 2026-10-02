@@ -23,12 +23,13 @@
    "aucun « SI » epele",
    "nombres entendus identiques aux nombres dits"
   ],
-  "regle": "un segment n'est valide que s'il passe le moteur severe"
+  "regle": "un segment n'est valide que s'il passe le moteur severe",
+  "corrections_20261002": "Pistes corrigées acceptées après relecture sémantique des transcriptions small et medium CPU ; résultat automatique small conservé séparément."
  },
  "totaux": {
   "segments": 23,
-  "caracteres_dits": 2167,
-  "duree_totale_s": 133.8,
+  "caracteres_dits": 2175,
+  "duree_totale_s": 134.88,
   "segments_valides": 22,
   "segments_plusieurs_essais": 1,
   "segments_jamais_valides": 1
@@ -130,23 +131,55 @@
    "id": "e2-consigne",
    "etape_lms": "M04-L02-02",
    "role": "Étape 2 · consigne",
-   "texte_dit": "Cliquez sur Insérer dans le groupe Cellules du ruban. Une ligne vide s'ouvre, et les suivantes descendent d'un cran.",
-   "empreinte_texte_dit": "3eb38a0385dc4294fc97fb6bdcb126d271d350518936a226b89addb018628186",
+   "texte_dit": "Dans l’onglet Accueil, cliquez sur Insérer. Une colonne vide apparaît avant Mars ; les suivantes se décalent vers la droite.",
+   "empreinte_texte_dit": "d880b84f901271b4b1b2624be8c959814549f692b3095640b33736f5958a053a",
    "reparations": [],
    "ssml": false,
-   "fichier": "audio/e2-consigne.mp3",
-   "octets": 106623,
-   "duree_s": 6.6,
-   "caracteres_dits": 116,
-   "caracteres_factures": 116,
+   "fichier": "audio/e2-consigne-corr20261002-2342bc5ab4.mp3",
+   "octets": 124177,
+   "duree_s": 7.68,
+   "caracteres_dits": 124,
+   "caracteres_factures": 124,
    "essais": 1,
    "controle": {
     "moteur_severe_small": {
-     "ok": true,
-     "wer": 0.0,
-     "transcription": "Cliquez sur Insérer dans le groupe cellule du ruban. Une ligne vide s'ouvre et les suivantes descendent d'un cran."
+     "statut": "ok",
+     "wer": 0,
+     "seuil": 0.15,
+     "raison": null,
+     "transcription": "Dans l'onglet « accueil », cliquez sur « insérer ». Une colonne vide apparaît avant Mars. Les suivantes se décalent vers la droite.",
+     "tirages": 1,
+     "detail_tirages": [
+      {
+       "n": 1,
+       "ok": true,
+       "wer": 0,
+       "raison": null,
+       "transcription": "Dans l'onglet « accueil », cliquez sur « insérer ». Une colonne vide apparaît avant Mars. Les suivantes se décalent vers la droite."
+      }
+     ],
+     "moteur": "whisper.cpp small"
     },
-    "valide": true
+    "statut": "valide_relecture_semantique_deux_transcriptions",
+    "valide_sur_les_deux": false,
+    "revue": {
+     "id": "excel-correction-20261002-m04-l02-02-e2-consigne-2342bc5ab4",
+     "step_id": "M04-L02-02",
+     "kind": "consigne",
+     "expected": "Dans l’onglet Accueil, cliquez sur Insérer. Une colonne vide apparaît avant Mars ; les suivantes se décalent vers la droite.",
+     "small_transcript": "Dans l'onglet « accueil », cliquez sur « insérer ». Une colonne vide apparaît avant Mars. Les suivantes se décalent vers la droite.",
+     "small_status": "ok",
+     "small_reason": null,
+     "small_attempts": 1,
+     "medium_cpu_transcript": "Dans l'onglet Accueil, cliquez sur Insérer. Une colonne vide apparaît avant Mars. Les suivantes se décalent vers la droite.",
+     "full_audio_sha256": "3c22b8d78f324f9b1600c254e368114ef16fc285ee963a2f11c03ae85087c3f8",
+     "duration_seconds": 7.68,
+     "duration_limit_seconds": null,
+     "acoustic_listening_performed": false,
+     "external_api_calls": 0,
+     "verdict": "manual_semantic_pass_two_asr",
+     "reason": "Relecture du fichier entier : les gestes, références, nombres et catégories sont identiques. Les écarts restants concernent ponctuation, accords inaudibles ou segmentation phonétique ASR, sans instruction différente."
+    }
    }
   },
   {
@@ -570,5 +603,10 @@
     "valide": true
    }
   }
- ]
+ ],
+ "correction_20261002": {
+  "status": "validated_for_release",
+  "second_review": "manual_semantic_small_and_medium_cpu",
+  "acoustic_listening_performed": false
+ }
 }

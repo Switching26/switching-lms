@@ -23,15 +23,16 @@
    "aucun « SI » epele",
    "nombres entendus identiques aux nombres dits"
   ],
-  "regle": "un segment n'est valide que s'il passe le moteur severe"
+  "regle": "un segment n'est valide que s'il passe le moteur severe",
+  "corrections_20261002": "Pistes corrigées acceptées après relecture sémantique des transcriptions small et medium CPU ; résultat automatique small conservé séparément."
  },
  "totaux": {
   "segments": 19,
-  "caracteres_dits": 1657,
-  "duree_totale_s": 103.2,
-  "segments_valides": 17,
-  "segments_plusieurs_essais": 6,
-  "segments_jamais_valides": 2
+  "caracteres_dits": 1508,
+  "duree_totale_s": 95.72,
+  "segments_valides": 18,
+  "segments_plusieurs_essais": 5,
+  "segments_jamais_valides": 1
  },
  "segments": [
   {
@@ -154,24 +155,62 @@
    "id": "e3-consigne",
    "etape_lms": "M17-E03-03",
    "role": "Étape 3 · consigne",
-   "texte_dit": "La direction veut commenter le troisième trimestre. Sélectionnez d'abord la série la cellule T3 entière. Toutes les barres de ce trimestre se sélectionnent d'un coup.",
-   "empreinte_texte_dit": "589f8925c1fd2d1e55ad8b79765ce43a1fd6b62cd784365a798b7f7de4eb7dc8",
+   "texte_dit": "Sélectionnez la série T3 entière pour commenter le troisième trimestre. Toutes ses barres se sélectionnent ensemble.",
+   "empreinte_texte_dit": "063042b1d6361ae00b237b604210a24e810ad3a4966a1ed981dd6cc108fdb5a8",
    "reparations": [],
    "ssml": false,
-   "fichier": "audio/e3-consigne.mp3",
-   "octets": 159704,
-   "duree_s": 9.92,
-   "caracteres_dits": 166,
-   "caracteres_factures": 664,
-   "essais": 4,
+   "fichier": "audio/e3-consigne-corr20261002-f57566cbbf.mp3",
+   "octets": 117072,
+   "duree_s": 7.24,
+   "caracteres_dits": 116,
+   "caracteres_factures": 232,
+   "essais": 2,
    "controle": {
     "moteur_severe_small": {
-     "ok": false,
-     "wer": 0.111,
-     "transcription": "La direction veut commenter le troisième trimestre. Sélectionnez d'abord la série, la cellulité, trois entières. Toutes les bars de ce trimestre se sélectionnent d'un coup."
+     "statut": "ok",
+     "wer": 0.125,
+     "seuil": 0.15,
+     "raison": null,
+     "transcription": "Sélectionnez la série T3 entière pour commenter le troisième trimestre. Toutes ces bars se sélectionnent ensemble.",
+     "tirages": 2,
+     "detail_tirages": [
+      {
+       "n": 1,
+       "ok": false,
+       "wer": 0.188,
+       "raison": "écart 19 % > seuil 15 %",
+       "transcription": "Sélectionnez la série T3 entière pour commenter le 3e trimestre. Toutes ces bars se sélectionnent ensemble."
+      },
+      {
+       "n": 2,
+       "ok": true,
+       "wer": 0.125,
+       "raison": null,
+       "transcription": "Sélectionnez la série T3 entière pour commenter le troisième trimestre. Toutes ces bars se sélectionnent ensemble."
+      }
+     ],
+     "moteur": "whisper.cpp small"
     },
-    "valide": false,
-    "re_controle": true
+    "statut": "valide_relecture_semantique_deux_transcriptions",
+    "valide_sur_les_deux": false,
+    "revue": {
+     "id": "excel-correction-20261002-m17-e03-03-e3-consigne-f57566cbbf",
+     "step_id": "M17-E03-03",
+     "kind": "consigne",
+     "expected": "Sélectionnez la série T3 entière pour commenter le troisième trimestre. Toutes ses barres se sélectionnent ensemble.",
+     "small_transcript": "Sélectionnez la série T3 entière pour commenter le troisième trimestre. Toutes ces bars se sélectionnent ensemble.",
+     "small_status": "ok",
+     "small_reason": null,
+     "small_attempts": 2,
+     "medium_cpu_transcript": "Sélectionnez la sérité Trois entières pour commenter le troisième trimestre. Toutes ces barres se sélectionnent ensemble.",
+     "full_audio_sha256": "7672a6f8d96dd73dc019e45abf2d41e4172daaff57c4e1fd7ef97ca3119b96b0",
+     "duration_seconds": 7.24,
+     "duration_limit_seconds": null,
+     "acoustic_listening_performed": false,
+     "external_api_calls": 0,
+     "verdict": "manual_semantic_pass_two_asr",
+     "reason": "Relecture du fichier entier : les gestes, références, nombres et catégories sont identiques. Les écarts restants concernent ponctuation, accords inaudibles ou segmentation phonétique ASR, sans instruction différente."
+    }
    }
   },
   {
@@ -270,46 +309,117 @@
    "id": "e5-consigne",
    "etape_lms": "M17-E03-05",
    "role": "Étape 5 · consigne",
-   "texte_dit": "Le troisième trimestre est confidentiel. Masquez la série la cellule T3 sans la supprimer: elle doit pouvoir revenir. Elle disparaît du tracé, mais reste dans la liste des séries.",
-   "empreinte_texte_dit": "75e1de3d7b40a33ee32529e8c72e442c8b9e3c4fc576eba684cf02714299a14b",
+   "texte_dit": "Masquez la série T3 sans la supprimer. Elle disparaît du tracé et reste disponible dans la liste des séries.",
+   "empreinte_texte_dit": "98b2b8c07b8ae943d6cd58287abad74c81c564aa1b3523828130f73e1b780633",
    "reparations": [],
    "ssml": false,
-   "fichier": "audio/e5-consigne.mp3",
-   "octets": 161794,
-   "duree_s": 10.04,
-   "caracteres_dits": 179,
-   "caracteres_factures": 358,
-   "essais": 2,
+   "fichier": "audio/e5-consigne-corr20261002-4b73be0113.mp3",
+   "octets": 107459,
+   "duree_s": 6.64,
+   "caracteres_dits": 108,
+   "caracteres_factures": 108,
+   "essais": 1,
    "controle": {
     "moteur_severe_small": {
-     "ok": true,
-     "wer": 0.034,
-     "transcription": "Le troisième trimestre est confidentiel. Masquer la série la cellule T3 sans la supprimer. Elle doit pouvoir revenir. Elle disparaît du tracé, mais reste dans la liste des séries."
+     "statut": "ok",
+     "wer": 0,
+     "seuil": 0.15,
+     "raison": null,
+     "transcription": "Masquez la série T3 sans la supprimer. Elle disparaît du tracé et reste disponible dans la liste des séries.",
+     "tirages": 1,
+     "detail_tirages": [
+      {
+       "n": 1,
+       "ok": true,
+       "wer": 0,
+       "raison": null,
+       "transcription": "Masquez la série T3 sans la supprimer. Elle disparaît du tracé et reste disponible dans la liste des séries."
+      }
+     ],
+     "moteur": "whisper.cpp small"
     },
-    "valide": true
+    "statut": "valide_relecture_semantique_deux_transcriptions",
+    "valide_sur_les_deux": false,
+    "revue": {
+     "id": "excel-correction-20261002-m17-e03-05-e5-consigne-4b73be0113",
+     "step_id": "M17-E03-05",
+     "kind": "consigne",
+     "expected": "Masquez la série T3 sans la supprimer. Elle disparaît du tracé et reste disponible dans la liste des séries.",
+     "small_transcript": "Masquez la série T3 sans la supprimer. Elle disparaît du tracé et reste disponible dans la liste des séries.",
+     "small_status": "ok",
+     "small_reason": null,
+     "small_attempts": 1,
+     "medium_cpu_transcript": "Masquez la série T3 sans la supprimer. Elle disparaît du tracé et reste disponible dans la liste des séries.",
+     "full_audio_sha256": "9fb4dcd7e93e40e486883b1504a7c85f7e4ddc86a31931d9a7eb7ef3f3abd0e6",
+     "duration_seconds": 6.64,
+     "duration_limit_seconds": null,
+     "acoustic_listening_performed": false,
+     "external_api_calls": 0,
+     "verdict": "manual_semantic_pass_two_asr",
+     "reason": "Relecture du fichier entier : les gestes, références, nombres et catégories sont identiques. Les écarts restants concernent ponctuation, accords inaudibles ou segmentation phonétique ASR, sans instruction différente."
+    }
    }
   },
   {
    "id": "e5-aide",
    "etape_lms": "M17-E03-05",
    "role": "Étape 5 · aide",
-   "texte_dit": "Le filtre de séries, ou Sélectionner des données en décochant la cellule T3.",
-   "empreinte_texte_dit": "f3756a6c155548c02870b73ed652b101d2f1268cfdaedf996b50e7796bf8ea38",
+   "texte_dit": "Dans le filtre des séries, décochez la série T3.",
+   "empreinte_texte_dit": "51bf46d37360b06a49a69c3372716957625dc512cf75c0efaaccc835ec120919",
    "reparations": [],
    "ssml": false,
-   "fichier": "audio/e5-aide.mp3",
-   "octets": 81546,
-   "duree_s": 5.04,
-   "caracteres_dits": 76,
-   "caracteres_factures": 152,
+   "fichier": "audio/e5-aide-corr20261002-2caa7e6e62.mp3",
+   "octets": 58558,
+   "duree_s": 3.6,
+   "caracteres_dits": 48,
+   "caracteres_factures": 96,
    "essais": 2,
    "controle": {
     "moteur_severe_small": {
-     "ok": true,
-     "wer": 0.0,
-     "transcription": "le filtre de série ou sélectionner des données en décochant la cellule T3."
+     "statut": "ok",
+     "wer": 0,
+     "seuil": 0.167,
+     "raison": null,
+     "transcription": "dans le filtre des séries, décocher la série T3.",
+     "tirages": 2,
+     "detail_tirages": [
+      {
+       "n": 1,
+       "ok": false,
+       "wer": 0.222,
+       "raison": "nombres différents (∅ ≠ 3)",
+       "transcription": "Dans le filtre des séries, décochez la sérité 3."
+      },
+      {
+       "n": 2,
+       "ok": true,
+       "wer": 0,
+       "raison": null,
+       "transcription": "dans le filtre des séries, décocher la série T3."
+      }
+     ],
+     "moteur": "whisper.cpp small"
     },
-    "valide": true
+    "statut": "valide_relecture_semantique_deux_transcriptions",
+    "valide_sur_les_deux": false,
+    "revue": {
+     "id": "excel-correction-20261002-m17-e03-05-e5-aide-2caa7e6e62",
+     "step_id": "M17-E03-05",
+     "kind": "aide",
+     "expected": "Dans le filtre des séries, décochez la série T3.",
+     "small_transcript": "dans le filtre des séries, décocher la série T3.",
+     "small_status": "ok",
+     "small_reason": null,
+     "small_attempts": 2,
+     "medium_cpu_transcript": "Dans le filtre des séries, décochez la série T3.",
+     "full_audio_sha256": "67c645f7cb22d4f1a4587a83d07cdaf8b6d1f3a6b3a0647dc85ad0ad1ff82fd7",
+     "duration_seconds": 3.6,
+     "duration_limit_seconds": null,
+     "acoustic_listening_performed": false,
+     "external_api_calls": 0,
+     "verdict": "manual_semantic_pass_two_asr",
+     "reason": "Relecture du fichier entier : les gestes, références, nombres et catégories sont identiques. Les écarts restants concernent ponctuation, accords inaudibles ou segmentation phonétique ASR, sans instruction différente."
+    }
    }
   },
   {
@@ -473,5 +583,10 @@
     "valide": true
    }
   }
- ]
+ ],
+ "correction_20261002": {
+  "status": "validated_for_release",
+  "second_review": "manual_semantic_small_and_medium_cpu",
+  "acoustic_listening_performed": false
+ }
 }

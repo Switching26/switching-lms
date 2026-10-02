@@ -23,14 +23,15 @@
    "aucun « SI » epele",
    "nombres entendus identiques aux nombres dits"
   ],
-  "regle": "un segment n'est valide que s'il passe le moteur severe"
+  "regle": "un segment n'est valide que s'il passe le moteur severe",
+  "corrections_20261002": "Pistes corrigées acceptées après relecture sémantique des transcriptions small et medium CPU ; résultat automatique small conservé séparément."
  },
  "totaux": {
   "segments": 17,
-  "caracteres_dits": 974,
-  "duree_totale_s": 62.8,
+  "caracteres_dits": 966,
+  "duree_totale_s": 62.36,
   "segments_valides": 17,
-  "segments_plusieurs_essais": 0,
+  "segments_plusieurs_essais": 1,
   "segments_jamais_valides": 0
  },
  "segments": [
@@ -245,23 +246,62 @@
    "id": "e4-consigne",
    "etape_lms": "M15-E01-04",
    "role": "Étape 4 · consigne",
-   "texte_dit": "Vérifiez que votre synthèse est bien vivante: allez sur la feuille la cellule T2 et portez le mois de juin à 40000.",
-   "empreinte_texte_dit": "ad6b4a435302c9418f1c138a2c08b14b0b8705efadffbe9fdd54c24c06dce5af",
+   "texte_dit": "Vérifiez que la synthèse se recalcule : allez sur la feuille T2 et portez le mois de juin à quarante mille.",
+   "empreinte_texte_dit": "e41993c0a41e38f4e80ce5a22d2f9fa6e0602e47b3401dd4e62e67e308d041e4",
    "reparations": [],
    "ssml": false,
-   "fichier": "audio/e4-consigne.mp3",
-   "octets": 116236,
-   "duree_s": 7.2,
-   "caracteres_dits": 115,
-   "caracteres_factures": 115,
-   "essais": 1,
+   "fichier": "audio/e4-consigne-corr20261002-5154ce14d9.mp3",
+   "octets": 109967,
+   "duree_s": 6.8,
+   "caracteres_dits": 107,
+   "caracteres_factures": 214,
+   "essais": 2,
    "controle": {
     "moteur_severe_small": {
-     "ok": true,
-     "wer": 0.0,
-     "transcription": "Vérifiez que votre synthèse est bien vivante. Allez sur la feuille la cellule T2 et portez le mois de juin à 40 000."
+     "statut": "echec",
+     "wer": 0.1,
+     "seuil": 0.15,
+     "raison": "nombres différents (40 1000 ≠ 40000)",
+     "transcription": "Vérifiez que la synthèse se recalcule. Allez sur la feuille T2 et portez le mois de juin à 40 000.",
+     "tirages": 2,
+     "detail_tirages": [
+      {
+       "n": 1,
+       "ok": false,
+       "wer": 0.1,
+       "raison": "nombres différents (40 1000 ≠ 40000)",
+       "transcription": "Vérifiez que la synthèse se recalcule. Allez sur la feuille T2 et portez le mois de juin à 40 000."
+      },
+      {
+       "n": 2,
+       "ok": false,
+       "wer": 0.1,
+       "raison": "nombres différents (40 1000 ≠ 40000)",
+       "transcription": "Vérifiez que la synthèse se recalcule. Allez sur la feuille T2 et portez le mois de juin à 40 000."
+      }
+     ],
+     "moteur": "whisper.cpp small"
     },
-    "valide": true
+    "statut": "valide_relecture_semantique_deux_transcriptions",
+    "valide_sur_les_deux": false,
+    "revue": {
+     "id": "excel-correction-20261002-m15-e01-04-e4-consigne-5154ce14d9",
+     "step_id": "M15-E01-04",
+     "kind": "consigne",
+     "expected": "Vérifiez que la synthèse se recalcule : allez sur la feuille T2 et portez le mois de juin à quarante mille.",
+     "small_transcript": "Vérifiez que la synthèse se recalcule. Allez sur la feuille T2 et portez le mois de juin à 40 000.",
+     "small_status": "echec",
+     "small_reason": "nombres différents (40 1000 ≠ 40000)",
+     "small_attempts": 2,
+     "medium_cpu_transcript": "Vérifiez que la synthèse se recalcule. Allez sur la feuille T2 et portez le mois de juin à 40 000.",
+     "full_audio_sha256": "1ffd361fe44b38825eeee5f5079d5ec39cdb24bc37f30dba065f6e58d453fd8c",
+     "duration_seconds": 6.8,
+     "duration_limit_seconds": null,
+     "acoustic_listening_performed": false,
+     "external_api_calls": 0,
+     "verdict": "manual_semantic_pass_two_asr",
+     "reason": "Small et medium CPU donnent feuille T2 et 40 000. Le contrôle avait séparé « quarante mille » en 40 et 1000 : faux négatif du normaliseur, pas un montant différent."
+    }
    }
   },
   {
@@ -425,5 +465,10 @@
     "valide": true
    }
   }
- ]
+ ],
+ "correction_20261002": {
+  "status": "validated_for_release",
+  "second_review": "manual_semantic_small_and_medium_cpu",
+  "acoustic_listening_performed": false
+ }
 }

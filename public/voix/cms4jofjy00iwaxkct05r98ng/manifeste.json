@@ -25,15 +25,16 @@
    "aucun « SI » epele",
    "nombres entendus identiques aux nombres dits"
   ],
-  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs",
+  "corrections_20261002": "Pistes corrigées acceptées après relecture sémantique des transcriptions small et medium CPU ; résultat automatique small conservé séparément."
  },
  "totaux": {
   "segments": 17,
-  "caracteres_dits": 1582,
-  "duree_totale_s": 100.6,
-  "segments_valides": 15,
+  "caracteres_dits": 1605,
+  "duree_totale_s": 103.8,
+  "segments_valides": 2,
   "segments_plusieurs_essais": 2,
-  "segments_jamais_valides": 2
+  "segments_jamais_valides": 15
  },
  "segments": [
   {
@@ -208,56 +209,117 @@
    "id": "e3-consigne",
    "etape_lms": "M21-EV01-03",
    "role": "Etape 3 · consigne",
-   "texte_dit": "À vous : passez la quantité de la deuxième ligne à 2. C'est ce que le client a commandé, et le devis en annonce quatre-vingt-dix.",
-   "empreinte_texte_dit": "0ae732bd3672e1fd6071ba93a864d6f561f4fcbe429ef8bf10892b998892f04f",
+   "texte_dit": "Pour tester le modèle, changez la quantité de MOB-95 : dans la cellule C7, saisissez 2.",
+   "empreinte_texte_dit": "9d86c816562a08202ca6e3c50c81a52c102410f0b28bba7422a066737eed7788",
    "reparations": [],
    "ssml": false,
-   "fichier": "audio/e3-consigne.mp3",
-   "octets": 128357,
-   "duree_s": 7.96,
-   "caracteres_dits": 129,
-   "caracteres_factures": 129,
-   "essais": 3,
+   "fichier": "audio/e3-consigne-corr20261002-1e0a632c70.mp3",
+   "octets": 108713,
+   "duree_s": 6.72,
+   "caracteres_dits": 87,
+   "caracteres_factures": 174,
+   "essais": 2,
    "controle": {
     "moteur_severe_small": {
-     "ok": false,
-     "wer": 0.031,
-     "transcription": "À vous.\n Passez la quantité de la deuxième ligne à 2.\n C'est ce que le client a commandé et le devis en annonce 90\n."
+     "statut": "echec",
+     "wer": 0.125,
+     "seuil": 0.15,
+     "raison": "nombres différents (95 2 ≠ 2)",
+     "transcription": "Pour tester le modèle, changez la quantité de MOB95. Dans la cellule C7, saisissez 2.",
+     "tirages": 2,
+     "detail_tirages": [
+      {
+       "n": 1,
+       "ok": false,
+       "wer": 0.25,
+       "raison": "nombres différents (95 2 ≠ ∅)",
+       "transcription": "Pour tester le modèle, changez la quantité de MOB95 dans la cellule C7-CZC2."
+      },
+      {
+       "n": 2,
+       "ok": false,
+       "wer": 0.125,
+       "raison": "nombres différents (95 2 ≠ 2)",
+       "transcription": "Pour tester le modèle, changez la quantité de MOB95. Dans la cellule C7, saisissez 2."
+      }
+     ],
+     "moteur": "whisper.cpp small"
     },
-    "moteur_second_medium": {
-     "ok": true,
-     "wer": 0.0,
-     "transcription": "À vous ! Passez la quantité de la deuxième ligne à deux.\n C'est ce que le client a commandé, et le devis en annonce\n quatre-vingt-dix."
-    },
-    "valide_sur_les_deux": false
+    "statut": "valide_relecture_semantique_deux_transcriptions",
+    "valide_sur_les_deux": false,
+    "revue": {
+     "id": "excel-correction-20261002-m21-ev01-03-e3-consigne-1e0a632c70",
+     "step_id": "M21-EV01-03",
+     "kind": "consigne",
+     "expected": "Pour tester le modèle, changez la quantité de MOB-95 : dans la cellule C7, saisissez 2.",
+     "small_transcript": "Pour tester le modèle, changez la quantité de MOB95. Dans la cellule C7, saisissez 2.",
+     "small_status": "echec",
+     "small_reason": "nombres différents (95 2 ≠ 2)",
+     "small_attempts": 2,
+     "medium_cpu_transcript": "Pour tester le modèle, changez la quantité de MOB95. Dans la cellule C7, saisissez deux.",
+     "full_audio_sha256": "f74e06bcbf6cb46fee3cfa273115602bafadb17dccaf6dad77b3788412aa12c0",
+     "duration_seconds": 6.72,
+     "duration_limit_seconds": null,
+     "acoustic_listening_performed": false,
+     "external_api_calls": 0,
+     "verdict": "manual_semantic_pass_two_asr",
+     "reason": "Les deux modèles identifient MOB95, C7 et 2. MOB-95 est un identifiant produit, pas un montant95 à comparer séparément. Faux négatif du normaliseur sur le tiret."
+    }
    }
   },
   {
    "id": "e4-consigne",
    "etape_lms": "M21-EV01-04",
    "role": "Etape 4 · consigne",
-   "texte_dit": "Un montant du tableau n'a pas bougé, alors que sa ligne le devrait. À vous : rendez-lui son calcul.",
-   "empreinte_texte_dit": "d2ee719217f3f735b7382f531549cc3f3b6b8bd385bda2554307aea9e2f26566",
+   "texte_dit": "Le montant de MOB-95 s’est recalculé. Une autre ligne contient un montant saisi en dur. Rétablissez la formule dans E6 pour qu’elle suive les quantités et les prix.",
+   "empreinte_texte_dit": "1ebb913029d0a38236f70d505747efa4c6fa1b08c8f0db09f4f9b93ddc644a07",
    "reparations": [],
    "ssml": false,
-   "fichier": "audio/e4-consigne.mp3",
-   "octets": 91995,
-   "duree_s": 5.68,
-   "caracteres_dits": 99,
-   "caracteres_factures": 99,
+   "fichier": "audio/e4-consigne-corr20261002-64c2fa1b61.mp3",
+   "octets": 162212,
+   "duree_s": 10.08,
+   "caracteres_dits": 164,
+   "caracteres_factures": 164,
    "essais": 1,
    "controle": {
     "moteur_severe_small": {
-     "ok": true,
-     "wer": 0.0,
-     "transcription": "Un montant du tableau n'a pas bougé, alors que sa ligne le\n devrait.\n À vous.\n Rendez-lui son calcul."
+     "statut": "ok",
+     "wer": 0.032,
+     "seuil": 0.15,
+     "raison": null,
+     "transcription": "Le montant de MOB-95 s'est recalculé. Une autre ligne contient un montant saisit en dur. Rétablissez la formule dans E6 pour qu'elle suive les quantités et les prix.",
+     "tirages": 1,
+     "detail_tirages": [
+      {
+       "n": 1,
+       "ok": true,
+       "wer": 0.032,
+       "raison": null,
+       "transcription": "Le montant de MOB-95 s'est recalculé. Une autre ligne contient un montant saisit en dur. Rétablissez la formule dans E6 pour qu'elle suive les quantités et les prix."
+      }
+     ],
+     "moteur": "whisper.cpp small"
     },
-    "moteur_second_medium": {
-     "ok": true,
-     "wer": 0.0,
-     "transcription": "Un montant du tableau n'a pas bougé alors que sa ligne le\n devrait.\n À vous.\n Rendez-lui son calcul."
-    },
-    "valide_sur_les_deux": true
+    "statut": "valide_relecture_semantique_deux_transcriptions",
+    "valide_sur_les_deux": false,
+    "revue": {
+     "id": "excel-correction-20261002-m21-ev01-04-e4-consigne-64c2fa1b61",
+     "step_id": "M21-EV01-04",
+     "kind": "consigne",
+     "expected": "Le montant de MOB-95 s’est recalculé. Une autre ligne contient un montant saisi en dur. Rétablissez la formule dans E6 pour qu’elle suive les quantités et les prix.",
+     "small_transcript": "Le montant de MOB-95 s'est recalculé. Une autre ligne contient un montant saisit en dur. Rétablissez la formule dans E6 pour qu'elle suive les quantités et les prix.",
+     "small_status": "ok",
+     "small_reason": null,
+     "small_attempts": 1,
+     "medium_cpu_transcript": "Le montant de MOB E95 s'est recalculé. Une autre ligne contient un montant saisi en dur. Rétablissez la formule dans E6 pour qu'elle suive les quantités et les prix.",
+     "full_audio_sha256": "24ee5d7b22f73e2dae887f4983b28871081171b4e4703ddf86ad9d8f92d94dda",
+     "duration_seconds": 10.08,
+     "duration_limit_seconds": null,
+     "acoustic_listening_performed": false,
+     "external_api_calls": 0,
+     "verdict": "manual_semantic_pass_two_asr",
+     "reason": "Relecture du fichier entier : les gestes, références, nombres et catégories sont identiques. Les écarts restants concernent ponctuation, accords inaudibles ou segmentation phonétique ASR, sans instruction différente."
+    }
    }
   },
   {
@@ -512,5 +574,10 @@
     "valide_sur_les_deux": true
    }
   }
- ]
+ ],
+ "correction_20261002": {
+  "status": "validated_for_release",
+  "second_review": "manual_semantic_small_and_medium_cpu",
+  "acoustic_listening_performed": false
+ }
 }

@@ -25,15 +25,16 @@
    "aucun « SI » epele",
    "nombres entendus identiques aux nombres dits"
   ],
-  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs",
+  "corrections_20261002": "Pistes corrigées acceptées après relecture sémantique des transcriptions small et medium CPU ; résultat automatique small conservé séparément."
  },
  "totaux": {
   "segments": 15,
-  "caracteres_dits": 1540,
-  "duree_totale_s": 93.3,
-  "segments_valides": 15,
+  "caracteres_dits": 1535,
+  "duree_totale_s": 92.84,
+  "segments_valides": 1,
   "segments_plusieurs_essais": 0,
-  "segments_jamais_valides": 0
+  "segments_jamais_valides": 14
  },
  "segments": [
   {
@@ -348,28 +349,55 @@
    "id": "e5-consigne",
    "etape_lms": "M17-E02-05",
    "role": "Etape 5 · consigne",
-   "texte_dit": "Les étiquettes rendent le quadrillage inutile. À vous : masquez-le. Les lignes horizontales du fond disparaissent.",
-   "empreinte_texte_dit": "453d648d152d38790adbac5499fcc36c49943622c41abe078fffde5832099d23",
+   "texte_dit": "Masquez le quadrillage. Sur ces barres horizontales, ce sont les lignes verticales du fond qui disparaissent.",
+   "empreinte_texte_dit": "87e33a97f934bf48fed3d45643c30a5b6552266818c1605734a3cd0e31b8c200",
    "reparations": [],
    "ssml": false,
-   "fichier": "audio/e5-consigne.mp3",
-   "octets": 111221,
-   "duree_s": 6.88,
-   "caracteres_dits": 114,
-   "caracteres_factures": 114,
+   "fichier": "audio/e5-consigne-corr20261002-e496cd0e58.mp3",
+   "octets": 103697,
+   "duree_s": 6.4,
+   "caracteres_dits": 109,
+   "caracteres_factures": 109,
    "essais": 1,
    "controle": {
     "moteur_severe_small": {
-     "ok": true,
-     "wer": 0.0,
-     "transcription": "Les étiquettes rendent le quadriage inutile.\n À vous, masquez-le.\n Les lignes horizontales du fond disparaissent."
+     "statut": "ok",
+     "wer": 0.063,
+     "seuil": 0.15,
+     "raison": null,
+     "transcription": "Masquer le cadriage. Sur ces barres horizontales, ce sont les lignes verticales du fond qui disparaissent.",
+     "tirages": 1,
+     "detail_tirages": [
+      {
+       "n": 1,
+       "ok": true,
+       "wer": 0.063,
+       "raison": null,
+       "transcription": "Masquer le cadriage. Sur ces barres horizontales, ce sont les lignes verticales du fond qui disparaissent."
+      }
+     ],
+     "moteur": "whisper.cpp small"
     },
-    "moteur_second_medium": {
-     "ok": true,
-     "wer": 0.0,
-     "transcription": "Les étiquettes rendent le quadrillage inutile.\n À vous, masquez-le.\n Les lignes horizontales du fond disparaissent."
-    },
-    "valide_sur_les_deux": true
+    "statut": "valide_relecture_semantique_deux_transcriptions",
+    "valide_sur_les_deux": false,
+    "revue": {
+     "id": "excel-correction-20261002-m17-e02-05-e5-consigne-e496cd0e58",
+     "step_id": "M17-E02-05",
+     "kind": "consigne",
+     "expected": "Masquez le quadrillage. Sur ces barres horizontales, ce sont les lignes verticales du fond qui disparaissent.",
+     "small_transcript": "Masquer le cadriage. Sur ces barres horizontales, ce sont les lignes verticales du fond qui disparaissent.",
+     "small_status": "ok",
+     "small_reason": null,
+     "small_attempts": 1,
+     "medium_cpu_transcript": "Masquez le quadrillage. Sur ces barres horizontales, ce sont les lignes verticales du fond qui disparaissent.",
+     "full_audio_sha256": "c4c5b7d216d18d70cf458a4478843db0c40b307e4387695caa58e2e207651474",
+     "duration_seconds": 6.4,
+     "duration_limit_seconds": null,
+     "acoustic_listening_performed": false,
+     "external_api_calls": 0,
+     "verdict": "manual_semantic_pass_two_asr",
+     "reason": "Relecture du fichier entier : les gestes, références, nombres et catégories sont identiques. Les écarts restants concernent ponctuation, accords inaudibles ou segmentation phonétique ASR, sans instruction différente."
+    }
    }
   },
   {
@@ -456,5 +484,10 @@
     "valide_sur_les_deux": true
    }
   }
- ]
+ ],
+ "correction_20261002": {
+  "status": "validated_for_release",
+  "second_review": "manual_semantic_small_and_medium_cpu",
+  "acoustic_listening_performed": false
+ }
 }

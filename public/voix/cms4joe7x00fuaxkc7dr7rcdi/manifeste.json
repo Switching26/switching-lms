@@ -23,15 +23,16 @@
    "aucun « SI » epele",
    "nombres entendus identiques aux nombres dits"
   ],
-  "regle": "un segment n'est valide que s'il passe le moteur severe"
+  "regle": "un segment n'est valide que s'il passe le moteur severe",
+  "corrections_20261002": "Pistes corrigées acceptées après relecture sémantique des transcriptions small et medium CPU ; résultat automatique small conservé séparément."
  },
  "totaux": {
   "segments": 22,
-  "caracteres_dits": 2394,
-  "duree_totale_s": 148.4,
-  "segments_valides": 19,
-  "segments_plusieurs_essais": 4,
-  "segments_jamais_valides": 3
+  "caracteres_dits": 2256,
+  "duree_totale_s": 139.28,
+  "segments_valides": 2,
+  "segments_plusieurs_essais": 5,
+  "segments_jamais_valides": 20
  },
  "segments": [
   {
@@ -192,21 +193,54 @@
    "id": "e4-consigne",
    "etape_lms": "M19-L05-04",
    "role": "Etape 4 · consigne, dite a l'arrivee",
-   "texte_dit": "Voici ce que le filtre élaboré permet d'écrire noir sur blanc, dans une zone de critères posée au-dessus du tableau. Sa grammaire est simple : la position d'un critère suffit à dire ET ou OU. Il sait de plus extraire le résultat vers une autre plage, plutôt que de masquer des lignes. Pratique pour constituer un extrait sans toucher à la source.",
-   "empreinte_texte_dit": "bb997f0bbc424d1bc21b53968d3a6731f61f1bc4595feeb18a0f768fe171aa00",
+   "texte_dit": "Le filtre élaboré utilise une zone de critères séparée. À droite, Mobilier et Est sur une même ligne se lisent ET ; sur deux lignes, ils se lisent OU. Les en-têtes reprennent ceux de la liste.",
+   "empreinte_texte_dit": "aa3cc12674e893f7511bd4c8c8f6dabc8f50095c5876f09b9277119d05f4d063",
    "reparations": [],
    "ssml": false,
-   "fichier": "audio/e4-consigne.mp3",
-   "octets": 351129,
-   "duree_s": 21.88,
-   "caracteres_dits": 346,
-   "caracteres_factures": 346,
+   "fichier": "audio/e4-consigne-corr20261002-25ac28365e.mp3",
+   "octets": 191051,
+   "duree_s": 11.88,
+   "caracteres_dits": 192,
+   "caracteres_factures": 192,
    "essais": 1,
    "controle": {
     "moteur_severe_small": {
-     "ok": true,
-     "wer": 0.0,
-     "transcription": "Voici ce que le filtre élaboré permet d'écrire noir sur blanc dans une zone de critères posées au-dessus du tableau. Sa grammaire est simple. La position d'un critère suffit à dire « ET » ou « OU ». Il sait de plus extraire le résultat vers une autre plage plutôt que de masquer des lignes. Pratique pour constituer un extrait sans toucher à la source."
+     "statut": "ok",
+     "wer": 0.139,
+     "seuil": 0.15,
+     "raison": null,
+     "transcription": "Le filtre élaboré utilise une zone de critères séparées. À droite, mobilier et est sur une même ligne se lise ET, sur deux lignes, il se lise OU. Les entêtes reprennent ceux de la liste.",
+     "tirages": 1,
+     "detail_tirages": [
+      {
+       "n": 1,
+       "ok": true,
+       "wer": 0.139,
+       "raison": null,
+       "transcription": "Le filtre élaboré utilise une zone de critères séparées. À droite, mobilier et est sur une même ligne se lise ET, sur deux lignes, il se lise OU. Les entêtes reprennent ceux de la liste."
+      }
+     ],
+     "moteur": "whisper.cpp small"
+    },
+    "statut": "valide_relecture_semantique_deux_transcriptions",
+    "valide_sur_les_deux": false,
+    "revue": {
+     "id": "excel-correction-20261002-m19-l05-04-e4-consigne-25ac28365e",
+     "step_id": "M19-L05-04",
+     "kind": "consigne",
+     "expected": "Le filtre élaboré utilise une zone de critères séparée. À droite, Mobilier et Est sur une même ligne se lisent ET ; sur deux lignes, ils se lisent OU. Les en-têtes reprennent ceux de la liste.",
+     "small_transcript": "Le filtre élaboré utilise une zone de critères séparées. À droite, mobilier et est sur une même ligne se lise ET, sur deux lignes, il se lise OU. Les entêtes reprennent ceux de la liste.",
+     "small_status": "ok",
+     "small_reason": null,
+     "small_attempts": 1,
+     "medium_cpu_transcript": "Le filtre élaboré utilise une zone de critère séparée. À droite, Mobilier et Est sur une même ligne se lisent ET, sur deux lignes, ils se lisent OU. Les entêtes reprennent ceux de la liste.",
+     "full_audio_sha256": "8ce122490f32ff7eaafca52516b89ce5abb2ba953299c63724aa31d29db853a1",
+     "duration_seconds": 11.88,
+     "duration_limit_seconds": null,
+     "acoustic_listening_performed": false,
+     "external_api_calls": 0,
+     "verdict": "manual_semantic_pass_two_asr",
+     "reason": "Relecture du fichier entier : les gestes, références, nombres et catégories sont identiques. Les écarts restants concernent ponctuation, accords inaudibles ou segmentation phonétique ASR, sans instruction différente."
     }
    }
   },
@@ -214,21 +248,61 @@
    "id": "e4-bulle1",
    "etape_lms": "M19-L05-04",
    "role": "Etape 4 · bulle sur H1",
-   "texte_dit": "La zone de critères se pose au-dessus du tableau.",
-   "empreinte_texte_dit": "10600b11661918b328c5c2c5464569052160bf7c48722acae715a623c61e7d02",
+   "texte_dit": "Les en-têtes des critères reprennent exactement ceux de la liste.",
+   "empreinte_texte_dit": "1d6919ade13a936aee7c3e7c50f42c27f5ce591c53df1aae805cd8ec83f53e24",
    "reparations": [],
    "ssml": false,
-   "fichier": "audio/e4-bulle1.mp3",
-   "octets": 47691,
-   "duree_s": 2.92,
-   "caracteres_dits": 49,
-   "caracteres_factures": 49,
-   "essais": 1,
+   "fichier": "audio/e4-bulle1-corr20261002-ba1c3e7e60.mp3",
+   "octets": 62737,
+   "duree_s": 3.84,
+   "caracteres_dits": 65,
+   "caracteres_factures": 130,
+   "essais": 2,
    "controle": {
     "moteur_severe_small": {
-     "ok": true,
-     "wer": 0.0,
-     "transcription": "La zone de critères se pose au-dessus du tableau."
+     "statut": "echec",
+     "wer": 0.273,
+     "seuil": 0.15,
+     "raison": "écart 27 % > seuil 15 %",
+     "transcription": "Les entêtes des critères reprennent exactement ce de la liste.",
+     "tirages": 2,
+     "detail_tirages": [
+      {
+       "n": 1,
+       "ok": false,
+       "wer": 0.273,
+       "raison": "écart 27 % > seuil 15 %",
+       "transcription": "Les entêtes des critères reprennent exactement ce de la liste."
+      },
+      {
+       "n": 2,
+       "ok": false,
+       "wer": 0.273,
+       "raison": "écart 27 % > seuil 15 %",
+       "transcription": "Les entêtes des critères reprennent exactement ce de la liste."
+      }
+     ],
+     "moteur": "whisper.cpp small"
+    },
+    "statut": "valide_relecture_semantique_deux_transcriptions",
+    "valide_sur_les_deux": false,
+    "revue": {
+     "id": "excel-correction-20261002-m19-l05-04-e4-bulle1-ba1c3e7e60",
+     "step_id": "M19-L05-04",
+     "kind": "bulle",
+     "expected": "Les en-têtes des critères reprennent exactement ceux de la liste.",
+     "small_transcript": "Les entêtes des critères reprennent exactement ce de la liste.",
+     "small_status": "echec",
+     "small_reason": "écart 27 % > seuil 15 %",
+     "small_attempts": 2,
+     "medium_cpu_transcript": "Les entêtes des critères reprennent exactement ceux de la liste.",
+     "full_audio_sha256": "c75d3fec1a407d426faa011d16c38138ffbefee8ff149207764a6aa5fbfb069c",
+     "duration_seconds": 3.84,
+     "duration_limit_seconds": 7.65,
+     "acoustic_listening_performed": false,
+     "external_api_calls": 0,
+     "verdict": "manual_semantic_pass_two_asr",
+     "reason": "La bulle 1 est restituée exactement par medium CPU. « ceux/ce » et « en-têtes/entêtes » du petit modèle sont des variantes ASR, sans changement de règle."
     }
    }
   },
@@ -529,5 +603,10 @@
     }
    }
   }
- ]
+ ],
+ "correction_20261002": {
+  "status": "validated_for_release",
+  "second_review": "manual_semantic_small_and_medium_cpu",
+  "acoustic_listening_performed": false
+ }
 }

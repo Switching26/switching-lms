@@ -23,15 +23,16 @@
    "aucun « SI » epele",
    "nombres entendus identiques aux nombres dits"
   ],
-  "regle": "un segment n'est valide que s'il passe le moteur severe"
+  "regle": "un segment n'est valide que s'il passe le moteur severe",
+  "corrections_20261002": "Pistes corrigées acceptées après relecture sémantique des transcriptions small et medium CPU ; résultat automatique small conservé séparément."
  },
  "totaux": {
   "segments": 18,
-  "caracteres_dits": 1863,
-  "duree_totale_s": 111.2,
-  "segments_valides": 16,
+  "caracteres_dits": 1793,
+  "duree_totale_s": 106.28,
+  "segments_valides": 1,
   "segments_plusieurs_essais": 3,
-  "segments_jamais_valides": 2
+  "segments_jamais_valides": 17
  },
  "segments": [
   {
@@ -60,21 +61,54 @@
    "id": "e1-consigne",
    "etape_lms": "M24-L02-01",
    "role": "Etape 1 · consigne, dite a l'arrivee",
-   "texte_dit": "La colonne Photo attend ses vignettes. Ouvrez l'onglet Insertion, et cliquez sur Image dans la cellule, pour poser la photo du clavier. La photo se loge dans la cellule.",
-   "empreinte_texte_dit": "17a08175148f7fbf05fcb592e44c69dd6d88eb923dcd1295cba817a09f73d3a5",
+   "texte_dit": "Ouvrez l’onglet Insertion, puis Image dans la cellule, pour placer l’illustration du clavier en A2.",
+   "empreinte_texte_dit": "4b41319c67998686386294c11858977a682470efcbc312884069d956d7699bda",
    "reparations": [],
    "ssml": false,
-   "fichier": "audio/e1-consigne.mp3",
-   "octets": 170153,
-   "duree_s": 10.56,
-   "caracteres_dits": 169,
-   "caracteres_factures": 169,
+   "fichier": "audio/e1-consigne-corr20261002-822511506e.mp3",
+   "octets": 91995,
+   "duree_s": 5.68,
+   "caracteres_dits": 99,
+   "caracteres_factures": 99,
    "essais": 1,
    "controle": {
     "moteur_severe_small": {
-     "ok": true,
-     "wer": 0.0,
-     "transcription": "La colonne photo attend ses vignettes, ouvrez l'onglet Insertion et cliquez sur Images dans la cellule pour poser la photo du clavier. La photo se loge dans la cellule."
+     "statut": "ok",
+     "wer": 0,
+     "seuil": 0.15,
+     "raison": null,
+     "transcription": "Ouvrez l'onglet Insertion, puis Images dans la cellule pour placer l'illustration du clavier en A2.",
+     "tirages": 1,
+     "detail_tirages": [
+      {
+       "n": 1,
+       "ok": true,
+       "wer": 0,
+       "raison": null,
+       "transcription": "Ouvrez l'onglet Insertion, puis Images dans la cellule pour placer l'illustration du clavier en A2."
+      }
+     ],
+     "moteur": "whisper.cpp small"
+    },
+    "statut": "valide_relecture_semantique_deux_transcriptions",
+    "valide_sur_les_deux": false,
+    "revue": {
+     "id": "excel-correction-20261002-m24-l02-01-e1-consigne-822511506e",
+     "step_id": "M24-L02-01",
+     "kind": "consigne",
+     "expected": "Ouvrez l’onglet Insertion, puis Image dans la cellule, pour placer l’illustration du clavier en A2.",
+     "small_transcript": "Ouvrez l'onglet Insertion, puis Images dans la cellule pour placer l'illustration du clavier en A2.",
+     "small_status": "ok",
+     "small_reason": null,
+     "small_attempts": 1,
+     "medium_cpu_transcript": "Ouvrez l'onglet Insertion, puis Images dans la cellule pour placer l'illustration du clavier en A2.",
+     "full_audio_sha256": "85d6c8ef15cd5552d8ee9a440bbd9ba7da9e7fcb14ea3b68f4ccc0b07bb7677a",
+     "duration_seconds": 5.68,
+     "duration_limit_seconds": null,
+     "acoustic_listening_performed": false,
+     "external_api_calls": 0,
+     "verdict": "manual_semantic_pass_two_asr",
+     "reason": "Relecture du fichier entier : les gestes, références, nombres et catégories sont identiques. Les écarts restants concernent ponctuation, accords inaudibles ou segmentation phonétique ASR, sans instruction différente."
     }
    }
   },
@@ -430,5 +464,10 @@
     }
    }
   }
- ]
+ ],
+ "correction_20261002": {
+  "status": "validated_for_release",
+  "second_review": "manual_semantic_small_and_medium_cpu",
+  "acoustic_listening_performed": false
+ }
 }

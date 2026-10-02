@@ -247,7 +247,7 @@ export type ContexteDemo = {
  * une question de correction mais de VÉRITÉ PÉDAGOGIQUE — montrer le bouton que
  * l'apprenant doit réellement chercher.
  */
-function boutonEditionGraphique(p: Record<string, unknown>): { id: string; nom: string } | null {
+export function boutonEditionGraphique(p: Record<string, unknown>): { id: string; nom: string } | null {
   const el = (p.elements ?? {}) as Record<string, unknown>
   if (el.titre !== undefined || p.title !== undefined)
     return { id: "ins-graph-element-titre", nom: "le titre du graphique" }
@@ -962,6 +962,13 @@ function planBrut(action: SimulationAction, ctx: ContexteDemo): PlanDemo | null 
 
     /* ── boutons du ruban ────────────────────────────────────────────── */
     case "CLICK_CONTROL":
+      if (action.control === "acc-format-largeur") return {
+        gestes: [
+          { cible: ctrl(action.control), bulle: "ouvrir Largeur de colonne" },
+          { cible: ctrl("colonne-largeur-saisie"), bulle: "saisir la largeur en pixels", frappe: "160", presser: { id: '[data-control="colonne-largeur-saisie"]', arg: "160" } },
+        ],
+        pas: ["Ouvrir", "Saisir la largeur", "Valider"],
+      }
       return { gestes: [{ cible: ctrl(action.control), bulle: "ce bouton du ruban" }], pas: ["Cliquer le bouton"] }
 
     case "EXPECT_FORMAT": {
@@ -1004,7 +1011,14 @@ function planBrut(action: SimulationAction, ctx: ContexteDemo): PlanDemo | null 
 
     case "FILTER_COLUMN":
       return {
-        gestes: [{ cible: ctrl("don-filtrer"), bulle: "le bouton Filtrer" }],
+        gestes: [
+          { cible: { k: "enteteColonne", col: action.column }, bulle: `ouvrir le filtre de ${action.column}` },
+          {
+            cible: { k: "enteteColonne", col: action.column },
+            bulle: `retenir ${action.values.join(", ")}`,
+            presser: { id: "demo-filtrer-colonne", arg: JSON.stringify({ column: action.column, values: action.values }) },
+          },
+        ],
         pas: ["Poser le filtre", "Choisir la valeur"],
       }
 
@@ -1015,6 +1029,13 @@ function planBrut(action: SimulationAction, ctx: ContexteDemo): PlanDemo | null 
       const patch = ctx.setup?.chartEdit
       if (patch && !ctx.setup?.chart) {
         const bouton = boutonEditionGraphique(patch)
+        if (patch.title !== undefined) return {
+          gestes: [
+            { cible: ctrl("ins-graph-element-titre"), bulle: "ouvrir le titre du graphique" },
+            { cible: ctrl("graph-titre-saisie"), bulle: "saisir le titre", frappe: String(patch.title), presser: { id: '[data-control="graph-titre-saisie"]', arg: String(patch.title) } },
+          ],
+          pas: ["Ouvrir le titre", "Saisir", "Valider"],
+        }
         if (bouton) return { gestes: [{ cible: ctrl(bouton.id), bulle: bouton.nom }], pas: ["Cliquer le bouton"] }
         // Aucun bouton ne correspond : on DÉSIGNE le graphique et on s'arrête là
         // plutôt que d'en fabriquer un autre.
@@ -1109,6 +1130,11 @@ function planBrut(action: SimulationAction, ctx: ContexteDemo): PlanDemo | null 
       const gestes: GesteDemo[] = []
       if (plage) gestes.push({ cible: { k: "plage", ref: plage }, bulle: `sélectionner ${lieu(plage)}` })
       gestes.push({ cible: ctrl("ins-tcd"), bulle: "insérer un tableau croisé" })
+      const creation = ctx.setup?.pivot as Record<string, unknown> | undefined
+      if (creation) gestes.push(...(gestesEditionTcd({
+        rows: creation.rows ?? [], cols: creation.cols ?? [],
+        values: creation.values ?? [], filters: creation.filters ?? [],
+      }, { rows: [], cols: [], values: [], filters: [] }) ?? []))
       return { gestes, pas: plage ? ["Sélectionner les données", "Insérer le tableau croisé"] : ["Insérer le tableau croisé"] }
     }
 
@@ -1449,7 +1475,7 @@ function planBrut(action: SimulationAction, ctx: ContexteDemo): PlanDemo | null 
     case "KEY": {
       const touches = libellerTouches(action.key)
       return {
-        gestes: [{ cible: { k: "clavier" }, bulle: touches.join(" + "), touches }],
+        gestes: [{ cible: { k: "clavier" }, bulle: touches.join(" + "), touches, presser: { id: "demo-touche", arg: action.key } }],
         pas: [`Appuyer sur ${touches.join(" + ")}`],
       }
     }
@@ -1510,7 +1536,16 @@ function planBrut(action: SimulationAction, ctx: ContexteDemo): PlanDemo | null 
     }
 
     case "FILL_HANDLE":
-      return null
+      return {
+        gestes: [{
+          cible: { k: action.from.includes(":") ? "plage" : "cellule", ref: action.from },
+          selectionner: action.from,
+          glisserVers: { k: "cellule", ref: action.to },
+          bulle: `tirer la poignée de ${action.from} jusqu'à ${action.to}`,
+          presser: { id: "demo-recopier", arg: JSON.stringify({ from: action.from, to: action.to }) },
+        }],
+        pas: ["Sélectionner", "Tirer la poignée"],
+      }
 
     default:
       return null

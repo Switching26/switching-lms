@@ -112,6 +112,15 @@ for (const [fichier, nom] of Object.entries(PANNEAUX)) {
     }
   }
 }
+// Les dialogues de titre et de largeur sont rendus directement par le lecteur.
+// Retenir seulement leurs attributs : les identifiants traités par les handlers
+// du lecteur ne prouvent pas qu’un bouton existe à l’écran.
+{
+  const src = fs.readFileSync(path.join(COMPOSANTS, "SimulationPlayer.tsx"), "utf8")
+  for (const m of src.matchAll(/data-control="([^"]+)"/g)) {
+    if (!panneauParControle[m[1]]) panneauParControle[m[1]] = "dialogue de l’atelier"
+  }
+}
 {
   const p = path.join(__dirname, "..", "..", "lib", "simulation", "poste.ts")
   if (fs.existsSync(p)) {

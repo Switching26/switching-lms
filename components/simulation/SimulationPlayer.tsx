@@ -33,19 +33,11 @@ import {
 } from "@/lib/simulation/attendu"
 import {
   MOTIF_PAR_FAMILLE,
-  cellulesHorsEtatAplomb,
-  cellulesLues,
-  cellulesParasites,
-  divergences,
-  etatAplomb,
-  famillesLegitimes,
-  phraseAplomb,
-  refsConnues,
   refsDeLaZone,
   zoneClasseur,
-  type Divergence,
-  type LectureCellule,
 } from "@/lib/simulation/aplomb"
+import { restaurerCellulesCapturees, restaurerStylesCapturees, ProtectionDemonstration, rectangleVisible } from "@/lib/simulation/etat-etape"
+import { jouerToucheDemo, rejouerRecopiesDemo } from "@/lib/simulation/demonstration-execution"
 import DesktopLayer from "./DesktopLayer"
 import AfficheModule, { numeroModule } from "./AfficheModule"
 import DemonstrationGeste, { type Rect } from "./DemonstrationGeste"
@@ -269,17 +261,19 @@ type ClicheDemo = {
    */
   feuilles: string[]
   feuilleActive: string | null
+  selection: string
+  codeMacro: string
+  afficherRapportTcd: boolean
 }
 
-/** Deux clichés de cellule décrivent-ils le même contenu ? */
-function memeCellule(a: CelluleCliche, b: CelluleCliche): boolean {
-  if ((a.f ?? "") !== (b.f ?? "")) return false
-  const x = a.v ?? ""
-  const y = b.v ?? ""
-  if (typeof x === "number" && typeof y === "number") return Math.abs(x - y) < 1e-9
-  return String(x) === String(y)
+function lireEntreeCellule(grid: GridApi, ref: string): string {
+  const api = grid as GridApi & { getCellInput?: (ref: string) => string }
+  if (api.getCellInput) return api.getCellInput(ref)
+  const formule = grid.getFormula(ref)
+  const valeur = grid.getValue(ref)
+  return formule || (valeur == null ? "" : String(valeur))
 }
-import { planDemonstration, planSequence, type CibleDemo, type PlanDemo } from "@/lib/simulation/demonstration"
+import { boutonEditionGraphique, planDemonstration, planSequence, type CibleDemo, type PlanDemo } from "@/lib/simulation/demonstration"
 import { avecDureesDeVoix, useVoixDemo } from "./hooks/useVoixDemo"
 import { CONTROLES_POSTE, appliquerGeste, posteInitial } from "@/lib/simulation/poste"
 import ChartLayer from "./ChartLayer"
@@ -743,40 +737,6 @@ export default function SimulationPlayer({
    * pouvait ni comprendre, ni passer. Paliers retenus avec Samuel : 2 / 3 / 5.
    */
   /**
-   * Phrase du bandeau quand des cellules ont été remises d'aplomb. Volontairement
-   * factuelle et sans reproche : l'apprenant n'a rien fait de mal, il a exploré.
-   * Mais elle ne peut pas être tue — une remise en ordre invisible se vit comme
-   * « mon travail a disparu » (arbitrage Samuel du 31/07/2026).
-   */
-  const [aplomb, setAplomb] = useState<string | null>(null)
-  /**
-   * TEMPS DE LECTURE GARANTI.
-   *
-   * La phrase était effacée par le changement d'étape (`setAplomb(null)` en
-   * tête de `applyStep`). Or la remise a lieu à l'arrivée sur une étape, et
-   * l'étape suivante peut tomber tout de suite après — l'apprenant enchaîne, ou
-   * le rattrapage d'observation la franchit lui-même parce que la feuille est
-   * déjà juste. Filmé au banc sur `m01-l05` : message posé à 966 ms, effacé à
-   * 2 643 ms par un franchissement automatique. Des cases disparaissaient donc
-   * bel et bien sans un mot lisible.
-   *
-   * Le message a maintenant sa propre durée : il survit au changement d'étape
-   * jusqu'à son échéance, ou jusqu'à ce qu'une nouvelle remise le remplace. Il
-   * ne parle que du CLASSEUR, jamais de l'étape en cours : le laisser vivre
-   * quelques secondes de plus ne peut pas devenir faux.
-   */
-  const APLOMB_LECTURE_MS = 6000
-  const aplombFinRef = useRef(0)
-  const aplombTimerRef = useRef<number | null>(null)
-  const poserAplomb = useCallback((p: string | null) => {
-    if (!p) return
-    setAplomb(p)
-    aplombFinRef.current = Date.now() + APLOMB_LECTURE_MS
-    if (aplombTimerRef.current) window.clearTimeout(aplombTimerRef.current)
-    aplombTimerRef.current = window.setTimeout(() => setAplomb(null), APLOMB_LECTURE_MS)
-  }, [])
-  useEffect(() => () => { if (aplombTimerRef.current) window.clearTimeout(aplombTimerRef.current) }, [])
-  /**
    * Gestes faits sans succès sur une étape jugée sur l'ÉTAT du classeur.
    *
    * Sur ces étapes — 466 au total : EXPECT_STATE, EXPECT_FORMAT, mise en page,
@@ -838,6 +798,8 @@ export default function SimulationPlayer({
    */
   const [selection, setSelection] = useState(scenario.workbook.selection ?? "A1")
   const [formulaText, setFormulaText] = useState("")
+  const [titreGraphiqueEdite, setTitreGraphiqueEdite] = useState<string | null>(null)
+  const [largeurEditee, setLargeurEditee] = useState<{ index: number; valeur: string } | null>(null)
   // Agrégats de la sélection, rafraîchis à chaque geste : c'est ce que la barre
   // d'état d'Excel affiche, et la leçon « calculs à la volée » repose dessus.
   const [stats, setStats] = useState<ReturnType<GridApi["getSelectionStats"]>>(null)
@@ -970,6 +932,8 @@ export default function SimulationPlayer({
    */
   const travauxDemoRef = useRef(0)
   const verrouDemoRef = useRef(0)
+  const protectionDemoRef = useRef(new ProtectionDemonstration())
+  const revisionUtilisateurRef = useRef(0)
   const verrouillerDemo = useCallback((ms: number) => {
     verrouDemoRef.current = Math.max(verrouDemoRef.current, Date.now() + ms)
   }, [])
@@ -1064,6 +1028,8 @@ export default function SimulationPlayer({
   const arreterMacroRef = useRef<(() => void) | null>(null)
 
   const clicheDemoRef = useRef<ClicheDemo | null>(null)
+  const entreesEtapeRef = useRef(new Map<number, ClicheDemo>())
+  const derniereEtapeRef = useRef<number | null>(null)
 
   /*
    * AIDE PROGRESSIVE — essais, tâtonnements, chrono, paliers 2 / 3 / 5.
@@ -1099,6 +1065,20 @@ export default function SimulationPlayer({
     avantDemonstration: restaurerDepartPostePourDemo,
   })
 
+  useEffect(() => {
+    const reprendre = (e: Event) => {
+      if (!e.isTrusted || !(e.target instanceof Node) || !zoneAtelierRef.current?.contains(e.target)) return
+      revisionUtilisateurRef.current++
+      if (protectionDemoRef.current.prendreMain()) verrouDemoRef.current = 0
+    }
+    window.addEventListener("pointerdown", reprendre, true)
+    window.addEventListener("keydown", reprendre, true)
+    return () => {
+      window.removeEventListener("pointerdown", reprendre, true)
+      window.removeEventListener("keydown", reprendre, true)
+    }
+  }, [])
+
   /* ── Lecture du classeur pour les modèles ──────────────────────────────── */
 
   /** Lecture d'une cellule, signature attendue par le moteur de tableaux croisés. */
@@ -1124,6 +1104,22 @@ export default function SimulationPlayer({
     posePivotRef.current = pose
     grid.applyCells(pose.cells)
   }, [])
+
+  const [afficherRapportTcd, setAfficherRapportTcd] = useState(true)
+  const afficherRapportTcdRef = useRef(afficherRapportTcd)
+  afficherRapportTcdRef.current = afficherRapportTcd
+  useEffect(() => {
+    const a = step?.action
+    const source = tcdRef.current?.source
+    const zone = source ? parseRange(source) : null
+    const viseSource = (ref: string) => {
+      const r = parseRange(ref)
+      return !!(r && zone && r.startRow <= zone.endRow && r.endRow >= zone.startRow && r.startCol <= zone.endCol && r.endCol >= zone.startCol)
+    }
+    const actionCellules = a?.type === "TYPE" || a?.type === "EXPECT_STATE"
+    const lectureSource = step?.montrer?.some((g) => g.type === "MONTRER" && g.cible && viseSource(g.cible))
+    setAfficherRapportTcd(!(actionCellules || lectureSource))
+  }, [index])
 
   // Onglet du ruban : l'étape peut en imposer un, mais l'apprenant doit pouvoir
   // en changer librement. Explorer le ruban n'est pas une faute.
@@ -1210,6 +1206,8 @@ export default function SimulationPlayer({
       // Une étape qui exige un onglet précis le reprend ; sinon on laisse
       // l'apprenant sur celui qu'il consultait.
       if (s.setup?.ribbon?.activeTab) setOnglet(s.setup.ribbon.activeTab)
+      setTitreGraphiqueEdite(null)
+      setLargeurEditee(null)
       // Un menu resté déplié ou une boîte restée ouverte d'une étape à l'autre
       // masqueraient la feuille de l'étape suivante. Le presse-papiers, lui, se
       // vide comme dans Excel quand on change de contexte.
@@ -1293,13 +1291,13 @@ export default function SimulationPlayer({
       // « la barre de formule affiche toujours =3+2 » la montrait vide, et
       // l'illustration qui la désigne pointait sur du néant.
       const refFormule = s.setup?.selection
-      setFormulaText(refFormule ? (grid.getFormula(refFormule) ?? "") : "")
+      setFormulaText(refFormule ? lireEntreeCellule(grid, refFormule) : "")
       // Les cellules que l'étape vient de poser ne sont lisibles qu'après le
       // recalcul d'Univer (60-120 ms mesurés) : on relit une fois.
       if (refFormule) {
         window.setTimeout(() => {
           const g = gridRef.current
-          if (g && stepRef.current?.id === s.id) setFormulaText(g.getFormula(refFormule) ?? "")
+          if (g && stepRef.current?.id === s.id) setFormulaText(lireEntreeCellule(g, refFormule))
         }, 320)
       }
       setVerdict(null)
@@ -1340,9 +1338,10 @@ export default function SimulationPlayer({
    * émet 350 ms plus tard, sinon l'étape courante se croirait franchie.
    */
   const rejouerAvant = useCallback(
-    (jusqua: number) => {
+    async (jusqua: number) => {
       const grid = gridRef.current
       if (!grid || jusqua <= 0) return
+      protectionDemoRef.current.demarrer()
       // Large : le débounce de la grille est à 350 ms, et les modèles posés
       // ci-dessous écrivent eux aussi dans la feuille.
       verrouDemoRef.current = Math.max(verrouDemoRef.current, Date.now() + 2000)
@@ -1426,6 +1425,12 @@ export default function SimulationPlayer({
         if (!s) continue
         suivreSelection(s)
         if (s.setup?.cells) grid.applyCells(s.setup.cells)
+        if (s.setup?.selection) grid.setSelection(s.setup.selection)
+        appliquerModeles(s, false)
+        enregistrementRef.current = enrRejeu
+        setEnregistrement(enrRejeu)
+        await new Promise<void>((resolve) => window.setTimeout(resolve, 140))
+        entreesEtapeRef.current.set(k, prendreClicheDemo(k))
         const a = s.action
         const ecrites: Record<string, CellState> = {}
         if (a.type === "TYPE" && a.target !== "formula-bar" && a.accept?.length) {
@@ -1477,7 +1482,7 @@ export default function SimulationPlayer({
             }
           }
         }
-        if (a.type === "EXPECT_STATE") {
+        if (a.type === "EXPECT_STATE" && !s.montrer?.some((g) => g.type === "FILL_HANDLE")) {
           for (const [ref, att] of Object.entries(a.cells)) {
             const formule = att.f ?? att.anyOf?.[0]
             if (formule && formule.trim().startsWith("=")) ecrites[ref] = { f: formule }
@@ -1488,6 +1493,49 @@ export default function SimulationPlayer({
           }
         }
         if (Object.keys(ecrites).length) grid.applyCells(ecrites)
+        // Une reprise rejoue les transformations entières : leurs sondes ne
+        // suffisent pas à restituer les cellules intermédiaires.
+        const complet = grid as GridApi & { fillRange?: (from: string, to: string) => Promise<boolean> }
+        if (a.type === "FILL_HANDLE") await rejouerRecopiesDemo(complet, [a])
+        else if (a.type !== "READ" && s.montrer?.some((g) => g.type === "FILL_HANDLE")) await rejouerRecopiesDemo(complet, s.montrer)
+        if (a.type === "KEY") {
+          const ref = jouerToucheDemo(grid, a.key)
+          if (ref) selCourante = ref
+        } else if (selCourante.startsWith("col:")) {
+          const col = selCourante.slice(4)
+          grid.setSelection(`${col}1:${col}${grid.getBornes().rows}`)
+        } else if (selCourante.startsWith("ligne:")) {
+          const row = selCourante.slice(6)
+          grid.setSelection(`A${row}:${columnIndexToLetter(grid.getBornes().cols - 1)}${row}`)
+        } else grid.setSelection(selCourante)
+        if (s.setup?.split) {
+          const sp = s.setup.split
+          grid.splitToColumns(sp.range, sp.separateur, sp.fusionnerSeparateurs)
+        }
+        if (s.setup?.paste) {
+          grid.setSelection(s.setup.selection || selCourante || "A1")
+          await grid.pasteText(s.setup.paste.texte)
+        }
+        if (s.setup?.goalSeek) {
+          const gs = s.setup.goalSeek
+          await grid.goalSeek(gs.formulaRef, gs.target, gs.inputRef)
+        }
+        if (a.type === "SORT_RANGE") {
+          const aire = parseRange(a.range)
+          const colonne = parseRange(`${a.column}1`)
+          if (aire && colonne) grid.sortRange(a.range, colonne.startCol - aire.startCol, a.ascending)
+        }
+        if (a.type === "CLICK_CONTROL" && (a.control === "acc-inserer" || a.control === "acc-supprimer")) {
+          const entier = /^(col|ligne):(.+)$/.exec(selCourante)
+          if (entier?.[1] === "col") {
+            const col = parseRange(`${entier[2]}1`)?.startCol
+            if (col !== undefined) a.control === "acc-inserer" ? grid.insertColumnBefore(col) : grid.deleteColumn(col)
+          } else if (entier?.[1] === "ligne") {
+            const row = Number(entier[2]) - 1
+            a.control === "acc-inserer" ? grid.insertRowBefore(row) : grid.deleteRow(row)
+          }
+        }
+        await new Promise<void>((resolve) => window.setTimeout(resolve, 140))
 
         /* ── l'enregistreur, rejoué à sec ─────────────────────────────────── */
         if (a.type === "RECORD_MACRO" && a.expect === "started") {
@@ -1642,6 +1690,15 @@ export default function SimulationPlayer({
         }
         // Une étape déjà faite a produit son modèle : on le pose.
         appliquerModeles(s, true)
+        if (macrosRejouees.length) {
+          macrosRef.current = [...macrosRef.current.filter((m) => !macrosRejouees.some((r) => r.name === m.name)), ...macrosRejouees]
+          setMacros(macrosRef.current)
+          const derniere = macrosRejouees[macrosRejouees.length - 1]
+          macroCouranteRef.current = derniere.name
+          setMacroCourante(derniere.name)
+          codeMacroRef.current = genererCode(derniere)
+          setCodeMacro(codeMacroRef.current)
+        }
       }
       // Un enregistrement resté ouvert appartient à l'étape en cours : on le
       // laisse tel quel, c'est l'apprenant qui l'arrêtera.
@@ -1708,80 +1765,6 @@ export default function SimulationPlayer({
   )
 
   /**
-   * REMETTRE LA FEUILLE D'APLOMB.
-   *
-   * Le classeur d'un chapitre se construit d'étape en étape, et rien
-   * n'empêchait un apprenant de vider une cellule produite plus tôt, d'y écrire
-   * n'importe quoi ou d'y poser un format absurde. Tout ce qui suivait se
-   * déroulait alors sur un classeur faux, SANS UN MESSAGE : la facture du
-   * module 9 totalisait 495 au lieu de 3 165, et la leçon enchaînait remise,
-   * TVA et net à payer sur ce faux total.
-   *
-   * On ne remet donc en place que ce qui a réellement divergé de l'état
-   * d'aplomb (`lib/simulation/aplomb.ts`), jamais tout le classeur : une remise
-   * à zéro brutale effacerait le travail légitime des étapes précédentes, et
-   * réécrirait `=SOMME(B4:B7)` par-dessus le `=B4+B5+B6+B7` de l'apprenant.
-   *
-   * DEUX PORTÉES POUR LE CONTENU, et c'est volontaire :
-   *
-   *  · `"dependances"` au changement d'étape — seules les cellules dont la
-   *    nouvelle étape a besoin. Le reste ne gêne personne, et l'effacer
-   *    reviendrait à supprimer l'exploration de l'apprenant.
-   *
-   *  · `"tout"` avant une démonstration — l'apprenant regarde l'écran ENTIER.
-   *    Un total faux trois lignes plus haut rend la démonstration illisible
-   *    même si l'étape courante ne le lit pas. C'est le défaut que Samuel a
-   *    trouvé le 31/07 : « Montrez-moi » annonçait « voici la réponse » puis
-   *    affichait 495, parce que la démonstration jouait sur le classeur abîmé.
-   *
-   * LE FORMAT DE NOMBRE, LUI, SE TRAITE TOUJOURS EN PORTÉE LARGE. Un pourcentage
-   * posé sur un total de durées affiche « 131,25% » : ce nombre MENT, à l'écran,
-   * en permanence, que l'étape suivante le lise ou non — et c'est exactement le
-   * « 11400,00% » que Samuel a filmé. Le retirer ne détruit jamais rien : sur
-   * 17 525 cellules déclarées dans les 246 scénarios, 22 seulement portent un
-   * format de nombre, et un format que l'apprenant DOIT poser est déclaré par
-   * l'étape `EXPECT_FORMAT` qui le lui demande — il devient donc d'aplomb dès
-   * qu'elle est franchie. Les autres attributs (gras, couleur, bordures) ne
-   * sont jamais touchés : ils ne font mentir aucun chiffre.
-   *
-   * Le verrou d'observation est indispensable : `applyCells` fait émettre à la
-   * grille un `stateChange` 350 ms plus tard, qui ferait croire l'étape
-   * courante franchie et sauterait à la suivante.
-   */
-  /**
-   * Ce qu'on dit à l'apprenant. En ÉVALUATION on ne nomme pas les cellules :
-   * « j'ai remis D5 en ordre » désignerait la cellule qui compte, donc une
-   * partie de la réponse. On répare quand même — noter quelqu'un sur un
-   * classeur cassé serait pire — mais sans détailler.
-   */
-  const direAplomb = useCallback(
-    (ds: Divergence[]): string | null => {
-      if (!ds.length) return null
-      if (mode === "EVALUATION") {
-        // Aucune cellule nommée — ce serait désigner la réponse. Mais le geste
-        // se dit quand même : « remis en ordre » sur une feuille dont on vient
-        // seulement d'effacer des cases hors sujet est faux, et c'est
-        // précisément le cas où l'apprenant voit son contenu disparaître.
-        const parasites = ds.filter((d) => d.motif === "parasite").length
-        if (parasites === ds.length)
-          return "J'ai vidé des cellules qui ne font pas partie de l'exercice."
-        if (parasites)
-          return "J'ai remis la feuille en ordre et vidé des cellules qui ne font pas partie de l'exercice."
-        return "J'ai remis la feuille en ordre pour que la suite reste juste."
-      }
-      return phraseAplomb(ds)
-    },
-    [mode],
-  )
-
-  /**
-   * `handleAction` est défini plus bas ; le rattrapage doit pouvoir l'appeler
-   * sans créer de dépendance circulaire entre les deux rappels mémoïsés.
-   */
-  const handleActionRef = useRef<
-    ((o: ObservedAction, options?: { siJuste?: boolean }) => void) | null
-  >(null)
-  /**
    * `appliquerJugement` est défini après `handleAction`, qui doit pourtant
    * l'appeler une fois le verdict revenu. La référence évite à la fois la
    * dépendance circulaire et la capture d'une version périmée.
@@ -1789,58 +1772,6 @@ export default function SimulationPlayer({
   const appliquerJugementRef = useRef<
     ((s: SimulationStep, o: ObservedAction, j: JugementEtape) => void) | null
   >(null)
-
-  /**
-   * RATTRAPAGE APRÈS LE VERROU.
-   *
-   * Pendant qu'une remise d'aplomb écrit, les observations sont ignorées —
-   * sinon l'écriture ferait croire l'étape franchie. Mais une réponse tapée
-   * dans cette fenêtre était jetée EN SILENCE, et la retaper ne réémettait
-   * rien : la grille n'émet que sur changement. L'apprenant restait devant une
-   * feuille parfaitement juste avec une étape figée, sans indice, et la seule
-   * issue était d'effacer puis de retaper.
-   *
-   * On relit donc l'état une fois le verrou levé, et on ne redéclenche QUE si
-   * la réponse est effectivement bonne — d'où `siJuste`. Une observation qui
-   * échouerait compterait une faute que l'apprenant n'a pas commise.
-   *
-   * Le filtre a migré DANS `handleAction` : en évaluation notée le scénario ne
-   * porte plus les réponses, l'atelier ne peut donc plus pré-juger lui-même. Le
-   * verdict revient du serveur, et `siJuste` fait le tri au retour.
-   */
-  const reobserverEtat = useCallback(() => {
-    const grid = gridRef.current
-    const s = stepRef.current
-    if (!grid || !s || resoluRef.current) return
-    const a = s.action
-    let obs: ObservedAction | null = null
-    if (a.type === "TYPE" && a.target !== "formula-bar") {
-      const formule = grid.getFormula(a.target) ?? ""
-      const valeur = grid.getValue(a.target)
-      const text = formule || (valeur == null ? "" : String(valeur))
-      if (!text) return
-      obs = {
-        kind: "typed",
-        target: a.target,
-        text,
-        displayed: grid.getDisplayValue(a.target),
-        channel: "keyboard",
-        computed: valeur,
-      }
-    } else if (a.type === "EXPECT_STATE") {
-      const readings: Record<string, { formula: string; value: unknown }> = {}
-      for (const ref of cellulesARelever(a.cells ? Object.keys(a.cells) : null)) {
-        try {
-          readings[ref] = { formula: grid.getFormula(ref), value: grid.getValue(ref) }
-        } catch {
-          /* hors bornes : on relève ce qu'on peut */
-        }
-      }
-      obs = { kind: "stateChange", readings }
-    }
-    if (!obs) return
-    handleActionRef.current?.(obs, { siJuste: true })
-  }, [])
 
   /** Lecture d'une cellule à la forme du cliché : la formule prime sur la valeur. */
   const lireCelluleCliche = useCallback((grid: GridApi, ref: string): CelluleCliche => {
@@ -1855,15 +1786,15 @@ export default function SimulationPlayer({
   }, [])
 
   /**
-   * Prend le cliché. La ZONE est celle de la remise d'aplomb : le rectangle
-   * englobant de tout ce que le scénario déclare quelque part.
+   * Prend le cliché de toutes les cellules présentes, avec les références
+   * déclarées par le scénario pour capturer aussi ses emplacements vides.
    *
    * On garde la VALEUR telle que le moteur la tient, jamais sa forme texte :
    * `String(21.5)` donne « 21.5 », que la grille relit comme le 21 mai. C'est
    * le piège de `commeTape()`, et il attend au tournant tout code qui
    * sérialise une cellule pour la réécrire ensuite.
    */
-  const prendreClicheDemo = useCallback((): ClicheDemo => {
+  const prendreClicheDemo = useCallback((pourEtape: number = indexRef.current): ClicheDemo => {
     const grid = gridRef.current
     const notes: Record<string, string> = grid
       ? (() => { try { return grid.getNotes() } catch { return {} } })()
@@ -1900,6 +1831,8 @@ export default function SimulationPlayer({
        * emplacement vidé.
        */
       const refs = refsDeLaZone(zone)
+      const apiComplete = grid as GridApi & { getPopulatedCellRefs?: () => string[] }
+      for (const ref of apiComplete.getPopulatedCellRefs?.() ?? []) if (!refs.includes(ref)) refs.push(ref)
       /* Ce que l'ÉTAPE déclare attendre : les cellules d'un effet de macro, la
          plage d'un tri, les cases d'un tableau croisé. `zoneClasseur` ne les
          connaît pas toutes, et une cellule non relevée ne peut pas être remise
@@ -1938,9 +1871,9 @@ export default function SimulationPlayer({
           }
         }
       }
-      const acte = stepRef.current?.action as Record<string, unknown> | undefined
+      const acte = steps[pourEtape]?.action as Record<string, unknown> | undefined
       moissonner(acte)
-      moissonner(stepRef.current?.setup)
+      moissonner(steps[pourEtape]?.setup)
       const posePivot = posePivotRef.current?.range
       if (posePivot) {
         /* AVEC MARGE. Modifier un tableau croisé le fait GRANDIR : ajouter un
@@ -1985,9 +1918,9 @@ export default function SimulationPlayer({
       macros: macrosRef.current.map((m) => ({ ...m, statements: [...m.statements] })),
       macroCourante: macroCouranteRef.current,
       reglesMfc: grid ? (() => { try { return grid.countConditionalRules() } catch { return 0 } })() : 0,
-      plageMfc: stepRef.current?.setup?.cf?.range ?? null,
+      plageMfc: steps[pourEtape]?.setup?.cf?.range ?? null,
       reglesAPoser: steps
-        .slice(0, index)
+        .slice(0, pourEtape)
         .flatMap((s) =>
           s.action.type === "CLICK_CONTROL" && s.action.control === "acc-mfc-regle" && s.setup?.cf
             ? [{ range: s.setup.cf.range, rule: s.setup.cf.rule }]
@@ -2003,7 +1936,7 @@ export default function SimulationPlayer({
       visuels,
       notes,
       filtreAPoser: (() => {
-        const passees = steps.slice(0, index)
+        const passees = steps.slice(0, pourEtape)
         if (!passees.some((s) => s.action.type === "CLICK_CONTROL" && s.action.control === "don-filtrer")) return null
         return {
           range: scenario.workbook.filterRange ?? "",
@@ -2015,9 +1948,9 @@ export default function SimulationPlayer({
         }
       })(),
       validations: steps
-        .slice(0, index)
+        .slice(0, pourEtape)
         .flatMap((s) => (s.setup?.dv ? [{ range: s.setup.dv.range, rule: s.setup.dv.rule }] : [])),
-      plageValidee: stepRef.current?.setup?.dv?.range ?? null,
+      plageValidee: steps[pourEtape]?.setup?.dv?.range ?? null,
       posePivot: posePivotRef.current?.range ?? null,
       feuilleCliche: grid
         ? (() => { try { return grid.getSheets().find((f) => f.active)?.name ?? null } catch { return null } })()
@@ -2027,6 +1960,9 @@ export default function SimulationPlayer({
       feuilleActive: grid
         ? (() => { try { return grid.getSheets().find((f) => f.active)?.name ?? null } catch { return null } })()
         : null,
+      selection: grid?.getSelection() || "A1",
+      codeMacro: codeMacroRef.current,
+      afficherRapportTcd: afficherRapportTcdRef.current,
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [steps, lireCelluleCliche])
@@ -2081,6 +2017,11 @@ export default function SimulationPlayer({
       setMacros(macrosRef.current)
       macroCouranteRef.current = c.macroCourante
       setMacroCourante(c.macroCourante)
+      setTitreGraphiqueEdite(null)
+      setLargeurEditee(null)
+      codeMacroRef.current = c.codeMacro
+      setCodeMacro(c.codeMacro)
+      setAfficherRapportTcd(c.afficherRapportTcd)
       /**
        * LE TABLEAU CROISÉ SE REPOSE, IL NE SE RECOPIE PAS.
        *
@@ -2269,15 +2210,11 @@ export default function SimulationPlayer({
           grid.setDimensionFeuille(nom, "ligne", Number(r2) - 1, h)
         }
       }
-      const cells: Record<string, CelluleCliche> = {}
-      for (const [ref, attendu] of Object.entries(c.cellules)) {
-        try {
-          if (!memeCellule(lireCelluleCliche(grid, ref), attendu)) cells[ref] = attendu
-        } catch {
-          /* référence devenue invalide */
-        }
-      }
-      if (Object.keys(cells).length) grid.applyCells(cells as Parameters<typeof grid.applyCells>[0])
+      const apiComplete = grid as GridApi & { getPopulatedCellRefs?: () => string[] }
+      const presentes = apiComplete.getPopulatedCellRefs?.() ?? []
+      restaurerCellulesCapturees(c.cellules, presentes, (ref) => lireCelluleCliche(grid, ref), (cells) => grid.applyCells(cells as Parameters<typeof grid.applyCells>[0]))
+      grid.setSelection(c.selection)
+      setSelection(c.selection)
 
       /**
        * LE STYLE, REPOSÉ À L'IDENTIQUE — ET APRÈS LES VALEURS.
@@ -2295,207 +2232,15 @@ export default function SimulationPlayer({
       window.setTimeout(() => {
         const g = gridRef.current
         if (!g) return
-        for (const [ref, attendu] of Object.entries(c.visuels)) {
-          try {
-            if (JSON.stringify(g.getStyleBrut(ref) ?? null) !== attendu) {
-              g.setStyleBrut(ref, JSON.parse(attendu))
-            }
-          } catch {
-            /* référence devenue invalide */
-          }
-        }
+        if (clicheDemoRef.current !== c) return
+        restaurerStylesCapturees(c.visuels, presentes, (ref) => g.getStyleBrut(ref), (ref, style) => g.setStyleBrut(ref, style))
       }, 360)
     },
     [lireCelluleCliche, poserGraphique, poserPlageSomme, poserReglages, poserTcdDansFeuille, verrouillerDemo],
   )
 
-  /**
-   * Une cellule ÉCRITE PAR LE TABLEAU CROISÉ n'est pas un parasite.
-   *
-   * « Somme de Montant », « Étiquettes de lignes », les totaux : le scénario ne
-   * les déclare nulle part — c'est le moteur qui les produit. Elles tombent
-   * pourtant dans le rectangle englobant de ce que le scénario déclare, donc
-   * `cellulesHorsEtatAplomb` les voyait comme des cases remplies sans raison et
-   * les vidait. Mesuré le 03/08/2026 sur `m20-l04` : au rejeu, l'emplacement du
-   * tableau était nettoyé pendant que son état restait intact — un tableau
-   * croisé invisible, et une démonstration qui expliquait du vide.
-   */
-  const occupePivot = useCallback((ref: string): boolean => {
-    const plage = posePivotRef.current?.range
-    if (!plage) return false
-    const p = parseRange(plage)
-    const c = parseRange(ref)
-    if (!p || !c) return false
-    /* AVEC LA MÊME MARGE QUE LE CLICHÉ. La pose enregistrée décrit le tableau
-       à un instant donné ; il grandit dès qu'on lui ajoute un champ. Protéger
-       la seule pose laissait la remise d'aplomb vider les cellules apparues
-       autour — et le cliché les relevait alors déjà vides, si bien que le rejeu
-       repartait d'un tableau amputé. */
-    const M = 8
-    return (
-      c.startRow >= p.startRow && c.endRow <= p.endRow + M &&
-      c.startCol >= p.startCol && c.endCol <= p.endCol + M
-    )
-  }, [])
-
-  const remettreDAplomb = useCallback(
-    (portee: "dependances" | "tout", pourEtape: number): Divergence[] => {
-      const grid = gridRef.current
-      const s = steps[pourEtape]
-      if (!grid || !s) return []
-      // La feuille ACTIVE, pas la première du classeur : sur les 19 scénarios
-      // multi-feuilles, comparer « Total » à « Lyon » faisait écrire les
-      // chiffres de Lyon dans la cellule que l'apprenant devait remplir.
-      let active: string | undefined
-      try {
-        active = grid.getSheets().find((f) => f.active)?.name
-      } catch {
-        /* la grille peut ne pas être prête : on retombe sur la première feuille */
-      }
-      const etat = etatAplomb(steps, scenario.workbook, pourEtape, active)
-      // On lit TOUJOURS large : c'est la seule façon de voir un format
-      // trompeur posé loin de l'étape courante. Le tri se fait ensuite.
-      const refs = refsConnues(etat)
-      const lues = portee === "tout" ? null : cellulesLues(s)
-      if (!refs.length) return []
-
-      /* La ZONE DU CLASSEUR : le rectangle englobant de tout ce que le scénario
-       * déclare quelque part. On y lit aussi les cellules qu'il ne déclare PAS,
-       * pour voir ce qui ne devrait pas y être. */
-      const { zone, declarees } = zoneClasseur(steps, scenario.workbook, active)
-      const aLire = refs.slice()
-      for (const r of refsDeLaZone(zone)) if (!etat[r]) aLire.push(r)
-
-      const lecture: Record<string, LectureCellule> = {}
-      for (const ref of aLire) {
-        try {
-          lecture[ref.toUpperCase()] = {
-            formule: grid.getFormula(ref) ?? "",
-            valeur: grid.getValue(ref),
-            numberFormat: grid.getNumberFormat(ref) ?? "",
-          }
-        } catch {
-          /* une référence hors bornes après un tri : on la laisse de côté */
-        }
-      }
-
-      const toutes = divergences(etat, lecture, refs, famillesLegitimes(steps))
-      // Le contenu ne se répare que dans la portée demandée ; le format, lui,
-      // se répare partout (voir la note ci-dessus).
-      /* CELLULES PARASITES — ce qui ne devrait pas être là.
-       *
-       * La remise savait remettre, pas enlever : une case remplie là où le
-       * scénario n'attend RIEN n'était jamais examinée. Sur `m01-l05`, les 420
-       * tapés en C8:C12 restaient affichés en « Prix unitaire » face à Total
-       * HT, TVA 20 % et Total TTC, et la démonstration se jouait dessus.
-       *
-       * Elles s'effacent quelle que soit la portée : un chiffre parasite au
-       * milieu d'un tableau ment à l'écran, que l'étape suivante le lise ou
-       * non — même raisonnement que pour un format trompeur. */
-      // Au changement d'étape on respecte l'exploration et seules les cellules
-      // étrangères au chapitre sont vidées. Avant une démonstration, en
-      // revanche, on revient exactement à l'état d'entrée de l'étape : une
-      // cellule prévue plus tard n'a aucune raison de conserver aujourd'hui le
-      // zéro que l'apprenant vient d'y saisir.
-      /* AUCUN EFFACEMENT SILENCIEUX PENDANT UNE ÉVALUATION NOTÉE.
-       *
-       * La remise d'aplomb vide les cellules « parasites » : celles que le
-       * scénario ne déclare nulle part. En évaluation, le scénario servi ne
-       * déclare plus les cellules attendues — les servir dirait à l'apprenant où
-       * écrire —, si bien que SES PROPRES RÉPONSES deviendraient des parasites
-       * et disparaîtraient au changement d'étape.
-       *
-       * Le nettoyage est donc désactivé là. C'est d'ailleurs la bonne règle en
-       * soi : sur une copie notée, on n'efface pas ce que l'apprenant a écrit.
-       * Les leçons et les exercices, eux, gardent le mécanisme intact — c'est
-       * pour eux qu'il a été construit, et leur scénario déclare tout. */
-      const aVider =
-        mode === "EVALUATION"
-          ? []
-          : (portee === "tout"
-              ? cellulesHorsEtatAplomb(zone, etat, lecture)
-              : cellulesParasites(zone, declarees, lecture)
-            ).filter((ref) => !occupePivot(ref))
-      const versParasite: Divergence[] = aVider.map((ref) => ({
-        ref,
-        motif: "parasite",
-        correction: { v: "" },
-      }))
-
-      const ds = (
-        lues === null
-          ? toutes
-          : toutes
-              .map((d) => {
-                if (d.motif === "format" || lues.some((r) => r.toUpperCase() === d.ref)) return d
-                // Hors portée mais mal formatée : on ne remet pas son contenu,
-                // on retire quand même le format qui la fait mentir.
-                return d.famille !== undefined ? { ref: d.ref, motif: "format" as const, famille: d.famille, motifFormat: d.motifFormat } : null
-              })
-              .filter((d): d is NonNullable<typeof d> => d !== null)
-      ).concat(versParasite)
-      // Trace d'audit, hors production : sans elle, un mécanisme qui ne trouve
-      // rien est indiscernable d'un mécanisme qui n'est jamais appelé.
-      if (process.env.NODE_ENV !== "production" && typeof window !== "undefined") {
-        ;(window as unknown as Record<string, unknown>).__SIM_APLOMB = { portee, pourEtape, refs, divergences: ds }
-      }
-      if (!ds.length) return []
-
-      // Verrou court, calibré sur ce qu'il doit couvrir : l'écriture ci-dessous
-      // et le `stateChange` que la grille émet 350 ms plus tard. Il valait
-      // 2 200 ms, si bien qu'une réponse tapée juste après l'arrivée sur
-      // l'étape était jetée EN SILENCE — et la retaper ne réémettait rien,
-      // puisque la grille n'émet que sur changement. L'apprenant restait bloqué
-      // devant une feuille juste, sans savoir qu'il fallait effacer et refaire.
-      verrouillerDemo(900)
-      const cells: Record<string, { v?: string | number; f?: string }> = {}
-      for (const d of ds) if (d.correction) cells[d.ref] = d.correction
-      if (Object.keys(cells).length) grid.applyCells(cells)
-
-      // Le format se repose APRÈS le recalcul, jamais dans la même salve que
-      // l'écriture : `setNumberFormat` posé sur une cellule dont la formule
-      // vient d'être écrite annule cette formule, et la cellule qu'on venait de
-      // réparer redevient vide. C'est le piège qui a fait croire pendant tout
-      // un cycle que le mécanisme ne s'exécutait pas.
-      /**
-       * Une observation a pu être jetée pendant le verrou : on relit l'état une
-       * fois qu'il est levé, pour que l'étape se valide si la feuille est déjà
-       * juste. Sans ce rattrapage, seul « effacer puis retaper » débloquait.
-       *
-       * ⚠️ JAMAIS AVANT UNE DÉMONSTRATION (`portee === "tout"`). Le rattrapage
-       * existe pour repêcher une saisie de l'APPRENANT avalée par le verrou ;
-       * pendant une démonstration personne ne tape, et la seule chose qu'il
-       * puisse valider est la réparation que la remise d'aplomb vient
-       * elle-même d'écrire. Mesuré le 03/08/2026 sur `M25-E02-05` : la cellule
-       * B4 contient « LYON », l'étape attend « Lyon », et la comparaison ignore
-       * la casse — au rejeu, la réparation de B4 déclenchait le rattrapage,
-       * l'étape se validait toute seule au milieu de l'explication et la
-       * démonstration affichée ensuite était celle de l'étape SUIVANTE. Vu de
-       * l'extérieur, « Revoir » montrait autre chose que ce qu'il annonçait.
-       */
-      if (portee === "dependances") window.setTimeout(() => reobserverEtat(), 1100)
-      const aFormater = ds.filter((d) => d.famille !== undefined)
-      if (aFormater.length) {
-        window.setTimeout(() => {
-          const g = gridRef.current
-          if (!g) return
-          for (const d of aFormater) {
-            try {
-              g.setNumberFormat([d.ref], d.motifFormat ?? "")
-            } catch {
-              /* le moteur peut refuser un motif : ne jamais casser la leçon pour ça */
-            }
-          }
-        }, 300)
-      }
-      return ds
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [occupePivot, steps, verrouillerDemo],
-  )
-
   const handleReady = useCallback(
-    (api: GridApi) => {
+    async (api: GridApi) => {
       gridRef.current = api
       api.applyWorkbook(scenario.workbook)
       // Les modèles déclarés dans le classeur existent AVANT la première étape :
@@ -2510,11 +2255,13 @@ export default function SimulationPlayer({
         codeMacroRef.current = genererCode(m)
         setCodeMacro(codeMacroRef.current)
       }
-      setGridReady(true)
       // D'abord le travail des étapes déjà franchies, ensuite la mise en place
       // de l'étape courante — dont le `setup` doit primer sur la reconstitution.
-      rejouerAvant(index)
+      await rejouerAvant(index)
       applyStep(steps[index])
+      verrouillerDemo(900)
+      protectionDemoRef.current.reinitialiser()
+      setGridReady(true)
     },
     // Volontairement figé sur le montage : la grille se monte une seule fois.
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -2544,92 +2291,43 @@ export default function SimulationPlayer({
     // La trace d'audit des repères repart à zéro : hors production seulement.
     if (process.env.NODE_ENV !== "production" && typeof window !== "undefined")
       (window as any).__SIM_DEMO_VUS = {}
-    // Le cliché appartient à l'étape : changer d'étape, c'est changer de point
-    // de départ. Le garder ferait reposer sur la nouvelle étape le classeur de
-    // l'ancienne, ce qui serait bien pire que le défaut qu'il corrige.
-    clicheDemoRef.current = null
+    protectionDemoRef.current.reinitialiser()
     reinitialiserAAlArrivee()
-    // Le message d'aplomb n'est PAS effacé d'office : il a sa propre échéance
-    // (voir `poserAplomb`). Sans cela il disparaissait avec le changement
-    // d'étape, souvent moins de deux secondes après avoir été posé.
-    if (Date.now() >= aplombFinRef.current) setAplomb(null)
     if (!gridReady) return
+    const precedente = derniereEtapeRef.current
+    const retour = precedente !== null && index < precedente
+    const entree = retour ? entreesEtapeRef.current.get(index) : undefined
     applyStep(step)
-    // La remise d'aplomb est DIFFÉRÉE : `applyStep` vient d'écrire le décor de
-    // l'étape, et le moteur de formules met 60 à 120 ms à recalculer. Relire
-    // tout de suite renverrait des valeurs périmées et signalerait des
-    // divergences imaginaires sur un classeur parfaitement sain.
-    const tAplomb = window.setTimeout(() => {
-      poserAplomb(direAplomb(remettreDAplomb("dependances", index)))
+    if (entree) {
+      clicheDemoRef.current = entree
+      reposerClicheDemo(entree)
+    } else {
+      // Photographier AVANT que l'apprenant explore : le premier lancement
+      // de l'aide ne doit jamais devenir la référence de cette étape.
+      clicheDemoRef.current = prendreClicheDemo()
+      entreesEtapeRef.current.set(index, clicheDemoRef.current)
+    }
+    derniereEtapeRef.current = index
+    if (!retour) for (const k of Array.from(entreesEtapeRef.current.keys())) if (k > index) entreesEtapeRef.current.delete(k)
+    const revision = revisionUtilisateurRef.current
+    const entreeActuelle = clicheDemoRef.current
+    // Les formats et calculs finissent de se poser après applyStep. Actualiser
+    // le cliché uniquement si aucun geste humain ni démonstration n'a commencé.
+    const tCapture = window.setTimeout(() => {
+      if (retour || revision !== revisionUtilisateurRef.current || clicheDemoRef.current !== entreeActuelle || !protectionDemoRef.current.autorise("stateChange")) return
+      const c = prendreClicheDemo()
+      clicheDemoRef.current = c
+      entreesEtapeRef.current.set(index, c)
     }, 420)
-    return () => window.clearTimeout(tAplomb)
+    return () => window.clearTimeout(tCapture)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [index, gridReady])
 
-  /**
-   * Avant toute démonstration, la feuille repart d'aplomb — portée large.
-   *
-   * Sans cela « Montrez-moi » jouait sur le classeur que l'apprenant venait
-   * d'abîmer : la démonstration cliquait la bonne cellule, saisissait la bonne
-   * formule, annonçait « voici la réponse »… et affichait un résultat faux.
-   * L'apprenant qui demandait de l'aide était le seul à ne pas pouvoir s'en
-   * rendre compte.
-   *
-   * La feuille RESTE d'aplomb ensuite (choix Samuel du 31/07/2026) : il doit
-   * pouvoir refaire lui-même, tout de suite, le geste qu'on vient de lui
-   * montrer — sur une feuille où il fonctionne.
-   */
   useEffect(() => {
     if (!demonstration || !gridReady || finished) return
-    poserAplomb(direAplomb(remettreDAplomb("tout", index)))
-    /**
-     * PREMIER LANCEMENT : on garde le cliché. REJEU : on le repose.
-     *
-     * La remise d'aplomb ci-dessus ne suffit pas, et ne le pouvait pas : elle
-     * compare la feuille à l'état ATTENDU AVANT l'étape courante, donc la
-     * réponse que la démonstration vient d'écrire ne lui apparaît ni comme une
-     * divergence (elle est légitime), ni comme un parasite (la cellule est
-     * déclarée). Elle sort même en tête quand rien n'est encore connu
-     * (`if (!refs.length) return []`), ce qui est exactement le cas d'une
-     * première étape sur un classeur vide — `m01-e02` en est l'exemple.
-     *
-     * Le cliché, lui, ne raisonne pas sur ce qui est attendu : il retient ce
-     * qui ÉTAIT là. C'est la seule mesure qui garantit que les deux passages
-     * partent du même écran, et donc qu'ils montrent la même chose.
-     *
-     * Il est pris avec 400 ms de retard : la remise d'aplomb repose ses formats
-     * à 300 ms, et un cliché pris avant les figerait dans leur état d'avant
-     * réparation. La première écriture d'une démonstration n'a lieu qu'après
-     * la carte d'annonce — 3,2 s au plus tôt — donc rien ne peut passer entre
-     * les deux.
-     */
-    /**
-     * PREMIER LANCEMENT : on garde le cliché. REJEU : on le repose.
-     *
-     * L'ÉTAT D'ENTRÉE D'UNE DÉMONSTRATION, C'EST CELUI D'OÙ ELLE PART — donc
-     * APRÈS le décor de l'étape (`applyStep`) et APRÈS la remise d'aplomb, pas
-     * avant. Le prendre plus tôt paraissait plus « pur » : il remettait en
-     * réalité le classeur dans l'état de l'étape PRÉCÉDENTE, et le rejeu de
-     * `m21-e04` retrouvait un « 0 » là où le décor avait posé « Table de
-     * réunion 8 places ».
-     *
-     * 400 ms de retard : la remise d'aplomb repose ses formats à 300 ms, et un
-     * cliché pris avant les figerait dans leur état d'avant réparation. La
-     * première écriture d'une démonstration n'a lieu qu'après la carte
-     * d'annonce — 3,2 s au plus tôt — donc rien ne peut passer entre les deux.
-     */
-    if (clicheDemoRef.current) {
-      reposerClicheDemo(clicheDemoRef.current)
-      return
-    }
-    const t = window.setTimeout(() => {
-      clicheDemoRef.current = prendreClicheDemo()
-    }, 400)
-    return () => window.clearTimeout(t)
-    // `rejeu` fait partie des dépendances : sans lui, « Revoir la
-    // démonstration » rejouait sur le classeur tel qu'il était devenu depuis la
-    // première fois. L'apprenant qui abîme quelque chose PUIS redemande à voir
-    // se retrouvait avec la même explication fausse qu'au départ.
+    protectionDemoRef.current.demarrer()
+    const entree = clicheDemoRef.current
+    if (entree) reposerClicheDemo(entree)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [demonstration, rejeu, gridReady])
 
@@ -2900,6 +2598,7 @@ export default function SimulationPlayer({
   const handleAction = useCallback(
     (observed: ObservedAction, options?: { siJuste?: boolean }) => {
       if (!step || finished || resoluRef.current) return
+      if (observed.kind === "stateChange") setVersionClasseur((n) => n + 1)
       // Le verrou de démonstration ne concerne QUE les observations du classeur :
       // il évite qu'un geste joué à la place de l'apprenant valide l'étape. Un
       // « suivant » est au contraire une intention explicite de l'apprenant.
@@ -2907,14 +2606,13 @@ export default function SimulationPlayer({
       // lecture était mort pendant toute la durée du verrou — et comme la remise
       // en place du classeur en repose un à la fin de la démonstration, le clic
       // qui suit immédiatement une démonstration ne faisait rien du tout.
+      if (!protectionDemoRef.current.autorise(observed.kind)) return
       if (observed.kind !== "next" && Date.now() < verrouDemoRef.current) return
 
       // Le classeur a bougé : le graphique doit relire ses plages. Il ne le
       // faisait qu'au changement d'étape, donc jamais pendant le recalcul qui
       // suit le montage — une série alimentée par des formules s'affichait
       // amputée de ses barres.
-      if (observed.kind === "stateChange") setVersionClasseur((n) => n + 1)
-
       // L'enregistreur de macros écoute les gestes RÉELS, ceux que la grille
       // signale déjà. Un second chemin d'observation finirait par transcrire
       // autre chose que ce que l'apprenant a fait.
@@ -2948,7 +2646,7 @@ export default function SimulationPlayer({
       // Reflet immédiat de la sélection dans la zone Nom et la barre de formule.
       if (observed.kind === "cellClick") {
         setSelection(observed.cell)
-        setFormulaText(gridRef.current?.getFormula(observed.cell) ?? "")
+        setFormulaText(gridRef.current ? lireEntreeCellule(gridRef.current, observed.cell) : "")
         setStats(gridRef.current?.getSelectionStats(observed.cell) ?? null)
       } else if (observed.kind === "dragRange") {
         setSelection(observed.range)
@@ -2961,7 +2659,7 @@ export default function SimulationPlayer({
         const now = gridRef.current?.getSelection()
         if (now) {
           setSelection(now)
-          setFormulaText(gridRef.current?.getFormula(now) ?? "")
+          setFormulaText(gridRef.current ? lireEntreeCellule(gridRef.current, now) : "")
           setStats(gridRef.current?.getSelectionStats(now) ?? null)
         }
       }
@@ -3024,6 +2722,7 @@ export default function SimulationPlayer({
    */
   const appliquerJugement = useCallback(
     (step: SimulationStep, observed: ObservedAction, jugement: JugementEtape) => {
+      if (stepRef.current?.id !== step.id || !protectionDemoRef.current.autorise(observed.kind)) return
       const v: Verdict = jugement.ok
         ? { ok: true }
         : { ok: false, reason: jugement.reason ?? "", message: jugement.message ?? "" }
@@ -3052,7 +2751,9 @@ export default function SimulationPlayer({
         }
         // Petite pause pour que l'apprenant voie le résultat de son action avant
         // que l'écran ne change.
-        window.setTimeout(goNext, 550)
+        window.setTimeout(() => {
+          if (stepRef.current?.id === step.id && resoluRef.current && protectionDemoRef.current.autorise(observed.kind)) goNext()
+        }, 550)
         return
       }
 
@@ -3158,7 +2859,6 @@ export default function SimulationPlayer({
     [goNext, lancerFx, demarrerDemonstration, compterEssai, compterTatonnement, dansFenetreMiseEnPlace],
   )
   appliquerJugementRef.current = appliquerJugement
-  handleActionRef.current = handleAction
 
 
   /* ── Observations des modèles ──────────────────────────────────────────── */
@@ -3391,7 +3091,11 @@ export default function SimulationPlayer({
         }
         const courant = graphiqueRef.current
         const patch = s?.setup?.chartEdit
-        if (courant && patch) poserGraphique(modifierGraphique(courant, patch))
+        if (courant && patch?.title !== undefined && controlId === "ins-graph-element-titre") {
+          setTitreGraphiqueEdite(courant.title ?? "")
+          return true
+        }
+        if (courant && patch && boutonEditionGraphique(patch)?.id === controlId) poserGraphique(modifierGraphique(courant, patch))
         else if (courant) {
           const el = ELEMENT_PAR_CONTROLE[controlId]
           const style = /^ins-graph-style-(\d+)$/.exec(controlId)
@@ -3418,7 +3122,7 @@ export default function SimulationPlayer({
       /* Tableaux croisés (module 20) */
       if (controlId === "ins-tcd") {
         const spec = s?.setup?.pivot
-        if (spec) poserTcdDansFeuille(creerTcd(spec, lireCellule))
+        if (spec) poserTcdDansFeuille(creerTcd({ ...spec, rows: [], cols: [], values: [], filters: [] }, lireCellule))
         else {
           // Excel pose le tableau vide à côté du tableau source, et c'est
           // l'apprenant qui y dépose ensuite ses champs.
@@ -3435,7 +3139,7 @@ export default function SimulationPlayer({
         const courant = tcdRef.current
         const patch = s?.setup?.pivotEdit
         if (courant) {
-          if (controlId === "tcd-actualiser") poserTcdDansFeuille(modifierTcd(courant, patch ?? { refresh: true }, lireCellule))
+          if (controlId === "tcd-actualiser") poserTcdDansFeuille(modifierTcd(courant, { refresh: true }, lireCellule))
           else if (controlId === "tcd-source" && patch) poserTcdDansFeuille(modifierTcd(courant, patch, lireCellule))
         }
         emettreTcd(controlId)
@@ -3549,7 +3253,8 @@ export default function SimulationPlayer({
       if (!geste) return false
       const suivant = appliquerGeste(posteRef.current, geste)
       setPoste(suivant)
-      handleAction({ kind: "posteChange", poste: suivant })
+      if (stepRef.current?.action.type === "CLICK_CONTROL") handleAction({ kind: "control", control: controlId, channel: "ribbon" })
+      else handleAction({ kind: "posteChange", poste: suivant })
       return true
     },
     // L'état du poste est lu dans une REF, jamais capturé : `handleControl` est
@@ -3633,14 +3338,16 @@ export default function SimulationPlayer({
           case "acc-inserer":
             if (info?.kind === "column") grid.insertColumnBefore(info.index)
             else if (info?.kind === "row") grid.insertRowBefore(info.index)
+            else return
             break
           case "acc-supprimer":
             if (info?.kind === "column") grid.deleteColumn(info.index)
             else if (info?.kind === "row") grid.deleteRow(info.index)
+            else return
             break
           case "acc-format-largeur":
-            if (info?.kind === "column") grid.setColumnWidth(info.index, 160)
-            break
+            if (info?.kind === "column") setLargeurEditee({ index: info.index, valeur: String(grid.getColumnWidth(info.index) ?? 88) })
+            return
           case "acc-format-masquer":
             if (info?.kind === "column") grid.hideColumn(info.index)
             else if (info?.kind === "row") grid.hideRow(info.index)
@@ -3971,6 +3678,25 @@ export default function SimulationPlayer({
       // — « la petite flèche ▾ ouvre la boîte de dialogue complète » — restait
       // une affirmation que rien ne venait montrer : c'est précisément le
       // défaut que Samuel a filmé le 31/07/2026.
+      const grid = gridRef.current
+      if (id === "demo-recopier" && grid && arg) {
+        const { from, to } = JSON.parse(arg) as { from: string; to: string }
+        const api = grid as GridApi & { fillRange?: (source: string, destination: string) => Promise<boolean> }
+        if (!api.fillRange) return
+        travauxDemoRef.current++
+        void api.fillRange(from, to).finally(() => { travauxDemoRef.current-- })
+        return
+      }
+      if (id === "demo-filtrer-colonne" && grid && arg) {
+        const { column, values } = JSON.parse(arg) as { column: string; values: string[] }
+        grid.setFilterCriteria(column, values)
+        return
+      }
+      if (id === "demo-touche" && grid && arg) {
+        const ref = jouerToucheDemo(grid, arg)
+        if (ref) setSelection(ref)
+        return
+      }
       const OUVRE_SANS_MODIFIER = ["acc-format", "acc-format-fleche", "bf-fx"]
       if (stepRef.current?.action.type === "READ" && !OUVRE_SANS_MODIFIER.includes(id)) return
       /**
@@ -4282,7 +4008,7 @@ export default function SimulationPlayer({
     const courant = tcdRef.current
     if (!courant) return
     const declare = stepRef.current?.setup?.pivotEdit
-    poserTcdDansFeuille(modifierTcd(courant, declare?.refresh ? declare : { refresh: true }, lireCellule))
+    poserTcdDansFeuille(modifierTcd(courant, { refresh: true }, lireCellule))
     emettreTcd()
   }, [emettreTcd, lireCellule, poserTcdDansFeuille])
 
@@ -4368,6 +4094,16 @@ export default function SimulationPlayer({
   }, [graphique, gridReady, index, versionClasseur, lirePlage])
 
   const tableauTcd = useMemo(() => (tcd ? calculerTcd(tcd) : null), [tcd])
+  const rectangleRapportTcd = useMemo(() => {
+    if (!tcd || !gridReady) return null
+    const grid = gridRef.current
+    const rect = grid?.getCellRect(tcd.target)
+    const zone = zoneGrilleRef.current
+    if (!rect || !zone) return null
+    const largeurLibre = Math.max(160, zone.clientWidth - 288)
+    const left = Math.max(46, Math.min(rect.left, largeurLibre - 160))
+    return { left, top: Math.max(36, rect.top), width: Math.max(120, largeurLibre - left), height: Math.max(80, zone.clientHeight - Math.max(36, rect.top)) }
+  }, [tcd, gridReady, index, versionClasseur])
   const champsTcd = useMemo(() => (tcd ? champsDisponibles(tcd.instantane) : []), [tcd])
   const valeursFiltre = useCallback(
     (champ: string) => {
@@ -4463,23 +4199,39 @@ export default function SimulationPlayer({
     const calculer = () => {
       const premier = grid.getCellRect(bornes[0])
       const dernier = grid.getCellRect(bornes[bornes.length - 1])
-      if (!premier || !dernier) return false
+      if (!premier || !dernier) { setHalo(null); return false }
       const left = Math.min(premier.left, dernier.left)
       const top = Math.min(premier.top, dernier.top)
-      setHalo({
-        left,
-        top,
+      const zone = zoneGrilleRef.current
+      setHalo(rectangleVisible({
+        left, top,
         width: Math.max(premier.left + premier.width, dernier.left + dernier.width) - left,
         height: Math.max(premier.top + premier.height, dernier.top + dernier.height) - top,
-      })
+      }, zone?.clientWidth ?? 0, zone?.clientHeight ?? 0))
       return true
     }
-    // Au tout premier montage le squelette de rendu d'Univer n'existe pas encore
-    // et la géométrie n'est pas calculable : la première étape de chaque leçon
-    // restait alors sans repère. On retente une fois, peu après.
-    if (!calculer()) {
-      const t = window.setTimeout(calculer, 350)
-      return () => window.clearTimeout(t)
+    let raf = 0
+    const remesurer = () => {
+      if (raf) cancelAnimationFrame(raf)
+      raf = requestAnimationFrame(calculer)
+    }
+    const zone = zoneGrilleRef.current
+    const t = !calculer() ? window.setTimeout(calculer, 350) : null
+    zone?.addEventListener("wheel", remesurer, { passive: true })
+    zone?.addEventListener("scroll", remesurer, true)
+    // Univer fait défiler son canvas ; pointerup couvre aussi sa barre interne.
+    zone?.addEventListener("pointerup", remesurer)
+    window.addEventListener("resize", remesurer)
+    const observer = typeof ResizeObserver !== "undefined" ? new ResizeObserver(remesurer) : null
+    if (zone) observer?.observe(zone)
+    return () => {
+      if (t) window.clearTimeout(t)
+      if (raf) cancelAnimationFrame(raf)
+      zone?.removeEventListener("wheel", remesurer)
+      zone?.removeEventListener("scroll", remesurer, true)
+      zone?.removeEventListener("pointerup", remesurer)
+      window.removeEventListener("resize", remesurer)
+      observer?.disconnect()
     }
     // `gridReady` est indispensable : au premier montage la grille n'existe pas
     // encore, l'effet calculait un halo nul et ne se rejouait jamais — la
@@ -5121,25 +4873,13 @@ export default function SimulationPlayer({
    * feuille et l'étape suivante démarrait sur un classeur faussé.
    */
   const rendreClasseur = useCallback(() => {
-    // Une démonstration qui presse le bouton Format ou la flèche ▾ ouvre
-    // vraiment son menu ou sa boîte — c'est tout l'intérêt. Il faut donc les
-    // refermer en sortant, sinon l'apprenant récupère la main devant une
-    // fenêtre posée sur la feuille qu'il doit lire.
     setMenuFormat(false)
     setBoite(null)
-    const grid = gridRef.current
-    const avant = avantDemoRef.current
-    const refs = Object.keys(avant)
-    if (!grid || refs.length === 0) return
-    verrouillerDemo(800)
-    const cells: Record<string, unknown> = {}
-    for (const ref of refs) {
-      const v = avant[ref]
-      cells[ref] = v === "" ? {} : v.trim().startsWith("=") ? { f: v } : { v }
+    if (stepRef.current?.action.type === "READ" && clicheDemoRef.current) {
+      reposerClicheDemo(clicheDemoRef.current)
     }
-    grid.applyCells(cells as Parameters<typeof grid.applyCells>[0])
     avantDemoRef.current = {}
-  }, [verrouillerDemo])
+  }, [reposerClicheDemo])
 
   /**
    * Crée un nom de plage pendant la démonstration, sans déclencher la
@@ -5316,7 +5056,7 @@ export default function SimulationPlayer({
                  * visible en production, pas un correctif de socle : c'est un
                  * arbitrage, pas une évidence technique. */
                 verdictAncre: true,
-                aplomb,
+                aplomb: null,
                 panneJuge: pannneJuge,
                 passageEnCours,
 
@@ -5777,12 +5517,14 @@ export default function SimulationPlayer({
                   valeursFiltre={valeursFiltre}
                   onSetFilterValues={changerValeursFiltre}
                   zoneParDefaut={zoneParDefautTcd}
-                  /* Fond OPAQUE. À 95 %, les 5 % restants laissaient passer la
-                     feuille source ET les cellules du tableau croisé écrites
-                     dedans : trois lectures du même contenu se superposaient,
-                     en-têtes de colonnes compris. Un tableau croisé, dans Excel,
-                     ne se lit jamais par-dessus ses données. */
-                  className="absolute inset-0 z-10 bg-white"
+                  {...{
+                    reportRect: rectangleRapportTcd,
+                    showReport: afficherRapportTcd,
+                    onShowSource: () => setAfficherRapportTcd(false),
+                    onShowReport: () => setAfficherRapportTcd(true),
+                    getFormattedValue: (ref: string, valeur: number) => gridRef.current?.getDisplayValue(ref) || valeur.toLocaleString("fr-FR"),
+                  }}
+                  className="absolute inset-0 z-10 pointer-events-none"
                 />
               )}
               {besoins.graphique && (
@@ -5899,10 +5641,10 @@ export default function SimulationPlayer({
                     // cellule, elle recouvrait A2:C3, soit l'essentiel de l'espace
                     // utile sur téléphone.
                     ...(largeurGrille - (halo.left + halo.width) > 240
-                      ? { left: halo.left + halo.width + 12, top: Math.max(4, halo.top - 2) }
+                      ? { left: halo.left + halo.width + 12, top: Math.max(4, Math.min(halo.top - 2, (zoneGrilleRef.current?.clientHeight ?? 400) - 90)) }
                       : halo.top > 120
                         ? { left: Math.max(4, halo.left), top: halo.top - 10, transform: "translateY(-100%)" }
-                        : { left: Math.max(4, halo.left + halo.width + 10), top: halo.top + halo.height + 10 }),
+                        : { left: Math.max(4, Math.min(halo.left + halo.width + 10, largeurGrille - 270)), top: Math.max(4, Math.min(halo.top + halo.height + 10, (zoneGrilleRef.current?.clientHeight ?? 400) - 90)) }),
                   }}
                 >
                   <span aria-hidden>👉 </span>
@@ -6008,6 +5750,72 @@ export default function SimulationPlayer({
               </div>
             )}
           </Enveloppe>
+            {titreGraphiqueEdite !== null && (
+              <form
+                className="absolute left-1/2 top-20 z-40 w-80 -translate-x-1/2 rounded-xl border bg-white p-4 shadow-xl"
+                aria-label="Titre du graphique"
+                onSubmit={(e) => {
+                  e.preventDefault()
+                  const courant = graphiqueRef.current
+                  if (!courant) return
+                  poserGraphique(modifierGraphique(courant, { title: titreGraphiqueEdite, elements: { titre: true } }))
+                  setTitreGraphiqueEdite(null)
+                  emettreGraphique("ins-graph-element-titre")
+                }}
+              >
+                <label className="block text-sm font-semibold" htmlFor="sim-titre-graphique">Titre du graphique</label>
+                <input
+                  id="sim-titre-graphique"
+                  data-control="graph-titre-saisie"
+                  className="mt-2 w-full rounded border px-2 py-1"
+                  autoFocus
+                  value={titreGraphiqueEdite}
+                  onChange={(e) => setTitreGraphiqueEdite(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key !== "Enter") return
+                    e.preventDefault()
+                    const courant = graphiqueRef.current
+                    if (!courant) return
+                    poserGraphique(modifierGraphique(courant, { title: e.currentTarget.value, elements: { titre: true } }))
+                    setTitreGraphiqueEdite(null)
+                    emettreGraphique("ins-graph-element-titre")
+                  }}
+                />
+                <div className="mt-3 flex justify-end gap-2">
+                  <button type="button" onClick={() => setTitreGraphiqueEdite(null)}>Annuler</button>
+                  <button type="submit" className="rounded bg-emerald-700 px-3 py-1 text-white">OK</button>
+                </div>
+              </form>
+            )}
+            {largeurEditee && (
+              <form
+                className="absolute left-1/2 top-20 z-40 w-72 -translate-x-1/2 rounded-xl border bg-white p-4 shadow-xl"
+                aria-label="Largeur de colonne"
+                onSubmit={(e) => {
+                  e.preventDefault()
+                  const largeur = Number(largeurEditee.valeur.replace(",", "."))
+                  if (!Number.isFinite(largeur) || largeur <= 0) return
+                  gridRef.current?.setColumnWidth(largeurEditee.index, largeur)
+                  setLargeurEditee(null)
+                  handleAction({ kind: "control", control: "acc-format-largeur", channel: "ribbon" })
+                }}
+              >
+                <label className="block text-sm font-semibold" htmlFor="sim-largeur-colonne">Largeur de colonne (pixels)</label>
+                <input id="sim-largeur-colonne" data-control="colonne-largeur-saisie" className="mt-2 w-full rounded border px-2 py-1" autoFocus inputMode="decimal" value={largeurEditee.valeur} onChange={(e) => setLargeurEditee({ ...largeurEditee, valeur: e.target.value })} onKeyDown={(e) => {
+                  if (e.key !== "Enter") return
+                  e.preventDefault()
+                  const largeur = Number(e.currentTarget.value.replace(",", "."))
+                  if (!Number.isFinite(largeur) || largeur <= 0) return
+                  gridRef.current?.setColumnWidth(largeurEditee.index, largeur)
+                  setLargeurEditee(null)
+                  handleAction({ kind: "control", control: "acc-format-largeur", channel: "ribbon" })
+                }} />
+                <div className="mt-3 flex justify-end gap-2">
+                  <button type="button" onClick={() => setLargeurEditee(null)}>Annuler</button>
+                  <button type="submit" className="rounded bg-emerald-700 px-3 py-1 text-white">OK</button>
+                </div>
+              </form>
+            )}
             {demo && (
               <DemonstrationGeste
                 key={`demo${index}-${rejeu}`}
@@ -6017,8 +5825,9 @@ export default function SimulationPlayer({
                      bouger, et les deux passages ne montrent pas la même chose
                      (m23-e01, m23-e03 — « Valeur cible »). */
                   const finir = () => {
-                    setDemoFinie(true)
                     rendreClasseur()
+                    protectionDemoRef.current.terminer()
+                    setDemoFinie(true)
                   }
                   const attendre = (reste: number) => {
                     if (!travauxDemoRef.current || reste <= 0) return finir()

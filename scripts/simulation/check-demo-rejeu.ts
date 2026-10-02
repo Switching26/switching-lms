@@ -218,34 +218,39 @@ exige(
   "le poste de travail n'est plus remis dans son état d'entrée : « Enregistrer sous » redeviendra invisible au rejeu",
 )
 
-/* ── 3. Le cliché de départ est pris au premier lancement, reposé au rejeu ── */
+/* ── 3. Le cliché appartient à l'entrée de l'étape, avant exploration ───── */
 
 exige(
   "cliché de démonstration présent",
   /clicheDemoRef/.test(src) && /prendreClicheDemo/.test(src) && /reposerClicheDemo/.test(src),
-  "le mécanisme de cliché a disparu : un rejeu repartira du classeur déjà rempli par le premier passage",
+  "le mécanisme de cliché a disparu",
 )
 
-/* L'effet a grossi avec le cliché et ses commentaires : on lit jusqu'à sa
-   fermeture réelle plutôt que sur un nombre de caractères arbitraire, sans quoi
-   ce contrôle crie au loup dès qu'on documente une ligne de plus. */
-const effetDemo = (() => {
-  const i = src.indexOf('poserAplomb(direAplomb(remettreDAplomb("tout", index)))')
-  if (i < 0) return ""
-  const fin = src.indexOf("}, [demonstration, rejeu, gridReady])", i)
-  return fin < 0 ? src.slice(i, i + 4000) : src.slice(i, fin)
-})()
-exige(
-  "cliché branché sur le démarrage",
-  /reposerClicheDemo\(clicheDemoRef\.current\)/.test(effetDemo) &&
-    /clicheDemoRef\.current = prendreClicheDemo\(\)/.test(effetDemo),
-  "l'effet de démarrage ne prend/repose plus le cliché",
-)
-exige(
-  "cliché remis à zéro au changement d'étape",
-  /clicheDemoRef\.current = null/.test(src),
-  "le cliché survivrait à l'étape et reposerait le classeur de la précédente",
-)
+function verifierCapture(source: string): { entree: boolean; restauration: boolean } {
+  const code = sansCommentaires(source)
+  const debutDemo = code.indexOf("if (!demonstration || !gridReady || finished) return")
+  const finDemo = code.indexOf("}, [demonstration, rejeu, gridReady])", debutDemo)
+  const demo = debutDemo >= 0 && finDemo > debutDemo ? code.slice(debutDemo, finDemo) : ""
+  return {
+    entree: /const entree = retour \? entreesEtapeRef\.current\.get\(index\)/.test(code) &&
+      /clicheDemoRef\.current = prendreClicheDemo\(\)/.test(code.slice(0, debutDemo)) &&
+      /entreesEtapeRef\.current\.set\(index, clicheDemoRef\.current\)/.test(code.slice(0, debutDemo)),
+    restauration: /const entree = clicheDemoRef\.current/.test(demo) &&
+      /if \(entree\) reposerClicheDemo\(entree\)/.test(demo) &&
+      !/prendreClicheDemo\(/.test(demo),
+  }
+}
+const capture = verifierCapture(src)
+exige("cliché pris à l'entrée de chaque étape et retrouvé au retour", capture.entree,
+  "le cliché n'est plus lié à l'entrée réelle de cette étape")
+exige("chaque démarrage restaure le cliché sans le remplacer", capture.restauration,
+  "le premier lancement ou le rejeu peut partir d'une exploration polluée")
+exige("témoin : retirer la restauration est détecté",
+  !verifierCapture(src.replace("if (entree) reposerClicheDemo(entree)", "void entree")).restauration,
+  "le contrôle accepte une démonstration sans restauration")
+exige("témoin : retirer la capture d'entrée est détecté",
+  !verifierCapture(src.replace("entreesEtapeRef.current.set(index, clicheDemoRef.current)", "void index")).entree,
+  "le contrôle accepte une étape sans capture")
 exige(
   "le rejeu dépend bien de `rejeu`",
   /\}, \[demonstration, rejeu, gridReady\]\)/.test(src),

@@ -120,6 +120,11 @@ export const ROLES_AIDE: ReadonlySet<RoleVoix> = new Set<RoleVoix>(["aide"])
 /** Tout ce que le pilote sait jouer, quel qu'en soit le déclencheur. */
 export const ROLES_JOUES: ReadonlySet<RoleVoix> = new Set<RoleVoix>(["consigne", "aide"])
 
+/** Silence PCM mono de 10 ms pour débloquer l'audio au premier geste.
+ * Un WAV sans échantillon déclenche une erreur de décodage sur Chromium. */
+export const SILENCE_DEBLOCAGE =
+  "data:audio/wav;base64,UklGRsQAAABXQVZFZm10IBAAAAABAAEAQB8AAIA+AAACABAAZGF0YaAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+
 const ROLES: ReadonlySet<string> = new Set<RoleVoix>(["consigne", "aide", "feedback", "bulle"])
 
 /**
@@ -160,7 +165,7 @@ export function estIdentifiantSur(id: unknown): id is string {
  * Le rôle d'un segment de la chaîne de synthèse, déduit de son identifiant.
  *
  * Elle nomme ses segments `e6-consigne`, `e5-consigne-a`, `e5-bulle2`,
- * `e6-aide`, `e6-feedback`, plus `intro` et `outro`. Le champ `role` qu'elle
+ * `e6-aide`, `e6-feedback` ou `e6-retour`, plus `intro` et `outro`. Le champ `role` qu'elle
  * porte à côté est une PHRASE destinée à la relecture humaine (« Étape 6 · aide,
  * dite au clic sur "Besoin d'aide" ») : lisible, mais impossible à consommer
  * comme une énumération. L'identifiant, lui, est régulier.
@@ -193,7 +198,7 @@ function roleDepuisIdentifiant(id: string): RoleVoix {
   const s = id.toLowerCase()
   if (s.includes("bulle")) return "bulle"
   if (s.includes("aide")) return "aide"
-  if (s.includes("feedback")) return "feedback"
+  if (s.includes("feedback") || /(?:^|[-_])retour(?:$|[-_])/.test(s)) return "feedback"
   // `intro`, `outro`, `consigne`, `consigne-a`, `consigne-b` : tout ce qui
   // énonce. Un identifiant inconnu retombe ici, ce qui le rend lisible plutôt
   // que muet — le pire des deux serait de le perdre en silence.

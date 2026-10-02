@@ -28,6 +28,7 @@ import {
   ROLES_AIDE,
   ROLES_ARRIVEE,
   ROLES_JOUES,
+  SILENCE_DEBLOCAGE,
   segmentsPour,
   urlDePiste,
 } from "../../lib/simulation/voix"
@@ -77,6 +78,13 @@ if (!estIdentifiantSur("cms43a86n00161xggeb0vlh6c")) rouge("cuid réel refusé")
 dire(`  ${NOMS_REFUSES.length} noms hostiles refusés, 3 noms légitimes acceptés`)
 
 dire("── Manifeste ──")
+{
+  const wav = Buffer.from(SILENCE_DEBLOCAGE.split(",")[1], "base64")
+  if (wav.length <= 44 || wav.toString("ascii", 0, 4) !== "RIFF" ||
+      wav.readUInt32LE(4) !== wav.length - 8 || wav.readUInt32LE(40) !== wav.length - 44) {
+    rouge("le silence de déblocage est vide ou son en-tête WAV est invalide")
+  }
+}
 if (lireManifeste({ version: 2, etapes: {} }) !== null) rouge("une autre version de format est acceptée")
 if (lireManifeste(null) !== null) rouge("un manifeste absent n'est pas rejeté")
 {
@@ -159,6 +167,7 @@ if (lireManifeste(null) !== null) rouge("un manifeste absent n'est pas rejeté")
       { id: "e6-consigne", etape_lms: "M07-L01-06", fichier: "audio/e6-consigne.mp3", duree_s: 19.9 },
       { id: "e6-aide", etape_lms: "M07-L01-06", fichier: "audio/e6-aide.mp3" },
       { id: "e6-feedback", etape_lms: "M07-L01-06", fichier: "audio/e6-feedback.mp3" },
+      { id: "e6-retour", etape_lms: "M07-L01-06", fichier: "audio/e6-retour.mp3" },
       { id: "e5-bulle2", etape_lms: "M07-L01-05", fichier: "audio/e5-bulle2.mp3" },
       { id: "vol", etape_lms: "M07-L01-05", fichier: "../vol.mp3" },
     ],
@@ -167,7 +176,10 @@ if (lireManifeste(null) !== null) rouge("un manifeste absent n'est pas rejeté")
     rouge("le format de la chaîne de synthèse n'est pas reconnu")
   } else {
     const e6 = m.etapes["M07-L01-06"] ?? []
-    if (e6.length !== 3) rouge(`étape 6 : ${e6.length} segments au lieu de 3`)
+    if (e6.length !== 4) rouge(`étape 6 : ${e6.length} segments au lieu de 4`)
+    if (e6.find((s) => s.fichier === "audio/e6-retour.mp3")?.role !== "feedback") {
+      rouge("le retour de réussite historique est pris pour une consigne")
+    }
     const arrivee = segmentsPour(m, "M07-L01-06", ROLES_ARRIVEE)
     if (arrivee.length !== 1 || arrivee[0].fichier !== "audio/e6-consigne.mp3") {
       rouge("le rôle n'est pas déduit de l'identifiant du segment")

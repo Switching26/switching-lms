@@ -35,22 +35,21 @@
  */
 
 import { useCallback, useEffect, useMemo, useRef, useState, type RefObject } from "react"
-import { ROLES_AIDE, ROLES_ARRIVEE, ROLES_JOUES, type SegmentVoix } from "@/lib/simulation/voix"
+import { ROLES_AIDE, ROLES_ARRIVEE, ROLES_JOUES, SILENCE_DEBLOCAGE, type SegmentVoix } from "@/lib/simulation/voix"
 
 /** Un segment tel que la route le sert : le manifeste plus l'adresse. */
 type SegmentServi = SegmentVoix & { url: string }
 type ManifesteServi = { etapes: Record<string, SegmentServi[]> }
 
 /**
- * Un silence de zéro échantillon, embarqué en clair.
+ * Un silence PCM décodable, embarqué en clair.
  *
  * Il ne sert qu'à débloquer l'élément audio pendant un geste de l'apprenant. En
  * ligne dans le code, et non en fichier : un asset servi par `public/` ne l'est
  * pas de façon fiable en standalone (piège 0c), et le déblocage échouerait alors
  * précisément sur l'environnement de production.
  */
-const SILENCE =
-  "data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAgD4AAAB9AAACABAAZGF0YQAAAAA="
+const SILENCE = SILENCE_DEBLOCAGE
 
 /** Choix de l'apprenant, gardé d'un chapitre à l'autre et d'un jour à l'autre. */
 const CLE_MEMOIRE = "lms-guide-vocal"

@@ -67,7 +67,7 @@ import {
   useState,
   type ReactNode,
 } from "react"
-import { bullePour, type ManifesteVoix, type SegmentVoix } from "@/lib/simulation/voix"
+import { bullePour, SILENCE_DEBLOCAGE, type ManifesteVoix, type SegmentVoix } from "@/lib/simulation/voix"
 
 /** Un segment tel que la route le sert : le manifeste plus l'adresse. */
 type SegmentServi = SegmentVoix & { url: string }
@@ -81,8 +81,7 @@ type ManifesteServi = ManifesteVoix & { etapes: Record<string, SegmentServi[]> }
 const CLE_MEMOIRE = "lms-guide-vocal"
 
 /** Le silence qui débloque l'élément audio sur iOS, embarqué en clair. */
-const SILENCE =
-  "data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAgD4AAAB9AAACABAAZGF0YQAAAAA="
+const SILENCE = SILENCE_DEBLOCAGE
 
 /**
  * MARGE APRÈS LA PHRASE.

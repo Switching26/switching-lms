@@ -372,6 +372,8 @@ type Props = {
   state?: RibbonState
   /** Nom du classeur, affiché dans la barre de titre. */
   fileName: string
+  /** Le classeur utilise un tableau croisé : Données peut l'actualiser. */
+  avecTcd?: boolean
   /** Sélection courante, affichée dans la zone Nom. */
   selection: string
   /** Contenu de la cellule active, affiché dans la barre de formule. */
@@ -416,6 +418,7 @@ export default function SimulationChrome({
   tabs,
   state,
   fileName,
+  avecTcd,
   selection,
   formulaText,
   highlight,
@@ -722,6 +725,11 @@ export default function SimulationChrome({
               <Btn id="don-filtrer" label="Filtrer" />
               <Btn id="don-effacer-filtre" label="Effacer" />
             </Group>
+            {avecTcd && (
+              <Group title="Requêtes et connexions">
+                <Btn id="tcd-actualiser" label="Actualiser" />
+              </Group>
+            )}
             <Group title="Outils de données">
               <Btn id="don-convertir" label="Convertir" />
               <Btn id="don-valeur-cible" label="Valeur cible" wide />

@@ -2,6 +2,12 @@ import type { CellState } from "./types"
 import type { ObservedAction } from "./validate"
 import { columnIndexToLetter, parseRange } from "./grid"
 
+/** Construire une FRange hors bornes laisse une résolution ouverte dans Redi. */
+export function plageDansBornes(ref: string, rows: number, cols: number): boolean {
+  const range = parseRange(ref)
+  return !!(range && range.startRow >= 0 && range.startCol >= 0 && range.endRow < rows && range.endCol < cols)
+}
+
 /** Les noms créés avec la zone Nom restent attachés à leur plage au remplissage. */
 export function referenceNomAbsolue(feuille: string, ref: string): string | null {
   const aire = parseRange(ref)
@@ -38,6 +44,8 @@ export function referencesCellulesDuSnapshot(cellData: unknown): string[] {
 type HoteTri = {
   getFormula: (ref: string) => string
   getValue: (ref: string) => unknown
+  /** Contenu natif complet : images en cellule, texte riche et styles. */
+  getCellData?: (ref: string) => Record<string, unknown> | null
   applyCells: (cells: Record<string, CellState>) => void
   onSort: (action: ObservedAction) => void
 }
@@ -51,7 +59,7 @@ export function trierPlageFr(hote: HoteTri, range: string, column: number, ascen
     const cellules = []
     for (let c = aire.startCol; c <= aire.endCol; c++) {
       const ref = `${columnIndexToLetter(c)}${r + 1}`
-      cellules.push({ f: hote.getFormula(ref), v: hote.getValue(ref) })
+      cellules.push({ f: hote.getFormula(ref), v: hote.getValue(ref), data: hote.getCellData?.(ref) })
     }
     lignes.push({ cle: cellules[column]?.v ?? "", cellules })
   }
@@ -69,7 +77,7 @@ export function trierPlageFr(hote: HoteTri, range: string, column: number, ascen
   const cells: Record<string, CellState> = {}
   ordre.forEach((ligne, i) => ligne.cellules.forEach((cellule, j) => {
     const ref = `${columnIndexToLetter(aire.startCol + j)}${aire.startRow + i + 1}`
-    cells[ref] = cellule.f ? { f: cellule.f } : { v: (cellule.v ?? "") as CellState["v"] }
+    cells[ref] = cellule.data ?? (cellule.f ? { f: cellule.f } : { v: (cellule.v ?? "") as CellState["v"] })
   }))
   hote.applyCells(cells)
   hote.onSort({ kind: "sort", range, column: columnIndexToLetter(aire.startCol + column), ascending })

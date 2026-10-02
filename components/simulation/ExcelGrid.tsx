@@ -45,7 +45,7 @@ import {
   columnLetterToIndex,
 } from "@/lib/simulation/grid"
 import { frToEngine, engineToFr } from "@/lib/simulation/formula-fr"
-import { referenceNomAbsolue, referencesCellulesDuSnapshot, texteCelluleBrut, trierPlageFr } from "@/lib/simulation/grid-runtime"
+import { plageDansBornes, referenceNomAbsolue, referencesCellulesDuSnapshot, texteCelluleBrut, trierPlageFr } from "@/lib/simulation/grid-runtime"
 
 /** Ce que le simulateur peut demander à la grille. */
 export type GridApi = {
@@ -63,6 +63,12 @@ export type GridApi = {
   getCellInput: (ref: string) => string
   /** Cellules présentes dans le modèle de la feuille active, même hors zone initiale. */
   getPopulatedCellRefs: () => string[]
+  /** Contenu natif sérialisable complet, notamment le document d'une image. */
+  getCellData: (ref: string) => Record<string, unknown> | null
+  /** Lecture sparse en une seule fois, sans construire une façade par cellule. */
+  getCellDataMap: () => Record<string, Record<string, unknown>>
+  /** Restaure les données natives sans convertir les formules déjà en anglais. */
+  applyCellData: (cells: Record<string, Record<string, unknown>>) => void
   /** Remplissage natif (déplacement des références et séries), pour les démonstrations. */
   fillRange: (source: string, destination: string, mode?: "COPY" | "SERIES") => Promise<boolean>
   /**
@@ -529,6 +535,21 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
       const classeur = () => univerAPI.getActiveWorkbook()
       const oublierFeuille = () => {}
       const sheet = () => classeur()?.getActiveSheet()
+      // Redi ne ferme pas une résolution si le constructeur de FRange lève
+      // "Range is out of bounds". Des lectures répétées finissent alors en
+      // CircularDependencyError. Vérifier la plage AVANT d'appeler la façade.
+      const plage = (ref: string, sh = sheet(), agrandir = false) => {
+        if (!sh) return null
+        const aire = parseRange(ref)
+        if (!aire) return null
+        let rows = Number(sh.getMaxRows())
+        let cols = Number(sh.getMaxColumns())
+        if (agrandir) {
+          if (aire.endRow >= rows) { sh.setRowCount(aire.endRow + 1); rows = aire.endRow + 1 }
+          if (aire.endCol >= cols) { sh.setColumnCount(aire.endCol + 1); cols = aire.endCol + 1 }
+        }
+        return plageDansBornes(ref, rows, cols) ? sh.getRange(ref) : null
+      }
       // Sonde d'audit, hors production : sans elle, un setter qui n'existe pas
       // sur la feuille Univer échoue en silence derrière `?.` et `catch {}`.
       if (process.env.NODE_ENV !== "production" && typeof window !== "undefined") {
@@ -545,7 +566,7 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
       const MOTIF_DECIMAL = "0.##########"
       const localiserDecimale = (ref: string): boolean => {
         try {
-          const rg = sheet()?.getRange(ref)
+          const rg = plage(ref)
           if (!rg) return false
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const anyRg = rg as any
@@ -619,7 +640,7 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
         if (!motif) return
         try {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          ;(sheet()?.getRange(ref) as any)?.setNumberFormat?.(motif)
+          ;(plage(ref) as any)?.setNumberFormat?.(motif)
         } catch {
           /* un motif refusé par le moteur ne doit pas empêcher la leçon */
         }
@@ -629,7 +650,7 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
         const sh = sheet()
         if (!sh) return
         for (const [ref, state] of Object.entries(cells)) {
-          const rg = sh.getRange(ref)
+          const rg = plage(ref, sh, true)
           if (!rg) continue
           // Le format se pose APRÈS l'écriture, sinon le moteur l'écrase en
           // recalculant — même piège que la remise d'aplomb.
@@ -686,7 +707,7 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
 
         const ref = api.getSelection()
 
-        return ref ? (sheet()?.getRange(ref) ?? null) : null
+        return ref ? (plage(ref) ?? null) : null
 
       }
 
@@ -812,11 +833,11 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
           // qu'une référence (un nom défini, un libellé) : on refuse en amont.
           if (!/^\$?[A-Za-z]{1,3}\$?[0-9]{1,7}(:\$?[A-Za-z]{1,3}\$?[0-9]{1,7})?$/.test(ref.trim())) return
           const sh = sheet()
-          const rg = sh?.getRange(ref)
+          const rg = plage(ref, sh)
           rg?.activate?.()
         },
         getFormula: (ref) => {
-          const rg = sheet()?.getRange(ref)
+          const rg = plage(ref)
           const raw = rg?.getFormula?.() ?? ""
           // L'apprenant ne doit jamais voir la convention anglaise.
           return raw ? engineToFr(raw) : ""
@@ -827,7 +848,7 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
           // numérique casserait. `getRawValue` reste la valeur du modèle. Pour
           // une cellule de formule il renvoie la formule, d'où le garde-fou sur
           // le type avant de retomber sur `getValue`.
-          const rg = sheet()?.getRange(ref)
+          const rg = plage(ref)
           if (!rg) return null
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const brut = (rg as any).getRawValue?.()
@@ -845,6 +866,32 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
             return []
           }
         },
+        getCellData: (ref) => {
+          const pos = parseCell(ref)
+          const data = pos ? sheet()?.getSheet?.().getCellRaw(pos.row, pos.col) : null
+          return data ? structuredClone(data) : null
+        },
+        getCellDataMap: () => {
+          const data = sheet()?.getSheet?.().getSnapshot?.().cellData
+          const cells: Record<string, Record<string, unknown>> = {}
+          for (const ref of referencesCellulesDuSnapshot(data)) {
+            const pos = parseCell(ref)
+            if (pos) cells[ref] = structuredClone(data[pos.row][pos.col])
+          }
+          return cells
+        },
+        applyCellData: (cells) => {
+          const sh = sheet()
+          if (!sh) return
+          for (const [ref, data] of Object.entries(cells)) {
+            // L'écriture doit aussi vider les attributs présents à destination
+            // mais absents du cliché (document riche, formule partagée, style).
+            plage(ref, sh, true)?.setValue({
+              ...data, v: data.v ?? null, p: data.p ?? null,
+              f: data.f ?? null, si: data.si ?? null, s: data.s ?? null,
+            })
+          }
+        },
         fillRange: async (source, destination, mode) => {
           try {
             const sh = sheet()
@@ -858,7 +905,7 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
               endRow: Math.max(src.endRow, dest.endRow),
               endCol: Math.max(src.endCol, dest.endCol),
             })
-            return Boolean(await sh.getRange(source)?.autoFill?.(sh.getRange(total), mode))
+            return Boolean(await plage(source, sh)?.autoFill?.(plage(total, sh), mode))
           } catch (e) {
             signalerEnDev("remplissage natif", e)
             return false
@@ -1017,7 +1064,7 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
         getDisplayValue: (ref) => {
           try {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            const v = (sheet()?.getRange(ref) as any)?.getDisplayValue?.()
+            const v = (plage(ref) as any)?.getDisplayValue?.()
             return v === undefined || v === null ? "" : String(v)
           } catch {
             return ""
@@ -1027,7 +1074,7 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
           for (const ref of refs) {
             try {
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              ;(sheet()?.getRange(ref) as any)?.setNumberFormat?.(pattern)
+              ;(plage(ref) as any)?.setNumberFormat?.(pattern)
             } catch {
               /* un format refusé ne doit pas interrompre la leçon */
             }
@@ -1045,7 +1092,7 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
         splitToColumns: (range, separateur, fusionnerSeparateurs) => {
           try {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            const rg = sheet()?.getRange(range) as any
+            const rg = plage(range) as any
             if (!rg?.splitTextToColumns) return false
             rg.splitTextToColumns(Boolean(fusionnerSeparateurs), separateur)
             return true
@@ -1070,11 +1117,18 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
          */
         sortRange: (range, column, ascending) => {
           try {
-            if (!sheet()) return false
+            const sh = sheet()
+            if (!sh || !plage(range, sh)) return false
             return trierPlageFr({
               getFormula: api.getFormula,
               getValue: api.getValue,
-              applyCells,
+              getCellData: (ref) => {
+                const data = api.getCellData(ref) ?? {}
+                // Une formule partagée doit être matérialisée avant déplacement.
+                const formule = api.getFormula(ref)
+                return { ...data, f: formule ? frToEngine(formule) : null, si: null }
+              },
+              applyCells: (cells) => api.applyCellData(cells as Record<string, Record<string, unknown>>),
               onSort: (action) => onActionRef.current(action),
             }, range, column, ascending)
           } catch {
@@ -1092,7 +1146,7 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
         createFilter: (range) => {
           try {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            const rg = sheet()?.getRange(range) as any
+            const rg = plage(range) as any
             if (!rg?.createFilter) return false
             // Un filtre déjà posé fait échouer createFilter : on réutilise.
             return Boolean(rg.getFilter?.() ?? rg.createFilter())
@@ -1135,7 +1189,7 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
           try {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const sh2 = sheet() as any
-            const rg = sh2?.getRange(range)
+            const rg = plage(range, sh2)
             if (!rg?.createConditionalFormattingRule) return false
             let b = rg.createConditionalFormattingRule()
             switch (rule.kind) {
@@ -1173,7 +1227,7 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
           const attendre = () => new Promise((r) => setTimeout(r, 140))
           const poser = async (x: number) => {
             try {
-              sheet()?.getRange(inputRef)?.setValue?.(x)
+              plage(inputRef)?.setValue?.(x)
             } catch {
               return NaN
             }
@@ -1250,7 +1304,7 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
         insertCellImage: async (ref, source) => {
           try {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            const rg = sheet()?.getRange(ref) as any
+            const rg = plage(ref) as any
             if (!rg?.insertCellImageAsync) return false
             return Boolean(await rg.insertCellImageAsync(source))
           } catch {
@@ -1262,7 +1316,7 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
             const pos = parseCell(ref)
             if (!pos) return false
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            const rg = sheet()?.getRange(ref) as any
+            const rg = plage(ref) as any
             if (!rg?.createOrUpdateNote) return false
             rg.createOrUpdateNote({
               id: `note-${ref}`,
@@ -1294,7 +1348,7 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
         getNote: (ref) => {
           try {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            return String((sheet()?.getRange(ref) as any)?.getNote?.()?.note ?? "")
+            return String((plage(ref) as any)?.getNote?.()?.note ?? "")
           } catch {
             return ""
           }
@@ -1302,7 +1356,7 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
         deleteNote: (ref) => {
           try {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            ;(sheet()?.getRange(ref) as any)?.deleteNote?.()
+            ;(plage(ref) as any)?.deleteNote?.()
           } catch {
             /* sans conséquence */
           }
@@ -1311,7 +1365,7 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
           try {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const u = univerAPI as any
-            const rg = sheet()?.getRange(range)
+            const rg = plage(range)
             if (!u?.newDataValidation || !rg) return false
             let b2 = u.newDataValidation()
             switch (rule.kind) {
@@ -1347,7 +1401,7 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
         clearValidation: (range) => {
           try {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            ;(sheet()?.getRange(range) as any)?.setDataValidation?.(null)
+            ;(plage(range) as any)?.setDataValidation?.(null)
           } catch {
             /* sans conséquence */
           }
@@ -1355,7 +1409,7 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
         isValidationSatisfied: async (ref) => {
           try {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            const rg = sheet()?.getRange(ref) as any
+            const rg = plage(ref) as any
             if (!rg?.getDataValidation?.()) return null
             const grille = await rg.getValidatorStatus?.()
             const etat = grille?.[0]?.[0]
@@ -1389,7 +1443,7 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
         clearConditionalRules: (range) => {
           try {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            ;(sheet()?.getRange(range) as any)?.clearConditionalFormatRules?.()
+            ;(plage(range) as any)?.clearConditionalFormatRules?.()
           } catch {
             /* sans conséquence */
           }
@@ -1488,7 +1542,7 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
         fusionner: (range) => {
           try {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            ;(sheet()?.getRange(range) as any)?.merge?.()
+            ;(plage(range) as any)?.merge?.()
           } catch {
             /* une fusion refusée ne doit pas casser la leçon */
           }
@@ -1496,7 +1550,7 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
         defusionner: (range) => {
           try {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            ;(sheet()?.getRange(range) as any)?.breakApart?.()
+            ;(plage(range) as any)?.breakApart?.()
           } catch {
             /* une séparation refusée ne doit pas casser la leçon */
           }
@@ -1529,7 +1583,7 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
         getStyleBrut: (ref) => {
           try {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            const brut = (sheet()?.getRange(ref) as any)?.getCellStyleData?.() ?? null
+            const brut = (plage(ref) as any)?.getCellStyleData?.() ?? null
             if (!brut || typeof brut !== "object") return brut
             /**
              * DEUX DÉFAUTS D'UNIVER, RETIRÉS — ET SEULEMENT CES DEUX-LÀ.
@@ -1564,7 +1618,7 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
         setStyleBrut: (ref, style) => {
           try {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            const rg = sheet()?.getRange(ref) as any
+            const rg = plage(ref) as any
             if (!rg) return
             /**
              * LE CONTENU EST RELU ET RÉÉCRIT AVEC LE STYLE.
@@ -1576,13 +1630,9 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
              * contenu avant de repartir d'une cellule neuve, et on le repose
              * dans la même écriture que le style.
              */
-            const formule = api.getFormula(ref)
-            const valeur = api.getValue(ref)
-            const contenu: Record<string, unknown> = formule
-              ? { f: frToEngine(formule) }
-              : valeur === null || valeur === undefined || valeur === ""
-                ? {}
-                : { v: valeur }
+            // Les images dans une cellule vivent dans `p`, comme les textes
+            // riches. Conserver l'ensemble du contenu lors d'une remise de style.
+            const contenu = api.getCellData(ref) ?? {}
             rg.clearFormat?.()
             /**
              * `clearFormat()` NE VIDE PAS TOUT.
@@ -1621,7 +1671,7 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
         setVisuel: (ref, spec) => {
           try {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            const rg = sheet()?.getRange(ref) as any
+            const rg = plage(ref) as any
             if (!rg) return
             if (spec.background !== undefined) rg.setBackground?.(spec.background)
             if (spec.wrap !== undefined) rg.setWrap?.(spec.wrap)
@@ -1634,7 +1684,7 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
           const vide = { background: "", fontSize: null, hAlign: "", vAlign: "", wrap: null, numberFormat: "" }
           try {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            const rg = sheet()?.getRange(ref) as any
+            const rg = plage(ref) as any
             if (!rg) return vide
             return {
               background: String(rg.getBackground?.() ?? ""),
@@ -1659,7 +1709,7 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
         getNumberFormat: (ref) => {
           try {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            return (sheet()?.getRange(ref) as any)?.getNumberFormat?.() ?? ""
+            return (plage(ref) as any)?.getNumberFormat?.() ?? ""
           } catch {
             return ""
           }
@@ -1851,7 +1901,7 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
           const target = ref || api.getSelection()
           if (!target) return null
           const sh = sheet()
-          const rg = sh?.getRange(target)
+          const rg = plage(target, sh)
           if (!rg) return null
           let raw: unknown
           try {
@@ -1942,8 +1992,8 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
       let evenementValidation: KeyboardEvent | undefined
       const noterValidation = (e: KeyboardEvent) => {
         if (e.key !== "Enter" && e.key !== "Tab") return
-        // Après Tab, Univer réutilise l'éditeur pour la cellule suivante sans
-        // refaire BeforeSheetEditStart. Son focus reste dans notre conteneur.
+        // Le focus natif reste dans notre conteneur ; BeforeSheetEditStart peut
+        // arriver seulement pendant la validation de la cellule.
         const dansLaGrille = e.target instanceof Node && container.contains(e.target)
         if (!editionEnCours && !dansLaGrille) return
         evenementValidation = e
@@ -1990,7 +2040,7 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
         derniereValidation = undefined
         if (typeof e?.row !== "number" || typeof e?.column !== "number") return
         const ref = formatCell({ row: e.row, col: e.column })
-        const rg = sheet()?.getRange(ref)
+        const rg = plage(ref)
 
         // Formule BRUTE telle que le moteur l'a stockée, sans réaffichage FR.
         const stored: string = rg?.getFormula?.() ?? ""

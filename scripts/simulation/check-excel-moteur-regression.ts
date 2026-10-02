@@ -4,7 +4,7 @@
 import assert from "node:assert/strict"
 import path from "node:path"
 import { pathToFileURL } from "node:url"
-import { trierPlageFr, referenceNomAbsolue, referencesCellulesDuSnapshot, texteCelluleBrut } from "../../lib/simulation/grid-runtime"
+import { trierPlageFr, referenceNomAbsolue, referencesCellulesDuSnapshot, texteCelluleBrut, plageDansBornes } from "../../lib/simulation/grid-runtime"
 import { cadreRapportTcd } from "../../lib/simulation/pivot-layout"
 
 async function main() {
@@ -83,6 +83,21 @@ async function main() {
         assert.ok(cadre.width >= Math.min(240, width - 288))
         assert.ok(cadre.top + cadre.maxHeight <= 380)
       }
+    }],
+    ["M24 : le tri déplace le document d'image et son style avec son produit", () => {
+      const image = { p: { drawings: { clavier: { source: "svg-clavier" } } }, s: "style-clavier", v: "", t: 1 }
+      const cells: Record<string, Record<string, unknown>> = { A2: image, B2: { v: "Clavier" }, A3: { p: { drawings: { souris: { source: "svg-souris" } } } }, B3: { v: "Souris" } }
+      trierPlageFr({ getFormula: () => "", getValue: (r) => cells[r]?.v ?? "", getCellData: (r) => cells[r] ?? {}, applyCells: (values) => Object.assign(cells, values), onSort: () => {} }, "A2:B3", 1, false)
+      assert.equal(cells.B2.v, "Souris")
+      assert.deepEqual(cells.A3, image)
+      assert.equal((cells.A2.p as { drawings: unknown }).drawings !== undefined, true)
+    }],
+    ["TCD : les lectures hors bornes sont refusées avant construction native", () => {
+      assert.equal(plageDansBornes("P40", 40, 16), true)
+      assert.equal(plageDansBornes("Q40", 40, 16), false)
+      assert.equal(plageDansBornes("A41", 40, 16), false)
+      assert.equal(plageDansBornes("A1:Q8", 40, 16), false)
+      assert.equal(plageDansBornes("unknown", 40, 16), false)
     }],
   )
   let echecs = 0

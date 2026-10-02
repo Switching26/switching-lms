@@ -47,6 +47,9 @@ import {
 import { frToEngine, engineToFr } from "@/lib/simulation/formula-fr"
 import { plageDansBornes, referenceNomAbsolue, referencesCellulesDuSnapshot, texteCelluleBrut, trierPlageFr } from "@/lib/simulation/grid-runtime"
 
+/** État natif du filtre de la feuille active, indépendant du scénario. */
+export type GridFilterState = { range: string; columns: Array<{ column: string; criteria: unknown }> } | null
+
 /** Ce que le simulateur peut demander à la grille. */
 export type GridApi = {
   /** Remplace l'état du classeur (nouvelle étape, ou reprise). */
@@ -266,6 +269,10 @@ export type GridApi = {
   setFilterCriteria: (column: string, values: string[]) => boolean
   /** Ouvre le vrai panneau du filtre natif, pour la colonne demandée. */
   openFilterMenu: (column: string) => Promise<boolean>
+  /** Photographie tous les critères réels, y compris ceux non déclarés par le cours. */
+  getFilterState: () => GridFilterState
+  /** Repose exactement cette plage et ses critères ; null retire le filtre. */
+  restoreFilterState: (state: GridFilterState) => boolean
   /** Retire le filtre et réaffiche toutes les lignes. */
   removeFilter: () => boolean
   /** Indices des lignes masquées par le filtre en cours. */
@@ -1180,6 +1187,50 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
             }))
           } catch (e) {
             signalerEnDev("ouverture du filtre", e)
+            return false
+          }
+        },
+        getFilterState: () => {
+          const f = sheet()?.getFilter?.()
+          if (!f) return null
+          const r = f.getRange().getRange()
+          const columns: NonNullable<GridFilterState>["columns"] = []
+          for (let col = r.startColumn; col <= r.endColumn; col++) {
+            const criteria = f.getColumnFilterCriteria(col)
+            if (criteria != null) columns.push({ column: columnIndexToLetter(col), criteria: structuredClone(criteria) })
+          }
+          return { range: formatRange({ startRow: r.startRow, endRow: r.endRow, startCol: r.startColumn, endCol: r.endColumn }), columns }
+        },
+        restoreFilterState: (state) => {
+          try {
+            const sh = sheet()
+            if (!sh) return false
+            let f = sh.getFilter?.()
+            if (state === null) return !f || Boolean(f.remove())
+            // Valider et cloner AVANT de retirer le filtre courant.
+            const r = parseRange(state.range)
+            const rg = plage(state.range, sh)
+            if (!r || !rg?.createFilter || !Array.isArray(state.columns)) return false
+            const columns = structuredClone(state.columns)
+            const seen = new Set<number>()
+            for (const c of columns) {
+              if (!/^[A-Za-z]{1,3}$/.test(c.column)) return false
+              const col = columnLetterToIndex(c.column)
+              if (col < r.startCol || col > r.endCol || seen.has(col) || !c.criteria || typeof c.criteria !== "object") return false
+              seen.add(col)
+            }
+            const current = f?.getRange().getRange()
+            if (current && (current.startRow !== r.startRow || current.endRow !== r.endRow || current.startColumn !== r.startCol || current.endColumn !== r.endCol)) {
+              if (!f.remove()) return false
+              f = null
+            }
+            f = f ?? rg.createFilter()
+            if (!f) return false
+            f.removeFilterCriteria()
+            for (const c of columns) f.setColumnFilterCriteria(columnLetterToIndex(c.column), c.criteria)
+            return true
+          } catch (e) {
+            signalerEnDev("restauration du filtre", e)
             return false
           }
         },

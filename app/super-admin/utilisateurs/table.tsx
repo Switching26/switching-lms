@@ -5,6 +5,8 @@ import { useRouter, useSearchParams } from "next/navigation"
 import Badge from "@/components/ui/Badge"
 import Modal from "@/components/ui/Modal"
 import SlidingTrack from "@/components/ui/SlidingTrack"
+import CopyLoginLink from "@/components/users/CopyLoginLink"
+import { Copy } from "lucide-react"
 
 interface User {
   id: string
@@ -166,6 +168,8 @@ export default function UsersTable({
   const [reactivateModal, setReactivateModal] = useState<User | null>(null)
   const [resetModal, setResetModal] = useState<User | null>(null)
   const [loginLinkModal, setLoginLinkModal] = useState<User | null>(null)
+  const [copyLoginLinkUser, setCopyLoginLinkUser] = useState<string | null>(null)
+  const copyLoginLinkDrafts = useRef(new Map<string, string>())
   const [formationsModal, setFormationsModal] = useState<User | null>(null)
   const [currentPasswordModal, setCurrentPasswordModal] = useState<User | null>(null)
   const [visiblePassword, setVisiblePassword] = useState("")
@@ -1120,6 +1124,9 @@ export default function UsersTable({
                       {canSendLoginLink(u) && (
                         <button onClick={() => { setOpenMenuId(null); openLoginLinkModal(u) }} className="w-full flex items-center gap-3 text-left px-4 py-3 text-sm hover:bg-gray-50 transition-colors">{IconSend}Envoyer lien de connexion</button>
                       )}
+                      {canSendLoginLink(u) && (
+                        <button onClick={() => { setOpenMenuId(null); setCopyLoginLinkUser(u.id) }} className="w-full flex items-center gap-3 text-left px-4 py-3 text-sm bg-[#edf4f4] hover:bg-gray-50 transition-colors"><Copy className={IC} strokeWidth={1.8} aria-hidden="true" />Copier le lien de connexion</button>
+                      )}
                       <button onClick={() => { setOpenMenuId(null); openProgress(u.id) }} className="w-full flex items-center gap-3 text-left px-4 py-3 text-sm hover:bg-gray-50 transition-colors">{IconChart}Suivi</button>
                       <button onClick={() => { setOpenMenuId(null); setModalMessage(""); setAssignModal(u.id); setAssignFormationId(""); setAssignStarts(dateInputValue()); setAssignExpires("") }} className="w-full flex items-center gap-3 text-left px-4 py-3 text-sm hover:bg-gray-50 transition-colors">{IconAssign}Attribuer formation</button>
                       {neverLoggedIn(u) && !u.archivedAt && u.role !== "SUPER_ADMIN" && (
@@ -1136,6 +1143,8 @@ export default function UsersTable({
       </Modal>
 
       {/* ═══ DEACTIVATE CONFIRMATION MODAL ═══ */}
+      {copyLoginLinkUser && <CopyLoginLink key={copyLoginLinkUser} userId={copyLoginLinkUser} initialMessage={copyLoginLinkDrafts.current.get(copyLoginLinkUser)} onMessageChange={message => copyLoginLinkDrafts.current.set(copyLoginLinkUser, message)} onClose={() => setCopyLoginLinkUser(null)} onBack={() => { setOpenMenuId(copyLoginLinkUser); setCopyLoginLinkUser(null) }} />}
+
       <Modal open={!!deactivateModal} onClose={() => setDeactivateModal(null)} title="Désactiver cet utilisateur ?">
         <div className="space-y-4">
           <p className="text-sm text-gray-600">

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 import { auth } from "@/lib/auth"
-import { prisma } from "@/lib/prisma"
+import { getAdminLoginLinkUser } from "@/lib/admin-login-link"
+import { buildLoginLinks } from "@/lib/login-link"
 import { sendEmail } from "@/lib/email"
 import { loginLinkEmail } from "@/lib/email-templates"
 import { resolveTemplate, replaceVariables } from "@/lib/email-template-engine"
@@ -13,51 +14,14 @@ export const dynamic = "force-dynamic"
 // d'activation. Si le mot de passe est oublié, l'email pointe vers la page dédiée.
 export async function POST(_req: NextRequest, { params }: { params: { userId: string } }) {
   const session = await auth()
-  const role = session?.user?.role
-  if (!session || (role !== "SUPER_ADMIN" && role !== "PARTNER_ADMIN")) {
-    return NextResponse.json({ error: "Accès refusé" }, { status: 403 })
-  }
-
-  const user = await prisma.user.findUnique({
-    where: { id: params.userId },
-    include: {
-      partner: true,
-      _count: {
-        select: {
-          loginLogs: {
-            where: {
-              OR: [
-                { userAgent: null },
-                { NOT: { userAgent: { startsWith: "riseup-import" } } },
-              ],
-            },
-          },
-        },
-      },
-    },
-  })
-  if (!user) return NextResponse.json({ error: "Utilisateur introuvable" }, { status: 404 })
-
-  if (role === "PARTNER_ADMIN" && user.partnerId !== session.user.partnerId) {
-    return NextResponse.json({ error: "Accès refusé" }, { status: 403 })
-  }
-  if (user.archivedAt) {
-    return NextResponse.json({ error: "Utilisateur archivé — restaurez-le d'abord" }, { status: 400 })
-  }
-  if (!user.isActive) {
-    return NextResponse.json({ error: "Compte inactif — utilisez « Renvoyer activation »" }, { status: 400 })
-  }
-  if (user._count.loginLogs === 0) {
-    return NextResponse.json({ error: "Compte jamais activé — utilisez « Renvoyer activation »" }, { status: 400 })
-  }
+  const result = await getAdminLoginLinkUser(session?.user, params.userId)
+  if (result.error) return NextResponse.json({ error: result.error }, { status: result.status })
+  const { user } = result
 
   let emailSent = false
   try {
     const baseUrl = getBaseUrl()
-    const loginUrl = user.partner?.slug ? `${baseUrl}/login?partner=${user.partner.slug}` : `${baseUrl}/login`
-    const forgotPasswordUrl = user.partner?.slug
-      ? `${baseUrl}/login/mot-de-passe-oublie?partner=${user.partner.slug}`
-      : `${baseUrl}/login/mot-de-passe-oublie`
+    const { loginUrl, forgotPasswordUrl } = buildLoginLinks(baseUrl, user.partner?.slug)
 
     const dynamicTemplate = await resolveTemplate("LOGIN_LINK", user.partnerId)
     if (dynamicTemplate) {

@@ -41,6 +41,31 @@ export function restaurerCellulesCapturees(
   if (Object.keys(differences).length) appliquer(differences)
 }
 
+export type DonneesCellulesNatives = Record<string, Record<string, unknown>>
+
+function empreinteNative(valeur: unknown): string {
+  const trier = (v: unknown): unknown => {
+    if (Array.isArray(v)) return v.map(trier)
+    if (v && typeof v === "object") return Object.fromEntries(Object.entries(v).filter(([, x]) => x != null).sort(([a], [b]) => a.localeCompare(b)).map(([k, x]) => [k, trier(x)]))
+    return v
+  }
+  return JSON.stringify(trier(valeur))
+}
+
+/** Le document riche p contient notamment les images insérées dans une cellule. */
+export function restaurerDonneesNatives(
+  capture: DonneesCellulesNatives,
+  actuelles: DonneesCellulesNatives,
+  appliquer: (cells: DonneesCellulesNatives) => void,
+): void {
+  const differences: DonneesCellulesNatives = {}
+  for (const ref of Array.from(new Set([...Object.keys(capture), ...Object.keys(actuelles)]))) {
+    const attendu = capture[ref] ?? {}
+    if (empreinteNative(attendu) !== empreinteNative(actuelles[ref] ?? {})) differences[ref] = structuredClone(attendu)
+  }
+  if (Object.keys(differences).length) appliquer(differences)
+}
+
 /** Les cellules portant seulement un style font elles aussi partie du cliché. */
 export function restaurerStylesCapturees(
   capture: Record<string, string>,

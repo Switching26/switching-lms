@@ -36,7 +36,7 @@ import {
   refsDeLaZone,
   zoneClasseur,
 } from "@/lib/simulation/aplomb"
-import { restaurerCellulesCapturees, restaurerStylesCapturees, referencesDansBornes, ProtectionDemonstration, rectangleVisible } from "@/lib/simulation/etat-etape"
+import { restaurerCellulesCapturees, restaurerDonneesNatives, restaurerStylesCapturees, referencesDansBornes, ProtectionDemonstration, rectangleVisible, type DonneesCellulesNatives } from "@/lib/simulation/etat-etape"
 import { jouerToucheDemo, rejouerRecopiesDemo } from "@/lib/simulation/demonstration-execution"
 import DesktopLayer from "./DesktopLayer"
 import AfficheModule, { numeroModule } from "./AfficheModule"
@@ -140,6 +140,7 @@ type CelluleCliche = { f?: string; v?: unknown }
  * ouverte pour choisir entre « Ouvrir » et « Enregistrer sous ».
  */
 type ClicheDemo = {
+  cellulesNatives: DonneesCellulesNatives | null
   cellules: Record<string, CelluleCliche>
   formats: Record<string, string>
   onglet: RibbonTab
@@ -1798,6 +1799,8 @@ export default function SimulationPlayer({
    */
   const prendreClicheDemo = useCallback((pourEtape: number = indexRef.current): ClicheDemo => {
     const grid = gridRef.current
+    const complete = grid as (GridApi & { getCellDataMap?: () => DonneesCellulesNatives }) | null
+    const cellulesNatives = complete?.getCellDataMap?.() ?? null
     const notes: Record<string, string> = grid
       ? (() => { try { return grid.getNotes() } catch { return {} } })()
       : {}
@@ -1905,6 +1908,7 @@ export default function SimulationPlayer({
       }
     }
     return {
+      cellulesNatives,
       cellules,
       formats,
       onglet: ongletRef.current,
@@ -2215,7 +2219,10 @@ export default function SimulationPlayer({
       }
       const apiComplete = grid as GridApi & { getPopulatedCellRefs?: () => string[] }
       const presentes = apiComplete.getPopulatedCellRefs?.() ?? []
-      restaurerCellulesCapturees(c.cellules, presentes, (ref) => lireCelluleCliche(grid, ref), (cells) => grid.applyCells(cells as Parameters<typeof grid.applyCells>[0]))
+      const native = grid as GridApi & { getCellDataMap?: () => DonneesCellulesNatives; applyCellData?: (cells: DonneesCellulesNatives) => void }
+      if (c.cellulesNatives && native.getCellDataMap && native.applyCellData) {
+        restaurerDonneesNatives(c.cellulesNatives, native.getCellDataMap(), native.applyCellData)
+      } else restaurerCellulesCapturees(c.cellules, presentes, (ref) => lireCelluleCliche(grid, ref), (cells) => grid.applyCells(cells as Parameters<typeof grid.applyCells>[0]))
       grid.setSelection(c.selection)
       setSelection(c.selection)
 

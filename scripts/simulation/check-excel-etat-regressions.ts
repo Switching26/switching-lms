@@ -1,7 +1,7 @@
 import assert from "node:assert/strict"
 import { readFileSync } from "node:fs"
 import { join } from "node:path"
-import { cellulesAReposer, restaurerCellulesCapturees, restaurerStylesCapturees, referencesDansBornes, ProtectionDemonstration, rectangleVisible, type CelluleCapturee } from "../../lib/simulation/etat-etape"
+import { cellulesAReposer, restaurerCellulesCapturees, restaurerDonneesNatives, restaurerStylesCapturees, referencesDansBornes, ProtectionDemonstration, rectangleVisible, type CelluleCapturee } from "../../lib/simulation/etat-etape"
 import { jouerToucheDemo, rejouerRecopiesDemo } from "../../lib/simulation/demonstration-execution"
 import { planDemonstration, boutonEditionGraphique } from "../../lib/simulation/demonstration"
 import { cellulesHorsEtatAplomb, etatAplomb, zoneClasseur } from "../../lib/simulation/aplomb"
@@ -33,6 +33,16 @@ check(() => assert.deepEqual(cellules.H1, {}))
 check(() => assert.deepEqual(cellules.H2, {}))
 check(() => assert.equal(cellules.E4.f, "=C4*D4"))
 check(() => assert.deepEqual(referencesDansBornes(["A1", "P40", "Q1", "A41", "H3:U18"], 40, 16), ["A1", "P40"]))
+const documentImage = { body: { dataStream: "\u001a\r\n", customBlocks: [{ blockId: "clavier-svg" }] } }
+const natives = { B2: { p: documentImage }, E4: { f: "=C4*D4", v: 440 }, H1: {} }
+const natifsActuels: Record<string, Record<string, unknown>> = { B2: {}, E4: { f: "=C4*D4", v: 440 }, H1: { p: documentImage } }
+restaurerDonneesNatives(natives, natifsActuels, (c) => { Object.assign(natifsActuels, c) })
+check(() => assert.deepEqual(natifsActuels.B2.p, documentImage))
+check(() => assert.deepEqual(natifsActuels.H1, {}))
+check(() => assert.equal(natifsActuels.E4.f, "=C4*D4"))
+let reposeEquivalent = false
+restaurerDonneesNatives({ B2: { v: 1, f: null } }, { B2: { f: undefined, v: 1 } }, () => { reposeEquivalent = true })
+check(() => assert.equal(reposeEquivalent, false))
 check(() => assert.equal(cellules.B1.v, true))
 check(() => assert.deepEqual(cellules.H9, {}))
 check(() => assert.equal(Object.keys(cellulesAReposer(capture, Object.keys(capture), (r) => capture[r])).length, 0))

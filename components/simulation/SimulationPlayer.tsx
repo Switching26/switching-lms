@@ -197,6 +197,8 @@ type ClicheDemo = {
   dimensions: Record<string, { colonnes: Record<string, number>; lignes: Record<string, number> }>
   /** Un filtre était-il posé au départ ? Le poser ne masque encore aucune ligne. */
   filtrePose: boolean
+  /** Critères réels du moteur ; undefined désigne une ancienne façade. */
+  filtreNatif: unknown | undefined
   /**
    * Les VOLETS FIGÉS.
    *
@@ -1069,7 +1071,11 @@ export default function SimulationPlayer({
 
   useEffect(() => {
     const reprendre = (e: Event) => {
-      if (!e.isTrusted || !(e.target instanceof Node) || !zoneAtelierRef.current?.contains(e.target)) return
+      if (!e.isTrusted || !(e.target instanceof Node)) return
+      const dansAtelier = zoneAtelierRef.current?.contains(e.target)
+      // Le menu natif est rendu dans un portail hors du conteneur de la grille.
+      const dansFiltre = e.target instanceof Element && !!e.target.closest('[data-u-comp="sheets-filter-panel"]')
+      if (!dansAtelier && !dansFiltre) return
       revisionUtilisateurRef.current++
       if (protectionDemoRef.current.prendreMain()) verrouDemoRef.current = 0
     }
@@ -1938,6 +1944,10 @@ export default function SimulationPlayer({
       noms: grid ? (() => { try { return grid.getDefinedNames().map((n) => n.name) } catch { return [] } })() : [],
       dimensions,
       filtrePose: grid ? (() => { try { return grid.aUnFiltre() } catch { return false } })() : false,
+      filtreNatif: grid ? (() => {
+        try { return (grid as GridApi & { getFilterState?: () => unknown }).getFilterState?.() }
+        catch { return undefined }
+      })() : undefined,
       volets: grid
         ? (() => { try { return grid.getFrozen() ?? { rows: 0, cols: 0 } } catch { return { rows: 0, cols: 0 } } })()
         : { rows: 0, cols: 0 },
@@ -2127,7 +2137,9 @@ export default function SimulationPlayer({
       /* Un filtre posé par le passage précédent : « cliquez Filtrer » doit
          retrouver une feuille sans filtre, sinon le geste ne montre rien. */
       try {
-        if (!c.filtrePose && grid.aUnFiltre()) grid.removeFilter()
+        const restaurerFiltre = (grid as GridApi & { restoreFilterState?: (state: unknown) => boolean }).restoreFilterState
+        if (c.filtreNatif !== undefined && restaurerFiltre) restaurerFiltre(c.filtreNatif)
+        else if (!c.filtrePose && grid.aUnFiltre()) grid.removeFilter()
         /* Et l'inverse : « effacer le filtre » est justement le geste montré.
            Le rejeu doit donc repartir d'un tableau FILTRÉ. */
         else if (c.filtrePose && !grid.aUnFiltre() && c.filtreAPoser?.range) {

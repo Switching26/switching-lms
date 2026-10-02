@@ -119,11 +119,31 @@ export default function UsersTable({
   // « Tous » par défaut : sur « Actifs », les invités qui n'avaient jamais activé leur
   // compte n'apparaissaient pas, et personne ne voyait qu'ils étaient bloqués.
   const searchParams = useSearchParams()
-  const [statusFilter, setStatusFilter] = useState<StatusFilter>(searchParams.get("statut") === "inactive" ? "inactive" : "all")
-  const [orgFilter, setOrgFilter] = useState<"all" | "internal" | "partner">("all")
+  const [partnerStatusFilter, setPartnerStatusFilter] = useState<StatusFilter>(searchParams.get("statut") === "inactive" ? "inactive" : "all")
+  const requestedStatus = searchParams.get("statut")
+  const statusFilter: StatusFilter = isPartnerAdmin ? partnerStatusFilter
+    : requestedStatus === "active" || requestedStatus === "inactive" || requestedStatus === "archived" ? requestedStatus : "all"
+  const requestedOrg = searchParams.get("organisme") || "all"
+  const orgFilter = requestedOrg === "internal" || requestedOrg === "partner" || partners?.some((p) => requestedOrg === `partner:${p.id}`)
+    ? requestedOrg : "all"
+  const updateFilterUrl = (key: string, value: string) => {
+    const url = new URL(window.location.href)
+    if (!value || value === "all") url.searchParams.delete(key)
+    else url.searchParams.set(key, value)
+    window.history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`)
+  }
+  const setStatusFilter = (value: StatusFilter) => {
+    if (isPartnerAdmin) setPartnerStatusFilter(value)
+    else updateFilterUrl("statut", value)
+  }
   const [message, setMessage] = useState("")
   const [modalMessage, setModalMessage] = useState("")
-  const [search, setSearch] = useState("")
+  const [partnerSearch, setPartnerSearch] = useState("")
+  const search = isPartnerAdmin ? partnerSearch : searchParams.get("recherche") || ""
+  const setSearch = (value: string) => {
+    if (isPartnerAdmin) setPartnerSearch(value)
+    else updateFilterUrl("recherche", value)
+  }
   const [compactColumns, setCompactColumns] = useState(false)
   useEffect(() => {
     const query = matchMedia("(min-width:761px) and (max-width:1100px)")
@@ -204,15 +224,12 @@ export default function UsersTable({
   const [openMenuId, setOpenMenuId] = useState<string | null>(null)
 
   // Filter users
-  const filtered = users.filter((u) => {
-    // Status filter
-    if (statusFilter === "active" && (!u.isActive || u.archivedAt)) return false
-    if (statusFilter === "inactive" && (u.isActive || u.archivedAt)) return false
-    if (statusFilter === "archived" && !u.archivedAt) return false
+  const scopedUsers = users.filter((u) => {
     // Org filter (super admin only)
     if (!isPartnerAdmin) {
       if (orgFilter === "internal" && u.partnerId) return false
       if (orgFilter === "partner" && !u.partnerId) return false
+      if (orgFilter.startsWith("partner:") && u.partnerId !== orgFilter.slice(8)) return false
     }
     // Search
     if (search.trim()) {
@@ -224,6 +241,12 @@ export default function UsersTable({
       if (!mots.every((m) => botte.includes(m))) return false
     }
     return true
+  })
+  const filtered = scopedUsers.filter((u) => {
+    if (statusFilter === "active") return u.isActive && !u.archivedAt
+    if (statusFilter === "inactive") return !u.isActive && !u.archivedAt
+    if (statusFilter === "archived") return !!u.archivedAt
+    return true
   }).sort((a, b) => {
     // Tri par rôle : super admins → admins → apprenants, puis par nom
     const ra = ROLE_ORDER[a.role] ?? 99
@@ -234,11 +257,12 @@ export default function UsersTable({
     return (a.firstName || "").localeCompare(b.firstName || "", "fr", { sensitivity: "base" })
   })
 
+  const countedUsers = isPartnerAdmin ? users : scopedUsers
   const statusCounts = {
-    all: users.length,
-    active: users.filter((u) => u.isActive && !u.archivedAt).length,
-    inactive: users.filter((u) => !u.isActive && !u.archivedAt).length,
-    archived: users.filter((u) => !!u.archivedAt).length,
+    all: countedUsers.length,
+    active: countedUsers.filter((u) => u.isActive && !u.archivedAt).length,
+    inactive: countedUsers.filter((u) => !u.isActive && !u.archivedAt).length,
+    archived: countedUsers.filter((u) => !!u.archivedAt).length,
   }
 
   // Compteurs par groupe de rôle (pour les en-têtes de section du tableau)
@@ -848,18 +872,23 @@ export default function UsersTable({
           </SlidingTrack>
 
           {!isPartnerAdmin && (
-            <SlidingTrack activeKey={orgFilter} label="Organisme des utilisateurs">
-              {(["all", "internal", "partner"] as const).map((f) => (
-                <button
-                  key={f}
-                  onClick={() => setOrgFilter(f)}
-                  aria-selected={orgFilter === f}
-                  className="px-3 py-1.5 text-sm font-medium whitespace-nowrap"
-                >
-                  {f === "all" ? "Tous" : f === "internal" ? "Internes" : "Partenaires"}
-                </button>
-              ))}
-            </SlidingTrack>
+            <label className="flex flex-wrap items-center gap-2 min-w-0 max-w-full text-sm text-gray-500">
+              Appartenance
+              <select
+                aria-label="Organisme des utilisateurs"
+                value={orgFilter}
+                onChange={(e) => updateFilterUrl("organisme", e.target.value)}
+                className="min-w-0 max-w-full px-3 py-2 border border-border rounded-lg bg-white text-sm text-gray-900 outline-none focus:border-black"
+                style={{ minHeight: 44 }}
+              >
+                <option value="all">Tous</option>
+                <option value="internal">Internes — sans organisme</option>
+                <option value="partner">Tous les organismes</option>
+                {[...(partners || [])].sort((a, b) => a.name.localeCompare(b.name, "fr")).map((p) => (
+                  <option key={p.id} value={`partner:${p.id}`}>{p.name}</option>
+                ))}
+              </select>
+            </label>
           )}
         </div>
 

@@ -1,4 +1,14 @@
+import { parseRange } from "./grid"
+
 export type CelluleCapturee = { f?: string; v?: unknown }
+
+/** Ne jamais demander à la façade un FRange au-delà du modèle de la feuille. */
+export function referencesDansBornes(refs: string[], rows: number, cols: number): string[] {
+  return refs.filter((ref) => {
+    const r = parseRange(ref)
+    return !!r && r.startRow >= 0 && r.startCol >= 0 && r.endRow < rows && r.endCol < cols
+  })
+}
 
 /** Le nettoyage couvre aussi les cellules ajoutées hors du rectangle initial. */
 export function cellulesAReposer(

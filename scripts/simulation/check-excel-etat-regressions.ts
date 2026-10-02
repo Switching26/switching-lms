@@ -1,7 +1,7 @@
 import assert from "node:assert/strict"
 import { readFileSync } from "node:fs"
 import { join } from "node:path"
-import { cellulesAReposer, restaurerCellulesCapturees, restaurerStylesCapturees, ProtectionDemonstration, rectangleVisible, type CelluleCapturee } from "../../lib/simulation/etat-etape"
+import { cellulesAReposer, restaurerCellulesCapturees, restaurerStylesCapturees, referencesDansBornes, ProtectionDemonstration, rectangleVisible, type CelluleCapturee } from "../../lib/simulation/etat-etape"
 import { jouerToucheDemo, rejouerRecopiesDemo } from "../../lib/simulation/demonstration-execution"
 import { planDemonstration, boutonEditionGraphique } from "../../lib/simulation/demonstration"
 import { cellulesHorsEtatAplomb, etatAplomb, zoneClasseur } from "../../lib/simulation/aplomb"
@@ -32,6 +32,7 @@ check(() => assert.equal(appels, 1))
 check(() => assert.deepEqual(cellules.H1, {}))
 check(() => assert.deepEqual(cellules.H2, {}))
 check(() => assert.equal(cellules.E4.f, "=C4*D4"))
+check(() => assert.deepEqual(referencesDansBornes(["A1", "P40", "Q1", "A41", "H3:U18"], 40, 16), ["A1", "P40"]))
 check(() => assert.equal(cellules.B1.v, true))
 check(() => assert.deepEqual(cellules.H9, {}))
 check(() => assert.equal(Object.keys(cellulesAReposer(capture, Object.keys(capture), (r) => capture[r])).length, 0))

@@ -36,7 +36,7 @@ import {
   refsDeLaZone,
   zoneClasseur,
 } from "@/lib/simulation/aplomb"
-import { restaurerCellulesCapturees, restaurerStylesCapturees, ProtectionDemonstration, rectangleVisible } from "@/lib/simulation/etat-etape"
+import { restaurerCellulesCapturees, restaurerStylesCapturees, referencesDansBornes, ProtectionDemonstration, rectangleVisible } from "@/lib/simulation/etat-etape"
 import { jouerToucheDemo, rejouerRecopiesDemo } from "@/lib/simulation/demonstration-execution"
 import DesktopLayer from "./DesktopLayer"
 import AfficheModule, { numeroModule } from "./AfficheModule"
@@ -798,6 +798,7 @@ export default function SimulationPlayer({
    */
   const [selection, setSelection] = useState(scenario.workbook.selection ?? "A1")
   const [formulaText, setFormulaText] = useState("")
+  const formuleEditeeRef = useRef<string | null>(null)
   const [titreGraphiqueEdite, setTitreGraphiqueEdite] = useState<string | null>(null)
   const [largeurEditee, setLargeurEditee] = useState<{ index: number; valeur: string } | null>(null)
   // Agrégats de la sélection, rafraîchis à chaque geste : c'est ce que la barre
@@ -1208,6 +1209,7 @@ export default function SimulationPlayer({
       if (s.setup?.ribbon?.activeTab) setOnglet(s.setup.ribbon.activeTab)
       setTitreGraphiqueEdite(null)
       setLargeurEditee(null)
+      formuleEditeeRef.current = null
       // Un menu resté déplié ou une boîte restée ouverte d'une étape à l'autre
       // masqueraient la feuille de l'étape suivante. Le presse-papiers, lui, se
       // vide comme dans Excel quand on change de contexte.
@@ -1890,7 +1892,8 @@ export default function SimulationPlayer({
           for (const r of cellsOf(large)) if (!refs.includes(r)) refs.push(r)
         }
       }
-      for (const ref of refs) {
+      const bornes = grid.getBornes()
+      for (const ref of referencesDansBornes(refs, bornes.rows, bornes.cols)) {
         try {
           cellules[ref] = lireCelluleCliche(grid, ref)
           formats[ref] = grid.getNumberFormat(ref) ?? ""
@@ -3267,6 +3270,8 @@ export default function SimulationPlayer({
   const handleControl = useCallback(
     (controlId: string) => {
       const grid = gridRef.current
+      // Le châssis appelle le commit/cancel dédié juste après ce contrôle.
+      if ((controlId === "bf-entrer" || controlId === "bf-annuler") && formuleEditeeRef.current !== null) return
       // Le poste de travail a ses propres transitions et sa propre observation.
       if (gestePoste(controlId)) return
       // Graphiques, tableaux croisés, mise en page et macros ont leurs propres
@@ -5465,6 +5470,28 @@ export default function SimulationPlayer({
               barreTitrePoste={decorPoste}
               selection={selection}
               formulaText={formulaText}
+              onFormulaChange={(texte) => {
+                formuleEditeeRef.current = texte
+                setFormulaText(texte)
+              }}
+              onFormulaCancel={() => {
+                formuleEditeeRef.current = null
+                const g = gridRef.current
+                if (g) setFormulaText(lireEntreeCellule(g, g.getSelection().split(":")[0]))
+              }}
+              onFormulaCommit={() => {
+                const g = gridRef.current
+                const texte = formuleEditeeRef.current
+                if (!g || texte === null) return
+                const ref = g.getSelection().split(":")[0]
+                const etape = stepRef.current?.id
+                formuleEditeeRef.current = null
+                g.applyCells({ [ref]: texte === "" ? {} : texte.trim().startsWith("=") ? { f: texte } : { v: texte } })
+                window.setTimeout(() => {
+                  if (stepRef.current?.id !== etape) return
+                  handleAction({ kind: "typed", target: ref, text: texte, channel: "formulaBar", computed: g.getValue(ref), displayed: g.getDisplayValue(ref) })
+                }, 220)
+              }}
               highlight={highlightedControl}
               onControl={handleControl}
               onTabChange={setOnglet}

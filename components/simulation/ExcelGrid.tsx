@@ -1939,9 +1939,22 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
       // édition. `cancel = true` est le mécanisme officiel des événements Before*.
       let editionEnCours = false
       let derniereValidation: string | undefined
+      let evenementValidation: KeyboardEvent | undefined
       const noterValidation = (e: KeyboardEvent) => {
-        if (!editionEnCours || (e.key !== "Enter" && e.key !== "Tab")) return
+        if (e.key !== "Enter" && e.key !== "Tab") return
+        // Après Tab, Univer réutilise l'éditeur pour la cellule suivante sans
+        // refaire BeforeSheetEditStart. Son focus reste dans notre conteneur.
+        const dansLaGrille = e.target instanceof Node && container.contains(e.target)
+        if (!editionEnCours && !dansLaGrille) return
+        evenementValidation = e
         derniereValidation = `${e.shiftKey ? "Shift+" : ""}${e.ctrlKey || e.metaKey ? "Control+" : ""}${e.key}`
+        const t = setTimeout(() => {
+          enAttente.delete(t)
+          if (evenementValidation !== e) return
+          evenementValidation = undefined
+          derniereValidation = undefined
+        }, 0)
+        enAttente.add(t)
       }
       window.addEventListener("keydown", noterValidation, true)
       disposers.push(() => window.removeEventListener("keydown", noterValidation, true))
@@ -1949,7 +1962,9 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const e = p as any
         editionEnCours = true
-        derniereValidation = undefined
+        // L'événement Before peut aussi arriver pendant la validation clavier.
+        // Conserver sa touche dans ce tour, puis l'effacer si aucun commit suit.
+        if (!evenementValidation) derniereValidation = undefined
         const allowed = editableRef.current
         if (!allowed) return
         if (typeof e?.row !== "number" || typeof e?.column !== "number") return
@@ -1971,6 +1986,7 @@ export default function ExcelGrid({ onReady, onAction, heightPx = 380, className
         const e = p as any
         const commitKey = derniereValidation
         editionEnCours = false
+        evenementValidation = undefined
         derniereValidation = undefined
         if (typeof e?.row !== "number" || typeof e?.column !== "number") return
         const ref = formatCell({ row: e.row, col: e.column })

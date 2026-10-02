@@ -37,7 +37,7 @@ import {
   zoneClasseur,
 } from "@/lib/simulation/aplomb"
 import { restaurerCellulesCapturees, restaurerDonneesNatives, restaurerStylesCapturees, referencesDansBornes, ProtectionDemonstration, rectangleVisible, type DonneesCellulesNatives } from "@/lib/simulation/etat-etape"
-import { jouerToucheDemo, rejouerRecopiesDemo } from "@/lib/simulation/demonstration-execution"
+import { caseValeurFiltre, decocherValeursFiltre, jouerToucheDemo, rejouerRecopiesDemo } from "@/lib/simulation/demonstration-execution"
 import DesktopLayer from "./DesktopLayer"
 import AfficheModule, { numeroModule } from "./AfficheModule"
 import DemonstrationGeste, { type Rect } from "./DemonstrationGeste"
@@ -3699,9 +3699,22 @@ export default function SimulationPlayer({
         void api.fillRange(from, to).finally(() => { travauxDemoRef.current-- })
         return
       }
-      if (id === "demo-filtrer-colonne" && grid && arg) {
-        const { column, values } = JSON.parse(arg) as { column: string; values: string[] }
-        grid.setFilterCriteria(column, values)
+      if (id === "demo-ouvrir-filtre" && grid && arg) {
+        const api = grid as GridApi & { openFilterMenu?: (column: string) => Promise<boolean> }
+        if (!api.openFilterMenu) return
+        travauxDemoRef.current++
+        void api.openFilterMenu(arg).finally(() => { travauxDemoRef.current-- })
+        return
+      }
+      if (id === "demo-filtre-decocher-tout") {
+        travauxDemoRef.current++
+        void decocherValeursFiltre(document, () => new Promise((resolve) => window.setTimeout(resolve, 80)))
+          .finally(() => { travauxDemoRef.current-- })
+        return
+      }
+      if (id === "demo-filtre-cocher" && arg) {
+        const el = caseValeurFiltre(document, arg)
+        if (el && !el.querySelector<HTMLInputElement>('input[type="checkbox"]')?.checked) el.click()
         return
       }
       if (id === "demo-touche" && grid && arg) {
@@ -4491,7 +4504,7 @@ export default function SimulationPlayer({
       // où le composant posera les touches sans curseur de souris.
       return { left: h.width / 2 - 90, top: h.height / 2 - 34, width: 180, height: 68 }
     }
-    const el = document.querySelector(cible.sel)
+    const el = cible.k === "filtreValeur" ? caseValeurFiltre(document, cible.valeur) : document.querySelector(cible.sel)
     if (!el) return null
     let r = el.getBoundingClientRect()
     if (r.width === 0 && r.height === 0) return null
@@ -5466,6 +5479,7 @@ export default function SimulationPlayer({
               </div>
             )}
             <SimulationChrome
+              {...{ avecTcd: besoins.tcd }}
               tabs={scenario.ribbon}
               state={
                 step?.setup?.ribbon

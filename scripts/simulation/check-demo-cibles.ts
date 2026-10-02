@@ -207,6 +207,10 @@ for (const nom of fs.readdirSync(DIR).filter((n) => n.endsWith(".json")).sort())
       const cibles: CibleDemo[] = [g.cible, ...(g.glisserVers ? [g.glisserVers] : [])]
       for (const c of cibles) {
         if (c.k === "clavier") continue
+        if (c.k === "filtreValeur") {
+          aConfirmer.push(`${nom} ${st.id} — case du filtre natif « ${c.valeur} » : à vérifier au navigateur`)
+          continue
+        }
         if (c.k === "cellule" || c.k === "plage") {
           for (const part of c.ref.split(":")) {
             // Une référence inter-feuilles ne se résout pas : `getCellRect`

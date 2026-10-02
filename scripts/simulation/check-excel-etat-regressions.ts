@@ -2,7 +2,7 @@ import assert from "node:assert/strict"
 import { readFileSync } from "node:fs"
 import { join } from "node:path"
 import { cellulesAReposer, restaurerCellulesCapturees, restaurerDonneesNatives, restaurerStylesCapturees, referencesDansBornes, ProtectionDemonstration, rectangleVisible, type CelluleCapturee } from "../../lib/simulation/etat-etape"
-import { jouerToucheDemo, rejouerRecopiesDemo } from "../../lib/simulation/demonstration-execution"
+import { caseValeurFiltre, decocherValeursFiltre, jouerToucheDemo, rejouerRecopiesDemo } from "../../lib/simulation/demonstration-execution"
 import { planDemonstration, boutonEditionGraphique } from "../../lib/simulation/demonstration"
 import { cellulesHorsEtatAplomb, etatAplomb, zoneClasseur } from "../../lib/simulation/aplomb"
 import type { SimulationScenario } from "../../lib/simulation/types"
@@ -87,7 +87,11 @@ check(() => assert.equal(fill?.gestes[0].presser?.id, "demo-recopier"))
 check(() => assert.deepEqual(JSON.parse(fill!.gestes[0].presser!.arg!), { from: "E2", to: "E6" }))
 check(() => assert.equal(fill?.gestes.some((g) => g.ecrire), false, "La poignée doit recopier, sans taper les sondes"))
 const filtre = planDemonstration({ type: "FILTER_COLUMN", column: "C", values: ["Mobilier"] })!
-check(() => assert.deepEqual(JSON.parse(filtre.gestes[1].presser!.arg!), { column: "C", values: ["Mobilier"] }))
+check(() => assert.equal(filtre.gestes[0].presser?.id, "demo-ouvrir-filtre"))
+check(() => assert.equal(filtre.gestes[0].presser?.arg, "C"))
+check(() => assert.equal(filtre.gestes[1].presser?.id, "demo-filtre-decocher-tout"))
+check(() => assert.deepEqual(filtre.gestes[2].cible, { k: "filtreValeur", valeur: "Mobilier" }))
+check(() => assert.ok(filtre.gestes[3].presser?.id.includes("sheets-filter-panel-footer")))
 check(() => assert.equal(boutonEditionGraphique({ title: "Ventes par région" })?.id, "ins-graph-element-titre"))
 check(() => assert.notEqual(boutonEditionGraphique({ title: "Ventes par région" })?.id, "ins-graph-element-quadrillage"))
 const titre = planDemonstration({ type: "EXPECT_CHART", chart: { title: "Ventes par région" } }, { setup: { chartEdit: { title: "Ventes par région" } } })!
@@ -113,6 +117,24 @@ async function verifierRepriseRecopie() {
     { type: "FILL_HANDLE", from: "E2", to: "E5" },
   ])
   check(() => assert.deepEqual(ordre, ["source", "E2:E5"]))
+  // Une sélection partielle du menu natif exige deux vrais clics : tout, puis rien.
+  const cases = [{ checked: true }, { checked: false }]
+  let clics = 0
+  const caseTout = { click: () => { clics++; const checked = !cases.every((c) => c.checked); cases.forEach((c) => { c.checked = checked }) } }
+  const liste = { querySelectorAll: () => cases }
+  const menu = { querySelector: (sel: string) => sel.includes("item-inner") ? caseTout : liste } as unknown as Document
+  const vide = await decocherValeursFiltre(menu, async () => {})
+  check(() => assert.equal(vide, true))
+  check(() => assert.equal(clics, 2))
+  await decocherValeursFiltre(menu, async () => {})
+  check(() => assert.equal(clics, 2, "Un menu déjà vide ne doit rien recocher"))
+  const caseSud = {} as HTMLElement
+  const ligne = { querySelector: () => caseSud, parentElement: null }
+  const titreSud = { childElementCount: 0, textContent: "Sud", parentElement: ligne }
+  const titres = { querySelectorAll: () => [{ ...titreSud, textContent: "Sud-Ouest" }, titreSud] }
+  const menuValeurs = { querySelector: () => titres } as unknown as Document
+  check(() => assert.equal(caseValeurFiltre(menuValeurs, "Sud"), caseSud))
+  check(() => assert.equal(caseValeurFiltre(menuValeurs, "Nord"), null))
   console.log(`Excel état/démonstrations : ${checks} assertions OK ; témoin historique E4 reproduit.`)
 }
 void verifierRepriseRecopie().catch((e) => { console.error(e); process.exitCode = 1 })

@@ -1,6 +1,34 @@
 import { columnIndexToLetter, parseRange } from "./grid"
 import type { SimulationAction } from "./types"
 
+/** Le titre et sa case restent dans la même ligne du Tree natif Univer. */
+export function caseValeurFiltre(root: Pick<Document, "querySelector">, valeur: string): HTMLElement | null {
+  const liste = root.querySelector('[data-u-comp="sheets-filter-panel-values-virtual"]')
+  if (!liste) return null
+  const titre = Array.from(liste.querySelectorAll("span")).find((el) => el.childElementCount === 0 && el.textContent === valeur)
+  for (let ligne = titre?.parentElement; ligne && ligne !== liste; ligne = ligne.parentElement) {
+    const caseACocher = ligne.querySelector<HTMLElement>('[data-u-comp="checkbox"]')
+    if (caseACocher) return caseACocher
+  }
+  return null
+}
+
+/** Chaque clic passe par le Checkbox natif ; aucun critère n’est prérempli. */
+export async function decocherValeursFiltre(root: Pick<Document, "querySelector">, attendre: () => Promise<void>): Promise<boolean> {
+  const caseTout = root.querySelector<HTMLElement>('[data-u-comp="sheets-filter-panel-values-item-inner"] [data-u-comp="checkbox"]')
+  if (!caseTout) return false
+  const cases = () => Array.from(root.querySelector('[data-u-comp="sheets-filter-panel-values-virtual"]')?.querySelectorAll<HTMLInputElement>('input[type="checkbox"]') ?? [])
+  if (!cases().some((c) => c.checked)) return true
+  // Une sélection partielle devient d’abord complète, puis vide au second clic.
+  caseTout.click()
+  await attendre()
+  if (cases().some((c) => c.checked)) {
+    root.querySelector<HTMLElement>('[data-u-comp="sheets-filter-panel-values-item-inner"] [data-u-comp="checkbox"]')?.click()
+    await attendre()
+  }
+  return !cases().some((c) => c.checked)
+}
+
 type ClavierGrille = {
   getSelection(): string
   setSelection(ref: string): void

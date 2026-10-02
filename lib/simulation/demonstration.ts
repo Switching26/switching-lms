@@ -35,6 +35,8 @@ export type CibleDemo =
   | { k: "enteteLigne"; ligne: number }
   /** N'importe quel élément du châssis, par son sélecteur CSS. */
   | { k: "dom"; sel: string }
+  /** Une case du menu de filtre natif, recherchée par son libellé exact. */
+  | { k: "filtreValeur"; valeur: string }
   /**
    * Aucun endroit précis : un raccourci clavier ne se produit nulle part à
    * l'écran. Le composant place alors les touches au centre de la feuille,
@@ -1012,14 +1014,16 @@ function planBrut(action: SimulationAction, ctx: ContexteDemo): PlanDemo | null 
     case "FILTER_COLUMN":
       return {
         gestes: [
-          { cible: { k: "enteteColonne", col: action.column }, bulle: `ouvrir le filtre de ${action.column}` },
+          { cible: { k: "cellule", ref: `${action.column}1` }, bulle: `ouvrir le filtre de ${action.column}`, presser: { id: "demo-ouvrir-filtre", arg: action.column } },
           {
-            cible: { k: "enteteColonne", col: action.column },
-            bulle: `retenir ${action.values.join(", ")}`,
-            presser: { id: "demo-filtrer-colonne", arg: JSON.stringify({ column: action.column, values: action.values }) },
+            cible: { k: "dom", sel: '[data-u-comp="sheets-filter-panel-values-item-inner"] [data-u-comp="checkbox"]' },
+            bulle: "décocher Tout sélectionner",
+            presser: { id: "demo-filtre-decocher-tout" },
           },
+          ...action.values.map((valeur) => ({ cible: { k: "filtreValeur" as const, valeur }, bulle: `cocher ${valeur}`, presser: { id: "demo-filtre-cocher", arg: valeur } })),
+          { cible: { k: "dom", sel: '[data-u-comp="sheets-filter-panel-footer"] > span > button:last-child' }, bulle: "confirmer le filtre", presser: { id: '[data-u-comp="sheets-filter-panel-footer"] > span > button:last-child' } },
         ],
-        pas: ["Poser le filtre", "Choisir la valeur"],
+        pas: ["Ouvrir le filtre", "Décocher toutes les valeurs", ...action.values.map((valeur) => `Cocher ${valeur}`), "Confirmer"],
       }
 
     case "EXPECT_CHART": {

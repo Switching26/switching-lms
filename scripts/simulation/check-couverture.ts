@@ -38,6 +38,7 @@
 import * as fs from "fs"
 import * as path from "path"
 import type { SimulationScenario, SimulationStep } from "../../lib/simulation/types"
+import { CONTROLES_POSTE } from "../../lib/simulation/poste"
 
 const DOSSIER = path.join(__dirname, "scenarios")
 
@@ -202,7 +203,7 @@ for (const num of modules) {
    neuf étapes demandaient à l'apprenant de cliquer quelque chose qui n'existait
    pas. Aucun contrôle ne pouvait le voir. Celui-ci le voit. */
 
-const sourcesUi = ["SimulationChrome.tsx", "PageLayoutLayer.tsx", "PivotLayer.tsx", "MacroPanel.tsx", "ChartLayer.tsx"]
+const sourcesUi = ["SimulationChrome.tsx", "PageLayoutLayer.tsx", "PivotLayer.tsx", "MacroPanel.tsx", "ChartLayer.tsx", "DesktopLayer.tsx"]
   .map((f) => path.join(__dirname, "..", "..", "components", "simulation", f))
   .filter((f) => fs.existsSync(f))
   .map((f) => fs.readFileSync(f, "utf8"))
@@ -214,6 +215,10 @@ for (const num of modules) {
     for (const s of c.sc.steps) {
       if (s.action.type !== "CLICK_CONTROL") continue
       const id = s.action.control
+      // Les cartes modèle sont rendues depuis le catalogue propre au scénario.
+      // Ne pas accepter un préfixe arbitraire : le modèle doit réellement exister.
+      if (sourcesUi.includes("data-control={CONTROLES_POSTE.modele(m.id)}") &&
+          c.sc.poste?.modeles?.some((m) => CONTROLES_POSTE.modele(m.id) === id)) continue
       citesParLeContenu[id] = [...(citesParLeContenu[id] ?? []), c.fichier]
     }
   }

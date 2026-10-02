@@ -16,6 +16,7 @@ import type { SimulationScenario, SimulationStep } from "../../lib/simulation/ty
 import { SIMULATION_SCHEMA_VERSION } from "../../lib/simulation/types"
 import { parseCell, parseRange } from "../../lib/simulation/grid"
 import { frToEngine, isKnownFrenchFunction } from "../../lib/simulation/formula-fr"
+import { CONTROLES_POSTE } from "../../lib/simulation/poste"
 
 const errors: string[] = []
 const warnings: string[] = []
@@ -126,7 +127,7 @@ function checkStep(s: SimulationStep, i: number, seen: Set<string>, mode: string
 
     case "CLICK_CONTROL":
       if (!a.control.trim()) err(`${where} : identifiant de contrôle vide.`)
-      else if (!/^(bf|acc|sb|ui|ins|for|don|rev|aff|dev|mep|grf|tcd|mac)-/.test(a.control)) {
+      else if (!/^(bf|acc|sb|ui|ins|for|don|rev|aff|dev|mep|grf|tcd|mac|poste)-/.test(a.control)) {
         warn(`${where} : « ${a.control} » ne suit pas la convention de préfixe des contrôles.`)
       }
       break
@@ -442,7 +443,8 @@ function checkScenario(sc: SimulationScenario) {
     "mac-code-executer",
   ])
   for (const s of sc.steps) {
-    if (s.action.type === "CLICK_CONTROL" && !KNOWN_CONTROLS.has(s.action.control)) {
+    if (s.action.type === "CLICK_CONTROL" && !KNOWN_CONTROLS.has(s.action.control) &&
+        !sc.poste?.modeles?.some((m) => CONTROLES_POSTE.modele(m.id) === (s.action as { control: string }).control)) {
       warn(
         `étape ${s.id} : le contrôle « ${s.action.control} » n'existe pas encore dans l'habillage — l'étape serait injouable.`,
       )

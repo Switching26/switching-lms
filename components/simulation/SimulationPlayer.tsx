@@ -1245,6 +1245,7 @@ export default function SimulationPlayer({
       if (s.setup?.selection) {
         grid.setSelection(s.setup.selection)
         setSelection(s.setup.selection)
+        if (s.action.type === "TYPE") grid.scrollToCell(s.setup.selection.split(":")[0])
       }
 
       /* Modèles graphique / tableau croisé / impression / macro.

@@ -82,6 +82,8 @@ Pour une base distante, ajouter explicitement `--allow-production` aux commandes
 
 `--resume` évite de renvoyer les objets dont la taille et l'ETag MD5 correspondent au fichier local. `--concurrency` borne les dépôts simultanés entre 1 et 16 (défaut 1). Après chaque paquet, les références distantes, le nombre d'objets, chaque taille et chaque empreinte sont contrôlés ; le journal indique `X/111 envoyés`. Le préfixe immuable dépend du contenu du paquet. En cas d'interruption, relancer avec `--resume` et un chemin de reçu encore inexistant.
 
+Les erreurs R2 transitoires (HTTP 429/5xx, InternalError, SlowDown, délais et ruptures réseau) sont retentées jusqu'à huit fois, avec attente progressive de 1 à 30 secondes. Chaque tentative de PUT ouvre un nouveau flux du fichier : le SDK ne peut pas réutiliser un flux consommé après une erreur interne. Un paquet déjà complet est contrôlé par ses objets, tailles et empreintes, sans nouveau dépôt ni parcours HEAD redondant ; la validation locale de toutes les références reste obligatoire. Une erreur permanente ou huit échecs consécutifs interrompent la commande sans bascule du chapitre.
+
 Le dépôt lit les nouveaux champs Prisma et la configuration chiffrée. Pour envoyer les paquets avant la migration de production, utiliser un clone local restauré du dump, appliquer la migration sur ce clone et y saisir les réglages R2. Ne jamais pointer les contrôles de simulation sur ce clone contenant les données réelles : ils exigent une deuxième base jetable distincte.
 
 ## Coût R2 estimé au 05/10/2026

@@ -15,6 +15,22 @@ async function main() {
   const resume = args.includes("--resume")
   const concurrency = Number(value("--concurrency") || "1")
   if (!Number.isInteger(concurrency) || concurrency < 1 || concurrency > 16) throw new Error("Concurrence : entier entre 1 et 16 requis")
+  async function retry<T>(operation: () => Promise<T>): Promise<T> {
+    for (let attempt = 1; ; attempt++) {
+      try { return await operation() } catch (error) {
+        const e = error as { name?: string; code?: string; message?: string; $metadata?: { httpStatusCode?: number } }
+        const status = e.$metadata?.httpStatusCode || 0
+        const transient = status === 429 || status >= 500
+          || ["InternalError", "SlowDown", "RequestTimeout", "ServiceUnavailable", "TimeoutError"].includes(e.name || "")
+          || ["ECONNRESET", "ETIMEDOUT", "EPIPE", "ENETUNREACH", "EAI_AGAIN"].includes(e.code || "")
+          || /We encountered an internal error\. Please try again/.test(e.message || "")
+        if (!transient || attempt >= 8) throw error
+        const delay = Math.min(1000 * 2 ** (attempt - 1), 30000)
+        console.warn(`R2 transitoire${status ? ` HTTP ${status}` : ""} : tentative ${attempt + 1}/8 dans ${delay / 1000} s`)
+        await new Promise(resolve => setTimeout(resolve, delay))
+      }
+    }
+  }
   const db = new URL(process.env.DATABASE_URL || "")
   const local = ["localhost", "127.0.0.1", "127.0.0.2", "[::1]"].includes(db.hostname)
   if ((upload || apply) && !local && !args.includes("--allow-production")) throw new Error("Base distante : --allow-production requis pour toute écriture")
@@ -58,7 +74,7 @@ async function main() {
       const found = new Map<string, { size: number; etag: string }>()
       let token: string | undefined
       do {
-        const page = await client.send(new ListObjectsV2Command({ Bucket: config.bucket, Prefix: prefix, ContinuationToken: token }))
+        const page = await retry(() => client.send(new ListObjectsV2Command({ Bucket: config.bucket, Prefix: prefix, ContinuationToken: token })))
         for (const object of page.Contents || []) if (object.Key) found.set(object.Key.slice(prefix.length), { size: object.Size || 0, etag: (object.ETag || "").replaceAll('"', "") })
         token = page.IsTruncated ? page.NextContinuationToken : undefined
         if (page.IsTruncated && !token) throw new Error("Pagination R2 incomplète")
@@ -73,14 +89,16 @@ async function main() {
       await Promise.all(Array.from({ length: concurrency }, async () => {
         while (cursor < pending.length) {
           const file = pending[cursor++]
-          await client.send(new PutObjectCommand({ Bucket: config.bucket, Key: prefix + file, Body: createReadStream(path.join(pkg.root, file)), ContentType: file.endsWith(".m3u8") ? "application/vnd.apple.mpegurl" : file.endsWith(".ts") ? "video/mp2t" : "application/octet-stream", CacheControl: "private, max-age=3600" }))
+          // A failed streaming PUT cannot reuse its consumed Body.
+          await retry(() => client.send(new PutObjectCommand({ Bucket: config.bucket, Key: prefix + file, Body: createReadStream(path.join(pkg.root, file)), ContentType: file.endsWith(".m3u8") ? "application/vnd.apple.mpegurl" : file.endsWith(".ts") ? "video/mp2t" : "application/octet-stream", CacheControl: "private, max-age=3600" })))
         }
       }))
-      await validateRemotePackage(client, config.bucket, prefix + "master.m3u8")
+      // Identical complete listings prove every locally validated reference exists.
+      if (pending.length || existing.size !== pkg.files.length) await retry(() => validateRemotePackage(client, config.bucket, prefix + "master.m3u8"))
       const stored = await objects(prefix)
       if (stored.size !== pkg.files.length || pkg.files.some(file => stored.get(file)?.size !== pkg.sizes.get(file) || stored.get(file)?.etag !== pkg.digests.get(file))) throw new Error(`Contrôle objets/octets/empreintes refusé : ${prefix}`)
       completed++
-      console.log(`${completed}/${packages.size} envoyés — ${prefix.split("/")[2]} — ${stored.size} objets, ${[...stored.values()].reduce((sum, object) => sum + object.size, 0)} octets — conformes au disque`)
+      console.log(`${completed}/${packages.size} envoyés — ${prefix.split("/")[2]} — ${stored.size} objets, ${[...stored.values()].reduce((sum, object) => sum + object.size, 0)} octets — conformes au disque${pending.length ? "" : " (déjà présents, aucun renvoi)"}`)
     }
     const receipt = path.resolve(value("--receipt") || `.local/migration-${Date.now()}.json`)
     await mkdir(path.dirname(receipt), { recursive: true })

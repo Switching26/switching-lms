@@ -79,8 +79,8 @@ export default async function ApercuFormationPage({ params }: { params: { id: st
                 {ch.description && (
                   <p className="text-sm text-gray-500 ml-8 mb-2">{ch.description}</p>
                 )}
-                {ch.videoUrl && (
-                  <p className="text-xs text-gray-400 ml-8 mb-1">🎬 {ch.videoUrl}</p>
+                {ch.videoR2Key && (
+                  <p className="text-xs text-gray-400 ml-8 mb-1">🎬 {ch.videoR2Key}</p>
                 )}
                 {ch.attachments.length > 0 && (
                   <div className="ml-8 mt-2 space-y-1">

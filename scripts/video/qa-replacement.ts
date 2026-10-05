@@ -13,15 +13,14 @@ async function main() {
       assert.equal(response.status, 200)
       return response.json()
     }
-    const rolled = await put({ videoR2Key: null, videoUrl: before.videoUrl, videoDuration: before.videoDuration })
+    const rolled = await put({ videoR2Key: null })
     assert.equal(rolled.videoR2Key, null)
-    assert.equal(rolled.videoDuration, before.videoVimeoDuration)
-    assert.equal(rolled.videoUrl, before.videoUrl)
+    assert.equal(rolled.videoDuration, 0)
     const restored = await put({ videoR2Key: before.videoR2Key, videoDuration: before.videoDuration })
     assert.equal(restored.videoR2Key, before.videoR2Key)
     assert.equal(JSON.stringify(await prisma.progress.findMany({ where: { chapterId: "r2-chapter" } })), progressBefore)
     assert.equal(await prisma.progress.count({ where: { userId: "r2-admin" } }), 0)
-    console.log("✓ Retour Vimeo/restauration R2 : identifiant et durée d’origine conservés, progression intacte, aperçu admin sans trace de progression")
+    console.log("✓ Retrait/restauration R2 : durée remise à zéro puis mesurée, progression intacte, aperçu admin sans trace de progression")
   } finally { await prisma.$disconnect() }
 }
 main().catch(error => { console.error(error); process.exitCode = 1 })

@@ -4,8 +4,8 @@ import { useEffect, useRef, useState } from "react"
 import HlsVideoPlayer from "@/components/learner/HlsVideoPlayer"
 
 type Job = { id: string; status: string; hlsKey: string | null; duration: number | null; error: string | null }
-export default function R2VideoUpload({ chapterId, videoR2Key, hasVimeo, onUpdate }: {
-  chapterId: string; videoR2Key?: string | null; hasVimeo: boolean
+export default function R2VideoUpload({ chapterId, videoR2Key, onUpdate }: {
+  chapterId: string; videoR2Key?: string | null
   onUpdate: (updates: { videoR2Key: string | null; videoDuration?: number }) => void
 }) {
   const [job, setJob] = useState<Job | null>(null)
@@ -88,6 +88,6 @@ export default function R2VideoUpload({ chapterId, videoR2Key, hasVimeo, onUpdat
     {job?.status === "FAILED" && <p role="alert" className="text-sm text-red-600">{job.error}</p>}
     {job?.status === "READY" && job.hlsKey !== videoR2Key && <button type="button" className="rounded-lg bg-primary px-4 py-2 text-sm text-white" onClick={() => onUpdate({ videoR2Key: job.hlsKey, videoDuration: job.duration || 0 })}>Utiliser la vidéo prête, puis enregistrer le chapitre</button>}
     {error && <p role="alert" className="text-sm text-red-600">{error}</p>}
-    {videoR2Key && <button type="button" className="text-xs text-gray-600 underline" onClick={() => onUpdate({ videoR2Key: null })}>{hasVimeo ? "Revenir à la vidéo Vimeo, puis enregistrer" : "Retirer cette vidéo, puis enregistrer"}</button>}
+    {videoR2Key && <button type="button" className="text-xs text-gray-600 underline" onClick={() => onUpdate({ videoR2Key: null, videoDuration: 0 })}>Retirer cette vidéo, puis enregistrer</button>}
   </div>
 }

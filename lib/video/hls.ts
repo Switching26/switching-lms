@@ -2,8 +2,8 @@ export const VIDEO_LINK_SECONDS = 3 * 60 * 60
 export const VIDEO_PART_BYTES = 32 * 1024 * 1024
 export const VIDEO_MAX_BYTES = 5 * 1024 ** 3
 
-export function hasVideo(ch: { videoUrl?: string | null; videoR2Key?: string | null } | null | undefined) {
-  return Boolean(ch?.videoR2Key || ch?.videoUrl)
+export function hasVideo(ch: { videoR2Key?: string | null } | null | undefined) {
+  return Boolean(ch?.videoR2Key)
 }
 
 export function validMasterKey(key: unknown): key is string {

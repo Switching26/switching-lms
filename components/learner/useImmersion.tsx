@@ -68,7 +68,7 @@ export function useImmersion(visible = true) {
         if (w && w.location.origin === location.origin && !fenetres.has(w)) {
           w.addEventListener("keydown", echap); fenetres.add(w)
         }
-      } catch { /* Vimeo conserve son clavier et son lecteur persistants. */ }
+      } catch { /* HLS conserve son clavier et son lecteur persistants. */ }
     })
     brancher(); cadres.forEach(frame => frame.addEventListener("load", brancher))
     return () => {

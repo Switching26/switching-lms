@@ -186,10 +186,8 @@ model Chapter {
   title         String
   description   String?   @db.Text
   order         Int
-  videoUrl      String?
-  /// Private HLS master key; Vimeo is retained for per-chapter rollback.
+  /// Private HLS master key, activated only after conversion.
   videoR2Key    String?
-  videoVimeoDuration Int?
   videoDuration Int       @default(0)
   content       String?   @db.Text
   isPublished   Boolean   @default(false)

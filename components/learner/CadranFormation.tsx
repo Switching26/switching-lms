@@ -153,7 +153,7 @@ type Props = {
    * Le cadran est-il celui qui doit s'afficher ?
    *
    * ⚠️ Il reste MONTÉ quand il est masqué, et c'est volontaire : la zone de
-   * travail héberge l'hôte Vimeo persistant du player. Le démonter au passage
+   * travail héberge l'hôte HLS persistant du player. Le démonter au passage
    * sur un chapitre d'atelier laisserait des lecteurs orphelins empilés dans le
    * document — le défaut de suppression silencieux constaté en production.
    */
@@ -286,7 +286,7 @@ export default function CadranFormation(p: Props) {
    * Les commandes offertes aux enfants de la zone de travail.
    *
    * Référence stable : sans elle, chaque rendu du cadran ferait re-rendre tout
-   * ce qui consomme le contexte — dont l'hôte Vimeo persistant.
+   * ce qui consomme le contexte — dont l'hôte HLS persistant.
    */
   const commandes = useMemo<CommandesCadran>(() => ({ ouvrirLecons: () => { setReplie(false); setPanneau("lecons"); setOnglet("lecons") }, ouvrirNotes: () => setPanneau("notes"), ouvrirRessources: () => setPanneau("ressources"), immersion: setImmersif }), [])
 
@@ -515,7 +515,7 @@ export default function CadranFormation(p: Props) {
    * sort du sous-arbre transformé : le positionnement ne dépend plus d'aucun
    * ancêtre.
    *
-   * Le conteneur reste rendu même masqué, pour ne jamais démonter l'hôte Vimeo.
+   * Le conteneur reste rendu même masqué, pour ne jamais démonter l'hôte HLS.
    */
   return createPortal(
     <div

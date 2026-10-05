@@ -1,7 +1,7 @@
 "use client"
 import R2VideoUpload from "@/components/admin/R2VideoUpload"
 
-import { useState, useRef, useCallback, useEffect } from "react"
+import { useState, useRef } from "react"
 import { useRouter } from "next/navigation"
 import Badge from "@/components/ui/Badge"
 import SlidingTrack from "@/components/ui/SlidingTrack"
@@ -43,7 +43,6 @@ interface Chapter {
   title: string
   description: string | null
   content: string | null
-  videoUrl: string | null
   videoR2Key?: string | null
   videoDuration: number
   order: number
@@ -71,7 +70,6 @@ interface Formation {
 }
 
 /* ═══════════ VIDEO UPLOAD STATES ═══════════ */
-type VideoUploadState = "idle" | "uploading" | "processing" | "ready" | "error"
 
 /* ═══════════ MAIN EDITOR ═══════════ */
 
@@ -214,7 +212,6 @@ export default function FormationEditor({ initial }: { initial?: Formation }) {
           title: ch.title,
           description: ch.description,
           content: ch.content,
-          videoUrl: ch.videoUrl,
           videoR2Key: ch.videoR2Key,
           videoDuration: ch.videoDuration,
           isPublished: ch.isPublished,
@@ -710,208 +707,9 @@ function ChapterPanel({
   onDeleteAttachment: (id: string) => void
   saving: boolean
 }) {
-  const [videoState, setVideoState] = useState<VideoUploadState>(chapter.videoUrl ? "ready" : "idle")
-  const [showVimeo, setShowVimeo] = useState(!chapter.videoR2Key)
-  useEffect(() => { if (chapter.videoR2Key) setShowVimeo(false) }, [chapter.videoR2Key])
-  const [uploadProgress, setUploadProgress] = useState(0)
-  const [processingPct, setProcessingPct] = useState<number | null>(null)
-  const [videoError, setVideoError] = useState("")
   const [uploadingFile, setUploadingFile] = useState(false)
-  const [dragActive, setDragActive] = useState(false)
-  const [vimeoIdInput, setVimeoIdInput] = useState("")
-  const [linkingVimeo, setLinkingVimeo] = useState(false)
   const [activeTab, setActiveTab] = useState<"contenu" | "exercices">("contenu")
-  const fileInputRef = useRef<HTMLInputElement>(null)
   const attachFileRef = useRef<HTMLInputElement>(null)
-  const tusUploadRef = useRef<any>(null)
-  const pollingRef = useRef<ReturnType<typeof setInterval> | null>(null)
-
-  // Cleanup polling on unmount
-  const stopPolling = useCallback(() => {
-    if (pollingRef.current) { clearInterval(pollingRef.current); pollingRef.current = null }
-  }, [])
-
-  const pollCountRef = useRef(0)
-  const MAX_POLL_ATTEMPTS = 60 // 60 × 5s = 5 minutes max
-
-  const pollProcessingStatus = useCallback((vimeoId: string) => {
-    stopPolling()
-    pollCountRef.current = 0
-    pollingRef.current = setInterval(async () => {
-      pollCountRef.current++
-      if (pollCountRef.current > MAX_POLL_ATTEMPTS) {
-        stopPolling()
-        setVideoState("error")
-        setVideoError("Le traitement de la vidéo prend trop de temps. Vérifiez dans quelques minutes.")
-        return
-      }
-      try {
-        const res = await fetch(`/api/upload/video/${vimeoId}/status`)
-        const data = await res.json()
-        if (data.status === "available") {
-          stopPolling()
-          setVideoState("ready")
-          if (data.duration) onUpdate({ videoDuration: data.duration })
-        } else if (data.status === "error") {
-          stopPolling()
-          setVideoState("error")
-          setVideoError(data.error || "Erreur de traitement vidéo")
-        } else {
-          setProcessingPct(null)
-        }
-      } catch {
-        // Keep polling on network error
-      }
-    }, 5000)
-  }, [stopPolling, onUpdate])
-
-  // Cleanup polling when component unmounts
-  useEffect(() => {
-    return () => { stopPolling() }
-  }, [stopPolling])
-
-  const handleVideoUpload = async (file: File) => {
-    if (!file.type.startsWith("video/")) { setVideoError("Format de fichier non supporté"); return }
-    const maxSize = 5 * 1024 * 1024 * 1024
-    if (file.size > maxSize) { setVideoError("Fichier trop volumineux (max 5 Go)"); return }
-
-    // Delete old video from Vimeo if replacing
-    const oldVimeoId = chapter.videoUrl
-    if (oldVimeoId) {
-      fetch(`/api/upload/video/${oldVimeoId}`, { method: "DELETE" }).catch(() => {})
-    }
-
-    setVideoState("uploading")
-    setUploadProgress(0)
-    setVideoError("")
-
-    try {
-      // Step 1: Get upload URL from our API
-      const initRes = await fetch("/api/upload/video", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ fileName: file.name, fileSize: file.size }),
-      })
-
-      if (!initRes.ok) {
-        const err = await initRes.json()
-        setVideoState("error")
-        setVideoError(err.error || "Erreur lors de la création de l'upload")
-        return
-      }
-
-      const { uploadUrl, vimeoId } = await initRes.json()
-
-      // Store the Vimeo ID as videoUrl
-      onUpdate({ videoUrl: vimeoId, ...(chapter.videoR2Key && { videoR2Key: null }) })
-
-      // Step 2: Upload via tus-js-client
-      const { Upload } = await import("tus-js-client")
-      const tusUpload = new Upload(file, {
-        uploadUrl: uploadUrl,
-        chunkSize: 50 * 1024 * 1024, // 50MB chunks
-        retryDelays: [0, 1000, 3000, 5000],
-        metadata: {
-          filename: file.name,
-          filetype: file.type,
-        },
-        onProgress: (bytesUploaded, bytesTotal) => {
-          const pct = Math.round((bytesUploaded / bytesTotal) * 100)
-          setUploadProgress(pct)
-        },
-        onSuccess: () => {
-          setVideoState("processing")
-          setProcessingPct(null)
-          pollProcessingStatus(vimeoId)
-        },
-        onError: (error) => {
-          setVideoState("error")
-          setVideoError(error.message || "Erreur lors de l'upload")
-        },
-      })
-
-      tusUploadRef.current = tusUpload
-      tusUpload.start()
-    } catch {
-      setVideoState("error")
-      setVideoError("Erreur réseau lors de l'upload")
-    }
-  }
-
-  const handleCancelUpload = () => {
-    if (tusUploadRef.current) {
-      tusUploadRef.current.abort()
-      tusUploadRef.current = null
-    }
-    setVideoState("idle")
-    setUploadProgress(0)
-  }
-
-  const handleRemoveVideo = async () => {
-    const oldVimeoId = chapter.videoUrl
-    stopPolling()
-    onUpdate({ videoUrl: null, ...(!chapter.videoR2Key && { videoDuration: 0 }) })
-    setVideoState("idle")
-    setUploadProgress(0)
-    setProcessingPct(null)
-
-    // Delete video from Vimeo (non-blocking)
-    if (oldVimeoId) {
-      fetch(`/api/upload/video/${oldVimeoId}`, { method: "DELETE" }).catch(() => {})
-    }
-  }
-
-  const handleRetry = () => {
-    setVideoState("idle")
-    setVideoError("")
-    fileInputRef.current?.click()
-  }
-
-  const handleLinkVimeoId = async () => {
-    // Extract numeric ID from URL or plain ID
-    const input = vimeoIdInput.trim()
-    const match = input.match(/(?:vimeo\.com\/)?(\d+)/)
-    const id = match?.[1]
-    if (!id) {
-      setVideoError("Entrez un ID Vimeo valide (ex: 123456789 ou https://vimeo.com/123456789)")
-      return
-    }
-
-    setLinkingVimeo(true)
-    setVideoError("")
-
-    try {
-      // Verify the video exists on Vimeo
-      const res = await fetch(`/api/upload/video/${id}/status`)
-      const data = await res.json()
-
-      if (data.status === "error" && data.error === "Vidéo introuvable") {
-        setVideoError("Cette vidéo n'existe pas sur votre compte Vimeo")
-        setLinkingVimeo(false)
-        return
-      }
-
-      // Save the Vimeo ID
-      onUpdate({ videoUrl: id, ...(chapter.videoR2Key && { videoR2Key: null }) })
-      if (data.duration) {
-        onUpdate({ videoDuration: data.duration })
-      }
-      setVideoState("ready")
-      setVimeoIdInput("")
-    } catch {
-      setVideoError("Erreur lors de la vérification de la vidéo Vimeo")
-    } finally {
-      setLinkingVimeo(false)
-    }
-  }
-
-  const handleDrop = useCallback((e: React.DragEvent) => {
-    e.preventDefault()
-    setDragActive(false)
-    const file = e.dataTransfer.files[0]
-    if (file) handleVideoUpload(file)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
 
   const handleFileUpload = async (file: File) => {
     setUploadingFile(true)
@@ -998,168 +796,8 @@ function ChapterPanel({
             />
           </div>
 
-          <R2VideoUpload chapterId={chapter.id} videoR2Key={chapter.videoR2Key} hasVimeo={!!chapter.videoUrl} onUpdate={onUpdate} />
-          <button type="button" className="text-sm text-gray-600 underline" onClick={() => setShowVimeo(value => !value)}>{showVimeo ? "Masquer l’option Vimeo" : "Afficher l’option Vimeo"}</button>
-          {/* Vimeo kept unchanged until a chapter is switched. */}
-          <div className={`space-y-3 ${showVimeo ? "" : "hidden"}`}>
-            <div className="flex items-center justify-between">
-              <h3 className="text-sm font-semibold">Vidéo</h3>
-              {chapter.videoUrl && videoState === "ready" && (
-                <button
-                  onClick={handleRemoveVideo}
-                  className="text-xs text-red-400 hover:text-red-600 transition-colors"
-                >
-                  Supprimer la vidéo
-                </button>
-              )}
-            </div>
-
-            {/* Ready state — show preview */}
-            {videoState === "ready" && chapter.videoUrl && (
-              <div className="space-y-3">
-                <div className="aspect-video rounded-xl overflow-hidden border border-border">
-                  <iframe
-                    src={`https://player.vimeo.com/video/${chapter.videoUrl}?title=0&byline=0&portrait=0&dnt=1&outro=0`}
-                    style={{ border: "none", width: "100%", height: "100%" }}
-                    allow="autoplay; fullscreen; picture-in-picture"
-                    allowFullScreen
-                  />
-                </div>
-                <div className="flex items-center gap-3">
-                  <p className="text-xs text-gray-400">Vimeo ID : {chapter.videoUrl}</p>
-                  <button
-                    onClick={() => { setVideoState("idle"); fileInputRef.current?.click() }}
-                    className="px-3 py-1.5 bg-gray-100 text-xs rounded-lg hover:bg-gray-200 transition-colors"
-                  >
-                    Remplacer la vidéo
-                  </button>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium mb-1">Durée vidéo (secondes)</label>
-                  <input
-                    type="number"
-                    value={chapter.videoDuration || 0}
-                    onChange={(e) => onUpdate({ videoDuration: parseInt(e.target.value) || 0 })}
-                    min={0}
-                    className="w-32 px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-primary"
-                  />
-                </div>
-              </div>
-            )}
-
-            {/* Uploading state */}
-            {videoState === "uploading" && (
-              <div className="border-2 border-dashed border-primary bg-blue-50 rounded-xl p-8 text-center space-y-3">
-                <p className="text-sm font-medium text-gray-700">Upload en cours...</p>
-                <div className="w-full max-w-md mx-auto bg-gray-200 rounded-full h-2.5">
-                  <div className="bg-primary h-2.5 rounded-full transition-all duration-300" style={{ width: `${uploadProgress}%` }} />
-                </div>
-                <p className="text-sm text-gray-500">{uploadProgress}%</p>
-                <button
-                  onClick={handleCancelUpload}
-                  className="px-3 py-1.5 bg-white border border-border text-sm rounded-lg hover:bg-gray-50 transition-colors"
-                >
-                  Annuler
-                </button>
-              </div>
-            )}
-
-            {/* Processing state */}
-            {videoState === "processing" && (
-              <div className="border-2 border-dashed border-yellow-400 bg-yellow-50 rounded-xl p-8 text-center space-y-3">
-                <div className="inline-block w-8 h-8 border-2 border-yellow-400 border-t-transparent rounded-full animate-spin" />
-                <p className="text-sm font-medium text-yellow-700">Vidéo en cours de traitement...</p>
-                {processingPct !== null && (
-                  <p className="text-xs text-yellow-600">{processingPct}% terminé</p>
-                )}
-                <p className="text-xs text-gray-400">Vous pouvez continuer l'édition, la vidéo sera disponible dans quelques instants.</p>
-              </div>
-            )}
-
-            {/* Error state */}
-            {videoState === "error" && (
-              <div className="border-2 border-dashed border-red-300 bg-red-50 rounded-xl p-8 text-center space-y-3">
-                <p className="text-sm font-medium text-red-600">{videoError || "Erreur lors de l'upload"}</p>
-                <button
-                  onClick={handleRetry}
-                  className="px-4 py-2 bg-primary text-white text-sm rounded-lg hover:opacity-90"
-                >
-                  Réessayer
-                </button>
-              </div>
-            )}
-
-            {/* Idle state — upload or link */}
-            {videoState === "idle" && !chapter.videoUrl && (
-              <div className="space-y-3">
-                {/* Option 1: Upload file */}
-                <div
-                  onDragOver={(e) => { e.preventDefault(); setDragActive(true) }}
-                  onDragLeave={() => setDragActive(false)}
-                  onDrop={handleDrop}
-                  className={`border-2 border-dashed rounded-xl p-6 text-center transition-colors cursor-pointer ${
-                    dragActive ? "border-primary bg-blue-50" : "border-border hover:border-gray-300"
-                  }`}
-                  onClick={() => fileInputRef.current?.click()}
-                >
-                  <div className="space-y-2">
-                    <div className="w-10 h-10 mx-auto rounded-xl bg-warm-100 flex items-center justify-center">
-                      <svg className="w-5 h-5 text-warm-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
-                      </svg>
-                    </div>
-                    <p className="text-sm text-gray-600 font-medium">Uploader une vidéo</p>
-                    <p className="text-xs text-gray-400">Déposez votre fichier ou cliquez — MP4, MOV, AVI — 5 Go max</p>
-                  </div>
-                  <input
-                    ref={fileInputRef}
-                    type="file"
-                    accept="video/mp4,video/quicktime,video/x-msvideo,video/*"
-                    className="hidden"
-                    onChange={(e) => {
-                      const file = e.target.files?.[0]
-                      if (file) handleVideoUpload(file)
-                      e.target.value = ""
-                    }}
-                  />
-                </div>
-
-                {/* Separator */}
-                <div className="flex items-center gap-3">
-                  <div className="flex-1 border-t border-border" />
-                  <span className="text-xs text-gray-400 font-medium">ou</span>
-                  <div className="flex-1 border-t border-border" />
-                </div>
-
-                {/* Option 2: Link existing Vimeo video */}
-                <div className="border border-border rounded-xl p-4">
-                  <p className="text-sm text-gray-600 font-medium mb-2">Lier une vidéo Vimeo existante</p>
-                  <div className="flex gap-2">
-                    <input
-                      type="text"
-                      value={vimeoIdInput}
-                      onChange={(e) => setVimeoIdInput(e.target.value)}
-                      placeholder="ID Vimeo ou URL (ex: 123456789)"
-                      className="flex-1 px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-primary"
-                      onKeyDown={(e) => { if (e.key === "Enter") handleLinkVimeoId() }}
-                    />
-                    <button
-                      onClick={handleLinkVimeoId}
-                      disabled={!vimeoIdInput.trim() || linkingVimeo}
-                      className="px-4 py-2 bg-primary text-white text-sm rounded-lg hover:opacity-90 disabled:opacity-50 transition-opacity whitespace-nowrap"
-                    >
-                      {linkingVimeo ? "Vérification..." : "Lier"}
-                    </button>
-                  </div>
-                  <p className="text-xs text-gray-400 mt-2">Collez l'ID ou l'URL d'une vidéo déjà présente sur votre compte Vimeo</p>
-                </div>
-
-                {videoError && (
-                  <p className="text-sm text-red-500 px-1">{videoError}</p>
-                )}
-              </div>
-            )}
-          </div>
+          <R2VideoUpload chapterId={chapter.id} videoR2Key={chapter.videoR2Key} onUpdate={onUpdate} />
+          {chapter.videoR2Key && <p className="text-xs text-gray-500">Durée vidéo : {chapter.videoDuration} secondes</p>}
 
           <div className="flex items-center gap-3">
             <span className="text-sm font-medium">Publié</span>

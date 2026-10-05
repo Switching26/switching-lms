@@ -15,13 +15,6 @@ export default function PlatformSettings() {
   const [hasGmailRefreshToken, setHasGmailRefreshToken] = useState(false)
   const [envGmailConfigured, setEnvGmailConfigured] = useState(false)
 
-  // Vimeo
-  const [vimeoToken, setVimeoToken] = useState("")
-  const [showVimeoToken, setShowVimeoToken] = useState(false)
-  const [hasVimeoToken, setHasVimeoToken] = useState(false)
-  const [testingVimeo, setTestingVimeo] = useState(false)
-  const [vimeoTestResult, setVimeoTestResult] = useState("")
-
   // Storage
   const [storagePath, setStoragePath] = useState("/mnt/uploads")
   const [storageBaseUrl, setStorageBaseUrl] = useState("")
@@ -44,7 +37,6 @@ export default function PlatformSettings() {
           setHasGmailClientSecret(data.hasGmailClientSecret)
           setHasGmailRefreshToken(data.hasGmailRefreshToken)
           setEnvGmailConfigured(data.envGmailConfigured)
-          setHasVimeoToken(data.hasVimeoToken)
           setStoragePath(data.config.storage_path || "/mnt/uploads")
           setStorageBaseUrl(data.config.storage_base_url || "")
           setR2(value => ({ ...value, r2_endpoint: data.config.r2_endpoint || "", r2_bucket: data.config.r2_bucket || "" }))
@@ -72,7 +64,6 @@ export default function PlatformSettings() {
             gmail_refresh_token: gmailRefreshToken,
             sender_email: senderEmail,
             sender_name: senderName,
-            vimeo_token: vimeoToken,
             storage_path: storagePath,
             storage_base_url: storageBaseUrl,
             ...r2,
@@ -83,10 +74,8 @@ export default function PlatformSettings() {
         flash("Configuration enregistrée avec succès")
         if (gmailClientSecret) setHasGmailClientSecret(true)
         if (gmailRefreshToken) setHasGmailRefreshToken(true)
-        if (vimeoToken) setHasVimeoToken(true)
         setGmailClientSecret("")
         setGmailRefreshToken("")
-        setVimeoToken("")
         setConfiguredR2(keys => Array.from(new Set([...keys, ...Object.keys(r2).filter(key => r2[key])])))
         setR2(value => ({ ...value, r2_access_key: "", r2_secret_key: "", video_worker_token: "" }))
       } else flash("Erreur : " + ((await res.json()).error || "Échec"))
@@ -126,31 +115,6 @@ export default function PlatformSettings() {
       else flash("Erreur : " + (data.error || "Échec de l'envoi"))
     } catch { flash("Erreur réseau") }
     finally { setTesting(false) }
-  }
-
-  const handleTestVimeo = async () => {
-    setTestingVimeo(true)
-    setVimeoTestResult("")
-    try {
-      // Save token before testing so the API reads fresh value
-      await fetch("/api/admin/config", {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          config: { vimeo_token: vimeoToken },
-        }),
-      })
-
-      const res = await fetch("/api/admin/config/test-vimeo", { method: "POST" })
-      const data = await res.json()
-      if (data.success) {
-        setVimeoTestResult(data.message)
-        flash("Connexion Vimeo réussie !")
-      } else {
-        flash("Erreur : " + (data.error || "Identifiants invalides"))
-      }
-    } catch { flash("Erreur réseau") }
-    finally { setTestingVimeo(false) }
   }
 
   if (loading) {
@@ -255,56 +219,8 @@ export default function PlatformSettings() {
         </div>
       </div>
 
-      {/* VIMEO */}
-      <div className="bg-white rounded-xl border border-border p-6 space-y-6">
-        <div>
-          <h3 className="text-base font-semibold mb-1">Configuration vidéo Vimeo</h3>
-          <p className="text-sm text-gray-400">
-            Vimeo pour l'hébergement et le streaming des vidéos de formation.
-          </p>
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium mb-1">
-            Token API Vimeo {hasVimeoToken && <span className="text-xs text-gray-400">(enregistré)</span>}
-          </label>
-          <div className="relative sm:max-w-md">
-            <input
-              type={showVimeoToken ? "text" : "password"}
-              value={vimeoToken}
-              onChange={(e) => setVimeoToken(e.target.value)}
-              placeholder={hasVimeoToken ? "••••••••" : "Token API Vimeo"}
-              className="w-full px-3 py-2 pr-10 text-sm border border-border rounded-lg outline-none focus:border-primary"
-            />
-            <button
-              type="button"
-              onClick={() => setShowVimeoToken(!showVimeoToken)}
-              className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 text-sm"
-            >
-              {showVimeoToken ? "Cacher" : "Voir"}
-            </button>
-          </div>
-        </div>
-
-        {vimeoTestResult && (
-          <div className="text-sm text-green-600 bg-green-50 rounded-lg px-4 py-3">
-            {vimeoTestResult}
-          </div>
-        )}
-
-        <div className="flex gap-3 pt-2 border-t border-border">
-          <button
-            onClick={handleTestVimeo}
-            disabled={testingVimeo || (!hasVimeoToken && !vimeoToken)}
-            className="px-4 py-2 bg-gray-100 text-sm rounded-lg hover:bg-gray-200 disabled:opacity-50 transition-colors"
-          >
-            {testingVimeo ? "Test en cours..." : "Tester la connexion"}
-          </button>
-        </div>
-      </div>
-
       <div className="bg-white rounded-xl border border-border p-6 space-y-5">
-        <div><h3 className="text-base font-semibold mb-1">Vidéos privées du LMS · Cloudflare R2</h3><p className="text-sm text-gray-500">La conversion est réalisée par le worker sur le Mac. Les vidéos Vimeo restent disponibles.</p></div>
+        <div><h3 className="text-base font-semibold mb-1">Vidéos privées du LMS · Cloudflare R2</h3><p className="text-sm text-gray-500">Déposez les vidéos dans le LMS. Le worker sur le Mac les convertit pour la lecture privée.</p></div>
         {[
           ["r2_endpoint", "Endpoint S3", "https://ACCOUNT_ID.r2.cloudflarestorage.com"],
           ["r2_bucket", "Bucket privé", "switching-lms-videos"],

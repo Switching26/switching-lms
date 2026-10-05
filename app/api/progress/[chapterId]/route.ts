@@ -101,7 +101,7 @@ export async function PUT(req: NextRequest, { params }: { params: { chapterId: s
   // plus bas pour ne pas pénaliser une lecture accélérée légitime). La
   // navigation entre chapitres reste totalement libre. Les progressions déjà
   // terminées (dont les migrées Rise Up) ne repassent jamais par ce verrou.
-  if (isCompletionTransition && (chapter.videoUrl || chapter.videoR2Key) && chapter.videoDuration > 0) {
+  if (isCompletionTransition && chapter.videoR2Key && chapter.videoDuration > 0) {
     const credited = (existingProgress?.timeSpentSeconds || 0) + (safeDelta ?? 0)
     const minRequired = Math.round(chapter.videoDuration * 0.25)
     if (credited < minRequired) {

@@ -12,7 +12,7 @@ async (page) => {
   if (resumed < 7 || resumed > 10) throw new Error("Reprise à la dernière position incorrecte : " + resumed)
   await page.evaluate(async () => { const v = document.querySelector("video"); v.muted = true; await v.play() })
   await page.waitForFunction(() => document.querySelector("video").currentTime >= 12)
-  const result = await page.evaluate(() => { const v = document.querySelector("video"); v.pause(); return { currentTime: v.currentTime, duration: v.duration, readyState: v.readyState, width: innerWidth, height: innerHeight, paused: v.paused, iframeCount: document.querySelectorAll("iframe[src*='player.vimeo.com']").length } })
-  if (result.iframeCount) throw new Error("Un lecteur Vimeo actif persiste sur le chapitre R2")
+  const result = await page.evaluate(() => { const v = document.querySelector("video"); v.pause(); return { currentTime: v.currentTime, duration: v.duration, readyState: v.readyState, width: innerWidth, height: innerHeight, paused: v.paused, iframeCount: document.querySelectorAll("iframe").length } })
+  if (result.iframeCount) throw new Error("Un lecteur externe persiste sur le chapitre R2")
   return { check: "Lecture réelle HLS et reprise", resumed, ...result }
 }

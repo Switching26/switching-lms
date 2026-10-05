@@ -7,8 +7,8 @@ import { R2_KEYS, validateR2Config } from "@/lib/video/r2"
 export const dynamic = "force-dynamic"
 
 const GMAIL_KEYS = ["gmail_client_id", "gmail_client_secret", "gmail_refresh_token", "sender_email", "sender_name"]
-const ALL_KEYS = [...GMAIL_KEYS, "vimeo_token", "storage_path", "storage_base_url", ...R2_KEYS]
-const SENSITIVE_KEYS = ["gmail_client_secret", "gmail_refresh_token", "vimeo_token", ...R2_KEYS]
+const ALL_KEYS = [...GMAIL_KEYS, "storage_path", "storage_base_url", ...R2_KEYS]
+const SENSITIVE_KEYS = ["gmail_client_secret", "gmail_refresh_token", ...R2_KEYS]
 
 export async function GET() {
   const session = await auth()
@@ -27,7 +27,6 @@ export async function GET() {
 
   const hasGmailClientSecret = rows.some((r) => r.key === "gmail_client_secret" && r.value)
   const hasGmailRefreshToken = rows.some((r) => r.key === "gmail_refresh_token" && r.value)
-  const hasVimeoToken = rows.some((r) => r.key === "vimeo_token" && r.value)
   const envGmailConfigured = Boolean(
     (process.env.GMAIL_CLIENT_ID || process.env.GMAIL_OAUTH_CLIENT_ID) &&
     (process.env.GMAIL_CLIENT_SECRET || process.env.GMAIL_OAUTH_CLIENT_SECRET) &&
@@ -35,7 +34,7 @@ export async function GET() {
   )
 
   const configuredR2Keys = rows.filter(r => R2_KEYS.includes(r.key) && r.value).map(r => r.key)
-  return NextResponse.json({ config, hasGmailClientSecret, hasGmailRefreshToken, envGmailConfigured, hasVimeoToken, configuredR2Keys }, { headers: { "Cache-Control": "no-store" } })
+  return NextResponse.json({ config, hasGmailClientSecret, hasGmailRefreshToken, envGmailConfigured, configuredR2Keys }, { headers: { "Cache-Control": "no-store" } })
 }
 
 export async function PUT(req: Request) {

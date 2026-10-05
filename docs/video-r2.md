@@ -1,14 +1,14 @@
-# Vidéos privées R2 — branche video-r2
+# Vidéos privées R2 — production
 
-Implémentation préparée le 05/10/2026. Pas de déploiement ni de migration production par cette mission. L'intégrateur applique la migration Prisma, active R2, règle le LMS et démarre le worker avant de basculer un chapitre.
+Les 111 chapitres vidéo (SEO 35, SEA 37, VBA 39) sont lus depuis R2. Le seul chemin vidéo est le dépôt dans le LMS, la conversion par le worker Mac, puis la lecture HLS privée.
 
-## Lecture et retour arrière
+## Lecture et progression
 
-`Chapter.videoUrl` garde l'identifiant Vimeo. `videoR2Key` contient le chemin du master HLS privé ; ce champ seul active le nouveau lecteur. `videoVimeoDuration` garde la durée originale lors de la première bascule. Le bouton de retour Vimeo remet la clé R2 à null et restaure cette durée. Les identifiants des chapitres, inscriptions et progressions restent les mêmes.
+`Chapter.videoR2Key` contient le chemin du master HLS privé. `videoDuration` conserve la durée mesurée. L'activation utilise la durée d'un travail READY ; retirer la vidéo remet la clé à null et la durée à zéro sans supprimer de fichiers ni réinitialiser les progressions.
 
 Chaque requête de playlist contrôle le compte actif, l'inscription, ses dates et la publication du chapitre/de la formation. L'aperçu explicite est réservé au super-admin. Les playlists imbriquées repassent par le LMS ; les références de segments, clés et fichiers d'initialisation sont remplacées par des GET S3 signés pour 10 800 secondes. Références externes, variables HLS et sorties du répertoire du paquet sont refusées. Les playlists ne sont jamais mises en cache par le LMS. Le lecteur renouvelle les URLs avant expiration (150 minutes), en conservant la position et l'état de pause.
 
-Safari/iOS utilise `<video playsInline controls>` et son HLS natif. Les autres navigateurs utilisent hls.js chargé uniquement pour R2. Le lecteur Vimeo persistant n'est ni démonté ni modifié. Les règles existantes sont conservées : position toutes les 30 secondes et à la sortie, visionnage réel hors sauts, fin validée par le serveur, seuil UI 50 % et plancher serveur 25 %, temps de présence existant, aucun enregistrement en aperçu.
+Safari/iOS utilise `<video playsInline controls>` et son HLS natif. Les autres navigateurs utilisent hls.js chargé uniquement pour R2. Les règles existantes sont conservées : position toutes les 30 secondes et à la sortie, visionnage réel hors sauts, fin validée par le serveur, seuil UI 50 % et plancher serveur 25 %, temps de présence existant, aucun enregistrement en aperçu.
 
 Les liens signés sont des accès temporaires transmissibles, pas un DRM. Un segment déjà autorisé reste accessible jusqu'à expiration même si une inscription est retirée entre-temps ; aucun nouveau master/variant n'est alors autorisé. Le bucket doit impérativement rester privé, sans domaine public ni r2.dev actif.
 
@@ -63,28 +63,11 @@ Trois encodages sollicitent CPU, RAM et disque temporaire ; un fichier peut dure
 
 Railway facture aujourd'hui CPU 20 $/vCPU-mois, RAM 10 $/Go-mois, volume 0,15 $/Go-mois, sortie réseau 0,05 $/Go. À titre d'ordre de grandeur, 100 h sur 2 vCPU + 2 Go RAM représentent environ 8,33 $ de calcul, hors plan et disque ; envoyer 100 Go de sorties ajouterait environ 5 $. Le temps réel pour 46 h de source ne peut pas être déduit d'une mire : il faut mesurer un cours représentatif. [Tarifs Railway](https://docs.railway.com/pricing), vérifiés le 05/10/2026.
 
-## Migration depuis les paquets locaux de l'autre agent
+## Exploitation
 
-Structure attendue : `<dossier>/<vimeoId>/master.m3u8`, playlists de variantes et tous leurs segments relatifs. Le sidecar racine `verification.json` fourni par la mission sauvegarde est ignoré et reste local. Les liens symboliques, autres fichiers inattendus, références externes/traversantes, segments manquants et playlists VOD inachevées sont refusés. Le script calcule un hash de contenu et conserve les anciens champs/valeurs dans un reçu écrit avant toute activation.
+Le service launchd `com.switching.lms-video-worker` utilise le dépôt isolé `~/.local/share/lms-video-worker/repo`. Le token est lu dans le Trousseau, service `R2 LMS worker token`, compte `switching-lms-videos`. Ne pas afficher les valeurs ni modifier les profils actifs.
 
-```sh
-# Lecture seule par défaut ; nécessite DATABASE_URL pour lister les chapitres.
-npm run video:migrate -- --dir /Users/switchingformation/lms-video-mission/hls
-
-# Dépôt uniquement, sans changer le chapitre.
-npm run video:migrate -- --dir /chemin/hls --chapter CHAPTER_ID --upload --confirm UPLOAD_R2 --resume --concurrency 12
-
-# Bascule précise, après contrôle du résultat précédent.
-npm run video:migrate -- --dir /chemin/hls --chapter CHAPTER_ID --upload --apply --confirm MIGRATE_R2_CHAPTERS
-```
-
-Pour une base distante, ajouter explicitement `--allow-production` aux commandes qui écrivent. Pour remplacer un chapitre déjà migré, ajouter `--replace`. La mission n'a utilisé ni ces flags de production ni de base distante. Le script refuse l'activation sans un chapitre précis. Une modification simultanée du chapitre bloque sa bascule. Le reçu `.local/migration-*.json` permet au chef de retrouver la précédente clé et la durée. Retour Vimeo depuis l'éditeur : sélectionner le retour, puis enregistrer ; aucun segment n'est supprimé et aucun progrès n'est réinitialisé.
-
-`--resume` évite de renvoyer les objets dont la taille et l'ETag MD5 correspondent au fichier local. `--concurrency` borne les dépôts simultanés entre 1 et 16 (défaut 1). Après chaque paquet, les références distantes, le nombre d'objets, chaque taille et chaque empreinte sont contrôlés ; le journal indique `X/111 envoyés`. Le préfixe immuable dépend du contenu du paquet. En cas d'interruption, relancer avec `--resume` et un chemin de reçu encore inexistant.
-
-Les erreurs R2 transitoires (HTTP 429/5xx, InternalError, SlowDown, délais et ruptures réseau) sont retentées jusqu'à huit fois, avec attente progressive de 1 à 30 secondes. Chaque tentative de PUT ouvre un nouveau flux du fichier : le SDK ne peut pas réutiliser un flux consommé après une erreur interne. Un paquet déjà complet est contrôlé par ses objets, tailles et empreintes, sans nouveau dépôt ni parcours HEAD redondant ; la validation locale de toutes les références reste obligatoire. Une erreur permanente ou huit échecs consécutifs interrompent la commande sans bascule du chapitre.
-
-Le dépôt lit les nouveaux champs Prisma et la configuration chiffrée. Pour envoyer les paquets avant la migration de production, utiliser un clone local restauré du dump, appliquer la migration sur ce clone et y saisir les réglages R2. Ne jamais pointer les contrôles de simulation sur ce clone contenant les données réelles : ils exigent une deuxième base jetable distincte.
+Avant une migration de schéma : dump complet PostgreSQL 18 et restauration locale vérifiée. Le démarrage Railway applique `prisma migrate deploy`. Les contrôles de simulation exigent une base vide séparée, jamais le clone des données réelles.
 
 ## Coût R2 estimé au 05/10/2026
 
@@ -96,6 +79,6 @@ Hypothèse de 100–150 Go HLS + 47,5 Go de sources conservées : **2,07–2,82 
 
 ## Vérifications et limites
 
-`npm run build`, typecheck applicatif, `npm run check:video` et les 26 contrôles `check:sim` (avec une base simulation séparée) sont requis. Les scripts QA sous `scripts/video/qa-*` refusent la base production ; leurs comptes, cookies et objets sont uniquement locaux. Le mock utilise S3rver avec un proxy qui vérifie la signature SigV4 des URLs présignées, leur expiration et l'absence d'accès anonyme ; l'adaptateur ajoute ListParts, absent de S3rver. Ce n'est pas une preuve d'accès au compte R2 réel, encore inactif.
+`npm run build`, typecheck applicatif, `npm run check:video` et les 26 contrôles `check:sim` (avec une base simulation séparée) sont requis. Les scripts QA sous `scripts/video/qa-*` refusent la base production ; leurs comptes, cookies et objets sont uniquement locaux. Le mock utilise S3rver avec un proxy qui vérifie la signature SigV4 des URLs présignées, leur expiration et l'absence d'accès anonyme ; l'adaptateur ajoute ListParts, absent de S3rver. Les tests locaux complètent les contrôles réels de production.
 
-Avant bascule réelle : chef applique la migration, saisit les cinq réglages, configure CORS et le bucket privé, démarre le worker, vérifie un chapitre réel et Safari/iPhone/iPad, puis migre progressivement. Aucun cours réel ni inscription production n'a été changé. Les dépendances existantes présentent des alertes npm ; aucun `audit fix --force` ni changement général de dépendances n'a été entrepris dans cette mission.
+La validation réelle couvre un compte TEST et trois chapitres (SEO, SEA, VBA) sous Chrome et WebKit iPad, ainsi qu'un dépôt admin sur un chapitre non publié. Les données TEST sont ensuite supprimées. Les objets R2 restent conservés. Ne jamais tester avec le compte d'un élève réel ni déclencher de mail pendant les contrôles.

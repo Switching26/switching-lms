@@ -30,7 +30,6 @@ import CadranFormation, {
 type ChapterKind = "anglais" | "video" | "simulation" | "exercise" | "pdf" | "text"
 
 function getChapterKind(ch: {
-  videoUrl: string | null
   videoR2Key?: string | null
   simulation?: { id: string; app?: string; mode: string; stepCount: number } | null
   exercises?: { id: string }[]
@@ -132,7 +131,6 @@ interface Chapter {
   title: string
   description: string | null
   order: number
-  videoUrl: string | null
   videoR2Key?: string | null
   videoDuration: number
   content: string | null
@@ -364,7 +362,7 @@ export default function FormationPlayer({
       : null
   const [marking, setMarking] = useState(false)
 
-  // Identité stable : évite de re-câbler les listeners Vimeo à chaque re-render
+  // Identité stable : évite de re-câbler les listeners vidéo HLS à chaque re-render
   // (la saisie de notes re-rendait le player et flushait la progression à chaque frappe)
   const handleChapterCompleted = useCallback((chapterId: string) => {
     setCompletedMap((prev) => ({ ...prev, [chapterId]: true }))
@@ -404,7 +402,7 @@ export default function FormationPlayer({
   }, [chapters])
 
   // ─── Temps passé par chapitre (traçabilité Qualiopi) ───
-  // 100 % en refs : aucun state, aucun re-render (piège VimeoPlayer persistant).
+  // 100 % en refs : aucun state, aucun re-render (piège HlsVideoPlayer persistant).
   // Tick 15 s quand l'onglet est visible → flush ≥ 60 s, au changement de
   // chapitre, quand l'onglet passe en arrière-plan et à la sortie (keepalive).
   const timeChapterIdRef = useRef<string | null>(null)
@@ -412,8 +410,8 @@ export default function FormationPlayer({
 
   // ─── Visionnage réel par chapitre (session courante) ───
   // Secondes de vidéo réellement lues (les sauts de curseur ne comptent pas),
-  // remontées par VimeoPlayer. setState seulement par palier de 5 s : pas de
-  // re-render à chaque timeupdate (piège VimeoPlayer persistant).
+  // remontées par HlsVideoPlayer. setState seulement par palier de 5 s : pas de
+  // re-render à chaque timeupdate (piège HlsVideoPlayer persistant).
   const [watchMap, setWatchMap] = useState<Record<string, number>>({})
   const handleWatchProgress = useCallback((chapterId: string, watchedSeconds: number) => {
     setWatchMap((prev) => {
@@ -536,7 +534,7 @@ export default function FormationPlayer({
 
   /*
    * Un atelier prend l'écran entier lui-même : le cadran s'efface, sans se
-   * démonter (hôte Vimeo persistant). Bloqué, l'atelier n'est PAS monté du
+   * démonter (hôte vidéo HLS persistant). Bloqué, l'atelier n'est PAS monté du
    * tout — aucun scénario n'est chargé — et le cadran reprend l'écran pour
    * porter l'explication : cockpit, fil du chapitre, sommaire, notes et
    * navigation restent donc en place.
@@ -731,20 +729,6 @@ export default function FormationPlayer({
         pleinCadre={!preview}
         visible={!estAtelier}
       >
-        {/* ── La scène ────────────────────────────────────────────────────
-            L'hôte Vimeo est PERSISTANT : jamais démonté, jamais keyé — seule
-            la `src` de son iframe change. Le démontage laissait des lecteurs
-            orphelins empilés dans le document. */}
-        <VimeoPlayer
-          vimeoId={active?.videoR2Key ? null : active?.videoUrl || null}
-          chapterId={active?.id || ""}
-          lastPosition={active?.videoUrl ? active.lastPosition : 0}
-          preview={!!preview}
-          onCompleted={handleChapterCompleted}
-          onWatchProgress={handleWatchProgress}
-          takePendingSeconds={takePendingSeconds}
-        />
-
         {active?.videoR2Key && <HlsVideoPlayer
           key={`${active.id}:${active.videoR2Key}`}
           chapterId={active.id}
@@ -1070,188 +1054,6 @@ function ExerciseBlock({
           {exercise.type === "REDACTION" && (
             <p className="text-xs text-warm-400 italic">Réponse enregistrée. Pas de correction automatique pour les questions de rédaction.</p>
           )}
-        </div>
-      )}
-    </div>
-  )
-}
-
-/* ═══════════ VIMEO PLAYER ═══════════ */
-
-function VimeoPlayer({
-  vimeoId,
-  chapterId,
-  lastPosition,
-  preview,
-  onCompleted,
-  onWatchProgress,
-  takePendingSeconds,
-}: {
-  vimeoId: string | null
-  chapterId: string
-  lastPosition: number
-  preview: boolean
-  onCompleted: (chapterId: string) => void
-  onWatchProgress?: (chapterId: string, watchedSeconds: number) => void
-  takePendingSeconds?: () => number
-}) {
-  const iframeRef = useRef<HTMLIFrameElement>(null)
-  const progressTimerRef = useRef<ReturnType<typeof setInterval> | null>(null)
-  const hasEndedRef = useRef(false)
-  const currentTimeRef = useRef(0)
-  // Visionnage réel : cumul des secondes effectivement lues (session courante)
-  const watchedRef = useRef(0)
-  const lastTimeRef = useRef(-1)
-  const [processing, setProcessing] = useState(false)
-  const playerReadyRef = useRef(false)
-
-  const saveProgress = useCallback(async (position: number, completed: boolean = false) => {
-    if (preview || !chapterId) return
-    try {
-      const body: Record<string, any> = { lastPosition: Math.floor(position) }
-      if (completed) {
-        body.completedAt = new Date().toISOString()
-        // Créditer le temps de présence en attente dans le même PUT : le verrou
-        // serveur (plancher de visionnage) évalue APRÈS ce crédit.
-        const pending = takePendingSeconds?.() || 0
-        if (pending >= 1) body.timeDeltaSeconds = pending
-      }
-      const res = await fetch(`/api/progress/${chapterId}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      })
-      // Ne marquer « terminé » côté UI que si le serveur l'a accepté
-      // (il peut refuser : plancher de visionnage non atteint).
-      if (completed && res.ok) onCompleted(chapterId)
-    } catch {}
-  }, [chapterId, preview, onCompleted, takePendingSeconds])
-
-  useEffect(() => {
-    const iframe = iframeRef.current
-    if (!iframe || !vimeoId) return
-
-    // Nouveau chapitre : réinitialiser l'état de lecture (le composant persiste)
-    hasEndedRef.current = false
-    currentTimeRef.current = 0
-    watchedRef.current = 0
-    lastTimeRef.current = -1
-    playerReadyRef.current = false
-    setProcessing(false)
-
-    const postToVimeo = (method: string, value?: any) => {
-      const msg: Record<string, any> = { method }
-      if (value !== undefined) msg.value = value
-      iframe.contentWindow?.postMessage(JSON.stringify(msg), "https://player.vimeo.com")
-    }
-
-    const handleMessage = (event: MessageEvent) => {
-      if (event.origin !== "https://player.vimeo.com") return
-      if (event.source !== iframe.contentWindow) return
-      let data: any
-      try {
-        data = typeof event.data === "string" ? JSON.parse(event.data) : event.data
-      } catch { return }
-
-      if (data.event === "ready") {
-        playerReadyRef.current = true
-        postToVimeo("addEventListener", "timeupdate")
-        postToVimeo("addEventListener", "ended")
-        if (lastPosition > 0) {
-          postToVimeo("setCurrentTime", lastPosition)
-        }
-      }
-
-      if (data.event === "timeupdate" && typeof data.data?.seconds === "number") {
-        const s = data.data.seconds
-        // Visionnage réel : cumuler les petits deltas de lecture continue.
-        // Un saut de curseur (delta > 2 s ou négatif) ne compte pas.
-        const prevS = lastTimeRef.current
-        if (prevS >= 0) {
-          const delta = s - prevS
-          if (delta > 0 && delta <= 2) {
-            watchedRef.current += delta
-            onWatchProgress?.(chapterId, watchedRef.current)
-          }
-        }
-        lastTimeRef.current = s
-        currentTimeRef.current = s
-      }
-
-      if (data.event === "ended") {
-        if (hasEndedRef.current) return
-        hasEndedRef.current = true
-        saveProgress(0, true)
-      }
-    }
-
-    window.addEventListener("message", handleMessage)
-
-    progressTimerRef.current = setInterval(() => {
-      if (currentTimeRef.current > 0 && !hasEndedRef.current) {
-        saveProgress(currentTimeRef.current)
-      }
-    }, 30000)
-
-    const checkStatus = async () => {
-      try {
-        const res = await fetch(`/api/upload/video/${vimeoId}/status`)
-        const data = await res.json()
-        if (data.status === "transcoding" || data.status === "transcode_starting") {
-          setProcessing(true)
-        }
-      } catch {}
-    }
-    if (!preview) checkStatus()
-
-    return () => {
-      window.removeEventListener("message", handleMessage)
-      if (progressTimerRef.current) clearInterval(progressTimerRef.current)
-      if (!preview && chapterId && currentTimeRef.current > 0 && !hasEndedRef.current) {
-        fetch(`/api/progress/${chapterId}`, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ lastPosition: Math.floor(currentTimeRef.current) }),
-          keepalive: true,
-        }).catch(() => {})
-      }
-    }
-  }, [vimeoId, chapterId, lastPosition, preview, saveProgress, onWatchProgress])
-
-  // Hôte persistant : le wrapper et l'iframe restent montés en permanence,
-  // seule la src change. Sans vidéo → masqué + about:blank (stoppe la lecture).
-  const src = vimeoId
-    ? `https://player.vimeo.com/video/${vimeoId}?title=0&byline=0&portrait=0&dnt=1&api=1&outro=0`
-    : "about:blank"
-
-  return (
-    /*
-     * La vidéo s'inscrit dans la salle sans jamais être rognée ni déformée.
-     *
-     * Deux régimes, et il en faut bien deux : au-delà de 900 px c'est la
-     * HAUTEUR disponible qui commande (`h-full w-auto`), en dessous c'est la
-     * LARGEUR (`w-full h-auto`). Contraindre les deux axes en même temps fait
-     * ignorer `aspect-ratio` par le navigateur, et l'image se déforme.
-     */
-    <div
-      className={`relative aspect-video max-h-full max-w-full overflow-hidden rounded-[14px] bg-primary shadow-lg
-        h-auto w-full min-[901px]:h-full min-[901px]:w-auto ${vimeoId ? "" : "hidden"}`}
-      style={{ boxShadow: "0 24px 70px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.06)" }}
-    >
-      <iframe
-        ref={iframeRef}
-        src={src}
-        style={{ border: "none", width: "100%", height: "100%" }}
-        allow="autoplay; fullscreen; picture-in-picture"
-        allowFullScreen
-      />
-      {processing && (
-        <div className="absolute inset-0 bg-warm-100 flex items-center justify-center">
-          <div className="text-center">
-            <div className="w-10 h-10 mx-auto mb-3 rounded-full border-2 border-warm-300 border-t-warm-500 animate-spin" />
-            <p className="text-warm-600 text-sm font-medium">Vidéo en cours de traitement</p>
-            <p className="text-warm-400 text-xs mt-1">Revenez dans quelques minutes</p>
-          </div>
         </div>
       )}
     </div>

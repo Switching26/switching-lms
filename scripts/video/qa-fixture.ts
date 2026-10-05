@@ -14,8 +14,7 @@ async function main() {
       await prisma.user.upsert({ where: { id }, update: {}, create: { id, email: `${id}@test.invalid`, password, firstName: id === "r2-admin" ? "Admin" : "Camille", lastName: "Test vidéo", role } })
     }
     await prisma.formation.upsert({ where: { id: "r2-formation" }, update: {}, create: { id: "r2-formation", title: "Vidéo privée · démonstration locale", isPublished: true } })
-    await prisma.chapter.upsert({ where: { id: "r2-chapter" }, update: {}, create: { id: "r2-chapter", formationId: "r2-formation", title: "Comprendre le référencement", description: "Test du lecteur intégré et de la reprise de lecture.", videoDuration: 120, videoUrl: "123456789", isPublished: true, order: 1 } })
-    await prisma.chapter.upsert({ where: { id: "r2-vimeo" }, update: {}, create: { id: "r2-vimeo", formationId: "r2-formation", title: "Chapitre Vimeo conservé", videoUrl: "123456788", videoDuration: 120, isPublished: true, order: 2 } })
+    await prisma.chapter.upsert({ where: { id: "r2-chapter" }, update: {}, create: { id: "r2-chapter", formationId: "r2-formation", title: "Comprendre le référencement", description: "Test du lecteur intégré et de la reprise de lecture.", videoDuration: 120, isPublished: true, order: 1 } })
     await prisma.enrollment.upsert({ where: { userId_formationId: { userId: "r2-learner", formationId: "r2-formation" } }, update: {}, create: { userId: "r2-learner", formationId: "r2-formation" } })
     const config = { r2_endpoint: "http://127.0.0.1:4568", r2_bucket: "video-r2-test", r2_access_key: "S3RVER", r2_secret_key: "S3RVER", video_worker_token: "video-r2-local-worker-token-2026-only" }
     for (const [key, value] of Object.entries(config)) await prisma.systemConfig.upsert({ where: { key }, update: { value: encrypt(value) }, create: { key, value: encrypt(value) } })

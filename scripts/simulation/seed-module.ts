@@ -361,7 +361,6 @@ function appDuFichier(file: string): "EXCEL" | "WORD" | "POWERPOINT" | "OUTLOOK"
                 isPublished: publish,
                 // Un chapitre de simulation n'a pas de vidéo : c'est ce qui le
                 // distingue dans le player.
-                videoUrl: null,
                 videoDuration: 0,
               },
             })

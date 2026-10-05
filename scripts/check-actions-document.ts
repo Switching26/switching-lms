@@ -132,16 +132,13 @@ exiger("ordre œil puis flèche", posConsulter > 0 && posTelecharger > posConsul
 
 /* ── 6. Non-régression du player classique ─────────────────────────────── */
 
-// Le piège 0a : l'hôte Vimeo ne doit JAMAIS être démonté ni keyé.
-exiger("player classique : hôte Vimeo toujours monté", classique.includes("<VimeoPlayer"))
-exiger(
-  "player classique : aucune clé sur l'hôte Vimeo",
-  !/<VimeoPlayer[^>]*\bkey=/.test(classique),
-)
+// La clé de lecture change seulement avec le chapitre ou son paquet.
+exiger("player classique : lecteur HLS intégré", classique.includes("<HlsVideoPlayer"))
+exiger("player classique : clé de lecture stable", classique.includes('key={`${active.id}:${active.videoR2Key}`}'))
 // Les capacités classiques restent en place.
 const capacites = [
   ["quiz", "<ExerciseBlock"],
-  ["prise de notes", "<ChapterNotes"],
+  ["prise de notes", "onNote={"],
   ["atelier de simulation", "<SimulationChapter"],
   ["verrou de visionnage", "watchGate"],
   ["suivi du temps", "timeDeltaSeconds"],

@@ -247,7 +247,7 @@ async function createChapterForStep(
       console.warn(`  ⚠ PDF step ${step.id} : fichier introuvable dans /tmp/riseup-explore/pdfs/`)
     }
   }
-  // type === 'video' : Chapter créé, videoUrl null (à remplir plus tard via Vimeo)
+  // type === 'video' : Chapter créé, vidéo à déposer plus tard dans le LMS
 
   return { chapterId: chapter.id, counts }
 }

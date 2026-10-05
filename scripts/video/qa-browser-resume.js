@@ -7,12 +7,9 @@ async (page) => {
   await page.waitForFunction(() => { const v = document.querySelector("video"); return v && v.readyState >= 2 && v.currentTime >= 11 })
   const resumed = await page.evaluate(() => document.querySelector("video").currentTime)
   if (Math.abs(resumed - Math.floor(before)) > 1) throw new Error("Position à la reprise incorrecte")
-  // Verify that the untouched chapter still selects exactly one Vimeo iframe.
-  await page.goto("http://lms-video-r2.localhost:3412/learner/formation?id=r2-formation&chapitre=r2-vimeo")
-  await page.waitForFunction(() => document.querySelectorAll("iframe[src*='player.vimeo.com']").length === 1)
-  const vimeo = await page.evaluate(() => ({ iframeCount: document.querySelectorAll("iframe[src*='player.vimeo.com']").length, r2Count: document.querySelectorAll("video[data-video-provider=r2]").length }))
-  if (vimeo.r2Count) throw new Error("Le chapitre Vimeo a changé de lecteur")
-  await page.goto("http://lms-video-r2.localhost:3412/learner/formation?id=r2-formation&chapitre=r2-chapter")
-  await page.waitForFunction(() => { const v = document.querySelector("video"); return v && v.readyState >= 2 })
-  return { check: "Sauvegarde à la sortie et reprise réelle, sélection Vimeo inchangée", before, resumed, vimeo }
+  await page.reload()
+  await page.waitForFunction(() => document.querySelectorAll("video[data-video-provider=r2]").length === 1)
+  const playerCount = await page.locator("video[data-video-provider=r2]").count()
+  if (await page.locator("iframe").count()) throw new Error("Lecteur externe inattendu")
+  return { check: "Sauvegarde à la sortie et reprise réelle, un seul lecteur HLS", before, resumed, playerCount }
 }

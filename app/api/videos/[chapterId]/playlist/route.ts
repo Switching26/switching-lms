@@ -22,12 +22,19 @@ export async function GET(req: NextRequest, { params }: { params: { chapterId: s
       return NextResponse.json({ error: "Inscription active requise" }, { status: 403, headers })
     }
   }
+  const relative = req.nextUrl.searchParams.get("path")
+  let key = chapter.videoR2Key
+  if (relative) {
+    try {
+      key = resolveHlsReference(chapter.videoR2Key, chapter.videoR2Key, relative)
+    } catch {
+      return NextResponse.json({ error: "Chemin de playlist invalide" }, { status: 400, headers })
+    }
+  }
+  if (!key.endsWith(".m3u8")) return NextResponse.json({ error: "Playlist requise" }, { status: 400, headers })
   try {
     const config = await getR2Config()
     const client = r2Client(config)
-    const relative = req.nextUrl.searchParams.get("path")
-    const key = relative ? resolveHlsReference(chapter.videoR2Key, chapter.videoR2Key, relative) : chapter.videoR2Key
-    if (!key.endsWith(".m3u8")) return NextResponse.json({ error: "Playlist requise" }, { status: 400, headers })
     const masterDir = chapter.videoR2Key.slice(0, chapter.videoR2Key.lastIndexOf("/") + 1)
     const text = await loadPlaylist(client, config.bucket, key)
     const rewritten = await rewriteHls(text, async uri => {

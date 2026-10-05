@@ -25,6 +25,8 @@ export default function PlatformSettings() {
   // Storage
   const [storagePath, setStoragePath] = useState("/mnt/uploads")
   const [storageBaseUrl, setStorageBaseUrl] = useState("")
+  const [r2, setR2] = useState<Record<string, string>>({ r2_endpoint: "", r2_bucket: "", r2_access_key: "", r2_secret_key: "", video_worker_token: "" })
+  const [configuredR2, setConfiguredR2] = useState<string[]>([])
 
   const [saving, setSaving] = useState(false)
   const [testing, setTesting] = useState(false)
@@ -45,6 +47,8 @@ export default function PlatformSettings() {
           setHasVimeoToken(data.hasVimeoToken)
           setStoragePath(data.config.storage_path || "/mnt/uploads")
           setStorageBaseUrl(data.config.storage_base_url || "")
+          setR2(value => ({ ...value, r2_endpoint: data.config.r2_endpoint || "", r2_bucket: data.config.r2_bucket || "" }))
+          setConfiguredR2(data.configuredR2Keys || [])
         }
       })
       .finally(() => setLoading(false))
@@ -71,6 +75,7 @@ export default function PlatformSettings() {
             vimeo_token: vimeoToken,
             storage_path: storagePath,
             storage_base_url: storageBaseUrl,
+            ...r2,
           },
         }),
       })
@@ -82,6 +87,8 @@ export default function PlatformSettings() {
         setGmailClientSecret("")
         setGmailRefreshToken("")
         setVimeoToken("")
+        setConfiguredR2(keys => Array.from(new Set([...keys, ...Object.keys(r2).filter(key => r2[key])])))
+        setR2(value => ({ ...value, r2_access_key: "", r2_secret_key: "", video_worker_token: "" }))
       } else flash("Erreur : " + ((await res.json()).error || "Échec"))
     } catch { flash("Erreur réseau") }
     finally { setSaving(false) }
@@ -294,6 +301,19 @@ export default function PlatformSettings() {
             {testingVimeo ? "Test en cours..." : "Tester la connexion"}
           </button>
         </div>
+      </div>
+
+      <div className="bg-white rounded-xl border border-border p-6 space-y-5">
+        <div><h3 className="text-base font-semibold mb-1">Vidéos privées du LMS · Cloudflare R2</h3><p className="text-sm text-gray-500">La conversion est réalisée par le worker sur le Mac. Les vidéos Vimeo restent disponibles.</p></div>
+        {[
+          ["r2_endpoint", "Endpoint S3", "https://ACCOUNT_ID.r2.cloudflarestorage.com"],
+          ["r2_bucket", "Bucket privé", "switching-lms-videos"],
+          ["r2_access_key", "Access key", "Identifiant R2"],
+          ["r2_secret_key", "Secret key", "Secret R2"],
+          ["video_worker_token", "Token du worker", "Au moins 32 caractères aléatoires"],
+        ].map(([key, label, placeholder]) => <div key={key}><label className="block text-sm font-medium mb-1" htmlFor={key}>{label}{configuredR2.includes(key) && <span className="text-xs text-gray-400"> (enregistré)</span>}</label>
+          <input id={key} type={key === "r2_endpoint" || key === "r2_bucket" ? "text" : "password"} autoComplete="off" value={r2[key]} onChange={e => setR2(value => ({ ...value, [key]: e.target.value }))} placeholder={configuredR2.includes(key) && key !== "r2_endpoint" && key !== "r2_bucket" ? "••••••••" : placeholder} className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-primary" /></div>)}
+        <p className="text-xs text-gray-500">Conserver le bucket privé et autoriser les requêtes CORS du domaine LMS uniquement. Un champ secret vide conserve sa valeur enregistrée.</p>
       </div>
 
       {/* STOCKAGE FICHIERS */}

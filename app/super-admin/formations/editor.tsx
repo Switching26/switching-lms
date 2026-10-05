@@ -1,4 +1,5 @@
 "use client"
+import R2VideoUpload from "@/components/admin/R2VideoUpload"
 
 import { useState, useRef, useCallback, useEffect } from "react"
 import { useRouter } from "next/navigation"
@@ -43,6 +44,7 @@ interface Chapter {
   description: string | null
   content: string | null
   videoUrl: string | null
+  videoR2Key?: string | null
   videoDuration: number
   order: number
   isPublished: boolean
@@ -213,13 +215,18 @@ export default function FormationEditor({ initial }: { initial?: Formation }) {
           description: ch.description,
           content: ch.content,
           videoUrl: ch.videoUrl,
+          videoR2Key: ch.videoR2Key,
           videoDuration: ch.videoDuration,
           isPublished: ch.isPublished,
           order: ch.order,
           sectionId: ch.sectionId,
         }),
       })
-      if (res.ok) flash("Chapitre enregistré")
+      if (res.ok) {
+        const saved = await res.json()
+        setChapters(previous => previous.map(item => item.id === ch.id ? { ...item, ...saved } : item))
+        flash("Chapitre enregistré")
+      }
       else flash("Erreur : Enregistrement du chapitre échoué")
     } catch { flash("Erreur réseau") }
     finally { setSaving(false) }
@@ -704,6 +711,8 @@ function ChapterPanel({
   saving: boolean
 }) {
   const [videoState, setVideoState] = useState<VideoUploadState>(chapter.videoUrl ? "ready" : "idle")
+  const [showVimeo, setShowVimeo] = useState(!chapter.videoR2Key)
+  useEffect(() => { if (chapter.videoR2Key) setShowVimeo(false) }, [chapter.videoR2Key])
   const [uploadProgress, setUploadProgress] = useState(0)
   const [processingPct, setProcessingPct] = useState<number | null>(null)
   const [videoError, setVideoError] = useState("")
@@ -794,7 +803,7 @@ function ChapterPanel({
       const { uploadUrl, vimeoId } = await initRes.json()
 
       // Store the Vimeo ID as videoUrl
-      onUpdate({ videoUrl: vimeoId })
+      onUpdate({ videoUrl: vimeoId, ...(chapter.videoR2Key && { videoR2Key: null }) })
 
       // Step 2: Upload via tus-js-client
       const { Upload } = await import("tus-js-client")
@@ -841,7 +850,7 @@ function ChapterPanel({
   const handleRemoveVideo = async () => {
     const oldVimeoId = chapter.videoUrl
     stopPolling()
-    onUpdate({ videoUrl: null, videoDuration: 0 })
+    onUpdate({ videoUrl: null, ...(!chapter.videoR2Key && { videoDuration: 0 }) })
     setVideoState("idle")
     setUploadProgress(0)
     setProcessingPct(null)
@@ -883,7 +892,7 @@ function ChapterPanel({
       }
 
       // Save the Vimeo ID
-      onUpdate({ videoUrl: id })
+      onUpdate({ videoUrl: id, ...(chapter.videoR2Key && { videoR2Key: null }) })
       if (data.duration) {
         onUpdate({ videoDuration: data.duration })
       }
@@ -989,8 +998,10 @@ function ChapterPanel({
             />
           </div>
 
-          {/* Vidéo Vimeo */}
-          <div className="space-y-3">
+          <R2VideoUpload chapterId={chapter.id} videoR2Key={chapter.videoR2Key} hasVimeo={!!chapter.videoUrl} onUpdate={onUpdate} />
+          <button type="button" className="text-sm text-gray-600 underline" onClick={() => setShowVimeo(value => !value)}>{showVimeo ? "Masquer l’option Vimeo" : "Afficher l’option Vimeo"}</button>
+          {/* Vimeo kept unchanged until a chapter is switched. */}
+          <div className={`space-y-3 ${showVimeo ? "" : "hidden"}`}>
             <div className="flex items-center justify-between">
               <h3 className="text-sm font-semibold">Vidéo</h3>
               {chapter.videoUrl && videoState === "ready" && (

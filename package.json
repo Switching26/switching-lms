@@ -13,7 +13,10 @@
     "db:seed": "npx ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts",
     "db:studio": "prisma studio",
     "check:sim": "bash scripts/simulation/lancer-controles.sh",
-    "check:frontieres": "tsx scripts/simulation/check-frontieres.ts"
+    "check:frontieres": "tsx scripts/simulation/check-frontieres.ts",
+    "video:worker": "tsx scripts/video/worker.ts",
+    "video:migrate": "tsx scripts/video/migrate-r2.ts",
+    "check:video": "tsc --noEmit -p scripts/video/tsconfig.json && tsx --test scripts/video/hls.test.ts"
   },
   "repository": {
     "type": "git",
@@ -26,6 +29,8 @@
     "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.1146.0",
+    "@aws-sdk/s3-request-presigner": "^3.1146.0",
     "@prisma/client": "^5.22.0",
     "@types/bcryptjs": "^2.4.6",
     "@types/node": "^25.5.0",
@@ -37,6 +42,7 @@
     "@univerjs/presets": "^0.25.1",
     "autoprefixer": "^10.4.27",
     "bcryptjs": "^3.0.3",
+    "hls.js": "^1.7.3",
     "lucide-react": "^0.577.0",
     "next": "^14.2.35",
     "next-auth": "^5.0.0-beta.30",
@@ -50,5 +56,9 @@
     "ts-node": "^10.9.2",
     "tus-js-client": "^4.3.1",
     "typescript": "^5.9.3"
+  },
+  "devDependencies": {
+    "s3rver": "^3.7.1",
+    "tsx": "^4.23.15"
   }
 }

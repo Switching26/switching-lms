@@ -17,6 +17,8 @@ import {
   type EtatConsultation,
 } from "@/components/learner/DocumentActions"
 import PdfViewer from "@/components/learner/PdfViewer"
+import HlsVideoPlayer from "@/components/learner/HlsVideoPlayer"
+import { hasVideo } from "@/lib/video/hls"
 import CadranFormation, {
   type EntreeCadran,
   type GenreChapitre,
@@ -29,12 +31,13 @@ type ChapterKind = "anglais" | "video" | "simulation" | "exercise" | "pdf" | "te
 
 function getChapterKind(ch: {
   videoUrl: string | null
+  videoR2Key?: string | null
   simulation?: { id: string; app?: string; mode: string; stepCount: number } | null
   exercises?: { id: string }[]
   attachments?: { fileUrl: string }[]
 }): ChapterKind {
   if (ch.simulation?.app === "ANGLAIS") return "anglais"
-  if (ch.videoUrl) return "video"
+  if (hasVideo(ch)) return "video"
   // Une simulation passe avant le quiz : un chapitre de simulation peut porter
   // en plus un QCM de fin, c'est la simulation qui définit le chapitre.
   if (ch.simulation) return "simulation"
@@ -130,6 +133,7 @@ interface Chapter {
   description: string | null
   order: number
   videoUrl: string | null
+  videoR2Key?: string | null
   videoDuration: number
   content: string | null
   completed: boolean
@@ -430,7 +434,7 @@ export default function FormationPlayer({
   // vus (visionnage de la session + temps déjà passé les sessions précédentes).
   // La navigation entre chapitres, elle, reste toujours totalement libre.
   const watchGate = useMemo(() => {
-    if (!active?.videoUrl || !active.videoDuration || completedMap[active.id]) {
+    if (!hasVideo(active) || !active?.videoDuration || completedMap[active.id]) {
       return { locked: false, pct: 100 }
     }
     const seen = (watchMap[active.id] || 0) + (active.timeSpentSeconds || 0)
@@ -545,7 +549,7 @@ export default function FormationPlayer({
    */
   const estAtelier = estChapitreAtelier && verdictEcran?.suffisant === true
   const seuilSecondes =
-    active?.videoUrl && active.videoDuration ? Math.round(active.videoDuration * 0.5) : 0
+    hasVideo(active) && active?.videoDuration ? Math.round(active.videoDuration * 0.5) : 0
   const vuSecondes = active ? (watchMap[active.id] || 0) + (active.timeSpentSeconds || 0) : 0
 
   const validation: ValidationChapitre = !active
@@ -666,7 +670,7 @@ export default function FormationPlayer({
         progression={progressPercent}
         sommaire={sommaireCadran}
         positionCourante={
-          active?.videoUrl && active.videoDuration
+          hasVideo(active) && active?.videoDuration
             ? { vu: Math.min(vuSecondes, active.videoDuration), total: active.videoDuration }
             : null
         }
@@ -732,7 +736,7 @@ export default function FormationPlayer({
             la `src` de son iframe change. Le démontage laissait des lecteurs
             orphelins empilés dans le document. */}
         <VimeoPlayer
-          vimeoId={active?.videoUrl || null}
+          vimeoId={active?.videoR2Key ? null : active?.videoUrl || null}
           chapterId={active?.id || ""}
           lastPosition={active?.videoUrl ? active.lastPosition : 0}
           preview={!!preview}
@@ -740,6 +744,16 @@ export default function FormationPlayer({
           onWatchProgress={handleWatchProgress}
           takePendingSeconds={takePendingSeconds}
         />
+
+        {active?.videoR2Key && <HlsVideoPlayer
+          key={`${active.id}:${active.videoR2Key}`}
+          chapterId={active.id}
+          lastPosition={active.lastPosition}
+          preview={!!preview}
+          onCompleted={handleChapterCompleted}
+          onWatchProgress={handleWatchProgress}
+          takePendingSeconds={takePendingSeconds}
+        />}
 
         {kind === "anglais" && active && (
           <SimulationChapter key={active.id} chapterId={active.id} app="ANGLAIS" preview={!!preview}

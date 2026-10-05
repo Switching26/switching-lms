@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0"><dict>
+  <key>Label</key><string>com.switching.lms-video-worker</string>
+  <key>ProgramArguments</key><array>
+    <string>/opt/homebrew/bin/node</string>
+    <string>REPO/node_modules/tsx/dist/cli.mjs</string>
+    <string>REPO/scripts/video/worker.ts</string>
+  </array>
+  <key>WorkingDirectory</key><string>REPO</string>
+  <key>EnvironmentVariables</key><dict>
+    <key>PATH</key><string>/opt/homebrew/bin:/usr/bin:/bin</string>
+    <key>VIDEO_LMS_URL</key><string>https://LMS_DOMAIN</string>
+    <key>VIDEO_WORKER_TOKEN</key><string>REPLACE_WITH_SAME_RANDOM_TOKEN_AS_LMS</string>
+  </dict>
+  <key>RunAtLoad</key><true/>
+  <key>KeepAlive</key><true/>
+  <key>ThrottleInterval</key><integer>60</integer>
+  <key>StandardOutPath</key><string>REPO/.local/video-worker.log</string>
+  <key>StandardErrorPath</key><string>REPO/.local/video-worker-error.log</string>
+</dict></plist>

@@ -24,6 +24,7 @@ export default async function ModifierFormationPage({ params }: { params: { id: 
           description: ch.description,
           content: ch.content,
           videoUrl: ch.videoUrl,
+          videoR2Key: ch.videoR2Key,
           videoDuration: ch.videoDuration,
           order: ch.order,
           isPublished: ch.isPublished,

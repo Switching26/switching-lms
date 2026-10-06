@@ -1,3 +1,4 @@
+import { withPublicEnglishThemes } from "@/lib/lessons/english-public"
 import { prisma } from "@/lib/prisma"
 import { sortChaptersByLearningOrder, withSortedFormationChapters } from "@/lib/data/chapter-order"
 
@@ -136,7 +137,8 @@ export async function getLearnerFormation(userId: string) {
       },
     },
   })
-  return enrollment ? withSortedFormationChapters(enrollment) : null
+  if (!enrollment) return null
+  return withSortedFormationChapters({ ...enrollment, formation: { ...enrollment.formation, chapters: await withPublicEnglishThemes(enrollment.formation.chapters) } })
 }
 
 /**
@@ -172,7 +174,7 @@ export async function getLearnerFormationById(userId: string, formationId?: stri
         },
       },
     })
-    if (found) return withSortedFormationChapters(found)
+    if (found) return withSortedFormationChapters({ ...found, formation: { ...found.formation, chapters: await withPublicEnglishThemes(found.formation.chapters) } })
   }
   return getLearnerFormation(userId)
 }

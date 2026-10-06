@@ -1,4 +1,7 @@
 "use client"
+import LessonList, { LessonIcon } from "@/components/learner/LessonList"
+import { useLessonPanel } from "@/components/learner/useLessonPanel"
+import type { LessonMetadata } from "@/lib/lessons/model"
 import { BoutonImmersion } from "@/components/learner/useImmersion"
 
 /**
@@ -121,7 +124,7 @@ export function Consigne({ text }: { text: string }) {
  * consommateurs (`SimulationChapter`, la page apprenant). Il appartient
  * désormais au châssis : c'est lui qui rend le sommaire, pour les quatre apps.
  */
-export type EntreeSommaire = {
+export type EntreeSommaire = LessonMetadata & {
   id: string
   titre: string
   /** Module d'appartenance ; null pour un chapitre hors section. */
@@ -1001,6 +1004,7 @@ export default function AtelierShell({
   const [panneau, setPanneau] = useState<"lecons" | "notes" | "ressources" | null>(null)
   /** Guide transversal de la formation : ouvert/fermé, rien d'autre. */
   const [guideOuvert, setGuideOuvert] = useState(false)
+  const leconsRef = useLessonPanel(panneau === "lecons", true, () => setPanneau(null))
   /** Cible du retour de focus quand le guide se ferme. */
   const boutonGuideRef = useRef<HTMLButtonElement | null>(null)
 
@@ -1053,7 +1057,7 @@ export default function AtelierShell({
   useEffect(() => {
     if (!panneau) return
     const echap = (e: KeyboardEvent) => {
-      if (e.key === "Escape") { e.preventDefault(); setPanneau(null) }
+      if (e.key === "Escape" && !e.defaultPrevented) { e.preventDefault(); setPanneau(null) }
     }
     window.addEventListener("keydown", echap)
     return () => window.removeEventListener("keydown", echap)
@@ -1164,16 +1168,8 @@ export default function AtelierShell({
             // Bascule : sans cet état, ni un lecteur d'écran ni un contrôle
             // automatique ne savent si le panneau est ouvert.
             aria-pressed={panneau === "lecons"}
-            className="flex flex-shrink-0 items-center justify-center"
-            style={CIBLE_COCKPIT}
-          >
-            <span
-              className="flex items-center gap-1.5 rounded-lg px-2.5 sm:px-3"
-              style={pastilleCockpit(panneau === "lecons")}
-            >
-              <span aria-hidden>☰</span>
-              <span className="hidden sm:inline">Leçons</span>
-            </span>
+            className="lms-lesson-command"
+          ><LessonIcon kind="list" size={16}/><span>Leçons</span>
           </button>
         )}
         {onNote && (
@@ -1413,7 +1409,7 @@ export default function AtelierShell({
           Ils se SUPERPOSENT au lieu de pousser le contenu : l'écran garde ses
           dimensions, donc la règle du « rien ne défile » tient même panneau
           ouvert. */}
-      {panneau && (
+      {panneau && panneau !== "lecons" && (
         <div
           role="presentation"
           onClick={() => setPanneau(null)}
@@ -1421,49 +1417,10 @@ export default function AtelierShell({
           style={{ top: 44, background: "rgba(8,17,14,.5)", zIndex: 60 }}
         />
       )}
+      <button type="button" tabIndex={-1} aria-label="Fermer les leçons" aria-hidden={panneau !== "lecons"} data-lesson-veil="" data-open={panneau === "lecons"} className="lms-lesson-veil" onClick={() => setPanneau(null)}/>
       {sommaire && sommaire.length > 0 && (
-        <aside
-          aria-label="Toutes les leçons"
-          aria-hidden={panneau !== "lecons"}
-          className="absolute bottom-0 left-0 flex flex-col bg-white shadow-2xl"
-          style={{
-            top: 44,
-            // 460 px : en dessous, « 16 ét. · 11 min » chasse le titre. Au-dessus,
-            // le panneau mange la zone de travail, qui reste l'écran de travail.
-            width: "min(460px, 86%)",
-            zIndex: 70,
-            transform: panneau === "lecons" ? "translateX(0)" : "translateX(-101%)",
-            transition: "transform .26s cubic-bezier(.32,.72,0,1)",
-            visibility: panneau === "lecons" ? "visible" : "hidden",
-          }}
-        >
-          <div className="flex flex-shrink-0 items-center gap-2 border-b border-border bg-warm-50 px-3 py-2.5">
-            <h4 className="flex-1 text-[13.5px] font-bold">Toutes les leçons</h4>
-            <span className="text-[11px] text-warm-400">
-              {sommaire.length} chapitres · {dureeLisible(sommaire.reduce((t, e) => t + (e.secondes ?? 0), 0))}
-            </span>
-            <button
-              type="button"
-              onClick={() => setPanneau(null)}
-              aria-label="Fermer"
-              className="rounded-lg bg-warm-100 px-2 py-1 text-[12px] text-warm-600"
-            >
-              ✕
-            </button>
-          </div>
-          <div className="min-h-0 flex-1 overflow-y-auto px-2 py-2">
-            <SommaireAtelier
-              entrees={sommaire}
-              courant={chapterId}
-              etapeCourante={index + 1}
-              etapesTotal={total}
-              modeCourant={mode}
-              onNaviguer={(id) => {
-                setPanneau(null)
-                onNaviguer?.(id)
-              }}
-            />
-          </div>
+        <aside ref={leconsRef} aria-label="Toutes les leçons" role="dialog" aria-modal={panneau === "lecons"?true:undefined} aria-hidden={panneau !== "lecons"} className="lms-lesson-panel lms-atelier-lessons" data-open={panneau === "lecons"}>
+          <LessonList entrees={sommaire} courant={chapterId} active={panneau === "lecons"} onClose={() => setPanneau(null)} onNaviguer={id => {setPanneau(null);onNaviguer?.(id)}}/>
         </aside>
       )}
       {onNote && (
@@ -1541,166 +1498,5 @@ export default function AtelierShell({
         />
       )}
     </div>
-  )
-}
-
-/**
- * Sommaire de la formation dans l'atelier.
- *
- * Groupé par module, et seul le module en cours est déplié : sur 27 modules et
- * 246 chapitres, tout ouvrir d'entrée noie l'information (choix Samuel du 29/07).
- */
-function SommaireAtelier({
-  entrees,
-  courant,
-  etapeCourante,
-  etapesTotal,
-  modeCourant,
-  onNaviguer,
-}: {
-  entrees: EntreeSommaire[]
-  courant: string
-  /** Position dans le chapitre OUVERT — connue du player seul. */
-  etapeCourante: number
-  etapesTotal: number
-  modeCourant: string
-  onNaviguer: (id: string) => void
-}) {
-  const moduleCourant = entrees.find((e) => e.id === courant)?.module ?? null
-  const [ouverts, setOuverts] = useState<Record<string, boolean>>({ [moduleCourant ?? "—"]: true })
-
-  const groupes: Array<{ nom: string; items: EntreeSommaire[] }> = []
-  for (const e of entrees) {
-    const nom = e.module ?? "—"
-    const dernier = groupes[groupes.length - 1]
-    if (dernier && dernier.nom === nom) dernier.items.push(e)
-    else groupes.push({ nom, items: [e] })
-  }
-
-  const PASTILLE: Record<EntreeSommaire["genre"], { l: string; c: string; f: string }> = {
-    // « L » (bleu) et « ★ » (ambre) disent la NATURE du chapitre, pas
-    // l'application : elles ne bougent pas. « E » est la seule identitaire.
-    lecon: { l: "L", c: "#2C6BB0", f: "#E9F1FB" },
-    exercice: { l: "E", c: C.accent, f: C.voile },
-    evaluation: { l: "★", c: "#8A5A12", f: "#FBF1DF" },
-    autre: { l: "·", c: "#8D8880", f: "#F1EEE8" },
-  }
-
-  return (
-    <>
-      {groupes.map((g, i) => {
-        const ouvert = ouverts[g.nom] ?? false
-        const faits = g.items.filter((x) => x.termine).length
-        const estCourant = g.nom === moduleCourant
-        return (
-          <div key={`${g.nom}-${i}`} className="border-b border-warm-100 last:border-b-0">
-            <button
-              type="button"
-              onClick={() => setOuverts((o) => ({ ...o, [g.nom]: !ouvert }))}
-              className="flex w-full items-center gap-2 px-1 py-2 text-left"
-            >
-              <span
-                className="flex flex-shrink-0 items-center justify-center rounded-lg text-[10px] font-bold"
-                style={{
-                  width: 21,
-                  height: 21,
-                  background: estCourant ? C.accent : faits === g.items.length ? C.voile : "#F1EEE8",
-                  color: estCourant ? "#fff" : faits === g.items.length ? C.accent : "#8D8880",
-                }}
-              >
-                {i + 1}
-              </span>
-              <span className="min-w-0 flex-1 truncate text-[12.5px] text-ink">{g.nom === "—" ? "Chapitres" : g.nom}</span>
-              <span className="flex-shrink-0 text-[10.5px] text-warm-400">
-                {faits}/{g.items.length}
-                {(() => {
-                  const t = g.items.reduce((n, x) => n + (x.secondes ?? 0), 0)
-                  return t > 0 ? ` · ${dureeLisible(t)}` : ""
-                })()}
-              </span>
-              <span aria-hidden className="flex-shrink-0 text-[10px] text-warm-400">
-                {ouvert ? "▾" : "▸"}
-              </span>
-            </button>
-            {ouvert && (
-              <ul className="mb-1.5 list-none pl-7">
-                {g.items.map((e) => {
-                  const p = PASTILLE[e.genre]
-                  const actif = e.id === courant
-                    // Le chapitre OUVERT s'étale : on y montre la position exacte
-                    // et le temps qu'il reste. Les autres tiennent sur une ligne,
-                    // pour qu'une dizaine reste visible sans défiler.
-                    const reste = actif
-                      ? Math.max(1, estimatedSimulationMinutes(modeCourant, Math.max(0, etapesTotal - etapeCourante + 1)))
-                      : 0
-                    return (
-                    <li key={e.id}>
-                      <button
-                        type="button"
-                        onClick={() => onNaviguer(e.id)}
-                        className="flex w-full items-center gap-2 rounded-lg px-1.5 py-1.5 text-left"
-                        style={{
-                          background: actif ? "#fff" : undefined,
-                          boxShadow: actif ? "0 1px 2px rgba(0,0,0,.09)" : undefined,
-                        }}
-                      >
-                        <span
-                          className="flex flex-shrink-0 items-center justify-center rounded"
-                          style={{ width: 15, height: 15, background: p.f, color: p.c, fontSize: 8, fontWeight: 700 }}
-                        >
-                          {p.l}
-                        </span>
-                        <span className="flex min-w-0 flex-1 flex-col gap-0.5">
-                          <span
-                            className="min-w-0 truncate text-[12px]"
-                            style={{ color: actif ? "#171a18" : "#6E6A62", fontWeight: actif ? 700 : 400 }}
-                          >
-                            {e.titre}
-                          </span>
-                          {actif && etapesTotal > 0 && (
-                            <>
-                              <span className="text-[10.5px] font-bold" style={{ color: C.accentF }}>
-                                étape {etapeCourante} sur {etapesTotal} · ≈ {reste} min restantes
-                              </span>
-                              <span
-                                aria-hidden
-                                className="mt-0.5 overflow-hidden rounded-sm"
-                                style={{ height: 3, background: "#E4E0D8" }}
-                              >
-                                <span
-                                  className="block h-full rounded-sm"
-                                  style={{
-                                    width: `${Math.round(((etapeCourante - 1) / etapesTotal) * 100)}%`,
-                                    background: C.accent,
-                                    transition: "width .3s ease",
-                                  }}
-                                />
-                              </span>
-                            </>
-                          )}
-                        </span>
-                        {!actif && !!e.etapes && (
-                          <span className="flex-shrink-0 text-[10.5px] text-warm-400">
-                            {e.etapes} ét. · {estimatedSimulationMinutes(
-                              e.genre === "exercice" ? "EXERCISE" : e.genre === "evaluation" ? "EVALUATION" : "LESSON",
-                              e.etapes,
-                            )} min
-                          </span>
-                        )}
-                        {e.termine && (
-                          <span aria-hidden className="flex-shrink-0 text-[11px]" style={{ color: C.notes }}>
-                            ✓
-                          </span>
-                        )}
-                      </button>
-                    </li>
-                  )
-                })}
-              </ul>
-            )}
-          </div>
-        )
-      })}
-    </>
   )
 }

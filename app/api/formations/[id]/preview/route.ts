@@ -1,3 +1,4 @@
+import { withPublicEnglishThemes } from "@/lib/lessons/english-public"
 import { NextRequest, NextResponse } from "next/server"
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
@@ -45,6 +46,6 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
 
   return NextResponse.json({
     ...formation,
-    chapters: sortChaptersByLearningOrder(formation.chapters, formation.sections),
+    chapters: sortChaptersByLearningOrder(await withPublicEnglishThemes(formation.chapters), formation.sections),
   })
 }

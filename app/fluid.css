@@ -379,8 +379,8 @@
 @media(min-width:768px) {
  /* Les panneaux fermés restent dans le cadre : un translateX hors champ
     élargissait le scrollWidth et décalait la vidéo lors des changements de focus. */
- :is(.lms-reader,[data-immersion-atelier]) > aside[aria-hidden] { transform:none !important; clip-path:inset(0); transition:clip-path .26s ease !important; }
- :is(.lms-reader,[data-immersion-atelier]) > aside[aria-hidden=true] { clip-path:inset(0 0 0 100%); }
+ :is(.lms-reader,[data-immersion-atelier]) > aside[aria-hidden]:not(.lms-lesson-panel) { transform:none !important; clip-path:inset(0); transition:clip-path .26s ease !important; }
+ :is(.lms-reader,[data-immersion-atelier]) > aside[aria-hidden=true]:not(.lms-lesson-panel) { clip-path:inset(0 0 0 100%); }
  [data-immersion-atelier] { container-type:inline-size; }
  .lms-reader-footer { min-width:0; flex-wrap:wrap; }
  .lms-immersion-cadre { transition:top .28s ease,left .28s ease; }

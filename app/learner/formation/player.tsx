@@ -25,6 +25,8 @@ import CadranFormation, {
   type ValidationChapitre,
 } from "@/components/learner/CadranFormation"
 
+import { lessonKind, type LessonMetadata } from "@/lib/lessons/model"
+
 /* ═══════════ HELPERS ═══════════ */
 
 type ChapterKind = "anglais" | "video" | "simulation" | "exercise" | "pdf" | "text"
@@ -126,7 +128,7 @@ interface ChapterAttachment {
   fileSize?: number
 }
 
-interface Chapter {
+interface Chapter extends LessonMetadata {
   id: string
   title: string
   description: string | null
@@ -259,6 +261,11 @@ export default function FormationPlayer({
     return orderedChapters.map((c) => ({
       id: c.id,
       titre: c.title,
+      sectionId: c.sectionId,
+      lessonKind: lessonKind(c),
+      searchTheme: c.searchTheme,
+      formationTitle,
+      formationMinutes: dureeAfficheeMinutes,
       module: c.sectionId ? (titreSection[c.sectionId] ?? null) : null,
       genre:
         c.simulation?.mode === "EXERCISE"
@@ -388,6 +395,11 @@ export default function FormationPlayer({
     return orderedChapters.map((c) => ({
       id: c.id,
       titre: c.title,
+      sectionId: c.sectionId,
+      lessonKind: lessonKind(c),
+      searchTheme: c.searchTheme,
+      formationTitle,
+      formationMinutes: dureeAfficheeMinutes,
       module: c.sectionId ? (titreSection[c.sectionId] ?? null) : null,
       genre: genreCadran(getChapterKind(c)),
       termine: !!completedMap[c.id],

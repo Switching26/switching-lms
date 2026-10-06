@@ -1,5 +1,6 @@
 import "./globals.css"
 import "./fluid.css"
+import "./lessons.css"
 import localFont from "next/font/local"
 import Providers from "@/components/Providers"
 import PwaInstallBanner from "@/components/PwaInstallBanner"

@@ -1,5 +1,19 @@
 import type { CSSProperties } from "react"
 
+/** Accent fin du sommaire : couleur de marque, lisible sur une surface blanche. */
+export function lessonAccent(primary: string): string {
+  if (primary.toLowerCase() === '#10abaf') return '#087d83'
+  const channels = [1, 3, 5].map(start => parseInt(primary.slice(start, start + 2), 16))
+  const contrast = (rgb: number[]) => {
+    const linear = rgb.map(v => { const c = v / 255; return c <= .04045 ? c / 12.92 : ((c + .055) / 1.055) ** 2.4 })
+    return 1.05 / (.2126 * linear[0] + .7152 * linear[1] + .0722 * linear[2] + .05)
+  }
+  let rgb = channels
+  // Réduction commune des canaux : conserve la teinte, sans changer les variables de marque.
+  for (let factor = .99; contrast(rgb) < 3 && factor >= 0; factor -= .01) rgb = channels.map(c => Math.floor(c * factor))
+  return '#' + rgb.map(c => c.toString(16).padStart(2, '0')).join('')
+}
+
 /** A single palette per organisation, also used by readers rendered under body. */
 export function brandTheme(primary?: string | null, secondary?: string | null): CSSProperties {
   const accent = /^#[\da-f]{6}$/i.test(primary || "") ? primary! : "#4F46E5"
@@ -16,6 +30,7 @@ export function brandTheme(primary?: string | null, secondary?: string | null): 
   const hue = (Math.atan2(bb, a) * 180 / Math.PI + 360) % 360
   return {
     "--partner-primary": accent,
+    "--lesson-brand-accent": lessonAccent(accent),
     "--partner-secondary": secondary || "#0F172A",
     "--lms-accent": accent,
     "--lms-hue": String(hue),

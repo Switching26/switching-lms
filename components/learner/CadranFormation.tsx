@@ -45,6 +45,10 @@ import PdfViewer from "@/components/learner/PdfViewer"
 import SlidingTrack from "@/components/ui/SlidingTrack"
 import { BoutonImmersion, useImmersion } from "./useImmersion"
 
+import LessonList, { LessonIcon } from "./LessonList"
+import { useLessonPanel, useSmallLessonScreen } from "./useLessonPanel"
+import type { LessonMetadata } from "@/lib/lessons/model"
+
 /* ═══════════ COMMANDES DU CADRAN ═══════════ */
 
 /**
@@ -77,7 +81,7 @@ export function useCadranActions(): CommandesCadran {
  */
 export type GenreChapitre = "video" | "quiz" | "document" | "texte" | "atelier" | "anglais"
 
-export type EntreeCadran = {
+export type EntreeCadran = LessonMetadata & {
   id: string
   titre: string
   /** Section d'appartenance, `null` pour un chapitre hors section. */
@@ -179,15 +183,6 @@ const NATURE: Record<GenreChapitre, { badge: string; icone: string; teinte: stri
   atelier: { badge: "Atelier", icone: "✋", teinte: "#107C41", fond: "#E7F3EB", filet: "#107C41" },
 }
 
-const PASTILLE: Record<GenreChapitre, { l: string; c: string; f: string }> = {
-  anglais: { l: "EN", c: "#1B2A4A", f: "#EEF1F7" },
-  video: { l: "V", c: "#2C6BB0", f: "#E9F1FB" },
-  quiz: { l: "★", c: "#8A5A12", f: "#FBF1DF" },
-  document: { l: "D", c: "#3E5A67", f: "#E8F0F3" },
-  texte: { l: "·", c: "#8D8880", f: "#F1EEE8" },
-  atelier: { l: "A", c: "#107C41", f: "#E7F3EB" },
-}
-
 /** Durée en `m:ss` — la position de lecture se compare à une barre de vidéo. */
 function mmssCourt(secondes: number): string {
   const v = Math.max(0, Math.round(secondes))
@@ -245,6 +240,9 @@ export default function CadranFormation(p: Props) {
   }, [apercuAnglais, immersif, p.visible])
   const [panneau, setPanneau] = useState<"lecons" | "notes" | "ressources" | null>(null)
   const immersion = useImmersion(p.visible)
+  const petitEcran = useSmallLessonScreen()
+  const leconsModales = immersion.active || (anglais && immersif) || petitEcran
+  const leconsRef = useLessonPanel(panneau === "lecons", leconsModales, () => setPanneau(null))
   const [replie, setReplie] = useState(false)
   useEffect(() => { if (anglais && window.innerWidth > 760 && window.innerWidth <= 1100) setReplie(true) }, [anglais])
   const [onglet, setOnglet] = useState<"lecons" | "notes" | "documents" | "description">("lecons")
@@ -255,7 +253,7 @@ export default function CadranFormation(p: Props) {
   useEffect(() => {
     if (!panneau) return
     const echap = (e: KeyboardEvent) => {
-      if (e.key === "Escape") { e.preventDefault(); setPanneau(null) }
+      if (e.key === "Escape" && !e.defaultPrevented) { e.preventDefault(); setPanneau(null) }
     }
     window.addEventListener("keydown", echap)
     return () => window.removeEventListener("keydown", echap)
@@ -304,7 +302,7 @@ export default function CadranFormation(p: Props) {
       data-lecons-ouvertes={panneau === "lecons" ? "" : undefined}
     >
       <div className="lms-reader-toolbar">
-        <button type="button" onClick={() => immersion.active || (anglais && immersif) ? setPanneau(panneau === "lecons" ? null : "lecons") : setReplie(!replie)} aria-expanded={immersion.active || (anglais && immersif) ? panneau === "lecons" : !replie}>{immersion.active || (anglais && immersif) ? "Leçons" : replie ? "Afficher les chapitres" : "Replier les chapitres"}</button>
+        <button type="button" className="lms-lesson-command" onClick={() => leconsModales ? setPanneau(panneau === "lecons" ? null : "lecons") : setReplie(!replie)} aria-expanded={leconsModales ? panneau === "lecons" : !replie}><LessonIcon kind="list" size={16}/>Leçons</button>
         <span>{p.filModule ? `${p.filModule} · ` : ""}{p.index} / {p.total}</span>
         {p.onQuitter && <button type="button" onClick={p.onQuitter} aria-label="Retour à mes formations">Mes formations</button>}
         <BoutonImmersion controle={immersion} />
@@ -412,37 +410,18 @@ export default function CadranFormation(p: Props) {
       <PdfViewer doc={documentOuvert} onClose={() => setDocumentOuvert(null)} />
 
       {/* ── Panneaux ─────────────────────────────────────────────────────── */}
-      {panneau && (
+      {panneau && panneau !== "lecons" && (
         <div
           role="presentation"
           onClick={() => setPanneau(null)}
-          className={`lms-reader-overlay ${panneau === "lecons" ? "lms-reader-chapters-overlay" : ""} absolute inset-0`}
+          className="lms-reader-overlay absolute inset-0"
           style={{ top: COCKPIT, background: "rgba(8,12,20,.52)", zIndex: 60 }}
         />
       )}
 
-      <aside
-        aria-label="Toutes les leçons"
-        className={`lms-reader-sidebar ${replie ? "lms-reader-sidebar-collapsed" : ""}`}
-      >
-        <EnTetePanneau
-          titre={p.formationTitle || "Toutes les leçons"}
-          meta={metaFormation}
-          onFermer={() => { setPanneau(null); setReplie(true) }}
-        />
-        <div className="lms-reader-sidebar-progress px-4 py-3"><span>{p.progression}% terminé</span><progress aria-label="Progression de la formation" value={p.progression} max={100} /></div>
-        <div className="min-h-0 flex-1 overflow-y-auto px-2 py-2">
-          <Sommaire
-            entrees={p.sommaire}
-            masquerDureesSections={dureeDeclaree}
-            courant={p.chapterId}
-            position={p.positionCourante ?? null}
-            onNaviguer={(id) => {
-              setPanneau(null)
-              p.onNaviguer(id)
-            }}
-          />
-        </div>
+      <button type="button" tabIndex={-1} aria-label="Fermer les leçons" aria-hidden={!(leconsModales && panneau === "lecons")} data-lesson-veil="" data-open={leconsModales && panneau === "lecons"} className="lms-lesson-veil" onClick={() => setPanneau(null)}/>
+      <aside ref={leconsRef} aria-label="Toutes les leçons" role={leconsModales?"dialog":undefined} aria-modal={leconsModales && panneau === "lecons"?true:undefined} aria-hidden={leconsModales ? panneau !== "lecons" : replie} data-modal={leconsModales} data-open={panneau === "lecons"} className={`lms-reader-sidebar lms-lesson-panel ${replie ? "lms-reader-sidebar-collapsed" : ""}`}>
+        <LessonList entrees={p.sommaire} courant={p.chapterId} anglais={anglais} active={leconsModales?panneau === "lecons":!replie} title={p.formationTitle} minutes={p.dureeAfficheeMinutes} onClose={() => {setPanneau(null);if(!leconsModales)setReplie(true)}} onNaviguer={id => {setPanneau(null);p.onNaviguer(id)}}/>
       </aside>
 
       {p.onNote && (
@@ -908,143 +887,6 @@ function EnTetePanneau({
  * formation de plusieurs dizaines de chapitres, tout ouvrir d'entrée noie
  * l'information. Chaque ligne fait 44 px : le sommaire EST la navigation.
  */
-function Sommaire({
-  entrees,
-  courant,
-  position,
-  onNaviguer,
-  masquerDureesSections = false,
-}: {
-  entrees: EntreeCadran[]
-  courant: string
-  position: { vu: number; total: number } | null
-  onNaviguer: (id: string) => void
-  masquerDureesSections?: boolean
-}) {
-  const moduleCourant = entrees.find((e) => e.id === courant)?.module ?? null
-  const [ouverts, setOuverts] = useState<Record<string, boolean>>({})
-
-  const groupes: Array<{ nom: string; items: EntreeCadran[] }> = []
-  for (const e of entrees) {
-    const nom = e.module ?? "—"
-    const dernier = groupes[groupes.length - 1]
-    if (dernier && dernier.nom === nom) dernier.items.push(e)
-    else groupes.push({ nom, items: [e] })
-  }
-
-  return (
-    <>
-      {groupes.map((g, i) => {
-        const estCourant = g.nom === (moduleCourant ?? "—")
-        const ouvert = ouverts[g.nom] ?? estCourant
-        const faits = g.items.filter((x) => x.termine).length
-        const secondes = g.items.reduce((t, x) => t + x.secondes, 0)
-        return (
-          <div key={`${g.nom}-${i}`} className="border-b border-warm-100 last:border-b-0">
-            <button
-              type="button"
-              onClick={() => setOuverts((o) => ({ ...o, [g.nom]: !ouvert }))}
-              aria-expanded={ouvert}
-              className="flex min-h-[44px] w-full items-center gap-2 px-1 py-2 text-left"
-            >
-              <span
-                className="flex h-[21px] w-[21px] flex-shrink-0 items-center justify-center rounded-lg text-[10px] font-bold"
-                style={{
-                  background: estCourant
-                    ? "var(--partner-primary, #4F46E5)"
-                    : faits === g.items.length
-                      ? "#E7F3EB"
-                      : "#F1EEE8",
-                  color: estCourant ? "#fff" : faits === g.items.length ? "#107C41" : "#8D8880",
-                }}
-              >
-                {i + 1}
-              </span>
-              <span className="min-w-0 flex-1 truncate text-[12.5px] text-ink">
-                {g.nom === "—" ? "Chapitres" : g.nom}
-              </span>
-              <span className="flex-shrink-0 text-[10.5px] tabular-nums text-warm-400">
-                {faits}/{g.items.length}
-                {!masquerDureesSections && secondes > 0 ? ` · ${dureeLisible(secondes)}` : ""}
-              </span>
-              <span aria-hidden className="flex-shrink-0 text-[10px] text-warm-400">
-                {ouvert ? "▾" : "▸"}
-              </span>
-            </button>
-            {ouvert && (
-              <ul className="mb-1.5 list-none pl-7">
-                {g.items.map((e) => {
-                  const pa = PASTILLE[e.genre]
-                  const actif = e.id === courant
-                  return (
-                    <li key={e.id}>
-                      <button
-                        type="button"
-                        onClick={() => onNaviguer(e.id)}
-                        className="flex min-h-[44px] w-full items-center gap-2 rounded-lg px-1.5 py-1.5 text-left hover:bg-warm-50"
-                        style={{
-                          background: actif ? "#fff" : undefined,
-                          boxShadow: actif ? "0 1px 2px rgba(0,0,0,.09)" : undefined,
-                        }}
-                      >
-                        <span
-                          className="flex h-[15px] w-[15px] flex-shrink-0 items-center justify-center rounded"
-                          style={{ background: pa.f, color: pa.c, fontSize: 8, fontWeight: 700 }}
-                        >
-                          {pa.l}
-                        </span>
-                        <span className="flex min-w-0 flex-1 flex-col gap-0.5">
-                          <span
-                            className="min-w-0 truncate text-[12px]"
-                            style={{ color: actif ? "#171a18" : "#6E6A62", fontWeight: actif ? 700 : 400 }}
-                          >
-                            {e.titre}
-                          </span>
-                          {actif && position && position.total > 0 && (
-                            <>
-                              <span
-                                className="text-[10.5px] font-bold"
-                                style={{ color: "var(--partner-primary, #3730A3)" }}
-                              >
-                                {mmssCourt(position.vu)} sur {mmssCourt(position.total)} ·{" "}
-                                {Math.max(1, Math.ceil((position.total - position.vu) / 60))} min restantes
-                              </span>
-                              <span
-                                aria-hidden
-                                className="mt-0.5 overflow-hidden rounded-sm"
-                                style={{ height: 3, background: "#E4E0D8" }}
-                              >
-                                <span
-                                  className="block h-full rounded-sm"
-                                  style={{
-                                    width: `${Math.min(100, (position.vu / position.total) * 100)}%`,
-                                    background: "var(--partner-primary, #4F46E5)",
-                                    transition: "width .3s ease",
-                                  }}
-                                />
-                              </span>
-                            </>
-                          )}
-                        </span>
-                        {!actif && e.secondes > 0 && (
-                          <span className="flex-shrink-0 text-[10.5px] text-warm-400">
-                            {dureeLisible(e.secondes)}
-                          </span>
-                        )}
-                        {e.termine && (
-                          <span aria-hidden className="flex-shrink-0 text-[11px] text-emerald-600">
-                            ✓
-                          </span>
-                        )}
-                      </button>
-                    </li>
-                  )
-                })}
-              </ul>
-            )}
-          </div>
-        )
-      })}
-    </>
-  )
+function Sommaire({entrees,courant,onNaviguer}: {entrees: EntreeCadran[];courant: string;onNaviguer: (id:string)=>void;position: {vu:number;total:number}|null;masquerDureesSections?:boolean}) {
+  return <LessonList entrees={entrees} courant={courant} onNaviguer={onNaviguer} anglais={entrees.some(e=>e.genre === "anglais")}/>
 }
